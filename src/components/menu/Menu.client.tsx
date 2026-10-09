@@ -51,8 +51,7 @@ function MenuRoot({ open, defaultOpen, onOpenChange, loop = true, orientation, c
   );
 }
 
-const MenuTrigger = React.forwardRef<HTMLElement, MenuTriggerProps>(
-  function MenuTrigger({ openOnHover, delay, className, children, ...rest }, ref) {
+const MenuTrigger = (function ({ ref, openOnHover, delay, className, children, ...rest }: MenuTriggerProps & { ref?: React.Ref<HTMLElement> }) {
     // openOnHover is only meaningful inside a Menubar (CMP-276)
     const inMenubar = React.useContext(MenubarCtx);
     if (process.env.NODE_ENV !== 'production' && openOnHover && !inMenubar) {
@@ -71,7 +70,7 @@ const MenuTrigger = React.forwardRef<HTMLElement, MenuTriggerProps>(
         {children}
       </Base.Trigger>
     );
-  },
+  }
 );
 
 function MenuPortal({ children, keepMounted }: MenuPortalProps) {
@@ -79,8 +78,7 @@ function MenuPortal({ children, keepMounted }: MenuPortalProps) {
   return <Base.Portal container={container} {...(keepMounted !== undefined ? { keepMounted } : {})}>{children}</Base.Portal>;
 }
 
-const MenuPositioner = React.forwardRef<HTMLDivElement, MenuPositionerProps>(
-  function MenuPositioner({ className, children, ...rest }, ref) {
+const MenuPositioner = (function ({ ref, className, children, ...rest }: MenuPositionerProps & { ref?: React.Ref<HTMLDivElement> }) {
     return (
       <Base.Positioner
         ref={ref}
@@ -92,11 +90,10 @@ const MenuPositioner = React.forwardRef<HTMLDivElement, MenuPositionerProps>(
         {children}
       </Base.Positioner>
     );
-  },
+  }
 );
 
-const MenuPopup = React.forwardRef<HTMLDivElement, MenuPopupProps>(
-  function MenuPopup({ className, children, ...rest }, ref) {
+const MenuPopup = (function ({ ref, className, children, ...rest }: MenuPopupProps & { ref?: React.Ref<HTMLDivElement> }) {
     const ctx = React.useContext(MenuCtx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
@@ -119,21 +116,19 @@ const MenuPopup = React.forwardRef<HTMLDivElement, MenuPopupProps>(
         {children}
       </Base.Popup>
     );
-  },
+  }
 );
 
-const MenuArrow = React.forwardRef<HTMLDivElement, MenuArrowProps>(
-  function MenuArrow({ className, ...rest }, ref) {
+const MenuArrow = (function ({ ref, className, ...rest }: MenuArrowProps & { ref?: React.Ref<HTMLDivElement> }) {
     return <Base.Arrow ref={ref} data-ag-part="arrow" className={cn('ag-menu-arrow', className)} {...rest} />;
-  },
+  }
 );
 
 const shortcutKbd = (shortcut: string | undefined) => (
   shortcut ? <kbd data-ag-part="shortcut" className="ag-menu-shortcut">{shortcut}</kbd> : null
 );
 
-const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(
-  function MenuItem({ className, children, shortcut, ...rest }, ref) {
+const MenuItem = (function ({ ref, className, children, shortcut, ...rest }: MenuItemProps & { ref?: React.Ref<HTMLElement> }) {
     return (
       <Base.Item
         ref={ref as React.Ref<HTMLDivElement>}
@@ -146,11 +141,10 @@ const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(
         {shortcutKbd(shortcut)}
       </Base.Item>
     );
-  },
+  }
 );
 
-const MenuLinkItem = React.forwardRef<HTMLElement, MenuLinkItemProps>(
-  function MenuLinkItem({ className, children, href, target, rel, shortcut, ...rest }, ref) {
+const MenuLinkItem = (function ({ ref, className, children, href, target, rel, shortcut, ...rest }: MenuLinkItemProps & { ref?: React.Ref<HTMLElement> }) {
     return (
       <Base.LinkItem
         ref={ref as React.Ref<HTMLAnchorElement>}
@@ -166,11 +160,10 @@ const MenuLinkItem = React.forwardRef<HTMLElement, MenuLinkItemProps>(
         {shortcutKbd(shortcut)}
       </Base.LinkItem>
     );
-  },
+  }
 );
 
-const MenuCheckboxItem = React.forwardRef<HTMLElement, MenuCheckboxItemProps>(
-  function MenuCheckboxItem({ className, children, checked, onCheckedChange, ...rest }, ref) {
+const MenuCheckboxItem = (function ({ ref, className, children, checked, onCheckedChange, ...rest }: MenuCheckboxItemProps & { ref?: React.Ref<HTMLElement> }) {
     // CMP-275: 'indeterminate' → aria-checked="mixed" on the item
     return (
       <Base.CheckboxItem
@@ -186,25 +179,23 @@ const MenuCheckboxItem = React.forwardRef<HTMLElement, MenuCheckboxItemProps>(
         <span className="ag-menu-item-label">{children}</span>
       </Base.CheckboxItem>
     );
-  },
+  }
 );
 
-const MenuCheckboxItemIndicator = React.forwardRef<HTMLElement, MenuCheckboxItemIndicatorProps>(
-  function MenuCheckboxItemIndicator({ className, children, ...rest }, ref) {
+const MenuCheckboxItemIndicator = (function ({ ref, className, children, ...rest }: MenuCheckboxItemIndicatorProps & { ref?: React.Ref<HTMLElement> }) {
     return (
       <Base.CheckboxItemIndicator ref={ref as React.Ref<HTMLSpanElement>} data-ag-part="indicator" className={cn('ag-menu-indicator', className)} {...rest}>
         {children}
       </Base.CheckboxItemIndicator>
     );
-  },
+  }
 );
 
 function MenuRadioGroup({ children, ...rest }: MenuRadioGroupProps) {
   return <Base.RadioGroup {...rest}>{children}</Base.RadioGroup>;
 }
 
-const MenuRadioItem = React.forwardRef<HTMLElement, MenuRadioItemProps>(
-  function MenuRadioItem({ className, children, ...rest }, ref) {
+const MenuRadioItem = (function ({ ref, className, children, ...rest }: MenuRadioItemProps & { ref?: React.Ref<HTMLElement> }) {
     return (
       <Base.RadioItem
         ref={ref as React.Ref<HTMLDivElement>}
@@ -216,35 +207,31 @@ const MenuRadioItem = React.forwardRef<HTMLElement, MenuRadioItemProps>(
         <span className="ag-menu-item-label">{children}</span>
       </Base.RadioItem>
     );
-  },
+  }
 );
 
-const MenuRadioItemIndicator = React.forwardRef<HTMLElement, MenuRadioItemIndicatorProps>(
-  function MenuRadioItemIndicator({ className, children, ...rest }, ref) {
+const MenuRadioItemIndicator = (function ({ ref, className, children, ...rest }: MenuRadioItemIndicatorProps & { ref?: React.Ref<HTMLElement> }) {
     return (
       <Base.RadioItemIndicator ref={ref as React.Ref<HTMLSpanElement>} data-ag-part="indicator" className={cn('ag-menu-indicator', className)} {...rest}>
         {children}
       </Base.RadioItemIndicator>
     );
-  },
+  }
 );
 
-const MenuGroup = React.forwardRef<HTMLElement, MenuGroupProps>(
-  function MenuGroup({ className, ...rest }, ref) {
+const MenuGroup = (function ({ ref, className, ...rest }: MenuGroupProps & { ref?: React.Ref<HTMLElement> }) {
     return <Base.Group ref={ref as React.Ref<HTMLDivElement>} data-ag-part="group" className={cn('ag-menu-group', className)} {...rest} />;
-  },
+  }
 );
 
-const MenuGroupLabel = React.forwardRef<HTMLElement, MenuGroupLabelProps>(
-  function MenuGroupLabel({ className, ...rest }, ref) {
+const MenuGroupLabel = (function ({ ref, className, ...rest }: MenuGroupLabelProps & { ref?: React.Ref<HTMLElement> }) {
     return <Base.GroupLabel ref={ref as React.Ref<HTMLDivElement>} data-ag-part="group-label" className={cn('ag-menu-group-label', className)} {...rest} />;
-  },
+  }
 );
 
-const MenuSeparator = React.forwardRef<HTMLElement, MenuSeparatorProps>(
-  function MenuSeparator({ className, ...rest }, ref) {
+const MenuSeparator = (function ({ ref, className, ...rest }: MenuSeparatorProps & { ref?: React.Ref<HTMLElement> }) {
     return <Base.Separator ref={ref as React.Ref<HTMLDivElement>} data-ag-part="separator" className={cn('ag-menu-separator', className)} {...rest} />;
-  },
+  }
 );
 
 function MenuSubmenu(props: MenuSubmenuProps) {
@@ -269,8 +256,7 @@ function MenuSubmenu(props: MenuSubmenuProps) {
   );
 }
 
-const MenuSubmenuTrigger = React.forwardRef<HTMLElement, MenuSubmenuTriggerProps>(
-  function MenuSubmenuTrigger({ className, children, ...rest }, ref) {
+const MenuSubmenuTrigger = (function ({ ref, className, children, ...rest }: MenuSubmenuTriggerProps & { ref?: React.Ref<HTMLElement> }) {
     return (
       <Base.SubmenuTrigger
         ref={ref as React.Ref<HTMLDivElement>}
@@ -282,11 +268,10 @@ const MenuSubmenuTrigger = React.forwardRef<HTMLElement, MenuSubmenuTriggerProps
         <span data-ag-part="submenu-indicator" aria-hidden="true" className="ag-menu-submenu-indicator" />
       </Base.SubmenuTrigger>
     );
-  },
+  }
 );
 
-export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
-  function Menubar({ className, orientation = 'horizontal', ...rest }, ref) {
+export const Menubar = (function ({ ref, className, orientation = 'horizontal', ...rest }: MenubarProps & { ref?: React.Ref<HTMLDivElement> }) {
     return (
       <MenubarCtx.Provider value={true}>
         <BaseMenubar
@@ -300,7 +285,7 @@ export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
         />
       </MenubarCtx.Provider>
     );
-  },
+  }
 );
 
 export const Menu = {

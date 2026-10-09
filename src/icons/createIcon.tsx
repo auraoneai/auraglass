@@ -1,7 +1,7 @@
 /* createIcon (CMP-037): pure factory for server-safe glyph components.
    Decorative by default: <svg aria-hidden='true' focusable='false'>; when
    aria-label or title is provided the svg is role='img' and the title is
-   linked via aria-labelledby. No forwardRef — ref is a normal prop (REQ-CMP-03). */
+   linked via aria-labelledby. Ref arrives as a normal prop (REQ-CMP-03). */
 import * as React from 'react';
 import type { IconComponent, IconNode, IconProps } from './types';
 

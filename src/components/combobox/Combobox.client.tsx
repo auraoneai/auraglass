@@ -159,7 +159,7 @@ function ComboboxRoot<Value = string>({
           setAsyncItems([]);
           setLoadError(true);
           setAsyncLoading(false);
-        },
+        }
       );
     },
     [loadOptions],

@@ -3,8 +3,7 @@ import * as React from 'react';
 import { formatMediaTime } from '../../formatMediaTime';
 import { useNowPlaying } from '../npContext';
 
-export const Progress = React.forwardRef<HTMLDivElement, { className?: string }>(
-  function Progress({ className }, ref) {
+export const Progress = (function ({ ref, className }: { className?: string } & { ref?: React.Ref<HTMLDivElement> }) {
     const m = useNowPlaying('Progress');
     const pct = Math.round(Math.min(1, Math.max(0, m.progress)) * 100);
     const text = `${formatMediaTime(m.currentTime, { spoken: true })} of ${formatMediaTime(m.duration, { spoken: true })}`;
@@ -23,5 +22,5 @@ export const Progress = React.forwardRef<HTMLDivElement, { className?: string }>
         <div data-ag-part="now-playing-progress-fill" aria-hidden="true" />
       </div>
     );
-  },
+  }
 );

@@ -3,8 +3,7 @@ import * as React from 'react';
 import { formatMediaTime, formatMediaTimeIso } from '../../formatMediaTime';
 import { useMediaModel } from '../mediaContext';
 
-export const Time = React.forwardRef<HTMLTimeElement, { className?: string; showDuration?: boolean }>(
-  function Time({ className, showDuration = true }, ref) {
+export const Time = (function ({ ref, className, showDuration = true }: { className?: string; showDuration?: boolean } & { ref?: React.Ref<HTMLTimeElement> }) {
     const m = useMediaModel('Time');
     const hasScrubber = true; // Scrubber is in the default layout; aria-hidden per REQ-SURF-138
     return (
@@ -19,5 +18,5 @@ export const Time = React.forwardRef<HTMLTimeElement, { className?: string; show
         {showDuration ? ` / ${formatMediaTime(m.duration)}` : ''}
       </time>
     );
-  },
+  }
 );

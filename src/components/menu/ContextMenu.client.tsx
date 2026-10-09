@@ -39,8 +39,7 @@ function ContextMenuRoot({ open, defaultOpen, onOpenChange, loop = true, childre
   );
 }
 
-const ContextMenuTrigger = React.forwardRef<HTMLDivElement, ContextMenuTriggerProps>(
-  function ContextMenuTrigger({ className, children, onKeyDown, ...rest }, ref) {
+const ContextMenuTrigger = (function ({ ref, className, children, onKeyDown, ...rest }: ContextMenuTriggerProps & { ref?: React.Ref<HTMLDivElement> }) {
     // BU ContextMenu opens on contextmenu only — Shift+F10 is ours (CMP-277
     // APG): synthesize a contextmenu event at the trigger's center so BU does
     // anchor + open through its own path.
@@ -61,7 +60,7 @@ const ContextMenuTrigger = React.forwardRef<HTMLDivElement, ContextMenuTriggerPr
         {children}
       </Base.Trigger>
     );
-  },
+  }
 );
 
 function ContextMenuPortal({ children, keepMounted }: MenuPortalProps) {
@@ -69,18 +68,16 @@ function ContextMenuPortal({ children, keepMounted }: MenuPortalProps) {
   return <Base.Portal container={container} {...(keepMounted !== undefined ? { keepMounted } : {})}>{children}</Base.Portal>;
 }
 
-const ContextMenuPositioner = React.forwardRef<HTMLDivElement, MenuPositionerProps>(
-  function ContextMenuPositioner({ className, children, ...rest }, ref) {
+const ContextMenuPositioner = (function ({ ref, className, children, ...rest }: MenuPositionerProps & { ref?: React.Ref<HTMLDivElement> }) {
     return (
       <Base.Positioner ref={ref} data-ag-part="positioner" className={cn('ag-menu-positioner', className)} {...defaultPositionerProps} {...rest}>
         {children}
       </Base.Positioner>
     );
-  },
+  }
 );
 
-const ContextMenuPopup = React.forwardRef<HTMLDivElement, MenuPopupProps>(
-  function ContextMenuPopup({ className, children, ...rest }, ref) {
+const ContextMenuPopup = (function ({ ref, className, children, ...rest }: MenuPopupProps & { ref?: React.Ref<HTMLDivElement> }) {
     const ctx = React.useContext(Ctx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
@@ -103,11 +100,10 @@ const ContextMenuPopup = React.forwardRef<HTMLDivElement, MenuPopupProps>(
         {children}
       </Base.Popup>
     );
-  },
+  }
 );
 
-const ContextMenuItem = React.forwardRef<HTMLElement, MenuItemProps>(
-  function ContextMenuItem({ className, children, shortcut, ...rest }, ref) {
+const ContextMenuItem = (function ({ ref, className, children, shortcut, ...rest }: MenuItemProps & { ref?: React.Ref<HTMLElement> }) {
     return (
       <Base.Item
         ref={ref as React.Ref<HTMLDivElement>}
@@ -120,29 +116,25 @@ const ContextMenuItem = React.forwardRef<HTMLElement, MenuItemProps>(
         {shortcut ? <kbd data-ag-part="shortcut" className="ag-menu-shortcut">{shortcut}</kbd> : null}
       </Base.Item>
     );
-  },
+  }
 );
 
-const ContextMenuGroup = React.forwardRef<HTMLElement, MenuGroupProps>(
-  function ContextMenuGroup({ className, ...rest }, ref) {
+const ContextMenuGroup = (function ({ ref, className, ...rest }: MenuGroupProps & { ref?: React.Ref<HTMLElement> }) {
     return <Base.Group ref={ref as React.Ref<HTMLDivElement>} data-ag-part="group" className={cn('ag-menu-group', className)} {...rest} />;
-  },
+  }
 );
 
-const ContextMenuGroupLabel = React.forwardRef<HTMLElement, MenuGroupLabelProps>(
-  function ContextMenuGroupLabel({ className, ...rest }, ref) {
+const ContextMenuGroupLabel = (function ({ ref, className, ...rest }: MenuGroupLabelProps & { ref?: React.Ref<HTMLElement> }) {
     return <Base.GroupLabel ref={ref as React.Ref<HTMLDivElement>} data-ag-part="group-label" className={cn('ag-menu-group-label', className)} {...rest} />;
-  },
+  }
 );
 
-const ContextMenuSeparator = React.forwardRef<HTMLElement, MenuSeparatorProps>(
-  function ContextMenuSeparator({ className, ...rest }, ref) {
+const ContextMenuSeparator = (function ({ ref, className, ...rest }: MenuSeparatorProps & { ref?: React.Ref<HTMLElement> }) {
     return <Base.Separator ref={ref as React.Ref<HTMLDivElement>} data-ag-part="separator" className={cn('ag-menu-separator', className)} {...rest} />;
-  },
+  }
 );
 
-const ContextMenuCheckboxItem = React.forwardRef<HTMLElement, MenuCheckboxItemProps>(
-  function ContextMenuCheckboxItem({ className, children, checked, onCheckedChange, ...rest }, ref) {
+const ContextMenuCheckboxItem = (function ({ ref, className, children, checked, onCheckedChange, ...rest }: MenuCheckboxItemProps & { ref?: React.Ref<HTMLElement> }) {
     return (
       <Base.CheckboxItem
         ref={ref as React.Ref<HTMLDivElement>}
@@ -157,15 +149,14 @@ const ContextMenuCheckboxItem = React.forwardRef<HTMLElement, MenuCheckboxItemPr
         <span className="ag-menu-item-label">{children}</span>
       </Base.CheckboxItem>
     );
-  },
+  }
 );
 
 function ContextMenuRadioGroup({ children, ...rest }: MenuRadioGroupProps) {
   return <Base.RadioGroup {...rest}>{children}</Base.RadioGroup>;
 }
 
-const ContextMenuRadioItem = React.forwardRef<HTMLElement, MenuRadioItemProps>(
-  function ContextMenuRadioItem({ className, children, ...rest }, ref) {
+const ContextMenuRadioItem = (function ({ ref, className, children, ...rest }: MenuRadioItemProps & { ref?: React.Ref<HTMLElement> }) {
     return (
       <Base.RadioItem
         ref={ref as React.Ref<HTMLDivElement>}
@@ -177,7 +168,7 @@ const ContextMenuRadioItem = React.forwardRef<HTMLElement, MenuRadioItemProps>(
         <span className="ag-menu-item-label">{children}</span>
       </Base.RadioItem>
     );
-  },
+  }
 );
 
 export const ContextMenu = {

@@ -32,7 +32,7 @@ export function AppShellInspectorToggle({ labels, icon, ...rest }: AppShellInspe
     () =>
       rootEl
         ? getServerSnapshot(rootEl)
-        : { sidebar: 'expanded' as const, inspector: 'closed' as const, mode: 'expanded' as const },
+        : { sidebar: 'expanded' as const, inspector: 'closed' as const, mode: 'expanded' as const }
   );
 
   React.useLayoutEffect(() => {

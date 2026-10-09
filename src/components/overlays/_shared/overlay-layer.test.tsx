@@ -33,7 +33,7 @@ describe('overlay-layer (CMP-201)', () => {
       for (const child of document.body.children) {
         expect(child.hasAttribute('data-ag-part')).toBe(false);
       }
-    },
+    }
   );
 
   it('Escape reaches only the topmost open layer', async () => {

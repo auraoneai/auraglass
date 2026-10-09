@@ -2,9 +2,8 @@
 import * as React from 'react';
 import { useNowPlaying } from '../npContext';
 
-export const Subtitle = React.forwardRef<HTMLElement, { className?: string; children?: React.ReactNode }>(
-  function Subtitle({ className, children }, ref) {
+export const Subtitle = (function ({ ref, className, children }: { className?: string; children?: React.ReactNode } & { ref?: React.Ref<HTMLElement> }) {
     useNowPlaying('Subtitle');
     return <span ref={ref as never} data-ag-part="now-playing-subtitle" className={['ag-now-playing-subtitle', className].filter(Boolean).join(' ')}>{children}</span>;
-  },
+  }
 );

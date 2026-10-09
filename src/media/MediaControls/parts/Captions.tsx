@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useMediaModel } from '../mediaContext';
 
-export const Captions = React.forwardRef<HTMLButtonElement, { className?: string }>(function Captions({ className }, ref) {
+export const Captions = (function ({ ref, className }: { className?: string } & { ref?: React.Ref<HTMLButtonElement> }) {
   const m = useMediaModel('Captions');
   const tracks = m.textTracks.filter((t) => t.kind === 'captions' || t.kind === 'subtitles');
   if (tracks.length === 0) return null;

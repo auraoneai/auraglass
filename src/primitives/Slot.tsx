@@ -20,7 +20,7 @@ type CleanupFn = () => void;
 function callRef<T>(ref: React.Ref<T> | undefined, value: RefValue<T>): void | CleanupFn {
   if (typeof ref === 'function') return ref(value) as void | CleanupFn;
   if (ref) {
-    (ref as React.MutableRefObject<RefValue<T>>).current = value;
+    (ref as React.RefObject<RefValue<T>>).current = value;
   }
   return undefined;
 }

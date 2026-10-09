@@ -55,8 +55,7 @@ function ToastProvider({ limit = 3, timeout = 5000, children }: ToastProviderPro
   );
 }
 
-const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
-  function ToastViewport({ position = 'bottom-right', className, children, ...rest }, ref) {
+const ToastViewport = (function ({ ref, position = 'bottom-right', className, children, ...rest }: ToastViewportProps & { ref?: React.Ref<HTMLDivElement> }) {
     const container = usePortalContainer('toast');
     return (
       <Base.Portal container={container}>
@@ -71,11 +70,10 @@ const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
         </Base.Viewport>
       </Base.Portal>
     );
-  },
+  }
 );
 
-const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
-  function ToastRoot({ toast, className, children, ...rest }, ref) {
+const ToastRoot = (function ({ ref, toast, className, children, ...rest }: ToastRootProps & { ref?: React.Ref<HTMLDivElement> }) {
     const intent = (toast?.type as ToastIntent | undefined) ?? 'info';
     const priority = intent === 'error' || intent === 'warning' ? 'alert' : 'status';
     // dom-contract (CMP-202) requires data-state open|closed on the surface
@@ -97,48 +95,43 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
         </Base.Content>
       </Base.Root>
     );
-  },
+  }
 );
 
-const ToastTitle = React.forwardRef<HTMLElement, ToastTitleProps>(
-  function ToastTitle({ className, ...rest }, ref) {
+const ToastTitle = (function ({ ref, className, ...rest }: ToastTitleProps & { ref?: React.Ref<HTMLElement> }) {
     return <Base.Title ref={ref as React.Ref<HTMLDivElement>} data-ag-part="title" className={cn('ag-toast-title', className)} {...rest} />;
-  },
+  }
 );
 
-const ToastDescription = React.forwardRef<HTMLElement, ToastDescriptionProps>(
-  function ToastDescription({ className, ...rest }, ref) {
+const ToastDescription = (function ({ ref, className, ...rest }: ToastDescriptionProps & { ref?: React.Ref<HTMLElement> }) {
     return <Base.Description ref={ref as React.Ref<HTMLDivElement>} data-ag-part="description" className={cn('ag-toast-description', className)} {...rest} />;
-  },
+  }
 );
 
-const ToastAction = React.forwardRef<HTMLButtonElement, ToastActionProps>(
-  function ToastAction({ className, ...rest }, ref) {
+const ToastAction = (function ({ ref, className, ...rest }: ToastActionProps & { ref?: React.Ref<HTMLButtonElement> }) {
     return <Base.Action ref={ref} data-ag-part="action" className={cn('ag-toast-action', className)} {...rest} />;
-  },
+  }
 );
 
-const ToastClose = React.forwardRef<HTMLButtonElement, ToastCloseProps>(
-  function ToastClose({ className, children, ...rest }, ref) {
+const ToastClose = (function ({ ref, className, children, ...rest }: ToastCloseProps & { ref?: React.Ref<HTMLButtonElement> }) {
     return (
       <Base.Close ref={ref} data-ag-part="close" aria-label={rest['aria-label'] ?? 'Dismiss'} className={cn('ag-toast-close', className)} {...rest}>
         {children}
       </Base.Close>
     );
-  },
+  }
 );
 
 /* CMP-292: optional progress bar — BU exposes remaining time via swipe/timeout
    state on the toast object; we render a track whose bar is driven by the
    CSS var --ag-toast-progress set per-toast in css via animation duration. */
-const ToastProgress = React.forwardRef<HTMLElement, ToastProgressProps>(
-  function ToastProgress({ className, children, ...rest }, ref) {
+const ToastProgress = (function ({ ref, className, children, ...rest }: ToastProgressProps & { ref?: React.Ref<HTMLElement> }) {
     return (
       <div ref={ref as React.Ref<HTMLDivElement>} data-ag-part="progress" role="progressbar" className={cn('ag-toast-progress', className)} {...rest}>
         <div className="ag-toast-progress-bar">{children}</div>
       </div>
     );
-  },
+  }
 );
 
 export function useToast(): UseToastReturn {

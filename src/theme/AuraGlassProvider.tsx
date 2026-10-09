@@ -28,9 +28,7 @@ export const DeprecationModeContext = React.createContext<'warn' | 'silent' | un
 
 const PORTAL_ROOT_ATTR = 'data-ag-portal-root';
 
-const PortalRootMarkup = React.forwardRef<
-  HTMLDivElement, { toasts: boolean; tooltips: boolean }
->(({ toasts, tooltips }, ref) =>
+const PortalRootMarkup: ((props: { toasts: boolean; tooltips: boolean; ref?: React.Ref<HTMLDivElement> }) => React.ReactElement) & { displayName?: string } = (({ ref, toasts, tooltips }) =>
   React.createElement(
     'div',
     { [PORTAL_ROOT_ATTR]: '', ref },

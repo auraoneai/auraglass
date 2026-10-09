@@ -27,7 +27,7 @@ interface AlertCtx {
   open: boolean;
   intent: 'neutral' | 'danger';
   labels: { cancel?: string; action?: string } | undefined;
-  popupElRef: React.MutableRefObject<HTMLElement | null>;
+  popupElRef: React.RefObject<HTMLElement | null>;
   setPopupElement: (el: HTMLElement | null) => void;
 }
 const AlertContext = React.createContext<AlertCtx>({
@@ -106,7 +106,7 @@ function AlertDialogPopup({ render, className, children, ref, initialFocus, ...r
     popupElRef.current = node;
     setPopupElement(node);
     if (typeof ref === 'function') ref(node);
-    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    else if (ref) (ref as React.RefObject<HTMLDivElement | null>).current = node;
     if (node) {
       const el = node;
       setTimeout(() => {

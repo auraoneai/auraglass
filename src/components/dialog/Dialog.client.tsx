@@ -149,7 +149,7 @@ function DialogPopup({
     const cleanup = animatingRef(node);
     setPopupElement(node);
     if (typeof ref === 'function') ref(node);
-    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    else if (ref) (ref as React.RefObject<HTMLDivElement | null>).current = node;
     if (!node) return cleanup;
     /* CMP-214: measure Header/Footer block sizes into CSS vars so Body's
        scroll-padding keeps focused controls visible (WCAG 2.4.11). */

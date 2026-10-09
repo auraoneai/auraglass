@@ -13,7 +13,7 @@ const composeRef = (
 ): ((node: HTMLElement | null) => void) => (node) => {
   b(node);
   if (typeof a === 'function') return a(node) as void;
-  if (a && typeof a === 'object') (a as React.MutableRefObject<HTMLElement | null>).current = node;
+  if (a && typeof a === 'object') (a as React.RefObject<HTMLElement | null>).current = node;
   return undefined;
 };
 

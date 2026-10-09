@@ -15,6 +15,6 @@ export const LiquidGlassButtonStyle: Record<string, unknown> = new Proxy(
       warnDeprecated(DEP);
       return undefined;
     },
-  },
+  }
 );
 export default LiquidGlassButtonStyle;

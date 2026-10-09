@@ -57,7 +57,7 @@ export function FocusScope({
     (node: HTMLDivElement | null) => {
       localRef.current = node;
       if (typeof ref === 'function') ref(node);
-      else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      else if (ref) (ref as React.RefObject<HTMLDivElement | null>).current = node;
     },
     [ref],
   );

@@ -35,8 +35,8 @@ export function scrubberValueText(value: number, max: number): string {
   return `${v} of ${d}`;
 }
 
-export const MediaScrubber = React.forwardRef<HTMLDivElement, MediaScrubberProps>(
-  function MediaScrubber(props, ref) {
+export const MediaScrubber = (function (props: MediaScrubberProps & { ref?: React.Ref<HTMLDivElement> }) {
+  const ref = props.ref;
     const {
       value, max, onValueChange, onValueCommit, buffered = [], chapters = [],
       step = 1, largeStep = 10, frameRate, formatHoverTime = formatMediaTime,
@@ -70,9 +70,9 @@ export const MediaScrubber = React.forwardRef<HTMLDivElement, MediaScrubberProps
     return (
       <div
         ref={(node: HTMLDivElement | null) => {
-          (rootRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+          (rootRef as React.RefObject<HTMLDivElement | null>).current = node;
           if (typeof ref === 'function') ref(node);
-          else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+          else if (ref) (ref as React.RefObject<HTMLDivElement | null>).current = node;
         }}
         className={['ag-media-scrubber', className].filter(Boolean).join(' ')}
         data-ag-part="media-scrubber"
@@ -108,5 +108,5 @@ export const MediaScrubber = React.forwardRef<HTMLDivElement, MediaScrubberProps
         ) : null}
       </div>
     );
-  },
+  }
 );

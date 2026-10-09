@@ -40,7 +40,7 @@ const composeRefs = (
   return (node) => {
     for (const ref of [a, b]) {
       if (typeof ref === 'function') ref(node);
-      else if (ref) (ref as React.MutableRefObject<unknown>).current = node;
+      else if (ref) (ref as React.RefObject<unknown>).current = node;
     }
   };
 };

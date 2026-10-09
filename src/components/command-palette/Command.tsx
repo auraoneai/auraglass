@@ -29,7 +29,7 @@ const Ctx = React.createContext<{
   setActiveId: (id: string | undefined) => void;
   idBase: string;
   listId: string;
-  composing: React.MutableRefObject<boolean>;
+  composing: React.RefObject<boolean>;
 } | null>(null);
 
 export type CommandRootProps = Omit<PartProps<'div'>, 'onChange'> & {
@@ -205,7 +205,7 @@ function CommandInner({
 
 function composingRefGuard(
   e: React.KeyboardEvent,
-  ref: React.MutableRefObject<boolean>,
+  ref: React.RefObject<boolean>,
 ): boolean {
   return ref.current || (e.nativeEvent as { isComposing?: boolean }).isComposing === true;
 }

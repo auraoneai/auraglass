@@ -28,7 +28,7 @@ describe('popup contract (CMP-205)', () => {
       expect(popup.getAttribute('data-ag-overlay')).toBeTruthy();
       expect(popup.getAttribute('data-ag-variant')).toBe('regular');
       expect(popup.getAttribute('data-state')).toBe('open');
-    },
+    }
   );
 
   it('fixture popover: Positioner→Popup structure, arrow part, portal root', async () => {

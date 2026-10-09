@@ -68,7 +68,7 @@ describe('provider mount (CMP-246)', () => {
       await act(async () => {});
       const live = document.querySelector('[data-ag-announcer] [aria-live="polite"]');
       expect(live?.textContent).toBe('probe-polite');
-    },
+    }
   );
 
   it('closed Dialog inside provider keeps popup out of the DOM', () => {

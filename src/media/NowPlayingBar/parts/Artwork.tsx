@@ -2,8 +2,7 @@
 import * as React from 'react';
 import { useNowPlaying } from '../npContext';
 
-export const Artwork = React.forwardRef<HTMLDivElement, { src?: string | undefined; className?: string }>(
-  function Artwork({ src, className }, ref) {
+export const Artwork = (function ({ ref, src, className }: { src?: string | undefined; className?: string } & { ref?: React.Ref<HTMLDivElement> }) {
     const m = useNowPlaying('Artwork');
     const s = src ?? m.artwork;
     return (
@@ -11,5 +10,5 @@ export const Artwork = React.forwardRef<HTMLDivElement, { src?: string | undefin
         {s ? <img src={s} alt="" aria-hidden="true" /> : null}
       </div>
     );
-  },
+  }
 );

@@ -24,29 +24,36 @@ describe('react 19 rules (PLAT-271)', () => {
     expect(hits).toEqual([]);
   });
 
-  it('0 argument-less useRef<T>() in src (PLAT-owned paths hard-fail, others reported)', () => {
+  it('0 argument-less useRef<T>() in all of src', () => {
     const hits = walk(SRC, p => /\.tsx?$/.test(p))
       .filter(f => /useRef\s*(?:<[^>]+>)?\s*\(\s*\)/.test(readFileSync(f, 'utf8')))
       .map(f => f.replace(`${ROOT}/`, ''));
-    const mine = hits.filter(f => PLAT_OWNED.test(f));
-    if (hits.length > mine.length) console.warn(`PLAT-271 report (other streams): ${hits.filter(f => !mine.includes(f)).join(', ')}`);
-    expect(mine).toEqual([]);
+    expect(hits).toEqual([]);
   });
 
-  it('0 .ref reads on ReactElement in src (PLAT-owned)', () => {
-    const hits = walk(SRC, p => /\.tsx?$/.test(p))
-      .filter(f => /\b\w+\.ref\b(?!\s*=)/.test(readFileSync(f, 'utf8')))
-      .map(f => f.replace(`${ROOT}/`, ''));
-    const mine = hits.filter(f => PLAT_OWNED.test(f));
-    if (hits.length > mine.length) console.warn(`PLAT-271 report (other streams): ${hits.filter(f => !mine.includes(f)).join(', ')}`);
-    expect(mine).toEqual([]);
+  it('0 .ref reads on ReactElement in all of src', () => {
+    /* element.ref is the React ≤18 API (a getter on the element instance).
+       React 19 moves ref onto props: `x.props.ref` / `props.ref` /
+       `merged.ref` (plain-object writes) are the sanctioned reads. Data
+       fields coincidentally named ref (e.g. chunk.ref) are not element
+       reads either. */
+    const LEGAL = /\b\w*(props|Props|merged|chunk)\b\.ref\b/;
+    const hits: string[] = [];
+    for (const f of walk(SRC, p => /\.tsx?$/.test(p))) {
+      const text = readFileSync(f, 'utf8');
+      for (const m of text.matchAll(/\b\w+\.ref\b(?!\s*=)/g)) {
+        if (LEGAL.test(m[0])) continue;
+        const rel = f.replace(`${ROOT}/`, '');
+        hits.push(`${rel}: ${m[0]}`);
+      }
+    }
+    expect(hits).toEqual([]);
   });
 
   it('no feature-detected react imports (unstable_ViewTransition & co.) in src or dist', () => {
     const scan = (dir: string) => walk(dir, p => /\.(js|ts|tsx|d\.ts)$/.test(p))
       .filter(f => /unstable_ViewTransition|experimental_useEffectEvent|unstable_getCacheForType/.test(readFileSync(f, 'utf8')))
       .map(f => f.replace(`${ROOT}/`, ''));
-    const mine = [...scan(SRC), ...scan(DIST)].filter(f => PLAT_OWNED.test(f));
-    expect(mine).toEqual([]);
+    expect([...scan(SRC), ...scan(DIST)]).toEqual([]);
   });
 });

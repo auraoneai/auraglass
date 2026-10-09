@@ -63,8 +63,7 @@ function TooltipRoot({ open, defaultOpen, onOpenChange, children }: TooltipRootP
   );
 }
 
-const TooltipTrigger = React.forwardRef<HTMLElement, TooltipTriggerProps>(
-  function TooltipTrigger({ className, children, onPointerDown, onPointerUp, onPointerCancel, ...rest }, ref) {
+const TooltipTrigger = (function ({ ref, className, children, onPointerDown, onPointerUp, onPointerCancel, ...rest }: TooltipTriggerProps & { ref?: React.Ref<HTMLElement> }) {
     const ctx = React.useContext(TooltipCtx);
     const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
     const clear = React.useCallback(() => {
@@ -96,7 +95,7 @@ const TooltipTrigger = React.forwardRef<HTMLElement, TooltipTriggerProps>(
         {children}
       </Base.Trigger>
     );
-  },
+  }
 );
 
 function TooltipPortal({ children, keepMounted }: TooltipPortalProps) {
@@ -104,8 +103,7 @@ function TooltipPortal({ children, keepMounted }: TooltipPortalProps) {
   return <Base.Portal container={container} {...(keepMounted !== undefined ? { keepMounted } : {})}>{children}</Base.Portal>;
 }
 
-const TooltipPositioner = React.forwardRef<HTMLDivElement, TooltipPositionerProps>(
-  function TooltipPositioner({ className, children, ...rest }, ref) {
+const TooltipPositioner = (function ({ ref, className, children, ...rest }: TooltipPositionerProps & { ref?: React.Ref<HTMLDivElement> }) {
     return (
       <Base.Positioner
         ref={ref}
@@ -117,13 +115,12 @@ const TooltipPositioner = React.forwardRef<HTMLDivElement, TooltipPositionerProp
         {children}
       </Base.Positioner>
     );
-  },
+  }
 );
 
 const INTERACTIVE = 'a[href],button,input,select,textarea,[tabindex]';
 
-const TooltipPopup = React.forwardRef<HTMLDivElement, TooltipPopupProps>(
-  function TooltipPopup({ className, children, ...rest }, ref) {
+const TooltipPopup = (function ({ ref, className, children, ...rest }: TooltipPopupProps & { ref?: React.Ref<HTMLDivElement> }) {
     const ctx = React.useContext(TooltipCtx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
@@ -158,13 +155,12 @@ const TooltipPopup = React.forwardRef<HTMLDivElement, TooltipPopupProps>(
         {children}
       </Base.Popup>
     );
-  },
+  }
 );
 
-const TooltipArrow = React.forwardRef<HTMLDivElement, TooltipArrowProps>(
-  function TooltipArrow({ className, ...rest }, ref) {
+const TooltipArrow = (function ({ ref, className, ...rest }: TooltipArrowProps & { ref?: React.Ref<HTMLDivElement> }) {
     return <Base.Arrow ref={ref} data-ag-part="arrow" className={cn('ag-tooltip-arrow', className)} {...rest} />;
-  },
+  }
 );
 
 export const Tooltip = {

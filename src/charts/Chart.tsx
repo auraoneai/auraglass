@@ -31,7 +31,7 @@ function Plot<TRow>({ ctx, type, stacked, orientation, curve, yDomain, grid, too
     return `${ctx.formatX((d as Record<string, unknown>)[xKey])}: ${ctx.visibleSeries.map((s) => `${s.label} ${ctx.formatY((d as Record<string, unknown>)[s.key], s)}`).join(', ')}`;
   };
 
-  const announce = (text: string) => {
+  const handleAnnounce = (text: string) => {
     const now = Date.now();
     if (now - lastAnnounce.current >= 150) {
       lastAnnounce.current = now;
@@ -42,7 +42,7 @@ function Plot<TRow>({ ctx, type, stacked, orientation, curve, yDomain, grid, too
     }
   };
 
-  const flush = () => {
+  const handleFlush = () => {
     if (pendingText.current !== null) {
       lastAnnounce.current = Date.now();
       setPending(pendingText.current);
@@ -59,7 +59,7 @@ function Plot<TRow>({ ctx, type, stacked, orientation, curve, yDomain, grid, too
       ? (e.key === 'ArrowRight' ? 0 : n - 1)
       : (focus + (e.key === 'ArrowRight' ? 1 : -1) + n) % n;
     setFocus(next);
-    announce(describe(next));
+    handleAnnounce(describe(next));
   };
 
   const mark = type === 'line' ? <Line ctx={ctx} w={w} h={h} curve={curve} xKey={xKey} />
@@ -80,8 +80,8 @@ function Plot<TRow>({ ctx, type, stacked, orientation, curve, yDomain, grid, too
         viewBox={`0 0 ${w} ${h}`}
         preserveAspectRatio="none"
         onKeyDown={onKeyDown}
-        onKeyUp={flush}
-        onBlur={flush}
+        onKeyUp={handleFlush}
+        onBlur={handleFlush}
         className="ag-chart__svg"
       >
         {grid === true && type !== 'donut' ? (

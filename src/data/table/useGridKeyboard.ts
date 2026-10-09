@@ -67,10 +67,10 @@ export function useGridKeyboard(
           break;
         }
         case 'PageDown':
-          root.scrollTop += root.clientHeight;
+          root.scrollBy(0, root.clientHeight);
           break;
         case 'PageUp':
-          root.scrollTop -= root.clientHeight;
+          root.scrollBy(0, -root.clientHeight);
           break;
         default:
           return;

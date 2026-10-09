@@ -33,7 +33,7 @@ describe('overlay dom contract (CMP-202)', () => {
       expect(popup.getAttribute('class')).not.toMatch(/glass-/);
       expect(names.some((n) => n.startsWith('data-glass'))).toBe(false);
       expect(names).toMatchSnapshot();
-    },
+    }
   );
 
   it.each(MOUNTED_SUBJECTS.map((s) => [s.name, s] as const))(
@@ -47,7 +47,7 @@ describe('overlay dom contract (CMP-202)', () => {
       expect(surface).not.toBeNull();
       const part = subject.popupSelector.match(/\[data-ag-part="(.+?)"\]/)![1];
       expect(surface!.getAttribute('data-ag-part')).toBe(part);
-    },
+    }
   );
 
   it('PENDING: seam subjects covered once 3f/3i components land', () => {

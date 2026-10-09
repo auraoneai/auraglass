@@ -19,7 +19,8 @@ export interface WaveformProps {
   className?: string | undefined;
 }
 
-export const Waveform = React.forwardRef<SVGSVGElement, WaveformProps>(function Waveform(props, ref) {
+export const Waveform = (function (props: WaveformProps & { ref?: React.Ref<SVGSVGElement> }) {
+  const ref = props.ref;
   const { peaks, level, progress = 0, bars = 64, label, width = 640, height = 48, className } = props;
   const { motion } = useResolvedPreferences();
   const isLevel = level !== undefined;

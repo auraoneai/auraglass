@@ -72,7 +72,7 @@ describe('overlay ssr (CMP-206)', () => {
       expect(() => renderToString(
         MOUNTED_SUBJECTS.find((s) => s.name === name)!.mount!(),
       )).not.toThrow();
-    },
+    }
   );
 
   it('hydrate closed tree in jsdom with no console.error', async () => {

@@ -90,7 +90,7 @@ export function SearchField({
   const setRefs = (el: HTMLInputElement | null) => {
     innerRef.current = el;
     if (typeof ref === 'function') ref(el);
-    else if (ref) (ref as React.MutableRefObject<HTMLInputElement | null>).current = el;
+    else if (ref) (ref as React.RefObject<HTMLInputElement | null>).current = el;
   };
 
   const invalid = error !== undefined && error !== null;

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useMediaModel } from '../mediaContext';
 
-export const Fullscreen = React.forwardRef<HTMLButtonElement, { className?: string }>(function Fullscreen({ className }, ref) {
+export const Fullscreen = (function ({ ref, className }: { className?: string } & { ref?: React.Ref<HTMLButtonElement> }) {
   const m = useMediaModel('Fullscreen');
   return (
     <button

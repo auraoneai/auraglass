@@ -3,7 +3,7 @@ import * as React from 'react';
 import { MediaScrubber } from '../../MediaScrubber/MediaScrubber';
 import { useMediaModel } from '../mediaContext';
 
-export const Scrubber = React.forwardRef<HTMLDivElement, { className?: string }>(function Scrubber({ className }, ref) {
+export const Scrubber = (function ({ ref, className }: { className?: string } & { ref?: React.Ref<HTMLDivElement> }) {
   const m = useMediaModel('Scrubber');
   return (
     <MediaScrubber

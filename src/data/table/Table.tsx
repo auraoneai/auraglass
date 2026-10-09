@@ -5,7 +5,7 @@
    keyboard. mode='table' renders real <table> semantics; 'grid' renders
    grid/row/gridcell + the keyboard model. All row models are imported
    per feature so unused ones tree-shake (manual* flags skip the client
-   models). Ref is a prop (React 19; no forwardRef). */
+   models). Ref is a prop (React 19). */
 import * as React from 'react';
 import {
   createColumnHelper,
@@ -102,6 +102,12 @@ export interface TableProps<TData> {
   className?: string | undefined;
 }
 
+const pinnedStyle = (column: { getIsPinned: () => 'left' | 'right' | false; getStart: (side?: 'left' | 'right') => number }) => {
+  const side = column.getIsPinned();
+  if (!side) return {};
+  return { position: 'sticky' as const, [side === 'left' ? 'insetInlineStart' : 'insetInlineEnd']: column.getStart(side || undefined), background: 'var(--ag-surface-raised, Canvas)', zIndex: 1 };
+};
+
 const ROW_HEIGHT: Record<TableDensity, number> = { sm: 32, md: 40, lg: 48 };
 
 function announce(text: string) {
@@ -166,6 +172,7 @@ function ResizeHandleInner<TData>({
 }
 
 export function Table<TData>(props: TableProps<TData>) {
+  'use no memo';
   const {
     data,
     columns,
@@ -399,7 +406,7 @@ export function Table<TData>(props: TableProps<TData>) {
       };
     }
     if (ref && typeof ref === 'object') {
-      const obj = ref as React.MutableRefObject<TableHandle<TData> | null>;
+      const obj = ref as React.RefObject<TableHandle<TData> | null>;
       obj.current = handle;
       return () => {
         obj.current = null;
@@ -460,15 +467,7 @@ export function Table<TData>(props: TableProps<TData>) {
         style={{
           width: header.getSize(),
           textAlign: meta?.numeric ? 'end' : meta?.align,
-          ...(header.column.getIsPinned()
-            ? {
-                position: 'sticky',
-                [header.column.getIsPinned() === 'left' ? 'insetInlineStart' : 'insetInlineEnd']:
-                  header.column.getStart(header.column.getIsPinned() || undefined),
-                background: 'var(--ag-surface-raised, Canvas)',
-                zIndex: 1,
-              }
-            : {}),
+          ...pinnedStyle(header.column),
         }}
       >
         {canSort ? (
@@ -577,15 +576,7 @@ export function Table<TData>(props: TableProps<TData>) {
                   : meta?.align
                     ? { textAlign: meta.align }
                     : {}),
-                ...(cell.column.getIsPinned()
-                  ? {
-                      position: 'sticky',
-                      [cell.column.getIsPinned() === 'left' ? 'insetInlineStart' : 'insetInlineEnd']:
-                        cell.column.getStart(cell.column.getIsPinned() || undefined),
-                      background: 'var(--ag-surface-raised, Canvas)',
-                      zIndex: 1,
-                    }
-                  : {}),
+                ...pinnedStyle(cell.column),
               },
             },
             content,

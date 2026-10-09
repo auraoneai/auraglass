@@ -30,6 +30,6 @@ describe('overlay dev counter (CMP-204)', () => {
       // When the seam lands: mount 5 Surfaces + subject with pointer:fine and
       // assert exactly one console.warn containing the budget message.
       expect(name).toBeTruthy();
-    },
+    }
   );
 });

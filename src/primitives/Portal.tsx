@@ -1,7 +1,7 @@
 /* Portal (CMP-027): renders children into usePortalContainer() (the provider's
    overlay layer-root; document.body when no provider). `container` overrides.
    Null until mounted — mount flag via useSyncExternalStore so server markup is
-   empty and hydration is clean. Ref-as-prop API (no forwardRef). */
+   empty and hydration is clean. Ref-as-prop API. */
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { usePortalContainer } from '../foundation/portal';

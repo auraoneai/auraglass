@@ -31,7 +31,7 @@ describe('overlay idle (CMP-203)', () => {
       act(() => { jest.advanceTimersByTime(2000); });
       jest.useRealTimers();
       expect(commits).toBe(settled);
-    },
+    }
   );
 
   it('PENDING: seam subjects covered once 3f/3i components land', () => {

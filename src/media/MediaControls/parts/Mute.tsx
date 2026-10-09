@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useMediaModel } from '../mediaContext';
 
-export const Mute = React.forwardRef<HTMLButtonElement, { className?: string }>(function Mute({ className }, ref) {
+export const Mute = (function ({ ref, className }: { className?: string } & { ref?: React.Ref<HTMLButtonElement> }) {
   const m = useMediaModel('Mute');
   return (
     <button

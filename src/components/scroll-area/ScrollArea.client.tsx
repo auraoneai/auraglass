@@ -19,7 +19,7 @@ function Viewport({
   const callbackRef = React.useCallback(
     (node: HTMLDivElement | null) => {
       if (typeof ref === 'function') ref(node);
-      else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      else if (ref) (ref as React.RefObject<HTMLDivElement | null>).current = node;
       if (!node) return;
       const update = () => {
         const overflowing = node.scrollHeight > node.clientHeight + 1 || node.scrollWidth > node.clientWidth + 1;
