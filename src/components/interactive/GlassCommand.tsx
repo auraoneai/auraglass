@@ -174,6 +174,7 @@ const useCommandContext = () => {
  * GlassCommand component
  * A glassmorphism command palette with search functionality
  */
+/** @deprecated GlassCommand DEP-S0022 since 4.2.0, removed in 5.0.0. {@link Command from aura-glass} */
 export const GlassCommand: React.FC<GlassCommandProps> = ({
   items = DEFAULT_COMMAND_ITEMS,
   placeholder = "Search commands...",
@@ -294,8 +295,7 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
           className
         )}
         style={{
-          background:
-            "var(--glass-primary-level2-surface)",
+          background: "var(--glass-primary-level2-surface)",
           border: "1px solid rgba(148, 163, 184, 0.18)",
           boxShadow:
             "0 18px 44px rgba(2, 6, 23, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
@@ -486,8 +486,7 @@ export const GlassCommandInput: React.FC<GlassCommandInputProps> = ({
         animation="none"
         className="glass-backdrop-blur-md glass-radius-lg glass-border glass-border-white/10 glass-surface-dark/40 glass-contrast-guard"
         style={{
-          background:
-            "var(--glass-primary-level3-surface)",
+          background: "var(--glass-primary-level3-surface)",
           border: "1px solid rgba(148, 163, 184, 0.2)",
           boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.08)",
         }}

@@ -63,6 +63,7 @@ const DEFAULT_OPTIONS: Required<DraggableListPhysicsOptions> = {
   selectedItems: [],
 };
 
+/** @deprecated useDraggableListPhysics DEP-M0883 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion springs} */
 export function useDraggableListPhysics(
   items: DraggableItem[],
   onReorder: (

@@ -144,6 +144,7 @@ function demoBackdropStyle(
  * ContrastGuard wrapper component
  * Ensures text content meets WCAG contrast requirements
  */
+/** @deprecated ContrastGuard DEP-M0921 since 4.2.0, removed in 5.0.0. {@link solved contrast floors (the material guarantees contrast)} */
 export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
   (
     {

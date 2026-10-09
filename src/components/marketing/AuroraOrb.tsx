@@ -19,6 +19,7 @@ function toCssSize(size: number | string): string {
   return typeof size === "number" ? `${size}px` : size;
 }
 
+/** @deprecated AuroraOrb DEP-S0609 since 4.2.0, removed in 6.0.0. {@link Backdrop preset="aurora" from aura-glass/backdrops} */
 export const AuroraOrb = forwardRef<HTMLDivElement, AuroraOrbProps>(
   (
     {

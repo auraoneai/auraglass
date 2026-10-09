@@ -471,6 +471,7 @@ interface TouchRippleEffectsProps {
   className?: string;
 }
 
+/** @deprecated TouchRippleEffects DEP-M0911 since 4.2.0, removed in 5.0.0. */
 export function TouchRippleEffects({
   children,
   color = "var(--glass-bg-hover)",

@@ -59,6 +59,8 @@ const stageStyle: CSSProperties = {
   width: "100%",
 };
 
+
+/** @deprecated GlassAdvancedVideoPlayer DEP-S0619 since 4.2.0, removed in 5.0.0. {@link the media-video-player registry item} */
 export const GlassAdvancedVideoPlayer: Story = {
   name: "GlassAdvancedVideoPlayer",
   args: {

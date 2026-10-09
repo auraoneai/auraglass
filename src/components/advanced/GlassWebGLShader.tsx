@@ -258,6 +258,7 @@ const fragmentShaders = {
   `,
 };
 
+/** @deprecated GlassWebGLShader DEP-M0849 since 4.2.0, removed in 5.0.0. */
 export function GlassWebGLShader({
   className,
   variant = "refraction",
@@ -567,20 +568,28 @@ export function GlassWebGLShader({
           <div>
             <p
               className="glass-text-xs glass-uppercase glass-tracking-widest"
-              style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}
+              style={{
+                color:
+                  "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+              }}
             >
               CSS shader
             </p>
             <p
               className="glass-mt-1 glass-text-base glass-font-semibold"
-              style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+              style={{
+                color: "var(--glass-theme-text, var(--glass-text-primary))",
+              }}
             >
               {variant} glass field
             </p>
           </div>
           <p
             className="glass-text-sm"
-            style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}
+            style={{
+              color:
+                "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+            }}
           >
             Lightweight preview mode active.
           </p>

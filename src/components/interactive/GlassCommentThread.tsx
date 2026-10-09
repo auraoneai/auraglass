@@ -19,6 +19,7 @@ export interface GlassCommentThreadProps
   onReply?: (parentId: string, text: string) => void;
 }
 
+/** @deprecated GlassCommentThread DEP-S0803 since 4.2.0, removed in 5.0.0. {@link the comment-thread registry item (5.1)} */
 export function GlassCommentThread({
   comments,
   onReply,

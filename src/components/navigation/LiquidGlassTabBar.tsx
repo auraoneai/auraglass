@@ -39,6 +39,7 @@ const tabButtonStyle = (selected: boolean): CSSProperties => ({
   font: "inherit",
 });
 
+/** @deprecated LiquidGlassTabBar DEP-S0015 since 4.2.0, removed in 5.0.0. {@link TabBar from aura-glass} */
 export const LiquidGlassTabBar = forwardRef<
   HTMLDivElement,
   LiquidGlassTabBarProps

@@ -66,6 +66,7 @@ export interface GlassInfiniteScrollProps {
  * GlassInfiniteScroll component
  * Infinite scrolling container with loading states and error handling
  */
+/** @deprecated GlassInfiniteScroll DEP-S0243 since 4.2.0, removed in 5.0.0. */
 export const GlassInfiniteScroll: React.FC<GlassInfiniteScrollProps> = ({
   children,
   onLoadMore,

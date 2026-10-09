@@ -1,12 +1,12 @@
-'use client';
+"use client";
 /**
  * Magnetic Element Hook
  * Creates magnetic attraction effect where elements follow the cursor
  */
 
-import { useCallback, useEffect, useRef, useState, CSSProperties } from 'react';
-import { Vector2D, createVector2D } from '../../types/common';
-import { useReducedMotion } from '../useReducedMotion';
+import { useCallback, useEffect, useRef, useState, CSSProperties } from "react";
+import { Vector2D, createVector2D } from "../../types/common";
+import { useReducedMotion } from "../useReducedMotion";
 
 /**
  * Magnetic element options
@@ -25,6 +25,7 @@ export interface UseMagneticElementOptions {
 /**
  * Hook for magnetic element effect
  */
+/** @deprecated useMagneticElement DEP-M0879 since 4.2.0, removed in 5.0.0. {@link magnetic() (aura-glass/motion)} */
 export const useMagneticElement = (options: UseMagneticElementOptions = {}) => {
   const {
     strength = 0.3,
@@ -88,9 +89,12 @@ export const useMagneticElement = (options: UseMagneticElementOptions = {}) => {
   /**
    * Lerp (linear interpolation) function
    */
-  const lerp = useCallback((start: number, end: number, factor: number): number => {
-    return start + (end - start) * factor;
-  }, []);
+  const lerp = useCallback(
+    (start: number, end: number, factor: number): number => {
+      return start + (end - start) * factor;
+    },
+    []
+  );
 
   /**
    * Animation loop
@@ -190,12 +194,12 @@ export const useMagneticElement = (options: UseMagneticElementOptions = {}) => {
       return;
     }
 
-    window.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
 
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
@@ -214,7 +218,7 @@ export const useMagneticElement = (options: UseMagneticElementOptions = {}) => {
 
     return {
       transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
-      transition: 'none', // Smooth animation handled by RAF
+      transition: "none", // Smooth animation handled by RAF
     };
   }, [position, prefersReducedMotion, disabled]);
 

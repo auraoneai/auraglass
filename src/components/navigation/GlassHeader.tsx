@@ -133,6 +133,7 @@ export interface GlassHeaderProps
  * GlassHeader component
  * A glassmorphism header with navigation, search, and user menu
  */
+/** @deprecated GlassHeader DEP-S0002 since 4.2.0, removed in 5.0.0. {@link TopBar from aura-glass/app-shell} */
 export const GlassHeader = forwardRef<HTMLDivElement, GlassHeaderProps>(
   (
     {

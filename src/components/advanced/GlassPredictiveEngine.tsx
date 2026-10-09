@@ -942,6 +942,7 @@ export function GlassPredictiveEngineProvider({
 }
 
 // Hook to use the predictive engine
+/** @deprecated usePredictiveEngine DEP-S0407 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */
 export function usePredictiveEngine() {
   const context = useContext(PredictiveEngineContext);
   if (!context) {
@@ -1215,6 +1216,7 @@ export function useOptionalInteractionRecorder(elementId?: string) {
   return engine ? { recordClick, recordHover, recordFocus } : null;
 }
 
+/** @deprecated useInteractionRecorder DEP-S0421 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */
 export function useInteractionRecorder(elementId?: string) {
   const { recordInteraction } = usePredictiveEngine();
 
@@ -1296,6 +1298,7 @@ export function useInteractionRecorder(elementId?: string) {
 }
 
 // Presets for different prediction modes
+/** @deprecated predictiveEnginePresets DEP-S0422 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */
 export const predictiveEnginePresets = {
   conservative: {
     neuralNetConfig: { inputSize: 8, hiddenSize: 12, outputSize: 3 },

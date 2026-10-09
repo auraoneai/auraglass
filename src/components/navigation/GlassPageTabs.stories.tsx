@@ -89,6 +89,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+
+/** @deprecated GlassPageTabs DEP-S0012 since 4.2.0, removed in 5.0.0. {@link Tabs from aura-glass} */
 export const GlassPageTabs: Story = {
   name: "GlassPageTabs",
   render: (args) => (

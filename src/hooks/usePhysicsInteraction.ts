@@ -1,7 +1,7 @@
-'use client';
-import React from 'react';
-import { useRef, useEffect, useCallback, useState } from 'react';
-import { useAccessibleAnimation } from './useAccessibilitySettings';
+"use client";
+import React from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
+import { useAccessibleAnimation } from "./useAccessibilitySettings";
 
 export interface PhysicsInteractionOptions {
   scale?: number;
@@ -29,7 +29,7 @@ export interface PhysicsState {
 const DEFAULT_OPTIONS: Required<PhysicsInteractionOptions> = {
   scale: 1.02,
   duration: 200,
-  easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  easing: "cubic-bezier(0.4, 0, 0.2, 1)",
   damping: 0.8,
   stiffness: 100,
   mass: 1,
@@ -44,6 +44,7 @@ const DEFAULT_OPTIONS: Required<PhysicsInteractionOptions> = {
 /**
  * Enhanced physics interaction hook with spring animations and accessibility
  */
+/** @deprecated usePhysicsInteraction DEP-M0863 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion springs} */
 export function usePhysicsInteraction(options: PhysicsInteractionOptions = {}) {
   const mergedOptions = { ...DEFAULT_OPTIONS, ...options };
   const {
@@ -78,55 +79,72 @@ export function usePhysicsInteraction(options: PhysicsInteractionOptions = {}) {
   const { shouldAnimate, transitionDuration } = useAccessibleAnimation();
 
   // Spring physics calculation
-  const calculateSpringForce = useCallback((
-    current: number,
-    target: number,
-    velocity: number
-  ): { position: number; velocity: number } => {
-    const force = -stiffness * (current - target) - damping * velocity;
-    const acceleration = force / mass;
-    const newVelocity = velocity + acceleration * 0.016; // 60fps
-    const newPosition = current + newVelocity * 0.016;
+  const calculateSpringForce = useCallback(
+    (
+      current: number,
+      target: number,
+      velocity: number
+    ): { position: number; velocity: number } => {
+      const force = -stiffness * (current - target) - damping * velocity;
+      const acceleration = force / mass;
+      const newVelocity = velocity + acceleration * 0.016; // 60fps
+      const newPosition = current + newVelocity * 0.016;
 
-    return { position: newPosition, velocity: newVelocity };
-  }, [stiffness, damping, mass]);
+      return { position: newPosition, velocity: newVelocity };
+    },
+    [stiffness, damping, mass]
+  );
 
   // Apply transform with physics
-  const applyTransform = useCallback((element: HTMLElement, state: Partial<PhysicsState>) => {
-    if (!shouldAnimate) return;
+  const applyTransform = useCallback(
+    (element: HTMLElement, state: Partial<PhysicsState>) => {
+      if (!shouldAnimate) return;
 
-    const transforms = [];
-    
-    if (state.position) {
-      transforms.push(`translate3d(${state.position.x}px, ${state.position.y}px, 0)`);
-    }
-    
-    if (state.scale && state.scale !== 1) {
-      transforms.push(`scale(${state.scale})`);
-    }
-    
-    if (state.rotation && state.rotation !== 0) {
-      transforms.push(`rotate(${state.rotation}deg)`);
-    }
+      const transforms = [];
 
-    element.style.transform = transforms.length > 0 ? transforms.join(' ') : 'none';
-    element.style.transition = shouldAnimate 
-      ? `transform ${transitionDuration}ms ${easing}`
-      : 'none';
-  }, [shouldAnimate, transitionDuration, easing]);
+      if (state.position) {
+        transforms.push(
+          `translate3d(${state.position.x}px, ${state.position.y}px, 0)`
+        );
+      }
+
+      if (state.scale && state.scale !== 1) {
+        transforms.push(`scale(${state.scale})`);
+      }
+
+      if (state.rotation && state.rotation !== 0) {
+        transforms.push(`rotate(${state.rotation}deg)`);
+      }
+
+      element.style.transform =
+        transforms.length > 0 ? transforms.join(" ") : "none";
+      element.style.transition = shouldAnimate
+        ? `transform ${transitionDuration}ms ${easing}`
+        : "none";
+    },
+    [shouldAnimate, transitionDuration, easing]
+  );
 
   // Animation loop for spring physics
   const animateSpring = useCallback(() => {
     const element = ref.current;
     if (!element || !physicsState.isInteracting) return;
 
-    setPhysicsState(prevState => {
+    setPhysicsState((prevState) => {
       const targetX = isDraggingRef.current ? prevState.position.x : 0;
       const targetY = isDraggingRef.current ? prevState.position.y : 0;
       const targetScale = prevState.isInteracting ? scale : 1;
 
-      const newX = calculateSpringForce(prevState.position.x, targetX, prevState.velocity.x);
-      const newY = calculateSpringForce(prevState.position.y, targetY, prevState.velocity.y);
+      const newX = calculateSpringForce(
+        prevState.position.x,
+        targetX,
+        prevState.velocity.x
+      );
+      const newY = calculateSpringForce(
+        prevState.position.y,
+        targetY,
+        prevState.velocity.y
+      );
       const newScale = calculateSpringForce(prevState.scale, targetScale, 0);
 
       const newState = {
@@ -139,11 +157,10 @@ export function usePhysicsInteraction(options: PhysicsInteractionOptions = {}) {
       applyTransform(element, newState);
 
       // Check if animation should continue
-      const isStable = (
+      const isStable =
         Math.abs(newX.velocity) < 0.01 &&
         Math.abs(newY.velocity) < 0.01 &&
-        Math.abs(newState.scale - targetScale) < 0.001
-      );
+        Math.abs(newState.scale - targetScale) < 0.001;
 
       if (isStable && !isDraggingRef.current) {
         return { ...newState, isInteracting: false };
@@ -161,7 +178,7 @@ export function usePhysicsInteraction(options: PhysicsInteractionOptions = {}) {
   const startInteraction = useCallback(() => {
     setPhysicsState((prev: any) => ({ ...prev, isInteracting: true }));
     onInteractionStart();
-    
+
     if (shouldAnimate && !animationFrameRef.current) {
       animateSpring();
     }
@@ -171,7 +188,7 @@ export function usePhysicsInteraction(options: PhysicsInteractionOptions = {}) {
   const endInteraction = useCallback(() => {
     isDraggingRef.current = false;
     onInteractionEnd();
-    
+
     // Let spring animation finish naturally
     setTimeout(() => {
       if (animationFrameRef.current) {
@@ -182,30 +199,36 @@ export function usePhysicsInteraction(options: PhysicsInteractionOptions = {}) {
   }, [duration, onInteractionEnd]);
 
   // Mouse/Touch event handlers
-  const handlePointerDown = useCallback((e: PointerEvent) => {
-    if (!enableClick && !enableDrag) return;
+  const handlePointerDown = useCallback(
+    (e: PointerEvent) => {
+      if (!enableClick && !enableDrag) return;
 
-    startPositionRef.current = { x: e.clientX, y: e.clientY };
-    
-    if (enableDrag) {
-      isDraggingRef.current = true;
-      startInteraction();
-    }
-  }, [enableClick, enableDrag, startInteraction]);
+      startPositionRef.current = { x: e.clientX, y: e.clientY };
 
-  const handlePointerMove = useCallback((e: PointerEvent) => {
-    if (!isDraggingRef.current || !enableDrag) return;
+      if (enableDrag) {
+        isDraggingRef.current = true;
+        startInteraction();
+      }
+    },
+    [enableClick, enableDrag, startInteraction]
+  );
 
-    const deltaX = e.clientX - startPositionRef.current.x;
-    const deltaY = e.clientY - startPositionRef.current.y;
+  const handlePointerMove = useCallback(
+    (e: PointerEvent) => {
+      if (!isDraggingRef.current || !enableDrag) return;
 
-    if (Math.abs(deltaX) > threshold || Math.abs(deltaY) > threshold) {
-      setPhysicsState((prev: any) => ({
-        ...prev,
-        position: { x: deltaX * 0.5, y: deltaY * 0.5 }, // Damped movement
-      }));
-    }
-  }, [enableDrag, threshold]);
+      const deltaX = e.clientX - startPositionRef.current.x;
+      const deltaY = e.clientY - startPositionRef.current.y;
+
+      if (Math.abs(deltaX) > threshold || Math.abs(deltaY) > threshold) {
+        setPhysicsState((prev: any) => ({
+          ...prev,
+          position: { x: deltaX * 0.5, y: deltaY * 0.5 }, // Damped movement
+        }));
+      }
+    },
+    [enableDrag, threshold]
+  );
 
   const handlePointerUp = useCallback(() => {
     if (isDraggingRef.current) {
@@ -215,7 +238,7 @@ export function usePhysicsInteraction(options: PhysicsInteractionOptions = {}) {
 
   const handleMouseEnter = useCallback(() => {
     if (!enableHover || !shouldAnimate) return;
-    
+
     const element = ref.current;
     if (!element) return;
 
@@ -225,7 +248,7 @@ export function usePhysicsInteraction(options: PhysicsInteractionOptions = {}) {
 
   const handleMouseLeave = useCallback(() => {
     if (!enableHover || !shouldAnimate) return;
-    
+
     const element = ref.current;
     if (!element) return;
 
@@ -253,40 +276,50 @@ export function usePhysicsInteraction(options: PhysicsInteractionOptions = {}) {
 
     // Mouse events
     if (enableHover) {
-      element.addEventListener('mouseenter', handleMouseEnter, { passive: true });
-      element.addEventListener('mouseleave', handleMouseLeave, { passive: true });
+      element.addEventListener("mouseenter", handleMouseEnter, {
+        passive: true,
+      });
+      element.addEventListener("mouseleave", handleMouseLeave, {
+        passive: true,
+      });
     }
 
     if (enableClick) {
-      element.addEventListener('click', handleClick, { passive: true });
+      element.addEventListener("click", handleClick, { passive: true });
     }
 
     // Pointer events for drag
     if (enableDrag) {
-      element.addEventListener('pointerdown', handlePointerDown, { passive: true });
-      document.addEventListener('pointermove', handlePointerMove, { passive: true });
-      document.addEventListener('pointerup', handlePointerUp, { passive: true });
+      element.addEventListener("pointerdown", handlePointerDown, {
+        passive: true,
+      });
+      document.addEventListener("pointermove", handlePointerMove, {
+        passive: true,
+      });
+      document.addEventListener("pointerup", handlePointerUp, {
+        passive: true,
+      });
     }
 
     // Keyboard support for accessibility
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+      if (e.key === "Enter" || e.key === " ") {
         handleClick();
       }
     };
 
-    element.addEventListener('keydown', handleKeyDown);
+    element.addEventListener("keydown", handleKeyDown);
 
     return () => {
       // Cleanup event listeners
-      element.removeEventListener('mouseenter', handleMouseEnter);
-      element.removeEventListener('mouseleave', handleMouseLeave);
-      element.removeEventListener('click', handleClick);
-      element.removeEventListener('pointerdown', handlePointerDown);
-      element.removeEventListener('keydown', handleKeyDown);
-      
-      document.removeEventListener('pointermove', handlePointerMove);
-      document.removeEventListener('pointerup', handlePointerUp);
+      element.removeEventListener("mouseenter", handleMouseEnter);
+      element.removeEventListener("mouseleave", handleMouseLeave);
+      element.removeEventListener("click", handleClick);
+      element.removeEventListener("pointerdown", handlePointerDown);
+      element.removeEventListener("keydown", handleKeyDown);
+
+      document.removeEventListener("pointermove", handlePointerMove);
+      document.removeEventListener("pointerup", handlePointerUp);
 
       // Cleanup animation
       if (animationFrameRef.current) {
@@ -317,7 +350,10 @@ export function usePhysicsInteraction(options: PhysicsInteractionOptions = {}) {
 /**
  * Simplified physics interaction hook for basic hover effects
  */
-export function useSimplePhysicsHover(scale: number = 1.02, duration: number = 200) {
+export function useSimplePhysicsHover(
+  scale: number = 1.02,
+  duration: number = 200
+) {
   return usePhysicsInteraction({
     scale,
     duration,
@@ -330,7 +366,9 @@ export function useSimplePhysicsHover(scale: number = 1.02, duration: number = 2
 /**
  * Physics interaction hook optimized for buttons
  */
-export function usePhysicsButton(options: Partial<PhysicsInteractionOptions> = {}) {
+export function usePhysicsButton(
+  options: Partial<PhysicsInteractionOptions> = {}
+) {
   return usePhysicsInteraction({
     scale: 0.95,
     duration: 150,
@@ -344,7 +382,9 @@ export function usePhysicsButton(options: Partial<PhysicsInteractionOptions> = {
 /**
  * Physics interaction hook for draggable elements
  */
-export function usePhysicsDrag(options: Partial<PhysicsInteractionOptions> = {}) {
+export function usePhysicsDrag(
+  options: Partial<PhysicsInteractionOptions> = {}
+) {
   return usePhysicsInteraction({
     scale: 1.05,
     duration: 300,

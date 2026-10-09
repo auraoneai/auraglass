@@ -108,6 +108,7 @@ export interface GlassGanttChartProps
   respectMotionPreference?: boolean;
 }
 
+/** @deprecated GlassGanttChart DEP-S0239 since 4.2.0, removed in 5.0.0. */
 export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
   (
     {

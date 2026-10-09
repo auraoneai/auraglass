@@ -3,22 +3,28 @@
  * Provides physics-based gesture interactions with preset configurations
  */
 
-import { useCallback, useRef, useState, useEffect } from 'react';
-import { Vector2D, createVector2D, addVectors, multiplyVector, UnsubscribeFunction } from '../../types/common';
-import { SpringConfig } from './springPhysics';
+import { useCallback, useRef, useState, useEffect } from "react";
+import {
+  Vector2D,
+  createVector2D,
+  addVectors,
+  multiplyVector,
+  UnsubscribeFunction,
+} from "../../types/common";
+import { SpringConfig } from "./springPhysics";
 
 /**
  * Gesture types supported by the physics system
  */
 export enum GestureType {
-  TAP = 'tap',
-  DOUBLE_TAP = 'double_tap',
-  LONG_PRESS = 'long_press',
-  PAN = 'pan',
-  SWIPE = 'swipe',
-  PINCH = 'pinch',
-  ROTATE = 'rotate',
-  HOVER = 'hover',
+  TAP = "tap",
+  DOUBLE_TAP = "double_tap",
+  LONG_PRESS = "long_press",
+  PAN = "pan",
+  SWIPE = "swipe",
+  PINCH = "pinch",
+  ROTATE = "rotate",
+  HOVER = "hover",
 }
 
 /**
@@ -40,7 +46,7 @@ export interface GesturePhysicsPreset {
  */
 export const GESTURE_PRESETS: Record<string, GesturePhysicsPreset> = {
   smooth: {
-    name: 'smooth',
+    name: "smooth",
     damping: 26,
     stiffness: 170,
     mass: 1,
@@ -50,7 +56,7 @@ export const GESTURE_PRESETS: Record<string, GesturePhysicsPreset> = {
     gestures: [GestureType.PAN, GestureType.HOVER],
   },
   snappy: {
-    name: 'snappy',
+    name: "snappy",
     damping: 20,
     stiffness: 300,
     mass: 0.5,
@@ -60,7 +66,7 @@ export const GESTURE_PRESETS: Record<string, GesturePhysicsPreset> = {
     gestures: [GestureType.TAP, GestureType.DOUBLE_TAP],
   },
   bouncy: {
-    name: 'bouncy',
+    name: "bouncy",
     damping: 15,
     stiffness: 400,
     mass: 1.5,
@@ -70,7 +76,7 @@ export const GESTURE_PRESETS: Record<string, GesturePhysicsPreset> = {
     gestures: [GestureType.SWIPE, GestureType.PAN],
   },
   gentle: {
-    name: 'gentle',
+    name: "gentle",
     damping: 30,
     stiffness: 120,
     mass: 1.2,
@@ -80,7 +86,7 @@ export const GESTURE_PRESETS: Record<string, GesturePhysicsPreset> = {
     gestures: [GestureType.HOVER, GestureType.LONG_PRESS],
   },
   precise: {
-    name: 'precise',
+    name: "precise",
     damping: 40,
     stiffness: 500,
     mass: 0.8,
@@ -135,9 +141,10 @@ export interface UseGesturePhysicsOptions {
 /**
  * Hook for gesture-based physics interactions
  */
+/** @deprecated useGesturePhysics DEP-M0868 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion springs} */
 export const useGesturePhysics = (options: UseGesturePhysicsOptions = {}) => {
   const {
-    preset = 'smooth',
+    preset = "smooth",
     enabledGestures = Object.values(GestureType),
     onGesture,
     onGestureStart,
@@ -166,7 +173,7 @@ export const useGesturePhysics = (options: UseGesturePhysicsOptions = {}) => {
 
   // Get preset configuration
   const presetConfig: GesturePhysicsPreset =
-    typeof preset === 'string' ? GESTURE_PRESETS[preset] : preset;
+    typeof preset === "string" ? GESTURE_PRESETS[preset] : preset;
 
   /**
    * Create gesture event
@@ -269,7 +276,7 @@ export const useGesturePhysics = (options: UseGesturePhysicsOptions = {}) => {
       // Determine gesture type
       const totalDistance = Math.sqrt(
         Math.pow(newPosition.x - state.startPosition.x, 2) +
-        Math.pow(newPosition.y - state.startPosition.y, 2)
+          Math.pow(newPosition.y - state.startPosition.y, 2)
       );
 
       if (totalDistance > threshold) {
@@ -281,10 +288,13 @@ export const useGesturePhysics = (options: UseGesturePhysicsOptions = {}) => {
 
         const velocityMagnitude = Math.sqrt(
           state.velocity.x * state.velocity.x +
-          state.velocity.y * state.velocity.y
+            state.velocity.y * state.velocity.y
         );
 
-        if (velocityMagnitude > velocityThreshold && enabledGestures.includes(GestureType.SWIPE)) {
+        if (
+          velocityMagnitude > velocityThreshold &&
+          enabledGestures.includes(GestureType.SWIPE)
+        ) {
           state.gestureType = GestureType.SWIPE;
         } else if (enabledGestures.includes(GestureType.PAN)) {
           state.gestureType = GestureType.PAN;

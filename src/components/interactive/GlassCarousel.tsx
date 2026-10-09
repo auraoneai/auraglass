@@ -131,6 +131,7 @@ export interface GlassCarouselProps
  * GlassCarousel component
  * A flexible carousel/slider with smooth animations and multiple display modes
  */
+/** @deprecated GlassCarousel DEP-S0606 since 4.2.0, removed in 6.0.0. {@link CarouselRail from aura-glass/media (infinite to loop, autoPlay gated)} */
 export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
   (
     {

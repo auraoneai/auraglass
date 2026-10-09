@@ -297,6 +297,7 @@ const matchesRangeFilter = (
  * GlassListView component
  * Comprehensive list view with filtering, search, and multiple view modes
  */
+/** @deprecated GlassListView DEP-S0244 since 4.2.0, removed in 5.0.0. */
 export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
   (
     {

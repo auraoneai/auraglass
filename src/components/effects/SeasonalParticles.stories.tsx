@@ -54,6 +54,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+
+/** @deprecated SeasonalParticles DEP-S0628 since 4.2.0, removed in 5.0.0. {@link Backdrop presets; particles live in labs} */
 export const SeasonalParticles: Story = {
   name: "SeasonalParticles",
   render: () => (

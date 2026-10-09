@@ -152,6 +152,7 @@ export interface GlassChartWidgetProps {
  * GlassChartWidget component
  * A glassmorphism chart container widget with header, actions, and fullscreen support
  */
+/** @deprecated GlassChartWidget DEP-S0235 since 4.2.0, removed in 5.0.0. */
 export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
   title = "Chart Widget",
   subtitle,
@@ -509,7 +510,10 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
             </div>
           ) : (
             <div
-              className={cn(!isCompact && config.contentClass, "glass-chart-widget-neutral-content")}
+              className={cn(
+                !isCompact && config.contentClass,
+                "glass-chart-widget-neutral-content"
+              )}
               style={{
                 height: resolvedContentHeight,
                 minHeight: isCompact ? 0 : undefined,

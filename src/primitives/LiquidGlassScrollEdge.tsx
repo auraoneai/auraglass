@@ -39,6 +39,7 @@ function getEdgeActive(target: HTMLElement, edge: LiquidGlassScrollEdgeSide) {
   return target.scrollLeft + target.clientWidth < target.scrollWidth - 1;
 }
 
+/** @deprecated LiquidGlassScrollEdge DEP-M0813 since 4.2.0, removed in 5.0.0. {@link ScrollEdge} */
 export const LiquidGlassScrollEdge = forwardRef<
   HTMLDivElement,
   LiquidGlassScrollEdgeProps

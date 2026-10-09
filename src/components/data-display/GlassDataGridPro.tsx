@@ -27,6 +27,7 @@ export interface GlassDataGridProProps<
 }
 
 // Lightweight wrapper around GlassDataTable; placeholder for advanced features
+/** @deprecated GlassDataGridPro DEP-S0247 since 4.2.0, removed in 5.0.0. */
 export const GlassDataGridPro = React.forwardRef<
   HTMLDivElement,
   GlassDataGridProProps

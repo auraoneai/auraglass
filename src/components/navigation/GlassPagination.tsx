@@ -121,6 +121,7 @@ export interface GlassPaginationItemProps {
  * GlassPagination component
  * A glassmorphism pagination component
  */
+/** @deprecated GlassPagination DEP-S0020 since 4.2.0, removed in 5.0.0. {@link Pagination from aura-glass} */
 export const GlassPagination: React.FC<GlassPaginationProps> = ({
   currentPage,
   totalPages,

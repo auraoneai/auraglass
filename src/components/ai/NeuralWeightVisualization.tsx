@@ -58,6 +58,7 @@ const DEFAULT_LAYERS: NeuralWeightMatrix[] = [
 const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
 
+/** @deprecated NeuralWeightVisualization DEP-S0416 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */
 export function NeuralWeightVisualization({
   layers = DEFAULT_LAYERS,
   className,

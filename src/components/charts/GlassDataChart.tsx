@@ -2007,6 +2007,7 @@ const GlassDataChartComponent = React.forwardRef<
 GlassDataChartComponent.displayName = "GlassDataChart";
 
 // Export memoized component for better performance
+/** @deprecated GlassDataChart DEP-S0225 since 4.2.0, removed in 5.0.0. */
 export const GlassDataChart = memo(GlassDataChartComponent);
 
 // ESLint disable for TypeScript forwardRef type issues in some configurations

@@ -109,6 +109,7 @@ export interface HoudiniGlassProviderProps
   debugMode?: boolean;
 }
 
+/** @deprecated HoudiniGlassProvider DEP-M0847 since 4.2.0, removed in 5.0.0. */
 export const HoudiniGlassProvider = forwardRef<
   HTMLDivElement,
   HoudiniGlassProviderProps

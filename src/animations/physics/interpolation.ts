@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 export interface InterpolationPoint {
   x: number;
   y: number;
@@ -8,13 +8,14 @@ export interface InterpolationPoint {
 }
 
 export interface InterpolationConfig {
-  type: 'linear' | 'cubic' | 'hermite' | 'bezier' | 'spline';
+  type: "linear" | "cubic" | "hermite" | "bezier" | "spline";
   tension?: number;
   bias?: number;
   continuity?: number;
   alpha?: number; // For centripetal Catmull-Rom
 }
 
+/** @deprecated InterpolationUtils DEP-M0888 since 4.2.0, removed in 5.0.0. {@link the 5.x motion tokens} */
 export class InterpolationUtils {
   /**
    * Linear interpolation between two points
@@ -56,28 +57,57 @@ export class InterpolationUtils {
 
     const tNormalized = t1 + (t2 - t1) * t;
 
-    const a1x = (t1 - tNormalized) / (t1 - t0) * p0.x + (tNormalized - t0) / (t1 - t0) * p1.x;
-    const a1y = (t1 - tNormalized) / (t1 - t0) * p0.y + (tNormalized - t0) / (t1 - t0) * p1.y;
+    const a1x =
+      ((t1 - tNormalized) / (t1 - t0)) * p0.x +
+      ((tNormalized - t0) / (t1 - t0)) * p1.x;
+    const a1y =
+      ((t1 - tNormalized) / (t1 - t0)) * p0.y +
+      ((tNormalized - t0) / (t1 - t0)) * p1.y;
 
-    const a2x = (t2 - tNormalized) / (t2 - t1) * p1.x + (tNormalized - t1) / (t2 - t1) * p2.x;
-    const a2y = (t2 - tNormalized) / (t2 - t1) * p1.y + (tNormalized - t1) / (t2 - t1) * p2.y;
+    const a2x =
+      ((t2 - tNormalized) / (t2 - t1)) * p1.x +
+      ((tNormalized - t1) / (t2 - t1)) * p2.x;
+    const a2y =
+      ((t2 - tNormalized) / (t2 - t1)) * p1.y +
+      ((tNormalized - t1) / (t2 - t1)) * p2.y;
 
-    const a3x = (t3 - tNormalized) / (t3 - t2) * p2.x + (tNormalized - t2) / (t3 - t2) * p3.x;
-    const a3y = (t3 - tNormalized) / (t3 - t2) * p2.y + (tNormalized - t2) / (t3 - t2) * p3.y;
+    const a3x =
+      ((t3 - tNormalized) / (t3 - t2)) * p2.x +
+      ((tNormalized - t2) / (t3 - t2)) * p3.x;
+    const a3y =
+      ((t3 - tNormalized) / (t3 - t2)) * p2.y +
+      ((tNormalized - t2) / (t3 - t2)) * p3.y;
 
-    const b1x = (t2 - tNormalized) / (t2 - t0) * a1x + (tNormalized - t0) / (t2 - t0) * a2x;
-    const b1y = (t2 - tNormalized) / (t2 - t0) * a1y + (tNormalized - t0) / (t2 - t0) * a2y;
+    const b1x =
+      ((t2 - tNormalized) / (t2 - t0)) * a1x +
+      ((tNormalized - t0) / (t2 - t0)) * a2x;
+    const b1y =
+      ((t2 - tNormalized) / (t2 - t0)) * a1y +
+      ((tNormalized - t0) / (t2 - t0)) * a2y;
 
-    const b2x = (t3 - tNormalized) / (t3 - t1) * a2x + (tNormalized - t1) / (t3 - t1) * a3x;
-    const b2y = (t3 - tNormalized) / (t3 - t1) * a2y + (tNormalized - t1) / (t3 - t1) * a3y;
+    const b2x =
+      ((t3 - tNormalized) / (t3 - t1)) * a2x +
+      ((tNormalized - t1) / (t3 - t1)) * a3x;
+    const b2y =
+      ((t3 - tNormalized) / (t3 - t1)) * a2y +
+      ((tNormalized - t1) / (t3 - t1)) * a3y;
 
-    const cx = (t2 - tNormalized) / (t2 - t1) * b1x + (tNormalized - t1) / (t2 - t1) * b2x;
-    const cy = (t2 - tNormalized) / (t2 - t1) * b1y + (tNormalized - t1) / (t2 - t1) * b2y;
+    const cx =
+      ((t2 - tNormalized) / (t2 - t1)) * b1x +
+      ((tNormalized - t1) / (t2 - t1)) * b2x;
+    const cy =
+      ((t2 - tNormalized) / (t2 - t1)) * b1y +
+      ((tNormalized - t1) / (t2 - t1)) * b2y;
 
     return { x: cx, y: cy };
   }
 
-  private static getT(t: number, p0: InterpolationPoint, p1: InterpolationPoint, alpha: number): number {
+  private static getT(
+    t: number,
+    p0: InterpolationPoint,
+    p1: InterpolationPoint,
+    alpha: number
+  ): number {
     const dx = p1.x - p0.x;
     const dy = p1.y - p0.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -140,7 +170,7 @@ export class InterpolationUtils {
   ): { x: number; y: number } {
     const n = points.length - 1;
     const k = Math.floor(t * (n - degree + 1));
-    const u = (t * (n - degree + 1)) - k;
+    const u = t * (n - degree + 1) - k;
 
     let x = 0;
     let y = 0;
@@ -156,11 +186,11 @@ export class InterpolationUtils {
 
   private static bSplineBasis(i: number, p: number, u: number): number {
     if (p === 0) {
-      return (u >= 0 && u <= 1) ? 1 : 0;
+      return u >= 0 && u <= 1 ? 1 : 0;
     }
 
-    const left = (u - i) / p * this.bSplineBasis(i, p - 1, u);
-    const right = (i + p + 1 - u) / p * this.bSplineBasis(i + 1, p - 1, u);
+    const left = ((u - i) / p) * this.bSplineBasis(i, p - 1, u);
+    const right = ((i + p + 1 - u) / p) * this.bSplineBasis(i + 1, p - 1, u);
 
     return left + right;
   }
@@ -194,19 +224,25 @@ export class InterpolationUtils {
     if (points.length === 2) return this.lerp2D(points[0], points[1], t);
 
     switch (config.type) {
-      case 'linear':
+      case "linear":
         return this.interpolateLinear(points, t);
 
-      case 'cubic':
+      case "cubic":
         return this.interpolateCubic(points, t, config.alpha);
 
-      case 'hermite':
-        return this.interpolateHermite(points, t, config.tension, config.bias, config.continuity);
+      case "hermite":
+        return this.interpolateHermite(
+          points,
+          t,
+          config.tension,
+          config.bias,
+          config.continuity
+        );
 
-      case 'bezier':
+      case "bezier":
         return this.interpolateBezier(points, t);
 
-      case 'spline':
+      case "spline":
         return this.bSpline(points, t);
 
       default:
@@ -214,7 +250,10 @@ export class InterpolationUtils {
     }
   }
 
-  private static interpolateLinear(points: InterpolationPoint[], t: number): { x: number; y: number } {
+  private static interpolateLinear(
+    points: InterpolationPoint[],
+    t: number
+  ): { x: number; y: number } {
     const totalSegments = points.length - 1;
     const segmentIndex = Math.floor(t * totalSegments);
     const segmentT = (t * totalSegments) % 1;
@@ -223,20 +262,49 @@ export class InterpolationUtils {
       return { x: points[points.length - 1].x, y: points[points.length - 1].y };
     }
 
-    return this.lerp2D(points[segmentIndex], points[segmentIndex + 1], segmentT);
+    return this.lerp2D(
+      points[segmentIndex],
+      points[segmentIndex + 1],
+      segmentT
+    );
   }
 
-  private static interpolateCubic(points: InterpolationPoint[], t: number, alpha: number = 0.5): { x: number; y: number } {
+  private static interpolateCubic(
+    points: InterpolationPoint[],
+    t: number,
+    alpha: number = 0.5
+  ): { x: number; y: number } {
     const n = points.length - 1;
     const i = Math.floor(t * n);
     const u = (t * n) % 1;
 
     if (i === 0) {
-      return this.catmullRom(points[0], points[0], points[1], points[2], u, alpha);
+      return this.catmullRom(
+        points[0],
+        points[0],
+        points[1],
+        points[2],
+        u,
+        alpha
+      );
     } else if (i === n) {
-      return this.catmullRom(points[n - 2], points[n - 1], points[n], points[n], u, alpha);
+      return this.catmullRom(
+        points[n - 2],
+        points[n - 1],
+        points[n],
+        points[n],
+        u,
+        alpha
+      );
     } else {
-      return this.catmullRom(points[i - 1], points[i], points[i + 1], points[i + 2], u, alpha);
+      return this.catmullRom(
+        points[i - 1],
+        points[i],
+        points[i + 1],
+        points[i + 2],
+        u,
+        alpha
+      );
     }
   }
 
@@ -252,16 +320,58 @@ export class InterpolationUtils {
     const u = (t * n) % 1;
 
     if (i === 0) {
-      const m1 = this.calculateTangent(points[0], points[1], points[2], tension, bias, continuity);
-      const m2 = this.calculateTangent(points[1], points[0], points[2], tension, bias, continuity);
+      const m1 = this.calculateTangent(
+        points[0],
+        points[1],
+        points[2],
+        tension,
+        bias,
+        continuity
+      );
+      const m2 = this.calculateTangent(
+        points[1],
+        points[0],
+        points[2],
+        tension,
+        bias,
+        continuity
+      );
       return this.hermite(points[0], points[1], { x: 0, y: 0 }, m2, u);
     } else if (i === n) {
-      const m1 = this.calculateTangent(points[n - 1], points[n - 2], points[n], tension, bias, continuity);
-      const m2 = this.calculateTangent(points[n], points[n - 1], points[n - 1], tension, bias, continuity);
+      const m1 = this.calculateTangent(
+        points[n - 1],
+        points[n - 2],
+        points[n],
+        tension,
+        bias,
+        continuity
+      );
+      const m2 = this.calculateTangent(
+        points[n],
+        points[n - 1],
+        points[n - 1],
+        tension,
+        bias,
+        continuity
+      );
       return this.hermite(points[n - 1], points[n], m1, { x: 0, y: 0 }, u);
     } else {
-      const m1 = this.calculateTangent(points[i], points[i - 1], points[i + 1], tension, bias, continuity);
-      const m2 = this.calculateTangent(points[i + 1], points[i], points[i + 2], tension, bias, continuity);
+      const m1 = this.calculateTangent(
+        points[i],
+        points[i - 1],
+        points[i + 1],
+        tension,
+        bias,
+        continuity
+      );
+      const m2 = this.calculateTangent(
+        points[i + 1],
+        points[i],
+        points[i + 2],
+        tension,
+        bias,
+        continuity
+      );
       return this.hermite(points[i], points[i + 1], m1, m2, u);
     }
   }
@@ -289,12 +399,23 @@ export class InterpolationUtils {
     const continuityFactor = 1 - continuity;
 
     return {
-      x: tensionFactor * ((dPrev.x / dPrevLength) * biasFactor + (dNext.x / dNextLength) * (2 - biasFactor)) * continuityFactor,
-      y: tensionFactor * ((dPrev.y / dPrevLength) * biasFactor + (dNext.y / dNextLength) * (2 - biasFactor)) * continuityFactor,
+      x:
+        tensionFactor *
+        ((dPrev.x / dPrevLength) * biasFactor +
+          (dNext.x / dNextLength) * (2 - biasFactor)) *
+        continuityFactor,
+      y:
+        tensionFactor *
+        ((dPrev.y / dPrevLength) * biasFactor +
+          (dNext.y / dNextLength) * (2 - biasFactor)) *
+        continuityFactor,
     };
   }
 
-  private static interpolateBezier(points: InterpolationPoint[], t: number): { x: number; y: number } {
+  private static interpolateBezier(
+    points: InterpolationPoint[],
+    t: number
+  ): { x: number; y: number } {
     // For Bezier, we need control points. This is a simplified implementation.
     // In practice, you'd need to specify control points separately.
     const n = points.length - 1;
@@ -306,22 +427,31 @@ export class InterpolationUtils {
     } else if (i === n) {
       return this.bezier(points[n - 2], points[n - 1], points[n], points[n], u);
     } else {
-      return this.bezier(points[i - 1], points[i], points[i + 1], points[i + 2], u);
+      return this.bezier(
+        points[i - 1],
+        points[i],
+        points[i + 1],
+        points[i + 2],
+        u
+      );
     }
   }
 }
 
 // Utility functions for common interpolation patterns
+/** @deprecated interpolate DEP-M0889 since 4.2.0, removed in 5.0.0. {@link the 5.x motion tokens} */
 export const interpolate = {
   linear: (a: number, b: number, t: number) => InterpolationUtils.lerp(a, b, t),
-  smooth: (a: number, b: number, t: number) => InterpolationUtils.smoothStep(a, b, t),
-  smoother: (a: number, b: number, t: number) => InterpolationUtils.smootherStep(a, b, t),
+  smooth: (a: number, b: number, t: number) =>
+    InterpolationUtils.smoothStep(a, b, t),
+  smoother: (a: number, b: number, t: number) =>
+    InterpolationUtils.smootherStep(a, b, t),
 
   // Color interpolation
   color: (color1: string, color2: string, t: number): string => {
     // Parse hex colors
-    const c1 = color1.replace('#', '');
-    const c2 = color2.replace('#', '');
+    const c1 = color1.replace("#", "");
+    const c2 = color2.replace("#", "");
 
     const r1 = parseInt(c1.substr(0, 2), 16);
     const g1 = parseInt(c1.substr(2, 2), 16);
@@ -335,12 +465,15 @@ export const interpolate = {
     const g = Math.round(InterpolationUtils.lerp(g1, g2, t));
     const b = Math.round(InterpolationUtils.lerp(b1, b2, t));
 
-    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
   },
 
   // Path interpolation
-  path: (points: InterpolationPoint[], config: InterpolationConfig, t: number) =>
-    InterpolationUtils.interpolatePath(points, config, t),
+  path: (
+    points: InterpolationPoint[],
+    config: InterpolationConfig,
+    t: number
+  ) => InterpolationUtils.interpolatePath(points, config, t),
 
   // Array interpolation
   array: (arr1: number[], arr2: number[], t: number): number[] => {

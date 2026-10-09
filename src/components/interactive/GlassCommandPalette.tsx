@@ -189,6 +189,7 @@ export interface GlassCommandPaletteProps
  * GlassCommandPalette component
  * Modal command palette with search, keyboard navigation, and glassmorphism styling
  */
+/** @deprecated GlassCommandPalette DEP-S0021 since 4.2.0, removed in 5.0.0. {@link CommandPalette from aura-glass} */
 export const GlassCommandPalette = forwardRef<
   HTMLDivElement,
   GlassCommandPaletteProps

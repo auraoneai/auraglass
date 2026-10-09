@@ -1,7 +1,7 @@
-'use client';
-import React from 'react';
-import { useState } from 'react';
-import { springConfig } from '../animations/physics/springPhysics';
+"use client";
+import React from "react";
+import { useState } from "react";
+import { springConfig } from "../animations/physics/springPhysics";
 
 export interface GalileoStateSpringOptions {
   stiffness?: number;
@@ -10,7 +10,11 @@ export interface GalileoStateSpringOptions {
   immediate?: boolean;
 }
 
-export function useGalileoStateSpring<T>(initialValue: T, options?: GalileoStateSpringOptions) {
+/** @deprecated useGalileoStateSpring DEP-M0864 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion springs} */
+export function useGalileoStateSpring<T>(
+  initialValue: T,
+  options?: GalileoStateSpringOptions
+) {
   const [value, setValue] = useState(initialValue);
 
   const setSpringValue = (newValue: T) => {
@@ -21,6 +25,6 @@ export function useGalileoStateSpring<T>(initialValue: T, options?: GalileoState
   return {
     value,
     setValue: setSpringValue,
-    isAnimating: false
+    isAnimating: false,
   };
 }

@@ -604,4 +604,4 @@ export const liquidPresets = {
     damping: 10,
     intensity: 1.5,
   },
-};
+}; /** @deprecated animate DEP-M0905 since 4.2.0, removed in 5.0.0. {@link CSS motion tokens or aura-glass/motion} */

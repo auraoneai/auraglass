@@ -3,24 +3,12 @@
 import React, { forwardRef, useRef } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { LiquidGlassScrollEdge } from "../../primitives/LiquidGlassScrollEdge";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
-const carouselButtonStyle: React.CSSProperties = {
-  width: 36,
-  height: 36,
-  padding: 0,
-  border: "1px solid rgba(255, 255, 255, 0.18)",
-  borderRadius: 999,
-  background: "rgba(255, 255, 255, 0.32)",
-  color: "var(--glass-theme-text, var(--glass-text-primary))",
-  boxShadow:
-    "0 8px 24px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.28)",
-  backdropFilter: "blur(16px) saturate(1.4) brightness(1.05) contrast(1.04)",
-  WebkitBackdropFilter:
-    "blur(16px) saturate(1.4) brightness(1.05) contrast(1.04)",
-  transform: "translateY(-50%)",
-  font: "600 24px/1 system-ui, sans-serif",
-  cursor: "pointer",
-};
+const carouselButtonStyle: React.CSSProperties = createGlassStyle({
+  intent: "neutral",
+  elevation: "level2",
+});
 
 export interface LiquidGlassCarouselRailProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -28,6 +16,7 @@ export interface LiquidGlassCarouselRailProps
   showScrollButtons?: boolean;
 }
 
+/** @deprecated LiquidGlassCarouselRail DEP-S0607 since 4.2.0, removed in 6.0.0. {@link CarouselRail from aura-glass/media} */
 export const LiquidGlassCarouselRail = forwardRef<
   HTMLDivElement,
   LiquidGlassCarouselRailProps

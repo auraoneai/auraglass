@@ -22,6 +22,8 @@ const meta: Meta<CommentsComponent> = {
 export default meta;
 type Story = StoryObj<CommentsComponent>;
 
+
+/** @deprecated GlassCollaborativeComments DEP-S0809 since 4.2.0, removed in 5.0.0. {@link the comment-thread registry item (5.1) plus an anchored-popover pin primitive} */
 export const GlassCollaborativeComments: Story = {
   render: () => (
     <div

@@ -179,6 +179,7 @@ export function createGlassLoadingMixin(): CSSProperties {
  * Utility: Generate CSS custom properties for dynamic theming
  * This creates CSS variables that can be overridden at runtime
  */
+/** @deprecated generateGlassThemeVariables DEP-M0826 since 4.2.0, removed in 5.0.0. {@link materialProps / MaterialSpec (aura-glass/material)} */
 export function generateGlassThemeVariables(
   options: {
     intent?: GlassIntent;
@@ -210,6 +211,7 @@ export function generateGlassThemeVariables(
  * Returns CSS properties optimized for different performance tiers
  * based on typical device capabilities.
  */
+/** @deprecated createResponsiveGlassStyle DEP-M0827 since 4.2.0, removed in 5.0.0. {@link materialProps / MaterialSpec (aura-glass/material)} */
 export function createResponsiveGlassStyle(
   mobile: GlassOptions,
   tablet: GlassOptions,
@@ -228,6 +230,7 @@ export function createResponsiveGlassStyle(
 /**
  * Performance helper: Detect if device supports high-quality glass
  */
+/** @deprecated canUseHighQualityGlass DEP-M0830 since 4.2.0, removed in 5.0.0. {@link materialProps / MaterialSpec (aura-glass/material)} */
 export function canUseHighQualityGlass(): boolean {
   if (typeof window === "undefined") return true;
 
@@ -262,6 +265,7 @@ export function canUseHighQualityGlass(): boolean {
 /**
  * Performance helper: Get recommended tier for current device
  */
+/** @deprecated getRecommendedTier DEP-M0831 since 4.2.0, removed in 5.0.0. {@link materialProps / MaterialSpec (aura-glass/material)} */
 export function getRecommendedTier(): QualityTier {
   if (typeof window === "undefined") return "high";
 

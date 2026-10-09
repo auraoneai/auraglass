@@ -69,6 +69,7 @@ export interface GlassVirtualListProps {
  * GlassVirtualList component
  * High-performance virtualized list that only renders visible items
  */
+/** @deprecated GlassVirtualList DEP-S0203 since 4.2.0, removed in 5.0.0. {@link Table virtualization primitives} */
 export const GlassVirtualList: React.FC<GlassVirtualListProps> = ({
   items,
   height,
@@ -254,6 +255,7 @@ export interface GlassVirtualGridProps
  * GlassVirtualGrid component
  * Virtualized grid layout for large datasets
  */
+/** @deprecated GlassVirtualGrid DEP-S0242 since 4.2.0, removed in 5.0.0. */
 export const GlassVirtualGrid: React.FC<GlassVirtualGridProps> = ({
   items,
   columns,

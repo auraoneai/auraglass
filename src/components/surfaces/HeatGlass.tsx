@@ -61,6 +61,7 @@ HeatDistortionFilters.displayName = "HeatDistortionFilters";
  * HeatGlass Component
  * Modern implementation using OptimizedGlass with heat distortion effects
  */
+/** @deprecated HeatGlass DEP-M0850 since 4.2.0, removed in 5.0.0. */
 export const HeatGlass = forwardRef<HTMLDivElement, HeatGlassProps>(
   (
     {

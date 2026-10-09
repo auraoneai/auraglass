@@ -61,6 +61,7 @@ interface AccessibilityProviderProps {
   "data-testid"?: string;
 }
 
+/** @deprecated AccessibilityProvider DEP-M0933 since 4.2.0, removed in 5.0.0. {@link AuraGlassProvider (highContrast→contrast="more", reducedTransparency→transparency="tinted", colorBlindness dropped)} */
 export function AccessibilityProvider({
   children,
   initialSettings = {},

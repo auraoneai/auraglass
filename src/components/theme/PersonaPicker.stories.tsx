@@ -38,6 +38,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+
+/** @deprecated PersonaPicker DEP-M0966 since 4.3.0, removed in 5.0.0. {@link presets + createBrandTheme (no picker ships in 5.x)} */
 export const PersonaPicker: Story = {
   name: "PersonaPicker",
   render: (args) => (
