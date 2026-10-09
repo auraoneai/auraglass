@@ -49,17 +49,36 @@
     opacity: var(--ag-state-disabled-alpha);
   }
 
-  /* indicator: transient layer, thin, concentric, inner fill at rest.
-     animates via transform+width only while [data-ag-animating] (S-13 startMorph prefers View Transitions). */
+  .ag-segmented-control {
+    position: relative;
+  }
+  /* REQ-CMP-42: transient/thin indicator, concentric to the root capsule
+     (root radius - item inset), inner fill at rest. Positioned by the
+     measured --ag-seg-* vars. */
   .ag-segmented-control [data-ag-part='indicator'] {
     position: absolute;
-    border-radius: var(--ag-radius-full);
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    border-radius: max(0px, calc(var(--ag-radius-full) - var(--ag-space-1)));
     background: var(--ag-color-specular, var(--ag-color-border));
-    opacity: 0;
+    inline-size: var(--ag-seg-w, 0px);
+    block-size: var(--ag-seg-h, 0px);
+    transform: translate3d(var(--ag-seg-x, 0px), var(--ag-seg-y, 0px), 0);
+    opacity: 1;
     pointer-events: none;
+    z-index: 0;
   }
+  /* fallback transition when startViewTransition is absent — snappy spring
+     over duration-small while animating */
   .ag-segmented-control[data-ag-animating] [data-ag-part='indicator'] {
-    will-change: transform;
-    transition: transform var(--ag-duration-small) var(--ag-ease-emphasized);
+    will-change: transform, inline-size;
+    transition:
+      transform var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-emphasized)),
+      inline-size var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-emphasized));
+  }
+  /* calm/none: jump — zero transition duration */
+  [data-ag-motion='calm'] .ag-segmented-control[data-ag-animating] [data-ag-part='indicator'],
+  [data-ag-motion='none'] .ag-segmented-control[data-ag-animating] [data-ag-part='indicator'] {
+    transition-duration: 0s;
   }
 }

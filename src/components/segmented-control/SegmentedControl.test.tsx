@@ -74,3 +74,25 @@ describe('SegmentedControl', () => {
     expect(screen.getByRole('radiogroup').getAttribute('data-ag-size')).toBe('sm');
   });
 });
+
+describe('REQ-CMP-42 indicator positioning', () => {
+  it('checked item measurement sets --ag-seg-* vars; animating flag settles', async () => {
+    const { container } = render(
+      <SegmentedControl.Root aria-label="View" name="v" defaultValue="a">
+        <SegmentedControl.Item value="a">A</SegmentedControl.Item>
+        <SegmentedControl.Item value="b">B</SegmentedControl.Item>
+      </SegmentedControl.Root>,
+    );
+    await new Promise((r) => setTimeout(r, 50));
+    const root = container.querySelector('[data-ag-part="root"]') as HTMLElement;
+    const checked = root.querySelector('[aria-checked="true"]');
+    expect(checked).not.toBeNull();
+    /* jsdom rect is 0-sized but the vars must be written */
+    expect(root.style.getPropertyValue('--ag-seg-w')).toMatch(/px/);
+    /* select B -> animating flag appears then settles */
+    const b = screen.getByRole('radio', { name: 'B' });
+    fireEvent.click(b);
+    await new Promise((r) => setTimeout(r, 80));
+    expect(root.getAttribute('data-ag-animating')).toBeNull();
+  });
+});
