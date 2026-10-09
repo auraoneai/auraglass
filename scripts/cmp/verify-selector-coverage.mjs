@@ -7,12 +7,20 @@
 
    Modes:
      --css <file.css> --dom <rendered.html>      fixture/local mode (repeatable)
-     --storybook <url>                            remote lane: drives storybook-static
+     --storybook <url|dir>                        remote lane: drives storybook-static
                                                  with playwright (remote only per
-                                                 machine policy; never run locally)
+                                                 machine policy; never run locally).
+                                                 A directory is served in-process.
+                                                 With no --css args, every css file
+                                                 under src/components is checked
+                                                 against the union of all story
+                                                 iframe DOMs.
+     --out <dir>                                  also write report.txt + summary.json
 */
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { createServer } from 'node:http';
+import { extname, join, resolve, sep } from 'node:path';
 
 const PSEUDO = /:{1,2}[a-zA-Z-]+(?:\([^)]*\))?/g;
 
@@ -96,6 +104,14 @@ export function checkPair(cssText, domText, file) {
   return misses;
 }
 
+function* walk(dir) {
+  for (const d of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, d.name);
+    if (d.isDirectory()) yield* walk(p);
+    else yield p;
+  }
+}
+
 async function main() {
   const argv = process.argv.slice(2);
   const storybook = argv.indexOf('--storybook');
@@ -109,21 +125,69 @@ async function main() {
       console.error('playwright unavailable — --storybook mode runs only in the remote lane');
       process.exit(2);
     }
-    const url = argv[storybook + 1];
+    const target = argv[storybook + 1];
+    const outIdx = argv.indexOf('--out');
+    const outDir = outIdx !== -1 ? argv[outIdx + 1] : null;
+    let server = null;
+    let url = target;
+    if (existsSync(target) && statSync(target).isDirectory()) {
+      // Serve storybook-static in-process — zero-dependency static file server.
+      const rootDir = resolve(target);
+      const MIME = {
+        '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript',
+        '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml',
+        '.png': 'image/png', '.woff2': 'font/woff2', '.map': 'application/json',
+      };
+      server = createServer((req, res) => {
+        try {
+          const p = join(rootDir, decodeURIComponent(new URL(req.url, 'http://x').pathname));
+          if (!p.startsWith(rootDir + sep)) { res.writeHead(403); res.end(); return; }
+          const file = statSync(p).isDirectory() ? join(p, 'index.html') : p;
+          res.writeHead(200, { 'content-type': MIME[extname(file)] ?? 'application/octet-stream' });
+          res.end(readFileSync(file));
+        } catch {
+          res.writeHead(404); res.end();
+        }
+      });
+      await new Promise((r) => server.listen(0, '127.0.0.1', r));
+      url = `http://127.0.0.1:${server.address().port}`;
+    }
     const browser = await chromium.launch();
     const page = await browser.newPage();
-    await page.goto(`${url.replace(/\/$/, '')}/iframe.html?id=index`);
-    const dom = await page.content();
+    // Every story iframe's DOM, unioned — coverage is "renders somewhere".
+    await page.goto(`${url.replace(/\/$/, '')}/index.json`);
+    let storyIds = [];
+    try {
+      const index = await page.evaluate(() => document.body ? JSON.parse(document.body.innerText) : null);
+      storyIds = Object.keys(index?.entries ?? index?.stories ?? {})
+        .filter((id) => (index.entries?.[id]?.type ?? 'story') === 'story');
+    } catch {
+      storyIds = ['index'];
+    }
+    let dom = '';
+    for (const id of storyIds) {
+      await page.goto(`${url.replace(/\/$/, '')}/iframe.html?id=${id}`);
+      dom += await page.content();
+    }
     await browser.close();
+    server?.close();
+    const cssArgs = [];
+    for (let i = 0; i < argv.length; i++) if (argv[i] === '--css') cssArgs.push(argv[i + 1]);
+    const cssFiles = cssArgs.length ? cssArgs : walk('src/components').filter((f) => f.endsWith('.css'));
     let failures = 0;
-    for (let i = 0; i < argv.length; i++) {
-      if (argv[i] === '--css') {
-        const css = readFileSync(argv[i + 1], 'utf8');
-        for (const m of checkPair(css, dom, argv[i + 1])) {
-          console.log(m);
-          failures++;
-        }
+    const misses = [];
+    for (const f of cssFiles) {
+      for (const m of checkPair(readFileSync(f, 'utf8'), dom, f)) {
+        misses.push(m);
+        failures++;
       }
+    }
+    for (const m of misses) console.log(m);
+    console.log(`selector-coverage: ${cssFiles.length} css files, ${storyIds.length} stories, ${failures} misses`);
+    if (outDir) {
+      mkdirSync(outDir, { recursive: true });
+      writeFileSync(join(outDir, 'report.txt'), misses.join('\n') + '\n');
+      writeFileSync(join(outDir, 'summary.json'), JSON.stringify({ cssFiles: cssFiles.length, stories: storyIds.length, misses: failures }, null, 2));
     }
     process.exit(failures ? 1 : 0);
   }
