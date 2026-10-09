@@ -4,6 +4,8 @@ Planning set for the AuraGlass 4.1.0 → 5.0 program (baseline `aura-glass` 4.1.
 
 **Execution model (since 2026-10-06):** five PRDs that all start on day 0 and run concurrently. No PRD or task waits for another; every cross-stream need is a seam of the contract. The 4.x line (`release/4.x`) and 5.0 (`next`) run in parallel. CI/CD is **GitLab CI only** (`gitlab.com/chahal-foundation-group/github-auraoneai/auraglass`); GitHub stays the git source of truth and runs no Actions except the org-managed mirror (owner decision OD-8).
 
+**Current entry point (since 2026-10-08):** remaining work runs from the [Final Completion PRD (PRD-F)](prd/AURAGLASS_5_FINAL_COMPLETION_PRD.md) and its one prompt [`prompts/PROMPT_FINAL_COMPLETION.md`](prompts/PROMPT_FINAL_COMPLETION.md) (FIN-A…FIN-H, [`tasks/FIN.json`](tasks/FIN.json)); see [master PRD §5.6](AURAGLASS_5_MASTER_PRD.md#56-prompt-index-5-prompts-one-per-prd).
+
 ## Deliverables A–L
 
 Letters follow the program brief.

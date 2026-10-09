@@ -223,6 +223,8 @@ There are exactly five prompts in [`prompts/`](prompts/), one per PRD. Give each
 
 To run the whole program: start these five prompts at once, one agent each, each in its own worktree.
 
+**Current entry point for remaining work (since 2026-10-08):** the five streams merged code but only 12 of 584 REQs are verified done and no GitLab pipeline has ever run on `next` or `release/4.x`. All remaining work is now driven by the [Final Completion PRD (PRD-F, FIN)](prd/AURAGLASS_5_FINAL_COMPLETION_PRD.md) and its single prompt [`PROMPT_FINAL_COMPLETION.md`](prompts/PROMPT_FINAL_COMPLETION.md) (work packages FIN-A…FIN-H, tasks in [`tasks/FIN.json`](tasks/FIN.json)); give that one file to one agent. The five stream prompts above remain the reference for each REQ's original text.
+
 ### 5.7 Task ledger
 
 `tasks/<KEY>.json` holds each stream's tasks (`PLAT-NNN` … `QUAL-NNN`, with `lane`, `file`, `action`, `depends_on`, `contract_seams`, `reqs`, `branch`, `gate`, `source`). `node docs/auraglass-5/tools/build-tasklist.mjs` compiles them into [`AURAGLASS_5_IMPLEMENTATION_TASKLIST.md`](AURAGLASS_5_IMPLEMENTATION_TASKLIST.md) and `.csv` and fails the build on any problem:

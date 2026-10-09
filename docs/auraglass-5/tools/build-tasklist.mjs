@@ -10,7 +10,7 @@ import { filesOf, ownersOfEntry } from './ownership-table.mjs';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const FIELDS = ['id', 'prd', 'lane', 'system', 'file', 'action', 'description', 'depends_on', 'priority', 'test', 'storybook', 'acceptance', 'status'];
 // The five PRDs run concurrently; order is presentation only.
-const ORDER = ['PLAT', 'MAT', 'CMP', 'SURF', 'QUAL'];
+const ORDER = ['PLAT', 'MAT', 'CMP', 'SURF', 'QUAL', 'FIN'];
 
 const tasks = [];
 const problems = [];
@@ -40,7 +40,7 @@ for (const t of tasks) {
       problems.push(`${t.id}: depends on a whole PRD (${d}); PRDs must not wait on each other`);
       continue;
     }
-    if (!/^(PLAT|MAT|CMP|SURF|QUAL)-\d{3}$/.test(d) || d.split('-')[0] !== t._key) problems.push(`${t.id}: depends_on ${d} is not a ${t._key}-NNN id (contract §7.2 rule 1)`);
+    if (!/^(PLAT|MAT|CMP|SURF|QUAL|FIN)-\d{3}$/.test(d) || d.split('-')[0] !== t._key) problems.push(`${t.id}: depends_on ${d} is not a ${t._key}-NNN id (contract §7.2 rule 1)`);
     if (!ids.has(d)) problems.push(`${t.id}: depends_on unknown ${d}`);
     else if (ids.get(d)._key !== t._key) problems.push(`${t.id}: cross-PRD dependency on ${d}; consume the contract seam instead`);
   }
@@ -50,18 +50,31 @@ for (const t of tasks) {
 // Ownership is per line (contract §3.1 rule 2): `next` follows the §3.2 table; on `release/4.x`
 // PLAT owns every path except other streams' fragments, CI fragments and row group H.
 const lines = (t) => (t.branch === 'both' ? ['next', '4x'] : /4\.x/.test(String(t.branch ?? '')) ? ['4x'] : ['next']);
+// FIN (final-completion PRD) supersedes the five stream ledgers for open work, so it is checked
+// separately: its work packages (lanes FIN-A..H) must own disjoint files among themselves
+// (FIN PRD §4.3 rule 1), and the stream WPs FIN-C..G may only touch their stream's §3.2 rows.
+// FIN-A (integration), FIN-B (CI) and FIN-H (human records) own explicit cross-stream file lists (FIN PRD §6).
+const FIN_WP_STREAM = { 'FIN-C': 'PLAT', 'FIN-D': 'MAT', 'FIN-E': 'CMP', 'FIN-F': 'SURF', 'FIN-G': 'QUAL' };
+// The FIN open-REQ ledger is row-scoped bookkeeping: each close-out task edits only its own rows.
+const ROW_SCOPED = new Set(['implementation-audit/fin-open-ledger.json']);
 const owner = new Map();
+const finOwner = new Map();
 for (const t of tasks) {
+  const fin = t._key === 'FIN';
+  const who = fin ? t.lane : t._key;
+  const map = fin ? finOwner : owner;
   for (const f of filesOf(t.file)) {
+    if (fin && ROW_SCOPED.has(f)) continue;
     for (const line of lines(t)) {
       const k = `${line}:${f}`;
-      if (owner.has(k) && owner.get(k) !== t._key) problems.push(`${t.id}: file ${f} also owned by ${owner.get(k)} on ${line}`);
-      else owner.set(k, t._key);
+      if (map.has(k) && map.get(k) !== who) problems.push(`${t.id}: file ${f} also owned by ${map.get(k)} on ${line}`);
+      else map.set(k, who);
     }
     // Every `next` path must belong to the task's stream in the ordered ownership table (contract §7.2 rule 3).
-    if (lines(t).includes('next')) {
-      const owners = ownersOfEntry(f).filter((o) => o !== t._key);
-      if (owners.length) problems.push(`${t.id}: file ${f} is owned by ${owners.join('/')} (contract §3.2), not ${t._key}`);
+    const stream = fin ? FIN_WP_STREAM[t.lane] : t._key;
+    if (stream && lines(t).includes('next')) {
+      const owners = ownersOfEntry(f).filter((o) => o !== stream);
+      if (owners.length) problems.push(`${t.id}: file ${f} is owned by ${owners.join('/')} (contract §3.2), not ${stream} (${who})`);
     }
   }
 }
@@ -89,7 +102,7 @@ const out = [
   '',
   `Total tasks: **${tasks.length}**. By priority: ${JSON.stringify(count('priority'))}. By action: ${JSON.stringify(count('action'))}.`,
   '',
-  problems.length ? `Validation problems: ${problems.length} (see end of file).` : 'Validation: all ids unique, all fields present, every dependency resolves inside its own stream, every path has exactly one owner stream (contract §3.2, per line).',
+  problems.length ? `Validation problems: ${problems.length} (see end of file).` : 'Validation: all ids unique, all fields present, every dependency resolves inside its own stream, every path has exactly one owner stream (contract §3.2, per line); FIN work packages own disjoint files (FIN PRD §4.3 rule 1).',
   '',
 ];
 for (const key of [...new Set(tasks.map((t) => t._key))]) {
