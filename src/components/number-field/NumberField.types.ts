@@ -20,6 +20,8 @@ export interface NumberFieldProps {
   allowWheelScrub?: boolean;
   /** Renders the label inside a ScrubArea so dragging it nudges the value. */
   scrub?: boolean;
+  /** Stepper aria-labels (REQ-CMP-77): {increase, decrease}. */
+  labels?: { increase?: string; decrease?: string };
   format?: Intl.NumberFormatOptions;
   locale?: Intl.LocalesArgument;
   label?: ReactNode;

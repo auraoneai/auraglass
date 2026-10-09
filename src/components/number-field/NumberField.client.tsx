@@ -23,6 +23,7 @@ export function NumberField({
   id,
   placeholder,
   scrub,
+  labels,
   variant,
   refraction,
   className,
@@ -72,7 +73,7 @@ export function NumberField({
           labelEl
         )}
         <Base.Group className="ag-nf-shell" data-ag-part="group">
-          <Base.Decrement data-ag-part="decrement" aria-label={CONTROL_MESSAGES.decrease}>
+          <Base.Decrement data-ag-part="decrement" aria-label={labels?.decrease ?? CONTROL_MESSAGES.decrease} tabIndex={-1}>
             <span aria-hidden="true">−</span>
           </Base.Decrement>
           <Base.Input
@@ -85,7 +86,7 @@ export function NumberField({
             ref={ref}
             aria-label={rest['aria-label'] as string | undefined}
           />
-          <Base.Increment data-ag-part="increment" aria-label={CONTROL_MESSAGES.increase}>
+          <Base.Increment data-ag-part="increment" aria-label={labels?.increase ?? CONTROL_MESSAGES.increase} tabIndex={-1}>
             <span aria-hidden="true">+</span>
           </Base.Increment>
         </Base.Group>
