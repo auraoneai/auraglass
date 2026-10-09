@@ -68,10 +68,17 @@
     box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-state-hover-specular);
   }
 
-  /* intent=danger tints text/rim/specular only; never selects material */
+  /* intent tints text/rim only; never selects material (REQ-CMP-34) */
+  .ag-button[data-ag-intent='info'],
+  .ag-button[data-ag-intent='success'],
+  .ag-button[data-ag-intent='warning'],
   .ag-button[data-ag-intent='danger'] {
-    color: var(--ag-color-danger);
+    --ag-surface-rim: currentColor;
   }
+  .ag-button[data-ag-intent='info'] { color: var(--ag-color-info); }
+  .ag-button[data-ag-intent='success'] { color: var(--ag-color-success); }
+  .ag-button[data-ag-intent='warning'] { color: var(--ag-color-warning); }
+  .ag-button[data-ag-intent='danger'] { color: var(--ag-color-danger); }
 
   /* press glow via rim opacity only — transform stays none at rest/hover/press */
   .ag-button:active,
