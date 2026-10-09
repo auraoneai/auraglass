@@ -9,7 +9,7 @@ import { CLAIMS_PATH } from './paths.mjs';
 import { render } from './render-claims.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
-const TEMPLATE = 'README.tmpl.md';
+const TEMPLATE = 'docs/README.tmpl.md';
 const OUT = 'README.md';
 
 export function main() {
