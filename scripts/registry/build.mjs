@@ -89,8 +89,8 @@ export function readItem(dir, id, relRoot) {
 
 /* The registry:base item's cssVars/css are generated from the token
    manifest: every --ag-* var the bridge references must exist there. */
-export function generateBaseTheme(manifestPath) {
-  const cssVars = { theme: {}, light: { ...BASE_CSS_VARS }, dark: { ...BASE_CSS_VARS } };
+export function generateBaseTheme(manifestPath, { tailwind4 = false } = {}) {
+  const cssVars = { theme: { radius: 'var(--ag-surface-radius)' }, light: { ...BASE_CSS_VARS }, dark: { ...BASE_CSS_VARS } };
   const missing = [];
   if (manifestPath && existsSync(manifestPath)) {
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
@@ -98,10 +98,10 @@ export function generateBaseTheme(manifestPath) {
     const required = new Set(Object.values(BASE_CSS_VARS).flatMap((v) => [...v.matchAll(/--ag-[a-z0-9-]+/g)].map((m) => m[0])));
     for (const v of required) if (!present.has(v)) missing.push(v);
   }
-  return { cssVars, css: `${BASE_CSS}\n${BASE_CSS_TAILWIND}`, missingCssVars: missing };
+  return { cssVars, css: tailwind4 ? `${BASE_CSS}\n${BASE_CSS_TAILWIND}` : BASE_CSS, missingCssVars: missing };
 }
 
-export function build({ root = ROOT_DEFAULT, sha = null, version = null, gaTag = null, manifest = null, write = true } = {}) {
+export function build({ root = ROOT_DEFAULT, sha = null, version = null, gaTag = null, manifest = null, write = true, tailwind4 = false } = {}) {
   const errors = [];
   const schemaPath = join(root, 'registry/schema/registry-item.json');
   const schema = existsSync(schemaPath) ? JSON.parse(readFileSync(schemaPath, 'utf8')) : null;
@@ -122,14 +122,14 @@ export function build({ root = ROOT_DEFAULT, sha = null, version = null, gaTag =
     }
   }
 
-  const manifestPath = manifest ?? [join(root, 'dist/tokens/manifest.json'), join(root, 'tests/contract-doubles/tokens/manifest.json')].find(existsSync) ?? null;
+  const manifestPath = manifest ?? [join(root, 'dist/tokens/manifest.json'), join(root, 'canaries/types-strict/node_modules/aura-glass/dist/tokens/manifest.json'), join(root, 'tests/contract-doubles/tokens/manifest.json')].find(existsSync) ?? null;
   const items = found.map(({ kind, item, file }) => ({ kind, item, file }));
   const report = { sha, version, ga: !!gaTag || ga, manifest: manifestPath ? relative(root, manifestPath) : null, items: [] };
   const index = { $schema: SHADCN_SCHEMA.registry, name: 'auraglass', homepage: DOCS_BASE_URL, items: [] };
   const published = [];
 
   const all = [...items];
-  const theme = generateBaseTheme(manifestPath);
+  const theme = generateBaseTheme(manifestPath, { tailwind4 });
   if (!all.some((x) => x.item.type === 'registry:base')) {
     /* The base item is manifest-generated even without authored source. */
     all.unshift({
@@ -138,8 +138,8 @@ export function build({ root = ROOT_DEFAULT, sha = null, version = null, gaTag =
       item: {
         $schema: SHADCN_SCHEMA.item, name: 'auraglass', type: 'registry:base', title: 'AuraGlass',
         description: 'AuraGlass 5.0 design system base — package dependency, layer import and shadcn variable bridge.',
-        dependencies: ['aura-glass@^5', 'clsx@^2.1.1'], registryDependencies: [],
-        files: [{ path: 'lib/auraglass.ts', type: 'registry:item', target: 'lib/auraglass.ts', content: "import { clsx } from 'clsx';\n\nexport const cn = clsx;\n" }],
+        dependencies: ['aura-glass@^5'], registryDependencies: [],
+        files: [{ path: 'lib/auraglass.ts', type: 'registry:item', target: 'lib/auraglass.ts', content: "export { cn } from 'aura-glass';\n" }],
         meta: { auraglass: { owner: 'PLAT', surface: 'base', client: false, components: [], ga: true, minVersion: '5.0.0' } },
       },
     });
@@ -148,7 +148,10 @@ export function build({ root = ROOT_DEFAULT, sha = null, version = null, gaTag =
     if (item.type === 'registry:base') {
       item.cssVars ??= theme.cssVars;
       item.css ??= theme.css;
-      if (theme.missingCssVars.length) report.base = { missingCssVars: theme.missingCssVars };
+      if (theme.missingCssVars.length) {
+        report.base = { missingCssVars: theme.missingCssVars };
+        errors.push(`${item.name}: manifest misses vars: ${theme.missingCssVars.join(', ')}`);
+      }
     }
   }
 
@@ -182,6 +185,7 @@ export function build({ root = ROOT_DEFAULT, sha = null, version = null, gaTag =
     const w = (p, s) => { mkdirSync(join(root, p, '..'), { recursive: true }); writeFileSync(join(root, p), s); };
     w(REGISTRY_INDEX, indexOut);
     w(REGISTRY_REPORT, reportOut);
+    w('.artifacts/plat/registry-report.json', reportOut);
     const pkgDir = join(root, REGISTRY_PACKAGE_DIR);
     for (const item of published) {
       w(join(REGISTRY_PUBLIC_DIR, `${item.name}.json`), emit(item));
@@ -197,7 +201,7 @@ export function build({ root = ROOT_DEFAULT, sha = null, version = null, gaTag =
 export function main(argv = process.argv.slice(2)) {
   const arg = (n) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : null; };
   const { errors, published, report } = build({
-    sha: arg('--sha'), version: arg('--version'), gaTag: arg('--ga-tag'), root: arg('--root') ?? undefined, manifest: arg('--manifest'),
+    sha: arg('--sha'), version: arg('--version'), gaTag: arg('--ga-tag'), root: arg('--root') ?? undefined, manifest: arg('--manifest'), tailwind4: argv.includes('--tailwind4'),
   });
   console.log(`registry build: ${report.items.length} discovered, ${published.length} published (${published.join(', ') || 'none'}), ${report.items.filter((i) => i.status === 'omitted').length} omitted pending certification`);
   if (errors.length) { for (const e of errors) console.error(`FAIL ${e}`); return 1; }

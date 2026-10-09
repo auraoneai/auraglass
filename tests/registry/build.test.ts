@@ -83,7 +83,34 @@ describe('registry build', () => {
     expect(base.cssVars.light['--foreground']).toContain('--ag-on-surface');
     expect(base.cssVars.dark['--border']).toBe('var(--ag-surface-rim)');
     expect(base.css).toContain('@import "aura-glass/styles.css" layer(ag);');
-    expect(base.css).toContain('@import "aura-glass/tailwind.css";');
+    expect(base.css).not.toContain('tailwind'); // tailwind import only for v4 targets
+    rmSync(root, { recursive: true });
+  });
+
+  it('adds the tailwind import only for Tailwind v4 targets', () => {
+    const root = fixture({});
+    const { index: i4 } = build({ root, sha: SHA, tailwind4: true });
+    const base4 = i4.items.find((i) => i.name === 'auraglass');
+    expect(base4.css).toContain('@import "aura-glass/tailwind.css";');
+    rmSync(root, { recursive: true });
+  });
+
+  it('theme.radius bridges to --ag-surface-radius and deps are exactly aura-glass@^5', () => {
+    const root = fixture({});
+    const { index } = build({ root, sha: SHA });
+    const base = index.items.find((i) => i.name === 'auraglass');
+    expect(base.cssVars.theme.radius).toBe('var(--ag-surface-radius)');
+    expect(base.dependencies).toEqual(['aura-glass@^5']);
+    rmSync(root, { recursive: true });
+  });
+
+  it('fails when the manifest misses a referenced --ag-* var', () => {
+    const root = fixture({});
+    mkdirSync(join(root, 'manifest'), { recursive: true });
+    writeFileSync(join(root, 'manifest/m.json'), JSON.stringify({ tokens: [] }));
+    const { errors, report } = build({ root, sha: SHA, manifest: join(root, 'manifest/m.json') });
+    expect(errors.some((e) => e.includes('manifest misses vars'))).toBe(true);
+    expect(report.base.missingCssVars.length).toBeGreaterThan(0);
     rmSync(root, { recursive: true });
   });
 

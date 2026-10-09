@@ -2,3 +2,4 @@
 export * from './root/cmp';
 export * from './root/surf';
 export * from './root/mat';
+export { cn } from './internal/cn';

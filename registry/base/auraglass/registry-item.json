@@ -3,11 +3,17 @@
   "name": "auraglass",
   "type": "registry:base",
   "title": "AuraGlass",
-  "description": "AuraGlass 5.0 design system base — package dependency, layer import and shadcn variable bridge generated from the token manifest.",
-  "dependencies": ["aura-glass@^5", "clsx@^2.1.1"],
+  "description": "AuraGlass 5.0 design system base \u2014 package dependency, layer import and shadcn variable bridge generated from the token manifest.",
+  "dependencies": [
+    "aura-glass@^5"
+  ],
   "registryDependencies": [],
   "files": [
-    { "path": "lib/auraglass.ts", "type": "registry:item", "target": "lib/auraglass.ts" }
+    {
+      "path": "lib/auraglass.ts",
+      "type": "registry:item",
+      "target": "lib/auraglass.ts"
+    }
   ],
   "meta": {
     "auraglass": {
