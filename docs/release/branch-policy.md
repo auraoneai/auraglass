@@ -43,6 +43,11 @@ Any other branch name gets no pipeline (root `workflow.rules` ends in `when: nev
   asserts this.
 - Line-neutral lane files (this lane's CI/scripts/tests/docs) land on **both**
   lines as the same commits — not as merges.
+- **`forward-port` label:** when a `release/4.x` PR touches a file that survives
+  on `next`, PLAT applies the `forward-port` GitHub label via `gh` and the
+  file's `next` owner cherry-picks the fix onto `next`. Security fixes are
+  forward-ported within **2 business days**. PLAT cherry-picks only PLAT-owned
+  `next` paths; every other file's `next` owner does the pick.
 
 ## GitHub branch protection payloads (operator, gh api)
 
