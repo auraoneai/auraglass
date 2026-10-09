@@ -1,17 +1,34 @@
-/* CMP-298 Grid — responsive columns resolve against the ag-container
-   container (480/768/1024px breakpoints). */
+/* CMP-298 + REQ-CMP-112 Grid — responsive columns resolve against Grid's own
+   container shell (.ag-grid-shell, container-type inline-size), so a Grid
+   responds with or without a Container ancestor. Vars come inline from
+   Grid.tsx: --ag-grid-cols (number case), --ag-grid-cols-{base,sm,md,lg}
+   (responsive), --ag-grid-min-item (auto-fill floor). */
 @layer ag.components {
   .ag-grid { display: grid; }
   .ag-grid[data-ag-cols] { grid-template-columns: repeat(var(--ag-grid-cols, 1), minmax(0, 1fr)); }
+  .ag-grid[data-ag-min-item] { grid-template-columns: repeat(auto-fill, minmax(var(--ag-grid-min-item, 160px), 1fr)); }
+
+  /* Responsive: nearest breakpoint ≤ shell width wins (larger queries last). */
+  .ag-grid-shell { container-type: inline-size; }
+  .ag-grid-shell > .ag-grid { grid-template-columns: repeat(var(--ag-grid-cols-base, 1), minmax(0, 1fr)); }
+  @container (min-width: 480px) {
+    .ag-grid-shell > .ag-grid { grid-template-columns: repeat(var(--ag-grid-cols-sm, var(--ag-grid-cols-base, 1)), minmax(0, 1fr)); }
+  }
+  @container (min-width: 768px) {
+    .ag-grid-shell > .ag-grid { grid-template-columns: repeat(var(--ag-grid-cols-md, var(--ag-grid-cols-sm, var(--ag-grid-cols-base, 1))), minmax(0, 1fr)); }
+  }
+  @container (min-width: 1024px) {
+    .ag-grid-shell > .ag-grid { grid-template-columns: repeat(var(--ag-grid-cols-lg, var(--ag-grid-cols-md, var(--ag-grid-cols-sm, var(--ag-grid-cols-base, 1))))), minmax(0, 1fr)); }
+  }
+
+  /* Masonry: real grid masonry where supported, CSS columns otherwise. */
   .ag-grid-masonry { display: block; }
   .ag-grid-masonry > * { break-inside: avoid; margin-block-end: var(--ag-space-2, 0.5rem); }
-  @container ag-container (min-width: 480px) {
-    .ag-grid[data-ag-cols-sm] { grid-template-columns: repeat(var(--ag-grid-cols-sm, 1), minmax(0, 1fr)); }
-  }
-  @container ag-container (min-width: 768px) {
-    .ag-grid[data-ag-cols-md] { grid-template-columns: repeat(var(--ag-grid-cols-md, 1), minmax(0, 1fr)); }
-  }
-  @container ag-container (min-width: 1024px) {
-    .ag-grid[data-ag-cols-lg] { grid-template-columns: repeat(var(--ag-grid-cols-lg, 1), minmax(0, 1fr)); }
+  @supports (grid-template-rows: masonry) {
+    .ag-grid-masonry {
+      display: grid;
+      grid-template-rows: masonry;
+      grid-template-columns: repeat(var(--ag-grid-cols, 1), minmax(0, 1fr));
+    }
   }
 }

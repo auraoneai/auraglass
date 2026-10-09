@@ -99,6 +99,9 @@ export const DEPRECATIONS: Readonly<Record<string, DeprecationRow>> = {
   "DEP-C0218": { id: "DEP-C0218", message: "'GlassModal' prop 'animation' has no 5.0 equivalent and is removed.", codemod: "dead-optical-props", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-dep-c0218" },
   "DEP-C0219": { id: "DEP-C0219", message: "'GlassModal' prop 'compact' has no 5.0 equivalent and is removed.", codemod: "dead-optical-props", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-dep-c0219" },
   "DEP-C0220": { id: "DEP-C0220", message: "GlassModal 'isContained' has no direct 5.0 prop; compose with Surface and set data-ag-transparency.", codemod: null, since: "4.2.0", removeIn: "5.0.0", doc: "#dep-dep-c0220" },
+  "DEP-C0224": { id: "DEP-C0224", message: "'GlassGrid' is renamed to 'Grid' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0224" },
+  "DEP-C0225": { id: "DEP-C0225", message: "'GlassMasonry' is absorbed by 'Grid masonry' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0225" },
+  "DEP-C0226": { id: "DEP-C0226", message: "'GlassMasonryGrid' is absorbed by 'Grid masonry' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0226" },
 };
 
 /** Every deprecation entry, all kinds and statuses (S-38). */
@@ -1469,6 +1472,54 @@ export const deprecations: readonly DeprecationEntry[] = [
     "breaking": "B6",
     "message": "GlassModal 'isContained' has no direct 5.0 prop; compose with Surface and set data-ag-transparency.",
     "doc": "#dep-dep-c0220"
+  },
+  {
+    "id": "DEP-C0224",
+    "kind": "export",
+    "status": "active",
+    "entry": ".",
+    "symbol": "GlassGrid",
+    "since": "4.3.0",
+    "removeIn": "5.0.0",
+    "replacement": "Grid",
+    "codemod": "canonical-names",
+    "automation": "full",
+    "breaking": "B5",
+    "message": "'GlassGrid' is renamed to 'Grid' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
+    "doc": "#dep-dep-c0224",
+    "compat": "GlassGrid"
+  },
+  {
+    "id": "DEP-C0225",
+    "kind": "export",
+    "status": "active",
+    "entry": ".",
+    "symbol": "GlassMasonry",
+    "since": "4.3.0",
+    "removeIn": "5.0.0",
+    "replacement": "Grid masonry",
+    "codemod": "canonical-names",
+    "automation": "full",
+    "breaking": "B5",
+    "message": "'GlassMasonry' is absorbed by 'Grid masonry' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
+    "doc": "#dep-dep-c0225",
+    "compat": "GlassMasonry"
+  },
+  {
+    "id": "DEP-C0226",
+    "kind": "export",
+    "status": "active",
+    "entry": ".",
+    "symbol": "GlassMasonryGrid",
+    "since": "4.3.0",
+    "removeIn": "5.0.0",
+    "replacement": "Grid masonry",
+    "codemod": "canonical-names",
+    "automation": "full",
+    "breaking": "B5",
+    "message": "'GlassMasonryGrid' is absorbed by 'Grid masonry' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
+    "doc": "#dep-dep-c0226",
+    "compat": "GlassMasonryGrid"
   },
   {
     "id": "DEP-S0600",

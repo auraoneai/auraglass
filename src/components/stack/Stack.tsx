@@ -5,10 +5,12 @@
 import * as React from 'react';
 import { cn } from '../../internal/index';
 
+export type SpaceTokenLike = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16' | number | (string & {});
+
 export interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
   direction?: 'row' | 'column';
-  /** Space token index (0–8) or a raw CSS length. */
-  gap?: number | string;
+  /** SpaceToken index, a number (→ var(--ag-space-N)), or a raw CSS length. */
+  gap?: SpaceTokenLike;
   align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
   justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
   wrap?: boolean;
