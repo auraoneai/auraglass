@@ -20,3 +20,6 @@ pending CMP's core stream). At that event: PLAT rows := `min(provisional,
 measured × 1.10)` and `transitiveCeiling` := measured `npm install
 --omit=dev --omit=optional --omit=peer` count of the packed tarball
 (currently 47 — recorded as the beta floor in tests/deps/transitive-count.test.mjs).
+
+transitiveCeiling: 47
+

@@ -26,12 +26,12 @@ describe('transitive dep count (PLAT-270)', () => {
       const tree = JSON.parse(ls.stdout);
       const count = (n) => n?.dependencies ? Object.values(n.dependencies).reduce((a, d) => a + count(d), Object.keys(n.dependencies).length) : 0;
       const total = count(tree);
-      /* D-26 record: first calibration row in the changelog, or the beta floor. */
-      let ceiling = 64; /* beta floor pending D-26 */
-      if (existsSync(CHANGELOG)) {
-        const m = readFileSync(CHANGELOG, 'utf8').match(/transitiveCeiling[:\s]+(\d+)/);
-        if (m) ceiling = Number(m[1]);
-      }
+      /* REQ-PLAT-71: machine-readable `transitiveCeiling: <n>` line in the
+         changelog is the only source — fail closed when absent. */
+      expect(existsSync(CHANGELOG)).toBe(true);
+      const m = readFileSync(CHANGELOG, 'utf8').match(/transitiveCeiling:\s*(\d+)/);
+      expect(m).not.toBeNull();
+      const ceiling = Number(m[1]);
       console.log(`transitive deps: ${total} (ceiling ${ceiling})`);
       expect(total).toBeLessThanOrEqual(ceiling);
     } finally { rmSync(dir, { recursive: true, force: true }); }

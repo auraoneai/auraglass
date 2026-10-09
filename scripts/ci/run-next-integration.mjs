@@ -33,6 +33,9 @@ try {
     /* 2. install against the packed tarball */
     run('npm', ['install', '--legacy-peer-deps', `../../${tarball}`], dir);
     run('npm', ['install', '--legacy-peer-deps'], dir);
+    /* REQ-PLAT-71: singleton packages must resolve to one version each and
+       no nested node_modules may appear under aura-glass. */
+    run('node', ['../../scripts/ci/single-instance-check.mjs', '.'], dir);
     /* 3. next build — hard gate: exit 0, no transpilePackages */
     run('npm', ['run', 'build'], dir);
     console.log(`plat:integration:${canary} build OK`);
