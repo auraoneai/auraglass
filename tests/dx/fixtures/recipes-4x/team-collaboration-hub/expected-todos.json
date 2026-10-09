@@ -1,0 +1,7 @@
+[
+  "icon category subpath 'aura-glass/icons/collaboration' is gone in 5.0; import the glyph by name from 'aura-glass/icons'",
+  "Chip label: children carry the label",
+  "unmapped token --glass-theme-text",
+  "unmapped token --glass-text-primary",
+  "removed in 5.0 (registry item 'presence-stack')"
+]

@@ -1,7 +1,7 @@
 {
   "name": "aura-glass",
   "version": "5.0.0-alpha.0",
-  "description": "AuraGlass 5.0 — the liquid-glass design system for React 19.",
+  "description": "AuraGlass 5.0 \u2014 the liquid-glass design system for React 19.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -92,7 +92,10 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test:tokens:exports": "node --test tests/tokens/export.spec.mjs",
     "artifact:size-budgets": "node scripts/ci/verify-size-budgets.mjs",
-    "artifact:deps": "node scripts/ci/verify-deps.mjs"
+    "artifact:deps": "node scripts/ci/verify-deps.mjs",
+    "plat:package:pack": "npm run build --workspace=@auraglass/cli && npm pack --ignore-scripts --workspace=@auraglass/cli",
+    "plat:test:cli": "npm run plat:package:pack && node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.dx.config.js tests/dx/",
+    "plat:test:dx": "playwright test --config playwright.dx.config.ts"
   },
   "dependencies": {
     "@base-ui/react": "1.8.0",
