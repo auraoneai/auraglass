@@ -9,7 +9,7 @@ import { cn } from '../../internal/index';
 export interface AccordionRootProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: string[];
   defaultValue?: string[];
-  onValueChange?: (value: string[], eventDetails: unknown) => void;
+  onValueChange?: (value: string[], eventDetails: BaseAccordion.Root.ChangeEventDetails) => void;
   /** Allow several open items (value stays an array either way). */
   multiple?: boolean;
 }
