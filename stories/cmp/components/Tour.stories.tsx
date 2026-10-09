@@ -18,4 +18,12 @@ export const Default: Story = {
     <Tour.Root defaultOpen steps={[{ target: 'body', title: 'Welcome', description: 'Step one' }]} />
   ),
 };
-
+export const StartTour: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'Tour', id: 'core-tour--start-tour' } },
+  render: () => (
+    <div>
+      <button id="tour-start" type="button">Start tour</button>
+      <Tour.Root defaultOpen steps={[{ target: '#tour-start', title: 'Welcome', description: 'This tour explains the button.' }]} />
+    </div>
+  ),
+};
