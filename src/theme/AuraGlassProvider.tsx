@@ -17,6 +17,7 @@ import { PortalRootContext } from './portal';
 import type { PortalRootState } from './portal';
 import { LayerStackContext } from './layers/useLayer';
 import { layerStackFor } from './layers/LayerStack';
+import { setDeprecationMode } from '../internal/warnDeprecated';
 import { AnnouncerRegions } from './announcer/Announcer';
 import { LensDefsSlot, useProviderMounts } from './providerMounts';
 
@@ -28,9 +29,12 @@ export const DeprecationModeContext = React.createContext<'warn' | 'silent' | un
 
 const PORTAL_ROOT_ATTR = 'data-ag-portal-root';
 
-const PortalRootMarkup = React.forwardRef<
-  HTMLDivElement, { toasts: boolean; tooltips: boolean }
->(({ toasts, tooltips }, ref) =>
+const PortalRootMarkup = (
+  { toasts, tooltips, ref }: {
+    toasts: boolean; tooltips: boolean;
+    ref: (el: HTMLDivElement | null) => void;
+  },
+) =>
   React.createElement(
     'div',
     { [PORTAL_ROOT_ATTR]: '', ref },
@@ -40,8 +44,7 @@ const PortalRootMarkup = React.forwardRef<
       'data-ag-layer-root': 'toast', role: 'region', 'aria-label': 'Notifications',
     }) : null,
     React.createElement(AnnouncerRegions),
-  ));
-PortalRootMarkup.displayName = 'PortalRootMarkup';
+  );
 
 const appInput = (p: AuraGlassProviderProps): PreferenceInput => {
   const out: PreferenceInput = { tier: p.tier ?? 'auto' };
@@ -75,6 +78,7 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
   const [portalRoot, setPortalRoot] = React.useState<HTMLElement | null>(null);
   const [adoptedRoot, setAdoptedRoot] = React.useState<HTMLElement | null>(null);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const ownRootRef = React.useRef<HTMLDivElement | null>(null);
   const doc = (typeof document === 'undefined' ? null : document);
   const layerStack = React.useMemo(() => (doc ? layerStackFor(doc) : null), [doc]);
 
@@ -84,8 +88,12 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
       const html = doc.documentElement;
       html.setAttribute('data-ag-root', '');
       store.setTarget(html);
+      /* Adopt only a root this provider did NOT render — the ref callback ran
+         in the commit before this layout effect, so ownRootRef already holds
+         the element we mounted (state may not have flushed yet). Adopting our
+         own root would flip needsOwnRoot and unmount it (MAT-53 regression). */
       const existing = doc.querySelector<HTMLElement>(`[${PORTAL_ROOT_ATTR}]`);
-      if (existing && existing !== portalRoot) setAdoptedRoot(existing);
+      if (existing && existing !== ownRootRef.current) setAdoptedRoot(existing);
       return () => {
         html.removeAttribute('data-ag-root');
         store.setTarget(null);
@@ -98,6 +106,11 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
   }, [outermost, store, doc]);
 
   const mounts = useProviderMounts();
+
+  React.useEffect(() => {
+    setDeprecationMode(deprecations ?? 'warn');
+    return () => setDeprecationMode('warn');
+  }, [deprecations]);
 
   // dev diagnostics + pointer light mounts (registered by sibling lanes)
   React.useEffect(() => {
@@ -136,7 +149,10 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
         { container },
         React.createElement(PortalRootMarkup, {
           toasts, tooltips,
-          ref: (el: HTMLDivElement | null) => setPortalRoot(el),
+          ref: (el: HTMLDivElement | null) => {
+            ownRootRef.current = el;
+            setPortalRoot(el);
+          },
         }),
       )
       : null,

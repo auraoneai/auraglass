@@ -5,6 +5,8 @@
    interface, vendored byte-verbatim from next-mat/t-tokens@7132f8d80
    ("consumed through its frozen interface, never waited for" — identical-add
    merge when that lane lands). */
+import './mounts'; // REQ-FIN-04: registers lensDefs/pointerLight/devDiagnostics/presetCss/brandCss
+
 export { AuraGlassProvider } from './AuraGlassProvider';
 export { AuraGlassScript, auraGlassPrepaintScript } from './AuraGlassScript';
 export { GlassPreferencesPanel } from './preferences-panel/GlassPreferencesPanel';
@@ -15,9 +17,8 @@ export { usePortalContainer } from './portal';
 export { useLayer } from './layers/useLayer';
 export { useAnnouncer } from './announcer/useAnnouncer';
 
-export { createGlassTheme, createGlassThemeCssVars } from './createGlassTheme';
+export { createGlassTheme } from './createGlassTheme';
 export { createBrandTheme } from './createBrandTheme';
-export { createBrandGlassTheme } from './createBrandGlassTheme';
 export { presets } from './presets';
 
 export type {

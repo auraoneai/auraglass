@@ -4,8 +4,13 @@
 export {
   AuraGlassProvider, AuraGlassScript, auraGlassPrepaintScript, GlassPreferencesPanel,
   usePreference, useResolvedPreferences, usePreferenceActions,
-  createGlassTheme, createGlassThemeCssVars, createBrandTheme, createBrandGlassTheme, presets,
+  createGlassTheme, createBrandTheme, presets,
 } from './index';
+/* MAT-22 (REQ-FIN-04): the 4.x names stay on the frozen surface but are no
+   longer routed through ./index — they live on the legacy modules until the
+   src/compat/mat move lands (FIN-D). */
+export { createGlassThemeCssVars } from './createGlassTheme';
+export { createBrandGlassTheme } from './createBrandGlassTheme';
 export type {
   AuraGlassProviderProps, AuraGlassScriptProps, GlassPreferencesPanelProps,
   PreferenceKey, PreferenceValues, ResolvedPreferences, UserSettableKey,
