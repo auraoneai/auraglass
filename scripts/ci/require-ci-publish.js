@@ -6,6 +6,7 @@
 'use strict';
 
 const ok =
+  process.env.GITHUB_ACTIONS !== 'true' &&
   process.env.GITLAB_CI === 'true' &&
   process.env.CI_PROJECT_ID === '87152036' &&
   process.env.CI_JOB_NAME === 'plat:publish:npm' &&

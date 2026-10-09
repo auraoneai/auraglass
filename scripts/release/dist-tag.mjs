@@ -9,14 +9,45 @@ import { execFileSync } from 'node:child_process';
 
 const SEMVER = /^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?$/;
 
-export function distTagFor(version, { v4DistTag = 'latest', ga5 = false } = {}) {
+export function distTagFor(version, { v4DistTag = 'latest', ga = false, rollback = false, ga5 } = {}) {
+  const gaFlag = ga || ga5;
   const m = SEMVER.exec(String(version).replace(/^v/, ''));
   if (!m) throw new Error(`dist-tag: not semver: ${version}`);
   const [, major, , , pre] = m.map((x) => x ?? null);
   if (pre) return 'next';
-  if (Number(major) === 4) return ga5 ? v4DistTag : 'latest';
+  if (Number(major) === 4) {
+    // rollback: explicitly moving latest back to 4.x after a bad 5.x (AG_ROLLBACK_LATEST_TO_4X)
+    if (rollback) return 'latest';
+    return gaFlag ? v4DistTag : 'latest';
+  }
   if (Number(major) === 5) return 'latest';
   throw new Error(`dist-tag: no rule for major ${major} (${version})`);
+}
+
+// Full semver compare (major.minor.patch, prerelease < stable of same tuple).
+export function cmpSemver(a, b) {
+  const pa = SEMVER.exec(String(a).replace(/^v/, ''));
+  const pb = SEMVER.exec(String(b).replace(/^v/, ''));
+  if (!pa || !pb) return 0;
+  for (let i = 1; i <= 3; i++) {
+    const d = Number(pa[i]) - Number(pb[i]);
+    if (d) return d < 0 ? -1 : 1;
+  }
+  if (pa[4] === pb[4]) return 0;
+  if (!pa[4]) return 1; // stable > prerelease
+  if (!pb[4]) return -1;
+  return pa[4] < pb[4] ? -1 : 1;
+}
+
+// Monotonic guard (REQ-PLAT-14): a dist-tag may never move to an older version,
+// except 'latest' -> 4.x when AG_ROLLBACK_LATEST_TO_4X=true after a bad 5.x.
+export function monotonicViolation(tag, newVersion, currentVersion, { rollbackOk = false } = {}) {
+  if (!currentVersion) return null;
+  if (cmpSemver(newVersion, currentVersion) >= 0) return null;
+  if (tag === 'latest' && (rollbackOk || process.env.AG_ROLLBACK_LATEST_TO_4X === 'true')
+      && /^4\./.test(newVersion)) return null;
+  return `dist-tag '${tag}' would move backward ${currentVersion} -> ${newVersion}` +
+    (tag === 'latest' ? ' (set AG_ROLLBACK_LATEST_TO_4X=true for a deliberate 4.x rollback)' : '');
 }
 
 // GA marker: a 5.x.y stable already on npm means v4 stables must stop moving 'latest'.
@@ -40,6 +71,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const check = arg('check');
   const v4DistTag = arg('v4-dist-tag') ?? process.env.AG_V4_DIST_TAG ?? 'latest';
   const line = arg('line') ?? process.env.AG_LINE ?? '';
+  const out = arg('out');
   const ga5 = arg('ga') === 'true' || ga5Published();
   if (check) {
     // verify registry dist-tags agree with policy for this tag
@@ -62,6 +94,23 @@ if (import.meta.url === `file://${process.argv[1]}`) {
         `dist-tag --check FAIL: ${version} expected '${expected}' (line ${line || 'n/a'}), registry shows '${actual}'`,
       );
       process.exit(1);
+    }
+    // monotonic guard across latest / v4-lts / next
+    for (const t of ['latest', v4DistTag, 'next']) {
+      const cur = map[t];
+      const isThis = t === expected;
+      const nv = isThis ? version : cur;
+      const v = monotonicViolation(t, nv, map[t]);
+      if (v && isThis) {
+        console.error(`dist-tag --check FAIL: ${v}`);
+        process.exit(1);
+      }
+    }
+    if (out) {
+      const { mkdirSync, writeFileSync } = await import('node:fs');
+      mkdirSync(out.split('/').slice(0, -1).join('/') || '.', { recursive: true });
+      writeFileSync(out, JSON.stringify({ tag: check, version, line, expected, registry: map }, null, 2) + '\n');
+      console.log(`dist-tag --check: wrote ${out}`);
     }
     console.log(`dist-tag --check OK: ${version} -> ${expected}`);
     process.exit(0);

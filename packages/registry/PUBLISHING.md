@@ -6,10 +6,10 @@ never commit them (they are git-ignored until packed).
 
 ## Release flow
 
-- **CI only.** `prepublishOnly` runs `scripts/release/require-ci-publish.js`,
-  which refuses to publish outside the release pipeline (needs `CI` +
-  `AG_RELEASE_SHA` matching the registry index sha). No `NPM_TOKEN` /
-  `NODE_AUTH_TOKEN` is stored in this repo; publishing uses OIDC provenance
+- **CI only.** `prepublishOnly` runs `scripts/ci/require-ci-publish.js`,
+  which refuses to publish outside the `plat:publish:npm` job (GitLab
+  project 87152036, release tag, OIDC `id_tokens`). No npm access-token
+  env vars are stored in this repo; publishing uses OIDC provenance
   from the release workflow (`publishConfig.provenance`).
 - **Dist tags** follow the package policy: `next` for `5.0.0-alpha.*` and
   `5.0.0-beta.*`, `rc` for `5.0.0-rc.*`, `latest` for `v5.x.y`.
