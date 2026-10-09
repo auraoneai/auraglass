@@ -62,5 +62,7 @@ module.exports = {
       },
     };
   },
-  agConfig: [],
+  agConfig: [
+    { files: ['src/components/**/*.{ts,tsx}', 'src/primitives/**/*.{ts,tsx}'], ignores: ['**/__fixtures__/**'], severity: 'error' },
+  ],
 };

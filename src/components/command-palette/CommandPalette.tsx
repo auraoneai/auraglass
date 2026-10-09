@@ -6,6 +6,7 @@
 
 import * as React from 'react';
 import { Dialog } from '../dialog';
+import { useGlobalHotkey } from '../../foundation/useGlobalHotkey';
 import { Command } from './Command';
 
 const DialogRoot = Dialog.Root as React.FC<{
@@ -47,20 +48,16 @@ export function CommandPalette({
     [open, onOpenChange],
   );
 
-  // One document listener per mounted palette; toggles on the hotkey.
-  React.useEffect(() => {
-    if (hotkey === false) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (hotkeyMatches(e, hotkey)) {
-        e.preventDefault();
-        setOpen(!isOpenRef.current);
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [hotkey, setOpen]);
   const isOpenRef = React.useRef(isOpen);
   isOpenRef.current = isOpen;
+  // One hotkey listener per mounted palette, via the foundation seam (global
+  // keydown listeners are banned in component scope — REQ-CMP-12).
+  useGlobalHotkey((e) => {
+    if (hotkeyMatches(e, hotkey)) {
+      e.preventDefault();
+      setOpen(!isOpenRef.current);
+    }
+  }, hotkey !== false);
 
   return (
     <DialogRoot open={isOpen} onOpenChange={setOpen}>

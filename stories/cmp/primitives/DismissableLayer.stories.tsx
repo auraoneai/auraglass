@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { DismissableLayer } from '../../../src/primitives/DismissableLayer';
+import { Dialog } from '../../../src/components/dialog';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const meta = {
@@ -75,6 +76,39 @@ export const Stacked: Story = {
             ) : null}
           </DismissableLayer>
         ) : null}
+      </div>
+    );
+  },
+};
+
+/* REQ-CMP-12: mixed stack — a BU-backed Dialog with a DismissableLayer pushed
+   above it. Escape routes through the LayerStack's single dispatcher: the
+   first closes only the primitive layer, the second closes the dialog. */
+export const MixedDialog: Story = {
+  parameters: { ag: { subject: 'DismissableLayer', id: 'foundation-dismissable-layer--mixed-dialog' } },
+  render: function MixedDialogScene() {
+    const [dialogOpen, setDialogOpen] = React.useState(false);
+    const [layerOpen, setLayerOpen] = React.useState(false);
+    return (
+      <div>
+        <button type="button" onClick={() => setDialogOpen(true)}>Open dialog</button>
+        <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
+          <Dialog.Portal>
+            <Dialog.Popup aria-label="mixed dialog" style={{ padding: 16 }}>
+              <button type="button" onClick={() => setLayerOpen(true)}>Open layer</button>
+              {layerOpen ? (
+                <DismissableLayer
+                  data-ag-part="layer"
+                  aria-label="mixed layer"
+                  onDismiss={() => setLayerOpen(false)}
+                  style={{ padding: 12, border: '1px dashed', marginTop: 8 }}
+                >
+                  <div>Primitive layer</div>
+                </DismissableLayer>
+              ) : null}
+            </Dialog.Popup>
+          </Dialog.Portal>
+        </Dialog.Root>
       </div>
     );
   },

@@ -14,6 +14,11 @@ export interface LayerItem extends LayerEntry {
   restoreFocusTo?: Element | false | null;
   /** false = inert only, no scroll lock (non-blocking modal surfaces). */
   lockScroll?: boolean;
+  /** REQ-CMP-12: outside-interaction dismissal — the stack's single capture
+     listener calls this only on the top open entry whose element does not
+     contain the event target. Layers never attach document listeners. */
+  onPointerDownOutside?: (event: Event) => void;
+  onFocusOutside?: (event: FocusEvent) => void;
 }
 
 export interface LayerStack {
@@ -105,15 +110,45 @@ export const createLayerStack = (doc: Document): LayerStack => {
     releaseModalEffects();
   };
 
+  /* REQ-CMP-12: every dispatch targets the topmost OPEN entry — a closed but
+     still-mounted entry (keepMounted popups) must not eat the keypress. */
+  const topOpen = (): LayerItem | undefined => {
+    for (let i = items.length - 1; i >= 0; i -= 1) {
+      if (items[i]!.open) return items[i];
+    }
+    return undefined;
+  };
+
   const onKeydown = (e: KeyboardEvent): void => {
     const isEscape = e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27;
     if (!isEscape || e.isComposing || e.keyCode === 229) return;
-    const top = items[items.length - 1];
-    if (!top || !top.open) return;
+    const top = topOpen();
+    if (!top) return;
     top.onEscape?.();
     e.stopPropagation();
   };
   doc.addEventListener('keydown', onKeydown);
+
+  // ---- outside-interaction dispatcher (top open entry only, REQ-CMP-12) ----
+  const outsideContains = (item: LayerItem, target: Node | null): boolean => {
+    if (!target) return false;
+    const el = item.element;
+    return el != null && el.contains(target);
+  };
+  const onPointerDown = (e: Event): void => {
+    const top = topOpen();
+    if (!top || !top.onPointerDownOutside) return;
+    if (outsideContains(top, e.target as Node | null)) return;
+    top.onPointerDownOutside(e);
+  };
+  const onFocusIn = (e: FocusEvent): void => {
+    const top = topOpen();
+    if (!top || !top.onFocusOutside) return;
+    if (outsideContains(top, e.target as Node | null)) return;
+    top.onFocusOutside(e);
+  };
+  doc.addEventListener('pointerdown', onPointerDown, true);
+  doc.addEventListener('focusin', onFocusIn, true);
 
   return {
     push(entry) {
@@ -157,13 +192,21 @@ export const createLayerStack = (doc: Document): LayerStack => {
     },
     top: () => items[items.length - 1],
     depth: (id) => items.findIndex((it) => it.id === id),
-    isTop: (id) => items.length > 0 && items[items.length - 1]!.id === id,
+    // isTop means "topmost OPEN entry" — closed keep-mounted entries below the
+    // tail must not shadow a live layer (the keydown/outside dispatchers use
+    // the same definition).
+    isTop: (id) => {
+      const top = topOpen();
+      return top !== undefined && top.id === id;
+    },
     subscribe(listener) {
       listeners.add(listener);
       return () => listeners.delete(listener);
     },
     dispose() {
       doc.removeEventListener('keydown', onKeydown);
+      doc.removeEventListener('pointerdown', onPointerDown, true);
+      doc.removeEventListener('focusin', onFocusIn, true);
       for (const item of items) {
         if (item.open && item.modal && item.lockScroll !== false) unlockScroll();
       }

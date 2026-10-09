@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Combobox as Base } from '@base-ui/react/combobox';
 import { materialProps } from '../../material';
 import { usePortalContainer } from '../../foundation/portal';
+import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useAnnouncer } from '../../theme';
 import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
@@ -49,6 +50,9 @@ interface ComboboxInternal {
 }
 
 const InternalCtx = React.createContext<ComboboxInternal | null>(null);
+/* REQ-CMP-12: the popup registers with the LayerStack through
+   useOverlayLayer — the positioner element is published here for the entry. */
+const ComboboxLayerContext = React.createContext<{ setPopupElement: (el: HTMLElement | null) => void }>({ setPopupElement: () => {} });
 const useInternal = () => {
   const c = React.useContext(InternalCtx);
   if (!c) throw new Error('aura-glass Combobox.* must be used inside <Combobox.Root>');
@@ -128,6 +132,19 @@ function ComboboxRoot<Value = string>({
 
   const loading = loadingProp === true || asyncLoading;
   const effectiveItems = (asyncItems ?? items) as Value[] | undefined;
+
+  const restRec = rest as Record<string, unknown>;
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const effectiveOpen = restRec.open !== undefined ? restRec.open === true : internalOpen;
+  const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
+  const { emit } = useOverlayLayer({
+    kind: 'combobox',
+    modal: false,
+    open: effectiveOpen,
+    onOpenChange,
+    element: popupElement,
+  });
+  const layerCtx = React.useMemo(() => ({ setPopupElement }), []);
 
   /* Announce loading at most once per ANNOUNCE_MIN_MS (polite). */
   React.useEffect(() => {
@@ -248,6 +265,7 @@ function ComboboxRoot<Value = string>({
 
   return (
     <InternalCtx.Provider value={internal}>
+      <ComboboxLayerContext.Provider value={layerCtx}>
       <Base.Root
         {...(rest as Record<string, unknown>)}
         {...(effectiveItems !== undefined ? { items: effectiveItems } : {})}
@@ -257,11 +275,15 @@ function ComboboxRoot<Value = string>({
         autoHighlight={rest.autoHighlight ?? true}
         onValueChange={handleValueChange}
         onInputValueChange={handleInputValueChange}
-        onOpenChange={(o, d) => onOpenChange?.(o, toChangeDetails(d))}
+        onOpenChange={(o, d) => {
+          setInternalOpen(o);
+          emit(o, { event: d?.event, reason: d?.reason });
+        }}
         {...(loadError ? { 'data-load-error': '' } : {})}
       >
         {children}
       </Base.Root>
+      </ComboboxLayerContext.Provider>
     </InternalCtx.Provider>
   );
 }
@@ -307,6 +329,7 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
 
 function ComboboxContent({ children, className }: ComboboxContentProps) {
   const container = usePortalContainer('overlay');
+  const { setPopupElement } = React.useContext(ComboboxLayerContext);
   const { size, loading, query, creatable, onCreate, hasExactMatch, messages, items, virtual } = useInternal();
   const trimmed = query.trim();
   const offerCreate =
@@ -319,6 +342,7 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
     <Base.Portal container={container}>
       <Base.Positioner
         data-ag-part="positioner"
+        ref={setPopupElement}
         side="bottom"
         align="start"
         sideOffset={6}

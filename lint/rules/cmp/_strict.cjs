@@ -32,6 +32,9 @@ module.exports = {
     'require-data-ag-part': CONTROLS,
     'no-forward-ref': [...CONTROLS, ...OVERLAYS],
     'require-data-ag-part': [...CONTROLS, ...OVERLAYS],
-    'no-overlay-global-listeners': OVERLAYS,
+    'no-overlay-global-listeners': [
+      'src/components/**/*.{ts,tsx}',
+      'src/primitives/**/*.{ts,tsx}',
+    ],
   },
 };
