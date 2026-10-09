@@ -147,6 +147,7 @@ Chart.register(
  * An advanced glass-styled chart component with physics-based interactions,
  * smooth animations, and rich customization options. Enhanced with consciousness interface features.
  */
+/** @deprecated ModularGlassDataChart DEP-S0227 since 4.2.0, removed in 5.0.0. */
 export const ModularGlassDataChart = React.forwardRef<
   GlassDataChartRef,
   GlassDataChartProps & {

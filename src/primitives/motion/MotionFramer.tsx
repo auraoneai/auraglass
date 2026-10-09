@@ -212,6 +212,7 @@ function getVariants(preset: AnimationPreset): Variants {
   }
 }
 
+/** @deprecated MotionFramer DEP-M0857 since 4.2.0, removed in 5.0.0. {@link CSS motion tokens, startMorph or aura-glass/motion} */
 export const MotionFramer = forwardRef<HTMLDivElement, MotionProps>(
   (
     {

@@ -24,6 +24,7 @@ export interface LiquidGlassCommandSurfaceProps
   placeholder?: string;
 }
 
+/** @deprecated LiquidGlassCommandSurface DEP-S0023 since 4.2.0, removed in 5.0.0. {@link CommandPalette from aura-glass} */
 export const LiquidGlassCommandSurface = forwardRef<
   HTMLDivElement,
   LiquidGlassCommandSurfaceProps
@@ -137,7 +138,10 @@ export const LiquidGlassCommandSurface = forwardRef<
                   {item.description && (
                     <span
                       className="glass-block glass-truncate glass-text-xs glass-text-secondary"
-                      style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}
+                      style={{
+                        color:
+                          "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+                      }}
                     >
                       {item.description}
                     </span>
@@ -146,7 +150,10 @@ export const LiquidGlassCommandSurface = forwardRef<
                 {item.shortcut && (
                   <span
                     className="glass-shrink-0 glass-text-xs glass-text-secondary"
-                    style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}
+                    style={{
+                      color:
+                        "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+                    }}
                   >
                     {item.shortcut}
                   </span>

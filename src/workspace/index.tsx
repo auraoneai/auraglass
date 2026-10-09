@@ -88,6 +88,7 @@ export interface GlassWorkspaceTabsProps extends DivProps {
   onValueChange?: (value: string) => void;
 }
 
+/** @deprecated GlassWorkspaceTabs DEP-S0014 since 4.2.0, removed in 5.0.0. {@link Tabs from aura-glass} */
 export const GlassWorkspaceTabs = React.forwardRef<
   HTMLDivElement,
   GlassWorkspaceTabsProps

@@ -43,6 +43,7 @@ import { cn } from "../../lib/utilsComprehensive";
 /**
  * GlassTabBar Component
  */
+/** @deprecated GlassTabBar DEP-S0013 since 4.2.0, removed in 5.0.0. {@link TabBar from aura-glass} */
 export const GlassTabBar = forwardRef<
   TabBarRef,
   GlassTabBarProps & AnimationProps

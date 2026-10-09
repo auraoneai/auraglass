@@ -1,6 +1,6 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { isBrowser, safeMatchMedia } from '../utils/env';
+"use client";
+import { useEffect, useState } from "react";
+import { isBrowser, safeMatchMedia } from "../utils/env";
 
 /**
  * Enhanced hook for detecting user's reduced motion preference.
@@ -29,16 +29,17 @@ import { isBrowser, safeMatchMedia } from '../utils/env';
  *
  * @see {@link useReducedMotion} for a simpler version
  */
+/** @deprecated useEnhancedReducedMotion DEP-M0897 since 4.2.0, removed in 5.0.0. {@link usePreference(\} */
 export function useEnhancedReducedMotion(): boolean {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
     // SSR-safe initialization with conservative default
-    return safeMatchMedia('(prefers-reduced-motion: reduce)')?.matches ?? true;
+    return safeMatchMedia("(prefers-reduced-motion: reduce)")?.matches ?? true;
   });
 
   useEffect(() => {
     if (!isBrowser()) return;
 
-    const mediaQuery = safeMatchMedia('(prefers-reduced-motion: reduce)');
+    const mediaQuery = safeMatchMedia("(prefers-reduced-motion: reduce)");
     if (!mediaQuery) return;
 
     setPrefersReducedMotion(mediaQuery.matches);
@@ -47,12 +48,12 @@ export function useEnhancedReducedMotion(): boolean {
       setPrefersReducedMotion(event.matches);
     };
 
-    if (typeof mediaQuery.addEventListener === 'function') {
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", handleChange);
+      return () => mediaQuery.removeEventListener("change", handleChange);
     }
 
-    if (typeof (mediaQuery as any).addListener === 'function') {
+    if (typeof (mediaQuery as any).addListener === "function") {
       (mediaQuery as any).addListener(handleChange);
       return () => (mediaQuery as any).removeListener(handleChange);
     }

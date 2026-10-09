@@ -1335,4 +1335,4 @@ export const GlassBiometricAdaptation: React.FC<
   </GlassBiometricAdaptationProvider>
 );
 
-export default GlassBiometricAdaptation;
+export default GlassBiometricAdaptation; /** @deprecated respectMotionPreference DEP-M0901 since 4.2.0, removed in 5.0.0. {@link the OS motion floor (not overridable in 5.x)} */

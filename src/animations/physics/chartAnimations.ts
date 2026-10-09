@@ -1,10 +1,14 @@
-import React from 'react';
-import { ChartDataPoint, ChartSeries, ChartAnimation } from '../../components/charts/types';
-import { InterpolationUtils, interpolate } from './interpolation';
+import React from "react";
+import {
+  ChartDataPoint,
+  ChartSeries,
+  ChartAnimation,
+} from "../../components/charts/types";
+import { InterpolationUtils, interpolate } from "./interpolation";
 
 export interface ChartAnimationConfig extends ChartAnimation {
   stagger?: number;
-  direction?: 'up' | 'down' | 'left' | 'right' | 'center';
+  direction?: "up" | "down" | "left" | "right" | "center";
   easing?: keyof typeof easingFunctions;
   delay?: number;
 }
@@ -24,10 +28,12 @@ const easingFunctions = {
   easeInOutQuad: (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
   easeInCubic: (t: number) => t * t * t,
   easeOutCubic: (t: number) => --t * t * t + 1,
-  easeInOutCubic: (t: number) => (t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1),
+  easeInOutCubic: (t: number) =>
+    t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
   easeInQuart: (t: number) => t * t * t * t,
   easeOutQuart: (t: number) => 1 - --t * t * t * t,
-  easeInOutQuart: (t: number) => (t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t),
+  easeInOutQuart: (t: number) =>
+    t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t,
   easeInSine: (t: number) => 1 - Math.cos((t * Math.PI) / 2),
   easeOutSine: (t: number) => Math.sin((t * Math.PI) / 2),
   easeInOutSine: (t: number) => -(Math.cos(Math.PI * t) - 1) / 2,
@@ -62,11 +68,12 @@ const easingFunctions = {
     return t === 0
       ? 0
       : t === 1
-      ? 1
-      : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+        ? 1
+        : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
   },
 };
 
+/** @deprecated ChartAnimationUtils DEP-M0891 since 4.2.0, removed in 5.0.0. {@link the 5.x motion tokens} */
 export class ChartAnimationUtils {
   /**
    * Animate chart data points with various effects
@@ -80,8 +87,8 @@ export class ChartAnimationUtils {
     const {
       duration = 1000,
       stagger = 0,
-      direction = 'up',
-      easing = 'easeOutQuad',
+      direction = "up",
+      easing = "easeOutQuad",
       delay = 0,
     } = config;
 
@@ -97,7 +104,10 @@ export class ChartAnimationUtils {
       // Apply direction-based animation
       dataPoints.forEach((point, index) => {
         const staggerDelay = index * stagger;
-        const pointProgress = Math.max(0, Math.min(1, (elapsed - staggerDelay) / duration));
+        const pointProgress = Math.max(
+          0,
+          Math.min(1, (elapsed - staggerDelay) / duration)
+        );
         const easedPointProgress = easeFn(pointProgress);
 
         const animatedPoint = this.applyDirectionalAnimation(
@@ -139,14 +149,17 @@ export class ChartAnimationUtils {
     const {
       duration = 1000,
       stagger = 100,
-      direction = 'up',
-      easing = 'easeOutQuad',
+      direction = "up",
+      easing = "easeOutQuad",
       delay = 0,
     } = config;
 
     const startTime = Date.now() + delay;
     const easeFn = easingFunctions?.[easing];
-    const animatedSeries = series.map((s: any) => ({ ...s, data: [...s.data] }));
+    const animatedSeries = series.map((s: any) => ({
+      ...s,
+      data: [...s.data],
+    }));
 
     const animate = () => {
       const elapsed = Date.now() - startTime;
@@ -155,7 +168,10 @@ export class ChartAnimationUtils {
 
       series.forEach((seriesItem, seriesIndex) => {
         const seriesDelay = seriesIndex * stagger;
-        const seriesProgress = Math.max(0, Math.min(1, (elapsed - seriesDelay) / duration));
+        const seriesProgress = Math.max(
+          0,
+          Math.min(1, (elapsed - seriesDelay) / duration)
+        );
         const easedSeriesProgress = easeFn(seriesProgress);
 
         seriesItem.data?.forEach((point, pointIndex) => {
@@ -197,15 +213,14 @@ export class ChartAnimationUtils {
     onUpdate?: (series: ChartSeries[], progress: number) => void,
     onComplete?: (series: ChartSeries[]) => void
   ): () => void {
-    const {
-      duration = 1000,
-      easing = 'easeInOutQuad',
-      delay = 0,
-    } = config;
+    const { duration = 1000, easing = "easeInOutQuad", delay = 0 } = config;
 
     const startTime = Date.now() + delay;
     const easeFn = easingFunctions?.[easing];
-    const morphedSeries = toSeries.map((s: any) => ({ ...s, data: [...s.data] }));
+    const morphedSeries = toSeries.map((s: any) => ({
+      ...s,
+      data: [...s.data],
+    }));
 
     const animate = () => {
       const elapsed = Date.now() - startTime;
@@ -222,8 +237,16 @@ export class ChartAnimationUtils {
 
           const morphedPoint = {
             ...toPoint,
-            x: InterpolationUtils.lerp(fromPoint.x as number, toPoint.x as number, progress),
-            y: InterpolationUtils.lerp(fromPoint.y as number, toPoint.y as number, progress),
+            x: InterpolationUtils.lerp(
+              fromPoint.x as number,
+              toPoint.x as number,
+              progress
+            ),
+            y: InterpolationUtils.lerp(
+              fromPoint.y as number,
+              toPoint.y as number,
+              progress
+            ),
           };
 
           if (morphedSeries[seriesIndex].data) {
@@ -253,7 +276,7 @@ export class ChartAnimationUtils {
    */
   static createEntranceAnimation(
     series: ChartSeries[],
-    effect: 'fadeIn' | 'slideIn' | 'scaleIn' | 'bounceIn' | 'elasticIn',
+    effect: "fadeIn" | "slideIn" | "scaleIn" | "bounceIn" | "elasticIn",
     config: ChartAnimationConfig,
     onUpdate?: (series: ChartSeries[], progress: number) => void,
     onComplete?: (series: ChartSeries[]) => void
@@ -261,7 +284,7 @@ export class ChartAnimationUtils {
     const {
       duration = 1000,
       stagger = 100,
-      direction = 'up',
+      direction = "up",
       delay = 0,
     } = config;
 
@@ -274,7 +297,10 @@ export class ChartAnimationUtils {
     };
 
     const effectConfig = effects?.[effect];
-    const animatedSeries = series.map((s: any) => ({ ...s, data: [...s.data] }));
+    const animatedSeries = series.map((s: any) => ({
+      ...s,
+      data: [...s.data],
+    }));
 
     return this.animateSeries(
       series,
@@ -306,7 +332,7 @@ export class ChartAnimationUtils {
    */
   static createExitAnimation(
     series: ChartSeries[],
-    effect: 'fadeOut' | 'slideOut' | 'scaleOut' | 'bounceOut',
+    effect: "fadeOut" | "slideOut" | "scaleOut" | "bounceOut",
     config: ChartAnimationConfig,
     onUpdate?: (series: ChartSeries[], progress: number) => void,
     onComplete?: (series: ChartSeries[]) => void
@@ -314,7 +340,7 @@ export class ChartAnimationUtils {
     const {
       duration = 500,
       stagger = 50,
-      direction = 'down',
+      direction = "down",
       delay = 0,
     } = config;
 
@@ -326,7 +352,10 @@ export class ChartAnimationUtils {
     };
 
     const effectConfig = effects?.[effect];
-    const animatedSeries = series.map((s: any) => ({ ...s, data: [...s.data] }));
+    const animatedSeries = series.map((s: any) => ({
+      ...s,
+      data: [...s.data],
+    }));
 
     return this.animateSeries(
       series,
@@ -369,15 +398,15 @@ export class ChartAnimationUtils {
 
   private static getDirectionalTransform(direction: string, distance: number) {
     switch (direction) {
-      case 'up':
+      case "up":
         return { y: distance * 50 };
-      case 'down':
+      case "down":
         return { y: -distance * 50 };
-      case 'left':
+      case "left":
         return { x: distance * 50 };
-      case 'right':
+      case "right":
         return { x: -distance * 50 };
-      case 'center':
+      case "center":
         return { scale: distance };
       default:
         return { y: distance * 50 };
@@ -409,7 +438,11 @@ export class ChartAnimationUtils {
     }
 
     if (transform.rotation !== undefined) {
-      result.rotation = InterpolationUtils.lerp(transform.rotation, 0, progress);
+      result.rotation = InterpolationUtils.lerp(
+        transform.rotation,
+        0,
+        progress
+      );
     }
 
     return result;
@@ -439,9 +472,10 @@ export class ChartAnimationUtils {
         if (!fromSeriesItem) return;
 
         const seriesDelay = seriesIndex * stagger;
-        const seriesProgress = Math.max(0, Math.min(1,
-          (elapsed - seriesDelay) / duration
-        ));
+        const seriesProgress = Math.max(
+          0,
+          Math.min(1, (elapsed - seriesDelay) / duration)
+        );
         const easedSeriesProgress = easeFn(seriesProgress);
 
         toSeriesItem.data?.forEach((toPoint, pointIndex) => {
@@ -451,8 +485,16 @@ export class ChartAnimationUtils {
           if (animatedSeries[seriesIndex].data) {
             animatedSeries[seriesIndex].data[pointIndex] = {
               ...toPoint,
-              x: InterpolationUtils.lerp(fromPoint.x as number, toPoint.x as number, easedSeriesProgress),
-              y: InterpolationUtils.lerp(fromPoint.y as number, toPoint.y as number, easedSeriesProgress),
+              x: InterpolationUtils.lerp(
+                fromPoint.x as number,
+                toPoint.x as number,
+                easedSeriesProgress
+              ),
+              y: InterpolationUtils.lerp(
+                fromPoint.y as number,
+                toPoint.y as number,
+                easedSeriesProgress
+              ),
             };
           }
         });
@@ -474,73 +516,123 @@ export class ChartAnimationUtils {
 }
 
 // Predefined animation presets
+/** @deprecated chartAnimationPresets DEP-M0893 since 4.2.0, removed in 5.0.0. {@link the 5.x motion tokens} */
 export const chartAnimationPresets = {
   gentleFadeIn: {
     duration: 800,
-    easing: 'easeOutQuad' as const,
+    easing: "easeOutQuad" as const,
     stagger: 50,
-    direction: 'up' as const,
+    direction: "up" as const,
   },
 
   dramaticEntrance: {
     duration: 1200,
-    easing: 'easeOutBack' as const,
+    easing: "easeOutBack" as const,
     stagger: 100,
-    direction: 'center' as const,
+    direction: "center" as const,
   },
 
   smoothSlideIn: {
     duration: 600,
-    easing: 'easeOutCubic' as const,
+    easing: "easeOutCubic" as const,
     stagger: 75,
-    direction: 'left' as const,
+    direction: "left" as const,
   },
 
   bouncyScale: {
     duration: 1000,
-    easing: 'easeOutElastic' as const,
+    easing: "easeOutElastic" as const,
     stagger: 150,
-    direction: 'center' as const,
+    direction: "center" as const,
   },
 
   subtleMorph: {
     duration: 500,
-    easing: 'easeInOutQuad' as const,
+    easing: "easeInOutQuad" as const,
     stagger: 0,
-    direction: 'up' as const,
+    direction: "up" as const,
   },
 };
 
 // Utility functions for common chart animations
+/** @deprecated animateChart DEP-M0892 since 4.2.0, removed in 5.0.0. {@link the 5.x motion tokens} */
 export const animateChart = {
   fadeIn: (
     series: ChartSeries[],
     config?: Partial<ChartAnimationConfig>,
-    callbacks?: { onUpdate?: (series: ChartSeries[], progress: number) => void; onComplete?: (series: ChartSeries[]) => void }
-  ) => ChartAnimationUtils.createEntranceAnimation(series, 'fadeIn', { ...chartAnimationPresets.gentleFadeIn, ...config }, callbacks?.onUpdate, callbacks?.onComplete),
+    callbacks?: {
+      onUpdate?: (series: ChartSeries[], progress: number) => void;
+      onComplete?: (series: ChartSeries[]) => void;
+    }
+  ) =>
+    ChartAnimationUtils.createEntranceAnimation(
+      series,
+      "fadeIn",
+      { ...chartAnimationPresets.gentleFadeIn, ...config },
+      callbacks?.onUpdate,
+      callbacks?.onComplete
+    ),
 
   slideIn: (
     series: ChartSeries[],
-    direction: 'up' | 'down' | 'left' | 'right' = 'up',
+    direction: "up" | "down" | "left" | "right" = "up",
     config?: Partial<ChartAnimationConfig>,
-    callbacks?: { onUpdate?: (series: ChartSeries[], progress: number) => void; onComplete?: (series: ChartSeries[]) => void }
-  ) => ChartAnimationUtils.createEntranceAnimation(series, 'slideIn', { ...chartAnimationPresets.smoothSlideIn, direction, ...config }, callbacks?.onUpdate, callbacks?.onComplete),
+    callbacks?: {
+      onUpdate?: (series: ChartSeries[], progress: number) => void;
+      onComplete?: (series: ChartSeries[]) => void;
+    }
+  ) =>
+    ChartAnimationUtils.createEntranceAnimation(
+      series,
+      "slideIn",
+      { ...chartAnimationPresets.smoothSlideIn, direction, ...config },
+      callbacks?.onUpdate,
+      callbacks?.onComplete
+    ),
 
   scaleIn: (
     series: ChartSeries[],
     config?: Partial<ChartAnimationConfig>,
-    callbacks?: { onUpdate?: (series: ChartSeries[], progress: number) => void; onComplete?: (series: ChartSeries[]) => void }
-  ) => ChartAnimationUtils.createEntranceAnimation(series, 'scaleIn', { ...chartAnimationPresets.bouncyScale, ...config }, callbacks?.onUpdate, callbacks?.onComplete),
+    callbacks?: {
+      onUpdate?: (series: ChartSeries[], progress: number) => void;
+      onComplete?: (series: ChartSeries[]) => void;
+    }
+  ) =>
+    ChartAnimationUtils.createEntranceAnimation(
+      series,
+      "scaleIn",
+      { ...chartAnimationPresets.bouncyScale, ...config },
+      callbacks?.onUpdate,
+      callbacks?.onComplete
+    ),
 
   morph: (
     from: ChartSeries[],
     to: ChartSeries[],
     config?: Partial<ChartAnimationConfig>,
-    callbacks?: { onUpdate?: (series: ChartSeries[], progress: number) => void; onComplete?: (series: ChartSeries[]) => void }
-  ) => ChartAnimationUtils.createMorphingAnimation(from, to, { ...chartAnimationPresets.subtleMorph, ...config }, callbacks?.onUpdate, callbacks?.onComplete),
+    callbacks?: {
+      onUpdate?: (series: ChartSeries[], progress: number) => void;
+      onComplete?: (series: ChartSeries[]) => void;
+    }
+  ) =>
+    ChartAnimationUtils.createMorphingAnimation(
+      from,
+      to,
+      { ...chartAnimationPresets.subtleMorph, ...config },
+      callbacks?.onUpdate,
+      callbacks?.onComplete
+    ),
 
   transition: (
     transition: ChartTransition,
-    callbacks?: { onUpdate?: (series: ChartSeries[], progress: number) => void; onComplete?: (series: ChartSeries[]) => void }
-  ) => ChartAnimationUtils.createChartTransition(transition, callbacks?.onUpdate, callbacks?.onComplete),
+    callbacks?: {
+      onUpdate?: (series: ChartSeries[], progress: number) => void;
+      onComplete?: (series: ChartSeries[]) => void;
+    }
+  ) =>
+    ChartAnimationUtils.createChartTransition(
+      transition,
+      callbacks?.onUpdate,
+      callbacks?.onComplete
+    ),
 };

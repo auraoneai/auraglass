@@ -87,6 +87,7 @@ export interface GlassKPICardProps {
  * GlassKPICard component
  * A glassmorphism KPI card for displaying key performance indicators
  */
+/** @deprecated GlassKPICard DEP-S0211 since 4.2.0, removed in 5.0.0. {@link StatCard from aura-glass/data} */
 export const GlassKPICard: React.FC<GlassKPICardProps> = ({
   title = "KPI",
   value = "--",

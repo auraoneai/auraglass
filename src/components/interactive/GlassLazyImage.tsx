@@ -109,6 +109,7 @@ export interface GlassLazyImageProps {
  * GlassLazyImage component
  * Lazy loading image with blur placeholder and performance optimizations
  */
+/** @deprecated GlassLazyImage DEP-S0617 since 4.2.0, removed in 5.0.0. {@link native img loading="lazy"} */
 export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
   src,
   placeholder,

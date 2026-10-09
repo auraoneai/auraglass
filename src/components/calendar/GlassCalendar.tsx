@@ -107,6 +107,7 @@ export interface GlassCalendarProps {
  * GlassCalendar component
  * A full-featured calendar with glassmorphism styling and event support
  */
+/** @deprecated GlassCalendar DEP-S0224 since 4.2.0, removed in 5.0.0. {@link Calendar from aura-glass/date} */
 export const GlassCalendar: React.FC<GlassCalendarProps> = ({
   selectedDate,
   onDateSelect,
@@ -477,7 +478,10 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
                         ? "glass-text-primary/60"
                         : "glass-text-primary/80"
                     )}
-                    style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+                    style={{
+                      color:
+                        "var(--glass-theme-text, var(--glass-text-primary))",
+                    }}
                   >
                     <span aria-hidden={compact ? "true" : undefined}>
                       {compact ? day.slice(0, 1) : day}
@@ -490,10 +494,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
 
           {/* Calendar days */}
           <div
-            className={cn(
-              "glass-grid",
-              "glass-gap-2"
-            )}
+            className={cn("glass-grid", "glass-gap-2")}
             style={{
               gridTemplateColumns: `repeat(${showWeekends ? 7 : 5}, minmax(0, 1fr))`,
             }}
@@ -511,7 +512,9 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
                   key={`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`}
                   className={cn(
                     "glass-min-w-0",
-                    compact ? "glass-calendar-compact-day" : "glass-aspect-square"
+                    compact
+                      ? "glass-calendar-compact-day"
+                      : "glass-aspect-square"
                   )}
                   style={
                     compact

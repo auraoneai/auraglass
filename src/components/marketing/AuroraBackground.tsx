@@ -73,6 +73,7 @@ function particleCount(particles: AuroraBackgroundProps["particles"]): number {
   return particles ? 24 : 0;
 }
 
+/** @deprecated AuroraBackground DEP-S0608 since 4.2.0, removed in 6.0.0. {@link Backdrop preset="aurora" from aura-glass/backdrops} */
 export const AuroraBackground = forwardRef<
   HTMLDivElement,
   AuroraBackgroundProps

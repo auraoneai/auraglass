@@ -1,13 +1,13 @@
-'use client';
+"use client";
 /**
  * Physics Layout Hook
  * Provides physics-based layout positioning and arrangement
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { usePhysicsEngine } from './usePhysicsEngine';
-import { Vector2D, createVector2D } from '../../types/common';
-import { PhysicsBodyOptions } from '../../physics/AuraPhysicsEngine';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { usePhysicsEngine } from "./usePhysicsEngine";
+import { Vector2D, createVector2D } from "../../types/common";
+import { PhysicsBodyOptions } from "../../physics/AuraPhysicsEngine";
 
 /**
  * Layout element configuration
@@ -33,7 +33,7 @@ export interface PhysicsLayoutConfig {
   attraction?: number; // Force attracting elements to their target positions
   repulsion?: number; // Force repelling overlapping elements
   damping?: number;
-  mode?: 'grid' | 'flow' | 'force' | 'magnetic' | 'cluster';
+  mode?: "grid" | "flow" | "force" | "magnetic" | "cluster";
 }
 
 /**
@@ -48,6 +48,7 @@ export interface LayoutResult {
 /**
  * Hook for physics-based layout
  */
+/** @deprecated usePhysicsLayout DEP-M0862 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion SharedLayout} */
 export const usePhysicsLayout = (config: PhysicsLayoutConfig) => {
   const {
     elements = [],
@@ -58,7 +59,7 @@ export const usePhysicsLayout = (config: PhysicsLayoutConfig) => {
     attraction = 0.1,
     repulsion = 100,
     damping = 0.3,
-    mode = 'force',
+    mode = "force",
   } = config;
 
   const {
@@ -88,7 +89,7 @@ export const usePhysicsLayout = (config: PhysicsLayoutConfig) => {
     const targets = new Map<string, Vector2D>();
 
     switch (mode) {
-      case 'grid': {
+      case "grid": {
         // Calculate grid layout
         const cols = Math.floor(containerWidth / (100 + spacing));
         elements.forEach((element, index) => {
@@ -105,7 +106,7 @@ export const usePhysicsLayout = (config: PhysicsLayoutConfig) => {
         break;
       }
 
-      case 'flow': {
+      case "flow": {
         // Flow layout (like flexbox)
         let x = padding;
         let y = padding;
@@ -125,9 +126,9 @@ export const usePhysicsLayout = (config: PhysicsLayoutConfig) => {
         break;
       }
 
-      case 'force':
-      case 'magnetic':
-      case 'cluster': {
+      case "force":
+      case "magnetic":
+      case "cluster": {
         // For force-based layouts, use center as initial target
         elements.forEach((element) => {
           if (element.initialPosition) {
@@ -186,7 +187,18 @@ export const usePhysicsLayout = (config: PhysicsLayoutConfig) => {
       elements.forEach((element) => removeBody(element.id));
       stop();
     };
-  }, [elements, calculateTargetPositions, createBody, removeBody, start, stop, damping, padding, containerWidth, containerHeight]);
+  }, [
+    elements,
+    calculateTargetPositions,
+    createBody,
+    removeBody,
+    start,
+    stop,
+    damping,
+    padding,
+    containerWidth,
+    containerHeight,
+  ]);
 
   /**
    * Apply layout forces
@@ -224,7 +236,7 @@ export const usePhysicsLayout = (config: PhysicsLayoutConfig) => {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 150 && distance > 0) {
-            const force = (repulsion / (distance * distance));
+            const force = repulsion / (distance * distance);
             const repulsionForce: Vector2D = {
               x: (dx / distance) * force,
               y: (dy / distance) * force,
@@ -235,7 +247,7 @@ export const usePhysicsLayout = (config: PhysicsLayoutConfig) => {
         });
 
         // Magnetic mode: attraction between nearby elements
-        if (mode === 'magnetic') {
+        if (mode === "magnetic") {
           elements.forEach((otherElement, otherIndex) => {
             if (index === otherIndex) return;
 
@@ -267,7 +279,8 @@ export const usePhysicsLayout = (config: PhysicsLayoutConfig) => {
         if (!state) return false;
 
         const velocityMag = Math.sqrt(
-          state.velocity.x * state.velocity.x + state.velocity.y * state.velocity.y
+          state.velocity.x * state.velocity.x +
+            state.velocity.y * state.velocity.y
         );
 
         return velocityMag < 0.1;
@@ -317,7 +330,8 @@ export const usePhysicsLayout = (config: PhysicsLayoutConfig) => {
     elements.forEach((element) => removeBody(element.id));
     calculateTargetPositions();
     elements.forEach((element) => {
-      const target = targetPositionsRef.current.get(element.id) || createVector2D(0, 0);
+      const target =
+        targetPositionsRef.current.get(element.id) || createVector2D(0, 0);
       createBody(element.id, {
         initialPosition: target,
         mass: element.mass || 1,
@@ -327,7 +341,14 @@ export const usePhysicsLayout = (config: PhysicsLayoutConfig) => {
     iterationsRef.current = 0;
     setIsStable(false);
     start();
-  }, [elements, removeBody, createBody, calculateTargetPositions, damping, start]);
+  }, [
+    elements,
+    removeBody,
+    createBody,
+    calculateTargetPositions,
+    damping,
+    start,
+  ]);
 
   /**
    * Get layout result

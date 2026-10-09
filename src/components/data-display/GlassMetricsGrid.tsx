@@ -65,7 +65,8 @@ export interface MetricGridLayout {
   };
 }
 
-export interface GlassMetricsGridProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassMetricsGridProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Metrics configuration */
   metrics?: MetricConfig[];
   /** Grid layout */
@@ -143,6 +144,7 @@ const metricsInsetSurfaceStyle: React.CSSProperties = {
   color: "var(--glass-theme-text, var(--glass-text-primary))",
 };
 
+/** @deprecated GlassMetricsGrid DEP-S0241 since 4.2.0, removed in 5.0.0. */
 export const GlassMetricsGrid = forwardRef<
   HTMLDivElement,
   GlassMetricsGridProps
@@ -369,7 +371,10 @@ export const GlassMetricsGrid = forwardRef<
                   points={`0,100 ${points} 100,100`}
                   fill="currentColor"
                   className="glass-opacity-10"
-                  style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}
+                  style={{
+                    color:
+                      "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+                  }}
                 />
               )}
               <polyline
@@ -378,7 +383,10 @@ export const GlassMetricsGrid = forwardRef<
                 stroke="currentColor"
                 strokeWidth="2"
                 className="glass-transition-all glass-duration-300"
-                style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}
+                style={{
+                  color:
+                    "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+                }}
               />
             </svg>
           </div>
@@ -456,7 +464,10 @@ export const GlassMetricsGrid = forwardRef<
                   "glass-absolute top-2 right-2 glass-radius-full bg-current opacity-60",
                   priorityIndicators[metric.priority]
                 )}
-                style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}
+                style={{
+                  color:
+                    "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+                }}
               />
             )}
 
@@ -467,7 +478,10 @@ export const GlassMetricsGrid = forwardRef<
                   {metric.icon && (
                     <div
                       className="glass-flex-shrink-0"
-                      style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}
+                      style={{
+                        color:
+                          "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+                      }}
                     >
                       {metric.icon}
                     </div>

@@ -56,6 +56,7 @@ const easingFunctions = {
   easeInOut: (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
 };
 
+/** @deprecated GlassAnimatedNumber DEP-S0214 since 4.2.0, removed in 5.0.0. {@link StatCard value from aura-glass/data} */
 export const GlassAnimatedNumber = forwardRef<
   HTMLDivElement,
   GlassAnimatedNumberProps
@@ -263,7 +264,10 @@ export const GlassAnimatedCounter: React.FC<{
             "glass-text-sm glass-text-primary-70 glass-font-medium"
           )}
           elevation="level1"
-          style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}
+          style={{
+            color:
+              "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+          }}
         >
           {label}
         </OptimizedGlass>
@@ -315,7 +319,10 @@ export const GlassAnimatedStat: React.FC<{
         <OptimizedGlass
           className={cn("glass-text-sm glass-text-primary-70")}
           elevation="level1"
-          style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}
+          style={{
+            color:
+              "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+          }}
         >
           <ContrastGuard>{label}</ContrastGuard>
         </OptimizedGlass>
@@ -330,7 +337,9 @@ export const GlassAnimatedStat: React.FC<{
           elevation="level1"
         >
           <div
-            className={cn("glass-h-full glass-radius-full glass-transition-all")}
+            className={cn(
+              "glass-h-full glass-radius-full glass-transition-all"
+            )}
             style={{
               background:
                 "var(--glass-theme-text-secondary, var(--glass-text-secondary))",

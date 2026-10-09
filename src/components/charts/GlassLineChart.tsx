@@ -127,6 +127,7 @@ export interface GlassLineChartProps {
  * GlassLineChart component
  * A glassmorphism line chart with multiple series support and interactive features
  */
+/** @deprecated GlassLineChart DEP-S0229 since 4.2.0, removed in 5.0.0. */
 export const GlassLineChart: React.FC<GlassLineChartProps> = ({
   title,
   series = [],
@@ -648,6 +649,7 @@ export interface GlassChartContainerProps {
   className?: string;
 }
 
+/** @deprecated GlassChartContainer DEP-S0234 since 4.2.0, removed in 5.0.0. */
 export const GlassChartContainer: React.FC<GlassChartContainerProps> = ({
   title,
   subtitle,

@@ -101,6 +101,8 @@ const LiquidGlassSpecimen = () => (
   </article>
 );
 
+
+/** @deprecated Glass3DEngine DEP-M0851 since 4.2.0, removed in 5.0.0. */
 export const Glass3DEngine: Story = {
   args: {
     children: null,

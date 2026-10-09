@@ -637,6 +637,7 @@ interface GlassTabsProps {
   onTabChange?: (tabId: string) => void;
 }
 
+/** @deprecated GlassTabs DEP-S0011 since 4.2.0, removed in 5.0.0. {@link Tabs from aura-glass} */
 export function GlassTabs({
   tabs,
   defaultTab,
@@ -890,6 +891,7 @@ const GlassTransitionsComponent: React.FC<GlassTransitionsProps> = ({
   );
 };
 
+/** @deprecated GlassTransitions DEP-M0859 since 4.2.0, removed in 5.0.0. {@link CSS motion tokens or aura-glass/motion} */
 export const GlassTransitions = Object.assign(GlassTransitionsComponent, {
   GlassTransition,
   GlassPageTransition,

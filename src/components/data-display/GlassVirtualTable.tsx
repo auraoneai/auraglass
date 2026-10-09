@@ -16,6 +16,7 @@ export interface GlassVirtualTableProps<
   disabled?: boolean;
 }
 
+/** @deprecated GlassVirtualTable DEP-S0202 since 4.2.0, removed in 5.0.0. {@link Table with virtualize from aura-glass/data} */
 export function GlassVirtualTable<
   T extends GlassDataTableRow = GlassDataTableRow,
 >({ columns, rows, ...rest }: GlassVirtualTableProps<T>) {

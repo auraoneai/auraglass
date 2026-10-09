@@ -27,7 +27,8 @@ export interface BottomNavItem {
   disabled?: boolean;
 }
 
-export interface GlassBottomNavProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassBottomNavProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Navigation items
    */
@@ -82,6 +83,7 @@ export interface GlassBottomNavProps extends React.HTMLAttributes<HTMLDivElement
  * GlassBottomNav component
  * Mobile bottom navigation with glassmorphism design
  */
+/** @deprecated GlassBottomNav DEP-S0016 since 4.2.0, removed in 5.0.0. {@link TabBar from aura-glass} */
 export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
   (
     {

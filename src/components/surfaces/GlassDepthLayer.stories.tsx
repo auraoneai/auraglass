@@ -20,6 +20,8 @@ const meta: Meta<typeof GlassDepthLayerComponent> = {
 export default meta;
 type Story = StoryObj<typeof GlassDepthLayerComponent>;
 
+
+/** @deprecated GlassDepthLayer DEP-M0913 since 4.2.0, removed in 5.0.0. {@link Surface layering (the 5.x nested-materials rule)} */
 export const GlassDepthLayer: Story = {
   args: {
     children: null,

@@ -18,9 +18,11 @@ export interface LiquidGlassEffectGroupContextValue {
   performanceLevel: LiquidGlassPerformanceLevel;
 }
 
-const LiquidGlassEffectGroupContext = createContext<LiquidGlassEffectGroupContextValue | null>(null);
+const LiquidGlassEffectGroupContext =
+  createContext<LiquidGlassEffectGroupContextValue | null>(null);
 
-export interface LiquidGlassEffectGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface LiquidGlassEffectGroupProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   spacing?: number | string;
   morph?: boolean;
   samplingStrategy?: LiquidGlassSamplingStrategy;
@@ -29,7 +31,11 @@ export interface LiquidGlassEffectGroupProps extends React.HTMLAttributes<HTMLDi
   children?: React.ReactNode;
 }
 
-export const LiquidGlassEffectGroup = forwardRef<HTMLDivElement, LiquidGlassEffectGroupProps>(
+/** @deprecated LiquidGlassEffectGroup DEP-M0812 since 4.2.0, removed in 5.0.0. {@link SurfaceGroup} */
+export const LiquidGlassEffectGroup = forwardRef<
+  HTMLDivElement,
+  LiquidGlassEffectGroupProps
+>(
   (
     {
       spacing = 12,
@@ -56,7 +62,15 @@ export const LiquidGlassEffectGroup = forwardRef<HTMLDivElement, LiquidGlassEffe
         samplingStrategy: disabled ? "isolated" : samplingStrategy,
         performanceLevel,
       }),
-      [autoId, disabled, effectiveMorph, performanceLevel, props.id, samplingStrategy, spacing]
+      [
+        autoId,
+        disabled,
+        effectiveMorph,
+        performanceLevel,
+        props.id,
+        samplingStrategy,
+        spacing,
+      ]
     );
 
     const cssVars = {

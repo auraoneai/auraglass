@@ -116,6 +116,7 @@ const easings = {
   },
 };
 
+/** @deprecated GlassMotionController DEP-M0858 since 4.2.0, removed in 5.0.0. {@link CSS motion tokens or aura-glass/motion} */
 export const GlassMotionController = forwardRef<
   HTMLDivElement,
   MotionControllerProps
@@ -739,6 +740,7 @@ export const GlassAnimationSequence = forwardRef<
 GlassAnimationSequence.displayName = "GlassAnimationSequence";
 
 // Preset animations
+/** @deprecated animationPresets DEP-M0860 since 4.2.0, removed in 5.0.0. {@link the 5.x motion tokens} */
 export const animationPresets = {
   fadeInUp: {
     type: "fadeIn" as AnimationType,

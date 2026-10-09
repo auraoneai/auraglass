@@ -1,5 +1,6 @@
 /* eslint-disable auraglass/no-inline-glass -- Theme Engine 2.0 exports raw material token values for downstream CSS variable generation, not inline component styles. */
 
+/** @deprecated GlassMaterialPreset DEP-M0836 since 4.2.0, removed in 5.0.0. {@link MaterialSpec (aura-glass/material)} */
 export type GlassMaterialPreset =
   | "clear"
   | "regular"
@@ -7,6 +8,7 @@ export type GlassMaterialPreset =
   | "luminous"
   | "inset";
 
+/** @deprecated GlassMaterialTokens DEP-M0837 since 4.2.0, removed in 5.0.0. {@link MaterialSpec (aura-glass/material)} */
 export interface GlassMaterialTokens {
   backdropBlur: string;
   backdropFilter: string;
@@ -17,6 +19,7 @@ export interface GlassMaterialTokens {
   sheen: string;
 }
 
+/** @deprecated glassMaterialPresets DEP-M0968 since 4.3.0, removed in 5.0.0. {@link the 5.x presets table / MaterialSpec} */
 export const glassMaterialPresets: Record<
   GlassMaterialPreset,
   GlassMaterialTokens
@@ -24,8 +27,10 @@ export const glassMaterialPresets: Record<
   clear: {
     backdropBlur: "16px",
     backdropFilter: "blur(16px) saturate(150%) brightness(1.06) contrast(1.03)",
-    WebkitBackdropFilter: "blur(16px) saturate(150%) brightness(1.06) contrast(1.03)",
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.08) 100%)",
+    WebkitBackdropFilter:
+      "blur(16px) saturate(150%) brightness(1.06) contrast(1.03)",
+    background:
+      "linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.08) 100%)",
     border: "rgba(255, 255, 255, 0.16)",
     shadow: "0 18px 50px rgba(15, 23, 42, 0.18)",
     sheen: "inset 0 1px 0 rgba(255, 255, 255, 0.12)",
@@ -33,8 +38,10 @@ export const glassMaterialPresets: Record<
   regular: {
     backdropBlur: "24px",
     backdropFilter: "blur(24px) saturate(160%) brightness(1.08) contrast(1.04)",
-    WebkitBackdropFilter: "blur(24px) saturate(160%) brightness(1.08) contrast(1.04)",
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.12) 100%)",
+    WebkitBackdropFilter:
+      "blur(24px) saturate(160%) brightness(1.08) contrast(1.04)",
+    background:
+      "linear-gradient(135deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.12) 100%)",
     border: "rgba(255, 255, 255, 0.20)",
     shadow: "0 24px 70px rgba(15, 23, 42, 0.24)",
     sheen: "inset 0 1px 0 rgba(255, 255, 255, 0.16)",
@@ -42,8 +49,10 @@ export const glassMaterialPresets: Record<
   dense: {
     backdropBlur: "40px",
     backdropFilter: "blur(40px) saturate(170%) brightness(1.1) contrast(1.05)",
-    WebkitBackdropFilter: "blur(40px) saturate(170%) brightness(1.1) contrast(1.05)",
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.18) 100%)",
+    WebkitBackdropFilter:
+      "blur(40px) saturate(170%) brightness(1.1) contrast(1.05)",
+    background:
+      "linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.18) 100%)",
     border: "rgba(255, 255, 255, 0.28)",
     shadow: "0 30px 90px rgba(15, 23, 42, 0.28)",
     sheen: "inset 0 1px 0 rgba(255, 255, 255, 0.20)",
@@ -51,8 +60,10 @@ export const glassMaterialPresets: Record<
   luminous: {
     backdropBlur: "32px",
     backdropFilter: "blur(32px) saturate(175%) brightness(1.12) contrast(1.04)",
-    WebkitBackdropFilter: "blur(32px) saturate(175%) brightness(1.12) contrast(1.04)",
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.16) 100%)",
+    WebkitBackdropFilter:
+      "blur(32px) saturate(175%) brightness(1.12) contrast(1.04)",
+    background:
+      "linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.16) 100%)",
     border: "rgba(255, 255, 255, 0.32)",
     shadow: "0 24px 84px rgba(15, 23, 42, 0.22)",
     sheen: "inset 0 1px 0 rgba(255, 255, 255, 0.24)",
@@ -60,8 +71,10 @@ export const glassMaterialPresets: Record<
   inset: {
     backdropBlur: "24px",
     backdropFilter: "blur(24px) saturate(150%) brightness(1.06) contrast(1.03)",
-    WebkitBackdropFilter: "blur(24px) saturate(150%) brightness(1.06) contrast(1.03)",
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.09) 100%)",
+    WebkitBackdropFilter:
+      "blur(24px) saturate(150%) brightness(1.06) contrast(1.03)",
+    background:
+      "linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.09) 100%)",
     border: "rgba(255, 255, 255, 0.16)",
     shadow: "inset 0 1px 0 rgba(255, 255, 255, 0.14)",
     sheen: "inset 0 -1px 0 rgba(255, 255, 255, 0.10)",

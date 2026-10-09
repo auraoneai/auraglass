@@ -96,6 +96,7 @@ export interface GlassUserPresenceProps {
  * GlassUserPresence component
  * Display user presence status with avatars and online indicators
  */
+/** @deprecated GlassUserPresence DEP-S0810 since 4.2.0, removed in 5.0.0. {@link the presence-stack registry item (5.1)} */
 export const GlassUserPresence: React.FC<GlassUserPresenceProps> = ({
   currentUser,
   users = [],

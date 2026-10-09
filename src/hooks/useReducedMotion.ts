@@ -1,6 +1,6 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { isBrowser, safeMatchMedia } from '../utils/env';
+"use client";
+import { useEffect, useState } from "react";
+import { isBrowser, safeMatchMedia } from "../utils/env";
 
 /**
  * Hook to detect if user prefers reduced motion
@@ -8,6 +8,7 @@ import { isBrowser, safeMatchMedia } from '../utils/env';
  * CRITICAL: Defaults to `false` (no reduced motion) on both server and initial client render
  * to prevent SSR hydration mismatches. The actual preference is detected after hydration.
  */
+/** @deprecated useReducedMotion DEP-M0896 since 4.2.0, removed in 5.0.0. {@link usePreference(\} */
 export function useReducedMotion(): boolean {
   // CRITICAL FIX: Start with `false` on both server and client to prevent hydration mismatch
   // The server cannot access matchMedia, so we default to false (motion allowed)
@@ -18,7 +19,7 @@ export function useReducedMotion(): boolean {
     // Detect actual motion preference after hydration
     if (!isBrowser()) return;
 
-    const mediaQuery = safeMatchMedia('(prefers-reduced-motion: reduce)');
+    const mediaQuery = safeMatchMedia("(prefers-reduced-motion: reduce)");
     if (!mediaQuery) return;
 
     // Update to actual preference
@@ -28,12 +29,12 @@ export function useReducedMotion(): boolean {
       setPrefersReducedMotion(event.matches);
     };
 
-    if (typeof mediaQuery.addEventListener === 'function') {
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", handleChange);
+      return () => mediaQuery.removeEventListener("change", handleChange);
     }
 
-    if (typeof (mediaQuery as any).addListener === 'function') {
+    if (typeof (mediaQuery as any).addListener === "function") {
       (mediaQuery as any).addListener(handleChange);
       return () => (mediaQuery as any).removeListener(handleChange);
     }

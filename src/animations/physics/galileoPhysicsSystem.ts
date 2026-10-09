@@ -1,6 +1,6 @@
-import React from 'react';
-import { useRef, useEffect } from 'react';
-import { SpringConfig } from '../hooks/useMultiSpringBasic';
+import React from "react";
+import { useRef, useEffect } from "react";
+import { SpringConfig } from "../hooks/useMultiSpringBasic";
 
 export interface PhysicsBody {
   id: string;
@@ -36,6 +36,7 @@ export interface CollisionInfo {
   contactPoint: { x: number; y: number };
 }
 
+/** @deprecated GalileoPhysicsSystem DEP-M0890 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion springs} */
 export class GalileoPhysicsSystem {
   private world: PhysicsWorld;
   private animationFrame: number | null = null;
@@ -79,7 +80,11 @@ export class GalileoPhysicsSystem {
   }
 
   // Force management
-  applyForce(id: string, force: { x: number; y: number }, duration?: number): void {
+  applyForce(
+    id: string,
+    force: { x: number; y: number },
+    duration?: number
+  ): void {
     const body = this.world.bodies.get(id);
     if (body) {
       body.forces.push({ ...force, duration });
@@ -98,7 +103,7 @@ export class GalileoPhysicsSystem {
   start(): void {
     if (this.animationFrame) return;
     this.lastTime = performance.now();
-        if (this.animate) this.animate();
+    if (this.animate) this.animate();
   }
 
   stop(): void {
@@ -172,9 +177,12 @@ export class GalileoPhysicsSystem {
       // Apply friction
       const speed = Math.sqrt(body.velocity.x ** 2 + body.velocity.y ** 2);
       if (speed > 0.001) {
-        const frictionForce = body.friction * body.mass * Math.abs(this.world.gravity.y || 1);
-        const frictionX = -body.velocity.x / speed * frictionForce / body.mass;
-        const frictionY = -body.velocity.y / speed * frictionForce / body.mass;
+        const frictionForce =
+          body.friction * body.mass * Math.abs(this.world.gravity.y || 1);
+        const frictionX =
+          ((-body.velocity.x / speed) * frictionForce) / body.mass;
+        const frictionY =
+          ((-body.velocity.y / speed) * frictionForce) / body.mass;
 
         body.acceleration.x += frictionX;
         body.acceleration.y += frictionY;
@@ -218,7 +226,10 @@ export class GalileoPhysicsSystem {
     });
   }
 
-  private checkCollision(bodyA: PhysicsBody, bodyB: PhysicsBody): CollisionInfo | null {
+  private checkCollision(
+    bodyA: PhysicsBody,
+    bodyB: PhysicsBody
+  ): CollisionInfo | null {
     const dx = bodyB.position.x - bodyA.position.x;
     const dy = bodyB.position.y - bodyA.position.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -266,7 +277,8 @@ export class GalileoPhysicsSystem {
     // Calculate relative velocity
     const relativeVelocityX = bodyB.velocity.x - bodyA.velocity.x;
     const relativeVelocityY = bodyB.velocity.y - bodyA.velocity.y;
-    const velocityAlongNormal = relativeVelocityX * normal.x + relativeVelocityY * normal.y;
+    const velocityAlongNormal =
+      relativeVelocityX * normal.x + relativeVelocityY * normal.y;
 
     // Don't resolve if velocities are separating
     if (velocityAlongNormal > 0) return;
@@ -333,7 +345,7 @@ export class GalileoPhysicsSystem {
     this.world.gravity = gravity;
   }
 
-  setBounds(bounds: Partial<PhysicsWorld['bounds']>): void {
+  setBounds(bounds: Partial<PhysicsWorld["bounds"]>): void {
     this.world.bounds = { ...this.world.bounds, ...bounds };
   }
 
@@ -442,7 +454,11 @@ export class SpringPhysics {
       // Over-damped
       const r1 = -omega * (zeta - Math.sqrt(zeta * zeta - 1));
       const r2 = -omega * (zeta + Math.sqrt(zeta * zeta - 1));
-      return to + (from - to) * (r1 * Math.exp(r1 * t) - r2 * Math.exp(r2 * t)) / (r1 - r2);
+      return (
+        to +
+        ((from - to) * (r1 * Math.exp(r1 * t) - r2 * Math.exp(r2 * t))) /
+          (r1 - r2)
+      );
     } else {
       // Under-damped
       const alpha = omega * Math.sqrt(1 - zeta * zeta);
@@ -462,8 +478,14 @@ export const physicsUtils = {
     time: number
   ) => {
     return {
-      x: initialPosition.x + initialVelocity.x * time + 0.5 * gravity.x * time * time,
-      y: initialPosition.y + initialVelocity.y * time + 0.5 * gravity.y * time * time,
+      x:
+        initialPosition.x +
+        initialVelocity.x * time +
+        0.5 * gravity.x * time * time,
+      y:
+        initialPosition.y +
+        initialVelocity.y * time +
+        0.5 * gravity.y * time * time,
     };
   },
 
@@ -502,8 +524,8 @@ export const physicsUtils = {
       if (distance < radius && distance > 0) {
         const strength = (1 - distance / radius) * force;
         const impulse = {
-          x: (dx / distance) * strength / body.mass,
-          y: (dy / distance) * strength / body.mass,
+          x: ((dx / distance) * strength) / body.mass,
+          y: ((dy / distance) * strength) / body.mass,
         };
 
         body.velocity.x += impulse.x;

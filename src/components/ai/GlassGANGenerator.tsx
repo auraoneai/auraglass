@@ -168,6 +168,7 @@ const readableGlassTextStyle = {
   color: "var(--glass-theme-text, var(--glass-text-primary))",
 } as React.CSSProperties;
 
+/** @deprecated GlassGANGenerator DEP-S0411 since 4.2.0, removed in 5.0.0. {@link none until 5.1 — generative-art surfaces are deferred} */
 export const GlassGANGenerator = forwardRef<
   HTMLDivElement,
   GlassGANGeneratorProps

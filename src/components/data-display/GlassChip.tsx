@@ -12,10 +12,8 @@ import {
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-export interface GlassChipProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "onSelect"
-> {
+export interface GlassChipProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onSelect"> {
   /** Chip content */
   children: React.ReactNode;
   /** Visual variant */
@@ -55,6 +53,7 @@ export interface GlassChipProps extends Omit<
   respectMotionPreference?: boolean;
 }
 
+/** @deprecated GlassChip DEP-S0218 since 4.2.0, removed in 5.0.0. {@link Chip from aura-glass/data} */
 export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
   (
     {
@@ -255,7 +254,6 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
             {removeIcon || defaultRemoveIcon}
           </button>
         )}
-
       </>
     );
 
@@ -331,10 +329,8 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
 GlassChip.displayName = "GlassChip";
 
 // Chip Group Component
-export interface GlassChipGroupProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "onChange"
-> {
+export interface GlassChipGroupProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   /** Array of chip data */
   chips: Array<{
     id: string;

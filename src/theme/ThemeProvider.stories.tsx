@@ -84,6 +84,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+
+/** @deprecated ThemeProvider DEP-M0938 since 4.2.0, removed in 5.0.0. {@link AuraGlassProvider} */
 export const ThemeProvider: Story = {
   name: "ThemeProvider",
   render: () => (

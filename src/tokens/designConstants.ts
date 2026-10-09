@@ -10,6 +10,7 @@ export const DESIGN_SYSTEM = {
 } as const;
 
 // Animation constants
+/** @deprecated ANIMATION DEP-M0914 since 4.2.0, removed in 5.0.0. {@link the 5.x motion tokens} */
 export const ANIMATION = {
   // Duration presets
   DURATION: {
@@ -44,6 +45,7 @@ export const ANIMATION = {
 } as const;
 
 // Color constants
+/** @deprecated COLORS DEP-M0973 since 4.3.0, removed in 5.0.0. {@link the 5.x tokens export} */
 export const COLORS = {
   // Glass morphism colors
   glass: {
@@ -184,6 +186,7 @@ export const SPACING = {
 } as const;
 
 // Border radius constants
+/** @deprecated BORDER_RADIUS DEP-M0974 since 4.3.0, removed in 5.0.0. {@link the 5.x tokens export} */
 export const BORDER_RADIUS = {
   none: "0",
   sm: "0.125rem",
@@ -196,6 +199,7 @@ export const BORDER_RADIUS = {
 } as const;
 
 // Box shadow constants
+/** @deprecated BOX_SHADOW DEP-M0975 since 4.3.0, removed in 5.0.0. {@link the 5.x tokens export} */
 export const BOX_SHADOW = {
   none: "none",
   xs: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",

@@ -175,6 +175,7 @@ const readableGlassTextStyle = {
   "--glass-color-secondary": "rgba(100, 116, 139, 0.88)",
 } as React.CSSProperties;
 
+/** @deprecated GlassLiveFilter DEP-S0419 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */
 export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
   (
     {

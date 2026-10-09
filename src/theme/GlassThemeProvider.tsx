@@ -44,6 +44,7 @@ const resolveTheme = (
   return createGlassTheme(theme);
 };
 
+/** @deprecated GlassThemeProvider DEP-M0937 since 4.2.0, removed in 5.0.0. {@link AuraGlassProvider} */
 export const GlassThemeProvider = ({
   theme: initialTheme,
   children,
@@ -135,6 +136,7 @@ export const useGlassDensity = () => {
   return { density: theme.density, setDensity, tokens: theme.tokens.density };
 };
 
+/** @deprecated useGlassMotionPolicy DEP-M0900 since 4.2.0, removed in 5.0.0. {@link usePreference(\} */
 export const useGlassMotionPolicy = () => {
   const { theme, setMotionPolicy } = useGlassTheme();
   return {

@@ -67,6 +67,7 @@ interface GlassParticlesProps {
   maxHeight?: number | string;
 }
 
+/** @deprecated GlassParticles DEP-S0625 since 4.2.0, removed in 5.0.0. {@link the labs ParticleField (seeded PRNG)} */
 export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
   (
     {

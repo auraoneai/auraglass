@@ -139,6 +139,7 @@ export interface GlassDatePickerProps {
  * GlassDatePicker component
  * Calendar interface with glassmorphism styling and comprehensive date selection
  */
+/** @deprecated GlassDatePicker DEP-S0222 since 4.2.0, removed in 5.0.0. {@link DatePicker from aura-glass/date} */
 export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
   (
     {

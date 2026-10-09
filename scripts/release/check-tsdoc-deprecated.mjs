@@ -43,6 +43,9 @@ export function deprecatedTags(text) {
 export function checkEntry({ entry, readFile, findFiles, missingIsError = true }) {
   const errors = [];
   if (!COVERED_KINDS.has(entry.kind)) return errors;
+  // Tags are required for active entries only — a `planned` entry's tag lands
+  // when the deprecation ships in the next minor (REQ-PLAT-27).
+  if (entry.status !== 'active') return errors;
   const files = findFiles(entry.symbol);
   const tag = { wantSince: `since ${entry.since}`, wantRemoved: `removed in ${entry.removeIn}` };
   let ok = false;
@@ -99,7 +102,7 @@ export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
   const readFile = (f) => readFileSync(join(root, f), 'utf8');
   const findFiles = (sym) => findDeclFiles(sym, roots, { cwd: root });
   const errors = entries.flatMap((e) => checkEntry({ entry: e, readFile, findFiles, missingIsError }));
-  if (argv.includes('--reverse')) {
+  if (!argv.includes('--no-reverse')) {
     const files = findDeclFiles('@deprecated', roots, { cwd: root });
     errors.push(...checkReverse(files, entries, { readFile }));
   }

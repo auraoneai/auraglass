@@ -62,6 +62,7 @@ interface GlassMagneticCursorProps {
   role?: string;
 }
 
+/** @deprecated GlassMagneticCursor DEP-M0909 since 4.2.0, removed in 5.0.0. {@link magnetic() (aura-glass/motion)} */
 export const GlassMagneticCursor = forwardRef<
   HTMLDivElement,
   GlassMagneticCursorProps

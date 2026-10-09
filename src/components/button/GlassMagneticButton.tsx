@@ -56,6 +56,7 @@ export interface MagneticButtonProps extends GlassButtonProps {
 /**
  * A GlassButton with a magnetic effect that attracts the button towards the cursor on hover.
  */
+/** @deprecated MagneticButton DEP-M0908 since 4.2.0, removed in 5.0.0. {@link Button + magnetic() (aura-glass/motion)} */
 export const MagneticButton = forwardRef<HTMLElement, MagneticButtonProps>(
   function MagneticButton(
     {

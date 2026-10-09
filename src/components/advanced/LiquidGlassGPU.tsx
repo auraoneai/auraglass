@@ -23,6 +23,7 @@ import {
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 // WebGL shader sources for Liquid Glass effects
 const VERTEX_SHADER = `
@@ -785,13 +786,7 @@ export const LiquidGlassGPURenderer: React.FC<LiquidGlassGPUProps> = ({
           "glass-surface-primary glass-blur-backdrop glass-relative glass-overflow-hidden",
           className
         )}
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.12) 100%)",
-          border: "1px solid rgba(255,255,255,0.28)",
-          backdropFilter: "blur(24px) saturate(1.5) brightness(1.05) contrast(1.05)",
-          WebkitBackdropFilter: "blur(24px) saturate(1.5) brightness(1.05) contrast(1.05)",
-        }}
+        style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
       >
         {children}
       </div>
@@ -818,5 +813,6 @@ export const LiquidGlassGPURenderer: React.FC<LiquidGlassGPUProps> = ({
   );
 };
 
+/** @deprecated LiquidGlassGPU DEP-M0848 since 4.2.0, removed in 5.0.0. */
 export const LiquidGlassGPU = LiquidGlassGPURenderer;
 export default LiquidGlassGPURenderer;

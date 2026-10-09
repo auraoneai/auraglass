@@ -570,12 +570,14 @@ let adaptiveAIEngine: AdaptiveAIEngine | null = null;
  * ML subscribers) on first call. Behavior tracking is disabled unless this is
  * called or NEXT_PUBLIC_AURAGLASS_ADAPTIVE_AI=true is set in the environment.
  */
+/** @deprecated enableAdaptiveAI DEP-P0012 since 4.2.0, removed in 5.0.0. {@link enableAdaptiveAI opt-in flag (adaptive AI is disabled unless explicitly enabled)} */
 export function enableAdaptiveAI(): AdaptiveAIEngine {
   if (!adaptiveAIEngine) adaptiveAIEngine = AdaptiveAIEngine.getInstance();
   return adaptiveAIEngine;
 }
 
 // Exported instance is null until opted in (env flag or enableAdaptiveAI()).
+/** @deprecated adaptiveAI DEP-P0016 since 4.2.0, removed in 5.0.0. */
 export const adaptiveAI: AdaptiveAIEngine | null = ADAPTIVE_AI_ENABLED
   ? enableAdaptiveAI()
   : null;
@@ -583,6 +585,7 @@ export const adaptiveAI: AdaptiveAIEngine | null = ADAPTIVE_AI_ENABLED
 // React hook for adaptive AI. Returns null state until opted in; calling
 // enableAdaptiveAI() activates the engine and begins reporting on the next
 // interval tick.
+/** @deprecated useAdaptiveAI DEP-P0017 since 4.2.0, removed in 5.0.0. */
 export function useAdaptiveAI() {
   const engine = adaptiveAI;
   const [config, setConfig] = useState(engine?.getConfiguration() ?? null);

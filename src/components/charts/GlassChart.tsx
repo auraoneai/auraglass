@@ -2008,6 +2008,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
 );
 
 // Export memoized component for better performance
+/** @deprecated GlassChart DEP-S0228 since 4.2.0, removed in 5.0.0. */
 export const GlassChart = memo(GlassChartComponent);
 
 // Add displayName
