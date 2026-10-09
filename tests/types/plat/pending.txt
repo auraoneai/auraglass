@@ -1,0 +1,1 @@
+pending: aura-glass 5.0.0-alpha.0 pack has no dist/ yet; these tests activate the day npm run plat:package:pack ships a real dist. Run tests/types/plat/setup-extract.mjs to (re)extract.
