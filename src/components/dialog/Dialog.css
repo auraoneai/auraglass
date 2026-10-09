@@ -28,8 +28,8 @@
   .ag-dialog-popup[data-ag-size='sm'] { max-inline-size: 400px; }
   .ag-dialog-popup[data-ag-size='md'] { max-inline-size: 560px; }
   .ag-dialog-popup[data-ag-size='lg'] { max-inline-size: 720px; }
-  .ag-dialog-popup[data-ag-size='xl'] { max-inline-size: 960px; }
-  .ag-dialog-popup[data-ag-size='full'] {
+  .ag-dialog-popup[data-ag-appearance='wide'] { max-inline-size: 960px; }
+  .ag-dialog-popup[data-ag-appearance='fullscreen'] {
     max-inline-size: 100dvw;
     max-block-size: 100dvh;
     inset: 0;
