@@ -87,7 +87,12 @@
     animation: ag-toast-progress var(--ag-toast-timeout, 5000ms) linear forwards;
   }
   [dir='rtl'] .ag-toast-progress-bar { transform-origin: right; }
-  /* Pause mirrors the toast timer pause on hover/focus. */
+  /* REQ-CMP-108: pause mirrors the timer pause — viewport-level hover/focus
+     pauses every toast's bar, and data-ag-paused freezes all bars when the
+     document is hidden (attr set by the viewport's visibilitychange hook). */
+  .ag-toast-viewport:hover .ag-toast-progress-bar,
+  .ag-toast-viewport:focus-within .ag-toast-progress-bar,
+  .ag-toast-viewport[data-ag-paused] .ag-toast-progress-bar,
   .ag-toast:hover .ag-toast-progress-bar,
   .ag-toast:focus-within .ag-toast-progress-bar {
     animation-play-state: paused;

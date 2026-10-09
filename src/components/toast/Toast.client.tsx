@@ -58,12 +58,20 @@ function ToastProvider({ limit = 3, timeout = 5000, children }: ToastProviderPro
 const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
   function ToastViewport({ position = 'bottom-right', className, children, ...rest }, ref) {
     const container = usePortalContainer('toast');
+    /* REQ-CMP-108: mirrors BU's hidden-page timer pause for the CSS layer. */
+    const [paused, setPaused] = React.useState(false);
+    React.useEffect(() => {
+      const onVis = () => setPaused(document.hidden);
+      document.addEventListener('visibilitychange', onVis);
+      return () => document.removeEventListener('visibilitychange', onVis);
+    }, []);
     return (
       <Base.Portal container={container}>
         <Base.Viewport
           ref={ref}
           data-ag-part="viewport"
           data-ag-position={position}
+          {...(paused ? { 'data-ag-paused': '' } : {})}
           className={cn('ag-toast-viewport', className)}
           {...rest}
         >
@@ -80,6 +88,9 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
     const priority = intent === 'error' || intent === 'warning' ? 'alert' : 'status';
     // dom-contract (CMP-202) requires data-state open|closed on the surface
     const state = toast?.transitionStatus === 'ending' ? 'closed' : 'open';
+    /* REQ-CMP-108: progress bar duration comes from the toast's own timeout. */
+    const timeoutMs = (toast as { timeout?: number } | null | undefined)?.timeout;
+    const style = { ...rest.style, ...(timeoutMs ? { '--ag-toast-timeout': `${timeoutMs}ms` } : {}) } as React.CSSProperties;
     return (
       <Base.Root
         ref={ref}
@@ -88,6 +99,7 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
         data-ag-part="root"
         data-ag-intent={intent}
         data-state={state}
+        style={style}
         {...overlayMaterial('toast')}
         className={cn('ag-toast', className)}
         {...rest}
@@ -134,7 +146,7 @@ const ToastClose = React.forwardRef<HTMLButtonElement, ToastCloseProps>(
 const ToastProgress = React.forwardRef<HTMLElement, ToastProgressProps>(
   function ToastProgress({ className, children, ...rest }, ref) {
     return (
-      <div ref={ref as React.Ref<HTMLDivElement>} data-ag-part="progress" role="progressbar" className={cn('ag-toast-progress', className)} {...rest}>
+      <div ref={ref as React.Ref<HTMLDivElement>} data-ag-part="progress" aria-hidden="true" className={cn('ag-toast-progress', className)} {...rest}>
         <div className="ag-toast-progress-bar">{children}</div>
       </div>
     );
@@ -146,12 +158,16 @@ export function useToast(): UseToastReturn {
   const hist = useHistory();
   const add = React.useCallback((t: ToastData) => {
     const intent = t.intent ?? 'info';
+    /* REQ-CMP-108: a toast carrying an action never auto-dismisses — the user
+       must get to decide. timeout explicit 0 (sticky) unless duration given. */
+    const hasAction = t.actionLabel !== undefined || t.onAction !== undefined;
+    const timeout = t.timeout !== undefined ? t.timeout : (hasAction ? 0 : undefined);
     const id = mgr.add({
       title: t.title,
       description: t.description,
       type: intent,
       priority: intentPriority(intent),
-      ...(t.timeout !== undefined ? { timeout: t.timeout } : {}),
+      ...(timeout !== undefined ? { timeout } : {}),
       ...(t.actionLabel !== undefined ? { actionLabel: t.actionLabel } : {}),
       ...(t.onAction !== undefined ? { onAction: t.onAction } : {}),
     } as Parameters<typeof mgr.add>[0]);
