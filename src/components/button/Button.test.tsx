@@ -99,4 +99,11 @@ describe('Button', () => {
     render(<Button pointerLight>Glow</Button>);
     expect(screen.getByRole('button').getAttribute('data-ag-pointer-light')).toBe('');
   });
+
+  it('icon parts carry aria-hidden (REQ-CMP-33)', () => {
+    render(<Button startIcon={<svg data-testid="i1" />} endIcon={<svg data-testid="i2" />}>Icons</Button>);
+    const icons = document.querySelectorAll('[data-ag-part="icon"]');
+    expect(icons.length).toBeGreaterThan(0);
+    for (const icon of icons) expect(icon.getAttribute('aria-hidden')).toBe('true');
+  });
 });
