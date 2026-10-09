@@ -36,4 +36,24 @@ test.describe('glass modal 4.x pixel parity (CMP-385/387)', () => {
       });
     }
   }
+
+  /* REQ-CMP-84: 4.x-vs-5.0 forced-colors — under forced colors a visible
+     element may never keep a backdrop-filter (platform scrims/system colors
+     replace material blur). Counts only VISIBLE elements. */
+  test('glass-modal forced-colors: 0 visible backdrop-filters', async ({ page }) => {
+    const subjects = await listSubjects();
+    const id = subjects.find((s) => s.id === 'glass-modal--default')?.id;
+    test.skip(!id, '4.x glass-modal story absent from subject index at this SHA');
+    await gotoStory(page, id!, { forcedColors: true });
+    await page.emulateMedia({ forcedColors: 'active' }).catch(() => {});
+    const blurred = await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLElement>('*')].filter((el) => {
+        const cs = getComputedStyle(el);
+        const pseudo = getComputedStyle(el, '::before');
+        const painted = cs.backdropFilter !== 'none' || pseudo.backdropFilter !== 'none';
+        return painted && el.offsetParent !== null;
+      }).length,
+    );
+    expect(blurred).toBe(0);
+  });
 });

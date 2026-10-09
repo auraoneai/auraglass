@@ -13,9 +13,9 @@ const WIDGETS: Record<string, string> = {
   Popover: 'overlays-popover--playground',
   Tooltip: 'overlays-tooltip--playground',
   Menu: 'overlays-menu--playground',
-  ContextMenu: 'overlays-menu--context-menu',
-  Menubar: 'overlays-menu--menubar',
   Toast: 'overlays-toast--playground',
+  Select: 'overlays-select--playground',
+  Combobox: 'overlays-combobox--playground',
 };
 
 test.describe('overlay a11y modes (CMP-390/410)', () => {

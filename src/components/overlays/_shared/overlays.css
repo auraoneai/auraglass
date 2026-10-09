@@ -53,10 +53,25 @@
       color: CanvasText;
       border: 1px solid CanvasText;
     }
+    [data-ag-part='popup']:focus-visible,
+    [data-ag-part='close']:focus-visible,
+    [data-ag-part='handle']:focus-visible,
+    [data-ag-part='action']:focus-visible {
+      outline-color: Highlight;
+    }
+  }
+  /* REQ-CMP-84: attribute-driven contrast-more (also honored by the
+     prefers-contrast media query below — kept as a fallback alias). */
+  [data-ag-contrast='more'] [data-ag-part='popup'],
+  :root[data-ag-contrast='more'] [data-ag-part='popup'] {
+    border: var(--ag-surface-rim, 1px) solid var(--ag-color-on-surface, CanvasText);
   }
   @media (prefers-contrast: more) {
     .ag-scrim {
       backdrop-filter: none;
+    }
+    [data-ag-part='popup'] {
+      border: var(--ag-surface-rim, 1px) solid var(--ag-color-on-surface, CanvasText);
     }
   }
   [data-ag-transparency='solid'] .ag-scrim,
