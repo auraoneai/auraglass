@@ -453,7 +453,10 @@ export const GlassVoiceWaveform = forwardRef<
           const phase = (index / Math.max(1, maxBars - 1)) * Math.PI * 3;
           const envelope = 0.28 + Math.sin((index / maxBars) * Math.PI) * 0.72;
           const signal = 0.22 + Math.abs(Math.sin(phase)) * 0.7;
-          return Math.min(1, signal * envelope * Math.max(.28, participant.audioLevel));
+          return Math.min(
+            1,
+            signal * envelope * Math.max(0.28, participant.audioLevel)
+          );
         });
 
       switch (waveformStyle) {
@@ -537,7 +540,9 @@ export const GlassVoiceWaveform = forwardRef<
                 <motion.div
                   className="glass-absolute glass-top-1 glass-w-4 glass-h-4 glass-radius-full"
                   style={{ right: -4, background: "rgba(71,85,105,.88)" }}
-                  animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1] }}
+                  animate={
+                    prefersReducedMotion ? undefined : { scale: [1, 1.2, 1] }
+                  }
                   transition={
                     shouldAnimate
                       ? {
@@ -565,7 +570,10 @@ export const GlassVoiceWaveform = forwardRef<
                 </p>
 
                 {showMuteStatus && participant.isMuted && (
-                  <MicOff className="glass-h-3.5 glass-w-3.5" aria-label="Muted" />
+                  <MicOff
+                    className="glass-h-3.5 glass-w-3.5"
+                    aria-label="Muted"
+                  />
                 )}
               </div>
             )}
@@ -610,15 +618,7 @@ export const GlassVoiceWaveform = forwardRef<
         ref={ref}
         intensity="subtle"
         className={cn("glass-p-4 glass-space-y-4", className)}
-        style={{
-          background:
-            "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
-          backgroundColor: "rgba(255,255,255,0.018)",
-          border: "1px solid rgba(255,255,255,0.18)",
-          boxShadow:
-            "0 24px 64px rgba(15,23,42,.14), inset 0 1px 0 rgba(255,255,255,.18)",
-          color: "var(--glass-theme-text, var(--glass-text-primary))",
-        }}
+        style={createGlassStyle({ variant: "default", elev: 2 })}
         {...props}
       >
         <div className="glass-flex glass-items-center glass-justify-between">

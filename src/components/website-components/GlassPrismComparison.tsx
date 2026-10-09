@@ -191,25 +191,27 @@ export function GlassPrismComparison({
           "glass-relative glass-overflow-hidden glass-radius-2xl glass-border glass-border-white/20 glass-contrast-guard",
           className
         )}
-        style={{
-          ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
-          // The compact comparison is a light, luminous glass surface. Keep
-          // its text tokens local so it remains readable when rendered inside
-          // either the light or media Storybook surface.
-          "--glass-theme-text":
-            "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
-          "--glass-text-primary":
-            "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
-          "--glass-text-secondary":
-            "rgba(var(--glass-color-black) / var(--glass-opacity-70))",
-          "--typography-text-primary":
-            "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
-          "--typography-text-secondary":
-            "rgba(var(--glass-color-black) / var(--glass-opacity-70))",
-          width: "100%",
-          minHeight: 220,
-          padding: 16,
-        } as React.CSSProperties}
+        style={
+          {
+            ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
+            // The compact comparison is a light, luminous glass surface. Keep
+            // its text tokens local so it remains readable when rendered inside
+            // either the light or media Storybook surface.
+            "--glass-theme-text":
+              "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
+            "--glass-text-primary":
+              "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
+            "--glass-text-secondary":
+              "rgba(var(--glass-color-black) / var(--glass-opacity-70))",
+            "--typography-text-primary":
+              "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
+            "--typography-text-secondary":
+              "rgba(var(--glass-color-black) / var(--glass-opacity-70))",
+            width: "100%",
+            minHeight: 220,
+            padding: 16,
+          } as React.CSSProperties
+        }
         data-testid={dataTestId}
         {...props}
       >
@@ -223,7 +225,8 @@ export function GlassPrismComparison({
                 fontSize: "0.68rem",
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",
-                color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+                color:
+                  "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
               }}
             >
               Prism comparison
@@ -342,22 +345,24 @@ export function GlassPrismComparison({
         className
       )}
       data-testid={dataTestId}
-      style={{
-        // Keep the flagship comparison in the canonical luminous-glass lane;
-        // opaque navy fills make the prism read as a dark card in light mode.
-        background:
-          "var(--glass-theme-background-surface, var(--glass-gradient-default))",
-        "--glass-theme-text":
-          "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
-        "--glass-text-primary":
-          "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
-        "--glass-text-secondary":
-          "rgba(var(--glass-color-black) / var(--glass-opacity-70))",
-        "--typography-text-primary":
-          "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
-        "--typography-text-secondary":
-          "rgba(var(--glass-color-black) / var(--glass-opacity-70))",
-      } as React.CSSProperties}
+      style={
+        {
+          // Keep the flagship comparison in the canonical luminous-glass lane;
+          // opaque navy fills make the prism read as a dark card in light mode.
+          background:
+            "var(--glass-theme-background-surface, var(--glass-gradient-default))",
+          "--glass-theme-text":
+            "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
+          "--glass-text-primary":
+            "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
+          "--glass-text-secondary":
+            "rgba(var(--glass-color-black) / var(--glass-opacity-70))",
+          "--typography-text-primary":
+            "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
+          "--typography-text-secondary":
+            "rgba(var(--glass-color-black) / var(--glass-opacity-70))",
+        } as React.CSSProperties
+      }
       {...props}
     >
       <div
@@ -467,25 +472,27 @@ export function GlassPrismComparison({
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
-          style={{
-            perspective: 1000,
-            background:
-              "var(--glass-theme-background-surface, var(--glass-gradient-default))",
-            // Storybook's light surface applies a legacy `.glass-on-light`
-            // descendant rule to `.glass-foundation-complete`. Keep this
-            // comparison panel's local tokens explicit so its content stays
-            // readable on the luminous fill.
-            "--glass-theme-text":
-              "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
-            "--glass-text-primary":
-              "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
-            "--glass-text-secondary":
-              "rgba(var(--glass-color-black) / var(--glass-opacity-70))",
-            "--typography-text-primary":
-              "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
-            "--typography-text-secondary":
-              "rgba(var(--glass-color-black) / var(--glass-opacity-70))",
-          } as React.CSSProperties}
+          style={
+            {
+              perspective: 1000,
+              background:
+                "var(--glass-theme-background-surface, var(--glass-gradient-default))",
+              // Storybook's light surface applies a legacy `.glass-on-light`
+              // descendant rule to `.glass-foundation-complete`. Keep this
+              // comparison panel's local tokens explicit so its content stays
+              // readable on the luminous fill.
+              "--glass-theme-text":
+                "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
+              "--glass-text-primary":
+                "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
+              "--glass-text-secondary":
+                "rgba(var(--glass-color-black) / var(--glass-opacity-70))",
+              "--typography-text-primary":
+                "rgba(var(--glass-color-black) / var(--glass-opacity-90))",
+              "--typography-text-secondary":
+                "rgba(var(--glass-color-black) / var(--glass-opacity-70))",
+            } as React.CSSProperties
+          }
         >
           {/* Background Pattern */}
           <div className="glass-absolute glass-inset-0 glass-opacity-10">
@@ -531,7 +538,9 @@ export function GlassPrismComparison({
                       : undefined
                   }
                   animate={
-                    prefersReducedMotion ? {} : { opacity: [0.6, 0.8, 0.6] }
+                    prefersReducedMotion
+                      ? undefined
+                      : { opacity: [0.6, 0.8, 0.6] }
                   }
                   transition={
                     prefersReducedMotion
@@ -542,9 +551,7 @@ export function GlassPrismComparison({
                         }
                   }
                 >
-                  <span
-                    style={{ color: "rgb(15, 23, 42)" }}
-                  >
+                  <span style={{ color: "rgb(15, 23, 42)" }}>
                     {currentData.competitor.value}
                   </span>
                 </motion.div>
@@ -604,7 +611,7 @@ export function GlassPrismComparison({
                   }
                   animate={
                     prefersReducedMotion
-                      ? {}
+                      ? undefined
                       : {
                           scale: [1, 1.05, 1],
                           textShadow: [
@@ -634,7 +641,7 @@ export function GlassPrismComparison({
                     className="glass-absolute glass--top-4 glass--right-4"
                     animate={
                       prefersReducedMotion
-                        ? {}
+                        ? undefined
                         : {
                             rotate: 360,
                             scale: [0, 1, 0],
@@ -711,7 +718,7 @@ export function GlassPrismComparison({
                 style={{ background: "rgba(255, 255, 255, 0.24)" }}
                 animate={
                   prefersReducedMotion
-                    ? {}
+                    ? undefined
                     : {
                         opacity: [0.18, 0.28, 0.18],
                       }
@@ -735,7 +742,7 @@ export function GlassPrismComparison({
                   }}
                   animate={
                     prefersReducedMotion
-                      ? {}
+                      ? undefined
                       : {
                           opacity: [0, 0.8, 0],
                           scaleX: [0, 1, 0],
@@ -762,7 +769,7 @@ export function GlassPrismComparison({
                 }}
                 animate={
                   prefersReducedMotion
-                    ? {}
+                    ? undefined
                     : {
                         opacity: isHovering ? 0.8 : 0.4,
                         scaleX: isHovering ? 1.2 : 1,
@@ -786,7 +793,7 @@ export function GlassPrismComparison({
             }}
             animate={
               prefersReducedMotion
-                ? {}
+                ? undefined
                 : {
                     scale: isHovering ? 1.5 : 0,
                     rotate: 360,
@@ -861,11 +868,7 @@ export function GlassPrismComparison({
               style={{ color: "rgba(0, 0, 0, 0.92)", opacity: 1 }}
             >
               <motion.span
-                animate={
-                  prefersReducedMotion
-                    ? {}
-                    : {}
-                }
+                animate={prefersReducedMotion ? undefined : undefined}
                 transition={
                   prefersReducedMotion
                     ? { duration: 0 }
@@ -899,7 +902,7 @@ export function GlassPrismComparison({
             }}
             animate={
               prefersReducedMotion
-                ? {}
+                ? undefined
                 : {
                     y: [0, -30, 0],
                     opacity: [0.3, 1, 0.3],

@@ -57,17 +57,10 @@ const quantumColors = {
   interference: "rgba(71, 85, 105, 0.70)",
 };
 
-const menuGlassStyle: React.CSSProperties = {
-  background:
-    "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
-  backgroundColor: "rgba(255,255,255,0.018)",
-  border: "1px solid rgba(255,255,255,0.18)",
-  color: "var(--glass-theme-text, var(--glass-text-primary))",
-  backdropFilter: "blur(24px) saturate(1.5) brightness(1.06) contrast(1.04)",
-  WebkitBackdropFilter:
-    "blur(24px) saturate(1.5) brightness(1.06) contrast(1.04)",
-  boxShadow: "0 12px 30px rgba(15, 23, 42, 0.1)",
-};
+const menuGlassStyle: React.CSSProperties = createGlassStyle({
+  variant: "default",
+  elev: 2,
+});
 
 const wavePatterns = {
   sine: (t: number, frequency: number) => Math.sin(t * frequency),
@@ -318,7 +311,7 @@ export const GlassSuperpositionalMenu = forwardRef<
             }}
             animate={
               prefersReducedMotion
-                ? {}
+                ? undefined
                 : {
                     opacity: [0.1, 0.5, 0.1],
                     scale: [0.5, 1, 0.5],
@@ -371,7 +364,7 @@ export const GlassSuperpositionalMenu = forwardRef<
                   strokeDasharray="10,5"
                   animate={
                     prefersReducedMotion
-                      ? {}
+                      ? undefined
                       : {
                           strokeDashoffset: [0, 15],
                         }
@@ -405,7 +398,7 @@ export const GlassSuperpositionalMenu = forwardRef<
         initial={{ opacity: 1 }}
         animate={
           prefersReducedMotion
-            ? {}
+            ? undefined
             : {
                 opacity: getStateOpacity(state),
                 y: isObserved ? 0 : Math.sin(getQuantumPhase(state)) * 1.5,
