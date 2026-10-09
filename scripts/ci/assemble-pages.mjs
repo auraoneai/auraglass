@@ -5,6 +5,7 @@
    whichever the registry job produced). Inputs arrive via optional:true needs —
    a missing input keeps a "pending" placeholder page instead of failing. */
 import { cpSync, existsSync, mkdirSync, writeFileSync, readdirSync } from 'node:fs';
+import { generate } from '../docs/gen-redirects.mjs';
 
 mkdirSync('public', { recursive: true });
 
@@ -44,4 +45,9 @@ writeFileSync(
   'public/lab/index.html',
   '<!doctype html><meta http-equiv="refresh" content="0; url=/storybook/iframe.html?id=lab-shell">',
 );
+// _redirects — 301s for every docs path RM-13 removed, dep anchors, and /v4/*
+// to the release/4.x Pages deployment. Emitted unconditionally: even without
+// apps/docs/out the old URLs must not 404.
+writeFileSync('public/_redirects', await generate());
+console.log('assemble-pages: public/_redirects emitted');
 console.log('assemble-pages: public/ ready');
