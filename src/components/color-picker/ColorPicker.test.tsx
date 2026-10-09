@@ -51,3 +51,60 @@ describe('color conversions', () => {
     }
   });
 });
+
+/* eslint-disable auraglass/no-raw-design-values -- fixture colors are the unit under test */
+describe('ColorPicker REQ-CMP-125', () => {
+  it('onValueChange emits the {space, value} object', async () => {
+    const seen: { space: string; value: string }[] = [];
+    render(
+      <ColorPicker.Root defaultOpen defaultValue="#3b82f6" onValueChange={(v) => seen.push(v)}>
+        <ColorPicker.Content><ColorPicker.Area /></ColorPicker.Content>
+      </ColorPicker.Root>,
+    );
+    await act(async () => {});
+    fireEvent.keyDown(document.querySelector('[data-ag-part="area"]')!, { key: 'ArrowRight' });
+    await act(async () => {});
+    expect(seen.length).toBeGreaterThan(0);
+    expect(seen[0].space).toBe('srgb');
+    expect(seen[0].value).toMatch(/^#[0-9a-f]{6}$/);
+  });
+
+  it('Channel renders a slider wired to the channel', async () => {
+    render(
+      <ColorPicker.Root defaultOpen defaultValue="#3b82f6">
+        <ColorPicker.Content><ColorPicker.Channel channel="s" /></ColorPicker.Content>
+      </ColorPicker.Root>,
+    );
+    await act(async () => {});
+    const slider = document.querySelector('[data-ag-part="channel"] input[aria-valuenow]')!;
+    expect(slider).not.toBeNull();
+    expect(Number(slider.getAttribute('aria-valuenow'))).toBeGreaterThan(0);
+  });
+
+  it('Alpha slider starts at 1', async () => {
+    render(
+      <ColorPicker.Root defaultOpen defaultValue="#3b82f6">
+        <ColorPicker.Content><ColorPicker.Alpha /></ColorPicker.Content>
+      </ColorPicker.Root>,
+    );
+    await act(async () => {});
+    const slider = document.querySelector('[data-ag-part="alpha"] input[aria-valuenow]')!;
+    expect(Number(slider.getAttribute('aria-valuenow'))).toBe(1);
+  });
+
+  it('Input parses oklch() and emits the oklch space', async () => {
+    const seen: { space: string; value: string }[] = [];
+    render(
+      <ColorPicker.Root defaultOpen onValueChange={(v) => seen.push(v)}>
+        <ColorPicker.Content><ColorPicker.Input /></ColorPicker.Content>
+      </ColorPicker.Root>,
+    );
+    await act(async () => {});
+    const input = document.querySelector('[data-ag-part="input"] input')! as HTMLInputElement;
+    fireEvent.change(input, { target: { value: 'oklch(0.7 0.15 200)' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(seen.length).toBe(1);
+    expect(seen[0].space).toBe('oklch');
+    expect(seen[0].value).toMatch(/^oklch\(/);
+  });
+});
