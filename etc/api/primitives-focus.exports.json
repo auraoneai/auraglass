@@ -1,0 +1,10 @@
+{
+ "entry": "./primitives/focus",
+ "exports": [
+  "FocusScope",
+  "FocusScopeProps",
+  "GlassFocusScope",
+  "default"
+ ],
+ "unanalysable": []
+}

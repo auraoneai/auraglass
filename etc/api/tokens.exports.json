@@ -1,0 +1,14 @@
+{
+ "entry": "./tokens",
+ "exports": [
+  "AuraPersona",
+  "AuraTokensManifest",
+  "PersonaId",
+  "PersonaMode",
+  "auraTokens",
+  "default",
+  "getPersona",
+  "getPersonaModeTokens"
+ ],
+ "unanalysable": []
+}

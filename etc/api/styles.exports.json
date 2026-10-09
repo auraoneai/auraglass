@@ -1,0 +1,7 @@
+{
+ "entry": "./styles",
+ "exports": [],
+ "unanalysable": [
+  "no analysable target for './styles'"
+ ]
+}

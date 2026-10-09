@@ -1,0 +1,15 @@
+{
+ "entry": "./utils/env",
+ "exports": [
+  "getSafeDocument",
+  "getSafeNavigator",
+  "getSafeWindow",
+  "isBrowser",
+  "isServer",
+  "lazyClientValue",
+  "runClientEffect",
+  "safeMatchMedia",
+  "useClientEffect"
+ ],
+ "unanalysable": []
+}

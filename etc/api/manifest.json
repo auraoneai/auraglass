@@ -21,6 +21,7 @@
     "./marketing",
     "./navigation",
     "./overlays",
+    "./package.json",
     "./primitives",
     "./primitives/dismissable-layer",
     "./primitives/focus",
@@ -36,12 +37,25 @@
     "./services/ai/vision-service",
     "./services/websocket/collaboration-service",
     "./ssr",
+    "./styles",
     "./theme",
     "./three",
     "./tokens",
+    "./tokens/css",
+    "./tokens/json",
+    "./tokens/keyframes",
+    "./tokens/manifest",
+    "./tokens/tailwind",
     "./utils/env",
     "./workflows",
     "./workspace"
   ],
-  "unanalysable": []
+  "unanalysable": [
+    "./styles",
+    "./tokens/css",
+    "./tokens/json",
+    "./tokens/keyframes",
+    "./tokens/manifest",
+    "./tokens/tailwind"
+  ]
 }

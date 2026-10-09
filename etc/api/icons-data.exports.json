@@ -1,0 +1,14 @@
+{
+ "entry": "./icons/data",
+ "exports": [
+  "ActivityIcon",
+  "DashboardIcon",
+  "DatabaseIcon",
+  "FileIcon",
+  "FilterIcon",
+  "GridIcon",
+  "ListIcon",
+  "SearchIcon"
+ ],
+ "unanalysable": []
+}

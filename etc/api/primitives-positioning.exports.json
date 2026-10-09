@@ -1,0 +1,12 @@
+{
+ "entry": "./primitives/positioning",
+ "exports": [
+  "GlassPositioner",
+  "Positioner",
+  "PositionerAlign",
+  "PositionerProps",
+  "PositionerSide",
+  "default"
+ ],
+ "unanalysable": []
+}

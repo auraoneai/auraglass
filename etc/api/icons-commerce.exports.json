@@ -1,0 +1,12 @@
+{
+ "entry": "./icons/commerce",
+ "exports": [
+  "CheckIcon",
+  "DashboardIcon",
+  "ErrorIcon",
+  "PlusIcon",
+  "SuccessIcon",
+  "WarningIcon"
+ ],
+ "unanalysable": []
+}

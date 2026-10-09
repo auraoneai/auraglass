@@ -125,22 +125,48 @@ export function exportsKeysWithTypes(pkg) {
 
 export function run4x({ root = ROOT } = {}) {
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
-  const keys = exportsKeysWithTypes(pkg);
+  // REQ-PLAT-55: every export key gets .api.md + .exports.json at the cut
+  // commit — including asset subpaths with no `types` condition (css/json/bin).
+  const keys = Object.keys(pkg.exports ?? {}).sort();
   const manifest = { version: 1, mode: '4x', keys, unanalysable: [] };
-  const files = { 'etc/api/manifest.json': `${JSON.stringify(manifest, null, 2)}\n` };
+  const files = {};
   for (const key of keys) {
     const slug = slugify(key);
-    const target = pkg.exports[key].types;
-    let names = [];
-    if (target && existsSync(join(root, target))) {
+    const cond = pkg.exports[key];
+    const target = cond && typeof cond === 'object' ? cond.types : null;
+    const asset = typeof cond === 'string' ? cond
+      : (cond?.default ?? cond?.import ?? cond?.require ?? null);
+    let names = []; const unanalysable = [];
+    const prior = join(root, 'etc/api', `${slug}.api.md`);
+    if (key === './package.json') {
+      names = ['default'];
+    } else if (target && existsSync(join(root, target))) {
       try { names = extractDtsNames(readFileSync(join(root, target), 'utf8'), dirname(join(root, target))); }
-      catch { manifest.unanalysable.push(key); }
-    } else manifest.unanalysable.push(key);
-    const { apiMd } = reportFiles(key, names, {});
+      catch (e) { unanalysable.push(`${target}: ${e.message}`); }
+    } else if (asset && asset.endsWith('.css') && existsSync(join(root, asset))) {
+      try { names = extractCssApi(join(root, asset)); }
+      catch (e) { unanalysable.push(`${asset}: ${e.message}`); }
+    } else if (existsSync(prior) && !readFileSync(prior, 'utf8').includes('### Unanalysable')) {
+      // dist not built on this checkout: preserve the committed baseline so
+      // api.md ↔ exports.json stay consistent and --check is self-verifying.
+      names = extractMdNames(readFileSync(prior, 'utf8'));
+    } else {
+      unanalysable.push(`no analysable target for '${key}'`);
+    }
+    if (unanalysable.length) manifest.unanalysable.push(key);
+    const { exportsJson, apiMd } = reportFiles(key, names, { unanalysable });
+    files[`etc/api/${slug}.exports.json`] = exportsJson;
     files[`etc/api/${slug}.api.md`] = apiMd;
   }
   files['etc/api/manifest.json'] = `${JSON.stringify(manifest, null, 2)}\n`;
   return { files, manifest };
+}
+
+// Names listed in a generated .api.md ("- `Name`" bullet rows).
+export function extractMdNames(text) {
+  const names = []; text = text.split('### Unanalysable')[0];
+  for (const m of text.matchAll(/^- `([^`]+)`\s*$/gm)) names.push(m[1]);
+  return names.sort();
 }
 
 // --- d.ts export names for the 4x line (no bundler needed for dist .d.ts) -----
