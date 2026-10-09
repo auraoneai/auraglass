@@ -3,7 +3,8 @@ import '@testing-library/jest-dom/jest-globals';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import { NumberField, parseNumber, clampValue, formatNumber, snapToStep } from './index';
+import { NumberField } from './index';
+import { parseNumber, clampValue, formatNumber, snapToStep } from './parse';
 
 describe('NumberField (CMP-156)', () => {
   it('renders a spinbutton wired to label and emits parts', () => {
