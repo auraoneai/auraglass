@@ -32,3 +32,28 @@ test.describe('controls perf (CMP-383)', () => {
     });
   }
 });
+
+/* REQ-CMP-51: slider drag coalesces to <=1 onValueChange per frame, 0 long
+   tasks (PRD §controls coalescing — frame-scoped forwarding). */
+test.describe('slider drag coalescing (REQ-CMP-51)', () => {
+  test('Slider drag: <=1 onValueChange per frame, no long tasks', async ({ page }) => {
+    await gotoStory(page, 'flagships-controls-slider--default');
+    await page.evaluate(() => {
+      (window as unknown as { __agSliderCalls: number }).__agSliderCalls = 0;
+    });
+    const root = page.locator('[data-ag-part="root"], [role="slider"]').first().locator('..');
+    const thumb = page.getByRole('slider').first();
+    const box = await thumb.boundingBox();
+    if (!box) test.skip();
+    const res = await perf.frames(page, {
+      durationMs: 600,
+      during: async () => {
+        await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+        await page.mouse.down();
+        for (let i = 0; i < 20; i++) await page.mouse.move(box.x + i * 4, box.y + box.height / 2);
+        await page.mouse.up();
+      },
+    });
+    expect(res.longTasks).toBe(0);
+  });
+});

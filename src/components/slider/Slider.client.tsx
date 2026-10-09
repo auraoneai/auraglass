@@ -4,7 +4,15 @@ import * as React from 'react';
 import { Slider as Base } from '@base-ui/react/slider';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
+import { subscribeFrame } from '../../motion/ticker';
 import { sizeAttrs } from '../control-shared/size';
+
+/* REQ-CMP-51: coalesce pointer-driven onValueChange to one call per frame.
+   Latest value lives in a ref; a pending subscribeFrame fires it. Keyboard
+   reasons forward synchronously; onValueCommitted flushes pending first. */
+function isPointerReason(reason: string | undefined): boolean {
+  return reason === 'drag' || reason === 'pointer' || reason === 'track-press' || reason === 'track';
+}
 import type { SliderRootProps, SliderValueProps } from './Slider.types';
 
 function SliderRoot<V extends number | number[]>({
@@ -21,12 +29,38 @@ function SliderRoot<V extends number | number[]>({
   const ariaLabelledby = (rest as Record<string, unknown>)['aria-labelledby'] as string | undefined;
   const initial = rest.value ?? rest.defaultValue;
   const thumbCount = Array.isArray(initial) ? Math.max(1, initial.length) : 1;
+
+  const latest = React.useRef<{ value: V; details: ReturnType<typeof toChangeDetails> } | null>(null);
+  const frameOff = React.useRef<(() => void) | null>(null);
+  const flush = () => {
+    frameOff.current?.();
+    frameOff.current = null;
+    const p = latest.current;
+    latest.current = null;
+    if (p) onValueChange?.(p.value, p.details);
+  };
+  React.useEffect(() => () => frameOff.current?.(), []);
+
+  const handleChange = (v: V, eventDetails: unknown) => {
+    const details = toChangeDetails(eventDetails);
+    if (isPointerReason(details.reason)) {
+      latest.current = { value: v, details };
+      frameOff.current ??= subscribeFrame(flush);
+      return;
+    }
+    onValueChange?.(v, details);
+  };
+  const handleCommitted = (v: V, eventDetails: unknown) => {
+    flush();
+    onValueCommitted?.(v, toChangeDetails(eventDetails));
+  };
+
   return (
     <Base.Root
       data-ag-part="root"
       className={cn('ag-slider', className)}
-      onValueChange={(v, details) => onValueChange?.(v as V, toChangeDetails(details))}
-      onValueCommitted={(v, details) => onValueCommitted?.(v as V, toChangeDetails(details))}
+      onValueChange={(v, details) => handleChange(v as V, details)}
+      onValueCommitted={(v, details) => handleCommitted(v as V, details)}
       ref={ref}
       {...sizeAttrs(size)}
       {...rest}
