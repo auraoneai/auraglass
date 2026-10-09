@@ -25,6 +25,11 @@
       "requirement": "private repo auraoneai/auraglass-server-archive built from release/4.x branch point (git subtree split --prefix=server + src/services + src/lib/ai-client.ts + Dockerfile + docker-compose.yml + tsconfig.server.json), byte-identical; see RM-01-archive.json",
       "operator": "owner creates the private repo; agents may subtree-split locally and push only with owner go-ahead"
     },
-    "postmerge": "no-backend.test.ts enforces: no backend package, no build:server/hosted/docker:* script, no server/, Dockerfile, docker-compose*, nginx.conf, workers/, bin/"
+    "postmerge": "no-backend.test.ts enforces: no backend package, no build:server/hosted/docker:* script, no server/, Dockerfile, docker-compose*, nginx.conf, workers/, bin/",
+    "verifyArchive": {
+      "status": "pending-owner",
+      "script": "scripts/removal/verify-archive.mjs --verify",
+      "requirement": "reads gate.ghsa.id here, checks GHSA state=published via gh api, then byte-compares server/**, src/services/**, src/lib/ai-client.ts, Dockerfile, docker-compose.yml, tsconfig.server.json between release/4.x and auraoneai/auraglass-server-archive; --write records RM-01-archive.json"
+    }
   }
 }

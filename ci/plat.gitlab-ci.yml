@@ -188,13 +188,17 @@ plat:test:docs:
 plat:gate:removal:
   extends: .plat-node
   stage: test
-  allow_failure: true
+  # REQ-PLAT-82 item 5: record check is blocking. RM records must be
+  # regenerated on the owner machine (consumer roots + gh) and
+  # verify-archive --verify must pass before this goes green.
+  allow_failure: false
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   script:
     - test -f scripts/removal/gen-component-dispositions.mjs || { echo "PENDING: scripts/removal/gen-component-dispositions.mjs (lane 1c)"; exit 1; }
     - node scripts/removal/gen-component-dispositions.mjs --check
     - node scripts/removal/consumer-grep.mjs --verify
+    - node scripts/removal/verify-archive.mjs --verify
     - |
       if [ -f scripts/removal/revert-dry-run.mjs ]; then
         node scripts/removal/revert-dry-run.mjs
