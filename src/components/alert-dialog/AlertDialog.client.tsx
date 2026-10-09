@@ -29,6 +29,7 @@ interface AlertCtx {
   labels: { cancel?: string; action?: string } | undefined;
   popupElRef: React.MutableRefObject<HTMLElement | null>;
   setPopupElement: (el: HTMLElement | null) => void;
+  rootRef?: React.Ref<HTMLElement> | undefined;
 }
 const AlertContext = React.createContext<AlertCtx>({
   depth: 0,
@@ -36,7 +37,7 @@ const AlertContext = React.createContext<AlertCtx>({
   popupElRef: { current: null }, setPopupElement: () => {},
 });
 
-function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', labels, children }: AlertDialogRootProps) {
+function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', labels, children, ref }: AlertDialogRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen === true);
   const effectiveOpen = open ?? internalOpen;
   const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
@@ -50,8 +51,8 @@ function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', 
     element: popupElement,
   });
   const ctx = React.useMemo<AlertCtx>(
-    () => ({ depth, open: effectiveOpen, intent, labels, popupElRef, setPopupElement }),
-    [depth, intent, labels],
+    () => ({ depth, open: effectiveOpen, intent, labels, popupElRef, setPopupElement, rootRef: ref }),
+    [depth, intent, labels, ref],
   );
   return (
     <AlertContext.Provider value={ctx}>
@@ -99,14 +100,16 @@ function AlertDialogBackdrop({ className }: { className?: string }) {
 let warnedNoTitle = false;
 
 function AlertDialogPopup({ render, className, children, ref, initialFocus, ...rest }: AlertDialogPopupProps) {
-  const { setPopupElement, popupElRef, open: ctxOpen } = React.useContext(AlertContext);
+  const { setPopupElement, popupElRef, open: ctxOpen, rootRef } = React.useContext(AlertContext);
   const animatingRef = useOverlayAnimating();
   const setRefs = React.useCallback((node: HTMLDivElement | null) => {
     const cleanup = animatingRef(node);
     popupElRef.current = node;
     setPopupElement(node);
-    if (typeof ref === 'function') ref(node);
-    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    for (const r of [ref, rootRef]) {
+      if (typeof r === 'function') r(node);
+      else if (r) (r as React.MutableRefObject<HTMLElement | null>).current = node;
+    }
     if (node) {
       const el = node;
       setTimeout(() => {

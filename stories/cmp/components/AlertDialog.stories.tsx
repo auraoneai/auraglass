@@ -19,11 +19,12 @@ export const Confirm: Story = {
   render: () => (
     <AuraGlassProvider>
       <AlertDialog.Root defaultOpen>
+        <AlertDialog.Trigger>Open alert</AlertDialog.Trigger>
         <AlertDialog.Portal>
           <AlertDialog.Backdrop />
           <AlertDialog.Popup>
-            <AlertDialog.Title>Discard draft?</AlertDialog.Title>
-            <AlertDialog.Description>Your unsaved changes will be lost.</AlertDialog.Description>
+            <AlertDialog.Header><AlertDialog.Title>Discard draft?</AlertDialog.Title></AlertDialog.Header>
+            <AlertDialog.Body><AlertDialog.Description>Your unsaved changes will be lost.</AlertDialog.Description></AlertDialog.Body>
             <AlertDialog.Footer>
               <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
               <AlertDialog.Action>Discard</AlertDialog.Action>

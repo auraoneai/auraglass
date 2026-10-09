@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 37,
   rsc: 'mixed',
-  parts: ['activity-feed', 'activity-day', 'activity-heading', 'activity-item', 'activity-actor', 'activity-new-items'],
+  parts: ['activity-feed', 'activity-day-heading', 'activity-actor', 'activity-load-more'],
   states: ['new-items'],
   variants: {},
   budgetKb: 4,

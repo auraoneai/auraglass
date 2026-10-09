@@ -21,7 +21,7 @@ function Controlled() {
 }
 
 export const Default: Story = {
-  render: () => <Controlled />,
+  render: () => <KeyValueEditor defaultValue={[{ key: 'host', value: 'a' }]} />,
 };
 
 export const WithDuplicateKeys: Story = {

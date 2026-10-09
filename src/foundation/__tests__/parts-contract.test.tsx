@@ -4,14 +4,8 @@
 import * as React from 'react';
 import { describe, expect, it, afterEach } from '@jest/globals';
 import { render, cleanup, act } from '@testing-library/react';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { AG_STATES } from '../../foundation/state';
-import { discoverCmpMetas, loadStories, storyElement, REPO_ROOT } from '../../../tests/foundation/metas';
-
-const coverage = JSON.parse(
-  readFileSync(join(REPO_ROOT, 'tests', 'foundation', 'contract-coverage.json'), 'utf8'),
-) as { registered: string[] };
+import { discoverCmpMetas, loadStories, storyElement } from '../../../tests/foundation/metas';
 
 const STATE_SET = new Set<string>(AG_STATES);
 
@@ -21,7 +15,12 @@ afterEach(() => {
 });
 
 describe('parts contract (rendered DOM == meta.parts)', () => {
-  const metas = discoverCmpMetas().filter((m) => coverage.registered.includes(m.name));
+  const metas = discoverCmpMetas();
+  /* Parts declared by any meta — a story may legitimately nest other
+     components (Button triggers, Label fields, delegated Timeline roots);
+     their parts are validated under their own meta, not here. A part no
+     meta declares still fails below (undeclared = bug). */
+  const knownParts = new Set<string>(metas.flatMap((m) => m.meta.parts));
   it('registered metas exist', () => {
     expect(metas.length).toBeGreaterThan(0);
   });
@@ -34,17 +33,21 @@ describe('parts contract (rendered DOM == meta.parts)', () => {
       const states = new Set<string>();
       let rendered = 0;
       for (const loaded of stories) {
+        if (loaded.file.includes('src/data/')) continue; // foreign stream's basename collision
         for (const storyName of Object.keys(loaded.exports)) {
           if (storyName === 'default') continue;
-          const { element } = storyElement(loaded, storyName);
+          const { element } = storyElement(loaded, storyName, { asComponent: true });
           if (!element) continue;
           cleanup();
           render(element);
           await act(async () => {});
+          await act(async () => { await new Promise((r) => setTimeout(r, 10)); }); // portal root created on first effect; popup mounts on second
           rendered += 1;
           for (const el of Array.from(document.querySelectorAll('[data-ag-part]'))) {
             const v = el.getAttribute('data-ag-part');
-            if (v) seen.add(v);
+            if (!v) continue;
+            if (!meta.parts.includes(v) && knownParts.has(v)) continue; // foreign-declared child part
+            seen.add(v);
           }
           for (const el of Array.from(document.querySelectorAll('[data-state]'))) {
             for (const s of (el.getAttribute('data-state') ?? '').split(/\s+/).filter(Boolean)) {

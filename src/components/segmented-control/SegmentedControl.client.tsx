@@ -28,12 +28,15 @@ function SegmentedControlRoot({
   ref,
   ...rest
 }: SegmentedControlRootProps) {
-  /* Dev-only: >5 segments at ~390px → recommend Select (stripped in production). */
-  const measureRef = React.useRef<HTMLDivElement | null>(null);
-  React.useEffect(() => {
+  /* Dev-only: >5 segments at ~390px → recommend Select (stripped in production).
+     Ref-callback observer: the returned cleanup disconnects on unmount
+     (REQ-CMP-03 — React 19 callback-ref cleanup). */
+  const setRefs = React.useCallback((el: HTMLDivElement | null) => {
+    if (typeof ref === 'function') ref(el);
+    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = el;
+    if (!el) return;
     if (typeof process !== 'undefined' && process.env.NODE_ENV === 'production') return;
-    const el = measureRef.current;
-    if (!el || typeof ResizeObserver === 'undefined') return;
+    if (typeof ResizeObserver === 'undefined') return;
     const count = React.Children.count(children);
     const ro = new ResizeObserver(([entry]) => {
       if (
@@ -51,13 +54,7 @@ function SegmentedControlRoot({
     });
     ro.observe(el);
     return () => ro.disconnect();
-  }, [children]);
-
-  const setRefs = (el: HTMLDivElement | null) => {
-    measureRef.current = el;
-    if (typeof ref === 'function') ref(el);
-    else if (ref) ref.current = el;
-  };
+  }, [children, ref]);
 
   return (
     <SurfaceGroup className="ag-segmented-surface">

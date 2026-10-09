@@ -17,16 +17,18 @@ export type BreadcrumbsOverflowProps = {
   label?: string | undefined;
   /** Collapsed middle items (link elements). */
   items?: React.ReactNode[] | undefined;
+  /** Render the overflow menu open (stories/tests; otherwise user-opened). */
+  defaultOpen?: boolean | undefined;
 };
 
-export function BreadcrumbsOverflow({ label = 'Show more', items = [] }: BreadcrumbsOverflowProps) {
+export function BreadcrumbsOverflow({ label = 'Show more', items = [], defaultOpen }: BreadcrumbsOverflowProps) {
   // Real CMP Menu stacks Popup inside Positioner (optionally Portal); the
   // contract double maps Content straight to Base.Popup, so wrap only when
   // the parts exist.
   const MaybePortal = ('Portal' in Menu ? Menu.Portal : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
   const MaybePositioner = ('Positioner' in Menu ? Menu.Positioner : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
   return (
-    <MenuRoot>
+    <MenuRoot defaultOpen={defaultOpen}>
       <MenuTrigger aria-label={label} data-ag-part="ellipsis" className="ag-breadcrumbs__ellipsis">
         {'\u2026'}
       </MenuTrigger>

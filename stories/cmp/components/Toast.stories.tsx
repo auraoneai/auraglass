@@ -54,6 +54,22 @@ export const Intents: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Toast', id: 'overlays-toast--intents' } },
   render: () => <Host />,
 };
+export const PartsCoverage: Story = {
+  render: () => (
+    <Toast.Provider>
+      <Toast.Viewport>
+        <Toast.Root toast={{ id: 't1', title: 'Saved', description: 'Done' } as never}>
+          <Toast.Title>Saved</Toast.Title>
+          <Toast.Description>Your changes were saved.</Toast.Description>
+          <Toast.Action altText="Undo">Undo</Toast.Action>
+          <Toast.Close>×</Toast.Close>
+          <Toast.Progress />
+        </Toast.Root>
+      </Toast.Viewport>
+    </Toast.Provider>
+  ),
+};
+
 export const TopLeft: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Toast', id: 'overlays-toast--top-left' } },
   render: () => (

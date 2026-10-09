@@ -31,8 +31,9 @@ export function ActivityFeed({
   autoLoad = false,
   labels,
   locale = 'en-US',
+  ref,
   ...rest
-}: ActivityFeedProps) {
+}: ActivityFeedProps & { ref?: React.Ref<HTMLElement> | undefined }) {
   const Heading = `h${headingLevel}` as 'h3';
   const itemsWithActors = items.map((it) => ({
     ...it,
@@ -70,7 +71,7 @@ export function ActivityFeed({
     ))
   );
   return (
-    <section data-ag-part="activity-feed" className="ag-activity-feed">
+    <section ref={ref} data-ag-part="activity-feed" className="ag-activity-feed">
       <ActivityFeedInteractive
         itemsLength={items.length}
         newItemsLabel={labels?.newItems}

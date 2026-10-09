@@ -35,6 +35,7 @@ import type {
 } from './Select.types';
 
 const SelectSizeContext = React.createContext<ControlSize>(DEFAULT_CONTROL_SIZE);
+const SelectRootCtx = React.createContext<{ rootRef?: React.Ref<HTMLElement> | undefined }>({});
 
 const finePointer = (): boolean =>
   typeof window !== 'undefined' && typeof window.matchMedia === 'function'
@@ -48,8 +49,9 @@ function SelectRoot<Value = string>({
   form,
   name,
   children,
+  ref,
   ...rest
-}: SelectRootProps<Value>) {
+}: SelectRootProps<Value> & { ref?: React.Ref<HTMLElement> | undefined }) {
   const scopeRef = React.useRef<HTMLSpanElement | null>(null);
   const [resetNonce, setResetNonce] = React.useState(0);
   /* Form reset: BU keeps selection internally, so restore defaultValue by
@@ -67,6 +69,7 @@ function SelectRoot<Value = string>({
   }, [form]);
   return (
     <SelectSizeContext.Provider value={size}>
+      <SelectRootCtx.Provider value={{ rootRef: ref }}>
       <span ref={scopeRef} hidden />
       <Base.Root
         key={resetNonce}
@@ -78,6 +81,7 @@ function SelectRoot<Value = string>({
       >
         {children}
       </Base.Root>
+      </SelectRootCtx.Provider>
     </SelectSizeContext.Provider>
   );
 }
@@ -116,6 +120,7 @@ function SelectValue({ children, className }: SelectValueProps) {
 function SelectContent({ children, className }: SelectContentProps) {
   const container = usePortalContainer('overlay');
   const size = React.useContext(SelectSizeContext);
+  const { rootRef } = React.useContext(SelectRootCtx);
   const [alignToTrigger] = React.useState<boolean>(finePointer);
   return (
     <Base.Portal container={container}>
@@ -128,6 +133,7 @@ function SelectContent({ children, className }: SelectContentProps) {
         {...sizeAttrs(size)}
       >
         <Base.Popup
+          ref={rootRef as React.Ref<HTMLDivElement> | undefined}
           data-ag-part="popup"
           {...materialProps({ layer: 'overlay', thickness: 'regular' })}
           className={cn('ag-select-popup', className)}

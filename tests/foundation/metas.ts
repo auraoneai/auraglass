@@ -67,13 +67,21 @@ export function loadStories(name: string): LoadedStory[] {
 
 /** Renders a story export: honours a custom `render` fn, else mounts `component`
     with the story's args. */
-export function storyElement(storyModule: LoadedStory, storyName: string): { element: React.ReactElement | null; reason?: string } {
+export function storyElement(storyModule: LoadedStory, storyName: string, opts?: { asComponent?: boolean }): { element: React.ReactElement | null; reason?: string } {
   const story = storyModule.exports[storyName] as
     | { render?: (args: Record<string, unknown>) => React.ReactElement; args?: Record<string, unknown> }
     | undefined;
   if (!story || typeof story !== 'object') return { element: null, reason: `no export ${storyName}` };
   const args = story.args ?? {};
-  if (typeof story.render === 'function') return { element: story.render(args) };
+  if (typeof story.render === 'function') {
+    const RenderFn = story.render;
+    /* Storybook render fns may be components (useState etc.) — callers that
+       only need the rendered tree pass asComponent so hooks run inside
+       React. Ref-forwarding callers mount the element directly so the ref
+       reaches the real root. */
+    if (opts?.asComponent) return { element: React.createElement(() => RenderFn(args)) };
+    return { element: RenderFn(args) };
+  }
   const component = (storyModule.exports.default as { component?: React.ComponentType<Record<string, unknown>> } | undefined)?.component;
   if (component) return { element: React.createElement(component as React.ComponentType<Record<string, unknown>>, args) };
   return { element: null, reason: 'story has neither render nor component' };

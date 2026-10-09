@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 37,
   rsc: 'server',
-  parts: ['timeline', 'timeline-item', 'timeline-marker', 'timeline-title', 'timeline-description', 'timeline-time'],
+  parts: ['timeline', 'timeline-item', 'timeline-marker', 'timeline-title', 'timeline-description', 'timeline-time', 'timeline-meta'],
   states: [],
   variants: { density: ['compact', 'comfortable'] },
   budgetKb: 4,

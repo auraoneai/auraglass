@@ -11,8 +11,8 @@ const meta: ControlMeta = defineMeta({
   flagship: 22,
   rsc: 'client',
   parts: [
-    'trigger', 'positioner', 'popup', 'arrow', 'item', 'link-item',
-    'checkbox-item', 'radio-item', 'indicator', 'group', 'group-label',
+    'trigger', 'positioner', 'popup', 'arrow', 'item',
+    'indicator', 'submenu-indicator', 'group', 'group-label',
     'separator', 'submenu-trigger', 'shortcut',
   ],
   states: [

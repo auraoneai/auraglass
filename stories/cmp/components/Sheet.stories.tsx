@@ -19,12 +19,13 @@ type Story = StoryObj<typeof sbMeta>;
 const Demo = ({ root = {}, children }: { root?: Record<string, unknown>; children?: React.ReactNode }) => (
   <AuraGlassProvider>
     <Sheet.Root defaultOpen {...root}>
+      <Sheet.Trigger>Open sheet</Sheet.Trigger>
       <Sheet.Portal>
         <Sheet.Backdrop />
         <Sheet.Popup>
           <Sheet.Handle />
           <Sheet.Header><Sheet.Title>Sheet</Sheet.Title></Sheet.Header>
-          <Sheet.Body>{children ?? 'Sheet content'}</Sheet.Body>
+          <Sheet.Body><Sheet.Description>Panel details</Sheet.Description>{children ?? 'Sheet content'}</Sheet.Body>
           <Sheet.Footer><Sheet.Close>Close</Sheet.Close></Sheet.Footer>
         </Sheet.Popup>
       </Sheet.Portal>

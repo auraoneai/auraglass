@@ -60,9 +60,11 @@ export function Timeline({
   locale = 'en-US',
   'aria-label': ariaLabel,
   className,
-}: TimelineProps) {
+  ref,
+}: TimelineProps & { ref?: React.Ref<HTMLOListElement> | undefined }) {
   return (
     <ol
+      ref={ref}
       data-ag-part="timeline"
       data-ag-orientation={orientation}
       className={`ag-timeline${className ? ` ${className}` : ''}`}

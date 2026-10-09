@@ -27,6 +27,7 @@ interface DialogCtx {
   modal: boolean | 'trap-focus';
   labels: { close?: string } | undefined;
   setPopupElement: (el: HTMLElement | null) => void;
+  rootRef?: React.Ref<HTMLElement> | undefined;
 }
 const DialogContext = React.createContext<DialogCtx>({ depth: 0, open: false, modal: true, labels: undefined, setPopupElement: () => {} });
 
@@ -38,7 +39,8 @@ function DialogRoot({
   dismissible = true,
   labels,
   children,
-}: DialogRootProps) {
+  ref,
+}: DialogRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen === true);
   const effectiveOpen = open ?? internalOpen;
   const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
@@ -54,8 +56,8 @@ function DialogRoot({
     emit(nextOpen, d);
   }, [emit]);
   const ctx = React.useMemo<DialogCtx>(
-    () => ({ depth, open: effectiveOpen, modal, labels, setPopupElement }),
-    [depth, effectiveOpen, modal, labels],
+    () => ({ depth, open: effectiveOpen, modal, labels, setPopupElement, rootRef: ref }),
+    [depth, effectiveOpen, modal, labels, ref],
   );
   return (
     <DialogContext.Provider value={ctx}>
@@ -143,13 +145,15 @@ function DialogPopup({
   ref,
   ...rest
 }: DialogPopupProps) {
-  const { setPopupElement, modal, open: ctxOpen } = React.useContext(DialogContext);
+  const { setPopupElement, modal, open: ctxOpen, rootRef } = React.useContext(DialogContext);
   const animatingRef = useOverlayAnimating();
   const setRefs = React.useCallback<React.RefCallback<HTMLDivElement>>((node) => {
     const cleanup = animatingRef(node);
     setPopupElement(node);
-    if (typeof ref === 'function') ref(node);
-    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    for (const r of [ref, rootRef]) {
+      if (typeof r === 'function') r(node);
+      else if (r) (r as React.MutableRefObject<HTMLElement | null>).current = node;
+    }
     if (!node) return cleanup;
     /* CMP-214: measure Header/Footer block sizes into CSS vars so Body's
        scroll-padding keeps focused controls visible (WCAG 2.4.11). */

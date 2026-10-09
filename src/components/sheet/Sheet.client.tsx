@@ -37,6 +37,7 @@ interface SheetCtx {
   labels: SheetRootProps['labels'];
   detents: SheetDetentsHandle;
   setPopupElement: (el: HTMLElement | null) => void;
+  rootRef?: React.Ref<HTMLElement> | undefined;
   emit: (open: boolean, details: { event?: Event; reason?: unknown }) => void;
   liveRef: React.RefObject<HTMLDivElement | null>;
 }
@@ -70,7 +71,8 @@ function SheetRoot({
   onDetentChange,
   labels,
   children,
-}: SheetRootProps) {
+  ref,
+}: SheetRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
   const dir = useDirection();
   const rtl = dir === 'rtl';
   const resolved = preset === 'action' ? 'bottom' : resolveSide(side, rtl);
@@ -146,8 +148,8 @@ function SheetRoot({
 
   const ctx = React.useMemo<SheetCtx>(() => ({
     depth, open: effectiveOpen, modal, side, resolved, preset, labels, detents: detentState,
-    setPopupElement, emit: handleOpenChange, liveRef,
-  }), [depth, effectiveOpen, modal, side, resolved, preset, labels, detentState, handleOpenChange]);
+    setPopupElement, emit: handleOpenChange, liveRef, rootRef: ref,
+  }), [depth, effectiveOpen, modal, side, resolved, preset, labels, detentState, handleOpenChange, ref]);
 
   return (
     <SheetContext.Provider value={ctx}>
@@ -210,8 +212,10 @@ function SheetPopup({
   const setRefs = React.useCallback((node: HTMLDivElement | null) => {
     const cleanup = animatingRef(node);
     ctx.setPopupElement(node);
-    if (typeof ref === 'function') ref(node);
-    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    for (const r of [ref, ctx.rootRef]) {
+      if (typeof r === 'function') r(node);
+      else if (r) (r as React.MutableRefObject<HTMLElement | null>).current = node;
+    }
     return cleanup;
   }, [animatingRef, ref, ctx]);
   return (

@@ -46,6 +46,7 @@ interface ComboboxInternal {
   hasExactMatch: (query: string) => boolean;
   /** Current create-candidate marker value sentinel (per-query unique object). */
   messages?: ControlMessages | undefined;
+  rootRef?: React.Ref<HTMLElement> | undefined;
 }
 
 const InternalCtx = React.createContext<ComboboxInternal | null>(null);
@@ -108,15 +109,17 @@ function ComboboxRoot<Value = string>({
   size = DEFAULT_CONTROL_SIZE,
   loading: loadingProp,
   mode = 'select',
+  ref,
   loadOptions,
   loadDebounceMs = 250,
   creatable,
   onCreate,
   messages,
+  defaultInputValue,
   children,
   ...rest
 }: ComboboxRootProps<Value>) {
-  const [query, setQuery] = React.useState('');
+  const [query, setQuery] = React.useState(() => defaultInputValue ?? '');
   const [asyncItems, setAsyncItems] = React.useState<Value[] | null>(null);
   const [loadError, setLoadError] = React.useState(false);
   const [asyncLoading, setAsyncLoading] = React.useState(false);
@@ -242,8 +245,9 @@ function ComboboxRoot<Value = string>({
       onCreate,
       hasExactMatch,
       messages,
+      rootRef: ref,
     }),
-    [size, effectiveItems, virtual, mode, loading, loadError, query, creatable, onCreate, hasExactMatch, messages],
+    [size, effectiveItems, virtual, mode, loading, loadError, query, creatable, onCreate, hasExactMatch, messages, ref],
   );
 
   return (
@@ -307,7 +311,7 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
 
 function ComboboxContent({ children, className }: ComboboxContentProps) {
   const container = usePortalContainer('overlay');
-  const { size, loading, query, creatable, onCreate, hasExactMatch, messages, items, virtual } = useInternal();
+  const { size, loading, query, creatable, onCreate, hasExactMatch, messages, items, virtual, rootRef } = useInternal();
   const trimmed = query.trim();
   const offerCreate =
     creatable !== undefined && creatable !== false && trimmed.length > 0 && !hasExactMatch(trimmed);
@@ -325,6 +329,7 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
         {...sizeAttrs(size)}
       >
         <Base.Popup
+          ref={rootRef as React.Ref<HTMLDivElement> | undefined}
           data-ag-part="popup"
           {...materialProps({ layer: 'overlay', thickness: 'regular' })}
           className={cn('ag-combobox-popup', className)}

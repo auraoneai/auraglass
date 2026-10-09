@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Tabs } from './Tabs';
 
-const defaultChildren = <Tabs.Root defaultValue="a"><Tabs.List><Tabs.Tab value="a">Alpha</Tabs.Tab><Tabs.Tab value="b">Beta</Tabs.Tab></Tabs.List><Tabs.Panel value="a">Alpha content</Tabs.Panel><Tabs.Panel value="b">Beta content</Tabs.Panel></Tabs.Root>;
+const defaultChildren = <Tabs.Root defaultValue="a"><Tabs.List><Tabs.Tab value="a">Alpha</Tabs.Tab><Tabs.Tab value="b">Beta</Tabs.Tab><Tabs.Indicator /></Tabs.List><Tabs.Panel value="a">Alpha content</Tabs.Panel><Tabs.Panel value="b">Beta content</Tabs.Panel></Tabs.Root>;
 
 const meta: Meta = {
   title: 'surf/tabs',

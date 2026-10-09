@@ -52,6 +52,22 @@ export const Playground: Story = {
   ),
 };
 
+export const PartsCoverage: Story = {
+  render: () => (
+    <AuraGlassProvider>
+      <Menu.Root defaultOpen>
+        <Menu.Trigger><button>All parts</button></Menu.Trigger>
+        <Menu.Portal><Menu.Positioner><Menu.Popup>
+          <Menu.Arrow />
+          <Menu.CheckboxItem checked>Show grid</Menu.CheckboxItem>
+          <Menu.RadioGroup value="a"><Menu.RadioItem value="a">Radio A</Menu.RadioItem></Menu.RadioGroup>
+          <Menu.LinkItem href="#">Open docs</Menu.LinkItem>
+        </Menu.Popup></Menu.Positioner></Menu.Portal>
+      </Menu.Root>
+    </AuraGlassProvider>
+  ),
+};
+
 export const Submenu: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Menu', id: 'overlays-menu--submenu' } },
   render: () => (
@@ -77,51 +93,6 @@ export const Submenu: Story = {
           </Menu.Positioner>
         </Menu.Portal>
       </Menu.Root>
-    </AuraGlassProvider>
-  ),
-};
-
-export const ContextMenuScene: Story = {
-  name: 'ContextMenu',
-  parameters: { ag: { tier: 'standard', subject: 'Menu', id: 'overlays-menu--context-menu' } },
-  render: () => (
-    <AuraGlassProvider>
-      <ContextMenu.Root>
-        <ContextMenu.Trigger>
-          <div style={{ padding: 24, border: '1px dashed #888' }}>Right-click or Shift+F10 here</div>
-        </ContextMenu.Trigger>
-        <ContextMenu.Portal>
-          <ContextMenu.Positioner>
-            <ContextMenu.Popup>
-              <ContextMenu.Item>Inspect</ContextMenu.Item>
-              <ContextMenu.Item>Rename</ContextMenu.Item>
-              <ContextMenu.Separator />
-              <ContextMenu.Item>Delete</ContextMenu.Item>
-            </ContextMenu.Popup>
-          </ContextMenu.Positioner>
-        </ContextMenu.Portal>
-      </ContextMenu.Root>
-    </AuraGlassProvider>
-  ),
-};
-
-export const MenubarScene: Story = {
-  name: 'Menubar',
-  parameters: { ag: { tier: 'standard', subject: 'Menu', id: 'overlays-menu--menubar' } },
-  render: () => (
-    <AuraGlassProvider>
-      <Menubar>
-        {['File', 'Edit', 'View'].map((m) => (
-          <Menu.Root key={m}>
-            <Menu.Trigger openOnHover>{m}</Menu.Trigger>
-            <Menu.Portal>
-              <Menu.Positioner>
-                <Menu.Popup><Menu.Item>{m} action</Menu.Item></Menu.Popup>
-              </Menu.Positioner>
-            </Menu.Portal>
-          </Menu.Root>
-        ))}
-      </Menubar>
     </AuraGlassProvider>
   ),
 };

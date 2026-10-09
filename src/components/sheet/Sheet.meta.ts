@@ -9,7 +9,7 @@ const meta: ControlMeta = defineMeta({
   flagship: 17,
   rsc: 'client',
   parts: [
-    'trigger', 'backdrop', 'popup', 'handle', 'title', 'description',
+    'trigger', 'backdrop', 'popup', 'handle', 'detent-live', 'title', 'description',
     'close', 'action', 'header', 'body', 'footer',
   ],
   states: [

@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { TabBar } from './TabBar';
 
-const defaultChildren = <TabBar.Root><TabBar.Item href="/home" current>Home</TabBar.Item><TabBar.Item href="/search">Search</TabBar.Item><TabBar.Item href="/library">Library</TabBar.Item></TabBar.Root>;
+const defaultChildren = <TabBar.Root><TabBar.Item href="/home" current icon={<span>I</span>} badge={3}>Home</TabBar.Item><TabBar.Item href="/search" icon={<span>S</span>}>Search</TabBar.Item><TabBar.Item href="/library" badge="new">Library</TabBar.Item><TabBar.Accessory>+</TabBar.Accessory><TabBar.Search /></TabBar.Root>;
 
 const meta: Meta = {
   title: 'surf/tab-bar',

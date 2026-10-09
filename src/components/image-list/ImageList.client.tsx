@@ -27,29 +27,25 @@ function Root({
   ...rest
 }: ImageListProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
   const [width, setWidth] = React.useState<number | null>(null);
-  const hostRef = React.useRef<HTMLDivElement | null>(null);
 
-  React.useEffect(() => {
-    if (variant !== 'masonry') return;
-    const node = hostRef.current;
-    if (!node || typeof ResizeObserver === 'undefined') return;
+  /* Ref-callback observer (REQ-CMP-03): returns the disconnect cleanup so the
+     RO never outlives the element (React 19 callback-ref cleanup). */
+  const setRefs = React.useCallback((node: HTMLDivElement | null) => {
+    if (typeof ref === 'function') ref(node);
+    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    if (!node) return;
+    if (variant !== 'masonry' || typeof ResizeObserver === 'undefined') return;
     const ro = new ResizeObserver((entries) => {
       const w = entries[0]?.contentRect.width;
       if (typeof w === 'number') setWidth(w);
     });
     ro.observe(node);
     return () => ro.disconnect();
-  }, [variant]);
+  }, [ref, variant]);
 
   const effectiveCols = variant === 'masonry' && width !== null
     ? Math.max(1, Math.min(cols, Math.floor(width / Math.max(1, minItemWidth))))
     : cols;
-
-  const setRefs = (node: HTMLDivElement | null) => {
-    hostRef.current = node;
-    if (typeof ref === 'function') ref(node);
-    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
-  };
 
   const styleObj: React.CSSProperties = {
     gap: typeof gap === 'number' ? `var(--ag-space-${gap})` : gap,
