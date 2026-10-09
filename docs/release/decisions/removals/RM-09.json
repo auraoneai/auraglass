@@ -19,5 +19,7 @@
     "reason": "gh search unavailable: Command failed: gh search code --owner auraoneai --owner gchahal1982 aura-glass --limit 50 --json repository,path"
   },
   "acknowledged": false,
-  "note": "AuraOne checkouts are on the owner machine; record regenerated there at the family's PR step."
+  "note": "AuraOne checkouts are on the owner machine; record regenerated there at the family's PR step.",
+  "mergeSha": "e14836962",
+  "sha": "e14836962"
 }

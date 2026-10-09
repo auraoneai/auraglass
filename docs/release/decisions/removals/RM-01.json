@@ -26,5 +26,7 @@
       "operator": "owner creates the private repo; agents may subtree-split locally and push only with owner go-ahead"
     },
     "postmerge": "no-backend.test.ts enforces: no backend package, no build:server/hosted/docker:* script, no server/, Dockerfile, docker-compose*, nginx.conf, workers/, bin/"
-  }
+  },
+  "mergeSha": "fd35eab92",
+  "sha": "fd35eab92"
 }

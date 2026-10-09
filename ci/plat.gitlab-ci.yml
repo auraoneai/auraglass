@@ -194,6 +194,9 @@ plat:gate:removal:
   script:
     - test -f scripts/removal/gen-component-dispositions.mjs || { echo "PENDING: scripts/removal/gen-component-dispositions.mjs (lane 1c)"; exit 1; }
     - node scripts/removal/gen-component-dispositions.mjs --check
+    # verify every RM record present; stub records written off the owner Mac
+    # (status 'missing', unacknowledged) fail — kept allow_failure until the
+    # PLAT-81 operator step regenerates them on the owner machine
     - node scripts/removal/consumer-grep.mjs --verify
     - |
       if [ -f scripts/removal/revert-dry-run.mjs ]; then
