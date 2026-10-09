@@ -18,6 +18,10 @@ export interface TooltipRootProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
+  /** Hover open delay for a STANDALONE tooltip (no Provider) — default 600. */
+  delay?: number | undefined;
+  /** Hover close delay — default 0 (provider default) / immediate. */
+  closeDelay?: number | undefined;
   children?: React.ReactNode;
 }
 

@@ -19,6 +19,9 @@ import type {
 
 interface TooltipCtx {
   open: boolean;
+  /* REQ-CMP-99: standalone-Root hover delays, forwarded to Base.Trigger */
+  delay?: number | undefined;
+  closeDelay?: number | undefined;
   /** stable popup id — trigger exposes it via aria-describedby while open (BU emits neither role nor describedby; we own both) */
   popupId: string;
   /** trigger long-press (coarse) requests open through root state */
@@ -36,7 +39,7 @@ function TooltipProvider({ delay = 600, closeDelay = 0, skipDelayWindow = 400, c
   );
 }
 
-function TooltipRoot({ open, defaultOpen, onOpenChange, children }: TooltipRootProps) {
+function TooltipRoot({ open, defaultOpen, onOpenChange, delay = 600, closeDelay, children }: TooltipRootProps) {
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;
   const current = controlled ? open : internal;
@@ -46,7 +49,7 @@ function TooltipRoot({ open, defaultOpen, onOpenChange, children }: TooltipRootP
     setOpen(true);
     onOpenChange?.(true, { reason: 'imperative' } as OverlayOpenChangeDetails);
   }, [setOpen, onOpenChange]);
-  const ctx = React.useMemo(() => ({ open: current, popupId, requestOpen }), [current, popupId, requestOpen]);
+  const ctx = React.useMemo(() => ({ open: current, popupId, requestOpen, delay, closeDelay }), [current, popupId, requestOpen, delay, closeDelay]);
   return (
     <TooltipCtx.Provider value={ctx}>
       <Base.Root
@@ -87,6 +90,8 @@ const TooltipTrigger = React.forwardRef<HTMLElement, TooltipTriggerProps>(
         ref={ref as React.Ref<HTMLButtonElement>}
         data-ag-part="trigger"
         className={cn('ag-tooltip-trigger', className)}
+        delay={ctx.delay}
+        {...(ctx.closeDelay !== undefined ? { closeDelay: ctx.closeDelay } : {})}
         aria-describedby={ctx.open ? ctx.popupId : undefined}
         onPointerDown={handleDown}
         onPointerUp={handleEnd}

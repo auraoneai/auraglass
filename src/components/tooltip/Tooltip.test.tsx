@@ -147,4 +147,45 @@ describe('Tooltip', () => {
     expect(document.querySelector('[data-ag-part="popup"]')).not.toBeNull();
     up(trigger);
   });
+
+  /* REQ-CMP-99: standalone Root honours its own delay/closeDelay with no
+     Tooltip.Provider around — the root context feeds Base.Trigger. */
+  it('standalone Root delay={200} opens at 200ms without Provider', async () => {
+    jest.useFakeTimers();
+    render(
+      <Tooltip.Root delay={200}>
+        <Tooltip.Trigger>save</Tooltip.Trigger>
+        <Tooltip.Portal><Tooltip.Positioner><Tooltip.Popup><p>tip</p></Tooltip.Popup></Tooltip.Positioner></Tooltip.Portal>
+      </Tooltip.Root>,
+    );
+    const trigger = screen.getByText('save');
+    fireEvent.mouseEnter(trigger);
+    fireEvent.pointerMove(trigger, { pointerType: 'mouse' });
+    fireEvent.mouseMove(trigger);
+    act(() => { jest.advanceTimersByTime(199); });
+    expect(document.querySelector('[data-ag-part="popup"]')).toBeNull();
+    act(() => { jest.advanceTimersByTime(2); });
+    expect(document.querySelector('[data-ag-part="popup"]')).not.toBeNull();
+  });
+
+  it('trigger press does not stick-open; blur closes (REQ-CMP-99)', async () => {
+    jest.useFakeTimers();
+    render(
+      <Tooltip.Root delay={200}>
+        <Tooltip.Trigger>save</Tooltip.Trigger>
+        <Tooltip.Portal><Tooltip.Positioner><Tooltip.Popup><p>tip</p></Tooltip.Popup></Tooltip.Positioner></Tooltip.Portal>
+      </Tooltip.Root>,
+    );
+    const trigger = screen.getByText('save');
+    fireEvent.mouseEnter(trigger);
+    fireEvent.pointerMove(trigger, { pointerType: 'mouse' });
+    fireEvent.mouseMove(trigger);
+    act(() => { jest.advanceTimersByTime(250); });
+    expect(document.querySelector('[data-ag-part="popup"]')).not.toBeNull();
+    // blur/leave closes the tooltip
+    fireEvent.mouseLeave(trigger);
+    fireEvent.pointerLeave(trigger, { pointerType: 'mouse' });
+    act(() => { jest.advanceTimersByTime(50); });
+    expect(document.querySelector('[data-ag-part="popup"]')).toBeNull();
+  });
 });
