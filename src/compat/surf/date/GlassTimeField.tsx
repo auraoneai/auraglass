@@ -4,6 +4,7 @@ import { TimeField } from '../../../date/TimePicker';
 import type { TimeFieldProps } from '../../../date/TimePicker';
 import { toDateValue } from './shared';
 
+/** @deprecated GlassTimeFieldProps DEP-S0669 since 4.2.0, removed in 6.0.0. */
 export type GlassTimeFieldProps = {
   value?: Date;
   defaultValue?: Date;

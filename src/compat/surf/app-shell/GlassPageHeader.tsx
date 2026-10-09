@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { AppShell } from '../../../app-shell/AppShell';
 
+/** @deprecated GlassPageHeaderProps DEP-S0661 since 4.2.0, removed in 6.0.0. */
 export type GlassPageHeaderProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassPageHeader(props: GlassPageHeaderProps) {

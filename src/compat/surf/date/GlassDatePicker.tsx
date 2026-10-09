@@ -5,6 +5,7 @@ import type { DatePickerProps } from '../../../date/DatePicker';
 import { toDateValue } from './shared';
 import type { DateValue } from '@internationalized/date';
 
+/** @deprecated GlassDatePickerProps DEP-S0665 since 4.2.0, removed in 6.0.0. */
 export type GlassDatePickerProps = {
   value?: Date;
   defaultValue?: Date;

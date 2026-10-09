@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { StatusBar } from '../../../app-shell/StatusBar';
 
+/** @deprecated GlassStatusBarProps DEP-S0662 since 4.2.0, removed in 6.0.0. */
 export type GlassStatusBarProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassStatusBar(props: GlassStatusBarProps) {

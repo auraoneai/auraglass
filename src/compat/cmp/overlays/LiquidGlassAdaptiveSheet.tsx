@@ -20,6 +20,7 @@ export interface LiquidGlassAdaptiveSheetProps {
   className?: string;
 }
 
+/** @deprecated LiquidGlassAdaptiveSheet DEP-C0106 since 4.3.0, removed in 5.0.0. {@link Sheet} */
 export function LiquidGlassAdaptiveSheet({ open, onClose, snap, detents, children, className }: LiquidGlassAdaptiveSheetProps) {
   warnDeprecated(DEP);
   const d = detents ?? (snap !== undefined ? (Array.isArray(snap) ? [...snap] : [snap]) : undefined);

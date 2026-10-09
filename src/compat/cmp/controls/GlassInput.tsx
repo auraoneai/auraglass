@@ -34,6 +34,7 @@ export interface GlassInputProps {
   className?: string;
 }
 
+/** @deprecated GlassInput DEP-C0026 since 4.3.0, removed in 5.0.0. {@link TextField} */
 export function GlassInput({
   onChange, helperText, errorText, errorMessage, isInvalid,
   leftIcon, rightIcon, icon, fullWidth, glassVariant, ...rest

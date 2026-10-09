@@ -21,6 +21,7 @@ export interface GlassFabProps {
   className?: string;
 }
 
+/** @deprecated GlassFab DEP-C0008 since 4.3.0, removed in 5.0.0. {@link IconButton} */
 export function GlassFab({ icon, children, label, position, offset, ...rest }: GlassFabProps) {
   warnDeprecated(DEP);
   if (position !== undefined) drop('position');

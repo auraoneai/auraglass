@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { SourceTransition } from '../../../components/source-transition/SourceTransition';
 
+/** @deprecated LiquidGlassTransitionProviderProps DEP-S0675 since 4.2.0, removed in 6.0.0. */
 export type LiquidGlassTransitionProviderProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function LiquidGlassTransitionProvider(props: LiquidGlassTransitionProviderProps) {

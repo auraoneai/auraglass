@@ -5,6 +5,7 @@ import type { CalendarProps } from '../../../date/Calendar';
 import { toDateValue } from './shared';
 import type { DateValue } from '@internationalized/date';
 
+/** @deprecated GlassCalendarProps DEP-S0667 since 4.2.0, removed in 6.0.0. */
 export type GlassCalendarProps = {
   value?: Date;
   defaultValue?: Date;

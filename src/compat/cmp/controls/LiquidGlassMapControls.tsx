@@ -16,6 +16,7 @@ export interface LiquidGlassMapControlsProps {
   className?: string;
 }
 
+/** @deprecated LiquidGlassMapControls DEP-C0017 since 4.3.0, removed in 5.0.0. {@link Toolbar} */
 export function LiquidGlassMapControls({ onZoomIn, onZoomOut, onLocate, children, ...rest }: LiquidGlassMapControlsProps) {
   warnDeprecated(DEP);
   return (

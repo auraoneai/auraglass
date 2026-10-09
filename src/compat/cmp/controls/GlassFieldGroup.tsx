@@ -17,6 +17,7 @@ export interface GlassFieldGroupProps {
   className?: string;
 }
 
+/** @deprecated GlassFieldGroup DEP-C0028 since 4.3.0, removed in 5.0.0. {@link Fieldset} */
 export function GlassFieldGroup({ legend, title, description, children, ...rest }: GlassFieldGroupProps) {
   warnDeprecated(DEP);
   return (

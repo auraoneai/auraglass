@@ -22,6 +22,7 @@ export interface GlassHoverCardProps {
   className?: string;
 }
 
+/** @deprecated GlassHoverCard DEP-C0108 since 4.3.0, removed in 5.0.0. {@link Popover} */
 export function GlassHoverCard({ open, onOpenChange, trigger, content, placement, openDelay, closeDelay, className }: GlassHoverCardProps) {
   warnDeprecated(DEP);
   const pos = splitPlacement(placement);

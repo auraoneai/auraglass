@@ -27,6 +27,7 @@ export function toastPosition(p?: string): 'top-left' | 'top-center' | 'top-righ
   return p !== undefined ? (POSITION_MAP[p] ?? 'bottom-right') : undefined;
 }
 
+/** @deprecated GlassToastProvider DEP-C0116 since 4.3.0, removed in 5.0.0. {@link Toast.Provider} */
 export function GlassToastProvider({ position, duration, limit, children }: GlassToastProviderProps) {
   warnDeprecated(DEP);
   const pos = toastPosition(position);

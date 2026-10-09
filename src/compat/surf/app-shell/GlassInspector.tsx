@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Inspector } from '../../../app-shell/Inspector';
 
+/** @deprecated GlassInspectorProps DEP-S0659 since 4.2.0, removed in 6.0.0. */
 export type GlassInspectorProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassInspector(props: GlassInspectorProps) {

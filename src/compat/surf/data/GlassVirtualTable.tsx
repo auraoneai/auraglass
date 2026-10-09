@@ -7,6 +7,7 @@ import { warnDeprecated } from '../../../internal';
 import { Table } from '../../../data/table/Table';
 import type { TableProps } from '../../../data/table/Table';
 
+/** @deprecated GlassVirtualTableProps DEP-S0641 since 4.2.0, removed in 6.0.0. */
 export type GlassVirtualTableProps<TRow extends Record<string, unknown> = Record<string, unknown>> = {
   rows?: TRow[];
   data?: TRow[];

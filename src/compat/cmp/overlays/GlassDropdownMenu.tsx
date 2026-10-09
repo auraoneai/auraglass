@@ -132,6 +132,7 @@ export function GlassDropdownMenuArrow(props: Record<string, unknown>) {
   return <Menu.Arrow {...(props as object)} />;
 }
 
+/** @deprecated GlassDropdownMenu DEP-C0111 since 4.3.0, removed in 5.0.0. {@link Menu} */
 export const GlassDropdownMenu = {
   Root: GlassDropdownMenuRoot,
   Trigger: GlassDropdownMenuTrigger,

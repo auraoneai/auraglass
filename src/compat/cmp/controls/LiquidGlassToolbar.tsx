@@ -14,6 +14,7 @@ export interface LiquidGlassToolbarProps extends GlassToolbarProps {
   floating?: boolean;
 }
 
+/** @deprecated LiquidGlassToolbar DEP-C0012 since 4.3.0, removed in 5.0.0. {@link Toolbar} */
 export function LiquidGlassToolbar({ items, children, floating, ...rest }: LiquidGlassToolbarProps) {
   warnDeprecated(DEP);
   if (floating !== undefined) warnDeprecated(`${DEP}.prop.floating`);

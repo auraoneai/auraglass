@@ -5,6 +5,7 @@ import { Thread } from '../../../ai/thread/Thread';
 import type { ChatMessage } from './GlassChat';
 import type { AgMessage } from '../../../ai/types';
 
+/** @deprecated GlassMessageListProps DEP-S0651 since 4.2.0, removed in 6.0.0. */
 export interface GlassMessageListProps {
   messages: ChatMessage[];
   currentUserId?: string;

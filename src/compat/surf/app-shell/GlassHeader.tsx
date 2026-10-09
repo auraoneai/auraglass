@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { TopBar } from '../../../app-shell/TopBar';
 
+/** @deprecated GlassHeaderProps DEP-S0655 since 4.2.0, removed in 6.0.0. */
 export type GlassHeaderProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassHeader(props: GlassHeaderProps) {

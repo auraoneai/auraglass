@@ -17,6 +17,7 @@ export interface ToggleButtonProps
   children?: React.ReactNode;
 }
 
+/** @deprecated ToggleButton DEP-C0006 since 4.3.0, removed in 5.0.0. {@link ToggleGroup} */
 export function ToggleButton({ selected, defaultSelected, onChange, ...rest }: ToggleButtonProps) {
   warnDeprecated(DEP);
   return (

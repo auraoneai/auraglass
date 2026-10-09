@@ -29,6 +29,7 @@ export interface GlassRadioGroupProps {
   className?: string;
 }
 
+/** @deprecated GlassRadioGroup DEP-C0025 since 4.3.0, removed in 5.0.0. {@link RadioGroup} */
 export function GlassRadioGroup({ onChange, options, direction, glassVariant, children, ...rest }: GlassRadioGroupProps) {
   warnDeprecated(DEP);
   if (glassVariant !== undefined) drop('glassVariant');

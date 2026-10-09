@@ -27,6 +27,7 @@ export interface GlassCheckboxGroupProps {
   className?: string;
 }
 
+/** @deprecated GlassCheckboxGroup DEP-C0024 since 4.3.0, removed in 5.0.0. {@link CheckboxGroup} */
 export function GlassCheckboxGroup({ onChange, options, children, ...rest }: GlassCheckboxGroupProps) {
   warnDeprecated(DEP);
   return (

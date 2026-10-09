@@ -3,6 +3,7 @@ import { warnDeprecated } from '../../../internal';
 import { Chip } from '../../../data/chip';
 import type { ChipProps } from '../../../data/chip';
 
+/** @deprecated GlassChipProps DEP-S0649 since 4.2.0, removed in 6.0.0. */
 export type GlassChipProps = {
   label?: React.ReactNode;
   text?: React.ReactNode;

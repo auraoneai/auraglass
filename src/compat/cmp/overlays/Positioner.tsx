@@ -18,6 +18,7 @@ export interface PositionerProps {
   className?: string;
 }
 
+/** @deprecated Positioner DEP-C0110 since 4.3.0, removed in 5.0.0. {@link Popover.Positioner} */
 export function Positioner({ placement, side, align, sideOffset, children, className }: PositionerProps) {
   warnDeprecated(DEP);
   const pos = splitPlacement(placement);
@@ -33,4 +34,5 @@ export function Positioner({ placement, side, align, sideOffset, children, class
   );
 }
 
+/** @deprecated GlassPositioner DEP-C0120 since 4.3.0, removed in 5.0.0. {@link Popover.Positioner} */
 export const GlassPositioner = Positioner;

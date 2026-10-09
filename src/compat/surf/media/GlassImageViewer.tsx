@@ -9,6 +9,7 @@ export interface GlassImageViewerProps {
   onOpenChange?: ((o: boolean) => void) | undefined;
 }
 
+/** @deprecated GlassImageViewer DEP-S0604 since 4.2.0, removed in 6.0.0. {@link ImageViewer from aura-glass/media (items need id + required alt)} */
 export function GlassImageViewer(props: GlassImageViewerProps) {
   warnDeprecated('DEP-S0604';
   const { images = [], initialIndex, open, onOpenChange } = props;

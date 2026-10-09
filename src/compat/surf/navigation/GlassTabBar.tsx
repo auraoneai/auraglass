@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { TabBar } from '../../../components/tab-bar/TabBar';
 
+/** @deprecated GlassTabBarProps DEP-S0670 since 4.2.0, removed in 6.0.0. */
 export type GlassTabBarProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassTabBar(props: GlassTabBarProps) {

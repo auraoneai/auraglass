@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Sidebar } from '../../../app-shell/Sidebar';
 
+/** @deprecated GlassSidebarProps DEP-S0660 since 4.2.0, removed in 6.0.0. */
 export type GlassSidebarProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassSidebar(props: GlassSidebarProps) {

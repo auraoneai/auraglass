@@ -13,6 +13,7 @@ export interface LiquidGlassNowPlayingBarProps {
   className?: string;
 }
 
+/** @deprecated LiquidGlassNowPlayingBar DEP-S0602 since 4.2.0, removed in 6.0.0. {@link NowPlayingBar from aura-glass/media} */
 export function LiquidGlassNowPlayingBar(props: LiquidGlassNowPlayingBarProps) {
   warnDeprecated('DEP-S0602';
   const { title, subtitle, artwork, onPlayPause, onPrevious, onNext } = props;

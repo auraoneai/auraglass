@@ -26,6 +26,7 @@ export interface GlassNotificationCenterProps {
   className?: string;
 }
 
+/** @deprecated GlassNotificationCenter DEP-C0119 since 4.3.0, removed in 5.0.0. {@link Popover} {@link useToast} {@link Popover.Positioner} {@link Popover} */
 export function GlassNotificationCenter({ notifications, onMarkAllRead, trigger, className }: GlassNotificationCenterProps) {
   warnDeprecated(DEP);
   return wrap('GlassNotificationCenter', (
@@ -58,6 +59,7 @@ export interface UseNotificationsCompatReturn {
 }
 
 /** 4.x useNotifications().addNotification -> 5.0 useToast().add with history. */
+/** @deprecated useNotifications DEP-C0122 since 4.3.0, removed in 5.0.0. {@link useToast} {@link Popover.Positioner} {@link Popover} */
 export function useNotifications(): UseNotificationsCompatReturn {
   const api = useToast();
   const ref = React.useRef(api);

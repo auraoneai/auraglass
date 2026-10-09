@@ -28,6 +28,7 @@ export interface GlassSegmentedControlProps {
   className?: string;
 }
 
+/** @deprecated GlassSegmentedControl DEP-C0019 since 4.3.0, removed in 5.0.0. {@link SegmentedControl} */
 export function GlassSegmentedControl({ value, defaultValue, onChange, items, segments, children, ...rest }: GlassSegmentedControlProps) {
   warnDeprecated(DEP);
   const list = items ?? segments;

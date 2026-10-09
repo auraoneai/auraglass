@@ -16,6 +16,7 @@ export interface MagneticButtonProps extends GlassButtonProps {
   magneticRadius?: number;
 }
 
+/** @deprecated MagneticButton DEP-C0007 since 4.3.0, removed in 5.0.0. {@link Button} */
 export function MagneticButton({ magnetic, magneticStrength, magneticRadius, ...rest }: MagneticButtonProps) {
   warnDeprecated(DEP);
   if (magnetic !== undefined) drop('magnetic');
@@ -25,4 +26,5 @@ export function MagneticButton({ magnetic, magneticStrength, magneticRadius, ...
 }
 
 /** 4.x also shipped `GlassMagneticButton` (DEP-C0041) — same adapter. */
+/** @deprecated GlassMagneticButton DEP-C0041 since 4.3.0, removed in 5.0.0. {@link MagneticButton} */
 export { MagneticButton as GlassMagneticButton } from './MagneticButton';

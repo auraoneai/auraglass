@@ -16,6 +16,7 @@ export interface GlassLinkButtonProps extends Omit<GlassButtonProps, 'asChild'> 
   rel?: string;
 }
 
+/** @deprecated GlassLinkButton DEP-C0005 since 4.3.0, removed in 5.0.0. {@link Button} */
 export function GlassLinkButton({ href, target, rel, ...rest }: GlassLinkButtonProps) {
   warnDeprecated(DEP);
   const resolvedRel = target === '_blank' ? (rel ?? 'noopener noreferrer') : rel;

@@ -22,6 +22,7 @@ export interface GlassBottomSheetProps {
   className?: string;
 }
 
+/** @deprecated GlassBottomSheet DEP-C0104 since 4.3.0, removed in 5.0.0. {@link Sheet} */
 export function GlassBottomSheet({ open, onClose, onOpenChange, snap, height, detents, children, className }: GlassBottomSheetProps) {
   warnDeprecated(DEP);
   const d = detents ?? (snap !== undefined ? (Array.isArray(snap) ? [...snap] : [snap]) :

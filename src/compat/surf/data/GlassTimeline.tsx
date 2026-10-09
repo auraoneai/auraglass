@@ -3,6 +3,7 @@ import { warnDeprecated } from '../../../internal';
 import { Timeline } from '../../../components/timeline/Timeline';
 import type { TimelineProps } from '../../../components/timeline/Timeline';
 
+/** @deprecated GlassTimelineProps DEP-S0637 since 4.2.0, removed in 6.0.0. */
 export type GlassTimelineProps = {
   items?: { id?: string; timestamp?: string | number | Date; title: string; description?: string; icon?: React.ReactNode }[];
   events?: GlassTimelineProps['items'];

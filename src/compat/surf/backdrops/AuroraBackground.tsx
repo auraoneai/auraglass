@@ -8,6 +8,7 @@ export interface AuroraBackgroundProps {
   children?: React.ReactNode;
 }
 
+/** @deprecated AuroraBackground DEP-S0608 since 4.2.0, removed in 6.0.0. {@link Backdrop preset="aurora" from aura-glass/backdrops} */
 export function AuroraBackground(props: AuroraBackgroundProps) {
   warnDeprecated('DEP-S0608';
   const motion = props.motion === 'full' ? 'drift' : 'static';

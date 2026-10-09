@@ -3,6 +3,7 @@ import { warnDeprecated } from '../../../internal';
 import { KeyValueEditor } from '../../../data/key-value-editor';
 import type { KeyValueEditorProps } from '../../../data/key-value-editor';
 
+/** @deprecated GlassKeyValueEditorProps DEP-S0646 since 4.2.0, removed in 6.0.0. */
 export type GlassKeyValueEditorProps = {
   entries?: Record<string, string>;
   pairs?: Record<string, string>;

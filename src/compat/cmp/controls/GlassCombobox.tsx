@@ -22,6 +22,7 @@ export interface GlassComboboxProps {
   className?: string;
 }
 
+/** @deprecated GlassCombobox DEP-C0037 since 4.3.0, removed in 5.0.0. {@link Combobox} */
 export function GlassCombobox({ onChange, onInputChange, options, glassVariant, placeholder, ...rest }: GlassComboboxProps) {
   warnDeprecated(DEP);
   if (glassVariant !== undefined) drop('glassVariant');

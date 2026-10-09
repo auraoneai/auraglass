@@ -28,6 +28,7 @@ export function toastType(t?: string): ToastIntent {
   return t !== undefined ? (TYPE_MAP[t] ?? 'info') : 'info';
 }
 
+/** @deprecated GlassToast DEP-C0115 since 4.3.0, removed in 5.0.0. {@link useToast} */
 export function GlassToast({ message, title, type, duration, onClose, className }: GlassToastProps) {
   warnDeprecated(DEP);
   const api = useToast();

@@ -8,6 +8,7 @@ const DEP = 'DEP-C0009';
 
 /* 4.x exported a style object; 5.0 styles live in styles.css. A Proxy warns
    once on first property access (call-time, never module scope). */
+/** @deprecated LiquidGlassButtonStyle DEP-C0009 since 4.3.0, removed in 5.0.0. {@link Button} */
 export const LiquidGlassButtonStyle: Record<string, unknown> = new Proxy(
   {},
   {

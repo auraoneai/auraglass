@@ -23,6 +23,7 @@ export interface GlassTooltipProps {
   className?: string;
 }
 
+/** @deprecated GlassTooltip DEP-C0109 since 4.3.0, removed in 5.0.0. {@link Tooltip} {@link Popover} */
 export function GlassTooltip({ open, onOpenChange, content, label, position, placement, delay, children, className }: GlassTooltipProps) {
   warnDeprecated(DEP);
   const pos = splitPlacement(position ?? placement);

@@ -67,6 +67,7 @@ export function useGlassModalMapping(props: GlassModalProps, dep = DEP) {
   return { open, handleOpenChange, dismissible, mappedSize, variant, role, title, description, footer, children, trigger, className, rest };
 }
 
+/** @deprecated GlassModal DEP-C0101 since 4.3.0, removed in 5.0.0. {@link Dialog} */
 export function GlassModal(props: GlassModalProps) {
   warnDeprecated(DEP);
   const m = useGlassModalMapping(props);

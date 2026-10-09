@@ -26,6 +26,7 @@ export interface GlassSearchFieldProps {
   'aria-label'?: string;
 }
 
+/** @deprecated GlassSearchField DEP-C0032 since 4.3.0, removed in 5.0.0. {@link SearchField} */
 export function GlassSearchField({ onChange, onSearch, results, suggestions, facets, aiPowered, ...rest }: GlassSearchFieldProps) {
   warnDeprecated(DEP);
   for (const p of [results !== undefined && 'results', suggestions !== undefined && 'suggestions',

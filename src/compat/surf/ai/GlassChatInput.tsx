@@ -4,6 +4,7 @@ import { warnDeprecated } from '../../../internal';
 import { Composer } from '../../../ai/composer/Composer';
 import type { ComposerRootProps } from '../../../ai/composer/Composer';
 
+/** @deprecated GlassChatInputProps DEP-S0652 since 4.2.0, removed in 6.0.0. */
 export interface GlassChatInputProps {
   value?: string;
   onChange?: (value: string) => void;

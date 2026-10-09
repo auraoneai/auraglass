@@ -17,6 +17,7 @@ export interface GlassActionBarProps {
   className?: string;
 }
 
+/** @deprecated GlassActionBar DEP-C0018 since 4.3.0, removed in 5.0.0. {@link Toolbar} */
 export function GlassActionBar({ actions, children, ...rest }: GlassActionBarProps) {
   warnDeprecated(DEP);
   return (

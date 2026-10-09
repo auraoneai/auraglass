@@ -8,6 +8,7 @@ export interface GlassGalleryProps {
   columns?: number;
 }
 
+/** @deprecated GlassGallery DEP-S0605 since 4.2.0, removed in 6.0.0. {@link ImageViewer from aura-glass/media (or the media-gallery registry item)} */
 export function GlassGallery(props: GlassGalleryProps) {
   warnDeprecated('DEP-S0605';
   const items: ImageViewerItem[] = (props.images ?? []).map((img, i) => ({

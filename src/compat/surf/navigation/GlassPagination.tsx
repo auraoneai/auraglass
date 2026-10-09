@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Pagination } from '../../../components/pagination/Pagination';
 
+/** @deprecated GlassPaginationProps DEP-S0679 since 4.2.0, removed in 6.0.0. */
 export type GlassPaginationProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassPagination(props: GlassPaginationProps) {

@@ -36,6 +36,7 @@ export function toSide(p?: string): SheetSide | undefined {
   return p !== undefined ? (SIDE_MAP[p] ?? 'start') : undefined;
 }
 
+/** @deprecated GlassDrawer DEP-C0103 since 4.3.0, removed in 5.0.0. {@link Sheet} */
 export function GlassDrawer({ open, onClose, onOpenChange, position, placement, snap, detents, modal, closeOnOverlayClick, children, className }: GlassDrawerProps) {
   warnDeprecated(DEP);
   const side = toSide(position ?? placement) ?? 'end';

@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Breadcrumbs } from '../../../components/breadcrumbs/Breadcrumbs';
 
+/** @deprecated GlassBreadcrumbProps DEP-S0672 since 4.2.0, removed in 6.0.0. */
 export type GlassBreadcrumbProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassBreadcrumb(props: GlassBreadcrumbProps) {

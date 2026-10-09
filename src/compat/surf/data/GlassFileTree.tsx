@@ -5,6 +5,7 @@ import { TreeView } from '../../../data/tree-view/TreeView';
 import type { TreeViewProps, TreeItemData } from '../../../data/tree-view/TreeView';
 
 /** 4.x file nodes: { name, children }. */
+/** @deprecated GlassFileTreeProps DEP-S0634 since 4.2.0, removed in 6.0.0. */
 export type GlassFileTreeProps = Omit<TreeViewProps<TreeItemData>, 'items'> & {
   files?: { name: string; children?: { name: string; children?: unknown[] }[] }[];
 };

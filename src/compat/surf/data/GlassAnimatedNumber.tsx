@@ -3,6 +3,7 @@
 'use client';
 import { warnDeprecated } from '../../../internal';
 
+/** @deprecated GlassAnimatedNumberProps DEP-S0633 since 4.2.0, removed in 6.0.0. */
 export type GlassAnimatedNumberProps = {
   value: number;
   format?: (v: number) => string;

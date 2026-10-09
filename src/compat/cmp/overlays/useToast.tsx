@@ -36,6 +36,7 @@ const toData = (o: GlassToastOptions | string): ToastData => {
   };
 };
 
+/** @deprecated useToast DEP-C0118 since 4.3.0, removed in 5.0.0. {@link useToast} */
 export function useToast(): UseToastCompatReturn {
   const api = useToast5();
   const ref = React.useRef(api);

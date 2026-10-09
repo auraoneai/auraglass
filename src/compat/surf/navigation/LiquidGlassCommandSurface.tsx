@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { CommandPalette } from '../../../components/command-palette/CommandPalette';
 
+/** @deprecated LiquidGlassCommandSurfaceProps DEP-S0685 since 4.2.0, removed in 6.0.0. */
 export type LiquidGlassCommandSurfaceProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function LiquidGlassCommandSurface(props: LiquidGlassCommandSurfaceProps) {

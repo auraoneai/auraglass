@@ -5,6 +5,7 @@ import { Thread } from '../../../ai/thread/Thread';
 import { Composer } from '../../../ai/composer/Composer';
 import type { AgMessage } from '../../../ai/types';
 
+/** @deprecated ChatMessage DEP-S0653 since 4.2.0, removed in 6.0.0. */
 export interface ChatMessage {
   id: string;
   content: string;

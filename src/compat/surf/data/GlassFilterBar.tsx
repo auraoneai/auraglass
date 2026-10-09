@@ -5,6 +5,7 @@ import { FilterBar } from '../../../data/filter-bar/FilterBar';
 import type { FilterBarProps } from '../../../data/filter-bar/FilterBar';
 import type { FilterField, FilterGroup } from '../../../data/filter-bar/filter-model';
 
+/** @deprecated GlassFilterBarProps DEP-S0644 since 4.2.0, removed in 6.0.0. */
 export type GlassFilterBarProps = {
   fields?: FilterField[];
   filters?: FilterGroup;

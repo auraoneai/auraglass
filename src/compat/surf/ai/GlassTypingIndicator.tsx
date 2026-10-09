@@ -3,6 +3,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { AiIcon } from '../../../ai/icons/AiIcon';
 
+/** @deprecated GlassTypingIndicatorProps DEP-S0654 since 4.2.0, removed in 6.0.0. */
 export interface GlassTypingIndicatorProps {
   visible?: boolean;
   names?: string[];

@@ -8,6 +8,7 @@ import type { TableProps } from '../../../data/table/Table';
 
 type Ctx = { getValue: <T = unknown>() => T; row: { original: unknown } };
 
+/** @deprecated ColumnDefinition DEP-S0640 since 4.2.0, removed in 6.0.0. */
 export interface ColumnDefinition<TRow = Record<string, unknown>> {
   key: string;
   label?: React.ReactNode;

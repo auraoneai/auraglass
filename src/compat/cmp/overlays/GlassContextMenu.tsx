@@ -18,6 +18,7 @@ export interface GlassContextMenuProps {
   children?: React.ReactNode;
 }
 
+/** @deprecated GlassContextMenu DEP-C0112 since 4.3.0, removed in 5.0.0. {@link ContextMenu} */
 export function GlassContextMenu({ items, onClose, onOpenChange, children }: GlassContextMenuProps) {
   warnDeprecated(DEP);
   return wrap('GlassContextMenu', (

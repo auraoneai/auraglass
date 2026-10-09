@@ -4,6 +4,7 @@ import { warnDeprecated } from '../../../internal';
 import { StatCard } from '../../../data/stat-card/StatCard';
 import type { StatCardProps } from '../../../data/stat-card/StatCard';
 
+/** @deprecated GlassStatCardProps DEP-S0645 since 4.2.0, removed in 6.0.0. */
 export type GlassStatCardProps = {
   title?: string;
   label?: string;

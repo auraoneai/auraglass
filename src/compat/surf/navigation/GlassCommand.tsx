@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Command } from '../../../components/command-palette/Command';
 
+/** @deprecated GlassCommandProps DEP-S0677 since 4.2.0, removed in 6.0.0. */
 export type GlassCommandProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassCommand(props: GlassCommandProps) {

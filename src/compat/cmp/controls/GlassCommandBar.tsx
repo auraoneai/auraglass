@@ -18,6 +18,7 @@ export interface GlassCommandBarProps {
   className?: string;
 }
 
+/** @deprecated GlassCommandBar DEP-C0016 since 4.3.0, removed in 5.0.0. {@link Toolbar} */
 export function GlassCommandBar({ commands, items, children, ...rest }: GlassCommandBarProps) {
   warnDeprecated(DEP);
   const list = commands ?? items;

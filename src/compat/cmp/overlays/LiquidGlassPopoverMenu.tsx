@@ -18,6 +18,7 @@ export interface LiquidGlassPopoverMenuProps {
   className?: string;
 }
 
+/** @deprecated LiquidGlassPopoverMenu DEP-C0114 since 4.3.0, removed in 5.0.0. {@link Menu} */
 export function LiquidGlassPopoverMenu({ open, onOpenChange, trigger, children, className }: LiquidGlassPopoverMenuProps) {
   warnDeprecated(DEP);
   return wrap('LiquidGlassPopoverMenu', (

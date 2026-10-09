@@ -12,6 +12,7 @@ export interface GlassCarouselProps {
   autoPlayInterval?: number;
 }
 
+/** @deprecated GlassCarousel DEP-S0606 since 4.2.0, removed in 6.0.0. {@link CarouselRail from aura-glass/media (infinite to loop, autoPlay gated)} */
 export function GlassCarousel(props: GlassCarouselProps) {
   warnDeprecated('DEP-S0606';
   const children = React.Children.toArray(props.children);

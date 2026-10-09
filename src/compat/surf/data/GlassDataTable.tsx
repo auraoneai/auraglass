@@ -8,6 +8,7 @@ import type { TableProps } from '../../../data/table/Table';
 
 type Ctx = { getValue: <T = unknown>() => T; row: { original: unknown } };
 
+/** @deprecated GlassDataTableProps DEP-S0636 since 4.2.0, removed in 6.0.0. */
 export type GlassDataTableProps<TRow extends Record<string, unknown> = Record<string, unknown>> = {
   rows?: TRow[];
   data?: TRow[];

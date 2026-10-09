@@ -26,6 +26,7 @@ export interface LiquidGlassSearchFieldProps {
   'aria-label'?: string;
 }
 
+/** @deprecated LiquidGlassSearchField DEP-C0031 since 4.3.0, removed in 5.0.0. {@link SearchField} */
 export function LiquidGlassSearchField({ onChange, onSearch, results, suggestions, facets, aiPowered, ...rest }: LiquidGlassSearchFieldProps) {
   warnDeprecated(DEP);
   for (const p of [results !== undefined && 'results', suggestions !== undefined && 'suggestions',

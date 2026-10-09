@@ -18,6 +18,7 @@ export interface LiquidGlassControlGroupProps {
   className?: string;
 }
 
+/** @deprecated LiquidGlassControlGroup DEP-C0011 since 4.3.0, removed in 5.0.0. {@link ButtonGroup} */
 export function LiquidGlassControlGroup({ spacing, ...rest }: LiquidGlassControlGroupProps) {
   warnDeprecated(DEP);
   if (spacing !== undefined) drop('spacing');

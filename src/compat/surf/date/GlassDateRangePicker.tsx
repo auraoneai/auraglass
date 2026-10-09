@@ -6,6 +6,7 @@ import { toDateValue } from './shared';
 import type { DateValue } from '@internationalized/date';
 import type { DateRangeValue } from '../../../date/DateRangePicker';
 
+/** @deprecated GlassDateRangePickerProps DEP-S0668 since 4.2.0, removed in 6.0.0. */
 export type GlassDateRangePickerProps = {
   startDate?: Date;
   endDate?: Date;

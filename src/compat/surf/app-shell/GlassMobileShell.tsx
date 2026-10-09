@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { MobileShell } from '../../../app-shell/MobileShell';
 
+/** @deprecated GlassMobileShellProps DEP-S0657 since 4.2.0, removed in 6.0.0. */
 export type GlassMobileShellProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassMobileShell(props: GlassMobileShellProps) {

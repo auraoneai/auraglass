@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { TopBar } from '../../../app-shell/TopBar';
 
+/** @deprecated GlassTopBarProps DEP-S0663 since 4.2.0, removed in 6.0.0. */
 export type GlassTopBarProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassTopBar(props: GlassTopBarProps) {

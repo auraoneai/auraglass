@@ -36,6 +36,7 @@ export interface GlassButtonProps
 
 const SIZE_MAP = { xs: 'sm', xl: 'lg' } as const;
 
+/** @deprecated GlassButton DEP-C0001 since 4.3.0, removed in 5.0.0. {@link Button} */
 export function GlassButton(props: GlassButtonProps) {
   warnDeprecated(DEP);
   const {

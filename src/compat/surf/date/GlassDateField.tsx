@@ -5,6 +5,7 @@ import { DateField } from '../../../date/DateField';
 import type { DateFieldProps } from '../../../date/DateField';
 import { toDateValue } from './shared';
 
+/** @deprecated GlassDateFieldProps DEP-S0666 since 4.2.0, removed in 6.0.0. */
 export type GlassDateFieldProps = {
   value?: Date;
   defaultValue?: Date;

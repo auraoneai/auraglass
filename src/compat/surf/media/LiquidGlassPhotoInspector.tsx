@@ -8,6 +8,7 @@ export interface LiquidGlassPhotoInspectorProps {
   onClose?: (() => void) | undefined;
 }
 
+/** @deprecated LiquidGlassPhotoInspector DEP-S0603 since 4.2.0, removed in 6.0.0. {@link ImageViewer + Inspector from aura-glass/media} */
 export function LiquidGlassPhotoInspector(props: LiquidGlassPhotoInspectorProps) {
   warnDeprecated('DEP-S0603';
   const p = props.photo;

@@ -60,6 +60,7 @@ export function GlassSelectScrollDown() {
   return null;
 }
 
+/** @deprecated GlassSelectCompound DEP-C0036 since 4.3.0, removed in 5.0.0. {@link Select} */
 export const GlassSelectCompound = {
   Root: GlassSelectRoot,
   Trigger: GlassSelectTrigger,

@@ -6,6 +6,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { AppShell } from '../../../app-shell/AppShell';
 
+/** @deprecated ZSpaceAppLayoutProps DEP-S0658 since 4.2.0, removed in 6.0.0. */
 export type ZSpaceAppLayoutProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function ZSpaceAppLayout(props: ZSpaceAppLayoutProps) {

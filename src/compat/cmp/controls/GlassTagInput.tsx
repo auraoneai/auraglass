@@ -20,6 +20,7 @@ export interface GlassTagInputProps {
   className?: string;
 }
 
+/** @deprecated GlassTagInput DEP-C0039 since 4.3.0, removed in 5.0.0. {@link Combobox} */
 export function GlassTagInput({ value, defaultValue, onChange, onTagsChange, suggestions, placeholder, ...rest }: GlassTagInputProps) {
   warnDeprecated(DEP);
   const cb = onChange ?? onTagsChange;

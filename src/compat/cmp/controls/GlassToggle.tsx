@@ -17,6 +17,7 @@ export interface GlassToggleProps {
   className?: string;
 }
 
+/** @deprecated GlassToggle DEP-C0015 since 4.3.0, removed in 5.0.0. {@link ToggleGroup} */
 export function GlassToggle({ value, onChange, disabled, label, children, className }: GlassToggleProps) {
   warnDeprecated(DEP);
   return (

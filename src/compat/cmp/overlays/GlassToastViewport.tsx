@@ -15,6 +15,7 @@ export interface GlassToastViewportProps {
   className?: string;
 }
 
+/** @deprecated GlassToastViewport DEP-C0117 since 4.3.0, removed in 5.0.0. {@link Toast.Viewport} {@link Toast.Provider} */
 export function GlassToastViewport({ position, className }: GlassToastViewportProps) {
   warnDeprecated(DEP);
   const pos = toastPosition(position);

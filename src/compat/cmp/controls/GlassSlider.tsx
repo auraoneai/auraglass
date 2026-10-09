@@ -26,6 +26,7 @@ export interface GlassSliderProps {
   'aria-label'?: string;
 }
 
+/** @deprecated GlassSlider DEP-C0022 since 4.3.0, removed in 5.0.0. {@link Slider} */
 export function GlassSlider({ onChange, onAfterChange, animation, glassVariant, range, value, defaultValue, ...rest }: GlassSliderProps) {
   warnDeprecated(DEP);
   if (animation !== undefined) drop('animation');

@@ -5,6 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { TreeView } from '../../../data/tree-view/TreeView';
 import type { TreeViewProps, TreeItemData } from '../../../data/tree-view/TreeView';
 
+/** @deprecated GlassTreeViewProps DEP-S0647 since 4.2.0, removed in 6.0.0. */
 export type GlassTreeViewProps<T extends TreeItemData = TreeItemData> = {
   nodes?: T[];
   items?: T[];

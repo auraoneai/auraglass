@@ -30,6 +30,7 @@ export interface GlassSelectProps {
   className?: string;
 }
 
+/** @deprecated GlassSelect DEP-C0035 since 4.3.0, removed in 5.0.0. {@link Select} */
 export function GlassSelect({ onChange, options, placeholder, searchable, size, glassVariant, ...rest }: GlassSelectProps) {
   warnDeprecated(DEP);
   if (searchable) warnDeprecated(`${DEP}.searchable:use-Combobox`);

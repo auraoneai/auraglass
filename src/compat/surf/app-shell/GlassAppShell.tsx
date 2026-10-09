@@ -11,6 +11,7 @@ import { MobileShell } from '../../../app-shell/MobileShell';
 import { Sidebar } from '../../../app-shell/Sidebar';
 import { Inspector } from '../../../app-shell/Inspector';
 
+/** @deprecated GlassAppShellProps DEP-S0656 since 4.2.0, removed in 6.0.0. */
 export type GlassAppShellProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassAppShell(props: GlassAppShellProps) {
