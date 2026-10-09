@@ -1,6 +1,5 @@
 {
  "entry": "compat.mat",
- "source": "src/compat/mat/index.ts",
  "exports": [
   "GlassCore",
   "LiquidGlassConcentricFrame",
@@ -10,5 +9,6 @@
   "LiquidGlassScrollEdge",
   "OptimizedGlass",
   "OptimizedGlassAdvanced"
- ]
+ ],
+ "unanalysable": []
 }

@@ -14,7 +14,7 @@ export interface AtmosphericBackgroundProps {
 
 /** @deprecated AtmosphericBackground DEP-S0610 since 4.2.0, removed in 6.0.0. {@link Backdrop presets from aura-glass/backdrops} */
 export function AtmosphericBackground(props: AtmosphericBackgroundProps) {
-  warnDeprecated('DEP-S0610';
+  warnDeprecated('DEP-S0610');
   const scheme = props.colorScheme === 'dark' ? 'dark' : 'light';
   return <Backdrop preset="aurora" scheme={scheme} className={props.className}>{props.children}</Backdrop>;
 }

@@ -12,7 +12,7 @@ export interface LiquidGlassCarouselRailProps {
 
 /** @deprecated LiquidGlassCarouselRail DEP-S0607 since 4.2.0, removed in 6.0.0. {@link CarouselRail from aura-glass/media} */
 export function LiquidGlassCarouselRail(props: LiquidGlassCarouselRailProps) {
-  warnDeprecated('DEP-S0607';
+  warnDeprecated('DEP-S0607');
   const slides: CarouselRailSlide[] = (props.items ?? []).map((c, i) => ({ id: `s${i}`, children: c }));
   return (
     <CarouselRail.Root

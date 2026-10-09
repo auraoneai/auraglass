@@ -67,7 +67,8 @@
   "LiquidGlassTabBar",
   "LiquidGlassTransitionProvider",
   "SURF_COMPAT_ADAPTERS",
-  "TreeView2",
+  "TreeView4x",
   "ZSpaceAppLayout"
- ]
+ ],
+ "unanalysable": []
 }

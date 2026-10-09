@@ -13,7 +13,7 @@ export interface GlassMeshGradientProps {
 
 /** @deprecated GlassMeshGradient DEP-S0613 since 4.2.0, removed in 6.0.0. {@link Backdrop preset="mesh" from aura-glass/backdrops} */
 export function GlassMeshGradient(props: GlassMeshGradientProps) {
-  warnDeprecated('DEP-S0613';
+  warnDeprecated('DEP-S0613');
   return (
     <Backdrop preset="mesh" motion={props.animate ? 'drift' : 'static'} className={props.className}>
       {props.children}

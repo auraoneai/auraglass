@@ -1,4 +1,4 @@
-## API Report — aura-glass compat.mat (src/compat/mat/index.ts)
+## API Report — aura-glass compat.mat
 
 - `GlassCore`
 - `LiquidGlassConcentricFrame`

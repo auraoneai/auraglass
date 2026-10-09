@@ -21,7 +21,7 @@ export interface LiquidGlassMediaControlsProps {
 
 /** @deprecated LiquidGlassMediaControls DEP-S0600 since 4.2.0, removed in 6.0.0. {@link MediaControls.Root from aura-glass/media} */
 export function LiquidGlassMediaControls(props: LiquidGlassMediaControlsProps) {
-  warnDeprecated('DEP-S0600';
+  warnDeprecated('DEP-S0600');
   const { onPlayPause, compact, ...rest } = props;
   void compact;
   return (

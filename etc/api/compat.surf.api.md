@@ -1,4 +1,4 @@
-## API Report — aura-glass/compat (SURF adapters)
+## API Report — aura-glass compat.surf
 
 - `AtmosphericBackground`
 - `AuroraBackground`
@@ -66,5 +66,5 @@
 - `LiquidGlassTabBar`
 - `LiquidGlassTransitionProvider`
 - `SURF_COMPAT_ADAPTERS`
-- `TreeView2`
+- `TreeView4x`
 - `ZSpaceAppLayout`
