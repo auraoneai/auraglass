@@ -12,7 +12,7 @@ import * as React from 'react';
 import { Dialog as Base } from '@base-ui/react/dialog';
 import { useDirection } from '@base-ui/react/direction-provider';
 import { useAnnouncer } from '../../theme';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';

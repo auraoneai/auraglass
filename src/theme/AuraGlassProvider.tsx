@@ -28,6 +28,13 @@ export const DeprecationModeContext = React.createContext<'warn' | 'silent' | un
 
 const PORTAL_ROOT_ATTR = 'data-ag-portal-root';
 
+/* Roots this module mounted itself. The adopt-check below runs in a layout
+   effect before the ref's setState lands, so comparing `existing !==
+   portalRoot` cannot tell our own fresh root from a foreign one — without
+   this set the provider adopts its own root and immediately unmounts it,
+   leaving portal containers pointing at a detached element (REQ-CMP-11). */
+const ownPortalRoots = new WeakSet<Element>();
+
 const PortalRootMarkup = React.forwardRef<
   HTMLDivElement, { toasts: boolean; tooltips: boolean }
 >(({ toasts, tooltips }, ref) =>
@@ -85,7 +92,9 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
       html.setAttribute('data-ag-root', '');
       store.setTarget(html);
       const existing = doc.querySelector<HTMLElement>(`[${PORTAL_ROOT_ATTR}]`);
-      if (existing && existing !== portalRoot) setAdoptedRoot(existing);
+      if (existing && !ownPortalRoots.has(existing) && existing !== portalRoot) {
+        setAdoptedRoot(existing);
+      }
       return () => {
         html.removeAttribute('data-ag-root');
         store.setTarget(null);
@@ -136,7 +145,10 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
         { container },
         React.createElement(PortalRootMarkup, {
           toasts, tooltips,
-          ref: (el: HTMLDivElement | null) => setPortalRoot(el),
+          ref: (el: HTMLDivElement | null) => {
+            if (el) ownPortalRoots.add(el);
+            setPortalRoot(el);
+          },
         }),
       )
       : null,
