@@ -1,14 +1,17 @@
-import type { ReactNode, Ref } from 'react';
-import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
+import type { ReactNode, Ref } from "react";
+import type { OverlayOpenChangeDetails } from "../overlays/_shared/overlayTypes";
 
-export type RenderProp = import('react').ReactElement | ((props: any, state?: any) => import('react').ReactElement);
+export type RenderProp =
+  | import("react").ReactElement
+  | ((props: any, state?: any) => import("react").ReactElement);
 
 export interface AlertDialogRootProps {
   open?: boolean;
   defaultOpen?: boolean;
-  onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
+  onOpenChange?:
+    ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
   /** 'danger' styles only the Action button — never the surface. */
-  intent?: 'neutral' | 'danger';
+  intent?: "neutral" | "danger";
   labels?: { cancel?: string; action?: string };
   children?: ReactNode;
 }
@@ -43,10 +46,12 @@ export interface AlertDialogButtonishProps {
 
 export interface AlertDialogActionProps extends AlertDialogButtonishProps {
   onClick?: (e: unknown) => void;
+  /** Per-action intent; overrides the Root intent for this action's button. */
+  intent?: "neutral" | "danger";
 }
 
 export interface AlertDialogLayoutProps {
   children?: ReactNode;
   className?: string;
-  padding?: 'default' | 'none';
+  padding?: "default" | "none";
 }
