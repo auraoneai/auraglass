@@ -8,17 +8,17 @@
   }
 
   .ag-popover-popup {
-    background: var(--ag-surface-fill, var(--ag-glass-fill, rgb(255 255 255 / 0.82)));
-    border: 1px solid var(--ag-rim, var(--ag-surface-rim, rgb(0 0 0 / 0.08)));
-    border-radius: var(--ag-radius-md, 12px);
-    box-shadow: var(--ag-shadow-overlay, 0 8px 24px rgb(0 0 0 / 0.14));
+    background: var(--ag-surface-fill, var(--ag-glass-fill, var(--ag-surface-fill)));
+    border: 1px solid var(--ag-rim, var(--ag-surface-rim, var(--ag-color-border)));
+    border-radius: var(--ag-radius-md);
+    box-shadow: var(--ag-shadow-overlay, 0 8px 24px var(--ag-shadow-regular));
     color: var(--ag-on-surface, inherit);
-    padding: var(--ag-space-3, 12px);
+    padding: var(--ag-space-3);
     inline-size: max-content;
     max-inline-size: min(360px, calc(100vw - 32px));
     transition:
-      opacity var(--ag-duration-small, 150ms) var(--ag-ease-standard, ease),
-      transform var(--ag-duration-small, 150ms) var(--ag-ease-standard, ease);
+      opacity var(--ag-duration-small) var(--ag-ease-standard),
+      transform var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-popover-popup[data-starting-style],
   .ag-popover-popup[data-ending-style] {
@@ -41,17 +41,17 @@
     /* solid triangle in surface fill + rim — no second backdrop-filter */
     inline-size: 10px;
     block-size: 10px;
-    background: var(--ag-surface-fill, rgb(255 255 255 / 0.82));
+    background: var(--ag-surface-fill, var(--ag-surface-fill));
     clip-path: polygon(0 0, 100% 0, 50% 100%);
     border-start-start-radius: 0;
-    outline: 1px solid var(--ag-rim, rgb(0 0 0 / 0.08));
+    outline: 1px solid var(--ag-rim, var(--ag-color-border));
   }
 
   .ag-popover-title { font-weight: 600; margin: 0 0 4px; }
-  .ag-popover-description { margin: 0; color: var(--ag-muted, rgb(0 0 0 / 0.64)); }
+  .ag-popover-description { margin: 0; color: var(--ag-muted, var(--ag-color-on-surface-muted)); }
 
   @media (prefers-reduced-motion: reduce) {
-    .ag-popover-popup { transition: opacity var(--ag-duration-small, 150ms) linear; transform: none !important; }
+    .ag-popover-popup { transition: opacity var(--ag-duration-small) linear; transform: none; }
   }
   @media (forced-colors: active) {
     .ag-popover-popup { border: 1px solid CanvasText; }

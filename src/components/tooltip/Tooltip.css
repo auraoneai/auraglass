@@ -5,22 +5,22 @@
   .ag-tooltip-positioner { z-index: var(--ag-z-transient, 80); }
 
   .ag-tooltip-popup {
-    background: var(--ag-surface-fill-strong, var(--ag-glass-fill, rgb(255 255 255 / 0.92)));
-    border: 1px solid var(--ag-rim, rgb(0 0 0 / 0.08));
-    border-radius: var(--ag-radius-sm, 8px);
-    box-shadow: var(--ag-shadow-transient, 0 4px 12px rgb(0 0 0 / 0.12));
+    background: var(--ag-surface-fill-strong, var(--ag-glass-fill, var(--ag-surface-fill)));
+    border: 1px solid var(--ag-rim, var(--ag-color-border));
+    border-radius: var(--ag-radius-sm);
+    box-shadow: var(--ag-shadow-transient, 0 4px 12px var(--ag-shadow-thin));
     color: var(--ag-on-surface, inherit);
     font-size: var(--ag-text-sm, 12px);
     line-height: 1.4;
     padding: 6px 10px;
     max-inline-size: min(320px, calc(100vw - 32px));
     inline-size: max-content;
-    transition: opacity var(--ag-duration-small, 200ms) var(--ag-ease-standard, ease),
-                transform var(--ag-duration-small, 200ms) var(--ag-ease-standard, ease);
+    transition: opacity var(--ag-duration-small) var(--ag-ease-standard),
+                transform var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-tooltip-popup[data-starting-style] {
     opacity: 0;
-    transform: var(--_ag-tip-in, translateY(2px));
+    transform: var(--_ag-tip-in);
   }
   .ag-tooltip-popup[data-ending-style] { opacity: 0; transition-property: opacity; }
   .ag-tooltip-popup[data-side='top'][data-starting-style] { --_ag-tip-in: translateY(2px); }
@@ -33,12 +33,12 @@
   .ag-tooltip-arrow {
     inline-size: 8px;
     block-size: 8px;
-    background: var(--ag-surface-fill-strong, rgb(255 255 255 / 0.92));
+    background: var(--ag-surface-fill-strong, var(--ag-surface-fill));
     clip-path: polygon(0 0, 100% 0, 50% 100%);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .ag-tooltip-popup { transition: opacity var(--ag-duration-small, 200ms) linear; transform: none !important; }
+    .ag-tooltip-popup { transition: opacity var(--ag-duration-small) linear; transform: none; }
   }
   @media (forced-colors: active) {
     .ag-tooltip-popup { border: 1px solid CanvasText; }

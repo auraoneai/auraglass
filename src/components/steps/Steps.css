@@ -25,7 +25,7 @@
     inline-size: var(--ag-steps-indicator-size, 1.25rem);
     block-size: var(--ag-steps-indicator-size, 1.25rem);
     border-radius: var(--ag-radius-full);
-    border: var(--ag-focus-width, 1px) solid var(--ag-color-border);
+    border: var(--ag-focus-width) solid var(--ag-color-border);
     font-size: var(--ag-type-caption-size);
   }
   .ag-steps-item[data-ag-status='complete'] .ag-steps-indicator::before {

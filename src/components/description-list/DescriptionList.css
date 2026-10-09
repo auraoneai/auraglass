@@ -2,7 +2,7 @@
    container width. */
 @layer ag.components {
   .ag-dl { margin: 0; }
-  .ag-dl-item { display: grid; gap: var(--ag-space-1, 0.25rem); padding-block: var(--ag-space-1, 0.25rem); }
+  .ag-dl-item { display: grid; gap: var(--ag-space-1); padding-block: var(--ag-space-1); }
   .ag-dl[data-ag-layout='inline'] .ag-dl-item { grid-template-columns: 12rem 1fr; }
   .ag-dl-term { font-weight: 600; }
   .ag-dl-details { margin: 0; }

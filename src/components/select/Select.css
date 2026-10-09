@@ -9,7 +9,7 @@
     justify-content: space-between;
     gap: var(--ag-space-2);
     inline-size: var(--ag-select-inline-size, var(--ag-space-48, 100%));
-    min-block-size: var(--ag-control-h-md, var(--ag-space-9));
+    min-block-size: var(--ag-control-h-md, 36px);
     padding-inline: var(--ag-space-3);
     border-radius: var(--ag-radius-md);
     color: var(--ag-on-surface);
@@ -58,8 +58,8 @@
   /* Popup */
   .ag-select-popup {
     min-inline-size: var(--ag-select-popup-min-w, 100%);
-    max-inline-size: var(--ag-select-popup-max-w, var(--ag-space-96));
-    max-block-size: var(--ag-select-popup-max-h, var(--ag-space-72));
+    max-inline-size: var(--ag-select-popup-max-w, 384px);
+    max-block-size: var(--ag-select-popup-max-h, 288px);
     overflow-y: auto;
     overscroll-behavior: contain;
     border-radius: var(--ag-radius-lg);
@@ -77,7 +77,7 @@
       transform var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-select-popup[data-ending-style] {
-    transition-duration: var(--ag-duration-exit, 140ms);
+    transition-duration: var(--ag-duration-small-exit);
   }
   .ag-select-popup[data-open],
   .ag-select-popup[data-instant] {

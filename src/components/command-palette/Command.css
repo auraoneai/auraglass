@@ -15,7 +15,7 @@
   }
   .ag-command__input {
     inline-size: 100%;
-    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
+    padding: var(--ag-space-2) var(--ag-space-3);
     border: none;
     border-block-end: var(--ag-border-width, 1px) solid var(--ag-border, transparent);
     background: transparent;
@@ -25,13 +25,13 @@
   .ag-command__list {
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: var(--ag-space-1, 0.25rem);
+    padding: var(--ag-space-1);
   }
   .ag-command__item {
     display: flex;
     align-items: center;
-    gap: var(--ag-space-2, 0.5rem);
-    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
+    gap: var(--ag-space-2);
+    padding: var(--ag-space-2) var(--ag-space-3);
     min-block-size: var(--ag-touch-target, 2.75rem);
     border-radius: var(--ag-radius-1, 0.25rem);
     cursor: default;
