@@ -10,7 +10,8 @@ rows only decrease.
 | Date | Row | From → To | Remote-measured delta | Commit |
 | ---- | --- | --------- | --------------------- | ------ |
 
-_(none yet — PLAT rows landed at their floors in the build-system PR)_
+| 2026-10-09 | plat:warnDeprecated | 150 → 2560 | warnDeprecated bundles the generated DEPRECATIONS lookup table (measured 2272 B gz); floor unreachable — Perf-Budget-Raise: plat:warnDeprecated | next-fin/plat-76-size-budgets |
+| 2026-10-09 | mat:tokens-js | 2048 → 6144 | tokens entry re-exports the generated manifest table; first real measurement 4862 B gz (was seed-pending) — Perf-Budget-Raise: mat:tokens-js | next-fin/plat-76-size-budgets |
 
 ## D-26 calibration record
 
