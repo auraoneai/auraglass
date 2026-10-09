@@ -42,11 +42,23 @@ export function Rating({
   const step = allowHalf ? 0.5 : 1;
   const interactive = !readOnly && !disabled;
 
+  const groupRef = React.useRef<HTMLDivElement | null>(null);
+  const setRefs = (node: HTMLDivElement | null) => {
+    groupRef.current = node;
+    if (typeof ref === 'function') ref(node);
+    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+  };
+
   const commit = (next: number, ev: React.SyntheticEvent | KeyboardEvent) => {
     const clamped = Math.min(max, Math.max(0, Math.round(next / step) * step));
     if (clamped === current) return;
     if (value === undefined) setUncontrolled(clamped);
     onValueChange?.(clamped, { event: ev });
+    // REQ-CMP-123: focus follows value — move to the newly-checked radio.
+    if (clamped > 0) {
+      const target = groupRef.current?.querySelector<HTMLElement>(`[data-ag-value="${Math.ceil(clamped)}"]`);
+      target?.focus();
+    }
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -75,12 +87,12 @@ export function Rating({
   return (
     <div
       {...rest}
-      ref={ref}
+      ref={setRefs}
       role="radiogroup"
       aria-label={ariaLabel ?? 'Rating'}
       aria-readonly={readOnly || undefined}
       aria-disabled={disabled || undefined}
-      tabIndex={interactive ? 0 : undefined}
+      tabIndex={interactive ? undefined : readOnly ? 0 : undefined}
       onKeyDown={onKeyDown}
       data-ag-part="root"
       data-ag-readonly={readOnly ? '' : undefined}
@@ -90,14 +102,20 @@ export function Rating({
         const v = i + 1;
         const filled = current >= v - (allowHalf ? 0.5 : 0);
         const half = allowHalf && current === v - 0.5;
+        const checked = current >= v - (allowHalf ? 0.5 : 0) && current <= v;
+        // REQ-CMP-123 roving tabindex: checked item 0, others -1; when nothing
+        // is checked the first item takes the group tab stop.
+        const roving = interactive ? (checked || (current <= 0 && v === 1) ? 0 : -1) : -1;
+        const fractional = current % 1 !== 0;
         return (
           <span
             key={v}
             role="radio"
-            aria-checked={current >= v - (allowHalf ? 0.5 : 0) && current <= v}
+            aria-checked={checked}
             aria-posinset={v}
             aria-setsize={max}
-            tabIndex={-1}
+            aria-label={checked && fractional ? `${current} of ${max}` : `${v} of ${max}`}
+            tabIndex={roving}
             onClick={(e) => onItemClick(v, e)}
             data-ag-part="item"
             data-ag-value={v}
