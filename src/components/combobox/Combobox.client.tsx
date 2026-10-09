@@ -26,6 +26,7 @@ import type {
   ComboboxCreatable,
   ComboboxLoadContext,
 } from './Combobox.types';
+import { stateRender, toDataState } from '../../foundation/state';
 
 /* ------------------------------------------------------------------ */
 /* Internal context: size, mode, async loader, creatable, messages     */
@@ -281,6 +282,7 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
     >
       <Base.Input
         data-ag-part="input"
+        data-state={toDataState({ loading })}
         placeholder={placeholder}
         {...(mode === 'autocomplete' ? { 'aria-autocomplete': 'list' as const } : {})}
         ref={ref}
@@ -289,7 +291,11 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
       <Base.Clear data-ag-part="clear" aria-label="Clear" keepMounted>
         <ClearGlyph />
       </Base.Clear>
-      <Base.Trigger data-ag-part="trigger" tabIndex={-1}>
+      <Base.Trigger
+        data-ag-part="trigger"
+        tabIndex={-1}
+        render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), undefined, 'button')}
+      >
         <ChevronGlyph />
       </Base.Trigger>
       {loading ? (
@@ -323,6 +329,7 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
         align="start"
         sideOffset={6}
         {...sizeAttrs(size)}
+        render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), undefined, 'div')}
       >
         <Base.Popup
           data-ag-part="popup"

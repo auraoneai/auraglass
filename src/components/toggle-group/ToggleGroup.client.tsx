@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { ToggleGroup as BaseGroup } from '@base-ui/react/toggle-group';
 import { Toggle } from '@base-ui/react/toggle';
+import { stateRender, toDataState } from '../../foundation/state';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import type { ChangeDetails } from '../../contracts/components';
@@ -63,6 +64,7 @@ function ToggleGroupItem({ value, disabled, className, children, ref }: ToggleGr
       data-ag-part="item"
       className={cn('ag-toggle-item', className)}
       ref={ref}
+      render={stateRender<{ pressed: boolean }>((s) => toDataState({ pressed: s.pressed }), undefined, 'button')}
     >
       {children}
     </Toggle>

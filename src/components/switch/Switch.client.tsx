@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Switch as Base } from '@base-ui/react/switch';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
+import { stateRender, toDataState } from '../../foundation/state';
 import { sizeAttrs } from '../control-shared/size';
 import type { SwitchProps } from './Switch.types';
 
@@ -17,10 +18,17 @@ export function Switch({ size, onCheckedChange, children, className, ref, ...res
       onCheckedChange={(c, details) => onCheckedChange?.(c, toChangeDetails(details))}
       ref={ref}
       {...sizeAttrs(size)}
+      render={stateRender<{ checked: boolean }>(
+        (s) => toDataState({ checked: s.checked }),
+        (rest as { render?: React.ComponentProps<typeof Base.Root>['render'] }).render,
+      )}
       {...rest}
     >
       <span data-ag-part="hit-area" aria-hidden="true" />
-      <Base.Thumb data-ag-part="thumb" />
+      <Base.Thumb
+        data-ag-part="thumb"
+        render={stateRender<{ checked: boolean }>((s) => toDataState({ checked: s.checked }), undefined)}
+      />
       {children}
     </Base.Root>
   );

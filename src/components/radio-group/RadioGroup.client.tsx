@@ -6,6 +6,7 @@ import { Radio as BaseRadio } from '@base-ui/react/radio';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
+import { stateRender, toDataState } from '../../foundation/state';
 import type { RadioGroupProps, RadioItemProps } from './RadioGroup.types';
 
 function RadioGroupRoot({ onValueChange, children, className, ref, size, orientation, ...rest }: RadioGroupProps) {
@@ -26,7 +27,16 @@ function RadioGroupRoot({ onValueChange, children, className, ref, size, orienta
 
 function RadioItem({ children, className, ref, ...rest }: RadioItemProps) {
   return (
-    <BaseRadio.Root data-ag-part="item" className={cn('ag-radio-item', className)} ref={ref} {...rest}>
+    <BaseRadio.Root
+      data-ag-part="item"
+      className={cn('ag-radio-item', className)}
+      ref={ref}
+      render={stateRender<{ checked: boolean }>(
+        (s) => toDataState({ checked: s.checked }),
+        (rest as { render?: React.ComponentProps<typeof BaseRadio.Root>['render'] }).render,
+      )}
+      {...rest}
+    >
       <span data-ag-part="hit-area" aria-hidden="true" />
       <BaseRadio.Indicator data-ag-part="indicator" />
       {children !== undefined && children !== null ? <span data-ag-part="label">{children}</span> : null}

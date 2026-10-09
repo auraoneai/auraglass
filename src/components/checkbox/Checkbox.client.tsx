@@ -5,6 +5,7 @@ import { Checkbox as Base } from '@base-ui/react/checkbox';
 import { CheckboxGroup as BaseGroup } from '@base-ui/react/checkbox-group';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
+import { stateRender, toDataState } from '../../foundation/state';
 import { sizeAttrs } from '../control-shared/size';
 import type { CheckboxGroupProps, CheckboxProps } from './Checkbox.types';
 
@@ -42,6 +43,10 @@ export function Checkbox({
       ref={ref}
       {...sizeAttrs(size)}
       {...rest}
+      render={stateRender<{ checked: boolean; indeterminate?: boolean }>(
+        (s) => toDataState({ checked: s.indeterminate ? 'mixed' : s.checked }),
+        (rest as { render?: React.ComponentProps<typeof Base.Root>['render'] }).render,
+      )}
     >
       <span data-ag-part="hit-area" aria-hidden="true" />
       <Base.Indicator keepMounted data-ag-part="indicator">

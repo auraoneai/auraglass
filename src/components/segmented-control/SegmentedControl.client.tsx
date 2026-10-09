@@ -5,6 +5,7 @@ import { Radio } from '@base-ui/react/radio';
 import { materialProps, SurfaceGroup } from '../../material';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
+import { stateRender, toDataState } from '../../foundation/state';
 import type {
   SegmentedControlRootProps,
   SegmentedControlItemProps,
@@ -96,6 +97,7 @@ function SegmentedControlItem({ value, disabled, title, className, children, ref
       data-ag-part="item"
       className={cn('ag-segmented-item', className)}
       ref={ref}
+      render={stateRender<{ checked: boolean }>((s) => toDataState({ checked: s.checked }), undefined)}
     >
       <span data-ag-part="item-label">{children}</span>
     </Radio.Root>

@@ -5,6 +5,7 @@ import { Select as Base } from '@base-ui/react/select';
 import { materialProps } from '../../material';
 import { usePortalContainer } from '../../foundation/portal';
 import { toChangeDetails } from '../../foundation';
+import { stateRender, toDataState } from '../../foundation/state';
 import { cn } from '../../internal';
 import { sizeAttrs, DEFAULT_CONTROL_SIZE } from '../control-shared/size';
 import type { ControlSize } from '../control-shared/size';
@@ -91,6 +92,11 @@ function SelectTrigger({ placeholder, children, className, ref, ...rest }: Selec
       {...materialProps({ layer: 'content', content: 'content-sunken', interactive: true })}
       className={cn('ag-select', className)}
       ref={ref}
+      render={stateRender<{ open: boolean }>(
+        (s) => toDataState({ open: s.open }),
+        (rest as { render?: React.ComponentProps<typeof Base.Trigger>['render'] }).render,
+        'button',
+      )}
       {...rest}
     >
       {children ?? (
@@ -126,6 +132,7 @@ function SelectContent({ children, className }: SelectContentProps) {
         sideOffset={6}
         alignItemWithTrigger={alignToTrigger}
         {...sizeAttrs(size)}
+        render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), undefined, 'div')}
       >
         <Base.Popup
           data-ag-part="popup"

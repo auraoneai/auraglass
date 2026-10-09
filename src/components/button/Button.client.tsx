@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { Button as BaseButton } from '@base-ui/react/button';
 import { Toggle } from '@base-ui/react/toggle';
+import { stateRender, toDataState } from '../../foundation/state';
 import { materialProps } from '../../material';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
@@ -125,7 +126,11 @@ export function Button(props: ButtonProps) {
         defaultPressed={defaultPressed}
         onPressedChange={(p, eventDetails) => onPressedChange?.(p, toChangeDetails(eventDetails))}
         onClick={guardClick}
-        render={render as React.ComponentProps<typeof Toggle>['render']}
+        render={stateRender<{ pressed: boolean }>(
+          (s) => toDataState({ pressed: s.pressed }),
+          render as React.ComponentProps<typeof Toggle>['render'],
+          'button',
+        )}
         type={(type ?? 'button') as 'button'}
       >
         {inner}
