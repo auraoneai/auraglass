@@ -40,7 +40,7 @@ export function useFormField<Name extends string = string>(name: Name, control?:
     input.addEventListener('change', () => field.onChange({ target: input, type: 'change' }));
     input.addEventListener('blur', () => field.onBlur());
     setRef(input as HTMLInputElement);
-  }, [field]);
+  }, [field, setRef]);
 
   return { bindNative, controller, name, invalid: controller.fieldState.invalid, error: err?.message };
 }

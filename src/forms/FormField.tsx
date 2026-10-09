@@ -1,4 +1,3 @@
-'use client';
 /* REQ-CMP-31 — FormField: binds a react-hook-form field to an AuraGlass
    control through Field.Root invalid state + Field.Error.
 
