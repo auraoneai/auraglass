@@ -128,7 +128,7 @@ export default REPORT_PATH_ENTRIES.map(([symbol, value], i) => ({
     doc: '#dep-data-meets-wcag',
   },
   {
-    id: 'DEP-P0021',
+    id: 'DEP-P0072',
     kind: 'behavior',
     status: 'active',
     entry: '.',

@@ -39,7 +39,7 @@ describe("contrast honesty", () => {
     expect(src).toContain('"data-contrast-status": "unverified"');
     expect(src).not.toMatch(/data-meets-wcag/);
     // status is a literal 'unverified' in the type + callback call
-    expect(src).toMatch(/status: 'unverified'/);
+    expect(src).toMatch(/status: ['\"]unverified['\"]/);
     expect(src).toMatch(/"unverified"\s*\)/);
   });
 });
