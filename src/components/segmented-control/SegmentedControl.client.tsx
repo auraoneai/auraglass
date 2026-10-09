@@ -88,11 +88,15 @@ function SegmentedControlRoot({
 }
 
 function SegmentedControlItem({ value, disabled, title, className, children, ref }: SegmentedControlItemProps) {
+  /* REQ-CMP-44: auto title from string children when none is given
+     (label is the accessible name too — harmless duplication, helps the
+     ellipsized-tooltip case). */
+  const resolvedTitle = title ?? (typeof children === 'string' ? children : undefined);
   return (
     <Radio.Root
       value={value}
       disabled={disabled}
-      title={title}
+      title={resolvedTitle}
       data-ag-part="item"
       className={cn('ag-segmented-item', className)}
       ref={ref}

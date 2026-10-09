@@ -74,3 +74,43 @@ describe('SegmentedControl', () => {
     expect(screen.getByRole('radiogroup').getAttribute('data-ag-size')).toBe('sm');
   });
 });
+
+describe('REQ-CMP-44', () => {
+  it('auto title from string children when no title given', () => {
+    render(
+      <SegmentedControl.Root aria-label="v" name="v" defaultValue="a">
+        <SegmentedControl.Item value="a">Alpha</SegmentedControl.Item>
+      </SegmentedControl.Root>,
+    );
+    expect(screen.getByRole('radio', { name: 'Alpha' })).toHaveAttribute('title', 'Alpha');
+  });
+
+  it('warns once when >5 items at ≤390px (mocked RO)', () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    class RO {
+      cb: ResizeObserverCallback;
+      constructor(cb: ResizeObserverCallback) { this.cb = cb; }
+      observe(el: Element) {
+        this.cb([{ contentRect: { width: 390 } } as ResizeObserverEntry], this as unknown as ResizeObserver);
+      }
+      unobserve() {}
+      disconnect() {}
+    }
+    const prev = (globalThis as { ResizeObserver?: unknown }).ResizeObserver;
+    (globalThis as { ResizeObserver?: unknown }).ResizeObserver = RO;
+    try {
+      render(
+        <SegmentedControl.Root aria-label="v" name="v" defaultValue="a">
+          {['a','b','c','d','e','f'].map((v) => (
+            <SegmentedControl.Item key={v} value={v}>{v}</SegmentedControl.Item>
+          ))}
+        </SegmentedControl.Root>,
+      );
+      const calls = warn.mock.calls.filter((c) => String(c[0]).includes('prefer Select'));
+      expect(calls).toHaveLength(1);
+    } finally {
+      (globalThis as { ResizeObserver?: unknown }).ResizeObserver = prev;
+      warn.mockRestore();
+    }
+  });
+});
