@@ -209,8 +209,30 @@
       color: HighlightText;
     }
   }
+  /* Empty state: status node stays mounted; hidden by clip (not display:none)
+     so the live region announces when it appears (REQ-CMP-71). */
+  [data-ag-part="empty"].ag-combobox-empty {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  [data-ag-part="list"][data-empty] > [data-ag-part="empty"].ag-combobox-empty {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+    white-space: normal;
+    padding: var(--ag-space-3, 8px) var(--ag-space-4, 12px);
+    color: var(--ag-on-surface-muted, var(--ag-on-surface));
+  }
 }
-
-/* Empty state: visible only when Base.List reports data-empty. */
-[data-ag-part="empty"].ag-combobox-empty { display: none; }
-[data-ag-part="list"][data-empty] > [data-ag-part="empty"].ag-combobox-empty { display: block; }
