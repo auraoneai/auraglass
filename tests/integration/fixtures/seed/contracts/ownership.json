@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "rows": [
+    { "id": "T01", "glob": "src/seeded.ts", "owner": "MAT" },
+    { "id": "T02", "glob": "src/**", "owner": "CMP" }
+  ]
+}

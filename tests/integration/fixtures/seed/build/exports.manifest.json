@@ -1,0 +1,10 @@
+{
+  "entries": [
+    { "subpath": ".", "source": "src/index.ts", "types": "dist/index.d.ts", "default": "dist/index.js" },
+    { "subpath": "./seeded", "source": "src/seeded.ts", "types": "dist/seeded.d.ts", "default": "dist/seeded.js" },
+    { "subpath": "./midfile", "source": "src/notaseed.ts", "types": "dist/notaseed.d.ts", "default": "dist/notaseed.js" },
+    { "subpath": "./future", "source": "src/future.ts", "types": "dist/future.d.ts", "default": "dist/future.js", "ga": "5.1" },
+    { "subpath": "./missing", "source": "src/missing.ts", "types": "dist/missing.d.ts", "default": "dist/missing.js" },
+    { "subpath": "./data.css", "source": "build:css", "default": "dist/data.css" }
+  ]
+}

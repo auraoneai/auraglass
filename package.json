@@ -56,11 +56,6 @@
       "types": "./dist/three/index.d.ts",
       "default": "./dist/three/index.js"
     },
-    "./charts": {
-      "types": "./dist/charts/index.d.ts",
-      "default": "./dist/charts/index.js",
-      "css": "./dist/charts.css"
-    },
     "./styles.css": "./dist/styles.css",
     "./tokens.css": "./dist/tokens.css",
     "./material.css": "./dist/material.css",
@@ -198,5 +193,6 @@
     "typescript": "5.9.3",
     "vite": "7.3.7",
     "yaml": "2.9.1"
-  }
+  },
+  "types": "./dist/index.d.ts"
 }

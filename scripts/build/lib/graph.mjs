@@ -50,12 +50,29 @@ export function importClosure(entryFile, { within = SRC } = {}) {
   return seen;
 }
 
+/** A file is seed-marked only via a line-1 header: `/^\/[*\/] @ag-contract-seed:/`
+ *  (`/* @ag-contract-seed:` or `// @ag-contract-seed:`). Mid-file mentions of the
+ *  marker (rule references in comments, docs) are not seeds (REQ-FIN-06). */
+export const SEED_HEADER_RE = /^\/[*\/] @ag-contract-seed:/;
+
+export function fileIsSeed(file) {
+  try {
+    const text = readFileSync(file, 'utf8');
+    const nl = text.indexOf('\n');
+    return SEED_HEADER_RE.test(nl === -1 ? text : text.slice(0, nl));
+  } catch { return false; }
+}
+
+/** Files in the entry's src closure whose line-1 header declares the seed. */
+export function closureSeedFiles(entryFile) {
+  const out = [];
+  for (const f of importClosure(entryFile)) if (fileIsSeed(f)) out.push(f);
+  return out.sort();
+}
+
 /** True when any file in the entry's src closure carries the seed marker. */
 export function closureHasSeed(entryFile) {
-  for (const f of importClosure(entryFile)) {
-    try { if (readFileSync(f, 'utf8').includes('@ag-contract-seed')) return true; } catch { /* skip */ }
-  }
-  return false;
+  return closureSeedFiles(entryFile).length > 0;
 }
 
 export function walk(dir, filter = () => true) {
@@ -91,15 +108,32 @@ export function manifestEntries(root = ROOT) {
   return { entries, js, asset };
 }
 
-/** Entries whose src closure is seed-free (the pre-release filter of §5.2.3 / PLAT-242). */
+/** entries[].ga marks the first GA line that ships the entry; on an earlier
+ *  package version the entry is dropped entirely (e.g. ga:'5.1' on 5.0.x).
+ *  Returns null when the entry is eligible on `version`. */
+export function gaGate(e, version) {
+  if (!e.ga || !version) return null;
+  const [maj, min] = String(version).split('.');
+  const [gmaj, gmin] = String(e.ga).split('.');
+  if (Number.isNaN(+maj) || Number.isNaN(+min) || Number.isNaN(+gmaj) || Number.isNaN(+gmin)) return null;
+  return (+gmaj * 1000 + +gmin) > (+maj * 1000 + +min) ? `ga:'${e.ga}' > ${maj}.${min} (ships on ${e.ga}.x)` : null;
+}
+
+/** Entries whose src closure is seed-free (the pre-release filter of §5.2.3 / PLAT-242).
+ *  pending rows carry seedFiles[] (the files whose line-1 header declares the seed)
+ *  or a missing-source reason. */
 export function buildableEntries(root = ROOT) {
   const { js } = manifestEntries(root);
+  const version = loadJson(join(root, 'package.json')).version;
   const keep = [];
   const pending = [];
   for (const e of js) {
+    const drop = gaGate(e, version);
+    if (drop) { pending.push({ ...e, reason: drop, gaDropped: true }); continue; }
     const src = join(root, e.source);
     if (!existsSync(src)) { pending.push({ ...e, reason: `missing source ${e.source}` }); continue; }
-    if (closureHasSeed(src)) pending.push({ ...e, reason: 'import graph contains @ag-contract-seed' });
+    const seedFiles = closureSeedFiles(src);
+    if (seedFiles.length) pending.push({ ...e, reason: 'import graph contains @ag-contract-seed', seedFiles });
     else keep.push(e);
   }
   return { keep, pending };
