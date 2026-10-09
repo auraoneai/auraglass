@@ -27,6 +27,8 @@
     scale: none;
     translate: none;
     rotate: none;
+    /* popups that animate transform are covered without a CMP change */
+    transform: none;
   }
 
   /* hover/press light response is instant in calm */

@@ -116,6 +116,19 @@ export function checkCss(source, filename = '<css>') {
       }
     });
 
+  // REQ-FIN-12: any infinite animation or the ambient-duration token must live
+  // inside a [data-ag-continuous="on"] gate (selector-level; a gated ancestor
+  // rule counts too — postcss rules here are flat, so selector must carry it).
+  root.walkRules((r) => {
+    const sel = r.selector ?? '';
+    if (sel.includes('data-ag-continuous')) return;
+    r.walkDecls((d) => {
+      const v = d.value ?? '';
+      if (/\binfinite\b/.test(v) || v.includes('--ag-duration-ambient'))
+        push(d, 'ungated-loop', `infinite animation / --ag-duration-ambient outside [data-ag-continuous="on"] (REQ-FIN-12); gate the loop or provide a static frame`);
+    });
+  });
+
   root.walkAtRules('keyframes', (at) => {
     const name = at.params.trim();
     if (!/^ag-/.test(name)) push(at, 'keyframes-prefix', `@keyframes '${name}' must be prefixed ag-`);
@@ -145,8 +158,16 @@ if (process.argv[1] && process.argv[1].endsWith('verify-motion-css.mjs')) {
   const args = new Set(process.argv.slice(2));
   // contract scope: src/**/*.css, *.module.css, dist/styles.css (+ fragments).
   // Test fixtures under tests/lint/fixtures are intentionally violating — excluded.
-  const files = [...walk('src'), ...walk('fragments')];
-  if (existsSync('dist/styles.css')) files.push('dist/styles.css');
+  // --file <path>: check just that file, no baseline (fixture verification).
+  let files;
+  const fileArg = process.argv.indexOf('--file');
+  if (fileArg !== -1 && process.argv[fileArg + 1]) {
+    files = [process.argv[fileArg + 1]];
+    args.delete('--file'); args.delete(process.argv[fileArg + 1]);
+  } else {
+    files = [...walk('src'), ...walk('fragments')];
+    if (existsSync('dist/styles.css')) files.push('dist/styles.css');
+  }
   const all = [];
   let census = { ms: 0, s: 0, 'cubic-bezier': 0, linear: 0 };
   for (const f of files) {
@@ -163,10 +184,42 @@ if (process.argv[1] && process.argv[1].endsWith('verify-motion-css.mjs')) {
       JSON.stringify({ generatedAt: new Date().toISOString(), literals: census, issues: all }, null, 1) + '\n');
     console.log(`motion-css baseline: reports/motion-css-baseline.json (${all.length} issues)`);
   }
-  if (all.length) {
-    for (const i of all) console.error(`${i.file}:${i.line}:${i.col}  ${i.rule}  ${i.message}`);
-    console.error(`verify-motion-css: ${all.length} issue(s)`);
+  // REQ-FIN-12 baseline (PRD-F §4.3 rule 3): pre-existing ungated-loop offenders
+  // live in scripts/integration/baselines/ungated-loops.json as
+  // {file, owner, reqFin, expires} rows — gate fails on a NEW offender, a STALE
+  // row, and any row past expires. Only ungated-loop findings are baselinable.
+  const BASELINE = 'scripts/integration/baselines/ungated-loops.json';
+  const baseline = fileArg === -1 && existsSync(BASELINE) ? JSON.parse(readFileSync(BASELINE, 'utf8')) : [];
+  const rowOk = (r) => r && typeof r.file === 'string' && typeof r.owner === 'string'
+    && typeof r.reqFin === 'string' && r.expires === 'RC-1';
+  // per §4.3 rule 3 a baseline row covers every finding in that file; the owning
+  // REQ-FIN deletes the row when the file is fixed. A file absent from the
+  // baseline is a NEW offender.
+  const byFile = new Map();
+  for (const i of all) byFile.set(i.file, (byFile.get(i.file) ?? 0) + 1);
+  const covered = new Set();
+  const reported = [];
+  for (const i of all) {
+    const rows = baseline.filter((r) => r.file === i.file);
+    if (rows.length === 0) {
+      reported.push(`${i.file}:${i.line}:${i.col}  ${i.rule}  ${i.message} [NEW: fix, or add a baseline row {file,owner,reqFin,expires:'RC-1'}]`);
+    } else {
+      for (const r of rows) {
+        if (!rowOk(r)) { reported.push(`${i.file}: baseline row for ${i.file} is malformed (need {file, owner, reqFin, expires:'RC-1'})`); break; }
+        covered.add(r);
+      }
+    }
+  }
+  for (const r of baseline) {
+    if (covered.has(r)) continue;
+    if (!byFile.has(r.file))
+      reported.push(`${r.file}: baseline row is STALE — file no longer offends; delete the row (owner ${r.owner}, ${r.reqFin})`);
+  }
+  if (reported.length) {
+    for (const line of reported) console.error(line);
+    console.error(`verify-motion-css: ${reported.length} issue(s) (${covered.size} file(s) baselined until RC-1)`);
     process.exit(1);
   }
-  console.log(`verify-motion-css: clean (${files.length} files)`);
+  const note = covered.size ? `, ${covered.size} file(s) baselined until RC-1` : '';
+  console.log(`verify-motion-css: clean (${files.length} files${note})`);
 }
