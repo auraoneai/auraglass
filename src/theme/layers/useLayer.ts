@@ -13,6 +13,9 @@ export const LayerStackContext = React.createContext<LayerStack | null>(null);
 export interface UseLayerInput extends LayerEntry {
   restoreFocusTo?: Element | false | null;
   lockScroll?: boolean;
+  /** Inert below-topmost pass without scroll lock (DismissableLayer's
+     disableOutsidePointerEvents — replaces body inline-style writes). */
+  pointerLockOutside?: boolean;
 }
 
 export function useLayer(entry: UseLayerInput): { id: string; depth: number; isTop: boolean } {
@@ -34,8 +37,11 @@ export function useLayer(entry: UseLayerInput): { id: string; depth: number; isT
     () => -1,
   );
 
+  // REQ-FIN-07: the entry exists in the stack only while open — a closed
+  // layer holds no Escape, claims no inert pass and reports depth -1.
+  const open = entry.open === true;
   React.useLayoutEffect(() => {
-    if (!stack) return undefined;
+    if (!stack || !open) return undefined;
     const input = entryRef.current;
     const restoreFocusTo: LayerItem['restoreFocusTo'] = input.restoreFocusTo !== undefined
       ? input.restoreFocusTo
@@ -46,7 +52,7 @@ export function useLayer(entry: UseLayerInput): { id: string; depth: number; isT
       stack.pop(id);
       idRef.current = null;
     };
-  }, [stack]);
+  }, [stack, open]);
 
   React.useLayoutEffect(() => {
     const id = idRef.current;
@@ -54,6 +60,7 @@ export function useLayer(entry: UseLayerInput): { id: string; depth: number; isT
     const patch: Parameters<LayerStack['update']>[1] = {
       kind: entry.kind, modal: entry.modal, open: entry.open,
       onEscape: entry.onEscape, element: entry.element,
+      pointerLockOutside: entry.pointerLockOutside,
     };
     if (entry.lockScroll !== undefined) patch.lockScroll = entry.lockScroll;
     if (entry.restoreFocusTo !== undefined) patch.restoreFocusTo = entry.restoreFocusTo;

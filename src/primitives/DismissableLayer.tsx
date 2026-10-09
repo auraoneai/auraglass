@@ -5,6 +5,7 @@
    Ref-as-prop; restores focus to the previously focused element on unmount. */
 import * as React from 'react';
 import { useLayer } from '../theme/index';
+import { layerInputFor } from '../theme/layerInput';
 import type { LayerKind } from '../contracts/preferences';
 
 export type DismissableLayerOutsideEvent = PointerEvent | MouseEvent | TouchEvent | FocusEvent;
@@ -71,7 +72,16 @@ export function DismissableLayer({
       if (!prevented) onDismiss?.();
     };
   });
-  useLayer({ kind: layerKind, modal: false, open: !disabled, onEscape: () => escapeRef.current(), element });
+  // disableOutsidePointerEvents: no body.style write — the stack applies the
+  // below-topmost inert pass (REQ-FIN-07) while this layer is open.
+  useLayer({
+    kind: layerKind,
+    modal: false,
+    open: !disabled,
+    onEscape: () => escapeRef.current(),
+    element,
+    pointerLockOutside: disableOutsidePointerEvents && !disabled,
+  });
 
   React.useEffect(() => {
     previousFocusRef.current = document.activeElement as HTMLElement | null;
@@ -111,22 +121,16 @@ export function DismissableLayer({
       if (!prevented) onDismiss?.();
     };
 
-    document.addEventListener('pointerdown', handlePointerDown, true);
-    document.addEventListener('focusin', handleFocusIn, true);
+    // Global events arrive via the shared per-document dispatcher — never a
+    // private per-layer document listeners (REQ-FIN-07).
+    const input = layerInputFor(document);
+    const offPointer = input.on('pointerdown', handlePointerDown);
+    const offFocus = input.on('focusin', handleFocusIn);
     return () => {
-      document.removeEventListener('pointerdown', handlePointerDown, true);
-      document.removeEventListener('focusin', handleFocusIn, true);
+      offPointer();
+      offFocus();
     };
   }, [disabled, onDismiss, onFocusOutside, onInteractOutside, onPointerDownOutside]);
-
-  React.useEffect(() => {
-    if (!disableOutsidePointerEvents) return;
-    const previousPointerEvents = document.body.style.pointerEvents;
-    document.body.style.pointerEvents = 'none';
-    return () => {
-      document.body.style.pointerEvents = previousPointerEvents;
-    };
-  }, [disableOutsidePointerEvents]);
 
   return (
     <div

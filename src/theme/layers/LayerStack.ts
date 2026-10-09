@@ -6,6 +6,7 @@
    data-ag-scroll-locked on <html> (no inline style). All effects are
    ref-counted and restored on pop/dispose. */
 import type { LayerEntry, PortalLayerRoot } from '../../contracts/preferences';
+import { layerInputFor } from '../layerInput';
 
 export interface LayerItem extends LayerEntry {
   id: string;
@@ -14,6 +15,10 @@ export interface LayerItem extends LayerEntry {
   restoreFocusTo?: Element | false | null;
   /** false = inert only, no scroll lock (non-blocking modal surfaces). */
   lockScroll?: boolean;
+  /** DismissableLayer's disableOutsidePointerEvents: inert below topmost
+     (below the layer's own element) without a scroll lock — the
+     body inline-style replacement (REQ-FIN-07). */
+  pointerLockOutside?: boolean;
 }
 
 export interface LayerStack {
@@ -81,6 +86,8 @@ export const createLayerStack = (doc: Document): LayerStack => {
     }
     if (pr) {
       for (const layerRoot of Array.from(pr.querySelectorAll<HTMLElement>('[data-ag-layer-root]'))) {
+        // Toast region is never inert — notifications must stay live (S-25).
+        if (layerRoot.getAttribute('data-ag-layer-root') === 'toast') continue;
         for (const child of Array.from(layerRoot.children)) inertEl(child);
       }
     }
@@ -96,31 +103,54 @@ export const createLayerStack = (doc: Document): LayerStack => {
   let modalCount = 0;
   const pushModal = (entry: LayerItem): void => {
     modalCount += 1;
-    if (entry.lockScroll !== false) lockScroll();
+    if (entry.modal && entry.lockScroll !== false) lockScroll();
     applyModalEffects();
   };
   const popModal = (entry: LayerItem): void => {
     modalCount = Math.max(0, modalCount - 1);
-    if (entry.lockScroll !== false) unlockScroll();
+    if (entry.modal && entry.lockScroll !== false) unlockScroll();
     releaseModalEffects();
   };
 
-  const onKeydown = (e: KeyboardEvent): void => {
-    const isEscape = e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27;
-    if (!isEscape || e.isComposing || e.keyCode === 229) return;
-    const top = items[items.length - 1];
-    if (!top || !top.open) return;
-    top.onEscape?.();
-    e.stopPropagation();
+  // ---- obscured + overlay-depth markers (kept in sync on every change) ----
+  const syncMarkers = (): void => {
+    const topOpenIdx = items.reduce((acc, it, i) => (it.open ? i : acc), -1);
+    items.forEach((it, i) => {
+      const el = it.element;
+      if (!el) return;
+      el.setAttribute('data-ag-overlay-depth', String(i));
+      if (it.open && i !== topOpenIdx) el.setAttribute('data-ag-obscured', '');
+      else el.removeAttribute('data-ag-obscured');
+    });
   };
-  doc.addEventListener('keydown', onKeydown);
+  const clearMarkers = (item: LayerItem): void => {
+    item.element?.removeAttribute('data-ag-overlay-depth');
+    item.element?.removeAttribute('data-ag-obscured');
+  };
+
+  const onKeydown = (e: Event): void => {
+    const ke = e as KeyboardEvent;
+    const isEscape = ke.key === 'Escape' || ke.key === 'Esc' || ke.keyCode === 27;
+    if (!isEscape || ke.isComposing || ke.keyCode === 229) return;
+    // Escape goes to the topmost OPEN layer — closed entries never fire.
+    for (let i = items.length - 1; i >= 0; i -= 1) {
+      const it = items[i]!;
+      if (it.open) {
+        it.onEscape?.();
+        e.stopPropagation();
+        return;
+      }
+    }
+  };
+  const offKeydown = layerInputFor(doc).on('keydown', onKeydown);
 
   return {
     push(entry) {
       const id = `ag-layer-${nextId += 1}`;
       const item: LayerItem = { ...entry, id };
       items.push(item);
-      if (entry.open && entry.modal) pushModal(item);
+      if (entry.open && (entry.modal || entry.pointerLockOutside)) pushModal(item);
+      syncMarkers();
       notify();
       return id;
     },
@@ -130,17 +160,20 @@ export const createLayerStack = (doc: Document): LayerStack => {
       const was = items[i]!;
       const next = { ...was, ...patch, id };
       items[i] = next;
-      const wasActive = was.open === true && was.modal === true;
-      const isActive = next.open === true && next.modal === true;
+      const wasActive = was.open === true && (was.modal === true || was.pointerLockOutside === true);
+      const isActive = next.open === true && (next.modal === true || next.pointerLockOutside === true);
       if (!wasActive && isActive) pushModal(next);
       else if (wasActive && !isActive) popModal(was);
+      syncMarkers();
       notify();
     },
     pop(id) {
       const i = items.findIndex((it) => it.id === id);
       if (i === -1) return;
       const [item] = items.splice(i, 1);
-      if (item!.open && item!.modal) popModal(item!);
+      if (item!.open && (item!.modal || item!.pointerLockOutside)) popModal(item!);
+      clearMarkers(item!);
+      syncMarkers();
       // Focus restore: last focused element before this layer, then the
       // element the caller asked for.
       const target = item!.restoreFocusTo === false
@@ -163,9 +196,10 @@ export const createLayerStack = (doc: Document): LayerStack => {
       return () => listeners.delete(listener);
     },
     dispose() {
-      doc.removeEventListener('keydown', onKeydown);
+      offKeydown();
       for (const item of items) {
         if (item.open && item.modal && item.lockScroll !== false) unlockScroll();
+        clearMarkers(item);
       }
       modalCount = 0;
       inertCounts.forEach((_, el) => removeInert(el));

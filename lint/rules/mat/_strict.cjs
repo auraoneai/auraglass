@@ -14,6 +14,7 @@
 module.exports = {
   strict: {
     'motion-no-empty-animate': ['src/**/*.{ts,tsx,js,jsx}'],
+    'no-layer-global-listeners': ['src/primitives/**/*.{ts,tsx}', 'src/foundation/**/*.{ts,tsx}', 'src/theme/layers/**/*.{ts,tsx}'],
     // family globs land here per migration PR (MAT-180), e.g.
     // 'no-optics-outside-material': ['src/components/table/**', ...]
   },

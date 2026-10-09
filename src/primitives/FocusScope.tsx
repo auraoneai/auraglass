@@ -2,6 +2,7 @@
    trapped/loop semantics unchanged, no Glass* alias. Focus manager for owned
    components (Sheet detents, ResizablePanels, Tour) only. */
 import * as React from 'react';
+import { layerInputFor } from '../theme/layerInput';
 
 const FOCUSABLE_SELECTOR = [
   'a[href]:not([disabled])',
@@ -111,11 +112,12 @@ export function FocusScope({
       getFocusableElements(localRef.current)[0]?.focus();
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('focusin', handleFocusIn, true);
+    const input = layerInputFor(document);
+    const offKey = input.on('keydown', handleKeyDown);
+    const offFocus = input.on('focusin', handleFocusIn);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('focusin', handleFocusIn, true);
+      offKey();
+      offFocus();
     };
   }, [loop, trapped]);
 
