@@ -11,7 +11,7 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Render the standalone status dot instead of a pill. */
   dot?: boolean;
   count?: number;
-  /** Maximum shown before clamping to "<max>+". */
+  /** Maximum shown before clamping to "<max>+" (default 99). */
   max?: number;
   /** Accessible label when content alone is insufficient (e.g. dot/count). */
   label?: string;
@@ -21,7 +21,7 @@ export function Badge({
   intent = 'neutral',
   dot,
   count,
-  max,
+  max = 99,
   label,
   children,
   className,

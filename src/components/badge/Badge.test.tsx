@@ -27,3 +27,29 @@ describe('Badge', () => {
     expect(screen.getByText('2 notifications')).toBeTruthy();
   });
 });
+
+describe('Badge REQ-CMP-114', () => {
+  it('intent CSS references real --ag-color-* tokens, contrast-color guarded', () => {
+    const css = require('node:fs').readFileSync(require('node:path').join(__dirname, 'Badge.css'), 'utf8');
+    expect(css).not.toContain('--ag-tint-');
+    expect(css).toContain('var(--ag-color-info');
+    expect(css).toContain('var(--ag-color-success');
+    expect(css).toContain('var(--ag-color-warning');
+    expect(css).toContain('var(--ag-color-danger');
+    expect(css).toContain('@supports (color: contrast-color(red))');
+    expect(css).toContain('contrast-color(var(--ag-color-danger');
+  });
+
+  it('max defaults to 99', () => {
+    const { container } = render(<Badge count={120} />);
+    expect(container.querySelector('[data-ag-part="label"]')!.textContent).toBe('99+');
+  });
+
+  it('every referenced --ag-color token is defined in tokens/sys/color', () => {
+    const tokens = require('node:fs').readFileSync(
+      require('node:path').join(__dirname, '../../../tokens/sys/color.tokens.json'), 'utf8');
+    for (const name of ['ag-color-info', 'ag-color-success', 'ag-color-warning', 'ag-color-danger', 'ag-color-on-accent', 'ag-color-on-surface-muted']) {
+      expect(tokens).toContain(name);
+    }
+  });
+});

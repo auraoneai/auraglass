@@ -99,6 +99,9 @@ export const DEPRECATIONS: Readonly<Record<string, DeprecationRow>> = {
   "DEP-C0218": { id: "DEP-C0218", message: "'GlassModal' prop 'animation' has no 5.0 equivalent and is removed.", codemod: "dead-optical-props", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-dep-c0218" },
   "DEP-C0219": { id: "DEP-C0219", message: "'GlassModal' prop 'compact' has no 5.0 equivalent and is removed.", codemod: "dead-optical-props", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-dep-c0219" },
   "DEP-C0220": { id: "DEP-C0220", message: "GlassModal 'isContained' has no direct 5.0 prop; compose with Surface and set data-ag-transparency.", codemod: null, since: "4.2.0", removeIn: "5.0.0", doc: "#dep-dep-c0220" },
+  "DEP-C0227": { id: "DEP-C0227", message: "'LiquidGlassBadgeCluster' is absorbed by 'Badge' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0227" },
+  "DEP-C0228": { id: "DEP-C0228", message: "'GlassStatusDot' is absorbed by 'Badge dot' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0228" },
+  "DEP-C0229": { id: "DEP-C0229", message: "'GlassConnectionStatus' is absorbed by 'Badge' (intent by status) in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0229" },
 };
 
 /** Every deprecation entry, all kinds and statuses (S-38). */
@@ -1469,6 +1472,54 @@ export const deprecations: readonly DeprecationEntry[] = [
     "breaking": "B6",
     "message": "GlassModal 'isContained' has no direct 5.0 prop; compose with Surface and set data-ag-transparency.",
     "doc": "#dep-dep-c0220"
+  },
+  {
+    "id": "DEP-C0227",
+    "kind": "export",
+    "status": "active",
+    "entry": ".",
+    "symbol": "LiquidGlassBadgeCluster",
+    "since": "4.3.0",
+    "removeIn": "5.0.0",
+    "replacement": "Badge",
+    "codemod": "canonical-names",
+    "automation": "full",
+    "breaking": "B5",
+    "message": "'LiquidGlassBadgeCluster' is absorbed by 'Badge' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
+    "doc": "#dep-dep-c0227",
+    "compat": "LiquidGlassBadgeCluster"
+  },
+  {
+    "id": "DEP-C0228",
+    "kind": "export",
+    "status": "active",
+    "entry": ".",
+    "symbol": "GlassStatusDot",
+    "since": "4.3.0",
+    "removeIn": "5.0.0",
+    "replacement": "Badge dot",
+    "codemod": "canonical-names",
+    "automation": "full",
+    "breaking": "B5",
+    "message": "'GlassStatusDot' is absorbed by 'Badge dot' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
+    "doc": "#dep-dep-c0228",
+    "compat": "GlassStatusDot"
+  },
+  {
+    "id": "DEP-C0229",
+    "kind": "export",
+    "status": "active",
+    "entry": ".",
+    "symbol": "GlassConnectionStatus",
+    "since": "4.3.0",
+    "removeIn": "5.0.0",
+    "replacement": "Badge",
+    "codemod": "canonical-names",
+    "automation": "manual",
+    "breaking": "B5",
+    "message": "'GlassConnectionStatus' is absorbed by 'Badge' (intent by status) in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
+    "doc": "#dep-dep-c0229",
+    "compat": "GlassConnectionStatus"
   },
   {
     "id": "DEP-S0600",
