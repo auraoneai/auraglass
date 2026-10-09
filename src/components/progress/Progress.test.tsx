@@ -2,7 +2,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { render } from '@testing-library/react';
 import * as React from 'react';
-import { Progress, ProgressRing } from './index';
+import { Progress } from './index';
 
 describe('Progress', () => {
   it('renders progressbar with aria-valuemin/max/now', () => {
@@ -24,9 +24,32 @@ describe('Progress', () => {
     expect(container.querySelector('[data-ag-part="label"]')!.textContent).toBe('Loading');
     expect(container.querySelector('[data-ag-part="value"]')).not.toBeNull();
   });
-  it('ProgressRing renders an svg circle track+indicator', () => {
-    const { container } = render(<ProgressRing value={30} label="R" />);
+  it('appearance=ring renders an svg circle track+indicator', () => {
+    const { container } = render(<Progress appearance="ring" value={30} label="R" />);
     expect(container.querySelector('svg')).not.toBeNull();
     expect(container.querySelector('[data-ag-part="indicator"]')).not.toBeNull();
+  });
+});
+
+describe('Progress REQ-CMP-117', () => {
+  it('ProgressRing is no longer exported from the barrel', () => {
+    const idx = require('node:fs').readFileSync(require('node:path').join(__dirname, 'index.ts'), 'utf8');
+    expect(idx).not.toContain('ProgressRing');
+    const barrel = require('node:fs').readFileSync(require('node:path').join(__dirname, '../../root/cmp.ts'), 'utf8');
+    expect(barrel).not.toContain('ProgressRing');
+  });
+
+  it('track carries content-sunken material attrs', () => {
+    const { container } = render(<Progress value={40} />);
+    const track = container.querySelector('[data-ag-part="track"]')!;
+    expect(track.getAttribute('data-ag-content')).toBe('content-sunken');
+    expect(track.getAttribute('data-ag-layer')).toBe('content');
+  });
+
+  it('appearance=ring indeterminate has progressbar role without aria-valuenow', () => {
+    const { container } = render(<Progress appearance="ring" value={null} />);
+    const root = container.querySelector('[role="progressbar"]')!;
+    expect(root).not.toBeNull();
+    expect(root.hasAttribute('aria-valuenow')).toBe(false);
   });
 });

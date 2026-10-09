@@ -6,6 +6,9 @@
 import * as React from 'react';
 import { Meter as BaseMeter } from '@base-ui/react/meter';
 import { cn } from '../../internal/index';
+import { materialProps } from '../../material/index';
+
+const SUNKEN = materialProps({ layer: 'content', content: 'content-sunken' });
 
 export interface MeterProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'prefix'> {
   value: number;
@@ -64,7 +67,7 @@ export function Meter({
       <BaseMeter.Label data-ag-part="label" className="ag-meter-label">
         {label}
       </BaseMeter.Label>
-      <BaseMeter.Track data-ag-part="track" className="ag-meter-track">
+      <BaseMeter.Track {...SUNKEN} data-ag-part="track" className={cn('ag-meter-track', SUNKEN.className)}>
         <BaseMeter.Indicator data-ag-part="indicator" className="ag-meter-indicator" />
       </BaseMeter.Track>
       {showValue ? (
