@@ -55,6 +55,7 @@ const meta: ControlMeta = defineMeta({
       automation: 'partial', // rich/interactive content uses Popover; plain hints use Tooltip
       compat: false,
     },
+    { from: 'GlassPositioner', props: {}, automation: 'mostly', compat: true },
     {
       from: 'GlassDropdown',
       props: { items: 'Menu/Popover composition', open: 'open' },

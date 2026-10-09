@@ -9,5 +9,11 @@ export const StepsMeta = defineMeta({
   parts: ['root', 'list', 'item', 'indicator', 'label', 'description'],
   states: ['complete', 'current', 'upcoming', 'error'],
   variants: {},
-  migration: [],
+  migration: [
+    {
+      from: 'GlassStepper',
+      automation: 'mostly',
+      compat: true,
+    },
+  ],
 });

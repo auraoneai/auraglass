@@ -53,6 +53,9 @@ const meta: ControlMeta = defineMeta({
       automation: 'partial',
       compat: false,
     },
+    { from: 'GlassNotificationItem', props: {}, automation: 'mostly', compat: true },
+    { from: 'GlassNotificationProvider', props: {}, automation: 'mostly', compat: true },
+    { from: 'useNotifications', props: {}, automation: 'mostly', compat: true },
   ],
 });
 export default meta;
