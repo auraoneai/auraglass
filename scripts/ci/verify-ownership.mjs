@@ -35,7 +35,7 @@ const rowH = rows.filter((r) => /^H\d/.test(r.id));
 const rowHGlobs = rowH.map((r) => r.glob);
 
 const b = branch.replace(/^refs\/heads\//, '');
-const line = b.startsWith('4x-') || process.env.AG_LINE === '4x' ? '4x' : '5x';
+const line = b.startsWith('4x-') || b.startsWith('4x11-') || process.env.AG_LINE === '4x' ? '4x' : '5x';
 
 function ownerOf(path) {
   for (const r of rows) {
@@ -53,7 +53,7 @@ const matZone = (p) => streamZone('mat', p) || rowHGlobs.some((g) => is(g)(p));
 
 let allowed, label;
 const m5 = /^next-(plat|mat|cmp|surf|qual)\//.exec(b);
-const m4 = /^4x-(plat|mat|cmp|surf|qual)\//.exec(b);
+const m4 = /^(?:4x|4x11)-(plat|mat|cmp|surf|qual)\//.exec(b);
 const mSync = /^sync\/fragments-(deprecations|codemods)-/.exec(b);
 if (process.env.AG_STREAM) {
   const s = process.env.AG_STREAM.toLowerCase();

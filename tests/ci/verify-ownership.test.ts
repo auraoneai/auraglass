@@ -77,3 +77,64 @@ describe('verify-ownership', () => {
     expect(r.code).toBe(0);
   });
 });
+
+describe('REQ-FIN-30 rule cases (AC-FIN-30)', () => {
+  it('(a) unmatched path on next-mat/* fails naming Z01 PLAT', () => {
+    const r = run(['--branch', 'next-mat/x', '--files', 'zz-unmatched/x']);
+    expect(r.code).toBe(1);
+    expect(r.out).toContain('Z01');
+    expect(r.out).toContain('PLAT');
+  });
+
+  it('(b) a real git rename lists old and new paths under --base', () => {
+    const dir = require('node:fs').mkdtempSync(require('node:path').join(require('node:os').tmpdir(), 'own-'));
+    const g = (a: string[]) => execFileSync('git', a, { cwd: dir, encoding: 'utf8' });
+    g(['init', '-q']);
+    g(['-c', 'user.email=t@t', '-c', 'user.name=t', 'commit', '--allow-empty', '-qm', 'base']);
+    require('node:fs').mkdirSync(`${dir}/scripts/ci`, { recursive: true });
+    require('node:fs').mkdirSync(`${dir}/contracts`, { recursive: true });
+    require('node:fs').writeFileSync(`${dir}/contracts/ownership.json`, require('node:fs').readFileSync('contracts/ownership.json'));
+    require('node:fs').writeFileSync(`${dir}/scripts/ci/a.mjs`, 'x\n');
+    g(['add', '-A']); g(['-c', 'user.email=t@t', '-c', 'user.name=t', 'commit', '-qm', 'add']);
+    g(['mv', 'scripts/ci/a.mjs', 'scripts/ci/b.mjs']);
+    g(['-c', 'user.email=t@t', '-c', 'user.name=t', 'commit', '-qm', 'rename']);
+    const r = (() => {
+      try {
+        const out = execFileSync('node', [`${process.cwd()}/${SCRIPT}`, '--branch', 'next-mat/x', '--base', 'HEAD~1'], { cwd: dir, encoding: 'utf8' });
+        return { code: 0, out };
+      } catch (e: any) { return { code: e.status ?? 1, out: `${e.stdout}${e.stderr}` }; }
+    })();
+    expect(r.code).toBe(1);
+    expect(r.out).toContain('scripts/ci/b.mjs');
+    expect(r.out).toContain('scripts/ci/a.mjs'); // delete+add pair (--no-renames)
+  });
+
+  it('(c) 4x-cmp/* may touch fragments/deprecations/cmp.ts but not src/components/a.tsx', () => {
+    expect(run(['--branch', '4x-cmp/x', '--files', 'fragments/deprecations/cmp.ts']).code).toBe(0);
+    const r = run(['--branch', '4x-cmp/x', '--files', 'src/components/a.tsx']);
+    expect(r.code).toBe(1);
+    expect(r.out).toContain('src/components/a.tsx');
+  });
+
+  it('(d) sync/fragments-codemods-* allows codemods, rejects src/x.ts', () => {
+    expect(run(['--branch', 'sync/fragments-codemods-20261008', '--files', 'fragments/codemods/mat.ts']).code).toBe(0);
+    expect(run(['--branch', 'sync/fragments-codemods-20261008', '--files', 'src/x.ts']).code).toBe(1);
+  });
+
+  it('(e) a NONE-owned path fails with the use tests/<kind>/<stream>/ message', () => {
+    const r = run(['--branch', 'next-mat/x', '--files', 'tests/e2e/foo/x.spec.ts']);
+    expect(r.code).toBe(1);
+    expect(r.out).toMatch(/use tests\/<kind>\/|invalid location|tests\//);
+  });
+
+  it('(f) a non-prefixed branch fails', () => {
+    const r = run(['--branch', 'feature/foo', '--files', 'src/theme/a.ts']);
+    expect(r.code).toBe(1);
+  });
+
+  it('(g) 4x11-<stream>/* follows the 4x zone rule (OD-13)', () => {
+    expect(run(['--branch', '4x11-cmp/x', '--files', 'fragments/deprecations/cmp.ts']).code).toBe(0);
+    expect(run(['--branch', '4x11-cmp/x', '--files', 'src/components/a.tsx']).code).toBe(1);
+    expect(run(['--branch', '4x11-plat/x', '--files', 'ci/plat.gitlab-ci.yml']).code).toBe(0);
+  });
+});
