@@ -13,19 +13,48 @@
     line-height: var(--ag-type-label-leading);
   }
 
+  /* REQ-CMP-61: padding per size sm/md/lg = space-2/3/4; control heights
+     28/36/44 (default), 24/32/44 (compact), 32/40/48 (spacious). */
+  .ag-text-field {
+    --ag-comp-control-height-sm-default: calc(var(--ag-space-1) * 7);
+    --ag-comp-control-height-md-default: calc(var(--ag-space-1) * 9);
+    --ag-comp-control-height-lg-default: calc(var(--ag-space-1) * 11);
+    --ag-comp-control-height-sm-compact: calc(var(--ag-space-1) * 6);
+    --ag-comp-control-height-md-compact: calc(var(--ag-space-1) * 8);
+    --ag-comp-control-height-lg-compact: calc(var(--ag-space-1) * 11);
+    --ag-comp-control-height-sm-spacious: calc(var(--ag-space-1) * 8);
+    --ag-comp-control-height-md-spacious: calc(var(--ag-space-1) * 10);
+    --ag-comp-control-height-lg-spacious: calc(var(--ag-space-1) * 12);
+    --_tf-control-h: var(--ag-comp-control-height-md-default);
+  }
+  .ag-text-field[data-ag-size='sm'] { --_tf-control-h: var(--ag-comp-control-height-sm-default); }
+  .ag-text-field[data-ag-size='lg'] { --_tf-control-h: var(--ag-comp-control-height-lg-default); }
+  .ag-text-field[data-ag-density='compact'] { --_tf-control-h: var(--ag-comp-control-height-md-compact); }
+  .ag-text-field[data-ag-density='compact'][data-ag-size='sm'] { --_tf-control-h: var(--ag-comp-control-height-sm-compact); }
+  .ag-text-field[data-ag-density='compact'][data-ag-size='lg'] { --_tf-control-h: var(--ag-comp-control-height-lg-compact); }
+  .ag-text-field[data-ag-density='spacious'] { --_tf-control-h: var(--ag-comp-control-height-md-spacious); }
+  .ag-text-field[data-ag-density='spacious'][data-ag-size='sm'] { --_tf-control-h: var(--ag-comp-control-height-sm-spacious); }
+  .ag-text-field[data-ag-density='spacious'][data-ag-size='lg'] { --_tf-control-h: var(--ag-comp-control-height-lg-spacious); }
+
   .ag-text-field [data-ag-part='control-shell'] {
     display: flex;
     align-items: center;
     gap: var(--ag-space-2);
     padding-inline: var(--ag-space-3);
+    min-block-size: var(--_tf-control-h);
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-sunken-alpha, 8%), transparent);
     box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
     border-radius: var(--ag-radius-inner);
     transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
   }
+  /* rim colour change stays on the shell; the ring lives on the control */
   .ag-text-field [data-ag-part='control-shell']:focus-within {
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-focus-outer),
-      0 0 0 var(--ag-focus-inner) var(--ag-color-focus-outer);
+    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-focus-outer);
+  }
+  .ag-text-field [data-ag-part='control']:focus-visible {
+    outline: var(--ag-focus-inner) solid var(--ag-color-focus-outer);
+    outline-offset: var(--ag-space-1);
+    border-radius: var(--ag-radius-inner);
   }
   .ag-text-field[data-invalid] [data-ag-part='control-shell'] {
     box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-danger);
@@ -36,10 +65,18 @@
     min-inline-size: 0;
     background: transparent;
     border: 0;
-    outline: none;
     color: inherit;
     font: inherit;
     padding-block: var(--ag-space-2);
+    font-size: var(--ag-type-body-size);
+    line-height: var(--ag-type-body-leading);
+  }
+  /* REQ-CMP-61: size padding sm/md/lg = space-2/3/4; sm uses label type. */
+  .ag-text-field[data-ag-size='sm'] [data-ag-part='control-shell'] { padding-inline: var(--ag-space-2); }
+  .ag-text-field[data-ag-size='lg'] [data-ag-part='control-shell'] { padding-inline: var(--ag-space-4); }
+  .ag-text-field[data-ag-size='sm'] [data-ag-part='control'] {
+    font-size: var(--ag-type-label-size);
+    line-height: var(--ag-type-label-leading);
   }
   .ag-text-field textarea[data-ag-part='control'] {
     resize: vertical;
