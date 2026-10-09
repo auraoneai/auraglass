@@ -21,10 +21,26 @@ function Viewport({
       if (typeof ref === 'function') ref(node);
       else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
       if (!node) return;
+      let warned = false;
       const update = () => {
         const overflowing = node.scrollHeight > node.clientHeight + 1 || node.scrollWidth > node.clientWidth + 1;
-        if (overflowing) node.setAttribute('tabindex', '0');
-        else node.removeAttribute('tabindex');
+        if (overflowing) {
+          node.setAttribute('tabindex', '0');
+          // REQ-CMP-122: a focusable region needs an accessible name — warn once
+          // per instance in dev when it overflows unlabeled.
+          if (
+            !warned &&
+            process.env.NODE_ENV !== 'production' &&
+            !node.getAttribute('aria-label') &&
+            !node.getAttribute('aria-labelledby')
+          ) {
+            warned = true;
+            console.warn(
+              '[aura-glass] ScrollArea.Viewport is overflowing and focusable (tabIndex=0) but has no ' +
+                'aria-label or aria-labelledby — give the scrollable region an accessible name.',
+            );
+          }
+        } else node.removeAttribute('tabindex');
       };
       update();
       if (typeof ResizeObserver === 'undefined') return;
