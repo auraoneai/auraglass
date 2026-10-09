@@ -1,8 +1,8 @@
 /* PLAT-288 layout — Server Component: imports the assembled stylesheet and
    renders the S-22 provider shell. AuraGlassScript + AuraGlassProvider come
-   from the root entry; styles.css ships as its own subpath. */
+   from the theme entry; styles.css ships as its own subpath. */
 import 'aura-glass/styles.css';
-import { AuraGlassProvider, AuraGlassScript } from 'aura-glass';
+import { AuraGlassProvider, AuraGlassScript } from 'aura-glass/theme';
 import type { ReactNode } from 'react';
 
 export const metadata = { title: 'AuraGlass canary — next16' };

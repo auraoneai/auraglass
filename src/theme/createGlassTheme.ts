@@ -1,5 +1,5 @@
-/* @ag-contract-seed: S-21. Owner MAT. createGlassTheme redesign (MAT-064).
-   Pure: no 'use client', no DOM access. Colors enter through parseColor. */
+/* createGlassTheme (MAT-064). Pure: no 'use client', no DOM access.
+   Colors enter through parseColor. */
 
 import {
   parseColor,

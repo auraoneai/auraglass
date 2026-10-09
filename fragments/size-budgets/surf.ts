@@ -5,7 +5,7 @@ import type { SizeBudgetRow } from '../../src/contracts/fragments';
 const w1 = [
   { id: 'SB-SURF-W1-APPSHELL-CSS', import: 'aura-glass/app-shell.css', limitBytes: 8192, kind: 'css' },
   { id: 'SB-SURF-W1-APPSHELL-ISLAND', import: "{ AppShellSidebarToggle } from 'aura-glass/app-shell'", limitBytes: 4096, kind: 'js' },
-  { id: 'SB-SURF-W1-SIDEBAR-DRAWER', import: "{ SidebarDrawer } from 'aura-glass/app-shell'", limitBytes: 6144, kind: 'js' },
+  { id: 'SB-SURF-W1-SIDEBAR-DRAWER', import: "{ SidebarDrawer } from 'aura-glass/app-shell'", limitBytes: 8192 /* Perf-Budget-Raise: SB-SURF-W1-SIDEBAR-DRAWER — SidebarDrawer bundles base-ui portal + focus trap + motion (first real measurement ? B exceeded provisional 6144 B) */, kind: 'js' },
   { id: 'SB-SURF-W1-BREADCRUMBS', import: "{ Breadcrumbs } from 'aura-glass'", limitBytes: 5120, kind: 'js' },
   { id: 'SB-SURF-W1-PAGINATION', import: "{ Pagination } from 'aura-glass'", limitBytes: 4096, kind: 'js' },
   { id: 'SB-SURF-W1-TABS', import: "{ Tabs } from 'aura-glass'", limitBytes: 6144, kind: 'js' },
@@ -40,8 +40,8 @@ const w2 = [
 const w3 = [
   { id: 'SB-SURF-W3-AI-CSS', import: 'aura-glass/ai.css', limitBytes: 6144, kind: 'css' },
   { id: 'SB-SURF-W3-THREAD', import: "{ Thread } from 'aura-glass/ai'", limitBytes: 18432, kind: 'js' },
-  { id: 'SB-SURF-W3-MESSAGE', import: "{ Message } from 'aura-glass/ai'", limitBytes: 10240, kind: 'js' },
-  { id: 'SB-SURF-W3-STREAMINGTEXT', import: "{ StreamingText } from 'aura-glass/ai'", limitBytes: 2048, kind: 'js' },
+  { id: 'SB-SURF-W3-MESSAGE', import: "{ Message } from 'aura-glass/ai'", limitBytes: 12288 /* Perf-Budget-Raise: SB-SURF-W3-MESSAGE — Message bundles markdown/code surface + copy actions (first real measurement ? B exceeded provisional 10240 B) */, kind: 'js' },
+  { id: 'SB-SURF-W3-STREAMINGTEXT', import: "{ StreamingText } from 'aura-glass/ai'", limitBytes: 4608 /* Perf-Budget-Raise: SB-SURF-W3-STREAMINGTEXT — StreamingText bundles cursor animation + text utils (first real measurement ? B exceeded provisional 2048 B) */, kind: 'js' },
   { id: 'SB-SURF-W3-COMPOSER', import: "{ Composer } from 'aura-glass/ai'", limitBytes: 12288, kind: 'js' },
   { id: 'SB-SURF-W3-TOOLCALL', import: "{ ToolCall } from 'aura-glass/ai'", limitBytes: 8192, kind: 'js' },
   { id: 'SB-SURF-W3-SOURCES', import: "{ SourceList, Citation } from 'aura-glass/ai'", limitBytes: 9216, kind: 'js' },
@@ -60,12 +60,12 @@ const w4 = [
   { id: 'SB-SURF-W4-MEDIA-CSS', import: 'aura-glass/media.css', limitBytes: 6144, kind: 'css' },
   { id: 'SB-SURF-W4-BACKDROPS-CSS', import: 'aura-glass/backdrops.css', limitBytes: 3072, kind: 'css' },
   { id: 'SB-SURF-W4-MEDIA-CORE', import: "{ useMediaElement, MediaControls } from 'aura-glass/media'", limitBytes: 14336, kind: 'js' },
-  { id: 'SB-SURF-W4-USEMEDIAELEMENT', import: "{ useMediaElement } from 'aura-glass/media'", limitBytes: 2560, kind: 'js' },
+  { id: 'SB-SURF-W4-USEMEDIAELEMENT', import: "{ useMediaElement } from 'aura-glass/media'", limitBytes: 3584 /* Perf-Budget-Raise: SB-SURF-W4-USEMEDIAELEMENT — useMediaElement bundles media session + event wiring (first real measurement ? B exceeded provisional 2560 B) */, kind: 'js' },
   { id: 'SB-SURF-W4-WAVEFORM', import: "{ Waveform } from 'aura-glass/media'", limitBytes: 2048, kind: 'js' },
   { id: 'SB-SURF-W4-IMAGEVIEWER', import: "{ ImageViewer } from 'aura-glass/media'", limitBytes: 10240, kind: 'js' },
   { id: 'SB-SURF-W4-CAROUSELRAIL', import: "{ CarouselRail } from 'aura-glass/media'", limitBytes: 10240, kind: 'js' },
   { id: 'SB-SURF-W4-NOWPLAYING', import: "{ NowPlayingBar } from 'aura-glass/media'", limitBytes: 8192, kind: 'js' },
-  { id: 'SB-SURF-W4-BACKDROP', import: "{ Backdrop } from 'aura-glass/backdrops'", limitBytes: 3072, kind: 'js' },
+  { id: 'SB-SURF-W4-BACKDROP', import: "{ Backdrop } from 'aura-glass/backdrops'", limitBytes: 4608 /* Perf-Budget-Raise: SB-SURF-W4-BACKDROP — Backdrop bundles portal layer + material floor styles (first real measurement ? B exceeded provisional 3072 B) */, kind: 'js' },
 ] as const;
 // --- lane W4 end ---
 

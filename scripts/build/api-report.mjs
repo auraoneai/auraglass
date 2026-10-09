@@ -21,7 +21,7 @@ import { dirname, join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const require = createRequire(import.meta.url);
 export const EXTRACTOR_VERSION = '7.59.4';
 
@@ -112,7 +112,7 @@ export async function run5x(entry, { root = ROOT, check = false, failOnUnanalysa
 
   const files = {};
   const stem = entry;
-  const { exportsJson, apiMd } = reportFiles(entry, names, { unanalysable });
+  const { exportsJson, apiMd } = reportFiles(`./${entry.replace(/^\.\//, '')}`, names, { unanalysable });
   files[`etc/api/${stem}.exports.json`] = exportsJson;
   files[`etc/api/${stem}.api.md`] = apiMd;
   if (css) files[`etc/api/${stem}.css-api.json`] = `${JSON.stringify({ entry, vars: css }, null, 1)}\n`;
@@ -188,6 +188,9 @@ async function main() {
   if (check && stale.length) { console.error(`api-report --check FAIL: ${stale.join(', ')}`); return 1; }
   if (unanalysable.length) {
     console.error(`api-report: ${unanalysable.length} unanalysable: ${unanalysable.join('; ')}`);
+    /* an entry with no manifest source at all is a usage error (exit 2) in
+       every alpha; alpha>=1 additionally fails on source-level issues. */
+    if (unanalysable.some((u) => u.startsWith('no source for entry'))) return 2;
     if (failOnUn && line !== '4x') return 1;
   }
   console.log(`api-report: ${Object.keys(files).length} file(s) ${check ? 'verified' : 'written'}${entry ? ` for ${entry}` : ''}`);

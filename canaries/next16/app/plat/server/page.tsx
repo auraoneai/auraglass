@@ -1,15 +1,17 @@
-/* PLAT-288: server page — renders every server-safe export. The list is
-   generated from build/server-safe-exports.json at integration time; the
-   page itself must stay a Server Component (no directive, no hooks). */
-import * as material from 'aura-glass/material';
-import * as tokens from 'aura-glass/tokens';
-import * as icons from 'aura-glass/icons';
-import * as data from 'aura-glass/data';
-import * as date from 'aura-glass/date';
-import * as three from 'aura-glass/three';
-import * as charts from 'aura-glass/charts';
+/* GENERATED at integration time by scripts/ci/gen-server-page.mjs — do
+   not edit by hand. Renders every server-safe export count so the rsc spec
+   can assert the payload carries no client reference. Server Component. */
+import * as mod___tokens from 'aura-glass/tokens';
+import * as mod___icons from 'aura-glass/icons';
+import * as mod___internal from 'aura-glass/internal';
+import * as mod___three from 'aura-glass/three';
 
-const modules = { material, tokens, icons, data, date, three, charts };
+const modules = {
+  'tokens': mod___tokens,
+  'icons': mod___icons,
+  'internal': mod___internal,
+  'three': mod___three,
+};
 
 export default function PlatServerPage() {
   const counts = Object.entries(modules).map(([name, mod]) => `${name}:${Object.keys(mod).length}`).join(' ');

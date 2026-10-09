@@ -23,12 +23,19 @@ test.describe('vite canary', () => {
   test('ag.a11y wins over ag.components under forced colors', async ({ page }) => {
     await page.emulateMedia({ forcedColors: 'active' });
     await page.goto('/plat/button');
-    /* under forced colors the a11y layer's high-contrast overrides apply */
+    /* ag.a11y forced-colors block pins --_ag-mat-blur: 0px on [data-ag-variant] —
+       a specific a11y value, never the failure fallback. */
+    const blur = await page.evaluate(() => {
+      const el = document.querySelector('[data-ag-variant]');
+      return el ? getComputedStyle(el).getPropertyValue('--_ag-mat-blur').trim() : 'missing';
+    });
+    expect(blur).toBe('0px');
+    /* and a real element outline is still painted (non-'none' in forced colors) */
     const outline = await page.evaluate(() => {
-      const b = document.querySelector('button');
+      const b = document.querySelector('[data-ag-variant]');
       return b ? getComputedStyle(b).outlineStyle : 'none';
     });
-    expect(['auto', 'solid', 'none']).toContain(outline); /* presence asserted; strict value ships when CMP css lands */
+    expect(outline).not.toBe('none');
   });
 
   test('gzip delta(button - empty) <= Button row + 2KB', async ({ page }) => {

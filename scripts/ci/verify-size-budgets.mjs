@@ -157,9 +157,13 @@ export async function run() {
         const distPath = target ?? join(ROOT, 'dist', subpath === '.' ? 'index.js' : `${subpath.slice(2)}/index.js`);
         spec = spec.replace(/['"]aura-glass(\/[\w./-]+)?['"]/g, `'${distPath}'`);
       }
+      /* strip trailing '(...)' annotations rows carry in their import text */
+      spec = spec.replace(/\s*\([^)]*\)\s*$/, '');
       /* fragments may hold bare '{ X } from ...' specifiers — wrap as a real
-         statement so esbuild parses it. */
-      if (!/^\s*(import|export)\b/.test(spec)) spec = `export ${spec}`;
+         statement so esbuild parses it; a bare quoted specifier is a whole-
+         entry measurement. */
+      if (/^\s*['"]/.test(spec)) spec = `export * from ${spec}`;
+      else if (!/^\s*(import|export)\b/.test(spec)) spec = `export ${spec}`;
       try { ({ bytes: measured, metafile } = await bundle(spec)); }
       catch (e) {
         /* seed-pending entries stay pending; everything else fails the row */

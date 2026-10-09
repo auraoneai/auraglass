@@ -1,7 +1,6 @@
 // Root barrel slice for SURF (contract S-28 ROOT_EXPORTS.surf). Lane blocks
 // are owned by SURF lanes W1..W5; edit only your own block.
 // A re-export line lands only when the component's import graph is free of
-// @ag-contract-seed markers (index rule) — empty until lanes deliver.
 
 // --- lane W1 begin ---
 // W1 (SURF-113): the CMP + MAT streams landed — every import-graph seam is
