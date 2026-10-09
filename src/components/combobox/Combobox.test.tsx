@@ -125,8 +125,72 @@ describe('Combobox (CMP-180/183)', () => {
     input.focus();
     await userEvent.keyboard('{Backspace}');
     await act(async () => {});
-    const focusedChip = document.activeElement?.closest('[data-ag-part="chip"]') ?? document.activeElement;
-    expect(focusedChip === chips[1] || focusedChip?.textContent?.includes('Banana') || focusedChip === input).toBe(true);
+    /* REQ-CMP-70: strict — the last chip is the focus target, no escapes. */
+    const focusedChip = document.activeElement?.closest('[data-ag-part="chip"]');
+    expect(focusedChip === chips[1] || document.activeElement?.textContent?.includes('Banana')).toBe(true);
+  });
+
+  it('REQ-CMP-70: Alt+ArrowDown leaves no aria-activedescendant on the input', async () => {
+    render(
+      <Combobox.Root items={FRUITS} multiple defaultValue={['Apple']}>
+        <Combobox.Chips>
+          <Combobox.Chip>Apple</Combobox.Chip>
+        </Combobox.Chips>
+        <Combobox.Input />
+        <Combobox.Content>
+          <Combobox.Empty />
+          {FRUITS.map((f) => (
+            <Combobox.Item key={f} value={f}>
+              {f}
+            </Combobox.Item>
+          ))}
+        </Combobox.Content>
+      </Combobox.Root>,
+    );
+    const input = screen.getByRole('combobox');
+    input.focus();
+    await userEvent.keyboard('{Alt>}{ArrowDown}{/Alt}');
+    await act(async () => {});
+    expect(input.getAttribute('aria-activedescendant')).toBeNull();
+  });
+
+  it('REQ-CMP-70: ArrowLeft/Right move chip focus; Delete removes the chip', async () => {
+    const onValueChange = jest.fn();
+    render(
+      <Combobox.Root items={FRUITS} multiple defaultValue={['Apple', 'Banana']} onValueChange={onValueChange}>
+        <Combobox.Chips>
+          <Combobox.Chip>Apple</Combobox.Chip>
+          <Combobox.Chip>Banana</Combobox.Chip>
+        </Combobox.Chips>
+        <Combobox.Input />
+        <Combobox.Content>
+          <Combobox.Empty />
+          {FRUITS.map((f) => (
+            <Combobox.Item key={f} value={f}>
+              {f}
+            </Combobox.Item>
+          ))}
+        </Combobox.Content>
+      </Combobox.Root>,
+    );
+    const input = screen.getByRole('combobox');
+    input.focus();
+    await userEvent.keyboard('{Backspace}');
+    await act(async () => {});
+    const focused = document.activeElement;
+    const chip = focused?.closest('[data-ag-part="chip"]');
+    expect(chip?.textContent).toContain('Banana');
+    await userEvent.keyboard('{ArrowLeft}');
+    await act(async () => {});
+    expect(document.activeElement?.closest('[data-ag-part="chip"]')?.textContent).toContain('Apple');
+    await userEvent.keyboard('{ArrowRight}');
+    await act(async () => {});
+    expect(document.activeElement?.closest('[data-ag-part="chip"]')?.textContent).toContain('Banana');
+    await userEvent.keyboard('{Delete}');
+    await act(async () => {});
+    expect(onValueChange).toHaveBeenCalled();
+    const last = onValueChange.mock.calls.at(-1)![0] as string[];
+    expect(last).not.toContain('Banana');
   });
 
   it('creatable: offers one create-item for a novel query; Enter calls onCreate', async () => {

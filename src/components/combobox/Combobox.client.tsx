@@ -270,6 +270,53 @@ function ComboboxRoot<Value = string>({
 /* Input shell (chips + input + clear + trigger)                       */
 /* ------------------------------------------------------------------ */
 
+/* REQ-CMP-70: chip roving — Backspace on empty input focuses the last chip;
+   ArrowLeft/Right move chip focus; Backspace/Delete removes the focused chip
+   via its chip-remove control (fires BU's value change). */
+function allChips(el: HTMLElement): HTMLElement[] {
+  const scope = el.closest('[data-ag-part="root"]') ?? el.ownerDocument;
+  return [...scope.querySelectorAll<HTMLElement>("[data-ag-part='chip']")];
+}
+export function comboboxInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  const input = e.currentTarget;
+  if (e.key === 'ArrowDown' && e.altKey) {
+    /* Alt+ArrowDown opens without moving virtual focus — BU ignores alt-keyed
+       keydowns, so clear any highlight it applied after the open settles. */
+    const el = input;
+    setTimeout(() => {
+      if (el.getAttribute('aria-activedescendant')) {
+        el.removeAttribute('aria-activedescendant');
+      }
+    }, 0);
+    return;
+  }
+  if (e.key !== 'Backspace' || input.value !== '') return;
+  const chips = allChips(input);
+  const last = chips[chips.length - 1];
+  if (last) {
+    e.preventDefault();
+    last.focus();
+  }
+}
+export function comboboxChipsKeyDown(e: React.KeyboardEvent<HTMLElement>) {
+  const chip = (e.target as HTMLElement).closest?.("[data-ag-part='chip']") as HTMLElement | null;
+  if (!chip) return;
+  const chips = allChips(chip);
+  const i = chips.indexOf(chip);
+  if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    (chips[i - 1] ?? chips[0])?.focus();
+  } else if (e.key === 'ArrowRight') {
+    e.preventDefault();
+    (chips[i + 1] ?? chips[chips.length - 1])?.focus();
+  } else if (e.key === 'Backspace' || e.key === 'Delete') {
+    e.preventDefault();
+    const next = chips[e.key === 'Backspace' ? i - 1 : i + 1] ?? chips[0];
+    chip.querySelector<HTMLElement>("[data-ag-part='chip-remove']")?.click();
+    next?.focus();
+  }
+}
+
 function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputProps) {
   const { size, mode, loading } = useInternal();
   return (
@@ -282,6 +329,7 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
       <Base.Input
         data-ag-part="input"
         placeholder={placeholder}
+        onKeyDown={comboboxInputKeyDown}
         {...(mode === 'autocomplete' ? { 'aria-autocomplete': 'list' as const } : {})}
         ref={ref}
         {...rest}
@@ -419,7 +467,7 @@ function ComboboxGroupLabel({ children, className }: ComboboxGroupLabelProps) {
 
 function ComboboxChips({ children, className }: ComboboxChipsProps) {
   return (
-    <Base.Chips data-ag-part="chips" className={className}>
+    <Base.Chips data-ag-part="chips" className={className} onKeyDown={comboboxChipsKeyDown}>
       {children}
     </Base.Chips>
   );
