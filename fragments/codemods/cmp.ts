@@ -73,6 +73,7 @@ export default {
     { component: 'GlassButton', from: 'leftIcon', to: 'startIcon' },
     { component: 'GlassButton', from: 'rightIcon', to: 'endIcon' },
     { component: 'GlassButton', from: 'material', to: null, todo: 'material=\'liquid\' -> variant=\'prominent\'; other values drop' },
+    { component: 'GlassCard', from: 'material', to: null, todo: 'material dropped — the card is fixed to the content layer (REQ-CMP-05)' },
     { component: 'GlassIconButton', from: 'label', to: 'aria-label' },
     { component: 'ToggleButton', from: 'selected', to: 'pressed' },
     { component: 'ToggleButton', from: 'onChange', to: 'onPressedChange' },

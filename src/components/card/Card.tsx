@@ -4,22 +4,19 @@
 import * as React from 'react';
 import { cn } from '../../internal/index';
 import { materialProps } from '../../material/index';
-import type { MaterialRole } from '../../contracts/material';
 
 export interface CardRootProps extends React.HTMLAttributes<HTMLDivElement> {
   interactive?: boolean;
-  material?: MaterialRole;
 }
 
 function Root({
   interactive,
-  material,
   tabIndex,
   className,
   ref,
   ...rest
 }: CardRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
-  const mat = materialProps(material);
+  const mat = materialProps();
   return (
     <div
       {...rest}

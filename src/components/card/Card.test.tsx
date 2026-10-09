@@ -27,7 +27,7 @@ describe('Card', () => {
     expect(el.tabIndex).toBe(0);
   });
   it('is material-bearing via materialProps (layer attr)', () => {
-    const { container } = render(<Card material={{ layer: 'chrome' }}>x</Card>);
-    expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-ag-layer')).toBe('chrome');
+    const { container } = render(<Card>x</Card>);
+    expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-ag-layer')).toBe('content');
   });
 });
