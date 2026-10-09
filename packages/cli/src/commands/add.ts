@@ -20,15 +20,18 @@ function sha256(s: string): string {
   return createHash('sha256').update(s, 'utf8').digest('hex');
 }
 
-async function fetchTree(name: string, registry: string | undefined, seen: Set<string>, order: RegistryItem[]): Promise<RegistryItem[]> {
-  if (seen.has(name)) {
+async function fetchTree(name: string, registry: string | undefined, visiting: Set<string>, order: RegistryItem[], done = new Set<string>()): Promise<RegistryItem[]> {
+  if (done.has(name)) return order;
+  if (visiting.has(name)) {
     throw new CliError(`registry dependency cycle at '${name}'`, EXIT.validation);
   }
-  seen.add(name);
+  visiting.add(name);
   const item = await fetchItem(name, registry);
   for (const dep of item.registryDependencies ?? []) {
-    await fetchTree(dep, registry, seen, order);
+    await fetchTree(dep, registry, visiting, order, done);
   }
+  visiting.delete(name);
+  done.add(name);
   order.push(item);
   return order;
 }
