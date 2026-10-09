@@ -8,7 +8,7 @@ import { fetchItem } from '../registry/client.js';
 import { unifiedDiff } from '../migrate/4to5/index.js';
 import { rewriteAliases } from './add.js';
 
-type State = 'up-to-date' | 'local-modified' | 'upstream-changed' | 'diverged' | 'not-installed' | 'missing-local';
+type State = 'unchanged' | 'locally-modified' | 'upstream-changed' | 'both' | 'not-installed' | 'missing-local';
 
 const STAMP = /[@/*\s]*@auraglass\/registry\s+(\S+?)@(\S+)\s+sha256:([0-9a-f]{64})/;
 
@@ -49,7 +49,7 @@ export async function diffCommand(args: string[], flags: Record<string, string |
   for (const f of item.files ?? []) {
     if (!f.path || f.content === undefined) continue;
     const upstreamHash = createHash('sha256').update(f.content, 'utf8').digest('hex');
-    const local = stamped.find((s: any) => s.path.endsWith(f.path!) || s.path.includes(`/${item.name}/`));
+    const local = stamped.find((s: any) => s.path.endsWith(`/${f.path!}`) || s.path.endsWith(f.path!));
     if (!local) {
       states.push({ file: f.path, state: 'not-installed' });
       continue;
@@ -57,12 +57,15 @@ export async function diffCommand(args: string[], flags: Record<string, string |
     const raw = fs.readFileSync(local.path, 'utf8');
     const body = raw.replace(/^(\/\/|\/\*+)\s*@auraglass\/registry[^\n]*\n/, '');
     const localHash = createHash('sha256').update(body, 'utf8').digest('hex');
-    const state: State = localHash === upstreamHash
-      ? (local.sha === upstreamHash ? 'up-to-date' : 'upstream-changed')
-      : (local.sha === upstreamHash ? 'local-modified' : 'diverged');
+    /* stamp sha = what upstream looked like at install time */
+    const locallyModified = localHash !== local.sha;
+    const upstreamChanged = upstreamHash !== local.sha;
+    const state: State = !locallyModified && !upstreamChanged ? 'unchanged'
+      : locallyModified && upstreamChanged ? 'both'
+      : locallyModified ? 'locally-modified' : 'upstream-changed';
     const rel = path.relative(cwd, local.path);
     const entry: { file: string; state: State; patch?: string } = { file: rel, state };
-    if (flags.patch && state !== 'up-to-date') {
+    if (flags.patch && state !== 'unchanged') {
       entry.patch = unifiedDiff(rel, body, rewriteAliases(f.content, '@', ''));
     }
     states.push(entry);
@@ -76,10 +79,10 @@ export async function diffCommand(args: string[], flags: Record<string, string |
   if (out.json) printJson({ version: 1, name, upstream: version, files: states });
   else {
     for (const s of states) {
-      const lvl = s.state === 'up-to-date' ? 'pass' : s.state === 'not-installed' || s.state === 'missing-local' ? 'info' : 'warn';
+      const lvl = s.state === 'unchanged' ? 'pass' : s.state === 'not-installed' || s.state === 'missing-local' ? 'info' : 'warn';
       status(out, lvl, `${s.file}: ${s.state}`);
       if (s.patch && !out.silent) process.stdout.write(`${s.patch}\n`);
     }
   }
-  return states.some((s: any) => s.state === 'diverged' || s.state === 'upstream-changed' || s.state === 'local-modified') ? EXIT.validation : EXIT.ok;
+  return states.some((s: any) => s.state === 'both' || s.state === 'upstream-changed' || s.state === 'locally-modified') ? EXIT.validation : EXIT.ok;
 }

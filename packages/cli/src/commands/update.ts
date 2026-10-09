@@ -44,7 +44,8 @@ export async function updateCommand(args: string[], flags: Record<string, string
         try {
           const raw = fs.readFileSync(p, 'utf8');
           const m = raw.slice(0, 400).match(STAMP);
-          if (m && m[2] === item.name && (p.endsWith(f.path!) || p.includes(`/${item.name}/`))) {
+          if (m && m[2] === item.name && (p.endsWith(`/${f.path!}`) || p.endsWith(f.path!) ||
+              (p.includes(`/${item.name}/`) && p.endsWith(`/${path.basename(f.path!)}`)))) {
             localPath = p;
             localSha = m[4]!;
             localBody = raw.replace(/^(\/\/|\/\*+)\s*@auraglass\/registry[^\n]*\n/, '');
@@ -62,12 +63,12 @@ export async function updateCommand(args: string[], flags: Record<string, string
     const locallyModified = localHash !== localSha;
     const upstreamChanged = upstreamHash !== localSha;
     if (!upstreamChanged && !locallyModified) {
-      results.push({ file: f.path, action: 'up-to-date' });
+      results.push({ file: f.path, action: 'unchanged' });
       continue;
     }
     if (locallyModified && !force) {
       refused.push(f.path);
-      results.push({ file: f.path, action: 'refused-local-modified' });
+      results.push({ file: f.path, action: 'refused-locally-modified' });
       continue;
     }
     if (locallyModified && force) {
@@ -81,11 +82,7 @@ export async function updateCommand(args: string[], flags: Record<string, string
     results.push({ file: f.path, action: 'updated' });
   }
 
-  if (refused.length && !force) {
-    if (out.json) printJson({ version: 1, files: results, error: `refusing to overwrite modified files: ${refused.join(', ')}` });
-    else status(out, 'fail', `refusing to overwrite modified files: ${refused.join(', ')} (use --force to write .auraglass-upstream)`);
-    return EXIT.validation;
-  }
+  /* apply what's allowed first; refused files still report + exit 1 */
   if (plannedWrites.length) {
     assertClean(cwd, plannedWrites.map((p: any) => p.path), { allowDirty: Boolean(flags['allow-dirty']), allowNoGit: Boolean(flags['allow-no-git']) });
     for (const w of plannedWrites) {
@@ -93,7 +90,13 @@ export async function updateCommand(args: string[], flags: Record<string, string
       atomicWrite(cwd, dest, w.content);
     }
   }
-  if (out.json) printJson({ version: 1, name, upstream: version, files: results });
-  else for (const r of results) status(out, r.action === 'updated' ? 'pass' : 'info', `${r.file}: ${r.action}`);
-  return EXIT.ok;
+  const refusedError = refused.length && !force
+    ? `refusing to overwrite modified files: ${refused.join(', ')}`
+    : null;
+  if (out.json) printJson({ version: 1, name, upstream: version, files: results, ...(refusedError ? { error: refusedError } : {}) });
+  else {
+    for (const r of results) status(out, r.action === 'updated' ? 'pass' : 'info', `${r.file}: ${r.action}`);
+    if (refusedError) status(out, 'fail', `${refusedError} (use --force to write .auraglass-upstream)`);
+  }
+  return refusedError ? EXIT.validation : EXIT.ok;
 }
