@@ -43,3 +43,5 @@ Current release track: `4.x`
 - `4.x` — active release line (`latest` dist-tag)
 - `5.x` — in development on `next` (`next` dist-tag; GA pending, then 4.x LTS begins)
 - `<4.x` — unsupported
+
+<!-- dist-tags: latest=4.1.0 next=none v4-lts=none -->
