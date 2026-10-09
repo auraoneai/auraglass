@@ -36,6 +36,8 @@ plat:gate:glass-quality:
   stage: test
   allow_failure: true # PLAT-015: remove per line once activation.json records first green run
   rules:
+    - if: $CI_COMMIT_TAG
+      allow_failure: false
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release"
   script:
     - npm run typecheck
@@ -209,6 +211,8 @@ plat:gate:change-class:
   allow_failure: true # PLAT-015
   variables: { GIT_DEPTH: "0" }
   rules:
+    - if: $CI_COMMIT_TAG
+      allow_failure: false
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release"
   script:
     - BASE=$([ "$AG_LINE" = "4x" ] && echo release/4.x || echo next)
@@ -227,6 +231,8 @@ plat:integration:next:
   stage: test
   allow_failure: true # PLAT-015
   rules:
+    - if: $CI_COMMIT_TAG
+      allow_failure: false
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release"
   script:
     - |
@@ -249,6 +255,8 @@ plat:integration:vite:
   stage: test
   allow_failure: true # PLAT-015
   rules:
+    - if: $CI_COMMIT_TAG
+      allow_failure: false
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release"
   script:
     - |
@@ -280,6 +288,7 @@ plat:package:pack:
   rules:
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release"
   script:
+    - if [ "$AG_SCOPE" = "release" ] || [ -n "$CI_COMMIT_TAG" ]; then node scripts/ci/require-activated.mjs --line "$AG_LINE"; fi
     - |
       if [ "$AG_SCOPE" = "release" ]; then
         test -f scripts/release/dry-run.mjs || { echo "PENDING: scripts/release/dry-run.mjs"; exit 1; }
