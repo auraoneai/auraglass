@@ -1,0 +1,17 @@
+{
+  "fix": "REQ-PLAT-59 \u2014 prefers-contrast: more support beside :high",
+  "selector": "@media (prefers-contrast: more)",
+  "after": {
+    "mediaQueries": [
+      "(prefers-contrast: more)",
+      "(prefers-contrast: high)"
+    ]
+  },
+  "measuredContrast": {
+    "foreground": "oklch(0.96 0.01 90) (fallback text)",
+    "background": "oklch(0.22 0.02 262) (fallback bg)",
+    "ratio": 15.42
+  },
+  "method": "OKLCH -> OKLab -> linear sRGB -> WCAG relative luminance",
+  "file": "prefers-contrast-more.json"
+}

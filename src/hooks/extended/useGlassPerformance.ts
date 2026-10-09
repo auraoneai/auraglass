@@ -55,8 +55,6 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
   const finalOptions = { ...DEFAULT_OPTIONS, ...options };
   const monitorRef = useRef<PerformanceMonitor>();
   const memoryManagerRef = useRef<MemoryManager>();
-  const frameCountRef = useRef(0);
-  const lastTimeRef = useRef(0);
   const qualityRef = useRef(1.0);
 
   const [metrics, setMetrics] = useState<GlassPerformanceMetrics>({
@@ -91,39 +89,6 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
     finalOptions.memoryLimit,
   ]);
 
-  // FPS monitoring
-  const measureFPS = useCallback(() => {
-    const currentTime = performance.now();
-    frameCountRef.current++;
-
-    if (lastTimeRef.current === 0) {
-      lastTimeRef.current = currentTime;
-    }
-
-    const deltaTime = currentTime - lastTimeRef.current;
-
-    if (deltaTime >= 1000) {
-      const fps = Math.round((frameCountRef.current * 1000) / deltaTime);
-      const frameTime = deltaTime / frameCountRef.current;
-
-      setMetrics((prev) => ({
-        ...prev,
-        fps,
-        frameTime,
-      }));
-
-      frameCountRef.current = 0;
-      lastTimeRef.current = currentTime;
-
-      // Quality adjustment
-      if (finalOptions.autoAdjustQuality) {
-        adjustQuality(fps);
-      }
-    }
-
-    requestAnimationFrame(measureFPS);
-  }, [finalOptions.autoAdjustQuality]);
-
   const adjustQuality = useCallback(
     (fps: number) => {
       const targetFPS = finalOptions.targetFPS;
@@ -152,16 +117,8 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
     [finalOptions]
   );
 
-  // Start monitoring
-  useEffect(() => {
-    if (!finalOptions.enableMonitoring) return;
-
-    const animationId = requestAnimationFrame(measureFPS);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-    };
-  }, [finalOptions.enableMonitoring, measureFPS]);
+  // REQ-PLAT-59 — the continuous rAF FPS loop is deleted; fps is sampled
+  // inside the existing 2s metrics interval below.
 
   // Performance metrics callback
   useEffect(() => {
@@ -177,6 +134,7 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
 
         setMetrics((prev) => ({
           ...prev,
+          fps: monitorMetrics.fps ?? prev.fps,
           memoryUsage: monitorMetrics.memoryUsage,
           renderTime: monitorMetrics.frameTime,
           isThrottled: prev.fps < finalOptions.qualityThreshold,
