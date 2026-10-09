@@ -5,6 +5,7 @@ import { materialProps, SurfaceGroup } from '../../material';
 import { cn } from '../../internal';
 import { Button } from '../button/Button.client';
 import { IconButton } from '../icon-button/IconButton.client';
+import { Menu } from '../menu/Menu.client';
 import type {
   ToolbarRootProps, ToolbarButtonProps, ToolbarIconButtonProps,
   ToolbarGroupProps, ToolbarSeparatorProps, ToolbarLinkProps,
@@ -41,6 +42,26 @@ function ToolbarRoot({
         ref={ref}
       >
         {children}
+        {lowPriorityItems(children).length > 0 ? (
+          <span data-ag-part="overflow" className="ag-toolbar-overflow">
+            <Menu.Root>
+              <Menu.Trigger>
+                <IconButton label="More actions" icon={<span aria-hidden="true">⋯</span>} size="sm" />
+              </Menu.Trigger>
+              <Menu.Portal>
+                <Menu.Positioner>
+                  <Menu.Popup>
+                    {lowPriorityItems(children).map((it) => (
+                      <Menu.Item key={it.key} onClick={it.onClick as React.MouseEventHandler | undefined}>
+                        {it.icon}{it.label}
+                      </Menu.Item>
+                    ))}
+                  </Menu.Popup>
+                </Menu.Positioner>
+              </Menu.Portal>
+            </Menu.Root>
+          </span>
+        ) : null}
       </Base.Root>
     </SurfaceGroup>
   );
@@ -63,24 +84,45 @@ function splitButtonProps(props: Record<string, unknown>) {
   return { aura, dom };
 }
 
-function ToolbarButton({ className, children, ...rest }: ToolbarButtonProps) {
+function ToolbarButton({ className, children, priority, ...rest }: ToolbarButtonProps) {
   const { aura, dom } = splitButtonProps(rest as Record<string, unknown>);
   return (
     <Base.Button
       {...dom}
-      render={<Button {...aura} data-ag-part="button" className={className}>{children}</Button>}
+      render={<Button {...aura} data-ag-part="button" {...(priority === 'low' ? { 'data-ag-priority': 'low' } : {})} className={className}>{children}</Button>}
     />
   );
 }
 
-function ToolbarIconButton({ label, icon, className, ...rest }: ToolbarIconButtonProps) {
+function ToolbarIconButton({ label, icon, className, priority, ...rest }: ToolbarIconButtonProps) {
   const { aura, dom } = splitButtonProps(rest as Record<string, unknown>);
   return (
     <Base.Button
       {...dom}
-      render={<IconButton {...aura} label={label} icon={icon} data-ag-part="button" className={className} />}
+      render={<IconButton {...aura} label={label} icon={icon} data-ag-part="button" {...(priority === 'low' ? { 'data-ag-priority': 'low' } : {})} className={className} />}
     />
   );
+}
+
+/* REQ-CMP-40 overflow: low-priority children render both inline (hidden by
+   the container query at narrow widths) and as Menu.Items inside the
+   trailing overflow Menu — roving order is consistent because the Menu
+   trigger is simply the last tabbable element in the toolbar. */
+function lowPriorityItems(children: React.ReactNode) {
+  const items: { key: React.Key; label: React.ReactNode; onClick?: unknown; icon?: React.ReactNode }[] = [];
+  React.Children.forEach(children, (child) => {
+    if (!React.isValidElement(child)) return;
+    const props = child.props as Record<string, unknown>;
+    if (props.priority !== 'low') return;
+    const isIconBtn = 'icon' in props || 'label' in props;
+    items.push({
+      key: child.key ?? items.length,
+      label: isIconBtn ? (props.label as React.ReactNode) : (props.children as React.ReactNode),
+      onClick: props.onClick,
+      icon: props.icon as React.ReactNode | undefined,
+    });
+  });
+  return items;
 }
 
 function ToolbarGroup({ className, children, ref }: ToolbarGroupProps) {

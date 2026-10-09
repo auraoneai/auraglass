@@ -17,8 +17,26 @@ test.describe('toolbar APG (CMP-366)', () => {
     expect(tabbables).toBe(1);
 
     await toolbar.locator('button, [data-ag-part]').first().focus();
-    await apg.keyboard(page, [{ press: 'End' }, { press: 'ArrowRight' }, { press: 'Home' }]);
-    // focus stays inside the toolbar after looping
+
+    /* REQ-CMP-40: exact focus index after each key; disabled items skipped. */
+    const focusIndex = () => toolbar.evaluate(
+      (tb) => [...tb.querySelectorAll('button, [data-ag-part]')].indexOf(document.activeElement as Element),
+    );
+    const n = await toolbar.locator('button, [data-ag-part]').count();
+    expect(await focusIndex()).toBe(0);
+    await page.keyboard.press('End');
+    expect(await focusIndex()).toBe(n - 1);
+    await page.keyboard.press('ArrowRight'); /* loops to 0 */
+    expect(await focusIndex()).toBe(0);
+    await page.keyboard.press('Home');
+    expect(await focusIndex()).toBe(0);
+    /* disabled items never receive focus while arrowing through */
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('ArrowRight');
+    const focusedDisabled = await page.evaluate(
+      () => (document.activeElement as HTMLElement | null)?.hasAttribute('disabled') ?? false,
+    );
+    expect(focusedDisabled).toBe(false);
     const inside = await page.evaluate(
       () => !!document.querySelector('[role="toolbar"]')?.contains(document.activeElement),
     );

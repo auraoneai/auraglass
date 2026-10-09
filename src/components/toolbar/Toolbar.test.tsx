@@ -67,3 +67,18 @@ describe('Toolbar', () => {
     expect(screen.getByRole('toolbar').getAttribute('data-ag-shape')).toBe('capsule');
   });
 });
+
+it('priority="low" emits data-ag-priority and a trailing overflow menu (REQ-CMP-40)', () => {
+  const { container } = render(
+    <Toolbar.Root aria-label="t">
+      <Toolbar.Button>Keep</Toolbar.Button>
+      <Toolbar.Button priority="low">Later</Toolbar.Button>
+      <Toolbar.IconButton label="settings" icon={<svg />} priority="low" />
+    </Toolbar.Root>,
+  );
+  const lows = container.querySelectorAll('[data-ag-priority="low"]');
+  expect(lows.length).toBe(2);
+  expect(container.querySelector('[data-ag-part="overflow"]')).not.toBeNull();
+  /* overflow menu trigger is the last tabbable child (roving order kept) */
+  expect(container.querySelector('[data-ag-part="overflow"]')?.nextElementSibling).toBeNull();
+});
