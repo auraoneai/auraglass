@@ -7,7 +7,8 @@ export interface AlertDialogRootProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
-  /** 'danger' styles only the Action button — never the surface. */
+  /** @deprecated moved to <AlertDialog.Action intent='danger'> — kept as a
+      fallback for one release. 'danger' styles only the Action button. */
   intent?: 'neutral' | 'danger';
   labels?: { cancel?: string; action?: string };
   children?: ReactNode;
@@ -43,6 +44,8 @@ export interface AlertDialogButtonishProps {
 
 export interface AlertDialogActionProps extends AlertDialogButtonishProps {
   onClick?: (e: unknown) => void;
+  /** 'danger' tints only this Action — never the surface (REQ-CMP-91). */
+  intent?: 'neutral' | 'danger';
 }
 
 export interface AlertDialogLayoutProps {

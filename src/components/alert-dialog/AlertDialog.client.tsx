@@ -171,11 +171,13 @@ function AlertDialogCancel({ children, className, ref, ...rest }: AlertDialogBut
   );
 }
 
-function AlertDialogAction({ children, className, onClick, ref, ...rest }: AlertDialogActionProps) {
-  const { intent } = React.useContext(AlertContext);
+function AlertDialogAction({ children, className, onClick, intent: intentProp, ref, ...rest }: AlertDialogActionProps) {
+  const { intent: ctxIntent } = React.useContext(AlertContext);
+  const intent = intentProp ?? ctxIntent; // Action prop wins; Root intent is the deprecated alias
   return (
     <Base.Close
       data-ag-part="action"
+      data-ag-intent={intent === 'danger' ? 'danger' : undefined}
       className={cn('ag-alert-dialog-action', className)}
       render={intent === 'danger' ? <Button intent="danger" /> : <Button />}
       onClick={onClick}

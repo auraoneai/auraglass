@@ -71,15 +71,16 @@
     cursor: default;
   }
 
-  @media (max-inline-size: 640px) {
+  @container ag-overlay (max-inline-size: 640px) {
     .ag-alert-dialog-popup {
-      max-inline-size: calc(100vw - 16px);
+      inline-size: calc(100% - 32px);
+      max-inline-size: calc(100% - 32px);
     }
     .ag-alert-dialog-footer {
       flex-direction: column;
     }
-    /* primary last: Action renders after Cancel in source order; column keeps
-       DOM order so Cancel (first) is on top and Action (last) at the bottom. */
+    /* Action is last in DOM order — column (not column-reverse) keeps the
+       primary action at the bottom of the stack. */
   }
   @media (prefers-reduced-motion: reduce) {
     .ag-alert-dialog-popup[data-starting-style],

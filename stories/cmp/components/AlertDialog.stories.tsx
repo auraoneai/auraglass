@@ -18,7 +18,9 @@ export const Confirm: Story = {
   parameters: { ag: { tier: 'standard', subject: 'AlertDialog', id: 'overlays-alert-dialog--confirm' } },
   render: () => (
     <AuraGlassProvider>
-      <AlertDialog.Root defaultOpen>
+      <AlertDialog.Root defaultOpen onOpenChange={(_o, d) => {
+        (window as unknown as { __agLastReason?: unknown }).__agLastReason = d?.reason;
+      }}>
         <AlertDialog.Portal>
           <AlertDialog.Backdrop />
           <AlertDialog.Popup>
@@ -39,7 +41,7 @@ export const Danger: Story = {
   parameters: { ag: { tier: 'standard', subject: 'AlertDialog', id: 'overlays-alert-dialog--danger' } },
   render: () => (
     <AuraGlassProvider>
-      <AlertDialog.Root defaultOpen intent="danger">
+      <AlertDialog.Root defaultOpen>
         <AlertDialog.Portal>
           <AlertDialog.Backdrop />
           <AlertDialog.Popup>
@@ -47,7 +49,7 @@ export const Danger: Story = {
             <AlertDialog.Description>This permanently removes the workspace and its data.</AlertDialog.Description>
             <AlertDialog.Footer>
               <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-              <AlertDialog.Action>Delete workspace</AlertDialog.Action>
+              <AlertDialog.Action intent="danger">Delete workspace</AlertDialog.Action>
             </AlertDialog.Footer>
           </AlertDialog.Popup>
         </AlertDialog.Portal>

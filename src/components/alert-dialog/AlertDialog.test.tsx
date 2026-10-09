@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { AlertDialog } from './index';
 
-function Demo({ root = {}, action = 'Delete' }: { root?: Record<string, unknown>; action?: React.ReactNode }) {
+function Demo({ root = {}, action = 'Delete', actionProps = {} }: { root?: Record<string, unknown>; action?: React.ReactNode; actionProps?: Record<string, unknown> }) {
   return (
     <AlertDialog.Root {...root}>
       <AlertDialog.Trigger>Delete</AlertDialog.Trigger>
@@ -15,7 +15,7 @@ function Demo({ root = {}, action = 'Delete' }: { root?: Record<string, unknown>
         <AlertDialog.Description>This cannot be undone.</AlertDialog.Description>
         <AlertDialog.Footer>
           <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-          <AlertDialog.Action>{action}</AlertDialog.Action>
+          <AlertDialog.Action {...actionProps}>{action}</AlertDialog.Action>
         </AlertDialog.Footer>
       </AlertDialog.Content>
     </AlertDialog.Root>
@@ -64,8 +64,8 @@ describe('AlertDialog (CMP-217, 221)', () => {
     expect(onOpenChange).toHaveBeenLastCalledWith(false, expect.objectContaining({ reason: 'escape-key' }));
   });
 
-  it("intent='danger' styles only the action button", async () => {
-    render(<Demo root={{ defaultOpen: true, intent: 'danger' }} />);
+  it("<Action intent='danger'> styles only the action button", async () => {
+    render(<Demo root={{ defaultOpen: true }} actionProps={{ intent: 'danger' }} />);
     await act(async () => {});
     const el = popup()!;
     const action = el.querySelector('[data-ag-part="action"]')!;
@@ -74,5 +74,17 @@ describe('AlertDialog (CMP-217, 221)', () => {
     expect(cancel.getAttribute('data-ag-intent')).toBeNull();
     expect(el.getAttribute('data-ag-intent')).toBeNull();
     expect(el.getAttribute('data-ag-thickness')).toBe('thick');
+  });
+
+  it("Root intent='danger' still works as the deprecated alias", async () => {
+    render(<Demo root={{ defaultOpen: true, intent: 'danger' }} />);
+    await act(async () => {});
+    expect(popup()!.querySelector('[data-ag-part="action"]')!.getAttribute('data-ag-intent')).toBe('danger');
+  });
+
+  it("Action intent wins over the Root alias", async () => {
+    render(<Demo root={{ defaultOpen: true, intent: 'danger' }} actionProps={{ intent: 'neutral' }} />);
+    await act(async () => {});
+    expect(popup()!.querySelector('[data-ag-part="action"]')!.getAttribute('data-ag-intent')).toBeNull();
   });
 });
