@@ -28,13 +28,22 @@
   }
 
   /* Dot inside the ring — drawn by ::after on checked. */
+  /* REQ-CMP-55: dot 6/8/10px per size (not 40% of the ring). */
   .ag-radio-item [data-ag-part='indicator']::after {
     content: '';
-    inline-size: 40%;
-    block-size: 40%;
+    inline-size: calc(var(--ag-space-1) * 2);
+    block-size: calc(var(--ag-space-1) * 2);
     border-radius: var(--ag-radius-full);
     background: currentColor;
     opacity: 0;
+  }
+  .ag-radio-group[data-ag-size='sm'] .ag-radio-item [data-ag-part='indicator']::after {
+    inline-size: calc(var(--ag-space-1) * 1.5);
+    block-size: calc(var(--ag-space-1) * 1.5);
+  }
+  .ag-radio-group[data-ag-size='lg'] .ag-radio-item [data-ag-part='indicator']::after {
+    inline-size: calc(var(--ag-space-1) * 2.5);
+    block-size: calc(var(--ag-space-1) * 2.5);
   }
   .ag-radio-item[data-checked] [data-ag-part='indicator']::after {
     opacity: 1;

@@ -30,3 +30,18 @@ describe('controls css gate', () => {
     }
   });
 });
+
+/* REQ-CMP-55: ring always mounted (unchecked renders the indicator part);
+   dot sizes 6/8/10px per size. */
+describe('radio ring + dot grid (REQ-CMP-55)', () => {
+  const RG = readFileSync(join(process.cwd(), 'src/components/radio-group/RadioGroup.css'), 'utf8');
+  it('dot sizes are px-based per size, not 40%', () => {
+    expect(RG).not.toMatch(/::after\s*{[^}]*inline-size:\s*40%/);
+    expect(RG).toMatch(/size='sm'[\s\S]*?::after\s*{[^}]*inline-size:\s*calc\(var\(--ag-space-1\)\s*\*\s*1\.5\)/);
+    expect(RG).toMatch(/size='lg'[\s\S]*?::after\s*{[^}]*inline-size:\s*calc\(var\(--ag-space-1\)\s*\*\s*2\.5\)/);
+    expect(RG).toMatch(/inline-size:\s*calc\(var\(--ag-space-1\)\s*\*\s*2\)/); /* md/base */
+  });
+  it('indicator part present on unchecked render', () => {
+    expect(RG).toMatch(/data-ag-part='indicator'/);
+  });
+});

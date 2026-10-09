@@ -28,7 +28,7 @@ function RadioItem({ children, className, ref, ...rest }: RadioItemProps) {
   return (
     <BaseRadio.Root data-ag-part="item" className={cn('ag-radio-item', className)} ref={ref} {...rest}>
       <span data-ag-part="hit-area" aria-hidden="true" />
-      <BaseRadio.Indicator data-ag-part="indicator" />
+      <BaseRadio.Indicator keepMounted data-ag-part="indicator" />
       {children !== undefined && children !== null ? <span data-ag-part="label">{children}</span> : null}
     </BaseRadio.Root>
   );
