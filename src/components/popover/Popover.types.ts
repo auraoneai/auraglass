@@ -3,18 +3,30 @@
    (foundation pattern). */
 import type * as React from 'react';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
+import type { MaterialBearingProps } from '../../contracts/components';
 
 type RenderProp = React.ReactElement | ((props: any) => React.ReactElement);
 
-export interface PopoverRootProps {
+export interface PopoverRootProps extends MaterialBearingProps {
   open?: boolean | undefined;
   defaultOpen?: boolean;
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
-  /** Modal behaviour; non-modal is the default for anchored overlays. */
-  modal?: boolean | 'trap-focus' | undefined;
+  /** Modal behaviour; non-modal is the default for anchored overlays and
+     'trap-focus' is the only modal value. */
+  modal?: false | 'trap-focus' | undefined;
+  /** Hover-to-open mode (the HoverCard successor). Default false. */
+  openOnHover?: boolean | undefined;
+  /** Hover open delay ms — default 300. */
+  delay?: number | undefined;
+  /** Hover close delay ms — default 150. */
+  closeDelay?: number | undefined;
   children?: React.ReactNode;
 }
 
+/** Real convenience block: Portal > Positioner > Popup. */
+export interface PopoverContentProps extends PopoverPopupProps, Pick<PopoverPortalProps, 'keepMounted'>, Pick<PopoverPositionerProps, 'side' | 'align' | 'sideOffset' | 'collisionPadding' | 'anchor'> {}
+
+/* openOnHover/delay/closeDelay here OVERRIDE the root context values. */
 export interface PopoverTriggerProps extends React.HTMLAttributes<HTMLElement> {
   render?: RenderProp | undefined;
   /** Hover-to-open mode (the HoverCard successor). Default false. */

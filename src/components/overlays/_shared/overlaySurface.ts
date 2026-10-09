@@ -15,9 +15,23 @@ const THICKNESS: Record<OverlayKind, 'thick' | 'regular' | 'thin'> = {
   toast: 'thin',
 };
 
-export function overlayMaterial(kind: OverlayKind): MaterialAttributes & { 'data-ag-overlay': OverlayKind } {
+export interface OverlayMaterialOpts {
+  variant?: MaterialAttributes['data-ag-variant'] | 'regular' | 'clear' | 'identity' | undefined;
+  thickness?: 'thick' | 'regular' | 'thin' | undefined;
+  prominent?: boolean | undefined;
+}
+
+/* REQ-CMP-97: variant/thickness/prominent are overridable by the component
+   (popover honours its material-bearing root props) while the layer/thickness
+   kind defaults stay. */
+export function overlayMaterial(kind: OverlayKind, opts: OverlayMaterialOpts = {}): MaterialAttributes & { 'data-ag-overlay': OverlayKind } {
   return {
-    ...materialProps({ layer: 'overlay', thickness: THICKNESS[kind], variant: 'regular' }),
+    ...materialProps({
+      layer: 'overlay',
+      thickness: opts.thickness ?? THICKNESS[kind],
+      variant: (opts.variant as never) ?? 'regular',
+      prominent: opts.prominent,
+    }),
     'data-ag-overlay': kind,
   };
 }

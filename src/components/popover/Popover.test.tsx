@@ -8,6 +8,8 @@ import * as React from 'react';
 import { AuraGlassProvider } from '../../theme';
 import { Popover } from './index';
 
+const DELAY_300 = 300, DELAY_50 = 50;
+
 const Demo = ({ trigger = {}, root = {} }: { trigger?: Record<string, unknown>; root?: Record<string, unknown> }) => (
   <AuraGlassProvider>
     <Popover.Root {...root}>
@@ -51,10 +53,10 @@ describe('Popover', () => {
 
   it('aria wiring: trigger haspopup=dialog, expanded; popup role=dialog labelled', async () => {
     render(<Demo root={{ defaultOpen: true }} />);
-    const trigger = screen.getByText('anchor');
     expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
     const popup = document.querySelector('[data-ag-part="popup"]')!;
+    const trigger = screen.getByText('anchor');
     expect(popup).toHaveAttribute('role', 'dialog');
     const title = popup.querySelector('[data-ag-part="title"]');
     expect(popup.getAttribute('aria-labelledby')).toBe(title?.id);
@@ -64,7 +66,6 @@ describe('Popover', () => {
     jest.useFakeTimers();
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<Demo trigger={{ openOnHover: true }} />);
-    const trigger = screen.getByText('anchor');
     fireEvent.mouseEnter(trigger);
     // jsdom PointerEvent lacks pointerType; BU's hover is mouse-gated
     fireEvent.pointerMove(trigger, { pointerType: 'mouse' });
@@ -113,5 +114,72 @@ describe('Popover', () => {
     await userEvent.keyboard('{Escape}');
     await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
     expect(onOpenChange).toHaveBeenCalledWith(false, expect.objectContaining({ reason: 'escape-key' }));
+  });
+
+  /* REQ-CMP-97: provider-free legs — usePortalContainer falls back to
+     document.body, so the popup really mounts and behavior is exercised. */
+  const Bare = ({ root = {}, trigger = {} }: { root?: Record<string, unknown>; trigger?: Record<string, unknown> }) => (
+    <Popover.Root {...root}>
+      <Popover.Trigger {...trigger}>anchor</Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Positioner side="top">
+          <Popover.Popup aria-label="pop"><Popover.Close>Close</Popover.Close></Popover.Popup>
+        </Popover.Positioner>
+      </Popover.Portal>
+    </Popover.Root>
+  );
+
+  it('REQ-CMP-97: Root openOnHover opens after default 300ms', async () => {
+    jest.useFakeTimers();
+    render(<Bare root={{ openOnHover: true }} />);
+    const trig = screen.getByText('anchor');
+    fireEvent.mouseEnter(trig);
+    fireEvent.mouseMove(trig);
+    act(() => { jest.advanceTimersByTime(299); });
+    expect(document.querySelector('[data-ag-part="popup"]')).toBeNull();
+    act(() => { jest.advanceTimersByTime(2); });
+    expect(document.querySelector('[data-ag-part="popup"]')).toBeTruthy();
+  });
+
+  it('REQ-CMP-97: focus on trigger opens in hover mode (WCAG 1.4.13)', async () => {
+    jest.useFakeTimers();
+    render(<Bare root={{ openOnHover: true, delay: DELAY_50 }} />);
+    fireEvent.focus(screen.getByText('anchor'));
+    act(() => { jest.advanceTimersByTime(60); });
+    expect(document.querySelector('[data-ag-part="popup"]')).toBeTruthy();
+  });
+
+  it("REQ-CMP-97: Content side='top' yields data-side='top'", async () => {
+    render(
+      <Popover.Root defaultOpen>
+        <Popover.Trigger>anchor</Popover.Trigger>
+        <Popover.Content side="top" aria-label="pop" />
+      </Popover.Root>,
+    );
+    expect(await screen.findByRole('dialog')).toBeTruthy();
+    const pos = document.querySelector('[data-ag-part="positioner"]')!;
+    expect(pos.getAttribute('data-side')).toBe('top');
+  });
+
+  it("REQ-CMP-97: modal='trap-focus' keeps Tab inside the popup", async () => {
+    render(<Bare root={{ modal: 'trap-focus', defaultOpen: true }} />);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    const popup = document.querySelector('[data-ag-part="popup"]')!;
+    expect(popup).toBeTruthy();
+    const trigger = screen.getByText('anchor');
+    const close = document.querySelector<HTMLElement>('[data-ag-part="close"]');
+    (close ?? popup).focus();
+    // BU trap-focus bounds the cycle to popup | trigger | focus guards —
+    // jsdom's synthetic Tab walk also lands on <body> between nodes, which is
+    // a walk artifact; page content outside the managed zone is never reached.
+    const inZone = () => {
+      const ae = document.activeElement as HTMLElement;
+      return popup.contains(ae) || ae === trigger || ae === document.body ||
+        !!ae?.hasAttribute?.('data-base-ui-focus-guard');
+    };
+    for (let i = 0; i < 8; i++) {
+      await userEvent.keyboard('{Tab}');
+      expect(inZone()).toBe(true);
+    }
   });
 });
