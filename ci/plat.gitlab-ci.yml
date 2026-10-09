@@ -85,6 +85,24 @@ plat:test:pack-matrix:
     - npm run prepublishOnly
     - npm publish --dry-run
 
+plat:test:pack-matrix:5x:
+  extends: .plat-node
+  stage: test
+  allow_failure: true
+  timeout: 45 minutes
+  image: "$AG_PACK_NODE_IMAGE"
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  parallel:
+    matrix:
+      - { AG_PACK_NODE_IMAGE: "node:20.19.0-bookworm", AG_PACK_NPM_VERSION: "10.9.4" }
+      - { AG_PACK_NODE_IMAGE: "node:22-bookworm", AG_PACK_NPM_VERSION: "11.21.0" }
+  script:
+    - npm install -g "npm@$AG_PACK_NPM_VERSION"
+    - npm install --legacy-peer-deps
+    - npm run tokens:build && npx tsdown && node scripts/build/post.mjs
+    - node --test tests/exports/node-esm-require.test.mjs
+
 plat:test:react19:
   extends: .plat-node
   stage: test

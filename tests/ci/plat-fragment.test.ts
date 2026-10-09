@@ -132,3 +132,18 @@ describe('activation.json', () => {
     expect(Array.isArray(a.activations)).toBe(true);
   });
 });
+
+describe('plat:test:pack-matrix:5x (REQ-PLAT-68)', () => {
+  const j = job('plat:test:pack-matrix:5x');
+  it('is a 5x-only matrix on node:20.19.0 + node:22', () => {
+    const legs = j.parallel.matrix;
+    expect(legs).toHaveLength(2);
+    expect(legs.map((l: any) => l.AG_PACK_NODE_IMAGE)).toEqual(['node:20.19.0-bookworm', 'node:22-bookworm']);
+    expect(yaml.stringify(j.rules)).toContain('$AG_LINE == "5x"');
+  });
+  it('runs the node-esm-require resolution suite against the packed tarball', () => {
+    const s = yaml.stringify(j.script);
+    expect(s).toContain('node-esm-require.test.mjs');
+    expect(s).toContain('node --test');
+  });
+});
