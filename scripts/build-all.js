@@ -150,7 +150,10 @@ for (const [entryPoint, outputBase] of entrypoints) {
   esbuild.buildSync({
     ...sharedBuildOptions,
     entryPoints: [path.resolve(projectRoot, entryPoint)],
-    outfile: path.resolve(projectRoot, `${outputBase}.js`),
+    outfile: path.resolve(
+      projectRoot,
+      `${outputBase}.${outputBase === 'dist/material/index' ? 'cjs' : 'js'}`
+    ),
     format: 'cjs',
   });
 }
@@ -199,6 +202,20 @@ for (const [entryPoint, outputFile] of cjsSubpathEntrypoints) {
     outfile: path.resolve(projectRoot, outputFile),
     format: 'cjs',
   });
+}
+
+// REQ-PLAT-60 — dist css targets for the 4.3 bridge export map.
+for (const [src, dest] of [
+  ['src/styles/v5.css', 'dist/styles/v5.css'],
+  ['src/compat/tokens.css', 'dist/compat/tokens.css'],
+  ['src/compat/css/globals.css', 'dist/compat/globals.css'],
+]) {
+  const from = path.resolve(projectRoot, src);
+  const to = path.resolve(projectRoot, dest);
+  if (fs.existsSync(from)) {
+    fs.mkdirSync(path.dirname(to), { recursive: true });
+    fs.copyFileSync(from, to);
+  }
 }
 
 fs.writeFileSync(

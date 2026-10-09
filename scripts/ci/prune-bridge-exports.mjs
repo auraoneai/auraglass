@@ -25,6 +25,14 @@ const SOURCES = {
   './compat/tokens.css': 'src/compat/tokens.css',
   './compat/globals.css': 'src/compat/css/globals.css',
 };
+// REQ-PLAT-60 — the prune script checks the dist TARGETS an export points at,
+// not just its source: an emitted key whose dist files are absent is dangling.
+const DIST_TARGETS = {
+  './material': ['dist/material/index.mjs', 'dist/material/index.cjs', 'dist/material/index.d.ts'],
+  './styles/v5.css': ['dist/styles/v5.css'],
+  './compat/tokens.css': ['dist/compat/tokens.css'],
+  './compat/globals.css': ['dist/compat/globals.css'],
+};
 
 const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
 if (process.argv.includes('--restore')) {
@@ -36,8 +44,15 @@ const rowH = (process.env.AURAGLASS_ROW_H || '') !== 'absent';
 const emitted = {}, omitted = [];
 for (const [key, value] of Object.entries(CANDIDATES)) {
   const src = SOURCES[key];
+  const distTargets = DIST_TARGETS[key] || [];
+  const missingDist = distTargets.filter((d) => !fs.existsSync(path.join(ROOT, d)));
   const absent = !rowH || !fs.existsSync(path.join(ROOT, src));
-  if (absent) { omitted.push({ key, reason: rowH ? `missing source ${src}` : 'row-H inputs absent' }); delete pkg.exports[key]; }
+  if (absent || missingDist.length) {
+    const reason = !rowH ? 'row-H inputs absent'
+      : !fs.existsSync(path.join(ROOT, src)) ? `missing source ${src}`
+      : `missing dist target(s): ${missingDist.join(', ')}`;
+    omitted.push({ key, reason }); delete pkg.exports[key];
+  }
   else { emitted[key] = value; pkg.exports[key] = value; }
 }
 fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
