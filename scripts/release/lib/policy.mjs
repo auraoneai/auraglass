@@ -74,10 +74,15 @@ export function installLevelViolations({ depEntry, version, sources = {}, doctor
   }
   if (pkg) {
     const files = Object.keys(sources);
-    const lazy = files.length === 0
-      ? false
-      : files.every((f) => /import\s*\(|createRequire|require\(/.test(sources[f]) &&
-          sources[f].includes(`[aura-glass] ${pkg} is now an optional peer`));
+    // importers of THIS dep: files that name the package at all. A file is
+    // lazy when it loads via lazyPeer/optionalPeer('<pkg>') (or a dynamic
+    // import/createRequire plus the contract error string for the pkg).
+    const esc = pkg.replace(/[/\\^$.*+?()[\]{}|-]/g, '\\$&');
+    const importers = files.filter((f) => new RegExp(`['"]${esc}['"]`).test(sources[f]));
+    const lazy = importers.length > 0 && importers.every((f) =>
+      new RegExp(`(lazyPeer|optionalPeer)\\s*<[^>]*>\\s*\\(\\s*['"]${pkg.replace(/[/\\^$.*+?()[\]{}|-]/g, '\\$&')}['"]`).test(sources[f])
+      || (/import\s*\(|createRequire|require\(/.test(sources[f]) &&
+          sources[f].includes(`[aura-glass] ${pkg} is now an optional peer`)));
     if (!lazy) violations.push(`importers of '${pkg}' do not all load it lazily with the missing-install error`);
     if (!(doctorReport && Array.isArray(doctorReport.undeclared))) {
       violations.push('doctor --v5 report with undeclared consumer imports is absent');
