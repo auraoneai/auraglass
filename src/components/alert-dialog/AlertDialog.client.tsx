@@ -58,6 +58,7 @@ function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', 
       <Base.Root
         open={open}
         defaultOpen={defaultOpen}
+        modal="trap-focus"
         onOpenChange={(o, d) => { setInternalOpen(o); emit(o, { event: d?.event, reason: d?.reason }); }}
       >
         {children}

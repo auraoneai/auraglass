@@ -64,6 +64,14 @@ export function useOverlayLayer({ kind, modal, open, onOpenChange, element }: Ov
     modal,
     open,
     element: element ?? null,
+    /* REQ-CMP-88 ownership split, recorded here: the LayerStack owns the
+       scroll lock (data-ag-scroll-locked on <html>) and inert on body
+       children; Base UI owns focus (trap + restore on close). BU Dialogs are
+       therefore driven with modal='trap-focus' at the Root — BU only writes
+       overflow when modal === true, and our stack lock replaces it.
+       restoreFocusTo: false hands BU sole restore ownership. */
+    lockScroll: true,
+    restoreFocusTo: false,
     onEscape: () => {
       /* See header: BU's dismiss owns the Escape close for BU-backed overlays;
          this entry exists so layers below never see the Escape while we're top. */
