@@ -90,6 +90,31 @@ export const expectNoBannedAttributes: ExpectNoBannedAttributes = (container) =>
   expect(offenders).toEqual([]);
 };
 
+/* Resolves a parameters.ag.id ('overlays-dialog--nested') to the real
+   Storybook entry id ('flagships-overlays-dialog--nested') via index.json;
+   a real entry id passes straight through. */
+async function resolveAgStoryId(base: string, storyId: string): Promise<string> {
+  try {
+    const res = await fetch(`${base}/index.json`);
+    if (!res.ok) return storyId;
+    const raw = await res.json() as { entries?: Record<string, { id: string; title?: string }> };
+    const entries = raw.entries ?? {};
+    if (entries[storyId]) return storyId;
+    const m = /^(.+)--(.+)$/.exec(storyId);
+    if (!m) return storyId;
+    const [, group, exportSlug] = m;
+    const comp = group.split('-').pop()!; // 'overlays-dialog' → 'dialog'
+    const hit = Object.values(entries).find((e) => {
+      if (!e.id.endsWith(`--${exportSlug}`)) return false;
+      const titleTail = (e.title ?? '').split('/').pop()?.toLowerCase() ?? '';
+      return titleTail === comp.toLowerCase() || e.id.includes(`-${comp.toLowerCase()}--`);
+    });
+    return hit?.id ?? storyId;
+  } catch {
+    return storyId;
+  }
+}
+
 /** Navigates to iframe.html?id=<id>&globals=<k>:<v>;… and waits for data-ag-cert-ready.
     stub: 'reference' injects contracts/stubs/reference.css until src/material/css/material.css exists. */
 const STUB_PATH = join(__dirname, '..', '..', 'contracts', 'stubs', 'reference.css');
@@ -102,7 +127,11 @@ export const gotoStory: GotoStory = async (page, storyId, env = {}) => {
     .filter(([k]) => k)
     .join(';');
   const base = process.env.AG_STORYBOOK_URL ?? 'http://localhost:6006';
-  await page.goto(`${base}/iframe.html?id=${encodeURIComponent(storyId)}&globals=${encodeURIComponent(qs)}`);
+  /* REQ-CMP-80: storyId may be a parameters.ag.id (logical overlay id like
+     'overlays-dialog--nested') rather than a real Storybook entry id — resolve
+     it against index.json so specs can use the ag.id contract ids. */
+  const resolvedId = await resolveAgStoryId(base, storyId);
+  await page.goto(`${base}/iframe.html?id=${encodeURIComponent(resolvedId)}&globals=${encodeURIComponent(qs)}`);
   if (stub === 'reference' && !existsSync(MATERIAL_CSS) && existsSync(STUB_PATH)) {
     await page.addStyleTag({ path: STUB_PATH });
   }

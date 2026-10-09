@@ -143,7 +143,7 @@ function DialogPopup({
   ref,
   ...rest
 }: DialogPopupProps) {
-  const { setPopupElement, modal, open: ctxOpen } = React.useContext(DialogContext);
+  const { setPopupElement, modal, open: ctxOpen, depth } = React.useContext(DialogContext);
   const animatingRef = useOverlayAnimating();
   const setRefs = React.useCallback<React.RefCallback<HTMLDivElement>>((node) => {
     const cleanup = animatingRef(node);
@@ -179,6 +179,7 @@ function DialogPopup({
   return (
     <Base.Popup
       data-ag-part="popup"
+      data-ag-overlay-depth={depth}
       aria-modal={modal !== false ? 'true' : undefined}
       data-state={ctxOpen ? 'open' : 'closed'}
       data-ag-size={size}

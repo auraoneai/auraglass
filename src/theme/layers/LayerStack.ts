@@ -81,12 +81,32 @@ export const createLayerStack = (doc: Document): LayerStack => {
     }
     if (pr) {
       for (const layerRoot of Array.from(pr.querySelectorAll<HTMLElement>('[data-ag-layer-root]'))) {
+        /* REQ-CMP-80: the toast layer root is exempt — toasts must stay
+           live/interactive while a modal is open. */
+        if (layerRoot.getAttribute('data-ag-layer-root') === 'toast') continue;
         for (const child of Array.from(layerRoot.children)) inertEl(child);
       }
     }
-    // The modal element itself (top entry's element) must stay interactive.
+    /* REQ-CMP-80: un-inert the top modal's portal ancestor chain — the popup
+       lives inside a layer-root child (BU portal wrapper), so the direct
+       layer-root child containing it is what was inerted. */
     const topEl = items[items.length - 1]?.element ?? null;
-    if (topEl && inertCounts.has(topEl)) uninertEl(topEl);
+    if (topEl && pr) {
+      let ancestor: Element | null = topEl;
+      while (
+        ancestor.parentElement
+        && ancestor.parentElement !== pr
+        && !ancestor.parentElement.hasAttribute('data-ag-layer-root')
+      ) {
+        ancestor = ancestor.parentElement;
+      }
+      for (let n: Element | null = ancestor; n && n !== pr; n = n.parentElement) {
+        if (inertCounts.has(n)) uninertEl(n);
+      }
+      if (inertCounts.has(topEl)) uninertEl(topEl);
+    } else if (topEl && inertCounts.has(topEl)) {
+      uninertEl(topEl);
+    }
   };
 
   const releaseModalEffects = (): void => {

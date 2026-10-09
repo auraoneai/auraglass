@@ -85,7 +85,7 @@ const PopoverPopup = React.forwardRef<HTMLDivElement, PopoverPopupProps>(
     const ctx = React.useContext(PopoverCtx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
-    useOverlayLayer({ kind: KIND, modal: false, open: ctx.open, element: el });
+    const { depth } = useOverlayLayer({ kind: KIND, modal: false, open: ctx.open, element: el });
     const setRefs: React.RefCallback<HTMLDivElement> = (node) => {
       setEl(node);
       animatingRef(node);
@@ -96,6 +96,7 @@ const PopoverPopup = React.forwardRef<HTMLDivElement, PopoverPopupProps>(
       <Base.Popup
         ref={setRefs}
         data-ag-part="popup"
+        data-ag-overlay-depth={depth}
         data-state={ctx.open ? 'open' : 'closed'}
         {...overlayMaterial(KIND)}
         {...(initialFocus !== undefined ? { initialFocus: initialFocus as never } : {})}

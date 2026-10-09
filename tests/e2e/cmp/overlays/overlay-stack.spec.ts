@@ -69,20 +69,17 @@ test.describe('overlay stack (CMP-394/399/404/409)', () => {
     await expect(dialogPopup).toHaveCount(0);
   });
 
-  test('T-OVL-STACK-03: toast viewport has no inert ancestor over a modal Dialog; F6 reaches it', async ({ page }) => {
+  test('T-OVL-STACK-03: toast layer root has no inert ancestor over a modal Dialog; F6 reaches it', async ({ page }) => {
     await gotoStory(page, 'overlays-dialog--default');
-    // mount a toast through the page's own toast manager if present, else the
-    // toast viewport from the provider; assert no inert ancestor either way.
-    const viewport = page.locator('[data-ag-part="viewport"], [data-ag-part="region"]').first();
-    if (await viewport.count()) {
-      const hasInertAncestor = await viewport.evaluate(
-        (el) => { let n: Element | null = el; while (n) { if (n.hasAttribute('inert')) return true; n = n.parentElement; } return false; },
-      );
-      expect(hasInertAncestor).toBe(false);
-      await page.keyboard.press('F6');
-    } else {
-      test.skip(true, 'no toast viewport mounted alongside the dialog scene');
-    }
-    // viewport is mounted by the --default scene (Toast.Provider + Viewport)
+    /* REQ-CMP-80: the toast layer root is always mounted by the provider
+       ([data-ag-layer-root="toast"]) and is exempt from modal inert — the test
+       asserts on it directly so it never skips. */
+    const toastRoot = page.locator('[data-ag-layer-root="toast"]');
+    await expect(toastRoot).toHaveCount(1);
+    const hasInertAncestor = await toastRoot.evaluate(
+      (el) => { let n: Element | null = el; while (n) { if (n.hasAttribute('inert')) return true; n = n.parentElement; } return false; },
+    );
+    expect(hasInertAncestor).toBe(false);
+    await page.keyboard.press('F6');
   });
 });

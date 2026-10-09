@@ -34,23 +34,35 @@ export function useLayer(entry: UseLayerInput): { id: string; depth: number; isT
     () => -1,
   );
 
+  /* REQ-CMP-80: stack membership is open-gated — depth is open order. A layer
+     mounts into the stack only while open=true; closing pops it so a closed
+     earlier-mounted overlay never occupies a depth slot. Re-opening pushes it
+     back to the top (reorder on open). */
+  const pushRef = React.useRef<() => void>(() => {});
   React.useLayoutEffect(() => {
-    if (!stack) return undefined;
-    const input = entryRef.current;
-    const restoreFocusTo: LayerItem['restoreFocusTo'] = input.restoreFocusTo !== undefined
-      ? input.restoreFocusTo
-      : (typeof document !== 'undefined' ? document.activeElement : null);
-    const id = stack.push({ ...input, restoreFocusTo });
-    idRef.current = id;
+    pushRef.current = () => {
+      if (!stack || idRef.current) return;
+      const input = entryRef.current;
+      const restoreFocusTo: LayerItem['restoreFocusTo'] = input.restoreFocusTo !== undefined
+        ? input.restoreFocusTo
+        : (typeof document !== 'undefined' ? document.activeElement : null);
+      idRef.current = stack.push({ ...input, restoreFocusTo });
+    };
+  });
+
+  React.useLayoutEffect(() => {
+    if (!stack || !entry.open) return undefined;
+    pushRef.current();
     return () => {
-      stack.pop(id);
+      const id = idRef.current;
+      if (id) stack.pop(id);
       idRef.current = null;
     };
-  }, [stack]);
+  }, [stack, entry.open]);
 
   React.useLayoutEffect(() => {
     const id = idRef.current;
-    if (!stack || !id) return;
+    if (!stack || !id || !entry.open) return;
     const patch: Parameters<LayerStack['update']>[1] = {
       kind: entry.kind, modal: entry.modal, open: entry.open,
       onEscape: entry.onEscape, element: entry.element,
