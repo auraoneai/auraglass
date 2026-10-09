@@ -63,4 +63,26 @@ describe('parse/clamp/snap utils (CMP-157)', () => {
     expect(snapToStep(8, 5)).toBe(10);
     expect(snapToStep(12, 5, 10)).toBe(10);
   });
+  it('REQ-CMP-75: controlled value={null} passes through and clears', () => {
+    const { container, rerender } = render(<NumberField label="qty" value={null} />);
+    const input = container.querySelector('input') as HTMLInputElement;
+    expect(input.value).toBe('');
+    rerender(<NumberField label="qty" value={5} />);
+    expect(input.value).toBe('5');
+    rerender(<NumberField label="qty" value={null} />);
+    expect(input.value).toBe('');
+  });
+
+  it('REQ-CMP-75: scrub renders the scrub-area part', () => {
+    const { container } = render(<NumberField label="qty" scrub defaultValue={2} />);
+    expect(container.querySelector('[data-ag-part="scrub-area"]')).toBeTruthy();
+    expect(container.querySelector('[data-ag-part="scrub-area"]')?.textContent).toBe('qty');
+  });
+
+  it('REQ-CMP-75: group shell carries the content-sunken material', () => {
+    const { container } = render(<NumberField label="qty" defaultValue={2} />);
+    const group = container.querySelector('[data-ag-part="group"]');
+    expect(group).toHaveAttribute('data-ag-layer', 'content');
+    expect(group).toHaveAttribute('data-ag-content', 'content-sunken');
+  });
 });
