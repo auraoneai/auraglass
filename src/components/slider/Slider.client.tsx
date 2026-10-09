@@ -15,6 +15,8 @@ function SliderRoot<V extends number | number[]>({
   children,
   className,
   ref,
+  getAriaValueText,
+  format,
   ...rest
 }: SliderRootProps<V>) {
   const ariaLabel = (rest as Record<string, unknown>)['aria-label'] as string | undefined;
@@ -43,6 +45,8 @@ function SliderRoot<V extends number | number[]>({
                   data-ag-part="thumb"
                   aria-label={thumbCount === 1 ? ariaLabel : `${ariaLabel ?? 'value'} ${i + 1}`}
                   aria-labelledby={thumbCount === 1 ? ariaLabelledby : undefined}
+                  {...(getAriaValueText !== undefined ? { getAriaValueText } : {})}
+                  {...(format !== undefined ? { format } : {})}
                 />
               ))}
             </Base.Track>
@@ -72,4 +76,37 @@ function SliderValue({ className, ref }: SliderValueProps) {
   return <Base.Value data-ag-part="value" className={className} ref={ref as React.Ref<HTMLOutputElement>} />;
 }
 
-export const Slider = { Root: SliderRoot, Value: SliderValue };
+/* REQ-CMP-48: exported part wrappers (data-ag-part) so callers can compose
+   the default layout themselves; getAriaValueText/format are Thumb props. */
+function SliderControl({ className, children, ref }: { className?: string; children?: React.ReactNode; ref?: React.Ref<HTMLElement> }) {
+  return <Base.Control data-ag-part="control" className={cn('ag-slider-control', className)} ref={ref}>{children}</Base.Control>;
+}
+
+function SliderTrack({ className, children, ref }: { className?: string; children?: React.ReactNode; ref?: React.Ref<HTMLDivElement> }) {
+  return <Base.Track data-ag-part="track" className={cn('ag-slider-track', className)} ref={ref}>{children}</Base.Track>;
+}
+
+function SliderRange({ className, ref }: { className?: string; ref?: React.Ref<HTMLDivElement> }) {
+  return <Base.Indicator data-ag-part="range" className={cn('ag-slider-range', className)} ref={ref} />;
+}
+
+export interface SliderThumbPartProps {
+  className?: string | undefined;
+  'aria-label'?: string | undefined;
+  getAriaValueText?: ((value: number, index: number) => string) | undefined;
+  format?: Intl.NumberFormatOptions | undefined;
+  ref?: React.Ref<HTMLElement> | undefined;
+}
+
+function SliderThumb({ className, ...rest }: SliderThumbPartProps) {
+  return <Base.Thumb data-ag-part="thumb" className={cn('ag-slider-thumb', className)} {...rest} />;
+}
+
+export const Slider = {
+  Root: SliderRoot,
+  Value: SliderValue,
+  Control: SliderControl,
+  Track: SliderTrack,
+  Range: SliderRange,
+  Thumb: SliderThumb,
+};
