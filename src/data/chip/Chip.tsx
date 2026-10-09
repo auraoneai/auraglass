@@ -1,8 +1,9 @@
 'use client';
-/* Chip (SURF-257, REQ-SURF-88): Base UI Toggle when selectable, static span
-   otherwise; separate remove button (≥44px coarse hit). */
+/* Chip (SURF-257, REQ-SURF-88): CMP ChipToggle (Base UI seam, REQ-CMP-01)
+   when selectable, static span otherwise; separate remove button
+   (≥44px coarse hit). */
 import * as React from 'react';
-import { Toggle } from '@base-ui/react/toggle';
+import { ChipToggle } from '../../components/chip/ChipToggle';
 
 export interface ChipProps {
   children: React.ReactNode;
@@ -34,7 +35,7 @@ export function Chip({
   const label = labels?.remove ?? 'Remove';
   const text = typeof children === 'string' ? children : undefined;
   const chip = selectable ? (
-    <Toggle
+    <ChipToggle
       pressed={selected}
       defaultPressed={defaultSelected}
       onPressedChange={(p) => onSelectedChange?.(p)}
@@ -45,7 +46,7 @@ export function Chip({
       className={`ag-chip${className ? ` ${className}` : ''}`}
     >
       {children}
-    </Toggle>
+    </ChipToggle>
   ) : (
     <span
       data-ag-part="chip"
