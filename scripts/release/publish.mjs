@@ -38,12 +38,41 @@ const sha512 = (f) => 'sha512-' + createHash('sha512').update(readFileSync(f)).d
 const packRecord = existsSync('.artifacts/plat/pack-record.json')
   ? JSON.parse(readFileSync('.artifacts/plat/pack-record.json', 'utf8'))
   : null;
+if (!packRecord || typeof packRecord !== 'object') {
+  console.error('publish: .artifacts/plat/pack-record.json missing — run plat:package:pack first (REQ-PLAT-11)');
+  process.exit(1);
+}
 
 // Determine GA state once for dist-tag policy.
 const latestOnRegistry = npmMayFail(['view', 'aura-glass', 'dist-tags.latest']);
 const ga5 = /^5\.\d+\.\d+$/.test(latestOnRegistry ?? '');
 
+const pkgContract = existsSync('contracts/packages.json')
+  ? JSON.parse(readFileSync('contracts/packages.json', 'utf8'))
+  : null;
+const allowed = pkgContract
+  ? new Set(
+      Object.keys(pkgContract.packages ?? {}).filter(
+        (n) => (pkgContract.packages[n]?.published ?? true) === true,
+      ),
+    )
+  : null;
 const tarballs = readdirSync(dir).filter((f) => f.endsWith('.tgz'));
+if (allowed && allowed.size) {
+  // package set is the contract's publish list — a tarball for anything else fails
+  for (const tgz of tarballs) {
+    let name = tgz.replace(/\.tgz$/, '');
+    try {
+      name = JSON.parse(
+        execFileSync('tar', ['-xzOf', join(dir, tgz), 'package/package.json'], { encoding: 'utf8' }),
+      ).name;
+    } catch {}
+    if (!allowed.has(name)) {
+      console.error(`publish: ${name} (${tgz}) is not in contracts/packages.json — refusing`);
+      process.exit(1);
+    }
+  }
+}
 if (!tarballs.length) {
   console.error(`publish: no tarballs under ${dir}/`);
   process.exit(1);

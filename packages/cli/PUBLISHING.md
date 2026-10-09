@@ -31,5 +31,5 @@ first publish — never publish both names.
 
 ## Never
 
-- No `NPM_TOKEN`/`NODE_AUTH_TOKEN` in any file.
+- No npm access-token env vars (`NPM_*` / `NODE_AUTH_*`) in any file.
 - Never register an `aura-glass` bin name.

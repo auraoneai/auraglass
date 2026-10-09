@@ -1,7 +1,7 @@
 {
   "name": "@auraglass/labs",
   "version": "0.1.0",
-  "description": "AuraGlass labs — experimental surfaces under the §13.4 admission rubric. 0.x, no stability guarantee.",
+  "description": "AuraGlass labs \u2014 experimental surfaces under the \u00a713.4 admission rubric. 0.x, no stability guarantee.",
   "type": "module",
   "sideEffects": false,
   "files": [
@@ -19,5 +19,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "prepublishOnly": "node ../../scripts/ci/require-ci-publish.js"
+  }
 }

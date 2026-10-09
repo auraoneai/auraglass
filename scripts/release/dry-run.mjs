@@ -31,8 +31,10 @@ const version = tag.replace(/^v/, '');
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
 if (pkg.version !== version) fail(`package.json version ${pkg.version} != tag ${version}`);
 const changelog = existsSync('CHANGELOG.md') ? readFileSync('CHANGELOG.md', 'utf8') : '';
-if (!changelog || !new RegExp(`^#+\\s*\\[?${version.replace(/\./g, '\\.')}`, 'm').test(changelog)) {
-  fail(`CHANGELOG.md has no heading for ${version}`);
+// the FIRST `## [X.Y.Z]` heading must be this tag's version (REQ-PLAT-13)
+const firstHeading = /^##\s*\[(\d+\.\d+\.\d+[^\]]*)\]/m.exec(changelog);
+if (!firstHeading || firstHeading[1].replace(/^v/, '') !== version) {
+  fail(`CHANGELOG.md first ## [X.Y.Z] heading is ${firstHeading?.[1] ?? 'none'}, not ${version}`);
 }
 console.log(`dry-run: version ${version} matches package.json and CHANGELOG.md`);
 
@@ -66,13 +68,23 @@ if (existsSync('scripts/release/classify-change.mjs') && prev) {
   console.log(`dry-run: PENDING scripts/release/classify-change.mjs (lane 1c)`);
 }
 
-// 4. release ledger row
+// 4. release ledger row — verify-release-ledger.mjs is the checker (REQ-PLAT-13)
 const ledger = 'docs/release/release-ledger.json';
 if (existsSync(ledger)) {
-  const rows = JSON.parse(readFileSync(ledger, 'utf8'));
-  const list = Array.isArray(rows) ? rows : (rows.rows ?? []);
-  if (!list.some((r) => r.tag === tag || r.version === version)) {
-    fail(`release ledger ${ledger} has no row for ${tag}`);
+  if (existsSync('scripts/release/verify-release-ledger.mjs')) {
+    try {
+      execFileSync('node', ['scripts/release/verify-release-ledger.mjs', '--tag', tag], {
+        stdio: 'inherit', env: { ...process.env, AG_RELEASE_TAG: tag },
+      });
+    } catch {
+      fail(`verify-release-ledger.mjs rejected tag ${tag}`);
+    }
+  } else {
+    const rows = JSON.parse(readFileSync(ledger, 'utf8'));
+    const list = Array.isArray(rows) ? rows : (rows.rows ?? []);
+    if (!list.some((r) => r.tag === tag || r.version === version)) {
+      fail(`release ledger ${ledger} has no row for ${tag}`);
+    }
   }
   console.log(`dry-run: release-ledger row for ${tag} present`);
 } else {
@@ -81,7 +93,7 @@ if (existsSync(ledger)) {
 
 // 5. npm publish --dry-run on the workspace root (the real publish happens in plat:publish:npm)
 try {
-  execFileSync('npm', ['publish', '--dry-run', '--access', 'public'], { stdio: 'inherit' });
+  execFileSync('npm', ['publish', '--dry-run', '--ignore-scripts', '--access', 'public'], { stdio: 'inherit' });
 } catch {
   fail('npm publish --dry-run failed');
 }

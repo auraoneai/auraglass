@@ -34,3 +34,21 @@ describe('require-ci-publish guard', () => {
       CI_COMMIT_TAG: 'v4.1.1', NPM_ID_TOKEN: 'token' })).toBe(0);
   });
 });
+
+describe('REQ-FIN-31 guard hardening', () => {
+  it('fails inside GitHub Actions even when names match', () => {
+    expect(run({ GITHUB_ACTIONS: 'true', GITLAB_CI: 'true', CI_PROJECT_ID: '87152036',
+      CI_JOB_NAME: 'plat:publish:npm', CI_COMMIT_TAG: 'v4.1.1', NPM_ID_TOKEN: 'x' })).toBe(1);
+  });
+  it('fails on a branch pipeline (no tag)', () => {
+    expect(run({ GITLAB_CI: 'true', CI_PROJECT_ID: '87152036', CI_JOB_NAME: 'plat:publish:npm',
+      CI_COMMIT_TAG: undefined as any, NPM_ID_TOKEN: 'x' })).toBe(1);
+  });
+  it('prepublishOnly guard is FIRST in every published package', () => {
+    for (const pkg of ['cli', 'registry', 'mcp', 'labs']) {
+      const d = JSON.parse(require('node:fs').readFileSync(`packages/${pkg}/package.json`, 'utf8'));
+      expect({ pkg, first: (d.scripts?.prepublishOnly ?? '').split('&&')[0].trim() })
+        .toEqual({ pkg, first: 'node ../../scripts/ci/require-ci-publish.js' });
+    }
+  });
+});

@@ -40,3 +40,20 @@ describe('dist-tag.mjs', () => {
     }
   });
 });
+
+describe('REQ-FIN-31 extras', () => {
+  it('rollback: 4.x stable -> latest even post-GA when rollback=true', async () => {
+    const { distTagFor } = await import('../../scripts/release/dist-tag.mjs');
+    expect(distTagFor('4.9.9', { ga: true, v4DistTag: 'v4-lts' })).toBe('v4-lts');
+    expect(distTagFor('4.9.9', { ga: true, rollback: true, v4DistTag: 'v4-lts' })).toBe('latest');
+  });
+  it('cmpSemver + monotonicViolation: backward move fails unless 4.x latest rollback', async () => {
+    const { cmpSemver, monotonicViolation } = await import('../../scripts/release/dist-tag.mjs');
+    expect(cmpSemver('5.0.0', '4.9.9')).toBe(1);
+    expect(cmpSemver('5.0.0-rc.1', '5.0.0')).toBe(-1);
+    expect(monotonicViolation('latest', '5.0.0', '5.0.1')).toContain('move backward');
+    expect(monotonicViolation('latest', '4.9.9', '5.0.1', { rollbackOk: true })).toBeNull();
+    expect(monotonicViolation('v4-lts', '4.9.9', '4.9.10')).toContain('move backward');
+    expect(monotonicViolation('next', '5.0.0-rc.3', '5.0.0-rc.2')).toBeNull();
+  });
+});

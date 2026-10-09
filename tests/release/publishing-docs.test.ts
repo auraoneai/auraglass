@@ -23,7 +23,7 @@ describe('publishing docs', () => {
     try {
       out = execFileSync(
         'git',
-        ['grep', '-l', '-E', '\\bNPM_TOKEN\\b|\\bNODE_AUTH_TOKEN\\b', '--',
+        ['grep', '-lF', '-e', 'NPM_TOKEN', '-e', 'NODE_AUTH_TOKEN', '--',
           ':!docs', ':!legacy', ':!tests', ':!reports', ':!scripts/ci'],
         { encoding: 'utf8' },
       ) as string;
