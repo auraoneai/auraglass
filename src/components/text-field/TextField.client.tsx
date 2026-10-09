@@ -7,6 +7,7 @@ import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
 import { warnControlledSwitch } from '../control-shared/value';
+import { useImeGuard } from '../control-shared/ime';
 import type { TextFieldProps } from './TextField.types';
 
 /** TextField — 'use client' leaf on BU Field + Input (REQ-CMP-60..62).
@@ -52,6 +53,7 @@ export function TextField({
     wasControlled.current = value !== undefined;
   }
 
+  const ime = useImeGuard<string>((v, d) => onValueChange?.(v, d as never));
   const invalid = error !== undefined && error !== null;
   const controlProps = {
     'data-ag-part': 'control',
@@ -67,7 +69,7 @@ export function TextField({
 
   const handleValue = (v: string, details: unknown) => {
     setCount(v.length);
-    onValueChange?.(v, toChangeDetails(details));
+    ime.wrapChange(v, toChangeDetails(details));
   };
 
   return (
@@ -95,6 +97,9 @@ export function TextField({
                 {...(value !== undefined ? { value } : {})}
                 {...(defaultValue !== undefined ? { defaultValue } : {})}
                 onChange={(e) => handleValue(e.target.value, e.nativeEvent)}
+                onCompositionStart={ime.onCompositionStart}
+                onCompositionEnd={ime.onCompositionEnd}
+                onKeyDown={ime.onKeyDown}
                 style={
                   autoResize
                     ? {
@@ -115,6 +120,9 @@ export function TextField({
             {...(value !== undefined ? { value } : {})}
             {...(defaultValue !== undefined ? { defaultValue } : {})}
             onValueChange={(v, details) => handleValue(v, details)}
+            onCompositionStart={ime.onCompositionStart}
+            onCompositionEnd={ime.onCompositionEnd}
+            onKeyDown={ime.onKeyDown}
             autoComplete={autoComplete}
             ref={ref as React.Ref<HTMLInputElement>}
             {...controlProps}

@@ -94,3 +94,8 @@
     }
   }
 }
+
+/* REQ-CMP-62: iOS zoom guard — control text >=16px on coarse pointers. */
+@media (pointer: coarse) {
+  .ag-text-field [data-ag-part='control'] { font-size: max(16px, 1em); }
+}

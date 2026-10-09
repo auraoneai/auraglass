@@ -1,40 +1,36 @@
-/** CMP-141 (REQ-CMP-62): composition events gate onValueChange — nothing commits
-    between compositionstart and compositionend; Enter during composition does
-    not submit. */
+/* REQ-CMP-62: 0 onValueChange between compositionstart/end, exactly 1 after;
+   Enter while composing is prevented (no submit). */
 import { describe, expect, it, jest } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
-import { render, screen, fireEvent } from '@testing-library/react';
 import * as React from 'react';
+import { render, fireEvent } from '@testing-library/react';
 import { TextField } from '../../src/components/text-field';
 
-describe('TextField IME composition', () => {
-  it('fires onValueChange per input event; composed string arrives in order', () => {
+describe('TextField IME composition (REQ-CMP-62)', () => {
+  it('0 calls during composition, 1 final call after compositionend', () => {
     const spy = jest.fn();
-    render(<TextField label="t" onValueChange={spy} />);
-    const input = screen.getByRole('textbox', { name: 't' });
+    const { container } = render(<TextField aria-label="t" onValueChange={spy} />);
+    const input = container.querySelector('input')!;
     fireEvent.compositionStart(input);
-    fireEvent.change(input, { target: { value: 'あ' } });
-    fireEvent.change(input, { target: { value: 'あい' } });
+    fireEvent.change(input, { target: { value: 'に' } });
+    fireEvent.change(input, { target: { value: 'にほ' } });
+    expect(spy).not.toHaveBeenCalled();
     fireEvent.compositionEnd(input);
-    fireEvent.change(input, { target: { value: 'あい' } });
-    // BU forwards each input change; jsdom cannot suppress change during
-    // composition — the contract we assert is ordering + final value.
-    const last = spy.mock.calls.at(-1);
-    expect(last?.[0]).toBe('あい');
+    expect(spy).toHaveBeenCalledTimes(1); /* single flush with latest value */
+    expect(spy.mock.calls[0][0]).toBe('にほ');
+    fireEvent.change(input, { target: { value: 'にほん' } });
+    expect(spy).toHaveBeenCalledTimes(2); /* normal forwarding resumes */
   });
 
-  it('keydown Enter with isComposing does not fire a submit-style callback', () => {
-    const spy = jest.fn();
-    render(
-      <form onSubmit={spy}>
-        <TextField label="t" />
-      </form>,
-    );
-    const input = screen.getByRole('textbox', { name: 't' });
-    fireEvent.keyDown(input, { key: 'Enter', isComposing: true, nativeEvent: { isComposing: true } });
-    fireEvent.submit(input.closest('form')!);
-    // submit itself fires (jsdom), but our component adds no submit handler on
-    // composing Enter — assert no preventDefault hijack either way.
-    expect(spy).toHaveBeenCalledTimes(1);
+  it('Enter during composition is preventDefaulted', () => {
+    const { container } = render(<TextField aria-label="t" />);
+    const input = container.querySelector('input')!;
+    fireEvent.compositionStart(input);
+    const ev = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+    Object.defineProperty(ev, 'isComposing', { value: true });
+    Object.defineProperty(ev, 'keyCode', { value: 229 });
+    const allowed = input.dispatchEvent(ev);
+    expect(allowed).toBe(false); /* preventDefault called */
+    fireEvent.compositionEnd(input);
   });
 });
