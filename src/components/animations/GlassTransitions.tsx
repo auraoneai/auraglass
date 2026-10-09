@@ -469,8 +469,8 @@ export function GlassAccordion({
               className={cn(
                 "glass-w-full glass-p-4 glass-text-left glass-flex glass-items-center glass-justify-between hover:glass-surface-hover glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
               )}
-              whileHover={prefersReducedMotion ? {} : { scale: 1.01 }}
-              whileTap={prefersReducedMotion ? {} : { scale: 0.99 }}
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.01 }}
+              whileTap={prefersReducedMotion ? undefined : { scale: 0.99 }}
               transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
               aria-label={`${item.title} accordion item`}
               aria-expanded={isOpen}
