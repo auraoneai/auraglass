@@ -1,10 +1,13 @@
 /* CMP-295/420 Text */
 @layer ag.components {
   .ag-text { margin: 0; font-family: var(--ag-type-body-family, inherit); }
-  .ag-text-type-callout { font-size: var(--ag-type-callout-size, 1.0625rem); }
-  .ag-text-type-caption { font-size: var(--ag-type-caption-size, 0.8125rem); }
-  .ag-text-type-label { font-size: var(--ag-type-label-size, 0.875rem); font-weight: 500; }
-  .ag-text-type-mono { font-family: var(--ag-type-mono-family, ui-monospace, monospace); }
+  /* REQ-CMP-111: type roles consume the full --ag-type-<role>-* quartet —
+     size + leading + weight + tracking; `size` classes below stay an
+     explicit opt-in override. */
+  .ag-text-type-callout { font-size: var(--ag-type-callout-size, 1.0625rem); line-height: var(--ag-type-callout-leading, 1.5); font-weight: var(--ag-type-callout-weight, 400); letter-spacing: var(--ag-type-callout-tracking, normal); }
+  .ag-text-type-caption { font-size: var(--ag-type-caption-size, 0.8125rem); line-height: var(--ag-type-caption-leading, 1.4); font-weight: var(--ag-type-caption-weight, 400); letter-spacing: var(--ag-type-caption-tracking, normal); }
+  .ag-text-type-label { font-size: var(--ag-type-label-size, 0.875rem); line-height: var(--ag-type-label-leading, 1.4); font-weight: var(--ag-type-label-weight, 500); letter-spacing: var(--ag-type-label-tracking, normal); }
+  .ag-text-type-mono { font-family: var(--ag-type-mono-family, ui-monospace, monospace); font-size: var(--ag-type-mono-size, 0.9375rem); line-height: var(--ag-type-mono-leading, 1.5); font-weight: var(--ag-type-mono-weight, 400); letter-spacing: var(--ag-type-mono-tracking, normal); }
   .ag-text-size-xs { font-size: var(--ag-text-xs, 0.75rem); }
   .ag-text-size-sm { font-size: var(--ag-text-sm, 0.875rem); }
   .ag-text-size-md { font-size: var(--ag-text-md, 1rem); }

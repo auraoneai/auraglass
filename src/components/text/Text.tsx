@@ -10,7 +10,8 @@ import type { RenderProp } from '../../contracts/components';
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   /** S-03 type role; defaults to 'body'. */
   type?: 'body' | 'callout' | 'caption' | 'label' | 'mono';
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  /** Optional override; unset = the type role's own size. */
+  size?: 'xs' | 'sm' | 'md' | 'lg' | undefined;
   muted?: boolean;
   intent?: 'neutral' | 'success' | 'warning' | 'danger';
   weight?: 'light' | 'regular' | 'medium' | 'semibold' | 'bold';
@@ -21,7 +22,7 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
 
 export function Text({
   type = 'body',
-  size = 'md',
+  size,
   muted,
   intent,
   weight,
@@ -36,12 +37,12 @@ export function Text({
     ref,
     'data-ag-part': 'root',
     'data-ag-type': type,
-    'data-ag-size': size,
+    'data-ag-size': size ?? undefined,
     'data-ag-intent': intent ?? 'neutral',
     'data-ag-muted': muted ? '' : undefined,
     'data-ag-weight': weight,
     'data-ag-truncate': truncate ? '' : undefined,
-    className: cn('ag-text', `ag-text-type-${type}`, `ag-text-size-${size}`, className),
+    className: cn('ag-text', `ag-text-type-${type}`, size ? `ag-text-size-${size}` : undefined, className),
   } as React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> };
   return renderElement(render, <p />, props);
 }

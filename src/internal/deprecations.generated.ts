@@ -99,6 +99,8 @@ export const DEPRECATIONS: Readonly<Record<string, DeprecationRow>> = {
   "DEP-C0218": { id: "DEP-C0218", message: "'GlassModal' prop 'animation' has no 5.0 equivalent and is removed.", codemod: "dead-optical-props", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-dep-c0218" },
   "DEP-C0219": { id: "DEP-C0219", message: "'GlassModal' prop 'compact' has no 5.0 equivalent and is removed.", codemod: "dead-optical-props", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-dep-c0219" },
   "DEP-C0220": { id: "DEP-C0220", message: "GlassModal 'isContained' has no direct 5.0 prop; compose with Surface and set data-ag-transparency.", codemod: null, since: "4.2.0", removeIn: "5.0.0", doc: "#dep-dep-c0220" },
+  "DEP-C0222": { id: "DEP-C0222", message: "'Typography' is absorbed by 'Text' (type roles) and 'Heading' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0222" },
+  "DEP-C0223": { id: "DEP-C0223", message: "'DisplayText' is renamed to 'Heading size=\"display\"' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0223" },
 };
 
 /** Every deprecation entry, all kinds and statuses (S-38). */
@@ -1469,6 +1471,38 @@ export const deprecations: readonly DeprecationEntry[] = [
     "breaking": "B6",
     "message": "GlassModal 'isContained' has no direct 5.0 prop; compose with Surface and set data-ag-transparency.",
     "doc": "#dep-dep-c0220"
+  },
+  {
+    "id": "DEP-C0222",
+    "kind": "export",
+    "status": "active",
+    "entry": ".",
+    "symbol": "Typography",
+    "since": "4.3.0",
+    "removeIn": "5.0.0",
+    "replacement": "Text / Heading",
+    "codemod": "canonical-names",
+    "automation": "manual",
+    "breaking": "B5",
+    "message": "'Typography' is absorbed by 'Text' (type roles) and 'Heading' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
+    "doc": "#dep-dep-c0222",
+    "compat": "Typography"
+  },
+  {
+    "id": "DEP-C0223",
+    "kind": "export",
+    "status": "active",
+    "entry": ".",
+    "symbol": "DisplayText",
+    "since": "4.3.0",
+    "removeIn": "5.0.0",
+    "replacement": "Heading size='display'",
+    "codemod": "canonical-names",
+    "automation": "full",
+    "breaking": "B5",
+    "message": "'DisplayText' is renamed to 'Heading size=\"display\"' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
+    "doc": "#dep-dep-c0223",
+    "compat": "DisplayText"
   },
   {
     "id": "DEP-S0600",
