@@ -12,6 +12,8 @@ import { Popover } from '../../../popover/index';
 import { Tooltip } from '../../../tooltip/index';
 import { Menu } from '../../../menu/index';
 import { Toast, useToast } from '../../../toast/index';
+import { Select } from '../../../select/index';
+import { Combobox } from '../../../combobox/index';
 import type { OverlayKind } from '../overlayTypes';
 
 export interface OverlaySubject {
@@ -107,6 +109,30 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
           </Tooltip.Portal>
         </Tooltip.Root>
       </Tooltip.Provider>
+    ),
+  },
+  {
+    kind: 'select', name: 'Select', available: true, modal: false, layerRoot: 'overlay', popupSelector: '[data-ag-part="popup"]',
+    mount: () => (
+      <Select.Root defaultOpen>
+        <Select.Trigger placeholder="anchor" />
+        <Select.Content>
+          <Select.Item value="a" label="A" />
+          <Select.Item value="b" label="B" />
+        </Select.Content>
+      </Select.Root>
+    ),
+  },
+  {
+    kind: 'combobox', name: 'Combobox', available: true, modal: false, layerRoot: 'overlay', popupSelector: '[data-ag-part="popup"]',
+    mount: () => (
+      <Combobox.Root items={['a', 'b']} defaultOpen>
+        <Combobox.Input placeholder="anchor" />
+        <Combobox.Content>
+          <Combobox.Item value="a">a</Combobox.Item>
+          <Combobox.Item value="b">b</Combobox.Item>
+        </Combobox.Content>
+      </Combobox.Root>
     ),
   },
   {

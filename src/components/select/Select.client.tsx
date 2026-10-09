@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Select as Base } from '@base-ui/react/select';
+import { defaultPositionerProps } from '../overlays/_shared/positioning';
 import { materialProps } from '../../material';
 import { usePortalContainer } from '../../foundation/portal';
 import { toChangeDetails } from '../../foundation';
@@ -123,7 +124,7 @@ function SelectContent({ children, className }: SelectContentProps) {
         data-ag-part="positioner"
         side="bottom"
         align="start"
-        sideOffset={6}
+        {...defaultPositionerProps}
         alignItemWithTrigger={alignToTrigger}
         {...sizeAttrs(size)}
       >

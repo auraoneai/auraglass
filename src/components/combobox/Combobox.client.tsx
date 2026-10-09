@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Combobox as Base } from '@base-ui/react/combobox';
+import { defaultPositionerProps } from '../overlays/_shared/positioning';
 import { materialProps } from '../../material';
 import { usePortalContainer } from '../../foundation/portal';
 import { useAnnouncer } from '../../theme';
@@ -321,7 +322,7 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
         data-ag-part="positioner"
         side="bottom"
         align="start"
-        sideOffset={6}
+        {...defaultPositionerProps}
         {...sizeAttrs(size)}
       >
         <Base.Popup
