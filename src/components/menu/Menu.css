@@ -6,8 +6,10 @@
 
   .ag-menu-popup,
   .ag-contextmenu-popup {
-    min-width: 180px;
-    max-width: min(320px, calc(100vw - 16px));
+    /* REQ-CMP-104: width floor follows BU's anchor-width var (popup tracks
+       trigger width); ceiling is a fixed 320px. */
+    min-inline-size: var(--anchor-width, 180px);
+    max-inline-size: 320px;
     max-height: var(--available-height, calc(100vh - 16px));
     overflow-y: auto;
     padding: var(--ag-space-1, 4px);
@@ -38,7 +40,9 @@
     grid-template-columns: 1.25em 1fr auto;
     align-items: center;
     gap: var(--ag-space-2, 8px);
-    padding: var(--ag-space-1-5, 6px) var(--ag-space-2, 8px);
+    /* REQ-CMP-104: 32px min-height / 12px inline padding; 44px on coarse. */
+    min-block-size: 32px;
+    padding: var(--ag-space-1-5, 6px) var(--ag-space-3, 12px);
     border-radius: var(--ag-radius-sm, 6px);
     font: inherit;
     font-size: var(--ag-font-sm, 13px);
@@ -47,13 +51,22 @@
     user-select: none;
     outline: none;
   }
+  @media (pointer: coarse) {
+    .ag-menu-item, .ag-menu-submenu-trigger { min-block-size: 44px; }
+  }
   .ag-menu-item[data-highlighted],
   .ag-menu-submenu-trigger[data-highlighted] {
-    background: var(--ag-accent-subtle, rgba(99, 102, 241, 0.12));
+    /* next fill step token — plain fill, no backdrop-filter (REQ-CMP-104) */
+    background: var(--ag-surface-fill-raised, var(--ag-surface-fill-strong, var(--ag-accent-subtle, rgba(99, 102, 241, 0.12))));
   }
   .ag-menu-item[data-disabled],
   .ag-menu-submenu-trigger[data-disabled] {
-    opacity: 0.45;
+    /* REQ-CMP-104: color token, not opacity — stays legible + ring intact. */
+    color: var(--ag-on-surface-muted, color-mix(in oklch, var(--ag-fg, #1a1a1a) 55%, transparent));
+  }
+  .ag-menu-item[data-highlighted][data-disabled],
+  .ag-menu-submenu-trigger[data-highlighted][data-disabled] {
+    box-shadow: inset 0 0 0 var(--ag-focus-ring-w, 2px) var(--ag-focus-ring, currentColor);
   }
   .ag-menu-item[data-checked] .ag-menu-item-indicator::after,
   .ag-menu-checkbox-item[data-checked] .ag-menu-item-indicator::after,

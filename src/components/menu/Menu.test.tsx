@@ -185,4 +185,23 @@ describe('Menubar', () => {
     await act(async () => {}); // composite moves focus on a microtask
     expect(document.activeElement?.textContent).toBe('Edit');
   });
+
+  it("aria-checked='mixed' survives close+re-open (REQ-CMP-104)", async () => {
+    const Demo = () => (
+      <Menu.Root defaultOpen>
+        <Menu.Trigger>actions</Menu.Trigger>
+        <Menu.Portal><Menu.Positioner><Menu.Popup>
+          <Menu.CheckboxItem checked="indeterminate">Selective</Menu.CheckboxItem>
+        </Menu.Popup></Menu.Positioner></Menu.Portal>
+      </Menu.Root>
+    );
+    const { unmount } = render(<Demo />);
+    await act(async () => {});
+    const item = () => document.querySelector('[role="menuitemcheckbox"]');
+    expect(item()!.getAttribute('aria-checked')).toBe('mixed');
+    unmount();
+    render(<Demo />);
+    await act(async () => {});
+    expect(item()!.getAttribute('aria-checked')).toBe('mixed');
+  });
 });
