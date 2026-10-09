@@ -1,0 +1,635 @@
+{
+  "version": 1,
+  "package": "aura-glass@4.1.0",
+  "entries": {
+    ".": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "GILDED_TOKENS_CATALOGUE_MD_PATH",
+        "REDUCED_MOTION_100_COMPLETE_MD_PATH",
+        "REDUCED_MOTION_101_GUIDE_MD_PATH",
+        "REDUCED_MOTION_FINAL_REPORT_JSON_PATH",
+        "TYPESCRIPT_FIX_PROGRESS_MD_PATH",
+        "component_inventory_json_path"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:GILDED_TOKENS_CATALOGUE_MD_PATH",
+        "types-only:REDUCED_MOTION_100_COMPLETE_MD_PATH",
+        "types-only:REDUCED_MOTION_101_GUIDE_MD_PATH",
+        "types-only:REDUCED_MOTION_FINAL_REPORT_JSON_PATH",
+        "types-only:TYPESCRIPT_FIX_PROGRESS_MD_PATH",
+        "types-only:component_inventory_json_path"
+      ]
+    },
+    "./app-shell": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./client": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./core/mixins/glassMixins": {
+      "kind": "module",
+      "runtime": [
+        "canUseHighQualityGlass",
+        "createGlassDisabledMixin",
+        "createGlassFocusMixin",
+        "createGlassHoverMixin",
+        "createGlassLoadingMixin",
+        "createGlassMixin",
+        "createGlassStyle",
+        "createResponsiveGlassStyle",
+        "generateGlassThemeVariables",
+        "getRecommendedTier"
+      ],
+      "require": [],
+      "types": [
+        "BlurIntensity",
+        "GlassOptions",
+        "GlassVariant",
+        "LegacyGlassMixinOptions",
+        "canUseHighQualityGlass",
+        "createGlassDisabledMixin",
+        "createGlassFocusMixin",
+        "createGlassHoverMixin",
+        "createGlassLoadingMixin",
+        "createGlassMixin",
+        "createGlassStyle",
+        "createResponsiveGlassStyle",
+        "generateGlassThemeVariables",
+        "getRecommendedTier"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:BlurIntensity",
+        "types-only:GlassOptions",
+        "types-only:GlassVariant",
+        "types-only:LegacyGlassMixinOptions"
+      ]
+    },
+    "./data": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./forms": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./hooks/useGlassProbes": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "GlassProbesData",
+        "UseGlassProbesOptions",
+        "useGlassDebug",
+        "useGlassElementProbe",
+        "useGlassProbes"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:GlassProbesData",
+        "types-only:UseGlassProbesOptions",
+        "types-only:useGlassDebug",
+        "types-only:useGlassElementProbe",
+        "types-only:useGlassProbes"
+      ]
+    },
+    "./icons": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./icons/action": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./icons/ai": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./icons/collaboration": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./icons/commerce": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./icons/data": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./icons/media": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./icons/navigation": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./icons/status": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./marketing": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./navigation": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./overlays": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./package.json": {
+      "kind": "asset",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./primitives": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./primitives/dismissable-layer": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "DismissableLayer",
+        "DismissableLayerOutsideEvent",
+        "DismissableLayerProps",
+        "GlassDismissableLayer",
+        "default"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:DismissableLayer",
+        "types-only:DismissableLayerOutsideEvent",
+        "types-only:DismissableLayerProps",
+        "types-only:GlassDismissableLayer",
+        "types-only:default"
+      ]
+    },
+    "./primitives/focus": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "FocusScope",
+        "FocusScopeProps",
+        "GlassFocusScope",
+        "default"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:FocusScope",
+        "types-only:FocusScopeProps",
+        "types-only:GlassFocusScope",
+        "types-only:default"
+      ]
+    },
+    "./primitives/portal": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "GlassPortal",
+        "Portal",
+        "PortalProps",
+        "default"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:GlassPortal",
+        "types-only:Portal",
+        "types-only:PortalProps",
+        "types-only:default"
+      ]
+    },
+    "./primitives/positioning": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "GlassPositioner",
+        "Positioner",
+        "PositionerAlign",
+        "PositionerProps",
+        "PositionerSide",
+        "default"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:GlassPositioner",
+        "types-only:Positioner",
+        "types-only:PositionerAlign",
+        "types-only:PositionerProps",
+        "types-only:PositionerSide",
+        "types-only:default"
+      ]
+    },
+    "./primitives/roving-focus": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "GlassRovingFocusGroup",
+        "RovingFocusGroup",
+        "RovingFocusGroupItem",
+        "RovingFocusGroupItemProps",
+        "RovingFocusGroupRoot",
+        "RovingFocusGroupRootProps",
+        "default"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:GlassRovingFocusGroup",
+        "types-only:RovingFocusGroup",
+        "types-only:RovingFocusGroupItem",
+        "types-only:RovingFocusGroupItemProps",
+        "types-only:RovingFocusGroupRoot",
+        "types-only:RovingFocusGroupRootProps",
+        "types-only:default"
+      ]
+    },
+    "./primitives/slot": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "GlassSlot",
+        "Slot",
+        "SlotProps",
+        "default"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:GlassSlot",
+        "types-only:Slot",
+        "types-only:SlotProps",
+        "types-only:default"
+      ]
+    },
+    "./registry": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./server": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./services/ai/cache-service": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "CacheService"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:CacheService"
+      ]
+    },
+    "./services/ai/config": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "AIConfig",
+        "AIConfigSchema",
+        "AIProvider",
+        "ProviderUnconfiguredError",
+        "ProviderUnconfiguredPayload",
+        "RuntimeFeatureFlags",
+        "assertProviderConfigured",
+        "createAIConfig",
+        "createRuntimeFeatureFlags",
+        "defaultAIConfig",
+        "isProviderConfigured",
+        "validateAIConfig"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:AIConfig",
+        "types-only:AIConfigSchema",
+        "types-only:AIProvider",
+        "types-only:ProviderUnconfiguredError",
+        "types-only:ProviderUnconfiguredPayload",
+        "types-only:RuntimeFeatureFlags",
+        "types-only:assertProviderConfigured",
+        "types-only:createAIConfig",
+        "types-only:createRuntimeFeatureFlags",
+        "types-only:defaultAIConfig",
+        "types-only:isProviderConfigured",
+        "types-only:validateAIConfig"
+      ]
+    },
+    "./services/ai/openai-service": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "AIUsageMetadata",
+        "FieldSuggestion",
+        "FormFieldSuggestionResult",
+        "OpenAIClientFactory",
+        "OpenAIService"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:AIUsageMetadata",
+        "types-only:FieldSuggestion",
+        "types-only:FormFieldSuggestionResult",
+        "types-only:OpenAIClientFactory",
+        "types-only:OpenAIService"
+      ]
+    },
+    "./services/ai/vision-service": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "FaceDetectionResult",
+        "ImageAnalysisResult",
+        "ObjectDetectionResult",
+        "TextExtractionResult",
+        "VisionService"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:FaceDetectionResult",
+        "types-only:ImageAnalysisResult",
+        "types-only:ObjectDetectionResult",
+        "types-only:TextExtractionResult",
+        "types-only:VisionService"
+      ]
+    },
+    "./services/websocket/collaboration-service": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "CollaborationEditUnsupported",
+        "CollaborationRoom",
+        "CollaborationService",
+        "CollaborativeEdit",
+        "CursorPosition",
+        "PresenceInfo"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:CollaborationEditUnsupported",
+        "types-only:CollaborationRoom",
+        "types-only:CollaborationService",
+        "types-only:CollaborativeEdit",
+        "types-only:CursorPosition",
+        "types-only:PresenceInfo"
+      ]
+    },
+    "./ssr": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./styles": {
+      "kind": "asset",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./theme": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./three": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./tokens": {
+      "kind": "module",
+      "runtime": [
+        "auraTokens",
+        "default",
+        "description",
+        "personas",
+        "version"
+      ],
+      "require": [
+        "auraTokens",
+        "default",
+        "description",
+        "personas",
+        "version"
+      ],
+      "types": [
+        "AuraPersona",
+        "AuraTokensManifest",
+        "PersonaId",
+        "PersonaMode",
+        "auraTokens",
+        "default",
+        "getPersona",
+        "getPersonaModeTokens"
+      ],
+      "typesRuntimeMismatch": [
+        "runtime-only:description",
+        "runtime-only:personas",
+        "runtime-only:version",
+        "types-only:AuraPersona",
+        "types-only:AuraTokensManifest",
+        "types-only:PersonaId",
+        "types-only:PersonaMode",
+        "types-only:getPersona",
+        "types-only:getPersonaModeTokens"
+      ]
+    },
+    "./tokens/css": {
+      "kind": "asset",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./tokens/json": {
+      "kind": "asset",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./tokens/keyframes": {
+      "kind": "asset",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./tokens/manifest": {
+      "kind": "module",
+      "runtime": [
+        "default",
+        "manifest"
+      ],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": [
+        "runtime-only:default",
+        "runtime-only:manifest"
+      ]
+    },
+    "./tokens/tailwind": {
+      "kind": "module",
+      "runtime": [
+        "auraGlassTailwindTheme",
+        "default"
+      ],
+      "require": [
+        "extend"
+      ],
+      "types": [],
+      "typesRuntimeMismatch": [
+        "runtime-only:auraGlassTailwindTheme",
+        "runtime-only:default"
+      ]
+    },
+    "./utils/env": {
+      "kind": "module",
+      "runtime": [
+        "getSafeDocument",
+        "getSafeNavigator",
+        "getSafeWindow",
+        "isBrowser",
+        "isServer",
+        "lazyClientValue",
+        "runClientEffect",
+        "safeMatchMedia",
+        "useClientEffect"
+      ],
+      "require": [],
+      "types": [
+        "getSafeDocument",
+        "getSafeNavigator",
+        "getSafeWindow",
+        "isBrowser",
+        "isServer",
+        "lazyClientValue",
+        "runClientEffect",
+        "safeMatchMedia",
+        "useClientEffect"
+      ],
+      "typesRuntimeMismatch": []
+    },
+    "./workflows": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [],
+      "typesRuntimeMismatch": []
+    },
+    "./workspace": {
+      "kind": "module",
+      "runtime": [],
+      "require": [],
+      "types": [
+        "GlassCanvasArea",
+        "GlassCanvasAreaProps",
+        "GlassInspectorPanel",
+        "GlassInspectorPanelProps",
+        "GlassTimelineRail",
+        "GlassTimelineRailProps",
+        "GlassWorkflowShell",
+        "GlassWorkflowShellProps",
+        "GlassWorkspace",
+        "GlassWorkspaceHeader",
+        "GlassWorkspaceHeaderProps",
+        "GlassWorkspacePanel",
+        "GlassWorkspacePanelProps",
+        "GlassWorkspaceProps",
+        "GlassWorkspaceTab",
+        "GlassWorkspaceTabProps",
+        "GlassWorkspaceTabs",
+        "GlassWorkspaceTabsProps"
+      ],
+      "typesRuntimeMismatch": [
+        "types-only:GlassCanvasArea",
+        "types-only:GlassCanvasAreaProps",
+        "types-only:GlassInspectorPanel",
+        "types-only:GlassInspectorPanelProps",
+        "types-only:GlassTimelineRail",
+        "types-only:GlassTimelineRailProps",
+        "types-only:GlassWorkflowShell",
+        "types-only:GlassWorkflowShellProps",
+        "types-only:GlassWorkspace",
+        "types-only:GlassWorkspaceHeader",
+        "types-only:GlassWorkspaceHeaderProps",
+        "types-only:GlassWorkspacePanel",
+        "types-only:GlassWorkspacePanelProps",
+        "types-only:GlassWorkspaceProps",
+        "types-only:GlassWorkspaceTab",
+        "types-only:GlassWorkspaceTabProps",
+        "types-only:GlassWorkspaceTabs",
+        "types-only:GlassWorkspaceTabsProps"
+      ]
+    }
+  }
+}
