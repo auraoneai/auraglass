@@ -35,8 +35,12 @@
     border-end-start-radius: var(--ag-radius-xl, 20px);
     padding-inline-start: env(safe-area-inset-left, 0px);
   }
+  /* REQ-CMP-96: sm/md/lg size grid for every side ('start'/'end' resolve
+     to physical sides, so the left/right rows cover them). */
   .ag-sheet-popup[data-ag-side='left'][data-ag-size='sm'],
   .ag-sheet-popup[data-ag-side='right'][data-ag-size='sm'] { --ag-sheet-side-w: 320px; }
+  .ag-sheet-popup[data-ag-side='left'][data-ag-size='md'],
+  .ag-sheet-popup[data-ag-side='right'][data-ag-size='md'] { --ag-sheet-side-w: 440px; }
   .ag-sheet-popup[data-ag-side='left'][data-ag-size='lg'],
   .ag-sheet-popup[data-ag-side='right'][data-ag-size='lg'] { --ag-sheet-side-w: 560px; }
   /* side translate axis = x */
@@ -203,14 +207,18 @@
     color: var(--ag-on-surface);
   }
 
-  @media (max-inline-size: 640px) {
+  /* REQ-CMP-96: container query on the ag-overlay layer root (viewport-sized)
+     — and the handle hides on SIDE sheets only; bottom/top keep it for
+     detent drags. */
+  @container ag-overlay (max-inline-size: 640px) {
     .ag-sheet-popup[data-ag-side='left'],
     .ag-sheet-popup[data-ag-side='right'] {
-      inline-size: 100vw;
-      max-inline-size: 100vw;
+      inline-size: 100%;
+      max-inline-size: 100%;
       border-radius: 0;
     }
-    .ag-sheet-handle { display: none; }
+    .ag-sheet-popup[data-ag-side='left'] .ag-sheet-handle,
+    .ag-sheet-popup[data-ag-side='right'] .ag-sheet-handle { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .ag-sheet-popup[data-starting-style],

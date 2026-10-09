@@ -40,9 +40,20 @@ export const LeftPanelRTL: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Sheet', id: 'overlays-sheet--left-panel-rtl' } },
   render: () => <Demo root={{ side: 'start' }}>Start side (flips under RTL).</Demo>,
 };
+/* REQ-CMP-96: real React Profiler commit counter — the perf spec asserts
+   nonzero commits at open and 0 commits during the pointermove drag. */
+const countCommit = () => {
+  const w = window as unknown as { __agCommits?: number };
+  w.__agCommits = (w.__agCommits ?? 0) + 1;
+};
+
 export const BottomDetents: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Sheet', id: 'overlays-sheet--bottom-detents' } },
-  render: () => <Demo root={{ side: 'bottom', detents: [0.5, 'full'] }}>Drag the handle: half → full.</Demo>,
+  render: () => (
+    <React.Profiler id="sheet-bottom-detents" onRender={countCommit}>
+      <Demo root={{ side: 'bottom', detents: [0.5, 'full'] }}>Drag the handle: half → full.</Demo>
+    </React.Profiler>
+  ),
 };
 export const ActionPreset: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Sheet', id: 'overlays-sheet--action-preset' } },

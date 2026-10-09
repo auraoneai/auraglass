@@ -2,6 +2,19 @@
    anchored-popup geometry, animating hint. No pseudo optics/grain, no
    transition:all, no !important, no infinite animations, no transitioned
    filter/backdrop-filter (scrim animates opacity only). */
+@layer ag.overlays {
+  /* CMP-89/96: the layer root is the overlay container — every portal child
+     becomes a viewport-sized container query context named ag-overlay. */
+  [data-ag-layer-root] {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    container-name: ag-overlay;
+    container-type: inline-size;
+  }
+  [data-ag-layer-root] > * { pointer-events: auto; }
+}
+
 @layer ag.components {
   .ag-scrim {
     position: fixed;
