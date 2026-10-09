@@ -336,7 +336,7 @@
     "audit:glass:materials": "node scripts/audit/static-glass-material-audit.js",
     "audit:storybook:presentation": "node scripts/audit/story-presentation-audit.js",
     "test:audit:glass:materials": "node scripts/audit/static-glass-material-audit.js --self-test",
-    "prepack": "node scripts/ci/gen-deprecations.mjs && node scripts/ci/prune-bridge-exports.mjs",
+    "prepack": "node scripts/release/gen-deprecations.mjs && node scripts/ci/prune-bridge-exports.mjs",
     "postpack": "node scripts/ci/prune-bridge-exports.mjs --restore"
   },
   "keywords": [
