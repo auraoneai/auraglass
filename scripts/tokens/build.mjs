@@ -281,6 +281,22 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   write('src/material/css/generated/floors.css', floorsCss);
   write('src/material/css/generated/properties.css', propertiesCss);
 
+  // dist/material.css (REQ-PLAT-74): MAT owns this artifact end-to-end — PLAT's
+  // css assembly copies nothing and reassembles nothing; it only verifies the
+  // file exists. Contract order (fragments/css/mat.ts): properties, floors,
+  // ladders, material.css, lens.css. The generated files are raw css and get
+  // wrapped in @layer ag.material; the authored files already carry it.
+  const materialCssParts = [LAYER_ORDER, ''];
+  for (const [gen, name] of [[propertiesCss, 'properties'], [floorsCss, 'floors'], [laddersCss, 'ladders']]) {
+    materialCssParts.push(`/* src/material/css/generated/${name}.css (mat) */`, '@layer ag.material {', gen.trim(), '}', '');
+  }
+  for (const authored of ['material.css', 'lens.css']) {
+    const p = join(ROOT, 'src/material/css', authored);
+    if (!existsSync(p)) die(`material.css source missing: ${p}`);
+    materialCssParts.push(`/* src/material/css/${authored} (mat) */`, readFileSync(p, 'utf8').replace(/^@layer ag\.compat[^;]*;/, '').trim(), '');
+  }
+  write('dist/material.css', await prettierFormat(materialCssParts.join('\n'), 'css'));
+
   // tailwind bridge + registry + css/ tokens copy (MAT-068/072; @import "./tokens.css" resolves in dist/css)
   const tailwindCss = await emitTailwind(cells, records, resolved);
   write('dist/css/tokens.css', tokensCss);

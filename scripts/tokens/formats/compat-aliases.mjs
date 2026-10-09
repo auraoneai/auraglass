@@ -11,6 +11,8 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { LAYER_ORDER } from './css-layered.mjs';
+import { guardColorMix } from '../../build/lib/css.mjs';
 
 export const COMPAT_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 export const LEGACY_COMMIT = '15b6de6f7';
@@ -125,6 +127,8 @@ export function emitCompat(write, tokenDir) {
   const map = buildCompatMap(decls, readers);
   write('tokens/generated/compat-alias-map.json', JSON.stringify(map, null, 2) + '\n');
   write('dist/compat/tokens.css', compatCss(map));
-  write('dist/css/compat/legacy-primitives.css', css);
+  // REQ-PLAT-74: the vendored 4.x primitives are compat content — ship them
+  // inside @layer ag.compat so their bare :root block never sits unlayered.
+  write('dist/css/compat/legacy-primitives.css', `${LAYER_ORDER}\n\n@layer ag.compat {\n${guardColorMix(css.trim())}\n}\n`);
   return { count: Object.keys(map).length };
 }

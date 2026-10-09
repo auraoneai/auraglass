@@ -184,9 +184,13 @@
 
   /* prominent: accent mixes into the fill at <= 0.18 alpha (one per view) */
   .ag-surface[data-ag-prominent] {
-    /* accent mixes into the canvas fill at exactly 0.18 (<= 0.18 alpha) */
-    --_ag-fill: color-mix(in oklch, var(--_ag-canvas-fill), var(--ag-color-accent, oklch(60% 0.2 270)) 18%);
     --_ag-rim-light: oklch(from var(--ag-color-accent, oklch(60% 0.2 270)) l c h / 0.6);
+  }
+  @supports (color: color-mix(in srgb, red, red)) {
+    .ag-surface[data-ag-prominent] {
+      /* accent mixes into the canvas fill at exactly 0.18 (<= 0.18 alpha) */
+      --_ag-fill: color-mix(in oklch, var(--_ag-canvas-fill), var(--ag-color-accent, oklch(60% 0.2 270)) 18%);
+    }
   }
 
   /* ---- content layer materials (D-08): never a backdrop filter ---- */

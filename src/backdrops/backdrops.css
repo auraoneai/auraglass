@@ -1,13 +1,7 @@
 /* backdrops.css — the ./backdrops bundle (dist/backdrops.css). */
 
-/* --- lane W4 begin --- */
-@import './presets/aurora.css';
-@import './presets/mesh.css';
-@import './presets/photo.css';
-@import './presets/video.css';
-@import './presets/grain.css';
 
-@layer backdrops {
+@layer ag.components {
   .ag-backdrop { position: relative; isolation: isolate; overflow: hidden; }
   .ag-backdrop--fixed { position: fixed; inset: 0; }
   .ag-backdrop-layer {

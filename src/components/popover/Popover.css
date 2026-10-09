@@ -51,7 +51,7 @@
   .ag-popover-description { margin: 0; color: var(--ag-muted, rgb(0 0 0 / 0.64)); }
 
   @media (prefers-reduced-motion: reduce) {
-    .ag-popover-popup { transition: opacity var(--ag-duration-small, 150ms) linear; transform: none !important; }
+    .ag-popover-popup { transition: opacity var(--ag-duration-small, 150ms) linear; transform: none; }
   }
   @media (forced-colors: active) {
     .ag-popover-popup { border: 1px solid CanvasText; }

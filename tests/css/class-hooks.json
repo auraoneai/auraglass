@@ -1,0 +1,418 @@
+{
+  "$comment": "Intentional consumer styling hooks: ag-* className literals the library ships unstyled by design (component roots, BEM part hooks). A class is covered by a shipped selector OR by an entry here; add a real rule instead of a hook entry when the class gets styled.",
+  "hooks": {
+    "ag-accordion": {
+      "files": [
+        "components/accordion/Accordion.client.tsx"
+      ]
+    },
+    "ag-alert-body": {
+      "files": [
+        "components/alert/Alert.tsx"
+      ]
+    },
+    "ag-alert-description": {
+      "files": [
+        "components/alert/Alert.tsx"
+      ]
+    },
+    "ag-alert-dialog-action": {
+      "files": [
+        "components/alert-dialog/AlertDialog.client.tsx"
+      ]
+    },
+    "ag-alert-dialog-trigger": {
+      "files": [
+        "components/alert-dialog/AlertDialog.client.tsx"
+      ]
+    },
+    "ag-alert-icon": {
+      "files": [
+        "components/alert/Alert.tsx"
+      ]
+    },
+    "ag-badge-label": {
+      "files": [
+        "components/badge/Badge.tsx"
+      ]
+    },
+    "ag-button-group-surface": {
+      "files": [
+        "components/button-group/ButtonGroup.tsx"
+      ]
+    },
+    "ag-calendar__grid": {
+      "files": [
+        "date/Calendar.tsx"
+      ]
+    },
+    "ag-calendar__heading": {
+      "files": [
+        "date/Calendar.tsx"
+      ]
+    },
+    "ag-chart-frame__description": {
+      "files": [
+        "data/chart-frame/ChartFrame.tsx"
+      ]
+    },
+    "ag-chart__grid": {
+      "files": [
+        "charts/Chart.tsx"
+      ]
+    },
+    "ag-chart__plot-inner": {
+      "files": [
+        "charts/Chart.tsx"
+      ]
+    },
+    "ag-checkbox-group": {
+      "files": [
+        "components/checkbox/Checkbox.client.tsx"
+      ]
+    },
+    "ag-chip-label": {
+      "files": [
+        "components/chip/Chip.client.tsx"
+      ]
+    },
+    "ag-collapsible": {
+      "files": [
+        "components/collapsible/Collapsible.client.tsx"
+      ]
+    },
+    "ag-color-picker": {
+      "files": [
+        "components/color-picker/ColorPicker.client.tsx"
+      ]
+    },
+    "ag-color-picker-content": {
+      "files": [
+        "components/color-picker/ColorPicker.client.tsx"
+      ]
+    },
+    "ag-combobox-vscroll": {
+      "files": [
+        "components/combobox/ComboboxVirtualList.client.tsx"
+      ]
+    },
+    "ag-date-picker__dialog": {
+      "files": [
+        "date/DatePicker.tsx"
+      ]
+    },
+    "ag-date-range-picker__group": {
+      "files": [
+        "date/DateRangePicker.tsx"
+      ]
+    },
+    "ag-date-range-picker__sep": {
+      "files": [
+        "date/DateRangePicker.tsx"
+      ]
+    },
+    "ag-file-upload": {
+      "files": [
+        "components/file-upload/FileUpload.client.tsx"
+      ]
+    },
+    "ag-file-upload-dragging": {
+      "files": [
+        "components/file-upload/FileUpload.client.tsx"
+      ]
+    },
+    "ag-filter-bar__add": {
+      "files": [
+        "data/filter-bar/FilterBar.tsx"
+      ]
+    },
+    "ag-filter-bar__chip-label": {
+      "files": [
+        "data/filter-bar/FilterBar.tsx"
+      ]
+    },
+    "ag-filter-bar__chip-remove": {
+      "files": [
+        "data/filter-bar/FilterBar.tsx"
+      ]
+    },
+    "ag-filter-bar__clear": {
+      "files": [
+        "data/filter-bar/FilterBar.tsx"
+      ]
+    },
+    "ag-filter-bar__editor": {
+      "files": [
+        "data/filter-bar/FilterBar.tsx"
+      ]
+    },
+    "ag-filter-bar__quick": {
+      "files": [
+        "data/filter-bar/FilterBar.tsx"
+      ]
+    },
+    "ag-filter-bar__quick-toggle": {
+      "files": [
+        "data/filter-bar/FilterBar.tsx"
+      ]
+    },
+    "ag-filter-bar__search": {
+      "files": [
+        "data/filter-bar/FilterBar.tsx"
+      ]
+    },
+    "ag-image-list-bar-action": {
+      "files": [
+        "components/image-list/ImageList.client.tsx"
+      ]
+    },
+    "ag-inline-edit": {
+      "files": [
+        "components/inline-edit/InlineEdit.client.tsx"
+      ]
+    },
+    "ag-inspector__header": {
+      "files": [
+        "app-shell/Inspector.tsx"
+      ]
+    },
+    "ag-inspector__section-trigger": {
+      "files": [
+        "app-shell/Inspector.Section.tsx"
+      ]
+    },
+    "ag-kv-editor-item": {
+      "files": [
+        "components/key-value-editor/KeyValueEditor.client.tsx"
+      ]
+    },
+    "ag-label": {
+      "files": [
+        "primitives/Label.tsx"
+      ]
+    },
+    "ag-media-volume": {
+      "files": [
+        "media/MediaControls/parts/Volume.tsx"
+      ]
+    },
+    "ag-menu-group": {
+      "files": [
+        "components/menu/ContextMenu.client.tsx",
+        "components/menu/Menu.client.tsx"
+      ]
+    },
+    "ag-menu-indicator": {
+      "files": [
+        "components/menu/Menu.client.tsx"
+      ]
+    },
+    "ag-menu-item-link": {
+      "files": [
+        "components/menu/Menu.client.tsx"
+      ]
+    },
+    "ag-meter-label": {
+      "files": [
+        "components/meter/Meter.client.tsx"
+      ]
+    },
+    "ag-nf-shell": {
+      "files": [
+        "components/number-field/NumberField.client.tsx"
+      ]
+    },
+    "ag-now-playing-actions": {
+      "files": [
+        "media/NowPlayingBar/parts/Actions.tsx"
+      ]
+    },
+    "ag-now-playing-expand": {
+      "files": [
+        "media/NowPlayingBar/parts/Expand.tsx"
+      ]
+    },
+    "ag-page-header__actions": {
+      "files": [
+        "app-shell/AppShell.tsx"
+      ]
+    },
+    "ag-page-header__row": {
+      "files": [
+        "app-shell/AppShell.tsx"
+      ]
+    },
+    "ag-page-header__title": {
+      "files": [
+        "app-shell/AppShell.tsx"
+      ]
+    },
+    "ag-popover-close": {
+      "files": [
+        "components/popover/Popover.client.tsx"
+      ]
+    },
+    "ag-popover-trigger": {
+      "files": [
+        "components/popover/Popover.client.tsx"
+      ]
+    },
+    "ag-progress-label": {
+      "files": [
+        "components/progress/Progress.client.tsx"
+      ]
+    },
+    "ag-progress-ring-track": {
+      "files": [
+        "components/progress/Progress.client.tsx"
+      ]
+    },
+    "ag-progress-value": {
+      "files": [
+        "components/progress/Progress.client.tsx"
+      ]
+    },
+    "ag-range-calendar__months": {
+      "files": [
+        "date/Calendar.tsx"
+      ]
+    },
+    "ag-scrim": {
+      "files": [
+        "components/alert-dialog/AlertDialog.client.tsx",
+        "components/dialog/Dialog.client.tsx",
+        "components/sheet/Sheet.client.tsx"
+      ]
+    },
+    "ag-segmented-surface": {
+      "files": [
+        "components/segmented-control/SegmentedControl.client.tsx"
+      ]
+    },
+    "ag-sf-shell": {
+      "files": [
+        "components/search-field/SearchField.client.tsx"
+      ]
+    },
+    "ag-sidebar__item": {
+      "files": [
+        "app-shell/Sidebar.Collapsible.tsx"
+      ]
+    },
+    "ag-sidebar__item-label": {
+      "files": [
+        "app-shell/Sidebar.Nav.tsx"
+      ]
+    },
+    "ag-state-view-action": {
+      "files": [
+        "components/state-view/StateView.tsx"
+      ]
+    },
+    "ag-steps-description": {
+      "files": [
+        "components/steps/Steps.tsx"
+      ]
+    },
+    "ag-tab-bar__item-icon": {
+      "files": [
+        "components/tab-bar/TabBar.tsx"
+      ]
+    },
+    "ag-tab-bar__item-label": {
+      "files": [
+        "components/tab-bar/TabBar.tsx"
+      ]
+    },
+    "ag-table__thead": {
+      "files": [
+        "data/table/Table.tsx"
+      ]
+    },
+    "ag-tf-shell": {
+      "files": [
+        "components/text-field/TextField.client.tsx"
+      ]
+    },
+    "ag-timeline__content": {
+      "files": [
+        "components/timeline/Timeline.tsx"
+      ]
+    },
+    "ag-timeline__meta": {
+      "files": [
+        "components/timeline/Timeline.tsx"
+      ]
+    },
+    "ag-timeline__title": {
+      "files": [
+        "components/timeline/Timeline.tsx"
+      ]
+    },
+    "ag-toolbar-surface": {
+      "files": [
+        "components/toolbar/Toolbar.client.tsx"
+      ]
+    },
+    "ag-tooltip-trigger": {
+      "files": [
+        "components/tooltip/Tooltip.client.tsx"
+      ]
+    },
+    "ag-tour": {
+      "files": [
+        "components/tour/Tour.client.tsx"
+      ]
+    },
+    "ag-tour-description": {
+      "files": [
+        "components/tour/Tour.client.tsx"
+      ]
+    },
+    "ag-tour-done": {
+      "files": [
+        "components/tour/Tour.client.tsx"
+      ]
+    },
+    "ag-tour-next": {
+      "files": [
+        "components/tour/Tour.client.tsx"
+      ]
+    },
+    "ag-tour-positioner": {
+      "files": [
+        "components/tour/Tour.client.tsx"
+      ]
+    },
+    "ag-tour-prev": {
+      "files": [
+        "components/tour/Tour.client.tsx"
+      ]
+    },
+    "ag-tour-step": {
+      "files": [
+        "components/tour/Tour.client.tsx"
+      ]
+    },
+    "ag-tree__chevron": {
+      "files": [
+        "data/tree-view/TreeView.tsx"
+      ]
+    },
+    "ag-tree__icon": {
+      "files": [
+        "data/tree-view/TreeView.tsx"
+      ]
+    },
+    "ag-waveform": {
+      "files": [
+        "media/Waveform/Waveform.tsx"
+      ]
+    },
+    "glass-chat": {
+      "files": [
+        "compat/surf/ai/GlassChat.tsx"
+      ]
+    }
+  }
+}

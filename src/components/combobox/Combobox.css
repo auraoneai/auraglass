@@ -209,8 +209,7 @@
       color: HighlightText;
     }
   }
+  /* Empty state: visible only when Base.List reports data-empty. */
+  [data-ag-part="empty"].ag-combobox-empty { display: none; }
+  [data-ag-part="list"][data-empty] > [data-ag-part="empty"].ag-combobox-empty { display: block; }
 }
-
-/* Empty state: visible only when Base.List reports data-empty. */
-[data-ag-part="empty"].ag-combobox-empty { display: none; }
-[data-ag-part="list"][data-empty] > [data-ag-part="empty"].ag-combobox-empty { display: block; }
