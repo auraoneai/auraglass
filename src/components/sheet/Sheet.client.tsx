@@ -29,6 +29,8 @@ import type { SheetSide } from './Sheet.types';
 
 interface SheetCtx {
   depth: number;
+  isTop?: boolean;
+  isTopModal?: boolean;
   open: boolean;
   modal: boolean;
   side: SheetSide;
@@ -111,7 +113,7 @@ function SheetRoot({
     return () => ro.disconnect();
   }, [popupElement, axis, detentState.isFull, detentState.index, detentState.heightsPx, detents]);
 
-  const { emit, depth } = useOverlayLayer({
+  const { emit, depth, isTop, isTopModal } = useOverlayLayer({
     kind: 'sheet',
     modal,
     open: effectiveOpen,
@@ -145,9 +147,9 @@ function SheetRoot({
   }), [axis, resolved, side, detentState, viewportPx, labels, handleOpenChange, announce]);
 
   const ctx = React.useMemo<SheetCtx>(() => ({
-    depth, open: effectiveOpen, modal, side, resolved, preset, labels, detents: detentState,
+    depth, isTop, isTopModal, open: effectiveOpen, modal, side, resolved, preset, labels, detents: detentState,
     setPopupElement, emit: handleOpenChange, liveRef,
-  }), [depth, effectiveOpen, modal, side, resolved, preset, labels, detentState, handleOpenChange]);
+  }), [depth, isTop, isTopModal, effectiveOpen, modal, side, resolved, preset, labels, detentState, handleOpenChange]);
 
   return (
     <SheetContext.Provider value={ctx}>
@@ -189,8 +191,11 @@ function SheetBackdrop({ className }: { className?: string }) {
   if (!ctx.modal) return null; // CMP-237
   return (
     <Base.Backdrop
+      forceRender
       data-ag-part="backdrop"
+      data-ag-layer="scrim"
       data-ag-overlay-depth={ctx.depth}
+      {...(ctx.isTopModal ? { 'data-ag-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />

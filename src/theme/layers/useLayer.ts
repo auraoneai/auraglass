@@ -15,7 +15,7 @@ export interface UseLayerInput extends LayerEntry {
   lockScroll?: boolean;
 }
 
-export function useLayer(entry: UseLayerInput): { id: string; depth: number; isTop: boolean } {
+export function useLayer(entry: UseLayerInput): { id: string; depth: number; isTop: boolean; isTopModal: boolean } {
   const ctxStack = React.useContext(LayerStackContext);
   const stack = ctxStack
     ?? (typeof document === 'undefined' ? null : layerStackFor(document));
@@ -29,7 +29,7 @@ export function useLayer(entry: UseLayerInput): { id: string; depth: number; isT
       const id = idRef.current;
       if (!stack || !id) return -1;
       const depth = stack.depth(id);
-      return depth * 2 + (stack.isTop(id) ? 1 : 0);
+      return depth * 4 + (stack.isTop(id) ? 2 : 0) + (stack.isTopModal(id) ? 1 : 0);
     },
     () => -1,
   );
@@ -60,6 +60,6 @@ export function useLayer(entry: UseLayerInput): { id: string; depth: number; isT
     stack.update(id, patch);
   });
 
-  if (packed < 0) return { id: '', depth: -1, isTop: false };
-  return { id: idRef.current ?? '', depth: Math.floor(packed / 2), isTop: packed % 2 === 1 };
+  if (packed < 0) return { id: '', depth: -1, isTop: false, isTopModal: false };
+  return { id: idRef.current ?? '', depth: Math.floor(packed / 4), isTop: (packed % 4) >= 2, isTopModal: packed % 2 === 1 };
 }

@@ -38,6 +38,7 @@ export interface OverlayLayerHandle {
   id: string;
   depth: number;
   isTop: boolean;
+  isTopModal: boolean;
   emit: (open: boolean, details: { event?: Event; reason?: unknown }) => void;
 }
 
@@ -59,7 +60,7 @@ export function useOverlayLayer({ kind, modal, open, onOpenChange, element }: Ov
     handlerRef.current?.(nextOpen, { event: details.event, reason });
   }, []);
 
-  const { id, depth, isTop } = useLayer({
+  const { id, depth, isTop, isTopModal } = useLayer({
     kind,
     modal,
     open,
@@ -70,5 +71,5 @@ export function useOverlayLayer({ kind, modal, open, onOpenChange, element }: Ov
     },
   });
 
-  return { id, depth, isTop, emit };
+  return { id, depth, isTop, isTopModal, emit };
 }

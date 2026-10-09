@@ -6,19 +6,16 @@
   .ag-scrim {
     position: fixed;
     inset: 0;
-    /* solved tint; blur from the scrim token (ceiling 12px) */
-    background: var(--ag-scrim-bg, var(--ag-scrim-tint, rgb(0 0 0 / 0.32)));
-    backdrop-filter: blur(var(--_ag-scrim-blur, var(--ag-scrim-blur, 8px)));
+    /* REQ-CMP-79: tint + blur live in material.css on [data-ag-layer="scrim"]
+       (--ag-scrim-clear/--ag-scrim-media); only the top scrim keeps its blur
+       via the data-ag-overlay-top marker. This rule keeps geometry + the
+       opacity transition only. */
     opacity: 1;
     transition: opacity var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease);
   }
   .ag-scrim[data-starting-style],
   .ag-scrim[data-ending-style] {
     opacity: 0;
-  }
-  /* stacked scrims: only the topmost keeps the blur */
-  .ag-scrim[data-ag-overlay-depth]:not(:last-of-type) {
-    backdrop-filter: none;
   }
 
   /* anchored popups (positioner-mounted) */

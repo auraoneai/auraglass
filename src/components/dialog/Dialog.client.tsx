@@ -23,12 +23,14 @@ import type {
 
 interface DialogCtx {
   depth: number;
+  isTop?: boolean;
+  isTopModal?: boolean;
   open: boolean;
   modal: boolean | 'trap-focus';
   labels: { close?: string } | undefined;
   setPopupElement: (el: HTMLElement | null) => void;
 }
-const DialogContext = React.createContext<DialogCtx>({ depth: 0, open: false, modal: true, labels: undefined, setPopupElement: () => {} });
+const DialogContext = React.createContext<DialogCtx>({ depth: 0, isTop: false, open: false, modal: true, labels: undefined, setPopupElement: () => {} });
 
 function DialogRoot({
   open,
@@ -42,7 +44,7 @@ function DialogRoot({
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen === true);
   const effectiveOpen = open ?? internalOpen;
   const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
-  const { emit, depth } = useOverlayLayer({
+  const { emit, depth, isTop, isTopModal } = useOverlayLayer({
     kind: 'dialog',
     modal: modal === true || modal === 'trap-focus',
     open: effectiveOpen,
@@ -54,8 +56,8 @@ function DialogRoot({
     emit(nextOpen, d);
   }, [emit]);
   const ctx = React.useMemo<DialogCtx>(
-    () => ({ depth, open: effectiveOpen, modal, labels, setPopupElement }),
-    [depth, effectiveOpen, modal, labels],
+    () => ({ depth, isTop, isTopModal, open: effectiveOpen, modal, labels, setPopupElement }),
+    [depth, isTop, isTopModal, effectiveOpen, modal, labels],
   );
   return (
     <DialogContext.Provider value={ctx}>
@@ -105,13 +107,16 @@ function DialogPortal({ children, keepMounted }: DialogPortalProps) {
 }
 
 function DialogBackdrop({ className, ref }: DialogBackdropProps) {
-  const { depth, modal } = React.useContext(DialogContext);
+  const { depth, isTopModal, modal } = React.useContext(DialogContext);
   const animatingRef = useOverlayAnimating();
   if (modal !== true) return null; // CMP-211: no scrim for non-modal/trap-focus
   return (
     <Base.Backdrop
+      forceRender
       data-ag-part="backdrop"
+      data-ag-layer="scrim"
       data-ag-overlay-depth={depth}
+      {...(isTopModal ? { 'data-ag-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />

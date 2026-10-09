@@ -23,6 +23,8 @@ export interface LayerStack {
   top(): LayerItem | undefined;
   depth(id: string): number;
   isTop(id: string): boolean;
+  /** True when `id` is the topmost OPEN+modal layer (non-modal layers above it don't count). */
+  isTopModal(id: string): boolean;
   subscribe(listener: () => void): () => void;
   dispose(): void;
 }
@@ -158,6 +160,13 @@ export const createLayerStack = (doc: Document): LayerStack => {
     top: () => items[items.length - 1],
     depth: (id) => items.findIndex((it) => it.id === id),
     isTop: (id) => items.length > 0 && items[items.length - 1]!.id === id,
+    isTopModal: (id) => {
+      for (let i = items.length - 1; i >= 0; i -= 1) {
+        const it = items[i]!;
+        if (it.open && it.modal) return it.id === id;
+      }
+      return false;
+    },
     subscribe(listener) {
       listeners.add(listener);
       return () => listeners.delete(listener);

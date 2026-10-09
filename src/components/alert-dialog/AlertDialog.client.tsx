@@ -24,6 +24,8 @@ import type {
 
 interface AlertCtx {
   depth: number;
+  isTop?: boolean;
+  isTopModal?: boolean;
   open: boolean;
   intent: 'neutral' | 'danger';
   labels: { cancel?: string; action?: string } | undefined;
@@ -42,7 +44,7 @@ function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', 
   const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
   const popupElRef = React.useRef<HTMLElement | null>(null);
   popupElRef.current = popupElement;
-  const { emit, depth } = useOverlayLayer({
+  const { emit, depth, isTop, isTopModal } = useOverlayLayer({
     kind: 'alert-dialog',
     modal: true,
     open: effectiveOpen,
@@ -50,8 +52,8 @@ function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', 
     element: popupElement,
   });
   const ctx = React.useMemo<AlertCtx>(
-    () => ({ depth, open: effectiveOpen, intent, labels, popupElRef, setPopupElement }),
-    [depth, intent, labels],
+    () => ({ depth, isTop, isTopModal, open: effectiveOpen, intent, labels, popupElRef, setPopupElement }),
+    [depth, isTop, isTopModal, intent, labels],
   );
   return (
     <AlertContext.Provider value={ctx}>
@@ -84,12 +86,15 @@ function AlertDialogPortal({ children, keepMounted }: { children?: React.ReactNo
 }
 
 function AlertDialogBackdrop({ className }: { className?: string }) {
-  const { depth } = React.useContext(AlertContext);
+  const { depth, isTopModal } = React.useContext(AlertContext);
   const animatingRef = useOverlayAnimating();
   return (
     <Base.Backdrop
+      forceRender
       data-ag-part="backdrop"
+      data-ag-layer="scrim"
       data-ag-overlay-depth={depth}
+      {...(isTopModal ? { 'data-ag-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />
