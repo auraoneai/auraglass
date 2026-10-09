@@ -12,10 +12,7 @@ import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAni
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
-import type {
-  TooltipProviderProps, TooltipRootProps, TooltipTriggerProps,
-  TooltipPortalProps, TooltipPositionerProps, TooltipPopupProps, TooltipArrowProps,
-} from './Tooltip.types';
+import type { TooltipProviderProps, TooltipRootProps, TooltipTriggerProps, TooltipPortalProps, TooltipPositionerProps, TooltipPopupProps, TooltipArrowProps } from './Tooltip.types';
 
 interface TooltipCtx {
   open: boolean;
@@ -130,7 +127,7 @@ const TooltipPopup = React.forwardRef<HTMLDivElement, TooltipPopupProps>(
     useOverlayLayer({ kind: 'tooltip', modal: false, open: ctx.open, element: el });
     React.useLayoutEffect(() => {
       if (process.env.NODE_ENV !== 'production' && el && el.querySelector(INTERACTIVE)) {
-        // eslint-disable-next-line no-console
+         
         console.error(
           '[aura-glass] Tooltip.Popup must not contain interactive content ' +
           '(a, button, input, select, textarea, [tabindex]). Use Popover with ' +
@@ -171,9 +168,8 @@ export const Tooltip = {
   Provider: TooltipProvider,
   Root: TooltipRoot,
   Trigger: TooltipTrigger,
-  Portal: TooltipPortal,
-  Positioner: TooltipPositioner,
-  Popup: TooltipPopup,
   Arrow: TooltipArrow,
   Content: TooltipPopup,
 };
+
+export { TooltipPortal, TooltipPositioner, TooltipPopup };

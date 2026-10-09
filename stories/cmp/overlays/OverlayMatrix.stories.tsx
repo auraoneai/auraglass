@@ -1,3 +1,6 @@
+import { SheetPortal, SheetBackdrop, SheetPopup } from '../../../src/components/sheet';
+import { AlertDialogPortal, AlertDialogBackdrop, AlertDialogPopup } from '../../../src/components/alert-dialog';
+import { DialogPortal, DialogBackdrop, DialogPopup } from '../../../src/components/dialog';
 /* CMP-251 (REQ-CMP-141): generated matrix over the lane's overlay metas —
    material-transparency (glass|tinted|solid) x scheme per available subject;
    no hand-written cells; stable ids overlays-<subject>--matrix-*. */
@@ -19,23 +22,23 @@ type Story = StoryObj<typeof sbMeta>;
 const SUBJECTS = {
   dialog: (props: Record<string, unknown>) => (
     <Dialog.Root defaultOpen {...props}>
-      <Dialog.Portal><Dialog.Backdrop />
-        <Dialog.Popup aria-label="matrix dialog"><Dialog.Title>Dialog</Dialog.Title><Dialog.Body>cell</Dialog.Body></Dialog.Popup>
-      </Dialog.Portal>
+      <DialogPortal><DialogBackdrop />
+        <DialogPopup aria-label="matrix dialog"><Dialog.Title>Dialog</Dialog.Title><Dialog.Body>cell</Dialog.Body></DialogPopup>
+      </DialogPortal>
     </Dialog.Root>
   ),
   'alert-dialog': (props: Record<string, unknown>) => (
     <AlertDialog.Root defaultOpen {...props}>
-      <AlertDialog.Portal><AlertDialog.Backdrop />
-        <AlertDialog.Popup aria-label="matrix alert"><AlertDialog.Title>Alert</AlertDialog.Title><AlertDialog.Cancel>Cancel</AlertDialog.Cancel><AlertDialog.Action>OK</AlertDialog.Action></AlertDialog.Popup>
-      </AlertDialog.Portal>
+      <AlertDialogPortal><AlertDialogBackdrop />
+        <AlertDialogPopup aria-label="matrix alert"><AlertDialog.Title>Alert</AlertDialog.Title><AlertDialog.Cancel>Cancel</AlertDialog.Cancel><AlertDialog.Action>OK</AlertDialog.Action></AlertDialogPopup>
+      </AlertDialogPortal>
     </AlertDialog.Root>
   ),
   sheet: (props: Record<string, unknown>) => (
     <Sheet.Root defaultOpen {...props}>
-      <Sheet.Portal><Sheet.Backdrop />
-        <Sheet.Popup aria-label="matrix sheet"><Sheet.Title>Sheet</Sheet.Title><Sheet.Body>cell</Sheet.Body></Sheet.Popup>
-      </Sheet.Portal>
+      <SheetPortal><SheetBackdrop />
+        <SheetPopup aria-label="matrix sheet"><Sheet.Title>Sheet</Sheet.Title><Sheet.Body>cell</Sheet.Body></SheetPopup>
+      </SheetPortal>
     </Sheet.Root>
   ),
 } as const;

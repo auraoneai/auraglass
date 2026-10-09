@@ -2,7 +2,7 @@
    SideAlign — open by default, ids overlays-popover--*. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Popover } from '../../../src/components/popover';
+import { PopoverPortal, PopoverPositioner, PopoverPopup, Popover } from '../../../src/components/popover';
 import { Button } from '../../../src/components/button';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
@@ -20,16 +20,16 @@ const Demo = ({ root = {}, positioner = {}, children }: { root?: Record<string, 
   <AuraGlassProvider>
     <Popover.Root defaultOpen {...root}>
       <Popover.Trigger><Button>Open popover</Button></Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner {...positioner}>
-          <Popover.Popup>
+      <PopoverPortal>
+        <PopoverPositioner {...positioner}>
+          <PopoverPopup>
             <Popover.Arrow />
             <Popover.Title>Popover</Popover.Title>
             <Popover.Description>{children ?? 'Anchored overlay content.'}</Popover.Description>
             <Popover.Close><Button >Close</Button></Popover.Close>
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+          </PopoverPopup>
+        </PopoverPositioner>
+      </PopoverPortal>
     </Popover.Root>
   </AuraGlassProvider>
 );
@@ -48,11 +48,11 @@ export const HoverIntent: Story = {
     <AuraGlassProvider>
       <Popover.Root defaultOpen>
         <Popover.Trigger openOnHover delay={300} closeDelay={150}><Button>Hover me</Button></Popover.Trigger>
-        <Popover.Portal>
-          <Popover.Positioner>
-            <Popover.Popup><Popover.Description>Opens after 300ms hover intent.</Popover.Description></Popover.Popup>
-          </Popover.Positioner>
-        </Popover.Portal>
+        <PopoverPortal>
+          <PopoverPositioner>
+            <PopoverPopup><Popover.Description>Opens after 300ms hover intent.</Popover.Description></PopoverPopup>
+          </PopoverPositioner>
+        </PopoverPortal>
       </Popover.Root>
     </AuraGlassProvider>
   ),

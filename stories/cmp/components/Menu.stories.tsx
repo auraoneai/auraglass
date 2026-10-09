@@ -3,7 +3,7 @@
    scenes. ids overlays-menu--*. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Menu, Menubar, ContextMenu } from '../../../src/components/menu';
+import { ContextMenuPortal, ContextMenuPositioner, ContextMenuPopup, MenuPortal, MenuPositioner, MenuPopup, Menu, Menubar, ContextMenu } from '../../../src/components/menu';
 import { Button } from '../../../src/components/button';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
@@ -42,11 +42,11 @@ export const Playground: Story = {
     <AuraGlassProvider>
       <Menu.Root defaultOpen>
         <Menu.Trigger><Button>Actions</Button></Menu.Trigger>
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup><Items /></Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+        <MenuPortal>
+          <MenuPositioner>
+            <MenuPopup><Items /></MenuPopup>
+          </MenuPositioner>
+        </MenuPortal>
       </Menu.Root>
     </AuraGlassProvider>
   ),
@@ -58,24 +58,24 @@ export const Submenu: Story = {
     <AuraGlassProvider>
       <Menu.Root defaultOpen>
         <Menu.Trigger><Button>File</Button></Menu.Trigger>
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup>
+        <MenuPortal>
+          <MenuPositioner>
+            <MenuPopup>
               <Menu.Item>New</Menu.Item>
               <Menu.Submenu defaultOpen>
                 <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
+                <MenuPortal>
+                  <MenuPositioner>
+                    <MenuPopup>
                       <Menu.Item>Email</Menu.Item>
                       <Menu.Item>Link</Menu.Item>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
+                    </MenuPopup>
+                  </MenuPositioner>
+                </MenuPortal>
               </Menu.Submenu>
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+            </MenuPopup>
+          </MenuPositioner>
+        </MenuPortal>
       </Menu.Root>
     </AuraGlassProvider>
   ),
@@ -90,16 +90,16 @@ export const ContextMenuScene: Story = {
         <ContextMenu.Trigger>
           <div style={{ padding: 24, border: '1px dashed #888' }}>Right-click or Shift+F10 here</div>
         </ContextMenu.Trigger>
-        <ContextMenu.Portal>
-          <ContextMenu.Positioner>
-            <ContextMenu.Popup>
+        <ContextMenuPortal>
+          <ContextMenuPositioner>
+            <ContextMenuPopup>
               <ContextMenu.Item>Inspect</ContextMenu.Item>
               <ContextMenu.Item>Rename</ContextMenu.Item>
               <ContextMenu.Separator />
               <ContextMenu.Item>Delete</ContextMenu.Item>
-            </ContextMenu.Popup>
-          </ContextMenu.Positioner>
-        </ContextMenu.Portal>
+            </ContextMenuPopup>
+          </ContextMenuPositioner>
+        </ContextMenuPortal>
       </ContextMenu.Root>
     </AuraGlassProvider>
   ),
@@ -110,18 +110,18 @@ export const MenubarScene: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Menu', id: 'overlays-menu--menubar' } },
   render: () => (
     <AuraGlassProvider>
-      <Menubar>
+      <Menubar.Root>
         {['File', 'Edit', 'View'].map((m) => (
           <Menu.Root key={m}>
             <Menu.Trigger openOnHover>{m}</Menu.Trigger>
-            <Menu.Portal>
-              <Menu.Positioner>
-                <Menu.Popup><Menu.Item>{m} action</Menu.Item></Menu.Popup>
-              </Menu.Positioner>
-            </Menu.Portal>
+            <MenuPortal>
+              <MenuPositioner>
+                <MenuPopup><Menu.Item>{m} action</Menu.Item></MenuPopup>
+              </MenuPositioner>
+            </MenuPortal>
           </Menu.Root>
         ))}
-      </Menubar>
+      </Menubar.Root>
     </AuraGlassProvider>
   ),
 };

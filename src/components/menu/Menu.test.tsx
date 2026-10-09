@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/jest-globals';
 import { render, screen, act, fireEvent, createEvent } from '@testing-library/react';
 import * as React from 'react';
 import { AuraGlassProvider } from '../../theme';
-import { Menu, Menubar, ContextMenu } from './index';
+import { ContextMenuPortal, ContextMenuPositioner, ContextMenuPopup, MenuPortal, MenuPositioner, MenuPopup, Menu, Menubar, ContextMenu } from './index';
 
 const key = (el: Element | Document, k: string) =>
   fireEvent.keyDown(el instanceof Element ? el : el.activeElement ?? document.body, { key: k });
@@ -13,9 +13,9 @@ const renderMenu = (extra?: React.ReactNode) =>
     <AuraGlassProvider>
       <Menu.Root>
         <Menu.Trigger>actions</Menu.Trigger>
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup>
+        <MenuPortal>
+          <MenuPositioner>
+            <MenuPopup>
               <Menu.Item shortcut="Ctrl+X">Cut</Menu.Item>
               <Menu.Item shortcut="Ctrl+C">Copy</Menu.Item>
               <Menu.Separator />
@@ -23,18 +23,18 @@ const renderMenu = (extra?: React.ReactNode) =>
               <Menu.CheckboxItem checked="indeterminate">Selective</Menu.CheckboxItem>
               <Menu.Submenu>
                 <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
+                <MenuPortal>
+                  <MenuPositioner>
+                    <MenuPopup>
                       <Menu.Item>Email</Menu.Item>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
+                    </MenuPopup>
+                  </MenuPositioner>
+                </MenuPortal>
               </Menu.Submenu>
               {extra}
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+            </MenuPopup>
+          </MenuPositioner>
+        </MenuPortal>
       </Menu.Root>
     </AuraGlassProvider>,
   );
@@ -98,9 +98,9 @@ describe('Menu', () => {
       <AuraGlassProvider>
         <Menu.Root defaultOpen>
           <Menu.Trigger>t</Menu.Trigger>
-          <Menu.Portal><Menu.Positioner><Menu.Popup>
+          <MenuPortal><MenuPositioner><MenuPopup>
             <Menu.Item disabled>Locked</Menu.Item>
-          </Menu.Popup></Menu.Positioner></Menu.Portal>
+          </MenuPopup></MenuPositioner></MenuPortal>
         </Menu.Root>
       </AuraGlassProvider>,
     );
@@ -131,13 +131,13 @@ describe('ContextMenu', () => {
           <ContextMenu.Trigger>
             <div>canvas region</div>
           </ContextMenu.Trigger>
-          <ContextMenu.Portal>
-            <ContextMenu.Positioner>
-              <ContextMenu.Popup>
+          <ContextMenuPortal>
+            <ContextMenuPositioner>
+              <ContextMenuPopup>
                 <ContextMenu.Item>Inspect</ContextMenu.Item>
-              </ContextMenu.Popup>
-            </ContextMenu.Positioner>
-          </ContextMenu.Portal>
+              </ContextMenuPopup>
+            </ContextMenuPositioner>
+          </ContextMenuPortal>
         </ContextMenu.Root>
       </AuraGlassProvider>,
     );
@@ -160,16 +160,16 @@ describe('Menubar', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     render(
       <AuraGlassProvider>
-        <Menubar>
+        <Menubar.Root>
           <Menu.Root>
             <Menu.Trigger openOnHover>File</Menu.Trigger>
-            <Menu.Portal><Menu.Positioner><Menu.Popup><Menu.Item>New</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal>
+            <MenuPortal><MenuPositioner><MenuPopup><Menu.Item>New</Menu.Item></MenuPopup></MenuPositioner></MenuPortal>
           </Menu.Root>
           <Menu.Root>
             <Menu.Trigger openOnHover>Edit</Menu.Trigger>
-            <Menu.Portal><Menu.Positioner><Menu.Popup><Menu.Item>Undo</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal>
+            <MenuPortal><MenuPositioner><MenuPopup><Menu.Item>Undo</Menu.Item></MenuPopup></MenuPositioner></MenuPortal>
           </Menu.Root>
-        </Menubar>
+        </Menubar.Root>
       </AuraGlassProvider>,
     );
     const bar = document.querySelector('[role="menubar"]');

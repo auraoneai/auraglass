@@ -3,7 +3,7 @@
    overlays-sheet--*. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Sheet } from '../../../src/components/sheet';
+import { SheetPortal, SheetBackdrop, SheetPopup, Sheet } from '../../../src/components/sheet';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
@@ -19,15 +19,15 @@ type Story = StoryObj<typeof sbMeta>;
 const Demo = ({ root = {}, children }: { root?: Record<string, unknown>; children?: React.ReactNode }) => (
   <AuraGlassProvider>
     <Sheet.Root defaultOpen {...root}>
-      <Sheet.Portal>
-        <Sheet.Backdrop />
-        <Sheet.Popup>
+      <SheetPortal>
+        <SheetBackdrop />
+        <SheetPopup>
           <Sheet.Handle />
           <Sheet.Header><Sheet.Title>Sheet</Sheet.Title></Sheet.Header>
           <Sheet.Body>{children ?? 'Sheet content'}</Sheet.Body>
           <Sheet.Footer><Sheet.Close>Close</Sheet.Close></Sheet.Footer>
-        </Sheet.Popup>
-      </Sheet.Portal>
+        </SheetPopup>
+      </SheetPortal>
     </Sheet.Root>
   </AuraGlassProvider>
 );
@@ -49,17 +49,17 @@ export const ActionPreset: Story = {
   render: () => (
     <AuraGlassProvider>
       <Sheet.Root defaultOpen preset="action">
-        <Sheet.Portal>
-          <Sheet.Backdrop />
-          <Sheet.Popup>
+        <SheetPortal>
+          <SheetBackdrop />
+          <SheetPopup>
             <Sheet.Handle />
             <Sheet.Body>
               <Sheet.Action>Save to Photos</Sheet.Action>
               <Sheet.Action>Share…</Sheet.Action>
             </Sheet.Body>
             <Sheet.Close>Cancel</Sheet.Close>
-          </Sheet.Popup>
-        </Sheet.Portal>
+          </SheetPopup>
+        </SheetPortal>
       </Sheet.Root>
     </AuraGlassProvider>
   ),
@@ -70,13 +70,13 @@ export const NonModalInspector: Story = {
     <AuraGlassProvider>
       <input placeholder="page input stays interactive" />
       <Sheet.Root defaultOpen side="end" modal={false}>
-        <Sheet.Portal>
-          <Sheet.Popup size="sm">
+        <SheetPortal>
+          <SheetPopup size="sm">
             <Sheet.Header><Sheet.Title>Inspector</Sheet.Title></Sheet.Header>
             <Sheet.Body>Non-modal: page remains interactive; Tab can leave.</Sheet.Body>
             <Sheet.Close>Close</Sheet.Close>
-          </Sheet.Popup>
-        </Sheet.Portal>
+          </SheetPopup>
+        </SheetPortal>
       </Sheet.Root>
     </AuraGlassProvider>
   ),

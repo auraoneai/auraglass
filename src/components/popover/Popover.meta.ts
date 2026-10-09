@@ -32,7 +32,7 @@ const meta: ControlMeta = defineMeta({
         open: 'open',
         onClose: { to: 'onOpenChange' },
         title: 'Popover.Title',
-        content: 'Popover.Popup children',
+        content: 'PopoverPopup children',
         side: 'Positioner side',
         align: 'Positioner align',
       },
@@ -44,14 +44,14 @@ const meta: ControlMeta = defineMeta({
       props: {
         open: 'open',
         trigger: 'Popover.Trigger openOnHover',
-        content: 'Popover.Popup children',
+        content: 'PopoverPopup children',
       },
       automation: 'partial', // HoverCard successor = Trigger openOnHover + delay/closeDelay
       compat: false,
     },
     {
       from: 'GlassTooltip',
-      props: { content: 'Popover.Popup children' },
+      props: { content: 'PopoverPopup children' },
       automation: 'partial', // rich/interactive content uses Popover; plain hints use Tooltip
       compat: false,
     },

@@ -72,4 +72,29 @@ function SliderValue({ className, ref }: SliderValueProps) {
   return <Base.Value data-ag-part="value" className={className} ref={ref as React.Ref<HTMLOutputElement>} />;
 }
 
-export const Slider = { Root: SliderRoot, Value: SliderValue };
+/** Contract parts (REQ-CMP-06): Track wraps BU Control+Track and seeds the
+    default Range+Thumb children unless the consumer supplies them. */
+function SliderTrack({ className, ref, children, ...rest }: React.ComponentProps<typeof Base.Track> & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+  return (
+    <Base.Control data-ag-part="control">
+      <Base.Track data-ag-part="track" className={className} ref={ref} {...rest}>
+        {children ?? (
+          <>
+            <SliderRange />
+            <SliderThumb />
+          </>
+        )}
+      </Base.Track>
+    </Base.Control>
+  );
+}
+
+function SliderRange({ className, ref }: { className?: string; ref?: React.Ref<HTMLDivElement> | undefined }) {
+  return <Base.Indicator data-ag-part="range" className={className} ref={ref} />;
+}
+
+function SliderThumb({ className, ref, ...rest }: React.ComponentProps<typeof Base.Thumb> & { ref?: React.Ref<HTMLElement> | undefined }) {
+  return <Base.Thumb data-ag-part="thumb" className={className} ref={ref} {...rest} />;
+}
+
+export const Slider = { Root: SliderRoot, Value: SliderValue, Track: SliderTrack, Range: SliderRange, Thumb: SliderThumb };

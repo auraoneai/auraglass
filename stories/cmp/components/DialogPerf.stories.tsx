@@ -2,7 +2,7 @@
    the 4.x dashboard perf fixture). */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Dialog } from '../../../src/components/dialog';
+import { DialogPortal, DialogBackdrop, DialogPopup, Dialog } from '../../../src/components/dialog';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
@@ -31,14 +31,14 @@ export const DialogOverDashboard: Story = {
         <Surface label="Card 4" />
       </div>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup>
+        <DialogPortal>
+          <DialogBackdrop />
+          <DialogPopup>
             <Dialog.Header><Dialog.Title>Perf subject</Dialog.Title></Dialog.Header>
             <Dialog.Body>Dialog over six content surfaces.</Dialog.Body>
             <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+          </DialogPopup>
+        </DialogPortal>
       </Dialog.Root>
     </AuraGlassProvider>
   ),

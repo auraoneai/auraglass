@@ -9,12 +9,7 @@ import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAni
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
-import type {
-  ContextMenuRootProps, ContextMenuTriggerProps, MenuPortalProps,
-  MenuPositionerProps, MenuPopupProps, MenuItemProps, MenuGroupProps,
-  MenuGroupLabelProps, MenuSeparatorProps, MenuCheckboxItemProps,
-  MenuRadioGroupProps, MenuRadioItemProps,
-} from './Menu.types';
+import type { ContextMenuRootProps, ContextMenuTriggerProps, MenuPortalProps, MenuPositionerProps, MenuPopupProps, MenuItemProps, MenuGroupProps, MenuGroupLabelProps, MenuSeparatorProps, MenuCheckboxItemProps, MenuRadioGroupProps, MenuRadioItemProps } from './Menu.types';
 
 interface Ctx { open: boolean }
 const Ctx = React.createContext<Ctx>({ open: false });
@@ -183,9 +178,6 @@ const ContextMenuRadioItem = React.forwardRef<HTMLElement, MenuRadioItemProps>(
 export const ContextMenu = {
   Root: ContextMenuRoot,
   Trigger: ContextMenuTrigger,
-  Portal: ContextMenuPortal,
-  Positioner: ContextMenuPositioner,
-  Popup: ContextMenuPopup,
   Item: ContextMenuItem,
   CheckboxItem: ContextMenuCheckboxItem,
   RadioGroup: ContextMenuRadioGroup,
@@ -195,3 +187,5 @@ export const ContextMenu = {
   Separator: ContextMenuSeparator,
   Content: ContextMenuPopup,
 };
+
+export { ContextMenuPortal, ContextMenuPositioner, ContextMenuPopup };

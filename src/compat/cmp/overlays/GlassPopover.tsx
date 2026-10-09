@@ -4,7 +4,7 @@
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { Popover } from '../../../components/popover';
+import { PopoverPortal, PopoverPositioner, PopoverPopup, Popover } from '../../../components/popover';
 import type { OverlayOpenChangeDetails } from '../../../components/overlays/_shared';
 import { __compatWrap as wrap } from './_shared';
 
@@ -50,14 +50,14 @@ export function GlassPopover({ open, onClose, onOpenChange, placement, side, ali
       <Popover.Trigger {...(hover ? { openOnHover: true } : {})}>
         {typeof trigger === 'string' ? 'Trigger' : trigger ?? children}
       </Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner {...(s !== undefined ? { side: s } : {})} {...(a !== undefined ? { align: a } : {})}>
-          <Popover.Popup {...(className !== undefined ? { className } : {})}>
+      <PopoverPortal>
+        <PopoverPositioner {...(s !== undefined ? { side: s } : {})} {...(a !== undefined ? { align: a } : {})}>
+          <PopoverPopup {...(className !== undefined ? { className } : {})}>
             {title !== undefined ? <Popover.Title>{title}</Popover.Title> : null}
             {content}
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+          </PopoverPopup>
+        </PopoverPositioner>
+      </PopoverPortal>
     </Popover.Root>
   ));
 }

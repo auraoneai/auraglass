@@ -5,11 +5,11 @@
    Toast with undo — all on 5.0 flagships only. */
 import * as React from 'react';
 import { AlertDialog } from '../../../src/components/alert-dialog';
-import { Dialog } from '../../../src/components/dialog';
-import { Sheet } from '../../../src/components/sheet';
-import { Popover } from '../../../src/components/popover';
-import { Menu, Menubar, ContextMenu } from '../../../src/components/menu';
-import { Tooltip } from '../../../src/components/tooltip';
+import { DialogPortal, DialogBackdrop, DialogPopup, Dialog } from '../../../src/components/dialog';
+import { SheetPortal, SheetBackdrop, SheetPopup, Sheet } from '../../../src/components/sheet';
+import { PopoverPortal, PopoverPositioner, PopoverPopup, Popover } from '../../../src/components/popover';
+import { MenuPortal, MenuPositioner, MenuPopup, ContextMenuPortal, ContextMenuPositioner, ContextMenuPopup, Menu, Menubar, ContextMenu } from '../../../src/components/menu';
+import { TooltipPortal, TooltipPositioner, TooltipPopup, Tooltip } from '../../../src/components/tooltip';
 import { Toast, useToast } from '../../../src/components/toast';
 import { Button } from '../../../src/components/button';
 import { IconButton } from '../../../src/components/icon-button';
@@ -25,16 +25,16 @@ function RowActions({ row }: { row: OverlayFlowsRow }) {
       <Menu.Trigger aria-label={`Actions for ${row.name}`}>
         <Button variant="clear">Actions</Button>
       </Menu.Trigger>
-      <Menu.Portal>
-        <Menu.Positioner side="bottom" align="end">
-          <Menu.Popup>
+      <MenuPortal>
+        <MenuPositioner side="bottom" align="end">
+          <MenuPopup>
             <Menu.Item>Duplicate</Menu.Item>
             <Menu.Item>Share</Menu.Item>
             <Menu.Separator />
             <Menu.Item data-ag-intent="danger">Delete</Menu.Item>
-          </Menu.Popup>
-        </Menu.Positioner>
-      </Menu.Portal>
+          </MenuPopup>
+        </MenuPositioner>
+      </MenuPortal>
     </Menu.Root>
   );
 }
@@ -64,19 +64,19 @@ export function OverlayFlows() {
       <Toast.Viewport position="bottom-right" />
       <Tooltip.Provider>
         <div data-ag-part="overlay-flows" style={{ display: 'grid', gap: 16 }}>
-          <Menubar aria-label="Demo">
+          <Menubar.Root aria-label="Demo">
             <Menu.Root>
               <Menu.Trigger>File</Menu.Trigger>
-              <Menu.Portal>
-                <Menu.Positioner side="bottom" align="start">
-                  <Menu.Popup>
+              <MenuPortal>
+                <MenuPositioner side="bottom" align="start">
+                  <MenuPopup>
                     <Menu.Item>Export</Menu.Item>
                     <Menu.Item>Import</Menu.Item>
-                  </Menu.Popup>
-                </Menu.Positioner>
-              </Menu.Portal>
+                  </MenuPopup>
+                </MenuPositioner>
+              </MenuPortal>
             </Menu.Root>
-          </Menubar>
+          </Menubar.Root>
 
           <table>
             <thead>
@@ -95,33 +95,33 @@ export function OverlayFlows() {
                         <Tooltip.Trigger>
                           <IconButton label={`Edit ${r.name}`} icon={<span aria-hidden>*</span>} onClick={() => setEditing(r)} />
                         </Tooltip.Trigger>
-                        <Tooltip.Portal>
-                          <Tooltip.Positioner side="top">
-                            <Tooltip.Popup>Edit row</Tooltip.Popup>
-                          </Tooltip.Positioner>
-                        </Tooltip.Portal>
+                        <TooltipPortal>
+                          <TooltipPositioner side="top">
+                            <TooltipPopup>Edit row</TooltipPopup>
+                          </TooltipPositioner>
+                        </TooltipPortal>
                       </Tooltip.Root>
                       <Tooltip.Root>
                         <Tooltip.Trigger>
                           <IconButton label={`Delete ${r.name}`} icon={<span aria-hidden>x</span>} onClick={() => setDeleting(r)} />
                         </Tooltip.Trigger>
-                        <Tooltip.Portal>
-                          <Tooltip.Positioner side="top">
-                            <Tooltip.Popup>Delete row</Tooltip.Popup>
-                          </Tooltip.Positioner>
-                        </Tooltip.Portal>
+                        <TooltipPortal>
+                          <TooltipPositioner side="top">
+                            <TooltipPopup>Delete row</TooltipPopup>
+                          </TooltipPositioner>
+                        </TooltipPortal>
                       </Tooltip.Root>
                     </td>
                   </ContextMenu.Trigger>
-                  <ContextMenu.Portal>
-                    <ContextMenu.Positioner>
-                      <ContextMenu.Popup>
+                  <ContextMenuPortal>
+                    <ContextMenuPositioner>
+                      <ContextMenuPopup>
                         {contextMenuItems.map((i) => (
                           <ContextMenu.Item key={i.id}>{i.label}</ContextMenu.Item>
                         ))}
-                      </ContextMenu.Popup>
-                    </ContextMenu.Positioner>
-                  </ContextMenu.Portal>
+                      </ContextMenuPopup>
+                    </ContextMenuPositioner>
+                  </ContextMenuPortal>
                 </ContextMenu.Root>
               ))}
             </tbody>
@@ -152,9 +152,9 @@ export function OverlayFlows() {
             open={editing !== null}
             onOpenChange={(o) => { if (!o) setEditing(null); }}
           >
-            <Dialog.Portal>
-              <Dialog.Backdrop />
-              <Dialog.Popup size="md">
+            <DialogPortal>
+              <DialogBackdrop />
+              <DialogPopup size="md">
                 <Dialog.Header>
                   <Dialog.Title>Edit {editing?.name}</Dialog.Title>
                 </Dialog.Header>
@@ -174,16 +174,16 @@ export function OverlayFlows() {
                   <Dialog.Close>Cancel</Dialog.Close>
                   <Dialog.Close data-ag-intent="primary">Save</Dialog.Close>
                 </Dialog.Footer>
-              </Dialog.Popup>
-            </Dialog.Portal>
+              </DialogPopup>
+            </DialogPortal>
           </Dialog.Root>
 
           {/* bottom Sheet with detents */}
           <Sheet.Root detents={[240, 0.5, 'full']}>
             <Sheet.Trigger>Open details sheet</Sheet.Trigger>
-            <Sheet.Portal>
-              <Sheet.Backdrop />
-              <Sheet.Popup side="bottom">
+            <SheetPortal>
+              <SheetBackdrop />
+              <SheetPopup side="bottom">
                 <Sheet.Handle />
                 <Sheet.Header><Sheet.Title>Details</Sheet.Title></Sheet.Header>
                 <Sheet.Body>
@@ -192,22 +192,22 @@ export function OverlayFlows() {
                     <Checkbox value="b">Flag B</Checkbox>
                   </CheckboxGroup>
                 </Sheet.Body>
-              </Sheet.Popup>
-            </Sheet.Portal>
+              </SheetPopup>
+            </SheetPortal>
           </Sheet.Root>
 
           {/* Popover filter */}
           <Popover.Root>
             <Popover.Trigger>Filter</Popover.Trigger>
-            <Popover.Portal>
-              <Popover.Positioner side="bottom" align="start">
-                <Popover.Popup>
+            <PopoverPortal>
+              <PopoverPositioner side="bottom" align="start">
+                <PopoverPopup>
                   <Popover.Title>Filter rows</Popover.Title>
                   <TextField label="Name contains" />
                   <Popover.Close>Apply</Popover.Close>
-                </Popover.Popup>
-              </Popover.Positioner>
-            </Popover.Portal>
+                </PopoverPopup>
+              </PopoverPositioner>
+            </PopoverPortal>
           </Popover.Root>
         </div>
       </Tooltip.Provider>

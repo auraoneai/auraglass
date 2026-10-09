@@ -5,7 +5,7 @@
    only — functions never cross the RSC boundary. */
 
 import * as React from 'react';
-import { Menu } from '../menu';
+import { MenuPortal, MenuPositioner, Menu } from '../menu';
 
 const MenuTrigger = Menu.Trigger as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
 const MenuContent = Menu.Content as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
@@ -23,8 +23,8 @@ export function BreadcrumbsOverflow({ label = 'Show more', items = [] }: Breadcr
   // Real CMP Menu stacks Popup inside Positioner (optionally Portal); the
   // contract double maps Content straight to Base.Popup, so wrap only when
   // the parts exist.
-  const MaybePortal = ('Portal' in Menu ? Menu.Portal : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
-  const MaybePositioner = ('Positioner' in Menu ? Menu.Positioner : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
+  const MaybePortal = ('Portal' in Menu ? MenuPortal : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
+  const MaybePositioner = ('Positioner' in Menu ? MenuPositioner : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
   return (
     <MenuRoot>
       <MenuTrigger aria-label={label} data-ag-part="ellipsis" className="ag-breadcrumbs__ellipsis">

@@ -4,7 +4,7 @@
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { Menubar } from '../../../components/menu';
+import { MenuPortal, MenuPositioner, MenuPopup, Menubar } from '../../../components/menu';
 import { Menu } from '../../../components/menu';
 
 const DEP = 'DEP-C0113';
@@ -26,14 +26,14 @@ export function GlassMenubar({ menus, createFileMenu, createEditMenu, children, 
   if (createFileMenu !== undefined) drop('createFileMenu:run-canonical-names-codemod');
   if (createEditMenu !== undefined) drop('createEditMenu:run-canonical-names-codemod');
   return (
-    <Menubar {...(className !== undefined ? { className } : {})}>
+    <Menubar.Root {...(className !== undefined ? { className } : {})}>
       {children}
       {menus?.map((m, i) => (
         <Menu.Root key={i}>
           <Menu.Trigger>{m.label}</Menu.Trigger>
-          <Menu.Portal>
-            <Menu.Positioner>
-              <Menu.Popup>
+          <MenuPortal>
+            <MenuPositioner>
+              <MenuPopup>
                 {m.content ??
                   m.items?.map((it, j) => (
                     <Menu.Item
@@ -44,11 +44,11 @@ export function GlassMenubar({ menus, createFileMenu, createEditMenu, children, 
                       {it.label}
                     </Menu.Item>
                   ))}
-              </Menu.Popup>
-            </Menu.Positioner>
-          </Menu.Portal>
+              </MenuPopup>
+            </MenuPositioner>
+          </MenuPortal>
         </Menu.Root>
       ))}
-    </Menubar>
+    </Menubar.Root>
   );
 }

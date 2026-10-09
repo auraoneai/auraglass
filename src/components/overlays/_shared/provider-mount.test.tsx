@@ -1,3 +1,5 @@
+import { TooltipPortal, TooltipPositioner, TooltipPopup } from '../../tooltip';
+import { DialogPortal, DialogPopup } from '../../dialog';
 /* CMP-246 (REQ-CMP-99): with a real AuraGlassProvider the overlay subjects
    resolve the layered portal roots (no fallback warning), the announcer is
    live, and subjects register on the layer stack. Cross-lane seams (Tooltip
@@ -76,7 +78,7 @@ describe('provider mount (CMP-246)', () => {
       <AuraGlassProvider>
         <Dialog.Root>
           <Dialog.Trigger>Open</Dialog.Trigger>
-          <Dialog.Portal><Dialog.Popup aria-label="x"><Dialog.Title>t</Dialog.Title></Dialog.Popup></Dialog.Portal>
+          <DialogPortal><DialogPopup aria-label="x"><Dialog.Title>t</Dialog.Title></DialogPopup></DialogPortal>
         </Dialog.Root>
       </AuraGlassProvider>,
     );
@@ -88,9 +90,9 @@ describe('provider mount (CMP-246)', () => {
     render(
       <Tooltip.Root>
         <Tooltip.Trigger>bare</Tooltip.Trigger>
-        <Tooltip.Portal>
-          <Tooltip.Positioner><Tooltip.Popup>hint</Tooltip.Popup></Tooltip.Positioner>
-        </Tooltip.Portal>
+        <TooltipPortal>
+          <TooltipPositioner><TooltipPopup>hint</TooltipPopup></TooltipPositioner>
+        </TooltipPortal>
       </Tooltip.Root>,
     );
     const trigger = screen.getByText('bare');

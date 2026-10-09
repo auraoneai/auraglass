@@ -23,16 +23,7 @@ function CheckGlyph() {
     </svg>
   );
 }
-import type {
-  SelectRootProps,
-  SelectTriggerProps,
-  SelectValueProps,
-  SelectContentProps,
-  SelectItemProps,
-  SelectGroupProps,
-  SelectGroupLabelProps,
-  SelectSeparatorProps,
-} from './Select.types';
+import type { SelectRootProps, SelectTriggerProps, SelectValueProps, SelectContentProps, SelectItemProps, SelectGroupProps, SelectGroupLabelProps, SelectSeparatorProps } from './Select.types';
 
 const SelectSizeContext = React.createContext<ControlSize>(DEFAULT_CONTROL_SIZE);
 
@@ -208,7 +199,5 @@ export const Select = {
   ItemIndicator: SelectItemIndicator,
   Group: SelectGroup,
   GroupLabel: SelectGroupLabel,
-  /** Alias of GroupLabel (PRD Select.Label). */
-  Label: SelectGroupLabel,
   Separator: SelectSeparator,
 };

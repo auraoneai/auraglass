@@ -6,22 +6,22 @@ import { render, screen, act, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { AuraGlassProvider } from '../../theme';
-import { Popover } from './index';
+import { PopoverPortal, PopoverPositioner, PopoverPopup, Popover } from './index';
 
 const Demo = ({ trigger = {}, root = {} }: { trigger?: Record<string, unknown>; root?: Record<string, unknown> }) => (
   <AuraGlassProvider>
     <Popover.Root {...root}>
       <Popover.Trigger {...trigger}>anchor</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner>
-          <Popover.Popup aria-label="pop">
+      <PopoverPortal>
+        <PopoverPositioner>
+          <PopoverPopup aria-label="pop">
             <Popover.Arrow />
             <Popover.Title>Title</Popover.Title>
             <Popover.Description>Body</Popover.Description>
             <Popover.Close>Close</Popover.Close>
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+          </PopoverPopup>
+        </PopoverPositioner>
+      </PopoverPortal>
     </Popover.Root>
   </AuraGlassProvider>
 );
@@ -40,7 +40,7 @@ describe('Popover', () => {
       <AuraGlassProvider>
         <Popover.Root onOpenChange={onOpenChange}>
           <Popover.Trigger>anchor</Popover.Trigger>
-          <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="pop" /></Popover.Positioner></Popover.Portal>
+          <PopoverPortal><PopoverPositioner><PopoverPopup aria-label="pop" /></PopoverPositioner></PopoverPortal>
         </Popover.Root>
       </AuraGlassProvider>,
     );
@@ -104,7 +104,7 @@ describe('Popover', () => {
       <AuraGlassProvider>
         <Popover.Root defaultOpen onOpenChange={onOpenChange}>
           <Popover.Trigger>anchor</Popover.Trigger>
-          <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="p" /></Popover.Positioner></Popover.Portal>
+          <PopoverPortal><PopoverPositioner><PopoverPopup aria-label="p" /></PopoverPositioner></PopoverPortal>
         </Popover.Root>
       </AuraGlassProvider>,
     );

@@ -4,7 +4,7 @@
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { Popover } from '../../../components/popover';
+import { PopoverPortal, PopoverPositioner, PopoverPopup, Popover } from '../../../components/popover';
 import type { OverlayOpenChangeDetails } from '../../../components/overlays/_shared';
 import { __compatWrap as wrap } from './_shared';
 import { splitPlacement } from './GlassPopover';
@@ -37,11 +37,11 @@ export function GlassHoverCard({ open, onOpenChange, trigger, content, placement
       >
         {trigger}
       </Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner {...pos}>
-          <Popover.Popup {...(className !== undefined ? { className } : {})}>{content}</Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+      <PopoverPortal>
+        <PopoverPositioner {...pos}>
+          <PopoverPopup {...(className !== undefined ? { className } : {})}>{content}</PopoverPopup>
+        </PopoverPositioner>
+      </PopoverPortal>
     </Popover.Root>
   ));
 }

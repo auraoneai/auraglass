@@ -20,10 +20,7 @@ import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { useSheetDetents } from './useSheetDetents';
 import { SheetHandle, SheetHandleContext } from './SheetHandle.client';
 import { SheetHeader, SheetBody, SheetFooter } from './SheetLayout';
-import type {
-  SheetRootProps, SheetTriggerProps, SheetPopupProps, SheetContentProps,
-  SheetButtonishProps, SheetActionProps,
-} from './Sheet.types';
+import type { SheetRootProps, SheetTriggerProps, SheetPopupProps, SheetContentProps, SheetButtonishProps, SheetActionProps } from './Sheet.types';
 import type { SheetDetentsHandle } from './useSheetDetents';
 import type { SheetSide } from './Sheet.types';
 
@@ -292,9 +289,6 @@ export const Sheet = {
   Root: SheetRoot,
   Trigger: SheetTrigger,
   Content: SheetContent,
-  Portal: SheetPortal,
-  Backdrop: SheetBackdrop,
-  Popup: SheetPopup,
   Title: SheetTitle,
   Description: SheetDescription,
   Close: SheetClose,
@@ -304,3 +298,5 @@ export const Sheet = {
   Body: SheetBody,
   Footer: SheetFooter,
 };
+
+export { SheetPortal, SheetBackdrop, SheetPopup };

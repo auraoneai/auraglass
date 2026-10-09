@@ -4,7 +4,7 @@
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { ContextMenu } from '../../../components/menu';
+import { ContextMenuPortal, ContextMenuPositioner, ContextMenuPopup, ContextMenu } from '../../../components/menu';
 import type { OverlayOpenChangeDetails } from '../../../components/overlays/_shared';
 import { __compatWrap as wrap } from './_shared';
 
@@ -27,9 +27,9 @@ export function GlassContextMenu({ items, onClose, onOpenChange, children }: Gla
         : {})}
     >
       <ContextMenu.Trigger>{children}</ContextMenu.Trigger>
-      <ContextMenu.Portal>
-        <ContextMenu.Positioner>
-          <ContextMenu.Popup>
+      <ContextMenuPortal>
+        <ContextMenuPositioner>
+          <ContextMenuPopup>
         {items?.map((it, i) => (
           <ContextMenu.Item
             key={i}
@@ -39,9 +39,9 @@ export function GlassContextMenu({ items, onClose, onOpenChange, children }: Gla
             {it.label}
           </ContextMenu.Item>
         ))}
-          </ContextMenu.Popup>
-        </ContextMenu.Positioner>
-      </ContextMenu.Portal>
+          </ContextMenuPopup>
+        </ContextMenuPositioner>
+      </ContextMenuPortal>
     </ContextMenu.Root>
   ));
 }

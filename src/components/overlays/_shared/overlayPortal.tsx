@@ -1,3 +1,5 @@
+import { AlertDialogPortal } from '../../alert-dialog';
+import { DialogPortal } from '../../dialog';
 'use client';
 /* CMP-191 (REQ-CMP-11): OverlayPortal renders a Base UI *.Portal against the
    provider's [data-ag-portal-root] > [data-ag-layer-root="overlay"] container
@@ -8,7 +10,7 @@ import * as React from 'react';
 import { usePortalContainer } from '../../../foundation/portal';
 
 export interface OverlayPortalProps {
-  /** A Base UI *.Portal component (Dialog.Portal, AlertDialog.Portal, …). */
+  /** A Base UI *.Portal component (DialogPortal, AlertDialogPortal, …). */
   component: React.ElementType;
   keepMounted?: boolean;
   children?: React.ReactNode;

@@ -4,7 +4,7 @@
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { Popover } from '../../../components/popover';
+import { PopoverPortal, PopoverPositioner, PopoverPopup, Popover } from '../../../components/popover';
 import { useToast } from '../../../components/toast';
 import type { ToastData } from '../../../components/toast';
 import { __compatWrap as wrap } from './_shared';
@@ -31,9 +31,9 @@ export function GlassNotificationCenter({ notifications, onMarkAllRead, trigger,
   return wrap('GlassNotificationCenter', (
     <Popover.Root>
       <Popover.Trigger>{trigger ?? 'Notifications'}</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner>
-          <Popover.Popup {...(className !== undefined ? { className } : {})}>
+      <PopoverPortal>
+        <PopoverPositioner>
+          <PopoverPopup {...(className !== undefined ? { className } : {})}>
         <ul data-ag-compat="notification-list">
           {notifications?.map((n, i) => (
             <li key={n.id ?? i} data-ag-notification-type={n.type ?? 'info'}>
@@ -45,9 +45,9 @@ export function GlassNotificationCenter({ notifications, onMarkAllRead, trigger,
         {onMarkAllRead !== undefined ? (
           <button type="button" onClick={onMarkAllRead}>Mark all read</button>
         ) : null}
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+          </PopoverPopup>
+        </PopoverPositioner>
+      </PopoverPortal>
     </Popover.Root>
   ));
 }

@@ -1,5 +1,6 @@
+import { DialogPortal } from '../../../src/components/dialog';
 /* Dialog double (W4 local): the contract double's Content is the bare Popup
-   which requires <Dialog.Portal>; the real CMP Dialog.Content composes the
+   which requires <DialogPortal>; the real CMP Dialog.Content composes the
    portal itself, so this lane double matches the public part contract —
    same shape as tests/app-shell/doubles/dialog.tsx (W1). */
 import * as React from 'react';

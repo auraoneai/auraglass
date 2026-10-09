@@ -2,7 +2,7 @@
 /* CMP-345: registry item account-menu — Menu composition replacing 4.x
    HeaderUserMenu. Registry items are never root-exported (D-15/D-17). */
 import * as React from 'react';
-import { Menu } from '../../../src/components/menu';
+import { MenuPortal, MenuPositioner, MenuPopup, Menu } from '../../../src/components/menu';
 import { Avatar } from '../../../src/components/avatar';
 
 export interface AccountMenuItem {
@@ -26,9 +26,9 @@ export function AccountMenu({ name, email, avatarSrc, items, onSignOut }: Accoun
       <Menu.Trigger aria-label={`Account menu for ${name}`}>
         <Avatar.Root {...(avatarSrc !== undefined ? { src: avatarSrc } : {})} alt={name} name={name} size="sm" />
       </Menu.Trigger>
-      <Menu.Portal>
-        <Menu.Positioner side="bottom" align="end">
-          <Menu.Popup>
+      <MenuPortal>
+        <MenuPositioner side="bottom" align="end">
+          <MenuPopup>
             <Menu.Group>
               <Menu.GroupLabel>
                 {name}{email ? ` — ${email}` : ''}
@@ -45,9 +45,9 @@ export function AccountMenu({ name, email, avatarSrc, items, onSignOut }: Accoun
                 <Menu.Item onSelect={onSignOut} data-ag-intent="danger">Sign out</Menu.Item>
               </>
             ) : null}
-          </Menu.Popup>
-        </Menu.Positioner>
-      </Menu.Portal>
+          </MenuPopup>
+        </MenuPositioner>
+      </MenuPortal>
     </Menu.Root>
   );
 }

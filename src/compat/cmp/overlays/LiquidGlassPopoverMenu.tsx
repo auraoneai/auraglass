@@ -4,7 +4,7 @@
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { Menu } from '../../../components/menu';
+import { MenuPortal, MenuPositioner, MenuPopup, Menu } from '../../../components/menu';
 import type { OverlayOpenChangeDetails } from '../../../components/overlays/_shared';
 import { __compatWrap as wrap } from './_shared';
 
@@ -26,11 +26,11 @@ export function LiquidGlassPopoverMenu({ open, onOpenChange, trigger, children, 
       {...(onOpenChange !== undefined ? { onOpenChange: (o: boolean, _d: OverlayOpenChangeDetails) => onOpenChange(o) } : {})}
     >
       <Menu.Trigger>{trigger}</Menu.Trigger>
-      <Menu.Portal>
-        <Menu.Positioner>
-          <Menu.Popup className={className}>{children}</Menu.Popup>
-        </Menu.Positioner>
-      </Menu.Portal>
+      <MenuPortal>
+        <MenuPositioner>
+          <MenuPopup className={className}>{children}</MenuPopup>
+        </MenuPositioner>
+      </MenuPortal>
     </Menu.Root>
   ));
 }

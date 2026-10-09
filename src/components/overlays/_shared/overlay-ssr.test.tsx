@@ -1,3 +1,9 @@
+import { MenuPortal, MenuPositioner, MenuPopup } from '../../menu';
+import { TooltipPortal, TooltipPositioner, TooltipPopup } from '../../tooltip';
+import { PopoverPortal, PopoverPositioner, PopoverPopup } from '../../popover';
+import { SheetPortal, SheetPopup } from '../../sheet';
+import { AlertDialogPortal, AlertDialogPopup } from '../../alert-dialog';
+import { DialogPortal, DialogPopup } from '../../dialog';
 /* CMP-206 (REQ-CMP-04): renderToString closed + defaultOpen produces no
    errors; client hydrate produces no console.error warnings. Portals render
    nothing on the server — root/trigger markup only. */
@@ -20,39 +26,39 @@ const CLOSED: Record<string, React.ReactElement> = {
   Dialog: (
     <Dialog.Root>
       <Dialog.Trigger>Open</Dialog.Trigger>
-      <Dialog.Portal><Dialog.Popup><Dialog.Title>T</Dialog.Title></Dialog.Popup></Dialog.Portal>
+      <DialogPortal><DialogPopup><Dialog.Title>T</Dialog.Title></DialogPopup></DialogPortal>
     </Dialog.Root>
   ),
   AlertDialog: (
     <AlertDialog.Root>
       <AlertDialog.Trigger>Delete</AlertDialog.Trigger>
-      <AlertDialog.Portal><AlertDialog.Popup><AlertDialog.Title>T</AlertDialog.Title></AlertDialog.Popup></AlertDialog.Portal>
+      <AlertDialogPortal><AlertDialogPopup><AlertDialog.Title>T</AlertDialog.Title></AlertDialogPopup></AlertDialogPortal>
     </AlertDialog.Root>
   ),
   Sheet: (
     <Sheet.Root>
       <Sheet.Trigger>Open</Sheet.Trigger>
-      <Sheet.Portal><Sheet.Popup><Sheet.Title>T</Sheet.Title></Sheet.Popup></Sheet.Portal>
+      <SheetPortal><SheetPopup><Sheet.Title>T</Sheet.Title></SheetPopup></SheetPortal>
     </Sheet.Root>
   ),
   Popover: (
     <Popover.Root>
       <Popover.Trigger>Open</Popover.Trigger>
-      <Popover.Portal><Popover.Positioner><Popover.Popup><Popover.Title>T</Popover.Title></Popover.Popup></Popover.Positioner></Popover.Portal>
+      <PopoverPortal><PopoverPositioner><PopoverPopup><Popover.Title>T</Popover.Title></PopoverPopup></PopoverPositioner></PopoverPortal>
     </Popover.Root>
   ),
   Tooltip: (
     <Tooltip.Provider>
       <Tooltip.Root>
         <Tooltip.Trigger>Hover</Tooltip.Trigger>
-        <Tooltip.Portal><Tooltip.Positioner><Tooltip.Popup>T</Tooltip.Popup></Tooltip.Positioner></Tooltip.Portal>
+        <TooltipPortal><TooltipPositioner><TooltipPopup>T</TooltipPopup></TooltipPositioner></TooltipPortal>
       </Tooltip.Root>
     </Tooltip.Provider>
   ),
   Menu: (
     <Menu.Root>
       <Menu.Trigger>Open</Menu.Trigger>
-      <Menu.Portal><Menu.Positioner><Menu.Popup><Menu.Item>T</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal>
+      <MenuPortal><MenuPositioner><MenuPopup><Menu.Item>T</Menu.Item></MenuPopup></MenuPositioner></MenuPortal>
     </Menu.Root>
   ),
   Toast: (

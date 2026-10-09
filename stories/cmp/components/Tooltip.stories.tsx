@@ -2,7 +2,7 @@
    CoarseLongPress — ids overlays-tooltip--*. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Tooltip } from '../../../src/components/tooltip';
+import { TooltipPortal, TooltipPositioner, TooltipPopup, Tooltip } from '../../../src/components/tooltip';
 import { Button } from '../../../src/components/button';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
@@ -21,11 +21,11 @@ const Demo = ({ label = 'Hint text' }: { label?: string }) => (
     <Tooltip.Provider>
       <Tooltip.Root defaultOpen>
         <Tooltip.Trigger><Button>Hover me</Button></Tooltip.Trigger>
-        <Tooltip.Portal>
-          <Tooltip.Positioner>
-            <Tooltip.Popup><Tooltip.Arrow />{label}</Tooltip.Popup>
-          </Tooltip.Positioner>
-        </Tooltip.Portal>
+        <TooltipPortal>
+          <TooltipPositioner>
+            <TooltipPopup><Tooltip.Arrow />{label}</TooltipPopup>
+          </TooltipPositioner>
+        </TooltipPortal>
       </Tooltip.Root>
     </Tooltip.Provider>
   </AuraGlassProvider>

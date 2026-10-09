@@ -13,14 +13,7 @@ import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAni
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
-import type {
-  MenuRootProps, MenuTriggerProps, MenuPortalProps, MenuPositionerProps,
-  MenuPopupProps, MenuArrowProps, MenuItemProps, MenuLinkItemProps,
-  MenuCheckboxItemProps, MenuCheckboxItemIndicatorProps, MenuRadioGroupProps,
-  MenuRadioItemProps, MenuRadioItemIndicatorProps, MenuGroupProps,
-  MenuGroupLabelProps, MenuSeparatorProps, MenuSubmenuProps, MenuSubmenuTriggerProps,
-  MenubarProps,
-} from './Menu.types';
+import type { MenuRootProps, MenuTriggerProps, MenuPortalProps, MenuPositionerProps, MenuPopupProps, MenuArrowProps, MenuItemProps, MenuLinkItemProps, MenuCheckboxItemProps, MenuCheckboxItemIndicatorProps, MenuRadioGroupProps, MenuRadioItemProps, MenuRadioItemIndicatorProps, MenuGroupProps, MenuGroupLabelProps, MenuSeparatorProps, MenuSubmenuProps, MenuSubmenuTriggerProps, MenubarProps } from './Menu.types';
 
 interface MenuCtx { open: boolean }
 const MenuCtx = React.createContext<MenuCtx>({ open: false });
@@ -285,7 +278,7 @@ const MenuSubmenuTrigger = React.forwardRef<HTMLElement, MenuSubmenuTriggerProps
   },
 );
 
-export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
+const MenubarRoot = React.forwardRef<HTMLDivElement, MenubarProps>(
   function Menubar({ className, orientation = 'horizontal', ...rest }, ref) {
     return (
       <MenubarCtx.Provider value={true}>
@@ -306,17 +299,11 @@ export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
 export const Menu = {
   Root: MenuRoot,
   Trigger: MenuTrigger,
-  Portal: MenuPortal,
-  Positioner: MenuPositioner,
-  Popup: MenuPopup,
   Arrow: MenuArrow,
   Item: MenuItem,
-  LinkItem: MenuLinkItem,
   CheckboxItem: MenuCheckboxItem,
-  CheckboxItemIndicator: MenuCheckboxItemIndicator,
   RadioGroup: MenuRadioGroup,
   RadioItem: MenuRadioItem,
-  RadioItemIndicator: MenuRadioItemIndicator,
   Group: MenuGroup,
   GroupLabel: MenuGroupLabel,
   Separator: MenuSeparator,
@@ -325,3 +312,9 @@ export const Menu = {
   /** Contract alias: Content = Positioner>Popup region */
   Content: MenuPopup,
 };
+
+export { MenuPortal, MenuPositioner, MenuPopup, MenuLinkItem, MenuCheckboxItemIndicator, MenuRadioItemIndicator };
+
+/** Menubar — contract {Root, Menu}: Root is the menubar bar, Menu is a nested
+    menu root rendered inside it (COMPOUND_PARTS.Menubar). */
+export const Menubar = { Root: MenubarRoot, Menu: MenuRoot };

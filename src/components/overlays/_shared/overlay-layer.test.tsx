@@ -1,3 +1,4 @@
+import { DialogPortal, DialogPopup } from '../../dialog';
 /* CMP-201 (REQ-CMP-11): portal target is the provider's overlay layer root;
    document.body has 0 direct overlay children while open; unmount removes the
    portal content; Escape closes only the top layer via BU's topmost dismiss. */
@@ -42,16 +43,16 @@ describe('overlay-layer (CMP-201)', () => {
     render(
       <AuraGlassProvider>
         <Dialog.Root defaultOpen onOpenChange={outer}>
-          <Dialog.Portal>
-            <Dialog.Popup aria-label="outer">
+          <DialogPortal>
+            <DialogPopup aria-label="outer">
               <Dialog.Title>Outer</Dialog.Title>
               <Dialog.Root defaultOpen onOpenChange={inner}>
-                <Dialog.Portal>
-                  <Dialog.Popup aria-label="inner"><Dialog.Title>Inner</Dialog.Title></Dialog.Popup>
-                </Dialog.Portal>
+                <DialogPortal>
+                  <DialogPopup aria-label="inner"><Dialog.Title>Inner</Dialog.Title></DialogPopup>
+                </DialogPortal>
               </Dialog.Root>
-            </Dialog.Popup>
-          </Dialog.Portal>
+            </DialogPopup>
+          </DialogPortal>
         </Dialog.Root>
       </AuraGlassProvider>,
     );

@@ -2,12 +2,12 @@
    Form, Nested, NonModal, PaletteShell. ids overlays-dialog--*. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Dialog } from '../../../src/components/dialog';
+import { DialogPortal, DialogBackdrop, DialogPopup, Dialog } from '../../../src/components/dialog';
 import { Button } from '../../../src/components/button';
 import { TextField } from '../../../src/components/text-field';
 import { Select } from '../../../src/components/select';
-import { Popover } from '../../../src/components/popover';
-import { Menu } from '../../../src/components/menu';
+import { PopoverPortal, PopoverPositioner, PopoverPopup, Popover } from '../../../src/components/popover';
+import { MenuPortal, MenuPositioner, MenuPopup, Menu } from '../../../src/components/menu';
 import { Toast } from '../../../src/components/toast';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
@@ -36,17 +36,17 @@ export const Playground: Story = {
       </Toast.Provider>
       <Dialog.Root defaultOpen>
         <Dialog.Trigger>Open dialog</Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup>
+        <DialogPortal>
+          <DialogBackdrop />
+          <DialogPopup>
             <Dialog.Header><Dialog.Title>Dialog title</Dialog.Title></Dialog.Header>
             <Dialog.Body><Dialog.Description>A regular dialog over a blurred scrim.</Dialog.Description></Dialog.Body>
             <Dialog.Footer>
               <Dialog.Close>Cancel</Dialog.Close>
               <Dialog.Close render={<Button intent="info" />}>Save</Dialog.Close>
             </Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+          </DialogPopup>
+        </DialogPortal>
       </Dialog.Root>
     </Shell>
   ),
@@ -57,16 +57,16 @@ export const LongContent: Story = {
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup>
+        <DialogPortal>
+          <DialogBackdrop />
+          <DialogPopup>
             <Dialog.Header><Dialog.Title>Long content</Dialog.Title></Dialog.Header>
             <Dialog.Body>
               {Array.from({ length: 24 }, (_, i) => <p key={i}>Scrollable row {i + 1}</p>)}
             </Dialog.Body>
             <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+          </DialogPopup>
+        </DialogPortal>
       </Dialog.Root>
     </Shell>
   ),
@@ -77,14 +77,14 @@ export const Sizes: Story = {
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup size="md">
+        <DialogPortal>
+          <DialogBackdrop />
+          <DialogPopup size="md">
             <Dialog.Header><Dialog.Title>Sizes axis: sm / md / lg / xl / full — this cell md</Dialog.Title></Dialog.Header>
             <Dialog.Body>Body</Dialog.Body>
             <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+          </DialogPopup>
+        </DialogPortal>
       </Dialog.Root>
     </Shell>
   ),
@@ -95,9 +95,9 @@ export const Form: Story = {
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup render={<form onSubmit={(e) => e.preventDefault()} />}>
+        <DialogPortal>
+          <DialogBackdrop />
+          <DialogPopup render={<form onSubmit={(e) => e.preventDefault()} />}>
             <Dialog.Header><Dialog.Title>Invite teammate</Dialog.Title></Dialog.Header>
             <Dialog.Body>
               <TextField label="Email" placeholder="name@auraone.ai" />
@@ -116,8 +116,8 @@ export const Form: Story = {
               <Dialog.Close>Cancel</Dialog.Close>
               <button type="submit" data-ag-part="action">Send invite</button>
             </Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+          </DialogPopup>
+        </DialogPortal>
       </Dialog.Root>
     </Shell>
   ),
@@ -128,25 +128,25 @@ export const Nested: Story = {
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup aria-label="outer dialog">
+        <DialogPortal>
+          <DialogBackdrop />
+          <DialogPopup aria-label="outer dialog">
             <Dialog.Header><Dialog.Title>Outer</Dialog.Title></Dialog.Header>
             <Dialog.Body>
               <Dialog.Root defaultOpen>
-                <Dialog.Portal>
-                  <Dialog.Backdrop />
-                  <Dialog.Popup aria-label="inner dialog" size="sm">
+                <DialogPortal>
+                  <DialogBackdrop />
+                  <DialogPopup aria-label="inner dialog" size="sm">
                     <Dialog.Header><Dialog.Title>Inner</Dialog.Title></Dialog.Header>
                     <Dialog.Body>Nested dialog content.</Dialog.Body>
                     <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-                  </Dialog.Popup>
-                </Dialog.Portal>
+                  </DialogPopup>
+                </DialogPortal>
               </Dialog.Root>
             </Dialog.Body>
             <Dialog.Footer><Dialog.Close>Close outer</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+          </DialogPopup>
+        </DialogPortal>
       </Dialog.Root>
     </Shell>
   ),
@@ -160,26 +160,26 @@ export const WithPopover: Story = {
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup aria-label="composite dialog">
+        <DialogPortal>
+          <DialogBackdrop />
+          <DialogPopup aria-label="composite dialog">
             <Dialog.Header><Dialog.Title>Composite</Dialog.Title></Dialog.Header>
             <Dialog.Body>
               <p data-ag-testid="dialog-outside-target">Press here — inside the dialog, outside the popover.</p>
               <Popover.Root defaultOpen>
                 <Popover.Trigger><Button>Details</Button></Popover.Trigger>
-                <Popover.Portal>
-                  <Popover.Positioner>
-                    <Popover.Popup aria-label="composite popover">
+                <PopoverPortal>
+                  <PopoverPositioner>
+                    <PopoverPopup aria-label="composite popover">
                       <Popover.Description>Anchored popover mounted inside the dialog.</Popover.Description>
-                    </Popover.Popup>
-                  </Popover.Positioner>
-                </Popover.Portal>
+                    </PopoverPopup>
+                  </PopoverPositioner>
+                </PopoverPortal>
               </Popover.Root>
             </Dialog.Body>
             <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+          </DialogPopup>
+        </DialogPortal>
       </Dialog.Root>
     </Shell>
   ),
@@ -192,38 +192,38 @@ export const WithPopoverMenu: Story = {
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup aria-label="stack dialog">
+        <DialogPortal>
+          <DialogBackdrop />
+          <DialogPopup aria-label="stack dialog">
             <Dialog.Header><Dialog.Title>Stacked overlays</Dialog.Title></Dialog.Header>
             <Dialog.Body>
               <Popover.Root defaultOpen>
                 <Popover.Trigger><Button>Row details</Button></Popover.Trigger>
-                <Popover.Portal>
-                  <Popover.Positioner>
-                    <Popover.Popup aria-label="stack popover">
+                <PopoverPortal>
+                  <PopoverPositioner>
+                    <PopoverPopup aria-label="stack popover">
                       <Popover.Description>Row actions live in the menu.</Popover.Description>
                       <Menu.Root defaultOpen>
                         <Menu.Trigger><Button variant="clear" size="sm">Actions</Button></Menu.Trigger>
-                        <Menu.Portal>
-                          <Menu.Positioner>
-                            <Menu.Popup aria-label="stack menu">
+                        <MenuPortal>
+                          <MenuPositioner>
+                            <MenuPopup aria-label="stack menu">
                               <Menu.Item>Edit</Menu.Item>
                               <Menu.Item>Duplicate</Menu.Item>
                               <Menu.Separator />
                               <Menu.Item>Delete</Menu.Item>
-                            </Menu.Popup>
-                          </Menu.Positioner>
-                        </Menu.Portal>
+                            </MenuPopup>
+                          </MenuPositioner>
+                        </MenuPortal>
                       </Menu.Root>
-                    </Popover.Popup>
-                  </Popover.Positioner>
-                </Popover.Portal>
+                    </PopoverPopup>
+                  </PopoverPositioner>
+                </PopoverPortal>
               </Popover.Root>
             </Dialog.Body>
             <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+          </DialogPopup>
+        </DialogPortal>
       </Dialog.Root>
     </Shell>
   ),
@@ -235,13 +235,13 @@ export const NonModal: Story = {
     <Shell>
       <input placeholder="page input stays interactive" style={{ marginBottom: 12 }} />
       <Dialog.Root defaultOpen modal={false}>
-        <Dialog.Portal>
-          <Dialog.Popup size="md">
+        <DialogPortal>
+          <DialogPopup size="md">
             <Dialog.Header><Dialog.Title>Non-modal</Dialog.Title></Dialog.Header>
             <Dialog.Body>No scrim; page stays interactive.</Dialog.Body>
             <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+          </DialogPopup>
+        </DialogPortal>
       </Dialog.Root>
     </Shell>
   ),
@@ -254,14 +254,14 @@ export const PaletteShell: Story = {
     return (
       <Shell>
         <Dialog.Root defaultOpen>
-          <Dialog.Portal>
-            <Dialog.Backdrop />
-            <Dialog.Popup placement="top" size="lg" initialFocus={inputRef}>
+          <DialogPortal>
+            <DialogBackdrop />
+            <DialogPopup placement="top" size="lg" initialFocus={inputRef}>
               <Dialog.Body padding="none">
                 <input ref={inputRef} placeholder="Type a command…" style={{ width: '100%', padding: 12, font: 'inherit' }} />
               </Dialog.Body>
-            </Dialog.Popup>
-          </Dialog.Portal>
+            </DialogPopup>
+          </DialogPortal>
         </Dialog.Root>
       </Shell>
     );

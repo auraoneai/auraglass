@@ -4,7 +4,7 @@
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { Menu } from '../../../components/menu';
+import { MenuPortal, MenuPositioner, MenuPopup, MenuCheckboxItemIndicator, MenuRadioItemIndicator, Menu } from '../../../components/menu';
 import type { OverlayOpenChangeDetails } from '../../../components/overlays/_shared';
 import { splitPlacement } from './GlassPopover';
 
@@ -35,21 +35,21 @@ export function GlassDropdownMenuTrigger({ asChild, children, ...rest }: Record<
   return <Menu.Trigger {...(rest as object)} {...(asChild ? { render: children as never } : {})}>{asChild ? undefined : children}</Menu.Trigger>;
 }
 
-export const GlassDropdownMenuPortal = Menu.Portal;
+export const GlassDropdownMenuPortal = MenuPortal;
 
 export function GlassDropdownMenuContent({ placement, side, align, sideOffset, children, ...rest }: Record<string, unknown> & { placement?: string; side?: 'top'|'bottom'|'left'|'right'; align?: 'start'|'center'|'end'; sideOffset?: number; children?: React.ReactNode }) {
   warn();
   const pos = splitPlacement(placement);
   return (
-    <Menu.Portal>
-      <Menu.Positioner
+    <MenuPortal>
+      <MenuPositioner
         {...(side !== undefined ? { side } : pos.side !== undefined ? { side: pos.side } : {})}
         {...(align !== undefined ? { align } : pos.align !== undefined ? { align: pos.align } : {})}
         {...(sideOffset !== undefined ? { sideOffset } : {})}
       >
-        <Menu.Popup {...(rest as object)}>{children}</Menu.Popup>
-      </Menu.Positioner>
-    </Menu.Portal>
+        <MenuPopup {...(rest as object)}>{children}</MenuPopup>
+      </MenuPositioner>
+    </MenuPortal>
   );
 }
 
@@ -73,7 +73,7 @@ export function GlassDropdownMenuCheckboxItem({ checked, onCheckedChange, onSele
       {...(onCheckedChange !== undefined ? { onCheckedChange: onCheckedChange as never } : {})}
       {...(onSelect !== undefined ? { onClick: onSelect as never } : {})}
     >
-      <Menu.CheckboxItemIndicator />
+      <MenuCheckboxItemIndicator />
       {children}
     </Menu.CheckboxItem>
   );
@@ -96,7 +96,7 @@ export function GlassDropdownMenuRadioItem({ children, ...rest }: Record<string,
   warn();
   return (
     <Menu.RadioItem value={(rest as { value?: string }).value ?? ''} {...(rest as object)}>
-      <Menu.RadioItemIndicator />
+      <MenuRadioItemIndicator />
       {children}
     </Menu.RadioItem>
   );

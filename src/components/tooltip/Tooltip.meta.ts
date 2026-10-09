@@ -24,7 +24,7 @@ const meta: ControlMeta = defineMeta({
     {
       from: 'GlassTooltip',
       props: {
-        content: 'Tooltip.Popup children',
+        content: 'TooltipPopup children',
         placement: 'Positioner side/align',
         delay: 'Provider delay',
       },

@@ -4,7 +4,7 @@
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { Tooltip } from '../../../components/tooltip';
+import { TooltipPortal, TooltipPositioner, TooltipPopup, Tooltip } from '../../../components/tooltip';
 import type { OverlayOpenChangeDetails } from '../../../components/overlays/_shared';
 import { __compatWrap as wrap } from './_shared';
 import { splitPlacement } from './GlassPopover';
@@ -32,13 +32,13 @@ export function GlassTooltip({ open, onOpenChange, content, label, position, pla
       {...(onOpenChange !== undefined ? { onOpenChange: (o: boolean, _d: OverlayOpenChangeDetails) => onOpenChange(o) } : {})}
     >
       <Tooltip.Trigger>{children}</Tooltip.Trigger>
-      <Tooltip.Portal>
-        <Tooltip.Positioner {...pos}>
-          <Tooltip.Popup {...(className !== undefined ? { className } : {})}>
+      <TooltipPortal>
+        <TooltipPositioner {...pos}>
+          <TooltipPopup {...(className !== undefined ? { className } : {})}>
             {content ?? label}
-          </Tooltip.Popup>
-        </Tooltip.Positioner>
-      </Tooltip.Portal>
+          </TooltipPopup>
+        </TooltipPositioner>
+      </TooltipPortal>
     </Tooltip.Root>
   ));
 }

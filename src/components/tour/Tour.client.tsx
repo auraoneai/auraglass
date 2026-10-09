@@ -5,7 +5,7 @@
 'use client';
 import * as React from 'react';
 import { cn } from '../../internal/index';
-import { Popover } from '../popover';
+import { PopoverPortal, PopoverPositioner, PopoverPopup, Popover } from '../popover';
 
 export interface TourStepDef {
   target: string | React.RefObject<Element | null>;
@@ -70,9 +70,9 @@ export const Tour = {
     return (
       <div {...rest} ref={ref} data-ag-part="root" className={cn('ag-tour', className)}>
         <Popover.Root open={isOpen} onOpenChange={onOpenChange}>
-          <Popover.Portal>
-            <Popover.Positioner anchor={anchor ?? undefined} sideOffset={8} className="ag-tour-positioner">
-              <Popover.Popup>
+          <PopoverPortal>
+            <PopoverPositioner anchor={anchor ?? undefined} sideOffset={8} className="ag-tour-positioner">
+              <PopoverPopup>
                 <TourStep
                   title={current.title}
                   description={current.description}
@@ -83,9 +83,9 @@ export const Tour = {
                   onNext={() => goto(index + 1)}
                   onDone={dismiss}
                 />
-              </Popover.Popup>
-            </Popover.Positioner>
-          </Popover.Portal>
+              </PopoverPopup>
+            </PopoverPositioner>
+          </PopoverPortal>
         </Popover.Root>
       </div>
     );

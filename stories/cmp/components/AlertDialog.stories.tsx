@@ -1,7 +1,7 @@
 /* CMP-222: AlertDialog scenes — Confirm (neutral) and Danger (intent). */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { AlertDialog } from '../../../src/components/alert-dialog';
+import { AlertDialogPortal, AlertDialogBackdrop, AlertDialogPopup, AlertDialog } from '../../../src/components/alert-dialog';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
@@ -19,17 +19,17 @@ export const Confirm: Story = {
   render: () => (
     <AuraGlassProvider>
       <AlertDialog.Root defaultOpen>
-        <AlertDialog.Portal>
-          <AlertDialog.Backdrop />
-          <AlertDialog.Popup>
+        <AlertDialogPortal>
+          <AlertDialogBackdrop />
+          <AlertDialogPopup>
             <AlertDialog.Title>Discard draft?</AlertDialog.Title>
             <AlertDialog.Description>Your unsaved changes will be lost.</AlertDialog.Description>
             <AlertDialog.Footer>
               <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
               <AlertDialog.Action>Discard</AlertDialog.Action>
             </AlertDialog.Footer>
-          </AlertDialog.Popup>
-        </AlertDialog.Portal>
+          </AlertDialogPopup>
+        </AlertDialogPortal>
       </AlertDialog.Root>
     </AuraGlassProvider>
   ),
@@ -40,17 +40,17 @@ export const Danger: Story = {
   render: () => (
     <AuraGlassProvider>
       <AlertDialog.Root defaultOpen intent="danger">
-        <AlertDialog.Portal>
-          <AlertDialog.Backdrop />
-          <AlertDialog.Popup>
+        <AlertDialogPortal>
+          <AlertDialogBackdrop />
+          <AlertDialogPopup>
             <AlertDialog.Title>Delete workspace?</AlertDialog.Title>
             <AlertDialog.Description>This permanently removes the workspace and its data.</AlertDialog.Description>
             <AlertDialog.Footer>
               <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
               <AlertDialog.Action>Delete workspace</AlertDialog.Action>
             </AlertDialog.Footer>
-          </AlertDialog.Popup>
-        </AlertDialog.Portal>
+          </AlertDialogPopup>
+        </AlertDialogPortal>
       </AlertDialog.Root>
     </AuraGlassProvider>
   ),

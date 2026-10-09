@@ -14,13 +14,8 @@ import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { Button } from '../button';
-import {
-  AlertDialogHeader, AlertDialogBody, AlertDialogFooter,
-} from './AlertDialogLayout';
-import type {
-  AlertDialogRootProps, AlertDialogTriggerProps, AlertDialogContentProps,
-  AlertDialogPopupProps, AlertDialogButtonishProps, AlertDialogActionProps,
-} from './AlertDialog.types';
+import { AlertDialogHeader, AlertDialogBody, AlertDialogFooter } from './AlertDialogLayout';
+import type { AlertDialogRootProps, AlertDialogTriggerProps, AlertDialogContentProps, AlertDialogPopupProps, AlertDialogButtonishProps, AlertDialogActionProps } from './AlertDialog.types';
 
 interface AlertCtx {
   depth: number;
@@ -216,9 +211,6 @@ export const AlertDialog = {
   Root: AlertDialogRoot,
   Trigger: AlertDialogTrigger,
   Content: AlertDialogContent,
-  Portal: AlertDialogPortal,
-  Backdrop: AlertDialogBackdrop,
-  Popup: AlertDialogPopup,
   Title: AlertDialogTitle,
   Description: AlertDialogDescription,
   Cancel: AlertDialogCancel,
@@ -227,3 +219,5 @@ export const AlertDialog = {
   Body: AlertDialogBody,
   Footer: AlertDialogFooter,
 };
+
+export { AlertDialogPortal, AlertDialogBackdrop, AlertDialogPopup };

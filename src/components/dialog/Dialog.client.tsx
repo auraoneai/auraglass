@@ -15,11 +15,7 @@ import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { DialogHeader, DialogBody, DialogFooter } from './DialogLayout';
-import type {
-  DialogRootProps, DialogTriggerProps, DialogCloseProps, DialogPortalProps,
-  DialogBackdropProps, DialogPopupProps, DialogTitleProps, DialogDescriptionProps,
-  DialogContentProps,
-} from './Dialog.types';
+import type { DialogRootProps, DialogTriggerProps, DialogCloseProps, DialogPortalProps, DialogBackdropProps, DialogPopupProps, DialogTitleProps, DialogDescriptionProps, DialogContentProps } from './Dialog.types';
 
 interface DialogCtx {
   depth: number;
@@ -230,9 +226,6 @@ export const Dialog = {
   Root: DialogRoot,
   Trigger: DialogTrigger,
   Close: DialogClose,
-  Portal: DialogPortal,
-  Backdrop: DialogBackdrop,
-  Popup: DialogPopup,
   Content: DialogContent,
   Title: DialogTitle,
   Description: DialogDescription,
@@ -240,3 +233,6 @@ export const Dialog = {
   Body: DialogBody,
   Footer: DialogFooter,
 };
+
+/** Internal parts — not contract surface (REQ-CMP-06); import by name, not via Dialog.* */
+export { DialogPortal, DialogBackdrop, DialogPopup };

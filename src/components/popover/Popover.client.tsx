@@ -10,11 +10,7 @@ import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAni
 import { toOverlayReason, type OverlayKind } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
-import type {
-  PopoverRootProps, PopoverTriggerProps, PopoverPortalProps,
-  PopoverPositionerProps, PopoverPopupProps, PopoverArrowProps,
-  PopoverTitleProps, PopoverDescriptionProps, PopoverCloseProps,
-} from './Popover.types';
+import type { PopoverRootProps, PopoverTriggerProps, PopoverPortalProps, PopoverPositionerProps, PopoverPopupProps, PopoverArrowProps, PopoverTitleProps, PopoverDescriptionProps, PopoverCloseProps } from './Popover.types';
 
 interface PopoverCtx { open: boolean }
 const PopoverCtx = React.createContext<PopoverCtx>({ open: false });
@@ -136,9 +132,6 @@ const PopoverClose = React.forwardRef<HTMLButtonElement, PopoverCloseProps>(
 export const Popover = {
   Root: PopoverRoot,
   Trigger: PopoverTrigger,
-  Portal: PopoverPortal,
-  Positioner: PopoverPositioner,
-  Popup: PopoverPopup,
   Arrow: PopoverArrow,
   Title: PopoverTitle,
   Description: PopoverDescription,
@@ -146,3 +139,5 @@ export const Popover = {
   /** Contract part aliases (Content = Positioner>Popup block). */
   Content: PopoverPopup,
 };
+
+export { PopoverPortal, PopoverPositioner, PopoverPopup };
