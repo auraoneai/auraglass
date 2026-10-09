@@ -335,7 +335,7 @@
     "audit:glass:materials": "node scripts/audit/static-glass-material-audit.js",
     "audit:storybook:presentation": "node scripts/audit/story-presentation-audit.js",
     "test:audit:glass:materials": "node scripts/audit/static-glass-material-audit.js --self-test",
-    "prepack": "node scripts/release/gen-deprecations.mjs" (feat(release): untrack deprecations.json, gen at prepack via release script, schema check in CI (REQ-PLAT-24))
+    "prepack": "node scripts/release/gen-deprecations.mjs"
   },
   "keywords": [
     "react",
