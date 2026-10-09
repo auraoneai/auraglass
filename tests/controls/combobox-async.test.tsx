@@ -103,6 +103,62 @@ describe('Combobox async (CMP-181/186)', () => {
     expect(texts.join('|')).not.toContain('STALE');
   });
 
+  it('REQ-CMP-73 (a): autocomplete mode calls onValueChange with the typed string', async () => {
+    const onValueChange = jest.fn();
+    render(<Demo mode="autocomplete" onValueChange={onValueChange} />);
+    const input = screen.getByRole('combobox') as HTMLInputElement;
+    input.focus();
+    fireEvent.change(input, { target: { value: 'foo' } });
+    await act(async () => {});
+    const last = onValueChange.mock.calls.at(-1)?.[0];
+    expect(last).toBe('foo');
+  });
+
+  it('REQ-CMP-73 (b): default loadDebounceMs is 250 ms — nothing fires before it', async () => {
+    jest.useFakeTimers();
+    try {
+      const loadOptions = jest.fn(() => Promise.resolve(['A1']));
+      render(<Demo loadOptions={loadOptions} />);
+      const input = screen.getByRole('combobox') as HTMLInputElement;
+      input.focus();
+      fireEvent.change(input, { target: { value: 'x' } });
+      act(() => jest.advanceTimersByTime(249));
+      expect(loadOptions).not.toHaveBeenCalled();
+      act(() => jest.advanceTimersByTime(2));
+      expect(loadOptions).toHaveBeenCalledTimes(1);
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  it('REQ-CMP-73 (c): loading is true while the loadOptions promise is pending', async () => {
+    let resolve: ((v: string[]) => void) | undefined;
+    const loadOptions = jest.fn(
+      () =>
+        new Promise<string[]>((r) => {
+          resolve = r;
+        }),
+    );
+    render(
+      <AuraGlassProvider>
+        <Demo loadOptions={loadOptions} loadDebounceMs={10} />
+      </AuraGlassProvider>,
+    );
+    const input = screen.getByRole('combobox') as HTMLInputElement;
+    input.focus();
+    fireEvent.change(input, { target: { value: 'x' } });
+    await waitFor(() => expect(loadOptions).toHaveBeenCalledTimes(1), { timeout: 500 });
+    await act(async () => {});
+    /* loading is true while the promise is pending: the inline loading part
+       mounts inside the input shell (jsdom can't mount the portal popup here) */
+    expect(document.querySelector('[data-ag-part="loading"]')).toBeTruthy();
+    await act(async () => {
+      resolve?.(['Done']);
+    });
+    await act(async () => {});
+    expect(document.querySelector('[data-ag-part="loading"]')).toBeNull();
+  });
+
   it('more than 200 items mounts the virtual list with bounded DOM rows', async () => {
     const big = Array.from({ length: 500 }, (_, i) => `Row ${i}`);
     const origH = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetHeight');

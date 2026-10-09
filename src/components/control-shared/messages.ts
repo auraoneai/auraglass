@@ -7,7 +7,7 @@ export const CONTROL_MESSAGES = {
   removeItem: 'Remove {label}',
   noResults: 'No results',
   openCalendar: 'Open calendar',
-  loadFailed: "Couldn't load results",
+  loadError: "Couldn't load results",
   createItem: 'Create "{query}"',
   loadingResults: 'Loading results',
   required: 'Required',

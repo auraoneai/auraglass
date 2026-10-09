@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Combobox as Base } from '@base-ui/react/combobox';
+import { Autocomplete } from '@base-ui/react/autocomplete';
 import { materialProps } from '../../material';
 import { usePortalContainer } from '../../foundation/portal';
 import { useAnnouncer } from '../../theme';
@@ -248,20 +249,39 @@ function ComboboxRoot<Value = string>({
 
   return (
     <InternalCtx.Provider value={internal}>
-      <Base.Root
-        {...(rest as Record<string, unknown>)}
-        {...(effectiveItems !== undefined ? { items: effectiveItems } : {})}
-        {...(loadOptions ? { filter: null } : rest.filter !== undefined ? { filter: rest.filter } : {})}
-        {...(itemToString ? { itemToStringLabel: toStringLabel } : {})}
-        {...(itemToValue ? { itemToStringValue: itemToValue as (v: unknown) => string } : {})}
-        autoHighlight={rest.autoHighlight ?? true}
-        onValueChange={handleValueChange}
-        onInputValueChange={handleInputValueChange}
-        onOpenChange={(o, d) => onOpenChange?.(o, toChangeDetails(d))}
-        {...(loadError ? { 'data-load-error': '' } : {})}
-      >
-        {children}
-      </Base.Root>
+      {mode === 'autocomplete' ? (
+        /* REQ-CMP-73: real autocomplete — free text becomes the value on every
+           keystroke and on blur (BU Autocomplete = AriaCombobox selectionMode
+           none, so the same children/context still bind). */
+        <Autocomplete.Root
+          {...(rest as Record<string, unknown>)}
+          {...(itemToString ? { itemToStringLabel: toStringLabel } : {})}
+          {...(itemToValue ? { itemToStringValue: itemToValue as (v: unknown) => string } : {})}
+          value={query}
+          onValueChange={(v: string, d: { event?: Event; reason?: string }) =>
+            onValueChange?.(v as never, toChangeDetails(d) as never)
+          }
+          onInputValueChange={handleInputValueChange}
+          {...(loadError ? { 'data-load-error': '' } : {})}
+        >
+          {children}
+        </Autocomplete.Root>
+      ) : (
+        <Base.Root
+          {...(rest as Record<string, unknown>)}
+          {...(effectiveItems !== undefined ? { items: effectiveItems } : {})}
+          {...(loadOptions ? { filter: null } : rest.filter !== undefined ? { filter: rest.filter } : {})}
+          {...(itemToString ? { itemToStringLabel: toStringLabel } : {})}
+          {...(itemToValue ? { itemToStringValue: itemToValue as (v: unknown) => string } : {})}
+          autoHighlight={rest.autoHighlight ?? true}
+          onValueChange={handleValueChange}
+          onInputValueChange={handleInputValueChange}
+          onOpenChange={(o, d) => onOpenChange?.(o, toChangeDetails(d))}
+          {...(loadError ? { 'data-load-error': '' } : {})}
+        >
+          {children}
+        </Base.Root>
+      )}
     </InternalCtx.Provider>
   );
 }
@@ -385,7 +405,7 @@ function ComboboxItem<Value = string>({ value, disabled, children, className, re
 
 function ComboboxEmpty({ children, className }: ComboboxEmptyProps) {
   const { messages, loadError } = useInternal();
-  const text = children ?? (loadError ? controlMessage('loadFailed', messages) : controlMessage('noResults', messages));
+  const text = children ?? (loadError ? controlMessage('loadError', messages) : controlMessage('noResults', messages));
   /* Own element: BU Empty snapshots its live-region text and never re-renders
    * the children swap in jsdom. Visibility is gated by the list's `data-empty`
    * attribute (set by Base.List when filteredItems is empty) via CSS. */
