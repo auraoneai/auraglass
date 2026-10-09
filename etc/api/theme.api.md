@@ -1,0 +1,29 @@
+## API Report — aura-glass ./theme
+
+- `CreateBrandGlassThemeOptions`
+- `CreateGlassThemeOptions`
+- `GlassDensity`
+- `GlassMaterialPreset`
+- `GlassMaterialTokens`
+- `GlassMotionPolicy`
+- `GlassRgb`
+- `GlassTheme`
+- `GlassThemeContextValue`
+- `GlassThemeMode`
+- `GlassThemeProvider`
+- `GlassThemeProviderProps`
+- `GlassThemeTokens`
+- `bestTextColor`
+- `contrastRatio`
+- `createBrandGlassTheme`
+- `createGlassTheme`
+- `createGlassThemeCssVars`
+- `glassMaterialPresets`
+- `hexToRgb`
+- `mixHex`
+- `normalizeHexColor`
+- `relativeLuminance`
+- `rgbToHex`
+- `useGlassDensity`
+- `useGlassMotionPolicy`
+- `useGlassTheme`
