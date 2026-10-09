@@ -4,6 +4,188 @@ export const manifest = {
  "generatedFrom": "tokens/**/*.tokens.json",
  "tokens": [
   {
+   "name": "comp.control.height-lg-compact",
+   "cssVar": "--ag-comp-control-height-lg-compact",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
+   "value": "32px"
+  },
+  {
+   "name": "comp.control.height-lg-default",
+   "cssVar": "--ag-comp-control-height-lg-default",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
+   "value": "40px"
+  },
+  {
+   "name": "comp.control.height-lg-spacious",
+   "cssVar": "--ag-comp-control-height-lg-spacious",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "48px"
+  },
+  {
+   "name": "comp.control.height-md-compact",
+   "cssVar": "--ag-comp-control-height-md-compact",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
+   "value": "28px"
+  },
+  {
+   "name": "comp.control.height-md-default",
+   "cssVar": "--ag-comp-control-height-md-default",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
+   "value": "36px"
+  },
+  {
+   "name": "comp.control.height-md-spacious",
+   "cssVar": "--ag-comp-control-height-md-spacious",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "44px"
+  },
+  {
+   "name": "comp.control.height-sm-compact",
+   "cssVar": "--ag-comp-control-height-sm-compact",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
+   "value": "24px"
+  },
+  {
+   "name": "comp.control.height-sm-default",
+   "cssVar": "--ag-comp-control-height-sm-default",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
+   "value": "32px"
+  },
+  {
+   "name": "comp.control.height-sm-spacious",
+   "cssVar": "--ag-comp-control-height-sm-spacious",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "44px"
+  },
+  {
+   "name": "comp.switch-track.off",
+   "cssVar": "--ag-switch-track-off",
+   "type": "color",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {
+    "light": "light-dark(oklch(0.54 0.022 250), oklch(0.81 0.019 250))",
+    "dark": "oklch(0.81 0.019 250)"
+   },
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "oklch(0.54 0.022 250)"
+  },
+  {
+   "name": "comp.switch-track.on",
+   "cssVar": "--ag-switch-track-on",
+   "type": "color",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {
+    "light": "light-dark(oklch(0.64 0.16 235), oklch(0.71 0.15 235))",
+    "dark": "oklch(0.71 0.15 235)"
+   },
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "oklch(0.64 0.16 235)"
+  },
+  {
    "name": "material.shadow.regular",
    "cssVar": "--ag-shadow-regular",
    "type": "shadow",
@@ -158,155 +340,6 @@ export const manifest = {
     }
    ],
    "value": "oklch(0 0 0 / 0.18)"
-  },
-  {
-   "name": "sys.app-shell.bp-compact",
-   "cssVar": "--ag-app-shell-bp-compact",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "600px"
-  },
-  {
-   "name": "sys.app-shell.bp-expanded",
-   "cssVar": "--ag-app-shell-bp-expanded",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "1024px"
-  },
-  {
-   "name": "sys.app-shell.bp-wide",
-   "cssVar": "--ag-app-shell-bp-wide",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "1440px"
-  },
-  {
-   "name": "sys.app-shell.gap",
-   "cssVar": "--ag-app-shell-gap",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {
-    "compact": "8px",
-    "spacious": "24px"
-   },
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "16px"
-  },
-  {
-   "name": "sys.app-shell.inspector-width",
-   "cssVar": "--ag-app-shell-inspector-width",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "20rem"
-  },
-  {
-   "name": "sys.app-shell.rail-width",
-   "cssVar": "--ag-app-shell-rail-width",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "4rem"
-  },
-  {
-   "name": "sys.app-shell.sidebar-width",
-   "cssVar": "--ag-app-shell-sidebar-width",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "16rem"
-  },
-  {
-   "name": "sys.app-shell.tabbar-height",
-   "cssVar": "--ag-app-shell-tabbar-height",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "3.5rem"
-  },
-  {
-   "name": "sys.app-shell.topbar-height",
-   "cssVar": "--ag-app-shell-topbar-height",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {
-    "compact": "2.75rem"
-   },
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "3.25rem"
   },
   {
    "name": "sys.color.accent",

@@ -1,0 +1,398 @@
+[
+ {
+  "file": "src/a11y/css/focus.css",
+  "owner": "MAT",
+  "reqFin": "REQ-FIN-58",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/a11y/css/rungs.css",
+  "owner": "MAT",
+  "reqFin": "REQ-FIN-58",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/a11y/css/targets.css",
+  "owner": "MAT",
+  "reqFin": "REQ-FIN-58",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/ai/ai.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/app-shell/app-shell.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/backdrops/presets/aurora.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/backdrops/presets/mesh.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/charts/charts.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/accordion/Accordion.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/alert-dialog/AlertDialog.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/alert/Alert.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/avatar/Avatar.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/avatar/AvatarGroup.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/badge/Badge.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/breadcrumbs/Breadcrumbs.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/button/Button.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/card/Card.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/checkbox/Checkbox.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/color-picker/ColorPicker.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/combobox/Combobox.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/command-palette/Command.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/control-shared/controls.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/dialog/Dialog.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/file-upload/FileUpload.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/grid/Grid.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/heading/Heading.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/kbd/Kbd.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/link/Link.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/menu/Menu.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/meter/Meter.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/number-field/NumberField.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/overlays/_shared/overlays.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/pagination/Pagination.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/popover/Popover.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/progress/Progress.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/rating/Rating.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/scroll-area/ScrollArea.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/search-field/SearchField.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/segmented-control/SegmentedControl.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/select/Select.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/separator/Separator.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/sheet/Sheet.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/skeleton/Skeleton.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/slider/Slider.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/source-transition/SourceTransition.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/stack/Stack.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/steps/Steps.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/switch/Switch.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/tab-bar/TabBar.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/tabs/Tabs.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/text-field/TextField.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/text/Text.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/timeline/timeline.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/toast/Toast.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/tooltip/Tooltip.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/tour/Tour.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/data/chart-frame/chart-frame.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/data/chip/Chip.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/data/filter-bar/filter-bar.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/data/key-value-editor/KeyValueEditor.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/data/sparkline/sparkline.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/data/stat-card/stat-card.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/data/table/table.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/data/tree-view/tree-view.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/date/date.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/material/css/material.css",
+  "owner": "MAT",
+  "reqFin": "REQ-FIN-58",
+  "expires": "RC-1"
+ }
+]

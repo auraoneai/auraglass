@@ -44,6 +44,123 @@
         "$extensions": {
           "ag.public": false
         }
+      },
+      "height-sm-compact": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-sm-compact"
+        }
+      },
+      "height-sm-default": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-sm-default"
+        }
+      },
+      "height-sm-spacious": {
+        "$type": "dimension",
+        "$value": {
+          "value": 44,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-sm-spacious"
+        }
+      },
+      "height-md-compact": {
+        "$type": "dimension",
+        "$value": {
+          "value": 28,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-md-compact"
+        }
+      },
+      "height-md-default": {
+        "$type": "dimension",
+        "$value": {
+          "value": 36,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-md-default"
+        }
+      },
+      "height-md-spacious": {
+        "$type": "dimension",
+        "$value": {
+          "value": 44,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-md-spacious"
+        }
+      },
+      "height-lg-compact": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-lg-compact"
+        }
+      },
+      "height-lg-default": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-lg-default"
+        }
+      },
+      "height-lg-spacious": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-lg-spacious"
+        }
       }
     },
     "panel": {
@@ -82,6 +199,29 @@
         "$description": ">= 24px is 'large text' for the 3:1 contrast tier.",
         "$extensions": {
           "ag.public": false
+        }
+      }
+    },
+    "switch-track": {
+      "$description": "REQ-FIN-11: switch track fills (public; CMP replaces literal track colours)",
+      "on": {
+        "$type": "color",
+        "$value": "{sys.color.accent}",
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-on"
+        }
+      },
+      "off": {
+        "$type": "color",
+        "$value": "{sys.color.border}",
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-off"
         }
       }
     }
