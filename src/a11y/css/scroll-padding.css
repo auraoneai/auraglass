@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* REQ-MAT-63 focus-not-obscured (MAT-304) — sticky chrome owners (or the
    useStickyScrollPadding hook) write --ag-scroll-padding-<edge>; focused
    elements scroll fully into view. Also holds the LayerStack's

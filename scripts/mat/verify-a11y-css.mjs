@@ -1,10 +1,12 @@
 #!/usr/bin/env node
-/* MAT-255 (A11Y-011): PostCSS gate over the a11y rungs. Rules:
+/* MAT-255 (A11Y-011) + REQ-FIN-05: PostCSS gate over the a11y rungs. Rules:
      layer-order                      — rung files put all rules inside @layer ag.a11y
      no-important                     — zero !important
      max-specificity                  — (0,2,0) max; pseudo-elements allowed in the element slot
      no-prefers-contrast-high         — 'prefers-contrast: high' never matches (legacy trap)
      no-handwritten-floor             — --_ag-tint-floor takes a numeric literal only in generated floors.css
+    no-numeric-floor-fallback        — var(--_ag-tint-floor*, <number>) fallbacks are hand-written floors (REQ-FIN-05)
+    no-undefined-ag-var              — every var(--_ag-*) resolves to a declaration in the scanned set (REQ-FIN-05)
      no-outline-none-focus            — outline:none/0 on :focus-visible or aria-disabled
      no-global-element-selectors      — no bare element selectors (pseudo-elements and :root allowed)
      no-host-opacity-on-disabled      — no opacity on the disabled surface host
@@ -23,6 +25,7 @@ const ROOT = process.cwd();
 const ENFORCED_DIRS = ['src/a11y', 'src/theme', 'src/material'];
 const A11Y_CSS = /(?:^|\/)src\/a11y\/css\/[^/]+\.css$/;
 const BASELINE_PATH = 'scripts/mat/a11y-baselines/focus-outline-none.json';
+const CSS_BASELINE = 'scripts/integration/baselines/a11y-css.json';
 const ENFORCE_ZERO = process.argv.includes('--enforce-zero');
 const arg = (n) => { const i = process.argv.indexOf(`--${n}`); return i >= 0 ? process.argv[i + 1] : null; };
 const SRC = arg('src');                    // scan a single dir (fixture tests)
@@ -31,6 +34,8 @@ const WATCH_DIRS = SRC ? [SRC] : [...ENFORCED_DIRS];
 
 const violations = [];
 const add = (file, line, rule, msg) => violations.push({ file, line, rule, msg });
+const declVars = new Set();   // --_ag-* declarations anywhere in scanned css
+const refdVars = new Set();   // --_ag-* referenced via var()
 
 const walk = (dir, out = []) => {
   if (!fs.existsSync(dir)) return out;
@@ -86,6 +91,8 @@ const scanCss = (rel, css, enforced) => {
     const topRules = root.nodes.filter((n) => n.type === 'rule' || (n.type === 'atrule' && n.name !== 'import'));
     const inLayer = topRules.every((n) => {
       if (n.type === 'atrule' && n.name === 'layer' && n.params === 'ag.a11y') return true;
+      // line-1 LAYER_ORDER_STATEMENT (params list several layers) is allowed
+      if (n.type === 'atrule' && n.name === 'layer' && n.params.includes(',')) return true;
       if (n.type === 'atrule' && ['media', 'supports'].includes(n.name)) {
         return (n.nodes ?? []).every((c) => c.type === 'atrule' && c.name === 'layer' && c.params === 'ag.a11y'
           || (c.nodes ?? []).every((cc) => cc.type === 'rule' || cc.type === 'atrule'));
@@ -105,6 +112,17 @@ const scanCss = (rel, css, enforced) => {
         add(rel, decl.source?.start?.line ?? 1, RULE('no-handwritten-floor'), `literal --_ag-tint-floor: ${decl.value}`);
       }
     }
+    // REQ-FIN-05: --_ag-tint-floor may never take a numeric var() fallback, on
+    // any prop — tint floors come from generated floors.css only
+    if (!/generated[\\/]floors\.css$/.test(rel)
+        && /var\(\s*--_ag-tint-floor[a-zA-Z0-9-]*[^)]*,\s*\d/.test(decl.value)) {
+      add(rel, decl.source?.start?.line ?? 1, RULE('no-numeric-floor-fallback'), `numeric var() fallback for --_ag-tint-floor* in ${decl.prop}: ${decl.value}`);
+    }
+    // collect private refs for the undefined --_ag-* check
+    for (const m of decl.value.matchAll(/var\(\s*(--_ag-[a-zA-Z0-9-]+)/g)) {
+      refdVars.add(m[1]);
+    }
+    if (decl.prop.startsWith('--_ag-')) declVars.add(decl.prop);
   });
 
   root.walkAtRules((at) => {
@@ -220,10 +238,41 @@ const main = () => {
     console.log(`verify-a11y-css: focus:outline-none count ${count} <= baseline ${baseline.count ?? 0}`);
   }
 
-  const hard = violations.filter((v) => ENFORCED_DIRS.some((d) => v.file.startsWith(d)) || v.file === BASELINE_PATH);
-  for (const v of violations) console.log(`${v.file}:${v.line} ${v.rule} ${v.msg}`);
-  console.log(`verify-a11y-css: ${violations.length} violation(s), ${files.length} css files scanned`);
-  if (hard.length > 0) process.exit(1);
+  // REQ-FIN-05: every var(--_ag-*) ref must resolve to a declaration somewhere
+  // in the scanned set (generated outputs included) — an undefined private var
+  // silently reads as its fallback or nothing at all.
+  for (const f of files) {
+    if (!/\.(css|scss)$/.test(f)) continue;
+    const rel = path.relative(ROOT, f).replace(/\\/g, '/');
+    if (!ENFORCED_DIRS.some((d) => rel.startsWith(d))) continue;
+    const css = fs.readFileSync(f, 'utf8');
+    for (const m of css.matchAll(/var\(\s*(--_ag-[a-zA-Z0-9-]+)/g)) {
+      if (!declVars.has(m[1])) {
+        const line = css.slice(0, m.index).split('\n').length;
+        add(rel, line, RULE('no-undefined-ag-var'), `var(${m[1]}) has no declaration in the scanned set`);
+      }
+    }
+  }
+
+  // REQ-FIN-05/§4.3: violations on files carried in the integration baseline
+  // ({file, owner, reqFin, expires}) pass with a BASELINED marker; a stale row
+  // fails — owners delete their rows in the same PR that fixes the file.
+  const cssBaseline = fs.existsSync(CSS_BASELINE)
+    ? JSON.parse(fs.readFileSync(CSS_BASELINE, 'utf8')) : [];
+  const baselinedFiles = new Set(cssBaseline.map((b) => b.file));
+  const hard = violations.filter((v) =>
+    (ENFORCED_DIRS.some((d) => v.file.startsWith(d)) || v.file === BASELINE_PATH)
+    && !baselinedFiles.has(v.file));
+  for (const v of violations) {
+    const stale = '';
+    console.log(`${baselinedFiles.has(v.file) ? 'BASELINED ' : ''}${v.file}:${v.line} ${v.rule} ${v.msg}${stale}`);
+  }
+  const staleRows = cssBaseline.filter((b) => !violations.some((v) => v.file === b.file));
+  for (const s of staleRows) {
+    console.log(`FAIL stale baseline row: ${s.file} no longer offends — delete the row (owner ${s.owner})`);
+  }
+  console.log(`verify-a11y-css: ${violations.length} violation(s), ${files.length} css files scanned, ${cssBaseline.length} baseline rows`);
+  if (hard.length > 0 || staleRows.length > 0) process.exit(1);
 };
 
 main();

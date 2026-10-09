@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* REQ-MAT-62 target size (MAT-301) — [data-ag-part="hit-area"] is a real
    <span> (deviation 4, see HitArea.tsx): absolutely centred, never shrinks the
    pointer target below --ag-target-min (24px fine) / --ag-target-coarse (44px
@@ -11,7 +13,8 @@
     translate: -50% -50%;
     inline-size: max(100%, var(--ag-target-min, 24px));
     block-size: max(100%, var(--ag-target-min, 24px));
-    pointer-events: none;
+    /* no pointer-events: none — the span is a child of the interactive host,
+       clicks land on it and bubble to the host (MAT-62). */
     border-radius: inherit;
   }
   @media (pointer: coarse) {
@@ -35,6 +38,18 @@
   }
   [data-ag-hit-clamp="both"] [data-ag-part="hit-area"] {
     inline-size: min(max(100%, var(--ag-target-min, 24px)), calc(100% + var(--ag-hit-gap, 0px)));
+  }
+  @media (pointer: coarse) {
+    /* coarse clamps mirror the fine clamps against --ag-target-coarse */
+    [data-ag-hit-clamp="start"] [data-ag-part="hit-area"] {
+      inline-size: min(max(100%, var(--ag-target-coarse, 44px)), calc(100% + var(--ag-hit-gap, 0px) / 2));
+    }
+    [data-ag-hit-clamp="end"] [data-ag-part="hit-area"] {
+      inline-size: min(max(100%, var(--ag-target-coarse, 44px)), calc(100% + var(--ag-hit-gap, 0px) / 2));
+    }
+    [data-ag-hit-clamp="both"] [data-ag-part="hit-area"] {
+      inline-size: min(max(100%, var(--ag-target-coarse, 44px)), calc(100% + var(--ag-hit-gap, 0px)));
+    }
   }
   [data-ag-debug-targets] [data-ag-part="hit-area"] {
     outline: 1px dashed var(--ag-color-focus-outer, Highlight);

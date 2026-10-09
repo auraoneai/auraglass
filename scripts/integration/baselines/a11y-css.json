@@ -1,0 +1,32 @@
+[
+  {
+    "file": "src/a11y/css/rungs.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-52/-58",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/material/css/generated/floors.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-52/-58",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/material/css/generated/ladders.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-52/-58",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/material/css/lens.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-52/-58",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/material/css/material.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-52/-58",
+    "expires": "RC-1"
+  }
+]
