@@ -149,8 +149,6 @@
     "@internationalized/date": "^3.12.4",
     "@react-three/drei": "^10.0.0",
     "@react-three/fiber": "^9.0.0",
-    "d3-scale": "^4.0.2",
-    "d3-shape": "^3.2.0",
     "motion": "^12.0.0",
     "react": "^19.0.0",
     "react-aria-components": "^1.21.1",
@@ -182,12 +180,6 @@
       "optional": true
     },
     "tailwindcss": {
-      "optional": true
-    },
-    "d3-scale": {
-      "optional": true
-    },
-    "d3-shape": {
       "optional": true
     }
   },
