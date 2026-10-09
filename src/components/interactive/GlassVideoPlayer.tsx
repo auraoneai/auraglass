@@ -104,6 +104,7 @@ export interface GlassVideoPlayerProps {
  * GlassVideoPlayer component
  * A comprehensive video player with glassmorphism design and advanced controls
  */
+/** @deprecated GlassVideoPlayer DEP-S0618 since 4.2.0, removed in 5.0.0. {@link the media-video-player registry item} */
 export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
   sources,
   poster,

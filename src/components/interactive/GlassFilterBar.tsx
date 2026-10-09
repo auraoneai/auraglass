@@ -22,6 +22,7 @@ export interface GlassFilterBarProps
   label?: string;
 }
 
+/** @deprecated GlassFilterBar DEP-S0208 since 4.2.0, removed in 5.0.0. {@link FilterBar from aura-glass/data} */
 export const GlassFilterBar = forwardRef<HTMLDivElement, GlassFilterBarProps>(
   (
     {

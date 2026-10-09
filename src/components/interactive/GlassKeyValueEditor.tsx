@@ -14,6 +14,7 @@ export interface GlassKeyValueEditorProps {
   "data-testid"?: string;
 }
 
+/** @deprecated GlassKeyValueEditor DEP-S0219 since 4.2.0, removed in 5.0.0. {@link KeyValueEditor from aura-glass/data} */
 export function GlassKeyValueEditor({
   value,
   onChange,

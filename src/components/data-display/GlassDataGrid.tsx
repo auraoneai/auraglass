@@ -88,6 +88,7 @@ const DATA_GRID_SECONDARY_TEXT =
 const dataGridTextStyle: CSSProperties = { color: DATA_GRID_TEXT };
 
 // Define the component using forwardRef
+/** @deprecated GlassDataGrid DEP-S0201 since 4.2.0, removed in 5.0.0. {@link Table from aura-glass/data} */
 export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
   (props, ref) => {
     // ContrastGuard text coverage is tracked in the manual accessibility QA report.
@@ -232,10 +233,12 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
           animation="none"
           performanceMode="medium"
           className={cn("glass-w-full glass-p-6 glass-text-center", className)}
-          style={{
-            color: DATA_GRID_TEXT,
-            ...(style ?? {}),
-          } as CSSProperties}
+          style={
+            {
+              color: DATA_GRID_TEXT,
+              ...(style ?? {}),
+            } as CSSProperties
+          }
           role="region"
           aria-label={ariaLabel || "Data Grid"}
           data-testid={dataTestId}
@@ -267,18 +270,20 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
           height && "glass-overflow-y-auto",
           className
         )}
-        style={{
-          color: DATA_GRID_TEXT,
-          ...style,
-          ...(height && { height: resolvedHeight }),
-          maxWidth:
-            resolvedMaxWidth ?? (compact || contained ? "320px" : undefined),
-          maxHeight:
-            resolvedMaxHeight ?? (compact || contained ? "240px" : undefined),
-          overflowY:
-            compact || contained || resolvedMaxHeight ? "auto" : undefined,
-          perspective: "1000px",
-        } as CSSProperties}
+        style={
+          {
+            color: DATA_GRID_TEXT,
+            ...style,
+            ...(height && { height: resolvedHeight }),
+            maxWidth:
+              resolvedMaxWidth ?? (compact || contained ? "320px" : undefined),
+            maxHeight:
+              resolvedMaxHeight ?? (compact || contained ? "240px" : undefined),
+            overflowY:
+              compact || contained || resolvedMaxHeight ? "auto" : undefined,
+            perspective: "1000px",
+          } as CSSProperties
+        }
         data-testid={dataTestId}
         {...restProps}
       >

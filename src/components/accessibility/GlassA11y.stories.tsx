@@ -282,11 +282,15 @@ const defaultAccessibilityStoryConfig: GlassA11yConfig = {
   showSkipLinks: false,
 };
 
+
+/** @deprecated GlassKeyboardNav DEP-M0926 since 4.2.0, removed in 5.0.0. {@link the 5.x keyboard contract (built into components)} */
 export const GlassKeyboardNav: Story = {
   name: "GlassKeyboardNav",
   render: () => <DirectKeyboardNav />,
 };
 
+
+/** @deprecated GlassMotionControls DEP-M0924 since 4.2.0, removed in 5.0.0. {@link GlassPreferencesPanel (motion preference)} */
 export const GlassMotionControls: Story = {
   name: "GlassMotionControls",
   render: () => <DirectMotionControls />,

@@ -54,6 +54,7 @@ interface GlassLiveCursorPresenceProps {
   onCursorMove?: (userId: string, position: CursorPosition) => void;
 }
 
+/** @deprecated GlassLiveCursorPresence DEP-S0812 since 4.2.0, removed in 5.0.0. {@link the presence-stack registry item (5.1) fed by consumer presence data} */
 export function GlassLiveCursorPresence({
   children,
   className,

@@ -18,6 +18,7 @@ const MotionPreferenceContext = createContext<MotionPreferenceContextType>({
  * IMPORTANT: Use this instead of useReducedMotion() when you want centralized
  * motion preferences controlled by MotionPreferenceProvider at the app root.
  */
+/** @deprecated useMotionPreferenceContext DEP-M0895 since 4.2.0, removed in 5.0.0. {@link usePreference / useResolvedPreferences} */
 export const useMotionPreferenceContext = () => {
   const context = useContext(MotionPreferenceContext);
   if (!context) {
@@ -73,6 +74,7 @@ export interface MotionPreferenceProviderProps {
  * </MotionPreferenceProvider>
  * ```
  */
+/** @deprecated MotionPreferenceProvider DEP-M0894 since 4.2.0, removed in 5.0.0. {@link AuraGlassProvider + usePreference} */
 export const MotionPreferenceProvider: React.FC<
   MotionPreferenceProviderProps
 > = ({
@@ -118,4 +120,5 @@ export const MotionPreferenceProvider: React.FC<
       {children}
     </MotionPreferenceContext.Provider>
   );
-};
+}; /** @deprecated motionPolicy DEP-M0902 since 4.2.0, removed in 5.0.0. {@link the OS motion floor (not overridable in 5.x)} */
+/** @deprecated initialMotionPolicy DEP-M0903 since 4.2.0, removed in 5.0.0. {@link the OS motion floor (not overridable in 5.x)} */

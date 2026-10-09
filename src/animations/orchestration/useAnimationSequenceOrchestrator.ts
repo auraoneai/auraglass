@@ -483,6 +483,7 @@ function cubicBezier(
 }
 
 // Predefined orchestration sequences
+/** @deprecated orchestrationPresets DEP-M0873 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion sequencing} */
 export const orchestrationPresets = {
   staggeredFadeIn: [
     { id: "step1", duration: 300, delay: 0, transform: { opacity: 1 } },
@@ -565,6 +566,7 @@ export const orchestrationPresets = {
 };
 
 // Utility functions for creating complex orchestrations
+/** @deprecated createOrchestration DEP-M0874 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion sequencing} */
 export const createOrchestration = {
   fromSteps: (
     steps: OrchestratedAnimationStep[],

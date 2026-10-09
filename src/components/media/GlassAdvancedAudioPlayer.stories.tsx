@@ -58,6 +58,8 @@ const stageStyle: CSSProperties = {
   width: "100%",
 };
 
+
+/** @deprecated GlassAdvancedAudioPlayer DEP-S0620 since 4.2.0, removed in 5.0.0. {@link the media-audio-player registry item} */
 export const GlassAdvancedAudioPlayer: Story = {
   name: "GlassAdvancedAudioPlayer",
   args: {

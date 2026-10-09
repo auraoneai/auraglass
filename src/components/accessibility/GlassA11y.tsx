@@ -129,6 +129,7 @@ const defaultAccessibilityConfig: GlassA11yConfig = {
   showSkipLinks: false,
 };
 
+/** @deprecated GlassA11y DEP-M0922 since 4.2.0, removed in 5.0.0. {@link GlassPreferencesPanel} */
 export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
   function GlassA11y(
     {
@@ -880,6 +881,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
 GlassA11y.displayName = "GlassA11y";
 
 // Sub-components for accessibility sections
+/** @deprecated GlassHighContrast DEP-M0923 since 4.2.0, removed in 5.0.0. {@link GlassPreferencesPanel (contrast preference)} */
 export const GlassHighContrast = React.forwardRef<
   HTMLDivElement,
   GlassHighContrastProps
@@ -1001,6 +1003,7 @@ export const GlassMotionControls = React.forwardRef<
 
 GlassMotionControls.displayName = "GlassMotionControls";
 
+/** @deprecated GlassScreenReader DEP-M0925 since 4.2.0, removed in 5.0.0. {@link GlassPreferencesPanel / useAnnouncer} */
 export const GlassScreenReader = React.forwardRef<
   HTMLDivElement,
   GlassScreenReaderProps

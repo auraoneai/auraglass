@@ -310,6 +310,7 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
 /**
  * Hook for specific accessibility feature detection
  */
+/** @deprecated useAccessibilityFeature DEP-M0934 since 4.2.0, removed in 5.0.0. {@link usePreference / useResolvedPreferences} */
 export function useAccessibilityFeature(
   feature: keyof AccessibilitySettings
 ): boolean {
@@ -320,6 +321,7 @@ export function useAccessibilityFeature(
 /**
  * Hook for accessibility-aware animations
  */
+/** @deprecated useAccessibleAnimation DEP-M0935 since 4.2.0, removed in 5.0.0. {@link usePreference(\} */
 export function useAccessibleAnimation(defaultEnabled: boolean = true): {
   shouldAnimate: boolean;
   animationDuration: number;
@@ -341,6 +343,7 @@ export function useAccessibleAnimation(defaultEnabled: boolean = true): {
 /**
  * Hook for accessibility-aware colors
  */
+/** @deprecated useAccessibleColors DEP-M0936 since 4.2.0, removed in 5.0.0. {@link usePreference / useResolvedPreferences} */
 export function useAccessibleColors(): {
   shouldUseHighContrast: boolean;
   colorScheme: "light" | "dark" | "auto";

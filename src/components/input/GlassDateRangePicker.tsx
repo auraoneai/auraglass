@@ -85,6 +85,7 @@ export interface GlassDateRangePickerProps {
  * GlassDateRangePicker component
  * A glassmorphism date range picker with calendar interface
  */
+/** @deprecated GlassDateRangePicker DEP-S0223 since 4.2.0, removed in 5.0.0. {@link DateRangePicker from aura-glass/date} */
 export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
   value,
   defaultValue,

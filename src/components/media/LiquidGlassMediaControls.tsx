@@ -60,6 +60,7 @@ const formatMediaTime = (seconds: number): string => {
   return `${minutes}:${secs.toString().padStart(2, "0")}`;
 };
 
+/** @deprecated LiquidGlassMediaControls DEP-S0600 since 4.2.0, removed in 6.0.0. {@link MediaControls.Root from aura-glass/media} */
 export const LiquidGlassMediaControls = forwardRef<
   HTMLDivElement,
   LiquidGlassMediaControlsProps

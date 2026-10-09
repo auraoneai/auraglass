@@ -99,6 +99,7 @@ export interface GlassProps extends HTMLAttributes<HTMLDivElement> {
  * Advanced Glass Primitive Component
  * Token-first glassmorphism with full a11y support
  */
+/** @deprecated GlassAdvanced DEP-M0807 since 4.2.0, removed in 5.0.0. {@link Surface} */
 export const GlassAdvanced = forwardRef<HTMLDivElement, GlassProps>(
   (
     {

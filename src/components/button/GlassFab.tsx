@@ -792,4 +792,4 @@ export const GlassFab = forwardRef<HTMLElement, FabProps>((props, ref) => {
 
 GlassFab.displayName = "GlassFab";
 
-export default Fab;
+export default Fab; /** @deprecated disableAnimation DEP-M0906 since 4.2.0, removed in 5.0.0. {@link the OS motion floor / calm mode} */

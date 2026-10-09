@@ -140,6 +140,7 @@ export interface GlassChatProps extends ConsciousnessFeatures {
  * GlassChat component
  * A comprehensive chat interface with messages, participants, and real-time features
  */
+/** @deprecated GlassChat DEP-S0400 since 4.2.0, removed in 6.0.0. {@link Thread + Message + Composer from aura-glass/ai} */
 export const GlassChat: React.FC<GlassChatProps> = ({
   messages = [],
   participants = [],
@@ -1220,6 +1221,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
 };
 
 // Consciousness-Enhanced Chat Variants
+/** @deprecated GlassPredictiveChat DEP-S0405 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */
 export const GlassPredictiveChat: React.FC<GlassChatProps> = (props) => (
   <GlassChat {...props} consciousness={true} predictive={true} />
 );

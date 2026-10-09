@@ -142,6 +142,7 @@ export interface GlassActivityFeedProps {
  * GlassActivityFeed component
  * A glassmorphism activity timeline with filtering and grouping
  */
+/** @deprecated GlassActivityFeed DEP-S0217 since 4.2.0, removed in 5.0.0. {@link ActivityFeed from aura-glass} */
 export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
   activities = [],
   title = "Activity Feed",

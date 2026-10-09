@@ -13,6 +13,7 @@ import { useA11yId } from "../../utils/a11y";
 import { getTextColorForBackground } from "../../utils/contrast";
 import { ContrastGuard } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 export interface HeatmapDataPoint {
   x: number;
@@ -105,35 +106,22 @@ export interface GlassHeatmapProps
   respectMotionPreference?: boolean;
 }
 
-const heatmapSurfaceStyle: React.CSSProperties = {
-  background:
-    "linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.018))",
-  border: "1px solid rgba(255, 255, 255, 0.16)",
-  boxShadow:
-    "0 14px 34px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
-  color:
-    "var(--glass-theme-text, var(--glass-text-primary, rgba(248, 250, 252, 0.96)))",
-};
+const heatmapSurfaceStyle: React.CSSProperties = createGlassStyle({
+  intent: "neutral",
+  elevation: "level2",
+});
 
-const heatmapInsetStyle: React.CSSProperties = {
-  background: "rgba(255, 255, 255, 0.035)",
-  border: "1px solid rgba(255, 255, 255, 0.12)",
-  boxShadow:
-    "inset 0 1px 0 rgba(255, 255, 255, 0.10)",
-};
+const heatmapInsetStyle: React.CSSProperties = createGlassStyle({
+  intent: "neutral",
+  elevation: "level2",
+});
 
-const heatmapLegendStyle: React.CSSProperties = {
-  background:
-    "linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.018))",
-  border: "1px solid rgba(255, 255, 255, 0.14)",
-  boxShadow:
-    "0 10px 24px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.14)",
-  color:
-    "var(--glass-theme-text, var(--glass-text-primary, rgba(248, 250, 252, 0.96)))",
-  maxWidth: "100%",
-  minWidth: 0,
-};
+const heatmapLegendStyle: React.CSSProperties = createGlassStyle({
+  intent: "neutral",
+  elevation: "level2",
+});
 
+/** @deprecated GlassHeatmap DEP-S0238 since 4.2.0, removed in 5.0.0. */
 export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
   (
     {

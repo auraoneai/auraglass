@@ -64,6 +64,8 @@ const rainbowColors = [
   "#FF9F43",
 ];
 
+/** @deprecated GlassVoiceWaveform DEP-S0418 since 4.2.0, removed in 5.0.0. {@link none until 5.1 (Waveform)} */
+/** @deprecated GlassVoiceWaveform DEP-S0622 since 4.2.0, removed in 5.0.0. {@link no successor until 5.1 (Waveform)} */
 export const GlassVoiceWaveform = forwardRef<
   HTMLDivElement,
   GlassVoiceWaveformProps

@@ -158,6 +158,8 @@ export const Default: Story = {
   },
 };
 
+
+/** @deprecated GlassTeamCursors DEP-S0807 since 4.2.0, removed in 5.0.0. {@link the presence-stack registry item (5.1)} */
 export const GlassTeamCursors: Story = {
   render: () => (
     <div
@@ -173,6 +175,8 @@ export const GlassTeamCursors: Story = {
   ),
 };
 
+
+/** @deprecated GlassTeamCursorsWithEffects DEP-S0808 since 4.2.0, removed in 5.0.0. {@link the presence-stack registry item (5.1)} */
 export const GlassTeamCursorsWithEffects: Story = {
   render: () => (
     <div

@@ -34,6 +34,7 @@ export interface GlassSparklineProps extends SVGAttributes<SVGSVGElement> {
   className?: string;
 }
 
+/** @deprecated GlassSparkline DEP-S0215 since 4.2.0, removed in 5.0.0. {@link Sparkline from aura-glass/data} */
 export function GlassSparkline({
   data,
   width = 120,

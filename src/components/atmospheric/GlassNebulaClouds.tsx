@@ -107,6 +107,7 @@ export interface GlassNebulaCloudsProps
   respectMotionPreference?: boolean;
 }
 
+/** @deprecated GlassNebulaClouds DEP-S0630 since 4.2.0, removed in 5.0.0. {@link Backdrop presets aurora/mesh} */
 export const GlassNebulaClouds = forwardRef<
   HTMLDivElement,
   GlassNebulaCloudsProps
@@ -853,7 +854,7 @@ export const GlassNebulaClouds = forwardRef<
               value={density}
               onChange={(e) => {}}
               aria-label="Nebula density"
-              className='glass-w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-w-20 glass-focus glass-touch-target glass-contrast-guard"
               style={{ accentColor: "#526071" }}
             />
           </div>
@@ -871,7 +872,7 @@ export const GlassNebulaClouds = forwardRef<
               value={temperature}
               onChange={(e) => {}}
               aria-label="Nebula temperature in Kelvin"
-              className='glass-w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-w-20 glass-focus glass-touch-target glass-contrast-guard"
               style={{ accentColor: "#526071" }}
             />
             <span className="glass-text-xs">
@@ -892,7 +893,7 @@ export const GlassNebulaClouds = forwardRef<
               value={timeScale}
               onChange={(e) => {}}
               aria-label="Time scale multiplier"
-              className='glass-w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-w-20 glass-focus glass-touch-target glass-contrast-guard"
               style={{ accentColor: "#526071" }}
             />
           </div>
@@ -971,7 +972,7 @@ export const GlassNebulaClouds = forwardRef<
         >
           {renderControls()}
 
-          <div className='glass-relative'>
+          <div className="glass-relative">
             <canvas
               ref={canvasRef}
               width={width}

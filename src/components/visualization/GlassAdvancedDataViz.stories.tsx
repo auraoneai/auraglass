@@ -134,6 +134,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+
+/** @deprecated GlassAdvancedDataViz DEP-S0236 since 4.2.0, removed in 5.0.0. */
 export const GlassAdvancedDataViz: Story = {
   name: "GlassAdvancedDataViz",
   render: (args) => <ResponsiveDataVizFixture {...args} />,

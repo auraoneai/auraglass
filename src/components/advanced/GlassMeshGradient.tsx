@@ -67,6 +67,7 @@ const toCanvasRgba = (color: string, alpha: number) => {
   return `rgba(255, 255, 255, ${alpha})`;
 };
 
+/** @deprecated GlassMeshGradient DEP-S0613 since 4.2.0, removed in 6.0.0. {@link Backdrop preset="mesh" from aura-glass/backdrops} */
 export function GlassMeshGradient({
   className,
   colors = ["#ffffff", "#f8fafc", "#e2e8f0", "#ffffff"],

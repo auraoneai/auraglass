@@ -1,11 +1,11 @@
-'use client';
+"use client";
 /**
  * Ambient Tilt Hook
  * Provides subtle ambient tilting effects based on device orientation or cursor position
  */
 
-import { useCallback, useEffect, useRef, useState, CSSProperties } from 'react';
-import { useReducedMotion } from '../useReducedMotion';
+import { useCallback, useEffect, useRef, useState, CSSProperties } from "react";
+import { useReducedMotion } from "../useReducedMotion";
 
 /**
  * Tilt configuration options
@@ -35,6 +35,7 @@ interface TiltState {
 /**
  * Hook for ambient tilt effects
  */
+/** @deprecated useAmbientTilt DEP-M0881 since 4.2.0, removed in 5.0.0. {@link CSS transforms + the 5.x motion tokens} */
 export const useAmbientTilt = (options: UseAmbientTiltOptions = {}) => {
   const {
     maxTilt = 15,
@@ -42,7 +43,7 @@ export const useAmbientTilt = (options: UseAmbientTiltOptions = {}) => {
     perspective = 1000,
     scale = 1.05,
     speed = 300,
-    easing = 'cubic-bezier(0.03, 0.98, 0.52, 0.99)',
+    easing = "cubic-bezier(0.03, 0.98, 0.52, 0.99)",
     glare = false,
     gyroscope = false,
     onTilt,
@@ -153,8 +154,14 @@ export const useAmbientTilt = (options: UseAmbientTiltOptions = {}) => {
       const beta = event.beta || 0;
       const gamma = event.gamma || 0;
 
-      const tiltX = Math.max(-maxTilt, Math.min(maxTilt, (beta / 90) * maxTilt));
-      const tiltY = Math.max(-maxTilt, Math.min(maxTilt, (gamma / 90) * maxTilt));
+      const tiltX = Math.max(
+        -maxTilt,
+        Math.min(maxTilt, (beta / 90) * maxTilt)
+      );
+      const tiltY = Math.max(
+        -maxTilt,
+        Math.min(maxTilt, (gamma / 90) * maxTilt)
+      );
 
       setTiltState((prev) => ({
         ...prev,
@@ -174,29 +181,44 @@ export const useAmbientTilt = (options: UseAmbientTiltOptions = {}) => {
     const element = containerRef.current;
     if (!element) return;
 
-    element.addEventListener('mousemove', handleMouseMove as EventListener);
-    element.addEventListener('mouseenter', handleMouseEnter);
-    element.addEventListener('mouseleave', handleMouseLeave);
+    element.addEventListener("mousemove", handleMouseMove as EventListener);
+    element.addEventListener("mouseenter", handleMouseEnter);
+    element.addEventListener("mouseleave", handleMouseLeave);
 
     // Add device orientation listener if gyroscope is enabled
     if (gyroscope && window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', handleDeviceOrientation as EventListener);
+      window.addEventListener(
+        "deviceorientation",
+        handleDeviceOrientation as EventListener
+      );
     }
 
     return () => {
-      element.removeEventListener('mousemove', handleMouseMove as EventListener);
-      element.removeEventListener('mouseenter', handleMouseEnter);
-      element.removeEventListener('mouseleave', handleMouseLeave);
+      element.removeEventListener(
+        "mousemove",
+        handleMouseMove as EventListener
+      );
+      element.removeEventListener("mouseenter", handleMouseEnter);
+      element.removeEventListener("mouseleave", handleMouseLeave);
 
       if (gyroscope) {
-        window.removeEventListener('deviceorientation', handleDeviceOrientation as EventListener);
+        window.removeEventListener(
+          "deviceorientation",
+          handleDeviceOrientation as EventListener
+        );
       }
 
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [handleMouseMove, handleMouseEnter, handleMouseLeave, handleDeviceOrientation, gyroscope]);
+  }, [
+    handleMouseMove,
+    handleMouseEnter,
+    handleMouseLeave,
+    handleDeviceOrientation,
+    gyroscope,
+  ]);
 
   /**
    * Get transform style
@@ -204,7 +226,7 @@ export const useAmbientTilt = (options: UseAmbientTiltOptions = {}) => {
   const getTransformStyle = useCallback((): CSSProperties => {
     if (prefersReducedMotion) {
       return {
-        transform: 'none',
+        transform: "none",
       };
     }
 
@@ -213,28 +235,36 @@ export const useAmbientTilt = (options: UseAmbientTiltOptions = {}) => {
     return {
       transform: `perspective(${perspective}px) rotateX(${tiltState.tiltX}deg) rotateY(${tiltState.tiltY}deg) scale3d(${scaleValue}, ${scaleValue}, ${scaleValue})`,
       transition: `transform ${speed}ms ${easing}`,
-      transformStyle: 'preserve-3d' as const,
+      transformStyle: "preserve-3d" as const,
     };
-  }, [tiltState, isHovering, perspective, scale, speed, easing, prefersReducedMotion]);
+  }, [
+    tiltState,
+    isHovering,
+    perspective,
+    scale,
+    speed,
+    easing,
+    prefersReducedMotion,
+  ]);
 
   /**
    * Get glare style
    */
   const getGlareStyle = useCallback((): CSSProperties => {
     if (!glare || prefersReducedMotion) {
-      return { display: 'none' };
+      return { display: "none" };
     }
 
     return {
-      position: 'absolute',
+      position: "absolute",
       top: 0,
       left: 0,
-      width: '100%',
-      height: '100%',
+      width: "100%",
+      height: "100%",
       background: `radial-gradient(circle at ${tiltState.glarePosition.x}% ${tiltState.glarePosition.y}%, rgba(255, 255, 255, ${tiltState.glareOpacity}), transparent 50%)`,
-      pointerEvents: 'none',
+      pointerEvents: "none",
       transition: `opacity ${speed}ms ${easing}`,
-      borderRadius: 'inherit',
+      borderRadius: "inherit",
     };
   }, [glare, tiltState, speed, easing, prefersReducedMotion]);
 
@@ -255,14 +285,17 @@ export const useAmbientTilt = (options: UseAmbientTiltOptions = {}) => {
   /**
    * Set manual tilt
    */
-  const setTilt = useCallback((tiltX: number, tiltY: number) => {
-    setTiltState((prev) => ({
-      ...prev,
-      tiltX: Math.max(-maxTilt, Math.min(maxTilt, tiltX)),
-      tiltY: Math.max(-maxTilt, Math.min(maxTilt, tiltY)),
-    }));
-    onTilt?.(tiltX, tiltY);
-  }, [maxTilt, onTilt]);
+  const setTilt = useCallback(
+    (tiltX: number, tiltY: number) => {
+      setTiltState((prev) => ({
+        ...prev,
+        tiltX: Math.max(-maxTilt, Math.min(maxTilt, tiltX)),
+        tiltY: Math.max(-maxTilt, Math.min(maxTilt, tiltY)),
+      }));
+      onTilt?.(tiltX, tiltY);
+    },
+    [maxTilt, onTilt]
+  );
 
   return {
     ref: containerRef,

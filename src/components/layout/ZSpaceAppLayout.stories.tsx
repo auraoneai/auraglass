@@ -228,6 +228,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+
+/** @deprecated ZSpaceAppLayout DEP-S0010 since 4.2.0, removed in 5.0.0. {@link AppShell composition} */
 export const ZSpaceAppLayout: Story = {
   name: "ZSpaceAppLayout",
 };

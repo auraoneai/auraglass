@@ -142,6 +142,8 @@ const readableGlassTextStyle: React.CSSProperties = {
   color: "var(--glass-theme-text, var(--glass-text-primary))",
 } as React.CSSProperties;
 
+/** @deprecated GlassMusicVisualizer DEP-S0417 since 4.2.0, removed in 5.0.0. {@link none until 5.1 (Waveform)} */
+/** @deprecated GlassMusicVisualizer DEP-S0623 since 4.2.0, removed in 5.0.0. {@link no successor until 5.1 (Waveform)} */
 export const GlassMusicVisualizer = forwardRef<
   HTMLDivElement,
   GlassMusicVisualizerProps

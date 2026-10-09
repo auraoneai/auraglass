@@ -906,6 +906,7 @@ export const PERFORMANCE_TIERS = {
 /**
  * Utility functions for consuming tokens
  */
+/** @deprecated glassTokenUtils DEP-M0832 since 4.2.0, removed in 5.0.0. {@link materialProps / MaterialSpec (aura-glass/material)} */
 export const glassTokenUtils = {
   /**
    * Get surface specification for intent and elevation
@@ -1173,6 +1174,7 @@ export const glassTokens = {
 };
 
 // Alias for backward compatibility
+/** @deprecated glassUtils DEP-M0833 since 4.2.0, removed in 5.0.0. {@link materialProps / MaterialSpec (aura-glass/material)} */
 export const glassUtils = glassTokenUtils;
 
 /**
@@ -1359,6 +1361,7 @@ export interface LiquidGlassTokens extends AuraGlassTokens {
  * LIQUID GLASS CANONICAL TOKENS
  * Extended version of AURA_GLASS with Liquid Glass properties
  */
+/** @deprecated LIQUID_GLASS DEP-M0916 since 4.2.0, removed in 5.0.0. {@link the 5.x motion tokens} */
 export const LIQUID_GLASS: LiquidGlassTokens = {
   // Inherit all base AURA_GLASS tokens
   ...AURA_GLASS,
@@ -1502,6 +1505,7 @@ export const LIQUID_GLASS: LiquidGlassTokens = {
 /**
  * Enhanced utility functions for Liquid Glass
  */
+/** @deprecated liquidGlassUtils DEP-M0834 since 4.2.0, removed in 5.0.0. {@link materialProps / MaterialSpec (aura-glass/material)} */
 export const liquidGlassUtils = {
   ...glassTokenUtils,
 

@@ -195,6 +195,7 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
 }
 
 // Main focus indicator system
+/** @deprecated GlassFocusIndicators DEP-M0928 since 4.2.0, removed in 5.0.0. {@link focus.css + useAnnouncer} */
 export function GlassFocusIndicators() {
   const { settings } = useAccessibility();
   const [focusedElement, setFocusedElement] = useState<HTMLElement | null>(
@@ -408,6 +409,7 @@ export function GlassFocusIndicators() {
 }
 
 // Skip links component
+/** @deprecated SkipLinks DEP-M0929 since 4.2.0, removed in 5.0.0. {@link focus.css landmark/focus styles} */
 export function SkipLinks() {
   const { settings } = useAccessibility();
 

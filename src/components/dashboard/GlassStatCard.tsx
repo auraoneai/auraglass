@@ -119,6 +119,7 @@ export interface GlassStatCardProps {
  * GlassStatCard component
  * A glassmorphism statistics card with trend indicators and additional metrics
  */
+/** @deprecated GlassStatCard DEP-S0210 since 4.2.0, removed in 5.0.0. {@link StatCard from aura-glass/data} */
 export const GlassStatCard: React.FC<GlassStatCardProps> = ({
   // ContrastGuard text coverage is tracked in the manual accessibility QA report.
 
@@ -317,7 +318,7 @@ export const GlassStatCard: React.FC<GlassStatCardProps> = ({
         onClick={onClick}
         className={cn(
           config.cardClass,
-            "group relative overflow-hidden glass-dashboard-neutral",
+          "group relative overflow-hidden glass-dashboard-neutral",
           onClick && [
             "cursor-pointer",
             "hover:shadow-2xl hover:shadow-emerald-500/20",

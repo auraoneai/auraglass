@@ -144,6 +144,7 @@ export interface GlassBarChartProps {
  * GlassBarChart component
  * A glassmorphism bar chart with multiple series support and interactive features
  */
+/** @deprecated GlassBarChart DEP-S0230 since 4.2.0, removed in 5.0.0. */
 export const GlassBarChart: React.FC<GlassBarChartProps> = ({
   title,
   series = [],

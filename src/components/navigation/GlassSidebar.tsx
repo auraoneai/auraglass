@@ -141,6 +141,7 @@ const useSidebarContext = () => {
  * GlassSidebar component
  * A glassmorphism sidebar navigation with advanced features
  */
+/** @deprecated GlassSidebar DEP-S0004 since 4.2.0, removed in 5.0.0. {@link Sidebar from aura-glass/app-shell} */
 export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
   (
     {

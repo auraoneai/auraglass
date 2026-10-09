@@ -838,6 +838,7 @@ export function GlassAutoComposerProvider({
 }
 
 // Hook to use auto composer
+/** @deprecated useAutoComposer DEP-S0409 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */
 export function useAutoComposer() {
   const context = useContext(AutoComposerContext);
   if (!context) {

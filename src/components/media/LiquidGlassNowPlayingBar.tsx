@@ -30,6 +30,7 @@ const nowPlayingActionButtonStyle: CSSProperties = createGlassStyle({
   elevation: "level2",
 });
 
+/** @deprecated LiquidGlassNowPlayingBar DEP-S0602 since 4.2.0, removed in 6.0.0. {@link NowPlayingBar from aura-glass/media} */
 export const LiquidGlassNowPlayingBar = forwardRef<
   HTMLDivElement,
   LiquidGlassNowPlayingBarProps
@@ -72,7 +73,13 @@ export const LiquidGlassNowPlayingBar = forwardRef<
             {title}
           </span>
           {subtitle && (
-            <span className="glass-block glass-truncate glass-text-xs" style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}>
+            <span
+              className="glass-block glass-truncate glass-text-xs"
+              style={{
+                color:
+                  "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+              }}
+            >
               {subtitle}
             </span>
           )}
