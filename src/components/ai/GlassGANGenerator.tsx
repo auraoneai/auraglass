@@ -618,8 +618,8 @@ export const GlassGANGenerator = forwardRef<
                     : "glass-border-white/20 hover:glass-border-white/40 glass-surface-subtle/5"
                 }
               `}
-              whileHover={shouldAnimate ? { scale: 1.01 } : {}}
-              whileTap={shouldAnimate ? { scale: 0.99 } : {}}
+              whileHover={shouldAnimate ? { scale: 1.01 } : undefined }
+              whileTap={shouldAnimate ? { scale: 0.99 } : undefined }
               onClick={() => handleModelSelect(ganModel.id)}
             >
               <div className="glass-flex glass-items-start glass-justify-between">
@@ -835,7 +835,7 @@ export const GlassGANGenerator = forwardRef<
                   <motion.div
                     key={index}
                     className="glass-relative glass-aspect-square glass-radius-lg glass-overflow-hidden glass-surface-subtle/10 glass-group glass-cursor-pointer"
-                    whileHover={shouldAnimate ? { scale: 1.05 } : {}}
+                    whileHover={shouldAnimate ? { scale: 1.05 } : undefined }
                     initial={
                       prefersReducedMotion ? false : { opacity: 0, scale: 0.8 }
                     }
@@ -989,8 +989,8 @@ export const GlassGANGenerator = forwardRef<
             <div className="glass-flex glass-items-center glass-gap-2 glass-flex-wrap">
               <motion.button
                 className="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors disabled:glass-opacity-50"
-                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                whileHover={shouldAnimate ? { scale: 1.02 } : undefined }
+                whileTap={shouldAnimate ? { scale: 0.98 } : undefined }
                 onClick={generateImages}
                 disabled={isGenerating || !model.trained}
               >
@@ -1000,8 +1000,8 @@ export const GlassGANGenerator = forwardRef<
               {enableInterpolation && latentVectors.length >= 2 && (
                 <motion.button
                   className="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:glass-border-white/50 glass-text-primary-glass-opacity-80 glass-radius-lg glass-text-sm glass-transition-colors"
-                  whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                  whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                  whileHover={shouldAnimate ? { scale: 1.02 } : undefined }
+                  whileTap={shouldAnimate ? { scale: 0.98 } : undefined }
                   onClick={generateInterpolation}
                 >
                   Interpolate
@@ -1011,8 +1011,8 @@ export const GlassGANGenerator = forwardRef<
               {showTrainingControls && !model.trained && (
                 <motion.button
                   className="glass-px-4 glass-py-2 glass-surface-primary hover:glass-surface-primary glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors disabled:glass-opacity-50"
-                  whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                  whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                  whileHover={shouldAnimate ? { scale: 1.02 } : undefined }
+                  whileTap={shouldAnimate ? { scale: 0.98 } : undefined }
                   onClick={trainModel}
                   disabled={isTraining}
                 >

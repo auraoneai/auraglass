@@ -970,8 +970,8 @@ export function GlassMetaDashboard({
           )}
           style={{ width: 56, height: 56, minWidth: 56, minHeight: 56 }}
           onClick={() => setShowDashboard(!showDashboard)}
-          whileHover={prefersReducedMotion ? {} : { scale: 1.02 }}
-          whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+          whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
+          whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
           transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
           aria-label="Toggle Meta-Engine dashboard"
           aria-expanded={showDashboard}
@@ -986,7 +986,7 @@ export function GlassMetaDashboard({
                 className="glass-absolute glass-w-1 glass-h-1 glass-surface-secondary glass-radius-full"
                 animate={
                   prefersReducedMotion
-                    ? {}
+                    ? undefined
                     : {
                         x: Math.cos(index * 0.8) * 20 + 20,
                         y: Math.sin(index * 0.8) * 20 + 20,
@@ -1015,7 +1015,7 @@ export function GlassMetaDashboard({
               <motion.div
                 className="glass-absolute glass--top-2 glass--right-2 glass-w-4 glass-h-4 glass-surface-secondary glass-radius-full glass-text-xs glass-text-primary glass-flex glass-items-center glass-justify-center"
                 initial={{ scale: 0 }}
-                animate={prefersReducedMotion ? {} : { scale: 1 }}
+                animate={prefersReducedMotion ? undefined : { scale: 1 }}
                 transition={
                   prefersReducedMotion
                     ? { duration: 0 }
@@ -1046,7 +1046,7 @@ export function GlassMetaDashboard({
               maxHeight: inline ? undefined : "min(80vh, 720px)",
             }}
             initial={false}
-            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
+            animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={
               prefersReducedMotion
@@ -1097,7 +1097,7 @@ export function GlassMetaDashboard({
                       key={systemId}
                       className="glass-p-4 glass-surface-secondary glass-radius-xl glass-border glass-border-white/20"
                       initial={false}
-                      animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                      animate={prefersReducedMotion ? undefined : { opacity: 1, x: 0 }}
                     >
                       <div className="glass-flex glass-items-center glass-justify-between">
                         <span className="glass-text-sm glass-text-primary glass-font-medium glass-min-glass-w-0">
@@ -1170,7 +1170,7 @@ export function GlassMetaDashboard({
                       key={optimization.id}
                       className="glass-p-3 glass-surface-secondary glass-radius-md"
                       initial={false}
-                      animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                      animate={prefersReducedMotion ? undefined : { opacity: 1, x: 0 }}
                     >
                       <div className="glass-flex glass-items-center glass-justify-between">
                         <span className="glass-text-sm glass-text-primary glass-font-medium">
@@ -1222,7 +1222,7 @@ export function GlassMetaDashboard({
                       key={evolution.id}
                       className="glass-p-3 glass-surface-secondary glass-radius-md"
                       initial={false}
-                      animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                      animate={prefersReducedMotion ? undefined : { opacity: 1, x: 0 }}
                     >
                       <div className="glass-text-sm glass-text-primary glass-font-medium">
                         {evolution.evolutionType.replace("-", " ")}

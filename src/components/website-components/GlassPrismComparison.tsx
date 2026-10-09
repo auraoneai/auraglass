@@ -543,7 +543,7 @@ export function GlassPrismComparison({
                       : undefined
                   }
                   animate={
-                    prefersReducedMotion ? {} : { opacity: [0.6, 0.8, 0.6] }
+                    prefersReducedMotion ? undefined : { opacity: [0.6, 0.8, 0.6] }
                   }
                   transition={
                     prefersReducedMotion
@@ -614,7 +614,7 @@ export function GlassPrismComparison({
                   }
                   animate={
                     prefersReducedMotion
-                      ? {}
+                      ? undefined
                       : {
                           scale: [1, 1.05, 1],
                           textShadow: [
@@ -644,7 +644,7 @@ export function GlassPrismComparison({
                     className="glass-absolute glass--top-4 glass--right-4"
                     animate={
                       prefersReducedMotion
-                        ? {}
+                        ? undefined
                         : {
                             rotate: 360,
                             scale: [0, 1, 0],
@@ -721,7 +721,7 @@ export function GlassPrismComparison({
                 style={{ background: "rgba(255, 255, 255, 0.24)" }}
                 animate={
                   prefersReducedMotion
-                    ? {}
+                    ? undefined
                     : {
                         opacity: [0.18, 0.28, 0.18],
                       }
@@ -745,7 +745,7 @@ export function GlassPrismComparison({
                   }}
                   animate={
                     prefersReducedMotion
-                      ? {}
+                      ? undefined
                       : {
                           opacity: [0, 0.8, 0],
                           scaleX: [0, 1, 0],
@@ -772,7 +772,7 @@ export function GlassPrismComparison({
                 }}
                 animate={
                   prefersReducedMotion
-                    ? {}
+                    ? undefined
                     : {
                         opacity: isHovering ? 0.8 : 0.4,
                         scaleX: isHovering ? 1.2 : 1,
@@ -796,7 +796,7 @@ export function GlassPrismComparison({
             }}
             animate={
               prefersReducedMotion
-                ? {}
+                ? undefined
                 : {
                     scale: isHovering ? 1.5 : 0,
                     rotate: 360,
@@ -871,7 +871,7 @@ export function GlassPrismComparison({
               style={{ color: "rgba(0, 0, 0, 0.92)", opacity: 1 }}
             >
               <motion.span
-                animate={prefersReducedMotion ? {} : {}}
+                animate={prefersReducedMotion ? undefined : undefined }
                 transition={
                   prefersReducedMotion
                     ? { duration: 0 }
@@ -905,7 +905,7 @@ export function GlassPrismComparison({
             }}
             animate={
               prefersReducedMotion
-                ? {}
+                ? undefined
                 : {
                     y: [0, -30, 0],
                     opacity: [0.3, 1, 0.3],

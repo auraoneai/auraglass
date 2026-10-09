@@ -374,9 +374,9 @@ export function BrandGlassButton({
                   ? "var(--brand-shadow-primary, 0 8px 24px color-mix(in srgb, hsl(var(--glass-color-primary)) 20%, transparent))"
                   : "var(--brand-shadow-secondary, 0 8px 24px color-mix(in srgb, var(--glass-color-brand-secondary, #1e40af) 20%, transparent))",
             }
-          : {}
+          : undefined
       }
-      whileTap={!disabled && !prefersReducedMotion ? { scale: 0.99, y: 0 } : {}}
+      whileTap={!disabled && !prefersReducedMotion ? { scale: 0.99, y: 0 } : undefined }
       transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
       animate={{
         opacity: disabled ? 0.5 : 1,

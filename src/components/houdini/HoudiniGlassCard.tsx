@@ -120,7 +120,7 @@ export function HoudiniGlassCard({
       )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      whileHover={interactive ? { scale: 1.02 } : {}}
+      whileHover={interactive ? { scale: 1.02 } : undefined }
       transition={
         prefersReducedMotion
           ? { duration: 0 }
