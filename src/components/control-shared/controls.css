@@ -1,33 +1,35 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* control-shared (CMP-099): shared control sizing + sunken content surface.
    MAT's control-height tokens are referenced first with real-token fallbacks
    until the MAT token layer lands; no literals outside var() token names. */
 @layer ag.components {
   [data-ag-size-class='control'][data-ag-size='sm'] {
-    min-block-size: var(--ag-comp-control-height-sm-default, var(--ag-target-min));
+    min-block-size: var(--_ag-control-shared-comp-control-height-sm-default, var(--ag-target-min));
     font-size: var(--ag-type-label-size);
     line-height: var(--ag-type-label-leading);
   }
   [data-ag-size-class='control'][data-ag-size='md'] {
-    min-block-size: var(--ag-comp-control-height-md-default, var(--ag-target-min));
+    min-block-size: var(--_ag-control-shared-comp-control-height-md-default, var(--ag-target-min));
     font-size: var(--ag-type-body-size);
     line-height: var(--ag-type-body-leading);
   }
   [data-ag-size-class='control'][data-ag-size='lg'] {
-    min-block-size: var(--ag-comp-control-height-lg-default, var(--ag-target-min));
+    min-block-size: var(--_ag-control-shared-comp-control-height-lg-default, var(--ag-target-min));
     font-size: var(--ag-type-body-size);
     line-height: var(--ag-type-body-leading);
   }
   [data-ag-density='compact'] [data-ag-size-class='control'][data-ag-size='sm'],
   [data-ag-size-class='control'][data-ag-density='compact'][data-ag-size='sm'] {
-    min-block-size: var(--ag-comp-control-height-sm-compact, var(--ag-comp-control-height-sm-default, var(--ag-target-min)));
+    min-block-size: var(--_ag-control-shared-comp-control-height-sm-compact, var(--_ag-control-shared-comp-control-height-sm-default, var(--ag-target-min)));
   }
   [data-ag-density='compact'] [data-ag-size-class='control'][data-ag-size='md'],
   [data-ag-size-class='control'][data-ag-density='compact'][data-ag-size='md'] {
-    min-block-size: var(--ag-comp-control-height-md-compact, var(--ag-comp-control-height-md-default, var(--ag-target-min)));
+    min-block-size: var(--_ag-control-shared-comp-control-height-md-compact, var(--_ag-control-shared-comp-control-height-md-default, var(--ag-target-min)));
   }
   [data-ag-density='compact'] [data-ag-size-class='control'][data-ag-size='lg'],
   [data-ag-size-class='control'][data-ag-density='compact'][data-ag-size='lg'] {
-    min-block-size: var(--ag-comp-control-height-lg-compact, var(--ag-comp-control-height-lg-default, var(--ag-target-min)));
+    min-block-size: var(--_ag-control-shared-comp-control-height-lg-compact, var(--_ag-control-shared-comp-control-height-lg-default, var(--ag-target-min)));
   }
 
   /* Content-sunken surface shared by inputs, tracks and indicator wells:
@@ -35,7 +37,7 @@
   [data-ag-part='control'],
   [data-ag-part='track'],
   [data-ag-part='control-shell'] {
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-sunken-alpha, 8%), transparent);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-control-shared-content-sunken-alpha, 8%), transparent);
     box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
     border-radius: var(--ag-radius-inner);
   }

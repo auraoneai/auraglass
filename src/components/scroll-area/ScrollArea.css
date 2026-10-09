@@ -1,7 +1,9 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-315 ScrollArea */
 @layer ag.components {
   .ag-scroll-area { overflow: hidden; position: relative; }
   .ag-scroll-area-viewport { block-size: 100%; overflow: auto; scrollbar-width: none; }
   .ag-scroll-area-scrollbar { display: flex; touch-action: none; padding: 1px; }
-  .ag-scroll-area-thumb { flex: 1; border-radius: 999px; background-color: var(--ag-thumb, currentColor); opacity: 0.4; }
+  .ag-scroll-area-thumb { flex: 1; border-radius: 999px; background-color: var(--_ag-scroll-area-thumb, currentColor); opacity: 0.4; }
 }

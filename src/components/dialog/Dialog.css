@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-215 + CMP-189 (REQ-CMP-01/-86): Dialog sizes, placement, layout,
    emergence motion (opacity + scale .96→1 from --transform-origin over
    --ag-duration-medium, --_ag-optics ramp to 60%; calm = opacity only),
@@ -11,11 +13,11 @@
     display: flex;
     flex-direction: column;
     inline-size: 100%;
-    max-inline-size: var(--ag-dialog-w-md, 560px);
+    max-inline-size: var(--_ag-dialog-dialog-w-md, 560px);
     max-block-size: calc(100dvh - 2 * var(--ag-space-4, 16px));
-    max-block-size: calc(var(--ag-visual-viewport-height, 100dvh) - 2 * var(--ag-space-4, 16px));
+    max-block-size: calc(var(--_ag-dialog-visual-viewport-height, 100dvh) - 2 * var(--ag-space-4, 16px));
     border-radius: var(--ag-radius-xl, 20px);
-    box-shadow: var(--ag-shadow-overlay, var(--ag-shadow-thick, 0 16px 48px rgb(0 0 0 / 0.24)));
+    box-shadow: var(--_ag-dialog-shadow-overlay, var(--ag-shadow-thick, 0 16px 48px rgb(0 0 0 / 0.24)));
     color: var(--ag-on-surface);
     outline: none;
     z-index: var(--ag-z-overlay, 300);
@@ -45,16 +47,16 @@
     opacity: 0;
     transform: scale(0.96);
     transition:
-      opacity var(--ag-duration-medium, 200ms) var(--ag-ease-spring, ease),
-      transform var(--ag-duration-medium, 200ms) var(--ag-ease-spring, ease);
+      opacity var(--ag-duration-medium, 200ms) var(--_ag-dialog-ease-spring, ease),
+      transform var(--ag-duration-medium, 200ms) var(--_ag-dialog-ease-spring, ease);
   }
   .ag-dialog-popup[data-open],
   .ag-dialog-popup[data-instant] {
     opacity: 1;
     transform: none;
     transition:
-      opacity var(--ag-duration-medium, 200ms) var(--ag-ease-spring, ease),
-      transform var(--ag-duration-medium, 200ms) var(--ag-ease-spring, ease);
+      opacity var(--ag-duration-medium, 200ms) var(--_ag-dialog-ease-spring, ease),
+      transform var(--ag-duration-medium, 200ms) var(--_ag-dialog-ease-spring, ease);
   }
 
   /* nested: parent dims while a child dialog is open */
@@ -81,8 +83,8 @@
     overscroll-behavior: contain;
     padding: var(--ag-space-4, 16px);
     /* keep focused controls clear of the pinned header/footer (WCAG 2.4.11) */
-    scroll-padding-block-start: var(--ag-dialog-head-h, 0px);
-    scroll-padding-block-end: var(--ag-dialog-foot-h, 0px);
+    scroll-padding-block-start: var(--_ag-dialog-dialog-head-h, 0px);
+    scroll-padding-block-end: var(--_ag-dialog-dialog-foot-h, 0px);
   }
   .ag-dialog-body[data-ag-padding='none'] {
     padding: 0;
@@ -90,14 +92,14 @@
 
   .ag-dialog-title {
     margin: 0;
-    font-weight: var(--ag-font-semibold, 600);
-    font-size: var(--ag-text-lg, 1.125rem);
-    line-height: var(--ag-leading-tight, 1.25);
+    font-weight: var(--_ag-dialog-font-semibold, 600);
+    font-size: var(--_ag-dialog-text-lg, 1.125rem);
+    line-height: var(--_ag-dialog-leading-tight, 1.25);
   }
   .ag-dialog-description {
     margin: 0;
     color: var(--ag-color-on-surface-muted, currentColor);
-    font-size: var(--ag-text-sm, 0.875rem);
+    font-size: var(--_ag-dialog-text-sm, 0.875rem);
   }
 
   .ag-dialog-trigger,

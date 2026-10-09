@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 @layer ag.components {
   .ag-segmented-control {
     display: inline-flex;
@@ -22,7 +24,7 @@
     font-size: var(--ag-type-label-size);
     cursor: pointer;
     position: relative;
-    z-index: var(--ag-z-base, auto);
+    z-index: var(--_ag-segmented-control-z-base, auto);
     flex: 0 1 auto;
     min-width: var(--ag-target-min);
   }

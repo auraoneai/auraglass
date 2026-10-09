@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* Command + CommandPalette (SURF-127): palette chrome and list layout.
    Scrolling is native inside __list (REQ-SURF-63: VirtualList mounts above
    the threshold — W2); row highlight is a data-attribute, not JS classes. */
@@ -5,7 +7,7 @@
   .ag-command-palette {
     display: flex;
     flex-direction: column;
-    max-block-size: var(--ag-command-palette-max-h, 60vh);
+    max-block-size: var(--_ag-command-palette-command-palette-max-h, 60vh);
     overflow: hidden;
   }
   .ag-command {
@@ -17,9 +19,9 @@
     inline-size: 100%;
     padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
     border: none;
-    border-block-end: var(--ag-border-width, 1px) solid var(--ag-border, transparent);
+    border-block-end: var(--_ag-command-palette-border-width, 1px) solid var(--_ag-command-palette-border, transparent);
     background: transparent;
-    color: var(--ag-fg, currentColor);
+    color: var(--_ag-command-palette-fg, currentColor);
     font: inherit;
   }
   .ag-command__list {
@@ -32,11 +34,11 @@
     align-items: center;
     gap: var(--ag-space-2, 0.5rem);
     padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
-    min-block-size: var(--ag-touch-target, 2.75rem);
-    border-radius: var(--ag-radius-1, 0.25rem);
+    min-block-size: var(--_ag-command-palette-touch-target, 2.75rem);
+    border-radius: var(--_ag-command-palette-radius-1, 0.25rem);
     cursor: default;
   }
   .ag-command__item[data-ag-active] {
-    background: var(--ag-accent-soft, transparent);
+    background: var(--_ag-command-palette-accent-soft, transparent);
   }
 }

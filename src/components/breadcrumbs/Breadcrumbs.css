@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* Breadcrumbs (SURF-127): layout only — tokens for space/color, no hex,
    no !important. Ellipsis + overflow menu are islands; this sheet is server. */
 @layer ag.components {
@@ -8,26 +10,26 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    font-size: var(--ag-text-sm, 0.875rem);
-    color: var(--ag-fg-muted, currentColor);
+    font-size: var(--_ag-breadcrumbs-text-sm, 0.875rem);
+    color: var(--_ag-breadcrumbs-fg-muted, currentColor);
   }
   .ag-breadcrumbs__link {
     color: inherit;
     text-decoration: none;
-    border-radius: var(--ag-radius-1, 0.25rem);
+    border-radius: var(--_ag-breadcrumbs-radius-1, 0.25rem);
   }
-  .ag-breadcrumbs__link:hover { color: var(--ag-fg, currentColor); }
+  .ag-breadcrumbs__link:hover { color: var(--_ag-breadcrumbs-fg, currentColor); }
   .ag-breadcrumbs__separator {
-    color: var(--ag-fg-subtle, currentColor);
+    color: var(--_ag-breadcrumbs-fg-subtle, currentColor);
     user-select: none;
   }
   .ag-breadcrumbs__current {
-    color: var(--ag-fg, currentColor);
-    font-weight: var(--ag-weight-medium, 500);
+    color: var(--_ag-breadcrumbs-fg, currentColor);
+    font-weight: var(--_ag-breadcrumbs-weight-medium, 500);
   }
   .ag-breadcrumbs__ellipsis {
-    min-inline-size: var(--ag-touch-target, 2.75rem);
-    min-block-size: var(--ag-touch-target, 2.75rem);
+    min-inline-size: var(--_ag-breadcrumbs-touch-target, 2.75rem);
+    min-block-size: var(--_ag-breadcrumbs-touch-target, 2.75rem);
     display: inline-flex;
     align-items: center;
     justify-content: center;

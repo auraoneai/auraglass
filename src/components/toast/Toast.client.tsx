@@ -130,7 +130,7 @@ const ToastClose = React.forwardRef<HTMLButtonElement, ToastCloseProps>(
 
 /* CMP-292: optional progress bar — BU exposes remaining time via swipe/timeout
    state on the toast object; we render a track whose bar is driven by the
-   CSS var --ag-toast-progress set per-toast in css via animation duration. */
+   bar driven by the per-toast animation duration. */
 const ToastProgress = React.forwardRef<HTMLElement, ToastProgressProps>(
   function ToastProgress({ className, children, ...rest }, ref) {
     return (

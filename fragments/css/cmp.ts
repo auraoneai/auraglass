@@ -21,6 +21,7 @@ export default [
   { file: 'src/components/tooltip/Tooltip.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/menu/Menu.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/toast/Toast.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/overlays/_shared/overlays.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/tour/Tour.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/meter/Meter.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/link/Link.css', layer: 'ag.components', bundle: 'styles.css' },

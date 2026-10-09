@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* TextField (CMP-137): sunken shell + rim; focus rim --ag-color-focus-outer;
    invalid rim + error text --ag-color-danger (REQ-CMP-61). */
 @layer ag.components {
@@ -18,7 +20,7 @@
     align-items: center;
     gap: var(--ag-space-2);
     padding-inline: var(--ag-space-3);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-sunken-alpha, 8%), transparent);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-text-field-content-sunken-alpha, 8%), transparent);
     box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
     border-radius: var(--ag-radius-inner);
     transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
@@ -79,7 +81,7 @@
   .ag-text-field [data-ag-part='control']:-webkit-autofill {
     -webkit-text-fill-color: var(--ag-on-surface);
     caret-color: var(--ag-on-surface);
-    box-shadow: inset 0 0 0 var(--ag-target-min) color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-sunken-alpha, 8%), transparent);
+    box-shadow: inset 0 0 0 var(--ag-target-min) color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-text-field-content-sunken-alpha, 8%), transparent);
   }
 
   @media (forced-colors: active) {

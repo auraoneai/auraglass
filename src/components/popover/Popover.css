@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-263 (REQ-CMP-98): Popover — overlayMaterial('popover') regular. Arrow is a
    clipped child painted with --ag-surface-fill + rim (no second backdrop-filter).
    Enter/exit: opacity + small translate from data-side; reduced-motion fades only. */
@@ -8,10 +10,10 @@
   }
 
   .ag-popover-popup {
-    background: var(--ag-surface-fill, var(--ag-glass-fill, rgb(255 255 255 / 0.82)));
-    border: 1px solid var(--ag-rim, var(--ag-surface-rim, rgb(0 0 0 / 0.08)));
+    background: var(--ag-surface-fill, var(--_ag-popover-glass-fill, rgb(255 255 255 / 0.82)));
+    border: 1px solid var(--_ag-popover-rim, var(--ag-surface-rim, rgb(0 0 0 / 0.08)));
     border-radius: var(--ag-radius-md, 12px);
-    box-shadow: var(--ag-shadow-overlay, 0 8px 24px rgb(0 0 0 / 0.14));
+    box-shadow: var(--_ag-popover-shadow-overlay, 0 8px 24px rgb(0 0 0 / 0.14));
     color: var(--ag-on-surface, inherit);
     padding: var(--ag-space-3, 12px);
     inline-size: max-content;
@@ -44,11 +46,11 @@
     background: var(--ag-surface-fill, rgb(255 255 255 / 0.82));
     clip-path: polygon(0 0, 100% 0, 50% 100%);
     border-start-start-radius: 0;
-    outline: 1px solid var(--ag-rim, rgb(0 0 0 / 0.08));
+    outline: 1px solid var(--_ag-popover-rim, rgb(0 0 0 / 0.08));
   }
 
   .ag-popover-title { font-weight: 600; margin: 0 0 4px; }
-  .ag-popover-description { margin: 0; color: var(--ag-muted, rgb(0 0 0 / 0.64)); }
+  .ag-popover-description { margin: 0; color: var(--_ag-popover-muted, rgb(0 0 0 / 0.64)); }
 
   @media (prefers-reduced-motion: reduce) {
     .ag-popover-popup { transition: opacity var(--ag-duration-small, 150ms) linear; transform: none !important; }

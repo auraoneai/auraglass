@@ -1,5 +1,7 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* Pagination (SURF-127): server-rendered link list + island buttons.
-   44px targets come from --ag-touch-target; active page via aria-current. */
+   44px targets come from --_ag-pagination-touch-target; active page via aria-current. */
 @layer ag.components {
   .ag-pagination__list {
     display: flex;
@@ -10,21 +12,21 @@
     padding: 0;
   }
   .ag-pagination__link {
-    min-inline-size: var(--ag-touch-target, 2.75rem);
-    min-block-size: var(--ag-touch-target, 2.75rem);
+    min-inline-size: var(--_ag-pagination-touch-target, 2.75rem);
+    min-block-size: var(--_ag-pagination-touch-target, 2.75rem);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--ag-radius-1, 0.25rem);
-    color: var(--ag-fg, currentColor);
+    border-radius: var(--_ag-pagination-radius-1, 0.25rem);
+    color: var(--_ag-pagination-fg, currentColor);
     text-decoration: none;
   }
   .ag-pagination__link[aria-disabled='true'] {
-    opacity: var(--ag-opacity-disabled, 0.4);
+    opacity: var(--_ag-pagination-opacity-disabled, 0.4);
     pointer-events: none;
   }
   .ag-pagination__link[aria-current='page'] {
-    background: var(--ag-accent-soft, transparent);
-    font-weight: var(--ag-weight-medium, 500);
+    background: var(--_ag-pagination-accent-soft, transparent);
+    font-weight: var(--_ag-pagination-weight-medium, 500);
   }
 }

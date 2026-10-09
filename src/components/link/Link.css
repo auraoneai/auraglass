@@ -1,8 +1,10 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-305/423 Link */
 @layer ag.components {
-  .ag-link { color: var(--ag-link, currentColor); cursor: pointer; }
+  .ag-link { color: var(--_ag-link-link, currentColor); cursor: pointer; }
   .ag-link[data-ag-underline='always'] { text-decoration: underline; }
   .ag-link[data-ag-underline='hover']:hover { text-decoration: underline; }
   .ag-link[data-ag-underline='none'] { text-decoration: none; }
-  .ag-link[data-ag-intent='danger'] { color: var(--ag-intent-danger, currentColor); }
+  .ag-link[data-ag-intent='danger'] { color: var(--_ag-link-intent-danger, currentColor); }
 }

@@ -3,7 +3,7 @@
    - side start|end|top|bottom|left|right; start/end flip under dir=rtl
      (BU useDirection), left/right never flip; preset 'action' forces bottom.
    - detents via useSheetDetents (fractions of 100dvh | 'content' | 'full');
-     active height lands on --ag-sheet-detent-h; data-ag-full-height when the
+     active height lands on --_ag-sheet-sheet-detent-h; data-ag-full-height when the
      active detent is 'full' or a side sheet's block size reaches 90% of the
      viewport (ResizeObserver).
    - modal=false: no Backdrop, BU skips inert/scroll-lock; focus moves in on
@@ -101,7 +101,7 @@ function SheetRoot({
         popupElement.offsetHeight >= window.innerHeight * 0.9;
       popupElement.toggleAttribute('data-ag-full-height', full);
       popupElement.style.setProperty(
-        '--ag-sheet-detent-h',
+        '--_ag-sheet-sheet-detent-h',
         `${detentState.heightsPx[detentState.index] ?? axisVw}px`,
       );
     };
