@@ -1,5 +1,5 @@
 /**
- * PLAT-338/339 + §12.2: every fixture dir under fragments/codemods/<stream>/fixtures/
+ * PLAT-338/339 + REQ-CMP-134 + §12.2: every fixture dir under fragments/codemods/<stream>/fixtures/
  * is discovered and run with byte-equality; 'pending' files declare expected gaps.
  */
 import { describe, expect, it } from '@jest/globals';
@@ -28,7 +28,7 @@ interface FixtureCase { stream: string; group: string; name: string; input: stri
 export function discoverFixtures(): FixtureCase[] {
   const cases: FixtureCase[] = [];
   if (!fs.existsSync(fixturesBase)) return cases;
-  for (const stream of fs.readdirSync(fixturesBase).filter((x) => x === 'plat').sort()) {
+  for (const stream of fs.readdirSync(fixturesBase).filter((x) => x === 'plat' || x === 'cmp').sort()) {
     const fxDir = path.join(fixturesBase, stream, 'fixtures');
     if (!fs.existsSync(fxDir)) continue;
     for (const group of fs.readdirSync(fxDir).sort()) {
@@ -52,7 +52,7 @@ export function discoverFixtures(): FixtureCase[] {
   return cases;
 }
 
-describe('codemod fixtures (plat stream)', () => {
+describe('codemod fixtures (plat + cmp streams)', () => {
   const cases = discoverFixtures();
   it('discovers fixtures', () => {
     expect(cases.length).toBeGreaterThan(0);
