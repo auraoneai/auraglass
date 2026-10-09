@@ -1,0 +1,7 @@
+{
+ "entry": "./services/ai/cache-service",
+ "exports": [
+  "CacheService"
+ ],
+ "unanalysable": []
+}

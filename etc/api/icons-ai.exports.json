@@ -1,0 +1,12 @@
+{
+ "entry": "./icons/ai",
+ "exports": [
+  "CommandIcon",
+  "LoaderIcon",
+  "SearchIcon",
+  "SendIcon",
+  "SparkIcon",
+  "ZapIcon"
+ ],
+ "unanalysable": []
+}

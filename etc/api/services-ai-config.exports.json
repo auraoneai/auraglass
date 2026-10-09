@@ -1,0 +1,18 @@
+{
+ "entry": "./services/ai/config",
+ "exports": [
+  "AIConfig",
+  "AIConfigSchema",
+  "AIProvider",
+  "ProviderUnconfiguredError",
+  "ProviderUnconfiguredPayload",
+  "RuntimeFeatureFlags",
+  "assertProviderConfigured",
+  "createAIConfig",
+  "createRuntimeFeatureFlags",
+  "defaultAIConfig",
+  "isProviderConfigured",
+  "validateAIConfig"
+ ],
+ "unanalysable": []
+}

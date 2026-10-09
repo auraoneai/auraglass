@@ -1,0 +1,13 @@
+{
+ "entry": "./icons/collaboration",
+ "exports": [
+  "BellIcon",
+  "CopyIcon",
+  "MicIcon",
+  "NotificationIcon",
+  "SendIcon",
+  "UserIcon",
+  "UsersIcon"
+ ],
+ "unanalysable": []
+}

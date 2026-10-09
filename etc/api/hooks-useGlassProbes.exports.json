@@ -1,0 +1,11 @@
+{
+ "entry": "./hooks/useGlassProbes",
+ "exports": [
+  "GlassProbesData",
+  "UseGlassProbesOptions",
+  "useGlassDebug",
+  "useGlassElementProbe",
+  "useGlassProbes"
+ ],
+ "unanalysable": []
+}

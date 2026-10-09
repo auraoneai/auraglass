@@ -1,0 +1,15 @@
+{
+ "entry": "./server",
+ "exports": [
+  "AuraGlassSSRProvider",
+  "clearStyledRegistryHealth",
+  "collectStyles",
+  "createStyleSheet",
+  "ensureStyledComponentsRegistry",
+  "getStyledComponentsVersion",
+  "hasStyledComponentsRegistry",
+  "isStyledComponentsSSRReady",
+  "markStyledRegistryHealthy"
+ ],
+ "unanalysable": []
+}
