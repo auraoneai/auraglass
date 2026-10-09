@@ -82,7 +82,9 @@ function SheetRoot({
   const [contentPx, setContentPx] = React.useState(0);
 
   const detentState = useSheetDetents({
-    detents, detent, defaultDetent, onDetentChange,
+    /* REQ-CMP-94: detents apply only to the bottom side — other sides ignore them. */
+    detents: resolved === 'bottom' ? detents : ['content'],
+    detent, defaultDetent, onDetentChange,
     viewportPx,
     contentPx,
   });
@@ -98,12 +100,15 @@ function SheetRoot({
       const full =
         detentState.isFull ||
         detents[detentState.index] === 'full' ||
+        detents[detentState.index] === 1 ||
         popupElement.offsetHeight >= window.innerHeight * 0.9;
       popupElement.toggleAttribute('data-ag-full-height', full);
-      popupElement.style.setProperty(
-        '--ag-sheet-detent-h',
-        `${detentState.heightsPx[detentState.index] ?? axisVw}px`,
-      );
+      /* REQ-CMP-94: the popup keeps a FIXED max height (tallest detent) and the
+         current detent is positioned by translate — no block-size transitions. */
+      const maxH = Math.max(...detentState.heightsPx, 0);
+      const curH = detentState.heightsPx[detentState.index] ?? axisVw;
+      popupElement.style.setProperty('--ag-sheet-detent-max', `${maxH}px`);
+      popupElement.style.setProperty('--ag-sheet-detent-offset', `${Math.max(0, maxH - curH)}px`);
     };
     measure();
     const ro = new ResizeObserver(measure);

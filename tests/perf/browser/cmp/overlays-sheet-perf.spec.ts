@@ -14,8 +14,13 @@ test.describe('sheet perf (CMP-406)', () => {
     await expect(handle).toBeVisible();
     const box = (await handle.boundingBox())!;
 
-    // Profiler hook: React commits during drag must be 0 — the harness counts
-    // commits via the __AG_COMMIT counter the provider installs in dev builds.
+    // REQ-CMP-94: the story wraps the sheet in a real React.Profiler that
+    // increments window.__agCommits on every commit. Opening must commit
+    // (counter > 0); the pointermove drag must commit 0 times.
+    const openCommits = await page.evaluate(
+      () => (window as unknown as { __agCommits?: number }).__agCommits ?? 0,
+    );
+    expect(openCommits).toBeGreaterThan(0);
     await page.evaluate(() => {
       (window as unknown as { __agCommits: number }).__agCommits = 0;
     });

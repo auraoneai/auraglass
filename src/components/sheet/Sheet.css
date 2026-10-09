@@ -56,7 +56,9 @@
     margin-inline: auto;
     inline-size: 100%;
     max-inline-size: 640px;
-    block-size: var(--ag-sheet-detent-h, 50dvh);
+    /* REQ-CMP-94: popup keeps the TALLEST detent's height and the current
+       detent is positioned by translate — block-size never transitions. */
+    block-size: var(--ag-sheet-detent-max, var(--ag-sheet-detent-h, 50dvh));
     max-block-size: calc(100dvh - env(safe-area-inset-top, 0px) - 8px);
   }
   .ag-sheet-popup[data-ag-side='bottom'] {
@@ -91,6 +93,10 @@
   .ag-sheet-popup[data-instant] {
     transform: none;
   }
+  .ag-sheet-popup[data-ag-side='bottom'][data-open],
+  .ag-sheet-popup[data-ag-side='bottom'][data-instant] {
+    transform: translateY(var(--ag-sheet-detent-offset, 0px));
+  }
   .ag-sheet-popup[data-starting-style],
   .ag-sheet-popup[data-ending-style] {
     opacity: 0;
@@ -105,12 +111,11 @@
   /* snap back after a detent drag — linear() spring */
   .ag-sheet-popup:not([data-ag-dragging]) {
     transition:
-      transform var(--ag-sheet-snap, 320ms) linear(0, 0.4, 0.85, 1.04, 0.97, 1),
-      opacity var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease),
-      block-size var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease);
+      transform var(--ag-sheet-snap, 320ms) var(--ag-spring-smooth, ease),
+      opacity var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease);
   }
   .ag-sheet-popup[data-ending-style]:not([data-ag-dragging]) {
-    transition-timing-function: var(--ag-ease-standard, ease), var(--ag-ease-standard, ease), var(--ag-ease-standard, ease);
+    transition-timing-function: var(--ag-ease-standard, ease), var(--ag-ease-standard, ease);
     transition-duration: var(--ag-duration-small, 140ms);
   }
 

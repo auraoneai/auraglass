@@ -110,5 +110,6 @@ export function useSheetDetents({
     [heightsPx, viewportPx],
   );
 
-  return { index, setIndex, heightsPx, topsPx, isFull: detents[index] === 'full' };
+  const cur = detents[index];
+  return { index, setIndex, heightsPx, topsPx, isFull: cur === 'full' || cur === 1 };
 }

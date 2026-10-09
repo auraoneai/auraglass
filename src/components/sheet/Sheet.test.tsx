@@ -89,7 +89,7 @@ describe('Sheet (CMP-229..236)', () => {
 
   it('handle: keyboard cycles detents upward and announces', async () => {
     const onDetentChange = jest.fn();
-    render(<Demo root={{ defaultOpen: true, detents: [0.5, 'full'], onDetentChange }} />);
+    render(<Demo root={{ defaultOpen: true, side: 'bottom', detents: [0.5, 'full'], onDetentChange }} />);
     await act(async () => {});
     const handle = document.querySelector('[data-ag-part="handle"]')!;
     expect(handle.getAttribute('role')).toBe('separator');
@@ -101,22 +101,34 @@ describe('Sheet (CMP-229..236)', () => {
     expect(live?.textContent).toBeTruthy();
   });
 
-  it('handle drag translates via rAF and settles on release', async () => {
+  it('handle drag translates via the S-13 ticker and settles on release', async () => {
     render(<Demo root={{ defaultOpen: true, side: 'bottom', detents: [0.5, 'full'] }} />);
     await act(async () => {});
     const el = popup()!;
     const handle = document.querySelector('[data-ag-part="handle"]') as HTMLElement;
     el.getBoundingClientRect = () => ({ top: 400, left: 0, right: 1280, bottom: 800, width: 1280, height: 400, x: 0, y: 400, toJSON: () => ({}) });
-    const raf = jest.spyOn(window, 'requestAnimationFrame');
     fireEvent.pointerDown(handle, { pointerId: 7, clientY: 420 });
     fireEvent.pointerMove(handle, { pointerId: 7, clientY: 500 });
     await act(async () => { await new Promise((r) => setTimeout(r, 40)); });
+    // translate is written through subscribeFrame (S-13), not raw rAF — the
+    // transform lands on the next tick with zero React commits mid-drag.
     expect(el.style.transform).toContain('translateY(');
     expect(el.hasAttribute('data-ag-dragging')).toBe(true);
-    expect(raf).toHaveBeenCalled();
     fireEvent.pointerUp(handle, { pointerId: 7, clientY: 500 });
     await act(async () => {});
     expect(el.hasAttribute('data-ag-dragging')).toBe(false);
+  });
+
+  it('detents are ignored unless side resolves to bottom (REQ-CMP-94)', async () => {
+    const onDetentChange = jest.fn();
+    render(<Demo root={{ defaultOpen: true, side: 'right', detents: [0.5, 'full'], onDetentChange }} />);
+    await act(async () => {});
+    const handle = document.querySelector('[data-ag-part="handle"]') as HTMLElement;
+    handle.focus();
+    await userEvent.keyboard('{Enter}');
+    await act(async () => {});
+    // single effective detent -> Enter stays on index 0, never changes
+    expect(onDetentChange).not.toHaveBeenCalledWith(1);
   });
 
   it('modal=false: no scrim, no aria-modal; overlay layer = thick', async () => {

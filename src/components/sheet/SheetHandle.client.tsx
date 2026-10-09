@@ -11,6 +11,7 @@ import * as React from 'react';
 import { useAnnouncer } from '../../theme';
 import { cn } from '../../internal';
 import { resolveDetent } from './useSheetDetents';
+import { subscribeFrame, MotionCapabilityContext } from '../../motion';
 import type { SheetDetentsHandle } from './useSheetDetents';
 import type { SheetSide } from './Sheet.types';
 
@@ -45,7 +46,10 @@ export function SheetHandle({ className, children, ref }: {
 }) {
   const ctx = useSheetHandleContext();
   const drag = React.useRef<{ id: number; start: number; samples: { t: number; v: number }[] } | null>(null);
-  const raf = React.useRef(0);
+  const frameUnsub = React.useRef<null | (() => void)>(null);
+  /* REQ-CMP-94: MotionCapability.dragDetents (aura-glass/motion provider) owns
+     the drag when present; otherwise the local subscribeFrame path runs. */
+  const cap = React.useContext(MotionCapabilityContext);
 
   const announceDetent = React.useCallback((i: number) => {
     ctx.announce(ctx.labels?.detents?.[i] ?? DEFAULT_DETENT_LABELS[i] ?? `Detent ${i + 1}`);
@@ -59,9 +63,11 @@ export function SheetHandle({ className, children, ref }: {
     if (el) el.style.transform = '';
   }, [ctx, announceDetent]);
 
+  // translate writes go through the S-13 ticker (subscribeFrame), not raw rAF
   const writeTransform = React.useCallback((px: number) => {
-    cancelAnimationFrame(raf.current);
-    raf.current = requestAnimationFrame(() => {
+    frameUnsub.current?.();
+    frameUnsub.current = subscribeFrame(() => {
+      frameUnsub.current = null;
       const el = ctx.getPopup();
       if (!el) return;
       el.style.transform = ctx.axis === 'y' ? `translateY(${px}px)` : `translateX(${px}px)`;
@@ -132,7 +138,20 @@ export function SheetHandle({ className, children, ref }: {
     // Escape reaches BU's dismiss → onOpenChange('escape-key'); no local handler.
   };
 
-  React.useEffect(() => () => cancelAnimationFrame(raf.current), []);
+  React.useEffect(() => () => frameUnsub.current?.(), []);
+
+  /* REQ-CMP-94: when the aura-glass/motion MotionProvider is mounted,
+     MotionCapability.dragDetents owns the drag (same onSettle contract);
+     otherwise the local pointer path above runs. */
+  const capBindings = React.useMemo(() =>
+    cap?.dragDetents
+      ? cap.dragDetents({
+          detents: ctx.detents.topsPx,
+          axis: ctx.axis,
+          onSettle: (i: number) => settleDetent(i),
+        })
+      : null,
+  [cap, ctx.detents.topsPx, ctx.axis, settleDetent]);
 
   return (
     <button
@@ -142,10 +161,11 @@ export function SheetHandle({ className, children, ref }: {
       aria-orientation={ctx.axis === 'y' ? 'vertical' : 'horizontal'}
       aria-label={ctx.labels?.handle ?? 'Resize sheet'}
       className={cn('ag-sheet-handle', className)}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={(e) => endDrag(e, false)}
-      onPointerCancel={(e) => endDrag(e, true)}
+      style={capBindings?.style as React.CSSProperties | undefined}
+      onPointerDown={capBindings ? (capBindings.onPointerDown as never) : onPointerDown}
+      onPointerMove={capBindings ? undefined : onPointerMove}
+      onPointerUp={capBindings ? undefined : (e) => endDrag(e, false)}
+      onPointerCancel={capBindings ? undefined : (e) => endDrag(e, true)}
       onKeyDown={onKeyDown}
       ref={ref}
     >
