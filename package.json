@@ -28,6 +28,11 @@
     "node": ">=20.19"
   },
   "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js",
+      "css": "./dist/styles.css"
+    },
     "./material": {
       "types": "./dist/material/index.d.ts",
       "default": "./dist/material/index.js",
@@ -38,9 +43,18 @@
       "default": "./dist/tokens/index.js",
       "css": "./dist/tokens.css"
     },
+    "./primitives": {
+      "types": "./dist/primitives/index.d.ts",
+      "default": "./dist/primitives/index.js"
+    },
     "./icons": {
       "types": "./dist/icons/index.d.ts",
       "default": "./dist/icons/index.js"
+    },
+    "./app-shell": {
+      "types": "./dist/app-shell/index.d.ts",
+      "default": "./dist/app-shell/index.js",
+      "css": "./dist/app-shell.css"
     },
     "./data": {
       "types": "./dist/data/index.d.ts",
@@ -52,6 +66,21 @@
       "default": "./dist/date/index.js",
       "css": "./dist/date.css"
     },
+    "./ai": {
+      "types": "./dist/ai/index.d.ts",
+      "default": "./dist/ai/index.js",
+      "css": "./dist/ai.css"
+    },
+    "./media": {
+      "types": "./dist/media/index.d.ts",
+      "default": "./dist/media/index.js",
+      "css": "./dist/media.css"
+    },
+    "./backdrops": {
+      "types": "./dist/backdrops/index.d.ts",
+      "default": "./dist/backdrops/index.js",
+      "css": "./dist/backdrops.css"
+    },
     "./three": {
       "types": "./dist/three/index.d.ts",
       "default": "./dist/three/index.js"
@@ -60,6 +89,10 @@
       "types": "./dist/charts/index.d.ts",
       "default": "./dist/charts/index.js",
       "css": "./dist/charts.css"
+    },
+    "./compat": {
+      "types": "./dist/compat/index.d.ts",
+      "default": "./dist/compat/index.js"
     },
     "./styles.css": "./dist/styles.css",
     "./tokens.css": "./dist/tokens.css",
