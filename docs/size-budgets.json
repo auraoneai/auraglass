@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T02:27:42.799Z",
+  "generatedAt": "2026-10-09T21:10:15.191Z",
   "rows": [
     {
       "id": "plat:cn",
@@ -30,8 +30,8 @@
       "import": "dist/compat/globals.css",
       "limitBytes": 1024,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 144
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:styles-css",
@@ -722,6 +722,78 @@
       "measuredBytes": 45
     },
     {
+      "id": "CheckboxGroup",
+      "import": "{ CheckboxGroup } from 'aura-glass'",
+      "limitBytes": 6000,
+      "kind": "js",
+      "status": "pending",
+      "measuredBytes": null
+    },
+    {
+      "id": "Fieldset",
+      "import": "{ Fieldset } from 'aura-glass'",
+      "limitBytes": 8000,
+      "kind": "js",
+      "status": "pending",
+      "measuredBytes": null
+    },
+    {
+      "id": "ImageList",
+      "import": "{ ImageList } from 'aura-glass'",
+      "limitBytes": 15000,
+      "kind": "js",
+      "status": "pending",
+      "measuredBytes": null
+    },
+    {
+      "id": "DismissableLayer",
+      "import": "{ DismissableLayer } from 'aura-glass/primitives'",
+      "limitBytes": 2000,
+      "kind": "js",
+      "status": "pending",
+      "measuredBytes": null
+    },
+    {
+      "id": "FocusScope",
+      "import": "{ FocusScope } from 'aura-glass/primitives'",
+      "limitBytes": 2000,
+      "kind": "js",
+      "status": "pending",
+      "measuredBytes": null
+    },
+    {
+      "id": "Icon",
+      "import": "{ Icon } from 'aura-glass'",
+      "limitBytes": 1500,
+      "kind": "js",
+      "status": "pending",
+      "measuredBytes": null
+    },
+    {
+      "id": "Label",
+      "import": "{ Label } from 'aura-glass'",
+      "limitBytes": 1500,
+      "kind": "js",
+      "status": "pending",
+      "measuredBytes": null
+    },
+    {
+      "id": "Portal",
+      "import": "{ Portal } from 'aura-glass/primitives'",
+      "limitBytes": 1500,
+      "kind": "js",
+      "status": "pending",
+      "measuredBytes": null
+    },
+    {
+      "id": "Slot",
+      "import": "{ Slot } from 'aura-glass/primitives'",
+      "limitBytes": 1500,
+      "kind": "js",
+      "status": "pending",
+      "measuredBytes": null
+    },
+    {
       "id": "controls.css",
       "import": "src/components/control-shared/controls.css | aura-glass/styles.css",
       "limitBytes": 1200,
@@ -1258,6 +1330,6 @@
   },
   "measured": {
     "tarballPackedBytes": null,
-    "stylesCssGzBytes": 16758
+    "stylesCssGzBytes": null
   }
 }
