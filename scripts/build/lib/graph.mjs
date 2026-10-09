@@ -50,6 +50,26 @@ export function importClosure(entryFile, { within = SRC } = {}) {
   return seen;
 }
 
+/** Server graph: files reachable from entryFile without following imports of
+   a 'use client'-headed module (the client boundary ends the server walk but
+   the boundary file itself counts as reached). */
+export function serverClosure(entryFile, { within = SRC } = {}) {
+  const seen = new Set();
+  const stack = [entryFile];
+  while (stack.length) {
+    const f = stack.pop();
+    if (!f || seen.has(f)) continue;
+    seen.add(f);
+    const head = readFileSync(f, 'utf8').slice(0, 1200);
+    if (/^\s*(?:\/\*[\s\S]*?\*\/|\/\/[^\n]*\n|\s)*['"]use client['"]/.test(head)) continue; // boundary: reached, but its imports are client-side
+    for (const spec of specifiersOf(f)) {
+      const r = resolveSpecifier(spec, f);
+      if (r && r.startsWith(within)) stack.push(r);
+    }
+  }
+  return seen;
+}
+
 /** True when any file in the entry's src closure carries the seed marker. */
 export function closureHasSeed(entryFile) {
   for (const f of importClosure(entryFile)) {
