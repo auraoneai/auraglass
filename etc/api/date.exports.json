@@ -1,5 +1,5 @@
 {
- "entry": "./date",
+ "entry": "date",
  "exports": [
   "Calendar",
   "DateField",
@@ -8,5 +8,6 @@
   "RangeCalendar",
   "TimeField",
   "TimePicker"
- ]
+ ],
+ "unanalysable": []
 }

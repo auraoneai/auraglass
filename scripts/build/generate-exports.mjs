@@ -4,7 +4,7 @@
    - types first, then default (D-03).
    - Pre-release filter: entries whose src import graph carries @ag-contract-seed are
      dropped (they were never exported — a dropped entry was never shipped).
-   - --check: exit 1 when package.json drifted; --write: rewrite; --list-entries: print. */
+   - --check: exit 1 when package.json drifted; --write: rewrite; --list-entries: print; --list-entries --json: machine-readable. */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT, buildableEntries, loadJson } from './lib/graph.mjs';
@@ -19,8 +19,8 @@ export function desiredExports(root = ROOT) {
     if (isJs && !bySub.has(e.subpath)) continue; // pending seed graph
     const dest = './' + e.default;
     if (isJs) {
-      const cond = { types: './' + e.types, default: dest };
-      if (e.css) cond.css = './' + e.css;
+      // publint --strict: 'default' must be the last condition in the object
+      const cond = e.css ? { types: './' + e.types, css: './' + e.css, default: dest } : { types: './' + e.types, default: dest };
       exportsMap[e.subpath] = cond;
     } else exportsMap[e.subpath] = dest; // css / json / package.json artifacts
   }
@@ -34,13 +34,22 @@ export function currentExports(root = ROOT) {
 }
 
 const mode = process.argv[2] ?? '--check';
+const asJson = process.argv.includes('--json');
 const want = desiredExports();
 
 if (mode === '--list-entries') {
   const { keep, pending } = buildableEntries();
-  console.log('exports (built):');
-  for (const e of keep) console.log(`  ${e.subpath} -> ${e.default}`);
-  if (pending.length) { console.log('pending (seed graph / missing):'); for (const e of pending) console.log(`  ${e.subpath}  ${e.reason}`); }
+  if (asJson) {
+    console.log(JSON.stringify({
+      built: keep.map(e => ({ subpath: e.subpath, default: e.default, types: e.types ?? null })),
+      pending: pending.map(e => ({ subpath: e.subpath, reason: e.reason })),
+      exports: want,
+    }, null, 2));
+  } else {
+    console.log('exports (built):');
+    for (const e of keep) console.log(`  ${e.subpath} -> ${e.default}`);
+    if (pending.length) { console.log('pending (seed graph / missing):'); for (const e of pending) console.log(`  ${e.subpath}  ${e.reason}`); }
+  }
   process.exit(0);
 }
 

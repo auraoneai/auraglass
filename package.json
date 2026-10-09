@@ -30,13 +30,13 @@
   "exports": {
     "./material": {
       "types": "./dist/material/index.d.ts",
-      "default": "./dist/material/index.js",
-      "css": "./dist/material.css"
+      "css": "./dist/material.css",
+      "default": "./dist/material/index.js"
     },
     "./tokens": {
       "types": "./dist/tokens/index.d.ts",
-      "default": "./dist/tokens/index.js",
-      "css": "./dist/tokens.css"
+      "css": "./dist/tokens.css",
+      "default": "./dist/tokens/index.js"
     },
     "./icons": {
       "types": "./dist/icons/index.d.ts",
@@ -44,13 +44,13 @@
     },
     "./data": {
       "types": "./dist/data/index.d.ts",
-      "default": "./dist/data/index.js",
-      "css": "./dist/data.css"
+      "css": "./dist/data.css",
+      "default": "./dist/data/index.js"
     },
     "./date": {
       "types": "./dist/date/index.d.ts",
-      "default": "./dist/date/index.js",
-      "css": "./dist/date.css"
+      "css": "./dist/date.css",
+      "default": "./dist/date/index.js"
     },
     "./three": {
       "types": "./dist/three/index.d.ts",
@@ -58,8 +58,8 @@
     },
     "./charts": {
       "types": "./dist/charts/index.d.ts",
-      "default": "./dist/charts/index.js",
-      "css": "./dist/charts.css"
+      "css": "./dist/charts.css",
+      "default": "./dist/charts/index.js"
     },
     "./styles.css": "./dist/styles.css",
     "./tokens.css": "./dist/tokens.css",
@@ -82,8 +82,8 @@
     "api:update": "node scripts/build/api-report.mjs",
     "pack:verify": "node scripts/ci/verify-pack.js",
     "prepublishOnly": "node scripts/ci/require-ci-publish.js",
-    "artifact:publint": "publint",
-    "artifact:attw": "attw --pack .",
+    "artifact:publint": "publint --strict",
+    "artifact:attw": "attw --pack . --profile esm-only",
     "storybook:build": "storybook build -o storybook-static",
     "docs:build": "npm run build -w apps/docs",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",

@@ -1,5 +1,5 @@
 {
- "entry": "./data",
+ "entry": "data",
  "exports": [
   "ChartFrame",
   "Chip",
@@ -9,5 +9,6 @@
   "StatCard",
   "Table",
   "TreeView"
- ]
+ ],
+ "unanalysable": []
 }
