@@ -140,11 +140,12 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
    provider itself throws nothing). */
 function ToastSubject() {
   const t = useToast();
+  const STICKY_MS = 0;
   const added = React.useRef(false);
   React.useEffect(() => {
     if (added.current) return;
     added.current = true;
-    t.add({ title: 'Subject toast', description: 'Overlay-layer subject.', timeout: 0 });
+    t.toast({ title: 'Subject toast', description: 'Overlay-layer subject.', duration: STICKY_MS });
   }, [t]);
   return (
     <Toast.Viewport>

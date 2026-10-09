@@ -22,7 +22,7 @@ function BareToastInner() {
   const t = useToast();
   return (
     <>
-      <button onClick={() => t.info({ title: 'hi' })}>add</button>
+      <button onClick={() => t.toast({ intent: 'info', title: 'hi' })}>add</button>
       <Toast.Viewport>
         {t.toasts.map((toast) => (
           <Toast.Root key={toast.id} toast={toast}><Toast.Title>{toast.title}</Toast.Title></Toast.Root>

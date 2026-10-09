@@ -12,19 +12,33 @@ import { cn } from '../../internal';
 import type {
   ToastProviderProps, ToastViewportProps, ToastRootProps, ToastTitleProps,
   ToastDescriptionProps, ToastActionProps, ToastCloseProps, ToastProgressProps,
-  ToastData, ToastRecord, UseToastReturn, ToastIntent,
+  ToastData, ToastRecord, ToastIntent, ToastPosition,
+  UseToast, ToastOptions, ToastHistoryItem, Intent,
 } from './Toast.types';
 
 /* CMP-294 (REQ-CMP-110): append-only history — one entry per add, closed on
    close; capped at 50 to bound memory. Module-scoped: shared by every
    provider instance and survives unmounts (history is a session record). */
 const HISTORY_CAP = 50;
+let historyEnabled = true;
 const history: ToastRecord[] = [];
 const historyListeners = new Set<() => void>();
 function pushHistory(entry: ToastRecord) {
+  if (!historyEnabled) return;
   history.push(entry);
   if (history.length > HISTORY_CAP) history.splice(0, history.length - HISTORY_CAP);
   historyListeners.forEach((l) => l());
+}
+/* REQ-CMP-107: contract history surface — unread count + mark/clear ops. */
+function historyMarkRead(id: string) {
+  const e = history.find((h) => h.id === id);
+  if (e && !e.read) { e.read = true; historyListeners.forEach((l) => l()); }
+}
+function historyMarkAllRead() {
+  if (history.some((h) => !h.read)) { history.forEach((h) => { h.read = true; }); historyListeners.forEach((l) => l()); }
+}
+function historyClear() {
+  if (history.length) { history.length = 0; historyListeners.forEach((l) => l()); }
 }
 function markHistoryClosed(id: string) {
   const e = history.find((h) => h.id === id && h.status === 'open');
@@ -41,17 +55,27 @@ function useHistory(): ToastRecord[] {
   );
 }
 
-const intentPriority = (intent: ToastIntent): 'low' | 'high' => (intent === 'error' || intent === 'warning' ? 'high' : 'low');
+let warnedHighNonDanger = false;
+const intentPriority = (intent: ToastIntent): 'low' | 'high' =>
+  (intent === 'danger' || intent === 'error' || intent === 'warning' ? 'high' : 'low');
 
 /* The single shared manager for the app — BU contract requires a stable
    manager instance passed to the provider. */
 export const toastManager = Base.createToastManager();
 
-function ToastProvider({ limit = 3, timeout = 5000, children }: ToastProviderProps) {
+/* REQ-CMP-107: whether this provider records toast history — context so
+   useToast can return history:null for a history={false} provider. */
+const ToastHistoryOnCtx = React.createContext(true);
+
+function ToastProvider({ limit = 3, timeout = 5000, history: historyProp, children }: ToastProviderProps) {
+  const historyOn = historyProp !== false;
+  React.useEffect(() => { historyEnabled = historyOn; }, [historyOn]);
   return (
-    <Base.Provider toastManager={toastManager} limit={limit} timeout={timeout}>
-      {children}
-    </Base.Provider>
+    <ToastHistoryOnCtx.Provider value={historyOn}>
+      <Base.Provider toastManager={toastManager} limit={limit} timeout={timeout}>
+        {children}
+      </Base.Provider>
+    </ToastHistoryOnCtx.Provider>
   );
 }
 
@@ -63,6 +87,8 @@ const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
         <Base.Viewport
           ref={ref}
           data-ag-part="viewport"
+          data-ag-layer-root="toast"
+          aria-label="Notifications"
           data-ag-position={position}
           className={cn('ag-toast-viewport', className)}
           {...rest}
@@ -77,7 +103,14 @@ const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
 const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
   function ToastRoot({ toast, className, children, ...rest }, ref) {
     const intent = (toast?.type as ToastIntent | undefined) ?? 'info';
-    const priority = intent === 'error' || intent === 'warning' ? 'alert' : 'status';
+    /* REQ-CMP-107: role='alert' ONLY for high-priority danger toasts; other
+       priorities announce politely. High-priority non-danger dev-warns once. */
+    const high = (toast as { priority?: string } | null | undefined)?.priority === 'high';
+    if (process.env.NODE_ENV !== 'production' && high && intent !== 'danger' && !warnedHighNonDanger) {
+      warnedHighNonDanger = true;
+      console.error('[aura-glass] Toast priority="high" only asserts for intent="danger"; use intent="danger" for alert semantics.');
+    }
+    const priority = high && intent === 'danger' ? 'alert' : 'status';
     // dom-contract (CMP-202) requires data-state open|closed on the surface
     const state = toast?.transitionStatus === 'ending' ? 'closed' : 'open';
     return (
@@ -141,59 +174,80 @@ const ToastProgress = React.forwardRef<HTMLElement, ToastProgressProps>(
   },
 );
 
-export function useToast(): UseToastReturn {
+export function useToast(): ReturnType<UseToast> {
   const mgr = Base.useToastManager();
   const hist = useHistory();
-  const add = React.useCallback((t: ToastData) => {
-    const intent = t.intent ?? 'info';
-    const id = mgr.add({
-      title: t.title,
-      description: t.description,
+  const historyOn = React.useContext(ToastHistoryOnCtx);
+  /* REQ-CMP-107: the contract surface — toast/update/dismiss/promise/toasts/
+     history. Intent is the contract union (incl 'danger'); BU carries the
+     string in `type`. */
+  const toast = React.useCallback((o: ToastOptions) => {
+    const intent: ToastIntent = (o.intent as ToastIntent | undefined) ?? 'info';
+    const { add: buAdd } = mgr;
+    const id = buAdd({
+      title: o.title,
+      ...(o.description !== undefined ? { description: o.description } : {}),
       type: intent,
-      priority: intentPriority(intent),
-      ...(t.timeout !== undefined ? { timeout: t.timeout } : {}),
-      ...(t.actionLabel !== undefined ? { actionLabel: t.actionLabel } : {}),
-      ...(t.onAction !== undefined ? { onAction: t.onAction } : {}),
+      priority: o.priority ?? intentPriority(intent),
+      ...(o.duration !== undefined ? { timeout: o.duration } : {}),
+      ...(o.action !== undefined ? { actionLabel: o.action.label, onAction: o.action.onClick } : {}),
     } as Parameters<typeof mgr.add>[0]);
-    pushHistory({ id, intent, title: t.title ?? null, at: Date.now(), status: 'open' });
+    pushHistory({ id, intent, title: o.title ?? null, at: Date.now(), status: 'open', read: false });
     return id;
   }, [mgr]);
-  const close = React.useCallback((id: string) => { mgr.close(id); markHistoryClosed(id); }, [mgr]);
-  const update = React.useCallback((id: string, t: Partial<ToastData>) => {
+  const update = React.useCallback((id: string, o: Partial<ToastOptions>) => {
     mgr.update(id, {
-      ...(t.title !== undefined ? { title: t.title } : {}),
-      ...(t.description !== undefined ? { description: t.description } : {}),
-      ...(t.intent !== undefined ? { type: t.intent, priority: intentPriority(t.intent) } : {}),
-      ...(t.timeout !== undefined ? { timeout: t.timeout } : {}),
+      ...(o.title !== undefined ? { title: o.title } : {}),
+      ...(o.description !== undefined ? { description: o.description } : {}),
+      ...(o.intent !== undefined ? { type: o.intent, priority: o.priority ?? intentPriority(o.intent) } : {}),
+      ...(o.priority !== undefined ? { priority: o.priority } : {}),
+      ...(o.duration !== undefined ? { timeout: o.duration } : {}),
+      ...(o.action !== undefined ? { actionLabel: o.action.label, onAction: o.action.onClick } : {}),
     });
   }, [mgr]);
-  const promise = React.useCallback(<V,>(p: Promise<V>, opts: { loading: ToastData; success: ToastData | ((v: V) => ToastData); error: ToastData | ((e: unknown) => ToastData) }) => {
-    const toOpts = (t: ToastData) => ({
-      title: t.title,
-      description: t.description,
-      type: t.intent ?? 'info',
-      priority: intentPriority(t.intent ?? 'info') as 'low' | 'high',
-      ...(t.timeout !== undefined ? { timeout: t.timeout } : {}),
+  const dismiss = React.useCallback((id?: string) => {
+    if (id === undefined) {
+      mgr.toasts.forEach((tt: { id: string }) => { mgr.close(tt.id); markHistoryClosed(tt.id); });
+    } else {
+      mgr.close(id); markHistoryClosed(id);
+    }
+  }, [mgr]);
+  const promise = React.useCallback(<V,>(p: Promise<V>, opts: { loading: ToastOptions; success: ToastOptions | ((v: V) => ToastOptions); error: ToastOptions | ((e: unknown) => ToastOptions) }) => {
+    const toOpts = (o: ToastOptions, dflt: Intent) => ({
+      title: o.title,
+      ...(o.description !== undefined ? { description: o.description } : {}),
+      type: o.intent ?? dflt,
+      priority: (o.priority ?? intentPriority(o.intent ?? dflt)) as 'low' | 'high',
+      ...(o.duration !== undefined ? { timeout: o.duration } : {}),
     });
     return mgr.promise(p, {
-      loading: toOpts({ intent: 'info', ...opts.loading }),
-      success: (v: V) => toOpts({ intent: 'success', ...(typeof opts.success === 'function' ? opts.success(v) : opts.success) }),
-      error: (e: unknown) => toOpts({ intent: 'error', ...(typeof opts.error === 'function' ? opts.error(e) : opts.error) }),
+      loading: toOpts({ intent: 'info', ...opts.loading }, 'info'),
+      success: (v: V) => toOpts({ intent: 'success', ...(typeof opts.success === 'function' ? opts.success(v) : opts.success) }, 'success'),
+      error: (e: unknown) => toOpts({ intent: 'danger', ...(typeof opts.error === 'function' ? opts.error(e) : opts.error) }, 'danger'),
     });
   }, [mgr]);
-  const wrap = React.useCallback((intent: ToastIntent) => (t: Omit<ToastData, 'intent'>) => add({ ...t, intent }), [add]);
-  return React.useMemo(() => ({
-    toasts: mgr.toasts,
-    add,
-    close,
-    update,
-    promise,
-    info: wrap('info'),
-    success: wrap('success'),
-    warning: wrap('warning'),
-    error: wrap('error'),
-    history: hist,
-  }), [mgr.toasts, add, close, update, promise, wrap, hist]);
+  const toasts = React.useMemo(() => (mgr.toasts as Array<Record<string, unknown> & { id: string }>).map((tt) => ({
+    id: tt.id,
+    title: tt.title as React.ReactNode,
+    ...(tt.description !== undefined ? { description: tt.description as React.ReactNode } : {}),
+    intent: (tt.type as Intent | undefined) ?? 'neutral',
+  })), [mgr.toasts]);
+  const historyApi = React.useMemo(() => {
+    if (!historyOn) return null;
+    return {
+      items: hist.map((h): ToastHistoryItem => ({
+        id: h.id, title: h.title,
+        ...(h.intent !== undefined ? { intent: h.intent as Intent } : {}),
+        createdAt: h.at, read: !!h.read,
+      })),
+      unread: hist.filter((h) => !h.read).length,
+      markRead: historyMarkRead,
+      markAllRead: historyMarkAllRead,
+      clear: historyClear,
+    };
+  }, [hist, historyOn]);
+  return React.useMemo(() => ({ toast, update, dismiss, promise, toasts, history: historyApi }),
+    [toast, update, dismiss, promise, toasts, historyApi]);
 }
 
 export const Toast = {

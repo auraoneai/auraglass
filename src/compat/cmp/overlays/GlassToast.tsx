@@ -33,13 +33,13 @@ export function GlassToast({ message, title, type, duration, onClose, className 
   const api = useToast();
   const intent = toastType(type);
   React.useEffect(() => {
-    const id = api.add({
-      ...(title !== undefined ? { title } : {}),
-      ...(message !== undefined ? { description: message } : title !== undefined ? {} : { title: message }),
-      intent,
-      ...(duration !== undefined ? { timeout: duration } : {}),
+    const id = api.toast({
+      title: title ?? message ?? '',
+      ...(title !== undefined && message !== undefined ? { description: message } : {}),
+      intent: intent as 'info' | 'success' | 'warning' | 'danger' | 'neutral',
+      ...(duration !== undefined ? { duration } : {}),
     });
-    return () => { api.close(id); onClose?.(); };
+    return () => { api.dismiss(id); onClose?.(); };
     // mount-once semantics: one toast per adapter mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -47,6 +47,6 @@ export function GlassToast({ message, title, type, duration, onClose, className 
 }
 
 /** Programmatic form: GlassToast({message, type}) as a function call is
-    unsupported in 5.0 — consumers migrate to useToast().add. The component
+    unsupported in 5.0 — consumers migrate to useToast().toast. The component
     form above is the adapter. */
 export default GlassToast;

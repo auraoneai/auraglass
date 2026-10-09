@@ -44,10 +44,9 @@ function UndoToast() {
   return (
     <Button
       onClick={() =>
-        t.add({
+        t.toast({
           title: 'Row archived',
           intent: 'info',
-          data: { undo: true },
         })
       }
     >

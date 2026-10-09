@@ -21,9 +21,9 @@ function Toasts() {
   const t = useToast();
   return (
     <>
-      <Button onClick={() => t.info({ title: 'Saved', description: 'Your changes were saved.' })}>Info</Button>{' '}
-      <Button onClick={() => t.success({ title: 'Done' })}>Success</Button>{' '}
-      <Button onClick={() => t.error({ title: 'Failed', description: 'Try again.' })}>Error</Button>
+      <Button onClick={() => t.toast({ intent: 'info', title: 'Saved', description: 'Your changes were saved.' })}>Info</Button>{' '}
+      <Button onClick={() => t.toast({ intent: 'success', title: 'Done' })}>Success</Button>{' '}
+      <Button onClick={() => t.toast({ intent: 'danger', title: 'Failed', description: 'Try again.' })}>Error</Button>
       <Toast.Viewport>
         {t.toasts.map((toast) => (
           <Toast.Root key={toast.id} toast={toast}>

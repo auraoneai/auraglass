@@ -32,7 +32,7 @@ function Probe() {
 }
 
 describe('useToast compat (CMP-341)', () => {
-  it('toast()/addToast -> useToast().add, dismiss -> close', async () => {
+  it('toast()/addToast -> useToast().toast, dismiss -> dismiss', async () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     render(<Toast.Provider><Toast.Viewport /><Probe /></Toast.Provider>);
     await flush();

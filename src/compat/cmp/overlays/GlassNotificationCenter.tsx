@@ -57,7 +57,7 @@ export interface UseNotificationsCompatReturn {
   addNotification: (n: GlassNotification) => string;
 }
 
-/** 4.x useNotifications().addNotification -> 5.0 useToast().add with history. */
+/** 4.x useNotifications().addNotification -> 5.0 useToast().toast with history. */
 export function useNotifications(): UseNotificationsCompatReturn {
   const api = useToast();
   const ref = React.useRef(api);
@@ -70,11 +70,10 @@ export function useNotifications(): UseNotificationsCompatReturn {
     notifications: pushed.current,
     addNotification: (n) => {
       pushed.current = [...pushed.current, n];
-      const t: ToastData = {
-        ...(n.title !== undefined ? { title: n.title } : {}),
-        ...(n.message !== undefined ? { description: n.message } : {}),
-      };
-      return ref.current.add(t);
+      return ref.current.toast({
+        title: n.title ?? n.message ?? '',
+        ...(n.title !== undefined && n.message !== undefined ? { description: n.message } : {}),
+      });
     },
   }), []);
 }

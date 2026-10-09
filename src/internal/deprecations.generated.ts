@@ -67,7 +67,7 @@ export const DEPRECATIONS: Readonly<Record<string, DeprecationRow>> = {
   "DEP-C0112": { id: "DEP-C0112", message: "'GlassContextMenu' is renamed to 'ContextMenu' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0112" },
   "DEP-C0113": { id: "DEP-C0113", message: "'GlassMenubar' is renamed to 'Menubar' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0113" },
   "DEP-C0114": { id: "DEP-C0114", message: "'LiquidGlassPopoverMenu' is renamed to 'Menu' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0114" },
-  "DEP-C0115": { id: "DEP-C0115", message: "'GlassToast' declarative mounts map to useToast().add; keep markup only for bespoke layouts.", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0115" },
+  "DEP-C0115": { id: "DEP-C0115", message: "'GlassToast' declarative mounts map to useToast().toast; keep markup only for bespoke layouts.", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0115" },
   "DEP-C0116": { id: "DEP-C0116", message: "'GlassToastProvider' is renamed to 'Toast.Provider' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0116" },
   "DEP-C0117": { id: "DEP-C0117", message: "'GlassToastViewport' is renamed to 'Toast.Viewport' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0117" },
   "DEP-C0118": { id: "DEP-C0118", message: "4.x useToast returns {toast,addToast,dismiss,removeToast}; 5.0 useToast returns {add,close,update,promise,history,toasts}.", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0118" },
@@ -75,7 +75,7 @@ export const DEPRECATIONS: Readonly<Record<string, DeprecationRow>> = {
   "DEP-C0120": { id: "DEP-C0120", message: "'GlassPositioner' is renamed to 'Popover.Positioner' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0120" },
   "DEP-C0121": { id: "DEP-C0121", message: "'GlassNotificationProvider' is renamed to 'Toast.Provider' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0121" },
   "DEP-C0122": { id: "DEP-C0122", message: "'useNotifications' is renamed to 'useToast' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0122" },
-  "DEP-C0130": { id: "DEP-C0130", message: "'GlassAchievementNotifications' is removed; feed achievements through useToast().add.", codemod: "removed", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0130" },
+  "DEP-C0130": { id: "DEP-C0130", message: "'GlassAchievementNotifications' is removed; feed achievements through useToast().toast.", codemod: "removed", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0130" },
   "DEP-C0131": { id: "DEP-C0131", message: "'GlassTransitions.GlassModal' is removed; use Dialog (transitions are built in).", codemod: "removed", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0131" },
   "DEP-C0132": { id: "DEP-C0132", message: "'MobileGlassBottomSheet' is removed; use Sheet with side='bottom'.", codemod: "removed", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-dep-c0132" },
   "DEP-C0200": { id: "DEP-C0200", message: "'GlassButton' prop 'predictive' has no 5.0 equivalent and is removed.", codemod: "dead-optical-props", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-dep-c0200" },
@@ -979,7 +979,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "codemod": "canonical-names",
     "automation": "partial",
     "breaking": "B5",
-    "message": "'GlassToast' declarative mounts map to useToast().add; keep markup only for bespoke layouts.",
+    "message": "'GlassToast' declarative mounts map to useToast().toast; keep markup only for bespoke layouts.",
     "doc": "#dep-dep-c0115",
     "compat": "GlassToast"
   },
@@ -1122,7 +1122,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "codemod": "removed",
     "automation": "full",
     "breaking": "B3",
-    "message": "'GlassAchievementNotifications' is removed; feed achievements through useToast().add.",
+    "message": "'GlassAchievementNotifications' is removed; feed achievements through useToast().toast.",
     "doc": "#dep-dep-c0130"
   },
   {

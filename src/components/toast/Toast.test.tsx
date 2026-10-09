@@ -9,12 +9,12 @@ function Host() {
   const t = useToast();
   return (
     <>
-      <button onClick={() => t.info({ title: 'Saved', description: 'All good' })}>add-info</button>
-      <button onClick={() => t.error({ title: 'Failed' })}>add-error</button>
-      <button onClick={() => t.add({ title: 'sticky', timeout: 0 })}>add-sticky</button>
-      <button onClick={() => t.toasts[0] && t.close(t.toasts[0].id)}>close-first</button>
+      <button onClick={() => t.toast({ intent: 'info', title: 'Saved', description: 'All good' })}>add-info</button>
+      <button onClick={() => t.toast({ intent: 'danger', title: 'Failed' })}>add-error</button>
+      <button onClick={() => t.toast({ title: 'sticky', duration: STICKY_MS })}>add-sticky</button>
+      <button onClick={() => t.toasts[0] && t.dismiss(t.toasts[0].id)}>close-first</button>
       <span data-testid="count">{t.toasts.length}</span>
-      <span data-testid="hist">{t.history.length}</span>
+      <span data-testid="hist">{t.history?.items.length ?? 0}</span>
       <Toast.Viewport>
         {t.toasts.map((toast) => (
           <Toast.Root key={toast.id} toast={toast}>
@@ -36,6 +36,8 @@ const renderHost = () => render(
     </Toast.Provider>
   </AuraGlassProvider>,
 );
+
+const STICKY_MS = 0;
 
 describe('Toast + useToast', () => {
   afterEach(() => { jest.useRealTimers(); });

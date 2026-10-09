@@ -26,13 +26,14 @@ export interface UseToastCompatReturn {
   error: (t: Omit<ToastData, 'intent'>) => string;
 }
 
-const toData = (o: GlassToastOptions | string): ToastData => {
+/* contract ToastOptions — title is required; fall back to message. */
+const toData = (o: GlassToastOptions | string): Parameters<ReturnType<typeof useToast5>['toast']>[0] => {
   if (typeof o === 'string') return { title: o };
   return {
-    ...(o.title !== undefined ? { title: o.title } : {}),
-    ...(o.message !== undefined ? { description: o.message } : {}),
-    intent: toastType(o.type),
-    ...(o.duration !== undefined ? { timeout: o.duration } : {}),
+    title: o.title ?? o.message ?? '',
+    ...(o.title !== undefined && o.message !== undefined ? { description: o.message } : {}),
+    ...(o.type !== undefined ? { intent: toastType(o.type) as 'info' | 'success' | 'warning' | 'danger' | 'neutral' } : {}),
+    ...(o.duration !== undefined ? { duration: o.duration } : {}),
   };
 };
 
@@ -44,11 +45,11 @@ export function useToast(): UseToastCompatReturn {
   /* Stable return object — 4.x callers pass it into effect deps; a fresh object
      per render would re-fire those effects forever. */
   return React.useMemo(() => ({
-    toast: (o) => ref.current.add(toData(o)),
-    addToast: (o) => ref.current.add(toData(o)),
-    dismiss: (id) => ref.current.close(id),
-    removeToast: (id) => ref.current.close(id),
-    success: (t) => ref.current.success(t),
-    error: (t) => ref.current.error(t),
+    toast: (o) => ref.current.toast(toData(o)),
+    addToast: (o) => ref.current.toast(toData(o)),
+    dismiss: (id) => ref.current.dismiss(id),
+    removeToast: (id) => ref.current.dismiss(id),
+    success: (t) => ref.current.toast({ ...t, title: t.title as React.ReactNode, intent: 'success' }),
+    error: (t) => ref.current.toast({ ...t, title: t.title as React.ReactNode, intent: 'danger' }),
   }), []);
 }

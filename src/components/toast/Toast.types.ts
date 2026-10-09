@@ -1,7 +1,11 @@
 /* CMP-283..294 (REQ-CMP-106/107/108/109/110): Toast prop + hook types. */
 import type * as React from 'react';
 
-export type ToastIntent = 'info' | 'success' | 'warning' | 'error';
+/** contract Intent plus 'error' kept for 4.x compat paths (REQ-CMP-107). */
+export type ToastIntent = 'neutral' | 'info' | 'success' | 'warning' | 'danger' | 'error';
+export type { UseToast, ToastOptions, ToastHistoryItem, Intent } from '../../contracts/components';
+import type { Intent } from '../../contracts/components';
+
 export type ToastPosition =
   | 'top-left' | 'top-center' | 'top-right'
   | 'bottom-left' | 'bottom-center' | 'bottom-right';
@@ -11,6 +15,8 @@ export interface ToastProviderProps {
   limit?: number | undefined;
   /** default 5000ms */
   timeout?: number | undefined;
+  /** REQ-CMP-107: false disables toast history — useToast().history returns null. */
+  history?: { limit?: number } | false | true | undefined;
   children?: React.ReactNode;
 }
 
@@ -32,6 +38,8 @@ export interface ToastData extends Record<string, unknown> {
 }
 
 export interface ToastRecord {
+  /** unread flag for the contract history surface (REQ-CMP-107) */
+  read?: boolean;
   id: string;
   intent: ToastIntent;
   title: React.ReactNode;
