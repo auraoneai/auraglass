@@ -150,6 +150,9 @@ const VALUE_SHAPES = {
   'glass-material': { type: 'object' },
   'theme-preset': { $ref: '#/$defs/presetValue' },
   'mode-table': { $ref: '#/$defs/modeValue' },
+  // pre-resolved frozen values (tokens/legacy/*, ag.tier 'legacy'): verbatim
+  // rendered CSS strings — never re-interpreted by the compiler (MAT-328)
+  'ag-rendered': { type: 'string' },
   fontFamily: { type: ['string', 'array'] },
   fontWeight: { type: ['number', 'string'] },
   number: { type: 'number' },
