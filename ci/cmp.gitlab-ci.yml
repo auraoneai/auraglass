@@ -38,3 +38,38 @@ cmp:build:dts:
     - npm ci
     - npm run build
     - npm test -- tests/foundation/exports/no-foundation-types.test.ts
+
+# REQ-CMP-135: always-on half — run `migrate 4to5` over the frozen consumer-4x
+# cmp cases and assert 0 TODO markers on mechanically mappable props.
+cmp:test:consumer-4x:
+  extends: .cmp-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - npm ci
+    - node packages/cli/scripts/gen-mappings.mjs
+    - npx jest tests/dx/consumer-4x-cmp.test.ts
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/]
+    when: always
+
+# REQ-CMP-135 remote L11 leg: cases compile inside a release/4.x worktree; the
+# migrated output then type-checks on this line with 0 TODOs on mappable props.
+# Gated on the OD-11 AWS remote runner (manual until registered).
+cmp:remote:consumer-4x:
+  extends: .ag-aws-remote
+  stage: certify
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    - npm ci
+    - node scripts/cmp/consumer-4x-l11.mjs
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/cmp/consumer-4x/]
+    when: always

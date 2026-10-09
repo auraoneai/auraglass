@@ -59,6 +59,13 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
     todos.push({ transform: 'prop-grammar', reason, doc });
   };
 
+  // new-name -> old names (renames may target dotted members like Toast.Provider)
+  const byNewName = new Map<string, Set<string>>();
+  for (const [old, c] of Object.entries(ctx.mappings.components)) {
+    if (!c.to || c.to === old) continue;
+    (byNewName.get(c.to) ?? byNewName.set(c.to, new Set()).get(c.to)!).add(old);
+  }
+
   root.find(j.JSXOpeningElement).forEach((p: any) => {
     const nameNode = p.node.name as { type?: string; name?: string; object?: { name?: string }; property?: { name?: string } };
     let localName: string | undefined;
@@ -68,10 +75,24 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
     }
     if (!localName) return;
     const exportName = exported.get(localName) ?? localName;
-    const mappedTo = ctx.mappings.components[exportName]?.to;
+    const compRow =
+      ctx.mappings.components[exportName] ??
+      [...(byNewName.get(exportName) ?? [])]
+        .map((old) => ctx.mappings.components[old])
+        .find(Boolean);
+    // Compat-routed names keep the 4.x prop surface via the aura-glass/compat
+    // adapter — prop rows (5.x renames/removals) must not fire on them.
+    if (compRow?.compatOnly) return;
+    const mappedTo = compRow?.to;
+    // Prop rows are keyed on the 4.x (pre-rename) name — after canonical-names
+    // rewrote the import, `exportName` is the 5.0 name, so resolve rows through
+    // the reverse rename map (new name -> old name's rows) too.
     const rows = [
       ...(ctx.mappings.components[exportName]?.props ?? []),
       ...(mappedTo ? (ctx.mappings.components[mappedTo]?.props ?? []) : []),
+      ...[...byNewName.get(exportName) ?? []].flatMap(
+        (old) => ctx.mappings.components[old]?.props ?? [],
+      ),
     ];
     if (!rows.length) return;
 

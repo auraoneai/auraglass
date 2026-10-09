@@ -35,9 +35,10 @@ export function GlassSelectItem(props: Parameters<typeof Select.Item>[0]) {
   warn();
   return <Select.Item {...props} />;
 }
-export function GlassSelectValue(props: Parameters<typeof Select.Value>[0]) {
+export function GlassSelectValue({ placeholder, ...props }: Parameters<typeof Select.Value>[0] & { placeholder?: React.ReactNode }) {
   warn();
-  return <Select.Value {...props} />;
+  // 5.x Select.Value renders its children as the empty-state placeholder.
+  return <Select.Value {...(props as object)}>{placeholder ?? (props as { children?: React.ReactNode }).children}</Select.Value>;
 }
 export function GlassSelectLabel(props: { children?: React.ReactNode }) {
   warn();

@@ -13,6 +13,8 @@ const DEP = 'DEP-C0118';
 export interface GlassToastOptions {
   message?: React.ReactNode;
   title?: React.ReactNode;
+  /** 4.x body line under the title — maps onto ToastData.description. */
+  description?: React.ReactNode;
   type?: string;
   duration?: number;
 }
@@ -30,7 +32,7 @@ const toData = (o: GlassToastOptions | string): ToastData => {
   if (typeof o === 'string') return { title: o };
   return {
     ...(o.title !== undefined ? { title: o.title } : {}),
-    ...(o.message !== undefined ? { description: o.message } : {}),
+    ...(o.description !== undefined ? { description: o.description } : o.message !== undefined ? { description: o.message } : {}),
     intent: toastType(o.type),
     ...(o.duration !== undefined ? { timeout: o.duration } : {}),
   };

@@ -7,5 +7,5 @@ export default {
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/legacy/', '<rootDir>/dist/', '<rootDir>/packages/', '<rootDir>/apps/'],
   setupFilesAfterEnv: ['<rootDir>/tests/helpers/setup.ts'],
   transform: { '^.+\\.(t|j|mj)sx?$': ['babel-jest', { presets: [['@babel/preset-env', { targets: { node: '20.19' } }], ['@babel/preset-react', { runtime: 'automatic' }], '@babel/preset-typescript'] }] },
-  moduleNameMapper: { '\\.css$': 'identity-obj-proxy' },
+  moduleNameMapper: { '\\.css$': 'identity-obj-proxy', '^(\\.{1,2}/.*)\\.js$': '$1' },
 };
