@@ -76,13 +76,21 @@ export const Sizes: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Dialog', id: 'overlays-dialog--sizes' } },
   render: () => (
     <Shell>
-      <Dialog.Root defaultOpen>
+      {(['sm', 'md', 'lg'] as const).map((size) => (
+        <Dialog.Root key={size} defaultOpen modal={false}>
+          <Dialog.Portal>
+            <Dialog.Popup size={size} aria-label={`dialog-${size}`}>
+              <Dialog.Header><Dialog.Title>{`size ${size}`}</Dialog.Title></Dialog.Header>
+              <Dialog.Body>Sizes cell</Dialog.Body>
+            </Dialog.Popup>
+          </Dialog.Portal>
+        </Dialog.Root>
+      ))}
+      <Dialog.Root defaultOpen modal={false}>
         <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup size="md">
-            <Dialog.Header><Dialog.Title>Sizes axis: sm / md / lg / xl / full — this cell md</Dialog.Title></Dialog.Header>
-            <Dialog.Body>Body</Dialog.Body>
-            <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+          <Dialog.Popup appearance="wide" aria-label="dialog-wide">
+            <Dialog.Header><Dialog.Title>appearance wide</Dialog.Title></Dialog.Header>
+            <Dialog.Body>Appearance cell</Dialog.Body>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>

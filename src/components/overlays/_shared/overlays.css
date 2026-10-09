@@ -2,6 +2,20 @@
    anchored-popup geometry, animating hint. No pseudo optics/grain, no
    transition:all, no !important, no infinite animations, no transitioned
    filter/backdrop-filter (scrim animates opacity only). */
+@layer ag.overlays {
+  /* REQ-CMP-89: every layer root is a full-viewport named container so popup
+     CSS can use @container ag-overlay queries instead of @media viewport. */
+  [data-ag-layer-root] {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    container-name: ag-overlay;
+    container-type: inline-size;
+  }
+  [data-ag-layer-root] > * {
+    pointer-events: auto;
+  }
+
 @layer ag.components {
   .ag-scrim {
     position: fixed;

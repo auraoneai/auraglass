@@ -410,3 +410,11 @@
     -webkit-mask-image: linear-gradient(to top, #000 0%, #000 60%, transparent 100%);
   }
 }
+
+
+/* REQ-CMP-89: nested-dialog dim moved here — it tunes the MATERIAL private
+   alpha, so it belongs with the surface engine, not the component sheet. */
+.ag-dialog-popup[data-ag-nested-open] {
+  transform: scale(0.98);
+  --_ag-surface-alpha: 0.72;
+}
