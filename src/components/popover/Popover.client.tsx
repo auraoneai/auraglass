@@ -100,7 +100,7 @@ const PopoverPopup = React.forwardRef<HTMLDivElement, PopoverPopupProps>(
         {...overlayMaterial(KIND)}
         {...(initialFocus !== undefined ? { initialFocus: initialFocus as never } : {})}
         {...(finalFocus !== undefined ? { finalFocus: finalFocus as never } : {})}
-        className={cn('ag-popover-popup', className)}
+        className={cn('ag-surface', 'ag-popover-positioner', className)}
         {...rest}
       >
         {children}

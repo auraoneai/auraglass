@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Select as Base } from '@base-ui/react/select';
 import { materialProps } from '../../material';
+import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { usePortalContainer } from '../../foundation/portal';
 import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
@@ -129,8 +130,8 @@ function SelectContent({ children, className }: SelectContentProps) {
       >
         <Base.Popup
           data-ag-part="popup"
-          {...materialProps({ layer: 'overlay', thickness: 'regular' })}
-          className={cn('ag-select-popup', className)}
+          {...overlayMaterial('select')}
+          className={cn('ag-select-popup', 'ag-surface', className)}
         >
           <Base.ScrollUpArrow data-ag-part="scroll-up" keepMounted />
           <Base.List data-ag-part="list">{children}</Base.List>

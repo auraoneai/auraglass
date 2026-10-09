@@ -7,6 +7,10 @@ import { render, act } from '@testing-library/react';
 import * as React from 'react';
 import { AuraGlassProvider } from '../../../theme';
 import { MOUNTED_SUBJECTS } from './__tests__/subjects';
+import { overlayMaterial } from './overlaySurface';
+import type { OverlayKind } from './overlayTypes';
+import { Select } from '../../select/index';
+import { Combobox } from '../../combobox/index';
 import FixturePopover from './__fixtures__/FixturePopover';
 
 describe('popup contract (CMP-205)', () => {
@@ -30,6 +34,57 @@ describe('popup contract (CMP-205)', () => {
       expect(popup.getAttribute('data-state')).toBe('open');
     },
   );
+
+  /* REQ-CMP-78: the thickness table is the single contract every overlay kind
+     shares — assert it on overlayMaterial() for all 9 kinds. */
+  const EXPECTED_THICKNESS: Record<OverlayKind, 'thick' | 'regular' | 'thin'> = {
+    dialog: 'thick',
+    'alert-dialog': 'thick',
+    sheet: 'thick',
+    popover: 'regular',
+    menu: 'regular',
+    tooltip: 'thin',
+    toast: 'thin',
+    select: 'regular',
+    combobox: 'regular',
+  };
+
+  it.each(Object.entries(EXPECTED_THICKNESS))(
+    'overlayMaterial(%s) → overlay kind + thickness + regular variant',
+    (kind, thickness) => {
+      const m = overlayMaterial(kind as OverlayKind) as unknown as Record<string, string>;
+      expect(m['data-ag-overlay']).toBe(kind);
+      expect(m['data-ag-layer']).toBe('overlay');
+      expect(m['data-ag-thickness']).toBe(thickness);
+      expect(m['data-ag-variant']).toBe('regular');
+    },
+  );
+
+  it('prominent passes through overlayMaterial on dialog/popover only', () => {
+    const prom = (k: OverlayKind) =>
+      (overlayMaterial(k, { prominent: true }) as unknown as Record<string, string>)['data-ag-prominent'];
+    expect(prom('dialog')).toBe('');
+    expect(prom('popover')).toBe('');
+    expect(prom('menu')).toBeUndefined();
+    expect(prom('tooltip')).toBeUndefined();
+  });
+
+  /* Select + Combobox subjects: popups carry data-ag-overlay=select|combobox,
+     thickness=regular, and the .ag-surface class that material.css keys on
+     (the REQ-CMP-78 seam fix). Mounted without AuraGlassProvider — the jsdom
+     portal flake is baselined separately. */
+  it.each([
+    ['select', <Select.Root key="s" defaultOpen><Select.Trigger>anchor</Select.Trigger><Select.Content><Select.Item value="a">a</Select.Item></Select.Content></Select.Root>],
+    ['combobox', <Combobox.Root key="c" defaultOpen items={[{ value: 'a', label: 'a' }]}><Combobox.Input /><Combobox.Content><Combobox.Item value="a">a</Combobox.Item></Combobox.Content></Combobox.Root>],
+  ])('%s popup: data-ag-overlay, thickness=regular, ag-surface class', async (kind, el) => {
+    render(el as React.ReactElement);
+    await act(async () => { await new Promise((r) => setTimeout(r, 40)); });
+    const popup = document.querySelector(`[data-ag-overlay="${kind}"]`);
+    expect(popup).toBeTruthy();
+    expect(popup!.getAttribute('data-ag-layer')).toBe('overlay');
+    expect(popup!.getAttribute('data-ag-thickness')).toBe('regular');
+    expect(popup!.classList.contains('ag-surface')).toBe(true);
+  });
 
   it('fixture popover: Positioner→Popup structure, arrow part, portal root', async () => {
     render(<AuraGlassProvider><FixturePopover /></AuraGlassProvider>);

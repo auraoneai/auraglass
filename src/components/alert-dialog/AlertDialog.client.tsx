@@ -146,7 +146,7 @@ function AlertDialogPopup({ render, className, children, ref, initialFocus, ...r
       /* initialFocus=false keeps BU's lazy pipeline from racing our own
          mount-focus below (deterministic in jsdom and in browsers). */
       initialFocus={userFocus ? (initialFocus as never) : false}
-      className={cn('ag-alert-dialog-popup', className)}
+      className={cn('ag-surface', 'ag-scrim', className)}
       {...(render ? { render } : {})}
       ref={setRefs}
       {...rest}

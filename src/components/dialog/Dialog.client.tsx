@@ -183,9 +183,7 @@ function DialogPopup({
       data-state={ctxOpen ? 'open' : 'closed'}
       data-ag-size={size}
       data-ag-placement={placement}
-      {...overlayMaterial('dialog')}
-      data-ag-variant={variant}
-      {...(prominent ? { 'data-ag-prominent': '' } : {})}
+      {...overlayMaterial('dialog', { variant, prominent })}
       {...(initialFocus !== undefined ? { initialFocus: initialFocus as never } : {})}
       {...(finalFocus !== undefined ? { finalFocus: finalFocus as never } : {})}
       /* CMP-216: data-ag-nested-open mirrors BU's nestedDialogOpen state; the

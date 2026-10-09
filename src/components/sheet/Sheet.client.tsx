@@ -222,7 +222,7 @@ function SheetPopup({
       data-ag-size={size}
       data-ag-preset={ctx.preset}
       {...overlayMaterial('sheet')}
-      className={cn('ag-sheet-popup', className)}
+      className={cn('ag-surface', 'ag-scrim', className)}
       {...(render ? { render } : {})}
       ref={setRefs}
       {...rest}

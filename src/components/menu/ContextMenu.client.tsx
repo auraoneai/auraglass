@@ -97,7 +97,7 @@ const ContextMenuPopup = React.forwardRef<HTMLDivElement, MenuPopupProps>(
         data-ag-part="popup"
         data-state={ctx.open ? 'open' : 'closed'}
         {...overlayMaterial('menu')}
-        className={cn('ag-menu-popup', 'ag-contextmenu-popup', className)}
+        className={cn('ag-surface', 'ag-menu-positioner', 'ag-contextmenu-popup', className)}
         {...rest}
       >
         {children}

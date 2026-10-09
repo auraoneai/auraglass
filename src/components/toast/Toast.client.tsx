@@ -89,7 +89,7 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
         data-ag-intent={intent}
         data-state={state}
         {...overlayMaterial('toast')}
-        className={cn('ag-toast', className)}
+        className={cn('ag-surface', 'ag-toast', className)}
         {...rest}
       >
         <Base.Content data-ag-part="content" className="ag-toast-content">

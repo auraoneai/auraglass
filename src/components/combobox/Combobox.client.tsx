@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Combobox as Base } from '@base-ui/react/combobox';
 import { materialProps } from '../../material';
+import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { usePortalContainer } from '../../foundation/portal';
 import { useAnnouncer } from '../../theme';
 import { toChangeDetails } from '../../foundation';
@@ -326,8 +327,8 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
       >
         <Base.Popup
           data-ag-part="popup"
-          {...materialProps({ layer: 'overlay', thickness: 'regular' })}
-          className={cn('ag-combobox-popup', className)}
+          {...overlayMaterial('combobox')}
+          className={cn('ag-combobox-popup', 'ag-surface', className)}
         >
           <Base.List data-ag-part="list" aria-busy={loading || undefined}>
             {virtual ? (
