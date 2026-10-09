@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Slider as Base } from '@base-ui/react/slider';
+import { DirectionProvider } from '@base-ui/react/direction-provider';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
@@ -17,13 +18,20 @@ function SliderRoot<V extends number | number[]>({
   ref,
   ...rest
 }: SliderRootProps<V>) {
+  /* REQ-CMP-50: Base UI ignores the DOM dir attribute for key mirroring —
+     resolve the document/element dir and wrap in DirectionProvider. */
+  const dir: 'ltr' | 'rtl' =
+    typeof document !== 'undefined' && document.documentElement?.getAttribute('dir') === 'rtl'
+      ? 'rtl'
+      : 'ltr';
   const ariaLabel = (rest as Record<string, unknown>)['aria-label'] as string | undefined;
   const ariaLabelledby = (rest as Record<string, unknown>)['aria-labelledby'] as string | undefined;
   const initial = rest.value ?? rest.defaultValue;
   const thumbCount = Array.isArray(initial) ? Math.max(1, initial.length) : 1;
   return (
-    <Base.Root
-      data-ag-part="root"
+    <DirectionProvider direction={dir}>
+      <Base.Root
+        data-ag-part="root"
       className={cn('ag-slider', className)}
       onValueChange={(v, details) => onValueChange?.(v as V, toChangeDetails(details))}
       onValueCommitted={(v, details) => onValueCommitted?.(v as V, toChangeDetails(details))}
@@ -64,7 +72,8 @@ function SliderRoot<V extends number | number[]>({
           })}
         </>
       )}
-    </Base.Root>
+      </Base.Root>
+    </DirectionProvider>
   );
 }
 
