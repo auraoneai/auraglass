@@ -17,6 +17,7 @@ import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
+import { Button } from '../button';
 import { useSheetDetents } from './useSheetDetents';
 import { SheetHandle, SheetHandleContext } from './SheetHandle.client';
 import { SheetHeader, SheetBody, SheetFooter } from './SheetLayout';
@@ -264,18 +265,21 @@ function SheetClose({ children, className, ref, ...rest }: SheetButtonishProps) 
   );
 }
 
+/* REQ-CMP-93: Sheet.Action is a Base.Close rendered as a plain Button —
+   click closes with reason 'close-press' and it IS a Button (its own
+   data-ag-part pipeline) rather than a bare <button>. */
 function SheetAction({ children, className, onClick, ref, ...rest }: SheetActionProps) {
   return (
-    <button
-      type="button"
+    <Base.Close
       data-ag-part="action"
       className={cn('ag-sheet-action', className)}
-      onClick={onClick as React.MouseEventHandler<HTMLButtonElement>}
-      ref={ref as React.Ref<HTMLButtonElement>}
+      render={<Button variant="clear" data-ag-part="action" />}
+      onClick={onClick as (e: never) => void}
+      ref={ref as never}
       {...rest}
     >
       {children}
-    </button>
+    </Base.Close>
   );
 }
 

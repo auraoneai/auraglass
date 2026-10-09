@@ -119,6 +119,33 @@ describe('Sheet (CMP-229..236)', () => {
     expect(el.hasAttribute('data-ag-dragging')).toBe(false);
   });
 
+  it('Sheet.Action click closes with reason close-press; rendered as a Button', async () => {
+    const onOpenChange = jest.fn();
+    render(
+      <Sheet.Root modal={false} onOpenChange={onOpenChange}>
+        <Sheet.Trigger>Open sheet</Sheet.Trigger>
+        <Sheet.Content>
+          <Sheet.Body>body</Sheet.Body>
+          <Sheet.Action>Got it</Sheet.Action>
+          <Sheet.Close>Cancel</Sheet.Close>
+        </Sheet.Content>
+      </Sheet.Root>,
+    );
+    await userEvent.click(screen.getByText('Open sheet'));
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    const el = popup()!;
+    const action = el.querySelector<HTMLElement>('[data-ag-part="action"]')!;
+    // it IS a Button (Button's own part pipeline emitted a real button element)
+    expect(action.tagName).toBe('BUTTON');
+    // the cancel Close is a separate part (data-ag-part="close", outside Body)
+    const close = el.querySelector<HTMLElement>('[data-ag-part="close"]');
+    expect(close).toBeTruthy();
+    expect(close!.closest('[data-ag-part="body"]')).toBeNull();
+    await userEvent.click(action);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(onOpenChange).toHaveBeenLastCalledWith(false, expect.objectContaining({ reason: 'close-press' }));
+  });
+
   it('modal=false: no scrim, no aria-modal; overlay layer = thick', async () => {
     render(<Demo root={{ defaultOpen: true, modal: false }} />);
     await act(async () => {});
