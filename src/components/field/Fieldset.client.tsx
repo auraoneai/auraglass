@@ -13,4 +13,5 @@ function FieldsetRoot({ legend, className, children, ref, ...rest }: FieldsetRoo
   );
 }
 
-export const Fieldset = { Root: FieldsetRoot };
+/* REQ-CMP-59: Fieldset is a flat function component; .Root kept as an alias. */
+export const Fieldset = Object.assign(FieldsetRoot, { Root: FieldsetRoot });
