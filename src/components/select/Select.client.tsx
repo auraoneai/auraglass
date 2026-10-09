@@ -36,10 +36,18 @@ import type {
 
 const SelectSizeContext = React.createContext<ControlSize>(DEFAULT_CONTROL_SIZE);
 
-const finePointer = (): boolean =>
-  typeof window !== 'undefined' && typeof window.matchMedia === 'function'
-    ? window.matchMedia('(pointer: fine)').matches
-    : true;
+const FINE_POINTER_QUERY = '(pointer: fine)';
+function subscribeFinePointer(onChange: () => void) {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return () => {};
+  const mql = window.matchMedia(FINE_POINTER_QUERY);
+  mql.addEventListener?.('change', onChange);
+  return () => mql.removeEventListener?.('change', onChange);
+}
+function getFinePointer() {
+  return typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+    ? window.matchMedia(FINE_POINTER_QUERY).matches
+    : false;
+}
 
 function SelectRoot<Value = string>({
   onValueChange,
@@ -116,14 +124,16 @@ function SelectValue({ children, className }: SelectValueProps) {
 function SelectContent({ children, className }: SelectContentProps) {
   const container = usePortalContainer('overlay');
   const size = React.useContext(SelectSizeContext);
-  const [alignToTrigger] = React.useState<boolean>(finePointer);
+  /* REQ-CMP-65: live media query via useSyncExternalStore */
+  const alignToTrigger = React.useSyncExternalStore(subscribeFinePointer, getFinePointer, () => false);
   return (
     <Base.Portal container={container}>
       <Base.Positioner
         data-ag-part="positioner"
         side="bottom"
         align="start"
-        sideOffset={6}
+        sideOffset={8}
+        collisionPadding={8}
         alignItemWithTrigger={alignToTrigger}
         {...sizeAttrs(size)}
       >
