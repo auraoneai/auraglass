@@ -4,7 +4,6 @@
    aura-glass/motion is lazily imported and its binding applied to the button
    ref + style; without the peer the magnetic props drop with a single
    warning — never throws. */
-'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { GlassButton } from './GlassButton';
