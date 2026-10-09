@@ -13,7 +13,8 @@
     font-size: var(--ag-text-sm, 12px);
     line-height: 1.4;
     padding: 6px 10px;
-    max-inline-size: min(320px, calc(100vw - 32px));
+    /* REQ-CMP-100: 280px cap with a 16px viewport margin. */
+    max-inline-size: min(280px, calc(100vw - 16px));
     inline-size: max-content;
     transition: opacity var(--ag-duration-small, 200ms) var(--ag-ease-standard, ease),
                 transform var(--ag-duration-small, 200ms) var(--ag-ease-standard, ease);
