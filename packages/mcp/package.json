@@ -28,7 +28,8 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "node --permission --allow-fs-read=./data node dist/server.js"
+    "start": "node --permission --allow-fs-read=./data node dist/server.js",
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config jest.config.mjs --passWithNoTests"
   },
   "devDependencies": {
     "@types/node": "^24",

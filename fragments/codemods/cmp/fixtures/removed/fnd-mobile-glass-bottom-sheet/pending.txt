@@ -1,0 +1,1 @@
+transform 'removed' does not yet emit this fixture's expected output — cmp stream codemod gap surfaced by REQ-FIN-09 all-stream discovery (lands with the stream's codemod REQ)
