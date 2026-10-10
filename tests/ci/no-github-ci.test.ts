@@ -6,12 +6,13 @@ import { describe, expect, it } from '@jest/globals';
 import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 
+// REQ-PLAT-02: the five legacy GHA workflows named by the REQ.
 const FORBIDDEN_WORKFLOWS = [
-  'ci.yml',
-  'release.yml',
-  'canary.yml',
-  'visual.yml',
-  'nightly.yml',
+  'deploy-storybook.yml',
+  'design-system-compliance.yml',
+  'glass-pipeline.yml',
+  'publish-npm.yml',
+  'visual-regression.yml',
 ];
 
 // Tokens that indicate GitHub Actions machinery. Docs that describe the

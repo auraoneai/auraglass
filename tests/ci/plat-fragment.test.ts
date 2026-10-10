@@ -159,6 +159,15 @@ describe('REQ-PLAT-05 fixes (fail-closed tag gates)', () => {
       }
     }
   });
+  it('4x plat:build:docs builds the docs site into apps/docs/out (not Storybook) and fails closed until docs:build exists', () => {
+    const s = yaml.stringify(job('plat:build:docs').script, { lineWidth: 0 });
+    const fourX = s.slice(s.indexOf('"$AG_LINE" = "4x"'), s.indexOf('else'));
+    expect(fourX).not.toContain('build-storybook');
+    expect(fourX).toContain('npm run docs:build');
+    expect(fourX).toMatch(/PENDING: npm script docs:build[^\n]*; exit 1;/);
+    expect(fourX).toContain('test -f apps/docs/out/index.html');
+    expect(job('plat:build:docs').artifacts.paths).toContain('apps/docs/out/');
+  });
   it('pages optionally consumes plat:test:registry artifacts', () => {
     const n = job('pages').needs.find((x: any) => x.job === 'plat:test:registry');
     expect(n).toEqual({ job: 'plat:test:registry', artifacts: true, optional: true });
