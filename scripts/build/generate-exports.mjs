@@ -21,6 +21,11 @@
            excluded entry present, or a stale main/types).
      Seed-backed and ga-gated exclusions alone exit 0.
    - --write: rewrite package.json exports/main/types. --list-entries: print.
+   - --list-entries --json (REQ-PLAT-67/73): manifest-shaped JSON
+     { version, entries, excluded, exports }: `entries` are the manifest rows
+     that ship, verbatim and in manifest order (equal to the manifest's
+     `entries` once nothing is excluded); `excluded` is the --check report;
+     `exports` is the generated package.json map.
    - --root <dir>: run against a fixture tree. */
 import { writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
@@ -131,6 +136,19 @@ export function packageDrift(root = ROOT) {
   return out;
 }
 
+/** --list-entries --json payload (manifest-shaped; see header). */
+export function listEntriesJson(root = ROOT) {
+  const { keep } = buildableEntries(root);
+  const ok = new Set(keep.map((e) => e.subpath));
+  const rows = loadJson(join(root, 'build', 'exports.manifest.json'));
+  return {
+    version: rows.version,
+    entries: rows.entries.filter((e) => !e.source.startsWith('src/') || ok.has(e.subpath)),
+    excluded: exclusionReport(root),
+    exports: desiredExports(root),
+  };
+}
+
 function printReport(report) {
   if (!report.length) { console.log('excluded entries: none'); return; }
   console.log('excluded entries:');
@@ -147,6 +165,7 @@ function main(argv) {
   contractGaLines(root); // fail fast on an unreadable contract list
 
   if (mode === '--list-entries') {
+    if (argv.includes('--json')) { console.log(JSON.stringify(listEntriesJson(root), null, 2)); return 0; }
     const { keep } = buildableEntries(root);
     console.log('exports (built):');
     for (const e of keep) console.log(`  ${e.subpath} -> ${e.default}`);
