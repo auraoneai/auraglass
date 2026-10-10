@@ -21,6 +21,15 @@
     backdrop-filter: none;
   }
 
+  /* REQ-CMP-21: every overlay positioner/viewport is a container so popup
+     responsive rules can query it instead of the viewport. */
+  [data-ag-part='positioner'],
+  .ag-dialog-viewport,
+  .ag-sheet-viewport {
+    container-type: inline-size;
+    container-name: ag-overlay;
+  }
+
   /* anchored popups (positioner-mounted) */
   [data-ag-part='popup'][data-ag-overlay],
   [data-ag-part='popup'][data-ag-positioned] {

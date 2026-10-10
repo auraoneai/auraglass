@@ -71,9 +71,9 @@
     cursor: default;
   }
 
-  @media (max-inline-size: 640px) {
+  @container ag-overlay (max-inline-size: 640px) {
     .ag-alert-dialog-popup {
-      max-inline-size: calc(100vw - 16px);
+      max-inline-size: calc(100cqi - 16px);
     }
     .ag-alert-dialog-footer {
       flex-direction: column;

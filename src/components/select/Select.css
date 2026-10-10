@@ -137,10 +137,10 @@
       max-block-size: min(60dvh, 400px);
     }
   }
-  @media (max-inline-size: 390px) {
+  @container ag-overlay (max-inline-size: 390px) {
     .ag-select-popup {
       min-inline-size: var(--ag-select-trigger-w, auto);
-      max-inline-size: calc(100vw - 16px);
+      max-inline-size: calc(100cqi - 16px);
     }
   }
   @media (prefers-reduced-motion: reduce) {
