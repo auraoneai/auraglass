@@ -27,6 +27,8 @@ import {
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useAnnouncer } from '../../theme';
 import { Checkbox } from '../../components/checkbox';
+import { Menu } from '../../components/menu';
+import { IconButton } from '../../components/icon-button';
 import { Skeleton } from '../../components/skeleton';
 import { useControllableState } from './useTableState';
 import { useGridKeyboard } from './useGridKeyboard';
@@ -48,6 +50,8 @@ export interface TableMessages {
   columnActions?: string | undefined;       // "Column actions"
   moveLeft?: string | undefined;
   moveRight?: string | undefined;
+  columnMenu?: string | undefined;
+  hideColumn?: string | undefined;
   movedTo?: string | undefined;             // "Moved {col} to position n of m"
   showTable?: string | undefined;           // "Show data table"
   loading?: string | undefined;
@@ -106,6 +110,13 @@ export interface TableProps<TData> {
 }
 
 const ROW_HEIGHT: Record<TableDensity, number> = { sm: 32, md: 40, lg: 48 };
+
+const MenuRoot = Menu.Root as React.FC<{ children?: React.ReactNode }>;
+const MenuTrigger = Menu.Trigger as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
+const MenuContent = Menu.Content as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
+const MenuItem = Menu.Item as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
+const MaybePortal = ('Portal' in Menu ? Menu.Portal : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
+const MaybePositioner = ('Positioner' in Menu ? Menu.Positioner : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
 
 function ResizeHandleInner<TData>({
   header,
@@ -235,6 +246,8 @@ export function Table<TData>(props: TableProps<TData>) {
       columnActions: messages?.columnActions ?? 'Column actions',
       moveLeft: messages?.moveLeft ?? 'Move left',
       moveRight: messages?.moveRight ?? 'Move right',
+      columnMenu: messages?.columnMenu ?? 'Column actions',
+      hideColumn: messages?.hideColumn ?? 'Hide',
       movedTo: messages?.movedTo ?? 'Moved {col} to position {n} of {m}',
       showTable: messages?.showTable ?? 'Show data table',
       loading: messages?.loading ?? 'Loading rows',
@@ -521,22 +534,32 @@ export function Table<TData>(props: TableProps<TData>) {
           flexRender(header.column.columnDef.header, header.getContext())
         )}
         {enableColumnReordering && !header.isPlaceholder ? (
-          <span className="ag-table__col-actions">
-            <button
-              type="button"
-              aria-label={`${msgs.moveLeft} ${label}`}
-              onClick={() => moveColumn(header.column.id, -1)}
+          <MenuRoot>
+            <MenuTrigger
+              render={<IconButton label={`${msgs.columnMenu ?? 'Column actions'} ${label}`} />}
+              data-ag-part="table-column-menu"
+              className="ag-table__col-menu"
             >
-              ‹
-            </button>
-            <button
-              type="button"
-              aria-label={`${msgs.moveRight} ${label}`}
-              onClick={() => moveColumn(header.column.id, 1)}
-            >
-              ›
-            </button>
-          </span>
+              ⋯
+            </MenuTrigger>
+            <MaybePortal>
+              <MaybePositioner>
+                <MenuContent data-ag-part="table-column-menu-content">
+                  <MenuItem onClick={() => moveColumn(header.column.id, -1)}>
+                    {msgs.moveLeft} {label}
+                  </MenuItem>
+                  <MenuItem onClick={() => moveColumn(header.column.id, 1)}>
+                    {msgs.moveRight} {label}
+                  </MenuItem>
+                  {header.column.getCanHide() ? (
+                    <MenuItem onClick={() => header.column.toggleVisibility(false)}>
+                      {msgs.hideColumn ?? 'Hide'} {label}
+                    </MenuItem>
+                  ) : null}
+                </MenuContent>
+              </MaybePositioner>
+            </MaybePortal>
+          </MenuRoot>
         ) : null}
         {enableColumnResizing && header.column.getCanResize() && !header.isPlaceholder ? (
           <ResizeHandleInner
