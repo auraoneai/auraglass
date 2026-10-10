@@ -67,6 +67,11 @@ mat:test:token-gates:
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
   script:
+    # Gates read the full tokens:build output closure (dist/compat/tokens.css
+    # @imports ../css/tokens.css). The mat:build:tokens producer artifact only
+    # carries dist/tokens/, dist/tokens.css and dist/compat/tokens.css, and
+    # plat:build:dist's tsdown cleans dist/, so rebuild in-job (deterministic, < 20 s).
+    - npm run tokens:build
     - node scripts/mat/token-gates-l1.mjs
 
 # REQ-MAT-18 (D.2-04): literal ratchet on MAT's stream baseline
