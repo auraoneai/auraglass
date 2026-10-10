@@ -25,11 +25,24 @@ function Root({ className, ref, ...rest }: AccordionRootProps & { ref?: React.Re
   );
 }
 
-function Item({ className, ref, ...rest }: React.ComponentProps<typeof BaseAccordion.Item>) {
+/* REQ-CMP-01: public part props are AuraGlass-owned (no Base UI types in the
+   emitted d.ts); Base UI stays an implementation detail of this file. */
+export interface AccordionItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> {
+  /** Identifies the item inside the Root `value` array. */
+  value?: string;
+  disabled?: boolean;
+  onOpenChange?: (open: boolean, eventDetails: unknown) => void;
+  className?: string;
+  ref?: React.Ref<HTMLDivElement> | undefined;
+}
+
+function Item({ className, ref, ...rest }: AccordionItemProps) {
   return <BaseAccordion.Item {...rest} ref={ref} data-ag-part="item" className={cn('ag-accordion-item', className)} />;
 }
 
-export interface AccordionHeaderProps extends React.ComponentProps<typeof BaseAccordion.Header> {
+export interface AccordionHeaderProps extends Omit<React.HTMLAttributes<HTMLHeadingElement>, 'className'> {
+  className?: string;
+  ref?: React.Ref<HTMLHeadingElement> | undefined;
   /** Heading level 2..6 (default 3). */
   headingLevel?: 2 | 3 | 4 | 5 | 6;
 }
@@ -47,13 +60,27 @@ function Header({ headingLevel = 3, className, ref, ...rest }: AccordionHeaderPr
   );
 }
 
-function Trigger({ className, ref, ...rest }: React.ComponentProps<typeof BaseAccordion.Trigger>) {
+export interface AccordionTriggerProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'> {
+  className?: string;
+  ref?: React.Ref<HTMLButtonElement> | undefined;
+}
+
+function Trigger({ className, ref, ...rest }: AccordionTriggerProps) {
   return (
     <BaseAccordion.Trigger {...rest} ref={ref} data-ag-part="trigger" className={cn('ag-accordion-trigger', className)} />
   );
 }
 
-function Content({ className, ref, ...rest }: React.ComponentProps<typeof BaseAccordion.Panel>) {
+export interface AccordionContentProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> {
+  /** Keep the panel in the DOM while closed. */
+  keepMounted?: boolean;
+  /** Use `hidden="until-found"` so find-in-page can open the panel. */
+  hiddenUntilFound?: boolean;
+  className?: string;
+  ref?: React.Ref<HTMLDivElement> | undefined;
+}
+
+function Content({ className, ref, ...rest }: AccordionContentProps) {
   return <BaseAccordion.Panel {...rest} ref={ref} data-ag-part="content" className={cn('ag-accordion-content', className)} />;
 }
 
