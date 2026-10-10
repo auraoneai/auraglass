@@ -43,7 +43,9 @@ const opt = (n) => {
 const ROOT = opt('root') ?? '.';
 const rel = (p) => join(ROOT, p);
 
-const STAGES = ['contract', 'build', 'test', 'certify', 'package', 'deploy', 'publish'];
+// package precedes certify: qual:certify:* need plat:package:pack (contract C-item,
+// docs/release/decisions/gitlab-ci-verification.md).
+const STAGES = ['contract', 'build', 'test', 'package', 'certify', 'deploy', 'publish'];
 const STREAMS = ['plat', 'mat', 'cmp', 'surf', 'qual'];
 const ROOT_TEMPLATES = ['.ag-node', '.ag-playwright', '.ag-gpu', '.ag-aws-remote'];
 const MIXINS = ['.ag-evidence-release']; // artifact mixin allowed alongside a root template
@@ -326,6 +328,10 @@ for (const s of STREAMS) {
         }
       }
     }
+    // rule 7 — only qual defines :certify: jobs
+    if (s !== 'qual' && /:certify:/.test(j)) {
+      fail.push(`${file}: job '${j}' is a certify job outside ci/qual.gitlab-ci.yml (rule 7)`);
+    }
     for (const d of Array.isArray(def.dependencies) ? def.dependencies : []) {
       const m = /^([a-z]+):/.exec(d);
       if (m && m[1] !== s) fail.push(`${file}: job '${j}' uses dependencies on foreign job '${d}'`);
@@ -347,6 +353,31 @@ for (const s of STREAMS) {
       );
       if (otherStreamPath) {
         fail.push(`${file}: job '${j}' artifact path '${otherStreamPath}' writes into another stream's dir`);
+      }
+      // evidence contract (REQ-FIN-21/22): applies to artifacts that ARE
+      // evidence — any path under .artifacts/, or the job is a gate/certify.
+      // Producer artifacts (storybook-static/, Pages public/) are covered by
+      // the producer-path rule above, not the evidence name.
+      const isEvidence =
+        (art.paths ?? []).some((p) => p === '.artifacts/' || p.startsWith('.artifacts')) ||
+        /^evidence-/.test(String(art.name ?? '')) ||
+        /:(gate|certify):/.test(j);
+      if (isEvidence) {
+        if (art.when !== 'always') {
+          fail.push(`${file}: job '${j}' evidence artifacts missing when: always`);
+        }
+        const artName = String(art.name ?? '');
+        const expectedName = j === 'pages' ? /^pages-/ : /^evidence-/;
+        if (!expectedName.test(artName)) {
+          fail.push(`${file}: job '${j}' evidence artifacts name '${artName || '(unset)'}' must match ${j === 'pages' ? 'pages-*' : 'evidence-*'}`);
+        }
+        const exp = String(art.expire_in ?? '');
+        if (!['14 days', '30 days', '90 days'].includes(exp)) {
+          fail.push(`${file}: job '${j}' artifacts expire_in '${exp || '(unset)'}' must be 14 days (pr/main), 30 days (nightly) or 90 days (release)`);
+        }
+        if ((def.extends ?? []).includes('.ag-evidence-release') && exp && exp !== '90 days') {
+          fail.push(`${file}: job '${j}' on .ag-evidence-release must expire_in 90 days, not '${exp}'`);
+        }
       }
     }
 
@@ -423,18 +454,28 @@ for (const f of ['.gitlab-ci.yml', ...STREAMS.map((s) => `ci/${s}.gitlab-ci.yml`
 const explicit = opt('files')?.split(',').filter(Boolean);
 let changed = explicit;
 if (!changed && existsSync(join(ROOT, '.git'))) {
-  const base = opt('base') ?? process.env.AG_BASE ?? null;
+  const lineBase =
+    process.env.AG_LINE === '4x' ? 'origin/release/4.x'
+    : process.env.AG_LINE === '5x' ? 'origin/next'
+    : null;
+  const base = opt('base') ?? process.env.AG_BASE ?? lineBase;
   if (base) {
     try {
       changed = execFileSync('git', ['-C', ROOT, 'diff', '--name-only', `${base}...HEAD`], {
         encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'pipe'],
         maxBuffer: 64 * 1024 * 1024,
       })
         .trim()
         .split('\n')
         .filter(Boolean);
-    } catch {
+    } catch (e) {
       changed = null;
+      // In CI the job fetches its base ref first (contract:ci-fragments), so an
+      // unresolvable base means the task-graph hook would be silently skipped.
+      if (process.env.GITLAB_CI === 'true') {
+        fail.push(`cannot diff ${base}...HEAD (base ref not fetched?): ${String(e.stderr ?? e.message).split('\n')[0]}`);
+      }
     }
   }
 }
@@ -445,7 +486,7 @@ if (tasksChanged) {
     const r = execFileSync('node', [tgTool], { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
     void r;
   } else {
-    warn.push('task-graph verifier docs/auraglass-5/tools/verify-task-graph.mjs absent — pending (G-15 hook)');
+    fail.push('task-graph verifier docs/auraglass-5/tools/verify-task-graph.mjs absent (G-15 hook, REQ-FIN-21)');
   }
 }
 
