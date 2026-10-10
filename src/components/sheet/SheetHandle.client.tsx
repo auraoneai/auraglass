@@ -11,6 +11,7 @@ import * as React from 'react';
 import { useAnnouncer } from '../../theme';
 import { cn } from '../../internal';
 import { resolveDetent } from './useSheetDetents';
+import { subscribeFrame } from '../../motion/ticker';
 import type { SheetDetentsHandle } from './useSheetDetents';
 import type { SheetSide } from './Sheet.types';
 
@@ -45,7 +46,8 @@ export function SheetHandle({ className, children, ref }: {
 }) {
   const ctx = useSheetHandleContext();
   const drag = React.useRef<{ id: number; start: number; samples: { t: number; v: number }[] } | null>(null);
-  const raf = React.useRef(0);
+  const frameUnsub = React.useRef<(() => void) | null>(null);
+  const pendingPx = React.useRef(0);
 
   const announceDetent = React.useCallback((i: number) => {
     ctx.announce(ctx.labels?.detents?.[i] ?? DEFAULT_DETENT_LABELS[i] ?? `Detent ${i + 1}`);
@@ -59,13 +61,19 @@ export function SheetHandle({ className, children, ref }: {
     if (el) el.style.transform = '';
   }, [ctx, announceDetent]);
 
+  // S-13: one transform write per frame via the shared ticker (no raw rAF)
   const writeTransform = React.useCallback((px: number) => {
-    cancelAnimationFrame(raf.current);
-    raf.current = requestAnimationFrame(() => {
+    pendingPx.current = px;
+    if (frameUnsub.current) return;
+    let unsub: () => void;
+    unsub = subscribeFrame(() => {
+      frameUnsub.current = null;
+      unsub();
       const el = ctx.getPopup();
       if (!el) return;
-      el.style.transform = ctx.axis === 'y' ? `translateY(${px}px)` : `translateX(${px}px)`;
+      el.style.transform = ctx.axis === 'y' ? `translateY(${pendingPx.current}px)` : `translateX(${pendingPx.current}px)`;
     });
+    frameUnsub.current = unsub;
   }, [ctx]);
 
   const onPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
@@ -132,7 +140,7 @@ export function SheetHandle({ className, children, ref }: {
     // Escape reaches BU's dismiss → onOpenChange('escape-key'); no local handler.
   };
 
-  React.useEffect(() => () => cancelAnimationFrame(raf.current), []);
+  React.useEffect(() => () => frameUnsub.current?.(), []);
 
   return (
     <button
