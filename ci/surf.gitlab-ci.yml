@@ -70,6 +70,46 @@ surf:test:ai-sdk:
     paths:
       - .artifacts/surf/ai-sdk/
 
+# FIN-F.3.0 (a) evidence probe for the owner decision OD-17 (REQ-SURF-04):
+# esbuild metafiles of root / data / compat consumer bundles over the built
+# dist, the compat graph with the optional date peers absent (bundler and
+# Node), and the #341 peer-isolation jest gate run on a real dist.
+surf:test:od17-peer-metafile:
+  extends: .surf-base
+  stage: test
+  allow_failure: true # evidence probe for OD-17, not a gate
+  needs:
+    - { job: "plat:build:dist", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
+  script:
+    - node scripts/surf/od-evidence/peer-metafile.mjs
+    - npx jest --ci tests/data/exports/peer-isolation.test.ts --json --outputFile=.artifacts/surf/od-17/peer-isolation.jest.json
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/od-17/
+
+# FIN-F.3.0 (a) evidence probe for OD-16 item C-12 (REQ-SURF-106): tsc + jest
+# of the ci/surf/ai-sdk harness against ai v5 (current pins) and ai v6, plus a
+# per-state check that the SDK tool-part state union covers AgToolSdkState.
+surf:test:od16-ai-sdk-majors:
+  extends: .surf-base
+  stage: test
+  allow_failure: true # evidence probe for OD-16 C-12, not a gate
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
+  script:
+    - node scripts/surf/od-evidence/ai-sdk-majors.mjs
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/od-16/
+
 # --- lane W3 end ---
 
 # --- lane W4 begin ---
