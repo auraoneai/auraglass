@@ -4,7 +4,8 @@ import { describe, test, expect } from '@jest/globals';
 //  - cssVars: exactly the --glass-* names of tokens/generated/compat-alias-map.json,
 //    each -> a public 5.0 --ag-* variable or null, generated (not hand-edited);
 //  - props: the §9 motion prop removals (DEP-M0901..M0907) as component rows;
-//  - renames: unique `from` names.
+//  - renames: unique `from` names;
+//  - names: ['GlassScript'] (PLAT-90 / #190, §3.1 R6).
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -61,8 +62,9 @@ describe('fragments/codemods/mat.ts (REQ-MAT-67)', () => {
     expect(rows.filter((r) => /^Glass.*Provider$/.test(r.component))).toEqual([]);
   });
 
-  test('renames have unique from names', () => {
+  test('renames have unique from names and names carries GlassScript', () => {
     const from = (mat.renames ?? []).map((r) => r.from);
     expect(new Set(from).size).toBe(from.length);
+    expect((mat as { names?: string[] }).names).toEqual(['GlassScript']);
   });
 });

@@ -171,6 +171,9 @@ const fixtures: NonNullable<CodemodMappingFragment['fixtures']> = [
 ];
 
 export default {
+  // PLAT-90 (#190, §3.1 R6): 4.x source names the core transforms may
+  // reference for MAT (replaces the banned hard-coded DOC_NAMES literal set).
+  names: ['GlassScript'],
   renames,
   props,
   cssVars,
