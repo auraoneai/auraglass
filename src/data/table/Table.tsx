@@ -25,6 +25,7 @@ import {
   type Table as TanStackTable,
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
+import { useAnnouncer } from '../../theme';
 import { useControllableState } from './useTableState';
 import { useGridKeyboard } from './useGridKeyboard';
 import type { TableDensity, TableMode, SelectionMode, TableColumnDef } from './types';
@@ -103,13 +104,6 @@ export interface TableProps<TData> {
 }
 
 const ROW_HEIGHT: Record<TableDensity, number> = { sm: 32, md: 40, lg: 48 };
-
-function announce(text: string) {
-  // The announcer seam is MAT's useAnnouncer; a detached <div aria-live>
-  // on the table root keeps announcements working in tests and when the
-  // provider is absent — the provider wires its own live region in the app.
-  return text;
-}
 
 function ResizeHandleInner<TData>({
   header,
@@ -255,7 +249,14 @@ export function Table<TData>(props: TableProps<TData>) {
     onPaginationChange,
   );
 
-  const [announcement, setAnnouncement] = React.useState('');
+  // SURF-066: announcements go through the MAT useAnnouncer seam (no local
+  // status span — provider wires the live region; no-op without a portal).
+  const { announce } = useAnnouncer();
+  const hasPagination =
+    manualPagination ||
+    pagination !== undefined ||
+    defaultPagination !== undefined ||
+    onPaginationChange !== undefined;
 
   if (process.env['NODE_ENV'] === 'development') {
     if (caption === undefined && ariaLabel === undefined && ariaLabelledBy === undefined) {
@@ -317,7 +318,11 @@ export function Table<TData>(props: TableProps<TData>) {
     columns: allColumns,
     getCoreRowModel: getCoreRowModel(),
     ...(manualSorting ? { manualSorting: true } : { getSortedRowModel: getSortedRowModel() }),
-    ...(manualPagination ? { manualPagination: true } : { getPaginationRowModel: getPaginationRowModel() }),
+    ...(manualPagination
+      ? { manualPagination: true }
+      : hasPagination
+        ? { getPaginationRowModel: getPaginationRowModel() }
+        : {}),
     state: {
       sorting: sortingState,
       rowSelection: rowSel,
@@ -325,7 +330,9 @@ export function Table<TData>(props: TableProps<TData>) {
       columnSizing: sizing,
       columnPinning: pinning,
       columnOrder: order,
-      pagination: page,
+      // SURF-066: pagination state only participates when a pagination prop
+      // was supplied — keeps the row model out of the tree otherwise.
+      ...(hasPagination ? { pagination: page } : {}),
     },
     onSortingChange: (u) =>
       setSorting((prev) => {
@@ -414,9 +421,9 @@ export function Table<TData>(props: TableProps<TData>) {
     const label = (column.columnDef.meta?.headerLabel ?? columnId) as string;
     const next = column.getNextSortingOrder();
     column.toggleSorting();
-    if (next === 'asc') setAnnouncement(msgs.sortedAsc.replace('{col}', label));
-    else if (next === 'desc') setAnnouncement(msgs.sortedDesc.replace('{col}', label));
-    else setAnnouncement(msgs.sortCleared.replace('{col}', label));
+    if (next === 'asc') announce(msgs.sortedAsc.replace('{col}', label));
+    else if (next === 'desc') announce(msgs.sortedDesc.replace('{col}', label));
+    else announce(msgs.sortCleared.replace('{col}', label));
     void announce;
   };
 
@@ -430,7 +437,7 @@ export function Table<TData>(props: TableProps<TData>) {
     next.splice(j, 0, id!);
     setOrder(next);
     const label = (table.getColumn(columnId)?.columnDef.meta?.headerLabel ?? columnId) as string;
-    setAnnouncement(
+    announce(
       msgs.movedTo.replace('{col}', label).replace('{n}', String(j + 1)).replace('{m}', String(ids.length)),
     );
   };
@@ -644,9 +651,6 @@ export function Table<TData>(props: TableProps<TData>) {
             )}
           </tbody>
         </table>
-        <span aria-live="polite" role="status" className="ag-visually-hidden">
-          {announcement}
-        </span>
       </div>
     </div>
   );

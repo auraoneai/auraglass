@@ -5,6 +5,17 @@ import { fireEvent, render } from '@testing-library/react';
 import * as React from 'react';
 import { Table } from './Table';
 import type { TableColumnDef } from './types';
+// SURF-066: announcements flow through the MAT useAnnouncer seam — mock it
+// once per file and assert calls on the returned announce fn.
+const announceCalls: string[] = [];
+jest.mock('../../theme', () => {
+  const actual = jest.requireActual<typeof import('../../theme')>('../../theme');
+  return {
+    ...actual,
+    useAnnouncer: () => ({ announce: (m: string) => announceCalls.push(m) }),
+  };
+});
+
 
 const DATA = [{ id: 'a', name: 'x', qty: 1 }];
 const COLS: TableColumnDef<(typeof DATA)[number]>[] = [
@@ -24,8 +35,8 @@ describe('Table reorder (SURF-165, REQ-SURF-74)', () => {
     const headerOrder = container.querySelectorAll('th');
     // after swap, first th renders Qty
     expect(headerOrder[0]!.textContent).toContain('Qty');
-    const status = container.querySelector('[role="status"]')!;
-    expect(status.textContent).toContain('Name');
-    expect(status.textContent).toContain('2 of 2');
+    
+    expect(announceCalls.some((m) => m.includes('Name'))).toBe(true);
+    expect(announceCalls.some((m) => m.includes('2 of 2'))).toBe(true);
   });
 });
