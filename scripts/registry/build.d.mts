@@ -1,6 +1,5 @@
 /* Types for build.mjs. Registry items are authored JSON read from disk, so
    their shape is open-ended (`any`); the build's own report rows are typed. */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RegistryItemJson = any;
 export interface ReportRow {
   name: string;

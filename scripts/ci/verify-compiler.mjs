@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* PLAT-272: run babel-plugin-react-compiler@1.0.0 (compilationMode 'infer',
-   panicThreshold 'none') over every dist/**/*.js and fail on any
+   panicThreshold 'none') over every .js file under dist/ and fail on any
    CompileError/CompileSkip event recorded by its logger.
    OI-4 verified 2026-10-08 (react.dev/learn/react-compiler + the 1.0.0
    babel-plugin README): the plugin emits logger events via
