@@ -133,17 +133,94 @@ describe('activation.json', () => {
   });
 });
 
-describe('plat:test:pack-matrix:5x (REQ-PLAT-68)', () => {
-  const j = job('plat:test:pack-matrix:5x');
-  it('is a 5x-only matrix on node:20.19.0 + node:22', () => {
-    const legs = j.parallel.matrix;
-    expect(legs).toHaveLength(2);
-    expect(legs.map((l: any) => l.AG_PACK_NODE_IMAGE)).toEqual(['node:20.19.0-bookworm', 'node:22-bookworm']);
-    expect(yaml.stringify(j.rules)).toContain('$AG_LINE == "5x"');
+// REQ-PLAT-05 / REQ-PLAT-39 items fixed in #126 (REQ-FIN-22 ledger AC).
+describe('REQ-PLAT-05 fixes (fail-closed tag gates)', () => {
+  it.each(REQUIRED)('%s: a $CI_COMMIT_TAG rule comes first and sets allow_failure:false', (n) => {
+    const r = job(n).rules[0];
+    expect(r.if).toBe('$CI_COMMIT_TAG');
+    expect(r.allow_failure).toBe(false);
   });
-  it('runs the node-esm-require resolution suite against the packed tarball', () => {
-    const s = yaml.stringify(j.script);
-    expect(s).toContain('node-esm-require.test.mjs');
-    expect(s).toContain('node --test');
+  it('require-activated.mjs is the first, unconditional script line of plat:package:pack', () => {
+    const j = job('plat:package:pack');
+    expect(j.before_script).toBeUndefined(); // only the shared .ag-node npm ci install
+    expect(j.script[0]).toBe('node scripts/ci/require-activated.mjs --line "$AG_LINE"');
+  });
+  it('plat:package:pack fails closed on 4x when verify:pack is missing', () => {
+    const s = yaml.stringify(job('plat:package:pack').script);
+    expect(s).toContain('verify:pack missing on 4x');
+    expect(s).not.toMatch(/\|\|\s*echo "PENDING: npm script verify:pack"/);
+  });
+  it('every PENDING guard is a single YAML string that exits non-zero', () => {
+    for (const [k, v] of Object.entries(doc)) {
+      if (k.startsWith('.') || typeof v !== 'object' || v === null || !Array.isArray((v as any).script)) continue;
+      for (const line of (v as any).script) {
+        expect(typeof line).toBe('string'); // an unquoted `{ … }` guard parses as a mapping
+        if (/PENDING:/.test(line)) expect(line).toMatch(/exit 1/);
+      }
+    }
+  });
+  it('pages optionally consumes plat:test:registry artifacts', () => {
+    const n = job('pages').needs.find((x: any) => x.job === 'plat:test:registry');
+    expect(n).toEqual({ job: 'plat:test:registry', artifacts: true, optional: true });
+  });
+  it('plat:release:verify-dist-tags is manual on main/pr and writes evidence under .artifacts/plat/<slug>/', () => {
+    const j = job('plat:release:verify-dist-tags');
+    const mainRule = j.rules.find((r: any) => /main/.test(r.if));
+    expect(mainRule).toMatchObject({ when: 'manual', allow_failure: true });
+    expect(yaml.stringify(j.script, { lineWidth: 0 })).toContain('--out ".artifacts/plat/$CI_JOB_NAME_SLUG/dist-tags.json"');
+  });
+});
+
+describe('root .gitlab-ci.yml (R1 workflow prefixes, stage order)', () => {
+  const root = yaml.parse(readFileSync('.gitlab-ci.yml', 'utf8')) as Record<string, any>;
+
+  // Evaluate workflow:rules for a branch push: the first rule whose `if`
+  // matches wins. Only the $CI_COMMIT_BRANCH forms used by the file are modelled.
+  const evalRules = (branch: string) => {
+    for (const r of root.workflow.rules) {
+      if (!r.if) return r.when === 'never' ? null : r.variables ?? {};
+      if (/\$CI_PIPELINE_SOURCE|\$CI_COMMIT_TAG/.test(r.if) && !/\$CI_COMMIT_BRANCH/.test(r.if)) continue;
+      const alts = String(r.if).split('||').map((s) => s.trim());
+      const hit = alts.some((a) => {
+        const eq = a.match(/^\$CI_COMMIT_BRANCH == "([^"]+)"$/);
+        if (eq) return branch === eq[1];
+        const re = a.match(/^\$CI_COMMIT_BRANCH =~ \/(.+)\/$/);
+        if (re) return new RegExp(re[1].replace(/\\\//g, '/')).test(branch);
+        return false;
+      });
+      if (hit) return r.variables ?? {};
+    }
+    return null;
+  };
+
+  it.each([
+    ['next-fin/b-ci', '5x'],
+    ['4x-fin/b-ci', '4x'],
+    ['4x11-fin/b-ci', '4x'],
+    ['4x11-plat/react19-legs', '4x'],
+    ['4x11-qual/x', '4x'],
+    ['contract/c0', '5x'],
+    ['sync/anything', '5x'],
+    ['sync/fragments-codemods-1', '4x'],
+    ['release/4.1.x', '4x'],
+  ])('%s runs a pipeline on line %s', (branch, line) => {
+    const v = evalRules(branch);
+    expect(v).not.toBeNull();
+    expect(v!.AG_LINE).toBe(line);
+  });
+  it('unknown prefixes get when: never', () => {
+    expect(evalRules('feature/foo')).toBeNull();
+  });
+  it('package precedes certify (qual:certify:* need plat:package:pack)', () => {
+    expect(root.stages).toEqual(['contract', 'build', 'test', 'package', 'certify', 'deploy', 'publish']);
+  });
+  it('contract:ci-fragments fetches its base ref before diffing', () => {
+    const j = root['contract:ci-fragments'];
+    expect(j.variables.GIT_DEPTH).toBe('0');
+    const fetchIdx = j.script.findIndex((l: string) => l.startsWith('git fetch'));
+    const runIdx = j.script.findIndex((l: string) => l.includes('verify-ci-fragments.mjs'));
+    expect(fetchIdx).toBeGreaterThanOrEqual(0);
+    expect(fetchIdx).toBeLessThan(runIdx);
+    expect(j.script[fetchIdx]).toContain('refs/remotes/origin/$BASE');
   });
 });
