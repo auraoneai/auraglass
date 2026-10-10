@@ -6,6 +6,12 @@ import { act, fireEvent, render } from '@testing-library/react';
 import * as React from 'react';
 import { Table, type TableHandle } from './Table';
 import type { TableColumnDef } from './types';
+
+// jsdom lacks PointerEvent; BU Checkbox dispatches it on activation.
+if (typeof window.PointerEvent !== 'function') {
+  (window as unknown as { PointerEvent: typeof MouseEvent }).PointerEvent = MouseEvent;
+}
+
 // SURF-066: announcements flow through the MAT useAnnouncer seam — mock it
 // once per file and assert calls on the returned announce fn.
 const announceCalls: string[] = [];

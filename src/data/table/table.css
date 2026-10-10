@@ -55,6 +55,11 @@
     block-size: var(--_ag-table-row-height);
     vertical-align: middle;
   }
+  /* SURF-072: pinned-region boundary shadow — the pinned-edge attr marks
+     the last left-pinned / first right-pinned cell; direction-aware. */
+  [data-ag-pinned-edge='start'] { box-shadow: var(--ag-table-pin-shadow, inset -1px 0 0 var(--ag-border, transparent)); }
+  [data-ag-pinned-edge='end'] { box-shadow: var(--ag-table-pin-shadow, inset 1px 0 0 var(--ag-border, transparent)); }
+
   .ag-table__td--truncate {
     max-inline-size: 0;
     overflow: hidden;

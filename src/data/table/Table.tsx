@@ -26,6 +26,8 @@ import {
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useAnnouncer } from '../../theme';
+import { Checkbox } from '../../components/checkbox';
+import { Skeleton } from '../../components/skeleton';
 import { useControllableState } from './useTableState';
 import { useGridKeyboard } from './useGridKeyboard';
 import type { TableDensity, TableMode, SelectionMode, TableColumnDef } from './types';
@@ -121,9 +123,14 @@ function ResizeHandleInner<TData>({
   table: TanStackTable<TData>;
   label: string;
 }) {
+  // SURF-071: declared min/max used verbatim (no 48/800 hard clamps).
+  // Tanstack fills unset columns with its own defaults (20 /
+  // Number.MAX_SAFE_INTEGER) — those count as undeclared, not user intent.
+  const declaredMin = header.column.columnDef.minSize;
+  const declaredMax = header.column.columnDef.maxSize;
+  const min = declaredMin !== undefined && declaredMin !== 20 ? declaredMin : 48;
+  const max = declaredMax !== undefined && declaredMax !== Number.MAX_SAFE_INTEGER ? declaredMax : 800;
   const setSize = (px: number) => {
-    const min = Math.max(header.column.columnDef.minSize ?? 48, 48);
-    const max = Math.min(header.column.columnDef.maxSize ?? 800, 800);
     const next = Math.min(Math.max(px, min), max);
     table.setColumnSizing((prev) => ({ ...prev, [header.column.id]: next }));
   };
@@ -132,8 +139,8 @@ function ResizeHandleInner<TData>({
       role="separator"
       aria-orientation="vertical"
       aria-valuenow={header.column.getSize()}
-      aria-valuemin={Math.max(header.column.columnDef.minSize ?? 48, 48)}
-      aria-valuemax={Math.min(header.column.columnDef.maxSize ?? 800, 800)}
+      aria-valuemin={min}
+      aria-valuemax={max}
       aria-label={label}
       tabIndex={0}
       data-ag-part="table-resize-handle"
@@ -144,14 +151,21 @@ function ResizeHandleInner<TData>({
       }}
       onKeyDown={(e) => {
         const start = header.column.getSize();
-        const rtl = typeof document !== 'undefined' && document.dir === 'rtl';
+        // SURF-071: direction resolved off the element (closest [dir] /
+        // computed style), not the document — a dir="rtl" subtree must flip.
+        const el = e.currentTarget as HTMLElement;
+        const dirAttr = el.closest('[dir]')?.getAttribute('dir');
+        const rtl =
+          dirAttr !== null && dirAttr !== undefined
+            ? dirAttr === 'rtl'
+            : getComputedStyle(el).direction === 'rtl';
         const grow = rtl ? 'ArrowLeft' : 'ArrowRight';
         const shrink = rtl ? 'ArrowRight' : 'ArrowLeft';
         const step = e.shiftKey ? 32 : 8;
         if (e.key === grow) setSize(start + step);
         else if (e.key === shrink) setSize(start - step);
-        else if (e.key === 'Home') setSize(48);
-        else if (e.key === 'End') setSize(800);
+        else if (e.key === 'Home') setSize(min);
+        else if (e.key === 'End') setSize(max);
         else return;
         e.preventDefault();
       }}
@@ -284,24 +298,20 @@ export function Table<TData>(props: TableProps<TData>) {
           enableSorting: false,
           enablePinning: true,
           header: ({ table }) => (
-            <input
-              type="checkbox"
+            <Checkbox
               aria-label={msgs.selectAll}
               data-ag-part="table-selection-all"
               checked={table.getIsAllRowsSelected()}
-              ref={(el) => {
-                if (el) el.indeterminate = table.getIsSomeRowsSelected();
-              }}
-              onChange={table.getToggleAllRowsSelectedHandler()}
+              indeterminate={table.getIsSomeRowsSelected()}
+              onCheckedChange={() => table.toggleAllRowsSelected()}
             />
           ),
           cell: ({ row }) => (
-            <input
-              type="checkbox"
+            <Checkbox
               aria-label={`Select row ${row.id}`}
-              data-ag-part="table-selection-cell"
+              data-ag-part="table-selection"
               checked={row.getIsSelected()}
-              onChange={row.getToggleSelectedHandler()}
+              onCheckedChange={() => row.toggleSelected()}
             />
           ),
         }),
@@ -356,7 +366,10 @@ export function Table<TData>(props: TableProps<TData>) {
     ...(rowCount !== undefined ? { rowCount } : {}),
   });
 
-  const rows = table.getRowModel().rows;
+  // SURF-067/070: resolve + virtualize over the FULL (pre-pagination) row
+  // model — paginated slices only apply when pagination props were passed.
+  const allRows = table.getPrePaginationRowModel().rows;
+  const rows = virtualize || !hasPagination ? allRows : table.getRowModel().rows;
   const leafCols = table.getVisibleLeafColumns();
   const scrollerRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -377,7 +390,7 @@ export function Table<TData>(props: TableProps<TData>) {
     () => ({
       getInstance: () => table,
       scrollToRow: (rowId, align) => {
-        const idx = rows.findIndex((r) => r.id === rowId);
+        const idx = allRows.findIndex((r) => r.id === rowId);
         if (idx < 0) return;
         if (virtualize) {
           virtualizer.scrollToIndex(idx, align !== undefined ? { align } : {});
@@ -396,7 +409,7 @@ export function Table<TData>(props: TableProps<TData>) {
         )?.focus();
       },
     }),
-    [table, rows, virtualize, virtualizer],
+    [table, allRows, virtualize, virtualizer],
   );
   React.useEffect(() => {
     if (typeof ref === 'function') {
@@ -447,7 +460,11 @@ export function Table<TData>(props: TableProps<TData>) {
 
   const grid = mode === 'grid';
   const roleTable = grid ? 'grid' : undefined;
-  const gridKeyboard = useGridKeyboard(scrollerRef);
+  // SURF-073: APG data-grid roving tabindex — one cell owns tabIndex 0.
+  const [activeCell, setActiveCell] = React.useState<{ rowId: string; columnId: string } | null>(null);
+  const gridKeyboard = useGridKeyboard(scrollerRef, {
+    onActiveCellChange: (rowId, columnId) => setActiveCell({ rowId, columnId }),
+  });
 
   const renderHeaderCell = (headerGroupIndex: number, header: ReturnType<typeof table.getFlatHeaders>[number]) => {
     const meta = header.column.columnDef.meta;
@@ -470,11 +487,23 @@ export function Table<TData>(props: TableProps<TData>) {
           ...(header.column.getIsPinned()
             ? {
                 position: 'sticky',
+                // SURF-072: right pins resolve against getAfter('right'),
+                // left pins against getStart('left') — inset-inline for RTL.
                 [header.column.getIsPinned() === 'left' ? 'insetInlineStart' : 'insetInlineEnd']:
-                  header.column.getStart(header.column.getIsPinned() || undefined),
+                  header.column.getIsPinned() === 'left'
+                    ? header.column.getStart('left')
+                    : header.column.getAfter('right'),
                 background: 'var(--ag-surface-raised, Canvas)',
                 zIndex: 1,
               }
+            : {}),
+          // SURF-072: pinned-edge marks the boundary column of each pin
+          // region (last left / first right) — CSS draws the shadow there.
+          ...(header.column.getIsLastColumn('left')
+            ? { 'data-ag-pinned-edge': 'start' }
+            : {}),
+          ...(header.column.getIsFirstColumn('right')
+            ? { 'data-ag-pinned-edge': 'end' }
             : {}),
         }}
       >
@@ -573,9 +602,54 @@ export function Table<TData>(props: TableProps<TData>) {
             tag,
             {
               key: cell.id,
-              ...(grid ? { role: 'gridcell', tabIndex: -1 } : {}),
+              ...(grid
+                ? {
+                    role: 'gridcell',
+                    // SURF-073: the roving active cell is the only tab stop.
+                    tabIndex:
+                      (activeCell ?? { rowId: rows[0]?.id, columnId: leafCols[0]?.id }).rowId === row.id &&
+                      (activeCell ?? { rowId: rows[0]?.id, columnId: leafCols[0]?.id }).columnId === cell.column.id
+                        ? 0
+                        : -1,
+                    onFocus: () => setActiveCell({ rowId: row.id, columnId: cell.column.id }),
+                    onKeyDown: (e: React.KeyboardEvent) => {
+                      // SURF-073: Enter activates the row, Space toggles its
+                      // selection (grid cells; table mode unaffected).
+                      if (e.key === 'Enter') {
+                        onRowAction?.(row.original);
+                        e.preventDefault();
+                      } else if (e.key === ' ' && !e.shiftKey) {
+                        if (selectionMode !== 'none') {
+                          e.preventDefault();
+                          row.toggleSelected();
+                          if (selectionMode === 'multiple') anchorIndex.current = viIndex;
+                        }
+                      }
+                    },
+                  }
+                : {}),
               'data-ag-part': isSelectCol ? 'table-selection-cell' : 'table-cell',
               'data-ag-cell': cell.column.id,
+              ...(isSelectCol
+                ? {
+                    onKeyDown: (e: React.KeyboardEvent) => {
+                      // SURF-069: Shift+Space on a selection cell selects the
+                      // anchor..row range; plain Space toggles + re-anchors.
+                      if (e.key === ' ' && selectionMode === 'multiple') {
+                        if (e.shiftKey && anchorIndex.current !== null) {
+                          e.preventDefault();
+                          const lo = Math.min(anchorIndex.current, viIndex);
+                          const hi = Math.max(anchorIndex.current, viIndex);
+                          const next: RowSelectionState = { ...rowSel };
+                          for (let k = lo; k <= hi; k++) next[rows[k]!.id] = true;
+                          setRowSel(next);
+                        } else if (!e.shiftKey) {
+                          anchorIndex.current = viIndex;
+                        }
+                      }
+                    },
+                  }
+                : {}),
               className: `ag-table__td${meta?.truncate ? ' ag-table__td--truncate' : ''}`,
               style: {
                 width: cell.column.getSize(),
@@ -588,10 +662,18 @@ export function Table<TData>(props: TableProps<TData>) {
                   ? {
                       position: 'sticky',
                       [cell.column.getIsPinned() === 'left' ? 'insetInlineStart' : 'insetInlineEnd']:
-                        cell.column.getStart(cell.column.getIsPinned() || undefined),
+                        cell.column.getIsPinned() === 'left'
+                          ? cell.column.getStart('left')
+                          : cell.column.getAfter('right'),
                       background: 'var(--ag-surface-raised, Canvas)',
                       zIndex: 1,
                     }
+                  : {}),
+                ...(cell.column.getIsLastColumn('left')
+                  ? { 'data-ag-pinned-edge': 'start' }
+                  : {}),
+                ...(cell.column.getIsFirstColumn('right')
+                  ? { 'data-ag-pinned-edge': 'end' }
                   : {}),
               },
             },
@@ -613,7 +695,7 @@ export function Table<TData>(props: TableProps<TData>) {
         ref={scrollerRef}
         data-ag-part="table-scroller"
         className="ag-table__scroller"
-        {...(grid ? { tabIndex: 0, onKeyDown: gridKeyboard.onKeyDown } : {})}
+        {...(grid ? { onKeyDown: gridKeyboard.onKeyDown } : {})}
         style={maxHeight !== undefined ? { maxHeight, overflow: 'auto' } : { overflow: 'auto' }}
       >
         <table
@@ -627,7 +709,7 @@ export function Table<TData>(props: TableProps<TData>) {
           {caption !== undefined ? <caption>{caption}</caption> : null}
           <thead data-ag-part="table-header" className={sticky ? 'ag-table__thead--sticky' : 'ag-table__thead'}>
             {table.getHeaderGroups().map((hg, i) => (
-              <tr key={hg.id} {...(grid ? { role: 'row' } : {})}>
+              <tr key={hg.id} {...(grid ? { role: 'row' } : {})} {...(virtualize ? { 'aria-rowindex': 1 + i } : {})}>
                 {hg.headers.map((h) => renderHeaderCell(i, h))}
               </tr>
             ))}
@@ -636,19 +718,29 @@ export function Table<TData>(props: TableProps<TData>) {
             data-ag-part="table-body"
             style={virtualize ? { height: totalSize, position: 'relative', display: 'block' } : undefined}
           >
-            {loading ? (
-              <tr data-ag-part="table-loading">
-                <td colSpan={leafCols.length}>{msgs.loading}</td>
+            {/* SURF-074: loading KEEPS the rows (each data-state='loading')
+                and appends 8 skeleton rows; empty moved onto the td. */}
+            {(virtualize
+              ? virtualizer.getVirtualItems().map((vi) => renderRow(rows[vi.index]!, vi.index, vi.start))
+              : visibleRows.map((row, i) => renderRow(row, i)))}
+            {loading
+              ? Array.from({ length: 8 }, (_, i) => (
+                  <tr key={`loading-${i}`} data-ag-part="table-loading" aria-hidden="true">
+                    {leafCols.map((col) => (
+                      <td key={col.id} data-ag-part="table-cell" className="ag-table__td">
+                        <Skeleton data-ag-part="table-loading-skeleton" />
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              : null}
+            {rows.length === 0 && !loading ? (
+              <tr>
+                <td colSpan={leafCols.length} data-ag-part="table-empty">
+                  {emptyState ?? msgs.empty}
+                </td>
               </tr>
-            ) : rows.length === 0 ? (
-              <tr data-ag-part="table-empty">
-                <td colSpan={leafCols.length}>{emptyState ?? msgs.empty}</td>
-              </tr>
-            ) : virtualize ? (
-              virtualizer.getVirtualItems().map((vi) => renderRow(rows[vi.index]!, vi.index, vi.start))
-            ) : (
-              visibleRows.map((row, i) => renderRow(row, i))
-            )}
+            ) : null}
           </tbody>
         </table>
       </div>
