@@ -185,7 +185,7 @@ describe('root .gitlab-ci.yml (R1 workflow prefixes, stage order)', () => {
         const eq = a.match(/^\$CI_COMMIT_BRANCH == "([^"]+)"$/);
         if (eq) return branch === eq[1];
         const re = a.match(/^\$CI_COMMIT_BRANCH =~ \/(.+)\/$/);
-        if (re) return new RegExp(re[1].replace(/\\\//g, '/')).test(branch);
+        if (re) return new RegExp(re[1]!.replace(/\\\//g, '/')).test(branch);
         return false;
       });
       if (hit) return r.variables ?? {};
