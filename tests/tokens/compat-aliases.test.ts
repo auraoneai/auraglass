@@ -19,13 +19,15 @@ describe('compat aliases (MAT-076)', () => {
   test('every 4.x reader name has a map entry (count logged)', () => {
     const readers = new Set<string>(legacyReaderSet() as Iterable<string>);
     const missing = [...readers].filter((n) => !(n in MAP));
-    const declOrComment = [...readers].filter(
-      (n) => CSS.includes(`${n}:`) || CSS.includes(`${n}: never defined`),
+    // Defined names are emitted as declarations; never-defined names are
+    // accounted for in the map (defined: false) and must not be emitted.
+    const accounted = [...readers].filter((n) =>
+      MAP[n] && (MAP[n].defined ? CSS.includes(`${n}:`) : !CSS.includes(`${n}:`)),
     );
-    console.log(`4.x reader names: ${readers.size}; map entries: ${Object.keys(MAP).length}; covered in css: ${declOrComment.length}`);
+    console.log(`4.x reader names: ${readers.size}; map entries: ${Object.keys(MAP).length}; accounted: ${accounted.length}`);
     expect(Object.keys(MAP).sort()).toEqual([...readers].sort());
     expect(missing).toEqual([]);
-    expect(declOrComment.length).toBe(readers.size);
+    expect(accounted.length).toBe(readers.size);
   });
 
   test('every emitted rule lives inside @layer ag.compat', () => {
