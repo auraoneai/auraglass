@@ -6,6 +6,8 @@ Planning set for the AuraGlass 4.1.0 → 5.0 program (baseline `aura-glass` 4.1.
 
 **Current entry point (since 2026-10-08):** remaining work runs from the [Final Completion PRD (PRD-F)](prd/AURAGLASS_5_FINAL_COMPLETION_PRD.md) and its one prompt [`prompts/PROMPT_FINAL_COMPLETION.md`](prompts/PROMPT_FINAL_COMPLETION.md) (FIN-A…FIN-H, [`tasks/FIN.json`](tasks/FIN.json)); see [master PRD §5.6](AURAGLASS_5_MASTER_PRD.md#56-prompt-index-5-prompts-one-per-prd).
 
+**Current entry point (since 2026-10-10):** [`prompts/PROMPT_FINAL_COMPLETION_V2.md`](prompts/PROMPT_FINAL_COMPLETION_V2.md) — one self-contained prompt with every task still open (all 241 open PRs in one global merge order, no-PR work per FIN-A…FIN-H, owner/human actions, GA checklist); it supersedes `PROMPT_FINAL_COMPLETION.md` for remaining work, and PRD-F stays the requirements source.
+
 ## Deliverables A–L
 
 Letters follow the program brief.
