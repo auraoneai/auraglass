@@ -73,8 +73,8 @@
     margin-block-end: var(--ag-space-2, 0.5rem);
   }
   .ag-date-range-picker__preset { padding: var(--ag-space-1, 0.25rem) var(--ag-space-2, 0.5rem); border-radius: var(--ag-radius-1, 0.25rem); cursor: pointer; }
-  .ag-time-picker__columns { display: flex; gap: var(--ag-space-2, 0.5rem); max-block-size: 12rem; overflow: auto; }
-  .ag-time-picker__column { min-inline-size: 3.5rem; }
+  .ag-time-picker__columns { display: flex; gap: var(--ag-space-2, 0.5rem); max-block-size: var(--ag-time-picker-height, 12rem); overflow: auto; }
+  .ag-time-picker__column { min-inline-size: var(--ag-control-height-lg, 3.5rem); }
   .ag-time-picker__option { padding: var(--ag-space-1, 0.25rem) var(--ag-space-2, 0.5rem); text-align: center; font-variant-numeric: tabular-nums; cursor: pointer; border-radius: var(--ag-radius-1, 0.25rem); }
   .ag-date-field__error, .ag-date-field__description { font-size: var(--ag-text-sm, 0.875rem); }
   .ag-date-field__error { color: var(--ag-danger, currentColor); }

@@ -1,6 +1,7 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 /* aurora — 3 stacked radial-gradient() layers from S-03 palette colours.
  * One element, no canvas, no filter, % positions. */
-@layer backdrops {
+@layer ag.components {
   .ag-backdrop[data-ag-backdrop-preset='aurora'] .ag-backdrop-layer {
     background-color: var(--ag-surface-page, Canvas);
     background-image:
