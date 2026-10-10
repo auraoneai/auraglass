@@ -42,7 +42,7 @@
     inline-size: var(--ag-space-4);
     block-size: var(--ag-space-4);
     border-radius: var(--ag-radius-full);
-    border: var(--ag-focus-width) solid var(--ag-color-on-surface-muted);
+    border: var(--_ag-focus-width) solid var(--ag-color-on-surface-muted);
     border-block-start-color: var(--ag-color-accent);
     animation: ag-spin var(--ag-duration-ambient) var(--ag-ease-standard) infinite;
     flex: none;
@@ -62,10 +62,10 @@
 
   /* identity: no optics until hover — hover raises specular */
   .ag-button[data-ag-variant='identity']:hover {
-    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-color-specular, var(--ag-color-border));
+    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-color-specular, var(--ag-color-border));
   }
   .ag-button:not([data-ag-variant='identity']):hover {
-    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-state-hover-specular);
+    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-state-hover-specular);
   }
 
   /* intent=danger tints text/rim/specular only; never selects material */
@@ -76,12 +76,12 @@
   /* press glow via rim opacity only — transform stays none at rest/hover/press */
   .ag-button:active,
   .ag-button[data-pressed] {
-    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-state-press-glow);
+    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-state-press-glow);
   }
 
   .ag-button:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-color-focus-ring, var(--ag-focus-outer));
-    outline-offset: var(--ag-focus-width);
+    outline: var(--_ag-focus-width) solid var(--_ag-color-focus-ring, var(--_ag-focus-outer));
+    outline-offset: var(--_ag-focus-width);
   }
 
   .ag-button:disabled,
@@ -95,7 +95,7 @@
       forced-color-adjust: none;
       color: ButtonText;
       background: ButtonFace;
-      border: var(--ag-focus-width) solid ButtonText;
+      border: var(--_ag-focus-width) solid ButtonText;
     }
   }
 }

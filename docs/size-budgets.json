@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-10-09T14:21:15.795Z",
+  "generatedAt": "2026-10-08T02:27:42.799Z",
   "rows": [
     {
       "id": "plat:cn",
       "import": "export { cn } from 'aura-glass/internal'",
       "limitBytes": 512,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 72
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "plat:warnDeprecated",
       "import": "export { warnDeprecated } from 'aura-glass/internal'",
-      "limitBytes": 2560,
+      "limitBytes": 150,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 2272
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "plat:tailwind-bridge",
@@ -34,28 +34,12 @@
       "measuredBytes": 144
     },
     {
-      "id": "plat:compat-tokens-css",
-      "import": "aura-glass/compat/tokens.css",
-      "limitBytes": 10240,
-      "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
-    },
-    {
-      "id": "plat:styles-css",
-      "import": "aura-glass/styles.css",
-      "limitBytes": 33792,
-      "kind": "css",
-      "status": "pass",
-      "measuredBytes": 16758
-    },
-    {
       "id": "mat:styles-css",
       "import": "aura-glass/styles.css",
       "limitBytes": 32768,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 16758
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:tokens-css",
@@ -92,10 +76,10 @@
     {
       "id": "mat:tokens-js",
       "import": "aura-glass/tokens",
-      "limitBytes": 6144,
+      "limitBytes": 2048,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 4862
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:theme-fns-js",
@@ -103,24 +87,23 @@
       "limitBytes": 3072,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:51: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/theme/public.js\""
+      "measuredBytes": null
     },
     {
       "id": "mat:material-js",
       "import": "aura-glass/material",
       "limitBytes": 3072,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1535
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:material-css",
       "import": "aura-glass/material.css",
       "limitBytes": 8192,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 4221
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:grain-avif",
@@ -143,8 +126,8 @@
       "import": "{ LensDefs } from 'aura-glass/material'",
       "limitBytes": 30720,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 20
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:motion-css",
@@ -160,8 +143,7 @@
       "limitBytes": 2048,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:65: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/motion/public.js\""
+      "measuredBytes": null
     },
     {
       "id": "mat:button-total",
@@ -169,8 +151,7 @@
       "limitBytes": 10240,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:23: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "mat:button-motion-share",
@@ -178,8 +159,7 @@
       "limitBytes": 512,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:82: ERROR: Expected \";\" but found \"(\""
+      "measuredBytes": null
     },
     {
       "id": "mat:dialog-total",
@@ -187,8 +167,7 @@
       "limitBytes": 20480,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:23: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "mat:dialog-motion-share",
@@ -196,16 +175,15 @@
       "limitBytes": 1024,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:82: ERROR: Expected \";\" but found \"(\""
+      "measuredBytes": null
     },
     {
       "id": "mat:motion-entry-js",
       "import": "aura-glass/motion",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 2667
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:provider-usepreference-js",
@@ -213,8 +191,7 @@
       "limitBytes": 4096,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:49: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Card",
@@ -222,8 +199,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:21: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Badge",
@@ -231,8 +207,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:22: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Separator",
@@ -240,8 +215,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:26: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Kbd",
@@ -249,8 +223,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:20: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Text",
@@ -258,8 +231,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:21: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Heading",
@@ -267,8 +239,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:24: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Stack",
@@ -276,8 +247,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:22: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Grid",
@@ -285,8 +255,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:21: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Container",
@@ -294,8 +263,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:26: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "DescriptionList",
@@ -303,8 +271,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:32: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "EmptyState",
@@ -312,8 +279,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:27: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "ErrorState",
@@ -321,8 +287,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:27: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "LoadingState",
@@ -330,8 +295,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:29: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Steps",
@@ -339,8 +303,7 @@
       "limitBytes": 1500,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:22: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Button",
@@ -348,8 +311,7 @@
       "limitBytes": 10000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:23: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "IconButton",
@@ -357,8 +319,7 @@
       "limitBytes": 10000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:27: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "ButtonGroup",
@@ -366,8 +327,7 @@
       "limitBytes": 10000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:28: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Toolbar",
@@ -375,8 +335,7 @@
       "limitBytes": 13000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:24: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "ToggleGroup",
@@ -384,8 +343,7 @@
       "limitBytes": 11000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:28: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SegmentedControl",
@@ -393,8 +351,7 @@
       "limitBytes": 13000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:33: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "AvatarGroup",
@@ -402,8 +359,7 @@
       "limitBytes": 3000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:28: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Alert",
@@ -411,8 +367,7 @@
       "limitBytes": 3000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:22: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Skeleton",
@@ -420,8 +375,7 @@
       "limitBytes": 3000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:25: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Link",
@@ -429,8 +383,7 @@
       "limitBytes": 3000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:21: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Avatar",
@@ -438,16 +391,15 @@
       "limitBytes": 3000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:23: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Chip",
       "import": "{ Chip } from 'aura-glass/data'",
       "limitBytes": 3000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 477
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Progress",
@@ -455,8 +407,7 @@
       "limitBytes": 5000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:25: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "ProgressRing",
@@ -464,8 +415,7 @@
       "limitBytes": 5000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:29: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Meter",
@@ -473,8 +423,7 @@
       "limitBytes": 5000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:22: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Collapsible",
@@ -482,8 +431,7 @@
       "limitBytes": 5000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:28: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Accordion",
@@ -491,8 +439,7 @@
       "limitBytes": 10000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:26: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "ScrollArea",
@@ -500,8 +447,7 @@
       "limitBytes": 10000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:27: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Rating",
@@ -509,8 +455,7 @@
       "limitBytes": 10000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:23: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "InlineEdit",
@@ -518,8 +463,7 @@
       "limitBytes": 10000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:27: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Form",
@@ -527,8 +471,7 @@
       "limitBytes": 10000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:21: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Tour",
@@ -536,8 +479,7 @@
       "limitBytes": 15000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:21: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "FileUpload",
@@ -545,16 +487,15 @@
       "limitBytes": 15000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:27: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "KeyValueEditor",
       "import": "{ KeyValueEditor } from 'aura-glass/data'",
       "limitBytes": 15000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 799
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "ColorPicker",
@@ -562,25 +503,23 @@
       "limitBytes": 20000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:28: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "icon-glyph-each",
       "import": "{ CheckIcon } from 'aura-glass/icons'",
       "limitBytes": 1000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 604
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "aura-glass/primitives",
       "import": "'aura-glass/primitives'",
       "limitBytes": 4000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:7: ERROR: Unexpected \"'/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/primitives/index.js'\""
+      "status": "pass",
+      "measuredBytes": 50
     },
     {
       "id": "VisuallyHidden.css",
@@ -700,8 +639,7 @@
       "limitBytes": 8000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:23: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Slider",
@@ -709,8 +647,7 @@
       "limitBytes": 14000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:23: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Checkbox+CheckboxGroup",
@@ -718,8 +655,7 @@
       "limitBytes": 10000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:40: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "RadioGroup",
@@ -727,8 +663,7 @@
       "limitBytes": 10000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:27: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "TextField",
@@ -736,8 +671,7 @@
       "limitBytes": 12000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:26: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SearchField",
@@ -745,8 +679,7 @@
       "limitBytes": 13000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:28: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Select",
@@ -754,8 +687,7 @@
       "limitBytes": 25000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:23: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Combobox",
@@ -763,8 +695,7 @@
       "limitBytes": 30000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:25: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "NumberField",
@@ -772,8 +703,7 @@
       "limitBytes": 14000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:28: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "controls-all-families",
@@ -781,17 +711,15 @@
       "limitBytes": 60000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:213: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "aura-glass/forms",
       "import": "'aura-glass/forms'",
       "limitBytes": 4000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:7: ERROR: Unexpected \"'/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/forms/index.js'\""
+      "status": "pass",
+      "measuredBytes": 45
     },
     {
       "id": "controls.css",
@@ -879,8 +807,7 @@
       "limitBytes": 20000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:23: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "AlertDialog",
@@ -888,8 +815,7 @@
       "limitBytes": 20000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:28: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Sheet",
@@ -897,8 +823,7 @@
       "limitBytes": 24000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:22: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Popover",
@@ -906,8 +831,7 @@
       "limitBytes": 14000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:24: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Tooltip",
@@ -915,8 +839,7 @@
       "limitBytes": 10000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:24: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Menu",
@@ -924,8 +847,7 @@
       "limitBytes": 22000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:43: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Toast",
@@ -933,8 +855,7 @@
       "limitBytes": 14000,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:32: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "Dialog.css",
@@ -973,8 +894,8 @@
       "import": "aura-glass/app-shell.css",
       "limitBytes": 8192,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 1106
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-APPSHELL-ISLAND",
@@ -982,8 +903,7 @@
       "limitBytes": 4096,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:38: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/app-shell/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-SIDEBAR-DRAWER",
@@ -991,8 +911,7 @@
       "limitBytes": 6144,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:30: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/app-shell/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-BREADCRUMBS",
@@ -1000,8 +919,7 @@
       "limitBytes": 5120,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:28: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-PAGINATION",
@@ -1009,8 +927,7 @@
       "limitBytes": 4096,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:27: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-TABS",
@@ -1018,8 +935,7 @@
       "limitBytes": 6144,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:21: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-TABBAR",
@@ -1027,8 +943,7 @@
       "limitBytes": 5120,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:23: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-COMMAND",
@@ -1036,8 +951,7 @@
       "limitBytes": 6144,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:24: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-SOURCETRANSITION",
@@ -1045,112 +959,111 @@
       "limitBytes": 3072,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:33: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-DATA-CSS",
       "import": "aura-glass/data.css",
       "limitBytes": 8192,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 2341
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-DATE-CSS",
       "import": "aura-glass/date.css",
       "limitBytes": 4096,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 895
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-TABLE",
       "import": "{ Table } from 'aura-glass/data'",
       "limitBytes": 14336,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 4393
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-TREEVIEW",
       "import": "{ TreeView } from 'aura-glass/data'",
       "limitBytes": 8192,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1150
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-FILTERBAR",
       "import": "{ FilterBar } from 'aura-glass/data'",
       "limitBytes": 8192,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 2562
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-CHIP",
       "import": "{ Chip } from 'aura-glass/data'",
       "limitBytes": 3072,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 477
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-KVE",
       "import": "{ KeyValueEditor } from 'aura-glass/data'",
       "limitBytes": 15360,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 799
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-STATCARD",
       "import": "{ StatCard } from 'aura-glass/data'",
       "limitBytes": 3072,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1791
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-SPARKLINE",
       "import": "{ Sparkline } from 'aura-glass/data'",
       "limitBytes": 2560,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1101
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-CHARTFRAME",
       "import": "{ ChartFrame } from 'aura-glass/data'",
       "limitBytes": 5120,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1470
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-DATEPICKER",
       "import": "{ DatePicker } from 'aura-glass/date'",
       "limitBytes": 8192,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1440
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-DATEFIELD",
       "import": "{ DateField } from 'aura-glass/date'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 696
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-TIMEPICKER",
       "import": "{ TimePicker } from 'aura-glass/date'",
       "limitBytes": 6144,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1140
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-TIMELINE",
@@ -1158,8 +1071,7 @@
       "limitBytes": 4096,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:25: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-ACTIVITYFEED",
@@ -1167,24 +1079,23 @@
       "limitBytes": 4096,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:29: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-CHART-51",
       "import": "{ Chart } from 'aura-glass/charts'",
       "limitBytes": 15360,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3993
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-AI-CSS",
       "import": "aura-glass/ai.css",
       "limitBytes": 6144,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 1112
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-THREAD",
@@ -1192,8 +1103,7 @@
       "limitBytes": 18432,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:23: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/ai/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-MESSAGE",
@@ -1201,8 +1111,7 @@
       "limitBytes": 10240,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:24: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/ai/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-STREAMINGTEXT",
@@ -1210,8 +1119,7 @@
       "limitBytes": 2048,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:30: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/ai/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-COMPOSER",
@@ -1219,8 +1127,7 @@
       "limitBytes": 12288,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:25: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/ai/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-TOOLCALL",
@@ -1228,8 +1135,7 @@
       "limitBytes": 8192,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:25: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/ai/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-SOURCES",
@@ -1237,8 +1143,7 @@
       "limitBytes": 9216,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:37: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/ai/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-REASONING",
@@ -1246,8 +1151,7 @@
       "limitBytes": 4096,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:26: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/ai/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-AGENTSTEPS",
@@ -1255,8 +1159,7 @@
       "limitBytes": 5120,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:27: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/ai/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-USAGEMETER",
@@ -1264,8 +1167,7 @@
       "limitBytes": 4096,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:27: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/ai/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-ERRORSTATE",
@@ -1273,24 +1175,23 @@
       "limitBytes": 5120,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:35: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/ai/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-MEDIA-CSS",
       "import": "aura-glass/media.css",
       "limitBytes": 6144,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 1521
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-BACKDROPS-CSS",
       "import": "aura-glass/backdrops.css",
       "limitBytes": 3072,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 1218
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-MEDIA-CORE",
@@ -1298,8 +1199,7 @@
       "limitBytes": 14336,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:47: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/media/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-USEMEDIAELEMENT",
@@ -1307,8 +1207,7 @@
       "limitBytes": 2560,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:32: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/media/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-WAVEFORM",
@@ -1316,8 +1215,7 @@
       "limitBytes": 2048,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:25: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/media/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-IMAGEVIEWER",
@@ -1325,8 +1223,7 @@
       "limitBytes": 10240,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:28: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/media/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-CAROUSELRAIL",
@@ -1334,8 +1231,7 @@
       "limitBytes": 10240,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:29: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/media/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-NOWPLAYING",
@@ -1343,8 +1239,7 @@
       "limitBytes": 8192,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:30: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/media/index.js\""
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-BACKDROP",
@@ -1352,8 +1247,7 @@
       "limitBytes": 3072,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:25: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/backdrops/index.js\""
+      "measuredBytes": null
     }
   ],
   "ceilings": {

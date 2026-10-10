@@ -12,7 +12,7 @@ export default [
   { id: 'mat:tokens-css-presets', import: 'aura-glass/tokens.css#preset-blocks', limitBytes: 2048, kind: 'css' },
   { id: 'mat:tailwind-css', import: 'aura-glass/tailwind.css', limitBytes: 6144, kind: 'css' },
   { id: 'mat:compat-tokens-css', import: 'aura-glass/compat/tokens.css', limitBytes: 8192, kind: 'css' },
-  { id: 'mat:tokens-js', import: 'aura-glass/tokens', limitBytes: 6144, kind: 'js' }, /* Perf-Budget-Raise: mat:tokens-js — entry re-exports the generated manifest (measured 4862 B gz) */
+  { id: 'mat:tokens-js', import: 'aura-glass/tokens', limitBytes: 2048, kind: 'js' },
   { id: 'mat:theme-fns-js', import: "{ createGlassTheme, createBrandTheme } from 'aura-glass/theme'", limitBytes: 3072, kind: 'js' },
 
   // MAT-346 (material rows)
