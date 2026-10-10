@@ -30,6 +30,5 @@
  "no-translatez-hack": "qual",
  "no-global-pointer-listener": "qual",
  "raf-requires-cancel": "qual",
- "raf-requires-visibility-gate": "qual",
- "no-layer-global-listeners": "mat"
+ "raf-requires-visibility-gate": "qual"
 }

@@ -1,8 +1,8 @@
+'use client';
 /* FocusScope (CMP-029): ref-as-prop, data-ag-part='root' on the container,
    trapped/loop semantics unchanged, no Glass* alias. Focus manager for owned
    components (Sheet detents, ResizablePanels, Tour) only. */
 import * as React from 'react';
-import { layerInputFor } from '../theme/layerInput';
 
 const FOCUSABLE_SELECTOR = [
   'a[href]:not([disabled])',
@@ -83,46 +83,45 @@ export function FocusScope({
     };
   }, [autoFocus, onMountAutoFocus, onUnmountAutoFocus, restoreFocus]);
 
-  React.useEffect(() => {
-    if (!trapped && !loop) return;
+  /* REQ-FIN-07 (REQ-CMP-12): no document listeners. Tab cycling and the
+     trapped-focus pull are element-level handlers on the scope container. */
+  const { onKeyDown, onBlur } = props;
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+    onKeyDown?.(event);
+    if (event.defaultPrevented || (!trapped && !loop) || event.key !== 'Tab') return;
+    const focusables = getFocusableElements(localRef.current);
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (first === undefined || last === undefined) return;
+    const active = document.activeElement as HTMLElement | null;
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'Tab') return;
-      const focusables = getFocusableElements(localRef.current);
-      if (focusables.length === 0) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (first === undefined || last === undefined) return;
-      const active = document.activeElement as HTMLElement | null;
-
-      if (!event.shiftKey && (active === last || !localRef.current?.contains(active))) {
-        event.preventDefault();
-        first.focus();
-      } else if (event.shiftKey && (active === first || !localRef.current?.contains(active))) {
-        event.preventDefault();
-        last.focus();
-      }
-    };
-
-    const handleFocusIn = (event: FocusEvent) => {
-      if (!trapped) return;
-      const target = event.target as Node | null;
-      if (!target || localRef.current?.contains(target)) return;
+    if (!event.shiftKey && (active === last || !localRef.current?.contains(active))) {
       event.preventDefault();
-      getFocusableElements(localRef.current)[0]?.focus();
-    };
+      first.focus();
+    } else if (event.shiftKey && (active === first || !localRef.current?.contains(active))) {
+      event.preventDefault();
+      last.focus();
+    }
+  };
 
-    const input = layerInputFor(document);
-    const offKey = input.on('keydown', handleKeyDown);
-    const offFocus = input.on('focusin', handleFocusIn);
-    return () => {
-      offKey();
-      offFocus();
-    };
-  }, [loop, trapped]);
+  const handleBlur = (event: React.FocusEvent<HTMLDivElement>): void => {
+    onBlur?.(event);
+    if (!trapped) return;
+    const next = event.relatedTarget as Node | null;
+    if (next && localRef.current?.contains(next)) return;
+    getFocusableElements(localRef.current)[0]?.focus();
+  };
 
   return (
-    <div ref={setRef} data-ag-part="root" data-focus-scope="" {...props}>
+    <div
+      ref={setRef}
+      data-ag-part="root"
+      data-focus-scope=""
+      {...props}
+      onKeyDown={handleKeyDown}
+      onBlur={handleBlur}
+    >
       {children}
     </div>
   );
