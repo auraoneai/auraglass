@@ -8,12 +8,13 @@ export function die(msg) {
 }
 
 export async function prettierFormat(code, parser) {
+  let prettier;
   try {
-    const prettier = await import('prettier');
-    return await prettier.format(code, { parser });
+    prettier = await import('prettier');
   } catch {
-    return code; // prettier unavailable: output is already deterministic
+    die('prettier is required for tokens:build but is not installed — install the pinned prettier devDependency (FIN-C) and retry');
   }
+  return await prettier.format(code, { parser });
 }
 
 export const dim = (v) => `${v.value}${v.unit}`;

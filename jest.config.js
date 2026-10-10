@@ -6,6 +6,7 @@ export default {
     '<rootDir>/showcase/**/*.test.{ts,tsx}', '<rootDir>/fragments/**/*.test.ts', '<rootDir>/scripts/**/*.test.{ts,mjs}'],
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/legacy/', '<rootDir>/dist/', '<rootDir>/packages/', '<rootDir>/apps/'],
   setupFilesAfterEnv: ['<rootDir>/tests/helpers/setup.ts'],
-  transform: { '^.+\\.(t|j|mj)sx?$': ['babel-jest', { presets: [['@babel/preset-env', { targets: { node: '20.19' } }], ['@babel/preset-react', { runtime: 'automatic' }], '@babel/preset-typescript'] }] },
+  transform: { '^.+\\.(t|j|mj)sx?$': ['<rootDir>/tests/helpers/babel-jest-import-meta.cjs', {}] },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'mjs', 'json'],
   moduleNameMapper: { '\\.css$': 'identity-obj-proxy' },
 };
