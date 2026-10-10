@@ -13,7 +13,7 @@
 //        node scripts/docs/gen-llms.mjs --check    exit 1 when llms.txt is stale
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
-import { DOCS_BASE_URL } from './paths.mjs';
+import { PUBLIC_DOCS_URL } from './paths.mjs';
 import { distTagFor } from '../release/dist-tag.mjs';
 import { ROOT, importPath, loadMetas, loadProps, loadSubpaths, packageVersion, slugOf } from './agent-data.mjs';
 
@@ -21,7 +21,7 @@ export const LLMS_MAX = 12 * 1024;
 export const FULL_MAX = 400 * 1024;
 export const GLASS_NAME = /\bGlass[A-Z]\w*/;
 const PAGES_DIR = 'apps/docs/public';
-const base = DOCS_BASE_URL.endsWith('/') ? DOCS_BASE_URL : `${DOCS_BASE_URL}/`;
+const base = PUBLIC_DOCS_URL.endsWith('/') ? PUBLIC_DOCS_URL : `${PUBLIC_DOCS_URL}/`;
 const isGlass = (name) => /^(Liquid)?Glass[A-Z]/.test(name);
 
 function versionsSection(version) {

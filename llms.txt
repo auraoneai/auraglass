@@ -39,66 +39,66 @@
 
 ## Components
 
-- [Button](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/button.md): `aura-glass`, T1
-- [IconButton](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/icon-button.md): `aura-glass`, T1
-- [ToggleGroup](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/toggle-group.md): `aura-glass`, T1
-- [Toolbar](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/toolbar.md): `aura-glass`, T1
-- [SegmentedControl](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/segmented-control.md): `aura-glass`, T1
-- [Switch](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/switch.md): `aura-glass`, T1
-- [Slider](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/slider.md): `aura-glass`, T1
-- [Checkbox](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/checkbox.md): `aura-glass`, T1
-- [CheckboxGroup](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/checkbox-group.md): `aura-glass`, T1
-- [RadioGroup](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/radio-group.md): `aura-glass`, T1
-- [Field](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/field.md): `aura-glass`, T1
-- [Fieldset](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/fieldset.md): `aura-glass`, T1
-- [Form](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/form.md): `aura-glass`, T1
-- [TextField](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/text-field.md): `aura-glass`, T1
-- [SearchField](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/search-field.md): `aura-glass`, T1
-- [Select](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/select.md): `aura-glass`, T1
-- [Combobox](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/combobox.md): `aura-glass`, T1
-- [NumberField](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/number-field.md): `aura-glass`, T1
-- [Calendar](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/calendar.md): `aura-glass/date`, T1
-- [DateField](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/date-field.md): `aura-glass/date`, T1
-- [DatePicker](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/date-picker.md): `aura-glass/date`, T1
-- [DateRangePicker](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/date-range-picker.md): `aura-glass/date`, T1
-- [RangeCalendar](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/range-calendar.md): `aura-glass/date`, T2
-- [TimeField](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/time-field.md): `aura-glass/date`, T2
-- [TimePicker](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/time-picker.md): `aura-glass/date`, T2
-- [Dialog](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/dialog.md): `aura-glass`, T1
-- [AlertDialog](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/alert-dialog.md): `aura-glass`, T1
-- [Sheet](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/sheet.md): `aura-glass`, T1
-- [Popover](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/popover.md): `aura-glass`, T1
-- [Tooltip](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/tooltip.md): `aura-glass`, T1
-- [Toast](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/toast.md): `aura-glass`, T1
-- [AppShell](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/app-shell.md): `aura-glass`, T1
-- [Menu](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/menu.md): `aura-glass`, T1
-- [Sidebar](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/sidebar.md): `aura-glass`, T1
-- [TopBar](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/top-bar.md): `aura-glass`, T1
-- [Tabs](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/tabs.md): `aura-glass`, T1
-- [TabBar](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/tab-bar.md): `aura-glass`, T1
-- [Breadcrumbs](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/breadcrumbs.md): `aura-glass`, T1
-- [Pagination](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/pagination.md): `aura-glass`, T1
-- [Command](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/command.md): `aura-glass`, T1
-- [CommandPalette](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/command-palette.md): `aura-glass`, T1
-- [ResizablePanels](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/resizable-panels.md): `aura-glass`, T1
-- [SourceTransition](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/source-transition.md): `aura-glass`, T1
-- [Table](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/table.md): `aura-glass/data`, T1
-- [TreeView](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/tree-view.md): `aura-glass/data`, T1
-- [FilterBar](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/filter-bar.md): `aura-glass/data`, T1
-- [StatCard](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/stat-card.md): `aura-glass/data`, T1
-- [ChartFrame](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/chart-frame.md): `aura-glass/data`, T1
-- [Sparkline](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/sparkline.md): `aura-glass/data`, T2
-- [ActivityFeed](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/activity-feed.md): `aura-glass`, T1
-- [Timeline](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/timeline.md): `aura-glass`, T1
-- [Thread](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/thread.md): `aura-glass/ai`, T1
-- [Message](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/message.md): `aura-glass/ai`, T1
-- [Composer](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/composer.md): `aura-glass/ai`, T1
-- [ToolCall](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/tool-call.md): `aura-glass/ai`, T1
-- [Citation](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/citation.md): `aura-glass/ai`, T1
-- [SourceList](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/source-list.md): `aura-glass/ai`, T2
-- [MediaControls](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/media-controls.md): `aura-glass/media`, T2
-- [NowPlayingBar](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/now-playing-bar.md): `aura-glass/media`, T2
-- [CarouselRail](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/components/carousel-rail.md): `aura-glass/media`, T2
+- [Button](https://auraglass-48859d.gitlab.io/components/button.md): `aura-glass`, T1
+- [IconButton](https://auraglass-48859d.gitlab.io/components/icon-button.md): `aura-glass`, T1
+- [ToggleGroup](https://auraglass-48859d.gitlab.io/components/toggle-group.md): `aura-glass`, T1
+- [Toolbar](https://auraglass-48859d.gitlab.io/components/toolbar.md): `aura-glass`, T1
+- [SegmentedControl](https://auraglass-48859d.gitlab.io/components/segmented-control.md): `aura-glass`, T1
+- [Switch](https://auraglass-48859d.gitlab.io/components/switch.md): `aura-glass`, T1
+- [Slider](https://auraglass-48859d.gitlab.io/components/slider.md): `aura-glass`, T1
+- [Checkbox](https://auraglass-48859d.gitlab.io/components/checkbox.md): `aura-glass`, T1
+- [CheckboxGroup](https://auraglass-48859d.gitlab.io/components/checkbox-group.md): `aura-glass`, T1
+- [RadioGroup](https://auraglass-48859d.gitlab.io/components/radio-group.md): `aura-glass`, T1
+- [Field](https://auraglass-48859d.gitlab.io/components/field.md): `aura-glass`, T1
+- [Fieldset](https://auraglass-48859d.gitlab.io/components/fieldset.md): `aura-glass`, T1
+- [Form](https://auraglass-48859d.gitlab.io/components/form.md): `aura-glass`, T1
+- [TextField](https://auraglass-48859d.gitlab.io/components/text-field.md): `aura-glass`, T1
+- [SearchField](https://auraglass-48859d.gitlab.io/components/search-field.md): `aura-glass`, T1
+- [Select](https://auraglass-48859d.gitlab.io/components/select.md): `aura-glass`, T1
+- [Combobox](https://auraglass-48859d.gitlab.io/components/combobox.md): `aura-glass`, T1
+- [NumberField](https://auraglass-48859d.gitlab.io/components/number-field.md): `aura-glass`, T1
+- [Calendar](https://auraglass-48859d.gitlab.io/components/calendar.md): `aura-glass/date`, T1
+- [DateField](https://auraglass-48859d.gitlab.io/components/date-field.md): `aura-glass/date`, T1
+- [DatePicker](https://auraglass-48859d.gitlab.io/components/date-picker.md): `aura-glass/date`, T1
+- [DateRangePicker](https://auraglass-48859d.gitlab.io/components/date-range-picker.md): `aura-glass/date`, T1
+- [RangeCalendar](https://auraglass-48859d.gitlab.io/components/range-calendar.md): `aura-glass/date`, T2
+- [TimeField](https://auraglass-48859d.gitlab.io/components/time-field.md): `aura-glass/date`, T2
+- [TimePicker](https://auraglass-48859d.gitlab.io/components/time-picker.md): `aura-glass/date`, T2
+- [Dialog](https://auraglass-48859d.gitlab.io/components/dialog.md): `aura-glass`, T1
+- [AlertDialog](https://auraglass-48859d.gitlab.io/components/alert-dialog.md): `aura-glass`, T1
+- [Sheet](https://auraglass-48859d.gitlab.io/components/sheet.md): `aura-glass`, T1
+- [Popover](https://auraglass-48859d.gitlab.io/components/popover.md): `aura-glass`, T1
+- [Tooltip](https://auraglass-48859d.gitlab.io/components/tooltip.md): `aura-glass`, T1
+- [Toast](https://auraglass-48859d.gitlab.io/components/toast.md): `aura-glass`, T1
+- [AppShell](https://auraglass-48859d.gitlab.io/components/app-shell.md): `aura-glass`, T1
+- [Menu](https://auraglass-48859d.gitlab.io/components/menu.md): `aura-glass`, T1
+- [Sidebar](https://auraglass-48859d.gitlab.io/components/sidebar.md): `aura-glass`, T1
+- [TopBar](https://auraglass-48859d.gitlab.io/components/top-bar.md): `aura-glass`, T1
+- [Tabs](https://auraglass-48859d.gitlab.io/components/tabs.md): `aura-glass`, T1
+- [TabBar](https://auraglass-48859d.gitlab.io/components/tab-bar.md): `aura-glass`, T1
+- [Breadcrumbs](https://auraglass-48859d.gitlab.io/components/breadcrumbs.md): `aura-glass`, T1
+- [Pagination](https://auraglass-48859d.gitlab.io/components/pagination.md): `aura-glass`, T1
+- [Command](https://auraglass-48859d.gitlab.io/components/command.md): `aura-glass`, T1
+- [CommandPalette](https://auraglass-48859d.gitlab.io/components/command-palette.md): `aura-glass`, T1
+- [ResizablePanels](https://auraglass-48859d.gitlab.io/components/resizable-panels.md): `aura-glass`, T1
+- [SourceTransition](https://auraglass-48859d.gitlab.io/components/source-transition.md): `aura-glass`, T1
+- [Table](https://auraglass-48859d.gitlab.io/components/table.md): `aura-glass/data`, T1
+- [TreeView](https://auraglass-48859d.gitlab.io/components/tree-view.md): `aura-glass/data`, T1
+- [FilterBar](https://auraglass-48859d.gitlab.io/components/filter-bar.md): `aura-glass/data`, T1
+- [StatCard](https://auraglass-48859d.gitlab.io/components/stat-card.md): `aura-glass/data`, T1
+- [ChartFrame](https://auraglass-48859d.gitlab.io/components/chart-frame.md): `aura-glass/data`, T1
+- [Sparkline](https://auraglass-48859d.gitlab.io/components/sparkline.md): `aura-glass/data`, T2
+- [ActivityFeed](https://auraglass-48859d.gitlab.io/components/activity-feed.md): `aura-glass`, T1
+- [Timeline](https://auraglass-48859d.gitlab.io/components/timeline.md): `aura-glass`, T1
+- [Thread](https://auraglass-48859d.gitlab.io/components/thread.md): `aura-glass/ai`, T1
+- [Message](https://auraglass-48859d.gitlab.io/components/message.md): `aura-glass/ai`, T1
+- [Composer](https://auraglass-48859d.gitlab.io/components/composer.md): `aura-glass/ai`, T1
+- [ToolCall](https://auraglass-48859d.gitlab.io/components/tool-call.md): `aura-glass/ai`, T1
+- [Citation](https://auraglass-48859d.gitlab.io/components/citation.md): `aura-glass/ai`, T1
+- [SourceList](https://auraglass-48859d.gitlab.io/components/source-list.md): `aura-glass/ai`, T2
+- [MediaControls](https://auraglass-48859d.gitlab.io/components/media-controls.md): `aura-glass/media`, T2
+- [NowPlayingBar](https://auraglass-48859d.gitlab.io/components/now-playing-bar.md): `aura-glass/media`, T2
+- [CarouselRail](https://auraglass-48859d.gitlab.io/components/carousel-rail.md): `aura-glass/media`, T2
 
 ## Do not
 
@@ -117,5 +117,5 @@
 
 ## Optional
 
-- [Full reference (components and guides)](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/llms-full.txt)
-- [Docs](https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/)
+- [Full reference (components and guides)](https://auraglass-48859d.gitlab.io/llms-full.txt)
+- [Docs](https://auraglass-48859d.gitlab.io/)

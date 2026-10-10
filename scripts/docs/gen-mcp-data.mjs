@@ -8,11 +8,11 @@
 // Usage: node scripts/docs/gen-mcp-data.mjs [--root <dir>] [--out <file>]
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
-import { DOCS_BASE_URL } from './paths.mjs';
+import { PUBLIC_DOCS_URL } from './paths.mjs';
 import { ROOT, importPath, loadMetas, loadMigrations, loadProps, loadRegistry, packageVersion, slugOf, sourceSha } from './agent-data.mjs';
 
 export const MAX_BYTES = 5 * 1024 * 1024;
-const base = DOCS_BASE_URL.endsWith('/') ? DOCS_BASE_URL : `${DOCS_BASE_URL}/`;
+const base = PUBLIC_DOCS_URL.endsWith('/') ? PUBLIC_DOCS_URL : `${PUBLIC_DOCS_URL}/`;
 
 export async function generate(root = ROOT) {
   const version = packageVersion(root);
