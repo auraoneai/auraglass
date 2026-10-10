@@ -1,1 +1,0 @@
-automation declared 'full' but transform emits TODO here (providers/basic wraps+asks user to verify mount) — REQ-PLAT-91 requires 0 TODO in full outputs; transform upgrade pending

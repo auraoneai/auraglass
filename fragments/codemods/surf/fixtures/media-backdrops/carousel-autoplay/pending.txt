@@ -1,1 +1,0 @@
-golden not yet met by transform 'media-backdrops' — authored fixture for the surf lane; codemod gap tracked under REQ-PLAT-91 (was excluded from discovery until the all-streams widening)

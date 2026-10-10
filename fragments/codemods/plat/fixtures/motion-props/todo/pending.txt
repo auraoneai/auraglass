@@ -1,1 +1,0 @@
-automation declared 'full' but this case exercises a TODO path — REQ-PLAT-91 requires 0 TODO in full outputs; revisit when motion-props covers this shape

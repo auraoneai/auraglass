@@ -42,10 +42,12 @@ function collect(cases: FixtureCase[], stream: string, fxDir: string): void {
       const input = ['input.tsx', 'input.ts', 'input.css', 'input.json'].map((f) => path.join(cDir, f)).find(fs.existsSync);
       const output = ['output.tsx', 'expected.tsx', 'output.ts', 'expected.ts', 'output.css', 'expected.css', 'output.json', 'expected.json'].map((f) => path.join(cDir, f)).find(fs.existsSync);
       if (!input || !output) continue;
-      const pendingFile = path.join(cDir, 'pending.txt');
-      const pending = fs.existsSync(pendingFile)
-        ? fs.readFileSync(pendingFile, 'utf8').trim()
-        : (!KNOWN_TRANSFORMS.has(transform) ? `unknown transform id '${transform}' (fixture group '${group}')` : undefined);
+      // The only pending state is an id the engine does not ship. Placeholder
+      // files (pending.txt) are not honoured: a case with a known transform
+      // must meet its golden (PRD-F §4 prohibited shortcuts).
+      const pending = KNOWN_TRANSFORMS.has(transform)
+        ? undefined
+        : `unknown transform id '${transform}' (fixture group '${group}')`;
       cases.push({
         stream, group, name, input, output, transform,
         ...(pending ? { pending } : {}),
