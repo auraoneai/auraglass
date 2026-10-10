@@ -1,7 +1,8 @@
 # Decision: QUAL declares no codemods (`fragments/codemods/qual.ts` stays `{}`)
 
-**Status:** recorded (REQ-PLAT-62 / REQ-FIN-36)
-**Date:** 2026-10-09
+**Status:** draft — awaiting owner signature before v4.3.0 (REQ-PLAT-62 / REQ-FIN-36; §13 item 17(e))
+**Drafted:** 2026-10-09 (agent)
+**Signed by / date:** _(owner fills on sign-off)_
 
 ## Context
 
