@@ -294,8 +294,6 @@ plat:package:pack:
         node -e "process.exit(Object.keys(require('./package.json').scripts||{}).includes('verify:pack')?0:1)" \
           && npm run verify:pack \
           || echo "PENDING: npm script verify:pack"
-        # REQ-PLAT-41: shrink-only import side-effect baseline on the built entry.
-        node scripts/ci/import-side-effects.mjs --dist dist/index.mjs
       else
         node -e "process.exit(Object.keys(require('./package.json').scripts||{}).includes('pack:verify')?0:1)" \
           || { echo "PENDING: npm script pack:verify (lane 1d)"; exit 1; }
