@@ -12,9 +12,9 @@ const FIXTURES = JSON.parse(
 ) as string[];
 
 const rampL = (css: string): number[] => {
-  // literal fallback steps are emitted as --ag-accent-<n>: oklch(l c h)
+  // literal fallback steps are emitted as --_ag-accent-<n>: oklch(l c h)
   const out: number[] = [];
-  for (const m of css.matchAll(/--ag-accent-\d+:\s*oklch\(\s*([\d.]+)/g)) out.push(Number(m[1]));
+  for (const m of css.matchAll(/--_ag-accent-\d+:\s*oklch\(\s*([\d.]+)/g)) out.push(Number(m[1]));
   return out;
 };
 
