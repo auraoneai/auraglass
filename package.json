@@ -130,7 +130,7 @@
     "artifact:publint": "publint",
     "artifact:attw": "attw --pack .",
     "storybook:build": "storybook build -o storybook-static",
-    "docs:build": "npm run build -w apps/docs",
+    "docs:build": "node -e \"const f=require('fs').readdirSync('.artifacts/pack').find(x=>/^aura-glass-.*\\.tgz$/.test(x));if(!f){console.error('PENDING: run plat:package:pack first (.artifacts/pack/aura-glass-*.tgz missing)');process.exit(1)}console.log(f)\" && npm install --no-save -w apps/docs $(ls .artifacts/pack/aura-glass-*.tgz) && npm run build -w apps/docs",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:contract": "npm test -- tests/contract",
     "lint": "eslint . && stylelint \"src/**/*.css\"",
