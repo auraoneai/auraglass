@@ -46,7 +46,7 @@ interface ComboboxInternal {
   hasExactMatch: (query: string) => boolean;
   /** Current create-candidate marker value sentinel (per-query unique object). */
   messages?: ControlMessages | undefined;
-  rootRef?: React.Ref<HTMLElement> | undefined;
+  rootRef?: React.Ref<HTMLDivElement> | undefined;
 }
 
 const InternalCtx = React.createContext<ComboboxInternal | null>(null);
@@ -329,7 +329,7 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
         {...sizeAttrs(size)}
       >
         <Base.Popup
-          ref={rootRef as React.Ref<HTMLDivElement> | undefined}
+          ref={rootRef}
           data-ag-part="popup"
           {...materialProps({ layer: 'overlay', thickness: 'regular' })}
           className={cn('ag-combobox-popup', className)}
