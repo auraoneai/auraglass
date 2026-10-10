@@ -6,6 +6,7 @@ import { materialProps } from '../../material';
 import { usePortalContainer } from '../../foundation/portal';
 import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
+import { childAsRender } from '../overlays/_shared/renderChild';
 import { sizeAttrs, DEFAULT_CONTROL_SIZE } from '../control-shared/size';
 import type { ControlSize } from '../control-shared/size';
 function ChevronGlyph() {
@@ -84,16 +85,18 @@ function SelectRoot<Value = string>({
 
 function SelectTrigger({ placeholder, children, className, ref, ...rest }: SelectTriggerProps) {
   const size = React.useContext(SelectSizeContext);
+  const { render, children: triggerChildren } = childAsRender(children);
   return (
     <Base.Trigger
       data-ag-part="trigger"
+      render={render}
       {...sizeAttrs(size)}
       {...materialProps({ layer: 'content', content: 'content-sunken', interactive: true })}
       className={cn('ag-select', className)}
       ref={ref}
       {...rest}
     >
-      {children ?? (
+      {triggerChildren ?? (
         <>
           <Base.Value data-ag-part="value" placeholder={placeholder} />
           <Base.Icon data-ag-part="icon" aria-hidden="true">

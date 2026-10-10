@@ -8,6 +8,7 @@ import { Popover as Base } from '@base-ui/react/popover';
 import { usePortalContainer } from '../../foundation/portal';
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
 import { toOverlayReason, type OverlayKind } from '../overlays/_shared/overlayTypes';
+import { childAsRender } from '../overlays/_shared/renderChild';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
 import type {
@@ -43,9 +44,11 @@ function PopoverRoot({ open, defaultOpen, onOpenChange, children }: PopoverRootP
 
 const PopoverTrigger = React.forwardRef<HTMLElement, PopoverTriggerProps>(
   function PopoverTrigger({ openOnHover = false, delay = 300, closeDelay = 150, className, children, ...rest }, ref) {
+    const { render, children: triggerChildren } = childAsRender(children);
     return (
       <Base.Trigger
         ref={ref as React.Ref<HTMLButtonElement>}
+        render={render}
         data-ag-part="trigger"
         className={cn('ag-popover-trigger', className)}
         openOnHover={openOnHover}
@@ -53,7 +56,7 @@ const PopoverTrigger = React.forwardRef<HTMLElement, PopoverTriggerProps>(
         closeDelay={closeDelay}
         {...rest}
       >
-        {children}
+        {triggerChildren}
       </Base.Trigger>
     );
   },
@@ -129,7 +132,8 @@ const PopoverDescription = React.forwardRef<HTMLParagraphElement, PopoverDescrip
 
 const PopoverClose = React.forwardRef<HTMLButtonElement, PopoverCloseProps>(
   function PopoverClose({ className, ...rest }, ref) {
-    return <Base.Close ref={ref} data-ag-part="close" className={cn('ag-popover-close', className)} {...rest} />;
+    const { render, children: closeChildren } = childAsRender(rest.children);
+    return <Base.Close ref={ref} render={render} data-ag-part="close" className={cn('ag-popover-close', className)} {...rest}>{closeChildren}</Base.Close>;
   },
 );
 

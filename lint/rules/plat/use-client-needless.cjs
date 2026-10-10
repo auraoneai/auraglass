@@ -28,7 +28,10 @@ module.exports = {
     };
     return {
       CallExpression(node) {
-        if (node.callee.type === 'Identifier' && CLIENT_HOOKS.test(node.callee.name) && !insideEffect(node)) clientSignal = true;
+        const c = node.callee;
+        const name = c.type === 'Identifier' ? c.name
+          : (c.type === 'MemberExpression' && c.property.type === 'Identifier' ? c.property.name : null);
+        if (name && CLIENT_HOOKS.test(name) && !insideEffect(node)) clientSignal = true;
       },
       Identifier(node) {
         if (DOM_GLOBALS.has(node.name) && !insideEffect(node)) clientSignal = true;

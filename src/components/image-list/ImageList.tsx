@@ -1,10 +1,11 @@
 /* CMP-308/CMP-424: ImageList — Item + ItemBar. `cols` is a MAXIMUM reduced by
-   container width via minItemWidth (default 160px) using exactly one
-   ResizeObserver on the masonry variant only; standard/quilted resolve via css.
+   container width via minItemWidth (default 160px); standard/quilted resolve
+   via css grid (RSC-safe, no measurement). The masonry variant delegates to the
+   ImageList.Masonry island — the only client boundary in this component.
    ItemBar chrome is thin and declares data-ag-backdrop="media". */
-'use client';
 import * as React from 'react';
 import { cn } from '../../internal/index';
+import { MasonryRoot } from './ImageList.Masonry.client';
 
 export interface ImageListProps extends React.HTMLAttributes<HTMLDivElement> {
   cols?: number;
@@ -14,59 +15,35 @@ export interface ImageListProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'standard' | 'quilted' | 'masonry';
 }
 
-const MIN_ITEM_DEFAULT = 160;
+function Root({ variant = 'standard', ref, ...rest }: ImageListProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+  if (variant === 'masonry') return <MasonryRoot variant="masonry" ref={ref} {...rest} />;
+  return <StandardRoot variant={variant} ref={ref} {...rest} />;
+}
 
-function Root({
+function StandardRoot({
   cols = 3,
-  minItemWidth = MIN_ITEM_DEFAULT,
+  minItemWidth = 160,
   gap,
-  variant = 'standard',
+  variant,
   className,
   style,
   ref,
   ...rest
 }: ImageListProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
-  const [width, setWidth] = React.useState<number | null>(null);
-  const hostRef = React.useRef<HTMLDivElement | null>(null);
-
-  React.useEffect(() => {
-    if (variant !== 'masonry') return;
-    const node = hostRef.current;
-    if (!node || typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver((entries) => {
-      const w = entries[0]?.contentRect.width;
-      if (typeof w === 'number') setWidth(w);
-    });
-    ro.observe(node);
-    return () => ro.disconnect();
-  }, [variant]);
-
-  const effectiveCols = variant === 'masonry' && width !== null
-    ? Math.max(1, Math.min(cols, Math.floor(width / Math.max(1, minItemWidth))))
-    : cols;
-
-  const setRefs = (node: HTMLDivElement | null) => {
-    hostRef.current = node;
-    if (typeof ref === 'function') ref(node);
-    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
-  };
-
-  const styleObj: React.CSSProperties = {
-    gap: typeof gap === 'number' ? `var(--ag-space-${gap})` : gap,
-    ...(variant === 'masonry' ? { columnCount: effectiveCols } : { gridTemplateColumns: `repeat(${effectiveCols}, minmax(0, 1fr))` }),
-    ...style,
-  };
-
   return (
     <div
       {...rest}
-      ref={setRefs}
+      ref={ref}
       data-ag-part="root"
       data-ag-variant={variant}
-      data-ag-cols={effectiveCols}
+      data-ag-cols={cols}
       data-ag-min-item={minItemWidth}
-      className={cn('ag-image-list', variant === 'masonry' ? 'ag-image-list-masonry' : undefined, className)}
-      style={styleObj}
+      className={cn('ag-image-list', className)}
+      style={{
+        gap: typeof gap === 'number' ? `var(--ag-space-${gap})` : gap,
+        gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+        ...style,
+      }}
     />
   );
 }

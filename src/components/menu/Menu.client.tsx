@@ -11,6 +11,7 @@ import { Menubar as BaseMenubar } from '@base-ui/react/menubar';
 import { usePortalContainer } from '../../foundation/portal';
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
+import { childAsRender } from '../overlays/_shared/renderChild';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
 import type {
@@ -59,16 +60,18 @@ const MenuTrigger = React.forwardRef<HTMLElement, MenuTriggerProps>(
       // eslint-disable-next-line no-console
       console.warn('[aura-glass] Menu.Trigger openOnHover is only allowed inside a Menubar.');
     }
+    const { render, children: triggerChildren } = childAsRender(children);
     return (
       <Base.Trigger
         ref={ref as React.Ref<HTMLButtonElement>}
+        render={render}
         data-ag-part="trigger"
         className={cn('ag-menu-trigger', className)}
         {...(openOnHover !== undefined ? { openOnHover } : {})}
         {...(delay !== undefined ? { delay } : {})}
         {...rest}
       >
-        {children}
+        {triggerChildren}
       </Base.Trigger>
     );
   },

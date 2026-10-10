@@ -10,6 +10,7 @@ import { Tooltip as Base } from '@base-ui/react/tooltip';
 import { usePortalContainer } from '../../foundation/portal';
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
+import { childAsRender } from '../overlays/_shared/renderChild';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
 import type {
@@ -82,9 +83,11 @@ const TooltipTrigger = React.forwardRef<HTMLElement, TooltipTriggerProps>(
       clear();
       onPointerUp?.(e);
     };
+    const { render, children: triggerChildren } = childAsRender(children);
     return (
       <Base.Trigger
         ref={ref as React.Ref<HTMLButtonElement>}
+        render={render}
         data-ag-part="trigger"
         className={cn('ag-tooltip-trigger', className)}
         aria-describedby={ctx.open ? ctx.popupId : undefined}
@@ -93,7 +96,7 @@ const TooltipTrigger = React.forwardRef<HTMLElement, TooltipTriggerProps>(
         onPointerCancel={handleEnd}
         {...rest}
       >
-        {children}
+        {triggerChildren}
       </Base.Trigger>
     );
   },

@@ -4,7 +4,7 @@
    these specs are self-contained against `next start`. */
 import { test, expect } from '@playwright/test';
 
-const PAGES = ['/plat/server', '/plat/server-helpers', '/plat/client', '/plat/button', '/plat/empty'];
+const PAGES = ['/plat/server', '/plat/server-helpers', '/plat/client', '/plat/button', '/plat/empty', '/cmp/server', '/cmp/client'];
 
 test.describe('next16 rsc', () => {
   for (const p of PAGES) {
