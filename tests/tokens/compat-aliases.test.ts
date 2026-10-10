@@ -20,10 +20,10 @@ describe('compat aliases (MAT-076)', () => {
     const readers = new Set<string>(legacyReaderSet() as Iterable<string>);
     const missing = [...readers].filter((n) => !(n in MAP));
     // Defined names are emitted as declarations; never-defined names are
-    // accounted for in the map (defined: false) and must not be emitted.
-    const accounted = [...readers].filter((n) =>
-      MAP[n] && (MAP[n].defined ? CSS.includes(`${n}:`) : !CSS.includes(`${n}:`)),
-    );
+    // accounted for in the map (defined: false) and must not be declared.
+    const declared = new Set<string>();
+    postcss.parse(CSS).walkDecls((d) => { declared.add(d.prop); });
+    const accounted = [...readers].filter((n) => MAP[n] && MAP[n].defined === declared.has(n));
     console.log(`4.x reader names: ${readers.size}; map entries: ${Object.keys(MAP).length}; accounted: ${accounted.length}`);
     expect(Object.keys(MAP).sort()).toEqual([...readers].sort());
     expect(missing).toEqual([]);
