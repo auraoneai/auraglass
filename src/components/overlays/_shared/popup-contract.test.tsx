@@ -5,11 +5,10 @@ import { describe, expect, it, beforeEach } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import { render, act } from '@testing-library/react';
 import * as React from 'react';
+import { Popover as BasePopover } from '@base-ui/react/popover';
 import { AuraGlassProvider } from '../../../theme';
 import { MOUNTED_SUBJECTS } from './__tests__/subjects';
 import { defaultPositionerProps } from './positioning';
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 import FixturePopover from './__fixtures__/FixturePopover';
 
 describe('popup contract (CMP-205)', () => {
@@ -34,30 +33,70 @@ describe('popup contract (CMP-205)', () => {
     },
   );
 
-  /* REQ-CMP-85: anchored subjects share the one positioner contract. BU props
-     don't serialize to DOM, so the numeric half is enforced on the shared
-     object + the positioner sources; the DOM half is data-side/data-align. */
+  /* REQ-CMP-85: anchored subjects share the one positioner contract. */
   it('defaultPositionerProps is the 8/8 collision contract', () => {
     expect(defaultPositionerProps.sideOffset).toBe(8);
     expect(defaultPositionerProps.collisionPadding).toBe(8);
     expect(defaultPositionerProps.collisionAvoidance).toEqual({ side: 'flip', align: 'shift' });
   });
 
-  it.each(['Select.client.tsx', 'Combobox.client.tsx'] as const)(
-    '%s positioner spreads defaultPositionerProps with no local sideOffset',
-    (file) => {
-      const src = readFileSync(
-        resolve(__dirname, `../../../components/${file.startsWith('Select') ? 'select' : 'combobox'}/${file}`),
-        'utf8',
-      );
-      const positioner = src.match(/<Base\.Positioner[\s\S]*?>/u)?.[0] ?? '';
-      expect(positioner).toContain('{...defaultPositionerProps}');
-      expect(positioner).not.toMatch(/sideOffset=/u);
-      expect(positioner).not.toMatch(/collisionPadding=/u);
+  /* Behavioural half: the positioner Base UI renders carries the computed
+     geometry. Its main-axis translate is the applied sideOffset, and
+     --available-{width,height} shrink by 2 x collisionPadding. Each anchored
+     subject is compared with a bare Base UI Popover given the literal 8/8
+     props (independent of defaultPositionerProps). */
+  function readGeometry(positioner: HTMLElement) {
+    const match = /translate\((-?[\d.]+)px, (-?[\d.]+)px\)/u.exec(positioner.style.transform);
+    const side = positioner.getAttribute('data-side');
+    const mainAxis = match ? Math.abs(Number(side === 'left' || side === 'right' ? match[1] : match[2])) : null;
+    return {
+      side,
+      mainAxisOffset: mainAxis,
+      availableWidth: positioner.style.getPropertyValue('--available-width'),
+      availableHeight: positioner.style.getPropertyValue('--available-height'),
+    };
+  }
+
+  async function referenceGeometry() {
+    const view = render(
+      <BasePopover.Root defaultOpen>
+        <BasePopover.Trigger>anchor</BasePopover.Trigger>
+        <BasePopover.Portal>
+          <BasePopover.Positioner
+            data-testid="reference-positioner"
+            sideOffset={8}
+            collisionPadding={8}
+            collisionAvoidance={{ side: 'flip', align: 'shift' }}
+          >
+            <BasePopover.Popup>reference</BasePopover.Popup>
+          </BasePopover.Positioner>
+        </BasePopover.Portal>
+      </BasePopover.Root>,
+    );
+    await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
+    const geometry = readGeometry(document.querySelector<HTMLElement>('[data-testid="reference-positioner"]')!);
+    view.unmount();
+    return geometry;
+  }
+
+  const ANCHORED = ['Popover', 'Menu', 'Select', 'Combobox', 'Tooltip'] as const;
+
+  it.each(ANCHORED)(
+    '%s positioner applies sideOffset 8 / collisionPadding 8',
+    async (name) => {
+      const reference = await referenceGeometry();
+      expect(reference.mainAxisOffset).toBe(8);
+      const subject = MOUNTED_SUBJECTS.find((s) => s.name === name)!;
+      render(subject.mount!());
+      await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
+      const popup = document.querySelector<HTMLElement>(subject.popupSelector)!;
+      const geometry = readGeometry(popup.closest<HTMLElement>('[data-ag-part="positioner"]')!);
+      expect(geometry.mainAxisOffset).toBe(defaultPositionerProps.sideOffset);
+      expect(geometry.availableWidth).toBe(reference.availableWidth);
+      expect(geometry.availableHeight).toBe(reference.availableHeight);
     },
   );
 
-  const ANCHORED = ['Popover', 'Menu', 'Select', 'Combobox', 'Tooltip'] as const;
   it.each(ANCHORED)('%s popup carries data-side/data-align', async (name) => {
     const subject = MOUNTED_SUBJECTS.find((s) => s.name === name)!;
     render(subject.mount!());

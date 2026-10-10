@@ -112,30 +112,6 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
     ),
   },
   {
-    kind: 'select', name: 'Select', available: true, modal: false, layerRoot: 'overlay', popupSelector: '[data-ag-part="popup"]',
-    mount: () => (
-      <Select.Root defaultOpen>
-        <Select.Trigger placeholder="anchor" />
-        <Select.Content>
-          <Select.Item value="a" label="A" />
-          <Select.Item value="b" label="B" />
-        </Select.Content>
-      </Select.Root>
-    ),
-  },
-  {
-    kind: 'combobox', name: 'Combobox', available: true, modal: false, layerRoot: 'overlay', popupSelector: '[data-ag-part="popup"]',
-    mount: () => (
-      <Combobox.Root items={['a', 'b']} defaultOpen>
-        <Combobox.Input placeholder="anchor" />
-        <Combobox.Content>
-          <Combobox.Item value="a">a</Combobox.Item>
-          <Combobox.Item value="b">b</Combobox.Item>
-        </Combobox.Content>
-      </Combobox.Root>
-    ),
-  },
-  {
     kind: 'menu', name: 'Menu', available: true, modal: false, layerRoot: 'overlay', popupSelector: '[data-ag-part="popup"]',
     mount: (p) => (
       <Menu.Root defaultOpen onOpenChange={p?.onOpenChange}>
@@ -156,6 +132,24 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
       <Toast.Provider>
         <ToastSubject />
       </Toast.Provider>
+    ),
+  },
+  {
+    kind: 'select', name: 'Select', available: true, modal: false, layerRoot: 'overlay', popupSelector: '[data-ag-part="popup"]',
+    mount: (p) => (
+      <Select.Root defaultOpen onOpenChange={p?.onOpenChange}>
+        <Select.Trigger>anchor</Select.Trigger>
+        <Select.Content><Select.Item value="a">Subject item</Select.Item></Select.Content>
+      </Select.Root>
+    ),
+  },
+  {
+    kind: 'combobox', name: 'Combobox', available: true, modal: false, layerRoot: 'overlay', popupSelector: '[data-ag-part="popup"]',
+    mount: () => (
+      <Combobox.Root defaultOpen items={[{ value: 'a', label: 'Subject item' }]}>
+        <Combobox.Input />
+        <Combobox.Content><Combobox.Item value="a">Subject item</Combobox.Item></Combobox.Content>
+      </Combobox.Root>
     ),
   },
 ] as const;
