@@ -19,13 +19,35 @@ const files = execSync(
   { cwd: ROOT, encoding: 'utf8' }
 ).trim().split('\n').filter(Boolean);
 
+const SIGNAL = /prefersReducedMotion|reducedMotion|shouldAnimate/;
+
+/** Bodies of every `<prop>={...}` JSX expression (braces balanced). */
+function motionExpressions(src) {
+  const out = [];
+  const re = new RegExp(`\\b(?:${PROPS})=\\{`, 'g');
+  let m;
+  while ((m = re.exec(src))) {
+    let depth = 1;
+    let i = re.lastIndex;
+    for (; i < src.length && depth > 0; i++) {
+      if (src[i] === '{') depth++;
+      else if (src[i] === '}') depth--;
+    }
+    out.push(src.slice(re.lastIndex, i - 1).trim());
+  }
+  return out;
+}
+
 const rows = [];
 for (const f of files) {
   const src = readFileSync(join(ROOT, f), 'utf8');
-  const inMotion = new RegExp(`(${PROPS})=\\{[^\\n]*(prefersReducedMotion|reducedMotion|shouldAnimate)`);
-  if (!inMotion.test(src)) continue;
-  const emptyBranch = /\?\s*\{\}\s*:|:\s*\{\}\s*[},]/.test(src);
-  const undefinedBranch = /\?\s*undefined\s*:|:\s*undefined\s*[},]/.test(src);
+  // Inspect only the brace-balanced `prop={...}` expressions, so that a
+  // prettier-wrapped ternary still counts and unrelated `key: {}` object
+  // literals elsewhere in the file are not reported as empty branches.
+  const exprs = motionExpressions(src).filter((e) => SIGNAL.test(e));
+  if (exprs.length === 0) continue;
+  const emptyBranch = exprs.some((e) => /\?\s*\{\}\s*:|:\s*\{\}\s*$/.test(e));
+  const undefinedBranch = exprs.some((e) => /\?\s*undefined\s*:|:\s*undefined\s*$/.test(e));
   const cookie = /cookie-consent/.test(f);
   rows.push({ f, emptyBranch, undefinedBranch, cookie });
 }

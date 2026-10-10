@@ -7,15 +7,26 @@ Exception: `cookie-consent/` keeps motion gated via its explicit
 
 | File | Pattern |
 |------|---------|
+| `src/components/accessibility/GlassA11y.tsx` | conditional |
+| `src/components/accessibility/GlassFocusIndicators.tsx` | conditional |
 | `src/components/advanced/BrandColorIntegration.tsx` | `? undefined :` |
+| `src/components/advanced/GlassAchievementSystem.tsx` | `? undefined :` |
 | `src/components/advanced/GlassAutoComposer.tsx` | `? undefined :` |
+| `src/components/advanced/GlassBiometricAdaptation.tsx` | `? undefined :` |
 | `src/components/advanced/GlassContextualEngine.tsx` | `? undefined :` |
+| `src/components/advanced/GlassEngine.tsx` | conditional |
 | `src/components/advanced/GlassEyeTracking.tsx` | `? undefined :` |
-| `src/components/advanced/GlassFoldableSupport.tsx` | `? undefined :` |
+| `src/components/advanced/GlassFoldableSupport.tsx` | conditional |
+| `src/components/advanced/GlassLiquidTransition.tsx` | `? undefined :` |
+| `src/components/advanced/GlassLiveCursorPresence.tsx` | conditional |
 | `src/components/advanced/GlassMetaEngine.tsx` | `? undefined :` |
 | `src/components/advanced/GlassNeuroSync.tsx` | `? undefined :` |
+| `src/components/advanced/GlassParallaxLayers.tsx` | conditional |
+| `src/components/advanced/GlassPredictiveEngine.tsx` | conditional |
+| `src/components/advanced/GlassQuantumStates.tsx` | `? undefined :` |
 | `src/components/advanced/GlassReactions.tsx` | `? undefined :` |
 | `src/components/advanced/GlassSelfHealingSystem.tsx` | `? undefined :` |
+| `src/components/advanced/GlassSpatialAudio.tsx` | `? undefined :` |
 | `src/components/advanced/GlassTrophyCase.tsx` | `? undefined :` |
 | `src/components/advanced/IntelligentColorSystem.tsx` | `? undefined :` |
 | `src/components/ai/GlassDeepDreamGlass.tsx` | `? undefined :` |
@@ -27,20 +38,33 @@ Exception: `cookie-consent/` keeps motion gated via its explicit
 | `src/components/animations/AdvancedAnimations.tsx` | `? undefined :` |
 | `src/components/animations/GlassTransitions.tsx` | `? undefined :` |
 | `src/components/ar/ARGlassEffects.r3f.tsx` | `? undefined :` |
+| `src/components/demo/EnhancementShowcase.tsx` | conditional |
 | `src/components/effects/AuroraPro.r3f.tsx` | `? undefined :` |
 | `src/components/effects/Glass3DEngine.tsx` | `? undefined :` |
 | `src/components/effects/GlassPhysicsEngine.tsx` | `? undefined :` |
 | `src/components/effects/GlassShatterEffects.r3f.tsx` | `? undefined :` |
+| `src/components/effects/SeasonalParticles.r3f.tsx` | conditional |
 | `src/components/houdini/HoudiniGlassCard.tsx` | `? undefined :` |
+| `src/components/interactive/GlassFacetSearch.tsx` | conditional |
+| `src/components/interactive/GlassFileExplorer.tsx` | conditional |
+| `src/components/interactive/GlassFileTree.tsx` | conditional |
 | `src/components/layouts/GlassIslandLayout.tsx` | `? undefined :` |
+| `src/components/layouts/GlassMasonryGrid.tsx` | conditional |
 | `src/components/layouts/GlassOrbitalMenu.tsx` | `? undefined :` |
 | `src/components/mobile/TouchGlassOptimization.tsx` | conditional |
 | `src/components/quantum/GlassCoherenceIndicator.tsx` | `? undefined :` |
 | `src/components/quantum/GlassProbabilityCloud.tsx` | `? undefined :` |
+| `src/components/quantum/GlassQuantumTunnel.tsx` | conditional |
+| `src/components/quantum/GlassSuperpositionalMenu.tsx` | `? undefined :` |
 | `src/components/social/GlassCollaborativeCursor.tsx` | conditional |
 | `src/components/social/GlassPresenceIndicator.tsx` | conditional |
 | `src/components/social/GlassReactionBubbles.tsx` | conditional |
+| `src/components/social/GlassSharedWhiteboard.tsx` | `? undefined :` |
+| `src/components/social/GlassSocialFeed.tsx` | conditional |
 | `src/components/social/GlassVoiceWaveform.tsx` | `? undefined :` |
+| `src/components/voice/VoiceGlassControl.tsx` | conditional |
+| `src/components/website-components/GlassPrismComparison.tsx` | `? undefined :` |
+| `src/components/website-components/GlassWipeSliderExamples.tsx` | conditional |
 | `src/hooks/useEnhancedReducedMotion.ts` | conditional |
 
-Total: 35 files.
+Total: 59 files.
