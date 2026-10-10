@@ -12,10 +12,13 @@ import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, 
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { collectNavData, collectSurfaces } from '../../scripts/docs/prepare-docs-app.mjs';
-import { build as buildRegistry } from '../../scripts/registry/build.mjs';
 import { buildNav, navHrefs, type NavData, type NavSection } from '../../apps/docs/nav.config';
 import { buildSite, staticParams } from '../../apps/docs/lib/routes';
 import { SCENES, SCENE_BACKDROP } from '../../src/contracts/testing';
+
+/* scripts/registry/build.mjs ships no declaration file; type the one call used here. */
+type RegistryBuild = (o: { root: string; write: boolean }) => { report: { items: Array<{ name: string; kind: string; status: string }> } };
+const buildRegistry: RegistryBuild = require('../../scripts/registry/build.mjs').build;
 
 const root = join(__dirname, '..', '..');
 const appDir = join(root, 'apps', 'docs');
@@ -68,7 +71,7 @@ describe('docs IA (nav.config.ts)', () => {
 
   it('lists exactly the certified registry blocks under Surfaces', () => {
     const { report } = buildRegistry({ root, write: false });
-    const certified = report.items.filter((r: { kind: string; status: string }) => r.kind === 'blocks' && r.status === 'certified').map((r: { name: string }) => `/surfaces/${r.name}`).sort();
+    const certified = report.items.filter((r) => r.kind === 'blocks' && r.status === 'certified').map((r) => `/surfaces/${r.name}`).sort();
     expect(onlyGroup(nav, 'Surfaces').map((e) => e.href).sort()).toEqual(certified);
   });
 
