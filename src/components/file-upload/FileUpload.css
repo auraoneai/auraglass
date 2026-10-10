@@ -1,6 +1,6 @@
 /* CMP-318 FileUpload */
 @layer ag.components {
-  .ag-file-upload-dropzone { display: block; inline-size: 100%; padding: var(--ag-space-4, 1rem); border: 1px dashed var(--ag-hairline, currentColor); border-radius: var(--ag-radius-md, 0.5rem); background: none; cursor: pointer; font: inherit; }
+  .ag-file-upload-dropzone { display: block; inline-size: 100%; padding: var(--ag-space-4, 1rem); border: 1px dashed var(--_ag-hairline, currentColor); border-radius: var(--ag-radius-md, 0.5rem); background: none; cursor: pointer; font: inherit; }
   .ag-file-upload-dropzone[data-state='active'] { border-style: solid; }
   .ag-file-upload-input { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; }
   .ag-file-upload-list { margin: var(--ag-space-2, 0.5rem) 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--ag-space-1, 0.25rem); }
