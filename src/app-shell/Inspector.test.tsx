@@ -1,6 +1,6 @@
 /** @jest-environment jsdom */
 import { describe, expect, it, jest } from '@jest/globals';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { AppShell } from './AppShell';
 import { Inspector } from './Inspector';
@@ -50,5 +50,21 @@ describe('Inspector (SURF-058)', () => {
     const section = document.querySelector('[data-ag-part="inspector-section"]')!;
     expect(section).toBeTruthy();
     expect(screen.getByText('Details')).toBeTruthy();
+  });
+
+  it('Section hides field when closed, opens on trigger click (SURF-37)', () => {
+    render(
+      <Inspector.Root aria-label="I">
+        <Inspector.Section title="Fields" defaultOpen={false}>
+          <Inspector.Field label="W">40</Inspector.Field>
+        </Inspector.Section>
+      </Inspector.Root>,
+    );
+    const trigger = screen.getByRole('button', { name: 'Fields' });
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByText('40')).toBeNull();
+    fireEvent.click(trigger);
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByText('40')).toBeTruthy();
   });
 });

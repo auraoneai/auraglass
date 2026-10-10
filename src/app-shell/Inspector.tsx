@@ -41,14 +41,19 @@ InspectorRoot.displayName = 'Inspector.Root';
 export type InspectorHeaderProps = PartProps<'div'> & { title?: React.ReactNode };
 
 function InspectorHeader({ title, children, render, ...rest }: InspectorHeaderProps) {
-  void render;
-  return (
-    <div data-ag-part="inspector-header" className="ag-inspector__header" {...(rest as Record<string, unknown>)}>
-      {title !== undefined ? <h2 data-ag-part="inspector-title">{title}</h2> : null}
-      {children}
-      <InspectorCloseButton />
-    </div>
-  );
+  return partElement('div', {
+    render,
+    'data-ag-part': 'inspector-header',
+    className: 'ag-inspector__header',
+    ...rest,
+    children: (
+      <>
+        {title !== undefined ? <h2 data-ag-part="inspector-title">{title}</h2> : null}
+        {children}
+        <InspectorCloseButton />
+      </>
+    ),
+  });
 }
 InspectorHeader.displayName = 'Inspector.Header';
 

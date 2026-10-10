@@ -191,6 +191,19 @@
     grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
     gap: var(--ag-space-3, 0.75rem);
     padding: var(--ag-space-4, 1rem);
+  
+  /* SURF-037/057: inspector is its own inline-size container; content owns
+     its scroll. */
+  .ag-inspector {
+    container: ag-inspector / inline-size;
+    min-inline-size: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .ag-inspector__content {
+    overflow: auto;
+    overscroll-behavior: contain;
+    min-block-size: 0;
+    flex: 1;
   }
 }
-
