@@ -11,6 +11,8 @@ import { overlayMaterial } from './overlaySurface';
 import type { OverlayKind } from './overlayTypes';
 import { Select } from '../../select/index';
 import { Combobox } from '../../combobox/index';
+import { Dialog } from '../../dialog/index';
+import { Popover } from '../../popover/index';
 import FixturePopover from './__fixtures__/FixturePopover';
 
 describe('popup contract (CMP-205)', () => {
@@ -69,21 +71,59 @@ describe('popup contract (CMP-205)', () => {
     expect(prom('tooltip')).toBeUndefined();
   });
 
+  it('per-instance variant is regular | identity', () => {
+    const v = (variant: 'regular' | 'identity') =>
+      (overlayMaterial('dialog', { variant }) as unknown as Record<string, string>)['data-ag-variant'];
+    expect(v('regular')).toBe('regular');
+    expect(v('identity')).toBe('identity');
+  });
+
   /* Select + Combobox subjects: popups carry data-ag-overlay=select|combobox,
-     thickness=regular, and the .ag-surface class that material.css keys on
-     (the REQ-CMP-78 seam fix). Mounted without AuraGlassProvider — the jsdom
+     thickness=regular and the [data-ag-surface] hook that material.css keys on
+     after REQ-FIN-02 (#117). Mounted without AuraGlassProvider — the jsdom
      portal flake is baselined separately. */
   it.each([
     ['select', <Select.Root key="s" defaultOpen><Select.Trigger>anchor</Select.Trigger><Select.Content><Select.Item value="a">a</Select.Item></Select.Content></Select.Root>],
     ['combobox', <Combobox.Root key="c" defaultOpen items={[{ value: 'a', label: 'a' }]}><Combobox.Input /><Combobox.Content><Combobox.Item value="a">a</Combobox.Item></Combobox.Content></Combobox.Root>],
-  ])('%s popup: data-ag-overlay, thickness=regular, ag-surface class', async (kind, el) => {
+  ])('%s popup: data-ag-overlay, thickness=regular, data-ag-surface', async (kind, el) => {
     render(el as React.ReactElement);
     await act(async () => { await new Promise((r) => setTimeout(r, 40)); });
     const popup = document.querySelector(`[data-ag-overlay="${kind}"]`);
     expect(popup).toBeTruthy();
     expect(popup!.getAttribute('data-ag-layer')).toBe('overlay');
     expect(popup!.getAttribute('data-ag-thickness')).toBe('regular');
-    expect(popup!.classList.contains('ag-surface')).toBe(true);
+    expect(popup!.hasAttribute('data-ag-surface')).toBe(true);
+  });
+
+  it('Dialog and Popover popups: identity variant + prominent pass through', async () => {
+    render(
+      <AuraGlassProvider>
+        <Dialog.Root defaultOpen>
+          <Dialog.Portal>
+            <Dialog.Popup aria-label="prominent dialog" variant="identity" prominent>
+              <Dialog.Title>Prominent dialog</Dialog.Title>
+            </Dialog.Popup>
+          </Dialog.Portal>
+        </Dialog.Root>
+        <Popover.Root defaultOpen>
+          <Popover.Trigger>anchor</Popover.Trigger>
+          <Popover.Portal>
+            <Popover.Positioner>
+              <Popover.Popup variant="identity" prominent>
+                <Popover.Title>Prominent popover</Popover.Title>
+              </Popover.Popup>
+            </Popover.Positioner>
+          </Popover.Portal>
+        </Popover.Root>
+      </AuraGlassProvider>,
+    );
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    for (const kind of ['dialog', 'popover']) {
+      const popup = document.querySelector(`[data-ag-overlay="${kind}"]`);
+      expect(popup).toBeTruthy();
+      expect(popup!.getAttribute('data-ag-variant')).toBe('identity');
+      expect(popup!.getAttribute('data-ag-prominent')).toBe('');
+    }
   });
 
   it('fixture popover: Positioner→Popup structure, arrow part, portal root', async () => {

@@ -81,7 +81,7 @@ const PopoverPositioner = React.forwardRef<HTMLDivElement, PopoverPositionerProp
 );
 
 const PopoverPopup = React.forwardRef<HTMLDivElement, PopoverPopupProps>(
-  function PopoverPopup({ className, children, initialFocus, finalFocus, ...rest }, ref) {
+  function PopoverPopup({ className, children, initialFocus, finalFocus, variant, prominent, ...rest }, ref) {
     const ctx = React.useContext(PopoverCtx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
@@ -97,10 +97,10 @@ const PopoverPopup = React.forwardRef<HTMLDivElement, PopoverPopupProps>(
         ref={setRefs}
         data-ag-part="popup"
         data-state={ctx.open ? 'open' : 'closed'}
-        {...overlayMaterial(KIND)}
+        {...overlayMaterial(KIND, { variant, prominent })}
         {...(initialFocus !== undefined ? { initialFocus: initialFocus as never } : {})}
         {...(finalFocus !== undefined ? { finalFocus: finalFocus as never } : {})}
-        className={cn('ag-surface', 'ag-popover-positioner', className)}
+        className={cn('ag-popover-popup', className)}
         {...rest}
       >
         {children}

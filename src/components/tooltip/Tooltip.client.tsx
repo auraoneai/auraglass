@@ -152,7 +152,7 @@ const TooltipPopup = React.forwardRef<HTMLDivElement, TooltipPopupProps>(
         data-ag-part="popup"
         data-state={ctx.open ? 'open' : 'closed'}
         {...overlayMaterial('tooltip')}
-        className={cn('ag-surface', 'ag-tooltip-positioner', className)}
+        className={cn('ag-tooltip-popup', className)}
         {...rest}
       >
         {children}

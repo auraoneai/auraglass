@@ -328,7 +328,7 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
         <Base.Popup
           data-ag-part="popup"
           {...overlayMaterial('combobox')}
-          className={cn('ag-combobox-popup', 'ag-surface', className)}
+          className={cn('ag-combobox-popup', className)}
         >
           <Base.List data-ag-part="list" aria-busy={loading || undefined}>
             {virtual ? (

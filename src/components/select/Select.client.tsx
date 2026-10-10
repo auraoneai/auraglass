@@ -131,7 +131,7 @@ function SelectContent({ children, className }: SelectContentProps) {
         <Base.Popup
           data-ag-part="popup"
           {...overlayMaterial('select')}
-          className={cn('ag-select-popup', 'ag-surface', className)}
+          className={cn('ag-select-popup', className)}
         >
           <Base.ScrollUpArrow data-ag-part="scroll-up" keepMounted />
           <Base.List data-ag-part="list">{children}</Base.List>

@@ -45,6 +45,10 @@ export interface PopoverPositionerProps extends React.HTMLAttributes<HTMLDivElem
 
 export interface PopoverPopupProps extends React.HTMLAttributes<HTMLDivElement> {
   render?: RenderProp | undefined;
+  /** REQ-CMP-78: per-instance overlay material is limited to 'regular' (default) | 'identity'. */
+  variant?: 'regular' | 'identity' | undefined;
+  /** REQ-CMP-78: prominent overlay material (honoured on Dialog and Popover only). */
+  prominent?: boolean | undefined;
   initialFocus?: React.RefObject<HTMLElement | null> | ((openType: string) => HTMLElement | null | undefined) | undefined;
   finalFocus?: React.RefObject<HTMLElement | null> | ((closeType: string) => HTMLElement | null | undefined) | undefined;
   children?: React.ReactNode;

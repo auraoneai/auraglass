@@ -113,7 +113,7 @@ const MenuPopup = React.forwardRef<HTMLDivElement, MenuPopupProps>(
         data-ag-part="popup"
         data-state={ctx.open ? 'open' : 'closed'}
         {...overlayMaterial('menu')}
-        className={cn('ag-surface', 'ag-menu-positioner', className)}
+        className={cn('ag-menu-popup', className)}
         {...rest}
       >
         {children}
