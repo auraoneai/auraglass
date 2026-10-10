@@ -139,6 +139,24 @@ const w5 = [
     remote: false,
     failClosed: true,
   },
+  // REQ-SURF-07: next-build + client-reference-manifest leak check (remote —
+  // the lane runner builds the canary first).
+  {
+    lane: 'L11',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-canary-rsc.mjs',
+    scope: 'main',
+    remote: true,
+    failClosed: true,
+  },
+  {
+    lane: 'L11',
+    kind: 'jest',
+    path: 'tests/rsc/surf/**/*.test.{ts,tsx}',
+    scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
 ] as const;
 // --- lane W5 end ---
 
