@@ -51,3 +51,5 @@ export function measurePage(page: Page, opts: { profileId: ProfileId; engine: 'c
 export function evaluateFailures(result: object, profileId: ProfileId): Failure[];
 export function validateResults(doc: unknown): { ok: boolean; errors: string[] };
 export function runCli(argv?: string[]): Promise<number>;
+/** Flagship subjects of a Storybook build (cert-manifest.json, else index.json `flagship` tags), one story per subject. */
+export function listFlagships(staticDir: string): Array<{ id: string; subject: string; owner: string | null }>;
