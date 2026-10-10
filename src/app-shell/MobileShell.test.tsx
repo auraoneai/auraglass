@@ -5,7 +5,7 @@ import * as React from 'react';
 import { MobileShell } from './MobileShell';
 
 describe('MobileShell (SURF-030)', () => {
-  it('forces compact layout with collapsed sidebar/inspector', () => {
+  it('forces mobile layout with collapsed sidebar/inspector', () => {
     render(
       <MobileShell data-testid="m" topBar={<span>hdr</span>} tabBar={<nav aria-label="Tabs">tabs</nav>}>
         page

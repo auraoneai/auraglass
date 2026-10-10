@@ -8,6 +8,7 @@
 import * as React from 'react';
 import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
+import { Sidebar } from './Sidebar';
 import { AppShellSidebarToggle } from './AppShell.SidebarToggle';
 import { AppShellInspectorToggle } from './AppShell.InspectorToggle';
 import { AppShellController } from './AppShell.Controller';
@@ -49,6 +50,17 @@ function Root({
     if (!React.isValidElement(c)) return c;
     if (c.type === Main && (c.props as AppShellMainProps).id === undefined) {
       return React.cloneElement(c as React.ReactElement<AppShellMainProps>, { id: mainId });
+    }
+    // SURF-30: a server-rendered collapsed shell must not wait for a client
+    // part to create the store record — thread `inert` into a direct
+    // Sidebar.Root child so the SSR markup is already inert (the store keeps
+    // owning it after hydration). An explicit `inert` prop always wins.
+    if (
+      c.type === Sidebar.Root &&
+      defaultSidebar === 'collapsed' &&
+      (c.props as { inert?: boolean }).inert === undefined
+    ) {
+      return React.cloneElement(c as React.ReactElement<{ inert?: boolean }>, { inert: true });
     }
     if (c.type === SkipLink && mainChild && (c.props as AppShellSkipLinkProps).href === undefined) {
       return React.cloneElement(c as React.ReactElement<AppShellSkipLinkProps>, { href: `#${targetId}` });
