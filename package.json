@@ -59,6 +59,10 @@
       "types": "./dist/icons/index.d.ts",
       "default": "./dist/icons/index.js"
     },
+    "./icons/*": {
+      "types": "./dist/icons/*.d.ts",
+      "default": "./dist/icons/*.js"
+    },
     "./forms": {
       "types": "./dist/forms/index.d.ts",
       "default": "./dist/forms/index.js"
@@ -97,11 +101,6 @@
       "types": "./dist/three/index.d.ts",
       "default": "./dist/three/index.js"
     },
-    "./charts": {
-      "types": "./dist/charts/index.d.ts",
-      "default": "./dist/charts/index.js",
-      "css": "./dist/charts.css"
-    },
     "./compat": {
       "types": "./dist/compat/index.d.ts",
       "default": "./dist/compat/index.js"
@@ -115,6 +114,8 @@
     "./deprecations.json": "./deprecations.json",
     "./package.json": "./package.json"
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "sideEffects": [
     "**/*.css"
   ],

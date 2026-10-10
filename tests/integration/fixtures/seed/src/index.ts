@@ -1,1 +1,1 @@
-export * from './notaseed.js';
+export * from './notaseed';

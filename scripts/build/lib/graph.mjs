@@ -63,10 +63,11 @@ export function fileIsSeed(file) {
   } catch { return false; }
 }
 
-/** Files in the entry's src closure whose line-1 header declares the seed. */
-export function closureSeedFiles(entryFile) {
+/** Files in the entry's src closure whose line-1 header declares the seed.
+ *  `root` scopes the closure to `<root>/src` (fixture roots in tests). */
+export function closureSeedFiles(entryFile, root = ROOT) {
   const out = [];
-  for (const f of importClosure(entryFile)) if (fileIsSeed(f)) out.push(f);
+  for (const f of importClosure(entryFile, { within: join(root, 'src') })) if (fileIsSeed(f)) out.push(f);
   return out.sort();
 }
 
@@ -108,7 +109,26 @@ export function manifestEntries(root = ROOT) {
   return { entries, js, asset };
 }
 
-/** entries[].ga marks the first GA line that ships the entry; on an earlier
+/** subpath -> ga line, read from the frozen contract list ENTRIES in
+ *  `<root>/src/contracts/entries.ts` (EntrySpec.ga). build/exports.manifest.json
+ *  is generated verbatim from ENTRIES and its schema has no `ga` field, so the
+ *  contract file is the single source of the GA line. A static scan (no TS
+ *  toolchain): every `{ subpath: '…', … ga: '…' … }` row. Throws when the file
+ *  exists but yields no rows, so a contract reshape fails loudly instead of
+ *  silently shipping a 5.1 entry on 5.0.x. */
+export function contractGaLines(root = ROOT) {
+  const file = join(root, 'src', 'contracts', 'entries.ts');
+  const out = new Map();
+  if (!existsSync(file)) return out;
+  const text = readFileSync(file, 'utf8');
+  const start = text.indexOf('ENTRIES');
+  const body = start === -1 ? '' : text.slice(start);
+  for (const m of body.matchAll(/\{\s*subpath:\s*'([^']+)'[^{}]*?\bga:\s*'([^']+)'/g)) out.set(m[1], m[2]);
+  if (!out.size) throw new Error(`graph.mjs: no ENTRIES rows with subpath/ga found in ${file}`);
+  return out;
+}
+
+/** EntrySpec.ga marks the first GA line that ships the entry; on an earlier
  *  package version the entry is dropped entirely (e.g. ga:'5.1' on 5.0.x).
  *  Returns null when the entry is eligible on `version`. */
 export function gaGate(e, version) {
@@ -125,14 +145,16 @@ export function gaGate(e, version) {
 export function buildableEntries(root = ROOT) {
   const { js } = manifestEntries(root);
   const version = loadJson(join(root, 'package.json')).version;
+  const ga = contractGaLines(root);
   const keep = [];
   const pending = [];
-  for (const e of js) {
+  for (const row of js) {
+    const e = ga.has(row.subpath) ? { ...row, ga: ga.get(row.subpath) } : row;
     const drop = gaGate(e, version);
     if (drop) { pending.push({ ...e, reason: drop, gaDropped: true }); continue; }
     const src = join(root, e.source);
     if (!existsSync(src)) { pending.push({ ...e, reason: `missing source ${e.source}` }); continue; }
-    const seedFiles = closureSeedFiles(src);
+    const seedFiles = closureSeedFiles(src, root);
     if (seedFiles.length) pending.push({ ...e, reason: 'import graph contains @ag-contract-seed', seedFiles });
     else keep.push(e);
   }
