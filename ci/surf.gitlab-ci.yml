@@ -124,4 +124,24 @@ surf:test:doubles:
     paths:
       - .artifacts/surf/doubles/
 
+# REQ-SURF-11 / REQ-FIN-80: SURF compile-time type tests (tests/types/surf/**,
+# incl. the S-30 prop-grammar walk over every SURF export with planted
+# violations). The AppShell.Root 5-prop file and the prop-grammar strict
+# escalation report `pending` until their producers (#349, CMP's
+# lint/rules/cmp/prop-grammar.cjs) are on the line.
+surf:test:types:
+  extends: .surf-base
+  stage: test
+  allow_failure: true # owning lane flips to false after first green on next
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
+  script:
+    - node scripts/surf/verify-prop-grammar.mjs
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/types/
+
 # --- lane W5 end ---

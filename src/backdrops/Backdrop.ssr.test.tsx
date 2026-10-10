@@ -21,7 +21,7 @@ describe('Backdrop SSR (REQ-SURF-158/08)', () => {
     expect(html).not.toContain('data-ag-backdrop="media"');
     expect(html).not.toMatch(/data-ag-backdrop="(light|dark|auto)"/);
   });
-  it('explicit tone sets data-ag-media-tone', () => {
-    expect(renderToString(<Backdrop preset="photo" src="/x.jpg" tone="dark" />)).toContain('data-ag-media-tone="dark"');
+  it('explicit mediaTone sets data-ag-media-tone', () => {
+    expect(renderToString(<Backdrop preset="photo" src="/x.jpg" mediaTone="dark" />)).toContain('data-ag-media-tone="dark"');
   });
 });

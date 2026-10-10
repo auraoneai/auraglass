@@ -3,8 +3,11 @@ import { describe, expect, it } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { Tabs } from './Tabs';
+import type { toChangeDetails } from '../../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
-const Demo = ({ onChange, keepMounted }: { onChange?: (v: string) => void; keepMounted?: boolean }) => (
+const Demo = ({ onChange, keepMounted }: { onChange?: (v: string, d: ChangeDetails) => void; keepMounted?: boolean }) => (
   <Tabs.Root defaultValue="a" onValueChange={onChange}>
     <Tabs.List>
       <Tabs.Tab value="a">Alpha</Tabs.Tab>
@@ -44,6 +47,17 @@ describe('Tabs (SURF-065)', () => {
     render(<Demo onChange={(v) => seen.push(v)} />);
     fireEvent.click(screen.getByRole('tab', { name: 'Beta' }));
     expect(seen).toEqual(['b']);
+  });
+
+  it('onValueChange receives contract ChangeDetails (S-30)', () => {
+    const calls: Array<[string, ChangeDetails]> = [];
+    render(<Demo onChange={(v, d) => calls.push([v, d])} />);
+    fireEvent.click(screen.getByRole('tab', { name: 'Beta' }));
+    expect(calls).toHaveLength(1);
+    expect(calls[0]![0]).toBe('b');
+    expect(typeof calls[0]![1].reason).toBe('string');
+    expect(calls[0]![1].reason.length).toBeGreaterThan(0);
+    expect(calls[0]![1].event).toBeInstanceOf(Event);
   });
 
   it('data-state tracks activation on tabs', () => {

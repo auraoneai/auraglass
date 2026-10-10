@@ -9,7 +9,7 @@ export default defineMeta({
   rsc: 'server',
   parts: ['sparkline', 'sparkline-line', 'sparkline-area', 'sparkline-bar', 'sparkline-dot'],
   states: [],
-  variants: { variant: ['line', 'area', 'bar'], intent: ['neutral', 'info', 'success', 'danger'] },
+  variants: { appearance: ['line', 'area', 'bar'], intent: ['neutral', 'info', 'success', 'danger'] },
   budgetKb: 2.5,
   migration: [
     { from: 'GlassSparkline', props: { values: 'data', color: 'intent' }, automation: 'mostly', compat: true },

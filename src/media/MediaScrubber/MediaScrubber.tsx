@@ -9,10 +9,13 @@ import { Slider } from '../../components/slider';
 import { formatMediaTime } from '../formatMediaTime';
 import { BufferedLayer } from './BufferedLayer';
 import { ChapterMarkers } from './ChapterMarkers';
+import type { toChangeDetails } from '../../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 export interface MediaScrubberProps {
   value: number;
   max: number;
-  onValueChange?: ((value: number) => void) | undefined;
+  onValueChange?: ((value: number, details: ChangeDetails) => void) | undefined;
   /** Fires once when the drag or key interaction commits. */
   onValueCommit?: ((value: number) => void) | undefined;
   buffered?: [number, number][] | undefined;
@@ -54,7 +57,7 @@ export const MediaScrubber = React.forwardRef<HTMLDivElement, MediaScrubberProps
       if (e.key === ',' || e.key === '.') {
         if (!frameRate) return;
         const dt = 1 / frameRate * (e.key === '.' ? 1 : -1);
-        onValueChange?.(Math.min(safeMax, Math.max(0, value + dt)));
+        onValueChange?.(Math.min(safeMax, Math.max(0, value + dt)), { event: e.nativeEvent, reason: 'keyboard' });
         e.preventDefault();
       }
     };
@@ -92,7 +95,7 @@ export const MediaScrubber = React.forwardRef<HTMLDivElement, MediaScrubberProps
           {...(disabled !== undefined ? { disabled } : {})}
           aria-label={ariaLabel}
           getAriaValueText={(v: number) => scrubberValueText(v, safeMax)}
-          onValueChange={(v: number | number[]) => onValueChange?.(Array.isArray(v) ? v[0]! : v)}
+          onValueChange={(v: number | number[], details: ChangeDetails) => onValueChange?.(Array.isArray(v) ? v[0]! : v, details)}
           {...(onValueCommit !== undefined ? {
             onValueCommitted: (v: number | number[]) => onValueCommit(Array.isArray(v) ? v[0]! : v),
           } : {})}

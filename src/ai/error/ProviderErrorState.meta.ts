@@ -8,7 +8,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['provider-error', 'error-title', 'error-detail', 'retry'],
   states: ['rate-limit', 'auth', 'network', 'content-filter', 'context-length', 'aborted', 'unknown'],
-  variants: {},
+  variants: { appearance: ['compact', 'panel'] },
   budgetKb: 5,
   migration: [],
   selectors: [],

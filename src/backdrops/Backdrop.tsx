@@ -20,7 +20,7 @@ export const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps>(function
   props, ref,
 ) {
   const {
-    preset, palette = 'aurora', scheme = 'auto', tone, grain = false,
+    preset, palette = 'aurora', scheme = 'auto', mediaTone, grain = false,
     motion = 'static', fixed = false, className, children, ...rest
   } = props;
   const declaration =
@@ -47,7 +47,7 @@ export const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps>(function
       data-ag-backdrop-preset={preset}
       data-ag-palette={palette}
       {...(declaration !== undefined ? { 'data-ag-backdrop': declaration } : {})}
-      {...(tone !== undefined ? { 'data-ag-media-tone': tone } : {})}
+      {...(mediaTone !== undefined ? { 'data-ag-media-tone': mediaTone } : {})}
       {...(isMedia ? { 'data-ag-media-root': '' } : {})}
       data-ag-backdrop-grain={grain ? '' : undefined}
       data-ag-motion={motion}

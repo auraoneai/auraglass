@@ -64,8 +64,20 @@ const SURF_OWNED = [
 //     `three` confined to src/three/**, REQ-SURF-166/-170 + OI-01)
 // Each entry is added over SURF_OWNED in the PR that lands the rule module;
 // until then these lines must stay out or every stream's lint job breaks.
+//
+// REQ-SURF-11 / REQ-FIN-80: auraglass/prop-grammar (CMP, FIN-E) at error over
+// SURF_OWNED. Guarded on the rule module's presence: the plugin loader turns
+// every strict entry into 'auraglass/<rule>': 'error', and an unshipped rule
+// crashes ESLint repo-wide. While lint/rules/cmp/prop-grammar.cjs is absent the
+// escalation is withheld and the surf:test:types job reports it `pending`
+// (PRD-F §4.3 rule 2); the PR that ships the rule turns it on with no edit here.
+const fs = require('node:fs');
+const path = require('node:path');
+const PROP_GRAMMAR_RULE = path.join(__dirname, '..', 'cmp', 'prop-grammar.cjs');
+const PROP_GRAMMAR_SHIPPED = fs.existsSync(PROP_GRAMMAR_RULE);
 const w5 = {
   'no-simulation': SURF_OWNED,
+  ...(PROP_GRAMMAR_SHIPPED ? { 'prop-grammar': SURF_OWNED } : {}),
 };
 // --- lane W5 end ---
 

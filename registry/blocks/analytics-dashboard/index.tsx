@@ -13,7 +13,7 @@ export function AnalyticsDashboard() {
           <StatCard key={s.label} label={s.label} value={s.value} delta={s.delta} trendDirection="up-is-good" sparkline={[...SPARK]} />
         ))}
       </div>
-      <Sparkline data={[...SPARK]} label="Weekly active" variant="area" />
+      <Sparkline data={[...SPARK]} label="Weekly active" appearance="area" />
       <ChartFrame title="Product revenue" data={[...CHART_ROWS]} series={[{ key: 'alpha', label: 'Alpha' }, { key: 'beta', label: 'Beta' }]} x={{ key: 'm', label: 'Month' }}>
         {(ctx: import('aura-glass/data').ChartContext<typeof CHART_ROWS[number]>) => (
           <svg width="100%" height={ctx.height} role="img" aria-label="Revenue chart">

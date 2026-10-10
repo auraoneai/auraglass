@@ -11,7 +11,11 @@ export const Trigger = React.forwardRef<HTMLButtonElement, { id: string; classNa
         type="button"
         data-ag-part="image-viewer-trigger"
         className={className}
-        onClick={() => { c.setIndex(Math.max(0, c.items.findIndex((i) => i.id === id))); c.setOpen(true); }}
+        onClick={(e) => {
+          const details = { event: e.nativeEvent, reason: 'trigger-press' };
+          c.setIndex(Math.max(0, c.items.findIndex((i) => i.id === id)), details);
+          c.setOpen(true, details);
+        }}
       >
         {children}
       </button>

@@ -6,7 +6,8 @@ import { linearScale } from './scale';
 
 export interface SparklineProps {
   data: readonly (number | null)[];
-  variant?: 'line' | 'area' | 'bar' | undefined;
+  /** Non-material look (S-30): emitted as data-ag-appearance. Default 'line'. */
+  appearance?: 'line' | 'area' | 'bar' | undefined;
   width?: number | string | undefined;
   height?: number | undefined;
   intent?: 'neutral' | 'info' | 'success' | 'danger' | undefined;
@@ -35,7 +36,7 @@ function summarize(
 
 export function Sparkline({
   data,
-  variant = 'line',
+  appearance = 'line',
   width = '100%',
   height = 32,
   intent = 'neutral',
@@ -63,7 +64,7 @@ export function Sparkline({
   if (points.length === 1) {
     const i = clean.indexOf(points[0]!);
     body = <circle cx={x(i)} cy={y(points[0]!)} r={2} className="ag-sparkline__dot" />;
-  } else if (variant === 'bar') {
+  } else if (appearance === 'bar') {
     const bw = (W - pad * 2) / Math.max(clean.length, 1);
     body = clean.map((v, i) =>
       v === null ? null : (
@@ -94,7 +95,7 @@ export function Sparkline({
     else if (seg.length === 1) lone.push(clean.length - 1);
     body = (
       <>
-        {variant === 'area' &&
+        {appearance === 'area' &&
           segs.map((d, i) => (
             <path
               key={`a${i}`}
@@ -128,6 +129,7 @@ export function Sparkline({
       aria-hidden={ariaHidden === true ? true : undefined}
       data-ag-part="sparkline"
       data-ag-intent={intent}
+      data-ag-appearance={appearance}
       className="ag-sparkline"
       width={width}
       height={height}

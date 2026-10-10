@@ -12,7 +12,7 @@ const warnOnce = (src: string) => {
   if (process.env['NODE_ENV'] === 'production' || warned.has(src)) return;
   warned.add(src);
   console.warn(
-    `[aura-glass] Cannot sample ${src}: add crossOrigin="anonymous" and CORS headers, or pass tone="light|dark" to Backdrop.`,
+    `[aura-glass] Cannot sample ${src}: add crossOrigin="anonymous" and CORS headers, or pass mediaTone="light|dark" to Backdrop.`,
   );
 };
 

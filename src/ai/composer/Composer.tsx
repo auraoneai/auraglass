@@ -1,11 +1,14 @@
 'use client';
 import * as React from 'react';
 import type { AgChatStatus } from '../types';
+import type { toChangeDetails } from '../../foundation';
 import { useAttachments } from './useAttachments';
 import type { AttachmentReject } from './useAttachments';
 import { useAnnouncer } from '../../theme';
 import { AiIcon } from '../icons/AiIcon';
 import type { AiIconName } from '../icons/index';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 export interface ComposerLabels {
   input?: string;
@@ -17,7 +20,7 @@ export interface ComposerLabels {
 
 interface ComposerCtx {
   value: string;
-  setValue: (v: string) => void;
+  setValue: (v: string, details: ChangeDetails) => void;
   status: AgChatStatus;
   disabled: boolean;
   maxLength: number | undefined;
@@ -41,7 +44,7 @@ function useComposer(): ComposerCtx {
 export interface ComposerRootProps {
   value?: string | undefined;
   defaultValue?: string | undefined;
-  onValueChange?: ((value: string) => void) | undefined;
+  onValueChange?: ((value: string, details: ChangeDetails) => void) | undefined;
   status?: AgChatStatus | undefined;
   onSubmit?: ((detail: { text: string; files: File[] }) => void) | undefined;
   onStop?: (() => void) | undefined;
@@ -85,9 +88,9 @@ export function ComposerRoot({
   const textareaId = React.useId();
   const [inner, setInner] = React.useState(defaultValue ?? '');
   const value = valueProp ?? inner;
-  const setValue = React.useCallback((v: string) => {
+  const setValue = React.useCallback((v: string, details: ChangeDetails) => {
     if (valueProp === undefined) setInner(v);
-    onValueChange?.(v);
+    onValueChange?.(v, details);
   }, [valueProp, onValueChange]);
 
   const attachments = useAttachments({ accept, maxFiles, maxFileSize, onAttachmentReject });
@@ -173,7 +176,7 @@ export function ComposerTextarea({
       maxLength={c.maxLength}
       rows={1}
       style={{ ['--_ag-composer-max-rows' as string]: maxRows }}
-      onChange={(e) => c.setValue(e.target.value)}
+      onChange={(e) => c.setValue(e.target.value, { event: e.nativeEvent, reason: 'input-change' })}
       onKeyDown={(e) => {
         const ne = e.nativeEvent as KeyboardEvent;
         if (ne.isComposing || ne.keyCode === 229) return; // IME guard (REQ-SURF-117)
@@ -213,7 +216,7 @@ export function ComposerAction({
   kind = 'custom',
   icon,
   ...rest
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { kind?: 'attach' | 'custom' | undefined; icon?: AiIconName }) {
+}: Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'> & { kind?: 'attach' | 'custom' | undefined; icon?: AiIconName }) {
   const c = useComposer();
   return (
     <button
@@ -238,7 +241,7 @@ export function ComposerActions({ children }: { children?: React.ReactNode }) {
   );
 }
 
-export function ComposerSubmit(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export function ComposerSubmit(props: Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'>) {
   const c = useComposer();
   const empty = c.value.trim().length === 0 && c.files.length === 0;
   if (c.streaming) {

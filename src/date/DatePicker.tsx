@@ -17,6 +17,7 @@ import {
 } from 'react-aria-components';
 import { DateProvider } from './DateProvider';
 import { Calendar } from './Calendar';
+import { raChangeDetails } from './shared';
 import type { DateFieldLikeProps, DateValue } from './shared';
 
 export interface DatePickerProps extends DateFieldLikeProps<DateValue> {
@@ -53,7 +54,7 @@ function Inner({
       className={`ag-date-picker${className ? ` ${className}` : ''}`}
       {...(value !== undefined ? { value: value as never } : {})}
       {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
-      {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v ?? null) } : {})}
+      {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v ?? null, raChangeDetails()) } : {})}
       {...(minValue !== undefined ? { minValue: minValue as never } : {})}
       {...(maxValue !== undefined ? { maxValue: maxValue as never } : {})}
       {...(isDateUnavailable !== undefined ? { isDateUnavailable } : {})}
@@ -84,7 +85,7 @@ function Inner({
           <Calendar
             {...(value !== undefined ? { value: value as never } : {})}
             {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
-            {...(onValueChange !== undefined ? { onValueChange: (v) => onValueChange(v) } : {})}
+            {...(onValueChange !== undefined ? { onValueChange: (v, d) => onValueChange(v, d) } : {})}
             {...(minValue !== undefined ? { minValue: minValue as never } : {})}
             {...(maxValue !== undefined ? { maxValue: maxValue as never } : {})}
             {...(isDateUnavailable !== undefined ? { isDateUnavailable } : {})}

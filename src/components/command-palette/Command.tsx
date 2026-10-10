@@ -12,6 +12,9 @@ import { VirtualList } from '../../data/virtual-list/VirtualList';
 import type { VirtualListHandle } from '../../data/virtual-list/VirtualList';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
+import type { toChangeDetails } from '../../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 export type CommandFilter = (query: string, value: string, keywords?: readonly string[]) => number;
 
@@ -41,7 +44,7 @@ const Ctx = React.createContext<{
       threshold (sticky — scroll unmounts must not collapse the registry). */
   virtualizing: boolean;
   scrollTo: ((index: number) => void) | undefined;
-  onValueChange: ((v: string) => void) | undefined;
+  onValueChange: ((v: string, details: ChangeDetails) => void) | undefined;
 } | null>(null);
 
 export type CommandRootProps = Omit<PartProps<'div'>, 'onChange'> & {
@@ -49,7 +52,7 @@ export type CommandRootProps = Omit<PartProps<'div'>, 'onChange'> & {
   shouldFilter?: boolean | undefined;
   value?: string | undefined;
   defaultValue?: string | undefined;
-  onValueChange?: ((value: string) => void) | undefined;
+  onValueChange?: ((value: string, details: ChangeDetails) => void) | undefined;
   onQueryChange?: ((query: string) => void) | undefined;
   loop?: boolean | undefined;
 };
@@ -173,7 +176,7 @@ function CommandInner({
   enabled: ItemSpec[];
   value?: string | undefined;
   defaultValue?: string | undefined;
-  onValueChange?: ((v: string) => void) | undefined;
+  onValueChange?: ((v: string, details: ChangeDetails) => void) | undefined;
   children?: React.ReactNode;
 }) {
   const ctx = React.useContext(Ctx)!;
@@ -215,7 +218,7 @@ function CommandInner({
       if (spec) {
         e.preventDefault();
         spec.onSelect?.();
-        onValueChange?.(spec.value);
+        onValueChange?.(spec.value, { event: e.nativeEvent, reason: 'item-press' });
       }
     } else if (e.key === 'Escape') {
       if (ctx.query !== '') {
@@ -325,10 +328,10 @@ function VirtualCommandRow({ ctx, spec }: { ctx: NonNullable<React.ContextType<t
       data-state={active ? 'active' : 'inactive'}
       className="ag-command__item"
       onMouseMove={() => !spec.disabled && ctx.setActiveId(id)}
-      onClick={() => {
+      onClick={(e) => {
         if (!spec.disabled) {
           spec.onSelect?.();
-          ctx.onValueChange?.(spec.value);
+          ctx.onValueChange?.(spec.value, { event: e.nativeEvent, reason: 'item-press' });
         }
       }}
     >

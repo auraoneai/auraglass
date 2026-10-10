@@ -19,6 +19,7 @@ import {
 import type { TimeValue as RACTimeValue } from 'react-aria-components';
 import { Time } from '@internationalized/date';
 import { DateProvider } from './DateProvider';
+import { raChangeDetails } from './shared';
 import type { DateFieldLikeProps, TimeValue } from './shared';
 
 export interface TimeFieldProps extends DateFieldLikeProps<TimeValue> {
@@ -51,7 +52,7 @@ function TimeInner({
       className={`ag-time-field${className ? ` ${className}` : ''}`}
       {...(value !== undefined ? { value: value as never } : {})}
       {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
-      {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v ?? null) } : {})}
+      {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v ?? null, raChangeDetails()) } : {})}
       {...(minValue !== undefined ? { minValue: minValue as never } : {})}
       {...(maxValue !== undefined ? { maxValue: maxValue as never } : {})}
       {...(granularity !== undefined ? { granularity: granularity === 'day' ? 'minute' : granularity } : {})}
@@ -97,7 +98,7 @@ export function TimePicker({ minuteStep = 5, labels, ...props }: TimePickerProps
   );
   const setPart = (h?: number, m?: number) => {
     const cur = props.value ?? props.defaultValue ?? new Time(0, 0);
-    props.onValueChange?.(new Time(h ?? cur.hour, m ?? cur.minute));
+    props.onValueChange?.(new Time(h ?? cur.hour, m ?? cur.minute), { event: undefined, reason: 'item-press' });
   };
   return (
     <DateProvider locale={props.locale}>
@@ -107,7 +108,7 @@ export function TimePicker({ minuteStep = 5, labels, ...props }: TimePickerProps
         className={`ag-time-picker${props.className ? ` ${props.className}` : ''}`}
         {...(props.value !== undefined ? { value: props.value as never } : {})}
         {...(props.defaultValue !== undefined ? { defaultValue: props.defaultValue as never } : {})}
-        onChange={(v) => props.onValueChange?.(v ?? null)}
+        onChange={(v) => props.onValueChange?.(v ?? null, raChangeDetails())}
         granularity={props.granularity === 'day' ? 'minute' : (props.granularity ?? 'minute')}
         {...(props.hourCycle !== undefined ? { hourCycle: props.hourCycle } : {})}
         {...(props.isDisabled !== undefined ? { isDisabled: props.isDisabled } : {})}
