@@ -38,5 +38,14 @@
   }
   .ag-breadcrumbs__separator:dir(rtl) {
     transform: scaleX(-1);
+    /* SURF-057: 16ch truncation on links — full text stays the accessible
+     name via the anchor's own text (overflow hidden doesn't clip a11y). */
+  .ag-breadcrumbs__link {
+    max-inline-size: 16ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: bottom;
   }
 }

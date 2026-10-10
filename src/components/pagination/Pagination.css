@@ -26,5 +26,22 @@
   .ag-pagination__link[aria-current='page'] {
     background: var(--ag-accent-soft, transparent);
     font-weight: var(--ag-weight-medium, 500);
+    /* SURF-059: own inline-size container; compact <400px hides page/ellipsis
+     links and shows the 'Page N of M' status span. */
+  [data-ag-part='pagination'] {
+    container-type: inline-size;
+    container-name: ag-pagination;
+  }
+  .ag-pagination__status {
+    display: none;
+    font-size: var(--ag-text-sm, 0.875rem);
+    color: var(--ag-fg-muted, currentColor);
+  }
+  @container ag-pagination (width < 400px) {
+    .ag-pagination__status { display: inline; }
+    [data-ag-part='pagination'] [data-ag-part='item']:has([data-ag-part='page']),
+    [data-ag-part='pagination'] [data-ag-part='item']:has([data-ag-part='ellipsis']) {
+      display: none;
+    }
   }
 }
