@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "preview": "vite preview",
+    "test": "playwright test"
   },
   "dependencies": {
     "aura-glass": "file:../../aura-glass.tgz",
@@ -13,6 +15,7 @@
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^5.0.0",
