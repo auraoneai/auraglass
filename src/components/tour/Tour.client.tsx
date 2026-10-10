@@ -66,7 +66,9 @@ export const Tour = {
   // REQ-CMP-128: capture the element that had focus when the tour opened and
   // restore it on close (any reason).
   const restoreRef = React.useRef<HTMLElement | null>(null);
-  const wasOpenRef = React.useRef(isOpen);
+  // Starts false so a tour that mounts open (defaultOpen / open) also captures
+  // its opener on the first layout pass.
+  const wasOpenRef = React.useRef(false);
   React.useLayoutEffect(() => {
     if (isOpen && !wasOpenRef.current) {
       restoreRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -85,15 +87,17 @@ export const Tour = {
     onOpenChange?.(false, { reason });
   };
 
+    const titleId = React.useId();
     if (!current) return null;
     return (
       <div {...rest} ref={ref} data-ag-part="root" className={cn('ag-tour', className)}>
         <Popover.Root open={isOpen} onOpenChange={handleOpenChange}>
           <Popover.Portal>
             <Popover.Positioner anchor={anchor ?? undefined} sideOffset={8} collisionPadding={8} className="ag-tour-positioner">
-              <Popover.Popup>
+              <Popover.Popup aria-labelledby={titleId}>
                 <FocusScope autoFocus={false} restoreFocus={false}>
                 <TourStep
+                  titleId={titleId}
                   title={current.title}
                   description={current.description}
                   index={index}
@@ -122,6 +126,7 @@ export const Tour = {
 };
 
 interface TourStepProps {
+  titleId: string;
   title: React.ReactNode;
   description?: React.ReactNode;
   index: number;
@@ -133,9 +138,8 @@ interface TourStepProps {
   onSkip?: () => void;
 }
 
-function TourStep({ title, description, index, total, labels, onPrev, onNext, onDone, onSkip }: TourStepProps) {
+function TourStep({ titleId, title, description, index, total, labels, onPrev, onNext, onDone, onSkip }: TourStepProps) {
   const last = index === total - 1;
-  const titleId = React.useId();
   return (
     <Tour.Step role="dialog" aria-labelledby={titleId}>
       <div className="ag-tour-step-count" aria-hidden="true">
