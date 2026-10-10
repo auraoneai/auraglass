@@ -13,7 +13,7 @@ in the PR (the template has a required field). The pipeline may lag while the pu
 mirror polls and the queue drains; expect minutes, not hours, once OD-8 is on
 (contract W-6).
 
-## Merge cadence
+## Daily merge cadence
 
 Each line merges the day's ready PRs once per working day, after their head-SHA
 pipelines are green. An activation-row PR (REQ-FIN-22) merges the same day its
@@ -25,10 +25,14 @@ merge.
 
 | Prefix | Line | Pipeline scope |
 |---|---|---|
-| `next-<stream>/*` | next (5x) | `pr` / `AG_LINE=5x` |
-| `4x-<stream>/*` | release/4.x | `pr` / `AG_LINE=4x` |
-| `contract/*` | next | `pr` |
-| `sync/fragments-<kind>-*` | per kind | `pr` (bot sync, §2.3) |
+| `next-<stream>/*`, `next-fin/*` | next (5x) | `pr` / `AG_LINE=5x` |
+| `4x-<stream>/*`, `4x-fin/*` | release/4.x | `pr` / `AG_LINE=4x` |
+| `4x11-<stream>/*`, `4x11-fin/*` | release/4.1.x (4.1.1 only, OD-13) | `pr` / `AG_LINE=4x` |
+| `contract/*` | next | `pr` / `AG_LINE=5x` |
+| `sync/fragments-codemods-*` | release/4.x | `pr` / `AG_LINE=4x` (bot sync, §2.3) |
+| `sync/*` (incl. `sync/fragments-deprecations-*`) | next | `pr` / `AG_LINE=5x` (bot sync, §2.3) |
+
+`release/4.x` and `release/4.1.x` pushes run `main` scope with `AG_LINE=4x`.
 
 Any other branch name gets no pipeline (root `workflow.rules` ends in `when: never`).
 
@@ -67,7 +71,9 @@ gh api -X PUT repos/auraoneai/auraglass/branches/main/protection --input - <<'JS
 JSON
 ```
 
-Repeat with `branches/next/protection` and `branches/release%2F4.x/protection`.
+Repeat with `branches/next/protection`, `branches/release%2F4.x/protection` and
+`branches/release%2F4.1.x/protection`; `node scripts/release/verify-branch-protection.mjs`
+checks all four read-only.
 When OD-9 lands (GitLab→GitHub status reporting), add the single pipeline
 status context to `required_status_checks.contexts` on `next` and `release/4.x`
 so the manual `gitlab-status.mjs` step disappears.
@@ -80,8 +86,10 @@ so the manual `gitlab-status.mjs` step disappears.
   branches either way.
 - **W-7:** the first release-scope `npm publish --dry-run` on `release/4.x`
   awaits the trusted-publishing decision (OD-10).
-- **OD-8:** enable GitHub status reporting from GitLab (or keep the manual
-  `gitlab-status` merge gate) — recorded in
-  `docs/release/decisions/gitlab-project-settings.md`.
-- **OD-9:** require the GitLab pipeline status context in GitHub branch
-  protection — recorded in the same file.
+- **OD-8:** GitLab pull mirror of every GitHub branch (or the owner-run
+  `push-gitlab-refs.mjs --apply` fallback) — the owner steps are in
+  `docs/release/decisions/gitlab-ci-verification.md`. Until it is applied no PR
+  may merge.
+- **OD-9:** report GitLab pipeline status to GitHub and require that status
+  context in branch protection (otherwise keep the manual `gitlab-status.mjs`
+  merge gate).

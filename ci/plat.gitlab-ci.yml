@@ -333,7 +333,11 @@ plat:build:docs:
   script:
     - |
       if [ "$AG_LINE" = "4x" ]; then
-        npm run build-storybook
+        # 4.x docs site -> apps/docs/out/ (REQ-PLAT-07). Producer is FIN-C's 4x docs build (REQ-FIN-43).
+        node -e "process.exit(Object.keys(require('./package.json').scripts||{}).includes('docs:build')?0:1)" \
+          || { echo "PENDING: npm script docs:build (4.x docs site -> apps/docs/out, FIN-C REQ-FIN-43)"; exit 1; }
+        npm run docs:build
+        test -f apps/docs/out/index.html || { echo "plat:build:docs: apps/docs/out/index.html was not produced"; exit 1; }
       else
         node -e "process.exit(Object.keys(require('./package.json').scripts||{}).includes('docs:build')?0:1)" \
           || { echo "PENDING: npm script docs:build (lane 1f)"; exit 1; }
