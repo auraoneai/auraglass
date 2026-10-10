@@ -122,6 +122,24 @@ describe('entry eligibility (REQ-FIN-06)', () => {
     });
   });
 
+  test('--list-entries --json (REQ-PLAT-67/73): manifest-shaped, shipped rows verbatim, exclusions with reasons', () => {
+    const res = run(['--list-entries', '--json', '--root', FIXTURE]);
+    expect(res.status).toBe(0);
+    const out = JSON.parse(res.stdout);
+    const manifest = JSON.parse(readFileSync(join(FIXTURE, 'build/exports.manifest.json'), 'utf8'));
+    expect(out.version).toBe(manifest.version);
+    // shipped rows are the manifest's own objects, in manifest order
+    expect(out.entries).toEqual(manifest.entries.filter((e: any) => ['.', './midfile', './icons', './data.css'].includes(e.subpath)));
+    expect(out.excluded.map((x: any) => x.subpath).sort()).toEqual(['./future', './motion', './theme']);
+    for (const x of out.excluded) expect(x.reason).toBeTruthy();
+    // entries ∪ excluded partitions the manifest
+    expect([...out.entries, ...out.excluded].map((x: any) => x.subpath).sort())
+      .toEqual(manifest.entries.map((e: any) => e.subpath).sort());
+    expect(out.exports).toEqual(gen.desiredExports(FIXTURE));
+    // without --json the human listing is unchanged
+    expect(run(['--list-entries', '--root', FIXTURE]).stdout).toContain('exports (built):');
+  });
+
   test('the real repo: --check exits 0, ./charts ga-dropped, root/primitives/forms/icons/* exported, main/types set', () => {
     const res = run(['--check']);
     expect(res.stderr).toBe('');
