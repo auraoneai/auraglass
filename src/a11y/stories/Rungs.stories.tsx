@@ -1,11 +1,15 @@
-/* MAT-288: A11y/Rungs — one Surface-like block per variant x thickness on every
-   scene, with a live read-out of the effective transparency/contrast, floor
-   alpha and minRatio imported from the contrast matrix. Pure markup: no
-   !important, no opaque stage, no preference-disabling prop. */
+/* MAT-288: A11y/Rungs — one real <Surface> per contract variant x thickness
+   on every scene, with a live read-out of the effective transparency/contrast,
+   floor alpha and minRatio imported from the contrast matrix. The story
+   supplies no optics, ink, priority overrides, private vars or stage
+   background and no preference-disabling prop: material CSS paints the
+   Surfaces and the preview decorator owns the axes (REQ-FIN-59 / D.3-38). */
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useResolvedPreferences } from '../../theme/preferences/usePreference';
 import type { StoryAgParameters } from '../../contracts/testing';
+import type { MaterialVariant, Thickness } from '../../material/types';
+import { Surface } from '../../material/Surface';
 
 let floors: Record<string, unknown> | null = null;
 try {
@@ -14,10 +18,10 @@ try {
   floors = null;
 }
 
-const VARIANTS = ['regular', 'clear', 'identity', 'raised', 'sunken'] as const;
-const THICKNESSES = ['thin', 'regular', 'thick'] as const;
+const VARIANTS: readonly MaterialVariant[] = ['regular', 'clear', 'identity'];
+const THICKNESSES: readonly Thickness[] = ['thin', 'regular', 'thick'];
 
-function Cell({ variant, thickness }: { variant: string; thickness: string }) {
+function Cell({ variant, thickness }: { variant: MaterialVariant; thickness: Thickness }) {
   const resolved = useResolvedPreferences();
   const preset = 'aura';
   const scheme = resolved.scheme ?? 'light';
@@ -26,17 +30,16 @@ function Cell({ variant, thickness }: { variant: string; thickness: string }) {
   const cell = (floors as any)?.[preset]?.[scheme]?.[contrast]?.[transparency]?.[variant]?.[thickness];
   const border = cell?.border;
   return (
-    <div
-      data-ag-surface=""
-      data-ag-variant={variant}
-      data-ag-thickness={thickness}
-      style={{ padding: 12, margin: 4, minWidth: 130, fontSize: 11 }}
-    >
-      <b>{variant}/{thickness}</b>
-      <div>tr={transparency} c={contrast}</div>
-      <div>
-        floor α {border ? Number(border.floorAlpha).toFixed(3) : '—'} · min {border?.minRatio ?? '—'}
-      </div>
+    <div style={{ margin: 4, minWidth: 130 }}>
+      <Surface variant={variant} thickness={thickness}>
+        <div style={{ padding: 12, fontSize: 11 }}>
+          <b>{variant}/{thickness}</b>
+          <div>tr={transparency} c={contrast}</div>
+          <div>
+            floor α {border ? Number(border.floorAlpha).toFixed(3) : '—'} · min {border?.minRatio ?? '—'}
+          </div>
+        </div>
+      </Surface>
     </div>
   );
 }

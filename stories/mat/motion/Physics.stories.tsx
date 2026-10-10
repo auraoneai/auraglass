@@ -8,6 +8,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Surface } from '../../../src/material/index';
 import { PendingCallout } from '../_shared';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 function SheetDetents() {
   const detents = [0.15, 0.5, 0.9];
@@ -93,7 +94,13 @@ function Physics() {
   );
 }
 
-const meta: Meta = { title: 'MAT/Motion/Physics', parameters: { layout: 'padded' } };
+const meta: Meta = {
+  title: 'MAT/Motion/Physics',
+  parameters: {
+    layout: 'padded',
+    ag: { subject: 'MatMotionPhysics', kind: 'lab' } satisfies StoryAgParameters,
+  },
+};
 export default meta;
 
 type Story = StoryObj<typeof meta>;

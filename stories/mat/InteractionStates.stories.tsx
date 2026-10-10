@@ -5,10 +5,12 @@
    opacity (now), and per-state computed deltas once a --ag-state-* rule exists
    in the loaded sheets (pending otherwise). Light response only, no press
    scale. Plain assertions until @storybook/test is installed (PLAT-frozen
-   package.json). */
+   package.json). Scheme comes from the `scheme` global, not a story-written
+   data-ag-theme (REQ-FIN-59 / D.3-38). */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Surface } from '../../src/material/index';
+import type { StoryAgParameters } from '../../src/contracts/testing';
 import { PendingCallout } from './_shared';
 
 const STATE_HOOKS = [
@@ -24,7 +26,7 @@ const STATE_HOOKS = [
 
 function StateGrid() {
   return (
-    <div data-ag-theme="light" style={{ display: 'grid', gap: 12 }}>
+    <div style={{ display: 'grid', gap: 12 }}>
       {STATE_HOOKS.map(({ state, attrs, via }) => (
         <div key={state} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <code style={{ width: 110 }}>{state}</code>
@@ -46,13 +48,17 @@ function StateGrid() {
 
 const meta: Meta = {
   title: 'MAT/Interaction States',
-  parameters: { layout: 'padded' },
+  parameters: {
+    layout: 'padded',
+    ag: { subject: 'Surface', kind: 'lab' } satisfies StoryAgParameters,
+  },
 };
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 export const Grid: Story = {
+  globals: { scheme: 'light' },
   render: () => <StateGrid />,
   play: async ({ canvasElement }) => {
     const disabled = canvasElement.querySelector('.ag-statetest-disabled');

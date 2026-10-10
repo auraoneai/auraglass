@@ -7,6 +7,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Surface } from '../../../src/material/index';
 import { PendingCallout, globUrls } from '../_shared';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const SCENE_IDS = ['photo', 'flat-white', 'flat-black', 'dense-text', 'video', 'map', 'data-viz', 'edge-bleed'];
 const POLICIES = ['full', 'calm', 'none'] as const;
@@ -27,7 +28,7 @@ function ScenePane({ scene, policy, interaction }: { scene: string; policy: (typ
       data-ag-motion-cell={`${interaction}:${scene}:${policy}`}
       style={{
         position: 'relative', borderRadius: 10, overflow: 'hidden', border: '1px solid #e2e8f0',
-        minHeight: 90, background: img ? undefined : '#f1f5f9',
+        minHeight: 90,
       }}
     >
       {img ? <img src={img} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} /> : null}
@@ -68,7 +69,13 @@ function InteractionGrid() {
   );
 }
 
-const meta: Meta = { title: 'MAT/Motion/Interactions', parameters: { layout: 'padded' } };
+const meta: Meta = {
+  title: 'MAT/Motion/Interactions',
+  parameters: {
+    layout: 'padded',
+    ag: { subject: 'MatMotionInteractions', kind: 'lab' } satisfies StoryAgParameters,
+  },
+};
 export default meta;
 
 type Story = StoryObj<typeof meta>;
