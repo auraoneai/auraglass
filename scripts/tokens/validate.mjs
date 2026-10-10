@@ -150,7 +150,6 @@ const VALUE_SHAPES = {
   'glass-material': { type: 'object' },
   'theme-preset': { $ref: '#/$defs/presetValue' },
   'mode-table': { $ref: '#/$defs/modeValue' },
-  'ag-rendered': { type: 'string' },
   fontFamily: { type: ['string', 'array'] },
   fontWeight: { type: ['number', 'string'] },
   number: { type: 'number' },
