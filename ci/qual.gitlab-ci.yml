@@ -47,11 +47,11 @@ qual:certify:l10-gpu:
   extends: [.qual-lane, .ag-gpu]
   variables:
     LANE: L10
-    # Ask the NVIDIA container runtime for the graphics/display userspace (EGL/Vulkan ICD), and route ANGLE to Vulkan;
-    # run-perf.mjs fails profile (a) if Chromium still lands on a CPU rasterizer (llvmpipe/SwiftShader).
+    # Ask the NVIDIA container runtime for the graphics/display userspace. With the stock Playwright image no NVIDIA
+    # userspace is present (nvidia-smi missing; Chromium lands on llvmpipe/SwiftShader), and run-perf.mjs fails profile
+    # (a) with software-compositing/software-raster until the runner image carries the drivers (infra item, G-20 PR).
     NVIDIA_VISIBLE_DEVICES: "all"
     NVIDIA_DRIVER_CAPABILITIES: "all"
-    AG_PERF_CHROMIUM_ARGS: "--use-angle=vulkan --enable-features=Vulkan,DefaultANGLEVulkan,VulkanFromANGLE"
   timeout: 90m
   needs: *qual-l10-needs
   rules:
