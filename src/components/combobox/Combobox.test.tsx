@@ -126,8 +126,7 @@ describe('Combobox (CMP-180/183)', () => {
     await userEvent.keyboard('{Backspace}');
     await act(async () => {});
     /* REQ-CMP-70: strict — the last chip is the focus target, no escapes. */
-    const focusedChip = document.activeElement?.closest('[data-ag-part="chip"]');
-    expect(focusedChip === chips[1] || document.activeElement?.textContent?.includes('Banana')).toBe(true);
+    expect(document.activeElement).toBe(chips[1]);
   });
 
   it('REQ-CMP-70: Alt+ArrowDown leaves no aria-activedescendant on the input', async () => {
@@ -152,6 +151,88 @@ describe('Combobox (CMP-180/183)', () => {
     await userEvent.keyboard('{Alt>}{ArrowDown}{/Alt}');
     await act(async () => {});
     expect(input.getAttribute('aria-activedescendant')).toBeNull();
+  });
+
+  it('REQ-CMP-70: Enter right after Alt+ArrowDown selects nothing (no stale highlight)', async () => {
+    const onValueChange = jest.fn();
+    render(<Demo onValueChange={onValueChange} />);
+    const input = screen.getByRole('combobox') as HTMLInputElement;
+    input.focus();
+    await userEvent.keyboard('{Alt>}{ArrowDown}{/Alt}');
+    await act(async () => {});
+    expect(input).toHaveAttribute('aria-expanded', 'true');
+    expect(input.getAttribute('aria-activedescendant')).toBeNull();
+    expect(document.querySelectorAll('[data-ag-part="item"][data-highlighted]').length).toBe(0);
+    await userEvent.keyboard('{Enter}');
+    await act(async () => {});
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(input.value).toBe('');
+  });
+
+  it('REQ-CMP-70: multiple — Enter after Alt+ArrowDown does not toggle the selected item', async () => {
+    const onValueChange = jest.fn();
+    render(
+      <Combobox.Root items={FRUITS} multiple defaultValue={['Apple']} onValueChange={onValueChange}>
+        <Combobox.Chips>
+          <Combobox.Chip>Apple</Combobox.Chip>
+        </Combobox.Chips>
+        <Combobox.Input />
+        <Combobox.Content>
+          <Combobox.Empty />
+          {FRUITS.map((f) => (
+            <Combobox.Item key={f} value={f}>
+              {f}
+            </Combobox.Item>
+          ))}
+        </Combobox.Content>
+      </Combobox.Root>,
+    );
+    const input = screen.getByRole('combobox');
+    input.focus();
+    await userEvent.keyboard('{Alt>}{ArrowDown}{/Alt}');
+    await act(async () => {});
+    expect(input.getAttribute('aria-activedescendant')).toBeNull();
+    await userEvent.keyboard('{Enter}');
+    await act(async () => {});
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(document.querySelectorAll('[data-ag-part="chip"]').length).toBe(1);
+  });
+
+  it('REQ-CMP-70: after Alt+ArrowDown, ArrowDown highlights the first item and Enter selects it', async () => {
+    const onValueChange = jest.fn();
+    render(<Demo onValueChange={onValueChange} />);
+    const input = screen.getByRole('combobox') as HTMLInputElement;
+    input.focus();
+    await userEvent.keyboard('{Alt>}{ArrowDown}{/Alt}');
+    await act(async () => {});
+    await userEvent.keyboard('{ArrowDown}');
+    await act(async () => {});
+    const items = document.querySelectorAll<HTMLElement>('[data-ag-part="item"]');
+    expect(items[0]).toHaveAttribute('data-highlighted');
+    expect(input.getAttribute('aria-activedescendant')).toBe(items[0]!.id);
+    await userEvent.keyboard('{Enter}');
+    await act(async () => {});
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange.mock.calls[0]![0]).toBe('Apple');
+  });
+
+  it('REQ-CMP-70: Enter selects the keyboard-highlighted item', async () => {
+    const onValueChange = jest.fn();
+    render(<Demo onValueChange={onValueChange} />);
+    const input = screen.getByRole('combobox') as HTMLInputElement;
+    input.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    await act(async () => {});
+    await userEvent.keyboard('{ArrowDown}');
+    await act(async () => {});
+    const highlighted = document.querySelector<HTMLElement>('[data-ag-part="item"][data-highlighted]');
+    expect(highlighted).not.toBeNull();
+    expect(input.getAttribute('aria-activedescendant')).toBe(highlighted!.id);
+    const label = highlighted!.textContent;
+    await userEvent.keyboard('{Enter}');
+    await act(async () => {});
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange.mock.calls[0]![0]).toBe(label);
   });
 
   it('REQ-CMP-70: ArrowLeft/Right move chip focus; Delete removes the chip', async () => {
@@ -189,8 +270,40 @@ describe('Combobox (CMP-180/183)', () => {
     await userEvent.keyboard('{Delete}');
     await act(async () => {});
     expect(onValueChange).toHaveBeenCalled();
-    const last = onValueChange.mock.calls.at(-1)![0] as string[];
-    expect(last).not.toContain('Banana');
+    expect(onValueChange.mock.calls.at(-1)![0]).toEqual(['Apple']);
+  });
+
+  it('REQ-CMP-70: Backspace on a focused chip removes it via onValueChange', async () => {
+    const onValueChange = jest.fn();
+    render(
+      <Combobox.Root items={FRUITS} multiple defaultValue={['Apple', 'Banana']} onValueChange={onValueChange}>
+        <Combobox.Chips>
+          <Combobox.Chip>Apple</Combobox.Chip>
+          <Combobox.Chip>Banana</Combobox.Chip>
+        </Combobox.Chips>
+        <Combobox.Input />
+        <Combobox.Content>
+          <Combobox.Empty />
+          {FRUITS.map((f) => (
+            <Combobox.Item key={f} value={f}>
+              {f}
+            </Combobox.Item>
+          ))}
+        </Combobox.Content>
+      </Combobox.Root>,
+    );
+    const chips = document.querySelectorAll<HTMLElement>('[data-ag-part="chip"]');
+    screen.getByRole('combobox').focus();
+    await userEvent.keyboard('{Backspace}');
+    await act(async () => {});
+    expect(document.activeElement).toBe(chips[1]);
+    await userEvent.keyboard('{ArrowLeft}');
+    await act(async () => {});
+    expect(document.activeElement).toBe(chips[0]);
+    await userEvent.keyboard('{Backspace}');
+    await act(async () => {});
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange.mock.calls[0]![0]).toEqual(['Banana']);
   });
 
   it('creatable: offers one create-item for a novel query; Enter calls onCreate', async () => {

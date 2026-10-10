@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Combobox as Base } from '@base-ui/react/combobox';
+import type { BaseUIEvent } from '@base-ui/react/types';
 import { materialProps } from '../../material';
 import { usePortalContainer } from '../../foundation/portal';
 import { useAnnouncer } from '../../theme';
@@ -46,6 +47,14 @@ interface ComboboxInternal {
   hasExactMatch: (query: string) => boolean;
   /** Current create-candidate marker value sentinel (per-query unique object). */
   messages?: ControlMessages | undefined;
+  /**
+   * REQ-CMP-70: true after Alt+ArrowDown opened the list. Base UI still keeps
+   * an internal activeIndex (first or selected item) after that open; while
+   * this is set the highlight is hidden from AT and Enter cannot select it.
+   * Cleared by any navigation key, pointer hover over an item, or closing.
+   */
+  highlightSuppressed: boolean;
+  setHighlightSuppressed: (v: boolean) => void;
 }
 
 const InternalCtx = React.createContext<ComboboxInternal | null>(null);
@@ -117,6 +126,7 @@ function ComboboxRoot<Value = string>({
   ...rest
 }: ComboboxRootProps<Value>) {
   const [query, setQuery] = React.useState('');
+  const [highlightSuppressed, setHighlightSuppressed] = React.useState(false);
   const [asyncItems, setAsyncItems] = React.useState<Value[] | null>(null);
   const [loadError, setLoadError] = React.useState(false);
   const [asyncLoading, setAsyncLoading] = React.useState(false);
@@ -242,8 +252,18 @@ function ComboboxRoot<Value = string>({
       onCreate,
       hasExactMatch,
       messages,
+      highlightSuppressed,
+      setHighlightSuppressed,
     }),
-    [size, effectiveItems, virtual, mode, loading, loadError, query, creatable, onCreate, hasExactMatch, messages],
+    [size, effectiveItems, virtual, mode, loading, loadError, query, creatable, onCreate, hasExactMatch, messages, highlightSuppressed],
+  );
+
+  const handleOpenChange = React.useCallback(
+    (o: boolean, d: unknown) => {
+      if (!o) setHighlightSuppressed(false);
+      onOpenChange?.(o, toChangeDetails(d));
+    },
+    [onOpenChange],
   );
 
   return (
@@ -257,7 +277,7 @@ function ComboboxRoot<Value = string>({
         autoHighlight={rest.autoHighlight ?? true}
         onValueChange={handleValueChange}
         onInputValueChange={handleInputValueChange}
-        onOpenChange={(o, d) => onOpenChange?.(o, toChangeDetails(d))}
+        onOpenChange={handleOpenChange}
         {...(loadError ? { 'data-load-error': '' } : {})}
       >
         {children}
@@ -277,18 +297,45 @@ function allChips(el: HTMLElement): HTMLElement[] {
   const scope = el.closest('[data-ag-part="root"]') ?? el.ownerDocument;
   return [...scope.querySelectorAll<HTMLElement>("[data-ag-part='chip']")];
 }
-export function comboboxInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+const MODIFIER_KEYS = new Set(['Alt', 'Shift', 'Control', 'Meta']);
+
+/* REQ-CMP-70 (APG combobox): Alt+ArrowDown opens the list without moving
+   virtual focus. Base UI highlights the first (or selected) item on that
+   open and keeps it as its internal activeIndex, so a following Enter would
+   select/toggle an item the user never navigated to. We keep BU's open but
+   suppress that highlight until the user actually navigates. */
+function handleInputKeyDown(
+  e: BaseUIEvent<React.KeyboardEvent<HTMLInputElement>>,
+  suppressed: boolean,
+  setSuppressed: (v: boolean) => void,
+) {
   const input = e.currentTarget;
   if (e.key === 'ArrowDown' && e.altKey) {
-    /* Alt+ArrowDown opens without moving virtual focus — BU ignores alt-keyed
-       keydowns, so clear any highlight it applied after the open settles. */
-    const el = input;
-    setTimeout(() => {
-      if (el.getAttribute('aria-activedescendant')) {
-        el.removeAttribute('aria-activedescendant');
-      }
-    }, 0);
+    if (input.getAttribute('aria-expanded') === 'true') {
+      /* Already open: Alt+ArrowDown is a no-op; never let BU move the highlight. */
+      e.preventDefault();
+      e.preventBaseUIHandler();
+      return;
+    }
+    setSuppressed(true);
     return;
+  }
+  if (suppressed) {
+    if (e.key === 'Enter') {
+      /* Nothing is highlighted from the user's point of view: select nothing. */
+      e.preventDefault();
+      e.preventBaseUIHandler();
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      /* First ArrowDown reveals BU's open anchor (first item, or the selected
+         item) instead of stepping past it. */
+      e.preventDefault();
+      e.preventBaseUIHandler();
+      setSuppressed(false);
+      return;
+    }
+    if (!MODIFIER_KEYS.has(e.key)) setSuppressed(false);
   }
   if (e.key !== 'Backspace' || input.value !== '') return;
   const chips = allChips(input);
@@ -318,7 +365,12 @@ export function comboboxChipsKeyDown(e: React.KeyboardEvent<HTMLElement>) {
 }
 
 function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputProps) {
-  const { size, mode, loading } = useInternal();
+  const { size, mode, loading, highlightSuppressed, setHighlightSuppressed } = useInternal();
+  const onKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) =>
+      handleInputKeyDown(e as BaseUIEvent<React.KeyboardEvent<HTMLInputElement>>, highlightSuppressed, setHighlightSuppressed),
+    [highlightSuppressed, setHighlightSuppressed],
+  );
   return (
     <Base.InputGroup
       data-ag-part="input-shell"
@@ -329,8 +381,9 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
       <Base.Input
         data-ag-part="input"
         placeholder={placeholder}
-        onKeyDown={comboboxInputKeyDown}
+        onKeyDown={onKeyDown}
         {...(mode === 'autocomplete' ? { 'aria-autocomplete': 'list' as const } : {})}
+        {...(highlightSuppressed ? { 'aria-activedescendant': undefined } : {})}
         ref={ref}
         {...rest}
       />
@@ -412,6 +465,7 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
 /* ------------------------------------------------------------------ */
 
 function ComboboxItem<Value = string>({ value, disabled, children, className, ref, ...rest }: ComboboxItemProps<Value>) {
+  const { highlightSuppressed, setHighlightSuppressed } = useInternal();
   return (
     <Base.Item
       data-ag-part="item"
@@ -419,6 +473,14 @@ function ComboboxItem<Value = string>({ value, disabled, children, className, re
       disabled={disabled}
       className={cn('ag-combobox-item', className)}
       ref={ref}
+      {...(highlightSuppressed
+        ? {
+            /* REQ-CMP-70: hide BU's post-Alt+ArrowDown anchor highlight; a real
+               pointer hover hands highlighting back to BU. */
+            'data-highlighted': undefined,
+            onMouseMove: () => setHighlightSuppressed(false),
+          }
+        : {})}
       {...rest}
     >
       <Base.ItemIndicator data-ag-part="item-indicator" keepMounted>
