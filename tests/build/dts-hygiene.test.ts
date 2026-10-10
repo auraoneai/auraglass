@@ -13,7 +13,7 @@ describe('d.ts hygiene (PLAT-253)', () => {
     const bad: string[] = [];
     for (const f of walk(DIST, p => p.endsWith('.d.ts'))) {
       for (const m of readFileSync(f, 'utf8').matchAll(/['"]([^'"]+)['"]/g)) {
-        const spec = m[1];
+        const spec = m[1]!;
         if (spec.startsWith('@/') || spec === 'aura-glass' || spec.startsWith('aura-glass/')) bad.push(`${f}: ${spec}`);
       }
     }
@@ -31,7 +31,7 @@ describe('d.ts hygiene (PLAT-253)', () => {
     const bad: string[] = [];
     for (const f of walk(DIST, p => p.endsWith('.d.ts'))) {
       for (const m of readFileSync(f, 'utf8').matchAll(/from\s*['"]([^'"]+)['"]/g)) {
-        const spec = m[1];
+        const spec = m[1]!;
         if (!spec.startsWith('.')) continue;
         const stem = resolve(dirname(f), spec);
         if (!(existsSync(stem) || existsSync(stem + '.d.ts') || existsSync(stem + '/index.d.ts') || existsSync(stem.replace(/\.js$/, '.d.ts')))) bad.push(`${f}: ${spec}`);

@@ -29,7 +29,7 @@ describe('bare import drop (PLAT-265)', () => {
         external: ['react', 'react-dom', 'react/*', 'clsx', '@base-ui/*', '@tanstack/*'],
         treeShaking: true,
       });
-      rows.push({ subpath: e.subpath, gz: gzipSync(res.outputFiles[0].contents, { level: 9 }).length });
+      rows.push({ subpath: e.subpath, gz: gzipSync(res.outputFiles[0]!.contents, { level: 9 }).length });
     }
     const over = rows.filter(r => r.gz > BARE_IMPORT_BYTES);
     expect(over).toEqual([]);

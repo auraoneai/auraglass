@@ -32,7 +32,7 @@ describe('layer order (PLAT-278)', () => {
 
   it('only contract layer names appear in emitted blocks', () => {
     const css = readFileSync(`${DIST}/styles.css`, 'utf8');
-    const bad = [...css.matchAll(/@layer\s+([\w.-]+)\s*\{/g)].map(m => m[1]).filter(l => !LAYERS.includes(l));
+    const bad = [...css.matchAll(/@layer\s+([\w.-]+)\s*\{/g)].map(m => m[1]!).filter(l => !LAYERS.includes(l));
     expect(bad).toEqual([]);
   });
 
@@ -68,7 +68,7 @@ describe('layer order (PLAT-278)', () => {
         else if (c === ',' && depth === 1) hasFallback = true;
         j++;
       }
-      if (!hasFallback) used.add(m[1]);
+      if (!hasFallback) used.add(m[1]!);
     }
     const unresolved = [...used].filter(v => (v.startsWith('--ag-') || v.startsWith('--_ag-')) && !defined.has(v));
     // Pending cross-stream refs (reported, owned elsewhere — NOT silently allowed):

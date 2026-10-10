@@ -54,7 +54,7 @@ test.describe('registry-render (L11 remote)', () => {
         const outDir = existsSync(join(app, 'out')) ? join(app, 'out') : join(app, 'dist');
         const serve = await import('node:http').then(({ createServer }) => new Promise<string>((resolve) => {
           const srv = createServer((req, res) => {
-            const file = join(outDir, req.url === '/' ? 'index.html' : (req.url ?? '/').split('?')[0]);
+            const file = join(outDir, req.url === '/' ? 'index.html' : (req.url ?? '/').split('?')[0]!);
             if (existsSync(file)) { res.writeHead(200); res.end(readFileSync(file)); return; }
             res.writeHead(404); res.end();
           }).listen(0, () => resolve(`http://127.0.0.1:${(srv.address() as { port: number }).port}`));

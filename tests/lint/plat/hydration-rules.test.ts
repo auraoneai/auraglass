@@ -1,4 +1,5 @@
 /* @jest-environment node */
+import { describe } from '@jest/globals';
 import { tester, F } from './helpers';
 
 const random = require('../../../lint/rules/plat/no-random-in-render.cjs');

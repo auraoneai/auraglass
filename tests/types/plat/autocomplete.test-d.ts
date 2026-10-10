@@ -8,7 +8,7 @@ interface ButtonProps {
   prominent?: boolean;
   disabled?: boolean;
 }
-declare function Assert<T extends true>(): void;
+type Assert<T extends true> = T;
 type IsExact<A, B> = [A] extends [B] ? ([B] extends [A] ? true : false) : false;
 
 // intent literal union
@@ -22,4 +22,4 @@ const bad: ButtonProps = {
   variant: 'primary',
 };
 void bad;
-void _I;
+export type { _I, _P };

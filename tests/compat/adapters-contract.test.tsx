@@ -5,6 +5,7 @@
    title, ariaLabel). Runs on seeds and real adapters unchanged. */
 import { cleanup, render, screen } from '@testing-library/react';
 import { createElement } from 'react';
+import type { ComponentType } from 'react';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import * as Compat from '../../src/compat/index';
 
@@ -12,7 +13,10 @@ const LABEL_PROPS = { label: 'Confirm action', 'aria-label': 'Confirm action', t
 
 afterEach(cleanup);
 
-const compatEntries = Object.entries(Compat).filter(([name, v]) => typeof v === 'function');
+// The contract renders every adapter with the same generic props, so each
+// function export is treated as a component taking an open prop bag.
+const compatEntries = Object.entries(Compat).filter(([, v]) => typeof v === 'function') as unknown as
+  [string, ComponentType<Record<string, unknown>>][];
 
 describe('aura-glass/compat adapters contract', () => {
   it('the barrel evaluates and exposes components (and stays valid when empty)', () => {
@@ -27,7 +31,7 @@ describe('aura-glass/compat adapters contract', () => {
     const spy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     try {
       expect(spy).not.toHaveBeenCalled(); // never warns at module scope
-      let container = null; let renderError = null;
+      let container: HTMLElement | null = null; let renderError: unknown = null;
       try {
         ({ container } = render(createElement(Comp, {
           children: 'body', className: 'x', 'data-testid': `compat-${name}`,
@@ -41,7 +45,7 @@ describe('aura-glass/compat adapters contract', () => {
         // props — recorded, not a contract violation. An unmappable-prop throw
         // would surface here too and must not come from our extra prop.
         expect(String(renderError)).not.toMatch(/unmappableProp/);
-        console.log(`adapters-contract: ${name} skipped (needs real props): ${String(renderError).split('\n')[0].slice(0, 120)}`);
+        console.log(`adapters-contract: ${name} skipped (needs real props): ${String(renderError).split('\n')[0]?.slice(0, 120)}`);
         return;
       }
       const calls = spy.mock.calls.map((c) => String(c[0]));
@@ -53,6 +57,7 @@ describe('aura-glass/compat adapters contract', () => {
       } else {
         for (const c of calls) expect(c).toMatch(/^\[aura-glass\]/);
       }
+      if (!container) throw new Error(`${name}: render() returned no container`);
       const node = container.querySelector(`[data-testid="compat-${name}"]`) ?? container.firstElementChild;
       if (node) {
         const label = node.getAttribute('aria-label') ?? node.getAttribute('title')

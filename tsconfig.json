@@ -23,5 +23,5 @@
     }
   },
   "include": ["src", "tests", "fragments", "registry", "showcase", "certification", "stories", ".storybook"],
-  "exclude": ["legacy", "dist", "node_modules", "packages/*/dist", "apps/docs/.next"]
+  "exclude": ["fragments/codemods/*/fixtures", "tests/dx/fixtures/recipes-4x", "legacy", "dist", "node_modules", "packages/*/dist", "apps/docs/.next"]
 }

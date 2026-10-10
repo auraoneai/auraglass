@@ -21,8 +21,8 @@ describe('registry recipe fates', () => {
     const by = (k: string) => fates.fates.filter((f) => f.kind === k);
     expect(by('block')).toHaveLength(16);
     expect(by('item')).toHaveLength(1);
-    expect(by('item')[0].target).toBe('kanban');
-    expect(by('item')[0].id).toBe('kanban-workspace');
+    expect(by('item')[0]?.target).toBe('kanban');
+    expect(by('item')[0]?.id).toBe('kanban-workspace');
     expect(by('delete')).toHaveLength(11);
   });
 

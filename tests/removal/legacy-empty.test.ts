@@ -8,7 +8,7 @@ import { existsSync } from 'node:fs';
 // tracked files and reports/ is absent from the index.
 const isGaScope = process.env.AG_SCOPE === 'release';
 const tag = (() => {
-  try { return execFileSync('git', ['tag', '--points-at', 'HEAD'], { encoding: 'utf8' }).split('\n')[0]; }
+  try { return execFileSync('git', ['tag', '--points-at', 'HEAD'], { encoding: 'utf8' }).split('\n')[0] ?? ''; }
   catch { return ''; }
 })();
 const isGaTag = /^v5\.\d+\.\d+$/.test(tag);
