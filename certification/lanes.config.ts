@@ -25,6 +25,14 @@ export const BUILTINS: BuiltinRegistration[] = [
   { lane: 'L1', kind: 'node-script', path: 'scripts/qual/write-inventory.mjs', scope: 'pr', remote: false, failClosed: true },
   // REQ-QUAL-68 exemptions validator.
   { lane: 'L1', kind: 'node-script', path: 'certification/gates/exemptions.mjs', scope: 'pr', remote: false, failClosed: true },
+  // REQ-QUAL-59 showcase hygiene (G-27): static import / colour / style / selector / determinism / copy / asset rules
+  // over showcase/**, then the import-rule fixtures and the determinism suite (two renders, trapped clocks/network).
+  { lane: 'L1', kind: 'node-script', path: 'scripts/storybook/verify-showcase-imports.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/showcase/showcase-imports.test.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/showcase/showcase-determinism.test.ts', scope: 'pr', remote: false, failClosed: true },
+  // ---- L2 Package (REQ-QUAL-28): every showcase/**/*.showcase.tsx built with Vite against the packed tarball
+  // (AURAGLASS_TARBALL from the runner) installed in a temp project; fails on any unresolved import (REQ-QUAL-59).
+  { lane: 'L2', kind: 'node-script', path: 'scripts/storybook/verify-showcase-imports.mjs --build', scope: 'pr', remote: true, failClosed: true },
   // ---- L12 Unit and coverage floors (REQ-QUAL-30): every test by location (jest.config.js verbatim) with
   // --coverageThreshold from certification/ratchets.json, and the floors-only-increase ratchet.
   { lane: 'L12', kind: 'jest', path: 'jest.config.js', coverage: true, scope: 'pr', remote: false, failClosed: true },

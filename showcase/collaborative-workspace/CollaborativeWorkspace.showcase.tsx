@@ -20,6 +20,8 @@ import { Message, Thread } from 'aura-glass/ai';
 import { MoreHorizontalIcon, Share2Icon } from 'aura-glass/icons';
 import {
   BREADCRUMBS,
+  COHORT_COLUMNS,
+  COHORTS,
   COLLABORATORS,
   COMMENTS,
   COPY,
@@ -114,6 +116,29 @@ function Document() {
               </ContextMenu.Portal>
             </ContextMenu.Root>
           ))}
+          <section className={styles.docSection} aria-labelledby="cw-cohorts">
+            <h3 id="cw-cohorts">{COPY.cohortsHeading}</h3>
+            <table>
+              <caption>{COPY.cohortsCaption}</caption>
+              <thead>
+                <tr>
+                  {COHORT_COLUMNS.map((c) => (
+                    <th key={c} scope="col">{c}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {COHORTS.map(([country, ...cells]) => (
+                  <tr key={country}>
+                    <th scope="row">{country}</th>
+                    {cells.map((c, i) => (
+                      <td key={COHORT_COLUMNS[i + 1]}>{c}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
         </Tabs.Panel>
         <Tabs.Panel value="plan">
           <ol>

@@ -40,11 +40,15 @@ export function parseShowcases(text: string, file = SHOWCASES_FILE): Set<string>
   try { raw = JSON.parse(text); } catch (e) {
     throw new SubjectResolutionError('invalid-showcases', `${file}: ${(e as Error).message}`);
   }
-  const ids: unknown[] = Array.isArray(raw)
-    ? raw.map((r) => (r && typeof r === 'object' ? (r as { id?: unknown }).id : undefined))
+  // The registry is either a bare array of rows or G-26's `{ version, showcases: [rows] }` document (REQ-QUAL-58).
+  const rows: unknown = raw && typeof raw === 'object' && !Array.isArray(raw) && 'showcases' in raw
+    ? (raw as { showcases: unknown }).showcases
+    : raw;
+  const ids: unknown[] = Array.isArray(rows)
+    ? rows.map((r) => (r && typeof r === 'object' ? (r as { id?: unknown }).id : undefined))
     : [];
-  if (!Array.isArray(raw) || ids.some((id) => typeof id !== 'string' || !id)) {
-    throw new SubjectResolutionError('invalid-showcases', `${file} must be an array of { "id": string, ... } rows`);
+  if (!Array.isArray(rows) || ids.some((id) => typeof id !== 'string' || !id)) {
+    throw new SubjectResolutionError('invalid-showcases', `${file} must be an array of { "id": string, ... } rows (or { "showcases": [...] })`);
   }
   const set = new Set(ids as string[]);
   if (set.size !== ids.length) throw new SubjectResolutionError('invalid-showcases', `${file} repeats a showcase id`);

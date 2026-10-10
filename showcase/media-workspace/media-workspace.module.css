@@ -51,7 +51,7 @@
   display: grid;
   gap: 1rem;
   min-inline-size: 16rem;
-  padding-block: 0.5rem;
+  padding: 0.5rem 0;
 }
 
 .facts {

@@ -18,6 +18,8 @@ export const COPY = {
   publishTitle: 'Publish to the company wiki?',
   publishBody: 'Publishing creates a read-only copy at wiki/launches/harbor-payments. Comments stay in Fieldnote.',
   tabs: { brief: 'Brief', plan: 'Rollout plan', risks: 'Risks' },
+  cohortsHeading: 'First-wave cohorts',
+  cohortsCaption: 'Sellers per country in the first wave, with monthly volume and go-live date',
 } as const;
 
 export const BREADCRUMBS = [
@@ -54,6 +56,20 @@ export const SECTIONS = [
       'Primary: sellers who already invoice in euros and reconcile weekly. Secondary: finance teams at agencies managing more than ten storefronts.',
     ],
   },
+] as const;
+
+export const COHORT_COLUMNS = ['Country', 'Sellers', 'Monthly volume', 'Go-live', 'Owner'] as const;
+
+/** First-wave cohorts; seller counts add up to the 2,400 in the Summary. */
+export const COHORTS = [
+  ['Germany', '640', '€18.4M', '14 April', 'Jonas Weber'],
+  ['Netherlands', '310', '€7.9M', '28 April', 'Aisha Bello'],
+  ['Ireland', '120', '€3.1M', '14 April', 'Mei Chen'],
+  ['France', '420', '€11.2M', '5 May', 'Elena Petrova'],
+  ['Spain', '280', '€6.6M', '5 May', 'Tomás Herrera'],
+  ['Italy', '260', '€6.0M', '12 May', 'Ravi Patel'],
+  ['Belgium', '140', '€3.4M', '12 May', 'Aisha Bello'],
+  ['Austria', '230', '€5.2M', '19 May', 'Kwame Asante'],
 ] as const;
 
 export const PLAN_STEPS = [

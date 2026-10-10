@@ -15,7 +15,7 @@ import {
 } from 'aura-glass';
 import { AppShell } from 'aura-glass/app-shell';
 import { PauseIcon, SkipBackIcon, SkipForwardIcon, SunIcon, MoonIcon, Volume2Icon } from 'aura-glass/icons';
-import { COPY, ROOMS, SHOWCASE_EPOCH, TOGGLES } from './copy';
+import { COPY, DEVICE_COLUMNS, DEVICES, ROOMS, SHOWCASE_EPOCH, TOGGLES } from './copy';
 import styles from './spatial-control-center.module.css';
 
 export interface SpatialControlCenterProps {
@@ -114,6 +114,29 @@ export function SpatialControlCenter({ now = SHOWCASE_EPOCH }: SpatialControlCen
           </ul>
         </section>
         <SpatialControlGrid />
+        <section className={styles.rooms} aria-labelledby="scc-devices">
+          <h2 id="scc-devices">{COPY.devicesHeading}</h2>
+          <table>
+            <caption>{COPY.devicesCaption}</caption>
+            <thead>
+              <tr>
+                {DEVICE_COLUMNS.map((c) => (
+                  <th key={c} scope="col">{c}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {DEVICES.map(([device, room, state, minutesAgo]) => (
+                <tr key={`${room}-${device}`}>
+                  <th scope="row">{device}</th>
+                  <td>{room}</td>
+                  <td>{state}</td>
+                  <td>{new Date(now - minutesAgo * 60_000).toISOString().slice(11, 16)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
       </main>
     </>
   );

@@ -194,6 +194,8 @@ describe('resolveSubject / filterSubjects / parseSubjectIndex', () => {
     expect(() => parseShowcases('{"music-player":{}}')).toThrow(/^invalid-showcases/);
     expect(() => parseShowcases('[{"id":"a"},{"id":"a"}]')).toThrow(/repeats a showcase id/);
     expect([...parseShowcases('[{"id":"a","tier":"S1"}]')]).toEqual(['a']);
+    expect([...parseShowcases('{"version":1,"showcases":[{"id":"a"},{"id":"b"}]}')]).toEqual(['a', 'b']);
+    expect(() => parseShowcases('{"version":1,"showcases":{"a":{}}}')).toThrow(/^invalid-showcases/);
   });
 });
 
