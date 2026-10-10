@@ -11,7 +11,8 @@ const pages = import.meta.glob('./*/**/*.page.tsx', { eager: true }) as Record<
 
 const route = (path: string): string => {
   const m = path.match(/^\.\/([^/]+)\/([^/]+)\.page\.tsx$/);
-  return m ? `/${m[1]}/${m[2]}` : '/';
+  /* routes are lowercase: plat/Button.page.tsx -> /plat/button */
+  return m ? `/${m[1]!.toLowerCase()}/${m[2]!.toLowerCase()}` : '/';
 };
 
 const current = () => window.location.pathname.replace(/\/$/, '') || '/';
