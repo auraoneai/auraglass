@@ -8,6 +8,8 @@
 import * as React from 'react';
 import { useAnnouncer } from '../../theme';
 import { commandScore } from './score';
+import { VirtualList } from '../../data/virtual-list/VirtualList';
+import type { VirtualListHandle } from '../../data/virtual-list/VirtualList';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 
@@ -18,7 +20,12 @@ type ItemSpec = {
   keywords?: readonly string[] | undefined;
   disabled?: boolean | undefined;
   onSelect?: (() => void) | undefined;
+  /** Item children captured at registration — rendered by virtual rows. */
+  label?: React.ReactNode;
+  shortcut?: React.ReactNode;
 };
+
+const VIRTUALIZE_THRESHOLD = 100;
 
 const Ctx = React.createContext<{
   query: string;
@@ -30,6 +37,11 @@ const Ctx = React.createContext<{
   idBase: string;
   listId: string;
   composing: React.MutableRefObject<boolean>;
+  /** SURF-063: true once the visible set exceeded the virtualization
+      threshold (sticky — scroll unmounts must not collapse the registry). */
+  virtualizing: boolean;
+  scrollTo: ((index: number) => void) | undefined;
+  onValueChange: ((v: string) => void) | undefined;
 } | null>(null);
 
 export type CommandRootProps = Omit<PartProps<'div'>, 'onChange'> & {
@@ -59,6 +71,8 @@ function CommandRoot({
   const [items, setItems] = React.useState<ItemSpec[]>([]);
   const [activeId, setActiveId] = React.useState<string | undefined>(undefined);
   const composing = React.useRef(false);
+  const virtualizingRef = React.useRef(false);
+  const scrollRef = React.useRef<((index: number) => void) | undefined>(undefined);
   const { announce } = useAnnouncer();
 
   const setQuery = React.useCallback(
@@ -75,7 +89,12 @@ function CommandRoot({
         ? prev.map((p) => (p.value === spec.value ? spec : p))
         : [...prev, spec],
     );
-    return () => setItems((prev) => prev.filter((p) => p.value !== spec.value));
+    return () => {
+      // SURF-063: in virtual mode item children unmounted on the flip —
+      // keep their specs so the visible set never collapses under scroll.
+      if (virtualizingRef.current) return;
+      setItems((prev) => prev.filter((p) => p.value !== spec.value));
+    };
   }, []);
 
   const score = filter ?? commandScore;
@@ -88,6 +107,7 @@ function CommandRoot({
       .map((x) => x.i);
   }, [items, query, score, shouldFilter]);
   const enabled = visible.filter((i) => !i.disabled);
+  if (visible.length > VIRTUALIZE_THRESHOLD) virtualizingRef.current = true;
 
   // Announce the result count (polite, 500 ms debounce).
   const countRef = React.useRef(visible.length);
@@ -112,6 +132,9 @@ function CommandRoot({
       composing,
       loop,
       enabledValues: enabled.map((e) => e.value),
+      virtualizing: virtualizingRef.current,
+      scrollTo: scrollRef.current,
+      onValueChange,
     }),
     [query, setQuery, visible, register, activeId, idBase, enabled, loop],
   );
@@ -163,7 +186,10 @@ function CommandInner({
     if (next < 0) next = loop ? list.length - 1 : 0;
     if (next >= list.length) next = loop ? 0 : list.length - 1;
     const spec = list[next];
-    if (spec) ctx.setActiveId(`${ctx.idBase}-item-${spec.value}`);
+    if (spec) {
+      ctx.setActiveId(`${ctx.idBase}-item-${spec.value}`);
+      ctx.scrollTo?.(next); // SURF-063: keep the active option in the window
+    }
   };
 
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -245,6 +271,33 @@ CommandInput.displayName = 'Command.Input';
 
 export function CommandList({ children, render, ...rest }: PartProps<'div'>) {
   const ctx = React.useContext(Ctx)!;
+  const vlRef = React.useRef<VirtualListHandle | null>(null);
+  // SURF-063: expose scrollTo so keyboard nav keeps the active option mounted.
+  React.useEffect(() => {
+    if (!ctx.virtualizing) return;
+    const h = vlRef.current;
+    ctx.scrollTo = h ? (i) => h.scrollToIndex(i, { align: 'auto' }) : undefined;
+  });
+  if (ctx.virtualizing) {
+    const { ref: _domRef, role: _role, ...restSafe } = rest as PartProps<'div'>;
+    void _domRef;
+    void _role;
+    return (
+      <VirtualList
+        ref={vlRef}
+        items={ctx.items}
+        getItemKey={(i) => i.value}
+        estimateSize={() => 32}
+        role="listbox"
+        itemRole="option"
+        className="ag-command__list"
+        renderItem={(spec) => (
+          <VirtualCommandRow ctx={ctx} spec={spec} />
+        )}
+        {...restSafe}
+      />
+    );
+  }
   return partElement('div', {
     render: render as React.ReactElement | undefined,
     id: ctx.listId,
@@ -256,6 +309,34 @@ export function CommandList({ children, render, ...rest }: PartProps<'div'>) {
   });
 }
 CommandList.displayName = 'Command.List';
+
+/** Virtualized option row — always renderable from the spec so
+    aria-activedescendant always has a live target (SURF-063). */
+function VirtualCommandRow({ ctx, spec }: { ctx: NonNullable<React.ContextType<typeof Ctx>>; spec: ItemSpec }) {
+  const id = `${ctx.idBase}-item-${spec.value}`;
+  const active = ctx.activeId === id;
+  return (
+    <div
+      id={id}
+      role="option"
+      aria-selected={active}
+      aria-disabled={spec.disabled || undefined}
+      data-ag-part="item"
+      data-state={active ? 'active' : 'inactive'}
+      className="ag-command__item"
+      onMouseMove={() => !spec.disabled && ctx.setActiveId(id)}
+      onClick={() => {
+        if (!spec.disabled) {
+          spec.onSelect?.();
+          ctx.onValueChange?.(spec.value);
+        }
+      }}
+    >
+      {spec.label ?? spec.value}
+      {spec.shortcut !== undefined ? <kbd data-ag-part="shortcut">{spec.shortcut}</kbd> : null}
+    </div>
+  );
+}
 
 export type CommandGroupProps = PartProps<'div'> & { heading?: React.ReactNode };
 
@@ -294,7 +375,24 @@ function CommandItem({ value, keywords, onSelect, disabled, shortcut, children, 
   const { register } = ctx;
   // deps on the stable register fn + spec fields only — ctx identity changes
   // every render and would churn registrations into a render loop.
-  React.useEffect(() => register({ value, keywords, disabled, onSelect }), [register, value, keywords, disabled, onSelect]);
+  // Label/shortcut captured via refs — ReactNode props are new objects each
+  // render; putting them in deps would re-register (and reorder) the spec.
+  const labelRef = React.useRef(children);
+  const shortcutRef = React.useRef(shortcut);
+  labelRef.current = children;
+  shortcutRef.current = shortcut;
+  React.useEffect(
+    () =>
+      register({
+        value,
+        keywords,
+        disabled,
+        onSelect,
+        label: labelRef.current,
+        shortcut: shortcutRef.current,
+      }),
+    [register, value, keywords, disabled, onSelect],
+  );
   const id = `${ctx.idBase}-item-${value}`;
   const active = ctx.activeId === id;
   const hidden = ctx.items.length > 0 && !ctx.items.some((i) => i.value === value);
