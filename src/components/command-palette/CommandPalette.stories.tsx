@@ -19,3 +19,18 @@ export const Default: Story = { render: () => <CommandPalette defaultOpen><Comma
 export const RTL: Story = { render: () => <CommandPalette defaultOpen><Command.Root><Command.Input placeholder="Type a command…" /><Command.List><Command.Item value="a">Alpha</Command.Item><Command.Item value="b">Beta</Command.Item></Command.List></Command.Root></CommandPalette>, parameters: { globals: { dir: 'rtl' } } };
 export const ReducedTransparency: Story = { render: () => <CommandPalette defaultOpen><Command.Root><Command.Input placeholder="Type a command…" /><Command.List><Command.Item value="a">Alpha</Command.Item><Command.Item value="b">Beta</Command.Item></Command.List></Command.Root></CommandPalette>, parameters: { ag: { material: 'regular' } } };
 export const ForcedColors: Story = { render: () => <CommandPalette defaultOpen><Command.Root><Command.Input placeholder="Type a command…" /><Command.List><Command.Item value="a">Alpha</Command.Item><Command.Item value="b">Beta</Command.Item></Command.List></Command.Root></CommandPalette>, parameters: { globals: { forcedColors: 'active' } } };
+
+/* SURF-62: closed palette + an opener button; Ctrl/Cmd+K opens it. */
+export const WithOpener: Story = {
+  render: () => (
+    <>
+      <button type="button" data-ag-test="opener">Opener</button>
+      <CommandPalette>
+        <Command.Root>
+          <Command.Input placeholder="Type a command…" />
+          <Command.List><Command.Item value="a">Alpha</Command.Item><Command.Item value="b">Beta</Command.Item></Command.List>
+        </Command.Root>
+      </CommandPalette>
+    </>
+  ),
+};

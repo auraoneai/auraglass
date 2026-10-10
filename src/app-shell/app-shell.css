@@ -129,9 +129,10 @@
     grid-template-rows: auto auto minmax(0, 1fr) auto;
     padding-block-start: env(safe-area-inset-top);
   }
-  /* SURF-054: the bottom tab bar only exists in compact — hide at >=600
-     under auto layout (the <600 container query below re-enables it). */
-  .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'] {
+  /* SURF-054: the bottom *bar* only exists in compact — hide it at >=600
+     under auto layout (the <600 container query below re-enables it); a
+     floating tab bar stays visible at every width. */
+  .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'][data-ag-appearance='bar'] {
     display: none;
   }
   .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='tabbar'] {

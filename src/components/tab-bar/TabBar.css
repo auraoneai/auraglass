@@ -78,8 +78,32 @@
       scale: var(--_ag-scale-down, 0.8);
     }
   }
+  /* SURF-054: Accessory minimizes with the labels unless placement=persist. */
+  @supports (animation-timeline: scroll()) {
+    [data-ag-minimize-on-scroll]:not([data-ag-accessory-placement='persist']) .ag-tab-bar__accessory {
+      animation: ag-tabbar-min linear both;
+      animation-timeline: scroll(nearest block);
+      animation-range: 0 10rem;
+    }
+  }
+  [data-ag-motion='calm'] [data-ag-minimize-on-scroll] .ag-tab-bar__accessory,
+  [data-ag-motion='none'] [data-ag-minimize-on-scroll] .ag-tab-bar__accessory {
+    animation: none;
+  }
   [data-ag-accessory-placement='persist'] .ag-tab-bar__accessory {
     opacity: 1;
     visibility: visible;
+  }
+  /* SURF-052: floating capsule + 44px coarse-pointer targets. */
+  [data-ag-part='tab-bar'][data-ag-appearance='floating'] {
+    max-inline-size: min(100% - 2 * var(--ag-space-4, 1rem), 36rem);
+    margin-inline: auto;
+  }
+  @media (pointer: coarse) {
+    .ag-tab-bar__item {
+      min-inline-size: var(--_ag-touch-target, 44px);
+      min-block-size: var(--_ag-touch-target, 44px);
+      justify-content: center;
+    }
   }
 }

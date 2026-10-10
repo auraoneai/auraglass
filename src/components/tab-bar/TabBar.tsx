@@ -9,12 +9,11 @@ import { SurfaceGroup, ScrollEdge } from '../../material';
 import { SearchField } from '../search-field';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
+import { PanelRegistryContext, useOwnOrOuterPanelRegistry } from './panelRegistry';
 
-const TabBarCtx = React.createContext<{
-  semantics: 'navigation' | 'tabs';
-  values: Set<string>;
-  registerPanel: (v: string) => () => void;
-}>({ semantics: 'navigation', values: new Set(), registerPanel: () => () => {} });
+const TabBarCtx = React.createContext<{ semantics: 'navigation' | 'tabs' }>({
+  semantics: 'navigation',
+});
 
 export type TabBarRootProps = PartProps<'nav'> & {
   semantics?: 'navigation' | 'tabs' | undefined;
@@ -42,41 +41,44 @@ function TabBarRoot({
   'aria-label': ariaLabel,
   ...rest
 }: TabBarRootProps) {
-  const [panels, setPanels] = React.useState<Set<string>>(new Set());
-  const valuesRef = React.useRef<Set<string>>(new Set());
-  const registerPanel = React.useCallback(
-    (v: string) => {
-      setPanels((prev) => new Set(prev).add(v));
-      return () =>
-        setPanels((prev) => {
-          const next = new Set(prev);
-          next.delete(v);
-          return next;
-        });
-    },
-    [],
+  const registry = useOwnOrOuterPanelRegistry();
+  const ctxValue = React.useMemo(() => ({ semantics }), [semantics]);
+  const items = React.Children.toArray(children).filter(Boolean);
+  const accessories = items.filter(
+    (c) => React.isValidElement(c) && c.type === TabBarAccessory,
   );
-  const ctxValue = React.useMemo(
-    () => ({ semantics, values: valuesRef.current, registerPanel }),
-    [semantics, registerPanel],
-  );
+  const listItems = items.filter((c) => !accessories.includes(c));
+  const values = listItems
+    .map((c) => (React.isValidElement(c) ? (c.props as { value?: unknown }).value : undefined))
+    .filter((v): v is string => typeof v === 'string');
+  const valuesKey = values.join('\u0000');
 
-  // SURF-069: tabs semantics requires every Item value to have a Panel.
-  const registered = React.useRef<Set<string>>(new Set());
-  React.useEffect(() => {
-    if (semantics !== 'tabs' || process.env['NODE_ENV'] !== 'development') return;
-    const missing = [...valuesRef.current].filter((v) => !panels.has(v));
-    if (missing.length > 0) {
-      console.error(
-        `[auraglass] TabBar semantics="tabs": no Tabs.Panel registered for value(s) ${missing.join(', ')}.`,
-      );
-    }
-  }, [semantics, panels]);
+  // SURF-051: semantics='tabs' requires every Item value to have a Panel.
+  // Checked once per commit that changes the item set: the layout effect
+  // defers to a microtask so every Tabs.Panel layout effect of the same
+  // commit (inside the bar or a sibling under the same Tabs.Root) has
+  // registered first. Panel (un)registration never re-renders the bar.
+  React.useLayoutEffect(() => {
+    if (semantics !== 'tabs' || process.env['NODE_ENV'] !== 'development') return undefined;
+    let cancelled = false;
+    const expected = valuesKey === '' ? [] : valuesKey.split('\u0000');
+    queueMicrotask(() => {
+      if (cancelled) return;
+      const missing = expected.filter((v) => !registry.panels.has(v));
+      if (missing.length > 0) {
+        console.error(
+          `[auraglass] TabBar semantics="tabs": no Tabs.Panel registered for value(s) ${missing.join(', ')}.`,
+        );
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [semantics, valuesKey, registry]);
 
   const itemCount = React.useRef(0);
-  const items = React.Children.toArray(children).filter(Boolean);
   if (process.env['NODE_ENV'] === 'development') {
-    const n = items.length;
+    const n = listItems.length;
     if (n !== itemCount.current) {
       itemCount.current = n;
       if (n > 5) {
@@ -89,10 +91,14 @@ function TabBarRoot({
     console.warn('[auraglass] TabBar: aria-label is required on navigation tab bars.');
   }
 
+  // SURF-054: Accessory renders inside the SurfaceGroup above the list.
   const inner = (
-    <ul className="ag-tab-bar__list" role={semantics === 'tabs' ? 'tablist' : undefined}>
-      {children}
-    </ul>
+    <>
+      {accessories}
+      <ul className="ag-tab-bar__list" role={semantics === 'tabs' ? 'tablist' : undefined}>
+        {listItems}
+      </ul>
+    </>
   );
 
   const nav = partElement(semantics === 'navigation' ? 'nav' : 'div', {
@@ -111,12 +117,14 @@ function TabBarRoot({
   });
 
   return (
+    <PanelRegistryContext.Provider value={registry}>
     <TabBarCtx.Provider value={ctxValue}>
       <SurfaceGroup className="ag-tab-bar" spacing="0" {...(refraction ? { refraction: true } : {})}>
         {nav}
         <ScrollEdge edge="bottom" edgeStyle="soft" />
       </SurfaceGroup>
     </TabBarCtx.Provider>
+    </PanelRegistryContext.Provider>
   );
 }
 TabBarRoot.displayName = 'TabBar.Root';
@@ -131,13 +139,7 @@ export type TabBarItemProps = Omit<PartProps<'a'>, 'value'> & {
 };
 
 function TabBarItem({ value, current, icon, badge, href, children, render, ...rest }: TabBarItemProps) {
-  const { semantics, values, registerPanel } = React.useContext(TabBarCtx);
-  React.useEffect(() => {
-    if (value !== undefined) values.add(value);
-    return () => {
-      if (value !== undefined) values.delete(value);
-    };
-  }, [value, values]);
+  const { semantics } = React.useContext(TabBarCtx);
   if (process.env['NODE_ENV'] === 'development') {
     if (href === undefined && render === undefined) {
       console.warn('[auraglass] TabBar.Item: href is required unless a render prop is given.');
@@ -213,10 +215,11 @@ export function TabBarSearch({ render, ...rest }: PartProps<'div'>) {
 }
 TabBarSearch.displayName = 'TabBar.Search';
 
-/** Register a Tabs.Panel value so TabBar semantics='tabs' can validate it. */
+/** Register a Tabs.Panel value so TabBar semantics='tabs' can validate it
+    (layout effect: registered before the bar's post-commit check). */
 export function useTabBarPanel(value: string): void {
-  const { registerPanel } = React.useContext(TabBarCtx);
-  React.useEffect(() => registerPanel(value), [registerPanel, value]);
+  const registry = React.useContext(PanelRegistryContext);
+  React.useLayoutEffect(() => (registry ? registry.register(value) : undefined), [registry, value]);
 }
 
 export const TabBar = {

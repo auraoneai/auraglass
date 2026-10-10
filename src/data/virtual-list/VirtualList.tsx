@@ -5,7 +5,7 @@
    element's own onScroll. handle exposes scrollToIndex/scrollToKey +
    measureElement for consumers (Command >threshold, Table, TreeView). */
 import * as React from 'react';
-import { useVirtualizer } from '@tanstack/react-virtual';
+import { defaultRangeExtractor, useVirtualizer } from '@tanstack/react-virtual';
 
 export interface VirtualListHandle {
   scrollToIndex: (index: number, options?: { align?: 'start' | 'center' | 'end' | 'auto' | undefined }) => void;
@@ -32,6 +32,11 @@ export type VirtualListProps<T> = {
   /** Fires with the count of rendered items when it changes (tests/metrics). */
   onRangeChange?: ((range: { startIndex: number; endIndex: number }) => void) | undefined;
   className?: string | undefined;
+  /** Indexes rendered even when outside the window (e.g. the option an
+      aria-activedescendant points at, SURF-063). */
+  pinnedIndexes?: readonly number[] | undefined;
+  /** Scroller id (e.g. the listbox a combobox's aria-controls points at). */
+  id?: string | undefined;
   'aria-label'?: string | undefined;
   'aria-labelledby'?: string | undefined;
   style?: React.CSSProperties | undefined;
@@ -51,6 +56,7 @@ function VirtualListInner<T>(
     role = 'list',
     itemRole,
     onRangeChange,
+    pinnedIndexes,
     className,
     style,
     ...rest
@@ -60,8 +66,23 @@ function VirtualListInner<T>(
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const horizontal = orientation === 'horizontal';
 
+  const pinnedKey = (pinnedIndexes ?? []).join(',');
+  const rangeExtractor = React.useCallback(
+    (range: Parameters<typeof defaultRangeExtractor>[0]) => {
+      const base = defaultRangeExtractor(range);
+      if (pinnedKey === '') return base;
+      const extra = pinnedKey
+        .split(',')
+        .map(Number)
+        .filter((i) => i >= 0 && i < range.count && !base.includes(i));
+      return extra.length ? [...base, ...extra].sort((a, b) => a - b) : base;
+    },
+    [pinnedKey],
+  );
+
   const virtualizer = useVirtualizer({
     count: items.length,
+    rangeExtractor,
     getScrollElement: () => parentRef.current,
     estimateSize,
     overscan,

@@ -6,9 +6,19 @@
 import * as React from 'react';
 import { partElement } from '../../app-shell/_internal/partElement';
 import { getPaginationRange } from './getRange';
+import { materialProps } from '../../material/materialProps';
 
 export type PaginationButtonsProps = {
-  labels?: { previous?: string; next?: string; page?: string } | undefined;
+  labels?:
+    | {
+        previous?: string;
+        next?: string;
+        /** Serialisable page-label template; `{page}` is replaced by the number. */
+        pageTemplate?: string;
+        /** Page-label function (client-rendered Root only). */
+        page?: (n: number) => string;
+      }
+    | undefined;
   page?: number | undefined;
   defaultPage?: number | undefined;
   pageCount: number;
@@ -40,7 +50,8 @@ export function PaginationButtons({
 
   const prevLabel = labels?.previous ?? 'Previous page';
   const nextLabel = labels?.next ?? 'Next page';
-  const pageLabel = (n: number) => `${labels?.page ?? 'Page'} ${n}`;
+  const pageLabel = (n: number) =>
+    labels?.page?.(n) ?? (labels?.pageTemplate ?? 'Page {page}').replace('{page}', String(n));
 
   const goto = (n: number) => {
     const next = Math.min(Math.max(1, n), pageCount);
@@ -80,8 +91,13 @@ export function PaginationButtons({
     render,
     'aria-label': ariaLabel,
     'data-ag-part': 'pagination',
+    ...materialProps({ layer: 'content' }),
     ...(rest ?? {}),
     children: (
+      <>
+      <span data-ag-part="status" className="ag-pagination__status">
+        {`Page ${current} of ${pageCount}`}
+      </span>
       <ol data-ag-part="pagination-list" className="ag-pagination__list">
         <Btn n={current - 1} label={prevLabel} disabled={current <= 1} part="previous" />
         {range.map((item, i) =>
@@ -98,6 +114,7 @@ export function PaginationButtons({
         <Btn n={current + 1} label={nextLabel} disabled={current >= pageCount} part="next" />
         {children}
       </ol>
+      </>
     ),
   });
 }

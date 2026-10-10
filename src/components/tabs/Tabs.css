@@ -53,13 +53,68 @@
     color: var(--_ag-fg-disabled, currentColor);
     cursor: default;
   }
+  /* SURF-049: the indicator is sized from Base UI's --active-tab-* vars and
+     moves with translate/scale only (the CSS fallback when the motion seam
+     has no View Transitions). Logical start edge; RTL measures from the
+     right. */
   .ag-tabs__indicator {
     position: absolute;
-    inset-block-end: 0;
-    block-size: var(--_ag-tabs-indicator-h, 2px);
+    inset-inline-start: 0;
+    inline-size: var(--active-tab-width);
+    translate: var(--active-tab-left) 0;
     background: var(--_ag-accent, currentColor);
     border-radius: var(--ag-radius-full, 999px);
-    transition-duration: var(--_ag-duration-normal, 160ms);
+    pointer-events: none;
+    transition-property: translate, scale;
+    transition-duration: var(--ag-duration-normal, 160ms);
+    transition-timing-function: var(--ag-ease-standard, ease);
+  }
+  .ag-tabs__indicator:dir(rtl) {
+    translate: calc(-1 * var(--active-tab-right)) 0;
+  }
+  .ag-tabs[data-orientation='vertical'] .ag-tabs__indicator,
+  .ag-tabs__list[aria-orientation='vertical'] .ag-tabs__indicator {
+    inset-block-start: 0;
+    inline-size: var(--active-tab-width);
+    block-size: var(--active-tab-height);
+    translate: 0 var(--active-tab-top);
+  }
+  [data-ag-motion='calm'] .ag-tabs__indicator {
+    transition-property: opacity;
+  }
+  [data-ag-motion='none'] .ag-tabs__indicator {
+    transition: none;
+  }
+  /* SURF-047 appearance: pill (default) = filled capsule behind the tab;
+     underline = 2px bar on the block-end edge. */
+  .ag-tabs[data-ag-appearance='pill'] .ag-tabs__list {
+    border-block-end: 0;
+    padding: var(--ag-space-1, 0.25rem);
+    border-radius: var(--ag-radius-full, 999px);
+  }
+  .ag-tabs[data-ag-appearance='pill'] .ag-tabs__indicator {
+    inset-block-start: var(--active-tab-top);
+    block-size: var(--active-tab-height);
+    background: var(--_ag-bg-active, var(--_ag-accent-soft, currentColor));
+    z-index: 0;
+  }
+  .ag-tabs[data-ag-appearance='pill'] .ag-tabs__tab {
+    z-index: 1;
+    border-radius: var(--ag-radius-full, 999px);
+  }
+  .ag-tabs[data-ag-appearance='underline'] .ag-tabs__indicator {
+    inset-block-end: 0;
+    block-size: var(--_ag-tabs-indicator-h, 2px);
+  }
+  .ag-tabs[data-ag-size='sm'] .ag-tabs__tab {
+    padding-block: var(--ag-space-1, 0.25rem);
+    padding-inline: var(--ag-space-2, 0.5rem);
+    font-size: var(--_ag-text-sm, 0.875rem);
+  }
+  .ag-tabs[data-ag-size='md'] .ag-tabs__tab {
+    padding-block: var(--ag-space-2, 0.5rem);
+    padding-inline: var(--ag-space-3, 0.75rem);
+    font-size: var(--_ag-text-md, 1rem);
   }
   .ag-tabs__panel {
     padding-block: var(--ag-space-4, 1rem);
