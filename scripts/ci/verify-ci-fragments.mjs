@@ -43,7 +43,9 @@ const opt = (n) => {
 const ROOT = opt('root') ?? '.';
 const rel = (p) => join(ROOT, p);
 
-const STAGES = ['contract', 'build', 'test', 'certify', 'package', 'deploy', 'publish'];
+// package precedes certify: qual:certify:* need plat:package:pack (contract C-item,
+// docs/release/decisions/gitlab-ci-verification.md).
+const STAGES = ['contract', 'build', 'test', 'package', 'certify', 'deploy', 'publish'];
 const STREAMS = ['plat', 'mat', 'cmp', 'surf', 'qual'];
 const ROOT_TEMPLATES = ['.ag-node', '.ag-playwright', '.ag-gpu', '.ag-aws-remote'];
 const MIXINS = ['.ag-evidence-release']; // artifact mixin allowed alongside a root template
@@ -461,13 +463,19 @@ if (!changed && existsSync(join(ROOT, '.git'))) {
     try {
       changed = execFileSync('git', ['-C', ROOT, 'diff', '--name-only', `${base}...HEAD`], {
         encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'pipe'],
         maxBuffer: 64 * 1024 * 1024,
       })
         .trim()
         .split('\n')
         .filter(Boolean);
-    } catch {
+    } catch (e) {
       changed = null;
+      // In CI the job fetches its base ref first (contract:ci-fragments), so an
+      // unresolvable base means the task-graph hook would be silently skipped.
+      if (process.env.GITLAB_CI === 'true') {
+        fail.push(`cannot diff ${base}...HEAD (base ref not fetched?): ${String(e.stderr ?? e.message).split('\n')[0]}`);
+      }
     }
   }
 }

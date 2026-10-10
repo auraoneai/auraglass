@@ -288,7 +288,9 @@ plat:package:pack:
   rules:
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release"
   script:
-    - if [ "$AG_SCOPE" = "release" ] || [ -n "$CI_COMMIT_TAG" ]; then node scripts/ci/require-activated.mjs --line "$AG_LINE"; fi
+    # REQ-PLAT-05/39: first script line, unconditional — the script itself
+    # enforces on tag/release scope and exits 0 elsewhere.
+    - node scripts/ci/require-activated.mjs --line "$AG_LINE"
     - |
       if [ "$AG_SCOPE" = "release" ]; then
         test -f scripts/release/dry-run.mjs || { echo "PENDING: scripts/release/dry-run.mjs"; exit 1; }

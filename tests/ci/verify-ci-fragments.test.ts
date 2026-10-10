@@ -56,6 +56,8 @@ describe('verify-ci-fragments fixtures', () => {
     'missing-rules': 'rules',
     'needs-no-optional': 'optional: true',
     'top-level-variables': 'reserved',
+    // contract C-item: package precedes certify (qual:certify:* need plat:package:pack)
+    'stage-order-legacy': 'root stages must equal contract,build,test,package,certify,deploy,publish',
   };
   const cases = existsSync(FIXTURES) ? readdirSync(FIXTURES, { withFileTypes: true })
     .filter((d) => d.isDirectory() && !['passing', 'taskgraph-missing'].includes(d.name)).map((d) => d.name) : [];

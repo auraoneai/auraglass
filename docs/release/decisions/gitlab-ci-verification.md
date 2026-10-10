@@ -27,3 +27,28 @@ Recorded here once REQ-FIN-20 lands (AC-FIN-23):
 Operator (OD-11) actions: apply the `.gitlab-ci.yml` config path in project
 settings, protected tags `v*`, nightly schedules on both lines, Pages public,
 keep-latest-artifacts — dates go in `gitlab-project-settings.md`.
+
+## Contract C-items
+
+- **contract C-item: stages package before certify.** Root `stages` is
+  `[contract, build, test, package, certify, deploy, publish]` (contract v1.1
+  listed `certify` before `package`). GitLab rejects a `needs:` on a job in a
+  later stage, and every `qual:certify:*` job needs `plat:package:pack`, so the
+  v1.1 order made the merged config invalid. `scripts/ci/verify-ci-fragments.mjs`
+  `STAGES` and every `tests/ci/fixtures/ci-fragments/**/.gitlab-ci.yml` carry
+  the new order; fixture `stage-order-legacy/` proves the v1.1 order now fails.
+  To be folded into contract v1.2-final.
+- **contract C-item: contract:ci-fragments fetches its base ref.** The job runs with
+  `GIT_DEPTH: "0"` and fetches `origin/next` (or `origin/release/4.x` on 4x)
+  before `verify-ci-fragments.mjs`, so the task-graph hook's
+  `origin/<base>...HEAD` diff resolves (probe pipeline 2934006051 failed with
+  `fatal: ambiguous argument 'origin/next...HEAD'`). Under `GITLAB_CI` an
+  unresolvable base is now a failure, not a silent skip.
+- **contract C-item: R1 workflow prefixes.** `workflow:rules` also run
+  pipelines for `^next-fin/`, `^4x-fin/`, `^4x11-(plat|mat|cmp|surf|qual|fin)/`
+  (line 4x), `^sync/` (5x unless the 4x `sync/fragments-codemods-` rule
+  matched first) and `release/4.1.x` (scope main, line 4x), so FIN heads get
+  CI evidence before merge (PROMPT_FINAL_COMPLETION_V2 §3.1 R1).
+
+`tests/ci/root-pipeline.test.ts` compares the root file with the v1.1 block
+after applying exactly these C-items; any other deviation fails.

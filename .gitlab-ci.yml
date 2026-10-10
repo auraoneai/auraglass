@@ -33,7 +33,7 @@ workflow:
       variables: { AG_SCOPE: main, AG_LINE: "5x" }
     - if: $CI_COMMIT_BRANCH =~ /^4x-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^4x11-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-codemods-/
       variables: { AG_SCOPE: pr, AG_LINE: "4x" }
-    - if: $CI_COMMIT_BRANCH =~ /^next-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-deprecations-/ || $CI_COMMIT_BRANCH =~ /^contract\//
+    - if: $CI_COMMIT_BRANCH =~ /^next-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-deprecations-/ || $CI_COMMIT_BRANCH =~ /^contract\// || $CI_COMMIT_BRANCH =~ /^sync\//
       variables: { AG_SCOPE: pr, AG_LINE: "5x" }
     - when: never
 
@@ -100,7 +100,10 @@ contract:conformance:
 contract:ci-fragments:
   extends: .ag-node
   stage: contract
+  variables: { GIT_DEPTH: "0" }
   rules:
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main"
   script:
+    - BASE=$([ "$AG_LINE" = "4x" ] && echo release/4.x || echo next)
+    - git fetch --no-tags origin "+refs/heads/$BASE:refs/remotes/origin/$BASE"
     - node scripts/ci/verify-ci-fragments.mjs
