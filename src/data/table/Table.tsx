@@ -536,12 +536,10 @@ export function Table<TData>(props: TableProps<TData>) {
         {enableColumnReordering && !header.isPlaceholder ? (
           <MenuRoot>
             <MenuTrigger
-              render={<IconButton label={`${msgs.columnMenu ?? 'Column actions'} ${label}`} />}
+              render={<IconButton label={`${msgs.columnMenu ?? 'Column actions'} ${label}`} icon={'\u2026'} />}
               data-ag-part="table-column-menu"
               className="ag-table__col-menu"
-            >
-              ⋯
-            </MenuTrigger>
+            />
             <MaybePortal>
               <MaybePositioner>
                 <MenuContent data-ag-part="table-column-menu-content">

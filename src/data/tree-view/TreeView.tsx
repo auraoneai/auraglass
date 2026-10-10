@@ -148,7 +148,7 @@ export function TreeView<T extends TreeItemData>({
       {...(onSelectionChange !== undefined ? { onSelectionChange: (s) => onSelectionChange(s as Set<React.Key>) } : {})}
       {...(expandedKeys !== undefined ? { expandedKeys: expandedKeys as Iterable<import('react-aria-components').Key> } : {})}
       {...(defaultExpandedKeys !== undefined ? { defaultExpandedKeys: defaultExpandedKeys as Iterable<import('react-aria-components').Key> } : {})}
-      {...((expandedKeys === undefined ? { expandedKeys: internalExpanded } : {}))}
+      {...((expandedKeys === undefined ? { expandedKeys: internalExpanded as Iterable<import('react-aria-components').Key> } : {}))}
       onExpandedChange={(s) => {
         const next = new Set(s as Set<React.Key>);
         // SURF-081: lazy-load on expand — an expandable item with no

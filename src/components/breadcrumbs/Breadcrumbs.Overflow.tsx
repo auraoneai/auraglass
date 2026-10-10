@@ -35,12 +35,10 @@ export function BreadcrumbsOverflow({ label = 'Show more', items = [] }: Breadcr
   return (
     <MenuRoot>
       <MenuTrigger
-        render={<IconButton label={label} />}
+        render={<IconButton label={label} icon={'\u2026'} />}
         data-ag-part="ellipsis"
         className="ag-breadcrumbs__ellipsis"
-      >
-        {'\u2026'}
-      </MenuTrigger>
+      />
       <MaybePortal>
         <MaybePositioner>
           <MenuContent data-ag-part="overflow-menu">
