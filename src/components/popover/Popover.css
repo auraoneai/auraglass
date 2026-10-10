@@ -1,5 +1,5 @@
 /* CMP-263 (REQ-CMP-98): Popover — overlayMaterial('popover') regular. Arrow is a
-   clipped child painted with --ag-surface-fill + rim (no second backdrop-filter).
+   clipped child painted with --_ag-surface-fill + rim (no second backdrop-filter).
    Enter/exit: opacity + small translate from data-side; reduced-motion fades only. */
 @layer ag.components {
   .ag-popover-positioner {
@@ -8,10 +8,10 @@
   }
 
   .ag-popover-popup {
-    background: var(--ag-surface-fill, var(--ag-glass-fill, var(--ag-surface-fill)));
-    border: 1px solid var(--ag-rim, var(--ag-surface-rim, var(--ag-color-border)));
+    background: var(--_ag-surface-fill, var(--_ag-glass-fill, var(--_ag-surface-fill)));
+    border: 1px solid var(--_ag-rim, var(--_ag-surface-rim, var(--ag-color-border)));
     border-radius: var(--ag-radius-md);
-    box-shadow: var(--ag-shadow-overlay, 0 8px 24px var(--ag-shadow-regular));
+    box-shadow: var(--_ag-shadow-overlay, var(--ag-shadow-regular));
     color: var(--ag-on-surface, inherit);
     padding: var(--ag-space-3);
     inline-size: max-content;
@@ -41,14 +41,14 @@
     /* solid triangle in surface fill + rim — no second backdrop-filter */
     inline-size: 10px;
     block-size: 10px;
-    background: var(--ag-surface-fill, var(--ag-surface-fill));
+    background: var(--_ag-surface-fill, var(--_ag-surface-fill));
     clip-path: polygon(0 0, 100% 0, 50% 100%);
     border-start-start-radius: 0;
-    outline: 1px solid var(--ag-rim, var(--ag-color-border));
+    outline: 1px solid var(--_ag-rim, var(--ag-color-border));
   }
 
   .ag-popover-title { font-weight: 600; margin: 0 0 4px; }
-  .ag-popover-description { margin: 0; color: var(--ag-muted, var(--ag-color-on-surface-muted)); }
+  .ag-popover-description { margin: 0; color: var(--_ag-muted, var(--ag-color-on-surface-muted)); }
 
   @media (prefers-reduced-motion: reduce) {
     .ag-popover-popup { transition: opacity var(--ag-duration-small) linear; transform: none; }

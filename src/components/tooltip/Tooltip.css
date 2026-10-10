@@ -5,12 +5,12 @@
   .ag-tooltip-positioner { z-index: var(--ag-z-transient, 80); }
 
   .ag-tooltip-popup {
-    background: var(--ag-surface-fill-strong, var(--ag-glass-fill, var(--ag-surface-fill)));
-    border: 1px solid var(--ag-rim, var(--ag-color-border));
+    background: var(--_ag-surface-fill-strong, var(--_ag-glass-fill, var(--_ag-surface-fill)));
+    border: 1px solid var(--_ag-rim, var(--ag-color-border));
     border-radius: var(--ag-radius-sm);
-    box-shadow: var(--ag-shadow-transient, 0 4px 12px var(--ag-shadow-thin));
+    box-shadow: var(--_ag-shadow-transient, var(--ag-shadow-thin));
     color: var(--ag-on-surface, inherit);
-    font-size: var(--ag-text-sm, 12px);
+    font-size: var(--_ag-text-sm, 12px);
     line-height: 1.4;
     padding: 6px 10px;
     max-inline-size: min(320px, calc(100vw - 32px));
@@ -33,7 +33,7 @@
   .ag-tooltip-arrow {
     inline-size: 8px;
     block-size: 8px;
-    background: var(--ag-surface-fill-strong, var(--ag-surface-fill));
+    background: var(--_ag-surface-fill-strong, var(--_ag-surface-fill));
     clip-path: polygon(0 0, 100% 0, 50% 100%);
   }
 

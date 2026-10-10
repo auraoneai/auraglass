@@ -1,10 +1,14 @@
 /* @jest-environment node */
 /* REQ-CMP-08: the CMP css/tsx surface carries zero raw optics and zero raw
    design values. Runs the MAT literal scanner + the optics patterns over every
-   src/components file; only files the literals baseline records non-zero may
-   keep counts (test fixtures), and never above baseline. */
+   CMP file (scripts/cmp/cmp-file-scope.cjs: src/{components,primitives,icons,
+   foundation,forms} minus the SURF dirs, which FIN-F sweeps under SURF-190);
+   only files the literals baseline records non-zero may keep counts (test
+   fixtures), and never above baseline. The baseline is generator output
+   (scripts/cmp/gen-literals-baseline.mjs), never hand-edited. */
 import { describe, expect, it } from '@jest/globals';
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const { scanText } = require(join(process.cwd(), 'lint/rules/mat/_literals.cjs')) as {
@@ -22,14 +26,9 @@ const OPTICS = [
 const COLOR_LITERAL = /#[0-9a-fA-F]{3,8}\b|\b(?:rgb|rgba|hsl|hsla)\(\s*\d|\boklch\((?!\s*from\s*var\()/;
 const IMPORTANT = /!important/;
 
-function* walk(dir: string): Generator<string> {
-  for (const e of readdirSync(dir)) {
-    const p = join(dir, e);
-    const s = statSync(p);
-    if (s.isDirectory()) yield* walk(p);
-    else if (/\.(css|ts|tsx)$/.test(e)) yield p;
-  }
-}
+const { listCmpFiles } = require(join(process.cwd(), 'scripts/cmp/cmp-file-scope.cjs')) as {
+  listCmpFiles: (root?: string) => string[];
+};
 const stripComments = (t: string, css: boolean) =>
   t.replace(/\/\*[\s\S]*?\*\/|\/\/[^\n]*/g, (m) => (css && m.startsWith('//') ? m : m.replace(/[^\n]/g, ' ')));
 
@@ -37,12 +36,19 @@ const baseline = JSON.parse(
   readFileSync(join(process.cwd(), 'fragments/literals-baseline/cmp.json'), 'utf8'),
 ) as { files: Record<string, Record<string, number>> };
 
-const files = [...walk('src/components')];
+const files = listCmpFiles(process.cwd());
 
 describe('cmp-lint (REQ-CMP-08)', () => {
-  it('literals baseline covers every src/components file', () => {
+  it('literals baseline covers every CMP file', () => {
+    expect(files.length).toBeGreaterThan(0);
     const missing = files.filter((f) => !(f in baseline.files));
     expect(missing).toEqual([]);
+  });
+
+  it('literals baseline is exactly the generator output (not stale, not hand-edited)', () => {
+    expect(() =>
+      execFileSync(process.execPath, ['scripts/cmp/gen-literals-baseline.mjs', '--check'], { stdio: 'pipe' }),
+    ).not.toThrow();
   });
 
   it('no optics outside material: backdrop-filter/blur()/saturate() literals = 0', () => {

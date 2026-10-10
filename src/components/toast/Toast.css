@@ -25,13 +25,13 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: var(--ag-space-1-5, 6px);
-    padding: var(--ag-space-3) var(--ag-space-3-5, 14px);
+    gap: var(--_ag-space-1-5, 6px);
+    padding: var(--ag-space-3) var(--_ag-space-3-5, 14px);
     border-radius: var(--ag-radius-md);
     min-width: 240px;
     max-width: 100%;
     outline: none;
-    border-inline-start: 3px solid var(--ag-toast-accent, transparent);
+    border-inline-start: 3px solid var(--_ag-toast-accent, transparent);
   }
   .ag-toast[data-state='open'],
   .ag-toast[data-open] {
@@ -51,19 +51,19 @@
   }
   .ag-toast[data-swiping] { transition: none; }
 
-  .ag-toast[data-ag-intent='success'] { --ag-toast-accent: var(--ag-success, var(--ag-color-success)); }
-  .ag-toast[data-ag-intent='warning'] { --ag-toast-accent: var(--ag-warning, var(--ag-color-warning)); }
-  .ag-toast[data-ag-intent='error'] { --ag-toast-accent: var(--ag-danger, var(--ag-color-danger)); }
-  .ag-toast[data-ag-intent='info'] { --ag-toast-accent: var(--ag-info, var(--ag-color-info)); }
+  .ag-toast[data-ag-intent='success'] { --_ag-toast-accent: var(--_ag-success, var(--ag-color-success)); }
+  .ag-toast[data-ag-intent='warning'] { --_ag-toast-accent: var(--_ag-warning, var(--ag-color-warning)); }
+  .ag-toast[data-ag-intent='error'] { --_ag-toast-accent: var(--_ag-danger, var(--ag-color-danger)); }
+  .ag-toast[data-ag-intent='info'] { --_ag-toast-accent: var(--_ag-info, var(--ag-color-info)); }
 
   .ag-toast-content { display: flex; flex-direction: column; gap: 2px; }
-  .ag-toast-title { font-weight: 600; font-size: var(--ag-font-sm, 13px); }
-  .ag-toast-description { font-size: var(--ag-font-sm, 13px); color: var(--ag-fg-muted, var(--ag-color-on-surface-muted)); }
+  .ag-toast-title { font-weight: 600; font-size: var(--_ag-font-sm, 13px); }
+  .ag-toast-description { font-size: var(--_ag-font-sm, 13px); color: var(--_ag-fg-muted, var(--ag-color-on-surface-muted)); }
   .ag-toast-action {
     align-self: flex-start;
-    font-size: var(--ag-font-sm, 13px);
+    font-size: var(--_ag-font-sm, 13px);
     font-weight: 600;
-    color: var(--ag-accent, var(--ag-color-accent));
+    color: var(--_ag-accent, var(--ag-color-accent));
   }
   .ag-toast-close {
     position: absolute;
@@ -76,15 +76,15 @@
     height: 2px;
     border-radius: var(--ag-radius-xs);
     overflow: hidden;
-    background: var(--ag-border, var(--ag-color-border));
+    background: var(--_ag-border, var(--ag-color-border));
   }
   .ag-toast-progress-bar {
     display: block;
     height: 100%;
     width: 100%;
-    background: var(--ag-toast-accent, var(--ag-accent, var(--ag-color-accent)));
+    background: var(--_ag-toast-accent, var(--_ag-accent, var(--ag-color-accent)));
     transform-origin: left;
-    animation: ag-toast-progress var(--ag-toast-timeout, var(--ag-duration-ambient)) linear forwards;
+    animation: ag-toast-progress var(--_ag-toast-timeout, var(--ag-duration-ambient)) linear forwards;
   }
   [dir='rtl'] .ag-toast-progress-bar { transform-origin: right; }
   /* Pause mirrors the toast timer pause on hover/focus. */

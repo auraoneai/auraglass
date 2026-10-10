@@ -2,16 +2,16 @@
    container (480/768/1024px breakpoints). */
 @layer ag.components {
   .ag-grid { display: grid; }
-  .ag-grid[data-ag-cols] { grid-template-columns: repeat(var(--ag-grid-cols, 1), minmax(0, 1fr)); }
+  .ag-grid[data-ag-cols] { grid-template-columns: repeat(var(--_ag-grid-cols, 1), minmax(0, 1fr)); }
   .ag-grid-masonry { display: block; }
   .ag-grid-masonry > * { break-inside: avoid; margin-block-end: var(--ag-space-2); }
   @container ag-container (min-width: 480px) {
-    .ag-grid[data-ag-cols-sm] { grid-template-columns: repeat(var(--ag-grid-cols-sm, 1), minmax(0, 1fr)); }
+    .ag-grid[data-ag-cols-sm] { grid-template-columns: repeat(var(--_ag-grid-cols-sm, 1), minmax(0, 1fr)); }
   }
   @container ag-container (min-width: 768px) {
-    .ag-grid[data-ag-cols-md] { grid-template-columns: repeat(var(--ag-grid-cols-md, 1), minmax(0, 1fr)); }
+    .ag-grid[data-ag-cols-md] { grid-template-columns: repeat(var(--_ag-grid-cols-md, 1), minmax(0, 1fr)); }
   }
   @container ag-container (min-width: 1024px) {
-    .ag-grid[data-ag-cols-lg] { grid-template-columns: repeat(var(--ag-grid-cols-lg, 1), minmax(0, 1fr)); }
+    .ag-grid[data-ag-cols-lg] { grid-template-columns: repeat(var(--_ag-grid-cols-lg, 1), minmax(0, 1fr)); }
   }
 }
