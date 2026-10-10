@@ -4,6 +4,7 @@ import * as React from 'react';
 import { AppShell } from './AppShell';
 import { TopBar } from './TopBar';
 import { StatusBar } from './StatusBar';
+import { Pagination } from '../components/pagination/Pagination';
 
 describe('5.0 AppShell (SURF-024)', () => {
   it('renders slots wrapped in memo/HOC in the right grid areas', () => {
@@ -42,9 +43,7 @@ describe('5.0 AppShell (SURF-024)', () => {
         defaultSidebar="rail"
         defaultInspector="open"
         sidebarSide="end"
-        layout="wide"
-        collapseTo="collapsed"
-        density="compact"
+        layout="desktop"
         persistKey="prefs"
       >
         <AppShell.Main />
@@ -55,10 +54,12 @@ describe('5.0 AppShell (SURF-024)', () => {
     expect(el).toHaveAttribute('data-ag-sidebar', 'rail');
     expect(el).toHaveAttribute('data-ag-inspector', 'open');
     expect(el).toHaveAttribute('data-ag-sidebar-side', 'end');
-    expect(el).toHaveAttribute('data-ag-layout', 'wide');
-    expect(el).toHaveAttribute('data-ag-collapse-to', 'collapsed');
-    expect(el).toHaveAttribute('data-ag-density', 'compact');
+    expect(el).toHaveAttribute('data-ag-layout', 'desktop');
     expect(el).toHaveAttribute('data-ag-persist-key', 'prefs');
+    // SURF-20: density/backdrop/collapseTo are gone from the contract
+    expect(el.hasAttribute('data-ag-density')).toBe(false);
+    expect(el.hasAttribute('data-ag-backdrop')).toBe(false);
+    expect(el.hasAttribute('data-ag-collapse-to')).toBe(false);
   });
 
   it('page header uses the requested heading level', () => {
@@ -88,5 +89,18 @@ describe('5.0 AppShell (SURF-024)', () => {
     // status bar has no landmark role
     expect(document.querySelector('[data-ag-part="status-bar"]')).not.toBeNull();
     expect(screen.queryAllByRole('status')).toHaveLength(0);
+  });
+  it('duplicate landmark names warn once (SURF-26)', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    render(
+      <>
+        <Pagination.Root page={1} pageCount={3} getHref={(p: number) => `?p=${p}`} aria-label="Seiten" />
+        <Pagination.Root page={1} pageCount={3} getHref={(p: number) => `?q=${p}`} aria-label="Seiten" />
+      </>,
+    );
+    await Promise.resolve();
+    const hits = warn.mock.calls.flat().filter((c) => typeof c === 'string' && c.includes('duplicate landmark'));
+    expect({ hits: hits.length }).toEqual({ hits: 1 });
+    warn.mockRestore();
   });
 });

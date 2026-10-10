@@ -24,12 +24,13 @@ export type SidebarRootProps = PartProps<'aside'> & {
 };
 
 function SidebarRoot({ appearance = 'sidebar', variant, labels, children, render, ...rest }: SidebarRootProps) {
-  const aside = partElement('aside', {
+  // SURF-26: plain div — the only complementary landmark is Inspector.Root.
+  // No aria-label on the container; labels belong on the Nav landmark inside.
+  const aside = partElement('div', {
     render,
     'data-ag-slot': 'sidebar',
     'data-ag-part': 'sidebar',
     className: 'ag-sidebar',
-    ...(labels?.navigation !== undefined ? { 'aria-label': labels.navigation } : {}),
     'data-ag-appearance': appearance,
     ...rest,
     children,

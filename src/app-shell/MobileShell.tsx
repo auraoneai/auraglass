@@ -17,7 +17,7 @@ export interface MobileShellProps extends Omit<PartProps<'div'>, 'title'> {
 
 export function MobileShell({ topBar, tabBar, children, persistKey, ...rest }: MobileShellProps) {
   return (
-    <AppShell.Root layout="compact" defaultSidebar="collapsed" defaultInspector="closed" persistKey={persistKey} {...rest}>
+    <AppShell.Root layout="mobile" defaultSidebar="collapsed" defaultInspector="closed" persistKey={persistKey} {...rest}>
       {topBar !== undefined ? (
         <TopBar.Root placement="overlay">{topBar}</TopBar.Root>
       ) : null}
