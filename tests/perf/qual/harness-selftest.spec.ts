@@ -14,6 +14,7 @@ import { resolve } from 'node:path';
 import { expect, test, type Page } from '@playwright/test';
 import {
   FIXTURE_IDS, PROFILES, REMOTE_ONLY_MESSAGE, SCHEMA_VERSION, agPerfInit, evaluateFailures, measurePage, validateResults,
+  type Failure, type Measurement,
 } from '../harness/run-perf.mjs';
 
 if (process.env.AG_REMOTE_RUNNER !== '1') throw new Error(REMOTE_ONLY_MESSAGE);
@@ -48,13 +49,18 @@ async function open(page: Page, name: PageName) {
   await page.goto(`${ORIGIN}/${name}`);
 }
 
-async function measure(page: Page, name: PageName) {
+type SelftestResult = Record<string, unknown> & Pick<Measurement, 'windows' | 'gpu' | 'heap' | 'idle' | 'animatedBlur' | 'interaction'> & {
+  subject: string; storyId: string; status: 'pass' | 'fail'; failures: Failure[];
+};
+const collected: SelftestResult[] = [];
+
+async function measure(page: Page, name: PageName): Promise<SelftestResult> {
   await open(page, name);
   const cdp = await page.context().newCDPSession(page);
   const m = await measurePage(page, { profileId: 'c', engine: 'chromium', browser: page.context().browser(), cdp, drive: [], cycle: null });
-  const result = {
+  const result: SelftestResult = {
     subject: `selftest-${name}`, storyId: `perf-selftest--${name.toLowerCase()}`, kind: 'fixture', owner: 'QUAL', profile: 'c', engine: 'chromium',
-    viewport: PROFILES.c.viewport, dpr: 1, refreshHz: 60, tier: 'standard', scene: 'photo', interaction: m.interaction, status: 'pass', failures: [] as Array<{ code: string; detail: string }>,
+    viewport: PROFILES.c.viewport, dpr: 1, refreshHz: 60, tier: 'standard', scene: 'photo', interaction: m.interaction, status: 'pass', failures: [],
     windows: m.windows, gpu: m.gpu, heap: m.heap, idle: m.idle, bytes: null, bytesNote: 'self-test page', delta: null, animatedBlur: m.animatedBlur,
   };
   result.failures = evaluateFailures(result, 'c');
@@ -66,7 +72,6 @@ async function measure(page: Page, name: PageName) {
 /** Failures that mean the harness could not measure (as opposed to a measured budget breach). */
 const measurementFailures = (r: { failures: Array<{ code: string }> }) => r.failures.filter((f) => f.code === 'missing-metric' || f.code === 'zero-frames');
 
-const collected: Array<Awaited<ReturnType<typeof measure>>> = [];
 
 test.describe.configure({ mode: 'serial', timeout: 120_000 });
 /* Runs only in the chromium project of tests/perf/qual/playwright.config.ts: it exercises the trace/CDP path;
