@@ -43,11 +43,24 @@ export const RUNTIME_WARN_KINDS = new Set(['export', 'prop', 'prop-value', 'css-
 export const STREAM_PREFIX = { plat: 'P', mat: 'M', cmp: 'C', surf: 'S', qual: 'Q' };
 
 const idRe = /^DEP-[PMCSQ]\d+$/;
-const semver = (v) => { const m = /^(\d+)\.(\d+)\.(\d+)(?:-[0-9A-Za-z.-]+)?$/.exec(v ?? ''); return m ? [Number(m[1]), Number(m[2]), Number(m[3])] : null; };
+const semverRe = /^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?$/;
+const semver = (v) => { const m = semverRe.exec(v ?? ''); return m ? [Number(m[1]), Number(m[2]), Number(m[3])] : null; };
+/** SemVer 2.0 §11 precedence: a pre-release (4.2.0-pre.0) ranks below its release (4.2.0). */
 export function cmpVersion(a, b) {
-  const x = semver(a); const y = semver(b);
-  if (!x || !y) return NaN;
-  for (let i = 0; i < 3; i += 1) if (x[i] !== y[i]) return x[i] - y[i];
+  const ma = semverRe.exec(a ?? ''); const mb = semverRe.exec(b ?? '');
+  if (!ma || !mb) return NaN;
+  for (let i = 1; i <= 3; i += 1) if (Number(ma[i]) !== Number(mb[i])) return Number(ma[i]) - Number(mb[i]);
+  const pa = ma[4]; const pb = mb[4];
+  if (pa === undefined || pb === undefined) return pa === pb ? 0 : (pa === undefined ? 1 : -1);
+  const xa = pa.split('.'); const xb = pb.split('.');
+  for (let i = 0; i < Math.max(xa.length, xb.length); i += 1) {
+    if (xa[i] === undefined) return -1;
+    if (xb[i] === undefined) return 1;
+    const na = /^\d+$/.test(xa[i]); const nb = /^\d+$/.test(xb[i]);
+    if (na && nb) { if (Number(xa[i]) !== Number(xb[i])) return Number(xa[i]) - Number(xb[i]); continue; }
+    if (na !== nb) return na ? -1 : 1;
+    if (xa[i] !== xb[i]) return xa[i] < xb[i] ? -1 : 1;
+  }
   return 0;
 }
 
