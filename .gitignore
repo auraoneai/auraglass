@@ -8,7 +8,9 @@ lerna-debug.log*
 
 # Build outputs
 dist/
-build/
+# Root build output only: a bare `build/` also matched scripts/build/, which
+# forced scripts/build/api-report.mjs to be force-added (REQ-FIN-32 / #128).
+/build/
 out/
 .next/
 .nuxt/
