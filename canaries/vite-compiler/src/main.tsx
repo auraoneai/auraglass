@@ -3,14 +3,13 @@
 import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import 'aura-glass/styles.css';
-import { Button } from 'aura-glass';
-import { Surface } from 'aura-glass/material';
+import { Button, Surface } from 'aura-glass/material';
 
 function App() {
   const [count, setCount] = useState(0);
   return (
     <Surface>
-      <Button variant="regular" onClick={() => setCount((c) => c + 1)}>
+      <Button variant="solid" onClick={() => setCount((c) => c + 1)}>
         clicks {count}
       </Button>
     </Surface>

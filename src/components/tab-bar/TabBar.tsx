@@ -18,7 +18,9 @@ const TabBarCtx = React.createContext<{
 
 export type TabBarRootProps = PartProps<'nav'> & {
   semantics?: 'navigation' | 'tabs' | undefined;
-  placement?: 'bottom' | 'floating' | undefined;
+  /** bar = flush bottom bar; floating = detached capsule. */
+  appearance?: 'bar' | 'floating' | undefined;
+  placement?: 'bottom' | 'floating' | 'inline' | 'overlay' | undefined;
   /** Collapse labels while scrolling (CSS scroll-timeline; motion calm|none disables). */
   minimizeOnScroll?: boolean | undefined;
   /** Keep Accessory visible while minimized. */
@@ -30,6 +32,7 @@ export type TabBarRootProps = PartProps<'nav'> & {
 
 function TabBarRoot({
   semantics = 'navigation',
+  appearance,
   placement = 'bottom',
   minimizeOnScroll = false,
   accessoryPlacement,
@@ -40,7 +43,7 @@ function TabBarRoot({
   ...rest
 }: TabBarRootProps) {
   const [panels, setPanels] = React.useState<Set<string>>(new Set());
-  const values = React.useMemo(() => new Set<string>(), []);
+  const valuesRef = React.useRef<Set<string>>(new Set());
   const registerPanel = React.useCallback(
     (v: string) => {
       setPanels((prev) => new Set(prev).add(v));
@@ -54,26 +57,25 @@ function TabBarRoot({
     [],
   );
   const ctxValue = React.useMemo(
-    () => ({ semantics, values, registerPanel }),
-    [semantics, values, registerPanel],
+    () => ({ semantics, values: valuesRef.current, registerPanel }),
+    [semantics, registerPanel],
   );
 
   // SURF-069: tabs semantics requires every Item value to have a Panel.
   const registered = React.useRef<Set<string>>(new Set());
   React.useEffect(() => {
     if (semantics !== 'tabs' || process.env['NODE_ENV'] !== 'development') return;
-    const missing = [...values].filter((v) => !panels.has(v));
+    const missing = [...valuesRef.current].filter((v) => !panels.has(v));
     if (missing.length > 0) {
       console.error(
         `[auraglass] TabBar semantics="tabs": no Tabs.Panel registered for value(s) ${missing.join(', ')}.`,
       );
     }
-  }, [semantics, panels, values]);
+  }, [semantics, panels]);
 
   const itemCount = React.useRef(0);
   const items = React.Children.toArray(children).filter(Boolean);
-  React.useEffect(() => {
-    if (process.env['NODE_ENV'] !== 'development') return;
+  if (process.env['NODE_ENV'] === 'development') {
     const n = items.length;
     if (n !== itemCount.current) {
       itemCount.current = n;
@@ -81,7 +83,7 @@ function TabBarRoot({
         console.warn(`[auraglass] TabBar: ${n} items — keep 2..5 visible destinations.`);
       }
     }
-  }, [items.length]);
+  }
 
   if (process.env['NODE_ENV'] === 'development' && semantics === 'navigation' && ariaLabel === undefined) {
     console.warn('[auraglass] TabBar: aria-label is required on navigation tab bars.');
@@ -97,6 +99,7 @@ function TabBarRoot({
     render: render as React.ReactElement | undefined,
     'data-ag-part': 'tab-bar',
     'data-ag-slot': 'tabbar',
+    'data-ag-appearance': appearance ?? (placement === 'floating' ? 'floating' : 'bar'),
     'data-ag-placement': placement,
     'data-ag-semantics': semantics,
     ...(minimizeOnScroll ? { 'data-ag-minimize-on-scroll': '' } : {}),
@@ -109,7 +112,7 @@ function TabBarRoot({
 
   return (
     <TabBarCtx.Provider value={ctxValue}>
-      <SurfaceGroup className="ag-tab-bar" spacing="0">
+      <SurfaceGroup className="ag-tab-bar" spacing="0" {...(refraction ? { refraction: true } : {})}>
         {nav}
         <ScrollEdge edge="bottom" edgeStyle="soft" />
       </SurfaceGroup>

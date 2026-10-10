@@ -10,6 +10,7 @@ export function buildProperties() {
     ['--_ag-optics', '<number>', 'false', '1'],
     ['--_ag-press', '<number>', 'false', '0'],
     ['--_ag-refraction-scale', '<number>', 'false', '1'],
+    ['--_ag-grain-opacity', '<number>', 'false', '0.03'],
     ['--_ag-mat-blur', '<length>', 'false', '0px'],
     ['--_ag-mat-saturation', '<number>', 'false', '1'],
     ['--_ag-mat-tint-alpha', '<number>', 'false', '0'],

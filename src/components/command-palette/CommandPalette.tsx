@@ -53,12 +53,14 @@ export function CommandPalette({
     const onKey = (e: KeyboardEvent) => {
       if (hotkeyMatches(e, hotkey)) {
         e.preventDefault();
-        setOpen(!isOpen);
+        setOpen(!isOpenRef.current);
       }
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [hotkey, setOpen, isOpen]);
+  }, [hotkey, setOpen]);
+  const isOpenRef = React.useRef(isOpen);
+  isOpenRef.current = isOpen;
 
   return (
     <DialogRoot open={isOpen} onOpenChange={setOpen}>

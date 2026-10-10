@@ -57,7 +57,7 @@ const useInternal = () => {
 
 const CREATE_PREFIX = '__ag-create__:';
 
-/** Lazy so the owned windowed list stays out of the base chunk (CMP-185, REQ-CMP-72). */
+/** Lazy so @tanstack/react-virtual stays out of the base chunk (CMP-185). */
 const LazyVirtualList = React.lazy(async () => {
   const m = await import('./ComboboxVirtualList.client');
   return { default: m.ComboboxVirtualList };
