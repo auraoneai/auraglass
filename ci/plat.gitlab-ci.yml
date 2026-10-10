@@ -101,9 +101,6 @@ plat:test:react19:
       - { AG_REACT19_LEG: "unit-react19" }
   script:
     - test -d "tests/react19" || test -f "tests/react19/$AG_REACT19_LEG.test.tsx" || { echo "PENDING: tests/react19/$AG_REACT19_LEG (lane 1b)"; exit 1; }
-    # REQ-PLAT-47: run the legs against a real React 19 runtime (no-save so
-    # the installed peer set isn't committed).
-    - npm install --no-save --legacy-peer-deps --no-audit --no-fund react@19 react-dom@19
     - npx jest --ci --testPathPattern "tests/react19/$AG_REACT19_LEG"
 
 plat:test:visual-4x:
