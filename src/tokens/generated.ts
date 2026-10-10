@@ -91,7 +91,7 @@ export const auraTokens = {
       },
       typography: {
         families: {
-          sans: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          sans: "'Aeonik', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
           mono: "'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace",
         },
         scale: {
