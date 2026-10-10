@@ -97,6 +97,7 @@ function SegmentedControlItem({ value, disabled, title, className, children, ref
       className={cn('ag-segmented-item', className)}
       ref={ref}
     >
+      <span data-ag-part="hit-area" aria-hidden="true" />
       <span data-ag-part="item-label">{children}</span>
     </Radio.Root>
   );

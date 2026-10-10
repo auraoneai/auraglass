@@ -43,7 +43,9 @@ function SliderRoot<V extends number | number[]>({
                   data-ag-part="thumb"
                   aria-label={thumbCount === 1 ? ariaLabel : `${ariaLabel ?? 'value'} ${i + 1}`}
                   aria-labelledby={thumbCount === 1 ? ariaLabelledby : undefined}
-                />
+                >
+                  <span data-ag-part="hit-area" aria-hidden="true" />
+                </Base.Thumb>
               ))}
             </Base.Track>
           </Base.Control>

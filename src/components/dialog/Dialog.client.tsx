@@ -90,6 +90,7 @@ function DialogClose({ children, className, ref, ...rest }: DialogCloseProps) {
       ref={ref}
       {...rest}
     >
+      <span data-ag-part="hit-area" aria-hidden="true" />
       {children ?? '×'}
     </Base.Close>
   );

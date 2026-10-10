@@ -47,9 +47,12 @@ function Header({ headingLevel = 3, className, ref, ...rest }: AccordionHeaderPr
   );
 }
 
-function Trigger({ className, ref, ...rest }: React.ComponentProps<typeof BaseAccordion.Trigger>) {
+function Trigger({ className, children, ref, ...rest }: React.ComponentProps<typeof BaseAccordion.Trigger>) {
   return (
-    <BaseAccordion.Trigger {...rest} ref={ref} data-ag-part="trigger" className={cn('ag-accordion-trigger', className)} />
+    <BaseAccordion.Trigger {...rest} ref={ref} data-ag-part="trigger" className={cn('ag-accordion-trigger', className)}>
+      <span data-ag-part="hit-area" aria-hidden="true" />
+      {children}
+    </BaseAccordion.Trigger>
   );
 }
 

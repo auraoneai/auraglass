@@ -114,7 +114,12 @@ function TabsTab({ value, children, render, ...rest }: TabsTabProps) {
     role: 'tab',
     'data-ag-part': 'tab',
     ...rest,
-    children,
+    children: (
+      <>
+        <span data-ag-part="hit-area" aria-hidden="true" />
+        {children}
+      </>
+    ),
   });
   return (
     <BaseTabs.Tab

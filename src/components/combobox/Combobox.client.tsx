@@ -290,6 +290,7 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
         <ClearGlyph />
       </Base.Clear>
       <Base.Trigger data-ag-part="trigger" tabIndex={-1}>
+        <span data-ag-part="hit-area" aria-hidden="true" />
         <ChevronGlyph />
       </Base.Trigger>
       {loading ? (

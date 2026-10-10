@@ -68,6 +68,7 @@ const MenuTrigger = React.forwardRef<HTMLElement, MenuTriggerProps>(
         {...(delay !== undefined ? { delay } : {})}
         {...rest}
       >
+        <span data-ag-part="hit-area" aria-hidden="true" />
         {children}
       </Base.Trigger>
     );
@@ -142,6 +143,7 @@ const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(
         {...(shortcut !== undefined ? { 'aria-keyshortcuts': shortcut } : {})}
         {...rest}
       >
+        <span data-ag-part="hit-area" aria-hidden="true" />
         <span className="ag-menu-item-label">{children}</span>
         {shortcutKbd(shortcut)}
       </Base.Item>

@@ -64,6 +64,7 @@ function ToggleGroupItem({ value, disabled, className, children, ref }: ToggleGr
       className={cn('ag-toggle-item', className)}
       ref={ref}
     >
+      <span data-ag-part="hit-area" aria-hidden="true" />
       {children}
     </Toggle>
   );

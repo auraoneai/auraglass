@@ -101,7 +101,9 @@ function SelectTrigger({ placeholder, children, className, ref, ...rest }: Selec
           </Base.Icon>
         </>
       )}
-    </Base.Trigger>
+    
+      <span data-ag-part="hit-area" aria-hidden="true" />
+      </Base.Trigger>
   );
 }
 
