@@ -46,6 +46,8 @@ export interface ComboboxRootProps<Value = string> {
   creatable?: ComboboxCreatable;
   onCreate?: (query: string) => void;
   messages?: ControlMessages;
+  /** REQ-CMP-03 ref-as-prop: resolves to the popup element (Base UI Root renders no DOM). */
+  ref?: Ref<HTMLElement> | undefined;
   children?: ReactNode;
 }
 
