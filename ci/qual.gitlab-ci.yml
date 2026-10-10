@@ -37,6 +37,7 @@ qual:test:selftest:
   extends: .ag-node
   stage: test
   allow_failure: true
+  needs: [] # offline, consumes no artifacts: start at once instead of waiting for the build stage
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "nightly")
   script:
