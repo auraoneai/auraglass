@@ -36,8 +36,6 @@ export class PerformanceMonitor {
   private static instance: PerformanceMonitor;
   private metrics: PerformanceMetrics;
   private observers: PerformanceObserver[] = [];
-  private frameCount = 0;
-  private lastTime = 0;
   private config: OptimizationConfig;
   private measurements = new Map<
     string,
@@ -85,9 +83,8 @@ export class PerformanceMonitor {
     // Skip monitoring during SSR
     if (!canUseDOM) return;
 
-    if (this.config.enableFPSMonitoring) {
-      this.startFPSMonitoring();
-    }
+    // REQ-PLAT-59 — no perpetual rAF FPS loop is started here. FPS is
+    // measured on demand through `sampleFPS()` (a bounded window).
 
     if (this.config.enableMemoryMonitoring && "memory" in performance) {
       this.startMemoryMonitoring();
@@ -98,31 +95,44 @@ export class PerformanceMonitor {
     }
   }
 
-  private startFPSMonitoring(): void {
-    const measureFPS = (timestamp: number) => {
-      this.frameCount++;
+  /**
+   * Measure FPS over one bounded window of animation frames, then stop.
+   * Updates `fps`/`frameTime` in `getMetrics()` and resolves with the fps.
+   * Resolves with the last known fps (0 = never measured) during SSR or when
+   * `enableFPSMonitoring` is false. REQ-PLAT-59: replaces the perpetual loop.
+   */
+  sampleFPS(windowMs: number = 1000): Promise<number> {
+    if (!canUseDOM || !this.config.enableFPSMonitoring) {
+      return Promise.resolve(this.metrics.fps);
+    }
 
-      if (this.lastTime === 0) {
-        this.lastTime = timestamp;
+    return new Promise((resolve) => {
+      // Local counters so concurrent samples cannot corrupt each other.
+      let frames = 0;
+      let start = 0;
+
+      const measureFPS = (timestamp: number) => {
+        if (start === 0) {
+          start = timestamp;
+          requestAnimationFrame(measureFPS);
+          return;
+        }
+
+        frames++;
+        const deltaTime = timestamp - start;
+
+        if (deltaTime >= windowMs) {
+          this.metrics.fps = Math.round((frames * 1000) / deltaTime);
+          this.metrics.frameTime = deltaTime / frames;
+          resolve(this.metrics.fps);
+          return;
+        }
+
         requestAnimationFrame(measureFPS);
-        return;
-      }
-
-      const deltaTime = timestamp - this.lastTime;
-
-      if (deltaTime >= 1000) {
-        // Update every second
-        this.metrics.fps = Math.round((this.frameCount * 1000) / deltaTime);
-        this.metrics.frameTime = deltaTime / this.frameCount;
-
-        this.frameCount = 0;
-        this.lastTime = timestamp;
-      }
+      };
 
       requestAnimationFrame(measureFPS);
-    };
-
-    requestAnimationFrame(measureFPS);
+    });
   }
 
   private startMemoryMonitoring(): void {
