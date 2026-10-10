@@ -197,8 +197,24 @@ function diffGate(baseSha) {
     const m = /^registry\/(?:blocks|items)\/([^/]+)\//.exec(p) ?? /^packages\/labs\/src\/([^/]+)\//.exec(p);
     return m ? m[1] : null;
   };
+  // The entry directory of a changed path (registry/<kind>/<id> or packages/labs/src/<id>).
+  const entryDirOf = (p) => {
+    const m = /^(registry\/(?:blocks|items)\/[^/]+)\//.exec(p) ?? /^(packages\/labs\/src\/[^/]+)\//.exec(p);
+    return m ? m[1] : null;
+  };
+  // Only entries that did not exist at the base are "added"; edits to an
+  // existing block/item/labs resident (prop renames etc.) need no ledger row.
+  const existedAtBase = (dir) => {
+    try {
+      execSync(`git cat-file -e ${baseSha}:${dir}`, { cwd: ROOT, stdio: 'ignore' });
+      return true;
+    } catch {
+      return false;
+    }
+  };
   const kebab = (s) => String(s).replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-  const newIds = [...new Set(changed.map(idOf).filter(Boolean))];
+  const addedDirs = [...new Set(changed.map(entryDirOf).filter(Boolean))].filter((d) => !existedAtBase(d));
+  const newIds = [...new Set(addedDirs.map((d) => idOf(`${d}/`)).filter(Boolean))];
   if (newIds.length) {
     let namesInChangedRows = new Set();
     if (ledgerChanged) {
