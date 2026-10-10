@@ -306,7 +306,7 @@ export const createGlassTheme = (
 /* ---------------- 4.x deprecated wrapper (MAT-066/067) ----------------
    createGlassThemeCssVars moved to src/compat/mat/theme.ts (REQ-MAT-15,
    FIN-D D.3-11) and is no longer exported from aura-glass/theme. This
-   re-export only keeps src/theme/index.ts (FIN-A, REQ-FIN-04 / PR #121)
-   compiling until #121 drops its createGlassThemeCssVars re-export; it is
-   removed in the first FIN-D PR after #121 is on next. */
+   re-export only keeps src/theme/index.ts (FIN-A, REQ-FIN-04, GitHub PR 121)
+   compiling until PR 121 drops its createGlassThemeCssVars re-export; it is
+   removed in the first FIN-D PR after PR 121 is on next. */
 export { createGlassThemeCssVars } from "../compat/mat/theme";
