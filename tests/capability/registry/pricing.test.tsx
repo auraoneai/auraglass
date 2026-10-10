@@ -9,6 +9,12 @@ import { createElement } from 'react';
 import type * as BlockModule from '../../../registry/blocks/pricing/index';
 import { pricingProps, pricingPropsDE, pricingPropsJP } from '../../../registry/blocks/pricing/fixtures';
 
+// Registry sources import sibling blocks as `@/registry/<kind>/<id>/...`
+// (shadcn registry convention, REQ-SURF-170). Until the root jest config maps
+// that alias (hand-off: contract C-4 / REQ-FIN-09), alias it here to the real
+// module — jest.requireActual, never a double.
+jest.mock('@/registry/blocks/commerce-cart/format-money', () => jest.requireActual('../../../registry/blocks/commerce-cart/format-money'), { virtual: true });
+
 const PENDING =
   'pricing: aura-glass is unresolvable until CMP lands — render assertions run under tests/capability/jest.doubles.cjs';
 const Block = (() => {

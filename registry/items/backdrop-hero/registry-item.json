@@ -4,7 +4,33 @@
   "type": "registry:item",
   "title": "Backdrop hero",
   "description": "Hero section composed on Backdrop presets (aurora/mesh/grain server-renderable; photo/video consumer-supplied media).",
-  "dependencies": ["react", "aura-glass"],
-  "registryDependencies": [],
-  "files": [{ "path": "index.tsx", "type": "registry:item" }]
+  "dependencies": [
+    "react",
+    "aura-glass"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
+  "files": [
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": false,
+      "components": [
+        "Backdrop"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

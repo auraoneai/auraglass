@@ -4,10 +4,33 @@
   "type": "registry:block",
   "title": "Mobile settings",
   "description": "MobileShell with a bottom TabBar and a settings sheet — one-hand reachable controls at coarse pointers.",
-  "dependencies": ["react"],
-  "registryDependencies": [],
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "block",
+      "client": false,
+      "components": [
+        "MobileShell",
+        "TabBar"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

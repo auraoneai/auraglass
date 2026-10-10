@@ -14,13 +14,17 @@ export interface ModelPickerProps {
   options: readonly ModelOption[];
   value?: string | undefined;
   onValueChange?: ((id: string) => void) | undefined;
+  /** True while the app's models route (see fixtures.ts `loadModels`) is
+   * pending: the trigger and the empty list announce the load instead of
+   * "No models". */
+  loading?: boolean | undefined;
   'aria-label'?: string | undefined;
 }
 
 /** ai-model-picker (SURF-370, REQ-SURF-173): model Combobox grouped by
  * provider, capability Badges and context-window counts. Options come from
  * the app's route that proxies Kiro Prism GET /v1/models — see fixtures.ts. */
-export function ModelPicker({ options, value, onValueChange, 'aria-label': ariaLabel = 'Model' }: ModelPickerProps) {
+export function ModelPicker({ options, value, onValueChange, loading = false, 'aria-label': ariaLabel = 'Model' }: ModelPickerProps) {
   const byProvider = React.useMemo(() => {
     const groups = new Map<string, ModelOption[]>();
     for (const o of options) {
@@ -37,12 +41,13 @@ export function ModelPicker({ options, value, onValueChange, 'aria-label': ariaL
       onValueChange={(v: unknown) => onValueChange?.(String(v))}
       items={items}
     >
-      <Combobox.Input aria-label={ariaLabel} placeholder="Search models" />
+      <Combobox.Input aria-label={ariaLabel} placeholder={loading ? 'Loading models…' : 'Search models'} />
       <Combobox.Trigger aria-label={ariaLabel}>
-        {options.find((o) => o.id === value)?.label ?? 'Select model'}
+        {loading ? <span data-ag-part="model-loading" role="status">Loading models…</span>
+          : options.find((o) => o.id === value)?.label ?? 'Select model'}
       </Combobox.Trigger>
       <Combobox.Content data-ag-part="model-picker">
-        <Combobox.Empty>No models</Combobox.Empty>
+        <Combobox.Empty>{loading ? 'Loading models…' : 'No models'}</Combobox.Empty>
         {Array.from(byProvider.entries()).map(([provider, opts]) => (
           <React.Fragment key={provider}>
             <div role="presentation" data-ag-part="model-provider">{provider}</div>

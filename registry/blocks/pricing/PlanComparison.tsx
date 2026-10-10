@@ -1,7 +1,7 @@
 // registry/blocks/pricing/PlanComparison.tsx — SURF-592 (AC-SURF-26).
 // Feature-matrix comparison: one row per capability, one column per plan,
 // header carries the localized price for the current period.
-import { formatMoney } from '../commerce-cart/format-money';
+import { formatMoney } from '@/registry/blocks/commerce-cart/format-money';
 import type { PricingPlan } from './types';
 
 export interface PlanComparisonProps {
