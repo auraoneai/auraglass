@@ -37,7 +37,11 @@ const VALID_SIDEBAR: readonly string[] = ['expanded', 'rail', 'collapsed'];
 const VALID_INSPECTOR: readonly string[] = ['open', 'closed'];
 
 function deriveMode(width: number, layout: string | null): ShellMode {
-  if (layout && layout !== 'auto') return layout === 'mobile' ? 'compact' : (layout as ShellMode);
+  // SURF-20 contract values: auto|desktop|mobile pin wide/compact modes.
+  if (layout === 'mobile') return 'compact';
+  if (layout === 'desktop') return 'wide';
+  if (layout && layout !== 'auto' && (VALID_MODES as readonly string[]).includes(layout))
+    return layout as ShellMode;
   // width <= 0 means the element is unmeasured (jsdom, display:none) — not a
   // real viewport; fall back to the default desktop mode.
   if (width <= 0) return 'expanded';
@@ -47,13 +51,6 @@ function deriveMode(width: number, layout: string | null): ShellMode {
   return 'expanded';
 }
 
-function motionIsFull(root: HTMLElement): boolean {
-  const carrier = root.closest('[data-ag-motion]');
-  const v =
-    (carrier instanceof HTMLElement ? carrier.dataset['agMotion'] : undefined) ??
-    document.documentElement.dataset['agMotion'];
-  return v === 'full';
-}
 
 function writeCookie(root: HTMLElement, snapshot: ShellSnapshot): void {
   const key = root.dataset['agPersistKey'];
@@ -78,13 +75,8 @@ function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
 }
 
 function transition(root: HTMLElement, next: ShellSnapshot, rec: ShellRecord): void {
-  if (motionIsFull(root)) {
-    root.setAttribute('data-ag-animating', '');
-    const ms = Number.parseFloat(
-      getComputedStyle(root).getPropertyValue('--ag-duration-medium') || '200',
-    );
-    window.setTimeout(() => root.removeAttribute('data-ag-animating'), Number.isFinite(ms) ? ms : 200);
-  }
+  // SURF-24: no animating flag/timer — the optional sidebar slide is pure CSS
+  // gated on [data-ag-motion='full'] in app-shell.css.
   applyState(root, next);
   writeCookie(root, next);
   rec.snapshot = next;

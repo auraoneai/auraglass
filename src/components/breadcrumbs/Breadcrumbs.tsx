@@ -4,6 +4,7 @@
    (SURF-077). */
 
 import * as React from 'react';
+import { LandmarkBeacon } from '../../app-shell/_internal/LandmarkBeacon';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 import { BreadcrumbsOverflow } from './Breadcrumbs.Overflow';
@@ -55,6 +56,7 @@ function BreadcrumbsRoot({
     ...rest,
     children: (
       <ol data-ag-part="list" className="ag-breadcrumbs__list">
+        <LandmarkBeacon role="navigation" name={label} />
         {head}
         {collapse ? (
           <li data-ag-part="item">

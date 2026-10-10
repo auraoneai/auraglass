@@ -12,7 +12,7 @@ describe('MobileShell (SURF-030)', () => {
       </MobileShell>,
     );
     const root = screen.getByTestId('m');
-    expect(root).toHaveAttribute('data-ag-layout', 'compact');
+    expect(root).toHaveAttribute('data-ag-layout', 'mobile');
     expect(root).toHaveAttribute('data-ag-sidebar', 'collapsed');
     expect(root).toHaveAttribute('data-ag-inspector', 'closed');
   });

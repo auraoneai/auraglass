@@ -159,4 +159,9 @@ describe('app-shell.css structure (SURF-011)', () => {
       }
     }
   });
+  it('uses only --ag-* and --_ag-app-shell-* vars (SURF-25)', () => {
+    const vars = new Set([...css.matchAll(/var\((--[a-zA-Z0-9-]+)/g)].map((m) => m[1]));
+    const bad = [...vars].filter((v) => !v.startsWith('--ag-') && !v.startsWith('--_ag-app-shell-'));
+    expect(bad).toEqual([]);
+  });
 });

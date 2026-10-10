@@ -17,12 +17,9 @@ export type AppShellRootProps = PartProps<'div'> & {
   defaultSidebar?: SidebarState | undefined;
   defaultInspector?: InspectorState | undefined;
   sidebarSide?: 'start' | 'end' | undefined;
-  /** 'auto' derives the mode from the shell's own width via container queries. */
-  layout?: 'auto' | 'mobile' | ShellMode | undefined;
-  /** What AppShellSidebarToggle collapses to from expanded (default 'rail'). */
-  collapseTo?: Exclude<SidebarState, 'expanded'> | undefined;
-  density?: 'compact' | 'regular' | 'comfortable' | undefined;
-  backdrop?: 'none' | 'page' | 'region' | undefined;
+  /** 'auto' derives the mode from the shell's own width via container queries;
+      'desktop'/'mobile' pin the wide/compact contract modes (SURF-20). */
+  layout?: 'auto' | 'desktop' | 'mobile' | undefined;
   /** When set, sidebar/inspector persist to an `ag-shell-<key>` cookie. */
   persistKey?: string | undefined;
 };
@@ -32,9 +29,6 @@ function Root({
   defaultInspector = 'closed',
   sidebarSide = 'start',
   layout = 'auto',
-  collapseTo = 'rail',
-  density,
-  backdrop,
   persistKey,
   children,
   render,
@@ -49,9 +43,6 @@ function Root({
     'data-ag-inspector': defaultInspector,
     'data-ag-sidebar-side': sidebarSide,
     'data-ag-layout': layout,
-    'data-ag-collapse-to': collapseTo,
-    ...(density ? { 'data-ag-density': density } : {}),
-    ...(backdrop ? { 'data-ag-backdrop': backdrop } : {}),
     ...(persistKey ? { 'data-ag-persist-key': persistKey } : {}),
     ...rest,
   };

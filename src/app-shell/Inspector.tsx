@@ -4,6 +4,7 @@
    Container modes are CSS-owned (SURF-057). */
 
 import * as React from 'react';
+import { LandmarkBeacon } from './_internal/LandmarkBeacon';
 import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
 import { Surface } from '../material';
@@ -31,7 +32,12 @@ function InspectorRoot({ mode = 'auto', children, render, ...rest }: InspectorRo
         'data-ag-inspector-mode': mode,
         className: 'ag-inspector',
         ...rest,
-        children,
+        children: (
+          <>
+            <LandmarkBeacon role="complementary" name={rest['aria-label'] as string | undefined} />
+            {children}
+          </>
+        ),
       })}
     />
   );

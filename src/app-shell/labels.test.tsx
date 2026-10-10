@@ -10,6 +10,7 @@ import { AppShellInspectorToggle } from './AppShell.InspectorToggle';
 import { TopBar } from './TopBar';
 import { StatusBar } from './StatusBar';
 import { Sidebar } from './Sidebar';
+import { Inspector } from './Inspector';
 
 describe('labels (SURF-096/097)', () => {
   it('sidebar toggle uses default collapse/expand labels', () => {
@@ -53,13 +54,19 @@ describe('labels (SURF-096/097)', () => {
       <>
         <TopBar.Root labels={{ topBar: 'Kopfleiste' }} />
         <StatusBar.Root labels={{ statusBar: 'Statusleiste' }} />
-        <Sidebar.Root labels={{ navigation: 'Hauptnavigation' }} />
+        <Sidebar.Root>
+          <Sidebar.Nav aria-label="Hauptnavigation" />
+        </Sidebar.Root>
+        <Inspector.Root aria-label="Eigenschaften" />
       </>,
     );
     expect(screen.getByRole('banner').getAttribute('aria-label')).toBe('Kopfleiste');
     const status = document.querySelector('[data-ag-part="status-bar"]');
     expect(status?.getAttribute('aria-label')).toBe('Statusleiste');
-    // Sidebar root is the complementary landmark (aside).
-    expect(screen.getByRole('complementary').getAttribute('aria-label')).toBe('Hauptnavigation');
+    // SURF-26: sidebar container is NOT a landmark — the Nav inside is the
+    // labelled navigation, and Inspector.Root is the only complementary.
+    expect(screen.getByRole('navigation', { name: 'Hauptnavigation' })).toBeTruthy();
+    expect(screen.getAllByRole('complementary')).toHaveLength(1);
+    expect(screen.getByRole('complementary').getAttribute('aria-label')).toBe('Eigenschaften');
   });
 });
