@@ -75,6 +75,26 @@ describe('checkEntries: one fixture per rule', () => {
     expect(check([OK])).toEqual([]);
   });
 
+  it('a pre-release line (4.2.0-pre.0) ranks below 4.2.0: planned since 4.2.0 is valid, active is not', () => {
+    const at = (version: string, entry: object): string[] =>
+      esm(`console.log(JSON.stringify(m.checkEntries(${JSON.stringify([entry])}, { ...${CTX}, version: ${JSON.stringify(version)} })));`);
+    expect(at('4.2.0-pre.0', OK)).toEqual([]);
+    expect(at('4.2.0-pre.0', { ...OK, status: 'active' }).join('\n'))
+      .toMatch(/status 'active' but since '4\.2\.0' is later than the line version 4\.2\.0-pre\.0/);
+    expect(at('4.2.0', OK).join('\n'))
+      .toMatch(/status 'planned' but since '4\.2\.0' is not later than the line version 4\.2\.0/);
+  });
+
+  it('cmpVersion follows SemVer pre-release precedence', () => {
+    const r = esm(`console.log(JSON.stringify([
+      m.cmpVersion('4.2.0', '4.2.0-pre.0'), m.cmpVersion('4.2.0-pre.0', '4.2.0'),
+      m.cmpVersion('4.2.0-pre.2', '4.2.0-pre.10'), m.cmpVersion('4.2.0-pre.0', '4.2.0-pre.0'),
+      m.cmpVersion('4.2.0-pre', '4.2.0-pre.0'), m.cmpVersion('4.2.0-1', '4.2.0-alpha'),
+      m.cmpVersion('4.1.1', '4.2.0-pre.0'), m.cmpVersion('x', '4.2.0'),
+    ].map((n) => (Number.isNaN(n) ? 'NaN' : Math.sign(n)))));`);
+    expect(r).toEqual([1, -1, -1, 0, -1, -1, -1, 'NaN']);
+  });
+
   it('exception entries may name subpaths outside ENTRIES', () => {
     expect(check([{ ...OK, entry: './gone', kind: 'subpath', symbol: '*', since: '4.1.1', status: 'active', exception: 'security', evidence: 'CVE-1' }])).toEqual([]);
   });
