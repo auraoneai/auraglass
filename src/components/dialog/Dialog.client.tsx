@@ -179,7 +179,7 @@ function DialogPopup({
       }
     }, 0);
     return () => { ro?.disconnect(); cleanup?.(); };
-  }, [animatingRef, ref, setPopupElement]);
+  }, [animatingRef, ref, rootRef, setPopupElement]);
   return (
     <Base.Popup
       data-ag-part="popup"
