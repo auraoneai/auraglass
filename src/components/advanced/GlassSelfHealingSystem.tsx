@@ -1285,7 +1285,7 @@ export function GlassSelfHealingDashboard({
             : "Open self-healing dashboard"
         }
         aria-expanded={showDashboard}
-        whileHover={prefersReducedMotion ? {} : { scale: 1.02 }}
+        whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
         whileTap={{ scale: 0.95 }}
       >
         <span aria-hidden="true" className="glass-text-lg">
