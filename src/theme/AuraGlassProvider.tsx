@@ -63,6 +63,7 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
 
   const parentPortal = React.useContext(PortalRootContext);
   const outermost = parentPortal === null;
+  const parentRoot = parentPortal?.root ?? null;
 
   const store = React.useMemo<PreferenceStore>(() => createPreferenceStore({
     ...(storage === undefined ? {} : { storage }),
@@ -97,10 +98,13 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
       };
     }
     const el = wrapperRef.current;
-    if (el) store.setTarget(el);
+    /* REQ-MAT-56: portaled overlays render under the shared portal root, not
+       under this wrapper, so the nested store mirrors its resolved scheme and
+       transparency onto that root (the outer root inherits from <html>). */
+    if (el) store.setTarget(parentRoot ? [el, parentRoot] : el);
     return () => store.setTarget(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [outermost, store, doc]);
+  }, [outermost, store, doc, parentRoot]);
 
   const mounts = useProviderMounts();
 
