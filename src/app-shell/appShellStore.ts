@@ -58,10 +58,12 @@ function motionIsFull(root: HTMLElement): boolean {
 function writeCookie(root: HTMLElement, snapshot: ShellSnapshot): void {
   const key = root.dataset['agPersistKey'];
   if (!key) return;
-  const state: AppShellCookie = {};
-  if (snapshot.sidebar !== 'expanded') state.sidebar = snapshot.sidebar;
-  if (snapshot.inspector !== 'closed') state.inspector = snapshot.inspector;
-  const pair = serializeAppShellCookie(key, state);
+  // SURF-21: always write both keys so the cookie is a complete snapshot —
+  // a missing key no longer means "default" against a stale write.
+  const pair = serializeAppShellCookie(key, {
+    sidebar: snapshot.sidebar,
+    inspector: snapshot.inspector,
+  });
   if (typeof document !== 'undefined') document.cookie = pair;
 }
 
@@ -122,18 +124,9 @@ function recordFor(root: HTMLElement): ShellRecord {
   let inspector: InspectorState = VALID_INSPECTOR.includes(inspectorAttr ?? '')
     ? (inspectorAttr as InspectorState)
     : 'closed';
-  const key = root.dataset['agPersistKey'];
-  if (key && typeof document !== 'undefined') {
-    const raw = document.cookie
-      .split(';')
-      .map((c) => c.trim())
-      .find((c) => c.startsWith(`ag-shell-${key}=`));
-    if (raw) {
-      const persisted = parseAppShellCookie(raw.slice(`ag-shell-${key}=`.length));
-      if (persisted.sidebar) sidebar = persisted.sidebar;
-      if (persisted.inspector) inspector = persisted.inspector;
-    }
-  }
+  // SURF-21: no cookie reads on the render path. The persisted values are
+  // applied once by the first subscriber (an effect-time call in
+  // useSyncExternalStore's subscribe) via hydrateFromCookie below.
   rec = {
     snapshot: { sidebar, inspector, mode: deriveMode(root.offsetWidth, root.dataset['agLayout'] ?? 'auto') },
     listeners: new Set(),
@@ -171,9 +164,25 @@ export function getServerSnapshot(root: HTMLElement): ShellSnapshot {
 }
 const VALID_MODES: readonly string[] = ['compact', 'medium', 'expanded', 'wide'];
 
+/** Read the persisted cookie once and apply it (effect-time, never render). */
+function hydrateFromCookie(root: HTMLElement): void {
+  const key = root.dataset['agPersistKey'];
+  if (!key || typeof document === 'undefined') return;
+  const raw = document.cookie
+    .split(';')
+    .map((c) => c.trim())
+    .find((c) => c.startsWith(`ag-shell-${key}=`));
+  if (!raw) return;
+  const persisted = parseAppShellCookie(raw.slice(`ag-shell-${key}=`.length));
+  if (persisted.sidebar) setSidebar(root, persisted.sidebar);
+  if (persisted.inspector) setInspector(root, persisted.inspector);
+}
+
 export function subscribe(root: HTMLElement, cb: () => void): () => void {
   const rec = recordFor(root);
+  const first = rec.listeners.size === 0;
   rec.listeners.add(cb);
+  if (first) hydrateFromCookie(root);
   return () => {
     rec.listeners.delete(cb);
     if (rec.listeners.size === 0) sharedObserver?.unobserve(root);
