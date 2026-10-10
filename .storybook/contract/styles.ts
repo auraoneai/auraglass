@@ -4,7 +4,7 @@
    glob); outside cert mode it loads the self-layered source sheets for fast iteration. Cert mode also
    neutralises every harness ancestor between <body> and [data-ag-story-content] so only the
    Environment (or the <body> background for body-painted scenes) paints the scene. */
-import { BUILT_SHEETS, SOURCE_SHEETS } from './sheets';
+import { BUILT_SHEETS, DIST_BUILD, SOURCE_SHEETS } from './sheets';
 
 export const CERT_PARAM = 'ag-cert';
 export const BUILT_SHEET = '../../dist/styles.css';
@@ -48,10 +48,11 @@ function installCertStyle(doc: Document): void {
 
 let loaded: Promise<void> | null = null;
 
-/** Loads the mode's sheets once per preview iframe; used as the preview's single loader. */
-export function loadStoryStyles(cert: boolean = isCertMode()): Promise<void> {
+/** Loads the mode's sheets once per preview iframe; used as the preview's single loader.
+    The AG_STORYBOOK_DIST=1 build (REQ-QUAL-56) always loads the built sheet; cert mode additionally neutralises ancestors. */
+export function loadStoryStyles(cert: boolean = isCertMode(), distBuild: boolean = DIST_BUILD === true): Promise<void> {
   if (!loaded) {
-    const sheets = selectSheets(cert, BUILT_SHEETS, SOURCE_SHEETS);
+    const sheets = selectSheets(cert || distBuild, BUILT_SHEETS, SOURCE_SHEETS);
     if (cert && typeof document !== 'undefined') installCertStyle(document);
     loaded = Promise.all(sheets.map(([, load]) => load())).then(() => undefined);
   }
