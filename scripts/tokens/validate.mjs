@@ -248,7 +248,9 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const args = process.argv.slice(2);
   const schemaIdx = args.indexOf('--schema');
   const schemaPath = schemaIdx >= 0 ? args[schemaIdx + 1] : join(ROOT, 'tokens', '$schema.json');
-  const files = args.filter((a, i) => !a.startsWith('--') && i !== schemaIdx + 1);
+  // the --schema value is not a token file; without --schema every positional is one
+  // (schemaIdx -1 must not drop args[0])
+  const files = args.filter((a, i) => !a.startsWith('--') && (schemaIdx < 0 || i !== schemaIdx + 1));
   const targets = files.length ? files : discoverTokenFiles();
   const schema = loadSchema(schemaPath);
   let failed = false;
