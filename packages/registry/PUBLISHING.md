@@ -11,11 +11,21 @@ never commit them (they are git-ignored until packed).
   project 87152036, release tag, OIDC `id_tokens`). No npm access-token
   env vars are stored in this repo; publishing uses OIDC provenance
   from the release workflow (`publishConfig.provenance`).
-- **Dist tags** follow the package policy: `next` for `5.0.0-alpha.*` and
-  `5.0.0-beta.*`, `rc` for `5.0.0-rc.*`, `latest` for `v5.x.y`.
+- **Dist tags** come from `scripts/release/dist-tag.mjs`: `next` for every
+  pre-release (`5.0.0-alpha.*`, `-beta.*`, `-rc.*`), `latest` for `v5.x.y`.
 - **Contents.** Only items whose `meta.auraglass.certified` equals the release
   SHA are packed. On a `v5.x.y` tag the build fails when a GA item is omitted,
   so a published tarball can never contain uncertified items.
 - **Version** is stamped by the release pipeline to the line version
   (`npm version --no-git-tag-version` in CI); the committed value is the
   current alpha placeholder.
+
+## Trusted publishing (OD-10)
+
+- Provider GitLab CI/CD; namespace `chahal-foundation-group/github-auraoneai`;
+  project `auraglass`; file `.gitlab-ci.yml`; environment `npm-publish`.
+- Status and date: the `@auraglass/registry` row of
+  `docs/release/trusted-publishers.md` (owner-filled). Until it is
+  `configured` the publish fails closed; the name does not exist on npm yet,
+  so the first-publish choice recorded there applies (D-23 fallback
+  `aura-glass-registry`).

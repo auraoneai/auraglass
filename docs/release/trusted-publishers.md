@@ -1,26 +1,51 @@
-# npm trusted publishers (REQ-PLAT-15, OD-2/OD-10)
+# npm trusted publishers (REQ-PLAT-15, OD-2 / OD-10)
 
-One row per published package. Provider = GitLab CI OIDC; namespace
-`chahal-foundation-group/github-auraoneai`; project `auraglass` (project id
-87152036); job file `.gitlab-ci.yml` include `ci/plat.gitlab-ci.yml`; job
-`plat:publish:npm`; GitLab environment `npm-publish`.
+One row per package that `contracts/packages.json` marks `published: true`.
+`plat:publish:npm` (in `ci/plat.gitlab-ci.yml`, included by `.gitlab-ci.yml`)
+publishes only with OIDC (`NPM_ID_TOKEN`, `--provenance`); there is no token
+fallback, so a package whose row is not `configured` fails closed at
+`npm publish`. Decision context: `docs/release/decisions/npm-trusted-publishing.md`;
+scope and fallback names: `docs/release/decisions/npm-scope.md`.
+
+The `status` and `date` cells are owner-filled: the owner configures the
+publisher on npmjs.com and then sets `status` to `configured` with the date.
+The agent never changes them.
 
 | package | provider | namespace | project | file | environment | status | date |
 |---|---|---|---|---|---|---|---|
-| `aura-glass` | gitlab-ci | chahal-foundation-group/github-auraoneai | auraglass (87152036) | ci/plat.gitlab-ci.yml:plat:publish:npm | npm-publish | **missing — OD-10** | — |
-| `@auraglass/cli` | gitlab-ci | chahal-foundation-group/github-auraoneai | auraglass (87152036) | ci/plat.gitlab-ci.yml:plat:publish:npm | npm-publish | **missing — OD-10** | — |
-| `@auraglass/registry` | gitlab-ci | chahal-foundation-group/github-auraoneai | auraglass (87152036) | ci/plat.gitlab-ci.yml:plat:publish:npm | npm-publish | **missing — OD-10** | — |
-| `@auraglass/mcp` | gitlab-ci | chahal-foundation-group/github-auraoneai | auraglass (87152036) | ci/plat.gitlab-ci.yml:plat:publish:npm | npm-publish | **missing — OD-10** | — |
-| `@auraglass/labs` | gitlab-ci | chahal-foundation-group/github-auraoneai | auraglass (87152036) | ci/plat.gitlab-ci.yml:plat:publish:npm | npm-publish | **missing — OD-10** | — |
+| `aura-glass` | GitLab CI/CD | `chahal-foundation-group/github-auraoneai` | `auraglass` | `.gitlab-ci.yml` | `npm-publish` | missing | — |
+| `@auraglass/cli` | GitLab CI/CD | `chahal-foundation-group/github-auraoneai` | `auraglass` | `.gitlab-ci.yml` | `npm-publish` | missing | — |
+| `@auraglass/registry` | GitLab CI/CD | `chahal-foundation-group/github-auraoneai` | `auraglass` | `.gitlab-ci.yml` | `npm-publish` | missing | — |
+| `@auraglass/mcp` | GitLab CI/CD | `chahal-foundation-group/github-auraoneai` | `auraglass` | `.gitlab-ci.yml` | `npm-publish` | missing | — |
+| `@auraglass/labs` | GitLab CI/CD | `chahal-foundation-group/github-auraoneai` | `auraglass` | `.gitlab-ci.yml` | `npm-publish` | missing | — |
 
-## First-publish procedure (per package)
+GitLab project id: `87152036`. Job: `plat:publish:npm`. npm checks the
+top-level pipeline file (`.gitlab-ci.yml`), not the included fragment.
 
-1. npmjs.com → package settings → trusted publishing → GitLab CI:
-   provider `gitlab`, namespace `chahal-foundation-group/github-auraoneai`,
-   project `auraglass`, file `ci/plat.gitlab-ci.yml`, job `plat:publish:npm`,
-   environment `npm-publish`.
-2. Package must already exist on npm (first publish of a *new* name is manual:
-   owner runs `npm publish --access public --provenance` once with an owner
-   token, then configures trusted publishing, then all further publishes are
-   CI-only via `require-ci-publish.js`).
-3. Flip the row status to `configured` + date.
+## Configuring a publisher (owner, npmjs.com)
+
+For each row: npmjs.com → the package → Settings → Trusted publishing →
+GitLab CI/CD, with namespace, project, file and environment exactly as in the
+row. Then set the row's `status` to `configured` and `date` to the day of the
+change, in a PR on `next` (and the same row on `release/4.x` for packages that
+publish from there).
+
+## First publish of a name that does not exist on npm yet (owner chooses, OD-2 / OD-10)
+
+npm can attach a trusted publisher only to an existing package. `aura-glass`
+exists; `@auraglass/cli`, `@auraglass/registry`, `@auraglass/mcp` and
+`@auraglass/labs` do not. The owner records one of these choices per package
+in `docs/release/decisions/od-10.md` before the first tag that ships it:
+
+1. **Placeholder publish by the owner.** The owner creates the `@auraglass`
+   npm org (OD-2), publishes a `0.0.0` placeholder of the name from an owner
+   account with 2FA, configures the trusted publisher, then deprecates the
+   placeholder. Every later version is published only by `plat:publish:npm`.
+2. **Unscoped fallback.** If the `@auraglass` scope cannot be secured, the
+   package ships under its `fallback` name from `contracts/packages.json`
+   (`aura-glass-cli`, `aura-glass-registry`, `aura-glass-mcp`,
+   `aura-glass-labs`), with the same placeholder step for that name. Never
+   publish both names.
+
+Until a choice is recorded, the package's row stays `missing` and its publish
+fails closed.

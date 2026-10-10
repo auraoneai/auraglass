@@ -8,8 +8,9 @@ REQ-PLAT-15/62/84. This package publishes as `@auraglass/cli` (name from
 
 - Provider: GitLab CI/CD; namespace `chahal-foundation-group/github-auraoneai`;
   project `auraglass`; pipeline file `.gitlab-ci.yml`; environment `npm-publish`.
-- Status: **pending owner configuration** — the owner registers the npm trusted
-  publisher for this package. Until configured, the publish step **fails
+- Status: **pending owner configuration** (row `@auraglass/cli` in
+  `docs/release/trusted-publishers.md`, owner-filled status and date) — the
+  owner registers the npm trusted publisher for this package. Until configured, the publish step **fails
   closed** (no token fallback; `prepublishOnly` runs
   `scripts/ci/require-ci-publish.js`, which refuses non-CI publishes).
 - Operator action required: configure the npm trusted publisher entry for

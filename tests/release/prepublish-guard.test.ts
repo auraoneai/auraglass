@@ -44,11 +44,29 @@ describe('REQ-FIN-31 guard hardening', () => {
     expect(run({ GITLAB_CI: 'true', CI_PROJECT_ID: '87152036', CI_JOB_NAME: 'plat:publish:npm',
       CI_COMMIT_TAG: undefined as any, NPM_ID_TOKEN: 'x' })).toBe(1);
   });
-  it('prepublishOnly guard is FIRST in every published package', () => {
-    for (const pkg of ['cli', 'registry', 'mcp', 'labs']) {
-      const d = JSON.parse(require('node:fs').readFileSync(`packages/${pkg}/package.json`, 'utf8'));
-      expect({ pkg, first: (d.scripts?.prepublishOnly ?? '').split('&&')[0].trim() })
-        .toEqual({ pkg, first: 'node ../../scripts/ci/require-ci-publish.js' });
+  it('prepublishOnly runs the guard FIRST, at an existing path, in every PLAT-published package', () => {
+    // Package set from contracts/packages.json; `@auraglass/labs` is SURF-owned
+    // (contract F02) and its guard is asserted by REQ-FIN-87's labs tests.
+    const { readFileSync, existsSync } = require('node:fs');
+    const { join, resolve } = require('node:path');
+    const contract = JSON.parse(readFileSync('contracts/packages.json', 'utf8'));
+    const rows = Object.entries(contract.packages as Record<string, any>)
+      .filter(([, p]) => p.published === true && p.owner === 'PLAT' && existsSync(join(p.dir, 'package.json')));
+    expect(rows.map(([n]) => n).sort()).toEqual(['@auraglass/cli', '@auraglass/mcp', '@auraglass/registry', 'aura-glass']);
+    for (const [name, p] of rows) {
+      const d = JSON.parse(readFileSync(join(p.dir, 'package.json'), 'utf8'));
+      const first = (d.scripts?.prepublishOnly ?? '').split('&&')[0].trim();
+      const m = /^node (\S+require-ci-publish\.js)$/.exec(first);
+      expect({ name, first, guard: m ? existsSync(resolve(p.dir, m[1])) : false })
+        .toEqual({ name, first, guard: true });
     }
+  });
+  it('root prepublishOnly = guard && prepublish:verify (REQ-PLAT-38 split)', () => {
+    const d = JSON.parse(require('node:fs').readFileSync('package.json', 'utf8'));
+    expect(d.scripts.prepublishOnly).toBe('node scripts/ci/require-ci-publish.js && npm run prepublish:verify');
+    expect(d.scripts['prepublish:verify']).toMatch(/^npm run build && npm run pack:verify && /);
+    expect(d.scripts['prepublish:verify']).not.toContain('require-ci-publish');
+    expect(d.scripts.release).toBeUndefined();
+    expect(d.scripts['release:dry-run']).toBeUndefined();
   });
 });
