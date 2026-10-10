@@ -1,17 +1,21 @@
 /* @jest-environment node */
 /* REQ-CMP-09: every CMP-owned component CSS file obeys the layer
    contract — LAYER_ORDER_STATEMENT first, exactly one @layer ag.components
-   block, no :root, no element selectors, only PUBLIC_CSS_VARS / MOTION_CSS_VARS
-   or --_ag-<component>-* names, and every file declared in fragments/css. */
+   block, no :root, no element selectors, only PUBLIC_CSS_VARS / MOTION_CSS_VARS,
+   names the MAT token compiler emits (src/tokens/generated/manifest.ts, e.g.
+   the --ag-comp-control-height-* comp tier, REQ-FIN-11) or --_ag-* private
+   names, and every file declared in fragments/css. */
 import { describe, expect, it } from '@jest/globals';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { LAYER_ORDER_STATEMENT, PUBLIC_CSS_VARS } from '../../src/contracts/tokens';
 import { MOTION_CSS_VARS } from '../../src/contracts/motion';
+import { manifest } from '../../src/tokens/generated/manifest';
 
 const PUBLIC = new Set([
   ...Object.values(PUBLIC_CSS_VARS).flatMap((v) => v as readonly string[]),
   ...MOTION_CSS_VARS,
+  ...manifest.tokens.map((t) => t.cssVar),
 ]);
 const BU_RUNTIME = new Set([
   '--available-height', '--available-width', '--transform-origin',
