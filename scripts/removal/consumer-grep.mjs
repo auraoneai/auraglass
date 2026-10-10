@@ -148,6 +148,11 @@ export function main(argv = process.argv.slice(2)) {
       : undefined,
   };
   if (argv.includes('--write')) {
+    // Keep the removal commit pointer (revert-dry-run.mjs reads it) on rewrite.
+    if (existsSync(recordPath)) {
+      const prev = JSON.parse(readFileSync(recordPath, 'utf8'));
+      for (const k of ['mergeSha', 'sha']) if (prev[k]) record[k] = prev[k];
+    }
     mkdirSync(dirname(recordPath), { recursive: true });
     writeFileSync(recordPath, JSON.stringify(record, null, 2));
     console.log(`consumer-grep ${family}: wrote ${recordPath} (${names.length} names, status=${record.status})`);

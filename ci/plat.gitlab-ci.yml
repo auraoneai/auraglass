@@ -191,6 +191,7 @@ plat:gate:removal:
   extends: .plat-node
   stage: test
   allow_failure: true
+  variables: { GIT_DEPTH: "0" } # revert-dry-run needs the RM-<nn> commits
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   script:

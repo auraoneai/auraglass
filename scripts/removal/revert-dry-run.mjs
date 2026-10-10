@@ -5,7 +5,7 @@
    removal commit is cleanly reversible. Usage:
      node scripts/removal/revert-dry-run.mjs [--family RM-02] [--skip-tests] */
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -34,12 +34,29 @@ for (const fam of families) {
   const wt = mkdtempSync(join(tmpdir(), `ag-rm-revert-${fam}-`));
   try {
     git(['worktree', 'add', '--detach', wt, 'HEAD']);
+    // The scratch worktree has no node_modules; share the checkout's install.
+    if (existsSync(join(ROOT, 'node_modules')) && !existsSync(join(wt, 'node_modules')))
+      symlinkSync(join(ROOT, 'node_modules'), join(wt, 'node_modules'), 'dir');
     let ok = true;
     try {
-      execFileSync('git', ['revert', '--no-commit', sha], { cwd: wt, stdio: ['pipe', 'pipe', 'pipe'] });
+      // Directory-rename detection would relocate restored files into later
+      // renamed dirs (e.g. legacy/src/tokens -> tokens/legacy/src); a revert
+      // restores files at their original paths.
+      execFileSync('git', ['-c', 'merge.directoryRenames=false', 'revert', '--no-commit', sha],
+        { cwd: wt, stdio: ['pipe', 'pipe', 'pipe'] });
     } catch (e) {
-      console.error(`${fam}: revert --no-commit ${sha} conflicts — ${String(e.stderr ?? e.message).split('\n')[0]}`);
-      ok = false;
+      // The family's own consumer-grep record (docs/release/decisions/removals/)
+      // is evidence written after the removal, not removed code: keep HEAD's copy.
+      const unmerged = execFileSync('git', ['diff', '--name-only', '--diff-filter=U'], { cwd: wt, encoding: 'utf8' })
+        .split('\n').filter(Boolean);
+      const recordOnly = unmerged.length > 0 && unmerged.every((f) => f.startsWith('docs/release/decisions/removals/'));
+      if (recordOnly) {
+        execFileSync('git', ['checkout', 'HEAD', '--', ...unmerged], { cwd: wt });
+        execFileSync('git', ['add', '--', ...unmerged], { cwd: wt });
+      } else {
+        console.error(`${fam}: revert --no-commit ${sha} conflicts — ${String(e.stderr ?? e.message).split('\n')[0]}${unmerged.length ? ` [${unmerged.join(', ')}]` : ''}`);
+        ok = false;
+      }
     }
     if (ok && !SKIP_TESTS && existsSync(join(wt, 'tests/removal'))) {
       try {
