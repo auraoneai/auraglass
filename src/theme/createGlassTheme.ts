@@ -1,4 +1,4 @@
-/* @ag-contract-seed: S-21. Owner MAT. createGlassTheme redesign (MAT-064).
+/* MAT-064 createGlassTheme redesign (seed marker retired — implementation is real).
    Pure: no 'use client', no DOM access. Colors enter through parseColor. */
 
 import {

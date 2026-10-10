@@ -68,11 +68,15 @@ const ADAPTERS: Row[] = [
 describe('W1 compat adapters (SURF-122)', () => {
   for (const { name, C, props } of ADAPTERS) {
     it(`${name} renders and warns exactly once`, () => {
+      // warnDeprecated names the adapter as a bare word (no quotes) when it has
+      // no generated DEP row; match the whole identifier so GlassTabBar does
+      // not match LiquidGlassTabBar.
+      const names = (c: unknown[]) => new RegExp(`(^|[^A-Za-z])${name}([^A-Za-z]|$)`).test(String(c[0]));
       render(<C {...props} />);
-      const calls = warn.mock.calls.filter((c) => String(c[0]).includes(`'${name}'`));
+      const calls = warn.mock.calls.filter(names);
       expect(calls.length).toBe(1);
       render(<C {...props} />);
-      const after = warn.mock.calls.filter((c) => String(c[0]).includes(`'${name}'`));
+      const after = warn.mock.calls.filter(names);
       expect(after.length).toBe(1);
     });
   }
