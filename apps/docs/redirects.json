@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated": "apps/docs/out/_redirects by plat:build:docs",
+  "generated": "apps/docs/public/_redirects by scripts/docs/gen-redirects.mjs",
   "redirects": [
     {
       "from": "/app-shell",
@@ -239,7 +239,7 @@
     },
     {
       "from": "/components/06-navigation/glass-header",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-s0635",
       "status": 301
     },
     {
@@ -259,7 +259,7 @@
     },
     {
       "from": "/components/06-navigation/glass-navigation",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-s0633",
       "status": 301
     },
     {
@@ -2119,7 +2119,7 @@
     },
     {
       "from": "/components/core/glass-header",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-s0635",
       "status": 301
     },
     {
@@ -2170,11 +2170,6 @@
     {
       "from": "/components",
       "to": "/components/",
-      "status": 301
-    },
-    {
-      "from": "/guides/component-standards",
-      "to": "/plat/migrate/5",
       "status": 301
     },
     {
@@ -2274,7 +2269,7 @@
     },
     {
       "from": "/v4/*",
-      "to": "https://auraoneai.github.io/auraglass-4x/:splat",
+      "to": "https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass-v4/:splat",
       "status": 301
     }
   ]

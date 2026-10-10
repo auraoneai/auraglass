@@ -1,6 +1,9 @@
 #!/usr/bin/env node
-/* gen-redirects.mjs — PLAT-399 / REQ-PLAT-83. Generates apps/docs/redirects.json
-   and the _redirects text emitted into public/ by scripts/ci/assemble-pages.mjs.
+/* gen-redirects.mjs — PLAT-399 / REQ-PLAT-83 / REQ-FIN-39. Generates the
+   committed apps/docs/redirects.json and apps/docs/public/_redirects. The docs
+   build (next export) ships public/_redirects in apps/docs/out, and FIN-B's
+   scripts/ci/assemble-pages.mjs copies it to the Pages root.
+   Usage: node scripts/docs/gen-redirects.mjs [--check] [--emit]
 
    Sources of rules:
      1. base wildcard rules (kept 4.x URL shapes -> new site sections)
@@ -14,7 +17,11 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const RM13 = '4842edc5e';
-export const V4_ORIGIN = process.env.AG_V4_PAGES_ORIGIN ?? 'https://auraoneai.github.io/auraglass-4x';
+/* Same release/4.x Pages origin as the assemble-pages.mjs placeholder. */
+export const V4_ORIGIN = process.env.AG_V4_PAGES_ORIGIN
+  ?? 'https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass-v4';
+export const REDIRECTS_JSON = 'apps/docs/redirects.json';
+export const REDIRECTS_FILE = 'apps/docs/public/_redirects';
 
 const BASE_RULES = [
   { from: '/docs', to: '/plat/introduction', status: 301 },
@@ -49,7 +56,12 @@ const familyTarget = (p) => (FAMILY_TARGET.find(([re]) => re.test(p)) ?? [null, 
 export const urlOf = (docsPath) => '/' + docsPath.replace(/^docs\//, '').replace(/\.md$/, '').replace(/\/readme$/, '');
 
 export function rm13Paths(root = ROOT) {
-  const out = execFileSync('git', ['show', '--name-only', '--pretty=format:', RM13, '--', 'docs'],
+  try {
+    execFileSync('git', ['cat-file', '-e', `${RM13}^{commit}`], { cwd: root, stdio: 'ignore' });
+  } catch {
+    throw new Error(`gen-redirects: commit ${RM13} (RM-13) is not in this clone; fetch full history (GIT_DEPTH=0)`);
+  }
+  const out = execFileSync('git', ['show', '--name-only', '--diff-filter=D', '--pretty=format:', RM13, '--', 'docs'],
     { cwd: root, encoding: 'utf8' });
   return out.split('\n').map((l) => l.trim()).filter((l) => l.startsWith('docs/'));
 }
@@ -104,12 +116,29 @@ export async function generate(root = ROOT) {
   return emitRedirects(rules);
 }
 
-export async function main() {
-  const rules = await buildRedirects();
-  mkdirSync(join(ROOT, 'apps/docs'), { recursive: true });
-  writeFileSync(join(ROOT, 'apps/docs/redirects.json'),
-    JSON.stringify({ version: 2, generated: 'apps/docs/out/_redirects by plat:build:docs', redirects: rules }, null, 2) + '\n');
-  console.log(`redirects.json: ${rules.length} rules`);
-  if (process.argv.includes('--emit')) process.stdout.write(emitRedirects(rules));
+export function renderJson(rules) {
+  return JSON.stringify({ version: 2, generated: `${REDIRECTS_FILE} by scripts/docs/gen-redirects.mjs`, redirects: rules }, null, 2) + '\n';
 }
-if (process.argv[1]?.endsWith('gen-redirects.mjs')) await main();
+
+export async function main(argv = process.argv.slice(2)) {
+  const rules = await buildRedirects();
+  const outputs = [[REDIRECTS_JSON, renderJson(rules)], [REDIRECTS_FILE, emitRedirects(rules)]];
+  if (argv.includes('--check')) {
+    const stale = outputs.filter(([f, text]) => !existsSync(join(ROOT, f)) || readFileSync(join(ROOT, f), 'utf8') !== text);
+    if (stale.length) {
+      console.error(`gen-redirects: stale ${stale.map(([f]) => f).join(', ')}; run node scripts/docs/gen-redirects.mjs`);
+      process.exit(1);
+    }
+    console.log(`gen-redirects: ${rules.length} rules, outputs fresh`);
+    return;
+  }
+  for (const [f, text] of outputs) {
+    mkdirSync(dirname(join(ROOT, f)), { recursive: true });
+    writeFileSync(join(ROOT, f), text);
+  }
+  console.log(`gen-redirects: ${rules.length} rules -> ${REDIRECTS_JSON}, ${REDIRECTS_FILE}`);
+  if (argv.includes('--emit')) process.stdout.write(emitRedirects(rules));
+}
+if (process.argv[1]?.endsWith('gen-redirects.mjs')) {
+  main().catch((err) => { console.error(err.message ?? err); process.exit(1); });
+}
