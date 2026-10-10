@@ -1,7 +1,7 @@
 /* REQ-MAT-62 target size (MAT-301) — [data-ag-part="hit-area"] is a real
    <span> (deviation 4, see HitArea.tsx): absolutely centred, never shrinks the
    pointer target below --ag-target-min (24px fine) / --ag-target-coarse (44px
-   coarse). [data-ag-hit-clamp] limits extension to half of --ag-hit-gap so
+   coarse). [data-ag-hit-clamp] limits extension to half of --_ag-hit-gap so
    neighbouring targets never overlap. */
 @layer ag.a11y {
   [data-ag-part="hit-area"] {
@@ -26,15 +26,15 @@
     inset-inline-start: auto;
     inset-inline-end: 0;
     translate: 0 -50%;
-    inline-size: min(max(100%, var(--ag-target-min, 24px)), calc(100% + var(--ag-hit-gap, 0px) / 2));
+    inline-size: min(max(100%, var(--ag-target-min, 24px)), calc(100% + var(--_ag-hit-gap, 0px) / 2));
   }
   [data-ag-hit-clamp="end"] [data-ag-part="hit-area"] {
     inset-inline-start: 0;
     translate: 0 -50%;
-    inline-size: min(max(100%, var(--ag-target-min, 24px)), calc(100% + var(--ag-hit-gap, 0px) / 2));
+    inline-size: min(max(100%, var(--ag-target-min, 24px)), calc(100% + var(--_ag-hit-gap, 0px) / 2));
   }
   [data-ag-hit-clamp="both"] [data-ag-part="hit-area"] {
-    inline-size: min(max(100%, var(--ag-target-min, 24px)), calc(100% + var(--ag-hit-gap, 0px)));
+    inline-size: min(max(100%, var(--ag-target-min, 24px)), calc(100% + var(--_ag-hit-gap, 0px)));
   }
   [data-ag-debug-targets] [data-ag-part="hit-area"] {
     outline: 1px dashed var(--ag-color-focus-outer, Highlight);

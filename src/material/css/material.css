@@ -11,10 +11,10 @@
   .ag-surface {
     position: relative;
     isolation: isolate;
-    border-radius: var(--ag-surface-radius, var(--ag-radius-md));
+    border-radius: var(--_ag-surface-radius, var(--ag-radius-md));
     color: var(--ag-on-surface, var(--ag-color-on-surface));
     background: var(--_ag-fill, transparent);
-    box-shadow: var(--_ag-shadow, none);
+    box-shadow: var(--_ag-surface-shadow, var(--_ag-shadow, none));
 
     /* private scalars (registered with inherits:false in properties.css) */
     --_ag-blur: 0px;
@@ -40,10 +40,10 @@
     --_ag-rim-shade: oklch(0% 0 0 / 0.12);
 
     /* public read-outs (REQ-MAT-29) */
-    --ag-surface-fill: var(--_ag-fill);
-    --ag-surface-rim: var(--_ag-rim-light);
-    --ag-surface-shadow: var(--_ag-shadow);
-    --ag-surface-radius: var(--ag-radius-outer, var(--ag-radius-md));
+    --_ag-surface-fill: var(--_ag-fill);
+    --_ag-surface-rim: var(--_ag-rim-light);
+    --_ag-surface-shadow: var(--_ag-shadow);
+    --_ag-surface-radius: var(--ag-radius-outer, var(--ag-radius-md));
     --ag-on-surface: var(--_ag-on-surface);
     --ag-on-surface-muted: var(--_ag-on-surface-muted);
     --ag-radius-inner: max(0px, calc(var(--ag-radius-outer, var(--ag-radius-md)) - var(--ag-inset, var(--ag-space-2))));
@@ -76,15 +76,15 @@
     border-radius: inherit;
     pointer-events: none;
     /* (1) backdrop optics, fixed order blur() saturate() brightness() */
-    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
-    -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
+    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness, 1)));
+    -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness, 1)));
     /* dim compositing (clear over bright) + grain — one element */
     background-image:
       linear-gradient(oklch(0% 0 0 / var(--_ag-dim)), oklch(0% 0 0 / var(--_ag-dim))),
       url(../assets/ag-grain-128.avif),
       /* fresnel edge-light, anchored on the light-facing edge */
-      radial-gradient(ellipse 120% 30% at 50% 0%,
-        oklch(1 0 0 / calc(var(--ag-specular) * 0.18)),
+      radial-gradient(ellipse 120% 30% at var(--_ag-pointer, 50% 0%),
+        oklch(1 0 0 / calc(var(--ag-specular) * 0.18 + var(--_ag-hover, 0) * 0.12)),
         transparent 8px),
       /* sheen clipped to the top-lit third by the gradient itself */
       linear-gradient(var(--ag-light-angle),
@@ -92,7 +92,7 @@
         transparent 40%);
     background-size: 100% 100%, 128px 128px, 100% 8px, 100% 100%;
     background-repeat: no-repeat, repeat, no-repeat, no-repeat;
-    opacity: var(--_ag-surface-alpha);
+    opacity: calc(var(--_ag-surface-alpha) * var(--_ag-optics, 1));
   }
   .ag-surface::after {
     content: "";
@@ -100,7 +100,7 @@
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    opacity: var(--_ag-surface-alpha);
+    opacity: calc(var(--_ag-surface-alpha) * var(--_ag-optics, 1));
     /* rim band via mask-composite: visible only inside the padding ring */
     padding: var(--_ag-rim-width);
     background: conic-gradient(from var(--ag-light-angle),
@@ -255,8 +255,8 @@
     position: fixed;
     inset: 0;
     background: oklch(0% 0 0 / var(--ag-scrim-media, 0.72));
-    backdrop-filter: blur(var(--ag-scrim-blur, 12px));
-    -webkit-backdrop-filter: blur(var(--ag-scrim-blur, 12px));
+    backdrop-filter: blur(var(--_ag-scrim-blur, 12px));
+    -webkit-backdrop-filter: blur(var(--_ag-scrim-blur, 12px));
     pointer-events: none;
   }
 
@@ -322,8 +322,8 @@
     background-image:
       linear-gradient(oklch(0% 0 0 / var(--_ag-dim)), oklch(0% 0 0 / var(--_ag-dim))),
       /* keep fresnel/sheen */
-      radial-gradient(ellipse 120% 30% at 50% 0%,
-        oklch(1 0 0 / calc(var(--ag-specular) * 0.18)),
+      radial-gradient(ellipse 120% 30% at var(--_ag-pointer, 50% 0%),
+        oklch(1 0 0 / calc(var(--ag-specular) * 0.18 + var(--_ag-hover, 0) * 0.12)),
         transparent 8px),
       linear-gradient(var(--ag-light-angle),
         rgb(from var(--ag-color-specular, oklch(1 0 0)) r g b / calc(var(--ag-specular) * 0.35)),
@@ -358,7 +358,7 @@
   [data-ag-transparency="tinted"] .ag-surface,
   .ag-surface[data-ag-transparency="tinted"],
   :where(:root[data-ag-transparency="tinted"]) .ag-surface {
-    --_ag-tint-floor: var(--ag-tinted-floor, 0.85);
+    --_ag-tint-floor: var(--_ag-tinted-floor, 0.85);
     --_ag-refraction-scale: 0;
   }
 
@@ -385,8 +385,8 @@
     padding: var(--ag-inset, var(--ag-space-2));
   }
   /* resolved radius read-outs per shape */
-  .ag-surface[data-ag-shape="concentric"] { --ag-surface-radius: var(--ag-radius-inner, var(--ag-radius-md)); }
-  .ag-surface[data-ag-shape="capsule"] { --ag-surface-radius: 9999px; }
+  .ag-surface[data-ag-shape="concentric"] { --_ag-surface-radius: var(--ag-radius-inner, var(--ag-radius-md)); }
+  .ag-surface[data-ag-shape="capsule"] { --_ag-surface-radius: 9999px; }
 
   /* ---- scroll edge (REQ-MAT-26; geometry from 4.x glass.css scroll-edge) ---- */
   [data-ag-part="scroll-edge"] {
