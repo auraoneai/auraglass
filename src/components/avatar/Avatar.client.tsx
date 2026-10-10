@@ -58,11 +58,28 @@ function Root({
   );
 }
 
-function Image(props: React.ComponentProps<typeof BaseAvatar.Image>) {
+/* REQ-CMP-01: AuraGlass-owned part props (no Base UI types in the d.ts). */
+export type AvatarImageLoadingStatus = 'idle' | 'loading' | 'loaded' | 'error';
+
+export interface AvatarImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'className'> {
+  onLoadingStatusChange?: (status: AvatarImageLoadingStatus) => void;
+  keepMounted?: boolean;
+  className?: string;
+  ref?: React.Ref<HTMLImageElement> | undefined;
+}
+
+export interface AvatarFallbackProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> {
+  /** ms before the fallback appears while the image loads. */
+  delay?: number | undefined;
+  className?: string;
+  ref?: React.Ref<HTMLSpanElement> | undefined;
+}
+
+function Image(props: AvatarImageProps) {
   return <BaseAvatar.Image data-ag-part="image" keepMounted {...props} />;
 }
 
-function Fallback(props: React.ComponentProps<typeof BaseAvatar.Fallback>) {
+function Fallback(props: AvatarFallbackProps) {
   return <BaseAvatar.Fallback data-ag-part="fallback" {...props} />;
 }
 
