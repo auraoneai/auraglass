@@ -17,7 +17,7 @@
     overflow-x: auto;
     overscroll-behavior-inline: contain;
     scrollbar-width: none;
-    border-block-end: var(--ag-border-width, 1px) solid var(--ag-border, transparent);
+    border-block-end: var(--_ag-border-width, 1px) solid var(--_ag-border, transparent);
   }
   /* SURF-050: edge fade only where the list actually overflows. */
   .ag-tabs__list[data-ag-overflow-start='true'],
@@ -37,29 +37,29 @@
     gap: var(--ag-space-2, 0.5rem);
     padding-block: var(--ag-space-2, 0.5rem);
     padding-inline: var(--ag-space-3, 0.75rem);
-    color: var(--ag-fg-muted, currentColor);
+    color: var(--_ag-fg-muted, currentColor);
     cursor: pointer;
     white-space: nowrap;
     border-radius: var(--ag-radius-md, 0.375rem);
   }
   .ag-tabs__tab[data-state='active'] {
-    color: var(--ag-fg, currentColor);
+    color: var(--_ag-fg, currentColor);
   }
   .ag-tabs__tab:focus-visible {
-    outline: var(--ag-focus-ring-width, 2px) solid var(--ag-focus-ring, currentColor);
-    outline-offset: calc(-1 * var(--ag-focus-ring-width, 2px));
+    outline: var(--_ag-focus-ring-width, 2px) solid var(--_ag-focus-ring, currentColor);
+    outline-offset: calc(-1 * var(--_ag-focus-ring-width, 2px));
   }
   .ag-tabs__tab[data-disabled] {
-    color: var(--ag-fg-disabled, currentColor);
+    color: var(--_ag-fg-disabled, currentColor);
     cursor: default;
   }
   .ag-tabs__indicator {
     position: absolute;
     inset-block-end: 0;
     block-size: var(--_ag-tabs-indicator-h, 2px);
-    background: var(--ag-accent, currentColor);
+    background: var(--_ag-accent, currentColor);
     border-radius: var(--ag-radius-full, 999px);
-    transition-duration: var(--ag-duration-normal, 160ms);
+    transition-duration: var(--_ag-duration-normal, 160ms);
   }
   .ag-tabs__panel {
     padding-block: var(--ag-space-4, 1rem);

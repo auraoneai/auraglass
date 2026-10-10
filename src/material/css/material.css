@@ -11,7 +11,7 @@
   .ag-surface {
     position: relative;
     isolation: isolate;
-    border-radius: var(--ag-surface-radius, var(--ag-radius-md));
+    border-radius: var(--_ag-surface-radius, var(--ag-radius-md));
     color: var(--ag-on-surface, var(--ag-color-on-surface));
     background: var(--_ag-fill, transparent);
     box-shadow: var(--_ag-shadow, none);
@@ -40,10 +40,10 @@
     --_ag-rim-shade: oklch(0% 0 0 / 0.12);
 
     /* public read-outs (REQ-MAT-29) */
-    --ag-surface-fill: var(--_ag-fill);
-    --ag-surface-rim: var(--_ag-rim-light);
-    --ag-surface-shadow: var(--_ag-shadow);
-    --ag-surface-radius: var(--ag-radius-outer, var(--ag-radius-md));
+    --_ag-surface-fill: var(--_ag-fill);
+    --_ag-surface-rim: var(--_ag-rim-light);
+    --_ag-surface-shadow: var(--_ag-shadow);
+    --_ag-surface-radius: var(--ag-radius-outer, var(--ag-radius-md));
     --ag-on-surface: var(--_ag-on-surface);
     --ag-on-surface-muted: var(--_ag-on-surface-muted);
     --ag-radius-inner: max(0px, calc(var(--ag-radius-outer, var(--ag-radius-md)) - var(--ag-inset, var(--ag-space-2))));
@@ -251,8 +251,8 @@
     position: fixed;
     inset: 0;
     background: oklch(0% 0 0 / var(--ag-scrim-media, 0.72));
-    backdrop-filter: blur(var(--ag-scrim-blur, 12px));
-    -webkit-backdrop-filter: blur(var(--ag-scrim-blur, 12px));
+    backdrop-filter: blur(var(--_ag-scrim-blur, 12px));
+    -webkit-backdrop-filter: blur(var(--_ag-scrim-blur, 12px));
     pointer-events: none;
   }
 
@@ -354,7 +354,7 @@
   [data-ag-transparency="tinted"] .ag-surface,
   .ag-surface[data-ag-transparency="tinted"],
   :where(:root[data-ag-transparency="tinted"]) .ag-surface {
-    --_ag-tint-floor: var(--ag-tinted-floor, 0.85);
+    --_ag-tint-floor: var(--_ag-tinted-floor, 0.85);
     --_ag-refraction-scale: 0;
   }
 
@@ -381,8 +381,8 @@
     padding: var(--ag-inset, var(--ag-space-2));
   }
   /* resolved radius read-outs per shape */
-  .ag-surface[data-ag-shape="concentric"] { --ag-surface-radius: var(--ag-radius-inner, var(--ag-radius-md)); }
-  .ag-surface[data-ag-shape="capsule"] { --ag-surface-radius: 9999px; }
+  .ag-surface[data-ag-shape="concentric"] { --_ag-surface-radius: var(--ag-radius-inner, var(--ag-radius-md)); }
+  .ag-surface[data-ag-shape="capsule"] { --_ag-surface-radius: 9999px; }
 
   /* ---- scroll edge (REQ-MAT-26; geometry from 4.x glass.css scroll-edge) ---- */
   [data-ag-part="scroll-edge"] {

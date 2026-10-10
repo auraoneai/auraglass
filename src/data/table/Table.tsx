@@ -506,7 +506,7 @@ export function Table<TData>(props: TableProps<TData>) {
                   header.column.getIsPinned() === 'left'
                     ? header.column.getStart('left')
                     : header.column.getAfter('right'),
-                background: 'var(--ag-surface-raised, Canvas)',
+                background: 'var(--_ag-surface-raised, Canvas)',
                 zIndex: 1,
               }
             : {}),
@@ -688,7 +688,7 @@ export function Table<TData>(props: TableProps<TData>) {
                         cell.column.getIsPinned() === 'left'
                           ? cell.column.getStart('left')
                           : cell.column.getAfter('right'),
-                      background: 'var(--ag-surface-raised, Canvas)',
+                      background: 'var(--_ag-surface-raised, Canvas)',
                       zIndex: 1,
                     }
                   : {}),

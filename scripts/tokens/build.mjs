@@ -232,7 +232,7 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   };
 
   // contract outputs (src/contracts/tokens.ts TOKEN_OUTPUTS)
-  const tokensCss = await emitTokensCss(cells, axisDefs, records, resolved);
+  let tokensCss = await emitTokensCss(cells, axisDefs, records, resolved);
   write('dist/tokens.css', tokensCss);
   const { tokensTs } = await emitTokensTs(cells);
   write('src/tokens/generated/tokens.ts', tokensTs);
@@ -279,6 +279,30 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
 
   // tailwind bridge + registry + css/ tokens copy (MAT-068/072; @import "./tokens.css" resolves in dist/css)
   const tailwindCss = await emitTailwind(cells, records, resolved);
+  // MAT-003: every --_ag-* private referenced under src/** must be registered in
+  // generated css. Emit a privates registry block inside @layer ag.tokens —
+  // `initial` keeps the var guaranteed-invalid so var(--_ag-x, fb) fallbacks
+  // behave exactly as when the name was undeclared.
+  const PRIVATE_RE = /--_ag-[a-z0-9-]+/g;
+  const emittedPrivates = new Set(cells.map((c) => c.cssVar));
+  const usedPrivates = new Set();
+  const scanDir = (dir) => {
+    for (const f of readdirSync(dir)) {
+      const p = join(dir, f);
+      if (statSync(p).isDirectory()) { if (!p.includes('/generated/')) scanDir(p); }
+      else if (/\.(css|ts|tsx|mts|mjs)$/.test(p) && !p.includes('/generated/'))
+        for (const m of readFileSync(p, 'utf8').matchAll(PRIVATE_RE)) usedPrivates.add(m[0]);
+    }
+  };
+  scanDir(join(ROOT ?? process.cwd(), 'src'));
+  const missingPrivates = [...usedPrivates].filter((n) => !emittedPrivates.has(n)).sort();
+  if (missingPrivates.length) {
+    const lines = ['', '  /* MAT-003 component privates registry — names declared with `initial` so',
+       '     var(--_ag-x, <fallback>) resolution is unchanged; component css/JS still owns values. */'];
+    for (const n of missingPrivates) lines.push(`    ${n}: initial;`);
+    // append inside the final @layer ag.tokens :root block
+    tokensCss = tokensCss.replace(/(  }\n}\n?)$/, `${lines.join('\n')}\n$1`);
+  }
   write('dist/css/tokens.css', tokensCss);
   write('dist/css/tailwind.css', tailwindCss);
   write('dist/tailwind.css', tailwindCss); // ./tailwind.css subpath in package exports

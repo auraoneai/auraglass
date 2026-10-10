@@ -144,7 +144,7 @@
     --_ag-app-shell-side: var(--_ag-app-shell-rail);
   }
   .ag-app-shell[data-ag-layout='wide'] [data-ag-slot='main'] {
-    max-inline-size: var(--ag-content-max, 96rem);
+    max-inline-size: var(--_ag-content-max, 96rem);
     inline-size: 100%;
     margin-inline: auto;
   }
@@ -184,7 +184,7 @@
   /* Wide: >= 1440px — cap the content column so lines stay readable. */
   @container ag-app-shell (width >= 1440px) {
     .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='main'] {
-      max-inline-size: var(--ag-content-max, 96rem);
+      max-inline-size: var(--_ag-content-max, 96rem);
       inline-size: 100%;
       margin-inline: auto;
     }
@@ -217,7 +217,7 @@
      hides the inline inspector — Inspector.Sheet takes over. */
   [data-ag-inspector-mode='docked'],
   .ag-app-shell[data-ag-mode='wide'] [data-ag-inspector-mode='auto'] {
-    background: var(--ag-surface-sunken);
+    background: var(--_ag-surface-sunken);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -242,13 +242,13 @@
   .ag-panels__handle {
     position: relative;
     touch-action: none;
-    inline-size: var(--ag-border-1, 1px);
-    background: var(--ag-border-subtle);
+    inline-size: var(--_ag-border-1, 1px);
+    background: var(--_ag-border-subtle);
     flex: none;
   }
   .ag-panels[data-ag-orientation='vertical'] .ag-panels__handle {
     inline-size: auto;
-    block-size: var(--ag-border-1, 1px);
+    block-size: var(--_ag-border-1, 1px);
   }
   .ag-panels__handle::before {
     content: '';
@@ -259,8 +259,8 @@
     .ag-panels__handle::before { inset: calc(var(--ag-space-5, 22px) * -1); }
   }
   .ag-panels__handle:focus-visible {
-    outline: var(--ag-focus-width, 2px) solid var(--ag-focus-color);
-    outline-offset: var(--ag-focus-offset, 2px);
+    outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus-color);
+    outline-offset: var(--_ag-focus-offset, 2px);
   }
   .ag-panels__grip {
     position: absolute;
@@ -269,7 +269,7 @@
     inline-size: var(--ag-space-4, 16px);
     block-size: var(--ag-space-4, 16px);
     border-radius: var(--ag-radius-sm);
-    background: var(--ag-border-subtle);
+    background: var(--_ag-border-subtle);
   }
   .ag-panels[data-ag-stacked='true'] {
     flex-direction: column;

@@ -4,6 +4,102 @@ export const manifest = {
  "generatedFrom": "tokens/**/*.tokens.json",
  "tokens": [
   {
+   "name": "comp.readout.lg-compact",
+   "cssVar": "--ag-comp-control-height-lg-compact",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
+   "value": "36px"
+  },
+  {
+   "name": "comp.readout.lg-default",
+   "cssVar": "--ag-comp-control-height-lg-default",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
+   "value": "40px"
+  },
+  {
+   "name": "comp.readout.md-compact",
+   "cssVar": "--ag-comp-control-height-md-compact",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
+   "value": "32px"
+  },
+  {
+   "name": "comp.readout.md-default",
+   "cssVar": "--ag-comp-control-height-md-default",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
+   "value": "36px"
+  },
+  {
+   "name": "comp.readout.sm-compact",
+   "cssVar": "--ag-comp-control-height-sm-compact",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
+   "value": "28px"
+  },
+  {
+   "name": "comp.readout.sm-default",
+   "cssVar": "--ag-comp-control-height-sm-default",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
+   "value": "32px"
+  },
+  {
    "name": "material.shadow.regular",
    "cssVar": "--ag-shadow-regular",
    "type": "shadow",
@@ -65,7 +161,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 5
+     "count": 0
     }
    ],
    "value": "oklch(0.99 0.004 250)"
@@ -119,7 +215,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 0
     }
    ],
    "value": "20px"
@@ -138,7 +234,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 21
+     "count": 0
     }
    ],
    "value": "oklch(1 0 0)"
@@ -341,7 +437,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 26
+     "count": 24
     }
    ],
    "value": "oklch(0.54 0.022 250)"
@@ -474,7 +570,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 52
+     "count": 49
     }
    ],
    "value": "oklch(0.26 0.016 250)"
@@ -665,7 +761,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 6
+     "count": 0
     }
    ],
    "value": "oklch(0.35 0.13 235)"
@@ -684,7 +780,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 4
+     "count": 0
     }
    ],
    "value": "oklch(1 0 0)"
@@ -1244,7 +1340,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 5
+     "count": 3
     }
    ],
    "value": "calc(0px * var(--_ag-density))"
@@ -1260,7 +1356,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 77
+     "count": 73
     }
    ],
    "value": "calc(4px * var(--_ag-density))"
@@ -1324,7 +1420,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 104
+     "count": 103
     }
    ],
    "value": "calc(8px * var(--_ag-density))"
@@ -1340,7 +1436,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 36
+     "count": 35
     }
    ],
    "value": "calc(12px * var(--_ag-density))"
@@ -1442,7 +1538,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 41
+     "count": 0
     }
    ],
    "value": "2px"
