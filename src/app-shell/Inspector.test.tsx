@@ -4,6 +4,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { AppShell } from './AppShell';
 import { Inspector } from './Inspector';
+import { AppShellInspectorToggle as AppShellInspectorToggleStub } from './AppShell.InspectorToggle';
 
 describe('Inspector (SURF-058)', () => {
   it('renders a labelled aside in the inspector slot', () => {
@@ -67,4 +68,29 @@ describe('Inspector (SURF-058)', () => {
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
     expect(screen.getByText('40')).toBeTruthy();
   });
+
+  it('compact: closed inspector renders no dialog; toggle opens Sheet (SURF-38)', async () => {
+    render(
+      <AppShell.Root layout="compact" defaultInspector="closed">
+        <TopBarStub />
+        <AppShell.Main />
+        <Inspector.Sheet aria-label="Props">
+          <Inspector.Header title="Props" />
+        </Inspector.Sheet>
+      </AppShell.Root>,
+    );
+    expect(screen.queryByRole('dialog')).toBeNull();
+    const toggle = screen.getByRole('button', { name: /inspector/i });
+    fireEvent.click(toggle);
+    const dialog = await screen.findByRole('dialog');
+    expect(dialog).toBeTruthy();
+  });
 });
+
+function TopBarStub() {
+  return (
+    <header>
+      <AppShellInspectorToggleStub />
+    </header>
+  );
+}

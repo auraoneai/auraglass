@@ -8,6 +8,7 @@ import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
 import { Surface } from '../material';
 import { InspectorSection } from './Inspector.Section';
+import { InspectorSheet } from './Inspector.Sheet';
 import { InspectorCloseButton } from './Inspector.CloseButton';
 
 export type InspectorRootProps = Omit<PartProps<'aside'>, 'aria-label'> & {
@@ -99,4 +100,5 @@ export const Inspector = {
   Content: InspectorContent,
   Field: InspectorField,
   Section: InspectorSection,
+  Sheet: InspectorSheet,
 };
