@@ -35,6 +35,41 @@
     }
   },
   {
+    "name": "cmp:overlays-webkit",
+    "testMatch": "tests/e2e/cmp/overlays/**/*.spec.ts",
+    "use": {
+      "browserName": "webkit"
+    }
+  },
+  {
+    "name": "cmp:overlays-firefox",
+    "testMatch": "tests/e2e/cmp/overlays/**/*.spec.ts",
+    "use": {
+      "browserName": "firefox"
+    }
+  },
+  {
+    "name": "cmp:apg-chromium",
+    "testMatch": "tests/a11y/apg/cmp/**/*.spec.ts",
+    "use": {
+      "browserName": "chromium"
+    }
+  },
+  {
+    "name": "cmp:apg-webkit",
+    "testMatch": "tests/a11y/apg/cmp/**/*.spec.ts",
+    "use": {
+      "browserName": "webkit"
+    }
+  },
+  {
+    "name": "cmp:apg-firefox",
+    "testMatch": "tests/a11y/apg/cmp/**/*.spec.ts",
+    "use": {
+      "browserName": "firefox"
+    }
+  },
+  {
     "name": "cmp:motion-chromium",
     "testMatch": "tests/e2e/cmp/motion.spec.ts",
     "use": {
