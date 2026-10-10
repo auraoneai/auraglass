@@ -4,14 +4,8 @@
 import * as React from 'react';
 import { describe, expect, it, afterEach } from '@jest/globals';
 import { render, cleanup, act } from '@testing-library/react';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { AuraGlassProvider } from '../../theme/index';
-import { discoverCmpMetas, loadStories, storyElement, REPO_ROOT } from '../../../tests/foundation/metas';
-
-const coverage = JSON.parse(
-  readFileSync(join(REPO_ROOT, 'tests', 'foundation', 'contract-coverage.json'), 'utf8'),
-) as { registered: string[] };
+import { discoverCmpMetas, loadStories, storyElement } from '../../../tests/foundation/metas';
 
 const POPUP_PARTS = new Set(['popup', 'positioner']);
 
@@ -21,12 +15,12 @@ afterEach(() => {
 });
 
 describe('portal-root containment', () => {
-  const metas = discoverCmpMetas().filter(
-    (m) => coverage.registered.includes(m.name) && m.meta.parts.some((p) => POPUP_PARTS.has(p)),
-  );
+  /* Every CMP meta discovered on disk (no hand-kept registry): a new overlay
+     is covered the moment its meta declares popup/positioner. */
+  const metas = discoverCmpMetas().filter((m) => m.meta.parts.some((p) => POPUP_PARTS.has(p)));
 
-  it('records which metas declare popup/positioner (0 is valid until overlays land)', () => {
-    expect(metas.map((m) => m.name)).toEqual(expect.any(Array));
+  it('discovers the overlay metas that declare popup/positioner', () => {
+    expect(metas.length).toBeGreaterThan(0);
   });
 
   for (const { name } of metas) {
@@ -37,7 +31,7 @@ describe('portal-root containment', () => {
       for (const loaded of stories) {
         for (const storyName of Object.keys(loaded.exports)) {
           if (storyName === 'default') continue;
-          const { element } = storyElement(loaded, storyName);
+          const { element } = storyElement(loaded, storyName, { asComponent: true });
           if (!element) continue;
           render(<AuraGlassProvider>{element}</AuraGlassProvider>);
           await act(async () => {});

@@ -36,8 +36,7 @@ export function CommandPalette({
   onOpenChange,
   hotkey = 'mod+k',
   children,
-  ref,
-}: CommandPaletteProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: CommandPaletteProps) {
   const [internal, setInternal] = React.useState(defaultOpen ?? false);
   const isOpen = open ?? internal;
   const setOpen = React.useCallback(
@@ -66,7 +65,6 @@ export function CommandPalette({
   return (
     <DialogRoot open={isOpen} onOpenChange={setOpen}>
       <DialogContent
-        ref={ref}
         data-ag-part="command-palette"
         data-ag-size="lg"
         data-ag-placement="top"
