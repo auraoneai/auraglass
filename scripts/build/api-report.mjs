@@ -17,11 +17,12 @@
    5x line that is a hard failure once package.json version >= 5.0.0-alpha.1. */
 import { createRequire } from 'node:module';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const require = createRequire(import.meta.url);
 export const EXTRACTOR_VERSION = '7.59.4';
 
@@ -92,6 +93,10 @@ export function entrySource(entry, { root = ROOT } = {}) {
   if (!existsSync(manifestPath)) return null;
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
   const [kind, ...rest] = entry.split('.');
+  if (kind === 'root' && rest.length === 0) {
+    const row = (manifest.entries ?? []).find((e) => e.subpath === '.');
+    return row ? { source: row.source, subpath: '.' } : null;
+  }
   if (kind === 'root') return { source: `src/root/${rest[0]}.ts`, subpath: `.${rest[0] === 'index' ? '' : `/${rest[0]}`}` };
   if (kind === 'compat') return { source: `src/compat/${rest[0]}/index.ts`, subpath: `./compat/${rest[0]}` };
   if (kind === 'css') return { css: `src/${rest.join('/')}.css`, entry };
@@ -158,30 +163,62 @@ export function extractDtsNames(text, _dir) {
   return [...names].sort();
 }
 
-async function main() {
-  const argv = process.argv.slice(2);
+// Every entry that has a committed etc/api/<stem>.exports.json — the check
+// corpus for `--all` (REQ-PLAT-22): each stem must resolve via entrySource.
+export function allEntries(root = ROOT) {
+  const dir = join(root, 'etc/api');
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir).filter((f) => f.endsWith('.exports.json'))
+    .map((f) => f.replace(/\.exports\.json$/, '')).sort();
+}
+
+// CLI entry. `root` is injectable so the --all/--check paths are testable on
+// a fixture tree; the script itself always runs against the repo ROOT.
+export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
   const arg = (n) => { const i = argv.indexOf(`--${n}`); return i >= 0 ? argv[i + 1] : null; };
   const has = (f) => argv.includes(f);
   const entry = arg('entry'); const line = arg('line'); const check = has('--check');
-  if (!entry && line !== '4x') {
-    console.error('usage: api-report.mjs --entry <entry> [--check] | --line 4x [--check]');
+  const all = has('--all');
+  if (!entry && !all && line !== '4x') {
+    console.error('usage: api-report.mjs --entry <entry> [--check] | --all [--check] | --line 4x [--check]');
     return 2;
   }
-  const version = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')).version ?? '0.0.0';
+  // An --entry with no ENTRIES row (and no fixed kind) is a usage error: no
+  // report is written for a name that does not exist.
+  if (entry && line !== '4x' && !entrySource(entry, { root })) {
+    console.error(`api-report: unknown entry '${entry}' (no build/exports.manifest.json row)`);
+    return 2;
+  }
+  const version = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version ?? '0.0.0';
   const alphaNum = /-alpha\.(\d+)$/.exec(version)?.[1];
   const failOnUn = alphaNum !== undefined ? Number(alphaNum) >= 1 : /^5\./.test(version);
 
   let files = {}; let unanalysable = [];
   if (line === '4x') {
-    const r = run4x({ root: ROOT }); files = r.files;
+    const r = run4x({ root }); files = r.files;
     unanalysable = r.manifest.unanalysable;
   } else {
-    const r = await run5x(entry, { root: ROOT, check });
-    files = r.files; unanalysable = r.unanalysable;
+    const entries = all ? allEntries(root) : [entry];
+    // --all is fail-closed: an empty corpus (wrong ROOT, missing etc/api) or a
+    // committed report whose stem no longer resolves to a source is an error,
+    // never a vacuous pass.
+    if (all && entries.length === 0) {
+      console.error(`api-report --all FAIL: no etc/api/*.exports.json under ${root}`);
+      return 1;
+    }
+    const orphans = all ? entries.filter((e) => !entrySource(e, { root })) : [];
+    if (orphans.length) {
+      console.error(`api-report --all FAIL: report(s) with no ENTRIES row/source: ${orphans.join(', ')}`);
+      return 1;
+    }
+    for (const e of entries) {
+      const r = await run5x(e, { root, check });
+      Object.assign(files, r.files); unanalysable.push(...r.unanalysable);
+    }
   }
   const stale = [];
   for (const [rel, content] of Object.entries(files)) {
-    const abs = join(ROOT, rel);
+    const abs = join(root, rel);
     if (check) { if (!existsSync(abs) || readFileSync(abs, 'utf8') !== content) stale.push(rel); }
     else { mkdirSync(dirname(abs), { recursive: true }); writeFileSync(abs, content); }
   }
@@ -190,7 +227,7 @@ async function main() {
     console.error(`api-report: ${unanalysable.length} unanalysable: ${unanalysable.join('; ')}`);
     if (failOnUn && line !== '4x') return 1;
   }
-  console.log(`api-report: ${Object.keys(files).length} file(s) ${check ? 'verified' : 'written'}${entry ? ` for ${entry}` : ''}`);
+  console.log(`api-report: ${Object.keys(files).length} file(s) ${check ? 'verified' : 'written'}${entry ? ` for ${entry}` : ''}${all ? ' for --all' : ''}`);
   return 0;
 }
 

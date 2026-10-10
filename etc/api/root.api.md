@@ -1,11 +1,15 @@
-## API Report — aura-glass (root)
+## API Report — aura-glass root
 
 - `Accordion`
+- `ActivityFeed`
 - `Alert`
 - `AlertDialog`
+- `AuraGlassProvider`
+- `AuraGlassScript`
 - `Avatar`
 - `AvatarGroup`
 - `Badge`
+- `Breadcrumbs`
 - `Button`
 - `ButtonGroup`
 - `Card`
@@ -14,11 +18,15 @@
 - `Collapsible`
 - `ColorPicker`
 - `Combobox`
+- `Command`
+- `CommandPalette`
+- `ConcentricFrame`
 - `Container`
 - `ContextMenu`
 - `DescriptionList`
 - `Dialog`
 - `EmptyState`
+- `Environment`
 - `ErrorState`
 - `Field`
 - `Fieldset`
@@ -37,12 +45,14 @@
 - `Menubar`
 - `Meter`
 - `NumberField`
+- `Pagination`
 - `Popover`
 - `Progress`
 - `ProgressRing`
 - `RadioGroup`
 - `Rating`
 - `ScrollArea`
+- `ScrollEdge`
 - `SearchField`
 - `SegmentedControl`
 - `Select`
@@ -51,16 +61,24 @@
 - `SheetHandle`
 - `Skeleton`
 - `Slider`
+- `SourceTransition`
 - `Stack`
+- `Surface`
+- `SurfaceGroup`
 - `Switch`
+- `TabBar`
+- `Tabs`
 - `Text`
 - `TextField`
+- `Timeline`
 - `Toast`
 - `ToggleGroup`
 - `Toolbar`
 - `Tooltip`
 - `Tour`
 - `VisuallyHidden`
+- `formatTimestamp`
 - `resolveDetent`
+- `usePreference`
 - `useSheetDetents`
 - `useToast`
