@@ -10,6 +10,7 @@ const BUTTON_BUDGET = 10_240 + 2_048;
 test.describe('vite canary', () => {
   test('unlayered .app-btn beats layered styles', async ({ page }) => {
     await page.goto('/plat/button');
+    await page.waitForSelector('[data-ag-canary="plat-button"] button'); /* lazy route chunk */
     await page.addStyleTag({
       content: `
         @layer theme, base, ag, components, utilities;
@@ -23,6 +24,7 @@ test.describe('vite canary', () => {
   test('ag.a11y wins over ag.components under forced colors', async ({ page }) => {
     await page.emulateMedia({ forcedColors: 'active' });
     await page.goto('/plat/button');
+    await page.waitForSelector('[data-ag-canary="plat-button"] button'); /* lazy route chunk */
     /* under forced colors the a11y layer's high-contrast overrides apply */
     const outline = await page.evaluate(() => {
       const b = document.querySelector('button');
