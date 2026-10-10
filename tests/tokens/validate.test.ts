@@ -56,8 +56,8 @@ describe("validate.mjs 'ag-rendered' value shape (D.3-01, MAT-328)", () => {
     const { name, token } = legacyTokenAsRendered();
     const errors = validateTokenFile({ legacy: { [name]: { ...token, $value: value } } }, schema, LEGACY_FILE) as Err[];
     expect(errors).toHaveLength(1);
-    expect(errors[0]?.path).toBe(`${LEGACY_FILE} at $.legacy.${name}`);
-    expect(errors[0]?.message).toBe(`$.legacy.${name}.$value: ${message}`);
+    expect(errors[0].path).toBe(`${LEGACY_FILE} at $.legacy.${name}`);
+    expect(errors[0].message).toBe(`$.legacy.${name}.$value: ${message}`);
   });
 
   test('an alias $value is still accepted for ag-rendered (aliases skip the shape check)', () => {

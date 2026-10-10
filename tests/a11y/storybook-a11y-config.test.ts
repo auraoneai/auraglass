@@ -23,9 +23,7 @@ beforeAll(async () => {
     .replace(/import\s+type\s+.*from\s+'@storybook\/react-vite';/s, 'type Preview = any;');
   fs.mkdirSync(path.dirname(GEN), { recursive: true });
   fs.writeFileSync(GEN, out);
-  // Written just above at runtime, so it has no static declaration to resolve.
-  const generatedSpecifier = './__generated__/preview.jest';
-  const mod = (await import(generatedSpecifier)) as Record<string, unknown>;
+  const mod = (await import(`./__generated__/preview.jest`)) as Record<string, unknown>;
   const unwrap = (m: unknown): typeof preview =>
     (m && typeof m === 'object' && 'globalTypes' in m ? m : (m as Record<string, unknown>)?.default) as typeof preview;
   preview = unwrap(mod.default ?? mod);
