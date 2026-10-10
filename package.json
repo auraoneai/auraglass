@@ -28,19 +28,45 @@
     "node": ">=20.19"
   },
   "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js",
+      "css": "./dist/styles.css"
+    },
     "./material": {
       "types": "./dist/material/index.d.ts",
       "css": "./dist/material.css",
       "default": "./dist/material/index.js"
+    },
+    "./theme": {
+      "types": "./dist/theme/public.d.ts",
+      "default": "./dist/theme/public.js"
     },
     "./tokens": {
       "types": "./dist/tokens/index.d.ts",
       "css": "./dist/tokens.css",
       "default": "./dist/tokens/index.js"
     },
+    "./motion": {
+      "types": "./dist/motion/public.d.ts",
+      "default": "./dist/motion/public.js"
+    },
+    "./primitives": {
+      "types": "./dist/primitives/index.d.ts",
+      "default": "./dist/primitives/index.js"
+    },
     "./icons": {
       "types": "./dist/icons/index.d.ts",
       "default": "./dist/icons/index.js"
+    },
+    "./forms": {
+      "types": "./dist/forms/index.d.ts",
+      "default": "./dist/forms/index.js"
+    },
+    "./app-shell": {
+      "types": "./dist/app-shell/index.d.ts",
+      "default": "./dist/app-shell/index.js",
+      "css": "./dist/app-shell.css"
     },
     "./data": {
       "types": "./dist/data/index.d.ts",
@@ -52,6 +78,21 @@
       "css": "./dist/date.css",
       "default": "./dist/date/index.js"
     },
+    "./ai": {
+      "types": "./dist/ai/index.d.ts",
+      "default": "./dist/ai/index.js",
+      "css": "./dist/ai.css"
+    },
+    "./media": {
+      "types": "./dist/media/index.d.ts",
+      "default": "./dist/media/index.js",
+      "css": "./dist/media.css"
+    },
+    "./backdrops": {
+      "types": "./dist/backdrops/index.d.ts",
+      "default": "./dist/backdrops/index.js",
+      "css": "./dist/backdrops.css"
+    },
     "./three": {
       "types": "./dist/three/index.d.ts",
       "default": "./dist/three/index.js"
@@ -60,6 +101,10 @@
       "types": "./dist/charts/index.d.ts",
       "css": "./dist/charts.css",
       "default": "./dist/charts/index.js"
+    },
+    "./compat": {
+      "types": "./dist/compat/index.d.ts",
+      "default": "./dist/compat/index.js"
     },
     "./styles.css": "./dist/styles.css",
     "./tokens.css": "./dist/tokens.css",
@@ -76,7 +121,7 @@
   "scripts": {
     "tokens:build": "node scripts/tokens/build.mjs",
     "prebuild": "node scripts/mat/build-prepaint-script.mjs",
-    "build": "npm run tokens:build && tsdown",
+    "build": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\" && npm run tokens:build && tsdown --no-clean",
     "postbuild": "node scripts/build/post.mjs",
     "dev": "tsdown --watch",
     "api:update": "node scripts/build/api-report.mjs",
@@ -85,7 +130,7 @@
     "artifact:publint": "publint --strict",
     "artifact:attw": "attw --pack . --profile esm-only",
     "storybook:build": "storybook build -o storybook-static",
-    "docs:build": "npm run build -w apps/docs",
+    "docs:build": "node -e \"const f=require('fs').readdirSync('.artifacts/pack').find(x=>/^aura-glass-.*\\.tgz$/.test(x));if(!f){console.error('PENDING: run plat:package:pack first (.artifacts/pack/aura-glass-*.tgz missing)');process.exit(1)}console.log(f)\" && npm install --no-save -w apps/docs $(ls .artifacts/pack/aura-glass-*.tgz) && npm run build -w apps/docs",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:contract": "npm test -- tests/contract",
     "lint": "eslint . && stylelint \"src/**/*.css\"",

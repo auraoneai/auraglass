@@ -1,10 +1,9 @@
 {
- "entry": "tokens",
+ "entry": "./tokens",
  "exports": [
   "manifest",
   "materialSpec",
   "token",
   "tokens"
- ],
- "unanalysable": []
+ ]
 }
