@@ -1,5 +1,5 @@
 /* @jest-environment node */
-/* REQ-CMP-09: every CMP/SURF-adjacent component CSS file obeys the layer
+/* REQ-CMP-09: every CMP-owned component CSS file obeys the layer
    contract — LAYER_ORDER_STATEMENT first, exactly one @layer ag.components
    block, no :root, no element selectors, only PUBLIC_CSS_VARS / MOTION_CSS_VARS
    or --_ag-<component>-* names, and every file declared in fragments/css. */
@@ -26,14 +26,37 @@ function* walk(dir: string): Generator<string> {
     else if (e.endsWith('.css')) yield p;
   }
 }
-const FILES = [...walk('src/components'), ...walk('src/icons'), ...walk('src/primitives')];
+/* CMP-owned files only (contracts/ownership.json, first matching glob wins):
+   the SURF component dirs under src/components (tabs, tab-bar, breadcrumbs,
+   pagination, command-palette, source-transition, timeline) are covered by
+   SURF's own CSS test (REQ-FIN-80 / SURF-03), not by this CMP contract. */
+type OwnershipRow = { glob: string; owner: string };
+const OWNERSHIP: OwnershipRow[] = JSON.parse(readFileSync('contracts/ownership.json', 'utf8')).rows;
+const globRe = (g: string) =>
+  new RegExp(
+    '^' +
+      g
+        .replace(/[.+^${}()|[\]\\]/g, '\\$&')
+        .replace(/\*\*/g, '\u0000')
+        .replace(/\*/g, '[^/]*')
+        .replace(/\u0000/g, '.*') +
+      '$',
+  );
+const OWNER_RES = OWNERSHIP.map((r) => ({ re: globRe(r.glob), owner: r.owner }));
+const ownerOf = (f: string) => OWNER_RES.find((r) => r.re.test(f))?.owner ?? 'NONE';
+const ALL_FILES = [...walk('src/components'), ...walk('src/icons'), ...walk('src/primitives')].map((f) =>
+  f.replace(/\\/g, '/'),
+);
+const FILES = ALL_FILES.filter((f) => ownerOf(f) === 'CMP');
 const stripComments = (t: string) => t.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));
 
 const ELEMENT_SEL = /(^|[},]\s*|\n\s*)(div|span|button|input|ul|ol|li|a|p|h[1-6]|img|svg|path|section|article|header|footer|nav|main|aside|form|label|fieldset|legend|table|thead|tbody|tr|td|th|select|option|textarea|kbd|code|pre)\b(?![\w-]*[.[:]|\w*-])/g;
 
 describe('css-contract (REQ-CMP-09)', () => {
-  it('covers every component css file (>=64 files)', () => {
-    expect(FILES.length).toBeGreaterThanOrEqual(60);
+  it('covers every CMP-owned component css file', () => {
+    // every walked file is owned by exactly CMP or SURF; nothing falls through
+    expect(ALL_FILES.filter((f) => !['CMP', 'SURF'].includes(ownerOf(f)))).toEqual([]);
+    expect(FILES.length).toBeGreaterThanOrEqual(57);
   });
 
   it.each(FILES.map((f) => [f]))('%s: first statement is LAYER_ORDER_STATEMENT', (f) => {

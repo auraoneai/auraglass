@@ -20,17 +20,17 @@
     align-items: center;
     gap: var(--ag-space-2);
     padding-inline: var(--ag-space-3);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-text-field-content-sunken-alpha, 8%), transparent);
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     border-radius: var(--ag-radius-inner);
     transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
   }
   .ag-text-field [data-ag-part='control-shell']:focus-within {
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-focus-outer),
-      0 0 0 var(--ag-focus-inner) var(--ag-color-focus-outer);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-focus-outer),
+      0 0 0 var(--_ag-focus-inner) var(--ag-color-focus-outer);
   }
   .ag-text-field[data-invalid] [data-ag-part='control-shell'] {
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-danger);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-danger);
   }
 
   .ag-text-field [data-ag-part='control'] {
@@ -81,12 +81,12 @@
   .ag-text-field [data-ag-part='control']:-webkit-autofill {
     -webkit-text-fill-color: var(--ag-on-surface);
     caret-color: var(--ag-on-surface);
-    box-shadow: inset 0 0 0 var(--ag-target-min) color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-text-field-content-sunken-alpha, 8%), transparent);
+    box-shadow: inset 0 0 0 var(--ag-target-min) color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
   }
 
   @media (forced-colors: active) {
     .ag-text-field [data-ag-part='control-shell'] {
-      border: var(--ag-focus-width) solid ButtonText;
+      border: var(--_ag-focus-width) solid ButtonText;
       background: Field;
       box-shadow: none;
     }

@@ -22,11 +22,11 @@
     cursor: pointer;
   }
   .ag-toggle-item[data-pressed] {
-    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-state-press-glow);
+    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-state-press-glow);
   }
   .ag-toggle-item:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-focus-outer);
-    outline-offset: var(--ag-focus-width);
+    outline: var(--_ag-focus-width) solid var(--_ag-focus-outer);
+    outline-offset: var(--_ag-focus-width);
   }
   .ag-toggle-item:disabled,
   .ag-toggle-item[data-disabled] {
