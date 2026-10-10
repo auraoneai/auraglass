@@ -226,9 +226,13 @@ export function evaluateFailures(r, profileId) {
 }
 
 /** Deterministic static checks of the profile itself (GPU feature status, refresh, pointer). */
-export function softwareFlags(featureStatus) {
+/* A CPU rasterizer behind the GL/Vulkan API (Mesa llvmpipe/softpipe/lavapipe, SwiftShader, WARP) reports "enabled"
+   feature status, so the renderer string decides too. */
+export const SOFTWARE_RENDERER_RE = /llvmpipe|softpipe|lavapipe|swiftshader|microsoft basic render|\bwarp\b/i;
+export function softwareFlags(featureStatus, renderer = '') {
   const soft = (v) => v === undefined || v === null || /software|^disabled|^unavailable/.test(String(v));
-  return { softwareCompositing: soft(featureStatus?.gpu_compositing), softwareRaster: soft(featureStatus?.rasterization) };
+  const cpu = SOFTWARE_RENDERER_RE.test(String(renderer ?? ''));
+  return { softwareCompositing: cpu || soft(featureStatus?.gpu_compositing), softwareRaster: cpu || soft(featureStatus?.rasterization) };
 }
 
 /* ------------------------------------------------------------------ page side ------------------------------------------------------------------ */
@@ -682,7 +686,9 @@ export function parseArgs(argv) {
 async function launch(engineName, profile) {
   const pw = await import('@playwright/test');
   const bt = pw[engineName];
-  const opts = { headless: profile.headless, args: profile.args };
+  /* AG_PERF_CHROMIUM_ARGS: extra Chromium switches set by the CI job (e.g. the GPU backend on .ag-gpu). */
+  const extra = engineName === 'chromium' ? (process.env.AG_PERF_CHROMIUM_ARGS ?? '').split(/\s+/).filter(Boolean) : [];
+  const opts = { headless: profile.headless, args: [...profile.args, ...extra] };
   if (profile.channel) opts.channel = profile.channel;
   return bt.launch(opts);
 }
@@ -796,10 +802,11 @@ export async function runCli(argv = process.argv.slice(2)) {
         if (pid === 'a') {
           const bcdp = await browser.newBrowserCDPSession();
           const info = await bcdp.send('SystemInfo.getInfo');
-          const flags = softwareFlags(info.gpu?.featureStatus);
-          run.gpu = { featureStatus: info.gpu?.featureStatus ?? {}, ...flags, device: info.gpu?.devices?.[0]?.deviceString ?? null };
-          if (flags.softwareCompositing) run.failures.push({ code: 'software-compositing', detail: `gpu_compositing=${info.gpu?.featureStatus?.gpu_compositing}` });
-          if (flags.softwareRaster) run.failures.push({ code: 'software-raster', detail: `rasterization=${info.gpu?.featureStatus?.rasterization}` });
+          const device = [info.gpu?.devices?.[0]?.deviceString, info.gpu?.auxAttributes?.glRenderer].filter(Boolean).join(' | ') || null;
+          const flags = softwareFlags(info.gpu?.featureStatus, device ?? '');
+          run.gpu = { featureStatus: info.gpu?.featureStatus ?? {}, ...flags, device };
+          if (flags.softwareCompositing) run.failures.push({ code: 'software-compositing', detail: `gpu_compositing=${info.gpu?.featureStatus?.gpu_compositing}; renderer ${device}` });
+          if (flags.softwareRaster) run.failures.push({ code: 'software-raster', detail: `rasterization=${info.gpu?.featureStatus?.rasterization}; renderer ${device}` });
         }
         for (const scene of o.scenes) {
           /* blank baseline, measured twice: Δ blank-vs-blank must be 0 ± 1 ms */
@@ -810,7 +817,9 @@ export async function runCli(argv = process.argv.slice(2)) {
           blank.delta = { frameP50Ms: 0, frameP95Ms: 0, frameP99Ms: 0, longTasks: 0, longTaskTotalMs: 0 };
           const stable = dRepeat && Math.abs(dRepeat.frameP50Ms ?? Infinity) <= BLANK_TOLERANCE_MS && Math.abs(dRepeat.frameP95Ms ?? Infinity) <= BLANK_TOLERANCE_MS;
           run.blank[scene] = { blankRepeatDelta: dRepeat, withinTolerance: !!stable, toleranceMs: BLANK_TOLERANCE_MS };
-          if (!stable) run.failures.push({ code: 'blank-baseline-unstable', detail: `scene ${scene}: blank-vs-blank Δp50 ${dRepeat?.frameP50Ms} ms, Δp95 ${dRepeat?.frameP95Ms} ms (tolerance ±${BLANK_TOLERANCE_MS} ms)` });
+          if (!stable) run.failures.push({ code: 'blank-baseline-unstable', detail: dRepeat
+            ? `scene ${scene}: blank-vs-blank Δp50 ${dRepeat.frameP50Ms} ms, Δp95 ${dRepeat.frameP95Ms} ms (tolerance ±${BLANK_TOLERANCE_MS} ms)`
+            : `scene ${scene}: the blank fixture was not measured (${[...blank.failures, ...repeat.failures].map((f) => f.code).join(', ') || 'no settled window'})` });
           if (pid === 'a' && blank.windows.settled?.raf?.p50Ms) {
             const measuredHz = 1000 / blank.windows.settled.raf.p50Ms;
             run.display = { requestedHz: hz, measuredHz };

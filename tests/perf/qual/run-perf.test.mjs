@@ -150,6 +150,12 @@ describe('blank baseline and profiles', () => {
     expect(softwareFlags({ gpu_compositing: 'enabled', rasterization: 'enabled' })).toEqual({ softwareCompositing: false, softwareRaster: false });
     expect(softwareFlags({ gpu_compositing: 'disabled_software', rasterization: 'unavailable_software' })).toEqual({ softwareCompositing: true, softwareRaster: true });
     expect(softwareFlags({})).toEqual({ softwareCompositing: true, softwareRaster: true });
+    // GitLab .ag-gpu run (job 17086561212): feature status "enabled" while ANGLE runs on Mesa llvmpipe → software.
+    const enabled = { gpu_compositing: 'enabled', rasterization: 'enabled_force' };
+    expect(softwareFlags(enabled, 'ANGLE (Mesa, llvmpipe (LLVM 20.1.2 256 bits), OpenGL 4.5 (Core Profile) Mesa 25.2.8)'))
+      .toEqual({ softwareCompositing: true, softwareRaster: true });
+    expect(softwareFlags(enabled, 'ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero)))').softwareRaster).toBe(true);
+    expect(softwareFlags(enabled, 'ANGLE (NVIDIA, NVIDIA Tesla T4, OpenGL 4.5)')).toEqual({ softwareCompositing: false, softwareRaster: false });
   });
   it('story URLs carry the scene/tier globals and ag-cert=1', () => {
     expect(storyUrl('http://h', BLANK_ID, { scene: 'photo', tier: 'standard' }))

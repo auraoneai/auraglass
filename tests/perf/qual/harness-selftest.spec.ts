@@ -6,6 +6,8 @@
      animated blur  an infinite backdrop-filter keyframe animation → reported, and the result fails (animated-blur)
    and checks that a perf-results document containing them validates and has verdict `fail`. Locally (no
    AG_REMOTE_RUNNER=1) the file throws the harness's remote-only message instead of running. */
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { expect, test, type Page } from '@playwright/test';
 import {
   FIXTURE_IDS, PROFILES, REMOTE_ONLY_MESSAGE, SCHEMA_VERSION, agPerfInit, evaluateFailures, measurePage, validateResults,
@@ -78,6 +80,7 @@ test('clean fixture: every Chromium metric present, BCI 1.0, no failures', async
 test('12 px scrim on ::before measures BCI 0.6 from real layout', async ({ page }) => {
   const r = await measure(page, 'scrim');
   collected.push(r);
+  expect(r.failures).toEqual([]);
   expect(r.gpu.blurredSurfaces).toBe(1);
   expect(r.gpu.maxBlurPx).toBe(12);
   expect(r.gpu.bci).toBeCloseTo(0.6, 2);
@@ -112,6 +115,9 @@ test('a run containing the injected failures validates against the schema and fa
     profiles: [{ id: 'c', name: PROFILES.c.name, engine: 'chromium', refreshHz: 60, viewport: PROFILES.c.viewport, dpr: 1, cpuThrottle: 1, headless: true, browserVersion: null, gpu: null, display: null, blank: {}, failures: [] }],
     results: collected, verdict: failures.length ? 'fail' : 'pass', failures,
   };
+  const dir = resolve(process.env.AURAGLASS_EVIDENCE_DIR ?? '.artifacts', 'qual', process.env.CI_JOB_NAME_SLUG ?? 'qual-certify-l10');
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(resolve(dir, 'harness-selftest-results.json'), `${JSON.stringify(doc, null, 2)}\n`);
   const v = validateResults(doc);
   expect(v.errors).toEqual([]);
   expect(doc.verdict).toBe('fail');

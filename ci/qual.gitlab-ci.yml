@@ -37,7 +37,7 @@ qual:certify:l10:
   script:
     - |
       rc=0
-      node --experimental-vm-modules node_modules/jest/bin/jest.js --ci --testPathIgnorePatterns /node_modules/ \
+      node node_modules/jest/bin/jest.js --ci --testPathIgnorePatterns /node_modules/ \
         --testMatch '**/packages/qa/test/bci.test.ts' '**/tests/perf/qual/run-perf.test.mjs' '**/tests/storybook/perf-fixtures-index.test.mjs' || rc=1
       npx playwright test -c tests/perf/qual/playwright.config.ts --project qual:l10-selftest || rc=1
       node tests/perf/harness/run-perf.mjs --profile b,c,d --scope "$AG_SCOPE" || rc=1
@@ -45,7 +45,13 @@ qual:certify:l10:
       exit $rc
 qual:certify:l10-gpu:
   extends: [.qual-lane, .ag-gpu]
-  variables: { LANE: L10 }
+  variables:
+    LANE: L10
+    # Ask the NVIDIA container runtime for the graphics/display userspace (EGL/Vulkan ICD), and route ANGLE to Vulkan;
+    # run-perf.mjs fails profile (a) if Chromium still lands on a CPU rasterizer (llvmpipe/SwiftShader).
+    NVIDIA_VISIBLE_DEVICES: "all"
+    NVIDIA_DRIVER_CAPABILITIES: "all"
+    AG_PERF_CHROMIUM_ARGS: "--use-angle=vulkan --enable-features=Vulkan,DefaultANGLEVulkan,VulkanFromANGLE"
   timeout: 90m
   needs: *qual-l10-needs
   rules:
@@ -53,6 +59,7 @@ qual:certify:l10-gpu:
     - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
       changes: [src/**/*, tests/perf/harness/**/*, stories/qual/perf/**/*, packages/qa/src/perf/**/*, ci/qual.gitlab-ci.yml]
   script:
+    - if command -v nvidia-smi >/dev/null; then nvidia-smi -L; else echo "nvidia-smi not present in $AG_PLAYWRIGHT_IMAGE"; fi
     - xvfb-run -a -s "-screen 0 2880x1800x24" node tests/perf/harness/run-perf.mjs --profile a --scope "$AG_SCOPE"
 qual:certify:nightly:
   extends: .qual-lane
