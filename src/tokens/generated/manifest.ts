@@ -418,7 +418,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 21
+     "count": 29
     }
    ],
    "value": "oklch(0.64 0.16 235)"
