@@ -364,6 +364,7 @@ export function CommandSeparator({ render, ...rest }: PartProps<'div'>) {
 CommandSeparator.displayName = 'Command.Separator';
 
 export const Command = {
+  score: commandScore,
   Root: CommandRoot,
   Input: CommandInput,
   List: CommandList,
