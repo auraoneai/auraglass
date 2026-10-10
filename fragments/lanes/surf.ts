@@ -77,7 +77,10 @@ const w4 = [
   { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{media-controls,now-playing,image-viewer}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{media,backdrops}/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{media,backdrops}/**/*.spec.ts', scope: 'main', remote: true, failClosed: true },
-  { lane: 'L6', kind: 'playwright', path: 'tests/a11y/clear-over-media/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // REQ-SURF-188 (REQ-FIN-90): SURF clear-over-media text-contrast spec lives under tests/e2e/surf
+  // (tests/a11y/** is MAT's, contract D06).
+  { lane: 'L6', kind: 'playwright', path: 'tests/e2e/surf/clear-over-media/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L6', kind: 'playwright', path: 'tests/e2e/surf/clear-over-media/**/*.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L8', kind: 'playwright', path: 'tests/e2e/surf/media/sampling-engines.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/{backdrop-drift,carousel-autoplay}.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/{media-scrub,now-playing-update,image-viewer-open}.spec.ts', scope: 'pr', remote: true, failClosed: true },

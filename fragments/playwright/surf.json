@@ -80,7 +80,7 @@
   },
   {
    "name": "surf:clear-over-media",
-   "testDir": "tests/a11y/clear-over-media"
+   "testDir": "tests/e2e/surf/clear-over-media"
   },
   {
    "name": "surf:media-perf",

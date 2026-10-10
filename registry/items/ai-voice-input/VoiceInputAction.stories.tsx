@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { VoiceInputAction } from './VoiceInputAction';
 
-const meta: Meta<typeof VoiceInputAction> = { title: 'registry/ai-voice-input', component: VoiceInputAction };
+const meta: Meta<typeof VoiceInputAction> = {
+  title: 'registry/ai-voice-input',
+  component: VoiceInputAction,
+  parameters: { ag: { subject: 'ai-voice-input', kind: 'showcase', scenes: 'all' } satisfies StoryAgParameters },
+};
 export default meta;
 type Story = StoryObj<typeof VoiceInputAction>;
 

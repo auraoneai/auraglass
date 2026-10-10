@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { MediaNowPlaying } from './index';
 
-const meta: Meta<typeof MediaNowPlaying> = { title: 'registry/media-now-playing', component: MediaNowPlaying };
+const meta: Meta<typeof MediaNowPlaying> = {
+  title: 'registry/media-now-playing',
+  component: MediaNowPlaying,
+  parameters: { ag: { subject: 'media-now-playing', kind: 'showcase', scenes: 'all' } satisfies StoryAgParameters },
+};
 export default meta;
 type Story = StoryObj<typeof MediaNowPlaying>;
 
