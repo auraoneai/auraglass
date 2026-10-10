@@ -38,7 +38,7 @@
   [data-ag-part='close']:focus-visible,
   [data-ag-part='handle']:focus-visible,
   [data-ag-part='action']:focus-visible {
-    outline: var(--ag-focus-width, 2px) solid var(--ag-focus-color, Highlight);
+    outline: var(--ag-focus-width, 2px) solid var(--ag-focus-outer, Highlight);
     outline-offset: 2px;
   }
 

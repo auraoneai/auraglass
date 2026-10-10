@@ -65,8 +65,8 @@
   }
 
   .ag-switch[data-ag-part='root']:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-color-focus-outer);
-    outline-offset: var(--ag-focus-inner);
+    outline: var(--ag-focus-width) solid var(--ag-focus-outer);
+    outline-offset: var(--ag-focus-width);
   }
 
   @media (prefers-reduced-motion: reduce) {

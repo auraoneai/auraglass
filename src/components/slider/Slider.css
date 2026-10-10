@@ -57,7 +57,7 @@
     inline-size: var(--ag-space-6); block-size: var(--ag-space-6);
   }
   .ag-slider [data-ag-part='thumb']:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-color-focus-outer);
+    outline: var(--ag-focus-width) solid var(--ag-focus-outer);
   }
   .ag-slider[data-dragging] [data-ag-part='thumb'] {
     box-shadow: var(--ag-shadow-thin), var(--ag-state-hover-specular);

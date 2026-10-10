@@ -37,7 +37,7 @@
   }
   .ag-number-field [data-ag-part='increment']:focus-visible,
   .ag-number-field [data-ag-part='decrement']:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-color-focus-outer);
+    outline: var(--ag-focus-width) solid var(--ag-focus-outer);
   }
   .ag-number-field [data-ag-part='description'] {
     font-size: var(--ag-type-caption-size);

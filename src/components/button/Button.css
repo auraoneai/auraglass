@@ -80,7 +80,7 @@
   }
 
   .ag-button:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-color-focus-ring, var(--ag-focus-outer));
+    outline: var(--ag-focus-width) solid var(--ag-focus-outer);
     outline-offset: var(--ag-focus-width);
   }
 
