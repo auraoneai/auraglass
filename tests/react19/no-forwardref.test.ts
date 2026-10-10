@@ -49,8 +49,7 @@ describe('react 19: no forwardRef (REQ-PLAT-72)', () => {
 
   it('0 forwardRef identifiers in dist js + d.ts outside baselined src files', () => {
     ensureBuilt();
-    const covered = new Set(loadBaseline(ROOT).filter((r: { rule: string }) => r.rule === 'forwardRef')
-      .map((r: { file: string }) => r.file));
+    const covered = new Set(loadBaseline(ROOT).filter(r => r.rule === 'forwardRef').map(r => r.file));
     const hits = walk(DIST, p => /\.(js|d\.ts)$/.test(p))
       .filter(f => /\bforwardRef\b/.test(readFileSync(f, 'utf8')))
       .filter(f => {
