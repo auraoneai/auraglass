@@ -24,6 +24,8 @@
   }
   :where([data-ag-contrast="more"]) [data-ag-surface] {
     color: var(--_ag-on-surface-max);
+    --ag-specular: 0;
+    --_ag-grain-opacity: 0;
     border: 1px solid var(--_ag-border-strong);
   }
 
@@ -37,6 +39,8 @@
   @media (prefers-contrast: more) {
     :where(:not([data-ag-contrast])) [data-ag-surface]:not(:where([data-ag-contrast] *)) {
       color: var(--_ag-on-surface-max);
+      --ag-specular: 0;
+      --_ag-grain-opacity: 0;
       border: 1px solid var(--_ag-border-strong);
     }
   }
@@ -85,18 +89,7 @@
 
   /* ---- disabled row (MAT-279): no opacity on the host ---- */
   [data-ag-surface]:is([aria-disabled="true"], [data-disabled]) {
-    --ag-on-surface: var(--ag-color-on-surface-disabled, GrayText);
+    --ag-on-surface: var(--_ag-color-on-surface-disabled, GrayText);
   }
 
-  /* ---- layer-root z-order (REQ-FIN-05): the three portal roots stack by
-     --ag-z-*; toast always on top of transient, transient over overlay ---- */
-  [data-ag-layer-root="overlay"] {
-    z-index: var(--ag-z-overlay);
-  }
-  [data-ag-layer-root="transient"] {
-    z-index: var(--ag-z-transient);
-  }
-  [data-ag-layer-root="toast"] {
-    z-index: var(--ag-z-toast);
-  }
 }
