@@ -70,7 +70,9 @@ describe('migrate 4to5', () => {
     let stderr = '';
     let code = 0;
     try {
-      execFileSync(path.join(repoRoot, 'node_modules', '.bin', 'eslint'), [relSeeded], { cwd: repoRoot, stdio: 'pipe' });
+      // packages/cli/eslint.config.js owns the transforms/** ban (PRD REQ-PLAT-90);
+      // the root eslint.config.js is contract-v1.0 verbatim.
+      execFileSync(path.join(repoRoot, 'node_modules', '.bin', 'eslint'), ['-c', 'eslint.config.js', path.relative(path.join(repoRoot, 'packages', 'cli'), seeded)], { cwd: path.join(repoRoot, 'packages', 'cli'), stdio: 'pipe' });
     } catch (e) {
       const err = e as { status?: number; stdout?: Buffer; stderr?: Buffer };
       code = err.status ?? 1;
@@ -121,11 +123,14 @@ describe('deps lockfile resolution', () => {
 });
 
 describe('removed npx pointer', () => {
-  it('registryItem todos read "npx @auraglass/cli add <item>" (kanban)', () => {
-    const src = "import { GlassKanban } from 'aura-glass';\nexport const x = <GlassKanban/>;\n";
+  // Uses the SURF-authored GlassGanttChart -> registry item 'gantt' row already on
+  // next; the kanban rows are SURF data (fragments/codemods/surf.ts, FIN-F).
+  it('registryItem todos read "npx @auraglass/cli add <item>" (gantt)', () => {
+    expect(mappings.removed.GlassGanttChart?.registryItem).toBe('gantt');
+    const src = "import { GlassGanttChart } from 'aura-glass';\nexport const x = <GlassGanttChart/>;\n";
     const r = runOnSource({ path: 'x.tsx', abs: 'x', kind: 'code', source: src }, selectTransforms(['removed']), { mappings, docBase: 'docs' });
     const todo = r.todos.find((t) => t.transform === 'removed');
-    expect(todo?.reason).toContain('npx @auraglass/cli add kanban');
-    expect(r.final).toContain('npx @auraglass/cli add kanban');
+    expect(todo?.reason).toContain('npx @auraglass/cli add gantt');
+    expect(r.final).toContain('npx @auraglass/cli add gantt');
   });
 });

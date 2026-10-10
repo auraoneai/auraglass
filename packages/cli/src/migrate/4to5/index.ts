@@ -96,8 +96,9 @@ export interface RunOptions {
   transforms?: string[] | undefined;
   dryRun?: boolean;
   allowTodo?: boolean;
-  write?: (abs: string, contents: string) => void;  /** optional path roots (project-relative); defaults to the whole tree. */
-  paths?: string[];
+  write?: (abs: string, contents: string) => void;
+  /** optional path roots (project-relative); defaults to the whole tree. */
+  paths?: string[] | undefined;
 }
 
 /** Minimal .gitignore matcher: dir names, `*.ext`, leading-slash, `**`. */

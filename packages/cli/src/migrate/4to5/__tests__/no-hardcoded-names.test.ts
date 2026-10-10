@@ -18,10 +18,10 @@ describe('no-hardcoded-names', () => {
   for (const f of fs.readdirSync(dir).filter((f) => f.endsWith('.ts') && !f.startsWith('shared') && f !== 'strip.ts')) {
     it(`${f}: Glass* literals all come from mappings or documented spec names`, () => {
       const src = fs.readFileSync(path.join(dir, f), 'utf8');
-      const hits = src.match(/Glass[A-Z][A-Za-z]+/g) ?? [];
-      for (const h of hits) {
-        expect(allowed.has(h)).toBe(true);
-      }
+      // Whole-word Glass* names only: AuraGlassScript / LiquidGlassCarouselRail
+      // are distinct identifiers, not occurrences of GlassScript / GlassCarouselRail.
+      const hits = src.match(/\bGlass[A-Z][A-Za-z]+/g) ?? [];
+      expect(hits.filter((h) => !allowed.has(h))).toEqual([]);
     });
   }
 });
