@@ -90,8 +90,13 @@ mat:test:optics:
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
   script:
+    # REQ-MAT-39: N never rises over the measured baseline (re-record with --update).
+    - node scripts/mat/count-glass-recipes.mjs --ratchet scripts/mat/glass-recipes-baseline.json --out ".artifacts/mat/$CI_JOB_NAME_SLUG/recipes.json"
+    # REQ-MAT-39: optics lint over src/stories/tests/apps held at optics-baseline.json.
+    - node scripts/mat/optics-lint.mjs --out ".artifacts/mat/$CI_JOB_NAME_SLUG/optics-lint.json"
+    # REQ-MAT-39 CSS scanner (no baseline). Runs after the two ratchets so their
+    # evidence is always produced; it fails the job on any optics/unparseable CSS.
     - node scripts/mat/verify-optics-css.mjs
-    - node scripts/mat/count-glass-recipes.mjs
     - node scripts/mat/material-css-api.mjs --check
     - npx jest tests/lint tests/ci --passWithNoTests
   artifacts:
@@ -110,7 +115,7 @@ mat:test:beta-optics:
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE == "release"
   script:
-    - node scripts/mat/count-glass-recipes.mjs --strict
+    - node scripts/mat/count-glass-recipes.mjs --strict --out ".artifacts/mat/$CI_JOB_NAME_SLUG/recipes.json"
     - node scripts/mat/verify-optics-css.mjs
     - node scripts/mat/verify-recipe-removal.mjs
     - npx eslint 'src/**/*.{ts,tsx}' --format stylish
