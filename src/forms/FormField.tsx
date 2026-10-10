@@ -7,7 +7,7 @@
      Controller — value/checked + onValueChange/onCheckedChange forward to
      field.value/onChange; `name` on the hidden input submits the value. */
 import * as React from 'react';
-import { useFormField } from './useFormField';
+import { useFormField, type FormFieldRules } from './useFormField';
 import { Field } from '../components/field/index';
 
 export interface FormFieldProps {
@@ -26,10 +26,12 @@ export interface FormFieldProps {
   /** Prop the control reports changes through. Default auto-detected ('onCheckedChange' when the control defines it, else 'onValueChange'). */
   changeProp?: string;
   disabled?: boolean;
+  /** RHF validation rules (required, min, pattern, validate, …). */
+  rules?: FormFieldRules;
 }
 
-export function FormField({ name, mode = 'native', control, label, error, valueProp, changeProp, disabled }: FormFieldProps) {
-  const { bindNative, controller, invalid, error: rhfError } = useFormField(name);
+export function FormField({ name, mode = 'native', control, label, error, valueProp, changeProp, disabled, rules }: FormFieldProps) {
+  const { bindNative, controller, invalid, error: rhfError } = useFormField(name, undefined, rules);
   /* Switch/Checkbox are checked/onCheckedChange; selects/combobox value/onValueChange. */
   const typeName = control.type ? ((control.type as { displayName?: string; name?: string }).displayName ?? (control.type as { name?: string }).name ?? '') : '';
   const checkable = /switch|checkbox/i.test(typeName);
@@ -50,7 +52,9 @@ export function FormField({ name, mode = 'native', control, label, error, valueP
     <Field.Root name={name} invalid={invalid} disabled={disabled ?? false}>
       {label != null ? <Field.Label>{label}</Field.Label> : null}
       {ctl}
-      {message ? <Field.Error>{message}</Field.Error> : null}
+      {/* RHF owns validity here, so the error always matches when present
+          (Base Field.Error otherwise waits for native constraint validity). */}
+      {message ? <Field.Error match={true}>{message}</Field.Error> : null}
     </Field.Root>
   );
 }

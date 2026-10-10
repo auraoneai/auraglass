@@ -4,7 +4,10 @@
    this entry lives under src/forms/** only, so a consumer without the
    peer never touches it (the lint gate in tests/controls asserts that). */
 import * as React from 'react';
-import { useController, useFormContext, type Control, type FieldPath, type FieldValues, type UseControllerReturn } from 'react-hook-form';
+import { useController, useFormContext, type Control, type FieldPath, type FieldValues, type UseControllerProps, type UseControllerReturn } from 'react-hook-form';
+
+/** RHF validation rules for the field (required, min, pattern, validate, …). */
+export type FormFieldRules = UseControllerProps<FieldValues, FieldPath<FieldValues>>['rules'];
 
 export interface UseFormFieldResult<Name extends string = string> {
   /** Binds a native input by ref: resolves the control's inner input/textarea
@@ -20,12 +23,15 @@ export interface UseFormFieldResult<Name extends string = string> {
   error: string | undefined;
 }
 
-/** useFormField(name) — must be rendered inside a react-hook-form <FormProvider>. */
-export function useFormField<Name extends string = string>(name: Name, control?: Control<FieldValues>): UseFormFieldResult<Name> {
+/** useFormField(name, control?, rules?) — must be rendered inside a react-hook-form <FormProvider>
+    (or given `control`). `rules` are the field's RHF validation rules: the
+    controller registration owns the field, so rules must be passed here
+    rather than through a separate register() call (which it overrides). */
+export function useFormField<Name extends string = string>(name: Name, control?: Control<FieldValues>, rules?: FormFieldRules): UseFormFieldResult<Name> {
   const ctx = useFormContext<FieldValues>();
   const ctl = control ?? ctx?.control;
   if (!ctl) throw new Error('useFormField: no react-hook-form Control — wrap the form in <FormProvider>');
-  const controller = useController<FieldValues, FieldPath<FieldValues>>({ name: name as FieldPath<FieldValues>, control: ctl });
+  const controller = useController<FieldValues, FieldPath<FieldValues>>({ name: name as FieldPath<FieldValues>, control: ctl, ...(rules ? { rules } : {}) });
   const err = controller.fieldState.error;
   const { field } = controller;
   const setRef = field.ref as (e: HTMLInputElement | null) => void;
