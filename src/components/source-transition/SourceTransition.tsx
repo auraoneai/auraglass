@@ -120,4 +120,5 @@ export const SourceTransition = {
   Root: SourceTransitionRoot,
   Source,
   Destination,
+  start: startSourceTransition,
 };

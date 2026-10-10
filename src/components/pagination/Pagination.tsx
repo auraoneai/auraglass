@@ -250,4 +250,5 @@ export const Pagination = {
   Next: PaginationNext,
   Item: PaginationItem,
   Ellipsis: PaginationEllipsis,
+  getRange: getPaginationRange,
 };
