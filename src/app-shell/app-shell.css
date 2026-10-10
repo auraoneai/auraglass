@@ -228,5 +228,48 @@
   }
   .ag-app-shell[data-ag-mode='compact'] [data-ag-slot='inspector'] {
     display: none;
+  
+  /* SURF-043/045/046: panel handles — 1px line, >=24px fine / >=44px coarse
+     hit area via ::before, touch-action none (handle only); stacked mode
+     (data-ag-stacked, set by ResizeObserver) drops to a column and hides
+     handles. */
+  .ag-panels { container: ag-panels / inline-size; }
+  .ag-panels__handle {
+    position: relative;
+    touch-action: none;
+    inline-size: var(--ag-border-1, 1px);
+    background: var(--ag-border-subtle);
+    flex: none;
+  }
+  .ag-panels[data-ag-orientation='vertical'] .ag-panels__handle {
+    inline-size: auto;
+    block-size: var(--ag-border-1, 1px);
+  }
+  .ag-panels__handle::before {
+    content: '';
+    position: absolute;
+    inset: calc(var(--ag-space-3, 12px) * -1);
+  }
+  @media (pointer: coarse) {
+    .ag-panels__handle::before { inset: calc(var(--ag-space-5, 22px) * -1); }
+  }
+  .ag-panels__handle:focus-visible {
+    outline: var(--ag-focus-width, 2px) solid var(--ag-focus-color);
+    outline-offset: var(--ag-focus-offset, 2px);
+  }
+  .ag-panels__grip {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    inline-size: var(--ag-space-4, 16px);
+    block-size: var(--ag-space-4, 16px);
+    border-radius: var(--ag-radius-sm);
+    background: var(--ag-border-subtle);
+  }
+  .ag-panels[data-ag-stacked='true'] {
+    flex-direction: column;
+  }
+  .ag-panels[data-ag-stacked='true'] .ag-panels__handle {
+    display: none;
   }
 }
