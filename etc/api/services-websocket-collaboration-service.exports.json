@@ -1,0 +1,12 @@
+{
+ "entry": "./services/websocket/collaboration-service",
+ "exports": [
+  "CollaborationEditUnsupported",
+  "CollaborationRoom",
+  "CollaborationService",
+  "CollaborativeEdit",
+  "CursorPosition",
+  "PresenceInfo"
+ ],
+ "unanalysable": []
+}

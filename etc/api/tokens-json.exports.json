@@ -1,0 +1,7 @@
+{
+ "entry": "./tokens/json",
+ "exports": [],
+ "unanalysable": [
+  "no analysable target for './tokens/json'"
+ ]
+}

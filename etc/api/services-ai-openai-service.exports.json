@@ -1,0 +1,11 @@
+{
+ "entry": "./services/ai/openai-service",
+ "exports": [
+  "AIUsageMetadata",
+  "FieldSuggestion",
+  "FormFieldSuggestionResult",
+  "OpenAIClientFactory",
+  "OpenAIService"
+ ],
+ "unanalysable": []
+}

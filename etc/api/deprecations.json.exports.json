@@ -1,0 +1,7 @@
+{
+ "entry": "./deprecations.json",
+ "exports": [],
+ "unanalysable": [
+  "no analysable target for './deprecations.json'"
+ ]
+}

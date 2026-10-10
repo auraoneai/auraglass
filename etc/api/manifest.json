@@ -7,6 +7,7 @@
     "./client",
     "./core/mixins/glassMixins",
     "./data",
+    "./deprecations.json",
     "./forms",
     "./hooks/useGlassProbes",
     "./icons",
@@ -21,6 +22,7 @@
     "./marketing",
     "./navigation",
     "./overlays",
+    "./package.json",
     "./primitives",
     "./primitives/dismissable-layer",
     "./primitives/focus",
@@ -36,12 +38,23 @@
     "./services/ai/vision-service",
     "./services/websocket/collaboration-service",
     "./ssr",
+    "./styles",
     "./theme",
     "./three",
     "./tokens",
+    "./tokens/css",
+    "./tokens/json",
+    "./tokens/keyframes",
+    "./tokens/manifest",
+    "./tokens/tailwind",
     "./utils/env",
     "./workflows",
     "./workspace"
   ],
-  "unanalysable": []
+  "unanalysable": [
+    "./deprecations.json",
+    "./tokens/json",
+    "./tokens/manifest",
+    "./tokens/tailwind"
+  ]
 }

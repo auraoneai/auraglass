@@ -1,0 +1,11 @@
+{
+ "entry": "./services/ai/vision-service",
+ "exports": [
+  "FaceDetectionResult",
+  "ImageAnalysisResult",
+  "ObjectDetectionResult",
+  "TextExtractionResult",
+  "VisionService"
+ ],
+ "unanalysable": []
+}

@@ -1,0 +1,13 @@
+{
+ "entry": "./primitives/roving-focus",
+ "exports": [
+  "GlassRovingFocusGroup",
+  "RovingFocusGroup",
+  "RovingFocusGroupItem",
+  "RovingFocusGroupItemProps",
+  "RovingFocusGroupRoot",
+  "RovingFocusGroupRootProps",
+  "default"
+ ],
+ "unanalysable": []
+}

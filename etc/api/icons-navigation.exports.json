@@ -1,0 +1,23 @@
+{
+ "entry": "./icons/navigation",
+ "exports": [
+  "CalendarIcon",
+  "ChevronDownIcon",
+  "ChevronLeftIcon",
+  "ChevronRightIcon",
+  "ChevronUpIcon",
+  "DashboardIcon",
+  "FolderIcon",
+  "GridIcon",
+  "HomeIcon",
+  "ListIcon",
+  "MenuIcon",
+  "MoreHorizontalIcon",
+  "MoreVerticalIcon",
+  "SearchIcon",
+  "SettingsIcon",
+  "UserIcon",
+  "UsersIcon"
+ ],
+ "unanalysable": []
+}

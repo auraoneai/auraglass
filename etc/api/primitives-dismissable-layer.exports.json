@@ -1,0 +1,11 @@
+{
+ "entry": "./primitives/dismissable-layer",
+ "exports": [
+  "DismissableLayer",
+  "DismissableLayerOutsideEvent",
+  "DismissableLayerProps",
+  "GlassDismissableLayer",
+  "default"
+ ],
+ "unanalysable": []
+}
