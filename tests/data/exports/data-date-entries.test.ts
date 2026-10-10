@@ -27,8 +27,14 @@ describe('packed ./data + ./date entries (SURF-141)', () => {
     }
     const work = mkdtempSync(join(tmpdir(), 'ag-pack-'));
     const out = execSync('npm pack --json', { cwd: ROOT, encoding: 'utf8', env: { ...process.env, npm_config_loglevel: 'error' } });
-    const tarball = JSON.parse(out)[0].filename as string;
-    execSync(`npm init -y && npm install --no-save --legacy-peer-deps ${join(ROOT, tarball)}`, { cwd: work, stdio: 'pipe', env: { ...process.env, npm_config_loglevel: 'error' } });
+    // npm <=10 prints an array, npm 11 an object keyed by package name.
+    const packed = JSON.parse(out);
+    const tarball = (Array.isArray(packed) ? packed[0] : Object.values(packed)[0] as { filename: string }).filename as string;
+    // --legacy-peer-deps skips peers, so install the peers a ./data + ./date
+    // consumer must provide, pinned to the versions this repo resolves.
+    const ver = (m: string) => JSON.parse(readFileSync(join(ROOT, 'node_modules', m, 'package.json'), 'utf8')).version as string;
+    const peers = ['react', 'react-dom', 'react-aria-components', '@internationalized/date'].map((m) => `${m}@${ver(m)}`).join(' ');
+    execSync(`npm init -y && npm install --no-save --legacy-peer-deps ${join(ROOT, tarball)} ${peers}`, { cwd: work, stdio: 'pipe', env: { ...process.env, npm_config_loglevel: 'error' } });
     for (const [spec, names] of Object.entries(EXPECTED)) {
       writeFileSync(join(work, 'probe.mjs'), `import * as m from '${spec}'; console.log(JSON.stringify(Object.keys(m).sort()));`);
       const keys: string[] = JSON.parse(execSync('node probe.mjs', { cwd: work, encoding: 'utf8' }));
