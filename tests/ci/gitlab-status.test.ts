@@ -249,7 +249,7 @@ process.stderr.write('stub git: unexpected ' + a.join(' ') + '\\n'); process.exi
       expect(p[1]).toBe('https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass.git');
       expect(p[2]).toMatch(/^[0-9a-f]{40}:refs\/(heads|tags)\//);
     }
-    expect(pushes.map((p) => p[2].split(':')[1]).sort()).toEqual([...SELECTED].sort());
+    expect(pushes.map((p) => String(p[2]).split(':')[1]).sort()).toEqual([...SELECTED].sort());
     // origin/main is refreshed before the --prune check
     const fetchIdx = r.log.findIndex((a) => a[0] === 'fetch');
     const showIdx = r.log.findIndex((a) => a[0] === 'show');
