@@ -24,6 +24,31 @@ qual:build:storybook:
     paths: [storybook-static/]
 qual:certify:l1:  { extends: .qual-lane, variables: { LANE: L1 } }
 # ... one job per lane L1..L12, named exactly as CERT_JOBS ...
+# L10 Performance (REQ-QUAL-34..36). Profiles b, c, d on .ag-playwright; profile a on .ag-gpu (qual:certify:l10-gpu).
+# Every step runs; the job exits non-zero if any step failed (no fail-open). allow_failure flips through ci/plat/activation.json.
+qual:certify:l10:
+  extends: .qual-lane
+  variables: { LANE: L10, AG_STORYBOOK_STATIC: "$CI_PROJECT_DIR/storybook-static" }
+  timeout: 90m
+  script:
+    - |
+      rc=0
+      node --experimental-vm-modules node_modules/jest/bin/jest.js --ci --testPathIgnorePatterns /node_modules/ \
+        --testMatch '**/packages/qa/test/bci.test.ts' '**/tests/perf/qual/run-perf.test.mjs' '**/tests/storybook/perf-fixtures-index.test.mjs' || rc=1
+      npx playwright test -c tests/perf/qual/playwright.config.ts --project qual:l10-selftest || rc=1
+      node tests/perf/harness/run-perf.mjs --profile b,c,d --scope "$AG_SCOPE" || rc=1
+      AG_L10_STREAMS=1 npx playwright test -c tests/perf/qual/playwright.config.ts --project qual:l10-streams || rc=1
+      exit $rc
+qual:certify:l10-gpu:
+  extends: [.qual-lane, .ag-gpu]
+  variables: { LANE: L10 }
+  timeout: 90m
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "main"
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
+      changes: [src/**/*, tests/perf/harness/**/*, stories/qual/perf/**/*, packages/qa/src/perf/**/*, ci/qual.gitlab-ci.yml]
+  script:
+    - xvfb-run -a -s "-screen 0 2880x1800x24" node tests/perf/harness/run-perf.mjs --profile a --scope "$AG_SCOPE"
 qual:certify:nightly:
   extends: .qual-lane
   rules: [{ if: $AG_SCOPE == "nightly" }]
