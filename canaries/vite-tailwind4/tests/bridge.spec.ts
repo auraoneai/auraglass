@@ -60,16 +60,43 @@ test.describe('vite-tailwind4 bridge (REQ-PLAT-75)', () => {
     expect(body!).not.toContain('!important');
   });
 
-  test('built css declares TAILWIND_BRIDGE_ORDER and carries the Button ag.components rules', () => {
-    const css = builtCss();
-    const statements = [...css.matchAll(/@layer\s+([\w.\s,-]+);/g)].map((m) => m[1]!.replace(/\s+/g, ''));
-    /* the first statement that orders `utilities` decides where ag sits */
-    const ordering = statements.find((s) => s.split(',').includes('utilities'));
-    expect(ordering, `@layer statements seen: ${statements.join(' | ')}`).toBe(
-      'theme,base,ag,components,utilities',
-    );
+  test('cascade follows TAILWIND_BRIDGE_ORDER and the Button rules live in an ag.* layer', async ({ page }) => {
+    /* Read from the CSSOM, not the minified text: the minifier may merge or
+       re-split @layer statements, while the browser's layer order is what the
+       cascade actually uses (order of first declaration of each top-level
+       layer). */
+    await page.goto('/');
+    await page.waitForSelector('[data-ag-canary="plat-tailwind"]');
+    const r = await page.evaluate(() => {
+      const top: string[] = [];
+      const addTop = (full: string) => {
+        const head = full.split('.')[0]!;
+        if (!top.includes(head)) top.push(head);
+      };
+      const agButtonLayers: string[] = [];
+      const walk = (rules: CSSRuleList, path: string[]) => {
+        for (const rule of Array.from(rules)) {
+          if (rule instanceof CSSLayerStatementRule) {
+            for (const n of rule.nameList) if (path.length === 0) addTop(n);
+          } else if (rule instanceof CSSLayerBlockRule) {
+            if (path.length === 0 && rule.name) addTop(rule.name);
+            walk(rule.cssRules, rule.name ? [...path, rule.name] : path);
+          } else if (rule instanceof CSSStyleRule) {
+            if (/\.ag-button\b/.test(rule.selectorText)) agButtonLayers.push(path.join('.'));
+          } else if ('cssRules' in rule) {
+            walk((rule as CSSGroupingRule).cssRules, path);
+          }
+        }
+      };
+      for (const sheet of Array.from(document.styleSheets)) walk(sheet.cssRules, []);
+      return { top, agButtonLayers };
+    });
+    const idx = ['theme', 'base', 'ag', 'components', 'utilities'].map((n) => r.top.indexOf(n));
+    expect(idx.every((i) => i >= 0), `top-level layers seen: ${r.top.join(', ')}`).toBe(true);
+    expect([...idx].sort((a, b) => a - b), `top-level layers seen: ${r.top.join(', ')}`).toEqual(idx);
     /* the component styles really are in the bundle (otherwise "wins" is vacuous) */
-    expect(css).toMatch(/@layer\s+ag\.components\s*\{[^]*?\.ag-button\b/);
+    expect(r.agButtonLayers.length, '.ag-button rules missing from the page css').toBeGreaterThan(0);
+    for (const l of r.agButtonLayers) expect(l.split('.')[0], `.ag-button rule in layer "${l}"`).toBe('ag');
   });
 
   test('bg-red-500 on a Button wins over the ag styles without !important', async ({ page }) => {
