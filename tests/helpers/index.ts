@@ -137,22 +137,28 @@ export const gotoStory: GotoStory = async (page, storyId, env = {}) => {
     falling back to index.json. Never hard-codes another stream's story ids. */
 const OWNERSHIP_JSON = join(__dirname, '..', '..', 'contracts', 'ownership.json');
 
-/** Minimal glob matcher for ownership.json rows (`**` crosses `/`, `*` does not). */
+type StoryOwner = SubjectIndex['stories'][number]['owner'];
+type OwnershipRow = { id: string; glob: string; owner: string; lines?: string[] };
+
+/** Owner of a repo path by contracts/ownership.json, resolved exactly as
+    contract:ownership (scripts/ci/verify-ownership.mjs) does on the 5x line:
+    first matching row wins, picomatch globs with dot files, rows scoped to
+    other lines skipped. A missing ownership file or an unmatched path throws;
+    no stream is ever hard-coded. */
 const ownershipOwner = (() => {
-  let rows: Array<{ glob: string; owner: SubjectIndex['stories'][number]['owner']; re: RegExp }> | null = null;
-  return (storyPath: string): SubjectIndex['stories'][number]['owner'] => {
+  let rows: Array<OwnershipRow & { test: (p: string) => boolean }> | null = null;
+  return (storyPath: string): StoryOwner => {
     if (rows === null) {
-      rows = [];
-      try {
-        const doc = JSON.parse(readFileSync(OWNERSHIP_JSON, 'utf8')) as { rows?: Array<{ glob: string; owner: string }> };
-        for (const r of doc.rows ?? []) {
-          const re = new RegExp('^' + r.glob.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*\*/g, '\\u0000').replace(/\*/g, '[^/]*').replace(/\u0000/g, '.*') + '$');
-          rows.push({ glob: r.glob, owner: r.owner as SubjectIndex['stories'][number]['owner'], re });
-        }
-      } catch { /* ownership.json absent */ }
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const picomatch = require('picomatch') as (glob: string, opts: { dot: boolean }) => (p: string) => boolean;
+      const doc = JSON.parse(readFileSync(OWNERSHIP_JSON, 'utf8')) as { rows?: OwnershipRow[] };
+      rows = (doc.rows ?? [])
+        .filter((r) => !r.lines || r.lines.includes('5x'))
+        .map((r) => ({ ...r, test: picomatch(r.glob, { dot: true }) }));
     }
-    const hit = rows.find((r) => r.re.test(storyPath));
-    return hit?.owner ?? 'QUAL'; // helpers' own stream when a path is unclaimed
+    const hit = rows.find((r) => r.test(storyPath));
+    if (!hit) throw new Error(`listSubjects: no contracts/ownership.json row owns '${storyPath}'`);
+    return hit.owner as StoryOwner;
   };
 })();
 
@@ -196,6 +202,22 @@ export const listSubjects: ListSubjects = async (filter = {}) => {
     (!filter.owner || s.owner === filter.owner));
 };
 
+/** Resolves packages/qa/src/perf/bci.ts (FIN-G, REQ-QUAL-36). Absence of the
+    producer is a pending state, raised as an error named `AgPendingProducer`
+    with a `pending:` message the lane runner classifies; any other failure
+    (the module throws, or has no `bci` export) propagates unchanged. */
+const QA_BCI = join(__dirname, '..', '..', 'packages', 'qa', 'src', 'perf', 'bci.ts');
+const loadQaBci = async (): Promise<PerfProbe['bci']> => {
+  if (!existsSync(QA_BCI)) {
+    const err = new Error('pending: perf.bci needs packages/qa/src/perf/bci.ts (FIN-G, REQ-QUAL-36), not on this line yet');
+    err.name = 'AgPendingProducer';
+    throw err;
+  }
+  const mod = (await import(QA_BCI)) as { bci?: PerfProbe['bci'] };
+  if (typeof mod.bci !== 'function') throw new Error(`perf.bci: ${QA_BCI} does not export bci()`);
+  return mod.bci;
+};
+
 /** Page-side perf probes (QUAL implements the real harness; these are the final
     page-side counts the contract fixes). */
 export const perf: PerfProbe = {
@@ -212,25 +234,10 @@ export const perf: PerfProbe = {
   },
   async bci(page) {
     // REQ-QUAL-36 BCI lives in packages/qa/src/perf/bci.ts (FIN-G creates the
-    // qa package); delegate once it exists, meanwhile the same computation
-    // runs inline so existing specs keep working.
-    try {
-      const spec = '../../packages/qa/src/perf/bci.js';
-      const mod = (await import(spec).catch(() => null)) as { bci?: PerfProbe['bci'] } | null;
-      if (mod?.bci) return mod.bci(page);
-    } catch { /* qa package not present yet */ }
-    return page.evaluate(() => {
-      const vw = window.innerWidth * window.innerHeight || 1;
-      let area = 0;
-      for (const el of document.querySelectorAll<HTMLElement>('*')) {
-        const cs = getComputedStyle(el);
-        if (cs.backdropFilter !== 'none' && cs.backdropFilter !== '') {
-          const r = el.getBoundingClientRect();
-          area += Math.max(0, r.width) * Math.max(0, r.height);
-        }
-      }
-      return Math.min(1, area / vw);
-    });
+    // qa package). Delegate to it; while it is absent the probe raises a
+    // pending-producer error that the lane runner reports as `pending`
+    // (PRD-F §4.3 rule 2). No inline re-implementation, nothing swallowed.
+    return (await loadQaBci())(page);
   },
   async frames(page, opts) {
     await page.evaluate(() => {

@@ -1,3 +1,0 @@
-CMP-134 named case: 'prop-grammar' does not yet rewrite the flat GlassButton
-alias to the 5.0 compound root API (Button.Root). Pending until the cmp
-stream's codemod REQ lands the root-alias grammar.
