@@ -58,7 +58,10 @@ export function renderElement<P extends object>(
   state?: object,
 ): React.ReactElement {
   if (typeof render === 'function') {
-    return render(props, (state ?? {}) as Record<string, unknown>);
+    /* the caller's ref rides on the fallback element — JSX is the only
+       compiler-clean channel for refs, so splice it back into the bag here. */
+    const fr = getRef(fallback);
+    return render((fr === undefined ? props : { ...(props as object), ref: fr }) as P, (state ?? {}) as Record<string, unknown>);
   }
 
   const p = props as Record<string, unknown>;
@@ -70,7 +73,7 @@ export function renderElement<P extends object>(
       ...rp,
       className: [p.className, rp.className].filter(Boolean).join(' ') || undefined,
       style: { ...(p.style as React.CSSProperties | undefined), ...(rp.style as React.CSSProperties | undefined) },
-      ref: composeRefs(getRef(render), p.ref as React.Ref<unknown> | undefined) ?? (getRef(render) as never),
+      ref: composeRefs(getRef(render), (p.ref ?? getRef(fallback)) as React.Ref<unknown> | undefined) ?? (getRef(render) as never),
     } as Record<string, unknown>);
   }
 
@@ -79,5 +82,6 @@ export function renderElement<P extends object>(
     ...p,
     className: [fallbackProps.className, p.className].filter(Boolean).join(' ') || undefined,
     style: { ...(fallbackProps.style as React.CSSProperties | undefined), ...(p.style as React.CSSProperties | undefined) },
+    ref: composeRefs(getRef(fallback), p.ref as React.Ref<unknown> | undefined) ?? (getRef(fallback) as never),
   } as Record<string, unknown>);
 }

@@ -144,7 +144,7 @@ const ToastProgress = React.forwardRef<HTMLElement, ToastProgressProps>(
 export function useToast(): UseToastReturn {
   const mgr = Base.useToastManager();
   const hist = useHistory();
-  const add = React.useCallback((t: ToastData) => {
+  const add = (t: ToastData) => {
     const intent = t.intent ?? 'info';
     const id = mgr.add({
       title: t.title,
@@ -157,17 +157,17 @@ export function useToast(): UseToastReturn {
     } as Parameters<typeof mgr.add>[0]);
     pushHistory({ id, intent, title: t.title ?? null, at: Date.now(), status: 'open' });
     return id;
-  }, [mgr]);
-  const close = React.useCallback((id: string) => { mgr.close(id); markHistoryClosed(id); }, [mgr]);
-  const update = React.useCallback((id: string, t: Partial<ToastData>) => {
+  };
+  const close = (id: string) => { mgr.close(id); markHistoryClosed(id); };
+  const update = (id: string, t: Partial<ToastData>) => {
     mgr.update(id, {
       ...(t.title !== undefined ? { title: t.title } : {}),
       ...(t.description !== undefined ? { description: t.description } : {}),
       ...(t.intent !== undefined ? { type: t.intent, priority: intentPriority(t.intent) } : {}),
       ...(t.timeout !== undefined ? { timeout: t.timeout } : {}),
     });
-  }, [mgr]);
-  const promise = React.useCallback(<V,>(p: Promise<V>, opts: { loading: ToastData; success: ToastData | ((v: V) => ToastData); error: ToastData | ((e: unknown) => ToastData) }) => {
+  };
+  const promise = <V,>(p: Promise<V>, opts: { loading: ToastData; success: ToastData | ((v: V) => ToastData); error: ToastData | ((e: unknown) => ToastData) }) => {
     const toOpts = (t: ToastData) => ({
       title: t.title,
       description: t.description,
@@ -180,9 +180,9 @@ export function useToast(): UseToastReturn {
       success: (v: V) => toOpts({ intent: 'success', ...(typeof opts.success === 'function' ? opts.success(v) : opts.success) }),
       error: (e: unknown) => toOpts({ intent: 'error', ...(typeof opts.error === 'function' ? opts.error(e) : opts.error) }),
     });
-  }, [mgr]);
-  const wrap = React.useCallback((intent: ToastIntent) => (t: Omit<ToastData, 'intent'>) => add({ ...t, intent }), [add]);
-  return React.useMemo(() => ({
+  };
+  const wrap = (intent: ToastIntent) => (t: Omit<ToastData, 'intent'>) => add({ ...t, intent });
+  return {
     toasts: mgr.toasts,
     add,
     close,
@@ -193,7 +193,7 @@ export function useToast(): UseToastReturn {
     warning: wrap('warning'),
     error: wrap('error'),
     history: hist,
-  }), [mgr.toasts, add, close, update, promise, wrap, hist]);
+  };
 }
 
 export const Toast = {

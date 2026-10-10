@@ -30,6 +30,7 @@ const Ctx = React.createContext<{
   idBase: string;
   listId: string;
   composing: React.MutableRefObject<boolean>;
+  setComposing: (v: boolean) => void;
 } | null>(null);
 
 export type CommandRootProps = Omit<PartProps<'div'>, 'onChange'> & {
@@ -59,6 +60,9 @@ function CommandRoot({
   const [items, setItems] = React.useState<ItemSpec[]>([]);
   const [activeId, setActiveId] = React.useState<string | undefined>(undefined);
   const composing = React.useRef(false);
+  const setComposing = React.useCallback((v: boolean) => {
+    composing.current = v;
+  }, []);
   const { announce } = useAnnouncer();
 
   const setQuery = React.useCallback(
@@ -110,6 +114,7 @@ function CommandRoot({
       idBase,
       listId: `${idBase}-list`,
       composing,
+      setComposing,
       loop,
       enabledValues: enabled.map((e) => e.value),
     }),
@@ -233,10 +238,10 @@ function CommandInput({ placeholder, render, ...rest }: CommandInputProps) {
       ctx.setActiveId(undefined);
     },
     onCompositionStart: () => {
-      ctx.composing.current = true;
+      ctx.setComposing(true);
     },
     onCompositionEnd: () => {
-      ctx.composing.current = false;
+      ctx.setComposing(false);
     },
     ...rest,
   });

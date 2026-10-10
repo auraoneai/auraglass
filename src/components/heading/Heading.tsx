@@ -25,11 +25,10 @@ export function Heading({
   const Tag = `h${level}` as 'h1';
   const props = {
     ...rest,
-    ref,
     'data-ag-part': 'root',
     'data-ag-level': level,
     'data-ag-size': size,
     className: cn('ag-heading', `ag-heading-size-${size}`, className),
-  } as React.HTMLAttributes<HTMLHeadingElement> & { ref?: React.Ref<HTMLHeadingElement> };
-  return renderElement(render, <Tag />, props);
+  } as React.HTMLAttributes<HTMLHeadingElement>;
+  return renderElement(render, <Tag ref={ref} />, props);
 }

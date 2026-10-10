@@ -77,8 +77,8 @@ export function Button(props: ButtonProps) {
     ...rest
   } = props as ButtonProps & { 'data-ag-part'?: string };
 
-  const token = React.useRef<object>({});
-  useProminentGuard(prominent, token.current);
+  const [token] = React.useState(() => ({} as object));
+  useProminentGuard(prominent, token);
 
   const isToggle = pressed !== undefined || defaultPressed !== undefined || onPressedChange !== undefined;
 

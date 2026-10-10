@@ -39,11 +39,10 @@ function Root({
 }: ColorPickerRootProps & { ref?: React.Ref<HTMLSpanElement> | undefined }) {
   const [uncontrolled, setUncontrolled] = React.useState(() => hexToHsv(defaultValue));
   const hsv = value !== undefined ? hexToHsv(value) : uncontrolled;
-  const hex = hsvToHex(hsv);
   const ctx = React.useMemo<Ctx>(
     () => ({
       hsv,
-      hex,
+      hex: hsvToHex(hsv),
       setHsv: (next, commit = true) => {
         if (value === undefined) setUncontrolled(next);
         onValueChange?.(hsvToHex(next), { committed: commit });
@@ -56,9 +55,9 @@ function Root({
         }
       },
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [hsv.h, hsv.s, hsv.v, value],
+    [hsv, value, onValueChange],
   );
+  const hex = ctx.hex;
   return (
     <ColorCtx.Provider value={ctx}>
       <Popover.Root {...(open !== undefined ? { open } : {})} {...(defaultOpen !== undefined ? { defaultOpen } : {})} onOpenChange={onOpenChange}>

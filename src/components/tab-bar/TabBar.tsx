@@ -40,7 +40,7 @@ function TabBarRoot({
   ...rest
 }: TabBarRootProps) {
   const [panels, setPanels] = React.useState<Set<string>>(new Set());
-  const valuesRef = React.useRef<Set<string>>(new Set());
+  const values = React.useMemo(() => new Set<string>(), []);
   const registerPanel = React.useCallback(
     (v: string) => {
       setPanels((prev) => new Set(prev).add(v));
@@ -54,25 +54,26 @@ function TabBarRoot({
     [],
   );
   const ctxValue = React.useMemo(
-    () => ({ semantics, values: valuesRef.current, registerPanel }),
-    [semantics, registerPanel],
+    () => ({ semantics, values, registerPanel }),
+    [semantics, values, registerPanel],
   );
 
   // SURF-069: tabs semantics requires every Item value to have a Panel.
   const registered = React.useRef<Set<string>>(new Set());
   React.useEffect(() => {
     if (semantics !== 'tabs' || process.env['NODE_ENV'] !== 'development') return;
-    const missing = [...valuesRef.current].filter((v) => !panels.has(v));
+    const missing = [...values].filter((v) => !panels.has(v));
     if (missing.length > 0) {
       console.error(
         `[auraglass] TabBar semantics="tabs": no Tabs.Panel registered for value(s) ${missing.join(', ')}.`,
       );
     }
-  }, [semantics, panels]);
+  }, [semantics, panels, values]);
 
   const itemCount = React.useRef(0);
   const items = React.Children.toArray(children).filter(Boolean);
-  if (process.env['NODE_ENV'] === 'development') {
+  React.useEffect(() => {
+    if (process.env['NODE_ENV'] !== 'development') return;
     const n = items.length;
     if (n !== itemCount.current) {
       itemCount.current = n;
@@ -80,7 +81,7 @@ function TabBarRoot({
         console.warn(`[auraglass] TabBar: ${n} items — keep 2..5 visible destinations.`);
       }
     }
-  }
+  }, [items.length]);
 
   if (process.env['NODE_ENV'] === 'development' && semantics === 'navigation' && ariaLabel === undefined) {
     console.warn('[auraglass] TabBar: aria-label is required on navigation tab bars.');

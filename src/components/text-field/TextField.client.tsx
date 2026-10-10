@@ -47,10 +47,12 @@ export function TextField({
   const controlId = id ?? autoId;
   const [count, setCount] = React.useState(() => (value ?? defaultValue ?? '').length);
 
-  if (process.env.NODE_ENV !== 'production') {
-    warnControlledSwitch('TextField', 'value', wasControlled.current, value !== undefined);
-    wasControlled.current = value !== undefined;
-  }
+  React.useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      warnControlledSwitch('TextField', 'value', wasControlled.current, value !== undefined);
+      wasControlled.current = value !== undefined;
+    }
+  }, [value]);
 
   const invalid = error !== undefined && error !== null;
   const controlProps = {

@@ -38,7 +38,6 @@ interface SheetCtx {
   detents: SheetDetentsHandle;
   setPopupElement: (el: HTMLElement | null) => void;
   emit: (open: boolean, details: { event?: Event; reason?: unknown }) => void;
-  liveRef: React.RefObject<HTMLDivElement | null>;
 }
 const SheetContext = React.createContext<SheetCtx | null>(null);
 
@@ -123,9 +122,10 @@ function SheetRoot({
     emit(o, d);
   }, [emit]);
 
-  const popupRef = React.useRef<HTMLElement | null>(null);
-  popupRef.current = popupElement;
   const liveRef = React.useRef<HTMLDivElement | null>(null);
+  const registerLive = React.useCallback((el: HTMLDivElement | null) => {
+    liveRef.current = el;
+  }, []);
   const { announce: providerAnnounce } = useAnnouncer();
   const announce = React.useCallback((text: string) => {
     if (liveRef.current) liveRef.current.textContent = text;
@@ -137,16 +137,16 @@ function SheetRoot({
     sign: (resolved === 'bottom' || resolved === 'right' ? 1 : -1) as 1 | -1,
     side,
     detents: detentState,
-    get viewportPx() { return viewportPx; },
-    getPopup: () => popupRef.current,
+    viewportPx,
+    getPopup: () => popupElement,
     onRequestClose: () => handleOpenChange(false, { reason: 'imperative' }),
     labels,
     announce,
-  }), [axis, resolved, side, detentState, viewportPx, labels, handleOpenChange, announce]);
+  }), [axis, resolved, side, detentState, viewportPx, popupElement, labels, handleOpenChange, announce]);
 
   const ctx = React.useMemo<SheetCtx>(() => ({
     depth, open: effectiveOpen, modal, side, resolved, preset, labels, detents: detentState,
-    setPopupElement, emit: handleOpenChange, liveRef,
+    setPopupElement, emit: handleOpenChange,
   }), [depth, effectiveOpen, modal, side, resolved, preset, labels, detentState, handleOpenChange]);
 
   return (
@@ -160,6 +160,7 @@ function SheetRoot({
           onOpenChange={(o, d) => handleOpenChange(o, { event: d?.event, reason: d?.reason })}
         >
           {children}
+          <div ref={liveRef} data-ag-part="detent-live" aria-live="polite" className="ag-vh" />
         </Base.Root>
       </SheetHandleContext.Provider>
     </SheetContext.Provider>
@@ -228,7 +229,6 @@ function SheetPopup({
       {...rest}
     >
       {children}
-      <div ref={ctx.liveRef} data-ag-part="detent-live" aria-live="polite" className="ag-vh" />
     </Base.Popup>
   );
 }

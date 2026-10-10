@@ -70,8 +70,9 @@ export function SheetHandle({ className, children, ref }: {
 
   const onPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
     if (e.button !== 0 && e.pointerType === 'mouse') return;
+    const el = e.currentTarget as HTMLButtonElement;
     try {
-      (e.currentTarget as HTMLButtonElement).setPointerCapture?.(e.pointerId);
+      if (el.setPointerCapture) el.setPointerCapture(e.pointerId);
     } catch { /* jsdom has no pointer capture */ }
     const v = ctx.axis === 'y' ? e.clientY : e.clientX;
     drag.current = { id: e.pointerId, start: v, samples: [{ t: performance.now(), v }] };
@@ -93,8 +94,9 @@ export function SheetHandle({ className, children, ref }: {
     const d = drag.current;
     if (!d || e.pointerId !== d.id) return;
     drag.current = null;
+    const target = e.currentTarget as HTMLButtonElement;
     try {
-      (e.currentTarget as HTMLButtonElement).releasePointerCapture?.(e.pointerId);
+      if (target.releasePointerCapture) target.releasePointerCapture(e.pointerId);
     } catch { /* already released / jsdom */ }
     const popup = ctx.getPopup();
     popup?.removeAttribute('data-ag-dragging');
