@@ -132,7 +132,16 @@ mat:test:material-browsers:
   allow_failure: true
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
+  # The specs drive material-lab stories at AG_STORYBOOK_URL (127.0.0.1:6006,
+  # playwright.config.ts baseURL): reuse QUAL's storybook-static artifact, build
+  # it here when absent, and serve it before the run (fail-closed if it never
+  # comes up).
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
   script:
+    - test -f storybook-static/iframe.html || npm run storybook:build
+    - (python3 -m http.server 6006 --bind 127.0.0.1 --directory storybook-static >/dev/null 2>&1 &)
+    - node -e "const t=Date.now();(async function p(){try{if((await fetch('http://127.0.0.1:6006/iframe.html')).ok)return}catch{}if(Date.now()-t>60000){console.error('storybook-static not served on :6006');process.exit(1)}setTimeout(p,500)})()"
     - npx playwright test --project=mat:material-chromium --project=mat:material-webkit --project=mat:material-firefox --reporter=line --output=".artifacts/mat/$CI_JOB_NAME_SLUG/test-results"
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
