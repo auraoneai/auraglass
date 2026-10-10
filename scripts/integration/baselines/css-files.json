@@ -450,12 +450,6 @@
     "expires": "RC-1"
   },
   {
-    "file": "src/material/css/generated/ladders.css",
-    "owner": "MAT",
-    "reqFin": "REQ-FIN-03",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/material/css/generated/properties.css",
     "owner": "MAT",
     "reqFin": "REQ-FIN-03",
