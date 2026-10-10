@@ -82,7 +82,6 @@
 
   /* detent/full-height flag → tinted fill resolves through the PRD-04 var */
   .ag-sheet-popup[data-ag-full-height] {
-    --_ag-sheet-fill: tinted;
     border-radius: 0;
   }
 
