@@ -100,13 +100,27 @@ describe('Base UI import confinement (REQ-CMP-01)', () => {
       else if (/\.(ts|tsx)$/.test(entry)) yield p;
     }
   }
-  it('no @base-ui/react import outside src/components|src/foundation', () => {
+  /* Expiring baseline: SURF Chip still imports Base UI Toggle directly until
+     REQ-FIN-83 (FIN-F) switches it to src/components/chip/ChipToggle. The
+     stale-row check below forces this row out in the PR that fixes it. */
+  const BASELINE: Array<{ file: string; owner: string; reqFin: string; expires: string }> = [
+    { file: 'src/data/chip/Chip.tsx', owner: 'SURF', reqFin: 'REQ-FIN-83', expires: 'RC-1' },
+  ];
+  function scan(): string[] {
     const offenders: string[] = [];
     for (const f of walk(join(root, 'src'))) {
       const rel = relative(root, f).split(sep).join('/');
       if (ALLOWED.some((d) => rel.startsWith(`${d}/`))) continue;
       if (/@base-ui\/react/.test(readFileSync(f, 'utf8'))) offenders.push(rel);
     }
-    expect(offenders).toEqual([]);
+    return offenders;
+  }
+  it('no @base-ui/react import outside src/components|src/foundation', () => {
+    const baselined = new Set(BASELINE.map((r) => r.file));
+    expect(scan().filter((f) => !baselined.has(f))).toEqual([]);
+  });
+  it('every baseline row is still an offender (no stale rows)', () => {
+    const offenders = new Set(scan());
+    expect(BASELINE.map((r) => r.file).filter((f) => !offenders.has(f))).toEqual([]);
   });
 });
