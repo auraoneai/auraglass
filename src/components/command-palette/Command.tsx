@@ -298,6 +298,9 @@ function CommandItem({ value, keywords, onSelect, disabled, shortcut, children, 
   const id = `${ctx.idBase}-item-${value}`;
   const active = ctx.activeId === id;
   const hidden = ctx.items.length > 0 && !ctx.items.some((i) => i.value === value);
+  // SURF-060: render in score order — rank within the visible set drives the
+  // flex `order` (no DOM reorder; keyboard nav already follows `enabled`).
+  const rank = ctx.items.findIndex((i) => i.value === value);
   return partElement('div', {
     render: render as React.ReactElement | undefined,
     id,
@@ -307,6 +310,7 @@ function CommandItem({ value, keywords, onSelect, disabled, shortcut, children, 
     'data-ag-part': 'item',
     'data-state': active ? 'active' : 'inactive',
     hidden,
+    style: { ...(rest as { style?: React.CSSProperties }).style, order: rank < 0 ? 0 : rank },
     className: 'ag-command__item',
     onMouseMove: () => !disabled && ctx.setActiveId(id),
     onClick: () => {

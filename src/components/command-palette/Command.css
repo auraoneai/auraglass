@@ -23,6 +23,9 @@
     font: inherit;
   }
   .ag-command__list {
+    /* SURF-060: flex column so item `order` (score rank) re-sorts visually. */
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
     overscroll-behavior: contain;
     padding: var(--ag-space-1, 0.25rem);
