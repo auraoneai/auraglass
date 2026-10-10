@@ -11,7 +11,7 @@ const SCRIPT = join(ROOT, 'scripts/ci/import-side-effects.mjs');
 const run = (args, opts = {}) =>
   execFileSync('node', [SCRIPT, ...args], { cwd: ROOT, encoding: 'utf8', stdio: 'pipe', ...opts });
 
-const FIXTURE = join(tmpdir(), 'se-fixtures');
+const FIXTURE = join(__dirname, 'fixtures', 'import-side-effects');
 
 describe('import-side-effects (REQ-PLAT-41)', () => {
   it('fixture clean.mjs — no global effects, passes an empty baseline', () => {

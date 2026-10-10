@@ -87,16 +87,22 @@ export async function collectEffects(modPath) {
   }
 
   // Make the jsdom globals visible to the imported module, like a browser.
-  const prevGlobals = {};
-  const NAMES = ['window', 'document', 'navigator', 'HTMLElement', 'requestAnimationFrame', 'cancelAnimationFrame', 'setInterval', 'clearInterval', 'setTimeout', 'clearTimeout', 'queueMicrotask', 'getComputedStyle', 'MutationObserver', 'ResizeObserver', 'IntersectionObserver'];
+  // Install through property descriptors: Node >=21 defines `globalThis.navigator`
+  // as a getter-only accessor, so plain assignment throws. The original
+  // descriptors are restored after the import.
+  const prevDescriptors = new Map();
+  const NAMES = ['window', 'document', 'navigator', 'HTMLElement', 'requestAnimationFrame', 'cancelAnimationFrame', 'setInterval', 'clearInterval', 'setTimeout', 'clearTimeout', 'queueMicrotask', 'getComputedStyle', 'MutationObserver', 'ResizeObserver', 'IntersectionObserver', 'require'];
+  const setGlobal = (n, value) => {
+    if (!prevDescriptors.has(n)) prevDescriptors.set(n, Object.getOwnPropertyDescriptor(globalThis, n));
+    Object.defineProperty(globalThis, n, { value, writable: true, configurable: true, enumerable: true });
+  };
   for (const n of NAMES) {
-    prevGlobals[n] = globalThis[n];
-    if (timerGlobals[n]) globalThis[n] = timerGlobals[n];
-    else if (n in window) globalThis[n] = window[n];
+    if (timerGlobals[n]) setGlobal(n, timerGlobals[n]);
+    else if (n in window) setGlobal(n, window[n]);
   }
-  globalThis.window = window;
-  globalThis.document = window.document;
-  globalThis.navigator = window.navigator;
+  setGlobal('window', window);
+  setGlobal('document', window.document);
+  setGlobal('navigator', window.navigator);
   // Bundled output keeps esbuild's __require shim for optional peers — provide
   // a require so `typeof require !== 'undefined'` resolves; missing optional
   // peers resolve to a permissive stub so the import still measures the rest
@@ -107,13 +113,13 @@ export async function collectEffects(modPath) {
     apply: () => stub,
     construct: () => stub,
   });
-  globalThis.require = (name, ...rest) => {
+  setGlobal('require', (name, ...rest) => {
     try { return realRequire(name, ...rest); }
     catch (e) {
       if (e && (e.code === 'MODULE_NOT_FOUND' || e.code === 'ERR_MODULE_NOT_FOUND')) return stub;
       throw e;
     }
-  };
+  });
 
   let importError = null;
   try {
@@ -121,9 +127,9 @@ export async function collectEffects(modPath) {
   } catch (e) {
     importError = e;
   }
-  for (const n of NAMES) {
-    if (prevGlobals[n] === undefined) delete globalThis[n];
-    else globalThis[n] = prevGlobals[n];
+  for (const [n, desc] of prevDescriptors) {
+    if (desc === undefined) delete globalThis[n];
+    else Object.defineProperty(globalThis, n, desc);
   }
   dom.window.close();
   if (importError) throw importError;
