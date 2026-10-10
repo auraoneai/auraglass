@@ -1,7 +1,7 @@
 // REQ-CMP-130 — Next 16 server canary: renders every REQ-CMP-17 server-list
 // component with minimal props and NO AuraGlassProvider. This page must stay a
 // Server Component (no 'use client', no hooks) — hydration warnings are asserted
-// by canaries/next16/tests/cmp-server.spec.ts.
+// by ./cmp-server.spec.ts (collected by `npx playwright test` in canaries/next16).
 import {
   Alert,
   AvatarGroup,
