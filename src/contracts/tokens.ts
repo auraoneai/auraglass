@@ -9,9 +9,9 @@ export type ZLayer = 'content' | 'chrome' | 'overlay' | 'transient' | 'toast';
 /** S-03: every public custom property. Anything else starting with --ag- fails MAT's dead/undefined-var gate. */
 export const PUBLIC_CSS_VARS = {
   light: ['--ag-light-angle', '--ag-specular', '--ag-glass-opacity'],
-  readouts: ['--ag-surface-fill', '--ag-surface-rim', '--ag-surface-shadow', '--ag-surface-radius', '--ag-on-surface', '--ag-on-surface-muted'],
+  readouts: ['--_ag-surface-fill', '--_ag-surface-rim', '--_ag-surface-shadow', '--_ag-surface-radius', '--ag-on-surface', '--ag-on-surface-muted'],
   shape: ['--ag-radius-outer', '--ag-inset', '--ag-radius-inner'],
-  focus: ['--ag-focus-inner', '--ag-focus-outer', '--ag-focus-width'],
+  focus: ['--_ag-focus-inner', '--_ag-focus-outer', '--_ag-focus-width'],
   layout: ['--ag-scroll-padding-top', '--ag-scroll-padding-bottom'],
   color: ['canvas', 'on-surface', 'on-surface-muted', 'accent', 'on-accent', 'border', 'focus-inner', 'focus-outer',
     'specular', 'danger', 'warning', 'success', 'info'].map((c) => `--ag-color-${c}`),

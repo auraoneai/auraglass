@@ -1,4 +1,4 @@
-stages: [contract, build, test, certify, package, deploy, publish]
+stages: [contract, build, test, package, certify, deploy, publish]
 variables: { AG_SCOPE: pr }
 workflow:
   rules:
