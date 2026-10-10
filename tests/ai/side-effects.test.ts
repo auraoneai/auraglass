@@ -50,7 +50,7 @@ describe.each(BARRELS)('surf side effects (REQ-SURF-06): %s', (_name, path) => {
     const setAttr = jest.spyOn(document.documentElement, 'setAttribute');
     const observerSpies = OBSERVERS
       .filter((o) => typeof (globalThis as Record<string, unknown>)[o] === 'function')
-      .map((o) => jest.spyOn(globalThis, o as keyof typeof globalThis));
+      .map((o) => jest.spyOn(globalThis as unknown as Record<(typeof OBSERVERS)[number], () => unknown>, o));
     try {
       jest.isolateModules(() => {
         require(path);
