@@ -8,5 +8,6 @@ export default {
   setupFilesAfterEnv: ['<rootDir>/tests/helpers/setup.ts'],
   transform: { '^.+\\.(t|j|mj)sx?$': ['<rootDir>/tests/helpers/babel-jest-import-meta.cjs', {}] },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'mjs', 'json'],
-  moduleNameMapper: { '\\.css$': 'identity-obj-proxy' },
+  transformIgnorePatterns: ['/node_modules/(?!prettier)'],
+  moduleNameMapper: { '\\.css$': 'identity-obj-proxy', '^prettier$': '<rootDir>/node_modules/prettier/index.mjs' },
 };

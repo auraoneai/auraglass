@@ -23,7 +23,10 @@ async function runtimeExports(srcEntry) {
   const m = /export\s*\{([^}]*)\}\s*;?\s*$/m.exec(text);
   const names = (m?.[1] ?? '')
     .split(',')
-    .map((s) => s.trim().replace(/\s+as\s+\w+$/, ''))
+    .map((s) => s.trim())
+    // esbuild renames collided bindings to `x2 as x` — the export name is the
+    // ALIAS (what consumers import), so prefer it when present.
+    .map((s) => (s.match(/\sas\s(\w+)$/)?.[1] ?? s))
     .filter((s) => s && !s.startsWith('type '))
     .sort();
   return names;

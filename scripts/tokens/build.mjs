@@ -320,8 +320,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const flag = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : undefined; };
   const fixtures = flag('--fixtures');
   const out = flag('--out');
-  await runBuild({
-    tokenDir: fixtures ? resolve(ROOT, fixtures) : join(ROOT, 'tokens'),
-    outRoot: out ? resolve(ROOT, out) : ROOT,
-  });
+  // top-level await breaks jest's CJS transform — wrap in an async main.
+  void (async () => {
+    await runBuild({
+      tokenDir: fixtures ? resolve(ROOT, fixtures) : join(ROOT, 'tokens'),
+      outRoot: out ? resolve(ROOT, out) : ROOT,
+    });
+  })();
 }
