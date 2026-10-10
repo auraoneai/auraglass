@@ -7,7 +7,7 @@ import { createGlassTheme } from '../createGlassTheme';
 import * as compatMat from '../index';
 import { createGlassTheme as createGlassTheme5 } from '../../../theme/createGlassTheme';
 
-afterEach(() => jest.restoreAllMocks());
+afterEach(() => { jest.restoreAllMocks(); });
 
 describe('compat createGlassTheme motionPolicy (DEP-M0902)', () => {
   it('is exported from src/compat/mat', () => {
