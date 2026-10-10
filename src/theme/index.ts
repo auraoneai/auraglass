@@ -4,9 +4,11 @@
    createGlassTheme/createBrandTheme/presets (+ types) are the frozen lane 2a-T
    interface, vendored byte-verbatim from next-mat/t-tokens@7132f8d80
    ("consumed through its frozen interface, never waited for" — identical-add
-   merge when that lane lands). */
-import './mounts'; // REQ-FIN-04: registers lensDefs/pointerLight/devDiagnostics/presetCss/brandCss
-
+   merge when that lane lands).
+   REQ-FIN-04: no side-effect import here — the provider mounts register at
+   provider render (./mounts ensureProviderMounts). The 4.x
+   theme-css-vars and brand-glass-theme names are not part of this surface
+   (REQ-MAT-22; their compat home is src/compat/mat, FIN-D). */
 export { AuraGlassProvider } from './AuraGlassProvider';
 export { AuraGlassScript, auraGlassPrepaintScript } from './AuraGlassScript';
 export { GlassPreferencesPanel } from './preferences-panel/GlassPreferencesPanel';
