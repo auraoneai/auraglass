@@ -157,3 +157,31 @@ mat:test:consumer-4x:
     expire_in: 14 days
     paths: [.artifacts/mat/]
     when: always
+
+# L13 manual SR/touch/motion matrix (REQ-FIN-110, REQ-QUAL-72; requested by FIN-H H3-2).
+# tests/a11y/manual/gen-matrix.mjs (FIN-H) regenerates sr-matrix.template.json in memory
+# from every src/**/*.meta.ts + the Storybook CSF index and exits 1 on drift, so a meta,
+# flagship number or story-id change that is not regenerated into the template fails here.
+mat:a11y:sr-matrix:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    - node tests/a11y/manual/gen-matrix.mjs --check
+
+# AC-FIN-110 (REQ-FIN-110; REQ-MAT-66, REQ-QUAL-72): the binding manual SR/touch/motion
+# records under tests/a11y/manual/records/** must be schema-valid and bound to the RC SHA.
+# Records are written by human testers against the RC pipeline's CI-built Storybook, so the
+# job runs only on v5 RC tag pipelines, where $CI_COMMIT_SHA is the SHA the records name.
+# The verifier exits 1 on an empty record set, any record with sha != --sha, a misplaced
+# record path or a duplicate (subject, at, pass).
+mat:a11y:manual-verify:
+  extends: [.mat-base, .ag-evidence-release]
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "release" && $CI_COMMIT_TAG =~ /^v5\.\d+\.\d+-rc\.\d+$/
+  script:
+    - node scripts/mat/verify-a11y-manual.mjs --sha "$CI_COMMIT_SHA"
