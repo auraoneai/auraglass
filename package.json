@@ -130,14 +130,16 @@
     "artifact:publint": "publint",
     "artifact:attw": "attw --pack .",
     "storybook:build": "storybook build -o storybook-static",
-    "docs:build": "node -e \"const f=require('fs').readdirSync('.artifacts/pack').find(x=>/^aura-glass-.*\\.tgz$/.test(x));if(!f){console.error('PENDING: run plat:package:pack first (.artifacts/pack/aura-glass-*.tgz missing)');process.exit(1)}console.log(f)\" && npm install --no-save -w apps/docs $(ls .artifacts/pack/aura-glass-*.tgz) && npm run build -w apps/docs",
+    "docs:build": "node scripts/docs/gen-llms.mjs && node -e \"const f=require('fs').readdirSync('.artifacts/pack').find(x=>/^aura-glass-.*\\.tgz$/.test(x));if(!f){console.error('PENDING: run plat:package:pack first (.artifacts/pack/aura-glass-*.tgz missing)');process.exit(1)}console.log(f)\" && npm install --no-save -w apps/docs $(ls .artifacts/pack/aura-glass-*.tgz) && npm run build -w apps/docs",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:contract": "npm test -- tests/contract",
     "lint": "eslint . && stylelint \"src/**/*.css\"",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test:tokens:exports": "node --test tests/tokens/export.spec.mjs",
     "artifact:size-budgets": "node scripts/ci/verify-size-budgets.mjs",
-    "artifact:deps": "node scripts/ci/verify-deps.mjs"
+    "artifact:deps": "node scripts/ci/verify-deps.mjs",
+    "docs:llms": "node scripts/docs/gen-llms.mjs",
+    "docs:llms:check": "node scripts/docs/gen-llms.mjs --check"
   },
   "dependencies": {
     "@base-ui/react": "1.8.0",
