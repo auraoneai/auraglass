@@ -13,8 +13,6 @@ const THICKNESS: Record<OverlayKind, 'thick' | 'regular' | 'thin'> = {
   menu: 'regular',
   tooltip: 'thin',
   toast: 'thin',
-  select: 'regular',
-  combobox: 'regular',
 };
 
 export function overlayMaterial(kind: OverlayKind): MaterialAttributes & { 'data-ag-overlay': OverlayKind } {

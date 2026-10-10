@@ -7,6 +7,7 @@ import '@testing-library/jest-dom/jest-globals';
 import { render, act } from '@testing-library/react';
 import * as React from 'react';
 import { AuraGlassProvider } from '../../../theme';
+import { Toast, useToast } from '../../toast/index';
 import { MOUNTED_SUBJECTS } from './__tests__/subjects';
 
 describe('overlay idle (CMP-203)', () => {
@@ -45,14 +46,45 @@ describe('overlay idle (CMP-203)', () => {
   );
 
   it('toast: exactly one pending timeout per live toast', async () => {
-    const toast = MOUNTED_SUBJECTS.find((s) => s.kind === 'toast')!;
-    render(<AuraGlassProvider>{toast.mount!()}</AuraGlassProvider>);
-    await act(async () => { await new Promise((r) => setTimeout(r, 60)); });
-    const mounted = document.querySelectorAll(toast.popupSelector).length;
-
+    // Fake timers go in BEFORE the toasts are added so the manager's dismiss
+    // timers are counted (timers created under real timers are invisible to
+    // jest.getTimerCount()). Each add() with a finite timeout must schedule
+    // exactly one timeout and nothing else.
     jest.useFakeTimers();
-    const pending = jest.getTimerCount();
+    let api: ReturnType<typeof useToast> | null = null;
+    function Probe() {
+      const t = useToast();
+      api = t;
+      return (
+        <Toast.Viewport>
+          {t.toasts.map((toast) => (
+            <Toast.Root key={toast.id} toast={toast}>
+              <Toast.Title>{toast.title}</Toast.Title>
+            </Toast.Root>
+          ))}
+        </Toast.Viewport>
+      );
+    }
+    render(
+      <AuraGlassProvider>
+        <Toast.Provider>
+          <Probe />
+        </Toast.Provider>
+      </AuraGlassProvider>,
+    );
+    act(() => { jest.advanceTimersByTime(50); });
+    const before = jest.getTimerCount();
+
+    const ids: string[] = [];
+    act(() => {
+      ids.push(api!.add({ title: 'Idle toast A', timeout: 4000 }));
+      ids.push(api!.add({ title: 'Idle toast B', timeout: 4000 }));
+    });
+    const live = api!.toasts.filter((t) => ids.includes(t.id)).length;
+    expect(live).toBe(ids.length);
+    expect(jest.getTimerCount() - before).toBe(live);
+
+    act(() => { ids.forEach((id) => api!.close(id)); });
     jest.useRealTimers();
-    expect(pending).toBe(mounted);
   });
 });
