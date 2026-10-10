@@ -19,6 +19,12 @@ const SKIP_TESTS = process.argv.includes('--skip-tests');
 const git = (args, opts = {}) =>
   execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'], ...opts });
 
+// CI clones shallow: a removal commit at the graft boundary has no parent, so
+// its revert would "conflict" on every file. Fetch full history first.
+if (git(['rev-parse', '--is-shallow-repository']).trim() === 'true') {
+  execFileSync('git', ['fetch', '--unshallow', '--no-tags', 'origin'], { cwd: ROOT, stdio: 'inherit' });
+}
+
 const families = ONLY
   ? [ONLY]
   : readdirSync(RECORDS).filter((f) => /^RM-\d+\.json$/.test(f)).map((f) => f.replace('.json', '')).sort();
