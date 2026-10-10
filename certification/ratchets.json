@@ -1,0 +1,10 @@
+{
+  "$comment": "REQ-QUAL-30 coverage floors (percent). Floors only increase: packages/qa/test/coverage-ratchet.test.ts and certification/gates/coverage-ratchet.mjs fail when any floor is lower than at the merge base. `flagship` applies to every directory holding a ComponentMeta with a `flagship` number; directories whose code still carries @ag-contract-seed are excluded (reported pending).",
+  "version": 1,
+  "floors": {
+    "global": { "lines": 70, "branches": 60 },
+    "src/material/": { "lines": 90, "branches": 85 },
+    "src/theme/": { "lines": 80, "branches": 70 },
+    "flagship": { "lines": 85, "branches": 75 }
+  }
+}
