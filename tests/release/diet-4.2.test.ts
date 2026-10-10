@@ -14,6 +14,8 @@ import { join } from "path";
 const ROOT = join(__dirname, "..", "..");
 const PKG = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8"));
 const PLAT = readFileSync(join(ROOT, "fragments/deprecations/plat.ts"), "utf8");
+// ts-node resolved from this checkout (no machine-specific absolute path).
+const TS_NODE = require.resolve("ts-node", { paths: [ROOT] });
 
 const MOVED = [...PLAT.matchAll(
   /kind:\s*'dependency'[\s\S]*?symbol:\s*'([^']+)'[\s\S]*?since:\s*'4\.2\.0'/g
@@ -40,7 +42,7 @@ function callOptionalPeer(pkg: string) {
       }
       return orig.call(this, request, ...rest);
     };
-    require('/home/ubuntu/repos/AuraGlass.wt/fin-4x-plat/node_modules/ts-node').register({ transpileOnly: true, compilerOptions: { module: 'commonjs', moduleResolution: 'node', esModuleInterop: true } });
+    require(${JSON.stringify(TS_NODE)}).register({ transpileOnly: true, compilerOptions: { module: 'commonjs', moduleResolution: 'node', esModuleInterop: true } });
     const { optionalPeer } = require(${JSON.stringify(join(ROOT, "src/utils/optionalPeer.ts"))});
     try {
       optionalPeer(${JSON.stringify(pkg)});

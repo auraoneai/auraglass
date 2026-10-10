@@ -349,39 +349,6 @@ export function main(argv = process.argv.slice(2), { cwd = ROOT } = {}) {
     ? readJson(join(fixtureDir, 'api-diffs.json')) : diffApiReports(fixtureDir ? null : base, fixtureDir ? [] : changedFiles, fixtureDir);
   const snapshotDiff = fx('snapshot-diff.json', { perEntry: {}, entriesRemoved: [], entriesAdded: [] });
   const deprecationsAdded = fx('deprecations-added.json', fixtureDir ? [] : diffDeprecationEntries(base, {}));
-  // Install-level move inputs (REQ-PLAT-56): moved deps are the dependency-
-  // kind entries added at this version; sources are the importers' file
-  // contents; release notes must list each moved dep in its first list.
-  const headVersion = JSON.parse(pkgHead).version;
-  const installDeps = deprecationsAdded
-    .filter((e) => e.kind === 'dependency' && e.since === headVersion)
-    .map((e) => e.id);
-  const sources = {};
-  if (installDeps.length) {
-    const movedPkgs = deprecationsAdded
-      .filter((e) => e.kind === 'dependency' && e.since === headVersion)
-      .map((e) => e.pkg ?? e.symbol)
-      .filter(Boolean);
-    const importerFiles = new Set();
-    for (const pkg of movedPkgs) {
-      for (const f of tryGit(['grep', '-l', `'${pkg}'`, '--', 'src/']).split('\n').filter(Boolean)) importerFiles.add(f);
-      for (const f of tryGit(['grep', '-l', `"${pkg}"`, '--', 'src/']).split('\n').filter(Boolean)) importerFiles.add(f);
-    }
-    for (const f of importerFiles) {
-      try { sources[f] = readFileSync(join(ROOT, f), 'utf8'); } catch { /* gone */ }
-    }
-  }
-  const releaseNotes = (() => {
-    const notesPath = join(ROOT, `RELEASE_NOTES_${headVersion.replace(/-(pre|rc).*$/, '')}.md`);
-    if (!existsSync(notesPath)) return null;
-    const text = readFileSync(notesPath, 'utf8');
-    const heads = [...text.matchAll(/^## /gm)];
-    const firstSection = heads.length >= 2
-      ? text.slice(heads[0].index, heads[1].index)
-      : text;
-    const firstList = [...firstSection.matchAll(/`([^`]+)`/g)].map((m) => m[1]);
-    return { path: notesPath, firstList };
-  })();
   const result = classify({
     apiDiffs, snapshotDiff, deprecationsAdded,
     packageDiff: diffPackageJson(pkgBase, pkgHead),
@@ -389,9 +356,7 @@ export function main(argv = process.argv.slice(2), { cwd = ROOT } = {}) {
     changesetBumps: parseChangesetBumps(changesetTexts),
     visual: visualClass({ report: existsSync(visualPath) ? readJson(visualPath) : null, recordFiles, line }),
     line, target, changedFiles,
-    version: headVersion,
-    sources, releaseNotes,
-    installDeps,
+    version: JSON.parse(pkgHead).version,
   });
 
   mkdirSync(dirname(out), { recursive: true });
