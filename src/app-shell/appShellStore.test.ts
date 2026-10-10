@@ -80,6 +80,15 @@ describe('appShellStore (SURF-026)', () => {
     expect(s.mode).toBe('wide');
   });
 
+  it('always writes both cookie keys (SURF-21)', () => {
+    const root = makeRoot({ persistKey: 'demo' });
+    document.cookie = '';
+    setInspector(root, 'open');
+    const jar = document.cookie;
+    expect(jar).toContain('sidebar:');
+    expect(jar).toContain('inspector:');
+  });
+
   it('subscribe notifies listeners and unsubscribes cleanly', () => {
     const root = makeRoot();
     const hits: number[] = [];

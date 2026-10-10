@@ -39,7 +39,7 @@ describe('parseAppShellCookie', () => {
     expect(parseAppShellCookie(serializeAppShellCookieValue(state))).toEqual(state);
     expect(parseAppShellCookie(serializeAppShellCookieValue({}))).toEqual({});
     const full = serializeAppShellCookie('demo', state);
-    expect(full).toContain('ag-shell-demo=sidebar:rail;inspector:closed');
+    expect(full).toContain('ag-shell-demo=sidebar:rail,inspector:closed');
     expect(full).toContain('SameSite=Lax');
     expect(full).toContain('Path=/');
     expect(full).toContain('Max-Age=31536000');
