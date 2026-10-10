@@ -9,7 +9,6 @@
   "LiquidGlassMaterial",
   "LiquidGlassScrollEdge",
   "OptimizedGlass",
-  "OptimizedGlassAdvanced",
-  "createGlassTheme"
+  "OptimizedGlassAdvanced"
  ]
 }
