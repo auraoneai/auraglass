@@ -12,7 +12,8 @@ const meta: ControlMeta = defineMeta({
   states: ['invalid', 'disabled'],
   variants: {},
   material: { layer: 'content', refractionEligible: false },
-  budgetKb: 4,
+  apg: 'none',
+  budgetKb: 10,
   migration: [
     {
       from: 'GlassForm',
@@ -20,7 +21,7 @@ const meta: ControlMeta = defineMeta({
         onSubmit: { to: 'onSubmit(values, eventDetails)' },
         errors: 'errors',
       },
-      automation: 'mostly',
+      selectors: { '.glass-form': '.ag-form' }, automation: 'mostly',
       compat: true,
     },
   ],
