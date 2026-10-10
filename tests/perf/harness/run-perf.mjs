@@ -601,7 +601,8 @@ export function findSizeRow(rows, subject) {
   return rows.find((r) => r.kind === 'js' && (r.id === subject || re.test(r.import))) ?? null;
 }
 
-/** Resolves the packed package directory: AURAGLASS_TARBALL, or the newest .artifacts/pack/*.tgz, extracted to a temp dir. */
+/** Resolves the package directory: AURAGLASS_TARBALL or the newest .artifacts/pack/*.tgz (extracted to a temp dir), else this
+    checkout when plat:build:dist's dist/ is present. */
 export function resolvePackageDir() {
   let tgz = process.env.AURAGLASS_TARBALL ?? null;
   const packDir = join(ROOT, '.artifacts/pack');
@@ -609,7 +610,11 @@ export function resolvePackageDir() {
     const t = readdirSync(packDir).filter((f) => f.endsWith('.tgz')).map((f) => join(packDir, f)).sort((a, b) => statSync(b).mtimeMs - statSync(a).mtimeMs)[0];
     tgz = t ?? null;
   }
-  if (!tgz) return null;
+  if (!tgz) {
+    /* plat:build:dist artifact in this checkout: the package's own exports map resolves to dist/ (the files `npm pack` ships). */
+    if (existsSync(join(ROOT, 'dist/index.js'))) return ROOT;
+    return null;
+  }
   const dir = mkdtempSync(join(tmpdir(), 'ag-perf-pkg-'));
   execFileSync('tar', ['-xzf', tgz, '-C', dir]);
   return join(dir, 'package');
@@ -773,7 +778,7 @@ export async function runCli(argv = process.argv.slice(2)) {
     if (!pkgDir) continue;
     try { bytesBy.set(s.subject, await measureBytes(row, pkgDir)); } catch (e) { doc.failures.push({ code: 'harness-error', subject: s.subject, detail: `bundle ${row.import}: ${e?.message ?? e}` }); }
   }
-  if (subjects.some((s) => s.bytesRequired) && !pkgDir) doc.failures.push({ code: 'missing-metric', detail: `bundle bytes: no packed tarball (AURAGLASS_TARBALL or .artifacts/pack/*.tgz from plat:package:pack)${pkgError ? `: ${pkgError}` : ''}` });
+  if (subjects.some((s) => s.bytesRequired) && !pkgDir) doc.failures.push({ code: 'missing-metric', detail: `bundle bytes: no package (AURAGLASS_TARBALL, .artifacts/pack/*.tgz from plat:package:pack, or dist/ from plat:build:dist)${pkgError ? `: ${pkgError}` : ''}` });
 
   for (const pid of o.profiles) {
     const profile = PROFILES[pid];

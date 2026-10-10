@@ -30,6 +30,10 @@ qual:certify:l10:
   extends: .qual-lane
   variables: { LANE: L10, AG_STORYBOOK_STATIC: "$CI_PROJECT_DIR/storybook-static" }
   timeout: 90m
+  # Build-stage inputs only (Storybook + dist for bundle bytes), so L10 is not skipped behind package-stage jobs.
+  needs: &qual-l10-needs
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+    - { job: "plat:build:dist", artifacts: true, optional: true }
   script:
     - |
       rc=0
@@ -43,6 +47,7 @@ qual:certify:l10-gpu:
   extends: [.qual-lane, .ag-gpu]
   variables: { LANE: L10 }
   timeout: 90m
+  needs: *qual-l10-needs
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE == "main"
     - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
