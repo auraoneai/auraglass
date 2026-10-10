@@ -2,7 +2,7 @@
    bind every listed control to react-hook-form: submit carries the
    field's value and RHF errors surface through Field.Root invalid +
    Field.Error. RHF must not leak outside src/forms (last test). */
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it, jest } from '@jest/globals';
 import * as React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { useForm, FormProvider } from 'react-hook-form';
