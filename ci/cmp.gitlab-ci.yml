@@ -38,3 +38,9 @@ cmp:build:dts:
     - npm ci
     - npm run build
     - npm test -- tests/foundation/exports/no-foundation-types.test.ts
+      # REQ-CMP-01: same contract against the packed tarball's dist/, not the
+      # build tree — the tarball is what consumers' tsc actually resolves.
+    - mkdir -p .artifacts/cmp/dts/pkg
+    - npm pack --ignore-scripts --pack-destination .artifacts/cmp/dts
+    - tar -xzf .artifacts/cmp/dts/*.tgz -C .artifacts/cmp/dts/pkg
+    - AG_DTS_DIR="$PWD/.artifacts/cmp/dts/pkg/package/dist" npm test -- tests/foundation/exports/no-foundation-types.test.ts
