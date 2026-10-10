@@ -31,14 +31,23 @@ test.describe('vite canary', () => {
     expect(['auto', 'solid', 'none']).toContain(outline); /* presence asserted; strict value ships when CMP css lands */
   });
 
-  test('gzip delta(button - empty) <= Button row + 2KB', async ({ page }) => {
-    const js: Record<string, Buffer[]> = { '/plat/empty': [], '/plat/button': [] };
+  test('gzip delta(button - empty) <= Button row + 2KB', async ({ browser, baseURL }) => {
+    /* first-load JS of a route, measured in a fresh context (no cache, no
+       listeners carried over); only successful script responses are counted */
     const run = async (url: string) => {
-      const bodies: Buffer[] = [];
-      page.on('response', async (r) => { if (r.url().endsWith('.js')) bodies.push(await r.body()); });
+      const context = await browser.newContext({ baseURL });
+      const page = await context.newPage();
+      const pending: Promise<number>[] = [];
+      page.on('response', (r) => {
+        if (r.request().resourceType() !== 'script' || !r.ok()) return;
+        pending.push(r.body().then((b) => gzipSync(b, { level: 9 }).length));
+      });
       await page.goto(url);
       await page.waitForLoadState('networkidle');
-      return bodies.reduce((a, b) => a + gzipSync(b, { level: 9 }).length, 0);
+      const sizes = await Promise.all(pending);
+      await context.close();
+      expect(sizes.length, `${url}: no script responses captured`).toBeGreaterThan(0);
+      return sizes.reduce((a, b) => a + b, 0);
     };
     const delta = (await run('/plat/button')) - (await run('/plat/empty'));
     expect(delta).toBeLessThanOrEqual(BUTTON_BUDGET);
