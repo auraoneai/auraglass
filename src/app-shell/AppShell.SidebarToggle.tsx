@@ -17,7 +17,7 @@ import {
 } from './appShellStore';
 
 export interface AppShellSidebarToggleProps extends PartProps<'button'> {
-  /** Also register a Mod+B keydown toggle (default false). */
+  /** @deprecated removed: global key listeners are Command-layer owned (S-47). */
   shortcut?: boolean;
   /** Override the aria-labels for the next action. */
   labels?: { expand?: string; collapse?: string };
@@ -63,19 +63,6 @@ export function AppShellSidebarToggle({
     next === 'expanded'
       ? (labels?.expand ?? 'Expand sidebar')
       : (labels?.collapse ?? 'Collapse sidebar');
-
-  React.useEffect(() => {
-    if (!shortcut || !rootEl) return;
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
-        e.preventDefault();
-        const snap = getSnapshot(rootEl);
-        setSidebar(rootEl, snap.sidebar === 'expanded' ? collapseTo : 'expanded');
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [shortcut, rootEl, collapseTo]);
 
   const [controls, setControls] = React.useState<string | undefined>(undefined);
   React.useLayoutEffect(() => {

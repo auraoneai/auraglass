@@ -5,7 +5,7 @@
 
 import { describe, expect, it } from '@jest/globals';
 import { execFileSync } from 'node:child_process';
-import { existsSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const ROOT = process.cwd();
@@ -54,6 +54,29 @@ describe('SURF purity gate (verify-surf-purity.mjs)', () => {
   it('passes over every existing SURF source root', () => {
     const res = runGate();
     expect(res.code).toBe(0);
+  });
+
+  // REQ-SURF-05 (1): a no-args run must actually scan — and a banned file
+  // planted into a real scanned root must exit 1 (the old double-join bug
+  // scanned 0 files and printed 'clean').
+  it('no-args run scans files and fails on a planted fixture', () => {
+    const probe = join(ROOT, 'src', 'ai', '__purity_probe__.ts');
+    try {
+      writeFileSync(probe, "export const leak = () => fetch('/api');\n");
+      const res = runGate();
+      expect({ code: res.code, out: res.out }).toEqual(
+        expect.objectContaining({ code: 1, out: expect.stringContaining('__purity_probe__') }) as never,
+      );
+    } finally {
+      rmSync(probe, { force: true });
+    }
+  });
+
+  it('no-args run reports a nonzero scanned-file count', () => {
+    const res = runGate();
+    expect(res.code).toBe(0);
+    const m = res.out.match(/(\d+) file\(s\) scanned/);
+    expect(Number(m?.[1] ?? 0)).toBeGreaterThan(0);
   });
 });
 

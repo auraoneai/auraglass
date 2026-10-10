@@ -80,10 +80,15 @@ function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
 function transition(root: HTMLElement, next: ShellSnapshot, rec: ShellRecord): void {
   if (motionIsFull(root)) {
     root.setAttribute('data-ag-animating', '');
-    const ms = Number.parseFloat(
-      getComputedStyle(root).getPropertyValue('--ag-duration-medium') || '200',
-    );
-    window.setTimeout(() => root.removeAttribute('data-ag-animating'), Number.isFinite(ms) ? ms : 200);
+    // Clear on real animation completion — no timers, no style probes:
+    // animation.finished resolves after the CSS duration and rejects on
+    // cancel; no running animations means clear immediately (jsdom/none).
+    const clear = () => root.removeAttribute('data-ag-animating');
+    (typeof requestAnimationFrame === 'function' ? requestAnimationFrame : (cb: () => void) => cb())(() => {
+      const anims = typeof root.getAnimations === 'function' ? root.getAnimations({ subtree: true }) : [];
+      if (!anims.length) { clear(); return; }
+      Promise.allSettled(anims.map((a) => a.finished)).then(clear, clear);
+    });
   }
   applyState(root, next);
   writeCookie(root, next);

@@ -4,6 +4,7 @@
  * useSyncExternalStore; one AbortController per element owns every listener;
  * snapshots publish at most snapshotHz/s during timeupdate with immediate
  * publish for play/pause/seeked/ended/error/volumechange. */
+import { subscribeFrame } from '../motion/ticker';
 
 export interface MediaTextTrack { id: string; label: string; language: string; kind: string; mode: string }
 export interface MediaError { code: number; message: string }
@@ -46,7 +47,7 @@ interface Store {
   listeners: Set<() => void>;
   abort: AbortController;
   lastPublish: number;
-  timer: ReturnType<typeof setTimeout> | null;
+  timer: { cancel: () => void } | null;
 }
 const stores = new WeakMap<HTMLMediaElement, Store>();
 
@@ -87,11 +88,21 @@ export function ensureStore(el: HTMLMediaElement, snapshotHz: number): Store {
   };
   const minMs = 1000 / Math.min(15, Math.max(1, snapshotHz));
   const publish = (ev: string) => {
+    // eslint-disable-next-line auraglass/no-random-in-render -- event-handler clock, not render
     const now = Date.now();
     const immediate = IMMEDIATE.has(ev);
     if (!immediate && now - store.lastPublish < minMs) {
       if (!store.timer) {
-        store.timer = setTimeout(() => { store.timer = null; store.lastPublish = Date.now(); notify(); }, minMs - (now - store.lastPublish));
+        // trailing publish on the first frame once minMs has elapsed — no timers.
+        const due = store.lastPublish + minMs;
+        let off = () => {};
+        off = subscribeFrame(() => {
+          // eslint-disable-next-line auraglass/no-random-in-render -- event-handler clock, not render
+          if (Date.now() < due) return;
+          // eslint-disable-next-line auraglass/no-random-in-render -- event-handler clock, not render
+          store.timer = null; off(); store.lastPublish = Date.now(); notify();
+        });
+        store.timer = { cancel: off };
       }
       return;
     }
@@ -125,7 +136,7 @@ export function destroyStore(el: HTMLMediaElement): void {
   const s = stores.get(el);
   if (!s) return;
   s.abort.abort();
-  if (s.timer) clearTimeout(s.timer);
+  if (s.timer) s.timer.cancel();
   s.listeners.clear();
   stores.delete(el);
 }

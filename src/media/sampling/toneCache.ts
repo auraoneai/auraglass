@@ -12,7 +12,7 @@ const keyOf = (el: HTMLImageElement | HTMLVideoElement, region?: SampleRegion) =
 
 const idle = (cb: () => void) => {
   if (typeof requestIdleCallback === 'function') requestIdleCallback(() => cb(), { timeout: 500 });
-  else setTimeout(cb, 0);
+  else requestAnimationFrame(() => cb());
 };
 
 export function getOrSampleTone(
