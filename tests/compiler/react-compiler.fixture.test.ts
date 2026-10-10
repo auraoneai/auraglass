@@ -20,9 +20,15 @@ const logger = {
   },
 };
 
+/* SURF-owned dirs under src/components (PRD-F §6, FIN-F). REQ-CMP-24 covers
+   CMP component files; the SURF sources' compiler cleanliness is FIN-F's. */
+const SURF_DIRS = ['tabs', 'tab-bar', 'breadcrumbs', 'pagination', 'command-palette', 'source-transition', 'timeline'];
+
 function sources(): string[] {
   return execSync("find src/components src/primitives -name '*.tsx' ! -name '*.test.tsx' ! -name '*.stories.tsx'", { cwd: ROOT })
-    .toString().trim().split('\n').filter(Boolean).sort();
+    .toString().trim().split('\n').filter(Boolean)
+    .filter((rel) => !SURF_DIRS.some((d) => rel.startsWith(`src/components/${d}/`)))
+    .sort();
 }
 
 const results = new Map<string, string[]>();
