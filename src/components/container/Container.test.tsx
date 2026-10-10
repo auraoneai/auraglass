@@ -11,7 +11,7 @@ describe('Container', () => {
     expect(el.getAttribute('data-ag-size')).toBe('lg');
     expect(el.style.containerType).toBe('inline-size');
     expect(el.style.containerName).toBe('ag-container');
-    expect(el.style.maxInlineSize).toContain('var(--ag-container-lg');
+    expect(el.style.maxInlineSize).toContain('var(--_ag-container-lg');
   });
   it('supports sm/md/xl sizes', () => {
     for (const s of ['sm', 'md', 'xl'] as const) {
