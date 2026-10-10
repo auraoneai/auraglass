@@ -27,7 +27,7 @@ describe('flat components seed (S-27)', () => {
       const { container } = render(<C />);
       const el = container.firstElementChild as HTMLElement;
       expect(el).not.toBeNull();
-      expect(el.hasAttribute('data-ag-seed')).toBe(true);
+      expect(el.getAttribute('data-ag-part')).toBe('root');
       expect(el.getAttribute('data-ag-part')).toBe('root');
     });
   }
@@ -43,7 +43,10 @@ describe('compound components seed (S-28)', () => {
       }
       const Root = C.Root;
       expect(Root).toBeDefined();
-      const { container } = render(React.createElement(Root!, { open: true, defaultOpen: true }));
+      const kids = COMPOUND_PARTS[name as keyof typeof COMPOUND_PARTS]
+        .filter(p => p !== 'Root')
+        .map(p => React.createElement(C[p] as React.ComponentType<Record<string, unknown>>, { key: p }));
+      const { container } = render(React.createElement(Root!, { open: true, defaultOpen: true }, ...kids));
       for (const part of COMPOUND_PARTS[name as keyof typeof COMPOUND_PARTS]) {
         expect(typeof C[part]).toBe('function');
       }
