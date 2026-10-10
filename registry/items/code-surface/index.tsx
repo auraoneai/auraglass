@@ -40,7 +40,7 @@ export function CodeSurface({ name, language = 'ts', code, readOnly = true, onCh
   }, [code, injected]);
 
   const copy = async () => {
-    try { await navigator.clipboard.writeText(code); setCopied(true); setTimeout(() => setCopied(false), 1200); }
+    try { await navigator.clipboard.writeText(code); setCopied(true); }
     catch { /* clipboard unavailable */ }
   };
 
