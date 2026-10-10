@@ -26,13 +26,13 @@ workflow:
       variables: { AG_SCOPE: nightly, AG_LINE: "4x" }
     - if: $CI_PIPELINE_SOURCE == "schedule"
       variables: { AG_SCOPE: nightly, AG_LINE: "5x" }
-    - if: $CI_COMMIT_BRANCH == "release/4.x"
+    - if: $CI_COMMIT_BRANCH == "release/4.x" || $CI_COMMIT_BRANCH == "release/4.1.x"
       variables: { AG_SCOPE: main, AG_LINE: "4x" }
     - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "next"
       variables: { AG_SCOPE: main, AG_LINE: "5x" }
-    - if: $CI_COMMIT_BRANCH =~ /^4x-(plat|mat|cmp|surf|qual)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-codemods-/
+    - if: $CI_COMMIT_BRANCH =~ /^4x-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^4x11-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-codemods-/
       variables: { AG_SCOPE: pr, AG_LINE: "4x" }
-    - if: $CI_COMMIT_BRANCH =~ /^next-(plat|mat|cmp|surf|qual)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-deprecations-/ || $CI_COMMIT_BRANCH =~ /^contract\//
+    - if: $CI_COMMIT_BRANCH =~ /^next-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-deprecations-/ || $CI_COMMIT_BRANCH =~ /^contract\//
       variables: { AG_SCOPE: pr, AG_LINE: "5x" }
     - when: never
 
