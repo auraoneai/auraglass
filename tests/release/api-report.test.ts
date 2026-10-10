@@ -1,6 +1,6 @@
 /* @jest-environment node */
-/* tests/release/api-report.test.ts — REQ-PLAT-22 (4x port): 40-of-47 report
-   set, slug rule, manifest.json, unanalysable rows. api-report.mjs is ESM so
+/* tests/release/api-report.test.ts — REQ-PLAT-22 (4x port) + REQ-PLAT-55:
+   all-key report set, slug rule, manifest.json, unanalysable rows. api-report.mjs is ESM so
    each check execs real node --input-type=module on a fixture root. */
 import { execFileSync } from 'node:child_process';
 import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -31,17 +31,28 @@ function fixtureRoot() {
 const run4x = (root: string) => EVAL(`console.log(JSON.stringify(m.run4x({ root: '${root}' }).manifest))`);
 
 describe('api-report 4x mode', () => {
-  it('emits one report per exports key with a types condition (40 of 47) + manifest', () => {
+  // REQ-PLAT-55 (cc44c413e): every exports key gets .api.md + .exports.json at
+  // the cut commit, including asset subpaths with no `types` condition; keys
+  // with no analysable target are listed in manifest.unanalysable.
+  it('emits one report per exports key (47 of 47) + manifest; keys without an analysable target are unanalysable', () => {
     const root = fixtureRoot();
     const { files } = EVAL(`console.log(JSON.stringify({ files: m.run4x({ root: '${root}' }).files, manifest: m.run4x({ root: '${root}' }).manifest }))`);
     const manifest = run4x(root);
-    expect(manifest.keys).toHaveLength(40);
+    expect(manifest.keys).toHaveLength(47);
     expect(manifest.keys).toContain('.');
     const apiMds = Object.keys(files).filter((f) => f.endsWith('.api.md'));
-    expect(apiMds).toHaveLength(40);
+    const exportJsons = Object.keys(files).filter((f) => f.endsWith('.exports.json'));
+    expect(apiMds).toHaveLength(47);
+    expect(exportJsons).toHaveLength(47);
     expect(files['etc/api/index.api.md']).toBeDefined();
     expect(files['etc/api/manifest.json']).toBeDefined();
-    expect(apiMds).not.toContain('etc/api/e45.api.md');
+    expect(files['etc/api/e1.api.md']).toContain('`Name1`');
+    expect(files['etc/api/e1.api.md']).toContain('`I1`');
+    expect(files['etc/api/e1.api.md']).not.toContain('### Unanalysable');
+    expect(files['etc/api/e45.api.md']).toContain('### Unanalysable');
+    expect([...manifest.unanalysable].sort()).toEqual(
+      ['./e40', './e41', './e42', './e43', './e44', './e45', './e46'].sort(),
+    );
   });
   it('records an unanalysable key when its types target is missing', () => {
     const root = fixtureRoot();
