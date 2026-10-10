@@ -105,15 +105,18 @@ export const manifest = {
    "type": "shadow",
    "tier": "material",
    "group": "material",
-   "modes": {},
+   "modes": {
+    "light": "0px 4px 16px 0px oklch(0 0 0 / 0.14), 0px 2px 6px 0px oklch(0 0 0 / 0.12)",
+    "dark": "0px 4px 16px 0px oklch(0 0 0 / 0.32), 0px 2px 6px 0px oklch(0 0 0 / 0.28)"
+   },
    "since": "5.0.0",
    "public": true,
    "consumers": [
     {
-     "count": 8
+     "count": 12
     }
    ],
-   "value": "0px 4px 16px 0px oklch(0 0 0 / 0.14)"
+   "value": "0px 4px 16px 0px oklch(0 0 0 / 0.14), 0px 2px 6px 0px oklch(0 0 0 / 0.12)"
   },
   {
    "name": "material.shadow.thick",
@@ -121,15 +124,18 @@ export const manifest = {
    "type": "shadow",
    "tier": "material",
    "group": "material",
-   "modes": {},
+   "modes": {
+    "light": "0px 8px 32px 0px oklch(0 0 0 / 0.2), 0px 6px 24px 0px oklch(0 0 0 / 0.16)",
+    "dark": "0px 8px 32px 0px oklch(0 0 0 / 0.4), 0px 6px 24px 0px oklch(0 0 0 / 0.36)"
+   },
    "since": "5.0.0",
    "public": true,
    "consumers": [
     {
-     "count": 8
+     "count": 9
     }
    ],
-   "value": "0px 8px 32px 0px oklch(0 0 0 / 0.2)"
+   "value": "0px 8px 32px 0px oklch(0 0 0 / 0.2), 0px 6px 24px 0px oklch(0 0 0 / 0.16)"
   },
   {
    "name": "material.shadow.thin",
@@ -137,15 +143,18 @@ export const manifest = {
    "type": "shadow",
    "tier": "material",
    "group": "material",
-   "modes": {},
+   "modes": {
+    "light": "0px 1px 4px 0px oklch(0 0 0 / 0.1), 0px 1px 1px 0px oklch(0 0 0 / 0.08)",
+    "dark": "0px 1px 4px 0px oklch(0 0 0 / 0.24), 0px 1px 1px 0px oklch(0 0 0 / 0.2)"
+   },
    "since": "5.0.0",
    "public": true,
    "consumers": [
     {
-     "count": 10
+     "count": 11
     }
    ],
-   "value": "0px 1px 4px 0px oklch(0 0 0 / 0.1)"
+   "value": "0px 1px 4px 0px oklch(0 0 0 / 0.1), 0px 1px 1px 0px oklch(0 0 0 / 0.08)"
   },
   {
    "name": "material.surface.fill",
@@ -456,7 +465,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 29
+     "count": 21
     }
    ],
    "value": "oklch(0.99 0.004 250)"

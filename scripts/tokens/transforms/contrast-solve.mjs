@@ -89,6 +89,9 @@ export function solveContrastMatrix(records, resolved, { throwOnUnmet = true } =
   const cells = {};       // nested keyed output (MAT-047)
   const tintFloors = {};  // [transparency][thickness][backdrop] -> max floor (MAT-048)
   const tintFloorsMore = {};
+  const glassCellFloor = {}; // [preset/scheme/contrast/variant/th/bd] -> solved glass alpha
+                             // (tinted = the glass composite, floored at the glass cell's alpha:
+                             //  REQ-FIN-03 models tinted >= glass)
 
   const bumpFloor = (table, tr, th, bd, v) => {
     table[tr] = table[tr] ?? {};
@@ -115,7 +118,9 @@ export function solveContrastMatrix(records, resolved, { throwOnUnmet = true } =
                   : samples;
 
                 let floorAlpha = null, best = { margin: -Infinity, ratio: 0, pair: null, alpha: 1 };
-                for (let i = Math.round(floor * 200); i <= 200; i++) {
+                const cellBase = [preset, scheme, contrast, variant, th, bd].join('/');
+                const startAlpha = tr === 'tinted' ? Math.max(floor, glassCellFloor[cellBase] ?? 0) : floor;
+                for (let i = Math.round(startAlpha * 200); i <= 200; i++) {
                   const alpha = i / 200;
                   let met = true;
                   let worst = { margin: Infinity, ratio: Infinity, pair: null };
@@ -158,6 +163,7 @@ export function solveContrastMatrix(records, resolved, { throwOnUnmet = true } =
                   pair: worstPair,
                   apcaLc: Math.round(apcaLc(cs.onSurface, surfaceSample) * 10) / 10,
                 };
+                if (tr === 'glass') glassCellFloor[cellBase] = floorAlpha;
                 if (contrast === 'more') bumpFloor(tintFloorsMore, 'more', th, bd, floorAlpha);
                 else bumpFloor(tintFloors, tr, th, bd, floorAlpha);
               }
