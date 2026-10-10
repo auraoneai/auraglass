@@ -2,7 +2,7 @@
    CMP_MODULES path exists and exports its names; each component renders
    data-ag-part elements; roots accept the S-30 props. */
 import * as React from 'react';
-import { describe, expect, it } from '@jest/globals';
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import { render } from '@testing-library/react';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -65,7 +65,7 @@ describe('compound components seed (S-28)', () => {
       const parts = COMPOUND_PARTS[name as keyof typeof COMPOUND_PARTS];
       let mounted = false;
       for (const leaf of ['Trigger', 'Track', 'Item', 'Viewport', 'Menu', 'Step', 'Action']) {
-        if (!parts.includes(leaf) || !isComponent(C[leaf])) continue;
+        if (!(parts as readonly string[]).includes(leaf) || !isComponent(C[leaf])) continue;
         try {
           render(React.createElement(Root!, { open: true, defaultOpen: true, steps: [{ target: 'body', title: 't' }] },
             React.createElement(C[leaf] as React.ComponentType<Record<string, unknown>>, { key: leaf })));
