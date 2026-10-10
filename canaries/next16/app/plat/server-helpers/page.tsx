@@ -5,7 +5,7 @@ import { materialProps } from 'aura-glass/material';
 import { token } from 'aura-glass/tokens';
 
 export default function PlatServerHelpersPage() {
-  const mp = materialProps({ tier: 'solid' as never });
+  const mp = materialProps({ layer: 'chrome' });
   return (
     <main data-ag-canary="plat-server-helpers" style={{ padding: token('--ag-space-4') }}>
       <h1>plat/server-helpers</h1>

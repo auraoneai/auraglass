@@ -8,7 +8,7 @@ import { Surface, Environment } from 'aura-glass/material';
 export default function PlatClientPage() {
   return (
     <main data-ag-canary="plat-client">
-      <Environment>
+      <Environment backdrop="auto">
         <Surface>
           <Button variant="regular">canary</Button>
         </Surface>
