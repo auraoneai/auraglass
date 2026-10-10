@@ -131,6 +131,13 @@ describe('activation.json', () => {
     expect(a.version).toBe(1);
     expect(Array.isArray(a.activations)).toBe(true);
   });
+  it('every activated plat:* job has job-level allow_failure:false (B3-14 flip in the same PR)', () => {
+    const a = JSON.parse(readFileSync('ci/plat/activation.json', 'utf8'));
+    for (const row of a.activations as Array<{ job: string }>) {
+      if (!row.job.startsWith('plat:')) continue;
+      expect({ job: row.job, allow_failure: job(row.job)?.allow_failure }).toEqual({ job: row.job, allow_failure: false });
+    }
+  });
 });
 
 // REQ-PLAT-05 / REQ-PLAT-39 items fixed in #126 (REQ-FIN-22 ledger AC).

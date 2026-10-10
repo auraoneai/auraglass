@@ -48,6 +48,8 @@ describe('verify-ci-fragments fixtures', () => {
     'gha-token': 'GitHub Actions',
     'gha-workflow-present': 'must not exist',
     'activation-pending': 'allow_failure',
+    // B3-14: a non-REQUIRED job row is validated (not rejected as "not a REQUIRED_JOBS entry")
+    'activation-nonrequired-pending': "'plat:build:dist' on 5x has effective allow_failure=true",
     'taskgraph-missing': 'verify-task-graph.mjs absent',
     'evidence-outside': '.artifacts/',
     'flipped-required-true': 'main scope',

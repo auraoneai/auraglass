@@ -19,7 +19,7 @@
       release 90d via .ag-evidence-release).
    6. Every REQUIRED_JOBS name is defined; once ci/plat/activation.json records
       a first green run for (job,line) the effective allow_failure on that line
-      is false (evaluated on pr scope).
+      is false (gates: pr and main scope; other jobs: every scope they run on).
    7. Only qual may define certify lane jobs (implied by the name rule).
    8. No credential names or id_tokens outside plat:publish:npm
       (NPM_ID_TOKEN, SIGSTORE_ID_TOKEN).
@@ -416,22 +416,29 @@ if (existsSync(actFile)) {
   }
   for (const row of act?.activations ?? []) {
     const { job, line } = row;
-    if (!REQUIRED_JOBS.includes(job)) {
-      fail.push(`activation.json: '${job}' is not a REQUIRED_JOBS entry`);
-      continue;
-    }
+    // REQ-FIN-22/24 (B3-14): any defined job may be activated, not only the
+    // REQUIRED_JOBS gates. Gates (REQUIRED_JOBS ∪ CERT_JOBS) must run and be
+    // allow_failure:false on both pr and main scope; any other activated job
+    // must run on at least one of pr/main/nightly and be false wherever it runs.
     const file = allJobs[job]?.file ?? '.gitlab-ci.yml';
     const doc = docs[file];
     if (!doc || !jobKeys(doc).includes(job)) {
       fail.push(`activation.json: '${job}' not defined`);
       continue;
     }
-    for (const scope of ['pr', 'main']) {
+    const gate = REQUIRED_JOBS.includes(job) || CERT_JOBS.includes(job);
+    let runs = 0;
+    for (const scope of gate ? ['pr', 'main'] : ['pr', 'main', 'nightly']) {
       const eff = effectiveAllowFailure(doc, job, VARSET(line, scope));
-      if (eff === null) fail.push(`activation.json: '${job}' on ${line} does not run on ${scope} scope`);
-      else if (eff !== false)
+      if (eff === null) {
+        if (gate) fail.push(`activation.json: '${job}' on ${line} does not run on ${scope} scope`);
+        continue;
+      }
+      runs++;
+      if (eff !== false)
         fail.push(`activation.json: '${job}' on ${line} has effective allow_failure=${eff} on ${scope} scope — flip it to false`);
     }
+    if (!gate && runs === 0) fail.push(`activation.json: '${job}' on ${line} does not run on pr, main or nightly scope`);
   }
 }
 

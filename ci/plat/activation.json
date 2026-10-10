@@ -1,5 +1,14 @@
 {
   "version": 1,
-  "_comment": "PLAT-014/015: rows = {job, line, firstGreenPipelineUrl, sha, date}. A REQUIRED_JOBS gate stays allow_failure:true on a line until a row here records its first green pipeline on that line; contract:ci-fragments enforces the flip.",
-  "activations": []
+  "_comment": "PLAT-014/015: rows = {job, line, firstGreenPipelineUrl, sha, date}. A job (REQUIRED_JOBS gate or any other plat:* / stream job) stays allow_failure:true on a line until a row here records its first green pipeline on that line; the activation PR flips it to false and contract:ci-fragments enforces the flip.",
+  "activations": [
+    {
+      "job": "plat:build:dist",
+      "line": "5x",
+      "firstGreenPipelineUrl": "https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/pipelines/2934310753",
+      "jobUrl": "https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/jobs/17085081009",
+      "sha": "49b9a0c4ea65ad6407cfa4151793f8d90d01e7b2",
+      "date": "2026-10-10"
+    }
+  ]
 }
