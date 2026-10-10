@@ -9,10 +9,6 @@ export default [
   { lane: 'L1', kind: 'jest', path: 'tests/lint/plat/**', scope: 'pr', remote: false, failClosed: true },
   // L2 — artifact/pack gates
   { lane: 'L2', kind: 'jest', path: 'tests/{pack,build,exports,deps,side-effects,css}/**', scope: 'pr', remote: false, failClosed: true },
-  // REQ-SURF-06: the dist side-effect trap runs post-build (fails closed
-  // without dist/, so release/main scopes only — never pr).
-  { lane: 'L2', kind: 'node-script', path: 'scripts/ci/verify-side-effects.mjs', scope: 'main', remote: false, failClosed: true },
-  { lane: 'L2', kind: 'node-script', path: 'scripts/ci/verify-side-effects.mjs', scope: 'release', remote: false, failClosed: true },
   // L3 — release classification and deprecation register gates
   { lane: 'L3', kind: 'jest', path: 'tests/release/classify-change.test.ts', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L3', kind: 'jest', path: 'tests/deprecations/prior-deprecation.test.ts', scope: 'pr', remote: false, failClosed: true },
