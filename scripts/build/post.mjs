@@ -31,6 +31,7 @@ step(2, 'css assembly');
 const css = await assembleAllCss(ROOT, { lower: true });
 console.log(`   wrote ${css.written.join(', ')}`);
 for (const p of css.pending) console.log(`   pending: ${p}`);
+for (const b of css.baselined) console.log(`   ${b}`);
 execFileSync('node', ['scripts/build/gen-tailwind-bridge.mjs'], { cwd: ROOT, stdio: 'inherit' });
 
 step(3, 'package exports');

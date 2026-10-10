@@ -7,12 +7,19 @@
      - color-mix() declarations are hoisted into @supports (color: color-mix(...))
        guards at assembly time; shipped css never carries an unguarded color-mix.
      - lowerCss lowers AND minifies to CSS_TARGETS.
-     - tokens.css / material.css / compat/tokens.css are MAT-owned outputs:
-       not assembled here, only verified present after the tokens build.
+     - fragments outside FIN-C that break those two rules ship only while
+       they hold a row in REQ-FIN-14's expiring baseline
+       (scripts/integration/baselines/css-files.json, FIN-A); the build
+       prints them as BASELINED. Any other offender fails the build.
+     - tokens.css / material.css / compat/tokens.css are MAT-owned outputs,
+       copied through (material.css also guarded + minified), never
+       reassembled; dist/material.css falls back to MAT's fragments/css/mat.ts
+       rows, reported pending, until MAT's tokens:build emits it.
      - build/css-ownership.json: {selectors: {prefix: bundle}, a11y: {prefix}} —
        a selector emitted into a bundle it does not own fails the build. */
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { transform as esbuildTransform } from 'esbuild';
 import { ROOT, SRC, DIST, walk } from './graph.mjs';
 import { loadFragments } from '../../../src/contracts/load-fragments.mjs';
@@ -134,9 +141,38 @@ export function selectorPrefix(selector) {
 
 /* ---------- fragment loading + REQ-PLAT-74 validation ---------- */
 
-/** Load every stream's css fragments → [{stream, layer, bundle, order, file, content}] sorted deterministically. */
+/** REQ-FIN-14's expiring cross-stream baseline (FIN-A, PRD-F §4.3 rule 3).
+    Its gate (scripts/build/verify-css-files.mjs) checks the same two rules
+    this validator enforces (no !important, nothing outside @layer ag.*), so
+    the assembly honours the same rows instead of keeping a second list:
+    offenders in other WPs' files are fixed by their owners, never here. */
+export const CSS_FILES_BASELINE = 'scripts/integration/baselines/css-files.json';
+const BASELINE_EXPIRY_LIB = 'scripts/integration/lib/baseline-expiry.mjs';
+
+/** Map file → {file, owner, reqFin, expires} from the REQ-FIN-14 baseline; an
+    empty map when the baseline is absent (strict: every offender fails). A
+    malformed or expired row fails the build (same rule as the baseline's gate). */
+export async function loadCssFilesBaseline(root = ROOT) {
+  const p = join(root, CSS_FILES_BASELINE);
+  const rows = new Map();
+  if (!existsSync(p)) return rows;
+  const parsed = JSON.parse(readFileSync(p, 'utf8'));
+  const lib = join(root, BASELINE_EXPIRY_LIB);
+  if (!existsSync(lib)) throw new Error(`${CSS_FILES_BASELINE} exists but ${BASELINE_EXPIRY_LIB} (its expiry rule) is missing`);
+  const { rowProblems } = await import(pathToFileURL(lib).href);
+  const problems = rowProblems(parsed, { gate: 'css assembly (REQ-PLAT-74)' });
+  if (problems.length) throw new Error(problems.join('\n'));
+  for (const r of parsed) rows.set(r.file, r);
+  return rows;
+}
+
+/** Load every stream's css fragments → [{stream, layer, bundle, order, file, content, baselined?}]
+    sorted deterministically. With validate, a fragment that breaks validateFragment
+    fails unless its file has a REQ-FIN-14 baseline row; then the violation is
+    carried on entry.baselined (reported by assembleAllCss) and the file still ships. */
 export async function collectCssFragments(root = ROOT, { validate = true } = {}) {
   const frags = await loadFragments('css', root);
+  const baseline = validate ? await loadCssFilesBaseline(root) : new Map();
   const out = [];
   for (const { stream, file, value } of frags) {
     for (const f of value) {
@@ -144,9 +180,17 @@ export async function collectCssFragments(root = ROOT, { validate = true } = {})
       if (!existsSync(abs)) throw new Error(`css fragment file missing: ${f.file} (stream ${stream}, ${file})`);
       if (!CSS_LAYERS.includes(f.layer)) throw new Error(`css fragment ${f.file}: unknown layer ${f.layer}`);
       const entry = { stream, layer: f.layer, bundle: f.bundle, order: f.order ?? 0, file: f.file, content: readFileSync(abs, 'utf8') };
-      // MAT-bundle fragments are metadata (MAT assembles material.css itself);
+      // MAT-bundle fragments are MAT's output inputs (MAT emits material.css);
       // assembly-side validation applies to everything PLAT emits.
-      if (validate && !MAT_BUNDLES.has(f.bundle)) validateFragment(entry);
+      if (validate && !MAT_BUNDLES.has(f.bundle)) {
+        try {
+          validateFragment(entry);
+        } catch (err) {
+          const row = baseline.get(f.file);
+          if (!row) throw err;
+          entry.baselined = `${err.message} [BASELINED ${row.owner} ${row.reqFin}, expires ${row.expires}]`;
+        }
+      }
       out.push(entry);
     }
   }
@@ -304,7 +348,10 @@ export function checkOwnership(bundle, css, ownership) {
   }
 }
 
-/** Write every bundle the fragments + supplements produce. Returns {written, pending, ownership}. */
+/** git-ignored marker: dist/material.css came from the fragment fallback below. */
+const MATERIAL_FALLBACK_MARKER = 'build/.material-css.from-fragments';
+
+/** Write every bundle the fragments + supplements produce. Returns {written, pending, baselined, ownership}. */
 export async function assembleAllCss(root = ROOT, { lower = false } = {}) {
   const fragments = await collectCssFragments(root);
   const ownership = computeOwnership(fragments);
@@ -312,7 +359,14 @@ export async function assembleAllCss(root = ROOT, { lower = false } = {}) {
   for (const f of fragments) if (!MAT_BUNDLES.has(f.bundle)) bundles.add(f.bundle);
   const written = [];
   const pending = [];
+  const baselined = fragments.filter((f) => f.baselined).map((f) => f.baselined);
   mkdirSync(DIST, { recursive: true });
+  // Read before any write below. A dist/material.css this function assembled in
+  // an earlier run (marker present) is not a MAT output.
+  const assembledMarker = join(root, MATERIAL_FALLBACK_MARKER);
+  const matEmitted = new Set([...MAT_BUNDLES].filter((spec) =>
+    existsSync(join(DIST, spec)) && !(spec === 'material.css' && existsSync(assembledMarker))));
+  rmSync(assembledMarker, { force: true });
   for (const b of [...bundles].sort()) {
     let css = await assembleBundle(b, fragments, root);
     checkOwnership(b, css, ownership);
@@ -322,12 +376,35 @@ export async function assembleAllCss(root = ROOT, { lower = false } = {}) {
     writeFileSync(dest, css);
     written.push(`dist/${b}`);
   }
-  // MAT-owned standalone artifacts: emitted by scripts/tokens/build.mjs, never
-  // reassembled here — verified present (pending when tokens:build has not run).
+  // MAT-owned standalone artifacts are emitted by MAT's tokens:build and copied
+  // through, never reassembled: PLAT only checks ownership and (with lower)
+  // applies the same color-mix guard + minify every shipped bundle gets.
   for (const spec of MAT_BUNDLES) {
     const dest = join(DIST, spec);
-    if (!existsSync(dest)) pending.push(`dist/${spec} (MAT tokens:build output pending)`);
-    else written.push(`dist/${spec} (MAT)`);
+    if (matEmitted.has(spec)) {
+      if (spec === 'material.css') {
+        let css = readFileSync(dest, 'utf8');
+        checkOwnership(spec, css, ownership);
+        if (lower) { css = await lowerCss(css); writeFileSync(dest, css); }
+      }
+      written.push(`dist/${spec} (MAT)`);
+    } else if (spec === 'material.css') {
+      // dist/material.css is a public export (./material.css). Until MAT's
+      // tokens:build emits it (the scripts/tokens/build.mjs hunk handed from
+      // #175 to FIN-A), it is assembled from MAT's own fragments/css/mat.ts
+      // rows in their contract order, and reported as pending so the
+      // transition stays visible.
+      let css = await assembleBundle(spec, fragments, root);
+      checkOwnership(spec, css, ownership);
+      if (lower) css = await lowerCss(css);
+      writeFileSync(dest, css);
+      mkdirSync(dirname(assembledMarker), { recursive: true });
+      writeFileSync(assembledMarker, `${spec}\n`);
+      written.push(`dist/${spec} (from fragments/css/mat.ts)`);
+      pending.push(`dist/${spec}: MAT tokens:build output pending — assembled from fragments/css/mat.ts rows`);
+    } else {
+      pending.push(`dist/${spec} (MAT tokens:build output pending)`);
+    }
   }
-  return { written, pending, ownership };
+  return { written, pending, baselined, ownership };
 }
