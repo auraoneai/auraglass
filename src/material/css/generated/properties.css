@@ -29,6 +29,11 @@
   inherits: false;
   initial-value: 1;
 }
+@property --_ag-grain-opacity {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0.03;
+}
 @property --_ag-mat-blur {
   syntax: "<length>";
   inherits: false;

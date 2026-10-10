@@ -78,14 +78,14 @@ export const COMPOUND_PARTS = {
   Tooltip: ['Root', 'Trigger', 'Content', 'Arrow'],
   Menu: ['Root', 'Trigger', 'Content', 'Item', 'CheckboxItem', 'RadioGroup', 'RadioItem', 'Group', 'GroupLabel', 'Separator', 'Submenu', 'SubmenuTrigger'],
   ContextMenu: ['Root', 'Trigger', 'Content', 'Item', 'Group', 'GroupLabel', 'Separator'],
-  Menubar: ['Root', 'Menu'],
+  ColorPicker: ['Root', 'Trigger', 'Content', 'Area', 'Hue'],
   Toast: ['Provider', 'Viewport', 'Root', 'Title', 'Description', 'Action', 'Close'],
   Select: ['Root', 'Trigger', 'Value', 'Content', 'Item', 'ItemIndicator', 'Group', 'GroupLabel', 'Separator'],
   Combobox: ['Root', 'Input', 'Trigger', 'Content', 'Item', 'Empty', 'Chips', 'Chip', 'ChipRemove', 'Clear'],
   Toolbar: ['Root', 'Button', 'Group', 'Separator', 'Link'],
   ToggleGroup: ['Root', 'Item'],
-  SegmentedControl: ['Root', 'Item', 'Indicator'],
-  Slider: ['Root', 'Track', 'Range', 'Thumb', 'Value'],
+  SegmentedControl: ['Root', 'Item'],
+  Slider: ['Root', 'Value'],
   RadioGroup: ['Root', 'Item'],
   Field: ['Root', 'Label', 'Control', 'Description', 'Error'],
   Collapsible: ['Root', 'Trigger', 'Content'],
@@ -108,11 +108,12 @@ export interface CmpRootProps {
   RadioGroup: ValueProps<string>; Field: { invalid?: boolean; disabled?: boolean; name?: string };
   Collapsible: OpenProps; Accordion: ValueProps<string[]> & { multiple?: boolean }; ScrollArea: Record<string, never>;
   Avatar: SizeProps; Card: MaterialBearingProps & { interactive?: boolean }; Tour: OpenProps & { step?: number };
+  ColorPicker: OpenProps;
 }
 /** Flat CMP components other streams compose (props = PartProps of the root element + the grammar types they list in meta): */
 export const FLAT_CMP_COMPONENTS = ['Button', 'IconButton', 'ButtonGroup', 'Switch', 'Checkbox', 'CheckboxGroup', 'TextField',
   'SearchField', 'NumberField', 'Fieldset', 'Form', 'Badge', 'AvatarGroup', 'Alert', 'Progress', 'Meter', 'Skeleton', 'Separator', 'Kbd',
-  'Link', 'Rating', 'InlineEdit', 'FileUpload', 'ColorPicker', 'DescriptionList', 'ImageList', 'EmptyState', 'ErrorState',
+  'Link', 'Rating', 'InlineEdit', 'Menubar', 'FileUpload', 'DescriptionList', 'ImageList', 'EmptyState', 'ErrorState',
   'LoadingState', 'Text', 'Heading', 'Stack', 'Grid', 'Container', 'Icon'] as const;
 /** Typed compound contracts, one per COMPOUND_PARTS key (what seeds, doubles and real components all satisfy). */
 export type CmpCompounds = { [K in keyof typeof COMPOUND_PARTS]: CompoundContract<(typeof COMPOUND_PARTS)[K][number], CmpRootProps[K]> };
