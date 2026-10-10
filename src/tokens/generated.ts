@@ -25,7 +25,6 @@ export interface AuraTokensManifest {
   personas: AuraPersona[];
 }
 
-/** @deprecated auraTokens DEP-M0965 since 4.3.0, removed in 5.0.0. {@link tokens (the only aura-glass/tokens export in 5.0)} */
 export const auraTokens = {
   version: "1.0.0",
   description: "AuraGlass canonical design token manifest",
@@ -91,7 +90,7 @@ export const auraTokens = {
       },
       typography: {
         families: {
-          sans: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          sans: "'system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
           mono: "'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace",
         },
         scale: {
@@ -1257,7 +1256,6 @@ auraTokens.personas.forEach((persona) => {
   personaMap.set(persona.metadata.id as PersonaId, persona as AuraPersona);
 });
 
-/** @deprecated getPersona DEP-M0803 since 4.2.0, removed in 5.0.0. {@link presets (aura-glass/theme) — personas are replaced by the 5.x presets table} */
 export function getPersona(id: PersonaId): AuraPersona {
   const persona = personaMap.get(id);
   if (!persona) {
@@ -1266,7 +1264,6 @@ export function getPersona(id: PersonaId): AuraPersona {
   return persona;
 }
 
-/** @deprecated getPersonaModeTokens DEP-M0804 since 4.2.0, removed in 5.0.0. {@link createBrandTheme + presets (aura-glass/theme)} */
 export function getPersonaModeTokens(id: PersonaId, mode: PersonaMode) {
   const persona = getPersona(id);
   if (!persona.metadata.modes.includes(mode)) {
