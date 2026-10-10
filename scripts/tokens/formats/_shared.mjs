@@ -1,4 +1,5 @@
 // Shared emit helpers for scripts/tokens/formats/* (extracted from build.mjs).
+import { createRequire } from 'node:module';
 import { colorToCss, gamutMapOklch, oklchToSrgb, clampSrgb, srgbToHex } from '../color.mjs';
 import { compileSpring } from '../transforms/motion-spring.mjs';
 
@@ -8,12 +9,14 @@ export function die(msg) {
 }
 
 export async function prettierFormat(code, parser) {
+  // createRequire — dynamic import() fails under jest's CJS runtime.
+  let prettier;
   try {
-    const prettier = await import('prettier');
-    return await prettier.format(code, { parser });
+    prettier = createRequire(import.meta.url)('prettier');
   } catch {
-    return code; // prettier unavailable: output is already deterministic
+    die('prettier is required for tokens:build but is not installed — install the pinned prettier devDependency (FIN-C) and retry');
   }
+  return await prettier.format(code, { parser });
 }
 
 export const dim = (v) => `${v.value}${v.unit}`;
