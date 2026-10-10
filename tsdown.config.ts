@@ -62,7 +62,7 @@ function hasSeed(entry: string): boolean {
 const entries: Record<string, string> = {};
 const pending: string[] = [];
 for (const e of manifest.entries) {
-  if (e.source === 'build:css' || e.source === 'build:deprecations' || e.source === 'package.json' || e.source === 'build:icon-glob') continue;
+  if (e.source === 'build:css' || e.source === 'build:deprecations' || e.source === 'package.json') continue;
   if (!existsSync(resolve(new URL('.', import.meta.url).pathname, e.source))) { pending.push(`${e.subpath} (missing)`); continue; }
   if (hasSeed(e.source)) { pending.push(`${e.subpath} (@ag-contract-seed in graph)`); continue; }
   // entry name = dist path without .js (src/index.ts -> index, src/x/y.ts -> x/y)

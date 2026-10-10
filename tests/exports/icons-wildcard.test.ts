@@ -4,6 +4,7 @@ import { describe, expect, it } from '@jest/globals';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { DIST, ROOT, ensureBuilt, walk } from '../build/helpers';
+import { exportKeyFor } from './ts-exports';
 
 const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
 
@@ -20,12 +21,19 @@ describe('./icons/* wildcard', () => {
     }
     expect(missing).toEqual([]);
   });
-  it('icon category barrels resolve (./icons/<cat> rows)', () => {
+  it('./icons/* is the only pattern row', () => {
+    expect(Object.keys(pkg.exports).filter((k) => k.includes('*'))).toEqual(['./icons/*']);
+  });
+  it('the 4.x category subpaths (./icons/<cat>) resolve through the wildcard to built barrels', () => {
+    ensureBuilt();
     const missing: string[] = [];
     for (const cat of ['action', 'ai', 'collaboration', 'commerce', 'data', 'media', 'navigation', 'status']) {
-      const row = pkg.exports[`./icons/${cat}`];
-      if (!row) continue;
-      if (!existsSync(join(ROOT, row.default.replace('./', '')))) missing.push(cat);
+      const key = exportKeyFor(pkg.exports, `./icons/${cat}`);
+      if (key !== './icons/*') { missing.push(`./icons/${cat}: matched ${key}`); continue; }
+      for (const cond of ['types', 'default'] as const) {
+        const target = (pkg.exports[key][cond] as string).replace('*', cat).replace(/^\.\//, '');
+        if (!existsSync(join(ROOT, target))) missing.push(`./icons/${cat} ${cond} -> ${target}`);
+      }
     }
     expect(missing).toEqual([]);
   });

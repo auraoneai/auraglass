@@ -85,7 +85,7 @@ export function manifestEntries(root = ROOT) {
   const js = [];
   const asset = [];
   for (const e of entries) {
-    if (e.source === 'build:css' || e.source === 'build:deprecations' || e.source === 'package.json' || e.source === 'build:icon-glob') asset.push(e);
+    if (e.source === 'build:css' || e.source === 'build:deprecations' || e.source === 'package.json') asset.push(e);
     else js.push(e);
   }
   return { entries, js, asset };

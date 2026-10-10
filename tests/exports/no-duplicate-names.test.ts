@@ -1,14 +1,21 @@
 /* @jest-environment node */
-/* REQ-PLAT-67: no two export rows resolve to the same dist target (duplicate
-   module twins would double-instantiate). */
+/* REQ-PLAT-67: (a) within each JS entry's re-export closure no value or type
+   name is contributed twice (two colliding `export *` are silently dropped by
+   TypeScript — TS2308); (b) no two package.json export rows resolve to the same
+   dist target (duplicate module twins would double-instantiate). */
 import { describe, expect, it } from '@jest/globals';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT } from '../build/helpers';
+import { duplicateNames, jsEntries } from './ts-exports';
 
 const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
 
 describe('no-duplicate-names', () => {
+  it('no entry re-export closure contributes a name twice', () => {
+    const dups = jsEntries().flatMap((e) => duplicateNames(e.source).map((d) => `${e.subpath}: ${d}`));
+    expect(dups).toEqual([]);
+  }, 300_000);
   it('no two export rows share a default target', () => {
     const seen = new Map<string, string>();
     const dups: string[] = [];
