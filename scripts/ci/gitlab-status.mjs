@@ -39,14 +39,15 @@ for (;;) {
   try {
     pipelines = await apiGet(`/pipelines?sha=${encodeURIComponent(sha)}&per_page=5`);
   } catch (e) {
-    // fallback: glab CLI if the operator has a login
+    // fallback: glab CLI api call when the operator has a login (sha is a commit,
+    // not a branch — 'glab ci status --branch' cannot answer pipeline-by-sha).
     try {
-      const out = execFileSync('glab', ['ci', 'status', '--branch', sha, '--output', 'json'], {
-        encoding: 'utf8',
-        stdio: ['pipe', 'pipe', 'ignore'],
-      });
-      const parsed = JSON.parse(out);
-      pipelines = parsed ? [parsed] : [];
+      const out = execFileSync(
+        'glab',
+        ['api', `projects/${PROJECT}/pipelines?sha=${encodeURIComponent(sha)}&per_page=5`],
+        { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] },
+      );
+      pipelines = JSON.parse(out || '[]');
     } catch {
       console.error(`gitlab-status: ${e.message} (no glab fallback)`);
       process.exit(2);
