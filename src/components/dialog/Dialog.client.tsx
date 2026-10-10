@@ -157,8 +157,8 @@ function DialogPopup({
     const head = node.querySelector<HTMLElement>('[data-ag-part="header"]');
     const foot = node.querySelector<HTMLElement>('[data-ag-part="footer"]');
     const measure = () => {
-      node.style.setProperty('--ag-dialog-head-h', `${head?.offsetHeight ?? 0}px`);
-      node.style.setProperty('--ag-dialog-foot-h', `${foot?.offsetHeight ?? 0}px`);
+      node.style.setProperty('--_ag-dialog-head-h', `${head?.offsetHeight ?? 0}px`);
+      node.style.setProperty('--_ag-dialog-foot-h', `${foot?.offsetHeight ?? 0}px`);
     };
     measure();
     const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null;

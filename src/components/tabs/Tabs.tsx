@@ -5,8 +5,10 @@
    (startMorph); the CSS fallback animates translate/scale only. */
 
 import * as React from 'react';
+import { flushSync } from 'react-dom';
 import { Tabs as BaseTabs } from '@base-ui/react/tabs';
 import { startMorph } from '../../motion';
+import { useTabBarPanel } from '../tab-bar/TabBar';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 
@@ -15,7 +17,7 @@ export type TabsValue = string;
 export type TabsRootProps = Omit<PartProps<'div'>, 'onChange' | 'defaultValue'> & {
   value?: TabsValue | undefined;
   defaultValue?: TabsValue | undefined;
-  onValueChange?: ((value: TabsValue) => void) | undefined;
+  onValueChange?: ((value: TabsValue, details?: unknown) => void) | undefined;
   orientation?: 'horizontal' | 'vertical' | undefined;
   /** Roving focus activates the focused tab (default false — manual activation). */
   activateOnFocus?: boolean | undefined;
@@ -35,20 +37,31 @@ function TabsRoot({
   onValueChange,
   orientation = 'horizontal',
   activateOnFocus = false,
-  appearance = 'underline',
+  appearance = 'pill',
   size = 'md',
   children,
   render,
   ...rest
 }: TabsRootProps) {
   const idBase = React.useId();
+  const rootRef = React.useRef<HTMLElement | null>(null);
   const [active, setActive] = React.useState<TabsValue | null>(
     (value ?? defaultValue ?? null) as TabsValue | null,
   );
   const change = React.useCallback(
     (v: unknown) => {
       const next = v as TabsValue;
-      setActive(next);
+      const apply = () => {
+        setActive(next);
+      };
+      // SURF-049: morph the indicator via the MAT seam when one is mounted
+      // inside this root; otherwise activate directly.
+      const indicator = rootRef.current?.querySelector<HTMLElement>('[data-ag-vt-participant]');
+      if (indicator) {
+        startMorph(() => flushSync(apply), { surfaces: [indicator] });
+      } else {
+        apply();
+      }
       onValueChange?.(next);
     },
     [onValueChange],
@@ -65,6 +78,7 @@ function TabsRoot({
         orientation={orientation}
         render={partElement('div', {
           render,
+          ref: rootRef,
           'data-ag-part': 'tabs',
           'data-ag-appearance': appearance,
           className: 'ag-tabs',
@@ -85,11 +99,39 @@ export type TabsListProps = PartProps<'div'> & {
 
 function TabsList({ activateOnFocus, children, render, ...rest }: TabsListProps) {
   const ctxActivate = React.useContext(TabsCtx).activateOnFocus;
+  const { idBase, active } = React.useContext(TabsCtx);
+  const listRef = React.useRef<HTMLElement | null>(null);
+
+  // SURF-050: mark which ends overflow so the mask fade only applies where
+  // content is actually clipped. scrollIntoView(nearest) on activation keeps
+  // the active tab visible without scroll buttons.
+  React.useLayoutEffect(() => {
+    const el = listRef.current;
+    if (!el) return;
+    const update = () => {
+      el.dataset['agOverflowStart'] = el.scrollLeft > 0 ? 'true' : 'false';
+      el.dataset['agOverflowEnd'] =
+        el.scrollLeft + el.clientWidth < el.scrollWidth - 1 ? 'true' : 'false';
+    };
+    update();
+    el.addEventListener('scroll', update, { passive: true });
+    return () => el.removeEventListener('scroll', update);
+  }, []);
+
+  React.useLayoutEffect(() => {
+    const el = listRef.current;
+    if (!el || active === null) return;
+    const tab = el.querySelector<HTMLElement>('[role="tab"][data-state="active"]');
+    tab?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
+    void idBase;
+  }, [active, idBase]);
+
   return (
     <BaseTabs.List
       activateOnFocus={activateOnFocus ?? ctxActivate}
       render={partElement('div', {
         render,
+        ref: listRef,
         'data-ag-part': 'list',
         className: 'ag-tabs__list',
         role: 'tablist',
@@ -107,11 +149,10 @@ export type TabsTabProps = Omit<PartProps<'button'>, 'value'> & {
 };
 
 function TabsTab({ value, children, render, ...rest }: TabsTabProps) {
-  const { idBase } = React.useContext(TabsCtx);
+  // BU owns the tab<->panel id pair (aria-controls/aria-labelledby resolve
+  // natively both ways, SURF-048) — we only add the part contract.
   const el = partElement('button', {
     render: render as React.ReactElement | undefined,
-    id: `${idBase}-tab-${value}`,
-    role: 'tab',
     'data-ag-part': 'tab',
     ...rest,
     children: (
@@ -146,18 +187,17 @@ export type TabsPanelProps = Omit<PartProps<'div'>, 'value'> & {
 };
 
 function TabsPanel({ value, keepMounted, children, render, ...rest }: TabsPanelProps) {
-  const { idBase } = React.useContext(TabsCtx);
+  // Register into an enclosing TabBar (semantics='tabs' dev-check) — noop
+  // outside one (SURF-051).
+  useTabBarPanel(value);
   return (
     <BaseTabs.Panel
       value={value as never}
       keepMounted={keepMounted}
       render={partElement('div', {
         render: render as React.ReactElement | undefined,
-        id: `${idBase}-panel-${value}`,
-        role: 'tabpanel',
         'data-ag-part': 'panel',
         className: 'ag-tabs__panel',
-        'aria-labelledby': `${idBase}-tab-${value}`,
         ...rest,
         children,
       })}

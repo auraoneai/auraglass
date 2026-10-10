@@ -15,10 +15,14 @@ const RULES = [
   { category: 'color', re: /\boklch\((?!\s*from\s*var\()/g }, // oklch(from var(...)) is the allowed form
   // blur: blur(<n>px)
   { category: 'blur', re: new RegExp(String.raw`\bblur\(\s*${NUM}px`, 'g') },
+  // MAT-062: the legacy gates flag every backdrop-filter declaration regardless
+  // of value — a backdrop-filter (or its -webkit- form) counts as a blur-class
+  // finding even when it only reads vars.
+  { category: 'blur', re: /\b(?:-webkit-)?backdrop-filter\s*:[^;}]+|\b(?:webkit)?backdropFilter\s*:\s*['"][^'"]+['"]/g },
   // radius: border-radius/borderRadius with a px literal
   { category: 'radius', re: new RegExp(String.raw`\bborder-radius\s*:[^;}]*${NUM}px|\bborderRadius\s*:\s*['"]?[^,'"}]*${NUM}px`, 'g') },
   // shadow: literal box-shadow/boxShadow value (not var()/none/inherit)
-  { category: 'shadow', re: /\bbox-shadow\s*:[^;}]+|\bboxShadow\s*:\s*['"][^'"]+['"]/g, test: (m) => /\d/.test(m[0]) && !/var\(|none|inherit/.test(m[0]) },
+  { category: 'shadow', re: /\bbox-shadow\s*:[^;}]+|\bboxShadow\s*:\s*['"][^'"]+['"]/g, test: (m) => /\d\s*(?:px|em|rem)/.test(m[0]) && !/^\s*box-shadow\s*:\s*(?:none|inherit)/.test(m[0]) },
   // duration: ms/s inside transition*/animation* contexts
   { category: 'duration', re: new RegExp(String.raw`\b(?:transition|transition-[a-z]+|animation|animation-[a-z]+)\s*:[^;}]*\b${NUM}m?s\b`, 'g'), test: (m) => new RegExp(String.raw`${NUM}m?s`).test(m[0]) && !/\d+(?:\.\d+)?\s*(?:px|rem|em|%)/.test(m[0].replace(/\d+(?:\.\d+)?m?s/g, '')) },
   // duration: numeric motion keys (MAT-089)
