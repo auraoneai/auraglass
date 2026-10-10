@@ -112,6 +112,13 @@ export default [
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/mat/axe.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/**/*.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
 
+  // MAT-349 (D.3-02): the mat:material-{chromium,webkit,firefox} Playwright
+  // projects (fragments/playwright/mat.json, testDir tests/material). Chromium is
+  // the L5 Behaviour cell; the WebKit/Gecko runs are the L8 Engine-specific cells
+  // (SC-29). Replaces the retired mat:certify:l5-material job (rule 7).
+  { lane: 'L5', kind: 'playwright', path: 'tests/material/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L8', kind: 'playwright', path: 'tests/material/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+
   // MAT-370/372 (L6 Environment visual cells): pixel-modes, focus-appearance,
   // color-vision; rungs re-run for the release screenshot evidence (photo,
   // flat-black, hf-pattern) consumed by the L14 sign-off.
