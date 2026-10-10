@@ -6,7 +6,7 @@
    container and we emit the one-time dev warning per page load. */
 import * as React from 'react';
 import { usePortalContainer, PortalRootContext } from '../../../theme/portal';
-import type { PortalLayerRoot } from '../../../contracts/preferences';
+import type { PortalLayerRoot } from '../../../theme';
 
 let warnedNoProvider = false;
 

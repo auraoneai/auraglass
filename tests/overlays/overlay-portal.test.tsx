@@ -18,9 +18,9 @@ import { Toast, useToast } from '../../src/components/toast';
 import { fireEvent, screen } from '@testing-library/react';
 
 beforeAll(() => {
-  if (typeof window !== 'undefined' && !('PointerEvent' in window)) {
-    (window as { PointerEvent?: unknown }).PointerEvent = window.MouseEvent;
-  }
+  // jsdom has no PointerEvent; Base UI's press handlers need one.
+  const w = window as unknown as { PointerEvent?: unknown; MouseEvent: unknown };
+  if (w.PointerEvent === undefined) w.PointerEvent = w.MouseEvent;
 });
 
 const families: [string, (open: boolean) => React.ReactElement][] = [
