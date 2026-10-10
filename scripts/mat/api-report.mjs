@@ -50,7 +50,9 @@ async function exportsOf(src) {
   const text = res.outputFiles[0].text;
   const m = /export\s*\{([^}]*)\}\s*;?\s*$/m.exec(text);
   if (!m || !m[1]) return [];
-  return m[1].split(',').map((s) => s.trim().replace(/\s+as\s+\w+$/, '')).filter(Boolean).sort();
+  // `local as exported`: report the exported name (esbuild renames a local
+  // that collides inside the bundle, e.g. createGlassTheme2 as createGlassTheme)
+  return m[1].split(',').map((s) => s.trim().replace(/^\w+\s+as\s+/, '')).filter(Boolean).sort();
 }
 
 /** MAT-343: every difference vs the ENTRIES contract listed in the report. */

@@ -15,7 +15,6 @@ import { presets, type PresetId, type ThemePreset } from "./presets";
 
 export type GlassThemeMode = "light" | "dark" | "system" | "high-contrast";
 export type GlassDensity = "compact" | "comfortable" | "spacious";
-export type GlassMotionPolicy = "system" | "reduced" | "expressive" | "none";
 export type GlassMotionAxis = "full" | "calm" | "none" | "system";
 export type GlassContrastAxis = "standard" | "more";
 
@@ -50,7 +49,9 @@ export interface GlassThemeTokens {
   };
   /** resolved density axis + scale (comfortable -> regular per §21 OI-03) */
   density: { axis: "compact" | "regular" | "spacious"; scale: number };
-  /** resolved motion axis (MAT-088 / REQ-MOT-07) + allowContinuous */
+  /** resolved motion axis (MAT-088 / REQ-MOT-07) + allowContinuous. 5.0 themes
+   *  never set motion (REQ-MAT-45): always { axis: "system", allowContinuous:
+   *  false }; the 4.x option lives only in src/compat/mat (DEP-M0902). */
   motion: { axis: GlassMotionAxis; allowContinuous: boolean };
   /** resolved contrast axis */
   contrast: GlassContrastAxis;
@@ -78,7 +79,6 @@ export interface CreateGlassThemeOptions {
   radiusScale?: number;
   mode?: GlassThemeMode;
   density?: GlassDensity;
-  motionPolicy?: GlassMotionPolicy;
   contrast?: GlassContrastAxis;
 }
 
@@ -93,18 +93,9 @@ const manifestValue = (cssVar: string, mode?: "light" | "dark"): string | undefi
 const DENSITY_SCALE = { compact: 0.875, regular: 1, spacious: 1.125 } as const;
 const RADIUS_BASE = { xs: 6, sm: 10, md: 14, lg: 20, xl: 28 } as const;
 
-const motionAxisFor = (p: GlassMotionPolicy): { axis: GlassMotionAxis; allowContinuous: boolean } => {
-  switch (p) {
-    case "expressive":
-      return { axis: "full", allowContinuous: true }; // REQ-MOT-07
-    case "reduced":
-      return { axis: "calm", allowContinuous: false };
-    case "none":
-      return { axis: "none", allowContinuous: false };
-    default:
-      return { axis: "system", allowContinuous: false }; // OS-following
-  }
-};
+/** REQ-MAT-45: no theme option raises (or sets) motion; motion follows the OS
+ *  floor and the preferences store. */
+const SYSTEM_MOTION = { axis: "system", allowContinuous: false } as const;
 
 /** Move L minimally until `fg` over `bg` passes `min`; returns adjusted color + report.
  *  Direction moves `fg` away from `bg`'s lightness (max separation). */
@@ -147,7 +138,7 @@ export const createGlassTheme = (
       : options.density === "spacious"
         ? "spacious"
         : "regular"; // comfortable -> regular
-  const motion = motionAxisFor(options.motionPolicy ?? "system");
+  const motion: GlassThemeTokens["motion"] = { ...SYSTEM_MOTION };
 
   // canvas: preset's authored pair; a custom brandColor/neutralHue re-hues it
   let canvasLight = parseColor(preset.canvas.light);

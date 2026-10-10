@@ -1,4 +1,5 @@
-/* MAT-249: createGlassTheme options contract — all 4.x option names, system
+/* MAT-249: createGlassTheme options contract — the 4.x option names (minus
+   the 4.x motion-policy option, compat-only per REQ-MAT-45 / D.3-27), system
    mode unpinned, high-contrast maps to contrast 'more', cssText keyed on
    [data-ag-theme] never :root, every emitted var is a consumed manifest key,
    pure under worker_threads, 4 colour syntaxes agree within dE2000 <= 0.5. */
@@ -18,7 +19,6 @@ const OPTIONS = {
   radiusScale: 1.1,
   mode: 'light',
   density: 'compact',
-  motionPolicy: 'expressive',
   contrast: 'standard',
 } as const;
 
@@ -34,8 +34,8 @@ describe('createGlassTheme', () => {
     expect(typeof theme.cssText).toBe('string');
     expect(theme.vars['--ag-color-accent']).toBeTruthy();
     expect(theme.tokens.density.axis).toBe('compact');
-    expect(theme.tokens.motion.axis).toBe('full');
-    expect(theme.tokens.motion.allowContinuous).toBe(true);
+    // REQ-MAT-45: the 5.0 theme never sets motion; the 4.x option is compat-only
+    expect(theme.tokens.motion).toEqual({ axis: 'system', allowContinuous: false });
     expect(theme.contrast.pairs.length).toBeGreaterThan(0);
     expect(theme.contrast.pairs.every((p) => p.pass)).toBe(true);
   });

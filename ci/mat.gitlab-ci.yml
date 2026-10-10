@@ -157,3 +157,27 @@ mat:test:consumer-4x:
     expire_in: 14 days
     paths: [.artifacts/mat/]
     when: always
+
+# REQ-MAT-45 / AC-FIN-58 (D.3-27): every banned motion key is a type error
+# (tests/types/mat/**), pointer light writes nothing under forced colours, and
+# the 4.x createGlassTheme motionPolicy option is compat-only (DEP-M0902):
+# no motionPolicy anywhere in src/ outside src/compat/.
+mat:test:motion-ban:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    - mkdir -p ".artifacts/mat/$CI_JOB_NAME_SLUG"
+    - npx tsc -p tests/types/mat/tsconfig.json --noEmit
+    - npx jest src/motion/__tests__/pointerLight.test.ts src/compat/mat/__tests__/createGlassTheme.test.ts src/theme/__tests__/createGlassTheme.test.ts
+    - |
+      if git grep -n motionPolicy -- src ':(exclude)src/compat/**'; then
+        echo "motionPolicy found outside src/compat (REQ-MAT-45)"; exit 1
+      fi
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/mat/]

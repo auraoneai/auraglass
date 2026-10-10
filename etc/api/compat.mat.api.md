@@ -8,3 +8,4 @@
 - `LiquidGlassScrollEdge`
 - `OptimizedGlass`
 - `OptimizedGlassAdvanced`
+- `createGlassTheme`
