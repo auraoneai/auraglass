@@ -27,6 +27,9 @@ export const PUBLIC_CSS_VARS = {
   density: ['--ag-density'],                                                    // 0.875 | 1 | 1.125
   scrim: ['--ag-scrim-clear', '--ag-scrim-media'],                             // 0.35 / media scrim
   motion: [/* see src/contracts/motion.ts MOTION_CSS_VARS */],
+  // C-7 (v1.2): MAT component tokens consumed by CMP CSS (REQ-FIN-11, REQ-CMP-19/-45). Every other comp/sys output is --_ag-*.
+  comp: ['sm', 'md', 'lg'].flatMap((s) => ['compact', 'default', 'spacious'].map((d) => `--ag-comp-control-height-${s}-${d}`)),
+  switchTrack: ['w', 'h'].flatMap((a) => ['sm', 'md', 'lg'].map((s) => `--ag-switch-track-${a}-${s}`)),
   shadcn: ['--background', '--foreground', '--primary', '--primary-foreground', '--muted', '--border', '--ring', '--radius'],
 } as const;
 
@@ -66,4 +69,13 @@ export const TOKEN_OUTPUTS = {
   ladders: 'src/material/css/generated/ladders.css',
   floors: 'src/material/css/generated/floors.css',
   compat: 'dist/compat/tokens.css',             // from tokens/compat-alias-map.json, @layer ag.compat
+  // C-7 (v1.2): the other outputs tokens:build actually writes and ships or commits. Anything not listed here is not
+  // written by the build (e.g. dist/css/* copies and tokens/contrast/busy-reference.json are not build outputs).
+  generated: ['src/tokens/generated/tokens.ts', 'src/tokens/generated/tokens.d.ts', 'src/tokens/generated/material-spec.ts',
+    'src/tokens/generated/presets.ts', 'src/tokens/generated/manifest.ts'],
+  properties: 'src/material/css/generated/properties.css',
+  tailwind: 'dist/tailwind.css',                // ./tailwind.css subpath, TAILWIND_BRIDGE_ORDER
+  contrastMatrix: 'dist/contrast-matrix.json',
+  opacityFloors: 'tokens/generated/opacity-floors.json',
+  registry: 'dist/tokens/registry-cssvars.json',
 } as const;

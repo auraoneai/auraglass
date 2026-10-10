@@ -28,8 +28,8 @@ export interface MaterialRole {
   allowNested?: boolean;
 }
 
+/** C-1 (v1.2): no className key. Material CSS keys on [data-ag-surface]; materialProps() returns data-ag-* attributes only. */
 export interface MaterialAttributes {
-  className: 'ag-surface';
   'data-ag-surface': '';
   'data-ag-layer': Layer;
   'data-ag-variant'?: MaterialVariant;
@@ -53,7 +53,8 @@ export interface EnvironmentProps { backdrop: Backdrop; image?: string; video?: 
 export interface ScrollEdgeProps { edge: 'top' | 'bottom'; edgeStyle?: EdgeStyle }
 export interface ConcentricFrameProps { radius: RadiusToken; inset: SpaceToken; children: React.ReactNode }
 
-/** S-02: class grammar. Library CSS keys only on these, data-ag-* and data-state. */
+/** S-02: class grammar. Library CSS keys only on these, data-ag-* and data-state. Since v1.2 (C-1) no material rule keys on
+    SURFACE_CLASS: Surface/SurfaceGroup still add it as a consumer styling hook, materialProps() never emits it. */
 export const SURFACE_CLASS = 'ag-surface' as const;
 export type ComponentClass<K extends string> = `ag-${K}`;
 export type PartClass<K extends string, P extends string> = `ag-${K}__${P}`;
@@ -115,9 +116,16 @@ export const AG_ATTRIBUTES = {
   'data-ag-sidebar-side': { setter: 'SURF', values: ['start', 'end'] },
   'data-ag-layout': { setter: 'SURF', values: ['auto', 'desktop', 'mobile'] },
   'data-ag-placement': { setter: 'SURF', values: ['inline', 'overlay'] },
-  'data-ag-appearance': { setter: 'CMP|SURF', values: 'component-specific non-material look (e.g. sidebar|inset|floating, underline|pill), declared in meta' },
+  'data-ag-appearance': { setter: 'CMP|SURF', values: 'component-specific non-material look (e.g. sidebar|inset|floating, underline|pill), declared in meta; Sheet popup value full-height is read by the MAT floor (C-2)' },
   'data-ag-inspector': { setter: 'SURF', values: ['open', 'closed'] },
   'data-ag-pinned-edge': { setter: 'SURF', values: ['start', 'end', 'top'] },
+  // ratified in v1.2 (C-2), public, setter MAT
+  'data-ag-theme': { setter: 'MAT', values: 'preset or brand theme id' },
+  'data-ag-shadcn-source': { setter: 'MAT', values: [''] },
+  'data-ag-scroll-locked': { setter: 'MAT', values: [''] },
+  'data-ag-hit-clamp': { setter: 'MAT', values: ['start', 'end', 'both', 'none'] },
+  'data-ag-focus-inset': { setter: 'MAT', values: [''] },
+  'data-ag-lens-defs': { setter: 'MAT', values: [''] },
   // private to MAT (not semver, undocumented)
   'data-ag-sizeclass': { setter: 'MAT', values: 'private' },
   'data-ag-radius': { setter: 'MAT', values: 'private' },

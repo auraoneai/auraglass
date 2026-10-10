@@ -70,6 +70,9 @@ export interface SideEffectException { module: string; reason: string; expires: 
 export interface ReviewItem { id: string; subject: string; criterion: 'specular-quality' | 'optical-hierarchy' | 'radius-rhythm' | 'one-hand' | 'other'; note?: string }
 export interface LiteralsBaseline { version: 1; files: Record<string, Partial<Record<'color' | 'blur' | 'radius' | 'shadow' | 'duration' | 'easing' | 'spring', number>>> }
 export interface A11yBaseline { version: 1; violations: Array<{ subject: string; rule: string; count: number; issue: string }> }
-export interface SrRecord { flagship: string; at: 'voiceover-macos' | 'voiceover-ios' | 'nvda-chrome' | 'talkback-chrome' | 'touch'; result: 'pass' | 'fail'; date: string; tester: string; notes?: string; sha: string }
+export interface SrRecord { flagship: string; at: 'voiceover-macos' | 'voiceover-ios' | 'nvda-chrome' | 'talkback-chrome' | 'touch'; result: 'pass' | 'fail'; date: string; tester: string; notes?: string; sha: string
+  /* C-16 (v1.2), optional evidence fields; schema contracts/schemas/sr-record.schema.json is the single SrRecord schema */
+  atVersion?: string; browser?: string; browserVersion?: string; os?: string; osVersion?: string; device?: string; subject?: string;
+  steps?: ReadonlyArray<{ nameRoleValue: string; stateChange: string; openClose: string; liveRegion: string; gesture?: string; nonDragAlternative?: string; pass: boolean; notes?: string }> }
 export type RegistryItemOwner = { id: string; type: 'registry:base' | 'registry:block' | 'registry:item'; owner: 'PLAT' | 'CMP' | 'SURF'; ga: boolean };
 export type FragmentKind = 'deprecations' | 'codemods' | 'size-budgets' | 'perf-budgets' | 'lanes' | 'playwright' | 'css' | 'side-effects' | 'review' | 'literals-baseline' | 'a11y-baseline';
