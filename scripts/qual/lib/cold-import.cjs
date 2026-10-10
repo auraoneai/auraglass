@@ -84,7 +84,8 @@ function importOnce(nodeBin, cwd, specifier) {
   });
   if (r.status !== 0) {
     const lines = String(r.stderr || r.error?.message || `exit ${r.status}`).split('\n').map((l) => l.trim()).filter(Boolean);
-    const err = lines.find((l) => /\b(?:[A-Z]\w*Error|ERR_[A-Z_]+)\b/.test(l)) ?? lines[lines.length - 1] ?? `exit ${r.status}`;
+    const err = lines.find((l) => /^(?:[A-Z]\w*Error\b|Error \[)/.test(l))
+      ?? lines.find((l) => /\b(?:[A-Z]\w*Error|ERR_[A-Z_]+)\b/.test(l)) ?? lines[lines.length - 1] ?? `exit ${r.status}`;
     return { error: err.slice(0, 400) };
   }
   const ms = Number(r.stdout.trim());
