@@ -58,4 +58,28 @@
     align-items: center;
     padding-inline: var(--ag-space-2, 0.5rem);
   }
+  /* SURF-054: minimize-on-scroll via CSS scroll-timeline — opacity/scale on
+     labels only, disabled under motion calm|none and when the timeline
+     isn't supported. */
+  @supports (animation-timeline: scroll()) {
+    [data-ag-minimize-on-scroll] .ag-tab-bar__item-label {
+      animation: ag-tabbar-min linear both;
+      animation-timeline: scroll(nearest block);
+      animation-range: 0 10rem;
+    }
+  }
+  [data-ag-motion='calm'] [data-ag-minimize-on-scroll] .ag-tab-bar__item-label,
+  [data-ag-motion='none'] [data-ag-minimize-on-scroll] .ag-tab-bar__item-label {
+    animation: none;
+  }
+  @keyframes ag-tabbar-min {
+    to {
+      opacity: var(--ag-opacity-disabled, 0);
+      scale: var(--ag-scale-down, 0.8);
+    }
+  }
+  [data-ag-accessory-placement='persist'] .ag-tab-bar__accessory {
+    opacity: 1;
+    visibility: visible;
+  }
 }

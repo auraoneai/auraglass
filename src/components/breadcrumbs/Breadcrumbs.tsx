@@ -4,6 +4,7 @@
    (SURF-077). */
 
 import * as React from 'react';
+import { ChevronRightIcon } from '../../icons/navigation/chevron-right';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 import { BreadcrumbsOverflow } from './Breadcrumbs.Overflow';
@@ -127,7 +128,7 @@ export function BreadcrumbsSeparator({ render, ...rest }: PartProps<'span'>) {
     'aria-hidden': true,
     className: 'ag-breadcrumbs__separator',
     ...rest,
-    children: '›',
+    children: <ChevronRightIcon aria-hidden data-ag-part="glyph" />,
   });
 }
 BreadcrumbsSeparator.displayName = 'Breadcrumbs.Separator';

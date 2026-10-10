@@ -8,6 +8,7 @@ import * as React from 'react';
 import { flushSync } from 'react-dom';
 import { Tabs as BaseTabs } from '@base-ui/react/tabs';
 import { startMorph } from '../../motion';
+import { useTabBarPanel } from '../tab-bar/TabBar';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 
@@ -98,11 +99,39 @@ export type TabsListProps = PartProps<'div'> & {
 
 function TabsList({ activateOnFocus, children, render, ...rest }: TabsListProps) {
   const ctxActivate = React.useContext(TabsCtx).activateOnFocus;
+  const { idBase, active } = React.useContext(TabsCtx);
+  const listRef = React.useRef<HTMLElement | null>(null);
+
+  // SURF-050: mark which ends overflow so the mask fade only applies where
+  // content is actually clipped. scrollIntoView(nearest) on activation keeps
+  // the active tab visible without scroll buttons.
+  React.useLayoutEffect(() => {
+    const el = listRef.current;
+    if (!el) return;
+    const update = () => {
+      el.dataset['agOverflowStart'] = el.scrollLeft > 0 ? 'true' : 'false';
+      el.dataset['agOverflowEnd'] =
+        el.scrollLeft + el.clientWidth < el.scrollWidth - 1 ? 'true' : 'false';
+    };
+    update();
+    el.addEventListener('scroll', update, { passive: true });
+    return () => el.removeEventListener('scroll', update);
+  }, []);
+
+  React.useLayoutEffect(() => {
+    const el = listRef.current;
+    if (!el || active === null) return;
+    const tab = el.querySelector<HTMLElement>('[role="tab"][data-state="active"]');
+    tab?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
+    void idBase;
+  }, [active, idBase]);
+
   return (
     <BaseTabs.List
       activateOnFocus={activateOnFocus ?? ctxActivate}
       render={partElement('div', {
         render,
+        ref: listRef,
         'data-ag-part': 'list',
         className: 'ag-tabs__list',
         role: 'tablist',
@@ -153,6 +182,9 @@ export type TabsPanelProps = Omit<PartProps<'div'>, 'value'> & {
 };
 
 function TabsPanel({ value, keepMounted, children, render, ...rest }: TabsPanelProps) {
+  // Register into an enclosing TabBar (semantics='tabs' dev-check) — noop
+  // outside one (SURF-051).
+  useTabBarPanel(value);
   return (
     <BaseTabs.Panel
       value={value as never}

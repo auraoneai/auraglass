@@ -19,6 +19,17 @@
     scrollbar-width: none;
     border-block-end: var(--ag-border-width, 1px) solid var(--ag-border, transparent);
   }
+  /* SURF-050: edge fade only where the list actually overflows. */
+  .ag-tabs__list[data-ag-overflow-start='true'],
+  .ag-tabs__list[data-ag-overflow-end='true'] {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--ag-space-4),
+      #000 calc(100% - var(--ag-space-4)),
+      transparent
+    );
+  }
   .ag-tabs__tab {
     position: relative;
     display: inline-flex;

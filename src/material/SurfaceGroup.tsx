@@ -5,11 +5,12 @@ import clsx from 'clsx';
 import type { SurfaceGroupProps } from './types';
 import { materialProps } from './materialProps';
 
-export function SurfaceGroup({ spacing = '2', children, className }: SurfaceGroupProps) {
+export function SurfaceGroup({ spacing = '2', refraction, children, className }: SurfaceGroupProps) {
   return React.createElement('div', {
     ...materialProps({ layer: 'chrome' }),
     'data-ag-group': '',
     'data-ag-spacing': spacing,
+    ...(refraction ? { 'data-ag-refraction': '' } : {}),
     className: clsx('ag-surface', className),
   }, children);
 }

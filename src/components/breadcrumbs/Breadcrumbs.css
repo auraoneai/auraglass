@@ -31,5 +31,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+  /* SURF-055: separators sit between items only — hide after the last item
+     (Current never carries one); mirror the chevron under RTL. */
+  .ag-breadcrumbs__list > [data-ag-part='item']:last-child .ag-breadcrumbs__separator {
+    display: none;
+  }
+  .ag-breadcrumbs__separator:dir(rtl) {
+    transform: scaleX(-1);
   }
 }
