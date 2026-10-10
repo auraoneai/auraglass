@@ -7,7 +7,8 @@
   .ag-progress-ring-trace { stroke: var(--ag-track, currentColor); opacity: 0.2; }
   .ag-progress-ring-indicator { stroke: var(--ag-accent, currentColor); }
   @media (prefers-reduced-motion: no-preference) {
-    .ag-progress-ring-indeterminate { animation: ag-ring-spin 1.4s linear infinite; transform-origin: center; }
+    .ag-progress-ring-indeterminate { transform-origin: center; animation: none; }
+    [data-ag-motion='full'] .ag-progress-ring-indeterminate { animation: ag-ring-spin 1.4s linear 240; }
     @keyframes ag-ring-spin { to { transform: rotate(360deg); } }
   }
 }

@@ -95,7 +95,7 @@
   .ag-sheet-popup[data-ending-style] {
     opacity: 0;
     transition:
-      transform var(--ag-duration-medium, 200ms) var(--ag-ease-spring, ease),
+      transform var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease),
       opacity var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease);
   }
   .ag-sheet-popup[data-ag-full-height][data-starting-style],
@@ -110,8 +110,8 @@
       block-size var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease);
   }
   .ag-sheet-popup[data-ending-style]:not([data-ag-dragging]) {
-    transition-timing-function: var(--ag-ease-standard, ease), var(--ag-ease-standard, ease), var(--ag-ease-standard, ease);
-    transition-duration: var(--ag-duration-small, 140ms);
+    transition-timing-function: var(--ag-ease-accelerate, ease-in), var(--ag-ease-accelerate, ease-in), var(--ag-ease-accelerate, ease-in);
+    transition-duration: var(--ag-duration-medium, 200ms);
   }
 
   .ag-sheet-header,

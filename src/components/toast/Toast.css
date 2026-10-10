@@ -35,11 +35,11 @@
   }
   .ag-toast[data-state='open'],
   .ag-toast[data-open] {
-    animation: ag-toast-enter 150ms ease-out;
+    animation: ag-toast-enter var(--ag-duration-medium, 150ms) var(--ag-ease-standard, ease-out);
   }
   .ag-toast[data-ending],
   .ag-toast[data-state='closed'] {
-    animation: ag-toast-exit 120ms ease-in forwards;
+    animation: ag-toast-exit var(--ag-duration-medium, 150ms) var(--ag-ease-accelerate, ease-in) forwards;
   }
   @keyframes ag-toast-enter {
     from { opacity: 0; transform: translateY(8px) scale(0.98); }

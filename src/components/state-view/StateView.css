@@ -31,7 +31,10 @@
     justify-content: center;
   }
   .ag-state-view-spinner {
-    animation: ag-spin var(--ag-duration-large) var(--ag-ease-standard) infinite;
+    animation: none; /* static default — spin only under explicit full motion */
+  }
+  [data-ag-motion='full'] .ag-state-view-spinner {
+    animation: ag-spin var(--ag-duration-large) var(--ag-ease-standard) 240;
   }
   @keyframes ag-spin {
     to {

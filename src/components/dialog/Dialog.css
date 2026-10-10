@@ -45,16 +45,19 @@
     opacity: 0;
     transform: scale(0.96);
     transition:
-      opacity var(--ag-duration-medium, 200ms) var(--ag-ease-spring, ease),
-      transform var(--ag-duration-medium, 200ms) var(--ag-ease-spring, ease);
+      opacity var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease),
+      transform var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease);
   }
   .ag-dialog-popup[data-open],
   .ag-dialog-popup[data-instant] {
     opacity: 1;
     transform: none;
     transition:
-      opacity var(--ag-duration-medium, 200ms) var(--ag-ease-spring, ease),
-      transform var(--ag-duration-medium, 200ms) var(--ag-ease-spring, ease);
+      opacity var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease),
+      transform var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease);
+  }
+  .ag-dialog-popup[data-ending-style] {
+    transition-timing-function: var(--ag-ease-accelerate, ease-in), var(--ag-ease-accelerate, ease-in);
   }
 
   /* nested: parent dims while a child dialog is open */

@@ -6,8 +6,8 @@
   .ag-skeleton-lines { display: flex; flex-direction: column; gap: var(--ag-space-2, 0.5rem); opacity: 1; background: none; }
   .ag-skeleton-line { block-size: 1em; background-color: var(--ag-skeleton, currentColor); opacity: 0.16; border-radius: var(--ag-radius-sm, 0.25rem); }
   .ag-skeleton-line:last-child { inline-size: 70%; }
-  @media (prefers-reduced-motion: no-preference) {
-    .ag-skeleton, .ag-skeleton-line { animation: ag-skeleton-shimmer 1.6s ease-in-out infinite; }
-    @keyframes ag-skeleton-shimmer { 50% { opacity: 0.08; } }
+  @keyframes ag-skeleton-shimmer { 50% { opacity: 0.08; } }
+  [data-ag-continuous] .ag-skeleton, [data-ag-continuous] .ag-skeleton-line {
+    animation: ag-skeleton-shimmer var(--ag-duration-ambient, 1.6s) ease-in-out infinite;
   }
 }
