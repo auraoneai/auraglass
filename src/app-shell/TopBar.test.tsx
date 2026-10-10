@@ -84,4 +84,20 @@ describe('TopBar (SURF-028)', () => {
     warn.mockRestore();
     process.env['NODE_ENV'] = prevEnv;
   });
+
+  it('placement=overlay emits data-ag-placement and single banner (SURF-34)', () => {
+    const { container } = render(
+      <AppShell.Root>
+        <TopBar.Root placement="overlay">
+          <TopBar.Title>t</TopBar.Title>
+        </TopBar.Root>
+        <AppShell.Main />
+      </AppShell.Root>,
+    );
+    expect(container.querySelector('[data-ag-part="top-bar"]')).toHaveAttribute(
+      'data-ag-placement',
+      'overlay',
+    );
+    expect(screen.getAllByRole('banner').length).toBe(1);
+  });
 });
