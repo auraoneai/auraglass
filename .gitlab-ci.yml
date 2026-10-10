@@ -1,7 +1,8 @@
 # contract-v1.1 verbatim (PLAT-owned). PLAT may change only the values of AG_NODE_IMAGE, AG_PLAYWRIGHT_IMAGE, AG_NPM_VERSION,
 # AG_PAGES_BRANCH and AG_V4_DIST_TAG. GitHub (github.com/auraoneai/auraglass) is the source of truth; this project is its
 # one-way mirror, so there are no merge-request pipelines.
-stages: [contract, build, test, certify, package, deploy, publish]
+# package precedes certify: qual:certify:* need plat:package:pack (FIN-B fix; recorded for contract v1.2-final).
+stages: [contract, build, test, package, certify, deploy, publish]
 
 variables:
   AG_NODE_IMAGE: "node:22-bookworm@sha256:0e5f906573693feaa1e21057ebdcfdb5bd5021f050b2dc7c9deceb629c7da2a8"  # PLAT pins a digest at C0
