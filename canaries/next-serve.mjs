@@ -7,7 +7,7 @@
    `next build` (no transpilePackages) and execs `next start`.
    Usage: node ../next-serve.mjs <port>   (cwd: canaries/<canary>) */
 import { execFileSync, spawn } from 'node:child_process';
-import { existsSync, mkdtempSync, renameSync, rmSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 
@@ -24,9 +24,9 @@ const tgz = join(root, 'aura-glass.tgz');
 if (!existsSync(tgz)) {
   if (!existsSync(join(root, 'dist'))) throw new Error('dist/ missing: run `npm run build` first');
   const out = mkdtempSync(join(tmpdir(), 'ag-pack-'));
-  const name = execFileSync('npm', ['pack', '--ignore-scripts', '--pack-destination', out], { cwd: root, encoding: 'utf8' })
+  const name = execFileSync('npm', ['pack', '--ignore-scripts', '--silent', '--pack-destination', out], { cwd: root, encoding: 'utf8' })
     .trim().split('\n').pop().trim();
-  renameSync(join(out, name), tgz);
+  copyFileSync(join(out, name), tgz); /* /tmp may be another device (EXDEV) */
   rmSync(out, { recursive: true, force: true });
 }
 
