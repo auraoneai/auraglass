@@ -47,7 +47,7 @@ export function FormField({ name, mode = 'native', control, label, error, valueP
   const ctl = React.cloneElement(control, bound);
   const message = error ?? rhfError;
   return (
-    <Field.Root name={name} invalid={invalid} disabled={disabled}>
+    <Field.Root name={name} invalid={invalid} disabled={disabled ?? false}>
       {label != null ? <Field.Label>{label}</Field.Label> : null}
       {ctl}
       {message ? <Field.Error>{message}</Field.Error> : null}
