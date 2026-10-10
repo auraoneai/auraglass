@@ -267,7 +267,7 @@ export function Menubar({ className, orientation = 'horizontal', ref, ...rest }:
           role="menubar"
           aria-orientation={orientation}
           orientation={orientation}
-          data-ag-part="menubar"
+          data-ag-part="root"
           className={cn('ag-menubar', className)}
           {...rest}
         />

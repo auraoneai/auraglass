@@ -28,10 +28,9 @@ export const DeprecationModeContext = React.createContext<'warn' | 'silent' | un
 
 const PORTAL_ROOT_ATTR = 'data-ag-portal-root';
 
-function PortalRootMarkup({ toasts, tooltips, ref }: {
-  toasts: boolean; tooltips: boolean;
-  ref?: React.Ref<HTMLDivElement> | undefined;
-}) {
+const PortalRootMarkup = React.forwardRef<
+  HTMLDivElement, { toasts: boolean; tooltips: boolean }
+>(({ toasts, tooltips }, ref) =>
   React.createElement(
     'div',
     { [PORTAL_ROOT_ATTR]: '', ref },
@@ -41,8 +40,8 @@ function PortalRootMarkup({ toasts, tooltips, ref }: {
       'data-ag-layer-root': 'toast', role: 'region', 'aria-label': 'Notifications',
     }) : null,
     React.createElement(AnnouncerRegions),
-  );
-}
+  ));
+PortalRootMarkup.displayName = 'PortalRootMarkup';
 
 const appInput = (p: AuraGlassProviderProps): PreferenceInput => {
   const out: PreferenceInput = { tier: p.tier ?? 'auto' };
@@ -74,9 +73,9 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
   React.useEffect(() => { store.setApp(JSON.parse(appJson) as PreferenceInput); }, [store, appJson]);
 
   const [portalRoot, setPortalRoot] = React.useState<HTMLElement | null>(null);
+  const ownRootRef = React.useRef<HTMLElement | null>(null);
   const [adoptedRoot, setAdoptedRoot] = React.useState<HTMLElement | null>(null);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
-  const ownRootRef = React.useRef<HTMLDivElement | null>(null);
   const doc = (typeof document === 'undefined' ? null : document);
   const layerStack = React.useMemo(() => (doc ? layerStackFor(doc) : null), [doc]);
 
@@ -86,12 +85,11 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
       const html = doc.documentElement;
       html.setAttribute('data-ag-root', '');
       store.setTarget(html);
-      /* Adopt only a root this provider did NOT render — the ref callback ran
-         in the commit before this layout effect, so ownRootRef already holds
-         the element we mounted (state may not have flushed yet). Adopting our
-         own root would flip needsOwnRoot and unmount it (same fix as REQ-FIN-04
-         on next-fin/a-theme). */
       const existing = doc.querySelector<HTMLElement>(`[${PORTAL_ROOT_ATTR}]`);
+      /* Adopt only a FOREIGN root — the effect's `portalRoot` closure is stale
+         (the own-root ref callback fires during commit, after render), so
+         compare against ownRootRef instead. Adopting our own root would flip
+         needsOwnRoot off and unmount it. */
       if (existing && existing !== ownRootRef.current) setAdoptedRoot(existing);
       return () => {
         html.removeAttribute('data-ag-root');
@@ -143,10 +141,7 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
         { container },
         React.createElement(PortalRootMarkup, {
           toasts, tooltips,
-          ref: (el: HTMLDivElement | null) => {
-            ownRootRef.current = el;
-            setPortalRoot(el);
-          },
+          ref: (el: HTMLDivElement | null) => { ownRootRef.current = el; setPortalRoot(el); },
         }),
       )
       : null,
