@@ -20,6 +20,9 @@ const w2 = [
   { id: 'SB-SURF-W2-DATA-CSS', import: 'aura-glass/data.css', limitBytes: 8192, kind: 'css' },
   { id: 'SB-SURF-W2-DATE-CSS', import: 'aura-glass/date.css', limitBytes: 4096, kind: 'css' },
   { id: 'SB-SURF-W2-TABLE', import: "{ Table } from 'aura-glass/data'", limitBytes: 14336, kind: 'js' },
+  // REQ-SURF-73: the grid keyboard model is internal (not exported), so the
+  // row bundles its emitted module (tsdown unbundle: 1 src file -> 1 dist file).
+  { id: 'SB-SURF-W2-USEGRIDKEYBOARD', import: "{ useGridKeyboard } from './dist/data/table/useGridKeyboard.js'", limitBytes: 2560, kind: 'js' },
   { id: 'SB-SURF-W2-TREEVIEW', import: "{ TreeView } from 'aura-glass/data'", limitBytes: 8192, kind: 'js' },
   { id: 'SB-SURF-W2-FILTERBAR', import: "{ FilterBar } from 'aura-glass/data'", limitBytes: 8192, kind: 'js' },
   { id: 'SB-SURF-W2-CHIP', import: "{ Chip } from 'aura-glass/data'", limitBytes: 3072, kind: 'js' },

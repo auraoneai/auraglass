@@ -83,7 +83,6 @@ function VirtualListInner<T>(
     const remaining = horizontal
       ? el.scrollWidth - el.scrollLeft - el.clientWidth
       : el.scrollHeight - el.scrollTop - el.clientHeight;
-    if (items.length > lastLen.current) endLatched.current = false;
     if (remaining > endReachedThreshold) {
       endLatched.current = false;
       return;
@@ -92,9 +91,11 @@ function VirtualListInner<T>(
       endLatched.current = true;
       endRef.current();
     }
-  }, [horizontal, endReachedThreshold, items.length]);
+  }, [horizontal, endReachedThreshold]);
 
   React.useEffect(() => {
+    // A grown list has a new tail to reach: re-arm before re-checking.
+    if (items.length > lastLen.current) endLatched.current = false;
     lastLen.current = items.length;
     checkEnd();
   }, [checkEnd, items.length]);
