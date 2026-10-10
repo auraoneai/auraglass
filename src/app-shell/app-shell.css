@@ -24,7 +24,8 @@
     grid-template-columns:
       var(--_ag-app-shell-side) minmax(0, 1fr) var(--_ag-app-shell-insp);
     grid-template-rows: auto auto minmax(0, 1fr) auto;
-    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
     padding-block-end: env(safe-area-inset-bottom);
   }
 

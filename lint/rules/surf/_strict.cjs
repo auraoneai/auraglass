@@ -59,13 +59,14 @@ const SURF_OWNED = [
 // already exist under lint/rules/<owner>/. SURF-574 ships today
 // (lint/rules/surf/no-simulation.cjs). SURF-634/635 wait on the owner lanes:
 //   - 'prop-grammar'   (CMP — eslint fails plugin-wide while unshipped)
-//   - 'no-forward-ref' (CMP)
 //   - 'contract-boundary' (PLAT — covers blocks/labs public-entry-only and
 //     `three` confined to src/three/**, REQ-SURF-166/-170 + OI-01)
 // Each entry is added over SURF_OWNED in the PR that lands the rule module;
 // until then these lines must stay out or every stream's lint job breaks.
 const w5 = {
   'no-simulation': SURF_OWNED,
+  // SURF-10: ref-as-prop over all SURF-owned sources (rule ships from cmp).
+  'no-forward-ref': SURF_OWNED,
 };
 // --- lane W5 end ---
 
