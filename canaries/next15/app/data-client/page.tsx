@@ -32,7 +32,8 @@ const COLUMNS = [
   { accessorKey: 'subject', header: 'Subject' },
   { accessorKey: 'status', header: 'Status' },
 ];
-interface TreeNode { id: string; label: string; children?: TreeNode[] }
+/* a type alias (not an interface) so it satisfies TreeItemData's index signature */
+type TreeNode = { id: string; label: string; children?: TreeNode[] };
 const TREE: TreeNode[] = [
   { id: 'root', label: 'Inbox', children: [{ id: 'leaf', label: 'Triage' }] },
 ];
