@@ -53,7 +53,7 @@ async function loadTs(file) {
 export async function loadRegistrations(root = ROOT) {
   const cfg = await loadTs(join(root, 'certification/lanes.config.ts'));
   const { loadFragments } = await import(pathToFileURL(join(root, 'src/contracts/load-fragments.mjs')).href);
-  const rows = (cfg.BUILTINS ?? []).map((r) => ({ ...r, stream: 'qual', source: 'certification/lanes.config.ts' }));
+  const rows = (cfg.BUILTINS ?? []).map(({ owner, ...r }) => ({ ...r, stream: owner ?? 'qual', source: 'certification/lanes.config.ts' }));
   for (const f of await loadFragments('lanes', root)) {
     if (!Array.isArray(f.value)) throw new Error(`${f.file}: default export is not an array`);
     for (const r of f.value) rows.push({ ...r, stream: f.stream, source: f.file.slice(root.length + 1) });
@@ -218,7 +218,8 @@ export async function main(argv = process.argv.slice(2), env = process.env) {
     try { res = await executeRow(row, { root, evidenceDir, idx }); } catch (e) { res = { state: 'fail', reason: `runner crash: ${e.message}` }; }
     if (res.state === 'fail' && prStream && row.stream !== prStream) res = { ...res, state: 'pre-existing', blockingFor: row.stream };
     console.log(`=== [${row.lane}] ${res.state}${res.reason ? ` — ${res.reason}` : ''}`);
-    results.push({ lane: row.lane, stream: row.stream, kind: row.kind, path: row.path, scope: row.scope, source: row.source, ...res });
+    const entry = { lane: row.lane, stream: row.stream, kind: row.kind, path: row.path, scope: row.scope, source: row.source, ...res };
+    results.push(Object.fromEntries(Object.entries(entry).filter(([, v]) => v !== undefined)));
   }
   for (const p of regs.pendingBuiltins.filter((p) => args.lane === 'all' || p.lane === args.lane)) {
     results.push({ lane: p.lane, stream: 'qual', kind: 'node-script', path: p.path, scope: args.scope, source: 'certification/lanes.config.ts', state: 'pending', reason: `producer ${p.producer} not merged` });

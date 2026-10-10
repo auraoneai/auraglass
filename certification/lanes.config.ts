@@ -4,10 +4,14 @@
    the lane runner reports it as `pending` (never a skipped test, never a pass). */
 import type { LaneRegistration } from '../src/contracts/fragments';
 
-export const BUILTINS: LaneRegistration[] = [
-  // QUAL-27: repo lint (eslint + stylelint on src/**/*.css), the same command as `npm run lint`.
-  { lane: 'L1', kind: 'node-script', path: 'certification/gates/lint.mjs', scope: 'pr', remote: false, failClosed: true },
-  { lane: 'L1', kind: 'node-script', path: 'certification/gates/lint.mjs', scope: 'main', remote: false, failClosed: true },
+/** `owner` attributes a built-in's failure (contract §6.1 pre-existing): the stream that owns the config the gate executes
+    (contracts/ownership.json). Defaults to QUAL. */
+export type BuiltinRegistration = LaneRegistration & { owner?: 'plat' | 'mat' | 'cmp' | 'surf' | 'qual' };
+
+export const BUILTINS: BuiltinRegistration[] = [
+  // QUAL-27: repo lint, the same command as `npm run lint` (eslint.config.js + eslint-plugin-auraglass.js are PLAT's, row B05).
+  { lane: 'L1', kind: 'node-script', path: 'certification/gates/lint.mjs', scope: 'pr', remote: false, failClosed: true, owner: 'plat' },
+  { lane: 'L1', kind: 'node-script', path: 'certification/gates/lint.mjs', scope: 'main', remote: false, failClosed: true, owner: 'plat' },
   // QUAL-27: zero `!important` in stories, showcases and the Storybook shell.
   { lane: 'L1', kind: 'node-script', path: 'certification/gates/no-important.mjs', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L1', kind: 'node-script', path: 'certification/gates/no-important.mjs', scope: 'main', remote: false, failClosed: true },
