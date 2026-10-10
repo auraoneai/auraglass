@@ -96,10 +96,14 @@ const migrateLegacy = (raw: string | null): PersistedRecord => {
   return out;
 };
 
+/* REQ-MAT-53 (transferred to REQ-FIN-12): the runtime domain of each
+   user-settable key, mirroring PreferenceValues in contracts/preferences.ts.
+   Legacy contrast spellings ('less'/'custom') are migration input only and are
+   not accepted by set(). */
 const VALID: Record<UserSettableKey, (v: unknown) => boolean> = {
   transparency: (v) => v === 'system' || v === 'glass' || v === 'tinted' || v === 'solid',
   glassOpacity: (v) => typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= 1,
-  contrast: (v) => v === 'system' || v === 'standard' || v === 'more' || v === 'less' || v === 'custom',
+  contrast: (v) => v === 'system' || v === 'standard' || v === 'more',
   motion: (v) => v === 'system' || v === 'full' || v === 'calm' || v === 'none',
   scheme: (v) => v === 'system' || v === 'light' || v === 'dark',
   density: (v) => v === 'compact' || v === 'regular' || v === 'spacious',
@@ -243,13 +247,10 @@ export const createPreferenceStore = (opts: PreferenceStoreOptions = {}): Prefer
       };
     },
     set(key, value) {
-      // REQ-MAT-53: validate at the boundary — a persisted/app value outside the
-      // declared domain must not reach attribute writes.
-      if (!VALID[key](value)) {
-        throw new TypeError(
-          `preference store: invalid value for '${key}': ${JSON.stringify(value)}`
-        );
-      }
+      // REQ-MAT-53: validate at the boundary. An unknown key or a value outside
+      // the key's declared domain is ignored: user state, storage, listeners
+      // and attribute writes are left untouched.
+      if (!Object.prototype.hasOwnProperty.call(VALID, key) || !VALID[key](value)) return;
       (user as Record<string, unknown>)[key] = value;
       if (storage) {
         const record: Record<string, unknown> = {};

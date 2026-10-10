@@ -51,6 +51,7 @@
       scale: none;
       translate: none;
       rotate: none;
+      transform: none;
     }
     :root:not([data-ag-motion]) :where([data-ag-interactive]) {
       transition-duration: 0s;
