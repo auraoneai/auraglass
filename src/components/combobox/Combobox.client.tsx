@@ -306,6 +306,12 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
 /* Content                                                             */
 /* ------------------------------------------------------------------ */
 
+/* CMP-202 / REQ-CMP-78: overlay popups carry data-state=open|closed like every
+   other overlay kind; BU exposes `open` on the popup render state. */
+function renderPopupWithState(props: React.HTMLAttributes<HTMLDivElement>, state: { open: boolean }) {
+  return <div {...props} data-state={state.open ? 'open' : 'closed'} />;
+}
+
 function ComboboxContent({ children, className }: ComboboxContentProps) {
   const container = usePortalContainer('overlay');
   const { size, loading, query, creatable, onCreate, hasExactMatch, messages, items, virtual } = useInternal();
@@ -328,6 +334,7 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
         <Base.Popup
           data-ag-part="popup"
           {...overlayMaterial('combobox')}
+          render={renderPopupWithState}
           className={cn('ag-combobox-popup', className)}
         >
           <Base.List data-ag-part="list" aria-busy={loading || undefined}>

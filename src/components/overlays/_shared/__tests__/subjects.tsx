@@ -137,7 +137,7 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
   {
     kind: 'select', name: 'Select', available: true, modal: false, layerRoot: 'overlay', popupSelector: '[data-ag-part="popup"]',
     mount: (p) => (
-      <Select.Root defaultOpen onOpenChange={p?.onOpenChange}>
+      <Select.Root defaultOpen {...(p?.onOpenChange ? { onOpenChange: p.onOpenChange } : {})}>
         <Select.Trigger>anchor</Select.Trigger>
         <Select.Content>
           <Select.Item value="a">Subject item</Select.Item>

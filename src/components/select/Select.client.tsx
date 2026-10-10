@@ -114,6 +114,12 @@ function SelectValue({ children, className }: SelectValueProps) {
   );
 }
 
+/* CMP-202 / REQ-CMP-78: overlay popups carry data-state=open|closed like every
+   other overlay kind; BU exposes `open` on the popup render state. */
+function renderPopupWithState(props: React.HTMLAttributes<HTMLDivElement>, state: { open: boolean }) {
+  return <div {...props} data-state={state.open ? 'open' : 'closed'} />;
+}
+
 function SelectContent({ children, className }: SelectContentProps) {
   const container = usePortalContainer('overlay');
   const size = React.useContext(SelectSizeContext);
@@ -131,6 +137,7 @@ function SelectContent({ children, className }: SelectContentProps) {
         <Base.Popup
           data-ag-part="popup"
           {...overlayMaterial('select')}
+          render={renderPopupWithState}
           className={cn('ag-select-popup', className)}
         >
           <Base.ScrollUpArrow data-ag-part="scroll-up" keepMounted />
