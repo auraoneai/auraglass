@@ -57,6 +57,6 @@ qual:test:cold-import:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   script:
     - test -f dist/index.js || { echo "dist/index.js missing - plat:build:dist did not provide dist/"; exit 1; }
-    - if [ -z "$AURAGLASS_TARBALL" ]; then npm pack --pack-destination .artifacts/pack; fi
+    - if [ -z "$AURAGLASS_TARBALL" ]; then mkdir -p .artifacts/pack && npm pack --pack-destination .artifacts/pack; fi
     - eval "$(node scripts/qual/fetch-node.mjs --dest /tmp/ag-node-bins 20.19.0 22)"
     - npm test -- --ci tests/perf/qual/node-cold-import.test.mjs
