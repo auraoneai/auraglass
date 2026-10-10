@@ -6,7 +6,7 @@ export const KeyValueEditorMeta = defineMeta({
   entry: './data',
   tier: 'T2',
   rsc: 'client',
-  parts: ['root', 'list', 'item', 'input', 'actions', 'error'],
+  parts: ['actions', 'error', 'hit-area', 'input', 'item', 'key-input', 'key-value-add', 'key-value-editor', 'key-value-error', 'key-value-remove', 'key-value-row', 'label', 'list', 'root', 'value-input'],
   states: ['invalid', 'disabled'],
   variants: {},
   migration: [
