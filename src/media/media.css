@@ -2,13 +2,13 @@
  * per-part as components ship. No @import (bundle concatenates lanes). */
 
 /* --- lane W4 begin --- */
-@layer ag.components {
+@layer media {
   /* [data-ag-media-root] progress var is written by useMediaElement frames. */
 }
 /* --- lane W4 end --- */
 
 /* --- lane W4: controls + now-playing --- */
-@layer ag.components {
+@layer media {
   .ag-media-controls {
     display: flex; flex-wrap: nowrap; align-items: center; gap: var(--ag-space-2, 0.5rem);
     min-block-size: 2.75rem;
@@ -73,7 +73,7 @@
 /* --- end lane W4 controls --- */
 
 /* --- lane W4: image-viewer + carousel --- */
-@layer ag.components {
+@layer media {
   .ag-image-viewer-scrim {
     position: fixed; inset: 0; background: var(--ag-scrim-media, rgba(0,0,0,0.8));
   }

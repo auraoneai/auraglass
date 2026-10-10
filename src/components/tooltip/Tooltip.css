@@ -38,7 +38,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .ag-tooltip-popup { transition: opacity var(--ag-duration-small, 200ms) linear; transform: none; }
+    .ag-tooltip-popup { transition: opacity var(--ag-duration-small, 200ms) linear; transform: none !important; }
   }
   @media (forced-colors: active) {
     .ag-tooltip-popup { border: 1px solid CanvasText; }

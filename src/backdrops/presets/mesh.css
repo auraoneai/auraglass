@@ -1,5 +1,5 @@
 /* mesh — 4 positioned radial blobs over a linear base. One element. */
-@layer ag.components {
+@layer backdrops {
   .ag-backdrop[data-ag-backdrop-preset='mesh'] .ag-backdrop-layer {
     background-color: var(--_ag-surface-page, Canvas);
     background-image:
