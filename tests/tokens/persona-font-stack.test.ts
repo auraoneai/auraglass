@@ -20,7 +20,7 @@ const splitFamilies = (stack: string): string[] =>
   stack.split(",").map((f) => f.trim().replace(/^["']|["']$/g, ""));
 
 const personaJson = JSON.parse(
-  readFileSync(join(ROOT, "tokens/personas/default.json"), "utf8"),
+  readFileSync(join(ROOT, "tokens/personas/default.json"), "utf8")
 );
 
 describe("default persona font stack (REQ-PLAT-54)", () => {
@@ -45,16 +45,18 @@ describe("default persona font stack (REQ-PLAT-54)", () => {
 
   it("src/tokens/generated.ts carries the persona stack for the default persona", () => {
     const persona = auraTokens.personas.find(
-      (p) => p.metadata.id === personaJson.metadata.id,
+      (p) => p.metadata.id === personaJson.metadata.id
     );
     expect(persona).toBeDefined();
-    expect(persona!.typography.families.sans).toBe(personaJson.typography.families.sans);
+    expect(persona!.typography.families.sans).toBe(
+      personaJson.typography.families.sans
+    );
   });
 
   it("src/styles/variables.css --aura-font-sans equals the persona stack", () => {
     const css = readFileSync(join(ROOT, "src/styles/variables.css"), "utf8");
     const decls = [...css.matchAll(/--aura-font-sans:\s*([^;]+);/g)].map((m) =>
-      m[1].replace(/\s+/g, " ").trim(),
+      m[1].replace(/\s+/g, " ").trim()
     );
     expect(decls.length).toBeGreaterThan(0);
     for (const value of decls) {
