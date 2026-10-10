@@ -46,7 +46,7 @@
     overflow: hidden;
   }
   .ag-app-shell[data-ag-sidebar='collapsed'] [data-ag-slot='sidebar'] {
-    visibility: hidden;
+    display: none;
   }
   .ag-app-shell [data-ag-slot='top'] {
     grid-area: top;
@@ -57,7 +57,8 @@
     min-inline-size: 0;
     min-block-size: 0;
     overflow: auto;
-    scroll-padding-block-start: var(--ag-scroll-padding-top, 0px);
+    scroll-padding-block: var(--ag-scroll-padding-top, 0px) var(--ag-scroll-padding-bottom, 0px);
+    padding-block-end: var(--ag-scroll-padding-bottom, 0px);
   }
   .ag-app-shell [data-ag-slot='inspector'] {
     grid-area: insp;
@@ -115,7 +116,8 @@
 
   /* Compact geometry — applied by the container query below in layout=auto,
      and by data-ag-layout='compact' when the app pins a mode. */
-  .ag-app-shell[data-ag-layout='compact'] {
+  .ag-app-shell[data-ag-layout='compact'],
+  .ag-app-shell[data-ag-layout='mobile'] {
     --_ag-app-shell-top: 2.75rem;
     --_ag-app-shell-side: 0rem;
     --_ag-app-shell-insp: 0rem;
@@ -128,12 +130,40 @@
     grid-template-rows: auto auto minmax(0, 1fr) auto;
     padding-block-start: env(safe-area-inset-top);
   }
-  .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='tabbar'] {
+  .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='tabbar'],
+  .ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='tabbar'] {
     display: grid;
     padding-block-end: env(safe-area-inset-bottom);
   }
-  .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='status'] {
+  .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='status'],
+  .ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='status'] {
     display: none;
+  }
+  .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='sidebar'],
+  .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='inspector'],
+  .ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='sidebar'],
+  .ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='inspector'] {
+    display: none;
+  }
+  /* SURF-40: mobile tab bar overlays the bottom of the main area instead of
+     taking a dedicated row; main gains matching bottom scroll padding. */
+  .ag-app-shell[data-ag-layout='mobile'] {
+    grid-template-areas:
+      'skip'
+      'top'
+      'main';
+    grid-template-rows: auto auto minmax(0, 1fr);
+  }
+  .ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='tabbar'] {
+    grid-area: main;
+    align-self: end;
+    position: sticky;
+    inset-block-end: 0;
+  }
+  .ag-app-shell:has([data-ag-slot='tabbar']) {
+    --ag-scroll-padding-bottom: calc(
+      var(--_ag-app-shell-tabbar) + env(safe-area-inset-bottom) + var(--ag-space-2, 0.5rem)
+    );
   }
   .ag-app-shell[data-ag-layout='medium'][data-ag-sidebar='expanded'] {
     --_ag-app-shell-side: var(--_ag-app-shell-rail);
@@ -167,12 +197,31 @@
     .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='status'] {
       display: none;
     }
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='sidebar'],
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='inspector'] {
+      display: none;
+    }
+    .ag-top-bar__center:not([data-ag-keep-center]) {
+      display: none;
+    }
   }
 
   /* Medium: 600–1023px — an expanded sidebar collapses to the rail width. */
   @container ag-app-shell (600px <= width < 1024px) {
     .ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] {
       --_ag-app-shell-side: var(--_ag-app-shell-rail);
+    }
+    .ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] .ag-sidebar__item-label,
+    .ag-app-shell[data-ag-layout='medium'] .ag-sidebar__item-label {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
     }
   }
 
@@ -191,6 +240,51 @@
     grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
     gap: var(--ag-space-3, 0.75rem);
     padding: var(--ag-space-4, 1rem);
+  
+  /* SURF-036: top bar layout — title ellipsizes, center collapses first. */
+  .ag-top-bar {
+    display: flex;
+    min-inline-size: 0;
+    align-items: center;
+    gap: var(--ag-space-2, 0.5rem);
+  }
+  .ag-top-bar__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-inline-size: 0;
+  }
+  .ag-top-bar__center {
+    min-inline-size: 0;
+    overflow: hidden;
+    flex: 1;
+  }
+  [data-ag-transparency='solid'] .ag-top-bar {
+    box-shadow: none;
+  }
+
+  /* SURF-029: rail items keep accessible names — the label is visually
+     hidden (clip), never display:none, and the hit box stays >=40px
+     (44px on coarse pointers). */
+  .ag-sidebar__item {
+    min-block-size: 40px;
+    min-inline-size: 40px;
+  }
+  @media (pointer: coarse) {
+    .ag-sidebar__item {
+      min-block-size: 44px;
+      min-inline-size: 44px;
+    }
+  }
+  .ag-app-shell[data-ag-sidebar='rail'] .ag-sidebar__item-label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
   }
 }
-

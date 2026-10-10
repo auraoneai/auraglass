@@ -9,6 +9,7 @@
 import * as React from 'react';
 import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
+import { SidebarItemTooltip } from './Sidebar.ItemTooltip';
 
 export type SidebarNavProps = PartProps<'nav'> & { 'aria-label'?: string | undefined };
 
@@ -57,7 +58,11 @@ export function SidebarItem({ href, current, icon, badge, children, render, ...r
       </>
     ),
   });
-  return <li data-ag-part="sidebar-item-li">{link}</li>;
+  return (
+    <li data-ag-part="sidebar-item-li">
+      <SidebarItemTooltip label={children}>{link}</SidebarItemTooltip>
+    </li>
+  );
 }
 SidebarItem.displayName = 'Sidebar.Item';
 

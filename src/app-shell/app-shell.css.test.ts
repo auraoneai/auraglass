@@ -159,4 +159,59 @@ describe('app-shell.css structure (SURF-011)', () => {
       }
     }
   });
+
+
+  it('SURF-30/31: collapsed sidebar + compact slots use display:none', () => {
+    const collapsed = rules.find(
+      (r) => r.selector === ".ag-app-shell[data-ag-sidebar='collapsed'] [data-ag-slot='sidebar']",
+    );
+    expect(collapsed?.declarations.get('display')).toBe('none');
+    const compactHide = rules.filter(
+      (r) =>
+        r.selector.includes("[data-ag-layout='compact']") &&
+        (r.selector.includes("slot='sidebar'") || r.selector.includes("slot='inspector'")) &&
+        r.declarations.get('display') === 'none',
+    );
+    expect(compactHide.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('SURF-36: top bar flex + ellipsis + center collapse rules exist', () => {
+    const bar = rules.find((r) => r.selector === '.ag-top-bar');
+    expect(bar?.declarations.get('display')).toBe('flex');
+    expect(bar?.declarations.get('min-inline-size')).toBe('0');
+    const title = rules.find((r) => r.selector === '.ag-top-bar__title');
+    expect(title?.declarations.get('text-overflow')).toBe('ellipsis');
+    expect(title?.declarations.get('white-space')).toBe('nowrap');
+    const centerHide = rules.find(
+      (r) =>
+        r.selector.includes('.ag-top-bar__center') &&
+        r.ancestors.some((a) => a.includes('600px')) &&
+        r.declarations.get('display') === 'none',
+    );
+    expect(centerHide).toBeDefined();
+  });
+
+  it('SURF-40: tabbar presence sets the bottom scroll-padding var', () => {
+    const rule = rules.find(
+      (r) => r.selector === ".ag-app-shell:has([data-ag-slot='tabbar'])",
+    );
+    expect(rule?.declarations.get('--ag-scroll-padding-bottom')).toContain(
+      'var(--_ag-app-shell-tabbar)',
+    );
+    const main = rules.find((r) => r.selector === ".ag-app-shell [data-ag-slot='main']");
+    expect(main?.declarations.get('scroll-padding-block')).toContain(
+      'var(--ag-scroll-padding-bottom, 0px)',
+    );
+  });
+
+  it('SURF-29: rail item labels clip-hide, never display:none', () => {
+    const clip = rules.find(
+      (r) => r.selector === ".ag-app-shell[data-ag-sidebar='rail'] .ag-sidebar__item-label",
+    );
+    expect(clip).toBeDefined();
+    expect(clip?.declarations.get('display')).not.toBe('none');
+    expect(clip?.declarations.get('clip-path')).toBe('inset(50%)');
+    const item = rules.find((r) => r.selector === '.ag-sidebar__item');
+    expect(item?.declarations.get('min-block-size')).toBe('40px');
+  });
 });

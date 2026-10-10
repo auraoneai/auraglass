@@ -9,6 +9,7 @@ import * as React from 'react';
 import type { PartProps } from '../contracts/components';
 import type { MaterialVariant } from '../contracts/material';
 import { partElement } from './_internal/partElement';
+import { AppShellDefaults } from './_internal/appShellDefaults';
 import { ConcentricFrame, Surface } from '../material';
 import { SidebarNav, SidebarItem, SidebarItemIcon, SidebarItemBadge } from './Sidebar.Nav';
 import { SidebarCollapsible } from './Sidebar.Collapsible';
@@ -24,6 +25,7 @@ export type SidebarRootProps = PartProps<'aside'> & {
 };
 
 function SidebarRoot({ appearance = 'sidebar', variant, labels, children, render, ...rest }: SidebarRootProps) {
+  const defaults = React.useContext(AppShellDefaults);
   const aside = partElement('aside', {
     render,
     'data-ag-slot': 'sidebar',
@@ -31,6 +33,7 @@ function SidebarRoot({ appearance = 'sidebar', variant, labels, children, render
     className: 'ag-sidebar',
     ...(labels?.navigation !== undefined ? { 'aria-label': labels.navigation } : {}),
     'data-ag-appearance': appearance,
+    ...(defaults.sidebar === 'collapsed' ? { inert: true } : {}),
     ...rest,
     children,
   });

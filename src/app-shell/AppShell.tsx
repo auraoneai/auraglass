@@ -8,6 +8,7 @@
 import * as React from 'react';
 import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
+import { AppShellDefaults } from './_internal/appShellDefaults';
 import { AppShellSidebarToggle } from './AppShell.SidebarToggle';
 import { AppShellInspectorToggle } from './AppShell.InspectorToggle';
 import { AppShellController } from './AppShell.Controller';
@@ -55,7 +56,11 @@ function Root({
     ...(persistKey ? { 'data-ag-persist-key': persistKey } : {}),
     ...rest,
   };
-  return partElement('div', { render, ...props, children });
+  return (
+    <AppShellDefaults.Provider value={{ sidebar: defaultSidebar, inspector: defaultInspector }}>
+      {partElement('div', { render, ...props, children })}
+    </AppShellDefaults.Provider>
+  );
 }
 Root.displayName = 'AppShell.Root';
 

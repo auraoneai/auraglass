@@ -65,9 +65,26 @@ export function renderElement<P extends object>(
 
   if (isRenderElement(render)) {
     const rp = (render.props ?? {}) as Record<string, unknown>;
+    const merged = { ...p, ...rp } as Record<string, unknown>;
+    // Compose on* handlers — the render element's handler and the part's own
+    // handler both fire (element handler first) instead of overriding.
+    for (const key of Object.keys(rp)) {
+      const inner = p[key];
+      const outer = rp[key];
+      if (
+        /^on[A-Z]/.test(key) &&
+        typeof inner === 'function' &&
+        typeof outer === 'function' &&
+        inner !== outer
+      ) {
+        merged[key] = (...args: unknown[]) => {
+          (outer as (...a: unknown[]) => void)(...args);
+          (inner as (...a: unknown[]) => void)(...args);
+        };
+      }
+    }
     return React.cloneElement(render, {
-      ...p,
-      ...rp,
+      ...merged,
       className: [p.className, rp.className].filter(Boolean).join(' ') || undefined,
       style: { ...(p.style as React.CSSProperties | undefined), ...(rp.style as React.CSSProperties | undefined) },
       ref: composeRefs(getRef(render), p.ref as React.Ref<unknown> | undefined) ?? (getRef(render) as never),

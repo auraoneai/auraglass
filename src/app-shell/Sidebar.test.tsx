@@ -56,4 +56,67 @@ describe('Sidebar (SURF-041)', () => {
     expect(document.querySelector('[data-ag-part="sidebar-collapsible"]')).not.toBeNull();
     expect(screen.getByRole('link', { name: 'One' })).toBeTruthy();
   });
+
+  it("render composes router link (SURF-28)", () => {
+    const linkClick = jest.fn();
+    const itemClick = jest.fn();
+    const RouterLink = (p: React.HTMLAttributes<HTMLAnchorElement> & { href?: string }) => (
+      <a {...p} onClick={(e) => { linkClick(); p.onClick?.(e); }} />
+    );
+    render(
+      <Sidebar.Root>
+        <Sidebar.Nav aria-label="Nav">
+          <Sidebar.Item
+            href="/beta"
+            current
+            onClick={() => itemClick()}
+            render={<RouterLink />}
+          >
+            Beta
+          </Sidebar.Item>
+        </Sidebar.Nav>
+      </Sidebar.Root>,
+    );
+    const link = screen.getByRole('link', { name: 'Beta' });
+    expect(link).toHaveAttribute('href', '/beta');
+    expect(link).toHaveAttribute('aria-current', 'page');
+    expect(link).toHaveAttribute('data-ag-part', 'sidebar-item');
+    link.click();
+    expect({ link: linkClick.mock.calls.length, item: itemClick.mock.calls.length }).toEqual({ link: 1, item: 1 });
+  });
+
+  it('button render warns (SURF-28)', () => {
+    const prevEnv = process.env['NODE_ENV'];
+    process.env['NODE_ENV'] = 'development';
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    render(
+      <Sidebar.Root>
+        <Sidebar.Nav aria-label="Nav">
+          <Sidebar.Item render={<button />}>B</Sidebar.Item>
+        </Sidebar.Nav>
+      </Sidebar.Root>,
+    );
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('destinations should be links'));
+    warn.mockRestore();
+    process.env['NODE_ENV'] = prevEnv;
+  });
+
+  it('rail keeps names (SURF-29)', () => {
+    render(
+      <AppShell.Root defaultSidebar="rail">
+        <Sidebar.Root>
+          <Sidebar.Nav aria-label="Nav">
+            <Sidebar.Item href="/beta">Beta</Sidebar.Item>
+          </Sidebar.Nav>
+        </Sidebar.Root>
+        <AppShell.Main>p</AppShell.Main>
+      </AppShell.Root>,
+    );
+    const link = screen.getByRole('link', { name: 'Beta' });
+    expect(link).toBeTruthy();
+    // the label span still renders its text — the clip is CSS-side.
+    expect(link.textContent).toContain('Beta');
+    // rail mode mounts the tooltip leaf trigger wrapper (jsdom store snapshot).
+    expect(link.closest('[data-ag-part="sidebar-item-li"]')).not.toBeNull();
+  });
 });
