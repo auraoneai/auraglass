@@ -1,29 +1,19 @@
-# ci/qual.gitlab-ci.yml (QUAL). Storybook build and the lane matrix. Lanes run through
-# certification/run.mjs (REQ-QUAL-05, G-03); until the runner lands, L1 runs the @auraglass/qa unit
-# suite and the inventory gate directly. Evidence is GitLab job artifacts only (REQ-QUAL-60, S-48):
-# every job names its artifact evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA, writes under
-# .artifacts/qual/$CI_JOB_NAME_SLUG/ and expires per EVIDENCE.expireIn (pr/main 14 days,
-# nightly 30 days, release 90 days via .ag-evidence-release).
-.qual-lane:
-  extends: .ag-playwright
-  stage: certify
-  allow_failure: true
-  needs:
-    - { job: "qual:build:storybook", artifacts: true, optional: true }
-    - { job: "plat:package:pack", artifacts: true, optional: true }
-  rules:
-    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
-  script:
-    - node certification/run.mjs --lane "$LANE" --scope "$AG_SCOPE"
-  artifacts:
-    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
-    when: always
-    expire_in: 14 days
-    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+# ci/qual.gitlab-ci.yml (QUAL, REQ-QUAL-64). Storybook build, the twelve certification lanes and the QUAL-only jobs.
+# Every lane job is exactly LANE_COMMAND (`node certification/run.mjs --lane <id> --scope $AG_SCOPE`, S-43); the
+# lane runner (packages/qa/src/evidence/laneRunner.ts) discovers registrations from certification/lanes.config.ts
+# and fragments/lanes/<stream>.ts, fails closed (REQ-QUAL-06) and writes .artifacts/qual/<job-slug>/lane-manifest.json.
+# Evidence is GitLab job artifacts only (REQ-QUAL-60, S-48): evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA, when: always,
+# expire_in per EVIDENCE.expireIn (pr/main 14 days, nightly 30 days, release 90 days via .ag-evidence-release).
+# Activation (contract §2.3): every job starts `allow_failure: true` and is flipped to false here after its first
+# green run on next (the flip is a ci/plat/activation.json row, FIN-B). qual:certify:release never allows failure.
+# Cross-stream needs name only CI_JOBS entries, always optional: true. No credentials, no GitHub machinery.
+
 .qual-node-lane:
   extends: .ag-node
   stage: certify
-  allow_failure: true
+  needs:
+    - { job: "plat:build:dist", artifacts: true, optional: true }
+    - { job: "mat:build:tokens", artifacts: true, optional: true }
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   artifacts:
@@ -31,6 +21,30 @@
     when: always
     expire_in: 14 days
     paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+
+# L2/L3/L4 consume the tarball: AURAGLASS_TARBALL from plat:package:pack's dotenv, else `npm pack` of the built dist/.
+.qual-tarball-lane:
+  extends: .qual-node-lane
+  needs:
+    - { job: "plat:package:pack", artifacts: true, optional: true }
+    - { job: "plat:build:dist", artifacts: true, optional: true }
+    - { job: "mat:build:tokens", artifacts: true, optional: true }
+
+.qual-browser-lane:
+  extends: .ag-playwright
+  stage: certify
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+    - { job: "plat:package:pack", artifacts: true, optional: true }
+    - { job: "plat:build:dist", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+
 qual:build:storybook:
   extends: .ag-node
   stage: build
@@ -46,26 +60,214 @@ qual:build:storybook:
     when: always
     expire_in: 14 days
     paths: [storybook-static/]
+
+# ---------------------------------------------------------------- the twelve lanes (CERT_JOBS)
 qual:certify:l1:
   extends: .qual-node-lane
-  variables: { LANE: L1 }
+  allow_failure: true
   script:
-    # REQ-QUAL-01/-02/-03/-60: @auraglass/qa unit suite incl. the tracked-evidence guard.
-    - node node_modules/jest/bin/jest.js -c jest.qual.config.js --ci
-    # REQ-QUAL-02: inventory gate over ENTRIES; writes .artifacts/qual/$CI_JOB_NAME_SLUG/inventory.json.
-    - node --experimental-strip-types scripts/qual/write-inventory.mjs
-# ... one job per lane L2..L12, named exactly as CERT_JOBS (REQ-QUAL-05, G-03) ...
+    - node certification/run.mjs --lane L1 --scope $AG_SCOPE
+qual:certify:l2:
+  extends: .qual-tarball-lane
+  allow_failure: true
+  script:
+    - node certification/run.mjs --lane L2 --scope $AG_SCOPE
+qual:certify:l3:
+  extends: .qual-tarball-lane
+  allow_failure: true
+  script:
+    - node certification/run.mjs --lane L3 --scope $AG_SCOPE
+qual:certify:l4:
+  extends: .qual-tarball-lane
+  allow_failure: true
+  script:
+    - node certification/run.mjs --lane L4 --scope $AG_SCOPE
+qual:certify:l5:
+  extends: .qual-browser-lane
+  allow_failure: true
+  script:
+    - node certification/run.mjs --lane L5 --scope $AG_SCOPE
+qual:certify:l6:
+  extends: .qual-browser-lane
+  allow_failure: true
+  script:
+    - node certification/run.mjs --lane L6 --scope $AG_SCOPE
+qual:certify:l7:
+  extends: .qual-browser-lane
+  allow_failure: true
+  script:
+    - node certification/run.mjs --lane L7 --scope $AG_SCOPE
+qual:certify:l8:
+  extends: .qual-browser-lane
+  allow_failure: true
+  script:
+    - node certification/run.mjs --lane L8 --scope $AG_SCOPE
+qual:certify:l9:
+  extends: .qual-browser-lane
+  allow_failure: true
+  script:
+    - node certification/run.mjs --lane L9 --scope $AG_SCOPE
+qual:certify:l10:
+  extends: .qual-browser-lane
+  allow_failure: true
+  script:
+    - node certification/run.mjs --lane L10 --scope $AG_SCOPE
+qual:certify:l11:
+  extends: .qual-browser-lane
+  allow_failure: true
+  script:
+    - node certification/run.mjs --lane L11 --scope $AG_SCOPE
+qual:certify:l12:
+  extends: .qual-node-lane
+  allow_failure: true
+  variables: { GIT_DEPTH: "0" }
+  script:
+    # REQ-QUAL-30 ratchet compares certification/ratchets.json with the merge base of the line's base branch.
+    - git fetch --no-tags origin "+refs/heads/next:refs/remotes/origin/next"
+    - node certification/run.mjs --lane L12 --scope $AG_SCOPE
+
+# ---------------------------------------------------------------- whole-matrix scopes
 qual:certify:nightly:
-  extends: .qual-lane
-  rules: [{ if: $AG_SCOPE == "nightly" }]
-  script: [node certification/run.mjs --lane all --scope nightly]
+  extends: .qual-browser-lane
+  allow_failure: true
+  variables: { GIT_DEPTH: "0" }
+  rules:
+    - if: $AG_SCOPE == "nightly" && $AG_LINE == "5x"
+  script:
+    - git fetch --no-tags origin "+refs/heads/next:refs/remotes/origin/next"
+    - node certification/run.mjs --lane all --scope nightly
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     when: always
     expire_in: 30 days
     paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
 qual:certify:release:
-  extends: [.qual-lane, .ag-evidence-release]
-  allow_failure: false
-  rules: [{ if: $AG_SCOPE == "release" && $AG_LINE == "5x" }]
-  script: [node certification/run.mjs --lane all --scope release --verdict .artifacts/qual/release-verdict.json]
+  extends: [.qual-browser-lane, .ag-evidence-release]
+  variables: { GIT_DEPTH: "0" }
+  rules:
+    - if: $AG_SCOPE == "release" && $AG_LINE == "5x"
+  script:
+    - git fetch --no-tags origin "+refs/heads/next:refs/remotes/origin/next"
+    - node certification/run.mjs --lane all --scope release --verdict .artifacts/qual/release-verdict.json
+
+# ---------------------------------------------------------------- QUAL-only jobs (not referenced by other streams)
+# packages/qa unit suite + harness self-tests (offline; starts at once).
+qual:test:selftest:
+  extends: .ag-node
+  stage: test
+  allow_failure: true
+  needs: []
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - node node_modules/jest/bin/jest.js -c jest.qual.config.js --ci
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+
+# L10 (a) on the GPU runner. Manual until a saas-linux-medium-amd64-gpu-standard runner is confirmed for this
+# project: a job whose runner tag no runner serves never starts and would hold every pipeline open.
+qual:certify:l10-gpu:
+  extends: .ag-gpu
+  stage: certify
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+    - { job: "plat:package:pack", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+      when: manual
+      allow_failure: true
+  variables: { AG_RUNNER_CLASS: gpu }
+  script:
+    - node certification/run.mjs --lane L10 --scope $AG_SCOPE
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+
+# Real devices (REQ-QUAL-48, G-25) on the gated AWS remote runner; manual until the runner is registered (OD-11).
+qual:certify:devices:
+  extends: .ag-aws-remote
+  stage: certify
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "nightly"
+      when: manual
+      allow_failure: true
+  script:
+    - 'test -f scripts/qual/devices/device-farm-run.mjs || { echo "PENDING: scripts/qual/devices/device-farm-run.mjs (G-25, REQ-QUAL-48) not merged"; exit 1; }'
+    - node scripts/qual/devices/device-farm-run.mjs --subjects storybook-static/cert-manifest.json --out .artifacts/qual/$CI_JOB_NAME_SLUG/real-device-results.json
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 30 days
+    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+
+# Release capture matrix as a child pipeline (REQ-QUAL-65). The shard planner (scripts/qual/shard-plan.mjs, G-04)
+# replaces the static child with its generated .artifacts/qual/shards.gitlab-ci.yml; until then the child fails closed.
+qual:certify:release-matrix:
+  extends: .ag-node
+  stage: certify
+  image: null
+  tags: null
+  cache: null
+  before_script: null
+  interruptible: null
+  artifacts: null
+  rules:
+    - if: $AG_SCOPE == "release" && $AG_LINE == "5x"
+  trigger:
+    include: ci/qual/release-matrix.gitlab-ci.yml
+    strategy: depend
+
+# Visual baseline refresh (REQ-QUAL-25, G-14): candidate PNGs + diff report as artifacts, reviewed before commit.
+qual:certify:baseline-refresh:
+  extends: .ag-playwright
+  stage: certify
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+      when: manual
+      allow_failure: true
+  script:
+    - 'test -f scripts/qual/baseline-refresh.mjs || { echo "PENDING: scripts/qual/baseline-refresh.mjs (G-14, REQ-QUAL-25) not merged"; exit 1; }'
+    - node scripts/qual/baseline-refresh.mjs
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+
+# Human visual review record (REQ-QUAL-73 tooling, G-16): renders composites + rubric for the reviewer; the record
+# itself is human-produced (certification/review/records/**), never written by this job.
+qual:certify:review-record:
+  extends: [.ag-node, .ag-evidence-release]
+  stage: certify
+  rules:
+    - if: $AG_SCOPE == "release" && $AG_LINE == "5x"
+      when: manual
+      allow_failure: true
+  script:
+    - 'test -f scripts/qual/review-record.mjs || { echo "PENDING: scripts/qual/review-record.mjs (G-16, REQ-QUAL-73) not merged"; exit 1; }'
+    - node scripts/qual/review-record.mjs
+
+# 4.1 known failures (REQ-QUAL-32, G-15): v4.1.0 Storybook through L6/L7/L8, nightly.
+qual:certify:known-failures:
+  extends: .ag-playwright
+  stage: certify
+  allow_failure: true
+  rules:
+    - if: $AG_SCOPE == "nightly" && $AG_LINE == "5x"
+  script:
+    - 'test -f certification/lanes/known-failures.spec.ts || { echo "PENDING: certification/lanes/known-failures.spec.ts (G-15, REQ-QUAL-32) not merged"; exit 1; }'
+    - node node_modules/@playwright/test/cli.js test -c certification/playwright.cert.config.ts certification/lanes/known-failures.spec.ts
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 30 days
+    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]

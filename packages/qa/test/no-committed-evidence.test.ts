@@ -127,7 +127,8 @@ describe('qual:* job artifacts', () => {
   const root = yaml.parse(readFileSync(join(REPO, '.gitlab-ci.yml'), 'utf8')) as Record<string, Job>;
   const qual = yaml.parse(readFileSync(join(REPO, 'ci/qual.gitlab-ci.yml'), 'utf8')) as Record<string, Job>;
   const defs = { ...root, ...qual };
-  const jobs = Object.keys(qual).filter((k) => k.startsWith('qual:'));
+  // Trigger (bridge) jobs run no script and cannot carry artifacts; their child pipeline's jobs do.
+  const jobs = Object.keys(qual).filter((k) => k.startsWith('qual:') && !qual[k]!.trigger);
 
   it('defines qual jobs', () => {
     expect(jobs).toEqual(expect.arrayContaining(['qual:build:storybook', 'qual:certify:l1', 'qual:certify:nightly', 'qual:certify:release']));
