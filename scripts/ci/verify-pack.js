@@ -34,6 +34,13 @@ const DENY = [
 
 export function run() {
   const problems = [];
+  /* The tarball is verified as built from this commit: when no dist/ is
+     present (plat:package:pack does not consume a build artifact), build it
+     first so `npm pack` packs real output rather than an empty package. */
+  if (!fs.existsSync(path.join(ROOT, 'dist'))) {
+    console.log('verify-pack: dist/ absent — running npm run build');
+    execFileSync('npm', ['run', 'build'], { cwd: ROOT, stdio: 'inherit' });
+  }
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ag-pack-'));
   try {
     const out = execFileSync('npm', ['pack', '--json', '--pack-destination', tmp], { cwd: ROOT, encoding: 'utf8' });
