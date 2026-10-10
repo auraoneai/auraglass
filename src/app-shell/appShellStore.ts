@@ -18,6 +18,8 @@ export interface ShellSnapshot {
   sidebar: SidebarState;
   inspector: InspectorState;
   mode: ShellMode;
+  /** Ephemeral compact/medium drawer — never persisted to attrs or cookie. */
+  drawer: 'open' | 'closed';
 }
 
 export interface ControlledHandlers {
@@ -69,6 +71,7 @@ function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
   root.dataset['agSidebar'] = snapshot.sidebar;
   root.dataset['agInspector'] = snapshot.inspector;
   root.dataset['agMode'] = snapshot.mode;
+  root.dataset['agDrawer'] = snapshot.drawer;
   const sidebarEl = root.querySelector<HTMLElement>('[data-ag-slot="sidebar"]');
   if (sidebarEl) {
     const inert = snapshot.sidebar === 'collapsed' || snapshot.mode === 'compact';
@@ -77,7 +80,12 @@ function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
   }
 }
 
-function transition(root: HTMLElement, next: ShellSnapshot, rec: ShellRecord): void {
+function transition(
+  root: HTMLElement,
+  next: ShellSnapshot,
+  rec: ShellRecord,
+  opts?: { persist?: boolean },
+): void {
   if (motionIsFull(root)) {
     root.setAttribute('data-ag-animating', '');
     const ms = Number.parseFloat(
@@ -86,7 +94,7 @@ function transition(root: HTMLElement, next: ShellSnapshot, rec: ShellRecord): v
     window.setTimeout(() => root.removeAttribute('data-ag-animating'), Number.isFinite(ms) ? ms : 200);
   }
   applyState(root, next);
-  writeCookie(root, next);
+  if (opts?.persist !== false) writeCookie(root, next);
   rec.snapshot = next;
   for (const l of rec.listeners) l();
 }
@@ -101,9 +109,12 @@ function observeRoot(root: HTMLElement): void {
       const rec = records.get(el);
       if (!rec) continue;
       const mode = deriveMode(el.offsetWidth, el.dataset['agLayout'] ?? 'auto');
-      if (mode !== rec.snapshot.mode) {
-        applyState(el, { ...rec.snapshot, mode });
-        rec.snapshot = { ...rec.snapshot, mode };
+      // Leaving drawer modes (compact/medium) also closes the drawer.
+      const closesDrawer = mode !== 'compact' && mode !== 'medium' && rec.snapshot.drawer === 'open';
+      if (mode !== rec.snapshot.mode || closesDrawer) {
+        const next = { ...rec.snapshot, mode, ...(closesDrawer ? { drawer: 'closed' as const } : {}) };
+        applyState(el, next);
+        rec.snapshot = next;
         for (const l of rec.listeners) l();
       }
     }
@@ -135,7 +146,12 @@ function recordFor(root: HTMLElement): ShellRecord {
     }
   }
   rec = {
-    snapshot: { sidebar, inspector, mode: deriveMode(root.offsetWidth, root.dataset['agLayout'] ?? 'auto') },
+    snapshot: {
+      sidebar,
+      inspector,
+      mode: deriveMode(root.offsetWidth, root.dataset['agLayout'] ?? 'auto'),
+      drawer: 'closed',
+    },
     listeners: new Set(),
     controlled: {},
   };
@@ -167,6 +183,7 @@ export function getServerSnapshot(root: HTMLElement): ShellSnapshot {
     mode: (VALID_MODES as readonly string[]).includes(modeAttr ?? '')
       ? (modeAttr as ShellMode)
       : deriveMode(1024, root.dataset['agLayout'] ?? 'auto'),
+    drawer: 'closed',
   };
 }
 const VALID_MODES: readonly string[] = ['compact', 'medium', 'expanded', 'wide'];
@@ -185,6 +202,12 @@ export function setSidebar(root: HTMLElement, next: SidebarState): void {
   rec.controlled.onSidebarChange?.(next);
   if (rec.controlled.onSidebarChange) return; // controlled: attributes change only via props
   transition(root, { ...rec.snapshot, sidebar: next }, rec);
+}
+
+export function setDrawer(root: HTMLElement, next: 'open' | 'closed'): void {
+  const rec = recordFor(root);
+  // The drawer is ephemeral — it never writes the cookie.
+  transition(root, { ...rec.snapshot, drawer: next }, rec, { persist: false });
 }
 
 export function setInspector(root: HTMLElement, next: InspectorState): void {

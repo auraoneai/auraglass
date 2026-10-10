@@ -24,9 +24,9 @@ test.describe('app-shell layout (SURF-013/033/044)', () => {
   test('shell renders grid tracks at desktop size', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'AppShell');
-    if (!subject) { console.warn('AppShell subject not registered — pending'); return; }
+    expect(subject, 'AppShell subject must be registered').toBeDefined();
     await page.setViewportSize({ width: 1440, height: 900 });
-    await gotoStory(page, subject.id);
+    await gotoStory(page, subject!.id);
     const cols = await page.evaluate(() =>
       getComputedStyle(document.querySelector('.ag-app-shell')!).gridTemplateColumns.split(' ').length,
     );
@@ -35,11 +35,28 @@ test.describe('app-shell layout (SURF-013/033/044)', () => {
 
   test('compact layout under 600px shows bottom tab bar', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
-    const subject = subjects.find((s) => s.subject === 'MobileShell' );
-    if (!subject) { console.warn('no shell subject — pending'); return; }
+    const subject = subjects.find((s) => s.subject === 'MobileShell');
+    expect(subject, 'MobileShell subject must be registered').toBeDefined();
     await page.setViewportSize({ width: 375, height: 812 });
-    await gotoStory(page, subject.id);
+    await gotoStory(page, subject!.id);
     const tabBar = page.locator('[data-ag-part="tab-bar"]');
     await expect(tabBar.first()).toBeVisible();
+  });
+
+  test('medium forces rail and restores (SURF-031)', async ({ page }) => {
+    const subjects = await listSubjects({ owner: 'SURF' });
+    const subject = subjects.find((s) => s.subject === 'AppShell');
+    expect(subject, 'AppShell subject must be registered').toBeDefined();
+    await gotoStory(page, subject!.id);
+    const shell = page.locator('.ag-app-shell');
+    // expanded sidebar at desktop width is a real column
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await expect(shell).toHaveAttribute('data-ag-mode', 'expanded');
+    // medium width forces the resolved mode to medium (expanded->rail via css)
+    await page.setViewportSize({ width: 900, height: 700 });
+    await expect(shell).toHaveAttribute('data-ag-mode', 'medium');
+    // restore
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await expect(shell).toHaveAttribute('data-ag-mode', 'expanded');
   });
 });

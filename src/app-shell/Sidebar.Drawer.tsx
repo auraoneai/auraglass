@@ -1,10 +1,13 @@
 'use client';
-/* SidebarDrawer (SURF-039): the compact/medium presentation of the sidebar —
-   a CMP Sheet (side=start, modal) that renders the SAME server children while
-   the inline sidebar stays display:none + inert (store-owned). Mounted only
-   while open; closes on Escape/scrim/activation; returns focus to the
-   toggle. Ids via useId only. Lazy-rendered so the sheet portal never ships
-   in the server tree. */
+/* SidebarDrawer (SURF-031): the compact/medium presentation of the sidebar —
+   a CMP Sheet (side=start, modal; Sheet registers the `kind:'sheet'` layer
+   via useLayer) that renders the SAME server children while the inline
+   sidebar stays display:none + inert (store-owned). Open state comes from
+   the store's ephemeral `drawer` field — it never touches `sidebar` or the
+   cookie. Mounted only while open; closes on Escape/scrim/item activation;
+   returns focus to the element captured before opening. The drawer id is
+   deterministic — `${shellId}-drawer` — so the toggle's aria-controls can
+   point at it before mount. */
 
 import * as React from 'react';
 import { Sheet } from '../components/sheet';
@@ -18,7 +21,13 @@ const SheetRoot = Sheet.Root as FC<{
   children?: ReactNode;
 }>;
 const SheetContent = Sheet.Content as FC<Record<string, unknown> & { children?: ReactNode }>;
-import { appShellRoot, getServerSnapshot, getSnapshot, setSidebar, subscribe } from './appShellStore';
+import {
+  appShellRoot,
+  getServerSnapshot,
+  getSnapshot,
+  setDrawer,
+  subscribe,
+} from './appShellStore';
 
 export type SidebarDrawerProps = {
   /** The same nav tree rendered inline at wider modes. */
@@ -30,12 +39,12 @@ const DETACHED_SNAPSHOT = {
   sidebar: 'expanded' as const,
   inspector: 'closed' as const,
   mode: 'expanded' as const,
+  drawer: 'closed' as const,
 };
 
 export function SidebarDrawer({ children, side = 'start' }: SidebarDrawerProps) {
   const marker = React.useRef<HTMLSpanElement | null>(null);
   const [rootEl, setRootEl] = React.useState<HTMLElement | null>(null);
-  const id = React.useId();
   const lastTrigger = React.useRef<HTMLElement | null>(null);
 
   const snapshot = React.useSyncExternalStore(
@@ -49,32 +58,48 @@ export function SidebarDrawer({ children, side = 'start' }: SidebarDrawerProps) 
   }, [rootEl]);
 
   const isDrawerMode = snapshot.mode === 'compact' || snapshot.mode === 'medium';
-  const open = isDrawerMode && snapshot.sidebar === 'expanded';
-  const drawerId = `${id}-drawer`;
+  const open = isDrawerMode && snapshot.drawer === 'open';
+  const drawerId = `${rootEl?.dataset['agShellId'] ?? 'ag-shell'}-drawer`;
+
+  // Capture the trigger before opening so close can return focus there.
+  const wasOpen = React.useRef(false);
+  React.useEffect(() => {
+    if (open && !wasOpen.current) {
+      lastTrigger.current = document.activeElement as HTMLElement | null;
+    }
+    if (!open && wasOpen.current) {
+      lastTrigger.current?.focus();
+    }
+    wasOpen.current = open;
+  }, [open]);
+
+  const close = React.useCallback(() => {
+    if (rootEl) setDrawer(rootEl, 'closed');
+  }, [rootEl]);
 
   React.useEffect(() => {
     if (!rootEl) return;
-    const close = (e: Event) => {
+    const onClick = (e: Event) => {
       const target = e.target as HTMLElement;
       if (target.closest(`#${CSS.escape(drawerId)} [data-ag-part="sidebar-item"]`)) {
-        setSidebar(rootEl, 'collapsed');
-        lastTrigger.current?.focus();
+        close();
       }
     };
-    document.addEventListener('click', close, true);
-    return () => document.removeEventListener('click', close, true);
-  }, [rootEl, drawerId]);
-
-  React.useEffect(() => {
-    if (open) lastTrigger.current = document.activeElement as HTMLElement | null;
-  }, [open]);
+    document.addEventListener('click', onClick, true);
+    return () => document.removeEventListener('click', onClick, true);
+  }, [rootEl, drawerId, close]);
 
   if (!isDrawerMode) return <span hidden ref={marker} />;
   return (
     <span hidden ref={marker} data-ag-drawer-anchor="">
       {open ? (
-        <SheetRoot open modal onOpenChange={(o: boolean) => !o && rootEl && setSidebar(rootEl, 'collapsed')}>
-          <SheetContent id={drawerId} data-ag-part="sidebar-drawer" data-ag-side={side}>
+        <SheetRoot open modal onOpenChange={(o: boolean) => !o && close()}>
+          <SheetContent
+            id={drawerId}
+            data-ag-part="sidebar-drawer"
+            data-ag-side={side}
+            style={{ inlineSize: 'min(85%, 20rem)' }}
+          >
             {children}
           </SheetContent>
         </SheetRoot>
