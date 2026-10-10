@@ -11,6 +11,7 @@ import { partElement } from './_internal/partElement';
 import { AppShellSidebarToggle } from './AppShell.SidebarToggle';
 import { AppShellInspectorToggle } from './AppShell.InspectorToggle';
 import { AppShellController } from './AppShell.Controller';
+import { parseAppShellCookie } from './parseAppShellCookie';
 import type { SidebarState, InspectorState, ShellMode } from './appShellStore';
 
 export type AppShellRootProps = PartProps<'div'> & {
@@ -155,6 +156,7 @@ export const AppShell = {
   SidebarToggle: AppShellSidebarToggle,
   InspectorToggle: AppShellInspectorToggle,
   Controller: AppShellController,
+  parseCookie: parseAppShellCookie,
 };
 export type {
   SidebarState as AppShellSidebarState,
