@@ -4,34 +4,10 @@
   "type": "registry:block",
   "title": "Analytics dashboard",
   "description": "StatCard row + Sparkline + ChartFrame + Timeline.",
-  "dependencies": [
-    "react"
-  ],
+  "dependencies": ["react"],
   "registryDependencies": [],
   "files": [
-    {
-      "path": "index.tsx",
-      "type": "registry:block"
-    },
-    {
-      "path": "fixtures.ts",
-      "type": "registry:item"
-    }
-  ],
-  "meta": {
-    "auraglass": {
-      "owner": "PLAT",
-      "surface": "block",
-      "client": false,
-      "components": [
-        "ChartFrame",
-        "Sparkline",
-        "StatCard",
-        "Timeline"
-      ],
-      "ga": true,
-      "minVersion": "5.0.0",
-      "certified": null
-    }
-  }
+    { "path": "index.tsx", "type": "registry:block" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ]
 }

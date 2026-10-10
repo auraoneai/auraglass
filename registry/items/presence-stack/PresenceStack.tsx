@@ -22,24 +22,14 @@ export interface PresenceStackProps {
 }
 
 /** Deterministic hue from a string id — same id, same colour, always. */
-/* Presence colours index into the token palette — no ad-hoc hsl() hues. */
-const PRESENCE_PALETTE = [
-  'var(--ag-color-accent)',
-  'var(--ag-color-info)',
-  'var(--ag-color-success)',
-  'var(--ag-color-warning)',
-  'var(--ag-color-danger)',
-] as const;
-
-/** Stable palette index for a user id (0..PRESENCE_PALETTE.length-1). */
 export function hueForId(id: string, offset = 0): number {
   let h = 0;
   for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
-  return (h + offset) % PRESENCE_PALETTE.length;
+  return (h + offset) % 360;
 }
 
 export function presenceColor(id: string, offset = 0): string {
-  return PRESENCE_PALETTE[hueForId(id, offset)];
+  return `hsl(${hueForId(id, offset)} 55% 45%)`;
 }
 
 export function PresenceStack({ users, max = 4, hueOffset = 0, onOverflowClick }: PresenceStackProps) {

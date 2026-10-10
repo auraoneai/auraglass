@@ -2,8 +2,8 @@
 /* CMP-344: registry item confirm-dialog — AlertDialog composition replacing the
    4.x modal confirm variants. D-15/D-17: registry items are never root-exported. */
 import * as React from 'react';
-import { AlertDialog } from 'aura-glass';
-import { Button } from 'aura-glass';
+import { AlertDialog } from '../../../src/components/alert-dialog';
+import { Button } from '../../../src/components/button';
 
 export interface ConfirmDialogProps {
   /** 'destructive' renders the confirm in danger intent; 'neutral' is the default. */

@@ -4,33 +4,10 @@
   "type": "registry:block",
   "title": "Audit log",
   "description": "Server-paginated audit Table + FilterBar + DateRangePicker window (5.2).",
-  "dependencies": [
-    "react"
-  ],
+  "dependencies": ["react"],
   "registryDependencies": [],
   "files": [
-    {
-      "path": "index.tsx",
-      "type": "registry:block"
-    },
-    {
-      "path": "fixtures.ts",
-      "type": "registry:item"
-    }
-  ],
-  "meta": {
-    "auraglass": {
-      "owner": "PLAT",
-      "surface": "block",
-      "client": false,
-      "components": [
-        "DateRangePicker",
-        "FilterBar",
-        "Table"
-      ],
-      "ga": true,
-      "minVersion": "5.0.0",
-      "certified": null
-    }
-  }
+    { "path": "index.tsx", "type": "registry:block" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ]
 }

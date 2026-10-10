@@ -16,7 +16,7 @@ export function MediaGallery({ items, label = 'Gallery' }: MediaGalleryProps) {
         style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(10rem,1fr))', gap: '0.75rem' }}>
         {items.map((it) => (
           <ImageViewer.Trigger key={it.id} id={it.id} className="ag-media-thumb">
-            <img src={it.src} alt={it.alt} loading="lazy" style={{ inlineSize: '100%' }} className="rounded-lg" />
+            <img src={it.src} alt={it.alt} loading="lazy" style={{ inlineSize: '100%', borderRadius: '0.5rem' }} />
           </ImageViewer.Trigger>
         ))}
       </div>
