@@ -197,8 +197,19 @@ function diffGate(baseSha) {
     const m = /^registry\/(?:blocks|items)\/([^/]+)\//.exec(p) ?? /^packages\/labs\/src\/([^/]+)\//.exec(p);
     return m ? m[1] : null;
   };
+  // Only entries that did not exist at <base> are "added"; editing a file of an
+  // existing entry (e.g. a story's parameters) needs no ledger change.
+  const dirOf = (p) => (/^(registry\/(?:blocks|items)\/[^/]+)\//.exec(p) ?? /^(packages\/labs\/src\/[^/]+)\//.exec(p))?.[1];
+  const existedAtBase = (dir) => {
+    try {
+      execSync(`git cat-file -e ${baseSha}:${dir}`, { cwd: ROOT, stdio: 'ignore' });
+      return true;
+    } catch {
+      return false;
+    }
+  };
   const kebab = (s) => String(s).replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-  const newIds = [...new Set(changed.map(idOf).filter(Boolean))];
+  const newIds = [...new Set(changed.filter((p) => idOf(p) && !existedAtBase(dirOf(p))).map(idOf))];
   if (newIds.length) {
     let namesInChangedRows = new Set();
     if (ledgerChanged) {
