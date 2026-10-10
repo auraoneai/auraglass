@@ -1,8 +1,9 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 /* lens.css — enhanced-tier SVG edge refraction (REQ-MAT-36, MAT-126/127).
-   Eligibility: ONE selector — chromium engine + LensDefs mounted + refraction
-   attr + chrome layer. The filter is feImage(map) -> feDisplacementMap, scale
+   Eligibility: ONE selector — :root[data-ag-tier=enhanced] (the MAT §4.4
+   enhanced selector, REQ-MAT-36) + chromium engine + LensDefs mounted +
+   refraction attr + chrome layer. The filter is feImage(map) -> feDisplacementMap, scale
    set statically per thickness (12/16/24px bezel; E-10), masked to the bezel
    band; nothing writes scale at runtime. Never: tier standard/lightweight,
    transparency tinted/solid, motion none, reduced transparency, contrast more,
@@ -16,15 +17,15 @@
 @layer ag.material {
 
   /* 9 maps keyed on [shape][sizeclass]; sheet is never present */
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"]:is([data-ag-shape="fixed"], :not([data-ag-shape]))[data-ag-sizeclass="control"]::before { backdrop-filter: url(#ag-lens-fixed-control) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"]:is([data-ag-shape="fixed"], :not([data-ag-shape]))[data-ag-sizeclass="bar"]::before { backdrop-filter: url(#ag-lens-fixed-bar) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"]:is([data-ag-shape="fixed"], :not([data-ag-shape]))[data-ag-sizeclass="panel"]::before { backdrop-filter: url(#ag-lens-fixed-panel) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="capsule"][data-ag-sizeclass="control"]::before { backdrop-filter: url(#ag-lens-capsule-control) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="capsule"][data-ag-sizeclass="bar"]::before { backdrop-filter: url(#ag-lens-capsule-bar) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="capsule"][data-ag-sizeclass="panel"]::before { backdrop-filter: url(#ag-lens-capsule-panel) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="concentric"][data-ag-sizeclass="control"]::before { backdrop-filter: url(#ag-lens-concentric-control) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="concentric"][data-ag-sizeclass="bar"]::before { backdrop-filter: url(#ag-lens-concentric-bar) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="concentric"][data-ag-sizeclass="panel"]::before { backdrop-filter: url(#ag-lens-concentric-panel) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"]:is([data-ag-shape="fixed"], :not([data-ag-shape]))[data-ag-sizeclass="control"]::before { backdrop-filter: url(#ag-lens-fixed-control) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"]:is([data-ag-shape="fixed"], :not([data-ag-shape]))[data-ag-sizeclass="bar"]::before { backdrop-filter: url(#ag-lens-fixed-bar) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"]:is([data-ag-shape="fixed"], :not([data-ag-shape]))[data-ag-sizeclass="panel"]::before { backdrop-filter: url(#ag-lens-fixed-panel) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="capsule"][data-ag-sizeclass="control"]::before { backdrop-filter: url(#ag-lens-capsule-control) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="capsule"][data-ag-sizeclass="bar"]::before { backdrop-filter: url(#ag-lens-capsule-bar) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="capsule"][data-ag-sizeclass="panel"]::before { backdrop-filter: url(#ag-lens-capsule-panel) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="concentric"][data-ag-sizeclass="control"]::before { backdrop-filter: url(#ag-lens-concentric-control) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="concentric"][data-ag-sizeclass="bar"]::before { backdrop-filter: url(#ag-lens-concentric-bar) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="concentric"][data-ag-sizeclass="panel"]::before { backdrop-filter: url(#ag-lens-concentric-panel) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
 
   /* ---- exclusions: never refract under these rungs.
      The :root context prefix is repeated so each rule out-specifies the
@@ -32,35 +33,35 @@
      (lightweight, solid, forced-colours) reset to `none`; rungs that keep
      standard optics (standard tier, tinted, motion none, reduced
      transparency, contrast more) reset to the standard blur list. */
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-tier="standard"] [data-ag-surface][data-ag-refraction]::before,
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-tier="standard"][data-ag-refraction]::before,
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-transparency="tinted"] [data-ag-surface][data-ag-refraction]::before,
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-transparency="tinted"][data-ag-refraction]::before,
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-motion="none"] [data-ag-surface][data-ag-refraction]::before {
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-tier="standard"] [data-ag-surface][data-ag-refraction]::before,
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-tier="standard"][data-ag-refraction]::before,
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-transparency="tinted"] [data-ag-surface][data-ag-refraction]::before,
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-transparency="tinted"][data-ag-refraction]::before,
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-motion="none"] [data-ag-surface][data-ag-refraction]::before {
     backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
     -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
   }
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-tier="lightweight"] [data-ag-surface][data-ag-refraction]::before,
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-tier="lightweight"][data-ag-refraction]::before,
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-transparency="solid"] [data-ag-surface][data-ag-refraction]::before,
-  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-transparency="solid"][data-ag-refraction]::before {
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-tier="lightweight"] [data-ag-surface][data-ag-refraction]::before,
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-tier="lightweight"][data-ag-refraction]::before,
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-transparency="solid"] [data-ag-surface][data-ag-refraction]::before,
+  :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-transparency="solid"][data-ag-refraction]::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
   @media (prefers-reduced-transparency: reduce) {
-    :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]):not([data-ag-transparency]) [data-ag-surface][data-ag-refraction]::before {
+    :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]):not([data-ag-transparency]) [data-ag-surface][data-ag-refraction]::before {
       backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
       -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
     }
   }
   @media (prefers-contrast: more) {
-    :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction]::before {
+    :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction]::before {
       backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
       -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
     }
   }
   @media (forced-colors: active) {
-    :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction]::before {
+    :root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction]::before {
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }
