@@ -32,3 +32,22 @@ qual:certify:release:
   extends: [.qual-lane, .ag-evidence-release]
   rules: [{ if: $AG_SCOPE == "release" && $AG_LINE == "5x" }]
   script: [node certification/run.mjs --lane all --scope release --verdict .artifacts/qual/release-verdict.json]
+# REQ-QUAL-07/-08 (G-11, FIN-427/-428): certification scenes. Manifest freshness + integrity + scene stories (node),
+# content bands incl. dense-text OCR (tesseract 5 must be in AG_PLAYWRIGHT_IMAGE; image is FIN-B's).
+# G-03 folds these into the L12/L6 lane runner; packages/qa tests move under jest.qual.config.js (G-01).
+qual:test:scenes:
+  extends: .ag-node
+  stage: test
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "nightly" || $AG_SCOPE == "release")
+  script:
+    - node scripts/qual/scenes/write-manifest.mjs --check
+    - npx jest --ci tests/storybook/cert-scenes.test.ts
+    - npx jest --ci --testMatch '<rootDir>/packages/qa/test/scenes-manifest.test.ts' --testPathIgnorePatterns /node_modules/
+qual:test:scene-bands:
+  extends: .ag-playwright
+  stage: test
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "nightly" || $AG_SCOPE == "release")
+  script:
+    - npx jest --ci tests/storybook/scene-bands.test.mjs
