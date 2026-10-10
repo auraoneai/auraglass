@@ -1,4 +1,4 @@
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Grammar implemented by CMP; obeyed by CMP and SURF. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Grammar implemented by CMP; obeyed by CMP and SURF. */
 import type * as React from 'react';
 import type { MaterialVariant, Thickness } from './material';
 
@@ -84,8 +84,8 @@ export const COMPOUND_PARTS = {
   Combobox: ['Root', 'Input', 'Trigger', 'Content', 'Item', 'Empty', 'Chips', 'Chip', 'ChipRemove', 'Clear'],
   Toolbar: ['Root', 'Button', 'Group', 'Separator', 'Link'],
   ToggleGroup: ['Root', 'Item'],
-  SegmentedControl: ['Root', 'Item'],
-  Slider: ['Root', 'Value'],
+  SegmentedControl: ['Root', 'Item', 'Indicator'],
+  Slider: ['Root', 'Track', 'Range', 'Thumb', 'Value'],
   RadioGroup: ['Root', 'Item'],
   Field: ['Root', 'Label', 'Control', 'Description', 'Error'],
   Collapsible: ['Root', 'Trigger', 'Content'],

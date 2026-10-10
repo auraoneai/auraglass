@@ -1,4 +1,4 @@
-/* contract-v1.1 verbatim (ESM). Node-environment tests add the docblock  @jest-environment node. */
+/* contract-v1.2 verbatim (ESM). Node-environment tests add the docblock  @jest-environment node. */
 export default {
   testEnvironment: 'jsdom',
   roots: ['<rootDir>'],

@@ -1,4 +1,4 @@
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned: change only in a contract PR. Type-only except frozen constants. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned: change only in a contract PR. Type-only except frozen constants. */
 import type * as React from 'react';
 import type { RadiusToken, SpaceToken } from './tokens';
 
@@ -48,9 +48,7 @@ export interface SurfaceProps extends MaterialRole, Omit<React.HTMLAttributes<HT
   render?: React.ReactElement;
   ref?: React.Ref<HTMLElement>;
 }
-export interface SurfaceGroupProps { spacing?: SpaceToken; children: React.ReactNode; className?: string   /** Opt-in refraction flag on the group surface. */
-  refraction?: boolean | undefined;
-}
+export interface SurfaceGroupProps { spacing?: SpaceToken; children: React.ReactNode; className?: string; refraction?: boolean }
 export interface EnvironmentProps { backdrop: Backdrop; image?: string; video?: string; children: React.ReactNode; className?: string }
 export interface ScrollEdgeProps { edge: 'top' | 'bottom'; edgeStyle?: EdgeStyle }
 export interface ConcentricFrameProps { radius: RadiusToken; inset: SpaceToken; children: React.ReactNode }

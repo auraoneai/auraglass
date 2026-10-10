@@ -1,4 +1,4 @@
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. */
 export type RadiusToken = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';           // 6/10/14/20/28/9999px (§5.2)
 export type SpaceToken = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16'; // n × 4px (4pt grid)
 export type TypeRole = 'display' | 'title-1' | 'title-2' | 'title-3' | 'body' | 'callout' | 'caption' | 'label' | 'mono';
@@ -9,9 +9,9 @@ export type ZLayer = 'content' | 'chrome' | 'overlay' | 'transient' | 'toast';
 /** S-03: every public custom property. Anything else starting with --ag- fails MAT's dead/undefined-var gate. */
 export const PUBLIC_CSS_VARS = {
   light: ['--ag-light-angle', '--ag-specular', '--ag-glass-opacity'],
-  readouts: ['--_ag-surface-fill', '--_ag-surface-rim', '--_ag-surface-shadow', '--_ag-surface-radius', '--ag-on-surface', '--ag-on-surface-muted'],
+  readouts: ['--ag-surface-fill', '--ag-surface-rim', '--ag-surface-shadow', '--ag-surface-radius', '--ag-on-surface', '--ag-on-surface-muted'],
   shape: ['--ag-radius-outer', '--ag-inset', '--ag-radius-inner'],
-  focus: ['--_ag-focus-inner', '--_ag-focus-outer', '--_ag-focus-width'],
+  focus: ['--ag-focus-inner', '--ag-focus-outer', '--ag-focus-width'],
   layout: ['--ag-scroll-padding-top', '--ag-scroll-padding-bottom'],
   color: ['canvas', 'on-surface', 'on-surface-muted', 'accent', 'on-accent', 'border', 'focus-inner', 'focus-outer',
     'specular', 'danger', 'warning', 'success', 'info'].map((c) => `--ag-color-${c}`),

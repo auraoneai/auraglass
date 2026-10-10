@@ -474,7 +474,7 @@ Total: 43 seams (ids are grouped by area, so the numbering has gaps).
 Created by C0. Verbatim:
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned: change only in a contract PR. Type-only except frozen constants. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned: change only in a contract PR. Type-only except frozen constants. */
 import type * as React from 'react';
 import type { RadiusToken, SpaceToken } from './tokens';
 
@@ -524,7 +524,7 @@ export interface SurfaceProps extends MaterialRole, Omit<React.HTMLAttributes<HT
   render?: React.ReactElement;
   ref?: React.Ref<HTMLElement>;
 }
-export interface SurfaceGroupProps { spacing?: SpaceToken; children: React.ReactNode; className?: string }
+export interface SurfaceGroupProps { spacing?: SpaceToken; children: React.ReactNode; className?: string; refraction?: boolean }
 export interface EnvironmentProps { backdrop: Backdrop; image?: string; video?: string; children: React.ReactNode; className?: string }
 export interface ScrollEdgeProps { edge: 'top' | 'bottom'; edgeStyle?: EdgeStyle }
 export interface ConcentricFrameProps { radius: RadiusToken; inset: SpaceToken; children: React.ReactNode }
@@ -621,7 +621,7 @@ Semantics carried over unchanged: `data-ag-backdrop="auto"` does not satisfy `va
 ### 4.3 `src/contracts/tokens.ts` (S-03, S-04, S-10, S-11)
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. */
 export type RadiusToken = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';           // 6/10/14/20/28/9999px (§5.2)
 export type SpaceToken = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16'; // n × 4px (4pt grid)
 export type TypeRole = 'display' | 'title-1' | 'title-2' | 'title-3' | 'body' | 'callout' | 'caption' | 'label' | 'mono';
@@ -702,7 +702,7 @@ These are contract-v1 decisions that the archived PRDs left open:
 ### 4.4 `src/contracts/motion.ts` (S-12, S-13)
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Values: archived MOT §4.2 (decided). */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Values: archived MOT §4.2 (decided). */
 export type MotionPreference = 'full' | 'calm' | 'none';
 export type DurationName = 'instant' | 'micro' | 'small' | 'medium' | 'large';
 export type EaseName = 'standard' | 'emphasized' | 'emphasized-decelerate' | 'accelerate';
@@ -755,7 +755,7 @@ Rules that travel with S-12 and S-13:
 ### 4.5 `src/contracts/preferences.ts` (S-20..S-26)
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Implemented by MAT; runtime exported from src/theme/index.ts. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Implemented by MAT; runtime exported from src/theme/index.ts. */
 import type * as React from 'react';
 import type { Transparency, DomTier } from './material';
 import type { MotionPreference } from './motion';
@@ -863,7 +863,7 @@ This replaces two archived decisions:
 ### 4.6 `src/contracts/components.ts` (S-30..S-33)
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Grammar implemented by CMP; obeyed by CMP and SURF. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Grammar implemented by CMP; obeyed by CMP and SURF. */
 import type * as React from 'react';
 import type { MaterialVariant, Thickness } from './material';
 
@@ -943,7 +943,7 @@ export const COMPOUND_PARTS = {
   Tooltip: ['Root', 'Trigger', 'Content', 'Arrow'],
   Menu: ['Root', 'Trigger', 'Content', 'Item', 'CheckboxItem', 'RadioGroup', 'RadioItem', 'Group', 'GroupLabel', 'Separator', 'Submenu', 'SubmenuTrigger'],
   ContextMenu: ['Root', 'Trigger', 'Content', 'Item', 'Group', 'GroupLabel', 'Separator'],
-  Menubar: ['Root', 'Menu'],
+  ColorPicker: ['Root', 'Trigger', 'Content', 'Area', 'Hue'],
   Toast: ['Provider', 'Viewport', 'Root', 'Title', 'Description', 'Action', 'Close'],
   Select: ['Root', 'Trigger', 'Value', 'Content', 'Item', 'ItemIndicator', 'Group', 'GroupLabel', 'Separator'],
   Combobox: ['Root', 'Input', 'Trigger', 'Content', 'Item', 'Empty', 'Chips', 'Chip', 'ChipRemove', 'Clear'],
@@ -973,11 +973,12 @@ export interface CmpRootProps {
   RadioGroup: ValueProps<string>; Field: { invalid?: boolean; disabled?: boolean; name?: string };
   Collapsible: OpenProps; Accordion: ValueProps<string[]> & { multiple?: boolean }; ScrollArea: Record<string, never>;
   Avatar: SizeProps; Card: MaterialBearingProps & { interactive?: boolean }; Tour: OpenProps & { step?: number };
+  ColorPicker: OpenProps;
 }
 /** Flat CMP components other streams compose (props = PartProps of the root element + the grammar types they list in meta): */
 export const FLAT_CMP_COMPONENTS = ['Button', 'IconButton', 'ButtonGroup', 'Switch', 'Checkbox', 'CheckboxGroup', 'TextField',
   'SearchField', 'NumberField', 'Fieldset', 'Form', 'Badge', 'AvatarGroup', 'Alert', 'Progress', 'Meter', 'Skeleton', 'Separator', 'Kbd',
-  'Link', 'Rating', 'InlineEdit', 'FileUpload', 'ColorPicker', 'DescriptionList', 'ImageList', 'EmptyState', 'ErrorState',
+  'Link', 'Rating', 'InlineEdit', 'Menubar', 'FileUpload', 'DescriptionList', 'ImageList', 'EmptyState', 'ErrorState',
   'LoadingState', 'Text', 'Heading', 'Stack', 'Grid', 'Container', 'Icon'] as const;
 /** Typed compound contracts, one per COMPOUND_PARTS key (what seeds, doubles and real components all satisfy). */
 export type CmpCompounds = { [K in keyof typeof COMPOUND_PARTS]: CompoundContract<(typeof COMPOUND_PARTS)[K][number], CmpRootProps[K]> };
@@ -1027,7 +1028,7 @@ The archived FND example used `layer: "control"`. That value does not exist: a S
 ### 4.7 `src/contracts/entries.ts` (S-35) and the root composition
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. build/exports.manifest.json is generated from this list by C0 and
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. build/exports.manifest.json is generated from this list by C0 and
    regenerated only by contract PRs. Value exports listed; type exports are free within the entry owner's barrel. */
 export interface EntrySpec { subpath: string; source: string; owner: 'PLAT' | 'MAT' | 'CMP' | 'SURF'; ga: '5.0' | '5.1'; exports: readonly string[]; css?: string }
 export const ENTRIES: readonly EntrySpec[] = [
@@ -1055,8 +1056,8 @@ export const ENTRIES: readonly EntrySpec[] = [
   { subpath: './media', source: 'src/media/index.ts', owner: 'SURF', ga: '5.0', css: 'dist/media.css',
     exports: ['MediaControls', 'NowPlayingBar', 'ImageViewer', 'CarouselRail', 'useMediaElement', 'MediaScrubber', 'formatMediaTime'] },
   { subpath: './backdrops', source: 'src/backdrops/index.ts', owner: 'SURF', ga: '5.0', css: 'dist/backdrops.css', exports: ['Backdrop'] },
-  { subpath: './three', source: 'src/three/index.ts', owner: 'SURF', ga: '5.0', exports: ['@unchanged-from-4.1.0'] },
-  { subpath: './charts', source: 'src/charts/index.ts', owner: 'SURF', ga: '5.1', exports: ['Chart'] },
+  { subpath: './three', source: 'src/three/index.ts', owner: 'SURF', ga: '5.0', exports: [] }, // OI-01: no 4.x three component ported; exports: [] at 5.0, ga kept
+  { subpath: './charts', source: 'src/charts/index.ts', owner: 'SURF', ga: '5.1', exports: ['Chart'], css: 'dist/charts.css' },
   { subpath: './compat', source: 'src/compat/index.ts', owner: 'PLAT', ga: '5.0', exports: ['@union of src/compat/<stream>/index.ts'] },
   // CSS-only and data entries (PLAT assembles from fragments/css/*):
   { subpath: './styles.css', source: 'build:css', owner: 'PLAT', ga: '5.0', exports: [] },
@@ -1114,7 +1115,7 @@ The 4.x subpaths `./tokens/json`, `./tokens/tailwind`, `./tokens/manifest`, `./t
 ### 4.8 `src/contracts/fragments.ts` and `src/contracts/load-fragments.mjs` (S-38, S-39, S-43..S-46, S-50)
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Every fragments/<kind>/<stream>.ts default-exports `[...] satisfies <Type>`. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Every fragments/<kind>/<stream>.ts default-exports `[...] satisfies <Type>`. */
 export type StreamKey = 'plat' | 'mat' | 'cmp' | 'surf' | 'qual';
 
 // ---- S-38 deprecations (was SC-02/SC-03; envelope generated as {"$schema","version":1,"entries":[...]}) ----
@@ -1181,7 +1182,7 @@ export interface LaneRegistration {
 export interface PlaywrightProjectFragment { name: `${StreamKey}:${string}`; testDir: string; testMatch?: string; use?: Record<string, unknown> }
 
 // ---- S-45 other fragments ----
-export interface CssFragment { file: string; layer: 'ag.compat' | 'ag.reset' | 'ag.tokens' | 'ag.material' | 'ag.components' | 'ag.a11y'; bundle: 'styles.css' | 'tokens.css' | 'material.css' | 'data.css' | 'date.css' | 'ai.css' | 'media.css' | 'app-shell.css' | 'backdrops.css' | 'compat/tokens.css' | 'compat/globals.css'; order?: number }
+export interface CssFragment { file: string; layer: 'ag.compat' | 'ag.reset' | 'ag.tokens' | 'ag.material' | 'ag.components' | 'ag.a11y'; bundle: 'styles.css' | 'tokens.css' | 'material.css' | 'data.css' | 'date.css' | 'ai.css' | 'media.css' | 'app-shell.css' | 'backdrops.css' | 'charts.css' | 'compat/tokens.css' | 'compat/globals.css'; order?: number }
 export interface SideEffectException { module: string; reason: string; expires: string /* version */ }
 export interface ReviewItem { id: string; subject: string; criterion: 'specular-quality' | 'optical-hierarchy' | 'radius-rhythm' | 'one-hand' | 'other'; note?: string }
 export interface LiteralsBaseline { version: 1; files: Record<string, Partial<Record<'color' | 'blur' | 'radius' | 'shadow' | 'duration' | 'easing' | 'spring', number>>> }
@@ -1217,8 +1218,15 @@ export async function loadFragments(kind, root = process.cwd()) {
     const file = join(dir, name);
     if (extname(name) === '.json') { out.push({ stream, file, value: JSON.parse(readFileSync(file, 'utf8')) }); continue; }
     const res = await build({ entryPoints: [file], bundle: true, write: false, format: 'esm', platform: 'node', logLevel: 'silent' });
-    const url = 'data:text/javascript;base64,' + Buffer.from(res.outputFiles[0].text).toString('base64');
-    out.push({ stream, file, value: (await import(url)).default ?? [] });
+    /* The esbuild bundle is self-contained — evaluate it directly rather than
+       `import('data:…')`, which jest's module registry cannot resolve. Same
+       code path under node and jest: rewrite `export default` → `return`. */
+    let code = res.outputFiles[0].text;
+    code = code
+      .replace(/export\s*\{\s*([\w$]+)\s+as\s+default[^}]*\};?\s*$/, 'return $1;')
+      .replace(/export\s+default\s+([^;]+);?\s*$/, 'return $1;');
+    const value = new Function(code)();
+    out.push({ stream, file, value: value ?? [] });
   }
   return out.sort((a, b) => STREAMS.indexOf(a.stream) - STREAMS.indexOf(b.stream));
 }
@@ -1229,7 +1237,7 @@ A fragment module may import only from `src/contracts/**`. That keeps every frag
 ### 4.9 `src/contracts/testing.ts` (S-40..S-43, S-48)
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Runtime helpers implemented by QUAL in tests/helpers/index.ts. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Runtime helpers implemented by QUAL in tests/helpers/index.ts. */
 import type * as React from 'react';
 import type { Backdrop, DomTier, Transparency } from './material';
 import type { Scheme, Contrast } from './preferences';
@@ -1250,7 +1258,7 @@ export const LANES = { L1: 'Static', L2: 'Artifact', L3: 'Change class', L4: 'To
 /** CI is GitLab CI only (§4.13). No GitHub Actions workflow exists; these are GitLab job names. */
 export const CI = { root: '.gitlab-ci.yml', fragment: (s: 'plat' | 'mat' | 'cmp' | 'surf' | 'qual') => `ci/${s}.gitlab-ci.yml`,
   project: 'chahal-foundation-group/github-auraoneai/auraglass', projectId: 87152036 } as const;
-export const STAGES = ['contract', 'build', 'test', 'certify', 'package', 'deploy', 'publish'] as const;
+export const STAGES = ['contract', 'build', 'test', 'package', 'certify', 'deploy', 'publish'] as const; // v1.2: package before certify (qual:certify:* need plat:package:pack)
 export type CiScope = 'pr' | 'main' | 'nightly' | 'release';     // $AG_SCOPE, set by workflow:rules in .gitlab-ci.yml
 export type CiLine = '4x' | '5x';                                // $AG_LINE
 export const LANE_COMMAND = 'node certification/run.mjs --lane <id> --scope $AG_SCOPE' as const;
@@ -1447,10 +1455,10 @@ export default { meta: { name: 'eslint-plugin-auraglass' }, rules, configs: { di
 
 **Non-blocking rule rollout.** A rule owner may set `severity: 'error'` only for globs that the owner stream itself owns. For every other stream's globs, the rule is `warn` until that stream switches it to `error`. The switch happens by adding the glob to the stream's own rule-config fragment (`lint/rules/<stream>/_strict.cjs`, which exports `{ strict: { '<rule-name>': string[] /* globs this stream owns */ } }`, exactly the shape the plugin loader above reads). At RC-1 all auraglass rules become `error` everywhere (gate G-05). So no stream can turn another stream's CI red.
 
-**`jest.config.js`** (QUAL, verbatim; tests are discovered by location, never registered). ESM, because the root `package.json` has `"type": "module"`; v1.0 used `module.exports`, which fails to load under `"type": "module"`:
+**`jest.config.js`** (QUAL, verbatim; tests are discovered by location, never registered). ESM, because the root `package.json` has `"type": "module"`; v1.0 used `module.exports`, which fails to load under `"type": "module"`. contract-v1.2 ratifies the #369 edits: the transform goes through `tests/helpers/babel-jest-import-meta.cjs` (babel-jest with the same presets, plus the `import.meta.url`/`import.meta.dirname` rewrite that lets `.mjs` sources run under Jest's CJS loader), `.mjs` is a module extension, and `prettier` is mapped to its ESM entry and transformed, because its CJS entry loads the formatter through a dynamic `import()` that Jest's CJS runtime rejects ("A dynamic import callback was invoked without --experimental-vm-modules"; reproduced with `tests/tokens/determinism.test.ts`):
 
 ```js
-/* contract-v1.1 verbatim (ESM). Node-environment tests add the docblock  @jest-environment node. */
+/* contract-v1.2 verbatim (ESM). Node-environment tests add the docblock  @jest-environment node. */
 export default {
   testEnvironment: 'jsdom',
   roots: ['<rootDir>'],
@@ -1458,8 +1466,10 @@ export default {
     '<rootDir>/showcase/**/*.test.{ts,tsx}', '<rootDir>/fragments/**/*.test.ts', '<rootDir>/scripts/**/*.test.{ts,mjs}'],
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/legacy/', '<rootDir>/dist/', '<rootDir>/packages/', '<rootDir>/apps/'],
   setupFilesAfterEnv: ['<rootDir>/tests/helpers/setup.ts'],
-  transform: { '^.+\\.(t|j|mj)sx?$': ['babel-jest', { presets: [['@babel/preset-env', { targets: { node: '20.19' } }], ['@babel/preset-react', { runtime: 'automatic' }], '@babel/preset-typescript'] }] },
-  moduleNameMapper: { '\\.css$': 'identity-obj-proxy' },
+  transform: { '^.+\\.(t|j|mj)sx?$': ['<rootDir>/tests/helpers/babel-jest-import-meta.cjs', {}] },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'mjs', 'json'],
+  transformIgnorePatterns: ['/node_modules/(?!prettier)'],
+  moduleNameMapper: { '\\.css$': 'identity-obj-proxy', '^prettier$': '<rootDir>/node_modules/prettier/index.mjs' },
 };
 ```
 
@@ -1654,7 +1664,7 @@ Because `package.json` is PLAT's, no other stream adds scripts to it. Stream-spe
 
 #### 4.13.2 Pipeline vocabulary (frozen)
 
-- **Stages**, in order: `contract`, `build`, `test`, `certify`, `package`, `deploy`, `publish` (`STAGES`, §4.9).
+- **Stages**, in order: `contract`, `build`, `test`, `package`, `certify`, `deploy`, `publish` (`STAGES`, §4.9). contract-v1.2 ratifies `package` before `certify`: the `qual:certify:*` lanes need `plat:package:pack` in an earlier stage.
 - **Variables set by `workflow:rules`** and available to every job's `rules`: `AG_SCOPE` ∈ `pr | main | nightly | release`, `AG_LINE` ∈ `4x | 5x`.
 - **Job names:** `<stream>:<stage>:<name>` (for example `mat:build:tokens`, `surf:test:ledger`, `qual:certify:l6`). Root jobs are `contract:<name>`. The one exception is `pages` (PLAT), because GitLab Pages deploys the job of that name.
 - **Hidden templates:** the root defines `.ag-node`, `.ag-playwright`, `.ag-gpu`, `.ag-aws-remote` and `.ag-evidence-release`; a fragment's own templates are named `.<stream>-<name>`.
@@ -1676,10 +1686,10 @@ Because `package.json` is PLAT's, no other stream adds scripts to it. Stream-spe
 #### 4.13.3 Root `.gitlab-ci.yml` (PLAT, verbatim)
 
 ```yaml
-# contract-v1.1 verbatim (PLAT-owned). PLAT may change only the values of AG_NODE_IMAGE, AG_PLAYWRIGHT_IMAGE, AG_NPM_VERSION,
+# contract-v1.2 verbatim (PLAT-owned). PLAT may change only the values of AG_NODE_IMAGE, AG_PLAYWRIGHT_IMAGE, AG_NPM_VERSION,
 # AG_PAGES_BRANCH and AG_V4_DIST_TAG. GitHub (github.com/auraoneai/auraglass) is the source of truth; this project is its
 # one-way mirror, so there are no merge-request pipelines.
-stages: [contract, build, test, certify, package, deploy, publish]
+stages: [contract, build, test, package, certify, deploy, publish]
 
 variables:
   AG_NODE_IMAGE: "node:22-bookworm"                                 # PLAT pins a digest at C0

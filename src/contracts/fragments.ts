@@ -1,4 +1,4 @@
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Every fragments/<kind>/<stream>.ts default-exports `[...] satisfies <Type>`. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Every fragments/<kind>/<stream>.ts default-exports `[...] satisfies <Type>`. */
 export type StreamKey = 'plat' | 'mat' | 'cmp' | 'surf' | 'qual';
 
 // ---- S-38 deprecations (was SC-02/SC-03; envelope generated as {"$schema","version":1,"entries":[...]}) ----
