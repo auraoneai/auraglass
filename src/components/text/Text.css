@@ -1,63 +1,21 @@
 /* CMP-295/420 Text */
 @layer ag.components {
-  .ag-text {
-    margin: 0;
-    font-family: var(--ag-type-body-family);
-  }
-  .ag-text-type-callout {
-    font-size: var(--ag-type-callout-size);
-  }
-  .ag-text-type-caption {
-    font-size: var(--ag-type-caption-size);
-  }
-  .ag-text-type-label {
-    font-size: var(--ag-type-label-size);
-    font-weight: 500;
-  }
-  .ag-text-type-mono {
-    font-family: var(--ag-type-mono-family);
-  }
-  .ag-text-size-xs {
-    font-size: var(--ag-text-xs);
-  }
-  .ag-text-size-sm {
-    font-size: var(--ag-text-sm);
-  }
-  .ag-text-size-md {
-    font-size: var(--ag-text-md);
-  }
-  .ag-text-size-lg {
-    font-size: var(--ag-text-lg);
-  }
-  .ag-text[data-ag-muted] {
-    color: var(--ag-text-secondary);
-    opacity: 0.72;
-  }
-  .ag-text[data-ag-intent="success"] {
-    color: var(--ag-intent-success);
-  }
-  .ag-text[data-ag-intent="warning"] {
-    color: var(--ag-intent-warning);
-  }
-  .ag-text[data-ag-intent="danger"] {
-    color: var(--ag-intent-danger);
-  }
-  .ag-text[data-ag-weight="light"] {
-    font-weight: 300;
-  }
-  .ag-text[data-ag-weight="medium"] {
-    font-weight: 500;
-  }
-  .ag-text[data-ag-weight="semibold"] {
-    font-weight: 600;
-  }
-  .ag-text[data-ag-weight="bold"] {
-    font-weight: 700;
-  }
-  .ag-text[data-ag-truncate] {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-inline-size: 100%;
-  }
+  .ag-text { margin: 0; font-family: var(--_ag-type-body-family, inherit); }
+  .ag-text-type-callout { font-size: var(--ag-type-callout-size); }
+  .ag-text-type-caption { font-size: var(--ag-type-caption-size); }
+  .ag-text-type-label { font-size: var(--ag-type-label-size); font-weight: 500; }
+  .ag-text-type-mono { font-family: var(--_ag-type-mono-family, ui-monospace, monospace); }
+  .ag-text-size-xs { font-size: var(--_ag-text-xs, 0.75rem); }
+  .ag-text-size-sm { font-size: var(--_ag-text-sm, 0.875rem); }
+  .ag-text-size-md { font-size: var(--_ag-text-md, 1rem); }
+  .ag-text-size-lg { font-size: var(--_ag-text-lg, 1.125rem); }
+  .ag-text[data-ag-muted] { color: var(--_ag-text-secondary, currentColor); opacity: 0.72; }
+  .ag-text[data-ag-intent='success'] { color: var(--_ag-intent-success, currentColor); }
+  .ag-text[data-ag-intent='warning'] { color: var(--_ag-intent-warning, currentColor); }
+  .ag-text[data-ag-intent='danger'] { color: var(--_ag-intent-danger, currentColor); }
+  .ag-text[data-ag-weight='light'] { font-weight: 300; }
+  .ag-text[data-ag-weight='medium'] { font-weight: 500; }
+  .ag-text[data-ag-weight='semibold'] { font-weight: 600; }
+  .ag-text[data-ag-weight='bold'] { font-weight: 700; }
+  .ag-text[data-ag-truncate] { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-inline-size: 100%; }
 }

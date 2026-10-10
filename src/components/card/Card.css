@@ -1,30 +1,10 @@
 /* CMP-300 Card */
 @layer ag.components {
-  .ag-card {
-    border-radius: var(--ag-radius-lg);
-    padding: var(--ag-space-3);
-  }
-  .ag-card-interactive {
-    cursor: pointer;
-  }
-  .ag-card-header {
-    margin-block-end: var(--ag-space-2);
-  }
-  .ag-card-title {
-    margin: 0;
-    font-size: var(--ag-heading-md);
-    font-weight: 600;
-  }
-  .ag-card-description {
-    margin: 0;
-    color: var(--ag-text-secondary);
-  }
-  .ag-card-body {
-    display: block;
-  }
-  .ag-card-footer {
-    margin-block-start: var(--ag-space-3);
-    display: flex;
-    gap: var(--ag-space-2);
-  }
+  .ag-card { border-radius: var(--ag-radius-lg); padding: var(--ag-space-3); }
+  .ag-card-interactive { cursor: pointer; }
+  .ag-card-header { margin-block-end: var(--ag-space-2); }
+  .ag-card-title { margin: 0; font-size: var(--_ag-heading-md, 1.125rem); font-weight: 600; }
+  .ag-card-description { margin: 0; color: var(--_ag-text-secondary, currentColor); }
+  .ag-card-body { display: block; }
+  .ag-card-footer { margin-block-start: var(--ag-space-3); display: flex; gap: var(--ag-space-2); }
 }

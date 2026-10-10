@@ -200,7 +200,7 @@ import { emitManifest, emitManifestTs } from './formats/manifest.mjs';
 import { emitTailwind } from './formats/tailwind-bridge.mjs';
 import { emitRegistry } from './formats/registry-cssvars.mjs';
 import { buildProperties } from './formats/property-registry.mjs';
-import { prettierFormat, die } from './formats/_shared.mjs';
+import { prettierFormat, die, renderValue } from './formats/_shared.mjs';
 
 // ---------- driver ----------
 
@@ -232,7 +232,7 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   };
 
   // contract outputs (src/contracts/tokens.ts TOKEN_OUTPUTS)
-  const tokensCss = await emitTokensCss(cells, axisDefs, records, resolved);
+  let tokensCss = await emitTokensCss(cells, axisDefs, records, resolved);
   write('dist/tokens.css', tokensCss);
   const { tokensTs } = await emitTokensTs(cells);
   write('src/tokens/generated/tokens.ts', tokensTs);
@@ -266,12 +266,8 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
     inputSha256: matrix.inputSha256,
     cells: matrix.cells,
   }));
-  // MAT-091: the DS-owned busy-reference artefact — exact 9 sRGB samples + composite list.
-  write('tokens/contrast/busy-reference.json', JSON.stringify({
-    version: 1,
-    busy: ['#777777', '#ff3b30', '#34c759', '#0a84ff', '#ffcc00', '#af52de', '#ff9500', '#5ac8fa', '#8e8e93'],
-    composites: ['#ffffff', '#000000', 'busy'],
-  }, null, 1) + '\n');
+  // MAT-091: tokens/contrast/busy-reference.json is a hand-curated DS-owned artefact,
+  // committed once — the build never rewrites it (keeps the generated surface diffable).
 
   // material ladders + floors + @property registrations (MAT-026/027, transforms MAT-038+)
   const laddersCss = await prettierFormat(buildLadders(records, resolved), 'css');
@@ -283,26 +279,46 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
 
   // tailwind bridge + registry + css/ tokens copy (MAT-068/072; @import "./tokens.css" resolves in dist/css)
   const tailwindCss = await emitTailwind(cells, records, resolved);
+  // MAT-003: every --_ag-* private referenced under src/** must be registered in
+  // generated css. Emit a privates registry block inside @layer ag.tokens —
+  // `initial` keeps the var guaranteed-invalid so var(--_ag-x, fb) fallbacks
+  // behave exactly as when the name was undeclared.
+  const PRIVATE_RE = /--_ag-[a-z0-9-]+/g;
+  const emittedPrivates = new Set(cells.map((c) => c.cssVar));
+  const usedPrivates = new Set();
+  const scanDir = (dir) => {
+    for (const f of readdirSync(dir)) {
+      const p = join(dir, f);
+      if (statSync(p).isDirectory()) { if (!p.includes('/generated/')) scanDir(p); }
+      else if (/\.(css|ts|tsx|mts|mjs)$/.test(p) && !p.includes('/generated/'))
+        for (const m of readFileSync(p, 'utf8').matchAll(PRIVATE_RE)) usedPrivates.add(m[0]);
+    }
+  };
+  scanDir(join(ROOT ?? process.cwd(), 'src'));
+  const missingPrivates = [...usedPrivates].filter((n) => !emittedPrivates.has(n)).sort();
+  if (missingPrivates.length) {
+    const lines = ['', '  /* MAT-003 component privates registry — names declared with `initial` so',
+       '     var(--_ag-x, <fallback>) resolution is unchanged; component css/JS still owns values. */'];
+    for (const n of missingPrivates) lines.push(`    ${n}: initial;`);
+    // append inside the final @layer ag.tokens :root block
+    tokensCss = tokensCss.replace(/(  }\n}\n?)$/, `${lines.join('\n')}\n$1`);
+  }
   write('dist/css/tokens.css', tokensCss);
   write('dist/css/tailwind.css', tailwindCss);
   write('dist/tailwind.css', tailwindCss); // ./tailwind.css subpath in package exports
   write('dist/tokens/registry-cssvars.json', emitRegistry(cells));
 
-  // compat aliases (MAT-073): map file is owned by another lane; emit only if present
-  // compat layer: frozen 4.x primitives + alias map (MAT-073..076)
+  // compat layer: frozen 4.x primitives + generated alias map (MAT-073..076).
+  // emitCompat is the sole writer of dist/compat/tokens.css.
   if (existsSync(join(tokenDir, 'legacy', '4x-rendered.tokens.json'))) {
     const { emitCompat } = await import('./formats/compat-aliases.mjs');
-    const { count } = emitCompat(write, tokenDir);
+    // [data-theme=dark], .dark compat block: every --ag-color-* dark value.
+    const darkOverrides = {};
+    for (const c of cells)
+      if (c.axis === 'scheme' && c.axisValue === 'dark' && typeof c.cssVar === 'string' && c.cssVar.startsWith('--ag-color-'))
+        darkOverrides[c.cssVar] = renderValue(c);
+    const { count } = emitCompat(write, tokenDir, darkOverrides);
     if (!quiet) console.log(`compat: ${count} reader names mapped`);
-  }
-  const compatMap = join(tokenDir, 'compat-alias-map.json');
-  if (existsSync(compatMap)) {
-    const map = JSON.parse(readFileSync(compatMap, 'utf8'));
-    const lines = [HEADER_CSS, '', LAYER_ORDER, '', '@layer ag.compat {', '  :root {'];
-    for (const [oldName, newName] of Object.entries(map).sort())
-      if (newName) lines.push(`    ${oldName}: var(${newName});`);
-    lines.push('  }', '}', '');
-    write('dist/compat/tokens.css', await prettierFormat(lines.join('\n'), 'css'));
   }
 
   // manifest LAST: consumers counts cover every emitted css + hand-written src
@@ -328,8 +344,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const flag = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : undefined; };
   const fixtures = flag('--fixtures');
   const out = flag('--out');
-  await runBuild({
-    tokenDir: fixtures ? resolve(ROOT, fixtures) : join(ROOT, 'tokens'),
-    outRoot: out ? resolve(ROOT, out) : ROOT,
-  });
+  // top-level await breaks jest's CJS transform — wrap in an async main.
+  void (async () => {
+    await runBuild({
+      tokenDir: fixtures ? resolve(ROOT, fixtures) : join(ROOT, 'tokens'),
+      outRoot: out ? resolve(ROOT, out) : ROOT,
+    });
+  })();
 }

@@ -11,42 +11,38 @@
     cursor: default;
   }
 
-  .ag-switch [data-ag-part="hit-area"] {
+  .ag-switch [data-ag-part='hit-area'] {
     position: absolute;
     inset: calc((var(--ag-target-min) - 100%) / -2);
     z-index: -1;
   }
 
   /* Track = the root. Sizes 32x18 / 40x22 / 52x30 px expressed via tokens:
-     sm/md/lg map to --ag-switch-track-{w,h} with space-token fallbacks. */
-  .ag-switch[data-ag-part="root"] {
-    inline-size: var(--ag-switch-track-w-md);
-    block-size: var(--ag-switch-track-h-md);
+     sm/md/lg map to --_ag-switch-track-{w,h} with space-token fallbacks. */
+  .ag-switch[data-ag-part='root'] {
+    inline-size: var(--_ag-switch-track-w-md, var(--ag-space-10));
+    block-size: var(--_ag-switch-track-h-md, var(--ag-space-5));
     border-radius: var(--ag-radius-full);
-    background: color-mix(
-      in oklab,
-      var(--ag-color-on-surface) var(--ag-content-sunken-alpha),
-      transparent
-    );
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     transition: background var(--ag-duration-micro) var(--ag-ease-standard);
-    padding: var(--ag-switch-thumb-inset);
+    padding: var(--_ag-switch-thumb-inset, 2px);
   }
-  .ag-switch[data-ag-part="root"][data-ag-size="sm"] {
-    inline-size: var(--ag-switch-track-w-sm);
-    block-size: var(--ag-switch-track-h-sm);
+  .ag-switch[data-ag-part='root'][data-ag-size='sm'] {
+    inline-size: var(--_ag-switch-track-w-sm, var(--ag-space-8));
+    block-size: var(--_ag-switch-track-h-sm, var(--ag-space-4));
   }
-  .ag-switch[data-ag-part="root"][data-ag-size="lg"] {
-    inline-size: var(--ag-switch-track-w-lg);
-    block-size: var(--ag-switch-track-h-lg);
+  .ag-switch[data-ag-part='root'][data-ag-size='lg'] {
+    inline-size: var(--_ag-switch-track-w-lg, var(--ag-space-12));
+    block-size: var(--_ag-switch-track-h-lg, var(--ag-space-6));
   }
 
-  .ag-switch[data-ag-part="root"][data-checked] {
+  .ag-switch[data-ag-part='root'][data-checked] {
     background: var(--ag-color-accent);
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-accent);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-accent);
   }
 
-  .ag-switch [data-ag-part="thumb"] {
+  .ag-switch [data-ag-part='thumb'] {
     display: block;
     block-size: 100%;
     aspect-ratio: 1;
@@ -54,13 +50,13 @@
     background: var(--ag-color-canvas);
     box-shadow: var(--ag-shadow-thin);
     transform: translateX(0);
-    transition: transform var(--ag-duration-small) var(--ag-spring-snappy);
+    transition: transform var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-standard));
   }
   /* Checked thumb slides to the end; drag transform is BU's inline style. */
-  .ag-switch[data-ag-part="root"] {
+  .ag-switch[data-ag-part='root'] {
     justify-content: flex-start;
   }
-  .ag-switch[data-ag-part="root"][data-checked] {
+  .ag-switch[data-ag-part='root'][data-checked] {
     justify-content: flex-end;
   }
 
@@ -68,27 +64,27 @@
     opacity: var(--ag-state-disabled-alpha);
   }
 
-  .ag-switch[data-ag-part="root"]:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-color-focus-outer);
-    outline-offset: var(--ag-focus-inner);
+  .ag-switch[data-ag-part='root']:focus-visible {
+    outline: var(--_ag-focus-width) solid var(--ag-color-focus-outer);
+    outline-offset: var(--_ag-focus-inner);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .ag-switch [data-ag-part="thumb"] {
+    .ag-switch [data-ag-part='thumb'] {
       transition: none;
     }
   }
 
   @media (forced-colors: active) {
-    .ag-switch[data-ag-part="root"] {
-      border: var(--ag-focus-width) solid ButtonText;
+    .ag-switch[data-ag-part='root'] {
+      border: var(--_ag-focus-width) solid ButtonText;
       background: ButtonFace;
       box-shadow: none;
     }
-    .ag-switch[data-ag-part="root"][data-checked] {
+    .ag-switch[data-ag-part='root'][data-checked] {
       background: Highlight;
     }
-    .ag-switch [data-ag-part="thumb"] {
+    .ag-switch [data-ag-part='thumb'] {
       background: ButtonText;
       box-shadow: none;
     }

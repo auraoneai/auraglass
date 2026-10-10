@@ -1,15 +1,6 @@
 /* CMP-302/423 Separator */
 @layer ag.components {
-  .ag-separator {
-    background-color: var(--ag-hairline);
-    opacity: 0.2;
-  }
-  .ag-separator[data-orientation="horizontal"] {
-    block-size: 1px;
-    inline-size: 100%;
-  }
-  .ag-separator[data-orientation="vertical"] {
-    inline-size: 1px;
-    block-size: 100%;
-  }
+  .ag-separator { background-color: var(--_ag-hairline, currentColor); opacity: 0.2; }
+  .ag-separator[data-orientation='horizontal'] { block-size: 1px; inline-size: 100%; }
+  .ag-separator[data-orientation='vertical'] { inline-size: 1px; block-size: 100%; }
 }

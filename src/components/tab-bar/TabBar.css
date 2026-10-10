@@ -6,14 +6,14 @@
   .ag-tab-bar {
     display: flex;
     align-items: center;
-    min-block-size: var(--_ag-app-shell-tabbar);
+    min-block-size: var(--_ag-app-shell-tabbar, 3.5rem);
   }
   .ag-tab-bar__list {
     display: flex;
     align-items: stretch;
-    gap: var(--ag-space-1);
+    gap: var(--ag-space-1, 0.25rem);
     margin: 0;
-    padding-inline: var(--ag-space-2);
+    padding-inline: var(--ag-space-2, 0.5rem);
     list-style: none;
     flex: 1;
     min-inline-size: 0;
@@ -25,37 +25,61 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: var(--ag-space-2);
-    padding-inline: var(--ag-space-3);
-    padding-block: var(--ag-space-2);
-    color: var(--ag-fg-muted);
+    gap: var(--ag-space-2, 0.5rem);
+    padding-inline: var(--ag-space-3, 0.75rem);
+    padding-block: var(--ag-space-2, 0.5rem);
+    color: var(--_ag-fg-muted, currentColor);
     text-decoration: none;
     white-space: nowrap;
-    border-radius: var(--ag-radius-lg);
+    border-radius: var(--ag-radius-lg, 0.5rem);
   }
   .ag-tab-bar__item[aria-current] {
-    color: var(--ag-fg);
-    background: var(--ag-bg-active);
+    color: var(--_ag-fg, currentColor);
+    background: var(--_ag-bg-active, transparent);
   }
   .ag-tab-bar__item:focus-visible {
-    outline: var(--ag-focus-ring-width) solid var(--ag-focus-ring);
-    outline-offset: calc(-1 * var(--ag-focus-ring-width));
+    outline: var(--_ag-focus-ring-width, 2px) solid var(--_ag-focus-ring, currentColor);
+    outline-offset: calc(-1 * var(--_ag-focus-ring-width, 2px));
   }
-  .ag-tab-bar__item[aria-disabled="true"] {
-    color: var(--ag-fg-disabled);
+  .ag-tab-bar__item[aria-disabled='true'] {
+    color: var(--_ag-fg-disabled, currentColor);
     pointer-events: none;
   }
   .ag-tab-bar__item-badge {
-    font-size: var(--ag-text-xs);
-    padding-inline: var(--ag-space-1);
-    border-radius: var(--ag-radius-full);
-    background: var(--ag-bg-badge);
-    color: var(--ag-fg-badge);
+    font-size: var(--_ag-text-xs, 0.75rem);
+    padding-inline: var(--ag-space-1, 0.25rem);
+    border-radius: var(--ag-radius-full, 999px);
+    background: var(--_ag-bg-badge, transparent);
+    color: var(--_ag-fg-badge, currentColor);
   }
   .ag-tab-bar__accessory,
   .ag-tab-bar__search {
     display: inline-flex;
     align-items: center;
-    padding-inline: var(--ag-space-2);
+    padding-inline: var(--ag-space-2, 0.5rem);
+  }
+  /* SURF-054: minimize-on-scroll via CSS scroll-timeline — opacity/scale on
+     labels only, disabled under motion calm|none and when the timeline
+     isn't supported. */
+  @supports (animation-timeline: scroll()) {
+    [data-ag-minimize-on-scroll] .ag-tab-bar__item-label {
+      animation: ag-tabbar-min linear both;
+      animation-timeline: scroll(nearest block);
+      animation-range: 0 10rem;
+    }
+  }
+  [data-ag-motion='calm'] [data-ag-minimize-on-scroll] .ag-tab-bar__item-label,
+  [data-ag-motion='none'] [data-ag-minimize-on-scroll] .ag-tab-bar__item-label {
+    animation: none;
+  }
+  @keyframes ag-tabbar-min {
+    to {
+      opacity: var(--_ag-opacity-disabled, 0);
+      scale: var(--_ag-scale-down, 0.8);
+    }
+  }
+  [data-ag-accessory-placement='persist'] .ag-tab-bar__accessory {
+    opacity: 1;
+    visibility: visible;
   }
 }

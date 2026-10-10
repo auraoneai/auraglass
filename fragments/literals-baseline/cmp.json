@@ -1,482 +1,4928 @@
 {
   "version": 1,
   "files": {
-    "src/components/accordion/Accordion.client.tsx": {},
-    "src/components/accordion/Accordion.css": {},
-    "src/components/accordion/Accordion.meta.ts": {},
-    "src/components/accordion/Accordion.test.tsx": {},
-    "src/components/accordion/index.ts": {},
-    "src/components/alert/Alert.css": {},
-    "src/components/alert/Alert.meta.ts": {},
-    "src/components/alert/Alert.test.tsx": {},
-    "src/components/alert/Alert.tsx": {},
-    "src/components/alert/index.ts": {},
-    "src/components/alert-dialog/AlertDialog.client.tsx": {},
-    "src/components/alert-dialog/AlertDialog.css": {},
-    "src/components/alert-dialog/AlertDialog.meta.ts": {},
-    "src/components/alert-dialog/AlertDialog.test.tsx": {},
-    "src/components/alert-dialog/AlertDialog.types.ts": {},
-    "src/components/alert-dialog/AlertDialogLayout.tsx": {},
-    "src/components/alert-dialog/index.ts": {},
-    "src/components/avatar/Avatar.client.tsx": {},
-    "src/components/avatar/Avatar.css": {},
-    "src/components/avatar/Avatar.meta.ts": {},
-    "src/components/avatar/Avatar.test.tsx": {},
-    "src/components/avatar/AvatarGroup.css": {},
-    "src/components/avatar/AvatarGroup.meta.ts": {},
-    "src/components/avatar/AvatarGroup.test.tsx": {},
-    "src/components/avatar/AvatarGroup.tsx": {},
-    "src/components/avatar/index.ts": {},
-    "src/components/badge/Badge.css": {},
-    "src/components/badge/Badge.meta.ts": {},
-    "src/components/badge/Badge.test.tsx": {},
-    "src/components/badge/Badge.tsx": {},
-    "src/components/badge/index.ts": {},
-    "src/components/breadcrumbs/Breadcrumbs.Overflow.tsx": {},
-    "src/components/breadcrumbs/Breadcrumbs.css": {},
-    "src/components/breadcrumbs/Breadcrumbs.meta.ts": {},
-    "src/components/breadcrumbs/Breadcrumbs.stories.tsx": {},
-    "src/components/breadcrumbs/Breadcrumbs.test.tsx": {},
-    "src/components/breadcrumbs/Breadcrumbs.tsx": {},
-    "src/components/button/Button.client.tsx": {},
-    "src/components/button/Button.css": {},
-    "src/components/button/Button.meta.ts": {},
-    "src/components/button/Button.test.tsx": {},
-    "src/components/button/Button.types.ts": {},
-    "src/components/button/index.ts": {},
-    "src/components/button-group/ButtonGroup.css": {},
-    "src/components/button-group/ButtonGroup.meta.ts": {},
-    "src/components/button-group/ButtonGroup.test.tsx": {},
-    "src/components/button-group/ButtonGroup.tsx": {},
-    "src/components/button-group/index.ts": {},
-    "src/components/card/Card.css": {},
-    "src/components/card/Card.meta.ts": {},
-    "src/components/card/Card.test.tsx": {},
-    "src/components/card/Card.tsx": {},
-    "src/components/card/index.ts": {},
-    "src/components/checkbox/Checkbox.client.tsx": {},
-    "src/components/checkbox/Checkbox.css": {},
-    "src/components/checkbox/Checkbox.meta.ts": {},
-    "src/components/checkbox/Checkbox.test.tsx": {},
-    "src/components/checkbox/Checkbox.types.ts": {},
-    "src/components/checkbox/CheckboxGroup.meta.ts": {},
-    "src/components/checkbox/index.ts": {},
-    "src/components/chip/Chip.client.tsx": {},
-    "src/components/chip/Chip.css": {},
-    "src/components/chip/Chip.meta.ts": {},
-    "src/components/chip/Chip.test.tsx": {},
-    "src/components/chip/index.ts": {},
-    "src/components/collapsible/Collapsible.client.tsx": {},
-    "src/components/collapsible/Collapsible.css": {},
-    "src/components/collapsible/Collapsible.meta.ts": {},
-    "src/components/collapsible/Collapsible.test.tsx": {},
-    "src/components/collapsible/index.ts": {},
-    "src/components/color-picker/ColorPicker.client.tsx": {},
-    "src/components/color-picker/ColorPicker.css": {},
-    "src/components/color-picker/ColorPicker.meta.ts": {},
-    "src/components/color-picker/ColorPicker.test.tsx": {},
-    "src/components/color-picker/colors.ts": {},
-    "src/components/color-picker/index.ts": {},
-    "src/components/combobox/Combobox.client.tsx": {},
-    "src/components/combobox/Combobox.css": {},
-    "src/components/combobox/Combobox.meta.ts": {},
-    "src/components/combobox/Combobox.test.tsx": {},
-    "src/components/combobox/Combobox.types.ts": {},
-    "src/components/combobox/ComboboxVirtualList.client.tsx": {},
-    "src/components/combobox/index.ts": {},
-    "src/components/command-palette/Command.css": {},
-    "src/components/command-palette/Command.meta.ts": {},
-    "src/components/command-palette/Command.stories.tsx": {},
-    "src/components/command-palette/Command.test.tsx": {},
-    "src/components/command-palette/Command.tsx": {},
-    "src/components/command-palette/CommandPalette.meta.ts": {},
-    "src/components/command-palette/CommandPalette.stories.tsx": {},
-    "src/components/command-palette/CommandPalette.test.tsx": {},
-    "src/components/command-palette/CommandPalette.tsx": {},
-    "src/components/command-palette/score.test.ts": {},
-    "src/components/command-palette/score.ts": {},
-    "src/components/container/Container.css": {},
-    "src/components/container/Container.meta.ts": {},
-    "src/components/container/Container.test.tsx": {},
-    "src/components/container/Container.tsx": {},
-    "src/components/container/index.ts": {},
-    "src/components/control-shared/controls.css": {},
-    "src/components/control-shared/messages.ts": {},
-    "src/components/control-shared/meta.ts": {},
-    "src/components/control-shared/size.ts": {},
-    "src/components/control-shared/value.ts": {},
-    "src/components/description-list/DescriptionList.css": {},
-    "src/components/description-list/DescriptionList.meta.ts": {},
-    "src/components/description-list/DescriptionList.test.tsx": {},
-    "src/components/description-list/DescriptionList.tsx": {},
-    "src/components/description-list/index.ts": {},
-    "src/components/dialog/Dialog.client.tsx": {},
-    "src/components/dialog/Dialog.css": {},
-    "src/components/dialog/Dialog.meta.ts": {},
-    "src/components/dialog/Dialog.test.tsx": {},
-    "src/components/dialog/Dialog.types.ts": {},
-    "src/components/dialog/DialogLayout.tsx": {},
-    "src/components/dialog/index.ts": {},
-    "src/components/field/Field.client.tsx": {},
-    "src/components/field/Field.css": {},
-    "src/components/field/Field.meta.ts": {},
-    "src/components/field/Field.test.tsx": {},
-    "src/components/field/Field.types.ts": {},
-    "src/components/field/Fieldset.client.tsx": {},
-    "src/components/field/Fieldset.meta.ts": {},
-    "src/components/field/Form.client.tsx": {},
-    "src/components/field/Form.css": {},
-    "src/components/field/Form.meta.ts": {},
-    "src/components/field/Form.test.tsx": {},
-    "src/components/field/index.ts": {},
-    "src/components/file-upload/FileUpload.client.tsx": {},
-    "src/components/file-upload/FileUpload.css": {},
-    "src/components/file-upload/FileUpload.meta.ts": {},
-    "src/components/file-upload/FileUpload.test.tsx": {},
-    "src/components/file-upload/index.ts": {},
-    "src/components/grid/Grid.css": {},
-    "src/components/grid/Grid.meta.ts": {},
-    "src/components/grid/Grid.test.tsx": {},
-    "src/components/grid/Grid.tsx": {},
-    "src/components/grid/index.ts": {},
-    "src/components/heading/Heading.css": {},
-    "src/components/heading/Heading.meta.ts": {},
-    "src/components/heading/Heading.test.tsx": {},
-    "src/components/heading/Heading.tsx": {},
-    "src/components/heading/index.ts": {},
-    "src/components/icon/index.ts": {},
-    "src/components/icon-button/IconButton.client.tsx": {},
-    "src/components/icon-button/IconButton.css": {},
-    "src/components/icon-button/IconButton.meta.ts": {},
-    "src/components/icon-button/IconButton.test.tsx": {},
-    "src/components/icon-button/IconButton.types.ts": {},
-    "src/components/icon-button/index.ts": {},
-    "src/components/image-list/ImageList.client.tsx": {},
-    "src/components/image-list/ImageList.css": {},
-    "src/components/image-list/ImageList.meta.ts": {},
-    "src/components/image-list/ImageList.test.tsx": {},
-    "src/components/image-list/index.ts": {},
-    "src/components/inline-edit/InlineEdit.client.tsx": {},
-    "src/components/inline-edit/InlineEdit.css": {},
-    "src/components/inline-edit/InlineEdit.meta.ts": {},
-    "src/components/inline-edit/InlineEdit.test.tsx": {},
-    "src/components/inline-edit/index.ts": {},
-    "src/components/kbd/Kbd.css": {},
-    "src/components/kbd/Kbd.meta.ts": {},
-    "src/components/kbd/Kbd.test.tsx": {},
-    "src/components/kbd/Kbd.tsx": {},
-    "src/components/kbd/index.ts": {},
-    "src/components/key-value-editor/KeyValueEditor.client.tsx": {},
-    "src/components/key-value-editor/KeyValueEditor.css": {},
-    "src/components/key-value-editor/KeyValueEditor.meta.ts": {},
-    "src/components/key-value-editor/KeyValueEditor.test.tsx": {},
-    "src/components/key-value-editor/index.ts": {},
-    "src/components/link/Link.css": {},
-    "src/components/link/Link.meta.ts": {},
-    "src/components/link/Link.test.tsx": {},
-    "src/components/link/Link.tsx": {},
-    "src/components/link/index.ts": {},
-    "src/components/menu/ContextMenu.client.tsx": {},
-    "src/components/menu/Menu.client.tsx": {},
-    "src/components/menu/Menu.css": {},
-    "src/components/menu/Menu.meta.ts": {},
-    "src/components/menu/Menu.test.tsx": {},
-    "src/components/menu/Menu.types.ts": {},
-    "src/components/menu/index.ts": {},
-    "src/components/meter/Meter.client.tsx": {},
-    "src/components/meter/Meter.css": {},
-    "src/components/meter/Meter.meta.ts": {},
-    "src/components/meter/Meter.test.tsx": {},
-    "src/components/meter/index.ts": {},
-    "src/components/number-field/NumberField.client.tsx": {},
-    "src/components/number-field/NumberField.css": {},
-    "src/components/number-field/NumberField.keys.ts": {},
-    "src/components/number-field/NumberField.meta.ts": {},
-    "src/components/number-field/NumberField.test.tsx": {},
-    "src/components/number-field/NumberField.types.ts": {},
-    "src/components/number-field/index.ts": {},
-    "src/components/number-field/parse.ts": {},
-    "src/components/overlays/_shared/__fixtures__/FixturePopover.tsx": {},
-    "src/components/overlays/_shared/__fixtures__/lint/body-style-write.tsx": {},
-    "src/components/overlays/_shared/__fixtures__/lint/clean.tsx": {},
-    "src/components/overlays/_shared/__fixtures__/lint/keydown-listener.tsx": {},
-    "src/components/overlays/_shared/__fixtures__/lint/mousedown-listener.tsx": {},
-    "src/components/overlays/_shared/__fixtures__/lint/scroll-resize-listener.tsx": {},
-    "src/components/overlays/_shared/__tests__/subjects.tsx": {},
-    "src/components/overlays/_shared/index.ts": {},
-    "src/components/overlays/_shared/overlay-dev-counter.test.tsx": {},
-    "src/components/overlays/_shared/overlay-dom-contract.test.tsx": {},
-    "src/components/overlays/_shared/overlay-idle.test.tsx": {},
-    "src/components/overlays/_shared/overlay-layer.test.tsx": {},
-    "src/components/overlays/_shared/overlay-ssr.test.tsx": {},
-    "src/components/overlays/_shared/overlayPortal.tsx": {},
-    "src/components/overlays/_shared/overlaySurface.ts": {},
-    "src/components/overlays/_shared/overlayTypes.ts": {},
-    "src/components/overlays/_shared/overlays.css": {},
-    "src/components/overlays/_shared/popup-contract.test.tsx": {},
-    "src/components/overlays/_shared/positioning.ts": {},
-    "src/components/overlays/_shared/provider-mount.test.tsx": {},
-    "src/components/overlays/_shared/useOverlayAnimating.ts": {},
-    "src/components/overlays/_shared/useOverlayLayer.ts": {},
-    "src/components/pagination/Pagination.button.tsx": {},
-    "src/components/pagination/Pagination.css": {},
-    "src/components/pagination/Pagination.meta.ts": {},
-    "src/components/pagination/Pagination.stories.tsx": {},
-    "src/components/pagination/Pagination.test.tsx": {},
-    "src/components/pagination/Pagination.tsx": {},
-    "src/components/pagination/getRange.test.ts": {},
-    "src/components/pagination/getRange.ts": {},
-    "src/components/popover/Popover.client.tsx": {},
-    "src/components/popover/Popover.css": {},
-    "src/components/popover/Popover.meta.ts": {},
-    "src/components/popover/Popover.test.tsx": {},
-    "src/components/popover/Popover.types.ts": {},
-    "src/components/popover/index.ts": {},
-    "src/components/progress/Progress.client.tsx": {},
-    "src/components/progress/Progress.css": {},
-    "src/components/progress/Progress.meta.ts": {},
-    "src/components/progress/Progress.test.tsx": {},
-    "src/components/progress/index.ts": {},
-    "src/components/radio-group/RadioGroup.client.tsx": {},
-    "src/components/radio-group/RadioGroup.css": {},
-    "src/components/radio-group/RadioGroup.meta.ts": {},
-    "src/components/radio-group/RadioGroup.test.tsx": {},
-    "src/components/radio-group/RadioGroup.types.ts": {},
-    "src/components/radio-group/index.ts": {},
-    "src/components/rating/Rating.client.tsx": {},
-    "src/components/rating/Rating.css": {},
-    "src/components/rating/Rating.meta.ts": {},
-    "src/components/rating/Rating.test.tsx": {},
-    "src/components/rating/index.ts": {},
-    "src/components/scroll-area/ScrollArea.client.tsx": {},
-    "src/components/scroll-area/ScrollArea.css": {},
-    "src/components/scroll-area/ScrollArea.meta.ts": {},
-    "src/components/scroll-area/ScrollArea.test.tsx": {},
-    "src/components/scroll-area/index.ts": {},
-    "src/components/search-field/SearchField.client.tsx": {},
-    "src/components/search-field/SearchField.css": {},
-    "src/components/search-field/SearchField.meta.ts": {},
-    "src/components/search-field/SearchField.test.tsx": {},
-    "src/components/search-field/SearchField.types.ts": {},
-    "src/components/search-field/index.ts": {},
-    "src/components/segmented-control/SegmentedControl.client.tsx": {},
-    "src/components/segmented-control/SegmentedControl.css": {},
-    "src/components/segmented-control/SegmentedControl.meta.ts": {},
-    "src/components/segmented-control/SegmentedControl.test.tsx": {},
-    "src/components/segmented-control/SegmentedControl.types.ts": {},
-    "src/components/segmented-control/index.ts": {},
-    "src/components/select/Select.client.tsx": {},
-    "src/components/select/Select.css": {},
-    "src/components/select/Select.meta.ts": {},
-    "src/components/select/Select.test.tsx": {},
-    "src/components/select/Select.types.ts": {},
-    "src/components/select/index.ts": {},
-    "src/components/separator/Separator.css": {},
-    "src/components/separator/Separator.meta.ts": {},
-    "src/components/separator/Separator.test.tsx": {},
-    "src/components/separator/Separator.tsx": {},
-    "src/components/separator/index.ts": {},
-    "src/components/sheet/Sheet.client.tsx": {},
-    "src/components/sheet/Sheet.css": {},
-    "src/components/sheet/Sheet.meta.ts": {},
-    "src/components/sheet/Sheet.test.tsx": {},
-    "src/components/sheet/Sheet.types.ts": {},
-    "src/components/sheet/SheetHandle.client.tsx": {},
-    "src/components/sheet/SheetLayout.tsx": {},
-    "src/components/sheet/index.ts": {},
-    "src/components/sheet/useSheetDetents.ts": {},
-    "src/components/skeleton/Skeleton.css": {},
-    "src/components/skeleton/Skeleton.meta.ts": {},
-    "src/components/skeleton/Skeleton.test.tsx": {},
-    "src/components/skeleton/Skeleton.tsx": {},
-    "src/components/skeleton/index.ts": {},
-    "src/components/slider/Slider.client.tsx": {},
-    "src/components/slider/Slider.css": {},
-    "src/components/slider/Slider.meta.ts": {},
-    "src/components/slider/Slider.test.tsx": {},
-    "src/components/slider/Slider.types.ts": {},
-    "src/components/slider/index.ts": {},
-    "src/components/source-transition/SourceTransition.css": {},
-    "src/components/source-transition/SourceTransition.meta.ts": {},
-    "src/components/source-transition/SourceTransition.stories.tsx": {},
-    "src/components/source-transition/SourceTransition.test.tsx": {},
-    "src/components/source-transition/SourceTransition.tsx": {},
-    "src/components/stack/Stack.css": {},
-    "src/components/stack/Stack.meta.ts": {},
-    "src/components/stack/Stack.test.tsx": {},
-    "src/components/stack/Stack.tsx": {},
-    "src/components/stack/index.ts": {},
-    "src/components/state-view/EmptyState.meta.ts": {},
-    "src/components/state-view/ErrorState.meta.ts": {},
-    "src/components/state-view/LoadingState.meta.ts": {},
-    "src/components/state-view/StateView.css": {},
-    "src/components/state-view/StateView.test.tsx": {},
-    "src/components/state-view/StateView.tsx": {},
-    "src/components/state-view/index.ts": {},
-    "src/components/steps/Steps.css": {},
-    "src/components/steps/Steps.meta.ts": {},
-    "src/components/steps/Steps.test.tsx": {},
-    "src/components/steps/Steps.tsx": {},
-    "src/components/steps/index.ts": {},
-    "src/components/switch/Switch.client.tsx": {},
-    "src/components/switch/Switch.css": {},
-    "src/components/switch/Switch.keys.ts": {},
-    "src/components/switch/Switch.meta.ts": {},
-    "src/components/switch/Switch.test.tsx": {},
-    "src/components/switch/Switch.types.ts": {},
-    "src/components/switch/index.ts": {},
-    "src/components/tab-bar/TabBar.css": {},
-    "src/components/tab-bar/TabBar.meta.ts": {},
-    "src/components/tab-bar/TabBar.stories.tsx": {},
-    "src/components/tab-bar/TabBar.test.tsx": {},
-    "src/components/tab-bar/TabBar.tsx": {},
-    "src/components/tabs/Tabs.css": {},
-    "src/components/tabs/Tabs.meta.ts": {},
-    "src/components/tabs/Tabs.stories.tsx": {},
-    "src/components/tabs/Tabs.test.tsx": {},
-    "src/components/tabs/Tabs.tsx": {},
-    "src/components/text/Text.css": {},
-    "src/components/text/Text.meta.ts": {},
-    "src/components/text/Text.test.tsx": {},
-    "src/components/text/Text.tsx": {},
-    "src/components/text/index.ts": {},
-    "src/components/text-field/TextField.client.tsx": {},
-    "src/components/text-field/TextField.css": {},
-    "src/components/text-field/TextField.meta.ts": {},
-    "src/components/text-field/TextField.test.tsx": {},
-    "src/components/text-field/TextField.types.ts": {},
-    "src/components/text-field/index.ts": {},
-    "src/components/timeline/ActivityFeed.Interactive.tsx": {},
-    "src/components/timeline/ActivityFeed.meta.ts": {},
-    "src/components/timeline/ActivityFeed.tsx": {},
-    "src/components/timeline/Timeline.meta.ts": {},
-    "src/components/timeline/Timeline.test.tsx": {},
-    "src/components/timeline/Timeline.tsx": {},
-    "src/components/timeline/timeline.css": {},
-    "src/components/toast/Toast.client.tsx": {},
-    "src/components/toast/Toast.css": {},
-    "src/components/toast/Toast.meta.ts": {},
-    "src/components/toast/Toast.test.tsx": {},
-    "src/components/toast/Toast.types.ts": {},
-    "src/components/toast/index.ts": {},
-    "src/components/toggle-group/ToggleGroup.client.tsx": {},
-    "src/components/toggle-group/ToggleGroup.css": {},
-    "src/components/toggle-group/ToggleGroup.meta.ts": {},
-    "src/components/toggle-group/ToggleGroup.test.tsx": {},
-    "src/components/toggle-group/index.ts": {},
-    "src/components/toolbar/Toolbar.client.tsx": {},
-    "src/components/toolbar/Toolbar.css": {},
-    "src/components/toolbar/Toolbar.meta.ts": {},
-    "src/components/toolbar/Toolbar.test.tsx": {},
-    "src/components/toolbar/Toolbar.types.ts": {},
-    "src/components/toolbar/index.ts": {},
-    "src/components/tooltip/Tooltip.client.tsx": {},
-    "src/components/tooltip/Tooltip.css": {},
-    "src/components/tooltip/Tooltip.meta.ts": {},
-    "src/components/tooltip/Tooltip.test.tsx": {},
-    "src/components/tooltip/Tooltip.types.ts": {},
-    "src/components/tooltip/index.ts": {},
-    "src/components/tour/Tour.client.tsx": {},
-    "src/components/tour/Tour.css": {},
-    "src/components/tour/Tour.meta.ts": {},
-    "src/components/tour/Tour.test.tsx": {},
-    "src/components/tour/index.ts": {},
-    "src/primitives/DismissableLayer.meta.ts": {},
-    "src/primitives/DismissableLayer.stack.test.tsx": {},
-    "src/primitives/DismissableLayer.tsx": {},
-    "src/primitives/FocusScope.meta.ts": {},
-    "src/primitives/FocusScope.tsx": {},
-    "src/primitives/Label.meta.ts": {},
-    "src/primitives/Label.tsx": {},
-    "src/primitives/Portal.meta.ts": {},
-    "src/primitives/Portal.tsx": {},
-    "src/primitives/Slot.meta.ts": {},
-    "src/primitives/Slot.react19.test.tsx": {},
-    "src/primitives/Slot.tsx": {},
-    "src/primitives/VisuallyHidden.css": {},
-    "src/primitives/VisuallyHidden.meta.ts": {},
-    "src/primitives/VisuallyHidden.test.tsx": {},
-    "src/primitives/VisuallyHidden.tsx": {},
-    "src/primitives/index.ts": {},
-    "src/compat/cmp/controls/Button.tsx": {},
-    "src/compat/cmp/controls/EnhancedGlassButton.tsx": {},
-    "src/compat/cmp/controls/GlassActionBar.tsx": {},
-    "src/compat/cmp/controls/GlassButton.tsx": {},
-    "src/compat/cmp/controls/GlassCheckbox.tsx": {},
-    "src/compat/cmp/controls/GlassCheckboxGroup.tsx": {},
-    "src/compat/cmp/controls/GlassCombobox.tsx": {},
-    "src/compat/cmp/controls/GlassCommandBar.tsx": {},
-    "src/compat/cmp/controls/GlassFab.tsx": {},
-    "src/compat/cmp/controls/GlassFieldGroup.tsx": {},
-    "src/compat/cmp/controls/GlassFormField.tsx": {},
-    "src/compat/cmp/controls/GlassIconButton.tsx": {},
-    "src/compat/cmp/controls/GlassInput.tsx": {},
-    "src/compat/cmp/controls/GlassIntelligentSearch.tsx": {},
-    "src/compat/cmp/controls/GlassLinkButton.tsx": {},
-    "src/compat/cmp/controls/GlassMentionList.tsx": {},
-    "src/compat/cmp/controls/GlassMultiSelect.tsx": {},
-    "src/compat/cmp/controls/GlassRadioGroup.tsx": {},
-    "src/compat/cmp/controls/GlassSearchField.tsx": {},
-    "src/compat/cmp/controls/GlassSearchInterface.tsx": {},
-    "src/compat/cmp/controls/GlassSegmentedControl.tsx": {},
-    "src/compat/cmp/controls/GlassSelect.tsx": {},
-    "src/compat/cmp/controls/GlassSelectCompound.tsx": {},
-    "src/compat/cmp/controls/GlassSlider.tsx": {},
-    "src/compat/cmp/controls/GlassSwitch.tsx": {},
-    "src/compat/cmp/controls/GlassTagInput.tsx": {},
-    "src/compat/cmp/controls/GlassTextarea.tsx": {},
-    "src/compat/cmp/controls/GlassToggle.tsx": {},
-    "src/compat/cmp/controls/GlassToolbar.tsx": {},
-    "src/compat/cmp/controls/GlassValidationMessage.tsx": {},
-    "src/compat/cmp/controls/LiquidGlassButtonStyle.tsx": {},
-    "src/compat/cmp/controls/LiquidGlassControlGroup.tsx": {},
-    "src/compat/cmp/controls/LiquidGlassMapControls.tsx": {},
-    "src/compat/cmp/controls/LiquidGlassSearchField.tsx": {},
-    "src/compat/cmp/controls/LiquidGlassSegmentedControl.tsx": {},
-    "src/compat/cmp/controls/LiquidGlassToolbar.tsx": {},
-    "src/compat/cmp/controls/MagneticButton.tsx": {},
-    "src/compat/cmp/controls/RippleButton.tsx": {},
-    "src/compat/cmp/controls/ToggleButton.tsx": {},
-    "src/compat/cmp/controls/ToggleButtonGroup.tsx": {},
-    "src/compat/cmp/index.ts": {},
-    "src/compat/cmp/overlays/GlassActionSheet.tsx": {},
-    "src/compat/cmp/overlays/GlassBottomSheet.tsx": {},
-    "src/compat/cmp/overlays/GlassContextMenu.tsx": {},
-    "src/compat/cmp/overlays/GlassDialog.tsx": {},
-    "src/compat/cmp/overlays/GlassDrawer.tsx": {},
-    "src/compat/cmp/overlays/GlassDropdownMenu.tsx": {},
-    "src/compat/cmp/overlays/GlassHoverCard.tsx": {},
-    "src/compat/cmp/overlays/GlassMenubar.tsx": {},
-    "src/compat/cmp/overlays/GlassModal.tsx": {},
-    "src/compat/cmp/overlays/GlassNotificationCenter.tsx": {},
-    "src/compat/cmp/overlays/GlassPopover.tsx": {},
-    "src/compat/cmp/overlays/GlassToast.tsx": {},
-    "src/compat/cmp/overlays/GlassToastProvider.tsx": {},
-    "src/compat/cmp/overlays/GlassToastViewport.tsx": {},
-    "src/compat/cmp/overlays/GlassTooltip.tsx": {},
-    "src/compat/cmp/overlays/LiquidGlassAdaptiveSheet.tsx": {},
-    "src/compat/cmp/overlays/LiquidGlassPopoverMenu.tsx": {},
-    "src/compat/cmp/overlays/Positioner.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassActionSheet.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassBottomSheet.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassContextMenu.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassDialog.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassDrawer.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassDropdownMenu.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassHoverCard.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassMenubar.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassModal.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassNotificationCenter.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassPopover.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassToast.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassToastProvider.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassToastViewport.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/GlassTooltip.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/LiquidGlassAdaptiveSheet.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/LiquidGlassPopoverMenu.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/Positioner.compat.test.tsx": {},
-    "src/compat/cmp/overlays/__tests__/useToast.compat.test.tsx": {},
-    "src/compat/cmp/overlays/_shared.tsx": {},
-    "src/compat/cmp/overlays/useToast.tsx": {}
+    "src/components/accordion/Accordion.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/accordion/Accordion.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/accordion/Accordion.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/accordion/Accordion.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/accordion/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/alert-dialog/AlertDialog.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/alert-dialog/AlertDialog.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/alert-dialog/AlertDialog.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/alert-dialog/AlertDialog.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/alert-dialog/AlertDialog.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/alert-dialog/AlertDialogLayout.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/alert-dialog/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/alert/Alert.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/alert/Alert.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/alert/Alert.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/alert/Alert.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/alert/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/avatar/Avatar.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/avatar/Avatar.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/avatar/Avatar.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/avatar/Avatar.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/avatar/AvatarGroup.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/avatar/AvatarGroup.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/avatar/AvatarGroup.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/avatar/AvatarGroup.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/avatar/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/badge/Badge.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/badge/Badge.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/badge/Badge.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/badge/Badge.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/badge/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/button-group/ButtonGroup.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/button-group/ButtonGroup.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/button-group/ButtonGroup.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/button-group/ButtonGroup.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/button-group/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/button/Button.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/button/Button.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/button/Button.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/button/Button.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/button/Button.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/button/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/card/Card.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/card/Card.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/card/Card.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/card/Card.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/card/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/checkbox/Checkbox.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/checkbox/Checkbox.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/checkbox/Checkbox.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/checkbox/Checkbox.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/checkbox/Checkbox.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/checkbox/CheckboxGroup.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/checkbox/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/chip/Chip.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/chip/Chip.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/chip/Chip.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/chip/Chip.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/chip/ChipToggle.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/chip/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/collapsible/Collapsible.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/collapsible/Collapsible.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/collapsible/Collapsible.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/collapsible/Collapsible.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/collapsible/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/color-picker/ColorPicker.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/color-picker/ColorPicker.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/color-picker/ColorPicker.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/color-picker/ColorPicker.test.tsx": {
+      "blur": 0,
+      "color": 13,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/color-picker/colors.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/color-picker/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/combobox/Combobox.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/combobox/Combobox.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/combobox/Combobox.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/combobox/Combobox.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/combobox/Combobox.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/combobox/ComboboxVirtualList.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/combobox/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/container/Container.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/container/Container.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/container/Container.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/container/Container.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/container/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/control-shared/controls.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/control-shared/messages.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/control-shared/meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/control-shared/size.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/control-shared/value.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/description-list/DescriptionList.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/description-list/DescriptionList.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/description-list/DescriptionList.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/description-list/DescriptionList.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/description-list/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/dialog/Dialog.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/dialog/Dialog.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/dialog/Dialog.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/dialog/Dialog.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/dialog/Dialog.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/dialog/DialogLayout.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/dialog/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/field/Field.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/field/Field.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/field/Field.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/field/Field.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/field/Field.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/field/Fieldset.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/field/Fieldset.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/field/Form.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/field/Form.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/field/Form.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/field/Form.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/field/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/file-upload/FileUpload.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/file-upload/FileUpload.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/file-upload/FileUpload.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/file-upload/FileUpload.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/file-upload/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/grid/Grid.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/grid/Grid.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/grid/Grid.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/grid/Grid.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/grid/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/heading/Heading.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/heading/Heading.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/heading/Heading.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/heading/Heading.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/heading/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/icon-button/IconButton.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/icon-button/IconButton.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/icon-button/IconButton.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/icon-button/IconButton.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/icon-button/IconButton.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/icon-button/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/icon/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/image-list/ImageList.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/image-list/ImageList.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/image-list/ImageList.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/image-list/ImageList.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/image-list/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/inline-edit/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/inline-edit/InlineEdit.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/inline-edit/InlineEdit.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/inline-edit/InlineEdit.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/inline-edit/InlineEdit.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/kbd/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/kbd/Kbd.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/kbd/Kbd.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/kbd/Kbd.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/kbd/Kbd.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/key-value-editor/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/key-value-editor/KeyValueEditor.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/key-value-editor/KeyValueEditor.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/key-value-editor/KeyValueEditor.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/key-value-editor/KeyValueEditor.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/link/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/link/Link.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/link/Link.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/link/Link.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/link/Link.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/menu/ContextMenu.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/menu/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/menu/Menu.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/menu/Menu.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/menu/Menu.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/menu/Menu.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/menu/Menu.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/meter/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/meter/Meter.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/meter/Meter.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/meter/Meter.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/meter/Meter.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/number-field/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/number-field/NumberField.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/number-field/NumberField.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/number-field/NumberField.keys.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/number-field/NumberField.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/number-field/NumberField.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/number-field/NumberField.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/number-field/parse.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/__fixtures__/FixturePopover.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/__fixtures__/lint/body-style-write.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/__fixtures__/lint/clean.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/__fixtures__/lint/keydown-listener.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/__fixtures__/lint/mousedown-listener.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/__fixtures__/lint/scroll-resize-listener.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/__tests__/subjects.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/overlay-dev-counter.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/overlay-dom-contract.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/overlay-idle.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/overlay-layer.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/overlay-ssr.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/overlayPortal.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/overlays.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/overlaySurface.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/overlayTypes.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/popup-contract.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/positioning.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/provider-mount.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/useOverlayAnimating.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/useOverlayLayer.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/popover/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/popover/Popover.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/popover/Popover.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/popover/Popover.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/popover/Popover.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/popover/Popover.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/progress/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/progress/Progress.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/progress/Progress.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/progress/Progress.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/progress/Progress.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/radio-group/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/radio-group/RadioGroup.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/radio-group/RadioGroup.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/radio-group/RadioGroup.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/radio-group/RadioGroup.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/radio-group/RadioGroup.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/rating/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/rating/Rating.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/rating/Rating.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/rating/Rating.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/rating/Rating.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/scroll-area/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/scroll-area/ScrollArea.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/scroll-area/ScrollArea.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/scroll-area/ScrollArea.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/scroll-area/ScrollArea.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/search-field/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/search-field/SearchField.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/search-field/SearchField.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/search-field/SearchField.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/search-field/SearchField.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/search-field/SearchField.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/segmented-control/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/segmented-control/SegmentedControl.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/segmented-control/SegmentedControl.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/segmented-control/SegmentedControl.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/segmented-control/SegmentedControl.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/segmented-control/SegmentedControl.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/select/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/select/Select.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/select/Select.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/select/Select.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/select/Select.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/select/Select.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/separator/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/separator/Separator.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/separator/Separator.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/separator/Separator.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/separator/Separator.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/sheet/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/sheet/Sheet.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/sheet/Sheet.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/sheet/Sheet.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/sheet/Sheet.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/sheet/Sheet.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/sheet/SheetHandle.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/sheet/SheetLayout.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/sheet/useSheetDetents.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/skeleton/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/skeleton/Skeleton.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/skeleton/Skeleton.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/skeleton/Skeleton.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/skeleton/Skeleton.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/slider/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/slider/Slider.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/slider/Slider.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/slider/Slider.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/slider/Slider.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/slider/Slider.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/stack/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/stack/Stack.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/stack/Stack.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/stack/Stack.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/stack/Stack.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/state-view/EmptyState.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/state-view/ErrorState.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/state-view/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/state-view/LoadingState.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/state-view/StateView.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/state-view/StateView.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/state-view/StateView.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/steps/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/steps/Steps.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/steps/Steps.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/steps/Steps.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/steps/Steps.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/switch/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/switch/Switch.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/switch/Switch.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/switch/Switch.keys.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/switch/Switch.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/switch/Switch.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/switch/Switch.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/text-field/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/text-field/TextField.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/text-field/TextField.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/text-field/TextField.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/text-field/TextField.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/text-field/TextField.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/text/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/text/Text.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/text/Text.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/text/Text.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/text/Text.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toast/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toast/Toast.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toast/Toast.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toast/Toast.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toast/Toast.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toast/Toast.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toggle-group/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toggle-group/ToggleGroup.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toggle-group/ToggleGroup.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toggle-group/ToggleGroup.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toggle-group/ToggleGroup.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toolbar/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toolbar/Toolbar.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toolbar/Toolbar.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toolbar/Toolbar.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toolbar/Toolbar.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/toolbar/Toolbar.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/tooltip/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/tooltip/Tooltip.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/tooltip/Tooltip.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/tooltip/Tooltip.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/tooltip/Tooltip.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/tooltip/Tooltip.types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/tour/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/tour/Tour.client.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/tour/Tour.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/tour/Tour.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/tour/Tour.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/forms/FormField.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/forms/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/forms/useFormField.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/__tests__/foundation-seam.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/__tests__/parts-contract.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/__tests__/portal-root.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/__tests__/ref-forwarding.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/parts.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/portal.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/state.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/__tests__/icon-a11y.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/__tests__/icons.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/accessibility.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/archive.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/arrow-down.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/arrow-right.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/arrow-up.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/bar-chart-3.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/bold.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/book-open.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/brain.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/building-2.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/camera.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/check-check.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/check.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/chevrons-left.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/chevrons-right.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/circle.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/clear.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/clipboard-paste.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/clock.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/cloud-upload.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/cloud.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/code.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/columns-3.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/contrast.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/copy.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/cpu.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/credit-card.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/crown.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/diamond.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/dollar-sign.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/download.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/droplets.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/edit.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/eye-off.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/eye.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/file-check-2.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/file-pen-line.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/file-text.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/filter.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/flame.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/flower.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/folder-open.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/folder-search.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/gauge.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/gift.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/globe.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/grid-3-x-3.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/grip-vertical.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/hand.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/hard-drive.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/hash.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/heart.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/help-circle.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/hexagon.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/history.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/italic.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/keyboard.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/layers.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/leaf.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/line-chart.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/link.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/loader-2.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/lock.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/mail.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/map-pin.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/maximize.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/message-circle.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/message-square-text.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/message-square.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/mic-off.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/minimize.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/minus.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/monitor.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/moon.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/mouse-pointer-2.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/move.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/music.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/palette.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/panels-top-left.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/paperclip.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/pause.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/phone.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/pie-chart.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/plus.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/redo.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/refresh-cw.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/reply.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/rotate-ccw.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/rotate-cw.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/save.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/search.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/send.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/server.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/share-2.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/share.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/shield-check.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/shield.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/shuffle.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/skip-back.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/skip-forward.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/sliders-horizontal.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/smile.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/snowflake.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/sort-asc.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/sort-desc.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/square.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/star.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/sun.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/tag.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/target.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/test-tube.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/thumbs-up.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/trash-2.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/trending-down.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/trending-up.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/triangle.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/trophy.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/underline.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/undo.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/unlock.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/upload.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/volume-1.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/volume-2.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/volume-x.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/waves.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/wifi.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/wind.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/x-circle.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/x.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/zoom-in.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/action/zoom-out.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/ai.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/ai/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/ai/sparkles.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/ai/zap.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/collaboration.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/collaboration/bell.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/collaboration/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/collaboration/mic.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/collaboration/user.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/collaboration/users.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/commerce.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/commerce/check-circle.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/commerce/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/commerce/layout-dashboard.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/components.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/createIcon.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/data.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/data/activity.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/data/database.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/data/file.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/data/grid.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/data/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/data/list.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/Icon.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/media.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/media/image.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/media/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/media/play.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/media/video.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation/calendar.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation/chevron-down.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation/chevron-left.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation/chevron-right.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation/chevron-up.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation/folder.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation/home.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation/menu.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation/more-horizontal.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation/more-vertical.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/navigation/settings.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/status.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/status/alert-circle.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/status/alert-triangle.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/status/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/status/info.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/icons/types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/DismissableLayer.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/DismissableLayer.stack.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/DismissableLayer.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/FocusScope.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/FocusScope.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/Label.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/Label.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/Portal.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/Portal.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/Slot.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/Slot.react19.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/Slot.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/VisuallyHidden.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/VisuallyHidden.meta.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/VisuallyHidden.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/VisuallyHidden.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    }
   }
 }

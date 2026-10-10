@@ -9,27 +9,27 @@
     align-items: start;
   }
   .ag-kv__input {
-    min-block-size: var(--ag-touch-target, 44px);
+    min-block-size: var(--_ag-touch-target, 44px);
     padding-inline: var(--ag-space-2, 0.5rem);
-    border: var(--ag-border-width, 1px) solid var(--ag-border, currentColor);
-    border-radius: var(--ag-radius-2, 0.5rem);
-    background: var(--ag-surface, Canvas);
+    border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor);
+    border-radius: var(--_ag-radius-2, 0.5rem);
+    background: var(--_ag-surface, Canvas);
     color: inherit;
     font: inherit;
   }
-  .ag-kv__input[aria-invalid='true'] { border-color: var(--ag-danger, currentColor); }
+  .ag-kv__input[aria-invalid='true'] { border-color: var(--_ag-danger, currentColor); }
   .ag-kv__error {
     grid-column: 1 / -1;
     margin: 0;
-    color: var(--ag-danger, currentColor);
-    font-size: var(--ag-text-sm, 0.875rem);
+    color: var(--_ag-danger, currentColor);
+    font-size: var(--_ag-text-sm, 0.875rem);
   }
   .ag-kv__remove, .ag-kv__add {
-    min-block-size: var(--ag-touch-target, 44px);
-    min-inline-size: var(--ag-touch-target, 44px);
-    border: var(--ag-border-width, 1px) solid var(--ag-border, currentColor);
-    border-radius: var(--ag-radius-2, 0.5rem);
-    background: var(--ag-surface-raised, Canvas);
+    min-block-size: var(--_ag-touch-target, 44px);
+    min-inline-size: var(--_ag-touch-target, 44px);
+    border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor);
+    border-radius: var(--_ag-radius-2, 0.5rem);
+    background: var(--_ag-surface-raised, Canvas);
     color: inherit;
     cursor: pointer;
     font: inherit;

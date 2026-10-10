@@ -5,7 +5,7 @@
   .ag-command-palette {
     display: flex;
     flex-direction: column;
-    max-block-size: var(--ag-command-palette-max-h);
+    max-block-size: var(--_ag-command-palette-max-h, 60vh);
     overflow: hidden;
   }
   .ag-command {
@@ -15,28 +15,31 @@
   }
   .ag-command__input {
     inline-size: 100%;
-    padding: var(--ag-space-2) var(--ag-space-3);
+    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
     border: none;
-    border-block-end: var(--ag-border-width) solid var(--ag-border);
+    border-block-end: var(--_ag-border-width, 1px) solid var(--_ag-border, transparent);
     background: transparent;
-    color: var(--ag-fg);
+    color: var(--_ag-fg, currentColor);
     font: inherit;
   }
   .ag-command__list {
+    /* SURF-060: flex column so item `order` (score rank) re-sorts visually. */
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: var(--ag-space-1);
+    padding: var(--ag-space-1, 0.25rem);
   }
   .ag-command__item {
     display: flex;
     align-items: center;
-    gap: var(--ag-space-2);
-    padding: var(--ag-space-2) var(--ag-space-3);
-    min-block-size: var(--ag-touch-target);
-    border-radius: var(--ag-radius-1);
+    gap: var(--ag-space-2, 0.5rem);
+    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
+    min-block-size: var(--_ag-touch-target, 2.75rem);
+    border-radius: var(--_ag-radius-1, 0.25rem);
     cursor: default;
   }
   .ag-command__item[data-ag-active] {
-    background: var(--ag-accent-soft);
+    background: var(--_ag-accent-soft, transparent);
   }
 }

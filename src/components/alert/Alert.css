@@ -1,34 +1,11 @@
 /* CMP-306 Alert */
 @layer ag.components {
-  .ag-alert {
-    display: flex;
-    gap: var(--ag-space-2);
-    padding: var(--ag-space-3);
-    border-radius: var(--ag-radius-md);
-    align-items: flex-start;
-  }
-  .ag-alert[data-ag-intent="info"] {
-    background-color: var(--ag-tint-info);
-  }
-  .ag-alert[data-ag-intent="success"] {
-    background-color: var(--ag-tint-success);
-  }
-  .ag-alert[data-ag-intent="warning"] {
-    background-color: var(--ag-tint-warning);
-  }
-  .ag-alert[data-ag-intent="danger"] {
-    background-color: var(--ag-tint-danger);
-  }
-  .ag-alert-title {
-    margin: 0;
-    font-weight: 600;
-  }
-  .ag-alert-actions {
-    display: flex;
-    gap: var(--ag-space-2);
-    margin-inline-start: auto;
-  }
-  .ag-alert-action {
-    cursor: pointer;
-  }
+  .ag-alert { display: flex; gap: var(--ag-space-2); padding: var(--ag-space-3); border-radius: var(--ag-radius-md); align-items: flex-start; }
+  .ag-alert[data-ag-intent='info'] { background-color: var(--_ag-tint-info, transparent); }
+  .ag-alert[data-ag-intent='success'] { background-color: var(--_ag-tint-success, transparent); }
+  .ag-alert[data-ag-intent='warning'] { background-color: var(--_ag-tint-warning, transparent); }
+  .ag-alert[data-ag-intent='danger'] { background-color: var(--_ag-tint-danger, transparent); }
+  .ag-alert-title { margin: 0; font-weight: 600; }
+  .ag-alert-actions { display: flex; gap: var(--ag-space-2); margin-inline-start: auto; }
+  .ag-alert-action { cursor: pointer; }
 }

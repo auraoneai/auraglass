@@ -1,30 +1,47 @@
 /* Pagination (SURF-127): server-rendered link list + island buttons.
-   44px targets come from --ag-touch-target; active page via aria-current. */
+   44px targets come from --_ag-touch-target; active page via aria-current. */
 @layer ag.components {
   .ag-pagination__list {
     display: flex;
     align-items: center;
-    gap: var(--ag-space-1);
+    gap: var(--ag-space-1, 0.25rem);
     list-style: none;
     margin: 0;
     padding: 0;
   }
   .ag-pagination__link {
-    min-inline-size: var(--ag-touch-target);
-    min-block-size: var(--ag-touch-target);
+    min-inline-size: var(--_ag-touch-target, 2.75rem);
+    min-block-size: var(--_ag-touch-target, 2.75rem);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--ag-radius-1);
-    color: var(--ag-fg);
+    border-radius: var(--_ag-radius-1, 0.25rem);
+    color: var(--_ag-fg, currentColor);
     text-decoration: none;
   }
-  .ag-pagination__link[aria-disabled="true"] {
-    opacity: var(--ag-opacity-disabled);
+  .ag-pagination__link[aria-disabled='true'] {
+    opacity: var(--_ag-opacity-disabled, 0.4);
     pointer-events: none;
   }
-  .ag-pagination__link[aria-current="page"] {
-    background: var(--ag-accent-soft);
-    font-weight: var(--ag-weight-medium);
+  .ag-pagination__link[aria-current='page'] {
+    background: var(--_ag-accent-soft, transparent);
+    font-weight: var(--_ag-weight-medium, 500);
+    /* SURF-059: own inline-size container; compact <400px hides page/ellipsis
+     links and shows the 'Page N of M' status span. */
+  [data-ag-part='pagination'] {
+    container-type: inline-size;
+    container-name: ag-pagination;
+  }
+  .ag-pagination__status {
+    display: none;
+    font-size: var(--_ag-text-sm, 0.875rem);
+    color: var(--_ag-fg-muted, currentColor);
+  }
+  @container ag-pagination (width < 400px) {
+    .ag-pagination__status { display: inline; }
+    [data-ag-part='pagination'] [data-ag-part='item']:has([data-ag-part='page']),
+    [data-ag-part='pagination'] [data-ag-part='item']:has([data-ag-part='ellipsis']) {
+      display: none;
+    }
   }
 }
