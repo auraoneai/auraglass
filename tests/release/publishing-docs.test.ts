@@ -36,7 +36,7 @@ describe('publishing docs', () => {
       .split('\n')
       .filter((l) => /^\| `[^`]+` \|/.test(l))
       .map((l) => l.split('|').slice(1, -1).map((c) => c.trim()));
-    expect(rows.map((r) => r[0].replace(/`/g, '')).sort()).toEqual([...PUBLISHED].sort());
+    expect(rows.map((r) => (r[0] ?? '').replace(/`/g, '')).sort()).toEqual([...PUBLISHED].sort());
     expect(PUBLISHED).toHaveLength(5);
     for (const [pkg, provider, namespace, project, file, environment, status, date] of rows) {
       expect({ pkg, provider, namespace, project, file, environment }).toEqual({
