@@ -1,0 +1,6 @@
+[
+  {"file":"src/components/overlays/_shared/useOverlayAnimating.ts","rule":"mutation-observer","owner":"CMP","reqFin":"REQ-FIN-74","expires":"RC-1"},
+  {"file":"src/material/useMaterialTier.ts","rule":"mutation-observer","owner":"MAT","reqFin":"REQ-FIN-55","expires":"RC-1"},
+  {"file":"src/media/CarouselRail/CarouselRail.tsx","rule":"mutation-observer","owner":"SURF","reqFin":"REQ-FIN-90","expires":"RC-1"},
+  {"file":"src/motion/ticker.ts","rule":"mutation-observer","owner":"MAT","reqFin":"REQ-FIN-58","expires":"RC-1"}
+]

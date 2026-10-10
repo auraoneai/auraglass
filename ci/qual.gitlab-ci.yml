@@ -32,3 +32,31 @@ qual:certify:release:
   extends: [.qual-lane, .ag-evidence-release]
   rules: [{ if: $AG_SCOPE == "release" && $AG_LINE == "5x" }]
   script: [node certification/run.mjs --lane all --scope release --verdict .artifacts/qual/release-verdict.json]
+# G-24 (REQ-QUAL-46/-47). Interim jobs until G-03's lane runner executes the fragments/lanes/qual.ts L1/L2 rows; when
+# G-03 lands these two jobs are folded into qual:certify:l1 / qual:certify:l2 (never kept in both places).
+# allow_failure flips to false through a ci/plat/activation.json row after the first green run on next.
+qual:test:dist-perf:
+  extends: .ag-node
+  stage: certify
+  allow_failure: true
+  needs:
+    - { job: "plat:build:dist", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - npm test -- --ci tests/perf/qual/dist-perf.test.ts tests/perf/qual/node-cold-import-eval.test.ts
+    - test -f dist/index.js || { echo "dist/index.js missing - plat:build:dist did not provide dist/"; exit 1; }
+    - LANE=L2 node scripts/qual/verify-dist-perf.mjs
+qual:test:cold-import:
+  extends: .ag-node
+  stage: certify
+  allow_failure: true
+  needs:
+    - { job: "plat:build:dist", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - test -f dist/index.js || { echo "dist/index.js missing - plat:build:dist did not provide dist/"; exit 1; }
+    - if [ -z "$AURAGLASS_TARBALL" ]; then npm pack --pack-destination .artifacts/pack; fi
+    - eval "$(node scripts/qual/fetch-node.mjs --dest /tmp/ag-node-bins 20.19.0 22)"
+    - npm test -- --ci tests/perf/qual/node-cold-import.test.mjs
