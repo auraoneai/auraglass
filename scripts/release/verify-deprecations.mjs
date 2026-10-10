@@ -1,29 +1,69 @@
 #!/usr/bin/env node
 /* scripts/release/verify-deprecations.mjs — REQ-PLAT-25 (PLAT-183/184). Verifies
-   every deprecation fragment entry against the S-38 rule list. With
-   --compare-branch <ref> additionally enforces append-only: no id may be
-   removed, and no field of an existing entry may change, versus that ref.
+   every deprecation fragment entry against the S-38 rule list (PRD-1
+   REQ-PLAT-25). Line-neutral: the same file runs on release/4.x,
+   release/4.1.x and next.
 
-     node scripts/release/verify-deprecations.mjs [--compare-branch <ref>] */
+     node scripts/release/verify-deprecations.mjs [--line 4x|5x]
+       [--compare-branch <ref>] [--entries-manifest <json>]
+
+   Rules (each has a fixture in tests/deprecations/verify.test.ts):
+     shape     id/kind/status/automation/doc/breaking/message/exception fields
+     prefix    id prefix matches the owning stream (plat→DEP-P, mat→M, cmp→C,
+               surf→S, qual→Q) and ids are unique
+     version   status 'active' with since > package.json version fails;
+               status 'planned' with since <= that version fails
+     order     removeIn <= since fails
+     replace   a non-null replacement must be named verbatim in the message
+     codemod   codemod ∈ CORE_CODEMODS ∪ keys(AREA_CODEMODS) (read from
+               src/contracts/fragments.ts) with a fixture directory
+               fragments/codemods/<stream>/fixtures/<codemod>/
+     register  breaking id present in docs/release/breaking-changes.json
+     snapshot  kind 'export': symbol present in the `since` version's export
+               snapshot (etc/snapshots/<since>.json once published; the
+               current tree's etc/api/<entry>.exports.json while `since` is
+               the line's own or a later, unpublished version)
+     compare   --compare-branch <ref>: on 5x, every id of <ref> (release/4.x)
+               must still exist on this tree with identical fields
+               (append-only); on 4x, every id of this tree must exist on <ref>
+               (next) — an id on release/4.x missing on next fails. */
 import { execFileSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { relPaths } from './lib/policy.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const PATHS = relPaths(ROOT);
 
 export const KINDS = new Set(['export', 'subpath', 'prop', 'prop-value', 'css-var', 'css-global', 'peer', 'dependency', 'engine', 'behavior', 'cli', 'data-attr', 'asset']);
-export const CODEMODS = new Set(['imports-subpaths', 'canonical-names', 'prop-grammar', 'dead-optical-props', 'providers', 'css-vars', 'deps', 'removed', 'ai-chat', 'app-shell-slots', 'media-backdrops', 'reduced-motion-initial', 'motion-imports', 'motion-props']);
 export const EXCEPTIONS = new Set(['security', 'privacy', 'crash', 'legal', 'honesty']);
 export const AUTOMATIONS = new Set(['full', 'mostly', 'partial', 'manual', 'none']);
 export const RUNTIME_WARN_KINDS = new Set(['export', 'prop', 'prop-value', 'css-global', 'cli', 'data-attr']);
+export const STREAM_PREFIX = { plat: 'P', mat: 'M', cmp: 'C', surf: 'S', qual: 'Q' };
 
-const semverMinor = (v) => { const m = /^4\.(\d+)\.(\d+)$/.exec(v ?? ''); return m ? { minor: Number(m[1]), patch: Number(m[2]) } : null; };
 const idRe = /^DEP-[PMCSQ]\d+$/;
+const semver = (v) => { const m = /^(\d+)\.(\d+)\.(\d+)(?:-[0-9A-Za-z.-]+)?$/.exec(v ?? ''); return m ? [Number(m[1]), Number(m[2]), Number(m[3])] : null; };
+export function cmpVersion(a, b) {
+  const x = semver(a); const y = semver(b);
+  if (!x || !y) return NaN;
+  for (let i = 0; i < 3; i += 1) if (x[i] !== y[i]) return x[i] - y[i];
+  return 0;
+}
 
-export function checkEntries(entries, { entriesManifest = null, rootExports = null, breakingIds = null } = {}) {
+/**
+ * @param {object[]} entries fragment entries; `stream` is the owning fragment file
+ * @param {object} ctx
+ * @param {string|null} ctx.version     package.json version of the line
+ * @param {Set<string>|null} ctx.codemods       CORE_CODEMODS ∪ keys(AREA_CODEMODS)
+ * @param {Set<string>|null} ctx.codemodFixtures codemod ids with a fixture directory
+ * @param {(since: string, entry: string) => Set<string>|null} ctx.exportsAt
+ *        export names of `entry` in the `since` version's snapshot (null = no snapshot)
+ */
+export function checkEntries(entries, {
+  entriesManifest = null, breakingIds = null, version = null,
+  codemods = null, codemodFixtures = null, exportsAt = null,
+} = {}) {
   const errors = []; const seen = new Set();
   for (const e of entries) {
     const at = e.id ?? '(no id)';
@@ -31,103 +71,180 @@ export function checkEntries(entries, { entriesManifest = null, rootExports = nu
     if (!e.id || !idRe.test(e.id)) fail('id must match DEP-[PMCSQ]\\d+');
     if (seen.has(e.id)) fail('duplicate id');
     seen.add(e.id);
+    if (e.stream && STREAM_PREFIX[e.stream] && e.id && !e.id.startsWith(`DEP-${STREAM_PREFIX[e.stream]}`)) {
+      fail(`id prefix does not match stream '${e.stream}' (expected DEP-${STREAM_PREFIX[e.stream]}####)`);
+    }
     if (!KINDS.has(e.kind)) fail(`invalid kind '${e.kind}'`);
     if (e.status !== 'active' && e.status !== 'planned') fail(`invalid status '${e.status}'`);
     if (entriesManifest && !entriesManifest.includes(e.entry) && !e.exception) {
       fail(`entry '${e.entry}' is not a 4.x subpath in ENTRIES`);
     }
-    if (rootExports && e.kind === 'export' && !rootExports.has(e.symbol) && !e.exception) {
-      fail(`export symbol '${e.symbol}' is not in ROOT_EXPORTS (add an exception or fix the entry)`);
-    }
-    if (!semverMinor(e.since)) fail(`since '${e.since}' is not a 4.x.y version`);
+    if (!/^4\.\d+\.\d+$/.test(e.since ?? '')) fail(`since '${e.since}' is not a 4.x.y version`);
     if (e.removeIn !== '5.0.0' && e.removeIn !== '6.0.0') fail(`removeIn must be '5.0.0' or '6.0.0'`);
-    if (e.removeIn === '5.0.0' && semverMinor(e.since) && semverMinor(e.since).minor < 2 && !e.exception) {
+    if (semver(e.since) && semver(e.removeIn) && cmpVersion(e.removeIn, e.since) <= 0) {
+      fail(`removeIn '${e.removeIn}' must be later than since '${e.since}'`);
+    }
+    if (e.removeIn === '5.0.0' && semver(e.since) && semver(e.since)[1] < 2 && !e.exception) {
       fail(`removeIn '5.0.0' requires the deprecation to have shipped in a 4.x minor >= 4.2.0 (since=${e.since})`);
+    }
+    if (version && semver(version) && semver(e.since)) {
+      if (e.status === 'active' && cmpVersion(e.since, version) > 0) {
+        fail(`status 'active' but since '${e.since}' is later than the line version ${version} (use 'planned' until that minor is cut)`);
+      }
+      if (e.status === 'planned' && cmpVersion(e.since, version) <= 0) {
+        fail(`status 'planned' but since '${e.since}' is not later than the line version ${version} (it shipped: use 'active')`);
+      }
     }
     if (e.codemod == null && e.automation !== 'manual' && e.automation !== 'none') {
       fail(`codemod is null but automation is '${e.automation}' (expected 'manual' or 'none')`);
     }
-    if (e.codemod != null && !CODEMODS.has(e.codemod)) fail(`unknown codemod '${e.codemod}'`);
+    if (e.codemod != null && codemods && !codemods.has(e.codemod)) fail(`unknown codemod '${e.codemod}' (not in CORE_CODEMODS ∪ AREA_CODEMODS)`);
+    else if (e.codemod != null && codemodFixtures && !codemodFixtures.has(e.codemod)) {
+      fail(`codemod '${e.codemod}' has no fixture directory fragments/codemods/<stream>/fixtures/${e.codemod}/`);
+    }
     if (!AUTOMATIONS.has(e.automation)) fail(`invalid automation '${e.automation}'`);
     if (!/^B\d+$/.test(e.breaking ?? '')) fail(`breaking '${e.breaking}' must be B<n>`);
     if (breakingIds && /^B\d+$/.test(e.breaking ?? '') && !breakingIds.has(e.breaking)) {
       fail(`breaking '${e.breaking}' is not in docs/release/breaking-changes.json`);
     }
     if (typeof e.message !== 'string' || !e.message.length) fail('message is empty');
-    else if (e.message.length > 200) fail(`message is ${e.message.length} chars (> 200)`);
+    else {
+      if (e.message.length > 200) fail(`message is ${e.message.length} chars (> 200)`);
+      if (e.replacement != null && !e.message.includes(e.replacement)) {
+        fail(`message does not name the replacement '${e.replacement}'`);
+      }
+    }
     if (!/^#dep-.+/.test(e.doc ?? '')) fail(`doc '${e.doc}' must be a '#dep-*' anchor`);
     if (e.compat != null && typeof e.compat !== 'string') fail('compat must be an aura-glass/compat export name');
     if (e.exception != null && !EXCEPTIONS.has(e.exception)) fail(`invalid exception '${e.exception}'`);
     if (e.exception != null && !e.evidence) fail('exception entries require evidence');
+    if (e.kind === 'export' && exportsAt && semver(e.since)) {
+      const names = exportsAt(e.since, e.entry);
+      if (names == null) fail(`no export snapshot for ${e.since} '${e.entry}' (etc/snapshots/${e.since}.json)`);
+      else if (!names.has(e.symbol)) fail(`export '${e.symbol}' is not in the ${e.since} export snapshot of '${e.entry}'`);
+    }
   }
   return errors;
 }
 
-// Append-only vs a compare ref (entries are never edited or deleted on 4.x).
-export function checkCompareBranch(current, base) {
-  const errors = []; const baseById = new Map(base.map((e) => [e.id, e]));
-  const curIds = new Set(current.map((e) => e.id));
-  for (const [id, b] of baseById) {
-    if (!curIds.has(id)) { errors.push(`${id}: entry removed vs compare branch`); continue; }
-    const c = curIds && current.find((e) => e.id === id);
+// 5x (next): append-only versus release/4.x — no id removed, no field changed.
+// 4x: every id on this tree must exist on the compare ref (next).
+export function checkCompareBranch(current, base, { line = '5x', ref = 'compare branch' } = {}) {
+  const errors = [];
+  if (line === '4x') {
+    const baseIds = new Set(base.map((e) => e.id));
+    for (const e of current) if (!baseIds.has(e.id)) errors.push(`${e.id}: present on this 4.x line but absent on ${ref}`);
+    return errors;
+  }
+  const curById = new Map(current.map((e) => [e.id, e]));
+  for (const b of base) {
+    const c = curById.get(b.id);
+    if (!c) { errors.push(`${b.id}: entry removed vs ${ref}`); continue; }
     for (const [k, v] of Object.entries(b)) {
       if (k === 'file' || k === 'stream') continue;
-      if (JSON.stringify(v) !== JSON.stringify(c[k])) errors.push(`${id}: field '${k}' changed vs compare branch (${JSON.stringify(v)} -> ${JSON.stringify(c[k])})`);
+      if (JSON.stringify(v) !== JSON.stringify(c[k])) errors.push(`${b.id}: field '${k}' changed vs ${ref} (${JSON.stringify(v)} -> ${JSON.stringify(c[k])})`);
     }
   }
   return errors;
 }
 
-async function loadEntriesForRef(ref, root) {
-  const { loadFragments } = await import(new URL(`file://${join(root, 'src/contracts/load-fragments.mjs')}`).href);
-  if (!ref) {
-    const rows = await loadFragments('deprecations', root);
-    return rows.flatMap(({ stream, file, value }) => (value ?? []).map((e) => ({ ...e, stream, file })));
-  }
-  // Parse entries out of the ref's fragments without checking it out.
-  const files = execFileSync('git', ['ls-tree', '-r', '--name-only', ref, 'fragments/deprecations'], { cwd: root, encoding: 'utf8' }).split('\n').filter((f) => f.endsWith('.ts'));
-  const entries = [];
-  for (const f of files) {
-    const text = execFileSync('git', ['show', `${ref}:${f}`], { cwd: root, encoding: 'utf8' });
-    for (const m of text.matchAll(/\{[^{}]*id:[^{}]*\}/gs)) {
-      const get = (k) => { const mm = new RegExp(`${k}:\\s*'([^']*)'|${k}:\\s*null`).exec(m[0]); return mm ? (mm[1] ?? null) : undefined; };
-      const e = { id: get('id'), kind: get('kind'), status: get('status'), entry: get('entry'), symbol: get('symbol'), since: get('since'), removeIn: get('removeIn'), replacement: get('replacement'), codemod: get('codemod'), automation: get('automation'), breaking: get('breaking'), message: get('message'), doc: get('doc'), compat: get('compat'), exception: get('exception'), evidence: get('evidence') };
-      for (const k of Object.keys(e)) if (e[k] === undefined) delete e[k];
-      if (e.id) entries.push(e);
+async function loadFragmentEntries(root, contractsRoot = root) {
+  const { loadFragments } = await import(new URL(`file://${join(contractsRoot, 'src/contracts/load-fragments.mjs')}`).href);
+  const rows = await loadFragments('deprecations', root);
+  return rows.flatMap(({ stream, file, value }) => (value ?? []).map((e) => ({ ...e, stream, file })));
+}
+
+// A ref's fragments are evaluated exactly like the working tree's (esbuild via
+// the contract loader), from a temp copy of fragments/deprecations + the
+// contract types, so computed entries (e.g. `.map(...)` rows) are not missed.
+export async function loadEntriesForRef(ref, root = ROOT) {
+  const tmp = mkdtempSync(join(tmpdir(), 'ag-verify-dep-'));
+  try {
+    const git = (args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+    const files = git(['ls-tree', '-r', '--name-only', ref, 'fragments/deprecations', 'src/contracts/fragments.ts'])
+      .split('\n').filter(Boolean);
+    for (const f of files) {
+      mkdirSync(dirname(join(tmp, f)), { recursive: true });
+      writeFileSync(join(tmp, f), git(['show', `${ref}:${f}`]));
     }
+    return await loadFragmentEntries(tmp, root);
+  } finally { rmSync(tmp, { recursive: true, force: true }); }
+}
+
+// CORE_CODEMODS ∪ keys(AREA_CODEMODS) from the frozen contract file.
+export async function contractCodemods(root = ROOT) {
+  const { build } = await import('esbuild');
+  const res = await build({ entryPoints: [join(root, 'src/contracts/fragments.ts')], bundle: true, write: false, format: 'esm', platform: 'node', logLevel: 'silent' });
+  const mod = await import(`data:text/javascript;base64,${Buffer.from(res.outputFiles[0].text).toString('base64')}`);
+  return new Set([...(mod.CORE_CODEMODS ?? []), ...Object.keys(mod.AREA_CODEMODS ?? {})]);
+}
+
+export function codemodFixtureIds(root = ROOT) {
+  const ids = new Set(); const base = join(root, 'fragments/codemods');
+  if (!existsSync(base)) return ids;
+  for (const stream of readdirSync(base)) {
+    const fx = join(base, stream, 'fixtures');
+    if (!existsSync(fx) || !statSync(fx).isDirectory()) continue;
+    for (const id of readdirSync(fx)) if (statSync(join(fx, id)).isDirectory()) ids.add(id);
   }
-  return entries;
+  return ids;
+}
+
+const entrySlug = (entry) => (entry === '.' ? 'index' : entry.replace(/^\.\//, '').replace(/\//g, '-'));
+
+// (since, entry) → export names. etc/snapshots/<since>.json (export-snapshot
+// output of a published version) wins; while `since` is not published
+// (>= the line's own version, no snapshot committed) the current tree's
+// api report is the snapshot.
+export function snapshotResolver(root = ROOT, version = null) {
+  const cache = new Map();
+  const readJson = (p) => { if (!cache.has(p)) cache.set(p, existsSync(p) ? JSON.parse(readFileSync(p, 'utf8')) : null); return cache.get(p); };
+  return (since, entry) => {
+    const snap = readJson(join(root, 'etc/snapshots', `${since}.json`));
+    if (snap) {
+      const row = snap.entries?.[entry];
+      return row ? new Set([...(row.runtime ?? []), ...(row.types ?? [])]) : new Set();
+    }
+    if (version && cmpVersion(since, version) >= 0) {
+      const api = readJson(join(root, 'etc/api', `${entrySlug(entry)}.exports.json`));
+      return api ? new Set(api.exports ?? []) : new Set();
+    }
+    return null;
+  };
 }
 
 export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
-  const arg = (n) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : null; };
-  const entries = await loadEntriesForRef(null, root);
+  const arg = (n, def = null) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : def; };
+  const paths = relPaths(root);
   const line = arg('--line', '5x');
-  // `entry`/`symbol` resolve against the *4.x* surface: on release/4.x use the
-  // local package.json exports + src root barrel; on next the 4.x set is not
-  // present, so only a manifest passed via --entries-manifest is enforced.
-  let entriesManifest = null; let rootExports = null;
+  const entries = await loadFragmentEntries(root);
+  const pkg = existsSync(paths.packageJson) ? JSON.parse(readFileSync(paths.packageJson, 'utf8')) : {};
+
+  // `entry` resolves against the *4.x* surface: on a 4.x line the local
+  // package.json exports; on next only a manifest passed via --entries-manifest.
+  let entriesManifest = null;
   const mf = arg('--entries-manifest');
   if (mf) entriesManifest = JSON.parse(readFileSync(mf, 'utf8'));
-  else if (line === '4x' && existsSync(join(root, 'package.json'))) {
-    entriesManifest = Object.keys(JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).exports ?? {});
-  }
-  const re = arg('--root-exports');
-  if (re) rootExports = new Set(JSON.parse(readFileSync(re, 'utf8')));
-  else if (line === '4x' && existsSync(join(root, 'deprecations.json'))) {
-    rootExports = null; // root barrel scan is a 4.x-CI concern; see PLAT-135
-  }
-  const breakingIds = existsSync(PATHS.breakingRegister)
-    ? new Set(((JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')).changes
-        ?? JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')).items) ?? []).map((c) => c.id)) : null;
-  const errors = checkEntries(entries, { entriesManifest, rootExports, breakingIds });
+  else if (line === '4x') entriesManifest = Object.keys(pkg.exports ?? {});
+
+  const register = existsSync(paths.breakingRegister) ? JSON.parse(readFileSync(paths.breakingRegister, 'utf8')) : null;
+  const breakingIds = register ? new Set((register.items ?? register.changes ?? []).map((c) => c.id)) : null;
+
+  const errors = checkEntries(entries, {
+    entriesManifest, breakingIds,
+    // On next (5.x versions) the 4.x since/active rule has no line version to compare to.
+    version: line === '4x' ? pkg.version ?? null : null,
+    codemods: await contractCodemods(root),
+    codemodFixtures: codemodFixtureIds(root),
+    exportsAt: snapshotResolver(root, line === '4x' ? pkg.version ?? null : null),
+  });
 
   const ref = arg('--compare-branch');
-  if (ref) errors.push(...checkCompareBranch(entries, await loadEntriesForRef(ref, root)));
+  if (ref) errors.push(...checkCompareBranch(entries, await loadEntriesForRef(ref, root), { line, ref }));
 
   // Every active runtime-kind entry must appear in the generated table.
-  if (existsSync(PATHS.generatedTs)) {
-    const gen = readFileSync(PATHS.generatedTs, 'utf8');
+  if (existsSync(paths.generatedTs)) {
+    const gen = readFileSync(paths.generatedTs, 'utf8');
     for (const e of entries) {
       if (e.status === 'active' && RUNTIME_WARN_KINDS.has(e.kind) && !gen.includes(`"${e.id}"`)) {
         errors.push(`${e.id}: active runtime-kind entry missing from src/internal/deprecations.generated.ts`);
@@ -135,7 +252,7 @@ export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
     }
   }
   if (errors.length) { for (const e of errors) console.error(`FAIL ${e}`); console.error(`verify-deprecations: ${errors.length} error(s)`); return 1; }
-  console.log(`verify-deprecations: ${entries.length} entries OK${ref ? ` (append-only vs ${ref})` : ''}`);
+  console.log(`verify-deprecations: ${entries.length} entries OK${ref ? ` (${line === '4x' ? `every id present on ${ref}` : `append-only vs ${ref}`})` : ''}`);
   return 0;
 }
 
