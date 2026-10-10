@@ -30,7 +30,7 @@ const generatedVars = (): Set<string> => {
     'dist/css/tailwind.css',
     'src/material/css/generated/ladders.css',
     'src/material/css/generated/floors.css',
-    'src/material/css/generated/properties.css',
+    'src/material/css/properties.css', // hand-authored @property registry (REQ-MAT-28)
   ]) {
     const text = readFileSync(join(ROOT, f), 'utf8');
     for (const m of text.matchAll(/(--_?ag-[a-z0-9-]+)\s*:/g)) defined.add(m[1]!);
