@@ -16,7 +16,7 @@ export function MediaViewer({ src = TRACKS.video, title = ITEM_TITLE }: MediaVie
   const ref = React.useRef<HTMLVideoElement | null>(null);
   const media = useMediaElement(ref, { sampleTone: true });
   return (
-    <Backdrop preset="photo" src={ITEM_IMAGES[0]!.src} tone="dark" data-ag-part="media-viewer">
+    <Backdrop preset="photo" src={ITEM_IMAGES[0]!.src} mediaTone="dark" data-ag-part="media-viewer">
       <main style={{ padding: '4rem 2rem', display: 'grid', gap: '1.5rem' }}>
         <h1>{title}</h1>
         <div data-ag-media-root style={{ maxInlineSize: '48rem' }}>

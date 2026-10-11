@@ -20,7 +20,7 @@ describe('sampleOwnedPixels error paths (REQ-SURF-153)', () => {
       const el = makeImg('https://x/tainted.png');
       expect(sampleOwnedPixels(el)).toBeNull();
       expect(warn).toHaveBeenCalledTimes(1);
-      expect(warn.mock.calls[0]![0]).toBe('[aura-glass] Cannot sample https://x/tainted.png: add crossOrigin="anonymous" and CORS headers, or pass tone="light|dark" to Backdrop.');
+      expect(warn.mock.calls[0]![0]).toBe('[aura-glass] Cannot sample https://x/tainted.png: add crossOrigin="anonymous" and CORS headers, or pass mediaTone="light|dark" to Backdrop.');
       expect(sampleOwnedPixels(el)).toBeNull();
       expect(warn).toHaveBeenCalledTimes(1);
     } finally {

@@ -17,7 +17,8 @@ export interface ProviderErrorStateProps {
   detail?: string | undefined;
   retryAfterMs?: number | undefined;
   onRetry?: (() => void) | undefined;
-  variant?: 'compact' | 'panel' | undefined;
+  /** Non-material look (S-30): emitted as data-ag-appearance. Default 'panel'. */
+  appearance?: 'compact' | 'panel' | undefined;
   className?: string | undefined;
 }
 
@@ -32,10 +33,10 @@ const DEFAULT_COPY: Record<AgErrorKind, { title: string; detail: string }> = {
 };
 
 /**
- * REQ-SURF-127: per-kind copy; `role="alert"` on `panel` only; Retry button
+ * REQ-SURF-127: per-kind copy; `role="alert"` on the `panel` appearance only; Retry button
  * disabled with a live countdown while `retryAfterMs` elapses.
  */
-export function ProviderErrorState({ kind, title, detail, retryAfterMs, onRetry, variant = 'panel', className }: ProviderErrorStateProps) {
+export function ProviderErrorState({ kind, title, detail, retryAfterMs, onRetry, appearance = 'panel', className }: ProviderErrorStateProps) {
   const copy = DEFAULT_COPY[kind];
   const [remaining, setRemaining] = React.useState(retryAfterMs ?? 0);
   React.useEffect(() => {
@@ -52,8 +53,8 @@ export function ProviderErrorState({ kind, title, detail, retryAfterMs, onRetry,
     <div
       data-ag-part="provider-error"
       data-kind={kind}
-      data-variant={variant}
-      role={variant === 'panel' ? 'alert' : undefined}
+      data-ag-appearance={appearance}
+      role={appearance === 'panel' ? 'alert' : undefined}
       className={className}
     >
       <AiIcon name="stop" />

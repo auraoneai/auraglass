@@ -15,7 +15,11 @@ import {
 } from 'react-aria-components';
 import { DateProvider } from './DateProvider';
 import { isoWeekNumber } from './week-number';
+import { raChangeDetails } from './shared';
 import type { DateFieldLikeProps, DateValue } from './shared';
+import type { toChangeDetails } from '../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 export interface CalendarProps extends DateFieldLikeProps<DateValue> {
   showWeekNumbers?: boolean | undefined;
@@ -91,7 +95,7 @@ export function Calendar({
         className={`ag-calendar${className ? ` ${className}` : ''}`}
         {...(value !== undefined ? { value: value as never } : {})}
         {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
-        {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v) } : {})}
+        {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v, raChangeDetails()) } : {})}
         {...(minValue !== undefined ? { minValue: minValue as never } : {})}
         {...(maxValue !== undefined ? { maxValue: maxValue as never } : {})}
         {...(isDateUnavailable !== undefined ? { isDateUnavailable } : {})}
@@ -111,7 +115,7 @@ export function Calendar({
 export interface RangeCalendarProps extends Omit<CalendarProps, 'value' | 'defaultValue' | 'onValueChange'> {
   value?: { start: DateValue; end: DateValue } | null | undefined;
   defaultValue?: { start: DateValue; end: DateValue } | undefined;
-  onValueChange?: ((v: { start: DateValue; end: DateValue } | null) => void) | undefined;
+  onValueChange?: ((v: { start: DateValue; end: DateValue } | null, details: ChangeDetails) => void) | undefined;
   visibleMonths?: 1 | 2 | undefined;
 }
 
@@ -135,7 +139,7 @@ export function RangeCalendar({
         className={`ag-range-calendar${className ? ` ${className}` : ''}`}
         {...(value !== undefined ? { value: value as never } : {})}
         {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
-        {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v) } : {})}
+        {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v, raChangeDetails()) } : {})}
         {...(visibleMonths !== undefined ? { visibleDuration: { months: visibleMonths } } : {})}
         {...(rest.minValue !== undefined ? { minValue: rest.minValue as never } : {})}
         {...(rest.maxValue !== undefined ? { maxValue: rest.maxValue as never } : {})}

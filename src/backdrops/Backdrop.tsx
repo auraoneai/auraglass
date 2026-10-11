@@ -19,7 +19,7 @@ const PRESET_DECLARATION: Record<BackdropPreset, 'media' | null> = {
 export const Backdrop = function Backdrop(props: BackdropProps & { ref?: React.Ref<HTMLDivElement> }) {
   const { ref } = props;
   const {
-    preset, palette = 'aurora', scheme = 'auto', tone, grain = false,
+    preset, palette = 'aurora', scheme = 'auto', mediaTone, grain = false,
     motion = 'static', fixed = false, className, children, ...rest
   } = props;
   const declaration =
@@ -46,7 +46,7 @@ export const Backdrop = function Backdrop(props: BackdropProps & { ref?: React.R
       data-ag-backdrop-preset={preset}
       data-ag-palette={palette}
       {...(declaration !== undefined ? { 'data-ag-backdrop': declaration } : {})}
-      {...(tone !== undefined ? { 'data-ag-media-tone': tone } : {})}
+      {...(mediaTone !== undefined ? { 'data-ag-media-tone': mediaTone } : {})}
       {...(isMedia ? { 'data-ag-media-root': '' } : {})}
       data-backdrop-grain={grain ? '' : undefined}
       data-backdrop-motion={motion}
