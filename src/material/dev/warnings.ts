@@ -24,12 +24,12 @@ function describe(el: Element): string {
   return parts.join('') || el.tagName.toLowerCase();
 }
 
-/** Depth of `el` inside ancestor .ag-surface hosts. */
+/** Depth of `el` inside ancestor [data-ag-surface] hosts. */
 function surfaceDepth(el: Element): number {
   let depth = 0;
   let p = el.parentElement;
   while (p) {
-    if (p.classList.contains('ag-surface')) depth += 1;
+    if (p.hasAttribute('data-ag-surface')) depth += 1;
     p = p.parentElement;
   }
   return depth;

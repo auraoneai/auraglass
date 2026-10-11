@@ -182,9 +182,11 @@ function checkRejectedNames(ledger, rejectedNames) {
 
 /* ---------- REQ-SURF-183 --diff gate ---------- */
 function diffGate(baseSha) {
-  let changed;
+  let changed, added;
   try {
     changed = execSync(`git diff --name-only ${baseSha}...HEAD`, { cwd: ROOT, encoding: 'utf8' })
+      .split('\n').filter(Boolean);
+    added = execSync(`git diff --name-only --diff-filter=A ${baseSha}...HEAD`, { cwd: ROOT, encoding: 'utf8' })
       .split('\n').filter(Boolean);
   } catch (e) {
     fail(`diff: cannot diff ${baseSha}...HEAD: ${e.message.split('\n')[0]}`);
