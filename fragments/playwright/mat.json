@@ -282,5 +282,37 @@
     "use": {
       "defaultBrowserType": "firefox"
     }
+  },
+  {
+    "name": "mat:prepaint-chromium",
+    "testDir": "tests/e2e/mat",
+    "testMatch": "prepaint.spec.ts",
+    "use": {
+      "defaultBrowserType": "chromium"
+    }
+  },
+  {
+    "name": "mat:prepaint-webkit",
+    "testDir": "tests/e2e/mat",
+    "testMatch": "prepaint.spec.ts",
+    "use": {
+      "defaultBrowserType": "webkit"
+    }
+  },
+  {
+    "name": "mat:prepaint-firefox",
+    "testDir": "tests/e2e/mat",
+    "testMatch": "prepaint.spec.ts",
+    "use": {
+      "defaultBrowserType": "firefox"
+    }
+  },
+  {
+    "name": "mat:prepaint-perf",
+    "testDir": "tests/perf/browser/mat/a11y",
+    "testMatch": "prepaint.spec.ts",
+    "use": {
+      "defaultBrowserType": "chromium"
+    }
   }
 ]
