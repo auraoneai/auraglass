@@ -10,7 +10,7 @@
    3. Writes <report>/storybook-build.json = { distSource, durationMs, exitCode } for check-build-log.mjs.
    <report> defaults to $AURAGLASS_EVIDENCE_DIR/qual/$CI_JOB_NAME_SLUG (or .artifacts/qual/storybook-build). */
 import { spawn, spawnSync } from 'node:child_process';
-import { createWriteStream, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { createWriteStream, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from './lib/storybook-build.mjs';
@@ -21,13 +21,31 @@ export function defaultReportDir(env = process.env) {
   return join(env.AURAGLASS_EVIDENCE_DIR ?? '.artifacts', 'qual', env.CI_JOB_NAME_SLUG ?? 'storybook-build');
 }
 
-/** Runtime export targets (`default` condition) missing under `root`. */
+function runtimeTargetExists(root, target) {
+  const star = target.indexOf('*');
+  if (star < 0) return existsSync(join(root, target));
+  const boundary = target.lastIndexOf('/', star) + 1;
+  const directory = join(root, target.slice(0, boundary));
+  if (!existsSync(directory)) return false;
+  const pattern = new RegExp('^' + target.slice(boundary).split('*')
+    .map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('.*') + '$');
+  const matches = (dir, prefix = '') => readdirSync(dir, { withFileTypes: true }).some((entry) => {
+    const relative = prefix + entry.name;
+    return entry.isDirectory()
+      ? matches(join(dir, entry.name), relative + '/')
+      : entry.isFile() && pattern.test(relative);
+  });
+  return matches(directory);
+}
+
+/** Runtime export targets (`default` condition) missing under `root`.
+ * Package pattern exports need a concrete matching file, not a literal '*'. */
 export function missingRuntimeExports(root) {
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
   return Object.entries(pkg.exports ?? {})
     .map(([key, v]) => [key, typeof v === 'string' ? null : v.default])
     .filter(([, file]) => typeof file === 'string' && file.startsWith('./dist/'))
-    .filter(([, file]) => !existsSync(join(root, file)))
+    .filter(([, file]) => !runtimeTargetExists(root, file))
     .map(([key, file]) => `${key} → ${file}`);
 }
 

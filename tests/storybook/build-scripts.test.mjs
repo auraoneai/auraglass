@@ -135,4 +135,19 @@ describe('build.mjs dist fallback (REQ-QUAL-56)', () => {
     expect(() => ensureDist(broken, () => { put(broken, 'dist/index.js'); return 0; })).toThrow(/still lacks runtime exports after npm run build: \.\/ai/);
     expect(() => ensureDist(pkgRoot(), () => 2)).toThrow(/npm run build exited 2/);
   });
+
+  it('resolves wildcard exports to real runtime files and rejects empty or nonmatching directories', () => {
+    const root = tmp();
+    put(root, 'package.json', JSON.stringify({ exports: {
+      './icons/*': { default: './dist/icons/*.js' },
+    } }));
+    const missing = ['./icons/* → ./dist/icons/*.js'];
+    expect(missingRuntimeExports(root)).toEqual(missing);
+    put(root, 'dist/icons/README.txt');
+    mkdirSync(join(root, 'dist/icons/not-a-file.js'));
+    expect(missingRuntimeExports(root)).toEqual(missing);
+    put(root, 'dist/icons/nested/check.js');
+    expect(missingRuntimeExports(root)).toEqual([]);
+    expect(ensureDist(root, () => { throw new Error('must reuse the artifact'); })).toBe('artifact');
+  });
 });
