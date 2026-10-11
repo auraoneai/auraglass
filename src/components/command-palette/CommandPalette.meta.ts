@@ -7,7 +7,7 @@ export default defineMeta({
   flagship: 29,
   tier: 'T1',
   rsc: 'client',
-  parts: ['command-palette'],
+  parts: ['command-palette', 'portal', 'scrim'],
   states: ['open', 'closed'],
   variants: {},
   migration: [{ from: 'GlassCommandPalette', props: { open: 'open', hotkey: 'hotkey' }, automation: 'mostly', compat: true }],
