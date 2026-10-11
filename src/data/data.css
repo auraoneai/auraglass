@@ -1,14 +1,10 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
-/* SURF-149: ./data.css concatenation target — @import order matches the
-   fragments/css bundle order for the data entry. @import must be top-level
-   (an @import nested inside @layer {} is invalid CSS and was emitted by Vite
-   as an unresolved relative URL, breaking every story that loads ./data). */
-@import url('./table/table.css') layer(ag.components);
-@import url('./tree-view/tree-view.css') layer(ag.components);
-@import url('./filter-bar/filter-bar.css') layer(ag.components);
-@import url('./chip/Chip.css') layer(ag.components);
-@import url('./key-value-editor/KeyValueEditor.css') layer(ag.components);
-@import url('./stat-card/stat-card.css') layer(ag.components);
-@import url('./sparkline/sparkline.css') layer(ag.components);
-@import url('./chart-frame/chart-frame.css') layer(ag.components);
+/* SURF-149: ./data.css bundle tail (fragments/css/surf.ts order 90).
+   The component sheets (table, tree-view, filter-bar, chip, key-value-editor,
+   stat-card, sparkline, chart-frame, charts) are concatenated into dist/data.css
+   by the build from the fragment table, so this file must not @import them:
+   an @import inside @layer {} is invalid CSS and broke every story that loaded
+   it ("Unable to preload CSS"). */
+@layer ag.components {
+}
