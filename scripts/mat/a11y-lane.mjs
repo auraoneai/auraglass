@@ -78,11 +78,14 @@ export async function main(argv = process.argv.slice(2), env = process.env) {
     return 2;
   }
   const sb = join(ROOT, 'storybook-static');
-  if (!existsSync(join(sb, 'index.json'))) {
-    console.log('a11y-lane: storybook-static/ absent (no qual:build:storybook artifact) — building it');
+  // A complete build has both the index and the preview iframe; a partial
+  // artifact (manager built, preview failed) is rebuilt, never served.
+  const complete = () => existsSync(join(sb, 'index.json')) && existsSync(join(sb, 'iframe.html'));
+  if (!complete()) {
+    console.log('a11y-lane: storybook-static/ absent or incomplete (no usable qual:build:storybook artifact) — building it');
     const b = spawnSync('npm', ['run', 'storybook:build'], { cwd: ROOT, stdio: 'inherit' });
     if (b.status !== 0) { console.error(`a11y-lane: storybook:build failed (exit ${b.status})`); return 1; }
-    if (!existsSync(join(sb, 'index.json'))) { console.error('a11y-lane: storybook build wrote no index.json'); return 1; }
+    if (!complete()) { console.error('a11y-lane: storybook build wrote no index.json/iframe.html'); return 1; }
   }
   const server = await serve(sb);
   const url = `http://127.0.0.1:${PORT}`;
