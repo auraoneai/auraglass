@@ -7,7 +7,7 @@ export default defineMeta({
   flagship: 29,
   tier: 'T1',
   rsc: 'client',
-  parts: ['backdrop', 'command', 'command-palette', 'empty', 'group', 'group-heading', 'input', 'item', 'list', 'loading', 'separator', 'shortcut'],
+  parts: ['command', 'command-palette', 'empty', 'group', 'group-heading', 'input', 'item', 'list', 'loading', 'portal', 'scrim', 'separator', 'shortcut'],
   states: ['open', 'closed'],
 
   material: { layer: 'overlay', refractionEligible: false },

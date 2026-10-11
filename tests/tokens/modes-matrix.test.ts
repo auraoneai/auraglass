@@ -22,7 +22,7 @@ describe('mode matrix (MAT-035)', () => {
   const AXES: Array<[string, string[]]> = [
     ['scheme', ['light', 'dark']],
     ['contrast', ['more']],
-    ['transparency', ['solid']],
+    ['transparency', ['tinted', 'solid']],
     ['density', ['compact', 'spacious']],
   ];
   for (const [axis, values] of AXES) {
