@@ -54,13 +54,13 @@ describe('Grid (REQ-CMP-112)', () => {
     const grid = root(container);
     expect(container.firstElementChild).toBe(grid);
     expect(grid.style.getPropertyValue('--_ag-grid-cols')).toBe('2');
-    expect(grid).toHaveAttribute('data-ag-cols', '2');
+    expect(grid).toHaveAttribute('data-cols', '2');
   });
 
   it('minItemWidth sets the auto-fill floor for number and string widths', () => {
     const a = render(<Grid minItemWidth={200} />);
     expect(root(a.container).style.getPropertyValue('--_ag-grid-min-item')).toBe('200px');
-    expect(root(a.container)).toHaveAttribute('data-ag-min-item', '');
+    expect(root(a.container)).toHaveAttribute('data-min-item', '');
     const b = render(<Grid minItemWidth="12rem" columns={{ base: 2 }} />);
     expect(root(b.container).style.getPropertyValue('--_ag-grid-min-item')).toBe('12rem');
   });
@@ -70,7 +70,7 @@ describe('Grid (REQ-CMP-112)', () => {
     const b = render(<Grid variant="masonry" columns={3} />);
     for (const c of [a.container, b.container]) {
       const g = root(c);
-      expect(g).toHaveAttribute('data-ag-variant', 'masonry');
+      expect(g).toHaveAttribute('data-ag-appearance', 'masonry');
       expect(g).toHaveClass('ag-grid-masonry');
       expect(g.style.getPropertyValue('--_ag-grid-cols')).toBe('3');
     }
@@ -141,7 +141,7 @@ describe('layout compat adapters (REQ-CMP-112)', () => {
     );
     expect(warnedIds().filter((m) => m.includes('DEP-C0271'))).toHaveLength(1);
     const g = root(container);
-    expect(g).toHaveAttribute('data-ag-variant', 'masonry');
+    expect(g).toHaveAttribute('data-ag-appearance', 'masonry');
     expect(g.style.getPropertyValue('--_ag-grid-cols')).toBe('4');
     expect(g.style.gap).toBe('8px');
     expect(g).not.toHaveAttribute('role');
@@ -153,7 +153,7 @@ describe('layout compat adapters (REQ-CMP-112)', () => {
     expect(warnedIds().filter((m) => m.includes('DEP-C0272'))).toHaveLength(2);
     expect(warnedIds().some((m) => m.includes('DEP-C0272.prop.showStats'))).toBe(true);
     const g = root(container);
-    expect(g).toHaveAttribute('data-ag-variant', 'masonry');
+    expect(g).toHaveAttribute('data-ag-appearance', 'masonry');
     expect(g.style.getPropertyValue('--_ag-grid-cols')).toBe('3');
     expect(g.style.gap).toBe('10px');
     expect([...g.querySelectorAll('button')].map((b) => b.textContent)).toEqual(['a', 'b', 'c']);
@@ -169,7 +169,7 @@ describe('layout compat adapters (REQ-CMP-112)', () => {
     expect(warnedIds().filter((m) => m.includes('DEP-C0268'))).toHaveLength(1);
     const s = root(container);
     expect(s).toHaveClass('ag-stack');
-    expect(s).toHaveAttribute('data-ag-direction', 'row');
+    expect(s).toHaveAttribute('data-direction','row');
     expect(s.style.gap).toBe('var(--ag-space-4)');
     expect(s.style.justifyContent).toBe('space-between');
     expect(s.style.alignItems).toBe('center');
@@ -178,7 +178,7 @@ describe('layout compat adapters (REQ-CMP-112)', () => {
   it('GlassFlex maps reverse directions, wrap-reverse and full sizing', () => {
     const { container } = render(<GlassFlex direction="col-reverse" wrap="wrap-reverse" fullWidth />);
     const s = root(container);
-    expect(s).toHaveAttribute('data-ag-direction', 'column');
+    expect(s).toHaveAttribute('data-direction','column');
     expect(s.style.flexDirection).toBe('column-reverse');
     expect(s.style.flexWrap).toBe('wrap-reverse');
     expect(s.style.inlineSize).toBe('100%');

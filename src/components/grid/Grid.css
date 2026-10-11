@@ -1,11 +1,13 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-298 + REQ-CMP-112 Grid. Grid.tsx sets the private vars inline:
    --_ag-grid-cols (number columns, masonry), --_ag-grid-cols-{base,sm,md,lg}
    (responsive columns) and --_ag-grid-min-item (auto-fill floor).
    Responsive columns resolve against Grid's own container shell, so a Grid
-   responds with or without a Container ancestor. */
+   responds with or without a Container ancestor (480/768/1024px breakpoints). */
 @layer ag.components {
   .ag-grid { display: grid; }
-  .ag-grid[data-ag-cols] { grid-template-columns: repeat(var(--_ag-grid-cols, 1), minmax(0, 1fr)); }
+  .ag-grid[data-cols] { grid-template-columns: repeat(var(--_ag-grid-cols, 1), minmax(0, 1fr)); }
 
   /* Responsive: unnamed container queries on the shell; the nearest
      breakpoint <= shell width wins (larger queries come later). */
@@ -22,14 +24,14 @@
   }
 
   /* minItemWidth: auto-fill wins over fixed and responsive counts. */
-  .ag-grid[data-ag-min-item],
-  .ag-grid-shell > .ag-grid[data-ag-min-item] { grid-template-columns: repeat(auto-fill, minmax(var(--_ag-grid-min-item), 1fr)); }
+  .ag-grid[data-min-item],
+  .ag-grid-shell > .ag-grid[data-min-item] { grid-template-columns: repeat(auto-fill, minmax(var(--_ag-grid-min-item), 1fr)); }
 
   /* Masonry: CSS-columns fallback; real grid masonry where supported. Both
      keep DOM order, so Tab order equals source order. */
   .ag-grid-masonry { display: block; column-count: var(--_ag-grid-cols, 1); }
-  .ag-grid-masonry[data-ag-min-item] { column-count: auto; column-width: var(--_ag-grid-min-item); }
-  .ag-grid-masonry > * { break-inside: avoid; margin-block-end: var(--ag-space-2, 0.5rem); }
+  .ag-grid-masonry[data-min-item] { column-count: auto; column-width: var(--_ag-grid-min-item); }
+  .ag-grid-masonry > * { break-inside: avoid; margin-block-end: var(--ag-space-2); }
   @supports (grid-template-rows: masonry) {
     .ag-grid-masonry {
       display: grid;
@@ -38,7 +40,7 @@
       grid-template-columns: repeat(var(--_ag-grid-cols, 1), minmax(0, 1fr));
       grid-template-rows: masonry;
     }
-    .ag-grid-masonry[data-ag-min-item] { column-width: auto; grid-template-columns: repeat(auto-fill, minmax(var(--_ag-grid-min-item), 1fr)); }
+    .ag-grid-masonry[data-min-item] { column-width: auto; grid-template-columns: repeat(auto-fill, minmax(var(--_ag-grid-min-item), 1fr)); }
     .ag-grid-masonry > * { margin-block-end: 0; }
   }
 }

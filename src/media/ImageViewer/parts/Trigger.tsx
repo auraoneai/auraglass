@@ -2,8 +2,7 @@
 import * as React from 'react';
 import { useImageViewer } from '../ivContext';
 
-export const Trigger = React.forwardRef<HTMLButtonElement, { id: string; className?: string; children?: React.ReactNode }>(
-  function Trigger({ id, className, children }, ref) {
+export const Trigger = function Trigger({id, className, children, ref}: { id: string; className?: string; children?: React.ReactNode } & { ref?: React.Ref<HTMLButtonElement> }) {
     const c = useImageViewer('Trigger');
     return (
       <button
@@ -16,5 +15,4 @@ export const Trigger = React.forwardRef<HTMLButtonElement, { id: string; classNa
         {children}
       </button>
     );
-  },
-);
+  };

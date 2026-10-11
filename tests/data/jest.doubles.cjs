@@ -8,7 +8,15 @@ module.exports = {
   ...base,
   rootDir: '../..',
   displayName: 'data-doubles',
-  testMatch: [...(base.testMatch ?? []), '**/tests/data/**/*.test.{ts,tsx}'],
+  // Scope to the W2 area only (matching the ai/app-shell presets); spreading
+  // base.testMatch ran the entire repo suite under the doubles mappings.
+  testMatch: [
+    '<rootDir>/tests/data/**/*.test.{ts,tsx}',
+    '<rootDir>/src/data/**/*.test.{ts,tsx}',
+    '<rootDir>/src/date/**/*.test.{ts,tsx}',
+    '<rootDir>/src/charts/**/*.test.{ts,tsx}',
+    '<rootDir>/tests/capability/registry/data-*.test.{ts,tsx}',
+  ],
   moduleNameMapper: {
     ...base.moduleNameMapper,
     '^aura-glass/data$': '<rootDir>/src/data/index.ts',

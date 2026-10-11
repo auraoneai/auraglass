@@ -67,8 +67,8 @@ export function Stack({
       {...rest}
       ref={ref}
       data-ag-part="root"
-      data-ag-direction={direction}
-      data-ag-gap={gap === undefined ? undefined : String(gap)}
+      data-direction={direction}
+      data-gap={gap === undefined ? undefined : String(gap)}
       className={cn('ag-stack', className)}
       style={cssStyle}
     >

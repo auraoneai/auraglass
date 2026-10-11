@@ -60,8 +60,8 @@ export function Grid({
         {...rest}
         ref={ref}
         data-ag-part="root"
-        data-ag-variant="masonry"
-        data-ag-min-item={minItemWidth !== undefined ? '' : undefined}
+        data-ag-appearance="masonry"
+        data-min-item={minItemWidth !== undefined ? '' : undefined}
         className={cn('ag-grid', 'ag-grid-masonry', className)}
         style={styleObj}
       />
@@ -79,12 +79,12 @@ export function Grid({
           {...rest}
           ref={ref}
           data-ag-part="root"
-          data-ag-variant="standard"
-          data-ag-cols-base={columns.base ?? 1}
-          data-ag-cols-sm={columns.sm}
-          data-ag-cols-md={columns.md}
-          data-ag-cols-lg={columns.lg}
-          data-ag-min-item={minItemWidth !== undefined ? '' : undefined}
+          data-ag-appearance="standard"
+          data-cols-base={columns.base ?? 1}
+          data-cols-sm={columns.sm}
+          data-cols-md={columns.md}
+          data-cols-lg={columns.lg}
+          data-min-item={minItemWidth !== undefined ? '' : undefined}
           className={cn('ag-grid', className)}
           style={styleObj}
         />
@@ -98,9 +98,9 @@ export function Grid({
       {...rest}
       ref={ref}
       data-ag-part="root"
-      data-ag-variant="standard"
-      data-ag-cols={columns}
-      data-ag-min-item={minItemWidth !== undefined ? '' : undefined}
+      data-ag-appearance="standard"
+      data-cols={columns}
+      data-min-item={minItemWidth !== undefined ? '' : undefined}
       className={cn('ag-grid', className)}
       style={styleObj}
     />
