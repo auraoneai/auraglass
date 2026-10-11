@@ -1,16 +1,77 @@
+# Changelog
+
+## [4.2.0] - Unreleased
+
+Minor release on `release/4.x`. Runtime dependencies become optional peers, `/forms` and `/data` become real bundle entries, and the 5.0 removals start warning in development.
+
+### Moved dependencies
+
+- 22 packages moved from `dependencies` to optional `peerDependencies`: `@google-cloud/vision`, `@pinecone-database/pinecone`, `@sentry/node`, `bcryptjs`, `chart.js`, `compression`, `cors`, `date-fns`, `dotenv`, `express`, `express-rate-limit`, `framer-motion`, `helmet`, `ioredis`, `jsonwebtoken`, `openai`, `react-chartjs-2`, `react-hook-form`, `redis`, `socket.io`, `socket.io-client`, `zod`. npm no longer installs them; install the ones whose feature you use. A feature whose peer is missing throws `[aura-glass] <name> is now an optional peer; install it: npm i <name>` when it is called. Importing `aura-glass` does not throw (REQ-PLAT-56). `RELEASE_NOTES_4.2.0.md` has the ranges and the DEP id of each package. `clsx` and `tailwind-merge` remain dependencies.
+- `react-hook-form` has one role only (optional peer, `^7.0.0`); it was both a dependency and a peer in 4.1.x.
+- `GlassForm` and the Chart.js components no longer touch their peer at module load: `FormProvider` is wrapped in a component, and Chart.js registration runs once on first render.
+
+### Removed
+
+- `useGalileoStateSpring` and its alias `useAuraStateSpring` are no longer exported from the root entry (PLAT-104). Their deprecation entry, `DEP-M0864`, gives `removeIn: 5.0.0`.
+
+### Deprecated
+
+- `warnDeprecated` emits a development-only warning once per DEP id. `AuraGlassProvider` takes `deprecations: "warn" | "silent"` to turn the warnings off. The five older providers are wrapped and warn with `DEP-P0050`.
+- New DEP entries with `since: 4.2.0` for platform exports, subpaths, providers and the 28 `recipe:<id>` CLI rows (`DEP-P0042`–`DEP-P0059`, `DEP-P0073`–`DEP-P0106`), component names (`DEP-C*`), material and motion exports (`DEP-M*`) and surface exports (`DEP-S*`). The full list, generated from `fragments/deprecations/*.ts`, is in `RELEASE_NOTES_4.2.0.md`. Services, `useGlassProbes`, the alias barrels and `interactiveGlass` call `warnDeprecated`.
+
+### Added
+
+- `aura-glass/forms` and `aura-glass/data` are real bundle entries with their own `dist/forms` and `dist/data` output. In 4.1.x they were type-only aliases into the root bundle (REQ-PLAT-57).
+- `./deprecations.json` export, generated at `prepack` from the deprecation fragments.
+- `AuraGlassProvider` `preview?: "v5"` renders `data-ag-preview` for the 5.0 material preview (PLAT-156).
+
+### Fixed
+
+- D-28 visual fixes (records in `docs/release/visual-fixes/`): `--glass-opacity-24/32/52/72` are defined, so `rgba(var(...) / var(--glass-opacity-NN))` resolves; `prefers-contrast: more` is honoured next to `:high`; the dark `--glass-on-surface` token is light enough to read on dark surfaces; `GlassSwitch` no longer applies the lift and press classes to the control (REQ-PLAT-59).
+- `GlassWorkspaceTabs` no longer passes `value`/`onValueChange` to the DOM; `GlassWorkspaceTab` fires `onValueChange` on click.
+- `useGlassPerformance`, `usePerformance`, `useEnhancedPerformance` and `PerformanceMonitor` no longer run a permanent `requestAnimationFrame` FPS loop. FPS is sampled on demand (`sampleFPS(windowMs)`), and an unmeasured FPS is not treated as low performance.
+
+### Internal (no change to the published package)
+
+- Gzip budget ratchet per entry (`build/budgets-4x.json`) and a side-effect report; breaking-register coverage and tag gates; `consumer-4x` Next 15 and Vite fixtures; React 19 CI legs; the FIN-B GitLab CI port to `release/4.x`.
+
 ## [4.1.1] - Unreleased
+
+Trust patch: documentation retractions, hosted-runtime hardening, and the Aeonik font removal.
 
 ### Security and privacy
 
-- GHSA draft: hosted example runtime ships a default JWT secret, missing authorization on AI routes, and open WebSocket rooms (see docs/security/GHSA-4.1.1-draft.md; owner publishes the advisory before the v4.1.1 tag).
+- Security advisory: the hosted example runtime ships a default JWT secret, has no authorization on its AI routes, and leaves WebSocket rooms open (draft: `docs/security/advisories/2026-10-hosted-runtime.md`; the owner publishes the advisory before the v4.1.1 tag).
 - `assertJwtSecret` fails closed at startup; Dockerfile no longer copies `.env.example` over `.env`.
 - `enableAdaptiveAI` is opt-in; GlassCanvas executes `onComponentAction` instead of string code (DEP-P0012, DEP-P0013).
 - `validateTextContrast`/ContrastGuard report `unverified` honestly instead of unconditional pass (DEP-P0014).
 - Font decision D-31: Aeonik (licence unconfirmed) removed; `--glass-font-sans` falls back to the system stack (DEP-P0015).
-- Crash fixes: conditional-hook violations hoisted; reduced-motion `animate={{}}` sites rewritten (`prefersReducedMotion ? FINAL : X`).
-- Hydration: `useOptional*` readers + hydration-stable helpers avoid SSR/client mismatch fallbacks.
 
-# Changelog
+### Fixed
+
+- Crash fixes: conditional-hook violations hoisted; reduced-motion `animate={{}}` sites rewritten (`prefersReducedMotion ? FINAL : X`).
+- Hydration: `useOptional*` readers and hydration-stable helpers avoid SSR/client mismatch fallbacks; `AuraGlassClientBoundary` initialises hydration-safe and `Slot` picks its ref strategy from `React.version` (REQ-PLAT-46).
+- RSC client entries: `"use client"` on the primitives and theme barrels, a generated `client-entries.json` checked by `verify-pack`, a hydration-stable `useHydrated`, and the GlassInput hook order hoisted.
+- `GlassPredictiveEngine` passes an `enabled` flag to `useOptionalInteractionRecorder` instead of calling the hook conditionally (REQ-PLAT-44).
+- Command palette fuzzy search escapes regex metacharacters per query character — a query like `(` can no longer throw or widen the match (REQ-PLAT-49).
+- `npm pack --json` output from npm >= 11 is parsed through `scripts/ci/lib/npm-pack`; CI evidence is written under `.artifacts/` (REQ-PLAT-37).
+
+### Added
+
+- 4.x → 5.0 bridge material (MAT-327, MAT-362): `tokens/legacy/4x-rendered.tokens.json` and `tokens/compat-alias-map.json` (every `--glass-*` name with its successor, frozen or flagged status), and `scripts/tokens/build.mjs --platform bridge-4x` emitting `src/material/compat/tokens.css`, `src/styles/{v5,preview-v5}.css` and `dist/tokens/4x/`.
+
+### Docs
+
+- README, `llms.txt` and this changelog retract the "certified" visual-target, "SSR-safe" and "optional backend" claims of 4.1.0; ledger corrections are recorded in `docs/release/ledger-corrections.json`, and `scripts/ci/verify-docs-claims.js` keeps the retracted claims out (REQ-PLAT-52).
+
+### Internal (no change to the published package)
+
+- `auraglass/motion-no-empty-animate` lint rule at error severity on `src/**` (MAT-186). The rule lives in the repository lint plugin, which is not in the published `files`.
+- GitLab CI/CD: the §4.2 job set, Pages, the npm OIDC trusted-publishing toolchain, decision records and CI tests; the jsdom import side-effect gate (REQ-PLAT-41); `reports/` is untracked and certification and audit evidence lives in CI artifacts (`.artifacts/`).
+
+## Ledger corrections
+
+Pre-4.1.1 ledger mismatches are recorded once in `docs/release/ledger-corrections.json` (regenerate with `node scripts/release/verify-release-ledger.mjs --regen`); history is not rewritten. Versions >= 4.1.1 must agree across CHANGELOG heading, git tag, GitLab Release and npm — the `verify-release-ledger` step runs in the tag pipeline and fails closed.
 
 ## [4.1.0] - 2026-09-05
 
