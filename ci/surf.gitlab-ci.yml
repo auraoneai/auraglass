@@ -113,6 +113,28 @@ surf:test:ai-sdk:
 
 # --- lane W4 begin ---
 
+# REQ-SURF-152: tone calibration over the 8 QUAL S-42 scenes in Chromium with
+# the real sampler. Writes .artifacts/surf/media-tone/media-tone-calibration.json
+# (measured per-scene stats, anchor verdicts, derived TONE_* intervals), then
+# checks the committed src/backdrops/sampling/__fixtures__/scene-stats.json
+# against it. The fixture is only ever written from this artifact
+# (calibrate-media-tone.mjs --write --from <artifact>).
+surf:test:media-tone-calibration:
+  extends: .surf-playwright
+  stage: test
+  allow_failure: true # owning lane flips to false after first green on next
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
+  script:
+    - node scripts/surf/calibrate-media-tone.mjs --out .artifacts/surf/media-tone
+    - node scripts/surf/calibrate-media-tone.mjs --check --from .artifacts/surf/media-tone/media-tone-calibration.json
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/media-tone/
+
 # --- lane W4 end ---
 
 # --- lane W5 begin ---

@@ -45,8 +45,6 @@ async function state(page: Page, cdp: CDPSession): Promise<State> {
   return { snapshot: await snapshot(page), quietRaf, heapBytes };
 }
 
-const results: Array<{ storyId: string; subject: string; violations: Violation[]; before: State; after: State }> = [];
-
 async function leakRun(page: Page, storyId: string, subject = storyId): Promise<Violation[]> {
   await page.addInitScript(agInstrument);
   const cdp = await page.context().newCDPSession(page);
@@ -60,11 +58,12 @@ async function leakRun(page: Page, storyId: string, subject = storyId): Promise<
   }
   const after = await state(page, cdp);
   const violations = leakViolations(before, after);
-  results.push({ storyId, subject, violations, before, after });
+  writeEvidence(`mount-unmount-leak/${storyId}.json`, { storyId, subject, cycles: LIMITS.cycles, heapLimitBytes: LIMITS.heapDeltaBytes, violations, before, after });
   return violations;
 }
 
-test.describe.configure({ mode: 'serial', timeout: 180_000 });
+// Independent tests (default mode): one failure never hides the others' evidence. Each leak run takes 20+ renders.
+test.describe.configure({ timeout: 180_000 });
 
 test.describe('negative and clean fixtures (the probe fails real leaks only)', () => {
   test('a component that leaks a window listener fails', async ({ page }) => {
@@ -102,8 +101,4 @@ test.describe('every flagship: 10 mount/unmount cycles return to the pre-mount s
       expect(await leakRun(page, f.id, f.subject)).toEqual([]);
     });
   }
-});
-
-test.afterAll(() => {
-  writeEvidence('mount-unmount-leak.json', { cycles: LIMITS.cycles, heapLimitBytes: LIMITS.heapDeltaBytes, flagships: flagships.length, results });
 });

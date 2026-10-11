@@ -5,8 +5,10 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import yaml from 'yaml';
 
-const SCRIPT = join(process.cwd(), 'scripts/ci/assemble-pages.mjs');
+const home0 = process.cwd();
+const SCRIPT = join(home0, 'scripts/ci/assemble-pages.mjs');
 let dir: string;
 let home: string;
 beforeEach(() => { home = process.cwd(); dir = mkdtempSync(join(tmpdir(), 'pages-')); process.chdir(dir); });
@@ -68,5 +70,27 @@ describe('REQ-FIN-26 pages details', () => {
     run();
     const r = readFileSync('public/_redirects', 'utf8');
     expect(r).toMatch(/^\/v4\/\* .*gitlab\.io.*:splat 301/m);
+  });
+});
+
+// B3-8 (REQ-FIN-26 / REQ-PLAT-94): the registry output plat:test:registry uploads is exactly
+// what pages (needs: plat:test:registry, optional) publishes as public/r/.
+describe('pages consumes the plat:test:registry artifact', () => {
+  const ci = (yaml.parse(readFileSync(join(home0, 'ci/plat.gitlab-ci.yml'), 'utf8')) as Record<string, any>);
+  const registryPaths: string[] = ci['plat:test:registry'].artifacts.paths;
+  const out = registryPaths.filter((p) => !p.startsWith('.artifacts/'));
+  it('uploads one registry dir ending in r/', () => {
+    expect(out).toEqual(['apps/docs/public/r/']);
+  });
+  it('a registry item in that artifact path lands in public/r/ (no docs build needed)', () => {
+    mkdirSync(`${out[0]}button`, { recursive: true });
+    writeFileSync(`${out[0]}button/index.json`, '{"name":"button"}');
+    run();
+    expect(readFileSync('public/r/button/index.json', 'utf8')).toBe('{"name":"button"}');
+    // the docs site itself is still the pending placeholder
+    expect(readFileSync('public/index.html', 'utf8')).toMatch(/<title>[^<]*pending/i);
+  });
+  it('pages needs the job that uploads it, with artifacts, optional', () => {
+    expect(ci.pages.needs).toContainEqual({ job: 'plat:test:registry', artifacts: true, optional: true });
   });
 });
