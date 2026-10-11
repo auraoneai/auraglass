@@ -1,21 +1,33 @@
 'use client';
+/* Rate cycles through RATES; below 480 px it moves into the "More" menu
+ * rendered by Root (REQ-SURF-135). */
 import * as React from 'react';
-import { useMediaModel } from '../mediaContext';
+import { useMediaLayout, useMediaModel, useRegisterPart } from '../mediaContext';
+import { RATES } from '../shortcuts';
+import { MediaToolbarButton } from './ToolbarButton';
 
-export const Rate = React.forwardRef<HTMLButtonElement, { className?: string }>(function Rate({ className }, ref) {
+export function nextRate(rate: number): number {
+  const i = RATES.findIndex((r) => r > rate + 1e-9);
+  return i === -1 ? RATES[0]! : RATES[i]!;
+}
+
+export function formatRate(rate: number): string {
+  return `${Number(rate.toFixed(2))}×`;
+}
+
+export function Rate({ className, ref }: { className?: string | undefined; ref?: React.Ref<HTMLButtonElement> | undefined }) {
+  useRegisterPart('rate');
   const m = useMediaModel('Rate');
+  const { size } = useMediaLayout();
+  if (size !== 'full') return null;
   return (
-    <button
-        type="button"
-        role="button"
-        tabIndex={0}
+    <MediaToolbarButton
       ref={ref}
-      className={['ag-media-btn', className].filter(Boolean).join(' ')}
+      className={className}
       data-ag-part="media-rate"
-      aria-label="Playback rate"
-      onClick={() => m.setRate(m.playbackRate >= 2 ? 1 : m.playbackRate + 0.25)}
-    >
-      {m.playbackRate}×
-    </button>
+      label={`Playback rate ${formatRate(m.playbackRate)}`}
+      icon={<span aria-hidden="true">{formatRate(m.playbackRate)}</span>}
+      onClick={() => m.setRate(nextRate(m.playbackRate))}
+    />
   );
-});
+}

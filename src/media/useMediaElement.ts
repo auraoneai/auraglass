@@ -5,7 +5,7 @@
  * ref-bound element via the LRU cache. */
 import * as React from 'react';
 import { useSyncExternalStore } from 'react';
-import { destroyStore, getServerSnapshot, getSnapshot, setError, setTone, subscribe, type MediaState } from './mediaStore';
+import { destroyStore, getServerSnapshot, getSignal, getSnapshot, setError, setTone, subscribe, type MediaState } from './mediaStore';
 import { getOrSampleTone } from './sampling/toneCache';
 import { subscribeFrame } from '../motion';
 
@@ -39,6 +39,8 @@ export interface MediaHandle {
   setRate(r: number): void;
   requestPictureInPicture(): void;
   requestFullscreen(target?: Element | null): void;
+  /** Set a text track's mode by MediaTextTrack id (REQ-SURF-134 captions). */
+  setTextTrackMode(id: string, mode: TextTrackMode): void;
 }
 
 export function useMediaElement(
@@ -70,23 +72,38 @@ export function useMediaElement(
     return () => { destroyStore(el); };
   }, [el]);
 
-  // --_ag-media-progress: one subscribeFrame while playing + visible +
-  // intersecting; stops within one frame otherwise.
+  // --_ag-media-progress: one subscribeFrame, held only while playing +
+  // visible + intersecting (one IntersectionObserver per root); released in
+  // the same callback that observes the change, so 0 frames run otherwise.
   React.useEffect(() => {
     if (!el || state.paused || state.ended) return;
     const root = el.closest('[data-ag-media-root]') as HTMLElement | null;
     if (!root) return;
-    let intersecting = true;
+    // Without an IntersectionObserver the root is treated as intersecting;
+    // with one, nothing runs until it reports the root on screen.
+    let intersecting = typeof IntersectionObserver === 'undefined';
+    let unsub: (() => void) | null = null;
+    const frame = () => {
+      const total = el.duration;
+      const p = Number.isFinite(total) && total > 0 ? el.currentTime / total : 0;
+      root.style.setProperty('--_ag-media-progress', p.toFixed(4));
+    };
+    const sync = () => {
+      const run = intersecting && !document.hidden && !el.paused;
+      if (run && !unsub) unsub = subscribeFrame(frame);
+      else if (!run && unsub) { unsub(); unsub = null; }
+    };
     const io = typeof IntersectionObserver !== 'undefined'
-      ? new IntersectionObserver(([e]) => { intersecting = e!.isIntersecting; })
+      ? new IntersectionObserver((entries) => {
+        const e = entries[entries.length - 1];
+        if (e) { intersecting = e.isIntersecting; sync(); }
+      })
       : null;
     io?.observe(root);
-    const unsub = subscribeFrame(() => {
-      if (document.hidden || !intersecting || el.paused) return;
-      const p = Number.isFinite(el.duration) && el.duration > 0 ? el.currentTime / el.duration : 0;
-      root.style.setProperty('--_ag-media-progress', p.toFixed(4));
-    });
-    return () => { unsub(); io?.disconnect(); };
+    const ac = new AbortController();
+    document.addEventListener('visibilitychange', sync, { signal: ac.signal });
+    sync();
+    return () => { ac.abort(); io?.disconnect(); unsub?.(); unsub = null; };
   }, [el, state.paused, state.ended]);
 
   // Tone sampling — only the ref-bound element, at most once per src.
@@ -106,9 +123,15 @@ export function useMediaElement(
     } else {
       const onData = () => getOrSampleTone(mediaEl, undefined, apply);
       if (el.readyState >= 2) onData();
-      else el.addEventListener('loadeddata', onData, { once: true });
+      else {
+        // on the element's single AbortSignal (aborted with its store), and
+        // removed early if sampling is switched off while still pending.
+        el.addEventListener('loadeddata', onData, { once: true, signal: getSignal(el, hz) });
+        return () => { el.removeEventListener('loadeddata', onData); };
+      }
     }
-  }, [el, sampleTone]);
+    return undefined;
+  }, [el, sampleTone, hz]);
 
   // Media Session
   React.useEffect(() => {
@@ -152,5 +175,14 @@ export function useMediaElement(
     setRate: (r: number) => { const m = ref.current; if (m) m.playbackRate = r; },
     requestPictureInPicture: () => { void (ref.current as HTMLVideoElement | null)?.requestPictureInPicture?.(); },
     requestFullscreen: (target?: Element | null) => { void (target ?? ref.current)?.requestFullscreen?.(); },
+    setTextTrackMode: (id: string, mode: TextTrackMode) => {
+      const tt = ref.current?.textTracks;
+      for (let i = 0; i < (tt?.length ?? 0); i++) {
+        const t = tt![i]!;
+        // matches the store snapshot id (TextTrack.id) or, for id-less
+        // tracks, their index
+        if (t.id === id || (!t.id && String(i) === id)) { t.mode = mode; return; }
+      }
+    },
   }), [state, ref]);
 }

@@ -1,7 +1,10 @@
 // tests/media/jest.doubles.cjs — W4 doubles preset (SURF-515, contract §4.10).
-// CMP_MODULES used by ./media (slider, toolbar, menu, dialog, collapsible) map
-// onto tests/contract-doubles/cmp/*.tsx (dialog via the lane-local double —
-// its Content composes the portal, like W1's). Run:
+// CMP_MODULES used by ./media that are still mapped onto doubles: collapsible
+// (tests/contract-doubles/cmp) and dialog (lane-local double — its Content
+// composes the portal, like W1's). Slider, Toolbar and Menu mappings were
+// deleted (contract §5.2 row SURF / §6.3) once those CMP components shipped
+// for real and their conformance tests passed: MediaControls relies on their
+// real roving focus, material attributes and Menu parts (REQ-SURF-135/138). Run:
 //   npx jest -c tests/media/jest.doubles.cjs
 const rootModule = require('../../jest.config.js');
 const root = rootModule.default ?? rootModule;
@@ -15,14 +18,6 @@ module.exports = {
   moduleNameMapper: {
     ...root.moduleNameMapper,
     // CMP seams at every depth src/media imports them
-    '^\\.\\./\\.\\./components/slider$': cmp('slider'),
-    '^\\.\\./components/slider$': cmp('slider'),
-    '^\\.\\./\\.\\./components/toolbar$': cmp('toolbar'),
-    '^\\.\\./\\.\\./\\.\\./components/toolbar$': cmp('toolbar'),
-    '^\\.\\./components/toolbar$': cmp('toolbar'),
-    '^\\.\\./\\.\\./\\.\\./components/menu$': cmp('menu'),
-    '^\\.\\./\\.\\./components/menu$': cmp('menu'),
-    '^\\.\\./components/menu$': cmp('menu'),
     '^\\.\\./\\.\\./\\.\\./components/collapsible$': cmp('collapsible'),
     '^\\.\\./\\.\\./components/collapsible$': cmp('collapsible'),
     '^\\.\\./components/collapsible$': cmp('collapsible'),

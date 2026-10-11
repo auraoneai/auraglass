@@ -1,22 +1,30 @@
 'use client';
+/* REQ-SURF-138 — Mute toggle: constant label, aria-pressed = muted. */
 import * as React from 'react';
-import { useMediaModel } from '../mediaContext';
+import { Volume2Icon } from '../../../icons/action/volume-2';
+import { VolumeXIcon } from '../../../icons/action/volume-x';
+import { useMediaLayout, useMediaModel, useRegisterPart } from '../mediaContext';
+import { MediaToolbarButton } from './ToolbarButton';
 
-export const Mute = React.forwardRef<HTMLButtonElement, { className?: string }>(function Mute({ className }, ref) {
+/** The bare toggle (also rendered by Volume below 480 px). */
+export function MuteToggle({ className, ref }: { className?: string | undefined; ref?: React.Ref<HTMLButtonElement> | undefined }) {
   const m = useMediaModel('Mute');
   return (
-    <button
-        type="button"
-        role="button"
-        tabIndex={0}
+    <MediaToolbarButton
       ref={ref}
-      className={['ag-media-btn', className].filter(Boolean).join(' ')}
+      className={className}
       data-ag-part="media-mute"
+      label="Mute"
       aria-pressed={m.muted}
-      aria-label={m.muted ? 'Unmute' : 'Mute'}
+      icon={m.muted ? <VolumeXIcon /> : <Volume2Icon />}
       onClick={() => m.setMuted(!m.muted)}
-    >
-      <span aria-hidden="true">{m.muted ? '🔇' : '🔊'}</span>
-    </button>
+    />
   );
-});
+}
+
+export function Mute(props: { className?: string | undefined; ref?: React.Ref<HTMLButtonElement> | undefined }) {
+  useRegisterPart('mute');
+  const { size } = useMediaLayout();
+  if (size === 'minimal') return null;
+  return <MuteToggle {...props} />;
+}

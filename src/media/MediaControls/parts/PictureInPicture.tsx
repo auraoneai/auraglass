@@ -1,22 +1,25 @@
 'use client';
+/* REQ-SURF-138 — PiP toggle. Below 480 px it moves into the "More" menu
+ * rendered by Root (REQ-SURF-135). */
 import * as React from 'react';
-import { useMediaModel } from '../mediaContext';
+import { MonitorIcon } from '../../../icons/action/monitor';
+import { useMediaLayout, useMediaModel, useRegisterPart } from '../mediaContext';
+import { MediaToolbarButton } from './ToolbarButton';
 
-export const PictureInPicture = React.forwardRef<HTMLButtonElement, { className?: string }>(function PictureInPicture({ className }, ref) {
+export function PictureInPicture({ className, ref }: { className?: string | undefined; ref?: React.Ref<HTMLButtonElement> | undefined }) {
+  useRegisterPart('pip');
   const m = useMediaModel('PictureInPicture');
+  const { size } = useMediaLayout();
+  if (size !== 'full') return null;
   return (
-    <button
-        type="button"
-        role="button"
-        tabIndex={0}
+    <MediaToolbarButton
       ref={ref}
-      className={['ag-media-btn', className].filter(Boolean).join(' ')}
+      className={className}
       data-ag-part="media-pip"
+      label="Picture in picture"
       aria-pressed={m.pictureInPicture}
-      aria-label="Picture in picture"
+      icon={<MonitorIcon />}
       onClick={() => m.requestPictureInPicture()}
-    >
-      <span aria-hidden="true">◱</span>
-    </button>
+    />
   );
-});
+}

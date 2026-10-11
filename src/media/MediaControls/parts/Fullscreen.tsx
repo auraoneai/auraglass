@@ -1,21 +1,22 @@
 'use client';
+/* REQ-SURF-138 — Fullscreen action (CMP Icon glyph). */
 import * as React from 'react';
-import { useMediaModel } from '../mediaContext';
+import { MaximizeIcon } from '../../../icons/action/maximize';
+import { useMediaLayout, useMediaModel } from '../mediaContext';
+import { MediaToolbarButton } from './ToolbarButton';
 
-export const Fullscreen = React.forwardRef<HTMLButtonElement, { className?: string }>(function Fullscreen({ className }, ref) {
+export function Fullscreen({ className, ref }: { className?: string | undefined; ref?: React.Ref<HTMLButtonElement> | undefined }) {
   const m = useMediaModel('Fullscreen');
+  const { size } = useMediaLayout();
+  if (size === 'minimal') return null;
   return (
-    <button
-        type="button"
-        role="button"
-        tabIndex={0}
+    <MediaToolbarButton
       ref={ref}
-      className={['ag-media-btn', className].filter(Boolean).join(' ')}
+      className={className}
       data-ag-part="media-fullscreen"
-      aria-label="Fullscreen"
+      label="Fullscreen"
+      icon={<MaximizeIcon />}
       onClick={() => m.requestFullscreen()}
-    >
-      <span aria-hidden="true">⛶</span>
-    </button>
+    />
   );
-});
+}
