@@ -17,3 +17,4 @@ export {
   type LiquidGlassScrollEdgeCompatProps,
   type LiquidGlassConcentricFrameCompatProps,
 } from './material/LiquidGlassMaterial';
+export { createBrandGlassTheme, type CreateBrandGlassThemeOptions } from './createBrandGlassTheme';
