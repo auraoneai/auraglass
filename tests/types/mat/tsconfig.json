@@ -4,6 +4,7 @@
     "noEmit": true
   },
   "include": [
-    "./**/*.test-d.ts"
+    "./**/*.test-d.ts",
+    "../../../src/motion/__tests__/types.test-d.ts"
   ]
 }

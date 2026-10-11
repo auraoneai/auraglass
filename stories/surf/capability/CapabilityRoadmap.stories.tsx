@@ -81,6 +81,7 @@ function Roadmap({ release }: { release: string }) {
 }
 
 const meta: Meta<typeof Roadmap> = {
+  parameters: { ag: { subject: 'CapabilityRoadmap', kind: 'showcase' } },
   title: 'surf/capability/CapabilityRoadmap',
   component: Roadmap,
   args: { release: 'all' },

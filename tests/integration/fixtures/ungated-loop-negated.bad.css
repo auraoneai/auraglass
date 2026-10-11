@@ -1,0 +1,10 @@
+/* fixture: a loop under a NEGATED gate and an ambient-duration use outside the
+   gate — both must trip REQ-FIN-12's ungated-loop rule */
+@layer ag.components {
+  :root:not([data-ag-continuous=on]) .fix-spin {
+    animation: ag-rotate var(--ag-duration-small) ease infinite;
+  }
+  .fix-drift {
+    animation-duration: var(--ag-duration-ambient);
+  }
+}
