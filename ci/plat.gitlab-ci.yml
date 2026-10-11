@@ -219,7 +219,7 @@ plat:gate:change-class:
       allow_failure: false
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release"
   script:
-    - BASE=$([ "$AG_LINE" = "4x" ] && echo release/4.x || echo next)
+    - BASE=${AG_BASE_BRANCH:-$([ "$AG_LINE" = "4x" ] && echo release/4.x || echo next)}
     - git fetch --no-tags origin "+refs/heads/$BASE:refs/remotes/origin/$BASE" "+refs/tags/*:refs/tags/*"
     - 'test -f scripts/release/classify-change.mjs || { echo "PENDING: scripts/release/classify-change.mjs (lane 1c)"; exit 1; }'
     - |
