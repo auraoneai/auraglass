@@ -32,7 +32,9 @@ const COLUMNS = [
   { accessorKey: 'subject', header: 'Subject' },
   { accessorKey: 'status', header: 'Status' },
 ];
-const TREE = [
+/* a type alias (not an interface) so it satisfies TreeItemData's index signature */
+type TreeNode = { id: string; label: string; children?: TreeNode[] };
+const TREE: TreeNode[] = [
   { id: 'root', label: 'Inbox', children: [{ id: 'leaf', label: 'Triage' }] },
 ];
 const FILTERS = [
@@ -68,7 +70,13 @@ export default function DataClientCanaryPage() {
       <KeyValueEditor value={kv} onValueChange={setKv} />
       <StatCard label="Tickets" value={42} />
       <Sparkline data={[3, 5, 2, 8, 6]} aria-label="Ticket trend" />
-      <ChartFrame title="Volume" children={null} />
+      <ChartFrame
+        title="Volume"
+        data={[{ day: "Mon", tickets: 3 }, { day: "Tue", tickets: 5 }]}
+        series={[{ key: "tickets", label: "Tickets" }]}
+        x={{ key: "day", label: "Day" }}
+        children={null}
+      />
       <Timeline items={[{ id: 'e1', timestamp: '2026-01-01', title: 'Opened' }]} />
       <ActivityFeed items={[{ id: 'a1', timestamp: '2026-01-01', title: 'Commented', actor: { name: 'Ada' } }]} />
       <DateField aria-label="Date" />
