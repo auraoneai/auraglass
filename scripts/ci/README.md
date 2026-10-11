@@ -6,8 +6,9 @@ CI/CD here is **GitLab CI only** (contract §4.13). The repo
 
 ## Layout
 
-- `.gitlab-ci.yml` (root) — stages `contract, build, test, certify, package,
-  deploy, publish`; workflow rules set `AG_SCOPE` (`pr|main|nightly|release`)
+- `.gitlab-ci.yml` (root) — stages `contract, build, test, package, certify,
+  deploy, publish` (package before certify: `qual:certify:*` need
+  `plat:package:pack`); workflow rules set `AG_SCOPE` (`pr|main|nightly|release`)
   and `AG_LINE` (`4x|5x`); `.ag-*` runner templates; the three `contract:*` jobs.
 - `ci/<stream>.gitlab-ci.yml` — per-stream fragments, included by wildcard.
 - `ci/plat/activation.json` — first-green-run records that let a REQUIRED job
