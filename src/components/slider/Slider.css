@@ -51,7 +51,7 @@
     background: var(--ag-color-canvas);
     box-shadow: var(--ag-shadow-thin), inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     /* REQ-49: never scales; dragging raises specular (MAT optics layer). */
-    transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
   }
   /* REQ-CMP-49: thumb sm/md/lg = 16/20/24px; never scales (no transform). */
   .ag-slider[data-ag-size='sm'] [data-ag-part='thumb'] {
