@@ -1,7 +1,15 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 @layer ag.components {
-  .ag-tree { display: grid; gap: var(--ag-space-1, 0.25rem); }
+  .ag-tree {
+    /* SURF-081: 20px per level, 12px below 480px. */
+    --_ag-tree-indent: var(--_ag-tree-indent-wide, 20px);
+    display: grid;
+    gap: var(--ag-space-1, 0.25rem);
+  }
+  @media (max-width: 480px) {
+    .ag-tree { --_ag-tree-indent: var(--_ag-tree-indent-narrow, 12px); }
+  }
   .ag-tree__item {
     outline: none;
     border-radius: var(--_ag-radius-1, 0.25rem);
@@ -10,11 +18,12 @@
   .ag-tree__item[data-focused] { outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus, currentColor); }
   .ag-tree__item[data-selected] { background: var(--_ag-accent-soft, transparent); }
   .ag-tree__item[data-disabled] { opacity: 0.5; }
-  .ag-tree__label { display: inline-flex; align-items: center; gap: var(--ag-space-2, 0.5rem); }
-  .ag-tree__load {
-    all: unset;
-    cursor: pointer;
-    min-inline-size: var(--_ag-touch-target, 44px);
-    text-align: center;
+  .ag-tree__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ag-space-2, 0.5rem);
+    padding-inline-start: calc(var(--_ag-tree-level, 0) * var(--_ag-tree-indent));
   }
+  .ag-tree__chevron-glyph--open { rotate: 90deg; }
+  .ag-tree__chevron-glyph:dir(rtl):not(.ag-tree__chevron-glyph--open) { scale: -1 1; }
 }
