@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 /* scripts/release/downstream-grep.mjs — PLAT-212. Bounded grep over known
-   downstream consumer checkouts, producing .artifacts/plat/downstream-report.json
+   downstream consumer checkouts, producing docs/release/decisions/downstream-<version>.json (PRD shape)
    with {root, pins, imports, servicesImports, removedSymbolHits} per root.
 
      node scripts/release/downstream-grep.mjs --roots /path/to/app,/path/to/lib \
-       [--timeout-secs 60] [--out .artifacts/plat/downstream-report.json]
+       [--timeout-secs 60] [--version X.Y.Z] [--remove-in 5.0.0]
+       [--fragments-root <checkout>] [--out docs/release/decisions/downstream-<version>.json]
 
    Safety: refuses to scan $HOME or /, refuses roots that don't exist, caps the
    per-root time at 60s (bounded `rg`, no recursion into node_modules). The
@@ -24,10 +25,12 @@ const EXCLUDE_GLOBS = ['!node_modules', '!.git', '!dist', '!build', '!.next',
   '!yarn.lock', '!bun.lockb', '!coverage', '!.artifacts'];
 
 // Removed symbols come from the deprecations fragments (removeIn '5.0.0'),
-// not a hard-coded list — the grep set tracks the register.
+// not a hard-coded list — the grep set tracks the register. The contract
+// loader always comes from this checkout; `root` only selects whose
+// fragments/deprecations/* are read (a fixture root in tests).
 export async function removedSymbols(root = ROOT, removeIn = '5.0.0') {
   const { loadFragments } = await import(
-    new URL(`file://${resolve(join(root, 'src/contracts/load-fragments.mjs'))}`).href);
+    new URL('../../src/contracts/load-fragments.mjs', import.meta.url).href);
   const rows = await loadFragments('deprecations', root);
   const syms = new Set();
   // Fragments may arrive flat or as {stream,file,value:[entries]} blocks.
@@ -92,7 +95,8 @@ export async function main(argv = process.argv.slice(2)) {
   const version = arg('--version') ?? JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')).version;
   const out = resolve(arg('--out') ?? join(ROOT, 'docs/release/decisions', `downstream-${version}.json`));
   const removeIn = arg('--remove-in') ?? '5.0.0';
-  const symbols = await removedSymbols(ROOT, removeIn);
+  // --fragments-root: read another checkout's fragments (default: this one).
+  const symbols = await removedSymbols(resolve(arg('--fragments-root') ?? ROOT), removeIn);
   const results = [];
   for (const r of roots) results.push(await scanRoot(r, { timeoutSecs, symbols }));
   // PRD report shape: per-root status + structured hits + the symbol set used.
