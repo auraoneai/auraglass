@@ -24,10 +24,11 @@ describe('Progress', () => {
     expect(container.querySelector('[data-ag-part="label"]')!.textContent).toBe('Loading');
     expect(container.querySelector('[data-ag-part="value"]')).not.toBeNull();
   });
-  it('appearance=ring renders an svg circle track+indicator', () => {
+  it("appearance='ring' renders an svg circle track+indicator", () => {
     const { container } = render(<Progress appearance="ring" value={30} label="R" />);
     expect(container.querySelector('svg')).not.toBeNull();
     expect(container.querySelector('[data-ag-part="indicator"]')).not.toBeNull();
+    expect(container.querySelector('[data-ag-appearance="ring"]')).not.toBeNull();
   });
 });
 

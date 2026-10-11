@@ -98,7 +98,6 @@ export type {
   SheetButtonishProps, SheetActionProps, SheetLayoutProps, SheetSide, SheetPreset,
 } from '../components/sheet';
 export type { SheetDetent } from '../components/sheet';
-export { SheetHandle, useSheetDetents, resolveDetent } from '../components/sheet';
 
 export { Popover } from '../components/popover';
 export { Tooltip } from '../components/tooltip';

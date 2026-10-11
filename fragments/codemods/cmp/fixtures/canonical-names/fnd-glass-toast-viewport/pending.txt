@@ -1,0 +1,1 @@
+pending: cmp mapping rows land ahead of the 4to5 engine transform coverage; enable when the owning transform produces the golden byte-for-byte.

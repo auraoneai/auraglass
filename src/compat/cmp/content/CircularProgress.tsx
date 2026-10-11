@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Progress } from '../../../components/progress/Progress.client';
 import type { ProgressProps } from '../../../components/progress/Progress.client';
 
-const DEP = 'DEP-C0230';
+const DEP = 'DEP-C0243';
 
 export type CircularProgressProps = Omit<ProgressProps, 'appearance'>;
 
