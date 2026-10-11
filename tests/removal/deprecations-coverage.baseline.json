@@ -884,12 +884,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "HStack",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
       "name": "InstallCommand",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -992,12 +986,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "RovingFocusGroup",
-      "owner": "CMP",
-      "reqFin": "REQ-FIN-76",
-      "expires": "RC-1"
-    },
-    {
       "name": "ShowcaseCard",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -1035,12 +1023,6 @@
     },
     {
       "name": "VoiceGlassControl",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "VStack",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
       "expires": "RC-1"

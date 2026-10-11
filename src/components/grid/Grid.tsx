@@ -37,7 +37,7 @@ export function Grid({
         {...rest}
         ref={ref}
         data-ag-part="root"
-        data-ag-variant="masonry"
+        data-ag-appearance="masonry"
         className={cn('ag-grid', 'ag-grid-masonry', className)}
         style={styleObj}
       />
@@ -56,13 +56,13 @@ export function Grid({
       {...rest}
       ref={ref}
       data-ag-part="root"
-      data-ag-variant="standard"
-      data-ag-cols={typeof columns === 'number' ? columns : undefined}
-      data-ag-cols-base={responsive?.base}
-      data-ag-cols-sm={responsive?.sm}
-      data-ag-cols-md={responsive?.md}
-      data-ag-cols-lg={responsive?.lg}
-      data-ag-min-item={minItemWidth ? '' : undefined}
+      data-ag-appearance="standard"
+      data-cols={typeof columns === 'number' ? columns : undefined}
+      data-cols-base={responsive?.base}
+      data-cols-sm={responsive?.sm}
+      data-cols-md={responsive?.md}
+      data-cols-lg={responsive?.lg}
+      data-min-item={minItemWidth ? '' : undefined}
       className={cn('ag-grid', className)}
       style={styleObj}
     />

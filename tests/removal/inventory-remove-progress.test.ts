@@ -61,6 +61,15 @@ describe('inventory-remove-progress (RM family diffs)', () => {
     }
   });
 
+  // Counts the committed tree (HEAD), not the index: revert-dry-run.mjs runs
+  // this suite with an RM revert staged but uncommitted, which restores legacy
+  // files by design. Any commit that regrows legacy/ still fails here.
+  it('git ls-files legacy never regrows beyond the RM-14 floor', () => {
+    const count = Number(execFileSync('git', ['ls-tree', '-r', '--name-only', 'HEAD', '--', 'legacy'], { cwd: ROOT, encoding: 'utf8' })
+      .split('\n').filter(Boolean).length);
+    expect(count).toBeLessThanOrEqual(239);
+  });
+
   it('the committed dispositions are the input (rows parse with owner/codemod columns)', () => {
     const rows = dispositionsRows(readFileSync(join(ROOT, 'docs/inventory/component-dispositions.md'), 'utf8'));
     expect(rows).toHaveLength(500);

@@ -9,5 +9,8 @@ export const AvatarGroupMeta = defineMeta({
   parts: ['root', 'item', 'value'],
   states: [],
   variants: { size: ['sm', 'md', 'lg'] },
-  migration: [{ from: 'GlassAvatarGroup', automation: 'full', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 3000 / 1024,
+  migration: [{ from: 'GlassAvatarGroup', props: {}, selectors: { '.glass-avatar-group': '.ag-avatar-group' },  automation: 'full', compat: true }],
 });
