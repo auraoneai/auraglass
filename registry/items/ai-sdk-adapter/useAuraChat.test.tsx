@@ -1,9 +1,11 @@
 /**
  * @jest-environment node
  */
-/* useAuraChat (SURF-368): @ai-sdk/react with a mocked ChatTransport — an
- * in-memory stream, no network. Asserts sendMessage receives the text, stop
- * is only exposed while streaming/submitted. */
+/* useAuraChat (SURF-368, REQ-SURF-106): @ai-sdk/react with a mocked
+ * ChatTransport — an in-memory stream, no network. Moved from
+ * ci/surf/ai-sdk/ai-sdk-adapter/ (the registry copy is canonical). Asserts the
+ * idle result shape; the sendMessage/stop/regenerate/approval transport
+ * assertions are REQ-SURF-173 (next-fin/f-ai-chat-hook). */
 import { describe, expect, it } from '@jest/globals';
 import { renderToString } from 'react-dom/server';
 import type { ChatTransport, UIMessage } from 'ai';
