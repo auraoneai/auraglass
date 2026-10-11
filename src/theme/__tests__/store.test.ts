@@ -228,7 +228,7 @@ describe('createPreferenceStore', () => {
   });
 
   /* REQ-MAT-53 acceptance: set('bogus' as any, 1) leaves storage unchanged.
-     Producer: REQ-FIN-12 (PR #119, store.set validation). */
+     Producer: REQ-FIN-12 (PR 119, store.set validation). */
   it('set() ignores an unknown key or an out-of-domain value (storage, snapshot, listeners)', () => {
     const storage = createMemoryStorage();
     const target = document.createElement('div');
@@ -264,7 +264,7 @@ describe('createPreferenceStore', () => {
 });
 
 /* REQ-MAT-53 (MAT-53, D.3-33): one preference store per document. Nested
-   providers reuse the outer store (producer: REQ-FIN-04, PR #121); a set()
+   providers reuse the outer store (producer: REQ-FIN-04, PR 121); a set()
    from a panel inside an inner provider reaches the outer snapshot and <html>;
    a preference change commits once and re-renders only the hook reader, never
    the 50 surfaces that read no hooks. */

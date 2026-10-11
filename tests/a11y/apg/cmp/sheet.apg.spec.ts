@@ -17,10 +17,10 @@ test.describe('sheet APG (CMP-405)', () => {
     const handle = page.getByRole('button', { name: 'Resize sheet' }).first();
     await expect(handle).toBeVisible();
 
-    const detentBefore = await popup.getAttribute('data-ag-detent');
+    const detentBefore = await popup.getAttribute('data-detent');
     await handle.focus();
     await page.keyboard.press('Enter');
-    const detentAfter = await popup.getAttribute('data-ag-detent');
+    const detentAfter = await popup.getAttribute('data-detent');
     expect(detentAfter).not.toBe(detentBefore);
 
     // body reachable by Tab from the handle at the new detent

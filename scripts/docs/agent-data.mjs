@@ -68,9 +68,16 @@ export async function loadMetas(root = ROOT) {
 
 /** Prop rows per component: <Name>Props, else <Name>RootProps (compound roots). */
 export async function loadProps(root = ROOT) {
-  const { collect } = await import(pathToFileURL(join(root, 'scripts/docs/gen-props.mjs')).href);
-  const all = collect(root);
-  return (name) => (all[`${name}Props`] ?? all[`${name}RootProps`] ?? []).map(({ name: n, type, required, description }) => ({
+  /* Same extraction as gen-component-docs.mjs (TS compiler API over the packed
+     d.ts, falling back to source), computed in memory — nothing written. */
+  const { extractProps, resolveTypesSource } = await import(pathToFileURL(join(root, 'scripts/docs/gen-props.mjs')).href);
+  const metas = await loadMetas(root);
+  const source = resolveTypesSource({ root });
+  let all;
+  try {
+    ({ props: all } = extractProps({ root, source, wanted: metas.map(({ meta }) => ({ name: meta.name, entry: meta.entry })) }));
+  } finally { source.cleanup(); }
+  return (name) => (all[name] ?? []).map(({ name: n, type, required, description }) => ({
     name: n, type, required, ...(description ? { description } : {}),
   }));
 }
