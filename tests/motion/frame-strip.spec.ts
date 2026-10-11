@@ -54,6 +54,10 @@ test.describe('frame diversity — no-preference', () => {
       expect(duringWillChange).toBeLessThanOrEqual(3);
       const res = await frames(page, root, { samples: 12 });
       const distinct = await countDistinctFrames(res.samples);
+      test.info().annotations.push({
+        type: 'motion',
+        description: JSON.stringify({ id: id!, mode: 'full', preference: 'no-preference', framesChanged: distinct }),
+      });
       expect(
         running.filter((t) => t === 'CSSTransition' || t === 'CSSAnimation').length,
         `${subject}: >= 1 CSSTransition/CSSAnimation running at trigger+1 frame`,
@@ -69,23 +73,23 @@ test.describe('reduce — Popup identity transform', () => {
     test(`${subject}: scale/translate identical to settled under reduce`, async ({ page }) => {
       const ids = await subjectsByName([subject]);
       const id = ids.get(subject);
-      if (!id) {
-        // subject not delivered yet — covered the day it lands (DOUBLE-PASS)
-        test.info().annotations.push({ type: 'motion', description: `subject ${subject} absent` });
-        return;
-      }
-      await gotoStory(page, id, { motion: 'full' });
+      // REQ-MAT-43 (D.3-25): an absent subject fails — it is never a pass.
+      expect(id, `${subject} subject story present`).toBeTruthy();
+      await gotoStory(page, id!, { motion: 'full' });
       const root = page.locator('[data-ag-root]');
       const trigger = root.locator('[data-ag-part="trigger"], button').first();
       if (await trigger.count()) await trigger.click({ force: true }).catch(() => undefined);
       const res = await frames(page, root, { samples: 12 });
       const settled = await root.screenshot();
       const a = decodePng(settled);
-      const b = decodePng(res.samples.at(-1)!.shot);
-      if (a && b && a.width === b.width && a.height === b.height) {
-        const { diffRatio } = await import('./helpers/png.js');
-        expect(diffRatio(a.data, b.data)).toBeLessThan(0.005);
-      }
+      const last = res.samples.at(-1);
+      expect(last, `${subject}: frames() returned samples`).toBeDefined();
+      const b = decodePng(last!.shot);
+      expect(a, `${subject}: settled screenshot decodes`).not.toBeNull();
+      expect(b, `${subject}: last sampled frame decodes`).not.toBeNull();
+      expect([b!.width, b!.height], `${subject}: sampled frame size equals settled`).toEqual([a!.width, a!.height]);
+      const { diffRatio } = await import('./helpers/png.js');
+      expect(diffRatio(a!.data, b!.data)).toBeLessThan(0.005);
       // element-level: no part carries scale/translate mid-flight under reduce
       const midBad = await root.evaluate((el) => {
         const bad: string[] = [];
