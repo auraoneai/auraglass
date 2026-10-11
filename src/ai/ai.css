@@ -13,6 +13,10 @@
 }
 @layer ag.components {
   .ag-thread-viewport, [data-ag-part="log"] { overflow-anchor: auto; }
+  /* REQ-SURF-107: the log is the thread's single scroll container; it fills
+     the thread and shrinks to leave room for the empty state / jump pill. */
+  [data-ag-part="thread"] { display: flex; flex-direction: column; block-size: 100%; min-block-size: 0; }
+  [data-ag-part="log"] { overflow-y: auto; min-block-size: 0; block-size: 100%; flex: 1 1 auto; }
   [data-ag-part="bottom-sentinel"] { overflow-anchor: none; }
   [data-ag-part="jump-to-latest"] {
     position: sticky;
