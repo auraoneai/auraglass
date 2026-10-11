@@ -21,7 +21,14 @@ for (const e of pending) console.log(`  pending entry ${e.subpath}: ${e.reason}`
 
 for (const f of walk(DIST, p => p.endsWith('.d.ts'))) {
   const t = readFileSync(f, 'utf8');
-  for (const m of t.matchAll(/['"](@\/[^'"]+|aura-glass(?:\/[^'"]*|))['"]/g)) fail(`${f}: unresolved alias '${m[1]}'`);
+  /* only import/export/dynamic-import/require specifiers count — bare quoted
+     strings like the LEGACY_STORAGE_KEY literal are not unresolved aliases */
+  for (const m of t.matchAll(/(?:from|import|require)\s*\(?\s*['"](@\/[^'"]+|aura-glass[^'"]*)['"]/g)) {
+    const spec = m[1];
+    if (spec === 'aura-glass' || /^aura-glass\//.test(spec) || spec.startsWith('@/')) {
+      fail(`${f}: unresolved alias '${spec}'`);
+    }
+  }
 }
 for (const f of walk(DIST)) {
   const t = readFileSync(f, 'utf8');
