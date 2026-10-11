@@ -18,6 +18,10 @@ export const COPY = {
   settings: 'Assistant settings',
   share: 'Share transcript',
   navLabel: 'Conversations',
+  showConversations: 'Show conversations',
+  hideConversations: 'Hide conversations',
+  openInspector: 'Open run inspector',
+  closeInspector: 'Close run inspector',
   toolActivity: 'Tool activity',
   reasoning: 'How the assistant reached this answer',
   sources: 'Sources',
@@ -49,6 +53,9 @@ export const SOURCES: AgSourcePart[] = [
   { type: 'source-url', sourceId: 'src-grafana', url: 'https://grafana.northwind.example/d/checkout-p99', title: 'Checkout p99 latency dashboard' },
   { type: 'source-url', sourceId: 'src-deploy', url: 'https://deploy.northwind.example/releases/checkout-api/7.14.2', title: 'checkout-api 7.14.2 release record' },
   { type: 'source-url', sourceId: 'src-runbook', url: 'https://wiki.northwind.example/runbooks/checkout-rollback', title: 'Runbook: checkout canary rollback' },
+  { type: 'source-url', sourceId: 'src-pager', url: 'https://oncall.northwind.example/incidents/4821/timeline', title: 'Incident 4821 on-call timeline' },
+  { type: 'source-url', sourceId: 'src-status', url: 'https://status.northwind.example/incidents/4821', title: 'Public status page entry for incident 4821' },
+  { type: 'source-url', sourceId: 'src-trace', url: 'https://traces.northwind.example/checkout-api/slow-requests', title: 'Slow checkout-api traces, EU-West' },
 ] as AgSourcePart[];
 
 const tool = (name: string, id: string, state: AgToolPart['state'], extra: Partial<AgToolPart> = {}): AgToolPart => ({

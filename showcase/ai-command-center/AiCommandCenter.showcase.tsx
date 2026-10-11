@@ -105,15 +105,41 @@ function ApprovalToast() {
   );
 }
 
+function ConversationNav() {
+  return (
+    <Sidebar.Nav aria-label={COPY.navLabel}>
+      {CONVERSATIONS.map((c) => (
+        <Sidebar.Item key={c.id} href={`#${c.id}`} current={c.current}>
+          {c.label}
+        </Sidebar.Item>
+      ))}
+    </Sidebar.Nav>
+  );
+}
+
+function RunInspectorContent({ now }: { now: number }) {
+  const opened = new Date(now).toISOString().slice(11, 16);
+  return (
+    <Inspector.Content>
+      {INSPECTOR_FIELDS.map((f) => (
+        <Inspector.Field key={f.label} label={f.label}>
+          {f.label === 'Opened' ? `${opened} UTC` : f.value}
+        </Inspector.Field>
+      ))}
+      <AgentSteps steps={STEPS} />
+    </Inspector.Content>
+  );
+}
+
 export function AiCommandCenter({ now = SHOWCASE_EPOCH }: AiCommandCenterProps) {
   const [paletteOpen, setPaletteOpen] = React.useState(false);
-  const opened = new Date(now).toISOString().slice(11, 16);
   return (
     <Toast.Provider>
       <AppShell.SkipLink>{COPY.skip}</AppShell.SkipLink>
       <AppShell.Root>
         <TopBar.Root>
           <TopBar.Leading>
+            <AppShell.SidebarToggle labels={{ expand: COPY.showConversations, collapse: COPY.hideConversations }} />
             <img className={styles.mark} src={mark} alt="" width={28} height={28} />
             <TopBar.Title>{COPY.product}</TopBar.Title>
           </TopBar.Leading>
@@ -123,17 +149,16 @@ export function AiCommandCenter({ now = SHOWCASE_EPOCH }: AiCommandCenterProps) 
             </Button>
             <IconButton label={COPY.share} icon={<Share2Icon />} />
             <IconButton label={COPY.settings} icon={<SettingsIcon />} />
+            <AppShell.InspectorToggle labels={{ open: COPY.openInspector, close: COPY.closeInspector }} />
           </TopBar.Trailing>
         </TopBar.Root>
         <Sidebar.Root labels={{ navigation: COPY.navLabel }}>
-          <Sidebar.Nav aria-label={COPY.navLabel}>
-            {CONVERSATIONS.map((c) => (
-              <Sidebar.Item key={c.id} href={`#${c.id}`} current={c.current}>
-                {c.label}
-              </Sidebar.Item>
-            ))}
-          </Sidebar.Nav>
+          <ConversationNav />
         </Sidebar.Root>
+        {/* 390 collapsed layout (REQ-QUAL-59): compact/medium modes move the same nav into a drawer Sheet. */}
+        <Sidebar.Drawer>
+          <ConversationNav />
+        </Sidebar.Drawer>
         <AppShell.Main>
           <AppShell.PageHeader title={COPY.pageTitle} description={COPY.pageDescription} headingLevel={1} />
           <div className={styles.workspace}>
@@ -165,21 +190,18 @@ export function AiCommandCenter({ now = SHOWCASE_EPOCH }: AiCommandCenterProps) 
                 <Citation messageId="m-draft" source={SOURCES[0]!} index={1} />
               </p>
               <h3>{COPY.sources}</h3>
-              <SourceList messageId="m-draft" sources={SOURCES} />
+              <SourceList messageId="m-draft" sources={SOURCES} defaultOpen />
             </section>
           </div>
         </AppShell.Main>
         <Inspector.Root aria-label={COPY.runbook}>
           <Inspector.Header title={COPY.runbook} />
-          <Inspector.Content>
-            {INSPECTOR_FIELDS.map((f) => (
-              <Inspector.Field key={f.label} label={f.label}>
-                {f.label === 'Opened' ? `${opened} UTC` : f.value}
-              </Inspector.Field>
-            ))}
-            <AgentSteps steps={STEPS} />
-          </Inspector.Content>
+          <RunInspectorContent now={now} />
         </Inspector.Root>
+        {/* 390 collapsed layout (REQ-QUAL-59): compact mode presents the inspector as a Sheet. */}
+        <Inspector.Sheet aria-label={COPY.runbook}>
+          <RunInspectorContent now={now} />
+        </Inspector.Sheet>
       </AppShell.Root>
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen}>
         <Command.Root>

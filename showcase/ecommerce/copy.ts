@@ -75,6 +75,10 @@ export const REVIEWS = [
   { id: 'r2', author: 'Marcus T.', rating: 4, text: 'Great reading chair. The seat is a little low if you are over six feet.' },
   { id: 'r3', author: 'Ines R.', rating: 5, text: 'Second one for the studio. Fog grey hides wear well.' },
   { id: 'r4', author: 'Owen P.', rating: 4, text: 'Arrived two days early. Cushion firmed up after a week of use.' },
+  { id: 'r5', author: 'Priya S.', rating: 5, text: 'The oak legs match our dining table exactly. No wobble on a tiled floor.' },
+  { id: 'r6', author: 'Henrik L.', rating: 3, text: 'Comfortable, but the armrests are narrower than the photos suggest.' },
+  { id: 'r7', author: 'Chloe M.', rating: 5, text: 'Replacement cover arrived within a week when our dog chewed a corner.' },
+  { id: 'r8', author: 'Samuel A.', rating: 4, text: 'Solid build. Box was heavy for one person, so plan for help on delivery day.' },
 ] as const;
 
 export const formatPrice = (amount: number) =>
