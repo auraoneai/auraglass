@@ -94,6 +94,7 @@ export function ChartPlot<TRow>({ ctx, type, stacked, orientation, curve, yDomai
         aria-roledescription="chart"
         aria-labelledby={labelId}
         tabIndex={0}
+        data-ag-focusable=""
         width="100%"
         height={h}
         viewBox={`0 0 ${w} ${h}`}

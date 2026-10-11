@@ -18,6 +18,10 @@ const w1 = [
   { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/command.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/app-shell/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/app-shell/**/*.spec.ts', scope: 'main', remote: true, failClosed: true },
+  // REQ-SURF-193: real Tab-key focus spec over every SURF story (ring tokens,
+  // not obscured by sticky chrome, overlay focus restore).
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/focus.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/focus.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/tabs-indicator.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/tabbar-minimize.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/source-transition.spec.ts', scope: 'pr', remote: true, failClosed: true },
