@@ -90,7 +90,12 @@ const w4 = [
 // mirror). SURF-633: labs admission gate on L1 with scopes pr + release, so a
 // red run fails the tag pipeline whose plat:publish:npm job publishes labs
 // (REQ-SURF-167). SURF-561: SURF purity gate on L1 (REQ-SURF-05).
+// REQ-SURF-15 (REQ-FIN-80): L11 migrate-4to5 canary over
+// tests/fixtures/consumer-4x/cases/surf (4.1.0 -> migrate 4to5 -> 5.0 tarball
+// -> tsc + render smoke); remote, job surf:package:migrate-canary.
 const w5 = [
+  { lane: 'L11', kind: 'node-script', path: 'scripts/surf/migrate-canary.mjs', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L11', kind: 'node-script', path: 'scripts/surf/migrate-canary.mjs', scope: 'main', remote: true, failClosed: true },
   {
     lane: 'L1',
     kind: 'node-script',

@@ -126,4 +126,28 @@ surf:test:doubles:
     paths:
       - .artifacts/surf/doubles/
 
+# REQ-SURF-15 (REQ-FIN-80): L11 migrate-4to5 canary. Installs aura-glass@4.1.0
+# in a scratch consumer app with the frozen cases of
+# tests/fixtures/consumer-4x/cases/surf, type-checks them, runs the packed CLI's
+# `migrate 4to5`, asserts the TODO report from cases/surf/canary.json, swaps in
+# the 5.0 tarball (AURAGLASS_TARBALL from plat:package:pack, else it builds and
+# packs this commit) and runs tsc + a react-dom/server render smoke over the
+# flagship subset. Registered as an L11 subject in fragments/lanes/surf.ts.
+surf:package:migrate-canary:
+  extends: .surf-base
+  stage: package
+  allow_failure: true # owning lane flips to false after first green on next
+  needs:
+    - { job: "plat:package:pack", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - node scripts/surf/migrate-canary.mjs --out .artifacts/surf/migrate-canary
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/migrate-canary/
+
 # --- lane W5 end ---

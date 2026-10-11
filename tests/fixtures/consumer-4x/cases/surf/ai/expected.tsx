@@ -3,12 +3,20 @@
 // rewrites the four chat imports to aura-glass/compat and inserts the TODO
 // marker — it does not touch JSX structure (REQ-SURF-14). Compat adapters
 // keep the 4.x names and warn once via warnDeprecated(id) (REQ-SURF-13).
+import type { ComponentProps } from 'react';
 import { GlassChat, GlassChatInput, GlassMessageList, GlassTypingIndicator } from 'aura-glass/compat';
-import type { ChatMessage } from 'aura-glass/compat';
 // TODO(aura-glass 5): migrate to aura-glass/ai Thread/Message/Composer, see <doc>
 
+type ChatMessage = ComponentProps<typeof GlassChat>['messages'][number];
+
 const messages: ChatMessage[] = [
-  { id: 'm1', type: 'text', sender: { id: 'u2' }, content: 'hi', timestamp: 1_700_000_000_000 } as ChatMessage,
+  {
+    id: 'm1',
+    type: 'text',
+    sender: { id: 'u2', name: 'Support' },
+    content: 'hi',
+    timestamp: new Date(1_700_000_000_000),
+  },
 ];
 
 export function SupportPanel() {
@@ -16,10 +24,10 @@ export function SupportPanel() {
     <>
       <GlassChat
         messages={messages}
-        currentUserId="u1"
+        currentUser={{ id: 'u1', name: 'Customer' }}
         onSendMessage={(content: string, attachments?: File[]) => console.log(content, attachments)}
       />
-      <GlassMessageList messages={messages} />
+      <GlassMessageList messages={messages} currentUserId="u1" />
       <GlassChatInput placeholder="Ask support" />
       <GlassTypingIndicator />
     </>
