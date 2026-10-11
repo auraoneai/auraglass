@@ -297,7 +297,7 @@ export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
           role="menubar"
           aria-orientation={orientation}
           orientation={orientation}
-          data-ag-part="menubar"
+          data-ag-part="root"
           className={cn('ag-menubar', className)}
           {...rest}
         />

@@ -3,7 +3,7 @@
 @layer ag.components {
   .ag-filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ag-space-2, 0.5rem); }
   .ag-filter-bar__rules { display: flex; flex-wrap: wrap; gap: var(--ag-space-1, 0.25rem); }
-  .ag-filter-bar__chip { display: inline-flex; align-items: center; gap: var(--ag-space-1, 0.25rem); border: var(--ag-border-width, 1px) solid var(--ag-border, currentColor); border-radius: var(--ag-radius-2, 0.5rem); padding-block: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1)); padding-inline: var(--ag-space-2, 0.5rem); background: var(--ag-surface, Canvas); }
-  .ag-filter-bar__remove { min-inline-size: var(--ag-touch-target, 44px); min-block-size: var(--ag-touch-target, 44px); border: 0; background: transparent; cursor: pointer; color: inherit; }
-  .ag-filter-bar__count { font-size: var(--ag-text-sm, 0.875rem); color: var(--ag-fg-muted, inherit); }
+  .ag-filter-bar__chip { display: inline-flex; align-items: center; gap: var(--ag-space-1, 0.25rem); border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor); border-radius: var(--_ag-radius-2, 0.5rem); padding-block: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1)); padding-inline: var(--ag-space-2, 0.5rem); background: var(--_ag-surface, Canvas); }
+  .ag-filter-bar__remove { min-inline-size: var(--_ag-touch-target, 44px); min-block-size: var(--_ag-touch-target, 44px); border: 0; background: transparent; cursor: pointer; color: inherit; }
+  .ag-filter-bar__count { font-size: var(--_ag-text-sm, 0.875rem); color: var(--_ag-fg-muted, inherit); }
 }

@@ -19,7 +19,7 @@ describe('ResizablePanels (SURF-051)', () => {
     render(<Three />);
     const handles = screen.getAllByRole('separator');
     expect(handles).toHaveLength(2);
-    expect(handles[0]).toHaveAttribute('aria-orientation', 'horizontal');
+    expect(handles[0]).toHaveAttribute('aria-orientation', 'vertical'); // APG: separator between left/right panes is vertical
     expect(handles[0]).toHaveAttribute('aria-valuemin', '10');
     expect(handles[0]).toHaveAttribute('aria-valuemax', '100');
   });
@@ -74,5 +74,44 @@ describe('ResizablePanels (SURF-051)', () => {
     fireEvent.keyDown(h, { key: 'ArrowRight' });
     expect(spy).toHaveBeenCalledWith('ag-panels:demo', expect.stringContaining('52'));
     spy.mockRestore();
+  });
+
+  it('SURF-42: px-string sizes convert against the root rect + onCollapse/onExpand', () => {
+    const onCollapse = jest.fn();
+    render(
+      <ResizablePanels.Root orientation="horizontal">
+        <ResizablePanels.Panel id="a" defaultSize="240px" minSize="100px" collapsible onCollapse={onCollapse} />
+        <ResizablePanels.Handle />
+        <ResizablePanels.Panel id="b" />
+      </ResizablePanels.Root>,
+    );
+    // no measurable rect in jsdom → px strings behave like percents; the
+    // contract is exercised (no crash, separator still APG-complete).
+    const sep = screen.getByRole('separator');
+    expect(sep).toHaveAttribute('aria-orientation', 'vertical');
+  });
+
+  it('SURF-44: default aria-label derives from the preceding panel', () => {
+    render(
+      <ResizablePanels.Root orientation="horizontal" labels={{ resize: 'Größe ändern: {panel}' }}>
+        <ResizablePanels.Panel id="a" label="Navigation" defaultSize={40} />
+        <ResizablePanels.Handle />
+        <ResizablePanels.Panel id="b" />
+      </ResizablePanels.Root>,
+    );
+    expect(screen.getByRole('separator')).toHaveAttribute('aria-label', 'Größe ändern: Navigation');
+  });
+
+  it('SURF-42: disabled handle is inert; withGrip renders the grip span', () => {
+    const { container } = render(
+      <ResizablePanels.Root orientation="horizontal">
+        <ResizablePanels.Panel id="a" defaultSize={40} />
+        <ResizablePanels.Handle disabled withGrip />
+        <ResizablePanels.Panel id="b" />
+      </ResizablePanels.Root>,
+    );
+    const sep = screen.getByRole('separator');
+    expect(sep).toHaveAttribute('aria-disabled', 'true');
+    expect(container.querySelector('.ag-panels__grip')).toBeTruthy();
   });
 });

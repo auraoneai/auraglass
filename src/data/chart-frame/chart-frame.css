@@ -14,45 +14,45 @@
     align-items: center;
     gap: var(--ag-space-2, 0.5rem);
     cursor: pointer;
-    min-block-size: var(--ag-touch-target, 44px);
-    font-size: var(--ag-text-sm, 0.875rem);
+    min-block-size: var(--_ag-touch-target, 44px);
+    font-size: var(--_ag-text-sm, 0.875rem);
   }
   .ag-chart-frame__legend-item[aria-pressed='false'] { opacity: 0.55; }
   .ag-chart-frame__swatch {
     inline-size: var(--ag-space-3, 0.75rem);
     block-size: var(--ag-space-3, 0.75rem);
-    border-radius: var(--ag-radius-1, 0.25rem);
+    border-radius: var(--_ag-radius-1, 0.25rem);
   }
   .ag-chart-frame__plot { min-block-size: 160px; position: relative; }
   .ag-chart-frame__toggle {
     all: unset;
     cursor: pointer;
-    color: var(--ag-accent, LinkText);
-    min-block-size: var(--ag-touch-target, 44px);
+    color: var(--_ag-accent, LinkText);
+    min-block-size: var(--_ag-touch-target, 44px);
   }
   .ag-chart-frame__table {
     inline-size: 100%;
     border-collapse: collapse;
-    font-size: var(--ag-text-sm, 0.875rem);
+    font-size: var(--_ag-text-sm, 0.875rem);
   }
   .ag-chart-frame__table th,
   .ag-chart-frame__table td {
     padding-block: var(--ag-space-1, 0.25rem);
     padding-inline: var(--ag-space-2, 0.5rem);
-    border-block-end: var(--ag-border-width, 1px) solid var(--ag-border-subtle, transparent);
+    border-block-end: var(--_ag-border-width, 1px) solid var(--_ag-border-subtle, transparent);
     text-align: start;
     font-variant-numeric: tabular-nums;
   }
   /* REQ-SURF-95: 8 chart hues from S-03 vars (relative OKLCH in the built
      theme); values verified by tests/data/chart-palette.test.ts. */
   .ag-chart-frame {
-    --_ag-chart-1: var(--ag-chart-1, oklch(from var(--ag-accent) l c h));
-    --_ag-chart-2: var(--ag-chart-2, oklch(from var(--ag-accent) l c calc(h + 45)));
-    --_ag-chart-3: var(--ag-chart-3, oklch(from var(--ag-accent) l c calc(h + 90)));
-    --_ag-chart-4: var(--ag-chart-4, oklch(from var(--ag-accent) l c calc(h + 135)));
-    --_ag-chart-5: var(--ag-chart-5, oklch(from var(--ag-accent) l c calc(h + 180)));
-    --_ag-chart-6: var(--ag-chart-6, oklch(from var(--ag-accent) l c calc(h + 225)));
-    --_ag-chart-7: var(--ag-chart-7, oklch(from var(--ag-accent) l c calc(h + 270)));
-    --_ag-chart-8: var(--ag-chart-8, oklch(from var(--ag-accent) l c calc(h + 315)));
+    --_ag-chart-1: var(--_ag-chart-1, oklch(from var(--_ag-accent) l c h));
+    --_ag-chart-2: var(--_ag-chart-2, oklch(from var(--_ag-accent) l c calc(h + 45)));
+    --_ag-chart-3: var(--_ag-chart-3, oklch(from var(--_ag-accent) l c calc(h + 90)));
+    --_ag-chart-4: var(--_ag-chart-4, oklch(from var(--_ag-accent) l c calc(h + 135)));
+    --_ag-chart-5: var(--_ag-chart-5, oklch(from var(--_ag-accent) l c calc(h + 180)));
+    --_ag-chart-6: var(--_ag-chart-6, oklch(from var(--_ag-accent) l c calc(h + 225)));
+    --_ag-chart-7: var(--_ag-chart-7, oklch(from var(--_ag-accent) l c calc(h + 270)));
+    --_ag-chart-8: var(--_ag-chart-8, oklch(from var(--_ag-accent) l c calc(h + 315)));
   }
 }

@@ -71,3 +71,10 @@ describe('commandScore', () => {
     }
   });
 });
+
+// REQ-SURF-61: camelCase word start ranks via raw-position boundary check.
+it("score('oS','openSettings') treats 'S' as a word start", () => {
+  const s = commandScore('oS', 'openSettings');
+  expect(s).toBeGreaterThanOrEqual(0.6); // word-start band, not mid-word subsequence
+  expect(s).toBeGreaterThan(commandScore("oS","optionsSave"));
+});

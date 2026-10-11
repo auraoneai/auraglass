@@ -11,5 +11,5 @@ export type GlassBottomNavProps = Record<string, unknown> & { children?: React.R
 export function GlassBottomNav(props: GlassBottomNavProps) {
   warnDeprecated('GlassBottomNav');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
-  return <TabBar.Root placement="bottom" {...rest}>{children}</TabBar.Root>;
+  return <TabBar.Root placement="overlay" appearance="bar" {...rest}>{children}</TabBar.Root>;
 }

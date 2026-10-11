@@ -51,7 +51,7 @@ export const createBrandTheme = (
   const onAccent = parseColor(theme.vars["--ag-color-on-accent"]!);
 
   for (let i = 0; i < 12; i++) {
-    rampModern.push(`--ag-accent-${i + 1}: ${relativeAccentStep(i, accent.l)};`);
+    rampModern.push(`--_ag-accent-${i + 1}: ${relativeAccentStep(i, accent.l)};`);
     let step: Oklch = { l: RAMP_LIGHTNESS[i]!, c: accent.c, h: accent.h };
     // text steps failing on-accent 4.5:1 move by the minimum L
     if (wcagContrast(formatOklch(onAccent), formatOklch(step)) < 4.5) {
@@ -77,7 +77,7 @@ export const createBrandTheme = (
     }
     const mapped = oklchToSrgb(step);
     const stepCss = mapped.inGamut ? formatOklch(step) : formatOklch(srgbToOklch(mapped));
-    rampLiteral.push(`--ag-accent-${i + 1}: ${stepCss};`);
+    rampLiteral.push(`--_ag-accent-${i + 1}: ${stepCss};`);
   }
 
   const sel = `[data-ag-theme="${theme.id}"]`;
