@@ -3,13 +3,17 @@
    scroll/resize listeners and document.body.style writes are banned in
    src/components/** and src/primitives/**; LayerStack is the only dispatcher. */
 import { describe, expect, it } from '@jest/globals';
-import { RuleTester } from 'eslint';
+import { RuleTester, type Rule } from 'eslint';
 import tsParser from '@typescript-eslint/parser';
 import * as fs from 'node:fs';
+import { createRequire } from 'node:module';
 import * as path from 'node:path';
-import rule from '../../../lint/rules/cmp/no-overlay-global-listeners.cjs';
 
 const REPO = path.resolve(__dirname, '../../..');
+// CJS rule module (no .d.ts): loaded through require, typed as an ESLint rule.
+const rule = createRequire(path.join(REPO, 'package.json'))(
+  './lint/rules/cmp/no-overlay-global-listeners.cjs',
+) as Rule.RuleModule;
 const BAN = new RegExp(
   '(document|window)\\.(addEventListener|removeEventListener)\\(\\s*[\\x27\\x22](keydown|mousedown|pointerdown|scroll|resize)|document\\.body\\.style\\.',
 );
@@ -74,10 +78,20 @@ describe('auraglass/no-overlay-global-listeners', () => {
     ],
   });
 
-  it('zero violations across src/components + src/primitives', () => {
+  /* Offenders owned by other WPs sit in REQ-FIN-07's shrink-only baseline
+     (e.g. CommandPalette.tsx, REQ-FIN-82 / FIN-F); every other file in scope
+     must be clean. tests/integration/no-overlay-global-listeners.test.ts keeps
+     the baseline exact (no stale row, no new offender). */
+  it('zero violations across src/components + src/primitives + src/foundation outside the baseline', () => {
+    const baselined = new Set(
+      (JSON.parse(
+        fs.readFileSync(path.join(REPO, 'scripts/integration/baselines/no-overlay-global-listeners.json'), 'utf8'),
+      ) as Array<{ file: string }>).map((row) => row.file),
+    );
     const hits: string[] = [];
-    for (const dir of ['src/components', 'src/primitives']) {
+    for (const dir of ['src/components', 'src/primitives', 'src/foundation']) {
       for (const file of walk(path.join(REPO, dir))) {
+        if (baselined.has(path.relative(REPO, file).split(path.sep).join('/'))) continue;
         const lines = fs.readFileSync(file, 'utf8').split('\n');
         lines.forEach((line, i) => {
           if (BAN.test(line)) hits.push(`${path.relative(REPO, file)}:${i + 1}`);
