@@ -135,6 +135,7 @@ export function Roadmap({ initial = ALL, tab = 'roadmap' }: { initial?: Partial<
 }
 
 const meta: Meta<typeof Roadmap> = {
+  parameters: { ag: { subject: 'CapabilityRoadmap', kind: 'showcase' } },
   title: 'surf/capability/CapabilityRoadmap',
   component: Roadmap,
   // Roadmap is also imported by tests/capability/roadmap-story.test.tsx.

@@ -400,9 +400,10 @@ function enumerateExportsAt(sha) {
 
 /* ---------- REQ-SURF-183 --diff gate ---------- */
 function diffGate(ledger, baseSha) {
-  let changed;
+  let changed, added;
   try {
     changed = git(['diff', '--name-only', `${baseSha}...HEAD`]).split('\n').filter(Boolean);
+    added = git(['diff', '--name-only', '--diff-filter=A', `${baseSha}...HEAD`]).split('\n').filter(Boolean);
   } catch (e) {
     fail(`diff: cannot diff ${baseSha}...HEAD: ${String(e.message).split('\n')[0]}`);
     return;
@@ -414,7 +415,8 @@ function diffGate(ledger, baseSha) {
     const m = /^registry\/(?:blocks|items)\/([^/]+)\//.exec(p) ?? /^packages\/labs\/src\/([^/]+)\//.exec(p);
     return m ? m[1] : null;
   };
-  const newIds = [...new Set(changed.map(idOf).filter(Boolean))];
+  // Only entries this diff adds; edits to an existing entry need no new row.
+  const newIds = [...new Set(added.map(idOf).filter(Boolean))];
   const evidence = { base: baseSha, head: git(['rev-parse', 'HEAD']).trim(), changedFiles: changed.length, registryOrLabs: newIds, exportsAdded: [], failures: [] };
   if (newIds.length) {
     const namesInChangedRows = new Set();
