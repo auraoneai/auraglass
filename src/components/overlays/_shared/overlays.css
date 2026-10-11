@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-194 (REQ-CMP-79): shared overlay CSS — scrim, forced-colors/solid fallbacks,
    anchored-popup geometry, animating hint. No pseudo optics/grain, no
    transition:all, no !important, no infinite animations, no transitioned
@@ -29,7 +31,9 @@
     overflow: auto;
   }
 
-  [data-ag-animating] {
+  /* scoped to elements carrying an ag-* class (no bare attribute selector) */
+  [class^='ag-'][data-ag-animating],
+  [class*=' ag-'][data-ag-animating] {
     will-change: transform, opacity;
   }
 

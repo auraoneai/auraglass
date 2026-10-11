@@ -60,213 +60,15 @@
     "expires": "RC-1"
   },
   {
-    "file": "src/components/accordion/Accordion.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/alert-dialog/AlertDialog.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/alert/Alert.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/avatar/Avatar.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/avatar/AvatarGroup.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/badge/Badge.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/components/breadcrumbs/Breadcrumbs.css",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
     "expires": "RC-1"
   },
   {
-    "file": "src/components/button-group/ButtonGroup.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/button/Button.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/card/Card.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/checkbox/Checkbox.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/chip/Chip.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/collapsible/Collapsible.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/color-picker/ColorPicker.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/combobox/Combobox.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/components/command-palette/Command.css",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/container/Container.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/control-shared/controls.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/description-list/DescriptionList.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/dialog/Dialog.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/field/Field.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/field/Form.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/file-upload/FileUpload.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/grid/Grid.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/heading/Heading.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/icon-button/IconButton.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/image-list/ImageList.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/inline-edit/InlineEdit.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/kbd/Kbd.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/key-value-editor/KeyValueEditor.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/link/Link.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/menu/Menu.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/meter/Meter.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/number-field/NumberField.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/overlays/_shared/overlays.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
     "expires": "RC-1"
   },
   {
@@ -282,67 +84,7 @@
     "expires": "RC-1"
   },
   {
-    "file": "src/components/progress/Progress.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/radio-group/RadioGroup.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/rating/Rating.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/scroll-area/ScrollArea.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/search-field/SearchField.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/segmented-control/SegmentedControl.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/select/Select.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/separator/Separator.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/components/sheet/Sheet.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/skeleton/Skeleton.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/slider/Slider.css",
     "owner": "CMP",
     "reqFin": "REQ-FIN-70",
     "expires": "RC-1"
@@ -351,30 +93,6 @@
     "file": "src/components/source-transition/SourceTransition.css",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/stack/Stack.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/state-view/StateView.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/steps/Steps.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/switch/Switch.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
     "expires": "RC-1"
   },
   {
@@ -390,49 +108,13 @@
     "expires": "RC-1"
   },
   {
-    "file": "src/components/text-field/TextField.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/text/Text.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/components/timeline/timeline.css",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
     "expires": "RC-1"
   },
   {
-    "file": "src/components/toast/Toast.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/toggle-group/ToggleGroup.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/toolbar/Toolbar.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/components/tooltip/Tooltip.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/tour/Tour.css",
     "owner": "CMP",
     "reqFin": "REQ-FIN-70",
     "expires": "RC-1"
@@ -495,12 +177,6 @@
     "file": "src/motion/css/view-transition.css",
     "owner": "MAT",
     "reqFin": "REQ-FIN-58",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/primitives/VisuallyHidden.css",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
     "expires": "RC-1"
   }
 ]

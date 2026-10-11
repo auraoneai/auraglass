@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-236 (REQ-CMP-95): Sheet — edge-anchored dialog with detents.
    Safe-area insets on all anchored edges; side sizes 320/400/560px capped at
    calc(100vw - 48px); <640px side sheets go full width and hide the handle;

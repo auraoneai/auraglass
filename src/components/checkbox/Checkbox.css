@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* Checkbox / RadioGroup shared box visuals (CMP-122/416): sunken box + rim,
    opaque accent when checked, contrast-color icon. No backdrop-filter. */
 @layer ag.components {

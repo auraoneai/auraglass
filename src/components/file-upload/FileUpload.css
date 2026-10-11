@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-318 FileUpload */
 @layer ag.components {
   .ag-file-upload-dropzone { display: block; inline-size: 100%; padding: var(--ag-space-4, 1rem); border: 1px dashed var(--_ag-hairline, currentColor); border-radius: var(--ag-radius-md, 0.5rem); background: none; cursor: pointer; font: inherit; }
