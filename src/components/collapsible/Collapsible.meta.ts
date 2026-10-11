@@ -9,6 +9,8 @@ export default defineMeta({
   parts: ['root','trigger','content'],
   states: ['expanded','collapsed'],
   variants: {},
+  material: { layer: 'content' },
   apg: 'disclosure',
+  budgetKb: 5,
   migration: [],
 });

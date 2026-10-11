@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* Switch (CMP-132/413): sunken track unchecked -> opaque accent checked;
    thumb is transient (inner fill at rest, glass while dragging — optics via
    MAT surface layer). No shimmer, no loop (E-13). */
@@ -25,7 +27,7 @@
     border-radius: var(--ag-radius-full);
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
-    transition: background var(--ag-duration-micro) var(--ag-ease-standard);
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
     padding: var(--_ag-switch-thumb-inset, 2px);
   }
   .ag-switch[data-ag-part='root'][data-ag-size='sm'] {
@@ -42,6 +44,10 @@
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-accent);
   }
 
+  /* REQ-CMP-46: thumb slides via the translate property = track - thumb -
+     2*inset (track-h minus the root's inset padding is the thumb's block,
+     so w - h is the slide distance). Drag transform is BU's inline style —
+     kept on transform so it never fights `translate`. */
   .ag-switch [data-ag-part='thumb'] {
     display: block;
     block-size: 100%;
@@ -49,18 +55,38 @@
     border-radius: var(--ag-radius-full);
     background: var(--ag-color-canvas);
     box-shadow: var(--ag-shadow-thin);
-    transform: translateX(0);
-    transition: transform var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-standard));
+    translate: 0 0;
+    transition: translate var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-standard));
   }
-  /* Checked thumb slides to the end; drag transform is BU's inline style. */
+  .ag-switch[data-ag-part='root'][data-checked] [data-ag-part='thumb'] {
+    translate: calc(
+      var(--ag-switch-track-w-md, var(--ag-space-10)) - var(--ag-switch-track-h-md, var(--ag-space-5))
+    ) 0;
+  }
+  .ag-switch[data-ag-part='root'][data-ag-size='sm'][data-checked] [data-ag-part='thumb'] {
+    translate: calc(
+      var(--ag-switch-track-w-sm, var(--ag-space-8)) - var(--ag-switch-track-h-sm, var(--ag-space-4))
+    ) 0;
+  }
+  .ag-switch[data-ag-part='root'][data-ag-size='lg'][data-checked] [data-ag-part='thumb'] {
+    translate: calc(
+      var(--ag-switch-track-w-lg, var(--ag-space-12)) - var(--ag-switch-track-h-lg, var(--ag-space-6))
+    ) 0;
+  }
   .ag-switch[data-ag-part='root'] {
     justify-content: flex-start;
   }
-  .ag-switch[data-ag-part='root'][data-checked] {
-    justify-content: flex-end;
+  /* animating or dragging: glass while moving, will-change scoped to it */
+  .ag-switch [data-ag-part='thumb'][data-ag-animating],
+  .ag-switch [data-ag-part='thumb'][data-dragging] {
+    will-change: translate;
+  }
+  [data-ag-motion='calm'] .ag-switch [data-ag-part='thumb'],
+  [data-ag-motion='none'] .ag-switch [data-ag-part='thumb'] {
+    transition-duration: 0s;
   }
 
-  .ag-switch[data-disabled] {
+  .ag-switch[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
 

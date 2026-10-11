@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-217 (REQ-CMP-91): AlertDialog — max 400px centred; <640px full width
    minus 16px with stacked buttons (primary/Action last). Motion identical to
    Dialog (opacity + scale .96→1, calm = opacity only); scrim in _shared. */
@@ -11,9 +13,9 @@
     flex-direction: column;
     inline-size: 100%;
     max-inline-size: 400px;
-    max-block-size: calc(100dvh - 2 * var(--ag-space-4, 16px));
-    border-radius: var(--ag-radius-xl, 20px);
-    box-shadow: var(--_ag-shadow-overlay, var(--ag-shadow-thick, 0 16px 48px rgb(0 0 0 / 0.24)));
+    max-block-size: calc(100dvh - 2 * var(--ag-space-4));
+    border-radius: var(--ag-radius-xl);
+    box-shadow: var(--_ag-shadow-overlay, var(--ag-shadow-thick));
     color: var(--ag-on-surface);
     outline: none;
     z-index: var(--ag-z-overlay, 300);
@@ -23,16 +25,19 @@
     opacity: 0;
     transform: scale(0.96);
     transition:
-      opacity var(--ag-duration-medium, 200ms) var(--_ag-ease-spring, ease),
-      transform var(--ag-duration-medium, 200ms) var(--_ag-ease-spring, ease);
+      opacity var(--ag-duration-medium) var(--ag-spring-snappy),
+      transform var(--ag-duration-medium) var(--ag-spring-snappy);
   }
   .ag-alert-dialog-popup[data-open],
   .ag-alert-dialog-popup[data-instant] {
     opacity: 1;
     transform: none;
     transition:
-      opacity var(--ag-duration-medium, 200ms) var(--_ag-ease-spring, ease),
-      transform var(--ag-duration-medium, 200ms) var(--_ag-ease-spring, ease);
+      opacity var(--ag-duration-medium) var(--ag-spring-snappy),
+      transform var(--ag-duration-medium) var(--ag-spring-snappy);
+  }
+  .ag-alert-dialog-popup[data-ending-style] {
+    transition-timing-function: var(--ag-ease-accelerate), var(--ag-ease-accelerate);
   }
   .ag-alert-dialog-popup[data-ag-nested-open] {
     transform: scale(0.98);
@@ -41,11 +46,11 @@
   .ag-alert-dialog-header,
   .ag-alert-dialog-footer {
     flex: none;
-    padding: var(--ag-space-4, 16px);
+    padding: var(--ag-space-4);
   }
   .ag-alert-dialog-footer {
     display: flex;
-    gap: var(--ag-space-2, 8px);
+    gap: var(--ag-space-2);
     justify-content: flex-end;
   }
   .ag-alert-dialog-body {
@@ -53,7 +58,7 @@
     min-block-size: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: var(--ag-space-4, 16px);
+    padding: var(--ag-space-4);
   }
   .ag-alert-dialog-body[data-ag-padding='none'] { padding: 0; }
   .ag-alert-dialog-title {
@@ -86,7 +91,7 @@
     .ag-alert-dialog-popup[data-ending-style],
     .ag-alert-dialog-popup[data-open] {
       transform: none;
-      transition: opacity var(--ag-duration-micro, 80ms) var(--ag-ease-standard, ease);
+      transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
     }
   }
   @media (forced-colors: active) {

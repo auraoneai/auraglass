@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* Select (CMP-176/418): trigger is the content-sunken field shell; popup is
    overlay-regular; item highlight a content-raised fill with no blur; popup
    materialises from var(--transform-origin) opacity + scale(0.96->1) over
@@ -18,7 +20,7 @@
     cursor: default;
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 6%), transparent);
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
-    transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
   }
   .ag-select[data-ag-size='sm'] {
     min-block-size: var(--_ag-control-h-sm, var(--ag-space-8));
@@ -47,7 +49,7 @@
     transform: rotate(180deg);
   }
 
-  .ag-select[data-disabled] {
+  .ag-select[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
   .ag-select:focus-visible {
@@ -59,7 +61,7 @@
   .ag-select-popup {
     min-inline-size: var(--_ag-select-popup-min-w, 100%);
     max-inline-size: var(--_ag-select-popup-max-w, var(--_ag-space-96));
-    max-block-size: var(--_ag-select-popup-max-h, var(--_ag-space-72));
+    max-block-size: var(--available-height, var(--_ag-select-popup-max-h, var(--_ag-space-72)));
     overflow-y: auto;
     overscroll-behavior: contain;
     border-radius: var(--ag-radius-lg);
@@ -77,7 +79,8 @@
       transform var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-select-popup[data-ending-style] {
-    transition-duration: var(--_ag-duration-exit, 140ms);
+    transition-duration: var(--ag-duration-small-exit);
+    transition-timing-function: var(--ag-ease-accelerate);
   }
   .ag-select-popup[data-open],
   .ag-select-popup[data-instant] {
@@ -98,7 +101,7 @@
     display: flex;
     align-items: center;
     gap: var(--ag-space-2);
-    padding-block: var(--ag-space-1_5, var(--ag-space-2));
+    padding-block: var(--ag-space-2);
     padding-inline: var(--ag-space-2);
     border-radius: var(--ag-radius-sm);
     color: var(--ag-on-surface);
@@ -108,9 +111,8 @@
   .ag-select-item[data-highlighted] {
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-raised-alpha, 10%), transparent);
   }
-  .ag-select-item[data-disabled] {
-    opacity: var(--ag-state-disabled-alpha);
-  }
+
+  .ag-select-item[data-disabled] > :where(*) {opacity: var(--ag-state-disabled-alpha);}
   .ag-select-item [data-ag-part='item-indicator'] {
     display: inline-flex;
     inline-size: var(--ag-space-4);

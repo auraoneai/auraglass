@@ -1,13 +1,17 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-311 Progress + ProgressRing */
 @layer ag.components {
-  .ag-progress { display: flex; align-items: center; gap: var(--ag-space-2, 0.5rem); }
-  .ag-progress-track { flex: 1; block-size: 0.375rem; border-radius: 999px; background-color: var(--_ag-track, currentColor); opacity: 0.9; overflow: hidden; }
+  .ag-progress { display: flex; align-items: center; gap: var(--ag-space-2); }
+  .ag-progress-track { flex: 1; block-size: 0.375rem; border-radius: var(--ag-radius-full); background-color: var(--_ag-track, currentColor); opacity: 0.9; overflow: hidden; }
   .ag-progress-indicator { display: block; block-size: 100%; background-color: var(--_ag-accent, currentColor); }
   .ag-progress-ring { position: relative; display: inline-flex; }
   .ag-progress-ring-trace { stroke: var(--_ag-track, currentColor); opacity: 0.2; }
   .ag-progress-ring-indicator { stroke: var(--_ag-accent, currentColor); }
   @media (prefers-reduced-motion: no-preference) {
-    .ag-progress-ring-indeterminate { animation: ag-ring-spin 1.4s linear infinite; transform-origin: center; }
+    .ag-progress-ring-indeterminate { transform-origin: center; animation: none; }
+    /* REQ-CMP-18: finite spin under explicit full motion only (no loop, no allowContinuous read). */
+    [data-ag-motion='full'] .ag-progress-ring-indeterminate { animation: ag-ring-spin var(--ag-duration-large) linear 240; }
     @keyframes ag-ring-spin { to { transform: rotate(360deg); } }
   }
 }

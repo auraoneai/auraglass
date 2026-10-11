@@ -28,12 +28,26 @@ describe('ButtonGroup', () => {
     expect(html).toContain('aria-labelledby="hdr"');
   });
 
-  it('attached default emits data-ag-attached', () => {
+  it('attached default emits the attached class; flat — no surface wrapper (REQ-CMP-39)', () => {
     const html = renderToStaticMarkup(
       <ButtonGroup aria-label="x">
         <button>y</button>
       </ButtonGroup>,
     );
-    expect(html).toContain('data-ag-attached');
+    expect(html).toContain('ag-button-group--attached');
+    expect(html).not.toContain('data-ag-attached');
+    expect(html).toContain('data-orientation="horizontal"');
+    /* flat: root's parent chain has no surface-group element */
+    expect(html).not.toContain('data-ag-group');
+  });
+
+  it('attached={false} drops the class; vertical emits data-orientation', () => {
+    const html = renderToStaticMarkup(
+      <ButtonGroup aria-label="x" attached={false} orientation="vertical">
+        <button>y</button>
+      </ButtonGroup>,
+    );
+    expect(html).not.toContain('ag-button-group--attached');
+    expect(html).toContain('data-orientation="vertical"');
   });
 });
