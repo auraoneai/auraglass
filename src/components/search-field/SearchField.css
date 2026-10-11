@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* SearchField (CMP-144): chrome-thin capsule shell; WebKit cancel hidden. */
 @layer ag.components {
   .ag-search-field {
@@ -11,13 +13,13 @@
     gap: var(--ag-space-2);
     padding-inline: var(--ag-space-3);
     border-radius: var(--ag-radius-full);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-sunken-alpha, 8%), transparent);
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
   }
   .ag-search-field [data-ag-part='control-shell']:focus-within {
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-focus-outer),
-      0 0 0 var(--ag-focus-inner) var(--ag-color-focus-outer);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-focus-outer),
+      0 0 0 var(--_ag-focus-inner) var(--ag-color-focus-outer);
   }
   .ag-search-field [data-ag-part='icon'] {
     color: var(--ag-on-surface-muted);
@@ -48,7 +50,7 @@
     inline-size: var(--ag-space-4);
     block-size: var(--ag-space-4);
     border-radius: var(--ag-radius-full);
-    border: var(--ag-focus-width) solid var(--ag-on-surface-muted);
+    border: var(--_ag-focus-width) solid var(--ag-on-surface-muted);
     border-block-start-color: transparent;
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -67,7 +69,16 @@
     font-size: var(--ag-type-caption-size);
     color: var(--ag-color-danger);
   }
-  .ag-search-field[data-disabled] {
+  .ag-search-field[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
+}
+
+/* REQ-CMP-63: capsule shell; inside a surface group the ::before overlay drops
+   its backdrop-filter (MAT group semantics — the parent surface filters). */
+.ag-search-field [data-ag-part='control-shell'] {
+  border-radius: var(--ag-radius-full);
+}
+[data-ag-surface-group] .ag-search-field [data-ag-part='control-shell']::before {
+  backdrop-filter: none;
 }

@@ -2,12 +2,13 @@
  * unexpected TODOs on the flagship subset; second run idempotent. The full
  * canary (packed CLI -> packed 5.0 -> tsc -> next build -> browsers) needs the
  * published tarball; the engine half runs here against recipes-4x fixtures. */
-import { describe, expect, it } from '@jest/globals';
+import { test, expect } from '@playwright/test';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { runOnSource, selectTransforms, loadCompiledMappings, TRANSFORM_ORDER } from '../../packages/cli/src/migrate/4to5/index.js';
 
-const FIX = path.join(__dirname, 'fixtures', 'recipes-4x');
+const FIX = path.join(path.dirname(fileURLToPath(import.meta.url)), 'fixtures', 'recipes-4x');
 const mappings = loadCompiledMappings();
 const all = selectTransforms(undefined);
 
@@ -19,12 +20,12 @@ function recipeDirs(): string[] {
   return fs.readdirSync(FIX).filter((d) => recipeInput(path.join(FIX, d)));
 }
 
-describe('codemod canary (recipes-4x)', () => {
-  it('covers all 14 transforms in frozen order', () => {
+test.describe('codemod canary (recipes-4x)', () => {
+  test('covers all 14 transforms in frozen order', () => {
     expect(TRANSFORM_ORDER.length).toBe(14);
   });
   for (const name of recipeDirs()) {
-    it(`recipe ${name}: output matches expected-todos.json`, () => {
+    test(`recipe ${name}: output matches expected-todos.json`, () => {
       const dir = path.join(FIX, name);
       const expected = JSON.parse(fs.readFileSync(path.join(dir, 'expected-todos.json'), 'utf8')) as string[];
       const input = recipeInput(dir)!;

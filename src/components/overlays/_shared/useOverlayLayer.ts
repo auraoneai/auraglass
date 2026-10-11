@@ -1,24 +1,30 @@
 'use client';
-/* CMP-196 (REQ-CMP-80): registers the open overlay with the S-25 LayerStack
-   (src/theme/index.ts `useLayer`) so the stack sees it for ordering and Escape
-   ownership.
+/* REQ-FIN-07 (REQ-CMP-12, REQ-CMP-80): registers an open overlay with the S-25
+   LayerStack (src/theme/index.ts `useLayer`), which is the single Escape
+   dispatcher.
 
-   Escape path — documented per the task: the LayerStack entry's `onEscape`
-   intentionally does NOT re-emit `onOpenChange`. Base UI's own dismiss
-   (`useDismiss`, `escapeKey: isTopmost` in useDialogRoot) already fires
-   `onOpenChange(reason:'escape-key')` for exactly its topmost floating element
-   across every Base UI popup — including anchored popups this stack does not
-   register (Select/Combobox inside a Dialog). If LayerStack forwarded Escape to
-   our close too, one keypress would close two layers (BU's top plus ours) and
-   desync uncontrolled state. So for Base-UI-backed overlays the LayerStack
-   path is the one disabled: the entry still claims the Escape for layers
-   below it (non-top entries never fire), while BU performs the close and
-   emits the 'escape-key' reason once. Overlay rows close via BU, rows below
-   stay put, mixed BU+LayerStack stacks stay consistent.
+   Escape path. The stack receives Escape in the capture phase and hands it to
+   the topmost OPEN entry only. For a Base-UI-backed overlay that entry closes
+   the overlay through Base UI's imperative `actionsRef.current.close()`; the
+   resulting onOpenChange is reported to the caller as
+   `onOpenChange(false, { reason: 'escape-key' })`. Because the stack consumes
+   the key (stopPropagation + preventDefault), Base UI's own document-level
+   Escape dismissal never runs while a registered layer is open, so one
+   keypress closes exactly one layer, including mixed Base UI +
+   DismissableLayer stacks.
 
-   `emit` (returned for the Root to wrap its own `onOpenChange`) dedupes
-   identical (open, reason) emissions inside the same task — belt for any
-   path that can fire twice in one dispatch. */
+   Roots wire this by passing the returned `actionsRef` to their `Base.Root`
+   and routing Base UI's onOpenChange through `emit`. A root that has not
+   wired `actionsRef` yet keeps the previous behaviour: its entry returns
+   `false` from onEscape, the stack leaves the native event alone and Base
+   UI's dismiss closes the popup (it still claims the key against lower
+   layers, because the stack stops at the topmost open entry).
+
+   Scroll lock: modal overlays pass `lockScroll: modal`, so the stack's
+   `<html data-ag-scroll-locked>` is the scroll-lock owner.
+
+   `emit` dedupes identical (open, reason) emissions inside the same task —
+   a belt for any path that can fire twice in one dispatch. */
 import * as React from 'react';
 import { useLayer } from '../../../theme';
 import type { LayerKind } from '../../../contracts/preferences';
@@ -34,20 +40,35 @@ export interface OverlayLayerOptions {
   element?: HTMLElement | null | undefined;
 }
 
+/** The subset of Base UI's Root `actionsRef` the stack needs. */
+export interface OverlayRootActions {
+  close: () => void;
+}
+
 export interface OverlayLayerHandle {
   id: string;
   depth: number;
   isTop: boolean;
   emit: (open: boolean, details: { event?: Event; reason?: unknown }) => void;
+  /** Pass to `Base.Root actionsRef` so the stack can close the overlay. */
+  actionsRef: React.RefObject<OverlayRootActions | null>;
 }
 
 export function useOverlayLayer({ kind, modal, open, onOpenChange, element }: OverlayLayerOptions): OverlayLayerHandle {
   const handlerRef = React.useRef(onOpenChange);
   handlerRef.current = onOpenChange;
   const lastEmit = React.useRef<{ open: boolean; reason: string } | null>(null);
+  const actionsRef = React.useRef<OverlayRootActions | null>(null);
+  /* Set while a stack-dispatched Escape is closing the overlay through
+     actionsRef, so the resulting Base UI change is reported as escape-key. */
+  const escapePending = React.useRef(false);
 
   const emit = React.useCallback((nextOpen: boolean, details: { event?: Event; reason?: unknown }) => {
-    const reason = toOverlayReason(details.reason);
+    let reason = toOverlayReason(details.reason);
+    if (escapePending.current && nextOpen === false) {
+      escapePending.current = false;
+      reason = 'escape-key';
+    }
     const prev = lastEmit.current;
     if (prev && prev.open === nextOpen && prev.reason === reason) return;
     lastEmit.current = { open: nextOpen, reason };
@@ -59,24 +80,24 @@ export function useOverlayLayer({ kind, modal, open, onOpenChange, element }: Ov
     handlerRef.current?.(nextOpen, { event: details.event, reason });
   }, []);
 
+  const onEscape = React.useCallback((): boolean => {
+    const actions = actionsRef.current;
+    if (!actions) return false; // root not wired yet: Base UI's dismiss closes it
+    escapePending.current = true;
+    actions.close();
+    // close() reports synchronously in Base UI; clear the flag if it did not.
+    queueMicrotask(() => { escapePending.current = false; });
+    return true;
+  }, []);
+
   const { id, depth, isTop } = useLayer({
     kind,
     modal,
     open,
     element: element ?? null,
-    /* REQ-CMP-88 ownership split, recorded here: the LayerStack owns the
-       scroll lock (data-ag-scroll-locked on <html>) and inert on body
-       children; Base UI owns focus (trap + restore on close). BU Dialogs are
-       therefore driven with modal='trap-focus' at the Root — BU only writes
-       overflow when modal === true, and our stack lock replaces it.
-       restoreFocusTo: false hands BU sole restore ownership. */
-    lockScroll: true,
-    restoreFocusTo: false,
-    onEscape: () => {
-      /* See header: BU's dismiss owns the Escape close for BU-backed overlays;
-         this entry exists so layers below never see the Escape while we're top. */
-    },
+    lockScroll: modal,
+    onEscape,
   });
 
-  return { id, depth, isTop, emit };
+  return { id, depth, isTop, emit, actionsRef };
 }
