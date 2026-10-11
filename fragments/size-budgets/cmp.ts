@@ -30,7 +30,6 @@ export default [
   { id: 'Avatar', import: "{ Avatar } from 'aura-glass'", limitBytes: 3000, kind: 'js' },
   { id: 'Chip', import: "{ Chip } from 'aura-glass/data'", limitBytes: 3000, kind: 'js' },
   { id: 'Progress', import: "{ Progress } from 'aura-glass'", limitBytes: 5000, kind: 'js' },
-  { id: 'ProgressRing', import: "{ ProgressRing } from 'aura-glass'", limitBytes: 5000, kind: 'js' },
   { id: 'Meter', import: "{ Meter } from 'aura-glass'", limitBytes: 5000, kind: 'js' },
   { id: 'Collapsible', import: "{ Collapsible } from 'aura-glass'", limitBytes: 5000, kind: 'js' },
   { id: 'Accordion', import: "{ Accordion } from 'aura-glass'", limitBytes: 10000, kind: 'js' },

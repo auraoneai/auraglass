@@ -58,3 +58,4 @@ export * from './overlays/LiquidGlassAdaptiveSheet';
 export * from './overlays/LiquidGlassPopoverMenu';
 export * from './overlays/Positioner';
 export * from './overlays/useToast';
+export * from './content/CircularProgress';
