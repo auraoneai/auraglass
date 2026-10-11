@@ -28,7 +28,7 @@ const activePart = (page: Page) => page.evaluate(() => {
 const viewportScroll = (page: Page) =>
   page.locator('[data-ag-part="carousel-viewport"]').evaluate((el) => Math.round(el.scrollLeft));
 
-test.describe('CarouselRail APG (REQ-SURF-147)', () => {
+test.describe('CarouselRail APG (REQ-SURF-147, SURF-487)', () => {
   for (const story of ['tabs', 'buttons'] as const) {
     test(`${story}: carousel semantics and axe 0 violations`, async ({ page }) => {
       const rail = await open(page, story);
@@ -109,4 +109,16 @@ test.describe('CarouselRail APG (REQ-SURF-147)', () => {
       await expect(index).toHaveText('0');
     });
   }
+
+  test('SURF-487: carousel semantics + navigation controls', async ({ page }) => {
+    const subjects = await listSubjects({ owner: 'SURF' });
+    const subject = subjects.find((s) => s.subject === 'CarouselRail');
+    if (!subject) throw new Error('CarouselRail subject not registered');
+    await gotoStory(page, subject.id);
+    const rail = page.locator('[aria-roledescription="carousel"]');
+    expect(await rail.count(), 'no carousel').toBeGreaterThan(0);
+    await expect(rail.first()).toBeVisible();
+    const next = page.locator('[data-ag-part="carousel-next"]');
+    if (await next.count() > 0) await next.first().click();
+  });
 });

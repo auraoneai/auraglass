@@ -1,4 +1,4 @@
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. build/exports.manifest.json is generated from this list by C0 and
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. build/exports.manifest.json is generated from this list by C0 and
    regenerated only by contract PRs. Value exports listed; type exports are free within the entry owner's barrel. */
 export interface EntrySpec { subpath: string; source: string; owner: 'PLAT' | 'MAT' | 'CMP' | 'SURF'; ga: '5.0' | '5.1'; exports: readonly string[]; css?: string }
 export const ENTRIES: readonly EntrySpec[] = [
