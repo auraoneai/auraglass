@@ -11,7 +11,7 @@ const meta: ControlMeta = defineMeta({
   flagship: 21,
   rsc: 'client',
   parts: [
-    'provider', 'viewport', 'root', 'content', 'title', 'description',
+    'viewport', 'toast', 'content', 'title', 'description',
     'action', 'close', 'progress',
   ],
   states: [
@@ -28,7 +28,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'transient', refractionEligible: false },
   apg: 'alert',
-  budgetKb: 14,
+  budgetKb: 14000 / 1024,
   migration: [
     {
       from: 'GlassToast',
@@ -38,19 +38,19 @@ const meta: ControlMeta = defineMeta({
         duration: 'timeout',
         onClose: 'useToast close',
       },
-      automation: 'mostly',
+      selectors: { '.glass-toast': '.ag-toast' }, automation: 'mostly',
       compat: true,
     },
     {
       from: 'GlassSnackbar',
       props: { message: 'Toast.Title', action: 'Toast.Action' },
-      automation: 'partial',
+      selectors: { '.glass-snackbar': '.ag-toast' }, automation: 'partial',
       compat: false,
     },
     {
       from: 'toast',
       props: { 'toast()': 'useToast().add/success/error', 'toast.promise': 'useToast().promise' },
-      automation: 'partial',
+      selectors: { '.glass-toast': '.ag-toast' }, automation: 'partial',
       compat: false,
     },
     { from: 'GlassToastProvider', automation: 'full', compat: true },

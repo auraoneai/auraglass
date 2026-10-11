@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root'],
   states: [],
   variants: { intent: ['neutral','danger'], underline: ['always','hover','none'] },
-  migration: [{ from: 'GlassLink', automation: 'full', compat: false }],
+  material: { layer: 'content' },
+  apg: 'link',
+  budgetKb: 3000 / 1024,
+  migration: [{ from: 'GlassLink', props: {}, selectors: { '.glass-link': '.ag-link' },  automation: 'full', compat: false }],
 });

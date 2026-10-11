@@ -1,0 +1,6 @@
+/* fixture: an ungated infinite animation (must trip REQ-FIN-12's gate) */
+@layer ag.components {
+  .fix-spin {
+    animation: ag-rotate var(--ag-duration-small) ease infinite;
+  }
+}

@@ -27,6 +27,6 @@ describe('GlassHoverCard compat (CMP-339)', () => {
       <GlassHoverCard trigger={<button>t</button>} content="C" />
     ), 'DEP-C0108');
     expect(depCalls).toHaveLength(1);
-    expect(document.querySelector('[data-ag-compat="GlassHoverCard"]')).toBeTruthy();
+    expect(document.querySelector('[data-compat="GlassHoverCard"]')).toBeTruthy();
   });
 });

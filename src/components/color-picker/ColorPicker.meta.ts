@@ -9,6 +9,8 @@ export default defineMeta({
   parts: ['root','trigger','swatch','positioner','popup','area','area-thumb','hue','hue-thumb'],
   states: ['open','closed'],
   variants: {},
+  material: { layer: 'content' },
   apg: 'slider',
-  migration: [{ from: 'GlassColorPicker', automation: 'partial', compat: true }, { from: 'GlassColorWheel', automation: 'full', compat: true }, { from: 'GlassGradientPicker', automation: 'full', compat: true }],
+  budgetKb: 20000 / 1024,
+  migration: [{ from: 'GlassColorPicker', props: {}, selectors: { '.glass-color-picker': '.ag-color-picker' },  automation: 'partial', compat: true }, { from: 'GlassColorWheel', automation: 'full', compat: true }, { from: 'GlassGradientPicker', automation: 'full', compat: true }],
 });

@@ -9,7 +9,7 @@ export function SheetHeader({ children, className }: SheetLayoutProps) {
 }
 export function SheetBody({ children, className, padding = 'default' }: SheetLayoutProps) {
   return (
-    <div data-ag-part="body" data-ag-padding={padding} tabIndex={0} className={cn('ag-sheet-body', className)}>
+    <div data-ag-part="body" data-padding={padding} tabIndex={0} className={cn('ag-sheet-body', className)}>
       {children}
     </div>
   );

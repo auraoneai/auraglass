@@ -20,7 +20,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'select',
-  budgetKb: 25,
+  budgetKb: 25000 / 1024,
   migration: [
     {
       from: 'GlassSelect',
@@ -43,7 +43,7 @@ const meta: ControlMeta = defineMeta({
         onSelect: { to: 'onValueChange' },
         menu: 'children',
       },
-      automation: 'partial',
+      selectors: { '.glass-dropdown': '.ag-select' }, automation: 'partial',
       compat: false,
     },
     { from: 'GlassSelectCompound', automation: 'full', compat: true },

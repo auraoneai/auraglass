@@ -28,7 +28,7 @@ describe('GlassToastProvider compat (CMP-341)', () => {
     await flush();
     expect(warn.mock.calls.flat().join(' ')).toContain('DEP-C0116');
     const vp = document.querySelector('[data-ag-part="viewport"]');
-    expect(vp?.getAttribute('data-ag-position')).toBe('top-center');
+    expect(vp?.getAttribute('data-position')).toBe('top-center');
     warn.mockRestore();
   });
 });

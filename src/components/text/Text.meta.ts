@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root'],
   states: [],
   variants: { type: ['body','callout','caption','label','mono'], size: ['xs','sm','md','lg'], intent: ['neutral','success','warning','danger'] },
-  migration: [{ from: 'Typography', automation: 'mostly', compat: true }, { from: 'GlassText', automation: 'mostly', compat: false }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1500 / 1024,
+  migration: [{ from: 'Typography', props: {}, selectors: { '.glass-typography': '.ag-text' },  automation: 'mostly', compat: true }, { from: 'GlassText', props: {}, selectors: { '.glass-text': '.ag-text' },  automation: 'mostly', compat: false }],
 });

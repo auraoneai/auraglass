@@ -1,0 +1,98 @@
+{
+  "checks": [
+    {
+      "id": "node-version",
+      "status": "pass",
+      "message": "node 24.19.0"
+    },
+    {
+      "id": "react-version",
+      "status": "info",
+      "message": "react floor applies to aura-glass@5"
+    },
+    {
+      "id": "duplicate-react",
+      "status": "pass",
+      "message": "single react"
+    },
+    {
+      "id": "duplicate-base-ui",
+      "status": "pass",
+      "message": "single base-ui"
+    },
+    {
+      "id": "global-css-reliance",
+      "status": "pass",
+      "message": "no 4.x global css reliance"
+    },
+    {
+      "id": "layer-order",
+      "status": "pass",
+      "message": "layer order ok"
+    },
+    {
+      "id": "script-missing",
+      "status": "info",
+      "message": "no Next app router layout detected"
+    },
+    {
+      "id": "mui-present",
+      "status": "info",
+      "message": "Coexists with AuraGlass; not required"
+    },
+    {
+      "id": "radix-present",
+      "status": "info",
+      "message": "Coexists with AuraGlass; not required"
+    },
+    {
+      "id": "shadcn-app",
+      "status": "info",
+      "message": "shadcn app detected — registry add handles @/ aliases"
+    }
+  ],
+  "v5": {
+    "findings": [
+      {
+        "path": "src/App.tsx",
+        "line": 1,
+        "symbol": "GlassButton",
+        "entry": ".",
+        "automation": "automatic",
+        "codemod": "canonical-names",
+        "message": "'GlassButton' is renamed to 'Button' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
+      },
+      {
+        "path": "src/App.tsx",
+        "line": 3,
+        "symbol": "GlassButton",
+        "entry": ".",
+        "automation": "automatic",
+        "codemod": "canonical-names",
+        "message": "'GlassButton' is renamed to 'Button' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
+      }
+    ],
+    "byCodemod": {
+      "canonical-names": [
+        {
+          "path": "src/App.tsx",
+          "line": 1,
+          "symbol": "GlassButton",
+          "entry": ".",
+          "automation": "automatic",
+          "codemod": "canonical-names",
+          "message": "'GlassButton' is renamed to 'Button' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
+        },
+        {
+          "path": "src/App.tsx",
+          "line": 3,
+          "symbol": "GlassButton",
+          "entry": ".",
+          "automation": "automatic",
+          "codemod": "canonical-names",
+          "message": "'GlassButton' is renamed to 'Button' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
+        }
+      ]
+    }
+  }
+}

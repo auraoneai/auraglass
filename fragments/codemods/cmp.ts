@@ -73,8 +73,6 @@ export default {
     { from: 'GlassToast', fromEntry: 'aura-glass/root', to: 'useToast', toEntry: '.' },
     // Root `Button` in 4.x is re-exported as-is in 5.0 (name is stable).
     { from: 'Button', fromEntry: '.', to: 'Button', toEntry: '.', compatOnly: true },
-    // 4.x `useToast` keeps its name in 5.0; the compat hook maps the 4.x return shape.
-    { from: 'useToast', fromEntry: '.', to: 'useToast', toEntry: '.', compatOnly: true },
     // <generated renames — do not hand-edit>
     { from: 'ChartTooltip',fromEntry: '.',to: 'Tooltip',toEntry: '.' },
     { from: 'CircularProgress',fromEntry: '.',to: 'Progress',toEntry: '.' },
@@ -87,7 +85,6 @@ export default {
     { from: 'GlassBadge',fromEntry: '.',to: 'Badge',toEntry: '.' },
     { from: 'GlassButtonGroup',fromEntry: '.',to: 'ButtonGroup',toEntry: '.' },
     { from: 'GlassCard',fromEntry: '.',to: 'Card',toEntry: '.' },
-    { from: 'GlassChip',fromEntry: '.',to: 'Chip',toEntry: '.' },
     { from: 'GlassCoachmarks',fromEntry: '.',to: 'Tour',toEntry: '.' },
     { from: 'GlassColorPicker',fromEntry: '.',to: 'ColorPicker',toEntry: '.' },
     { from: 'GlassColorWheel',fromEntry: '.',to: 'ColorPicker',toEntry: '.' },
@@ -108,7 +105,6 @@ export default {
     { from: 'GlassIcon',fromEntry: '.',to: 'Icon',toEntry: '.' },
     { from: 'GlassImageList',fromEntry: '.',to: 'ImageList',toEntry: '.' },
     { from: 'GlassInlineEdit',fromEntry: '.',to: 'InlineEdit',toEntry: '.' },
-    { from: 'GlassKeyValueEditor',fromEntry: '.',to: 'KeyValueEditor',toEntry: '.' },
     { from: 'GlassLabel',fromEntry: '.',to: 'Label',toEntry: '.' },
     { from: 'GlassLabelPrimitive',fromEntry: '.',to: 'Label',toEntry: '.' },
     { from: 'GlassLink',fromEntry: '.',to: 'Link',toEntry: '.' },
@@ -142,6 +138,7 @@ export default {
     { from: 'ScreenReaderText',fromEntry: '.',to: 'VisuallyHidden',toEntry: '.' },
     { from: 'toast',fromEntry: '.',to: 'Toast',toEntry: '.' },
     { from: 'Typography',fromEntry: '.',to: 'Text',toEntry: '.' },
+    { from: 'useToast',fromEntry: '.',to: 'Toast',toEntry: '.' },
     { from: 'WidgetGlass',fromEntry: '.',to: 'Card',toEntry: '.' },
     // </generated>
   ],
@@ -245,8 +242,6 @@ export default {
     { component: 'GlassIconButton',from: 'children',to: 'icon' },
     { component: 'GlassIconButton',from: 'variant',to: 'prominent' },
     { component: 'GlassIconButton',from: 'size',to: 'size' },
-    { component: 'GlassKeyValueEditor',from: 'onChange',to: 'onValueChange' },
-    { component: 'GlassKeyValueEditor',from: 'data-testid',to: 'data-ag-part hooks' },
     { component: 'GlassMenu',from: 'open',to: 'open' },
     { component: 'GlassMenu',from: 'onClose',to: 'onOpenChange' },
     { component: 'GlassMenu',from: 'items',to: 'Menu.Item children' },
@@ -267,7 +262,6 @@ export default {
     { component: 'GlassHoverCard',from: 'open',to: 'open' },
     { component: 'GlassHoverCard',from: 'trigger',to: 'Popover.Trigger openOnHover' },
     { component: 'GlassHoverCard',from: 'content',to: 'Popover.Popup children' },
-    { component: 'GlassTooltip',from: 'content',to: 'Popover.Popup children' },
     { component: 'GlassRadioGroup',from: 'onChange',to: 'onValueChange' },
     { component: 'GlassRadioGroup',from: 'options',to: 'children' },
     { component: 'GlassRadioGroup',from: 'direction',to: 'orientation' },
@@ -328,6 +322,7 @@ export default {
     { component: 'GlassToggleGroup',from: 'multiple',to: 'multiple' },
     { component: 'GlassToolbar',from: 'orientation',to: 'orientation' },
     { component: 'GlassToolbar',from: 'items',to: null },
+    { component: 'GlassTooltip',from: 'content',to: 'Tooltip.Popup children' },
     { component: 'GlassTooltip',from: 'placement',to: 'Positioner side/align' },
     { component: 'GlassTooltip',from: 'delay',to: 'Provider delay' },
     { component: 'GlassIcon',from: 'name',to: 'name' },

@@ -33,7 +33,7 @@ describe('GlassToast compat (CMP-341)', () => {
     );
     await flush();
     expect(warn.mock.calls.flat().join(' ')).toContain('DEP-C0115');
-    const toastEl = document.querySelector('[data-ag-overlay="toast"], [data-ag-part="root"]');
+    const toastEl = document.querySelector('[data-ag-overlay="toast"], [data-ag-part="toast"]');
     expect(toastEl).toBeTruthy();
     warn.mockRestore();
   });

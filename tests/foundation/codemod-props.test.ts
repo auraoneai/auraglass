@@ -35,6 +35,19 @@ const evalExpr = (node: ts.Expression): unknown => {
     return out;
   }
   if (ts.isIdentifier(node) && node.text === 'undefined') return undefined;
+  // numeric arithmetic on literals (metas write budgets as `10000 / 1024`)
+  if (ts.isBinaryExpression(node)) {
+    const l = evalExpr(node.left);
+    const r = evalExpr(node.right);
+    if (typeof l === 'number' && typeof r === 'number') {
+      switch (node.operatorToken.kind) {
+        case ts.SyntaxKind.PlusToken: return l + r;
+        case ts.SyntaxKind.MinusToken: return l - r;
+        case ts.SyntaxKind.AsteriskToken: return l * r;
+        case ts.SyntaxKind.SlashToken: return l / r;
+      }
+    }
+  }
   throw new Error(`non-literal expression: ${node.getText().slice(0, 80)}`);
 };
 
