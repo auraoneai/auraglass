@@ -167,14 +167,17 @@ describe('app-shell.css structure (SURF-011)', () => {
     expect(overlay?.declarations.get('padding-block-end')).toBe('env(safe-area-inset-bottom)');
   });
 
-  it('contains no !important, no transition:all, no will-change outside animating', () => {
+  it('contains no !important, no transition:all, and promotes no layers (SURF-24)', () => {
     expect(css).not.toContain('!important');
     expect(stripped.replace(/\s+/g, ' ')).not.toContain('transition: all');
+    const promoted: string[] = [];
     for (const rule of rules) {
-      if (rule.declarations.has('will-change')) {
-        expect(rule.selector + ' ' + rule.ancestors.join(' ')).toContain('[data-ag-animating');
+      for (const prop of ['will-change', 'transform', 'translate', 'contain']) {
+        if (rule.declarations.has(prop)) promoted.push(`${rule.selector} { ${prop} }`);
       }
+      if (rule.selector.includes('data-ag-animating')) promoted.push(rule.selector);
     }
+    expect(promoted).toEqual([]);
   });
 
   it('defines private --_ag-app-shell-* defaults and no public shell vars', () => {
@@ -206,8 +209,46 @@ describe('app-shell.css structure (SURF-011)', () => {
     }
   });
   it('uses only --ag-* and --_ag-app-shell-* vars (SURF-25)', () => {
-    const vars = new Set([...css.matchAll(/var\((--[a-zA-Z0-9-]+)/g)].map((m) => m[1]));
+    // `_` is in the class so private --_ag-* reads are seen (and rejected).
+    const vars = new Set([...stripped.matchAll(/var\((--[\w-]+)/g)].map((m) => m[1]!));
+    expect(vars.size).toBeGreaterThan(10);
     const bad = [...vars].filter((v) => !v.startsWith('--ag-') && !v.startsWith('--_ag-app-shell-'));
     expect(bad).toEqual([]);
+  });
+
+  it('keys the nav indicator, focus ring and tab indicators on --ag-color-accent (SURF-25)', () => {
+    const decl = (sel: string, prop: string) =>
+      rules.find((r) => r.selector === sel || r.selector.split(/,\s*(?![^(]*\))/).map((x) => x.trim()).includes(sel))
+        ?.declarations.get(prop);
+    expect({
+      nav: decl(".ag-app-shell [data-ag-part='sidebar-item'][aria-current='page']", 'box-shadow'),
+      focus: decl('.ag-app-shell :is(a, button, [tabindex]):not([data-ag-focusable], .ag-focusable):focus-visible', 'outline'),
+      tabs: decl('.ag-app-shell .ag-tabs__indicator', 'background'),
+      tabbar: decl(".ag-app-shell .ag-tab-bar__item[aria-current='page']", 'box-shadow'),
+    }).toEqual({
+      nav: 'inset 3px 0 0 var(--ag-color-accent)',
+      focus: 'var(--ag-focus-width, 2px) solid var(--ag-color-accent)',
+      tabs: 'var(--ag-color-accent)',
+      tabbar: 'inset 0 -2px 0 var(--ag-color-accent)',
+    });
+  });
+
+  it('sidebar content owns its scroll and appearances have geometry (SURF-27)', () => {
+    const has = (sel: string) => rules.filter((r) => r.selector.split(',').map((x) => x.trim()).includes(sel));
+    const content = has('.ag-app-shell .ag-sidebar__content');
+    expect(content.some((r) => r.declarations.get('overflow') === 'auto')).toBe(true);
+    expect(content.some((r) => r.declarations.get('overscroll-behavior') === 'contain')).toBe(true);
+    expect(has('.ag-app-shell .ag-sidebar')[0]?.declarations.get('flex-direction')).toBe('column');
+    expect(has(".ag-app-shell .ag-sidebar[data-ag-appearance='floating']").some((r) => r.declarations.has('box-shadow'))).toBe(true);
+    expect(has(".ag-app-shell .ag-sidebar[data-ag-appearance='inset']")[0]?.declarations.get('margin')).toBe('var(--ag-space-2, 0.5rem)');
+  });
+
+  it('page header wraps and actions take a full row under 600px (SURF-23)', () => {
+    const row = rules.find((r) => r.selector === '.ag-app-shell .ag-page-header__row');
+    expect(row?.declarations.get('flex-wrap')).toBe('wrap');
+    const narrow = rules.find(
+      (r) => r.selector === '.ag-app-shell .ag-page-header__actions' && r.ancestors.some((a) => a.includes('width < 600px')),
+    );
+    expect(narrow?.declarations.get('flex-basis')).toBe('100%');
   });
 });

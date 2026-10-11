@@ -54,4 +54,31 @@ test.describe('app-shell a11y (SURF-032/105/120)', () => {
     await page.keyboard.press('Enter');
     await expect(main).toBeFocused();
   });
+
+  // REQ-SURF-26: landmark names are unique on every AppShell story (axe
+  // landmark-unique = 0), and the full chrome has exactly one complementary
+  // landmark (Inspector) — the Sidebar container is not a landmark.
+  for (const story of ['default', 'skip-link', 'scroll-ownership', 'full-chrome', 'brand-chrome-a', 'page-header-wrap']) {
+    test(`axe landmark-unique = 0: ${story}`, async ({ page }) => {
+      await gotoStory(page, `surf-app-shell--${story}`);
+      await expect(page.locator('.ag-app-shell')).toHaveCount(1);
+      const { AxeBuilder } = await import('@axe-core/playwright');
+      const res = await new AxeBuilder({ page })
+        .include('.ag-app-shell')
+        .withRules(['landmark-unique', 'landmark-no-duplicate-banner', 'landmark-no-duplicate-main', 'landmark-complementary-is-top-level'])
+        .analyze();
+      expect(res.violations.map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
+    });
+  }
+
+  test('full chrome: one complementary landmark, labelled navigation only', async ({ page }) => {
+    // At 1440 the bottom TabBar ('Sections') is display:none (compact only),
+    // so the exposed navigation landmarks are the sidebar Nav alone.
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await gotoStory(page, 'surf-app-shell--full-chrome');
+    await expect(page.getByRole('complementary')).toHaveCount(1);
+    await expect(page.getByRole('complementary')).toHaveAccessibleName('Details');
+    const navs = await page.getByRole('navigation').evaluateAll((els) => els.map((el) => el.getAttribute('aria-label')).sort());
+    expect(navs).toEqual(['Primary']);
+  });
 });

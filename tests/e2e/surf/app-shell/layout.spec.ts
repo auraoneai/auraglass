@@ -121,4 +121,40 @@ test.describe('app-shell layout (SURF-013/033/044)', () => {
       });
     });
   }
+
+  // REQ-SURF-24: no promoted layers. Every element of the shell computes
+  // transform none and will-change auto at rest, and again after a sidebar
+  // toggle under motion=full (the old JS animating flag/timer are gone).
+  test('computed-style probe: transform none and willChange auto on every shell element', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await gotoStory(page, 'surf-app-shell--full-chrome', { motion: 'full' });
+    const probe = () =>
+      page.evaluate(() => {
+        const els = [document.querySelector('.ag-app-shell')!, ...document.querySelectorAll('.ag-app-shell *')];
+        const offenders = els
+          .map((el) => ({ el, cs: getComputedStyle(el) }))
+          .filter(({ cs }) => cs.transform !== 'none' || cs.willChange !== 'auto')
+          .map(({ el, cs }) => `${el.tagName.toLowerCase()}[${el.getAttribute('data-ag-part') ?? el.className}] ${cs.transform} ${cs.willChange}`);
+        return { count: els.length, offenders, animating: document.querySelector('[data-ag-animating]') !== null };
+      });
+    const rest = await probe();
+    expect(rest.count).toBeGreaterThan(20);
+    expect({ offenders: rest.offenders, animating: rest.animating }).toEqual({ offenders: [], animating: false });
+    await page.getByRole('button', { name: 'Collapse sidebar' }).click();
+    await expect(page.locator('.ag-app-shell')).not.toHaveAttribute('data-ag-sidebar', 'expanded');
+    const toggled = await probe();
+    expect({ offenders: toggled.offenders, animating: toggled.animating }).toEqual({ offenders: [], animating: false });
+  });
+
+  // REQ-SURF-23: under a 600px shell the page-header actions wrap to their
+  // own row below the title.
+  test('page header actions wrap at 375px', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await gotoStory(page, 'surf-app-shell--page-header-wrap');
+    const title = await page.locator('.ag-page-header [data-ag-part="title"]').boundingBox();
+    const actions = await page.locator('.ag-page-header [data-ag-part="actions"]').boundingBox();
+    expect(title).not.toBeNull();
+    expect(actions).not.toBeNull();
+    expect(actions!.y).toBeGreaterThanOrEqual(title!.y + title!.height);
+  });
 });
