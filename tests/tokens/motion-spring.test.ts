@@ -108,10 +108,29 @@ describe('motion-spring transform (MAT-042/044)', () => {
     }
   });
 
-  test('@supports not fallback maps springs to ease-emphasized-decelerate', () => {
-    const fb = CSS.slice(CSS.indexOf('@supports not (transition-timing-function: linear(0, 1))'));
-    for (const n of SPRINGS)
-      expect(fb).toContain(`--ag-spring-${n}: var(--ag-ease-emphasized-decelerate)`);
+  test('settle durations are the start of the 50 ms hold: 300/470/650ms (REQ-MAT-08)', () => {
+    expect(CSS).toContain('--ag-spring-snappy-duration: 300ms');
+    expect(CSS).toContain('--ag-spring-smooth-duration: 470ms');
+    expect(CSS).toContain('--ag-spring-fluid-duration: 650ms');
+  });
+
+  test('@supports not fallback: snappy→ease-standard, smooth/fluid→emphasized-decelerate (REQ-MAT-08)', () => {
+    const start = CSS.indexOf('@supports not (transition-timing-function: linear(0, 1))');
+    expect(start).toBeGreaterThan(-1);
+    const fb = CSS.slice(start, CSS.indexOf('}', CSS.indexOf('{', CSS.indexOf('{', start) + 1)) + 1);
+    expect(fb).toContain('--ag-spring-snappy: var(--ag-ease-standard)');
+    expect(fb).toContain('--ag-spring-smooth: var(--ag-ease-emphasized-decelerate)');
+    expect(fb).toContain('--ag-spring-fluid: var(--ag-ease-emphasized-decelerate)');
+    expect(fb).not.toContain('--ag-spring-snappy: var(--ag-ease-emphasized-decelerate)');
+  });
+
+  test('compileSpring: settle T is the start of the hold and stiffness/damping follow the contract', () => {
+    const smooth = compileSpring(REF.ref.time.spring.smooth.$value, 'smooth');
+    expect(smooth.durationMs).toBe(470);
+    expect(Math.abs(smooth.stiffness - 322.3)).toBeLessThanOrEqual(0.1);
+    expect(Math.abs(smooth.damping - 32.31)).toBeLessThanOrEqual(0.01);
+    expect(compileSpring(REF.ref.time.spring.snappy.$value, 'snappy').durationMs).toBe(300);
+    expect(compileSpring(REF.ref.time.spring.fluid.$value, 'fluid').durationMs).toBe(650);
   });
 
   for (const [label, value] of [

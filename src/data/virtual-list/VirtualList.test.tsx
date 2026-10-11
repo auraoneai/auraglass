@@ -35,6 +35,14 @@ beforeEach(() => {
       return VIEWPORT;
     },
   });
+  // content height = the virtual sizer's height (jsdom has no layout)
+  Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
+    configurable: true,
+    get(this: HTMLElement) {
+      const sizer = this.firstElementChild as HTMLElement | null;
+      return sizer ? Number.parseFloat(sizer.style.height || '0') || 0 : 0;
+    },
+  });
 });
 
 const items = Array.from({ length: 500 }, (_, i) => `row-${i}`);
@@ -103,11 +111,73 @@ describe('VirtualList (SURF-150/256, I-1)', () => {
     });
   });
 
-  it('idle timers: no rAF or interval left behind', () => {
-    jest.useFakeTimers();
-    const { unmount } = render(<List />);
-    expect(jest.getTimerCount()).toBe(0);
+  it('onEndReached fires exactly once for 3 scroll events inside the threshold', () => {
+    const onEnd = jest.fn();
+    const { container } = render(<List onEndReached={onEnd} />);
+    expect(onEnd).not.toHaveBeenCalled();
+    const scroller = container.firstElementChild as HTMLElement;
+    for (const fromEnd of [150, 100, 20]) {
+      Object.defineProperty(scroller, 'scrollTop', { configurable: true, writable: true, value: 500 * ITEM - VIEWPORT - fromEnd });
+      act(() => {
+        scroller.dispatchEvent(new Event('scroll'));
+      });
+    }
+    expect(onEnd).toHaveBeenCalledTimes(1);
+    // scrolling back above the threshold re-arms it
+    Object.defineProperty(scroller, 'scrollTop', { configurable: true, writable: true, value: 0 });
+    act(() => {
+      scroller.dispatchEvent(new Event('scroll'));
+    });
+    Object.defineProperty(scroller, 'scrollTop', { configurable: true, writable: true, value: 500 * ITEM - VIEWPORT - 10 });
+    act(() => {
+      scroller.dispatchEvent(new Event('scroll'));
+    });
+    expect(onEnd).toHaveBeenCalledTimes(2);
+  });
+
+  it("anchor='end': appending items scrolls to the last index (bottom stays pinned)", () => {
+    const calls: ScrollToOptions[] = [];
+    const prevScrollTo = Object.getOwnPropertyDescriptor(Element.prototype, 'scrollTo');
+    Object.defineProperty(Element.prototype, 'scrollTo', {
+      configurable: true,
+      value(opts: ScrollToOptions) { calls.push(opts); },
+    });
+    try {
+      const { rerender } = render(<List n={20} anchor="end" />);
+      calls.length = 0;
+      rerender(<List n={21} anchor="end" />);
+      expect(calls.length).toBeGreaterThanOrEqual(1);
+      // last index aligned to the end: 21 * 40 - 200 viewport = 640
+      expect(calls[calls.length - 1]!.top).toBe(21 * ITEM - VIEWPORT);
+      // anchor='start' never auto-scrolls on append
+      const { rerender: r2 } = render(<List n={20} anchor="start" />);
+      calls.length = 0;
+      r2(<List n={21} anchor="start" />);
+      expect(calls.length).toBe(0);
+    } finally {
+      if (prevScrollTo) Object.defineProperty(Element.prototype, 'scrollTo', prevScrollTo);
+      else delete (Element.prototype as unknown as { scrollTo?: unknown }).scrollTo;
+    }
+  });
+
+  it('idle: 0 requestAnimationFrame and 0 setInterval calls in the 500 ms after settle', async () => {
+    const raf = jest.spyOn(window, 'requestAnimationFrame');
+    const interval = jest.spyOn(window, 'setInterval');
+    const { container, unmount } = render(<List onEndReached={() => {}} />);
+    // settle: flush effects and one macrotask
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 0));
+    });
+    expect(container.querySelectorAll('[data-index]').length).toBeGreaterThan(0);
+    raf.mockClear();
+    interval.mockClear();
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 500));
+    });
+    expect(raf).toHaveBeenCalledTimes(0);
+    expect(interval).toHaveBeenCalledTimes(0);
     unmount();
-    jest.useRealTimers();
+    raf.mockRestore();
+    interval.mockRestore();
   });
 });
