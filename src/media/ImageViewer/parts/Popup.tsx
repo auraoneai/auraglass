@@ -70,7 +70,7 @@ export function Popup({ children, className }: ImageViewerPopupProps): React.Rea
     <Dialog.Root open={c.open} onOpenChange={(o: boolean) => c.setOpen(o)}>
       <Dialog.Content
         backdrop={false}
-        size="full"
+        appearance="fullscreen"
         ref={popupRef}
         className={['ag-image-viewer', className].filter(Boolean).join(' ')}
         data-ag-part="image-viewer-popup"
