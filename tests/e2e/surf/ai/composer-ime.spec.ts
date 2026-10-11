@@ -6,7 +6,7 @@ test.describe('ai composer IME (SURF-353)', () => {
   test('composition events + keyCode 229 submit nothing; next Enter submits once', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Composer');
-    if (!subject) { console.warn('AI/Composer subject not registered — pending'); return; }
+    if (!subject) throw new Error('AI/Composer subject not registered');
     await gotoStory(page, subject.id);
     const input = page.locator('[data-ag-part="input"], textarea').first();
     await expect(input).toBeVisible();

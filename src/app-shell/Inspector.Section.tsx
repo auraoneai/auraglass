@@ -1,6 +1,7 @@
 'use client';
-/* Inspector.Section (SURF-056): CMP Collapsible seam with a title trigger
-   carrying aria-expanded; panel hidden when closed. */
+/* Inspector.Section (SURF-037/056): CMP Collapsible seam with a title
+   trigger. Base UI Collapsible owns aria-expanded/hidden/aria-controls on
+   the trigger and panel — no manual attributes. */
 
 import * as React from 'react';
 import { Collapsible } from '../components/collapsible';
@@ -18,14 +19,13 @@ export type InspectorSectionProps = PartProps<'div'> & {
 };
 
 export function InspectorSection({ title, defaultOpen = true, children, ...rest }: InspectorSectionProps) {
-  const id = React.useId();
   return (
     <CollapsibleRoot defaultOpen={defaultOpen}>
       <div data-ag-part="inspector-section" {...(rest as Record<string, unknown>)}>
-        <CollapsibleTrigger aria-expanded={defaultOpen} aria-controls={`${id}-panel`} className="ag-inspector__section-trigger">
+        <CollapsibleTrigger className="ag-inspector__section-trigger">
           {title}
         </CollapsibleTrigger>
-        <CollapsibleContent id={`${id}-panel`} {...(defaultOpen ? {} : { hidden: true })}>
+        <CollapsibleContent>
           {children}
         </CollapsibleContent>
       </div>
