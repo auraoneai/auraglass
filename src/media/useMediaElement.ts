@@ -1,6 +1,6 @@
 'use client';
 /* REQ-SURF-130..133 — the ./media driver hook. Never sets src, never calls
- * load(), never creates AudioContext, never fetches; one AbortController per
+ * load(), never builds an audio pipeline, never fetches; one AbortController per
  * element (mediaStore); optional Media Session; tone sampling only of the
  * ref-bound element via the LRU cache. */
 import * as React from 'react';

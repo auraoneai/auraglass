@@ -139,6 +139,22 @@ const w5 = [
     remote: false,
     failClosed: true,
   },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-dist-ai.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-dist-ai.mjs',
+    scope: 'release',
+    remote: false,
+    failClosed: true,
+  },
 ] as const;
 // --- lane W5 end ---
 
