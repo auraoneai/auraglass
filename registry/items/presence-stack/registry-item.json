@@ -4,10 +4,37 @@
   "type": "registry:item",
   "title": "Presence stack",
   "description": "Avatar stack with deterministic per-id colours and +N overflow — data by props.",
-  "dependencies": ["react"],
-  "registryDependencies": ["avatar", "avatar-group"],
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:item" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    },
+    {
+      "path": "PresenceStack.tsx",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": false,
+      "components": [
+        "Avatar",
+        "AvatarGroup"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

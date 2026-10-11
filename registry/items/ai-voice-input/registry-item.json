@@ -3,11 +3,13 @@
   "name": "ai-voice-input",
   "type": "registry:item",
   "title": "AI voice input button",
-  "description": "Composer.Action voice capture via real MediaRecorder \u2014 recording announced, stop produces a File; explicit unsupported/denied states.",
+  "description": "Composer.Action voice capture via real MediaRecorder — recording announced, stop produces a File; explicit unsupported/denied states.",
   "dependencies": [
     "react"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
     {
       "path": "VoiceInputAction.tsx",
@@ -16,6 +18,22 @@
     {
       "path": "index.tsx",
       "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
     }
-  ]
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "Composer"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }
