@@ -7,7 +7,7 @@ import * as React from 'react';
 import { Progress as BaseProgress } from '@base-ui/react/progress';
 import { cn } from '../../internal/index';
 
-export interface ProgressProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'prefix'> {
+export interface ProgressProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'prefix' | 'onChange'> {
   /** 0..max, or null for indeterminate. */
   value?: number | null;
   min?: number;

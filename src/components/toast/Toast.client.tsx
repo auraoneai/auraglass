@@ -88,7 +88,7 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
         ref={ref}
         toast={toast}
         role={priority}
-        data-ag-part="root"
+        data-ag-part="toast"
         data-ag-intent={intent}
         data-state={state}
         style={timeout !== undefined ? ({ '--_ag-toast-timeout': `${timeout}ms` } as React.CSSProperties) : undefined}

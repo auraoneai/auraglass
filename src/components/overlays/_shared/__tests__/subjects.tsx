@@ -127,7 +127,7 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
     ),
   },
   {
-    kind: 'toast', name: 'Toast', available: true, modal: false, layerRoot: 'toast', popupSelector: '[data-ag-part="root"]',
+    kind: 'toast', name: 'Toast', available: true, modal: false, layerRoot: 'toast', popupSelector: '[data-ag-part="toast"]',
     mount: () => (
       <Toast.Provider>
         <ToastSubject />

@@ -9,7 +9,7 @@ import * as React from 'react';
 import { cn } from '../../internal/index';
 import { VisuallyHidden } from '../../primitives/VisuallyHidden';
 
-export interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface EmptyStateProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   title: string;
   description?: string;
   icon?: React.ReactNode;
@@ -17,7 +17,7 @@ export interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
   actions?: React.ReactNode;
 }
 
-export interface ErrorStateProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ErrorStateProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   title: string;
   description?: string;
   icon?: React.ReactNode;
@@ -27,7 +27,7 @@ export interface ErrorStateProps extends React.HTMLAttributes<HTMLDivElement> {
   urgent?: boolean;
 }
 
-export interface LoadingStateProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface LoadingStateProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /** Visible description next to the indicator. */
   description?: string;
   icon?: React.ReactNode;
@@ -35,7 +35,7 @@ export interface LoadingStateProps extends React.HTMLAttributes<HTMLDivElement> 
   label?: string;
 }
 
-interface BaseProps extends React.HTMLAttributes<HTMLDivElement> {
+interface BaseProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   title: string;
   description?: string;
   icon?: React.ReactNode;

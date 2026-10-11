@@ -44,7 +44,7 @@ describe('Toast + useToast', () => {
     renderHost();
     fireEvent.click(screen.getByText('add-info'));
     await act(async () => {});
-    const toast = document.querySelector('[data-ag-part="root"]') as HTMLElement;
+    const toast = document.querySelector('[data-ag-part="toast"]') as HTMLElement;
     expect(toast).not.toBeNull();
     expect(toast).toHaveAttribute('role', 'status');
     expect(toast).toHaveAttribute('data-ag-intent', 'info');
@@ -58,7 +58,7 @@ describe('Toast + useToast', () => {
     renderHost();
     fireEvent.click(screen.getByText('add-error'));
     await act(async () => {});
-    const toast = document.querySelector('[data-ag-part="root"]') as HTMLElement;
+    const toast = document.querySelector('[data-ag-part="toast"]') as HTMLElement;
     expect(toast).toHaveAttribute('role', 'alert');
     expect(toast).toHaveAttribute('data-ag-intent', 'error');
   });
@@ -76,10 +76,10 @@ describe('Toast + useToast', () => {
     renderHost();
     fireEvent.click(screen.getByText('add-info'));
     await act(async () => {});
-    expect(document.querySelector('[data-ag-part="root"]')).not.toBeNull();
+    expect(document.querySelector('[data-ag-part="toast"]')).not.toBeNull();
     act(() => { jest.advanceTimersByTime(5100); });
     await act(async () => {});
-    expect(document.querySelector('[data-ag-part="root"]')).toBeNull();
+    expect(document.querySelector('[data-ag-part="toast"]')).toBeNull();
   });
 
   it('timeout=0 keeps the toast until closed; close clears + marks history', async () => {
@@ -88,10 +88,10 @@ describe('Toast + useToast', () => {
     fireEvent.click(screen.getByText('add-sticky'));
     await act(async () => {});
     act(() => { jest.advanceTimersByTime(30000); });
-    expect(document.querySelector('[data-ag-part="root"]')).not.toBeNull();
+    expect(document.querySelector('[data-ag-part="toast"]')).not.toBeNull();
     fireEvent.click(document.querySelector('[data-ag-part="close"]') as HTMLElement);
     await act(async () => {});
-    expect(document.querySelector('[data-ag-part="root"]')).toBeNull();
+    expect(document.querySelector('[data-ag-part="toast"]')).toBeNull();
   });
 
   it('limit=3 marks the oldest limited', async () => {
