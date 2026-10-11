@@ -3,7 +3,9 @@
    virtualization on @tanstack/react-virtual. 0 rAF/intervals while idle —
    all measurement flows through the virtualizer; the scroll listener is the
    element's own onScroll. handle exposes scrollToIndex/scrollToKey +
-   measureElement for consumers (Command >threshold, Table, TreeView). */
+   measureElement for consumers (Command >threshold, Table, TreeView).
+   REQ-SURF-109: `getScrollElement` hands the scrolling to an ancestor (Thread's
+   role=log) — the list then renders no overflow container of its own. */
 import * as React from 'react';
 import { defaultRangeExtractor, useVirtualizer } from '@tanstack/react-virtual';
 
@@ -40,6 +42,12 @@ export type VirtualListProps<T> = {
   'aria-label'?: string | undefined;
   'aria-labelledby'?: string | undefined;
   style?: React.CSSProperties | undefined;
+  /**
+   * External scroll container (REQ-SURF-109). When set, VirtualList renders no
+   * scroller of its own (no `overflow`): the returned ancestor scrolls and the
+   * list measures its offset inside it as the virtualizer's scroll margin.
+   */
+  getScrollElement?: (() => HTMLElement | null) | undefined;
 };
 
 function VirtualListInner<T>(
@@ -59,12 +67,43 @@ function VirtualListInner<T>(
     pinnedIndexes,
     className,
     style,
+    getScrollElement: externalScrollElement,
     ref,
     ...rest
   }: VirtualListProps<T> & { ref?: React.Ref<VirtualListHandle> },
 ) {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
+  const innerRef = React.useRef<HTMLDivElement | null>(null);
   const horizontal = orientation === 'horizontal';
+  const external = externalScrollElement !== undefined;
+  const externalRef = React.useRef(externalScrollElement);
+  externalRef.current = externalScrollElement;
+  const scrollEl = React.useCallback(
+    (): HTMLElement | null => (externalRef.current ? externalRef.current() : parentRef.current),
+    [],
+  );
+
+  // An ancestor's ref attaches after this component's layout effects, so on
+  // the first commit an external scroll element is still null; re-render
+  // once it is attached so the virtualizer picks it up.
+  const [attached, setAttached] = React.useState(false);
+  React.useEffect(() => {
+    if (external && !attached && scrollEl()) setAttached(true);
+  }, [external, attached, scrollEl]);
+
+  // External scroller: the list starts `scrollMargin` px into it (content
+  // above it, e.g. Thread's top sentinel). Measured after commit.
+  const [scrollMargin, setScrollMargin] = React.useState(0);
+  React.useLayoutEffect(() => {
+    if (!external) return;
+    const el = scrollEl();
+    const inner = innerRef.current;
+    if (!el || !inner) return;
+    const a = inner.getBoundingClientRect();
+    const b = el.getBoundingClientRect();
+    const m = horizontal ? a.left - b.left + el.scrollLeft : a.top - b.top + el.scrollTop;
+    setScrollMargin((prev) => (Math.abs(prev - m) < 0.5 ? prev : m));
+  }, [external, horizontal, scrollEl, items.length, attached]);
 
   const pinnedKey = (pinnedIndexes ?? []).join(',');
   const rangeExtractor = React.useCallback(
@@ -83,7 +122,8 @@ function VirtualListInner<T>(
   const virtualizer = useVirtualizer({
     count: items.length,
     rangeExtractor,
-    getScrollElement: () => parentRef.current,
+    getScrollElement: scrollEl,
+    scrollMargin: external ? scrollMargin : 0,
     estimateSize,
     overscan,
     horizontal,
@@ -99,7 +139,7 @@ function VirtualListInner<T>(
   const endLatched = React.useRef(false);
   const lastLen = React.useRef(items.length);
   const checkEnd = React.useCallback(() => {
-    const el = parentRef.current;
+    const el = scrollEl();
     if (!el || !endRef.current) return;
     const remaining = horizontal
       ? el.scrollWidth - el.scrollLeft - el.clientWidth
@@ -112,7 +152,7 @@ function VirtualListInner<T>(
       endLatched.current = true;
       endRef.current();
     }
-  }, [horizontal, endReachedThreshold]);
+  }, [horizontal, endReachedThreshold, items.length, scrollEl]);
 
   React.useEffect(() => {
     // A grown list has a new tail to reach: re-arm before re-checking.
@@ -120,6 +160,15 @@ function VirtualListInner<T>(
     lastLen.current = items.length;
     checkEnd();
   }, [checkEnd, items.length]);
+
+  // External scroller: listen on it (an event listener, not a timer).
+  React.useEffect(() => {
+    if (!external) return;
+    const el = scrollEl();
+    if (!el) return;
+    el.addEventListener('scroll', checkEnd, { passive: true });
+    return () => el.removeEventListener('scroll', checkEnd);
+  }, [external, scrollEl, checkEnd]);
 
   // anchor='end': pin to the last item whenever the count grows.
   const lastCount = React.useRef(items.length);
@@ -166,6 +215,44 @@ function VirtualListInner<T>(
     ? { width: `${totalSize}px`, height: '100%' }
     : { height: `${totalSize}px`, width: '100%' };
 
+  const offset = external ? scrollMargin : 0;
+  const rows = virtualItems.map((vi) => {
+    const item = items[vi.index] as T;
+    const start = vi.start - offset;
+    return (
+      <div
+        key={vi.key}
+        data-index={vi.index}
+        ref={virtualizer.measureElement}
+        {...(itemRole !== undefined ? { role: itemRole } : {})}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          ...(horizontal
+            ? { transform: `translateX(${start}px)`, height: '100%' }
+            : { transform: `translateY(${start}px)`, width: '100%' }),
+        }}
+      >
+        {renderItem(item, vi.index)}
+      </div>
+    );
+  });
+
+  if (external) {
+    return (
+      <div
+        ref={innerRef}
+        role={role}
+        className={className}
+        style={{ ...sizeStyle, position: 'relative', ...style }}
+        {...rest}
+      >
+        {rows}
+      </div>
+    );
+  }
+
   return (
     <div
       ref={parentRef}
@@ -179,29 +266,7 @@ function VirtualListInner<T>(
       }}
       {...rest}
     >
-      <div style={{ ...sizeStyle, position: 'relative' }}>
-        {virtualItems.map((vi) => {
-          const item = items[vi.index] as T;
-          return (
-            <div
-              key={vi.key}
-              data-index={vi.index}
-              ref={virtualizer.measureElement}
-              {...(itemRole !== undefined ? { role: itemRole } : {})}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                ...(horizontal
-                  ? { transform: `translateX(${vi.start}px)`, height: '100%' }
-                  : { transform: `translateY(${vi.start}px)`, width: '100%' }),
-              }}
-            >
-              {renderItem(item, vi.index)}
-            </div>
-          );
-        })}
-      </div>
+      <div style={{ ...sizeStyle, position: 'relative' }}>{rows}</div>
     </div>
   );
 }
