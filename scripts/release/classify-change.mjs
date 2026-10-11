@@ -74,6 +74,8 @@ function diffReportText(file, baseText, headText) {
         const j = JSON.parse(text);
         if (Array.isArray(j)) return j;
         if (Array.isArray(j.names)) return j.names;
+        // etc/api/<entry>.exports.json: { entry, exports: [names...] }
+        if (Array.isArray(j.exports)) return j.exports;
         if (j.exports && typeof j.exports === 'object') return Object.keys(j.exports);
         if (j.runtime) return [...(j.runtime ?? []), ...(j.types ?? [])];
         return Object.keys(j);
