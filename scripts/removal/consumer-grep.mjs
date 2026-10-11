@@ -1,15 +1,15 @@
 #!/usr/bin/env node
-/* scripts/release/consumer-grep.mjs — PLAT-223 (REQ-PLAT-81). Per-family
+/* scripts/removal/consumer-grep.mjs — PLAT-223 (REQ-PLAT-81). Per-family
    consumer scan before an RM PR merges: word-boundary rg over aura-glass
    import specifiers in the known downstream checkouts plus `gh search code`
    (operator part — never blocking; its absence is recorded, not hidden).
    Writes docs/release/decisions/removals/RM-<nn>.json; --verify fails on a
    missing, stale (names drifted from dispositions) or unacknowledged record.
 
-     node scripts/release/consumer-grep.mjs --family RM-02 \
+     node scripts/removal/consumer-grep.mjs --family RM-02 \
        [--roots /path/a,/path/b] [--timeout-secs 60] [--verify] [--write] */
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -97,9 +97,29 @@ export function verifyRecord(family, record, currentNames) {
 export function main(argv = process.argv.slice(2)) {
   const arg = (n) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : null; };
   const family = arg('--family');
-  if (!family || !/^RM-\d+$/.test(family)) { console.error('usage: --family RM-<nn> [--verify|--write]'); return 2; }
   const rows = existsSync(DISPOSITIONS) ? dispositionsRows(readFileSync(DISPOSITIONS, 'utf8')) : [];
-  const names = [...new Set((familyNames(family, rows) ?? []).map((r) => tokenOf(r.name)).filter(Boolean))].sort();
+  const namesFor = (fam) => [...new Set((familyNames(fam, rows) ?? []).map((r) => tokenOf(r.name)).filter(Boolean))].sort();
+
+  /* bare --verify: loop every RM-<nn> record on disk (or every family when
+     --all) and verify each — the gate uses this form. */
+  if (argv.includes('--verify') && !family) {
+    const fams = argv.includes('--all')
+      ? Object.keys(FAMILY_PATHS).sort()
+      : (readdirSync(join(ROOT, 'docs/release/decisions/removals'))
+          .filter((f) => /^RM-\d+\.json$/.test(f)).map((f) => f.replace('.json', '')).sort());
+    let bad = 0;
+    for (const fam of fams) {
+      const recordPath = join(ROOT, `docs/release/decisions/removals/${fam}.json`);
+      const record = existsSync(recordPath) ? JSON.parse(readFileSync(recordPath, 'utf8')) : null;
+      const errors = verifyRecord(fam, record, namesFor(fam));
+      if (errors.length) { bad++; for (const e of errors) console.error(`FAIL consumer-grep --verify ${fam}: ${e}`); }
+      else console.log(`consumer-grep --verify ${fam}: record current (${namesFor(fam).length} names)`);
+    }
+    return bad ? 1 : 0;
+  }
+
+  if (!family || !/^RM-\d+$/.test(family)) { console.error('usage: --family RM-<nn> [--verify|--write]'); return 2; }
+  const names = namesFor(family);
   const recordPath = join(ROOT, `docs/release/decisions/removals/${family}.json`);
 
   if (argv.includes('--verify')) {
@@ -128,6 +148,11 @@ export function main(argv = process.argv.slice(2)) {
       : undefined,
   };
   if (argv.includes('--write')) {
+    // Keep the removal commit pointer (revert-dry-run.mjs reads it) on rewrite.
+    if (existsSync(recordPath)) {
+      const prev = JSON.parse(readFileSync(recordPath, 'utf8'));
+      for (const k of ['mergeSha', 'sha']) if (prev[k]) record[k] = prev[k];
+    }
     mkdirSync(dirname(recordPath), { recursive: true });
     writeFileSync(recordPath, JSON.stringify(record, null, 2));
     console.log(`consumer-grep ${family}: wrote ${recordPath} (${names.length} names, status=${record.status})`);

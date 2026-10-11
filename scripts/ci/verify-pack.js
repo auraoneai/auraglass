@@ -14,7 +14,11 @@ const require2 = createRequire(import.meta.url);
 const { parsePackJson } = require2('./lib/npm-pack.cjs');
 const { evidenceDir } = require2('./lib/evidence-dir.cjs');
 
-const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+const argvRoot = (() => {
+  const i = process.argv.indexOf('--root');
+  return i >= 0 ? path.resolve(process.argv[i + 1]) : null;
+})();
+const ROOT = argvRoot ?? path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const PACKED_LIMIT = 2_000_000;
 const UNPACKED_LIMIT = 8_000_000;
 const TOP_FILES = new Set(['package.json', 'deprecations.json', 'llms.txt', 'README.md', 'LICENSE', 'CHANGELOG.md']);
@@ -30,6 +34,13 @@ const DENY = [
 
 export function run() {
   const problems = [];
+  /* The tarball is verified as built from this commit: when no dist/ is
+     present (plat:package:pack does not consume a build artifact), build it
+     first so `npm pack` packs real output rather than an empty package. */
+  if (!fs.existsSync(path.join(ROOT, 'dist'))) {
+    console.log('verify-pack: dist/ absent — running npm run build');
+    execFileSync('npm', ['run', 'build'], { cwd: ROOT, stdio: 'inherit' });
+  }
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ag-pack-'));
   try {
     const out = execFileSync('npm', ['pack', '--json', '--pack-destination', tmp], { cwd: ROOT, encoding: 'utf8' });
@@ -61,9 +72,25 @@ export function run() {
       const rel = path.relative(exdir, f);
       const text = fs.readFileSync(f);
       if (text.includes('@ag-contract-seed')) problems.push(`@ag-contract-seed inside ${rel}`);
-      else if (rel.startsWith('package/dist/') && rel.endsWith('.js') && text.includes('data-ag-seed')) problems.push(`data-ag-seed inside ${rel}`);
+      /* the contract's own ATTRIBUTES table declares 'data-ag-seed' as a type
+         key (§1.2 R5) — d.ts declarations may name it; what must never ship
+         is the attribute emitted by a module (js/css usage). */
+      else if (rel.startsWith('package/dist/') && !rel.endsWith('.d.ts') && text.includes('data-ag-seed')) problems.push(`data-ag-seed inside ${rel}`);
     }
     fs.rmSync(exdir, { recursive: true, force: true });
+
+    /* pack-breakdown: bytes per top-level dist dir — printed and written to
+       .artifacts/plat/pack-breakdown.json for the pack job's artifacts. */
+    const breakdown = {};
+    for (const n of names) {
+      const m = /^dist\/([^/]+)\//.exec(n);
+      if (m) breakdown[m[1]] = (breakdown[m[1]] ?? 0) + (sizes[n] || 0);
+    }
+    const platDir = path.join(ROOT, '.artifacts', 'plat');
+    fs.mkdirSync(platDir, { recursive: true });
+    fs.writeFileSync(path.join(platDir, 'pack-breakdown.json'),
+      JSON.stringify({ distDirs: breakdown, packedBytes, unpackedBytes }, null, 2) + '\n');
+    console.log(`verify-pack: breakdown ${JSON.stringify(breakdown)}`);
 
     const dir = evidenceDir('pack');
     fs.mkdirSync(dir, { recursive: true });
