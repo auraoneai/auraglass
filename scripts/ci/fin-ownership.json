@@ -1,0 +1,255 @@
+{
+  "$comment": "REQ-FIN-30: FIN work-package path sets (PRD-F §6, §3.1 R24) for next-fin/<wp>-* branches. First match wins. A path no row matches resolves through contracts/ownership.json and streamToWp. owner NONE in contracts/ownership.json is rejected unless the matching row sets allowNoneLocation. package.json is split by key (PRD-F §6). FIN-463 ports these rows to contracts/ownership.json; until then this file is the source.",
+  "version": 1,
+  "streamToWp": {
+    "PLAT": "FIN-C",
+    "MAT": "FIN-D",
+    "CMP": "FIN-E",
+    "SURF": "FIN-F",
+    "QUAL": "FIN-G",
+    "CONTRACT": "CONTRACT",
+    "NONE": "NONE"
+  },
+  "letterToWp": {
+    "a": "FIN-A",
+    "b": "FIN-B",
+    "c": "FIN-C",
+    "d": "FIN-D",
+    "e": "FIN-E",
+    "f": "FIN-F",
+    "g": "FIN-G",
+    "h": "FIN-H"
+  },
+  "wpTo4xStream": {
+    "FIN-A": "plat",
+    "FIN-B": "plat",
+    "FIN-C": "plat",
+    "FIN-D": "mat",
+    "FIN-E": "cmp",
+    "FIN-F": "surf",
+    "FIN-G": "qual",
+    "FIN-H": "plat"
+  },
+  "packageJson": {
+    "path": "package.json",
+    "keysWp": "FIN-A",
+    "keys": ["exports", "main", "types"],
+    "restWp": "FIN-C"
+  },
+  "rows": [
+    {
+      "id": "CT",
+      "wp": "CONTRACT",
+      "glob": "jest.config.js",
+      "note": "contract PR only (PRD-F §6, Appendix C)"
+    },
+    {
+      "id": "CT",
+      "wp": "CONTRACT",
+      "glob": "src/contracts/**",
+      "note": "contract PR only (PRD-F §6, Appendix C)"
+    },
+    {
+      "id": "CT",
+      "wp": "CONTRACT",
+      "glob": "contracts/**",
+      "note": "contract PR only (FIN-463)"
+    },
+    {
+      "id": "CT",
+      "wp": "CONTRACT",
+      "glob": ".github/CODEOWNERS",
+      "note": "contract PR on main (FIN-B content, C-10)"
+    },
+
+    { "id": "H", "wp": "FIN-H", "glob": "tests/a11y/manual/**" },
+    { "id": "H", "wp": "FIN-H", "glob": "scripts/mat/verify-a11y-manual.mjs" },
+    { "id": "H", "wp": "FIN-H", "glob": "certification/review/records/**" },
+    {
+      "id": "H",
+      "wp": "FIN-H",
+      "glob": "docs/certification/real-device-matrix.md"
+    },
+    {
+      "id": "H",
+      "wp": "FIN-H",
+      "glob": "docs/release/decisions/{od-*.md,operator-*.md,removals/RM-*.json,downstream-*.json}"
+    },
+
+    {
+      "id": "A01",
+      "wp": "FIN-A",
+      "glob": "tokens/{$schema.json,schema.json,index.json}"
+    },
+    { "id": "A01", "wp": "FIN-A", "glob": "tokens/{legacy,personas}/**" },
+    {
+      "id": "A01",
+      "wp": "FIN-A",
+      "glob": "scripts/tokens/{build,freeze-4x,drift}.mjs"
+    },
+    {
+      "id": "A01",
+      "wp": "FIN-A",
+      "glob": "scripts/tokens/formats/{compat-aliases,_shared}.mjs"
+    },
+    {
+      "id": "A02",
+      "wp": "FIN-A",
+      "glob": "src/material/css/{material,lens}.css"
+    },
+    { "id": "A02", "wp": "FIN-A", "glob": "src/material/dev/warnings.ts" },
+    {
+      "id": "A02",
+      "wp": "FIN-A",
+      "glob": "src/components/overlays/_shared/{overlaySurface,overlayTypes}.ts"
+    },
+    {
+      "id": "A02",
+      "wp": "FIN-A",
+      "glob": "tests/material/state-readers.test.ts"
+    },
+    {
+      "id": "A03",
+      "wp": "FIN-A",
+      "glob": "scripts/tokens/transforms/{glass-material,contrast-solve}.mjs"
+    },
+    { "id": "A03", "wp": "FIN-A", "glob": "src/material/css/generated/**" },
+    {
+      "id": "A03",
+      "wp": "FIN-A",
+      "glob": "tokens/material/material.tokens.json"
+    },
+    { "id": "A03", "wp": "FIN-A", "glob": "tokens/sys/elevation.tokens.json" },
+    {
+      "id": "A04",
+      "wp": "FIN-A",
+      "glob": "src/theme/{providerMounts,mounts,index}.ts"
+    },
+    { "id": "A04", "wp": "FIN-A", "glob": "src/theme/AuraGlassProvider.tsx" },
+    { "id": "A04", "wp": "FIN-A", "glob": "src/internal/warnDeprecated.ts" },
+    { "id": "A05", "wp": "FIN-A", "glob": "fragments/css/mat.ts" },
+    { "id": "A05", "wp": "FIN-A", "glob": "src/a11y/css/**" },
+    {
+      "id": "A05",
+      "wp": "FIN-A",
+      "glob": "src/theme/preferences-panel/GlassPreferencesPanel.css"
+    },
+    { "id": "A05", "wp": "FIN-A", "glob": "scripts/mat/verify-a11y-css.mjs" },
+    {
+      "id": "A06",
+      "wp": "FIN-A",
+      "glob": "scripts/build/{generate-exports.mjs,lib/graph.mjs}"
+    },
+    { "id": "A07", "wp": "FIN-A", "glob": "src/theme/portal.ts" },
+    { "id": "A07", "wp": "FIN-A", "glob": "src/theme/layers/**" },
+    { "id": "A07", "wp": "FIN-A", "glob": "src/foundation/portal.ts" },
+    {
+      "id": "A07",
+      "wp": "FIN-A",
+      "glob": "src/components/overlays/_shared/useOverlayLayer.ts"
+    },
+    {
+      "id": "A07",
+      "wp": "FIN-A",
+      "glob": "src/primitives/{DismissableLayer,FocusScope}.tsx"
+    },
+    {
+      "id": "A07",
+      "wp": "FIN-A",
+      "glob": "lint/rules/cmp/no-overlay-global-listeners.cjs"
+    },
+    { "id": "A08", "wp": "FIN-A", "glob": "tests/helpers/**" },
+    {
+      "id": "A09",
+      "wp": "FIN-A",
+      "glob": "packages/cli/test/fixtures.test.ts"
+    },
+    { "id": "A09", "wp": "FIN-A", "glob": "tests/capability/jest.doubles.cjs" },
+    {
+      "id": "A10",
+      "wp": "FIN-A",
+      "glob": "scripts/release/{classify-change.mjs,lib/policy.mjs}"
+    },
+    {
+      "id": "A10",
+      "wp": "FIN-A",
+      "glob": "tests/release/classify-change.test.{mjs,ts}"
+    },
+    { "id": "A11", "wp": "FIN-A", "glob": "tokens/comp/**" },
+    { "id": "A11", "wp": "FIN-A", "glob": "tokens/sys/app-shell.tokens.json" },
+    {
+      "id": "A11",
+      "wp": "FIN-A",
+      "glob": "scripts/tokens/gates/undefined-component-vars.mjs"
+    },
+    { "id": "A12", "wp": "FIN-A", "glob": "src/theme/preferences/store.ts" },
+    {
+      "id": "A12",
+      "wp": "FIN-A",
+      "glob": "src/motion/css/{motion-modes,loading}.css"
+    },
+    { "id": "A12", "wp": "FIN-A", "glob": "scripts/mat/verify-motion-css.mjs" },
+    {
+      "id": "A13",
+      "wp": "FIN-A",
+      "glob": "scripts/release/sync-fragments.mjs"
+    },
+    {
+      "id": "A13",
+      "wp": "FIN-A",
+      "glob": "tests/release/sync-fragments.test.ts"
+    },
+    { "id": "A14", "wp": "FIN-A", "glob": "fragments/css/{cmp,surf}.ts" },
+    {
+      "id": "A14",
+      "wp": "FIN-A",
+      "glob": "scripts/build/verify-css-files.mjs"
+    },
+    { "id": "Aall", "wp": "FIN-A", "glob": "{scripts,tests}/integration/**" },
+
+    { "id": "B", "wp": "FIN-B", "glob": ".gitlab-ci.yml" },
+    { "id": "B", "wp": "FIN-B", "glob": "ci/plat.gitlab-ci.yml" },
+    { "id": "B", "wp": "FIN-B", "glob": "ci/plat/**" },
+    {
+      "id": "B",
+      "wp": "FIN-B",
+      "glob": "scripts/ci/{verify-ci-fragments,gitlab-status,assemble-pages,require-activated}.mjs"
+    },
+    {
+      "id": "B",
+      "wp": "FIN-B",
+      "glob": "scripts/release/{push-gitlab-refs,verify-branch-protection}.mjs"
+    },
+    {
+      "id": "B",
+      "wp": "FIN-B",
+      "glob": "tests/ci/{no-github-ci,verify-ci-fragments,plat-fragment,no-gate-bypass,gitlab-status,assemble-pages,decision-records,no-forward-merge}.test.ts"
+    },
+    { "id": "B", "wp": "FIN-B", "glob": "tests/ci/fixtures/ci-fragments/**" },
+    {
+      "id": "B",
+      "wp": "FIN-B",
+      "glob": "tests/release/branch-protection.test.ts"
+    },
+    {
+      "id": "B",
+      "wp": "FIN-B",
+      "glob": "docs/release/{branch-policy.md,decisions/gitlab-*.md}"
+    },
+
+    {
+      "id": "G-R24",
+      "wp": "FIN-G",
+      "glob": "tests/showcase/**",
+      "note": "§3.1 R24 (contract F07)"
+    },
+
+    {
+      "id": "E",
+      "wp": "FIN-E",
+      "glob": "tests/types/cmp-contract.test-d.ts",
+      "allowNoneLocation": true,
+      "note": "PRD-F §6 FIN-E names this file"
+    }
+  ]
+}
