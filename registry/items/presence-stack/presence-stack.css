@@ -1,0 +1,54 @@
+/* presence-stack — REQ-SURF-176. The root is the size container: below 390 px
+   of its inline size the stack clamps to 3 avatars and the narrow +N button
+   replaces the wide one. [data-narrow] is the same layout for engines without
+   container queries. Colours come from the id-hashed palette var inline. */
+.ag-presence-stack {
+  container: ag-presence-stack / inline-size;
+  display: flex;
+  align-items: center;
+  gap: var(--ag-space-2);
+}
+
+.ag-presence-stack__list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ag-presence-stack__item + .ag-presence-stack__item {
+  margin-inline-start: calc(var(--ag-space-2) * -1);
+}
+
+.ag-presence-stack__avatar {
+  color: var(--ag-color-on-accent);
+}
+
+.ag-presence-stack__overflow[data-layout='narrow'] {
+  display: none;
+}
+
+@container ag-presence-stack (max-width: 389.98px) {
+  .ag-presence-stack__item[data-beyond-narrow],
+  .ag-presence-stack__overflow[data-layout='wide'] {
+    display: none;
+  }
+  .ag-presence-stack__overflow[data-layout='narrow'] {
+    display: inline-flex;
+  }
+}
+
+.ag-presence-stack[data-narrow] .ag-presence-stack__item[data-beyond-narrow],
+.ag-presence-stack[data-narrow] .ag-presence-stack__overflow[data-layout='wide'] {
+  display: none;
+}
+
+.ag-presence-stack[data-narrow] .ag-presence-stack__overflow[data-layout='narrow'] {
+  display: inline-flex;
+}
+
+.ag-presence-stack__overflow {
+  min-block-size: var(--ag-target-min);
+  min-inline-size: var(--ag-target-min);
+}

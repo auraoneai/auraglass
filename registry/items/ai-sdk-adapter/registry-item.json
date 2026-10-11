@@ -4,10 +4,36 @@
   "type": "registry:item",
   "title": "AI SDK → ./ai adapter",
   "description": "useAuraChat wraps @ai-sdk/react useChat into { threadProps, composerProps, status } for the ./ai surface.",
-  "dependencies": ["react", "ai@5.0.29", "@ai-sdk/react@2.0.29"],
-  "registryDependencies": [],
+  "dependencies": [
+    "react",
+    "ai@5.0.29",
+    "@ai-sdk/react@2.0.29"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
-    { "path": "useAuraChat.ts", "type": "registry:item" },
-    { "path": "index.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "useAuraChat.ts",
+      "type": "registry:item"
+    },
+    {
+      "path": "index.ts",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

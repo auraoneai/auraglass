@@ -1,154 +1,209 @@
-// tests/capability/registry/blocks-lint.test.ts — REQ-SURF-170 (AC-SURF-26).
-// Every registry/{blocks,items}/<id>/registry-item.json validates against the
-// vendored shadcn v4 schema, uses an S-46 id, lists only existing files,
-// declares registryDependencies for every AuraGlass name it imports, and
-// imports public aura-glass entries only. Blocks land per lane; the lint
-// holds from the first real block — none are skipped.
-import { describe, expect, it } from '@jest/globals';
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+/** @jest-environment node */
+// tests/capability/registry/blocks-lint.test.ts — REQ-SURF-170 (REQ-FIN-88, AC-FIN-88).
+// Drives the SURF registry lint (scripts/surf/verify-registry.mjs) over every
+// source file of every S-46 SURF block/item directory: verbatim shadcn v4
+// registry-item schema, S-46 ownership meta, complete files[], exact
+// registryDependencies (aura-glass imports → registry id `auraglass`, sibling
+// imports → `@/registry/<kind>/<id>` ids), public aura-glass entries and value
+// names only (src/contracts/entries.ts), no relative import leaving the item
+// dir, no #hex / !important / blur( / rgb(a)( / oklch( outside fixtures,
+// deterministic fixtures.ts, and the required stories (Loading for async items).
+// Each negative case mutates a temp copy of the tree and must exit 1 naming
+// the rule. It never imports PLAT's scripts/registry/lint.mjs.
+import { describe, expect, it, afterEach } from '@jest/globals';
+import { spawnSync } from 'node:child_process';
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync, appendFileSync, existsSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 const ROOT = join(__dirname, '../../..');
+const SCRIPT = join(ROOT, 'scripts/surf/verify-registry.mjs');
 const SCHEMA = JSON.parse(
-  readFileSync(join(ROOT, 'tests/capability/registry/__fixtures__/registry-item.schema.json'), 'utf8')
+  readFileSync(join(ROOT, 'tests/capability/registry/__fixtures__/registry-item.schema.json'), 'utf8'),
 );
 
-// S-46 SURF ids (contract §3.3). Blocks vs items is a schema check; the set
-// below is the SURF-owned namespace (PLAT ids are checked by PLAT's lane).
-const SURF_BLOCKS = new Set([
-  'app-frame', 'ai-workspace', 'data-workspace', 'analytics-dashboard',
-  'media-viewer', 'support-inbox', 'mobile-settings',
-  'commerce-cart', 'commerce-checkout', 'pricing',
-  'audit-log', 'permissions-matrix',
-  // (app-shell-workspace is a registry *item*, not a block)
-]);
-const SURF_ITEMS = new Set([
-  // (code-surface, diff-viewer, gantt, kanban, react-hook-form, rich-text,
-  // transfer-list are PLAT items — PLAT-360..366 — linted by PLAT's lane)
-  'presence-stack', 'comment-thread',
-  'faceted-search', 'query-builder', 'schema-viewer', 'tree-select',
-  'app-shell-workspace',
-  // lane W3 (SURF-356/370..374/390)
-  'ai-artifact-panel', 'ai-eval-dashboard', 'ai-markdown', 'ai-model-picker',
-  'ai-sdk-adapter', 'ai-trace-tree', 'ai-voice-input',
-  // lane W4 (SURF-502/512)
-  'backdrop-hero', 'media-video-player', 'media-audio-player', 'media-gallery',
-  'media-now-playing', 'media-transcript',
-]);
-const PUBLIC_AURA = new Set([
-  'aura-glass', 'aura-glass/app-shell', 'aura-glass/data', 'aura-glass/date',
-  'aura-glass/ai', 'aura-glass/media', 'aura-glass/backdrops', 'aura-glass/three',
-  'aura-glass/charts',
-]);
-const AURA_NAME = /\b(?:import|from)\s*[^'"]*['"]([^'"]+)['"]/g;
+type Violation = { id: string; rule: string; file: string | null; line: number | null; msg: string };
+type Report = { violations: Violation[]; counts: Array<{ id: string; kind: string; sources: number; listed: number }> };
 
-function checkSchema(schema: any, value: any, path: string, errs: string[]) {
-  if (schema.type) {
-    const ok =
-      (schema.type === 'object' && value && typeof value === 'object' && !Array.isArray(value)) ||
-      (schema.type === 'array' && Array.isArray(value)) ||
-      (schema.type === 'string' && typeof value === 'string') ||
-      (schema.type === 'boolean' && typeof value === 'boolean');
-    if (!ok) { errs.push(`${path}: expected ${schema.type}`); return; }
-  }
-  if (schema.enum && !schema.enum.includes(value)) errs.push(`${path}: not in enum`);
-  if (schema.pattern && !(typeof value === 'string' && new RegExp(schema.pattern).test(value))) {
-    errs.push(`${path}: fails ${schema.pattern}`);
-  }
-  if (schema.type === 'object' && value) {
-    for (const k of schema.required ?? []) if (!(k in value)) errs.push(`${path}: missing ${k}`);
-    if (schema.additionalProperties === false) {
-      const allowed = new Set(Object.keys(schema.properties ?? {}));
-      for (const k of Object.keys(value)) if (!allowed.has(k)) errs.push(`${path}: unknown ${k}`);
-    }
-    for (const [k, sub] of Object.entries(schema.properties ?? {})) {
-      if (k in value) checkSchema(sub, value[k], `${path}.${k}`, errs);
-    }
-  }
-  if (schema.type === 'array' && Array.isArray(value)) {
-    value.forEach((it, i) => checkSchema(schema.items ?? true, it, `${path}[${i}]`, errs));
-  }
+const temps: string[] = [];
+afterEach(() => {
+  while (temps.length) rmSync(temps.pop()!, { recursive: true, force: true });
+});
+
+function run(root: string) {
+  const dir = mkdtempSync(join(tmpdir(), 'ag-surf-registry-out-'));
+  temps.push(dir);
+  const out = join(dir, 'report.json');
+  const r = spawnSync(process.execPath, [SCRIPT, '--root', root, '--json', out, '--count'], { encoding: 'utf8', cwd: ROOT });
+  const report = existsSync(out) ? (JSON.parse(readFileSync(out, 'utf8')) as Report) : { violations: [], counts: [] };
+  return { status: r.status, stdout: r.stdout, stderr: r.stderr, report };
 }
 
-function* items() {
-  for (const kind of ['blocks', 'items'] as const) {
-    const base = join(ROOT, 'registry', kind);
-    if (!existsSync(base)) continue;
-    for (const id of readdirSync(base)) {
-      const meta = join(base, id, 'registry-item.json');
-      if (existsSync(meta)) yield { kind, id, meta, dir: join(base, id) };
-    }
-  }
+/** A temp copy of registry/ (the lint reads schema + entries from the repo). */
+function tempTree() {
+  const root = mkdtempSync(join(tmpdir(), 'ag-surf-registry-'));
+  temps.push(root);
+  cpSync(join(ROOT, 'registry'), join(root, 'registry'), {
+    recursive: true,
+    filter: (src) => !/registry[\\/]registry(?:-report)?\.json$/.test(src),
+  });
+  return root;
 }
 
-describe('SURF registry blocks/items lint', () => {
-  // Other streams (CMP/PLAT/MAT) own their own registry namespaces and lint
-  // them in their lanes — only S-46 SURF ids are checked here.
-  const list = [...items()].filter(({ kind, id }) =>
-    kind === 'blocks' ? SURF_BLOCKS.has(id) : SURF_ITEMS.has(id));
-
-  it('every descriptor validates the vendored registry-item schema', () => {
-    const errs: string[] = [];
-    for (const { id, meta } of list) {
-      checkSchema(SCHEMA, JSON.parse(readFileSync(meta, 'utf8')), id, errs);
-    }
-    expect(errs).toEqual([]);
+const edit = (root: string, rel: string, fn: (s: string) => string) => {
+  const p = join(root, rel);
+  writeFileSync(p, fn(readFileSync(p, 'utf8')));
+};
+const editJson = (root: string, rel: string, fn: (j: any) => void) =>
+  edit(root, rel, (s) => {
+    const j = JSON.parse(s);
+    fn(j);
+    return JSON.stringify(j, null, 2);
   });
 
-  it('every S-46 SURF id exists as a descriptor of the right kind', () => {
-    const have = new Set(list.map((e) => `${e.kind}/${e.id}`));
-    for (const id of SURF_BLOCKS) expect(have.has(`blocks/${id}`)).toBe(true);
-    for (const id of SURF_ITEMS) expect(have.has(`items/${id}`)).toBe(true);
+function expectRule(r: ReturnType<typeof run>, id: string, rule: string, msg?: RegExp) {
+  expect(r.status).toBe(1);
+  const hit = r.report.violations.filter((v) => v.id === id && v.rule === rule && (!msg || msg.test(v.msg)));
+  expect(hit.length).toBeGreaterThan(0);
+}
+
+describe('SURF registry lint (REQ-SURF-170)', () => {
+  it('passes on the tree with every source file listed in files[]', () => {
+    const r = run(ROOT);
+    expect(r.report.violations).toEqual([]);
+    expect(r.status).toBe(0);
+    // 12 S-46 SURF blocks + 20 SURF items, each with ≥2 shipped sources.
+    expect(r.report.counts).toHaveLength(32);
+    for (const c of r.report.counts) {
+      expect(c.sources).toBeGreaterThanOrEqual(2);
+      expect(c.listed).toBe(c.sources);
+    }
+    expect(r.stdout).toMatch(/total: (\d+)\/\1 source files listed across 32 SURF ids/);
   });
 
-  it('every files[] entry exists on disk', () => {
-    const missing: string[] = [];
-    for (const { id, dir, meta } of list) {
-      const d = JSON.parse(readFileSync(meta, 'utf8'));
-      for (const f of d.files ?? []) {
-        if (!existsSync(join(dir, f.path))) missing.push(`${id}: ${f.path}`);
-      }
-    }
-    expect(missing).toEqual([]);
+  it('vendors the verbatim shadcn v4 registry-item schema (draft-07, conditional files[].target)', () => {
+    expect(SCHEMA.$schema).toBe('https://json-schema.org/draft-07/schema#');
+    expect(SCHEMA.required).toEqual(['name', 'type']);
+    expect(SCHEMA.properties.files.items.if.properties.type.enum).toEqual(['registry:file', 'registry:page']);
+    expect(SCHEMA.properties.files.items.then.required).toEqual(['path', 'type', 'target']);
+    expect(SCHEMA.properties.type.enum).toEqual(expect.arrayContaining(['registry:block', 'registry:item', 'registry:base', 'registry:font']));
+    expect(SCHEMA.definitions.cssValue.oneOf).toHaveLength(2);
   });
 
-  it('index.tsx imports only public aura-glass entries', () => {
-    const bad: string[] = [];
-    for (const { id, dir } of list) {
-      const idx = join(dir, 'index.tsx');
-      if (!existsSync(idx)) continue;
-      for (const m of readFileSync(idx, 'utf8').matchAll(AURA_NAME)) {
-        const spec = m[1]!;
-        if (!spec.startsWith('aura-glass')) continue;
-        if (!PUBLIC_AURA.has(spec)) bad.push(`${id}: ${spec}`);
-      }
-    }
-    expect(bad).toEqual([]);
+  it('fails on a #fff literal outside fixtures', () => {
+    const root = tempTree();
+    appendFileSync(join(root, 'registry/blocks/data-workspace/index.tsx'), "\nexport const ACCENT = '#fff';\n");
+    expectRule(run(root), 'data-workspace', 'literal', /#fff/);
   });
 
-  it('deterministic fixtures: no Math.random / Date.now / fetch in fixtures.ts', () => {
-    const bad: string[] = [];
-    for (const { id, dir } of list) {
-      const fx = join(dir, 'fixtures.ts');
-      if (!existsSync(fx)) continue;
-      const text = readFileSync(fx, 'utf8');
-      if (/Math\.random|Date\.now|new Date\(|fetch\s*\(|crypto\.randomUUID/.test(text)) {
-        bad.push(id);
-      }
-    }
-    expect(bad).toEqual([]);
+  it('fails on !important, blur( and oklch( outside fixtures, and allows them in fixtures', () => {
+    const root = tempTree();
+    appendFileSync(join(root, 'registry/items/tree-select/index.tsx'), "\nexport const S = { filter: 'blur(4px)' };\n");
+    appendFileSync(join(root, 'registry/items/query-builder/index.tsx'), "\nexport const C = 'oklch(0.7 0.1 200) !important';\n");
+    appendFileSync(join(root, 'registry/items/schema-viewer/fixtures.ts'), "\nexport const SWATCH = '#0a84ff';\n");
+    const r = run(root);
+    expectRule(r, 'tree-select', 'literal', /blur\(/);
+    expectRule(r, 'query-builder', 'literal', /oklch\(|!important/);
+    expect(r.report.violations.filter((v) => v.id === 'schema-viewer')).toEqual([]);
   });
 
-  it('colocated stories carry the six required states', () => {
-    const REQUIRED = ['Default', 'Empty', 'RTL', 'ReducedTransparency', 'ForcedColors'];
-    const missing: string[] = [];
-    for (const { id, dir } of list) {
-      const stories = readdirSync(dir).filter((f) => f.endsWith('.stories.tsx'));
-      const text = stories.map((s) => readFileSync(join(dir, s), 'utf8')).join('\n');
-      for (const s of REQUIRED) {
-        if (!new RegExp(`\\b${s}\\b`).test(text)) missing.push(`${id}: ${s}`);
-      }
-    }
-    expect(missing).toEqual([]);
+  it('fails on a ../../items relative import leaving the item dir', () => {
+    const root = tempTree();
+    edit(root, 'registry/blocks/support-inbox/index.tsx', (s) => `import '../../items/ai-markdown/index';\n${s}`);
+    expectRule(run(root), 'support-inbox', 'relative-escape', /\.\.\/\.\.\/items\/ai-markdown/);
+  });
+
+  it('fails when a sibling registry import is missing from registryDependencies', () => {
+    const root = tempTree();
+    editJson(root, 'registry/blocks/ai-workspace/registry-item.json', (j) => {
+      j.registryDependencies = j.registryDependencies.filter((d: string) => d !== 'ai-sdk-adapter');
+    });
+    expectRule(run(root), 'ai-workspace', 'registry-deps', /lacks 'ai-sdk-adapter'/);
+  });
+
+  it('fails when aura-glass is imported but registryDependencies lacks auraglass', () => {
+    const root = tempTree();
+    editJson(root, 'registry/items/media-gallery/registry-item.json', (j) => {
+      j.registryDependencies = [];
+    });
+    expectRule(run(root), 'media-gallery', 'registry-deps', /lacks 'auraglass'/);
+  });
+
+  it('fails on a registryDependencies id that does not exist in this registry', () => {
+    const root = tempTree();
+    editJson(root, 'registry/blocks/commerce-cart/registry-item.json', (j) => {
+      j.registryDependencies.push('card');
+    });
+    expectRule(run(root), 'commerce-cart', 'registry-deps', /'card' is not a registry id/);
+  });
+
+  it('fails when a source file is missing from files[]', () => {
+    const root = tempTree();
+    editJson(root, 'registry/blocks/commerce-cart/registry-item.json', (j) => {
+      j.files = j.files.filter((f: { path: string }) => f.path !== 'LineItem.tsx');
+    });
+    expectRule(run(root), 'commerce-cart', 'files-complete', /LineItem\.tsx/);
+  });
+
+  it('fails on a registry:page file without target (verbatim schema conditional)', () => {
+    const root = tempTree();
+    editJson(root, 'registry/blocks/ai-workspace/registry-item.json', (j) => {
+      for (const f of j.files) if (f.type === 'registry:page') delete f.target;
+    });
+    expectRule(run(root), 'ai-workspace', 'schema', /missing target/);
+  });
+
+  it('fails on aura-glass/compat, a deep path, and a value name the entry does not export', () => {
+    const root = tempTree();
+    edit(root, 'registry/items/faceted-search/index.tsx', (s) => `import { Thing } from 'aura-glass/compat';\n${s}`);
+    edit(root, 'registry/items/tree-select/index.tsx', (s) => `import { TreeView as T2 } from 'aura-glass/data/TreeView';\n${s}`);
+    edit(root, 'registry/blocks/app-frame/index.tsx', (s) => `import { AppShellSidebarToggle } from 'aura-glass/app-shell';\n${s}`);
+    const r = run(root);
+    expectRule(r, 'faceted-search', 'public-import', /aura-glass\/compat/);
+    expectRule(r, 'tree-select', 'public-import', /aura-glass\/data\/TreeView/);
+    expectRule(r, 'app-frame', 'public-import', /AppShellSidebarToggle/);
+  });
+
+  it('fails on an undeclared npm import and on meta.auraglass drift', () => {
+    const root = tempTree();
+    edit(root, 'registry/items/schema-viewer/index.tsx', (s) => `import dayjs from 'dayjs';\nvoid dayjs;\n${s}`);
+    editJson(root, 'registry/items/presence-stack/registry-item.json', (j) => {
+      j.meta.auraglass.owner = 'PLAT';
+      j.meta.auraglass.components = ['Avatar'];
+    });
+    const r = run(root);
+    expectRule(r, 'schema-viewer', 'npm-deps', /dayjs/);
+    expectRule(r, 'presence-stack', 's46', /owner "PLAT"/);
+    expectRule(r, 'presence-stack', 'meta-components', /VisuallyHidden/);
+  });
+
+  it('fails on non-deterministic fixtures and on a missing fixtures.ts', () => {
+    const root = tempTree();
+    appendFileSync(join(root, 'registry/items/media-transcript/fixtures.ts'), '\nexport const SEED = Math.random();\n');
+    rmSync(join(root, 'registry/items/media-gallery/fixtures.ts'));
+    edit(root, 'registry/items/media-gallery/MediaGallery.stories.tsx', (s) => s.replace("import { GALLERY_ITEMS } from './fixtures';\n", 'const GALLERY_ITEMS: never[] = [];\n'));
+    const r = run(root);
+    expectRule(r, 'media-transcript', 'fixtures', /Math\.random/);
+    expectRule(r, 'media-gallery', 'fixtures', /fixtures\.ts missing/);
+  });
+
+  it('requires a Loading story for async items and the five state stories for every item', () => {
+    const root = tempTree();
+    edit(root, 'registry/items/ai-model-picker/ModelPicker.stories.tsx', (s) => s.replace(/^export const Loading[^\n]*\n/m, ''));
+    edit(root, 'registry/blocks/pricing/Pricing.stories.tsx', (s) => s.replace(/export const ForcedColors\b/, 'export const ForcedColours'));
+    const r = run(root);
+    expectRule(r, 'ai-model-picker', 'stories', /Loading missing \(item is async\)/);
+    expectRule(r, 'pricing', 'stories', /ForcedColors missing/);
+  });
+
+  it('fails when an S-46 SURF id has no descriptor', () => {
+    const root = tempTree();
+    rmSync(join(root, 'registry/items/ai-trace-tree/registry-item.json'));
+    expectRule(run(root), 'ai-trace-tree', 's46', /has no registry\/items\/ai-trace-tree\/registry-item\.json/);
+  });
+
+  it('rejects unknown arguments with exit 2', () => {
+    const r = spawnSync(process.execPath, [SCRIPT, '--bogus'], { encoding: 'utf8', cwd: ROOT });
+    expect(r.status).toBe(2);
   });
 });

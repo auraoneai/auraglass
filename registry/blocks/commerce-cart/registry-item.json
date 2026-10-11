@@ -3,15 +3,13 @@
   "name": "commerce-cart",
   "type": "registry:block",
   "title": "Commerce cart",
-  "description": "Controlled cart UI \u2014 line items, quantity steppers, localized totals.",
+  "description": "Controlled cart UI: NumberField quantities (min 1, max per line) with a polite line-total announcement, localized summary, side by side at >=1024 px and a sticky safe-area CTA below.",
   "dependencies": [
-    "react"
+    "react",
+    "aura-glass"
   ],
   "registryDependencies": [
-    "card",
-    "button",
-    "badge",
-    "separator"
+    "auraglass"
   ],
   "files": [
     {
@@ -21,20 +19,42 @@
     {
       "path": "fixtures.ts",
       "type": "registry:item"
+    },
+    {
+      "path": "CartSummary.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "LineItem.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "ProductCard.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "format-money.ts",
+      "type": "registry:lib"
+    },
+    {
+      "path": "commerce-cart.css",
+      "type": "registry:style"
     }
   ],
   "meta": {
     "auraglass": {
-      "owner": "PLAT",
+      "owner": "SURF",
       "surface": "block",
-      "client": false,
+      "client": true,
       "components": [
         "Badge",
         "Button",
         "Card",
-        "Separator"
+        "NumberField",
+        "Separator",
+        "VisuallyHidden"
       ],
-      "ga": true,
+      "ga": false,
       "minVersion": "5.0.0",
       "certified": null
     }

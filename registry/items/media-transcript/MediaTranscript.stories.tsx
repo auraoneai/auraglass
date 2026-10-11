@@ -1,16 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { MediaTranscript } from './index';
+import { TRANSCRIPT_CUES } from './fixtures';
 
 const meta: Meta<typeof MediaTranscript> = {
-  parameters: { ag: { subject: 'MediaTranscript', kind: 'showcase' } }, title: 'registry/media-transcript', component: MediaTranscript };
+  title: 'registry/media-transcript',
+  component: MediaTranscript,
+  parameters: { ag: { subject: 'media-transcript', kind: 'showcase', scenes: 'all' } satisfies StoryAgParameters },
+};
 export default meta;
 type Story = StoryObj<typeof MediaTranscript>;
 
-const cues = [
-  { start: 0, end: 2, speaker: 'Host', text: 'Welcome back to the show.' },
-  { start: 2, end: 5, speaker: 'Guest', text: 'Great to be here.' },
-  { start: 5, end: 9, speaker: 'Host', text: 'Today: glass.' },
-];
+const cues = TRANSCRIPT_CUES;
 export const Default: Story = { args: { cues } };
 export const Static: Story = { args: { cues } };
 export const Empty: Story = { args: { cues: [] } };

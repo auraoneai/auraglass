@@ -4,7 +4,33 @@
   "type": "registry:item",
   "title": "Now-playing mini player",
   "description": "Consumer-owned <audio> + useMediaElement (with Media Session metadata) feeding NowPlayingBar.",
-  "dependencies": ["react", "aura-glass"],
-  "registryDependencies": [],
-  "files": [{ "path": "index.tsx", "type": "registry:item" }]
+  "dependencies": [
+    "react",
+    "aura-glass"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
+  "files": [
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "NowPlayingBar"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

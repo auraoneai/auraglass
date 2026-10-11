@@ -618,14 +618,17 @@ export function Table<TData>(props: TableProps<TData>) {
           const meta = cell.column.columnDef.meta;
           const content = flexRender(cell.column.columnDef.cell, cell.getContext());
           const isSelectCol = cell.column.id === '__select';
-          const tag = isSelectCol ? 'td' : 'td';
+          // A `meta.rowHeader` column names its row: <th scope="row"> (rowheader).
+          const isRowHeader = !isSelectCol && meta?.rowHeader === true;
+          const tag = isRowHeader ? 'th' : 'td';
           const el = React.createElement(
             tag,
             {
               key: cell.id,
+              ...(isRowHeader ? { scope: 'row' } : {}),
               ...(grid
                 ? {
-                    role: 'gridcell',
+                    role: isRowHeader ? 'rowheader' : 'gridcell',
                     // SURF-073: the roving active cell is the only tab stop.
                     tabIndex:
                       (activeCell ?? { rowId: rows[0]?.id, columnId: leafCols[0]?.id }).rowId === row.id &&

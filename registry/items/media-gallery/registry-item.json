@@ -3,8 +3,35 @@
   "name": "media-gallery",
   "type": "registry:item",
   "title": "Media gallery",
-  "description": "Thumbnail grid of ImageViewer.Trigger + the shared popup (counter, keys, zoom).",
-  "dependencies": ["react", "aura-glass"],
-  "registryDependencies": [],
-  "files": [{ "path": "index.tsx", "type": "registry:item" }]
+  "description": "CMP Grid of ImageViewer.Trigger thumbnails + the shared popup (counter, keys, zoom).",
+  "dependencies": [
+    "react",
+    "aura-glass"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
+  "files": [
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "Grid",
+        "ImageViewer"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

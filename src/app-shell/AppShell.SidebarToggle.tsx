@@ -25,6 +25,11 @@ export interface AppShellSidebarToggleProps extends PartProps<'button'> {
   icon?: React.ReactNode;
 }
 
+/* Stable pre-attach snapshot: useSyncExternalStore requires getSnapshot to
+   return the same reference until the store changes (a fresh literal per call
+   loops and logs "The result of getSnapshot should be cached"). */
+const DETACHED_SNAPSHOT = { sidebar: 'expanded', inspector: 'closed', mode: 'expanded' } as const;
+
 function nextFor(mode: string, current: SidebarState, collapseTo: 'rail' | 'collapsed') {
   if (current === 'expanded') return collapseTo;
   return 'expanded';

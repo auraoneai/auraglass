@@ -1,0 +1,40 @@
+/* comment-thread — REQ-SURF-176. The card is the size container: below
+   360 px of its inline size the avatar column collapses and the comment body
+   takes the full width. */
+.ag-comment-thread {
+  container: ag-comment-thread / inline-size;
+}
+
+.ag-comment-thread__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--ag-space-3);
+}
+
+.ag-comment-thread__comment {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--ag-space-2);
+  align-items: start;
+}
+
+.ag-comment-thread__content {
+  display: grid;
+  gap: var(--ag-space-1);
+}
+
+.ag-comment-thread__content > p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+@container ag-comment-thread (max-width: 359.98px) {
+  .ag-comment-thread__comment {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ag-comment-thread__avatar {
+    display: none;
+  }
+}

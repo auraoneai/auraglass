@@ -1,0 +1,57 @@
+/* pricing — REQ-SURF-177. Plan grid (auto-fit columns), a period toggle that
+   is sticky on narrow viewports, and the comparison table in a horizontal
+   scroll region whose first (feature) column stays put while scrolling. */
+.ag-pricing-block {
+  display: grid;
+  gap: var(--ag-space-6);
+}
+
+.ag-pricing__toggle {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 390px) {
+  .ag-pricing__toggle {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 1;
+  }
+}
+
+.ag-pricing__grid {
+  display: grid;
+  gap: var(--ag-space-4);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.ag-pricing__features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ag-pricing__scroll {
+  overflow-x: auto;
+  max-inline-size: 100%;
+  overscroll-behavior-inline: contain;
+}
+
+.ag-pricing__comparison {
+  border-collapse: separate;
+  border-spacing: 0;
+  min-inline-size: max-content;
+}
+
+.ag-pricing__comparison th[scope='row'],
+.ag-pricing__comparison thead th:first-child {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 1;
+  background: var(--ag-color-canvas);
+  text-align: start;
+}
+
+.ag-pricing__comparison td {
+  text-align: center;
+}

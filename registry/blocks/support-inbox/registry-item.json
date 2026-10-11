@@ -3,11 +3,14 @@
   "name": "support-inbox",
   "type": "registry:block",
   "title": "Support inbox",
-  "description": "Ticket list (Table + FilterBar) with a conversation detail pane.",
+  "description": "Ticket list (Table filtered by the FilterBar model) with a Thread conversation pane; replies append to the thread.",
   "dependencies": [
-    "react"
+    "react",
+    "aura-glass"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
     {
       "path": "index.tsx",
@@ -20,12 +23,14 @@
   ],
   "meta": {
     "auraglass": {
-      "owner": "PLAT",
+      "owner": "SURF",
       "surface": "block",
       "client": true,
       "components": [
         "FilterBar",
-        "Table"
+        "Message",
+        "Table",
+        "Thread"
       ],
       "ga": true,
       "minVersion": "5.0.0",

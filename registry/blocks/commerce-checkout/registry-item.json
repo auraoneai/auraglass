@@ -3,15 +3,13 @@
   "name": "commerce-checkout",
   "type": "registry:block",
   "title": "Commerce checkout",
-  "description": "Step-gated checkout shell \u2014 shipping, payment, review \u2014 with grammar-triple step control.",
+  "description": "Step-gated checkout: CMP Form steps (shipping, payment, review) and a step indicator with exactly one aria-current step that collapses to 'Step n of m' + Sheet below 768 px.",
   "dependencies": [
-    "react"
+    "react",
+    "aura-glass"
   ],
   "registryDependencies": [
-    "card",
-    "button",
-    "text-field",
-    "separator",
+    "auraglass",
     "commerce-cart"
   ],
   "files": [
@@ -22,20 +20,31 @@
     {
       "path": "fixtures.ts",
       "type": "registry:item"
+    },
+    {
+      "path": "CheckoutSteps.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "steps.ts",
+      "type": "registry:lib"
     }
   ],
   "meta": {
     "auraglass": {
-      "owner": "PLAT",
+      "owner": "SURF",
       "surface": "block",
-      "client": false,
+      "client": true,
       "components": [
         "Button",
         "Card",
+        "Form",
         "Separator",
-        "TextField"
+        "Sheet",
+        "TextField",
+        "VisuallyHidden"
       ],
-      "ga": true,
+      "ga": false,
       "minVersion": "5.0.0",
       "certified": null
     }
