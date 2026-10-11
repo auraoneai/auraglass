@@ -14,6 +14,16 @@ export const MEDIA_QUERIES = {
 
 export type OsSignalKey = keyof typeof MEDIA_QUERIES;
 
+/** Input-capability queries read by the motion runtime (pointer light,
+   magnetic). Kept out of MEDIA_QUERIES so the store's OS-signal set and its
+   change subscription are unchanged; they share the same lazy MQL registry. */
+export const POINTER_QUERIES = {
+  fineHover: '(hover: hover) and (pointer: fine)',
+  fine: '(pointer: fine)',
+} as const;
+
+export type PointerSignalKey = keyof typeof POINTER_QUERIES;
+
 interface MediaEntry {
   mql: MediaQueryList | null;
   listeners: Set<() => void>;
@@ -60,6 +70,10 @@ const entryFor = (win: Window, query: string): MediaEntry => {
 /** Current value of one signal for a window; creates the shared MQL lazily. */
 export const readOsSignal = (win: Window, key: OsSignalKey): boolean =>
   matches(entryFor(win, MEDIA_QUERIES[key]));
+
+/** Current value of one input-capability signal (shared MQL, created lazily). */
+export const readPointerSignal = (win: Window, key: PointerSignalKey): boolean =>
+  matches(entryFor(win, POINTER_QUERIES[key]));
 
 /** All six signals for a window (shared MQLs, lazily created per call). */
 export const readOsSignals = (win: Window): OsSignals => ({
