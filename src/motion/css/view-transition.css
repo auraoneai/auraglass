@@ -6,29 +6,49 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 @layer ag.material {
+  /* REQ-MAT-48: participants carry the ag-morph view-transition-class, so
+     ::view-transition-*(*.ag-morph) matches every named morph participant
+     (view-transition-class needs a view-transition-name on the same element;
+     the morph owner sets it from useMorphName). The type selectors below cover
+     startMorph's types: ['ag-morph'] / ['ag-morph-calm'] on engines that ship
+     :active-view-transition-type() — each in its own rule so an engine without
+     it drops only that rule. */
+  [data-ag-vt], [data-ag-vt-participant] { view-transition-class: ag-morph; }
+
   :root:active-view-transition [data-ag-surface][data-ag-vt],
   :root:active-view-transition [data-ag-surface][data-ag-vt-participant] { --_ag-optics: 0; transition: none; }
   ::view-transition-group(*.ag-morph) {
     animation-duration: var(--ag-duration-medium);
     animation-timing-function: var(--ag-spring-fluid);
   }
+  :root:active-view-transition-type(ag-morph)::view-transition-group(*) {
+    animation-duration: var(--ag-duration-medium);
+    animation-timing-function: var(--ag-spring-fluid);
+  }
   [data-ag-surface][data-ag-vt-settled] { transition: --_ag-optics var(--ag-duration-micro) var(--ag-ease-standard); }
 
-  /* calm path: no group geometry — old/new opacity cross-fade over micro */
-  ::view-transition-old(*.ag-morph-calm) {
-    animation-name: none;
-    opacity: 0;
-    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
-    animation-duration: var(--ag-duration-micro);
-    animation-timing-function: var(--ag-ease-standard);
+  /* calm (REQ-MAT-48/-44): no group geometry — the old/new snapshots cross-fade
+     with opacity-only keyframes over --ag-duration-micro (120 ms). Keyed on
+     startMorph's ag-morph-calm type and on a calm root (React <ViewTransition>
+     transitions carry no ag types). */
+  @keyframes ag-vt-fade-out { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes ag-vt-fade-in { from { opacity: 0; } to { opacity: 1; } }
+  :root:active-view-transition-type(ag-morph-calm)::view-transition-group(*) { animation: none; }
+  :root:active-view-transition-type(ag-morph-calm)::view-transition-old(*) {
+    animation: ag-vt-fade-out var(--ag-duration-micro) var(--ag-ease-standard) both;
+    mix-blend-mode: plus-lighter;
   }
-  ::view-transition-new(*.ag-morph-calm) {
-    animation-name: none;
-    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
-    animation-duration: var(--ag-duration-micro);
-    animation-timing-function: var(--ag-ease-standard);
+  :root:active-view-transition-type(ag-morph-calm)::view-transition-new(*) {
+    animation: ag-vt-fade-in var(--ag-duration-micro) var(--ag-ease-standard) both;
+    mix-blend-mode: plus-lighter;
   }
-  ::view-transition-group(*.ag-morph-calm) {
-    animation-name: none;
+  :root[data-ag-motion=calm]::view-transition-group(*) { animation: none; }
+  :root[data-ag-motion=calm]::view-transition-old(*) {
+    animation: ag-vt-fade-out var(--ag-duration-micro) var(--ag-ease-standard) both;
+    mix-blend-mode: plus-lighter;
+  }
+  :root[data-ag-motion=calm]::view-transition-new(*) {
+    animation: ag-vt-fade-in var(--ag-duration-micro) var(--ag-ease-standard) both;
+    mix-blend-mode: plus-lighter;
   }
 }
