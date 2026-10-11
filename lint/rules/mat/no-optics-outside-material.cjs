@@ -73,10 +73,18 @@ module.exports = {
   },
   agConfig: [
     {
-      // Ratchet registration (§20 step 2): warn over src/** until each migrated family
-      // graduates to 'error' via lint/rules/mat/_strict.cjs (MAT-180).
-      files: ['src/**/*.{ts,tsx,js,jsx}'],
-      ignores: [],
+      // REQ-MAT-39: stories, tests and apps are not exempt. 'warn' everywhere, held by the
+      // optics-baseline.json ratchet (scripts/mat/optics-lint.mjs: per-file counts plus the
+      // maxWarnings total, run in mat:test:optics). Migrated families graduate to 'error'
+      // via lint/rules/mat/_strict.cjs (MAT-180). The rule's own RuleTester fixtures are
+      // excluded.
+      files: [
+        'src/**/*.{ts,tsx,js,jsx,mjs,cjs}',
+        'stories/**/*.{ts,tsx,js,jsx,mjs,cjs}',
+        'tests/**/*.{ts,tsx,js,jsx,mjs,cjs}',
+        'apps/**/*.{ts,tsx,js,jsx,mjs,cjs}',
+      ],
+      ignores: ['tests/lint/mat/**'],
       severity: 'warn',
     },
   ],

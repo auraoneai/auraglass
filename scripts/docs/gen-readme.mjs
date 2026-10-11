@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// gen-readme.mjs — PLAT-390. README.md is generated from README.tmpl.md:
+// gen-readme.mjs — PLAT-390. README.md is generated from scripts/docs/readme.tmpl.md
+// (kept out of the repo root: npm force-packs every root README* file):
 // copy the template verbatim, then render-claims fills every
 // `<!-- ag:claim <id> -->` region (pending-safe, never invented numbers).
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
@@ -9,7 +10,7 @@ import { CLAIMS_PATH } from './paths.mjs';
 import { render } from './render-claims.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
-const TEMPLATE = 'README.tmpl.md';
+const TEMPLATE = 'scripts/docs/readme.tmpl.md';
 const OUT = 'README.md';
 
 export function main() {

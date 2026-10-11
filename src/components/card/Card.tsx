@@ -1,36 +1,48 @@
-/* CMP-300: Card — compound (Root, Header, Title, Description, Body, Footer)
-   per COMPOUND_PARTS. Material-bearing root (content layer by default);
-   `interactive` marks the whole card focusable/hoverable. Server-safe. */
+/* CMP-300 + REQ-CMP-113: Card — compound (Root, Header, Title, Description,
+   Body, Footer) per COMPOUND_PARTS. Root takes MaterialBearingProps
+   (variant|thickness|prominent|refraction — content layer by default);
+   `interactive` emits data-ag-interactive and consumers give the card a real
+   interactive element via `render` (link/button) — no forced tabIndex on a
+   div. Server-safe. */
 import * as React from 'react';
 import { cn } from '../../internal/index';
 import { materialProps } from '../../material/index';
-import type { MaterialRole } from '../../contracts/material';
+import { renderElement } from '../../foundation/index';
+import type { MaterialBearingProps, RenderProp } from '../../contracts/components';
 
-export interface CardRootProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CardRootProps extends MaterialBearingProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'content'> {
+  /** Marks the card interactive (data-ag-interactive); pair with `render`. */
   interactive?: boolean;
-  material?: MaterialRole;
+  render?: RenderProp<React.HTMLAttributes<HTMLElement>>;
 }
 
 function Root({
   interactive,
-  material,
+  variant,
+  thickness,
+  prominent,
+  refraction,
+  render,
   tabIndex,
   className,
   ref,
   ...rest
-}: CardRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
-  const mat = materialProps(material);
-  return (
-    <div
-      {...rest}
-      {...mat}
-      ref={ref}
-      data-ag-part="root"
-      data-ag-interactive={interactive ? '' : undefined}
-      tabIndex={interactive ? (tabIndex ?? 0) : tabIndex}
-      className={cn('ag-card', interactive ? 'ag-card-interactive' : undefined, className)}
-    />
-  );
+}: CardRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+  const role: Parameters<typeof materialProps>[0] = { layer: 'content' };
+  if (variant !== undefined) role.variant = variant;
+  if (thickness !== undefined) role.thickness = thickness;
+  if (prominent !== undefined) role.prominent = prominent;
+  if (refraction !== undefined) role.refraction = refraction;
+  if (interactive !== undefined) role.interactive = interactive;
+  const mat = materialProps(role);
+  const props = {
+    ...rest,
+    ...mat,
+    ref,
+    'data-ag-part': 'root',
+    className: cn('ag-card', mat.className, interactive ? 'ag-card-interactive' : undefined, className),
+  } as React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> };
+  return renderElement(render, <div />, props);
 }
 
 function Header({ className, ref, ...rest }: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> | undefined }) {
