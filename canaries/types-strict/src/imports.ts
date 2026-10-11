@@ -1,6 +1,9 @@
 /* PLAT-293: `import *` from every public JS entry of package.json `exports`
    under strict + exactOptionalPropertyTypes + skipLibCheck:false. `internal`
-   is not an export (consumers cannot reach it), so it is not imported. */
+   is not an export (consumers cannot reach it), so it is not imported.
+   `./charts` is `ga: '5.1'` (REQ-SURF-164) and absent from the 5.0.x exports
+   map, so it is not imported either; tests/tsc.spec.ts asserts this list
+   equals the packed package.json `exports` JS entries. */
 import * as root from 'aura-glass';
 import * as material from 'aura-glass/material';
 import * as theme from 'aura-glass/theme';
@@ -16,10 +19,9 @@ import * as ai from 'aura-glass/ai';
 import * as media from 'aura-glass/media';
 import * as backdrops from 'aura-glass/backdrops';
 import * as three from 'aura-glass/three';
-import * as charts from 'aura-glass/charts';
 import * as compat from 'aura-glass/compat';
 
 export const modules = {
   root, material, theme, tokens, motion, primitives, icons, forms, appShell,
-  data, date, ai, media, backdrops, three, charts, compat,
+  data, date, ai, media, backdrops, three, compat,
 };
