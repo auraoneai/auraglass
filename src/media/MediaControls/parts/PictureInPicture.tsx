@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useMediaModel } from '../mediaContext';
 
-export const PictureInPicture = React.forwardRef<HTMLButtonElement, { className?: string }>(function PictureInPicture({ className }, ref) {
+export const PictureInPicture = function PictureInPicture({className, ref}: { className?: string } & { ref?: React.Ref<HTMLButtonElement> }) {
   const m = useMediaModel('PictureInPicture');
   return (
     <button
@@ -19,4 +19,4 @@ export const PictureInPicture = React.forwardRef<HTMLButtonElement, { className?
       <span aria-hidden="true">◱</span>
     </button>
   );
-});
+};

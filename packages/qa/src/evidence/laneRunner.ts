@@ -278,7 +278,7 @@ function runJest(row: Registration, ctx: RowContext): RowResult {
   return { state: 'fail', reason: why, failedOwners, ...common };
 }
 
-interface PwSuite { file?: string; specs?: Array<{ file?: string; tests?: Array<{ status?: string; results?: Array<{ error?: { message?: string } }> }> }>; suites?: PwSuite[] }
+interface PwSuite { file?: string; specs?: Array<{ file?: string; tests?: Array<{ status?: string; results?: Array<{ error?: { message?: string }; errors?: Array<{ message?: string }> }> }> }>; suites?: PwSuite[] }
 interface PwReport { stats?: { expected?: number; unexpected?: number; flaky?: number; skipped?: number }; suites?: PwSuite[]; errors?: Array<{ message?: string }> }
 
 /** QUAL's certification specs (certification/**) run under certification/playwright.cert.config.ts (its testDir is
@@ -290,14 +290,63 @@ export function playwrightConfigFor(files: readonly string[]): string | null {
   return cert.length ? null : 'playwright.config.ts';
 }
 
-function runPlaywright(row: Registration, ctx: RowContext): RowResult {
+/** Playwright JSON report → counts. A failing test whose error starts with `pending:` is a producer that has not
+    landed (PRD-F §4.3 rule 2; lanes throw it only below release scope). */
+export function classifyPlaywrightReport(report: PwReport): { total: number; failed: number; pendingOnly: boolean; pendingReasons: string[] } {
+  const tests: Array<{ status?: string; results?: Array<{ error?: { message?: string }; errors?: Array<{ message?: string }> }> }> = [];
+  const walk = (suite: PwSuite) => {
+    for (const spec of suite.specs ?? []) for (const t of spec.tests ?? []) tests.push(t);
+    for (const s of suite.suites ?? []) walk(s);
+  };
+  for (const s of report.suites ?? []) walk(s);
+  const failed = tests.filter((t) => t.status === 'unexpected');
+  const pendingRe = /(^|[\s:])pending: /;
+  const reasons = failed.map((t) => {
+    const last = (t.results ?? []).at(-1);
+    return String(last?.error?.message ?? last?.errors?.[0]?.message ?? '');
+  });
+  const pending = reasons.filter((m) => pendingRe.test(m));
+  return { total: tests.length, failed: failed.length, pendingOnly: failed.length > 0 && pending.length === failed.length,
+    pendingReasons: [...new Set(pending.map((m) => m.slice(m.search(pendingRe)).trim().split('\n')[0]!))] };
+}
+
+/** Spec files the cert config cannot run: outside certification/lanes and outside every `<stream>:cert-*` fragment
+    project (REQ-QUAL-12: the cert config lists only those). Reported with the fix instead of Playwright's bare
+    "No tests found". */
+export function uncoveredSpecs(files: readonly string[], root: string, certTestDirs: readonly string[]): string[] {
+  const dirs = [join(root, 'certification/lanes'), ...certTestDirs].map((d) => (d.endsWith('/') ? d : `${d}/`));
+  return files.filter((f) => !dirs.some((d) => join(root, f).startsWith(d)));
+}
+
+/** L6 capture evidence written by certification/lanes/environment-visual.spec.ts (plan + per-worker capture rows). */
+export function readCaptureEvidence(evidenceDir: string): { plan: { cells?: string[]; subjects?: string[]; tarball?: { sha256?: string }; storybookIndexSha256?: string }; captures: number; captureRate: number | null } | null {
+  const dir = join(evidenceDir, 'environment-visual');
+  if (!existsSync(join(dir, 'plan.json'))) return null;
+  const plan = JSON.parse(readFileSync(join(dir, 'plan.json'), 'utf8'));
+  const rows = globSync('captures-*.jsonl', { cwd: dir })
+    .flatMap((f) => readFileSync(join(dir, f), 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l) as { captures?: number; durationMs?: number }));
+  const captures = rows.reduce((n, r) => n + (r.captures ?? 0), 0);
+  const seconds = rows.reduce((n, r) => n + (r.durationMs ?? 0), 0) / 1000;
+  return { plan, captures, captureRate: captures && seconds ? captures / seconds : null };
+}
+
+async function runPlaywright(row: Registration, ctx: RowContext): Promise<RowResult> {
   const files = expand(row.path, ctx.root).filter((f) => /\.spec\.(ts|tsx|js|mjs)$/.test(f));
   if (!files.length) return { state: 'fail', reason: `registered path matches no spec: ${row.path}` };
   const outFile = join(ctx.evidenceDir, `playwright-${ctx.idx}.json`);
   const config = playwrightConfigFor(files);
   if (!config) return { state: 'fail', reason: `registered path mixes certification/ and stream specs: ${row.path} (register them separately)` };
+  if (config === 'certification/playwright.cert.config.ts' && existsSync(join(ctx.root, 'certification/lanes/_fixtures/fragments.ts'))) {
+    const { loadCertProjects } = await loadTsModule(join(ctx.root, 'certification/lanes/_fixtures/fragments.ts')) as
+      { loadCertProjects: (root: string) => { projects: Array<{ testDir: string }> } };
+    const uncovered = uncoveredSpecs(files, ctx.root, loadCertProjects(ctx.root).projects.map((p) => p.testDir));
+    if (uncovered.length) {
+      return { state: 'fail', reason: `${uncovered.length} spec(s) outside certification/lanes and every ${row.stream}:cert-* project — register a `
+        + `'${row.stream}:cert-<id>' project in fragments/playwright/${row.stream}.json covering: ${uncovered.slice(0, 5).join(', ')}${uncovered.length > 5 ? ', …' : ''}` };
+    }
+  }
   const r = run(ctx.tools.node, [ctx.tools.playwrightCli, 'test', '-c', config, '--reporter=line,json', ...files],
-    ctx.root, { ...rowEnv(row, ctx), PLAYWRIGHT_JSON_OUTPUT_NAME: outFile });
+    ctx.root, { ...rowEnv(row, ctx), PLAYWRIGHT_JSON_OUTPUT_NAME: outFile, AG_LANE_EVIDENCE_DIR: ctx.evidenceDir });
   if (r.error || r.signal) return { state: 'fail', reason: `crashed: ${r.error ?? r.signal}`, durationMs: r.durationMs };
   let report: PwReport | null = null;
   try { report = JSON.parse(readFileSync(outFile, 'utf8')) as PwReport; } catch { /* no report */ }
@@ -329,7 +378,7 @@ function runManualRecord(row: Registration, ctx: RowContext): RowResult {
 }
 
 /** Subjects of the story files matched by the row, resolved through the SubjectIndex (REPORTS.subjects). */
-function runStorySubjects(row: Registration, ctx: RowContext): RowResult {
+async function runStorySubjects(row: Registration, ctx: RowContext): Promise<RowResult> {
   const files = expand(row.path, ctx.root).filter((f) => /\.stories\.(ts|tsx|js|jsx|mdx)$/.test(f));
   if (!files.length) return { state: 'fail', reason: `registered path matches no story file: ${row.path}` };
   const manifestFile = join(ctx.root, 'storybook-static/cert-manifest.json');
@@ -344,7 +393,7 @@ function runStorySubjects(row: Registration, ctx: RowContext): RowResult {
   // Capturing subject cells is the capture driver's (REQ-QUAL-12, G-12); until it lands the subjects are pending.
   const driver = 'certification/lanes/environment-visual.spec.ts';
   if (!existsSync(join(ctx.root, driver))) return { state: 'pending', reason: `capture driver ${driver} (G-12) not merged`, subjects };
-  const r = runPlaywright({ ...row, kind: 'playwright', path: driver }, { ...ctx, env: { ...ctx.env, AG_SUBJECTS: subjects.join(',') } });
+  const r = await runPlaywright({ ...row, kind: 'playwright', path: driver }, { ...ctx, env: { ...ctx.env, AG_SUBJECTS: subjects.join(',') } });
   return { ...r, subjects };
 }
 
@@ -390,12 +439,12 @@ export function resolveTarball(root: string, env: NodeJS.ProcessEnv, tools: Pick
     component is still a contract seed (or has no ComponentMeta) is pending. */
 export const CAPTURE_DRIVER = 'certification/lanes/environment-visual.spec.ts';
 
-export async function sentinelResults(sentinels: ReadonlyArray<{ subject: string; state: string }>, lane: LaneId, ctx: RowContext): Promise<ManifestResult[]> {
+export async function sentinelResults(sentinels: ReadonlyArray<{ subject: string; story?: string; state?: string }>, lane: LaneId, ctx: RowContext): Promise<ManifestResult[]> {
   const { root, scope } = ctx;
   const metaFiles = globSync('src/**/*.meta.ts', { cwd: root, exclude: GLOB_EXCLUDE });
   const out: ManifestResult[] = [];
   for (const [i, s] of sentinels.entries()) {
-    const base = { lane, stream: 'qual' as const, kind: 'story-subjects', path: `sentinel:${s.subject}:${s.state}`, scope, source: 'certification/matrix.config.ts', subjects: [s.subject] };
+    const base = { lane, stream: 'qual' as const, kind: 'story-subjects', path: `sentinel:${s.subject}:${s.state ?? s.story}`, scope, source: 'certification/matrix.config.ts', subjects: [s.subject] };
     const meta = metaFiles.find((f) => new RegExp(`\\bname:\\s*['"]${s.subject}['"]`).test(readFileSync(join(root, f), 'utf8')));
     if (!meta) { out.push({ ...base, state: 'pending', reason: `sentinel ${s.subject} has no ComponentMeta yet (seed)` }); continue; }
     const dir = meta.slice(0, meta.lastIndexOf('/'));
@@ -403,7 +452,7 @@ export async function sentinelResults(sentinels: ReadonlyArray<{ subject: string
     if (seeded) { out.push({ ...base, state: 'pending', reason: `sentinel ${s.subject} is still a contract seed (${dir})` }); continue; }
     if (!existsSync(join(root, CAPTURE_DRIVER))) { out.push({ ...base, state: 'pending', reason: `capture driver ${CAPTURE_DRIVER} (G-12) not merged` }); continue; }
     const row: Registration = { lane, kind: 'playwright', path: CAPTURE_DRIVER, scope, remote: true, failClosed: true, stream: 'qual', source: base.source };
-    const res = runPlaywright(row, { ...ctx, idx: 1000 + i, env: { ...ctx.env, AG_SUBJECTS: s.subject, AG_SUBJECT_STATES: s.state } });
+    const res = await runPlaywright(row, { ...ctx, idx: 1000 + i, env: { ...ctx.env, AG_SUBJECTS: s.subject, ...(s.state ? { AG_SUBJECT_STATES: s.state } : {}) } });
     out.push({ ...base, ...res, subjects: [s.subject] });
   }
   return out;
@@ -459,7 +508,7 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
   const manifestPath = join(evidenceDir, 'lane-manifest.json');
 
   let regs: Registrations;
-  let matrix: { SENTINELS?: Array<{ subject: string; state: string }>; SENTINEL_LANES?: string[] } = {};
+  let matrix: { SENTINELS?: Array<{ subject: string; story?: string; state?: string }>; SENTINEL_LANES?: string[] } = {};
   try {
     regs = await loadRegistrations(root);
     if (existsSync(join(root, 'certification/matrix.config.ts'))) matrix = await loadTsModule(join(root, 'certification/matrix.config.ts'));
@@ -512,16 +561,19 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
     for (const r of results) if (r.state === 'pending' || r.state === 'double-pass') { r.reason = `${r.state} at release scope${r.reason ? `: ${r.reason}` : ''}`; r.state = 'fail'; }
   }
   const tests = results.reduce((n, r) => n + (r.tests ?? 0), 0);
+  // L6 (REQ-QUAL-04/-12): planned cells, live subjects, the packed tarball's sha256 and the measured capture rate.
+  const capture = readCaptureEvidence(evidenceDir);
   const manifest: Record<string, unknown> = {
     version: 1, lane: args.lane, line: args.line, sha: gitSha(root, env), scope: args.scope,
     branch: env.CI_COMMIT_BRANCH || env.CI_COMMIT_REF_NAME || null, prStream,
     runnerTag: env.CI_RUNNER_TAGS || null, imageDigest: env.CI_JOB_IMAGE || null, browserVersions: {},
-    subjects: [...new Set(results.flatMap((r) => r.subjects ?? [r.path]))], cells: [], results,
+    subjects: [...new Set([...results.flatMap((r) => r.subjects ?? [r.path]), ...(capture?.plan.subjects ?? [])])], cells: capture?.plan.cells ?? [], results,
     tarball: tarball ? { source: tarball.source, file: tarball.path.startsWith(root) ? tarball.path.slice(root.length + 1) : tarball.path, sha256: sha256(tarball.path) } : null,
     thresholdsSha256: sha256(join(root, 'certification/thresholds.json')),
     scenesSha256: sha256(join(root, 'certification/scenes/scenes.manifest.json')),
     inventorySha256: sha256(join(root, 'storybook-static/cert-manifest.json')),
-    durationMs: Date.now() - t0, captureRate: null,
+    durationMs: Date.now() - t0, captureRate: capture?.captureRate ?? null,
+    ...(capture ? { tarballSha256: capture.plan.tarball?.sha256 ?? null, storybookIndexSha256: capture.plan.storybookIndexSha256 ?? null, captures: capture.captures } : {}),
     summary: Object.fromEntries(['pass', 'fail', 'pending', 'pre-existing', 'double-pass'].map((s) => [s, results.filter((r) => r.state === s).length])),
     tests,
   };

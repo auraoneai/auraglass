@@ -103,8 +103,8 @@ describe('registration validation', () => {
 describe('sentinel set (certification/matrix.config.ts)', () => {
   const matrix = readFileSync(join(REPO, 'certification/matrix.config.ts'), 'utf8');
   it('is Surface regular/regular, Button Playground, Dialog open on L5–L9', () => {
-    expect(matrix).toContain("{ subject: 'Surface', state: 'regular/regular' }");
-    expect(matrix).toContain("{ subject: 'Button', state: 'Playground' }");
+    expect(matrix).toContain("{ subject: 'Surface', story: 'playground' }");
+    expect(matrix).toContain("{ subject: 'Button', story: 'playground' }");
     expect(matrix).toContain("{ subject: 'Dialog', state: 'open' }");
     expect(matrix).toContain("['L5', 'L6', 'L7', 'L8', 'L9']");
   });
@@ -122,8 +122,8 @@ describe('sentinel set (certification/matrix.config.ts)', () => {
     for (const lane of ['L5', 'L6', 'L7', 'L8', 'L9']) {
       const r = await runFixture(root, { lane });
       expect(results(r).map((x) => [x.path, x.state, x.reason])).toEqual([
-        ['sentinel:Surface:regular/regular', 'pending', 'sentinel Surface has no ComponentMeta yet (seed)'],
-        ['sentinel:Button:Playground', 'pending', 'sentinel Button is still a contract seed (src/components/button)'],
+        ['sentinel:Surface:playground', 'pending', 'sentinel Surface has no ComponentMeta yet (seed)'],
+        ['sentinel:Button:playground', 'pending', 'sentinel Button is still a contract seed (src/components/button)'],
         ['sentinel:Dialog:open', 'pending', 'capture driver certification/lanes/environment-visual.spec.ts (G-12) not merged'],
       ]);
       expect(r.manifest!.subjects).toEqual(['Surface', 'Button', 'Dialog']);

@@ -25,16 +25,20 @@ export const BUILTINS: BuiltinRegistration[] = [
   { lane: 'L1', kind: 'node-script', path: 'scripts/qual/write-inventory.mjs', scope: 'pr', remote: false, failClosed: true },
   // REQ-QUAL-68 exemptions validator.
   { lane: 'L1', kind: 'node-script', path: 'certification/gates/exemptions.mjs', scope: 'pr', remote: false, failClosed: true },
+  // REQ-QUAL-44 CSS perf gate (G-23): QUAL-owned paths and dist/ enforced, other streams report-only until RC-1.
+  { lane: 'L1', kind: 'node-script', path: 'scripts/qual/verify-css-perf.mjs', scope: 'pr', remote: false, failClosed: true },
   // ---- L12 Unit and coverage floors (REQ-QUAL-30): every test by location (jest.config.js verbatim) with
   // --coverageThreshold from certification/ratchets.json, and the floors-only-increase ratchet.
   { lane: 'L12', kind: 'jest', path: 'jest.config.js', coverage: true, scope: 'pr', remote: false, failClosed: true },
   { lane: 'L12', kind: 'node-script', path: 'certification/gates/coverage-ratchet.mjs', scope: 'pr', remote: false, failClosed: true },
+  // ---- L6 (REQ-QUAL-04/-12, G-12): environment-visual capture driver. Registered at pr, so it runs at every scope
+  // (pr ⊂ main ⊂ nightly ⊂ release); the spec selects the §4.2 matrix from AG_SCOPE.
+  { lane: 'L6', kind: 'playwright', path: 'certification/lanes/environment-visual.spec.ts', scope: 'pr', remote: true, failClosed: true },
 ];
 
 /** Built-in L1 gates whose producer has not merged yet: reported `pending` with the producing work item. */
 export const PENDING_BUILTINS: Array<{ lane: LaneRegistration['lane']; path: string; producer: string }> = [
   { lane: 'L1', path: 'scripts/qual/lint-tests.mjs', producer: 'G-19 (REQ-QUAL-31)' },
-  { lane: 'L1', path: 'scripts/qual/verify-css-perf.mjs', producer: 'G-23 (REQ-QUAL-44)' },
   { lane: 'L1', path: 'scripts/qual/verify-dist-perf.mjs', producer: 'G-24 (REQ-QUAL-46)' },
   { lane: 'L1', path: 'scripts/qual/lint-stories.mjs', producer: 'G-10 (REQ-QUAL-55 story-glass gate)' },
 ];

@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MediaTranscript } from './index';
 
-const meta: Meta<typeof MediaTranscript> = { title: 'registry/media-transcript', component: MediaTranscript };
+const meta: Meta<typeof MediaTranscript> = {
+  parameters: { ag: { subject: 'MediaTranscript', kind: 'showcase' } }, title: 'registry/media-transcript', component: MediaTranscript };
 export default meta;
 type Story = StoryObj<typeof MediaTranscript>;
 
