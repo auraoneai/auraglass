@@ -1,11 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { CalendarDate, Time } from '@internationalized/date';
+import { CalendarDate } from '@internationalized/date';
 import { DateField } from './DateField';
-import { Calendar, RangeCalendar } from './Calendar';
 import { DatePicker } from './DatePicker';
-import { DateRangePicker } from './DateRangePicker';
-import { TimeField, TimePicker } from './TimePicker';
 
 const meta = {
   title: 'surf/date-picker',
@@ -14,27 +11,40 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const renderPicker = () => <DatePicker label="Due date" defaultValue={new CalendarDate(2026, 10, 15)} />;
-export const Picker: Story = { render: renderPicker };
-
+/** Perf subject `surf/date-picker--default` (fragments/perf-budgets/surf.ts). */
+export const Default: Story = {
+  render: () => <DatePicker label="Due date" defaultValue={new CalendarDate(2026, 10, 15)} />,
+};
+export const Picker: Story = {
+  render: () => <DatePicker label="Due date" defaultValue={new CalendarDate(2026, 10, 15)} />,
+};
 export const Field: Story = {
   render: () => <DateField label="Publish on" defaultValue={new CalendarDate(2026, 10, 7)} description="Segments are spinbuttons" />,
 };
-export const Cal: Story = {
-  render: () => <Calendar defaultValue={new CalendarDate(2026, 10, 7)} showWeekNumbers />,
-};
-export const Range: Story = {
+
+/* REQ-SURF-98 locale stories: no `locale` prop — the picker resolves locale and
+   direction from the closest [lang]/[dir] in the DOM. */
+export const LocaleArEG: Story = {
   render: () => (
-    <DateRangePicker
-      label="Report window"
-      presets={[{ label: 'Last 7 days', value: { start: new CalendarDate(2026, 10, 1), end: new CalendarDate(2026, 10, 7) } }]}
-    />
+    <div lang="ar-EG" dir="rtl">
+      <DatePicker label="تاريخ" defaultValue={new CalendarDate(2026, 10, 15)} />
+    </div>
   ),
 };
-export const TimeP: Story = {
-  render: () => <TimePicker label="Start time" defaultValue={new Time(9, 30)} minuteStep={15} />,
+export const LocaleJaJP: Story = {
+  render: () => (
+    <div lang="ja-JP">
+      <DatePicker label="日付" defaultValue={new CalendarDate(2026, 10, 15)} />
+    </div>
+  ),
+};
+export const LocaleDeDE: Story = {
+  render: () => (
+    <div lang="de-DE">
+      <DatePicker label="Datum" defaultValue={new CalendarDate(2026, 10, 15)} />
+    </div>
+  ),
 };
 export const RTL: Story = {
-  globals: { dir: 'rtl' },
-  render: () => <DatePicker label="تاريخ" locale="ar-EG" />,
+  render: () => <DatePicker label="تاريخ" locale="ar-EG" dir="rtl" />,
 };

@@ -8,4 +8,4 @@ const alertTriangle: IconNode[] = [
 ];
 
 export const AlertTriangleIcon = /*#__PURE__*/ createIcon('AlertTriangle', alertTriangle);
-export const WarningIcon = /*#__PURE__*/ AlertTriangleIcon;
+export const WarningIcon = AlertTriangleIcon;
