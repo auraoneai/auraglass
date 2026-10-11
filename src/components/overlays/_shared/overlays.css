@@ -2,7 +2,7 @@
 
 /* CMP-194 (REQ-CMP-79): shared overlay CSS — scrim, forced-colors/solid fallbacks,
    anchored-popup geometry, animating hint. No pseudo optics/grain, no
-   transition:all, no !important, no infinite animations, no
+   transition:all, no !important, no looping animations, no
    filter/backdrop-filter declarations at all (REQ-CMP-08): blur and its
    solid / prefers-contrast / forced-colors resets are MAT's
    (src/material/css/material.css, src/a11y/css/rungs.css); the scrim
@@ -35,14 +35,8 @@
     will-change: transform, opacity;
   }
 
-  /* focus ring baseline for overlay parts (§6 two-tone ring) */
-  [data-ag-part='popup']:focus-visible,
-  [data-ag-part='close']:focus-visible,
-  [data-ag-part='handle']:focus-visible,
-  [data-ag-part='action']:focus-visible {
-    outline: var(--_ag-focus-width) solid var(--_ag-focus-color, Highlight);
-    outline-offset: 2px;
-  }
+  /* Overlay parts (popup, close, handle, action) take the shared REQ-CMP-19
+     two-tone ring from control-shared/controls.css. */
 
   @media (forced-colors: active) {
     .ag-scrim {

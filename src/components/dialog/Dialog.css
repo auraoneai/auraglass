@@ -58,6 +58,9 @@
       opacity var(--ag-duration-medium) var(--ag-spring-snappy),
       transform var(--ag-duration-medium) var(--ag-spring-snappy);
   }
+  .ag-dialog-popup[data-ending-style] {
+    transition-timing-function: var(--ag-ease-accelerate), var(--ag-ease-accelerate);
+  }
 
   /* nested: parent dims while a child dialog is open */
   .ag-dialog-popup[data-ag-nested-open] {

@@ -49,22 +49,6 @@ describe('checkbox indicator grid (REQ-CMP-52)', () => {
   });
 });
 
-/* REQ-CMP-61: focus ring on control:focus-visible; size padding 2/3/4;
-   sm label type; control-height vars for the 3x3 grid. */
-describe('text-field chrome (REQ-CMP-61)', () => {
-  const TF = readFileSync(join(process.cwd(), 'src/components/text-field/TextField.css'), 'utf8');
-  it('focus-visible ring on control, rim stays on shell', () => {
-    expect(TF).toMatch(/data-ag-part='control'\]:focus-visible[^}]*outline:[^}]*--ag-color-focus-outer/);
-    expect(TF).toMatch(/control-shell'\]:focus-within[^}]*--ag-color-focus-outer/);
-  });
-  it('size padding sm/md/lg = space-2/3/4 + sm label type', () => {
-    expect(TF).toMatch(/size='sm'\][^\n]*control-shell[^}]*padding-inline:\s*var\(--ag-space-2\)/);
-    expect(TF).toMatch(/size='lg'\][^\n]*control-shell[^}]*padding-inline:\s*var\(--ag-space-4\)/);
-    expect(TF).toMatch(/size='sm'\][^\n]*control[^}]*font-size:\s*var\(--ag-type-label-size\)/);
-  });
-  it('control-height vars for default/compact/spacious', () => {
-    for (const d of ['default','compact','spacious'])
-      for (const s of ['sm','md','lg'])
-        expect(TF).toContain(`--ag-comp-control-height-${s}-${d}`);
-  });
-});
+/* REQ-CMP-61 (TextField chrome grid) is covered by
+   tests/controls/text-field-chrome.test.tsx: it resolves the shell's padding
+   and height through the MAT comp tokens instead of matching source text. */

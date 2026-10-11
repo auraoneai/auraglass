@@ -15,12 +15,9 @@
     border-radius: var(--ag-radius-full);
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
-    transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
   }
-  .ag-search-field [data-ag-part='control-shell']:focus-within {
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-focus-outer),
-      0 0 0 var(--_ag-focus-inner) var(--ag-color-focus-outer);
-  }
+  /* Focus ring on the control-shell: the shared REQ-CMP-19 rule in control-shared/controls.css. */
   .ag-search-field [data-ag-part='icon'] {
     color: var(--ag-on-surface-muted);
     flex: none;
@@ -50,12 +47,15 @@
     inline-size: var(--ag-space-4);
     block-size: var(--ag-space-4);
     border-radius: var(--ag-radius-full);
-    border: var(--_ag-focus-width) solid var(--ag-on-surface-muted);
+    border: var(--ag-focus-width) solid var(--ag-on-surface-muted);
     border-block-start-color: transparent;
   }
   @media (prefers-reduced-motion: no-preference) {
     .ag-search-field [data-ag-part='spinner'] {
-      animation: ag-sf-spin var(--ag-duration-large) linear infinite;
+      animation: none;
+    }
+    [data-ag-motion='full'] .ag-search-field [data-ag-part='spinner'] {
+      animation: ag-sf-spin var(--ag-duration-large) linear 240;
     }
     @keyframes ag-sf-spin {
       to { transform: rotate(1turn); }

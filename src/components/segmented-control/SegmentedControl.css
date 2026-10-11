@@ -39,12 +39,9 @@
   }
   .ag-segmented-item[data-checked],
   .ag-segmented-item[aria-checked='true'] {
-    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-state-press-glow);
+    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-state-press-glow);
   }
-  .ag-segmented-item:focus-visible {
-    outline: var(--_ag-focus-width) solid var(--_ag-focus-outer);
-    outline-offset: var(--_ag-focus-width);
-  }
+  /* Focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
   .ag-segmented-item:disabled,
   .ag-segmented-item[data-disabled] {
     cursor: default;

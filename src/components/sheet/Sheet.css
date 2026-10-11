@@ -111,8 +111,8 @@
       block-size var(--ag-duration-medium) var(--ag-ease-standard);
   }
   .ag-sheet-popup[data-ending-style]:not([data-ag-dragging]) {
-    transition-timing-function: var(--ag-ease-standard), var(--ag-ease-standard), var(--ag-ease-standard);
-    transition-duration: var(--ag-duration-small);
+    transition-timing-function: var(--ag-ease-accelerate), var(--ag-ease-accelerate), var(--ag-ease-accelerate);
+    transition-duration: var(--ag-duration-medium);
   }
 
   .ag-sheet-header,
