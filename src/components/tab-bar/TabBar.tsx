@@ -18,7 +18,9 @@ const TabBarCtx = React.createContext<{
 
 export type TabBarRootProps = PartProps<'nav'> & {
   semantics?: 'navigation' | 'tabs' | undefined;
-  placement?: 'bottom' | 'floating' | undefined;
+  /** bar = flush bottom bar; floating = detached capsule. */
+  appearance?: 'bar' | 'floating' | undefined;
+  placement?: 'bottom' | 'floating' | 'inline' | 'overlay' | undefined;
   /** Collapse labels while scrolling (CSS scroll-timeline; motion calm|none disables). */
   minimizeOnScroll?: boolean | undefined;
   /** Keep Accessory visible while minimized. */
@@ -30,6 +32,7 @@ export type TabBarRootProps = PartProps<'nav'> & {
 
 function TabBarRoot({
   semantics = 'navigation',
+  appearance,
   placement = 'bottom',
   minimizeOnScroll = false,
   accessoryPlacement,
@@ -96,6 +99,7 @@ function TabBarRoot({
     render: render as React.ReactElement | undefined,
     'data-ag-part': 'tab-bar',
     'data-ag-slot': 'tabbar',
+    'data-ag-appearance': appearance ?? (placement === 'floating' ? 'floating' : 'bar'),
     'data-ag-placement': placement,
     'data-ag-semantics': semantics,
     ...(minimizeOnScroll ? { 'data-ag-minimize-on-scroll': '' } : {}),
@@ -108,7 +112,7 @@ function TabBarRoot({
 
   return (
     <TabBarCtx.Provider value={ctxValue}>
-      <SurfaceGroup className="ag-tab-bar" spacing="0">
+      <SurfaceGroup className="ag-tab-bar" spacing="0" {...(refraction ? { refraction: true } : {})}>
         {nav}
         <ScrollEdge edge="bottom" edgeStyle="soft" />
       </SurfaceGroup>
