@@ -4,10 +4,8 @@
 - `AuraGlassScript`
 - `GlassPreferencesPanel`
 - `auraGlassPrepaintScript`
-- `createBrandGlassTheme`
 - `createBrandTheme`
 - `createGlassTheme`
-- `createGlassThemeCssVars`
 - `presets`
 - `usePreference`
 - `usePreferenceActions`
@@ -16,4 +14,4 @@
 ## Diff vs ENTRIES (architecture §4.2)
 
 - missing (contract exports absent from barrel): none
-- extra (barrel exports not in contract): `createBrandGlassTheme`, `createGlassThemeCssVars`
+- extra (barrel exports not in contract): none
