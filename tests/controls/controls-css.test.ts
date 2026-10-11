@@ -48,3 +48,7 @@ describe('checkbox indicator grid (REQ-CMP-52)', () => {
     expect(CB).toMatch(/data-ag-size='lg'\][^\n]*\[data-ag-part='indicator'\][^}]*inline-size:\s*var\(--ag-space-5\)/);
   });
 });
+
+/* REQ-CMP-61 (TextField chrome grid) is covered by
+   tests/controls/text-field-chrome.test.tsx: it resolves the shell's padding
+   and height through the MAT comp tokens instead of matching source text. */
