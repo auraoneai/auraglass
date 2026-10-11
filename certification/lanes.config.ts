@@ -18,7 +18,9 @@ export const BUILTINS: BuiltinRegistration[] = [
   ...(['pr', 'main', 'release'] as const).flatMap((scope): BuiltinRegistration[] => [
     { lane: 'L1', kind: 'node-script', path: 'scripts/qual/lint-stories.mjs', scope, remote: false, failClosed: true },
     { lane: 'L1', kind: 'node-script', path: 'scripts/qual/verify-lab-not-shipped.mjs', scope, remote: false, failClosed: true },
-    { lane: 'L1', kind: 'jest', path: 'tests/lint/qual/story-rules.test.ts', scope, remote: false, failClosed: true },
+    // story-rules imports the .mjs gate; the `jest` kind runs with --experimental-vm-modules, under which the shared
+    // babel transform turns .mjs into CJS that cannot load, so the test runs through plain Jest (as qual:build:storybook does).
+    { lane: 'L1', kind: 'node-script', path: 'node_modules/jest/bin/jest.js --ci tests/lint/qual/story-rules.test.ts', scope, remote: false, failClosed: true },
   ]),
   // QUAL-27: zero `!important` in stories, showcases and the Storybook shell.
   { lane: 'L1', kind: 'node-script', path: 'certification/gates/no-important.mjs', scope: 'pr', remote: false, failClosed: true },
