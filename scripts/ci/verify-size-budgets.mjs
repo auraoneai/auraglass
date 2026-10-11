@@ -5,7 +5,8 @@
    docs/size-budgets.json. A row may be stricter than PROVISIONAL_ROWS /
    DEFAULT_CEILINGS — never looser; raising a limit needs a changelog entry
    with the Perf-Budget-Raise trailer (checked here). */
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -19,6 +20,8 @@ const PROVISIONAL = { Button: 10240, Dialog: 20480, Select: 25600, Table: 46080,
 
 const CHANGELOG = join(ROOT, 'docs', 'size-budgets.changelog.md');
 const GENERATED = join(ROOT, 'docs', 'size-budgets.json');
+const SIZE_ARTIFACT = join(ROOT, '.artifacts', 'plat', 'size-budgets', 'size-budgets.json');
+const gitHead = () => { try { return execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim(); } catch { return null; } };
 const EXTERNALS = ['react', 'react-dom', 'react/*', 'clsx', '@base-ui/*', '@tanstack/*',
   'motion', 'three', '@react-three/*', 'react-aria-components', '@internationalized/*',
   'react-hook-form', 'd3-*', 'tailwindcss'];
@@ -72,6 +75,14 @@ export async function run() {
     },
   };
   writeFileSync(GENERATED, JSON.stringify(aggregate, null, 2) + '\n');
+  /* REQ-PLAT-104 sha custody: the claims pipeline (scripts/docs/gen-claims.mjs)
+     reads a sha-stamped copy from the job's evidence dir, never the
+     committed docs/size-budgets.json. */
+  const sha = process.env.CI_COMMIT_SHA || gitHead();
+  if (sha) {
+    mkdirSync(dirname(SIZE_ARTIFACT), { recursive: true });
+    writeFileSync(SIZE_ARTIFACT, JSON.stringify({ sha, ...aggregate }, null, 2) + '\n');
+  }
   /* raise check: a row looser than its PLAT floor needs 'Perf-Budget-Raise:
      <row id>' in the changelog (lower-only ratchet after calibration). */
   const FLOORS = { 'plat:tailwind-bridge': 6144, 'plat:compat-globals': 1024, 'plat:cn': 512, 'plat:warnDeprecated': 150 };
