@@ -30,7 +30,7 @@ First pipeline per line with GitLab status `success` (a success can still
 contain `allow_failure: true` jobs that failed; activation rows in
 `ci/plat/activation.json` track those separately, B3-14):
 
-- `next`: **none yet**. Latest: https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/pipelines/2935466639 (`3d354a221`, running at record time); the 16 earlier `next` pipelines (first one 2026-10-10T18:42Z) are 15 `failed` and 1 `canceled`.
+- `next`: https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/pipelines/2935466639 (`3d354a221`, finished 2026-10-11T10:20Z, `node scripts/ci/gitlab-status.mjs --sha 3d354a2210d30072aa2b883bf3777b2da022a8d7` → `success`; `allow_failure: true` jobs such as `plat:build:docs`, `plat:test:docs`, `plat:test:canaries`, `qual:certify:l1` failed in it, and `qual:certify:l10-gpu` had no runner). The 16 earlier `next` pipelines (first one 2026-10-10T18:42Z) are 15 `failed` and 1 `canceled`.
 - `release/4.x`: https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/pipelines/2935433804 (`b03d104c3`, 2026-10-11T08:12Z, `node scripts/ci/gitlab-status.mjs --sha b03d104c3ca567f8bf2cf39c7cd3b3b3ec2c5840` → `success`). Failed with `allow_failure: true`: `plat:build:docs`, `plat:test:visual-4x` and others.
 - `release/4.1.x`: https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/pipelines/2935007635 (`d2f90a892`, 2026-10-11T02:12Z, `success`). A later re-run on the same SHA, https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/pipelines/2935380373, is `canceled`, so `gitlab-status.mjs --sha` (newest pipeline only) reports `canceled` for that SHA.
 
