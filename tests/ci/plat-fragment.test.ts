@@ -73,6 +73,23 @@ describe('plat:test:react19', () => {
   it('has react19-smoke and unit-react19 legs', () => {
     expect(j.parallel.matrix.map((l: any) => l.AG_REACT19_LEG)).toEqual(['react19-smoke', 'unit-react19']);
   });
+  it('installs React 19 with --no-save before jest (REQ-PLAT-47)', () => {
+    const lines: string[] = j.script;
+    const install = lines.findIndex((l) => /^npm install --no-save\b/.test(l));
+    const jest = lines.findIndex((l) => l.startsWith('npx jest'));
+    expect(install).toBeGreaterThanOrEqual(0);
+    expect(jest).toBeGreaterThan(install);
+    for (const pkg of ['react', 'react-dom', '@types/react', '@types/react-dom']) {
+      expect(lines[install].split(/\s+/)).toContainEqual(expect.stringMatching(new RegExp(`^${pkg.replace('/', '\\/')}@19(\\.|$)`)));
+    }
+    expect(lines[jest]).toContain('tests/react19/$AG_REACT19_LEG');
+  });
+  it('fails closed when a leg file is missing: no `test -d` / PENDING fallback (REQ-PLAT-05)', () => {
+    const s = (j.script as string[]).join('\n');
+    expect(s).not.toMatch(/PENDING/);
+    expect(s).not.toMatch(/test -d/);
+    expect(j.script).toContain('test -f "tests/react19/$AG_REACT19_LEG.test.tsx"');
+  });
 });
 
 describe('plat:test:visual-4x', () => {
