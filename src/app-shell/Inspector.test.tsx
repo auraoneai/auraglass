@@ -71,7 +71,7 @@ describe('Inspector (SURF-058)', () => {
 
   it('compact: closed inspector renders no dialog; toggle opens Sheet (SURF-38)', async () => {
     render(
-      <AppShell.Root layout="compact" defaultInspector="closed">
+      <AppShell.Root layout="mobile" defaultInspector="closed">
         <TopBarStub />
         <AppShell.Main />
         <Inspector.Sheet aria-label="Props">
