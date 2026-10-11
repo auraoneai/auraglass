@@ -7,4 +7,4 @@ const bell: IconNode[] = [
 ];
 
 export const BellIcon = /*#__PURE__*/ createIcon('Bell', bell);
-export const NotificationIcon = /*#__PURE__*/ BellIcon;
+export const NotificationIcon = BellIcon;

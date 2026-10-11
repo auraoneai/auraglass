@@ -182,9 +182,11 @@ function checkRejectedNames(ledger, rejectedNames) {
 
 /* ---------- REQ-SURF-183 --diff gate ---------- */
 function diffGate(baseSha) {
-  let changed;
+  let changed, added;
   try {
     changed = execSync(`git diff --name-only ${baseSha}...HEAD`, { cwd: ROOT, encoding: 'utf8' })
+      .split('\n').filter(Boolean);
+    added = execSync(`git diff --name-only --diff-filter=A ${baseSha}...HEAD`, { cwd: ROOT, encoding: 'utf8' })
       .split('\n').filter(Boolean);
   } catch (e) {
     fail(`diff: cannot diff ${baseSha}...HEAD: ${e.message.split('\n')[0]}`);
@@ -209,7 +211,9 @@ function diffGate(baseSha) {
     }
   };
   const kebab = (s) => String(s).replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-  const newIds = [...new Set(changed.filter((p) => idOf(p) && !existedAtBase(dirOf(p))).map(idOf))];
+  // Only entries this diff adds whose entry directory did not exist at <base>;
+  // edits (or new files) in an existing entry need no new row.
+  const newIds = [...new Set(added.filter((p) => idOf(p) && !existedAtBase(dirOf(p))).map(idOf))];
   if (newIds.length) {
     let namesInChangedRows = new Set();
     if (ledgerChanged) {

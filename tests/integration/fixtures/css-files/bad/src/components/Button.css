@@ -1,0 +1,5 @@
+/* comment first — no layer-order statement */
+@layer media {
+  [data-ag-part="button"] { display: inline-flex !important; }
+  :root { --x: 1; }
+}
