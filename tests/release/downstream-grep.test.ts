@@ -1,5 +1,6 @@
 /* REQ-PLAT-35: bounded downstream grep — structured {file,line,spec} hits,
    fragment-derived removed symbols, PRD-shape report, build/lock excludes. */
+import { describe, expect, it } from '@jest/globals';
 import { execFileSync } from 'node:child_process';
 import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync, existsSync } from 'node:fs';
 import { tmpdir, homedir } from 'node:os';

@@ -49,7 +49,7 @@ describe('release train (REQ-PLAT-36)', () => {
 
   it('train.md has a section per stop, in the same order', () => {
     const order = STOPS.map((id) => train.search(new RegExp(`^### ${heading(id).replace(/\./g, '\\.')} — `, 'm')));
-    expect(order.every((v, i) => v >= 0 && (i === 0 || v > order[i - 1]))).toBe(true);
+    expect(order.every((v, i) => v >= 0 && (i === 0 || v > (order[i - 1] ?? -1)))).toBe(true);
   });
 
   it.each(checklist.stops.map((s) => [s.id, s] as const))('%s: train.md lists exactly the checklist gate ids', (id, stop) => {
@@ -74,7 +74,8 @@ describe('release train (REQ-PLAT-36)', () => {
   });
 
   it('the dated stops carry the PRD dates in both documents', () => {
-    for (const [id, date] of [['4.1.1', '2026-10-12'], ['4.2.0', '2026-11-16'], ['4.3.0', '2027-01-18']]) {
+    const dated: Array<[string, string]> = [['4.1.1', '2026-10-12'], ['4.2.0', '2026-11-16'], ['4.3.0', '2027-01-18']];
+    for (const [id, date] of dated) {
       expect(checklist.stops.find((s) => s.id === id)?.targetDate).toBe(date);
       expect(train).toMatch(new RegExp(`^### ${id.replace(/\./g, '\\.')} — .*${date}`, 'm'));
     }

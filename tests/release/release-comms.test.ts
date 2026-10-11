@@ -1,5 +1,6 @@
 /* REQ-PLAT-34: exact dist-tag rows in README banner + llms.txt compared to
    mocked npm dist-tags; mismatch fails. */
+import { describe, expect, it } from '@jest/globals';
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 
