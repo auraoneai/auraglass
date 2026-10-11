@@ -157,7 +157,7 @@ describe('app-shell.css structure (SURF-011)', () => {
       expect(frame?.declarations.get('--_ag-app-shell-mode')).toBe('expanded');
       const pinned = (layout: string) =>
         rules
-          .find((r) => r.ancestors.length === 1 && r.selector === `.ag-app-shell[data-ag-layout='${layout}'] > .ag-app-shell__frame`)
+          .find((r) => r.ancestors.length === 1 && r.selector === `.ag-app-shell:is([data-ag-layout='${layout}'], [data-ag-layout='${layout === 'desktop' ? 'wide' : 'compact'}']) > .ag-app-shell__frame`)
           ?.declarations.get('--_ag-app-shell-mode');
       expect({ desktop: pinned('desktop'), mobile: pinned('mobile') }).toEqual({ desktop: 'wide', mobile: 'compact' });
     });
@@ -183,11 +183,17 @@ describe('app-shell.css structure (SURF-011)', () => {
       expect(firstConditioned).toBeGreaterThan(lastBase);
     });
 
-    it('no selector reads data-mode or a JS-written layout mode', () => {
-      const offenders = rules.flatMap(selectorsOf).filter((x) => /\[data-mode|data-ag-layout='(compact|medium|expanded|wide)'/.test(x));
+    it('automatic layout ignores data-mode and keeps explicit mode aliases available', () => {
+      const offenders = rules.flatMap(selectorsOf).filter((x) => /\[data-mode/.test(x));
       expect(offenders).toEqual([]);
       const layoutValues = new Set([...stripped.matchAll(/data-ag-layout='([a-z]+)'/g)].map((m) => m[1]));
-      expect([...layoutValues].sort()).toEqual(['auto', 'desktop', 'mobile']);
+      expect([...layoutValues].sort()).toEqual(['auto', 'compact', 'desktop', 'medium', 'mobile', 'wide']);
+      // Explicit aliases remain pinned; responsive queries only target auto.
+      for (const condition of CONDITIONS) {
+        const frames = inCondition(condition).flatMap(selectorsOf).filter((x) => x.endsWith('> .ag-app-shell__frame'));
+        expect(frames.length).toBeGreaterThan(0);
+        for (const selector of frames) expect(selector).toContain("[data-ag-layout='auto']");
+      }
     });
 
     it('an auto inspector floats in the base and docks under the wide condition (SURF-38)', () => {
@@ -392,7 +398,7 @@ describe('app-shell.css structure (SURF-011)', () => {
     expect(
       withSel(".ag-app-shell[data-ag-sidebar='collapsed'] [data-ag-slot='sidebar']").map((r) => r.declarations.get('display')),
     ).toEqual(['none']);
-    const mobile = withSel(".ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='sidebar']");
+    const mobile = withSel(".ag-app-shell:is([data-ag-layout='mobile'], [data-ag-layout='compact']) [data-ag-slot='sidebar']");
     expect(mobile.some((r) => r.declarations.get('display') === 'none')).toBe(true);
     const narrow = withSel(".ag-app-shell[data-ag-layout='auto'] [data-ag-slot='sidebar']").filter((r) =>
       r.ancestors.some((a) => a.includes('width < 600px')),
@@ -430,11 +436,11 @@ describe('app-shell.css structure (SURF-011)', () => {
   });
 
   it('mobile tab bar overlays main and sets the bottom scroll padding (SURF-40)', () => {
-    const pad = withSel(".ag-app-shell[data-ag-layout='mobile']:has([data-ag-slot='tabbar'])")[0];
+    const pad = withSel(".ag-app-shell:is([data-ag-layout='mobile'], [data-ag-layout='compact']):has([data-ag-slot='tabbar'])")[0];
     expect(pad?.declarations.get('--ag-scroll-padding-bottom')?.replace(/\s+/g, ' ')).toBe(
       'calc( var(--_ag-app-shell-tabbar) + env(safe-area-inset-bottom) + var(--ag-space-2, 0.5rem) )',
     );
-    const tab = withSel(".ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='tabbar']").find((r) =>
+    const tab = withSel(".ag-app-shell:is([data-ag-layout='mobile'], [data-ag-layout='compact']) [data-ag-slot='tabbar']").find((r) =>
       r.declarations.has('grid-area'),
     );
     expect({ area: tab?.declarations.get('grid-area'), align: tab?.declarations.get('align-self') }).toEqual({

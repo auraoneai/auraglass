@@ -10,7 +10,7 @@ const sbMeta = {
   title: 'Flagships/Overlays/AlertDialog',
   component: AlertDialog.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'AlertDialog', kind: 'component' } },
+  parameters: { layout: 'fullscreen', ag: { tier: 'standard', subject: 'AlertDialog', kind: 'component' } },
 } satisfies Meta<typeof AlertDialog.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

@@ -53,7 +53,9 @@ export function formatTimestamp(
   timeZone = 'UTC',
 ): { dateTime: string; text: string } {
   const d = typeof ts === 'string' ? new Date(ts) : ts;
-  // Legacy adapters may supply already-formatted display text instead of an instant.
+  // A string that is not a parseable instant (e.g. a 4.x display time such
+  // as "2 hours ago", passed through aura-glass/compat GlassTimeline) renders
+  // verbatim with no machine-readable dateTime instead of throwing.
   if (Number.isNaN(d.getTime())) return { dateTime: '', text: typeof ts === 'string' ? ts : '' };
   const dateTime = d.toISOString();
   if (timeFormat === 'relative') {

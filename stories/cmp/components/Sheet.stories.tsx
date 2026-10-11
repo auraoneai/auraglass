@@ -13,7 +13,7 @@ const sbMeta = {
   title: 'Flagships/Overlays/Sheet',
   component: Sheet.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Sheet', kind: 'component' } },
+  parameters: { layout: 'fullscreen', ag: { tier: 'standard', subject: 'Sheet', kind: 'component' } },
 } satisfies Meta<typeof Sheet.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

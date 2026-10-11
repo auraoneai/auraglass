@@ -24,7 +24,6 @@ export interface PopoverRootProps extends MaterialBearingProps {
 }
 
 /** Real convenience block: Portal > Positioner > Popup. */
-export interface PopoverContentProps extends PopoverPopupProps, Pick<PopoverPortalProps, 'keepMounted'>, Pick<PopoverPositionerProps, 'side' | 'align' | 'sideOffset' | 'collisionPadding' | 'anchor'> {}
 
 /* openOnHover/delay/closeDelay here OVERRIDE the root context values. */
 export interface PopoverTriggerProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onChange'> {

@@ -18,7 +18,7 @@ const sbMeta = {
   title: 'Flagships/Overlays/Dialog Scenes',
   component: Dialog.Root,
   tags: ['flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Dialog', kind: 'scene' } },
+  parameters: { layout: 'fullscreen', ag: { tier: 'standard', subject: 'Dialog', kind: 'scene' } },
 } satisfies Meta<typeof Dialog.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

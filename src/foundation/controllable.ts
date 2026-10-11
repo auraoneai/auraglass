@@ -12,8 +12,12 @@ export function useControllableWarning(
   prop: 'value' | 'checked' | 'pressed' | 'open',
   controlledValue: unknown,
 ): void {
-  const was = React.useRef(controlledValue !== undefined);
-  if (process.env.NODE_ENV === 'production') return;
-  warnControlledSwitch(component, prop, was.current, controlledValue !== undefined);
-  was.current = controlledValue !== undefined;
+  const isControlled = controlledValue !== undefined;
+  const was = React.useRef(isControlled);
+  React.useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      warnControlledSwitch(component, prop, was.current, isControlled);
+    }
+    was.current = isControlled;
+  }, [component, prop, isControlled]);
 }

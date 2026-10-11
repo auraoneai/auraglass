@@ -121,3 +121,6 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* The retained shot log remains below the review workspace. */
+.section { display: grid; gap: var(--ag-space-3, 0.75rem); min-inline-size: 0; }

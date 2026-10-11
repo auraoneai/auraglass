@@ -13,7 +13,7 @@ const sbMeta = {
   title: 'Flagships/Overlays/Menu',
   component: Menu.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Menu', kind: 'component' } },
+  parameters: { layout: 'fullscreen', ag: { tier: 'standard', subject: 'Menu', kind: 'component' } },
 } satisfies Meta<typeof Menu.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

@@ -10,7 +10,7 @@ const sbMeta = {
   title: 'Flagships/Overlays/Menubar',
   component: Menubar,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Menubar', kind: 'component' } },
+  parameters: { layout: 'fullscreen', ag: { tier: 'standard', subject: 'Menubar', kind: 'component' } },
 } satisfies Meta<typeof Menubar>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

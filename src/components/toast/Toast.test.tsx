@@ -234,4 +234,12 @@ describe('Toast history (REQ-CMP-110)', () => {
     await act(async () => {});
     expect(screen.getByTestId('items').textContent).toBe('0');
   });
+  it('persistent toast (timeout 0) hides the progress track instead of a 0ms run', async () => {
+    renderHost();
+    fireEvent.click(screen.getByText('add-sticky'));
+    await act(async () => {});
+    const root = document.querySelector<HTMLElement>('[data-ag-part="toast"]')!;
+    expect(root.style.getPropertyValue('--_ag-toast-progress-display')).toBe('none');
+    expect(root.style.getPropertyValue('--_ag-toast-timeout')).toBe('');
+  });
 });

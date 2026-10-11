@@ -169,7 +169,7 @@ export function MediaWorkspace({ now = SHOWCASE_EPOCH }: MediaWorkspaceProps) {
                 <Heading level={2} size="sm" id="mw-rail-heading">{COPY.carouselLabel}</Heading>
                 <Text type="caption" muted>Circle takes for the editor</Text>
               </div>
-              <CarouselRail.Root label={COPY.carouselLabel} slides={slides} slidesPerView={2} />
+              <CarouselRail.Root label={COPY.carouselRailLabel} slides={slides} slidesPerView={2} />
             </Surface>
             <MediaWorkspaceClearControls />
           </div>

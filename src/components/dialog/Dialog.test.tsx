@@ -222,4 +222,31 @@ describe('Dialog (CMP-209..216, 220)', () => {
     const outer = popups.find((p) => p.getAttribute('aria-label') === 'outer')!;
     expect(outer.hasAttribute('data-ag-nested-open')).toBe(true);
   });
+  it('Close: no children = corner icon button; with children = footer Button', async () => {
+    render(
+      <Dialog.Root defaultOpen>
+
+          <Dialog.Content>
+            <Dialog.Close />
+            <Dialog.Title>T</Dialog.Title>
+            <Dialog.Footer><Dialog.Close>Done</Dialog.Close></Dialog.Footer>
+          </Dialog.Content>
+
+      </Dialog.Root>,
+    );
+    await act(async () => {});
+    const [icon, text] = [...document.querySelectorAll('[data-ag-part="close"]')];
+    expect(icon!.classList.contains('ag-dialog-close')).toBe(true);
+    expect(icon!.classList.contains('ag-button')).toBe(false);
+    expect(text!.classList.contains('ag-dialog-close')).toBe(false);
+    expect(text!.classList.contains('ag-button')).toBe(true);
+    expect(text!.textContent).toBe('Done');
+  });
+
+  it('CSS: the resting popup does not zero --_ag-optics (blur/rim stay on)', () => {
+    const css = readFileSync(resolve(__dirname, 'Dialog.css'), 'utf8');
+    const resting = css.match(/\.ag-dialog-popup \{[^}]*\}/u)?.[0] ?? '';
+    expect(resting).not.toBe('');
+    expect(resting).not.toContain('--_ag-optics');
+  });
 });

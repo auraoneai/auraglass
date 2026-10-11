@@ -7,7 +7,7 @@ export default {
   rules: {
     'property-allowed-list': [
       [
-        'display', '/^grid-/', '/^flex/', 'gap', 'padding', 'margin', 'inline-size', 'block-size',
+        'display', '/^grid-/', '/^flex/', 'gap', 'row-gap', 'column-gap', 'padding', '/^padding-/', 'margin', '/^margin-/', 'inline-size', 'block-size',
         '/^min-/', '/^max-/', 'position', '/^inset/', 'overflow', '/^container-/',
       ],
       { message: (p) => `showcase CSS may only lay out (REQ-QUAL-59): '${p}' is not an allowed property` },
