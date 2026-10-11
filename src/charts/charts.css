@@ -2,17 +2,17 @@
 
 @layer ag.components {
   .ag-chart__svg { display: block; outline: none; }
-  .ag-chart__svg:focus-visible { box-shadow: 0 0 0 var(--ag-focus-width, 2px) var(--ag-focus, Highlight); }
-  .ag-chart__grid-line { stroke: var(--ag-border, currentColor); stroke-opacity: 0.25; stroke-dasharray: 3 4; }
-  .ag-chart__cursor { stroke: var(--ag-accent, Highlight); stroke-width: 1; }
+  .ag-chart__svg:focus-visible { box-shadow: 0 0 0 var(--_ag-focus-width, 2px) var(--_ag-focus, Highlight); }
+  .ag-chart__grid-line { stroke: var(--_ag-border, currentColor); stroke-opacity: 0.25; stroke-dasharray: 3 4; }
+  .ag-chart__cursor { stroke: var(--_ag-accent, Highlight); stroke-width: 1; }
   .ag-chart__tooltip {
     position: absolute;
     inset-block-start: var(--ag-space-2, 0.5rem);
-    background: var(--ag-surface-raised, Canvas);
-    border: var(--ag-border-width, 1px) solid var(--ag-border, currentColor);
-    border-radius: var(--ag-radius-2, 0.5rem);
+    background: var(--_ag-surface-raised, Canvas);
+    border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor);
+    border-radius: var(--_ag-radius-2, 0.5rem);
     padding: var(--ag-space-2, 0.5rem);
-    font-size: var(--ag-text-xs, 0.75rem);
+    font-size: var(--_ag-text-xs, 0.75rem);
     pointer-events: none;
   }
   .ag-chart__tooltip ul { list-style: none; margin: 0; padding: 0; }
