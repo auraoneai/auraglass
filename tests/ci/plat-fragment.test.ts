@@ -297,6 +297,15 @@ describe('REQ-PLAT-05 defects (B3-5)', () => {
     for (const p of paths) expect([p, existsSync(p)]).toEqual([p, true]);
   });
 
+  it('plat:gate:removal runs the revert dry-run unconditionally (REQ-PLAT-79)', () => {
+    const script = ([] as string[]).concat(job('plat:gate:removal').script ?? []);
+    expect(script).toContain('node scripts/removal/revert-dry-run.mjs');
+    const s = script.join('\n');
+    expect(s).not.toMatch(/PENDING: removal revert dry-run/);
+    expect(s).not.toMatch(/if \[ -f scripts\/removal\/revert-dry-run\.mjs \]/);
+    expect(s).not.toMatch(/dist-maps/);
+  });
+
   it('plat:package:pack fails closed when no aura-glass tarball was packed', () => {
     const s = scriptText('plat:package:pack');
     expect(s).toContain('TARBALL=$(ls .artifacts/pack/aura-glass-*.tgz | head -1)');
