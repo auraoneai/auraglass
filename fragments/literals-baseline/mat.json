@@ -1,8 +1,65 @@
 {
   "version": 1,
   "files": {
-    "src/a.ts": {
+    "src/a11y/css/focus.css": {
+      "shadow": 1,
       "color": 1
+    },
+    "src/a11y/css/rungs.css": {
+      "blur": 12
+    },
+    "src/a11y/stories/ColorVision.stories.tsx": {
+      "color": 7
+    },
+    "src/compat/mat/material/__tests__/adapters.test.tsx": {
+      "color": 1
+    },
+    "src/material/__tests__/css-contract.test.ts": {
+      "blur": 2
+    },
+    "src/material/__tests__/defineMaterial.test.ts": {
+      "color": 1
+    },
+    "src/material/css/lens.css": {
+      "blur": 19
+    },
+    "src/material/css/material.css": {
+      "color": 50,
+      "blur": 23,
+      "shadow": 2,
+      "duration": 2,
+      "easing": 3,
+      "radius": 1
+    },
+    "src/material/defineMaterial.ts": {
+      "color": 16
+    },
+    "src/material/types.ts": {
+      "color": 2
+    },
+    "src/motion/__tests__/modes.test.ts": {
+      "duration": 2
+    },
+    "src/motion/__tests__/tokens-generated.test.ts": {
+      "easing": 1
+    },
+    "src/motion/__tests__/viewTransition.test.ts": {
+      "spring": 2
+    },
+    "src/motion/css/motion-modes.css": {
+      "duration": 3
+    },
+    "src/theme/__tests__/color.test.ts": {
+      "color": 36
+    },
+    "src/theme/__tests__/createBrandTheme.test.ts": {
+      "color": 4
+    },
+    "src/theme/__tests__/createGlassTheme.test.ts": {
+      "color": 6
+    },
+    "src/theme/preferences/store.ts": {
+      "blur": 3
     }
   }
 }
