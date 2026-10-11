@@ -7,6 +7,7 @@
 import * as React from 'react';
 import { motionPeer } from './peer';
 import { resolvedMotion } from '../ticker';
+import { readPointerSignal } from '../../theme/preferences/media';
 import { toMotionTransition } from './toMotionTransition';
 import type { SpringTransition } from './toMotionTransition';
 
@@ -34,7 +35,7 @@ function useMagnetic(opts: { strength?: number } = {}): MagneticBindings {
     if (!el) return;
     enabled.current =
       resolvedMotion() === 'full' &&
-      typeof matchMedia === 'function' && matchMedia('(pointer: fine)').matches;
+      typeof window !== 'undefined' && readPointerSignal(window, 'fine');
     if (!enabled.current) return;
     const move = (e: PointerEvent) => {
       const r = el.getBoundingClientRect();

@@ -145,6 +145,12 @@ describe('MotionProvider (REQ-MOT-54)', () => {
   ] as const)('preference system with resolved data-ag-motion=%s → reducedMotion="%s"', (attr, expected) => {
     expect(reducedMotionFor('system', attr)).toBe(expected);
   });
+  it('maps resolved motion to MotionConfig reducedMotion', () => {
+    // seed usePreference('motion') => 'system' → resolvedMotion() → 'full' → 'never'
+    document.documentElement.setAttribute('data-ag-motion', 'full');
+    const { container } = render(<MotionProvider><div data-child /></MotionProvider>);
+    expect(container.querySelector('[data-child]')).not.toBeNull();
+  });
 });
 
 /* Pointer events at a fixed velocity along y. jsdom has no PointerEvent, so

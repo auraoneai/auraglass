@@ -20,6 +20,8 @@ test.describe('tooltip APG (CMP-398)', () => {
     );
     expect(resolves).toBe(true);
     await page.keyboard.press('Escape');
+    /* REQ-CMP-100: after Escape the trigger keeps focus (it never lost it). */
+    await expect(page.locator('[data-ag-part="trigger"]').first()).toBeFocused();
     await expect(popup).toHaveCount(0);
     await apg.axe(page);
   });

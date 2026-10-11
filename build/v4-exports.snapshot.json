@@ -217,6 +217,5 @@
     "import": "./dist/three/index.mjs",
     "require": "./dist/three/index.js"
   },
-  "./package.json": "./package.json",
-  "./deprecations.json": "./deprecations.json"
+  "./package.json": "./package.json"
 }

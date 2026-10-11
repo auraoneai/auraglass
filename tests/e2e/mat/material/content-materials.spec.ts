@@ -23,7 +23,7 @@ test.describe('content materials', () => {
   });
 
   test('explicit variant=regular on content blurs', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab--matrix');
+    await gotoMaterialStory(page, 'material-lab-matrix--matrix');
     const sel = '.ag-surface[data-ag-layer="content"][data-ag-variant="regular"]';
     if (await page.locator(sel).count() === 0) return; // cell absent from grid
     const bf = await computedPseudoVar(page, sel, '::before', 'backdrop-filter');
