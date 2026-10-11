@@ -312,7 +312,12 @@ describe('app-shell.css structure (SURF-011)', () => {
     expect({
       scroll: main?.declarations.get('scroll-padding-block-end'),
       pad: main?.declarations.get('padding-block-end'),
-    }).toEqual({ scroll: 'var(--ag-scroll-padding-bottom, 0px)', pad: 'var(--ag-scroll-padding-bottom, 0px)' });
+      padTop: main?.declarations.get('padding-block-start'),
+    }).toEqual({
+      scroll: 'var(--ag-scroll-padding-bottom, 0px)',
+      pad: 'var(--ag-scroll-padding-bottom, 0px)',
+      padTop: 'var(--ag-scroll-padding-top, 0px)',
+    });
   });
 
   it('rail labels clip-hide (never display:none) and item hit boxes are >=40/44px (SURF-29)', () => {

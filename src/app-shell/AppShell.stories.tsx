@@ -6,6 +6,7 @@ import { TopBar } from './TopBar';
 import { Sidebar } from './Sidebar';
 import { StatusBar } from './StatusBar';
 import { Inspector } from './Inspector';
+import { MobileShell } from './MobileShell';
 import { Tabs } from '../components/tabs/Tabs';
 import { TabBar } from '../components/tab-bar/TabBar';
 import { createBrandTheme } from '../theme/createBrandTheme';
@@ -126,5 +127,80 @@ export const PageHeaderWrap: Story = {
         />
       </AppShell.Main>
     </AppShell.Root>
+  ),
+};
+
+const NAV = ['Home', 'Reports', 'Customers', 'Settings'];
+
+/** SURF-29: rail sidebar — labels clip-hidden, names kept, hit boxes >=40/44. */
+export const Rail: Story = {
+  render: () => (
+    <AppShell.Root defaultSidebar="rail">
+      <TopBar.Root><TopBar.Title>App</TopBar.Title></TopBar.Root>
+      <Sidebar.Root>
+        <Sidebar.Nav aria-label="Primary">
+          {NAV.map((n, i) => (
+            <Sidebar.Item key={n} href={`#${n.toLowerCase()}`} current={i === 0} icon={<span>{n[0]}</span>}>{n}</Sidebar.Item>
+          ))}
+        </Sidebar.Nav>
+      </Sidebar.Root>
+      <AppShell.Main><p>Content</p></AppShell.Main>
+    </AppShell.Root>
+  ),
+};
+
+/** SURF-30: server-rendered collapsed sidebar — display:none + inert, never
+    aria-hidden; the toggle is the only way back. */
+export const Collapsed: Story = {
+  render: () => (
+    <AppShell.Root defaultSidebar="collapsed">
+      <TopBar.Root><TopBar.Title>App</TopBar.Title><AppShell.SidebarToggle /></TopBar.Root>
+      <Sidebar.Root>
+        <Sidebar.Nav aria-label="Primary">
+          {NAV.map((n) => <Sidebar.Item key={n} href={`#${n.toLowerCase()}`}>{n}</Sidebar.Item>)}
+        </Sidebar.Nav>
+      </Sidebar.Root>
+      <AppShell.Main><p>Content</p></AppShell.Main>
+    </AppShell.Root>
+  ),
+};
+
+/** SURF-36: overlay top bar over a long Main where every row is focusable —
+    a focused row is never under the bar. Long title + center region for the
+    320px no-overflow check. */
+export const OverlayTopBar: Story = {
+  render: () => (
+    <AppShell.Root>
+      <TopBar.Root placement="overlay">
+        <TopBar.Title>Quarterly revenue by region, channel and product line</TopBar.Title>
+        <TopBar.Center><span>Search across every workspace and document</span></TopBar.Center>
+        <TopBar.Trailing><button type="button">Share</button></TopBar.Trailing>
+      </TopBar.Root>
+      <AppShell.Main>
+        {Array.from({ length: 40 }, (_, i) => (
+          <p key={i}><a href={`#row-${i + 1}`}>{`Row ${i + 1}`}</a></p>
+        ))}
+      </AppShell.Main>
+    </AppShell.Root>
+  ),
+};
+
+/** SURF-40: MobileShell — the tab bar overlays Main; the last item scrolls
+    fully clear of it. */
+export const Mobile: Story = {
+  render: () => (
+    <MobileShell
+      topBar={<TopBar.Title>App</TopBar.Title>}
+      tabBar={
+        <TabBar.Root aria-label="Sections">
+          <TabBar.Item href="#home" current>Home</TabBar.Item>
+          <TabBar.Item href="#search">Search</TabBar.Item>
+        </TabBar.Root>
+      }
+    >
+      {Array.from({ length: 60 }, (_, i) => (
+        <p key={i} {...(i === 59 ? { 'data-testid': 'last-item' } : {})}>{`Item ${i + 1}`}</p>
+      ))}
+    </MobileShell>
   ),
 };

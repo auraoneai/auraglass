@@ -17,20 +17,25 @@ test.describe('app-shell a11y (SURF-032/105/120)', () => {
     }
   });
 
+  // REQ-SURF-36: iterate EVERY focusable element in Main (no first-element
+  // sample, no early return when none exist); each focused element must sit
+  // fully below the sticky/overlay top bar.
   test('focus is not obscured by sticky chrome', async ({ page }) => {
-    const subjects = await listSubjects({ owner: 'SURF' });
-    const subject = subjects.find((s) => s.subject === 'AppShell');
-    if (!subject) { console.warn('AppShell subject not registered — pending'); return; }
-    await gotoStory(page, subject.id);
-    const obscured = await page.evaluate(async () => {
-      const el = document.querySelector<HTMLElement>('main button, main a, [data-ag-part="main"] *:is(button,a)');
-      if (!el) return 'no-focusable';
-      el.focus();
-      const r = el.getBoundingClientRect();
-      const top = document.elementFromPoint(r.x + r.width / 2, r.y + 1);
-      return top === null ? false : !el.contains(top) && top !== el;
+    await page.setViewportSize({ width: 1024, height: 600 });
+    await gotoStory(page, 'surf-app-shell--overlay-top-bar');
+    const r = await page.evaluate(() => {
+      const bar = document.querySelector<HTMLElement>('.ag-app-shell .ag-top-bar');
+      const els = [...document.querySelectorAll<HTMLElement>('.ag-app-shell main :is(a[href], button, [tabindex]:not([tabindex="-1"]))')];
+      const bad: string[] = [];
+      for (const el of els) {
+        el.focus();
+        if (bar && el.getBoundingClientRect().top < bar.getBoundingClientRect().bottom) bad.push(el.textContent ?? '');
+      }
+      return { bar: !!bar, count: els.length, bad };
     });
-    expect(obscured).not.toBe(true);
+    expect(r.bar).toBe(true);
+    expect(r.count).toBeGreaterThan(0);
+    expect(r.bad).toEqual([]);
   });
 
   // REQ-SURF-18: the SkipLink is the first focusable element, hidden until

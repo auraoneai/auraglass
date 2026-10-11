@@ -68,7 +68,9 @@
     overscroll-behavior: contain;
     scroll-padding-block-start: var(--ag-scroll-padding-top, 0px);
     scroll-padding-block-end: var(--ag-scroll-padding-bottom, 0px);
-    /* SURF-40: content can scroll clear of an overlaying tab bar. */
+    /* SURF-36/40: content starts below an overlay top bar and can scroll
+       clear of an overlaying tab bar (both vars are 0 for inline chrome). */
+    padding-block-start: var(--ag-scroll-padding-top, 0px);
     padding-block-end: var(--ag-scroll-padding-bottom, 0px);
   }
   .ag-app-shell [data-ag-slot='inspector'] {
