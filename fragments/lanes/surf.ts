@@ -91,6 +91,13 @@ const w4 = [
 // red run fails the tag pipeline whose plat:publish:npm job publishes labs
 // (REQ-SURF-167). SURF-561: SURF purity gate on L1 (REQ-SURF-05).
 const w5 = [
+  // REQ-SURF-194 (REQ-FIN-90): Playwright fragment gate (unique project names
+  // across all streams, existing testDirs, SURF testMatch hits) and the SURF
+  // literals-baseline fragment matching the tool measurement.
+  { lane: 'L1', kind: 'node-script', path: 'scripts/surf/verify-playwright-fragment.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/surf/verify-playwright-fragment.mjs', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/surf/literals-baseline.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/surf/literals-baseline.mjs', scope: 'main', remote: false, failClosed: true },
   {
     lane: 'L1',
     kind: 'node-script',
