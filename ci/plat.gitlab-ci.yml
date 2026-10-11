@@ -179,10 +179,16 @@ plat:test:canaries:
     - 'test -f scripts/ci/verify-compiler.mjs || { echo "PENDING: scripts/ci/verify-compiler.mjs (lane 1d)"; exit 1; }'
     - node scripts/ci/verify-compiler.mjs
 
+# REQ-FIN-09 / REQ-FIN-40 / REQ-FIN-41 (B3-7): the workspace suites, the
+# packed-d.ts type tests and the codemod canary consume the tarballs from
+# plat:package:pack (.artifacts/pack/, $AURAGLASS_TARBALL via its dotenv), so
+# the job runs in certify — GitLab `needs` may not point at a later stage.
 plat:test:cli:
   extends: [.plat-playwright, .plat-evidence-pr]
-  stage: test
+  stage: certify
   allow_failure: true
+  needs:
+    - { job: "plat:package:pack", artifacts: true }
   rules:
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main"
   script:
@@ -191,8 +197,13 @@ plat:test:cli:
         test -d packages/cli || { echo "PENDING: packages/cli (lane 1e, from 4.3)"; exit 1; }
         npx jest --ci packages/cli
       else
-        test -d packages/cli || { echo "PENDING: packages/cli (lane 1e)"; exit 1; }
-        npm test -- --ci packages/cli tests/types/plat
+        for w in cli registry mcp labs; do
+          node -e "process.exit(require('./packages/$w/package.json').scripts?.test ? 0 : 1)" \
+            || { echo "PENDING: npm test -w packages/$w has no test script (REQ-FIN-09)"; exit 1; }
+        done
+        npm test -w packages/cli -w packages/registry -w packages/mcp -w packages/labs
+        test -f tests/types/plat/tsconfig.json || { echo "PENDING: tests/types/plat/tsconfig.json over the packed d.ts (REQ-FIN-41)"; exit 1; }
+        npx tsc -p tests/types/plat
         test -f tests/dx/codemod-canary.spec.ts || { echo "PENDING: tests/dx/codemod-canary.spec.ts (lane 1e)"; exit 1; }
         npx playwright test tests/dx/codemod-canary.spec.ts
       fi
@@ -504,11 +515,19 @@ plat:release:verify-dist-tags:
 
 # ---------------------------------------------------------------- certify
 
+# REQ-PLAT-89 / REQ-FIN-40 (B3-7): manual reference run of `audit backdrop`
+# against packages/cli/audit/reference-server.mjs, started by the audit
+# Playwright config. `when: manual` sits on the rule: with `rules:` present a
+# job-level `when` from a template is not applied.
 plat:audit:backdrop:
-  extends: [.ag-aws-remote, .plat-evidence-nightly]
+  extends: [.plat-playwright, .plat-evidence-nightly]
+  image: $AG_PLAYWRIGHT_IMAGE
   stage: certify
+  allow_failure: true
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+      when: manual
   script:
-    - 'test -f tests/dx/audit-backdrop.remote.spec.ts || { echo "PENDING: tests/dx/audit-backdrop.remote.spec.ts (lane 1e)"; exit 1; }'
-    - npx playwright test tests/dx/audit-backdrop.remote.spec.ts
+    - 'test -f packages/cli/audit/playwright.config.ts || { echo "PENDING: packages/cli/audit/playwright.config.ts (REQ-PLAT-89)"; exit 1; }'
+    - 'test -f tests/dx/audit-backdrop.remote.spec.ts || { echo "PENDING: tests/dx/audit-backdrop.remote.spec.ts (REQ-PLAT-89)"; exit 1; }'
+    - npx playwright test -c packages/cli/audit/playwright.config.ts
