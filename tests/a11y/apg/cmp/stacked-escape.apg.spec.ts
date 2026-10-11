@@ -39,4 +39,47 @@ test.describe('stacked-escape APG (CMP-347)', () => {
 
     await apg.axe(page);
   });
+
+  /* REQ-CMP-27 (REQ-FIN-71, E3.2): real overlays, three layers — Dialog →
+     Popover → Menu (overlays-stacked-escape). Each Escape closes exactly the
+     top layer, the layers below stay visible, and focus lands on the trigger
+     of the layer that just closed. */
+  test('Dialog > Popover > Menu: one layer per Escape, focus to each trigger', async ({ page }) => {
+    await gotoStory(page, 'overlays-stacked-escape--dialog-popover-menu');
+
+    const dialogTrigger = page.getByRole('button', { name: 'Open dialog' });
+    const dialog = page.locator('[data-ag-part="popup"][aria-label="Stacked dialog"]');
+    const popover = page.locator('[data-ag-part="popup"][aria-label="Stacked popover"]');
+    const menu = page.locator('[data-ag-part="popup"][aria-label="Stacked menu"]');
+
+    await dialogTrigger.click();
+    await expect(dialog).toBeVisible();
+    const popoverTrigger = dialog.getByRole('button', { name: 'Open popover' });
+    await popoverTrigger.click();
+    await expect(popover).toBeVisible();
+    const menuTrigger = popover.getByRole('button', { name: 'Open menu' });
+    await menuTrigger.click();
+    await expect(menu).toBeVisible();
+    await expect(menu).toHaveAttribute('role', 'menu');
+
+    // Escape 1: only the Menu closes; focus returns to the Menu trigger.
+    await page.keyboard.press('Escape');
+    await expect(menu).toHaveCount(0);
+    await expect(popover).toBeVisible();
+    await expect(dialog).toBeVisible();
+    await expect(menuTrigger).toBeFocused();
+
+    // Escape 2: only the Popover closes; focus returns to the Popover trigger.
+    await page.keyboard.press('Escape');
+    await expect(popover).toHaveCount(0);
+    await expect(dialog).toBeVisible();
+    await expect(popoverTrigger).toBeFocused();
+
+    // Escape 3: the Dialog closes; focus returns to the Dialog trigger.
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    await expect(dialogTrigger).toBeFocused();
+
+    await apg.axe(page);
+  });
 });
