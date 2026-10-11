@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 3,
   rsc: 'client',
-  parts: ['root', 'item'],
+  parts: ['root', 'item', 'hit-area'],
   states: ['hover', 'pressed', 'focus-visible', 'disabled'],
   variants: {
     multiple: ['true', 'false'],

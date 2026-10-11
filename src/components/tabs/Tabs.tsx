@@ -155,12 +155,7 @@ function TabsTab({ value, children, render, ...rest }: TabsTabProps) {
     render: render as React.ReactElement | undefined,
     'data-ag-part': 'tab',
     ...rest,
-    children: (
-      <>
-        <span data-ag-part="hit-area" aria-hidden="true" />
-        {children}
-      </>
-    ),
+    children,
   });
   return (
     <BaseTabs.Tab

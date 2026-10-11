@@ -8,7 +8,7 @@ const meta: ControlMeta = defineMeta({
   tier: 'T1',
   flagship: 6,
   rsc: 'client',
-  parts: ['root', 'control', 'track', 'range', 'thumb', 'value', 'mark', 'mark-label'],
+  parts: ['root', 'control', 'track', 'range', 'thumb', 'value', 'mark', 'mark-label', 'hit-area'],
   states: ['dragging', 'disabled', 'readOnly', 'focus-visible'],
   variants: {
     orientation: ['horizontal', 'vertical'],

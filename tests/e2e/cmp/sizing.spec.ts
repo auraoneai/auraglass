@@ -1,50 +1,101 @@
-/* REQ-CMP-20: target-size contract — every interactive part's hit-area meets
-   the 44 px coarse box: elementFromPoint at the box edges must resolve to the
-   control under (pointer: coarse) emulation. Remote lane only. */
-import { test, expect, devices } from '@playwright/test';
+/* REQ-CMP-20 (REQ-FIN-70): target-size contract. Every interactive CMP part
+   renders <span data-ag-part="hit-area" aria-hidden> sized by
+   src/a11y/css/targets.css. Fine pointer: the hit box is >= 24px on both axes.
+   Coarse pointer (touch/mobile emulation): the hit box is >= 44px on both axes
+   and document.elementFromPoint just inside each of its four edges resolves to
+   the control that owns it (icon-only parts included). Remote e2e lane only. */
+import { test, expect, type Page } from '@playwright/test';
 import { gotoStory } from '../../helpers/index';
 
-test.skip(!process.env.AG_REMOTE_RUNNER, 'remote e2e lane only (AG_REMOTE_RUNNER=1)');
-
-test.use({ ...devices['iPhone 12'] }); /* coarse pointer + 44px targets */
-
-const FAMILIES = [
-  'controls-button--default',
-  'controls-checkbox--default',
-  'controls-switch--default',
-  'controls-slider--default',
-  'controls-toggle-group--default',
-  'controls-segmented-control--default',
-  'controls-select--default',
-  'content-link--default',
+/** story id → selectors of the interactive parts that must each carry a hit-area child. */
+const FAMILIES: ReadonlyArray<{ story: string; parts: readonly string[] }> = [
+  { story: 'flagships-controls-button--default', parts: ['button[data-ag-part="root"]'] },
+  { story: 'flagships-controls-icon-button--default', parts: ['button[data-ag-part="root"]'] },
+  { story: 'flagships-controls-toolbar--default', parts: ['[data-ag-part="button"]'] },
+  { story: 'flagships-controls-checkbox--default', parts: ['[role="checkbox"][data-ag-part="root"]'] },
+  { story: 'flagships-controls-radio-group--default', parts: ['[role="radio"][data-ag-part="item"]'] },
+  { story: 'flagships-controls-switch--default', parts: ['[role="switch"][data-ag-part="root"]'] },
+  { story: 'flagships-controls-slider--default', parts: ['[data-ag-part="thumb"]'] },
+  { story: 'flagships-controls-toggle-group--default', parts: ['[data-ag-part="item"]'] },
+  { story: 'flagships-controls-segmented-control--default', parts: ['[data-ag-part="item"]'] },
+  { story: 'flagships-controls-select--default', parts: ['.ag-select[data-ag-part="trigger"]'] },
+  { story: 'flagships-controls-combobox--default', parts: ['[data-ag-part="trigger"]'] },
+  { story: 'flagships-controls-number-field--default', parts: ['[data-ag-part="decrement"]', '[data-ag-part="increment"]'] },
+  { story: 'core-link--default', parts: ['a[data-ag-part="root"]'] },
+  { story: 'core-chip--default', parts: ['button.ag-chip'] },
+  { story: 'core-accordion--default', parts: ['.ag-accordion-trigger'] },
+  { story: 'flagships-overlays-menu--playground', parts: ['[role="menuitem"][data-ag-part="item"]'] },
+  { story: 'flagships-overlays-dialog--playground', parts: ['[data-ag-part="close"]'] },
+  { story: 'flagships-overlays-sheet--right-panel', parts: ['.ag-sheet-close'] },
 ];
 
-test.describe('cmp target sizing', () => {
-  for (const storyId of FAMILIES) {
-    test(`${storyId}: 44px coarse hit box hit-tests to the control`, async ({ page }) => {
-      await gotoStory(page, storyId);
-      const box = await page.evaluate(() => {
-        const el = document.querySelector<HTMLElement>('[data-ag-part]');
-        const ha = el?.querySelector<HTMLElement>('[data-ag-part="hit-area"]') ?? el;
-        if (!ha) return null;
+interface HitBox { part: string; w: number; h: number; edgesOnControl: boolean[] }
+
+/** For every element matching each required part: its direct hit-area child's
+    box, and whether each edge point hit-tests into the owning control. */
+async function measure(page: Page, parts: readonly string[]): Promise<HitBox[]> {
+  return page.evaluate((wanted) => {
+    const out: { part: string; w: number; h: number; edgesOnControl: boolean[] }[] = [];
+    for (const part of wanted) {
+      const owners = [...document.querySelectorAll<HTMLElement>(part)]
+        .filter((el) => el.getBoundingClientRect().width > 0);
+      for (const owner of owners) {
+        const ha = [...owner.children].find(
+          (c): c is HTMLElement => c instanceof HTMLElement && c.dataset.agPart === 'hit-area',
+        );
+        if (!ha) { out.push({ part, w: 0, h: 0, edgesOnControl: [] }); continue; }
+        ha.scrollIntoView({ block: 'center', inline: 'center' });
         const r = ha.getBoundingClientRect();
-        return { x: r.x, y: r.y, w: r.width, h: r.height };
-      });
-      expect(box, 'hit-area present').not.toBeNull();
-      expect(Math.max(box!.w, box!.h), `${storyId} hit-area ≥44px coarse`).toBeGreaterThanOrEqual(44);
-      /* edges of the hit box must still hit-test to the control */
-      const points = [
-        [box!.x + 1, box!.y + box!.h / 2],
-        [box!.x + box!.w - 1, box!.y + box!.h / 2],
-        [box!.x + box!.w / 2, box!.y + 1],
-        [box!.x + box!.w / 2, box!.y + box!.h - 1],
-      ];
-      for (const [x, y] of points) {
-        const hit = await page.evaluate(([px, py]) => {
-          const el = document.elementFromPoint(px!, py!);
-          return el?.closest('[data-ag-part]')?.getAttribute('data-ag-part') ?? el?.tagName ?? null;
-        }, [x, y]);
-        expect(hit, `edge point (${Math.round(x)},${Math.round(y)})`).not.toBeNull();
+        const pts: [number, number][] = [
+          [r.left + 1, r.top + r.height / 2],
+          [r.right - 1, r.top + r.height / 2],
+          [r.left + r.width / 2, r.top + 1],
+          [r.left + r.width / 2, r.bottom - 1],
+        ];
+        out.push({
+          part,
+          w: r.width,
+          h: r.height,
+          edgesOnControl: pts.map(([x, y]) => {
+            const at = document.elementFromPoint(x, y);
+            return at !== null && owner.contains(at);
+          }),
+        });
+      }
+    }
+    return out;
+  }, parts);
+}
+
+test.describe('cmp target sizing — fine pointer (REQ-CMP-20)', () => {
+  for (const { story, parts } of FAMILIES) {
+    test(`${story}: every ${parts.join('/')} hit-area is >= 24px`, async ({ page }) => {
+      await gotoStory(page, story);
+      const boxes = await measure(page, parts);
+      expect(boxes.length, `${story} renders ${parts.join('/')}`).toBeGreaterThan(0);
+      for (const b of boxes) {
+        expect(b.w, `${story} ${b.part} hit-area inline-size`).toBeGreaterThanOrEqual(24);
+        expect(b.h, `${story} ${b.part} hit-area block-size`).toBeGreaterThanOrEqual(24);
+      }
+    });
+  }
+});
+
+test.describe('cmp target sizing — coarse pointer (REQ-CMP-20)', () => {
+  /* Touch + mobile emulation makes Chromium match (pointer: coarse). */
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+  for (const { story, parts } of FAMILIES) {
+    test(`${story}: 44px coarse hit box hit-tests to the control`, async ({ page }) => {
+      await gotoStory(page, story);
+      expect(await page.evaluate(() => matchMedia('(pointer: coarse)').matches), 'coarse pointer emulated').toBe(true);
+      const boxes = await measure(page, parts);
+      expect(boxes.length, `${story} renders ${parts.join('/')}`).toBeGreaterThan(0);
+      for (const b of boxes) {
+        expect(b.w, `${story} ${b.part} hit-area inline-size`).toBeGreaterThanOrEqual(44);
+        expect(b.h, `${story} ${b.part} hit-area block-size`).toBeGreaterThanOrEqual(44);
+        expect(b.edgesOnControl, `${story} ${b.part} edges (left,right,top,bottom) hit the control`)
+          .toEqual([true, true, true, true]);
       }
     });
   }

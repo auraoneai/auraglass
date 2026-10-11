@@ -259,6 +259,7 @@ function SheetClose({ children, className, ref, ...rest }: SheetButtonishProps) 
       ref={ref as React.Ref<HTMLButtonElement>}
       {...rest}
     >
+      <span data-ag-part="hit-area" aria-hidden="true" />
       {children ?? 'Cancel'}
     </Base.Close>
   );

@@ -73,6 +73,7 @@ export function NumberField({
         )}
         <Base.Group className="ag-nf-shell" data-ag-part="group">
           <Base.Decrement data-ag-part="decrement" aria-label={CONTROL_MESSAGES.decrease}>
+            <span data-ag-part="hit-area" aria-hidden="true" />
             <span aria-hidden="true">−</span>
           </Base.Decrement>
           <Base.Input
@@ -86,6 +87,7 @@ export function NumberField({
             aria-label={rest['aria-label'] as string | undefined}
           />
           <Base.Increment data-ag-part="increment" aria-label={CONTROL_MESSAGES.increase}>
+            <span data-ag-part="hit-area" aria-hidden="true" />
             <span aria-hidden="true">+</span>
           </Base.Increment>
         </Base.Group>

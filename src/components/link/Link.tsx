@@ -37,6 +37,7 @@ export function Link({
     className: cn('ag-link', className),
     children: (
       <>
+        <span data-ag-part="hit-area" aria-hidden="true" />
         {children}
         {external ? <VisuallyHidden> (opens in new tab)</VisuallyHidden> : null}
       </>

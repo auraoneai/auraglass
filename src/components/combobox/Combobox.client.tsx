@@ -432,6 +432,7 @@ function ComboboxChip({ children, className }: ComboboxChipProps) {
     <Base.Chip data-ag-part="chip" className={className}>
       {children}
       <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: '' })}>
+        <span data-ag-part="hit-area" aria-hidden="true" />
         <XGlyph />
       </Base.ChipRemove>
     </Base.Chip>
@@ -472,6 +473,7 @@ function ComboboxChipRemove({ children, className }: { children?: React.ReactNod
   const { messages } = useInternal();
   return (
     <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: '' })} className={className}>
+      <span data-ag-part="hit-area" aria-hidden="true" />
       {children ?? <XGlyph />}
     </Base.ChipRemove>
   );

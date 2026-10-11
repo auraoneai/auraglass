@@ -37,6 +37,7 @@ export function Chip({
       defaultPressed={defaultPressed}
       onPressedChange={onPressedChange}
     >
+      <span data-ag-part="hit-area" aria-hidden="true" />
       {leadingIcon ? (
         <span data-ag-part="leading-icon" className="ag-chip-leading" aria-hidden="true">
           {leadingIcon}

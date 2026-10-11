@@ -13,7 +13,7 @@ const meta: ControlMeta = defineMeta({
   parts: [
     'trigger', 'positioner', 'popup', 'arrow', 'item', 'link-item',
     'checkbox-item', 'radio-item', 'indicator', 'group', 'group-label',
-    'separator', 'submenu-trigger', 'shortcut',
+    'separator', 'submenu-trigger', 'shortcut', 'hit-area',
   ],
   states: [
     'open', 'closed', 'starting-style', 'ending-style', 'animating',

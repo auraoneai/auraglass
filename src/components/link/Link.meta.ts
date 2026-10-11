@@ -6,7 +6,7 @@ export default defineMeta({
   entry: '.',
   tier: 'T0',
   rsc: 'server',
-  parts: ['root'],
+  parts: ['root', 'hit-area'],
   states: [],
   variants: { intent: ['neutral','danger'], underline: ['always','hover','none'] },
   migration: [{ from: 'GlassLink', automation: 'full', compat: true }],

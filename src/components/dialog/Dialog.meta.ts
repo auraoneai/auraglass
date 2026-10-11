@@ -10,7 +10,7 @@ const meta: ControlMeta = defineMeta({
   rsc: 'client',
   parts: [
     'trigger', 'close', 'backdrop', 'popup', 'title', 'description',
-    'header', 'body', 'footer',
+    'header', 'body', 'footer', 'hit-area',
   ],
   states: [
     'popup-open', 'open', 'closed', 'starting-style', 'ending-style',

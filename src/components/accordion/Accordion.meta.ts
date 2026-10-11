@@ -6,7 +6,7 @@ export default defineMeta({
   entry: '.',
   tier: 'T1',
   rsc: 'client',
-  parts: ['root','item','header','trigger','content'],
+  parts: ['root','item','header','trigger','content','hit-area'],
   states: ['expanded','collapsed'],
   variants: { multiple: ['true','false'] },
   apg: 'accordion',

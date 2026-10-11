@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 4,
   rsc: 'client',
-  parts: ['root', 'item', 'item-label', 'indicator'],
+  parts: ['root', 'item', 'item-label', 'indicator', 'hit-area'],
   states: ['checked', 'hover', 'focus-visible', 'disabled', 'animating'],
   variants: {
     size: ['sm', 'md', 'lg'],
