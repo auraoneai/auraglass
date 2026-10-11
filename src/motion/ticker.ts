@@ -2,8 +2,14 @@
    Internal frame runtime — one shared rAF, dt capped at 50 ms, zero subscribers
    stops the loop, hidden document pauses it, elements tracked by the shared
    IntersectionObserver get skipped while offscreen. The same observer is the sole
-   writer of data-ag-offscreen (SC-21). No React, no state — this module is never
-   re-exported from a package entry. */
+   writer of data-ag-offscreen (SC-21). Observed elements are ref-counted, so
+   observeOffscreen() and element-bound frame subscriptions on the same element
+   never unobserve each other (MAT-47). Resolved motion is read only from
+   data-ag-motion, falling back to the preference store's shared OS-signal
+   registry (src/theme/preferences/media.ts); no direct media query here.
+   No React, no state — this module is never re-exported from a package entry. */
+
+import { readOsSignal } from '../theme/preferences/media';
 
 export type FrameCallback = (dtMs: number, nowMs: number) => void;
 
@@ -37,14 +43,40 @@ const observer = (): IntersectionObserver | null => {
   return io;
 };
 
-/** Observe an element; sole writer of data-ag-offscreen. Returns unobserve. */
-export function observeOffscreen(el: Element): () => void {
+/* Ref-count per observed element: the observer watches el while any
+   observeOffscreen() handle or element-bound subscription holds it. */
+const observedRefs = new Map<Element, number>();
+
+function retain(el: Element): boolean {
   const obs = observer();
-  if (!obs) return () => {};
-  obs.observe(el);
+  if (!obs) return false;
+  const n = observedRefs.get(el) ?? 0;
+  if (n === 0) obs.observe(el);
+  observedRefs.set(el, n + 1);
+  return true;
+}
+
+function release(el: Element): void {
+  const n = observedRefs.get(el);
+  if (n === undefined) return;
+  if (n > 1) {
+    observedRefs.set(el, n - 1);
+    return;
+  }
+  observedRefs.delete(el);
+  io?.unobserve(el);
+  offscreen.delete(el);
+}
+
+/** Observe an element; sole writer of data-ag-offscreen. Returns unobserve
+    (idempotent; the element stays observed while other holders remain). */
+export function observeOffscreen(el: Element): () => void {
+  if (!retain(el)) return () => {};
+  let released = false;
   return () => {
-    obs.unobserve(el);
-    offscreen.delete(el);
+    if (released) return;
+    released = true;
+    release(el);
   };
 }
 
@@ -74,9 +106,10 @@ function onVisibility() {
 /** Subscribe to the shared frame loop. opts.element skips cb while offscreen. */
 export function subscribeFrame(cb: FrameCallback, opts?: { element?: Element }): () => void {
   const sub: { cb: FrameCallback; el?: Element } = { cb };
+  let held = false;
   if (opts?.element) {
     sub.el = opts.element;
-    observer()?.observe(opts.element);
+    held = retain(opts.element);
   }
   subs.add(sub);
   const d = doc();
@@ -88,9 +121,12 @@ export function subscribeFrame(cb: FrameCallback, opts?: { element?: Element }):
     lastNow = 0;
     rafId = requestAnimationFrame(tick);
   }
+  let released = false;
   return () => {
+    if (released) return;
+    released = true;
     subs.delete(sub);
-    if (sub.el) io?.unobserve(sub.el);
+    if (held && sub.el) release(sub.el);
     if (subs.size === 0 && rafId !== null) {
       cancelAnimationFrame(rafId);
       rafId = null;
@@ -101,14 +137,15 @@ export function subscribeFrame(cb: FrameCallback, opts?: { element?: Element }):
 /* ---------- resolved-motion read + change notification (REQ-MOT-26/-116) ---------- */
 export type ResolvedMotion = 'full' | 'calm' | 'none';
 
-/** Resolved motion for the document: the provider's attribute wins; the OS floor
-   applies only when no attribute is set (S-12 mirror). */
+/** Resolved motion for the document: the attribute written by the preference
+   store / pre-paint script wins; only when no attribute is set does the store's
+   shared reducedMotion OS signal apply as the floor (S-12 mirror). */
 export function resolvedMotion(d?: Document | null): ResolvedMotion {
   const dd = d ?? doc();
   const attr = dd?.documentElement?.getAttribute('data-ag-motion');
   if (attr === 'none' || attr === 'calm' || attr === 'full') return attr;
-  const mq = dd?.defaultView?.matchMedia?.('(prefers-reduced-motion: reduce)');
-  return mq?.matches ? 'calm' : 'full';
+  const win = dd?.defaultView;
+  return win && readOsSignal(win, 'reducedMotion') ? 'calm' : 'full';
 }
 
 let mo: MutationObserver | null = null;
