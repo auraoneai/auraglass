@@ -37,7 +37,11 @@ describe('Backdrop DOM (REQ-SURF-155/156/159)', () => {
       expect(root.getAnimations?.().length ?? 0).toBe(0);
     }
     const { container } = render(<Backdrop preset="aurora" motion="drift" />);
-    expect((container.firstElementChild as HTMLElement).getAttribute('data-backdrop-motion')).toBe('drift');
+    const drift = container.firstElementChild as HTMLElement;
+    expect(drift.classList.contains('ag-backdrop--drift')).toBe(true);
+    // the MAT preference axis is never written by SURF (REQ-SURF-190)
+    expect(drift.hasAttribute('data-ag-motion')).toBe(false);
+    expect(drift.getAttribute('data-backdrop-motion')).toBe('drift');
   });
   it('video renders the BackdropTone pause toggle', () => {
     const { container } = render(<Backdrop preset="video" src="/v.mp4" />);

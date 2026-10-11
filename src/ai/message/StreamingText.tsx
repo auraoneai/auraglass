@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { useAnnouncer, usePreference } from '../../theme';
+import { useAnnouncer, useResolvedPreferences } from '../../theme';
 
 export interface StreamingTextProps {
   text: string;
@@ -45,7 +45,9 @@ export const StreamingText = React.memo(function StreamingText({
     }
     wasStreaming.current = streaming;
   }, [text, streaming, announce, speak]);
-  const motion = usePreference('motion');
+  // REQ-SURF-190: the resolved motion (min of OS floor, app, user), never
+  // the raw setting, which can be 'system' or above the reduced-motion floor.
+  const { motion } = useResolvedPreferences();
   return (
     <span data-ag-part="streaming-text" data-state={streaming ? 'streaming' : 'done'} data-announce={announce}>
       <span data-ag-part="text" aria-live="off">{text}</span>
