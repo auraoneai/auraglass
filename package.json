@@ -136,6 +136,8 @@
     "artifact:attw": "attw --pack .",
     "storybook:build": "storybook build -o storybook-static",
     "docs:build": "node scripts/docs/install-pack.mjs && node scripts/docs/prepare-docs-app.mjs && npm run build -w apps/docs && node scripts/docs/verify-docs-out.mjs",
+    "docs:claims": "node scripts/docs/gen-claims.mjs && node scripts/docs/gen-readme.mjs && node scripts/docs/render-claims.mjs && node scripts/docs/lint-claims.mjs",
+    "docs:claims:release": "node scripts/docs/gen-claims.mjs && node scripts/docs/render-claims.mjs --file .artifacts/plat/release-notes.md && node scripts/docs/lint-claims.mjs --file .artifacts/plat/release-notes.md",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:contract": "npm test -- tests/contract",
     "lint": "eslint . && stylelint \"src/**/*.css\"",
