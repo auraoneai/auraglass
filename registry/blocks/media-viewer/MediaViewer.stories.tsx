@@ -1,8 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { MediaViewer } from './index';
 
 const meta: Meta<typeof MediaViewer> = {
-  parameters: { ag: { subject: 'MediaViewer', kind: 'showcase' } }, title: 'registry/media-viewer', component: MediaViewer };
+  title: 'registry/media-viewer',
+  component: MediaViewer,
+  parameters: { ag: { subject: 'media-viewer', kind: 'showcase', scenes: 'all' } satisfies StoryAgParameters },
+};
 export default meta;
 type Story = StoryObj<typeof MediaViewer>;
 
