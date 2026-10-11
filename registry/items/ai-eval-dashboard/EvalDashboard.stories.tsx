@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { EvalDashboard } from './EvalDashboard';
 import runs from './fixtures/runs.json';
 
-const meta: Meta<typeof EvalDashboard> = { title: 'registry/ai-eval-dashboard', component: EvalDashboard };
+const meta: Meta<typeof EvalDashboard> = {
+  parameters: { ag: { subject: 'EvalDashboard', kind: 'showcase' } }, title: 'registry/ai-eval-dashboard', component: EvalDashboard };
 export default meta;
 type Story = StoryObj<typeof EvalDashboard>;
 

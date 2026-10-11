@@ -1,4 +1,4 @@
-// resizable-drag.spec.ts — SURF-054: drag frames stay under 16.7ms p95. Remote perf lane; absent subjects report pending.
+// resizable-drag.spec.ts — SURF-054: drag frames stay under 16.7ms p95. Remote perf lane; a missing subject fails the test.
 import { test, expect } from '@playwright/test';
 import { listSubjects, gotoStory } from '../../../helpers';
 
@@ -6,10 +6,10 @@ test.describe('resizable-drag.spec.ts (SURF)', () => {
   test('drag frame p95 under one frame', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'ResizablePanels');
-    if (!subject) { console.warn('ResizablePanels subject not registered — pending'); return; }
+    if (!subject) throw new Error('ResizablePanels subject not registered');
     await gotoStory(page, subject.id);
     const handle = page.locator('[data-ag-part="resize-handle"]').first();
-    if (await handle.count() === 0) { console.warn('no handle — pending'); return; }
+    expect(await handle.count(), 'no handle').toBeGreaterThan(0);
     const frames = await page.evaluate(async () => {
       const times: number[] = [];
       let last = performance.now();

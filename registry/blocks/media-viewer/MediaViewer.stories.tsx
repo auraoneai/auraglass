@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MediaViewer } from './index';
 
-const meta: Meta<typeof MediaViewer> = { title: 'registry/media-viewer', component: MediaViewer };
+const meta: Meta<typeof MediaViewer> = {
+  parameters: { ag: { subject: 'MediaViewer', kind: 'showcase' } }, title: 'registry/media-viewer', component: MediaViewer };
 export default meta;
 type Story = StoryObj<typeof MediaViewer>;
 

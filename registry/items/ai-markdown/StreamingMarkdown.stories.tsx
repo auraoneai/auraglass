@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { StreamingMarkdown } from './StreamingMarkdown';
 
-const meta: Meta<typeof StreamingMarkdown> = { title: 'registry/ai-markdown', component: StreamingMarkdown };
+const meta: Meta<typeof StreamingMarkdown> = {
+  parameters: { ag: { subject: 'StreamingMarkdown', kind: 'showcase' } }, title: 'registry/ai-markdown', component: StreamingMarkdown };
 export default meta;
 type Story = StoryObj<typeof StreamingMarkdown>;
 

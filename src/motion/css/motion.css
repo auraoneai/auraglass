@@ -1,31 +1,11 @@
 /* aura-glass 5.0 — interaction motion (REQ-MAT-42..44, REQ-MOT-10..18).
-   Layer: ag.material (REQ-MAT-19). Only @property rules sit outside the layer block.
+   Layer: ag.material (REQ-MAT-19). No @property rules here: --_ag-optics and --_ag-press
+   are registered once in src/material/css/properties.css (REQ-MAT-28); --_ag-pointer
+   stays an unregistered string written only by pointerLight (REQ-MAT-49).
    Contract values come from MOTION_CSS_VARS / SPRINGS (src/contracts/motion.ts);
    spring timing resolves through --ag-spring-* emitted by the token compiler (linear() curves
    with an @supports fallback to named eases, REQ-MAT-08). */
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
-
-/* ---- motion scalars (REQ-MOT-10): registered so the transitions below interpolate. ---- */
-@property --_ag-hover {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --_ag-press {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --_ag-optics {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 1;
-}
-@property --_ag-pointer {
-  syntax: '<percentage>+';
-  inherits: false;
-  initial-value: 50% 30%;
-}
 
 @layer ag.material {
 

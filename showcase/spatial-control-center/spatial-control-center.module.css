@@ -1,0 +1,67 @@
+/* spatial-control-center layout only (REQ-QUAL-59 property allowlist). */
+.page {
+  display: grid;
+  gap: 1.5rem;
+  padding: 2rem;
+  container-type: inline-size;
+}
+
+.header {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.sceneBar {
+  display: flex;
+  max-inline-size: max-content;
+  padding: 0.5rem;
+}
+
+.rooms {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.roomList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+}
+
+.room {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.75rem;
+}
+
+.roomImage {
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.controls {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.tile {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  min-block-size: 8rem;
+}
+
+.toggles {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+}

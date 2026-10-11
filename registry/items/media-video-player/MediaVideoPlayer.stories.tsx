@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MediaVideoPlayer } from './index';
 
-const meta: Meta<typeof MediaVideoPlayer> = { title: 'registry/media-video-player', component: MediaVideoPlayer };
+const meta: Meta<typeof MediaVideoPlayer> = {
+  parameters: { ag: { subject: 'MediaVideoPlayer', kind: 'showcase' } }, title: 'registry/media-video-player', component: MediaVideoPlayer };
 export default meta;
 type Story = StoryObj<typeof MediaVideoPlayer>;
 

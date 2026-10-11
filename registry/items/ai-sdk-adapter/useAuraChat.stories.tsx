@@ -5,7 +5,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 function Probe({ note }: { note: string }) {
   return <div data-ag-part="adapter-probe">{note}</div>;
 }
-const meta: Meta<typeof Probe> = { title: 'registry/ai-sdk-adapter', component: Probe };
+const meta: Meta<typeof Probe> = {
+  parameters: { ag: { subject: 'useAuraChat', kind: 'showcase' } }, title: 'registry/ai-sdk-adapter', component: Probe };
 export default meta;
 type Story = StoryObj<typeof Probe>;
 

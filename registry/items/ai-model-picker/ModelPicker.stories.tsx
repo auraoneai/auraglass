@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ModelPicker } from './ModelPicker';
 import { MODELS } from './fixtures';
 
-const meta: Meta<typeof ModelPicker> = { title: 'registry/ai-model-picker', component: ModelPicker };
+const meta: Meta<typeof ModelPicker> = {
+  parameters: { ag: { subject: 'ModelPicker', kind: 'showcase' } }, title: 'registry/ai-model-picker', component: ModelPicker };
 export default meta;
 type Story = StoryObj<typeof ModelPicker>;
 

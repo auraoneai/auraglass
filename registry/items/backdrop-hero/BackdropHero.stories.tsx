@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { BackdropHero } from './index';
 
-const meta: Meta<typeof BackdropHero> = { title: 'registry/backdrop-hero', component: BackdropHero };
+const meta: Meta<typeof BackdropHero> = {
+  parameters: { ag: { subject: 'BackdropHero', kind: 'showcase' } }, title: 'registry/backdrop-hero', component: BackdropHero };
 export default meta;
 type Story = StoryObj<typeof BackdropHero>;
 

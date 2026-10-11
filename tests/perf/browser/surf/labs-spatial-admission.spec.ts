@@ -8,10 +8,7 @@ import { listSubjects, gotoStory } from '../../../helpers';
 test.describe('SURF labs spatial admission', () => {
   test('every shipped labs subject meets the spatial budget', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF', kind: 'lab' });
-    if (subjects.length === 0) {
-      console.warn('no labs subjects registered in the subject index — pending');
-      return;
-    }
+    expect(subjects.length, 'no labs subjects registered in the subject index').toBeGreaterThan(0);
     const isPerfMode = !!process.env.PERF_MODE;
     for (const subject of subjects) {
       await test.step(subject.id, async () => {

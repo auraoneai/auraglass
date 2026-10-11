@@ -6,7 +6,7 @@
 'use client';
 import * as React from 'react';
 import { Toast as Base } from '@base-ui/react/toast';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial } from '../overlays/_shared';
 import { cn } from '../../internal';
 import type {
@@ -65,7 +65,7 @@ const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
         <Base.Viewport
           ref={ref}
           data-ag-part="viewport"
-          data-ag-position={position}
+          data-position={position}
           className={cn('ag-toast-viewport', className)}
           {...rest}
         >
@@ -82,14 +82,16 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
     const priority = intent === 'error' || intent === 'warning' ? 'alert' : 'status';
     // dom-contract (CMP-202) requires data-state open|closed on the surface
     const state = toast?.transitionStatus === 'ending' ? 'closed' : 'open';
+    const timeout = (toast as { timeout?: number } | undefined)?.timeout;
     return (
       <Base.Root
         ref={ref}
         toast={toast}
         role={priority}
-        data-ag-part="root"
+        data-ag-part="toast"
         data-ag-intent={intent}
         data-state={state}
+        style={timeout !== undefined ? ({ '--_ag-toast-timeout': `${timeout}ms` } as React.CSSProperties) : undefined}
         {...overlayMaterial('toast')}
         className={cn('ag-toast', className)}
         {...rest}
