@@ -253,7 +253,7 @@ describe('FilterBar (SURF-196, REQ-SURF-87)', () => {
     const { container } = render(<FilterBar schema={SCHEMA} defaultValue={base} />);
     const more = container.querySelector<HTMLButtonElement>('[data-ag-part="filter-more"]')!;
     expect(more.hidden).toBe(true);
-    expect(container.querySelector('[data-ag-clamped]')).toBeNull();
+    expect(container.querySelector('[data-clamped]')).toBeNull();
   });
 
   it('useModel + serialize + parse are static members', () => {

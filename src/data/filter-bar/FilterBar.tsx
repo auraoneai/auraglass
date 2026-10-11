@@ -299,7 +299,7 @@ function RuleChip({
       data-ag-part="filter-rule-chip"
       className="ag-filter-bar__chip"
       data-editing={open || undefined}
-      {...(clamped ? { 'data-ag-clamped': '' } : {})}
+      data-clamped={clamped || undefined}
     >
       <Popover.Root open={open} onOpenChange={(o) => onOpenChange(o)}>
         <Popover.Trigger

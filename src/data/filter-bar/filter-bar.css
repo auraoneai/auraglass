@@ -9,7 +9,7 @@
   .ag-filter-bar__rules { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ag-space-1, 0.25rem); min-inline-size: 0; flex: 1 1 100%; }
   .ag-filter-bar__chips { position: relative; display: flex; flex-wrap: wrap; gap: var(--ag-space-1, 0.25rem); min-inline-size: 0; }
   .ag-filter-bar__chip { box-sizing: border-box; display: inline-flex; align-items: center; gap: var(--ag-space-1, 0.25rem); max-inline-size: 100%; block-size: var(--_ag-touch-target, 44px); border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor); border-radius: var(--_ag-radius-2, 0.5rem); padding-inline: var(--ag-space-2, 0.5rem) 0; background: var(--_ag-surface, Canvas); }
-  .ag-filter-bar__chip[data-ag-clamped] { visibility: hidden; }
+  .ag-filter-bar__chip[data-clamped] { visibility: hidden; }
   .ag-filter-bar__chip-label { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; padding: 0; }
   .ag-filter-bar__chip-remove { min-inline-size: var(--_ag-touch-target, 44px); min-block-size: var(--_ag-touch-target, 44px); }
   .ag-filter-bar__more,

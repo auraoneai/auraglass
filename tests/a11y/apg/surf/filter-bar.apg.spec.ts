@@ -31,7 +31,7 @@ test.describe('filter bar APG (REQ-SURF-87)', () => {
     await expect(rules.getByRole('button', { name: 'Remove filter Name contains acme' })).toHaveCount(1);
 
     // Two-line clamp: the chip list is at most two chip rows tall, the chips
-    // the clamp cuts are exactly the [data-ag-clamped] ones, and "+n more"
+    // the clamp cuts are exactly the [data-clamped] ones, and "+n more"
     // names that count.
     const clamp = await page.evaluate(() => {
       const list = document.querySelector<HTMLElement>('.ag-filter-bar__chips')!;
@@ -39,7 +39,7 @@ test.describe('filter bar APG (REQ-SURF-87)', () => {
       const all = Array.from(list.querySelectorAll<HTMLElement>(':scope > [data-ag-part="filter-rule-chip"]'));
       const below = all.filter((c) => c.getBoundingClientRect().bottom > box.bottom + 1).length;
       const chipH = all[0]!.getBoundingClientRect().height;
-      return { height: box.height, chipH, below, clamped: list.querySelectorAll('[data-ag-clamped]').length };
+      return { height: box.height, chipH, below, clamped: list.querySelectorAll('[data-clamped]').length };
     });
     expect(clamp.height).toBeLessThanOrEqual(2 * clamp.chipH + 8);
     expect(clamp.below).toBeGreaterThan(0);
@@ -50,7 +50,7 @@ test.describe('filter bar APG (REQ-SURF-87)', () => {
     await expect(more).toHaveAttribute('aria-expanded', 'false');
     await more.click();
     await expect(more).toHaveAttribute('aria-expanded', 'true');
-    await expect(rules.locator('[data-ag-clamped]')).toHaveCount(0);
+    await expect(rules.locator('[data-clamped]')).toHaveCount(0);
     for (let i = 0; i < RULES; i++) await expect(chips.nth(i)).toBeVisible();
 
     // Popover editor: Enter opens a dialog focused on its first field;
