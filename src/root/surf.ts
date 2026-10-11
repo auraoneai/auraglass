@@ -18,7 +18,7 @@ export { SourceTransition } from '../components/source-transition/SourceTransiti
 // --- lane W2 begin ---
 // REQ-SURF-96/97: Timeline + ActivityFeed are seed-free (Timeline imports only
 // its own css; ActivityFeed composes Timeline).
-export { Timeline, formatTimestamp } from '../components/timeline/Timeline';
+export { Timeline } from '../components/timeline/Timeline';
 export type { TimelineItem, TimelineProps } from '../components/timeline/Timeline';
 export { ActivityFeed } from '../components/timeline/ActivityFeed';
 export type { ActivityItem, ActivityFeedProps } from '../components/timeline/ActivityFeed';

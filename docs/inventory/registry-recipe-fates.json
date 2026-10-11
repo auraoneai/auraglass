@@ -3,33 +3,168 @@
   "version": 1,
   "source": "release/4.x src/registry/recipes.ts (28 ids; fixture tests/registry/fixtures/recipe-ids-4x.json)",
   "fates": [
-    { "id": "saas-dashboard", "kind": "block", "target": "app-frame", "reason": "shell + workspace frame replaces the recipe" },
-    { "id": "ai-command-center", "kind": "block", "target": "ai-workspace", "reason": "AI console surface" },
-    { "id": "media-player-surface", "kind": "block", "target": "media-viewer", "reason": "media surface with transport" },
-    { "id": "analytics-overview", "kind": "block", "target": "analytics-dashboard", "reason": "metrics dashboard" },
-    { "id": "settings-billing", "kind": "block", "target": "settings", "reason": "settings sections incl. preferences + rows" },
-    { "id": "kanban-workspace", "kind": "item", "target": "kanban", "reason": "the single item fate per REQ-PLAT-98" },
-    { "id": "admin-data-table", "kind": "block", "target": "data-workspace", "reason": "dense table workspace" },
-    { "id": "ecommerce-product-panel", "kind": "block", "target": "commerce-checkout", "reason": "commerce surface" },
-    { "id": "saas-admin-shell", "kind": "block", "target": "app-frame", "reason": "admin shell = app frame variant" },
-    { "id": "ai-product-console", "kind": "block", "target": "ai-workspace", "reason": "AI console surface" },
-    { "id": "media-review-workspace", "kind": "block", "target": "media-viewer", "reason": "media review surface" },
-    { "id": "commerce-operations-panel", "kind": "block", "target": "commerce-cart", "reason": "commerce operations surface" },
-    { "id": "team-collaboration-hub", "kind": "block", "target": "app-frame", "reason": "collaboration shell = app frame variant" },
-    { "id": "settings-and-billing-suite", "kind": "block", "target": "settings", "reason": "settings sections incl. preferences + rows" },
-    { "id": "analytics-command-center", "kind": "block", "target": "analytics-dashboard", "reason": "metrics dashboard" },
-    { "id": "customer-support-console", "kind": "block", "target": "support-inbox", "reason": "support triage surface" },
-    { "id": "collaborative-workspace", "kind": "block", "target": "presence-stack", "reason": "presence/collaboration surface" },
-    { "id": "calendar-schedule", "kind": "delete", "reason": "no authored equivalent; date primitives cover scheduling" },
-    { "id": "creator-studio-dashboard", "kind": "delete", "reason": "niche composition not carried into 5.0" },
-    { "id": "ai-ops-control-room", "kind": "delete", "reason": "niche composition not carried into 5.0" },
-    { "id": "semantic-search-console", "kind": "delete", "reason": "faceted-search item covers the surface" },
-    { "id": "vision-review-workbench", "kind": "delete", "reason": "niche composition not carried into 5.0" },
-    { "id": "collaboration-room-console", "kind": "delete", "reason": "niche composition not carried into 5.0" },
-    { "id": "support-triage-workspace", "kind": "delete", "reason": "support-inbox covers the surface" },
-    { "id": "release-command-center", "kind": "delete", "reason": "internal-tool recipe, not part of the 5.0 surface" },
-    { "id": "developer-docs-portal", "kind": "delete", "reason": "the docs site replaces recipe-scaffolded portals" },
-    { "id": "marketing-launch-kit", "kind": "delete", "reason": "marketing composition not carried into 5.0" },
-    { "id": "calendar-operations-board", "kind": "delete", "reason": "timeline composition deleted; gantt is a new 5.0 item, not a recipe mapping" }
+    {
+      "id": "admin-data-table",
+      "kind": "block",
+      "target": "data-workspace",
+      "reason": "data workspace block"
+    },
+    {
+      "id": "ai-command-center",
+      "kind": "block",
+      "target": "ai-workspace",
+      "reason": "AI workspace block (companion item ai-trace-tree)"
+    },
+    {
+      "id": "ai-ops-control-room",
+      "kind": "block",
+      "target": "ai-workspace",
+      "reason": "AI workspace block (companion item ai-trace-tree)",
+      "also": [
+        {
+          "kind": "item",
+          "target": "ai-trace-tree"
+        }
+      ]
+    },
+    {
+      "id": "ai-product-console",
+      "kind": "block",
+      "target": "ai-workspace",
+      "reason": "AI workspace block (companion item ai-trace-tree)"
+    },
+    {
+      "id": "analytics-command-center",
+      "kind": "block",
+      "target": "analytics-dashboard",
+      "reason": "analytics dashboard block"
+    },
+    {
+      "id": "analytics-overview",
+      "kind": "block",
+      "target": "analytics-dashboard",
+      "reason": "analytics dashboard block"
+    },
+    {
+      "id": "calendar-operations-board",
+      "kind": "delete",
+      "reason": "not ported in 5.0 \u2014 workflow absorbed by composed blocks or dropped"
+    },
+    {
+      "id": "calendar-schedule",
+      "kind": "delete",
+      "reason": "not ported in 5.0 \u2014 workflow absorbed by composed blocks or dropped"
+    },
+    {
+      "id": "collaboration-room-console",
+      "kind": "delete",
+      "reason": "not ported in 5.0 \u2014 workflow absorbed by composed blocks or dropped"
+    },
+    {
+      "id": "collaborative-workspace",
+      "kind": "delete",
+      "reason": "not ported in 5.0 \u2014 workflow absorbed by composed blocks or dropped"
+    },
+    {
+      "id": "commerce-operations-panel",
+      "kind": "delete",
+      "reason": "not ported in 5.0 \u2014 workflow absorbed by composed blocks or dropped"
+    },
+    {
+      "id": "creator-studio-dashboard",
+      "kind": "delete",
+      "reason": "not ported in 5.0 \u2014 workflow absorbed by composed blocks or dropped"
+    },
+    {
+      "id": "customer-support-console",
+      "kind": "block",
+      "target": "support-inbox",
+      "reason": "support inbox block"
+    },
+    {
+      "id": "developer-docs-portal",
+      "kind": "delete",
+      "reason": "not ported in 5.0 \u2014 workflow absorbed by composed blocks or dropped"
+    },
+    {
+      "id": "ecommerce-product-panel",
+      "kind": "delete",
+      "reason": "not ported in 5.0 \u2014 workflow absorbed by composed blocks or dropped"
+    },
+    {
+      "id": "kanban-workspace",
+      "kind": "item",
+      "target": "kanban",
+      "reason": "kanban board item"
+    },
+    {
+      "id": "marketing-launch-kit",
+      "kind": "delete",
+      "reason": "not ported in 5.0 \u2014 workflow absorbed by composed blocks or dropped"
+    },
+    {
+      "id": "media-player-surface",
+      "kind": "block",
+      "target": "media-viewer",
+      "reason": "media viewer block"
+    },
+    {
+      "id": "media-review-workspace",
+      "kind": "block",
+      "target": "media-viewer",
+      "reason": "media viewer block"
+    },
+    {
+      "id": "release-command-center",
+      "kind": "block",
+      "target": "data-workspace",
+      "reason": "data workspace block"
+    },
+    {
+      "id": "saas-admin-shell",
+      "kind": "block",
+      "target": "app-frame",
+      "reason": "GA application frame"
+    },
+    {
+      "id": "saas-dashboard",
+      "kind": "block",
+      "target": "app-frame",
+      "reason": "GA application frame"
+    },
+    {
+      "id": "semantic-search-console",
+      "kind": "block",
+      "target": "overlay-flows",
+      "reason": "overlay flows block"
+    },
+    {
+      "id": "settings-and-billing-suite",
+      "kind": "block",
+      "target": "settings",
+      "reason": "settings block"
+    },
+    {
+      "id": "settings-billing",
+      "kind": "block",
+      "target": "settings",
+      "reason": "settings block"
+    },
+    {
+      "id": "support-triage-workspace",
+      "kind": "block",
+      "target": "support-inbox",
+      "reason": "support inbox block"
+    },
+    {
+      "id": "team-collaboration-hub",
+      "kind": "delete",
+      "reason": "not ported in 5.0 \u2014 workflow absorbed by composed blocks or dropped"
+    },
+    {
+      "id": "vision-review-workbench",
+      "kind": "delete",
+      "reason": "not ported in 5.0 \u2014 workflow absorbed by composed blocks or dropped"
+    }
   ]
 }

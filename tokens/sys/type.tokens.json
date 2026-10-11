@@ -267,7 +267,8 @@
             "ag.tier": "sys",
             "ag.since": "5.0.0",
             "ag.public": true,
-            "ag.cssVar": "--ag-type-body-size"
+            "ag.cssVar": "--ag-type-body-size",
+            "ag.valueType": "dimension"
           }
         },
         "leading": {
