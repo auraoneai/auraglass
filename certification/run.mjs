@@ -53,7 +53,8 @@ async function loadTs(file) {
 export async function loadRegistrations(root = ROOT) {
   const cfg = await loadTs(join(root, 'certification/lanes.config.ts'));
   const { loadFragments } = await import(pathToFileURL(join(root, 'src/contracts/load-fragments.mjs')).href);
-  const rows = (cfg.BUILTINS ?? []).map(({ owner, ...r }) => ({ ...r, stream: owner ?? 'qual', source: 'certification/lanes.config.ts' }));
+  const builtins = [...(cfg.BUILTINS ?? []), ...(cfg.locationBuiltins?.(root) ?? [])];
+  const rows = builtins.map(({ owner, ...r }) => ({ ...r, stream: owner ?? 'qual', source: 'certification/lanes.config.ts' }));
   for (const f of await loadFragments('lanes', root)) {
     if (!Array.isArray(f.value)) throw new Error(`${f.file}: default export is not an array`);
     for (const r of f.value) rows.push({ ...r, stream: f.stream, source: f.file.slice(root.length + 1) });
@@ -147,13 +148,17 @@ export function classifyPlaywrightReport(report) {
     return String(last?.error?.message ?? last?.errors?.[0]?.message ?? '');
   });
   const pending = reasons.filter((m) => pendingRe.test(m));
+  // Tests annotated `double-pass` run against a contract double (contract §5.2 rule 4): reported apart, never as `pass`.
+  const isDouble = (t) => [...(t.annotations ?? []), ...((t.results ?? []).at(-1)?.annotations ?? [])].some((a) => a?.type === 'double-pass');
+  const doubles = tests.filter(isDouble).length;
   return { total: tests.length, failed: failed.length, pendingOnly: failed.length > 0 && pending.length === failed.length,
-    pendingReasons: [...new Set(pending.map((m) => m.slice(m.search(pendingRe)).trim().split('\n')[0]))] };
+    pendingReasons: [...new Set(pending.map((m) => m.slice(m.search(pendingRe)).trim().split('\n')[0]))], doubles };
 }
 
 /** Spec files the cert config cannot run: outside certification/lanes and outside every `<stream>:cert-*` fragment project
     (REQ-QUAL-12: the cert config lists only those). Reported with the fix instead of Playwright's bare "No tests found". */
 export function uncoveredSpecs(files, root, certTestDirs) {
+  // certTestDirs = fragment cert projects + location-discovered projects (REQ-QUAL-19, lanes/_fixtures/behaviour.ts)
   const dirs = [join(root, 'certification/lanes'), ...certTestDirs].map((d) => (d.endsWith('/') ? d : `${d}/`));
   return files.filter((f) => !dirs.some((d) => join(root, f).startsWith(d)));
 }
@@ -162,7 +167,9 @@ async function runPlaywright(row, root, evidenceDir, idx, scope) {
   const files = expand(row.path, root).filter((f) => /\.spec\.(ts|tsx|js|mjs)$/.test(f));
   if (!files.length) return { state: 'fail', reason: `registered path matches no spec: ${row.path}` };
   const { loadCertProjects } = await loadTs(join(root, 'certification/lanes/_fixtures/fragments.ts'));
-  const uncovered = uncoveredSpecs(files, root, loadCertProjects(root).projects.map((p) => p.testDir));
+  const { locationProjects } = await loadTs(join(root, 'certification/lanes/_fixtures/behaviour.ts'));
+  const projectDirs = [...loadCertProjects(root).projects, ...locationProjects(root)].map((p) => p.testDir);
+  const uncovered = uncoveredSpecs(files, root, projectDirs);
   if (uncovered.length) {
     return { state: 'fail', reason: `${uncovered.length} spec(s) outside certification/lanes and every ${row.stream}:cert-* project — register a `
       + `'${row.stream}:cert-<id>' project in fragments/playwright/${row.stream}.json covering: ${uncovered.slice(0, 5).join(', ')}${uncovered.length > 5 ? ', …' : ''}` };
@@ -176,7 +183,10 @@ async function runPlaywright(row, root, evidenceDir, idx, scope) {
   if (!report) return { state: 'fail', reason: `playwright wrote no report (exit ${r.status})`, durationMs: r.durationMs };
   const c = classifyPlaywrightReport(report);
   if (c.total === 0) return { state: 'fail', reason: '0 tests', tests: 0, durationMs: r.durationMs };
-  if (r.status === 0) return { state: 'pass', tests: c.total, durationMs: r.durationMs };
+  if (r.status === 0) {
+    if (c.doubles === c.total) return { state: 'double-pass', tests: c.total, durationMs: r.durationMs };
+    return { state: 'pass', tests: c.total - c.doubles, ...(c.doubles ? { doublePass: c.doubles } : {}), durationMs: r.durationMs };
+  }
   if (c.pendingOnly && scope !== 'release') return { state: 'pending', reason: c.pendingReasons.join(' | '), tests: c.total, durationMs: r.durationMs };
   return { state: 'fail', reason: `exit ${r.status}: ${c.failed} failed test(s)`, tests: c.total, durationMs: r.durationMs };
 }
@@ -272,6 +282,11 @@ export async function main(argv = process.argv.slice(2), env = process.env) {
     console.log(`=== [${row.lane}] ${res.state}${res.reason ? ` — ${res.reason}` : ''}`);
     const entry = { lane: row.lane, stream: row.stream, kind: row.kind, path: row.path, scope: row.scope, source: row.source, ...res };
     results.push(Object.fromEntries(Object.entries(entry).filter(([, v]) => v !== undefined)));
+    if (res.state === 'pass' && res.doublePass) {
+      // the contract-double tests of a passing row are their own `double-pass` result (never counted as pass)
+      results.push({ lane: row.lane, stream: row.stream, kind: row.kind, path: `${row.path} (contract doubles)`, scope: row.scope, source: row.source,
+        state: 'double-pass', tests: res.doublePass });
+    }
   }
   for (const p of regs.pendingBuiltins.filter((p) => args.lane === 'all' || p.lane === args.lane)) {
     results.push({ lane: p.lane, stream: 'qual', kind: 'node-script', path: p.path, scope: args.scope, source: 'certification/lanes.config.ts', state: 'pending', reason: `producer ${p.producer} not merged` });
