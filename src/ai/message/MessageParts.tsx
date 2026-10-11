@@ -196,7 +196,7 @@ export function MessageParts({
   });
 
   if (message.metadata?.status === 'error') {
-    nodes.push(<ProviderErrorState key={`${message.id}-err`} kind="unknown" variant="compact" />);
+    nodes.push(<ProviderErrorState key={`${message.id}-err`} kind="unknown" appearance="compact" />);
   } else if (message.metadata?.status === 'aborted') {
     nodes.push(<p key={`${message.id}-abort`} data-ag-part="stopped">Stopped</p>);
   }

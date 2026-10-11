@@ -9,5 +9,8 @@ export const ErrorStateMeta = defineMeta({
   parts: ['root', 'icon', 'title', 'description', 'actions', 'action'],
   states: [],
   variants: {},
-  migration: [{ from: 'GlassErrorState', automation: 'full', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1.5,
+  migration: [{ from: 'GlassErrorState', props: {}, selectors: { '.glass-error-state': '.ag-error-state' },  automation: 'full', compat: true }],
 });

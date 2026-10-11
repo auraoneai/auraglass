@@ -16,12 +16,12 @@ export function MediaViewer({ src = TRACKS.video, title = ITEM_TITLE }: MediaVie
   const ref = React.useRef<HTMLVideoElement | null>(null);
   const media = useMediaElement(ref, { sampleTone: true });
   return (
-    <Backdrop preset="photo" src={ITEM_IMAGES[0]!.src} tone="dark" data-ag-part="media-viewer">
+    <Backdrop preset="photo" src={ITEM_IMAGES[0]!.src} mediaTone="dark" data-ag-part="media-viewer">
       <main style={{ padding: '4rem 2rem', display: 'grid', gap: '1.5rem' }}>
         <h1>{title}</h1>
         <div data-ag-media-root style={{ maxInlineSize: '48rem' }}>
           <video ref={ref} src={src} crossOrigin="anonymous" playsInline aria-label={title}
-            style={{ inlineSize: '100%', borderRadius: '0.75rem' }}>
+            style={{ inlineSize: '100%' }} className="rounded-xl">
             <track kind="captions" src={TRACKS.captions} srcLang="en" label="English" default />
           </video>
           <MediaControls.Root media={media}>
@@ -39,7 +39,7 @@ export function MediaViewer({ src = TRACKS.video, title = ITEM_TITLE }: MediaVie
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
               {ITEM_IMAGES.map((it) => (
                 <ImageViewer.Trigger key={it.id} id={it.id} className="ag-media-thumb">
-                  <img src={it.src} alt={it.alt} loading="lazy" style={{ inlineSize: '10rem', borderRadius: '0.5rem' }} />
+                  <img src={it.src} alt={it.alt} loading="lazy" style={{ inlineSize: '10rem' }} className="rounded-lg" />
                 </ImageViewer.Trigger>
               ))}
             </div>

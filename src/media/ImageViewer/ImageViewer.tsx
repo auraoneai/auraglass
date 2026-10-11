@@ -6,6 +6,7 @@
 import * as React from 'react';
 import { ImageViewerContext, type ImageViewerContextValue } from './ivContext';
 import type { ImageViewerItem } from './types';
+import type { toChangeDetails } from '../../foundation';
 import { Trigger } from './parts/Trigger';
 import { Popup, type ImageViewerPopupProps } from './parts/Popup';
 import { Stage } from './parts/Stage';
@@ -19,6 +20,8 @@ import { ZoomIn } from './parts/ZoomIn';
 import { ZoomOut } from './parts/ZoomOut';
 import { ZoomReset } from './parts/ZoomReset';
 import { Close } from './parts/Close';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 export type { ImageViewerItem } from './types';
 export type { ImageViewerPopupProps } from './parts/Popup';
@@ -27,10 +30,10 @@ export interface ImageViewerRootProps {
   items: ImageViewerItem[];
   value?: string | undefined;
   defaultValue?: string | undefined;
-  onValueChange?: ((id: string) => void) | undefined;
+  onValueChange?: ((id: string, details: ChangeDetails) => void) | undefined;
   open?: boolean | undefined;
   defaultOpen?: boolean | undefined;
-  onOpenChange?: ((open: boolean) => void) | undefined;
+  onOpenChange?: ((open: boolean, details: ChangeDetails) => void) | undefined;
   loop?: boolean | undefined;
   children?: React.ReactNode;
 }
@@ -50,29 +53,29 @@ function Root(props: ImageViewerRootProps): React.ReactElement {
   const current = items[index] ?? null;
   const popupId = React.useId();
 
-  const setIndex = (i: number) => {
+  const setIndex = (i: number, details: ChangeDetails) => {
     const item = items[i];
     if (!item) return;
     if (!isControlledV) setInnerId(item.id);
-    onValueChange?.(item.id);
+    onValueChange?.(item.id, details);
     setZoom(1);
   };
-  const step = (d: number) => {
+  const step = (d: number, details: ChangeDetails) => {
     if (items.length === 0) return;
     let n = index + d;
     if (loop) n = ((n % items.length) + items.length) % items.length;
     else n = Math.min(items.length - 1, Math.max(0, n));
-    setIndex(n);
+    setIndex(n, details);
   };
-  const setOpen = (o: boolean) => {
+  const setOpen = (o: boolean, details: ChangeDetails) => {
     if (!isControlledO) setInnerOpen(o);
-    onOpenChange?.(o);
+    onOpenChange?.(o, details);
     if (!o) setZoom(1);
   };
 
   const ctx: ImageViewerContextValue = {
     items, index, current, open: !!isOpen, zoom, loop, popupId,
-    setIndex, next: () => step(1), prev: () => step(-1), setOpen,
+    setIndex, next: (details) => step(1, details), prev: (details) => step(-1, details), setOpen,
     setZoom: (z) => setZoom(clampZoom(z)),
   };
   return <ImageViewerContext.Provider value={ctx}>{children}</ImageViewerContext.Provider>;

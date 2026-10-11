@@ -11,6 +11,6 @@ type Story = StoryObj<typeof meta>;
 
 const renderLine = () => <Sparkline data={[2, 5, 3, 8, 6, 9, 4, 12]} label="Weekly signups" showLastPoint />;
 export const Line: Story = { render: renderLine };
-export const Area: Story = { render: () => <Sparkline data={[2, 5, 3, 8, 6, 9, 4, 12]} label="Weekly" variant="area" /> };
-export const Bar: Story = { render: () => <Sparkline data={[2, 5, 3, 8, 6, 9, 4, 12]} label="Weekly" variant="bar" /> };
+export const Area: Story = { render: () => <Sparkline data={[2, 5, 3, 8, 6, 9, 4, 12]} label="Weekly" appearance="area" /> };
+export const Bar: Story = { render: () => <Sparkline data={[2, 5, 3, 8, 6, 9, 4, 12]} label="Weekly" appearance="bar" /> };
 export const ForcedColors: Story = { globals: { forcedColors: 'active' }, render: renderLine };
