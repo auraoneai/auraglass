@@ -1,6 +1,7 @@
 /* @jest-environment node */
 // PLAT-010..017: structural assertions on ci/plat.gitlab-ci.yml.
 import { describe, expect, it } from '@jest/globals';
+import { execFileSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
 import yaml from 'yaml';
 
@@ -64,8 +65,11 @@ describe('plat:test:react19', () => {
 
 describe('plat:test:visual-4x', () => {
   const j = job('plat:test:visual-4x');
-  it('writes the VisualClassReport to .artifacts/plat/visual-4x/', () => {
-    expect(yaml.stringify(j.script)).toContain('.artifacts/plat/visual-4x/visual-class.json');
+  it('writes the VisualClassReport to the job dir the change-class reader uses', () => {
+    expect((j.script as string[]).join('\n')).toContain(
+      '--class-report .artifacts/plat/plat-test-visual-4x/visual-class.json',
+    );
+    expect(j.artifacts.paths).toContain('.artifacts/plat/plat-test-visual-4x/');
     expect(yaml.stringify(j.rules)).toContain('$AG_LINE == "4x"');
   });
   it('runs the consumer-4x vite fixture as a plain, fail-closed step (REQ-PLAT-63)', () => {
@@ -81,6 +85,65 @@ describe('plat:test:visual-4x', () => {
     const rows = JSON.parse(readFileSync('ci/plat/activation.json', 'utf8')).activations as any[];
     const activated = rows.some((r) => r.job === 'plat:test:visual-4x' && r.line === '4x');
     expect(j.allow_failure).toBe(!activated);
+  });
+});
+
+// B3-6 (4x) — REQ-FIN-10 transfer, REQ-PLAT-05 item 8, REQ-PLAT-19.
+describe('plat:gate:change-class (4x wiring)', () => {
+  const j = job('plat:gate:change-class');
+  const v = job('plat:test:visual-4x');
+
+  // Evaluates the simple `rules:if` expressions used in this fragment
+  // ($VAR, "literal", ==, !=, &&, ||, parens) for one variable set.
+  const ifMatches = (expr: string, vars: Record<string, string>) => {
+    const js = expr
+      .replace(/\$([A-Za-z_][A-Za-z0-9_]*)/g, (_, n) => JSON.stringify(vars[n] ?? ''))
+      .replace(/==/g, '===')
+      .replace(/!=/g, '!==');
+    // eslint-disable-next-line no-new-func
+    return Boolean(new Function(`return (${js});`)());
+  };
+  const runs = (jb: any, vars: Record<string, string>) =>
+    (jb.rules as any[]).some((r) => r.when !== 'never' && (r.if == null || ifMatches(r.if, vars)));
+  const pipelines = [
+    { AG_LINE: '4x', AG_SCOPE: 'pr', CI_COMMIT_TAG: '' },
+    { AG_LINE: '4x', AG_SCOPE: 'main', CI_COMMIT_TAG: '' },
+    { AG_LINE: '4x', AG_SCOPE: 'nightly', CI_COMMIT_TAG: '' },
+    { AG_LINE: '4x', AG_SCOPE: 'release', CI_COMMIT_TAG: 'v4.3.0' },
+    { AG_LINE: '5x', AG_SCOPE: 'pr', CI_COMMIT_TAG: '' },
+    { AG_LINE: '5x', AG_SCOPE: 'release', CI_COMMIT_TAG: 'v5.0.0-rc.1' },
+  ];
+
+  it('needs plat:test:visual-4x with its artifacts (ordered after it)', () => {
+    const needs = (j.needs as any[]).map((n) => (typeof n === 'string' ? { job: n } : n));
+    const vis = needs.find((n) => n.job === 'plat:test:visual-4x');
+    expect(vis).toEqual({ job: 'plat:test:visual-4x', artifacts: true, optional: true });
+  });
+
+  it('visual-4x runs in every 4x pipeline where change-class runs, so the need always resolves on 4x', () => {
+    const fourX = pipelines.filter((p) => p.AG_LINE === '4x' && runs(j, p));
+    expect(fourX.map((p) => p.AG_SCOPE).sort()).toEqual(['main', 'pr', 'release']);
+    for (const p of fourX) expect([p.AG_SCOPE, runs(v, p)]).toEqual([p.AG_SCOPE, true]);
+  });
+
+  it('the need is optional only because 5x pipelines have no visual-4x job', () => {
+    for (const p of pipelines.filter((x) => x.AG_LINE === '5x')) {
+      expect([p.AG_SCOPE, runs(j, p), runs(v, p)]).toEqual([p.AG_SCOPE, true, false]);
+    }
+  });
+
+  it('the report path visual-4x writes is the one classify-change reads on 4x', () => {
+    // policy.mjs is ESM; resolve the reader path in a child node process.
+    const reader = execFileSync(process.execPath, [
+      '--input-type=module',
+      '-e',
+      "import { relPaths } from './scripts/release/lib/policy.mjs';" +
+        "process.stdout.write(relPaths('/ROOT').visualReport('4x').replace('/ROOT/', ''));",
+    ], { encoding: 'utf8' });
+    expect(reader).toBe('.artifacts/plat/plat-test-visual-4x/visual-class.json');
+    expect((v.script as string[]).join('\n')).toContain(`--class-report ${reader}`);
+    // the needed job uploads that directory, so the gate downloads it
+    expect(v.artifacts.paths).toContain(reader.replace('visual-class.json', ''));
   });
 });
 
