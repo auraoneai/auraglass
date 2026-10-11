@@ -6,6 +6,7 @@ import { join } from 'node:path';
 
 export const ROOT = process.cwd();
 export const DIST = join(ROOT, 'dist');
+export const SRC = join(ROOT, 'src');
 
 let built = false;
 const LOCK = join(ROOT, 'build/.test-build.lock');

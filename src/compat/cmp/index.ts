@@ -58,3 +58,6 @@ export * from './overlays/LiquidGlassAdaptiveSheet';
 export * from './overlays/LiquidGlassPopoverMenu';
 export * from './overlays/Positioner';
 export * from './overlays/useToast';
+export * from './content/LiquidGlassBadgeCluster';
+export * from './content/GlassStatusDot';
+export * from './content/GlassConnectionStatus';
