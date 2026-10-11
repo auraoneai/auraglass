@@ -5,24 +5,36 @@ import React from "react";
 import { Label, OptimizedGlass, Slot } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
 import { AlertCircle } from "../../icons";
-import {
-  Controller,
+import type {
   ControllerProps,
   FieldPath,
   FieldValues,
-  FormProvider,
-  useFormContext,
 } from "react-hook-form";
+import { lazyPeer } from "../../utils/optionalPeer";
+
+// react-hook-form moved to an optional peer in 4.2 (REQ-PLAT-56): the
+// module resolves on first use so importing this file never crashes a
+// consumer that lacks the peer; the contract error throws at render time.
+const RHF = lazyPeer<typeof import("react-hook-form")>("react-hook-form");
 import { GlassLabel } from "./GlassLabel";
 
-// Form root is just the FormProvider
-const GlassForm = FormProvider as <
+// Form root is just the FormProvider. Wrapped in a component (not aliased) so
+// RHF.FormProvider is read at render time, not at module load.
+const GlassForm = (<
   TFieldValues extends FieldValues,
   TContext = unknown,
   TTransformedValues = TFieldValues,
 >(
   props: React.ComponentProps<
-    typeof FormProvider<TFieldValues, TContext, TTransformedValues>
+    typeof RHF.FormProvider<TFieldValues, TContext, TTransformedValues>
+  >
+) => <RHF.FormProvider {...props} />) as <
+  TFieldValues extends FieldValues,
+  TContext = unknown,
+  TTransformedValues = TFieldValues,
+>(
+  props: React.ComponentProps<
+    typeof RHF.FormProvider<TFieldValues, TContext, TTransformedValues>
   >
 ) => React.JSX.Element;
 
@@ -50,7 +62,7 @@ const GlassFormField = <
       data-glass-component
       value={{ name: props?.name }}
     >
-      <Controller {...props} />
+      <RHF.Controller {...props} />
     </FormFieldContext.Provider>
   );
 };
@@ -306,7 +318,7 @@ GlassFormMessage.displayName = "GlassFormMessage";
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);
   const itemContext = React.useContext(FormItemContext);
-  const { getFieldState, formState } = useFormContext();
+  const { getFieldState, formState } = RHF.useFormContext();
 
   const fieldState = getFieldState(fieldContext.name, formState);
 

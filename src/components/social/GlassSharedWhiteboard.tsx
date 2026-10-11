@@ -451,7 +451,7 @@ export const GlassSharedWhiteboard = forwardRef<
         }}
         animate={
           prefersReducedMotion
-            ? {}
+            ? undefined
             : {
                 scale: user.isDrawing ? 1.2 : 1,
                 opacity: Date.now() - user.lastActivity < 5000 ? 1 : 0.5,

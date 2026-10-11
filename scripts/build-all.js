@@ -85,6 +85,8 @@ const entrypoints = [
   ['src/icons/collaboration.ts', 'dist/icons/collaboration'],
   ['src/icons/ai.ts', 'dist/icons/ai'],
   ['src/primitives/index.ts', 'dist/primitives/index'],
+  ['src/forms/index.ts', 'dist/forms/index'],
+  ['src/data/index.ts', 'dist/data/index'],
   ['src/app-shell/index.ts', 'dist/app-shell/index'],
   ['src/workspace/index.tsx', 'dist/workspace/index'],
   ['src/theme/index.ts', 'dist/theme/index'],
@@ -139,20 +141,30 @@ const sharedBuildOptions = {
   logLevel: 'info',
 };
 
-for (const [entryPoint, outputBase] of entrypoints) {
-  esbuild.buildSync({
-    ...sharedBuildOptions,
-    entryPoints: [path.resolve(projectRoot, entryPoint)],
-    outfile: path.resolve(projectRoot, `${outputBase}.mjs`),
-    format: 'esm',
-  });
+// REQ-PLAT-57 — side-effect report mode: AG_SIDE_EFFECT_REPORT=1 (or
+// --side-effects) writes .artifacts/plat/side-effects.json with, per output,
+// every bundled input + byte cost — the review surface for tree-shaking
+// losses and unexpected inclusions.
+const sideEffectReport = process.env.AG_SIDE_EFFECT_REPORT === '1' || process.argv.includes('--side-effects');
+const builtOutputs = {};
 
-  esbuild.buildSync({
-    ...sharedBuildOptions,
-    entryPoints: [path.resolve(projectRoot, entryPoint)],
-    outfile: path.resolve(projectRoot, `${outputBase}.js`),
-    format: 'cjs',
-  });
+for (const [entryPoint, outputBase] of entrypoints) {
+  for (const [fmt, ext] of [['esm', 'mjs'], ['cjs', 'js']]) {
+    const result = esbuild.buildSync({
+      ...sharedBuildOptions,
+      entryPoints: [path.resolve(projectRoot, entryPoint)],
+      outfile: path.resolve(projectRoot, `${outputBase}.${ext}`),
+      format: fmt,
+      metafile: sideEffectReport,
+    });
+    if (sideEffectReport) {
+      const inputs = Object.entries(result.metafile.inputs).map(([file, info]) => ({
+        file: path.relative(projectRoot, file).split('\\').join('/'),
+        bytes: info.bytes,
+      }));
+      builtOutputs[`${outputBase}.${ext}`] = inputs;
+    }
+  }
 }
 
 esbuild.buildSync({
@@ -213,3 +225,13 @@ run(nodeBin, [tscBin, '--project', 'tsconfig.build.json', '--emitDeclarationOnly
 run(nodeBin, [path.resolve(projectRoot, 'scripts', 'postbuild-client.js')], {
   cwd: projectRoot,
 });
+
+if (sideEffectReport) {
+  const reportDir = path.resolve(projectRoot, '.artifacts/plat');
+  fs.mkdirSync(reportDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(reportDir, 'side-effects.json'),
+    `${JSON.stringify({ generatedBy: 'build-all --side-effects', outputs: builtOutputs }, null, 2)}\n`,
+  );
+  console.log(`side-effect report: .artifacts/plat/side-effects.json (${Object.keys(builtOutputs).length} outputs)`);
+}

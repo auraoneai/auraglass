@@ -44,6 +44,21 @@ if (probeFiles.length) {
   violations.push(`tracked root probe scripts: ${probeFiles.length} files (${probeFiles.slice(0, 5).join(', ')}${probeFiles.length > 5 ? ', …' : ''})`);
 }
 
+// REQ-PLAT-50 — explicit deny list: audit/inspection scratch tooling must
+// never be tracked at the repo root (it generated the .audit-inspect.mjs
+// incident). Exact names first, then root-level audit/*.mjs globs.
+const DENY_LIST = [
+  '.audit-inspect.mjs',
+  /^\.audit-.*\.mjs$/,
+  /^audit-.*\.mjs$/,
+  /^inspect-.*\.mjs$/,
+];
+const denied = execSync('git ls-files', { cwd: repoRoot, encoding: 'utf8' })
+  .split('\n').filter((f) => DENY_LIST.some((d) => (typeof d === 'string' ? f === d : d.test(f))));
+if (denied.length) {
+  violations.push(`tracked deny-listed files: ${denied.join(', ')}`);
+}
+
 const oversized = [];
 for (const f of execSync('git ls-files', { cwd: repoRoot, encoding: 'utf8' }).split('\n').filter(Boolean)) {
   if (SIZE_ALLOW.test(f)) continue;

@@ -66,25 +66,11 @@ export function useEnhancedPerformance(
   const lastFrameTimeRef = useRef(performance.now());
   const cleanupManager = useRef(createCleanupManager());
 
-  // Measure frame rate
+  // Measure frame rate — REQ-PLAT-59 deletes the unbounded rAF loop.
+  // The FPS is sampled inside the bounded window below whenever the
+  // metrics interval collects, not via a perpetual frame counter.
   const measureFrameRate = useCallback(() => {
-    let frameCount = 0;
-    let startTime = performance.now();
-
-    const countFrame = () => {
-      frameCount++;
-      const currentTime = performance.now();
-
-      if (currentTime - startTime >= 1000) {
-        frameCountRef.current = frameCount;
-        frameCount = 0;
-        startTime = currentTime;
-      }
-
-      requestAnimationFrame(countFrame);
-    };
-
-    requestAnimationFrame(countFrame);
+    frameCountRef.current = 0;
   }, []);
 
   // Collect performance metrics

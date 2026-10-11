@@ -12,7 +12,7 @@ import {
   OpenAIService,
 } from "../src/services/ai/openai-service";
 import { VisionService } from "../src/services/ai/vision-service";
-import { AuthError, AuthService } from "../src/services/auth/auth-service";
+import { assertJwtSecret, AuthError, AuthService } from "../src/services/auth/auth-service";
 import {
   AIConfig,
   ProviderUnconfiguredError,
@@ -24,6 +24,11 @@ import {
 } from "../src/services/ai/config";
 
 dotenv.config();
+
+// REQ-PLAT-53 — fail closed at process start: the hosted runtime must not
+// boot with an unset/example/short JWT secret; runs before any service
+// construction so a misconfigured deploy never reaches request handling.
+assertJwtSecret(process.env);
 
 if (process.env.SENTRY_DSN) {
   Sentry.init({

@@ -1,4 +1,8 @@
 /**
+import { warnDeprecated } from "../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0058");
  * AuraGlass server entrypoint.
  *
  * Exposes SSR-safe utilities without triggering the global 'use client' bundle.

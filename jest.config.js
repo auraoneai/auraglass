@@ -63,6 +63,7 @@ module.exports = {
     '/playwright-report/',
     '<rootDir>/tests/e2e/',
     'tests/visual', // Separate visual regression suites
+    '<rootDir>/packages/', // workspaces run their own jest config (plat:test:cli: npm test -w packages/cli)
   ],
 
   // Coverage configuration
