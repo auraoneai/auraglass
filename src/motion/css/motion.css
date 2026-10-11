@@ -29,38 +29,53 @@
 
 @layer ag.material {
 
+  /* ---- depth transition (REQ-MAT-42): a data-ag-layer change cross-fades
+     --_ag-optics (shadow pseudo-layers are owned by material.css and read
+     --_ag-optics). Zero specificity and first in the layer, so it never
+     clobbers a more specific transition list (interactive release, overlay
+     resting/exit, scrim fade). Every later list that can apply to a layered
+     surface carries its own --_ag-optics leg instead. ---- */
+  :where([data-ag-layer]) {
+    transition: --_ag-optics var(--ag-duration-small) var(--ag-ease-standard);
+  }
+
   /* ---- interaction states (REQ-MOT-11/-100): light only, never geometry.
      Entering :hover uses micro/standard; the base rule's transition governs
      the release (micro-exit/accelerate). No scale/transform/translate/rotate
-     appears in any hover or press rule (SC-38). ---- */
+     appears in any hover or press rule (SC-38). Hover drives --ag-specular
+     only (the former --_ag-hover scalar is folded into it, REQ-MAT-42);
+     press drives --_ag-press. Every list is a subset of ANIMATABLE. ---- */
   [data-ag-interactive] {
     transition:
       --ag-specular var(--ag-duration-micro-exit) var(--ag-ease-accelerate),
-      --_ag-hover var(--ag-duration-micro-exit) var(--ag-ease-accelerate),
-      --_ag-press var(--ag-spring-snappy-duration, var(--ag-duration-instant)) var(--ag-spring-snappy, var(--ag-ease-standard));
+      --_ag-press var(--ag-spring-snappy-duration, var(--ag-duration-instant)) var(--ag-spring-snappy, var(--ag-ease-standard)),
+      --_ag-optics var(--ag-duration-small) var(--ag-ease-standard);
   }
 
   @media (hover: hover) {
     [data-ag-interactive]:hover {
-      --_ag-hover: 1;
       --ag-specular: var(--ag-state-hover-specular);
       transition:
         --ag-specular var(--ag-duration-micro) var(--ag-ease-standard),
-        --_ag-hover var(--ag-duration-micro) var(--ag-ease-standard),
-        --_ag-press var(--ag-spring-snappy-duration, var(--ag-duration-instant)) var(--ag-spring-snappy, var(--ag-ease-standard));
+        --_ag-press var(--ag-spring-snappy-duration, var(--ag-duration-instant)) var(--ag-spring-snappy, var(--ag-ease-standard)),
+        --_ag-optics var(--ag-duration-small) var(--ag-ease-standard);
     }
   }
 
   [data-ag-interactive]:active,
   [data-pressed] {
     --_ag-press: 1;
-    transition: --_ag-press var(--ag-duration-instant) var(--ag-ease-standard);
+    transition:
+      --ag-specular var(--ag-duration-micro) var(--ag-ease-standard),
+      --_ag-press var(--ag-duration-instant) var(--ag-ease-standard),
+      --_ag-optics var(--ag-duration-small) var(--ag-ease-standard);
   }
 
   /* ---- popup enter/exit (§4.6, REQ-MOT-14/-105/-102).
-     Every transition lists properties from ANIMATABLE (S-12) only;
-     display/overlay ride allow-discrete so Base UI exit keeps the element
-     mounted until the transition finishes (no JS unmount delay). ---- */
+     Every transition lists properties from ANIMATABLE (S-12) only. Base UI
+     keeps the popup mounted until element.getAnimations() settle, so the
+     opacity/scale/translate transitions alone hold the exit; display/overlay
+     are not transitioned (no library popup uses the native top layer). ---- */
   [data-ag-overlay],
   [data-ag-surface][data-starting-style],
   [data-ag-surface][data-ending-style] {
@@ -69,10 +84,7 @@
       opacity var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-standard)),
       scale var(--ag-spring-snappy-duration, var(--ag-duration-small)) var(--ag-spring-snappy, var(--ag-ease-standard)),
       translate var(--ag-spring-snappy-duration, var(--ag-duration-small)) var(--ag-spring-snappy, var(--ag-ease-standard)),
-      --_ag-optics calc(var(--ag-duration-small) * 0.6) var(--ag-ease-standard),
-      display var(--ag-duration-small) var(--ag-ease-standard) allow-discrete,
-      overlay var(--ag-duration-small) var(--ag-ease-standard) allow-discrete;
-    transition-behavior: allow-discrete;
+      --_ag-optics calc(var(--ag-duration-small) * 0.6) var(--ag-ease-standard);
   }
 
   /* anchored menus translate 4 px from the anchor side */
@@ -95,9 +107,7 @@
       opacity var(--ag-duration-medium) var(--ag-ease-standard),
       scale var(--ag-spring-smooth-duration, var(--ag-duration-medium)) var(--ag-spring-smooth, var(--ag-ease-standard)),
       translate var(--ag-spring-smooth-duration, var(--ag-duration-medium)) var(--ag-spring-smooth, var(--ag-ease-standard)),
-      --_ag-optics calc(var(--ag-duration-medium) * 0.6) var(--ag-ease-standard),
-      display var(--ag-duration-medium) var(--ag-ease-standard) allow-discrete,
-      overlay var(--ag-duration-medium) var(--ag-ease-standard) allow-discrete;
+      --_ag-optics calc(var(--ag-duration-medium) * 0.6) var(--ag-ease-standard);
   }
 
   [data-starting-style] {
@@ -120,9 +130,7 @@
       opacity var(--ag-duration-small-exit) var(--ag-ease-accelerate),
       scale var(--ag-duration-small-exit) var(--ag-ease-accelerate),
       translate var(--ag-duration-small-exit) var(--ag-ease-accelerate),
-      --_ag-optics var(--ag-duration-small-exit) var(--ag-ease-accelerate),
-      display var(--ag-duration-small-exit) var(--ag-ease-accelerate) allow-discrete,
-      overlay var(--ag-duration-small-exit) var(--ag-ease-accelerate) allow-discrete;
+      --_ag-optics var(--ag-duration-small-exit) var(--ag-ease-accelerate);
   }
 
   :is([data-ag-overlay=dialog], [data-ag-overlay=alert-dialog], [data-ag-overlay=sheet], [data-ag-overlay=toast])[data-ending-style] {
@@ -130,9 +138,7 @@
       opacity var(--ag-duration-medium-exit) var(--ag-ease-accelerate),
       scale var(--ag-duration-medium-exit) var(--ag-ease-accelerate),
       translate var(--ag-duration-medium-exit) var(--ag-ease-accelerate),
-      --_ag-optics var(--ag-duration-medium-exit) var(--ag-ease-accelerate),
-      display var(--ag-duration-medium-exit) var(--ag-ease-accelerate) allow-discrete,
-      overlay var(--ag-duration-medium-exit) var(--ag-ease-accelerate) allow-discrete;
+      --_ag-optics var(--ag-duration-medium-exit) var(--ag-ease-accelerate);
   }
 
   [data-ag-overlay=sheet][data-starting-style] {
@@ -155,10 +161,7 @@
 
   /* scrims fade only (scrim blur is static) */
   [data-ag-layer=scrim] {
-    transition:
-      opacity var(--ag-duration-medium) var(--ag-ease-standard),
-      display var(--ag-duration-medium) var(--ag-ease-standard) allow-discrete,
-      overlay var(--ag-duration-medium) var(--ag-ease-standard) allow-discrete;
+    transition: opacity var(--ag-duration-medium) var(--ag-ease-standard);
   }
   [data-ag-layer=scrim][data-starting-style],
   [data-ag-layer=scrim][data-ending-style] {
@@ -171,12 +174,6 @@
   /* mid-animation marker written by the runtime / Shared layout path */
   [data-ag-animating] {
     will-change: transform, opacity;
-  }
-
-  /* depth transition: data-ag-layer change cross-fades --_ag-optics
-     (shadow pseudo-layers are owned by material.css and read --_ag-optics) */
-  [data-ag-layer] {
-    transition: --_ag-optics var(--ag-duration-small) var(--ag-ease-standard);
   }
 
   /* toast stack reflow: transform/opacity only */
@@ -195,12 +192,9 @@
       opacity var(--ag-duration-small) var(--ag-ease-standard);
   }
 
-  /* select/combobox item highlight: paint only */
-  :is([data-ag-part=select-item], [data-ag-part=combobox-item], [data-ag-part=menu-item], [data-ag-part=item]) {
-    transition:
-      background-color var(--ag-duration-instant) var(--ag-ease-standard),
-      color var(--ag-duration-instant) var(--ag-ease-standard);
-  }
+  /* select/combobox/menu item highlight is a paint change with no transition:
+     background-color/color are not in ANIMATABLE (S-12), so the highlight
+     switches on the frame the pointer or roving focus lands (REQ-MAT-42). */
 
   /* non-Base-UI entrances: @starting-style, opacity + translate only (REQ-MOT-15) */
   [data-ag-part=toast-item],
