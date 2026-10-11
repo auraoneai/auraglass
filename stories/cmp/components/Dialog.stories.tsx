@@ -1,5 +1,6 @@
 /* CMP-222 (REQ-CMP-01): Dialog scenes — Default, LongContent, Sizes (args),
-   Form, Nested, NonModal, PaletteShell. ids overlays-dialog--*. */
+   Form, Nested, WithPopover, WithPopoverMenu, WithToast, NonModal,
+   PaletteShell. ids overlays-dialog--*. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Dialog } from '../../../src/components/dialog';
@@ -8,7 +9,7 @@ import { TextField } from '../../../src/components/text-field';
 import { Select } from '../../../src/components/select';
 import { Popover } from '../../../src/components/popover';
 import { Menu } from '../../../src/components/menu';
-import { Toast } from '../../../src/components/toast';
+import { Toast, useToast } from '../../../src/components/toast';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
@@ -225,6 +226,52 @@ export const WithPopoverMenu: Story = {
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
+    </Shell>
+  ),
+};
+
+/* CMP-404 / REQ-CMP-80 (T-OVL-STACK-03): a live toast is mounted on load
+   (timeout 0 = persistent) alongside a modal Dialog, so the e2e lane always
+   has a toast to assert against: never under an inert ancestor, F6 reaches
+   the viewport. */
+function StackToast() {
+  const t = useToast();
+  const added = React.useRef(false);
+  React.useEffect(() => {
+    if (added.current) return;
+    added.current = true;
+    t.info({ title: 'Upload finished', description: 'Toasts stay reachable over a modal.', timeout: 0 });
+  }, [t]);
+  return (
+    <Toast.Viewport>
+      {t.toasts.map((toast) => (
+        <Toast.Root key={toast.id} toast={toast}>
+          <Toast.Title>{toast.title}</Toast.Title>
+          <Toast.Description>{toast.description}</Toast.Description>
+          <Toast.Close>×</Toast.Close>
+        </Toast.Root>
+      ))}
+    </Toast.Viewport>
+  );
+}
+
+export const WithToast: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'Dialog', id: 'overlays-dialog--with-toast' } },
+  render: () => (
+    <Shell>
+      <Toast.Provider>
+        <StackToast />
+        <Dialog.Root defaultOpen>
+          <Dialog.Portal>
+            <Dialog.Backdrop />
+            <Dialog.Popup aria-label="toast dialog">
+              <Dialog.Header><Dialog.Title>Modal with a toast</Dialog.Title></Dialog.Header>
+              <Dialog.Body><Dialog.Description>The toast layer root is exempt from modal inert.</Dialog.Description></Dialog.Body>
+              <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+            </Dialog.Popup>
+          </Dialog.Portal>
+        </Dialog.Root>
+      </Toast.Provider>
     </Shell>
   ),
 };
