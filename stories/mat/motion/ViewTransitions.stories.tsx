@@ -16,15 +16,15 @@ function TransitionsLab() {
       <label style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13 }}>
         <input
           type="checkbox"
-          data-ag-optics-debug
+          data-optics-debug
           checked={debug}
           onChange={(e) => setDebug(e.target.checked)}
         />
         optics debug (draw transition bounds + layer ids)
       </label>
       <div
-        data-ag-vt-stage
-        data-ag-optics-debug-state={debug ? 'on' : 'off'}
+        data-vt-stage
+        data-optics-debug-state={debug ? 'on' : 'off'}
         style={{
           position: 'relative', minHeight: 160, border: '1px solid #e2e8f0', borderRadius: 10, padding: 14,
           outline: debug ? '2px dashed #0ea5e9' : undefined, outlineOffset: 4,
@@ -37,7 +37,7 @@ function TransitionsLab() {
         ) : null}
         <Surface variant="regular" thickness="thin">
           <div
-            data-ag-vt-node
+            data-vt-node
             style={{
               padding: '14px 18px',
               marginLeft: swapped ? 160 : 0,
@@ -51,7 +51,7 @@ function TransitionsLab() {
       </div>
       <button
         type="button"
-        data-ag-vt-trigger
+        data-vt-trigger
         onClick={() => setSwapped((s) => !s)}
         style={{ width: 'fit-content', padding: '6px 14px', borderRadius: 6, border: '1px solid #64748b' }}
       >
@@ -71,13 +71,13 @@ type Story = StoryObj<typeof meta>;
 export const OpticsDebugToggle: Story = {
   render: () => <TransitionsLab />,
   play: async ({ canvasElement }) => {
-    const toggle = canvasElement.querySelector('[data-ag-optics-debug]');
-    const stage = canvasElement.querySelector('[data-ag-vt-stage]');
+    const toggle = canvasElement.querySelector('[data-optics-debug]');
+    const stage = canvasElement.querySelector('[data-vt-stage]');
     if (!(toggle instanceof HTMLInputElement) || !stage) throw new Error('ViewTransitions: toggle/stage missing');
-    if (stage.getAttribute('data-ag-optics-debug-state') !== 'off') throw new Error('ViewTransitions: debug should start off');
+    if (stage.getAttribute('data-optics-debug-state') !== 'off') throw new Error('ViewTransitions: debug should start off');
     toggle.click();
     await new Promise((r) => setTimeout(r, 30));
-    if (stage.getAttribute('data-ag-optics-debug-state') !== 'on') {
+    if (stage.getAttribute('data-optics-debug-state') !== 'on') {
       throw new Error('ViewTransitions: optics debug toggle did not flip stage state');
     }
   },

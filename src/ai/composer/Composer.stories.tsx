@@ -23,7 +23,20 @@ export const Ready: Story = {
 };
 export const WithDraft: Story = { render: () => <Composer defaultValue="Half-written reply" /> };
 export const WithAttachments: Story = {
-  render: () => <Composer accept=".log,.txt" />,
+  render: () => <Composer accept=".log,.txt" defaultFiles={[new File(['ok'], 'build.log', { type: 'text/plain' })]} />,
+};
+/* Custom anatomy: attachments row, an attach action and the submit control. */
+export const CustomActions: Story = {
+  render: () => (
+    <Composer.Root defaultFiles={[new File(['ok'], 'notes.txt', { type: 'text/plain' })]}>
+      <Composer.Attachments />
+      <Composer.Textarea />
+      <Composer.Actions>
+        <Composer.Action kind="attach" icon="attach" />
+        <Composer.Submit />
+      </Composer.Actions>
+    </Composer.Root>
+  ),
 };
 function DraggingHarness() {
   const [dragging, setDragging] = React.useState(false);
