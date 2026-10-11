@@ -2,10 +2,18 @@
    clipped or overlapped (range rects vs clipping ancestor and siblings); at
    400% (320x256 / 320x640, dsf 4) scrollWidth <= clientWidth except
    [data-ag-reflow-exempt] (Table, CodeSurface, ImageViewer only), overlays fit
-   the viewport, sticky chrome sums <=50% viewport height. Never style.zoom. */
+   the viewport, sticky chrome sums <=50% viewport height. Never style.zoom.
+   REQ-MAT-65: zoom is real device-pixel zoom — each size runs in its own
+   browser.newContext({ viewport, deviceScaleFactor }) (1280x800 at 200% =>
+   640x400 @2; 1280x1024 / 1280x2560 at 400% => 320x256 / 320x640 @4) — over
+   every subject from listSubjects() (S-40; flagship + MAT at
+   MAT_A11Y_SCOPE=pr, the whole index at full); failures name the owner. */
 import { test, expect } from '@playwright/test';
+import type { Browser, Page } from '@playwright/test';
+import { listSubjects } from '../../helpers';
+import { sweepSubjects, tag, byOwner, type Owner, type Subject } from './helpers/subjects';
+import fs from 'node:fs';
 
-const STORY = 'a11y-rungs--default';
 const EXEMPT = new Set(['table', 'code-surface', 'image-viewer']);
 
 interface ReflowIssue { kind: string; detail: string }
@@ -64,31 +72,64 @@ async function reflowIssues(page: import('@playwright/test').Page): Promise<Refl
   }, [...EXEMPT]);
 }
 
+interface ZoomCase { name: string; width: number; height: number; deviceScaleFactor: number }
+const ZOOM_200: ZoomCase = { name: '200% 640x400', width: 640, height: 400, deviceScaleFactor: 2 };
+const ZOOM_400: ZoomCase[] = [
+  { name: '400% 320x256', width: 320, height: 256, deviceScaleFactor: 4 },
+  { name: '400% 320x640', width: 320, height: 640, deviceScaleFactor: 4 },
+];
+
+async function sweep(
+  browser: Browser, baseURL: string | undefined, zc: ZoomCase, subjects: readonly Subject[],
+  check: (page: Page, zc: ZoomCase) => Promise<ReflowIssue[]>,
+): Promise<Array<{ owner: Owner; msg: string }>> {
+  const context = await browser.newContext({ viewport: { width: zc.width, height: zc.height }, deviceScaleFactor: zc.deviceScaleFactor });
+  const page = await context.newPage();
+  const fails: Array<{ owner: Owner; msg: string }> = [];
+  try {
+    for (const s of subjects) {
+      await page.goto(`${baseURL ?? ''}/iframe.html?id=${s.id}&viewMode=story`);
+      await page.waitForSelector('[data-ag-cert-ready]', { state: 'attached', timeout: 30_000 });
+      const dpr = await page.evaluate(() => window.devicePixelRatio);
+      if (dpr !== zc.deviceScaleFactor) fails.push({ owner: s.owner, msg: `${tag(s)} ${zc.name}: devicePixelRatio ${dpr} != ${zc.deviceScaleFactor}` });
+      for (const i of await check(page, zc)) fails.push({ owner: s.owner, msg: `${tag(s)} ${zc.name}: ${i.kind} ${i.detail}` });
+    }
+  } finally {
+    await context.close();
+  }
+  return fails;
+}
+
+async function overlayIssues(page: Page, zc: ZoomCase): Promise<ReflowIssue[]> {
+  const over = await page.evaluate((vp) =>
+    [...document.querySelectorAll<HTMLElement>('[data-ag-part="dialog"],[data-ag-part="popover"],[data-ag-part="toast"]')]
+      .filter((el) => { const r = el.getBoundingClientRect(); return r.width > vp.w || r.height > vp.h; })
+      .map((el) => el.getAttribute('data-ag-part') ?? ''), { w: zc.width, h: zc.height });
+  return over.map((part) => ({ kind: 'overlay-exceeds-viewport', detail: part }));
+}
+
+function report(name: string, browserName: string, fails: Array<{ owner: Owner; msg: string }>, subjects: number) {
+  fs.mkdirSync('.artifacts/mat', { recursive: true });
+  fs.writeFileSync(`.artifacts/mat/zoom-reflow-${name.replace(/[^a-z0-9]+/gi, '-')}-${browserName}.json`,
+    JSON.stringify({ subjects, byOwner: byOwner(fails) }, null, 2));
+}
+
 test.describe('zoom + reflow', () => {
-  test('200%: no clipped or overlapped text', async ({ page, baseURL }) => {
-    await page.setViewportSize({ width: 640, height: 400 });
-    await page.goto(`${baseURL ?? ''}/iframe.html?id=${STORY}&viewMode=story`);
-    await page.waitForSelector('[data-ag-surface]');
-    const issues = await clippingIssues(page);
-    expect(issues, 'clipped/overlapped text at 200%').toEqual([]);
+  test(`${ZOOM_200.name} (dsf ${ZOOM_200.deviceScaleFactor}): no clipped or overlapped text`, async ({ browser, baseURL, browserName }) => {
+    test.setTimeout(30 * 60 * 1000);
+    const subjects = await sweepSubjects(listSubjects);
+    const fails = await sweep(browser, baseURL, ZOOM_200, subjects, (page) => clippingIssues(page));
+    report(ZOOM_200.name, browserName, fails, subjects.length);
+    expect(fails.map((f) => f.msg), 'clipped/overlapped text at 200%').toEqual([]);
   });
 
-  for (const size of [[320, 256], [320, 640]] as const) {
-    test(`400% ${size[0]}x${size[1]}: single-axis reflow`, async ({ page, baseURL }) => {
-      await page.setViewportSize({ width: size[0], height: size[1] });
-      await page.goto(`${baseURL ?? ''}/iframe.html?id=${STORY}&viewMode=story`);
-      await page.waitForSelector('[data-ag-surface]');
-      const issues = await reflowIssues(page);
-      expect(issues, 'reflow violations at 400%').toEqual([]);
-      // overlays fit the viewport
-      const over = await page.evaluate((vp) => {
-        return [...document.querySelectorAll<HTMLElement>('[data-ag-part="dialog"],[data-ag-part="popover"],[data-ag-part="toast"]')]
-          .filter((el) => {
-            const r = el.getBoundingClientRect();
-            return r.width > vp.w || r.height > vp.h;
-          }).length;
-      }, { w: size[0], h: size[1] });
-      expect(over, 'overlays fit 400% viewport').toBe(0);
+  for (const zc of ZOOM_400) {
+    test(`${zc.name} (dsf ${zc.deviceScaleFactor}): single-axis reflow, overlays fit`, async ({ browser, baseURL, browserName }) => {
+      test.setTimeout(30 * 60 * 1000);
+      const subjects = await sweepSubjects(listSubjects);
+      const fails = await sweep(browser, baseURL, zc, subjects, async (page, z) => [...await reflowIssues(page), ...await overlayIssues(page, z)]);
+      report(zc.name, browserName, fails, subjects.length);
+      expect(fails.map((f) => f.msg), 'reflow violations at 400%').toEqual([]);
     });
   }
 });

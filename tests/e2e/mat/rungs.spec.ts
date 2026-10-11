@@ -2,15 +2,20 @@
    (alpha>=0.85 + filters none + background-image none), clear fail-safe
    (clear without data-ag-backdrop computes 'regular', one dev warning per
    surface id, --_ag-dim 0.35 over light/media), and glassOpacity raising the
-   effective alpha monotonically at 0/.25/.5/.75/1. */
+   effective alpha monotonically at 0/.25/.5/.75/1. REQ-MAT-65: the fixture is
+   resolved through listSubjects() and must be MAT-owned; contrast more runs on
+   every engine via page.emulateMedia. */
 import { test, expect } from '@playwright/test';
 import { listSurfaces, surfaceRung, computed } from './helpers/surfaces';
-import { emulateContrastMore } from './helpers/emulate';
+import { emulateContrastMore, assertMedia } from './helpers/emulate';
+import { listSubjects } from '../../helpers';
+import { matFixture } from './helpers/subjects';
 
 const STORY = 'a11y-rungs--default';
 
 async function goto_(page: import('@playwright/test').Page, globals = '') {
-  await page.goto(`/iframe.html?id=${STORY}&viewMode=story${globals ? `&globals=${globals}` : ''}`);
+  const fixture = await matFixture(listSubjects, STORY);
+  await page.goto(`/iframe.html?id=${fixture.id}&viewMode=story${globals ? `&globals=${globals}` : ''}`);
   await page.waitForSelector('[data-ag-surface]', { timeout: 15_000 });
 }
 
@@ -18,17 +23,19 @@ test.describe('rungs', () => {
   test('tinted', async ({ page }) => {
     await goto_(page, 'transparency:tinted');
     const surfaces = await listSurfaces(page);
+    expect(surfaces.length, 'fixture rendered surfaces').toBeGreaterThan(0);
     for (const s of surfaces) {
       const r = await surfaceRung(page, s.index);
       expect(r.alpha, `surface ${s.index} tinted floor`).toBeGreaterThanOrEqual(0.35);
     }
   });
 
-  test('contrast more', async ({ page, browserName }) => {
-    test.skip(browserName !== 'chromium', 'prefers-contrast emulation is Chromium-only');
+  test('contrast more', async ({ page }) => {
     await emulateContrastMore(page);
     await goto_(page);
+    await assertMedia(page, '(prefers-contrast: more)');
     const surfaces = await listSurfaces(page);
+    expect(surfaces.length, 'fixture rendered surfaces').toBeGreaterThan(0);
     for (const s of surfaces) {
       const r = await surfaceRung(page, s.index);
       expect(r.alpha, `surface ${s.index} more-contrast floor`).toBeGreaterThanOrEqual(0.35);
@@ -38,6 +45,7 @@ test.describe('rungs', () => {
   test('solid', async ({ page }) => {
     await goto_(page, 'transparency:solid');
     const surfaces = await listSurfaces(page);
+    expect(surfaces.length, 'fixture rendered surfaces').toBeGreaterThan(0);
     for (const s of surfaces) {
       const r = await surfaceRung(page, s.index);
       expect(r.alpha, `surface ${s.index} solid alpha`).toBeGreaterThanOrEqual(0.85);

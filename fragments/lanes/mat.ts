@@ -126,6 +126,11 @@ export default [
   { lane: 'L6', kind: 'playwright', path: 'tests/e2e/mat/focus-appearance.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L6', kind: 'playwright', path: 'tests/e2e/mat/color-vision.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L6', kind: 'playwright', path: 'tests/e2e/mat/rungs.spec.ts', scope: 'release', remote: true, failClosed: true },
+  // REQ-MAT-65 (D.3-39): rendered-pixel text contrast (8x3x2x3x3x2 matrix,
+  // artifact a11y-pixel-contrast.json) on main and release scope; the PR-scope
+  // run is the transitional mat:test:a11y-pixel-contrast job (ci/mat).
+  { lane: 'L6', kind: 'playwright', path: 'tests/visual/mat/a11y/pixel-contrast.spec.ts', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L6', kind: 'playwright', path: 'tests/visual/mat/a11y/pixel-contrast.spec.ts', scope: 'release', remote: true, failClosed: true },
 
   // MAT-362 (L9 Motion cell): motion Playwright specs run under the
   // mat:motion-* projects; this row binds the suite to L9 for PR scope.

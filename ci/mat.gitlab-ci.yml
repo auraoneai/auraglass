@@ -157,3 +157,75 @@ mat:test:consumer-4x:
     expire_in: 14 days
     paths: [.artifacts/mat/]
     when: always
+
+# REQ-MAT-65 (D.3-39): MAT catalogue-wide a11y suites, remote and fail-closed.
+# scripts/mat/a11y-lane.mjs serves storybook-static/ (the qual:build:storybook
+# artifact, or a fresh storybook:build when it is absent) and runs the
+# mat:a11y-<suite>-<engine> Playwright project (fragments/playwright/mat.json)
+# with subjects from listSubjects() (S-40). Any failing spec fails the job;
+# nothing is reported pending. These are transitional test-stage jobs until
+# QUAL's lane runner reports the L5/L6 rows in fragments/lanes/mat.ts; each
+# stays allow_failure: true until its first green run on next is recorded in
+# ci/plat/activation.json.
+.mat-a11y-lane:
+  extends: [.mat-base, .mat-browser]
+  stage: test
+  allow_failure: true
+  timeout: 60 minutes
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/mat/]
+
+# floors, rungs, forced-colors, layer-stack, target-size (+coarse on
+# Chromium/WebKit), focus-not-obscured, zoom-reflow (deviceScaleFactor),
+# text-spacing, axe (incl. apg.axe colorContrast over MAT subjects),
+# pixel-modes, focus-appearance, color-vision, coverage.
+mat:test:a11y-suites:
+  extends: .mat-a11y-lane
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  parallel:
+    matrix:
+      - ENGINE: [chromium, webkit, firefox]
+  script:
+    - node scripts/mat/a11y-lane.mjs --suite e2e --engine "$ENGINE"
+
+# Rendered-pixel text contrast: 8 scenes x light/dark x glass/tinted/solid x
+# default/more/forced x 1440/390 per engine, sharded 3 ways; part files land in
+# .artifacts/mat/pixel-contrast-parts/<engine>/.
+mat:test:a11y-pixel-contrast:
+  extends: .mat-a11y-lane
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  parallel:
+    matrix:
+      - ENGINE: [chromium, webkit, firefox]
+        SHARD: ["1/3", "2/3", "3/3"]
+  script:
+    - node scripts/mat/a11y-lane.mjs --suite pixel-contrast --engine "$ENGINE" --shard "$SHARD"
+
+# Merges the nine shards into .artifacts/mat/<job>/a11y-pixel-contrast.json and
+# validates it (full matrix, every row field, 0 failing rows); then runs the
+# jest gate against the merged artifact. Runs even when a shard failed so the
+# artifact is always uploaded; a missing shard fails the matrix check.
+mat:test:a11y-pixel-contrast-report:
+  extends: .mat-base
+  stage: package
+  allow_failure: true
+  needs:
+    - { job: "mat:test:a11y-pixel-contrast", artifacts: true }
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+      when: always
+  script:
+    - node scripts/mat/a11y-pixel-contrast.mjs --merge .artifacts/mat/pixel-contrast-parts --out ".artifacts/mat/$CI_JOB_NAME_SLUG/a11y-pixel-contrast.json"
+    - A11Y_PIXEL_CONTRAST_ART=".artifacts/mat/$CI_JOB_NAME_SLUG/a11y-pixel-contrast.json" npx jest --ci tests/a11y/pixel-contrast-artifact.test.ts tests/a11y/pixel-contrast-math.test.ts
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/mat/]
