@@ -200,12 +200,12 @@ export function TreeView<T extends TreeItemData>({
                 // GlassFileTree/GlassFileExplorer glyphs.
                 hasKids || loadChildren !== undefined ? (
                   isExpanded ? (
-                    <FolderOpenIcon aria-hidden="true" size="1em" className="ag-tree__icon" data-ag-icon="folder-open" />
+                    <FolderOpenIcon aria-hidden="true" size="1em" className="ag-tree__icon" data-icon="folder-open" />
                   ) : (
-                    <FolderIcon aria-hidden="true" size="1em" className="ag-tree__icon" data-ag-icon="folder" />
+                    <FolderIcon aria-hidden="true" size="1em" className="ag-tree__icon" data-icon="folder" />
                   )
                 ) : (
-                  <FileIcon aria-hidden="true" size="1em" className="ag-tree__icon" data-ag-icon="file" />
+                  <FileIcon aria-hidden="true" size="1em" className="ag-tree__icon" data-icon="file" />
                 )
               ) : null}
               {renderItem !== undefined
