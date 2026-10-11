@@ -9,5 +9,5 @@ export default defineMeta({
   parts: ['root','separator'],
   states: [],
   variants: { direction: ['row','column'] },
-  migration: [{ from: 'GlassStack', automation: 'full', compat: true }],
+  migration: [{ from: 'GlassStack', automation: 'full', compat: true }, { from: 'GlassFlex', automation: 'mostly', compat: true }, { from: 'Box', automation: 'mostly', compat: true }],
 });

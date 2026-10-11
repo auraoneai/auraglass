@@ -6,8 +6,8 @@ export default defineMeta({
   entry: '.',
   tier: 'T0',
   rsc: 'server',
-  parts: ['root'],
+  parts: ['root','shell'],
   states: [],
   variants: { variant: ['standard','masonry'] },
-  migration: [{ from: 'GlassGrid', automation: 'full', compat: true }, { from: 'GlassMasonry', automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassGrid', automation: 'full', compat: true }, { from: 'GlassMasonry', automation: 'mostly', compat: true }, { from: 'GlassMasonryGrid', automation: 'mostly', compat: true }],
 });

@@ -1,17 +1,44 @@
-/* CMP-298 Grid — responsive columns resolve against the ag-container
-   container (480/768/1024px breakpoints). */
+/* CMP-298 + REQ-CMP-112 Grid. Grid.tsx sets the private vars inline:
+   --_ag-grid-cols (number columns, masonry), --_ag-grid-cols-{base,sm,md,lg}
+   (responsive columns) and --_ag-grid-min-item (auto-fill floor).
+   Responsive columns resolve against Grid's own container shell, so a Grid
+   responds with or without a Container ancestor. */
 @layer ag.components {
   .ag-grid { display: grid; }
   .ag-grid[data-ag-cols] { grid-template-columns: repeat(var(--_ag-grid-cols, 1), minmax(0, 1fr)); }
-  .ag-grid-masonry { display: block; }
+
+  /* Responsive: unnamed container queries on the shell; the nearest
+     breakpoint <= shell width wins (larger queries come later). */
+  .ag-grid-shell { container-type: inline-size; }
+  .ag-grid-shell > .ag-grid { grid-template-columns: repeat(var(--_ag-grid-cols-base, 1), minmax(0, 1fr)); }
+  @container (min-width: 480px) {
+    .ag-grid-shell > .ag-grid { grid-template-columns: repeat(var(--_ag-grid-cols-sm, var(--_ag-grid-cols-base, 1)), minmax(0, 1fr)); }
+  }
+  @container (min-width: 768px) {
+    .ag-grid-shell > .ag-grid { grid-template-columns: repeat(var(--_ag-grid-cols-md, var(--_ag-grid-cols-sm, var(--_ag-grid-cols-base, 1))), minmax(0, 1fr)); }
+  }
+  @container (min-width: 1024px) {
+    .ag-grid-shell > .ag-grid { grid-template-columns: repeat(var(--_ag-grid-cols-lg, var(--_ag-grid-cols-md, var(--_ag-grid-cols-sm, var(--_ag-grid-cols-base, 1)))), minmax(0, 1fr)); }
+  }
+
+  /* minItemWidth: auto-fill wins over fixed and responsive counts. */
+  .ag-grid[data-ag-min-item],
+  .ag-grid-shell > .ag-grid[data-ag-min-item] { grid-template-columns: repeat(auto-fill, minmax(var(--_ag-grid-min-item), 1fr)); }
+
+  /* Masonry: CSS-columns fallback; real grid masonry where supported. Both
+     keep DOM order, so Tab order equals source order. */
+  .ag-grid-masonry { display: block; column-count: var(--_ag-grid-cols, 1); }
+  .ag-grid-masonry[data-ag-min-item] { column-count: auto; column-width: var(--_ag-grid-min-item); }
   .ag-grid-masonry > * { break-inside: avoid; margin-block-end: var(--ag-space-2, 0.5rem); }
-  @container ag-container (min-width: 480px) {
-    .ag-grid[data-ag-cols-sm] { grid-template-columns: repeat(var(--_ag-grid-cols-sm, 1), minmax(0, 1fr)); }
-  }
-  @container ag-container (min-width: 768px) {
-    .ag-grid[data-ag-cols-md] { grid-template-columns: repeat(var(--_ag-grid-cols-md, 1), minmax(0, 1fr)); }
-  }
-  @container ag-container (min-width: 1024px) {
-    .ag-grid[data-ag-cols-lg] { grid-template-columns: repeat(var(--_ag-grid-cols-lg, 1), minmax(0, 1fr)); }
+  @supports (grid-template-rows: masonry) {
+    .ag-grid-masonry {
+      display: grid;
+      column-count: auto;
+      column-width: auto;
+      grid-template-columns: repeat(var(--_ag-grid-cols, 1), minmax(0, 1fr));
+      grid-template-rows: masonry;
+    }
+    .ag-grid-masonry[data-ag-min-item] { column-width: auto; grid-template-columns: repeat(auto-fill, minmax(var(--_ag-grid-min-item), 1fr)); }
+    .ag-grid-masonry > * { margin-block-end: 0; }
   }
 }
