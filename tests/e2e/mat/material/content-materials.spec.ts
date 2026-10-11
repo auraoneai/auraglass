@@ -8,7 +8,7 @@ import { gotoMaterialStory } from '../../../material/helpers/story';
 test.describe('content materials', () => {
   for (const tier of ['standard', 'enhanced', 'lightweight'] as const) {
     test(`content without variant: no backdrop in ${tier}`, async ({ page }) => {
-      await gotoMaterialStory(page, 'core-material-examples--content-raised', { tier });
+      await gotoMaterialStory(page, 'material-lab-examples--content-raised', { tier });
       const sel = '.ag-surface[data-ag-layer="content"]';
       expect(await computedPseudoVar(page, sel, '::before', 'backdrop-filter')).toBe('none');
       expect(await computedVar(page, sel, '--ag-surface-fill')).toBeTruthy();
@@ -16,7 +16,7 @@ test.describe('content materials', () => {
   }
 
   test('sunken carries inset top shade', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--content-sunken');
+    await gotoMaterialStory(page, 'material-lab-examples--content-sunken');
     const shadow = await computedPseudoVar(
       page, '.ag-surface[data-ag-content="content-sunken"]', '::before', 'box-shadow');
     expect(shadow).toContain('inset');

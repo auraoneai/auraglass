@@ -50,7 +50,7 @@ test.describe('material perf', () => {
   const budgets = loadBudgets();
 
   test('standard 6 surfaces hover+scroll meets fps budget', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--nesting-and-groups');
+    await gotoMaterialStory(page, 'material-lab-examples--nesting-and-groups');
     const stats = await frameStats(page, 4000);
     expect(stats.p50).toBeGreaterThanOrEqual(budgets.desktopFpsP50);
     expect(stats.longTasks).toBe(budgets.longTasks);
@@ -58,14 +58,14 @@ test.describe('material perf', () => {
 
   test('3 surfaces mid-tier mobile meets fps budget', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await gotoMaterialStory(page, 'core-material-examples--tiers', { tier: 'standard' });
+    await gotoMaterialStory(page, 'material-lab-examples--tiers', { tier: 'standard' });
     const stats = await frameStats(page, 4000);
     expect(stats.p50).toBeGreaterThanOrEqual(budgets.mobileFpsP50);
   });
 
   test('enhanced 2 lenses meets fps + GPU budget', async ({ page, browserName }) => {
     test.skip(browserName !== 'chromium', 'enhanced is Chromium-only');
-    await gotoMaterialStory(page, 'core-material-examples--tiers', { tier: 'enhanced', engine: 'chromium' });
+    await gotoMaterialStory(page, 'material-lab-examples--tiers', { tier: 'enhanced', engine: 'chromium' });
     const stats = await frameStats(page, 4000);
     expect(stats.p50).toBeGreaterThanOrEqual(budgets.lensFpsP50);
   });

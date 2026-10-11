@@ -24,7 +24,7 @@ test.describe('responsive', () => {
 
   test('390x844 modal <= 3 visible filters incl. scrim, scrim blur <= 12', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await gotoMaterialStory(page, 'core-material-examples--nesting-and-groups');
+    await gotoMaterialStory(page, 'material-lab-examples--nesting-and-groups');
     const d = await readDensity(page);
     expect(d.liveBackdropFilters).toBeLessThanOrEqual(3);
     const scrimBlur = await computedVar(page, '[data-ag-layer="scrim"]', '--_ag-blur').catch(() => '');

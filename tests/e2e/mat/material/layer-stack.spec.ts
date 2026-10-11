@@ -22,7 +22,7 @@ test.describe('material layer stack', () => {
   }
 
   test('host is paint-clean', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--overview');
+    await gotoMaterialStory(page, 'material-lab-examples--overview');
     const s = await page.locator('.ag-surface').first().evaluate((el) => getComputedStyle(el));
     expect(s.transform).toBe('none');
     expect(s.willChange).toBe('auto');
@@ -32,7 +32,7 @@ test.describe('material layer stack', () => {
   });
 
   test('::after --ag-specular changes on interactive hover', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--nesting-and-groups');
+    await gotoMaterialStory(page, 'material-lab-examples--nesting-and-groups');
     const sel = '.ag-surface[data-ag-interactive]';
     const before = await computedPseudoVar(page, sel, '::after', '--ag-specular');
     await page.locator(sel).first().hover();
@@ -41,7 +41,7 @@ test.describe('material layer stack', () => {
   });
 
   test('six public read-outs resolve', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--overview');
+    await gotoMaterialStory(page, 'material-lab-examples--overview');
     for (const v of ['--ag-surface-fill', '--ag-surface-rim', '--ag-surface-shadow', '--ag-surface-radius', '--ag-on-surface', '--ag-on-surface-muted']) {
       const val = await computedVar(page, '.ag-surface', v);
       expect(val && val !== 'initial').toBeTruthy();

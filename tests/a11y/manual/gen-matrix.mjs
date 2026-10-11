@@ -74,7 +74,7 @@ export const ISSUE_16 = [
 /** Subjects that are scenarios, not ComponentMeta exports: resolved to a story
     through the CSF index (by story file + preferred export, or another subject's story). */
 export const SCENARIOS = {
-  SurfaceMaterialLab: { stream: 'mat', storyFile: 'src/material/stories/Material.Lab.stories.tsx', passes: ['sr', 'touch'] },
+  SurfaceMaterialLab: { stream: 'mat', storyFile: '.storybook/lab/MaterialExamples.stories.tsx', passes: ['sr', 'touch'] },
   OrientationChange: { stream: 'surf', storyOf: 'MobileShell', passes: ['touch'] },
 };
 /** REQ-MAT-66 MAT subjects (sr x 4 + touch x 2 each). */

@@ -11,7 +11,7 @@ const SURF = '.ag-surface[data-ag-layer="chrome"]';
 
 test.describe('optics', () => {
   test('backdrop-filter order: blur -> saturate -> brightness', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--regular');
+    await gotoMaterialStory(page, 'material-lab-examples--regular');
     const bf = await computedPseudoVar(page, SURF, '::before', 'backdrop-filter');
     const i = (s: string) => bf.indexOf(s);
     expect(i('blur(')).toBeGreaterThanOrEqual(0);
@@ -31,7 +31,7 @@ test.describe('optics', () => {
   });
 
   test('saturate is a single value', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--regular');
+    await gotoMaterialStory(page, 'material-lab-examples--regular');
     const bf = await computedPseudoVar(page, SURF, '::before', 'backdrop-filter');
     expect((bf.match(/saturate\(/g) ?? []).length).toBe(1);
   });
@@ -43,7 +43,7 @@ test.describe('optics', () => {
   });
 
   test('grain URL on ::before, host mix-blend-mode normal', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--regular');
+    await gotoMaterialStory(page, 'material-lab-examples--regular');
     const bg = await computedPseudoVar(page, SURF, '::before', 'background-image');
     expect(bg).toContain('ag-grain');
     const blend = await page.locator(SURF).first().evaluate((el) => getComputedStyle(el).mixBlendMode);
@@ -53,7 +53,7 @@ test.describe('optics', () => {
   test('Fresnel lit band >= +12 levels over flat black', async ({ page }) => {
     // measured in the visual lane; here assert the Fresnel layer exists in the
     // ::before background stack on a standard surface
-    await gotoMaterialStory(page, 'core-material-examples--regular');
+    await gotoMaterialStory(page, 'material-lab-examples--regular');
     const bg = await computedPseudoVar(page, SURF, '::before', 'background-image');
     expect(bg.split(',').length).toBeGreaterThan(1);
   });
@@ -77,7 +77,7 @@ test.describe('optics', () => {
   });
 
   test('clear over light/media dims at --_ag-dim 0.35', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--clear');
+    await gotoMaterialStory(page, 'material-lab-examples--clear');
     const dim = await computedVar(page, '.ag-surface[data-ag-variant="clear"]', '--_ag-dim');
     expect(parseFloat(dim)).toBeCloseTo(0.35, 2);
   });

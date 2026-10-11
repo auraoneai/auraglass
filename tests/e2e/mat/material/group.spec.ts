@@ -46,7 +46,7 @@ const requireTokenSheet = async (page: Page): Promise<void> => {
 
 test.describe('SurfaceGroup', () => {
   test('5-child toolbar renders exactly 1 visible backdrop filter', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--nesting-and-groups');
+    await gotoMaterialStory(page, 'material-lab-examples--nesting-and-groups');
     const density = await readDensity(page, '[data-ag-group]');
     expect(density.liveBackdropFilters).toBe(1);
     // children keep rim (::after background non-none) and shadow
@@ -59,7 +59,7 @@ test.describe('SurfaceGroup', () => {
   });
 
   test('spacing=4 computes gap == --ag-space-4 (REQ-MAT-26)', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--nesting-and-groups');
+    await gotoMaterialStory(page, 'material-lab-examples--nesting-and-groups');
     await requireTokenSheet(page);
     const group = page.locator('[data-ag-group]').first();
     // The story renders spacing="2"; the component's attribute emission is unit-tested
@@ -82,7 +82,7 @@ test.describe('SurfaceGroup', () => {
 
 test.describe('ConcentricFrame (REQ-MAT-26)', () => {
   test('radius=lg inset=3: child concentric radius = lg − space-3, frame pads by space-3', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--shape-and-concentricity');
+    await gotoMaterialStory(page, 'material-lab-examples--shape-and-concentricity');
     await requireTokenSheet(page);
     const frame = '[data-ag-part="concentric-frame"][data-ag-radius="lg"][data-ag-inset="3"]';
     await expect(page.locator(frame)).toHaveCount(1);
@@ -99,7 +99,7 @@ test.describe('ConcentricFrame (REQ-MAT-26)', () => {
 
 test.describe('ScrollEdge (REQ-MAT-26)', () => {
   test('computed background is not transparent', async ({ page }) => {
-    await gotoMaterialStory(page, 'core-material-examples--scroll-edge-story');
+    await gotoMaterialStory(page, 'material-lab-examples--scroll-edge-story');
     await requireTokenSheet(page);
     const edges = page.locator('[data-ag-part="scroll-edge"]');
     await expect(edges).toHaveCount(2);

@@ -2,18 +2,14 @@
    Shared StoryFrame preferences apply to these component examples too. */
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
-import { Surface } from '../Surface';
-import { SurfaceGroup } from '../SurfaceGroup';
-import { Environment } from '../Environment';
-import { ScrollEdge } from '../ScrollEdge';
-import { ConcentricFrame } from '../ConcentricFrame';
-import type { StoryAgParameters } from '../../contracts/testing';
+import { Surface, SurfaceGroup, Environment, ScrollEdge, ConcentricFrame } from '../../src/material';
+import type { StoryAgParameters } from '../../src/contracts/testing';
 
 const meta = {
-  title: 'Core/Material Examples',
+  title: 'Material Lab/Examples',
   component: Surface,
   parameters: {
-    ag: { subject: 'Surface', kind: 'component' } satisfies StoryAgParameters,
+    ag: { subject: 'lab:material-examples', kind: 'lab' } satisfies StoryAgParameters,
   },
 } satisfies Meta<typeof Surface>;
 export default meta;
