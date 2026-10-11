@@ -46,4 +46,30 @@ describe('Sparkline (SURF-173, REQ-SURF-91)', () => {
     const { container: area } = render(<Sparkline data={[1, 2, 3]} label="T" variant="area" />);
     expect(area.querySelectorAll('.ag-sparkline__area').length).toBe(1);
   });
+
+  it('dev-warns when neither label nor aria-hidden is given (JS consumers)', () => {
+    const prev = process.env['NODE_ENV'];
+    process.env['NODE_ENV'] = 'development';
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const Untyped = Sparkline as unknown as React.FC<{ data: number[] }>;
+      render(<Untyped data={[1, 2]} />);
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('`label` is required unless aria-hidden'));
+      warn.mockClear();
+      render(<Sparkline data={[1, 2]} aria-hidden />);
+      render(<Sparkline data={[1, 2]} label="T" />);
+      expect(warn).not.toHaveBeenCalled();
+    } finally {
+      warn.mockRestore();
+      process.env['NODE_ENV'] = prev;
+    }
+  });
+
+  it('aria-hidden sparkline drops role=img and its name', () => {
+    const { container } = render(<Sparkline data={[1, 2, 3]} aria-hidden />);
+    const svg = container.querySelector('svg')!;
+    expect(svg.getAttribute('aria-hidden')).toBe('true');
+    expect(svg.hasAttribute('role')).toBe(false);
+    expect(svg.hasAttribute('aria-label')).toBe(false);
+  });
 });

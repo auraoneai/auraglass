@@ -10,4 +10,12 @@
   .ag-sparkline[data-ag-intent="success"] { --_ag-sparkline-color: var(--_ag-success, Green); }
   .ag-sparkline[data-ag-intent="danger"] { --_ag-sparkline-color: var(--_ag-danger, Red); }
   .ag-sparkline[data-ag-intent="neutral"] { --_ag-sparkline-color: var(--_ag-fg-muted, CanvasText); }
+  /* Forced colors (REQ-SURF-91): system colours, never the intent palette. */
+  @media (forced-colors: active) {
+    .ag-sparkline__line,
+    .ag-sparkline__dot,
+    .ag-sparkline__bar { stroke: CanvasText; fill: CanvasText; }
+    .ag-sparkline__line { fill: none; }
+    .ag-sparkline__area { fill: CanvasText; fill-opacity: 0.15; }
+  }
 }
