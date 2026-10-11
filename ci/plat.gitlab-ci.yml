@@ -285,6 +285,8 @@ plat:test:docs:
 plat:gate:removal:
   extends: [.plat-node, .plat-evidence-pr]
   stage: test
+  # REQ-PLAT-79/82: stays allow_failure:true until ci/plat/activation.json
+  # records this job's first green 5x pipeline (PLAT-015); flip only there.
   allow_failure: true
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
@@ -292,13 +294,9 @@ plat:gate:removal:
     - 'test -f scripts/removal/gen-component-dispositions.mjs || { echo "PENDING: scripts/removal/gen-component-dispositions.mjs (lane 1c)"; exit 1; }'
     - node scripts/removal/gen-component-dispositions.mjs --check
     - node scripts/removal/consumer-grep.mjs --verify
-    - |
-      if [ -f scripts/removal/revert-dry-run.mjs ]; then
-        node scripts/removal/revert-dry-run.mjs
-      else
-        echo "PENDING: removal revert dry-run (lane 1c)"
-        exit 1
-      fi
+    # REQ-PLAT-79: the producer (scripts/removal/revert-dry-run.mjs, fa36fbf59)
+    # is on next, so the dry-run runs unconditionally; a missing script fails.
+    - node scripts/removal/revert-dry-run.mjs
 
 plat:gate:change-class:
   extends: [.plat-node, .plat-evidence-release]
