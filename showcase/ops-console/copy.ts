@@ -8,6 +8,11 @@ export const SHOWCASE_EPOCH = Date.UTC(2026, 2, 2, 9, 30, 0);
 const at = (minutes: number) => new Date(SHOWCASE_EPOCH + minutes * 60_000).toISOString();
 
 export const COPY = {
+  product: 'Beacon Ops',
+  navLabel: 'Operations',
+  status: 'All regions reporting · last sync 09:30 UTC · 3 pages active',
+  inspectorTitle: 'INC-4821',
+  inspectorSummary: 'Incident summary',
   skip: 'Skip to incidents',
   pageTitle: 'Production incidents',
   pageDescription: '7 open incidents across 3 regions. Paging policy: payments and identity escalate after 10 minutes.',
@@ -100,3 +105,21 @@ export const ACTIVITY: ActivityItem[] = [
   { id: 'a4', timestamp: at(-28), title: 'Deploy 7.14.2 reached 25% of eu-west-1', intent: 'neutral', actor: { name: 'Release train' } },
   { id: 'a5', timestamp: at(-43), title: 'Replication lag alert on ledger shard 7', intent: 'warning', actor: { name: 'DB monitor' } },
 ];
+
+/** Primary navigation for the app frame (replaces the block's placeholder nav). */
+export const NAV = [
+  { id: 'incidents', href: '#incidents', label: 'Incidents' },
+  { id: 'services', href: '#services', label: 'Services' },
+  { id: 'deploys', href: '#deploys', label: 'Deploys' },
+  { id: 'on-call', href: '#on-call', label: 'On-call' },
+  { id: 'runbooks', href: '#runbooks', label: 'Runbooks' },
+] as const;
+
+/** Inspector summary for the selected incident. */
+export const INCIDENT_SUMMARY = [
+  { label: 'Severity', value: 'SEV-2' },
+  { label: 'Status', value: 'Mitigating' },
+  { label: 'Commander', value: 'Priya Raman' },
+  { label: 'Opened', value: '09:12 UTC' },
+  { label: 'Customer impact', value: '12,840 slow checkout requests in eu-west-1' },
+] as const;

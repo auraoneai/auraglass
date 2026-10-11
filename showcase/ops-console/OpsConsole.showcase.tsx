@@ -3,8 +3,20 @@
    TopBar, Sidebar, Inspector and StatusBar; the showcase fills AppShell.Main and
    drives the sidebar into its rail state through AppShell.Controller. */
 import * as React from 'react';
-import { ActivityFeed, AlertDialog, Button, IconButton, Menu, Toast, Tooltip, useToast } from 'aura-glass';
-import { AppShell, ResizablePanels } from 'aura-glass/app-shell';
+import {
+  ActivityFeed,
+  AlertDialog,
+  Button,
+  Card,
+  Heading,
+  IconButton,
+  Menu,
+  Text,
+  Toast,
+  Tooltip,
+  useToast,
+} from 'aura-glass';
+import { AppShell, Inspector, ResizablePanels } from 'aura-glass/app-shell';
 import { Table, TreeView } from 'aura-glass/data';
 import { MoreHorizontalIcon } from 'aura-glass/icons';
 import { AppFrame } from '../../registry/blocks/app-frame/index';
@@ -13,12 +25,15 @@ import {
   COPY,
   DETAIL_FIELDS,
   INCIDENT_COLUMNS,
+  INCIDENT_SUMMARY,
   INCIDENTS,
+  NAV,
   SHOWCASE_EPOCH,
   TOPOLOGY,
   type IncidentRow,
   type TopologyNode,
 } from './copy';
+import mark from './assets/beacon-mark.avif';
 import styles from './ops-console.module.css';
 
 export interface OpsConsoleProps {
@@ -29,9 +44,11 @@ export interface OpsConsoleProps {
 /** Fragment: the incident grid with its row-actions menu. */
 export function OpsConsoleIncidents() {
   return (
-    <section className={styles.section} aria-labelledby="ops-incidents-heading">
+    <Card.Root className={styles.section} render={<section aria-labelledby="ops-incidents-heading" />}>
       <div className={styles.sectionHeader}>
-        <h2 id="ops-incidents-heading" className={styles.heading}>{COPY.incidentsHeading}</h2>
+        <Heading level={2} size="title-3" id="ops-incidents-heading">
+          {COPY.incidentsHeading}
+        </Heading>
         <Menu.Root>
           <Menu.Trigger render={<IconButton label={COPY.actions} icon={<MoreHorizontalIcon />} />} />
           <Menu.Portal>
@@ -57,17 +74,20 @@ export function OpsConsoleIncidents() {
         selectionMode="multiple"
         stickyHeader
       />
-    </section>
+    </Card.Root>
   );
 }
 
 /** Fragment: topology tree beside the selected service detail, in resizable panels. */
 export function OpsConsoleSplit({ now = SHOWCASE_EPOCH }: OpsConsoleProps) {
   return (
+    <Card.Root className={styles.split}>
     <ResizablePanels.Root defaultLayout={[35, 65]} labels={{ resize: 'Resize topology panel' }}>
       <ResizablePanels.Panel id="topology" label={COPY.topologyHeading} minSize={20}>
-        <section className={styles.section} aria-labelledby="ops-topology-heading">
-          <h2 id="ops-topology-heading" className={styles.heading}>{COPY.topologyHeading}</h2>
+        <section className={styles.pane} aria-labelledby="ops-topology-heading">
+          <Heading level={2} size="title-3" id="ops-topology-heading">
+            {COPY.topologyHeading}
+          </Heading>
           <TreeView<TopologyNode>
             items={TOPOLOGY}
             getKey={(n) => n.id}
@@ -82,21 +102,30 @@ export function OpsConsoleSplit({ now = SHOWCASE_EPOCH }: OpsConsoleProps) {
       </ResizablePanels.Panel>
       <ResizablePanels.Handle />
       <ResizablePanels.Panel id="detail" label={COPY.detailHeading} minSize={30}>
-        <section className={styles.section} aria-labelledby="ops-detail-heading">
-          <h2 id="ops-detail-heading" className={styles.heading}>{COPY.detailHeading}</h2>
+        <section className={styles.pane} aria-labelledby="ops-detail-heading">
+          <Heading level={2} size="title-3" id="ops-detail-heading">
+            {COPY.detailHeading}
+          </Heading>
           <dl className={styles.facts}>
             {DETAIL_FIELDS.map((f) => (
               <div key={f.label} className={styles.fact}>
-                <dt>{f.label}</dt>
-                <dd>{f.value}</dd>
+                <Text type="caption" muted render={<dt />}>
+                  {f.label}
+                </Text>
+                <Text weight="medium" render={<dd />}>
+                  {f.value}
+                </Text>
               </div>
             ))}
           </dl>
-          <h3>{COPY.activityHeading}</h3>
+          <Heading level={3} size="sm">
+            {COPY.activityHeading}
+          </Heading>
           <ActivityFeed items={ACTIVITY} timeFormat="relative" now={now} headingLevel={4} aria-label={COPY.activityHeading} />
         </section>
       </ResizablePanels.Panel>
     </ResizablePanels.Root>
+    </Card.Root>
   );
 }
 
@@ -121,7 +150,7 @@ function IncidentActions() {
         </Tooltip.Root>
       </Tooltip.Provider>
       <AlertDialog.Root intent="danger">
-        <AlertDialog.Trigger>{COPY.resolveAction}</AlertDialog.Trigger>
+        <AlertDialog.Trigger render={<Button intent="danger" />}>{COPY.resolveAction}</AlertDialog.Trigger>
         <AlertDialog.Portal>
           <AlertDialog.Backdrop />
           <AlertDialog.Popup>
@@ -152,15 +181,28 @@ export function OpsConsole({ now = SHOWCASE_EPOCH }: OpsConsoleProps) {
   return (
     <Toast.Provider>
       <AppShell.SkipLink>{COPY.skip}</AppShell.SkipLink>
-      <AppFrame>
+      <AppFrame
+        title={COPY.product}
+        brand={<img className={styles.mark} src={mark} alt="" width={28} height={28} />}
+        nav={NAV}
+        currentNav="incidents"
+        navLabel={COPY.navLabel}
+        inspectorTitle={COPY.inspectorTitle}
+        inspector={INCIDENT_SUMMARY.map((f) => (
+          <Inspector.Field key={f.label} label={f.label}>
+            {f.value}
+          </Inspector.Field>
+        ))}
+        status={COPY.status}
+      >
         <AppShell.Controller sidebar={sidebar} onSidebarChange={setSidebar} />
-        <AppShell.PageHeader
-          title={COPY.pageTitle}
-          description={COPY.pageDescription}
-          headingLevel={1}
-          actions={<IncidentActions />}
-        />
         <div className={styles.page}>
+          <AppShell.PageHeader
+            title={COPY.pageTitle}
+            description={COPY.pageDescription}
+            headingLevel={1}
+            actions={<IncidentActions />}
+          />
           <OpsConsoleIncidents />
           <OpsConsoleSplit now={now} />
         </div>

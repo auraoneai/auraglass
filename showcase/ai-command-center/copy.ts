@@ -23,6 +23,7 @@ export const COPY = {
   sources: 'Sources',
   runbook: 'Run inspector',
   draftReply: 'Rollback summary for the on-call channel',
+  statusLineLabel: 'Status page draft:',
   toastTitle: 'Runbook step approved',
   toastBody: 'Canary rollback for checkout-api was queued by Priya Raman.',
   composerPlaceholder: 'Ask about incident 4821…',
@@ -122,6 +123,10 @@ export const STREAMING_SUMMARY =
   'Summary for #payments-oncall: checkout-api 7.14.2 reduced the database connection pool from 64 to 32. ' +
   'EU-West p99 rose from 182 ms to 941 ms between 09:05 and 09:12 UTC, affecting 12,840 requests. ' +
   'Canary rollback to 7.14.1 is awaiting approval';
+
+/** Customer-facing status line (distinct from the on-call summary above). */
+export const STATUS_LINE =
+  'Checkout in Europe is slower than usual. We have identified the cause and are rolling back the change.';
 
 export const INSPECTOR_FIELDS = [
   { label: 'Severity', value: 'SEV-2' },

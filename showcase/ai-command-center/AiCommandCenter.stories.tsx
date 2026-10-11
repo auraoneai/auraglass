@@ -13,7 +13,7 @@ const meta = {
   title: 'Showcases/AI Command Center',
   component: AiCommandCenter,
   tags: ['showcase'],
-  globals: { scene: 'dark-media' },
+  globals: { scene: 'dark-media', scheme: 'dark' },
   parameters: { layout: 'fullscreen', ag: { subject: 'ai-command-center', kind: 'showcase' } },
 } satisfies Meta<typeof AiCommandCenter>;
 export default meta;

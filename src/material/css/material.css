@@ -187,6 +187,9 @@
   :where([data-ag-backdrop]) {
     position: relative;
     overflow: hidden;
+    /* text placed directly on the backdrop (page headers, captions) reads the
+       backdrop-resolved glyph instead of the UA default black */
+    color: var(--_ag-on-surface);
   }
   :where([data-ag-part="backdrop-media"]) {
     position: absolute;
@@ -244,6 +247,19 @@
     --_ag-canvas-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) calc(l + 0.015) c h);
     --_ag-fill: var(--_ag-canvas-fill);
     --_ag-alpha: 1;
+  }
+  /* Content materials are opaque canvas fills, so their glyphs follow the
+     scheme, never the declared backdrop (the backdrop glyph flip is for small
+     chrome; large surfaces raise their floor instead — MAT-110). Without this a
+     content-raised card over a media/dark backdrop in the light scheme painted
+     the media row's near-white glyph on a near-white fill. Surfaces nested in a
+     content surface sit on that canvas fill too (inner fill), so they read the
+     scheme glyph as well. Only the public read-outs are re-pointed; the
+     inherited --_ag-on-surface env values are untouched. */
+  [data-ag-surface][data-ag-layer="content"]:not(:where([data-ag-variant])),
+  :where([data-ag-surface][data-ag-layer="content"]:not([data-ag-variant])) [data-ag-surface] {
+    --ag-on-surface: var(--ag-color-on-surface, currentColor);
+    --ag-on-surface-muted: var(--ag-color-on-surface-muted, currentColor);
   }
   [data-ag-surface][data-ag-layer="content"][data-ag-content="content-sunken"] {
     --_ag-canvas-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) calc(l - 0.03) c h);

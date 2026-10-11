@@ -7,7 +7,7 @@ const meta = {
   title: 'Showcases/Ops Console',
   component: OpsConsole,
   tags: ['showcase'],
-  globals: { scene: 'flat-black' },
+  globals: { scene: 'flat-black', scheme: 'dark' },
   parameters: { layout: 'fullscreen', ag: { subject: 'ops-console', kind: 'showcase' } },
 } satisfies Meta<typeof OpsConsole>;
 export default meta;
