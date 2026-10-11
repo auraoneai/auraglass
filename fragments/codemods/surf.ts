@@ -32,6 +32,7 @@ const w1: CodemodMappingFragment = {
     { from: 'GlassAppShell', fromEntry: 'aura-glass', to: 'AppShell', toEntry: 'aura-glass/app-shell' },
     { from: 'GlassHeader', fromEntry: 'aura-glass', to: 'TopBar', toEntry: 'aura-glass/app-shell' },
     { from: 'GlassTopBar', fromEntry: 'aura-glass', to: 'TopBar', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassNavigation', fromEntry: 'aura-glass', to: 'Sidebar', toEntry: 'aura-glass/app-shell' },
     { from: 'GlassSidebar', fromEntry: 'aura-glass', to: 'Sidebar', toEntry: 'aura-glass/app-shell' },
     { from: 'GlassMain', fromEntry: 'aura-glass', to: 'AppShell', toEntry: 'aura-glass/app-shell' },
     { from: 'GlassPageHeader', fromEntry: 'aura-glass', to: 'AppShell', toEntry: 'aura-glass/app-shell' },
@@ -43,6 +44,10 @@ const w1: CodemodMappingFragment = {
     { from: 'GlassPageTabs', fromEntry: 'aura-glass', to: 'GlassPageTabs', toEntry: 'aura-glass/compat', compatOnly: true },
     { from: 'GlassTabBar', fromEntry: 'aura-glass', to: 'TabBar', toEntry: 'aura-glass' },
     { from: 'GlassWorkspaceTabs', fromEntry: 'aura-glass', to: 'Tabs', toEntry: 'aura-glass' },
+    // REQ-SURF-47 (REQ-FIN-82): DEP-S0027/0028; TabItem was an internal 4.x part.
+    { from: 'EnhancedGlassTabs', fromEntry: 'aura-glass', to: 'Tabs', toEntry: 'aura-glass' },
+    { from: 'GlassTabItem', fromEntry: 'aura-glass', to: 'Tabs', toEntry: 'aura-glass' },
+    { from: 'TabItem', fromEntry: 'aura-glass', to: 'Tabs', toEntry: 'aura-glass' },
     { from: 'LiquidGlassTabBar', fromEntry: 'aura-glass', to: 'LiquidGlassTabBar', toEntry: 'aura-glass/compat', compatOnly: true },
     { from: 'GlassBottomNav', fromEntry: 'aura-glass', to: 'TabBar', toEntry: 'aura-glass' },
     { from: 'LiquidGlassBottomAccessory', fromEntry: 'aura-glass', to: 'LiquidGlassBottomAccessory', toEntry: 'aura-glass/compat', compatOnly: true },

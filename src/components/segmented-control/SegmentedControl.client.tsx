@@ -10,7 +10,26 @@ import { subscribeFrame } from '../../motion/ticker';
 import type {
   SegmentedControlRootProps,
   SegmentedControlItemProps,
+  SegmentedControlIndicatorProps,
 } from './SegmentedControl.types';
+
+function SegmentedControlIndicator({ children, className, ref }: SegmentedControlIndicatorProps) {
+  return (
+    <span data-ag-part="indicator" aria-hidden="true" className={className} ref={ref}>
+      {children}
+    </span>
+  );
+}
+SegmentedControlIndicator.displayName = 'SegmentedControl.Indicator';
+
+/* REQ-CMP-41: a consumer-supplied Indicator replaces the auto-rendered one. */
+function hasCustomIndicator(children: React.ReactNode): boolean {
+  let found = false;
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement(child) && child.type === SegmentedControlIndicator) found = true;
+  });
+  return found;
+}
 
 const SEGMENT_SELECT_WARNED = new WeakSet<Element>();
 
@@ -42,6 +61,7 @@ function SegmentedControlRoot({
   defaultValue,
   onValueChange,
   size = 'md',
+  orientation = 'horizontal',
   variant = 'regular',
   thickness,
   prominent,
@@ -128,14 +148,17 @@ function SegmentedControlRoot({
         disabled={disabled}
         data-ag-part="root"
         data-ag-size={size}
+        data-orientation={orientation}
         className={cn('ag-segmented-control', className)}
         ref={setRefs}
       >
-        <span
-          data-ag-part="indicator"
-          aria-hidden="true"
-          {...materialProps({ layer: 'transient', thickness: 'thin' })}
-        />
+        {hasCustomIndicator(children) ? null : (
+          <span
+            data-ag-part="indicator"
+            aria-hidden="true"
+            {...materialProps({ layer: 'transient', thickness: 'thin' })}
+          />
+        )}
         {children}
       </BUGroup>
     </SurfaceGroup>
@@ -160,4 +183,5 @@ function SegmentedControlItem({ value, disabled, title, className, children, ref
 export const SegmentedControl = {
   Root: SegmentedControlRoot,
   Item: SegmentedControlItem,
+  Indicator: SegmentedControlIndicator,
 };
