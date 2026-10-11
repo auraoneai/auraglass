@@ -13,7 +13,7 @@
 mat:build:tokens:
   extends: .mat-base
   stage: build
-  allow_failure: true
+  allow_failure: false # activated on 5x: ci/plat/activation.json
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
   script:
@@ -32,7 +32,7 @@ mat:build:tokens:
 mat:test:tokens-interim:
   extends: .mat-base
   stage: test
-  allow_failure: true
+  allow_failure: false # activated on 5x: ci/plat/activation.json
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
   script:
@@ -52,7 +52,7 @@ mat:test:tokens-interim:
 mat:test:drift:
   extends: .mat-base
   stage: test
-  allow_failure: true
+  allow_failure: false # activated on 5x: ci/plat/activation.json
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
   script:
@@ -74,7 +74,7 @@ mat:test:token-gates:
 mat:lint:literals:
   extends: .mat-base
   stage: test
-  allow_failure: true
+  allow_failure: false # activated on 5x: ci/plat/activation.json
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
   script:
@@ -146,7 +146,7 @@ mat:test:material-browsers:
 mat:test:consumer-4x:
   extends: .mat-base
   stage: test
-  allow_failure: true
+  allow_failure: false # activated on 5x: ci/plat/activation.json
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
   script:
