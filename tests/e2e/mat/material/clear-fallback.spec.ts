@@ -15,7 +15,7 @@ async function readPair(page: import('@playwright/test').Page, variant: string) 
 
 test.describe('clear fallback', () => {
   test('clear without backdrop == regular (filter + fill)', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab--clear');
+    await gotoMaterialStory(page, 'core-material-examples--clear');
     const clear = await readPair(page, 'clear');
     const regular = await readPair(page, 'regular').catch(() => null);
     if (!regular) {

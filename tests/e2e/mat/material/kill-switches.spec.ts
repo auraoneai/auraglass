@@ -8,7 +8,7 @@ import { gotoMaterialStory } from '../../../material/helpers/story';
 test.describe('kill switches', () => {
   test('subtree data-ag-tier=standard removes the lens under enhanced', async ({ page, browserName }) => {
     test.skip(browserName !== 'chromium', 'enhanced is Chromium-only');
-    await gotoMaterialStory(page, 'material-lab--tiers', { tier: 'enhanced', engine: 'chromium' });
+    await gotoMaterialStory(page, 'core-material-examples--tiers', { tier: 'enhanced', engine: 'chromium' });
     // flip a subtree to standard
     await page.evaluate(() => {
       const host = document.querySelector('[data-ag-tier="enhanced"]');
@@ -20,7 +20,7 @@ test.describe('kill switches', () => {
   });
 
   test('subtree solid gives lightweight rung; siblings unchanged', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab--preferences');
+    await gotoMaterialStory(page, 'core-material-examples--preferences');
     const solidBf = await computedPseudoVar(
       page, '[data-ag-transparency="solid"] .ag-surface', '::before', 'backdrop-filter');
     const glassBf = await computedPseudoVar(
@@ -30,7 +30,7 @@ test.describe('kill switches', () => {
   });
 
   test('subtree tinted raises the tint floor only under that subtree', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab--preferences');
+    await gotoMaterialStory(page, 'core-material-examples--preferences');
     const tinted = await computedVar(page, '[data-ag-transparency="tinted"] .ag-surface', '--_ag-tint-floor');
     const glass = await computedVar(page, '[data-ag-transparency="glass"] .ag-surface', '--_ag-tint-floor')
       .catch(() => '');

@@ -8,7 +8,7 @@ import { gotoMaterialStory } from '../../../material/helpers/story';
 test.describe('webkit literal', () => {
   test('variance under regular surface drops >= 40% over hf-pattern', async ({ page, browserName }) => {
     test.skip(browserName !== 'webkit', 'WebKit-only assertion');
-    await gotoMaterialStory(page, 'material-lab--regular');
+    await gotoMaterialStory(page, 'core-material-examples--regular');
     const surf = page.locator('.ag-surface').first();
     const box = await surf.boundingBox();
     expect(box).toBeTruthy();

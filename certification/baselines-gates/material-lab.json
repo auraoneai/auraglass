@@ -1,5 +1,5 @@
 {
-  "$comment": "Expiring baseline (PRD-F §4.3 rule 3) for scripts/storybook/verify-material-lab.mjs (REQ-QUAL-53, REQ-FIN-106): Material Lab stories outside .storybook/lab/**. Written by --init-baseline; shrinks only. lab-id-collision rows also break the Storybook build until the owner removes them. Empty at RC-1.",
+  "$comment": "Expiring baseline (PRD-F \u00a74.3 rule 3) for scripts/storybook/verify-material-lab.mjs (REQ-QUAL-53, REQ-FIN-106): Material Lab stories outside .storybook/lab/**. Written by --init-baseline; shrinks only. lab-id-collision rows also break the Storybook build until the owner removes them. Empty at RC-1.",
   "version": 1,
   "gate": "material-lab",
   "reqFin": "REQ-FIN-106",
@@ -30,90 +30,6 @@
       "rule": "lab-outside-harness",
       "key": "material-lab-clear--without-backdrop",
       "file": "src/material/stories/Clear.stories.tsx",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-59"
-    },
-    {
-      "rule": "lab-id-collision",
-      "key": "material-lab--clear",
-      "file": "src/material/stories/Material.Lab.stories.tsx",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-59"
-    },
-    {
-      "rule": "lab-id-collision",
-      "key": "material-lab--content-raised",
-      "file": "src/material/stories/Material.Lab.stories.tsx",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-59"
-    },
-    {
-      "rule": "lab-id-collision",
-      "key": "material-lab--content-sunken",
-      "file": "src/material/stories/Material.Lab.stories.tsx",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-59"
-    },
-    {
-      "rule": "lab-id-collision",
-      "key": "material-lab--identity",
-      "file": "src/material/stories/Material.Lab.stories.tsx",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-59"
-    },
-    {
-      "rule": "lab-id-collision",
-      "key": "material-lab--motion",
-      "file": "src/material/stories/Material.Lab.stories.tsx",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-59"
-    },
-    {
-      "rule": "lab-id-collision",
-      "key": "material-lab--nesting-and-groups",
-      "file": "src/material/stories/Material.Lab.stories.tsx",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-59"
-    },
-    {
-      "rule": "lab-id-collision",
-      "key": "material-lab--overview",
-      "file": "src/material/stories/Material.Lab.stories.tsx",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-59"
-    },
-    {
-      "rule": "lab-id-collision",
-      "key": "material-lab--preferences",
-      "file": "src/material/stories/Material.Lab.stories.tsx",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-59"
-    },
-    {
-      "rule": "lab-id-collision",
-      "key": "material-lab--regular",
-      "file": "src/material/stories/Material.Lab.stories.tsx",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-59"
-    },
-    {
-      "rule": "lab-outside-harness",
-      "key": "material-lab--scroll-edge-story",
-      "file": "src/material/stories/Material.Lab.stories.tsx",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-59"
-    },
-    {
-      "rule": "lab-id-collision",
-      "key": "material-lab--shape-and-concentricity",
-      "file": "src/material/stories/Material.Lab.stories.tsx",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-59"
-    },
-    {
-      "rule": "lab-id-collision",
-      "key": "material-lab--tiers",
-      "file": "src/material/stories/Material.Lab.stories.tsx",
       "owner": "MAT",
       "reqFin": "REQ-FIN-59"
     },

@@ -11,8 +11,8 @@ test.describe('rsc canary', () => {
     const errors: string[] = [];
     page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
     page.on('pageerror', (e) => errors.push(String(e)));
-    await gotoMaterialStory(page, 'material-lab--overview');
-    await gotoMaterialStory(page, 'material-lab--tiers');
+    await gotoMaterialStory(page, 'core-material-examples--overview');
+    await gotoMaterialStory(page, 'core-material-examples--tiers');
     expect(errors).toEqual([]);
   });
 });

@@ -1,6 +1,5 @@
-/* MAT-171/173 — Material Lab stories (REQ-SB-18 order). kind 'lab' wraps each
-   story in QUAL's Material Lab frame (S-41): controls + contrast read-out are
-   harness-provided; no local decorators or globals. */
+/* Material source examples retained alongside the dedicated QUAL Material Lab.
+   Shared StoryFrame preferences apply to these component examples too. */
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { Surface } from '../Surface';
@@ -11,10 +10,10 @@ import { ConcentricFrame } from '../ConcentricFrame';
 import type { StoryAgParameters } from '../../contracts/testing';
 
 const meta = {
-  title: 'Material Lab',
+  title: 'Core/Material Examples',
   component: Surface,
   parameters: {
-    ag: { subject: 'Surface', kind: 'lab' } satisfies StoryAgParameters,
+    ag: { subject: 'Surface', kind: 'component' } satisfies StoryAgParameters,
   },
 } satisfies Meta<typeof Surface>;
 export default meta;

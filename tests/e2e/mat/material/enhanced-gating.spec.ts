@@ -17,7 +17,7 @@ test.describe('enhanced gating', () => {
       document.documentElement.setAttribute('data-ag-engine', 'chromium');
       document.documentElement.setAttribute('data-ag-tier', 'enhanced');
     });
-    await gotoMaterialStory(page, 'material-lab--tiers', { tier: 'enhanced', engine: 'chromium' });
+    await gotoMaterialStory(page, 'core-material-examples--tiers', { tier: 'enhanced', engine: 'chromium' });
     // mount LensDefs (provider does this in real apps; A11Y-029)
     await page.evaluate(() => {
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -35,7 +35,7 @@ test.describe('enhanced gating', () => {
 
   test('non-chromium: enhanced renders like standard (no lens)', async ({ page, browserName }) => {
     test.skip(browserName === 'chromium', 'this asserts non-chromium inertness');
-    await gotoMaterialStory(page, 'material-lab--tiers', { tier: 'enhanced' });
+    await gotoMaterialStory(page, 'core-material-examples--tiers', { tier: 'enhanced' });
     const bf = await computedPseudoVar(page, REFRACT, '::before', 'backdrop-filter').catch(() => '');
     expect(bf).not.toContain('url(#ag-lens');
   });
@@ -43,7 +43,7 @@ test.describe('enhanced gating', () => {
   test('refraction on non-chrome layer is inert + dev warning', async ({ page }) => {
     const warnings: string[] = [];
     page.on('console', (m) => { if (m.text().includes('[aura-glass]')) warnings.push(m.text()); });
-    await gotoMaterialStory(page, 'material-lab--tiers', { tier: 'enhanced', engine: 'chromium' });
+    await gotoMaterialStory(page, 'core-material-examples--tiers', { tier: 'enhanced', engine: 'chromium' });
     const nonChrome = page.locator('.ag-surface[data-ag-refraction]:not([data-ag-layer="chrome"])');
     if (await nonChrome.count() > 0) {
       expect(warnings.some((w) => w.includes('refraction is ignored on layer'))).toBeTruthy();
@@ -52,7 +52,7 @@ test.describe('enhanced gating', () => {
 
   test('inert under tinted/solid transparency', async ({ page, browserName }) => {
     test.skip(browserName !== 'chromium', 'enhanced is Chromium-only');
-    await gotoMaterialStory(page, 'material-lab--preferences', { tier: 'enhanced', engine: 'chromium' });
+    await gotoMaterialStory(page, 'core-material-examples--preferences', { tier: 'enhanced', engine: 'chromium' });
     const bf = await computedPseudoVar(
       page, '[data-ag-transparency="tinted"] .ag-surface[data-ag-refraction]', '::before', 'backdrop-filter')
       .catch(() => '');
