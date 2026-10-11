@@ -32,6 +32,9 @@
           "durationMs": { "type": "integer" },
           "failedOwners": { "type": "array", "items": { "type": "string" } },
           "blockingFor": { "type": "string" },
+          "line": { "type": "string", "enum": ["4x"] },
+          "tarballSource": { "type": "string", "enum": ["published", "head"] },
+          "blocking": { "type": "boolean", "enum": [false] },
           "subjects": { "type": "array", "items": { "type": "string" } },
           "coverage": {
             "type": "array",
@@ -59,6 +62,23 @@
         "source": { "type": "string", "enum": ["env", "pack"] },
         "file": { "type": "string" },
         "sha256": { "type": ["string", "null"] }
+      }
+    },
+    "tarballs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "state", "spec", "sha256"],
+        "properties": {
+          "source": { "type": "string", "enum": ["published", "head"] },
+          "state": { "type": "string", "enum": ["ready", "pending", "fail"] },
+          "spec": { "type": "string" },
+          "version": { "type": "string" },
+          "commit": { "type": "string" },
+          "reason": { "type": "string" },
+          "file": { "type": "string" },
+          "sha256": { "type": ["string", "null"] }
+        }
       }
     },
     "thresholdsSha256": { "type": ["string", "null"] },

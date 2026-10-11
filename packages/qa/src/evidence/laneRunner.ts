@@ -1,4 +1,4 @@
-/* REQ-QUAL-05, -06, -27, -28, -30 lane runner (QUAL; LANE_COMMAND, S-43).
+/* REQ-QUAL-05, -06, -27, -28, -30, -33 lane runner (QUAL; LANE_COMMAND, S-43).
    `certification/run.mjs` is the CLI; this module is the implementation, so it is unit-tested under
    jest.qual.config.js (packages/qa/test/{lane-runner,fail-closed,l1-wiring}.test.ts).
 
@@ -13,12 +13,18 @@
    `pending` is `fail` (G-01: pending is not pass). Pending is reported only here:
    - node-script rows exit PENDING_EXIT (75) to say "producer not landed";
    - jest/playwright rows whose every failure is an `AgPendingProducer` / `pending:` error are pending.
+   `--line 4x` (REQ-QUAL-33, "4.x coverage today"): L2, L3 and L11 run from `next` against two 4.x tarballs — the
+   published `aura-glass@$AG_V4_DIST_TAG` and one packed in-job from the `release/4.x` head (scratch worktree, the 4.x
+   scripts unchanged) — at main and nightly scope only. Every result row carries `line: '4x'`, its `tarballSource` and
+   `blocking: false`; 4.x results never block (a 4.x row failure leaves the exit code 0, the manifest records it). The
+   head source is `pending` while `release/4.x` is not on this project's remote (REQ-FIN-20). The 4.x manifest is
+   written to .artifacts/qual/<job-slug>/line-4x/lane-manifest.json.
    Exit codes: 0 no blocking failure · 1 blocking failure · 2 invoked outside a remote runner · 64 usage error. */
 import { execFileSync, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, globSync, mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, globSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { cpus } from 'node:os';
+import { cpus, tmpdir } from 'node:os';
 import { isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { build } from 'esbuild';
 import { loadFragments } from '../../../../src/contracts/load-fragments.mjs';
@@ -36,6 +42,12 @@ export const TARBALL_LANES = new Set(['L2', 'L3', 'L4']);
 export const PENDING_EXIT = 75;
 export const EXIT = { ok: 0, fail: 1, local: 2, usage: 64 } as const;
 export const ROW_TIMEOUT_MS = 30 * 60 * 1000;
+/** REQ-QUAL-33: the lanes and scopes `--line 4x` runs (contract §5.1 L2/L3/L11; nightly + main-scope l2/l3/l11). */
+export const LINE_4X_LANES = ['L2', 'L3', 'L11'] as const;
+export const LINE_4X_SCOPES = ['main', 'nightly'] as const;
+export const V4_HEAD_REF = 'release/4.x';
+/** npm ci + build + pack of the 4.x head in the scratch worktree. */
+export const V4_BUILD_TIMEOUT_MS = 45 * 60 * 1000;
 const GLOB_EXCLUDE = (p: string) => /(^|\/)(node_modules|dist|legacy|\.git|\.artifacts)(\/|$)/.test(p);
 const STREAMS = ['plat', 'mat', 'cmp', 'surf', 'qual'] as const;
 
@@ -70,11 +82,11 @@ export interface RowResult {
   coverage?: Array<GroupResult & { owner: string }>;
   coveragePending?: Array<{ key: string; reason: string }>;
 }
-export interface ManifestResult extends RowResult { lane: string; stream: Stream; kind: string; path: string; scope: Scope; source: string | null; blockingFor?: string }
+export interface ManifestResult extends RowResult { lane: string; stream: Stream; kind: string; path: string; scope: Scope; source: string | null; blockingFor?: string; line?: '4x'; tarballSource?: V4Source; blocking?: false }
 
-export interface Tools { node: string; jestBin: string; playwrightCli: string; npm: string }
+export interface Tools { node: string; jestBin: string; playwrightCli: string; npm: string; git: string }
 export interface Tarball { source: 'env' | 'pack'; path: string }
-export interface RowContext { root: string; evidenceDir: string; idx: number; scope: Scope; env: NodeJS.ProcessEnv; tools: Tools; tarball: Tarball | null }
+export interface RowContext { root: string; evidenceDir: string; idx: number; scope: Scope; env: NodeJS.ProcessEnv; tools: Tools; tarball: Tarball | null; v4?: V4Tarball }
 
 export interface Args { lane: LaneId | 'all'; scope: Scope; verdict: string | null; line: '4x' | '5x' }
 
@@ -92,6 +104,12 @@ export function parseArgs(argv: readonly string[]): Args {
   if (out.lane !== 'all' && !(LANE_IDS as readonly string[]).includes(out.lane ?? '')) throw new Error(`--lane must be one of ${LANE_IDS.join('|')}|all (got ${out.lane})`);
   if (!(SCOPES as readonly string[]).includes(out.scope ?? '')) throw new Error(`--scope must be one of ${SCOPES.join('|')} (got ${out.scope})`);
   if (!['4x', '5x'].includes(out.line)) throw new Error(`--line must be 4x|5x (got ${out.line})`);
+  if (out.line === '4x') {
+    // REQ-QUAL-33: 4.x runs only L2/L3/L11, only at main/nightly, and never produces a release verdict.
+    if (out.lane !== 'all' && !(LINE_4X_LANES as readonly string[]).includes(out.lane!)) throw new Error(`--line 4x runs only ${LINE_4X_LANES.join('|')}|all (got ${out.lane})`);
+    if (!(LINE_4X_SCOPES as readonly string[]).includes(out.scope!)) throw new Error(`--line 4x runs only at ${LINE_4X_SCOPES.join('|')} scope (got ${out.scope})`);
+    if (out.verdict) throw new Error('--line 4x never writes a release verdict (4.x results never block)');
+  }
   return out as Args;
 }
 
@@ -183,7 +201,11 @@ const PENDING_MESSAGE = /(^|\n)\s*(?:AgPendingProducer: |Error: )?pending:/;
 const allPending = (messages: readonly string[]) => messages.length > 0 && messages.every((m) => PENDING_MESSAGE.test(m));
 
 function rowEnv(row: Registration, ctx: RowContext): NodeJS.ProcessEnv {
-  return { ...ctx.env, AG_SCOPE: ctx.scope, AG_LANE: row.lane, ...(ctx.tarball ? { AURAGLASS_TARBALL: ctx.tarball.path } : {}) };
+  return {
+    ...ctx.env, AG_SCOPE: ctx.scope, AG_LANE: row.lane, ...(ctx.tarball ? { AURAGLASS_TARBALL: ctx.tarball.path } : {}),
+    // REQ-QUAL-33: the row certifies a 4.x tarball (L3's G-07 check reads the shipped 4.x deprecations from it).
+    ...(ctx.v4?.path ? { AURAGLASS_TARBALL: ctx.v4.path, AG_CERT_LINE: '4x', AG_TARBALL_SOURCE: ctx.v4.source, AG_V4_VERSION: ctx.v4.version ?? '' } : {}),
+  };
 }
 
 /** Node needs --experimental-strip-types for .ts gates before 22.18; harmless where types are stripped natively. */
@@ -435,6 +457,82 @@ export function resolveTarball(root: string, env: NodeJS.ProcessEnv, tools: Pick
   return { source: 'pack', path: file };
 }
 
+// ---------------------------------------------------------------- REQ-QUAL-33 4.x tarballs
+
+export type V4Source = 'published' | 'head';
+/** A 4.x tarball for `--line 4x`. `pending`/`fail` carry the reason every row of that source reports. */
+export interface V4Tarball { source: V4Source; state: 'ready' | 'pending' | 'fail'; spec: string; path?: string; version?: string; commit?: string; reason?: string }
+
+const tail = (s: string | undefined, n = 400) => (s ?? '').trim().slice(-n);
+
+/** `npm pack` prints the tarball name as the last stdout line; the package must be aura-glass 4.x. */
+function checkV4Tarball(stdout: string, dest: string): { path: string; version: string } | string {
+  const name = stdout.trim().split('\n').pop()?.trim() ?? '';
+  const version = name.match(/^aura-glass-(\d+\.\d+\.\d+(?:-[0-9A-Za-z.]+)?)\.tgz$/)?.[1];
+  if (!version || !existsSync(join(dest, name))) return `npm pack produced no aura-glass tarball in ${dest} (stdout: ${tail(stdout, 200)})`;
+  if (!version.startsWith('4.')) return `resolved aura-glass ${version}, not a 4.x release`;
+  return { path: join(dest, name), version };
+}
+
+/** Source 1: the latest published 4.x, `npm pack aura-glass@$AG_V4_DIST_TAG` (public registry, no credential). */
+export function resolvePublishedV4Tarball(root: string, env: NodeJS.ProcessEnv, tools: Pick<Tools, 'npm'>): V4Tarball {
+  const tag = env.AG_V4_DIST_TAG?.trim();
+  const spec = `aura-glass@${tag ?? ''}`;
+  if (!tag) return { source: 'published', state: 'fail', spec, reason: 'AG_V4_DIST_TAG is unset (root .gitlab-ci.yml variable)' };
+  const dest = join(root, '.artifacts/pack-4x/published');
+  mkdirSync(dest, { recursive: true });
+  const r = spawnSync(tools.npm, ['pack', spec, '--pack-destination', dest], { cwd: dest, env, encoding: 'utf8', timeout: 10 * 60 * 1000, maxBuffer: 64 * 1024 * 1024 });
+  if (r.status !== 0) return { source: 'published', state: 'fail', spec, reason: `npm pack ${spec} failed (exit ${r.status}${r.error ? `, ${r.error.message}` : ''}): ${tail(r.stderr)}` };
+  const t = checkV4Tarball(r.stdout, dest);
+  if (typeof t === 'string') return { source: 'published', state: 'fail', spec, reason: `npm pack ${spec}: ${t}` };
+  return { source: 'published', state: 'ready', spec, ...t };
+}
+
+/** Source 2: the `release/4.x` head — `git fetch origin release/4.x` with the job's own access, a scratch worktree,
+    then `npm ci`, the 4.x `build` script (the 4.x package ships dist/) and `npm pack`, all from the 4.x tree unchanged.
+    `pending` while the ref is not on this project's remote (REQ-FIN-20 brings release/4.x refs and pipelines). */
+export function resolveHeadV4Tarball(root: string, env: NodeJS.ProcessEnv, tools: Pick<Tools, 'npm' | 'git'>): V4Tarball {
+  const spec = `origin/${V4_HEAD_REF}`;
+  const sh = (cmd: string, args: readonly string[], cwd: string, extra: NodeJS.ProcessEnv = {}) =>
+    spawnSync(cmd, args, { cwd, env: { ...env, ...extra }, encoding: 'utf8', timeout: V4_BUILD_TIMEOUT_MS, maxBuffer: 256 * 1024 * 1024 });
+  const fetch = sh(tools.git, ['fetch', '--no-tags', '--depth=1', 'origin', `+refs/heads/${V4_HEAD_REF}:refs/remotes/origin/${V4_HEAD_REF}`], root);
+  if (fetch.status !== 0) {
+    const msg = tail(fetch.stderr || fetch.error?.message);
+    if (/couldn't find remote ref/i.test(msg)) {
+      return { source: 'head', state: 'pending', spec, reason: `${V4_HEAD_REF} is not on this project's remote yet (REQ-FIN-20: FIN-B #126 + OD-8 bring release/4.x refs and pipelines): ${msg}` };
+    }
+    return { source: 'head', state: 'fail', spec, reason: `git fetch origin ${V4_HEAD_REF} failed (exit ${fetch.status}): ${msg}` };
+  }
+  const commit = sh(tools.git, ['rev-parse', `refs/remotes/origin/${V4_HEAD_REF}`], root).stdout.trim();
+  const scratch = mkdtempSync(join(tmpdir(), 'ag-4x-head-'));
+  const fail = (reason: string): V4Tarball => ({ source: 'head', state: 'fail', spec, commit, reason });
+  try {
+    const add = sh(tools.git, ['worktree', 'add', '--detach', scratch, commit], root);
+    if (add.status !== 0) return fail(`git worktree add ${commit} failed: ${tail(add.stderr)}`);
+    // HUSKY=0: the 4.x `prepare` (husky install) must not touch the job's git hooks.
+    const step = (args: string[]) => {
+      console.log(`[4x head ${commit.slice(0, 9)}] npm ${args.join(' ')}`);
+      const r = sh(tools.npm, args, scratch, { HUSKY: '0' });
+      return r.status === 0 ? null : `npm ${args.join(' ')} failed in the ${V4_HEAD_REF} worktree (exit ${r.status}${r.error ? `, ${r.error.message}` : ''}): ${tail(r.stderr || r.stdout)}`;
+    };
+    const ci = step(['ci', '--no-audit', '--no-fund']);
+    if (ci) return fail(ci);
+    const pkg = JSON.parse(readFileSync(join(scratch, 'package.json'), 'utf8')) as { scripts?: Record<string, string> };
+    if (pkg.scripts?.build) { const b = step(['run', 'build']); if (b) return fail(b); }
+    const dest = join(root, '.artifacts/pack-4x/head');
+    mkdirSync(dest, { recursive: true });
+    const pack = sh(tools.npm, ['pack', '--pack-destination', dest], scratch, { HUSKY: '0' });
+    if (pack.status !== 0) return fail(`npm pack failed in the ${V4_HEAD_REF} worktree (exit ${pack.status}): ${tail(pack.stderr)}`);
+    const t = checkV4Tarball(pack.stdout, dest);
+    if (typeof t === 'string') return fail(t);
+    return { source: 'head', state: 'ready', spec, commit, ...t };
+  } finally {
+    sh(tools.git, ['worktree', 'remove', '--force', scratch], root);
+    rmSync(scratch, { recursive: true, force: true });
+    sh(tools.git, ['worktree', 'prune'], root);
+  }
+}
+
 /** REQ-QUAL-06 sentinel set: every affected-subject PR lane carries these subject-states; a sentinel whose
     component is still a contract seed (or has no ComponentMeta) is pending. */
 export const CAPTURE_DRIVER = 'certification/lanes/environment-visual.spec.ts';
@@ -500,10 +598,11 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
     console.error(`run.mjs: certification lanes run only on GitLab CI or the gated remote runner (machine policy).\nRemote command: ${command}`);
     return { code: EXIT.local, manifestPath: null, manifest: null };
   }
-  const tools: Tools = { node: process.execPath, jestBin: join(root, 'node_modules/jest/bin/jest.js'), playwrightCli: join(root, 'node_modules/@playwright/test/cli.js'), npm: 'npm', ...opts.tools };
+  const tools: Tools = { node: process.execPath, jestBin: join(root, 'node_modules/jest/bin/jest.js'), playwrightCli: join(root, 'node_modules/@playwright/test/cli.js'), npm: 'npm', git: 'git', ...opts.tools };
   const t0 = Date.now();
   const jobSlug = env.CI_JOB_NAME_SLUG || `qual-certify-${args.lane.toLowerCase()}`;
-  const evidenceDir = join(root, env.AURAGLASS_EVIDENCE_DIR || '.artifacts', 'qual', jobSlug);
+  // REQ-QUAL-33: a 4.x run shares its job with the 5.x lane run, so its manifest and row reports live in line-4x/.
+  const evidenceDir = join(root, env.AURAGLASS_EVIDENCE_DIR || '.artifacts', 'qual', jobSlug, ...(args.line === '4x' ? ['line-4x'] : []));
   mkdirSync(evidenceDir, { recursive: true });
   const manifestPath = join(evidenceDir, 'lane-manifest.json');
 
@@ -516,6 +615,7 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
     console.error(`run.mjs: failed to load lane registrations: ${(e as Error).stack ?? (e as Error).message}`);
     return { code: EXIT.fail, manifestPath: null, manifest: null };
   }
+  if (args.line === '4x') return runLine4x(args, regs, { root, env, tools, evidenceDir, manifestPath, t0 });
   const lanes: readonly string[] = args.lane === 'all' ? LANE_IDS : [args.lane];
   const rows = selectRows(regs.rows, args.lane, args.scope);
   const prStream = branchStream(env.CI_COMMIT_BRANCH || env.CI_COMMIT_REF_NAME, args.scope);
@@ -577,11 +677,7 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
     summary: Object.fromEntries(['pass', 'fail', 'pending', 'pre-existing', 'double-pass'].map((s) => [s, results.filter((r) => r.state === s).length])),
     tests,
   };
-  const schema = JSON.parse(readFileSync(join(root, 'certification/schemas/lane-manifest.schema.json'), 'utf8')) as Schema;
-  const errors = validateManifest(manifest, schema);
-  writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
-  console.log(`\nlane-manifest: ${manifestPath.slice(root.length + 1)}  ${JSON.stringify(manifest.summary)}`);
-  if (errors.length) { console.error(`run.mjs: lane manifest invalid:\n${errors.join('\n')}`); return { code: EXIT.fail, manifestPath, manifest }; }
+  if (!writeManifest(root, manifestPath, manifest)) return { code: EXIT.fail, manifestPath, manifest };
   if (args.verdict) {
     // The release verdict (REQ-QUAL-32/S-55) is G-16's; without it a release run cannot pass.
     console.error('run.mjs: --verdict is produced by the release-verdict work item (G-16); no verdict written, failing closed.');
@@ -591,6 +687,74 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
   if (blocking.length) {
     console.error(`run.mjs: ${blocking.length} blocking failure(s):\n${blocking.map((r) => `  [${r.lane}] ${r.stream} ${r.path}: ${r.reason}`).join('\n')}`);
     return { code: EXIT.fail, manifestPath, manifest };
+  }
+  return { code: EXIT.ok, manifestPath, manifest };
+}
+
+const SUMMARY_STATES = ['pass', 'fail', 'pending', 'pre-existing', 'double-pass'] as const;
+
+/** Writes the manifest; false (after printing why) when it does not validate against the lane-manifest schema. */
+function writeManifest(root: string, manifestPath: string, manifest: Record<string, unknown>): boolean {
+  const schema = JSON.parse(readFileSync(join(root, 'certification/schemas/lane-manifest.schema.json'), 'utf8')) as Schema;
+  const errors = validateManifest(manifest, schema);
+  writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  console.log(`\nlane-manifest: ${manifestPath.slice(root.length + 1)}  ${JSON.stringify(manifest.summary)}`);
+  if (errors.length) console.error(`run.mjs: lane manifest invalid:\n${errors.join('\n')}`);
+  return errors.length === 0;
+}
+
+interface Line4xContext { root: string; env: NodeJS.ProcessEnv; tools: Tools; evidenceDir: string; manifestPath: string; t0: number }
+
+/** REQ-QUAL-33: L2/L3/L11 rows against the published and the release/4.x-head tarballs. Rows are the same
+    registrations a 5.x run selects (the 4.x tarball replaces the 5.x one); results are never blocking. */
+async function runLine4x(args: Args, regs: Registrations, c: Line4xContext): Promise<MainResult> {
+  const { root, env, tools, evidenceDir, manifestPath } = c;
+  const lanes: readonly LaneId[] = args.lane === 'all' ? LINE_4X_LANES : [args.lane as LaneId];
+  const rows = lanes.flatMap((l) => selectRows(regs.rows, l, args.scope));
+  const results: ManifestResult[] = [];
+  const push = (entry: ManifestResult) => results.push(Object.fromEntries(Object.entries(entry).filter(([, v]) => v !== undefined)) as ManifestResult);
+  const sources = [resolvePublishedV4Tarball, resolveHeadV4Tarball];
+  const tarballs: V4Tarball[] = [];
+  for (const [s, resolveSource] of sources.entries()) {
+    const v4 = resolveSource(root, env, tools);
+    tarballs.push(v4);
+    console.log(`\n=== 4.x tarball (${v4.source}) ${v4.spec}: ${v4.state}${v4.path ? ` ${v4.path}` : ''}${v4.reason ? ` — ${v4.reason}` : ''}`);
+    const tag = { line: '4x' as const, tarballSource: v4.source, blocking: false as const };
+    for (const [idx, row] of rows.entries()) {
+      let res: RowResult;
+      if (v4.state !== 'ready') res = { state: v4.state, reason: `4.x ${v4.source} tarball: ${v4.reason}` };
+      else {
+        console.log(`\n=== [${row.lane} 4x/${v4.source}] ${row.stream} ${row.kind} ${row.path} (${row.source})`);
+        try { res = await executeRow(row, { root, evidenceDir, idx: s * 10000 + idx, scope: args.scope, env, tools, tarball: null, v4 }); } catch (e) { res = { state: 'fail', reason: `runner crash: ${(e as Error).message}` }; }
+      }
+      push({ lane: row.lane, stream: row.stream, kind: row.kind, path: row.path, scope: args.scope, source: row.source, ...res, ...tag });
+    }
+    for (const l of lanes) {
+      if (!rows.some((r) => r.lane === l)) push({ lane: l, stream: 'qual', kind: 'node-script', path: '(no registrations)', scope: args.scope, source: null, state: 'pending', reason: '0 subjects registered for this lane at this scope', ...tag });
+    }
+  }
+  const sha = (p?: string) => (p ? sha256(p) : null);
+  const manifest: Record<string, unknown> = {
+    version: 1, lane: args.lane, line: '4x', sha: gitSha(root, env), scope: args.scope,
+    branch: env.CI_COMMIT_BRANCH || env.CI_COMMIT_REF_NAME || null, prStream: null,
+    runnerTag: env.CI_RUNNER_TAGS || null, imageDigest: env.CI_JOB_IMAGE || null, browserVersions: {},
+    subjects: [...new Set(results.flatMap((r) => r.subjects ?? [r.path]))], cells: [], results,
+    tarball: null,
+    tarballs: tarballs.map((t) => Object.fromEntries(Object.entries({
+      source: t.source, state: t.state, spec: t.spec, version: t.version, commit: t.commit, reason: t.reason,
+      file: t.path ? (t.path.startsWith(root) ? t.path.slice(root.length + 1) : t.path) : undefined, sha256: sha(t.path),
+    }).filter(([, v]) => v !== undefined))),
+    thresholdsSha256: sha256(join(root, 'certification/thresholds.json')),
+    scenesSha256: sha256(join(root, 'certification/scenes/scenes.manifest.json')),
+    inventorySha256: sha256(join(root, 'storybook-static/cert-manifest.json')),
+    durationMs: Date.now() - c.t0, captureRate: null,
+    summary: Object.fromEntries(SUMMARY_STATES.map((st) => [st, results.filter((r) => r.state === st).length])),
+    tests: results.reduce((n, r) => n + (r.tests ?? 0), 0),
+  };
+  if (!writeManifest(root, manifestPath, manifest)) return { code: EXIT.fail, manifestPath, manifest };
+  const failed = results.filter((r) => r.state === 'fail');
+  if (failed.length) {
+    console.log(`run.mjs: ${failed.length} 4.x failure(s), reported as line: 4x and never blocking (REQ-QUAL-33):\n${failed.map((r) => `  [${r.lane} 4x/${r.tarballSource}] ${r.stream} ${r.path}: ${r.reason}`).join('\n')}`);
   }
   return { code: EXIT.ok, manifestPath, manifest };
 }
