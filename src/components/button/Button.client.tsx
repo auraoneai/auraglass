@@ -56,10 +56,10 @@ function Inner({ startIcon, endIcon, loading, children, bare }: Pick<ButtonProps
       {/* REQ-33: hit-area expands the pointer target to --ag-target-min without affecting layout */}
       <span {...(part('hit-area') ? { 'data-ag-part': 'hit-area' } : {})} aria-hidden="true" />
       {loading ? (bare ? <span aria-hidden="true" /> : <Spinner />) : null}
-      {startIcon ? <span {...(part('icon') ? { 'data-ag-part': 'icon' } : {})}>{startIcon}</span> : null}
+      {startIcon ? <span {...(part('icon') ? { 'data-ag-part': 'icon' } : {})} aria-hidden="true">{startIcon}</span> : null}
       {/* label stays mounted while loading so width is stable (hidden via CSS visibility); omitted when icon-only */}
       {children !== undefined && children !== null ? <span {...(part('label') ? { 'data-ag-part': 'label' } : {})}>{children}</span> : null}
-      {endIcon ? <span {...(part('icon') ? { 'data-ag-part': 'icon' } : {})}>{endIcon}</span> : null}
+      {endIcon ? <span {...(part('icon') ? { 'data-ag-part': 'icon' } : {})} aria-hidden="true">{endIcon}</span> : null}
     </>
   );
 }
