@@ -24,7 +24,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'dialog-modal',
-  budgetKb: 14,
+  budgetKb: 14000 / 1024,
   migration: [
     {
       from: 'GlassPopover',
@@ -51,13 +51,15 @@ const meta: ControlMeta = defineMeta({
     },
     {
       from: 'GlassTooltip',
-      props: { content: 'Popover.Popup children' },
+      // The codemod maps GlassTooltip.content to Tooltip.Popup children (Tooltip meta, S-39);
+      // moving rich/interactive content into Popover.Popup children is a manual step.
+      props: {},
       selectors: { '.glass-tooltip': '.ag-popover' }, automation: 'partial', // rich/interactive content uses Popover; plain hints use Tooltip
       compat: false,
     },
     {
       from: 'GlassDropdown',
-      props: { items: 'Menu/Popover composition', open: 'open' },
+      props: { items: 'Menu.Item children', open: 'open' },
       selectors: { '.glass-dropdown': '.ag-popover' }, automation: 'manual', // action-list dropdowns go to Menu; panels stay Popover
       compat: false,
     },

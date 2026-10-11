@@ -83,7 +83,7 @@
   }
   [data-ag-motion='calm'] .ag-switch [data-ag-part='thumb'],
   [data-ag-motion='none'] .ag-switch [data-ag-part='thumb'] {
-    transition-duration: 0s;
+    transition: none;
   }
 
   .ag-switch[data-disabled] > :where([data-ag-part]) {

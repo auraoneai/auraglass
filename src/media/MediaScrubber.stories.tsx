@@ -34,3 +34,14 @@ function DragProbeDemo() {
   );
 }
 export const DragProbe: Story = { render: () => <DragProbeDemo /> };
+
+/* Pointer over the track: the time tooltip is shown. */
+function Hovered() {
+  const host = React.useRef<HTMLDivElement | null>(null);
+  React.useEffect(() => {
+    const track = host.current?.querySelector('[data-ag-part="media-scrubber"]');
+    track?.dispatchEvent(new MouseEvent('pointermove', { bubbles: true, clientX: 10 }));
+  }, []);
+  return <div ref={host}><MediaScrubber value={30} max={300} /></div>;
+}
+export const HoverTooltip: Story = { render: () => <Hovered /> };

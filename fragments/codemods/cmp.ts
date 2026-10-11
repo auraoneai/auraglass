@@ -259,7 +259,7 @@ export default {
     { component: 'GlassHoverCard',from: 'open',to: 'open' },
     { component: 'GlassHoverCard',from: 'trigger',to: 'Popover.Trigger openOnHover' },
     { component: 'GlassHoverCard',from: 'content',to: 'Popover.Popup children' },
-    { component: 'GlassTooltip',from: 'content',to: 'Popover.Popup children' },
+    { component: 'GlassTooltip',from: 'content',to: 'Tooltip.Popup children' },
     { component: 'GlassRadioGroup',from: 'onChange',to: 'onValueChange' },
     { component: 'GlassRadioGroup',from: 'options',to: 'children' },
     { component: 'GlassRadioGroup',from: 'direction',to: 'orientation' },

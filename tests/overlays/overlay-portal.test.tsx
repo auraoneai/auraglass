@@ -54,7 +54,7 @@ describe('overlay-portal (REQ-CMP-11)', () => {
     const expectedRoot = name === 'Tooltip' ? 'transient' : 'overlay';
     const popupSel = name === 'Combobox' || name === 'Select'
       ? '[data-ag-part="popup"], .ag-select-popup, .ag-combobox-popup, [role="listbox"]'
-      : '[data-ag-part="popup"], [data-ag-part="root"].ag-sheet, .ag-dialog, .ag-popover-popup, .ag-tooltip-popup, .ag-menu-popup';
+      : '[data-ag-part="popup"], [data-ag-part="toast"].ag-sheet, .ag-dialog, .ag-popover-popup, .ag-tooltip-popup, .ag-menu-popup';
     const [, mk] = families.find(([n]) => n === name)!;
     const { container: appMount } = render(<AuraGlassProvider>{mk(true)}</AuraGlassProvider>);
     await act(async () => {});
@@ -84,7 +84,7 @@ describe('overlay-portal (REQ-CMP-11)', () => {
     await act(async () => {});
     const layerRoot = document.querySelector('[data-ag-layer-root="toast"]');
     expect(layerRoot).not.toBeNull();
-    const toast = document.querySelector('.ag-toast, [data-ag-part="root"]');
+    const toast = document.querySelector('.ag-toast, [data-ag-part="toast"]');
     expect(toast).not.toBeNull();
     expect(layerRoot!.contains(toast)).toBe(true);
     const stray = [...document.body.children].filter(

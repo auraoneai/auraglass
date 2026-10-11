@@ -57,7 +57,7 @@
     overscroll-behavior: contain;
     padding: var(--ag-space-4);
   }
-  .ag-alert-dialog-body[data-ag-padding='none'] { padding: 0; }
+  .ag-alert-dialog-body[data-padding='none'] { padding: 0; }
   .ag-alert-dialog-title {
     margin: 0;
     font-weight: var(--_ag-font-semibold, 600);
