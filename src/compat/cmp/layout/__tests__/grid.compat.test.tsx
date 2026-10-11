@@ -56,15 +56,15 @@ describe('Grid responsive columns (REQ-CMP-112)', () => {
     expect(CSS).toContain('grid-template-rows: masonry');
   });
 
-  it('GlassGrid warns DEP-C0224 and renders Grid', async () => {
-    const calls = await warnOnce(<GlassGrid columns={2} />, 'DEP-C0224');
+  it('GlassGrid warns DEP-C0270 and renders Grid', async () => {
+    const calls = await warnOnce(<GlassGrid columns={2} />, 'DEP-C0270');
     expect(calls.length).toBeGreaterThan(0);
     expect(document.querySelector('.ag-grid')).not.toBeNull();
   });
 
   it('GlassMasonry/GlassMasonryGrid warn and render masonry variant', async () => {
-    expect((await warnOnce(<GlassMasonry />, 'DEP-C0225')).length).toBeGreaterThan(0);
-    expect((await warnOnce(<GlassMasonryGrid />, 'DEP-C0226')).length).toBeGreaterThan(0);
+    expect((await warnOnce(<GlassMasonry />, 'DEP-C0271')).length).toBeGreaterThan(0);
+    expect((await warnOnce(<GlassMasonryGrid />, 'DEP-C0272')).length).toBeGreaterThan(0);
     expect(document.querySelector('.ag-grid-masonry')).not.toBeNull();
   });
 });

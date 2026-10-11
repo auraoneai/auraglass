@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Grid } from '../../../components/grid/Grid';
 import type { GridProps } from '../../../components/grid/Grid';
 
-const DEP = 'DEP-C0226';
+const DEP = 'DEP-C0272';
 
 export type GlassMasonryGridProps = Omit<GridProps, 'variant' | 'masonry'>;
 

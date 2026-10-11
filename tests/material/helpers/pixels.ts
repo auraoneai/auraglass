@@ -2,8 +2,9 @@
    pixel reads happen on the GitLab playwright lane; these helpers carry the
    same API so specs can run identically in jsdom-adjacent contexts. */
 import type { Page } from 'playwright-core';
+import pngjs from 'pngjs';
 import type { PNG } from 'pngjs';
-const Png = (require('pngjs') as typeof import('pngjs')).PNG;
+const Png = pngjs.PNG;
 
 export interface Pixel { x: number; y: number; rgba: [number, number, number, number] }
 
