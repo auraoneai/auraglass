@@ -716,7 +716,7 @@ if (defaults?.plugins?.tooltip) {
 }
 if (defaults?.font) {
   defaults.font.family =
-    "'Aeonik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
 }
 // Set colors safely
 defaults.color =
