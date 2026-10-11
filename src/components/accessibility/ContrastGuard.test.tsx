@@ -67,7 +67,7 @@ describe("ContrastGuard", () => {
   it("can render a visible contrast indicator", () => {
     render(<ContrastGuard showIndicator>Guarded text</ContrastGuard>);
 
-    expect(screen.getByText(/AA|Check/)).toBeInTheDocument();
+    expect(screen.getByText("unverified")).toBeInTheDocument();
   });
 
   /**
