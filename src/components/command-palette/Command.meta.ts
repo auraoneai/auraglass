@@ -11,7 +11,7 @@ export default defineMeta({
   flagship: 29,
   tier: 'T1',
   rsc: 'client',
-  parts: ['command', 'command-palette', 'empty', 'group', 'group-heading', 'input', 'item', 'list', 'loading', 'separator', 'shortcut'],
+  parts: ['command', 'empty', 'group', 'group-heading', 'input', 'item', 'list', 'loading', 'separator', 'shortcut'],
   states: ['active'],
   variants: {},
   migration: [{ from: 'GlassCommand', props: {}, automation: 'mostly', compat: true }],

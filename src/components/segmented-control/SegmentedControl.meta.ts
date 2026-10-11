@@ -15,7 +15,7 @@ export default defineMeta({
   },
   material: { layer: 'chrome', refractionEligible: true },
   apg: 'radio',
-  budgetKb: 13,
+  budgetKb: 13000 / 1024,
   migration: [
     {
       from: 'GlassSegmentedControl',

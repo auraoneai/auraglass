@@ -197,7 +197,7 @@ describe('REQ-FIN-02 optics clauses (REQ-MAT-26, -32, -42, -43, -49)', () => {
     };
     for (const s of SPACE) {
       expect(decl(`[data-ag-inset="${s}"]`, '--ag-inset')).toBe(`var(--ag-space-${s})`);
-      expect(decl(`[data-ag-group][data-ag-spacing="${s}"]`, '--ag-group-spacing')).toBe(`var(--ag-space-${s})`);
+      expect(decl(`[data-ag-group][data-ag-spacing="${s}"]`, '--_ag-group-spacing')).toBe(`var(--ag-space-${s})`);
     }
     for (const r of RADIUS) {
       expect(decl(`[data-ag-radius="${r}"]:not([data-ag-surface])`, '--ag-radius-outer')).toBe(`var(--ag-radius-${r})`);

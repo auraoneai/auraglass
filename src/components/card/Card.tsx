@@ -40,7 +40,7 @@ function Root({
     ...mat,
     ref,
     'data-ag-part': 'root',
-    className: cn('ag-card', mat.className, interactive ? 'ag-card-interactive' : undefined, className),
+    className: cn('ag-card', interactive ? 'ag-card-interactive' : undefined, className),
   } as React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> };
   return renderElement(render, <div />, props);
 }

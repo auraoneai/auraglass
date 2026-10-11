@@ -13,7 +13,7 @@ describe('Button', () => {
     expect(btn).toHaveClass('ag-button');
     expect(btn.getAttribute('data-ag-part')).toBe('root');
     expect(btn.getAttribute('data-ag-interactive')).toBe('');
-    expect(btn.getAttribute('data-ag-size-class')).toBe('control');
+    expect(btn.getAttribute('data-size-class')).toBe('control');
     expect(btn.querySelector('[data-ag-part="label"]')?.textContent).toBe('Save');
     expect(btn.querySelectorAll('[data-ag-part="icon"]')).toHaveLength(2);
   });

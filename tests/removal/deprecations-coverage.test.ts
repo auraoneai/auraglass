@@ -7,7 +7,7 @@ import { describe, expect, it } from '@jest/globals';
 import { existsSync, readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { join } from 'node:path';
-import { dispositionsRows } from '../../scripts/release/consumer-grep.mjs';
+import { dispositionsRows } from '../../scripts/removal/consumer-grep.mjs';
 import { ROOT } from '../build/helpers';
 
 const DOC = 'docs/inventory/component-dispositions.md';
