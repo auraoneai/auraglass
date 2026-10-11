@@ -217,5 +217,6 @@ export const AppShell = {
 export type {
   SidebarState as AppShellSidebarState,
   InspectorState as AppShellInspectorState,
-  ShellMode as AppShellMode,
 };
+
+export type AppShellMode = NonNullable<AppShellRootProps['layout']>;

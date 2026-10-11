@@ -219,8 +219,8 @@ describe('lint-claims (PRD regex, scope, allow-list)', () => {
   });
 
   it('rejects unknown claim ids', () => {
-    expect(lintText('<!-- ag:claim id="made-up" -->x<!-- /ag:claim -->')[0].kind).toBe('unknown-claim');
-    expect(lintText('<Claim id="made-up" />')[0].kind).toBe('unknown-claim');
+    expect(lintText('<!-- ag:claim id="made-up" -->x<!-- /ag:claim -->')[0]?.kind).toBe('unknown-claim');
+    expect(lintText('<Claim id="made-up" />')[0]?.kind).toBe('unknown-claim');
   });
 
   it('scans README.md, apps/docs/content/**, llms.txt.tmpl and the release body', () => {
