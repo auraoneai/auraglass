@@ -1,0 +1,5 @@
+.x {
+  padding: var(--ag-space-7);
+  color: var(--ag-accent);
+  height: var(--ag-control-h-sm);
+}
