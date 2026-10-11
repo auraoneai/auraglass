@@ -1,0 +1,24 @@
+{
+  "//": "REQ-QUAL-56 (FIN-452): story typecheck, `tsc --noEmit -p tsconfig.storybook.json` in L1. Covers the Storybook config and preview (.storybook/**), every file the .storybook/main.ts globs load, and the Storybook flow specs.",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node", "vite/client"]
+  },
+  "include": [
+    ".storybook/**/*",
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+    "stories/**/*.stories.ts",
+    "stories/**/*.stories.tsx",
+    "registry/**/*.stories.ts",
+    "registry/**/*.stories.tsx",
+    "showcase/**/*",
+    "certification/scenes/**/*.stories.ts",
+    "certification/scenes/**/*.stories.tsx",
+    "certification/lanes/_fixtures/**/*",
+    "tests/e2e/qual/storybook/**/*",
+    "scripts/storybook/**/*.d.mts"
+  ],
+  "exclude": ["legacy", "dist", "node_modules", "storybook-static", "packages/*/dist", "apps/docs/.next"]
+}
