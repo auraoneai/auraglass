@@ -1,25 +1,23 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
-/* REQ-PLAT-77: the webServer packs the repo (from the existing dist/), installs
-   this canary from that tarball, builds it, then serves the build with
-   `vite preview`. Playwright itself resolves from the repo root. */
-const PORT = 4173;
+/* PLAT-293 / REQ-PLAT-72: the smoke spec runs against the production build
+   (vite build with babel-plugin-react-compiler) served by vite preview. The
+   canary is first installed from the packed artifact with its own pinned
+   toolchain (canaries/_shared/consumer-install.mjs); @playwright/test stays
+   the repo's single copy so the runner and the spec share one instance. */
+const PORT = 4183;
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 60_000,
-  retries: process.env.CI ? 1 : 0,
-  workers: 1,
-  reporter: process.env.CI ? [['list'], ['junit', { outputFile: 'test-results/junit.xml' }]] : 'list',
-  use: { baseURL: process.env.AG_CANARY_BASE || `http://localhost:${PORT}` },
-  webServer: process.env.AG_CANARY_BASE
-    ? undefined
-    : {
-        command: `node ../../scripts/ci/canary-prepare.mjs . && ./node_modules/.bin/vite preview --port ${PORT} --strictPort`,
-        url: `http://localhost:${PORT}`,
-        reuseExistingServer: !process.env.CI,
-        timeout: 600_000,
-        stdout: 'pipe',
-        stderr: 'pipe',
-      },
+  forbidOnly: true,
+  retries: 0,
+  reporter: [['list']],
+  use: { baseURL: `http://127.0.0.1:${PORT}` },
+  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  webServer: {
+    command: `node ../_shared/consumer-install.mjs . && npm run build && npx vite preview --host 127.0.0.1 --port ${PORT} --strictPort`,
+    url: `http://127.0.0.1:${PORT}`,
+    reuseExistingServer: false,
+    timeout: 600_000,
+  },
 });

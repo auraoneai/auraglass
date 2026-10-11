@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "kind": "imports",
+  "files": [
+    "src/App.tsx",
+    "src/Legacy.tsx"
+  ],
+  "subpaths": {
+    "aura-glass": 1,
+    "aura-glass/compat": 1,
+    "aura-glass/navigation": 1
+  }
+}

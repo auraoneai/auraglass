@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "version",
+    "files"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "added": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dryRun": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": true
+}

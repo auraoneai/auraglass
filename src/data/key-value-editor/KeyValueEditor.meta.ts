@@ -6,12 +6,12 @@ export default defineMeta({
   entry: './data',
   tier: 'T2',
   rsc: 'client',
-  parts: ['key-value-editor', 'key-value-row', 'key-input', 'value-input', 'key-value-remove', 'key-value-add'],
+  parts: ['key-input', 'key-value-add', 'key-value-editor', 'key-value-error', 'key-value-remove', 'key-value-row', 'value-input'],
   states: ['duplicate-key', 'disabled'],
+  apg: 'textbox',
   variants: {},
   budgetKb: 15,
   migration: [
-    { from: 'GlassKeyValueEditor', props: { entries: 'value', pairs: 'value', onChange: 'onValueChange' }, automation: 'mostly', compat: true },
+    { from: 'GlassKeyValueEditor', props: { entries: 'value', pairs: 'value', onChange: 'onValueChange' }, selectors: { '.glass-key-value-editor': '[data-ag-part="key-value-editor"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-key-value-editor', to: '[data-ag-part="key-value-editor"]' }],
 });
