@@ -51,13 +51,25 @@ for (const [r, text] of corpus) {
   }
 }
 
+// @property-registered privates are JS/transition channels: consumers reach
+// them via style.setProperty and registered-value animation, not var() reads.
+const channelPrivate = new Set();
+const collectChannels = (text) => {
+  for (const m of text.matchAll(/@property\s+(--_ag-[a-zA-Z0-9-]+)/g)) channelPrivate.add(m[1]);
+};
+for (const [, text] of corpus) collectChannels(text);
+// generated @property registry (excluded from the corpus) is still a channel contract
+for (const gen of [join(srcDir, 'material/css/generated/properties.css')]) {
+  if (existsSync(gen)) collectChannels(readFileSync(gen, 'utf8'));
+}
+
 const counts = new Map();
 for (const t of manifest.tokens) counts.set(t.cssVar, countReaders(t.cssVar));
 for (const v of emittedPrivate.keys()) counts.set(v, countReaders(v));
 for (const v of recipePrivate) counts.set(v, countReaders(v));
 
 const deadPublic = manifest.tokens.filter((t) => (counts.get(t.cssVar) ?? 0) === 0 && t.public !== true);
-const deadPrivate = [...emittedPrivate.keys()].filter((v) => (counts.get(v) ?? 0) === 0);
+const deadPrivate = [...emittedPrivate.keys()].filter((v) => !channelPrivate.has(v) && (counts.get(v) ?? 0) === 0);
 
 if (update) {
   for (const t of manifest.tokens) t.consumers = [{ count: counts.get(t.cssVar) ?? 0 }];

@@ -39,3 +39,34 @@ describe('assemble-pages', () => {
     expect(readFileSync('public/lab/index.html', 'utf8')).toContain('refresh');
   });
 });
+
+describe('REQ-FIN-26 pages details', () => {
+  it('every placeholder <title> carries pending', () => {
+    run(); // nothing built → all placeholders
+    expect(readFileSync('public/index.html', 'utf8')).toMatch(/<title>[^<]*pending/i);
+    expect(readFileSync('public/storybook/index.html', 'utf8')).toMatch(/<title>[^<]*pending/i);
+  });
+  it('lab redirect is relative and points at ?path=/story/lab-', () => {
+    run();
+    const lab = readFileSync('public/lab/index.html', 'utf8');
+    expect(lab).toContain('url=../storybook/?path=/story/lab-');
+    expect(lab).not.toContain('url=/storybook');
+  });
+  it('registry source apps/docs/public/r wins and lands in public/r', () => {
+    mkdirSync('apps/docs/public/r/button', { recursive: true });
+    writeFileSync('apps/docs/public/r/button/index.json', '{}');
+    run();
+    expect(existsSync('public/r/button/index.json')).toBe(true);
+  });
+  it('copies apps/docs/public/_redirects; writes v4 placeholder otherwise', () => {
+    mkdirSync('apps/docs/public', { recursive: true });
+    writeFileSync('apps/docs/public/_redirects', '/custom 301\n');
+    run();
+    expect(readFileSync('public/_redirects', 'utf8')).toBe('/custom 301\n');
+  });
+  it('placeholder _redirects sends /v4/* to the release/4.x Pages URL', () => {
+    run();
+    const r = readFileSync('public/_redirects', 'utf8');
+    expect(r).toMatch(/^\/v4\/\* .*gitlab\.io.*:splat 301/m);
+  });
+});

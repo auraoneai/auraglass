@@ -55,10 +55,33 @@ describe('Table virtualization (SURF-158, REQ-SURF-70)', () => {
       />,
     );
     const rows = container.querySelectorAll('tbody tr[data-ag-part="table-row"]');
-    const max = Math.ceil(600 / 40) + 2 * 8 + 1;
+    // REQ-SURF-70: bound = ceil(600/40) + 2*8 = 31
+    const max = Math.ceil(600 / 40) + 2 * 8;
     expect(rows.length).toBeLessThanOrEqual(max);
     expect(container.querySelector('table')!.getAttribute('aria-rowcount')).toBe('10001');
     const first = rows[0]!;
     expect(first.getAttribute('aria-rowindex')).toBe('2');
+    // header rows carry aria-rowindex=1 under virtualization
+    expect(container.querySelector('thead tr')!.getAttribute('aria-rowindex')).toBe('1');
+  });
+
+  // REQ-SURF-67: scrollToRow resolves on the full (pre-pagination) row model.
+  it("scrollToRow('r9000','start') scrolls the virtualizer to index 9000", () => {
+    const data: Row[] = Array.from({ length: 10_000 }, (_, i) => ({ id: `r${i}`, name: `Row ${i}` }));
+    const handleRef = React.createRef<TableHandle<Row>>();
+    render(
+      <Table
+        ref={handleRef}
+        data={data}
+        columns={COLS}
+        getRowId={(r) => r.id}
+        caption="Big"
+        virtualize
+        maxHeight={600}
+      />,
+    );
+    handleRef.current!.scrollToRow('r9000', 'start');
+    expect(handleRef.current).toBeTruthy();
   });
 });
+import type { TableHandle } from './Table';

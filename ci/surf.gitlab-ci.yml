@@ -57,10 +57,12 @@ surf:test:ai-sdk:
     # AC-SURF-02: the pins install into .artifacts/, never the repo package.json.
     - mkdir -p .artifacts/surf/ai-sdk
     - cp ci/surf/ai-sdk/package.json .artifacts/surf/ai-sdk/package.json
-    - npm install --prefix .artifacts/surf/ai-sdk --no-save
+    # --legacy-peer-deps: react/zod peers resolve from the repo node_modules
+    # (an ancestor of .artifacts/), so the harness shares the one React copy.
+    - npm install --prefix .artifacts/surf/ai-sdk --no-save --legacy-peer-deps
     - ln -sfn ../../../.artifacts/surf/ai-sdk/node_modules ci/surf/ai-sdk/node_modules
     - npx tsc -p ci/surf/ai-sdk/tsconfig.json
-    - npx jest ci/surf/ai-sdk --ci
+    - npx jest -c ci/surf/ai-sdk/jest.config.mjs --ci
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days

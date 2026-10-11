@@ -1,0 +1,12 @@
+/* PLAT-292 / REQ-PLAT-75: consumer stylesheet — Tailwind v4 plus the
+   aura-glass bridge (aura-glass/tailwind.css: @theme inline map onto --ag-*
+   tokens, @utility, @custom-variant). A real consumer needs
+   `@import "tailwindcss"` for the theme/base/components/utilities layers and
+   utility generation, and wraps with TAILWIND_BRIDGE_ORDER so every ag.*
+   layer (component styles from aura-glass/styles.css) sits below Tailwind's
+   utilities: a utility such as bg-red-500 wins on a Button without
+   !important. */
+@layer theme, base, ag, components, utilities;
+@import "tailwindcss";
+@import "aura-glass/styles.css";
+@import "aura-glass/tailwind.css";
