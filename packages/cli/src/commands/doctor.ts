@@ -9,8 +9,10 @@ export async function doctorCommand(args: string[], flags: Record<string, string
   void args;
   if (flags.v5) {
     const { findings, byCodemod } = runV5(cwd);
+    const summary = { automatic: 0, needsReview: 0, manual: 0 };
+    for (const f of findings) summary[f.automation] += 1;
     if (out.json) {
-      printJson({ version: 1, findings, byCodemod });
+      printJson({ version: 1, summary, findings, byCodemod });
     } else {
       if (!findings.length) status(out, 'pass', 'no removeIn 5.0.0 usages found');
       for (const [codemod, list] of Object.entries(byCodemod)) {

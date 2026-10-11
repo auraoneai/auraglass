@@ -1,4 +1,4 @@
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Runtime helpers implemented by QUAL in tests/helpers/index.ts. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Runtime helpers implemented by QUAL in tests/helpers/index.ts. */
 import type * as React from 'react';
 import type { Backdrop, DomTier, Transparency } from './material';
 import type { Scheme, Contrast } from './preferences';
@@ -19,7 +19,7 @@ export const LANES = { L1: 'Static', L2: 'Artifact', L3: 'Change class', L4: 'To
 /** CI is GitLab CI only (§4.13). No GitHub Actions workflow exists; these are GitLab job names. */
 export const CI = { root: '.gitlab-ci.yml', fragment: (s: 'plat' | 'mat' | 'cmp' | 'surf' | 'qual') => `ci/${s}.gitlab-ci.yml`,
   project: 'chahal-foundation-group/github-auraoneai/auraglass', projectId: 87152036 } as const;
-export const STAGES = ['contract', 'build', 'test', 'certify', 'package', 'deploy', 'publish'] as const;
+export const STAGES = ['contract', 'build', 'test', 'package', 'certify', 'deploy', 'publish'] as const; // v1.2: package before certify (qual:certify:* need plat:package:pack)
 export type CiScope = 'pr' | 'main' | 'nightly' | 'release';     // $AG_SCOPE, set by workflow:rules in .gitlab-ci.yml
 export type CiLine = '4x' | '5x';                                // $AG_LINE
 export const LANE_COMMAND = 'node certification/run.mjs --lane <id> --scope $AG_SCOPE' as const;
