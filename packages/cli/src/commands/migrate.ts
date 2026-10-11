@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import { makeOut, status, printJson } from '../cli/output.js';
 import { EXIT, usageError } from '../cli/errors.js';
 import { runMigration, selectTransforms } from '../migrate/4to5/index.js';
@@ -16,6 +17,13 @@ export async function migrateCommand(args: string[], flags: Record<string, strin
       throw usageError(`migrate icons --from <lucide|radix|mui> expected, got '${from || '(none)'}'`);
     }
     const write = Boolean(flags.write);
+    if (write) {
+      const preview = migrateIcons(cwd, from, false);
+      if (preview.changed) assertClean(cwd, (preview.report.files as string[]).map((f) => path.join(cwd, f)), {
+        allowDirty: Boolean(flags['allow-dirty']),
+        allowNoGit: Boolean(flags['allow-no-git']),
+      });
+    }
     const r = migrateIcons(cwd, from, write);
     if (out.json) printJson(r.report);
     else for (const l of r.lines) status(out, 'info', l);

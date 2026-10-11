@@ -13,6 +13,7 @@ import { fetchItem } from '../registry/client.js';
 import type { RegistryItem } from '../registry/schema.js';
 import { detectProject } from '../core/project-detect.js';
 import { readConfig } from '../core/config.js';
+import { unifiedDiff } from '../migrate/4to5/index.js';
 import { assertClean } from '../core/git-guard.js';
 import { ensureInsideCwd, atomicWrite } from '../core/fs-safety.js';
 
@@ -92,8 +93,13 @@ export async function addCommand(args: string[], flags: Record<string, string | 
   }
 
   if (dryRun) {
-    if (out.json) printJson({ version: 1, dryRun: true, files: planned.map((p: any) => p.path) });
-    else for (const p of planned) status(out, 'info', `would write ${p.path}`);
+    const diffs = planned.map((p: any) => {
+      const abs = path.join(cwd, p.path);
+      const before = fs.existsSync(abs) ? fs.readFileSync(abs, 'utf8') : '';
+      return { path: p.path, diff: unifiedDiff(p.path, before, p.content) };
+    });
+    if (out.json) printJson({ version: 1, dryRun: true, files: diffs.map((d) => d.path), diffs: diffs.map((d) => ({ path: d.path, diff: d.diff })) });
+    else for (const d of diffs) { if (!out.silent) process.stdout.write(`${d.diff}\n`); }
     return EXIT.ok;
   }
 
