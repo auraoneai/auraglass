@@ -8,6 +8,10 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const root = join(__dirname, '..', '..', '..');
+/* AG_DTS_DIR points the walk at a directory other than repo-root dist/ — the
+   cmp:build:dts lane sets it to the extracted `npm pack` tarball's dist/ so
+   the contract is checked against the published artifact, not the build dir. */
+const DTS_DIR = process.env.AG_DTS_DIR ?? join(root, 'dist');
 const LEAKED = /@base-ui|react-aria|@internationalized|BaseUI/;
 
 function walkDts(dir: string, out: string[] = []): string[] {
@@ -21,10 +25,10 @@ function walkDts(dir: string, out: string[] = []): string[] {
 
 describe('dist d.ts contains no foundation type leaks (REQ-CMP-01)', () => {
   it('dist/ exists', () => {
-    if (!existsSync(join(root, 'dist'))) throw new Error('dist missing — run npm run build first');
+    if (!existsSync(DTS_DIR)) throw new Error('dist missing — run npm run build first');
   });
   it('no dist d.ts references Base UI / react-aria / internationalized', () => {
-    const dir = join(root, 'dist');
+    const dir = DTS_DIR;
     const files = existsSync(dir) ? walkDts(dir) : [];
     const offenders: string[] = [];
     for (const f of files) {

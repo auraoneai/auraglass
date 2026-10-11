@@ -1,7 +1,7 @@
 /* CMP-214 (REQ-CMP-82): Dialog layout parts — plain divs, no directive, no
    hooks, no data-ag-surface (layout parts are not surfaces). Body scrolls
    internally and gets scroll-padding from the measured header/footer block
-   sizes (--ag-dialog-head-h / --ag-dialog-foot-h set by the Popup's
+   sizes (--_ag-dialog-head-h / --_ag-dialog-foot-h set by the Popup's
    ResizeObserver) so focused controls are never obscured (WCAG 2.4.11). */
 import * as React from 'react';
 import { cn } from '../../internal';

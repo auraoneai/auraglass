@@ -1,9 +1,117 @@
 // Shared prop surface for ./date components (REQ-SURF-99).
-import type { CalendarDate, CalendarDateTime, DateValue, Time, ZonedDateTime } from '@internationalized/date';
-import type { TimeValue as RACTimeValue } from 'react-aria-components';
-export type TimeValue = RACTimeValue;
+/* REQ-CMP-01 / CMP-014: the public d.ts must not name the date foundation
+   packages. These value types are AuraGlass-owned structural shapes: the
+   date foundation's instances
+   (CalendarDate, CalendarDateTime, ZonedDateTime, Time) satisfy them, and the
+   components hand them to React Aria internally. Values the components emit
+   are those same instances, so the methods below are always available. */
 
-export type { CalendarDate, CalendarDateTime, DateValue, Time, ZonedDateTime };
+export interface DateCalendar {
+  /** CLDR calendar identifier, e.g. 'gregory'. */
+  readonly identifier: string;
+}
+
+export interface DateDuration {
+  years?: number;
+  months?: number;
+  weeks?: number;
+  days?: number;
+}
+
+export interface TimeDuration {
+  hours?: number;
+  minutes?: number;
+  seconds?: number;
+  milliseconds?: number;
+}
+
+export interface DateTimeDuration extends DateDuration, TimeDuration {}
+
+export interface DateFields {
+  era?: string;
+  year?: number;
+  month?: number;
+  day?: number;
+}
+
+export interface TimeFields {
+  hour?: number;
+  minute?: number;
+  second?: number;
+  millisecond?: number;
+}
+
+/** Calendar date without a time (structurally the date foundation's CalendarDate). */
+export interface CalendarDate {
+  readonly calendar: DateCalendar;
+  readonly era: string;
+  readonly year: number;
+  readonly month: number;
+  readonly day: number;
+  copy(): CalendarDate;
+  add(duration: DateDuration): CalendarDate;
+  subtract(duration: DateDuration): CalendarDate;
+  set(fields: DateFields): CalendarDate;
+  toDate(timeZone: string): Date;
+  toString(): string;
+}
+
+/** Wall-clock time without a date (structurally the date foundation's Time). */
+export interface Time {
+  readonly hour: number;
+  readonly minute: number;
+  readonly second: number;
+  readonly millisecond: number;
+  copy(): Time;
+  add(duration: TimeDuration): Time;
+  subtract(duration: TimeDuration): Time;
+  set(fields: TimeFields): Time;
+  toString(): string;
+}
+
+/** Date + time without a zone (structurally the date foundation's CalendarDateTime). */
+export interface CalendarDateTime {
+  readonly calendar: DateCalendar;
+  readonly era: string;
+  readonly year: number;
+  readonly month: number;
+  readonly day: number;
+  readonly hour: number;
+  readonly minute: number;
+  readonly second: number;
+  readonly millisecond: number;
+  copy(): CalendarDateTime;
+  add(duration: DateTimeDuration): CalendarDateTime;
+  subtract(duration: DateTimeDuration): CalendarDateTime;
+  set(fields: DateFields & TimeFields): CalendarDateTime;
+  toDate(timeZone: string): Date;
+  toString(): string;
+}
+
+/** Date + time in a zone (structurally the date foundation's ZonedDateTime). */
+export interface ZonedDateTime {
+  readonly calendar: DateCalendar;
+  readonly era: string;
+  readonly year: number;
+  readonly month: number;
+  readonly day: number;
+  readonly hour: number;
+  readonly minute: number;
+  readonly second: number;
+  readonly millisecond: number;
+  readonly timeZone: string;
+  readonly offset: number;
+  copy(): ZonedDateTime;
+  add(duration: DateTimeDuration): ZonedDateTime;
+  subtract(duration: DateTimeDuration): ZonedDateTime;
+  set(fields: DateFields & TimeFields): ZonedDateTime;
+  toDate(): Date;
+  toString(): string;
+  toAbsoluteString(): string;
+}
+
+export type DateValue = CalendarDate | CalendarDateTime | ZonedDateTime;
+export type TimeValue = Time | CalendarDateTime | ZonedDateTime;
 
 export interface DateFieldLikeProps<V extends DateValue | TimeValue = DateValue> {
   value?: V | null | undefined;

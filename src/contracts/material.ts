@@ -48,7 +48,9 @@ export interface SurfaceProps extends MaterialRole, Omit<React.HTMLAttributes<HT
   render?: React.ReactElement;
   ref?: React.Ref<HTMLElement>;
 }
-export interface SurfaceGroupProps { spacing?: SpaceToken; children: React.ReactNode; className?: string }
+export interface SurfaceGroupProps { spacing?: SpaceToken; children: React.ReactNode; className?: string   /** Opt-in refraction flag on the group surface. */
+  refraction?: boolean | undefined;
+}
 export interface EnvironmentProps { backdrop: Backdrop; image?: string; video?: string; children: React.ReactNode; className?: string }
 export interface ScrollEdgeProps { edge: 'top' | 'bottom'; edgeStyle?: EdgeStyle }
 export interface ConcentricFrameProps { radius: RadiusToken; inset: SpaceToken; children: React.ReactNode }

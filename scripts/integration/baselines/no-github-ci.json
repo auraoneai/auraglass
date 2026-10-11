@@ -1,0 +1,7 @@
+[
+  { "file": "scripts/docs/gen-claims.mjs", "owner": "PLAT", "reqFin": "REQ-FIN-43", "expires": "RC-1" },
+  { "file": "tests/dx/registry-render.spec.ts", "owner": "PLAT", "reqFin": "REQ-FIN-42", "expires": "RC-1" },
+  { "file": "tests/motion/helpers/report.ts", "owner": "MAT", "reqFin": "REQ-FIN-58", "expires": "RC-1" },
+  { "file": "ci/cmp.gitlab-ci.yml", "owner": "CMP", "reqFin": "REQ-FIN-76", "expires": "RC-1" },
+  { "file": "docs/ai/security-guide.md", "owner": "PLAT", "reqFin": "REQ-FIN-43", "expires": "RC-1" }
+]

@@ -3,9 +3,9 @@
  * composerProps: { onSubmit, stop }, status }`. Interim home: moves to
  * registry/items/ai-sdk-adapter once contract/ai-sdk-devdeps lands. */
 'use client';
-import { useChat, type ChatTransport } from '@ai-sdk/react';
-import type { UIMessage } from 'ai';
-import type { AgMessage } from '../../../src/ai/types';
+import { useChat } from '@ai-sdk/react';
+import type { ChatTransport, UIMessage } from 'ai';
+import type { AgMessage } from '../../../../src/ai/types';
 
 export interface UseAuraChatOptions {
   /** Transport — e.g. `new DefaultChatTransport({ api: '/api/chat' })`. */
