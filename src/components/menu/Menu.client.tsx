@@ -133,14 +133,17 @@ const shortcutKbd = (shortcut: string | undefined) => (
 );
 
 const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(
-  function MenuItem({ className, children, shortcut, ...rest }, ref) {
+  function MenuItem({ className, children, shortcut, disabled, focusableWhenDisabled, ...rest }, ref) {
     return (
       <Base.Item
         ref={ref as React.Ref<HTMLDivElement>}
         data-ag-part="item"
         className={cn('ag-menu-item', className)}
+        disabled={disabled}
         {...(shortcut !== undefined ? { 'aria-keyshortcuts': shortcut } : {})}
         {...rest}
+        {...(disabled && focusableWhenDisabled === true ? { tabIndex: 0 } : {})}
+        {...(disabled && focusableWhenDisabled === false ? { tabIndex: -1 } : {})}
       >
         <span className="ag-menu-item-label">{children}</span>
         {shortcutKbd(shortcut)}

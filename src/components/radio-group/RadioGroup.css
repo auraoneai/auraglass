@@ -42,7 +42,5 @@
     opacity: 1;
   }
 
-  .ag-radio-item[data-disabled] {
-    opacity: var(--ag-state-disabled-alpha);
-  }
+  .ag-radio-item[data-disabled] > :where(*) {opacity: var(--ag-state-disabled-alpha);}
 }

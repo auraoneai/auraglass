@@ -31,6 +31,8 @@
   .ag-toggle-item:disabled,
   .ag-toggle-item[data-disabled] {
     cursor: default;
+  }
+  .ag-toggle-item[data-disabled] > :where(*) {
     opacity: var(--ag-state-disabled-alpha);
   }
 }

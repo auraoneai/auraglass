@@ -53,10 +53,8 @@
   .ag-menu-submenu-trigger[data-highlighted] {
     background: var(--_ag-accent-subtle, color-mix(in srgb, var(--ag-color-accent) 12%, transparent));
   }
-  .ag-menu-item[data-disabled],
-  .ag-menu-submenu-trigger[data-disabled] {
-    opacity: 0.45;
-  }
+
+  .ag-menu-item[data-disabled] > :where(*), .ag-menu-submenu-trigger[data-disabled] > :where(*) {opacity: var(--ag-state-disabled-alpha);}
   .ag-menu-item[data-checked] .ag-menu-item-indicator::after,
   .ag-menu-checkbox-item[data-checked] .ag-menu-item-indicator::after,
   .ag-menu-radio-item[data-checked] .ag-menu-item-indicator::after {

@@ -84,7 +84,7 @@ function SelectRoot<Value = string>({
   );
 }
 
-function SelectTrigger({ placeholder, children, className, ref, ...rest }: SelectTriggerProps) {
+function SelectTrigger({ placeholder, children, className, ref, disabled, focusableWhenDisabled, ...rest }: SelectTriggerProps) {
   const size = React.useContext(SelectSizeContext);
   return (
     <Base.Trigger
@@ -93,7 +93,10 @@ function SelectTrigger({ placeholder, children, className, ref, ...rest }: Selec
       {...materialProps({ layer: 'content', content: 'content-sunken', interactive: true })}
       className={cn('ag-select', className)}
       ref={ref}
+      disabled={disabled}
       {...rest}
+      {...(disabled && focusableWhenDisabled === true ? { tabIndex: 0 } : {})}
+      {...(disabled && focusableWhenDisabled === false ? { tabIndex: -1 } : {})}
     >
       {children ?? (
         <>

@@ -48,6 +48,8 @@
   .ag-segmented-item:disabled,
   .ag-segmented-item[data-disabled] {
     cursor: default;
+  }
+  .ag-segmented-item[data-disabled] > :where(*) {
     opacity: var(--ag-state-disabled-alpha);
   }
 

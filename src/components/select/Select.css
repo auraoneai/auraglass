@@ -49,7 +49,7 @@
     transform: rotate(180deg);
   }
 
-  .ag-select[data-disabled] {
+  .ag-select[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
   .ag-select:focus-visible {
@@ -110,9 +110,8 @@
   .ag-select-item[data-highlighted] {
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-raised-alpha, 10%), transparent);
   }
-  .ag-select-item[data-disabled] {
-    opacity: var(--ag-state-disabled-alpha);
-  }
+
+  .ag-select-item[data-disabled] > :where(*) {opacity: var(--ag-state-disabled-alpha);}
   .ag-select-item [data-ag-part='item-indicator'] {
     display: inline-flex;
     inline-size: var(--ag-space-4);

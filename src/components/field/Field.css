@@ -28,8 +28,8 @@
     gap: var(--ag-space-1);
   }
 
-  .ag-field[data-disabled],
-  .ag-fieldset[data-disabled] {
+  .ag-field[data-disabled] > :where([data-ag-part]),
+  .ag-fieldset[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
 }

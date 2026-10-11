@@ -142,9 +142,8 @@
   .ag-combobox-item[data-highlighted] {
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-raised-alpha, 10%), transparent);
   }
-  .ag-combobox-item[data-disabled] {
-    opacity: var(--ag-state-disabled-alpha);
-  }
+
+  .ag-combobox-item[data-disabled] > :where(*) {opacity: var(--ag-state-disabled-alpha);}
   .ag-combobox-item [data-ag-part='item-indicator'] {
     display: inline-flex;
     inline-size: var(--ag-space-4);
