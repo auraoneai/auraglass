@@ -5,8 +5,7 @@
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { REGISTRY_INDEX } from './paths.mjs';
-import { collect } from './gen-props.mjs';
+import { GENERATED_DIR, REGISTRY_INDEX } from './paths.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const MAX = 5 * 1024 * 1024;
@@ -14,9 +13,12 @@ const MAX = 5 * 1024 * 1024;
 export function main() {
   const idx = join(ROOT, REGISTRY_INDEX);
   const items = existsSync(idx) ? (JSON.parse(readFileSync(idx, 'utf8')).items ?? []) : [];
-  const props = collect();
+  /* Props come from gen-component-docs.mjs (TS compiler API over the packed d.ts), keyed by component name. */
+  const propsPath = join(ROOT, GENERATED_DIR, 'props.json');
+  if (!existsSync(propsPath)) { console.error(`${GENERATED_DIR}/props.json missing — run node scripts/docs/gen-component-docs.mjs first`); process.exit(1); }
+  const props = JSON.parse(readFileSync(propsPath, 'utf8'));
   const components = {};
-  for (const [name, rows] of Object.entries(props)) components[name.replace(/Props$/, '')] = { subpath: '.', props: rows.map(({ name, type, required }) => ({ name, type, required })) };
+  for (const [name, rows] of Object.entries(props)) components[name] = { subpath: '.', props: rows.map(({ name, type, required }) => ({ name, type, required })) };
   const docs = [];
   for (const dir of ['apps/docs/content', 'docs/guides', 'docs/quickstart']) {
     const p = join(ROOT, dir);
