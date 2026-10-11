@@ -6,7 +6,7 @@
 import * as React from 'react';
 import { useSyncExternalStore } from 'react';
 import { destroyStore, getServerSnapshot, getSnapshot, setError, setTone, subscribe, type MediaState } from './mediaStore';
-import { getOrSampleTone } from './sampling/toneCache';
+import { getOrSampleTone } from '../backdrops/sampling/toneCache';
 import { subscribeFrame } from '../motion';
 
 export type { MediaState, MediaError, MediaTextTrack } from './mediaStore';

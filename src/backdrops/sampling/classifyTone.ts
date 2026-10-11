@@ -1,6 +1,6 @@
-/* REQ-SURF-152 — pure tone classification. Constants calibrated once at alpha
- * over the 8 QUAL scenes (scripts/surf/calibrate-media-tone.mjs →
- * src/media/sampling/__fixtures__/scene-stats.json). */
+/* REQ-SURF-152 — pure tone classification. Constants are checked against the
+ * 8 QUAL scenes measured by scripts/surf/calibrate-media-tone.mjs (CI job
+ * surf:certify:media-tone → src/backdrops/sampling/__fixtures__/scene-stats.json). */
 import type { LumaStats } from './luma';
 
 export const TONE_LIGHT_MEAN = 0.60;
