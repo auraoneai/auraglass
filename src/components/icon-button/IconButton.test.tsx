@@ -15,6 +15,15 @@ describe('IconButton', () => {
     expect(btn.querySelector('[data-ag-part="label"]')).toBeNull();
   });
 
+
+  it('emits data-ag-size for square sizing; no label part ever renders (REQ-CMP-36)', () => {
+    const { rerender } = render(<IconButton label="x" icon={X} size="sm" />);
+    expect(screen.getByRole('button').getAttribute('data-ag-size')).toBe('sm');
+    expect(document.querySelector('[data-ag-part="label"]')).toBeNull();
+    rerender(<IconButton label="x" icon={X} size="lg" />);
+    expect(screen.getByRole('button').getAttribute('data-ag-size')).toBe('lg');
+  });
+
   it('dev console.error on empty label', () => {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
     render(<IconButton label="" icon={X} />);

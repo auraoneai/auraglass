@@ -37,8 +37,8 @@ export const FAMILY_PATHS = {
 
 export function dispositionsRows(text) {
   const rows = [];
-  for (const m of text.matchAll(/^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*`([^`]+)`\s*\|\s*([A-Z]+)\s*\|\s*(yes|no)\s*\|\s*([a-z]+)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]*?)\s*\|$/gm)) {
-    rows.push({ i: +m[1], name: m[2].replace(/\\\|/g, '|'), file: m[3] === '-' ? '' : m[3], disp: m[4], pub: m[5] === 'yes', dest: m[6], target: m[7], prd: m[8], note: m[9] });
+  for (const m of text.matchAll(/^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*`([^`]+)`\s*\|\s*([A-Z]+)\s*\|\s*(yes|no)\s*\|\s*([a-z]+)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]*?)\s*\|$/gm)) {
+    rows.push({ i: +m[1], name: m[2].replace(/\\\|/g, '|'), file: m[3] === '-' ? '' : m[3], disp: m[4], pub: m[5] === 'yes', dest: m[6], target: m[7], owner: m[8], codemod: m[9], prd: m[10], note: m[11] });
   }
   return rows;
 }

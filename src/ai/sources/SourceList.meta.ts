@@ -7,10 +7,10 @@ export default defineMeta({
   tier: 'T2',
   flagship: 42,
   rsc: 'client',
-  parts: ['source-list', 'trigger', 'sources', 'source', 'source-link', 'source-text', 'source-host', 'source-file'],
+  parts: ['icon', 'source', 'source-file', 'source-host', 'source-link', 'source-list', 'source-text', 'sources', 'trigger'],
   states: [],
+  apg: 'link',
   variants: {},
-  budgetKb: 5,
+  budgetKb: 9,
   migration: [],
-  selectors: [],
 });
