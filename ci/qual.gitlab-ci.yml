@@ -40,10 +40,14 @@ qual:certify:l10:
     - |
       rc=0
       node node_modules/jest/bin/jest.js --ci --testPathIgnorePatterns /node_modules/ \
-        --testMatch '**/packages/qa/test/bci.test.ts' '**/tests/perf/qual/run-perf.test.mjs' '**/tests/storybook/perf-fixtures-index.test.mjs' || rc=1
+        --testMatch '**/packages/qa/test/bci.test.ts' '**/tests/perf/qual/run-perf.test.mjs' '**/tests/storybook/perf-fixtures-index.test.mjs' \
+        '**/tests/perf/qual/invariants.test.mjs' || rc=1
       npx playwright test -c tests/perf/qual/playwright.config.ts --project qual:l10-selftest || rc=1
       node tests/perf/harness/run-perf.mjs --profile b,c,d --scope "$AG_SCOPE" || rc=1
       AG_L10_STREAMS=1 npx playwright test -c tests/perf/qual/playwright.config.ts --project qual:l10-streams || rc=1
+      # REQ-QUAL-42/-43 invariants (G-22): leak (Chromium) + backdrop root, lens defs, WebGL, a11y fallback (3 engines).
+      AG_L10_INVARIANTS=1 npx playwright test -c tests/perf/qual/playwright.config.ts \
+        --project qual:l10-invariants-chromium --project qual:l10-invariants-webkit --project qual:l10-invariants-firefox || rc=1
       exit $rc
 qual:certify:l10-gpu:
   extends: [.qual-lane, .ag-gpu]
