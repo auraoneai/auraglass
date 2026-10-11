@@ -2,6 +2,5 @@
   "ai": "5.0.29",
   "@ai-sdk/react": "2.0.29",
   "@ai-sdk/openai-compatible": "1.0.29",
-  "tsd": "0.33.0",
   "note": "Exact pins for the interim AI SDK harness (SURF-281). contract/ai-sdk-devdeps adds the same versions as devDependencies; until it merges, surf:test:ai-sdk installs these into .artifacts/surf/ai-sdk/ with npm install --prefix --no-save."
 }
