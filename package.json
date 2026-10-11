@@ -1,7 +1,7 @@
 {
   "name": "aura-glass",
   "version": "5.0.0-alpha.0",
-  "description": "AuraGlass 5.0 \u2014 the liquid-glass design system for React 19.",
+  "description": "AuraGlass 5.0 — the liquid-glass design system for React 19.",
   "type": "module",
   "license": "MIT",
   "repository": {

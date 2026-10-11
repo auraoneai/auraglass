@@ -14,10 +14,9 @@ const ru = process.resourceUsage();
 console.log(JSON.stringify({ changed: r.report.summary.filesChanged, rss: ru.maxRSS * 1024, wallMs: Number(process.hrtime.bigint() - t0) / 1e6 }));`;
 
 describe('codemod perf (spawned)', () => {
-  /* Measured 2026-10-09: wall ~24 s (< 60 s ok), peak RSS ~2.88 GB vs the
-   * 1.5 GB budget — the engine is over budget on large trees. it.failing
-   * keeps the budget asserted: it goes green the day memory is fixed. */
-  it.failing('2000-file tree migrates <=60 s, peak RSS <=1.5 GB', () => {
+  /* Budget per REQ-PLAT-92: <=60 s wall, <=1.5 GB peak RSS. Asserted
+   * directly; an over-budget engine fails this test (no inverted it.failing). */
+  it('2000-file tree migrates <=60 s, peak RSS <=1.5 GB', () => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'agperf-'));
     for (let i = 0; i < 2000; i++) {
       fs.writeFileSync(path.join(dir, `f${i}.tsx`), `import { GlassButton } from 'aura-glass';\nexport const x${i} = <GlassButton variant="primary" />;\n`);

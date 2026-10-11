@@ -1,11 +1,11 @@
-/** REQ-PLAT-92 codemod canary (@playwright/test, dx image):
- *  pack @auraglass/cli -> migrate a recipes-4x app -> swap in packed
- *  aura-glass@5 -> tsc -> next build -> browser smoke (chromium/webkit/
- *  firefox) -> second run idempotent. Engine-level recipe checks (frozen
- *  expected-todos.json per recipe) are the offline leg; the packed tarball
- *  chain runs when AURAGLASS_CANARY_FULL=1 in the dx image. */
+/** REQ-PLAT-92 codemod canary (@playwright/test, remote dx lane only —
+ *  playwright.dx.config.ts exits 2 outside CI). Built CLI migrates each
+ *  frozen recipes-4x source within 15 s, TODOs match expected-todos.json,
+ *  second run changes nothing; engine leg repeats the same over runOnSource.
+ *  Not yet implemented here (tracked as open REQ-PLAT-92 work, not stubbed):
+ *  packed aura-glass 5 swap -> tsc -> next build -> 3-browser smoke. */
 import { test, expect } from '@playwright/test';
-import { execFileSync, execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -15,7 +15,7 @@ import { runOnSource, selectTransforms, loadCompiledMappings, TRANSFORM_ORDER } 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(HERE, '..', '..');
 const RECIPES = path.join(HERE, 'fixtures', 'recipes-4x');
-const FULL = process.env.AURAGLASS_CANARY_FULL === '1';
+const MANUAL = '__manual__source-parse-failure';
 const CLI_PKG = path.join(REPO, 'packages', 'cli');
 const TIMEOUT_MS = 15_000;
 
@@ -44,13 +44,14 @@ test.describe('codemod canary — recipes-4x', () => {
       const dir = fs.mkdtempSync(path.join(os.tmpdir(), `agcan-${name}-`));
       fs.copyFileSync(path.join(RECIPES, name, 'input.tsx'), path.join(dir, 'input.tsx'));
       const expected = JSON.parse(fs.readFileSync(path.join(RECIPES, name, 'expected-todos.json'), 'utf8')) as string[];
-      if (expected[0] === '__manual__source-parse-failure') {
-        test.skip(true, 'recipe source shape does not parse under jscodeshift — manual bucket by design');
-        return;
-      }
       const t0 = Date.now();
       const r = migrate(dir);
       expect(Date.now() - t0).toBeLessThan(TIMEOUT_MS);
+      if (expected[0] === MANUAL) {
+        /* frozen expectation: the CLI reports the parse failure (non-zero) */
+        expect(r.code).not.toBe(0);
+        return;
+      }
       expect(r.code).toBe(0);
       const out = fs.readFileSync(path.join(dir, 'input.tsx'), 'utf8');
       const todos = (out.match(/TODO\(aura-glass 5\): ([^\n]+)/g) ?? []);
@@ -63,30 +64,11 @@ test.describe('codemod canary — recipes-4x', () => {
   }
 
   test('flagship subset: 0 unexpected TODOs after migrate', () => {
-    const subset = path.join(RECIPES, 'flagship-subset.json');
-    if (!fs.existsSync(subset)) { test.skip(true, 'flagship-subset.json absent'); return; }
-    const ids = JSON.parse(fs.readFileSync(subset, 'utf8')) as string[];
-    const offenders: string[] = [];
-    for (const id of ids) {
-      const exp = path.join(RECIPES, id, 'expected-todos.json');
-      if (!fs.existsSync(exp)) continue;
-      const e = JSON.parse(fs.readFileSync(exp, 'utf8')) as string[];
-      if (e.length && e[0] !== '__manual__source-parse-failure') offenders.push(id);
-    }
+    const ids = JSON.parse(fs.readFileSync(path.join(RECIPES, 'flagship-subset.json'), 'utf8')) as string[];
+    expect(ids.length).toBeGreaterThan(0);
+    const offenders = ids.filter((id) => (JSON.parse(fs.readFileSync(path.join(RECIPES, id, 'expected-todos.json'), 'utf8')) as string[]).length > 0);
     expect(offenders).toEqual([]);
   });
-
-  test.skip(!FULL, 'full canary needs AURAGLASS_CANARY_FULL=1 (dx image with packed tarballs + browsers)');
-  if (FULL) {
-    test('packed CLI -> packed 5.0 -> tsc 0 -> next build 0 -> browser smoke', async ({ page, browserName }) => {
-      test.setTimeout(120_000);
-      const work = fs.mkdtempSync(path.join(os.tmpdir(), 'agcan-full-'));
-      execSync(`npm pack --ignore-scripts`, { cwd: CLI_PKG, stdio: 'inherit' });
-      const tgz = fs.readdirSync(CLI_PKG).find((f) => f.endsWith('.tgz'))!;
-      execSync(`npm init -y && npm install --ignore-scripts ${path.join(CLI_PKG, tgz)}`, { cwd: work, stdio: 'inherit' });
-      expect(fs.existsSync(path.join(work, 'node_modules', '.bin', 'aura-glass'))).toBe(true);
-    });
-  }
 });
 
 /* PLAT-340..343: engine-level leg — frozen recipe fixture (tsx/ts/css/json)
@@ -98,7 +80,6 @@ function recipeInput(dir: string): string | undefined {
   return ['input.tsx', 'input.ts', 'input.css', 'input.json'].find((f) => fs.existsSync(path.join(dir, f)));
 }
 function engineRecipeDirs(): string[] {
-  if (!fs.existsSync(RECIPES)) return [];
   return fs.readdirSync(RECIPES).filter((d) => recipeInput(path.join(RECIPES, d)) && fs.existsSync(path.join(RECIPES, d, 'expected-todos.json'))).sort();
 }
 
@@ -110,13 +91,13 @@ test.describe('codemod canary (recipes-4x, engine)', () => {
     test(`recipe ${name}: output matches expected-todos.json`, () => {
       const dir = path.join(RECIPES, name);
       const expected = JSON.parse(fs.readFileSync(path.join(dir, 'expected-todos.json'), 'utf8')) as string[];
-      if (expected[0] === '__manual__source-parse-failure') {
-        test.skip(true, 'recipe source shape does not parse under jscodeshift — manual bucket by design');
-        return;
-      }
       const input = recipeInput(dir)!;
       const source = fs.readFileSync(path.join(dir, input), 'utf8');
       const kind = input.endsWith('.css') ? 'css' : input.endsWith('.json') ? 'json' : 'code';
+      if (expected[0] === MANUAL) {
+        expect(() => runOnSource({ path: input, abs: 'x', kind, source }, all, { mappings, docBase: 'docs' })).toThrow();
+        return;
+      }
       const r = runOnSource({ path: input, abs: 'x', kind, source }, all, { mappings, docBase: 'docs' });
       expect(r.todos.map((t) => t.reason)).toEqual(expected);
       const r2 = runOnSource({ path: input, abs: 'x', kind, source: r.final }, all, { mappings, docBase: 'docs' });

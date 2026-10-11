@@ -11,7 +11,6 @@ const all = selectTransforms(undefined);
 const MANUAL = '__manual__source-parse-failure';
 
 function recipeDirs(): string[] {
-  if (!fs.existsSync(FIX)) return [];
   return fs.readdirSync(FIX).filter((d) => fs.existsSync(path.join(FIX, d, 'expected-todos.json'))).sort();
 }
 
@@ -35,23 +34,18 @@ describe('codemod canary (recipes-4x, engine leg)', () => {
       }
       const r = runOnSource({ path: input, abs: 'x', kind, source }, all, { mappings, docBase: 'docs' });
       expect(r.todos.map((t) => t.reason)).toEqual(expected);
-      if (fs.existsSync(path.join(dir, 'pending.txt'))) {
-        const why = fs.readFileSync(path.join(dir, 'pending.txt'), 'utf8');
-        expect(why.length).toBeGreaterThan(0);
-        return;
-      }
+      /* second pass over the migrated output must change nothing */
       const r2 = runOnSource({ path: input, abs: 'x', kind, source: r.final }, all, { mappings, docBase: 'docs' });
       expect(r2.final).toBe(r.final);
     });
   }
   it('flagship subset: 0 unexpected TODOs', () => {
     const subsetPath = path.join(FIX, 'flagship-subset.json');
-    const ids: string[] = fs.existsSync(subsetPath) ? JSON.parse(fs.readFileSync(subsetPath, 'utf8')) : [];
+    const ids = JSON.parse(fs.readFileSync(subsetPath, 'utf8')) as string[];
+    expect(ids.length).toBeGreaterThan(0);
     const offenders = ids.filter((id) => {
-      const exp = path.join(FIX, id, 'expected-todos.json');
-      if (!fs.existsSync(exp)) return false;
-      const e = JSON.parse(fs.readFileSync(exp, 'utf8')) as string[];
-      return e.length > 0 && e[0] !== MANUAL;
+      const e = JSON.parse(fs.readFileSync(path.join(FIX, id, 'expected-todos.json'), 'utf8')) as string[];
+      return e.length > 0;
     });
     expect(offenders).toEqual([]);
   });
