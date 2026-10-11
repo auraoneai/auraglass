@@ -1,5 +1,30 @@
 {
   "version": 1,
   "_comment": "PLAT-014/015: rows = {job, line, firstGreenPipelineUrl, sha, date}. A REQUIRED_JOBS gate stays allow_failure:true on a line until a row here records its first green pipeline on that line; contract:ci-fragments enforces the flip.",
-  "activations": []
+  "activations": [
+    {
+      "job": "surf:build:ai-fixtures",
+      "line": "5x",
+      "firstGreenPipelineUrl": "https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/pipelines/2934137816",
+      "jobUrl": "https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/jobs/17084448191",
+      "sha": "55f444423e60bdb8e852da27a50606e8bd72463d",
+      "date": "2026-10-10"
+    },
+    {
+      "job": "surf:test:ai-sdk",
+      "line": "5x",
+      "firstGreenPipelineUrl": "https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/pipelines/2934706154",
+      "jobUrl": "https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/jobs/17087596608",
+      "sha": "2480ac0479073e7276f632350da91007982c8f08",
+      "date": "2026-10-10"
+    },
+    {
+      "job": "surf:test:ledger",
+      "line": "5x",
+      "firstGreenPipelineUrl": "https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/pipelines/2934559777",
+      "jobUrl": "https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/jobs/17086709819",
+      "sha": "16372b46ecc7c6245e78a1dfbf2b39d0de4b9af7",
+      "date": "2026-10-10"
+    }
+  ]
 }

@@ -31,7 +31,7 @@
 surf:build:ai-fixtures:
   extends: .surf-base
   stage: build
-  allow_failure: true # owning lane flips to false after first green on next
+  allow_failure: false # first green on next: pipeline 2934137816 (ci/plat/activation.json)
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
   script:
@@ -50,7 +50,7 @@ surf:build:ai-fixtures:
 surf:test:ai-sdk:
   extends: .surf-base
   stage: test
-  allow_failure: true # owning lane flips to false after first green on next
+  allow_failure: false # first green on next: pipeline 2934706154 (ci/plat/activation.json)
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
   script:
@@ -84,7 +84,7 @@ surf:test:ai-sdk:
 surf:test:ledger:
   extends: .surf-base
   stage: test
-  allow_failure: true # owning lane flips to false after first green on next
+  allow_failure: false # first green on next: pipeline 2934559777 (ci/plat/activation.json)
   variables:
     GIT_DEPTH: "0"
   rules:
