@@ -162,7 +162,7 @@ function SheetRoot({
         <Base.Root
           open={open}
           defaultOpen={defaultOpen}
-          modal={modal}
+          modal={modal === true ? 'trap-focus' : modal}
           disablePointerDismissal={!dismissible}
           onOpenChange={(o, d) => handleOpenChange(o, { event: d?.event, reason: d?.reason })}
         >
