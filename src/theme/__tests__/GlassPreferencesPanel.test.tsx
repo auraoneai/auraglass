@@ -1,7 +1,9 @@
 /* MAT-320 (A11Y-089, REQ-MAT-60): GlassPreferencesPanel — native controls via
    materialProps (no CMP imports), fieldset/legend per key, floor-locked
    options aria-disabled + described, change announced politely, keys filter,
-   only the changed field re-renders. */
+   only the changed field re-renders.
+   D.3-36 (REQ-FIN-59): distinct radio names across two panels, Spacious,
+   per-option aria-describedby, contrast 'standard' lock. */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import * as React from 'react';
 import { Profiler, createElement as h } from 'react';
@@ -72,13 +74,100 @@ describe('GlassPreferencesPanel', () => {
     expect(glass.getAttribute('aria-disabled')).toBe('true');
     expect(tinted.getAttribute('aria-disabled')).toBeNull();
     expect(screen.getByRole('radio', { name: /Solid/i }).getAttribute('aria-disabled')).toBeNull();
-    const group = glass.closest('[role=radiogroup]')!;
-    const note = group.getAttribute('aria-describedby');
+    // the note is linked per disabled option, not on the radiogroup
+    const note = glass.getAttribute('aria-describedby');
     expect(note).toBeTruthy();
     expect(document.getElementById(note!)!.textContent).toMatch(/Increase Contrast/);
+    expect(tinted.getAttribute('aria-describedby')).toBeNull();
+    expect(glass.closest('[role=radiogroup]')!.getAttribute('aria-describedby')).toBeNull();
     fireEvent.click(glass);
     expect(store.getSnapshot().transparency).toBe('system');
     expect(store.resolved().transparency).toBe('tinted');
+  });
+
+  it('two panels on one page render distinct radio names (no shared group)', () => {
+    const store = storeWith(os({}));
+    render(h(PreferenceStoreContext.Provider, {
+      value: store,
+      children: h(React.Fragment, null,
+        h('section', { 'data-testid': 'a' }, h(GlassPreferencesPanel, { keys: ['transparency', 'density'] })),
+        h('section', { 'data-testid': 'b' }, h(GlassPreferencesPanel, { keys: ['transparency', 'density'] }))),
+    }));
+    const namesIn = (testId: string): string[] => Array.from(
+      screen.getByTestId(testId).querySelectorAll<HTMLInputElement>('input[type=radio]'),
+    ).map((r) => r.name);
+    const a = new Set(namesIn('a'));
+    const b = new Set(namesIn('b'));
+    // one name per group inside each panel
+    expect(a.size).toBe(2);
+    expect(b.size).toBe(2);
+    for (const n of a) {
+      expect(n).not.toBe('');
+      expect(b.has(n)).toBe(false);
+    }
+    // inside one panel, the transparency and density groups are distinct
+    const panelA = screen.getByTestId('a');
+    const tName = panelA.querySelector<HTMLInputElement>('[data-ag-pref=transparency] input[type=radio]')!.name;
+    const dName = panelA.querySelector<HTMLInputElement>('[data-ag-pref=density] input[type=radio]')!.name;
+    expect(tName).not.toBe(dName);
+  });
+
+  it('density offers Spacious and selecting it sets density=spacious', () => {
+    const onChange = jest.fn();
+    const store = storeWith(os({}));
+    render(h(PreferenceStoreContext.Provider, {
+      value: store, children: h(GlassPreferencesPanel, { keys: ['density'], onChange }),
+    }));
+    const labels = Array.from(document.querySelectorAll('[data-ag-pref=density] [data-ag-option]'))
+      .map((l) => l.textContent?.trim());
+    expect(labels).toEqual(['Regular', 'Compact', 'Spacious']);
+    const spacious = screen.getByRole('radio', { name: /Spacious/i });
+    expect(spacious.getAttribute('aria-disabled')).toBeNull();
+    fireEvent.click(spacious);
+    expect(store.getSnapshot().density).toBe('spacious');
+    expect(onChange).toHaveBeenCalledWith('density', 'spacious');
+    expect((spacious as HTMLInputElement).checked).toBe(true);
+  });
+
+  it.each([
+    ['contrastMoreOS', os({ contrastMore: true }), /Increase Contrast/],
+    ['forcedColors', os({ forcedColors: true }), /forced-colours/],
+  ])('contrast lock under %s: Standard is aria-disabled with its own note; click is a no-op', (_n, signals, noteText) => {
+    const onChange = jest.fn();
+    const store = storeWith(signals);
+    render(h(PreferenceStoreContext.Provider, {
+      value: store, children: h(GlassPreferencesPanel, { keys: ['contrast'], onChange }),
+    }));
+    const standard = screen.getByRole('radio', { name: /Standard/i });
+    const more = screen.getByRole('radio', { name: /More/i });
+    const system = screen.getByRole('radio', { name: /System/i });
+    expect(standard.getAttribute('aria-disabled')).toBe('true');
+    expect(more.getAttribute('aria-disabled')).toBeNull();
+    expect(system.getAttribute('aria-disabled')).toBeNull();
+    // locked option stays focusable (aria-disabled, not disabled)
+    expect((standard as HTMLInputElement).disabled).toBe(false);
+    const noteId = standard.getAttribute('aria-describedby');
+    expect(noteId).toBeTruthy();
+    expect(document.getElementById(noteId!)!.textContent).toMatch(noteText);
+    expect(more.getAttribute('aria-describedby')).toBeNull();
+    fireEvent.click(standard);
+    expect(store.getSnapshot().contrast).toBe('system');
+    expect(store.resolved().contrast).toBe('more');
+    expect(onChange).not.toHaveBeenCalled();
+    expect((standard as HTMLInputElement).checked).toBe(false);
+  });
+
+  it('contrast is not locked without forced colours or OS more', () => {
+    const store = storeWith(os({}));
+    render(h(PreferenceStoreContext.Provider, {
+      value: store, children: h(GlassPreferencesPanel, { keys: ['contrast'] }),
+    }));
+    const standard = screen.getByRole('radio', { name: /Standard/i });
+    expect(standard.getAttribute('aria-disabled')).toBeNull();
+    expect(standard.getAttribute('aria-describedby')).toBeNull();
+    expect(document.querySelector('[data-ag-pref=contrast] [data-ag-floor-note]')).toBeNull();
+    fireEvent.click(standard);
+    expect(store.getSnapshot().contrast).toBe('standard');
   });
 
   it('below-floor set persists the user value while resolved stays at floor', () => {

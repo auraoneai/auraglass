@@ -3,7 +3,14 @@
    depend on src/components/**). fieldset/legend groups per requested key,
    floors rendered as aria-disabled="true" (still focusable) with a note
    naming the floor, onChange + polite announce per change, single-column at
-   coarse pointer, RTL-correct. */
+   coarse pointer, RTL-correct.
+   REQ-MAT-60 / REQ-FIN-59 (FIN-D D.3-36): density offers Spacious; radio
+   names are per-instance (React.useId) so two panels never share a group;
+   each floor-locked input carries its own aria-describedby to the note; the
+   contrast 'standard' option is floor-locked under forced colours or OS
+   Increase Contrast (resolveContrast returns 'more' there). The panel CSS
+   (GlassPreferencesPanel.css: coarse single column, logical properties) is
+   transferred to REQ-FIN-05 (FIN-A). */
 'use client';
 import * as React from 'react';
 import { materialProps } from '../../material';
@@ -55,6 +62,7 @@ const CHOICES: Partial<Record<UserSettableKey, readonly Choice[]>> = {
   density: [
     { value: 'regular', label: 'Regular' },
     { value: 'compact', label: 'Compact' },
+    { value: 'spacious', label: 'Spacious' },
   ],
 };
 
@@ -66,12 +74,15 @@ const FLOOR_NOTES: Record<string, string> = {
   'prefers-reduced-transparency': "Your system's Reduce Transparency setting requires at least Tinted",
   'no-backdrop-filter': 'This browser cannot apply glass, so Solid is required',
   'glass-opacity': 'Glass opacity above 70% requires at least Tinted',
+  'forced-colors-contrast': "Your system's forced-colours mode requires More contrast",
+  'prefers-contrast-more-contrast': "Your system's Increase Contrast setting requires More contrast",
   'prefers-reduced-motion': "Your system's Reduce Motion setting allows at most Calm",
   'save-data': 'Data Saver keeps the lightweight tier',
   'low-memory-coarse': 'This device renders the lightweight tier',
 };
 
 const MOTION_RANK: Record<string, number> = { none: 0, calm: 1, full: 2 };
+const CONTRAST_RANK: Record<string, number> = { standard: 0, more: 1 };
 
 export function GlassPreferencesPanel({
   keys, onChange, className,
@@ -110,6 +121,16 @@ export function GlassPreferencesPanel({
         note: cap < 2 ? FLOOR_NOTES['prefers-reduced-motion']! : null,
       };
     }
+    if (key === 'contrast') {
+      // resolveContrast: forced || contrastMore ? 'more' : max(app, user)
+      const locked = forcedColors || contrastMoreOS;
+      return {
+        floor: locked ? CONTRAST_RANK.more! : -1,
+        note: forcedColors ? FLOOR_NOTES['forced-colors-contrast']!
+          : contrastMoreOS ? FLOOR_NOTES['prefers-contrast-more-contrast']!
+          : null,
+      };
+    }
     return { floor: -1, note: null };
   };
 
@@ -117,6 +138,7 @@ export function GlassPreferencesPanel({
     const { floor } = floorFor(key);
     if (key === 'transparency') return RANK[value] !== undefined && RANK[value]! < floor;
     if (key === 'motion') return MOTION_RANK[value] !== undefined && MOTION_RANK[value]! > floor;
+    if (key === 'contrast') return CONTRAST_RANK[value] !== undefined && CONTRAST_RANK[value]! < floor;
     return false;
   };
 
@@ -196,15 +218,16 @@ function PanelField({ prefKey, note, belowFloor, apply }: PanelFieldProps): Reac
     'fieldset', { 'data-ag-pref': prefKey, 'data-ag-part': 'group' },
     label,
     React.createElement(
-      'div', { role: 'radiogroup', 'aria-describedby': noteId, 'data-ag-options': '' },
+      'div', { role: 'radiogroup', 'data-ag-options': '' },
       ...choices.map((c) => {
         const disabled = c.value !== 'system' && belowFloor(c.value);
         return React.createElement(
           'label', { 'data-ag-option': '', 'data-ag-part': 'option', key: c.value },
           React.createElement('input', {
-            type: 'radio', name: `ag-pref-${prefKey}`, 'data-ag-part': 'radio',
+            type: 'radio', name: `ag-pref-${prefKey}-${id}`, 'data-ag-part': 'radio',
             checked: value === c.value,
             'aria-disabled': disabled ? 'true' : undefined,
+            'aria-describedby': disabled ? noteId : undefined,
             onChange: () => { if (!disabled) apply(prefKey, c.value as never); },
             onClick: (e: React.MouseEvent) => { if (disabled) e.preventDefault(); },
           }),
