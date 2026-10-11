@@ -1,66 +1,110 @@
 /** @jest-environment node */
-// REQ-SURF-08 — cross-TZ hydration: each fixture renders to a string in a
-// spawned node child at TZ=Pacific/Kiritimati (+14), then hydrates in jsdom
-// inside a second child at TZ=Pacific/Pago_Pago (-11). Any TZ/locale-dependent
-// markup diverges → React emits hydration warnings → the test fails.
-// The AppShell fixture additionally hydrates under a seeded
-// 'ag-app-shell=sidebar:rail' cookie.
+// REQ-SURF-08 — cross-TZ hydration. Every fixture in tests/data/hydration/
+// fixtures.tsx (StatCard, Sparkline, ChartFrame, Timeline, ActivityFeed,
+// Message, formatMediaTime, a useMediaElement probe, DateField/TimeField/DatePicker/Calendar, and an
+// AppShell restored from a persisted 'sidebar:rail' cookie) renders to a
+// string in a spawned node child at TZ=Pacific/Kiritimati (UTC+14), then
+// hydrates in jsdom inside a second child at TZ=Pacific/Pago_Pago (UTC−11).
+// Any TZ/locale-dependent markup diverges and React reports it. A negative
+// control (host-local hour of a fixed instant) must produce a hydration
+// error, so a clean run cannot be vacuous.
 import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdtempSync, readdirSync, rmSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 
-const ROOT = process.cwd();
+const ROOT = join(__dirname, '../..');
 const HARNESS = join(ROOT, 'tests/data/hydration');
+const SERVER_TZ = 'Pacific/Kiritimati';
+const CLIENT_TZ = 'Pacific/Pago_Pago';
+const FIXTURE_NAMES = [
+  'statcard', 'sparkline', 'chartframe', 'timeline', 'activityfeed', 'message', 'mediatime', 'media-element',
+  'datefield', 'datefield-zoned', 'timefield', 'datepicker', 'calendar', 'appshell-rail',
+];
+
+interface FixtureResult { recoverable: string[]; consoleErrors: string[] }
+interface HydrateOut {
+  timeZone?: string;
+  cookie?: string;
+  results?: Record<string, FixtureResult>;
+  appShell?: { sidebar: string | null; toggleLabel: string | null } | null;
+  fatal?: string;
+}
+
 let work = '';
+let server: { timeZone: string; rendered: string[] };
+let client: HydrateOut;
+let control: HydrateOut;
 
-const bundle = (entry: string, out: string) => {
-  execFileSync(
-    'node',
-    [
-      '-e',
-      `require('esbuild').buildSync({entryPoints:['${entry}'],bundle:true,format:'cjs',platform:'node',outfile:'${out}',external:['react','react-dom','react-dom/*','react/*','jsdom'],logLevel:'silent',absWorkingDir:'${ROOT.replace(/\\/g, '/')}'})`,
-    ],
-    { cwd: ROOT },
-  );
-};
+function bundle(entry: string, outfile: string) {
+  // Bundled in-process; react/react-dom/jsdom stay external so both legs use
+  // the repo's single React copy. outfile sits under ROOT so they resolve.
+  const esbuild = require('esbuild') as typeof import('esbuild');
+  esbuild.buildSync({
+    entryPoints: [entry], bundle: true, format: 'cjs', platform: 'node', outfile,
+    external: ['react', 'react-dom', 'react-dom/*', 'react/*', 'jsdom'],
+    jsx: 'automatic', logLevel: 'silent', absWorkingDir: ROOT,
+    define: { 'process.env.NODE_ENV': '"development"' },
+  });
+}
 
-const run = (tz: string, script: string, arg: string) =>
-  execFileSync('node', [script, arg], {
+function run(tz: string, script: string, ...args: string[]): string {
+  return execFileSync(process.execPath, [script, ...args], {
     cwd: ROOT,
     encoding: 'utf8',
-    env: { ...process.env, TZ: tz },
+    env: { ...process.env, TZ: tz, NODE_ENV: 'development' },
+    maxBuffer: 16 * 1024 * 1024,
   });
+}
 
 describe('cross-TZ hydration (REQ-SURF-08)', () => {
   beforeAll(() => {
-    work = mkdtempSync(join(ROOT, '.ag-hydration-'));
+    // Under the git-ignored .cache/ so a crashed run leaves nothing tracked;
+    // still inside ROOT so the bundles resolve react/jsdom from node_modules.
+    mkdirSync(join(ROOT, '.cache'), { recursive: true });
+    work = mkdtempSync(join(ROOT, '.cache', 'ag-hydration-'));
     bundle(join(HARNESS, 'render.tsx'), join(work, 'render.cjs'));
     bundle(join(HARNESS, 'hydrate.tsx'), join(work, 'hydrate.cjs'));
-    run('Pacific/Kiritimati', join(work, 'render.cjs'), work);
-  }, 120_000);
+    server = JSON.parse(run(SERVER_TZ, join(work, 'render.cjs'), work));
+    client = JSON.parse(run(CLIENT_TZ, join(work, 'hydrate.cjs'), work, 'fixtures'));
+    control = JSON.parse(run(CLIENT_TZ, join(work, 'hydrate.cjs'), work, 'control'));
+  }, 180_000);
 
   afterAll(() => { if (work && existsSync(work)) rmSync(work, { recursive: true, force: true }); });
 
-  it('server render produced every fixture', () => {
-    const html = readdirSync(work).filter((f) => f.endsWith('.html'));
-    expect({ html: html.sort() }).toEqual({
-      html: ['activityfeed.html', 'appshell.html', 'chartframe.html', 'mediatime.html', 'message.html', 'sparkline.html', 'statcard.html', 'timeline.html'].sort(),
+  it('server leg ran at UTC+14 and rendered every fixture', () => {
+    const html = readdirSync(work).filter((f) => f.endsWith('.html')).sort();
+    expect({ timeZone: server.timeZone, html }).toEqual({
+      timeZone: SERVER_TZ,
+      html: [...FIXTURE_NAMES, 'control-host-clock'].map((n) => `${n}.html`).sort(),
     });
   });
 
-  it('hydration at Pago_Pago reports zero warnings', () => {
-    const out = JSON.parse(run('Pacific/Pago_Pago', join(work, 'hydrate.cjs'), work));
-    const warnings = [
-      ...Object.values(out.results ?? {}).flat() as string[],
-      ...((out.consoleErrors ?? []) as string[]).filter((e) => /hydrat|mismatch/i.test(e)),
-      ...(out.fatal ? [out.fatal] : []),
-    ];
-    expect({ warnings, fixtureCount: Object.keys(out.results ?? {}).length }).toEqual({ warnings: [], fixtureCount: 8 });
+  it('client leg at UTC−11 hydrates every fixture with 0 hydration errors and 0 console errors', () => {
+    const expected = Object.fromEntries(FIXTURE_NAMES.map((n) => [n, { recoverable: [], consoleErrors: [] }]));
+    expect({ fatal: client.fatal, timeZone: client.timeZone, results: client.results }).toEqual({
+      fatal: undefined,
+      timeZone: CLIENT_TZ,
+      results: expected,
+    });
   });
 
-  it('appshell fixture hydrates against the rail cookie without warnings', () => {
-    const out = JSON.parse(run('Pacific/Pago_Pago', join(work, 'hydrate.cjs'), work));
-    expect({ errors: out.results?.appshell ?? ['missing'] }).toEqual({ errors: [] });
+  it('AppShell restored from the persisted sidebar:rail cookie stays rail after hydration', () => {
+    expect({
+      cookie: client.cookie,
+      appShell: client.appShell,
+    }).toEqual({
+      cookie: 'ag-shell-main=sidebar:rail',
+      appShell: { sidebar: 'rail', toggleLabel: 'Expand sidebar' },
+    });
+  });
+
+  it('negative control: a host-TZ dependent render fails hydration (harness is not vacuous)', () => {
+    const r = control.results?.['control-host-clock'];
+    const messages = [...(r?.recoverable ?? []), ...(r?.consoleErrors ?? [])];
+    expect({
+      fatal: control.fatal,
+      detected: messages.some((m) => /hydrat|did not match|server rendered/i.test(m)),
+    }).toEqual({ fatal: undefined, detected: true });
   });
 });

@@ -12,14 +12,43 @@ const w1 = {};
 
 // --- lane W2 begin ---
 // W2 builtin-rule assertions (SURF-137/138): the strict map only emits
-// 'auraglass/<rule>' configs, so react-hooks/rules-of-hooks and
-// no-restricted-properties (toLocale* ban) cannot be expressed here.
-// Coverage: rules-of-hooks is 'error' over '**/*.{ts,tsx,js,jsx,mjs,cjs}' in
-// eslint.config.js — asserted for SURF paths by
-// tests/lint/surf/rules-of-hooks.test.ts against the conditional-hook
-// fixture; the toLocale* ban is enforced repo-wide by
-// tests/lint/surf/locale-guard.test.ts (config-level form is contract-owned).
-const w2 = {};
+// 'auraglass/<rule>' configs, so react-hooks/rules-of-hooks cannot be
+// expressed here. Coverage: rules-of-hooks is 'error' over
+// '**/*.{ts,tsx,js,jsx,mjs,cjs}' in eslint.config.js — asserted for SURF paths
+// by tests/lint/surf/rules-of-hooks.test.ts against the conditional-hook
+// fixture.
+// REQ-SURF-08: the toLocale* ban (the REQ's no-restricted-properties clause)
+// ships as SURF's own rule module lint/rules/surf/no-to-locale.cjs and is
+// escalated to 'error' here over every SURF-owned path, including the seven
+// SURF component dirs (PRD-F §6). Planted-violation check:
+// src/data/__tests__/no-to-locale.lint.test.ts.
+const SURF_LOCALE_GLOBS = [
+  'src/app-shell/**',
+  'src/data/**',
+  'src/date/**',
+  'src/ai/**',
+  'src/media/**',
+  'src/backdrops/**',
+  'src/charts/**',
+  'src/three/**',
+  'src/root/surf.ts',
+  'src/compat/surf/**',
+  'src/components/tabs/**',
+  'src/components/tab-bar/**',
+  'src/components/breadcrumbs/**',
+  'src/components/pagination/**',
+  'src/components/command-palette/**',
+  'src/components/source-transition/**',
+  'src/components/timeline/**',
+  // SURF registry blocks/items only (PRD-F §6 list); PLAT/CMP items such as
+  // registry/items/code-surface are not SURF's to escalate.
+  'registry/blocks/{app-frame,ai-workspace,data-workspace,analytics-dashboard,media-viewer,support-inbox,mobile-settings,commerce-cart,commerce-checkout,pricing,audit-log,permissions-matrix}/**',
+  'registry/items/{ai-*,media-*,app-shell-workspace,backdrop-hero,comment-thread,faceted-search,presence-stack,query-builder,schema-viewer,tree-select}/**',
+  'packages/labs/src/**',
+];
+const w2 = {
+  'no-to-locale': SURF_LOCALE_GLOBS,
+};
 // --- lane W2 end ---
 
 // --- lane W3 begin ---
