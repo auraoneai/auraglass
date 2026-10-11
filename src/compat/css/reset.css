@@ -5,6 +5,18 @@
    REQ-PLAT-74: every selector is scoped under :where([data-ag-root],[data-ag-surface])
    so nothing here ever targets the host app; bare globals live only in compat/globals.css. */
 @layer ag.reset {
+  /* Root typography: nothing else applies --ag-font-sans or the body type
+     ramp, so without this every component rendered in the UA default serif
+     at 16px/normal with CanvasText ink. Zero specificity, ag.reset layer:
+     any app rule wins. */
+  :where([data-ag-root]) {
+    font-family: var(--ag-font-sans);
+    font-size: var(--ag-type-body-size);
+    line-height: var(--ag-type-body-leading);
+    color: var(--ag-color-on-surface);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
   :where([data-ag-root], [data-ag-surface]),
   :where([data-ag-root], [data-ag-surface]) *,
   :where([data-ag-root], [data-ag-surface]) *::before,
