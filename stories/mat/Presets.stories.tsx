@@ -91,7 +91,7 @@ function BrandPlayground() {
   const adjustedPairs = theme.contrast.adjusted;
   const input: React.CSSProperties = { width: 80, font: 'inherit' };
   return (
-    <div data-ag-brand-playground style={{ display: 'grid', gap: 12 }}>
+    <div data-brand-playground style={{ display: 'grid', gap: 12 }}>
       <fieldset style={{ display: 'flex', gap: 16, borderRadius: 8, padding: 12 }}>
         <legend>OKLCH brand colour</legend>
         <label>
@@ -114,7 +114,7 @@ function BrandPlayground() {
         <code style={{ alignSelf: 'end' }}>{brand}</code>
       </fieldset>
       <ContrastPairs theme={theme} />
-      <div data-ag-adjusted-count={adjustedPairs.length}>
+      <div data-adjusted-count={adjustedPairs.length}>
         <h4 style={{ margin: '8px 0 4px' }}>contrast.adjusted ({adjustedPairs.length})</h4>
         {adjustedPairs.length === 0 ? (
           <p style={{ fontSize: 12 }}>all pairs above {CONTRAST_FLOOR}:1</p>
@@ -134,7 +134,6 @@ function BrandPlayground() {
 }
 
 const meta: Meta = {
-  parameters: { ag: { subject: 'Presets', kind: 'showcase' } },
   title: 'MAT/Presets',
   parameters: {
     layout: 'padded',
@@ -192,8 +191,8 @@ export const BrandThemePlayground: Story = {
     nativeSetter.call(lInput, '0.85');
     lInput.dispatchEvent(new Event('input', { bubbles: true }));
     await new Promise((r) => setTimeout(r, 60));
-    const count = canvasElement.querySelector('[data-ag-adjusted-count]');
-    const n = Number(count?.getAttribute('data-ag-adjusted-count') ?? '0');
+    const count = canvasElement.querySelector('[data-adjusted-count]');
+    const n = Number(count?.getAttribute('data-adjusted-count') ?? '0');
     if (!(n >= 1)) {
       throw new Error(`Presets: changing L to 0.85 showed ${n} adjusted steps, expected >= 1`);
     }

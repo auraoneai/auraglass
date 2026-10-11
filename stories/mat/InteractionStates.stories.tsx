@@ -14,7 +14,7 @@ import type { StoryAgParameters } from '../../src/contracts/testing';
 import { PendingCallout } from './_shared';
 
 const STATE_HOOKS = [
-  { state: 'hover', attrs: { 'data-ag-hover': 'true' }, via: 'real :hover + data' },
+  { state: 'hover', attrs: { 'data-hover': 'true' }, via: 'real :hover + data' },
   { state: 'active', attrs: { 'data-pressed': 'true' }, via: 'data-pressed' },
   { state: 'selected', attrs: { 'data-selected': 'true' }, via: 'data-selected' },
   { state: 'focus-visible', attrs: {}, via: 'real focus ring' },
@@ -47,7 +47,6 @@ function StateGrid() {
 }
 
 const meta: Meta = {
-  parameters: { ag: { subject: 'InteractionStates', kind: 'showcase' } },
   title: 'MAT/Interaction States',
   parameters: {
     layout: 'padded',
@@ -92,7 +91,7 @@ export const Grid: Story = {
       baseline.removeAttribute('data-loading');
       baseline.removeAttribute('data-dragging');
       baseline.removeAttribute('data-drop-target');
-      baseline.removeAttribute('data-ag-hover');
+      baseline.removeAttribute('data-hover');
       el.parentElement?.appendChild(baseline);
       const delta = getComputedStyle(el).cssText !== getComputedStyle(baseline).cssText;
       baseline.remove();

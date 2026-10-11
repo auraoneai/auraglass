@@ -17,7 +17,9 @@ interface FloorRow {
   [k: string]: unknown;
 }
 
-const floors = globJson('/tokens/generated/opacity-floors.json');
+const floors = globJson(
+  import.meta.glob('/tokens/generated/opacity-floors.json', { eager: true, import: 'default' }),
+);
 
 /** WCAG band for a cell's minRatio, as text: colour is never the carrier and
     the story paints no ink or background of its own (REQ-FIN-59 / D.3-38). */
@@ -67,7 +69,6 @@ function FloorsTable({ data }: { data: Record<string, unknown> }) {
 }
 
 const meta: Meta = {
-  parameters: { ag: { subject: 'ContrastFloors', kind: 'showcase' } },
   title: 'MAT/Contrast Floors',
   parameters: {
     layout: 'padded',
@@ -86,9 +87,9 @@ export const Table: Story = {
       <PendingCallout what="tokens/generated/opacity-floors.json — pending lane 2a-T token generation" />
     ),
   play: async ({ canvasElement }) => {
-    const pending = canvasElement.querySelector('[data-ag-pending]');
+    const pending = canvasElement.querySelector('[data-pending]');
     if (pending) {
-      console.info(`pending: ${pending.getAttribute('data-ag-pending')}`);
+      console.info(`pending: ${pending.getAttribute('data-pending')}`);
       return;
     }
     const cells = canvasElement.querySelectorAll('tbody td');

@@ -17,7 +17,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'chrome', refractionEligible: true },
   apg: 'searchbox',
-  budgetKb: 13,
+  budgetKb: 13000 / 1024,
   migration: [
     {
       from: 'GlassSearchInput',

@@ -4,31 +4,31 @@
    MAT's control-height tokens are referenced first with real-token fallbacks
    until the MAT token layer lands; no literals outside var() token names. */
 @layer ag.components {
-  [data-ag-size-class='control'][data-ag-size='sm'] {
+  [data-size-class='control'][data-ag-size='sm'] {
     min-block-size: var(--ag-comp-control-height-sm-default, var(--ag-target-min));
     font-size: var(--ag-type-label-size);
     line-height: var(--ag-type-label-leading);
   }
-  [data-ag-size-class='control'][data-ag-size='md'] {
+  [data-size-class='control'][data-ag-size='md'] {
     min-block-size: var(--ag-comp-control-height-md-default, var(--ag-target-min));
     font-size: var(--ag-type-body-size);
     line-height: var(--ag-type-body-leading);
   }
-  [data-ag-size-class='control'][data-ag-size='lg'] {
+  [data-size-class='control'][data-ag-size='lg'] {
     min-block-size: var(--ag-comp-control-height-lg-default, var(--ag-target-min));
     font-size: var(--ag-type-body-size);
     line-height: var(--ag-type-body-leading);
   }
-  [data-ag-density='compact'] [data-ag-size-class='control'][data-ag-size='sm'],
-  [data-ag-size-class='control'][data-ag-density='compact'][data-ag-size='sm'] {
+  [data-ag-density='compact'] [data-size-class='control'][data-ag-size='sm'],
+  [data-size-class='control'][data-ag-density='compact'][data-ag-size='sm'] {
     min-block-size: var(--ag-comp-control-height-sm-compact, var(--ag-comp-control-height-sm-default, var(--ag-target-min)));
   }
-  [data-ag-density='compact'] [data-ag-size-class='control'][data-ag-size='md'],
-  [data-ag-size-class='control'][data-ag-density='compact'][data-ag-size='md'] {
+  [data-ag-density='compact'] [data-size-class='control'][data-ag-size='md'],
+  [data-size-class='control'][data-ag-density='compact'][data-ag-size='md'] {
     min-block-size: var(--ag-comp-control-height-md-compact, var(--ag-comp-control-height-md-default, var(--ag-target-min)));
   }
-  [data-ag-density='compact'] [data-ag-size-class='control'][data-ag-size='lg'],
-  [data-ag-size-class='control'][data-ag-density='compact'][data-ag-size='lg'] {
+  [data-ag-density='compact'] [data-size-class='control'][data-ag-size='lg'],
+  [data-size-class='control'][data-ag-density='compact'][data-ag-size='lg'] {
     min-block-size: var(--ag-comp-control-height-lg-compact, var(--ag-comp-control-height-lg-default, var(--ag-target-min)));
   }
 
