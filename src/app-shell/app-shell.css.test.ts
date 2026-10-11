@@ -145,7 +145,8 @@ describe('app-shell.css structure (SURF-011)', () => {
       expect(defined.has(v)).toBe(true);
     }
     for (const p of defined) {
-      expect(p.startsWith('--_ag-app-shell')).toBe(false);
+      // any shell-namespaced var must be the private `--_` form
+      if (p.includes('ag-app-shell')) expect(p.startsWith('--_ag-app-shell')).toBe(true);
     }
   });
 

@@ -5,7 +5,7 @@ test.describe('chart 5.1 e2e', () => {
   test('plot is one tab stop with role=group and datum cursor moves on arrows', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Chart');
-    if (!subject) { console.warn('Chart subject not registered — pending'); return; }
+    if (!subject) throw new Error('Chart subject not registered');
     await gotoStory(page, subject.id);
     const plot = page.locator('[data-ag-part="chart-plot"]');
     await expect(plot).toHaveAttribute('role', 'group');
