@@ -157,3 +157,57 @@ mat:test:consumer-4x:
     expire_in: 14 days
     paths: [.artifacts/mat/]
     when: always
+
+# MAT-43 (D.3-25, REQ-FIN-58): the L9 Motion cell (fragments/lanes/mat.ts row
+# tests/motion/**/*.spec.ts) on the remote Playwright image — frame strip
+# (>= 3 distinct frames of 12), settle (0 will-change after settle), no-mount
+# (0 getAnimations() 50 ms after mount; an absent subject fails), continuous,
+# focus, responsive, 4.x reduced-motion and VT optics on the mat:cert-motion-*
+# projects. no-peer.spec.ts is the L11 consumer canary and is not run here.
+# The motion reporter writes .artifacts/mat/$CI_JOB_NAME_SLUG/motion-report.json;
+# the job fails if the report is missing or has no rows. Stories come from QUAL's
+# storybook-static artifact (built when absent) served on 127.0.0.1:6006; the
+# readiness probe fails the job if it is never served. Transitional like
+# mat:test:material-browsers until QUAL's runner reports L9; allow_failure: true
+# until its first green on next (ci/plat/activation.json row).
+mat:test:motion-l9:
+  extends: [.mat-base, .mat-browser]
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+  variables:
+    AG_STORYBOOK_URL: "http://127.0.0.1:6006"
+    AG_MOTION_REPORT_PATH: ".artifacts/mat/$CI_JOB_NAME_SLUG/motion-report.json"
+  script:
+    - test -f storybook-static/iframe.html || npm run storybook:build
+    - >-
+      (node -e "const h=require('node:http'),f=require('node:fs'),p=require('node:path');const r=p.resolve('storybook-static');
+      const t={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.woff2':'font/woff2'};
+      h.createServer((q,s)=>{const u=decodeURIComponent(new URL(q.url,'http://x').pathname);let fp=p.join(r,p.normalize(u));
+      if(!fp.startsWith(r)){s.writeHead(403).end();return}if(f.existsSync(fp)&&f.statSync(fp).isDirectory())fp=p.join(fp,'index.html');
+      if(!f.existsSync(fp)){s.writeHead(404).end();return}s.writeHead(200,{'content-type':t[p.extname(fp)]||'application/octet-stream'});f.createReadStream(fp).pipe(s)}).listen(6006,'127.0.0.1')" &)
+    - >-
+      node -e "const t0=Date.now();(async function w(){try{if((await fetch(process.env.AG_STORYBOOK_URL+'/iframe.html')).ok)process.exit(0)}catch{}
+      if(Date.now()-t0>60000){console.error('storybook-static not served within 60 s');process.exit(1)}setTimeout(w,500)})()"
+    - >-
+      npx playwright test
+      tests/motion/frame-strip.spec.ts tests/motion/settle.spec.ts tests/motion/no-mount-motion.spec.ts
+      tests/motion/continuous.spec.ts tests/motion/a11y-focus.spec.ts tests/motion/responsive.spec.ts
+      tests/motion/reduced-motion-visible-4x.spec.ts tests/motion/view-transition-optics.spec.ts
+      tests/motion/helpers-selftest.spec.ts
+      --project=mat:cert-motion-chromium --project=mat:cert-motion-webkit --project=mat:cert-motion-firefox
+      --project=mat:cert-motion-mobile
+      --reporter=line,./tests/motion/helpers/motion-reporter.ts
+      --output=".artifacts/mat/$CI_JOB_NAME_SLUG/test-results"
+    - >-
+      node -e "const r=JSON.parse(require('node:fs').readFileSync(process.env.AG_MOTION_REPORT_PATH,'utf8'));
+      if(!Array.isArray(r.subjects)||r.subjects.length===0||r.subjects.some(s=>!s.id)){console.error('motion-report.json has no measured rows');process.exit(1)}
+      console.log('motion-report.json: '+r.subjects.length+' rows @ '+r.sha)"
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/mat/]
+    when: always
