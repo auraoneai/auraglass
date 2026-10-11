@@ -11,12 +11,8 @@ import { fileURLToPath } from 'node:url';
 
 const SINGLETONS = ['react', 'react-dom', '@base-ui/react'];
 
-export function check(dir) {
-  const problems = [];
-  const ls = spawnSync('npm', ['ls', ...SINGLETONS, '--all', '--json'], { cwd: dir, encoding: 'utf8', maxBuffer: 64 << 20 });
-  let tree = null;
-  try { tree = JSON.parse(ls.stdout); } catch { /* unresolved peers exit nonzero but still print JSON */ }
-  if (!tree) problems.push(`npm ls produced no JSON in ${dir}`);
+/** Resolved versions of each singleton in an `npm ls --all --json` tree. */
+export function singletonVersions(tree) {
   const versions = {};
   const visit = (n) => {
     if (!n?.dependencies) return;
@@ -27,10 +23,29 @@ export function check(dir) {
       visit(dep);
     }
   };
-  if (tree) visit(tree);
-  for (const name of SINGLETONS) {
-    const vs = [...(versions[name] ?? [])];
+  visit(tree);
+  return Object.fromEntries(SINGLETONS.map((name) => [name, [...(versions[name] ?? [])].sort()]));
+}
+
+/** Problems in a tree: a singleton resolved to more than one version, or not at all. */
+export function treeProblems(tree) {
+  const problems = [];
+  for (const [name, vs] of Object.entries(singletonVersions(tree))) {
+    if (vs.length === 0) problems.push(`${name} is not installed`);
     if (vs.length > 1) problems.push(`${name} resolved to ${vs.length} versions: ${vs.join(', ')}`);
+  }
+  return problems;
+}
+
+export function check(dir) {
+  const problems = [];
+  const ls = spawnSync('npm', ['ls', ...SINGLETONS, '--all', '--json'], { cwd: dir, encoding: 'utf8', maxBuffer: 64 << 20 });
+  let tree = null;
+  try { tree = JSON.parse(ls.stdout); } catch { /* unresolved peers exit nonzero but still print JSON */ }
+  if (!tree) problems.push(`npm ls produced no JSON in ${dir}`);
+  else {
+    problems.push(...treeProblems(tree));
+    for (const [name, vs] of Object.entries(singletonVersions(tree))) console.log(`single-instance: ${name} ${vs.join(', ') || '(none)'}`);
   }
   const nested = join(dir, 'node_modules', 'aura-glass', 'node_modules');
   if (existsSync(nested) && readdirSync(nested).filter(d => !d.startsWith('.')).length) {
