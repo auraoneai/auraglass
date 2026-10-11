@@ -5,6 +5,7 @@
    tokens/sys/interaction.tokens.json (the compiler's contract) plus any
    --_ag-state-* declared in generated css. Rendering (computed styles in
    three engines) is the remote L5 lane's job, not this file's. */
+import { describe, expect, it } from '@jest/globals';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import postcss, { type Declaration, type Rule } from 'postcss';
@@ -104,7 +105,7 @@ describe('REQ-FIN-02 selector identity (REQ-MAT-29)', () => {
 
   it('the host baseline and pseudo-element baselines have zero specificity', () => {
     const sels: string[] = [];
-    ast.walkRules((r) => sels.push(r.selector.replace(/\s+/g, ' ').trim()));
+    ast.walkRules((r) => { sels.push(r.selector.replace(/\s+/g, ' ').trim()); });
     expect(sels).toContain(':where([data-ag-surface])');
     expect(sels).toContain(':where([data-ag-surface])::before');
     expect(sels).toContain(':where([data-ag-surface])::after');
@@ -124,7 +125,7 @@ describe('REQ-FIN-02 selector identity (REQ-MAT-29)', () => {
     }
     expect(declsOf(host!, '--ag-surface-fill')[0]!.value).toBe('var(--_ag-fill)');
     const writers: string[] = [];
-    ast.walkDecls('--ag-surface-fill', (d) => writers.push((d.parent as Rule).selector));
+    ast.walkDecls('--ag-surface-fill', (d) => { writers.push((d.parent as Rule).selector); });
     expect(writers).toEqual([':where([data-ag-surface])']);
   });
 });

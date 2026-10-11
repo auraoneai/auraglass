@@ -1315,7 +1315,7 @@ console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename,
         ['aura-glass', '.artifacts/pack/aura-glass-5.0.0.tgz'],
         ['@auraglass/cli', '.artifacts/pack/auraglass-cli-0.1.0.tgz'],
         ['@auraglass/registry', '.artifacts/pack/auraglass-registry-0.1.0.tgz'],
-      ]) {
+      ] as const) {
         expect(rec[name]).toEqual({ file, integrity: sha512(readFileSync(join(dir, file))) });
       }
     } finally {

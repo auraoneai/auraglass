@@ -3,6 +3,7 @@
 // RuleTester suites for the three layer-forcing rules plus the rollout config
 // (error on QUAL globs, warn elsewhere) as resolved by the real eslint.config.js.
 
+import { describe, expect, it } from '@jest/globals';
 import { RuleTester } from 'eslint';
 import { ruleConfig } from './helpers';
 

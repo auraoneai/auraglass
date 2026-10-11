@@ -91,7 +91,7 @@ describe('cmp-lint (REQ-CMP-08)', () => {
     for (const f of files.filter((p) => p.endsWith('.css'))) {
       const text = readFileSync(f, 'utf8');
       for (const m of text.matchAll(/([^{}]*)\{([^{}]*will-change[^{}]*)\}/g)) {
-        const sel = m[1];
+        const sel = m[1]!;
         if (!/data-ag-animating|data-vt-animating|data-ending|data-starting/.test(sel)) {
           bad.push(`${f}: ${sel.trim()}`);
         }

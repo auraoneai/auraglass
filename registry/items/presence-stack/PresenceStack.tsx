@@ -39,7 +39,7 @@ export function hueForId(id: string, offset = 0): number {
 }
 
 export function presenceColor(id: string, offset = 0): string {
-  return PRESENCE_PALETTE[hueForId(id, offset)];
+  return PRESENCE_PALETTE[hueForId(id, offset)]!; // index is taken modulo the palette length
 }
 
 export function PresenceStack({ users, max = 4, hueOffset = 0, onOverflowClick }: PresenceStackProps) {

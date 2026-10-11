@@ -40,7 +40,7 @@ function fixtureTemplate() {
   const rows: Row[] = [];
   for (let n = 1; n <= 44; n++) {
     if (n <= 20) rows.push(...rowsFor(`cmp-flagship-${n}`, 'cmp', n));
-    else if (n <= 23) rows.push(...rowsFor(AI[n - 21], 'surf', n));
+    else if (n <= 23) rows.push(...rowsFor(AI[n - 21]!, 'surf', n));
     else rows.push(...rowsFor(`surf-flagship-${n}`, 'surf', n));
   }
   rows.push(...rowsFor('surface-material-lab', 'mat', null), ...rowsFor('glass-preferences-panel', 'mat', null));
@@ -204,7 +204,7 @@ describe('aggregate.mjs', () => {
     const f = setup({ edit: { [bad]: { at: 'jaws' } } });
     mkdirSync(join(f.records, 'surf'), { recursive: true });
     writeFileSync(join(f.records, 'surf', 'not-in-matrix-voiceover-macos.json'),
-      JSON.stringify(recordFor({ ...fixtureTemplate().rows[0], subject: 'not-in-matrix', stream: 'surf', flagship: null })));
+      JSON.stringify(recordFor({ ...fixtureTemplate().rows[0]!, subject: 'not-in-matrix', stream: 'surf', flagship: null })));
     const { code, summary } = aggregate(f);
     expect(code).toBe(1);
     expect(summary.verdict).toBe('fail');

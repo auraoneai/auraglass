@@ -70,7 +70,7 @@ describe('REQ-CMP-48 slider parts', () => {
         minStepsBetweenValues={2}
       />,
     );
-    const [a, b] = screen.getAllByRole('slider');
+    const [a, b] = screen.getAllByRole('slider') as [HTMLElement, HTMLElement];
     a.focus();
     await userEvent.keyboard('{ArrowRight}{ArrowRight}{ArrowRight}'); /* +30 would collide */
     expect(Number(a.getAttribute('aria-valuenow'))).toBeLessThanOrEqual(40);

@@ -152,7 +152,7 @@ export function FinancialDashboard({ now = SHOWCASE_EPOCH }: FinancialDashboardP
                 <section className={styles.chart} aria-labelledby="fd-chart-heading">
                   <div className={styles.chartHeader}>
                     <h2 id="fd-chart-heading" className={styles.sectionHeading}>{COPY.chartTitle}</h2>
-                    <SegmentedControl.Root aria-label={COPY.granularityLabel} value={granularity} onValueChange={(v: string) => setGranularity(v)}>
+                    <SegmentedControl.Root name="granularity" aria-label={COPY.granularityLabel} value={granularity} onValueChange={(v: string) => setGranularity(v)}>
                       <SegmentedControl.Item value="week">Week</SegmentedControl.Item>
                       <SegmentedControl.Item value="month">Month</SegmentedControl.Item>
                       <SegmentedControl.Item value="quarter">Quarter</SegmentedControl.Item>

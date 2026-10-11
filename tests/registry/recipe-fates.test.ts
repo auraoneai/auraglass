@@ -63,6 +63,7 @@ describe('registry recipe fates', () => {
     for (const f of fates.fates) {
       const e = EXPECTED[f.id];
       expect(e).toBeDefined();
+      if (!e) continue;
       expect(f.kind).toBe(e.kind);
       expect(f.target ?? null).toBe(e.target ?? null);
       expect(f.also ?? null).toEqual(e.also ?? null);

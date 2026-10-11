@@ -11,7 +11,7 @@ test.describe('dialog responsive sizes at 390 (REQ-CMP-89)', () => {
     await gotoStory(page, 'overlays-dialog--sizes');
   });
 
-  test.each(['sm', 'md'] as const)('%s popup is 358px wide', async ({ page }, size) => {
+  for (const size of ['sm', 'md'] as const) test(`${size} popup is 358px wide`, async ({ page }) => {
     const popup = page.locator(`[data-ag-size='${size}']`).first();
     await expect(popup).toBeVisible();
     const box = await popup.boundingBox();
@@ -20,7 +20,7 @@ test.describe('dialog responsive sizes at 390 (REQ-CMP-89)', () => {
     expect(Math.round(box!.x)).toBe(16);
   });
 
-  test.each(['lg'] as const)('%s popup is bottom-anchored full width', async ({ page }, size) => {
+  for (const size of ['lg'] as const) test(`${size} popup is bottom-anchored full width`, async ({ page }) => {
     const popup = page.locator(`[data-ag-size='${size}']`).first();
     await expect(popup).toBeVisible();
     const box = await popup.boundingBox();

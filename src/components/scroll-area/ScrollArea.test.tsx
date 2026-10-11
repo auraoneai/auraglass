@@ -1,5 +1,5 @@
 /* CMP-315: ScrollArea — generated for lane 3g (T0/T2 components). */
-import { describe, expect, it } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
 import * as React from 'react';
 import { ScrollArea } from './index';
@@ -61,7 +61,7 @@ describe('ScrollArea REQ-CMP-122', () => {
         </ScrollArea.Root>,
       );
       expect(warn).toHaveBeenCalledTimes(1);
-      expect(String(warn.mock.calls[0][0])).toContain('ScrollArea');
+      expect(String(warn.mock.calls[0]?.[0])).toContain('ScrollArea');
     } finally {
       Object.defineProperty(proto, 'scrollHeight', sh);
       Object.defineProperty(proto, 'clientHeight', ch);

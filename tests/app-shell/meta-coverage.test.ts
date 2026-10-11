@@ -10,7 +10,7 @@ const METAS = readdirSync(DIR).filter((f) => f.endsWith('.meta.ts'));
 
 const metas = METAS.map((f) => {
   const mod = require(join(DIR, f)) as Record<string, { name: string; parts?: string[]; owner: string }>;
-  return mod.default;
+  return mod.default!;
 });
 
 describe('app-shell meta coverage (REQ-SURF-09)', () => {

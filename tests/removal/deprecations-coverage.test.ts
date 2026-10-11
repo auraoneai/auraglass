@@ -14,7 +14,7 @@ const DOC = 'docs/inventory/component-dispositions.md';
 const BASELINE = 'tests/fixtures/removal/deprecations-uncovered.txt';
 
 const loadEntries = async () => {
-  const { loadFragments } = await import(pathToFileURL(join(ROOT, 'src/contracts/load-fragments.mjs')));
+  const { loadFragments } = await import(pathToFileURL(join(ROOT, 'src/contracts/load-fragments.mjs')).href);
   const out: any[] = [];
   for (const { value } of await loadFragments('deprecations', ROOT))
     for (const e of (value as any[]) ?? []) out.push(e);

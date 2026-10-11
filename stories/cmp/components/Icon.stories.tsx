@@ -14,11 +14,13 @@ type Story = StoryObj<typeof sbMeta>;
 
 export const Default: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Icon', id: 'core-icon--default' } },
-  render: () => <Icon name="spark" />,
+  args: { name: 'spark' },
+  render: (args) => <Icon {...args} />,
 };
 
 export const Sizes: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Icon', id: 'core-icon--sizes' } },
+  args: { name: 'user' },
   render: () => (
     <span style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>
       <Icon name="user" size={16} />

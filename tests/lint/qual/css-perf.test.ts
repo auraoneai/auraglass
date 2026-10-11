@@ -4,6 +4,7 @@
 // report and enforcement split of scripts/qual/verify-css-perf.mjs. stylelint is
 // ESM-only, so the plugins run in a child Node process (outside Jest's CJS transform).
 
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';

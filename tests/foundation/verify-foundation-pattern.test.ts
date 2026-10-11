@@ -9,11 +9,12 @@ const ROOT = join(__dirname, '..', '..');
 const SCRIPT = join(ROOT, 'scripts', 'cmp', 'verify-foundation-pattern.mjs');
 const FIX = join(__dirname, 'fixtures', 'foundation-pattern');
 
-function run(dir) {
+function run(dir: string) {
   try {
     const out = execFileSync(process.execPath, [SCRIPT, '--root', dir, '--baseline', join(dir, 'scripts/cmp/foundation-pattern-baseline.json')], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
     return { code: 0, out };
-  } catch (e) {
+  } catch (err) {
+    const e = err as { status?: number | null; stdout?: string; stderr?: string };
     return { code: e.status ?? 1, out: `${e.stdout ?? ''}${e.stderr ?? ''}` };
   }
 }

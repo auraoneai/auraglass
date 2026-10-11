@@ -108,7 +108,7 @@ function Tokens() {
 }
 
 const meta: Meta = {
-  parameters: { ag: { subject: 'Tokens', kind: 'showcase' } }, title: 'MAT/Motion/Tokens', parameters: { layout: 'padded' } };
+  title: 'MAT/Motion/Tokens', parameters: { ag: { subject: 'Tokens', kind: 'showcase' }, layout: 'padded' } };
 export default meta;
 
 type Story = StoryObj<typeof meta>;

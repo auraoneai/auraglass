@@ -7,7 +7,7 @@ import { withPart, kebab } from '../cmp/_part';
 
 type AnyProps = Record<string, unknown> & { children?: React.ReactNode };
 
-const tagFor = (name: string): keyof JSX.IntrinsicElements =>
+const tagFor = (name: string): keyof React.JSX.IntrinsicElements =>
   /^(Button|IconButton|Toolbar)/.test(name) ? 'button'
   : /^(Link)/.test(name) ? 'a'
   : /^(Text|Badge|Stat|Sparkline|UsageMeter)/.test(name) ? 'span'

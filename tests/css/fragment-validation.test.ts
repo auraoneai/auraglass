@@ -40,7 +40,7 @@ describe('css fragment validation (REQ-PLAT-74)', () => {
     });
     const out = await collectCssFragments(root);
     expect(out.map((f: { file: string }) => f.file)).toEqual(['src/x/Good.css']);
-    expect(out[0].baselined).toBeUndefined();
+    expect(out[0]?.baselined).toBeUndefined();
   });
 
   it('rejects a fragment containing !important', async () => {
@@ -75,7 +75,7 @@ describe('css fragment validation (REQ-PLAT-74)', () => {
       'scripts/integration/lib/baseline-expiry.mjs': expiryLib([]),
     });
     const [entry] = await collectCssFragments(root);
-    expect(entry.baselined).toMatch(/!important is forbidden \[BASELINED CMP REQ-FIN-70, expires RC-1\]/);
+    expect(entry?.baselined).toMatch(/!important is forbidden \[BASELINED CMP REQ-FIN-70, expires RC-1\]/);
   });
 
   it('still rejects an offender that has no baseline row', async () => {

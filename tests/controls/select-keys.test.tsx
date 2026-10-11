@@ -6,13 +6,13 @@ import * as React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { Select } from '../../src/components/select';
 
-const ITEMS = [{ value: 'a', label: 'Alpha' }, { value: 'b', label: 'Beta' }, { value: 'c', label: 'Gamma' }];
+const ITEMS = { a: 'Alpha', b: 'Beta', c: 'Gamma' };
 
 describe('Select keys (REQ-CMP-66)', () => {
   it('APGLeg: select.apg.spec.ts covers Home/End/Space/Tab in-browser', () => {
     /* jsdom cannot drive BU highlight navigation reliably; the behavioral legs
        live in tests/a11y/apg/cmp/select.apg.spec.ts — this documents the seam. */
-    expect(ITEMS.length).toBe(3);
+    expect(Object.keys(ITEMS).length).toBe(3);
   });
 
   it('Enter opens the listbox; Space selects highlighted item and closes', async () => {

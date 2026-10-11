@@ -27,13 +27,13 @@ for (const preset of PRESET_IDS)
       for (const contrast of CONTRASTS)
         for (const radiusScale of RADIUS_SCALES)
           for (const brandColor of BRANDS)
-            combos.push({ id: 'guard-theme', preset, mode, density, contrast, radiusScale, brandColor, neutralHue: 200 });
+            combos.push({ id: 'guard-theme', preset, mode, density, contrast, radiusScale, ...(brandColor ? { brandColor } : {}), neutralHue: 200 });
 
 describe('createGlassTheme guard (REQ-MAT-02)', () => {
   it('covers all four presets', () => {
     expect(PRESET_IDS.sort()).toEqual(['aura', 'daylight', 'graphite', 'midnight']);
     expect(combos.length).toBe(4 * 4 * 3 * 2 * 3 * 5);
-    expect(createGlassTheme({ brandColor: BRANDS[1] }).contrast.adjusted.length).toBeGreaterThan(0);
+    expect(createGlassTheme({ brandColor: BRANDS[1]! }).contrast.adjusted.length).toBeGreaterThan(0);
   });
 
   it('vars keys and cssText contain no material and no --_ag- for every option combination', () => {

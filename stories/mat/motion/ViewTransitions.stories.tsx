@@ -63,7 +63,7 @@ function TransitionsLab() {
 }
 
 const meta: Meta = {
-  parameters: { ag: { subject: 'ViewTransitions', kind: 'showcase' } }, title: 'MAT/Motion/View Transitions', parameters: { layout: 'padded' } };
+  title: 'MAT/Motion/View Transitions', parameters: { ag: { subject: 'ViewTransitions', kind: 'showcase' }, layout: 'padded' } };
 export default meta;
 
 type Story = StoryObj<typeof meta>;

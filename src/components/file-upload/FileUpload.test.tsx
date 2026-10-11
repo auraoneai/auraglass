@@ -60,7 +60,7 @@ describe('FileUpload', () => {
 
 describe('FileUpload REQ-CMP-126', () => {
   it('onValueChange carries reason + rejections; errors render via Field.Error linked by aria-describedby', () => {
-    const seen: { reason: string; n?: number }[] = [];
+    const seen: { reason: string; n?: number | undefined }[] = [];
     const { container } = render(
       <FileUpload accept="image/*" onValueChange={(_items, d) => seen.push({ reason: d.reason, n: d.rejections?.length })} />,
     );

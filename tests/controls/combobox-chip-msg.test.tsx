@@ -9,7 +9,7 @@ import { Combobox } from '../../src/components/combobox';
 describe('combobox messages (REQ-CMP-69)', () => {
   it('chip remove aria-label includes the chip label (prop or children)', () => {
     const { container } = render(
-      <Combobox.Root defaultValue={['a']} items={[{ value: 'a', label: 'Alpha' }]} multiple>
+      <Combobox.Root defaultValue={['a']} items={['a']} multiple>
         <Combobox.Chips>
           <Combobox.Chip>Alpha</Combobox.Chip>
           <Combobox.Chip label="Beta">B</Combobox.Chip>
@@ -24,7 +24,7 @@ describe('combobox messages (REQ-CMP-69)', () => {
 
   it('inline Clear uses the clearSearch message', () => {
     const { container } = render(
-      <Combobox.Root defaultValue="a" items={[{ value: 'a', label: 'Alpha' }]}>
+      <Combobox.Root defaultValue="a" items={['a']}>
         <Combobox.Input />
       </Combobox.Root>,
     );

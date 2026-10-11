@@ -80,7 +80,7 @@ describe('PLAT registry blocks/items', () => {
     expect(html).toContain('name="email"');
   });
   it('settings renders GlassPreferencesPanel + SegmentedControl + Switch parts', () => {
-    const html = renderToString(createElement(Settings.SettingsPanel ?? Settings.default ?? Settings as never, settingsProps as never));
+    const html = renderToString(createElement(Settings.SettingsPanel, settingsProps as never));
     expect(html).toContain('data-ag-part="rows"');
     expect(html).toMatch(/data-ag-part="(glass-preferences-panel|segmented-control|switch)[^"]*"/);
   });
