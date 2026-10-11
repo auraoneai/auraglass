@@ -81,10 +81,15 @@ function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
 function transition(root: HTMLElement, next: ShellSnapshot, rec: ShellRecord): void {
   if (motionIsFull(root)) {
     setAnimating(root, true);
-    const ms = Number.parseFloat(
-      getComputedStyle(root).getPropertyValue('--ag-duration-medium') || '200',
-    );
-    window.setTimeout(() => setAnimating(root, false), Number.isFinite(ms) ? ms : 200);
+    // Clear on real animation completion — no timers, no style probes:
+    // animation.finished resolves after the CSS duration and rejects on
+    // cancel; no running animations means clear immediately (jsdom/none).
+    const clear = () => setAnimating(root, false);
+    (typeof requestAnimationFrame === 'function' ? requestAnimationFrame : (cb: () => void) => cb())(() => {
+      const anims = typeof root.getAnimations === 'function' ? root.getAnimations({ subtree: true }) : [];
+      if (!anims.length) { clear(); return; }
+      Promise.allSettled(anims.map((a) => a.finished)).then(clear, clear);
+    });
   }
   applyState(root, next);
   writeCookie(root, next);

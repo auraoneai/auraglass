@@ -71,17 +71,16 @@ describe('shell toggles (SURF-027)', () => {
     expect(btn).toHaveAttribute('aria-expanded', 'true');
   });
 
-  it('mod+B keyboard shortcut toggles the sidebar when opted in', () => {
+  it('registers no global keydown listener (S-47; REQ-SURF-05)', () => {
+    const spy = jest.spyOn(document, 'addEventListener');
     render(
       <AppShell.Root data-testid="shell" layout="wide">
         <AppShellSidebarToggle shortcut />
         <AppShell.Main />
       </AppShell.Root>,
     );
-    const shell = screen.getByTestId('shell');
-    fireEvent.keyDown(document.body, { key: 'b', ctrlKey: true });
-    expect(rootAttrs(shell).sidebar).toBe('rail');
-    fireEvent.keyDown(document.body, { key: 'b', metaKey: true });
-    expect(rootAttrs(shell).sidebar).toBe('expanded');
+    const keys = spy.mock.calls.filter(([type]) => /^key/.test(String(type)));
+    expect({ keys }).toEqual({ keys: [] });
+    spy.mockRestore();
   });
 });
