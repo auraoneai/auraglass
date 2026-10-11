@@ -654,7 +654,7 @@ export const manifest = {
   {
    "name": "sys.density.readout",
    "cssVar": "--ag-density",
-   "type": "string",
+   "type": "number",
    "tier": "sys",
    "group": "sys",
    "modes": {},
@@ -1300,7 +1300,7 @@ export const manifest = {
   {
    "name": "sys.shape.radius-inner",
    "cssVar": "--ag-radius-inner",
-   "type": "string",
+   "type": "dimension",
    "tier": "sys",
    "group": "sys",
    "modes": {},
@@ -1632,7 +1632,7 @@ export const manifest = {
   {
    "name": "sys.type.body.size",
    "cssVar": "--ag-type-body-size",
-   "type": "string",
+   "type": "dimension",
    "tier": "sys",
    "group": "sys",
    "modes": {},
