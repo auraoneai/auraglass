@@ -45,7 +45,7 @@ test.describe('material a11y coverage', () => {
   });
 
   test('media + scroll-edge are aria-hidden; no material element focusable', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab-shape--scroll-edge-soft-hard');
+    await gotoMaterialStory(page, 'material-lab-shape-concentricity--scroll-edge-soft-hard');
     const bad = await page.evaluate(() => {
       const focusable = document.querySelectorAll(
         '.ag-surface [tabindex]:not([tabindex="-1"]), .ag-surface[tabindex]:not([tabindex="-1"])');
