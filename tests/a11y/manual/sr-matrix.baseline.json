@@ -1,0 +1,486 @@
+{
+  "$comment": "Expiring baseline (PRD-F §4.3 rule 3) for tests/a11y/manual/__tests__/sr-matrix.test.ts. Shrink-only: the test fails on a new gap, on a stale row (gap fixed but row kept) and on every row once package.json reaches 5.0.0-rc.1 (expires: RC-1). The owner deletes its rows in the PR that fixes the gap.",
+  "missingFlagships": [
+    {
+      "flagship": 18,
+      "owner": "CMP",
+      "toWp": "FIN-E",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1",
+      "why": "no src/**/*.meta.ts declares flagship 18; architecture §11.2 lists Popover=18, Tooltip=19, Menu=20, while the CMP metas carry Popover=19, Tooltip=20, Menu=22 (22 is AppShell)"
+    }
+  ],
+  "missingStories": [
+    {
+      "subject": "calendar",
+      "owner": "SURF",
+      "toWp": "FIN-F",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "subject": "date-field",
+      "owner": "SURF",
+      "toWp": "FIN-F",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "subject": "date-range-picker",
+      "owner": "SURF",
+      "toWp": "FIN-F",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "subject": "range-calendar",
+      "owner": "SURF",
+      "toWp": "FIN-F",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "subject": "time-field",
+      "owner": "SURF",
+      "toWp": "FIN-F",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "subject": "time-picker",
+      "owner": "SURF",
+      "toWp": "FIN-F",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "subject": "activity-feed",
+      "owner": "SURF",
+      "toWp": "FIN-F",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "subject": "timeline",
+      "owner": "SURF",
+      "toWp": "FIN-F",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "subject": "citation",
+      "owner": "SURF",
+      "toWp": "FIN-F",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "subject": "sidebar-drawer",
+      "owner": "SURF",
+      "toWp": "FIN-F",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    }
+  ],
+  "missingScripts": [
+    {
+      "script": "tests/a11y/manual/scripts/cmp/alert-dialog.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/button.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/checkbox-group.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/dialog.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/empty-state.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/error-state.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/field.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/fieldset.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/form.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/loading-state.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/menu.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/popover.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/sheet.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/toast.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/toggle-group.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/cmp/tooltip.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/mat/glass-preferences-panel.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/mat/reduced-motion-pass.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/mat/surface-material-lab.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/activity-feed.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/app-shell.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/breadcrumbs.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/calendar.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/carousel-rail.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/chart-frame.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/citation.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/command-palette.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/command.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/composer.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/date-field.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/date-picker.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/date-range-picker.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/filter-bar.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/media-controls.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/message.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/mobile-shell.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/now-playing-bar.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/orientation-change.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/pagination.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/range-calendar.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/resizable-panels.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/sidebar-drawer.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/sidebar.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/source-list.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/source-transition.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/sparkline.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/stat-card.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/tab-bar.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/table.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/tabs.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/thread.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/time-field.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/time-picker.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/timeline.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/tool-call.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/top-bar.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    },
+    {
+      "script": "tests/a11y/manual/scripts/surf/tree-view.md",
+      "owner": "FIN-H",
+      "task": "H3-3",
+      "reqFin": "REQ-FIN-110",
+      "expires": "RC-1"
+    }
+  ]
+}

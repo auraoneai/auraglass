@@ -67,11 +67,17 @@ export function useGridKeyboard(
           break;
         }
         case 'PageDown':
-          root.scrollTop += root.clientHeight;
+        case 'PageUp': {
+          // SURF-073: move FOCUS by floor(viewport / rowHeight) rows (APG),
+          // not just the scroll position.
+          const rowH = row.getBoundingClientRect().height || 40;
+          const jump = Math.max(1, Math.floor(root.clientHeight / rowH));
+          const all = Array.from(root.querySelectorAll('[data-row-id]'));
+          const ri = all.findIndex((r) => r === row);
+          const target = all[Math.max(0, Math.min(ri + (e.key === 'PageDown' ? jump : -jump), all.length - 1))];
+          focusAt(target ?? null, idx);
           break;
-        case 'PageUp':
-          root.scrollTop -= root.clientHeight;
-          break;
+        }
         default:
           return;
       }

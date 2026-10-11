@@ -4,10 +4,38 @@
   "type": "registry:block",
   "title": "AI workspace",
   "description": "Thread + Composer + UsageMeter + ProviderErrorState; chat route is consumer-owned (interim harness under ci/surf/ai-sdk).",
-  "dependencies": ["react"],
+  "dependencies": [
+    "react"
+  ],
   "registryDependencies": [],
   "files": [
-    { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "block",
+      "client": true,
+      "components": [
+        "AgentSteps",
+        "AppShell",
+        "Composer",
+        "Inspector",
+        "ProviderErrorState",
+        "Thread",
+        "TopBar",
+        "UsageMeter"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null
+    }
+  }
 }
