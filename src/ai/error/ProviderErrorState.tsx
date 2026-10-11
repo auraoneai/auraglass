@@ -41,11 +41,14 @@ export function ProviderErrorState({ kind, title, detail, retryAfterMs, onRetry,
   React.useEffect(() => {
     setRemaining(retryAfterMs ?? 0);
   }, [retryAfterMs]);
+  // REQ-SURF-190: the countdown timer lives only while there is time left, so
+  // a settled error state (Retry enabled) keeps no interval running.
+  const counting = remaining > 0;
   React.useEffect(() => {
-    if (!retryAfterMs) return;
+    if (!counting) return;
     const t = setInterval(() => setRemaining((r) => Math.max(0, r - 1000)), 1000);
     return () => clearInterval(t);
-  }, [retryAfterMs]);
+  }, [counting]);
 
   const seconds = Math.ceil(remaining / 1000);
   return (

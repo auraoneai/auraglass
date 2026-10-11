@@ -1,4 +1,5 @@
 /** Shared transform types + jscodeshift setup. */
+/// <reference path="../../../types/jscodeshift.d.ts" />
 import jscodeshift from 'jscodeshift';
 import tsx from 'jscodeshift/parser/tsx.js';
 import babylon from 'jscodeshift/parser/babylon.js';
