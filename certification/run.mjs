@@ -131,14 +131,143 @@ function runNodeScript(row, root) {
   return { state: r.status === 0 ? 'pass' : 'fail', reason: r.status === 0 ? undefined : `exit ${r.status}`, durationMs: r.durationMs };
 }
 
-function runPlaywright(row, root, evidenceDir, idx) {
+/** Playwright JSON report → counts. A failing test whose error starts with `pending:` is a producer that has not landed
+    (PRD-F §4.3 rule 2; lanes throw it only below release scope). */
+export function classifyPlaywrightReport(report) {
+  const tests = [];
+  const walk = (suite) => {
+    for (const spec of suite.specs ?? []) for (const t of spec.tests ?? []) tests.push({ title: spec.title, ...t });
+    for (const s of suite.suites ?? []) walk(s);
+  };
+  for (const s of report.suites ?? []) walk(s);
+  const failed = tests.filter((t) => t.status === 'unexpected');
+  const pendingRe = /(^|[\s:])pending: /;
+  const reasons = failed.map((t) => {
+    const last = (t.results ?? []).at(-1);
+    return String(last?.error?.message ?? last?.errors?.[0]?.message ?? '');
+  });
+  const pending = reasons.filter((m) => pendingRe.test(m));
+  return { total: tests.length, failed: failed.length, pendingOnly: failed.length > 0 && pending.length === failed.length,
+    pendingReasons: [...new Set(pending.map((m) => m.slice(m.search(pendingRe)).trim().split('\n')[0]))] };
+}
+
+/** Spec files the cert config cannot run: outside certification/lanes and outside every `<stream>:cert-*` fragment project
+    (REQ-QUAL-12: the cert config lists only those). Reported with the fix instead of Playwright's bare "No tests found". */
+export function uncoveredSpecs(files, root, certTestDirs) {
+  const dirs = [join(root, 'certification/lanes'), ...certTestDirs].map((d) => (d.endsWith('/') ? d : `${d}/`));
+  return files.filter((f) => !dirs.some((d) => join(root, f).startsWith(d)));
+}
+
+async function runPlaywright(row, root, evidenceDir, idx, scope, branch = null) {
   const files = expand(row.path, root).filter((f) => /\.spec\.(ts|tsx|js|mjs)$/.test(f));
   if (!files.length) return { state: 'fail', reason: `registered path matches no spec: ${row.path}` };
+  const { loadCertProjects } = await loadTs(join(root, 'certification/lanes/_fixtures/fragments.ts'));
+  const uncovered = uncoveredSpecs(files, root, loadCertProjects(root).projects.map((p) => p.testDir));
+  if (uncovered.length) {
+    return { state: 'fail', reason: `${uncovered.length} spec(s) outside certification/lanes and every ${row.stream}:cert-* project — register a `
+      + `'${row.stream}:cert-<id>' project in fragments/playwright/${row.stream}.json covering: ${uncovered.slice(0, 5).join(', ')}${uncovered.length > 5 ? ', …' : ''}` };
+  }
   const outFile = join(evidenceDir, `playwright-${idx}.json`);
   const r = run(process.execPath, ['node_modules/@playwright/test/cli.js', 'test', '-c', 'certification/playwright.cert.config.ts', ...files],
-    { cwd: root, env: { PLAYWRIGHT_JSON_OUTPUT_NAME: outFile } });
+    { cwd: root, env: { PLAYWRIGHT_JSON_OUTPUT_NAME: outFile, AG_SCOPE: scope, AG_LANE_EVIDENCE_DIR: evidenceDir } });
   if (r.error || r.signal) return { state: 'fail', reason: `crashed: ${r.error ?? r.signal}`, durationMs: r.durationMs };
-  return { state: r.status === 0 ? 'pass' : 'fail', reason: r.status === 0 ? undefined : `exit ${r.status}`, durationMs: r.durationMs };
+  let report = null;
+  try { report = JSON.parse(readFileSync(outFile, 'utf8')); } catch { /* no report */ }
+  if (!report) return { state: 'fail', reason: `playwright wrote no report (exit ${r.status})`, durationMs: r.durationMs };
+  const c = classifyPlaywrightReport(report);
+  if (c.total === 0) return { state: 'fail', reason: '0 tests', tests: 0, durationMs: r.durationMs };
+  if (row.lane === 'L7') return { ...(await l7RowResult({ report, status: r.status, evidenceDir, scope, branch, root })), tests: c.total, durationMs: r.durationMs };
+  if (r.status === 0) return { state: 'pass', tests: c.total, durationMs: r.durationMs };
+  if (c.pendingOnly && scope !== 'release') return { state: 'pending', reason: c.pendingReasons.join(' | '), tests: c.total, durationMs: r.durationMs };
+  return { state: 'fail', reason: `exit ${r.status}: ${c.failed} failed test(s)`, tests: c.total, durationMs: r.durationMs };
+}
+
+/** First line of every failed test's last error (Playwright JSON report). */
+export function failureMessages(report) {
+  const out = [];
+  const walk = (suite) => {
+    for (const spec of suite.specs ?? []) for (const t of spec.tests ?? []) {
+      if (t.status !== 'unexpected') continue;
+      const last = (t.results ?? []).at(-1);
+      out.push({ title: spec.title, message: String(last?.error?.message ?? last?.errors?.[0]?.message ?? '').split('\n')[0] });
+    }
+    for (const s of suite.suites ?? []) walk(s);
+  };
+  for (const s of report.suites ?? []) walk(s);
+  return out;
+}
+
+/** Rows of `<dir>/<prefix>-*.jsonl`; a retried test appends again, so the last row per key wins. */
+export function readJsonlRows(dir, prefix, key) {
+  if (!existsSync(dir)) return [];
+  const byKey = new Map();
+  for (const f of globSync(`${prefix}-*.jsonl`, { cwd: dir }).sort()) {
+    for (const l of readFileSync(join(dir, f), 'utf8').split('\n').filter(Boolean)) { const row = JSON.parse(l); byKey.set(row[key], row); }
+  }
+  return [...byKey.values()];
+}
+
+const L7_DIFF_RE = /(^|[\s:])(l7-changed|l7-no-baseline): /;
+const PENDING_RE = /(^|[\s:])pending: /;
+
+/** REQ-QUAL-25: the L7 row state from the regression cells and the branch (packages/qa/src/evidence/regression.ts l7Verdict).
+    A failure that is neither a baseline diff, a missing baseline nor a `pending:` producer is a plain lane failure. */
+export async function l7RowResult({ report, status, evidenceDir, scope, branch, root }, deps = null) {
+  const failures = failureMessages(report);
+  const other = failures.filter((f) => !L7_DIFF_RE.test(f.message) && !PENDING_RE.test(f.message));
+  if (status !== 0 && failures.length === 0) return { state: 'fail', reason: `exit ${status} with no failed test in the report` };
+  if (other.length) return { state: 'fail', reason: `exit ${status}: ${other.length} failed test(s): ${other.slice(0, 3).map((f) => f.message).join(' | ')}` };
+  const { l7Verdict, readPassingL14 } = deps ?? { ...(await loadTs(join(root, 'packages/qa/src/evidence/regression.ts'))),
+    ...(await loadTs(join(root, 'packages/qa/src/evidence/l14Records.ts'))) };
+  const cells = readJsonlRows(join(evidenceDir, 'regression'), 'cells', 'id');
+  const diffs = failures.filter((f) => L7_DIFF_RE.test(f.message)).length;
+  const recorded = cells.filter((c) => c.outcome !== 'match').length;
+  if (recorded !== diffs) return { state: 'fail', reason: `regression evidence has ${recorded} changed/no-baseline cell row(s) for ${diffs} failed diff test(s)` };
+  const l14 = readPassingL14(root);
+  const v = l7Verdict({ scope, branch, cells, l14: l14.passing });
+  const pending = [...new Set(failures.filter((f) => PENDING_RE.test(f.message)).map((f) => f.message.slice(f.message.search(PENDING_RE)).trim()))];
+  const l7 = { changed: v.changed, noBaseline: v.noBaseline, ...(v.missingL14.length ? { missingL14: v.missingL14 } : {}), ...(l14.problems.length ? { l14Problems: l14.problems } : {}) };
+  if (v.state === 'fail') return { state: 'fail', reason: v.reason, l7 };
+  if (pending.length) return { state: scope === 'release' ? 'fail' : 'pending', reason: [...pending, ...(v.reason ? [v.reason] : [])].join(' | '), l7 };
+  return { state: v.state, ...(v.reason ? { reason: v.reason } : {}), l7 };
+}
+
+/** REQ-QUAL-26: REPORTS.visualClass from the L7 rows, only when every planned visual-class cell has a merge-base/head row.
+    Returns the lane result entry for the report (pass, or pending/fail with the reason; never a partial file). */
+export async function writeVisualClass({ root, evidenceDir, scope, sha }, deps = null) {
+  const dir = join(evidenceDir, 'regression');
+  const entry = { lane: 'L7', stream: 'qual', kind: 'node-script', path: '.artifacts/qual/visual-class.json', scope, source: 'certification/run.mjs' };
+  const notWritten = (reason) => ({ ...entry, state: scope === 'release' ? 'fail' : 'pending', reason: `visual-class.json not written: ${reason}` });
+  if (!existsSync(join(dir, 'plan.json'))) return notWritten('no L7 plan (regression.spec.ts did not plan any cell)');
+  const plan = JSON.parse(readFileSync(join(dir, 'plan.json'), 'utf8'));
+  if (plan.shard) return notWritten(`L7 ran sharded (${plan.shard.index}/${plan.shard.total}); the report needs every cell in one job`);
+  if (!plan.base || plan.base.error || !/^[0-9a-f]{40}$/.test(plan.base.sha ?? '')) return notWritten(`no merge-base Storybook (${plan.base?.error ?? 'AG_L7_BASE not prepared'})`);
+  if (!/^[0-9a-f]{40}$/.test(sha ?? '')) return notWritten(`head sha unknown (${sha})`);
+  const rows = readJsonlRows(dir, 'visual-class', 'cell');
+  const have = new Set(rows.map((r) => r.cell));
+  const missing = (plan.visualClassCells ?? []).filter((c) => !have.has(c));
+  if (missing.length) {
+    const errors = readJsonlRows(dir, 'vc-errors', 'cell').filter((e) => missing.includes(e.cell));
+    return notWritten(`${missing.length} visual-class cell(s) without a merge-base/head comparison, e.g. ${missing.slice(0, 3).join(', ')}`
+      + (errors.length ? `; merge-base render error: ${errors[0].error}` : ''));
+  }
+  const planned = new Set(plan.visualClassCells ?? []);
+  const { buildVisualClassReport, writeVisualClassReport } = deps ?? await loadTs(join(root, 'packages/qa/src/evidence/visualClass.ts'));
+  const report = buildVisualClassReport({ sha, base: plan.base.sha, cells: rows.filter((r) => planned.has(r.cell)) });
+  const file = writeVisualClassReport(root, report);
+  return { ...entry, state: 'pass', reason: `${report.cells.length} cell(s), changedCount ${report.changedCount}, base ${report.base}`, file: file.slice(root.length + 1) };
+}
+
+/** L6 capture evidence written by certification/lanes/environment-visual.spec.ts (plan + per-worker capture rows). */
+export function readCaptureEvidence(evidenceDir) {
+  const dir = join(evidenceDir, 'environment-visual');
+  if (!existsSync(join(dir, 'plan.json'))) return null;
+  const plan = JSON.parse(readFileSync(join(dir, 'plan.json'), 'utf8'));
+  const rows = globSync('captures-*.jsonl', { cwd: dir })
+    .flatMap((f) => readFileSync(join(dir, f), 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)));
+  const captures = rows.reduce((n, r) => n + (r.captures ?? 0), 0);
+  const seconds = rows.reduce((n, r) => n + (r.durationMs ?? 0), 0) / 1000;
+  return { plan, captures, captureRate: captures && seconds ? captures / seconds : null };
 }
 
 function runManualRecord(row, root) {
@@ -153,7 +282,7 @@ export async function executeRow(row, ctx) {
   switch (row.kind) {
     case 'node-script': return runNodeScript(row, ctx.root);
     case 'jest': return runJest(row, ctx.root, ctx.evidenceDir, ctx.idx);
-    case 'playwright': return runPlaywright(row, ctx.root, ctx.evidenceDir, ctx.idx);
+    case 'playwright': return runPlaywright(row, ctx.root, ctx.evidenceDir, ctx.idx, ctx.scope ?? 'pr', ctx.branch ?? null);
     case 'manual-record': return runManualRecord(row, ctx.root);
     case 'story-subjects': {
       if (!existsSync(join(ctx.root, 'storybook-static/cert-manifest.json'))) return { state: 'pending', reason: 'storybook-static/cert-manifest.json not built (G-01 write-cert-manifest)' };
@@ -189,6 +318,16 @@ export function validateManifest(manifest, schema) {
   return errors;
 }
 
+/** Exit code for the per-row results: any `fail` blocks; pass / pending / pre-existing do not (REQ-QUAL-06, -25). */
+export function blockingExit(results) {
+  const blocking = results.filter((r) => r.state === 'fail');
+  if (blocking.length) {
+    console.error(`run.mjs: ${blocking.length} blocking failure(s):\n${blocking.map((r) => `  [${r.lane}] ${r.stream} ${r.path}: ${r.reason}`).join('\n')}`);
+    return EXIT.fail;
+  }
+  return EXIT.ok;
+}
+
 export async function main(argv = process.argv.slice(2), env = process.env) {
   let args;
   try { args = parseArgs(argv); } catch (e) { console.error(`run.mjs: ${e.message}`); return EXIT.usage; }
@@ -215,7 +354,7 @@ export async function main(argv = process.argv.slice(2), env = process.env) {
   for (const [idx, row] of rows.entries()) {
     console.log(`\n=== [${row.lane}] ${row.stream} ${row.kind} ${row.path} (${row.source})`);
     let res;
-    try { res = await executeRow(row, { root, evidenceDir, idx }); } catch (e) { res = { state: 'fail', reason: `runner crash: ${e.message}` }; }
+    try { res = await executeRow(row, { root, evidenceDir, idx, scope: args.scope, branch: env.CI_COMMIT_BRANCH || env.CI_COMMIT_REF_NAME || null }); } catch (e) { res = { state: 'fail', reason: `runner crash: ${e.message}` }; }
     if (res.state === 'fail' && prStream && row.stream !== prStream) res = { ...res, state: 'pre-existing', blockingFor: row.stream };
     console.log(`=== [${row.lane}] ${res.state}${res.reason ? ` — ${res.reason}` : ''}`);
     const entry = { lane: row.lane, stream: row.stream, kind: row.kind, path: row.path, scope: row.scope, source: row.source, ...res };
@@ -231,16 +370,27 @@ export async function main(argv = process.argv.slice(2), env = process.env) {
     if (!results.some((r) => r.lane === l)) results.push({ lane: l, stream: 'qual', kind: 'node-script', path: '(no registrations)', scope: args.scope, source: null,
       state: args.scope === 'release' ? 'fail' : 'pending', reason: '0 subjects registered for this lane at this scope' });
   }
+  // L7 (REQ-QUAL-26): the S-55 visual-class report, whenever an L7 regression row ran.
+  if (results.some((r) => r.lane === 'L7' && r.kind === 'playwright')) {
+    let vc;
+    try { vc = await writeVisualClass({ root, evidenceDir, scope: args.scope, sha: gitSha(root) }); }
+    catch (e) { vc = { lane: 'L7', stream: 'qual', kind: 'node-script', path: '.artifacts/qual/visual-class.json', scope: args.scope, source: 'certification/run.mjs', state: 'fail', reason: `visual-class: ${e.message}` }; }
+    console.log(`=== [L7] visual-class ${vc.state}${vc.reason ? ` — ${vc.reason}` : ''}`);
+    results.push(vc);
+  }
   const tests = results.reduce((n, r) => n + (r.tests ?? 0), 0);
+  // L6 (REQ-QUAL-04/-12): planned cells, live subjects, the packed tarball's sha256 and the measured capture rate.
+  const capture = readCaptureEvidence(evidenceDir);
   const manifest = {
     version: 1, lane: args.lane, line: args.line, sha: gitSha(root), scope: args.scope,
     branch: env.CI_COMMIT_BRANCH || env.CI_COMMIT_REF_NAME || null, prStream,
     runnerTag: env.CI_RUNNER_TAGS || null, imageDigest: env.CI_JOB_IMAGE || null, browserVersions: {},
-    subjects: [...new Set(results.map((r) => r.path))], cells: [], results,
+    subjects: [...new Set([...results.map((r) => r.path), ...(capture?.plan.subjects ?? [])])], cells: capture?.plan.cells ?? [], results,
     thresholdsSha256: sha256(join(root, 'certification/thresholds.json')),
     scenesSha256: sha256(join(root, 'certification/scenes/scenes.manifest.json')),
     inventorySha256: sha256(join(root, 'storybook-static/cert-manifest.json')),
-    durationMs: Date.now() - t0, captureRate: null,
+    durationMs: Date.now() - t0, captureRate: capture?.captureRate ?? null,
+    ...(capture ? { tarballSha256: capture.plan.tarball?.sha256 ?? null, storybookIndexSha256: capture.plan.storybookIndexSha256 ?? null, captures: capture.captures } : {}),
     summary: Object.fromEntries(['pass', 'fail', 'pending', 'pre-existing', 'double-pass'].map((s) => [s, results.filter((r) => r.state === s).length])),
     tests,
   };
@@ -250,13 +400,8 @@ export async function main(argv = process.argv.slice(2), env = process.env) {
   if (args.verdict) console.error('run.mjs: --verdict is produced by the release-verdict work item (G-16); no verdict written.');
   console.log(`\nlane-manifest: ${manifestPath.slice(root.length + 1)}  ${JSON.stringify(manifest.summary)}`);
   if (errors.length) { console.error(`run.mjs: lane manifest invalid:\n${errors.join('\n')}`); return EXIT.fail; }
-  const blocking = results.filter((r) => r.state === 'fail');
   if (args.verdict && args.scope === 'release') return EXIT.fail;
-  if (blocking.length) {
-    console.error(`run.mjs: ${blocking.length} blocking failure(s):\n${blocking.map((r) => `  [${r.lane}] ${r.stream} ${r.path}: ${r.reason}`).join('\n')}`);
-    return EXIT.fail;
-  }
-  return EXIT.ok;
+  return blockingExit(results);
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {

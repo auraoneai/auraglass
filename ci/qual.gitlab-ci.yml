@@ -23,6 +23,47 @@ qual:build:storybook:
     expire_in: 14 days
     paths: [storybook-static/]
 qual:certify:l1:  { extends: .qual-lane, variables: { LANE: L1 } }
+# L7 pixel regression + S-55 visual-class report (REQ-QUAL-24..26, G-14). The merge-base Storybook is built from a scratch
+# worktree outside .artifacts/ (scripts/qual/l7-base.mjs) and served next to this pipeline's build; run.mjs applies the
+# REQ-QUAL-25 branch verdict and writes .artifacts/qual/visual-class.json (REPORTS.visualClass) for plat:gate:change-class.
+qual:certify:l7:
+  extends: .qual-lane
+  variables:
+    LANE: L7
+    GIT_DEPTH: "0"
+    AG_STORYBOOK_URL: "http://127.0.0.1:6006"
+    AG_STORYBOOK_BASE_URL: "http://127.0.0.1:6007"
+    AG_L7_BASE: ".artifacts/qual/l7-base.json"
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "nightly")
+  script:
+    - git fetch --no-tags origin "+refs/heads/next:refs/remotes/origin/next"
+    - node scripts/qual/l7-base.mjs --scope "$AG_SCOPE" --dir /tmp/ag-l7-base --out "$AG_L7_BASE"
+    - node scripts/qual/serve-static.mjs storybook-static 6006 &
+    - if test -f /tmp/ag-l7-base/storybook-static/index.json; then node scripts/qual/serve-static.mjs /tmp/ag-l7-base/storybook-static 6007 & fi
+    - node certification/run.mjs --lane L7 --scope "$AG_SCOPE"
+# Candidate L7 baselines + baseline-diff-report.html (REQ-QUAL-25, G-14): manual on pr/main, scheduled nightly. Never commits;
+# QUAL's operator commits reviewed candidates on next-qual/baselines-<yyyymmdd> (CODEOWNERS + L14 record per change).
+qual:certify:baseline-refresh:
+  extends: .ag-playwright
+  stage: certify
+  allow_failure: true
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+  variables:
+    AG_STORYBOOK_URL: "http://127.0.0.1:6006"
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "nightly"
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+      when: manual
+  script:
+    - node scripts/qual/serve-static.mjs storybook-static 6006 &
+    - node scripts/qual/baseline-refresh.mjs --out ".artifacts/qual/$CI_JOB_NAME_SLUG"
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 30 days
+    paths: [".artifacts/qual/$CI_JOB_NAME_SLUG/"]
 # ... one job per lane L1..L12, named exactly as CERT_JOBS ...
 qual:certify:nightly:
   extends: .qual-lane
