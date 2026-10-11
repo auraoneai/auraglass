@@ -39,11 +39,10 @@ describe('Surface seed (S-06)', () => {
   it('emits only registered attributes', () => {
     const { container } = render(<Surface layer="overlay" variant="clear" interactive />);
     const el = container.firstElementChild as HTMLElement;
-    for (const name of el.getAttributeNames()) {
-      if (name.startsWith('data-ag-')) {
-        expect(Object.keys(AG_ATTRIBUTES)).toContain(name);
-      }
-    }
+    // REQ-QUAL-31: assert the set is non-empty before checking membership, so an empty set cannot pass.
+    const agAttributes = el.getAttributeNames().filter((name) => name.startsWith('data-ag-'));
+    expect(agAttributes.length).toBeGreaterThan(0);
+    for (const name of agAttributes) expect(Object.keys(AG_ATTRIBUTES)).toContain(name);
   });
 
   it('renders the render prop element instead of the div fallback', () => {

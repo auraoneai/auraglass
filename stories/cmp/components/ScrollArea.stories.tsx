@@ -16,7 +16,7 @@ export const Default: Story = {
   parameters: { ag: { tier: 'standard', subject: 'ScrollArea', id: 'core-scroll-area--default' } },
   render: () => (
     <ScrollArea.Root style={{ height: 80, width: 200 }}>
-      <ScrollArea.Viewport>
+      <ScrollArea.Viewport aria-label="Scrollable content">
         <div style={{ height: 300 }}>Tall content</div>
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar keepMounted><ScrollArea.Thumb /></ScrollArea.Scrollbar>

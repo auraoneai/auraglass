@@ -3,11 +3,41 @@
   "name": "commerce-checkout",
   "type": "registry:block",
   "title": "Commerce checkout",
-  "description": "Step-gated checkout shell — shipping, payment, review — with grammar-triple step control.",
-  "dependencies": ["react"],
-  "registryDependencies": ["card", "button", "text-field", "separator", "commerce-cart"],
+  "description": "Step-gated checkout shell \u2014 shipping, payment, review \u2014 with grammar-triple step control.",
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [
+    "card",
+    "button",
+    "text-field",
+    "separator",
+    "commerce-cart"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "block",
+      "client": false,
+      "components": [
+        "Button",
+        "Card",
+        "Separator",
+        "TextField"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null
+    }
+  }
 }

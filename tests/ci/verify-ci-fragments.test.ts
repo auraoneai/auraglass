@@ -41,6 +41,8 @@ describe('verify-ci-fragments fixtures', () => {
     'rule3-empty-rules': 'rules',
     'rule4-foreign-needs': 'foreign',
     'rule5-evidence-when': 'when: always',
+    // REQ-PLAT-51: PLAT evidence only under .artifacts/plat/<job-slug>/
+    'rule5-plat-path': "artifact path '.artifacts/pack/' outside .artifacts/plat/$CI_JOB_NAME_SLUG/ and its producer paths (REQ-PLAT-51)",
     'rule6-missing-required': 'not defined',
     'rule7-foreign-certify': 'outside ci/qual.gitlab-ci.yml',
     'rule8-credential': 'credential',
@@ -48,6 +50,8 @@ describe('verify-ci-fragments fixtures', () => {
     'gha-token': 'GitHub Actions',
     'gha-workflow-present': 'must not exist',
     'activation-pending': 'allow_failure',
+    // B3-14: a non-REQUIRED job row is validated (not rejected as "not a REQUIRED_JOBS entry")
+    'activation-nonrequired-pending': "'plat:build:dist' on 5x has effective allow_failure=true",
     'taskgraph-missing': 'verify-task-graph.mjs absent',
     'evidence-outside': '.artifacts/',
     'flipped-required-true': 'main scope',
