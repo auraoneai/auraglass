@@ -117,7 +117,7 @@ export async function run5x(entry, { root = ROOT, check = false, failOnUnanalysa
 
   const files = {};
   const stem = entry;
-  const { exportsJson, apiMd } = reportFiles(entry, names, { unanalysable });
+  const { exportsJson, apiMd } = reportFiles(`./${entry.replace(/^\.\//, '')}`, names, { unanalysable });
   files[`etc/api/${stem}.exports.json`] = exportsJson;
   files[`etc/api/${stem}.api.md`] = apiMd;
   if (css) files[`etc/api/${stem}.css-api.json`] = `${JSON.stringify({ entry, vars: css }, null, 1)}\n`;
@@ -216,6 +216,10 @@ export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
       Object.assign(files, r.files); unanalysable.push(...r.unanalysable);
     }
   }
+  /* an entry with no manifest source at all is a usage error (exit 2) in
+     every alpha — decided before anything is written under etc/api. */
+  const noSource = unanalysable.filter((u) => u.startsWith('no source for entry'));
+  if (noSource.length) { console.error(`api-report: ${noSource.join('; ')}`); return 2; }
   const stale = [];
   for (const [rel, content] of Object.entries(files)) {
     const abs = join(root, rel);
@@ -225,6 +229,7 @@ export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
   if (check && stale.length) { console.error(`api-report --check FAIL: ${stale.join(', ')}`); return 1; }
   if (unanalysable.length) {
     console.error(`api-report: ${unanalysable.length} unanalysable: ${unanalysable.join('; ')}`);
+    /* alpha>=1 fails on source-level issues */
     if (failOnUn && line !== '4x') return 1;
   }
   console.log(`api-report: ${Object.keys(files).length} file(s) ${check ? 'verified' : 'written'}${entry ? ` for ${entry}` : ''}${all ? ' for --all' : ''}`);
