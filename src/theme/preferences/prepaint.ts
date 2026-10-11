@@ -17,7 +17,7 @@ export interface PrepaintArgs {
 
 type W = Window & {
   matchMedia?: (q: string) => { matches?: boolean } | null;
-  CSS?: { supports?: (q: string) => boolean };
+  CSS?: { supports?: (property: string, value: string) => boolean };
   navigator?: Window['navigator'] & {
     userAgentData?: { brands?: readonly { brand: string }[] } | null;
     deviceMemory?: number; connection?: { saveData?: boolean } | null;
@@ -40,8 +40,10 @@ export const auraGlassPrepaint = (w: W, d: Document, a: PrepaintArgs = {}): void
     const nav = (w.navigator ?? {}) as NonNullable<W['navigator']>;
     let bf = false;
     try {
-      bf = w.CSS?.supports?.('(backdrop-filter: blur(1px))') === true
-        || w.CSS?.supports?.('(-webkit-backdrop-filter: blur(1px))') === true;
+      // Property-support probe (REQ-MAT-18): the two-argument form with the
+      // keyword value carries no design literal.
+      bf = w.CSS?.supports?.('backdrop-filter', 'none') === true
+        || w.CSS?.supports?.('-webkit-backdrop-filter', 'none') === true;
     } catch { /* no CSS.supports */ }
     const cap: CapabilitySignals = {
       backdropFilter: bf,

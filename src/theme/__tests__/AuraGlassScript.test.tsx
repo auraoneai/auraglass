@@ -202,4 +202,16 @@ describe('emitted script fixtures', () => {
     expect(() => impl(bare, doc, {})).not.toThrow();
     expect(doc.documentElement.getAttribute('data-ag-transparency')).toBe('solid');
   });
+
+  it('probes backdrop-filter property support with the two-argument form (REQ-MAT-18)', () => {
+    const calls: unknown[][] = [];
+    // only the -webkit- property is supported: the second probe must decide
+    const supports = (...args: unknown[]) => {
+      calls.push(args);
+      return args[0] === '-webkit-backdrop-filter' && args[1] === 'none';
+    };
+    impl({ ...fakeWindow({}), CSS: { supports } }, doc, {});
+    expect(calls).toEqual([['backdrop-filter', 'none'], ['-webkit-backdrop-filter', 'none']]);
+    expect(doc.documentElement.getAttribute('data-ag-transparency')).toBe('glass');
+  });
 });

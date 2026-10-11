@@ -25,8 +25,9 @@ const RULES = [
   { category: 'shadow', re: /\bbox-shadow\s*:[^;}]+|\bboxShadow\s*:\s*['"][^'"]+['"]/g, test: (m) => /\d\s*(?:px|em|rem)/.test(m[0]) && !/^\s*box-shadow\s*:\s*(?:none|inherit)/.test(m[0]) },
   // duration: ms/s inside transition*/animation* contexts
   { category: 'duration', re: new RegExp(String.raw`\b(?:transition|transition-[a-z]+|animation|animation-[a-z]+)\s*:[^;}]*\b${NUM}m?s\b`, 'g'), test: (m) => new RegExp(String.raw`${NUM}m?s`).test(m[0]) && !/\d+(?:\.\d+)?\s*(?:px|rem|em|%)/.test(m[0].replace(/\d+(?:\.\d+)?m?s/g, '')) },
-  // duration: numeric motion keys (MAT-089)
-  { category: 'duration', re: new RegExp(String.raw`\b(?:duration|delay|stiffness|damping|mass|bounce|visualDuration)\s*:\s*${NUM}\b`, 'g') },
+  // duration: numeric motion keys (MAT-089) — outside src/motion/** only: the
+  // motion adapter is where token-derived spring/tween objects are assembled.
+  { category: 'duration', re: new RegExp(String.raw`\b(?:duration|delay|stiffness|damping|mass|bounce|visualDuration)\s*:\s*${NUM}\b`, 'g'), motionOnly: true },
   // duration: Tailwind duration-/delay- classes (outside src/motion/** only)
   { category: 'duration', re: /\b(?:duration|delay)-\d+\b/g, tailwind: true },
   // easing: cubic-bezier( + Tailwind ease- classes
@@ -66,9 +67,32 @@ function isExempt(file) {
   return EXEMPT_RES.some((re) => re.test(p));
 }
 
-/** Lines allowed to carry literals: `// @ag-literal-allowed: color-math` (src/theme/color.ts only, MAT-056). */
-const lineIsAllowed = (file, line) =>
-  normPath(file) === 'src/theme/color.ts' && line.includes('// @ag-literal-allowed: color-math');
+/* Per-line allowance markers `// @ag-literal-allowed: <reason>` (MAT-056; the
+   named-reason form is the clause FIN-E #308 / REQ-CMP-139 requested). Only the
+   reasons below exist and each one is valid only inside its own path scope; an
+   unknown reason or a marker outside its scope allows nothing.
+     color-math  — src/theme/color.ts colour-space conversion constants (MAT-056)
+     test-vector — literal input/expected data inside test files (e.g. hex parse
+                   vectors); never production source. */
+const ALLOWANCES = {
+  'color-math': ['src/theme/color.ts'],
+  'test-vector': ['**/*.test.{ts,tsx,js,jsx,mjs,cjs}', '**/__tests__/**', 'tests/**'],
+};
+const ALLOWANCE_RES = Object.fromEntries(
+  Object.entries(ALLOWANCES).map(([reason, globs]) => [reason, globs.flatMap(expandBraces).map(globToRe)]),
+);
+function expandBraces(glob) {
+  const m = glob.match(/\{([^}]+)\}/);
+  return m ? m[1].split(',').flatMap((alt) => expandBraces(glob.replace(m[0], alt))) : [glob];
+}
+const MARKER_RE = /\/\/ @ag-literal-allowed: ([a-z-]+)(?![a-z-])/;
+
+const lineIsAllowed = (file, line) => {
+  const m = line.match(MARKER_RE);
+  if (!m || !ALLOWANCE_RES[m[1]]) return false;
+  const p = normPath(file);
+  return ALLOWANCE_RES[m[1]].some((re) => re.test(p));
+};
 
 // Blank out comments in place (positions + newlines preserved) so literals
 // inside comments never match. JS-ish files drop // and block comments; css drops block comments only.
@@ -82,7 +106,8 @@ function stripComments(text, file = '') {
 
 /**
  * Scan source text. Returns [{category, literal, index, line}].
- * Tailwind class matchers are skipped for files under src/motion/** (MAT-089).
+ * Tailwind class and numeric motion-key matchers are skipped for files under
+ * src/motion/** (MAT-089).
  */
 function scanText(text, file = '') {
   const inMotion = /(^|\/)src\/motion\//.test(normPath(file));
@@ -95,7 +120,7 @@ function scanText(text, file = '') {
   const lineOf = (idx) => lineOffsets.findIndex((o, i) => idx < (lineOffsets[i + 1] ?? Infinity)) ;
   const hits = [];
   for (const rule of RULES) {
-    if (rule.tailwind && inMotion) continue;
+    if ((rule.tailwind || rule.motionOnly) && inMotion) continue;
     for (const m of src.matchAll(rule.re)) {
       if (rule.test && !rule.test(m)) continue;
       const line = lineOf(m.index);
@@ -116,7 +141,7 @@ function scanDecl(prop, value, file = '') {
   const push = (category, literal) => hits.push({ category, literal });
   const text = `${prop}: ${value}`;
   for (const rule of RULES) {
-    if (rule.tailwind && inMotion) continue;
+    if ((rule.tailwind || rule.motionOnly) && inMotion) continue;
     for (const m of text.matchAll(rule.re)) {
       if (rule.test && !rule.test(m)) continue;
       push(rule.category, m[0].trim().slice(0, 80));
@@ -132,4 +157,4 @@ function countByCategory(hits) {
   return out;
 }
 
-module.exports = { CATEGORIES, EXEMPT_GLOBS, isExempt, scanText, scanDecl, countByCategory };
+module.exports = { CATEGORIES, EXEMPT_GLOBS, ALLOWANCES, isExempt, scanText, scanDecl, countByCategory };

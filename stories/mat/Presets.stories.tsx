@@ -8,30 +8,21 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Surface } from '../../src/material/index';
-import { glassMaterialPresets } from '../../src/theme/materials';
+import type { MaterialVariant } from '../../src/contracts/material';
 import { createBrandGlassTheme } from '../../src/theme/createBrandGlassTheme';
 import { CONTRAST_FLOOR, oklchToHex } from './_shared';
 import { StorySurface } from '../../.storybook/StorySurface';
 
-const PRESETS = Object.entries(glassMaterialPresets);
+/* The 5.0 material presets are the contract variants rendered by Surface from
+   the token CSS (src/material/css). The 4.x literal emitter
+   src/theme/materials.ts was deleted in REQ-MAT-18 (D.2-04). */
+const PRESETS: MaterialVariant[] = ['regular', 'clear', 'identity'];
 
-function PresetCard({ name, tokens }: { name: string; tokens: (typeof PRESETS)[number][1] }) {
+function PresetCard({ name }: { name: MaterialVariant }) {
   return (
-    <Surface variant="regular" className={`preset-${name}`} style={{ padding: 0, overflow: 'hidden' }}>
-      <div
-        style={{
-          background: tokens.background,
-          backdropFilter: tokens.backdropFilter,
-          WebkitBackdropFilter: tokens.WebkitBackdropFilter,
-          border: `1px solid ${tokens.border}`,
-          boxShadow: tokens.shadow,
-          borderRadius: 12,
-          padding: '14px 18px',
-          minWidth: 150,
-        }}
-      >
+    <Surface variant={name} className={`preset-${name}`}>
+      <div style={{ padding: '14px 18px', minWidth: 150 }}>
         <code style={{ fontSize: 13 }}>{name}</code>
-        <div style={{ fontSize: 11, opacity: 0.7 }}>blur {tokens.backdropBlur}</div>
       </div>
     </Surface>
   );
@@ -41,8 +32,8 @@ function PresetGrid({ scheme }: { scheme: 'light' | 'dark' }) {
   return (
     <StorySurface mode={scheme}>
       <div data-ag-theme={scheme} style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-        {PRESETS.map(([name, tokens]) => (
-          <PresetCard key={name} name={name} tokens={tokens} />
+        {PRESETS.map((name) => (
+          <PresetCard key={name} name={name} />
         ))}
       </div>
     </StorySurface>
