@@ -3,11 +3,16 @@
 @layer ag.components {
   .ag-tree { display: grid; gap: var(--ag-space-1, 0.25rem); }
   .ag-tree__item {
-    outline: none;
     border-radius: var(--_ag-radius-1, 0.25rem);
     padding-block: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
   }
-  .ag-tree__item[data-focused] { outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus, currentColor); }
+  /* REQ-SURF-193: the MAT focus ring (src/a11y/css/focus.css values). */
+  .ag-tree__item:focus-visible,
+  .ag-tree__item[data-focused] {
+    outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus-outer, var(--ag-color-focus-outer, Highlight));
+    outline-offset: var(--_ag-focus-offset, var(--_ag-focus-width, 2px));
+    box-shadow: 0 0 0 var(--_ag-focus-width, 2px) var(--_ag-focus-inner, var(--ag-color-focus-inner, transparent));
+  }
   .ag-tree__item[data-selected] { background: var(--_ag-accent-soft, transparent); }
   .ag-tree__item[data-disabled] { opacity: 0.5; }
   .ag-tree__label { display: inline-flex; align-items: center; gap: var(--ag-space-2, 0.5rem); }
