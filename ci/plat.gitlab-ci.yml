@@ -202,25 +202,27 @@ plat:test:visual-4x:
   artifacts:
     paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/"]
 
+# REQ-PLAT-05 item 9 / REQ-PLAT-72 / REQ-PLAT-77 (B3-10, REQ-FIN-38 wiring).
+# ci/plat/canaries.mjs runs the vite-compiler (PLAT-72), types-strict and
+# jest-cjs canaries from the packed tarball, classifies each Playwright report
+# with the lane runner's classifier, runs verify-compiler, and reports the job
+# `pending`, not pass, while generate-exports lists a seed-excluded entry. It
+# then runs the Base UI latest leg (`npm i --no-save @base-ui/react@<latest>`
+# against the same tarball) into base-ui-latest.json. That leg is reporting:
+# it fails the job only when this change bumps the @base-ui/react pin against
+# the merge base with $BASE (PRD-1 REQ-PLAT-77). Full history for the merge
+# base.
 plat:test:canaries:
   extends: [.plat-playwright, .plat-evidence-pr]
   stage: test
   allow_failure: true
+  variables: { GIT_DEPTH: "0" }
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   script:
-    - |
-      ok=1
-      for c in canaries/vite-compiler canaries/types-strict canaries/jest-cjs; do
-        if [ -d "$c" ]; then
-          (cd "$c" && npx playwright test) || ok=0
-        else
-          echo "PENDING: $c (lane 1d)"; ok=0
-        fi
-      done
-      [ "$ok" = 1 ] || exit 1
-    - 'test -f scripts/ci/verify-compiler.mjs || { echo "PENDING: scripts/ci/verify-compiler.mjs (lane 1d)"; exit 1; }'
-    - node scripts/ci/verify-compiler.mjs
+    - git fetch --no-tags origin "+refs/heads/next:refs/remotes/origin/next"
+    - 'if [ "$AG_SCOPE" = "main" ]; then BASE="HEAD~1"; else BASE="origin/next"; fi'
+    - node ci/plat/canaries.mjs --scope "$AG_SCOPE" --base "$BASE" --out "$AURAGLASS_EVIDENCE_DIR"
 
 # REQ-FIN-09 / REQ-FIN-40 / REQ-FIN-41 (B3-7): the workspace suites, the
 # packed-d.ts type tests and the codemod canary consume the tarballs from
