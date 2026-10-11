@@ -7,7 +7,7 @@ test.describe('ai composer dropzone (SURF-354)', () => {
   test('drop adds an attachment chip; oversize file reports the reason', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Composer');
-    if (!subject) { console.warn('AI/Composer subject not registered — pending'); return; }
+    if (!subject) throw new Error('AI/Composer subject not registered');
     await gotoStory(page, subject.id);
     const composer = page.locator('[data-ag-part="composer"], form').first();
     await composer.evaluate(async (form) => {
@@ -18,7 +18,7 @@ test.describe('ai composer dropzone (SURF-354)', () => {
     });
     await expect(composer).toHaveAttribute('data-dragging', /true|false/);
     const chip = composer.locator('[data-ag-part="attachment"], [data-ag-part="chip"]').first();
-    if (await chip.count() === 0) { console.warn('attachment chips pending'); return; }
+    expect(await chip.count(), 'no attachment chip after drop').toBeGreaterThan(0);
     await expect(chip).toContainText('trace.log');
   });
 });

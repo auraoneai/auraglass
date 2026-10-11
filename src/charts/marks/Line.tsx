@@ -1,30 +1,13 @@
-'use client';
-/* marks/{Line,Area,Bar,Donut} — pure svg generators over the plot context. */
+/* marks/{Line,Area,Bar,Donut} — pure svg generators over the plot context;
+   server-safe (no directive, no hooks), rendered by the ChartPlot island. */
 import * as React from 'react';
-import { bandScale, extent, linePath, linearScale } from '../scale';
-import type { ChartContext } from '../../data/chart-frame/types';
-import type { ChartCurve } from '../types';
+import { bandScale, linePath, linearScale, yExtent } from '../scale';
+import { val, type MarkProps } from './types';
 
-export interface MarkProps<TRow> {
-  ctx: ChartContext<TRow>;
-  xKey: string;
-  w: number;
-  h: number;
-  curve?: ChartCurve | undefined;
-  stacked?: boolean | undefined;
-  orientation?: 'horizontal' | 'vertical' | undefined;
-  innerRadius?: number | undefined;
-}
-
-function val(d: unknown, key: string): number {
-  const v = (d as Record<string, unknown>)[key];
-  return typeof v === 'number' && Number.isFinite(v) ? v : 0;
-}
-
-export function Line<TRow>({ ctx, xKey, w, h, curve = 'linear' }: MarkProps<TRow>) {
+export function Line<TRow>({ ctx, xKey, w, h, curve = 'linear', yDomain }: MarkProps<TRow>) {
   const keys = ctx.data.map((d) => String(ctx.formatX((d as Record<string, unknown>)[xKey])));
   const xs = bandScale(keys, [0, w]);
-  const ys = linearScale(extent(ctx.visibleSeries.flatMap((s) => ctx.data.map((d) => val(d, s.key)))), [h, 0]);
+  const ys = linearScale(yExtent(ctx.visibleSeries.flatMap((s) => ctx.data.map((d) => val(d, s.key))), yDomain), [h, 0]);
   return (
     <g data-ag-part="chart-mark-line">
       {ctx.visibleSeries.map((s) => (
