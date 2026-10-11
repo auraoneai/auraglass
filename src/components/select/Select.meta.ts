@@ -43,7 +43,7 @@ const meta: ControlMeta = defineMeta({
         onSelect: { to: 'onValueChange' },
         menu: 'children',
       },
-      automation: 'partial',
+      selectors: { '.glass-dropdown': '.ag-select' }, automation: 'partial',
       compat: true,
     },
   ],

@@ -9,6 +9,8 @@ export default defineMeta({
   parts: ['root','viewport','scrollbar','thumb'],
   states: [],
   variants: {},
+  material: { layer: 'content' },
   apg: 'region',
-  migration: [{ from: 'GlassScrollArea', automation: 'mostly', compat: true }],
+  budgetKb: 10,
+  migration: [{ from: 'GlassScrollArea', props: {}, selectors: { '.glass-scroll-area': '.ag-scroll-area' },  automation: 'mostly', compat: true }],
 });

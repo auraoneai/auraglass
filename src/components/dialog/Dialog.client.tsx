@@ -9,9 +9,10 @@
    - Dev guard: opening with no Title and no aria-label logs console.error. */
 import * as React from 'react';
 import { Dialog as Base } from '@base-ui/react/dialog';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
+import { ConcentricFrame } from '../../material';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { DialogHeader, DialogBody, DialogFooter } from './DialogLayout';
@@ -83,22 +84,28 @@ function DialogTrigger({ children, className, ref, ...rest }: DialogTriggerProps
 function DialogClose({ children, className, ref, ...rest }: DialogCloseProps) {
   const { labels } = React.useContext(DialogContext);
   return (
-    <Base.Close
-      data-ag-part="close"
-      aria-label={labels?.close ?? 'Close'}
-      className={cn('ag-dialog-close', className)}
-      ref={ref}
-      {...rest}
-    >
-      {children ?? '×'}
-    </Base.Close>
+    /* REQ-CMP-89: the close control sits inside a ConcentricFrame so its
+       radius resolves concentric to the popup's rim (lg at inset-4). */
+    <ConcentricFrame radius="lg" inset="4">
+      <Base.Close
+        data-ag-part="close"
+        aria-label={labels?.close ?? 'Close'}
+        className={cn('ag-dialog-close', className)}
+        ref={ref}
+        {...rest}
+      >
+        {children ?? '×'}
+      </Base.Close>
+    </ConcentricFrame>
   );
 }
 
 function DialogPortal({ children, keepMounted }: DialogPortalProps) {
   const container = usePortalContainer('overlay');
   return (
-    <Base.Portal container={container} keepMounted={keepMounted}>
+    /* REQ-CMP-89: the portal element is the named ag-overlay container
+       (overlays.css) the responsive size grid queries. */
+    <Base.Portal container={container} keepMounted={keepMounted} className="ag-overlay-container">
       {children}
     </Base.Portal>
   );
@@ -132,6 +139,7 @@ let warnedNoTitle = false;
 
 function DialogPopup({
   size = 'md',
+  appearance = 'default',
   placement = 'center',
   variant = 'regular',
   prominent,
@@ -182,6 +190,7 @@ function DialogPopup({
       aria-modal={modal !== false ? 'true' : undefined}
       data-state={ctxOpen ? 'open' : 'closed'}
       data-ag-size={size}
+      data-ag-appearance={appearance}
       data-ag-placement={placement}
       {...overlayMaterial('dialog')}
       data-ag-variant={variant}
