@@ -16,7 +16,11 @@
    5. artifacts.paths are inside .artifacts/<s>/ (or the bare .artifacts/ dir)
       plus the fixed producer paths; evidence jobs carry when:always and the
       evidence-* name; expire_in matches scope (pr/main 14d, nightly 30d,
-      release 90d via .ag-evidence-release).
+      release 90d via .ag-evidence-release). Artifacts are resolved the way
+      GitLab resolves `extends` (deep merge, later parent wins, job wins).
+      PLAT (REQ-PLAT-51): every path is .artifacts/plat/$CI_JOB_NAME_SLUG/
+      (or the literal slug) or a §4.13.2 producer path of that job; the bare
+      .artifacts/ dir and other .artifacts/plat/* dirs are rejected.
    6. Every REQUIRED_JOBS name is defined; once ci/plat/activation.json records
       a first green run for (job,line) the effective allow_failure on that line
       is false (evaluated on pr scope).
@@ -49,6 +53,9 @@ const STAGES = ['contract', 'build', 'test', 'package', 'certify', 'deploy', 'pu
 const STREAMS = ['plat', 'mat', 'cmp', 'surf', 'qual'];
 const ROOT_TEMPLATES = ['.ag-node', '.ag-playwright', '.ag-gpu', '.ag-aws-remote'];
 const MIXINS = ['.ag-evidence-release']; // artifact mixin allowed alongside a root template
+// A fragment's own evidence mixin (.<s>-evidence-*) may carry only these keys
+// and may extend only root MIXINS or other own mixins (REQ-PLAT-51).
+const MIXIN_KEYS = new Set(['extends', 'artifacts', 'variables', 'after_script']);
 const REQUIRED_JOBS = [
   'contract:ownership',
   'contract:conformance',
@@ -78,14 +85,26 @@ const CI_JOBS = {
   surf: [],
 };
 // Fixed producer paths a job may write besides .artifacts/<s>/ (§4.13.2).
+// plat:package:pack: the tarball dir (EVIDENCE.tarballDir) and the dotenv
+// report are both named by the contract table. plat:test:visual-4x and
+// plat:gate:change-class keep the scripts/release/lib/policy.mjs reader/writer
+// paths until FIN-A REQ-FIN-10 moves them into the job dir.
 const PRODUCER_PATHS = {
   'plat:build:dist': ['dist/'],
-  'plat:package:pack': ['.artifacts/pack/', 'pack.env'],
+  'plat:package:pack': ['.artifacts/pack/', '.artifacts/plat/pack.env'],
+  'plat:test:visual-4x': ['.artifacts/plat/visual-4x/'],
+  'plat:gate:change-class': ['.artifacts/plat/change-class/'],
   'plat:build:docs': ['apps/docs/out/', 'apps/docs/public/', 'storybook-static/'],
   'mat:build:tokens': ['dist/tokens/', 'dist/tokens.css', 'dist/compat/tokens.css'],
   'qual:build:storybook': ['storybook-static/'],
   pages: ['public/'],
 };
+// Jobs the contract fixes verbatim (§4.13.7); their artifacts come from the
+// contract's .ag-evidence-release and are exempt from the PLAT job-dir rule.
+const CONTRACT_VERBATIM = new Set(['plat:publish:npm']);
+// GitLab's CI_JOB_NAME_SLUG: lower-case, non [a-z0-9] → '-', ≤63 chars, no edge '-'.
+const jobSlug = (name) =>
+  name.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 63).replace(/^-+|-+$/g, '');
 const CREDENTIAL_RE = /\b(NPM_TOKEN|NODE_AUTH_TOKEN|GH_TOKEN|GITHUB_TOKEN|CI_JOB_JWT|AWS_SECRET_ACCESS_KEY|GCLOUD_[A-Z_]*|AZURE_[A-Z_]*)\b|secrets\./;
 const PUBLISH_ID_TOKENS = ['NPM_ID_TOKEN', 'SIGSTORE_ID_TOKEN'];
 const BROWSER_RE = /\b(playwright|lhci|chromium|chrome(?:ium)?\s+(?:--|test|run))/;
@@ -197,6 +216,29 @@ const VARSET = (line, scope) => ({
   CI_COMMIT_TAG: '',
 });
 
+// Effective `artifacts` of a job: GitLab deep-merges hashes along `extends`
+// (later parents override earlier ones, the job's own keys win; arrays are
+// replaced). Templates resolve in the job's own file, then the root file.
+const isObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
+const deepMerge = (a, b) => {
+  const out = { ...a };
+  for (const [k, v] of Object.entries(b)) out[k] = isObj(v) && isObj(out[k]) ? deepMerge(out[k], v) : v;
+  return out;
+};
+function effectiveArtifacts(doc, name, seen = new Set()) {
+  if (seen.has(name)) return undefined;
+  seen.add(name);
+  const node = doc?.[name] ?? (name.startsWith('.') ? docs['.gitlab-ci.yml']?.[name] : undefined);
+  if (!isObj(node)) return undefined;
+  let acc;
+  for (const e of [].concat(node.extends ?? [])) {
+    const a = effectiveArtifacts(doc, e, new Set(seen));
+    if (a) acc = deepMerge(acc ?? {}, a);
+  }
+  if (isObj(node.artifacts)) acc = deepMerge(acc ?? {}, node.artifacts);
+  return acc;
+}
+
 // ---------- load docs ----------
 const docs = {};
 const rootFile = rel('.gitlab-ci.yml');
@@ -270,9 +312,22 @@ for (const s of STREAMS) {
       fail.push(`${file}: hidden key '${h}' must be .${s}-*`);
     }
   }
-  // every hidden template must extend a root template (transitively)
+  // every hidden template must extend a root template (transitively), except
+  // the stream's own evidence mixins, which carry only artifact keys.
   for (const h of hiddenKeys(doc)) {
     if (h.startsWith('.ag-')) continue;
+    if (h.startsWith(`.${s}-evidence-`)) {
+      const node = doc[h] ?? {};
+      for (const k of Object.keys(node)) {
+        if (!MIXIN_KEYS.has(k)) fail.push(`${file}: evidence mixin '${h}' may not set '${k}'`);
+      }
+      for (const e of [].concat(node.extends ?? [])) {
+        if (!MIXINS.includes(e) && !String(e).startsWith(`.${s}-evidence-`)) {
+          fail.push(`${file}: evidence mixin '${h}' extends '${e}' (only ${MIXINS.join(', ')} or .${s}-evidence-*)`);
+        }
+      }
+      continue;
+    }
     const chain = extendsChain(doc, h);
     if (!chain.some((c) => ROOT_TEMPLATES.includes(c))) {
       fail.push(`${file}: template '${h}' does not resolve to a root .ag-* template`);
@@ -337,15 +392,27 @@ for (const s of STREAMS) {
       if (m && m[1] !== s) fail.push(`${file}: job '${j}' uses dependencies on foreign job '${d}'`);
     }
 
-    // rule 5 — artifacts
-    const art = def.artifacts;
+    // rule 5 — artifacts (effective, through extends)
+    const art = effectiveArtifacts(doc, j);
     if (art) {
       const prod = PRODUCER_PATHS[j] ?? [];
+      const isProducer = (p) => prod.some((pp) => p === pp || p.startsWith(pp));
+      const strictPlat = s === 'plat' && !CONTRACT_VERBATIM.has(j);
+      const own = [`.artifacts/plat/$CI_JOB_NAME_SLUG/`, `.artifacts/plat/${jobSlug(j)}/`];
       for (const p of art.paths ?? []) {
+        if (strictPlat) {
+          // REQ-PLAT-51: PLAT evidence only under .artifacts/plat/<job-slug>/
+          if (!isProducer(p) && !own.some((o) => p === o || p.startsWith(o))) {
+            fail.push(
+              `${file}: job '${j}' artifact path '${p}' outside .artifacts/plat/$CI_JOB_NAME_SLUG/ and its producer paths (REQ-PLAT-51)`,
+            );
+          }
+          continue;
+        }
         const ok =
           p === '.artifacts/' ||
           p.startsWith(`.artifacts/${s}/`) ||
-          prod.some((pp) => p === pp || p.startsWith(pp));
+          isProducer(p);
         if (!ok) fail.push(`${file}: job '${j}' artifact path '${p}' outside .artifacts/${s}/ and producer paths`);
       }
       const otherStreamPath = (art.paths ?? []).find((p) =>
@@ -375,7 +442,7 @@ for (const s of STREAMS) {
         if (!['14 days', '30 days', '90 days'].includes(exp)) {
           fail.push(`${file}: job '${j}' artifacts expire_in '${exp || '(unset)'}' must be 14 days (pr/main), 30 days (nightly) or 90 days (release)`);
         }
-        if ((def.extends ?? []).includes('.ag-evidence-release') && exp && exp !== '90 days') {
+        if (extendsChain(doc, j).includes('.ag-evidence-release') && exp && exp !== '90 days') {
           fail.push(`${file}: job '${j}' on .ag-evidence-release must expire_in 90 days, not '${exp}'`);
         }
       }
