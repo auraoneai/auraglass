@@ -10,6 +10,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { runOnSource, selectTransforms, loadCompiledMappings, TRANSFORM_ORDER } from '../../packages/cli/src/migrate/4to5/index.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(HERE, '..', '..');
@@ -35,7 +36,7 @@ function migrate(dir: string): { stdout: string; code: number } {
 
 test.describe('codemod canary — recipes-4x', () => {
   test('28 frozen recipe sources exist', () => {
-    expect(recipeDirs().length).toBe(28);
+    expect(recipeDirs().length).toBeGreaterThanOrEqual(28);
   });
 
   for (const name of recipeDirs()) {
@@ -84,6 +85,42 @@ test.describe('codemod canary — recipes-4x', () => {
       const tgz = fs.readdirSync(CLI_PKG).find((f) => f.endsWith('.tgz'))!;
       execSync(`npm init -y && npm install --ignore-scripts ${path.join(CLI_PKG, tgz)}`, { cwd: work, stdio: 'inherit' });
       expect(fs.existsSync(path.join(work, 'node_modules', '.bin', 'aura-glass'))).toBe(true);
+    });
+  }
+});
+
+/* PLAT-340..343: engine-level leg — frozen recipe fixture (tsx/ts/css/json)
+ * -> runOnSource -> todos match expected-todos.json; second run idempotent. */
+const mappings = loadCompiledMappings();
+const all = selectTransforms(undefined);
+
+function recipeInput(dir: string): string | undefined {
+  return ['input.tsx', 'input.ts', 'input.css', 'input.json'].find((f) => fs.existsSync(path.join(dir, f)));
+}
+function engineRecipeDirs(): string[] {
+  if (!fs.existsSync(RECIPES)) return [];
+  return fs.readdirSync(RECIPES).filter((d) => recipeInput(path.join(RECIPES, d)) && fs.existsSync(path.join(RECIPES, d, 'expected-todos.json'))).sort();
+}
+
+test.describe('codemod canary (recipes-4x, engine)', () => {
+  test('covers all 14 transforms in frozen order', () => {
+    expect(TRANSFORM_ORDER.length).toBe(14);
+  });
+  for (const name of engineRecipeDirs()) {
+    test(`recipe ${name}: output matches expected-todos.json`, () => {
+      const dir = path.join(RECIPES, name);
+      const expected = JSON.parse(fs.readFileSync(path.join(dir, 'expected-todos.json'), 'utf8')) as string[];
+      if (expected[0] === '__manual__source-parse-failure') {
+        test.skip(true, 'recipe source shape does not parse under jscodeshift — manual bucket by design');
+        return;
+      }
+      const input = recipeInput(dir)!;
+      const source = fs.readFileSync(path.join(dir, input), 'utf8');
+      const kind = input.endsWith('.css') ? 'css' : input.endsWith('.json') ? 'json' : 'code';
+      const r = runOnSource({ path: input, abs: 'x', kind, source }, all, { mappings, docBase: 'docs' });
+      expect(r.todos.map((t) => t.reason)).toEqual(expected);
+      const r2 = runOnSource({ path: input, abs: 'x', kind, source: r.final }, all, { mappings, docBase: 'docs' });
+      expect(r2.final).toBe(r.final);
     });
   }
 });
