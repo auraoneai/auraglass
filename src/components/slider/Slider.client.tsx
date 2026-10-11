@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Slider as Base } from '@base-ui/react/slider';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
+import { materialProps } from '../../material';
 import { sizeAttrs } from '../control-shared/size';
 import type { SliderRootProps, SliderValueProps } from './Slider.types';
 
@@ -44,6 +45,7 @@ function SliderRoot<V extends number | number[]>({
                 <Base.Thumb
                   key={i}
                   data-ag-part="thumb"
+                  {...materialProps({ layer: 'transient', thickness: 'thin' })}
                   aria-label={thumbCount === 1 ? ariaLabel : `${ariaLabel ?? 'value'} ${i + 1}`}
                   aria-labelledby={thumbCount === 1 ? ariaLabelledby : undefined}
                   {...(getAriaValueText !== undefined
