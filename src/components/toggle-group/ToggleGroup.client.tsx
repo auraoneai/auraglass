@@ -13,6 +13,8 @@ export interface ToggleGroupRootProps {
   onValueChange?: ((value: string[], details: ChangeDetails) => void) | undefined;
   /** Allow multiple pressed items (default false — single-select clears the others). */
   multiple?: boolean | undefined;
+  /** Roving-focus wrap-around (default true — REQ-CMP-38). */
+  loop?: boolean | undefined;
   orientation?: 'horizontal' | 'vertical' | undefined;
   disabled?: boolean | undefined;
   className?: string | undefined;
@@ -23,6 +25,8 @@ export interface ToggleGroupRootProps {
 export interface ToggleGroupItemProps {
   value: string;
   disabled?: boolean | undefined;
+  /** Keep the item focusable when disabled (REQ-CMP-38). */
+  focusableWhenDisabled?: boolean | undefined;
   className?: string | undefined;
   children?: React.ReactNode;
   ref?: React.Ref<HTMLButtonElement> | undefined;
@@ -33,6 +37,7 @@ function ToggleGroupRoot({
   defaultValue,
   onValueChange,
   multiple,
+  loop = true,
   orientation = 'horizontal',
   disabled,
   className,
@@ -46,6 +51,7 @@ function ToggleGroupRoot({
       defaultValue={defaultValue}
       onValueChange={(v, eventDetails) => onValueChange?.(v as string[], toChangeDetails(eventDetails))}
       multiple={multiple}
+      loopFocus={loop}
       orientation={orientation}
       disabled={disabled}
       data-ag-part="root"
@@ -57,11 +63,12 @@ function ToggleGroupRoot({
   );
 }
 
-function ToggleGroupItem({ value, disabled, className, children, ref }: ToggleGroupItemProps) {
+function ToggleGroupItem({ value, disabled, focusableWhenDisabled, className, children, ref }: ToggleGroupItemProps) {
   return (
     <Toggle
       value={value}
       disabled={disabled}
+      focusableWhenDisabled={focusableWhenDisabled}
       data-ag-part="item"
       className={cn('ag-toggle-item', className)}
       ref={ref}
