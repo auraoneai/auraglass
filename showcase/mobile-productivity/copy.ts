@@ -33,6 +33,9 @@ export const TASKS = [
   { id: 't4', title: 'Send revised SOW to Halcyon', project: 'Halcyon', due: '14:00', done: false },
   { id: 't5', title: 'Book flights for Lisbon offsite', project: 'Studio', due: '15:30', done: false },
   { id: 't6', title: 'Draft Q2 hiring plan', project: 'Studio', due: '17:00', done: false },
+  { id: 't7', title: 'Reply to Northwind invoice query', project: 'Northwind', due: '17:30', done: false },
+  { id: 't8', title: 'Renew studio insurance policy', project: 'Operations', due: '18:00', done: false },
+  { id: 't9', title: 'Share sprint demo recording', project: 'Halcyon', due: '18:30', done: false },
 ] as const;
 
 export const PRIORITIES = [

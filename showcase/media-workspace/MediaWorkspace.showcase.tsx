@@ -8,7 +8,7 @@ import { AppShell } from 'aura-glass/app-shell';
 import { CarouselRail, ImageViewer, MediaControls, NowPlayingBar } from 'aura-glass/media';
 import { InfoIcon, MaximizeIcon, PaletteIcon, Share2Icon } from 'aura-glass/icons';
 import { MediaViewer } from '../../registry/blocks/media-viewer/index';
-import { COPY, SHOT_FIELDS, SHOWCASE_EPOCH, STILLS, VIDEO_SRC } from './copy';
+import { COPY, SHOT_FIELDS, SHOT_LOG, SHOT_LOG_COLUMNS, SHOWCASE_EPOCH, STILLS, VIDEO_SRC } from './copy';
 import styles from './media-workspace.module.css';
 
 export interface MediaWorkspaceProps {
@@ -146,7 +146,30 @@ export function MediaWorkspace({ now = SHOWCASE_EPOCH }: MediaWorkspaceProps) {
         </section>
         <section className={styles.section} aria-labelledby="mw-rail-heading">
           <h2 id="mw-rail-heading">{COPY.carouselLabel}</h2>
-          <CarouselRail.Root label={COPY.carouselLabel} slides={slides} slidesPerView={2} overMedia />
+          <CarouselRail.Root label={COPY.carouselRailLabel} slides={slides} slidesPerView={2} overMedia />
+        </section>
+        <section className={styles.section} aria-labelledby="mw-shot-log-heading">
+          <h2 id="mw-shot-log-heading">{COPY.shotLogHeading}</h2>
+          <table>
+            <caption>{COPY.shotLogCaption}</caption>
+            <thead>
+              <tr>
+                {SHOT_LOG_COLUMNS.map((c) => (
+                  <th key={c} scope="col">{c}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {SHOT_LOG.map(([shot, ...cells]) => (
+                <tr key={shot}>
+                  <th scope="row">{shot}</th>
+                  {cells.map((c, i) => (
+                    <td key={SHOT_LOG_COLUMNS[i + 1]}>{c}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </section>
         <MediaWorkspaceClearControls />
         <MediaWorkspaceInspectorSheet defaultOpen={false} />
