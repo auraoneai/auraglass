@@ -3,6 +3,8 @@
 @layer ag.components {
   .ag-stat-card {
     display: grid;
+    /* Query container for the narrow-card rule below (sparkline hides). */
+    container-type: inline-size;
     gap: var(--ag-space-1, 0.25rem);
     padding: var(--ag-space-4, 1rem);
     background: var(--_ag-surface-raised, Canvas);

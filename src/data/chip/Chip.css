@@ -9,7 +9,8 @@
     padding-inline: var(--ag-space-3, 0.75rem);
     border-radius: var(--ag-radius-full, 999px);
     font-size: var(--_ag-text-sm, 0.875rem);
-    background: var(--_ag-surface-raised, Canvas);
+    /* Fill comes from the MAT content-raised material (.ag-surface
+       [data-ag-layer="content"]); the chip only sets shape and rim. */
     border: var(--_ag-border-width, 1px) solid var(--_ag-border, transparent);
   }
   .ag-chip[data-ag-size='sm'] { font-size: var(--_ag-text-xs, 0.75rem); }

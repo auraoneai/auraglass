@@ -65,6 +65,7 @@ export { GlassSparkline } from './data/GlassSparkline';
 export { GlassTimeline } from './data/GlassTimeline';
 export { GlassActivityFeed } from './data/GlassActivityFeed';
 export { GlassChip } from './data/GlassChip';
+export { GlassMetricChip } from './data/GlassMetricChip';
 export { GlassKeyValueEditor } from './data/GlassKeyValueEditor';
 export { GlassDateField } from './date/GlassDateField';
 export { GlassTimeField } from './date/GlassTimeField';
