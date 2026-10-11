@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "certification/schemas/release-verdict.schema.json",
+  "title": "AuraGlass ReleaseVerdict (S-55 REPORTS.releaseVerdict, REQ-QUAL-63)",
+  "description": "Written by `node certification/run.mjs --lane all --scope release --verdict <path>` (packages/qa/src/evidence/verdict.ts); read by plat:publish:npm. The S-55 type is { version: 1; sha; tag; items: Array<{ id: `G-${string}`; status }>; ga }. `reason`, `source`, `line`, `phase`, `advisory` and `checklist` are additive fields the type does not name.",
+  "type": "object",
+  "required": ["version", "sha", "tag", "items", "ga"],
+  "properties": {
+    "version": { "type": "integer", "enum": [1] },
+    "sha": { "type": "string", "minLength": 1 },
+    "tag": { "type": "string" },
+    "items": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "required": ["id", "status"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^G-(0[1-9]|1[0-6])$" },
+          "status": { "type": "string", "enum": ["pass", "fail", "pending"] },
+          "reason": { "type": "string" },
+          "source": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "ga": { "type": "boolean" },
+    "line": { "type": "string", "enum": ["4x", "5x"] },
+    "phase": { "type": "string", "enum": ["untagged", "alpha", "beta", "rc", "ga", "4x"] },
+    "advisory": { "type": "boolean" },
+    "checklist": { "type": "string" }
+  }
+}

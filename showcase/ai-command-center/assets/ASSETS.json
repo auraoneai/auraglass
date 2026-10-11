@@ -1,0 +1,12 @@
+{
+  "licence": "CC0-1.0",
+  "source": "Original artwork drawn from deterministic SVG by scripts/qual/showcase/generate-assets.mjs (no third-party imagery).",
+  "files": [
+    {
+      "file": "workspace-mark.avif",
+      "width": 256,
+      "height": 256,
+      "format": "avif"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+[
+  { "file": "src/material/css/surface.css", "layer": "ag.material", "bundle": "material.css", "order": 10 },
+  { "file": "src/material/css/recipe.css", "layer": "ag.material", "bundle": "material.css", "order": 20 }
+]
