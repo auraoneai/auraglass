@@ -49,9 +49,23 @@ export function exportKey(specifier: string): string | null {
 /** Repo-relative file for `key` from package.json `exports` (the runtime `default` condition, or a bare string). */
 export function distTarget(root: string, key: string): string | null {
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')) as { exports?: Record<string, ExportValue> };
-  const value = pkg.exports?.[key];
+  const exports = pkg.exports ?? {};
+  let value = exports[key];
+  let capture: string | undefined;
+  if (value === undefined) {
+    const pattern = Object.keys(exports).filter((candidate) => {
+      const star = candidate.indexOf('*');
+      return star >= 0 && key.startsWith(candidate.slice(0, star)) && key.endsWith(candidate.slice(star + 1));
+    }).sort((a, b) => b.indexOf('*') - a.indexOf('*') || b.length - a.length)[0];
+    if (!pattern) return null;
+    const star = pattern.indexOf('*');
+    capture = key.slice(star, key.length - (pattern.length - star - 1));
+    if (!capture || capture.split('/').some((part) => part === '..' || part === '.' || part === 'node_modules')) return null;
+    value = exports[pattern];
+  }
   if (value === undefined) return null;
-  const file = typeof value === 'string' ? value : value.default;
+  const runtime = typeof value === 'string' ? value : value.default;
+  const file = capture === undefined ? runtime : runtime?.replaceAll('*', capture);
   return file ? toPosix(file).replace(/^\.\//, '') : null;
 }
 
@@ -61,7 +75,15 @@ export function sourceTarget(root: string, key: string): string | null {
   if (!existsSync(manifestPath)) return null;
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as { entries?: Array<{ subpath: string; source?: string }> };
   const entry = manifest.entries?.find((e) => e.subpath === key);
-  return entry?.source ? toPosix(entry.source) : null;
+  if (entry?.source) return toPosix(entry.source);
+  // Pattern exports are not expanded into manifest rows. Resolve only the
+  // source twin of an actual exported runtime target, never an arbitrary subpath.
+  const target = distTarget(root, key);
+  if (target?.startsWith('dist/') && target.endsWith('.js')) {
+    const stem = `src/${target.slice(5, -3)}`;
+    for (const suffix of ['.ts', '.tsx']) if (existsSync(join(root, stem + suffix))) return stem + suffix;
+  }
+  return null;
 }
 
 const SOURCE_MODULE = /\.(?:[cm]?[jt]sx?)$/;
@@ -149,5 +171,24 @@ export function withAuraGlassResolution(config: InlineConfig, opts: { root: stri
     ...config,
     plugins: [auraGlassResolve(opts), ...(config.plugins ?? [])],
     define: { ...(config.define ?? {}), __AG_STORYBOOK_DIST__: JSON.stringify(opts.mode === 'dist') },
+  };
+}
+
+/** Resolve shadcn registry references without configuring a forbidden @/ alias. */
+export function registryResolve(root: string): Plugin {
+  const registryDir = resolve(root, 'registry') + sep;
+  return {
+    name: 'aura-glass:registry',
+    enforce: 'pre',
+    async resolveId(source, importer, options) {
+      if (!source.startsWith('@/registry/')) return null;
+      const target = resolve(registryDir, source.slice('@/registry/'.length));
+      if (!target.startsWith(registryDir)) this.error(`Registry import escapes registry/: ${source}`);
+      const resolved = await this.resolve(target, importer, { ...options, skipSelf: true });
+      if (!resolved || resolved.external || !resolved.id.split('?')[0]!.startsWith(registryDir)) {
+        this.error(`Registry import does not resolve inside registry/: ${source}`);
+      }
+      return resolved;
+    },
   };
 }

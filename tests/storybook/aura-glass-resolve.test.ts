@@ -9,7 +9,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import type { InlineConfig, Plugin } from 'vite';
 import {
-  auraGlassResolve, distTwin, exportKey, resolveMode, sourceAliases, withAuraGlassResolution,
+  auraGlassResolve, registryResolve, distTarget, distTwin, exportKey, resolveMode, sourceAliases, withAuraGlassResolution,
 } from '../../.storybook/build/aura-glass-resolve';
 
 const root = mkdtempSync(join(tmpdir(), 'ag-sb-resolve-'));
@@ -20,13 +20,15 @@ put('package.json', JSON.stringify({ name: 'aura-glass', exports: {
   './theme': { types: './dist/theme/public.d.ts', default: './dist/theme/public.js' },
   './charts': { types: './dist/charts/index.d.ts', default: './dist/charts/index.js' },
   './styles.css': './dist/styles.css',
+  './icons/*': { default: './dist/icons/*.js' },
+  './icons/special/*': { default: './dist/special/*.js' },
 } }));
 put('build/exports.manifest.json', JSON.stringify({ version: 1, entries: [
   { subpath: '.', source: 'src/index.ts', default: 'dist/index.js' },
   { subpath: './theme', source: 'src/theme/public.ts', default: 'dist/theme/public.js' },
 ] }));
-for (const f of ['src/index.ts', 'src/theme/public.ts', 'src/theme/index.ts', 'src/theme/AuraGlassProvider.tsx', 'src/root/mat.ts', 'src/theme/x.css']) put(f);
-for (const f of ['dist/index.js', 'dist/theme/public.js', 'dist/theme/AuraGlassProvider.js', 'dist/styles.css']) put(f);
+for (const f of ['src/icons/Arrow.tsx', 'registry/items/button.tsx', 'src/index.ts', 'src/theme/public.ts', 'src/theme/index.ts', 'src/theme/AuraGlassProvider.tsx', 'src/root/mat.ts', 'src/theme/x.css']) put(f);
+for (const f of ['dist/icons/Arrow.js', 'dist/special/Arrow.js', 'dist/index.js', 'dist/theme/public.js', 'dist/theme/AuraGlassProvider.js', 'dist/styles.css']) put(f);
 
 type Ctx = { error(msg: string): never; resolve(source: string, importer?: string): Promise<{ id: string; external?: boolean } | null> };
 function harness(plugin: Plugin, resolved: Record<string, string> = {}) {
@@ -90,6 +92,27 @@ describe('aura-glass resolution (REQ-QUAL-56)', () => {
     await expect(resolveId('aura-glass/theme', undefined)).resolves.toBe(join(root, 'src/theme/public.ts'));
     await expect(resolveId('aura-glass/styles.css', undefined)).resolves.toBe(join(root, 'dist/styles.css'));
     await expect(resolveId('../../src/root/mat', join(root, '.storybook/x.tsx'))).resolves.toBeNull();
+  });
+
+
+  it('resolves wildcard exports in both modes and uses the most specific pattern', async () => {
+    await expect(harness(auraGlassResolve({ root, mode: 'dist' }))('aura-glass/icons/Arrow')).resolves.toBe(join(root, 'dist/icons/Arrow.js'));
+    await expect(harness(auraGlassResolve({ root, mode: 'source' }))('aura-glass/icons/Arrow')).resolves.toBe(join(root, 'src/icons/Arrow.tsx'));
+    expect(distTarget(root, './icons/special/Arrow')).toBe('dist/special/Arrow.js');
+    expect(distTarget(root, './icons/../internal')).toBeNull();
+    await expect(harness(auraGlassResolve({ root, mode: 'dist' }))('aura-glass/icons/Missing')).rejects.toThrow(/not built/);
+  });
+
+  it('resolves registry imports narrowly without allowing src aliases or fallbacks', async () => {
+    const registryFile = join(root, 'registry/items/button.tsx');
+    const registryTarget = join(root, 'registry/items/button');
+    const plugin = registryResolve(root);
+    await expect(harness(plugin, { [registryTarget]: registryFile })('@/registry/items/button')).resolves.toEqual({ id: registryFile });
+    await expect(harness(plugin)('@/theme')).resolves.toBeNull();
+    await expect(harness(plugin)('@/registry/../../src/index')).rejects.toThrow(/escapes registry/);
+    await expect(harness(plugin, { [registryTarget]: join(root, 'src/index.ts') })('@/registry/items/button')).rejects.toThrow(/inside registry/);
+    expect(() => withAuraGlassResolution({ plugins: [plugin] }, { root, mode: 'dist' })).not.toThrow();
+    expect(() => withAuraGlassResolution({ resolve: { alias: [{ find: /^@\/registry\/(.+)$/, replacement: join(root, 'registry/$1') }] } }, { root, mode: 'dist' })).toThrow(/remove these aliases/);
   });
 
   it('dist mode refuses src/ and @/ aliases; source mode allows them', () => {
