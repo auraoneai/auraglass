@@ -19,6 +19,10 @@ export const BUILTINS: BuiltinRegistration[] = [
   // REQ-QUAL-04/-12 (G-12): L6 environment-visual capture driver; the spec selects the §4.2 matrix from AG_SCOPE.
   ...(['pr', 'main', 'nightly', 'release'] as const).map((scope): BuiltinRegistration =>
     ({ lane: 'L6', kind: 'playwright', path: 'certification/lanes/environment-visual.spec.ts', scope, remote: true, failClosed: true })),
+  // REQ-QUAL-24..26 (G-14): L7 pixel regression + visual-class rows; run.mjs applies the REQ-QUAL-25 branch verdict and
+  // writes .artifacts/qual/visual-class.json (REPORTS.visualClass).
+  ...(['pr', 'main', 'nightly', 'release'] as const).map((scope): BuiltinRegistration =>
+    ({ lane: 'L7', kind: 'playwright', path: 'certification/lanes/regression.spec.ts', scope, remote: true, failClosed: true })),
 ];
 
 /** Built-in L1 gates whose producer has not merged yet: reported `pending` with the producing work item. */
