@@ -22,7 +22,8 @@
       is false (evaluated on pr scope).
    7. Only qual may define certify lane jobs (implied by the name rule).
    8. No credential names or id_tokens outside plat:publish:npm
-      (NPM_ID_TOKEN, SIGSTORE_ID_TOKEN).
+      (NPM_ID_TOKEN, SIGSTORE_ID_TOKEN); id_tokens only in the publish stage;
+      environment npm-publish only on plat:publish:npm.
    9. Browser/perf invocations (playwright, lhci, chromium) run on
       .ag-playwright/.ag-gpu/.ag-aws-remote; no --maxWorkers/workers > 16.
    G-16: .github/workflows contains only mirror-to-gitlab.yml; no GHA tokens in
@@ -391,6 +392,17 @@ for (const s of STREAMS) {
     }
     for (const t of idTok) {
       if (!PUBLISH_ID_TOKENS.includes(t)) fail.push(`${file}: job '${j}' id_token '${t}' not allowed`);
+    }
+    // §4.13.7: id_tokens are held only in the publish stage, and the
+    // npm-publish environment belongs to plat:publish:npm alone (no other
+    // environment is created besides pages). @auraglass/cli (REQ-PLAT-62)
+    // therefore publishes from inside plat:publish:npm, not a second job.
+    if (idTok.length && stage !== 'publish') {
+      fail.push(`${file}: job '${j}' declares id_tokens outside the publish stage (stage '${stage}')`);
+    }
+    const envName = typeof def.environment === 'string' ? def.environment : def.environment?.name;
+    if (envName === 'npm-publish' && j !== 'plat:publish:npm') {
+      fail.push(`${file}: job '${j}' uses environment npm-publish (only plat:publish:npm may)`);
     }
 
     // rule 9 — heavyweight runner + worker counts

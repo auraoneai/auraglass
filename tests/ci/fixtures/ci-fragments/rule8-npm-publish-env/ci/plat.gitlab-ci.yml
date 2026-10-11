@@ -1,0 +1,12 @@
+.plat-base: { extends: .ag-node }
+plat:gate:glass-quality: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:integration:next: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:integration:vite: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:gate:change-class: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+# A second job in the npm-publish environment, without id_tokens (rejected by rule 8).
+plat:publish:cli:
+  extends: .plat-base
+  stage: publish
+  environment: { name: npm-publish, deployment_tier: production }
+  rules: [{ if: "$AG_SCOPE == \"release\"" }]
+  script: [npm test -w packages/cli]

@@ -114,6 +114,94 @@ describe('publish/release jobs', () => {
   });
 });
 
+// REQ-PLAT-62 (REQ-FIN-36 producer, REQ-FIN-22 wiring): v4.3 tag gates and the
+// @auraglass/cli@0.x publish.
+describe('REQ-PLAT-62 tag jobs', () => {
+  const V43 = /\$CI_COMMIT_TAG =~ \/\^v4\\\.3\\\.\//;
+  const evidence = (n: string) => {
+    const a = job(n).artifacts;
+    expect(a.name).toBe('evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA');
+    expect(a.when).toBe('always');
+    expect(a.expire_in).toBe('90 days');
+    return a.paths as string[];
+  };
+  const idTokenJobs = Object.entries(doc)
+    .filter(([k, v]) => !k.startsWith('.') && v && typeof v === 'object' && (v as any).id_tokens)
+    .map(([k]) => k);
+
+  it('only plat:publish:npm holds id_tokens or the npm-publish environment', () => {
+    expect(idTokenJobs).toEqual(['plat:publish:npm']);
+    expect(job('plat:publish:npm').stage).toBe('publish');
+    const envJobs = Object.entries(doc)
+      .filter(([k, v]) => !k.startsWith('.') && v && typeof v === 'object' && (v as any).environment?.name === 'npm-publish')
+      .map(([k]) => k);
+    expect(envJobs).toEqual(['plat:publish:npm']);
+    expect(job('plat:publish:cli')).toBeUndefined();
+  });
+
+  it('plat:release:verify-codemods runs on v4.3.* tags and writes per-job evidence', () => {
+    const j = job('plat:release:verify-codemods');
+    expect(j.stage).toBe('publish');
+    expect(j.rules).toHaveLength(1);
+    expect(j.rules[0].if).toContain('$AG_SCOPE == "release"');
+    expect(j.rules[0].if).toMatch(V43);
+    expect(evidence('plat:release:verify-codemods')).toEqual(['.artifacts/plat/$CI_JOB_NAME_SLUG/']);
+    const s = (j.script as string[]).join('\n');
+    expect(s).toContain('.artifacts/plat/$CI_JOB_NAME_SLUG/codemod-fragments.json');
+    for (const f of ['mat', 'cmp', 'surf']) expect(s).toContain(f);
+    expect(s).toContain('exit "$fail"');
+    expect(s).not.toMatch(/\|\|\s*true/);
+    expect(s).toContain('docs/release/codemods-qual.md');
+    expect(s).not.toContain('operator-codemods-qual.md');
+    expect(existsSync('docs/release/codemods-qual.md')).toBe(true);
+  });
+
+  it('plat:release:deprecation-coverage uploads deprecation-coverage.json and gates --ga on v4.3.*', () => {
+    const j = job('plat:release:deprecation-coverage');
+    expect(j.rules[0].if).toBe('$AG_SCOPE == "release"');
+    expect(evidence('plat:release:deprecation-coverage')).toEqual(['.artifacts/plat/deprecation-coverage.json']);
+    const s = (j.script as string[]).join('\n');
+    expect(s).toMatch(/v4\.3\.\*\)\s+node scripts\/release\/verify-breaking-register\.mjs --coverage-only --ga/);
+    expect(existsSync('scripts/release/verify-breaking-register.mjs')).toBe(true);
+  });
+
+  it('plat:release:verify-cli is a manual blocking credential-free gate on v4.3.* tags', () => {
+    const j = job('plat:release:verify-cli');
+    expect(j.stage).toBe('publish');
+    expect(j.id_tokens).toBeUndefined();
+    expect(j.environment).toBeUndefined();
+    expect(j.rules).toHaveLength(1);
+    expect(j.rules[0].if).toMatch(V43);
+    expect(j.rules[0].when).toBe('manual');
+    expect(j.rules[0].allow_failure).toBe(false);
+    expect(evidence('plat:release:verify-cli')).toEqual(['.artifacts/plat/$CI_JOB_NAME_SLUG/']);
+    const s = (j.script as string[]).join('\n');
+    expect(s.indexOf('npm test -w packages/cli')).toBeGreaterThanOrEqual(0);
+    expect(s.indexOf('npm run build -w packages/cli')).toBeGreaterThan(s.indexOf('npm test -w packages/cli'));
+    expect(s).toContain('migrate 4to5 --dry-run --json --allow-todo --cwd tests/fixtures/consumer-4x');
+    expect(s).toContain('filesChanged>0');
+    expect(s).not.toMatch(/\|\|\s*true|2>\/dev\/null/);
+    expect(existsSync('tests/fixtures/consumer-4x')).toBe(true);
+  });
+
+  it('plat:publish:npm publishes @auraglass/cli only on v4.3.* with verify-cli evidence', () => {
+    const j = job('plat:publish:npm');
+    const needs = j.needs.map((n: any) => n.job ?? n);
+    for (const n of ['plat:release:verify-codemods', 'plat:release:deprecation-coverage', 'plat:release:verify-cli']) {
+      expect(needs).toContain(n);
+    }
+    const cli = j.needs.find((n: any) => n.job === 'plat:release:verify-cli');
+    expect(cli).toMatchObject({ artifacts: true, optional: true });
+    const s = (j.script as string[]).join('\n');
+    const caseAt = s.indexOf('v4.3.*)');
+    expect(caseAt).toBeGreaterThan(0);
+    const guard = s.indexOf('test -s .artifacts/plat/plat-release-verify-cli/migrate-4to5-dry-run.json');
+    const publish = s.indexOf('npm publish -w packages/cli --access public --provenance');
+    expect(guard).toBeGreaterThan(caseAt);
+    expect(publish).toBeGreaterThan(guard);
+  });
+});
+
 describe('pages job', () => {
   const j = job('pages');
   it('runs only on $AG_PAGES_BRANCH with the pages environment', () => {

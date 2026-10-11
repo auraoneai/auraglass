@@ -44,6 +44,10 @@ describe('verify-ci-fragments fixtures', () => {
     'rule6-missing-required': 'not defined',
     'rule7-foreign-certify': 'outside ci/qual.gitlab-ci.yml',
     'rule8-credential': 'credential',
+    // REQ-PLAT-62: @auraglass/cli publishes from plat:publish:npm, never a second job
+    'rule8-cli-id-tokens': "job 'plat:publish:cli' declares id_tokens (only plat:publish:npm may)",
+    'rule8-npm-publish-env': "job 'plat:publish:cli' uses environment npm-publish (only plat:publish:npm may)",
+    'rule8-id-tokens-stage': "job 'plat:publish:npm' declares id_tokens outside the publish stage",
     'rule9-browser-template': 'playwright',
     'gha-token': 'GitHub Actions',
     'gha-workflow-present': 'must not exist',
@@ -60,15 +64,21 @@ describe('verify-ci-fragments fixtures', () => {
     'stage-order-legacy': 'root stages must equal contract,build,test,package,certify,deploy,publish',
   };
   const cases = existsSync(FIXTURES) ? readdirSync(FIXTURES, { withFileTypes: true })
-    .filter((d) => d.isDirectory() && !['passing', 'taskgraph-missing'].includes(d.name)).map((d) => d.name) : [];
+    .filter((d) => d.isDirectory() && !d.name.startsWith('passing') && d.name !== 'taskgraph-missing').map((d) => d.name) : [];
   it.each(cases)('rejects fixture %s', (name) => {
     const r = run(join(FIXTURES, name));
     expect(r.code).toBe(1);
     expect(r.out).toContain('contract:ci-fragments FAIL');
     if (EXPECTED[name]) expect(r.out).toContain(EXPECTED[name]);
   });
-  it('passes the passing/ fixture', () => {
-    const r = run(join(FIXTURES, 'passing'));
+  it('every failing fixture has an expected message', () => {
+    expect(cases.filter((c) => !EXPECTED[c])).toEqual([]);
+  });
+  // passing/ = the C0 seeds; passing-release-cli/ = the REQ-PLAT-62 shape
+  // (verify-codemods + manual verify-cli with evidence, CLI published from
+  // plat:publish:npm, the only job with id_tokens and the npm-publish environment).
+  it.each(['passing', 'passing-release-cli'])('passes the %s/ fixture', (name) => {
+    const r = run(join(FIXTURES, name));
     expect(r.code).toBe(0);
     expect(r.out).toContain('contract:ci-fragments OK');
   });

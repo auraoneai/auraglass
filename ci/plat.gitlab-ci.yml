@@ -414,8 +414,9 @@ plat:publish:npm:
   needs:
     - { job: "plat:package:pack", artifacts: true }
     - { job: "qual:certify:release", artifacts: true, optional: true }
-    - { job: "plat:release:verify-codemods", artifacts: false, optional: true }
+    - { job: "plat:release:verify-codemods", artifacts: true, optional: true }
     - { job: "plat:release:deprecation-coverage", artifacts: true, optional: true }
+    - { job: "plat:release:verify-cli", artifacts: true, optional: true }
   id_tokens:
     NPM_ID_TOKEN:      { aud: "npm:registry.npmjs.org" }
     SIGSTORE_ID_TOKEN: { aud: "sigstore" }
@@ -423,12 +424,17 @@ plat:publish:npm:
     - npm install -g "npm@$AG_NPM_VERSION"
     - node scripts/release/verify-release-verdict.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE"
     - node scripts/release/publish.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE" --v4-dist-tag "$AG_V4_DIST_TAG"
-    # @auraglass/cli ships from v4.3.* tags (REQ-PLAT-62). It publishes here because
-    # contract rule 8 lets only plat:publish:npm hold the npm OIDC id_token.
+    # @auraglass/cli@0.x ships from v4.3.* tags (REQ-PLAT-62). It publishes here
+    # because contract rule 8 / §4.13.7 lets only plat:publish:npm hold the npm
+    # OIDC id_tokens and the npm-publish environment. The manual
+    # plat:release:verify-cli job (no credentials) runs `npm test -w packages/cli`
+    # and `migrate 4to5 --dry-run` on the consumer fixture first; publishing
+    # fails closed without its evidence from this pipeline.
     - |
       case "$CI_COMMIT_TAG" in
         v4.3.*)
-          npm test -w packages/cli
+          test -s .artifacts/plat/plat-release-verify-cli/migrate-4to5-dry-run.json \
+            || { echo "FAIL: no plat:release:verify-cli evidence in this pipeline; @auraglass/cli is not published"; exit 1; }
           npm publish -w packages/cli --access public --provenance
           ;;
       esac
@@ -451,15 +457,32 @@ plat:release:verify-codemods:
   extends: .plat-release
   stage: publish
   rules:
-    - if: $AG_SCOPE == "release"
+    # REQ-PLAT-62: the v4.3.0 tag requires non-empty mat/cmp/surf codemod
+    # fragments (they arrive via the next -> release/4.x codemods sync,
+    # REQ-FIN-13). Earlier 4.x tags do not carry this requirement.
+    - if: $AG_SCOPE == "release" && $CI_COMMIT_TAG =~ /^v4\.3\./
   script:
+    - mkdir -p ".artifacts/plat/$CI_JOB_NAME_SLUG"
     - |
-      for f in mat cmp surf; do
-        if ! grep -q "CodemodMappingFragment" "fragments/codemods/$f.ts" || grep -qz "export default {} satisfies CodemodMappingFragment" "fragments/codemods/$f.ts"; then
-          echo "FAIL: fragments/codemods/$f.ts is empty — v4.3.0 requires non-empty mat/cmp/surf (arrive via the next -> release/4.x codemods sync, REQ-FIN-13)"; exit 1;
+      out=".artifacts/plat/$CI_JOB_NAME_SLUG/codemod-fragments.json"
+      fail=0; rows=""
+      for f in mat cmp surf qual; do
+        p="fragments/codemods/$f.ts"
+        if [ -f "$p" ] && grep -q "CodemodMappingFragment" "$p" && ! grep -qz "export default {} satisfies CodemodMappingFragment" "$p"; then st=non-empty; else st=empty; fi
+        rows="$rows{\"stream\":\"$f\",\"path\":\"$p\",\"status\":\"$st\"},"
+        if [ "$f" != "qual" ] && [ "$st" = "empty" ]; then
+          echo "FAIL: $p is empty; v4.3.0 requires non-empty mat/cmp/surf (next -> release/4.x codemods sync, REQ-FIN-13)"; fail=1
         fi
       done
-    - 'echo "codemod fragments: mat/cmp/surf non-empty (qual.ts stays {} — docs/release/decisions/operator-codemods-qual.md)"'
+      printf '{"tag":"%s","sha":"%s","fragments":[%s]}\n' "$CI_COMMIT_TAG" "$CI_COMMIT_SHA" "${rows%,}" > "$out"
+      cat "$out"
+      exit "$fail"
+    - 'echo "codemod fragments: mat/cmp/surf non-empty (qual.ts stays {}; see docs/release/codemods-qual.md)"'
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 90 days
+    paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/"]
 
 plat:release:deprecation-coverage:
   extends: .plat-release
@@ -467,12 +490,44 @@ plat:release:deprecation-coverage:
   rules:
     - if: $AG_SCOPE == "release"
   script:
-    - node scripts/release/verify-breaking-register.mjs --coverage-only --ga
+    # Coverage is written on every 4.x tag; the --ga gate (every entry covered by
+    # a published 4.x minor >= 4.2.0) applies from the v4.3.* tags (REQ-PLAT-62).
+    - |
+      case "$CI_COMMIT_TAG" in
+        v4.3.*) node scripts/release/verify-breaking-register.mjs --coverage-only --ga ;;
+        *)      node scripts/release/verify-breaking-register.mjs --coverage-only ;;
+      esac
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     when: always
     expire_in: 90 days
     paths: [.artifacts/plat/deprecation-coverage.json]
+
+plat:release:verify-cli:
+  extends: .plat-release
+  stage: publish
+  rules:
+    # Manual, blocking gate for the @auraglass/cli@0.x publish on v4.3.* tags.
+    # No credentials: plat:publish:npm does the publish (rule 8).
+    - if: $AG_SCOPE == "release" && $CI_COMMIT_TAG =~ /^v4\.3\./
+      when: manual
+      allow_failure: false
+  script:
+    - mkdir -p ".artifacts/plat/$CI_JOB_NAME_SLUG"
+    - npm test -w packages/cli
+    - npm run build -w packages/cli
+    # Dry run on the 4.x consumer fixture. TODOs are expected manual-migration
+    # notes and are recorded in the report; the run must parse and change files.
+    - node packages/cli/dist/bin.js migrate 4to5 --dry-run --json --allow-todo --cwd tests/fixtures/consumer-4x > ".artifacts/plat/$CI_JOB_NAME_SLUG/migrate-4to5-dry-run.json"
+    - >-
+      node -e 'const r=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));
+      if(r.dryRun!==true||!r.summary||!(r.summary.filesChanged>0)){console.error("FAIL: migrate 4to5 --dry-run changed no files on tests/fixtures/consumer-4x");process.exit(1)}
+      console.log("migrate 4to5 --dry-run:",JSON.stringify(r.summary))' ".artifacts/plat/$CI_JOB_NAME_SLUG/migrate-4to5-dry-run.json"
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 90 days
+    paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/"]
 
 # ---------------------------------------------------------------- certify
 
