@@ -1,0 +1,89 @@
+# Next.js
+
+AuraGlass works with the Next.js App Router and React Server Components. Requires `aura-glass@^5`, React 19 and Node 20.19 or later.
+
+For a scaffold-to-running walkthrough see the Next quickstart. This guide explains each file so you can wire an existing app by hand.
+
+## 1. Install
+
+```bash
+npm install aura-glass@^5
+```
+
+Or run `npx @auraglass/cli init`, which installs the package and writes the CSS import; the steps below show what the wiring is and why.
+
+## 2. Stylesheet
+
+At the top of `app/globals.css`:
+
+```css
+@layer theme, base, ag, components, utilities;
+@import "aura-glass/styles.css" layer(ag);
+```
+
+The layer statement keeps your own CSS (and Tailwind utilities, if you use Tailwind — see the Tailwind guide) above AuraGlass in the cascade. Without Tailwind the `theme`, `base`, `components` and `utilities` names are harmless placeholders.
+
+## 3. Provider
+
+`AuraGlassProvider` holds the user's preferences and renders the portal root that dialogs, menus, tooltips and toasts mount into. It is a client component, so render it from a small client file:
+
+```tsx
+// app/providers.tsx
+'use client';
+import { AuraGlassProvider } from 'aura-glass/theme';
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return <AuraGlassProvider>{children}</AuraGlassProvider>;
+}
+```
+
+## 4. Root layout and the pre-paint script
+
+`AuraGlassScript` is a Server Component that emits one small inline script. Render it as the **first child of `<head>`**: it applies the stored preferences (scheme, transparency, contrast, motion) to `<html>` before first paint, so there is no flash of the wrong theme.
+
+```tsx
+// app/layout.tsx
+import './globals.css';
+import { AuraGlassScript } from 'aura-glass/theme';
+import { Providers } from './providers';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <AuraGlassScript />
+      </head>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+`suppressHydrationWarning` on `<html>` is needed because the script sets `data-ag-*` attributes there before React hydrates.
+
+If you pass defaults to the provider (for example `scheme="dark"`), pass the same values to the script's `defaults` prop so the pre-paint result and the hydrated result agree. With a Content Security Policy, pass the request nonce: `<AuraGlassScript nonce={nonce} />`.
+
+## 5. Use components
+
+Server Components can import AuraGlass directly. Interactive components are already `'use client'` leaves:
+
+```tsx
+// app/page.tsx (a Server Component)
+import { Button, Card } from 'aura-glass';
+
+export default function Page() {
+  return (
+    <Card>
+      <Button>Continue</Button>
+    </Card>
+  );
+}
+```
+
+Event handlers are functions and cannot cross the server/client boundary; put components that need `onClick` and similar props in a `'use client'` file. The Server Components guide lists which entry points and components render on the server.
+
+## Static export and `next build`
+
+AuraGlass needs no `transpilePackages` entry and no webpack or Turbopack configuration: the package ships compiled ES modules with an `exports` map. `output: 'export'` works; the provider and script have no server-only dependencies.
