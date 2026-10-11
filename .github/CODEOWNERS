@@ -1,0 +1,833 @@
+# Generated from contracts/ownership.json by scripts/ci/gen-codeowners.mjs — do not edit by hand.
+# All five stream-owner approvals resolve to @gchahal1982 (sole maintainer); CONTRACT rows need all five.
+# CODEOWNERS semantics are last-match-wins, so rows emit in reverse of the first-match-wins ownership table.
+
+# Z01 owner=plat
+/** @gchahal1982
+# H03 tokens/compat-alias-map.json -> MAT (release/4.x only)
+# H02 src/styles/preview-v5.css -> MAT (release/4.x only)
+# H02 src/styles/v5.css -> MAT (release/4.x only)
+# H01 scripts/tokens/** -> MAT (release/4.x only)
+# H01 tokens/** -> MAT (release/4.x only)
+# H01 src/material/** -> MAT (release/4.x only)
+# F09 owner=mat
+/tokens/** @gchahal1982
+# F08 owner=qual
+/certification/** @gchahal1982
+# F07 owner=qual
+/showcase/** @gchahal1982
+# F06 owner=plat
+/registry/** @gchahal1982
+# F05 owner=plat
+/registry/items/transfer-list/** @gchahal1982
+# F05 owner=plat
+/registry/items/rich-text/** @gchahal1982
+# F05 owner=plat
+/registry/items/react-hook-form/** @gchahal1982
+# F05 owner=plat
+/registry/items/kanban/** @gchahal1982
+# F05 owner=plat
+/registry/items/gantt/** @gchahal1982
+# F05 owner=plat
+/registry/items/diff-viewer/** @gchahal1982
+# F05 owner=plat
+/registry/items/code-surface/** @gchahal1982
+# F05 owner=cmp
+/registry/items/confirm-dialog/** @gchahal1982
+# F05 owner=cmp
+/registry/items/account-menu/** @gchahal1982
+# F05 owner=surf
+/registry/items/media-*/** @gchahal1982
+# F05 owner=surf
+/registry/items/tree-select/** @gchahal1982
+# F05 owner=surf
+/registry/items/schema-viewer/** @gchahal1982
+# F05 owner=surf
+/registry/items/query-builder/** @gchahal1982
+# F05 owner=surf
+/registry/items/presence-stack/** @gchahal1982
+# F05 owner=surf
+/registry/items/faceted-search/** @gchahal1982
+# F05 owner=surf
+/registry/items/comment-thread/** @gchahal1982
+# F05 owner=surf
+/registry/items/backdrop-hero/** @gchahal1982
+# F05 owner=surf
+/registry/items/app-shell-workspace/** @gchahal1982
+# F05 owner=surf
+/registry/items/ai-*/** @gchahal1982
+# F05 owner=plat
+/registry/blocks/settings/** @gchahal1982
+# F05 owner=plat
+/registry/blocks/auth/** @gchahal1982
+# F05 owner=cmp
+/registry/blocks/overlay-flows/** @gchahal1982
+# F05 owner=surf
+/registry/blocks/permissions-matrix/** @gchahal1982
+# F05 owner=surf
+/registry/blocks/audit-log/** @gchahal1982
+# F05 owner=surf
+/registry/blocks/pricing/** @gchahal1982
+# F05 owner=surf
+/registry/blocks/commerce-checkout/** @gchahal1982
+# F05 owner=surf
+/registry/blocks/commerce-cart/** @gchahal1982
+# F05 owner=surf
+/registry/blocks/mobile-settings/** @gchahal1982
+# F05 owner=surf
+/registry/blocks/support-inbox/** @gchahal1982
+# F05 owner=surf
+/registry/blocks/media-viewer/** @gchahal1982
+# F05 owner=surf
+/registry/blocks/analytics-dashboard/** @gchahal1982
+# F05 owner=surf
+/registry/blocks/data-workspace/** @gchahal1982
+# F05 owner=surf
+/registry/blocks/ai-workspace/** @gchahal1982
+# F05 owner=surf
+/registry/blocks/app-frame/** @gchahal1982
+# F04 owner=plat
+/apps/docs/** @gchahal1982
+# F03 owner=plat
+/packages/mcp/** @gchahal1982
+# F03 owner=plat
+/packages/registry/** @gchahal1982
+# F03 owner=plat
+/packages/cli/** @gchahal1982
+# F02 owner=surf
+/packages/labs/** @gchahal1982
+# F01 owner=qual
+/packages/qa/** @gchahal1982
+# E04 owner=plat
+/scripts/** @gchahal1982
+# E03 owner=qual
+/scripts/qual/** @gchahal1982
+# E03 owner=surf
+/scripts/surf/** @gchahal1982
+# E03 owner=cmp
+/scripts/cmp/** @gchahal1982
+# E03 owner=mat
+/scripts/mat/** @gchahal1982
+# E02 owner=qual
+/scripts/audit/** @gchahal1982
+# E02 owner=qual
+/scripts/storybook/** @gchahal1982
+# E01 owner=mat
+/scripts/tokens/** @gchahal1982
+# D10 owner=qual
+/tests/** @gchahal1982
+# D09 owner=plat
+/tests/docs/** @gchahal1982
+# D09 owner=plat
+/tests/deprecations/** @gchahal1982
+# D09 owner=plat
+/tests/compat/** @gchahal1982
+# D09 owner=plat
+/tests/registry/** @gchahal1982
+# D09 owner=plat
+/tests/removal/** @gchahal1982
+# D09 owner=plat
+/tests/css/** @gchahal1982
+# D09 owner=plat
+/tests/react19/** @gchahal1982
+# D09 owner=plat
+/tests/side-effects/** @gchahal1982
+# D09 owner=plat
+/tests/exports/** @gchahal1982
+# D09 owner=plat
+/tests/dx/** @gchahal1982
+# D09 owner=plat
+/tests/ci/** @gchahal1982
+# D09 owner=plat
+/tests/pack/** @gchahal1982
+# D09 owner=plat
+/tests/deps/** @gchahal1982
+# D09 owner=plat
+/tests/build/** @gchahal1982
+# D09 owner=plat
+/tests/release/** @gchahal1982
+# D08 owner=surf
+/tests/capability/** @gchahal1982
+# D08 owner=surf
+/tests/labs/** @gchahal1982
+# D08 owner=surf
+/tests/charts/** @gchahal1982
+# D08 owner=surf
+/tests/backdrops/** @gchahal1982
+# D08 owner=surf
+/tests/media/** @gchahal1982
+# D08 owner=surf
+/tests/ai/** @gchahal1982
+# D08 owner=surf
+/tests/date/** @gchahal1982
+# D08 owner=surf
+/tests/data/** @gchahal1982
+# D08 owner=surf
+/tests/app-shell/** @gchahal1982
+# D07 owner=cmp
+/tests/compiler/** @gchahal1982
+# D07 owner=cmp
+/tests/icons/** @gchahal1982
+# D07 owner=cmp
+/tests/primitives/** @gchahal1982
+# D07 owner=cmp
+/tests/foundation/** @gchahal1982
+# D07 owner=cmp
+/tests/overlays/** @gchahal1982
+# D07 owner=cmp
+/tests/controls/** @gchahal1982
+# D06 owner=mat
+/tests/a11y/** @gchahal1982
+# D06 owner=mat
+/tests/theme/** @gchahal1982
+# D06 owner=mat
+/tests/motion/** @gchahal1982
+# D06 owner=mat
+/tests/tokens/** @gchahal1982
+# D06 owner=mat
+/tests/material/** @gchahal1982
+# D05 owner=qual
+/tests/e2e/** @gchahal1982
+# D05 owner=qual
+/tests/visual/** @gchahal1982
+# D05 owner=qual
+/tests/fixtures/** @gchahal1982
+# D05 owner=qual
+/tests/perf/** @gchahal1982
+# D04 owner=plat
+/tests/fixtures/consumer-4x/** @gchahal1982
+# D03 owner=qual
+/tests/fixtures/consumer-4x/cases/qual/** @gchahal1982
+# D03 owner=surf
+/tests/fixtures/consumer-4x/cases/surf/** @gchahal1982
+# D03 owner=cmp
+/tests/fixtures/consumer-4x/cases/cmp/** @gchahal1982
+# D03 owner=mat
+/tests/fixtures/consumer-4x/cases/mat/** @gchahal1982
+# D03 owner=plat
+/tests/fixtures/consumer-4x/cases/plat/** @gchahal1982
+# D02x tests/lint/* -> NONE (unowned; contract:ownership rejects)
+# D02x tests/types/* -> NONE (unowned; contract:ownership rejects)
+# D02x tests/rsc/* -> NONE (unowned; contract:ownership rejects)
+# D02x tests/ssr/* -> NONE (unowned; contract:ownership rejects)
+# D02x tests/e2e/* -> NONE (unowned; contract:ownership rejects)
+# D02x tests/visual/* -> NONE (unowned; contract:ownership rejects)
+# D02x tests/perf/browser/* -> NONE (unowned; contract:ownership rejects)
+# D02x tests/a11y/manual/scripts/* -> NONE (unowned; contract:ownership rejects)
+# D02x tests/a11y/apg/* -> NONE (unowned; contract:ownership rejects)
+# D02x tests/lint/*/** -> NONE (unowned; contract:ownership rejects)
+# D02x tests/types/*/** -> NONE (unowned; contract:ownership rejects)
+# D02x tests/rsc/*/** -> NONE (unowned; contract:ownership rejects)
+# D02x tests/ssr/*/** -> NONE (unowned; contract:ownership rejects)
+# D02x tests/e2e/*/** -> NONE (unowned; contract:ownership rejects)
+# D02x tests/visual/*/** -> NONE (unowned; contract:ownership rejects)
+# D02x tests/perf/browser/*/** -> NONE (unowned; contract:ownership rejects)
+# D02x tests/a11y/manual/scripts/*/** -> NONE (unowned; contract:ownership rejects)
+# D02x tests/a11y/manual/records/*/** -> NONE (unowned; contract:ownership rejects)
+# D02x tests/a11y/apg/*/** -> NONE (unowned; contract:ownership rejects)
+# D02 owner=qual
+/tests/lint/qual/** @gchahal1982
+# D02 owner=surf
+/tests/lint/surf/** @gchahal1982
+# D02 owner=cmp
+/tests/lint/cmp/** @gchahal1982
+# D02 owner=mat
+/tests/lint/mat/** @gchahal1982
+# D02 owner=plat
+/tests/lint/plat/** @gchahal1982
+# D02 owner=qual
+/tests/types/qual/** @gchahal1982
+# D02 owner=surf
+/tests/types/surf/** @gchahal1982
+# D02 owner=cmp
+/tests/types/cmp/** @gchahal1982
+# D02 owner=mat
+/tests/types/mat/** @gchahal1982
+# D02 owner=plat
+/tests/types/plat/** @gchahal1982
+# D02 owner=qual
+/tests/rsc/qual/** @gchahal1982
+# D02 owner=surf
+/tests/rsc/surf/** @gchahal1982
+# D02 owner=cmp
+/tests/rsc/cmp/** @gchahal1982
+# D02 owner=mat
+/tests/rsc/mat/** @gchahal1982
+# D02 owner=plat
+/tests/rsc/plat/** @gchahal1982
+# D02 owner=qual
+/tests/ssr/qual/** @gchahal1982
+# D02 owner=surf
+/tests/ssr/surf/** @gchahal1982
+# D02 owner=cmp
+/tests/ssr/cmp/** @gchahal1982
+# D02 owner=mat
+/tests/ssr/mat/** @gchahal1982
+# D02 owner=plat
+/tests/ssr/plat/** @gchahal1982
+# D02 owner=qual
+/tests/e2e/qual/** @gchahal1982
+# D02 owner=surf
+/tests/e2e/surf/** @gchahal1982
+# D02 owner=cmp
+/tests/e2e/cmp/** @gchahal1982
+# D02 owner=mat
+/tests/e2e/mat/** @gchahal1982
+# D02 owner=plat
+/tests/e2e/plat/** @gchahal1982
+# D02 owner=qual
+/tests/visual/qual/** @gchahal1982
+# D02 owner=surf
+/tests/visual/surf/** @gchahal1982
+# D02 owner=cmp
+/tests/visual/cmp/** @gchahal1982
+# D02 owner=mat
+/tests/visual/mat/** @gchahal1982
+# D02 owner=plat
+/tests/visual/plat/** @gchahal1982
+# D02 owner=qual
+/tests/perf/browser/qual/** @gchahal1982
+# D02 owner=surf
+/tests/perf/browser/surf/** @gchahal1982
+# D02 owner=cmp
+/tests/perf/browser/cmp/** @gchahal1982
+# D02 owner=mat
+/tests/perf/browser/mat/** @gchahal1982
+# D02 owner=plat
+/tests/perf/browser/plat/** @gchahal1982
+# D02 owner=qual
+/tests/a11y/manual/scripts/qual/** @gchahal1982
+# D02 owner=surf
+/tests/a11y/manual/scripts/surf/** @gchahal1982
+# D02 owner=cmp
+/tests/a11y/manual/scripts/cmp/** @gchahal1982
+# D02 owner=mat
+/tests/a11y/manual/scripts/mat/** @gchahal1982
+# D02 owner=plat
+/tests/a11y/manual/scripts/plat/** @gchahal1982
+# D02 owner=qual
+/tests/a11y/manual/records/qual/** @gchahal1982
+# D02 owner=surf
+/tests/a11y/manual/records/surf/** @gchahal1982
+# D02 owner=cmp
+/tests/a11y/manual/records/cmp/** @gchahal1982
+# D02 owner=mat
+/tests/a11y/manual/records/mat/** @gchahal1982
+# D02 owner=plat
+/tests/a11y/manual/records/plat/** @gchahal1982
+# D02 owner=qual
+/tests/a11y/apg/qual/** @gchahal1982
+# D02 owner=surf
+/tests/a11y/apg/surf/** @gchahal1982
+# D02 owner=cmp
+/tests/a11y/apg/cmp/** @gchahal1982
+# D02 owner=mat
+/tests/a11y/apg/mat/** @gchahal1982
+# D02 owner=plat
+/tests/a11y/apg/plat/** @gchahal1982
+# D01 owner=qual
+/tests/showcase/** @gchahal1982
+# D01 owner=qual
+/tests/storybook/** @gchahal1982
+# D01 owner=qual
+/tests/a11y/browser/** @gchahal1982
+# D01 owner=qual
+/tests/a11y/apg/__selftest__/** @gchahal1982
+# D01 owner=qual
+/tests/a11y/apg/harness.ts @gchahal1982
+# D01 owner=qual
+/tests/helpers/** @gchahal1982
+# D01 owner=qual
+/tests/contract/** @gchahal1982
+# C11 owner=plat
+/src/** @gchahal1982
+# C09 owner=plat
+/src/compat/css/** @gchahal1982
+# C09 owner=plat
+/src/compat/plat/** @gchahal1982
+# C09 owner=plat
+/src/internal/** @gchahal1982
+# C08 owner=surf
+/src/compat/surf/** @gchahal1982
+# C07 owner=surf
+/src/three/** @gchahal1982
+# C07 owner=surf
+/src/charts/** @gchahal1982
+# C07 owner=surf
+/src/backdrops/** @gchahal1982
+# C07 owner=surf
+/src/media/** @gchahal1982
+# C07 owner=surf
+/src/ai/** @gchahal1982
+# C07 owner=surf
+/src/date/** @gchahal1982
+# C07 owner=surf
+/src/data/** @gchahal1982
+# C07 owner=surf
+/src/app-shell/** @gchahal1982
+# C06 owner=cmp
+/src/compat/cmp/** @gchahal1982
+# C05 owner=cmp
+/src/components/** @gchahal1982
+# C04 owner=surf
+/src/components/timeline/** @gchahal1982
+# C04 owner=surf
+/src/components/source-transition/** @gchahal1982
+# C04 owner=surf
+/src/components/command-palette/** @gchahal1982
+# C04 owner=surf
+/src/components/pagination/** @gchahal1982
+# C04 owner=surf
+/src/components/breadcrumbs/** @gchahal1982
+# C04 owner=surf
+/src/components/tab-bar/** @gchahal1982
+# C04 owner=surf
+/src/components/tabs/** @gchahal1982
+# C03 owner=cmp
+/src/forms/** @gchahal1982
+# C03 owner=cmp
+/src/icons/** @gchahal1982
+# C03 owner=cmp
+/src/primitives/** @gchahal1982
+# C03 owner=cmp
+/src/foundation/** @gchahal1982
+# C02 owner=mat
+/src/compat/mat/** @gchahal1982
+# C01 owner=mat
+/src/hooks/** @gchahal1982
+# C01 owner=mat
+/src/styles/** @gchahal1982
+# C01 owner=mat
+/src/motion/** @gchahal1982
+# C01 owner=mat
+/src/a11y/** @gchahal1982
+# C01 owner=mat
+/src/theme/** @gchahal1982
+# C01 owner=mat
+/src/tokens/** @gchahal1982
+# C01 owner=mat
+/src/material/** @gchahal1982
+# B25 owner=plat
+/examples/** @gchahal1982
+# B25 owner=plat
+/visual-baselines/** @gchahal1982
+# B25 owner=plat
+/reports/** @gchahal1982
+# B24 owner=plat
+/*.mjs @gchahal1982
+# B24 owner=plat
+/nginx.conf @gchahal1982
+# B24 owner=plat
+/docker-compose*.yml @gchahal1982
+# B24 owner=plat
+/Dockerfile @gchahal1982
+# B24 owner=plat
+/server/** @gchahal1982
+# B24 owner=plat
+/bin/** @gchahal1982
+# B23 owner=plat
+/canaries/** @gchahal1982
+# B23a owner=qual
+/canaries/*/fixtures/qual/** @gchahal1982
+# B23a owner=qual
+/canaries/vite/src/qual/** @gchahal1982
+# B23a owner=qual
+/canaries/next16/app/qual/** @gchahal1982
+# B23a owner=surf
+/canaries/*/fixtures/surf/** @gchahal1982
+# B23a owner=surf
+/canaries/vite/src/surf/** @gchahal1982
+# B23a owner=surf
+/canaries/next16/app/surf/** @gchahal1982
+# B23a owner=cmp
+/canaries/*/fixtures/cmp/** @gchahal1982
+# B23a owner=cmp
+/canaries/vite/src/cmp/** @gchahal1982
+# B23a owner=cmp
+/canaries/next16/app/cmp/** @gchahal1982
+# B23a owner=mat
+/canaries/*/fixtures/mat/** @gchahal1982
+# B23a owner=mat
+/canaries/vite/src/mat/** @gchahal1982
+# B23a owner=mat
+/canaries/next16/app/mat/** @gchahal1982
+# B23a owner=plat
+/canaries/*/fixtures/plat/** @gchahal1982
+# B23a owner=plat
+/canaries/vite/src/plat/** @gchahal1982
+# B23a owner=plat
+/canaries/next16/app/plat/** @gchahal1982
+# B22 owner=plat
+/etc/api/** @gchahal1982
+# B22a owner=plat
+/etc/api/cli.css-api.json @gchahal1982
+# B22a owner=plat
+/etc/api/cli.exports.json @gchahal1982
+# B22a owner=plat
+/etc/api/cli.api.md @gchahal1982
+# B22a owner=surf
+/etc/api/charts.css-api.json @gchahal1982
+# B22a owner=surf
+/etc/api/charts.exports.json @gchahal1982
+# B22a owner=surf
+/etc/api/charts.api.md @gchahal1982
+# B22a owner=surf
+/etc/api/three.css-api.json @gchahal1982
+# B22a owner=surf
+/etc/api/three.exports.json @gchahal1982
+# B22a owner=surf
+/etc/api/three.api.md @gchahal1982
+# B22a owner=surf
+/etc/api/backdrops.css-api.json @gchahal1982
+# B22a owner=surf
+/etc/api/backdrops.exports.json @gchahal1982
+# B22a owner=surf
+/etc/api/backdrops.api.md @gchahal1982
+# B22a owner=surf
+/etc/api/media.css-api.json @gchahal1982
+# B22a owner=surf
+/etc/api/media.exports.json @gchahal1982
+# B22a owner=surf
+/etc/api/media.api.md @gchahal1982
+# B22a owner=surf
+/etc/api/ai.css-api.json @gchahal1982
+# B22a owner=surf
+/etc/api/ai.exports.json @gchahal1982
+# B22a owner=surf
+/etc/api/ai.api.md @gchahal1982
+# B22a owner=surf
+/etc/api/date.css-api.json @gchahal1982
+# B22a owner=surf
+/etc/api/date.exports.json @gchahal1982
+# B22a owner=surf
+/etc/api/date.api.md @gchahal1982
+# B22a owner=surf
+/etc/api/data.css-api.json @gchahal1982
+# B22a owner=surf
+/etc/api/data.exports.json @gchahal1982
+# B22a owner=surf
+/etc/api/data.api.md @gchahal1982
+# B22a owner=surf
+/etc/api/app-shell.css-api.json @gchahal1982
+# B22a owner=surf
+/etc/api/app-shell.exports.json @gchahal1982
+# B22a owner=surf
+/etc/api/app-shell.api.md @gchahal1982
+# B22a owner=cmp
+/etc/api/forms.css-api.json @gchahal1982
+# B22a owner=cmp
+/etc/api/forms.exports.json @gchahal1982
+# B22a owner=cmp
+/etc/api/forms.api.md @gchahal1982
+# B22a owner=cmp
+/etc/api/icons.css-api.json @gchahal1982
+# B22a owner=cmp
+/etc/api/icons.exports.json @gchahal1982
+# B22a owner=cmp
+/etc/api/icons.api.md @gchahal1982
+# B22a owner=cmp
+/etc/api/primitives.css-api.json @gchahal1982
+# B22a owner=cmp
+/etc/api/primitives.exports.json @gchahal1982
+# B22a owner=cmp
+/etc/api/primitives.api.md @gchahal1982
+# B22a owner=mat
+/etc/api/motion.css-api.json @gchahal1982
+# B22a owner=mat
+/etc/api/motion.exports.json @gchahal1982
+# B22a owner=mat
+/etc/api/motion.api.md @gchahal1982
+# B22a owner=mat
+/etc/api/tokens.css-api.json @gchahal1982
+# B22a owner=mat
+/etc/api/tokens.exports.json @gchahal1982
+# B22a owner=mat
+/etc/api/tokens.api.md @gchahal1982
+# B22a owner=mat
+/etc/api/theme.css-api.json @gchahal1982
+# B22a owner=mat
+/etc/api/theme.exports.json @gchahal1982
+# B22a owner=mat
+/etc/api/theme.api.md @gchahal1982
+# B22a owner=mat
+/etc/api/material.css-api.json @gchahal1982
+# B22a owner=mat
+/etc/api/material.exports.json @gchahal1982
+# B22a owner=mat
+/etc/api/material.api.md @gchahal1982
+# B22a owner=qual
+/etc/api/compat.qual.api.md @gchahal1982
+# B22a owner=surf
+/etc/api/compat.surf.api.md @gchahal1982
+# B22a owner=cmp
+/etc/api/compat.cmp.api.md @gchahal1982
+# B22a owner=mat
+/etc/api/compat.mat.api.md @gchahal1982
+# B22a owner=plat
+/etc/api/compat.plat.api.md @gchahal1982
+# B22a owner=mat
+/etc/api/root.mat.api.md @gchahal1982
+# B22a owner=surf
+/etc/api/root.surf.api.md @gchahal1982
+# B22a owner=cmp
+/etc/api/root.cmp.api.md @gchahal1982
+# B21 owner=plat
+/docs/** @gchahal1982
+# B20a owner=surf
+/docs/auraglass-5/capability-ledger.schema.json @gchahal1982
+# B20a owner=surf
+/docs/auraglass-5/capability-ledger.json @gchahal1982
+# B20 owner=mat
+/docs/design-tokens.md @gchahal1982
+# B20 owner=mat
+/docs/motion.md @gchahal1982
+# B19 owner=qual
+/docs/certification/** @gchahal1982
+# B18 owner=plat
+/docs/size-budgets.json @gchahal1982
+# B17 owner=plat
+/docs/dependency-allowlist.json @gchahal1982
+# B16 owner=plat
+/build/** @gchahal1982
+# B15 owner=plat
+/build/exports.manifest.json @gchahal1982
+# B14 owner=plat
+/llms.txt @gchahal1982
+# B14 owner=plat
+/LICENSE @gchahal1982
+# B14 owner=plat
+/CONTRIBUTING.md @gchahal1982
+# B14 owner=plat
+/INSTALLATION.md @gchahal1982
+# B14 owner=plat
+/SECURITY.md @gchahal1982
+# B14 owner=plat
+/RELEASE_NOTES_*.md @gchahal1982
+# B14 owner=plat
+/README*.md @gchahal1982
+# B14 owner=plat
+/CHANGELOG.md @gchahal1982
+# B13 owner=plat
+/deprecations.json @gchahal1982
+# B12a owner=plat
+/.gitlab/** @gchahal1982
+# B12 owner=plat
+/.github/** @gchahal1982
+# B11 owner=plat
+/.github/workflows/** @gchahal1982
+# B10 owner=qual
+/.storybook/** @gchahal1982
+# B09 owner=qual
+/.storybook/main.ts @gchahal1982
+# B08 owner=qual
+/__mocks__/** @gchahal1982
+# B08 owner=qual
+/vitest.storybook.config.ts @gchahal1982
+# B08 owner=qual
+/playwright.*.config.ts @gchahal1982
+# B08 owner=qual
+/playwright.config.ts @gchahal1982
+# B08 owner=qual
+/jest.setup.js @gchahal1982
+# B08 owner=qual
+/jest.*.config.js @gchahal1982
+# B08 owner=qual
+/jest.config.js @gchahal1982
+# B07 owner=mat
+/stylelint-plugin-auraglass/** @gchahal1982
+# B07 owner=mat
+/stylelint.config.mjs @gchahal1982
+# B06 owner=qual
+/stylelint.showcase.config.mjs @gchahal1982
+# B05 owner=plat
+/.eslintrc.js @gchahal1982
+# B05 owner=plat
+/eslint-plugin-auraglass.js @gchahal1982
+# B05 owner=plat
+/eslint.config.js @gchahal1982
+# B04 owner=plat
+/patches/** @gchahal1982
+# B04 owner=plat
+/.eslintignore @gchahal1982
+# B04 owner=plat
+/.env.example @gchahal1982
+# B04 owner=plat
+/.dockerignore @gchahal1982
+# B04 owner=plat
+/.lighthouserc.js @gchahal1982
+# B04 owner=plat
+/.bundlesizerc @gchahal1982
+# B04 owner=plat
+/.husky/** @gchahal1982
+# B04 owner=plat
+/.prettierrc @gchahal1982
+# B04 owner=plat
+/.gitignore @gchahal1982
+# B04 owner=plat
+/.npmignore @gchahal1982
+# B04 owner=plat
+/.dependency-cruiser.js @gchahal1982
+# B04 owner=plat
+/api-extractor.base.json @gchahal1982
+# B04 owner=plat
+/vite.config.ts @gchahal1982
+# B04 owner=plat
+/rollup.config.js @gchahal1982
+# B04 owner=plat
+/tsdown.config.ts @gchahal1982
+# B04 owner=plat
+/tsconfig*.json @gchahal1982
+# B03 owner=qual
+/tsconfig.storybook.json @gchahal1982
+# B02 owner=plat
+/package-lock.json @gchahal1982
+# B02 owner=plat
+/package.json @gchahal1982
+# B01 owner=plat
+/legacy/** @gchahal1982
+# A20 owner=qual
+/ci/qual/** @gchahal1982
+# A20 owner=qual
+/ci/qual.gitlab-ci.yml @gchahal1982
+# A20 owner=surf
+/ci/surf/** @gchahal1982
+# A20 owner=surf
+/ci/surf.gitlab-ci.yml @gchahal1982
+# A20 owner=cmp
+/ci/cmp/** @gchahal1982
+# A20 owner=cmp
+/ci/cmp.gitlab-ci.yml @gchahal1982
+# A20 owner=mat
+/ci/mat/** @gchahal1982
+# A20 owner=mat
+/ci/mat.gitlab-ci.yml @gchahal1982
+# A20 owner=plat
+/ci/plat/** @gchahal1982
+# A20 owner=plat
+/ci/plat.gitlab-ci.yml @gchahal1982
+# A19 owner=plat
+/.gitlab-ci.yml @gchahal1982
+# A18 owner=qual
+/docs/auraglass-5/tasks/QUAL.json @gchahal1982
+# A18 owner=qual
+/docs/auraglass-5/prompts/*QUAL*.md @gchahal1982
+# A18 owner=surf
+/docs/auraglass-5/tasks/SURF.json @gchahal1982
+# A18 owner=surf
+/docs/auraglass-5/prompts/*SURF*.md @gchahal1982
+# A18 owner=cmp
+/docs/auraglass-5/tasks/CMP.json @gchahal1982
+# A18 owner=cmp
+/docs/auraglass-5/prompts/*CMP*.md @gchahal1982
+# A18 owner=mat
+/docs/auraglass-5/tasks/MAT.json @gchahal1982
+# A18 owner=mat
+/docs/auraglass-5/prompts/*MAT*.md @gchahal1982
+# A18 owner=plat
+/docs/auraglass-5/tasks/PLAT.json @gchahal1982
+# A18 owner=plat
+/docs/auraglass-5/prompts/*PLAT*.md @gchahal1982
+# A18 owner=qual
+/docs/auraglass-5/AURAGLASS_QUALITY_SHOWCASE_PRD.md @gchahal1982
+# A18 owner=surf
+/docs/auraglass-5/AURAGLASS_PRODUCT_SURFACES_PRD.md @gchahal1982
+# A18 owner=cmp
+/docs/auraglass-5/AURAGLASS_CORE_COMPONENTS_PRD.md @gchahal1982
+# A18 owner=mat
+/docs/auraglass-5/AURAGLASS_MATERIAL_SYSTEM_PRD.md @gchahal1982
+# A18 owner=plat
+/docs/auraglass-5/AURAGLASS_PLATFORM_RELEASE_PRD.md @gchahal1982
+# A17 owner=qual
+/apps/docs/content/qual/** @gchahal1982
+# A16 owner=qual
+/stories/qual/** @gchahal1982
+# A15 owner=qual
+/lint/rules/qual/** @gchahal1982
+# A14 owner=qual
+/.changeset/qual-*.md @gchahal1982
+# A17 owner=surf
+/apps/docs/content/surf/** @gchahal1982
+# A16 owner=surf
+/stories/surf/** @gchahal1982
+# A15 owner=surf
+/lint/rules/surf/** @gchahal1982
+# A14 owner=surf
+/.changeset/surf-*.md @gchahal1982
+# A17 owner=cmp
+/apps/docs/content/cmp/** @gchahal1982
+# A16 owner=cmp
+/stories/cmp/** @gchahal1982
+# A15 owner=cmp
+/lint/rules/cmp/** @gchahal1982
+# A14 owner=cmp
+/.changeset/cmp-*.md @gchahal1982
+# A17 owner=mat
+/apps/docs/content/mat/** @gchahal1982
+# A16 owner=mat
+/stories/mat/** @gchahal1982
+# A15 owner=mat
+/lint/rules/mat/** @gchahal1982
+# A14 owner=mat
+/.changeset/mat-*.md @gchahal1982
+# A17 owner=plat
+/apps/docs/content/plat/** @gchahal1982
+# A16 owner=plat
+/stories/plat/** @gchahal1982
+# A15 owner=plat
+/lint/rules/plat/** @gchahal1982
+# A14 owner=plat
+/.changeset/plat-*.md @gchahal1982
+# A13 owner=contract
+/.changeset/config.json @gchahal1982
+# A08-A12 owner=qual
+/fragments/*/qual/** @gchahal1982
+# A08-A12 owner=qual
+/fragments/*/qual.json @gchahal1982
+# A08-A12 owner=qual
+/fragments/*/qual.ts @gchahal1982
+# A08-A12 owner=surf
+/fragments/*/surf/** @gchahal1982
+# A08-A12 owner=surf
+/fragments/*/surf.json @gchahal1982
+# A08-A12 owner=surf
+/fragments/*/surf.ts @gchahal1982
+# A08-A12 owner=cmp
+/fragments/*/cmp/** @gchahal1982
+# A08-A12 owner=cmp
+/fragments/*/cmp.json @gchahal1982
+# A08-A12 owner=cmp
+/fragments/*/cmp.ts @gchahal1982
+# A08-A12 owner=mat
+/fragments/*/mat/** @gchahal1982
+# A08-A12 owner=mat
+/fragments/*/mat.json @gchahal1982
+# A08-A12 owner=mat
+/fragments/*/mat.ts @gchahal1982
+# A08-A12 owner=plat
+/fragments/*/plat/** @gchahal1982
+# A08-A12 owner=plat
+/fragments/*/plat.json @gchahal1982
+# A08-A12 owner=plat
+/fragments/*/plat.ts @gchahal1982
+# A07 owner=mat
+/src/root/mat.ts @gchahal1982
+# A07 owner=surf
+/src/root/surf.ts @gchahal1982
+# A07 owner=cmp
+/src/root/cmp.ts @gchahal1982
+# A06 owner=contract
+/src/root/index.ts @gchahal1982
+# A06 owner=contract
+/src/compat/index.ts @gchahal1982
+# A06 owner=contract
+/src/index.ts @gchahal1982
+# A05 owner=contract
+/.github/CODEOWNERS @gchahal1982
+# A04 owner=contract
+/tests/contract-doubles/** @gchahal1982
+# A03 owner=contract
+/contracts/** @gchahal1982
+# A02 owner=contract
+/src/contracts/** @gchahal1982
+# A01 owner=contract
+/docs/auraglass-5/AURAGLASS_5_CONTRACTS.md @gchahal1982

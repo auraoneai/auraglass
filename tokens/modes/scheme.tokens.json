@@ -1,0 +1,28 @@
+{
+  "$schema": "../$schema.json",
+  "mode": {
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    },
+    "scheme": {
+      "$type": "mode-table",
+      "$extensions": {
+        "ag.axisDef": "scheme"
+      },
+      "$value": {
+        "default": "light",
+        "values": [
+          "light",
+          "dark"
+        ],
+        "selectors": {
+          "dark": [
+            "[data-ag-scheme=\"dark\"]",
+            "@media (prefers-color-scheme: dark)"
+          ]
+        }
+      }
+    }
+  }
+}

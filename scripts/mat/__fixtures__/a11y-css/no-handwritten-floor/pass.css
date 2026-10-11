@@ -1,0 +1,1 @@
+@layer ag.a11y { :where([data-ag-transparency="tinted"]) [data-ag-surface] { --_ag-tint-floor: var(--_ag-tint-floor-tinted, 0.55); } }

@@ -1,5 +1,18 @@
 # AuraGlass by AuraOne
 
+<!-- AG-RELEASE-BANNER -->
+> **v5.0.0 is on the `next` train.** The 5.0 alpha/beta/RC releases publish from
+> `next` under the `next` dist-tag; `latest` stays on 4.x until GA. Migrating
+> from 4.x: `npx @auraglass/cli migrate 4to5`. 4.x remains in LTS (fixes +
+> security only) for 12 months after GA — see `docs/release/lts-policy.md`.
+>
+> npm dist-tags today (checked by `verify-release-comms --dist-tags`):
+>
+> - `latest`: 4.1.0
+> - `next`: none
+> - `v4-lts`: none
+<!-- /AG-RELEASE-BANNER -->
+
 Build Liquid Glass React and Next.js interfaces without rebuilding glass surfaces, tokens, motion, accessibility guardrails, and SSR-safe package wiring from scratch.
 
 [![npm version](https://img.shields.io/npm/v/aura-glass.svg)](https://www.npmjs.com/package/aura-glass)
@@ -8,6 +21,9 @@ Build Liquid Glass React and Next.js interfaces without rebuilding glass surface
 [![TypeScript](https://img.shields.io/badge/TypeScript-ready-3178c6)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18%20%7C%2019-61dafb)](https://react.dev/)
 [![Next.js](https://img.shields.io/badge/Next.js-14%20%7C%2015-black)](https://nextjs.org/)
+
+
+**5.0 status:** pending components · pending registry blocks · tarball pending
 
 Developers use AuraGlass to:
 

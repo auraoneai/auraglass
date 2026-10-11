@@ -1,0 +1,27 @@
+{
+  "repo": "auraoneai/auraglass-server-archive",
+  "ref": "origin/release/4.x",
+  "checks": [
+    {
+      "check": "repo-exists",
+      "status": "missing",
+      "detail": "Command failed: gh repo view auraoneai/auraglass-server-archive --json name,visibility"
+    },
+    {
+      "check": "subtree-source",
+      "status": "pending-compare",
+      "detail": "ref origin/release/4.x"
+    },
+    {
+      "check": "tree-compare",
+      "status": "missing",
+      "detail": "gh unavailable"
+    },
+    {
+      "check": "readme-advisory",
+      "status": "missing",
+      "detail": "README must name the GHSA advisory, JWT_SECRET rotation, and the Kiro Prism routing rule"
+    }
+  ],
+  "generatedAt": "2026-10-08T02:16:43.915Z"
+}

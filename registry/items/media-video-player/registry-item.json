@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "media-video-player",
+  "type": "registry:item",
+  "title": "Video player",
+  "description": "Consumer-owned <video> + useMediaElement + compound MediaControls; captions via real <track kind=\"captions\"> children.",
+  "dependencies": [
+    "react",
+    "aura-glass"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
+  "files": [
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "MediaControls"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
+}

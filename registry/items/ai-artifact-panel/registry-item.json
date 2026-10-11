@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ai-artifact-panel",
+  "type": "registry:item",
+  "title": "AI artifact panel",
+  "description": "Kind-adapted side panel for agent-produced artifacts (code, document, preview, data).",
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [
+    "auraglass",
+    "code-surface"
+  ],
+  "files": [
+    {
+      "path": "ArtifactPanel.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "ResizablePanels",
+        "Tabs"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
+}

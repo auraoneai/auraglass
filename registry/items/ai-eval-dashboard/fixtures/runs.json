@@ -1,0 +1,7 @@
+{
+  "runs": [
+    { "id": "run-104", "model": "aura-large", "dataset": "support-v3", "passRate": 0.92, "deltaBaseline": 0.04, "costUsd": 3.41, "startedAt": "2026-10-06T21:12:00Z" },
+    { "id": "run-103", "model": "aura-small", "dataset": "support-v3", "passRate": 0.81, "deltaBaseline": -0.07, "costUsd": 0.62, "startedAt": "2026-10-06T20:44:00Z" },
+    { "id": "run-102", "model": "aura-large", "dataset": "refusal-edge", "passRate": 0.97, "deltaBaseline": 0.01, "costUsd": 5.88, "startedAt": "2026-10-06T19:02:00Z" }
+  ]
+}

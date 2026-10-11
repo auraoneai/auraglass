@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "a11y-contrast-matrix-contract",
+  "version": 1,
+  "owner": "MAT",
+  "note": "Machine-readable matrix contract (A11Y-owned data outside tokens/, SC-18) consumed by the PRD-03 contrast solver. No 'auto' cells — every axis is explicit.",
+  "axes": {
+    "preset": ["aura", "graphite", "daylight", "midnight"],
+    "scheme": ["light", "dark"],
+    "contrast": ["standard", "more"],
+    "transparency": ["glass", "tinted", "solid"],
+    "variant": ["regular", "clear+scrim", "identity", "content-raised", "content-sunken"],
+    "thickness": ["thin", "regular", "thick"],
+    "backdrop": ["light", "dark", "media"]
+  },
+  "cells": "preset x scheme x contrast x transparency x variant x thickness x backdrop",
+  "pairs": {
+    "on-surface": { "threshold": 4.5, "kind": "text" },
+    "on-surface-muted": { "threshold": 4.5, "kind": "text", "thresholdLargeOnly": 3, "largeOnly": ">=24px or >=18.66px @700" },
+    "on-surface-disabled": { "threshold": 3, "kind": "text" },
+    "border-strong": { "threshold": 3, "kind": "non-text" },
+    "icon": { "threshold": 3, "kind": "non-text" },
+    "focus-inner": { "threshold": 3, "kind": "non-text" },
+    "focus-outer": { "threshold": 3, "kind": "non-text" },
+    "control-boundary": { "threshold": 3, "kind": "non-text" }
+  },
+  "contrastOverrides": {
+    "more": { "text": 7, "nonTextUnchanged": true }
+  },
+  "clearVariant": { "scrimAlpha": 0.35 },
+  "solver": { "step": 0.005, "metric": "wcag2", "apca": "advisory" },
+  "artifacts": {
+    "input": "tokens/generated/opacity-floors.json",
+    "output": "dist/contrast-matrix.json"
+  }
+}

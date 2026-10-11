@@ -1,0 +1,67 @@
+[
+  {
+    "file": "docs/quickstart/next.md",
+    "text": "300",
+    "reason": "the budget itself, not a measured claim"
+  },
+  {
+    "file": "docs/quickstart/vite.md",
+    "text": "240",
+    "reason": "the budget itself, not a measured claim"
+  },
+  {
+    "file": "apps/docs/content/plat/layers-css.mdx",
+    "text": "5.0",
+    "reason": "version name, not a measured claim"
+  },
+  {
+    "file": "apps/docs/content/plat/introduction.mdx",
+    "text": "5.0",
+    "reason": "version name, not a measured claim"
+  },
+  {
+    "file": "apps/docs/content/plat/cli.mdx",
+    "text": "5.0",
+    "reason": "version name, not a measured claim"
+  },
+  {
+    "file": "apps/docs/content/plat/api.mdx",
+    "text": "5.0",
+    "reason": "version name, not a measured claim"
+  },
+  {
+    "file": "README.md",
+    "text": "5.0",
+    "reason": "version name, not a measured claim"
+  },
+  {
+    "file": "docs/quickstart/next.md",
+    "text": "300 s",
+    "reason": "time budget prose, not a measured claim"
+  },
+  {
+    "file": "docs/quickstart/vite.md",
+    "text": "240 s",
+    "reason": "time budget prose, not a measured claim"
+  },
+  {
+    "file": "README.md",
+    "text": "498 items",
+    "reason": "4.x certification audit count \u2014 sourced in reports/audit/certification-audit-spec.md"
+  },
+  {
+    "file": "README.md",
+    "text": "470 exports",
+    "reason": "4.x certification audit count \u2014 sourced in reports/audit/certification-audit-spec.md"
+  },
+  {
+    "file": "README.md",
+    "text": "28 recipes",
+    "reason": "4.x certification audit count \u2014 sourced in reports/audit/certification-audit-spec.md"
+  },
+  {
+    "file": "README.md",
+    "text": "439 exports",
+    "reason": "4.x certification audit count \u2014 sourced in reports/audit/certification-audit-spec.md"
+  }
+]

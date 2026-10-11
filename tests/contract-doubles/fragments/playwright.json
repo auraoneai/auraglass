@@ -1,0 +1,1 @@
+[ { "name": "plat:cert-smoke", "testDir": "tests/e2e/plat", "testMatch": "**/*.spec.ts" } ]

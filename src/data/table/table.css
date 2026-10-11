@@ -1,0 +1,111 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Table (SURF-156): @layer ag.components; data-ag-part selectors only;
+   density from --ag-density; logical properties only; tokens, no hex. */
+@layer ag.components {
+  .ag-table {
+    /* SURF-076: per-size pad-inline + row-height (px * density). */
+    --_ag-table-pad-inline: var(--_ag-table-pad-md, 12px);
+    --_ag-table-row-height: calc(var(--_ag-table-row-md-px, 40px) * var(--ag-density, 1));
+    min-inline-size: 0;
+  }
+  .ag-table[data-ag-size='sm'] {
+    --_ag-table-pad-inline: var(--_ag-table-pad-sm, 8px);
+    --_ag-table-row-height: calc(var(--_ag-table-row-sm-px, 32px) * var(--ag-density, 1));
+  }
+  .ag-table[data-ag-size='lg'] {
+    --_ag-table-pad-inline: var(--_ag-table-pad-lg, 16px);
+    --_ag-table-row-height: calc(var(--_ag-table-row-lg-px, 48px) * var(--ag-density, 1));
+  }
+  @media (pointer: coarse) {
+    .ag-table { --_ag-table-row-height: max(var(--_ag-touch-target, 44px), var(--_ag-table-row-height)); }
+  }
+  .ag-table__scroller {
+    overflow: auto;
+    max-inline-size: 100%;
+    scrollbar-width: thin;
+  }
+  .ag-table__table {
+    border-collapse: separate;
+    border-spacing: 0;
+    inline-size: 100%;
+    font-size: var(--_ag-text-sm, 0.875rem);
+  }
+  .ag-table__thead--sticky {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 2;
+    background: var(--_ag-surface-raised, Canvas);
+  }
+  .ag-table__th {
+    text-align: start;
+    font-weight: var(--_ag-weight-medium, 500);
+    padding-block: var(--ag-space-1, 0.25rem);
+    padding-inline: var(--_ag-table-pad-inline);
+    border-block-end: var(--_ag-border-width, 1px) solid var(--_ag-border, transparent);
+    white-space: nowrap;
+    position: relative;
+  }
+  .ag-table__sort {
+    all: unset;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ag-space-1, 0.25rem);
+    border-radius: var(--_ag-radius-1, 0.25rem);
+  }
+  .ag-table__tr { min-block-size: var(--_ag-table-row-height); }
+  .ag-table__tr[data-selected] { background: var(--_ag-accent-soft, transparent); }
+  .ag-table__td {
+    padding-block: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
+    padding-inline: var(--_ag-table-pad-inline);
+    border-block-end: var(--_ag-border-width, 1px) solid var(--_ag-border-subtle, transparent);
+    block-size: var(--_ag-table-row-height);
+    vertical-align: middle;
+  }
+  /* SURF-072: pinned cells keep their sticky offset inline (computed per
+     column); the surface paint + stacking live here. The pinned-edge attr
+     marks the last start-pinned / first end-pinned cell, which carries the
+     private --_ag-table-pin-shadow derived from --ag-shadow-thin. */
+  .ag-table__th[data-pinned],
+  .ag-table__td[data-pinned] {
+    background: var(--_ag-surface-raised, Canvas);
+    z-index: 1;
+  }
+  [data-ag-pinned-edge] {
+    --_ag-table-pin-shadow: var(--ag-shadow-thin, 0 0 0 var(--_ag-border-width, 1px) var(--_ag-border, transparent));
+    box-shadow: var(--_ag-table-pin-shadow);
+  }
+
+  .ag-table__td--truncate {
+    max-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ag-table__resize-handle {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: calc(var(--ag-space-1, 0.25rem) * -1);
+    inline-size: var(--ag-space-2, 0.5rem);
+    cursor: col-resize;
+    touch-action: none;
+  }
+  .ag-table__resize-handle::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline: calc(var(--_ag-touch-target, 44px) / -2);
+  }
+  .ag-table__col-actions {
+    display: inline-flex;
+    gap: var(--ag-space-1, 0.25rem);
+  }
+  .ag-table__col-actions button {
+    all: unset;
+    cursor: pointer;
+    min-inline-size: var(--_ag-touch-target, 2.75rem);
+    text-align: center;
+    border-radius: var(--_ag-radius-1, 0.25rem);
+  }
+}

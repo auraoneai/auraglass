@@ -1,0 +1,46 @@
+{
+  "$schema": "../$schema.json",
+  "preset": {
+    "midnight": {
+      "$type": "theme-preset",
+      "$value": {
+        "name": "Midnight",
+        "canvas": {
+          "light": {
+            "colorSpace": "oklch",
+            "components": [
+              0.96,
+              0.01,
+              270
+            ],
+            "alpha": 1
+          },
+          "dark": {
+            "colorSpace": "oklch",
+            "components": [
+              0.16,
+              0.02,
+              270
+            ],
+            "alpha": 1
+          }
+        },
+        "neutralHue": 270,
+        "accent": {
+          "colorSpace": "oklch",
+          "components": [
+            0.6,
+            0.18,
+            290
+          ],
+          "alpha": 1
+        },
+        "radiusScale": 1.25
+      }
+    },
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    }
+  }
+}

@@ -1,0 +1,2 @@
+.mat-base: { extends: .ag-node }
+mat:build:x: { extends: .mat-base, stage: build, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [x], artifacts: { name: e, when: always, paths: [.artifacts/plat/] } }

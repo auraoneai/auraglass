@@ -1,0 +1,856 @@
+{
+  "$schema": "../$schema.json",
+  "sys": {
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    },
+    "shadow": {
+      "$description": "4 layers x 3 thicknesses x 2 schemes; private --_ag-shadow-<layer>-<thickness> (MAT-020).",
+      "content-thin": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 1,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.05
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 1,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.08
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-shadow-content-thin",
+          "ag.valueType": "shadow"
+        }
+      },
+      "content-regular": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 2,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.07
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 2,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.112
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-shadow-content-regular",
+          "ag.valueType": "shadow"
+        }
+      },
+      "content-thick": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 4,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.08
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 4,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.128
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-shadow-content-thick",
+          "ag.valueType": "shadow"
+        }
+      },
+      "chrome-thin": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 4,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.1
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 4,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.16
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-shadow-chrome-thin",
+          "ag.valueType": "shadow"
+        }
+      },
+      "chrome-regular": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 6,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.12
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 6,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.192
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-shadow-chrome-regular",
+          "ag.valueType": "shadow"
+        }
+      },
+      "chrome-thick": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 10,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.14
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 10,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.224
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-shadow-chrome-thick",
+          "ag.valueType": "shadow"
+        }
+      },
+      "overlay-thin": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 8,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.16
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 8,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.256
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-shadow-overlay-thin",
+          "ag.valueType": "shadow"
+        }
+      },
+      "overlay-regular": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 12,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.18
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 12,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.288
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-shadow-overlay-regular",
+          "ag.valueType": "shadow"
+        }
+      },
+      "overlay-thick": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 16,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.2
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 16,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.32
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-shadow-overlay-thick",
+          "ag.valueType": "shadow"
+        }
+      },
+      "transient-thin": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 12,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.22
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 12,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.352
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-shadow-transient-thin",
+          "ag.valueType": "shadow"
+        }
+      },
+      "transient-regular": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 16,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.24
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 16,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.384
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-shadow-transient-regular",
+          "ag.valueType": "shadow"
+        }
+      },
+      "transient-thick": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 20,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.26
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 0,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 20,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.416
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-shadow-transient-thick",
+          "ag.valueType": "shadow"
+        }
+      }
+    },
+    "z": {
+      "content": {
+        "$type": "number",
+        "$value": 0,
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-z-content"
+        }
+      },
+      "chrome": {
+        "$type": "number",
+        "$value": 100,
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-z-chrome"
+        }
+      },
+      "overlay": {
+        "$type": "number",
+        "$value": 1000,
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-z-overlay"
+        }
+      },
+      "transient": {
+        "$type": "number",
+        "$value": 1100,
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-z-transient"
+        }
+      },
+      "toast": {
+        "$type": "number",
+        "$value": 1200,
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-z-toast"
+        }
+      }
+    }
+  }
+}

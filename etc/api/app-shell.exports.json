@@ -1,0 +1,13 @@
+{
+ "entry": "app-shell",
+ "exports": [
+  "AppShell",
+  "Inspector",
+  "MobileShell",
+  "ResizablePanels",
+  "Sidebar",
+  "StatusBar",
+  "TopBar"
+ ],
+ "unanalysable": []
+}

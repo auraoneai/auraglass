@@ -1,0 +1,68 @@
+import { defineMeta } from '../../foundation';
+import type { ControlMeta } from '../control-shared/meta';
+
+/* CMP-264 (REQ-CMP-22): Popover meta — thickness regular, budgetKb 14,
+   blurredLayers 1, apg dialog (non-modal) + disclosure, lineage rows per §2.4. */
+const meta: ControlMeta = defineMeta({
+  name: 'Popover',
+  owner: 'CMP',
+  entry: '.',
+  tier: 'T1',
+  flagship: 19,
+  rsc: 'client',
+  parts: [
+    'trigger', 'positioner', 'popup', 'arrow', 'title', 'description', 'close',
+  ],
+  states: [
+    'open', 'closed', 'starting-style', 'ending-style', 'animating',
+  ],
+  variants: {
+    side: ['top', 'bottom', 'left', 'right', 'inline-start', 'inline-end'],
+    align: ['start', 'center', 'end'],
+    openOnHover: ['true', 'false'],
+    variant: ['regular'],
+  },
+  material: { layer: 'overlay', refractionEligible: false },
+  apg: 'dialog-modal',
+  budgetKb: 14000 / 1024,
+  migration: [
+    {
+      from: 'GlassPopover',
+      props: {
+        open: 'open',
+        onClose: { to: 'onOpenChange' },
+        title: 'Popover.Title',
+        content: 'Popover.Popup children',
+        side: 'Positioner side',
+        align: 'Positioner align',
+      },
+      selectors: { '.glass-popover': '.ag-popover' }, automation: 'mostly',
+      compat: true,
+    },
+    {
+      from: 'GlassHoverCard',
+      props: {
+        open: 'open',
+        trigger: 'Popover.Trigger openOnHover',
+        content: 'Popover.Popup children',
+      },
+      selectors: { '.glass-hover-card': '.ag-popover' }, automation: 'partial', // HoverCard successor = Trigger openOnHover + delay/closeDelay
+      compat: false,
+    },
+    {
+      from: 'GlassTooltip',
+      // The codemod maps GlassTooltip.content to Tooltip.Popup children (Tooltip meta, S-39);
+      // moving rich/interactive content into Popover.Popup children is a manual step.
+      props: {},
+      selectors: { '.glass-tooltip': '.ag-popover' }, automation: 'partial', // rich/interactive content uses Popover; plain hints use Tooltip
+      compat: false,
+    },
+    {
+      from: 'GlassDropdown',
+      props: { items: 'Menu.Item children', open: 'open' },
+      selectors: { '.glass-dropdown': '.ag-popover' }, automation: 'manual', // action-list dropdowns go to Menu; panels stay Popover
+      compat: false,
+    },
+  ],
+});
+export default meta;

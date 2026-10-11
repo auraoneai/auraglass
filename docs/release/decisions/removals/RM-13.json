@@ -1,0 +1,24 @@
+{
+  "family": "RM-13",
+  "title": "Remove 4.x docs and tests",
+  "decision": "All listed 4.x documentation trees and the legacy test tree are removed on next; they are superseded by apps/docs 5.0 content and the jest suite. docs/release-rollback-deprecation.md and docs/auraglass-5/** stay; docs/{motion,design-tokens}.md are MAT-owned.",
+  "paths": [
+    "docs/components",
+    "docs/guides/consciousness-interface.md",
+    "docs/guides/consciousness-migration.md",
+    "docs/guides/migration.md",
+    "docs/guides/ssr-setup.md",
+    "docs/liquid-glass/migration.md",
+    "docs/recipes/readme.md",
+    "docs/cli/migration.md",
+    "docs/theme/theme-engine.md",
+    "docs/app-shell/readme.md",
+    "docs/package-entrypoints.md",
+    "docs/readme.md",
+    "INSTALLATION.md",
+    "legacy/tests"
+  ],
+  "consumerGrep": "pending \u2014 scripts/removal/consumer-grep.mjs lives on lane 1c's unmerged branch; FAMILY_PATHS lacks RM-13 (recorded deviation). Record produced manually per the family schema.",
+  "revertDryRun": "pending \u2014 plat:gate:removal runs it remotely",
+  "sha": null
+}

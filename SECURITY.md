@@ -1,53 +1,47 @@
-# Security Policy
+# Security policy — aura-glass 5.x
 
-AuraGlass is a React and Next.js component package. Security reports should focus on package behavior, build artifacts, server helpers, auth-sensitive utilities, dependency exposure, generated outputs, and documentation that could lead users to unsafe integration patterns.
-
-## Supported Versions
+## Supported versions
 
 | Version | Status |
 | --- | --- |
-| 3.1.x | Active launch line |
-| 3.0.x | Maintenance fixes as needed |
-| < 3.0 | Not supported |
+| 5.x (latest minor) | Supported — fixes and security patches |
+| 4.x | LTS for 12 months after 5.0.0 GA — C-I + security fixes only (see `docs/release/lts-policy.md`) |
+| < 4.x | Not supported |
 
-## Reporting A Vulnerability
+## Reporting a vulnerability
 
-Do not open a public GitHub issue for suspected vulnerabilities.
+Report privately; do not open a public issue.
 
-Use GitHub private vulnerability reporting for this repository:
-
-https://github.com/auraoneai/auraglass/security/advisories/new
+- GitHub private vulnerability reporting:
+  <https://github.com/auraoneai/auraglass/security/advisories/new>, or
+- email the security contact listed in `package.json` (`author`/`maintainers`
+  block) when private reporting is unavailable.
 
 Include:
 
-- affected AuraGlass version
+- affected aura-glass version(s)
 - package entrypoint or file path involved
 - minimal reproduction or proof of concept
-- impact assessment
-- whether the issue affects browser-only code, SSR, server helpers, workers, AI services, websocket services, or documentation
+- impact assessment (browser-only code, SSR helpers, workers, docs, supply chain)
 - known mitigations, if any
+- whether the issue needs a registry-side action (deprecate, unpublish window)
 
-## Response Expectations
+We acknowledge within 3 business days and aim to ship a fix or a documented
+mitigation inside 30 days for confirmed reports.
 
-Maintainers should acknowledge valid reports, triage severity, and coordinate a fix before public disclosure when the report is actionable. Fixes should include focused tests or audit coverage when practical.
+## What counts as a security exception
 
-## Security-Relevant Release Gates
+Deprecation entries that must land inside a minor (instead of the removal
+train) may carry an `exception: 'security'` field **only with committed
+evidence** (advisory link or incident record under `docs/release/decisions/`).
+The same applies to privacy, crash, legal and honesty exceptions — the
+exception allowlist in `docs/release/exception-allowlist.json` governs them.
 
-Security-sensitive changes should consider these checks before release:
+## Scope notes
 
-```bash
-npm run audit:runtime
-npm run audit:exports
-npm run typecheck
-npm run lint:check
-npm run verify:pack
-npm run test:integration:next -- --skip-build
-```
-
-For full release readiness, use the 3.1 package-gate ledger:
-
-- [reports/3.1-release/package-gates.md](./reports/3.1-release/package-gates.md)
-
-## Scope Notes
-
-AuraGlass includes optional integrations for AI, media, websocket collaboration, Sentry, and 3D/AR feature families. Optional peers should stay optional, React should not be bundled into package outputs, and server/helper entrypoints should avoid leaking credentials, tokens, or sensitive diagnostics.
+- `aura-glass` is a client-side component library; server-side surfaces were
+  removed for 5.0.0 (see breaking register `docs/release/breaking-changes.json`,
+  B-id for removed server exports). Vulnerabilities in the removed surface are
+  handled by upgrading to 5.x.
+- Supply-chain questions (provenance, dist-tags, npm deprecations) follow the
+  rollback runbook `docs/release-rollback-deprecation.md`.

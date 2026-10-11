@@ -1,0 +1,3 @@
+@import "../../../../dist/css/tailwind.css";
+@source inline("glass-regular glass-thin content-sunken bg-accent/50 ag-dark:bg-canvas");
+@tailwind utilities;

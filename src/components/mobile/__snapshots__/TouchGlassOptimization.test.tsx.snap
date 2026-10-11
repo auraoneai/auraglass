@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`TouchGlassOptimization matches snapshot 1`] = `
-<div
-  class="relative overflow-hidden touch-none select-none"
-  draggable="false"
-  style="background-color: rgba(255, 255, 255, 0.12); --glass-text-primary: rgba(15,23,42,0.94); --glass-text-secondary: rgba(15,23,42,0.76); --typography-text-primary: rgba(15,23,42,0.94); --typography-text-secondary: rgba(15,23,42,0.76); border: 1px solid rgba(32,32,32,0.14); border-radius: 12px; box-shadow: 0 14px 34px rgba(32,32,32,0.1), inset 0 1px 0 rgba(255,255,255,0.26); transition: all 200ms ease-out; position: relative; transform: none; min-height: 44px; min-width: 44px; opacity: 1; user-select: none;"
-/>
-`;

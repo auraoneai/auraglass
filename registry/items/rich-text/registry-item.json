@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "rich-text",
+  "type": "registry:item",
+  "title": "Rich text",
+  "description": "Tiptap editor card on the CMP Toolbar grammar with a read-only static fallback.",
+  "dependencies": ["react", "aura-glass@^5", "@tiptap/core@^3", "@tiptap/starter-kit@^3"],
+  "registryDependencies": ["auraglass"],
+  "files": [
+    { "path": "index.tsx", "type": "registry:item" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "item",
+      "client": true,
+      "components": ["Card", "Text", "Toolbar"],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null,
+      "replaces": []
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "auraglass/consumer-4x-cases/v1",
+  "owner": "mat",
+  "description": "D03: frozen 4.x usage cases for the MAT domain (material, theme, motion). Pixel-unchanged on 4.2/4.3 without data-ag-preview=\"v5\".",
+  "cases": [
+    { "id": "glass-card", "covers": ["OptimizedGlass", "intent", "elevation", "tier", "glowIntensity", "liftOnHover"] },
+    { "id": "liquid-material", "covers": ["LiquidGlassMaterial", "ior", "adaptToContent", "adaptToMotion", "tintMode", "performanceLevel"] },
+    { "id": "effect-group", "covers": ["LiquidGlassEffectGroup", "LiquidGlassLayerProvider", "morph", "samplingStrategy"] },
+    { "id": "scroll-edge", "covers": ["LiquidGlassScrollEdge", "LiquidGlassConcentricFrame", "styleMode", "asContainer"] },
+    { "id": "css-vars", "covers": ["--glass-space-*", "--glass-radius-*", "--glass-accent-*", "--glass-motion-*", "--glass-font-*", "--glass-backdrop-fallback-*"] },
+    { "id": "provider-motion", "covers": ["ThemeProvider", "MotionPreferenceProvider", "useMotionPreference", "useReducedMotion"] }
+  ]
+}

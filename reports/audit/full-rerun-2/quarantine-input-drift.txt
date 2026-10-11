@@ -1,1 +1,0 @@
-Quarantined: recipe evidence hash changed after capture start because recipe harness spawned asynchronous screenshot phase. 54 items had passed, but authoritative input was not frozen.

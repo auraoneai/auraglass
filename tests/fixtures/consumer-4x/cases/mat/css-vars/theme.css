@@ -1,0 +1,23 @@
+/* Frozen 4.x consumer case — app styles reading --glass-* variables directly.
+   compat-alias-map must carry every name read here. */
+.app-card {
+  padding: var(--glass-space-4) var(--glass-space-6);
+  border-radius: var(--glass-radius-md);
+  border: 1px solid var(--glass-accent-primary-border);
+  background: var(--glass-backdrop-fallback-bg);
+  color: var(--glass-text-primary);
+  font-size: var(--glass-font-size-base);
+  transition-duration: var(--glass-motion-duration-fast);
+  transition-timing-function: var(--glass-motion-ease-standard);
+}
+
+.app-card--danger {
+  border-color: var(--glass-accent-danger-border);
+  color: var(--glass-accent-danger-fg);
+}
+
+.app-toolbar {
+  gap: var(--glass-space-2);
+  border-radius: var(--glass-radius-sm);
+  font-weight: var(--glass-font-semibold);
+}

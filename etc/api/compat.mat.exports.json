@@ -1,0 +1,14 @@
+{
+ "entry": "compat.mat",
+ "source": "src/compat/mat/index.ts",
+ "exports": [
+  "GlassCore",
+  "LiquidGlassConcentricFrame",
+  "LiquidGlassEffectGroup",
+  "LiquidGlassLayerProvider",
+  "LiquidGlassMaterial",
+  "LiquidGlassScrollEdge",
+  "OptimizedGlass",
+  "OptimizedGlassAdvanced"
+ ]
+}

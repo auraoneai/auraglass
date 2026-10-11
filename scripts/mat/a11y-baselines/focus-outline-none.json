@@ -1,0 +1,8 @@
+{
+  "rule": "focus:outline-none occurrences in src/**",
+  "count": 0,
+  "ratchet": "decrease-only",
+  "measuredAt": "next",
+  "legacyBaseline": 109,
+  "note": "109 occurrences at 4.1 (all under legacy/**). Lowered to the current rg -c 'focus:outline-none' src total; lowered again after each flagship/removal PR. The beta gate runs verify-a11y-css.mjs --enforce-zero."
+}

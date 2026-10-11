@@ -1,0 +1,12 @@
+{
+ "entry": "media",
+ "exports": [
+  "CarouselRail",
+  "ImageViewer",
+  "MediaControls",
+  "MediaScrubber",
+  "NowPlayingBar",
+  "formatMediaTime",
+  "useMediaElement"
+ ]
+}

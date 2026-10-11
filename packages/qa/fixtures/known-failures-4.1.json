@@ -1,0 +1,68 @@
+{
+  "$comment": "REQ-QUAL-32 / AC-QUAL-01 (QUAL, FIN-434): failures the certification must report against the AuraGlass 4.1.0 Storybook. A certification that passes 4.1.0 is broken: certification/lanes/known-failures.spec.ts fails when any entry is not reported with its gate id. Subjects and expectations come from PRD-QUAL REQ-QUAL-32 and the 4.1 runtime autopsy (docs/auraglass-5/autopsy/runtime-remote.md); `reference41` values are what that autopsy measured, recorded for comparison only and never used as a pass condition.",
+  "tag": "v4.1.0",
+  "commit": "15b6de6f74e66bcaa4e09f6bc2c8e0b5bdaeae07",
+  "provenance": {
+    "autopsy": "docs/auraglass-5/autopsy/runtime-remote.md",
+    "metrics": "s3://auraone-human-ei-test-605199373751-us-west-2/human-ei/evidence/auraglass5-autopsy-15b6de6f74e6-20261007T005723Z/results.tar.gz#out/metrics.json",
+    "metricsSha256": "eb81324dc59bb9c3fea621b5310e08b1da0c1244f7beb8f57b9695319b6f73e4",
+    "modeSubset": "metrics.json `a11ySubset`: the 12 desktop stories measured under reduced-motion, contrast-more and forced-colors"
+  },
+  "viewport": { "width": 1440, "height": 900 },
+  "expected": [
+    {
+      "id": "app-shell-ocr-contrast",
+      "story": "3-2-app-shell--saa-s-app-shell",
+      "mode": "default",
+      "gate": "ocr-contrast",
+      "expect": { "status": "fail", "worstRatioAtMost": 2.2 },
+      "reference41": "ink rgba(0,0,0,.9) on rgb(13,31,43): 1.12-2.14:1 (autopsy finding 2)"
+    },
+    {
+      "id": "glass-modal-cost",
+      "story": "surfaces-modals-glass-modal--default",
+      "mode": "default",
+      "pointer": "fine",
+      "gate": "cost",
+      "expect": { "status": "fail" },
+      "reference41": "12 visible backdrop filters (autopsy finding 5)"
+    },
+    {
+      "id": "contrast-more-noop",
+      "stories": [
+        "foundations-liquid-glass-primitives-glass-core--default",
+        "foundations-liquid-glass-primitives-liquid-glass-material--default",
+        "controls-buttons-glass-button--default",
+        "surfaces-cards-panels-glass-card--default",
+        "controls-inputs-glass-input--default",
+        "controls-inputs-glass-select--default",
+        "surfaces-modals-glass-modal--default",
+        "navigation-glass-navigation--default",
+        "data-visualization-glass-data-table--default",
+        "workflows-glass-chat--default",
+        "3-2-app-shell--saa-s-app-shell",
+        "showcases-liquid-glass-showcase--app-experience"
+      ],
+      "mode": "contrast-more",
+      "gate": "preference-noop",
+      "expect": { "status": "fail", "every": true },
+      "reference41": "0.000 pixel difference on 12/12 stories (autopsy finding 3)"
+    },
+    {
+      "id": "showcase-forced-colors-backdrop",
+      "story": "showcases-liquid-glass-showcase--app-experience",
+      "mode": "forced-colors",
+      "gate": "forced-colors-no-backdrop",
+      "expect": { "status": "fail" },
+      "reference41": "12 -> 12 visible backdrop filters under forced colors (autopsy finding 4)"
+    },
+    {
+      "id": "page-transition-pageerror",
+      "storyImportPath": "src/components/interactive/PageTransitionDemo.stories.tsx",
+      "mode": "default",
+      "gate": "console",
+      "expect": { "status": "fail", "kind": "pageerror" },
+      "reference41": "pageerror 'Invalid easing type' (QUAL task QUAL-105)"
+    }
+  ]
+}

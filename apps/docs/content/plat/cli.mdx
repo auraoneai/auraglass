@@ -1,0 +1,12 @@
+# CLI
+
+`@auraglass/cli` scaffolds the design token layer and installs registry
+items into your app.
+
+```bash
+npx @auraglass/cli init       # writes components.json + token aliases
+npx @auraglass/cli add auth   # installs the auth block
+```
+
+`init` is idempotent; `add` writes the item's files under `components/` and
+declares its dependencies. See the quickstarts for the full path.

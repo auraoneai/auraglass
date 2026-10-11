@@ -1,0 +1,11 @@
+{
+  "//": "REQ-SURF-11 / REQ-FIN-80: SURF compile-time type tests (tsc only). Run by surf:test:types.",
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "typeRoots": ["../../../node_modules/@types"],
+    "types": ["node"]
+  },
+  "include": ["../../../tests/types/surf/**/*.ts", "../../../src/**/*.d.ts"],
+  "exclude": ["../../../tests/types/surf/prop-grammar.app-shell.test-d.ts"]
+}

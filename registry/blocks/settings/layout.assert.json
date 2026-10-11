@@ -1,0 +1,9 @@
+{
+  "subject": "settings",
+  "overflow": { "horizontal": false },
+  "touchTargets": { "default": 24, "mobilePrimary": 44 },
+  "breakpoints": [320, 390, 1440],
+  "landmarks": ["main"],
+  "focusable": ["[role='tab']", "button", "input"],
+  "containerQueries": ["@container"]
+}

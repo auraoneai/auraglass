@@ -1,0 +1,20 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
+import { MediaTranscript } from './index';
+import { TRANSCRIPT_CUES } from './fixtures';
+
+const meta: Meta<typeof MediaTranscript> = {
+  title: 'registry/media-transcript',
+  component: MediaTranscript,
+  parameters: { ag: { subject: 'media-transcript', kind: 'showcase', scenes: 'all' } satisfies StoryAgParameters },
+};
+export default meta;
+type Story = StoryObj<typeof MediaTranscript>;
+
+const cues = TRANSCRIPT_CUES;
+export const Default: Story = { args: { cues } };
+export const Static: Story = { args: { cues } };
+export const Empty: Story = { args: { cues: [] } };
+export const RTL: Story = { args: { cues }, decorators: [(S) => <div dir="rtl"><S /></div>] };
+export const ReducedTransparency: Story = { args: { cues }, parameters: { agEnvironment: { transparency: 'none' } } };
+export const ForcedColors: Story = { args: { cues }, parameters: { agEnvironment: { forcedColors: 'active' } } };

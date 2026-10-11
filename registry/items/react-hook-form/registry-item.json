@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "react-hook-form",
+  "type": "registry:item",
+  "title": "React Hook Form adapter",
+  "description": "Binds CMP Field + TextField to react-hook-form Controller — uncontrolled fallback until the engine installs.",
+  "dependencies": ["react", "aura-glass@^5", "react-hook-form@^7"],
+  "registryDependencies": ["auraglass"],
+  "files": [
+    { "path": "index.tsx", "type": "registry:item" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "item",
+      "client": true,
+      "components": ["Field", "TextField"],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null,
+      "replaces": []
+    }
+  }
+}

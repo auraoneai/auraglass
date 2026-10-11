@@ -1,0 +1,12 @@
+{
+  "$schema": "../schemas/exception-allowlist.schema.json",
+  "version": 1,
+  "note": "Deprecation entries with `exception` set (security|privacy|crash|legal|honesty) that may skip the prior-deprecation rule: they did not need to ship in a published 4.x minor >= 4.2.0 before removal. The 4.1.1 DEP-P ids are pre-approved here; every later exception entry must be added explicitly.",
+  "allowlist": [
+    "DEP-P0001"
+  ],
+  "rules": {
+    "appliesTo": "prior-deprecation coverage only (never marker, register or fragment rules)",
+    "reviewers": ["PLAT lane owner", "release owner"]
+  }
+}

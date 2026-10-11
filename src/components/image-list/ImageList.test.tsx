@@ -1,106 +1,59 @@
-'use client';
-/**
- * ImageList Component Tests
- *
- * Test Suite Coverage:
- * - ✅ Smoke test (renders without crashing)
- * - ✅ Props validation
- * - ✅ Accessibility (axe-core)
- * - ⏭️  ARIA attributes (not applicable)
- * - ⏭️  Focus management (not applicable)
- * - ✅ Reduced motion support
- */
-
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { ImageList } from '@/components/image-list/ImageList';
-
-// Extend Jest matchers
-expect.extend(toHaveNoViolations);
+/* CMP-308/424: ImageList — generated for lane 3g (T0/T2 components). */
+import { describe, expect, it } from '@jest/globals';
+import { render } from '@testing-library/react';
+import * as React from 'react';
+import { ImageList } from './index';
 
 describe('ImageList', () => {
-  /**
-   * Smoke Test: Component renders without crashing
-   */
-  it('renders without crashing', () => {
-    const { container } = render(<ImageList />);
-    expect(container).toBeInTheDocument();
-  });
-
-  /**
-   * Accessibility Test: No axe violations
-   */
-  it('has no accessibility violations', async () => {
-    const { container } = render(<ImageList />);
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
-
-  
-
-  
-
-  
-  /**
-   * Reduced Motion Tests
-   */
-  describe('Reduced Motion Support', () => {
-    it('respects prefers-reduced-motion', () => {
-      // Mock matchMedia for reduced motion
-      Object.defineProperty(window, 'matchMedia', {
-        writable: true,
-        value: jest.fn().mockImplementation(query => ({
-          matches: query === '(prefers-reduced-motion: reduce)',
-          media: query,
-          onchange: null,
-          addListener: jest.fn(),
-          removeListener: jest.fn(),
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
-      const { container } = render(<ImageList />);
-
-      // Check that animations are disabled or reduced
-      const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
-      animatedElements.forEach(element => {
-        const styles = window.getComputedStyle(element);
-        const animationDuration = parseFloat(styles.animationDuration || '0');
-        const transitionDuration = parseFloat(styles.transitionDuration || '0');
-
-        // Animations should be instant or very short (< 0.1s)
-        expect(animationDuration).toBeLessThan(0.1);
-        expect(transitionDuration).toBeLessThan(0.1);
-      });
-    });
-  });
-
-  /**
-   * Props Validation: Accepts and renders with custom props
-   */
-  it('accepts and renders with custom props', () => {
+  it('renders root/item parts', () => {
     const { container } = render(
-      <ImageList
-        className="custom-class"
-        data-testid="imagelist"
-      />
+      <ImageList cols={3}>
+        <ImageList.Item><img alt="a" /></ImageList.Item>
+      </ImageList>,
     );
-
-    const element = container.querySelector('[data-testid="imagelist"]')
-      || container.firstChild;
-
-    expect(element).toHaveClass('custom-class');
+    expect(container.querySelector('[data-ag-part="root"]')).not.toBeNull();
+    expect(container.querySelector('[data-ag-part="item"]')).not.toBeNull();
   });
-
-  /**
-   * Snapshot Test: Matches snapshot
-   */
-  it('matches snapshot', () => {
-    const { container } = render(<ImageList />);
-    expect(container.firstChild).toMatchSnapshot();
+  it('ItemBar declares data-ag-backdrop="media" and text parts', () => {
+    const { container } = render(
+      <ImageList>
+        <ImageList.Item>
+          <img alt="a" />
+          <ImageList.ItemBar title="T" subtitle="S" actionIcon={<button>go</button>} />
+        </ImageList.Item>
+      </ImageList>,
+    );
+    const bar = container.querySelector('[data-ag-part="item-bar"]')!;
+    expect(bar.getAttribute('data-ag-backdrop')).toBe('media');
+    expect(container.querySelector('[data-ag-part="item-bar-title"]')!.textContent).toBe('T');
+    expect(container.querySelector('[data-ag-part="item-bar-subtitle"]')!.textContent).toBe('S');
+    expect(container.querySelector('[data-ag-part="item-bar-action"]')).not.toBeNull();
+  });
+  it('masonry clamps cols by observed container width', () => {
+    const old = (globalThis as Record<string, unknown>).ResizeObserver;
+    (globalThis as Record<string, unknown>).ResizeObserver = class {
+      private cb: (entries: Array<{ contentRect: { width: number } }>) => void;
+      constructor(cb: (entries: Array<{ contentRect: { width: number } }>) => void) { this.cb = cb; }
+      observe() { this.cb([{ contentRect: { width: 100 } }]); }
+      unobserve() {} disconnect() {}
+    };
+    try {
+      const { container } = render(<ImageList variant="masonry" cols={6} minItemWidth={160}><ImageList.Item><img alt="a" /></ImageList.Item></ImageList>);
+      expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-cols')).toBe('1');
+    } finally {
+      (globalThis as Record<string, unknown>).ResizeObserver = old;
+    }
+  });
+  it('creates no ResizeObserver for non-masonry variant', () => {
+    const seen: unknown[] = [];
+    const RO = class { observe(){} unobserve(){} disconnect(){} constructor(){ seen.push(this); } };
+    const old = (globalThis as Record<string, unknown>).ResizeObserver;
+    (globalThis as Record<string, unknown>).ResizeObserver = RO;
+    try {
+      render(<ImageList variant="standard"><ImageList.Item><img alt="a" /></ImageList.Item></ImageList>);
+      expect(seen.length).toBe(0);
+    } finally {
+      (globalThis as Record<string, unknown>).ResizeObserver = old;
+    }
   });
 });

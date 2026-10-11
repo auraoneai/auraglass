@@ -1,0 +1,13 @@
+{
+  "rule": "auraglass/no-runtime-contrast",
+  "note": "REQ-MAT-64: the only permanent exemption is src/backdrops/** (hard-coded in the rule). Rows here are temporary and expire: the rule stops honouring a row once package.json version reaches its 'expires' version, and scripts/mat/a11y-eslint-l1.mjs exits 1 on an expired row or on a row whose path no longer exists (delete the row when its owner moves the code).",
+  "rows": [
+    {
+      "path": "src/media/sampling/",
+      "owner": "SURF",
+      "req": "REQ-MAT-64",
+      "until": "REQ-FIN-86 (FIN-F) moves the owned-pixel sampler under src/backdrops/** with output limited to data-ag-backdrop",
+      "expires": "5.0.0-rc.1"
+    }
+  ]
+}

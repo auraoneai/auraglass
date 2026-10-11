@@ -1,0 +1,292 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+@layer ag.components {
+  /* Private shell geometry (contract §4.2): --_ag-app-shell-* vars are component
+     internals derived from the S-03 public scale only — never public API.
+     Grid columns never transition: layout changes are instant; motion presets
+     animate the panel contents, not the tracks. */
+  .ag-app-shell {
+    --_ag-app-shell-side: 16rem;
+    --_ag-app-shell-rail: 4rem;
+    --_ag-app-shell-insp: 20rem;
+    --_ag-app-shell-top: 3.25rem;
+    --_ag-app-shell-tabbar: 3.5rem;
+    --_ag-app-shell-gap: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
+
+    container: ag-app-shell / inline-size;
+    display: grid;
+    block-size: 100dvh;
+    grid-template-areas:
+      'skip skip skip'
+      'side top insp'
+      'side main insp'
+      'side status insp';
+    grid-template-columns:
+      var(--_ag-app-shell-side) minmax(0, 1fr) var(--_ag-app-shell-insp);
+    gap: var(--_ag-app-shell-gap);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+    padding-block-end: env(safe-area-inset-bottom);
+  }
+  /* env(safe-area-inset-*) is physical while padding-inline is logical
+     (REQ-SURF-10 bans physical padding-left/right): in RTL inline-start is
+     the right edge, so the physical insets swap to stay on their own edges. */
+  .ag-app-shell:dir(rtl) {
+    padding-inline: env(safe-area-inset-right) env(safe-area-inset-left);
+  }
+
+  /* Parts self-place by data-ag-slot (server markup has no JS positioning). */
+  .ag-app-shell [data-ag-slot='skip'] {
+    grid-area: skip;
+    position: absolute;
+    inset-inline-start: 0;
+    overflow: hidden;
+    clip-path: inset(0 0 100% 0);
+  }
+  .ag-app-shell [data-ag-slot='skip']:focus-within {
+    position: static;
+    clip-path: none;
+  }
+  .ag-app-shell [data-ag-slot='sidebar'] {
+    grid-area: side;
+    min-inline-size: 0;
+    overflow: hidden;
+  }
+  .ag-app-shell[data-ag-sidebar='collapsed'] [data-ag-slot='sidebar'] {
+    visibility: hidden;
+  }
+  .ag-app-shell [data-ag-slot='top'] {
+    grid-area: top;
+    min-block-size: var(--_ag-app-shell-top);
+  }
+  .ag-app-shell [data-ag-slot='main'] {
+    grid-area: main;
+    min-inline-size: 0;
+    min-block-size: 0;
+    overflow: auto;
+    /* REQ-SURF-193: Main is a [data-ag-scroll-container], so MAT's
+       scroll-padding rung pads both block edges from the sticky-chrome vars
+       (overlay TopBar below writes the top; StatusBar and TabBar are their
+       own grid rows and never overlap main). */
+    scroll-padding-block-start: var(--ag-scroll-padding-top, 0px);
+  }
+  .ag-app-shell [data-ag-slot='inspector'] {
+    grid-area: insp;
+    min-inline-size: 0;
+    overflow: hidden auto;
+  }
+  .ag-app-shell[data-ag-inspector='closed'] [data-ag-slot='inspector'] {
+    visibility: hidden;
+  }
+  .ag-app-shell [data-ag-slot='status'] {
+    grid-area: status;
+    min-inline-size: 0;
+  }
+  .ag-app-shell [data-ag-slot='tabbar'] {
+    display: none;
+    grid-area: tabbar;
+    min-block-size: var(--_ag-app-shell-tabbar);
+  }
+
+  /* Column state driven by data attributes so RSC/SSR emits identical markup. */
+  .ag-app-shell[data-ag-sidebar='rail'] {
+    --_ag-app-shell-side: var(--_ag-app-shell-rail);
+  }
+  .ag-app-shell[data-ag-sidebar='collapsed'] {
+    --_ag-app-shell-side: 0rem;
+  }
+  .ag-app-shell[data-ag-inspector='closed'] {
+    --_ag-app-shell-insp: 0rem;
+  }
+
+  /* Right-docked sidebar swaps the two fixed columns. */
+  .ag-app-shell[data-ag-sidebar-side='end'] {
+    grid-template-areas:
+      'skip skip skip'
+      'insp top side'
+      'insp main side'
+      'insp status side';
+    grid-template-columns:
+      var(--_ag-app-shell-insp) minmax(0, 1fr) var(--_ag-app-shell-side);
+  }
+
+  /* Overlay top bar floats over main; its height is handed back to the scroll
+     region so content is never covered at scroll edges. */
+  .ag-app-shell:has(> .ag-top-bar[data-ag-placement='overlay']) {
+    /* SURF-119: focused content must clear the overlay bar + breathing room,
+       resolved in css — no JS measurement. */
+    --ag-scroll-padding-top: calc(var(--_ag-app-shell-top) + var(--ag-space-2, 0.5rem));
+  }
+  .ag-top-bar[data-ag-placement='overlay'] {
+    grid-area: main;
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--ag-z-overlay, 30);
+  }
+
+  /* Compact geometry — applied by the container query below in layout=auto,
+     and by data-ag-layout='compact' when the app pins a mode. */
+  .ag-app-shell[data-ag-layout='compact'] {
+    --_ag-app-shell-top: 2.75rem;
+    --_ag-app-shell-side: 0rem;
+    --_ag-app-shell-insp: 0rem;
+    grid-template-areas:
+      'skip'
+      'top'
+      'main'
+      'tabbar';
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    padding-block-start: env(safe-area-inset-top);
+  }
+  /* SURF-054: the bottom *bar* only exists in compact — hide it at >=600
+     under auto layout (the <600 container query below re-enables it); a
+     floating tab bar stays visible at every width. */
+  .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'][data-ag-appearance='bar'] {
+    display: none;
+  }
+  .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='tabbar'] {
+    display: grid;
+    padding-block-end: env(safe-area-inset-bottom);
+  }
+  .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='status'] {
+    display: none;
+  }
+  .ag-app-shell[data-ag-layout='medium'][data-ag-sidebar='expanded'] {
+    --_ag-app-shell-side: var(--_ag-app-shell-rail);
+  }
+  .ag-app-shell[data-ag-layout='wide'] [data-ag-slot='main'] {
+    max-inline-size: var(--_ag-content-max, 96rem);
+    inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  /* Compact: < 600px — sidebar becomes an off-canvas drawer, inspector is
+     hidden, the bottom tab bar appears (its slots render via data-ag-slot). */
+  @container ag-app-shell (width < 600px) {
+    .ag-app-shell[data-ag-layout='auto'] {
+      --_ag-app-shell-top: 2.75rem;
+      --_ag-app-shell-side: 0rem;
+      --_ag-app-shell-insp: 0rem;
+      grid-template-areas:
+        'skip'
+        'top'
+        'main'
+        'tabbar';
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto auto minmax(0, 1fr) auto;
+      padding-block-start: env(safe-area-inset-top);
+    }
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'] {
+      display: grid;
+      padding-block-end: env(safe-area-inset-bottom);
+    }
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='status'] {
+      display: none;
+    }
+  }
+
+  /* Medium: 600–1023px — an expanded sidebar collapses to the rail width. */
+  @container ag-app-shell (600px <= width < 1024px) {
+    .ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] {
+      --_ag-app-shell-side: var(--_ag-app-shell-rail);
+    }
+  }
+
+  /* Wide: >= 1440px — cap the content column so lines stay readable. */
+  @container ag-app-shell (width >= 1440px) {
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='main'] {
+      max-inline-size: var(--_ag-content-max, 96rem);
+      inline-size: 100%;
+      margin-inline: auto;
+    }
+  }
+  /* SURF-060: workspace auto-grid — content cards flow on a responsive track
+     inside Main; tokens only, no JS layout. */
+  .ag-app-shell__auto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
+    gap: var(--ag-space-3, 0.75rem);
+    padding: var(--ag-space-4, 1rem);
+  }
+  /* SURF-037/057: inspector is its own inline-size container; content owns
+     its scroll. */
+  .ag-inspector {
+    container: ag-inspector / inline-size;
+    min-inline-size: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .ag-inspector__content {
+    overflow: auto;
+    overscroll-behavior: contain;
+    min-block-size: 0;
+    flex: 1;
+  }
+  /* SURF-038: inspector material/geometry by mode. Docked (or auto under a
+     wide shell) reads sunken with no backdrop-filter; floating (or auto
+     under expanded/medium) overlays the main area at inline-end. Compact
+     hides the inline inspector — Inspector.Sheet takes over. */
+  [data-inspector-mode='docked'],
+  .ag-app-shell[data-mode='wide'] [data-inspector-mode='auto'] {
+    background: var(--_ag-surface-sunken);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  [data-inspector-mode='floating'],
+  .ag-app-shell[data-mode='expanded'] [data-inspector-mode='auto'],
+  .ag-app-shell[data-mode='medium'] [data-inspector-mode='auto'] {
+    position: absolute;
+    inset-inline-end: var(--ag-space-2);
+    inset-block: var(--ag-space-2);
+    z-index: 2;
+    max-inline-size: min(24rem, 90%);
+    border-radius: var(--ag-radius-lg);
+  }
+  .ag-app-shell[data-mode='compact'] [data-ag-slot='inspector'] {
+    display: none;
+  }
+  /* SURF-043/045/046: panel handles — 1px line, >=24px fine / >=44px coarse
+     hit area via ::before, touch-action none (handle only); stacked mode
+     (data-stacked, set by ResizeObserver) drops to a column and hides
+     handles. */
+  .ag-panels { container: ag-panels / inline-size; }
+  .ag-panels__handle {
+    position: relative;
+    touch-action: none;
+    inline-size: var(--_ag-border-1, 1px);
+    background: var(--_ag-border-subtle);
+    flex: none;
+  }
+  .ag-panels[data-orientation='vertical'] .ag-panels__handle {
+    inline-size: auto;
+    block-size: var(--_ag-border-1, 1px);
+  }
+  .ag-panels__handle::before {
+    content: '';
+    position: absolute;
+    inset: calc(var(--ag-space-3, 12px) * -1);
+  }
+  @media (pointer: coarse) {
+    .ag-panels__handle::before { inset: calc(var(--ag-space-5, 22px) * -1); }
+  }
+  .ag-panels__handle:focus-visible {
+    outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus-color);
+    outline-offset: var(--_ag-focus-offset, 2px);
+  }
+  .ag-panels__grip {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    inline-size: var(--ag-space-4, 16px);
+    block-size: var(--ag-space-4, 16px);
+    border-radius: var(--ag-radius-sm);
+    background: var(--_ag-border-subtle);
+  }
+  .ag-panels[data-stacked='true'] {
+    flex-direction: column;
+  }
+  .ag-panels[data-stacked='true'] .ag-panels__handle {
+    display: none;
+  }
+}

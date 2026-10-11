@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Box matches snapshot 1`] = `
-<div
-  class="motion-safe:transition-all motion-reduce:transition-none"
-/>
-`;

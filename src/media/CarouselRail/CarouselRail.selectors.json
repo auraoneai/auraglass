@@ -1,0 +1,12 @@
+{
+  "component": "CarouselRail",
+  "maps": [
+    { "from": ".liquid-glass-carousel-rail", "to": "[aria-roledescription=\"carousel\"]" },
+    { "from": ".glass-carousel", "to": "[aria-roledescription=\"carousel\"]" },
+    { "from": ".glass-carousel .viewport", "to": "[data-ag-part=\"carousel-viewport\"]" },
+    { "from": ".glass-carousel .slide", "to": "[data-ag-part=\"carousel-slide\"]" },
+    { "from": ".glass-carousel .prev", "to": "[data-ag-part=\"carousel-prev\"]" },
+    { "from": ".glass-carousel .next", "to": "[data-ag-part=\"carousel-next\"]" },
+    { "from": ".glass-carousel .indicators", "to": "[data-ag-part=\"carousel-indicators\"]" }
+  ]
+}

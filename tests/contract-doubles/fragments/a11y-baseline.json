@@ -1,0 +1,1 @@
+{ "version": 1, "violations": [ { "subject": "Button", "rule": "color-contrast", "count": 1, "issue": "seed palette" } ] }

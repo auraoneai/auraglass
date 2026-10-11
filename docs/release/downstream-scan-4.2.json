@@ -1,0 +1,9 @@
+{
+  "record": "downstream-scan",
+  "cut": "4.2",
+  "status": "missing",
+  "note": "Operator action (PLAT-214): run `node scripts/release/downstream-grep.mjs --roots /Users/gurbakshchahal/AuraOne,<every platforms/* checkout declaring aura-glass>` at the 4.2 cut on the owner machine and replace this record with the real summary (counts and paths only, no secrets). This VM has no AuraOne checkouts; the scan was not runnable here.",
+  "tool": "scripts/release/downstream-grep.mjs",
+  "followUpIssue": "AuraOne — two templates pinned at aura-glass@3.1.1 need a tracked follow-up issue (no AuraOne edits from this lane).",
+  "roots": []
+}

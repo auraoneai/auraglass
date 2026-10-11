@@ -1,0 +1,2 @@
+variables: { FOO: bar }
+.mat-base: { extends: .ag-node }

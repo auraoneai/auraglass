@@ -1,0 +1,1 @@
+{"version":1,"generatedFrom":"fixture","tokens":[{"name":"x","cssVar":"--ag-dead-fixture","type":"color","tier":"sys","group":"x","modes":[],"since":"5.0.0","public":false,"consumers":[],"value":"red"},{"name":"y","cssVar":"--ag-live-fixture","type":"color","tier":"sys","group":"x","modes":[],"since":"5.0.0","public":false,"consumers":[],"value":"blue"}]}

@@ -1,0 +1,18 @@
+@layer ag.components {
+  .ag-chip {
+    display: inline-flex;
+  }
+  .ag-chip[data-ag-part='root']:hover::before {
+    transform: none;
+  }
+  @media (min-width: 100px) {
+    .ag-chip-label {
+      font-size: 12px;
+    }
+  }
+  @keyframes ag-pulse {
+    to {
+      opacity: 0;
+    }
+  }
+}

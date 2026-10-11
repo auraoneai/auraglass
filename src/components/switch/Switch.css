@@ -1,0 +1,115 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Switch (CMP-132/413): sunken track unchecked -> opaque accent checked;
+   thumb is transient (inner fill at rest, glass while dragging — optics via
+   MAT surface layer). No shimmer, no loop (E-13). */
+@layer ag.components {
+  .ag-switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ag-space-2);
+    color: var(--ag-on-surface);
+    cursor: default;
+  }
+
+  .ag-switch [data-ag-part='hit-area'] {
+    position: absolute;
+    inset: calc((var(--ag-target-min) - 100%) / -2);
+    z-index: -1;
+  }
+
+  /* Track = the root. Sizes 32x18 / 40x22 / 52x30 px expressed via tokens:
+     sm/md/lg map to --_ag-switch-track-{w,h} with space-token fallbacks. */
+  .ag-switch[data-ag-part='root'] {
+    inline-size: var(--_ag-switch-track-w-md, var(--ag-space-10));
+    block-size: var(--_ag-switch-track-h-md, var(--ag-space-5));
+    border-radius: var(--ag-radius-full);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
+    padding: var(--_ag-switch-thumb-inset, 2px);
+  }
+  .ag-switch[data-ag-part='root'][data-ag-size='sm'] {
+    inline-size: var(--_ag-switch-track-w-sm, var(--ag-space-8));
+    block-size: var(--_ag-switch-track-h-sm, var(--ag-space-4));
+  }
+  .ag-switch[data-ag-part='root'][data-ag-size='lg'] {
+    inline-size: var(--_ag-switch-track-w-lg, var(--ag-space-12));
+    block-size: var(--_ag-switch-track-h-lg, var(--ag-space-6));
+  }
+
+  .ag-switch[data-ag-part='root'][data-checked] {
+    background: var(--ag-color-accent);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-accent);
+  }
+
+  /* REQ-CMP-46: thumb slides via the translate property = track - thumb -
+     2*inset (track-h minus the root's inset padding is the thumb's block,
+     so w - h is the slide distance). Drag transform is BU's inline style —
+     kept on transform so it never fights `translate`. */
+  .ag-switch [data-ag-part='thumb'] {
+    display: block;
+    block-size: 100%;
+    aspect-ratio: 1;
+    border-radius: var(--ag-radius-full);
+    background: var(--ag-color-canvas);
+    box-shadow: var(--ag-shadow-thin);
+    translate: 0 0;
+    transition: translate var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-standard));
+  }
+  .ag-switch[data-ag-part='root'][data-checked] [data-ag-part='thumb'] {
+    translate: calc(
+      var(--ag-switch-track-w-md, var(--ag-space-10)) - var(--ag-switch-track-h-md, var(--ag-space-5))
+    ) 0;
+  }
+  .ag-switch[data-ag-part='root'][data-ag-size='sm'][data-checked] [data-ag-part='thumb'] {
+    translate: calc(
+      var(--ag-switch-track-w-sm, var(--ag-space-8)) - var(--ag-switch-track-h-sm, var(--ag-space-4))
+    ) 0;
+  }
+  .ag-switch[data-ag-part='root'][data-ag-size='lg'][data-checked] [data-ag-part='thumb'] {
+    translate: calc(
+      var(--ag-switch-track-w-lg, var(--ag-space-12)) - var(--ag-switch-track-h-lg, var(--ag-space-6))
+    ) 0;
+  }
+  .ag-switch[data-ag-part='root'] {
+    justify-content: flex-start;
+  }
+  /* animating or dragging: glass while moving, will-change scoped to it */
+  .ag-switch [data-ag-part='thumb'][data-ag-animating],
+  .ag-switch [data-ag-part='thumb'][data-dragging] {
+    will-change: translate;
+  }
+  [data-ag-motion='calm'] .ag-switch [data-ag-part='thumb'],
+  [data-ag-motion='none'] .ag-switch [data-ag-part='thumb'] {
+    transition: none;
+  }
+
+  .ag-switch[data-disabled] > :where([data-ag-part]) {
+    opacity: var(--ag-state-disabled-alpha);
+  }
+
+  /* Focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
+
+  @media (prefers-reduced-motion: reduce) {
+    .ag-switch [data-ag-part='thumb'] {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .ag-switch[data-ag-part='root'] {
+      border: var(--ag-focus-width) solid ButtonText;
+      background: ButtonFace;
+      box-shadow: none;
+    }
+    .ag-switch[data-ag-part='root'][data-checked] {
+      background: Highlight;
+    }
+    .ag-switch [data-ag-part='thumb'] {
+      background: ButtonText;
+      box-shadow: none;
+    }
+  }
+}

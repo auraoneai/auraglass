@@ -1,13 +1,2 @@
-export {
-  CheckIcon,
-  DashboardIcon,
-  ErrorIcon,
-  PlusIcon,
-  SuccessIcon,
-  WarningIcon,
-} from "./index";
-export type {
-  GlassIcon,
-  GlassIconNode,
-  GlassIconProps,
-} from "./createGlassIcon";
+export { CheckCircleIcon, CheckCircle2, SuccessIcon } from './commerce/check-circle';
+export { LayoutDashboardIcon, DashboardIcon } from './commerce/layout-dashboard';

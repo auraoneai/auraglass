@@ -1,8 +1,0 @@
-{
-  "reasons": [
-    "desktop: highlight alpha > 0.32 on .optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-low inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out",
-    "tablet: highlight alpha > 0.32 on .optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-low inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out",
-    "mobile: no glass surface found (backdrop-filter or glass-named element)"
-  ],
-  "styles": []
-}

@@ -1,0 +1,14 @@
+{
+ "version": 1,
+ "generatedFrom": "tokens/**/*.tokens.json",
+ "tokens": [
+  {
+   "name": "sys.color.canvas",
+   "cssVar": "--ag-color-canvas",
+   "type": "color",
+   "tier": "sys",
+   "modes": { "dark": "oklch(15% 0.01 260)" },
+   "value": "oklch(97% 0.01 260)"
+  }
+ ]
+}

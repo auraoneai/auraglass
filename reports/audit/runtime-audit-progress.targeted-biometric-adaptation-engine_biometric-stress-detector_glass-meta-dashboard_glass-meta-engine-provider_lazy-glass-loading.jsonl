@@ -1,5 +1,0 @@
-{"id":"biometric-adaptation-engine","name":"BiometricAdaptationEngine","kind":"export","status":"fail","render":"pass","tokens":"pass","layout":"fail","reasons":["mobile: glass-surface-overflow: DIV.glass-surface glass-surface-medium glass-backdrop-blur glass-border glass-border-white/20 glass-shadow-soft-xl"]}
-{"id":"biometric-stress-detector","name":"BiometricStressDetector","kind":"export","status":"pass","render":"pass","tokens":"pass","layout":"pass","reasons":[]}
-{"id":"glass-meta-engine-provider","name":"GlassMetaEngineProvider","kind":"export","status":"pass","render":"pass","tokens":"pass","layout":"pass","reasons":[]}
-{"id":"glass-meta-dashboard","name":"GlassMetaDashboard","kind":"export","status":"pass","render":"pass","tokens":"pass","layout":"pass","reasons":[]}
-{"id":"lazy-glass-loading","name":"LazyGlassLoading","kind":"export","status":"pass","render":"pass","tokens":"pass","layout":"pass","reasons":[]}

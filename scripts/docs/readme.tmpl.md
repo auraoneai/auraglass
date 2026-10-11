@@ -1,0 +1,651 @@
+# AuraGlass by AuraOne
+
+Build Liquid Glass React and Next.js interfaces without rebuilding glass surfaces, tokens, motion, accessibility guardrails, and SSR-safe package wiring from scratch.
+
+[![npm version](https://img.shields.io/npm/v/aura-glass.svg)](https://www.npmjs.com/package/aura-glass)
+[![npm downloads](https://img.shields.io/npm/dm/aura-glass.svg)](https://www.npmjs.com/package/aura-glass)
+[![license](https://img.shields.io/npm/l/aura-glass)](./LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-3178c6)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18%20%7C%2019-61dafb)](https://react.dev/)
+[![Next.js](https://img.shields.io/badge/Next.js-14%20%7C%2015-black)](https://nextjs.org/)
+
+
+**5.0 status:** <!-- ag:claim component-count --> components · <!-- ag:claim registry-block-count --> registry blocks · tarball <!-- ag:claim tarball-mb -->
+
+Developers use AuraGlass to:
+
+- Ship polished dashboards, AI products, media tools, creator apps, and SaaS workspaces with a glass-native visual system.
+- Start from styled React components instead of assembling blur, borders, shadows, depth, motion, and focus treatment by hand.
+- Keep theming, design tokens, reduced motion, contrast handling, SSR helpers, and TypeScript types in one npm package.
+- Add copyable product surfaces with the `aura-glass` recipe CLI when a full screen is faster than a blank component file.
+
+## What’s New In 4.0
+
+AuraGlass 4.0 is the visual-hardening and certification release. The authoritative inventory covers 470 visually renderable component exports plus 28 package recipes, and the final full visual gate records 498 passed targets with zero blocked entries.
+
+- Default glass surfaces now stay neutral until an explicit semantic, intent, persona, or brand tint is requested.
+- Accessibility story-quality gates verify meaningful names, roles, interaction states, and usable documentation examples.
+- Token-purity and responsive-layout audits reject ungoverned visual literals, unsafe fixed geometry, and uncontrolled overflow.
+- The 31-check glass pipeline passes without failures or warnings, and the runtime-cleanliness audit reports zero findings across 760 scanned source files.
+- The licensed Aeonik family ships locally as the primary interface typography stack.
+
+## Install
+
+```bash
+npm install aura-glass
+pnpm add aura-glass
+yarn add aura-glass
+bun add aura-glass
+```
+
+## Quickstart
+
+Import the stylesheet once, then compose components from the public package entrypoint:
+
+```tsx
+import { GlassButton, GlassCard } from 'aura-glass';
+import 'aura-glass/styles';
+
+export function BillingCard() {
+  return (
+    <GlassCard>
+      <h2>Revenue</h2>
+      <p>$128,400</p>
+      <GlassButton>Open dashboard</GlassButton>
+    </GlassCard>
+  );
+}
+```
+
+## What You Can Build
+
+| Product job | Start with |
+| --- | --- |
+| Core glass surfaces | `GlassCard`, `GlassButton`, `OptimizedGlass`, `LiquidGlassMaterial` |
+| Command and overlay UI | `GlassCommandPalette`, `GlassDropdownMenu`, `GlassModal`, `GlassPopover` |
+| App navigation | `GlassNavbar`, `GlassSidebar`, `GlassTabs`, `GlassBreadcrumb` |
+| Data-heavy dashboards | `GlassDataGrid`, `GlassDataTable`, `GlassDataChart`, `GlassHeatmap` |
+| Workspaces and shells | `GlassAppShell`, `GlassWorkspace`, `GlassWorkflowShell`, `GlassTopBar` |
+| Media and creator tools | `GlassFileUpload`, `GlassImageViewer`, `LiquidGlassMediaControls`, `GlassMusicVisualizer` |
+| Copyable screens | `npx aura-glass add saas-dashboard`, `npx aura-glass add ai-command-center` |
+
+## Why AuraGlass?
+
+- **A finished visual language.** Use glass-native surfaces, motion, depth, and tokens that already work together instead of styling neutral primitives from zero.
+- **React and Next.js package ergonomics.** Install from npm, import from stable package entrypoints, and add `aura-glass/styles` once in your app shell or root layout.
+- **Product-surface coverage.** Build dashboards, AI consoles, media controls, data tables, calendars, kanban boards, and workspace shells from one component system.
+- **Guardrails for polished UI.** TypeScript types, SSR helpers, reduced-motion behavior, contrast utilities, theme providers, and token exports are part of the package.
+- **Optional advanced integrations.** Charts, 3D, AI services, collaboration transport, and form-builder surfaces stay behind feature-specific imports and peers.
+
+## AuraGlass vs shadcn/ui
+
+| Need | AuraGlass | shadcn/ui |
+| --- | --- | --- |
+| Finished Liquid Glass styling | Ships opinionated glass surfaces, CSS, tokens, and component variants | Provides neutral source-owned primitives you style yourself |
+| npm package workflow | Install and upgrade as a package with typed entrypoints | Copy component source into your app and own local changes |
+| Premium dashboards and product surfaces | Strong fit for polished SaaS, AI, media, and data-heavy apps | Strong fit for teams that want full source ownership and lower visual opinion |
+| Customization | Tokens, CSS variables, providers, props, and `className` | Direct code edits after copy |
+| Tradeoff | Larger and more opinionated than a primitive-only kit | More manual work to create a distinctive glass visual system |
+
+## API At A Glance
+
+```tsx
+import {
+  GlassButton,
+  GlassCard,
+  GlassCommandPalette,
+  GlassDataChart,
+  OptimizedGlass,
+} from 'aura-glass';
+import 'aura-glass/styles';
+```
+
+Stable package entrypoints include:
+
+| Entrypoint | Purpose |
+| --- | --- |
+| `aura-glass` | Primary React component API. |
+| `aura-glass/styles` | Global AuraGlass CSS bundle. |
+| `aura-glass/tokens` | Runtime token and persona access. |
+| `aura-glass/tokens/tailwind` | Tailwind theme preset. |
+| `aura-glass/icons` | First-party AuraGlass icons for app chrome. |
+| `aura-glass/primitives` | Slot, portal, focus, dismissal, roving focus, and positioning primitives. |
+| `aura-glass/app-shell` | Dashboard, SaaS, AI, media, and collaboration app shell components. |
+| `aura-glass/workspace` | Workspace and workflow shell components. |
+| `aura-glass/theme` | Theme Engine 2.0 creation, brand theme, density, motion, and contrast APIs. |
+| `aura-glass/registry` | Copyable recipe metadata and registry helpers. |
+| `aura-glass/ssr` | SSR provider and hydration helpers. |
+| `aura-glass/three` | Optional 3D, AR, and React Three Fiber integrations. |
+
+## Recipes And CLI
+
+List available recipes:
+
+```bash
+npx aura-glass list
+```
+
+Inspect one recipe:
+
+```bash
+npx aura-glass info saas-dashboard
+```
+
+Add a copyable recipe to an app:
+
+```bash
+npx aura-glass add ai-command-center
+```
+
+The CLI writes into `src/components/auraglass/recipes` by default and supports `--out`, `--cwd`, `--dry-run`, `--force`, and `--json`.
+
+Migration and audit commands are available for package adoption:
+
+```bash
+npx aura-glass audit deps --json
+npx aura-glass audit imports --json
+npx aura-glass migrate icons --from lucide --dry-run
+npx aura-glass migrate radix --dry-run
+npx aura-glass migrate mui --dry-run
+npx aura-glass doctor --json
+```
+
+## Compatibility And Limits
+
+- Requires Node.js 18.18+ and npm 9+ for the package toolchain.
+- Supports React 18 and React 19, including Next.js 14 and 15 projects.
+- Import `aura-glass/styles` once from your app root or client entry.
+- Core app chrome does not require MUI, Radix, Lucide, or shadcn/ui packages.
+- Install optional peers only for the feature families you import: charts, 3D, AI services, collaboration transport, and form-builder integrations.
+- Use shadcn/ui or another primitive kit instead if you want neutral, source-owned components with minimal visual opinion.
+
+## Links
+
+- Website and component catalog: [auraglass.auraone.ai](https://auraglass.auraone.ai)
+- npm package: [npmjs.com/package/aura-glass](https://www.npmjs.com/package/aura-glass)
+- Changelog: [CHANGELOG.md](./CHANGELOG.md)
+- Installation guide: [INSTALLATION.md](./INSTALLATION.md)
+- Documentation: [docs](./docs)
+- Examples: [examples](./examples)
+- Contributing guide: [CONTRIBUTING.md](./CONTRIBUTING.md)
+- Security policy: [SECURITY.md](./SECURITY.md)
+- Agent context: [llms.txt](./llms.txt)
+
+## Contributing
+
+Contributions should improve package reliability, developer adoption, visual quality, accessibility, SSR behavior, documentation, or release evidence without weakening the public package boundary. Read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request.
+
+## Security
+
+Report vulnerabilities using the guidance in [SECURITY.md](./SECURITY.md). Security-sensitive changes should preserve package-only installs, avoid credential leakage, and keep provider-backed hosted runtime behavior opt-in.
+
+## License
+
+AuraGlass is released under the [MIT License](./LICENSE).
+
+## Package-Only And Optional Hosted Runtime
+
+The public npm package is the primary supported AuraGlass surface. Package-only apps install `aura-glass`, import components and CSS, and do not need AuraGlass API, WebSocket, Redis, OpenAI, Pinecone, Google Vision, Remove.bg, or Sentry infrastructure.
+
+The repository also contains optional backend and service-layer code for teams that want to host AI routes or realtime collaboration themselves. Treat that hosted runtime as opt-in infrastructure with its own environment, auth, provider, deployment, and evidence requirements. The canonical local contract for the hosted runtime is:
+
+| Service | Local default | Environment variable |
+| --- | --- | --- |
+| Frontend/demo app | `http://localhost:3000` | `PORT` |
+| API server | `http://localhost:3002` | `API_SERVER_PORT=3002` |
+| WebSocket server | `ws://localhost:3001` | `WS_PORT=3001` |
+| Public API URL | `http://localhost:3002` | `NEXT_PUBLIC_API_URL` |
+| Public WebSocket URL | `ws://localhost:3001` | `NEXT_PUBLIC_WS_URL` |
+
+Production deployment guidance should use the real TypeScript API server built from `server/index.ts` and the WebSocket server in `server/websocket-server.js`. The legacy `server/api-server.js` path contains demo/mock API behavior and must not be used as a production entrypoint.
+
+Optional provider-backed routes should fail safely when credentials are missing. A hosted route that needs a disabled or unconfigured provider should return a structured response like this instead of a hardcoded mock success:
+
+```json
+{
+  "error": "Provider not configured",
+  "message": "openai is not configured for generate-form",
+  "code": "AURA_PROVIDER_UNCONFIGURED",
+  "provider": "openai",
+  "feature": "generate-form",
+  "docsUrl": "https://auraglass.auraone.ai/docs/ai-providers"
+}
+```
+
+## Best-Fit Use Cases
+
+AuraGlass is for teams that need a finished visual system, not only neutral primitives. It is strongest when the interface itself carries product value: command centers, analytics surfaces, media controls, AI workspaces, premium dashboards, immersive admin tools, and high-polish product experiences.
+
+Use AuraGlass when you need:
+
+- Apple-style Liquid Glass visual language for production React apps.
+- Next.js-compatible components with SSR-safe package entrypoints.
+- Premium app surfaces that look finished with default styling.
+- Tokens, dark mode, reduced motion, and contrast guardrails built into the system.
+- Optional advanced surfaces for media, AI, charts, dashboards, 3D, AR, and collaboration.
+- Checked-in release evidence for exports, tokens, runtime cleanliness, Storybook certification, package verification, and integration smoke coverage.
+
+## Flagship Components
+
+The broader package surface remains available, but these are the components most teams should evaluate first.
+
+| Product job | Start with |
+| --- | --- |
+| Core glass surfaces | `OptimizedGlass`, `GlassCard`, `GlassButton`, `EnhancedGlassButton` |
+| Overlays and command UI | `GlassDropdownMenu`, `GlassSelectCompound`, `GlassModal`, `GlassDrawer`, `GlassPopover`, `GlassCommandPalette` |
+| App navigation | `GlassNavbar`, `GlassSidebar`, `GlassTabs` |
+| App shell and workspaces | `GlassAppShell`, `GlassTopBar`, `GlassSidebarRail`, `GlassWorkspace`, `GlassWorkflowShell` |
+| Data-heavy dashboards | `GlassDataGrid`, `GlassDataTable`, `GlassDataChart`, `GlassHeatmap` |
+| Scheduling and workflows | `GlassCalendar`, `GlassKanbanBoard`, `GlassWizard` |
+| Media and creator tools | `GlassFileUpload`, `LiquidGlassMediaControls`, `GlassImageViewer`, `GlassMusicVisualizer` |
+| Liquid Glass primitives | `LiquidGlassMaterial`, `LiquidGlassSourceTransition`, `LiquidGlassScrollEdge`, `LiquidGlassLayerProvider` |
+| Product-ready surfaces | `GlassDashboard`, `GlassPrismComparison`, `CollaborativeGlassWorkspace`, `GlassProductRecommendations`, `GlassSmartShoppingCart` |
+
+Agent-safe examples should import from the root package entrypoint and include the CSS import:
+
+```tsx
+import {
+  GlassButton,
+  GlassCard,
+  GlassCommandPalette,
+  GlassDataChart,
+} from 'aura-glass';
+import 'aura-glass/styles';
+```
+
+Do not import from private source paths. Use optional peer packages only for the component families that need them.
+
+## Registry Details
+
+AuraGlass includes a package-level recipe registry and CLI for scaffolding product-ready Liquid Glass app surfaces. The registry is available from `aura-glass/registry`; the CLI is installed as the `aura-glass` binary.
+
+The package registry includes 28 recipes:
+
+- SaaS dashboard shell
+- AI command center
+- Media player surface
+- Analytics overview
+- Settings and billing page
+- Kanban workspace
+- Calendar schedule page
+- Collaborative workspace
+- Admin data table
+- Ecommerce product panel
+- SaaS admin shell
+- AI product console
+- Media review workspace
+- Commerce operations panel
+- Team collaboration hub
+- Settings and billing suite
+- Analytics command center
+- Calendar operations board
+- Customer support console
+- Creator studio dashboard
+- AI ops control room
+- Semantic search console
+- Vision review workbench
+- Collaboration room console
+- Support triage workspace
+- Release command center
+- Developer docs portal
+- Marketing launch kit
+
+Use the registry directly when building custom tooling:
+
+```tsx
+import { auraGlassRecipes, getAuraGlassRecipe } from 'aura-glass/registry';
+
+const dashboard = getAuraGlassRecipe('saas-dashboard');
+```
+
+Recipe acceptance criteria and follow-up evidence are tracked in the 3.3 release evidence:
+
+- [3.3 recipe evidence](./reports/3.3-release/recipe-evidence.md)
+- [3.3 launch evidence index](./reports/3.3-release/README.md)
+
+## API And Usage Details
+
+Install the package if you have not already:
+
+```bash
+npm install aura-glass
+```
+
+Import styles once from your root layout, app shell, or client entry:
+
+```tsx
+import 'aura-glass/styles';
+```
+
+Use components from the root package entrypoint:
+
+```tsx
+import { GlassButton, GlassCard, OptimizedGlass } from 'aura-glass';
+import 'aura-glass/styles';
+
+export function MetricsPanel() {
+  return (
+    <OptimizedGlass elevation="level2" className="glass-p-6">
+      <GlassCard>
+        <h2>Revenue forecast</h2>
+        <p>Glass surfaces stay tokenized, readable, and motion-aware.</p>
+        <GlassButton variant="primary">Review</GlassButton>
+      </GlassCard>
+    </OptimizedGlass>
+  );
+}
+```
+
+Next.js root layout example:
+
+```tsx
+import 'aura-glass/styles';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+Use the SSR provider when your app needs AuraGlass hydration helpers:
+
+```tsx
+import { AuraGlassSSRProvider } from 'aura-glass/ssr';
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return <AuraGlassSSRProvider>{children}</AuraGlassSSRProvider>;
+}
+```
+
+## Peer Dependencies
+
+React and React DOM are required. Other peers are feature-family dependencies. Install only what your app uses.
+
+| Feature family | Peer packages |
+| --- | --- |
+| Core React UI | `react`, `react-dom` |
+| Motion | `framer-motion` |
+| Forms | `react-hook-form` |
+| Charts and data visualization | `react-chartjs-2`, `chart.js` |
+| 3D and AR | `three`, `@react-three/fiber`, `@react-three/drei` |
+| Error reporting integrations | `@sentry/react` |
+
+Example full peer install for apps that use forms, charts, and 3D:
+
+```bash
+npm install react react-dom framer-motion react-hook-form react-chartjs-2 chart.js
+npm install three @react-three/fiber @react-three/drei
+```
+
+See [INSTALLATION.md](./INSTALLATION.md) for the deeper peer dependency matrix, SSR setup, 3D setup, and troubleshooting.
+
+## Theming And Tokens
+
+AuraGlass ships a typed token system, generated CSS variables, Tailwind token entrypoint, and runtime persona support. Normal customization should use tokens, CSS variables, component props, `className`, `style`, and theme providers instead of overriding internals.
+
+```tsx
+import { PersonaPicker, ThemeProvider, usePersonaTheme } from 'aura-glass';
+
+export function AppShell({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider initialPersona="midnight-slate" persistPersona>
+      <PersonaPicker orientation="horizontal" />
+      {children}
+    </ThemeProvider>
+  );
+}
+
+export function PersonaLabel() {
+  const { persona } = usePersonaTheme();
+  return <span>{persona.meta.name}</span>;
+}
+```
+
+Token entrypoints:
+
+```ts
+import auraTokens, { personas } from 'aura-glass/tokens';
+
+console.log(auraTokens.version);
+console.log(personas[0].metadata.displayName);
+```
+
+Tailwind setup:
+
+```ts
+import type { Config } from 'tailwindcss';
+import theme from 'aura-glass/tokens/tailwind';
+
+export default {
+  content: ['./src/**/*.{ts,tsx}'],
+  theme,
+} satisfies Config;
+```
+
+When persona tokens change, regenerate and validate the generated CSS:
+
+```bash
+npm run glass:generate-persona-css
+npm run glass:validate-persona-css
+```
+
+## Accessibility And Reduced Motion
+
+AuraGlass components are expected to preserve:
+
+- readable text contrast across glass backgrounds and adaptive themes
+- semantic HTML, ARIA labels, roles, and state where needed
+- visible keyboard focus through focus-management guardrails
+- reduced-motion behavior for animation, transition, and physics effects
+- desktop and mobile Storybook renderability
+
+AuraGlass 3.4 layers the Liquid Glass white-frost surface redesign (see [CHANGELOG.md](./CHANGELOG.md)) on top of the 3.3-era evidence, which records first-party icons, first-party primitives, native app shell and workspace entrypoints, Theme Engine 2.0, 28 package registry recipes, focused forms/data/navigation/overlays/workflows/marketing subpaths, hosted-runtime contract tests, Docker Compose smoke coverage, migration CLI commands, tree-shaking gates, pack verification, export tests, and React 18/19 Next.js integration smokes. The older 356/356 certification inventory remains checked in as historical 3.0 Storybook and audit evidence; it is not the current package export count or launch claim.
+
+Primary evidence sources:
+
+- [Component inventory](./reports/component_inventory.json)
+- [Storybook visual certification JSON](./reports/glassmorphism-storybook-visual-certification.json)
+- [Storybook visual certification report](./reports/glassmorphism-storybook-visual-certification.md)
+- [Storybook exhaustive QA report](./reports/storybook-exhaustive-qa.md)
+- [3.1 accessibility and visual QA baseline](./reports/3.1-release/accessibility-and-visual-qa.md)
+- [3.1 package surface audit](./reports/3.1-release/package-surface-audit.md)
+- [3.3 release evidence](./reports/3.3-release/README.md)
+- [3.3 hosted runtime evidence](./reports/3.3-release/hosted-runtime-evidence.md)
+- [3.3 security review](./reports/3.3-release/security-review.md)
+- [3.3 accessibility certification ledger](./reports/3.3-release/accessibility-certification.md)
+
+## Performance And SSR
+
+AuraGlass keeps the root package focused on React UI and isolates heavier surfaces behind optional peers and explicit entrypoints.
+
+| Entrypoint | Purpose |
+| --- | --- |
+| `aura-glass` | Primary React component API. |
+| `aura-glass/styles` | Global AuraGlass CSS bundle. |
+| `aura-glass/tokens` | Runtime token and persona access. |
+| `aura-glass/tokens/json` | Raw token manifest for tooling. |
+| `aura-glass/tokens/tailwind` | Tailwind theme preset. |
+| `aura-glass/tokens/manifest` | Lightweight token and persona metadata. |
+| `aura-glass/tokens/css` | Built token CSS file. |
+| `aura-glass/tokens/keyframes` | Built keyframe CSS file. |
+| `aura-glass/ssr` | SSR provider and hydration helpers. |
+| `aura-glass/three` | Optional 3D, AR, and React Three Fiber integrations. |
+| `aura-glass/client` | Client-specific helpers. |
+| `aura-glass/server` | Server-specific helpers. |
+| `aura-glass/icons` | First-party AuraGlass icons for app chrome. |
+| `aura-glass/icons/navigation` | Tree-shakable navigation icon category entrypoint. |
+| `aura-glass/primitives` | First-party primitives for slot, portal, focus, dismissal, roving focus, and positioning. |
+| `aura-glass/primitives/slot` | Slot/asChild primitive. |
+| `aura-glass/primitives/portal` | SSR-safe portal primitive. |
+| `aura-glass/primitives/focus` | Focus scope primitive. |
+| `aura-glass/primitives/dismissable-layer` | Dismissable overlay primitive. |
+| `aura-glass/primitives/roving-focus` | Roving focus primitive. |
+| `aura-glass/primitives/positioning` | Anchor positioning primitive. |
+| `aura-glass/app-shell` | Native dashboard, SaaS, AI, media, and collaboration app shell components. |
+| `aura-glass/workspace` | Workspace and workflow shell components. |
+| `aura-glass/theme` | Theme Engine 2.0 creation, brand theme, density, motion, and contrast APIs. |
+| `aura-glass/registry` | Styled registry compatibility plus copyable recipe metadata. |
+| `aura-glass/hooks/useGlassProbes` | Runtime glass style probe hooks. |
+| `aura-glass/services/ai/openai-service` | Optional OpenAI-backed backend integration. |
+| `aura-glass/services/ai/vision-service` | Optional Google Cloud Vision backend integration. |
+| `aura-glass/services/websocket/collaboration-service` | Optional hosted collaboration client integration. |
+
+Use `aura-glass/utils/env` for guarded browser access, safe media queries, and deterministic hydration helpers. Install `three`, `@react-three/fiber`, and `@react-three/drei` only before importing from `aura-glass/three`. Install optional backend peers such as `openai` or `@google-cloud/vision` only before constructing the matching AI service classes.
+
+## AI Agent Guidance
+
+Use these rules when asking Codex, Cursor, Claude Code, GitHub Copilot, Gemini CLI, or another coding agent to work with AuraGlass:
+
+- Install with `npm install aura-glass`.
+- Import components from `aura-glass`.
+- Import CSS with `import 'aura-glass/styles';`.
+- Prefer `GlassButton`, `GlassCard`, `OptimizedGlass`, `GlassCommandPalette`, `GlassDataGrid`, and `LiquidGlassMaterial` for first examples.
+- Do not invent component names.
+- Do not import from private paths under `src`.
+- Do not use 3D, media, AR, or advanced components without optional peer dependencies.
+- Do not wrap compound children without their parent components.
+- Do not use WebGL/canvas-heavy components for simple cards.
+
+The package repo includes [llms.txt](./llms.txt) as the short agent-facing context file. Current package and recipe readiness evidence is tracked in [reports/3.3-release](./reports/3.3-release/README.md).
+
+## Development
+
+```bash
+npm install
+npm run storybook
+npm run typecheck
+npm run lint:check
+npm run audit:components
+```
+
+### Tightened glass certification audit
+
+The headless certification contract is documented in [`reports/audit/certification-audit-spec.md`](./reports/audit/certification-audit-spec.md). Use that spec when changing glass surfaces, stories, recipes, or audit tooling; it is the durable source of truth for the inventory, token, runtime, and layout gates.
+
+The audit is intentionally mechanical and exit-code gated. The authoritative public scope is **470 visual component-like exports + 1 explicitly nonvisual public state engine (`QuantumNeuromorphicEngine`) + 28 recipes = 499 total**. The screenshot-required visual scope is **498 items** (470 exports + 28 recipes), or **1,494 PNG/JSON pairs** across three viewports. Derive counts dynamically from the generated inventory; exclude `nonVisual` entries from screenshot gates only after their dedicated API/behavior tests pass. If a task or older report says “439 exports/components and recipes,” record the **471-vs-439 discrepancy** in the final summary rather than silently changing the inventory.
+
+Start every audit by regenerating the public inventory and API report:
+
+```bash
+# Equivalent direct commands (the npm aliases below invoke these scripts):
+node scripts/audit/public-export-audit.js
+node scripts/audit/api-surface-audit.js
+npm run audit:exports
+npm run audit:api
+```
+
+These commands must produce `reports/public-export-audit.json` and `reports/public-export-audit.md`; do not substitute a hand-counted story list.
+
+Every real glass surface must satisfy these invariants at 1440x900, 768x1024, and 390x844:
+
+- Both computed `backdrop-filter` and `-webkit-backdrop-filter` are present and non-`none`.
+- Blur is exactly one of **16px, 24px, 32px, 40px, or 48px**. The canonical chain is `blur(<px>) saturate(1.8) brightness(1.05) contrast(1.05)` (with the documented minimum/range checks in the spec).
+- **Every** white-frost gradient stop, including the midpoint and any additional stops, has alpha **0.08–0.35 inclusive**; a single passing lightest stop is insufficient. Canonical start/mid/end stops are L1 `0.12/0.08/0.08`, L2 `0.14/0.08/0.10`, L3 `0.16/0.08/0.11`, L4 `0.18/0.08/0.12`, and L5 `0.20/0.08/0.14`. Dark/navy surface fills at or above 0.50 fail.
+- There is no document or non-scroll-surface horizontal overflow, no zero-size surface, and no interactive-element overlap beyond **2px**.
+
+The checks apply to every individual rendered surface. Generic `CertificationCase` or placeholder stories, shared shell screenshots, and smoke-gate results are not certification evidence. Every recipe needs real evidence at all three viewports and cannot auto-pass from `npm run test:recipes:render` alone.
+
+Run the static gates in this order:
+
+```bash
+npm run lint:tokens
+npm run lint:styles
+npm run glass:validate-persona-css
+npm run glass:validate
+node scripts/glass-violation-scanner.js
+node scripts/ci/audit-css-var-coverage.js
+npm run test:recipes:render
+npm run audit:components
+```
+
+With Storybook serving port 6006, run the runtime and matrix gates, then regenerate evidence:
+
+```bash
+STORYBOOK_URL=http://localhost:6006 npx playwright test tests/visual/design-system/token-purity-layout-audit.spec.ts --config=playwright.visual-ci.config.ts --workers=1 --reporter=list
+CAPTURE_ALL_VISUALS=1 STORYBOOK_URL=http://localhost:6006 npx playwright test --config=playwright.visual-ci.config.ts tests/visual/design-system/token-purity-layout-audit.spec.ts --workers=1 --reporter=list
+npm run audit:visual:evidence
+npm run test:visual:ci
+npm run test:visual:matrix
+STORYBOOK_URL=http://localhost:6006 node scripts/audit/storybook-visual-certification.mjs
+```
+
+`CAPTURE_ALL_VISUALS=1` writes independent desktop/tablet/mobile PNGs and computed-style records for the 498 visual items under `reports/audit/visual-all/`; `npm run audit:visual:evidence` must report `PASS: 498/498` (or the equivalent dynamically derived visual count) and is a required visual proof gate, not an optional snapshot. `QuantumNeuromorphicEngine` is separately API/behavior-tested and never represented by a generated screenshot placeholder. The final evidence must include `reports/audit/audit-summary.json`, `reports/audit/audit-summary.md`, `reports/audit/triage.md`, and `reports/audit/visual-all/visual-summary.{json,md}`; the certification JSON must report `missingStoryCount: 0` and all evaluated desktop/mobile entries as passed. Do not edit source, stories, or decorators merely to silence a finding: classify evidence-only hits in `triage.md`, and remediate only proven shipped-component invariant violations.
+
+Useful scripts:
+
+| Command | Purpose |
+| --- | --- |
+| `npm run storybook` | Starts local Storybook. |
+| `npm run build-storybook` | Builds static Storybook. |
+| `npm run build` | Builds package outputs. |
+| `npm run typecheck` | Runs TypeScript checking. |
+| `npm run lint:check` | Runs the repository lint check. |
+| `npm run lint:tokens` | Validates token rules. |
+| `npm run lint:styles` | Validates style rules. |
+| `npm run audit:components` | Prints the historical certification inventory, docs, story, test, accessibility, and certification coverage. |
+| `npm run audit:exports` | Verifies public exports against source and declaration files. |
+| `npm run audit:api` | Reports public API typing, declaration, and ref-forwarding follow-ups. |
+| `npm run audit:runtime` | Reports production-source console, debugger, and TODO/FIXME findings. |
+| `npm run glass:full-check` | Runs the package glass validation workflow. |
+| `npm run verify:pack` | Verifies package output before publishing. |
+| `npm run test:integration:next` | Builds temporary Next.js consumer apps for React 18 and React 19 smoke coverage. |
+| `npm run release:dry-run` | Runs CI and npm dry-run publish. Do not run it unless you intend to exercise the full release path. |
+
+## Repository Map
+
+| Path | Purpose |
+| --- | --- |
+| `src/components` | Component source. |
+| `src/stories` | Shared Storybook audit and certification stories. |
+| `src/reports` | Static audit data consumed by Storybook and tests. |
+| `docs` | Technical documentation. |
+| `docs/components` | Organized component docs. |
+| `reports` | Generated and hand-authored audit evidence. |
+| `reports/3.1-release` | 3.1 launch evidence scaffold and sign-off baselines. |
+| `reports/3.2-release` | Historical 3.2 package launch evidence, recipe evidence, app-chrome visuals, and completion audit. |
+| `reports/3.3-release` | 3.3-era package launch evidence, hosted-runtime evidence, recipe evidence, app-chrome visuals, security review, and manual-certification scaffold. |
+| `scripts/audit` | Audit and certification scripts. |
+| `tests/visual/design-system` | Playwright guardrails for visual certification and audit coverage. |
+| `.github` | GitHub workflow and collaboration templates. |
+| `.storybook` | Storybook configuration and shared preview wrappers. |
+
+## Release Evidence
+
+The 4.0 visual-hardening release is verified by the full 498-target runtime visual audit, accessibility story-quality and token-purity/layout suites, the 31-check glass pipeline, runtime-cleanliness evidence, Storybook certification, typecheck, token and style lints, package tests, and integration smoke coverage. Historical 3.3 package-launch evidence remains under `reports/3.3-release`. The normal publish path uses `npm publish --access public --tag latest` from a clean release commit after the dry-run, pack, and integration gates pass; `package.json` enables npm provenance for trusted publishing environments.
+
+Package gates:
+
+```bash
+npm run audit:components
+npm run audit:exports
+npm run audit:api
+npm run audit:runtime
+npm run typecheck
+npm run lint:check
+npm run lint:tokens
+npm run lint:styles
+npm run build
+npm run verify:pack
+npm run test:integration:next -- --skip-build
+npm run build-storybook
+npm run release:dry-run
+git diff --check
+```
+
+3.3-era evidence:
+
+- [3.3 launch evidence index](./reports/3.3-release/README.md)
+- [3.3 hosted runtime evidence](./reports/3.3-release/hosted-runtime-evidence.md)
+- [3.3 security review](./reports/3.3-release/security-review.md)
+- [3.3 AI cost and cache evidence](./reports/3.3-release/ai-cost-and-cache-evidence.md)
+- [3.3 recipe evidence](./reports/3.3-release/recipe-evidence.md)
+- [3.3 recipe render evidence](./reports/3.3-release/recipe-render-evidence.md)
+- [3.3 app-chrome visual evidence](./reports/3.3-release/app-chrome-visual-evidence.md)
+- [3.3 accessibility certification ledger](./reports/3.3-release/accessibility-certification.md)

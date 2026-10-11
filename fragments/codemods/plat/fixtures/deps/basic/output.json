@@ -1,0 +1,6 @@
+{
+  "name": "app",
+  "dependencies": {
+    "aura-glass": "^5.0.0"
+  }
+}

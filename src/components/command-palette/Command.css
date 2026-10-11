@@ -1,0 +1,59 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+/* Command + CommandPalette (SURF-127): palette chrome and list layout.
+   Scrolling is native inside __list (REQ-SURF-63: VirtualList mounts above
+   the threshold — W2); row highlight is a data-attribute, not JS classes. */
+@layer ag.components {
+  .ag-command-palette {
+    display: flex;
+    flex-direction: column;
+    max-block-size: var(--_ag-command-palette-max-h, 60vh);
+    overflow: hidden;
+    /* REQ-FIN-82: the palette positions itself (no CMP Dialog chrome). */
+    position: fixed;
+    inset-block-start: var(--_ag-command-palette-top, 12vh);
+    inset-inline: 0;
+    margin-inline: auto;
+    inline-size: min(100% - 2 * var(--ag-space-4, 1rem), 40rem);
+    border-radius: var(--ag-radius-lg, 0.75rem);
+  }
+  /* Clear scrim: dims nothing, blocks pointer input behind the modal. */
+  .ag-command-palette__scrim {
+    position: fixed;
+    inset: 0;
+    background: var(--ag-scrim-clear, transparent);
+  }
+  .ag-command {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+  }
+  .ag-command__input {
+    inline-size: 100%;
+    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
+    border: none;
+    border-block-end: var(--_ag-border-width, 1px) solid var(--_ag-border, transparent);
+    background: transparent;
+    color: var(--_ag-fg, currentColor);
+    font: inherit;
+  }
+  .ag-command__list {
+    /* SURF-060: flex column so item `order` (score rank) re-sorts visually. */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: var(--ag-space-1, 0.25rem);
+  }
+  .ag-command__item {
+    display: flex;
+    align-items: center;
+    gap: var(--ag-space-2, 0.5rem);
+    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
+    min-block-size: var(--_ag-touch-target, 2.75rem);
+    border-radius: var(--_ag-radius-1, 0.25rem);
+    cursor: default;
+  }
+  .ag-command__item[data-active] {
+    background: var(--_ag-accent-soft, transparent);
+  }
+}

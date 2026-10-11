@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "support-inbox",
+  "type": "registry:block",
+  "title": "Support inbox",
+  "description": "Ticket list (Table filtered by the FilterBar model) with a Thread conversation pane; replies append to the thread.",
+  "dependencies": [
+    "react",
+    "aura-glass"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
+  "files": [
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "block",
+      "client": true,
+      "components": [
+        "FilterBar",
+        "Message",
+        "Table",
+        "Thread"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null
+    }
+  }
+}

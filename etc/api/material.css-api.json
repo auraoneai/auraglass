@@ -1,0 +1,958 @@
+{
+ "entry": "./material.css",
+ "surfaceClass": "ag-surface",
+ "variables": [
+  {
+   "name": "--ag-light-angle",
+   "group": "light"
+  },
+  {
+   "name": "--ag-specular",
+   "group": "light"
+  },
+  {
+   "name": "--ag-glass-opacity",
+   "group": "light"
+  },
+  {
+   "name": "--ag-surface-fill",
+   "group": "readouts"
+  },
+  {
+   "name": "--ag-surface-rim",
+   "group": "readouts"
+  },
+  {
+   "name": "--ag-surface-shadow",
+   "group": "readouts"
+  },
+  {
+   "name": "--ag-surface-radius",
+   "group": "readouts"
+  },
+  {
+   "name": "--ag-on-surface",
+   "group": "readouts"
+  },
+  {
+   "name": "--ag-on-surface-muted",
+   "group": "readouts"
+  },
+  {
+   "name": "--ag-radius-outer",
+   "group": "shape"
+  },
+  {
+   "name": "--ag-inset",
+   "group": "shape"
+  },
+  {
+   "name": "--ag-radius-inner",
+   "group": "shape"
+  },
+  {
+   "name": "--ag-focus-inner",
+   "group": "focus"
+  },
+  {
+   "name": "--ag-focus-outer",
+   "group": "focus"
+  },
+  {
+   "name": "--ag-focus-width",
+   "group": "focus"
+  },
+  {
+   "name": "--ag-scroll-padding-top",
+   "group": "layout"
+  },
+  {
+   "name": "--ag-scroll-padding-bottom",
+   "group": "layout"
+  },
+  {
+   "name": "--ag-color-canvas",
+   "group": "color"
+  },
+  {
+   "name": "--ag-color-on-surface",
+   "group": "color"
+  },
+  {
+   "name": "--ag-color-on-surface-muted",
+   "group": "color"
+  },
+  {
+   "name": "--ag-color-accent",
+   "group": "color"
+  },
+  {
+   "name": "--ag-color-on-accent",
+   "group": "color"
+  },
+  {
+   "name": "--ag-color-border",
+   "group": "color"
+  },
+  {
+   "name": "--ag-color-focus-inner",
+   "group": "color"
+  },
+  {
+   "name": "--ag-color-focus-outer",
+   "group": "color"
+  },
+  {
+   "name": "--ag-color-specular",
+   "group": "color"
+  },
+  {
+   "name": "--ag-color-danger",
+   "group": "color"
+  },
+  {
+   "name": "--ag-color-warning",
+   "group": "color"
+  },
+  {
+   "name": "--ag-color-success",
+   "group": "color"
+  },
+  {
+   "name": "--ag-color-info",
+   "group": "color"
+  },
+  {
+   "name": "--ag-space-0",
+   "group": "space"
+  },
+  {
+   "name": "--ag-space-1",
+   "group": "space"
+  },
+  {
+   "name": "--ag-space-2",
+   "group": "space"
+  },
+  {
+   "name": "--ag-space-3",
+   "group": "space"
+  },
+  {
+   "name": "--ag-space-4",
+   "group": "space"
+  },
+  {
+   "name": "--ag-space-5",
+   "group": "space"
+  },
+  {
+   "name": "--ag-space-6",
+   "group": "space"
+  },
+  {
+   "name": "--ag-space-8",
+   "group": "space"
+  },
+  {
+   "name": "--ag-space-10",
+   "group": "space"
+  },
+  {
+   "name": "--ag-space-12",
+   "group": "space"
+  },
+  {
+   "name": "--ag-space-16",
+   "group": "space"
+  },
+  {
+   "name": "--ag-radius-xs",
+   "group": "radius"
+  },
+  {
+   "name": "--ag-radius-sm",
+   "group": "radius"
+  },
+  {
+   "name": "--ag-radius-md",
+   "group": "radius"
+  },
+  {
+   "name": "--ag-radius-lg",
+   "group": "radius"
+  },
+  {
+   "name": "--ag-radius-xl",
+   "group": "radius"
+  },
+  {
+   "name": "--ag-radius-full",
+   "group": "radius"
+  },
+  {
+   "name": "--ag-type-display-size",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-display-leading",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-display-weight",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-title-1-size",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-title-1-leading",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-title-1-weight",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-title-2-size",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-title-2-leading",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-title-2-weight",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-title-3-size",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-title-3-leading",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-title-3-weight",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-body-size",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-body-leading",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-body-weight",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-callout-size",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-callout-leading",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-callout-weight",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-caption-size",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-caption-leading",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-caption-weight",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-label-size",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-label-leading",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-label-weight",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-mono-size",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-mono-leading",
+   "group": "type"
+  },
+  {
+   "name": "--ag-type-mono-weight",
+   "group": "type"
+  },
+  {
+   "name": "--ag-font-sans",
+   "group": "font"
+  },
+  {
+   "name": "--ag-font-mono",
+   "group": "font"
+  },
+  {
+   "name": "--ag-shadow-thin",
+   "group": "shadow"
+  },
+  {
+   "name": "--ag-shadow-regular",
+   "group": "shadow"
+  },
+  {
+   "name": "--ag-shadow-thick",
+   "group": "shadow"
+  },
+  {
+   "name": "--ag-z-content",
+   "group": "z"
+  },
+  {
+   "name": "--ag-z-chrome",
+   "group": "z"
+  },
+  {
+   "name": "--ag-z-overlay",
+   "group": "z"
+  },
+  {
+   "name": "--ag-z-transient",
+   "group": "z"
+  },
+  {
+   "name": "--ag-z-toast",
+   "group": "z"
+  },
+  {
+   "name": "--ag-state-hover-specular",
+   "group": "state"
+  },
+  {
+   "name": "--ag-state-press-glow",
+   "group": "state"
+  },
+  {
+   "name": "--ag-state-disabled-alpha",
+   "group": "state"
+  },
+  {
+   "name": "--ag-target-min",
+   "group": "target"
+  },
+  {
+   "name": "--ag-target-coarse",
+   "group": "target"
+  },
+  {
+   "name": "--ag-density",
+   "group": "density"
+  },
+  {
+   "name": "--ag-scrim-clear",
+   "group": "scrim"
+  },
+  {
+   "name": "--ag-scrim-media",
+   "group": "scrim"
+  },
+  {
+   "name": "--background",
+   "group": "shadcn"
+  },
+  {
+   "name": "--foreground",
+   "group": "shadcn"
+  },
+  {
+   "name": "--primary",
+   "group": "shadcn"
+  },
+  {
+   "name": "--primary-foreground",
+   "group": "shadcn"
+  },
+  {
+   "name": "--muted",
+   "group": "shadcn"
+  },
+  {
+   "name": "--border",
+   "group": "shadcn"
+  },
+  {
+   "name": "--ring",
+   "group": "shadcn"
+  },
+  {
+   "name": "--radius",
+   "group": "shadcn"
+  },
+  {
+   "name": "--ag-duration-instant",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-duration-instant-exit",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-duration-micro",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-duration-micro-exit",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-duration-small",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-duration-small-exit",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-duration-medium",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-duration-medium-exit",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-duration-large",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-duration-large-exit",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-duration-ambient",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-ease-standard",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-ease-emphasized",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-ease-emphasized-decelerate",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-ease-accelerate",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-spring-snappy",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-spring-snappy-duration",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-spring-smooth",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-spring-smooth-duration",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-spring-fluid",
+   "group": "motion"
+  },
+  {
+   "name": "--ag-spring-fluid-duration",
+   "group": "motion"
+  }
+ ],
+ "attributes": {
+  "data-ag-surface": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-layer": {
+   "setter": "MAT",
+   "values": [
+    "chrome",
+    "overlay",
+    "transient",
+    "content",
+    "scrim"
+   ]
+  },
+  "data-ag-variant": {
+   "setter": "MAT",
+   "values": [
+    "regular",
+    "clear",
+    "identity"
+   ]
+  },
+  "data-ag-thickness": {
+   "setter": "MAT",
+   "values": [
+    "thin",
+    "regular",
+    "thick"
+   ]
+  },
+  "data-ag-content": {
+   "setter": "MAT",
+   "values": [
+    "content-raised",
+    "content-sunken"
+   ]
+  },
+  "data-ag-shape": {
+   "setter": "MAT",
+   "values": [
+    "fixed",
+    "capsule",
+    "concentric"
+   ]
+  },
+  "data-ag-interactive": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-prominent": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-refraction": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-allow-nested": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-group": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-backdrop": {
+   "setter": "ANY",
+   "values": [
+    "light",
+    "dark",
+    "media",
+    "auto"
+   ]
+  },
+  "data-ag-engine": {
+   "setter": "MAT",
+   "values": [
+    "chromium",
+    "webkit",
+    "gecko",
+    "unknown"
+   ]
+  },
+  "data-ag-tier": {
+   "setter": "MAT",
+   "values": [
+    "lightweight",
+    "standard",
+    "enhanced"
+   ]
+  },
+  "data-ag-scheme": {
+   "setter": "MAT",
+   "values": [
+    "light",
+    "dark"
+   ]
+  },
+  "data-ag-contrast": {
+   "setter": "MAT",
+   "values": [
+    "standard",
+    "more"
+   ]
+  },
+  "data-ag-transparency": {
+   "setter": "MAT",
+   "values": [
+    "glass",
+    "tinted",
+    "solid"
+   ]
+  },
+  "data-ag-motion": {
+   "setter": "MAT",
+   "values": [
+    "full",
+    "calm",
+    "none"
+   ]
+  },
+  "data-ag-density": {
+   "setter": "MAT",
+   "values": [
+    "compact",
+    "regular",
+    "spacious"
+   ]
+  },
+  "data-ag-animating": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-part": {
+   "setter": "ANY",
+   "values": "kebab-case part name (S-33)"
+  },
+  "data-ag-preview": {
+   "setter": "MAT",
+   "values": [
+    "v5"
+   ]
+  },
+  "data-ag-root": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-provider": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-portal-root": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-layer-root": {
+   "setter": "MAT",
+   "values": [
+    "overlay",
+    "transient",
+    "toast"
+   ]
+  },
+  "data-ag-announcer": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-obscured": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-focusable": {
+   "setter": "ANY",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-scroll-container": {
+   "setter": "ANY",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-continuous": {
+   "setter": "MAT",
+   "values": [
+    "on"
+   ]
+  },
+  "data-ag-offscreen": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-vt": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-vt-participant": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-vt-settled": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-pointer-light": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-highlights": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-size": {
+   "setter": "CMP|SURF",
+   "values": [
+    "sm",
+    "md",
+    "lg"
+   ]
+  },
+  "data-ag-intent": {
+   "setter": "CMP|SURF",
+   "values": [
+    "neutral",
+    "info",
+    "success",
+    "warning",
+    "danger"
+   ]
+  },
+  "data-ag-overlay": {
+   "setter": "CMP",
+   "values": [
+    "dialog",
+    "alert-dialog",
+    "sheet",
+    "popover",
+    "menu",
+    "tooltip",
+    "toast",
+    "select",
+    "combobox",
+    "preview-card"
+   ]
+  },
+  "data-ag-overlay-depth": {
+   "setter": "CMP",
+   "values": "integer >= 0"
+  },
+  "data-ag-nested-open": {
+   "setter": "CMP",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-media-root": {
+   "setter": "SURF",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-media-tone": {
+   "setter": "SURF",
+   "values": [
+    "light",
+    "dark"
+   ]
+  },
+  "data-ag-backdrop-preset": {
+   "setter": "SURF",
+   "values": [
+    "aurora",
+    "mesh",
+    "photo",
+    "video",
+    "grain"
+   ]
+  },
+  "data-ag-palette": {
+   "setter": "SURF",
+   "values": "preset palette id"
+  },
+  "data-ag-slot": {
+   "setter": "SURF",
+   "values": "AppShell slot name, declared in AppShell.meta.ts"
+  },
+  "data-ag-sidebar": {
+   "setter": "SURF",
+   "values": [
+    "expanded",
+    "collapsed",
+    "rail"
+   ]
+  },
+  "data-ag-sidebar-side": {
+   "setter": "SURF",
+   "values": [
+    "start",
+    "end"
+   ]
+  },
+  "data-ag-layout": {
+   "setter": "SURF",
+   "values": [
+    "auto",
+    "desktop",
+    "mobile"
+   ]
+  },
+  "data-ag-placement": {
+   "setter": "SURF",
+   "values": [
+    "inline",
+    "overlay"
+   ]
+  },
+  "data-ag-appearance": {
+   "setter": "CMP|SURF",
+   "values": "component-specific non-material look (e.g. sidebar|inset|floating, underline|pill), declared in meta"
+  },
+  "data-ag-inspector": {
+   "setter": "SURF",
+   "values": [
+    "open",
+    "closed"
+   ]
+  },
+  "data-ag-pinned-edge": {
+   "setter": "SURF",
+   "values": [
+    "start",
+    "end",
+    "top"
+   ]
+  },
+  "data-ag-sizeclass": {
+   "setter": "MAT",
+   "values": "private"
+  },
+  "data-ag-radius": {
+   "setter": "MAT",
+   "values": "private"
+  },
+  "data-ag-spacing": {
+   "setter": "MAT",
+   "values": "private"
+  },
+  "data-ag-inset": {
+   "setter": "MAT",
+   "values": "private"
+  },
+  "data-ag-edge": {
+   "setter": "MAT",
+   "values": [
+    "top",
+    "bottom"
+   ]
+  },
+  "data-ag-edge-style": {
+   "setter": "MAT",
+   "values": [
+    "soft",
+    "hard"
+   ]
+  },
+  "data-ag-lens-ready": {
+   "setter": "MAT",
+   "values": "private"
+  },
+  "data-ag-full-height": {
+   "setter": "MAT",
+   "values": "private"
+  },
+  "data-ag-story-content": {
+   "setter": "QUAL",
+   "values": "story-only"
+  },
+  "data-ag-story-kind": {
+   "setter": "QUAL",
+   "values": [
+    "lab",
+    "component",
+    "matrix",
+    "scene",
+    "showcase"
+   ]
+  },
+  "data-ag-cert-ready": {
+   "setter": "QUAL",
+   "values": "story-only"
+  },
+  "data-ag-lab-override": {
+   "setter": "QUAL",
+   "values": "story-only"
+  },
+  "data-ag-state-cell": {
+   "setter": "QUAL",
+   "values": "story-only"
+  },
+  "data-ag-seed": {
+   "setter": "CONTRACT",
+   "values": "seed-only; banned in dist/ (§1.2 R5)"
+  }
+ },
+ "a11yOverridable": [
+  "--_ag-blur",
+  "--_ag-saturation",
+  "--ag-specular",
+  "--_ag-tint-floor",
+  "--_ag-grain-opacity",
+  "--_ag-shadow",
+  "--_ag-fill"
+ ],
+ "a11yRungs": {
+  "contrast-more": {
+   "saturation": 1,
+   "specular": 0,
+   "grain": "removed",
+   "transparencyFloor": "tinted"
+  },
+  "forced-colors": {
+   "fill": "Canvas",
+   "ink": "CanvasText",
+   "border": "CanvasText",
+   "shadow": "none"
+  },
+  "reduced-transparency": {
+   "transparencyFloor": "tinted"
+  }
+ }
+}

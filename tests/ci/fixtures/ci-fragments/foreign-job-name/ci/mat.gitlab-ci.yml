@@ -1,0 +1,2 @@
+.mat-base: { extends: .ag-node }
+plat:build:bad: { extends: .mat-base, stage: build, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [x] }

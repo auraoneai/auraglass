@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "settings",
+  "type": "registry:block",
+  "title": "Settings",
+  "description": "Sectioned settings surface — GlassPreferencesPanel plus app rows on the CMP field grammar (replaces settings-billing / settings-and-billing-suite).",
+  "dependencies": ["react", "aura-glass@^5"],
+  "registryDependencies": ["auraglass"],
+  "files": [
+    { "path": "index.tsx", "type": "registry:block" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "block",
+      "client": true,
+      "components": ["Card", "SegmentedControl", "Switch", "Tabs", "Text", "GlassPreferencesPanel"],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null,
+      "replaces": ["settings-billing", "settings-and-billing-suite"]
+    }
+  }
+}

@@ -1,2 +1,0 @@
-export { CollaborativeGlassWorkspace } from './CollaborativeGlassWorkspace';
-

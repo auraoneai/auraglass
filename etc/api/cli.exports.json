@@ -1,0 +1,44 @@
+{
+  "package": "@auraglass/cli",
+  "generated": "lane-1e",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": { "auraglass": "./dist/bin.js" },
+  "publicApi": [
+    "runMigration",
+    "runOnSource",
+    "selectTransforms",
+    "loadCompiledMappings",
+    "TRANSFORM_ORDER",
+    "walkFiles",
+    "runChecks",
+    "runV5",
+    "migrateIcons",
+    "reportOnly",
+    "detectProject",
+    "readConfig",
+    "writeConfig",
+    "parseArgs",
+    "EXIT",
+    "CliError",
+    "AUDIT_THRESHOLDS",
+    "MOVED_NOTICE",
+    "PACKAGE_NAME",
+    "PACKAGE_VERSION",
+    "registryItemSchema",
+    "fetchItem",
+    "addCommand",
+    "auditCommand",
+    "diffCommand",
+    "doctorCommand",
+    "initCommand",
+    "listCommand",
+    "infoCommand",
+    "migrateCommand",
+    "updateCommand"
+  ]
+}

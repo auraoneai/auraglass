@@ -1,0 +1,1 @@
+{"sys": {"a": {"$type": "dimension", "$value": "{sys.b}", "$extensions": {"ag.tier": "sys"}}, "b": {"$type": "dimension", "$value": "{sys.a}", "$extensions": {"ag.tier": "sys"}}}}

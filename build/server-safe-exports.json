@@ -1,0 +1,747 @@
+{
+  "version": 1,
+  "safeModules": [
+    "src/ai/agent/AgentSteps.meta.ts",
+    "src/ai/icons/AiIcon.tsx",
+    "src/ai/icons/index.ts",
+    "src/ai/message/Message.meta.ts",
+    "src/ai/usage/UsageMeter.meta.ts",
+    "src/app-shell/Inspector.meta.ts",
+    "src/app-shell/MobileShell.meta.ts",
+    "src/app-shell/Sidebar.meta.ts",
+    "src/app-shell/StatusBar.meta.ts",
+    "src/app-shell/TopBar.meta.ts",
+    "src/backdrops/Backdrop.meta.ts",
+    "src/components/alert/Alert.meta.ts",
+    "src/components/avatar/AvatarGroup.meta.ts",
+    "src/components/badge/Badge.meta.ts",
+    "src/components/button-group/ButtonGroup.meta.ts",
+    "src/components/card/Card.meta.ts",
+    "src/components/container/Container.meta.ts",
+    "src/components/description-list/DescriptionList.meta.ts",
+    "src/components/grid/Grid.meta.ts",
+    "src/components/heading/Heading.meta.ts",
+    "src/components/kbd/Kbd.meta.ts",
+    "src/components/link/Link.meta.ts",
+    "src/components/separator/Separator.meta.ts",
+    "src/components/skeleton/Skeleton.meta.ts",
+    "src/components/stack/Stack.meta.ts",
+    "src/components/state-view/EmptyState.meta.ts",
+    "src/components/state-view/ErrorState.meta.ts",
+    "src/components/state-view/LoadingState.meta.ts",
+    "src/components/steps/Steps.meta.ts",
+    "src/components/text/Text.meta.ts",
+    "src/components/timeline/Timeline.meta.ts",
+    "src/data/chart-frame/ChartFrame.meta.ts",
+    "src/data/sparkline/Sparkline.meta.ts",
+    "src/data/stat-card/StatCard.meta.ts",
+    "src/icons/Icon.meta.ts",
+    "src/icons/action.ts",
+    "src/icons/action/accessibility.tsx",
+    "src/icons/action/archive.tsx",
+    "src/icons/action/arrow-down.tsx",
+    "src/icons/action/arrow-right.tsx",
+    "src/icons/action/arrow-up.tsx",
+    "src/icons/action/bold.tsx",
+    "src/icons/action/book-open.tsx",
+    "src/icons/action/brain.tsx",
+    "src/icons/action/camera.tsx",
+    "src/icons/action/check-check.tsx",
+    "src/icons/action/check.tsx",
+    "src/icons/action/chevrons-left.tsx",
+    "src/icons/action/chevrons-right.tsx",
+    "src/icons/action/circle.tsx",
+    "src/icons/action/clear.tsx",
+    "src/icons/action/clipboard-paste.tsx",
+    "src/icons/action/clock.tsx",
+    "src/icons/action/cloud-upload.tsx",
+    "src/icons/action/cloud.tsx",
+    "src/icons/action/code.tsx",
+    "src/icons/action/contrast.tsx",
+    "src/icons/action/copy.tsx",
+    "src/icons/action/cpu.tsx",
+    "src/icons/action/credit-card.tsx",
+    "src/icons/action/crown.tsx",
+    "src/icons/action/diamond.tsx",
+    "src/icons/action/dollar-sign.tsx",
+    "src/icons/action/download.tsx",
+    "src/icons/action/droplets.tsx",
+    "src/icons/action/edit.tsx",
+    "src/icons/action/eye-off.tsx",
+    "src/icons/action/eye.tsx",
+    "src/icons/action/file-pen-line.tsx",
+    "src/icons/action/file-text.tsx",
+    "src/icons/action/filter.tsx",
+    "src/icons/action/flame.tsx",
+    "src/icons/action/flower.tsx",
+    "src/icons/action/folder-open.tsx",
+    "src/icons/action/folder-search.tsx",
+    "src/icons/action/gauge.tsx",
+    "src/icons/action/gift.tsx",
+    "src/icons/action/globe.tsx",
+    "src/icons/action/grip-vertical.tsx",
+    "src/icons/action/hand.tsx",
+    "src/icons/action/hard-drive.tsx",
+    "src/icons/action/hash.tsx",
+    "src/icons/action/heart.tsx",
+    "src/icons/action/help-circle.tsx",
+    "src/icons/action/hexagon.tsx",
+    "src/icons/action/history.tsx",
+    "src/icons/action/index.ts",
+    "src/icons/action/italic.tsx",
+    "src/icons/action/keyboard.tsx",
+    "src/icons/action/layers.tsx",
+    "src/icons/action/leaf.tsx",
+    "src/icons/action/line-chart.tsx",
+    "src/icons/action/link.tsx",
+    "src/icons/action/lock.tsx",
+    "src/icons/action/mail.tsx",
+    "src/icons/action/map-pin.tsx",
+    "src/icons/action/maximize.tsx",
+    "src/icons/action/message-circle.tsx",
+    "src/icons/action/message-square-text.tsx",
+    "src/icons/action/message-square.tsx",
+    "src/icons/action/mic-off.tsx",
+    "src/icons/action/minimize.tsx",
+    "src/icons/action/minus.tsx",
+    "src/icons/action/monitor.tsx",
+    "src/icons/action/moon.tsx",
+    "src/icons/action/move.tsx",
+    "src/icons/action/music.tsx",
+    "src/icons/action/palette.tsx",
+    "src/icons/action/panels-top-left.tsx",
+    "src/icons/action/paperclip.tsx",
+    "src/icons/action/pause.tsx",
+    "src/icons/action/phone.tsx",
+    "src/icons/action/pie-chart.tsx",
+    "src/icons/action/plus.tsx",
+    "src/icons/action/redo.tsx",
+    "src/icons/action/refresh-cw.tsx",
+    "src/icons/action/reply.tsx",
+    "src/icons/action/rotate-ccw.tsx",
+    "src/icons/action/rotate-cw.tsx",
+    "src/icons/action/save.tsx",
+    "src/icons/action/search.tsx",
+    "src/icons/action/send.tsx",
+    "src/icons/action/server.tsx",
+    "src/icons/action/share.tsx",
+    "src/icons/action/shield-check.tsx",
+    "src/icons/action/shield.tsx",
+    "src/icons/action/shuffle.tsx",
+    "src/icons/action/skip-back.tsx",
+    "src/icons/action/skip-forward.tsx",
+    "src/icons/action/sliders-horizontal.tsx",
+    "src/icons/action/smile.tsx",
+    "src/icons/action/snowflake.tsx",
+    "src/icons/action/sort-asc.tsx",
+    "src/icons/action/sort-desc.tsx",
+    "src/icons/action/square.tsx",
+    "src/icons/action/star.tsx",
+    "src/icons/action/sun.tsx",
+    "src/icons/action/tag.tsx",
+    "src/icons/action/target.tsx",
+    "src/icons/action/test-tube.tsx",
+    "src/icons/action/thumbs-up.tsx",
+    "src/icons/action/trending-down.tsx",
+    "src/icons/action/trending-up.tsx",
+    "src/icons/action/triangle.tsx",
+    "src/icons/action/trophy.tsx",
+    "src/icons/action/underline.tsx",
+    "src/icons/action/undo.tsx",
+    "src/icons/action/unlock.tsx",
+    "src/icons/action/upload.tsx",
+    "src/icons/action/volume-x.tsx",
+    "src/icons/action/waves.tsx",
+    "src/icons/action/wifi.tsx",
+    "src/icons/action/wind.tsx",
+    "src/icons/action/x-circle.tsx",
+    "src/icons/action/x.tsx",
+    "src/icons/action/zoom-in.tsx",
+    "src/icons/action/zoom-out.tsx",
+    "src/icons/ai.ts",
+    "src/icons/ai/index.ts",
+    "src/icons/ai/sparkles.tsx",
+    "src/icons/ai/zap.tsx",
+    "src/icons/collaboration.ts",
+    "src/icons/collaboration/bell.tsx",
+    "src/icons/collaboration/index.ts",
+    "src/icons/collaboration/mic.tsx",
+    "src/icons/collaboration/user.tsx",
+    "src/icons/collaboration/users.tsx",
+    "src/icons/commerce.ts",
+    "src/icons/commerce/check-circle.tsx",
+    "src/icons/commerce/index.ts",
+    "src/icons/commerce/layout-dashboard.tsx",
+    "src/icons/components.tsx",
+    "src/icons/createIcon.tsx",
+    "src/icons/data.ts",
+    "src/icons/data/activity.tsx",
+    "src/icons/data/database.tsx",
+    "src/icons/data/file.tsx",
+    "src/icons/data/grid.tsx",
+    "src/icons/data/index.ts",
+    "src/icons/data/list.tsx",
+    "src/icons/index.ts",
+    "src/icons/media.ts",
+    "src/icons/media/image.tsx",
+    "src/icons/media/index.ts",
+    "src/icons/media/play.tsx",
+    "src/icons/media/video.tsx",
+    "src/icons/navigation.ts",
+    "src/icons/navigation/calendar.tsx",
+    "src/icons/navigation/chevron-down.tsx",
+    "src/icons/navigation/chevron-left.tsx",
+    "src/icons/navigation/chevron-right.tsx",
+    "src/icons/navigation/chevron-up.tsx",
+    "src/icons/navigation/folder.tsx",
+    "src/icons/navigation/home.tsx",
+    "src/icons/navigation/index.ts",
+    "src/icons/navigation/menu.tsx",
+    "src/icons/navigation/more-horizontal.tsx",
+    "src/icons/navigation/more-vertical.tsx",
+    "src/icons/navigation/settings.tsx",
+    "src/icons/status.ts",
+    "src/icons/status/alert-circle.tsx",
+    "src/icons/status/alert-triangle.tsx",
+    "src/icons/status/index.ts",
+    "src/icons/status/info.tsx",
+    "src/icons/types.ts",
+    "src/primitives/Label.meta.ts",
+    "src/primitives/Slot.meta.ts",
+    "src/primitives/VisuallyHidden.meta.ts",
+    "src/tokens/generated/manifest.ts",
+    "src/tokens/generated/material-spec.ts",
+    "src/tokens/generated/presets.ts",
+    "src/tokens/generated/tokens.d.ts",
+    "src/tokens/generated/tokens.ts",
+    "src/tokens/index.ts"
+  ],
+  "meta": [
+    {
+      "name": "Accordion",
+      "rsc": "client"
+    },
+    {
+      "name": "ActivityFeed",
+      "rsc": "mixed"
+    },
+    {
+      "name": "AgentSteps",
+      "rsc": "server"
+    },
+    {
+      "name": "Alert",
+      "rsc": "server"
+    },
+    {
+      "name": "AlertDialog",
+      "rsc": "client"
+    },
+    {
+      "name": "AppShell",
+      "rsc": "mixed"
+    },
+    {
+      "name": "Avatar",
+      "rsc": "client"
+    },
+    {
+      "name": "AvatarGroup",
+      "rsc": "server"
+    },
+    {
+      "name": "Backdrop",
+      "rsc": "server"
+    },
+    {
+      "name": "Badge",
+      "rsc": "server"
+    },
+    {
+      "name": "Breadcrumbs",
+      "rsc": "mixed"
+    },
+    {
+      "name": "Button",
+      "rsc": "client"
+    },
+    {
+      "name": "ButtonGroup",
+      "rsc": "server"
+    },
+    {
+      "name": "Calendar",
+      "rsc": "client"
+    },
+    {
+      "name": "Card",
+      "rsc": "server"
+    },
+    {
+      "name": "CarouselRail",
+      "rsc": "client"
+    },
+    {
+      "name": "Chart",
+      "rsc": "mixed"
+    },
+    {
+      "name": "ChartFrame",
+      "rsc": "server"
+    },
+    {
+      "name": "Checkbox",
+      "rsc": "client"
+    },
+    {
+      "name": "CheckboxGroup",
+      "rsc": "client"
+    },
+    {
+      "name": "Chip",
+      "rsc": "client"
+    },
+    {
+      "name": "Chip",
+      "rsc": "client"
+    },
+    {
+      "name": "Citation",
+      "rsc": "client"
+    },
+    {
+      "name": "Collapsible",
+      "rsc": "client"
+    },
+    {
+      "name": "ColorPicker",
+      "rsc": "client"
+    },
+    {
+      "name": "Combobox",
+      "rsc": "client"
+    },
+    {
+      "name": "Command",
+      "rsc": "client"
+    },
+    {
+      "name": "CommandPalette",
+      "rsc": "client"
+    },
+    {
+      "name": "Composer",
+      "rsc": "client"
+    },
+    {
+      "name": "Container",
+      "rsc": "server"
+    },
+    {
+      "name": "DateField",
+      "rsc": "client"
+    },
+    {
+      "name": "DatePicker",
+      "rsc": "client"
+    },
+    {
+      "name": "DateRangePicker",
+      "rsc": "client"
+    },
+    {
+      "name": "DescriptionList",
+      "rsc": "server"
+    },
+    {
+      "name": "Dialog",
+      "rsc": "client"
+    },
+    {
+      "name": "DismissableLayer",
+      "rsc": "client"
+    },
+    {
+      "name": "EmptyState",
+      "rsc": "server"
+    },
+    {
+      "name": "ErrorState",
+      "rsc": "server"
+    },
+    {
+      "name": "Field",
+      "rsc": "client"
+    },
+    {
+      "name": "Fieldset",
+      "rsc": "client"
+    },
+    {
+      "name": "FileUpload",
+      "rsc": "client"
+    },
+    {
+      "name": "FilterBar",
+      "rsc": "client"
+    },
+    {
+      "name": "FocusScope",
+      "rsc": "client"
+    },
+    {
+      "name": "Form",
+      "rsc": "client"
+    },
+    {
+      "name": "GlassPreferencesPanel",
+      "rsc": "client"
+    },
+    {
+      "name": "Grid",
+      "rsc": "server"
+    },
+    {
+      "name": "Heading",
+      "rsc": "server"
+    },
+    {
+      "name": "Icon",
+      "rsc": "server"
+    },
+    {
+      "name": "IconButton",
+      "rsc": "client"
+    },
+    {
+      "name": "ImageList",
+      "rsc": "client"
+    },
+    {
+      "name": "ImageViewer",
+      "rsc": "client"
+    },
+    {
+      "name": "InlineEdit",
+      "rsc": "client"
+    },
+    {
+      "name": "Inspector",
+      "rsc": "server"
+    },
+    {
+      "name": "Kbd",
+      "rsc": "server"
+    },
+    {
+      "name": "KeyValueEditor",
+      "rsc": "client"
+    },
+    {
+      "name": "KeyValueEditor",
+      "rsc": "client"
+    },
+    {
+      "name": "Label",
+      "rsc": "server"
+    },
+    {
+      "name": "Link",
+      "rsc": "server"
+    },
+    {
+      "name": "LoadingState",
+      "rsc": "server"
+    },
+    {
+      "name": "matrix.meta.ts"
+    },
+    {
+      "name": "MediaControls",
+      "rsc": "client"
+    },
+    {
+      "name": "Menu",
+      "rsc": "client"
+    },
+    {
+      "name": "Message",
+      "rsc": "server"
+    },
+    {
+      "name": "Meter",
+      "rsc": "client"
+    },
+    {
+      "name": "MobileShell",
+      "rsc": "server"
+    },
+    {
+      "name": "NowPlayingBar",
+      "rsc": "client"
+    },
+    {
+      "name": "NumberField",
+      "rsc": "client"
+    },
+    {
+      "name": "Pagination",
+      "rsc": "mixed"
+    },
+    {
+      "name": "Popover",
+      "rsc": "client"
+    },
+    {
+      "name": "Portal",
+      "rsc": "client"
+    },
+    {
+      "name": "Progress",
+      "rsc": "client"
+    },
+    {
+      "name": "ProviderErrorState",
+      "rsc": "client"
+    },
+    {
+      "name": "RadioGroup",
+      "rsc": "client"
+    },
+    {
+      "name": "Rating",
+      "rsc": "client"
+    },
+    {
+      "name": "Reasoning",
+      "rsc": "client"
+    },
+    {
+      "name": "ResizablePanels",
+      "rsc": "client"
+    },
+    {
+      "name": "ScrollArea",
+      "rsc": "client"
+    },
+    {
+      "name": "SearchField",
+      "rsc": "client"
+    },
+    {
+      "name": "SegmentedControl",
+      "rsc": "client"
+    },
+    {
+      "name": "Select",
+      "rsc": "client"
+    },
+    {
+      "name": "Separator",
+      "rsc": "server"
+    },
+    {
+      "name": "Sheet",
+      "rsc": "client"
+    },
+    {
+      "name": "Sidebar",
+      "rsc": "server"
+    },
+    {
+      "name": "SidebarDrawer",
+      "rsc": "client"
+    },
+    {
+      "name": "Skeleton",
+      "rsc": "server"
+    },
+    {
+      "name": "Slider",
+      "rsc": "client"
+    },
+    {
+      "name": "Slot",
+      "rsc": "server"
+    },
+    {
+      "name": "SourceList",
+      "rsc": "client"
+    },
+    {
+      "name": "SourceTransition",
+      "rsc": "client"
+    },
+    {
+      "name": "Sparkline",
+      "rsc": "server"
+    },
+    {
+      "name": "Stack",
+      "rsc": "server"
+    },
+    {
+      "name": "StatCard",
+      "rsc": "server"
+    },
+    {
+      "name": "StatusBar",
+      "rsc": "server"
+    },
+    {
+      "name": "Steps",
+      "rsc": "server"
+    },
+    {
+      "name": "StreamingText",
+      "rsc": "client"
+    },
+    {
+      "name": "Switch",
+      "rsc": "client"
+    },
+    {
+      "name": "TabBar",
+      "rsc": "client"
+    },
+    {
+      "name": "Table",
+      "rsc": "client"
+    },
+    {
+      "name": "Tabs",
+      "rsc": "client"
+    },
+    {
+      "name": "Text",
+      "rsc": "server"
+    },
+    {
+      "name": "TextField",
+      "rsc": "client"
+    },
+    {
+      "name": "Thread",
+      "rsc": "client"
+    },
+    {
+      "name": "TimeField",
+      "rsc": "client"
+    },
+    {
+      "name": "Timeline",
+      "rsc": "server"
+    },
+    {
+      "name": "Toast",
+      "rsc": "client"
+    },
+    {
+      "name": "ToggleGroup",
+      "rsc": "client"
+    },
+    {
+      "name": "Toolbar",
+      "rsc": "client"
+    },
+    {
+      "name": "ToolCall",
+      "rsc": "client"
+    },
+    {
+      "name": "Tooltip",
+      "rsc": "client"
+    },
+    {
+      "name": "TopBar",
+      "rsc": "server"
+    },
+    {
+      "name": "Tour",
+      "rsc": "client"
+    },
+    {
+      "name": "TreeView",
+      "rsc": "client"
+    },
+    {
+      "name": "UsageMeter",
+      "rsc": "server"
+    },
+    {
+      "name": "VisuallyHidden",
+      "rsc": "server"
+    }
+  ],
+  "entries": [
+    {
+      "subpath": ".",
+      "safe": true
+    },
+    {
+      "subpath": "./material",
+      "safe": true
+    },
+    {
+      "subpath": "./theme",
+      "safe": true
+    },
+    {
+      "subpath": "./tokens",
+      "safe": true
+    },
+    {
+      "subpath": "./motion",
+      "safe": true
+    },
+    {
+      "subpath": "./primitives",
+      "safe": false,
+      "reason": "client signal in src/primitives/Portal.tsx"
+    },
+    {
+      "subpath": "./icons",
+      "safe": true
+    },
+    {
+      "subpath": "./forms",
+      "safe": true
+    },
+    {
+      "subpath": "./app-shell",
+      "safe": true
+    },
+    {
+      "subpath": "./data",
+      "safe": true
+    },
+    {
+      "subpath": "./date",
+      "safe": true
+    },
+    {
+      "subpath": "./ai",
+      "safe": true
+    },
+    {
+      "subpath": "./media",
+      "safe": true
+    },
+    {
+      "subpath": "./backdrops",
+      "safe": true
+    },
+    {
+      "subpath": "./three",
+      "safe": true
+    },
+    {
+      "subpath": "./charts",
+      "safe": true
+    },
+    {
+      "subpath": "./compat",
+      "safe": true
+    }
+  ]
+}

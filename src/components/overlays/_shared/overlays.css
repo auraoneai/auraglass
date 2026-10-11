@@ -1,0 +1,77 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* CMP-194 (REQ-CMP-79): shared overlay CSS — scrim, forced-colors/solid fallbacks,
+   anchored-popup geometry, animating hint. No pseudo optics/grain, no
+   transition:all, no !important, no looping animations, no
+   filter/backdrop-filter declarations at all (REQ-CMP-08): blur and its
+   solid / prefers-contrast / forced-colors resets are MAT's
+   (src/material/css/material.css, src/a11y/css/rungs.css); the scrim
+   animates opacity only. */
+@layer ag.components {
+  /* REQ-CMP-89: the overlay's portal element is a full-viewport named
+     container so popup CSS can use @container ag-overlay queries instead of
+     @media viewport. It sits on the CMP portal element, not on
+     [data-ag-layer-root]: the layer roots are positioned by
+     src/a11y/css/layers.css (ag.a11y, position: relative + z-index), and a
+     zero-height relative container would become the containing block of the
+     fixed popups. Layer-root z-order is unchanged (this box is inside it). */
+  .ag-overlay-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    container: ag-overlay / inline-size;
+  }
+  .ag-overlay-container > * {
+    pointer-events: auto;
+  }
+
+  .ag-scrim {
+    position: fixed;
+    inset: 0;
+    /* solved tint from the scrim token; optics come only through MAT */
+    background: color-mix(in srgb, black calc(var(--ag-scrim-media) * 100%), transparent);
+    opacity: 1;
+    transition: opacity var(--ag-duration-medium) var(--ag-ease-standard);
+  }
+  .ag-scrim[data-starting-style],
+  .ag-scrim[data-ending-style] {
+    opacity: 0;
+  }
+
+  /* anchored popups (positioner-mounted) */
+  [data-ag-part='popup'][data-ag-overlay],
+  [data-ag-part='popup'][data-positioned] {
+    transform-origin: var(--transform-origin);
+    max-block-size: var(--available-height);
+    overflow: auto;
+  }
+
+  /* scoped to elements carrying an ag-* class (no bare attribute selector) */
+  [class^='ag-'][data-ag-animating],
+  [class*=' ag-'][data-ag-animating] {
+    will-change: transform, opacity;
+  }
+
+  /* Overlay parts (popup, close, handle, action) take the shared REQ-CMP-19
+     two-tone ring from control-shared/controls.css. */
+
+  @media (forced-colors: active) {
+    .ag-scrim {
+      background: color-mix(in srgb, Canvas 60%, transparent);
+    }
+    [data-ag-part='popup'] {
+      background: Canvas;
+      color: CanvasText;
+      border: 1px solid CanvasText;
+    }
+  }
+  [data-ag-transparency='solid'] [data-ag-part='popup'] {
+    border: var(--_ag-surface-rim) solid var(--ag-color-border, currentColor);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ag-scrim {
+      transition-duration: var(--ag-duration-micro);
+    }
+  }
+}

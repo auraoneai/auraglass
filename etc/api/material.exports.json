@@ -1,0 +1,12 @@
+{
+ "entry": "./material",
+ "exports": [
+  "ConcentricFrame",
+  "Environment",
+  "ScrollEdge",
+  "Surface",
+  "SurfaceGroup",
+  "materialProps",
+  "useMaterialTier"
+ ]
+}

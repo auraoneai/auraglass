@@ -1,0 +1,12 @@
+{
+ "entry": "primitives",
+ "exports": [
+  "DismissableLayer",
+  "FocusScope",
+  "Label",
+  "Portal",
+  "Slot",
+  "VisuallyHidden"
+ ],
+ "unanalysable": []
+}

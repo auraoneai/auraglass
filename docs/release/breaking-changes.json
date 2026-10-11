@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "items": [
+    { "id": "B1", "title": "React ^19.0 floor", "affected": "React 18 apps", "cdIn": "4.2.0", "path": "Upgrade React, or stay on 4.x LTS", "codemod": null, "escapeHatch": "4.x LTS" },
+    { "id": "B2", "title": "ESM-only, Node >=20.19", "affected": "CJS/Jest-CJS consumers", "cdIn": "4.2.0", "path": "require(esm), Jest ESM config. A CJS build only if beta proves the need", "codemod": null, "escapeHatch": "require(esm)" },
+    { "id": "B3", "title": "Removed components (119 root exports)", "affected": "users of those exports", "cdIn": "4.2.0", "path": "removed codemod TODOs; registry items; 4.x LTS", "codemod": "removed", "escapeHatch": "4.x LTS" },
+    { "id": "B4", "title": "Removed subpaths", "affected": "subpath users", "cdIn": "4.2.0", "path": "imports-subpaths codemod", "codemod": "imports-subpaths", "escapeHatch": null },
+    { "id": "B5", "title": "Names: prefix dropped, aliases removed", "affected": "everyone", "cdIn": "4.2.0", "path": "canonical-names; compat", "codemod": "canonical-names", "escapeHatch": "aura-glass/compat" },
+    { "id": "B6", "title": "Prop grammar", "affected": "most call sites", "cdIn": "4.2.0", "path": "prop-grammar; compat", "codemod": "prop-grammar", "escapeHatch": "aura-glass/compat" },
+    { "id": "B7", "title": "Dependency diet", "affected": "undeclared transitive users", "cdIn": "4.2.0", "path": "deps codemod; doctor --v5 reports undeclared imports", "codemod": "deps", "escapeHatch": "install the dep yourself" },
+    { "id": "B8", "title": "Global CSS removed; layered CSS", "affected": "apps relying on heading or utility globals", "cdIn": "4.2.0", "path": "compat/globals.css; doctor", "codemod": null, "escapeHatch": "aura-glass/compat/globals.css" },
+    { "id": "B9", "title": "--glass-* renamed to --ag-*", "affected": "consumer CSS", "cdIn": "4.2.0", "path": "css-vars; compat/tokens.css", "codemod": "css-vars", "escapeHatch": "aura-glass/compat/tokens.css" },
+    { "id": "B10", "title": "Base UI DOM, ARIA and data-* changes", "affected": "consumer CSS and tests targeting internals", "cdIn": "4.3.0", "path": "the data-ag-part/data-state contract; per-component selector tables", "codemod": null, "escapeHatch": "data-ag-part contract" },
+    { "id": "B11", "title": "New default material (every surface changes pixels)", "affected": "everyone visually", "cdIn": "4.3.0", "path": "4.3 subtree preview to re-baseline early; data-ag-transparency escape hatch", "codemod": null, "escapeHatch": "data-ag-transparency" },
+    { "id": "B12", "title": "Content layer is no longer glass by default", "affected": "apps expecting glass cards", "cdIn": "4.3.0", "path": "variant=\"regular\" opt-in over media", "codemod": null, "escapeHatch": "variant=\"regular\"" },
+    { "id": "B13", "title": "OS signals are floors; reduced motion cannot be overridden", "affected": "apps forcing glass or animation", "cdIn": "4.2.0", "path": "none (accessibility fix)", "codemod": null, "escapeHatch": null },
+    { "id": "B14", "title": "Server, services and simulated AI removed", "affected": "services/* users", "cdIn": "4.3.0", "path": "archive pointer; ./ai presentational primitives", "codemod": null, "escapeHatch": "auraglass-server-archive" },
+    { "id": "B15", "title": "CLI moved to @auraglass/cli", "affected": "CLI users", "cdIn": "4.3.0", "path": "npx @auraglass/cli …; the 4.x CLI prints the new command from 4.3", "codemod": null, "escapeHatch": null },
+    { "id": "B16", "title": "ssr/server shims removed", "affected": "SSR wrapper users", "cdIn": "4.3.0", "path": "the codemod deletes them (behaviour-preserving)", "codemod": "removed", "escapeHatch": null },
+    { "id": "B17", "title": "Asset subpath renames (icons/env/json/manifest namespaces)", "affected": "asset subpath importers", "cdIn": "4.3.0", "path": "imports-subpaths codemod", "codemod": "imports-subpaths", "escapeHatch": null },
+    { "id": "B18", "title": "Primitives collapse (4.x primitive set folds into the 5.0 primitives entry)", "affected": "primitive importers", "cdIn": "4.3.0", "path": "canonical-names + imports-subpaths codemods", "codemod": "canonical-names", "escapeHatch": "aura-glass/compat" },
+    { "id": "B19", "title": "Icons, env vars, .json/.css manifest subpaths removed", "affected": "icon/manifest consumers", "cdIn": "4.3.0", "path": "imports-subpaths codemod", "codemod": "imports-subpaths", "escapeHatch": null },
+    { "id": "B20", "title": "Dead optical props removed", "affected": "call sites passing dead optical props", "cdIn": "4.3.0", "path": "dead-optical-props codemod", "codemod": "dead-optical-props", "escapeHatch": null },
+    { "id": "B21", "title": "Provider trees collapse to the 5.0 provider", "affected": "apps composing 4.x providers", "cdIn": "4.3.0", "path": "providers codemod", "codemod": "providers", "escapeHatch": null }
+  ]
+}

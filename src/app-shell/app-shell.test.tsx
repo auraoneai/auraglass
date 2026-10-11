@@ -1,114 +1,92 @@
-"use client";
+import { describe, expect, it } from '@jest/globals';
+import { render, screen } from '@testing-library/react';
+import * as React from 'react';
+import { AppShell } from './AppShell';
+import { TopBar } from './TopBar';
+import { StatusBar } from './StatusBar';
 
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-
-import {
-  GlassActionBar,
-  GlassAppShell,
-  GlassBreadcrumbs,
-  GlassCommandDock,
-  GlassIconButton,
-  GlassMain,
-  GlassPage,
-  GlassPageHeader,
-  GlassSidebarPanel,
-  GlassSidebarRail,
-  GlassSplitPane,
-  GlassStatusBar,
-  GlassTopBar,
-} from ".";
-
-describe("Glass app shell", () => {
-  it("composes top bar, sidebar, main content, actions, and status regions", () => {
+describe('5.0 AppShell (SURF-024)', () => {
+  it('renders slots wrapped in memo/HOC in the right grid areas', () => {
+    const MemoTop = React.memo(() => <TopBar.Root>tb</TopBar.Root>);
+    const Hoc = () => <MemoTop />;
     render(
-      <GlassAppShell
-        topBar={
-          <GlassTopBar brand="AuraGlass" actions={<button>Profile</button>} />
-        }
-        sidebar={
-          <GlassSidebarPanel title="Sections">
-            <GlassSidebarRail
-              items={[{ id: "home", label: "Home", active: true }]}
-            />
-          </GlassSidebarPanel>
-        }
-        actionBar={
-          <GlassActionBar>
-            <button>Deploy</button>
-          </GlassActionBar>
-        }
-        statusBar={<GlassStatusBar>Ready</GlassStatusBar>}
+      <AppShell.Root>
+        <AppShell.SkipLink />
+        <Hoc />
+        <AppShell.Main>body</AppShell.Main>
+        <StatusBar.Root>
+          <StatusBar.Item>st</StatusBar.Item>
+        </StatusBar.Root>
+      </AppShell.Root>,
+    );
+    const rootEl = document.querySelector('.ag-app-shell')!;
+    expect(rootEl.querySelector('[data-ag-slot="top"]')).not.toBeNull();
+    expect(rootEl.querySelector('[data-ag-slot="main"]')).not.toBeNull();
+    expect(rootEl.querySelector('[data-ag-slot="status"]')).not.toBeNull();
+    expect(rootEl.querySelector('[data-ag-slot="skip"]')).not.toBeNull();
+  });
+
+  it('renders a single main landmark', () => {
+    render(
+      <AppShell.Root>
+        <AppShell.Main>body</AppShell.Main>
+      </AppShell.Root>,
+    );
+    expect(screen.getAllByRole('main')).toHaveLength(1);
+  });
+
+  it('props render as data attributes', () => {
+    render(
+      <AppShell.Root
+        data-testid="shell"
+        defaultSidebar="rail"
+        defaultInspector="open"
+        sidebarSide="end"
+        layout="wide"
+        collapseTo="collapsed"
+        density="compact"
+        persistKey="prefs"
       >
-        <GlassMain>
-          <GlassPage>
-            <GlassPageHeader
-              eyebrow="Launch"
-              title="Operations"
-              description="Production cockpit"
-            />
-            <p>Workflow surface</p>
-          </GlassPage>
-        </GlassMain>
-      </GlassAppShell>
+        <AppShell.Main />
+      </AppShell.Root>,
     );
-
-    expect(screen.getByRole("banner")).toHaveTextContent("AuraGlass");
-    expect(screen.getByRole("main")).toHaveTextContent("Workflow surface");
-    expect(screen.getByRole("button", { name: "Deploy" })).toBeInTheDocument();
-    expect(screen.getByRole("status")).toHaveTextContent("Ready");
-    expect(
-      screen.getByRole("navigation", { name: "Primary navigation" })
-    ).toBeInTheDocument();
+    const el = screen.getByTestId('shell');
+    expect(el).toHaveAttribute('data-ag-part', 'root');
+    expect(el).toHaveAttribute('data-ag-sidebar', 'rail');
+    expect(el).toHaveAttribute('data-ag-inspector', 'open');
+    expect(el).toHaveAttribute('data-ag-sidebar-side', 'end');
+    expect(el).toHaveAttribute('data-ag-layout', 'wide');
+    expect(el).toHaveAttribute('data-collapse-to', 'collapsed');
+    expect(el).toHaveAttribute('data-ag-density', 'compact');
+    expect(el).toHaveAttribute('data-persist-key', 'prefs');
   });
 
-  it("keeps navigation and icon buttons accessible", async () => {
-    const onSelect = jest.fn();
-    const user = userEvent.setup();
-
+  it('page header uses the requested heading level', () => {
     render(
-      <>
-        <GlassSidebarRail
-          items={[{ id: "settings", label: "Settings", onSelect }]}
-        />
-        <GlassIconButton label="Open command menu">⌘</GlassIconButton>
-      </>
+      <AppShell.PageHeader title="Settings" headingLevel={3} eyebrow="Area" description="Desc" actions={<button>a</button>} />,
     );
-
-    await user.click(screen.getByRole("button", { name: "Settings" }));
-
-    expect(onSelect).toHaveBeenCalledTimes(1);
-    expect(
-      screen.getByRole("button", { name: "Open command menu" })
-    ).toBeInTheDocument();
+    const heading = screen.getByRole('heading', { level: 3 });
+    expect(heading).toHaveTextContent('Settings');
+    expect(heading).toHaveAttribute('data-ag-part', 'title');
   });
 
-  it("renders breadcrumb, command dock, and split-pane semantics", () => {
+  it('landmark inventory: banner<=1, main=1, labelled navs only', () => {
     render(
-      <>
-        <GlassBreadcrumbs
-          items={[{ label: "Docs", href: "/docs" }, { label: "3.2" }]}
-        />
-        <GlassCommandDock
-          input={<input aria-label="Command" />}
-          actions={<button>Run</button>}
-        />
-        <GlassSplitPane ratio="two-thirds">
-          <section>Canvas</section>
-          <aside>Inspector</aside>
-        </GlassSplitPane>
-      </>
+      <AppShell.Root>
+        <TopBar.Root>
+          <TopBar.Title>t</TopBar.Title>
+        </TopBar.Root>
+        <AppShell.Main>body</AppShell.Main>
+        <StatusBar.Root>
+          <StatusBar.Item>x</StatusBar.Item>
+        </StatusBar.Root>
+      </AppShell.Root>,
     );
-
-    expect(
-      screen.getByRole("navigation", { name: "Breadcrumb" })
-    ).toHaveTextContent("Docs");
-    expect(screen.getByLabelText("Command")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Run" })).toBeInTheDocument();
-    expect(screen.getByText("Inspector").parentElement).toHaveAttribute(
-      "data-direction",
-      "horizontal"
-    );
+    expect(screen.getAllByRole('main')).toHaveLength(1);
+    // at most one banner landmark in a full shell
+    expect(screen.queryAllByRole('banner').length).toBeLessThanOrEqual(1);
+    // status bar has no landmark role
+    expect(document.querySelector('[data-ag-part="status-bar"]')).not.toBeNull();
+    expect(screen.queryAllByRole('status')).toHaveLength(0);
   });
 });

@@ -1,15 +1,5 @@
-export {
-  ActivityIcon,
-  DashboardIcon,
-  DatabaseIcon,
-  FileIcon,
-  FilterIcon,
-  GridIcon,
-  ListIcon,
-  SearchIcon,
-} from "./index";
-export type {
-  GlassIcon,
-  GlassIconNode,
-  GlassIconProps,
-} from "./createGlassIcon";
+export { ActivityIcon } from './data/activity';
+export { DatabaseIcon } from './data/database';
+export { FileIcon } from './data/file';
+export { GridIcon } from './data/grid';
+export { ListIcon } from './data/list';

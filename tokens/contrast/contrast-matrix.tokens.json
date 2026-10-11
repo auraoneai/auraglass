@@ -1,0 +1,121 @@
+{
+  "$schema": "../$schema.json",
+  "contrast": {
+    "$extensions": {
+      "ag.tier": "material",
+      "ag.since": "5.0.0"
+    },
+    "$description": "Contrast solver input spec (REQ-MAT-39/41). The solver iterates presets x schemes x contrast x transparency x variants x thickness x backdrop samples = 2160 cells, searching alpha in 0.005 steps until text/icon targets (4.5:1, chrome 3:1, more-contrast 7:1) hold, and emits the matrix as a generated artifact plus floors.css guarantees.",
+    "matrix": {
+      "samples": {
+        "$type": "string",
+        "$value": [
+          "white",
+          "black",
+          "#777777",
+          "#ff3b30",
+          "#34c759",
+          "#0a84ff",
+          "#ffcc00",
+          "#af52de",
+          "#ff9500",
+          "#5ac8fa",
+          "#8e8e93"
+        ],
+        "$description": "Backdrop samples: white, black, then the 9 busy mid-luminance hues."
+      },
+      "axes": {
+        "presets": {
+          "$type": "string",
+          "$value": [
+            "aura",
+            "graphite",
+            "daylight",
+            "midnight"
+          ]
+        },
+        "schemes": {
+          "$type": "string",
+          "$value": [
+            "light",
+            "dark"
+          ]
+        },
+        "contrast": {
+          "$type": "string",
+          "$value": [
+            "standard",
+            "more"
+          ]
+        },
+        "transparency": {
+          "$type": "string",
+          "$value": [
+            "glass",
+            "tinted",
+            "solid"
+          ]
+        },
+        "variants": {
+          "$type": "string",
+          "$value": [
+            "regular",
+            "clear",
+            "identity",
+            "raised",
+            "sunken"
+          ]
+        },
+        "thickness": {
+          "$type": "string",
+          "$value": [
+            "thin",
+            "regular",
+            "thick"
+          ]
+        },
+        "backdropClass": {
+          "$type": "string",
+          "$value": [
+            "light",
+            "dark",
+            "media"
+          ]
+        }
+      },
+      "targets": {
+        "text": {
+          "$type": "number",
+          "$value": 4.5
+        },
+        "chrome": {
+          "$type": "number",
+          "$value": 3.0
+        },
+        "more": {
+          "$type": "number",
+          "$value": 7.0
+        },
+        "alphaStep": {
+          "$type": "number",
+          "$value": 0.005
+        }
+      },
+      "floors": {
+        "$description": "Per-thickness minimum effective alpha (floor) the solver guarantees in every cell; emitted to src/material/css/generated/floors.css.",
+        "thin": {
+          "$type": "number",
+          "$value": 0.6
+        },
+        "regular": {
+          "$type": "number",
+          "$value": 0.55
+        },
+        "thick": {
+          "$type": "number",
+          "$value": 0.5
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "../$schema.json",
+  "sys": {
+    "$extensions": { "ag.tier": "sys", "ag.since": "5.0.0" },
+    "motion": {
+      "$description": "Motion system tokens aliasing ref.time (REQ-MAT-08). Springs additionally emit --ag-spring-<n>-duration (the spring's settling duration for JS/test use) and are compiled to linear() easing by the motion-spring transform.",
+      "duration": {
+        "instant":     { "$type": "duration", "$value": "{ref.time.duration.instant}",      "$extensions": { "ag.public": true, "ag.cssVar": "--ag-duration-instant" } },
+        "instant-exit":{ "$type": "duration", "$value": "{ref.time.duration.instant-exit}", "$extensions": { "ag.public": true, "ag.cssVar": "--ag-duration-instant-exit" } },
+        "micro":       { "$type": "duration", "$value": "{ref.time.duration.micro}",        "$extensions": { "ag.public": true, "ag.cssVar": "--ag-duration-micro" } },
+        "micro-exit":  { "$type": "duration", "$value": "{ref.time.duration.micro-exit}",   "$extensions": { "ag.public": true, "ag.cssVar": "--ag-duration-micro-exit" } },
+        "small":       { "$type": "duration", "$value": "{ref.time.duration.small}",        "$extensions": { "ag.public": true, "ag.cssVar": "--ag-duration-small" } },
+        "small-exit":  { "$type": "duration", "$value": "{ref.time.duration.small-exit}",   "$extensions": { "ag.public": true, "ag.cssVar": "--ag-duration-small-exit" } },
+        "medium":      { "$type": "duration", "$value": "{ref.time.duration.medium}",       "$extensions": { "ag.public": true, "ag.cssVar": "--ag-duration-medium" } },
+        "medium-exit": { "$type": "duration", "$value": "{ref.time.duration.medium-exit}",  "$extensions": { "ag.public": true, "ag.cssVar": "--ag-duration-medium-exit" } },
+        "large":       { "$type": "duration", "$value": "{ref.time.duration.large}",        "$extensions": { "ag.public": true, "ag.cssVar": "--ag-duration-large" } },
+        "large-exit":  { "$type": "duration", "$value": "{ref.time.duration.large-exit}",   "$extensions": { "ag.public": true, "ag.cssVar": "--ag-duration-large-exit" } },
+        "ambient":     { "$type": "duration", "$value": "{ref.time.duration.ambient}",      "$extensions": { "ag.public": true, "ag.cssVar": "--ag-duration-ambient", "ag.usage": "continuous-only" } }
+      },
+      "ease": {
+        "standard":               { "$type": "cubicBezier", "$value": "{ref.time.ease.standard}",               "$extensions": { "ag.public": true, "ag.cssVar": "--ag-ease-standard" } },
+        "emphasized":             { "$type": "cubicBezier", "$value": "{ref.time.ease.emphasized}",             "$extensions": { "ag.public": true, "ag.cssVar": "--ag-ease-emphasized" } },
+        "emphasized-decelerate":  { "$type": "cubicBezier", "$value": "{ref.time.ease.emphasized-decelerate}",  "$extensions": { "ag.public": true, "ag.cssVar": "--ag-ease-emphasized-decelerate" } },
+        "accelerate":             { "$type": "cubicBezier", "$value": "{ref.time.ease.accelerate}",             "$extensions": { "ag.public": true, "ag.cssVar": "--ag-ease-accelerate" } }
+      },
+      "spring": {
+        "snappy": { "$type": "motion-spring", "$value": "{ref.time.spring.snappy}", "$extensions": { "ag.public": true, "ag.cssVar": "--ag-spring-snappy" } },
+        "smooth": { "$type": "motion-spring", "$value": "{ref.time.spring.smooth}", "$extensions": { "ag.public": true, "ag.cssVar": "--ag-spring-smooth" } },
+        "fluid":  { "$type": "motion-spring", "$value": "{ref.time.spring.fluid}",  "$extensions": { "ag.public": true, "ag.cssVar": "--ag-spring-fluid" } }
+      }
+    }
+  }
+}

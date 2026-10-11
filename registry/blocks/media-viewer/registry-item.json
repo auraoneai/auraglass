@@ -1,0 +1,45 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "media-viewer",
+  "type": "registry:block",
+  "title": "Media viewer",
+  "description": "Media detail page: Backdrop photo + consumer-owned <video> with captions, compound MediaControls and a NowPlayingBar on the same media handle, ImageViewer gallery and CarouselRail \u2014 tone sampled from owned pixels.",
+  "dependencies": [
+    "react",
+    "aura-glass"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
+  "files": [
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    },
+    {
+      "path": "page.tsx",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "block",
+      "client": true,
+      "components": [
+        "Backdrop",
+        "CarouselRail",
+        "ImageViewer",
+        "MediaControls",
+        "NowPlayingBar"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null
+    }
+  }
+}

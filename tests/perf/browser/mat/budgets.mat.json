@@ -1,0 +1,17 @@
+{
+  "$schema": "../budgets.schema.json",
+  "owner": "MAT lane V (2c-V) — merged into tests/perf/harness/budgets.json by PERF (SC-15)",
+  "budgets": {
+    "dialog.frame.p95.desktop-120hz": { "value": 8.3, "unit": "ms", "req": "REQ-MOT-124" },
+    "dialog.frame.p95.mobile-4xcpu": { "value": 16.7, "unit": "ms", "req": "REQ-MOT-124" },
+    "dialog.longtask.max": { "value": 50, "unit": "ms", "req": "REQ-MOT-124" },
+    "dialog.transition-layout-events": { "value": 0, "unit": "count", "req": "REQ-MOT-124" },
+    "pointerLight.frame.p95": { "value": 8.3, "unit": "ms", "req": "REQ-MOT-125" },
+    "pointerLight.scripting.msPerFrame": { "value": 0.5, "unit": "ms", "req": "REQ-MOT-125" },
+    "pointerLight.reactCommits": { "value": 0, "unit": "count", "req": "REQ-MOT-125" },
+    "morph.setup.desktop": { "value": 4, "unit": "ms", "req": "REQ-MOT-126" },
+    "morph.setup.mobile": { "value": 12, "unit": "ms", "req": "REQ-MOT-126" },
+    "idle.raf.perSecond": { "value": 0, "unit": "count", "req": "REQ-MOT-127" },
+    "glassModal.fps.median.softwareRaster": { "value": 55, "unit": "fps", "req": "REQ-MOT-130" }
+  }
+}

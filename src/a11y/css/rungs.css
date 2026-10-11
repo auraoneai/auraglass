@@ -1,0 +1,95 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* REQ-MAT-54 rungs (MAT-277/278/279, REQ-FIN-05) — @layer ag.a11y attribute
+   rungs keyed on [data-ag-transparency] / [data-ag-contrast] against
+   [data-ag-surface], plus the raise-only floors (reduced transparency,
+   prefers-contrast more, @supports not backdrop-filter, forced-colors) and
+   the disabled row. Zero !important. Floors never lower a caller's higher
+   rung. Tint floors come from the compiler-emitted cells in
+   src/material/css/generated/floors.css only — no hand-written numbers. */
+@layer ag.a11y {
+  /* ---- attribute rungs ---- */
+  :where([data-ag-transparency="tinted"]) [data-ag-surface] {
+    --_ag-refraction-scale: 0;
+  }
+  :where([data-ag-transparency="solid"]) [data-ag-surface],
+  :where([data-ag-transparency="solid"]) [data-ag-surface]::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    --_ag-refraction-scale: 0;
+  }
+  :where([data-ag-transparency="solid"]) [data-ag-surface] {
+    background: var(--_ag-fallback-fill);
+    background-image: none;
+  }
+  :where([data-ag-contrast="more"]) [data-ag-surface] {
+    color: var(--_ag-on-surface-max);
+    --ag-specular: 0;
+    --_ag-grain-opacity: 0;
+    border: 1px solid var(--_ag-border-strong);
+  }
+
+  /* ---- raise-only floors (equal specificity, later in source) ---- */
+  @media (prefers-reduced-transparency: reduce) {
+    :where(:not([data-ag-transparency])) [data-ag-surface]:not(:where([data-ag-transparency] *)),
+    :where([data-ag-transparency="glass"]) [data-ag-surface]:not(:where([data-ag-transparency="tinted"] *)):not(:where([data-ag-transparency="solid"] *)) {
+      --_ag-refraction-scale: 0;
+    }
+  }
+  @media (prefers-contrast: more) {
+    :where(:not([data-ag-contrast])) [data-ag-surface]:not(:where([data-ag-contrast] *)) {
+      color: var(--_ag-on-surface-max);
+      --ag-specular: 0;
+      --_ag-grain-opacity: 0;
+      border: 1px solid var(--_ag-border-strong);
+    }
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    :where(:not([data-ag-transparency])) [data-ag-surface],
+    :where([data-ag-transparency="glass"]) [data-ag-surface],
+    :where([data-ag-transparency="tinted"]) [data-ag-surface] {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      --_ag-refraction-scale: 0;
+    }
+    :where(:not([data-ag-transparency])) [data-ag-surface]::before,
+    :where([data-ag-transparency="glass"]) [data-ag-surface]::before,
+    :where([data-ag-transparency="tinted"]) [data-ag-surface]::before {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    :where(:not([data-ag-transparency])) [data-ag-surface],
+    :where([data-ag-transparency="glass"]) [data-ag-surface],
+    :where([data-ag-transparency="tinted"]) [data-ag-surface] {
+      background: var(--_ag-fallback-fill);
+      background-image: none;
+    }
+  }
+  @media (forced-colors: active) {
+    [data-ag-surface],
+    [data-ag-surface]::before,
+    [data-ag-surface]::after {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      filter: none;
+      background-image: none;
+      box-shadow: none;
+    }
+    [data-ag-surface] {
+      background: Canvas;
+      color: CanvasText;
+      border: 1px solid CanvasText;
+    }
+    [data-ag-layer="scrim"] {
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+
+  /* ---- disabled row (MAT-279): no opacity on the host ---- */
+  [data-ag-surface]:is([aria-disabled="true"], [data-disabled]) {
+    --ag-on-surface: var(--_ag-color-on-surface-disabled, GrayText);
+  }
+
+}

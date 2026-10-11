@@ -1,0 +1,4 @@
+{ "entries": [
+  { "kind": "css-var", "name": "--ag-old-var" },
+  { "kind": "css-var", "name": "data-ag-gone" }
+] }

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gantt",
+  "type": "registry:item",
+  "title": "Gantt chart",
+  "description": "Deterministic timeline bars over consumer-owned ISO day ranges (replaces calendar-operations-board scheduling view).",
+  "dependencies": ["react", "aura-glass@^5"],
+  "registryDependencies": ["auraglass"],
+  "files": [
+    { "path": "index.tsx", "type": "registry:item" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "item",
+      "client": true,
+      "components": ["Badge", "Card", "Text"],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null,
+      "replaces": ["calendar-operations-board"]
+    }
+  }
+}

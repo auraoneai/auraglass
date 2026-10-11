@@ -1,0 +1,6 @@
+{
+ "public": ["--ag-specular", "--ag-glass-opacity", "--ag-radius-outer", "--ag-duration-micro", "--ag-old-var"],
+ "private": ["--_ag-blur"],
+ "attributes": ["data-ag-surface", "data-ag-layer", "data-ag-gone"],
+ "privateAttributes": []
+}

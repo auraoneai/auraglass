@@ -1,0 +1,29 @@
+{
+ "expect": {
+  "code": 1,
+  "contains": [
+   "failed(required)",
+   "plat:gate:glass-quality"
+  ]
+ },
+ "pipelines": [
+  {
+   "id": 3,
+   "status": "failed",
+   "web_url": "https://gitlab.com/x/-/pipelines/3"
+  }
+ ],
+ "jobs": [
+  {
+   "name": "plat:gate:glass-quality",
+   "status": "failed",
+   "allow_failure": false,
+   "web_url": "u"
+  },
+  {
+   "name": "plat:test:cli",
+   "status": "failed",
+   "allow_failure": true
+  }
+ ]
+}

@@ -1,0 +1,5 @@
+.panel { padding: 4px; }
+.glass {
+  backdrop-filter: blur(20px) saturate(1.6);
+  background: rgba(255, 255, 255, 0.4);
+}

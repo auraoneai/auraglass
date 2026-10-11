@@ -1,0 +1,12 @@
+/* SURF-137 seed fixture: a conditional hook call that MUST fail
+   react-hooks/rules-of-hooks under the repo's flat config. The .fixture
+   extension keeps this file outside the repo's own eslint files glob. */
+import { useState } from 'react';
+
+export function ConditionalHook({ flag }: { flag: boolean }) {
+  if (flag) {
+    const [n] = useState(0);
+    return <div>{n}</div>;
+  }
+  return null;
+}

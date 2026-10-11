@@ -1,0 +1,1 @@
+@layer ag.a11y { :where([data-ag-transparency="solid"]) [data-ag-surface]::before { backdrop-filter: none; } }

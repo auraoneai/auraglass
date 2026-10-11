@@ -1,0 +1,12 @@
+{
+ "entry": "./motion",
+ "exports": [
+  "MotionProvider",
+  "Shared",
+  "SharedLayout",
+  "magnetic",
+  "toMotionTransition",
+  "useDragDetents",
+  "useMomentum"
+ ]
+}

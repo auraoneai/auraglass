@@ -1,0 +1,80 @@
+'use client';
+import * as React from 'react';
+import { AiIcon } from '../icons/AiIcon';
+
+export type AgErrorKind =
+  | 'rate-limit'
+  | 'auth'
+  | 'network'
+  | 'content-filter'
+  | 'context-length'
+  | 'aborted'
+  | 'unknown';
+
+export interface ProviderErrorStateProps {
+  kind: AgErrorKind;
+  title?: string | undefined;
+  detail?: string | undefined;
+  retryAfterMs?: number | undefined;
+  onRetry?: (() => void) | undefined;
+  /** Non-material look (S-30): emitted as data-ag-appearance. Default 'panel'. */
+  appearance?: 'compact' | 'panel' | undefined;
+  className?: string | undefined;
+}
+
+const DEFAULT_COPY: Record<AgErrorKind, { title: string; detail: string }> = {
+  'rate-limit': { title: 'Rate limit reached', detail: 'The provider throttled this request. Wait a moment, then retry.' },
+  auth: { title: 'Authentication failed', detail: 'The provider rejected the credentials. Check the API key configuration.' },
+  network: { title: 'Network error', detail: 'The request could not reach the provider. Check connectivity and retry.' },
+  'content-filter': { title: 'Content filtered', detail: 'The provider filtered this content. Rephrase the request.' },
+  'context-length': { title: 'Context too long', detail: 'The conversation exceeds the model context window. Start a new thread or trim history.' },
+  aborted: { title: 'Stopped', detail: 'Generation was stopped.' },
+  unknown: { title: 'Something went wrong', detail: 'The provider returned an unexpected error. Retry or contact support.' },
+};
+
+/**
+ * REQ-SURF-127: per-kind copy; `role="alert"` on the `panel` appearance only; Retry button
+ * disabled with a live countdown while `retryAfterMs` elapses.
+ */
+export function ProviderErrorState({ kind, title, detail, retryAfterMs, onRetry, appearance = 'panel', className }: ProviderErrorStateProps) {
+  const copy = DEFAULT_COPY[kind];
+  const [remaining, setRemaining] = React.useState(retryAfterMs ?? 0);
+  React.useEffect(() => {
+    setRemaining(retryAfterMs ?? 0);
+  }, [retryAfterMs]);
+  // REQ-SURF-190: the countdown timer lives only while there is time left, so
+  // a settled error state (Retry enabled) keeps no interval running.
+  const counting = remaining > 0;
+  React.useEffect(() => {
+    if (!counting) return;
+    const t = setInterval(() => setRemaining((r) => Math.max(0, r - 1000)), 1000);
+    return () => clearInterval(t);
+  }, [counting]);
+
+  const seconds = Math.ceil(remaining / 1000);
+  return (
+    <div
+      data-ag-part="provider-error"
+      data-kind={kind}
+      data-ag-appearance={appearance}
+      role={appearance === 'panel' ? 'alert' : undefined}
+      className={className}
+    >
+      <AiIcon name="stop" />
+      <div>
+        <p data-ag-part="error-title">{title ?? copy.title}</p>
+        <p data-ag-part="error-detail">{detail ?? copy.detail}</p>
+        {onRetry ? (
+          <button
+            type="button"
+            data-ag-part="retry"
+            disabled={remaining > 0}
+            onClick={onRetry}
+          >
+            {remaining > 0 ? `Retry in ${seconds}…` : 'Retry'}
+          </button>
+        ) : null}
+      </div>
+    </div>
+  );
+}

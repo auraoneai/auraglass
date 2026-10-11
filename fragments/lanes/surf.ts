@@ -1,0 +1,262 @@
+// lanes fragment for SURF (contract S-38..S-45). Lane blocks are owned by SURF lanes W1..W5; edit only your own block.
+import type { LaneRegistration } from '../../src/contracts/fragments';
+
+// --- lane W1 begin ---
+const w1 = [
+  { lane: 'L1', kind: 'jest', path: 'src/app-shell/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/app-shell/**/*.test.{ts,tsx}', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/app-shell/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/app-shell/**/*.test.{ts,tsx}', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/components/{tabs,tab-bar,breadcrumbs,pagination,command-palette,source-transition}/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/components/{tabs,tab-bar,breadcrumbs,pagination,command-palette,source-transition}/**/*.test.{ts,tsx}', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L12', kind: 'jest', path: 'tests/app-shell/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/sidebar.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/splitter.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/tabs.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/tabbar.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/breadcrumbs-overflow.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/command.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/app-shell/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/app-shell/**/*.spec.ts', scope: 'main', remote: true, failClosed: true },
+  // REQ-SURF-193: real Tab-key focus spec over every SURF story (ring tokens,
+  // not obscured by sticky chrome, overlay focus restore).
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/focus.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/focus.spec.ts', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/tabs-indicator.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/tabbar-minimize.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/source-transition.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // REQ-SURF-190: every SURF subject idle 1,000 ms after load at full/calm/none.
+  { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/idle.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/idle.spec.ts', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/app-shell-scroll.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/sidebar-toggle.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/resizable-drag.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/command-5000.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L11', kind: 'node-script', path: 'canaries/next16/app/surf/app-shell/page.tsx', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L11', kind: 'node-script', path: 'canaries/vite/src/surf/AppShell.page.tsx', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L11', kind: 'playwright', path: 'tests/rsc/surf/breadcrumbs-server.spec.ts', scope: 'pr', remote: true, failClosed: true },
+] as const;
+// --- lane W1 end ---
+
+// --- lane W2 begin ---
+const w2 = [
+  { lane: 'L1', kind: 'jest', path: 'src/data/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/data/**/*.test.{ts,tsx}', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/date/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/date/**/*.test.{ts,tsx}', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/charts/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/components/timeline/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/{data,date,charts}/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  // REQ-SURF-73: the grid APG spec is tests/a11y/apg/surf/table.apg.spec.ts
+  // (the old 'table-grid' name matched no file, so it never ran).
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{calendar,date-picker,date-range-picker,time-picker,filter-bar,tree-view,table,activity-feed}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{data,date,charts}/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/{data-table-5000,data-tree-view,data-filter,date-picker-open,activity-feed-prepend}.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L11', kind: 'node-script', path: 'canaries/next16/app/surf/data-server/page.tsx', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L11', kind: 'node-script', path: 'canaries/vite/src/surf/DataTable.page.tsx', scope: 'main', remote: true, failClosed: true },
+  // REQ-SURF-08: cross-TZ canary hydration (job surf:test:canary-hydration).
+  { lane: 'L11', kind: 'playwright', path: 'tests/ssr/surf/hydration.spec.ts', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L12', kind: 'jest', path: 'tests/data/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
+] as const;
+// --- lane W2 end ---
+
+// --- lane W3 begin ---
+const w3 = [
+  { lane: 'L1', kind: 'jest', path: 'src/ai/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/ai/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{thread,message,composer,tool-call,citation}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/ai/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/ai-streaming.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L11', kind: 'node-script', path: 'canaries/next16/app/surf/ai-rsc/page.tsx', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L12', kind: 'jest', path: 'tests/ai/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
+] as const;
+// --- lane W3 end ---
+
+// --- lane W4 begin ---
+// SURF-405/523: W4 registrations — L1 jest (src/media + src/backdrops +
+// tests/media + tests/backdrops incl. purity), L5 APG + media e2e, L6
+// clear-over-media twice per scene (tone forced on vs off), L8 sampling
+// engines under the surf:cert-media-sampling Playwright project, L9 motion,
+// L10 scrub perf.
+const w4 = [
+  { lane: 'L1', kind: 'jest', path: 'src/media/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/media/**/*.test.{ts,tsx}', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/backdrops/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/media/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/backdrops/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L12', kind: 'jest', path: 'tests/media/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{media-controls,now-playing,image-viewer}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{media,backdrops}/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{media,backdrops}/**/*.spec.ts', scope: 'main', remote: true, failClosed: true },
+  // REQ-SURF-188 (REQ-FIN-90): SURF clear-over-media text-contrast spec lives under tests/e2e/surf
+  // (tests/a11y/** is MAT's, contract D06).
+  { lane: 'L6', kind: 'playwright', path: 'tests/e2e/surf/clear-over-media/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L6', kind: 'playwright', path: 'tests/e2e/surf/clear-over-media/**/*.spec.ts', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L8', kind: 'playwright', path: 'tests/e2e/surf/media/sampling-engines.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/{backdrop-drift,carousel-autoplay}.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/{media-scrub,now-playing-update,image-viewer-open}.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // REQ-SURF-191: media blur budget (also run by the L5 media glob above).
+  { lane: 'L10', kind: 'playwright', path: 'tests/e2e/surf/media/blur-budget.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/e2e/surf/media/blur-budget.spec.ts', scope: 'main', remote: true, failClosed: true },
+] as const;
+// --- lane W4 end ---
+
+// --- lane W5 begin ---
+// SURF-562: capability-ledger gate on L1 (QUAL qual:certify:l1 runs it);
+// --diff uses `git merge-base HEAD origin/next` (no CI_MERGE_REQUEST_* on the
+// mirror). SURF-633: labs admission gate on L1 with scopes pr + release, so a
+// red run fails the tag pipeline whose plat:publish:npm job publishes labs
+// (REQ-SURF-167); it passes --manifest build/exports.manifest.json so the
+// REQ-SURF-169 promotion checks always run. SURF-561: SURF purity gate on L1 (REQ-SURF-05).
+// REQ-SURF-181/184 (REQ-FIN-89): L2 delivery + export-budget check on the
+// packed tarball (.artifacts/pack from plat:package:pack; the root package's
+// .tgz is picked by name), scopes main and release; at a v5.0.0-rc.N tag the
+// script also fails any planned 5.0 P0/P1 row, at v5.0.0 it applies --ga.
+const w5 = [
+  // REQ-SURF-194 (REQ-FIN-90): Playwright fragment gate (unique project names
+  // across all streams, existing testDirs, SURF testMatch hits) and the SURF
+  // literals-baseline fragment matching the tool measurement.
+  { lane: 'L1', kind: 'node-script', path: 'scripts/surf/verify-playwright-fragment.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/surf/verify-playwright-fragment.mjs', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/surf/literals-baseline.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/surf/literals-baseline.mjs', scope: 'main', remote: false, failClosed: true },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-capability-ledger.mjs --manifest .artifacts/pack --budget .artifacts/pack',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-capability-ledger.mjs --manifest .artifacts/pack --budget .artifacts/pack',
+    scope: 'release',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-capability-ledger.mjs',
+    scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-capability-ledger.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-capability-ledger.mjs',
+    scope: 'release',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-labs-admission.mjs --manifest build/exports.manifest.json',
+    scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-labs-admission.mjs --manifest build/exports.manifest.json',
+    scope: 'release',
+    remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-166..169: the labs package, admission-fixture and promotion suites
+  // (npm pack + tsdown build included) on L1, pr + release, so the labs tag
+  // pipeline runs them blocking (AC-FIN-87).
+  { lane: 'L1', kind: 'jest', path: 'tests/labs/**/*.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/labs/**/*.test.ts', scope: 'release', remote: false, failClosed: true },
+  // REQ-SURF-168: spatial labs admission budgets on the remote mid-tier mobile
+  // profile (QUAL S-40) — L10, pr + release so a red run blocks the labs tag.
+  {
+    lane: 'L10',
+    kind: 'playwright',
+    path: 'tests/perf/browser/surf/labs-spatial-admission.spec.ts',
+    scope: 'pr',
+    remote: true,
+    failClosed: true,
+  },
+  {
+    lane: 'L10',
+    kind: 'playwright',
+    path: 'tests/perf/browser/surf/labs-spatial-admission.spec.ts',
+    scope: 'release',
+    remote: true,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-surf-purity.mjs',
+    scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-191: registry-block blur budget (ai-workspace ≤6 fine / ≤3 coarse, others ≤3).
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/registry-blocks.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/registry-blocks.spec.ts', scope: 'main', remote: true, failClosed: true },
+  // REQ-SURF-06: dist side-effect trap over the SURF entries (PLAT's trap,
+  // SURF verdict: 0 undeclared SURF calls, surf fragment []). Needs dist/, so
+  // main + release scopes only — never pr.
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-side-effects.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-side-effects.mjs',
+    scope: 'release',
+    remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-170 (REQ-FIN-88): SURF registry lint over every source file of
+  // every S-46 SURF block/item directory; its mutation cases live in
+  // tests/capability/registry/blocks-lint.test.ts.
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-registry.mjs',
+    scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-registry.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'jest',
+    path: 'tests/capability/registry/blocks-lint.test.ts',
+    scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
+] as const;
+// --- lane W5 end ---
+
+export default [...w1, ...w2, ...w3, ...w4, ...w5] satisfies readonly LaneRegistration[];

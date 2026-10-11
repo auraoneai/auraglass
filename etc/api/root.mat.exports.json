@@ -1,0 +1,14 @@
+{
+ "entry": "root.mat",
+ "source": "src/root/mat.ts",
+ "exports": [
+  "AuraGlassProvider",
+  "AuraGlassScript",
+  "ConcentricFrame",
+  "Environment",
+  "ScrollEdge",
+  "Surface",
+  "SurfaceGroup",
+  "usePreference"
+ ]
+}

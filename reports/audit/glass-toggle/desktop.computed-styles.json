@@ -1,6 +1,0 @@
-{
-  "reasons": [
-    "desktop: no glass surface found (backdrop-filter or glass-named element)"
-  ],
-  "styles": []
-}

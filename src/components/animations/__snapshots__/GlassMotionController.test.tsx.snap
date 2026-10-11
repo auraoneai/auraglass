@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`GlassMotionController matches snapshot 1`] = `
-<div
-  aria-busy="false"
-  aria-label="Animation controller"
-  role="region"
-/>
-`;

@@ -1,0 +1,19 @@
+{
+  "component": "MediaControls",
+  "maps": [
+    { "from": ".liquid-glass-media-controls", "to": "[data-ag-part=\"media-controls\"]" },
+    { "from": ".glass-media-controls", "to": "[data-ag-part=\"media-controls\"]" },
+    { "from": ".glass-media-controls .play", "to": "[data-ag-part=\"media-play\"]" },
+    { "from": ".glass-media-controls .scrubber", "to": "[data-ag-part=\"media-scrubber\"]" },
+    { "from": ".glass-media-controls .time", "to": "[data-ag-part=\"media-time\"]" },
+    { "from": ".glass-media-controls .volume", "to": "[data-ag-part=\"media-volume\"]" },
+    { "from": ".glass-media-controls .mute", "to": "[data-ag-part=\"media-mute\"]" },
+    { "from": ".glass-media-controls .rate", "to": "[data-ag-part=\"media-rate\"]" },
+    { "from": ".glass-media-controls .captions", "to": "[data-ag-part=\"media-captions\"]" },
+    { "from": ".glass-media-controls .pip", "to": "[data-ag-part=\"media-pip\"]" },
+    { "from": ".glass-media-controls .fullscreen", "to": "[data-ag-part=\"media-fullscreen\"]" },
+    { "from": ".liquid-glass-now-playing", "to": "[data-ag-part=\"now-playing\"]" },
+    { "from": ".liquid-glass-now-playing .artwork", "to": "[data-ag-part=\"now-playing-artwork\"]" },
+    { "from": ".liquid-glass-now-playing .progress", "to": "[data-ag-part=\"now-playing-progress\"]" }
+  ]
+}

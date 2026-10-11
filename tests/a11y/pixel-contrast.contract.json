@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "a11y-pixel-contrast-contract",
+  "version": 1,
+  "owner": "MAT",
+  "note": "MAT-315: pixel-contrast measurement contract for a11y-pixel-contrast.json — sample every visible text run, take the worst sample per row.",
+  "thresholds": {
+    "body": 4.5,
+    "large": { "ratio": 3, "definition": ">=24px or >=18.66px at weight >=700" },
+    "more": 7,
+    "nonText": 3
+  },
+  "matrix": {
+    "scenes": ["photo", "saturated-abstract", "dense-text", "dark-media", "flat-white", "flat-black", "hf-pattern", "video-frame"],
+    "engines": ["chromium", "webkit", "firefox"],
+    "schemes": ["light", "dark"],
+    "transparency": ["glass", "tinted", "solid"],
+    "modes": ["default", "more", "forced"],
+    "viewports": [1440, 390]
+  },
+  "rowSchema": {
+    "required": ["text", "color", "alpha", "bg", "ratio", "worstRatio", "need", "fail", "storyId", "viewport", "background", "mode", "engine", "scheme", "transparency", "tier"]
+  },
+  "artifact": "a11y-pixel-contrast.json"
+}

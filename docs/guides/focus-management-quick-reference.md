@@ -162,8 +162,6 @@ const handleClose = () => {
 
 - [Full Guide](./focus-management-guide.md)
 - [Implementation Report](../../reports/FOCUS_MANAGEMENT_SUMMARY.md)
-- [Focus Utils](../../src/utils/focus.ts)
-- [Focus Hook](../../src/hooks/extended/useGlassFocus.ts)
 
 ---
 

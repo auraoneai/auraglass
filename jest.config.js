@@ -1,106 +1,38 @@
-/**
- * Jest Configuration for AuraGlass Component Library
- * Week 5: Testing & Validation Setup - Enhanced
- */
-
-module.exports = {
-  // Use jsdom for browser-like environment
+/* contract-v1.2 verbatim (ESM). Node-environment tests add the docblock  @jest-environment node. */
+export default {
   testEnvironment: 'jsdom',
-
-  // Add the project root to the roots
   roots: ['<rootDir>'],
-
-  // Setup files
-  setupFilesAfterEnv: [
-    '@testing-library/jest-dom',
-    '<rootDir>/src/utils/testSetup.ts'
-  ],
-
-  // Module paths
+  testMatch: ['<rootDir>/src/**/*.test.{ts,tsx}', '<rootDir>/tests/**/*.test.{ts,tsx,mjs}', '<rootDir>/registry/**/*.test.{ts,tsx}',
+    '<rootDir>/showcase/**/*.test.{ts,tsx}', '<rootDir>/fragments/**/*.test.ts', '<rootDir>/scripts/**/*.test.{ts,mjs}'],
+  testPathIgnorePatterns: ['/node_modules/', '<rootDir>/legacy/', '<rootDir>/dist/', '<rootDir>/packages/', '<rootDir>/apps/'],
+  setupFilesAfterEnv: ['<rootDir>/tests/helpers/setup.ts'],
+  transform: { '^.+\\.(t|j|mj)sx?$': ['<rootDir>/tests/helpers/babel-jest-import-meta.cjs', {}] },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'mjs', 'json'],
+  transformIgnorePatterns: ['/node_modules/(?!prettier)'],
   moduleNameMapper: {
-    // Path aliases from tsconfig
-    '^@/(.*)$': '<rootDir>/src/$1',
-    '^@/components/(.*)$': '<rootDir>/src/components/$1',
-    '^@/lib/(.*)$': '<rootDir>/src/lib/$1',
-    '^@/hooks/(.*)$': '<rootDir>/src/hooks/$1',
-    '^@/core/(.*)$': '<rootDir>/src/core/$1',
-    '^@/types/(.*)$': '<rootDir>/src/types/$1',
-    '^@/contexts/(.*)$': '<rootDir>/src/contexts/$1',
-    '^@/animations/(.*)$': '<rootDir>/src/animations/$1',
-    '^@/primitives/(.*)$': '<rootDir>/src/primitives/$1',
-    '^@/theme/(.*)$': '<rootDir>/src/theme/$1',
-    '^@/utils/(.*)$': '<rootDir>/src/utils/$1',
-
-    // Handle CSS imports
-    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-
-    // Handle image imports
-    '\\.(jpg|jpeg|png|gif|svg|webp)$': '<rootDir>/__mocks__/fileMock.js',
+    '\\.css$': 'identity-obj-proxy',
+    '^prettier$': '<rootDir>/node_modules/prettier/index.mjs',
+    // C-4: the package name resolves to the ENTRIES sources (src/contracts/entries.ts), never to dist/ or node_modules.
+    // Subpaths not in ENTRIES (e.g. 'aura-glass/components') stay unresolvable, as in the published package.
+    '^aura-glass$': '<rootDir>/src/index.ts',
+    '^aura-glass/material$': '<rootDir>/src/material/index.ts',
+    '^aura-glass/theme$': '<rootDir>/src/theme/public.ts',
+    '^aura-glass/tokens$': '<rootDir>/src/tokens/index.ts',
+    '^aura-glass/motion$': '<rootDir>/src/motion/public.ts',
+    '^aura-glass/primitives$': '<rootDir>/src/primitives/index.ts',
+    '^aura-glass/icons$': '<rootDir>/src/icons/index.ts',
+    '^aura-glass/icons/(.+)$': '<rootDir>/src/icons/$1',
+    '^aura-glass/forms$': '<rootDir>/src/forms/index.ts',
+    '^aura-glass/app-shell$': '<rootDir>/src/app-shell/index.ts',
+    '^aura-glass/data$': '<rootDir>/src/data/index.ts',
+    '^aura-glass/date$': '<rootDir>/src/date/index.ts',
+    '^aura-glass/ai$': '<rootDir>/src/ai/index.ts',
+    '^aura-glass/media$': '<rootDir>/src/media/index.ts',
+    '^aura-glass/backdrops$': '<rootDir>/src/backdrops/index.ts',
+    '^aura-glass/three$': '<rootDir>/src/three/index.ts',
+    '^aura-glass/charts$': '<rootDir>/src/charts/index.ts',
+    '^aura-glass/compat$': '<rootDir>/src/compat/index.ts',
+    '^aura-glass/deprecations\\.json$': '<rootDir>/deprecations.json',
+    '^aura-glass/package\\.json$': '<rootDir>/package.json',
   },
-
-  // Transform files with ts-jest
-  transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', {
-      tsconfig: '<rootDir>/tsconfig.tests.json',
-    }],
-  },
-
-  // Test match patterns
-  testMatch: [
-    '**/__tests__/**/*.{ts,tsx}',
-    '**/*.{spec,test}.{ts,tsx}'
-  ],
-
-  // Liquid Glass upgrade tests live in tests/liquid-glass and use the same jsdom stack.
-
-  // Ignore patterns
-  testPathIgnorePatterns: [
-    '/node_modules/',
-    '/dist/',
-    '/docs/',
-    '/examples/',
-    '/test-results/',
-    '/playwright-report/',
-    '<rootDir>/tests/e2e/',
-    'tests/visual', // Separate visual regression suites
-  ],
-
-  // Coverage configuration
-  collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/**/*.stories.tsx',
-    '!src/utils/testingUtils.tsx',
-    '!src/**/*.test.{ts,tsx}',
-    '!src/**/__tests__/**',
-    '!src/types/**',
-    '!src/index.ts',
-  ],
-
-  coverageThreshold: {
-    global: {
-      // Current whole-library coverage baseline. Raising this back toward 80%
-      // requires a dedicated coverage expansion pass across experimental systems,
-      // workers, AI services, and advanced component families.
-      branches: 28,
-      functions: 20,
-      lines: 33,
-      statements: 32
-    }
-  },
-
-  coverageReporters: ['text', 'lcov', 'html', 'json-summary'],
-  coverageDirectory: '<rootDir>/coverage',
-
-  // Module file extensions
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
-
-  // Verbose output
-  verbose: true,
-
-  // Max workers for parallel execution
-  maxWorkers: '50%',
-
-  // Heavy axe and canvas-adjacent component tests can exceed 10s under coverage.
-  testTimeout: 20000,
 };

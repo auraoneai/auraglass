@@ -1,0 +1,13 @@
+{
+ "entry": "./data",
+ "exports": [
+  "ChartFrame",
+  "Chip",
+  "FilterBar",
+  "KeyValueEditor",
+  "Sparkline",
+  "StatCard",
+  "Table",
+  "TreeView"
+ ]
+}
