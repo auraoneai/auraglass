@@ -120,6 +120,7 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
 
   const parentPortal = React.useContext(PortalRootContext);
   const outermost = parentPortal === null;
+  const parentRoot = parentPortal?.root ?? null;
   const parentDocPrefs = React.useContext(DocumentPreferencesContext);
   const parentDeprecations = React.useContext(DeprecationModeContext);
   const deprecationMode = deprecations ?? parentDeprecations;
@@ -174,16 +175,26 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
     if (!doc || outermost) return undefined;
     const el = wrapperRef.current;
     if (!el) return undefined;
+    /* REQ-MAT-56: portaled overlays render under the shared portal root, not
+       under this wrapper, so the scope store mirrors its resolved scheme and
+       transparency onto that root (the outer root inherits from <html>). */
+    let scope: PreferenceStore | null = null;
     const write = (): void => {
       el.removeAttribute('data-ag-continuous');
-      createPreferenceStore({
+      scope?.setTarget(null); // release the previous scope's mirror values
+      scope = createPreferenceStore({
         storage: scopedStorage(docPrefs),
         app: JSON.parse(appJson) as PreferenceInput,
-      }).setTarget(el);
+      });
+      scope.setTarget(parentRoot ? [el, parentRoot] : el);
     };
     write();
-    return store.subscribe(write);
-  }, [outermost, store, doc, docPrefs, appJson]);
+    const unsubscribe = store.subscribe(write);
+    return () => {
+      unsubscribe();
+      scope?.setTarget(null);
+    };
+  }, [outermost, store, doc, docPrefs, appJson, parentRoot]);
 
   // REQ-PLAT-26 provider half: warnDeprecated's mode is module-wide, so the
   // outermost provider owns it; nested providers forward theirs via context.
