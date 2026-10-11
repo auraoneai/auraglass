@@ -1,0 +1,6 @@
+[
+  { "file": "fragments/perf-budgets/mat.ts", "owner": "MAT", "reqFin": "REQ-FIN-105", "expires": "RC-1", "subject": "mat:surface (pointer:fine)", "profile": "mid-mobile", "metric": "blurred-surfaces" },
+  { "file": "fragments/perf-budgets/mat.ts", "owner": "MAT", "reqFin": "REQ-FIN-105", "expires": "RC-1", "subject": "mat:surface", "profile": "desktop-120hz", "metric": "frame-p95-ms" },
+  { "file": "fragments/perf-budgets/surf.ts", "owner": "SURF", "reqFin": "REQ-FIN-105", "expires": "RC-1", "subject": "surf/command--default", "profile": "desktop-120hz", "metric": "long-tasks" },
+  { "file": "fragments/perf-budgets/surf.ts", "owner": "SURF", "reqFin": "REQ-FIN-105", "expires": "RC-1", "subject": "surf/appshell--default", "profile": "mid-mobile", "metric": "blurred-surfaces" }
+]

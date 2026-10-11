@@ -1,0 +1,75 @@
+{
+  "$comment": "REQ-QUAL-13..18 (QUAL). Values of the mechanical L6 gates, frozen by PRD-QUAL. Read only through packages/qa/src/pixel/thresholds.ts; the lane manifest records this file's sha256 (thresholdsSha256). Changing a value is a reviewed QUAL change, never a way to turn a lane green.",
+  "version": 1,
+  "notBlank": { "minDeviation": 40 },
+  "separation": { "minShare": 0.25, "minDelta": 10 },
+  "frameFill": { "component": 0.03, "lab": 0.03, "matrix": 0.25, "scene": 0.25, "showcase": 0.25 },
+  "density": { "max": 0.3 },
+  "neon": {
+    "maxShare": 0.01,
+    "minSaturation": 0.85,
+    "minValue": 0.85,
+    "maxHueFamilies": 3,
+    "hueBinDegrees": 30,
+    "hueFamilyMinShare": 0.02,
+    "hueFamilyMinChroma": 0.2
+  },
+  "intentDeltaE": 10,
+  "ocr": {
+    "psm": 11,
+    "upscale": 2,
+    "minConfidence": 60,
+    "normal": 4.5,
+    "large": 3,
+    "contrastMore": 7,
+    "largePx": 24,
+    "largeBoldPx": 18.66,
+    "largeBoldWeight": 700,
+    "glyphMinDelta": 24
+  },
+  "materialPresence": { "maxStageSigma": 4, "minSceneSigma": 20, "regularMinDelta": 30, "floorSlack": 5 },
+  "preference": { "contrastMoreMinShare": 0.005, "contrastMoreTarget": 7, "tintedMinSigmaCut": 0.25 },
+  "layout": { "containmentSlackPx": 1, "targetMin": 44, "targetMinSm": 24, "targetSpacingSm": 24, "focusMinContrast": 3, "productViewport": { "width": 768, "height": 1024 } },
+  "perf": {
+    "$comment": "REQ-QUAL-37..41 (QUAL). Default runtime ceilings (REQ-QUAL-38) applied to every subject at standard tier; a fragments/perf-budgets/<stream>.ts PerfBudgetRow may only tighten them (perf-budget-looser). Read only through packages/qa/src/perf/{budgets,grade,ratchet}.ts. 'fine' = (hover:hover) and (pointer:fine) = profile (a) desktop-120hz; 'coarse' = (pointer:coarse) = profile (b) mid-mobile. MB = 2^20 bytes.",
+    "ceilings": {
+      "blurredSurfaces": { "fine": 6, "coarse": 3 },
+      "bci": { "fine": 2.0, "coarse": 1.2 },
+      "effectiveNesting": { "default": 1, "allowNested": 2 },
+      "blurRadiusPx": 32,
+      "fullViewportBlur": { "layer": "scrim", "maxPx": 12, "minViewportShare": 0.95 },
+      "refractingSurfaces": { "fine": 2, "coarse": 1, "maxViewportShare": 0.25 },
+      "liveWebglContexts": 1,
+      "frameP95Ms": { "fine": 16.7, "coarse": 25 },
+      "settledLongAnimationFrames": { "fine": 0, "coarse": 1 },
+      "interactionLatencyP95Ms": { "fine": 50, "coarse": 100, "subjects": ["Menu", "Select", "Combobox", "Tabs"] },
+      "heapDeltaMB": 1,
+      "dashboardHeapAtRestMB": 30,
+      "layoutsPerFrameDuringScroll": 0,
+      "styleRecalcMsDuringScroll": { "fine": 1, "coarse": 3 },
+      "dashboardRenderToStringMedianMs": 50
+    },
+    "surfaceBudget": {
+      "viewports": [
+        { "width": 1440, "height": 900, "pointer": "fine" },
+        { "width": 1920, "height": 1080, "pointer": "fine" },
+        { "width": 390, "height": 844, "pointer": "coarse" }
+      ],
+      "scrollPositions": [0, 0.5, 1]
+    },
+    "grades": {
+      "letters": ["A", "B", "C", "D", "F"],
+      "frameP95Ms": { "desktop-120hz": [8.3, 11, 16.7, 25], "mid-mobile": [16.7, 20, 25, 33] },
+      "longAnimationFrames": [0, 0, 1, 3],
+      "settledIdle": [0, 0, 0, 0],
+      "heapDeltaMB": [0.5, 1, 2, 5],
+      "bytesVsRow": [0.8, 1, 1, 1],
+      "bciVsBudget": { "T1": [0.5, 0.75, 1, 1], "T2": [0.5, 0.75, 1, 1.5] },
+      "releaseFloor": { "T1": "C", "T2": "D" },
+      "maxDropLetters": 0
+    },
+    "ratchet": { "p95RegressionRatio": 0.1, "p95RegressionMinMs": 1, "perSubjectSeconds": 60, "perSubjectSecondsSource": "provisional estimate (profile a: 60 Hz + 120 Hz runs, 5 s settled window, 1 s quiet, 10 mount cycles each); replaced from the first nightly's measured perSubjectSeconds in perf-grades.json", "targetMinutes": 10, "sentinel": "Button" },
+    "regression4x": { "minFps": 50, "minBlankRatio": 0.85, "libraryLongTaskMs": 50, "showcases": ["ai-command-center", "ops-console"] },
+    "calibration": { "seedFreeSubjects": ["Button", "Dialog"], "raiseFactor": 1.1, "bytesRoundTo": 256, "marker": "perf-budget-raise" }
+  }
+}

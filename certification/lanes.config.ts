@@ -19,6 +19,17 @@ export const BUILTINS: BuiltinRegistration[] = [
   // REQ-QUAL-04/-12 (G-12): L6 environment-visual capture driver; the spec selects the §4.2 matrix from AG_SCOPE.
   ...(['pr', 'main', 'nightly', 'release'] as const).map((scope): BuiltinRegistration =>
     ({ lane: 'L6', kind: 'playwright', path: 'certification/lanes/environment-visual.spec.ts', scope, remote: true, failClosed: true })),
+  // REQ-QUAL-16 / -17 (G-13): preference modes must change something; console hygiene one-per-subject sweep.
+  ...(['pr', 'main', 'nightly', 'release'] as const).flatMap((scope): BuiltinRegistration[] => [
+    { lane: 'L6', kind: 'playwright', path: 'certification/lanes/preference-modes.spec.ts', scope, remote: true, failClosed: true },
+    { lane: 'L6', kind: 'playwright', path: 'certification/lanes/console.spec.ts', scope, remote: true, failClosed: true },
+  ]),
+  // REQ-QUAL-38 (G-21): perf-budget-looser — fragment rows may only tighten thresholds.json#perf defaults (node only, no browser).
+  ...(['pr', 'main', 'release'] as const).map((scope): BuiltinRegistration =>
+    ({ lane: 'L1', kind: 'node-script', path: `scripts/qual/perf/resolve-budgets.mjs --scope ${scope}`, scope, remote: false, failClosed: true })),
+  // REQ-QUAL-39 (G-21): budgets frozen at the calibration sha (pending while certification/calibration.json sha is null).
+  ...(['pr', 'main', 'release'] as const).map((scope): BuiltinRegistration =>
+    ({ lane: 'L12', kind: 'jest', path: 'tests/perf/qual/budgets-frozen.test.ts', scope, remote: false, failClosed: true })),
 ];
 
 /** Built-in L1 gates whose producer has not merged yet: reported `pending` with the producing work item. */
