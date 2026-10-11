@@ -5,7 +5,11 @@
  * from the committed tree:
  *   git diff --exit-code -- src/tokens src/motion/tokens.generated.ts \
  *     src/material/css/generated tokens/generated
- * Plus the MAT-021 size check: dist/compat/tokens.css must stay <= 8 KB gzip.
+ * and if the build left any untracked file under those paths (AC-FIN-01:
+ * `git status --porcelain` empty). Plus the dist/compat/tokens.css checks of
+ * AC-FIN-01 / MAT-013 / MAT-021: the file exists, postcss parses it, it carries no
+ * `[object Object]` / `$schema` garbage, it has exactly one `@layer ag.compat { }`
+ * block, and it stays <= 8 KB gzip.
  *
  * Usage: node scripts/tokens/drift.mjs
  */
@@ -14,6 +18,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import postcss from 'postcss';
 import { runBuild } from './build.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -38,8 +43,38 @@ try {
   failed = true;
 }
 
+const untracked = execSync(`git status --porcelain --untracked-files=all -- ${GENERATED_PATHS.join(' ')}`, { cwd: ROOT, encoding: 'utf8' })
+  .split('\n').filter((l) => l.startsWith('??'));
+if (untracked.length) {
+  console.error('drift: the token build created files that are not committed:');
+  console.error(untracked.map((l) => `  ${l.slice(3)}`).join('\n'));
+  failed = true;
+}
+
 const compatPath = join(ROOT, 'dist/compat/tokens.css');
-if (existsSync(compatPath)) {
+if (!existsSync(compatPath)) {
+  console.error('drift: dist/compat/tokens.css was not written by the token build (MAT-021)');
+  failed = true;
+} else {
+  const css = readFileSync(compatPath, 'utf8');
+  for (const bad of ['[object Object]', '$schema']) {
+    if (css.includes(bad)) {
+      console.error(`drift: dist/compat/tokens.css contains "${bad}" (MAT-013: one writer, no raw alias-map keys)`);
+      failed = true;
+    }
+  }
+  try {
+    const root = postcss.parse(css, { from: compatPath });
+    let blocks = 0;
+    root.walkAtRules('layer', (r) => { if (r.nodes && r.params.trim() === 'ag.compat') blocks += 1; });
+    if (blocks !== 1) {
+      console.error(`drift: dist/compat/tokens.css has ${blocks} @layer ag.compat blocks; expected exactly 1`);
+      failed = true;
+    }
+  } catch (err) {
+    console.error(`drift: dist/compat/tokens.css does not parse: ${err.message}`);
+    failed = true;
+  }
   const gz = gzipSync(readFileSync(compatPath)).length;
   if (gz > COMPAT_CSS_GZIP_MAX) {
     console.error(`drift: dist/compat/tokens.css is ${gz} bytes gzipped — exceeds the ${COMPAT_CSS_GZIP_MAX}-byte cap (MAT-021)`);

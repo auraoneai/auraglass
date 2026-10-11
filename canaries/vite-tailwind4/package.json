@@ -3,7 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": { "build": "vite build", "dev": "vite" },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview",
+    "test": "playwright test"
+  },
   "dependencies": {
     "aura-glass": "file:../../aura-glass.tgz",
     "react": "^19.3.0",
