@@ -3,7 +3,9 @@
 export {
   OptimizedGlass,
   GlassCore,
+  GlassPrimitive,
   OptimizedGlassAdvanced,
+  GlassAdvanced,
   type OptimizedGlassCompatProps,
 } from './material/OptimizedGlass';
 export {

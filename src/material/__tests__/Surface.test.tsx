@@ -42,6 +42,48 @@ describe('Surface', () => {
     expect((el as HTMLElement).style.padding).toBe('1px');
   });
 
+  it('REQ-MAT-24: render={<a style={s}/>} keeps the render element own style by reference', () => {
+    const s = { paddingTop: '3px' } as React.CSSProperties;
+    const seen: Array<React.CSSProperties | undefined> = [];
+    function Probe(props: React.ComponentProps<'a'>) {
+      seen.push(props.style);
+      return <a {...props} />;
+    }
+    const { container } = render(<Surface layer="chrome" render={<Probe href="/x" style={s} />}>x</Surface>);
+    expect(seen.length).toBeGreaterThan(0);
+    for (const style of seen) expect(style).toBe(s);
+    const el = container.querySelector('a.ag-surface') as HTMLElement;
+    expect(el.style.paddingTop).toBe('3px');
+
+    // the plain-element form keeps it too
+    const { container: c2 } = render(<Surface layer="chrome" render={<a href="/y" style={s} />}>y</Surface>);
+    expect((c2.querySelector('a.ag-surface') as HTMLElement).style.paddingTop).toBe('3px');
+  });
+
+  it('REQ-MAT-24: no `style` key is forwarded when the consumer passed none', () => {
+    const seen: Array<Record<string, unknown>> = [];
+    function Probe(props: React.ComponentProps<'div'>) {
+      seen.push(props as Record<string, unknown>);
+      return <div {...props} />;
+    }
+    render(<Surface layer="chrome" render={<Probe />} />);
+    expect(seen.length).toBeGreaterThan(0);
+    for (const props of seen) expect(Object.prototype.hasOwnProperty.call(props, 'style')).toBe(false);
+  });
+
+  it('REQ-MAT-24: a consumer style passed to Surface wins over the render element style, by reference', () => {
+    const own = { paddingTop: '1px' } as React.CSSProperties;
+    const consumer = { paddingTop: '2px' } as React.CSSProperties;
+    const seen: Array<React.CSSProperties | undefined> = [];
+    function Probe(props: React.ComponentProps<'div'>) {
+      seen.push(props.style);
+      return <div {...props} />;
+    }
+    render(<Surface layer="chrome" style={consumer} render={<Probe style={own} />} />);
+    expect(seen.length).toBeGreaterThan(0);
+    for (const style of seen) expect(style).toBe(consumer);
+  });
+
   it('consumer wins non-data-ag-* attributes; data-ag-* stays authoritative', () => {
     const { container } = render(
       <Surface layer="chrome" {...({ 'data-ag-layer': 'overlay', 'aria-label': 'x' } as object)} />,

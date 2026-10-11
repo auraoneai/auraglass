@@ -2,7 +2,7 @@
    4.x liquid-glass primitives -> Surface/SurfaceGroup/ScrollEdge/ConcentricFrame.
    variant kept (regular|clear); thickness (0-8 px) -> thin/regular/thick;
    adaptToContent/ior/material/enableTilt and the remaining optical props drop
-   with one warnDeprecated(id) (REL-072). */
+   with one warnDeprecated(<adapter DEP-M id>) (REL-072). */
 import * as React from 'react';
 import { ConcentricFrame, ScrollEdge, Surface, SurfaceGroup } from '../../../material/index';
 import type { MaterialVariant, SurfaceGroupProps, Thickness } from '../../../contracts/material';
@@ -34,7 +34,7 @@ const SIZES: Record<string, Thickness> = { sm: 'thin', md: 'regular', lg: 'regul
 export function LiquidGlassMaterial(props: LiquidGlassMaterialCompatProps): React.ReactElement {
   const { intent, elevation, thickness, size, variant, interactive, ref, ...rest } = props;
   const domProps = dropNoopProps(
-    'compat.mat.LiquidGlassMaterial',
+    'LiquidGlassMaterial',
     rest as Record<string, unknown>,
     [...(intent !== undefined && intent !== 'primary' ? ['intent'] : []),
      ...(variant !== undefined && variant !== 'regular' && variant !== 'clear' ? ['variant'] : [])],
@@ -67,7 +67,7 @@ export interface LiquidGlassEffectGroupCompatProps extends React.HTMLAttributes<
 /** 4.x `LiquidGlassEffectGroup` (backdrop-shared group) -> SurfaceGroup. */
 export function LiquidGlassEffectGroup(props: LiquidGlassEffectGroupCompatProps): React.ReactElement {
   const { spacing, ...rest } = props;
-  const domProps = dropNoopProps('compat.mat.LiquidGlassEffectGroup', rest as Record<string, unknown>);
+  const domProps = dropNoopProps('LiquidGlassEffectGroup', rest as Record<string, unknown>);
   const gp: SurfaceGroupProps = { children: domProps.children as React.ReactNode };
   const mappedSpacing = pxToSpaceToken(spacing);
   if (mappedSpacing !== undefined) gp.spacing = mappedSpacing;
@@ -77,7 +77,7 @@ export function LiquidGlassEffectGroup(props: LiquidGlassEffectGroupCompatProps)
 
 /** 4.x `LiquidGlassLayerProvider` — layer context is gone in 5.0; renders a fragment. */
 export function LiquidGlassLayerProvider({ children, ...rest }: { children?: React.ReactNode; [key: string]: unknown }): React.ReactElement {
-  dropNoopProps('compat.mat.LiquidGlassLayerProvider', rest as Record<string, unknown>);
+  dropNoopProps('LiquidGlassLayerProvider', rest as Record<string, unknown>);
   return <>{children}</>;
 }
 
@@ -94,7 +94,7 @@ export interface LiquidGlassScrollEdgeCompatProps extends React.HTMLAttributes<H
 export function LiquidGlassScrollEdge(props: LiquidGlassScrollEdgeCompatProps): React.ReactElement {
   const { edge, styleMode, ...rest } = props;
   const domProps = dropNoopProps(
-    'compat.mat.LiquidGlassScrollEdge',
+    'LiquidGlassScrollEdge',
     rest as Record<string, unknown>,
     ['children', ...(edge !== undefined && edge !== 'top' && edge !== 'bottom' ? ['edge'] : [])],
   );
@@ -122,7 +122,7 @@ const RADIUS_TOKENS = new Set<RadiusToken>(['xs', 'sm', 'md', 'lg', 'xl', 'full'
 export function LiquidGlassConcentricFrame(props: LiquidGlassConcentricFrameCompatProps): React.ReactElement {
   const { radius, inset, children, ...rest } = props;
   const domProps = dropNoopProps(
-    'compat.mat.LiquidGlassConcentricFrame',
+    'LiquidGlassConcentricFrame',
     rest as Record<string, unknown>,
     [
       ...(typeof radius === 'number' || (radius !== undefined && !RADIUS_TOKENS.has(radius as RadiusToken)) ? ['radius'] : []),
