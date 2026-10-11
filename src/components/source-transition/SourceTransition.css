@@ -5,6 +5,6 @@
 @layer ag.components {
   .ag-source-transition__source,
   .ag-source-transition__destination {
-    view-transition-name: var(--ag-vt-name, none);
+    view-transition-name: var(--_ag-vt-name, none);
   }
 }

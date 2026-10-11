@@ -4,7 +4,7 @@
   .ag-date-field, .ag-time-field, .ag-date-picker, .ag-date-range-picker, .ag-time-picker {
     display: grid;
     gap: var(--ag-space-1, 0.25rem);
-    font-size: var(--ag-text-sm, 0.875rem);
+    font-size: var(--_ag-text-sm, 0.875rem);
   }
   .ag-date-field__input, .ag-date-picker__group {
     display: inline-flex;
@@ -12,70 +12,70 @@
     gap: var(--ag-space-1, 0.25rem);
     padding-block: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
     padding-inline: var(--ag-space-2, 0.5rem);
-    border: var(--ag-border-width, 1px) solid var(--ag-border, currentColor);
-    border-radius: var(--ag-radius-2, 0.5rem);
-    background: var(--ag-surface, Canvas);
-    min-block-size: var(--ag-touch-target, 44px);
+    border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor);
+    border-radius: var(--_ag-radius-2, 0.5rem);
+    background: var(--_ag-surface, Canvas);
+    min-block-size: var(--_ag-touch-target, 44px);
   }
   .ag-date-field__segment {
     padding-inline: var(--ag-space-1, 0.25rem);
     font-variant-numeric: tabular-nums;
-    border-radius: var(--ag-radius-1, 0.25rem);
+    border-radius: var(--_ag-radius-1, 0.25rem);
     outline: none;
   }
-  .ag-date-field__segment[data-focused] { background: var(--ag-accent-soft, Highlight); }
+  .ag-date-field__segment[data-focused] { background: var(--_ag-accent-soft, Highlight); }
   .ag-date-picker__trigger {
-    min-block-size: var(--ag-touch-target, 44px);
+    min-block-size: var(--_ag-touch-target, 44px);
     padding-inline: var(--ag-space-2, 0.5rem);
     border: 0;
-    border-radius: var(--ag-radius-1, 0.25rem);
+    border-radius: var(--_ag-radius-1, 0.25rem);
     background: transparent;
     color: inherit;
     cursor: pointer;
     font: inherit;
   }
   .ag-date-picker__popover {
-    background: var(--ag-surface-raised, Canvas);
-    border: var(--ag-border-width, 1px) solid var(--ag-border, currentColor);
-    border-radius: var(--ag-radius-3, 0.75rem);
-    box-shadow: var(--ag-shadow-2, 0 4px 16px rgb(0 0 0 / 0.12));
+    background: var(--_ag-surface-raised, Canvas);
+    border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor);
+    border-radius: var(--_ag-radius-3, 0.75rem);
+    box-shadow: var(--_ag-shadow-2, 0 4px 16px rgb(0 0 0 / 0.12));
     padding: var(--ag-space-3, 0.75rem);
-    z-index: var(--ag-z-popover, 60);
+    z-index: var(--_ag-z-popover, 60);
   }
   .ag-calendar, .ag-range-calendar { display: grid; gap: var(--ag-space-2, 0.5rem); }
   .ag-calendar__header { display: flex; align-items: center; justify-content: space-between; }
   .ag-calendar__nav {
-    min-inline-size: var(--ag-touch-target, 44px);
-    min-block-size: var(--ag-touch-target, 44px);
+    min-inline-size: var(--_ag-touch-target, 44px);
+    min-block-size: var(--_ag-touch-target, 44px);
     border: 0;
     background: transparent;
     cursor: pointer;
-    border-radius: var(--ag-radius-1, 0.25rem);
+    border-radius: var(--_ag-radius-1, 0.25rem);
     color: inherit;
     font: inherit;
   }
-  .ag-calendar__weekday { font-size: var(--ag-text-xs, 0.75rem); color: var(--ag-fg-muted, inherit); }
+  .ag-calendar__weekday { font-size: var(--_ag-text-xs, 0.75rem); color: var(--_ag-fg-muted, inherit); }
   .ag-calendar__cell {
-    min-inline-size: var(--ag-touch-target, 44px);
-    min-block-size: var(--ag-touch-target, 44px);
+    min-inline-size: var(--_ag-touch-target, 44px);
+    min-block-size: var(--_ag-touch-target, 44px);
     text-align: center;
-    border-radius: var(--ag-radius-1, 0.25rem);
+    border-radius: var(--_ag-radius-1, 0.25rem);
     cursor: pointer;
     font-variant-numeric: tabular-nums;
   }
-  .ag-calendar__cell[data-selected] { background: var(--ag-accent, Highlight); color: var(--ag-accent-fg, Canvas); }
+  .ag-calendar__cell[data-selected] { background: var(--_ag-accent, Highlight); color: var(--_ag-accent-fg, Canvas); }
   .ag-calendar__cell[data-disabled] { opacity: 0.4; cursor: default; }
-  .ag-calendar__cell[data-outside-month] { color: var(--ag-fg-muted, inherit); }
-  .ag-calendar__weekno { font-size: var(--ag-text-xs, 0.75rem); color: var(--ag-fg-muted, inherit); text-align: end; padding-inline-end: var(--ag-space-2, 0.5rem); }
+  .ag-calendar__cell[data-outside-month] { color: var(--_ag-fg-muted, inherit); }
+  .ag-calendar__weekno { font-size: var(--_ag-text-xs, 0.75rem); color: var(--_ag-fg-muted, inherit); text-align: end; padding-inline-end: var(--ag-space-2, 0.5rem); }
   .ag-date-range-picker__presets {
     display: grid;
     gap: var(--ag-space-1, 0.25rem);
     margin-block-end: var(--ag-space-2, 0.5rem);
   }
-  .ag-date-range-picker__preset { padding: var(--ag-space-1, 0.25rem) var(--ag-space-2, 0.5rem); border-radius: var(--ag-radius-1, 0.25rem); cursor: pointer; }
-  .ag-time-picker__columns { display: flex; gap: var(--ag-space-2, 0.5rem); max-block-size: var(--ag-time-picker-height, 12rem); overflow: auto; }
-  .ag-time-picker__column { min-inline-size: var(--ag-control-height-lg, 3.5rem); }
-  .ag-time-picker__option { padding: var(--ag-space-1, 0.25rem) var(--ag-space-2, 0.5rem); text-align: center; font-variant-numeric: tabular-nums; cursor: pointer; border-radius: var(--ag-radius-1, 0.25rem); }
-  .ag-date-field__error, .ag-date-field__description { font-size: var(--ag-text-sm, 0.875rem); }
-  .ag-date-field__error { color: var(--ag-danger, currentColor); }
+  .ag-date-range-picker__preset { padding: var(--ag-space-1, 0.25rem) var(--ag-space-2, 0.5rem); border-radius: var(--_ag-radius-1, 0.25rem); cursor: pointer; }
+  .ag-time-picker__columns { display: flex; gap: var(--ag-space-2, 0.5rem); max-block-size: var(--_ag-time-picker-height, 12rem); overflow: auto; }
+  .ag-time-picker__column { min-inline-size: var(--_ag-control-height-lg, 3.5rem); }
+  .ag-time-picker__option { padding: var(--ag-space-1, 0.25rem) var(--ag-space-2, 0.5rem); text-align: center; font-variant-numeric: tabular-nums; cursor: pointer; border-radius: var(--_ag-radius-1, 0.25rem); }
+  .ag-date-field__error, .ag-date-field__description { font-size: var(--_ag-text-sm, 0.875rem); }
+  .ag-date-field__error { color: var(--_ag-danger, currentColor); }
 }

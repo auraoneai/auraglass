@@ -9,7 +9,5 @@
     block-size: 100%;
     object-fit: cover;
   }
-  .ag-backdrop[data-ag-media-tone='light'] { --_ag-backdrop-tone: light; }
-  .ag-backdrop[data-ag-media-tone='dark'] { --_ag-backdrop-tone: dark; }
 /* --- lane W4 end --- */
 }

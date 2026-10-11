@@ -23,8 +23,10 @@
       'side status insp';
     grid-template-columns:
       var(--_ag-app-shell-side) minmax(0, 1fr) var(--_ag-app-shell-insp);
+    gap: var(--_ag-app-shell-gap);
     grid-template-rows: auto auto minmax(0, 1fr) auto;
-    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
     padding-block-end: env(safe-area-inset-bottom);
   }
 
@@ -128,6 +130,11 @@
     grid-template-rows: auto auto minmax(0, 1fr) auto;
     padding-block-start: env(safe-area-inset-top);
   }
+  /* SURF-054: the bottom tab bar only exists in compact — hide at >=600
+     under auto layout (the <600 container query below re-enables it). */
+  .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'] {
+    display: none;
+  }
   .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='tabbar'] {
     display: grid;
     padding-block-end: env(safe-area-inset-bottom);
@@ -139,7 +146,7 @@
     --_ag-app-shell-side: var(--_ag-app-shell-rail);
   }
   .ag-app-shell[data-ag-layout='wide'] [data-ag-slot='main'] {
-    max-inline-size: var(--ag-content-max, 96rem);
+    max-inline-size: var(--_ag-content-max, 96rem);
     inline-size: 100%;
     margin-inline: auto;
   }
@@ -179,7 +186,7 @@
   /* Wide: >= 1440px — cap the content column so lines stay readable. */
   @container ag-app-shell (width >= 1440px) {
     .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='main'] {
-      max-inline-size: var(--ag-content-max, 96rem);
+      max-inline-size: var(--_ag-content-max, 96rem);
       inline-size: 100%;
       margin-inline: auto;
     }
@@ -191,6 +198,85 @@
     grid-template-columns: repeat(auto-fill, minmax(min(var(--ag-app-shell-card-min, 18rem), 100%), 1fr));
     gap: var(--ag-space-3, 0.75rem);
     padding: var(--ag-space-4, 1rem);
+  
+  /* SURF-037/057: inspector is its own inline-size container; content owns
+     its scroll. */
+  .ag-inspector {
+    container: ag-inspector / inline-size;
+    min-inline-size: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .ag-inspector__content {
+    overflow: auto;
+    overscroll-behavior: contain;
+    min-block-size: 0;
+    flex: 1;
+  
+  /* SURF-038: inspector material/geometry by mode. Docked (or auto under a
+     wide shell) reads sunken with no backdrop-filter; floating (or auto
+     under expanded/medium) overlays the main area at inline-end. Compact
+     hides the inline inspector — Inspector.Sheet takes over. */
+  [data-ag-inspector-mode='docked'],
+  .ag-app-shell[data-ag-mode='wide'] [data-ag-inspector-mode='auto'] {
+    background: var(--_ag-surface-sunken);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  [data-ag-inspector-mode='floating'],
+  .ag-app-shell[data-ag-mode='expanded'] [data-ag-inspector-mode='auto'],
+  .ag-app-shell[data-ag-mode='medium'] [data-ag-inspector-mode='auto'] {
+    position: absolute;
+    inset-inline-end: var(--ag-space-2);
+    inset-block: var(--ag-space-2);
+    z-index: 2;
+    max-inline-size: min(24rem, 90%);
+    border-radius: var(--ag-radius-lg);
+  }
+  .ag-app-shell[data-ag-mode='compact'] [data-ag-slot='inspector'] {
+    display: none;
+  
+  /* SURF-043/045/046: panel handles — 1px line, >=24px fine / >=44px coarse
+     hit area via ::before, touch-action none (handle only); stacked mode
+     (data-ag-stacked, set by ResizeObserver) drops to a column and hides
+     handles. */
+  .ag-panels { container: ag-panels / inline-size; }
+  .ag-panels__handle {
+    position: relative;
+    touch-action: none;
+    inline-size: var(--_ag-border-1, 1px);
+    background: var(--_ag-border-subtle);
+    flex: none;
+  }
+  .ag-panels[data-ag-orientation='vertical'] .ag-panels__handle {
+    inline-size: auto;
+    block-size: var(--_ag-border-1, 1px);
+  }
+  .ag-panels__handle::before {
+    content: '';
+    position: absolute;
+    inset: calc(var(--ag-space-3, 12px) * -1);
+  }
+  @media (pointer: coarse) {
+    .ag-panels__handle::before { inset: calc(var(--ag-space-5, 22px) * -1); }
+  }
+  .ag-panels__handle:focus-visible {
+    outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus-color);
+    outline-offset: var(--_ag-focus-offset, 2px);
+  }
+  .ag-panels__grip {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    inline-size: var(--ag-space-4, 16px);
+    block-size: var(--ag-space-4, 16px);
+    border-radius: var(--ag-radius-sm);
+    background: var(--_ag-border-subtle);
+  }
+  .ag-panels[data-ag-stacked='true'] {
+    flex-direction: column;
+  }
+  .ag-panels[data-ag-stacked='true'] .ag-panels__handle {
+    display: none;
   }
 }
-

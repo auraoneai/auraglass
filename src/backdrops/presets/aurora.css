@@ -3,11 +3,11 @@
  * One element, no canvas, no filter, % positions. */
 @layer ag.components {
   .ag-backdrop[data-ag-backdrop-preset='aurora'] .ag-backdrop-layer {
-    background-color: var(--ag-surface-page, Canvas);
+    background-color: var(--_ag-surface-page, Canvas);
     background-image:
-      radial-gradient(60% 80% at 18% 20%, var(--_ag-aurora-a, color-mix(in oklch, var(--ag-color-1, oklch(0.72 0.19 275)) 45%, transparent)), transparent 70%),
-      radial-gradient(55% 70% at 80% 15%, var(--_ag-aurora-b, color-mix(in oklch, var(--ag-color-3, oklch(0.72 0.15 190)) 38%, transparent)), transparent 72%),
-      radial-gradient(70% 90% at 50% 95%, var(--_ag-aurora-c, color-mix(in oklch, var(--ag-color-5, oklch(0.68 0.16 340)) 32%, transparent)), transparent 75%);
+      radial-gradient(60% 80% at 18% 20%, var(--_ag-aurora-a, color-mix(in oklch, var(--_ag-color-1, oklch(0.72 0.19 275)) 45%, transparent)), transparent 70%),
+      radial-gradient(55% 70% at 80% 15%, var(--_ag-aurora-b, color-mix(in oklch, var(--_ag-color-3, oklch(0.72 0.15 190)) 38%, transparent)), transparent 72%),
+      radial-gradient(70% 90% at 50% 95%, var(--_ag-aurora-c, color-mix(in oklch, var(--_ag-color-5, oklch(0.68 0.16 340)) 32%, transparent)), transparent 75%);
     background-repeat: no-repeat;
   }
 }

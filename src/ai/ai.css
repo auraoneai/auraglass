@@ -28,7 +28,7 @@
     inline-size: 1ch;
     block-size: 1em;
     background: currentColor;
-    animation: ag-ai-caret-blink var(--ag-duration-normal, 1s) steps(1) infinite;
+    animation: ag-ai-caret-blink var(--_ag-duration-normal, 1s) steps(1) infinite;
   }
   [data-ag-part="message"] {
     max-inline-size: min(var(--_ag-ai-message-max-inline, 72ch), 100%);
@@ -57,7 +57,7 @@
     padding-block-end: env(keyboard-inset-height, 0px);
   }
   [data-ag-part="composer"][data-dragging="true"] {
-    outline: 2px dashed var(--ag-line, currentColor);
+    outline: 2px dashed var(--_ag-line, currentColor);
     outline-offset: -2px;
   }
   [data-ag-part="composer"] [data-ag-part="action"],
@@ -82,7 +82,7 @@
    * reduced motion via the `motion` preference attribute (S-12). */
   [data-ag-part="tool-call"][data-state="running"] [data-ag-part="running-dots"]::after {
     content: "\2026";
-    animation: ag-ai-caret-blink var(--ag-duration-slow, 1s) steps(1) infinite;
+    animation: ag-ai-caret-blink var(--_ag-duration-slow, 1s) steps(1) infinite;
   }
   [data-ag-part="running-dots"][data-motion="none"]::after,
   [data-ag-part="running-dots"][data-motion="calm"]::after { content: none; }
@@ -92,7 +92,7 @@
     border-radius: 50%;
     background: currentColor;
     margin-inline-end: 3px;
-    animation: ag-ai-caret-blink var(--ag-duration-slower, 1.2s) steps(1) infinite;
+    animation: ag-ai-caret-blink var(--_ag-duration-slower, 1.2s) steps(1) infinite;
   }
   [data-ag-part="streaming-text"] [data-ag-part="caret"][data-motion="none"],
   [data-ag-part="streaming-text"] [data-ag-part="caret"][data-motion="calm"],

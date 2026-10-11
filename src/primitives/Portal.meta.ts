@@ -11,7 +11,10 @@ export const PortalMeta = defineMeta({
   parts: [],
   states: [],
   variants: {},
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 4,
   migration: [
-    { from: 'GlassPortal', automation: 'full', compat: true },
+    { from: 'GlassPortal', props: {}, selectors: { '.glass-portal': '.ag-portal' },  automation: 'full', compat: true },
   ],
 });
