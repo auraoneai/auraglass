@@ -25,9 +25,14 @@
       var(--_ag-app-shell-side) minmax(0, 1fr) var(--_ag-app-shell-insp);
     gap: var(--_ag-app-shell-gap);
     grid-template-rows: auto auto minmax(0, 1fr) auto;
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
+    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
     padding-block-end: env(safe-area-inset-bottom);
+  }
+  /* env(safe-area-inset-*) is physical while padding-inline is logical
+     (REQ-SURF-10 bans physical padding-left/right): in RTL inline-start is
+     the right edge, so the physical insets swap to stay on their own edges. */
+  .ag-app-shell:dir(rtl) {
+    padding-inline: env(safe-area-inset-right) env(safe-area-inset-left);
   }
 
   /* Parts self-place by data-ag-slot (server markup has no JS positioning). */
