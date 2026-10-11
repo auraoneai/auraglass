@@ -351,6 +351,13 @@ plat:package:pack:
           || { echo "PENDING: npm script pack:verify (lane 1d)"; exit 1; }
         npm run pack:verify
       fi
+    # REQ-PLAT-41: shrink-only jsdom import side-effect gate on the built 4x
+    # entry (producer: scripts/ci/import-side-effects.mjs from #131/#132). Fails
+    # closed: a new {symbol,kind} effect exits 1, a missing dist/ exits 2.
+    - |
+      if [ "$AG_LINE" = "4x" ]; then
+        node scripts/ci/import-side-effects.mjs --dist dist/index.mjs
+      fi
     # Tarballs go to the §4.13.2 / EVIDENCE.tarballDir producer path and the
     # dotenv report to the §4.13.2 pack.env path (both contract-frozen).
     - mkdir -p .artifacts/pack .artifacts/plat "$AURAGLASS_EVIDENCE_DIR"

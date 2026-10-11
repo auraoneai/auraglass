@@ -503,3 +503,31 @@ describe('REQ-PLAT-51 evidence under .artifacts/plat/<job-slug>/', () => {
     expect(root.variables.AURAGLASS_EVIDENCE_DIR).toBe('.artifacts');
   });
 });
+
+// REQ-PLAT-41 wiring (FIN-B.1b row #131, `4x11-fin/b-wire-plat41`): the
+// shrink-only jsdom import side-effect gate runs in plat:package:pack on the
+// 4x line, against the built entry, with no fail-open.
+describe('REQ-PLAT-41 import side-effect gate in plat:package:pack', () => {
+  const lines: string[] = ([] as string[]).concat(job('plat:package:pack').script ?? []);
+  const GATE = 'node scripts/ci/import-side-effects.mjs --dist dist/index.mjs';
+  const idx = lines.findIndex((l) => l.includes(GATE));
+
+  it('runs the gate on the built dist/index.mjs entry, inside a 4x-only block', () => {
+    expect(idx).toBeGreaterThan(-1);
+    const rows = lines[idx].split('\n').map((r) => r.trim()).filter(Boolean);
+    expect(rows).toEqual(['if [ "$AG_LINE" = "4x" ]; then', GATE, 'fi']);
+  });
+
+  it('is fail-closed (no || / ; true / 2>/dev/null) and never --update the baseline', () => {
+    expect(lines[idx]).not.toMatch(/\|\||;\s*true\b|2>\/dev\/null|--update/);
+  });
+
+  it('runs after verify:pack and before npm pack, behind require-activated.mjs', () => {
+    const verify = lines.findIndex((l) => l.includes('npm run verify:pack'));
+    const pack = lines.findIndex((l) => l.trim() === 'npm pack --pack-destination .artifacts/pack');
+    expect(lines[0]).toBe('node scripts/ci/require-activated.mjs --line "$AG_LINE"');
+    expect(verify).toBeGreaterThan(0);
+    expect(idx).toBeGreaterThan(verify);
+    expect(pack).toBeGreaterThan(idx);
+  });
+});
