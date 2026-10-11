@@ -572,8 +572,8 @@ function ReactionPicker({
               "hover:bg-white/10 transition-colors glass-text-xl",
               glassEffect && "glass-button-secondary"
             )}
-            whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
-            whileTap={prefersReducedMotion ? {} : { scale: 0.9 }}
+            whileHover={prefersReducedMotion ? undefined : { scale: 1.1 }}
+            whileTap={prefersReducedMotion ? undefined : { scale: 0.9 }}
             onClick={() => onReactionSelect(reactionType.emoji)}
             title={`${reactionType.name} (${reactionType.shortcut})`}
             aria-label={`React with ${reactionType.name} emoji`}
@@ -682,8 +682,8 @@ export function GlassReactionBar({
             "hover:bg-white/10 transition-colors glass-text-lg",
             glassEffect && "glass-button-secondary"
           )}
-          whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
-          whileTap={prefersReducedMotion ? {} : { scale: 0.9 }}
+          whileHover={prefersReducedMotion ? undefined : { scale: 1.1 }}
+          whileTap={prefersReducedMotion ? undefined : { scale: 0.9 }}
           onClick={() => onReactionClick?.(reactionType.emoji)}
           title={reactionType.name}
           aria-label={`React with ${reactionType.name} emoji`}

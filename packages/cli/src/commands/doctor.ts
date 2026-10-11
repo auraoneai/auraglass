@@ -8,10 +8,14 @@ export async function doctorCommand(args: string[], flags: Record<string, string
   const cwd = String(flags.cwd ?? process.cwd());
   void args;
   if (flags.v5) {
+    // REQ-PLAT-61 — doctor --v5 is built from checks.ts: the environment
+    // checks run alongside the v5 usage findings so --json reports both.
+    const checks = runChecks(cwd);
     const { findings, byCodemod } = runV5(cwd);
     if (out.json) {
-      printJson({ version: 1, findings, byCodemod });
+      printJson({ version: 1, checks, findings, byCodemod });
     } else {
+      for (const r of checks) status(out, r.status === 'pass' ? 'pass' : r.status === 'info' ? 'info' : r.status === 'warn' ? 'warn' : 'fail', `${r.id}: ${r.message}`);
       if (!findings.length) status(out, 'pass', 'no removeIn 5.0.0 usages found');
       for (const [codemod, list] of Object.entries(byCodemod)) {
         for (const f of list) {

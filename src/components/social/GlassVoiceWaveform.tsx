@@ -538,7 +538,9 @@ export const GlassVoiceWaveform = forwardRef<
                 <motion.div
                   className="glass-absolute glass-top-1 glass-w-4 glass-h-4 glass-radius-full"
                   style={{ right: -4, background: "rgba(71,85,105,.88)" }}
-                  animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1] }}
+                  animate={
+                    prefersReducedMotion ? undefined : { scale: [1, 1.2, 1] }
+                  }
                   transition={
                     shouldAnimate
                       ? {

@@ -1,0 +1,25 @@
+{
+  "req": "REQ-PLAT-59",
+  "reqFin": "REQ-FIN-36",
+  "fix": "GlassSwitch shimmer/press motion removed (no glass-lift-on-hover / glass-press on the control)",
+  "selector": ".glass-switch",
+  "source": "src/components/input/GlassSwitch.tsx",
+  "textRuns": [
+    {
+      "id": "switch-thumb-vs-track",
+      "foreground": "thumb (rendered)",
+      "background": "track (rendered)",
+      "minRatio": 3,
+      "kind": "non-text (WCAG 1.4.11)"
+    }
+  ],
+  "measurement": {
+    "status": "pending",
+    "tool": "plat:test:visual-4x",
+    "note": "Contrast is written only by the plat:test:visual-4x lane from rendered pixels, with its job artifact URL. No hand-entered ratios (PRD-F §4 prohibited shortcuts).",
+    "ratio": null,
+    "artifactUrl": null,
+    "jobUrl": null,
+    "sha": null
+  }
+}

@@ -9,6 +9,10 @@ import React from 'react';
 
 import { useEffect, useRef, useState } from 'react';
 import { GlassStyleProbes, GlassProbeResult } from '../utils/glassStyleProbes';
+import { warnDeprecated } from "../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0048");
 
 export interface UseGlassProbesOptions {
   /** Enable automatic monitoring for this component */
