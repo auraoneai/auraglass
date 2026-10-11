@@ -5,9 +5,9 @@
 import type { CartItem } from '@/registry/blocks/commerce-cart/index';
 
 export const checkoutItems: CartItem[] = [
-  { id: 'sku-atlas', title: 'Atlas chair', unitAmount: 499, quantity: 1 },
-  { id: 'sku-nimbus', title: 'Nimbus lamp', unitAmount: 89.5, quantity: 2 },
-  { id: 'sku-vega', title: 'Vega desk mat', unitAmount: 24, quantity: 1 },
+  { id: 'sku-atlas', title: 'Atlas chair', unitPrice: 499, quantity: 1 },
+  { id: 'sku-nimbus', title: 'Nimbus lamp', unitPrice: 89.5, quantity: 2 },
+  { id: 'sku-vega', title: 'Vega desk mat', unitPrice: 24, quantity: 1 },
 ];
 
 export const checkoutProps = {

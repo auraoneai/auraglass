@@ -3,9 +3,10 @@
   "name": "pricing",
   "type": "registry:block",
   "title": "Pricing",
-  "description": "Plan grid with localized prices and a controlled billing-period toggle.",
+  "description": "Plan grid with localized prices, a SegmentedControl billing-period toggle and a scrollable comparison table (sticky first column, Included/Not included text).",
   "dependencies": [
-    "react"
+    "react",
+    "aura-glass"
   ],
   "registryDependencies": [
     "auraglass",
@@ -31,17 +32,25 @@
     {
       "path": "types.ts",
       "type": "registry:lib"
+    },
+    {
+      "path": "pricing.css",
+      "type": "registry:style"
     }
   ],
   "meta": {
     "auraglass": {
       "owner": "SURF",
       "surface": "block",
-      "client": false,
+      "client": true,
       "components": [
         "Badge",
         "Button",
-        "Card"
+        "Card",
+        "CheckIcon",
+        "MinusIcon",
+        "SegmentedControl",
+        "VisuallyHidden"
       ],
       "ga": false,
       "minVersion": "5.0.0"

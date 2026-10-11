@@ -18,6 +18,9 @@ declare module '@tanstack/react-table' {
     editor?: 'text' | 'number' | 'select';
     /** Options for editor: 'select'. */
     options?: readonly { value: string; label: string }[];
+    /** Render this column's body cells as row headers (`<th scope="row">`;
+     *  role="rowheader" in grid mode) — the cell that names its row. */
+    rowHeader?: boolean;
   }
 }
 

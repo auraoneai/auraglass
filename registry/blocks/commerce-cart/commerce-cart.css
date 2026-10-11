@@ -1,0 +1,75 @@
+/* commerce-cart — REQ-SURF-177. The cart is the size container: at ≥1024 px
+   lines and summary sit side by side; below that the summary stacks under the
+   lines and its CTA bar is sticky at the bottom, clear of the home indicator. */
+.ag-commerce-cart {
+  container: ag-commerce-cart / inline-size;
+}
+
+.ag-commerce-cart__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ag-space-4);
+}
+
+.ag-commerce-cart__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--ag-space-3);
+}
+
+.ag-commerce-cart__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ag-space-3);
+}
+
+.ag-commerce-cart__line-title {
+  flex: 1 1 10rem;
+}
+
+.ag-commerce-cart__line-amount {
+  font-variant-numeric: tabular-nums;
+}
+
+.ag-commerce-cart__summary-lines {
+  margin: 0;
+  display: grid;
+  gap: var(--ag-space-2);
+}
+
+.ag-commerce-cart__summary-lines > div,
+.ag-commerce-cart__total {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--ag-space-3);
+}
+
+.ag-commerce-cart__summary-lines dd {
+  margin: 0;
+}
+
+.ag-commerce-cart__cta {
+  position: sticky;
+  inset-block-end: 0;
+  padding: var(--ag-space-3);
+  padding-bottom: calc(var(--ag-space-3) + env(safe-area-inset-bottom));
+}
+
+.ag-commerce-cart__cta > * {
+  inline-size: 100%;
+  min-block-size: var(--ag-target-coarse);
+}
+
+@container ag-commerce-cart (min-width: 1024px) {
+  .ag-commerce-cart__layout {
+    grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr);
+    align-items: start;
+  }
+  .ag-commerce-cart__cta {
+    position: static;
+    padding-bottom: var(--ag-space-3);
+  }
+}

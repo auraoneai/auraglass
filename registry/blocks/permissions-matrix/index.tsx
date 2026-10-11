@@ -1,1 +1,1 @@
-export { PermissionsMatrix } from './PermissionsMatrix';
+export { PermissionsMatrix, descriptionId, type PermissionsMatrixProps } from './PermissionsMatrix';
