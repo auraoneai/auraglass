@@ -24,6 +24,7 @@
  "prop-grammar": "cmp",
  "no-network-in-ai": "surf",
  "no-simulation": "surf",
+ "no-to-locale": "surf",
  "no-transition-all": "qual",
  "no-permanent-will-change": "qual",
  "no-translatez-hack": "qual",

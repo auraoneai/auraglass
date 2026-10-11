@@ -46,10 +46,10 @@ describe('REQ-FIN-04 provider mounts', () => {
     for (const v of Object.values(m)) expect(typeof v).toBe('function');
   });
 
-  it('brand="#7c3aed" renders exactly one <style data-ag-theme-style> with the brand css', () => {
+  it('brand="#7c3aed" renders exactly one <style data-theme-style> with the brand css', () => {
     const { theme } = load();
     render(<theme.AuraGlassProvider storage={null} brand="#7c3aed"><div /></theme.AuraGlassProvider>);
-    const styles = document.querySelectorAll('style[data-ag-theme-style]');
+    const styles = document.querySelectorAll('style[data-theme-style]');
     expect(styles).toHaveLength(1);
     expect(styles[0]!.textContent).toBe(theme.createBrandTheme('#7c3aed').cssText);
   });
@@ -57,7 +57,7 @@ describe('REQ-FIN-04 provider mounts', () => {
   it('preset="midnight" renders one theme style built from the preset accent', () => {
     const { theme } = load();
     render(<theme.AuraGlassProvider storage={null} preset="midnight"><div /></theme.AuraGlassProvider>);
-    const styles = document.querySelectorAll('style[data-ag-theme-style]');
+    const styles = document.querySelectorAll('style[data-theme-style]');
     expect(styles).toHaveLength(1);
     const p = theme.presets.midnight;
     expect(styles[0]!.textContent).toBe(theme.createBrandTheme(p.accent, { preset: p.id }).cssText);

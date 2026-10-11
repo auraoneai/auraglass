@@ -151,21 +151,21 @@ function TourStep({ titleId, title, description, index, total, labels, onPrev, o
       {description ? <p className="ag-tour-description">{description}</p> : null}
       <div className="ag-tour-actions">
         {onSkip ? (
-          <Button variant="clear" className="ag-tour-skip" onClick={onSkip}>
+          <Button variant="clear" className="ag-tour-skip" suppressInnerParts onClick={onSkip}>
             {labels?.skip ?? 'Skip'}
           </Button>
         ) : null}
         {onPrev ? (
-          <Button variant="clear" className="ag-tour-prev" onClick={onPrev}>
+          <Button variant="clear" className="ag-tour-prev" suppressInnerParts onClick={onPrev}>
             {labels?.prev ?? 'Back'}
           </Button>
         ) : null}
         {last ? (
-          <Button className="ag-tour-done" onClick={onDone}>
+          <Button className="ag-tour-done" suppressInnerParts onClick={onDone}>
             {labels?.done ?? 'Done'}
           </Button>
         ) : (
-          <Button className="ag-tour-next" onClick={onNext}>
+          <Button className="ag-tour-next" suppressInnerParts onClick={onNext}>
             {labels?.next ?? 'Next'}
           </Button>
         )}

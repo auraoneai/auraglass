@@ -74,7 +74,7 @@ function TopBarCenter({ keepCenter, children, render, ...rest }: TopBarCenterPro
     render,
     'data-ag-part': 'top-bar-center',
     className: 'ag-top-bar__center',
-    ...(keepCenter ? { 'data-ag-keep-center': '' } : {}),
+    ...(keepCenter ? { 'data-keep-center': '' } : {}),
     ...rest,
     children,
   });
