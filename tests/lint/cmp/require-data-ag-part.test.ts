@@ -6,14 +6,12 @@ import { describe, it, beforeAll, afterAll } from '@jest/globals';
 import { RuleTester } from 'eslint';
 import tsParser from '@typescript-eslint/parser';
 import { mkdirSync, writeFileSync, rmSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import { join } from 'node:path';
 import rule from '../../../lint/rules/cmp/require-data-ag-part.cjs';
 
+// Jest runs .test.ts files as CJS (babel transform), so __dirname is the module's own dir.
 const FIX = join(__dirname, 'fixtures', 'require-data-ag-part');
-const FILE = (n) => join(FIX, n);
+const FILE = (n: string) => join(FIX, n);
 
 beforeAll(() => {
   mkdirSync(FIX, { recursive: true });
