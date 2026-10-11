@@ -7,23 +7,19 @@ export default defineMeta({
   tier: 'T1',
   flagship: 32,
   rsc: 'client',
-  parts: ['table-body', 'table-cell', 'table-column-menu', 'table-column-menu-content', 'table-empty', 'table-header', 'table-header-cell', 'table-loading', 'table-resize-handle', 'table-root', 'table-row', 'table-scroller', 'table-selection', 'table-selection-all', 'table-selection-cell', 'table-sort-trigger'],
+  parts: ['hit-area', 'icon', 'indicator', 'root', 'table-body', 'table-cell', 'table-column-menu', 'table-empty', 'table-header', 'table-header-cell', 'table-loading', 'table-resize-handle', 'table-root', 'table-row', 'table-scroller', 'table-selection', 'table-selection-all', 'table-selection-cell', 'table-sort-trigger'],
   states: ['sorted-asc', 'sorted-desc', 'selected', 'empty', 'loading', 'resizing'],
   variants: { size: ['sm', 'md', 'lg'], mode: ['table', 'grid'] },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/table/',
   budgetKb: 14,
   migration: [
-    { from: 'GlassDataTable', props: { rows: 'data', filterable: 'enableColumnFilter', compact: 'size', selectedRows: 'rowSelection', onSelectionChange: 'onRowSelectionChange', onRowClick: 'onRowAction', emptyMessage: 'emptyState', consciousness: null }, automation: 'mostly', compat: true },
-    { from: 'GlassDataGrid', props: {}, automation: 'mostly', compat: true },
-    { from: 'GlassVirtualTable', props: {}, automation: 'manual', compat: true },
-  ],
-  selectors: [
-    { from: '.glass-data-table', to: '[data-ag-part="table"]' },
-    { from: '.glass-data-grid', to: '[data-ag-part="table"]' },
+    { from: 'GlassDataTable', props: { rows: 'data', filterable: 'enableColumnFilter', compact: { to: 'size', values: { true: 'sm' } }, selectedRows: 'rowSelection', onSelectionChange: 'onRowSelectionChange', onRowClick: 'onRowAction', emptyMessage: 'emptyState', consciousness: null }, selectors: { '.glass-data-table': '[data-ag-part="table"]', '.glass-data-grid': '[data-ag-part="table"]' }, automation: 'mostly', compat: true },
+    { from: 'GlassDataGrid', props: {}, selectors: { '.glass-data-table': '[data-ag-part="table"]', '.glass-data-grid': '[data-ag-part="table"]' }, automation: 'mostly', compat: true },
+    { from: 'GlassVirtualTable', props: {}, selectors: { '.glass-data-table': '[data-ag-part="table"]', '.glass-data-grid': '[data-ag-part="table"]' }, automation: 'manual', compat: true },
   ],
 });
 
 export const TABLE_COLUMN_META = {
   name: 'Table.Column',
-  migration: [{ from: 'ColumnDefinition', props: { key: 'accessorKey', label: 'header', sortable: 'enableSorting', width: 'size', render: 'cell', cellRenderer: 'cell', align: 'meta.align' } }],
+  migration: [{ from: 'ColumnDefinition', props: { key: 'accessorKey', label: 'header', sortable: 'enableSorting', width: 'size', render: 'cell', cellRenderer: 'cell', align: { to: 'meta.align', values: { left: 'start', right: 'end', center: 'center' } } } }],
 } as const;

@@ -7,9 +7,9 @@ export default defineMeta({
   flagship: 22,
   tier: 'T1',
   rsc: 'mixed',
-  parts: ['actions', 'description', 'eyebrow', 'main', 'page-header', 'root', 'skip-link', 'tabs', 'title'],
+  parts: ['actions', 'description', 'edge-registrar', 'eyebrow', 'main', 'page-header', 'root', 'scroll-edge', 'sidebar', 'sidebar-item', 'sidebar-item-li', 'sidebar-nav', 'skip-link', 'status-bar', 'status-bar-item', 'tabs', 'title', 'top-bar', 'top-bar-title'],
   states: ['expanded', 'collapsed', 'rail'],
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
   variants: {},
-  migration: [{ from: 'GlassAppShell', props: { header: null, sidebar: null, footer: null, sidebarWidth: 'sidebarWidth', collapsible: null, mobileOverlay: null, padding: null, maxWidth: null }, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassAppShell', props: { header: null, sidebar: null, footer: null, sidebarWidth: null, sidebarPlacement: 'sidebarSide', collapsed: 'defaultSidebar', collapsible: null, mobileOverlay: null, padding: null, maxWidth: null }, automation: 'mostly', compat: true }],
 });

@@ -11,8 +11,8 @@ export default defineMeta({
   states: ['selected', 'today', 'outside-month', 'unavailable', 'disabled'],
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/',
+  budgetKb: 4,
   migration: [
-    { from: 'GlassCalendar', props: { onChange: 'onValueChange', weekNumbers: 'showWeekNumbers' }, automation: 'mostly', compat: true },
+    { from: 'GlassCalendar', props: { onChange: 'onValueChange', weekNumbers: 'showWeekNumbers' }, selectors: { '.glass-calendar': '[data-ag-part="calendar"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-calendar', to: '[data-ag-part="calendar"]' }],
 });

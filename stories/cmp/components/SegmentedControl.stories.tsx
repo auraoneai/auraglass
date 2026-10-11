@@ -8,13 +8,13 @@ const sbMeta = {
   component: SegmentedControl.Root,
   tags: ['certified', 'flagship'],
   parameters: { ag: { tier: 'standard', subject: 'SegmentedControl', kind: 'component' } },
-  args: { 'aria-label': 'View mode' },
+  args: { 'aria-label': 'View mode', name: 'view' },
 } satisfies Meta<typeof SegmentedControl.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
 export const Default: Story = {
-  args: { 'aria-label': 'View mode' },
+  args: { 'aria-label': 'View mode', name: 'view' },
   render: (args) => (
     <SegmentedControl.Root {...args} defaultValue="grid">
       <SegmentedControl.Item value="list">List</SegmentedControl.Item>
@@ -34,11 +34,11 @@ export const Overview: Story = {
 };
 
 export const Sizes: Story = {
-  args: { 'aria-label': 'size' },
+  args: { 'aria-label': 'size', name: 'size' },
   render: () => (
     <div style={{ display: 'grid', gap: '12px' }}>
       {(['sm', 'md', 'lg'] as const).map((s) => (
-        <SegmentedControl.Root key={s} aria-label={`size ${s}`} size={s} defaultValue="a">
+        <SegmentedControl.Root key={s} aria-label={`size ${s}`} name={`size-${s}`} size={s} defaultValue="a">
           <SegmentedControl.Item value="a">One</SegmentedControl.Item>
           <SegmentedControl.Item value="b">Two</SegmentedControl.Item>
         </SegmentedControl.Root>
@@ -48,10 +48,10 @@ export const Sizes: Story = {
 };
 
 export const ManyItems: Story = {
-  args: { 'aria-label': 'Filters' },
+  args: { 'aria-label': 'Filters', name: 'filters' },
   render: () => (
     <div style={{ maxWidth: '390px' }}>
-      <SegmentedControl.Root aria-label="Filters" defaultValue="1">
+      <SegmentedControl.Root aria-label="Filters" name="filters" defaultValue="1">
         {['1', '2', '3', '4', '5', '6'].map((v, i) => (
           <SegmentedControl.Item key={v} value={v} title={`Filter ${i + 1}`}>
             {`Filter ${i + 1}`}

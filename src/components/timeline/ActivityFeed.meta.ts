@@ -7,13 +7,12 @@ export default defineMeta({
   tier: 'T1',
   flagship: 37,
   rsc: 'mixed',
-  parts: ['activity-actor', 'activity-day-heading', 'activity-feed', 'activity-load-more'],
+  parts: ['activity-actor', 'activity-day-heading', 'activity-feed', 'activity-load-more', 'timeline', 'timeline-description', 'timeline-item', 'timeline-marker', 'timeline-meta', 'timeline-time', 'timeline-title'],
   states: ['new-items'],
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: {},
   budgetKb: 4,
   migration: [
-    { from: 'GlassActivityFeed', props: { entries: 'items' }, automation: 'mostly', compat: true },
+    { from: 'GlassActivityFeed', props: { entries: 'items' }, selectors: { '.glass-activity-feed': '[data-ag-part="activity-feed"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-activity-feed', to: '[data-ag-part="activity-feed"]' }],
 });

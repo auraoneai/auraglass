@@ -6,8 +6,7 @@ export default defineMeta({
   entry: './app-shell',
   tier: 'T1',
   rsc: 'server',
-  // Preset over AppShell.Root + TopBar + AppShell.Main: renders no part of its own.
-  parts: [],
+  parts: ['edge-registrar', 'main', 'root', 'scroll-edge', 'top-bar'],
   states: [],
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
   variants: {},

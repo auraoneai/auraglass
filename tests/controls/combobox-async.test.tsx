@@ -112,17 +112,17 @@ describe('Combobox async (CMP-181/186)', () => {
         return this.classList?.contains('ag-combobox-vscroll') ? 288 : 0;
       },
     });
+    /* no provider: jsdom cannot mount the provider's portal container, which
+       kept the popup (and this test) permanently empty — REQ-CMP-72 */
     render(
-      <AuraGlassProvider>
-        <Combobox.Root items={big} defaultOpen>
-          <Combobox.Input placeholder="big" />
-          <Combobox.Content>
-            {(item: string) => (
-              <Combobox.Item value={item}>{item}</Combobox.Item>
-            )}
-          </Combobox.Content>
-        </Combobox.Root>
-      </AuraGlassProvider>,
+      <Combobox.Root items={big} defaultOpen>
+        <Combobox.Input placeholder="big" />
+        <Combobox.Content>
+          {(item: string) => (
+            <Combobox.Item value={item}>{item}</Combobox.Item>
+          )}
+        </Combobox.Content>
+      </Combobox.Root>,
     );
     await waitFor(() => expect(document.querySelectorAll('[data-ag-part="item"]').length).toBeGreaterThan(0));
     const rows = document.querySelectorAll('[data-ag-part="item"]');
@@ -130,6 +130,22 @@ describe('Combobox async (CMP-181/186)', () => {
     const sized = document.querySelector('[aria-setsize]');
     expect(sized?.getAttribute('aria-setsize')).toBe('500');
     expect(document.querySelector('[aria-posinset]')?.getAttribute('aria-posinset')).toBe('1');
+    /* End + ArrowDown keep aria-activedescendant pointing at a mounted node */
+    Element.prototype.scrollIntoView ??= function () {};
+    const input = screen.getByRole('combobox') as HTMLInputElement;
+    input.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    await act(async () => {});
+    const ad = input.getAttribute('aria-activedescendant');
+    expect(ad).toBeTruthy();
+    expect(document.getElementById(ad!)).toBeTruthy();
+    await userEvent.keyboard('{End}');
+    await act(async () => {});
+    const adEnd = input.getAttribute('aria-activedescendant');
+    expect(adEnd).toBeTruthy();
+    /* BU doesn't move the highlight on End without layout (jsdom), but the
+       pointed-at node must always be mounted — the virtual window covers it */
+    expect(document.getElementById(adEnd!)).toBeTruthy();
     if (origH) Object.defineProperty(HTMLElement.prototype, 'offsetHeight', origH);
   });
 });

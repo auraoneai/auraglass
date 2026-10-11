@@ -13,8 +13,7 @@ export default defineMeta({
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/',
   budgetKb: 8,
   migration: [
-    { from: 'GlassFilterBar', props: { fields: 'schema', filters: 'value', onChange: 'onValueChange' }, automation: 'mostly', compat: true },
-    { from: 'GlassSearchBar', props: {}, automation: 'manual', compat: true },
+    { from: 'GlassFilterBar', props: { fields: 'schema', filters: 'value', onChange: 'onValueChange' }, selectors: { '.glass-filter-bar': '[data-ag-part="filter-bar"]' }, automation: 'mostly', compat: true },
+    { from: 'GlassSearchBar', props: {}, selectors: { '.glass-filter-bar': '[data-ag-part="filter-bar"]' }, automation: 'manual', compat: true },
   ],
-  selectors: [{ from: '.glass-filter-bar', to: '[data-ag-part="filter-bar"]' }],
 });

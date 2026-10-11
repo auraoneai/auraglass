@@ -8,14 +8,16 @@ import { ScrollEdge } from '../../src/material/ScrollEdge';
 import { Sheet as SheetCompound } from '../../src/components/sheet';
 import { fireEvent } from '@testing-library/react';
 import { Table } from '../../src/data';
-import * as DateStories from '../../src/date/DatePicker.stories';
+import * as DatePickerStories from '../../src/date/DatePicker.stories';
+import * as DateRangePickerStories from '../../src/date/DateRangePicker.stories';
+import * as TimePickerStories from '../../src/date/TimePicker.stories';
 import { CalendarDate } from '@internationalized/date';
 import { RangeCalendar, TimeField as TimeFieldC } from '../../src/date';
 import { AiIcon } from '../../src/ai/icons/AiIcon';
 import { Citation, Composer, Message, SourceList, StreamingText, Thread, ToolCall } from '../../src/ai';
 import type { AgMessage, AgToolPart } from '../../src/ai/types';
 import type { AgSourcePart } from '../../src/ai/sources/SourceList';
-import * as SourcesStories from '../../src/ai/sources/Sources.stories';
+import * as SourcesStories from '../../src/ai/sources/Citation.stories';
 import * as ToolCallStories from '../../src/ai/tool/ToolCall.stories';
 import { AuraGlassProvider } from '../../src/theme';
 import * as ImageViewerStories from '../../src/media/ImageViewer.stories';
@@ -341,18 +343,17 @@ export const FIXTURES: Record<string, MetaFixture> = {
     },
   },
   TreeView: {},
-  Calendar: { states: { 'story Cal': story(DateStories.Cal) } },
-  DateField: { states: { 'story Field': story(DateStories.Field) } },
+  Calendar: {},
+  DateField: {},
   DatePicker: {
     storyExports: ['Picker', 'RTL'],
     composes: ['Calendar'],
-    states: { 'popover open': { render: story(DateStories.Picker), interact: click('[data-ag-part="date-picker-trigger"]') } },
+    states: { 'popover open': { render: story(DatePickerStories.Picker), interact: click('[data-ag-part="date-picker-trigger"]') } },
   },
   DateRangePicker: {
     composes: ['RangeCalendar'],
     states: {
-      'story Range': story(DateStories.Range),
-      'popover open with presets': { render: story(DateStories.Range), interact: click('[data-ag-part="date-range-picker-trigger"]') },
+      'popover open with presets': { render: story(DateRangePickerStories.Default), interact: click('[data-ag-part="date-range-picker-trigger"]') },
     },
   },
   RangeCalendar: { states: { range: () => <RangeCalendar aria-label="Window" defaultValue={{ start: new CalendarDate(2026, 10, 1), end: new CalendarDate(2026, 10, 7) }} /> } },
@@ -398,8 +399,7 @@ export const FIXTURES: Record<string, MetaFixture> = {
   },
   TimePicker: {
     states: {
-      'story TimeP': story(DateStories.TimeP),
-      'popover open': { render: story(DateStories.TimeP), interact: click('[data-ag-part="time-picker-trigger"]') },
+      'popover open': { render: story(TimePickerStories.Default), interact: click('[data-ag-part="time-picker-trigger"]') },
     },
   },
 };

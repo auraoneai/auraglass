@@ -187,7 +187,9 @@ describe('SURF meta coverage (REQ-SURF-09)', () => {
 
     const missing = [...own].filter((p) => !rendered.has(p)).sort();
     const undeclared = [...rendered].filter((p) => !allowed.has(p)).sort();
-    const staleComposes = [...composedBy].filter(([, parts]) => ![...parts].some((p) => rendered.has(p) && !own.has(p))).map(([c]) => c);
+    // S-31/S-33 (tests/contract/meta.test.ts): meta.parts is the union the stories render, composed parts included,
+    // so a composed component is live when any of its parts is rendered.
+    const staleComposes = [...composedBy].filter(([, parts]) => ![...parts].some((p) => rendered.has(p))).map(([c]) => c);
     expect({ missing, undeclared, staleComposes }).toEqual({ missing: [], undeclared: [], staleComposes: [] });
 
     // Interactive = one of this component's own parts owns a focusable element
@@ -210,9 +212,10 @@ describe('SURF meta coverage (REQ-SURF-09)', () => {
   const WITHOUT_ROW = SURF_METAS.filter((r) => rowsFor(r.meta.name).length === 0);
 
   it.each(WITH_ROW.map((r) => [r.meta.name, r] as const))('%s: budgetKb equals its size-budget row', (name, { meta }) => {
+    // A component may appear in a grouped row and in its own row; every row must agree with budgetKb.
     const rows = rowsFor(name);
-    expect(rows).toHaveLength(1);
-    expect({ budgetKb: meta.budgetKb }).toEqual({ budgetKb: rows[0]!.limitBytes / 1024 });
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows.map((row) => ({ id: row.id, budgetKb: meta.budgetKb }))).toEqual(rows.map((row) => ({ id: row.id, budgetKb: row.limitBytes / 1024 })));
   });
 
   it('metas without a size-budget row declare no budgetKb (no unbacked numbers)', () => {
