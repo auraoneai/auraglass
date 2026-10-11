@@ -10,6 +10,7 @@ export interface MessageLabels {
   assistant?: string;
   system?: string;
   tool?: string;
+  copy?: string;
   copied?: string;
   regenerate?: string;
   thumbsUp?: string;
@@ -82,6 +83,7 @@ export function MessageFooter({ children }: { children?: React.ReactNode }) {
 
 export interface MessageComponent {
   (props: MessageRootProps): React.ReactElement;
+  Root: typeof MessageRoot;
   Avatar: typeof MessageAvatar;
   Content: typeof MessageContent;
   Footer: typeof MessageFooter;
@@ -106,6 +108,7 @@ const MessageBase = (props: MessageRootProps) => (
 );
 
 export const Message = Object.assign(MessageBase, {
+  Root: MessageRoot,
   Avatar: MessageAvatar,
   Content: MessageContent,
   Footer: MessageFooter,
