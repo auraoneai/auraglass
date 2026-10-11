@@ -880,10 +880,6 @@ export { useMotionPreference } from "./hooks/useMotionPreference";
 export { useReducedMotion } from "./hooks/useReducedMotion";
 export { useEnhancedReducedMotion } from "./hooks/useEnhancedReducedMotion";
 export {
-  useGalileoStateSpring,
-  useGalileoStateSpring as useAuraStateSpring,
-} from "./hooks/useGalileoStateSpring";
-export {
   usePhysicsInteraction,
   usePhysicsButton,
   usePhysicsDrag,

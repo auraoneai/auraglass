@@ -55,8 +55,6 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
   const finalOptions = { ...DEFAULT_OPTIONS, ...options };
   const monitorRef = useRef<PerformanceMonitor>();
   const memoryManagerRef = useRef<MemoryManager>();
-  const frameCountRef = useRef(0);
-  const lastTimeRef = useRef(0);
   const qualityRef = useRef(1.0);
 
   const [metrics, setMetrics] = useState<GlassPerformanceMetrics>({
@@ -91,39 +89,6 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
     finalOptions.memoryLimit,
   ]);
 
-  // FPS monitoring
-  const measureFPS = useCallback(() => {
-    const currentTime = performance.now();
-    frameCountRef.current++;
-
-    if (lastTimeRef.current === 0) {
-      lastTimeRef.current = currentTime;
-    }
-
-    const deltaTime = currentTime - lastTimeRef.current;
-
-    if (deltaTime >= 1000) {
-      const fps = Math.round((frameCountRef.current * 1000) / deltaTime);
-      const frameTime = deltaTime / frameCountRef.current;
-
-      setMetrics((prev) => ({
-        ...prev,
-        fps,
-        frameTime,
-      }));
-
-      frameCountRef.current = 0;
-      lastTimeRef.current = currentTime;
-
-      // Quality adjustment
-      if (finalOptions.autoAdjustQuality) {
-        adjustQuality(fps);
-      }
-    }
-
-    requestAnimationFrame(measureFPS);
-  }, [finalOptions.autoAdjustQuality]);
-
   const adjustQuality = useCallback(
     (fps: number) => {
       const targetFPS = finalOptions.targetFPS;
@@ -152,16 +117,21 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
     [finalOptions]
   );
 
-  // Start monitoring
-  useEffect(() => {
-    if (!finalOptions.enableMonitoring) return;
-
-    const animationId = requestAnimationFrame(measureFPS);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-    };
-  }, [finalOptions.enableMonitoring, measureFPS]);
+  // REQ-PLAT-59 — the continuous rAF FPS loop is deleted. FPS is measured
+  // on demand: `sampleFPS()` runs one bounded window of animation frames,
+  // stores the result and (with autoAdjustQuality) adjusts quality.
+  const sampleFPS = useCallback(
+    async (windowMs: number = 1000) => {
+      const monitor = monitorRef.current;
+      if (!monitor) return metrics.fps;
+      const fps = await monitor.sampleFPS(windowMs);
+      const { frameTime } = monitor.getMetrics();
+      setMetrics((prev) => ({ ...prev, fps, frameTime }));
+      if (fps > 0 && finalOptions.autoAdjustQuality) adjustQuality(fps);
+      return fps;
+    },
+    [adjustQuality, finalOptions.autoAdjustQuality, metrics.fps]
+  );
 
   // Performance metrics callback
   useEffect(() => {
@@ -177,9 +147,11 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
 
         setMetrics((prev) => ({
           ...prev,
+          fps: monitorMetrics.fps ?? prev.fps,
           memoryUsage: monitorMetrics.memoryUsage,
           renderTime: monitorMetrics.frameTime,
-          isThrottled: prev.fps < finalOptions.qualityThreshold,
+          // fps 0 = not measured yet; never treated as throttled.
+          isThrottled: prev.fps > 0 && prev.fps < finalOptions.qualityThreshold,
           recommendations,
         }));
 
@@ -205,7 +177,8 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
   }, []);
 
   const getOptimalSettings = useCallback(() => {
-    const currentFPS = metrics.fps;
+    // Unmeasured fps (0) falls back to the target instead of degrading.
+    const currentFPS = metrics.fps > 0 ? metrics.fps : finalOptions.targetFPS;
     const memoryUsage = metrics.memoryUsage;
     const memoryLimit = finalOptions.memoryLimit * 1024 * 1024;
 
@@ -216,14 +189,15 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
       animationEnabled: currentFPS > 25,
       blurEnabled: currentFPS > 40,
     };
-  }, [metrics.fps, metrics.memoryUsage, finalOptions.memoryLimit]);
+  }, [metrics.fps, metrics.memoryUsage, finalOptions.memoryLimit, finalOptions.targetFPS]);
 
   return {
     metrics,
     quality: qualityRef.current,
     optimizeForLowPerformance,
     getOptimalSettings,
-    isLowPerformance: metrics.fps < finalOptions.qualityThreshold,
+    sampleFPS,
+    isLowPerformance: metrics.fps > 0 && metrics.fps < finalOptions.qualityThreshold,
     isHighPerformance: metrics.fps > finalOptions.targetFPS * 0.9,
   };
 }
@@ -276,7 +250,9 @@ export function useConditionalRendering(
   } = { low: 30, medium: 45, high: 55 }
 ) {
   const performanceLevel = useMemo<PerformanceLevel>(() => {
-    const fps = performance.metrics.fps;
+    // Unmeasured fps (0) is not evidence of low performance (REQ-PLAT-59).
+    const fps =
+      performance.metrics.fps > 0 ? performance.metrics.fps : thresholds.high;
 
     if (fps < thresholds.low) return "low";
     if (fps < thresholds.medium) return "medium";

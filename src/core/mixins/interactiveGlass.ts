@@ -4,7 +4,14 @@
 
  */
 
-import { CSSProperties } from "react";
+import { CSSProperties } from 'react';
+import { warnDeprecated } from "../../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0075");
+
+
+
 
 export interface InteractiveGlassConfig {
   hover?: boolean;
@@ -21,9 +28,9 @@ export interface InteractiveGlassConfig {
 
 
  */
-export const interactiveGlass = (
-  config: InteractiveGlassConfig = {}
-): CSSProperties => {
+export const interactiveGlass = (config: InteractiveGlassConfig = {}): CSSProperties => {
+
+  
   const {
     hover = true,
     active = true,
@@ -32,13 +39,13 @@ export const interactiveGlass = (
     scale = 1.02,
     glow = true,
     ripple = false,
-    transition = "all 0.2s ease",
+    transition = 'all 0.2s ease',
   } = config;
 
   // Use the unified glass style with interactive options
   const baseStyles = {
-    intent: "neutral",
-    elevation: "level2",
+    intent: 'neutral',
+    elevation: 'level2',
     interactive: true,
     hoverLift: hover,
     focusRing: focus,
@@ -46,13 +53,13 @@ export const interactiveGlass = (
 
   // Add legacy interactive behavior
   const legacyStyles: CSSProperties = {
-    cursor: disabled ? "not-allowed" : "pointer",
-    userSelect: "none",
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    userSelect: 'none',
   };
 
   if (disabled) {
     legacyStyles.opacity = 0.5;
-    legacyStyles.pointerEvents = "none";
+    legacyStyles.pointerEvents = 'none';
   }
 
   return { ...baseStyles, ...legacyStyles };
@@ -72,13 +79,10 @@ export const createInteractiveGlassVariants = () => {
 
 
  */
-/** @deprecated createRippleEffect DEP-M0885 since 4.2.0, removed in 5.0.0. {@link none — ripple effects are not part of the material grammar} */
-export const createRippleEffect = (
-  color: string = "rgba(255, 255, 255, 0.3)"
-): CSSProperties => {
+export const createRippleEffect = (color: string = 'rgba(255, 255, 255, 0.3)'): CSSProperties => {
   return {
-    position: "relative",
-    overflow: "hidden",
+    position: 'relative',
+    overflow: 'hidden',
     // Note: Ripple effects are now handled by the unified glass system
   };
 };
@@ -87,10 +91,9 @@ export const createRippleEffect = (
 
 
  */
-/** @deprecated createMagneticEffect DEP-M0884 since 4.2.0, removed in 5.0.0. {@link magnetic() (aura-glass/motion)} */
 export const createMagneticEffect = (strength: number = 0.3): CSSProperties => {
   return {
-    transition: "transform 0.3s ease",
+    transition: 'transform 0.3s ease',
     // Note: Magnetic effects are now handled by the unified glass system
   };
 };
@@ -117,28 +120,26 @@ export interface InteractiveState {
 
 
  */
-export const createInteractiveStateStyles = (
-  state: InteractiveState
-): CSSProperties => {
+export const createInteractiveStateStyles = (state: InteractiveState): CSSProperties => {
   const styles: CSSProperties = {};
 
   if (state.isDisabled) {
     styles.opacity = 0.5;
-    styles.cursor = "not-allowed";
-    styles.pointerEvents = "none";
+    styles.cursor = 'not-allowed';
+    styles.pointerEvents = 'none';
   } else {
     if (state.isHovered) {
-      styles.transform = "scale(1.02)";
-      styles.boxShadow = "0 0 20px rgba(255, 255, 255, 0.2)";
+      styles.transform = 'scale(1.02)';
+      styles.boxShadow = '0 0 20px rgba(255, 255, 255, 0.2)';
     }
 
     if (state.isActive) {
-      styles.transform = "scale(0.98)";
+      styles.transform = 'scale(0.98)';
     }
 
     if (state.isFocused) {
-      styles.outline = "2px solid rgba(255, 255, 255, 0.5)";
-      styles.outlineOffset = "2px";
+      styles.outline = '2px solid rgba(255, 255, 255, 0.5)';
+      styles.outlineOffset = '2px';
     }
   }
 
@@ -162,15 +163,15 @@ export const createAccessibleInteractiveStyles = (): CSSProperties => {
 export const createTouchOptimizedStyles = (): CSSProperties => {
   return {
     // Increase touch target size
-    minWidth: "44px",
-    minHeight: "44px",
+    minWidth: '44px',
+    minHeight: '44px',
     // Note: Touch optimizations are now handled by the unified glass system
     // Prevent text selection on touch
-    WebkitTouchCallout: "none",
-    WebkitUserSelect: "none",
-    KhtmlUserSelect: "none",
-    MozUserSelect: "none",
-    msUserSelect: "none",
-    userSelect: "none",
+    WebkitTouchCallout: 'none',
+    WebkitUserSelect: 'none',
+    KhtmlUserSelect: 'none',
+    MozUserSelect: 'none',
+    msUserSelect: 'none',
+    userSelect: 'none',
   };
 };

@@ -10,7 +10,7 @@
      node scripts/release/release-notes.mjs [--claims-dir docs/claims]
             [--capability-ledger docs/auraglass-5/capability-ledger.json]
             [--out docs/release/notes/5.0.0.md] [--check]                */
-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { relPaths } from './lib/policy.mjs';
@@ -77,7 +77,8 @@ export function commitsToSections(subjects) {
 }
 
 export function renderNotes({ version = '5.0.0', claims = {}, capabilityLedger = null,
-  breakingRegister = null, changesets = [], commitSubjects = [], changeClass = null } = {}) {
+  breakingRegister = null, changesets = [], commitSubjects = [], changeClass = null,
+  visualFixes = [] } = {}) {
   const lines = [`# aura-glass ${version} release notes`, ''];
   lines.push('## Breaking', '');
   lines.push('### Dependency floors — handled by the `deps` codemod', '');
@@ -116,6 +117,9 @@ export function renderNotes({ version = '5.0.0', claims = {}, capabilityLedger =
   const vf = changeClass?.visualFixes ?? changeClass?.visual ?? null;
   if (Array.isArray(vf) && vf.length) {
     for (const v of vf) lines.push(`- ${v.title ?? v.id}${v.pr ? ` (PR #${v.pr})` : ''}`);
+  } else if (visualFixes.length) {
+    // docs/release/visual-fixes/*.json records (REQ-PLAT-62 4.x port).
+    for (const f of visualFixes) lines.push(`- ${f.fix ?? f.id ?? f}: ${f.selector ?? ''}`.trim());
   } else {
     lines.push('_Entries come from `docs/release/visual-fixes/*.json` records (change class C-I-VF)._');
   }
@@ -145,19 +149,25 @@ export function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
       { cwd: root, encoding: 'utf8' }).split('\n').filter(Boolean);
   } catch { /* shallow/young history — proceed without subjects */ }
   const capabilityLedger = existsSync(ledgerPath) ? JSON.parse(readFileSync(ledgerPath, 'utf8')) : null;
-  const breakingRegister = existsSync(PATHS.breakingRegister)
-    ? JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')) : null;
+  const breakingRegisterPath = arg('--breaking-register', PATHS.breakingRegister);
+  const breakingRegister = existsSync(breakingRegisterPath)
+    ? JSON.parse(readFileSync(breakingRegisterPath, 'utf8')) : null;
+  const vfDir = join(root, 'docs/release/visual-fixes');
+  const visualFixes = existsSync(vfDir)
+    ? readdirSync(vfDir).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(join(vfDir, f), 'utf8')))
+    : [];
   const changeClassPath = arg('--change-class', join(root, '.artifacts/plat/change-class.json'));
   const changeClass = existsSync(changeClassPath) ? JSON.parse(readFileSync(changeClassPath, 'utf8')) : null;
   const version = tag ? tag.replace(/^v/, '') : '5.0.0';
   const text = renderNotes({ version, claims: loadClaims(claimsDir), capabilityLedger,
     breakingRegister, changesets: loadChangesets(join(root, '.changeset')),
-    commitSubjects, changeClass });
+    commitSubjects, changeClass, visualFixes });
   if (argv.includes('--check')) {
     const existing = existsSync(out) ? readFileSync(out, 'utf8') : null;
     if (existing !== text) { console.error(`FAIL release-notes: ${out} is stale`); return 1; }
     console.log('release-notes: up to date'); return 0;
   }
+  mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, text);
   console.log(`release-notes: wrote ${out}`);
   return 0;

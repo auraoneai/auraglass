@@ -789,8 +789,8 @@ export const GlassMusicVisualizer = forwardRef<
             "glass-text-primary glass-radius-lg glass-transition-colors",
             compact ? "glass-p-1.5 glass-text-xs" : "glass-p-2"
           )}
-          whileHover={shouldAnimate ? { scale: 1.1 } : {}}
-          whileTap={shouldAnimate ? { scale: 0.9 } : {}}
+          whileHover={shouldAnimate ? { scale: 1.1 } : undefined}
+          whileTap={shouldAnimate ? { scale: 0.9 } : undefined}
           onClick={isPlaying ? handlePause : handlePlay}
           style={{
             color: "var(--glass-theme-text, var(--glass-text-primary))",
@@ -809,8 +809,8 @@ export const GlassMusicVisualizer = forwardRef<
             "glass-text-primary glass-radius-lg glass-transition-colors",
             compact ? "glass-p-1.5 glass-text-xs" : "glass-p-2"
           )}
-          whileHover={shouldAnimate ? { scale: 1.1 } : {}}
-          whileTap={shouldAnimate ? { scale: 0.9 } : {}}
+          whileHover={shouldAnimate ? { scale: 1.1 } : undefined}
+          whileTap={shouldAnimate ? { scale: 0.9 } : undefined}
           onClick={handleStop}
           style={{
             color: "var(--glass-theme-text, var(--glass-text-primary))",

@@ -1,14 +1,18 @@
-"use client";
-import React from "react";
+'use client';
+import React from 'react';
 /**
  * useGlassProbes Hook
- *
+ * 
  * React hook for integrating glass style probes into components.
  * Provides real-time monitoring and compliance checking for glass elements.
  */
 
-import { useEffect, useRef, useState } from "react";
-import { GlassStyleProbes, GlassProbeResult } from "../utils/glassStyleProbes";
+import { useEffect, useRef, useState } from 'react';
+import { GlassStyleProbes, GlassProbeResult } from '../utils/glassStyleProbes';
+import { warnDeprecated } from "../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0048");
 
 export interface UseGlassProbesOptions {
   /** Enable automatic monitoring for this component */
@@ -32,15 +36,12 @@ export interface GlassProbesData {
 /**
  * Hook for monitoring glass elements with real-time probes
  */
-/** @deprecated useGlassProbes DEP-M0820 since 4.2.0, removed in 5.0.0. {@link data-ag-backdrop or Environment (backdrop is declared, never sampled)} */
-export function useGlassProbes(
-  options: UseGlassProbesOptions = {}
-): GlassProbesData {
+export function useGlassProbes(options: UseGlassProbesOptions = {}): GlassProbesData {
   const {
     monitor = true,
     probeInterval = 5000,
     onComplianceIssue,
-    onPerformanceWarning,
+    onPerformanceWarning
   } = options;
 
   const [probesData, setProbesData] = useState<GlassProbesData>({
@@ -48,7 +49,7 @@ export function useGlassProbes(
     latestResult: null,
     complianceScore: 1.0,
     hasPerformanceIssues: false,
-    deprecationWarnings: [],
+    deprecationWarnings: []
   });
 
   const probesRef = useRef<GlassStyleProbes | null>(null);
@@ -68,25 +69,21 @@ export function useGlassProbes(
       if (probesRef.current) {
         const results = probesRef.current.getProbeResults();
         const latestResult = results[results.length - 1];
-
+        
         if (latestResult) {
           const newData: GlassProbesData = {
             isMonitoring: true,
             latestResult,
             complianceScore: latestResult.compliance.accessibilityScore,
-            hasPerformanceIssues:
-              !latestResult.performance.backdropSupported ||
-              (latestResult.performance.renderTime || 0) > 16,
-            deprecationWarnings: latestResult.usage.deprecationWarnings,
+            hasPerformanceIssues: !latestResult.performance.backdropSupported ||
+                                 (latestResult.performance.renderTime || 0) > 16,
+            deprecationWarnings: latestResult.usage.deprecationWarnings
           };
 
           setProbesData(newData);
 
           // Trigger callbacks
-          if (
-            onComplianceIssue &&
-            latestResult.compliance.accessibilityScore < 0.7
-          ) {
+          if (onComplianceIssue && latestResult.compliance.accessibilityScore < 0.7) {
             onComplianceIssue(latestResult);
           }
 
@@ -119,7 +116,7 @@ export function useGlassElementProbe<T extends HTMLElement>(
     latestResult: null,
     complianceScore: 1.0,
     hasPerformanceIssues: false,
-    deprecationWarnings: [],
+    deprecationWarnings: []
   });
 
   const probesRef = useRef<GlassStyleProbes | null>(null);
@@ -129,7 +126,7 @@ export function useGlassElementProbe<T extends HTMLElement>(
 
     probesRef.current = GlassStyleProbes.getInstance();
     probesRef.current.startMonitoring();
-
+    
     setElementData((prev: any) => ({ ...prev, isMonitoring: true }));
   }, [options.monitor]);
 
@@ -142,10 +139,9 @@ export function useGlassElementProbe<T extends HTMLElement>(
         isMonitoring: true,
         latestResult: result,
         complianceScore: result.compliance.accessibilityScore,
-        hasPerformanceIssues:
-          !result.performance.backdropSupported ||
-          (result.performance.renderTime || 0) > 16,
-        deprecationWarnings: result.usage.deprecationWarnings,
+        hasPerformanceIssues: !result.performance.backdropSupported ||
+                             (result.performance.renderTime || 0) > 16,
+        deprecationWarnings: result.usage.deprecationWarnings
       });
     }
   };
@@ -166,12 +162,12 @@ export function useGlassDebug(): {
     allResults: GlassProbeResult[];
   }>({
     summary: null,
-    allResults: [],
+    allResults: []
   });
 
   useEffect(() => {
     const probes = GlassStyleProbes.getInstance();
-
+    
     const updateDebugData = () => {
       const summary = probes.getLatestSummary();
       const allResults = probes.getProbeResults();
@@ -194,24 +190,21 @@ export function useGlassDebug(): {
         userAgent: navigator.userAgent,
         viewport: {
           width: window.innerWidth,
-          height: window.innerHeight,
+          height: window.innerHeight
         },
         support: {
           // Use createGlassStyle() instead,
-          webkitBackdropFilter: CSS.supports(
-            "-webkit-backdrop-filter",
-            "blur(1px)"
-          ),
-        },
-      },
+          webkitBackdropFilter: CSS.supports('-webkit-backdrop-filter', 'blur(1px)')
+        }
+      }
     };
 
-    const blob = new Blob([JSON.stringify(data, null, 2)], {
-      type: "application/json",
+    const blob = new Blob([JSON.stringify(data, null, 2)], { 
+      type: 'application/json' 
     });
-
+    
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = url;
     a.download = `auraglass-probe-data-${Date.now()}.json`;
     document.body.appendChild(a);
