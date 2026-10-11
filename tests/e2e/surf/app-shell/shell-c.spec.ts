@@ -31,7 +31,9 @@ test.describe('app-shell c (REQ-SURF-29/30/36/40)', () => {
   });
 
   test.describe('coarse pointer', () => {
-    test.use({ hasTouch: true, isMobile: true });
+    // hasTouch only (isMobile is unsupported on Firefox); the matchMedia
+    // assertion below fails loudly if an engine does not report coarse.
+    test.use({ hasTouch: true });
     // REQ-SURF-29: >=44x44 under hasTouch / coarse emulation.
     test('rail target size >= 44x44 (coarse pointer)', async ({ page }) => {
       await page.setViewportSize({ width: 1024, height: 900 });
