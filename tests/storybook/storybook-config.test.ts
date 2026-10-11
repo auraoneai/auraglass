@@ -62,7 +62,12 @@ describe('preview configuration (REQ-QUAL-10)', () => {
   it('has exactly one decorator, one loader, no backgrounds and no extra toolbars', () => {
     expect(preview.decorators).toHaveLength(1);
     expect(preview.loaders).toHaveLength(1);
-    expect(Object.keys(preview).sort()).toEqual(['decorators', 'globalTypes', 'loaders']);
+    expect(Object.keys(preview).sort()).toEqual(['decorators', 'globalTypes', 'loaders', 'parameters', 'tags']);
+    // REQ-QUAL-49 / -51 (FIN-450): parameters carry only the storySort and the generated docs page; tags only autodocs
+    expect(Object.keys(preview.parameters ?? {}).sort()).toEqual(['docs', 'options']);
+    expect(Object.keys((preview.parameters as { options: object }).options)).toEqual(['storySort']);
+    expect(Object.keys((preview.parameters as { docs: object }).docs)).toEqual(['page']);
+    expect(preview.tags).toEqual(['autodocs']);
     expect((preview as { parameters?: { backgrounds?: unknown } }).parameters?.backgrounds).toBeUndefined();
     expect(Object.keys(preview.globalTypes ?? {}).sort()).toEqual(Object.keys(FROZEN).sort());
   });

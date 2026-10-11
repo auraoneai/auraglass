@@ -21,25 +21,30 @@ The toolbar exposes only the frozen globals: `scheme`, `contrast`, `transparency
 
 Cert mode is `?ag-cert=1` on the iframe URL. It loads only the built `dist/styles.css` (build `dist/` first) and makes every ancestor of the story root transparent and unfiltered, so the scene is painted only by the environment. Lanes wait on `data-ag-cert-ready`, never on sleeps, and every lane spec imports `test` from `certification/lanes/_fixtures/determinism.ts` (frozen clock at 2026-03-02T09:30:00Z, seeded `Math.random`).
 
-## Navigation Model
+## Information architecture (5.0, REQ-QUAL-49..52)
 
-Storybook is organized by developer intent for the 3.0 release:
+`parameters.options.storySort` orders the sidebar as `Start Here`, `Material Lab`, `Scenes`, `Showcases`,
+`Flagships` (`Controls`, `Overlays`, `App Shell`, `Data`, `AI`, `Media`), `Core`, `Foundations`, `Migration`.
+Inside each Flagships group, components follow `ComponentMeta.flagship`. Storybook reads `storySort` statically from
+`preview.tsx`, so the block is generated: run `node scripts/storybook/lint-titles.mjs --write-story-sort` after a
+flagship number changes (`--check-story-sort` gates the build).
 
-- `Start Here`: the curated guide and component selection entry point.
-- `Foundations`: tokens, Liquid Glass primitives, accessibility, and motion.
-- `Controls`: buttons, inputs, selects, toggles, sliders, search, and compact actions.
-- `Navigation`: tabs, menus, toolbars, sidebars, breadcrumbs, and pagination.
-- `Surfaces`: cards, panels, sheets, modals, popovers, app shells, and layout.
-- `Data + Visualization`: tables, charts, metrics, badges, grids, and dense display UI.
-- `Media`: video, audio, playback controls, photo inspection, and media providers.
-- `Workflows`: wizards, dashboards, commerce, collaboration, CMS, chat, and builders.
-- `AI + Intelligence`: intelligent search, adaptive forms, personalization, and predictive systems.
-- `Effects + Advanced`: particles, WebGL, spatial, quantum, immersive, and experimental systems.
-- `Showcases`: high-signal product demos, including the Liquid Glass app experience and state matrix.
-- `Reference`: generated category galleries and legacy lookup pages for complete coverage.
-- `Certification`: audit and missing-inventory stories used for visual certification evidence.
+Titles are `Flagships/<Group>/<Name>` or `Core/<Name>` with the 5.0 export name. The gates, all attributed to the
+owner of the story file and run against the expiring baseline `certification/baselines-gates/story-contract.json`
+(PRD-F §4.3 rule 3; it only shrinks and is empty at RC-1):
 
-This split is intentional: everyday developer paths stay focused on the job to be done, while generated reference and certification stories preserve full coverage without overwhelming the first load.
+- `scripts/storybook/lint-titles.mjs`: version segments, lowercase leaves, `Glass` prefixes, one component in two
+  groups, leaf ≠ `ComponentMeta.name`, >12 non-matrix stories, oversize non-flagship titles, `{Default, Variants}`-only.
+- `scripts/storybook/story-contract.mjs` (and `tests/storybook/story-contract.test.ts`): `parameters.ag`, tags ⊆
+  `STORY_TAGS`, flagship `Playground` / `States` / `Keyboard` (tagged `apg`, referenced by `tests/a11y/apg/<owner>/`),
+  no `.storybook/**` imports, no `any`.
+- `scripts/storybook/lint-story-copy.mjs`: the REQ-QUAL-50 banned copy and the rendered text `Default`.
+
+Every CSF file gets a docs page (`tags: ['autodocs']`, `parameters.docs.page`): for a ComponentMeta subject it renders
+Usage (the `Playground` story), Anatomy, Material role, Keyboard (from `storybook-static/apg-index.json`, written by
+`scripts/storybook/write-apg-index.mjs`), Migration and Selectors. `stories/qual/StartHere.mdx` computes its counts
+and links from `index.json`, the meta inventory and the package version; `scripts/storybook/verify-start-here.mjs`
+fails the build on a link that does not resolve.
 
 ## Story Parameters
 

@@ -19,11 +19,20 @@ qual:build:storybook:
   script:
     # REQ-QUAL-09..11 / REQ-FIN-106: preview, StoryRoot readiness and determinism unit tests gate the build
     - npx jest --ci tests/storybook
+    # REQ-QUAL-49: storySort is current with ComponentMeta.flagship (Storybook reads it statically from preview.tsx)
+    - node scripts/storybook/lint-titles.mjs --check-story-sort
     - npm run storybook:build
+    # REQ-QUAL-49..52 (FIN-450): APG index for the docs pages, title lint on the built index (per owner, expiring
+    # baseline), Start Here links/counts against the built index. Writers into storybook-static/ run before any
+    # build-manifest/freshness stamp.
+    - mkdir -p ".artifacts/qual/$CI_JOB_NAME_SLUG"
+    - node scripts/storybook/write-apg-index.mjs --out storybook-static/apg-index.json
+    - node scripts/storybook/lint-titles.mjs --index storybook-static/index.json --json ".artifacts/qual/$CI_JOB_NAME_SLUG/story-titles.json"
+    - node scripts/storybook/verify-start-here.mjs --index storybook-static/index.json
   artifacts:
     name: "storybook-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
-    paths: [storybook-static/]
+    paths: [storybook-static/, .artifacts/qual/$CI_JOB_NAME_SLUG/]
 qual:certify:l1:  { extends: .qual-lane, variables: { LANE: L1 } }
 # ... one job per lane L1..L12, named exactly as CERT_JOBS ...
 qual:certify:nightly:
