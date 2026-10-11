@@ -413,7 +413,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 28
+     "count": 36
     }
    ],
    "value": "oklch(0.64 0.16 235)"
@@ -1079,7 +1079,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 85
+     "count": 87
     }
    ],
    "value": "cubic-bezier(0.2, 0, 0, 1)"
