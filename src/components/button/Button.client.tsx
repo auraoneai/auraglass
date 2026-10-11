@@ -118,7 +118,7 @@ export function Button(props: ButtonProps) {
     className: cn('ag-button', className),
     ref: (node: HTMLElement | null) => {
       elementRef.current = node;
-      if (typeof ref === 'function') ref(node);
+      if (typeof ref === 'function') ref(node as HTMLButtonElement | null);
       else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = node;
     },
   } as const;

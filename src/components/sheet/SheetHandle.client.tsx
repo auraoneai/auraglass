@@ -12,8 +12,8 @@ import { useAnnouncer } from '../../theme';
 import { cn } from '../../internal';
 import { resolveDetent } from './useSheetDetents';
 import { subscribeFrame } from '../../motion/ticker';
-import type { SheetDetentsHandle } from './useSheetDetents';
-import type { SheetDetent, SheetSide } from './Sheet.types';
+import type { SheetDetent, SheetDetentsHandle } from './useSheetDetents';
+import type { SheetSide } from './Sheet.types';
 
 export interface SheetHandleContextValue {
   axis: 'x' | 'y';

@@ -115,7 +115,7 @@ export function FileUpload({
       if (limit !== undefined && items.length + accepted.length >= limit) { rejected.push({ file, reason: 'count' }); continue; }
       if (!matchesAccept(file, accept)) { rejected.push({ file, reason: 'type' }); continue; }
       if (maxSize !== undefined && file.size > maxSize) { rejected.push({ file, reason: 'size' }); continue; }
-      accepted.push({ file, status: onUpload ? 'uploading' : 'selected', progress: onUpload ? 0 : undefined });
+      accepted.push(onUpload ? { file, status: 'uploading', progress: 0 } : { file, status: 'selected' });
     }
     if (rejected.length) {
       setRejections(rejected);
@@ -188,7 +188,7 @@ export function FileUpload({
         type="button"
         {...SUNKEN}
         data-ag-part="dropzone"
-        className={cn('ag-file-upload-dropzone', SUNKEN.className, dragging ? 'ag-file-upload-dragging' : undefined)}
+        className={cn('ag-file-upload-dropzone', dragging ? 'ag-file-upload-dragging' : undefined)}
         data-state={dragging ? 'active' : 'idle'}
         disabled={disabled}
         aria-describedby={rejections.length > 0 ? errorId : undefined}

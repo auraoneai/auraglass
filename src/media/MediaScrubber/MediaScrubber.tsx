@@ -35,7 +35,7 @@ export function scrubberValueText(value: number, max: number): string {
   return `${v} of ${d}`;
 }
 
-export const MediaScrubber = function MediaScrubber(props: MediaScrubberProps & { ref?: React.Ref<HTMLDivElement> }) {
+export const MediaScrubber = function MediaScrubber(props: MediaScrubberProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
   const { ref } = props;
     const {
       value, max, onValueChange, onValueCommit, buffered = [], chapters = [],

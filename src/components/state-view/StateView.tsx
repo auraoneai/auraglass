@@ -40,7 +40,8 @@ interface BaseProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange
   description?: string;
   icon?: React.ReactNode;
   actions?: React.ReactNode;
-  role?: 'status' | 'alert' | undefined;
+  /* Internal: ErrorState sets 'alert'; EmptyState forwards a consumer role. */
+  role?: React.AriaRole | undefined;
   ref?: React.Ref<HTMLDivElement> | undefined;
 }
 

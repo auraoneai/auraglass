@@ -2,7 +2,7 @@
    The attribute names are written only here (setter MAT, src/contracts/material.ts
    AG_ATTRIBUTES); callers decide when an element carries them. Internal: not
    exported from the package entries. */
-import type { SpaceToken } from '../contracts/material';
+import type { SpaceToken } from '../contracts/tokens';
 
 /** SurfaceGroup marker + private spacing token (REQ-MAT-25). */
 export function surfaceGroupAttributes(spacing: SpaceToken | undefined): { 'data-ag-group': ''; 'data-ag-spacing'?: SpaceToken } {

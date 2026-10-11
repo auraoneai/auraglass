@@ -142,7 +142,7 @@ function SheetRoot({
     detents: detentState,
     /* REQ-CMP-95: raw detent defs so the handle can announce by VALUE
        (1/'full' → 'Full height', 0.5 → 'Half height'). */
-    detentDefs: resolved === 'bottom' ? detents : ['content'],
+    detentDefs: resolved === 'bottom' ? detents : ['content' as const],
     get viewportPx() { return viewportPx; },
     getPopup: () => popupRef.current,
     onRequestClose: () => handleOpenChange(false, { reason: 'imperative' }),
