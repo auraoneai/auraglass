@@ -102,6 +102,28 @@ export function resizePanels(
   const excess = moved + given; // |excess| > 0 means left moved more than right absorbed
   if (Math.abs(excess) > EPSILON) applyDelta(next, cons, leftIdx, -excess);
 
+  // SURF-45 snap-to-collapse: a collapsible panel pushed below min/2 snaps to
+  // collapsedSize; between min/2 and min it clamps to min. The drift moves to
+  // the nearest expandable neighbor so the sum stays conserved.
+  for (let i = 0; i < n; i++) {
+    const c = cons[i];
+    const v = next[i];
+    if (!c || !c.collapsible || v === undefined) continue;
+    const min = c.min ?? 0;
+    if (v <= c.collapsedSize + EPSILON || v >= min - EPSILON) continue;
+    const target = v < min / 2 ? c.collapsedSize : min;
+    const drift = target - v;
+    next[i] = target;
+    for (const j of [i + 1, i - 1]) {
+      if (j < 0 || j >= n) continue;
+      const nc = cons[j];
+      const nv = next[j];
+      if (!nc || nv === undefined) continue;
+      next[j] = clamp(nv - drift, nc.min, nc.max);
+      break;
+    }
+  }
+
   return next;
 }
 

@@ -2,7 +2,7 @@
    optical props (types.ts never-markers make them compile errors). Dev warnings
    run from the ref callback — no 'use client' directive. */
 import * as React from 'react';
-import clsx from 'clsx';
+import { cn } from '../internal';
 import type { SurfaceProps } from './types';
 import { materialProps } from './materialProps';
 import { warnSurface } from './dev/warnings';
@@ -43,7 +43,7 @@ export function Surface({ render, className, style, ref, ...rest }: SurfaceProps
   ) as (el: HTMLElement | null) => void;
   const finalRef = composeRef(renderRef, warnAndConsumerRef);
 
-  const cls = clsx('ag-surface', className);
+  const cls = cn('ag-surface', className);
   const merged: Record<string, unknown> = {
     ...attrs,
     ...domProps,          // consumer wins for non-data-ag-* attributes
@@ -60,7 +60,7 @@ export function Surface({ render, className, style, ref, ...rest }: SurfaceProps
     const rp = (render.props ?? {}) as Record<string, unknown>;
     return React.cloneElement(render, {
       ...merged,
-      className: clsx(cls, rp.className as string),
+      className: cn(cls, rp.className as string),
     } as Record<string, unknown>);
   }
   return React.createElement('div', merged);

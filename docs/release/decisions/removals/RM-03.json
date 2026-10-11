@@ -1,6 +1,6 @@
 {
   "family": "RM-03",
-  "generatedAt": "2026-10-08T02:16:44.147Z",
+  "generatedAt": "2026-10-10T22:13:23.544Z",
   "names": [
     "GlassBiometricAdaptation",
     "GlassBiometricDashboard",
@@ -26,16 +26,691 @@
     "GlassWaveFunction",
     "QuantumEntanglementVisualizer"
   ],
-  "status": "missing",
-  "missingRoots": [
-    "/Users/gurbakshchahal/AuraOne",
-    "/Users/gurbakshchahal/platforms"
+  "status": "ok",
+  "missingRoots": [],
+  "scans": [
+    {
+      "root": "/Users/gurbakshchahal/AuraOne",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/Arden",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/Askly",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/aura3d",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/AuraForce",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/auravoice",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/ClearPDF",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/Cleo",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/clipmaven",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/crawlforge",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/crm",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/demandgraph",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/episodeos",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/FlightDeck",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/FrameOS",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/Galvani",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/genesis",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/inboxpilot",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/Lumina",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/Meridian",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/OneFoundry",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/OpenReach",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/PaidRight",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/penback",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/picasso",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/Pounce",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/Procurenet",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/Provara",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/ShadowOS",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/signaldeck",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/supernest",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/verity",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/ViralReply",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/wingman",
+      "hitCount": 0,
+      "hits": []
+    },
+    {
+      "root": "/Users/gurbakshchahal/platforms/zettawire",
+      "hitCount": 0,
+      "hits": []
+    }
   ],
-  "scans": [],
   "gh": {
-    "status": "missing",
-    "reason": "gh search unavailable: Command failed: gh search code --owner auraoneai --owner gchahal1982 aura-glass --limit 50 --json repository,path"
+    "status": "ok",
+    "hits": [
+      {
+        "path": "UIPrompts.md",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnkxMDk2NzQ1NjQ5",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "gchahal1982/Meridian",
+          "url": "https://github.com/gchahal1982/Meridian"
+        }
+      },
+      {
+        "path": "docs/README.md",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "public/llms.txt",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "public/llms-full.txt",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "app/layout.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "docs/react19-integration.md",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "scripts/audit/inventory.ts",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "docs/AURAGLASS-2.16-UPDATE-SUMMARY.md",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "frontend/DESIGN.md",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnkxMDk2NzQ1NjQ5",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "gchahal1982/Meridian",
+          "url": "https://github.com/gchahal1982/Meridian"
+        }
+      },
+      {
+        "path": "components/layout/SiteShell.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "scripts/sync-local-auraglass.sh",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/layout/SiteHeader.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/registry.ts",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "frontend/apps/marketing/tailwind.config.ts",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnkxMDk2NzQ1NjQ5",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "gchahal1982/Meridian",
+          "url": "https://github.com/gchahal1982/Meridian"
+        }
+      },
+      {
+        "path": "finalgoal.md",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnkxMDk2NzQ1NjQ5",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "gchahal1982/Meridian",
+          "url": "https://github.com/gchahal1982/Meridian"
+        }
+      },
+      {
+        "path": "components/layout/SiteFooter.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "opensource/open-studio-platform/docs-template/README.md",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnkxMDM3NzIwNjYy",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/AuraFoundry",
+          "url": "https://github.com/auraoneai/AuraFoundry"
+        }
+      },
+      {
+        "path": "components/pages/home/HeroMedia.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/AuraSurface.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "scripts/audit/production-inventory.ts",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/home/HeroTheater.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/home/HeroIntro.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/home/HeroCalendar.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/home/HeroDataGrid.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "frontend/apps/marketing/app/globals.css",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnkxMDk2NzQ1NjQ5",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "gchahal1982/Meridian",
+          "url": "https://github.com/gchahal1982/Meridian"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/cards.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/theme.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/media.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "finalcheckprompt.md",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/modals.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/search.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/charts.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/home/HeroStatusRail.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/home/aurora/TiltCard.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/buttons.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/_helpers.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/home/aurora/AuroraCTA.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/feedback.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "continue2.md",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/home/aurora/AuroraHero.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/dashboard.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/ecommerce.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/home/HeroCommandPalette.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/home/aurora/AuroraStats.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "app/opengraph-image.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/navigation.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/home/aurora/AuroraInstall.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/home/aurora/AuroraRecipes.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/pages/systems/panels/TokensPanel.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      },
+      {
+        "path": "components/auraglass/previews/accessibility.tsx",
+        "repository": {
+          "id": "MDEwOlJlcG9zaXRvcnk5NTU5MzUwODk=",
+          "isFork": false,
+          "isPrivate": true,
+          "nameWithOwner": "auraoneai/glasswebsite",
+          "url": "https://github.com/auraoneai/glasswebsite"
+        }
+      }
+    ]
   },
   "acknowledged": false,
-  "note": "AuraOne checkouts are on the owner machine; record regenerated there at the family's PR step."
+  "mergeSha": "132e735c0",
+  "sha": "132e735c0"
 }

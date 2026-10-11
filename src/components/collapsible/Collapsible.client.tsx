@@ -37,11 +37,24 @@ function Root({ open, defaultOpen, onOpenChange, className, ref, ...rest }: Coll
   );
 }
 
-function Trigger({ className, ref, ...rest }: React.ComponentProps<typeof BaseCollapsible.Trigger>) {
+/* REQ-CMP-01: AuraGlass-owned part props (no Base UI types in the d.ts). */
+export interface CollapsibleTriggerProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'> {
+  className?: string;
+  ref?: React.Ref<HTMLButtonElement> | undefined;
+}
+
+export interface CollapsibleContentProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> {
+  keepMounted?: boolean;
+  hiddenUntilFound?: boolean;
+  className?: string;
+  ref?: React.Ref<HTMLDivElement> | undefined;
+}
+
+function Trigger({ className, ref, ...rest }: CollapsibleTriggerProps) {
   return <BaseCollapsible.Trigger {...rest} ref={ref} data-ag-part="trigger" className={cn('ag-collapsible-trigger', className)} />;
 }
 
-function Content({ className, ref, ...rest }: React.ComponentProps<typeof BaseCollapsible.Panel>) {
+function Content({ className, ref, ...rest }: CollapsibleContentProps) {
   return <BaseCollapsible.Panel {...rest} ref={ref} data-ag-part="content" className={cn('ag-collapsible-content', className)} />;
 }
 

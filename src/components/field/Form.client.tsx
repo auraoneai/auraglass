@@ -8,16 +8,28 @@ import * as React from 'react';
 import { Form as Base } from '@base-ui/react/form';
 import { cn } from '../../internal/index';
 
+/* REQ-CMP-01: AuraGlass-owned submit details / actions (structurally the
+   Base UI shapes, declared here so the d.ts never names Base UI). */
+export interface FormSubmitEventDetails {
+  reason: string;
+  event: Event;
+}
+
+export interface FormActions {
+  /** Validate one field by name, or every field when omitted. */
+  validate: (fieldName?: string | undefined) => void;
+}
+
 export interface FormProps<FormValues extends Record<string, unknown> = Record<string, unknown>>
   extends Omit<React.ComponentPropsWithoutRef<'form'>, 'onSubmit' | 'noValidate' | 'ref' | 'defaultValue' | 'onChange'> {
   /** Server/external errors keyed by Field.Root `name`; marks fields invalid and shows their Field.Error. */
   errors?: Record<string, string | string[]>;
   /** Called with the collected `{ fieldName: value }` map when the form submits valid. */
-  onSubmit?: (values: FormValues, eventDetails: Base.SubmitEventDetails) => void;
+  onSubmit?: (values: FormValues, eventDetails: FormSubmitEventDetails) => void;
   /** When fields validate. Field.Root's own validationMode wins. */
   validationMode?: 'onSubmit' | 'onBlur' | 'onChange';
   /** Imperative `validate(fieldName?)` actions. */
-  actionsRef?: React.RefObject<Base.Actions | null>;
+  actionsRef?: React.RefObject<FormActions | null>;
   className?: string;
   children?: React.ReactNode;
   ref?: React.Ref<HTMLFormElement>;

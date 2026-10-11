@@ -32,6 +32,7 @@ const w1: CodemodMappingFragment = {
     { from: 'GlassAppShell', fromEntry: 'aura-glass', to: 'AppShell', toEntry: 'aura-glass/app-shell' },
     { from: 'GlassHeader', fromEntry: 'aura-glass', to: 'TopBar', toEntry: 'aura-glass/app-shell' },
     { from: 'GlassTopBar', fromEntry: 'aura-glass', to: 'TopBar', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassNavigation', fromEntry: 'aura-glass', to: 'Sidebar', toEntry: 'aura-glass/app-shell' },
     { from: 'GlassSidebar', fromEntry: 'aura-glass', to: 'Sidebar', toEntry: 'aura-glass/app-shell' },
     { from: 'GlassMain', fromEntry: 'aura-glass', to: 'AppShell', toEntry: 'aura-glass/app-shell' },
     { from: 'GlassPageHeader', fromEntry: 'aura-glass', to: 'AppShell', toEntry: 'aura-glass/app-shell' },

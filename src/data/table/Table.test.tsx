@@ -7,6 +7,22 @@ import * as React from 'react';
 import { Table, type TableHandle } from './Table';
 import type { TableColumnDef } from './types';
 
+// jsdom lacks PointerEvent; BU Checkbox dispatches it on activation.
+if (typeof window.PointerEvent !== 'function') {
+  (window as unknown as { PointerEvent: typeof MouseEvent }).PointerEvent = MouseEvent;
+}
+
+// SURF-066: announcements flow through the MAT useAnnouncer seam — mock it
+// once per file and assert calls on the returned announce fn.
+const announceCalls: string[] = [];
+jest.mock('../../theme', () => {
+  const actual = jest.requireActual<typeof import('../../theme')>('../../theme');
+  return {
+    ...actual,
+    useAnnouncer: () => ({ announce: (m: string) => announceCalls.push(m) }),
+  };
+});
+
 type Row = { id: string; name: string; qty: number };
 const DATA: Row[] = [
   { id: 'a', name: 'Atlas', qty: 3 },
@@ -21,6 +37,8 @@ const COLS: TableColumnDef<Row>[] = [
 function T(props: Partial<Parameters<typeof Table<Row>>[0]>) {
   return <Table data={DATA} columns={COLS} getRowId={(r) => r.id} caption="Orders" {...props} />;
 }
+
+beforeEach(() => { announceCalls.length = 0; });
 
 describe('Table (SURF-155)', () => {
   it('renders a named table with caption', () => {
@@ -48,8 +66,8 @@ describe('Table (SURF-155)', () => {
     expect(container.querySelectorAll('th[aria-sort="descending"]').length).toBe(1);
     fireEvent.click(btn);
     expect(container.querySelectorAll('th[aria-sort="ascending"], th[aria-sort="descending"]').length).toBe(0);
-    const status = container.querySelector('[role="status"]')!;
-    expect(status.textContent).toContain('Qty');
+    
+    expect(announceCalls.some((m) => m.includes('Qty'))).toBe(true);
   });
 
   it('numeric column first activation sorts ascending', () => {

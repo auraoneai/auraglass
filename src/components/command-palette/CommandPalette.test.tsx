@@ -42,3 +42,25 @@ describe('CommandPalette (SURF-087)', () => {
     expect((el as HTMLElement).style.backdropFilter ?? '').toBe('');
   });
 });
+
+// REQ-SURF-62: hotkey opens and restores focus.
+it('hotkey opens, focuses the input, and restores focus on close', async () => {
+  render(
+    <>
+      <button data-testid="trigger">Trigger</button>
+      <CommandPalette />
+    </>,
+  );
+  const btn = screen.getByTestId('trigger');
+  btn.focus();
+  await act(async () => { fireEvent.keyDown(document.body, { key: 'k', ctrlKey: true }); });
+  await waitFor(() => expect(document.querySelector('[data-ag-part="command-palette"]')).not.toBeNull());
+  const input = document.querySelector('[data-ag-part="input"]') as HTMLElement;
+  expect(input).not.toBeNull();
+  await waitFor(() => expect(document.activeElement).toBe(input));
+  // Escape 1: clears query (empty -> propagates). Escape 2: Dialog dismisses.
+  await act(async () => { fireEvent.keyDown(input, { key: 'Escape' }); });
+  await act(async () => { fireEvent.keyDown(input, { key: 'Escape' }); });
+  await waitFor(() => expect(document.querySelector('[data-ag-part="command-palette"]')).toBeNull());
+  expect(document.activeElement).toBe(btn);
+});

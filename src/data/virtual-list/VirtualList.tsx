@@ -70,19 +70,32 @@ function VirtualListInner<T>(
   } as Parameters<typeof useVirtualizer>[0]);
 
   // End-reached: measured against the scroll offset — runs on scroll events
-  // only, no timer/rAF while idle (REQ-SURF-80).
+  // only, no timer/rAF while idle. REQ-SURF-80: latched — fires once per
+  // crossing; re-arms when the user scrolls back above the threshold or the
+  // item count grows (new tail to reach).
   const endRef = React.useRef(onEndReached);
   endRef.current = onEndReached;
+  const endLatched = React.useRef(false);
+  const lastLen = React.useRef(items.length);
   const checkEnd = React.useCallback(() => {
     const el = parentRef.current;
     if (!el || !endRef.current) return;
     const remaining = horizontal
       ? el.scrollWidth - el.scrollLeft - el.clientWidth
       : el.scrollHeight - el.scrollTop - el.clientHeight;
-    if (remaining <= endReachedThreshold) endRef.current();
-  }, [horizontal, endReachedThreshold]);
+    if (items.length > lastLen.current) endLatched.current = false;
+    if (remaining > endReachedThreshold) {
+      endLatched.current = false;
+      return;
+    }
+    if (!endLatched.current) {
+      endLatched.current = true;
+      endRef.current();
+    }
+  }, [horizontal, endReachedThreshold, items.length]);
 
   React.useEffect(() => {
+    lastLen.current = items.length;
     checkEnd();
   }, [checkEnd, items.length]);
 

@@ -14,14 +14,14 @@
     gap: var(--ag-space-1);
   }
   .ag-toolbar-separator {
-    inline-size: var(--ag-focus-width);
+    inline-size: var(--_ag-focus-width);
     block-size: var(--ag-space-5);
     background: var(--ag-color-border);
     margin-inline: var(--ag-space-1);
   }
   .ag-toolbar-separator[aria-orientation='vertical'] {
     inline-size: var(--ag-space-5);
-    block-size: var(--ag-focus-width);
+    block-size: var(--_ag-focus-width);
   }
   .ag-toolbar-link {
     display: inline-flex;
