@@ -23,5 +23,9 @@ export default defineMeta({
       automation: 'partial',
       compat: true,
     },
+    { from: 'GlassActionBar', automation: 'full', compat: true },
+    { from: 'GlassCommandBar', automation: 'full', compat: true },
+    { from: 'LiquidGlassMapControls', automation: 'full', compat: true },
+    { from: 'LiquidGlassToolbar', automation: 'full', compat: true },
   ],
 });

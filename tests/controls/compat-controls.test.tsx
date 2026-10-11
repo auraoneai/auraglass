@@ -87,7 +87,7 @@ describe('compat controls — 40-name render matrix (CMP-171)', () => {
     const a = render(<GlassButton>One</GlassButton>);
     a.unmount();
     render(<GlassButton>Two</GlassButton>);
-    const depCalls = warn.mock.calls.filter((c: unknown) => String((c as unknown[])[0]).includes("'DEP-C0001'"));
+    const depCalls = warn.mock.calls.filter((c: unknown) => String((c as unknown[])[0]).startsWith("[aura-glass] DEP-C0001 "));
     expect(depCalls).toHaveLength(1);
     warn.mockRestore();
   });

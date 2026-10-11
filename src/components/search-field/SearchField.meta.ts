@@ -27,8 +27,12 @@ const meta: ControlMeta = defineMeta({
         clearable: null,
       },
       automation: 'mostly',
-      compat: true,
+      compat: false,
     },
+    { from: 'GlassIntelligentSearch', automation: 'partial', compat: true },
+    { from: 'GlassSearchField', automation: 'full', compat: true },
+    { from: 'GlassSearchInterface', automation: 'partial', compat: true },
+    { from: 'LiquidGlassSearchField', automation: 'full', compat: true },
   ],
 });
 

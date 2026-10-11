@@ -9,5 +9,5 @@ export default defineMeta({
   parts: ['root','item','label','value'],
   states: [],
   variants: { layout: ['stacked','inline'] },
-  migration: [{ from: 'GlassDescriptionList', automation: 'full', compat: true }],
+  migration: [{ from: 'GlassDescriptionList', automation: 'full', compat: false }],
 });

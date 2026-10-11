@@ -73,6 +73,8 @@ export default {
     { from: 'GlassToast', fromEntry: 'aura-glass/root', to: 'useToast', toEntry: '.' },
     // Root `Button` in 4.x is re-exported as-is in 5.0 (name is stable).
     { from: 'Button', fromEntry: '.', to: 'Button', toEntry: '.', compatOnly: true },
+    // 4.x `useToast` keeps its name in 5.0; the compat hook maps the 4.x return shape.
+    { from: 'useToast', fromEntry: '.', to: 'useToast', toEntry: '.', compatOnly: true },
     // <generated renames — do not hand-edit>
     { from: 'ChartTooltip',fromEntry: '.',to: 'Tooltip',toEntry: '.' },
     { from: 'CircularProgress',fromEntry: '.',to: 'Progress',toEntry: '.' },
@@ -88,6 +90,7 @@ export default {
     { from: 'GlassChip',fromEntry: '.',to: 'Chip',toEntry: '.' },
     { from: 'GlassCoachmarks',fromEntry: '.',to: 'Tour',toEntry: '.' },
     { from: 'GlassColorPicker',fromEntry: '.',to: 'ColorPicker',toEntry: '.' },
+    { from: 'GlassColorWheel',fromEntry: '.',to: 'ColorPicker',toEntry: '.' },
     { from: 'GlassContainer',fromEntry: '.',to: 'Container',toEntry: '.' },
     { from: 'GlassDescriptionList',fromEntry: '.',to: 'DescriptionList',toEntry: '.' },
     { from: 'GlassDismissableLayer',fromEntry: '.',to: 'DismissableLayer',toEntry: '.' },
@@ -99,6 +102,7 @@ export default {
     { from: 'GlassFileUpload',fromEntry: '.',to: 'FileUpload',toEntry: '.' },
     { from: 'GlassFocusScope',fromEntry: '.',to: 'FocusScope',toEntry: '.' },
     { from: 'GlassForm',fromEntry: '.',to: 'Form',toEntry: '.' },
+    { from: 'GlassGradientPicker',fromEntry: '.',to: 'ColorPicker',toEntry: '.' },
     { from: 'GlassGrid',fromEntry: '.',to: 'Grid',toEntry: '.' },
     { from: 'GlassHeading',fromEntry: '.',to: 'Heading',toEntry: '.' },
     { from: 'GlassIcon',fromEntry: '.',to: 'Icon',toEntry: '.' },
@@ -113,6 +117,7 @@ export default {
     { from: 'GlassMasonry',fromEntry: '.',to: 'Grid',toEntry: '.' },
     { from: 'GlassMenu',fromEntry: '.',to: 'Menu',toEntry: '.' },
     { from: 'GlassMobileNav',fromEntry: '.',to: 'Sheet',toEntry: '.' },
+    { from: 'GlassNotificationItem',fromEntry: '.',to: 'Toast',toEntry: '.' },
     { from: 'GlassNumberInput',fromEntry: '.',to: 'NumberField',toEntry: '.' },
     { from: 'GlassPortal',fromEntry: '.',to: 'Portal',toEntry: '.' },
     { from: 'GlassProgress',fromEntry: '.',to: 'Progress',toEntry: '.' },
@@ -127,6 +132,8 @@ export default {
     { from: 'GlassStack',fromEntry: '.',to: 'Stack',toEntry: '.' },
     { from: 'GlassText',fromEntry: '.',to: 'Text',toEntry: '.' },
     { from: 'GlassToggleGroup',fromEntry: '.',to: 'ToggleGroup',toEntry: '.' },
+    { from: 'GlassWorkspacePanel',fromEntry: '.',to: 'Card',toEntry: '.' },
+    { from: 'GlowingCard',fromEntry: '.',to: 'Card',toEntry: '.' },
     { from: 'LabelRoot',fromEntry: '.',to: 'Label',toEntry: '.' },
     { from: 'LiquidGlassBadgeCluster',fromEntry: '.',to: 'Badge',toEntry: '.' },
     { from: 'MobileGlassBottomSheet',fromEntry: '.',to: 'Sheet',toEntry: '.' },
@@ -135,6 +142,7 @@ export default {
     { from: 'ScreenReaderText',fromEntry: '.',to: 'VisuallyHidden',toEntry: '.' },
     { from: 'toast',fromEntry: '.',to: 'Toast',toEntry: '.' },
     { from: 'Typography',fromEntry: '.',to: 'Text',toEntry: '.' },
+    { from: 'WidgetGlass',fromEntry: '.',to: 'Card',toEntry: '.' },
     // </generated>
   ],
   props: [

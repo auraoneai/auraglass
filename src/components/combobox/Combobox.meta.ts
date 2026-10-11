@@ -50,6 +50,8 @@ const meta: ControlMeta = defineMeta({
       automation: 'partial',
       compat: true,
     },
+    { from: 'GlassMentionList', automation: 'partial', compat: true },
+    { from: 'GlassTagInput', automation: 'full', compat: true },
   ],
 });
 

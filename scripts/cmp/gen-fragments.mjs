@@ -9,6 +9,13 @@
      --write    rewrite the <generated> props block and append missing
                 renames inside fragments/codemods/cmp.ts
      (default)  --write plus a summary
+     --report   REQ-CMP-131 compat adapter manifest as JSON (read-only):
+                every CMP meta migration row with `compat: true`, which
+                src/compat/cmp/index.ts module exports it, and the counts.
+                Names exported by src/compat/surf/** are SURF's (FIN-F) and
+                are listed under `surf`, not counted. `ok` is true only when
+                count == exports and no index module lacks a compat row;
+                --report --check exits 1 when `ok` is false.
 
    Grammar mapping (meta value -> fragment row):
      null            -> { component, from: key, to: null }
@@ -17,8 +24,8 @@
    `key` is either a prop name or `prop:value` (value-scoped) — both pass
    through verbatim as the row's `from`. */
 import { execSync } from 'node:child_process';
-import { readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 
@@ -176,8 +183,95 @@ const serialize = (v) => {
   return s;
 };
 
+/* ---- REQ-CMP-131 compat adapter manifest (--report) ----------------------
+   PRD-3 §7: "scripts/cmp/gen-fragments.mjs --report lists every meta
+   migration row with compat: true, and that list is the adapter set
+   REQ-CMP-131 tests." Exported names are read from the TS AST, following
+   `export * from` chains, so an alias exported by another module (e.g.
+   GlassPositioner from overlays/Positioner) counts as exported. */
+const resolveModule = (fromFile, spec) => {
+  const base = resolve(dirname(fromFile), spec);
+  for (const ext of ['.tsx', '.ts', '/index.ts', '/index.tsx']) {
+    if (existsSync(base + ext)) return base + ext;
+  }
+  throw new Error(`${relative(ROOT, fromFile)}: cannot resolve '${spec}'`);
+};
+
+const hasModifier = (st, kind) => (ts.getModifiers?.(st) ?? st.modifiers ?? []).some((m) => m.kind === kind);
+
+/** runtime (non-type) names a module exports, following `export *`. */
+export const exportedValueNames = (file, seen = new Set()) => {
+  const names = new Set();
+  if (seen.has(file)) return names;
+  seen.add(file);
+  const sf = ts.createSourceFile(file, readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true,
+    file.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.TS);
+  for (const st of sf.statements) {
+    const exported = hasModifier(st, ts.SyntaxKind.ExportKeyword) && !hasModifier(st, ts.SyntaxKind.DefaultKeyword);
+    if ((ts.isFunctionDeclaration(st) || ts.isClassDeclaration(st)) && exported && st.name) names.add(st.name.text);
+    if (ts.isVariableStatement(st) && exported) {
+      for (const d of st.declarationList.declarations) if (ts.isIdentifier(d.name)) names.add(d.name.text);
+    }
+    if (ts.isExportDeclaration(st) && !st.isTypeOnly) {
+      if (!st.exportClause && st.moduleSpecifier) {
+        for (const n of exportedValueNames(resolveModule(file, st.moduleSpecifier.text), seen)) names.add(n);
+      } else if (st.exportClause && ts.isNamedExports(st.exportClause)) {
+        for (const el of st.exportClause.elements) if (!el.isTypeOnly) names.add(el.name.text);
+      }
+    }
+  }
+  return names;
+};
+
+export const compatReport = () => {
+  const surfIndex = join(ROOT, 'src/compat/surf/index.ts');
+  const surfNames = existsSync(surfIndex) ? exportedValueNames(surfIndex) : new Set();
+  const indexFile = join(ROOT, 'src/compat/cmp/index.ts');
+  const sf = ts.createSourceFile(indexFile, readFileSync(indexFile, 'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+  const modules = sf.statements
+    .filter((st) => ts.isExportDeclaration(st) && !st.exportClause && st.moduleSpecifier)
+    .map((st) => {
+      const spec = st.moduleSpecifier.text;
+      return { module: spec, names: [...exportedValueNames(resolveModule(indexFile, spec))] };
+    });
+
+  const byName = new Map();
+  const surf = [];
+  for (const m of cmpMetas()) {
+    for (const r of m.migration) {
+      if (r.compat !== true) continue;
+      if (surfNames.has(r.from)) { surf.push({ name: r.from, component: m.name }); continue; }
+      if (!byName.has(r.from)) byName.set(r.from, { name: r.from, components: [] });
+      byName.get(r.from).components.push(m.name);
+    }
+  }
+  const rows = [...byName.values()].sort((a, b) => a.name.localeCompare(b.name)).map((r) => ({
+    ...r,
+    module: modules.find((md) => md.names.includes(r.name))?.module ?? null,
+  }));
+  const missing = rows.filter((r) => r.module === null).map((r) => r.name);
+  // every index module must be backed by a compat row named after it
+  const orphans = modules.filter((md) => !byName.has(md.module.split('/').pop())).map((md) => md.module);
+  return {
+    count: rows.length,
+    exports: rows.length - missing.length,
+    modules: modules.length,
+    ok: missing.length === 0 && orphans.length === 0,
+    missing,
+    orphans,
+    rows,
+    surf: surf.sort((a, b) => a.name.localeCompare(b.name)),
+  };
+};
+
 const main = () => {
   const args = process.argv.slice(2);
+  if (args.includes('--report')) {
+    const report = compatReport();
+    console.log(JSON.stringify(report, null, 2));
+    if (args.includes('--check') && !report.ok) process.exitCode = 1;
+    return;
+  }
   const metas = cmpMetas();
 
   if (args.includes('--props')) {
