@@ -19,11 +19,11 @@
         ],
         "selectors": {
           "tinted": [
-            "[data-ag-transparency=\"tinted\"]"
+            "[data-ag-transparency=\"tinted\"]",
+            "@media (prefers-reduced-transparency: reduce)"
           ],
           "solid": [
-            "[data-ag-transparency=\"solid\"]",
-            "@media (prefers-reduced-transparency: reduce)"
+            "[data-ag-transparency=\"solid\"]"
           ]
         }
       }
