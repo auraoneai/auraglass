@@ -8,8 +8,8 @@
   .ag-skeleton-lines { display: flex; flex-direction: column; gap: var(--ag-space-2); opacity: 1; background: none; }
   .ag-skeleton-line { block-size: 1em; background-color: var(--_ag-skeleton, currentColor); opacity: 0.16; border-radius: var(--ag-radius-sm); }
   .ag-skeleton-line:last-child { inline-size: 70%; }
+  @keyframes ag-skeleton-shimmer { 50% { opacity: 0.08; } }
   @media (prefers-reduced-motion: no-preference) {
-    .ag-skeleton, .ag-skeleton-line { animation: ag-skeleton-shimmer var(--ag-duration-ambient) var(--ag-ease-standard) infinite; }
-    @keyframes ag-skeleton-shimmer { 50% { opacity: 0.08; } }
+    [data-ag-continuous="on"] .ag-skeleton, [data-ag-continuous="on"] .ag-skeleton-line { animation: ag-skeleton-shimmer var(--ag-duration-ambient) var(--ag-ease-standard) infinite; }
   }
 }
