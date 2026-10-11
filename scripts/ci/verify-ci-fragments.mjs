@@ -79,7 +79,8 @@ const CI_JOBS = {
 };
 // Fixed producer paths a job may write besides .artifacts/<s>/ (§4.13.2).
 const PRODUCER_PATHS = {
-  'plat:build:dist': ['dist/'],
+  // workers/ is part of `npm run build` output (scripts/build-workers.js) and of package.json files.
+  'plat:build:dist': ['dist/', 'workers/'],
   'plat:package:pack': ['.artifacts/pack/', 'pack.env'],
   'plat:build:docs': ['apps/docs/out/', 'apps/docs/public/', 'storybook-static/'],
   'mat:build:tokens': ['dist/tokens/', 'dist/tokens.css', 'dist/compat/tokens.css'],

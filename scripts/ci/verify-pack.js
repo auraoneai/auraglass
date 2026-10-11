@@ -245,19 +245,15 @@ try {
         missingDirective.push(`${subpath} (no export)`);
         continue;
       }
-      const distFile = path.join(distRoot, '..', importPath.replace(/^\.\//, ''));
-      const absFile = path.isAbsolute(importPath) ? importPath : path.join(tmpRoot, importPath.replace(/^\.\//, ''));
-      const packed = packResult.files.find((f) => f.path === importPath.replace(/^\.\//, ''));
+      const relPath = importPath.replace(/^\.\//, '');
+      const packed = packResult.files.find((f) => f.path === relPath);
       if (!packed) {
         missingDirective.push(`${subpath} (${importPath} not packed)`);
         continue;
       }
-      const extracted = path.join(tmpRoot, 'packed', importPath.replace(/^\.\//, ''));
-      const content = fs.existsSync(extracted)
-        ? fs.readFileSync(extracted, 'utf8')
-        : fs.existsSync(absFile)
-          ? fs.readFileSync(absFile, 'utf8')
-          : '';
+      // Read the file from the extracted tarball (extractionRoot/package/...).
+      const extracted = path.join(packageRoot, relPath);
+      const content = fs.existsSync(extracted) ? fs.readFileSync(extracted, 'utf8') : '';
       if (!/^["']use client["']/.test(content.trimStart())) {
         missingDirective.push(`${subpath} (${importPath})`);
       }

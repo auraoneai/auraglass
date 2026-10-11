@@ -879,10 +879,17 @@ export default defineConfig({
       await page.goto(`http://127.0.0.1:${port}/?target=${encodeURIComponent(target.id)}`, {
         waitUntil: "networkidle",
       });
-      await page.locator(`[data-visual-id="${target.id}"]`).waitFor({
-        state: "visible",
-        timeout: 30000,
-      });
+      try {
+        await page.locator(`[data-visual-id="${target.id}"]`).waitFor({
+          state: "visible",
+          timeout: 30000,
+        });
+      } catch (error) {
+        // Surface why the target never rendered (runtime crash vs. slow render).
+        for (const e of pageErrors) console.error(`pageerror [${e.target}]: ${e.message}`);
+        for (const e of consoleErrors) console.error(`console.error [${e.target}]: ${e.message}`);
+        throw error;
+      }
       if (target.beforeScreenshot) {
         await target.beforeScreenshot(page);
       }

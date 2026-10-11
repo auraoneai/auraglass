@@ -45,8 +45,12 @@ describe('plat:test:pack-matrix', () => {
     expect(j.timeout).toBe('45 minutes');
   });
   it('runs prepublishOnly equivalent + npm publish --dry-run', () => {
+    // prepublishOnly = require-ci-publish guard + prepublish:verify; the guard refuses
+    // every job but plat:publish:npm, so the matrix runs the verify half directly.
+    const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+    expect(pkg.scripts.prepublishOnly).toBe('node scripts/ci/require-ci-publish.js && npm run prepublish:verify');
     const s = yaml.stringify(j.script);
-    expect(s).toContain('prepublishOnly');
+    expect(s).toContain('npm run prepublish:verify');
     expect(s).toContain('npm publish --dry-run');
   });
 });
