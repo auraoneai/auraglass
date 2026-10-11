@@ -1,29 +1,52 @@
-/* analytics layout only (REQ-QUAL-59 property allowlist). */
+/* analytics layout only (REQ-QUAL-59 property allowlist): colour, radius, type
+   and depth come from the material roles and components. */
+.frame {
+  display: grid;
+  padding: 1rem 1.5rem 1.5rem;
+  min-inline-size: 0;
+}
+
+.report {
+  display: grid;
+  min-inline-size: 0;
+  overflow: hidden;
+}
+
+.body {
+  display: grid;
+  padding-inline: 1.5rem;
+  padding-block-end: 1.5rem;
+  min-inline-size: 0;
+}
+
 .page {
   display: grid;
-  gap: 1.5rem;
-  padding: 1.5rem;
+  gap: 1.25rem;
+  padding-block-start: 1.25rem;
   container-type: inline-size;
+  min-inline-size: 0;
 }
 
 .kpis {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   gap: 1rem;
 }
 
-.filterChart,
-.pages {
+.card {
   display: grid;
-  gap: 0.75rem;
+  gap: 1rem;
+  padding: 1.5rem;
   min-inline-size: 0;
 }
 
-.heading {
-  margin: 0;
+.cardHead {
+  display: grid;
+  gap: 0.25rem;
 }
 
 .mark {
+  display: block;
   inline-size: 1.75rem;
   block-size: 1.75rem;
 }
