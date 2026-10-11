@@ -1,0 +1,86 @@
+{
+  "description": "REQ-PLAT-57 per-entry gzip budgets (esm .mjs). Budget = measured x1.10 ceiling; ratchet test fails on regressions or missing outputs.",
+  "generatedFrom": "esbuild single-pass bundle, same externals as scripts/build-all.js",
+  "entries": {
+    "index": {
+      "measuredGzipBytes": 1045341,
+      "budgetGzipBytes": 1149876
+    },
+    "icons/index": {
+      "measuredGzipBytes": 7933,
+      "budgetGzipBytes": 8727
+    },
+    "icons/action": {
+      "measuredGzipBytes": 6743,
+      "budgetGzipBytes": 7418
+    },
+    "icons/navigation": {
+      "measuredGzipBytes": 6761,
+      "budgetGzipBytes": 7438
+    },
+    "icons/status": {
+      "measuredGzipBytes": 6691,
+      "budgetGzipBytes": 7361
+    },
+    "icons/media": {
+      "measuredGzipBytes": 6639,
+      "budgetGzipBytes": 7303
+    },
+    "icons/data": {
+      "measuredGzipBytes": 6667,
+      "budgetGzipBytes": 7334
+    },
+    "icons/commerce": {
+      "measuredGzipBytes": 6657,
+      "budgetGzipBytes": 7323
+    },
+    "icons/collaboration": {
+      "measuredGzipBytes": 6661,
+      "budgetGzipBytes": 7328
+    },
+    "icons/ai": {
+      "measuredGzipBytes": 6646,
+      "budgetGzipBytes": 7311
+    },
+    "primitives/index": {
+      "measuredGzipBytes": 27272,
+      "budgetGzipBytes": 30000
+    },
+    "forms/index": {
+      "measuredGzipBytes": 73886,
+      "budgetGzipBytes": 81275
+    },
+    "data/index": {
+      "measuredGzipBytes": 91714,
+      "budgetGzipBytes": 100886
+    },
+    "app-shell/index": {
+      "measuredGzipBytes": 2720,
+      "budgetGzipBytes": 2993
+    },
+    "workspace/index": {
+      "measuredGzipBytes": 3589,
+      "budgetGzipBytes": 3948
+    },
+    "theme/index": {
+      "measuredGzipBytes": 5159,
+      "budgetGzipBytes": 5675
+    },
+    "registry/index": {
+      "measuredGzipBytes": 24602,
+      "budgetGzipBytes": 27063
+    },
+    "ssr/index": {
+      "measuredGzipBytes": 1353,
+      "budgetGzipBytes": 1489
+    },
+    "server/index": {
+      "measuredGzipBytes": 435,
+      "budgetGzipBytes": 479
+    },
+    "three/index": {
+      "measuredGzipBytes": 41184,
+      "budgetGzipBytes": 45303
+    }
+  }
+}

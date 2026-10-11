@@ -6,7 +6,7 @@ These controls apply to the optional hosted runtime. Package-only AuraGlass usag
 
 ## Required Controls
 
-- Keep API keys in environment secrets.
+- Keep API keys in environment secrets, never in source or client bundles.
 - Authenticate all write, generation, upload, and search requests.
 - Validate prompt inputs, file uploads, MIME types, and payload size.
 - Strip secrets and private data from prompts before sending data to third-party providers.

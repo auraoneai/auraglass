@@ -1,6 +1,10 @@
 import { io } from "../../vendor/socket_io_client";
 import type { Socket } from "socket.io-client";
 import { EventEmitter } from "events";
+import { warnDeprecated } from "../../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0047");
 
 export interface CursorPosition {
   x: number;

@@ -534,7 +534,7 @@ export function GlassTrophyCase({
             }}
             animate={
               prefersReducedMotion
-                ? {}
+                ? undefined
                 : {
                     scale: [1, 1.1, 1],
                     opacity: [0.3, 0.6, 0.3],

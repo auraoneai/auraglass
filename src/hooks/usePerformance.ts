@@ -80,9 +80,6 @@ export const usePerformance = (settings: Partial<PerformanceSettings> = {}) => {
       }
     }
     
-    if (isMonitoring) {
-      frameId.current = requestAnimationFrame(measureFPS);
-    }
   }, [isMonitoring]);
 
   // Memory usage monitoring
@@ -170,9 +167,12 @@ export const usePerformance = (settings: Partial<PerformanceSettings> = {}) => {
     if (Math.random() * 100 > config.sampleRate) return;
     
     setIsMonitoring(true);
+    // REQ-PLAT-59 — FPS loop deleted; fps is sampled inside the
+    // reporting interval instead of a perpetual rAF counter.
     measureFPS();
     
     const interval = setInterval(() => {
+      measureFPS();
       measureMemoryUsage();
       measureDOMComplexity();
       measureNetworkLatency();

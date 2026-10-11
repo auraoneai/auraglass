@@ -310,7 +310,7 @@ export const GlassSuperpositionalMenu = forwardRef<
             }}
             animate={
               prefersReducedMotion
-                ? {}
+                ? undefined
                 : {
                     opacity: [0.1, 0.5, 0.1],
                     scale: [0.5, 1, 0.5],
@@ -363,7 +363,7 @@ export const GlassSuperpositionalMenu = forwardRef<
                   strokeDasharray="10,5"
                   animate={
                     prefersReducedMotion
-                      ? {}
+                      ? undefined
                       : {
                           strokeDashoffset: [0, 15],
                         }
@@ -397,7 +397,7 @@ export const GlassSuperpositionalMenu = forwardRef<
         initial={{ opacity: 1 }}
         animate={
           prefersReducedMotion
-            ? {}
+            ? undefined
             : {
                 opacity: getStateOpacity(state),
                 y: isObserved ? 0 : Math.sin(getQuantumPhase(state)) * 1.5,

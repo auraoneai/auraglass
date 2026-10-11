@@ -1,4 +1,8 @@
 /**
+import { warnDeprecated } from "../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0057");
  * SSR (Server-Side Rendering) Module
  *
  * Utilities and helpers for using AuraGlass with server-side rendering frameworks

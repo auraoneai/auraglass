@@ -1,0 +1,30 @@
+{
+  "req": "REQ-PLAT-59",
+  "reqFin": "REQ-FIN-36",
+  "fix": "--glass-opacity-24/32/52/72 defined so rgba(var(...) / var(--glass-opacity-NN)) resolves",
+  "selector": ":root",
+  "source": "src/styles/variables.css",
+  "tokens": [
+    "--glass-opacity-24",
+    "--glass-opacity-32",
+    "--glass-opacity-52",
+    "--glass-opacity-72"
+  ],
+  "textRuns": [
+    {
+      "id": "glass-transitions-label",
+      "foreground": "rendered label text",
+      "background": "surface using var(--glass-opacity-52)",
+      "minRatio": 4.5
+    }
+  ],
+  "measurement": {
+    "status": "pending",
+    "tool": "plat:test:visual-4x",
+    "note": "Contrast is written only by the plat:test:visual-4x lane from rendered pixels, with its job artifact URL. No hand-entered ratios (PRD-F §4 prohibited shortcuts).",
+    "ratio": null,
+    "artifactUrl": null,
+    "jobUrl": null,
+    "sha": null
+  }
+}

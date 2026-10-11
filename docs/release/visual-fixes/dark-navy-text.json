@@ -1,0 +1,31 @@
+{
+  "req": "REQ-PLAT-59",
+  "reqFin": "REQ-FIN-36",
+  "fix": "D-28 dark navy text: dark on-surface token in OKLCH (L >= 0.92, C <= 0.02)",
+  "selector": "[data-theme='dark'] / .dark",
+  "token": "--glass-on-surface",
+  "source": "src/styles/themes/dark.css",
+  "textRuns": [
+    {
+      "id": "on-surface",
+      "foreground": "var(--glass-on-surface)",
+      "background": "dark surface (rendered)",
+      "minRatio": 4.5
+    },
+    {
+      "id": "on-surface-muted",
+      "foreground": "var(--glass-on-surface-muted)",
+      "background": "dark surface (rendered)",
+      "minRatio": 4.5
+    }
+  ],
+  "measurement": {
+    "status": "pending",
+    "tool": "plat:test:visual-4x",
+    "note": "Contrast is written only by the plat:test:visual-4x lane from rendered pixels, with its job artifact URL. No hand-entered ratios (PRD-F §4 prohibited shortcuts).",
+    "ratio": null,
+    "artifactUrl": null,
+    "jobUrl": null,
+    "sha": null
+  }
+}

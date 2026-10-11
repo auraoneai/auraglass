@@ -982,7 +982,7 @@ export function GlassQuantumEntangledPair({
         className="glass-relative glass-min-w-0 glass-flex-1"
         animate={
           prefersReducedMotion
-            ? {}
+            ? undefined
             : {
                 opacity: 0.5 + (state1Superposition[0]?.probability || 0) * 0.5,
                 scale: 0.95 + (state1Superposition[0]?.probability || 0) * 0.1,
@@ -1000,7 +1000,7 @@ export function GlassQuantumEntangledPair({
         className="glass-relative glass-min-w-0 glass-flex-1"
         animate={
           prefersReducedMotion
-            ? {}
+            ? undefined
             : {
                 opacity: 0.5 + (state2Superposition[0]?.probability || 0) * 0.5,
                 scale: 0.95 + (state2Superposition[0]?.probability || 0) * 0.1,
@@ -1027,7 +1027,7 @@ export function GlassQuantumEntangledPair({
             strokeDasharray="5,5"
             animate={
               prefersReducedMotion
-                ? {}
+                ? undefined
                 : {
                     strokeDashoffset: [0, -10],
                     opacity: [0.3, 0.7, 0.3],

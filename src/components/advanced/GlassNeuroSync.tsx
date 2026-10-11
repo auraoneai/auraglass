@@ -977,8 +977,8 @@ export function GlassNeuroMetricsDashboard({
             isConnected ? "animate-pulse" : ""
           )}
           onClick={() => setShowDashboard(!showDashboard)}
-          whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
-          whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+          whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}
+          whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
           transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
           aria-label="Toggle NeuroSync dashboard"
           aria-expanded={showDashboard}

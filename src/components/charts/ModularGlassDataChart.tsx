@@ -128,18 +128,25 @@ import {
   RadialLinearScale,
 } from "../../vendor/chart_js";
 
-Chart.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  ArcElement,
-  ChartJsTooltip,
-  ChartJsLegend,
-  Filler,
-  RadialLinearScale
-);
+// chart.js is an optional peer (REQ-PLAT-56): register on first render, not
+// at module load, so importing aura-glass without chart.js does not throw.
+let chartJsRegistered = false;
+function ensureChartJsRegistered(): void {
+  if (chartJsRegistered) return;
+  chartJsRegistered = true;
+  Chart.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    ArcElement,
+    ChartJsTooltip,
+    ChartJsLegend,
+    Filler,
+    RadialLinearScale
+  );
+}
 
 /**
  * ModularGlassDataChart Component
@@ -169,6 +176,7 @@ export const ModularGlassDataChart = React.forwardRef<
       | "exploration";
   }
 >((props, ref) => {
+  ensureChartJsRegistered();
   // Theme & accessibility hooks
   const theme = useGlassTheme();
   const isDarkMode = theme ? theme.isDarkMode : false;

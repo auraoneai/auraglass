@@ -64,6 +64,20 @@ describe("verify-tree-hygiene fixture index", () => {
     expect(r.out).toContain("5 MB");
   });
 
+  it("fails on deny-listed audit/inspect scratch files at the root (PLAT-50)", () => {
+    const d = gitRepo({ ".audit-inspect.mjs": "// scratch" });
+    dirs.push(d);
+    const r = run(d);
+    expect(r.code).toBe(1);
+    expect(r.out).toContain("deny-listed");
+    expect(r.out).toContain(".audit-inspect.mjs");
+    const d2 = gitRepo({ "inspect-quick.mjs": "// scratch" });
+    dirs.push(d2);
+    const r2 = run(d2);
+    expect(r2.code).toBe(1);
+    expect(r2.out).toContain("inspect-quick.mjs");
+  });
+
   it("passes on the clean repo index", () => {
     const r = run(ROOT);
     expect(r.code).toBe(0);

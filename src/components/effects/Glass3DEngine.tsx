@@ -432,7 +432,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
       }}
       animate={
         !shouldAnimate
-          ? {}
+          ? undefined
           : autoDemo
             ? {
                 rotateZ: [0, 0.65, -0.65, 0],
@@ -512,7 +512,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
             }}
             animate={
               !shouldAnimate
-                ? {}
+                ? undefined
                 : autoDemo
                   ? {
                       opacity: [0.38, 0.78, 0.46],

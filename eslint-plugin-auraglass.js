@@ -5,6 +5,8 @@
  * Prevents hardcoded glass values that bypass our token system.
  */
 
+const MOTION_PROPS = ['animate','whileHover','whileTap','whileFocus','whileDrag','exit','transition','variants'];
+
 module.exports = {
   rules: {
     'no-inline-glass': {
@@ -585,7 +587,7 @@ module.exports = {
       }
     },
     // Disallow empty animate targets (TRUST-045 / REQ-MOT-64): single rule name
-    // absorbing no-empty-reduced-animate. Empty animate renders instantly; an
+        // absorbing no-empty-reduced-animate. Empty animate renders instantly; an
     // initial={{ opacity: 0 }} with a conditional animate can leave the element
     // permanently invisible.
     'motion-no-empty-animate': {
@@ -599,6 +601,7 @@ module.exports = {
         fixable: null,
         schema: [],
         messages: {
+          emptyConditional: '{{prop}} uses an empty-object conditional branch — reduced-motion must render the stable state; use `? undefined :` instead.',
           emptyAnimate: 'animate={{}} has no target keys: an empty animate renders instantly — remove the prop or give it a real target.',
           fadedConditional: 'initial={{opacity:0}} with a conditional animate can leave the element invisible: make the animate unconditional.'
         }
@@ -644,6 +647,36 @@ module.exports = {
               const animExpr = jsxExpr(animate);
               if (animExpr && isConditional(animExpr)) {
                 context.report({ node: animate, messageId: 'fadedConditional' });
+              }
+            }
+            // REQ-PLAT-48: empty-object conditional branches on motion props
+            // (`cond ? {} : target` / `cond ? target : {}`) — reduced-motion
+            // must render the stable state, not an instantly-empty animate.
+            // Exception: cookie-consent keeps motion gated via its explicit
+            // disableAnimation prop (documented exception).
+            const file = (context.getFilename && context.getFilename()) || '';
+            if (!/cookie-consent/.test(file)) {
+              for (const name of MOTION_PROPS) {
+                const attr = attrOf(el, name);
+                const expr = jsxExpr(attr);
+                // Walk the conditional tree: an empty-object branch nested in
+                // a ternary/logical chain counts too.
+                const hasEmptyBranch = (e, depth) => {
+                  if (!e || depth > 6) return false;
+                  const x = e.type === 'TSAsExpression' ? e.expression : e;
+                  if (x.type === 'ConditionalExpression') {
+                    return isEmptyObject(x.consequent) || isEmptyObject(x.alternate)
+                      || hasEmptyBranch(x.consequent, depth + 1) || hasEmptyBranch(x.alternate, depth + 1);
+                  }
+                  if (x.type === 'LogicalExpression' && (x.operator === '&&' || x.operator === '??')) {
+                    return isEmptyObject(x.left) || isEmptyObject(x.right)
+                      || hasEmptyBranch(x.left, depth + 1) || hasEmptyBranch(x.right, depth + 1);
+                  }
+                  return false;
+                };
+                if (expr && isConditional(expr) && hasEmptyBranch(expr, 0)) {
+                  context.report({ node: attr, messageId: 'emptyConditional', data: { prop: name } });
+                }
               }
             }
           }

@@ -247,8 +247,6 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
         border="subtle"
         animation="none"
         performanceMode="medium"
-        liftOnHover={!disabled}
-        press
         className={cn(
           "glass-switch relative inline-flex shrink-0 cursor-pointer glass-radius-full transition-all duration-200 glass-overflow-hidden",
           disabled && "opacity-50 cursor-not-allowed",

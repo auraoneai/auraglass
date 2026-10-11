@@ -298,7 +298,7 @@ export function prefersReducedMotion(): boolean {
  * Check if user prefers high contrast
  */
 export function prefersHighContrast(): boolean {
-  return window.matchMedia("(prefers-contrast: high)").matches;
+  return window.matchMedia("(prefers-contrast: more)").matches || window.matchMedia("(prefers-contrast: high)").matches;
 }
 
 /**
@@ -970,7 +970,7 @@ export const useConsciousnessA11y = (): ConsciousnessA11yContext => {
     const reducedMotionMQ = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     );
-    const highContrastMQ = window.matchMedia("(prefers-contrast: high)");
+    const highContrastMQ = window.matchMedia("(prefers-contrast: more)");
     const reducedDataMQ = window.matchMedia("(prefers-reduced-data: reduce)");
 
     // Check for screen reader

@@ -4,6 +4,7 @@ exports[`ContrastGuard matches snapshot 1`] = `
 <span
   class="contrast-guard"
   data-contrast-level="AA"
+  data-contrast-status="unverified"
   data-glass-component="true"
 />
 `;

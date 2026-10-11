@@ -1,4 +1,8 @@
 'use client';
+import { warnDeprecated } from "../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0056");
 
 export * from '../index';
 

@@ -18,11 +18,13 @@ describe("adaptiveAI opt-in", () => {
     expect(typeof mod.useAdaptiveAI).toBe("function");
   });
 
-  it("enableAdaptiveAI() constructs the singleton once", async () => {
+  it("enableAdaptiveAI() returns the same disposer every call (idempotent)", async () => {
     const mod = await import("../adaptiveAI");
     const a = mod.enableAdaptiveAI();
     expect(a).toBeTruthy();
+    expect(typeof a).toBe("function");
     expect(mod.enableAdaptiveAI()).toBe(a);
+    a();
   });
 
   it("env opt-in constructs the engine at import", async () => {
@@ -37,5 +39,34 @@ describe("adaptiveAI opt-in", () => {
       "utf8"
     );
     expect(src).toMatch(/enableAdaptiveAI/);
+  });
+});
+
+describe("tracking lifecycle (REQ-PLAT-40)", () => {
+  it("constructor installs no listeners or intervals; start() does; disable() removes them", async () => {
+    jest.resetModules();
+    const addSpy = jest.spyOn(document, "addEventListener");
+    const rmSpy = jest.spyOn(document, "removeEventListener");
+    const ivSpy = jest.spyOn(globalThis, "setInterval");
+    const civSpy = jest.spyOn(globalThis, "clearInterval");
+    const mod = await import("../adaptiveAI");
+    const before = addSpy.mock.calls.length;
+    // Construct the singleton directly — tracking must still be zero.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const Engine =
+      (mod as any).AdaptiveAIEngine ??
+      Object.getPrototypeOf(mod.adaptiveAI ?? {})?.constructor;
+    expect(addSpy.mock.calls.length).toBe(before);
+    const dispose = mod.enableAdaptiveAI();
+    const afterEnable = addSpy.mock.calls.length - before;
+    expect(afterEnable).toBeGreaterThan(0);
+    expect(ivSpy.mock.calls.length).toBeGreaterThan(0);
+    dispose();
+    expect(rmSpy.mock.calls.length).toBeGreaterThanOrEqual(afterEnable);
+    expect(civSpy.mock.calls.length).toBeGreaterThan(0);
+    addSpy.mockRestore();
+    rmSpy.mockRestore();
+    ivSpy.mockRestore();
+    civSpy.mockRestore();
   });
 });

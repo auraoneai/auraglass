@@ -195,6 +195,7 @@ export const detectCapabilities = (): BrowserCapabilities => {
       window.CSS.supports("--test", "value"),
     es6: (() => {
       try {
+        // eslint-disable-next-line no-new-func -- scoped feature probe (PLAT-075)
         new Function("const a = 1; return a;")();
         return true;
       } catch {
@@ -418,9 +419,11 @@ export const featureDetection = {
     try {
       switch (feature) {
         case "es6":
+          // eslint-disable-next-line no-new-func -- scoped feature probe (PLAT-075)
           new Function("const a = 1; return a;")();
           return true;
         case "async-await":
+          // eslint-disable-next-line no-new-func -- scoped feature probe (PLAT-075)
           new Function("async function test() { await Promise.resolve(); }")();
           return true;
         case "promises":

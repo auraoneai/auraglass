@@ -4052,7 +4052,7 @@ svg.glass-touch-target {
   }
 }
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more), (prefers-contrast: high) {
   :root {
     --glass-bg-default: var(--glass-backdrop-fallback-bg);
     --glass-bg-strong: var(--glass-backdrop-fallback-bg);

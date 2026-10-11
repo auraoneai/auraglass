@@ -632,7 +632,7 @@ export function AuroraPro({
           <motion.div
             animate={
               prefersReducedMotion
-                ? {}
+                ? undefined
                 : {
                     scale: isPlaying ? [1, 1.2, 1] : 1,
                     opacity: isPlaying ? [0.6, 1, 0.6] : 0.6,

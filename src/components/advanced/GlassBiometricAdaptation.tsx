@@ -955,7 +955,7 @@ export const GlassStressResponsive = forwardRef<
                 (currentStressLevel > 0.7 ? -0.02 : 0.01) * currentStressLevel,
               padding: `${8 * layoutSpacing}px`,
             }
-          : {}
+          : undefined
       }
       transition={
         shouldAnimate
@@ -963,7 +963,7 @@ export const GlassStressResponsive = forwardRef<
               duration: ANIMATION.DURATION.slower / 1000 / motionSpeed,
               ease: currentStressLevel > 0.7 ? "easeOut" : "easeInOut",
             }
-          : {}
+          : undefined
       }
       id={stressId}
       role={role || "region"}

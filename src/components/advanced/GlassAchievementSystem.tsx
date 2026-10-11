@@ -990,7 +990,7 @@ const AchievementNotificationCard = forwardRef<
             }}
             animate={
               prefersReducedMotion
-                ? {}
+                ? undefined
                 : {
                     x: [0, Math.cos((i * 30 * Math.PI) / 180) * 100],
                     y: [0, Math.sin((i * 30 * Math.PI) / 180) * 100],

@@ -52,7 +52,7 @@
 }
 
 /* High contrast mode */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more), (prefers-contrast: high) {
   .glass-focus-ring.visible {
     box-shadow: var(--glass-elev-focus-visible-high-contrast, 0 0 0 3px #000);
   }

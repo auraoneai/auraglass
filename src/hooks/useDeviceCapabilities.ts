@@ -1,7 +1,12 @@
-'use client';
-import { useCallback, useEffect, useState } from 'react';
-import { DEFAULT_DEVICE_INFO, DeviceInfo, detectDevice, refreshDeviceDetection } from '../utils/deviceCapabilities';
-import { isBrowser, runClientEffect } from '../utils/env';
+"use client";
+import { useCallback, useEffect, useState } from "react";
+import {
+  DEFAULT_DEVICE_INFO,
+  DeviceInfo,
+  detectDevice,
+  refreshDeviceDetection,
+} from "../utils/deviceCapabilities";
+import { isBrowser, runClientEffect } from "../utils/env";
 
 /**
  * Hook for accessing device capabilities and information.
@@ -28,11 +33,10 @@ import { isBrowser, runClientEffect } from '../utils/env';
  * ```
  */
 export function useDeviceCapabilities() {
-  const [deviceInfo, setDeviceInfo] = useState<DeviceInfo>(() => {
-    if (!isBrowser()) {
-      return { ...DEFAULT_DEVICE_INFO };
-    }
-    return detectDevice();
+  // Constant initial value: the server and the first client render must
+  // agree for hydration; real detection runs in the mount effect below.
+  const [deviceInfo, setDeviceInfo] = useState<DeviceInfo>({
+    ...DEFAULT_DEVICE_INFO,
   });
 
   // Detect device on mount (client-side only)

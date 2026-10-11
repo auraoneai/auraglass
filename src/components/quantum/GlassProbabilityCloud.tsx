@@ -522,7 +522,9 @@ export const GlassProbabilityCloud = forwardRef<
                     transform: "translate(-50%, -50%)",
                   }}
                   initial={{ scale: 0, opacity: 1 }}
-                  animate={prefersReducedMotion ? {} : { scale: 2, opacity: 0 }}
+                  animate={
+                    prefersReducedMotion ? undefined : { scale: 2, opacity: 0 }
+                  }
                   exit={{ opacity: 0 }}
                   transition={
                     prefersReducedMotion ? { duration: 0 } : { duration: 1 }

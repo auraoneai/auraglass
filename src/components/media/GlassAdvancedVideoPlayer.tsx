@@ -79,9 +79,6 @@ const clampPercent = (value: number, total: number): number => {
   return Math.max(0, Math.min(100, (value / total) * 100));
 };
 
-const isStorybookDataMedia = (src?: string): boolean =>
-  Boolean(src?.startsWith("data:video/"));
-
 const fallbackPoster =
   "data:image/svg+xml," +
   encodeURIComponent(`
@@ -987,8 +984,7 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
   const quality = playbackState?.quality || "auto";
   const posterSrc =
     poster || mediaFile.poster || mediaFile.thumbnail || fallbackPoster;
-  const usePosterSurface =
-    !mediaFile.src || isStorybookDataMedia(mediaFile.src);
+  const usePosterSurface = !mediaFile.src;
 
   useEffect(() => {
     const element = containerRef.current;

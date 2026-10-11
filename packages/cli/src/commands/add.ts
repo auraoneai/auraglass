@@ -7,6 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
+import { createRequire } from 'node:module';
 import { makeOut, status, printJson } from '../cli/output.js';
 import { EXIT, CliError, usageError } from '../cli/errors.js';
 import { fetchItem } from '../registry/client.js';
@@ -15,6 +16,27 @@ import { detectProject } from '../core/project-detect.js';
 import { readConfig } from '../core/config.js';
 import { assertClean } from '../core/git-guard.js';
 import { ensureInsideCwd, atomicWrite } from '../core/fs-safety.js';
+
+interface DepRow { symbol?: string; since?: string; replacement?: string; }
+
+function loadDeprecations(cwd: string): DepRow[] {
+  // Repo root resolved without import.meta (the CJS jest transform cannot
+  // parse it): nearest ancestor of this module holding deprecations.json,
+  // then the consumer cwd, then the installed package root.
+  const roots = [cwd, process.cwd()];
+  try {
+    const req = createRequire(process.argv[1] ?? path.join(cwd, 'x.js'));
+    roots.push(path.join(path.dirname(req.resolve('@auraglass/cli/package.json'))));
+  } catch { /* module-dir fallback skipped */ }
+  for (let dir = cwd; dir !== path.dirname(dir); dir = path.dirname(dir)) roots.push(dir);
+  for (const root of roots) {
+    try {
+      const doc = JSON.parse(fs.readFileSync(path.join(root, 'deprecations.json'), 'utf8')) as { entries?: DepRow[] };
+      if (Array.isArray(doc.entries)) return doc.entries;
+    } catch { /* next root */ }
+  }
+  return [];
+}
 
 function sha256(s: string): string {
   return createHash('sha256').update(s, 'utf8').digest('hex');
@@ -61,6 +83,23 @@ export async function addCommand(args: string[], flags: Record<string, string | 
   const seen = new Set<string>();
   const order: RegistryItem[] = [];
   await fetchTree(name, registry, seen, order);
+
+  // REQ-PLAT-61 — a deprecated item prints its replacement exactly once.
+  const depRows = loadDeprecations(cwd);
+  const printed = new Set<string>();
+  for (const item of order) {
+    const row = depRows.find(
+      (r) => r.symbol === item.name || r.symbol === `recipe:${item.name}`
+    );
+    if (row?.replacement && !printed.has(item.name)) {
+      printed.add(item.name);
+      status(
+        out,
+        'warn',
+        `${item.name} is deprecated since ${row.since ?? '4.3.0'}; replacement: ${row.replacement}`
+      );
+    }
+  }
 
   const planned: Array<{ path: string; content: string }> = [];
   for (const item of order) {
