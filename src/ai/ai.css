@@ -31,6 +31,27 @@
     max-inline-size: min(var(--_ag-ai-message-max-inline, 72ch), 100%);
     overflow-wrap: anywhere;
   }
+  /* REQ-SURF-112: default text is plain, whitespace-preserving (HTML renders literally). */
+  [data-ag-part="text-part"] { white-space: pre-wrap; }
+  /* REQ-SURF-114: actions stay in the a11y tree and tab order (opacity only,
+     never display/visibility); shown on hover, focus-within, coarse pointers
+     and devices without hover. */
+  [data-ag-part="message"] [data-ag-part="actions"] { opacity: 0; }
+  [data-ag-part="message"]:hover [data-ag-part="actions"],
+  [data-ag-part="message"]:focus-within [data-ag-part="actions"] { opacity: 1; }
+  @media (pointer: coarse), (hover: none) {
+    [data-ag-part="message"] [data-ag-part="actions"] { opacity: 1; }
+  }
+  /* REQ-SURF-114: the thread is the size container for its messages. Below
+     480 px avatars hide (the hidden heading keeps the author) and actions
+     move below the content. */
+  [data-ag-part="thread"] { container-type: inline-size; }
+  @container (max-width: 480px) {
+    [data-ag-part="message"] { display: flex; flex-direction: column; }
+    [data-ag-part="message"] [data-ag-part="avatar"] { display: none; }
+    [data-ag-part="message"] [data-ag-part="actions"] { order: 1; }
+    [data-ag-part="message"] [data-ag-part="footer"] { order: 2; }
+  }
   [data-ag-part="attachments"] {
     display: flex;
     gap: var(--ag-space-2, 8px);

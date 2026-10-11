@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 39,
   rsc: 'server',
-  parts: ['message', 'heading', 'avatar', 'content', 'actions', 'action', 'footer', 'text-part', 'streaming-text', 'caret', 'attachment', 'stopped'],
+  parts: ['message', 'heading', 'avatar', 'content', 'actions', 'action', 'footer', 'text-part', 'streaming-text', 'caret', 'attachment', 'attachment-link', 'attachment-name', 'attachment-type', 'stopped'],
   states: ['complete', 'streaming', 'pending', 'error', 'aborted'],
   variants: {},
   budgetKb: 10,

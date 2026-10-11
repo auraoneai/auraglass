@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MessageParts (every fixture message) msg-01: data-ag-part tree 1`] = `"text-part [data-state=done]"`;
+
+exports[`MessageParts (every fixture message) msg-02: data-ag-part tree 1`] = `
+"reasoning [data-state=done]
+  trigger
+text-part [data-state=done]"
+`;
+
+exports[`MessageParts (every fixture message) msg-03: data-ag-part tree 1`] = `
+"reasoning [data-state=streaming]
+  trigger
+  content"
+`;
+
+exports[`MessageParts (every fixture message) msg-04: data-ag-part tree 1`] = `
+"tool-call [data-state=queued]
+  trigger
+    icon
+    tool-name
+    tool-state
+    icon"
+`;
+
+exports[`MessageParts (every fixture message) msg-05: data-ag-part tree 1`] = `
+"tool-call [data-state=running]
+  trigger
+    icon
+    tool-name
+    tool-state
+    running-dots
+    icon"
+`;
+
+exports[`MessageParts (every fixture message) msg-06: data-ag-part tree 1`] = `
+"tool-call [data-state=needs-approval]
+  trigger
+    icon
+    tool-name
+    tool-state
+    icon
+  content
+    io
+      io-pre
+    waiting"
+`;
+
+exports[`MessageParts (every fixture message) msg-07: data-ag-part tree 1`] = `
+"tool-call [data-state=running]
+  trigger
+    icon
+    tool-name
+    tool-state
+    running-dots
+    icon"
+`;
+
+exports[`MessageParts (every fixture message) msg-08: data-ag-part tree 1`] = `
+"tool-call [data-state=succeeded]
+  trigger
+    icon
+    tool-name
+    tool-state
+    icon"
+`;
+
+exports[`MessageParts (every fixture message) msg-09: data-ag-part tree 1`] = `
+"tool-call [data-state=failed]
+  trigger
+    icon
+    tool-name
+    tool-state
+    icon
+  content
+    io
+      io-pre
+    error-text [role=alert]"
+`;
+
+exports[`MessageParts (every fixture message) msg-10: data-ag-part tree 1`] = `
+"tool-call [data-state=denied]
+  trigger
+    icon
+    tool-name
+    tool-state
+    icon"
+`;
+
+exports[`MessageParts (every fixture message) msg-11: data-ag-part tree 1`] = `
+"tool-call [data-state=succeeded]
+  trigger
+    icon
+    tool-name
+    tool-state
+    icon"
+`;
+
+exports[`MessageParts (every fixture message) msg-12: data-ag-part tree 1`] = `
+"text-part [data-state=done]
+  citation [data-index=1 href=#ag-src-msg-12-s-1]
+  citation [data-index=2 href=#ag-src-msg-12-s-2]
+source-list
+  trigger
+    icon
+    icon
+  sources
+    source
+      source-link [href=https://docs.internal/security/keys rel=noopener noreferrer]
+      source-host
+    source
+      source-link [href=https://runbooks.internal/rotation rel=noopener noreferrer]
+      source-host"
+`;
+
+exports[`MessageParts (every fixture message) msg-13: data-ag-part tree 1`] = `
+"source-list
+  trigger
+    icon
+    icon
+  sources
+    source
+      source-text
+      source-file"
+`;
+
+exports[`MessageParts (every fixture message) msg-14: data-ag-part tree 1`] = `
+"attachment
+attachment [data-media-type=application/pdf]
+  attachment-link [href=blob:att-2 download=report.pdf]
+  attachment-type
+text-part [data-state=done]"
+`;
+
+exports[`MessageParts (every fixture message) msg-15: data-ag-part tree 1`] = `
+"step-separator [role=separator]
+text-part [data-state=done]"
+`;
+
+exports[`MessageParts (every fixture message) msg-16: data-ag-part tree 1`] = `""`;
+
+exports[`MessageParts (every fixture message) msg-17: data-ag-part tree 1`] = `"text-part [data-state=done]"`;
+
+exports[`MessageParts (every fixture message) msg-18: data-ag-part tree 1`] = `"text-part [data-state=done]"`;
+
+exports[`MessageParts (every fixture message) msg-19: data-ag-part tree 1`] = `"text-part [data-state=done]"`;
+
+exports[`MessageParts (every fixture message) msg-20: data-ag-part tree 1`] = `
+"tool-call [data-state=denied]
+  trigger
+    icon
+    tool-name
+    tool-state
+    icon"
+`;
+
+exports[`MessageParts (every fixture message) msg-21: data-ag-part tree 1`] = `
+"text-part [data-state=streaming]
+  streaming-text [data-state=streaming]
+    text
+    caret"
+`;

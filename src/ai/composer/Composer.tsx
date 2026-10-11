@@ -5,6 +5,7 @@ import { useAttachments } from './useAttachments';
 import type { AttachmentReject } from './useAttachments';
 import { useAnnouncer } from '../../theme';
 import { AiIcon } from '../icons/AiIcon';
+import { useStatusAnnouncements } from '../message/useStatusAnnouncements';
 import type { AiIconName } from '../icons/index';
 
 export interface ComposerLabels {
@@ -13,6 +14,10 @@ export interface ComposerLabels {
   stop?: string;
   attach?: string;
   removeAttachment?: (name: string) => string;
+  /** REQ-SURF-113: announced politely when `status` becomes `submitted`. */
+  statusSending?: string;
+  /** REQ-SURF-113: announced assertively when `status` becomes `error`. */
+  statusError?: string;
 }
 
 interface ComposerCtx {
@@ -94,6 +99,7 @@ export function ComposerRoot({
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const [dragging, setDragging] = React.useState(false);
   const streaming = status === 'submitted' || status === 'streaming';
+  useStatusAnnouncements(status, { sending: labels.statusSending, error: labels.statusError });
 
   const submit = React.useCallback(() => {
     const text = value.trim();

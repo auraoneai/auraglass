@@ -3,7 +3,11 @@ import * as React from 'react';
 import type { AgPart } from './types';
 
 export type AgPartRenderer = (part: AgPart) => React.ReactNode;
-export type AgTextRenderer = (text: string, opts: { streaming?: boolean | undefined }) => React.ReactNode;
+/** REQ-SURF-112: `renderText(text, { streaming, messageId })` replaces the default plain-text body. */
+export type AgTextRenderer = (
+  text: string,
+  opts: { streaming?: boolean | undefined; messageId: string },
+) => React.ReactNode;
 export interface AgApprovalResponse {
   approvalId: string;
   toolCallId: string;

@@ -9,7 +9,7 @@ export interface MessageActionsProps {
   message: AgMessage;
   onRegenerate?: ((messageId: string) => void) | undefined;
   onFeedback?: ((messageId: string, kind: 'up' | 'down') => void) | undefined;
-  labels?: { copied?: string; regenerate?: string; thumbsUp?: string; thumbsDown?: string } | undefined;
+  labels?: { copy?: string; copied?: string; regenerate?: string; thumbsUp?: string; thumbsDown?: string } | undefined;
 }
 
 export function MessageAction(props: React.ButtonHTMLAttributes<HTMLButtonElement> & { icon?: keyof typeof import('../icons/index').AI_ICONS }) {
@@ -43,7 +43,7 @@ export function MessageActions({ message, onRegenerate, onFeedback, labels }: Me
 
   return (
     <div data-ag-part="actions" role="group" aria-label="Message actions">
-      <MessageAction icon="copy" aria-label="Copy message" onClick={copy} />
+      <MessageAction icon="copy" aria-label={labels?.copy ?? 'Copy message'} onClick={copy} />
       {onRegenerate ? (
         <MessageAction
           icon="regenerate"
