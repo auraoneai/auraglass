@@ -1,0 +1,23 @@
+## API Report — aura-glass ./ssr
+
+- `addBrowserEventListener`
+- `canUseDOM`
+- `createBrowserRefCallback`
+- `getBrowserValue`
+- `getConnectionInfo`
+- `getDevicePixelRatio`
+- `getUserAgent`
+- `getViewportSize`
+- `isBrowser`
+- `isDevelopment`
+- `isLocalStorageAvailable`
+- `isProduction`
+- `isServer`
+- `isTouchDevice`
+- `isWebGLSupported`
+- `safeBrowserExec`
+- `safeCancelAnimationFrame`
+- `safeDocument`
+- `safeNavigator`
+- `safeRequestAnimationFrame`
+- `safeWindow`

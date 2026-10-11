@@ -169,6 +169,7 @@ export interface DynamicAtmosphereProps {
  *
  * A component that creates dynamic atmospheric background effects.
  */
+/** @deprecated DynamicAtmosphere DEP-S0612 since 4.2.0, removed in 6.0.0. {@link Backdrop presets from aura-glass/backdrops} */
 export const DynamicAtmosphere = forwardRef<
   HTMLDivElement,
   DynamicAtmosphereProps
@@ -523,6 +524,7 @@ export const DynamicAtmosphere = forwardRef<
 
 DynamicAtmosphere.displayName = "GlassDynamicAtmosphere";
 
+/** @deprecated GlassDynamicAtmosphere DEP-S0611 since 4.2.0, removed in 6.0.0. {@link Backdrop presets from aura-glass/backdrops} */
 export const GlassDynamicAtmosphere = DynamicAtmosphere;
 
 export default DynamicAtmosphere;

@@ -149,6 +149,7 @@ export interface GlassImageViewerProps {
  * GlassImageViewer component
  * A comprehensive image viewer with zoom, pan, rotation, and slideshow features
  */
+/** @deprecated GlassImageViewer DEP-S0604 since 4.2.0, removed in 6.0.0. {@link ImageViewer from aura-glass/media (items need id + required alt)} */
 export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
   images = [],
   initialIndex = 0,

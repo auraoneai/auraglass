@@ -77,6 +77,7 @@ const computeMetrics = (
   };
 };
 
+/** @deprecated NeuromorphicLearningNetwork DEP-S0415 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */
 export function NeuromorphicLearningNetwork({
   className,
   signals = DEFAULT_SIGNALS,

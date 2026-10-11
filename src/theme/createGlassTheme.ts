@@ -190,6 +190,7 @@ export interface CreateBrandGlassThemeOptions
   accentShift?: number;
 }
 
+/** @deprecated createBrandGlassTheme DEP-M0969 since 4.3.0, removed in 5.0.0. {@link createBrandTheme (aura-glass/theme)} */
 export const createBrandGlassTheme = ({
   brandColor,
   accentShift = 0.34,
@@ -203,6 +204,7 @@ export const createBrandGlassTheme = ({
     name: options.name ?? "Brand AuraGlass Theme",
   });
 
+/** @deprecated createGlassThemeCssVars DEP-M0970 since 4.3.0, removed in 5.0.0. {@link createGlassTheme(...).vars} */
 export const createGlassThemeCssVars = (
   theme: GlassTheme
 ): Record<string, string> => ({

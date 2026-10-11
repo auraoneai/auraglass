@@ -55,6 +55,7 @@ export function getConcentricRadiusValue(
   return `max(calc(${base} - ${inset}px), ${fallbackRadius}px)`;
 }
 
+/** @deprecated LiquidGlassConcentricFrame DEP-M0814 since 4.2.0, removed in 5.0.0. {@link ConcentricFrame} */
 export const LiquidGlassConcentricFrame = forwardRef<
   HTMLDivElement,
   LiquidGlassConcentricFrameProps

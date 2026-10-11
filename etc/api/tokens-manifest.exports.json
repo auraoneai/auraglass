@@ -1,0 +1,7 @@
+{
+ "entry": "./tokens/manifest",
+ "exports": [],
+ "unanalysable": [
+  "no analysable target for './tokens/manifest'"
+ ]
+}

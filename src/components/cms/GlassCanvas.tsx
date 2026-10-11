@@ -32,6 +32,22 @@ interface DropZoneProps {
   onDrop: (targetId?: string, position?: "before" | "after" | "inside") => void;
 }
 
+let glassCanvasStringActionWarned = false;
+const warnStringActionOnce = () => {
+  if (glassCanvasStringActionWarned) return;
+  glassCanvasStringActionWarned = true;
+  if (
+    typeof process !== "undefined" &&
+    process.env?.NODE_ENV !== "production"
+  ) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "[aura-glass] GlassCanvas: string `onClick` props are not executed " +
+        "(DEP-P0013) — pass `onComponentAction` to receive the action descriptor."
+    );
+  }
+};
+
 const toStringProp = (value: ComponentPropValue): string | undefined => {
   if (typeof value === "string") return value;
   if (typeof value === "number") return String(value);
@@ -318,6 +334,7 @@ const ComponentRenderer: React.FC<{
         const href = toStringProp(component.props.href);
         const disabled = toBooleanProp(component.props.disabled);
         const onClickScript = toStringProp(component.props.onClick);
+        if (onClickScript) warnStringActionOnce();
         const ButtonTag = href ? "a" : "button";
         return (
           <ButtonTag

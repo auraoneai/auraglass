@@ -109,6 +109,7 @@ export function useAnimationDuration(
   };
 }
 
+/** @deprecated useMotionPreference DEP-M0898 since 4.2.0, removed in 5.0.0. {@link usePreference(\} */
 export function useMotionPreference() {
   const prefersReducedMotion = useReducedMotion();
   const shouldAnimate = !prefersReducedMotion;

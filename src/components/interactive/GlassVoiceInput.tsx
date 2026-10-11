@@ -154,6 +154,7 @@ export interface GlassVoiceInputProps
   "data-testid"?: string;
 }
 
+/** @deprecated GlassVoiceInput DEP-S0404 since 4.2.0, removed in 5.0.0. {@link the ai-voice-input registry item} */
 export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
   (
     {

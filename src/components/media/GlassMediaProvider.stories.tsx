@@ -91,6 +91,8 @@ function MediaContextPreview() {
   );
 }
 
+
+/** @deprecated GlassMediaProvider DEP-S0621 since 4.2.0, removed in 5.0.0. {@link useMediaElement from aura-glass/media} */
 export const GlassMediaProvider: Story = {
   name: "GlassMediaProvider",
   args: {

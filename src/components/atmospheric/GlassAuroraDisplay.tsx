@@ -103,6 +103,7 @@ export interface GlassAuroraDisplayProps
   respectMotionPreference?: boolean;
 }
 
+/** @deprecated GlassAuroraDisplay DEP-S0629 since 4.2.0, removed in 5.0.0. {@link Backdrop preset="aurora"} */
 export const GlassAuroraDisplay = forwardRef<
   HTMLDivElement,
   GlassAuroraDisplayProps

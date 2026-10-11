@@ -469,8 +469,8 @@ export function GlassAccordion({
               className={cn(
                 "glass-w-full glass-p-4 glass-text-left glass-flex glass-items-center glass-justify-between hover:glass-surface-hover glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
               )}
-              whileHover={prefersReducedMotion ? {} : { scale: 1.01 }}
-              whileTap={prefersReducedMotion ? {} : { scale: 0.99 }}
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.01 }}
+              whileTap={prefersReducedMotion ? undefined : { scale: 0.99 }}
               transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
               aria-label={`${item.title} accordion item`}
               aria-expanded={isOpen}
@@ -638,6 +638,7 @@ interface GlassTabsProps {
   onTabChange?: (tabId: string) => void;
 }
 
+/** @deprecated GlassTabs DEP-S0011 since 4.2.0, removed in 5.0.0. {@link Tabs from aura-glass} */
 export function GlassTabs({
   tabs,
   defaultTab,
@@ -891,6 +892,7 @@ const GlassTransitionsComponent: React.FC<GlassTransitionsProps> = ({
   );
 };
 
+/** @deprecated GlassTransitions DEP-M0859 since 4.2.0, removed in 5.0.0. {@link CSS motion tokens or aura-glass/motion} */
 export const GlassTransitions = Object.assign(GlassTransitionsComponent, {
   GlassTransition,
   GlassPageTransition,

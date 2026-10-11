@@ -101,6 +101,7 @@ export interface GlassGalleryProps {
  * GlassGallery component
  * A responsive image gallery with grid, masonry, and list layouts
  */
+/** @deprecated GlassGallery DEP-S0605 since 4.2.0, removed in 6.0.0. {@link ImageViewer from aura-glass/media (or the media-gallery registry item)} */
 export const GlassGallery: React.FC<GlassGalleryProps> = ({
   images = [],
   layout = "grid",

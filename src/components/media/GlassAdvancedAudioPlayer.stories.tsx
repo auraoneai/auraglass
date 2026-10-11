@@ -31,8 +31,8 @@ const coverSvg = [
   '<circle cx="360" cy="360" r="192" fill="rgba(255,255,255,0.28)" stroke="rgba(255,255,255,0.68)" stroke-width="4"/>',
   '<circle cx="360" cy="360" r="72" fill="rgba(15,23,42,0.9)"/>',
   '<circle cx="360" cy="360" r="18" fill="#f8fafc"/>',
-  '<text x="72" y="108" font-family="Aeonik,Arial,sans-serif" font-size="42" font-weight="700" fill="#0f172a">Material Notes</text>',
-  '<text x="74" y="652" font-family="Aeonik,Arial,sans-serif" font-size="24" fill="#334155">AuraGlass Audio Journal</text>',
+  '<text x="72" y="108" font-family="system-ui,Arial,sans-serif" font-size="42" font-weight="700" fill="#0f172a">Material Notes</text>',
+  '<text x="74" y="652" font-family="system-ui,Arial,sans-serif" font-size="24" fill="#334155">AuraGlass Audio Journal</text>',
   "</svg>",
 ].join("");
 const cover = `data:image/svg+xml,${encodeURIComponent(coverSvg)}`;
@@ -58,6 +58,8 @@ const stageStyle: CSSProperties = {
   width: "100%",
 };
 
+
+/** @deprecated GlassAdvancedAudioPlayer DEP-S0620 since 4.2.0, removed in 5.0.0. {@link the media-audio-player registry item} */
 export const GlassAdvancedAudioPlayer: Story = {
   name: "GlassAdvancedAudioPlayer",
   args: {

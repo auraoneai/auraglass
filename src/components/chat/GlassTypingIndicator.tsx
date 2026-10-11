@@ -65,6 +65,7 @@ export interface GlassTypingIndicatorProps
   glass?: boolean;
 }
 
+/** @deprecated GlassTypingIndicator DEP-S0403 since 4.2.0, removed in 6.0.0. {@link a streaming-status AgMessage or AgentSteps from aura-glass/ai} */
 export const GlassTypingIndicator = forwardRef<
   HTMLDivElement,
   GlassTypingIndicatorProps

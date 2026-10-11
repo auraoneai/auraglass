@@ -7,6 +7,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 export interface OptimizedGlassProps extends HTMLAttributes<HTMLDivElement> {
   elevation?: "level0" | "level1" | "level2" | "level3" | "level4" | "float";
@@ -217,6 +218,7 @@ const PERFORMANCE_STYLES = {
  * - CSS variables instead of inline styles
  * - Lazy effect loading
  */
+/** @deprecated OptimizedGlassAdvanced DEP-M0808 since 4.2.0, removed in 5.0.0. {@link Surface} */
 export const OptimizedGlassAdvanced = forwardRef<
   HTMLDivElement,
   OptimizedGlassProps
@@ -360,17 +362,7 @@ export const OptimizedGlassAdvanced = forwardRef<
 
     // Combine performance styles with custom styles
     const combinedStyles = useMemo(
-      () => ({
-        ...PERFORMANCE_STYLES[performanceMode],
-        background:
-          "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
-        backgroundColor: "rgba(255,255,255,0.018)",
-        border: "1px solid rgba(255,255,255,0.18)",
-        boxShadow:
-          "0 8px 28px rgba(15,23,42,0.14), inset 0 0 12px rgba(255,255,255,0.12)",
-        color: "var(--glass-theme-text, var(--glass-text-primary))",
-        ...style,
-      }),
+      () => createGlassStyle({ intent: "neutral", elevation: "level2" }),
       [performanceMode, style]
     );
 

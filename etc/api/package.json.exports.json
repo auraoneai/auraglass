@@ -1,0 +1,7 @@
+{
+ "entry": "./package.json",
+ "exports": [
+  "default"
+ ],
+ "unanalysable": []
+}

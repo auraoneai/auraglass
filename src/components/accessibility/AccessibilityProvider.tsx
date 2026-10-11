@@ -61,6 +61,7 @@ interface AccessibilityProviderProps {
   "data-testid"?: string;
 }
 
+/** @deprecated AccessibilityProvider DEP-M0933 since 4.2.0, removed in 5.0.0. {@link AuraGlassProvider (highContrast→contrast="more", reducedTransparency→transparency="tinted", colorBlindness dropped)} */
 export function AccessibilityProvider({
   children,
   initialSettings = {},
@@ -102,7 +103,7 @@ export function AccessibilityProvider({
       "(prefers-reduced-motion: reduce)"
     );
     const mediaQueryHighContrast = window.matchMedia(
-      "(prefers-contrast: high)"
+      "(prefers-contrast: more)"
     );
     const mediaQueryColorScheme = window.matchMedia(
       "(prefers-color-scheme: dark)"
@@ -127,7 +128,7 @@ export function AccessibilityProvider({
     const handlePreferenceChange = (event: MediaQueryListEvent) => {
       if (event.media === "(prefers-reduced-motion: reduce)") {
         updateSettings({ reducedMotion: event.matches });
-      } else if (event.media === "(prefers-contrast: high)") {
+      } else if (event.media === "(prefers-contrast: more)") {
         updateSettings({ highContrast: event.matches });
       }
     };

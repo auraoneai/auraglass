@@ -1,0 +1,20 @@
+{
+ "entry": "./three",
+ "exports": [
+  "ARGlassAnimations",
+  "ARGlassEffects",
+  "ARGlassGeometryFactory",
+  "ARGlassInteractions",
+  "ARGlassMaterialFactory",
+  "ARGlassUtils",
+  "AuroraPro",
+  "GlassShatterEffects",
+  "SeasonalParticles",
+  "auroraPresets",
+  "auroraThemes",
+  "seasonalPresets",
+  "seasonalThemes",
+  "shatterPresets"
+ ],
+ "unanalysable": []
+}

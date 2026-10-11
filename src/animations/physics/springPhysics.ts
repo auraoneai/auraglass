@@ -23,6 +23,7 @@ export interface SpringConfig {
   mass: number;
 }
 
+/** @deprecated SpringPresets DEP-M0887 since 4.2.0, removed in 5.0.0. {@link the 5.x motion tokens} */
 export const SpringPresets = {
   default: springConfig,
   gentle: gentleSpring,

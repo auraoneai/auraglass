@@ -770,17 +770,23 @@ export {
   REDUCED_MOTION_100_COMPLETE_MD,
   REDUCED_MOTION_101_GUIDE_MD,
 } from "./reports/legacyDocuments";
+/** @deprecated component_inventory_json_path DEP-P0003 since 4.2.0, removed in 5.0.0. */
 export const component_inventory_json_path = "reports/component_inventory.json";
+/** @deprecated GILDED_TOKENS_CATALOGUE_MD_PATH DEP-P0007 since 4.2.0, removed in 5.0.0. */
 export const GILDED_TOKENS_CATALOGUE_MD_PATH =
   "reports/GILDED_TOKENS_CATALOGUE.md";
+/** @deprecated REDUCED_MOTION_101_GUIDE_MD_PATH DEP-P0008 since 4.2.0, removed in 5.0.0. */
 export const REDUCED_MOTION_101_GUIDE_MD_PATH =
   "reports/REDUCED_MOTION_101_GUIDE.md";
+/** @deprecated REDUCED_MOTION_100_COMPLETE_MD_PATH DEP-P0009 since 4.2.0, removed in 5.0.0. */
 export const REDUCED_MOTION_100_COMPLETE_MD_PATH =
   "reports/REDUCED_MOTION_100_COMPLETE.md";
 
 // Additional Report Files
+/** @deprecated TYPESCRIPT_FIX_PROGRESS_MD_PATH DEP-P0010 since 4.2.0, removed in 5.0.0. */
 export const TYPESCRIPT_FIX_PROGRESS_MD_PATH =
   "reports/TYPESCRIPT_FIX_PROGRESS.md";
+/** @deprecated REDUCED_MOTION_FINAL_REPORT_JSON_PATH DEP-P0011 since 4.2.0, removed in 5.0.0. */
 export const REDUCED_MOTION_FINAL_REPORT_JSON_PATH =
   "reports/reduced-motion-final-report.json";
 export { GlassDepthLayer } from "./components/surfaces/GlassDepthLayer";
@@ -873,10 +879,6 @@ export {
 export { useMotionPreference } from "./hooks/useMotionPreference";
 export { useReducedMotion } from "./hooks/useReducedMotion";
 export { useEnhancedReducedMotion } from "./hooks/useEnhancedReducedMotion";
-export {
-  useGalileoStateSpring,
-  useGalileoStateSpring as useAuraStateSpring,
-} from "./hooks/useGalileoStateSpring";
 export {
   usePhysicsInteraction,
   usePhysicsButton,

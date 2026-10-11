@@ -13,6 +13,7 @@ import { useA11yId } from "../../utils/a11y";
 import { useMotionPreference } from "../../hooks/useMotionPreference";
 import { useGlassSound } from "../../utils/soundDesign";
 import { ANIMATION } from "../../tokens/designConstants";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 export interface GlassTreeNode {
   id: string;
@@ -446,7 +447,8 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
                 style={{
                   width: 32,
                   height: 32,
-                  color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+                  color:
+                    "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
                 }}
                 aria-label={isExpanded ? "Collapse" : "Expand"}
               >
@@ -484,7 +486,9 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
           {/* Label */}
           <span
             className="glass-flex-1 glass-truncate"
-            style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+            style={{
+              color: "var(--glass-theme-text, var(--glass-text-primary))",
+            }}
           >
             {node.label}
           </span>
@@ -524,6 +528,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
   );
 };
 
+/** @deprecated GlassTreeView DEP-S0204 since 4.2.0, removed in 5.0.0. {@link TreeView from aura-glass/data} */
 export const GlassTreeView = forwardRef<HTMLDivElement, GlassTreeViewProps>(
   (
     {
@@ -677,18 +682,7 @@ export const GlassTreeView = forwardRef<HTMLDivElement, GlassTreeViewProps>(
             "glass-border glass-border-white/10",
             className
           )}
-          style={{
-            maxHeight: "100%",
-            background: "rgba(255, 255, 255, 0.22)",
-            backdropFilter:
-              "blur(24px) saturate(1.5) brightness(1.05) contrast(1.02)",
-            WebkitBackdropFilter:
-              "blur(24px) saturate(1.5) brightness(1.05) contrast(1.02)",
-            borderColor: "rgba(255, 255, 255, 0.70)",
-            boxShadow:
-              "0 14px 34px rgba(15, 23, 42, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.30), inset 0 0 18px rgba(255, 255, 255, 0.14)",
-            color: "var(--glass-theme-text, var(--glass-text-primary))",
-          }}
+          style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
           role="tree"
           aria-multiselectable={selectionMode === "multiple"}
           {...props}

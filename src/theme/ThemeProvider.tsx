@@ -1532,6 +1532,7 @@ export const useThemeVariant = (): ThemeVariantContextType => {
   return context;
 };
 
+/** @deprecated usePersonaTheme DEP-M0967 since 4.3.0, removed in 5.0.0. {@link createBrandTheme + usePreference} */
 export const usePersonaTheme = (): PersonaContextType => {
   const context = useContext(PersonaContext);
 

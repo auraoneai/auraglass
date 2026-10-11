@@ -47,6 +47,7 @@ const CursorIcon: React.FC<{ color: string; name: string }> = ({
   </div>
 );
 
+/** @deprecated GlassCollaborativeCursor DEP-S0813 since 4.2.0, removed in 5.0.0. {@link the presence-stack registry item (5.1) fed by consumer presence data} */
 export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
   className,
   previewUsers,

@@ -61,7 +61,19 @@ export function extractTarball(tgz, tmp, { cwd = ROOT } = {}) {
   return { dir: dest, pkg };
 }
 
-const RUNNER = `import { createRequire } from 'node:module';
+const RUNNER = `// jsdom-lite globals so importing UI entrypoints in the snapshot runner
+// doesn't explode on bare DOM references (REQ-PLAT-23).
+globalThis.window ??= globalThis;
+globalThis.document ??= { createElement: () => ({ style: {}, appendChild() {}, setAttribute() {} }), createElementNS: () => ({ style: {} }), body: { appendChild() {} }, head: { appendChild() {} }, documentElement: { style: {} }, querySelector: () => null, querySelectorAll: () => [], addEventListener() {}, removeEventListener() {} };
+globalThis.navigator ??= { userAgent: 'export-snapshot-runner' };
+globalThis.HTMLElement ??= class {}; globalThis.SVGElement ??= class {};
+globalThis.customElements ??= { define() {}, get: () => undefined, whenDefined: () => Promise.resolve() };
+globalThis.requestAnimationFrame ??= (f) => setTimeout(f, 0);
+globalThis.matchMedia ??= () => ({ matches: false, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {} });
+globalThis.ResizeObserver ??= class { observe() {} unobserve() {} disconnect() {} };
+globalThis.IntersectionObserver ??= class { observe() {} unobserve() {} disconnect() {} };
+globalThis.MutationObserver ??= class { observe() {} disconnect() {} };
+import { createRequire } from 'node:module';
 const [specDir, spec, typesFile] = process.argv.slice(2);
 const req = createRequire(specDir + '/package.json');
 try {

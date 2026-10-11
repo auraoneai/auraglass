@@ -79,6 +79,7 @@ const defaultRules = [
   "aria-labelledby",
 ];
 
+/** @deprecated GlassA11yAuditor DEP-M0927 since 4.2.0, removed in 5.0.0. {@link CI axe lane (audits run in CI, not in the bundle)} */
 export const GlassA11yAuditor = forwardRef<
   HTMLDivElement,
   GlassA11yAuditorProps

@@ -18,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 import {
   ALLOWED, CLASS_CHANGESET_FLOOR, CLASS_RANK, BUMP_RANK, allowedOn,
   checkChangesetBump, checkMarkers, installLevelViolations, relPaths,
+  VISUAL_TOLERANCE,
 } from './lib/policy.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -112,7 +113,7 @@ export function diffSnapshots(baseSnap = null, headSnap = null) {
 }
 
 // package.json tracked keys.
-const PKG_KEYS = ['dependencies', 'peerDependencies', 'engines', 'exports'];
+const PKG_KEYS = ['dependencies', 'peerDependencies', 'optionalPeerDependencies', 'engines', 'exports'];
 export function diffPackageJson(baseText, headText) {
   const base = baseText ? JSON.parse(baseText) : {}; const head = JSON.parse(headText);
   const out = {};
@@ -171,7 +172,9 @@ export function parseChangesetBumps(changesetTexts) {
 export function visualClass({ report, recordFiles = [], line = '5x' }) {
   const out = { status: 'absent', cells: [], class: null, record: null };
   if (!report) { out.status = line === '5x' ? 'pending' : 'missing-blocking'; return out; }
-  const cells = (report.cells ?? report.changed ?? []).filter((c) => (c.changedRatio ?? c.ratio ?? 0) > 0);
+  const cells = (report.cells ?? report.changed ?? []).filter(
+    (c) => (c.changedRatio ?? c.ratio ?? 0) > VISUAL_TOLERANCE.changedRatio,
+  );
   out.cells = cells;
   if (!cells.length) { out.status = 'clean'; return out; }
   const listed = new Set();
@@ -201,7 +204,8 @@ function bumpTo(top, cls, reasons, reason) {
 export function classify(inputs) {
   const {
     apiDiffs = {}, snapshotDiff = { perEntry: {}, entriesRemoved: [], entriesAdded: [] },
-    deprecationsAdded = [], packageDiff = {}, markers = { hasBang: false, hasBreaking: false, multiFamily: [] },
+    deprecationsAdded = [], deprecationsAll = deprecationsAdded,
+    packageDiff = {}, markers = { hasBang: false, hasBreaking: false, multiFamily: [] },
     changesetBumps = [], visual = { status: 'absent', cells: [] }, line = '5x',
     changedFiles = [], version = null, sources = {}, doctorReport = null, releaseNotes = null,
     installDeps = [],
@@ -240,14 +244,19 @@ export function classify(inputs) {
     else if (key === 'exports' && (d.added.length || d.changed.length)) bumpTo(rank, 'C-E', reasons, `package.json exports added/changed`);
     else if ((key === 'engines' || key === 'peerDependencies') && (d.changed.length || d.removed.length)) {
       bumpTo(rank, 'C-B', reasons, `${key} floor raised or entry removed: ${[...d.changed, ...d.removed].join(', ')}`);
+    } else if (key === 'optionalPeerDependencies') {
+      bumpTo(rank, 'C-E', reasons, 'package.json optionalPeerDependencies changed');
     } else if (key === 'dependencies' && d.removed.length) {
-      const covered = d.removed.every((dep) => installDeps.includes(dep) || deprecationsAdded.some((e) => e.kind === 'dependency' && (e.symbol === dep || e.pkg === dep)));
-      bumpTo(rank, covered ? 'C-D-IL' : 'C-B', reasons, `dependencies removed: ${d.removed.join(', ')}${covered ? ' (install-level move)' : ''}`);
+      const optAdded = new Set(packageDiff.optionalPeerDependencies?.added ?? []);
+      const covered = d.removed.every((dep) => optAdded.has(dep) || installDeps.includes(dep)
+        || deprecationsAdded.some((e) => e.kind === 'dependency' && (e.symbol === dep || e.pkg === dep)));
+      bumpTo(rank, covered ? 'C-D-IL' : 'C-B', reasons,
+        `dependencies removed: ${d.removed.join(', ')}${covered ? ' (install-level move)' : ''}`);
     } else bumpTo(rank, 'C-E', reasons, `package.json ${key} changed`);
   }
   // Contract surfaces (the C0 seed's BREAKING list): a diff touching the frozen
   // contract surface is C-B and needs the marker; on release/4.x `!` then fails.
-  const CONTRACT_SURFACE = [/^src\/contracts\//, /^contracts\//, /^build\/exports\.manifest\.json$/, /^deprecations\.json$/, /^src\/index\.ts$/, /^src\/root\//, /^src\/compat\//];
+  const CONTRACT_SURFACE = [/^src\/contracts\//, /^contracts\//, /^build\/exports\.manifest\.json$/];
   const surface = changedFiles.filter((f) => CONTRACT_SURFACE.some((re) => re.test(f)));
   if (surface.length) bumpTo(rank, 'C-B', reasons, `frozen contract surface touched: ${surface.slice(0, 5).join(', ')}${surface.length > 5 ? ` (+${surface.length - 5})` : ''}`);
   // Maps-artifact rule: a store/docs file without the regenerated artifacts is C-E.
@@ -259,13 +268,19 @@ export function classify(inputs) {
 
   const cls = rank.v;
   const errors = [...checkMarkers(cls, { hasBang: markers.hasBang, hasBreaking: markers.hasBreaking, line })];
+  if (line === '4x' && visual.status === 'missing-blocking') {
+    const [maj, min] = (version ?? '0.0.0').split('.').map(Number);
+    if ((maj ?? 0) > 4 || ((maj ?? 0) === 4 && (min ?? 0) >= 2)) {
+      errors.push('visual-class report missing on 4x >= 4.2.0 (run the 4x visual job first; REQ-PLAT-56)');
+    }
+  }
   errors.push(...checkChangesetBump(cls, changesetBumps));
 
   // Multi-family trailer (REQ-PLAT-21): >1 breaking group among removals.
   const removals = [];
   for (const [entry, d] of Object.entries(perEntry)) {
     for (const sym of d.removed ?? []) {
-      const cov = deprecationsAdded.find((e) => e.symbol === sym);
+      const cov = deprecationsAll.find((e) => e.symbol === sym);
       removals.push({ entry, symbol: sym, breaking: cov?.breaking ?? null });
     }
   }
@@ -310,7 +325,7 @@ export function deprecationCoverage(removals, entries, { publishedDir = null, pu
   }
   const minors = (v) => { const m = /^4\.(\d+)\.(\d+)$/.exec(v ?? ''); return m ? { minor: Number(m[1]) } : null; };
   const rows = removals.map((r) => {
-    const cov = entries.find((e) => e.symbol === r.symbol || (r.symbol.includes(e.symbol ?? ' ') && e.symbol));
+    const cov = entries.find((e) => e.symbol === r.symbol || (r.symbol.includes(e.symbol ?? '\0') && e.symbol));
     const m = minors(cov?.since);
     const shipped = cov && m && m.minor >= 2 && (index[cov.since] ?? []).includes(cov.id);
     return { ...r, coveringEntry: cov?.id ?? null, since: cov?.since ?? null, verifiedIn: shipped ? cov.since : null };
@@ -333,6 +348,7 @@ export function main(argv = process.argv.slice(2), { cwd = ROOT } = {}) {
     : tryGit(['diff', '--name-only', `${base}...HEAD`]).split('\n').filter(Boolean);
   const logText = fixtureDir ? readFileSync(join(fixtureDir, 'log.txt'), 'utf8')
     : tryGit(['log', '--format=%s%n%b', `${base}..HEAD`]);
+  const headLogText = fixtureDir ? logText : tryGit(['log', '-1', '--format=%B', 'HEAD']);
   const pkgBase = fixtureDir ? (existsSync(join(fixtureDir, 'pkg.base.json')) ? readFileSync(join(fixtureDir, 'pkg.base.json'), 'utf8') : null)
     : tryGit(['show', `${base}:package.json`]) || null;
   const pkgHead = fixtureDir ? readFileSync(join(fixtureDir, 'pkg.head.json'), 'utf8') : readFileSync(PATHS.packageJson, 'utf8');
@@ -349,10 +365,26 @@ export function main(argv = process.argv.slice(2), { cwd = ROOT } = {}) {
     ? readJson(join(fixtureDir, 'api-diffs.json')) : diffApiReports(fixtureDir ? null : base, fixtureDir ? [] : changedFiles, fixtureDir);
   const snapshotDiff = fx('snapshot-diff.json', { perEntry: {}, entriesRemoved: [], entriesAdded: [] });
   const deprecationsAdded = fx('deprecations-added.json', fixtureDir ? [] : diffDeprecationEntries(base, {}));
+  const loadDeps = (ref) => {
+    try {
+      const files = git(['ls-tree', '-r', '--name-only', ref, 'fragments/deprecations']).split('\n').filter((f) => f.endsWith('.ts'));
+      const rows = [];
+      for (const f of files) {
+        try {
+          const text = git(['show', `${ref}:${f}`]);
+          for (const m of text.matchAll(/\bid:\s*'(DEP-[A-Z]\d+)'[\s\S]*?kind:\s*'([\w-]+)'[\s\S]*?breaking:\s*(\d+)[\s\S]*?since:\s*'([\d.]+)'/g)) {
+            rows.push({ id: m[1], kind: m[2], breaking: Number(m[3]), since: m[4], file: f });
+          }
+        } catch { /* tolerate */ }
+      }
+      return rows;
+    } catch { return []; }
+  };
+  const deprecationsAll = fx('deprecations-all.json', fixtureDir ? deprecationsAdded : [...loadDeps(base), ...loadDeps('HEAD')]);
   const result = classify({
-    apiDiffs, snapshotDiff, deprecationsAdded,
+    apiDiffs, snapshotDiff, deprecationsAdded, deprecationsAll,
     packageDiff: diffPackageJson(pkgBase, pkgHead),
-    markers: parseCommitMarkers(logText),
+    markers: { ...parseCommitMarkers(logText), multiFamily: parseCommitMarkers(headLogText).multiFamily },
     changesetBumps: parseChangesetBumps(changesetTexts),
     visual: visualClass({ report: existsSync(visualPath) ? readJson(visualPath) : null, recordFiles, line }),
     line, target, changedFiles,

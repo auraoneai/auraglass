@@ -189,6 +189,45 @@ export interface GlassCommandPaletteProps
  * GlassCommandPalette component
  * Modal command palette with search, keyboard navigation, and glassmorphism styling
  */
+/**
+ * PLAT-106/107 — exported for RuleTester-style coverage. Fuzzy mode escapes
+ * each query character before join(".*"), so any regex metacharacter
+ * ([*+?\^$|{}()[]) can neither throw nor widen the match.
+ */
+export const filterCommandItem = (
+  item: CommandItem,
+  searchTerm: string,
+  fuzzySearch: boolean
+): boolean => {
+  if (!searchTerm) return true;
+
+  const normalizedSearch = searchTerm.toLowerCase();
+  const label = item?.label.toLowerCase();
+  const description = (item?.description || "").toLowerCase();
+  const keywords = (item?.keywords || []).join(" ").toLowerCase();
+
+  if (fuzzySearch) {
+    const searchRegex = new RegExp(
+      normalizedSearch
+        .split("")
+        .map((c) => c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+        .join(".*"),
+      "i"
+    );
+    return (
+      searchRegex.test(label) ||
+      searchRegex.test(description) ||
+      searchRegex.test(keywords)
+    );
+  }
+  return (
+    label.includes(normalizedSearch) ||
+    description.includes(normalizedSearch) ||
+    keywords.includes(normalizedSearch)
+  );
+};
+
+/** @deprecated GlassCommandPalette DEP-S0021 since 4.2.0, removed in 5.0.0. {@link CommandPalette from aura-glass} */
 export const GlassCommandPalette = forwardRef<
   HTMLDivElement,
   GlassCommandPaletteProps
@@ -287,37 +326,8 @@ export const GlassCommandPalette = forwardRef<
     }, [items, groups]);
 
     // Default filter function
-    const defaultFilter = (item: CommandItem, searchTerm: string): boolean => {
-      if (!searchTerm) return true;
-
-      const normalizedSearch = searchTerm.toLowerCase();
-      const label = item?.label.toLowerCase();
-      const description = (item?.description || "").toLowerCase();
-      const keywords = (item?.keywords || []).join(" ").toLowerCase();
-
-      if (fuzzySearch) {
-        // Simple fuzzy search implementation — escape regex metacharacters
-        // per query character so e.g. "(" cannot throw or widen the match.
-        const searchRegex = new RegExp(
-          normalizedSearch
-            .split("")
-            .map((c) => c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-            .join(".*"),
-          "i"
-        );
-        return (
-          searchRegex.test(label) ||
-          searchRegex.test(description) ||
-          searchRegex.test(keywords)
-        );
-      } else {
-        return (
-          label.includes(normalizedSearch) ||
-          description.includes(normalizedSearch) ||
-          keywords.includes(normalizedSearch)
-        );
-      }
-    };
+    const defaultFilter = (item: CommandItem, searchTerm: string): boolean =>
+      filterCommandItem(item, searchTerm, fuzzySearch);
 
     // Filter and sort items
     const filteredItems = useMemo(() => {

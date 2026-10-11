@@ -33,6 +33,7 @@ export interface KpiChartProps {
   "data-testid"?: string;
 }
 
+/** @deprecated KpiChart DEP-S0240 since 4.2.0, removed in 5.0.0. */
 export const KpiChart: React.FC<KpiChartProps> = ({
   kpi,
   animation,

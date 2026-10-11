@@ -29,6 +29,8 @@ const storyFrame = {
   boxSizing: "border-box" as const,
 };
 
+
+/** @deprecated HoudiniGlassCard DEP-M0846 since 4.2.0, removed in 5.0.0. */
 export const HoudiniGlassCard: Story = {
   args: {
     children: null,

@@ -26,6 +26,7 @@ export interface GlassMetricChipProps {
   className?: string;
 }
 
+/** @deprecated GlassMetricChip DEP-S0213 since 4.2.0, removed in 5.0.0. {@link Chip from aura-glass/data} */
 export function GlassMetricChip({
   label = "Metric",
   value = "--",
@@ -45,7 +46,11 @@ export function GlassMetricChip({
       )}
       style={metricChipSurfaceStyle}
     >
-      {icon && <span className="glass-opacity-80" aria-hidden="true">{icon}</span>}
+      {icon && (
+        <span className="glass-opacity-80" aria-hidden="true">
+          {icon}
+        </span>
+      )}
       <ContrastGuard>
         <span className="glass-text-xs glass-text-primary-opacity-70">
           {label}
@@ -54,7 +59,9 @@ export function GlassMetricChip({
       <ContrastGuard>
         <span
           className="glass-font-semibold"
-          style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+          style={{
+            color: "var(--glass-theme-text, var(--glass-text-primary))",
+          }}
           aria-label={intentLabel ? `${value}, ${intentLabel}` : undefined}
         >
           {value}
@@ -64,7 +71,10 @@ export function GlassMetricChip({
         <ContrastGuard>
           <span
             className="glass-text-xs"
-            style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}
+            style={{
+              color:
+                "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+            }}
           >
             {delta}
           </span>

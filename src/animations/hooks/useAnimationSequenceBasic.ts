@@ -37,6 +37,7 @@ export interface AnimationSequenceState {
   totalDuration: number;
 }
 
+/** @deprecated useAnimationSequence DEP-M0869 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion sequencing} */
 export function useAnimationSequence(
   steps: AnimationStep[],
   config: AnimationSequenceConfig = {}

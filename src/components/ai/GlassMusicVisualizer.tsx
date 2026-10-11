@@ -142,6 +142,8 @@ const readableGlassTextStyle: React.CSSProperties = {
   color: "var(--glass-theme-text, var(--glass-text-primary))",
 } as React.CSSProperties;
 
+/** @deprecated GlassMusicVisualizer DEP-S0417 since 4.2.0, removed in 5.0.0. {@link none until 5.1 (Waveform)} */
+/** @deprecated GlassMusicVisualizer DEP-S0623 since 4.2.0, removed in 5.0.0. {@link no successor until 5.1 (Waveform)} */
 export const GlassMusicVisualizer = forwardRef<
   HTMLDivElement,
   GlassMusicVisualizerProps
@@ -787,8 +789,8 @@ export const GlassMusicVisualizer = forwardRef<
             "glass-text-primary glass-radius-lg glass-transition-colors",
             compact ? "glass-p-1.5 glass-text-xs" : "glass-p-2"
           )}
-          whileHover={shouldAnimate ? { scale: 1.1 } : {}}
-          whileTap={shouldAnimate ? { scale: 0.9 } : {}}
+          whileHover={shouldAnimate ? { scale: 1.1 } : undefined}
+          whileTap={shouldAnimate ? { scale: 0.9 } : undefined}
           onClick={isPlaying ? handlePause : handlePlay}
           style={{
             color: "var(--glass-theme-text, var(--glass-text-primary))",
@@ -807,8 +809,8 @@ export const GlassMusicVisualizer = forwardRef<
             "glass-text-primary glass-radius-lg glass-transition-colors",
             compact ? "glass-p-1.5 glass-text-xs" : "glass-p-2"
           )}
-          whileHover={shouldAnimate ? { scale: 1.1 } : {}}
-          whileTap={shouldAnimate ? { scale: 0.9 } : {}}
+          whileHover={shouldAnimate ? { scale: 1.1 } : undefined}
+          whileTap={shouldAnimate ? { scale: 0.9 } : undefined}
           onClick={handleStop}
           style={{
             color: "var(--glass-theme-text, var(--glass-text-primary))",

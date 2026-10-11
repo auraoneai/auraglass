@@ -125,6 +125,7 @@ const readableGlassTextStyle = {
   color: "var(--glass-theme-text, var(--glass-text-primary))",
 } as React.CSSProperties;
 
+/** @deprecated GlassGenerativeArt DEP-S0414 since 4.2.0, removed in 5.0.0. {@link none until 5.1 — generative-art surfaces are deferred} */
 export const GlassGenerativeArt = forwardRef<
   HTMLDivElement,
   GlassGenerativeArtProps
@@ -430,7 +431,7 @@ export const GlassGenerativeArt = forwardRef<
             <motion.div
               key={suggestion.id}
               className="glass-p-3 glass-radius-lg glass-border glass-border-white/20 hover:glass-border-white/40 glass-surface-subtle/5 glass-cursor-pointer glass-transition-colors"
-              whileHover={shouldAnimate ? { scale: 1.01 } : {}}
+              whileHover={shouldAnimate ? { scale: 1.01 } : undefined}
               onClick={() => {
                 setCurrentPrompt(suggestion.text);
                 onPromptChange?.(suggestion.text);
@@ -718,8 +719,8 @@ export const GlassGenerativeArt = forwardRef<
 
             <motion.button
               className="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-font-medium glass-transition-colors disabled:glass-opacity-50"
-              whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-              whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+              whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
+              whileTap={shouldAnimate ? { scale: 0.98 } : undefined}
               onClick={() => generateArt(currentPrompt)}
               disabled={isGenerating || !currentPrompt.trim()}
             >
@@ -767,7 +768,7 @@ export const GlassGenerativeArt = forwardRef<
                 <motion.div
                   key={index}
                   className="glass-relative glass-aspect-square glass-radius-lg glass-overflow-hidden glass-surface-subtle/10 glass-group glass-cursor-pointer"
-                  whileHover={shouldAnimate ? { scale: 1.02 } : {}}
+                  whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
                   initial={
                     prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }
                   }

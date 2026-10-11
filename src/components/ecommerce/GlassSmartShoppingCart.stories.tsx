@@ -90,10 +90,14 @@ const renderCart = (items: CartItem[]) => (
   </EcommerceProvider>
 );
 
+
+/** @deprecated GlassSmartShoppingCart DEP-S0804 since 4.2.0, removed in 5.0.0. {@link the commerce-cart registry block (5.1): controlled cart UI with no baked-in business logic} */
 export const GlassSmartShoppingCart: Story = {
   render: () => renderCart(representativeItems),
 };
 
+
+/** @deprecated SmartShoppingCart DEP-S0802 since 4.2.0, removed in 5.0.0. {@link GlassSmartShoppingCart until 5.0, then the commerce-cart registry block (5.1)} */
 export const SmartShoppingCart: Story = {
   render: () => renderCart([]),
 };

@@ -30,8 +30,8 @@ const posterSvg = [
   '<rect width="1280" height="720" fill="url(#canvas)"/>',
   '<circle cx="640" cy="350" r="92" fill="rgba(255,255,255,0.32)" stroke="rgba(255,255,255,0.72)" stroke-width="3"/>',
   '<path d="M620 300 700 350 620 400Z" fill="#0f172a"/>',
-  '<text x="84" y="112" font-family="Aeonik,Arial,sans-serif" font-size="52" font-weight="700" fill="#0f172a">AuraGlass Studio</text>',
-  '<text x="88" y="164" font-family="Aeonik,Arial,sans-serif" font-size="25" fill="#334155">A deterministic media preview</text>',
+  '<text x="84" y="112" font-family="system-ui,Arial,sans-serif" font-size="52" font-weight="700" fill="#0f172a">AuraGlass Studio</text>',
+  '<text x="88" y="164" font-family="system-ui,Arial,sans-serif" font-size="25" fill="#334155">A deterministic media preview</text>',
   '<rect x="84" y="618" width="1112" height="12" rx="6" fill="rgba(15,23,42,0.12)"/>',
   '<rect x="84" y="618" width="428" height="12" rx="6" fill="rgba(15,23,42,0.72)"/>',
   "</svg>",
@@ -59,6 +59,8 @@ const stageStyle: CSSProperties = {
   width: "100%",
 };
 
+
+/** @deprecated GlassAdvancedVideoPlayer DEP-S0619 since 4.2.0, removed in 5.0.0. {@link the media-video-player registry item} */
 export const GlassAdvancedVideoPlayer: Story = {
   name: "GlassAdvancedVideoPlayer",
   args: {

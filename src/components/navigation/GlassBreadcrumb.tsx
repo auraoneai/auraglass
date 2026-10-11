@@ -101,6 +101,7 @@ export interface GlassBreadcrumbLinkProps
  * GlassBreadcrumb component
  * A glassmorphism breadcrumb navigation component
  */
+/** @deprecated GlassBreadcrumb DEP-S0019 since 4.2.0, removed in 5.0.0. {@link Breadcrumbs from aura-glass} */
 export const GlassBreadcrumb = forwardRef<HTMLElement, GlassBreadcrumbProps>(
   (
     {

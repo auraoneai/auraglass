@@ -3,7 +3,11 @@
 import React, { createContext, useContext, useMemo } from "react";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 
-export type LiquidGlassPerformanceLevel = "ultra" | "high" | "balanced" | "efficient";
+export type LiquidGlassPerformanceLevel =
+  | "ultra"
+  | "high"
+  | "balanced"
+  | "efficient";
 export type LiquidGlassVariant = "regular" | "clear";
 
 export interface LiquidGlassLayerContextValue {
@@ -37,6 +41,7 @@ export interface LiquidGlassLayerProviderProps {
   insideEffectGroup?: boolean;
 }
 
+/** @deprecated LiquidGlassLayerProvider DEP-M0815 since 4.2.0, removed in 5.0.0. {@link the 5.x nested-materials rule and dev layer counter} */
 export function LiquidGlassLayerProvider({
   children,
   variant,
@@ -77,6 +82,7 @@ export function LiquidGlassLayerProvider({
   );
 }
 
+/** @deprecated LiquidGlassSurfaceLayer DEP-M0816 since 4.2.0, removed in 5.0.0. {@link the 5.x nested-materials rule and dev layer counter} */
 export function LiquidGlassSurfaceLayer({
   children,
   variant,
@@ -111,6 +117,7 @@ export function LiquidGlassSurfaceLayer({
   );
 }
 
+/** @deprecated useLiquidGlassLayer DEP-M0817 since 4.2.0, removed in 5.0.0. {@link the 5.x nested-materials rule and dev layer counter} */
 export function useLiquidGlassLayer() {
   return useContext(LiquidGlassLayerContext);
 }
