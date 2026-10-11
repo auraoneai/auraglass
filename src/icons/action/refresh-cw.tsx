@@ -9,4 +9,4 @@ const refresh: IconNode[] = [
 ];
 
 export const RefreshCwIcon = /*#__PURE__*/ createIcon('RefreshCw', refresh);
-export const RefreshIcon = /*#__PURE__*/ RefreshCwIcon;
+export const RefreshIcon = RefreshCwIcon;

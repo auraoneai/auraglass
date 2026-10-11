@@ -1,4 +1,4 @@
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Values: archived MOT §4.2 (decided). */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Values: archived MOT §4.2 (decided). */
 export type MotionPreference = 'full' | 'calm' | 'none';
 export type DurationName = 'instant' | 'micro' | 'small' | 'medium' | 'large';
 export type EaseName = 'standard' | 'emphasized' | 'emphasized-decelerate' | 'accelerate';
