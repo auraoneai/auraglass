@@ -2,8 +2,10 @@
 /* TreeView<T> (SURF-201, REQ-SURF-81..83): React Aria Components Tree.
    items + getKey/getChildren/getTextValue, or static TreeView.Item children;
    controlled/uncontrolled selection + expansion; loadChildren sets aria-busy;
-   preset 'files' swaps decorative icons; virtualize uses the internal
-   VirtualList for flat rendering of the visible slice. */
+   preset 'files' swaps decorative icons; virtualize wraps the RAC Tree in a
+   RAC <Virtualizer layout={ListLayout}> so only the visible slice of the
+   expanded tree is in the DOM (REQ-SURF-83). Roles come from
+   ./treeSemantics (OD-20 default: treegrid). */
 import * as React from 'react';
 import { ChevronRightIcon } from '../../icons/navigation/chevron-right';
 import { FolderIcon } from '../../icons/navigation/folder';
@@ -15,7 +17,29 @@ import {
   TreeItem as RACTreeItem,
   TreeItemContent as RACTreeItemContent,
   Collection,
+  ListLayout,
+  Rect,
+  Virtualizer,
+  useLocale,
 } from 'react-aria-components';
+import { TREE_ITEM_SELECTOR } from './treeSemantics';
+
+/** REQ-SURF-83: fixed row height the virtualizer lays rows out at (px). */
+const DEFAULT_VIRTUAL_ROW_HEIGHT = 32;
+
+/* RAC ListLayout has no overscan option: widen the visible rect by
+   `overscan` rows on both sides before asking for the visible layout infos. */
+function createTreeLayout(rowHeight: number, overscan: number): ListLayout<unknown> {
+  class OverscanListLayout extends ListLayout<unknown> {
+    override getVisibleLayoutInfos(rect: Rect) {
+      if (overscan <= 0) return super.getVisibleLayoutInfos(rect);
+      const extra = overscan * rowHeight;
+      const y = Math.max(0, rect.y - extra);
+      return super.getVisibleLayoutInfos(new Rect(rect.x, y, rect.width, rect.height + (rect.y - y) + extra));
+    }
+  }
+  return new OverscanListLayout({ rowHeight });
+}
 
 export interface TreeItemData {
   [key: string]: unknown;
@@ -46,6 +70,11 @@ export interface TreeViewBaseProps<T extends TreeItemData> {
   renderItem?: ((item: T, state: { level: number; isExpanded: boolean; isSelected: boolean; hasChildren: boolean }) => React.ReactNode) | undefined;
   loadChildren?: ((item: T) => Promise<T[]>) | undefined;
   preset?: 'default' | 'files' | undefined;
+  /** REQ-SURF-83: render only the visible rows. `estimateRowHeight` is the
+      fixed row height in px the rows are laid out at (default 32);
+      `overscan` adds that many rows above and below the viewport (default 0).
+      The tree becomes its own scroll container and fills its parent's
+      block size, so give the parent a height. */
   virtualize?: boolean | { estimateRowHeight?: number; overscan?: number } | undefined;
   /** Localised strings (chevron names). */
   labels?: TreeViewLabels | undefined;
@@ -86,6 +115,17 @@ export function TreeView<T extends TreeItemData>({
 }: TreeViewProps<T>) {
   const chevronExpand = labels?.expand ?? 'Expand';
   const chevronCollapse = labels?.collapse ?? 'Collapse';
+  const { direction } = useLocale();
+  const virtualRowHeight =
+    typeof virtualize === 'object' && virtualize.estimateRowHeight !== undefined ? virtualize.estimateRowHeight : DEFAULT_VIRTUAL_ROW_HEIGHT;
+  const virtualOverscan = typeof virtualize === 'object' && virtualize.overscan !== undefined ? virtualize.overscan : 0;
+  const isVirtual = virtualize !== undefined && virtualize !== false;
+  // One layout instance per (row height, overscan); RAC's Virtualizer keeps
+  // it for its lifetime.
+  const layout = React.useMemo(
+    () => (isVirtual ? createTreeLayout(virtualRowHeight, virtualOverscan) : null),
+    [isVirtual, virtualRowHeight, virtualOverscan],
+  );
   if (process.env['NODE_ENV'] === 'development' && ariaLabel === undefined && ariaLabelledBy === undefined) {
     console.warn('[auraglass] TreeView: aria-label or aria-labelledby is required.');
   }
@@ -182,10 +222,105 @@ export function TreeView<T extends TreeItemData>({
     );
   };
 
-  return (
+  const applyExpanded = (next: Set<React.Key>) => {
+    // SURF-081: lazy-load on expand — an expandable item with no
+    // children yet fires loadChildren and holds aria-busy until it lands.
+    if (loadChildren !== undefined) {
+      for (const k of next) {
+        if (prevExpanded.current.has(k) || loadedChildren.current.has(k)) continue;
+        const item = flatRef.current.get(k);
+        if (item === undefined) continue;
+        if (childrenOf(item) !== undefined && (childrenOf(item) as readonly T[]).length > 0) continue;
+        setLoadingKeys((prev) => new Set(prev).add(k));
+        void loadChildren(item).then((kids2) => {
+          loadedChildren.current.set(k, kids2);
+          setLoadingKeys((prev) => {
+            const n = new Set(prev);
+            n.delete(k);
+            return n;
+          });
+          forceRender();
+        });
+      }
+    }
+    prevExpanded.current = next;
+    if (expandedKeys === undefined) setInternalExpanded(next);
+    onExpandedChange?.(next);
+  };
+
+  const kidsOf = (item: T): readonly T[] | undefined => childrenOf(item) ?? loadedChildren.current.get(keyOf(item, 0));
+
+  /* Data-driven lookup of an item's sibling list (the parent's children, or
+     the root items). Walks the data, not the DOM, so it also works when the
+     virtualizer has not rendered every sibling. */
+  const siblingsOf = (key: string): readonly T[] | undefined => {
+    if (items === undefined) return undefined;
+    const stack: Array<readonly T[]> = [items];
+    while (stack.length > 0) {
+      const list = stack.pop() as readonly T[];
+      for (const it of list) {
+        if (String(keyOf(it, 0)) === key) return list;
+        const k = kidsOf(it);
+        if (k !== undefined && k.length > 0) stack.push(k);
+      }
+    }
+    return undefined;
+  };
+
+  const currentExpanded = (): Set<React.Key> =>
+    new Set(expandedKeys !== undefined ? (expandedKeys as Iterable<React.Key>) : internalExpanded);
+
+  /* REQ-SURF-82: the two APG tree keys RAC's Tree does not implement.
+     - Right on an expanded parent row moves focus to its first child (RAC
+       would move focus into the row's chevron button instead).
+     - '*' expands every expandable sibling of the focused item.
+     Everything else (Up/Down, Home/End, Left collapse/parent, Right expand,
+     type-ahead, Enter action, Space selection) is RAC's. */
+  const onTreeKeyDownCapture = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (items === undefined || e.altKey || e.ctrlKey || e.metaKey) return;
+    const target = e.target as HTMLElement;
+    if (!target.matches(TREE_ITEM_SELECTOR)) return;
+    const key = target.getAttribute('data-key');
+    if (key === null) return;
+    if (e.key === '*') {
+      const siblings = siblingsOf(key);
+      if (siblings === undefined) return;
+      const next = currentExpanded();
+      let changed = false;
+      for (const s of siblings) {
+        const k = kidsOf(s);
+        const expandable = (k !== undefined && k.length > 0) || loadChildren !== undefined;
+        if (expandable && !next.has(keyOf(s, 0))) {
+          next.add(keyOf(s, 0));
+          changed = true;
+        }
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      if (changed) applyExpanded(next);
+      return;
+    }
+    const expandKey = direction === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
+    if (e.key === expandKey && target.getAttribute('aria-expanded') === 'true') {
+      const parent = siblingsOf(key)?.find((s) => String(keyOf(s, 0)) === key);
+      const first = parent !== undefined ? kidsOf(parent)?.[0] : undefined;
+      if (first === undefined) return;
+      const firstKey = String(keyOf(first, 0));
+      const tree = target.closest('[data-ag-part="tree-view"]');
+      const row = [...(tree?.querySelectorAll<HTMLElement>(TREE_ITEM_SELECTOR) ?? [])].find(
+        (r) => r.getAttribute('data-key') === firstKey,
+      );
+      if (row === undefined) return;
+      e.preventDefault();
+      e.stopPropagation();
+      row.focus();
+    }
+  };
+
+  const tree = (
     <RACTree
       data-ag-part="tree-view"
-      className={`ag-tree ag-tree--${preset}${className ? ` ${className}` : ''}`}
+      className={`ag-tree ag-tree--${preset}${layout !== null ? ' ag-tree--virtual' : ''}${className ? ` ${className}` : ''}`}
       selectionMode={selectionMode}
       dependencies={deps}
       {...(items !== undefined ? { items: items as T[] } : {})}
@@ -195,32 +330,7 @@ export function TreeView<T extends TreeItemData>({
       {...(expandedKeys !== undefined ? { expandedKeys: expandedKeys as Iterable<import('react-aria-components').Key> } : {})}
       {...(defaultExpandedKeys !== undefined ? { defaultExpandedKeys: defaultExpandedKeys as Iterable<import('react-aria-components').Key> } : {})}
       {...((expandedKeys === undefined ? { expandedKeys: internalExpanded as Iterable<import('react-aria-components').Key> } : {}))}
-      onExpandedChange={(s) => {
-        const next = new Set(s as Set<React.Key>);
-        // SURF-081: lazy-load on expand — an expandable item with no
-        // children yet fires loadChildren and holds aria-busy until it lands.
-        if (loadChildren !== undefined) {
-          for (const k of next) {
-            if (prevExpanded.current.has(k) || loadedChildren.current.has(k)) continue;
-            const item = flatRef.current.get(k);
-            if (item === undefined) continue;
-            if (childrenOf(item) !== undefined && (childrenOf(item) as readonly T[]).length > 0) continue;
-            setLoadingKeys((prev) => new Set(prev).add(k));
-            void loadChildren(item).then((kids2) => {
-              loadedChildren.current.set(k, kids2);
-              setLoadingKeys((prev) => {
-                const n = new Set(prev);
-                n.delete(k);
-                return n;
-              });
-              forceRender();
-            });
-          }
-        }
-        prevExpanded.current = next;
-        if (expandedKeys === undefined) setInternalExpanded(next);
-        onExpandedChange?.(next);
-      }}
+      onExpandedChange={(s) => applyExpanded(new Set(s as Set<React.Key>))}
       {...(disabledKeys !== undefined ? { disabledKeys: disabledKeys as Iterable<import('react-aria-components').Key> } : {})}
       {...(onAction !== undefined ? { onAction: (k) => onAction(k) } : {})}
       {...(ariaLabel !== undefined ? { 'aria-label': ariaLabel } : {})}
@@ -228,6 +338,14 @@ export function TreeView<T extends TreeItemData>({
     >
       {items !== undefined ? (item: T) => renderTreeItem(item, 1) : children}
     </RACTree>
+  );
+
+  // The host only exists to see key events before RAC's row handlers (RAC
+  // Tree forwards no keyboard props); display:contents keeps it out of layout.
+  return (
+    <div style={{ display: 'contents' }} onKeyDownCapture={onTreeKeyDownCapture}>
+      {layout !== null ? <Virtualizer layout={layout}>{tree}</Virtualizer> : tree}
+    </div>
   );
 }
 

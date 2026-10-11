@@ -26,4 +26,19 @@
   }
   .ag-tree__chevron-glyph--open { rotate: 90deg; }
   .ag-tree__chevron-glyph:dir(rtl):not(.ag-tree__chevron-glyph--open) { scale: -1 1; }
+  /* REQ-SURF-83: virtualized tree = its own scroll container filling the
+     parent's block size; rows are absolutely laid out by the RAC
+     Virtualizer at the fixed row height, so they carry no block padding. */
+  .ag-tree--virtual {
+    display: block;
+    block-size: 100%;
+    overflow: auto;
+  }
+  .ag-tree--virtual .ag-tree__item {
+    box-sizing: border-box;
+    block-size: 100%;
+    display: flex;
+    align-items: center;
+    padding-block: 0;
+  }
 }
