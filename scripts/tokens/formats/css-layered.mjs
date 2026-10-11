@@ -73,19 +73,9 @@ export async function emitTokensCss(cells, axisDefs, records, resolved) {
   assertAcyclic(new Map(Object.entries(SHADCN_MAP).map(([sh, ag]) => [ag, [sh]])), 'shadcn-source');
   assertAcyclic(new Map(Object.entries(SHADCN_MAP).map(([sh, ag]) => [sh, [ag]])), 'default');
 
-  // preset emission: [data-ag-theme=<id>] blocks may only override --ag-* vars (guard)
-  const presetDecls = new Map();
-  for (const rec of records.values()) {
-    if (!rec.name.startsWith('preset.') || rec.type !== 'theme-preset') continue;
-    const id = rec.name.split('.')[1];
-    const v = resolved.get(rec.name);
-    const decls = [
-      `    --ag-color-canvas: light-dark(${colorToCss(v.canvas.light)}, ${colorToCss(v.canvas.dark)});`,
-      `    --ag-color-accent: ${colorToCss(v.accent)};`,
-    ];
-    if (decls.some((d) => /--_ag-/.test(d))) die(`${rec.name}: preset/theme output contains --_ag-*`);
-    presetDecls.set(id, decls);
-  }
+  // presets (MAT-14): `data-ag-theme` is not in AG_ATTRIBUTES until OD-16 C-2
+  // lands, so no preset block is emitted here. Presets ship as cssText scoped to
+  // [data-ag-root] in src/tokens/generated/presets.ts (formats/preset-css.mjs).
 
   const parts = [HEADER_CSS, '', LAYER_ORDER, '', '@layer ag.tokens {', '  :root {', '    color-scheme: light dark;', '    --_ag-target: var(--ag-target-min);', ...base, '  }'];
 
@@ -101,6 +91,7 @@ export async function emitTokensCss(cells, axisDefs, records, resolved) {
 
   // axis blocks: attribute selectors + media mirrors on :root:not([data-ag-<axis>])
   for (const axis of AXIS_ORDER) {
+    if (axis === 'preset') continue; // see "presets (MAT-14)" above
     const def = axisDefs[axis];
     if (!def) continue;
     for (const axisValue of def.values) {
@@ -119,9 +110,6 @@ export async function emitTokensCss(cells, axisDefs, records, resolved) {
       }
     }
   }
-
-  for (const [id, decls] of presetDecls)
-    parts.push('', `  [data-ag-theme="${id}"] {`, ...decls, '  }');
 
   // shadcn bridge emission (inside @layer ag.tokens)
   parts.push(

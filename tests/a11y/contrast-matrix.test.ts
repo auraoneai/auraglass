@@ -13,6 +13,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import postcss from 'postcss';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
+import { presetCssText } from '../../src/tokens/generated/presets';
 import {
   compositeOver, hexToRgb, oklchToSrgb, parseColor, wcagContrast,
 } from '../../src/theme/color';
@@ -73,18 +74,18 @@ const decls = (selectorFilter: (sel: string) => boolean): Map<string, string> =>
 // Resolved token values live in @layer ag.tokens :root. (The shadcn interop
 // blocks re-map --ag-* names to var(--…) indirections — do not read those.)
 const globalDecls = decls((s) => s === ':root' || s === ':where(:root)');
+// Preset canvases: OD-16 C-2 fallback — presets ship as generated cssText
+// scoped to [data-ag-root] (no [data-ag-theme] in dist), so read them there.
 const presetDecls = new Map<string, Map<string, string>>();
-postcss.parse(TOKENS_CSS).walkRules((rule) => {
-  const m = /^\[data-ag-theme="([^"]+)"\](?::where\(html&\))?$/.exec(rule.selector.trim());
-  if (!m) return;
-  const bag = presetDecls.get(m[1]!) ?? new Map<string, string>();
-  rule.walkDecls((d) => {
-    const prev = bag.get(d.prop);
-    if (prev === undefined || (d.value.includes('light-dark(') && !prev.includes('light-dark(')))
-      bag.set(d.prop, d.value);
+for (const [id, css] of Object.entries(presetCssText)) {
+  const bag = new Map<string, string>();
+  postcss.parse(css).each((node) => {
+    if (node.type !== 'rule' || node.selector !== '[data-ag-root]') return;
+    node.walkDecls((d) => void bag.set(d.prop, d.value));
   });
-  presetDecls.set(m[1]!, bag);
-});
+  if (!bag.has('--ag-color-canvas')) throw new Error(`preset ${id}: cssText has no --ag-color-canvas`);
+  presetDecls.set(id, bag);
+}
 
 const SRGB_CACHE = new Map<string, { r: number; g: number; b: number; alpha?: number }>();
 const toSrgb = (cssColor: string) => {
@@ -105,7 +106,7 @@ const sysColor = (name: string, scheme: Scheme) => {
   return toSrgb(scheme === 'light' ? ld.light : ld.dark);
 };
 const canvasOf = (preset: string, scheme: Scheme) => {
-  const v = presetDecls.get(preset)?.get('--ag-color-canvas') ?? globalDecls.get('--ag-color-canvas');
+  const v = presetDecls.get(preset)?.get('--ag-color-canvas');
   if (!v) throw new Error(`PRD-03 output missing: canvas for ${preset}`);
   const ld = parseLightDark(v);
   return toSrgb(scheme === 'light' ? ld.light : ld.dark);
