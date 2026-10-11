@@ -53,6 +53,7 @@ export function MessageRoot({
   return (
     <article
       ref={ref}
+      id={`ag-msg-${message.id}`}
       aria-labelledby={headingId}
       data-ag-part="message"
       data-role={message.role}

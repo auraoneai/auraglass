@@ -110,4 +110,56 @@ describe('VirtualList (SURF-150/256, I-1)', () => {
     unmount();
     jest.useRealTimers();
   });
+
+  describe('getScrollElement (REQ-SURF-109)', () => {
+    function External(props: Partial<VirtualListProps<string>> & { ref?: React.Ref<VirtualListHandle> | undefined }) {
+      const ref = React.useRef<HTMLDivElement | null>(null);
+      return (
+        <div ref={ref} data-testid="scroller">
+          <List getScrollElement={() => ref.current} style={undefined} {...props} />
+        </div>
+      );
+    }
+
+    it('renders no scroll container of its own and windows against the ancestor', () => {
+      const { getByTestId } = render(<External />);
+      const scroller = getByTestId('scroller');
+      const list = scroller.firstElementChild as HTMLElement;
+      expect(list.getAttribute('role')).toBe('list');
+      expect(list.style.overflow).toBe('');
+      expect(list.style.height).toBe(`${500 * ITEM}px`);
+      expect([...scroller.querySelectorAll<HTMLElement>('*')].filter((el) => el.style.overflow !== '')).toEqual([]);
+      const rendered = scroller.querySelectorAll('[data-index]');
+      expect(rendered.length).toBeGreaterThan(0);
+      expect(rendered.length).toBeLessThanOrEqual(Math.ceil(VIEWPORT / ITEM) + 6 * 2 + 1);
+    });
+
+    it('onEndReached listens on the ancestor scroller, once per crossing', () => {
+      const onEnd = jest.fn();
+      const { getByTestId } = render(<External onEndReached={onEnd} />);
+      const scroller = getByTestId('scroller');
+      let top = 0;
+      Object.defineProperties(scroller, {
+        scrollHeight: { configurable: true, value: 500 * ITEM },
+        scrollTop: { configurable: true, get: () => top, set: (v: number) => { top = v; } },
+      });
+      act(() => { scroller.dispatchEvent(new Event('scroll')); }); // top: re-arms
+      onEnd.mockClear();
+      top = 500 * ITEM - VIEWPORT - 50;
+      act(() => { scroller.dispatchEvent(new Event('scroll')); });
+      act(() => { scroller.dispatchEvent(new Event('scroll')); });
+      expect(onEnd).toHaveBeenCalledTimes(1);
+    });
+
+    it('scrollToKey scrolls the ancestor to the row offset', () => {
+      const ref = React.createRef<VirtualListHandle>();
+      const { getByTestId } = render(<External ref={ref as never} />);
+      const scroller = getByTestId('scroller');
+      Object.defineProperty(scroller, 'scrollHeight', { configurable: true, value: 500 * ITEM });
+      const scrollTo = jest.fn();
+      (scroller as unknown as { scrollTo: typeof scrollTo }).scrollTo = scrollTo;
+      act(() => { ref.current?.scrollToKey('row-100', { align: 'start' }); });
+      expect((scrollTo.mock.calls[0]?.[0] as ScrollToOptions).top).toBe(100 * ITEM);
+    });
+  });
 });
