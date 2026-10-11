@@ -38,6 +38,9 @@ export { Timeline } from '../../../src/components/timeline/Timeline';
 export { ActivityFeed } from '../../../src/components/timeline/ActivityFeed';
 export { Pagination } from '../../../src/components/pagination/Pagination';
 export { TabBar } from '../../../src/components/tab-bar/TabBar';
+// W1 root export (src/root/surf.ts) — composed by ai-artifact-panel and
+// app-shell-workspace; real source, not doubled.
+export { Tabs } from '../../../src/components/tabs/Tabs';
 
 export const Checkbox = ({ 'aria-label': ariaLabel, ...p }: Record<string, unknown>) =>
   el('input', { type: 'checkbox', 'aria-label': ariaLabel, ...p });
