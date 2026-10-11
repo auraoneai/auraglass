@@ -2,8 +2,9 @@
 
 @layer ag.components {
   .ag-tree { display: grid; gap: var(--ag-space-1, 0.25rem); }
+  /* REQ-SURF-193: items carry data-ag-focusable; the MAT ring
+     (src/a11y/css/focus.css) paints on :focus-visible. */
   .ag-tree__item {
-    outline: none;
     border-radius: var(--_ag-radius-1, 0.25rem);
     padding-block: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
   }

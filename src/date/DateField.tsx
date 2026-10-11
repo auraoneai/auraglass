@@ -39,7 +39,7 @@ function Inner({ value, defaultValue, onValueChange, minValue, maxValue, isDateU
     >
       {label !== undefined && label !== null ? <RACLabel>{label}</RACLabel> : null}
       <RACDateInput data-ag-part="date-input" className="ag-date-field__input">
-        {(segment) => <RACDateSegment segment={segment} className="ag-date-field__segment" />}
+        {(segment) => <RACDateSegment data-ag-focusable="" segment={segment} className="ag-date-field__segment" />}
       </RACDateInput>
       {description !== undefined && description !== null ? (
         <RACText slot="description" className="ag-date-field__description">

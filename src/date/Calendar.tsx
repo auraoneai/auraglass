@@ -41,10 +41,10 @@ function Grid({ showWeekNumbers }: GridProps) {
               <td className="ag-calendar__weekno" role="rowheader">
                 {isoWeekNumber(new Date(date.year, date.month - 1, date.day))}
               </td>
-              <RACCalendarCell date={date} className="ag-calendar__cell" />
+              <RACCalendarCell data-ag-focusable="" date={date} className="ag-calendar__cell" />
             </>
           ) : (
-            <RACCalendarCell date={date} className="ag-calendar__cell" />
+            <RACCalendarCell data-ag-focusable="" date={date} className="ag-calendar__cell" />
           )
         }
       </RACCalendarGridBody>
@@ -55,11 +55,11 @@ function Grid({ showWeekNumbers }: GridProps) {
 function Header({ labels }: { labels?: { previous?: string | undefined; next?: string | undefined } | undefined }) {
   return (
     <header className="ag-calendar__header">
-      <RACButton slot="previous" className="ag-calendar__nav" aria-label={labels?.previous ?? 'Previous month'}>
+      <RACButton data-ag-focusable="" slot="previous" className="ag-calendar__nav" aria-label={labels?.previous ?? 'Previous month'}>
         <span aria-hidden="true">‹</span>
       </RACButton>
       <RACHeading className="ag-calendar__heading" aria-live="polite" />
-      <RACButton slot="next" className="ag-calendar__nav" aria-label={labels?.next ?? 'Next month'}>
+      <RACButton data-ag-focusable="" slot="next" className="ag-calendar__nav" aria-label={labels?.next ?? 'Next month'}>
         <span aria-hidden="true">›</span>
       </RACButton>
     </header>

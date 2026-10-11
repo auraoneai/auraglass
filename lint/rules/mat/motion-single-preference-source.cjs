@@ -1,11 +1,12 @@
 /* auraglass/motion-single-preference-source (MAT-227 REQ-MOT-63): exactly one
    preference source — src/theme/preferences (2d-P) — plus the contracted
-   compat and the motion lane's own OS floor (src/motion/ticker.ts:resolvedMotion
-   reads the media query only when no data-ag-motion attribute is set). */
+   compat. The motion runtime has no OS floor of its own (MAT-47):
+   src/motion/ticker.ts:resolvedMotion reads data-ag-motion, else the store's
+   shared media registry. */
 'use strict';
 const { norm, isTestFile } = require('./_helpers.cjs');
 
-const ALLOWED_FILES = /src\/theme\/preferences\/|src\/compat\/|src\/motion\/ticker\.ts$|src\/motion\/__tests__\//;
+const ALLOWED_FILES = /src\/theme\/preferences\/|src\/compat\/|src\/motion\/__tests__\//;
 const BANNED_IMPORTS = new Set([
   'useReducedMotion', 'useEnhancedReducedMotion', 'useMotionPreference',
   'useMotionPreferenceContext', 'MotionPreferenceContext',

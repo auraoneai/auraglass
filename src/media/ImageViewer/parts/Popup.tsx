@@ -62,6 +62,7 @@ export function Popup({ children, className }: ImageViewerPopupProps): React.Rea
       <DialogContent
         className={['ag-image-viewer', className].filter(Boolean).join(' ')}
         data-ag-part="image-viewer-popup"
+        data-ag-focusable=""
         data-ag-backdrop="media"
         role="dialog"
         aria-modal="true"

@@ -64,7 +64,7 @@ function TimeInner({
     >
       {label !== undefined && label !== null ? <RACLabel>{label}</RACLabel> : null}
       <RACDateInput data-ag-part="time-input" className="ag-date-field__input">
-        {(segment) => <RACDateSegment segment={segment} className="ag-date-field__segment" />}
+        {(segment) => <RACDateSegment data-ag-focusable="" segment={segment} className="ag-date-field__segment" />}
       </RACDateInput>
       {description !== undefined && description !== null ? (
         <RACText slot="description">{description}</RACText>
@@ -121,9 +121,10 @@ export function TimePicker({ minuteStep = 5, labels, defaultOpen = false, ...pro
         {props.label !== undefined && props.label !== null ? <RACLabel>{props.label}</RACLabel> : null}
         <RACGroup ref={triggerRef} className="ag-date-picker__group">
           <RACDateInput data-ag-part="time-input" className="ag-date-field__input">
-            {(segment) => <RACDateSegment segment={segment} className="ag-date-field__segment" />}
+            {(segment) => <RACDateSegment data-ag-focusable="" segment={segment} className="ag-date-field__segment" />}
           </RACDateInput>
           <RACButton
+            data-ag-focusable=""
             data-ag-part="time-picker-trigger"
             className="ag-date-picker__trigger"
             onPress={() => setOpen(true)}
@@ -154,7 +155,7 @@ export function TimePicker({ minuteStep = 5, labels, defaultOpen = false, ...pro
                 onAction={(k) => setPart(Number(k), undefined)}
               >
                 {(item) => (
-                  <RACListBoxItem id={item.id} textValue={item.label} className="ag-time-picker__option">
+                  <RACListBoxItem data-ag-focusable="" id={item.id} textValue={item.label} className="ag-time-picker__option">
                     {item.label}
                   </RACListBoxItem>
                 )}
@@ -168,7 +169,7 @@ export function TimePicker({ minuteStep = 5, labels, defaultOpen = false, ...pro
                 onAction={(k) => setPart(undefined, Number(k))}
               >
                 {(item) => (
-                  <RACListBoxItem id={item.id} textValue={item.label} className="ag-time-picker__option">
+                  <RACListBoxItem data-ag-focusable="" id={item.id} textValue={item.label} className="ag-time-picker__option">
                     {item.label}
                   </RACListBoxItem>
                 )}
