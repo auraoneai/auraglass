@@ -156,12 +156,24 @@ export async function emitTokensCss(cells, axisDefs, records, resolved) {
   }
   parts.push('@supports not (color: oklch(0 0 0)) {', '  :root {', ...hexDecls, '  }', '}', '');
 
-  // linear() fallback (MAT-042): springs degrade to the emphasized-decelerate curve
+  // linear() fallback (MAT-042, REQ-MAT-08): the critically damped snappy spring
+  // degrades to the standard curve; the underdamped smooth/fluid springs degrade
+  // to emphasized-decelerate. An unmapped spring name fails the build.
+  const SPRING_FALLBACK = {
+    '--ag-spring-snappy': '--ag-ease-standard',
+    '--ag-spring-smooth': '--ag-ease-emphasized-decelerate',
+    '--ag-spring-fluid': '--ag-ease-emphasized-decelerate',
+  };
   if (springVars.length) {
+    const fallbackDecls = springVars.map((v) => {
+      const ease = SPRING_FALLBACK[v];
+      if (!ease) throw new Error(`css-layered: no linear() fallback ease mapped for ${v}`);
+      return `    ${v}: var(${ease});`;
+    });
     parts.push(
       '@supports not (transition-timing-function: linear(0, 1)) {',
       '  :root {',
-      ...springVars.map((v) => `    ${v}: var(--ag-ease-emphasized-decelerate);`),
+      ...fallbackDecls,
       '  }',
       '}',
       '',
