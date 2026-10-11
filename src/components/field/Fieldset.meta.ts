@@ -14,6 +14,7 @@ const meta: ControlMeta = defineMeta({
     disabled: ['true', 'false'],
   },
   material: { layer: 'content', refractionEligible: false },
+  apg: 'none',
   budgetKb: 3,
   migration: [
     {
@@ -23,7 +24,7 @@ const meta: ControlMeta = defineMeta({
         title: 'legend',
         description: { to: 'children' },
       },
-      automation: 'mostly',
+      selectors: { '.glass-field-group': '.ag-fieldset' }, automation: 'mostly',
       compat: true,
     },
   ],

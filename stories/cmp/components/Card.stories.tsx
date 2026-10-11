@@ -23,6 +23,18 @@ export const Default: Story = {
   ),
 };
 
+export const RegularOverMedia: Story = {
+  /* REQ-CMP-113: regular variant over a media backdrop — keeps the ::before
+     blur that the default content-layer card must not have. */
+  parameters: { ag: { tier: 'standard', subject: 'Card', id: 'core-card--regular-over-media', scene: 'photo', transparency: 'glass' } },
+  render: () => (
+    <Card variant="regular">
+      <Card.Header><Card.Title>Regular over media</Card.Title></Card.Header>
+      <Card.Body>Body</Card.Body>
+    </Card>
+  ),
+};
+
 export const Interactive: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Card', id: 'core-card--interactive' } },
   render: () => (

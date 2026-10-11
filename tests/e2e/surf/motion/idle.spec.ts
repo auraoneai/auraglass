@@ -1,4 +1,5 @@
-// tests/e2e/surf/motion/idle.spec.ts — REQ-SURF-190 (REQ-FIN-90, AC-FIN-90).
+// tests/e2e/surf/motion/idle.spec.ts — REQ-SURF-190 (REQ-FIN-90, AC-FIN-90)
+// and the SURF loop-idle matrix (REQ-SURF-05: rAF suspends when hidden).
 // L9 motion lane, remote only (fragments/lanes/surf.ts W1; Playwright project
 // surf:motion in fragments/playwright/surf.json).
 //
@@ -159,5 +160,29 @@ test.describe('SURF motion idle (REQ-SURF-190)', () => {
     const idle = await probeIdle(page);
     expect(idle.running.length, `${subject.id}: injected loop not seen as running`).toBeGreaterThan(0);
     expect(idle.infiniteAnimations, `${subject.id}: injected loop not seen as infinite`).toBeGreaterThan(0);
+  });
+
+  test('every shipped SURF subject suspends rAF when hidden (REQ-SURF-05)', async ({ page }) => {
+    const subjects = await listSubjects({ owner: 'SURF' });
+    expect(subjects.length, 'no SURF subjects registered in the subject index').toBeGreaterThan(0);
+    for (const subject of subjects) {
+      await test.step(subject.id, async () => {
+        await gotoStory(page, subject.id);
+        await page.evaluate(() => {
+          (window as any).__rafCount = 0;
+          const orig = requestAnimationFrame.bind(window);
+          (window as any).requestAnimationFrame = (cb: FrameRequestCallback) =>
+            orig((t) => { (window as any).__rafCount++; cb(t); });
+        });
+        await page.evaluate(() => {
+          Object.defineProperty(document, 'visibilityState', { value: 'hidden' });
+          document.dispatchEvent(new Event('visibilitychange'));
+        });
+        const before = await page.evaluate(() => (window as any).__rafCount);
+        await page.waitForTimeout(300);
+        const after = await page.evaluate(() => (window as any).__rafCount);
+        expect(after - before, `${subject.id} kept animating while hidden`).toBeLessThanOrEqual(1);
+      });
+    }
   });
 });

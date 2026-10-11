@@ -7,10 +7,10 @@ export default defineMeta({
   tier: 'T1',
   flagship: 32,
   rsc: 'client',
-  parts: ['table', 'table-header', 'table-header-row', 'table-column-header', 'table-sort-button', 'table-body', 'table-row', 'table-cell', 'table-resize-handle', 'table-pin-button', 'table-empty', 'table-pagination', 'table-selection-checkbox', 'table-filter-input'],
+  parts: ['table-body', 'table-empty', 'table-header', 'table-header-cell', 'table-loading', 'table-resize-handle', 'table-root', 'table-row', 'table-scroller', 'table-selection-all', 'table-selection-cell', 'table-sort-trigger'],
   states: ['sorted-asc', 'sorted-desc', 'selected', 'empty', 'loading', 'resizing'],
   variants: { size: ['sm', 'md', 'lg'], mode: ['table', 'grid'] },
-  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/table/',
+  apg: 'table',
   budgetKb: 14,
   migration: [
     { from: 'GlassDataTable', props: { rows: 'data', filterable: 'enableColumnFilter', compact: 'size', selectedRows: 'rowSelection', onSelectionChange: 'onRowSelectionChange', onRowClick: 'onRowAction', emptyMessage: 'emptyState', consciousness: null }, automation: 'mostly', compat: true },
