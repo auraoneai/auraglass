@@ -47,7 +47,20 @@ describe('ci/qual.gitlab-ci.yml', () => {
   it.each(CERT_JOBS.map((j, i) => [j, i + 1] as const))('%s runs exactly LANE_COMMAND for L%i', (job, n) => {
     const script = eff(job, 'script') as string[];
     expect(script).toContain(LANE_COMMAND.replace('<id>', `L${n}`));
-    expect(script.filter((l) => l.includes('certification/run.mjs'))).toHaveLength(1);
+    expect(script.filter((l) => l.includes('certification/run.mjs') && !l.includes('--line 4x'))).toHaveLength(1);
+    // REQ-QUAL-33: L2/L3/L11 also run the 4.x tarballs at main scope, before LANE_COMMAND; no other lane runs 4.x
+    const v4 = script.filter((l) => l.includes('--line 4x'));
+    if ([2, 3, 11].includes(n)) {
+      expect(v4).toEqual([`if [ "$AG_SCOPE" = "main" ]; then node certification/run.mjs --lane L${n} --scope main --line 4x; fi`]);
+      expect(script.indexOf(v4[0]!)).toBeLessThan(script.indexOf(LANE_COMMAND.replace('<id>', `L${n}`)));
+    } else expect(v4).toEqual([]);
+  });
+
+  it('qual:certify:nightly runs L2/L3/L11 against the 4.x tarballs before the nightly matrix (REQ-QUAL-33)', () => {
+    const script = eff('qual:certify:nightly', 'script') as string[];
+    const v4 = script.indexOf('node certification/run.mjs --lane all --scope nightly --line 4x');
+    expect(v4).toBeGreaterThanOrEqual(0);
+    expect(v4).toBeLessThan(script.indexOf('node certification/run.mjs --lane all --scope nightly'));
   });
 
   it('runs L1–L4 and L12 on .ag-node and the browser lanes L5–L11 on .ag-playwright', () => {
