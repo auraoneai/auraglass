@@ -202,9 +202,9 @@ describe('css-contract: material.css structure', () => {
 
   it('emits the six public read-outs', () => {
     const names = new Set<string>();
-    ast.walkDecls(/^--ag-surface-|^--ag-on-surface/, (d) => { names.add(d.prop); });
-    for (const n of ['--ag-surface-fill', '--ag-surface-rim', '--ag-surface-shadow',
-      '--ag-surface-radius', '--ag-on-surface', '--ag-on-surface-muted']) {
+    ast.walkDecls(/^--_ag-surface-|^--ag-on-surface/, (d) => { names.add(d.prop); });
+    for (const n of ['--_ag-surface-fill', '--_ag-surface-rim', '--_ag-surface-shadow',
+      '--_ag-surface-radius', '--ag-on-surface', '--ag-on-surface-muted']) {
       expect(names.has(n)).toBe(true);
     }
   });

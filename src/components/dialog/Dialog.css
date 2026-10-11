@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-215 + CMP-189 (REQ-CMP-01/-86): Dialog sizes, placement, layout,
    emergence motion (opacity + scale .96→1 from --transform-origin over
    --ag-duration-medium, --_ag-optics ramp to 60%; calm = opacity only),
@@ -11,11 +13,11 @@
     display: flex;
     flex-direction: column;
     inline-size: 100%;
-    max-inline-size: var(--ag-dialog-w-md, 560px);
-    max-block-size: calc(100dvh - 2 * var(--ag-space-4, 16px));
-    max-block-size: calc(var(--ag-visual-viewport-height, 100dvh) - 2 * var(--ag-space-4, 16px));
-    border-radius: var(--ag-radius-xl, 20px);
-    box-shadow: var(--ag-shadow-overlay, var(--ag-shadow-thick, 0 16px 48px rgb(0 0 0 / 0.24)));
+    max-inline-size: var(--_ag-dialog-w-md, 560px);
+    max-block-size: calc(100dvh - 2 * var(--ag-space-4));
+    max-block-size: calc(var(--_ag-visual-viewport-height, 100dvh) - 2 * var(--ag-space-4));
+    border-radius: var(--ag-radius-xl);
+    box-shadow: var(--_ag-shadow-overlay, var(--ag-shadow-thick));
     color: var(--ag-on-surface);
     outline: none;
     z-index: var(--ag-z-overlay, 300);
@@ -28,8 +30,8 @@
   .ag-dialog-popup[data-ag-size='sm'] { max-inline-size: 400px; }
   .ag-dialog-popup[data-ag-size='md'] { max-inline-size: 560px; }
   .ag-dialog-popup[data-ag-size='lg'] { max-inline-size: 720px; }
-  .ag-dialog-popup[data-ag-size='xl'] { max-inline-size: 960px; }
-  .ag-dialog-popup[data-ag-size='full'] {
+  .ag-dialog-popup[data-ag-appearance='wide'] { max-inline-size: 960px; }
+  .ag-dialog-popup[data-ag-appearance='fullscreen'] {
     max-inline-size: 100dvw;
     max-block-size: 100dvh;
     inset: 0;
@@ -45,19 +47,19 @@
     opacity: 0;
     transform: scale(0.96);
     transition:
-      opacity var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease),
-      transform var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease);
+      opacity var(--ag-duration-medium) var(--ag-spring-snappy),
+      transform var(--ag-duration-medium) var(--ag-spring-snappy);
   }
   .ag-dialog-popup[data-open],
   .ag-dialog-popup[data-instant] {
     opacity: 1;
     transform: none;
     transition:
-      opacity var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease),
-      transform var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease);
+      opacity var(--ag-duration-medium) var(--ag-spring-snappy),
+      transform var(--ag-duration-medium) var(--ag-spring-snappy);
   }
   .ag-dialog-popup[data-ending-style] {
-    transition-timing-function: var(--ag-ease-accelerate, ease-in), var(--ag-ease-accelerate, ease-in);
+    transition-timing-function: var(--ag-ease-accelerate), var(--ag-ease-accelerate);
   }
 
   /* nested: parent dims while a child dialog is open */
@@ -69,23 +71,23 @@
   .ag-dialog-header,
   .ag-dialog-footer {
     flex: none;
-    padding: var(--ag-space-4, 16px);
+    padding: var(--ag-space-4);
   }
   .ag-dialog-footer {
     display: flex;
-    gap: var(--ag-space-2, 8px);
+    gap: var(--ag-space-2);
     justify-content: flex-end;
-    border-block-start: var(--ag-surface-rim, 1px) solid var(--ag-color-border, transparent);
+    border-block-start: var(--_ag-surface-rim) solid var(--ag-color-border, transparent);
   }
   .ag-dialog-body {
     flex: 1 1 auto;
     min-block-size: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: var(--ag-space-4, 16px);
+    padding: var(--ag-space-4);
     /* keep focused controls clear of the pinned header/footer (WCAG 2.4.11) */
-    scroll-padding-block-start: var(--ag-dialog-head-h, 0px);
-    scroll-padding-block-end: var(--ag-dialog-foot-h, 0px);
+    scroll-padding-block-start: var(--_ag-dialog-head-h, 0px);
+    scroll-padding-block-end: var(--_ag-dialog-foot-h, 0px);
   }
   .ag-dialog-body[data-ag-padding='none'] {
     padding: 0;
@@ -93,14 +95,14 @@
 
   .ag-dialog-title {
     margin: 0;
-    font-weight: var(--ag-font-semibold, 600);
-    font-size: var(--ag-text-lg, 1.125rem);
-    line-height: var(--ag-leading-tight, 1.25);
+    font-weight: var(--_ag-font-semibold, 600);
+    font-size: var(--_ag-text-lg, 1.125rem);
+    line-height: var(--_ag-leading-tight, 1.25);
   }
   .ag-dialog-description {
     margin: 0;
     color: var(--ag-color-on-surface-muted, currentColor);
-    font-size: var(--ag-text-sm, 0.875rem);
+    font-size: var(--_ag-text-sm, 0.875rem);
   }
 
   .ag-dialog-trigger,
@@ -109,14 +111,14 @@
   }
   .ag-dialog-close {
     position: absolute;
-    inset-block-start: var(--ag-space-3, 12px);
-    inset-inline-end: var(--ag-space-3, 12px);
+    inset-block-start: var(--ag-space-3);
+    inset-inline-end: var(--ag-space-3);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-inline-size: 24px;
     min-block-size: 24px;
-    border-radius: var(--ag-radius-sm, 6px);
+    border-radius: var(--ag-radius-sm);
     color: var(--ag-color-on-surface-muted, currentColor);
   }
   /* 44px hit area on coarse pointers via pseudo-element */
@@ -139,7 +141,7 @@
       inset-block-end: 0;
       translate: -50% 0;
       max-inline-size: 100vw;
-      max-block-size: calc(100dvh - var(--ag-space-8, 32px));
+      max-block-size: calc(100dvh - var(--ag-space-8));
       border-end-start-radius: 0;
       border-end-end-radius: 0;
     }
@@ -154,7 +156,7 @@
     .ag-dialog-popup[data-ending-style],
     .ag-dialog-popup[data-open] {
       transform: none;
-      transition: opacity var(--ag-duration-micro, 80ms) var(--ag-ease-standard, ease);
+      transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
     }
   }
   @media (forced-colors: active) {

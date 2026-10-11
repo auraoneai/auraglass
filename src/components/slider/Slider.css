@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* Slider (CMP-150/414/415): sunken track, accent range, transient thumb.
    Pointer capture + track-click jump + touch-action are BU Control behaviour;
    drag forwarding is throttled by BU internally (S-13 subscribeFrame pending MAT). */
@@ -21,12 +23,13 @@
     position: relative;
     flex: 1;
     border-radius: var(--ag-radius-full);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-sunken-alpha, 8%), transparent);
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
   }
+  /* REQ-CMP-49: track block-size sm/md/lg = 4/6/8px */
   .ag-slider[data-ag-size='sm'] [data-ag-part='track'] { block-size: var(--ag-space-1); }
   .ag-slider[data-ag-size='md'] [data-ag-part='track'],
-  .ag-slider:not([data-ag-size]) [data-ag-part='track'] { block-size: var(--ag-space-2); }
+  .ag-slider:not([data-ag-size]) [data-ag-part='track'] { block-size: calc(var(--ag-space-1) * 1.5); }
   .ag-slider[data-ag-size='lg'] [data-ag-part='track'] { block-size: var(--ag-space-2); }
 
   .ag-slider[data-orientation='vertical'] [data-ag-part='track'] {
@@ -46,27 +49,33 @@
     block-size: var(--ag-space-4);
     border-radius: var(--ag-radius-full);
     background: var(--ag-color-canvas);
-    box-shadow: var(--ag-shadow-thin), inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
+    box-shadow: var(--ag-shadow-thin), inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     /* REQ-49: never scales; dragging raises specular (MAT optics layer). */
     transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
   }
+  /* REQ-CMP-49: thumb sm/md/lg = 16/20/24px; never scales (no transform). */
   .ag-slider[data-ag-size='sm'] [data-ag-part='thumb'] {
     inline-size: var(--ag-space-4); block-size: var(--ag-space-4);
+  }
+  .ag-slider[data-ag-size='md'] [data-ag-part='thumb'],
+  .ag-slider:not([data-ag-size]) [data-ag-part='thumb'] {
+    inline-size: var(--ag-space-5); block-size: var(--ag-space-5);
   }
   .ag-slider[data-ag-size='lg'] [data-ag-part='thumb'] {
     inline-size: var(--ag-space-6); block-size: var(--ag-space-6);
   }
   .ag-slider [data-ag-part='thumb']:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-color-focus-outer);
+    outline: var(--_ag-focus-width) solid var(--ag-color-focus-outer);
   }
   .ag-slider[data-dragging] [data-ag-part='thumb'] {
+    --ag-specular: 1;
     box-shadow: var(--ag-shadow-thin), var(--ag-state-hover-specular);
   }
 
   .ag-slider [data-ag-part='mark'] {
     position: absolute;
     inset-block-start: calc(100% - var(--ag-space-1));
-    inline-size: var(--ag-focus-width);
+    inline-size: var(--_ag-focus-width);
     block-size: var(--ag-space-1);
     background: var(--ag-on-surface-muted);
   }
@@ -84,13 +93,13 @@
     color: var(--ag-on-surface);
   }
 
-  .ag-slider[data-disabled] {
+  .ag-slider[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
 
   @media (forced-colors: active) {
     .ag-slider [data-ag-part='track'] {
-      border: var(--ag-focus-width) solid ButtonText;
+      border: var(--_ag-focus-width) solid ButtonText;
       background: ButtonFace;
       box-shadow: none;
     }

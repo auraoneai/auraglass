@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* Button — @layer ag.components, tokens only, no literals. Selectors: .ag-button, [data-ag-part], Base UI data-* state. */
 @layer ag.components {
   .ag-button {
@@ -42,7 +44,7 @@
     inline-size: var(--ag-space-4);
     block-size: var(--ag-space-4);
     border-radius: var(--ag-radius-full);
-    border: var(--ag-focus-width) solid var(--ag-color-on-surface-muted);
+    border: var(--_ag-focus-width) solid var(--ag-color-on-surface-muted);
     border-block-start-color: var(--ag-color-accent);
     animation: none;
   }
@@ -65,31 +67,40 @@
 
   /* identity: no optics until hover — hover raises specular */
   .ag-button[data-ag-variant='identity']:hover {
-    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-color-specular, var(--ag-color-border));
+    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-color-specular, var(--ag-color-border));
   }
   .ag-button:not([data-ag-variant='identity']):hover {
-    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-state-hover-specular);
+    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-state-hover-specular);
   }
 
-  /* intent=danger tints text/rim/specular only; never selects material */
+  /* intent tints text/rim only; never selects material (REQ-CMP-34) */
+  .ag-button[data-ag-intent='info'],
+  .ag-button[data-ag-intent='success'],
+  .ag-button[data-ag-intent='warning'],
   .ag-button[data-ag-intent='danger'] {
-    color: var(--ag-color-danger);
+    --ag-surface-rim: currentColor;
   }
+  .ag-button[data-ag-intent='info'] { color: var(--ag-color-info); }
+  .ag-button[data-ag-intent='success'] { color: var(--ag-color-success); }
+  .ag-button[data-ag-intent='warning'] { color: var(--ag-color-warning); }
+  .ag-button[data-ag-intent='danger'] { color: var(--ag-color-danger); }
 
   /* press glow via rim opacity only — transform stays none at rest/hover/press */
   .ag-button:active,
   .ag-button[data-pressed] {
-    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-state-press-glow);
+    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-state-press-glow);
   }
 
   .ag-button:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-color-focus-ring, var(--ag-focus-outer));
-    outline-offset: var(--ag-focus-width);
+    outline: var(--_ag-focus-width) solid var(--_ag-color-focus-ring, var(--_ag-focus-outer));
+    outline-offset: var(--_ag-focus-width);
   }
 
   .ag-button:disabled,
   .ag-button[data-disabled] {
     cursor: default;
+  }
+  .ag-button[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
 
@@ -98,7 +109,7 @@
       forced-color-adjust: none;
       color: ButtonText;
       background: ButtonFace;
-      border: var(--ag-focus-width) solid ButtonText;
+      border: var(--_ag-focus-width) solid ButtonText;
     }
   }
 }
