@@ -63,8 +63,8 @@ export function AppShellSidebarToggle({
     if (ref.current && !rootEl) setRootEl(appShellRoot(ref.current));
   }, [rootEl]);
 
-  const collapseTo: 'rail' | 'collapsed' =
-    rootEl?.dataset['collapseTo'] === 'collapsed' ? 'collapsed' : 'rail';
+  // SURF-20: collapseTo prop/attr removed — toggle always collapses to rail.
+  const collapseTo: 'rail' | 'collapsed' = 'rail';
   const isDrawer = snapshot.mode === 'compact' || snapshot.mode === 'medium';
   const next: SidebarState = snapshot.sidebar === 'expanded' ? collapseTo : 'expanded';
   const drawerOpen = snapshot.drawer === 'open';

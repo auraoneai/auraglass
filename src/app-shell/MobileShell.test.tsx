@@ -7,14 +7,14 @@ import { TopBar } from './TopBar';
 import { TabBar } from '../components/tab-bar/TabBar';
 
 describe('MobileShell (SURF-030)', () => {
-  it('forces compact layout with collapsed sidebar/inspector', () => {
+  it('forces mobile layout with collapsed sidebar/inspector', () => {
     render(
       <MobileShell data-testid="m" topBar={<span>hdr</span>} tabBar={<nav aria-label="Tabs">tabs</nav>}>
         page
       </MobileShell>,
     );
     const root = screen.getByTestId('m');
-    expect(root).toHaveAttribute('data-ag-layout', 'compact');
+    expect(root).toHaveAttribute('data-ag-layout', 'mobile');
     expect(root).toHaveAttribute('data-ag-sidebar', 'collapsed');
     expect(root).toHaveAttribute('data-ag-inspector', 'closed');
   });

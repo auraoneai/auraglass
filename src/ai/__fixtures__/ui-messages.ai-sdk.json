@@ -2,6 +2,44 @@
   "$schema": "ui-message-fixtures",
   "sdk": "ai@5.0.29",
   "generated": "2026-10-07",
+  "agExtensions": [
+    {
+      "id": "msg-06",
+      "features": [
+        "tool state 'approval-requested'"
+      ]
+    },
+    {
+      "id": "msg-07",
+      "features": [
+        "tool state 'approval-responded'"
+      ]
+    },
+    {
+      "id": "msg-10",
+      "features": [
+        "tool state 'output-denied'"
+      ]
+    },
+    {
+      "id": "msg-17",
+      "features": [
+        "role 'tool'"
+      ]
+    },
+    {
+      "id": "msg-19",
+      "features": [
+        "part type 'mystery-part'"
+      ]
+    },
+    {
+      "id": "msg-20",
+      "features": [
+        "tool state 'output-denied'"
+      ]
+    }
+  ],
   "messages": [
     {
       "id": "msg-01",
@@ -172,6 +210,9 @@
           "toolName": "ticket.create",
           "toolCallId": "tc-dyn",
           "state": "output-available",
+          "input": {
+            "title": "Rotate ingestion keys"
+          },
           "output": {
             "id": "SUP-1024"
           }

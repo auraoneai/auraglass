@@ -3,12 +3,19 @@
    Item renders <a href> by default — href is required unless a render prop is
    supplied; render merges onto the element; current → aria-current="page";
    render=<button> dev-warns that destinations should be links.
+   SURF-28: when both the render element (e.g. a RouterLink) and the Item
+   carry onClick/onKeyDown, the two are composed with Base UI mergeProps —
+   the Item (user) handler runs first, then the render element's — instead
+   of the render element's prop silently replacing the Item's.
    Rail state keeps accessible names: labels are visually hidden (MAT seam
    class), not removed. */
 
 import * as React from 'react';
+import { mergeProps } from '@base-ui/react/merge-props';
+import { LandmarkBeacon } from './_internal/LandmarkBeacon';
 import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
+import { SidebarItemTooltip } from './Sidebar.ItemTooltip';
 
 export type SidebarNavProps = PartProps<'nav'> & { 'aria-label'?: string | undefined };
 
@@ -20,7 +27,7 @@ export function SidebarNav({ children, render, ...rest }: SidebarNavProps) {
     render,
     'data-ag-part': 'sidebar-nav',
     ...rest,
-    children: <ul>{children}</ul>,
+    children: <ul><LandmarkBeacon role="navigation" name={rest['aria-label'] as string | undefined} />{children}</ul>,
   });
 }
 SidebarNav.displayName = 'Sidebar.Nav';
@@ -43,7 +50,7 @@ export function SidebarItem({ href, current, icon, badge, children, render, ...r
     }
   }
   const link = partElement('a', {
-    render,
+    render: composeRenderHandlers(render, rest),
     ...(href !== undefined ? { href } : {}),
     'data-ag-part': 'sidebar-item',
     className: 'ag-sidebar__item',
@@ -57,9 +64,39 @@ export function SidebarItem({ href, current, icon, badge, children, render, ...r
       </>
     ),
   });
-  return <li data-ag-part="sidebar-item-li">{link}</li>;
+  return (
+    <li data-ag-part="sidebar-item-li">
+      <SidebarItemTooltip label={children}>{link}</SidebarItemTooltip>
+    </li>
+  );
 }
 SidebarItem.displayName = 'Sidebar.Item';
+
+const COMPOSED_HANDLERS = ['onClick', 'onKeyDown'] as const;
+
+/** Returns `render` with onClick/onKeyDown composed against the Item's own
+    handlers. mergeProps runs the rightmost handler first, so the Item props
+    go on the right (user handler first, render element's second). */
+function composeRenderHandlers(
+  render: SidebarItemProps['render'],
+  own: Record<string, unknown>,
+): SidebarItemProps['render'] {
+  if (!React.isValidElement(render)) return render;
+  const rp = (render.props ?? {}) as Record<string, unknown>;
+  const outer: Record<string, unknown> = {};
+  const inner: Record<string, unknown> = {};
+  for (const key of COMPOSED_HANDLERS) {
+    if (typeof rp[key] === 'function' && typeof own[key] === 'function' && rp[key] !== own[key]) {
+      outer[key] = rp[key];
+      inner[key] = own[key];
+    }
+  }
+  if (Object.keys(outer).length === 0) return render;
+  const merged = mergeProps<'a'>(outer, inner) as Record<string, unknown>;
+  const handlers: Record<string, unknown> = {};
+  for (const key of Object.keys(outer)) handlers[key] = merged[key];
+  return React.cloneElement(render, handlers);
+}
 
 export function SidebarItemIcon({ children, render, ...rest }: PartProps<'span'>) {
   return partElement('span', {

@@ -9,7 +9,6 @@ import {
   parseAppShellCookie,
   type AppShellCookie,
 } from './parseAppShellCookie';
-import { setAnimating } from '../material/stateAttributes';
 
 export type SidebarState = 'expanded' | 'rail' | 'collapsed';
 export type InspectorState = 'open' | 'closed';
@@ -45,7 +44,11 @@ const VALID_SIDEBAR: readonly string[] = ['expanded', 'rail', 'collapsed'];
 const VALID_INSPECTOR: readonly string[] = ['open', 'closed'];
 
 function deriveMode(width: number, layout: string | null): ShellMode {
-  if (layout && layout !== 'auto') return layout === 'mobile' ? 'compact' : (layout as ShellMode);
+  // SURF-20 contract values: auto|desktop|mobile pin wide/compact modes.
+  if (layout === 'mobile') return 'compact';
+  if (layout === 'desktop') return 'wide';
+  if (layout && layout !== 'auto' && (VALID_MODES as readonly string[]).includes(layout))
+    return layout as ShellMode;
   // width <= 0 means the element is unmeasured (jsdom, display:none) — not a
   // real viewport; fall back to the default desktop mode.
   if (width <= 0) return 'expanded';
@@ -55,21 +58,16 @@ function deriveMode(width: number, layout: string | null): ShellMode {
   return 'expanded';
 }
 
-function motionIsFull(root: HTMLElement): boolean {
-  const carrier = root.closest('[data-ag-motion]');
-  const v =
-    (carrier instanceof HTMLElement ? carrier.dataset['agMotion'] : undefined) ??
-    document.documentElement.dataset['agMotion'];
-  return v === 'full';
-}
 
 function writeCookie(root: HTMLElement, snapshot: ShellSnapshot): void {
   const key = root.dataset['persistKey'];
   if (!key) return;
-  const state: AppShellCookie = {};
-  if (snapshot.sidebar !== 'expanded') state.sidebar = snapshot.sidebar;
-  if (snapshot.inspector !== 'closed') state.inspector = snapshot.inspector;
-  const pair = serializeAppShellCookie(key, state);
+  // SURF-21: always write both keys so the cookie is a complete snapshot —
+  // a missing key no longer means "default" against a stale write.
+  const pair = serializeAppShellCookie(key, {
+    sidebar: snapshot.sidebar,
+    inspector: snapshot.inspector,
+  });
   if (typeof document !== 'undefined') document.cookie = pair;
 }
 
@@ -86,19 +84,9 @@ function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
   }
 }
 
-function transition(
-  root: HTMLElement,
-  next: ShellSnapshot,
-  rec: ShellRecord,
-  opts?: { persist?: boolean },
-): void {
-  if (motionIsFull(root)) {
-    setAnimating(root, true);
-    const ms = Number.parseFloat(
-      getComputedStyle(root).getPropertyValue('--ag-duration-medium') || '200',
-    );
-    window.setTimeout(() => setAnimating(root, false), Number.isFinite(ms) ? ms : 200);
-  }
+function transition(root: HTMLElement, next: ShellSnapshot, rec: ShellRecord): void {
+  // SURF-24: no animating flag/timer — the optional sidebar slide is pure CSS
+  // gated on [data-ag-motion='full'] in app-shell.css.
   applyState(root, next);
   if (opts?.persist !== false) writeCookie(root, next);
   rec.snapshot = next;
@@ -139,18 +127,9 @@ function recordFor(root: HTMLElement): ShellRecord {
   let inspector: InspectorState = VALID_INSPECTOR.includes(inspectorAttr ?? '')
     ? (inspectorAttr as InspectorState)
     : 'closed';
-  const key = root.dataset['persistKey'];
-  if (key && typeof document !== 'undefined') {
-    const raw = document.cookie
-      .split(';')
-      .map((c) => c.trim())
-      .find((c) => c.startsWith(`ag-shell-${key}=`));
-    if (raw) {
-      const persisted = parseAppShellCookie(raw.slice(`ag-shell-${key}=`.length));
-      if (persisted.sidebar) sidebar = persisted.sidebar;
-      if (persisted.inspector) inspector = persisted.inspector;
-    }
-  }
+  // SURF-21: no cookie reads on the render path. The persisted values are
+  // applied once by the first subscriber (an effect-time call in
+  // useSyncExternalStore's subscribe) via hydrateFromCookie below.
   rec = {
     snapshot: {
       sidebar,
@@ -196,9 +175,25 @@ export function getServerSnapshot(root: HTMLElement): ShellSnapshot {
 }
 const VALID_MODES: readonly string[] = ['compact', 'medium', 'expanded', 'wide'];
 
+/** Read the persisted cookie once and apply it (effect-time, never render). */
+function hydrateFromCookie(root: HTMLElement): void {
+  const key = root.dataset['persistKey'];
+  if (!key || typeof document === 'undefined') return;
+  const raw = document.cookie
+    .split(';')
+    .map((c) => c.trim())
+    .find((c) => c.startsWith(`ag-shell-${key}=`));
+  if (!raw) return;
+  const persisted = parseAppShellCookie(raw.slice(`ag-shell-${key}=`.length));
+  if (persisted.sidebar) setSidebar(root, persisted.sidebar);
+  if (persisted.inspector) setInspector(root, persisted.inspector);
+}
+
 export function subscribe(root: HTMLElement, cb: () => void): () => void {
   const rec = recordFor(root);
+  const first = rec.listeners.size === 0;
   rec.listeners.add(cb);
+  if (first) hydrateFromCookie(root);
   return () => {
     rec.listeners.delete(cb);
     if (rec.listeners.size === 0) sharedObserver?.unobserve(root);
