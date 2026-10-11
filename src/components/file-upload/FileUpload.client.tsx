@@ -7,25 +7,55 @@
 'use client';
 import * as React from 'react';
 import { cn } from '../../internal/index';
+import { Field } from '../field';
+import { materialProps } from '../../material/index';
+import { useAnnouncer } from '../../theme/announcer/useAnnouncer';
+
+const SUNKEN = materialProps({ layer: 'content', content: 'content-sunken' });
 
 export interface FileUploadItem {
   file: File;
-  status: 'idle' | 'uploading' | 'complete' | 'error';
+  status: 'selected' | 'uploading' | 'complete' | 'error';
+  /** 0..1 while uploading (driven by onUpload's onProgress). */
+  progress?: number;
   error?: string;
+}
+
+export interface FileUploadRejection {
+  file: File;
+  reason: 'type' | 'size' | 'count';
+}
+
+export type FileUploadChangeReason =
+  | 'accept'
+  | 'reject'
+  | 'remove'
+  | 'progress'
+  | 'complete'
+  | 'error';
+
+export interface FileUploadChangeDetails {
+  reason: FileUploadChangeReason;
+  rejections?: readonly FileUploadRejection[];
 }
 
 export interface FileUploadProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onError'> {
   accept?: string;
   multiple?: boolean;
   maxSize?: number;
+  /** Maximum admitted files. */
+  maxFiles?: number;
+  /** @deprecated use maxFiles */
   maxCount?: number;
   disabled?: boolean;
   /** Pre-populated file list (stories, controlled seeding). */
   defaultItems?: readonly FileUploadItem[];
+  /** Called on every list mutation with the reason + rejections. */
+  onValueChange?: (items: FileUploadItem[], details: FileUploadChangeDetails) => void;
   onFilesAccepted?: (items: FileUploadItem[]) => void;
-  onFilesRejected?: (rejections: { file: File; reason: 'type' | 'size' | 'count' }[]) => void;
-  /** Optional async upload; aborts via the AbortSignal when a file is removed. */
-  onUpload?: (file: File, signal: AbortSignal) => Promise<unknown>;
+  onFilesRejected?: (rejections: FileUploadRejection[]) => void;
+  /** Optional async upload; aborts via signal, drives item.progress via onProgress. */
+  onUpload?: (file: File, ctx: { signal: AbortSignal; onProgress: (progress: number) => void }) => Promise<unknown>;
   children?: React.ReactNode;
 }
 
@@ -48,9 +78,11 @@ export function FileUpload({
   accept,
   multiple,
   maxSize,
+  maxFiles,
   maxCount,
   disabled,
   defaultItems,
+  onValueChange,
   onFilesAccepted,
   onFilesRejected,
   onUpload,
@@ -62,32 +94,67 @@ export function FileUpload({
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [items, setItems] = React.useState<FileUploadItem[]>(() => [...(defaultItems ?? [])]);
   const [dragging, setDragging] = React.useState(false);
+  const [rejections, setRejections] = React.useState<readonly FileUploadRejection[]>([]);
   const controllers = React.useRef(new Map<File, AbortController>());
+  const { announce } = useAnnouncer();
+  const errorId = React.useId();
+  const limit = maxFiles ?? maxCount;
+
+  const updateItems = (next: FileUploadItem[] | ((prev: FileUploadItem[]) => FileUploadItem[]), reason: FileUploadChangeReason, rej?: readonly FileUploadRejection[]) => {
+    setItems((prev) => {
+      const list = typeof next === 'function' ? next(prev) : next;
+      onValueChange?.(list, rej !== undefined ? { reason, rejections: rej } : { reason });
+      return list;
+    });
+  };
 
   const admit = (files: File[]) => {
     const accepted: FileUploadItem[] = [];
-    const rejected: { file: File; reason: 'type' | 'size' | 'count' }[] = [];
+    const rejected: FileUploadRejection[] = [];
     for (const file of files) {
-      if (maxCount !== undefined && items.length + accepted.length >= maxCount) { rejected.push({ file, reason: 'count' }); continue; }
+      if (limit !== undefined && items.length + accepted.length >= limit) { rejected.push({ file, reason: 'count' }); continue; }
       if (!matchesAccept(file, accept)) { rejected.push({ file, reason: 'type' }); continue; }
       if (maxSize !== undefined && file.size > maxSize) { rejected.push({ file, reason: 'size' }); continue; }
-      accepted.push({ file, status: onUpload ? 'uploading' : 'idle' });
+      accepted.push({ file, status: onUpload ? 'uploading' : 'selected', progress: onUpload ? 0 : undefined });
     }
-    if (rejected.length) onFilesRejected?.(rejected);
+    if (rejected.length) {
+      setRejections(rejected);
+      onFilesRejected?.(rejected);
+      updateItems((prev) => prev, 'reject', rejected);
+      announce(
+        `${rejected.length} file${rejected.length > 1 ? 's' : ''} rejected: ` +
+          rejected.map((r) => `${r.file.name} (${r.reason})`).join(', '),
+      );
+    } else {
+      setRejections([]);
+    }
     if (accepted.length) {
-      setItems((prev) => [...prev, ...accepted]);
+      updateItems((prev) => [...prev, ...accepted], 'accept');
       onFilesAccepted?.(accepted);
       if (onUpload) {
         for (const item of accepted) {
           const ac = new AbortController();
           controllers.current.set(item.file, ac);
-          Promise.resolve(onUpload(item.file, ac.signal))
-            .then(() => setItems((prev) => prev.map((p) => (p.file === item.file ? { ...p, status: 'complete' } : p))))
-            .catch((err: unknown) =>
-              setItems((prev) =>
-                prev.map((p) =>
-                  p.file === item.file ? { ...p, status: 'error', error: err instanceof Error ? err.message : 'upload failed' } : p,
+          Promise.resolve(
+            onUpload(item.file, {
+              signal: ac.signal,
+              onProgress: (progress) =>
+                updateItems(
+                  (prev) => prev.map((p) => (p.file === item.file ? { ...p, progress: Math.min(1, Math.max(0, progress)) } : p)),
+                  'progress',
                 ),
+            }),
+          )
+            .then(() =>
+              updateItems((prev) => prev.map((p) => (p.file === item.file ? { ...p, status: 'complete', progress: 1 } : p)), 'complete'),
+            )
+            .catch((err: unknown) =>
+              updateItems(
+                (prev) =>
+                  prev.map((p) =>
+                    p.file === item.file ? { ...p, status: 'error', error: err instanceof Error ? err.message : 'upload failed' } : p,
+                  ),
+                'error',
               ),
             );
         }
@@ -98,7 +165,7 @@ export function FileUpload({
   const remove = (file: File) => {
     controllers.current.get(file)?.abort();
     controllers.current.delete(file);
-    setItems((prev) => prev.filter((p) => p.file !== file));
+    updateItems((prev) => prev.filter((p) => p.file !== file), 'remove');
   };
 
   return (
@@ -116,16 +183,25 @@ export function FileUpload({
         admit(Array.from(e.dataTransfer.files).slice(0, multiple ? undefined : 1));
       }}
     >
+      <Field.Root invalid={rejections.length > 0}>
       <button
         type="button"
+        {...SUNKEN}
         data-ag-part="dropzone"
-        className={cn('ag-file-upload-dropzone', dragging ? 'ag-file-upload-dragging' : undefined)}
+        className={cn('ag-file-upload-dropzone', SUNKEN.className, dragging ? 'ag-file-upload-dragging' : undefined)}
         data-state={dragging ? 'active' : 'idle'}
         disabled={disabled}
+        aria-describedby={rejections.length > 0 ? errorId : undefined}
         onClick={() => inputRef.current?.click()}
       >
         {children ?? 'Choose files or drop them here'}
       </button>
+      {rejections.length > 0 ? (
+        <Field.Error id={errorId} match data-ag-part="errors" className="ag-file-upload-errors">
+          {rejections.map((r) => `${r.file.name}: ${r.reason}`).join('; ')}
+        </Field.Error>
+      ) : null}
+      </Field.Root>
       <input
         ref={inputRef}
         type="file"

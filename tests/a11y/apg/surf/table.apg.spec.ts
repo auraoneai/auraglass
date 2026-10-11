@@ -5,7 +5,7 @@ test.describe('table grid APG', () => {
   test('grid/gridcell roles; column resize via keyboard', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Table');
-    if (!subject) { console.warn('Table subject not registered — pending'); return; }
+    if (!subject) throw new Error('Table subject not registered');
     await gotoStory(page, subject.id);
     const grid = page.locator('[role="grid"], [role="table"]').first();
     await expect(grid).toBeVisible();

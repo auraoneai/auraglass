@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Contract version | `contract-v1.1` (frozen 2026-10-06; v1.1 is the pre-C0 amendment for GitLab CI/CD and the adversarial-review fixes, §8) |
+| Contract version | `contract-v1.2` (additive bundle FIN-463, items C-1..C-17, effective only after owner decision OD-16 is recorded; v1.1 frozen 2026-10-06 was the pre-C0 amendment for GitLab CI/CD and the adversarial-review fixes, §8) |
 | CI/CD | **GitLab CI only** (Gurbaksh's instruction, 2026-10-06). No GitHub Actions workflow is used for build, test, certification, deploy or publish. Pipelines run in the mirror project `gitlab.com/chahal-foundation-group/github-auraoneai/auraglass` (project id 87152036); `github.com/auraoneai/auraglass` stays the git source of truth and the place where PRs are opened and merged (§4.13) |
 | Replaces | Architecture §16 decomposition and execution waves; `archive/v1-19-prd/prd/_shared-contracts.md` (SC-01..SC-40) as the ownership authority. SC rows are reused below where they still hold and are cited as `(was SC-nn)` |
 | Still binding | Architecture decisions D-01..D-32 and §3–§15 of `AURAGLASS_5_TARGET_ARCHITECTURE.md`, plus errata E-01..E-11 (archived `_shared-contracts.md` §J) |
@@ -123,7 +123,7 @@ C0 is the commit that adopts this contract. It is authored from the verbatim tex
 
 ### 3.1 Rules
 
-1. **First match wins.** §3.2 is an ordered list of globs (picomatch syntax, `dot: true`), matched top to bottom. Its machine form is `contracts/ownership.json` (C0-7), which preserves the same order and expands every `<stream>` placeholder into five literal rows. The `ownership` check (PLAT, `scripts/ci/verify-ownership.mjs`, GitLab job `contract:ownership`) fails any PR that touches a path whose owner is not the PR's stream, and any path whose first matching row has owner `NONE` (row D02x). The PR's stream comes from its branch prefix: `next-<stream>/`, `4x-<stream>/`, `contract/` (CONTRACT) or `sync/fragments-` (§2.3). On `release/4.x`, non-PLAT prefixes may touch only that stream's own fragments, its CI fragment and row group H.
+1. **First match wins.** §3.2 is an ordered list of globs (picomatch syntax, `dot: true`), matched top to bottom. Its machine form is `contracts/ownership.json` (C0-7), which preserves the same order and expands every `<stream>` placeholder into five literal rows. The `ownership` check (PLAT, `scripts/ci/verify-ownership.mjs`, GitLab job `contract:ownership`) fails any PR that touches a path whose owner is not the PR's stream, and any path whose first matching row has owner `NONE` (row D02x). The PR's stream comes from its branch prefix: `next-<stream>/`, `4x-<stream>/`, `4x11-<stream>/` (line `4x`, OD-13, C-17), `next-fin/<wp>-`, `4x-fin/`, `4x11-fin/` (REQ-FIN-30), `contract/` (CONTRACT) or `sync/fragments-` (§2.3). On `release/4.x` and `release/4.1.x`, non-PLAT prefixes may touch only that stream's own fragments, its CI fragment and row group H. Since v1.2 the prefix rules are also machine-readable in `contracts/ownership.json#branchRules` (rule kinds `stream`, `4x-zone`, `fin-wp`, `any-owned`, `sync`, `report-only`, `fail-closed`); `verify-ownership.mjs` implements them and `scripts/ci/fin-ownership.json` holds the PRD-F §6 work-package table used by `fin-wp`.
 2. **Branch scope.** Rows apply on `next`. On `release/4.x`, rule §2.4.1 applies: PLAT owns every path except the fragments of other streams and row group H.
 3. **`CONTRACT` owner.** Paths owned by `CONTRACT` change only in a contract PR (§1.3).
 4. **Fallback.** The last row assigns any unmatched path to PLAT. A stream that needs a new top-level directory opens a contract PR to add a row. It does not put files under someone else's glob.
@@ -404,7 +404,7 @@ The archived coupling analysis lists 75 multi-group files. Re-parsing all 2,405 
 | 71–74 | `showcase/{ai-command-center,financial-dashboard,media-workspace,music-player}/*.showcase.tsx` (QUAL, SURF) | QUAL | S: compositions come from SURF-owned registry blocks (§3.3) |
 | 75 | `tests/fixtures/consumer-4x/` (CMP, MAT, PLAT, SURF) | PLAT harness | D: `cases/<stream>/` (row D03) |
 | 76 | `tests/a11y/browser/axe.spec.ts` (MAT, SURF) | QUAL | S: the subject list comes from S-41 |
-| 77 | `tests/a11y/manual/sr-record.schema.json` (MAT, SURF) | CONTRACT | moves to `contracts/schemas/sr-record.schema.json`; records go to `tests/a11y/manual/records/<stream>/` |
+| 77 | `tests/a11y/manual/sr-record.schema.json` (MAT, SURF) | CONTRACT | moves to `contracts/schemas/sr-record.schema.json`, the single SrRecord schema since v1.2 (C-16: it gains the optional evidence fields `atVersion`, `browser`, `browserVersion`, `os`, `osVersion`, `device`, `subject`, `steps[]` of the MAT copy; MAT's verifier and QUAL's aggregator both read it, and the MAT copy is deleted); records go to `tests/a11y/manual/records/<stream>/` |
 | 78 | `tests/css/class-coverage.test.ts` (PLAT, SURF) | PLAT | O: one test covering every `className` in `src/` |
 | 79–80 | `tests/dx/codemod-canary.spec.ts`, `tests/dx/registry-render.spec.ts` (PLAT, SURF) | PLAT | F `codemods`; blocks are discovered |
 | 81 | `tests/exports/root-export-count.test.ts` (CMP, PLAT) | PLAT | P: asserts the root list in §4.7 |
@@ -474,7 +474,7 @@ Total: 43 seams (ids are grouped by area, so the numbering has gaps).
 Created by C0. Verbatim:
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned: change only in a contract PR. Type-only except frozen constants. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned: change only in a contract PR. Type-only except frozen constants. */
 import type * as React from 'react';
 import type { RadiusToken, SpaceToken } from './tokens';
 
@@ -504,8 +504,8 @@ export interface MaterialRole {
   allowNested?: boolean;
 }
 
+/** C-1 (v1.2): no className key. Material CSS keys on [data-ag-surface]; materialProps() returns data-ag-* attributes only. */
 export interface MaterialAttributes {
-  className: 'ag-surface';
   'data-ag-surface': '';
   'data-ag-layer': Layer;
   'data-ag-variant'?: MaterialVariant;
@@ -524,12 +524,14 @@ export interface SurfaceProps extends MaterialRole, Omit<React.HTMLAttributes<HT
   render?: React.ReactElement;
   ref?: React.Ref<HTMLElement>;
 }
-export interface SurfaceGroupProps { spacing?: SpaceToken; children: React.ReactNode; className?: string }
+export interface SurfaceGroupProps { spacing?: SpaceToken; children: React.ReactNode; className?: string; refraction?: boolean }
 export interface EnvironmentProps { backdrop: Backdrop; image?: string; video?: string; children: React.ReactNode; className?: string }
 export interface ScrollEdgeProps { edge: 'top' | 'bottom'; edgeStyle?: EdgeStyle }
 export interface ConcentricFrameProps { radius: RadiusToken; inset: SpaceToken; children: React.ReactNode }
 
-/** S-02: class grammar. Library CSS keys only on these, data-ag-* and data-state. */
+/** S-02: class grammar. Library CSS keys only on these, data-ag-* and STATE_ATTRIBUTES (data-state plus, since v1.2 C-2, the
+    Base UI / component state attributes listed there). Since v1.2 (C-1) no material rule keys on
+    SURFACE_CLASS: Surface/SurfaceGroup still add it as a consumer styling hook, materialProps() never emits it. */
 export const SURFACE_CLASS = 'ag-surface' as const;
 export type ComponentClass<K extends string> = `ag-${K}`;
 export type PartClass<K extends string, P extends string> = `ag-${K}__${P}`;
@@ -591,9 +593,17 @@ export const AG_ATTRIBUTES = {
   'data-ag-sidebar-side': { setter: 'SURF', values: ['start', 'end'] },
   'data-ag-layout': { setter: 'SURF', values: ['auto', 'desktop', 'mobile'] },
   'data-ag-placement': { setter: 'SURF', values: ['inline', 'overlay'] },
-  'data-ag-appearance': { setter: 'CMP|SURF', values: 'component-specific non-material look (e.g. sidebar|inset|floating, underline|pill), declared in meta' },
+  'data-ag-appearance': { setter: 'CMP|SURF', values: 'component-specific non-material look (e.g. sidebar|inset|floating, underline|pill), declared in meta; Sheet popup value full-height is read by the MAT floor (C-2)' },
   'data-ag-inspector': { setter: 'SURF', values: ['open', 'closed'] },
   'data-ag-pinned-edge': { setter: 'SURF', values: ['start', 'end', 'top'] },
+  // ratified in v1.2 (C-2), public. MAT CSS reads all six; MAT code writes scroll-locked and lens-defs. theme, shadcn-source,
+  // hit-clamp and focus-inset are opt-in hooks that the app or a component writes on its own element (setter ANY).
+  'data-ag-theme': { setter: 'ANY', values: 'theme id: a preset id or the id passed to createGlassTheme/createBrandTheme; on the element that scopes that theme cssText' },
+  'data-ag-shadcn-source': { setter: 'ANY', values: [''] },     // on :root only; shadcn variables are authoritative (shadcn -> ag)
+  'data-ag-scroll-locked': { setter: 'MAT', values: [''] },     // LayerStack, on <html> only, while a modal layer is open
+  'data-ag-hit-clamp': { setter: 'ANY', values: ['start', 'end', 'both', 'none'] }, // container of adjacent hit-area targets
+  'data-ag-focus-inset': { setter: 'ANY', values: [''] },       // focusable inside a clipping container: ring drawn inside
+  'data-ag-lens-defs': { setter: 'MAT', values: [''] },         // the hidden SVG host rendered by LensDefs
   // private to MAT (not semver, undocumented)
   'data-ag-sizeclass': { setter: 'MAT', values: 'private' },
   'data-ag-radius': { setter: 'MAT', values: 'private' },
@@ -614,14 +624,31 @@ export const AG_ATTRIBUTES = {
 export type AgAttribute = keyof typeof AG_ATTRIBUTES;
 /** Banned forever (D-20 and erratum to CTL): */
 export const BANNED_ATTRIBUTES = ['data-ag-material', 'data-ag-button-variant', 'data-meets-wcag'] as const;
+/** S-02 / C-2 (v1.2): the only non-data-ag attributes library CSS may select. Base UI or the CMP/SURF component writes them
+    (setter ANY); MAT CSS only reads them. aria-* entries are matched with an explicit value, e.g. [aria-disabled="true"]. */
+export const STATE_ATTRIBUTES = ['data-state', 'data-disabled', 'data-pressed', 'data-selected', 'data-loading', 'data-drop-target',
+  'data-open', 'data-expanded', 'data-side', 'data-starting-style', 'data-ending-style',
+  'aria-disabled', 'aria-pressed', 'aria-selected', 'aria-busy'] as const;
 ```
 
 Semantics carried over unchanged: `data-ag-backdrop="auto"` does not satisfy `variant="clear"`. A `clear` surface with no declared light, dark or media backdrop renders `regular` and logs a dev warning (D-12). `data-ag-backdrop` may be set by any stream, because sections, backdrops and media declare it.
 
+**C-2 (v1.2) attribute discipline for MAT (REQ-MAT-14, -20, -27).** Setter is the stream (or `ANY`, meaning the app or any component) that writes the attribute on an element; CSS selectors that read an attribute do not make their stream its setter.
+
+- `data-ag-theme` scopes a theme: the `cssText` of `createGlassTheme`/`createBrandTheme` and the preset blocks select `[data-ag-theme="<id>"]`, and the app (or the provider for its `preset`/`theme` prop) writes the id on the scope element. It is not a scheme switch: `light`/`dark` go through `data-ag-scheme`.
+- `data-ag-shadcn-source` is written by the app on `:root` when shadcn's variables are the source; without it only the `:where(:root:not([data-ag-shadcn-source]))` ag → shadcn direction applies.
+- `data-ag-scroll-locked` is written only by the layer stack on `<html>` while a scroll-locking layer is open.
+- `data-ag-hit-clamp` is written on a container of adjacent targets; `start`/`end`/`both` limit the hit-area overshoot to half the private hit gap, `none` (the default when absent) does not clamp.
+- `data-ag-focus-inset` is written on a focusable inside a clipping container; it draws the focus ring inside the border box.
+- `data-ag-lens-defs` marks the hidden SVG host rendered once by `LensDefs`.
+- Not registered, and therefore renamed by MAT before 5.0 (to `data-ag-part` values or no attribute): `data-ag-theme-style` (provider `<style>`), `data-ag-preferences-panel`, `data-ag-pref`, `data-ag-option`, `data-ag-options`, `data-ag-floor-note`, `data-ag-floor` (preferences panel and a11y stories), `data-ag-debug-targets`, and the generated `[data-ag-state~="disabled"]` ladder cells, which key on `STATE_ATTRIBUTES` (`[data-disabled]`, `[aria-disabled="true"]`) instead.
+- `STATE_ATTRIBUTES` lists every non-`data-ag` attribute MAT CSS (`material.css`, `motion.css`, `loading.css`, `motion-modes.css`, `rungs.css`) reads today. A selector on any other non-`data-ag` attribute fails attribute discipline.
+- If OD-16 rejects C-2 the fallback applies per attribute: MAT stops emitting it (presets scope to `[data-ag-root]`; only the `:not([data-ag-shadcn-source])` shadcn form ships) or renames it to a `data-ag-part` value, and `STATE_ATTRIBUTES` is dropped with MAT state styling moved to CMP.
+
 ### 4.3 `src/contracts/tokens.ts` (S-03, S-04, S-10, S-11)
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. */
 export type RadiusToken = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';           // 6/10/14/20/28/9999px (§5.2)
 export type SpaceToken = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16'; // n × 4px (4pt grid)
 export type TypeRole = 'display' | 'title-1' | 'title-2' | 'title-3' | 'body' | 'callout' | 'caption' | 'label' | 'mono';
@@ -650,6 +677,9 @@ export const PUBLIC_CSS_VARS = {
   density: ['--ag-density'],                                                    // 0.875 | 1 | 1.125
   scrim: ['--ag-scrim-clear', '--ag-scrim-media'],                             // 0.35 / media scrim
   motion: [/* see src/contracts/motion.ts MOTION_CSS_VARS */],
+  // C-7 (v1.2): MAT component tokens consumed by CMP CSS (REQ-FIN-11, REQ-CMP-19/-45). Every other comp/sys output is --_ag-*.
+  comp: ['sm', 'md', 'lg'].flatMap((s) => ['compact', 'default', 'spacious'].map((d) => `--ag-comp-control-height-${s}-${d}`)),
+  switchTrack: ['w', 'h'].flatMap((a) => ['sm', 'md', 'lg'].map((s) => `--ag-switch-track-${a}-${s}`)),
   shadcn: ['--background', '--foreground', '--primary', '--primary-foreground', '--muted', '--border', '--ring', '--radius'],
 } as const;
 
@@ -689,6 +719,15 @@ export const TOKEN_OUTPUTS = {
   ladders: 'src/material/css/generated/ladders.css',
   floors: 'src/material/css/generated/floors.css',
   compat: 'dist/compat/tokens.css',             // from tokens/compat-alias-map.json, @layer ag.compat
+  // C-7 (v1.2): the other outputs tokens:build actually writes and ships or commits. Anything not listed here is not
+  // written by the build (e.g. dist/css/* copies and tokens/contrast/busy-reference.json are not build outputs).
+  generated: ['src/tokens/generated/tokens.ts', 'src/tokens/generated/tokens.d.ts', 'src/tokens/generated/material-spec.ts',
+    'src/tokens/generated/presets.ts', 'src/tokens/generated/manifest.ts'],
+  properties: 'src/material/css/generated/properties.css',
+  tailwind: 'dist/tailwind.css',                // ./tailwind.css subpath, TAILWIND_BRIDGE_ORDER
+  contrastMatrix: 'dist/contrast-matrix.json',
+  opacityFloors: 'tokens/generated/opacity-floors.json',
+  registry: 'dist/tokens/registry-cssvars.json',
 } as const;
 ```
 
@@ -698,11 +737,12 @@ These are contract-v1 decisions that the archived PRDs left open:
 - **Type tokens** are split into `-size`, `-leading` and `-weight`.
 - **`info`** is added to the `sys` colours so that the `intent` union (S-30) has a colour for every value.
 - **Density values** follow architecture §5.4 (`compact | regular | spacious`). They are not SC-23's `comfortable | compact`, which conflicted with the architecture.
+- **C-7 (v1.2): MAT adds no other public custom property.** `PUBLIC_CSS_VARS.comp` and `.switchTrack` are the only new public names. Every other `--ag-*` name a MAT source declares or reads becomes a private `--_ag-*` (REQ-MAT-04): `--ag-group-spacing`, `--ag-tinted-floor`, `--ag-scrim-blur`, `--ag-fallback-fill`, `--ag-color-on-surface-max`, `--ag-color-border-strong`, `--ag-color-on-surface-disabled`, `--ag-focus-offset`, `--ag-hit-gap` and the brand ramp `--ag-accent-1`…`--ag-accent-12` (REQ-MAT-16). On `next` at this PR only `--ag-group-spacing` (read by `material.css`) is still public-named; the rest already use `--_ag-*`. The nine `--ag-app-shell-*` names from `tokens/sys/app-shell.tokens.json` are not part of C-7: REQ-FIN-11 renames them or proposes them in a separate contract item. `tokens/compat-alias-map.json` may map a `--glass-*` name only to a name in `PUBLIC_CSS_VARS ∪ MOTION_CSS_VARS` or to `null` (today `--ag-on-surface-tertiary` and `--ag-particle-alpha` violate this). The acceptance check is set equality: the `--ag-*` declarations in `dist/tokens.css`, `src/material/css/**`, `src/a11y/css/**` and `src/motion/css/**` equal `PUBLIC_CSS_VARS ∪ MOTION_CSS_VARS`. If OD-16 rejects C-7, the 15 comp/switch-track names are renamed to `--_ag-*` and CMP reads them as private MAT values.
 
 ### 4.4 `src/contracts/motion.ts` (S-12, S-13)
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Values: archived MOT §4.2 (decided). */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Values: archived MOT §4.2 (decided). */
 export type MotionPreference = 'full' | 'calm' | 'none';
 export type DurationName = 'instant' | 'micro' | 'small' | 'medium' | 'large';
 export type EaseName = 'standard' | 'emphasized' | 'emphasized-decelerate' | 'accelerate';
@@ -755,7 +795,7 @@ Rules that travel with S-12 and S-13:
 ### 4.5 `src/contracts/preferences.ts` (S-20..S-26)
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Implemented by MAT; runtime exported from src/theme/index.ts. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Implemented by MAT; runtime exported from src/theme/index.ts. */
 import type * as React from 'react';
 import type { Transparency, DomTier } from './material';
 import type { MotionPreference } from './motion';
@@ -863,7 +903,7 @@ This replaces two archived decisions:
 ### 4.6 `src/contracts/components.ts` (S-30..S-33)
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Grammar implemented by CMP; obeyed by CMP and SURF. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Grammar implemented by CMP; obeyed by CMP and SURF. */
 import type * as React from 'react';
 import type { MaterialVariant, Thickness } from './material';
 
@@ -936,21 +976,21 @@ export type IconButtonContract = React.FC<React.ComponentProps<ButtonContract> &
 export type CompoundContract<Parts extends string, RootProps> =
   { [P in Parts]: React.FC<(P extends 'Root' ? RootProps : unknown) & PartProps & { children?: React.ReactNode }> };
 export const COMPOUND_PARTS = {
-  Dialog: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Close'],
-  AlertDialog: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Cancel', 'Action'],
-  Sheet: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Close', 'Handle'],
+  Dialog: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Close', 'Header', 'Body', 'Footer'],
+  AlertDialog: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Cancel', 'Action', 'Header', 'Body', 'Footer'],
+  Sheet: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Close', 'Handle', 'Header', 'Body', 'Footer'],
   Popover: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Close', 'Arrow'],
-  Tooltip: ['Root', 'Trigger', 'Content', 'Arrow'],
+  Tooltip: ['Root', 'Trigger', 'Content', 'Arrow', 'Provider'],
   Menu: ['Root', 'Trigger', 'Content', 'Item', 'CheckboxItem', 'RadioGroup', 'RadioItem', 'Group', 'GroupLabel', 'Separator', 'Submenu', 'SubmenuTrigger'],
   ContextMenu: ['Root', 'Trigger', 'Content', 'Item', 'Group', 'GroupLabel', 'Separator'],
-  Menubar: ['Root', 'Menu'],
-  Toast: ['Provider', 'Viewport', 'Root', 'Title', 'Description', 'Action', 'Close'],
+  ColorPicker: ['Root', 'Trigger', 'Content', 'Area', 'Hue'],
+  Toast: ['Provider', 'Viewport', 'Root', 'Title', 'Description', 'Action', 'Close', 'Progress'],
   Select: ['Root', 'Trigger', 'Value', 'Content', 'Item', 'ItemIndicator', 'Group', 'GroupLabel', 'Separator'],
-  Combobox: ['Root', 'Input', 'Trigger', 'Content', 'Item', 'Empty', 'Chips', 'Chip', 'ChipRemove', 'Clear'],
+  Combobox: ['Root', 'Input', 'Trigger', 'Content', 'Item', 'Empty', 'Chips', 'Chip', 'ChipRemove', 'Clear', 'Group', 'GroupLabel'],
   Toolbar: ['Root', 'Button', 'Group', 'Separator', 'Link'],
   ToggleGroup: ['Root', 'Item'],
-  SegmentedControl: ['Root', 'Item', 'Indicator'],
-  Slider: ['Root', 'Track', 'Range', 'Thumb', 'Value'],
+  SegmentedControl: ['Root', 'Item'],
+  Slider: ['Root', 'Value'],
   RadioGroup: ['Root', 'Item'],
   Field: ['Root', 'Label', 'Control', 'Description', 'Error'],
   Collapsible: ['Root', 'Trigger', 'Content'],
@@ -959,6 +999,15 @@ export const COMPOUND_PARTS = {
   Avatar: ['Root', 'Image', 'Fallback'],
   Card: ['Root', 'Header', 'Title', 'Description', 'Body', 'Footer'],
   Tour: ['Root', 'Step'],
+} as const;
+/** C-3b (v1.2): parts the contract requires (REQ-CMP-06, -105, -110) that are not implemented on next yet. Each moves into
+    COMPOUND_PARTS (Menubar from FLAT_CMP_COMPONENTS) in the contract commit that follows its CMP implementation, so the
+    conformance suite never asserts a part that does not exist. Consumers must not rely on them before that. */
+export const COMPOUND_PARTS_PENDING = {
+  SegmentedControl: ['Indicator'],
+  Slider: ['Track', 'Range', 'Thumb'],
+  Menubar: ['Root', 'Menu'],
+  Toast: ['History', 'HistoryItem'],
 } as const;
 export interface CmpRootProps {
   Dialog: OpenProps & { modal?: boolean } & MaterialBearingProps;
@@ -973,11 +1022,12 @@ export interface CmpRootProps {
   RadioGroup: ValueProps<string>; Field: { invalid?: boolean; disabled?: boolean; name?: string };
   Collapsible: OpenProps; Accordion: ValueProps<string[]> & { multiple?: boolean }; ScrollArea: Record<string, never>;
   Avatar: SizeProps; Card: MaterialBearingProps & { interactive?: boolean }; Tour: OpenProps & { step?: number };
+  ColorPicker: OpenProps;
 }
 /** Flat CMP components other streams compose (props = PartProps of the root element + the grammar types they list in meta): */
 export const FLAT_CMP_COMPONENTS = ['Button', 'IconButton', 'ButtonGroup', 'Switch', 'Checkbox', 'CheckboxGroup', 'TextField',
   'SearchField', 'NumberField', 'Fieldset', 'Form', 'Badge', 'AvatarGroup', 'Alert', 'Progress', 'Meter', 'Skeleton', 'Separator', 'Kbd',
-  'Link', 'Rating', 'InlineEdit', 'FileUpload', 'ColorPicker', 'DescriptionList', 'ImageList', 'EmptyState', 'ErrorState',
+  'Link', 'Rating', 'InlineEdit', 'Menubar', 'FileUpload', 'DescriptionList', 'ImageList', 'EmptyState', 'ErrorState',
   'LoadingState', 'Text', 'Heading', 'Stack', 'Grid', 'Container', 'Icon'] as const;
 /** Typed compound contracts, one per COMPOUND_PARTS key (what seeds, doubles and real components all satisfy). */
 export type CmpCompounds = { [K in keyof typeof COMPOUND_PARTS]: CompoundContract<(typeof COMPOUND_PARTS)[K][number], CmpRootProps[K]> };
@@ -1027,7 +1077,7 @@ The archived FND example used `layer: "control"`. That value does not exist: a S
 ### 4.7 `src/contracts/entries.ts` (S-35) and the root composition
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. build/exports.manifest.json is generated from this list by C0 and
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. build/exports.manifest.json is generated from this list by C0 and
    regenerated only by contract PRs. Value exports listed; type exports are free within the entry owner's barrel. */
 export interface EntrySpec { subpath: string; source: string; owner: 'PLAT' | 'MAT' | 'CMP' | 'SURF'; ga: '5.0' | '5.1'; exports: readonly string[]; css?: string }
 export const ENTRIES: readonly EntrySpec[] = [
@@ -1055,8 +1105,8 @@ export const ENTRIES: readonly EntrySpec[] = [
   { subpath: './media', source: 'src/media/index.ts', owner: 'SURF', ga: '5.0', css: 'dist/media.css',
     exports: ['MediaControls', 'NowPlayingBar', 'ImageViewer', 'CarouselRail', 'useMediaElement', 'MediaScrubber', 'formatMediaTime'] },
   { subpath: './backdrops', source: 'src/backdrops/index.ts', owner: 'SURF', ga: '5.0', css: 'dist/backdrops.css', exports: ['Backdrop'] },
-  { subpath: './three', source: 'src/three/index.ts', owner: 'SURF', ga: '5.0', exports: ['@unchanged-from-4.1.0'] },
-  { subpath: './charts', source: 'src/charts/index.ts', owner: 'SURF', ga: '5.1', exports: ['Chart'] },
+  { subpath: './three', source: 'src/three/index.ts', owner: 'SURF', ga: '5.0', exports: [] }, // OI-01: no 4.x three component ported; exports: [] at 5.0, ga kept
+  { subpath: './charts', source: 'src/charts/index.ts', owner: 'SURF', ga: '5.1', exports: ['Chart'], css: 'dist/charts.css' },
   { subpath: './compat', source: 'src/compat/index.ts', owner: 'PLAT', ga: '5.0', exports: ['@union of src/compat/<stream>/index.ts'] },
   // CSS-only and data entries (PLAT assembles from fragments/css/*):
   { subpath: './styles.css', source: 'build:css', owner: 'PLAT', ga: '5.0', exports: [] },
@@ -1109,12 +1159,16 @@ Each `src/compat/<stream>/index.ts` starts as `export {};` (seed). The conforman
 
 **`build/exports.manifest.json`** is generated mechanically from `ENTRIES` by C0. It is owned by PLAT, and changes only when `entries.ts` changes in a contract PR. Its shape is `{ "$schema": "./exports.manifest.schema.json", "version": 1, "entries": [{ "subpath", "source", "types", "default", "css" }] }`. `types` comes first in the generated `exports` map (D-03). Removed 4.x subpaths (§3.2 "Removed in 5.0") have no row.
 
+**Export conditions (C-5, v1.2).** The generated JS entries carry exactly `{ types, default }`. A `css` condition is rejected: Node and bundlers stop at `default`, so a `css` key after it is never selected, and CSS is reached only through the CSS subpaths (`./styles.css`, `./material.css`, …). `ENTRIES[].css` names the bundle that the entry's CSS subpath ships, not an export condition.
+
+**5.1 additions (C-14, v1.2).** `DateTimePicker` (`./date`) and `Waveform` (`./media`) are not 5.0 exports. The 5.1 contract PR adds them to those entries' `exports`; there is no `./date-time` entry.
+
 The 4.x subpaths `./tokens/json`, `./tokens/tailwind`, `./tokens/manifest`, `./tokens/css`, `./styles`, `./primitives/<name>`, `./icons/<category>` and the alias subpaths are not 5.0 entries. Their 4.x deprecation entries are PLAT's (`fragments/deprecations/plat.ts`).
 
 ### 4.8 `src/contracts/fragments.ts` and `src/contracts/load-fragments.mjs` (S-38, S-39, S-43..S-46, S-50)
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Every fragments/<kind>/<stream>.ts default-exports `[...] satisfies <Type>`. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Every fragments/<kind>/<stream>.ts default-exports `[...] satisfies <Type>`. */
 export type StreamKey = 'plat' | 'mat' | 'cmp' | 'surf' | 'qual';
 
 // ---- S-38 deprecations (was SC-02/SC-03; envelope generated as {"$schema","version":1,"entries":[...]}) ----
@@ -1181,12 +1235,15 @@ export interface LaneRegistration {
 export interface PlaywrightProjectFragment { name: `${StreamKey}:${string}`; testDir: string; testMatch?: string; use?: Record<string, unknown> }
 
 // ---- S-45 other fragments ----
-export interface CssFragment { file: string; layer: 'ag.compat' | 'ag.reset' | 'ag.tokens' | 'ag.material' | 'ag.components' | 'ag.a11y'; bundle: 'styles.css' | 'tokens.css' | 'material.css' | 'data.css' | 'date.css' | 'ai.css' | 'media.css' | 'app-shell.css' | 'backdrops.css' | 'compat/tokens.css' | 'compat/globals.css'; order?: number }
+export interface CssFragment { file: string; layer: 'ag.compat' | 'ag.reset' | 'ag.tokens' | 'ag.material' | 'ag.components' | 'ag.a11y'; bundle: 'styles.css' | 'tokens.css' | 'material.css' | 'data.css' | 'date.css' | 'ai.css' | 'media.css' | 'app-shell.css' | 'backdrops.css' | 'charts.css' | 'compat/tokens.css' | 'compat/globals.css'; order?: number }
 export interface SideEffectException { module: string; reason: string; expires: string /* version */ }
 export interface ReviewItem { id: string; subject: string; criterion: 'specular-quality' | 'optical-hierarchy' | 'radius-rhythm' | 'one-hand' | 'other'; note?: string }
 export interface LiteralsBaseline { version: 1; files: Record<string, Partial<Record<'color' | 'blur' | 'radius' | 'shadow' | 'duration' | 'easing' | 'spring', number>>> }
 export interface A11yBaseline { version: 1; violations: Array<{ subject: string; rule: string; count: number; issue: string }> }
-export interface SrRecord { flagship: string; at: 'voiceover-macos' | 'voiceover-ios' | 'nvda-chrome' | 'talkback-chrome' | 'touch'; result: 'pass' | 'fail'; date: string; tester: string; notes?: string; sha: string }
+export interface SrRecord { flagship: string; at: 'voiceover-macos' | 'voiceover-ios' | 'nvda-chrome' | 'talkback-chrome' | 'touch'; result: 'pass' | 'fail'; date: string; tester: string; notes?: string; sha: string
+  /* C-16 (v1.2), optional evidence fields; schema contracts/schemas/sr-record.schema.json is the single SrRecord schema */
+  atVersion?: string; browser?: string; browserVersion?: string; os?: string; osVersion?: string; device?: string; subject?: string;
+  steps?: ReadonlyArray<{ nameRoleValue: string; stateChange: string; openClose: string; liveRegion: string; gesture?: string; nonDragAlternative?: string; pass: boolean; notes?: string }> }
 export type RegistryItemOwner = { id: string; type: 'registry:base' | 'registry:block' | 'registry:item'; owner: 'PLAT' | 'CMP' | 'SURF'; ga: boolean };
 export type FragmentKind = 'deprecations' | 'codemods' | 'size-budgets' | 'perf-budgets' | 'lanes' | 'playwright' | 'css' | 'side-effects' | 'review' | 'literals-baseline' | 'a11y-baseline';
 ```
@@ -1217,8 +1274,15 @@ export async function loadFragments(kind, root = process.cwd()) {
     const file = join(dir, name);
     if (extname(name) === '.json') { out.push({ stream, file, value: JSON.parse(readFileSync(file, 'utf8')) }); continue; }
     const res = await build({ entryPoints: [file], bundle: true, write: false, format: 'esm', platform: 'node', logLevel: 'silent' });
-    const url = 'data:text/javascript;base64,' + Buffer.from(res.outputFiles[0].text).toString('base64');
-    out.push({ stream, file, value: (await import(url)).default ?? [] });
+    /* The esbuild bundle is self-contained — evaluate it directly rather than
+       `import('data:…')`, which jest's module registry cannot resolve. Same
+       code path under node and jest: rewrite `export default` → `return`. */
+    let code = res.outputFiles[0].text;
+    code = code
+      .replace(/export\s*\{\s*([\w$]+)\s+as\s+default[^}]*\};?\s*$/, 'return $1;')
+      .replace(/export\s+default\s+([^;]+);?\s*$/, 'return $1;');
+    const value = new Function(code)();
+    out.push({ stream, file, value: value ?? [] });
   }
   return out.sort((a, b) => STREAMS.indexOf(a.stream) - STREAMS.indexOf(b.stream));
 }
@@ -1229,7 +1293,7 @@ A fragment module may import only from `src/contracts/**`. That keeps every frag
 ### 4.9 `src/contracts/testing.ts` (S-40..S-43, S-48)
 
 ```ts
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Runtime helpers implemented by QUAL in tests/helpers/index.ts. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Runtime helpers implemented by QUAL in tests/helpers/index.ts. */
 import type * as React from 'react';
 import type { Backdrop, DomTier, Transparency } from './material';
 import type { Scheme, Contrast } from './preferences';
@@ -1250,7 +1314,7 @@ export const LANES = { L1: 'Static', L2: 'Artifact', L3: 'Change class', L4: 'To
 /** CI is GitLab CI only (§4.13). No GitHub Actions workflow exists; these are GitLab job names. */
 export const CI = { root: '.gitlab-ci.yml', fragment: (s: 'plat' | 'mat' | 'cmp' | 'surf' | 'qual') => `ci/${s}.gitlab-ci.yml`,
   project: 'chahal-foundation-group/github-auraoneai/auraglass', projectId: 87152036 } as const;
-export const STAGES = ['contract', 'build', 'test', 'certify', 'package', 'deploy', 'publish'] as const;
+export const STAGES = ['contract', 'build', 'test', 'package', 'certify', 'deploy', 'publish'] as const; // v1.2: package before certify (qual:certify:* need plat:package:pack)
 export type CiScope = 'pr' | 'main' | 'nightly' | 'release';     // $AG_SCOPE, set by workflow:rules in .gitlab-ci.yml
 export type CiLine = '4x' | '5x';                                // $AG_LINE
 export const LANE_COMMAND = 'node certification/run.mjs --lane <id> --scope $AG_SCOPE' as const;
@@ -1440,17 +1504,17 @@ export default { meta: { name: 'eslint-plugin-auraglass' }, rules, configs: { di
 | Stream | Rules |
 |---|---|
 | PLAT | `no-random-in-render` (also `Date.now()`/`new Date()` in render), `no-dom-lazy-init`, `use-client-required`, `use-client-needless`, `contract-boundary` (R3: import only §4 module paths across streams), `no-legacy-import` (nothing imports `legacy/**`) |
-| MAT | `no-optics-outside-material`, `no-inline-glass`, `no-raw-design-values` (with stylelint), `motion-no-empty-animate`, `motion-raf-via-ticker`, `motion-transition-allowlist`, `motion-no-ungated-loop`, `no-document-escape`, `no-runtime-contrast` |
-| CMP | `no-forward-ref`, `no-overlay-global-listeners`, `prop-grammar` (BANNED_PROPS, `onValueChange`) |
+| MAT | `no-optics-outside-material` (replaces `no-inline-glass`, retired in v1.2, C-15), `no-raw-design-values` (with stylelint), `motion-no-empty-animate`, `motion-raf-via-ticker`, `motion-transition-allowlist`, `motion-no-ungated-loop`, `motion-no-runtime-import`, `motion-no-hover-transform`, `motion-single-preference-source`, `motion-no-random`, `no-document-escape`, `no-runtime-contrast`, `no-outline-none-focus` |
+| CMP | `no-forward-ref`, `require-data-ag-part`, `no-overlay-global-listeners`, `prop-grammar` (BANNED_PROPS, `onValueChange`) |
 | SURF | `no-network-in-ai`, `no-simulation` |
 | QUAL | `no-transition-all`, `no-permanent-will-change`, `no-translatez-hack`, `no-global-pointer-listener`, `raf-requires-cancel`, `raf-requires-visibility-gate` |
 
 **Non-blocking rule rollout.** A rule owner may set `severity: 'error'` only for globs that the owner stream itself owns. For every other stream's globs, the rule is `warn` until that stream switches it to `error`. The switch happens by adding the glob to the stream's own rule-config fragment (`lint/rules/<stream>/_strict.cjs`, which exports `{ strict: { '<rule-name>': string[] /* globs this stream owns */ } }`, exactly the shape the plugin loader above reads). At RC-1 all auraglass rules become `error` everywhere (gate G-05). So no stream can turn another stream's CI red.
 
-**`jest.config.js`** (QUAL, verbatim; tests are discovered by location, never registered). ESM, because the root `package.json` has `"type": "module"`; v1.0 used `module.exports`, which fails to load under `"type": "module"`:
+**`jest.config.js`** (QUAL, verbatim; tests are discovered by location, never registered). ESM, because the root `package.json` has `"type": "module"`; v1.0 used `module.exports`, which fails to load under `"type": "module"`. contract-v1.2 ratifies the #369 edits: the transform goes through `tests/helpers/babel-jest-import-meta.cjs` (babel-jest with the same presets, plus the `import.meta.url`/`import.meta.dirname` rewrite that lets `.mjs` sources run under Jest's CJS loader), `.mjs` is a module extension, and `prettier` is mapped to its ESM entry and transformed, because its CJS entry loads the formatter through a dynamic `import()` that Jest's CJS runtime rejects ("A dynamic import callback was invoked without --experimental-vm-modules"; reproduced with `tests/tokens/determinism.test.ts`):
 
 ```js
-/* contract-v1.1 verbatim (ESM). Node-environment tests add the docblock  @jest-environment node. */
+/* contract-v1.2 verbatim (ESM). Node-environment tests add the docblock  @jest-environment node. */
 export default {
   testEnvironment: 'jsdom',
   roots: ['<rootDir>'],
@@ -1458,8 +1522,35 @@ export default {
     '<rootDir>/showcase/**/*.test.{ts,tsx}', '<rootDir>/fragments/**/*.test.ts', '<rootDir>/scripts/**/*.test.{ts,mjs}'],
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/legacy/', '<rootDir>/dist/', '<rootDir>/packages/', '<rootDir>/apps/'],
   setupFilesAfterEnv: ['<rootDir>/tests/helpers/setup.ts'],
-  transform: { '^.+\\.(t|j|mj)sx?$': ['babel-jest', { presets: [['@babel/preset-env', { targets: { node: '20.19' } }], ['@babel/preset-react', { runtime: 'automatic' }], '@babel/preset-typescript'] }] },
-  moduleNameMapper: { '\\.css$': 'identity-obj-proxy' },
+  transform: { '^.+\\.(t|j|mj)sx?$': ['<rootDir>/tests/helpers/babel-jest-import-meta.cjs', {}] },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'mjs', 'json'],
+  transformIgnorePatterns: ['/node_modules/(?!prettier)'],
+  moduleNameMapper: {
+    '\\.css$': 'identity-obj-proxy',
+    '^prettier$': '<rootDir>/node_modules/prettier/index.mjs',
+    // C-4: the package name resolves to the ENTRIES sources (src/contracts/entries.ts), never to dist/ or node_modules.
+    // Subpaths not in ENTRIES (e.g. 'aura-glass/components') stay unresolvable, as in the published package.
+    '^aura-glass$': '<rootDir>/src/index.ts',
+    '^aura-glass/material$': '<rootDir>/src/material/index.ts',
+    '^aura-glass/theme$': '<rootDir>/src/theme/public.ts',
+    '^aura-glass/tokens$': '<rootDir>/src/tokens/index.ts',
+    '^aura-glass/motion$': '<rootDir>/src/motion/public.ts',
+    '^aura-glass/primitives$': '<rootDir>/src/primitives/index.ts',
+    '^aura-glass/icons$': '<rootDir>/src/icons/index.ts',
+    '^aura-glass/icons/(.+)$': '<rootDir>/src/icons/$1',
+    '^aura-glass/forms$': '<rootDir>/src/forms/index.ts',
+    '^aura-glass/app-shell$': '<rootDir>/src/app-shell/index.ts',
+    '^aura-glass/data$': '<rootDir>/src/data/index.ts',
+    '^aura-glass/date$': '<rootDir>/src/date/index.ts',
+    '^aura-glass/ai$': '<rootDir>/src/ai/index.ts',
+    '^aura-glass/media$': '<rootDir>/src/media/index.ts',
+    '^aura-glass/backdrops$': '<rootDir>/src/backdrops/index.ts',
+    '^aura-glass/three$': '<rootDir>/src/three/index.ts',
+    '^aura-glass/charts$': '<rootDir>/src/charts/index.ts',
+    '^aura-glass/compat$': '<rootDir>/src/compat/index.ts',
+    '^aura-glass/deprecations\\.json$': '<rootDir>/deprecations.json',
+    '^aura-glass/package\\.json$': '<rootDir>/package.json',
+  },
 };
 ```
 
@@ -1563,7 +1654,7 @@ C0 writes these sets into the root `package.json` and regenerates `package-lock.
 | `@base-ui/react` | `1.8.0` (exact, D-13) | `src/components/**`, `src/foundation/**`, `src/app-shell/**`, `src/data/**`, `src/ai/**`, `src/media/**`, `src/date/**` | CMP (the pattern); SURF |
 | `clsx` | `2.1.1` | `src/internal/cn.ts` only | PLAT |
 | `@tanstack/react-table` | `8.21.3` (v8 depends only on `table-core`; v9.2.6 adds `@tanstack/react-store`, so it stays out until a contract PR) | `src/data/**` | SURF |
-| `@tanstack/react-virtual` | `3.14.13` | `src/data/**`, `src/ai/**` | SURF |
+| `@tanstack/react-virtual` | `3.14.13` | `src/data/**`, `src/ai/**`; `src/components/combobox/**` only if OD-15 approves C-11 (CC-CMP-06), otherwise Combobox keeps an owned windowed list and the allowlist row is removed | SURF; CMP for Combobox |
 
 **`peerDependencies` (with `peerDependenciesMeta.optional` where marked):**
 
@@ -1574,9 +1665,9 @@ C0 writes these sets into the root `package.json` and regenerates `package-lock.
 | `@internationalized/date` | `^3.12.4` | yes | `src/date/**` |
 | `motion` | `^12.0.0` (D-25; latest 12.x is 12.43.0. npm `latest` is 14.0.0, and widening the range is an open contract item, CC-01) | yes | `src/motion/public.ts` and files under `src/motion/adapter/**` only |
 | `react-hook-form` | `^7.0.0` | yes | `src/forms/**` |
-| `three` | `>=0.170.0` | yes | `src/three/**` |
-| `@react-three/fiber` | `^9.0.0` (8.x is React 18 only, and the peer floor is React 19) | yes | `src/three/**` |
-| `@react-three/drei` | `^10.0.0` | yes | `src/three/**` |
+| `three` | `>=0.170.0` | yes, 5.1 only (C-6: `./three` exports nothing at 5.0, so the peer is removed until the 5.1 contract PR) | `src/three/**` |
+| `@react-three/fiber` | `^9.0.0` (8.x is React 18 only, and the peer floor is React 19) | yes, 5.1 only (C-6) | `src/three/**` |
+| `@react-three/drei` | `^10.0.0` | yes, 5.1 only (C-6) | `src/three/**` |
 | `tailwindcss` | `^4.0.0` | yes | none (CSS bridge only) |
 | `d3-scale`, `d3-shape` | `^4.0.2`, `^3.2.0` | yes, 5.1 only (added by contract PR at 5.1) | `src/charts/**` |
 
@@ -1592,6 +1683,7 @@ C0 writes these sets into the root `package.json` and regenerates `package-lock.
 | Storybook | `storybook@9.1.20`, `@storybook/react-vite@9.1.20`, `@storybook/addon-a11y@9.1.20`, `@storybook/addon-docs@9.1.20` (the versions at C0; 10.x is CC-05), `vite` (version at C0) |
 | React | `react@19.3.0`, `react-dom@19.3.0`, `@types/react@19.3.0`, `@types/react-dom@19.3.0`, `@types/node@26.6.4`, `babel-plugin-react-compiler@1.0.0` |
 | Peers for tests | each optional peer at its latest version within the declared range |
+| AI SDK (fixtures and adapter types only, never imported by `src/**`) | `ai@5.0.29`, `@ai-sdk/react@2.0.29`, `@ai-sdk/openai-compatible@1.0.29` (contract PR #48). C-12 (optional, v1.2): `ai@6.0.303`, `@ai-sdk/react@3.0.306`, `@ai-sdk/openai-compatible@2.0.81`, the first major whose `UIMessage` tool parts carry `approval-requested`/`approval-responded`/`output-denied`; if rejected, stay on 5.0.29 and drop the approval states from the fixtures |
 
 Every other 4.1.0 runtime dependency is removed on `next` at C0: express, express-rate-limit, helmet, cors, compression, socket.io (+client), ioredis, redis, jsonwebtoken, bcryptjs, dotenv, openai, @pinecone-database/pinecone, @google-cloud/vision, @sentry/node, chart.js, react-chartjs-2, date-fns, zod, tailwind-merge, framer-motion. Only `legacy/**` imports them, and legacy is outside the build. On `release/4.x` they follow PLAT's 4.2 dependency diet instead.
 
@@ -1654,7 +1746,7 @@ Because `package.json` is PLAT's, no other stream adds scripts to it. Stream-spe
 
 #### 4.13.2 Pipeline vocabulary (frozen)
 
-- **Stages**, in order: `contract`, `build`, `test`, `certify`, `package`, `deploy`, `publish` (`STAGES`, §4.9).
+- **Stages**, in order: `contract`, `build`, `test`, `package`, `certify`, `deploy`, `publish` (`STAGES`, §4.9). contract-v1.2 ratifies `package` before `certify`: the `qual:certify:*` lanes need `plat:package:pack` in an earlier stage.
 - **Variables set by `workflow:rules`** and available to every job's `rules`: `AG_SCOPE` ∈ `pr | main | nightly | release`, `AG_LINE` ∈ `4x | 5x`.
 - **Job names:** `<stream>:<stage>:<name>` (for example `mat:build:tokens`, `surf:test:ledger`, `qual:certify:l6`). Root jobs are `contract:<name>`. The one exception is `pages` (PLAT), because GitLab Pages deploys the job of that name.
 - **Hidden templates:** the root defines `.ag-node`, `.ag-playwright`, `.ag-gpu`, `.ag-aws-remote` and `.ag-evidence-release`; a fragment's own templates are named `.<stream>-<name>`.
@@ -1670,21 +1762,24 @@ Because `package.json` is PLAT's, no other stream adds scripts to it. Stream-spe
 | `qual:certify:l10` | `.artifacts/qual/perf-report.json` (S-55) | PLAT docs-claims |
 | `qual:certify:release` | `.artifacts/qual/release-verdict.json` (S-55) | `plat:publish:npm` |
 | `plat:build:docs` | `apps/docs/out/` | `pages` |
+| `mat:build:bridge` (4x line only, C-8) | `src/material/`, `src/styles/v5.css`, `src/styles/preview-v5.css`, `dist/tokens/4x/` | `plat:build:dist` on `release/4.x` |
+
+C-8 (v1.2): `mat:build:bridge` runs `node scripts/tokens/build.mjs --platform bridge-4x` on `release/4.x` and its `4x-*`/`4x11-*` heads only. Inside `src/material/` it writes exactly `src/material/css/{ladders,floors,properties,preview-v5}.css` and `src/material/compat/tokens.css`; it is the only writer of those files, the two `src/styles/` files and `dist/tokens/4x/`, and the drift check is `git diff --exit-code src/material src/styles/v5.css src/styles/preview-v5.css` after the build. Evidence (logs, reports) still goes under `.artifacts/mat/<job-slug>/`. If OD-16 rejects C-8, the job writes all of these under `.artifacts/mat/bridge/` instead and the drift check compares that tree.
 
 - **Environments:** `npm-publish` (tier `production`; the job `plat:publish:npm`), `pages` (tier `production`; the job `pages`, `url: $CI_PAGES_URL`). No other environment is created by these PRDs.
 
 #### 4.13.3 Root `.gitlab-ci.yml` (PLAT, verbatim)
 
 ```yaml
-# contract-v1.1 verbatim (PLAT-owned). PLAT may change only the values of AG_NODE_IMAGE, AG_PLAYWRIGHT_IMAGE, AG_NPM_VERSION,
+# contract-v1.2 verbatim (PLAT-owned). PLAT may change only the values of AG_NODE_IMAGE, AG_PLAYWRIGHT_IMAGE, AG_NPM_VERSION,
 # AG_PAGES_BRANCH and AG_V4_DIST_TAG. GitHub (github.com/auraoneai/auraglass) is the source of truth; this project is its
 # one-way mirror, so there are no merge-request pipelines.
-stages: [contract, build, test, certify, package, deploy, publish]
+stages: [contract, build, test, package, certify, deploy, publish]
 
 variables:
-  AG_NODE_IMAGE: "node:22-bookworm"                                 # PLAT pins a digest at C0
+  AG_NODE_IMAGE: "node:22-bookworm@sha256:0e5f906573693feaa1e21057ebdcfdb5bd5021f050b2dc7c9deceb629c7da2a8"  # PLAT pins a digest at C0
   AG_PLAYWRIGHT_IMAGE: "mcr.microsoft.com/playwright:v1.63.0-noble" # must equal the @playwright/test pin (§4.12)
-  AG_NPM_VERSION: "11"                                              # >= 11.5.1 for trusted publishing; PLAT pins exact at C0
+  AG_NPM_VERSION: "11.21.0"                                       # >= 11.5.1 for trusted publishing; PLAT pins exact at C0
   AG_PAGES_BRANCH: "release/4.x"                                    # becomes "main" at 5.0 GA
   AG_V4_DIST_TAG: "latest"                                          # becomes "v4-lts" at 5.0 GA
   AURAGLASS_EVIDENCE_DIR: ".artifacts"
@@ -1704,13 +1799,13 @@ workflow:
       variables: { AG_SCOPE: nightly, AG_LINE: "4x" }
     - if: $CI_PIPELINE_SOURCE == "schedule"
       variables: { AG_SCOPE: nightly, AG_LINE: "5x" }
-    - if: $CI_COMMIT_BRANCH == "release/4.x"
+    - if: $CI_COMMIT_BRANCH == "release/4.x" || $CI_COMMIT_BRANCH == "release/4.1.x"
       variables: { AG_SCOPE: main, AG_LINE: "4x" }
     - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "next"
       variables: { AG_SCOPE: main, AG_LINE: "5x" }
-    - if: $CI_COMMIT_BRANCH =~ /^4x-(plat|mat|cmp|surf|qual)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-codemods-/
+    - if: $CI_COMMIT_BRANCH =~ /^4x-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^4x11-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-codemods-/
       variables: { AG_SCOPE: pr, AG_LINE: "4x" }
-    - if: $CI_COMMIT_BRANCH =~ /^next-(plat|mat|cmp|surf|qual)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-deprecations-/ || $CI_COMMIT_BRANCH =~ /^contract\//
+    - if: $CI_COMMIT_BRANCH =~ /^next-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-deprecations-/ || $CI_COMMIT_BRANCH =~ /^contract\// || $CI_COMMIT_BRANCH =~ /^sync\//
       variables: { AG_SCOPE: pr, AG_LINE: "5x" }
     - when: never
 
@@ -1777,10 +1872,13 @@ contract:conformance:
 contract:ci-fragments:
   extends: .ag-node
   stage: contract
+  variables: { GIT_DEPTH: "0" }
   rules:
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main"
   script:
-    - node scripts/ci/verify-ci-fragments.mjs
+    - BASE=$([ "$AG_LINE" = "4x" ] && echo release/4.x || echo next)
+    - git fetch --no-tags origin "+refs/heads/$BASE:refs/remotes/origin/$BASE"
+    - node scripts/ci/verify-ci-fragments.mjs --base "origin/$BASE"   # C-9 (v1.2): the task-graph hook gets the line base
 ```
 
 #### 4.13.4 Stream fragments `ci/<stream>.gitlab-ci.yml` (the CI ownership seam)
@@ -2101,6 +2199,7 @@ Not verified by this review (needs a live check against GitLab, npm or the runne
 | `contract-v1.0` | 2026-10-06 | Initial freeze. Replaces the §16 decomposition and SC-01..SC-40 ownership with 5 concurrent streams, 38 seams, 11 fragment kinds and an 81-row ordered ownership table (A01–Z01, before `<stream>` expansion) |
 | `contract-v1.1` | 2026-10-06 | Pre-C0 amendment, so no seed or stream is affected. (1) CI/CD moves to GitLab CI only (Gurbaksh's instruction): five GitHub workflows deleted on every branch; rows A19/A20 (`.gitlab-ci.yml`, `ci/<stream>.gitlab-ci.yml`), B11/B12/B12a rewritten; §4.13 adds the root pipeline, the fragment seam (S-53) and npm OIDC publishing from GitLab (S-54); `WORKFLOWS`/`REQUIRED_CHECKS`/`CERT_JOB_IDS`/`EVIDENCE.uploadName` replaced by `CI`, `REQUIRED_JOBS`, `CERT_JOBS`, `CI_JOBS`, GitLab artifact naming; required-check activation is now each stream's own `allow_failure` flip; the fragment-sync bot is an operator task because CI holds no GitHub credential; change class no longer reads PR labels. (2) Review fixes: row D02x rejects non-stream test subdirectories (40 archived paths would otherwise silently fall to QUAL or MAT); B22a covers `css-api.json` and the root report; B23a per-stream canary pages; `support-inbox`, `mobile-settings` and `schema-viewer` move to SURF; S-51 docs blocks, S-52 script names, S-55 report artifacts and `listSubjects`; `.storybook/preview.tsx` seed content (referenced by C0-12 but missing); `jest.config.js` made ESM (v1.0's `module.exports` cannot load under `"type": "module"`); `_strict.cjs` shape made consistent with the loader; seeds for `tokens:build` and `api:update`; the relocation and task-graph tools moved to `docs/auraglass-5/tools/` so no PRD waits for PLAT; R-01 reassigns all removal tasks to PLAT; G-16 added. 43 seams |
 | `contract-v1.1+CP-PLAT-3` | 2026-10-08 | Additive S-37 export `setDeprecationMode(mode: 'warn' \| 'silent')` (contract PR CP-PLAT-3, PLAT proposes / MAT adopts). No seed changes: until it merges, `AuraGlassProvider deprecations="silent"` is a documented no-op and warnings stay dev-only (REQ-PLAT-26). |
+| `contract-v1.2` | 2026-10-10 | Additive bundle FIN-463 (PRD-F Appendix C), contract PR `contract/v1.2-final`; takes effect only when OD-16 is recorded, and every item the owner rejects falls back as listed. **Reconciliation** of edits that reached `next` outside a contract PR: ratified `jest.config.js` (#369: `babel-jest-import-meta.cjs` transform, `.mjs` extension, `^prettier$` → `prettier/index.mjs` with `transformIgnorePatterns`), `load-fragments.mjs` direct bundle evaluation, `SurfaceGroupProps.refraction`, `./three` `exports: []`, `./charts` `css`, `CssFragment` bundle `charts.css`, `COMPOUND_PARTS.ColorPicker` + `CmpRootProps.ColorPicker`, stages `package` before `certify`; reverted `PUBLIC_CSS_VARS` readouts/focus back to `--ag-surface-*`/`--ag-focus-*` (REQ-MAT-29, -61, REQ-CMP-19; `etc/api/material.css-api.json` already lists the public names). **Items:** C-1 `MaterialAttributes` has no `className` (required, no fallback). C-2 `AG_ATTRIBUTES` += `data-ag-theme`, `data-ag-shadcn-source`, `data-ag-scroll-locked`, `data-ag-hit-clamp`, `data-ag-focus-inset`, `data-ag-lens-defs` (setter MAT for scroll-locked and lens-defs, ANY for the four opt-in hooks), the `data-ag-appearance="full-height"` value, and `STATE_ATTRIBUTES`, the non-`data-ag` state attributes library CSS may select; the MAT attributes left unregistered are listed in §4.2 and renamed by MAT (fallback: stop emitting or rename to `data-ag-part`). C-3 `COMPOUND_PARTS` += `Dialog`/`AlertDialog`/`Sheet` `Header`, `Body`, `Footer`, `Tooltip.Provider`, `Toast.Progress`, `Combobox.Group`/`GroupLabel` (implemented on `next`); `COMPOUND_PARTS_PENDING` declares `SegmentedControl.Indicator`, `Slider.Track`/`Range`/`Thumb`, `Menubar = {Root, Menu}` and `Toast.History`/`HistoryItem`, which move into `COMPOUND_PARTS` in the contract commit after their CMP implementation, so conformance never asserts a missing part; `Fieldset` stays flat (fallback: remove the parts). C-4 root `moduleNameMapper` maps `aura-glass` and every `ENTRIES` source (fallback: per-stream Jest configs registered as lanes). C-5 the `css` export condition is rejected (§4.7). C-6 `three`, `@react-three/*` are 5.1-only peers like `d3-*` (fallback: keep only with a documented 5.0 use). C-7 `PUBLIC_CSS_VARS.comp` (9 control heights) and `.switchTrack` (6), `TOKEN_OUTPUTS` lists every output the build writes; MAT adds no other public name and the names it moves to `--_ag-*` are listed in §4.3 (fallback: rename to `--_ag-*`). C-8 producer row `mat:build:bridge` with its exact written files (§4.13.2) (fallback: outputs under `.artifacts/mat/bridge/`). C-9 `contract:ci-fragments` passes `--base` (fallback: script-side derivation, the current behaviour). C-10 `.github/CODEOWNERS` on `main` is a separate contract PR. C-11 optional Combobox importer of `@tanstack/react-virtual`, only with OD-15. C-12 optional AI SDK v6 pins. C-13 `BANNED_PROPS` keeps `tone`; Backdrop's media tone prop is `mediaTone` (emits `data-ag-media-tone`; OD-17). C-14 `DateTimePicker`/`Waveform` are 5.1. C-15 `no-inline-glass` retired from `contracts/lint-rule-owners.json` (no rule file exists; `no-optics-outside-material` replaces it). C-16 `contracts/schemas/sr-record.schema.json` is the single SrRecord schema, with optional evidence fields. C-17 `release/4.1.x` and `4x11-*` are line `4x` (root `workflow:rules`, already on `next`); `contracts/ownership.json#branchRules` records the prefix rules. Version strings in `src/contracts/**` and `jest.config.js` read `contract-v1.2` |
 
 
 

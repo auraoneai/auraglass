@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "rows": [
+    { "id": "T01", "glob": "src/theme/**", "owner": "MAT" },
+    { "id": "T02", "glob": "src/motion/**", "owner": "MAT" },
+    { "id": "T03", "glob": "src/**", "owner": "CMP" }
+  ]
+}

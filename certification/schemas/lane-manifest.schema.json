@@ -29,7 +29,55 @@
           "state": { "type": "string", "enum": ["pass", "fail", "pending", "double-pass", "pre-existing"] },
           "reason": { "type": "string" },
           "tests": { "type": "integer" },
-          "durationMs": { "type": "integer" }
+          "durationMs": { "type": "integer" },
+          "failedOwners": { "type": "array", "items": { "type": "string" } },
+          "blockingFor": { "type": "string" },
+          "line": { "type": "string", "enum": ["4x"] },
+          "tarballSource": { "type": "string", "enum": ["published", "head"] },
+          "blocking": { "type": "boolean", "enum": [false] },
+          "subjects": { "type": "array", "items": { "type": "string" } },
+          "coverage": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["key", "files", "lines", "branches", "floor", "state", "owner"],
+              "properties": {
+                "key": { "type": "string" },
+                "files": { "type": "integer" },
+                "lines": { "type": ["number", "null"] },
+                "branches": { "type": ["number", "null"] },
+                "floor": { "type": "object", "required": ["lines", "branches"] },
+                "state": { "type": "string", "enum": ["pass", "fail"] },
+                "owner": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "tarball": {
+      "type": ["object", "null"],
+      "required": ["source", "file", "sha256"],
+      "properties": {
+        "source": { "type": "string", "enum": ["env", "pack"] },
+        "file": { "type": "string" },
+        "sha256": { "type": ["string", "null"] }
+      }
+    },
+    "tarballs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "state", "spec", "sha256"],
+        "properties": {
+          "source": { "type": "string", "enum": ["published", "head"] },
+          "state": { "type": "string", "enum": ["ready", "pending", "fail"] },
+          "spec": { "type": "string" },
+          "version": { "type": "string" },
+          "commit": { "type": "string" },
+          "reason": { "type": "string" },
+          "file": { "type": "string" },
+          "sha256": { "type": ["string", "null"] }
         }
       }
     },
