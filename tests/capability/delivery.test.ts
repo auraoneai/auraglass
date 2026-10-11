@@ -256,3 +256,50 @@ describe('ledger stories[] ids', () => {
     expect(r.stderr).toContain('X-24: delivered part/prop row cites no story id');
   });
 });
+
+// REQ-SURF-164: X-28 (Chart, ./charts) moves to 'delivered' only when the L2
+// size artifact shows { Chart } <=15 KB min+gz with d3 external.
+describe('X-28 delivery is guarded by the L2 size artifact', () => {
+  const real = JSON.parse(readFileSync(join(ROOT, 'docs/auraglass-5/capability-ledger.json'), 'utf8')) as { rows: { id: string; status: string }[] };
+  const x28 = real.rows.find((r) => r.id === 'X-28')!;
+
+  function run(status: string, sizeReport: object | null) {
+    const dir = mkdtempSync(join(tmpdir(), 'ledger-x28-'));
+    writeFileSync(join(dir, 'capability-ledger.json'), JSON.stringify({ $schema: './capability-ledger.schema.json', version: '1', rows: [{ ...x28, status }] }));
+    const args = [SCRIPT, '--ledger', join(dir, 'capability-ledger.json'), '--size-report', join(dir, 'size-budgets.json')];
+    if (sizeReport !== null) writeFileSync(join(dir, 'size-budgets.json'), JSON.stringify(sizeReport));
+    return spawnSync(process.execPath, args, { encoding: 'utf8', cwd: ROOT });
+  }
+  const chartRow = (extra: object) => ({ id: 'SB-SURF-W2-CHART-51', import: "{ Chart } from 'aura-glass/charts'", limitBytes: 15360, kind: 'js', ...extra });
+
+  it('the committed X-28 row is not delivered', () => {
+    expect(x28).toBeDefined();
+    expect(x28.status).not.toBe('delivered');
+  });
+  it('a non-delivered X-28 needs no artifact', () => {
+    expect(run(x28.status, null).status).toBe(0);
+  });
+  it('fails when X-28 is delivered without the artifact', () => {
+    const r = run('delivered', null);
+    expect(r.status).toBe(1);
+    expect(`${r.stdout}${r.stderr}`).toContain('X-28: delivered without the L2 size artifact');
+  });
+  it('fails when the Chart measurement is pending or missing', () => {
+    expect(run('delivered', { rows: [chartRow({ status: 'pending', measuredBytes: null, externals: ['d3-*'] })] }).status).toBe(1);
+    expect(run('delivered', { rows: [] }).status).toBe(1);
+  });
+  it('fails when Chart is over 15 KB min+gz', () => {
+    const r = run('delivered', { rows: [chartRow({ status: 'pass', measuredBytes: 15361, externals: ['d3-*'] })] });
+    expect(r.status).toBe(1);
+    expect(`${r.stdout}${r.stderr}`).toContain('15361 B > 15360 B');
+  });
+  it('fails when the artifact does not show d3 external', () => {
+    const r = run('delivered', { rows: [chartRow({ status: 'pass', measuredBytes: 9000 })] });
+    expect(r.status).toBe(1);
+    expect(`${r.stdout}${r.stderr}`).toContain('does not record d3-scale as external');
+  });
+  it('passes only with a passing <=15 KB measurement and both d3 peers external', () => {
+    expect(run('delivered', { rows: [chartRow({ status: 'pass', measuredBytes: 15360, externals: ['d3-scale', 'd3-shape'] })] }).status).toBe(0);
+    expect(run('delivered', { rows: [chartRow({ status: 'pass', measuredBytes: 9000 })], externals: ['react', 'd3-*'] }).status).toBe(0);
+  });
+});

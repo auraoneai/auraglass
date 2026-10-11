@@ -9,7 +9,7 @@ const frame = (w: number, h: number, fill: [number, number, number, number]): Fr
   for (let i = 0; i < data.length; i += 4) { data[i] = fill[0]; data[i + 1] = fill[1]; data[i + 2] = fill[2]; data[i + 3] = fill[3]; }
   return { data, width: w, height: h };
 };
-const setPx = (f: Frame, x: number, y: number, [r, g, b, a]: number[]) => { const i = (y * f.width + x) * 4; f.data[i] = r; f.data[i + 1] = g; f.data[i + 2] = b; f.data[i + 3] = a; };
+const setPx = (f: Frame, x: number, y: number, [r, g, b, a]: [number, number, number, number]) => { const i = (y * f.width + x) * 4; f.data[i] = r; f.data[i + 1] = g; f.data[i + 2] = b; f.data[i + 3] = a; };
 
 describe('pixel gates', () => {
   it('notBlank passes on a multi-colour frame, fails on a flat one', () => {

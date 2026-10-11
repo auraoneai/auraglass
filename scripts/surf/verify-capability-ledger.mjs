@@ -13,6 +13,8 @@
  *        [--storybook-index <index.json>] [--registry-out <dir>] [--pkg-version <v>]
  *   node scripts/surf/verify-capability-ledger.mjs --budget <packed> [--ga]
  *   node scripts/surf/verify-capability-ledger.mjs --promotion <base-ledger> [--entries <file>]
+ *   node scripts/surf/verify-capability-ledger.mjs [--size-report <size-budgets.json>]
+ *        (REQ-SURF-164 size guard; default docs/size-budgets.json)
  *
  * <packed> is a packed tarball (*.tgz), a directory holding it (the root
  * package's tarball is picked by name), or an enumerated-exports JSON
@@ -415,8 +417,20 @@ function diffGate(ledger, baseSha) {
     const m = /^registry\/(?:blocks|items)\/([^/]+)\//.exec(p) ?? /^packages\/labs\/src\/([^/]+)\//.exec(p);
     return m ? m[1] : null;
   };
-  // Only entries this diff adds; edits to an existing entry need no new row.
-  const newIds = [...new Set(added.map(idOf).filter(Boolean))];
+  // Only entries that did not exist at <base> are "added"; editing a file of an
+  // existing entry (e.g. a story's parameters) needs no ledger change.
+  const dirOf = (p) => (/^(registry\/(?:blocks|items)\/[^/]+)\//.exec(p) ?? /^(packages\/labs\/src\/[^/]+)\//.exec(p))?.[1];
+  const existedAtBase = (dir) => {
+    try {
+      git(['cat-file', '-e', `${baseSha}:${dir}`]);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+  // Only entries this diff adds whose entry directory did not exist at <base>;
+  // edits (or new files) in an existing entry need no new row.
+  const newIds = [...new Set(added.filter((p) => idOf(p) && !existedAtBase(dirOf(p))).map(idOf))];
   const evidence = { base: baseSha, head: git(['rev-parse', 'HEAD']).trim(), changedFiles: changed.length, registryOrLabs: newIds, exportsAdded: [], failures: [] };
   if (newIds.length) {
     const namesInChangedRows = new Set();
@@ -724,6 +738,37 @@ async function budgetCheck(ledger, src) {
   console.log(`budget: root ${root}/${ROOT_CEILING}, total ${total}/${TOTAL_CEILING}, ledger ${ledgerRoot}+${ledgerSub} vs enumerated ${enumRoot}+${enumSub}`);
 }
 
+/* ---------- REQ-SURF-164 delivery size guard (L2 size artifact) ----------
+ * A guarded row may be 'delivered' only when the L2 size artifact (written by
+ * scripts/ci/verify-size-budgets.mjs as docs/size-budgets.json, or passed with
+ * --size-report) carries a passing measurement of its budget row within
+ * maxBytes (min+gz) AND records every listed peer as external. Runs on every
+ * invocation, so the default ledger gate fails the moment a guarded row is
+ * flipped to 'delivered' without that evidence. */
+const SIZE_GUARDS = {
+  'X-28': { budgetId: 'SB-SURF-W2-CHART-51', maxBytes: 15360, externals: ['d3-scale', 'd3-shape'] },
+};
+function sizeGuard(ledger, reportPath) {
+  for (const row of ledger.rows) {
+    const g = SIZE_GUARDS[row.id];
+    if (!g || row.status !== 'delivered') continue;
+    const f = repoPath(reportPath);
+    if (!existsSync(f)) { fail(`${row.id}: delivered without the L2 size artifact ${reportPath}`); continue; }
+    const report = readJson(f);
+    const r = (report.rows ?? []).find((x) => x.id === g.budgetId);
+    if (!r || r.status !== 'pass' || typeof r.measuredBytes !== 'number') {
+      fail(`${row.id}: L2 size artifact has no passing ${g.budgetId} measurement`);
+      continue;
+    }
+    if (r.measuredBytes > g.maxBytes) fail(`${row.id}: ${g.budgetId} measured ${r.measuredBytes} B > ${g.maxBytes} B min+gz`);
+    const ext = Array.isArray(r.externals) ? r.externals : Array.isArray(report.externals) ? report.externals : [];
+    const covered = (name) => ext.some((e) => e === name || (e.endsWith('*') && name.startsWith(e.slice(0, -1))));
+    for (const name of g.externals) {
+      if (!covered(name)) fail(`${row.id}: L2 size artifact does not record ${name} as external`);
+    }
+  }
+}
+
 /* ---------- REQ-SURF-182 --report ---------- */
 function reportMd(ledger) {
   const live = ledger.rows.filter((r) => r.status !== 'rejected');
@@ -792,6 +837,7 @@ const { rejectedNames } = semanticChecks(ledger, {
   isDefaultLedger: !has('--ledger'),
 });
 checkRejectedNames(ledger, rejectedNames);
+sizeGuard(ledger, arg('--size-report') ?? 'docs/size-budgets.json');
 
 if (has('--diff')) {
   const base = arg('--diff');

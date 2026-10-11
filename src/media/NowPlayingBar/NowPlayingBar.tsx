@@ -3,6 +3,7 @@
  * Actions/Expand. media XOR controlled; progress reads --_ag-media-progress
  * (no inline width); Expand requires aria-controls. */
 import * as React from 'react';
+import { materialProps } from '../../material';
 import type { MediaHandle } from '../useMediaElement';
 import { NowPlayingBarContext, type NowPlayingContext } from './npContext';
 import { Artwork } from './parts/Artwork';
@@ -55,10 +56,10 @@ function Root(props: NowPlayingBarRootProps): React.ReactElement {
       <div
         className={['ag-now-playing', className].filter(Boolean).join(' ')}
         data-ag-part="now-playing"
-        data-ag-variant={variant}
+        {...materialProps({ layer: 'chrome', variant })}
         data-ag-media-root=""
-        data-ag-now-playing-container=""
-        {...(expandedId ? { 'data-ag-expanded-id': expandedId } : {})}
+        data-now-playing-container=""
+        {...(expandedId ? { 'data-expanded-id': expandedId } : {})}
         {...(expanded !== undefined ? { 'data-expanded': expanded ? '' : undefined } : {})}
       >
         {children ?? (
