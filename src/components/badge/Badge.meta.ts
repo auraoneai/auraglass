@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root','label'],
   states: [],
   variants: { intent: ['neutral','info','success','warning','danger'] },
-  migration: [{ from: 'GlassBadge', automation: 'mostly', compat: true }, { from: 'LiquidGlassBadgeCluster', automation: 'partial', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1.5,
+  migration: [{ from: 'GlassBadge', props: {}, selectors: { '.glass-badge': '.ag-badge' },  automation: 'mostly', compat: true }, { from: 'LiquidGlassBadgeCluster', props: {}, selectors: { '.glass-liquid-glass-badge-cluster': '.ag-badge' },  automation: 'partial', compat: true }],
 });
