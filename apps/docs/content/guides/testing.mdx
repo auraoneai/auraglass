@@ -1,0 +1,76 @@
+# Testing
+
+AuraGlass components render plain, accessible DOM, so you test them with the same tools as the rest of your React code: Testing Library plus Vitest or Jest.
+
+## The test contract
+
+Two kinds of selectors are stable across releases:
+
+- **Roles and accessible names** — what a user perceives. Prefer these.
+- **`data-ag-part` and `data-state` attributes** — the public styling and testing contract. Every component documents its parts (`root`, `label`, `icon`, …) and the state attributes it sets (`data-state`, `data-disabled`, `data-pressed`, …).
+
+Internal class names (`.ag-*`), private custom properties (`--_ag-*`) and DOM nesting are not part of the contract; tests that rely on them break on upgrades.
+
+## Query by role and name
+
+```tsx
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { expect, test, vi } from 'vitest';
+import { Button } from 'aura-glass';
+
+test('saves on click', async () => {
+  const onClick = vi.fn();
+  render(<Button onClick={onClick}>Save</Button>);
+  await userEvent.click(screen.getByRole('button', { name: 'Save' }));
+  expect(onClick).toHaveBeenCalledTimes(1);
+});
+```
+
+Use `data-ag-part` only when there is no role to query, for example to check that a decorative part is present:
+
+```tsx
+import { render } from '@testing-library/react';
+import { expect, test } from 'vitest';
+import { Button } from 'aura-glass';
+
+test('renders the root part', () => {
+  const { container } = render(<Button>Save</Button>);
+  expect(container.querySelector('[data-ag-part="root"]')).not.toBeNull();
+});
+```
+
+Overlays (Dialog, Popover, Menu, Tooltip, Toast) render into the provider's portal root at the end of `document.body`. Query them through `screen`, not through the `container` returned by `render`, and wrap the tree in `AuraGlassProvider` when the test opens one.
+
+## Vitest (recommended)
+
+Vitest understands ES modules natively; no transform configuration is needed for `aura-glass`.
+
+```ts
+// vitest.config.ts
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  test: { environment: 'jsdom' },
+});
+```
+
+## Jest
+
+`aura-glass` and its behaviour dependency `@base-ui` are published as ES modules. Jest transforms nothing inside `node_modules` by default, so tell it to transform these two packages:
+
+```js
+// jest.config.js
+export default {
+  testEnvironment: 'jsdom',
+  transform: { '^.+\\.[cm]?[jt]sx?$': 'babel-jest' },
+  transformIgnorePatterns: ["node_modules/(?!aura-glass|@base-ui)"],
+  moduleNameMapper: { '\\.css$': 'identity-obj-proxy' },
+};
+```
+
+The `moduleNameMapper` entry stubs CSS imports (such as `import 'aura-glass/styles.css'` in a component under test); jsdom does not apply stylesheets, so assert on attributes and roles rather than computed styles. For computed-style checks use a real browser (Playwright or Vitest browser mode).
+
+With Jest, take `expect`, `test` and `jest.fn()` from `@jest/globals` instead of `vitest`; the tests are otherwise identical.

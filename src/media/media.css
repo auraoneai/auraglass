@@ -51,7 +51,7 @@
     block-size: var(--ag-target-min, 3rem);
   }
   @media (pointer: coarse) { .ag-now-playing { block-size: var(--ag-target-min, 3.5rem); } }
-  .ag-now-playing[data-ag-now-playing-fixed] { padding-block-end: env(safe-area-inset-bottom); }
+  .ag-now-playing[data-now-playing-fixed] { padding-block-end: env(safe-area-inset-bottom); }
   .ag-now-playing-artwork img { inline-size: var(--ag-target-min, 2.5rem); block-size: var(--ag-target-min, 2.5rem); object-fit: cover; border-radius: var(--_ag-radius-1, 0.25rem); }
   .ag-now-playing-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .ag-now-playing-progress {

@@ -2,7 +2,7 @@
 /* grain — 112×112 static tile at opacity 0.03 via image-set; AVIF first,
  * PNG fallback. */
 @layer ag.components {
-  .ag-backdrop[data-ag-backdrop-grain] .ag-backdrop-layer::after {
+  .ag-backdrop[data-backdrop-grain] .ag-backdrop-layer::after {
     content: '';
     position: absolute; inset: 0;
     background-image: image-set(

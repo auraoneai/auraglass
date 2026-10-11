@@ -1,0 +1,8 @@
+/* reads a private declared by a sibling row of the same bundle (defined in the closure),
+   a public token from dist/tokens.css, and a private declared only in another bundle */
+.ag-surface {
+  background: var(--_ag-recipe-fill);
+  color: var(--ag-color-fixture);
+  border-color: var(--_ag-card-only);
+  outline-color: var(--_ag-reserved-only);
+}

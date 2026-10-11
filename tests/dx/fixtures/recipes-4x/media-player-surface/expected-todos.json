@@ -1,0 +1,6 @@
+[
+  "MediaControls compact: compose MediaControls.PlayButton + MediaControls.Scrubber",
+  "unmapped token --glass-theme-text",
+  "unmapped token --glass-text-primary",
+  "removed in 5.0 (apps/docs/content/surf/migration/ai.md)"
+]

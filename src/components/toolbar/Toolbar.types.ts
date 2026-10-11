@@ -5,6 +5,8 @@ import type { ButtonProps } from '../button/Button.types';
 /** @tier Certified. */
 export interface ToolbarRootProps extends MaterialBearingProps {
   orientation?: 'horizontal' | 'vertical' | undefined;
+  /** SurfaceGroup spacing token on the root (the root IS the surface — REQ-CMP-37). */
+  spacing?: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16' | undefined;
   /** Roving-focus loop (default true). */
   loop?: boolean | undefined;
   /** Required accessible name. */
