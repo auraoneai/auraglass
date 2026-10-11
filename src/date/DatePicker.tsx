@@ -33,6 +33,8 @@ import type { DateFieldLikeProps, DateValue } from './shared';
 export interface DatePickerProps extends DateFieldLikeProps<DateValue> {
   className?: string | undefined;
   labels?: { choose?: string | undefined; dialog?: string | undefined } | undefined;
+  /** Initial popover state (uncontrolled). */
+  defaultOpen?: boolean | undefined;
 }
 
 function PickerPopup({
@@ -103,6 +105,7 @@ function Inner({
   size = 'md',
   className,
   labels,
+  defaultOpen,
 }: DatePickerProps) {
   const { anchorRef, dir } = useDateLocale();
   const [widthRef, width] = useContainerWidth();
@@ -117,6 +120,7 @@ function Inner({
   return (
     <RACDatePicker
       ref={rootRef}
+      {...(defaultOpen !== undefined ? { defaultOpen } : {})}
       data-ag-part="date-picker"
       data-ag-size={size}
       {...(dir !== undefined ? { dir } : {})}

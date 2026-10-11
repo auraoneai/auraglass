@@ -19,7 +19,8 @@ const LUM = (r: number, g: number, b: number) => {
 };
 const px = (f: Frame, x: number, y: number) => {
   const i = (Math.min(f.height - 1, Math.max(0, y)) * f.width + Math.min(f.width - 1, Math.max(0, x))) * 4;
-  return [f.data[i], f.data[i + 1], f.data[i + 2], f.data[i + 3]] as const;
+  // i is clamped inside the frame, so every channel read is defined.
+  return [f.data[i]!, f.data[i + 1]!, f.data[i + 2]!, f.data[i + 3]!] as const;
 };
 const regionLum = (f: Frame, x0: number, y0: number, w: number, h: number) => {
   let s = 0, n = 0;

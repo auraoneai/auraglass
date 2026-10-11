@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { CalendarDate } from '@internationalized/date';
-import { DateField } from './DateField';
 import { DatePicker } from './DatePicker';
 
+/* DatePicker only; each ./date component has its own <Name>.stories.tsx (S-31). */
 const meta = {
   title: 'surf/date-picker',
   parameters: { ag: { subject: 'DatePicker', kind: 'component' } },
@@ -18,8 +18,8 @@ export const Default: Story = {
 export const Picker: Story = {
   render: () => <DatePicker label="Due date" defaultValue={new CalendarDate(2026, 10, 15)} />,
 };
-export const Field: Story = {
-  render: () => <DateField label="Publish on" defaultValue={new CalendarDate(2026, 10, 7)} description="Segments are spinbuttons" />,
+export const Open: Story = {
+  render: () => <DatePicker label="Due date" defaultValue={new CalendarDate(2026, 10, 15)} defaultOpen />,
 };
 
 /* REQ-SURF-98 locale stories: no `locale` prop — the picker resolves locale and

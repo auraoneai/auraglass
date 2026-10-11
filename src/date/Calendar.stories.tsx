@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { CalendarDate } from '@internationalized/date';
-import { Calendar, RangeCalendar } from './Calendar';
+import { Calendar } from './Calendar';
 
 /* REQ-SURF-100: Calendar subject for the APG grid spec. October 2026 with
-   week numbers; the 13th is unavailable (aria-disabled yet focusable). */
+   week numbers; the 13th is unavailable (aria-disabled yet focusable).
+   Calendar only; RangeCalendar lives in RangeCalendar.stories.tsx (S-31). */
 const meta = {
   title: 'surf/calendar',
   parameters: { ag: { subject: 'Calendar', kind: 'component' } },
@@ -20,16 +21,6 @@ export const Default: Story = {
       defaultValue={new CalendarDate(2026, 10, 7)}
       isDateUnavailable={(d) => d.year === 2026 && d.month === 10 && d.day === 13}
       showWeekNumbers
-    />
-  ),
-};
-export const Range: Story = {
-  render: () => (
-    <RangeCalendar
-      aria-label="Stay"
-      locale="en-US"
-      visibleMonths={2}
-      defaultValue={{ start: new CalendarDate(2026, 10, 5), end: new CalendarDate(2026, 10, 9) }}
     />
   ),
 };

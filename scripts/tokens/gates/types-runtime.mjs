@@ -32,7 +32,9 @@ async function runtimeExports(srcEntry) {
   return names;
 }
 
-const SRC = { tokens: 'src/tokens/index.ts', theme: 'src/theme/index.ts' };
+// aura-glass/theme is src/theme/public.ts (build/exports.manifest.json); src/theme/index.ts is the
+// internal barrel that also carries usePortalContainer/useLayer/useAnnouncer for CMP/SURF.
+const SRC = { tokens: 'src/tokens/index.ts', theme: 'src/theme/public.ts' };
 
 let failed = false;
 for (const entry of ENTRIES) {

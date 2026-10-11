@@ -106,6 +106,8 @@ export interface TimePickerProps extends TimeFieldProps {
         dialog?: string | undefined;
       }
     | undefined;
+  /** Initial popover state (uncontrolled). */
+  defaultOpen?: boolean | undefined;
 }
 
 type Period = 'am' | 'pm';
@@ -229,9 +231,16 @@ function TimeColumns({ current, set, minuteStep, hourCycle, labels }: ColumnsPro
   );
 }
 
-function TimePopup(props: ColumnsProps & { compact: boolean; size: 'sm' | 'md' | 'lg'; disabled: boolean; hasLabel: boolean }) {
-  const { compact, size, disabled, hasLabel, labels } = props;
-  const [open, setOpen] = React.useState(false);
+function TimePopup({
+  compact,
+  size,
+  disabled,
+  hasLabel,
+  defaultOpen = false,
+  ...columns
+}: ColumnsProps & { compact: boolean; size: 'sm' | 'md' | 'lg'; disabled: boolean; hasLabel: boolean; defaultOpen?: boolean | undefined }) {
+  const { labels } = columns;
+  const [open, setOpen] = React.useState(defaultOpen);
   const labelCtx = useSlottedContext(LabelContext) as { id?: string } | null;
   const { dir } = useDateLocale();
   const labelId = hasLabel ? labelCtx?.id : undefined;
@@ -254,12 +263,12 @@ function TimePopup(props: ColumnsProps & { compact: boolean; size: 'sm' | 'md' |
         '[data-ag-part="time-picker-hours"] [role="option"]',
       ]}
     >
-      <TimeColumns {...props} />
+      <TimeColumns {...columns} />
     </DatePopup>
   );
 }
 
-function TimePickerInner({ minuteStep = 5, labels, ...props }: TimePickerProps) {
+function TimePickerInner({ minuteStep = 5, labels, defaultOpen, ...props }: TimePickerProps) {
   const { anchorRef, dir } = useDateLocale();
   const [widthRef, width] = useContainerWidth();
   const rootRef = React.useCallback(
@@ -306,6 +315,7 @@ function TimePickerInner({ minuteStep = 5, labels, ...props }: TimePickerProps) 
           size={size}
           disabled={props.isDisabled === true || props.isReadOnly === true}
           hasLabel={hasLabel}
+          defaultOpen={defaultOpen}
         />
       </RACGroup>
       {props.description !== undefined && props.description !== null ? (

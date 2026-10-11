@@ -53,6 +53,8 @@ export interface DateRangePickerProps extends Omit<DateFieldLikeProps<DateValue>
   /** Default: 2 at a >=768px container, 1 below. */
   visibleMonths?: 1 | 2 | undefined;
   className?: string | undefined;
+  /** Initial popover state (uncontrolled). */
+  defaultOpen?: boolean | undefined;
   labels?:
     | {
         choose?: string | undefined;
@@ -189,6 +191,7 @@ function Inner({
   size = 'md',
   className,
   labels,
+  defaultOpen,
 }: DateRangePickerProps) {
   const { anchorRef, dir } = useDateLocale();
   const [widthRef, width] = useContainerWidth();
@@ -205,6 +208,7 @@ function Inner({
   return (
     <RACDateRangePicker
       ref={rootRef}
+      {...(defaultOpen !== undefined ? { defaultOpen } : {})}
       data-ag-part="date-range-picker"
       data-ag-size={size}
       {...(dir !== undefined ? { dir } : {})}

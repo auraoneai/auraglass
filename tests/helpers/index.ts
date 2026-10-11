@@ -27,7 +27,7 @@ const envAttrs = (env: AgEnvironment): Record<string, string> => {
   if (env.motion) out['data-ag-motion'] = env.motion;
   if (env.tier) out['data-ag-tier'] = env.tier;
   if (env.backdrop) out['data-ag-backdrop'] = env.backdrop;
-  if (env.forcedColors) out['data-ag-forced-colors'] = '';   // jsdom test marker (forced-colors media query cannot be emulated)
+  if (env.forcedColors) out['data-forced-colors'] = '';   // jsdom test marker (forced-colors media query cannot be emulated)
   return out;
 };
 
@@ -76,7 +76,13 @@ export const renderAgServer: RenderAgServer = (ui, _env = {}) => {
         const { hydrateRoot } = await import('react-dom/client');
         const { act } = await import('react');
         await act(async () => {
-          hydrateRoot(container, ui);
+          // React 19 routes hydration mismatches to onRecoverableError (default:
+          // window.reportError), not console: collect them as warnings too.
+          hydrateRoot(container, ui, {
+            onRecoverableError: (error) => {
+              warnings.push(error instanceof Error ? error.message : String(error));
+            },
+          });
         });
       } finally {
         console.error = origError;
@@ -120,7 +126,7 @@ export const gotoStory: GotoStory = async (page, storyId, env = {}) => {
   // globals filter: strip the data-ag- prefix and drop empty-valued keys
   // (forced-colors markers have no Storybook global; cert mode is opt-in via ag-cert=1).
   const qs = Object.entries(globals)
-    .filter(([k, v]) => k !== 'data-ag-forced-colors' && v !== undefined && v !== '')
+    .filter(([k, v]) => k !== 'data-forced-colors' && v !== undefined && v !== '')
     .map(([k, v]) => `${k.replace(/^data-ag-/, '')}:${v}`)
     .join(';');
   const base = process.env.AG_STORYBOOK_URL ?? 'http://localhost:6006';
@@ -273,13 +279,34 @@ export const perf: PerfProbe = {
       const origCaf = window.cancelAnimationFrame.bind(window);
       window.requestAnimationFrame = (cb) => { w.__agPendingRaf++; return origRaf((t) => { w.__agPendingRaf--; cb(t); }); };
       window.cancelAnimationFrame = (id) => { w.__agPendingRaf--; origCaf(id); };
+      // S-40 `intervals`: intervals started during the settle window and still live at collection.
+      const iw = window as unknown as { __agIntervals?: { live: Set<number>; restore: () => void } };
+      const origSet = window.setInterval;
+      const origClear = window.clearInterval;
+      const live = new Set<number>();
+      window.setInterval = ((...args: Parameters<typeof window.setInterval>) => {
+        const id = origSet.apply(window, args);
+        live.add(id);
+        return id;
+      }) as typeof window.setInterval;
+      window.clearInterval = ((id?: number) => {
+        if (id !== undefined) live.delete(id);
+        origClear.call(window, id);
+      }) as typeof window.clearInterval;
+      iw.__agIntervals = { live, restore: () => { window.setInterval = origSet; window.clearInterval = origClear; } };
     });
     if (opts.afterMs) await page.waitForTimeout(opts.afterMs);
-    return page.evaluate(() => ({
-      pendingRaf: (window as unknown as Record<string, number>).__agPendingRaf ?? 0,
-      intervals: 0,
-      infiniteAnimations: document.getAnimations().filter((a) =>
-        a.effect && (a.effect as KeyframeEffect).getComputedTiming().iterations === Infinity).length,
-    }));
+    return page.evaluate(() => {
+      const iw = window as unknown as { __agIntervals?: { live: Set<number>; restore: () => void } };
+      const intervals = iw.__agIntervals?.live.size ?? 0;
+      iw.__agIntervals?.restore();
+      delete iw.__agIntervals;
+      return {
+        pendingRaf: (window as unknown as Record<string, number>).__agPendingRaf ?? 0,
+        intervals,
+        infiniteAnimations: document.getAnimations().filter((a) =>
+          a.effect && (a.effect as KeyframeEffect).getComputedTiming().iterations === Infinity).length,
+      };
+    });
   },
 };

@@ -6,7 +6,7 @@ export default defineMeta({
   entry: './app-shell',
   tier: 'T1',
   rsc: 'server',
-  parts: ['mobile-shell'],
+  parts: ['edge-registrar', 'main', 'root', 'scroll-edge', 'top-bar'],
   states: [],
   apg: 'landmarks',
   variants: {},
