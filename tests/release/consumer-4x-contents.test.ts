@@ -116,10 +116,6 @@ describe("consumer-4x contents", () => {
     expect(nextRunner).toContain("consumer-4x");
     expect(viteRunner).toContain("consumer-4x");
   });
-
-  it("fixture is wired into visual-4x (storybook or class-report reference)", () => {
-    const ci = READ(path.join(ROOT, "ci/plat.gitlab-ci.yml"));
-    expect(ci).toContain("visual-4x");
-    expect(ci).toContain("consumer-4x");
-  });
+  // The visual-4x CI wiring lives in ci/plat.gitlab-ci.yml (FIN-B file); its
+  // assertion is in FIN-B's tests/ci/plat-fragment.test.ts (4x-fin/b-wire-plat63).
 });
