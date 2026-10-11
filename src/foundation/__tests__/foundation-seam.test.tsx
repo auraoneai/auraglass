@@ -98,9 +98,9 @@ describe('toChangeDetails', () => {
 });
 
 describe('renderElement', () => {
-  const Fallback = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & { 'data-ag-part'?: string }>(
-    function FallbackDiv(props, ref) { return <div ref={ref} {...props} />; },
-  );
+  function Fallback({ ref, ...props }: React.HTMLAttributes<HTMLDivElement> & { 'data-ag-part'?: string; ref?: React.Ref<HTMLDivElement> | undefined }) {
+    return <div ref={ref} {...props} />;
+  }
   const fb = <Fallback />;
   it('function render gets props + state and its element is used', () => {
     const renderProp = (p: Record<string, unknown>, s?: Record<string, unknown>) => (

@@ -73,6 +73,7 @@ function TabsRoot({
   return (
     <TabsCtx.Provider value={{ idBase, active, activateOnFocus }}>
       <BaseTabs.Root
+        data-ag-part="tabs"
         value={(value ?? active) as never}
         defaultValue={defaultValue as never}
         onValueChange={change as never}
@@ -129,6 +130,7 @@ function TabsList({ activateOnFocus, children, render, ...rest }: TabsListProps)
 
   return (
     <BaseTabs.List
+      data-ag-part="list"
       activateOnFocus={activateOnFocus ?? ctxActivate}
       render={partElement('div', {
         render,
@@ -160,6 +162,7 @@ function TabsTab({ value, children, render, ...rest }: TabsTabProps) {
   });
   return (
     <BaseTabs.Tab
+      data-ag-part="tab"
       value={value as never}
       render={((props: object, state: object) =>
         React.cloneElement(el as React.ReactElement<Record<string, unknown>>, {
@@ -188,6 +191,7 @@ function TabsPanel({ value, keepMounted, children, render, ...rest }: TabsPanelP
   useTabBarPanel(value);
   return (
     <BaseTabs.Panel
+      data-ag-part="panel"
       value={value as never}
       keepMounted={keepMounted}
       render={partElement('div', {
@@ -206,6 +210,7 @@ export function TabsIndicator({ render, ...rest }: PartProps<'div'>) {
   const vtName = React.useId().replace(/[^a-zA-Z0-9_-]/g, '');
   return (
     <BaseTabs.Indicator
+      data-ag-part="indicator"
       render={partElement('div', {
         render,
         'data-ag-part': 'indicator',

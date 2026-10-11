@@ -10,6 +10,7 @@ describe('auraglass/no-random-in-render (PLAT-259)', () => {
       valid: [
         { code: `'use client';\nexport const A = () => <button onClick={() => Math.random()} />;`, filename: F },
         { code: `'use client';\nexport const A = () => { useEffect(() => { Date.now(); }, []); return null; };`, filename: F },
+        { code: `'use client';\nexport const A = () => { React.useEffect(() => { Date.now(); }, []); const add = React.useCallback(() => Date.now(), []); return null; };`, filename: F },
         { code: `'use client';\nexport const handleX = () => new Date();`, filename: F },
         { code: `'use client';\nexport const A = () => { const onGo = () => crypto.randomUUID(); return <button onClick={onGo} />; };`, filename: F },
         { code: `export const stableId = 'ag-x-1';`, filename: F },

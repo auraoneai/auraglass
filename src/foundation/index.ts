@@ -14,7 +14,6 @@ export const defineMeta = <const M extends ComponentMeta>(meta: M): M => {
     validated.add(meta.name);
     for (const part of meta.parts) {
       if (!PART_NAME_RE.test(part)) {
-        // eslint-disable-next-line no-console
         console.error(`aura-glass: meta ${meta.name} has invalid part name ${JSON.stringify(part)} (S-33 kebab-case)`);
       }
     }

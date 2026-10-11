@@ -136,7 +136,7 @@ function CommandRoot({
       scrollTo: scrollRef.current,
       onValueChange,
     }),
-    [query, setQuery, visible, register, activeId, idBase, enabled, loop],
+    [query, setQuery, visible, register, activeId, idBase, enabled, loop, onValueChange],
   );
 
   return (
@@ -284,6 +284,7 @@ export function CommandList({ children, render, ...rest }: PartProps<'div'>) {
     void _role;
     return (
       <VirtualList
+        data-ag-part="list"
         ref={vlRef}
         items={ctx.items}
         getItemKey={(i) => i.value}

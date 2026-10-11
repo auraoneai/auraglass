@@ -148,7 +148,7 @@ function SheetRoot({
     onRequestClose: () => handleOpenChange(false, { reason: 'imperative' }),
     labels,
     announce,
-  }), [axis, resolved, side, detentState, viewportPx, labels, handleOpenChange, announce]);
+  }), [axis, resolved, side, detentState, detents, viewportPx, labels, handleOpenChange, announce]);
 
   const ctx = React.useMemo<SheetCtx>(() => ({
     depth, open: effectiveOpen, modal, side, resolved, preset, labels, detents: detentState,

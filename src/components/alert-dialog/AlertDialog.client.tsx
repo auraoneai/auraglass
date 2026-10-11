@@ -51,7 +51,7 @@ function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', 
   });
   const ctx = React.useMemo<AlertCtx>(
     () => ({ depth, open: effectiveOpen, intent, labels, popupElRef, setPopupElement }),
-    [depth, intent, labels],
+    [depth, effectiveOpen, intent, labels],
   );
   return (
     <AlertContext.Provider value={ctx}>
@@ -113,13 +113,12 @@ function AlertDialogPopup({ render, className, children, ref, initialFocus, ...r
         if (process.env.NODE_ENV !== 'production' && !warnedNoTitle &&
             el.isConnected && !el.hasAttribute('aria-labelledby') && !el.hasAttribute('aria-label')) {
           warnedNoTitle = true;
-          // eslint-disable-next-line no-console
           console.error('aura-glass: <AlertDialog.Popup> opened without a Title or aria-label.');
         }
       }, 0);
     }
     return cleanup;
-  }, [animatingRef, ref, setPopupElement]);
+  }, [animatingRef, popupElRef, ref, setPopupElement]);
   /* CMP-217: default initial focus = the Cancel/Close part inside our popup.
      BU resolves initialFocus lazily on a rAF and may not land it in jsdom, so
      we additionally apply it once on mount — idempotent when BU already did. */

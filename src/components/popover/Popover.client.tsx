@@ -81,8 +81,7 @@ function PopoverRoot({ open, defaultOpen, onOpenChange, modal, openOnHover = fal
   );
 }
 
-const PopoverTrigger = React.forwardRef<HTMLElement, PopoverTriggerProps>(
-  function PopoverTrigger({ openOnHover, delay, closeDelay, className, children, onFocus, onBlur, ...rest }, ref) {
+function PopoverTrigger({ openOnHover, delay, closeDelay, className, children, onFocus, onBlur, ref, ...rest }: PopoverTriggerProps & { ref?: React.Ref<HTMLElement> | undefined }) {
     const { hover } = React.useContext(PopoverCtx);
     const hoverOn = openOnHover ?? hover.openOnHover;
     /* REQ-CMP-97 (WCAG 1.4.13): in hover mode the popup must also open on
@@ -159,16 +158,14 @@ const PopoverTrigger = React.forwardRef<HTMLElement, PopoverTriggerProps>(
         {children}
       </Base.Trigger>
     );
-  },
-);
+  }
 
 function PopoverPortal({ children, keepMounted }: PopoverPortalProps) {
   const container = usePortalContainer();
   return <Base.Portal container={container} {...(keepMounted !== undefined ? { keepMounted } : {})}>{children}</Base.Portal>;
 }
 
-const PopoverPositioner = React.forwardRef<HTMLDivElement, PopoverPositionerProps>(
-  function PopoverPositioner({ className, children, ...rest }, ref) {
+function PopoverPositioner({ className, children, ref, ...rest }: PopoverPositionerProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
     return (
       <Base.Positioner
         ref={ref}
@@ -180,11 +177,9 @@ const PopoverPositioner = React.forwardRef<HTMLDivElement, PopoverPositionerProp
         {children}
       </Base.Positioner>
     );
-  },
-);
+  }
 
-const PopoverPopup = React.forwardRef<HTMLDivElement, PopoverPopupProps>(
-  function PopoverPopup({ className, children, initialFocus, finalFocus, ...rest }, ref) {
+function PopoverPopup({ className, children, initialFocus, finalFocus, ref, ...rest }: PopoverPopupProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
     const ctx = React.useContext(PopoverCtx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
@@ -209,35 +204,25 @@ const PopoverPopup = React.forwardRef<HTMLDivElement, PopoverPopupProps>(
         {children}
       </Base.Popup>
     );
-  },
-);
+  }
 
-const PopoverArrow = React.forwardRef<HTMLDivElement, PopoverArrowProps>(
-  function PopoverArrow({ className, ...rest }, ref) {
+function PopoverArrow({ className, ref, ...rest }: PopoverArrowProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
     return <Base.Arrow ref={ref} data-ag-part="arrow" className={cn('ag-popover-arrow', className)} {...rest} />;
-  },
-);
+  }
 
-const PopoverTitle = React.forwardRef<HTMLHeadingElement, PopoverTitleProps>(
-  function PopoverTitle({ className, ...rest }, ref) {
+function PopoverTitle({ className, ref, ...rest }: PopoverTitleProps & { ref?: React.Ref<HTMLHeadingElement> | undefined }) {
     return <Base.Title ref={ref} data-ag-part="title" className={cn('ag-popover-title', className)} {...rest} />;
-  },
-);
+  }
 
-const PopoverDescription = React.forwardRef<HTMLParagraphElement, PopoverDescriptionProps>(
-  function PopoverDescription({ className, ...rest }, ref) {
+function PopoverDescription({ className, ref, ...rest }: PopoverDescriptionProps & { ref?: React.Ref<HTMLParagraphElement> | undefined }) {
     return <Base.Description ref={ref} data-ag-part="description" className={cn('ag-popover-description', className)} {...rest} />;
-  },
-);
+  }
 
-const PopoverClose = React.forwardRef<HTMLButtonElement, PopoverCloseProps>(
-  function PopoverClose({ className, ...rest }, ref) {
+function PopoverClose({ className, ref, ...rest }: PopoverCloseProps & { ref?: React.Ref<HTMLButtonElement> | undefined }) {
     return <Base.Close ref={ref} data-ag-part="close" className={cn('ag-popover-close', className)} {...rest} />;
-  },
-);
+  }
 
-const PopoverContent = React.forwardRef<HTMLDivElement, import('./Popover.types').PopoverContentProps>(
-  function PopoverContent({ keepMounted, side, align, sideOffset, collisionPadding, anchor, children, ...rest }, ref) {
+function PopoverContent({ keepMounted, side, align, sideOffset, collisionPadding, anchor, children, ref, ...rest }: import('./Popover.types').PopoverContentProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
     return (
       <PopoverPortal {...(keepMounted !== undefined ? { keepMounted } : {})}>
         <PopoverPositioner
@@ -253,8 +238,7 @@ const PopoverContent = React.forwardRef<HTMLDivElement, import('./Popover.types'
         </PopoverPositioner>
       </PopoverPortal>
     );
-  },
-);
+  }
 
 export const Popover = {
   Root: PopoverRoot,

@@ -10,7 +10,6 @@ export function warnControlledSwitch(
 ): void {
   if (wasControlled === isControlled || warned.has(`${component}:${prop}`)) return;
   warned.add(`${component}:${prop}`);
-  // eslint-disable-next-line no-console
   console.error(
     `[aura-glass] ${component}: '${prop}' switched from ${wasControlled ? 'controlled' : 'uncontrolled'} ` +
       `to ${isControlled ? 'controlled' : 'uncontrolled'}. Keep it in one mode for the component's lifetime.`,

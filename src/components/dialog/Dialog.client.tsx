@@ -178,7 +178,6 @@ function DialogPopup({
       if (process.env.NODE_ENV !== 'production' && !warnedNoTitle &&
           el.isConnected && !el.hasAttribute('aria-labelledby') && !el.hasAttribute('aria-label')) {
         warnedNoTitle = true;
-        // eslint-disable-next-line no-console
         console.error('aura-glass: <Dialog.Popup> opened without a Dialog.Title or aria-label — the dialog has no accessible name.');
       }
     }, 0);

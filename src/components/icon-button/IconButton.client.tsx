@@ -1,4 +1,3 @@
-'use client';
 import * as React from 'react';
 import { Button } from '../button/Button.client';
 import { cn } from '../../internal';
@@ -8,7 +7,6 @@ import type { IconButtonProps } from './IconButton.types';
 export function IconButton({ label, icon, shape = 'capsule', className, ...rest }: IconButtonProps) {
   if (typeof process === 'undefined' || process.env.NODE_ENV !== 'production') {
     if (!label) {
-      // eslint-disable-next-line no-console
       console.error('[aura-glass] IconButton requires a non-empty `label` (aria-label).');
     }
   }

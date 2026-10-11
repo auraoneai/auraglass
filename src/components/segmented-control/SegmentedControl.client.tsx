@@ -63,7 +63,6 @@ function SegmentedControlRoot({
         !SEGMENT_SELECT_WARNED.has(el)
       ) {
         SEGMENT_SELECT_WARNED.add(el);
-        // eslint-disable-next-line no-console
         console.warn(
           '[aura-glass] SegmentedControl with more than 5 items at ≤390px — prefer Select.',
         );

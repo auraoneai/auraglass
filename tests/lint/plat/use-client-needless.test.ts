@@ -20,8 +20,12 @@ describe('auraglass/use-client-needless (PLAT-259)', () => {
         { code: `'use client';\nexport const A = () => useMemo(() => 1, []);`, filename: F },
         { code: `'use client';\nexport const A = () => localStorage.x;`, filename: F },
         { code: `'use client';\nexport const A = () => useReducer(() => 0, 0);`, filename: F },
+        { code: `'use client';\nimport * as React from 'react';\nexport const A = () => React.useCallback(() => 1, []);`, filename: F },
+        { code: `'use client';\nimport { useToast } from './toast';\nexport const A = () => useToast();`, filename: F },
+        { code: `'use client';\nimport { Accordion } from '@base-ui/react/accordion';\nexport const Root = Accordion.Root;`, filename: F },
       ],
       invalid: [
+        { code: `'use client';\nexport interface P { el: HTMLElement }`, filename: F, errors: errs },
         { code: `'use client';\nexport const x = 1;`, filename: F, errors: errs },
         { code: `'use client';\nexport const A = () => <div />;`, filename: F, errors: errs },
         { code: `'use client';\nexport type T = { a: number };`, filename: F, errors: errs },

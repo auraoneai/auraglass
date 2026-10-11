@@ -4,6 +4,22 @@
 const CLIENT_HOOKS = /^(use(State|Effect|LayoutEffect|Ref|Reducer|Context|Memo|Callback|Id|ImperativeHandle|SyncExternalStore|Transition|ActionState|Optimistic|FormStatus)|use[A-Z][A-Za-z]*Effect)$/;
 const DOM_GLOBALS = new Set(['window', 'document', 'navigator', 'localStorage', 'sessionStorage', 'customElements', 'HTMLElement', 'matchMedia']);
 
+// Type positions are erased; they are not client signals (mirrors use-client-required).
+const TYPE_CONTEXT = /^TS(TypeAnnotation|TypeReference|TypeQuery|InterfaceDeclaration|TypeAliasDeclaration|TypeParameterInstantiation|TypeParameterDeclaration|QualifiedName|InterfaceHeritage|ClassImplements)$/;
+const inTypePosition = (node) => {
+  for (let p = node.parent; p; p = p.parent) if (TYPE_CONTEXT.test(p.type)) return true;
+  return false;
+};
+// REQ-PLAT-69 signal list also covers `React.useX()` member calls, any custom
+// `use[A-Z]` hook call (hooks from client modules), createContext, and value
+// imports of `@base-ui/react/*` (client-only primitives).
+const calleeName = (callee) =>
+  callee.type === 'Identifier' ? callee.name
+    : callee.type === 'MemberExpression' && !callee.computed && callee.property.type === 'Identifier' ? callee.property.name
+    : null;
+const ANY_HOOK = /^(use[A-Z]\w*|createContext)$/;
+const BASE_UI = /^@base-ui\/react(\/|$)/;
+
 module.exports = {
   meta: {
     type: 'problem',
@@ -28,10 +44,14 @@ module.exports = {
     };
     return {
       CallExpression(node) {
-        if (node.callee.type === 'Identifier' && CLIENT_HOOKS.test(node.callee.name) && !insideEffect(node)) clientSignal = true;
+        const name = calleeName(node.callee);
+        if (name && (CLIENT_HOOKS.test(name) || ANY_HOOK.test(name)) && !insideEffect(node)) clientSignal = true;
+      },
+      ImportDeclaration(node) {
+        if (node.importKind !== 'type' && BASE_UI.test(String(node.source.value))) clientSignal = true;
       },
       Identifier(node) {
-        if (DOM_GLOBALS.has(node.name) && !insideEffect(node)) clientSignal = true;
+        if (DOM_GLOBALS.has(node.name) && !insideEffect(node) && !inTypePosition(node)) clientSignal = true;
       },
       JSXAttribute(node) {
         if (/^on[A-Z]/.test(node.name.name ?? '')) clientSignal = true;

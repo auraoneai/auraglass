@@ -7,8 +7,16 @@ const babelJest = require('babel-jest');
 
 // Rewrite real `import.meta.*` member expressions on the AST (not by text), so
 // string literals and comments that merely mention them are left untouched.
-function importMetaPlugin({ template }) {
-  const replacements = {
+// Under `node --experimental-vm-modules` (the `npm test` script) jest loads
+// every .mjs file as a native ES module (it asks babel with caller
+// supportsStaticESM: true). Such modules must stay ESM — converting them to CJS
+// leaves `exports`/`require` undefined in jest's module wrapper — and
+// import.meta.url/dirname are then native, so only the Vite glob is rewritten.
+function importMetaPlugin({ template, caller }) {
+  const esm = caller((c) => Boolean(c && c.supportsStaticESM));
+  const replacements = esm ? {
+    glob: () => template.expression.ast`((..._args) => ({}))`,
+  } : {
     dirname: () => template.expression.ast`__dirname`,
     // Vite-only import.meta.glob (Storybook story helpers): no bundler here, so
     // every glob matches nothing and callers take their absent-asset path.
@@ -30,7 +38,7 @@ function importMetaPlugin({ template }) {
 const base = babelJest.default.createTransformer({
   plugins: [importMetaPlugin],
   presets: [
-    ['@babel/preset-env', { targets: { node: '20.19' }, modules: 'commonjs' }],
+    ['@babel/preset-env', { targets: { node: '20.19' }, modules: 'auto' }],
     ['@babel/preset-react', { runtime: 'automatic' }],
     '@babel/preset-typescript',
   ],
@@ -40,6 +48,6 @@ module.exports = {
   ...base,
   // The import.meta rewrite is part of the transform output: key the cache on it.
   getCacheKey(sourceText, sourcePath, options) {
-    return `${base.getCacheKey(sourceText, sourcePath, options)}:import-meta-ast-v2`;
+    return `${base.getCacheKey(sourceText, sourcePath, options)}:import-meta-ast-v3`;
   },
 };

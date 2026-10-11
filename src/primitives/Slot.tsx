@@ -47,7 +47,6 @@ const childRefOf = (child: React.ReactElement): React.Ref<HTMLElement> | undefin
 export function Slot({ children, ref: slotRef, ...slotProps }: SlotProps): React.ReactElement | null {
   if (!React.isValidElement(children)) {
     if (process.env.NODE_ENV !== 'production' && children != null) {
-      // eslint-disable-next-line no-console
       console.error('aura-glass: <Slot> expects exactly one element child.');
     }
     return null;

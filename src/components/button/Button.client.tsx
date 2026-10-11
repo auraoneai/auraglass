@@ -33,7 +33,6 @@ function useProminentGuard(
     }
     if (registry.size > 0 && !prominentWarnedScopes.has(scope)) {
       prominentWarnedScopes.add(scope);
-      // eslint-disable-next-line no-console
       console.error(
         '[aura-glass] A second prominent Button mounted in the same chrome surface. ' +
           'Only one prominent action is allowed per surface (SC-24).',

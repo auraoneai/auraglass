@@ -15,13 +15,14 @@ import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { join } from 'node:path';
 
-const require = createRequire(import.meta.url);
+// Not named `require`: shadowing it collides with babel's CJS import rewrite (`_require` TDZ).
+const requireCjs = createRequire(import.meta.url);
 const RULE_PATH = join(__dirname, '../../../lint/rules/mat/no-runtime-contrast.cjs');
 const SCRIPT = join(__dirname, '../../../scripts/mat/a11y-eslint-l1.mjs');
 const FIX = join(__dirname, 'fixtures/a11y-eslint-l1');
 
 type Row = { path: string; expires: string; expired: boolean; owner: string; until: string };
-const rule = require(RULE_PATH) as {
+const rule = requireCjs(RULE_PATH) as {
   meta: object;
   create: object;
   agConfig: Array<{ files: string[]; ignores?: string[]; severity: string }>;

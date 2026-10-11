@@ -15,7 +15,14 @@ const calleeName = (node) => {
 const enclosingCallbackAllows = (node) => {
   let p = node.parent;
   while (p) {
-    if (p.type === 'CallExpression' && p.callee.type === 'Identifier' && ALLOWED_CALLBACK.test(p.callee.name)) return true;
+    if (p.type === 'CallExpression') {
+      // `useEffect(...)` and the namespaced `React.useEffect(...)` alike.
+      const c = p.callee;
+      const hook = c.type === 'Identifier' ? c.name
+        : c.type === 'MemberExpression' && !c.computed && c.object.type === 'Identifier' && c.object.name === 'React' && c.property.type === 'Identifier' ? c.property.name
+        : null;
+      if (hook && ALLOWED_CALLBACK.test(hook)) return true;
+    }
     if (p.type === 'JSXAttribute' && /^on[A-Z]/.test(p.name?.name ?? '')) return true;
     if (p.type === 'VariableDeclarator' && p.id.type === 'Identifier' && ALLOWED_CALLBACK.test(p.id.name)) return true;
     p = p.parent;
