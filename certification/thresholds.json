@@ -1,0 +1,34 @@
+{
+  "$comment": "REQ-QUAL-13..18 (QUAL). Values of the mechanical L6 gates, frozen by PRD-QUAL. Read only through packages/qa/src/pixel/thresholds.ts; the lane manifest records this file's sha256 (thresholdsSha256). Changing a value is a reviewed QUAL change, never a way to turn a lane green.",
+  "version": 1,
+  "notBlank": { "minDeviation": 40 },
+  "separation": { "minShare": 0.25, "minDelta": 10 },
+  "frameFill": { "component": 0.03, "lab": 0.03, "matrix": 0.25, "scene": 0.25, "showcase": 0.25 },
+  "density": { "max": 0.3 },
+  "neon": {
+    "maxShare": 0.01,
+    "minSaturation": 0.85,
+    "minValue": 0.85,
+    "maxHueFamilies": 3,
+    "hueBinDegrees": 30,
+    "hueFamilyMinShare": 0.02,
+    "hueFamilyMinChroma": 0.2
+  },
+  "intentDeltaE": 10,
+  "ocr": {
+    "psm": 11,
+    "upscale": 2,
+    "minConfidence": 60,
+    "normal": 4.5,
+    "large": 3,
+    "contrastMore": 7,
+    "largePx": 24,
+    "largeBoldPx": 18.66,
+    "largeBoldWeight": 700,
+    "glyphMinDelta": 24
+  },
+  "materialPresence": { "maxStageSigma": 4, "minSceneSigma": 20, "regularMinDelta": 30, "floorSlack": 5 },
+  "preference": { "contrastMoreMinShare": 0.005, "contrastMoreTarget": 7, "tintedMinSigmaCut": 0.25 },
+  "layout": { "containmentSlackPx": 1, "targetMin": 44, "targetMinSm": 24, "targetSpacingSm": 24, "focusMinContrast": 3, "productViewport": { "width": 768, "height": 1024 } },
+  "layers": { "$comment": "REQ-QUAL-38 visible blurred surfaces per pointer class (L6 `cost`, packages/qa/src/inspect/cost.ts).", "fine": 6, "coarse": 3 }
+}
