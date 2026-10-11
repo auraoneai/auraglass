@@ -32,14 +32,18 @@ import { dirname, extname, join, normalize, resolve, sep } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { gzipSync } from 'node:zlib';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { remoteCommand } from '../../../scripts/qual/remote-guard.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 export const ROOT = resolve(HERE, '../../..');
 export const SCHEMA_PATH = join(HERE, 'perf-results.schema.json');
 export const SCHEMA_VERSION = '1.0.0';
 
+// REQ-QUAL-67: the shared remote guard's command form; this harness is stricter than the guard (AG_REMOTE_RUNNER=1
+// only — CI=true or AG_CERT_ALLOW_LOCAL=1 alone never launch its browsers).
 export const REMOTE_ONLY_MESSAGE = 'remote-only: tests/perf/harness/run-perf.mjs runs only on the remote runner (AG_REMOTE_RUNNER=1). '
-  + 'Run it in GitLab CI: qual:certify:l10 (profiles b, c, d) or qual:certify:l10-gpu (profile a).';
+  + 'Run it in GitLab CI: qual:certify:l10 (profiles b, c, d) or qual:certify:l10-gpu (profile a). '
+  + `Remote command: ${remoteCommand('node tests/perf/harness/run-perf.mjs --profile <a|b|c|d> --scope <scope>')}`;
 
 /** Stable fixture ids (REQ-QUAL-35). Renaming one is a schema bump. */
 export const BLANK_ID = 'perf-harness-blank--default';

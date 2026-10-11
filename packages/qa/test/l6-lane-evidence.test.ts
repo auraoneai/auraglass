@@ -1,18 +1,15 @@
 /* G-12 / REQ-QUAL-04, -06, -12 (FIN-429): the lane runner's Playwright report classification (pending-only failures are
    `pending` below release) and the L6 capture evidence merged into the lane manifest (cells, tarball sha256, rate). */
 import { describe, expect, test } from '@jest/globals';
-import { spawnSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { pathToFileURL } from 'node:url';
-// @ts-expect-error — plain ESM module without declarations
-import { classifyPlaywrightReport, readCaptureEvidence, uncoveredSpecs } from '../../../certification/run.mjs';
+import { classifyPlaywrightReport, loadRegistrations, readCaptureEvidence, selectRows, uncoveredSpecs } from '../src/evidence/laneRunner.ts';
 
 const t = (title: string, status: string, message?: string) => ({
   title, tests: [{ status, results: [message ? { status: 'failed', error: { message } } : { status: 'passed' }] }],
 });
-const report = (...specs: unknown[]) => ({ suites: [{ title: 'f', specs: [], suites: [{ title: 'd', specs }] }] });
+const report = (...specs: Array<ReturnType<typeof t>>): Parameters<typeof classifyPlaywrightReport>[0] => ({ suites: [{ specs: [], suites: [{ specs }] }] });
 
 describe('classifyPlaywrightReport', () => {
   test('pending-only failures', () => {
@@ -57,17 +54,18 @@ describe('readCaptureEvidence', () => {
   });
 });
 
-test('L6 environment-visual is registered at every scope, remote and fail-closed', () => {
-  // loadRegistrations bundles lanes.config.ts and imports it as a data: URL, which only real Node ESM can load.
+test('L6 environment-visual, preference-modes and console are registered once at pr, so they run at every scope, remote and fail-closed', async () => {
   const root = join(__dirname, '../../..');
-  const script = `const m = await import(${JSON.stringify(pathToFileURL(join(root, 'certification/run.mjs')).href)});
-    const { rows } = await m.loadRegistrations();
-    console.log(JSON.stringify(['pr','main','nightly','release'].flatMap((s) => m.selectRows(rows, 'L6', s).filter((r) => r.stream === 'qual'))));`;
-  const r = spawnSync(process.execPath, ['--input-type=module', '-e', script], { cwd: root, encoding: 'utf8' });
-  expect(r.stderr).toBe('');
-  const rows = JSON.parse(r.stdout) as Array<Record<string, unknown>>;
-  expect(rows.map((x) => x.scope)).toEqual(['pr', 'main', 'nightly', 'release']);
-  for (const row of rows) {
-    expect(row).toMatchObject({ lane: 'L6', kind: 'playwright', path: 'certification/lanes/environment-visual.spec.ts', remote: true, failClosed: true });
+  const { rows } = await loadRegistrations(root);
+  // G-13 adds preference-modes (REQ-QUAL-16) and console (REQ-QUAL-17) next to the capture driver
+  const specs = ['environment-visual', 'preference-modes', 'console'];
+  for (const scope of ['pr', 'main', 'nightly', 'release'] as const) {
+    const l6 = selectRows(rows, 'L6', scope).filter((r) => r.stream === 'qual');
+    expect(l6).toHaveLength(specs.length);
+    for (const spec of specs) {
+      const mine = l6.filter((x) => x.path === `certification/lanes/${spec}.spec.ts`);
+      expect(mine).toHaveLength(1);
+      expect(mine[0]).toMatchObject({ lane: 'L6', kind: 'playwright', scope: 'pr', remote: true, failClosed: true });
+    }
   }
 });
