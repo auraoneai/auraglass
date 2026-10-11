@@ -1,0 +1,12 @@
+import { comp, compound } from './_factory';
+export const StatCard = comp('StatCard');
+export const Sparkline = comp('Sparkline');
+export const FilterBar = comp('FilterBar');
+export const Table = compound('Table');
+export const TreeView = comp('TreeView');
+export const ChartFrame = compound('ChartFrame');
+export type FilterField = { id: string; label?: string };
+export type FilterGroup = { id: string; rules?: unknown[] };
+export type FilterNode = FilterGroup;
+export type FilterRule = Record<string, unknown>;
+export type TableColumnDef = { key: string; label?: string };

@@ -7,7 +7,7 @@ import * as React from 'react';
 import { cn } from '../../internal/index';
 import { Popover } from '../popover';
 import { Slider } from '../slider';
-import { hexToHsv, hsvToHex, serializeColor, parseColorString, type Hsv } from './colors';
+import { hsvToHex, serializeColor, parseColorString, type Hsv } from './colors';
 
 export interface ColorPickerValue {
   space: 'srgb' | 'oklch';
@@ -60,8 +60,9 @@ function Root({
   ref,
   ...rest
 }: ColorPickerRootProps & { ref?: React.Ref<HTMLSpanElement> | undefined }) {
-  const initial = toHsvAlpha(defaultValue, { h: 217, s: 0.76, v: 0.96 });
-  const [uncontrolled, setUncontrolled] = React.useState(initial);
+  /* Default swatch ≈ accent blue (as HSV so no colour literal ships). */
+  const FALLBACK_HSV: Hsv = { h: 217, s: 0.76, v: 0.96 };
+  const [uncontrolled, setUncontrolled] = React.useState(() => toHsvAlpha(defaultValue, FALLBACK_HSV));
   const resolved = value !== undefined ? toHsvAlpha(value, uncontrolled.hsv) : uncontrolled;
   const { hsv, alpha } = resolved;
   const space = (typeof value === 'object' ? value.space : resolved.space) ?? 'srgb';

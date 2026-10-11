@@ -15,13 +15,18 @@ describe('gitlab decision records', () => {
       expect(row).toMatch(STATUS);
     }
   });
-  it('gitlab-ci-verification.md records the four unverified facts', () => {
+  it('gitlab-ci-verification.md records the 8 contract-fact rows (4 facts × 2 lines)', () => {
     const f = 'docs/release/decisions/gitlab-ci-verification.md';
     const text = readFileSync(f, 'utf8');
-    for (const k of ['pipeline', 'protected', 'Pages', 'runner']) {
-      expect(text.toLowerCase()).toContain(k.toLowerCase());
+    const rows = text.split('\n').filter((l) => /^\|\s*\d+\s*\|/.test(l));
+    expect(rows.length).toBe(8);
+    for (const row of rows) {
+      expect(row).toMatch(STATUS);
     }
-    expect(text.match(STATUS)).not.toBeNull();
+    // both lines present; multi-ref push recorded FAILED until REQ-FIN-20
+    expect(text).toContain('release/4.x');
+    expect(text).toMatch(/multi-ref push creates a pipeline[\s\S]*?failed/i);
+    expect(text).toMatch(/SIGSTORE_ID_TOKEN/);
   });
   it('npm decision records exist with status rows', () => {
     for (const f of ['docs/release/decisions/npm-trusted-publishing.md', 'docs/release/decisions/npm-scope.md']) {
