@@ -1,7 +1,7 @@
 {
   "name": "@auraglass/mcp",
   "version": "0.1.0",
-  "description": "AuraGlass MCP server: read-only bundled docs/registry data over stdio.",
+  "description": "AuraGlass MCP server: five read-only tools over bundled component, registry and migration data (stdio).",
   "type": "module",
   "bin": {
     "auraglass-mcp": "./dist/server.js"
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.1",
-    "zod": "^3.24"
+    "zod": "4.6.5"
   },
   "license": "MIT",
   "private": false,
@@ -27,8 +27,11 @@
     "./data/mcp-data.json": "./data/mcp-data.json"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "start": "node --permission --allow-fs-read=./data node dist/server.js"
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config jest.config.mjs",
+    "pretest": "node scripts/build.mjs",
+    "build": "node scripts/build.mjs",
+    "prepack": "node scripts/build.mjs",
+    "start": "node --permission --allow-fs-read=. dist/server.js"
   },
   "devDependencies": {
     "@types/node": "^24",
