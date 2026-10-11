@@ -109,9 +109,23 @@ plat:test:pack-matrix:
   script:
     - npm install -g "npm@$AG_PACK_NPM_VERSION"
     - npm --version
-    - 'node -e "process.exit(Object.keys(require(''./package.json'').scripts||{}).includes(''prepublishOnly'')?0:1)" || { echo "PENDING: prepublishOnly script (lane 1b)"; exit 1; }'
-    - npm run prepublishOnly
-    - npm publish --dry-run
+    # REQ-PLAT-05 item 2: never `npm run prepublishOnly` — on 4x it starts with
+    # scripts/ci/require-ci-publish.js, which (correctly) exits 1 outside
+    # plat:publish:npm. Run its build + verify steps explicitly, then the
+    # prepack generators, then a dry-run publish with lifecycle scripts off.
+    # The integration halves of prepublishOnly are the plat:integration:* gates.
+    - npm run build
+    - |
+      for s in verify:pack verify:css-vars; do
+        node -e "process.exit(Object.keys(require('./package.json').scripts||{}).includes(process.argv[1])?0:1)" "$s" \
+          || { echo "PENDING: npm script $s (lane 1b)"; exit 1; }
+        npm run "$s"
+      done
+    - |
+      if node -e "process.exit(Object.keys(require('./package.json').scripts||{}).includes('prepack')?0:1)"; then
+        npm run prepack
+      fi
+    - npm publish --dry-run --ignore-scripts
 
 plat:test:react19:
   extends: [.plat-node, .plat-evidence-pr]
@@ -241,7 +255,7 @@ plat:gate:change-class:
       allow_failure: false
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release"
   script:
-    - BASE=$([ "$AG_LINE" = "4x" ] && echo release/4.x || echo next)
+    - 'if [ "$AG_LINE" = "4x" ]; then BASE=release/4.x; else BASE=next; fi'
     - git fetch --no-tags origin "+refs/heads/$BASE:refs/remotes/origin/$BASE" "+refs/tags/*:refs/tags/*"
     - 'test -f scripts/release/classify-change.mjs || { echo "PENDING: scripts/release/classify-change.mjs (lane 1c)"; exit 1; }'
     - |
@@ -328,9 +342,10 @@ plat:package:pack:
       fi
     - |
       if [ "$AG_LINE" = "4x" ]; then
+        # A missing script and a failing verify:pack both exit 1, each with its own message.
         node -e "process.exit(Object.keys(require('./package.json').scripts||{}).includes('verify:pack')?0:1)" \
-          && npm run verify:pack \
           || { echo "verify:pack missing on 4x"; exit 1; }
+        npm run verify:pack
       else
         node -e "process.exit(Object.keys(require('./package.json').scripts||{}).includes('pack:verify')?0:1)" \
           || { echo "PENDING: npm script pack:verify (lane 1d)"; exit 1; }
@@ -346,7 +361,12 @@ plat:package:pack:
           [ -d "packages/$w" ] && npm pack -w "packages/$w" --pack-destination .artifacts/pack
         done
       fi
-    - echo "AURAGLASS_TARBALL=$(ls .artifacts/pack/*.tgz 2>/dev/null | head -1)" > .artifacts/plat/pack.env
+    # Fail closed: an empty AURAGLASS_TARBALL would let every consumer job run
+    # against nothing (REQ-PLAT-05 item 6).
+    - |
+      TARBALL=$(ls .artifacts/pack/aura-glass-*.tgz | head -1)
+      if [ -z "$TARBALL" ]; then echo "plat:package:pack: npm pack wrote no aura-glass tarball to .artifacts/pack"; exit 1; fi
+      echo "AURAGLASS_TARBALL=$TARBALL" > .artifacts/plat/pack.env
   artifacts:
     paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/", .artifacts/pack/, .artifacts/plat/pack.env]
     reports: { dotenv: .artifacts/plat/pack.env }
@@ -438,16 +458,30 @@ plat:publish:npm:
 plat:release:verify-dist-tags:
   extends: .plat-release
   stage: publish
+  # After publish on release scope (PLAT-34); plat:publish:npm only exists there.
+  needs:
+    - { job: "plat:publish:npm", optional: true }
   rules:
     - if: $AG_SCOPE == "release"
       when: manual
       allow_failure: false
-    - if: $AG_SCOPE == "main" || $AG_SCOPE == "pr"
+    - if: $AG_SCOPE == "main" || $AG_SCOPE == "pr" || $AG_SCOPE == "nightly"
       when: manual
       allow_failure: true
   script:
     - mkdir -p ".artifacts/plat/$CI_JOB_NAME_SLUG"
+    # REQ-PLAT-05 item 10: the registry's dist-tags, as npm reports them, are
+    # this job's dist-tags.json evidence (fails closed if the registry read fails).
+    - npm view aura-glass dist-tags --json > ".artifacts/plat/$CI_JOB_NAME_SLUG/dist-tags.json"
+    - cat ".artifacts/plat/$CI_JOB_NAME_SLUG/dist-tags.json"
     - node scripts/release/dist-tag.mjs --check "${CI_COMMIT_TAG:-manual-run}" --line "$AG_LINE" --v4-dist-tag "$AG_V4_DIST_TAG" --out ".artifacts/plat/$CI_JOB_NAME_SLUG/dist-tags.json"
+    # PLAT-34: README banner + llms.txt Versions must agree with the live npm
+    # dist-tags; the log is kept as job evidence and the exit code is preserved.
+    - |
+      rc=0
+      node scripts/release/verify-release-comms.mjs --dist-tags > ".artifacts/plat/$CI_JOB_NAME_SLUG/release-comms.log" 2>&1 || rc=$?
+      cat ".artifacts/plat/$CI_JOB_NAME_SLUG/release-comms.log"
+      exit "$rc"
 
 # ---------------------------------------------------------------- certify
 
