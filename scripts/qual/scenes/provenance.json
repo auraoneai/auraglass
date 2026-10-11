@@ -1,0 +1,135 @@
+{
+  "retrievedAt": "2026-10-10T19:24:32.493Z",
+  "api": "https://commons.wikimedia.org/w/api.php",
+  "files": {
+    "photo": {
+      "file": "photo.source.jpg",
+      "title": "File:Lake Allatoona viewed from Pine Mountain, April 2015.jpg",
+      "pageUrl": "https://commons.wikimedia.org/wiki/File:Lake_Allatoona_viewed_from_Pine_Mountain,_April_2015.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/72/Lake_Allatoona_viewed_from_Pine_Mountain%2C_April_2015.jpg",
+      "pageId": 57745705,
+      "mime": "image/jpeg",
+      "width": 5184,
+      "height": 3456,
+      "bytes": 6096566,
+      "sha1": "0ba91dabcff159f85a2f3756796759dc79c56212",
+      "licence": "CC0",
+      "licenceUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "usageTerms": "Creative Commons Zero, Public Domain Dedication",
+      "author": "Thomson200",
+      "credit": "Own work",
+      "date": "2015-04-18 10:11:43"
+    },
+    "dark-media": {
+      "file": "dark-media.source.jpg",
+      "title": "File:Perth City at Night across river.jpg",
+      "pageUrl": "https://commons.wikimedia.org/wiki/File:Perth_City_at_Night_across_river.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Perth_City_at_Night_across_river.jpg",
+      "pageId": 166968317,
+      "mime": "image/jpeg",
+      "width": 5472,
+      "height": 3648,
+      "bytes": 4315357,
+      "sha1": "9db8c7e2ceabcf90b946ba8f076144e32e4945d2",
+      "licence": "CC0",
+      "licenceUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "usageTerms": "Creative Commons Zero, Public Domain Dedication",
+      "author": "Yourusernamewillbepublic2",
+      "credit": "Own work",
+      "date": "2012-10-09 18:55:37"
+    },
+    "video-frame": {
+      "file": "video-frame.source.webm",
+      "title": "File:A quick drive through Cabo San Lucas at night. Timelapse.webm",
+      "pageUrl": "https://commons.wikimedia.org/wiki/File:A_quick_drive_through_Cabo_San_Lucas_at_night._Timelapse.webm",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/24/A_quick_drive_through_Cabo_San_Lucas_at_night._Timelapse.webm",
+      "pageId": 76334151,
+      "mime": "video/webm",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 7207686,
+      "sha1": "79642f5b327429a2569a837bd59c53b02f9c1522",
+      "licence": "CC0",
+      "licenceUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "usageTerms": "Creative Commons Zero, Public Domain Dedication",
+      "author": "Kissmykumbaya",
+      "credit": "Own work",
+      "date": "2019-01-30"
+    }
+  },
+  "fonts": {
+    "NotoSans-Regular.ttf": {
+      "url": "https://github.com/notofonts/notofonts.github.io/raw/main/fonts/NotoSans/hinted/ttf/NotoSans-Regular.ttf",
+      "licence": "OFL-1.1",
+      "sha256": "478c558ea716033cd60c03438f628dfa75694dcf6b5f6d505a2f05fd2b4f3823"
+    },
+    "NotoSans-Bold.ttf": {
+      "url": "https://github.com/notofonts/notofonts.github.io/raw/main/fonts/NotoSans/hinted/ttf/NotoSans-Bold.ttf",
+      "licence": "OFL-1.1",
+      "sha256": "1df075a380fc7cb898acf64c1f7b3b4dd780de3caa860178bf929de35817a913"
+    }
+  },
+  "tools": {
+    "magick": "Version: ImageMagick 7.1.2-15 Q16-HDRI aarch64 23686 https://imagemagick.org",
+    "ffmpeg": "ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers"
+  },
+  "derivation": {
+    "photo": {
+      "file": "photo.jpg",
+      "commands": [
+        "magick <sources>/photo.source.jpg -auto-orient -resize 2880x1800^ -gravity center -extent 2880x1800 -colorspace sRGB -strip -interlace none -sampling-factor 4:2:0 -quality 82 <out>/photo.jpg"
+      ]
+    },
+    "dark-media": {
+      "file": "dark-media.jpg",
+      "commands": [
+        "magick <sources>/dark-media.source.jpg -auto-orient -resize 2880x1800^ -gravity center -extent 2880x1800 -colorspace sRGB -strip -interlace none -sampling-factor 4:2:0 -quality 82 <out>/dark-media.jpg"
+      ]
+    },
+    "video-frame": {
+      "file": "video-frame.jpg",
+      "video": "video-frame.webm",
+      "commands": [
+        "ffmpeg -v error -y -ss 2 -i <sources>/video-frame.source.webm -frames:v 1 -vf scale=-2:1800:flags=lanczos,crop=2880:1800 <tmp>/still.png",
+        "magick <tmp>/still.png -auto-orient -resize 2880x1800^ -gravity center -extent 2880x1800 -colorspace sRGB -strip -interlace none -sampling-factor 4:2:0 -quality 82 <out>/video-frame.jpg",
+        "ffmpeg -v error -y -ss 2 -t 2 -i <sources>/video-frame.source.webm -an -vf scale=-2:1800:flags=lanczos,crop=2880:1800,fps=30 -c:v libvpx-vp9 -b:v 0 -crf 42 -row-mt 1 -deadline good -cpu-used 2 -pix_fmt yuv420p -fflags +bitexact -flags:v +bitexact -map_metadata -1 <out>/video-frame.webm"
+      ]
+    },
+    "flat-white": {
+      "file": "flat-white.png",
+      "pixels": "uniform 255",
+      "commands": [
+        "magick <tmp>/flat-white.pgm -strip -depth 8 -define png:bit-depth=8 -define png:color-type=0 -define png:compression-level=9 -define png:exclude-chunks=date,time <out>/flat-white.png"
+      ]
+    },
+    "flat-black": {
+      "file": "flat-black.png",
+      "pixels": "uniform 0",
+      "commands": [
+        "magick <tmp>/flat-black.pgm -strip -depth 8 -define png:bit-depth=8 -define png:color-type=0 -define png:compression-level=9 -define png:exclude-chunks=date,time <out>/flat-black.png"
+      ]
+    },
+    "hf-pattern": {
+      "file": "hf-pattern.png",
+      "pixels": "6x4 tiles of 1-6 px periodic patterns",
+      "commands": [
+        "magick <tmp>/hf.ppm -strip -depth 8 -define png:bit-depth=8 -define png:color-type=2 -define png:compression-level=9 -define png:exclude-chunks=date,time <out>/hf-pattern.png"
+      ]
+    },
+    "saturated-abstract": {
+      "file": "saturated-abstract.jpg",
+      "pixels": "seeded HSV field, seed 20261010",
+      "commands": [
+        "magick <tmp>/sat.ppm -strip -interlace none -sampling-factor 4:2:0 -quality 82 <out>/saturated-abstract.jpg"
+      ]
+    },
+    "dense-text": {
+      "file": "dense-text.png",
+      "pixels": "seeded vocabulary prose, seed 7, Noto Sans 23/30 px",
+      "commands": [
+        "magick -size 2880x1800 xc:#f6f5f2 -colorspace sRGB ( -size 624x -background none -fill #141414 -font <sources>/NotoSans-Bold.ttf -pointsize 30 caption:@<tmp>/head0.txt ) -geometry +96+96 -composite ( -size 624x1498 -background none -fill #202020 -font <sources>/NotoSans-Regular.ttf -pointsize 23 -interline-spacing 6 caption:@<tmp>/col0.txt ) -geometry +96+206 -composite ( -size 624x -background none -fill #141414 -font <sources>/NotoSans-Bold.ttf -pointsize 30 caption:@<tmp>/head1.txt ) -geometry +784+96 -composite ( -size 624x1498 -background none -fill #202020 -font <sources>/NotoSans-Regular.ttf -pointsize 23 -interline-spacing 6 caption:@<tmp>/col1.txt ) -geometry +784+206 -composite ( -size 624x -background none -fill #141414 -font <sources>/NotoSans-Bold.ttf -pointsize 30 caption:@<tmp>/head2.txt ) -geometry +1472+96 -composite ( -size 624x1498 -background none -fill #202020 -font <sources>/NotoSans-Regular.ttf -pointsize 23 -interline-spacing 6 caption:@<tmp>/col2.txt ) -geometry +1472+206 -composite ( -size 624x -background none -fill #141414 -font <sources>/NotoSans-Bold.ttf -pointsize 30 caption:@<tmp>/head3.txt ) -geometry +2160+96 -composite ( -size 624x1498 -background none -fill #202020 -font <sources>/NotoSans-Regular.ttf -pointsize 23 -interline-spacing 6 caption:@<tmp>/col3.txt ) -geometry +2160+206 -composite -colorspace Gray -strip -depth 8 -define png:bit-depth=8 -define png:color-type=0 -define png:compression-level=9 -define png:exclude-chunks=date,time <out>/dense-text.png"
+      ],
+      "words": 1153
+    }
+  }
+}

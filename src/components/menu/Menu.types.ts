@@ -50,6 +50,8 @@ export interface MenuItemProps extends React.HTMLAttributes<HTMLElement> {
   render?: RenderProp | undefined;
   /** aria-disabled, still focusable per APG */
   disabled?: boolean | undefined;
+  /** false → tabIndex -1 so the disabled item leaves the tab/roving order */
+  focusableWhenDisabled?: boolean | undefined;
   closeOnClick?: boolean | undefined;
   /** text used by typeahead when children aren't plain text */
   label?: string | undefined;
