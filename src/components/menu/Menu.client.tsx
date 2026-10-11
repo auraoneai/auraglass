@@ -128,8 +128,10 @@ const MenuArrow = React.forwardRef<HTMLDivElement, MenuArrowProps>(
   },
 );
 
+/* REQ-CMP-102: the visible kbd is decorative — the item already exposes the
+   shortcut via aria-keyshortcuts, so hide the element from AT. */
 const shortcutKbd = (shortcut: string | undefined) => (
-  shortcut ? <kbd data-ag-part="shortcut" className="ag-menu-shortcut">{shortcut}</kbd> : null
+  shortcut ? <kbd data-ag-part="shortcut" className="ag-menu-shortcut" aria-hidden="true">{shortcut}</kbd> : null
 );
 
 const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(
@@ -306,6 +308,18 @@ export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
   },
 );
 
+/* REQ-CMP-102: real Content composite = Portal>Positioner>Popup — mirrors the
+   Popover contract (REQ-CMP-97) so callers get the full overlay stack. */
+function MenuContent({ children }: { children: React.ReactNode }) {
+  return (
+    <MenuPortal>
+      <MenuPositioner>
+        <MenuPopup>{children}</MenuPopup>
+      </MenuPositioner>
+    </MenuPortal>
+  );
+}
+
 export const Menu = {
   Root: MenuRoot,
   Trigger: MenuTrigger,
@@ -325,6 +339,6 @@ export const Menu = {
   Separator: MenuSeparator,
   Submenu: MenuSubmenu,
   SubmenuTrigger: MenuSubmenuTrigger,
-  /** Contract alias: Content = Positioner>Popup region */
-  Content: MenuPopup,
+  /** Contract composite: Content = Portal>Positioner>Popup */
+  Content: MenuContent,
 };
