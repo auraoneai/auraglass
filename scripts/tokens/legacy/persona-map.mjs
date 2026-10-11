@@ -1,13 +1,19 @@
 // MAT-077: tokens/generated/persona-preset-map.json — map each 4.x persona
 // (src/theme/designMatrix.ts at 15b6de6f7) to the nearest 5.0 theme preset by
 // dE2000 between dark canvases, with the equivalent createBrandTheme call.
-// Run: node scripts/tokens/persona-map.mjs
+// Run: node scripts/tokens/legacy/persona-map.mjs
+//
+// 4.x-only migration generator (MAT-077; REQ-MAT-01 clause 2): its only inputs are
+// the 4.x persona matrix read from git history at 15b6de6f7 and the 5.0
+// tokens/presets/*.tokens.json. It does not read tokens/{schema,index}.json or
+// tokens/personas/**, and no 5.0 build step imports it, so those 4.x token
+// leftovers can be deleted (FIN-A, REQ-FIN-01) without touching this file.
 import { execSync } from 'node:child_process';
 import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 const COMMIT = '15b6de6f7';
 
 const deltaE2000 = (l1, l2) => {
@@ -58,7 +64,7 @@ let m;
 while ((m = re.exec(src))) personas.push({ id: m[1], name: m[2], canvas: m[3], accent: m[4] });
 if (personas.length !== 10) throw new Error(`expected 10 personas, parsed ${personas.length}`);
 
-const { oklchToSrgb, srgbToHex } = await import('./color.mjs');
+const { oklchToSrgb, srgbToHex } = await import('../color.mjs');
 const presets = {};
 for (const id of ['aura', 'graphite', 'daylight', 'midnight']) {
   const f = JSON.parse(readFileSync(join(ROOT, `tokens/presets/${id}.tokens.json`), 'utf8'));
