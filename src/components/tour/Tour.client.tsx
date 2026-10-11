@@ -6,6 +6,7 @@
 import * as React from 'react';
 import { cn } from '../../internal/index';
 import { Popover } from '../popover';
+import { FocusScope } from '../../primitives/FocusScope';
 
 export interface TourStepDef {
   target: string | React.RefObject<Element | null>;
@@ -73,6 +74,7 @@ export const Tour = {
           <Popover.Portal>
             <Popover.Positioner anchor={anchor ?? undefined} sideOffset={8} className="ag-tour-positioner">
               <Popover.Popup>
+                <FocusScope key={index} loop autoFocus className="ag-tour-focus-scope" style={{ display: 'contents' }}>
                 <TourStep
                   title={current.title}
                   description={current.description}
@@ -83,6 +85,7 @@ export const Tour = {
                   onNext={() => goto(index + 1)}
                   onDone={dismiss}
                 />
+                </FocusScope>
               </Popover.Popup>
             </Popover.Positioner>
           </Popover.Portal>

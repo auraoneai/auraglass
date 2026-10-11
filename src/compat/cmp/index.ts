@@ -13,6 +13,7 @@ export * from './controls/GlassFormField';
 export * from './controls/GlassIconButton';
 export * from './controls/GlassInput';
 export * from './controls/GlassIntelligentSearch';
+export * from './controls/GlassLabel';
 export * from './controls/GlassLinkButton';
 export * from './controls/GlassMentionList';
 export * from './controls/GlassMultiSelect';
