@@ -25,10 +25,17 @@ mat:build:bridge:
   script:
     - node scripts/tokens/build.mjs --platform bridge-4x
     - git diff --exit-code src/material src/styles/v5.css src/styles/preview-v5.css
+  after_script:
+    # Evidence copy under .artifacts/mat/ (contract:ci-fragments: artifacts stay
+    # inside .artifacts/<stream>/ or the fixed producer paths); the script above is unchanged.
+    - mkdir -p .artifacts/mat/bridge/src/styles .artifacts/mat/bridge/dist/tokens
+    - if [ -d src/material ]; then cp -R src/material .artifacts/mat/bridge/src/; fi
+    - for f in src/styles/v5.css src/styles/preview-v5.css; do if [ -f "$f" ]; then cp "$f" .artifacts/mat/bridge/src/styles/; fi; done
+    - if [ -d dist/tokens/4x ]; then cp -R dist/tokens/4x .artifacts/mat/bridge/dist/tokens/; fi
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
-    paths: [src/material/, src/styles/v5.css, src/styles/preview-v5.css, dist/tokens/4x/, .artifacts/]
+    paths: [.artifacts/]
 
 # mat:test:mot-4x (MAT-362): MOT checks with a 4.x face — MOT-006 cookie-consent
 # unit specs, codemod↔deprecation fragment coherence (MOT-002/L9/L12), T06
