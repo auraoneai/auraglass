@@ -1,6 +1,8 @@
 'use client';
 
 import * as React from 'react';
+import { stateRender, toDataState } from '../../foundation/state';
+import { useControllableWarning } from '../../foundation/controllable';
 import { Switch as Base } from '@base-ui/react/switch';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
@@ -24,6 +26,7 @@ import type { SwitchProps } from './Switch.types';
 /** Switch — 'use client' leaf on BU Switch.Root + Thumb (REQ-CMP-45..47).
  * root is the track; thumb is the transient part. */
 export function Switch({ size, onCheckedChange, children, className, ref, ...rest }: SwitchProps) {
+  useControllableWarning('Switch', 'checked', rest.checked);
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const setRefs = (el: HTMLDivElement | null) => {
     rootRef.current = el;
@@ -44,9 +47,11 @@ export function Switch({ size, onCheckedChange, children, className, ref, ...res
       ref={setRefs}
       {...sizeAttrs(size)}
       {...rest}
+      render={stateRender<{ checked: boolean }>((s) => toDataState({ checked: s.checked }), undefined, 'span')}
     >
       <span data-ag-part="hit-area" aria-hidden="true" />
       <Base.Thumb
+        render={stateRender<{ checked: boolean }>((s) => toDataState({ checked: s.checked }), undefined, 'span')}
         data-ag-part="thumb"
         {...materialProps({ layer: 'transient', thickness: 'thin' })}
       />

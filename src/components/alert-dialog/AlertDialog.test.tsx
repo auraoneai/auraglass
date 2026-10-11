@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { AlertDialog } from './index';
 
-function Demo({ root = {}, action = 'Delete' }: { root?: Record<string, unknown>; action?: React.ReactNode }) {
+function Demo({ root = {}, action = 'Delete', actionProps = {} }: { root?: Record<string, unknown>; action?: React.ReactNode; actionProps?: Record<string, unknown> }) {
   return (
     <AlertDialog.Root {...root}>
       <AlertDialog.Trigger>Delete</AlertDialog.Trigger>
@@ -15,7 +15,7 @@ function Demo({ root = {}, action = 'Delete' }: { root?: Record<string, unknown>
         <AlertDialog.Description>This cannot be undone.</AlertDialog.Description>
         <AlertDialog.Footer>
           <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-          <AlertDialog.Action>{action}</AlertDialog.Action>
+          <AlertDialog.Action {...actionProps}>{action}</AlertDialog.Action>
         </AlertDialog.Footer>
       </AlertDialog.Content>
     </AlertDialog.Root>
@@ -64,8 +64,8 @@ describe('AlertDialog (CMP-217, 221)', () => {
     expect(onOpenChange).toHaveBeenLastCalledWith(false, expect.objectContaining({ reason: 'escape-key' }));
   });
 
-  it("intent='danger' styles only the action button", async () => {
-    render(<Demo root={{ defaultOpen: true, intent: 'danger' }} />);
+  it("<Action intent='danger'> styles only the action button", async () => {
+    render(<Demo root={{ defaultOpen: true }} actionProps={{ intent: 'danger' }} />);
     await act(async () => {});
     const el = popup()!;
     const action = el.querySelector('[data-ag-part="action"]')!;
@@ -74,5 +74,33 @@ describe('AlertDialog (CMP-217, 221)', () => {
     expect(cancel.getAttribute('data-ag-intent')).toBeNull();
     expect(el.getAttribute('data-ag-intent')).toBeNull();
     expect(el.getAttribute('data-ag-thickness')).toBe('thick');
+  });
+  /* REQ-CMP-88: the LayerStack is the only scroll-lock writer. Base UI's
+     useScrollLock writes overflow hidden on <html>/<body> when its root runs
+     with modal === true; the stack lock is the data-ag-scroll-locked attribute. */
+  it('scroll lock has one owner: stack attribute set, no Base UI overflow write', async () => {
+    const { unmount } = render(<Demo root={{ defaultOpen: true }} />);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    const html = document.documentElement;
+    expect(html.hasAttribute('data-ag-scroll-locked')).toBe(true);
+    for (const el of [html, document.body]) {
+      expect(el.style.overflow).not.toMatch(/hidden|clip/);
+      expect(el.style.overflowY).not.toMatch(/hidden|clip/);
+      expect(el.style.overflowX).not.toMatch(/hidden|clip/);
+    }
+    unmount();
+    expect(html.hasAttribute('data-ag-scroll-locked')).toBe(false);
+  });
+
+  it("Root intent='danger' still works as the deprecated alias", async () => {
+    render(<Demo root={{ defaultOpen: true, intent: 'danger' }} />);
+    await act(async () => {});
+    expect(popup()!.querySelector('[data-ag-part="action"]')!.getAttribute('data-ag-intent')).toBe('danger');
+  });
+
+  it("Action intent wins over the Root alias", async () => {
+    render(<Demo root={{ defaultOpen: true, intent: 'danger' }} actionProps={{ intent: 'neutral' }} />);
+    await act(async () => {});
+    expect(popup()!.querySelector('[data-ag-part="action"]')!.getAttribute('data-ag-intent')).toBeNull();
   });
 });

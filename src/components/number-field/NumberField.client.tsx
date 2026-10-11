@@ -9,6 +9,7 @@ import { materialProps } from '../../material';
 import { sizeAttrs } from '../control-shared/size';
 import { CONTROL_MESSAGES } from '../control-shared/messages';
 import type { NumberFieldProps } from './NumberField.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 /** NumberField — BU NumberField inside a Field shell (REQ-CMP-75..77). */
 export function NumberField({
@@ -24,12 +25,14 @@ export function NumberField({
   id,
   placeholder,
   scrub,
+  labels,
   variant,
   refraction,
   className,
   ref,
   ...rest
 }: NumberFieldProps) {
+  useControllableWarning('NumberField', 'value', rest.value);
   const autoId = React.useId();
   const controlId = id ?? autoId;
   const invalid = error !== undefined && error !== null;
@@ -82,7 +85,8 @@ export function NumberField({
             ...(refraction === true ? { refraction: true } : {}),
           })}
         >
-          <Base.Decrement data-ag-part="decrement" aria-label={CONTROL_MESSAGES.decrease}>
+          <Base.Decrement data-ag-part="decrement" aria-label={labels?.decrease ?? CONTROL_MESSAGES.decrease} tabIndex={-1}>
+            <span data-ag-part="hit-area" aria-hidden="true" />
             <span aria-hidden="true">−</span>
           </Base.Decrement>
           <Base.Input
@@ -95,7 +99,8 @@ export function NumberField({
             ref={ref}
             aria-label={rest['aria-label'] as string | undefined}
           />
-          <Base.Increment data-ag-part="increment" aria-label={CONTROL_MESSAGES.increase}>
+          <Base.Increment data-ag-part="increment" aria-label={labels?.increase ?? CONTROL_MESSAGES.increase} tabIndex={-1}>
+            <span data-ag-part="hit-area" aria-hidden="true" />
             <span aria-hidden="true">+</span>
           </Base.Increment>
         </Base.Group>

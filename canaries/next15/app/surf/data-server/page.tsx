@@ -16,7 +16,11 @@ export default function DataServerCanaryPage() {
       <StatCard label="Revenue" value={128430} delta={0.1} trendDirection="up-is-good" />
       <Sparkline data={REV} label="Monthly revenue trend" />
       <ChartFrame title="Monthly revenue" data={ROWS} x={{ key: 'm', label: 'Month' }} series={[{ key: 'a', label: 'Revenue' }]}>
-        {() => null}
+        {/* Server page: children must be a ReactNode. A render-prop function
+            cannot cross the RSC boundary into the ChartFrame.Interactive island. */}
+        <svg data-ag-canary="chart-plot" viewBox="0 0 100 40" role="presentation" aria-hidden="true">
+          <polyline points="0,28 25,22 50,25 75,18 100,9" fill="none" stroke="currentColor" />
+        </svg>
       </ChartFrame>
       <Timeline items={[{ id: 'r1', timestamp: '2026-10-01T00:00:00Z', title: 'v5.0 alpha' }]} />
       <ActivityFeed items={[{ id: 'a1', timestamp: '2026-10-07T09:00:00Z', title: 'Review merged', actor: { name: 'Ada' } }]} />

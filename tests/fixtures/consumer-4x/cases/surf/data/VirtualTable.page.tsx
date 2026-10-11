@@ -2,5 +2,5 @@
 import { GlassVirtualTable } from 'aura-glass';
 
 export function LogPage({ lines }: { lines: { id: string; msg: string }[] }) {
-  return <GlassVirtualTable rows={lines} columns={[{ key: 'msg', label: 'Message' }]} rowHeight={24} />;
+  return <GlassVirtualTable rows={lines} columns={[{ accessorKey: 'msg', header: 'Message' }]} />;
 }

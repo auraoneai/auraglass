@@ -39,12 +39,12 @@ test.describe('RTL mirroring (REQ-SURF-10)', () => {
       if (sidebar) { const r = sidebar.getBoundingClientRect(); results.sidebarRight = r.left > window.innerWidth / 2; }
       // Breadcrumbs: first item is rightmost in RTL
       const links = [...document.querySelectorAll('[data-ag-part="breadcrumbs"] a')];
-      if (links.length > 1) { results.crumbsMirrored = links[0].getBoundingClientRect().left > links[links.length - 1].getBoundingClientRect().left; }
+      if (links.length > 1) { results.crumbsMirrored = links[0]!.getBoundingClientRect().left > links[links.length - 1]!.getBoundingClientRect().left; }
       // ResizablePanels: handle on the LEFT edge of the second panel in RTL
       const handle = document.querySelector('[data-ag-part="resize-handle"]');
       const panels = [...document.querySelectorAll('[data-ag-part="resizable-panel"]')];
       if (handle && panels.length > 1) {
-        const h = handle.getBoundingClientRect(); const p = panels[1].getBoundingClientRect();
+        const h = handle.getBoundingClientRect(); const p = panels[1]!.getBoundingClientRect();
         results.handleLeftOfPanel = Math.abs(h.left - p.left) < 8;
       }
       // Message: avatar column mirrors (avatar after content in x)

@@ -110,4 +110,26 @@ describe('Form', () => {
     expect(screen.getByText('Alpha required')).toBeInTheDocument();
     expect(screen.getByText('Beta required')).toBeInTheDocument();
   });
+
+  it('Field.Error id lands in the control\'s aria-describedby; no alert/live (REQ-CMP-31)', async () => {
+    const user = userEvent.setup();
+    render(
+      <Form>
+        <Field.Root name="gamma" validate={() => 'Gamma required'}>
+          <Field.Control aria-label="gamma control" />
+          <Field.Error />
+        </Field.Root>
+        <button type="submit">Submit</button>
+      </Form>,
+    );
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
+    const err = await screen.findByText('Gamma required');
+    const control = screen.getByLabelText('gamma control');
+    expect(err.id).not.toBe('');
+    expect(control.getAttribute('aria-describedby') ?? '').toContain(err.id);
+    // The error is described by the control — it must not also be a live
+    // region, or screen readers would announce it twice.
+    expect(err).not.toHaveAttribute('role', 'alert');
+    expect(err).not.toHaveAttribute('aria-live');
+  });
 });

@@ -31,3 +31,41 @@ describe('Progress', () => {
     expect(container.querySelector('[data-ag-appearance="ring"]')).not.toBeNull();
   });
 });
+
+describe('Progress REQ-CMP-117', () => {
+  it('ProgressRing is no longer exported from the component or the root barrel', () => {
+    const local = require('./index') as Record<string, unknown>;
+    const root = require('../../root/cmp') as Record<string, unknown>;
+    expect(local).not.toHaveProperty('ProgressRing');
+    expect(root).not.toHaveProperty('ProgressRing');
+    expect(root.Progress).toBe(Progress);
+  });
+
+  it('linear track carries content-sunken material attrs', () => {
+    const { container } = render(<Progress value={40} />);
+    const track = container.querySelector('[data-ag-part="track"]')!;
+    expect(track.getAttribute('data-ag-content')).toBe('content-sunken');
+    expect(track.getAttribute('data-ag-layer')).toBe('content');
+  });
+
+  it('ring track carries content-sunken material attrs', () => {
+    const { container } = render(<Progress appearance="ring" value={40} />);
+    const track = container.querySelector('svg[data-ag-part="track"]')!;
+    expect(track.getAttribute('data-ag-content')).toBe('content-sunken');
+    expect(track.getAttribute('data-ag-layer')).toBe('content');
+  });
+
+  it('appearance=ring indeterminate has progressbar role without aria-valuenow', () => {
+    const { container } = render(<Progress appearance="ring" value={null} />);
+    const root = container.querySelector('[role="progressbar"]')!;
+    expect(root).not.toBeNull();
+    expect(root.hasAttribute('aria-valuenow')).toBe(false);
+  });
+
+  it('appearance=ring determinate sets aria-valuenow and does not leak appearance to the DOM', () => {
+    const { container } = render(<Progress appearance="ring" value={30} />);
+    const root = container.querySelector('[role="progressbar"]')!;
+    expect(root.getAttribute('aria-valuenow')).toBe('30');
+    expect(root.hasAttribute('appearance')).toBe(false);
+  });
+});

@@ -11,6 +11,7 @@ export default defineMeta({
   states: ['loading'],
   variants: { trendDirection: ['up-is-good', 'down-is-good', 'neutral'] },
   budgetKb: 3,
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/link/',
   migration: [
     { from: 'GlassStatCard', props: { title: 'label', trend: { to: 'trendDirection', values: { up: 'up-is-good', down: 'up-is-good', flat: 'neutral' } } }, selectors: { '.glass-stat-card': '[data-ag-part="stat-card"]' }, automation: 'full', compat: true },
     { from: 'GlassKPICard', props: {}, selectors: { '.glass-stat-card': '[data-ag-part="stat-card"]' }, automation: 'full', compat: true },

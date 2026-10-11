@@ -2,7 +2,9 @@
    Item, Header (<h3> default, headingLevel 2–6), Trigger (<button>), Content;
    value string[] with `multiple`; parts [root, item, header, trigger, content]. */
 'use client';
+import { stateRender, toDataState } from '../../foundation/state';
 import * as React from 'react';
+import { useControllableWarning } from '../../foundation/controllable';
 import { Accordion as BaseAccordion } from '@base-ui/react/accordion';
 import { cn } from '../../internal/index';
 import { toChangeDetails } from '../../foundation';
@@ -18,6 +20,7 @@ export interface AccordionRootProps extends React.HTMLAttributes<HTMLDivElement>
 }
 
 function Root({ className, ref, onValueChange, ...rest }: AccordionRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+  useControllableWarning('Accordion', 'value', rest.value);
   return (
     <BaseAccordion.Root
       {...rest}
@@ -43,7 +46,7 @@ export interface AccordionItemProps extends Omit<React.HTMLAttributes<HTMLDivEle
 }
 
 function Item({ className, ref, ...rest }: AccordionItemProps) {
-  return <BaseAccordion.Item {...rest} ref={ref} data-ag-part="item" className={cn('ag-accordion-item', className)} />;
+  return <BaseAccordion.Item render={stateRender<{ open: boolean }>((s) => toDataState({ expanded: s.open }), undefined, 'div')} {...rest} ref={ref} data-ag-part="item" className={cn('ag-accordion-item', className)} />;
 }
 
 export interface AccordionHeaderProps extends Omit<React.HTMLAttributes<HTMLHeadingElement>, 'className'> {
@@ -73,7 +76,7 @@ export interface AccordionTriggerProps extends Omit<React.ButtonHTMLAttributes<H
 
 function Trigger({ className, ref, ...rest }: AccordionTriggerProps) {
   return (
-    <BaseAccordion.Trigger {...rest} ref={ref} data-ag-part="trigger" className={cn('ag-accordion-trigger', className)} />
+    <BaseAccordion.Trigger render={stateRender<{ open: boolean }>((s) => toDataState({ expanded: s.open }), undefined, 'button')} {...rest} ref={ref} data-ag-part="trigger" className={cn('ag-accordion-trigger', className)} />
   );
 }
 
@@ -87,7 +90,7 @@ export interface AccordionContentProps extends Omit<React.HTMLAttributes<HTMLDiv
 }
 
 function Content({ className, ref, ...rest }: AccordionContentProps) {
-  return <BaseAccordion.Panel {...rest} ref={ref} data-ag-part="content" className={cn('ag-accordion-content', className)} />;
+  return <BaseAccordion.Panel render={stateRender<{ open: boolean }>((s) => toDataState({ expanded: s.open }), undefined, 'div')} {...rest} ref={ref} data-ag-part="content" className={cn('ag-accordion-content', className)} />;
 }
 
 export const Accordion = { Root, Item, Header, Trigger, Content };

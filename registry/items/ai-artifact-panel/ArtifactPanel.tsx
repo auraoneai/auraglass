@@ -17,28 +17,30 @@ export interface ArtifactPanelProps {
   open?: boolean | undefined;
   onOpenChange?: ((open: boolean) => void) | undefined;
   onCopy?: ((artifact: Artifact) => void) | undefined;
+  /** Renders code bodies — pass the installed code-surface item, e.g.
+   * `renderCode={(code, language) => <CodeSurface code={code} language={language} />}`.
+   * Without it, code renders in a plain `<pre>`. */
+  renderCode?: ((code: string, language: string | undefined) => React.ReactNode) | undefined;
 }
 
-/** The code-surface registry item renders code bodies when the consumer has
- * installed it; this lazy wrapper falls back to a plain <pre>. */
-const CodeSurface = React.lazy(async () => {
-  const mod = await import('@/registry/items/code-surface' as string).catch(() => null);
-  const C = (mod as Record<string, React.ComponentType<{ code: string; language?: string }>> | null)?.CodeSurface;
-  return { default: C ?? ((p: { code: string }) => <pre data-ag-part="artifact-code"><code>{p.code}</code></pre>) };
-});
+function PlainCode({ code, language }: { code: string; language: string | undefined }) {
+  return <pre data-ag-part="artifact-code"><code data-language={language}>{code}</code></pre>;
+}
 
 /** ai-artifact-panel (SURF-371, REQ-SURF-173): artifact panel on the W1
- * ResizablePanels + Tabs (Preview / Code) with a lazy code-surface body on a
- * content-raised Surface. */
-export function ArtifactPanel({ artifact, open = true, onOpenChange, onCopy }: ArtifactPanelProps) {
+ * ResizablePanels + Tabs (Preview / Code) on a content-raised Surface. Code
+ * bodies go through the `renderCode` slot (code-surface stays a
+ * registryDependency); the item never imports another item at runtime. */
+export function ArtifactPanel({ artifact, open = true, onOpenChange, onCopy, renderCode }: ArtifactPanelProps) {
   if (!open || !artifact) return null;
   const isCode = artifact.kind === 'code';
+  const code = renderCode
+    ? <div data-ag-part="artifact-code">{renderCode(artifact.content, artifact.language)}</div>
+    : <PlainCode code={artifact.content} language={artifact.language} />;
   const body = (
     <div data-ag-part="artifact-body">
       {isCode ? (
-        <React.Suspense fallback={<pre data-ag-part="artifact-code"><code>{artifact.content}</code></pre>}>
-          <CodeSurface code={artifact.content} language={artifact.language} />
-        </React.Suspense>
+        code
       ) : artifact.kind === 'preview' ? (
         <iframe title={artifact.title} sandbox="" srcDoc={artifact.content} data-ag-part="artifact-preview" />
       ) : artifact.kind === 'data' ? (
@@ -68,7 +70,7 @@ export function ArtifactPanel({ artifact, open = true, onOpenChange, onCopy }: A
               </Tabs.List>
               <Tabs.Panel value="preview">{body}</Tabs.Panel>
               <Tabs.Panel value="code">
-                <pre data-ag-part="artifact-code"><code data-language={artifact.language}>{artifact.content}</code></pre>
+                <PlainCode code={artifact.content} language={artifact.language} />
               </Tabs.Panel>
             </Tabs.Root>
           ) : body}

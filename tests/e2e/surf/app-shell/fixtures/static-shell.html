@@ -42,32 +42,35 @@
         data-ag-backdrop="none"
         data-persist-key=""
       >
-        <a data-ag-slot="skip" href="#main">Skip to content</a>
-        <aside data-ag-slot="sidebar" id="sidebar">
-          <nav aria-label="Primary">
-            <ul>
-              <li><a href="#" aria-current="page">Home</a></li>
-              <li><a href="#">Reports</a></li>
-              <li><a href="#">Settings</a></li>
-            </ul>
+        <!-- REQ-SURF-17: Root is the container; the frame holds the grid. -->
+        <div class="ag-app-shell__frame">
+          <a data-ag-slot="skip" href="#main">Skip to content</a>
+          <aside data-ag-slot="sidebar" id="sidebar">
+            <nav aria-label="Primary">
+              <ul>
+                <li><a href="#" aria-current="page">Home</a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Settings</a></li>
+              </ul>
+            </nav>
+          </aside>
+          <header data-ag-slot="top" class="ag-top-bar">
+            <strong>Fixture</strong>
+          </header>
+          <main data-ag-slot="main" id="main" tabindex="-1">
+            <h1>Static shell</h1>
+            <p style="block-size: 200vh">Tall content to prove main owns scroll.</p>
+          </main>
+          <aside data-ag-slot="inspector" id="inspector">
+            <h2>Inspector</h2>
+          </aside>
+          <footer data-ag-slot="status">
+            <span>Ready</span>
+          </footer>
+          <nav data-ag-slot="tabbar" aria-label="Tab bar">
+            <a href="#">Home</a>
           </nav>
-        </aside>
-        <header data-ag-slot="top" class="ag-top-bar">
-          <strong>Fixture</strong>
-        </header>
-        <main data-ag-slot="main" id="main" tabindex="-1">
-          <h1>Static shell</h1>
-          <p style="block-size: 200vh">Tall content to prove main owns scroll.</p>
-        </main>
-        <aside data-ag-slot="inspector" id="inspector">
-          <h2>Inspector</h2>
-        </aside>
-        <footer data-ag-slot="status">
-          <span>Ready</span>
-        </footer>
-        <nav data-ag-slot="tabbar" aria-label="Tab bar">
-          <a href="#">Home</a>
-        </nav>
+        </div>
       </div>
     </div>
   </body>

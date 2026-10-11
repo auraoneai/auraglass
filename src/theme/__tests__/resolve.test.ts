@@ -135,37 +135,121 @@ describe('resolvePreferences', () => {
     }).tier).toBe('enhanced');
   });
 
-  it('1024-case cartesian product never resolves below any floor', () => {
+  it('app contrast more is not lowered by user standard (max, not override)', () => {
+    const r = resolvePreferences({
+      os: noOs, cap: capYes, app: { contrast: 'more' }, user: { contrast: 'standard' },
+    });
+    expect(r.contrast).toBe('more');
+    expect(resolveContrast(noOs, 'more', 'standard')).toBe('more');
+    expect(resolveContrast(noOs, 'standard', 'more')).toBe('more');
+    expect(resolveContrast(noOs, 'more', 'less')).toBe('more');
+    expect(resolveContrast(noOs, 'standard', 'standard')).toBe('standard');
+  });
+
+  it('app contrast more with no OS signals gives transparency tinted and reports the floor', () => {
+    const r = resolvePreferences({ os: noOs, cap: capYes, app: { contrast: 'more' } });
+    expect(r.transparency).toBe('tinted');
+    expect(r.floors.transparency).toBe('tinted');
+    expect(r.reasons).toContain('contrast-more');
+    // contrast more never lowers an explicit solid
+    expect(resolvePreferences({
+      os: noOs, cap: capYes, user: { contrast: 'more', transparency: 'solid' },
+    }).transparency).toBe('solid');
+  });
+
+  it('density spacious round-trips from user and app', () => {
+    expect(resolvePreferences({ os: noOs, cap: capYes, user: { density: 'spacious' } }).density).toBe('spacious');
+    expect(resolvePreferences({ os: noOs, cap: capYes, app: { density: 'spacious' } }).density).toBe('spacious');
+    expect(resolvePreferences({
+      os: noOs, cap: capYes, app: { density: 'spacious' }, user: { density: 'compact' },
+    }).density).toBe('compact');
+  });
+
+  it('floors report the glass-opacity floor', () => {
+    const r = resolvePreferences({ os: noOs, cap: capYes, user: { glassOpacity: 0.7 } });
+    expect(r.floors.transparency).toBe('tinted');
+    expect(r.reasons).toContain('glass-opacity');
+  });
+
+  it('NaN and non-number glassOpacity are treated as unset, never written as NaN', () => {
+    const nan = resolvePreferences({ os: noOs, cap: capYes, user: { glassOpacity: Number.NaN } });
+    expect(nan.glassOpacity).toBe(0);
+    expect(nan.transparency).toBe('glass');
+    // a NaN user value falls through to the app value
+    expect(resolvePreferences({
+      os: noOs, cap: capYes, app: { glassOpacity: 0.8 }, user: { glassOpacity: Number.NaN },
+    }).glassOpacity).toBe(0.8);
+    // persisted JSON may carry a string; it must not reach the clamp
+    expect(resolvePreferences({
+      os: noOs, cap: capYes, user: { glassOpacity: 'x' as unknown as number },
+    }).glassOpacity).toBe(0);
+    expect(resolvePreferences({
+      os: noOs, cap: capYes, user: { glassOpacity: Number.POSITIVE_INFINITY },
+    }).glassOpacity).toBe(1);
+  });
+
+  it('1,024-case exhaustive resolvePreferences loop never resolves below any floor', () => {
+    // Dimensions (REQ-MAT-52): forcedColors(2) x contrastMore(2) x
+    // reducedTransparency(2) x capability backdropFilter(2) x app(4) x user(4)
+    // x glassOpacity {0, 0.69, 0.7, 1}(4) = 1,024.
+    // app(i) carries transparency TS[i] + motion MOTIONS[i] + allowContinuous;
+    // user(j) carries transparency TS[j] + contrast CONTRASTS[j] + glassOpacity.
     const bits = [false, true];
-    const opts = ['system', 'glass', 'tinted', 'solid'] as const;
-    const cases: Array<{
-      os: OsSignals; app: Transparency | 'system'; user: Transparency | 'system';
-      floor: number;
-    }> = [];
+    const TS = ['system', 'glass', 'tinted', 'solid'] as const;
+    const MOTIONS = ['system', 'none', 'calm', 'full'] as const;
+    const CONTRASTS = ['system', 'standard', 'less', 'more'] as const;
+    const OPACITIES = [0, 0.69, 0.7, 1] as const;
+    const M_RANK = { none: 0, calm: 1, full: 2 } as const;
+    const T_NAME = ['glass', 'tinted', 'solid'] as const;
+    let n = 0;
     for (const fc of bits) for (const cm of bits) for (const rt of bits)
-      for (const rm of bits) for (const dk of bits) for (const co of bits)
-        for (const app of opts) for (const user of opts) {
-          const os: OsSignals = {
-            forcedColors: fc, contrastMore: cm, reducedTransparency: rt,
-            reducedMotion: rm, schemeDark: dk, coarsePointer: co,
-          };
-          cases.push({
-            os, app, user,
-            floor: Math.max(
-              fc ? 2 : cm || rt ? 1 : 0,
-              RANK[app === 'system' ? 'glass' : app],
-              RANK[user === 'system' ? 'glass' : user],
-            ),
-          });
+      for (const bf of bits) for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++)
+        for (const g of OPACITIES) {
+          n++;
+          const os: OsSignals = { ...noOs, forcedColors: fc, contrastMore: cm, reducedTransparency: rt };
+          const cap: CapabilitySignals = bf ? capYes : capNo;
+          const appT = TS[i]!; const userT = TS[j]!;
+          const app = { transparency: appT, motion: MOTIONS[i]!, allowContinuous: true };
+          const user = { transparency: userT, contrast: CONTRASTS[j]!, glassOpacity: g };
+          const r = resolvePreferences({ os, cap, app, user });
+          const label = JSON.stringify({ fc, cm, rt, bf, app, user });
+
+          // independent oracle for §4.5
+          const contrastMore = fc || cm || user.contrast === 'more';
+          const floor = Math.max(
+            fc ? 2 : cm || rt ? 1 : 0,
+            bf ? 0 : 2,
+            g >= 0.7 ? 1 : 0,
+            contrastMore ? 1 : 0,
+          );
+          const requested = Math.max(
+            RANK[appT === 'system' ? 'glass' : appT],
+            RANK[userT === 'system' ? 'glass' : userT],
+          );
+          const expectedT = fc ? 'solid' : T_NAME[Math.max(floor, requested)]!;
+          const expectedMotion = app.motion === 'system' ? 'full' : app.motion;
+
+          expect([label, r.transparency]).toEqual([label, expectedT]);
+          expect([label, r.contrast]).toEqual([label, contrastMore ? 'more' : 'standard']);
+          expect([label, r.floors.transparency]).toEqual([label, T_NAME[floor]]);
+          // no result below any floor
+          expect(RANK[r.transparency]).toBeGreaterThanOrEqual(RANK[r.floors.transparency]);
+          expect(M_RANK[r.motion]).toBeLessThanOrEqual(M_RANK[r.floors.motion]);
+          // forced colours is absolute
+          if (fc) {
+            expect([label, r.transparency, r.contrast]).toEqual([label, 'solid', 'more']);
+          }
+          // allowContinuous is false unless motion is full
+          expect([label, r.motion, r.allowContinuous]).toEqual(
+            [label, expectedMotion, expectedMotion === 'full'],
+          );
+          // glassOpacity is clamped into [0, 1] and passed through unchanged here
+          expect(r.glassOpacity).toBe(g);
+          // reasons are non-empty whenever a floor is active
+          if (r.floors.transparency !== 'glass' || r.floors.motion !== 'full') {
+            expect([label, r.reasons.length > 0]).toEqual([label, true]);
+          }
         }
-    expect(cases).toHaveLength(1024);
-    for (const c of cases) {
-      const resolved = resolveTransparency(c.os, true, c.app, c.user);
-      expect(RANK[resolved]).toBeGreaterThanOrEqual(c.floor);
-      // forced colors is absolute
-      if (c.os.forcedColors) expect(resolved).toBe('solid');
-      // without capability the floor is solid regardless of requests
-      if (!c.os.forcedColors) expect(resolveTransparency(c.os, false, c.app, c.user)).toBe('solid');
-    }
+    expect(n).toBe(1024);
   });
 });

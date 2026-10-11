@@ -287,30 +287,49 @@
     "name": "mat:a11y-e2e-chromium",
     "testDir": "tests/e2e/mat",
     "testMatch": "*.spec.ts",
-    "testIgnore": ["material/**", "prepaint.spec.ts"],
+    "testIgnore": [
+      "material/**",
+      "prepaint.spec.ts"
+    ],
     "use": {
       "defaultBrowserType": "chromium",
-      "viewport": { "width": 1440, "height": 900 }
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
     }
   },
   {
     "name": "mat:a11y-e2e-webkit",
     "testDir": "tests/e2e/mat",
     "testMatch": "*.spec.ts",
-    "testIgnore": ["material/**", "prepaint.spec.ts"],
+    "testIgnore": [
+      "material/**",
+      "prepaint.spec.ts"
+    ],
     "use": {
       "defaultBrowserType": "webkit",
-      "viewport": { "width": 1440, "height": 900 }
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
     }
   },
   {
     "name": "mat:a11y-e2e-firefox",
     "testDir": "tests/e2e/mat",
     "testMatch": "*.spec.ts",
-    "testIgnore": ["material/**", "prepaint.spec.ts", "target-size-coarse.spec.ts"],
+    "testIgnore": [
+      "material/**",
+      "prepaint.spec.ts",
+      "target-size-coarse.spec.ts"
+    ],
     "use": {
       "defaultBrowserType": "firefox",
-      "viewport": { "width": 1440, "height": 900 }
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
     }
   },
   {
@@ -335,6 +354,38 @@
     "testMatch": "pixel-contrast.spec.ts",
     "use": {
       "defaultBrowserType": "firefox"
+    }
+  },
+  {
+    "name": "mat:prepaint-chromium",
+    "testDir": "tests/e2e/mat",
+    "testMatch": "prepaint.spec.ts",
+    "use": {
+      "defaultBrowserType": "chromium"
+    }
+  },
+  {
+    "name": "mat:prepaint-webkit",
+    "testDir": "tests/e2e/mat",
+    "testMatch": "prepaint.spec.ts",
+    "use": {
+      "defaultBrowserType": "webkit"
+    }
+  },
+  {
+    "name": "mat:prepaint-firefox",
+    "testDir": "tests/e2e/mat",
+    "testMatch": "prepaint.spec.ts",
+    "use": {
+      "defaultBrowserType": "firefox"
+    }
+  },
+  {
+    "name": "mat:prepaint-perf",
+    "testDir": "tests/perf/browser/mat/a11y",
+    "testMatch": "prepaint.spec.ts",
+    "use": {
+      "defaultBrowserType": "chromium"
     }
   }
 ]

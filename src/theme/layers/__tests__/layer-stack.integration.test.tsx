@@ -143,10 +143,10 @@ describe('AC-FIN-07 LayerStack semantics', () => {
   it('Escape reaches the topmost OPEN entry; a pass-through entry leaves the event alone', () => {
     const { doc } = portalDoc();
     const s = createLayerStack(doc);
-    const lower = jest.fn();
-    const passThrough = jest.fn(() => false);
+    const lower = jest.fn<() => boolean | void>();
+    const passThrough = jest.fn<() => boolean | void>(() => false);
     s.push(entry({ onEscape: lower }));
-    const closed = s.push(entry({ open: false, onEscape: jest.fn() }));
+    const closed = s.push(entry({ open: false, onEscape: jest.fn<() => boolean | void>() }));
     const ev = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
     doc.body.dispatchEvent(ev);
     expect(lower).toHaveBeenCalledTimes(1);

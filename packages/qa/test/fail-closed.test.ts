@@ -94,9 +94,10 @@ describe('registration validation', () => {
     ]);
   });
 
-  it('--verdict fails closed until the release verdict (G-16) exists', async () => {
+  it('--verdict is a usage error outside `--lane all --scope release` (the verdict reads every lane, G-16)', async () => {
     const root = makeRepo({ builtins: `[${row({ lane: 'L1', kind: 'node-script', path: 'ok.mjs' })}]`, files: { 'ok.mjs': '' } });
-    expect((await runFixture(root, { extraArgs: ['--verdict', 'v.json'] })).code).toBe(EXIT.fail);
+    expect((await runFixture(root, { extraArgs: ['--verdict', 'v.json'] })).code).toBe(EXIT.usage);
+    expect((await runFixture(root, { lane: 'all', scope: 'nightly', extraArgs: ['--verdict', 'v.json'] })).code).toBe(EXIT.usage);
   });
 });
 

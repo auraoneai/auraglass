@@ -3,7 +3,6 @@
    4.x modal confirm variants. D-15/D-17: registry items are never root-exported. */
 import * as React from 'react';
 import { AlertDialog } from 'aura-glass';
-import { Button } from 'aura-glass';
 
 export interface ConfirmDialogProps {
   /** 'destructive' renders the confirm in danger intent; 'neutral' is the default. */
@@ -25,7 +24,6 @@ export function ConfirmDialog({
 }: ConfirmDialogProps) {
   return (
     <AlertDialog.Root
-      intent={variant === 'destructive' ? 'danger' : 'neutral'}
       {...(open !== undefined ? { open } : {})}
       {...(defaultOpen !== undefined ? { defaultOpen } : {})}
       {...(onOpenChange !== undefined ? { onOpenChange: (o: boolean) => onOpenChange(o) } : {})}
@@ -38,7 +36,7 @@ export function ConfirmDialog({
         </AlertDialog.Header>
         <AlertDialog.Footer>
           <AlertDialog.Cancel>{cancelLabel}</AlertDialog.Cancel>
-          <AlertDialog.Action {...(onConfirm !== undefined ? { onClick: onConfirm } : {})}>{confirmLabel}</AlertDialog.Action>
+          <AlertDialog.Action intent={variant === 'destructive' ? 'danger' : 'neutral'} {...(onConfirm !== undefined ? { onClick: onConfirm } : {})}>{confirmLabel}</AlertDialog.Action>
         </AlertDialog.Footer>
       </AlertDialog.Content>
     </AlertDialog.Root>

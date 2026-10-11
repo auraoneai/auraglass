@@ -1,3 +1,4 @@
+'use client';
 /* Portal (CMP-027): renders children into usePortalContainer() (the provider's
    overlay layer-root; document.body when no provider). `container` overrides.
    Null until mounted — mount flag via useSyncExternalStore so server markup is

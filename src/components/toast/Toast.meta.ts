@@ -49,7 +49,7 @@ const meta: ControlMeta = defineMeta({
     },
     {
       from: 'toast',
-      props: { 'toast()': 'useToast().add/success/error', 'toast.promise': 'useToast().promise' },
+      props: { 'toast()': 'useToast().toast/dismiss', 'toast.promise': 'useToast().promise' },
       selectors: { '.glass-toast': '.ag-toast' }, automation: 'partial',
       compat: false,
     },

@@ -3,6 +3,9 @@
    animation lives in css only under (prefers-reduced-motion: no-preference). */
 import * as React from 'react';
 import { cn } from '../../internal/index';
+import { materialProps } from '../../material/index';
+
+const SUNKEN = materialProps({ layer: 'content', content: 'content-sunken' });
 
 export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   shape?: 'text' | 'rect' | 'circle';
@@ -20,7 +23,7 @@ export function Skeleton({
 }: SkeletonProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
   if (shape === 'text' && lines > 1) {
     return (
-      <div {...rest} ref={ref} data-ag-part="root" data-ag-shape="text" aria-hidden="true" className={cn('ag-skeleton', 'ag-skeleton-lines', className)} style={style}>
+      <div {...rest} {...SUNKEN} ref={ref} data-ag-part="root" data-ag-shape="text" aria-hidden="true" className={cn('ag-skeleton', 'ag-skeleton-lines', SUNKEN.className, className)} style={style}>
         {Array.from({ length: lines }, (_, i) => (
           <span key={i} data-ag-part="line" className="ag-skeleton-line" />
         ))}
@@ -30,11 +33,12 @@ export function Skeleton({
   return (
     <div
       {...rest}
+      {...SUNKEN}
       ref={ref}
       data-ag-part="root"
       data-ag-shape={shape}
       aria-hidden="true"
-      className={cn('ag-skeleton', className)}
+      className={cn('ag-skeleton', SUNKEN.className, className)}
       style={style}
     />
   );

@@ -153,4 +153,19 @@ describe('Button', () => {
     expect(icons.length).toBeGreaterThan(0);
     for (const icon of icons) expect(icon.getAttribute('aria-hidden')).toBe('true');
   });
+  it('adding pressed between renders warns once and remounts the root (REQ-CMP-32)', () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const { rerender } = render(<Button>Flip</Button>);
+      const first = screen.getByRole('button');
+      rerender(<Button pressed={false}>Flip</Button>);
+      expect(warn.mock.calls.filter((c) => String(c[0]).includes('Button and Toggle'))).toHaveLength(1);
+      const second = screen.getByRole('button');
+      expect(second).not.toBe(first); // Button -> Toggle remounts the DOM node
+      rerender(<Button pressed={true}>Flip</Button>);
+      expect(warn.mock.calls.filter((c) => String(c[0]).includes('Button and Toggle'))).toHaveLength(1);
+    } finally {
+      warn.mockRestore();
+    }
+  });
 });

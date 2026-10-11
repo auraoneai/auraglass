@@ -1,3 +1,17 @@
 [
-  { "name": "plat:dx-node", "testDir": "./tests/dx", "testMatch": "codemod-canary.spec.ts" }
+  {
+    "name": "plat:dx-node",
+    "testDir": "./tests/dx",
+    "testMatch": "codemod-canary.spec.ts"
+  },
+  {
+    "name": "plat:dx-quickstart",
+    "testDir": "./tests/dx",
+    "testMatch": "quickstart.spec.ts",
+    "fullyParallel": false,
+    "timeout": 1800000,
+    "use": {
+      "browserName": "chromium"
+    }
+  }
 ]

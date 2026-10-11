@@ -6,6 +6,10 @@
   "description": "Menu composition replacing 4.x HeaderUserMenu: avatar trigger, labelled account group, destructive sign-out.",
   "dependencies": ["aura-glass"],
   "files": [
-    { "path": "index.tsx", "type": "registry:item", "target": "components/account-menu.tsx" }
+    {
+      "path": "index.tsx",
+      "type": "registry:item",
+      "target": "components/account-menu.tsx"
+    }
   ]
 }

@@ -26,6 +26,14 @@ export function rewriteFile(dtsFile) {
       const sub = spec.slice(2);
       for (const c of [join(DIST, `${sub}/index.d.ts`), join(DIST, `${sub}.d.ts`)]) if (existsSync(c)) target = c;
       if (!target) return m;
+    } else if (spec.startsWith('.') && !/\.\w+$/.test(spec)) {
+      // extensionless relative specifier: node16 ESM resolves `./x` literally
+      // (no extension search), so point it at the runtime `.js` (REQ-PLAT-73).
+      const dir = dirname(dtsFile);
+      for (const [cand, suffix] of [[join(dir, `${spec}.d.ts`), '.js'], [join(dir, spec, 'index.d.ts'), '/index.js']]) {
+        if (existsSync(cand)) { changed = true; return `${pre}'${spec}${suffix}'`; }
+      }
+      return m; // unresolved — verifier reports it
     } else return m;
     let rel = relative(dirname(dtsFile), target).replace(/\\/g, '/');
     if (!rel.startsWith('.')) rel = './' + rel;

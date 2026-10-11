@@ -107,7 +107,6 @@ export function assertNoBannedProps(props: Record<string, unknown>, componentNam
   if (process.env.NODE_ENV === 'production') return;
   for (const banned of BANNED_PROPS) {
     if (banned in props) {
-      // eslint-disable-next-line no-console
       console.error(`aura-glass: <${componentName}> received banned prop '${banned}' (contract S-30 grammar)`);
     }
   }

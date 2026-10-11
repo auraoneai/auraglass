@@ -3,7 +3,7 @@
    plus the ./ai flagships the block does not render on its own. Imports: public
    entries, the block's index/fixtures, and this folder only (REQ-QUAL-59). */
 import * as React from 'react';
-import { Button, Command, CommandPalette, IconButton, Toast, useToast } from 'aura-glass';
+import { Button, Card, Command, CommandPalette, Heading, IconButton, Text, Toast, useToast } from 'aura-glass';
 import { AppShell, Inspector, Sidebar, TopBar } from 'aura-glass/app-shell';
 import {
   AgentSteps,
@@ -27,6 +27,7 @@ import {
   REASONING_TEXT,
   SHOWCASE_EPOCH,
   SOURCES,
+  STATUS_LINE,
   STEPS,
   STREAMING_SUMMARY,
   TOOL_CALLS,
@@ -42,20 +43,20 @@ export interface AiCommandCenterProps {
 /** Fragment: the conversation thread (role="log" viewport). */
 export function AiCommandCenterThread() {
   return (
-    <section className={styles.fragment} aria-labelledby="acc-thread-heading">
-      <h2 id="acc-thread-heading">{COPY.pageTitle}</h2>
+    <Card.Root className={styles.fragment} render={<section aria-labelledby="acc-thread-heading" />}>
+      <Heading level={2} size="title-3" id="acc-thread-heading">{COPY.pageTitle}</Heading>
       <Thread messages={MESSAGES} label="Incident conversation" />
-    </section>
+    </Card.Root>
   );
 }
 
 /** Fragment: the composer with a draft in progress. */
 export function AiCommandCenterComposer() {
   return (
-    <section className={styles.fragment} aria-labelledby="acc-composer-heading">
-      <h2 id="acc-composer-heading">{COPY.draftReply}</h2>
+    <Card.Root className={styles.fragment} render={<section aria-labelledby="acc-composer-heading" />}>
+      <Heading level={2} size="title-3" id="acc-composer-heading">{COPY.draftReply}</Heading>
       <Composer defaultValue="Draft the customer-facing status update for EU-West checkout." />
-    </section>
+    </Card.Root>
   );
 }
 
@@ -63,8 +64,8 @@ export function AiCommandCenterComposer() {
 export function AiCommandCenterToolCalls() {
   const [decisions, setDecisions] = React.useState<Record<string, boolean>>({});
   return (
-    <section className={styles.fragment} aria-labelledby="acc-tools-heading">
-      <h2 id="acc-tools-heading">{COPY.toolActivity}</h2>
+    <Card.Root className={styles.fragment} render={<section aria-labelledby="acc-tools-heading" />}>
+      <Heading level={2} size="title-3" id="acc-tools-heading">{COPY.toolActivity}</Heading>
       <ol className={styles.toolStack}>
         {TOOL_CALLS.map((part) => (
           <li key={part.toolCallId}>
@@ -80,7 +81,7 @@ export function AiCommandCenterToolCalls() {
       <p className={styles.visuallyQuiet} aria-live="polite">
         {Object.keys(decisions).length > 0 ? COPY.toastTitle : ''}
       </p>
-    </section>
+    </Card.Root>
   );
 }
 
@@ -162,36 +163,45 @@ export function AiCommandCenter({ now = SHOWCASE_EPOCH }: AiCommandCenterProps) 
         <AppShell.Main>
           <AppShell.PageHeader title={COPY.pageTitle} description={COPY.pageDescription} headingLevel={1} />
           <div className={styles.workspace}>
-            <section className={styles.conversation} aria-label="Conversation">
+            {/* Content layer: content-raised cards on the scene; glass stays on the chrome
+                (TopBar, Sidebar, Inspector) and overlays (CommandPalette, Toast). */}
+            <Card.Root className={styles.conversation} render={<section aria-label="Conversation" />}>
               <AiWorkspace initialMessages={MESSAGES} />
-            </section>
-            <section className={styles.activity} aria-labelledby="acc-activity-heading">
-              <h2 id="acc-activity-heading">{COPY.toolActivity}</h2>
-              <ol className={styles.toolStack}>
-                {TOOL_CALLS.map((part) => (
-                  <li key={part.toolCallId}>
-                    <ToolCall part={part} onApprovalResponse={() => undefined} />
-                  </li>
-                ))}
-              </ol>
-              <h3>{COPY.reasoning}</h3>
-              <Reasoning text={REASONING_TEXT} state="done" durationMs={4200} />
-              <h3>{COPY.draftReply}</h3>
-              <Message
-                message={{
-                  id: 'm-draft',
-                  role: 'assistant',
-                  parts: [{ type: 'text', text: STREAMING_SUMMARY }],
-                  metadata: { status: 'streaming', createdAt: now },
-                }}
-              />
-              <p>
-                <StreamingText text={STREAMING_SUMMARY} streaming announce="off" />{' '}
-                <Citation messageId="m-draft" source={SOURCES[0]!} index={1} />
-              </p>
-              <h3>{COPY.sources}</h3>
-              <SourceList messageId="m-draft" sources={SOURCES} defaultOpen />
-            </section>
+            </Card.Root>
+            <div className={styles.activity}>
+              <Card.Root className={styles.panel} render={<section aria-labelledby="acc-activity-heading" />}>
+                <Heading level={2} size="title-3" id="acc-activity-heading">{COPY.toolActivity}</Heading>
+                <ol className={styles.toolStack}>
+                  {TOOL_CALLS.map((part) => (
+                    <li key={part.toolCallId}>
+                      <ToolCall part={part} onApprovalResponse={() => undefined} />
+                    </li>
+                  ))}
+                </ol>
+              </Card.Root>
+              <Card.Root className={styles.panel} render={<section aria-labelledby="acc-reasoning-heading" />}>
+                <Heading level={3} size="sm" id="acc-reasoning-heading">{COPY.reasoning}</Heading>
+                <Reasoning text={REASONING_TEXT} state="done" durationMs={4200} />
+              </Card.Root>
+              <Card.Root className={styles.panel} render={<section aria-labelledby="acc-draft-heading" />}>
+                <Heading level={3} size="sm" id="acc-draft-heading">{COPY.draftReply}</Heading>
+                <Message
+                  message={{
+                    id: 'm-draft',
+                    role: 'assistant',
+                    parts: [{ type: 'text', text: STREAMING_SUMMARY }],
+                    metadata: { status: 'streaming', createdAt: now },
+                  }}
+                />
+                <Text size="sm" muted>
+                  {COPY.statusLineLabel}{' '}
+                  <StreamingText text={STATUS_LINE} streaming announce="off" />{' '}
+                  <Citation messageId="m-draft" source={SOURCES[0]!} index={1} />
+                </Text>
+                <Heading level={4} size="sm">{COPY.sources}</Heading>
+                <SourceList messageId="m-draft" sources={SOURCES} defaultOpen />
+              </Card.Root>
+            </div>
           </div>
         </AppShell.Main>
         <Inspector.Root aria-label={COPY.runbook}>

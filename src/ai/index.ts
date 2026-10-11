@@ -33,7 +33,7 @@ export type { AiRenderers, AgPartRenderer, AgTextRenderer } from './renderers';
 export type { ThreadHandle, ThreadLabels, ThreadRootProps, ThreadItemsProps } from './thread/Thread';
 export type { MessageRootProps, MessageLabels } from './message/Message';
 export type { MessagePartsProps } from './message/MessageParts';
-export type { StreamingTextProps } from './message/StreamingText';
+export type { StreamingTextProps, StreamingTextHandle } from './message/StreamingText';
 export type { ComposerRootProps, ComposerLabels } from './composer/Composer';
 export type { ToolCallProps, ToolCallLabels, ApprovalResponseDetail } from './tool/ToolCall';
 export type { ReasoningProps, ReasoningLabels } from './reasoning/Reasoning';

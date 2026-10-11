@@ -24,7 +24,8 @@
      - MAT: Surface/Material Lab and GlassPreferencesPanel (sr x 4 + touch x 2)
      - motion: Button, Dialog, Menu, Sheet, Tabs x the 4 SR platforms under OS
        reduced motion, recorded by MAT (REQ-MAT-66), script mat/reduced-motion-pass.md
-   Each row: subject (kebab id = SrRecord.subject), name, stream, flagship,
+   Each row: subject (kebab id = SrRecord.subject; `ai-` prefixed for the ./ai
+   entry, see ENTRY_PREFIX), name, stream, flagship,
    pass, at, storyId, script, record (path the SrRecord is committed at, the
    layout scripts/mat/verify-a11y-manual.mjs enforces) and required: true.
 
@@ -87,6 +88,13 @@ export const kebab = (name) => name
   .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
   .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
   .toLowerCase();
+
+/** Entry points whose subjects carry a namespace prefix in the SrRecord subject id
+    (and so in the script / record file names): the ./ai metas are `ai-*` — ledger
+    REQ-SURF-129 names the L13 records tests/a11y/manual/records/surf/ai-*.json and
+    FIN-H H3-3 the scripts ai-thread.md, ai-message.md, ai-composer.md, … */
+export const ENTRY_PREFIX = { './ai': 'ai' };
+export const subjectId = (name, entry) => (ENTRY_PREFIX[entry] ? `${ENTRY_PREFIX[entry]}-${kebab(name)}` : kebab(name));
 
 /** Evaluates every src/**\/*.meta.ts in one esbuild bundle; returns ComponentMeta records. */
 export async function loadMetas(root = ROOT) {
@@ -212,16 +220,16 @@ export async function generate(root = ROOT) {
         const storyId = sc.storyFile
           ? pickStory(index.filter((e) => e.file === sc.storyFile))
           : subjects.get(sc.storyOf)?.storyId ?? storyFor(sc.storyOf, index, resolveMeta(sc.storyOf, why)?.file);
-        s = { name, stream: sc.stream, owner: sc.stream.toUpperCase(), flagship: null, storyId, passes: new Set() };
+        s = { name, subject: kebab(name), stream: sc.stream, owner: sc.stream.toUpperCase(), flagship: null, storyId, passes: new Set() };
       } else {
         const m = resolveMeta(name, why);
         if (!m) return;
         if (!STREAM[m.owner]) { errors.push(`${m.file}: owner ${m.owner} has no SrRecord stream`); return; }
-        s = { name, stream: STREAM[m.owner], owner: m.owner, flagship: Number.isInteger(m.flagship) ? m.flagship : null,
+        s = { name, subject: subjectId(name, m.entry), stream: STREAM[m.owner], owner: m.owner, flagship: Number.isInteger(m.flagship) ? m.flagship : null,
           storyId: storyFor(name, index, m.file), passes: new Set() };
       }
       // No story = no URL to test: a gap for the owning stream (story files are theirs), never patched here.
-      if (!s.storyId) missingStories.push({ subject: kebab(name), name, owner: s.owner });
+      if (!s.storyId) missingStories.push({ subject: s.subject, name, owner: s.owner });
       subjects.set(name, s);
     }
     for (const p of passes) s.passes.add(p);
@@ -234,7 +242,7 @@ export async function generate(root = ROOT) {
       errors.push(`${m.file}: flagship ${m.flagship} outside ${FLAGSHIP_RANGE.join('..')}`);
       continue;
     }
-    (flagshipMap[m.flagship] ??= []).push(kebab(m.name));
+    (flagshipMap[m.flagship] ??= []).push(subjectId(m.name, m.entry));
     addSubject(m.name, ['sr', 'touch'], `flagship ${m.flagship}`);
   }
   const missingFlagships = [];
@@ -246,7 +254,7 @@ export async function generate(root = ROOT) {
   const rows = [];
   const seen = new Set();
   for (const s of [...subjects.values()]) {
-    const subject = kebab(s.name);
+    const { subject } = s;
     if (seen.has(subject)) errors.push(`subject id ${subject} is produced by two names`);
     seen.add(subject);
     for (const pass of PASS_ORDER.filter((p) => s.passes.has(p))) {
@@ -258,7 +266,7 @@ export async function generate(root = ROOT) {
   for (const name of MOTION_SUBJECTS) {
     const s = subjects.get(name);
     if (!s) { errors.push(`motion: ${name} is not a matrix subject`); continue; }
-    for (const at of SR_AT) rows.push(row(s, kebab(name), 'mat', 'motion', at, MOTION_SCRIPT));
+    for (const at of SR_AT) rows.push(row(s, s.subject, 'mat', 'motion', at, MOTION_SCRIPT));
   }
   rows.sort((a, b) => a.stream.localeCompare(b.stream) || a.subject.localeCompare(b.subject)
     || PASS_ORDER.indexOf(a.pass) - PASS_ORDER.indexOf(b.pass) || AT_ORDER.indexOf(a.at) - AT_ORDER.indexOf(b.at));

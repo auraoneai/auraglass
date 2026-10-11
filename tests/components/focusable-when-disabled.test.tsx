@@ -10,7 +10,7 @@ import { IconButton } from '../../src/components/icon-button';
 
 beforeAll(() => {
   if (typeof window !== 'undefined' && !('PointerEvent' in window)) {
-    (window as { PointerEvent?: unknown }).PointerEvent = window.MouseEvent;
+    (window as { PointerEvent?: unknown }).PointerEvent = globalThis.MouseEvent;
   }
 });
 
@@ -118,7 +118,7 @@ describe('disabled opacity seam', () => {
     for (const f of files) {
       const text = readFileSync(f, 'utf8');
       for (const m of text.matchAll(/([^{}]+)\{([^{}]*\bopacity\s*:[^{}]*)\}/g)) {
-        const sel = m[1];
+        const sel = m[1]!;
         // a root selector: .ag-x[data-disabled] with NO descendant part
         const sels = sel.split(',');
         for (const s of sels) {

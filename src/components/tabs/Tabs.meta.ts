@@ -4,7 +4,7 @@ export default defineMeta({
   name: 'Tabs',
   owner: 'SURF',
   entry: '.',
-  apg: 'tabs',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/tabs/',
   budgetKb: 6,
   flagship: 25,
   tier: 'T1',

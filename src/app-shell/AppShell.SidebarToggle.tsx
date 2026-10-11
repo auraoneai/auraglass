@@ -1,8 +1,11 @@
 'use client';
-/* Sidebar collapse/drawer toggle (SURF-016): CMP IconButton that resolves its
-   shell root via closest() and reads state through useSyncExternalStore.
-   expanded/wide modes toggle expanded<->collapseTo; compact/medium modes the
-   same button gains drawer ARIA (aria-expanded/haspopup) in a layout effect. */
+/* Sidebar collapse/drawer toggle (SURF-016/031/032): CMP IconButton that
+   resolves its shell root via closest() and reads state through
+   useSyncExternalStore. Mode-aware action: expanded/wide toggle
+   expanded<->collapseTo on `sidebar`; compact/medium toggle the ephemeral
+   `drawer` field instead (aria-expanded/haspopup=dialog +
+   aria-controls=${shellId}-drawer). Mod+B routes through the same handler,
+   bound on the shell root element (never document/window). */
 
 import * as React from 'react';
 import { IconButton } from '../components/icon-button';
@@ -11,30 +14,32 @@ import {
   appShellRoot,
   getServerSnapshot,
   getSnapshot,
+  registerSidebarShortcut,
+  setDrawer,
   setSidebar,
   subscribe,
-  type ShellSnapshot,
   type SidebarState,
 } from './appShellStore';
-
-export interface AppShellSidebarToggleProps extends PartProps<'button'> {
-  /** Also register a Mod+B keydown toggle (default false). */
-  shortcut?: boolean;
-  /** Override the aria-labels for the next action. */
-  labels?: { expand?: string; collapse?: string };
-  icon?: React.ReactNode;
-}
-
-function nextFor(mode: string, current: SidebarState, collapseTo: 'rail' | 'collapsed') {
-  if (current === 'expanded') return collapseTo;
-  return 'expanded';
-}
 
 // Until the layout effect resolves the shell root, both snapshot getters
 // return this one stable object: useSyncExternalStore requires referentially
 // stable snapshots, and a fresh literal per call logs "getServerSnapshot should
 // be cached" during hydration (REQ-SURF-08 cross-TZ hydration gate).
-const DETACHED_SNAPSHOT: ShellSnapshot = { sidebar: 'expanded', inspector: 'closed', mode: 'expanded' };
+const DETACHED = {
+  sidebar: 'expanded' as const,
+  inspector: 'closed' as const,
+  mode: 'expanded' as const,
+  drawer: 'closed' as const,
+};
+
+export interface AppShellSidebarToggleProps extends PartProps<'button'> {
+  /** Also bind Mod+B (Cmd/Ctrl+B) inside this shell to the same action
+      (default false). Scoped to the shell root, never a global listener. */
+  shortcut?: boolean;
+  /** Override the aria-labels for the next action. */
+  labels?: { expand?: string; collapse?: string };
+  icon?: React.ReactNode;
+}
 
 export function AppShellSidebarToggle({
   shortcut = false,
@@ -50,58 +55,71 @@ export function AppShellSidebarToggle({
       (cb: () => void) => (rootEl ? subscribe(rootEl, cb) : () => {}),
       [rootEl],
     ),
-    () => (rootEl ? getSnapshot(rootEl) : DETACHED_SNAPSHOT),
-    () => (rootEl ? getServerSnapshot(rootEl) : DETACHED_SNAPSHOT),
+    () => (rootEl ? getSnapshot(rootEl) : DETACHED),
+    () => (rootEl ? getServerSnapshot(rootEl) : DETACHED),
   );
 
   React.useLayoutEffect(() => {
     if (ref.current && !rootEl) setRootEl(appShellRoot(ref.current));
   }, [rootEl]);
 
-  const collapseTo: 'rail' | 'collapsed' =
-    rootEl?.dataset['collapseTo'] === 'collapsed' ? 'collapsed' : 'rail';
+  const collapseTo: 'rail' | 'collapsed' = rootEl?.dataset['collapseTo'] === 'collapsed' ? 'collapsed' : 'rail';
   const isDrawer = snapshot.mode === 'compact' || snapshot.mode === 'medium';
-  const next = nextFor(snapshot.mode, snapshot.sidebar, collapseTo);
-  const open = snapshot.sidebar === 'expanded';
-  const label =
-    next === 'expanded'
+  const next: SidebarState = snapshot.sidebar === 'expanded' ? collapseTo : 'expanded';
+  const drawerOpen = snapshot.drawer === 'open';
+  const label = isDrawer
+    ? drawerOpen
+      ? (labels?.collapse ?? 'Close sidebar')
+      : (labels?.expand ?? 'Open sidebar')
+    : next === 'expanded'
       ? (labels?.expand ?? 'Expand sidebar')
       : (labels?.collapse ?? 'Collapse sidebar');
 
+  // The single mode-aware action — click and Mod+B both route here.
+  const activate = React.useCallback(() => {
+    if (!rootEl) return;
+    const snap = getSnapshot(rootEl);
+    if (snap.mode === 'compact' || snap.mode === 'medium') {
+      setDrawer(rootEl, snap.drawer === 'open' ? 'closed' : 'open');
+    } else {
+      setSidebar(rootEl, snap.sidebar === 'expanded' ? collapseTo : 'expanded');
+    }
+  }, [rootEl, collapseTo]);
+
+  // Mod+B is bound on the shell root element only (no document/window
+  // listener — SURF-05); the drawer forwards it from its portal.
   React.useEffect(() => {
     if (!shortcut || !rootEl) return;
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
-        e.preventDefault();
-        const snap = getSnapshot(rootEl);
-        setSidebar(rootEl, snap.sidebar === 'expanded' ? collapseTo : 'expanded');
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [shortcut, rootEl, collapseTo]);
+    return registerSidebarShortcut(rootEl, activate);
+  }, [shortcut, rootEl, activate]);
 
+  // aria-controls: the drawer id in drawer modes, the sidebar slot id else.
   const [controls, setControls] = React.useState<string | undefined>(undefined);
   React.useLayoutEffect(() => {
     if (!rootEl) return;
+    if (isDrawer) {
+      setControls(`${rootEl.dataset['shellId'] ?? 'ag-shell'}-drawer`);
+      return;
+    }
     const side = rootEl.querySelector<HTMLElement>('[data-ag-slot="sidebar"]');
     if (side && !side.id) {
       side.id = `${rootEl.dataset['shellId'] ?? 'ag-shell'}-sidebar`;
     }
     setControls(side?.id);
-  }, [rootEl, snapshot.sidebar, snapshot.mode]);
+  }, [rootEl, isDrawer]);
 
   const aria = isDrawer
-    ? { 'aria-expanded': open, 'aria-haspopup': 'dialog' as const }
+    ? { 'aria-expanded': drawerOpen, 'aria-haspopup': 'dialog' as const }
     : {};
   return (
     <IconButton
       ref={ref as React.Ref<HTMLButtonElement>}
       label={label}
       aria-label={label}
+      data-ag-part="sidebar-toggle"
       {...aria}
       {...(controls ? { 'aria-controls': controls } : {})}
-      onClick={() => rootEl && setSidebar(rootEl, next)}
+      onClick={activate}
       icon={icon}
       {...(rest as Record<string, unknown>)}
     />

@@ -299,6 +299,7 @@ export function CommandList({ children, render, ...rest }: PartProps<'div'>) {
     void _role;
     return (
       <VirtualList
+        data-ag-part="list"
         ref={vlRef}
         items={ctx.items}
         getItemKey={(i) => i.value}

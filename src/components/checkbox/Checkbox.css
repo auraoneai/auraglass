@@ -60,6 +60,14 @@
     color: var(--_ag-on-accent, var(--ag-color-on-accent));
   }
 
+  @supports (color: contrast-color(red)) {
+    .ag-checkbox[data-checked] [data-ag-part='indicator'],
+    .ag-checkbox[data-indeterminate] [data-ag-part='indicator'],
+    .ag-radio-group [data-checked] [data-ag-part='indicator'] {
+      color: contrast-color(var(--ag-color-accent));
+    }
+  }
+
   .ag-checkbox[data-disabled] > :where([data-ag-part]),
   .ag-radio-group [data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
@@ -87,4 +95,24 @@
       color: HighlightText;
     }
   }
+}
+
+/* REQ-CMP-53: check path draws in on [data-checked] — pathLength=1 +
+   stroke-dasharray:1, dashoffset 1 -> 0 over duration-micro; instant under
+   reduced-motion and calm/none. */
+.ag-checkbox [data-ag-part='icon'] path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.ag-checkbox[data-checked] [data-ag-part='icon'] path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset var(--ag-duration-micro) var(--ag-ease-standard);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ag-checkbox[data-checked] [data-ag-part='icon'] path { transition: none; }
+}
+[data-ag-motion='calm'] .ag-checkbox[data-checked] [data-ag-part='icon'] path,
+[data-ag-motion='none'] .ag-checkbox[data-ag-part='root'][data-checked] [data-ag-part='icon'] path,
+[data-ag-motion='none'] .ag-checkbox[data-checked] [data-ag-part='icon'] path {
+  transition: none;
 }

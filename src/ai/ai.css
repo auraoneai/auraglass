@@ -34,6 +34,27 @@
     max-inline-size: min(var(--_ag-ai-message-max-inline, 72ch), 100%);
     overflow-wrap: anywhere;
   }
+  /* REQ-SURF-112: default text is plain, whitespace-preserving (HTML renders literally). */
+  [data-ag-part="text-part"] { white-space: pre-wrap; }
+  /* REQ-SURF-114: actions stay in the a11y tree and tab order (opacity only,
+     never display/visibility); shown on hover, focus-within, coarse pointers
+     and devices without hover. */
+  [data-ag-part="message"] [data-ag-part="actions"] { opacity: 0; }
+  [data-ag-part="message"]:hover [data-ag-part="actions"],
+  [data-ag-part="message"]:focus-within [data-ag-part="actions"] { opacity: 1; }
+  @media (pointer: coarse), (hover: none) {
+    [data-ag-part="message"] [data-ag-part="actions"] { opacity: 1; }
+  }
+  /* REQ-SURF-114: the thread is the size container for its messages. Below
+     480 px avatars hide (the hidden heading keeps the author) and actions
+     move below the content. */
+  [data-ag-part="thread"] { container-type: inline-size; }
+  @container (max-width: 480px) {
+    [data-ag-part="message"] { display: flex; flex-direction: column; }
+    [data-ag-part="message"] [data-ag-part="avatar"] { display: none; }
+    [data-ag-part="message"] [data-ag-part="actions"] { order: 1; }
+    [data-ag-part="message"] [data-ag-part="footer"] { order: 2; }
+  }
   [data-ag-part="attachments"] {
     display: flex;
     gap: var(--ag-space-2, 8px);
@@ -47,15 +68,20 @@
   [data-ag-part="composer"] {
     container-type: inline-size;
   }
+  /* REQ-SURF-116/119: grows 1 → maxRows lines (Composer writes
+     --_ag-composer-max-rows; measured fallback without field-sizing). */
   [data-ag-part="composer"] [data-ag-part="textarea"] {
     field-sizing: content;
-    max-block-size: var(--_ag-ai-composer-max-block, 12lh);
+    max-block-size: var(--_ag-ai-composer-max-block, calc(var(--_ag-composer-max-rows, 8) * 1lh));
     resize: none;
   }
-  /* Keyboard inset (SURF-318): pad above the software keyboard. */
+  /* Keyboard inset (SURF-318, REQ-SURF-119): env() where the VirtualKeyboard
+     API exists, else the visualViewport fallback Composer writes. */
   [data-ag-part="composer"] {
-    padding-block-end: env(keyboard-inset-height, 0px);
+    padding-block-end: max(env(keyboard-inset-height, 0px), var(--_ag-ai-keyboard-inset, 0px));
   }
+  /* REQ-SURF-119: the secondary-actions menu exists only below 480 px. */
+  [data-ag-part="composer"] [data-ag-part="composer-menu"] { display: none; }
   [data-ag-part="composer"][data-dragging="true"] {
     outline: 2px dashed var(--_ag-line, currentColor);
     outline-offset: -2px;
@@ -74,9 +100,11 @@
   }
   @container (max-width: 480px) {
     [data-ag-part="composer"] [data-ag-part="avatar"] { display: none; }
-    /* SURF-318: slot actions collapse to one leading action; maxRows -> 5. */
-    [data-ag-part="composer"] [data-ag-part="actions"] > :not([data-ag-part="composer-menu"]) { display: none; }
-    [data-ag-part="composer"] [data-ag-part="textarea"] { max-block-size: 5lh; }
+    /* SURF-318 / REQ-SURF-119: secondary actions collapse into the one
+       leading composer-menu; Submit/Stop stay; maxRows -> 5. */
+    [data-ag-part="composer"] [data-ag-part="actions"] [data-ag-part="action"] { display: none; }
+    [data-ag-part="composer"] [data-ag-part="composer-menu"] { display: inline-flex; }
+    [data-ag-part="composer"] [data-ag-part="textarea"] { max-block-size: min(5lh, var(--_ag-ai-composer-max-block, calc(var(--_ag-composer-max-rows, 8) * 1lh))); }
   }
   /* ToolCall running atom — CSS three-dot (SURF-323); static text under
    * reduced motion via the `motion` preference attribute (S-12). */
@@ -87,6 +115,24 @@
   [data-ag-part="running-dots"][data-motion="calm"]::after,
   [data-ag-motion="none"] [data-ag-part="running-dots"]::after,
   [data-ag-motion="calm"] [data-ag-part="running-dots"]::after { content: none; }
+  /* AgentSteps running atom (REQ-SURF-123): CSS-only pulse beside the state
+   * icon; static under reduced motion and motion calm|none — the visible
+   * "Running" state text stays. */
+  [data-ag-part="step"] [data-ag-part="step-icon"] { position: relative; display: inline-flex; }
+  [data-ag-part="step"][data-state="running"] [data-ag-part="step-icon"]::after {
+    content: "";
+    position: absolute;
+    inset-block-start: -2px;
+    inset-inline-end: -2px;
+    inline-size: 6px; block-size: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: ag-ai-caret-blink var(--_ag-duration-slow, 1s) steps(1) infinite;
+  }
+  [data-ag-motion='calm'] [data-ag-part="step"][data-state="running"] [data-ag-part="step-icon"]::after,
+  [data-ag-motion='none'] [data-ag-part="step"][data-state="running"] [data-ag-part="step-icon"]::after {
+    animation: none;
+  }
   [data-ag-part="typing-indicator"] [data-ag-part="typing-dot"] {
     display: inline-block;
     inline-size: 4px; block-size: 4px;
@@ -120,6 +166,7 @@
   }
   @media (prefers-reduced-motion: reduce) {
     [data-ag-part="streaming-text"] [data-ag-part="caret"] { animation: none; opacity: 1; }
+    [data-ag-part="step"][data-state="running"] [data-ag-part="step-icon"]::after { animation: none; }
   }
   @keyframes ag-ai-caret-blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
 }

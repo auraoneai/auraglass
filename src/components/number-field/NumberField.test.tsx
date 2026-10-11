@@ -87,3 +87,19 @@ describe('parse/clamp/snap utils (CMP-157)', () => {
     expect(group).toHaveAttribute('data-ag-content', 'content-sunken');
   });
 });
+describe('NumberField stepper labels', () => {
+  it('REQ-CMP-77: steppers are non-tabbable buttons with labels prop aria-labels', () => {
+    const { container } = render(
+      <NumberField label="qty" defaultValue={2} labels={{ increase: 'More', decrease: 'Less' }} />,
+    );
+    const inc = container.querySelector('[data-ag-part="increment"]');
+    const dec = container.querySelector('[data-ag-part="decrement"]');
+    for (const s of [inc, dec]) {
+      expect(s?.tagName).toBe('BUTTON');
+      expect(s).toHaveAttribute('tabindex', '-1');
+    }
+    expect(inc).toHaveAttribute('aria-label', 'More');
+    expect(dec).toHaveAttribute('aria-label', 'Less');
+  });
+
+});

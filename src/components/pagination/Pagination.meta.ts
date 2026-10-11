@@ -4,7 +4,7 @@ export default defineMeta({
   name: 'Pagination',
   owner: 'SURF',
   entry: '.',
-  apg: 'landmarks',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
   budgetKb: 4,
   flagship: 28,
   tier: 'T1',

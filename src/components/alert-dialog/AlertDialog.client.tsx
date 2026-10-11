@@ -1,19 +1,16 @@
 'use client';
-/* CMP-217 (REQ-CMP-78/-89/-91): AlertDialog over Base UI AlertDialog (which
-   shares Dialog's popup — BU sets role=alertdialog from the root store).
-   - outside press never closes (BU omits disablePointerDismissal on this root)
-   - Escape closes with reason 'escape-key' through the same emit path
-   - default initial focus is the Cancel/Close part (least destructive)
-   - intent='danger' styles ONLY the Action button
-   - Cancel is the close part; Action closes via BU Close with a Button render. */
+/* AlertDialog uses Dialog parts with pointer dismissal disabled and an
+   alertdialog role. LayerStack owns scroll locking; Base UI traps focus. */
 import * as React from 'react';
-import { AlertDialog as Base } from '@base-ui/react/alert-dialog';
+import { Dialog as Base } from '@base-ui/react/dialog';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
+import { useScrimTop } from '../overlays/_shared/useScrimTop';
 import { Button } from '../button';
+import { useControllableWarning } from '../../foundation/controllable';
 import {
   AlertDialogHeader, AlertDialogBody, AlertDialogFooter,
 } from './AlertDialogLayout';
@@ -29,6 +26,7 @@ interface AlertCtx {
   labels: { cancel?: string; action?: string } | undefined;
   popupElRef: React.MutableRefObject<HTMLElement | null>;
   setPopupElement: (el: HTMLElement | null) => void;
+  rootRef?: React.Ref<HTMLElement> | undefined;
 }
 const AlertContext = React.createContext<AlertCtx>({
   depth: 0,
@@ -36,12 +34,12 @@ const AlertContext = React.createContext<AlertCtx>({
   popupElRef: { current: null }, setPopupElement: () => {},
 });
 
-function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', labels, children }: AlertDialogRootProps) {
+function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', labels, children, ref }: AlertDialogRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+  useControllableWarning('AlertDialog', 'open', open);
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen === true);
   const effectiveOpen = open ?? internalOpen;
   const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
   const popupElRef = React.useRef<HTMLElement | null>(null);
-  popupElRef.current = popupElement;
   const { emit, depth } = useOverlayLayer({
     kind: 'alert-dialog',
     modal: true,
@@ -50,14 +48,16 @@ function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', 
     element: popupElement,
   });
   const ctx = React.useMemo<AlertCtx>(
-    () => ({ depth, open: effectiveOpen, intent, labels, popupElRef, setPopupElement }),
-    [depth, intent, labels],
+    () => ({ depth, open: effectiveOpen, intent, labels, popupElRef, setPopupElement, rootRef: ref }),
+    [depth, effectiveOpen, intent, labels, ref],
   );
   return (
     <AlertContext.Provider value={ctx}>
       <Base.Root
         open={open}
         defaultOpen={defaultOpen}
+        modal="trap-focus"
+        disablePointerDismissal
         onOpenChange={(o, d) => { setInternalOpen(o); emit(o, { event: d?.event, reason: d?.reason }); }}
       >
         {children}
@@ -84,12 +84,17 @@ function AlertDialogPortal({ children, keepMounted }: { children?: React.ReactNo
 }
 
 function AlertDialogBackdrop({ className }: { className?: string }) {
-  const { depth } = React.useContext(AlertContext);
+  const { depth, open } = React.useContext(AlertContext);
   const animatingRef = useOverlayAnimating();
+  const isTop = useScrimTop(depth, open);
   return (
     <Base.Backdrop
+      /* REQ-CMP-79: one scrim per modal — BU skips nested backdrops unless forced */
+      forceRender
       data-ag-part="backdrop"
+      data-ag-layer="scrim"
       data-ag-overlay-depth={depth}
+      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />
@@ -99,27 +104,28 @@ function AlertDialogBackdrop({ className }: { className?: string }) {
 let warnedNoTitle = false;
 
 function AlertDialogPopup({ render, className, children, ref, initialFocus, ...rest }: AlertDialogPopupProps) {
-  const { setPopupElement, popupElRef, open: ctxOpen } = React.useContext(AlertContext);
+  const { setPopupElement, popupElRef, open: ctxOpen, rootRef } = React.useContext(AlertContext);
   const animatingRef = useOverlayAnimating();
   const setRefs = React.useCallback((node: HTMLDivElement | null) => {
     const cleanup = animatingRef(node);
     popupElRef.current = node;
     setPopupElement(node);
-    if (typeof ref === 'function') ref(node);
-    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    for (const r of [ref, rootRef]) {
+      if (typeof r === 'function') r(node);
+      else if (r) (r as React.MutableRefObject<HTMLElement | null>).current = node;
+    }
     if (node) {
       const el = node;
       setTimeout(() => {
         if (process.env.NODE_ENV !== 'production' && !warnedNoTitle &&
             el.isConnected && !el.hasAttribute('aria-labelledby') && !el.hasAttribute('aria-label')) {
           warnedNoTitle = true;
-          // eslint-disable-next-line no-console
           console.error('aura-glass: <AlertDialog.Popup> opened without a Title or aria-label.');
         }
       }, 0);
     }
     return cleanup;
-  }, [animatingRef, ref, setPopupElement]);
+  }, [animatingRef, popupElRef, ref, rootRef, setPopupElement]);
   /* CMP-217: default initial focus = the Cancel/Close part inside our popup.
      BU resolves initialFocus lazily on a rAF and may not land it in jsdom, so
      we additionally apply it once on mount — idempotent when BU already did. */
@@ -141,6 +147,7 @@ function AlertDialogPopup({ render, className, children, ref, initialFocus, ...r
   return (
     <Base.Popup
       data-ag-part="popup"
+      role="alertdialog"
       data-state={ctxOpen ? 'open' : 'closed'}
       {...overlayMaterial('alert-dialog')}
       /* initialFocus=false keeps BU's lazy pipeline from racing our own
@@ -171,11 +178,13 @@ function AlertDialogCancel({ children, className, ref, ...rest }: AlertDialogBut
   );
 }
 
-function AlertDialogAction({ children, className, onClick, ref, ...rest }: AlertDialogActionProps) {
-  const { intent } = React.useContext(AlertContext);
+function AlertDialogAction({ children, className, onClick, intent: intentProp, ref, ...rest }: AlertDialogActionProps) {
+  const { intent: ctxIntent } = React.useContext(AlertContext);
+  const intent = intentProp ?? ctxIntent;
   return (
     <Base.Close
       data-ag-part="action"
+      data-ag-intent={intent === 'danger' ? 'danger' : undefined}
       className={cn('ag-alert-dialog-action', className)}
       render={intent === 'danger' ? <Button intent="danger" suppressInnerParts /> : <Button suppressInnerParts />}
       onClick={onClick}

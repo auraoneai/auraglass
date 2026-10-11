@@ -3,6 +3,9 @@
    parts [root, item, separator]; server. */
 import * as React from 'react';
 import { cn } from '../../internal/index';
+import { materialProps } from '../../material/index';
+
+const SUNKEN = materialProps({ layer: 'content', content: 'content-sunken' });
 
 export interface KbdProps extends React.HTMLAttributes<HTMLElement> {
   /** Key sequence — each entry becomes its own nested <kbd>. */
@@ -17,7 +20,7 @@ export function Kbd({
   ...rest
 }: KbdProps & { ref?: React.Ref<HTMLElement> | undefined }) {
   return (
-    <kbd {...rest} ref={ref} data-ag-part="root" className={cn('ag-kbd', className)}>
+    <kbd {...rest} {...SUNKEN} ref={ref} data-ag-part="root" className={cn('ag-kbd', SUNKEN.className, className)}>
       {keys && keys.length > 0
         ? keys.map((key, i) => (
             <React.Fragment key={`${key}-${i}`}>

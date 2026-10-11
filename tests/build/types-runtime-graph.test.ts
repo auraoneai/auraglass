@@ -9,7 +9,7 @@ import { DIST, ROOT, ensureBuilt, walk } from './helpers';
 
 const importsOf = (file: string) =>
   [...readFileSync(file, 'utf8').matchAll(/(?:from|import|export [^'"]*from) *['"]([^'"]+)['"]/g)]
-    .map((m) => m[1]).filter((s) => s.startsWith('.'));
+    .map((m) => m[1]!).filter((s) => s.startsWith('.'));
 
 describe('types-runtime-graph', () => {
   it('every emitted js has a sibling d.ts; every manifest entry d.ts a js twin', () => {

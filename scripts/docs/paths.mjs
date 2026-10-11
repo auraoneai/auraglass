@@ -37,7 +37,15 @@ export const REGISTRY_PACKAGE_DIR = 'packages/registry';
 /** Report written next to the index listing certified/omitted items. */
 export const REGISTRY_REPORT = 'registry/registry-report.json';
 
-/** Artifact paths (S-55 + PLAT's own), relative to the merged pipeline artifacts. */
+/** Artifact paths (S-55 + PLAT's own + MAT's), relative to the merged pipeline
+    artifacts. Each path is the one its producer writes:
+      perfReport/releaseVerdict/visualClass/subjects  src/contracts/testing.ts REPORTS (QUAL)
+      packEnv            plat:package:pack (dotenv: TARBALL_MB, PACK_SHA)
+      quickstartTiming   tests/dx/quickstart.spec.ts
+      sizeBudgets        scripts/ci/verify-size-budgets.mjs (sha-stamped copy of docs/size-budgets.json)
+      registryReport     scripts/registry/build.mjs (REGISTRY_REPORT)
+      matContrast        scripts/mat/token-drift-l4.mjs (S-48 lane evidence)
+      matRecipes         scripts/mat/count-glass-recipes.mjs */
 export const ARTIFACTS = {
   perfReport: '.artifacts/qual/perf-report.json',
   releaseVerdict: '.artifacts/qual/release-verdict.json',
@@ -45,9 +53,20 @@ export const ARTIFACTS = {
   subjects: 'storybook-static/cert-manifest.json',
   packEnv: '.artifacts/plat/pack.env',
   quickstartTiming: '.artifacts/plat/quickstart-timing.json',
-  sizeMetafiles: '.artifacts/plat/size-budgets/',
-  registryReport: '.artifacts/plat/registry-report.json',
+  sizeBudgets: '.artifacts/plat/size-budgets/size-budgets.json',
+  registryReport: REGISTRY_REPORT,
+  matContrast: '.artifacts/mat/l4-token-contrast/contrast-matrix.json',
+  matRecipes: '.artifacts/mat/count-glass-recipes/recipes.json',
 };
+
+/** Committed sources read from the build checkout itself (custody = the build commit's tree). */
+export const TREE_SOURCES = {
+  rootExports: 'etc/api/root.exports.json',
+  catalogue: 'packages/cli/src/migrate/4to5/catalogue.json',
+};
+
+/** Generated release body (plat:release:notes) that render-claims fills and lint-claims scans. */
+export const RELEASE_BODY = '.artifacts/plat/release-notes.md';
 
 /** Schema URLs pinned by the vendored shadcn registry format. */
 export const SHADCN_SCHEMA = {

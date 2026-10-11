@@ -2,6 +2,7 @@
 // tests/lint/qual/raf.test.ts — REQ-QUAL-45 (S-47), REQ-FIN-105, FIN-446.
 // raf-requires-cancel and raf-requires-visibility-gate.
 
+import { describe, expect, it } from '@jest/globals';
 import { RuleTester } from 'eslint';
 import { ruleConfig } from './helpers';
 

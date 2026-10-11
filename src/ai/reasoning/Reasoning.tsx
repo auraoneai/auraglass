@@ -1,5 +1,6 @@
 'use client';
 import * as React from 'react';
+import { Collapsible } from '@base-ui/react/collapsible';
 
 export interface ReasoningLabels {
   thinking?: string;
@@ -21,8 +22,11 @@ function formatSeconds(ms: number): string {
 }
 
 /**
- * REQ-SURF-122: auto-opens when streaming starts, auto-closes once on done
- * unless the user toggled during streaming.
+ * REQ-SURF-122: Base UI Collapsible. Auto-opens when streaming starts and
+ * auto-closes once on done unless the user toggled during streaming. The panel
+ * stays mounted (hidden when closed) so `aria-controls` always resolves. The
+ * duration is `durationMs`, else `performance.now()` between the first
+ * streaming commit and `done`.
  */
 export function Reasoning({ text, state, durationMs, defaultOpen, labels = {}, className }: ReasoningProps) {
   const [open, setOpen] = React.useState(defaultOpen ?? state === 'streaming');
@@ -35,13 +39,16 @@ export function Reasoning({ text, state, durationMs, defaultOpen, labels = {}, c
     if (state === 'streaming') {
       if (startedAt.current === null) startedAt.current = performance.now();
       setOpen(true);
-    } else if (state === 'done') {
-      if (startedAt.current !== null && elapsed === null) {
-        setElapsed(performance.now() - startedAt.current);
-      }
-      if (!toggledDuringStream.current) setOpen(false);
+      return;
     }
-  }, [state, elapsed]);
+    // state === 'done': runs once per transition (deps are [state] only).
+    const started = startedAt.current;
+    if (started !== null) {
+      const end = performance.now();
+      setElapsed((prev) => prev ?? end - started);
+    }
+    if (!toggledDuringStream.current) setOpen(false);
+  }, [state]);
 
   const ms = durationMs ?? elapsed;
   const label = state === 'streaming'
@@ -49,24 +56,22 @@ export function Reasoning({ text, state, durationMs, defaultOpen, labels = {}, c
     : (labels.thoughtFor ?? ((s: string) => `Thought for ${s} s`))(formatSeconds(ms ?? 0));
 
   return (
-    <div data-ag-part="reasoning" data-state={state} className={className}>
-      <button
-        type="button"
-        data-ag-part="trigger"
-        aria-expanded={open}
-        aria-controls={contentId}
-        onClick={() => {
-          if (state === 'streaming') toggledDuringStream.current = true;
-          setOpen((o) => !o);
-        }}
-      >
+    <Collapsible.Root
+      open={open}
+      onOpenChange={(next: boolean) => {
+        if (state === 'streaming') toggledDuringStream.current = true;
+        setOpen(next);
+      }}
+      data-ag-part="reasoning"
+      data-state={state}
+      className={className}
+    >
+      <Collapsible.Trigger data-ag-part="trigger" aria-controls={contentId}>
         {label}
-      </button>
-      {open ? (
-        <div id={contentId} data-ag-part="content">
-          {text}
-        </div>
-      ) : null}
-    </div>
+      </Collapsible.Trigger>
+      <Collapsible.Panel id={contentId} data-ag-part="content" keepMounted>
+        {text}
+      </Collapsible.Panel>
+    </Collapsible.Root>
   );
 }

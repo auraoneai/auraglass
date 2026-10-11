@@ -60,7 +60,7 @@ function FlagshipStrip({ scene }: { scene: SceneId }) {
   return (
     <div className="scene-strip" data-ag-scene-strip="">
       <Button>Save changes</Button>
-      <SegmentedControl.Root aria-label="View mode" defaultValue="grid">
+      <SegmentedControl.Root name="view-mode" aria-label="View mode" defaultValue="grid">
         <SegmentedControl.Item value="list">List</SegmentedControl.Item>
         <SegmentedControl.Item value="grid">Grid</SegmentedControl.Item>
         <SegmentedControl.Item value="map">Map</SegmentedControl.Item>

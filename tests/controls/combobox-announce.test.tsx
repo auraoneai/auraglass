@@ -9,7 +9,7 @@ import { Combobox } from '../../src/components/combobox';
 
 const mockAnnounceSpy = jest.fn();
 jest.mock('../../src/theme', () => {
-  const actual = jest.requireActual('../../src/theme');
+  const actual = jest.requireActual<object>('../../src/theme');
   return { ...actual, useAnnouncer: () => ({ announce: mockAnnounceSpy }) };
 });
 

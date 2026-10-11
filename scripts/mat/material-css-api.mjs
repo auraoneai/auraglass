@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-/* MAT-096 — REQ-MAT-22 material css-api report.
-   Emits etc/api/material.css-api.json { public, private, attributes,
-   privateAttributes }:
+/* MAT-096 — REQ-MAT-22 material css-api report. The single writer of
+   etc/api/material.css-api.json (scripts/mat/api-report.mjs --entry
+   material.css-api delegates here). Emits { entry, surfaceClass, public,
+   private, attributes, privateAttributes, variables, attributeSpecs,
+   a11yOverridable, a11yRungs }:
      public            = every public custom property (S-03 PUBLIC_CSS_VARS +
                          MOTION_CSS_VARS, resolved by importing the contracts)
      private           = every --_ag-* name referenced under src/material/**
@@ -9,8 +11,14 @@
                          attributes; data-ag-material is rejected (D-20)
      privateAttributes = data-ag-sizeclass|radius|spacing|inset|edge|edge-style|
                          lens-ready|full-height|lens-defs
+     variables         = public names with their PUBLIC_CSS_VARS group ('motion'
+                         for MOTION_CSS_VARS) (MAT-345)
+     attributeSpecs    = { setter, values } of each public attribute (MAT-345)
+     a11yOverridable / a11yRungs = REQ-MAT-54 exposure (MAT-345)
    --check regenerates and fails when a committed public name disappeared without
-   a deprecations.json entry { kind: 'css-var', name } (SC-02/03).
+   a deprecations.json entry { kind: 'css-var', name } (SC-02/03), and when the
+   committed report is not in this shape (it must be regenerated, never read
+   as an empty list).
 
    Usage: node scripts/mat/material-css-api.mjs [--root <dir>] [--check]
           [--deprecations <path>] [--write]   (default writes) */
@@ -29,6 +37,18 @@ export const PRIVATE_ATTRIBUTES = [
   'data-ag-edge', 'data-ag-edge-style', 'data-ag-lens-ready', 'data-ag-full-height',
   'data-ag-lens-defs',
 ];
+
+/* MAT-345 (REQ-MAT-54): members the a11y rungs may override on [data-ag-surface]. */
+export const A11Y_OVERRIDABLE = [
+  '--_ag-blur', '--_ag-saturation', '--ag-specular', '--_ag-tint-floor',
+  '--_ag-grain-opacity', '--_ag-shadow', '--_ag-fill',
+];
+/* Required rung values per MAT-345 / REQ-MAT-54. */
+export const A11Y_RUNGS = {
+  'contrast-more': { saturation: 1, specular: 0, grain: 'removed', transparencyFloor: 'tinted' },
+  'forced-colors': { fill: 'Canvas', ink: 'CanvasText', border: 'CanvasText', shadow: 'none' },
+  'reduced-transparency': { transparencyFloor: 'tinted' },
+};
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => {
@@ -70,10 +90,11 @@ export async function generate(root) {
   const material = await loadContract(root, 'material.ts');
 
   const publicVars = new Set();
-  for (const group of Object.values(tokens.PUBLIC_CSS_VARS ?? {})) {
-    for (const v of group) publicVars.add(v);
+  const variables = [];
+  for (const [group, vars] of Object.entries(tokens.PUBLIC_CSS_VARS ?? {})) {
+    for (const v of vars) { publicVars.add(v); variables.push({ name: v, group }); }
   }
-  for (const v of motion.MOTION_CSS_VARS ?? []) publicVars.add(v);
+  for (const v of motion.MOTION_CSS_VARS ?? []) { publicVars.add(v); variables.push({ name: v, group: 'motion' }); }
 
   const privateVars = new Set();
   const materialDir = join(root, 'src/material');
@@ -98,13 +119,32 @@ export async function generate(root) {
     throw Object.assign(new Error('AG_ATTRIBUTES contains data-ag-material (D-20)'), { code: 'D20' });
   }
   const attributes = attrs.filter((a) => !PRIVATE_ATTRIBUTES.includes(a)).sort();
+  const attributeSpecs = Object.fromEntries(attributes.map((a) => {
+    const spec = material.AG_ATTRIBUTES[a];
+    return [a, { setter: spec.setter, values: spec.values }];
+  }));
 
   return {
+    entry: './material.css',
+    surfaceClass: material.SURFACE_CLASS,
     public: [...publicVars].sort(),
     private: [...privateVars].sort(),
     attributes,
     privateAttributes: [...PRIVATE_ATTRIBUTES].sort(),
+    variables,
+    attributeSpecs,
+    a11yOverridable: [...A11Y_OVERRIDABLE],
+    a11yRungs: A11Y_RUNGS,
   };
+}
+
+/** Write the report (stable JSON, one-space indent) to <root>/etc/api. */
+export async function write(root) {
+  const doc = await generate(root);
+  const out = join(root, 'etc/api/material.css-api.json');
+  mkdirSync(join(root, 'etc/api'), { recursive: true });
+  writeFileSync(out, `${JSON.stringify(doc, null, 1)}\n`);
+  return { out, doc };
 }
 
 const isMain = isMainModule(import.meta.url);
@@ -120,6 +160,13 @@ if (isMain) {
       const committed = existsSync(OUT)
         ? JSON.parse(readFileSync(OUT, 'utf8'))
         : { public: [], private: [], attributes: [] };
+      // A report in another shape (e.g. the pre-MAT-096 `variables` map) has no
+      // comparable public lists: fail closed instead of crashing or passing.
+      const malformed = ['public', 'attributes'].filter((k) => !Array.isArray(committed[k]));
+      if (malformed.length) {
+        console.error(`[material-css-api] ${relative(process.cwd(), OUT)} lacks array section(s) ${malformed.join(', ')}; regenerate with node scripts/mat/material-css-api.mjs`);
+        process.exit(1);
+      }
       const deprecations = existsSync(DEPRECATIONS)
         ? JSON.parse(readFileSync(DEPRECATIONS, 'utf8'))
         : { entries: [] };
@@ -141,8 +188,7 @@ if (isMain) {
       console.log('[material-css-api] --check OK');
       process.exit(0);
     }
-    mkdirSync(join(ROOT, 'etc/api'), { recursive: true });
-    writeFileSync(OUT, `${JSON.stringify(next, null, 1)}\n`);
+    await write(ROOT);
     console.log(`[material-css-api] wrote ${relative(process.cwd(), OUT)}`);
   } catch (err) {
     if (err.code === 'D20') {

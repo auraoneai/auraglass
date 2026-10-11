@@ -8,3 +8,5 @@ export function desiredTopLevel(root?: string): { main: string | undefined; type
 export function desiredTypes(root?: string): string | undefined;
 export function desiredMain(root?: string): string | undefined;
 export function packageDrift(root?: string): string[];
+export interface ManifestRow { subpath: string; source: string; types?: string; default?: string; css?: string }
+export function listEntriesJson(root?: string): { version: number; entries: ManifestRow[]; excluded: ExclusionRow[]; exports: Record<string, ExportCondition | string> };

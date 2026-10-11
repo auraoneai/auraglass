@@ -1315,7 +1315,7 @@ console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename,
         ['aura-glass', '.artifacts/pack/aura-glass-5.0.0.tgz'],
         ['@auraglass/cli', '.artifacts/pack/auraglass-cli-0.1.0.tgz'],
         ['@auraglass/registry', '.artifacts/pack/auraglass-registry-0.1.0.tgz'],
-      ]) {
+      ] as const) {
         expect(rec[name]).toEqual({ file, integrity: sha512(readFileSync(join(dir, file))) });
       }
     } finally {
@@ -1388,6 +1388,276 @@ console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename,
       } finally {
         rmSync(dir, { recursive: true, force: true });
       }
+    });
+  });
+});
+
+// B3-10 (REQ-FIN-38 wiring; REQ-PLAT-05 item 9, REQ-PLAT-72, REQ-PLAT-77): plat:test:canaries
+// runs ci/plat/canaries.mjs. The runner is exercised in a temp repo with stub `npx` (Playwright
+// JSON reports) and `npm` (registry, install, ls) on PATH, a real git history for the pin-bump
+// rule and the real generate-exports exclusion report for the seed rule.
+describe('plat:test:canaries (B3-10)', () => {
+  const { spawnSync, execFileSync } = require('node:child_process') as typeof import('node:child_process');
+  const { mkdtempSync, mkdirSync, writeFileSync, rmSync, chmodSync, realpathSync } = require('node:fs') as typeof import('node:fs');
+  const { tmpdir } = require('node:os') as typeof import('node:os');
+  const { join, resolve } = require('node:path') as typeof import('node:path');
+  const j = job('plat:test:canaries');
+  const lines: string[] = j.script;
+  const RUNNER = resolve('ci/plat/canaries.mjs');
+  const OUT = '.artifacts/plat/plat-test-canaries';
+
+  // npx: `playwright test --reporter=list,json` writes the report named by PLAYWRIGHT_JSON_OUTPUT_NAME.
+  // STUB_PW_<CANARY> = pass | fail | pending | noreport (default pass).
+  const NPX_STUB = `#!/usr/bin/env node
+const fs = require('fs'), path = require('path');
+const a = process.argv.slice(2);
+if (a[0] !== 'playwright' || a[1] !== 'test' || !a.includes('--reporter=list,json')) { console.error('stub npx: unexpected ' + a.join(' ')); process.exit(9); }
+const name = path.basename(process.cwd()).toUpperCase().replace(/-/g, '_');
+const mode = process.env['STUB_PW_' + name] || 'pass';
+if (mode === 'noreport') process.exit(1);
+const t = (status, message) => ({ title: 't', tests: [{ status, results: [message ? { error: { message } } : {}] }] });
+const specs = mode === 'pass' ? [t('expected'), t('expected')]
+  : mode === 'pending' ? [t('expected'), t('unexpected', 'Error: pending: ./theme seed (REQ-FIN-52)')]
+  : [t('expected'), t('unexpected', 'Error: expect(received).toBe(expected)')];
+fs.writeFileSync(process.env.PLAYWRIGHT_JSON_OUTPUT_NAME, JSON.stringify({ suites: [{ specs }] }));
+process.exit(mode === 'pass' ? 0 : 1);
+`;
+  // npm: view / i --no-save / ls. Every i call is logged with the package.json it saw.
+  // STUB_LATEST (default 1.9.0), STUB_VIEW=fail, STUB_LS=nested, STUB_TSC_EXIT, STUB_TSC_OUT, STUB_VITE_EXIT.
+  const NPM_STUB = `#!/usr/bin/env node
+const fs = require('fs'), path = require('path');
+const a = process.argv.slice(2);
+const latest = process.env.STUB_LATEST || '1.9.0';
+if (a[0] === 'view') {
+  if (process.env.STUB_VIEW === 'fail') { console.error('npm ERR! network'); process.exit(1); }
+  if (a[1] !== '@base-ui/react@latest' || a[2] !== 'version' || a[3] !== '--json') process.exit(9);
+  console.log(JSON.stringify(latest)); process.exit(0);
+}
+if (a[0] === 'i') {
+  const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+  fs.appendFileSync(process.env.STUB_LOG, JSON.stringify({ cwd: path.basename(process.cwd()), args: a, pkg }) + '\\n');
+  const bin = (rel, code) => { fs.mkdirSync(path.dirname(rel), { recursive: true }); fs.writeFileSync(rel, code); };
+  bin('node_modules/typescript/bin/tsc', 'process.stdout.write(process.env.STUB_TSC_OUT || ""); process.exit(Number(process.env.STUB_TSC_EXIT || 0));');
+  bin('node_modules/vite/bin/vite.js', 'process.exit(Number(process.env.STUB_VITE_EXIT || 0));');
+  process.exit(0);
+}
+if (a[0] === 'ls') {
+  const nested = process.env.STUB_LS === 'nested' ? { dependencies: { '@base-ui/react': { version: '1.8.0' } } } : {};
+  console.log(JSON.stringify({ dependencies: { '@base-ui/react': { version: latest }, 'aura-glass': { version: '5.0.0', ...nested } } }));
+  process.exit(0);
+}
+console.error('stub npm: unexpected ' + a.join(' ')); process.exit(9);
+`;
+  const git = (cwd: string, ...args: string[]) =>
+    execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', '-c', 'commit.gpgsign=false', ...args], { cwd, encoding: 'utf8' }).trim();
+  const write = (dir: string, rel: string, body: string) => {
+    mkdirSync(join(dir, rel, '..'), { recursive: true });
+    writeFileSync(join(dir, rel), body);
+  };
+  const pkgJson = (pin: string) => JSON.stringify({ name: 'aura-glass', version: '5.0.0', dependencies: { '@base-ui/react': pin } });
+
+  type Opts = { seed?: boolean; headPin?: string; producer?: boolean };
+  const fixture = ({ seed = false, headPin = '1.8.0', producer = true }: Opts = {}) => {
+    const dir = realpathSync(mkdtempSync(join(tmpdir(), 'ag-b310-')));
+    write(dir, 'bin/npx', NPX_STUB);
+    write(dir, 'bin/npm', NPM_STUB);
+    chmodSync(join(dir, 'bin/npx'), 0o755);
+    chmodSync(join(dir, 'bin/npm'), 0o755);
+    write(dir, 'package.json', pkgJson('1.8.0'));
+    write(dir, 'build/exports.manifest.json', JSON.stringify({ entries: [
+      { subpath: '.', source: 'src/index.ts', default: 'dist/index.js', types: 'dist/index.d.ts' },
+      { subpath: './theme', source: 'src/theme/public.ts', default: 'dist/theme/public.js', types: 'dist/theme/public.d.ts' },
+    ] }));
+    write(dir, 'contracts/ownership.json', JSON.stringify({ rows: [{ glob: 'src/theme/**', owner: 'mat' }] }));
+    write(dir, 'src/index.ts', 'export const a = 1;\n');
+    write(dir, 'src/theme/public.ts', seed ? '/* @ag-contract-seed: theme */\nexport const t = 1;\n' : 'export const t = 1;\n');
+    for (const c of ['vite-compiler', 'types-strict', 'jest-cjs']) {
+      write(dir, `canaries/${c}/package.json`, JSON.stringify({ name: `ag-canary-${c}`, dependencies: { 'aura-glass': 'file:../../aura-glass.tgz' } }));
+      write(dir, `canaries/${c}/node_modules/stale/index.js`, '');
+    }
+    write(dir, 'scripts/ci/verify-compiler.mjs', 'process.exit(Number(process.env.STUB_COMPILER_EXIT || 0));\n');
+    if (producer) write(dir, 'scripts/ci/base-ui-latest.mjs', 'console.log("base-ui-latest: pinned 1.8.0 vs latest x"); process.exit(Number(process.env.STUB_PRODUCER_EXIT || 0));\n');
+    write(dir, '.gitignore', 'bin/\nnode_modules/\n.artifacts/\naura-glass.tgz\n');
+    git(dir, 'init', '-q', '-b', 'next');
+    git(dir, 'add', '-A');
+    git(dir, 'commit', '-qm', 'base');
+    const base = git(dir, 'rev-parse', 'HEAD');
+    git(dir, 'checkout', '-qb', 'next-fin/x');
+    write(dir, 'package.json', pkgJson(headPin));
+    write(dir, 'README.md', 'change\n');
+    git(dir, 'add', '-A');
+    git(dir, 'commit', '-qm', 'head');
+    write(dir, 'aura-glass.tgz', 'tarball');
+    return { dir, base };
+  };
+  const runIn = (dir: string, base: string, env: Record<string, string> = {}) => {
+    const r = spawnSync(process.execPath, [RUNNER, '--scope', 'pr', '--base', base, '--out', OUT], {
+      cwd: dir,
+      encoding: 'utf8',
+      env: { ...process.env, PATH: `${join(dir, 'bin')}:${process.env.PATH}`, CI: 'true', STUB_LOG: join(dir, 'npm-i.log'), ...env },
+    });
+    const read = (f: string) => { try { return JSON.parse(readFileSync(join(dir, OUT, f), 'utf8')); } catch { return null; } };
+    return { ...r, canaries: read('canaries.json'), latest: read('base-ui-latest.json') };
+  };
+  const npmLog = (dir: string) =>
+    existsSync(join(dir, 'npm-i.log')) ? readFileSync(join(dir, 'npm-i.log'), 'utf8').trim().split('\n').map((l) => JSON.parse(l)) : [];
+  const withFixture = (opts: Opts, fn: (f: { dir: string; base: string }) => void) => {
+    const f = fixture(opts);
+    try { fn(f); } finally { rmSync(f.dir, { recursive: true, force: true }); }
+  };
+
+  it('the job only fetches next, picks the base and runs the runner into its evidence dir (no fail-open)', () => {
+    expect(lines).toEqual([
+      'git fetch --no-tags origin "+refs/heads/next:refs/remotes/origin/next"',
+      'if [ "$AG_SCOPE" = "main" ]; then BASE="HEAD~1"; else BASE="origin/next"; fi',
+      'node ci/plat/canaries.mjs --scope "$AG_SCOPE" --base "$BASE" --out "$AURAGLASS_EVIDENCE_DIR"',
+    ]);
+    expect(j.variables).toEqual({ GIT_DEPTH: '0' });
+    expect(j.extends).toEqual(['.plat-playwright', '.plat-evidence-pr']);
+    expect(j.allow_failure).toBe(true); // flips only through an activation.json row
+    expect(lines.join('\n')).not.toMatch(/\|\| *(echo|true)/);
+  });
+
+  it('runs the PLAT-72 vite-compiler canary, types-strict, jest-cjs and verify-compiler', () => {
+    const src = readFileSync('ci/plat/canaries.mjs', 'utf8');
+    expect(src).toContain("const CANARIES = ['canaries/vite-compiler', 'canaries/types-strict', 'canaries/jest-cjs'];");
+    expect(src).toContain("const COMPILER = 'scripts/ci/verify-compiler.mjs';");
+  });
+
+  it('exits 2 with the remote command outside CI / the remote runner', () => {
+    withFixture({}, ({ dir, base }) => {
+      const r = runIn(dir, base, { CI: '', AG_REMOTE_RUNNER: '' });
+      expect(r.status).toBe(2);
+      expect(r.stderr).toContain(`Remote command: node ci/plat/canaries.mjs --scope pr --base ${base} --out ${OUT}`);
+      expect(r.canaries).toBeNull();
+    });
+  });
+
+  it('all green: pass, and the Base UI latest leg installs latest against the tarball with --no-save', () => {
+    withFixture({}, ({ dir, base }) => {
+      const r = runIn(dir, base);
+      expect(r.stderr).toBe('');
+      expect(r.status).toBe(0);
+      expect(r.canaries.verdict).toBe('pass');
+      expect(r.canaries.canaries.map((c: any) => [c.canary, c.state, c.tests])).toEqual([
+        ['canaries/vite-compiler', 'pass', 2], ['canaries/types-strict', 'pass', 2], ['canaries/jest-cjs', 'pass', 2],
+      ]);
+      expect(r.canaries.compiler).toEqual({ state: 'pass' });
+      expect(r.latest).toMatchObject({ pinned: '1.8.0', basePin: '1.8.0', pinBump: false, blocking: false, latest: '1.9.0', behind: true, state: 'pass' });
+      expect(r.latest.producer).toEqual({ exit: 0, report: 'base-ui-latest: pinned 1.8.0 vs latest x' });
+      expect(r.latest.legs.map((l: any) => [l.canary, l.state, l.resolved])).toEqual([
+        ['canaries/types-strict', 'pass', ['1.9.0']], ['canaries/vite-compiler', 'pass', ['1.9.0']],
+      ]);
+      const log = npmLog(dir);
+      expect(log.map((e) => e.cwd)).toEqual(['types-strict', 'vite-compiler']);
+      for (const e of log) {
+        expect(e.args).toEqual(['i', '--no-save', '--no-package-lock', '--no-audit', '--no-fund', '--ignore-scripts', '@base-ui/react@1.9.0']);
+        expect(e.pkg.dependencies['aura-glass']).toBe(`file:${join(dir, 'aura-glass.tgz')}`);
+        expect(e.pkg.overrides).toEqual({ '@base-ui/react': '1.9.0' });
+      }
+      // the canary sources are copied, never edited in place
+      expect(JSON.parse(readFileSync(join(dir, 'canaries/types-strict/package.json'), 'utf8')).overrides).toBeUndefined();
+    });
+  });
+
+  it('reports pending, not pass, while generate-exports lists a seed-excluded entry (PLAT-77)', () => {
+    withFixture({ seed: true }, ({ dir, base }) => {
+      const r = runIn(dir, base);
+      expect(r.status).toBe(1);
+      expect(r.canaries.verdict).toBe('pending');
+      expect(r.canaries.canaries.every((c: any) => c.state === 'pass')).toBe(true);
+      expect(r.canaries.seedExcluded.map((s: any) => s.subpath)).toEqual(['./theme']);
+      expect(r.canaries.pending).toEqual([
+        './theme is seed-excluded (src/theme/public.ts, removed by REQ-FIN-52 (FIN-D seed-body replacement))',
+      ]);
+      expect(r.stdout).toContain('plat:test:canaries: pending');
+    });
+  });
+
+  it("a canary whose only failures are lane-runner `pending: ` reports pending; a real failure fails", () => {
+    withFixture({}, ({ dir, base }) => {
+      const p = runIn(dir, base, { STUB_PW_JEST_CJS: 'pending' });
+      expect(p.status).toBe(1);
+      expect(p.canaries.verdict).toBe('pending');
+      expect(p.canaries.canaries[2]).toMatchObject({ canary: 'canaries/jest-cjs', state: 'pending', reason: 'pending: ./theme seed (REQ-FIN-52)' });
+      const f = runIn(dir, base, { STUB_PW_VITE_COMPILER: 'fail' });
+      expect(f.status).toBe(1);
+      expect(f.canaries.verdict).toBe('fail');
+      expect(f.canaries.canaries[0]).toMatchObject({ state: 'fail', reason: 'exit 1: 1 failed test(s)' });
+      const n = runIn(dir, base, { STUB_PW_TYPES_STRICT: 'noreport' });
+      expect(n.canaries.verdict).toBe('fail');
+      expect(n.canaries.canaries[1].reason).toBe('playwright wrote no JSON report (exit 1)');
+    });
+  });
+
+  it('a missing canary dir or a failing verify-compiler fails the job', () => {
+    withFixture({}, ({ dir, base }) => {
+      const c = runIn(dir, base, { STUB_COMPILER_EXIT: '1' });
+      expect(c.status).toBe(1);
+      expect(c.canaries.compiler).toEqual({ state: 'fail', reason: 'exit 1' });
+      rmSync(join(dir, 'canaries/jest-cjs'), { recursive: true });
+      const m = runIn(dir, base);
+      expect(m.canaries.canaries[2]).toEqual({ canary: 'canaries/jest-cjs', state: 'fail', reason: 'PENDING: canaries/jest-cjs missing (lane 1d)' });
+      expect(m.canaries.verdict).toBe('fail');
+    });
+  });
+
+  it('Base UI latest is reporting: a failing leg with the pin unchanged keeps the job green', () => {
+    withFixture({}, ({ dir, base }) => {
+      const r = runIn(dir, base, { STUB_TSC_EXIT: '2', STUB_TSC_OUT: "error TS2305: Module '@base-ui/react' has no exported member 'X'." });
+      expect(r.status).toBe(0);
+      expect(r.canaries.verdict).toBe('pass');
+      expect(r.latest).toMatchObject({ state: 'fail', pinBump: false, blocking: false });
+      expect(r.latest.legs[0].reason).toContain('exit 2');
+      expect(r.stdout).toContain('base-ui latest leg: fail (reporting; @base-ui/react pin 1.8.0 unchanged, latest 1.9.0)');
+      // tsc diagnostics with exit 0 still fail the type leg (same bar as the types-strict spec)
+      const q = runIn(dir, base, { STUB_TSC_OUT: 'warning' });
+      expect(q.latest.legs[0]).toMatchObject({ state: 'fail' });
+      expect(q.latest.legs[0].reason).toContain('printed diagnostics');
+    });
+  });
+
+  it('Base UI latest blocks a pin bump: the same failure fails the job when package.json changes the pin', () => {
+    withFixture({ headPin: '1.9.0' }, ({ dir, base }) => {
+      const r = runIn(dir, base, { STUB_LATEST: '2.0.0', STUB_VITE_EXIT: '1' });
+      expect(r.status).toBe(1);
+      expect(r.canaries.verdict).toBe('fail');
+      expect(r.latest).toMatchObject({ pinned: '1.9.0', basePin: '1.8.0', pinBump: true, blocking: true, latest: '2.0.0', state: 'fail' });
+      expect(r.canaries.reasons).toContain('base-ui latest leg failed and this change bumps the @base-ui/react pin 1.8.0 -> 1.9.0');
+      const ok = runIn(dir, base, { STUB_LATEST: '2.0.0' });
+      expect(ok.status).toBe(0);
+    });
+  });
+
+  it('the leg fails when the tarball still resolves the pinned copy (nested @base-ui/react)', () => {
+    withFixture({}, ({ dir, base }) => {
+      const r = runIn(dir, base, { STUB_LS: 'nested' });
+      expect(r.latest.state).toBe('fail');
+      expect(r.latest.legs[0]).toMatchObject({ state: 'fail', resolved: ['1.9.0', '1.8.0'], reason: '@base-ui/react resolved to [1.9.0, 1.8.0], expected only 1.9.0' });
+    });
+  });
+
+  it('a Base UI report that cannot be produced fails the job, never a silent pass', () => {
+    withFixture({ producer: false }, ({ dir, base }) => {
+      const r = runIn(dir, base);
+      expect(r.status).toBe(1);
+      expect(r.latest).toMatchObject({ state: 'error', reason: 'PENDING: scripts/ci/base-ui-latest.mjs (REQ-PLAT-77 producer, FIN-C #566)' });
+    });
+    withFixture({}, ({ dir, base }) => {
+      const v = runIn(dir, base, { STUB_VIEW: 'fail' });
+      expect(v.status).toBe(1);
+      expect(v.latest.state).toBe('error');
+      expect(v.latest.reason).toMatch(/^npm view @base-ui\/react@latest version failed \(exit 1\)/);
+      const p = runIn(dir, base, { STUB_PRODUCER_EXIT: '1' });
+      expect(p.status).toBe(1);
+      expect(p.latest.reason).toBe('scripts/ci/base-ui-latest.mjs could not produce the version report (exit 1)');
+      const b = runIn(dir, base.replace(/^./, base[0] === 'f' ? '0' : 'f'));
+      expect(b.status).toBe(1);
+      expect(b.latest.reason).toMatch(/^git merge-base \S+ HEAD failed/);
+      rmSync(join(dir, 'aura-glass.tgz'));
+      const t = runIn(dir, base);
+      expect(t.latest.reason).toBe('aura-glass.tgz missing: no canary packed the tarball (canaries/_shared/consumer-install.mjs)');
+      expect(t.status).toBe(1);
     });
   });
 });

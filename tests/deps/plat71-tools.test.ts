@@ -104,7 +104,7 @@ describe('calibrate-transitive (D-26, REQ-PLAT-71)', () => {
   it('reports pending while a trigger entry is seeded or missing', () => {
     const root = mkdtempSync(join(tmpdir(), 'ag-d26-test-'));
     try {
-      const [button, dialog] = TRIGGER_ENTRIES;
+      const [button = '', dialog = ''] = TRIGGER_ENTRIES;
       mkdirSync(join(root, button, '..'), { recursive: true });
       writeFileSync(join(root, button), "export * from './Button';\n");
       writeFileSync(join(root, button, '..', 'Button.ts'), '/** @ag-contract-seed */\nexport const Button = 1;\n');

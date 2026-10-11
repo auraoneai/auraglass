@@ -9,7 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['now-playing', 'now-playing-actions', 'now-playing-artwork', 'now-playing-expand', 'now-playing-next', 'now-playing-play', 'now-playing-prev', 'now-playing-progress', 'now-playing-progress-fill', 'now-playing-subtitle', 'now-playing-title'],
   states: ['playing', 'paused', 'waiting', 'ended', 'error'],
-  apg: 'region',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
   variants: {},
   budgetKb: 8,
   migration: [

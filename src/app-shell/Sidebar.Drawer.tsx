@@ -1,12 +1,19 @@
 'use client';
-/* SidebarDrawer (SURF-039): the compact/medium presentation of the sidebar —
-   a CMP Sheet (side=start, modal) that renders the SAME server children while
-   the inline sidebar stays display:none + inert (store-owned). Mounted only
-   while open; closes on Escape/scrim/activation; returns focus to the
-   toggle. Ids via useId only. Lazy-rendered so the sheet portal never ships
-   in the server tree. */
+/* SidebarDrawer (SURF-031): the compact/medium presentation of the sidebar —
+   a CMP Sheet (side=start, modal) that renders the SAME server children
+   while the inline sidebar stays display:none + inert (store-owned). The
+   Sheet registers the drawer's modal layer with the S-25 LayerStack through
+   useLayer (kind 'sheet' today: CMP Sheet has no layer-kind input; the
+   'drawer' kind is a seam request to CMP), so Escape closes only the top
+   layer. Open state comes from the store's ephemeral `drawer` field — it
+   never touches `sidebar` or the cookie. Content is mounted only while open;
+   closes on Escape/scrim/item activation; returns focus to the element
+   captured by setDrawer('open') before the drawer rendered. Width is
+   min(85%, 20rem). The drawer id is deterministic — `${shellId}-drawer` — so
+   the toggle's aria-controls can point at it before mount. */
 
 import * as React from 'react';
+import { useDirection } from '@base-ui/react/direction-provider';
 import { Sheet } from '../components/sheet';
 import type { FC, ReactNode } from 'react';
 
@@ -14,11 +21,21 @@ import type { FC, ReactNode } from 'react';
 const SheetRoot = Sheet.Root as FC<{
   open?: boolean;
   modal?: boolean;
+  side?: 'left' | 'right';
   onOpenChange?: (open: boolean) => void;
   children?: ReactNode;
 }>;
 const SheetContent = Sheet.Content as FC<Record<string, unknown> & { children?: ReactNode }>;
-import { appShellRoot, getServerSnapshot, getSnapshot, setSidebar, subscribe } from './appShellStore';
+import {
+  appShellRoot,
+  drawerReturnFocus,
+  getServerSnapshot,
+  getSnapshot,
+  isSidebarShortcut,
+  runSidebarShortcut,
+  setDrawer,
+  subscribe,
+} from './appShellStore';
 
 export type SidebarDrawerProps = {
   /** The same nav tree rendered inline at wider modes. */
@@ -30,13 +47,12 @@ const DETACHED_SNAPSHOT = {
   sidebar: 'expanded' as const,
   inspector: 'closed' as const,
   mode: 'expanded' as const,
+  drawer: 'closed' as const,
 };
 
 export function SidebarDrawer({ children, side = 'start' }: SidebarDrawerProps) {
   const marker = React.useRef<HTMLSpanElement | null>(null);
   const [rootEl, setRootEl] = React.useState<HTMLElement | null>(null);
-  const id = React.useId();
-  const lastTrigger = React.useRef<HTMLElement | null>(null);
 
   const snapshot = React.useSyncExternalStore(
     React.useCallback((cb: () => void) => (rootEl ? subscribe(rootEl, cb) : () => {}), [rootEl]),
@@ -48,37 +64,70 @@ export function SidebarDrawer({ children, side = 'start' }: SidebarDrawerProps) 
     if (marker.current && !rootEl) setRootEl(appShellRoot(marker.current));
   }, [rootEl]);
 
+  // Resolve the logical side to a physical edge with the same direction
+  // source the Sheet reads (CMP Sheet's own start/end mapping is a seam
+  // request; physical sides are unambiguous).
+  const rtl = useDirection() === 'rtl';
+  const physicalSide = (side === 'start') !== rtl ? 'left' : 'right';
+
   const isDrawerMode = snapshot.mode === 'compact' || snapshot.mode === 'medium';
-  const open = isDrawerMode && snapshot.sidebar === 'expanded';
-  const drawerId = `${id}-drawer`;
+  const open = isDrawerMode && snapshot.drawer === 'open';
+  const drawerId = `${rootEl?.dataset['shellId'] ?? 'ag-shell'}-drawer`;
 
+  // Focus return: the opener is captured by setDrawer('open') before the
+  // drawer renders; on close, focus goes back to it.
+  const returnFocus = React.useCallback(
+    () => (rootEl ? drawerReturnFocus(rootEl) : null),
+    [rootEl],
+  );
+  const wasOpen = React.useRef(false);
   React.useEffect(() => {
-    if (!rootEl) return;
-    const close = (e: Event) => {
+    if (!open && wasOpen.current) {
+      const el = returnFocus();
+      if (el && el.isConnected) el.focus();
+    }
+    wasOpen.current = open;
+  }, [open, returnFocus]);
+
+  const close = React.useCallback(() => {
+    if (rootEl) setDrawer(rootEl, 'closed');
+  }, [rootEl]);
+
+  // Item activation closes the drawer (React event, bubbles through the portal).
+  const onClick = React.useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
       const target = e.target as HTMLElement;
-      if (target.closest(`#${CSS.escape(drawerId)} [data-ag-part="sidebar-item"]`)) {
-        setSidebar(rootEl, 'collapsed');
-        lastTrigger.current?.focus();
-      }
-    };
-    document.addEventListener('click', close, true);
-    return () => document.removeEventListener('click', close, true);
-  }, [rootEl, drawerId]);
-
-  React.useEffect(() => {
-    if (open) lastTrigger.current = document.activeElement as HTMLElement | null;
-  }, [open]);
+      if (target.closest('[data-ag-part="sidebar-item"]')) close();
+    },
+    [close],
+  );
+  // Mod+B pressed inside the portalled drawer: the shell root never sees the
+  // native event, so forward it to the shell's registered shortcut.
+  const onKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<HTMLElement>) => {
+      if (!rootEl || !isSidebarShortcut(e.nativeEvent)) return;
+      if (runSidebarShortcut(rootEl)) e.preventDefault();
+    },
+    [rootEl],
+  );
 
   if (!isDrawerMode) return <span hidden ref={marker} />;
   return (
     <span hidden ref={marker} data-drawer-anchor="">
-      {open ? (
-        <SheetRoot open modal onOpenChange={(o: boolean) => !o && rootEl && setSidebar(rootEl, 'collapsed')}>
-          <SheetContent id={drawerId} data-ag-part="sidebar-drawer" data-side={side}>
+      <SheetRoot open={open} modal side={physicalSide} onOpenChange={(o: boolean) => !o && close()}>
+        {open ? (
+          <SheetContent
+            id={drawerId}
+            data-ag-part="sidebar-drawer"
+            style={{ inlineSize: 'min(85%, 20rem)' }}
+            finalFocus={returnFocus}
+            onClick={onClick}
+            onKeyDown={onKeyDown}
+          >
             {children}
           </SheetContent>
-        </SheetRoot>
-      ) : null}
+        ) : null}
+      </SheetRoot>
     </span>
   );
 }

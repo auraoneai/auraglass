@@ -4,6 +4,7 @@
    copy), the var() references are substituted (floor 0.6 and each of the six
    --ag-glass-opacity inputs) and the resulting CSS math is evaluated: alpha
    stays in [floor, 1] and is non-decreasing. */
+import { describe, expect, it } from '@jest/globals';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import postcss, { type Rule } from 'postcss';

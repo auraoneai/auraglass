@@ -1,11 +1,13 @@
 'use client';
 import * as React from 'react';
+import { Collapsible } from '@base-ui/react/collapsible';
 import type { AgToolPart } from '../types';
 import { toolDisplayState } from '../tool-state';
 import type { AgToolDisplayState } from '../types';
 import { AiIcon } from '../icons/AiIcon';
 import { useAnnouncer, useResolvedPreferences } from '../../theme';
 import { ToolCallApproval } from './ToolApproval';
+import { StateIcon } from './StateIcon';
 
 export interface ApprovalResponseDetail {
   approvalId: string;
@@ -27,6 +29,8 @@ export interface ToolCallLabels {
   denyReason?: string;
   waitingForApproval?: string;
   approvalNeeded?: string;
+  /** Announced once on a live transition into `failed`; `{tool}`, `{error}`. */
+  failedAnnouncement?: string;
 }
 
 const DISPLAY_TEXT: Record<AgToolDisplayState, string> = {
@@ -57,7 +61,7 @@ function toolName(part: AnyToolPart): string {
   return part.type === 'dynamic-tool' ? part.toolName : part.type.slice('tool-'.length);
 }
 
-function JsonBlock({ label, value, maxChars }: { label: string; value: unknown; maxChars: number }) {
+function JsonBlock({ label, value, maxChars, showAll }: { label: string; value: unknown; maxChars: number; showAll: string }) {
   const full = React.useMemo(() => {
     try { return JSON.stringify(value, null, 2) ?? 'undefined'; } catch { return String(value); }
   }, [value]);
@@ -71,14 +75,28 @@ function JsonBlock({ label, value, maxChars }: { label: string; value: unknown; 
       </pre>
       {capped ? (
         <button type="button" data-ag-part="io-expand" onClick={() => setExpanded(true)}>
-          Show all
+          {showAll}
         </button>
       ) : null}
     </div>
   );
 }
 
-/** REQ-SURF-120/121: Collapsible tool call with display-state header. */
+/** Display states that open the call on entry (REQ-SURF-120). */
+const AUTO_OPEN: ReadonlySet<AgToolDisplayState> = new Set(['needs-approval', 'failed']);
+
+function fill(template: string, tool: string, error: string): string {
+  return template.replace('{tool}', tool).replace('{error}', error);
+}
+
+/**
+ * REQ-SURF-120/121: Base UI Collapsible tool call with an icon + text header
+ * per display state. The panel stays mounted (hidden when closed) so
+ * `aria-controls` always resolves. It opens on mount and on every transition
+ * into `needs-approval` / `failed` unless the user has toggled it. Failures are
+ * plain text; the announcer speaks them once (REQ-SURF-129: no extra live
+ * regions).
+ */
 function ToolCallBase({
   part,
   title,
@@ -92,21 +110,40 @@ function ToolCallBase({
   ref,
 }: ToolCallProps) {
   const display = toolDisplayState(part);
-  const open = defaultOpen ?? (display === 'needs-approval' || display === 'failed');
-  const [opened, setOpened] = React.useState(open);
+  const [opened, setOpened] = React.useState(() => defaultOpen ?? AUTO_OPEN.has(display));
+  const [userToggled, setUserToggled] = React.useState(false);
+  // Adjust during render (not in an effect) so the approval controls are
+  // visible in the same commit as the state change.
+  const [prevDisplay, setPrevDisplay] = React.useState(display);
+  if (prevDisplay !== display) {
+    setPrevDisplay(display);
+    if (AUTO_OPEN.has(display) && !userToggled && !opened) setOpened(true);
+  }
   const contentId = React.useId();
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
   const { announce } = useAnnouncer();
   // REQ-SURF-190: the resolved motion (min of OS floor, app, user), never
   // the raw setting, which can be 'system' or above the reduced-motion floor.
   const { motion } = useResolvedPreferences();
+  const name = title ?? toolName(part);
   const lastAnnounced = React.useRef<AgToolDisplayState | null>(null);
   React.useEffect(() => {
-    if (display === 'needs-approval' && lastAnnounced.current !== 'needs-approval') {
-      announce(labels.approvalNeeded ? labels.approvalNeeded.replace('{tool}', title ?? toolName(part)) : `Approval needed: ${title ?? toolName(part)}`, { politeness: 'assertive' });
-    }
+    const prev = lastAnnounced.current;
     lastAnnounced.current = display;
-  }, [display, announce, labels.approvalNeeded, title, part]);
+    if (prev === display) return;
+    if (display === 'needs-approval') {
+      announce(labels.approvalNeeded ? labels.approvalNeeded.replace('{tool}', name) : `Approval needed: ${name}`, { politeness: 'assertive' });
+    } else if (display === 'failed' && prev !== null) {
+      // Only a live transition is spoken; history loaded already-failed is not.
+      const error = part.errorText ?? '';
+      announce(
+        labels.failedAnnouncement
+          ? fill(labels.failedAnnouncement, name, error)
+          : error ? `${name} failed: ${error}` : `${name} failed`,
+        { politeness: 'assertive' },
+      );
+    }
+  }, [display, announce, labels.approvalNeeded, labels.failedAnnouncement, name, part.errorText]);
   const text = {
     queued: labels.queued ?? DISPLAY_TEXT.queued,
     running: labels.running ?? DISPLAY_TEXT.running,
@@ -115,40 +152,42 @@ function ToolCallBase({
     failed: labels.failed ?? DISPLAY_TEXT.failed,
     denied: labels.denied ?? DISPLAY_TEXT.denied,
   }[display];
+  const showAll = labels.showAll ?? 'Show all';
 
   return (
-    <div ref={ref} data-ag-part="tool-call" data-state={display} className={className}>
-      <button
-        ref={triggerRef}
-        type="button"
-        data-ag-part="trigger"
-        aria-expanded={opened}
-        aria-controls={contentId}
-        onClick={() => setOpened((o) => !o)}
-      >
-        <AiIcon name="tool" />
-        <span data-ag-part="tool-name">{title ?? toolName(part)}</span>
+    <Collapsible.Root
+      ref={ref}
+      open={opened}
+      onOpenChange={(next: boolean) => {
+        setUserToggled(true);
+        setOpened(next);
+      }}
+      data-ag-part="tool-call"
+      data-state={display}
+      className={className}
+    >
+      <Collapsible.Trigger ref={triggerRef} data-ag-part="trigger" aria-controls={contentId}>
+        <StateIcon state={display} />
+        <span data-ag-part="tool-name">{name}</span>
         <span data-ag-part="tool-state">{text}</span>
         {display === 'running' ? (
           <span data-ag-part="running-dots" data-motion={motion} aria-hidden="true" />
         ) : null}
         <AiIcon name="chevron" />
-      </button>
-      {opened ? (
-        <div id={contentId} data-ag-part="content">
-          {part.input !== undefined ? (
-            renderInput ? renderInput(part.input) : <JsonBlock label="Input" value={part.input} maxChars={maxPreviewChars} />
-          ) : null}
-          {part.output !== undefined ? (
-            renderOutput ? renderOutput(part.output) : <JsonBlock label="Output" value={part.output} maxChars={maxPreviewChars} />
-          ) : null}
-          {part.errorText ? <p data-ag-part="error-text" role="alert">{part.errorText}</p> : null}
-          {display === 'needs-approval' ? (
-            <ToolCallApproval part={part} labels={labels} onApprovalResponse={onApprovalResponse} triggerRef={triggerRef} />
-          ) : null}
-        </div>
-      ) : null}
-    </div>
+      </Collapsible.Trigger>
+      <Collapsible.Panel id={contentId} data-ag-part="content" keepMounted>
+        {part.input !== undefined ? (
+          renderInput ? renderInput(part.input) : <JsonBlock label="Input" value={part.input} maxChars={maxPreviewChars} showAll={showAll} />
+        ) : null}
+        {part.output !== undefined ? (
+          renderOutput ? renderOutput(part.output) : <JsonBlock label="Output" value={part.output} maxChars={maxPreviewChars} showAll={showAll} />
+        ) : null}
+        {part.errorText ? <p data-ag-part="error-text">{part.errorText}</p> : null}
+        {display === 'needs-approval' ? (
+          <ToolCallApproval part={part} labels={labels} onApprovalResponse={onApprovalResponse} triggerRef={triggerRef} />
+        ) : null}
+      </Collapsible.Panel>
+    </Collapsible.Root>
   );
 }
 

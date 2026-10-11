@@ -25,7 +25,7 @@ describe('inventory-remove-progress (RM family diffs)', () => {
         'git', ['diff', '--name-status', '--diff-filter=D', `${sha}^`, sha],
         { cwd: ROOT, encoding: 'utf8' },
       );
-      const deleted = nameStatus.split('\n').filter(Boolean).map((l) => l.split('\t')[1]);
+      const deleted = nameStatus.split('\n').filter(Boolean).map((l) => l.split('\t')[1] ?? '');
       expect(deleted.length).toBeGreaterThan(0);
       const stray = deleted.filter((p) =>
         !p.startsWith('src/') && !p.startsWith('legacy/') && !ANCILLARY.test(p));

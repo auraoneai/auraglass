@@ -67,7 +67,7 @@ export function MusicPlayer({ now = SHOWCASE_EPOCH }: MusicPlayerProps) {
         <aside className={styles.library} aria-label="Library">
           <div className={styles.libraryHeader}>
             <h2>{COPY.albumsHeading}</h2>
-            <SegmentedControl.Root aria-label={COPY.viewLabel} value={view} onValueChange={(v: string) => setView(v)}>
+            <SegmentedControl.Root name="library-view" aria-label={COPY.viewLabel} value={view} onValueChange={(v: string) => setView(v)}>
               <SegmentedControl.Item value="albums">Albums</SegmentedControl.Item>
               <SegmentedControl.Item value="artists">Artists</SegmentedControl.Item>
               <SegmentedControl.Item value="playlists">Playlists</SegmentedControl.Item>

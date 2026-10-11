@@ -105,9 +105,9 @@ describe('docs app artifact consumption', () => {
     expect(pkg.workspaces).not.toContain('./');
   });
 
-  it('builds through install-pack → prepare → next build → verify-docs-out', () => {
+  it('builds through install-pack → prepare → gen-deprecations --docs → next build → verify-docs-out', () => {
     expect(pkg.scripts['docs:build']).toBe(
-      'node scripts/docs/install-pack.mjs && node scripts/docs/prepare-docs-app.mjs && npm run build -w apps/docs && node scripts/docs/verify-docs-out.mjs',
+      'node scripts/docs/install-pack.mjs && node scripts/docs/prepare-docs-app.mjs && node scripts/release/gen-deprecations.mjs --docs && npm run build -w apps/docs && node scripts/docs/verify-docs-out.mjs',
     );
     const app = JSON.parse(readFileSync(join(appDir, 'package.json'), 'utf8'));
     expect(app.scripts.build).toBe('next build');

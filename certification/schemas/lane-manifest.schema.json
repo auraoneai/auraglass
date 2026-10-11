@@ -2,118 +2,546 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "AuraGlass lane manifest (REQ-QUAL-05)",
   "type": "object",
-  "required": ["version", "lane", "sha", "scope", "runnerTag", "imageDigest", "browserVersions", "subjects", "cells", "results",
-    "thresholdsSha256", "scenesSha256", "inventorySha256", "durationMs", "captureRate"],
+  "required": [
+    "version",
+    "lane",
+    "sha",
+    "scope",
+    "runnerTag",
+    "imageDigest",
+    "browserVersions",
+    "subjects",
+    "cells",
+    "results",
+    "thresholdsSha256",
+    "scenesSha256",
+    "inventorySha256",
+    "durationMs",
+    "captureRate"
+  ],
   "properties": {
-    "version": { "type": "integer", "enum": [1] },
-    "lane": { "type": "string", "enum": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "all"] },
-    "line": { "type": "string", "enum": ["4x", "5x"] },
-    "sha": { "type": ["string", "null"] },
-    "scope": { "type": "string", "enum": ["pr", "main", "nightly", "release"] },
-    "runnerTag": { "type": ["string", "null"] },
-    "imageDigest": { "type": ["string", "null"] },
-    "image": { "type": ["string", "null"] },
+    "version": {
+      "type": "integer",
+      "enum": [
+        1
+      ]
+    },
+    "lane": {
+      "type": "string",
+      "enum": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5",
+        "L6",
+        "L7",
+        "L8",
+        "L9",
+        "L10",
+        "L11",
+        "L12",
+        "all"
+      ]
+    },
+    "line": {
+      "type": "string",
+      "enum": [
+        "4x",
+        "5x"
+      ]
+    },
+    "sha": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "pr",
+        "main",
+        "nightly",
+        "release"
+      ]
+    },
+    "runnerTag": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "imageDigest": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "image": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "fonts": {
-      "type": ["array", "null"],
-      "items": { "type": "object", "required": ["family", "file"], "properties": { "family": { "type": "string" }, "file": { "type": "string" } } }
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "object",
+        "required": [
+          "family",
+          "file"
+        ],
+        "properties": {
+          "family": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          }
+        }
+      }
     },
     "quarantine": {
       "type": "object",
-      "required": ["file", "entries", "cells", "quarantined"],
-      "properties": { "file": { "type": "string" }, "entries": { "type": "integer" }, "cells": { "type": "array", "items": { "type": "string" } }, "quarantined": { "type": "array", "items": { "type": "string" } } }
+      "required": [
+        "file",
+        "entries",
+        "cells",
+        "quarantined"
+      ],
+      "properties": {
+        "file": {
+          "type": "string"
+        },
+        "entries": {
+          "type": "integer"
+        },
+        "cells": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "quarantined": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     },
     "determinism": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["lane", "path", "cells", "agreeing", "ratio", "ok", "runs"],
-        "properties": { "lane": { "type": "string" }, "path": { "type": "string" }, "cells": { "type": "integer" }, "agreeing": { "type": "integer" }, "ratio": { "type": "number" }, "ok": { "type": "boolean" }, "runs": { "type": "integer", "enum": [2] } }
+        "required": [
+          "lane",
+          "path",
+          "cells",
+          "agreeing",
+          "ratio",
+          "ok",
+          "runs"
+        ],
+        "properties": {
+          "lane": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "cells": {
+            "type": "integer"
+          },
+          "agreeing": {
+            "type": "integer"
+          },
+          "ratio": {
+            "type": "number"
+          },
+          "ok": {
+            "type": "boolean"
+          },
+          "runs": {
+            "type": "integer",
+            "enum": [
+              2
+            ]
+          }
+        }
       }
     },
     "shards": {
       "type": "object",
-      "required": ["file"],
-      "properties": { "file": { "type": "string" }, "parallel": { "type": ["integer", "null"] }, "cells": { "type": ["integer", "null"] }, "ok": { "type": "boolean" }, "missing": { "type": "boolean" } }
+      "required": [
+        "file"
+      ],
+      "properties": {
+        "file": {
+          "type": "string"
+        },
+        "parallel": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "cells": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "ok": {
+          "type": "boolean"
+        },
+        "missing": {
+          "type": "boolean"
+        }
+      }
     },
-    "browserVersions": { "type": "object" },
-    "subjects": { "type": "array", "items": { "type": "string" } },
-    "cells": { "type": "array" },
+    "browserVersions": {
+      "type": "object"
+    },
+    "subjects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cells": {
+      "type": "array"
+    },
     "results": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["lane", "stream", "kind", "path", "scope", "state"],
+        "required": [
+          "lane",
+          "stream",
+          "kind",
+          "path",
+          "scope",
+          "state"
+        ],
         "properties": {
-          "lane": { "type": "string", "enum": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L13", "L14"] },
-          "stream": { "type": "string", "enum": ["plat", "mat", "cmp", "surf", "qual"] },
-          "kind": { "type": "string", "enum": ["node-script", "jest", "playwright", "story-subjects", "manual-record"] },
-          "path": { "type": "string" },
-          "scope": { "type": "string", "enum": ["pr", "main", "nightly", "release"] },
-          "state": { "type": "string", "enum": ["pass", "fail", "pending", "double-pass", "pre-existing", "quarantined"] },
-          "quarantined": { "type": "array", "items": { "type": "string" } },
+          "lane": {
+            "type": "string",
+            "enum": [
+              "L1",
+              "L2",
+              "L3",
+              "L4",
+              "L5",
+              "L6",
+              "L7",
+              "L8",
+              "L9",
+              "L10",
+              "L11",
+              "L12",
+              "L13",
+              "L14"
+            ]
+          },
+          "stream": {
+            "type": "string",
+            "enum": [
+              "plat",
+              "mat",
+              "cmp",
+              "surf",
+              "qual"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "node-script",
+              "jest",
+              "playwright",
+              "story-subjects",
+              "manual-record"
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "pr",
+              "main",
+              "nightly",
+              "release"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail",
+              "pending",
+              "double-pass",
+              "pre-existing",
+              "quarantined"
+            ]
+          },
+          "quarantined": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "determinism": {
             "type": "object",
-            "required": ["cells", "agreeing", "ratio", "ok", "runs"],
-            "properties": { "cells": { "type": "integer" }, "agreeing": { "type": "integer" }, "ratio": { "type": "number" }, "ok": { "type": "boolean" }, "runs": { "type": "integer", "enum": [2] }, "disagreements": { "type": "array" } }
+            "required": [
+              "cells",
+              "agreeing",
+              "ratio",
+              "ok",
+              "runs"
+            ],
+            "properties": {
+              "cells": {
+                "type": "integer"
+              },
+              "agreeing": {
+                "type": "integer"
+              },
+              "ratio": {
+                "type": "number"
+              },
+              "ok": {
+                "type": "boolean"
+              },
+              "runs": {
+                "type": "integer",
+                "enum": [
+                  2
+                ]
+              },
+              "disagreements": {
+                "type": "array"
+              }
+            }
           },
-          "reason": { "type": "string" },
-          "tests": { "type": "integer" },
-          "durationMs": { "type": "integer" },
-          "failedOwners": { "type": "array", "items": { "type": "string" } },
-          "blockingFor": { "type": "string" },
-          "line": { "type": "string", "enum": ["4x"] },
-          "tarballSource": { "type": "string", "enum": ["published", "head"] },
-          "blocking": { "type": "boolean", "enum": [false] },
-          "subjects": { "type": "array", "items": { "type": "string" } },
+          "reason": {
+            "type": "string"
+          },
+          "tests": {
+            "type": "integer"
+          },
+          "durationMs": {
+            "type": "integer"
+          },
+          "failedOwners": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "blockingFor": {
+            "type": "string"
+          },
+          "line": {
+            "type": "string",
+            "enum": [
+              "4x"
+            ]
+          },
+          "tarballSource": {
+            "type": "string",
+            "enum": [
+              "published",
+              "head"
+            ]
+          },
+          "blocking": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "coverage": {
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["key", "files", "lines", "branches", "floor", "state", "owner"],
+              "required": [
+                "key",
+                "files",
+                "lines",
+                "branches",
+                "floor",
+                "state",
+                "owner"
+              ],
               "properties": {
-                "key": { "type": "string" },
-                "files": { "type": "integer" },
-                "lines": { "type": ["number", "null"] },
-                "branches": { "type": ["number", "null"] },
-                "floor": { "type": "object", "required": ["lines", "branches"] },
-                "state": { "type": "string", "enum": ["pass", "fail"] },
-                "owner": { "type": "string" }
+                "key": {
+                  "type": "string"
+                },
+                "files": {
+                  "type": "integer"
+                },
+                "lines": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "branches": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "floor": {
+                  "type": "object",
+                  "required": [
+                    "lines",
+                    "branches"
+                  ]
+                },
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "pass",
+                    "fail"
+                  ]
+                },
+                "owner": {
+                  "type": "string"
+                }
               }
             }
+          },
+          "report": {
+            "type": "object"
           }
         }
       }
     },
     "tarball": {
-      "type": ["object", "null"],
-      "required": ["source", "file", "sha256"],
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "source",
+        "file",
+        "sha256"
+      ],
       "properties": {
-        "source": { "type": "string", "enum": ["env", "pack"] },
-        "file": { "type": "string" },
-        "sha256": { "type": ["string", "null"] }
+        "source": {
+          "type": "string",
+          "enum": [
+            "env",
+            "pack"
+          ]
+        },
+        "file": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       }
     },
     "tarballs": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["source", "state", "spec", "sha256"],
+        "required": [
+          "source",
+          "state",
+          "spec",
+          "sha256"
+        ],
         "properties": {
-          "source": { "type": "string", "enum": ["published", "head"] },
-          "state": { "type": "string", "enum": ["ready", "pending", "fail"] },
-          "spec": { "type": "string" },
-          "version": { "type": "string" },
-          "commit": { "type": "string" },
-          "reason": { "type": "string" },
-          "file": { "type": "string" },
-          "sha256": { "type": ["string", "null"] }
+          "source": {
+            "type": "string",
+            "enum": [
+              "published",
+              "head"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ready",
+              "pending",
+              "fail"
+            ]
+          },
+          "spec": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "commit": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
         }
       }
     },
-    "thresholdsSha256": { "type": ["string", "null"] },
-    "scenesSha256": { "type": ["string", "null"] },
-    "inventorySha256": { "type": ["string", "null"] },
-    "durationMs": { "type": "integer" },
-    "captureRate": { "type": ["number", "null"] }
+    "thresholdsSha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "scenesSha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "inventorySha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "baselinesSha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "durationMs": {
+      "type": "integer"
+    },
+    "captureRate": {
+      "type": [
+        "number",
+        "null"
+      ]
+    }
   }
 }

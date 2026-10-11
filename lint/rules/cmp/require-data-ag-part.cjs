@@ -25,6 +25,24 @@ function hasSiblingMeta(filename) {
   return fs.existsSync(path.join(dir, `${base}.meta.ts`));
 }
 
+/* A return root that is a DOM-less state root or context provider
+   (<DialogRoot>, <Ctx.Provider>, <Menu.Root>) renders no element of its own:
+   the part lives on its single element child, which must carry the literal. */
+const NON_DOM_ROOT = /(^|\.)(Root|Provider)$|Root$/;
+function jsxName(n) {
+  if (n.type === 'JSXIdentifier') return n.name;
+  if (n.type === 'JSXMemberExpression') return `${jsxName(n.object)}.${n.property.name}`;
+  return '';
+}
+function rootCarriesPart(element) {
+  const opening = element.openingElement;
+  if (hasLiteralDataAgPart(opening)) return true;
+  if (!NON_DOM_ROOT.test(jsxName(opening.name))) return false;
+  const kids = element.children.filter((c) => c.type === 'JSXElement');
+  const others = element.children.filter((c) => c.type !== 'JSXElement' && !(c.type === 'JSXText' && !c.value.trim()));
+  return kids.length === 1 && others.length === 0 && rootCarriesPart(kids[0]);
+}
+
 module.exports = {
   meta: {
     type: 'problem',
@@ -65,7 +83,7 @@ module.exports = {
       if (fn2 !== fn) return;
       const opening = node.argument.openingElement;
       const elName = opening.name.type === 'JSXIdentifier' ? opening.name.name : 'member';
-      if (!hasLiteralDataAgPart(opening)) {
+      if (!rootCarriesPart(node.argument)) {
         context.report({ node: opening, messageId: 'missing', data: { what: `Return root <${elName}>` } });
       }
     }
@@ -89,7 +107,7 @@ module.exports = {
         if (node.body && node.body.type === 'JSXElement' && isExportedFunction(node)) {
           const opening = node.body.openingElement;
           const elName = opening.name.type === 'JSXIdentifier' ? opening.name.name : 'member';
-          if (!hasLiteralDataAgPart(opening)) {
+          if (!rootCarriesPart(node.body)) {
             context.report({ node: opening, messageId: 'missing', data: { what: `Return root <${elName}>` } });
           }
         }

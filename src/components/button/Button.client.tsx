@@ -1,5 +1,7 @@
 'use client';
 import * as React from 'react';
+import { stateRender, toDataState } from '../../foundation/state';
+import { useControllableWarning } from '../../foundation/controllable';
 import { Button as BaseButton } from '@base-ui/react/button';
 import { Toggle } from '@base-ui/react/toggle';
 import { materialProps } from '../../material';
@@ -33,7 +35,6 @@ function useProminentGuard(
     }
     if (registry.size > 0 && !prominentWarnedScopes.has(scope)) {
       prominentWarnedScopes.add(scope);
-      // eslint-disable-next-line no-console
       console.error(
         '[aura-glass] A second prominent Button mounted in the same chrome surface. ' +
           'Only one prominent action is allowed per surface (SC-24).',
@@ -94,11 +95,21 @@ export function Button(props: ButtonProps) {
     ...rest
   } = props as ButtonProps & { 'data-ag-part'?: string };
 
+  useControllableWarning('Button', 'pressed', pressed);
   const token = React.useRef<object>({});
   const elementRef = React.useRef<HTMLElement | null>(null);
   useProminentGuard(prominent, token.current, elementRef);
 
   const isToggle = pressed !== undefined || defaultPressed !== undefined || onPressedChange !== undefined;
+
+  const toggleRef = React.useRef<{ initial: boolean; warned: boolean } | null>(null);
+  React.useEffect(() => {
+    toggleRef.current ??= { initial: isToggle, warned: false };
+    if (process.env.NODE_ENV !== 'production' && toggleRef.current.initial !== isToggle && !toggleRef.current.warned) {
+      toggleRef.current.warned = true;
+      console.warn('aura-glass Button: toggle props changed between renders; switching between Button and Toggle remounts the element. Keep toggle mode stable.');
+    }
+  }, [isToggle]);
 
   /* REQ-CMP-34: thin chrome + interactive by default. */
   const role: Parameters<typeof materialProps>[0] = { layer: 'chrome', variant, thickness: 'thin', interactive: true };
@@ -146,7 +157,11 @@ export function Button(props: ButtonProps) {
         defaultPressed={defaultPressed}
         onPressedChange={(p, eventDetails) => onPressedChange?.(p, toChangeDetails(eventDetails))}
         onClick={guardClick}
-        render={render as React.ComponentProps<typeof Toggle>['render']}
+        render={stateRender<{ pressed: boolean }>(
+          (s) => toDataState({ pressed: s.pressed }),
+          render as React.ComponentProps<typeof Toggle>['render'],
+          'button',
+        )}
         type={(type ?? 'button') as 'button'}
       >
         {inner}

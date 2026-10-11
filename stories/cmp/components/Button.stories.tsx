@@ -108,3 +108,8 @@ export const WidthStability: Story = {
     </div>
   ),
 };
+
+/* REQ-CMP-35: APG toggle leg — pressed state flips aria-pressed. */
+export const Toggle: Story = {
+  render: () => <Button defaultPressed>Toggle me</Button>,
+};

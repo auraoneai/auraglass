@@ -1,14 +1,17 @@
 'use client';
 
 import * as React from 'react';
+import { stateRender, toDataState } from '../../foundation/state';
 import { RadioGroup as BaseGroup } from '@base-ui/react/radio-group';
 import { Radio as BaseRadio } from '@base-ui/react/radio';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
 import type { RadioGroupProps, RadioItemProps } from './RadioGroup.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 function RadioGroupRoot({ onValueChange, children, className, ref, size, orientation, ...rest }: RadioGroupProps) {
+  useControllableWarning('RadioGroup', 'value', rest.value);
   return (
     <BaseGroup
       data-ag-part="root"
@@ -26,9 +29,18 @@ function RadioGroupRoot({ onValueChange, children, className, ref, size, orienta
 
 function RadioItem({ children, className, ref, ...rest }: RadioItemProps) {
   return (
-    <BaseRadio.Root data-ag-part="item" className={cn('ag-radio-item', className)} ref={ref} {...rest}>
+    <BaseRadio.Root
+      data-ag-part="item"
+      className={cn('ag-radio-item', className)}
+      ref={ref}
+      {...rest}
+      render={stateRender<{ checked: boolean }>(
+        (s) => toDataState({ checked: s.checked }),
+        (rest as { render?: React.ComponentProps<typeof BaseRadio.Root>['render'] }).render,
+      )}
+    >
       <span data-ag-part="hit-area" aria-hidden="true" />
-      <BaseRadio.Indicator data-ag-part="indicator" />
+      <BaseRadio.Indicator keepMounted data-ag-part="indicator" />
       {children !== undefined && children !== null ? <span data-ag-part="label">{children}</span> : null}
     </BaseRadio.Root>
   );

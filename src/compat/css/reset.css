@@ -9,6 +9,18 @@
   :where([data-ag-root], [data-ag-surface]) *,
   :where([data-ag-root], [data-ag-surface]) *::before,
   :where([data-ag-root], [data-ag-surface]) *::after { box-sizing: border-box; }
+  /* Base type for the AuraGlass root: without it every inherit-based component
+     (Text, Heading, Card, data/ai parts) fell back to the UA serif at 16px and
+     UA black text, even on dark schemes. Zero-specificity so app css wins. */
+  :where([data-ag-root]) {
+    font-family: var(--ag-font-sans, system-ui, sans-serif);
+    font-size: var(--ag-type-body-size, 1rem);
+    line-height: var(--ag-type-body-leading, 1.45);
+    color: var(--ag-color-on-surface, CanvasText);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
   :where([data-ag-root], [data-ag-surface]) :is(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd) { margin: 0; }
   :where([data-ag-root], [data-ag-surface]) :is(ul[role='list'], ol[role='list']) { list-style: none; margin: 0; padding: 0; }
   :where([data-ag-root], [data-ag-surface]) :is(img, picture, video, canvas, svg) { display: block; max-width: 100%; }

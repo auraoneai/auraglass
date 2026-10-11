@@ -115,3 +115,250 @@ describe('ResizablePanels (SURF-051)', () => {
     expect(container.querySelector('.ag-panels__grip')).toBeTruthy();
   });
 });
+
+/* Root-rect mock: jsdom has no layout, so the group root reports the given
+   box and every other element keeps jsdom's zero rect. */
+/* jsdom ships no PointerEvent: without it fireEvent.pointer* builds a plain
+   Event with no clientX/pointerId. MouseEvent carries the coordinates. */
+if (typeof window.PointerEvent === 'undefined') {
+  class PointerEventPolyfill extends MouseEvent {
+    pointerId: number;
+    pointerType: string;
+    isPrimary: boolean;
+    constructor(type: string, init: PointerEventInit = {}) {
+      super(type, init);
+      this.pointerId = init.pointerId ?? 1;
+      this.pointerType = init.pointerType ?? 'mouse';
+      this.isPrimary = init.isPrimary ?? true;
+    }
+  }
+  (window as unknown as { PointerEvent: unknown }).PointerEvent = PointerEventPolyfill;
+}
+
+function mockRootRect(box: { left: number; width: number }): () => void {
+  const original = Element.prototype.getBoundingClientRect;
+  const spy = jest
+    .spyOn(Element.prototype, 'getBoundingClientRect')
+    .mockImplementation(function (this: Element) {
+      if (this.classList.contains('ag-panels')) {
+        return {
+          x: box.left, y: 0, left: box.left, top: 0, width: box.width, height: 600,
+          right: box.left + box.width, bottom: 600, toJSON: () => ({}),
+        } as DOMRect;
+      }
+      return original.call(this);
+    });
+  return () => spy.mockRestore();
+}
+
+const basisOf = (id: string, scope: ParentNode = document) =>
+  scope.querySelector<HTMLElement>(`[data-panel="${id}"]`)!.style.flexBasis;
+
+describe('ResizablePanels acceptance (SURF-42..46)', () => {
+  it('SURF-42: nested 2x2 — a handle resizes only its own group', () => {
+    render(
+      <ResizablePanels.Root orientation="horizontal" defaultLayout={[50, 50]}>
+        <ResizablePanels.Panel id="left">
+          <ResizablePanels.Root orientation="vertical" defaultLayout={[50, 50]}>
+            <ResizablePanels.Panel id="lt">lt</ResizablePanels.Panel>
+            <ResizablePanels.Handle label="inner-left" />
+            <ResizablePanels.Panel id="lb">lb</ResizablePanels.Panel>
+          </ResizablePanels.Root>
+        </ResizablePanels.Panel>
+        <ResizablePanels.Handle label="outer" />
+        <ResizablePanels.Panel id="right">
+          <ResizablePanels.Root orientation="vertical" defaultLayout={[50, 50]}>
+            <ResizablePanels.Panel id="rt">rt</ResizablePanels.Panel>
+            <ResizablePanels.Handle label="inner-right" />
+            <ResizablePanels.Panel id="rb">rb</ResizablePanels.Panel>
+          </ResizablePanels.Root>
+        </ResizablePanels.Panel>
+      </ResizablePanels.Root>,
+    );
+    const innerLeft = screen.getByRole('separator', { name: 'inner-left' });
+    const outer = screen.getByRole('separator', { name: 'outer' });
+    const innerRight = screen.getByRole('separator', { name: 'inner-right' });
+
+    fireEvent.keyDown(innerLeft, { key: 'ArrowDown' });
+    expect(innerLeft).toHaveAttribute('aria-valuenow', '52');
+    expect([basisOf('lt'), basisOf('lb')]).toEqual(['52%', '48%']);
+    expect([basisOf('left'), basisOf('right')]).toEqual(['50%', '50%']);
+    expect([basisOf('rt'), basisOf('rb')]).toEqual(['50%', '50%']);
+
+    fireEvent.keyDown(outer, { key: 'ArrowRight' });
+    expect(outer).toHaveAttribute('aria-valuenow', '52');
+    expect([basisOf('left'), basisOf('right')]).toEqual(['52%', '48%']);
+    expect([basisOf('lt'), basisOf('lb')]).toEqual(['52%', '48%']);
+    expect(innerRight).toHaveAttribute('aria-valuenow', '50');
+  });
+
+  it("SURF-42: minSize='240px' in a 1200 px root clamps at 20%", () => {
+    const restore = mockRootRect({ left: 0, width: 1200 });
+    try {
+      render(
+        <ResizablePanels.Root orientation="horizontal" defaultLayout={[50, 50]}>
+          <ResizablePanels.Panel id="a" minSize="240px">a</ResizablePanels.Panel>
+          <ResizablePanels.Handle label="Split" />
+          <ResizablePanels.Panel id="b">b</ResizablePanels.Panel>
+        </ResizablePanels.Root>,
+      );
+      const h = screen.getByRole('separator');
+      fireEvent.keyDown(h, { key: 'Home' });
+      expect(h).toHaveAttribute('aria-valuenow', '20');
+      expect(h).toHaveAttribute('aria-valuemin', '20');
+      fireEvent.keyDown(h, { key: 'ArrowLeft', shiftKey: true });
+      expect(h).toHaveAttribute('aria-valuenow', '20');
+      expect(basisOf('a')).toBe('20%');
+    } finally {
+      restore();
+    }
+  });
+
+  it('SURF-42: onCollapse fires once on Enter-collapse, onExpand once on restore', () => {
+    const onCollapse = jest.fn();
+    const onExpand = jest.fn();
+    render(
+      <ResizablePanels.Root defaultLayout={[40, 60]}>
+        <ResizablePanels.Panel id="a" collapsible minSize={20} onCollapse={onCollapse} onExpand={onExpand}>
+          a
+        </ResizablePanels.Panel>
+        <ResizablePanels.Handle label="Split" />
+        <ResizablePanels.Panel id="b">b</ResizablePanels.Panel>
+      </ResizablePanels.Root>,
+    );
+    const h = screen.getByRole('separator');
+    fireEvent.keyDown(h, { key: 'Enter' });
+    expect(onCollapse).toHaveBeenCalledTimes(1);
+    expect(onExpand).toHaveBeenCalledTimes(0);
+    fireEvent.keyDown(h, { key: 'Enter' });
+    expect(onCollapse).toHaveBeenCalledTimes(1);
+    expect(onExpand).toHaveBeenCalledTimes(1);
+  });
+
+  it('SURF-43: drag in a 600 px-offset container — container-relative, 0 commits mid-drag, single onLayout', () => {
+    jest.useFakeTimers();
+    const restore = mockRootRect({ left: 600, width: 1000 });
+    const onLayout = jest.fn();
+    let commits = 0;
+    try {
+      render(
+        <React.Profiler id="panels" onRender={() => { commits += 1; }}>
+          <ResizablePanels.Root orientation="horizontal" defaultLayout={[50, 50]} onLayout={onLayout}>
+            <ResizablePanels.Panel id="a">a</ResizablePanels.Panel>
+            <ResizablePanels.Handle label="Split" />
+            <ResizablePanels.Panel id="b">b</ResizablePanels.Panel>
+          </ResizablePanels.Root>
+        </React.Profiler>,
+      );
+      const h = screen.getByRole('separator');
+      // jsdom has no pointer-capture implementation.
+      const capture = jest.fn();
+      Object.assign(h, { setPointerCapture: capture, releasePointerCapture: jest.fn() });
+      const before = commits;
+      fireEvent.pointerDown(h, { pointerId: 7, clientX: 1000, pointerType: 'touch' });
+      fireEvent.pointerMove(h, { pointerId: 7, clientX: 1050, pointerType: 'touch' });
+      fireEvent.pointerMove(h, { pointerId: 7, clientX: 1100, pointerType: 'touch' });
+      jest.advanceTimersByTime(32); // flush the coalesced rAF write
+      expect(basisOf('a')).toBe('60%');
+      expect(basisOf('b')).toBe('40%');
+      expect({ commitsDuringDrag: commits - before, onLayoutCalls: onLayout.mock.calls.length }).toEqual({
+        commitsDuringDrag: 0,
+        onLayoutCalls: 0,
+      });
+      expect(capture).toHaveBeenCalledWith(7);
+      fireEvent.pointerUp(h, { pointerId: 7, clientX: 1100, pointerType: 'touch' });
+      expect(onLayout).toHaveBeenCalledTimes(1);
+      expect(onLayout).toHaveBeenCalledWith([60, 40]);
+      expect(h).toHaveAttribute('aria-valuenow', '60');
+      // lostpointercapture after pointerup must not commit a second time
+      fireEvent(h, new Event('lostpointercapture', { bubbles: true }));
+      expect(onLayout).toHaveBeenCalledTimes(1);
+    } finally {
+      restore();
+      jest.useRealTimers();
+    }
+  });
+
+  it('SURF-43: pointercancel ends the drag and commits once', () => {
+    const restore = mockRootRect({ left: 0, width: 1000 });
+    const onLayout = jest.fn();
+    try {
+      render(
+        <ResizablePanels.Root defaultLayout={[50, 50]} onLayout={onLayout}>
+          <ResizablePanels.Panel id="a">a</ResizablePanels.Panel>
+          <ResizablePanels.Handle label="Split" />
+          <ResizablePanels.Panel id="b">b</ResizablePanels.Panel>
+        </ResizablePanels.Root>,
+      );
+      const h = screen.getByRole('separator');
+      fireEvent.pointerDown(h, { pointerId: 3, clientX: 500 });
+      fireEvent.pointerMove(h, { pointerId: 3, clientX: 450 });
+      fireEvent.pointerCancel(h, { pointerId: 3 });
+      expect(onLayout).toHaveBeenCalledTimes(1);
+      expect(onLayout).toHaveBeenCalledWith([45, 55]);
+      // a stray move after cancel does nothing
+      fireEvent.pointerMove(h, { pointerId: 3, clientX: 100 });
+      expect(onLayout).toHaveBeenCalledTimes(1);
+    } finally {
+      restore();
+    }
+  });
+
+  it('SURF-44: aria-controls resolves, default name is "Resize <id>", RTL ArrowRight decreases', () => {
+    render(
+      <div dir="rtl">
+        <ResizablePanels.Root orientation="horizontal" defaultLayout={[50, 50]}>
+          <ResizablePanels.Panel id="a">a</ResizablePanels.Panel>
+          <ResizablePanels.Handle />
+          <ResizablePanels.Panel id="b">b</ResizablePanels.Panel>
+        </ResizablePanels.Root>
+      </div>,
+    );
+    const h = screen.getByRole('separator', { name: 'Resize a' });
+    expect(h).toHaveAttribute('aria-orientation', 'vertical');
+    expect(document.getElementById(h.getAttribute('aria-controls')!)).not.toBeNull();
+    fireEvent.keyDown(h, { key: 'ArrowRight' });
+    expect(h).toHaveAttribute('aria-valuenow', '48');
+    fireEvent.keyDown(h, { key: 'ArrowLeft' });
+    expect(h).toHaveAttribute('aria-valuenow', '50');
+  });
+
+  it('SURF-46: SSR seeds flex-basis from defaultLayout; hydrate restores the saved layout with 0 console.error', async () => {
+    const { renderToString } = await import('react-dom/server');
+    const { hydrateRoot } = await import('react-dom/client');
+    const { act } = await import('react');
+    const tree = (
+      <ResizablePanels.Root orientation="horizontal" autoSaveId="ssr-restore" defaultLayout={[30, 70]}>
+        <ResizablePanels.Panel id="a">a</ResizablePanels.Panel>
+        <ResizablePanels.Handle label="Split" />
+        <ResizablePanels.Panel id="b">b</ResizablePanels.Panel>
+      </ResizablePanels.Root>
+    );
+    const html = renderToString(tree);
+    expect(html).toContain('flex-basis:30%');
+    expect(html).toContain('flex-basis:70%');
+
+    localStorage.setItem('ag-panels:ssr-restore', JSON.stringify([40, 60]));
+    const host = document.createElement('div');
+    host.innerHTML = html;
+    document.body.appendChild(host);
+    const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const recoverable: unknown[] = [];
+    let root: ReturnType<typeof hydrateRoot> | undefined;
+    try {
+      await act(async () => {
+        root = hydrateRoot(host, tree, { onRecoverableError: (e) => recoverable.push(e) });
+      });
+      expect({ consoleErrors: error.mock.calls.length, recoverable: recoverable.length }).toEqual({
+        consoleErrors: 0,
+        recoverable: 0,
+      });
+      expect([basisOf('a', host), basisOf('b', host)]).toEqual(['40%', '60%']);
+    } finally {
+      error.mockRestore();
+      await act(async () => root?.unmount());
+      host.remove();
+      localStorage.removeItem('ag-panels:ssr-restore');
+    }
+  });
+});

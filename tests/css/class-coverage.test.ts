@@ -27,8 +27,8 @@ const classLiterals = () => {
   for (const f of walk(join(ROOT, 'src'), (p) => /\.(tsx?|jsx?)$/.test(p) && !/\.(test|stories|spec)\./.test(p) && !p.includes('fixture'))) {
     const src = readFileSync(f, 'utf8');
     for (const m of src.matchAll(CLASS_CTX))
-      for (const q of m[1].matchAll(CLASS_TOKEN)) {
-        const token = q[1];
+      for (const q of m[1]!.matchAll(CLASS_TOKEN)) {
+        const token = q[1]!;
         if (!/^(ag|glass)-[\w-]+$/.test(token)) continue;
         (out.get(token) ?? out.set(token, new Set()).get(token)!).add(f.slice(ROOT.length + 1));
       }
@@ -41,7 +41,7 @@ const shippedClasses = () => {
   for (const f of walk(DIST, (p) => p.endsWith('.css') && !p.endsWith('.map')))
     for (const r of styleRules(readFileSync(f, 'utf8')))
       for (const sel of r.selector.split(','))
-        for (const m of sel.matchAll(/\.([A-Za-z][\w-]*)/g)) shipped.add(m[1]);
+        for (const m of sel.matchAll(/\.([A-Za-z][\w-]*)/g)) shipped.add(m[1]!);
   return shipped;
 };
 

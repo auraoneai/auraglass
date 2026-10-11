@@ -89,7 +89,7 @@ describe('Sheet (CMP-229..236)', () => {
 
   it('handle: keyboard cycles detents upward and announces', async () => {
     const onDetentChange = jest.fn();
-    render(<Demo root={{ defaultOpen: true, detents: [0.5, 'full'], onDetentChange }} />);
+    render(<Demo root={{ defaultOpen: true, side: 'bottom', detents: [0.5, 'full'], onDetentChange }} />);
     await act(async () => {});
     const handle = document.querySelector('[data-ag-part="handle"]')!;
     // REQ-CMP-95: plain button, no separator role or orientation
@@ -151,10 +151,59 @@ describe('Sheet (CMP-229..236)', () => {
     expect(document.activeElement).toBe(trigger);
   });
 
+  it('detents are ignored unless side resolves to bottom (REQ-CMP-94)', async () => {
+    const onDetentChange = jest.fn();
+    render(<Demo root={{ defaultOpen: true, side: 'right', detents: [0.5, 'full'], onDetentChange }} />);
+    await act(async () => {});
+    const handle = document.querySelector('[data-ag-part="handle"]') as HTMLElement;
+    handle.focus();
+    await userEvent.keyboard('{Enter}');
+    await act(async () => {});
+    // single effective detent -> Enter stays on index 0, never changes
+    expect(onDetentChange).not.toHaveBeenCalledWith(1);
+  });
+
+  it('Sheet.Action click closes with reason close-press; rendered as a Button', async () => {
+    const onOpenChange = jest.fn();
+    render(
+      <Sheet.Root modal={false} onOpenChange={onOpenChange}>
+        <Sheet.Trigger>Open sheet</Sheet.Trigger>
+        <Sheet.Content>
+          <Sheet.Body>body</Sheet.Body>
+          <Sheet.Action>Got it</Sheet.Action>
+          <Sheet.Close>Cancel</Sheet.Close>
+        </Sheet.Content>
+      </Sheet.Root>,
+    );
+    await userEvent.click(screen.getByText('Open sheet'));
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    const el = popup()!;
+    const action = el.querySelector<HTMLElement>('[data-ag-part="action"]')!;
+    // it IS a Button (Button's own part pipeline emitted a real button element)
+    expect(action.tagName).toBe('BUTTON');
+    // the cancel Close is a separate part (data-ag-part="close", outside Body)
+    const close = el.querySelector<HTMLElement>('[data-ag-part="close"]');
+    expect(close).toBeTruthy();
+    expect(close!.closest('[data-ag-part="body"]')).toBeNull();
+    await userEvent.click(action);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(onOpenChange).toHaveBeenLastCalledWith(false, expect.objectContaining({ reason: 'close-press' }));
+  });
+
   it('modal=false: no scrim, no aria-modal; overlay layer = thick', async () => {
     render(<Demo root={{ defaultOpen: true, modal: false }} />);
     await act(async () => {});
     expect(document.querySelector('.ag-scrim')).toBeNull();
     expect(popup()!.getAttribute('aria-modal')).toBeNull();
+  });
+  /* REQ-CMP-88: the LayerStack is the only scroll-lock writer. */
+  it('scroll lock has one owner: stack attribute set, no Base UI overflow write', async () => {
+    const html = document.documentElement;
+    render(<Demo root={{ defaultOpen: true }} />);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(html.hasAttribute('data-ag-scroll-locked')).toBe(true);
+    for (const el of [html, document.body]) {
+      expect(`${el.style.overflow} ${el.style.overflowY} ${el.style.overflowX}`).not.toMatch(/hidden|clip/);
+    }
   });
 });

@@ -42,7 +42,7 @@ const readDefaultExport = (file: string): unknown => {
   const sf = ts.createSourceFile(file, readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
   const consts = new Map<string, ts.Expression>();
   const unwrap = (e: ts.Expression): ts.Expression => {
-    if (ts.isCallExpression(e)) return e.arguments[0];
+    if (ts.isCallExpression(e)) return e.arguments[0] ?? e;
     if (ts.isIdentifier(e) && consts.has(e.text)) return consts.get(e.text)!;
     if (ts.isAsExpression(e) || ts.isSatisfiesExpression(e)) return unwrap(e.expression);
     return e;
@@ -58,7 +58,7 @@ const readDefaultExport = (file: string): unknown => {
     if (ts.isExportAssignment(st) && !st.isExportEquals) return evalExpr(unwrap(st.expression));
   }
   for (const st of sf.statements) {
-    const exported = ts.getModifiers(st)?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword);
+    const exported = (ts.canHaveModifiers(st) ? ts.getModifiers(st) : undefined)?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword);
     if (ts.isVariableStatement(st) && exported) {
       for (const d of st.declarationList.declarations) {
         if (ts.isIdentifier(d.name) && d.initializer) return evalExpr(unwrap(d.initializer));
@@ -142,12 +142,12 @@ describe('REQ-CMP-133 fragment props == meta migration.props', () => {
         }
       };
       if (typeof row.to === 'string' && row.to.includes(':')) {
-        const [p, v] = row.to.split(':');
+        const [p = '', v = ''] = row.to.split(':');
         check(p, v);
       }
       for (const v of Object.values(row.values ?? {})) {
         if (typeof v === 'string' && typeof row.to === 'string') {
-          if (row.to.includes(':')) { const [p] = row.to.split(':'); check(p, v); }
+          if (row.to.includes(':')) { const [p = ''] = row.to.split(':'); check(p, v); }
           else check(row.to, v);
         }
       }

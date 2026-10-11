@@ -4,7 +4,7 @@ export default defineMeta({
   name: 'Breadcrumbs',
   owner: 'SURF',
   entry: '.',
-  apg: 'breadcrumb',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/',
   budgetKb: 5,
   flagship: 27,
   tier: 'T1',

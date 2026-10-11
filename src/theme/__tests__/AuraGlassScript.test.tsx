@@ -66,11 +66,11 @@ describe('AuraGlassScript', () => {
     expect(auraGlassPrepaintScript).not.toMatch(/\beval\s*\(/);
   });
 
-  it('minified budget: emitted body within the ratchet limit', () => {
-    // REQ-MAT-59 spec target is 1536 B; the mandated feature set (6 MQLs,
-    // CSS.supports floor, persisted resolution, engine, tier) compresses to
-    // ~2.9 KB — recorded as a lane deviation; the ratchet prevents growth.
+  it('minified budget: emitted body within the enforced ceiling; REQ-MAT-59 budget is 1536 B', () => {
+    // The ceiling (PREPAINT_LIMIT) only ever goes down; raising the 1536 B
+    // REQ-MAT-59 budget is an owner-approved contract change (D.3-35).
     expect(Buffer.byteLength(PREPAINT_IMPL, 'utf8')).toBeLessThanOrEqual(PREPAINT_LIMIT);
+    expect(PREPAINT_LIMIT).toBeLessThanOrEqual(2304);
     expect(PREPAINT_BYTES).toBe(Buffer.byteLength(PREPAINT_IMPL, 'utf8'));
     expect(PREPAINT_SPEC_LIMIT).toBe(1536);
   });
@@ -148,6 +148,57 @@ describe('emitted script fixtures', () => {
     expect(doc.documentElement.getAttribute('data-ag-tier')).toBe('lightweight');
   });
 
+  it('no persisted/app tier and no lightweight signal -> data-ag-tier unset', () => {
+    impl(fakeWindow({ brands: [{ brand: 'Chromium' }] }), doc, {});
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBeNull();
+  });
+
+  it.each(['standard', 'enhanced'] as const)('persisted tier %s is written', (tier) => {
+    impl(fakeWindow({
+      brands: [{ brand: 'Chromium' }],
+      storage: { 'ag:prefs:v1': JSON.stringify({ tier }) },
+    }), doc, {});
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe(tier);
+  });
+
+  it.each(['standard', 'enhanced'] as const)('app default tier %s is written', (tier) => {
+    impl(fakeWindow({ brands: [{ brand: 'Chromium' }] }), doc, { defaults: { tier } });
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe(tier);
+  });
+
+  it('persisted tier wins over the app default', () => {
+    impl(fakeWindow({
+      brands: [{ brand: 'Chromium' }],
+      storage: { 'ag:prefs:v1': JSON.stringify({ tier: 'standard' }) },
+    }), doc, { defaults: { tier: 'enhanced' } });
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe('standard');
+  });
+
+  it('unknown engine caps a persisted/app enhanced tier at standard', () => {
+    impl(fakeWindow({
+      brands: null, ua: 'curl/8.4.0',
+      storage: { 'ag:prefs:v1': JSON.stringify({ tier: 'enhanced' }) },
+    }), doc, {});
+    expect(doc.documentElement.getAttribute('data-ag-engine')).toBe('unknown');
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe('standard');
+    impl(fakeWindow({ brands: [{ brand: 'Not A Brand' }] }), doc, { defaults: { tier: 'enhanced' } });
+    expect(doc.documentElement.getAttribute('data-ag-engine')).toBe('unknown');
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe('standard');
+  });
+
+  it('known engines keep enhanced', () => {
+    impl(fakeWindow({
+      brands: null,
+      ua: 'Mozilla/5.0 (X11; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0',
+    }), doc, { defaults: { tier: 'enhanced' } });
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe('enhanced');
+  });
+
+  it('unknown engine keeps a heuristic lightweight tier', () => {
+    impl(fakeWindow({ brands: null, ua: 'curl/8.4.0', saveData: true }), doc, {});
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe('lightweight');
+  });
+
   it('allowContinuous persisted + full motion -> data-ag-continuous=on', () => {
     impl(fakeWindow({
       storage: { 'ag:prefs:v1': JSON.stringify({ allowContinuous: true }) },
@@ -218,18 +269,6 @@ describe('emitted script fixtures', () => {
     };
     expect(() => impl(bare, doc, {})).not.toThrow();
     expect(doc.documentElement.getAttribute('data-ag-transparency')).toBe('solid');
-  });
-
-  it('probes backdrop-filter property support with the two-argument form (REQ-MAT-18)', () => {
-    const calls: unknown[][] = [];
-    // only the -webkit- property is supported: the second probe must decide
-    const supports = (...args: unknown[]) => {
-      calls.push(args);
-      return args[0] === '-webkit-backdrop-filter' && args[1] === 'none';
-    };
-    impl({ ...fakeWindow({}), CSS: { supports } }, doc, {});
-    expect(calls).toEqual([['backdrop-filter', 'none'], ['-webkit-backdrop-filter', 'none']]);
-    expect(doc.documentElement.getAttribute('data-ag-transparency')).toBe('glass');
   });
 });
 

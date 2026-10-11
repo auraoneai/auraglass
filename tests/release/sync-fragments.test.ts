@@ -56,7 +56,7 @@ function fixture({ next, fourX }: { next: Files; fourX: Files }) {
   const work = join(root, 'work');
   git(root, ['init', '-q', '--bare', origin]);
   git(root, ['init', '-q', seed]);
-  for (const [k, v] of [['user.email', 'fixture@example.invalid'], ['user.name', 'fixture'], ['commit.gpgsign', 'false']]) {
+  for (const [k, v] of [['user.email', 'fixture@example.invalid'], ['user.name', 'fixture'], ['commit.gpgsign', 'false']] as const) {
     git(seed, ['config', k, v]);
   }
   const base: Files = { '.gitignore': 'node_modules\n' };
@@ -77,7 +77,7 @@ function fixture({ next, fourX }: { next: Files; fourX: Files }) {
   git(seed, ['remote', 'add', 'origin', origin]);
   git(seed, ['push', '-q', 'origin', 'next', 'release/4.x']);
   git(root, ['clone', '-q', '-b', 'next', origin, work]);
-  for (const [k, v] of [['user.email', 'operator@example.invalid'], ['user.name', 'operator'], ['commit.gpgsign', 'false']]) {
+  for (const [k, v] of [['user.email', 'operator@example.invalid'], ['user.name', 'operator'], ['commit.gpgsign', 'false']] as const) {
     git(work, ['config', k, v]);
   }
   symlinkSync(join(REPO, 'node_modules'), join(work, 'node_modules'), 'dir');

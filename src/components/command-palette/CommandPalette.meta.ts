@@ -11,7 +11,7 @@ export default defineMeta({
   states: ['open', 'closed'],
 
   material: { layer: 'overlay', refractionEligible: false },
-  apg: 'listbox',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/',
   variants: {},
   migration: [{ from: 'GlassCommandPalette', props: { open: 'open', hotkey: 'hotkey' }, automation: 'mostly', compat: true }],
 });

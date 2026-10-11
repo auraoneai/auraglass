@@ -8,7 +8,7 @@ export default defineMeta({
   rsc: 'server',
   parts: ['edge-registrar', 'main', 'root', 'scroll-edge', 'top-bar'],
   states: [],
-  apg: 'landmarks',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
   variants: {},
   migration: [{ from: 'GlassMobileShell', props: {}, automation: 'mostly', compat: true }],
 });

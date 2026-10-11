@@ -16,6 +16,9 @@ describe('auraglass/contract-boundary (PLAT-259)', () => {
         { code: `export { tokens } from 'aura-glass/tokens';`, filename: F },
         { code: `const m = await import('aura-glass/data');`, filename: F },
         { code: `import type { X } from 'aura-glass';`, filename: F },
+        // src/contracts/** is a §4 module path (CMP R3, SURF import list).
+        { code: `import type { AgPart } from '../../contracts/components';`, filename: 'src/components/tabs/Tabs.tsx' },
+        { code: `import { PREFS } from '../contracts/preferences';`, filename: 'src/primitives/Portal.tsx' },
       ],
       invalid: [
         { code: `import { stub } from 'contracts/stubs/reference';`, filename: F, errors: [{ messageId: 'stub' }] },
@@ -23,6 +26,8 @@ describe('auraglass/contract-boundary (PLAT-259)', () => {
         { code: `import { fr } from 'src/contracts/fragments';`, filename: F, errors: [{ messageId: 'boundary' }] },
         { code: `const x = await import('contracts/x');`, filename: F, errors: [{ messageId: 'boundary' }] },
         { code: `import { y } from './x.stub.ts';`, filename: F, errors: [{ messageId: 'boundary' }] },
+        // relative path escaping src/ into the repo-root contracts/ dir
+        { code: `import o from '../../../contracts/ownership.json';`, filename: 'src/components/tabs/Tabs.tsx', errors: [{ messageId: 'boundary' }] },
         { code: `export { z } from 'contracts/stubs/ref';`, filename: F, errors: [{ messageId: 'stub' }] },
       ],
   });

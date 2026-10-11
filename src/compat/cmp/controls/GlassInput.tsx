@@ -18,6 +18,8 @@ export interface GlassInputProps {
   errorText?: React.ReactNode;
   errorMessage?: React.ReactNode;
   isInvalid?: boolean;
+  /** 4.x validation state — 'error'/'invalid' mark the field invalid. */
+  state?: string;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   icon?: React.ReactNode;
@@ -35,7 +37,7 @@ export interface GlassInputProps {
 }
 
 export function GlassInput({
-  onChange, helperText, errorText, errorMessage, isInvalid,
+  onChange, helperText, errorText, errorMessage, isInvalid, state,
   leftIcon, rightIcon, icon, fullWidth, glassVariant, ...rest
 }: GlassInputProps) {
   warnDeprecated(DEP);
@@ -48,7 +50,7 @@ export function GlassInput({
         ? { onValueChange: (v: string, _d: ChangeDetails) => onChange({ target: { value: v } }) }
         : {})}
       {...(helperText !== undefined ? { description: helperText } : {})}
-      {...(errorText !== undefined ? { error: errorText } : errorMessage !== undefined ? { error: errorMessage } : isInvalid ? { error: true as unknown as React.ReactNode } : {})}
+      {...(errorText !== undefined ? { error: errorText } : errorMessage !== undefined ? { error: errorMessage } : (isInvalid || state === 'error' || state === 'invalid') ? { error: true as unknown as React.ReactNode } : {})}
       {...(leftIcon !== undefined ? { startAdornment: leftIcon } : icon !== undefined ? { startAdornment: icon } : {})}
       {...(rightIcon !== undefined ? { endAdornment: rightIcon } : {})}
     />

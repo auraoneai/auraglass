@@ -1,6 +1,6 @@
 /** @jest-environment jsdom */
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import * as React from 'react';
 import { AppShell } from './AppShell';
 import { Inspector } from './Inspector';
@@ -71,7 +71,7 @@ describe('Inspector (SURF-058)', () => {
 
   it('compact: closed inspector renders no dialog; toggle opens Sheet (SURF-38)', async () => {
     render(
-      <AppShell.Root layout="compact" defaultInspector="closed">
+      <AppShell.Root layout="mobile" defaultInspector="closed">
         <TopBarStub />
         <AppShell.Main />
         <Inspector.Sheet aria-label="Props">
@@ -84,6 +84,48 @@ describe('Inspector (SURF-058)', () => {
     fireEvent.click(toggle);
     const dialog = await screen.findByRole('dialog');
     expect(dialog).toBeTruthy();
+  });
+
+  it('compact sheet is CMP Sheet side=bottom, opened only by the toggle, focus returns to it (SURF-38)', async () => {
+    render(
+      <AppShell.Root layout="mobile" defaultInspector="closed">
+        <TopBarStub />
+        <AppShell.Main />
+        <Inspector.Sheet aria-label="Props">
+          <Inspector.Field label="Width">40</Inspector.Field>
+        </Inspector.Sheet>
+      </AppShell.Root>,
+    );
+    // closed by default and the sheet ships no trigger of its own
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(document.querySelector('[data-ag-part="trigger"]')).toBeNull();
+    const toggle = screen.getByRole('button', { name: 'Open inspector' });
+    expect(toggle).toHaveAttribute('data-ag-toggle', 'inspector');
+    toggle.focus();
+    fireEvent.click(toggle);
+    const dialog = await screen.findByRole('dialog');
+    expect(dialog).toHaveAttribute('data-ag-part', 'inspector-sheet');
+    expect(dialog).toHaveAttribute('data-side', 'bottom');
+    expect(screen.getByText('40')).toBeTruthy();
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    fireEvent.keyDown(dialog, { key: 'Escape' });
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    expect(document.querySelector('.ag-app-shell')).toHaveAttribute('data-ag-inspector', 'closed');
+    await waitFor(() => expect(document.activeElement).toBe(toggle));
+  });
+
+  it('non-compact shells render no sheet even when the inspector is open (SURF-38)', () => {
+    render(
+      // layout auto resolves the unconditioned expanded base (REQ-SURF-17).
+      <AppShell.Root layout="auto" defaultInspector="open">
+        <TopBarStub />
+        <AppShell.Main />
+        <Inspector.Sheet aria-label="Props">
+          <Inspector.Field label="Width">40</Inspector.Field>
+        </Inspector.Sheet>
+      </AppShell.Root>,
+    );
+    expect(screen.queryByRole('dialog')).toBeNull();
   });
 });
 

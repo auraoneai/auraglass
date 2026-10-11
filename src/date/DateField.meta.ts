@@ -10,7 +10,7 @@ export default defineMeta({
   parts: ['date-field', 'date-input'],
   states: ['invalid', 'disabled', 'required', 'readonly'],
   variants: { size: ['sm', 'md', 'lg'] },
-  apg: 'spinbutton',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/',
   budgetKb: 4,
   migration: [
     { from: 'GlassDateField', props: { onChange: 'onValueChange', minDate: 'minValue', maxDate: 'maxValue' }, selectors: { '.glass-date-field': '[data-ag-part="date-field"]' }, automation: 'mostly', compat: true },

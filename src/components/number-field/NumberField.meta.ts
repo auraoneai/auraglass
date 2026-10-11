@@ -8,7 +8,7 @@ const meta: ControlMeta = defineMeta({
   tier: 'T1',
   flagship: 13,
   rsc: 'client',
-  parts: ['root', 'group', 'input', 'increment', 'decrement', 'scrub-area', 'label', 'description', 'error'],
+  parts: ['root', 'group', 'input', 'increment', 'decrement', 'scrub-area', 'label', 'description', 'error', 'hit-area'],
   states: ['focus-visible', 'disabled', 'invalid', 'scrubbing'],
   variants: {
     disabled: ['true', 'false'],

@@ -45,7 +45,7 @@ export function SpatialControlGrid() {
           </Surface>
           <Surface layer="chrome" className={styles.tile}>
             <h3>{COPY.blinds}</h3>
-            <SegmentedControl.Root aria-label={COPY.blinds} value={blinds} onValueChange={(v: string) => setBlinds(v)}>
+            <SegmentedControl.Root name="blinds" aria-label={COPY.blinds} value={blinds} onValueChange={(v: string) => setBlinds(v)}>
               <SegmentedControl.Item value="open">Open</SegmentedControl.Item>
               <SegmentedControl.Item value="half">Half</SegmentedControl.Item>
               <SegmentedControl.Item value="closed">Closed</SegmentedControl.Item>

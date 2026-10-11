@@ -8,8 +8,10 @@
 
   .ag-menu-popup,
   .ag-contextmenu-popup {
-    min-width: 180px;
-    max-width: min(320px, calc(100vw - 16px));
+    /* REQ-CMP-104: width floor follows BU's anchor-width var (popup tracks
+       trigger width); ceiling 320px, clamped to the viewport. */
+    min-inline-size: var(--anchor-width, 180px);
+    max-inline-size: min(320px, calc(100vw - 16px));
     max-height: var(--available-height);
     overflow-y: auto;
     padding: var(--ag-space-1);
@@ -40,7 +42,9 @@
     grid-template-columns: 1.25em 1fr auto;
     align-items: center;
     gap: var(--ag-space-2);
-    padding: var(--_ag-space-1-5, 6px) var(--ag-space-2);
+    /* REQ-CMP-104: 32px min-height / 12px inline padding; 44px on coarse. */
+    min-block-size: 32px;
+    padding: var(--_ag-space-1-5, 6px) var(--ag-space-3);
     border-radius: var(--ag-radius-sm);
     font: inherit;
     font-size: var(--_ag-font-sm, 13px);
@@ -49,9 +53,23 @@
     user-select: none;
     outline: none;
   }
+  @media (pointer: coarse) {
+    .ag-menu-item, .ag-menu-submenu-trigger { min-block-size: 44px; }
+  }
   .ag-menu-item[data-highlighted],
   .ag-menu-submenu-trigger[data-highlighted] {
+    /* plain fill step, no backdrop-filter (REQ-CMP-104) */
     background: var(--_ag-accent-subtle, color-mix(in srgb, var(--ag-color-accent) 12%, transparent));
+  }
+  .ag-menu-item[data-disabled],
+  .ag-menu-submenu-trigger[data-disabled] {
+    /* REQ-CMP-104: muted colour token keeps disabled items legible. */
+    color: var(--ag-color-on-surface-muted);
+  }
+  .ag-menu-item[data-highlighted][data-disabled],
+  .ag-menu-submenu-trigger[data-highlighted][data-disabled] {
+    /* REQ-CMP-104: focus ring stays intact on highlighted disabled items. */
+    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-color-focus-outer);
   }
 
   .ag-menu-item[data-disabled] > :where(*), .ag-menu-submenu-trigger[data-disabled] > :where(*) {opacity: var(--ag-state-disabled-alpha);}

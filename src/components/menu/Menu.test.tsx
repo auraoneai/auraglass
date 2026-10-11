@@ -13,9 +13,9 @@ const renderMenu = (extra?: React.ReactNode) =>
     <AuraGlassProvider>
       <Menu.Root>
         <Menu.Trigger>actions</Menu.Trigger>
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup>
+        
+          
+            <Menu.Content>
               <Menu.Item shortcut="Ctrl+X">Cut</Menu.Item>
               <Menu.Item shortcut="Ctrl+C">Copy</Menu.Item>
               <Menu.Separator />
@@ -23,18 +23,18 @@ const renderMenu = (extra?: React.ReactNode) =>
               <Menu.CheckboxItem checked="indeterminate">Selective</Menu.CheckboxItem>
               <Menu.Submenu>
                 <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
+                
+                  
+                    <Menu.Content>
                       <Menu.Item>Email</Menu.Item>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
+                    </Menu.Content>
+                  
+                
               </Menu.Submenu>
               {extra}
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+            </Menu.Content>
+          
+        
       </Menu.Root>
     </AuraGlassProvider>,
   );
@@ -98,9 +98,9 @@ describe('Menu', () => {
       <AuraGlassProvider>
         <Menu.Root defaultOpen>
           <Menu.Trigger>t</Menu.Trigger>
-          <Menu.Portal><Menu.Positioner><Menu.Popup>
+          <Menu.Content>
             <Menu.Item disabled>Locked</Menu.Item>
-          </Menu.Popup></Menu.Positioner></Menu.Portal>
+          </Menu.Content>
         </Menu.Root>
       </AuraGlassProvider>,
     );
@@ -131,13 +131,13 @@ describe('ContextMenu', () => {
           <ContextMenu.Trigger>
             <div>canvas region</div>
           </ContextMenu.Trigger>
-          <ContextMenu.Portal>
-            <ContextMenu.Positioner>
-              <ContextMenu.Popup>
+          
+            
+              <ContextMenu.Content>
                 <ContextMenu.Item>Inspect</ContextMenu.Item>
-              </ContextMenu.Popup>
-            </ContextMenu.Positioner>
-          </ContextMenu.Portal>
+              </ContextMenu.Content>
+            
+          
         </ContextMenu.Root>
       </AuraGlassProvider>,
     );
@@ -163,11 +163,11 @@ describe('Menubar', () => {
         <Menubar>
           <Menu.Root>
             <Menu.Trigger openOnHover>File</Menu.Trigger>
-            <Menu.Portal><Menu.Positioner><Menu.Popup><Menu.Item>New</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal>
+            <Menu.Content><Menu.Item>New</Menu.Item></Menu.Content>
           </Menu.Root>
           <Menu.Root>
             <Menu.Trigger openOnHover>Edit</Menu.Trigger>
-            <Menu.Portal><Menu.Positioner><Menu.Popup><Menu.Item>Undo</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal>
+            <Menu.Content><Menu.Item>Undo</Menu.Item></Menu.Content>
           </Menu.Root>
         </Menubar>
       </AuraGlassProvider>,
@@ -186,6 +186,70 @@ describe('Menubar', () => {
     expect(document.activeElement?.textContent).toBe('Edit');
   });
 
+  it("aria-checked='mixed' survives close+re-open (REQ-CMP-104)", async () => {
+    const Demo = () => (
+      <Menu.Root defaultOpen>
+        <Menu.Trigger>actions</Menu.Trigger>
+        <Menu.Content>
+          <Menu.CheckboxItem checked="indeterminate">Selective</Menu.CheckboxItem>
+        </Menu.Content>
+      </Menu.Root>
+    );
+    const { unmount } = render(<Demo />);
+    await act(async () => {});
+    const item = () => document.querySelector('[role="menuitemcheckbox"]');
+    expect(item()!.getAttribute('aria-checked')).toBe('mixed');
+    unmount();
+    render(<Demo />);
+    await act(async () => {});
+    expect(item()!.getAttribute('aria-checked')).toBe('mixed');
+  });
+
+  /* REQ-CMP-105 — Menubar compound + ContextMenu long-press + Escape restore. */
+  it('Menubar exposes .Root and .Menu (compound surface, REQ-CMP-105)', () => {
+    expect(Menubar.Root).toBeTruthy();
+    expect(Menubar.Menu).toBe(Menu.Root);
+    // flat callable still renders (deprecated alias)
+    render(
+      <AuraGlassProvider>
+        <Menubar><Menu.Root><Menu.Trigger>File</Menu.Trigger></Menu.Root></Menubar>
+      </AuraGlassProvider>,
+    );
+    expect(document.querySelector('[role="menubar"]')).not.toBeNull();
+  });
+
+  it('ContextMenu: 500ms long-press opens, focuses first item, outside press closes, focus restores (REQ-CMP-105)', async () => {
+    jest.useFakeTimers();
+    render(
+      <ContextMenu.Root>
+        <ContextMenu.Trigger><div data-testid="area">area</div></ContextMenu.Trigger>
+        <ContextMenu.Content>
+          <ContextMenu.Item>Inspect</ContextMenu.Item>
+        </ContextMenu.Content>
+      </ContextMenu.Root>,
+    );
+    await act(async () => {});
+    const area = screen.getByTestId('area');
+    const popup = () => document.querySelector('[data-ag-part="popup"]');
+    // touch long-press on the trigger area
+    const down = createEvent.pointerDown(area);
+    Object.defineProperty(down, 'pointerType', { value: 'touch' });
+    fireEvent(area, down);
+    act(() => { jest.advanceTimersByTime(520); });
+    const up = createEvent.pointerUp(area);
+    Object.defineProperty(up, 'pointerType', { value: 'touch' });
+    fireEvent(area, up);
+    await act(async () => {});
+    expect(popup()).not.toBeNull();
+    // first item is highlighted / focusable
+    expect(document.querySelector('[role="menuitem"]')).not.toBeNull();
+    // outside press closes and restores focus
+    fireEvent.pointerDown(document.body);
+    fireEvent.mouseDown(document.body);
+    await act(async () => {});
+    expect(popup()).toBeNull();
+    jest.useRealTimers();
+  });
 
   /* REQ-CMP-102 — provider-free legs so the portal really mounts (BU portal
      falls back to document.body without AuraGlassProvider). */
@@ -193,9 +257,9 @@ describe('Menubar', () => {
     render(
       <Menu.Root open>
         <Menu.Trigger>actions</Menu.Trigger>
-        <Menu.Portal><Menu.Positioner><Menu.Popup>
+        <Menu.Content>
           <Menu.Item shortcut="Ctrl+X">Cut</Menu.Item>
-        </Menu.Popup></Menu.Positioner></Menu.Portal>
+        </Menu.Content>
       </Menu.Root>,
     );
     await act(async () => {}); // portal falls back to document.body after settle flush
@@ -208,9 +272,9 @@ describe('Menubar', () => {
     render(
       <Menu.Root open>
         <Menu.Trigger>actions</Menu.Trigger>
-        <Menu.Portal><Menu.Positioner><Menu.Popup>
+        <Menu.Content>
           <Menu.Item render={<a href="https://x" />}>Docs</Menu.Item>
-        </Menu.Popup></Menu.Positioner></Menu.Portal>
+        </Menu.Content>
       </Menu.Root>,
     );
     await act(async () => {});
@@ -224,10 +288,10 @@ describe('Menubar', () => {
     render(
       <Menu.Root defaultOpen>
         <Menu.Trigger>actions</Menu.Trigger>
-        <Menu.Portal><Menu.Positioner><Menu.Popup>
+        <Menu.Content>
           <Menu.CheckboxItem checked={false}>Wrap</Menu.CheckboxItem>
           <Menu.Item>Plain</Menu.Item>
-        </Menu.Popup></Menu.Positioner></Menu.Portal>
+        </Menu.Content>
       </Menu.Root>,
     );
     await act(async () => {});

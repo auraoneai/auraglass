@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'CMP',
   entry: '.',
   tier: 'T2',
-  rsc: 'client',
+  rsc: 'server',
   parts: ['root','item','item-bar','item-bar-text','item-bar-title','item-bar-subtitle','item-bar-action'],
   states: [],
   variants: { variant: ['standard','quilted','masonry'] },

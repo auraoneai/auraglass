@@ -4,13 +4,12 @@ const warned = new Set<string>();
 
 export function warnControlledSwitch(
   component: string,
-  prop: 'value' | 'checked' | 'pressed',
+  prop: 'value' | 'checked' | 'pressed' | 'open',
   wasControlled: boolean,
   isControlled: boolean,
 ): void {
   if (wasControlled === isControlled || warned.has(`${component}:${prop}`)) return;
   warned.add(`${component}:${prop}`);
-  // eslint-disable-next-line no-console
   console.error(
     `[aura-glass] ${component}: '${prop}' switched from ${wasControlled ? 'controlled' : 'uncontrolled'} ` +
       `to ${isControlled ? 'controlled' : 'uncontrolled'}. Keep it in one mode for the component's lifetime.`,

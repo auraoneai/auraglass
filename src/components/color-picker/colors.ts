@@ -76,3 +76,49 @@ export function hsvToHex({ h, s, v }: Hsv): string {
     : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
   return rgbToHex(r + m, g + m, b + m);
 }
+
+/* REQ-CMP-125: 8-digit hex + oklch() string parsing/serialization for the
+   {space, value} contract. */
+
+export function rgbToHex8(r: number, g: number, b: number, a = 1): string {
+  const hex = rgbToHex(r, g, b);
+  if (a >= 1) return hex;
+  return hex + Math.round(clamp01(a) * 255).toString(16).padStart(2, '0');
+}
+
+export function hsvToHex8(hsv: Hsv, alpha = 1): string {
+  const hex = hsvToHex(hsv);
+  if (alpha >= 1) return hex;
+  return hex + Math.round(clamp01(alpha) * 255).toString(16).padStart(2, '0');
+}
+
+/** Serialize an HSV+alpha color to the requested space string. */
+export function serializeColor(hsv: Hsv, alpha: number, space: 'srgb' | 'oklch'): string {
+  if (space === 'oklch') {
+    const { l, c, h } = hexToOklch(hsvToHex(hsv));
+    const base = `oklch(${l.toFixed(3)} ${c.toFixed(3)} ${h.toFixed(1)})`;
+    return alpha >= 1 ? base : base.replace(')', ` / ${alpha.toFixed(3)})`);
+  }
+  return hsvToHex8(hsv, alpha);
+}
+
+/** Parse '#rgb' | '#rrggbb' | '#rrggbbaa' | 'oklch(l c h)' | 'oklch(l c h / a)'
+   into {hsv, alpha}; null when unparseable. */
+export function parseColorString(input: string): { hsv: Hsv; alpha: number } | null {
+  const s = input.trim();
+  const hexM = /^#([0-9a-fA-F]{3,8})$/.exec(s);
+  if (hexM) {
+    const n = hexM[1];
+    if (![3, 4, 6, 8].includes(n.length)) return null;
+    const expand = (x: string) => (x.length === 1 ? x + x : x);
+    const hex6 = n.length <= 4 ? n.split('').slice(0, 3).map(expand).join('') : n.slice(0, 6);
+    const alpha = n.length === 4 ? parseInt(expand(n[3]), 16) / 255 : n.length === 8 ? parseInt(n.slice(6, 8), 16) / 255 : 1;
+    return { hsv: hexToHsv(`#${hex6}`), alpha };
+  }
+  const okM = /^oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\s*\)$/i.exec(s);
+  if (okM) {
+    const hex = oklchToHex({ l: parseFloat(okM[1]), c: parseFloat(okM[2]), h: parseFloat(okM[3]) });
+    return { hsv: hexToHsv(hex), alpha: okM[4] !== undefined ? clamp01(parseFloat(okM[4])) : 1 };
+  }
+  return null;
+}

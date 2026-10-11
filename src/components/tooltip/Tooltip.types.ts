@@ -15,6 +15,10 @@ export interface TooltipProviderProps {
 }
 
 export interface TooltipRootProps {
+  /** Hover delay override; otherwise inherits Provider (standalone default 600ms). */
+  delay?: number | undefined;
+  /** Hover close delay override; otherwise inherits Provider (standalone default 0ms). */
+  closeDelay?: number | undefined;
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;

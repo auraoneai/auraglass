@@ -1,9 +1,13 @@
 'use client';
 /* Inspector.Sheet (SURF-038): the compact presentation of the inspector —
-   a CMP Sheet (side=end, modal) that renders the SAME server children while
-   the inline inspector stays hidden (store-owned). Mounted only while open;
-   closes on Escape/scrim; focus returns to the toggle. Ids via useId only.
-   Lazy-rendered so the sheet portal never ships in the server tree. */
+   a CMP Sheet side='bottom' with detents [0.5, 1] that renders the SAME
+   server children while the inline inspector stays hidden (CSS: the
+   compact container rule / layout=mobile set the inspector slot to
+   display:none). It has no
+   Sheet.Trigger: it opens only when the shell store says inspector=open,
+   i.e. from AppShell.InspectorToggle, and is closed by default. The Sheet
+   root stays mounted for the whole compact mode so Base UI can run its close
+   path and return focus to the toggle. Ids via useId only. */
 
 import * as React from 'react';
 import { Sheet } from '../components/sheet';
@@ -13,6 +17,8 @@ import type { FC, ReactNode } from 'react';
 const SheetRoot = Sheet.Root as FC<{
   open?: boolean;
   modal?: boolean;
+  side?: 'bottom';
+  detents?: number[];
   onOpenChange?: (open: boolean) => void;
   children?: ReactNode;
 }>;
@@ -24,6 +30,9 @@ export type InspectorSheetProps = {
   children?: React.ReactNode;
   'aria-label'?: string;
 };
+
+/* Half height, then full height (fractions of 100dvh; contract Sheet.detents: number[]). */
+const SHEET_DETENTS = [0.5, 1];
 
 const DETACHED_SNAPSHOT = {
   sidebar: 'expanded' as const,
@@ -50,20 +59,26 @@ export function InspectorSheet({ children, ...rest }: InspectorSheetProps) {
   const open = isSheetMode && snapshot.inspector === 'open';
   const sheetId = `${id}-inspector`;
 
+  // Focus returns to the InspectorToggle that opened the sheet (SURF-38).
+  const finalFocus = React.useCallback(
+    () => rootEl?.querySelector<HTMLElement>('[data-ag-toggle="inspector"]') ?? true,
+    [rootEl],
+  );
+
   if (!isSheetMode) return <span hidden ref={marker} />;
   return (
     <span hidden ref={marker} data-sheet-anchor="">
-      {open ? (
-        <SheetRoot
-          open
-          modal
-          onOpenChange={(o: boolean) => !o && rootEl && setInspector(rootEl, 'closed')}
-        >
-          <SheetContent id={sheetId} data-ag-part="inspector-sheet" data-side="end" {...rest}>
-            {children}
-          </SheetContent>
-        </SheetRoot>
-      ) : null}
+      <SheetRoot
+        open={open}
+        modal
+        side="bottom"
+        detents={SHEET_DETENTS}
+        onOpenChange={(o: boolean) => !o && rootEl && setInspector(rootEl, 'closed')}
+      >
+        <SheetContent id={sheetId} data-ag-part="inspector-sheet" finalFocus={finalFocus} {...rest}>
+          {children}
+        </SheetContent>
+      </SheetRoot>
     </span>
   );
 }

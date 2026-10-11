@@ -1,0 +1,94 @@
+{
+  "$schema": "auraglass/surf-migrate-canary/v1",
+  "req": "REQ-SURF-15",
+  "from": "aura-glass@4.1.0",
+  "description": "Expectations for the L11 migrate-4to5 canary (scripts/surf/migrate-canary.mjs, GitLab job surf:package:migrate-canary). Every <Family>.page.tsx under this directory is listed exactly once. subset 'flagship': 0 TODOs after migrate 4to5, then tsc exit 0 and a render smoke on the 5.0 tarball. subset 'chart': exactly one TODO, from the 'removed' transform. subset 'report': TODOs are recorded in the report, not asserted (compat-only or removed families). handlerOnlyItems: number of handler-only nav items that must become render={<button type=\"button\" onClick={…} />} items. Render props use {\"$date\": <ISO>} for Date values.",
+  "cases": [
+    {
+      "file": "app-shell/AppShellRoot.page.tsx",
+      "families": ["GlassAppShell", "GlassSidebar", "GlassHeader"],
+      "subset": "flagship",
+      "handlerOnlyItems": 4,
+      "render": { "export": "ConsolePage", "props": {} }
+    },
+    {
+      "file": "app-shell/AppShellSub.page.tsx",
+      "families": ["GlassAppShell", "GlassTopBar", "GlassSidebarRail", "GlassMain", "GlassPageHeader", "GlassBreadcrumbs"],
+      "subset": "flagship",
+      "handlerOnlyItems": 2,
+      "render": { "export": "ReportsPage", "props": {} }
+    },
+    {
+      "file": "data/DataTable.page.tsx",
+      "families": ["GlassDataTable"],
+      "subset": "flagship",
+      "render": { "export": "OrdersPage", "props": { "rows": [{ "id": "o-1", "customer": "Ada", "total": 42 }, { "id": "o-2", "customer": "Lin", "total": 7 }] } }
+    },
+    {
+      "file": "data/DataGrid.page.tsx",
+      "families": ["GlassDataGrid"],
+      "subset": "flagship",
+      "render": { "export": "QueuePage", "props": { "tickets": [{ "id": "t-1", "subject": "Login fails", "priority": "high" }] } }
+    },
+    {
+      "file": "data/Timeline.page.tsx",
+      "families": ["GlassTimeline", "GlassActivityFeed"],
+      "subset": "flagship",
+      "render": { "export": "HistoryPage", "props": { "events": [{ "id": "e-1", "title": "Order placed", "at": { "$date": "2026-10-01T09:00:00.000Z" } }] } }
+    },
+    {
+      "file": "data/StatCard.page.tsx",
+      "families": ["GlassStatCard", "GlassKPICard"],
+      "subset": "flagship",
+      "render": { "export": "MetricsPage", "props": {} }
+    },
+    {
+      "file": "data/Sparkline.page.tsx",
+      "families": ["GlassSparkline"],
+      "subset": "flagship",
+      "render": { "export": "TrendPage", "props": {} }
+    },
+    {
+      "file": "date/DatePicker.page.tsx",
+      "families": ["GlassDatePicker", "GlassDateRangePicker", "GlassCalendar"],
+      "subset": "flagship",
+      "render": { "export": "BookingPage", "props": {} }
+    },
+    {
+      "file": "date/DateFnsDirect.page.tsx",
+      "families": ["date-fns"],
+      "subset": "flagship",
+      "renderExempt": "exports a date formatter, not a component; covered by tsc on the 5.0 tarball (its imported package must be declared after the deps transform)"
+    },
+    {
+      "file": "data/ChartPage.page.tsx",
+      "families": ["GlassDataChart"],
+      "subset": "chart"
+    },
+    {
+      "file": "data/VirtualTable.page.tsx",
+      "families": ["GlassVirtualTable"],
+      "subset": "report"
+    },
+    {
+      "file": "ai/GlassChat.page.tsx",
+      "families": ["GlassChat", "GlassChatInput", "GlassMessageList", "GlassTypingIndicator"],
+      "subset": "report"
+    },
+    {
+      "file": "media/MediaControls.page.tsx",
+      "families": ["LiquidGlassMediaControls", "GlassVideoPlayer"],
+      "subset": "report"
+    },
+    {
+      "file": "media/Carousel.page.tsx",
+      "families": ["GlassCarousel", "GlassGallery", "GlassImageViewer"],
+      "subset": "report"
+    },
+    {
+      "file": "media/Backdrop.page.tsx",
+      "families": ["AuroraBackground", "AtmosphericBackground", "DynamicAtmosphere"],
+      "subset": "report"
+    }
+  ]
+}

@@ -53,8 +53,25 @@
   }
   .ag-toast[data-swiping] { transition: none; }
 
+  /* REQ-CMP-109: collapsed stack — cards behind the top one step back and
+     shrink so the stack reads as depth. BU sets data-expanded on hover; in
+     collapsed state each card transforms by --toast-index (the root writes
+     its DOM order). */
+  .ag-toast:not([data-expanded]) {
+    transform: translateY(calc(var(--toast-index, 0) * 8px)) scale(calc(1 - var(--toast-index, 0) * 0.04));
+  }
+  /* Intent tint: icon + 3px border-inline-start (accent set per-intent below). */
+  .ag-toast [data-ag-part='icon'] { color: var(--_ag-toast-accent, var(--_ag-info, var(--ag-color-info))); flex: none; }
+
+  /* Narrow container layout. */
+  @container (max-width: 360px) {
+    .ag-toast { min-width: 0; width: 100%; padding: var(--_ag-space-2-5, 10px) var(--ag-space-3); }
+    .ag-toast-action { margin-block-start: var(--ag-space-2); }
+  }
+
   .ag-toast[data-ag-intent='success'] { --_ag-toast-accent: var(--_ag-success, var(--ag-color-success)); }
   .ag-toast[data-ag-intent='warning'] { --_ag-toast-accent: var(--_ag-warning, var(--ag-color-warning)); }
+  .ag-toast[data-ag-intent='danger'],
   .ag-toast[data-ag-intent='error'] { --_ag-toast-accent: var(--_ag-danger, var(--ag-color-danger)); }
   .ag-toast[data-ag-intent='info'] { --_ag-toast-accent: var(--_ag-info, var(--ag-color-info)); }
 
@@ -89,7 +106,12 @@
     animation: ag-toast-progress var(--_ag-toast-timeout, var(--ag-duration-ambient)) linear forwards;
   }
   [dir='rtl'] .ag-toast-progress-bar { transform-origin: right; }
-  /* Pause mirrors the toast timer pause on hover/focus. */
+  /* REQ-CMP-108: pause mirrors the timer pause — viewport-level hover/focus
+     pauses every toast's bar, and data-ag-paused freezes all bars when the
+     document is hidden (attr set by the viewport's visibilitychange hook). */
+  .ag-toast-viewport:hover .ag-toast-progress-bar,
+  .ag-toast-viewport:focus-within .ag-toast-progress-bar,
+  .ag-toast-viewport[data-ag-paused] .ag-toast-progress-bar,
   .ag-toast:hover .ag-toast-progress-bar,
   .ag-toast:focus-within .ag-toast-progress-bar {
     animation-play-state: paused;

@@ -9,7 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['icon', 'source', 'source-file', 'source-host', 'source-link', 'source-list', 'source-text', 'sources', 'trigger'],
   states: [],
-  apg: 'link',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/',
   variants: {},
   budgetKb: 9,
   migration: [],

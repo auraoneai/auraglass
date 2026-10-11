@@ -4,4 +4,5 @@ export type {
   ToastProviderProps, ToastViewportProps, ToastRootProps, ToastTitleProps,
   ToastDescriptionProps, ToastActionProps, ToastCloseProps, ToastProgressProps,
   ToastData, ToastRecord, UseToastReturn, ToastIntent, ToastPosition,
+  ToastLogicalPosition, ToastHistory, UseToast, ToastOptions, ToastHistoryItem,
 } from './Toast.types';

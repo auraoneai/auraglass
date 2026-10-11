@@ -36,8 +36,16 @@ const collectScopes = (css: string) => {
   const scopeDefault = new Map<string, string>();
   const scopeSource = new Map<string, string>();
   const attrSelectors: string[] = [];
+  const forcedSelectors: string[] = [];
   root.walkRules((rule) => {
     const sel = norm(rule.selector);
+    // MAT-12: the forced-colours block repeats every selector that re-declares a
+    // forced var (so it wins at equal specificity); collect it separately.
+    const media = rule.parent?.type === 'atrule' ? (rule.parent as postcss.AtRule) : null;
+    if (media?.name === 'media' && /forced-colors/.test(media.params)) {
+      forcedSelectors.push(...rule.selectors.map(norm));
+      return;
+    }
     if (sel.includes(`[${SHADCN_SOURCE_ATTR}]`)) attrSelectors.push(sel);
     // only top-level @layer ag.tokens :root rules (not @supports/@media fallbacks)
     const parent = rule.parent as postcss.AtRule | postcss.Root;
@@ -46,7 +54,7 @@ const collectScopes = (css: string) => {
     const map = sel === ':root' ? scopeGlobal : sel === DEFAULT_SEL ? scopeDefault : sel === SOURCE_SEL ? scopeSource : null;
     if (map) rule.walkDecls((d) => { map.set(d.prop, d.value); });
   });
-  return { scopeGlobal, scopeDefault, scopeSource, attrSelectors };
+  return { scopeGlobal, scopeDefault, scopeSource, attrSelectors, forcedSelectors };
 };
 
 /** Resolve a var(--x, fallback) chain to a final non-var value; throws on cycle. */
@@ -91,6 +99,8 @@ describe('shadcn interchange (REQ-MAT-20)', () => {
     const expected = REGISTERED ? [DEFAULT_SEL, SOURCE_SEL] : [DEFAULT_SEL];
     expect([...new Set(dist.attrSelectors)].sort()).toEqual(expected.sort());
     expect(dist.scopeSource.size).toBe(REGISTERED ? 8 : 0);
+    // forced colours must also override the source block exactly when it ships
+    expect(dist.forcedSelectors.includes(SOURCE_SEL)).toBe(REGISTERED);
   });
 
   test('dist: no var cycle for any of the 8 names in default mode', () => {

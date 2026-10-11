@@ -1,11 +1,13 @@
 'use client';
 
 import * as React from 'react';
+import { useControllableWarning } from '../../foundation/controllable';
 import { Slider as Base } from '@base-ui/react/slider';
 import { DirectionProvider } from '@base-ui/react/direction-provider';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { materialProps } from '../../material';
+import { subscribeFrame } from '../../motion/ticker';
 import { sizeAttrs } from '../control-shared/size';
 import type { SliderRootProps, SliderValueProps } from './Slider.types';
 
@@ -21,6 +23,7 @@ function SliderRoot<V extends number | number[]>({
   format,
   ...rest
 }: SliderRootProps<V>) {
+  useControllableWarning('Slider', 'value', rest.value);
   /* REQ-CMP-50: Base UI ignores the DOM dir attribute for key mirroring —
      resolve the document/element dir and wrap in DirectionProvider. */
   const dir: 'ltr' | 'rtl' =
@@ -31,13 +34,35 @@ function SliderRoot<V extends number | number[]>({
   const ariaLabelledby = (rest as Record<string, unknown>)['aria-labelledby'] as string | undefined;
   const initial = rest.value ?? rest.defaultValue;
   const thumbCount = Array.isArray(initial) ? Math.max(1, initial.length) : 1;
+  const latest = React.useRef<{ value: V; details: ReturnType<typeof toChangeDetails> } | null>(null);
+  const frameOff = React.useRef<(() => void) | null>(null);
+  const changeCallback = React.useRef(onValueChange);
+  React.useLayoutEffect(() => { changeCallback.current = onValueChange; }, [onValueChange]);
+  const flush = () => {
+    frameOff.current?.();
+    frameOff.current = null;
+    const pending = latest.current;
+    latest.current = null;
+    if (pending) changeCallback.current?.(pending.value, pending.details);
+  };
+  React.useEffect(() => () => { frameOff.current?.(); latest.current = null; }, []);
+  const handleChange = (value: V, eventDetails: unknown) => {
+    const details = toChangeDetails(eventDetails, 'unknown');
+    if (details.reason === 'pointer') {
+      latest.current = { value, details };
+      frameOff.current ??= subscribeFrame(flush);
+    } else {
+      flush();
+      onValueChange?.(value, details);
+    }
+  };
   return (
     <DirectionProvider direction={dir}>
       <Base.Root
         data-ag-part="root"
       className={cn('ag-slider', className)}
-      onValueChange={(v, details) => onValueChange?.(v as V, toChangeDetails(details))}
-      onValueCommitted={(v, details) => onValueCommitted?.(v as V, toChangeDetails(details))}
+      onValueChange={(v, details) => handleChange(v as V, details)}
+      onValueCommitted={(v, details) => { flush(); onValueCommitted?.(v as V, toChangeDetails(details, 'unknown')); }}
       ref={ref}
       {...(format !== undefined ? { format } : {})}
       {...sizeAttrs(size)}

@@ -17,7 +17,7 @@ const EXTERNALS = ['react', 'react-dom', 'react/*', 'clsx', '@base-ui/*', '@tans
 const entries = async () => {
   const { manifestEntries } = await import('../../scripts/build/lib/graph.mjs');
   return manifestEntries(ROOT).js
-    .map(e => ({ subpath: e.subpath, emitted: join(DIST, e.default.replace('dist/', '')) }))
+    .map(e => ({ subpath: e.subpath, emitted: join(DIST, e.default!.replace('dist/', '')) }))
     .filter(e => existsSync(e.emitted));
 };
 

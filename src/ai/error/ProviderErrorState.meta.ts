@@ -8,7 +8,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['error-detail', 'error-title', 'icon', 'provider-error', 'retry'],
   states: ['rate-limit', 'auth', 'network', 'content-filter', 'context-length', 'aborted', 'unknown'],
-  apg: 'alert',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/alert/',
   variants: { appearance: ['compact', 'panel'] },
   budgetKb: 5,
   migration: [],

@@ -36,4 +36,26 @@ test.describe('glass modal 4.x pixel parity (CMP-385/387)', () => {
       });
     }
   }
+
+  /* REQ-CMP-84: 4.x-vs-5.0 forced-colors. 4.x GlassModal over the dashboard
+     perf fixture kept 10 visible backdrop-filters under forced colours; the 5.0
+     successor (Dialog over the six-surface perf dashboard, CMP-223) must keep 0.
+     Runs unconditionally against the real Storybook id; visibility uses client
+     rects, not offsetParent (null for position:fixed scrims and popups). */
+  test('modal perf story forced-colors: 0 visible backdrop-filters (4.x: 10)', async ({ page }) => {
+    await page.emulateMedia({ forcedColors: 'active' });
+    await gotoStory(page, 'flagships-overlays-dialogperf--dialog-over-dashboard', { forcedColors: true });
+    await expect(page.locator('[data-ag-part="popup"]').first()).toBeVisible();
+    const blurred = await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLElement>('*')].filter((el) => {
+        const cs = getComputedStyle(el);
+        if (cs.visibility === 'hidden' || el.getClientRects().length === 0) return false;
+        const before = getComputedStyle(el, '::before');
+        const own = cs.backdropFilter !== 'none' && cs.backdropFilter !== '';
+        const pseudo = before.content !== 'none' && before.backdropFilter !== 'none' && before.backdropFilter !== '';
+        return own || pseudo;
+      }).length,
+    );
+    expect(blurred).toBe(0);
+  });
 });

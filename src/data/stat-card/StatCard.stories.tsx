@@ -17,5 +17,19 @@ const renderCard = () => (
   </div>
 );
 export const Basic: Story = { render: renderCard };
+// REQ-SURF-90: a 180px and a 320px card side by side — the container query
+// hides the sparkline in the narrow one only.
+export const Narrow: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: 12, alignItems: 'start' }}>
+      <div style={{ inlineSize: 180 }} data-testid="narrow">
+        <StatCard label="Revenue" value={128430} delta={0.125} trendDirection="up-is-good" sparkline={[3, 5, 4, 8, 9]} />
+      </div>
+      <div style={{ inlineSize: 320 }} data-testid="wide">
+        <StatCard label="Revenue" value={128430} delta={0.125} trendDirection="up-is-good" sparkline={[3, 5, 4, 8, 9]} />
+      </div>
+    </div>
+  ),
+};
 export const Loading: Story = { render: () => <StatCard label="Revenue" value={0} loading /> };
 export const ForcedColors: Story = { globals: { forcedColors: 'active' }, render: renderCard };

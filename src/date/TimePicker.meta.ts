@@ -9,7 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['time-field', 'time-input'],
   states: ['invalid', 'disabled', 'required', 'readonly'],
-  apg: 'spinbutton',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/',
   variants: { size: ['sm', 'md', 'lg'] },
   budgetKb: 6,
   migration: [
@@ -27,6 +27,7 @@ export const TIME_PICKER_META = {
   parts: ['time-picker', 'time-input', 'time-picker-trigger', 'time-picker-popover', 'time-picker-hours', 'time-picker-minutes'],
   states: ['open', 'invalid', 'disabled'],
   variants: {},
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/',
   budgetKb: 6,
   migration: [{ from: 'GlassTimePicker', props: {}, automation: 'manual', compat: false }],
 } as const;

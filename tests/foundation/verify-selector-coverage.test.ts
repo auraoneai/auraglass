@@ -12,7 +12,7 @@ const ROOT = join(HERE, '..', '..');
 const SCRIPT = join(ROOT, 'scripts/cmp/verify-selector-coverage.mjs');
 const FIX = join(HERE, 'fixtures/selector-coverage');
 
-function run(...args) {
+function run(...args: string[]) {
   const r = spawnSync('node', [SCRIPT, ...args], { encoding: 'utf8' });
   return { status: r.status, out: r.stdout + r.stderr };
 }

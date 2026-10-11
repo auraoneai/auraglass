@@ -1,16 +1,40 @@
-/* app-shell-workspace (SURF-060, SC-32): the archived 'workspace' block as a
-   registry item — AppShell frame + page-header Tabs + ResizablePanels +
-   docked Inspector; content lands in .ag-app-shell__auto-grid. Asserts
-   sidebar-beside-main and docked inspector at 1440px in its capability test.
-   No !important, no hex — tokens only. */
+/* app-shell-workspace (SURF-060, REQ-SURF-41, SC-32): the archived
+   'workspace' block as a registry item — AppShell frame + PageHeader with
+   Tabs in its `tabs` slot (one Tabs.Panel per tab) + ResizablePanels whose
+   document pane flows CMP Cards on .ag-app-shell__auto-grid and whose second
+   pane holds an activity Timeline + an Inspector open by default.
+   Public `aura-glass` imports only. No !important, no hex — tokens only. */
 import * as React from 'react';
 import { AppShell, Sidebar, TopBar, Inspector, ResizablePanels } from 'aura-glass/app-shell';
-import { Tabs } from 'aura-glass';
-import { WORKSPACE_TABS, WORKSPACE_TITLE } from './fixtures';
+import { Card, Tabs, Timeline } from 'aura-glass';
+import { WORKSPACE_ACTIVITY, WORKSPACE_CARDS, WORKSPACE_TABS, WORKSPACE_TITLE } from './fixtures';
+
+function EditorPanel() {
+  return (
+    <ResizablePanels.Root orientation="horizontal">
+      <ResizablePanels.Panel id="document" defaultSize={70} minSize={40}>
+        <div className="ag-app-shell__auto-grid">
+          {WORKSPACE_CARDS.map((card) => (
+            <Card.Root key={card.id}>
+              <Card.Header>
+                <Card.Title>{card.title}</Card.Title>
+              </Card.Header>
+              <Card.Body>{card.body}</Card.Body>
+            </Card.Root>
+          ))}
+        </div>
+      </ResizablePanels.Panel>
+      <ResizablePanels.Handle label="Resize document and activity" />
+      <ResizablePanels.Panel id="activity" defaultSize={30} minSize={20}>
+        <Timeline items={WORKSPACE_ACTIVITY} aria-label="Document activity" />
+      </ResizablePanels.Panel>
+    </ResizablePanels.Root>
+  );
+}
 
 export function AppShellWorkspace() {
   return (
-    <AppShell.Root>
+    <AppShell.Root defaultInspector="open">
       <TopBar.Root>
         <TopBar.Leading>
           <strong>{WORKSPACE_TITLE}</strong>
@@ -23,10 +47,12 @@ export function AppShellWorkspace() {
         </Sidebar.Nav>
       </Sidebar.Root>
       <AppShell.Main>
-        <AppShell.PageHeader
-          title={WORKSPACE_TITLE}
-          actions={
-            <Tabs.Root defaultValue="editor" aria-label="Workspace views">
+        {/* Tabs.Root spans the header and the panels so the tablist in the
+            PageHeader `tabs` slot controls the panels below it. */}
+        <Tabs.Root defaultValue="editor" aria-label="Workspace views">
+          <AppShell.PageHeader
+            title={WORKSPACE_TITLE}
+            tabs={
               <Tabs.List>
                 {WORKSPACE_TABS.map((tab) => (
                   <Tabs.Tab key={tab.id} value={tab.id}>
@@ -34,20 +60,18 @@ export function AppShellWorkspace() {
                   </Tabs.Tab>
                 ))}
               </Tabs.List>
-            </Tabs.Root>
-          }
-        />
-        <ResizablePanels.Root orientation="horizontal">
-          <ResizablePanels.Panel id="document" defaultSize={70} minSize={40}>
-            <div className="ag-app-shell__auto-grid">
-              <p>Document content</p>
-            </div>
-          </ResizablePanels.Panel>
-          <ResizablePanels.Handle label="Resize document and outline" />
-          <ResizablePanels.Panel id="outline" defaultSize={30} minSize={20}>
-            <p>Outline</p>
-          </ResizablePanels.Panel>
-        </ResizablePanels.Root>
+            }
+          />
+          <Tabs.Panel value="editor">
+            <EditorPanel />
+          </Tabs.Panel>
+          <Tabs.Panel value="preview">
+            <p>Preview of {WORKSPACE_TITLE}</p>
+          </Tabs.Panel>
+          <Tabs.Panel value="history">
+            <p>Version history</p>
+          </Tabs.Panel>
+        </Tabs.Root>
       </AppShell.Main>
       <Inspector.Root aria-label="Inspector">
         <Inspector.Header title="Properties" />

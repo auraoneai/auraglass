@@ -6,11 +6,8 @@ export default defineMeta({
   entry: '.',
   tier: 'T0',
   rsc: 'server',
-  parts: ['root'],
+  parts: ['root','shell'],
   states: [],
   variants: { variant: ['standard','masonry'] },
-  material: { layer: 'content' },
-  apg: 'none',
-  budgetKb: 1500 / 1024,
-  migration: [{ from: 'GlassGrid', props: {}, selectors: { '.glass-grid': '.ag-grid' },  automation: 'full', compat: true }, { from: 'GlassMasonry', props: {}, selectors: { '.glass-masonry': '.ag-grid' },  automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassGrid', automation: 'full', compat: true }, { from: 'GlassMasonry', automation: 'mostly', compat: true }, { from: 'GlassMasonryGrid', automation: 'mostly', compat: true }],
 });

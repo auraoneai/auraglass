@@ -10,7 +10,7 @@ export default defineMeta({
   parts: ['calendar'],
   states: ['selected', 'today', 'outside-month', 'unavailable', 'disabled'],
   variants: {},
-  apg: 'date',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/',
   budgetKb: 4,
   migration: [
     { from: 'GlassCalendar', props: { onChange: 'onValueChange', weekNumbers: 'showWeekNumbers' }, selectors: { '.glass-calendar': '[data-ag-part="calendar"]' }, automation: 'mostly', compat: true },

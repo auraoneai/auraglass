@@ -37,10 +37,17 @@ export const FAMILY_PATHS = {
 
 export function dispositionsRows(text) {
   const rows = [];
+  /* 11-column table (Owner + Codemod, written by gen-component-dispositions
+     after REQ-PLAT-80) or the earlier 9-column table. The two shapes cannot
+     both match one row (fixed cell count, pipe-free cells), so a doc in either
+     format parses fully instead of silently yielding zero names. */
   for (const m of text.matchAll(/^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*`([^`]+)`\s*\|\s*([A-Z]+)\s*\|\s*(yes|no)\s*\|\s*([a-z]+)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]*?)\s*\|$/gm)) {
     rows.push({ i: +m[1], name: m[2].replace(/\\\|/g, '|'), file: m[3] === '-' ? '' : m[3], disp: m[4], pub: m[5] === 'yes', dest: m[6], target: m[7], owner: m[8], codemod: m[9], prd: m[10], note: m[11] });
   }
-  return rows;
+  for (const m of text.matchAll(/^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*`([^`]+)`\s*\|\s*([A-Z]+)\s*\|\s*(yes|no)\s*\|\s*([a-z]+)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]*?)\s*\|$/gm)) {
+    rows.push({ i: +m[1], name: m[2].replace(/\\\|/g, '|'), file: m[3] === '-' ? '' : m[3], disp: m[4], pub: m[5] === 'yes', dest: m[6], target: m[7], owner: '', codemod: '', prd: m[8], note: m[9] });
+  }
+  return rows.sort((a, b) => a.i - b.i);
 }
 const tokenOf = (name) => name.split(/[\s(/]/)[0];
 
@@ -100,13 +107,16 @@ export function main(argv = process.argv.slice(2)) {
   const rows = existsSync(DISPOSITIONS) ? dispositionsRows(readFileSync(DISPOSITIONS, 'utf8')) : [];
   const namesFor = (fam) => [...new Set((familyNames(fam, rows) ?? []).map((r) => tokenOf(r.name)).filter(Boolean))].sort();
 
-  /* bare --verify: loop every RM-<nn> record on disk (or every family when
-     --all) and verify each — the gate uses this form. */
+  /* Bare --verify checks every known family and every recorded family.
+     Missing known-family records must fail the gate rather than be skipped. */
   if (argv.includes('--verify') && !family) {
+    const onDisk = readdirSync(join(ROOT, 'docs/release/decisions/removals'))
+      .filter((f) => /^RM-\d+\.json$/.test(f)).map((f) => f.replace('.json', ''));
+    /* union of every known family and every record on disk — a family with no
+       record is a failure, not a skip. */
     const fams = argv.includes('--all')
       ? Object.keys(FAMILY_PATHS).sort()
-      : (readdirSync(join(ROOT, 'docs/release/decisions/removals'))
-          .filter((f) => /^RM-\d+\.json$/.test(f)).map((f) => f.replace('.json', '')).sort());
+      : [...new Set([...Object.keys(FAMILY_PATHS), ...onDisk])].sort();
     let bad = 0;
     for (const fam of fams) {
       const recordPath = join(ROOT, `docs/release/decisions/removals/${fam}.json`);

@@ -5,6 +5,37 @@
  * renders the WCAG 2.2.2 pause toggle. */
 import * as React from 'react';
 import { useResolvedPreferences } from '../theme';
+import { sampleElementTone } from './sampling/sampleElementTone';
+
+/* REQ-SURF-153 — BackdropMediaLayer: the photo/video layer as a client
+ * island (Backdrop stays a server component and passes the <img>/<video> in
+ * as children, so no extra DOM node is added). With `sample` — Backdrop sets
+ * it only when no explicit `tone` prop is given — it samples that element
+ * (an <img> after decode(); a <video> by its poster first, else at the first
+ * loadeddata) once per src through the tone LRU, and writes exactly two
+ * things on the .ag-backdrop root: data-ag-media-tone and --_ag-media-luma. */
+export function BackdropMediaLayer(
+  { sample, source, children }: { sample: boolean; source: string; children: React.ReactNode },
+): React.ReactElement {
+  const ref = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    const layer = ref.current;
+    const root = layer?.closest('.ag-backdrop') as HTMLElement | null | undefined;
+    const media = layer?.querySelector(':scope > img, :scope > video') as HTMLImageElement | HTMLVideoElement | null | undefined;
+    if (!sample || !root || !media) return undefined;
+    return sampleElementTone(media, (tone, luma) => {
+      if (tone) root.setAttribute('data-ag-media-tone', tone);
+      else root.removeAttribute('data-ag-media-tone');
+      if (luma !== null) root.style.setProperty('--_ag-media-luma', luma.toFixed(3));
+      else root.style.removeProperty('--_ag-media-luma');
+    });
+  }, [sample, source]);
+  return (
+    <div ref={ref} className="ag-backdrop-layer" data-ag-part="backdrop-layer" aria-hidden="true">
+      {children}
+    </div>
+  );
+}
 
 export function BackdropTone(): React.ReactElement | null {
   const { allowContinuous } = useResolvedPreferences();

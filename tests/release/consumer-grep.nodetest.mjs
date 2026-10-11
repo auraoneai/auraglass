@@ -2,11 +2,11 @@
    node --test tests/release/consumer-grep.nodetest.mjs                       */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync, cpSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { dispositionsRows, familyNames, verifyRecord, ghSearch } from '../../scripts/removal/consumer-grep.mjs';
+import { dispositionsRows, familyNames, verifyRecord, ghSearch, FAMILY_PATHS } from '../../scripts/removal/consumer-grep.mjs';
 
 const ROW = (i, name, file, disp = 'REMOVE', pub = 'yes', dest = 'removed', target = '-', prd = 'PRD-16') =>
   `| ${i} | ${name} | \`${file}\` | ${disp} | ${pub} | ${dest} | ${target} | ${prd} |  |`;
@@ -62,4 +62,28 @@ test('gh stubbed via PATH is invoked and parsed', () => {
       assert.equal(r.hits.length, 1);
     } finally { process.env.PATH = old; }
   } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+
+test('bare --verify rejects a missing known-family record', () => {
+  const root = mkdtempSync(join(tmpdir(), 'consumer-grep-verify-'));
+  try {
+    mkdirSync(join(root, 'scripts/removal'), { recursive: true });
+    mkdirSync(join(root, 'docs/inventory'), { recursive: true });
+    mkdirSync(join(root, 'docs/release/decisions/removals'), { recursive: true });
+    cpSync(new URL('../../scripts/removal/consumer-grep.mjs', import.meta.url),
+      join(root, 'scripts/removal/consumer-grep.mjs'));
+    writeFileSync(join(root, 'docs/inventory/component-dispositions.md'), TABLE);
+    for (const family of Object.keys(FAMILY_PATHS)) {
+      writeFileSync(join(root, `docs/release/decisions/removals/${family}.json`), JSON.stringify({
+        family, names: [], status: 'missing', acknowledged: true, gh: { status: 'missing' }, scans: [],
+      }));
+    }
+    const args = ['scripts/removal/consumer-grep.mjs', '--verify'];
+    const opts = { cwd: root, encoding: 'utf8', stdio: 'pipe' };
+    assert.match(execFileSync(process.execPath, args, opts), /RM-02: record current/);
+    rmSync(join(root, 'docs/release/decisions/removals/RM-02.json'));
+    assert.throws(() => execFileSync(process.execPath, args, opts),
+      (error) => error.status !== 0 && /no consumer-grep record/.test(error.stderr));
+  } finally { rmSync(root, { recursive: true, force: true }); }
 });

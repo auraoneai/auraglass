@@ -1,6 +1,8 @@
 'use client';
 
 import * as React from 'react';
+import type { BaseUIEvent } from '@base-ui/react/types';
+import { Autocomplete } from '@base-ui/react/autocomplete';
 import { Combobox as Base } from '@base-ui/react/combobox';
 import { defaultPositionerProps } from '../overlays/_shared/positioning';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
@@ -14,6 +16,7 @@ import { sizeAttrs, DEFAULT_CONTROL_SIZE } from '../control-shared/size';
 import type { ControlSize } from '../control-shared/size';
 import { controlMessage } from '../control-shared/messages';
 import type { ControlMessages } from '../control-shared/messages';
+import { useControllableWarning } from '../../foundation/controllable';
 import type {
   ComboboxRootProps,
   ComboboxInputProps,
@@ -30,6 +33,7 @@ import type {
   ComboboxCreatable,
   ComboboxLoadContext,
 } from './Combobox.types';
+import { stateRender, toDataState } from '../../foundation/state';
 
 /* ------------------------------------------------------------------ */
 /* Internal context: size, mode, async loader, creatable, messages     */
@@ -50,6 +54,8 @@ interface ComboboxInternal {
   hasExactMatch: (query: string) => boolean;
   /** Current create-candidate marker value sentinel (per-query unique object). */
   messages?: ControlMessages | undefined;
+  highlightSuppressed: boolean;
+  setHighlightSuppressed: (v: boolean) => void;
 }
 
 const InternalCtx = React.createContext<ComboboxInternal | null>(null);
@@ -123,6 +129,8 @@ function ComboboxRoot<Value = string>({
   children,
   ...rest
 }: ComboboxRootProps<Value>) {
+  useControllableWarning('Combobox', 'value', rest.value);
+  const [highlightSuppressed, setHighlightSuppressed] = React.useState(false);
   /* The create-item / filter query starts from the input's initial text
      (controlled inputValue or defaultInputValue), not always ''. */
   const [query, setQuery] = React.useState(() => rest.inputValue ?? rest.defaultInputValue ?? '');
@@ -267,13 +275,39 @@ function ComboboxRoot<Value = string>({
       onCreate,
       hasExactMatch,
       messages,
+      highlightSuppressed,
+      setHighlightSuppressed,
     }),
-    [size, effectiveItems, virtual, mode, loading, loadError, query, creatable, onCreate, hasExactMatch, messages],
+    [size, effectiveItems, virtual, mode, loading, loadError, query, creatable, onCreate, hasExactMatch, messages, highlightSuppressed],
   );
 
   return (
     <InternalCtx.Provider value={internal}>
       <ComboboxLayerContext.Provider value={layerCtx}>
+      {mode === 'autocomplete' ? (
+      <Autocomplete.Root
+        {...(rest as Record<string, unknown>)}
+        {...(effectiveItems !== undefined ? { items: effectiveItems } : {})}
+        {...(loadOptions ? { filter: null } : rest.filter !== undefined ? { filter: rest.filter } : {})}
+        {...(itemToString ? { itemToStringLabel: toStringLabel } : {})}
+        {...(itemToValue ? { itemToStringValue: itemToValue as (v: unknown) => string } : {})}
+        autoHighlight={rest.autoHighlight ?? true}
+        {...(virtual ? { virtualized: true } : {})}
+        value={query}
+        onValueChange={(v, d) => {
+          handleInputValueChange(v, d);
+          onValueChange?.(v as unknown as Value, toChangeDetails(d));
+        }}
+        onOpenChange={(o, d) => {
+          if (!o) setHighlightSuppressed(false);
+          setInternalOpen(o);
+          emit(o, { event: d?.event, reason: d?.reason });
+        }}
+        {...(loadError ? { 'data-load-error': '' } : {})}
+      >
+        {children}
+      </Autocomplete.Root>
+      ) : (
       <Base.Root
         {...(rest as Record<string, unknown>)}
         {...(effectiveItems !== undefined ? { items: effectiveItems } : {})}
@@ -285,6 +319,7 @@ function ComboboxRoot<Value = string>({
         onValueChange={handleValueChange}
         onInputValueChange={handleInputValueChange}
         onOpenChange={(o, d) => {
+          if (!o) setHighlightSuppressed(false);
           setInternalOpen(o);
           emit(o, { event: d?.event, reason: d?.reason });
         }}
@@ -292,6 +327,7 @@ function ComboboxRoot<Value = string>({
       >
         {children}
       </Base.Root>
+      )}
       </ComboboxLayerContext.Provider>
     </InternalCtx.Provider>
   );
@@ -301,8 +337,86 @@ function ComboboxRoot<Value = string>({
 /* Input shell (chips + input + clear + trigger)                       */
 /* ------------------------------------------------------------------ */
 
+/* REQ-CMP-70: chip roving — Backspace on empty input focuses the last chip;
+   ArrowLeft/Right move chip focus; Backspace/Delete removes the focused chip
+   via its chip-remove control (fires BU's value change). */
+function allChips(el: HTMLElement): HTMLElement[] {
+  const scope = el.closest('[data-ag-part="root"]') ?? el.ownerDocument;
+  return [...scope.querySelectorAll<HTMLElement>("[data-ag-part='chip']")];
+}
+const MODIFIER_KEYS = new Set(['Alt', 'Shift', 'Control', 'Meta']);
+
+/* REQ-CMP-70 (APG combobox): Alt+ArrowDown opens the list without moving
+   virtual focus. Base UI highlights the first (or selected) item on that
+   open and keeps it as its internal activeIndex, so a following Enter would
+   select/toggle an item the user never navigated to. We keep BU's open but
+   suppress that highlight until the user actually navigates. */
+function handleInputKeyDown(
+  e: BaseUIEvent<React.KeyboardEvent<HTMLInputElement>>,
+  suppressed: boolean,
+  setSuppressed: (v: boolean) => void,
+) {
+  const input = e.currentTarget;
+  if (e.key === 'ArrowDown' && e.altKey) {
+    if (input.getAttribute('aria-expanded') === 'true') {
+      /* Already open: Alt+ArrowDown is a no-op; never let BU move the highlight. */
+      e.preventDefault();
+      e.preventBaseUIHandler();
+      return;
+    }
+    setSuppressed(true);
+    return;
+  }
+  if (suppressed) {
+    if (e.key === 'Enter') {
+      /* Nothing is highlighted from the user's point of view: select nothing. */
+      e.preventDefault();
+      e.preventBaseUIHandler();
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      /* First ArrowDown reveals BU's open anchor (first item, or the selected
+         item) instead of stepping past it. */
+      e.preventDefault();
+      e.preventBaseUIHandler();
+      setSuppressed(false);
+      return;
+    }
+    if (!MODIFIER_KEYS.has(e.key)) setSuppressed(false);
+  }
+  if (e.key !== 'Backspace' || input.value !== '') return;
+  const chips = allChips(input);
+  const last = chips[chips.length - 1];
+  if (last) {
+    e.preventDefault();
+    last.focus();
+  }
+}
+export function comboboxChipsKeyDown(e: React.KeyboardEvent<HTMLElement>) {
+  const chip = (e.target as HTMLElement).closest?.("[data-ag-part='chip']") as HTMLElement | null;
+  if (!chip) return;
+  const chips = allChips(chip);
+  const i = chips.indexOf(chip);
+  if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    (chips[i - 1] ?? chips[0])?.focus();
+  } else if (e.key === 'ArrowRight') {
+    e.preventDefault();
+    (chips[i + 1] ?? chips[chips.length - 1])?.focus();
+  } else if (e.key === 'Backspace' || e.key === 'Delete') {
+    e.preventDefault();
+    const next = chips[e.key === 'Backspace' ? i - 1 : i + 1] ?? chips[0];
+    chip.querySelector<HTMLElement>("[data-ag-part='chip-remove']")?.click();
+    next?.focus();
+  }
+}
+
 function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputProps) {
-  const { size, mode, loading, messages } = useInternal();
+  const { size, mode, loading, messages, highlightSuppressed, setHighlightSuppressed } = useInternal();
+  const onKeyDown = (e: BaseUIEvent<React.KeyboardEvent<HTMLInputElement>>) => {
+    rest.onKeyDown?.(e);
+    if (!e.defaultPrevented) handleInputKeyDown(e, highlightSuppressed, setHighlightSuppressed);
+  };
   return (
     <Base.InputGroup
       data-ag-part="input-shell"
@@ -312,15 +426,18 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
     >
       <Base.Input
         data-ag-part="input"
+        data-state={toDataState({ loading })}
         placeholder={placeholder}
         {...(mode === 'autocomplete' ? { 'aria-autocomplete': 'list' as const } : {})}
         ref={ref}
         {...rest}
+        onKeyDown={onKeyDown}
+        {...(highlightSuppressed ? { 'aria-activedescendant': undefined } : {})}
       />
       <Base.Clear data-ag-part="clear" aria-label={controlMessage('clearSearch', messages)} keepMounted>
         <ClearGlyph />
       </Base.Clear>
-      <Base.Trigger data-ag-part="trigger" tabIndex={-1}>
+      <Base.Trigger render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), undefined, 'button')} data-ag-part="trigger" tabIndex={-1}>
         <ChevronGlyph />
       </Base.Trigger>
       {loading ? (
@@ -350,6 +467,7 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
   return (
     <Base.Portal container={container}>
       <Base.Positioner
+        render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), undefined, 'div')}
         data-ag-part="positioner"
         ref={setPopupElement}
         side="bottom"
@@ -405,11 +523,13 @@ function chipLabel(children: React.ReactNode, label?: string): string {
 /* ------------------------------------------------------------------ */
 
 function ComboboxItem<Value = string>({ value, disabled, children, className, ref, ...rest }: ComboboxItemProps<Value>) {
+  const { highlightSuppressed, setHighlightSuppressed } = useInternal();
   return (
     <Base.Item
       data-ag-part="item"
       value={value}
       disabled={disabled}
+      {...(highlightSuppressed ? { 'data-highlighted': undefined, onMouseMove: () => setHighlightSuppressed(false) } : {})}
       className={cn('ag-combobox-item', className)}
       ref={ref}
       {...rest}
@@ -426,7 +546,7 @@ function ComboboxItem<Value = string>({ value, disabled, children, className, re
 
 function ComboboxEmpty({ children, className }: ComboboxEmptyProps) {
   const { messages, loadError } = useInternal();
-  const text = children ?? (loadError ? controlMessage('loadFailed', messages) : controlMessage('noResults', messages));
+  const text = children ?? (loadError ? controlMessage('loadError', messages) : controlMessage('noResults', messages));
   /* Own element: BU Empty snapshots its live-region text and never re-renders
    * the children swap in jsdom. Visibility is gated by the list's `data-empty`
    * attribute (set by Base.List when filteredItems is empty) via CSS. */
@@ -460,7 +580,7 @@ function ComboboxGroupLabel({ children, className }: ComboboxGroupLabelProps) {
 
 function ComboboxChips({ children, className }: ComboboxChipsProps) {
   return (
-    <Base.Chips data-ag-part="chips" className={className}>
+    <Base.Chips data-ag-part="chips" className={className} onKeyDown={comboboxChipsKeyDown}>
       {children}
     </Base.Chips>
   );
@@ -469,7 +589,7 @@ function ComboboxChips({ children, className }: ComboboxChipsProps) {
 function ComboboxChip({ children, className, label }: ComboboxChipProps) {
   const { messages } = useInternal();
   return (
-    <Base.Chip data-ag-part="chip" className={className}>
+    <Base.Chip data-ag-part="chip" {...materialProps({ layer: 'content', content: 'content-raised', shape: 'capsule' })} className={className}>
       {children}
       <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: chipLabel(children, label) })}>
         <XGlyph />
@@ -493,7 +613,7 @@ function ComboboxLoading({ children, className }: ComboboxLoadingProps) {
 
 function ComboboxTrigger({ children, className }: { children?: React.ReactNode; className?: string }) {
   return (
-    <Base.Trigger data-ag-part="trigger" tabIndex={-1} className={className}>
+    <Base.Trigger render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), undefined, 'button')} data-ag-part="trigger" tabIndex={-1} className={className}>
       {children ?? <ChevronGlyph />}
     </Base.Trigger>
   );

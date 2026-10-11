@@ -6,18 +6,23 @@
    select/textarea/[tabindex]) — pointing users at Popover openOnHover. */
 'use client';
 import * as React from 'react';
+import { childAsRender } from '../overlays/_shared/renderChild';
 import { Tooltip as Base } from '@base-ui/react/tooltip';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
+import { useControllableWarning } from '../../foundation/controllable';
 import type {
   TooltipProviderProps, TooltipRootProps, TooltipTriggerProps,
   TooltipPortalProps, TooltipPositionerProps, TooltipPopupProps, TooltipArrowProps,
 } from './Tooltip.types';
 
 interface TooltipCtx {
+  rootRef?: React.Ref<HTMLElement> | undefined;
+  delay?: number | undefined;
+  closeDelay?: number | undefined;
   open: boolean;
   /** popup actually mounted — trigger emits aria-describedby only then */
   popupMounted: boolean;
@@ -39,7 +44,8 @@ function TooltipProvider({ delay = 600, closeDelay = 0, skipDelayWindow = 400, c
   );
 }
 
-function TooltipRoot({ open, defaultOpen, onOpenChange, children }: TooltipRootProps) {
+function TooltipRoot({ open, defaultOpen, onOpenChange, delay, closeDelay, children, ref }: TooltipRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+  useControllableWarning('Tooltip', 'open', open);
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;
   const current = controlled ? open : internal;
@@ -50,7 +56,7 @@ function TooltipRoot({ open, defaultOpen, onOpenChange, children }: TooltipRootP
     onOpenChange?.(true, { reason: 'imperative' } as OverlayOpenChangeDetails);
   }, [setOpen, onOpenChange]);
   const [popupMounted, setPopupMounted] = React.useState(false);
-  const ctx = React.useMemo(() => ({ open: current, popupMounted, popupId, requestOpen, setPopupMounted }), [current, popupMounted, popupId, requestOpen]);
+  const ctx = React.useMemo(() => ({ open: current, popupMounted, popupId, requestOpen, setPopupMounted, rootRef: ref, delay, closeDelay }), [current, popupMounted, popupId, requestOpen, ref, delay, closeDelay]);
   return (
     <TooltipCtx.Provider value={ctx}>
       <Base.Root
@@ -67,8 +73,8 @@ function TooltipRoot({ open, defaultOpen, onOpenChange, children }: TooltipRootP
   );
 }
 
-const TooltipTrigger = React.forwardRef<HTMLElement, TooltipTriggerProps>(
-  function TooltipTrigger({ className, children, onPointerDown, onPointerUp, onPointerCancel, ...rest }, ref) {
+function TooltipTrigger({ className, children, onPointerDown, onPointerUp, onPointerCancel, ref, ...rest }: TooltipTriggerProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+    const trigger = rest.render === undefined ? childAsRender(children) : { render: rest.render, children };
     const ctx = React.useContext(TooltipCtx);
     const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
     const clear = React.useCallback(() => {
@@ -91,25 +97,26 @@ const TooltipTrigger = React.forwardRef<HTMLElement, TooltipTriggerProps>(
         ref={ref as React.Ref<HTMLButtonElement>}
         data-ag-part="trigger"
         className={cn('ag-tooltip-trigger', className)}
+        {...(ctx.delay !== undefined ? { delay: ctx.delay } : {})}
+        {...(ctx.closeDelay !== undefined ? { closeDelay: ctx.closeDelay } : {})}
         aria-describedby={ctx.popupMounted ? ctx.popupId : undefined}
         onPointerDown={handleDown}
         onPointerUp={handleEnd}
         onPointerCancel={handleEnd}
         {...rest}
+        render={trigger.render}
       >
-        {children}
+        {trigger.children}
       </Base.Trigger>
     );
-  },
-);
+}
 
 function TooltipPortal({ children, keepMounted }: TooltipPortalProps) {
   const container = usePortalContainer('transient');
   return <Base.Portal container={container} {...(keepMounted !== undefined ? { keepMounted } : {})}>{children}</Base.Portal>;
 }
 
-const TooltipPositioner = React.forwardRef<HTMLDivElement, TooltipPositionerProps>(
-  function TooltipPositioner({ className, children, ...rest }, ref) {
+function TooltipPositioner({ className, children, ref, ...rest }: TooltipPositionerProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
     return (
       <Base.Positioner
         ref={ref}
@@ -121,20 +128,17 @@ const TooltipPositioner = React.forwardRef<HTMLDivElement, TooltipPositionerProp
         {children}
       </Base.Positioner>
     );
-  },
-);
+}
 
 const INTERACTIVE = 'a[href],button,input,select,textarea,[tabindex]';
 
-const TooltipPopup = React.forwardRef<HTMLDivElement, TooltipPopupProps>(
-  function TooltipPopup({ className, children, ...rest }, ref) {
+function TooltipPopup({ className, children, ref, ...rest }: TooltipPopupProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
     const ctx = React.useContext(TooltipCtx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
     useOverlayLayer({ kind: 'tooltip', modal: false, open: ctx.open, element: el });
     React.useLayoutEffect(() => {
       if (process.env.NODE_ENV !== 'production' && el && el.querySelector(INTERACTIVE)) {
-        // eslint-disable-next-line no-console
         console.error(
           '[aura-glass] Tooltip.Popup must not contain interactive content ' +
           '(a, button, input, select, textarea, [tabindex]). Use Popover with ' +
@@ -146,8 +150,10 @@ const TooltipPopup = React.forwardRef<HTMLDivElement, TooltipPopupProps>(
       setEl(node);
       ctx.setPopupMounted(Boolean(node));
       animatingRef(node);
-      if (typeof ref === 'function') ref(node);
-      else if (ref) ref.current = node;
+      for (const targetRef of [ref, ctx.rootRef]) {
+        if (typeof targetRef === 'function') targetRef(node);
+        else if (targetRef) targetRef.current = node;
+      }
     };
     return (
       <Base.Popup
@@ -163,14 +169,11 @@ const TooltipPopup = React.forwardRef<HTMLDivElement, TooltipPopupProps>(
         {children}
       </Base.Popup>
     );
-  },
-);
+}
 
-const TooltipArrow = React.forwardRef<HTMLDivElement, TooltipArrowProps>(
-  function TooltipArrow({ className, ...rest }, ref) {
+function TooltipArrow({ className, ref, ...rest }: TooltipArrowProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
     return <Base.Arrow ref={ref} data-ag-part="arrow" className={cn('ag-tooltip-arrow', className)} {...rest} />;
-  },
-);
+}
 
 export const Tooltip = {
   Provider: TooltipProvider,

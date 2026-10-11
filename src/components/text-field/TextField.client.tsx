@@ -1,13 +1,14 @@
 'use client';
 
 import * as React from 'react';
+import { useImeGuard } from '../control-shared/ime';
 import { materialProps } from '../../material';
 import { Field as Base } from '@base-ui/react/field';
 import { Input as BaseInput } from '@base-ui/react/input';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
-import { warnControlledSwitch } from '../control-shared/value';
+import { useControllableWarning } from '../../foundation/controllable';
 import type { TextFieldProps } from './TextField.types';
 
 /** TextField — 'use client' leaf on BU Field + Input (REQ-CMP-60..62).
@@ -43,7 +44,6 @@ export function TextField({
   ref,
   ...rest
 }: TextFieldProps) {
-  const wasControlled = React.useRef(value !== undefined);
   const autoId = React.useId();
   const controlId = id ?? autoId;
   const [count, setCount] = React.useState(() => (value ?? defaultValue ?? '').length);
@@ -61,10 +61,7 @@ export function TextField({
     ta.style.overflowY = ta.scrollHeight > max ? 'auto' : 'hidden';
   }, [maxRows]);
 
-  if (process.env.NODE_ENV !== 'production') {
-    warnControlledSwitch('TextField', 'value', wasControlled.current, value !== undefined);
-    wasControlled.current = value !== undefined;
-  }
+  useControllableWarning('TextField', 'value', value);
 
   const invalid = error !== undefined && error !== null;
   const controlProps = {
@@ -86,10 +83,11 @@ export function TextField({
     if (manualResize) autoResizeViaScroll();
   }, [manualResize, autoResizeViaScroll, value]);
 
+  const ime = useImeGuard<string>((v, d) => onValueChange?.(v, d as never));
   const handleValue = (v: string, details: unknown) => {
     setCount(v.length);
     if (manualResize) autoResizeViaScroll();
-    onValueChange?.(v, toChangeDetails(details));
+    ime.wrapChange(v, toChangeDetails(details));
   };
 
   /* controlled counter derives from `value` */
@@ -121,6 +119,9 @@ export function TextField({
                 {...(defaultValue !== undefined ? { defaultValue } : {})}
                 ref={taRef}
                 onChange={(e) => handleValue(e.target.value, e.nativeEvent)}
+                onCompositionStart={ime.onCompositionStart}
+                onCompositionEnd={ime.onCompositionEnd}
+                onKeyDown={ime.onKeyDown}
                 style={
                   autoResize
                     ? ({
@@ -141,6 +142,9 @@ export function TextField({
             {...(value !== undefined ? { value } : {})}
             {...(defaultValue !== undefined ? { defaultValue } : {})}
             onValueChange={(v, details) => handleValue(v, details)}
+            onCompositionStart={ime.onCompositionStart}
+            onCompositionEnd={ime.onCompositionEnd}
+            onKeyDown={ime.onKeyDown}
             autoComplete={autoComplete}
             ref={ref as React.Ref<HTMLInputElement>}
             {...controlProps}

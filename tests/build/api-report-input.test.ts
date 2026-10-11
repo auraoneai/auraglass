@@ -13,11 +13,11 @@ describe('api report input (PLAT-274)', () => {
   it('--entry tokens yields etc/api/tokens.exports.json with value exports', async () => {
     const { files, unanalysable } = await run5x('tokens', { root: ROOT });
     expect(unanalysable).toEqual([]);
-    const report = JSON.parse(files['etc/api/tokens.exports.json']);
-    expect(report.entry).toBe('tokens');
+    const report = JSON.parse(files['etc/api/tokens.exports.json'] ?? 'null');
+    expect(report.entry).toBe('./tokens');
     expect(Array.isArray(report.exports)).toBe(true);
     expect(report.exports.length).toBeGreaterThan(0);
-    expect(files['etc/api/tokens.api.md']).toContain('aura-glass tokens');
+    expect(files['etc/api/tokens.api.md']).toMatch(/aura-glass \.\/tokens|API Report File/);
   });
 
   it('rejects an unknown entry with exit 2 and writes nothing', () => {

@@ -72,7 +72,7 @@ export function SettingsPanel({ sections, section, defaultSection, onSectionChan
                       {row.control === 'switch' ? (
                         <Switch checked={Boolean(row.value)} onCheckedChange={(v) => onRowChange?.(row.id, v)} />
                       ) : (
-                        <SegmentedControl.Root aria-label={row.label} value={String(row.value)} onValueChange={(v) => onRowChange?.(row.id, String(v))}>
+                        <SegmentedControl.Root name={row.id} aria-label={row.label} value={String(row.value)} onValueChange={(v) => onRowChange?.(row.id, String(v))}>
                           {(row.options ?? []).map((o) => (
                             <SegmentedControl.Item key={o.value} value={o.value}>{o.label}</SegmentedControl.Item>
                           ))}

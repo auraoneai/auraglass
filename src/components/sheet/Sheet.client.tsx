@@ -3,7 +3,7 @@
    - side start|end|top|bottom|left|right; start/end flip under dir=rtl
      (BU useDirection), left/right never flip; preset 'action' forces bottom.
    - detents via useSheetDetents (fractions of 100dvh | 'content' | 'full');
-     active height lands on --_ag-sheet-detent-h; data-ag-appearance="full-height" when the
+     height and translate use --_ag-sheet-detent-max/offset; data-ag-appearance="full-height" when the
      active detent is 'full' or a side sheet's block size reaches 90% of the
      viewport (ResizeObserver).
    - modal=false: no Backdrop, BU skips inert/scroll-lock; focus moves in on
@@ -17,6 +17,9 @@ import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
+import { useScrimTop } from '../overlays/_shared/useScrimTop';
+import { Button } from '../button';
+import { FocusScope } from '../../primitives/FocusScope';
 import { useSheetDetents } from './useSheetDetents';
 import { SheetHandle, SheetHandleContext } from './SheetHandle.client';
 import { SheetHeader, SheetBody, SheetFooter } from './SheetLayout';
@@ -26,6 +29,7 @@ import type {
 } from './Sheet.types';
 import type { SheetDetentsHandle } from './useSheetDetents';
 import type { SheetSide } from './Sheet.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 interface SheetCtx {
   depth: number;
@@ -37,6 +41,7 @@ interface SheetCtx {
   labels: SheetRootProps['labels'];
   detents: SheetDetentsHandle;
   setPopupElement: (el: HTMLElement | null) => void;
+  rootRef?: React.Ref<HTMLElement> | undefined;
   emit: (open: boolean, details: { event?: Event; reason?: unknown }) => void;
   liveRef: React.RefObject<HTMLDivElement | null>;
 }
@@ -70,7 +75,9 @@ function SheetRoot({
   onDetentChange,
   labels,
   children,
-}: SheetRootProps) {
+  ref,
+}: SheetRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+  useControllableWarning('Sheet', 'open', open);
   const dir = useDirection();
   const rtl = dir === 'rtl';
   const resolved = preset === 'action' ? 'bottom' : resolveSide(side, rtl);
@@ -82,7 +89,9 @@ function SheetRoot({
   const [contentPx, setContentPx] = React.useState(0);
 
   const detentState = useSheetDetents({
-    detents, detent, defaultDetent, onDetentChange,
+    /* REQ-CMP-94: detents apply only to the bottom side — other sides ignore them. */
+    detents: resolved === 'bottom' ? detents : ['content'],
+    detent, defaultDetent, onDetentChange,
     viewportPx,
     contentPx,
   });
@@ -97,22 +106,22 @@ function SheetRoot({
          viewport height. */
       const full =
         detentState.isFull ||
-        detents[detentState.index] === 'full' ||
+        (resolved === 'bottom' && (detents[detentState.index] === 'full' || detents[detentState.index] === 1)) ||
         popupElement.offsetHeight >= window.innerHeight * 0.9;
       /* REQ-CMP-95: CC-CMP-03 keys the floor row on data-ag-appearance. */
       if (full) popupElement.setAttribute('data-ag-appearance', 'full-height');
       else popupElement.removeAttribute('data-ag-appearance');
       popupElement.setAttribute('data-detent', String(detentState.index));
-      popupElement.style.setProperty(
-        '--_ag-sheet-detent-h',
-        `${detentState.heightsPx[detentState.index] ?? axisVw}px`,
-      );
+      const maxH = Math.max(...detentState.heightsPx, 0);
+      const curH = detentState.heightsPx[detentState.index] ?? axisVw;
+      popupElement.style.setProperty('--_ag-sheet-detent-max', `${maxH}px`);
+      popupElement.style.setProperty('--_ag-sheet-detent-offset', `${Math.max(0, maxH - curH)}px`);
     };
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(popupElement);
     return () => ro.disconnect();
-  }, [popupElement, axis, detentState.isFull, detentState.index, detentState.heightsPx, detents]);
+  }, [popupElement, axis, resolved, detentState.isFull, detentState.index, detentState.heightsPx, detents]);
 
   const { emit, depth } = useOverlayLayer({
     kind: 'sheet',
@@ -148,12 +157,12 @@ function SheetRoot({
     onRequestClose: () => handleOpenChange(false, { reason: 'imperative' }),
     labels,
     announce,
-  }), [axis, resolved, side, detentState, viewportPx, labels, handleOpenChange, announce]);
+  }), [axis, resolved, side, detentState, detents, viewportPx, labels, handleOpenChange, announce]);
 
   const ctx = React.useMemo<SheetCtx>(() => ({
     depth, open: effectiveOpen, modal, side, resolved, preset, labels, detents: detentState,
-    setPopupElement, emit: handleOpenChange, liveRef,
-  }), [depth, effectiveOpen, modal, side, resolved, preset, labels, detentState, handleOpenChange]);
+    setPopupElement, emit: handleOpenChange, liveRef, rootRef: ref,
+  }), [depth, effectiveOpen, modal, side, resolved, preset, labels, detentState, handleOpenChange, ref]);
 
   return (
     <SheetContext.Provider value={ctx}>
@@ -161,7 +170,7 @@ function SheetRoot({
         <Base.Root
           open={open}
           defaultOpen={defaultOpen}
-          modal={modal}
+          modal={modal === true ? 'trap-focus' : modal}
           disablePointerDismissal={!dismissible}
           onOpenChange={(o, d) => handleOpenChange(o, { event: d?.event, reason: d?.reason })}
         >
@@ -192,9 +201,13 @@ function SheetPortal({ children, keepMounted }: { children?: React.ReactNode; ke
 function SheetBackdrop({ className }: { className?: string }) {
   const ctx = useSheetCtx('Backdrop');
   const animatingRef = useOverlayAnimating();
+  const isTop = useScrimTop(ctx.depth, ctx.open && ctx.modal);
   if (!ctx.modal) return null; // CMP-237
   return (
     <Base.Backdrop
+      forceRender
+      data-ag-layer="scrim"
+      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
       data-ag-part="backdrop"
       data-ag-overlay-depth={ctx.depth}
       className={cn('ag-scrim', className)}
@@ -216,8 +229,10 @@ function SheetPopup({
   const setRefs = React.useCallback((node: HTMLDivElement | null) => {
     const cleanup = animatingRef(node);
     ctx.setPopupElement(node);
-    if (typeof ref === 'function') ref(node);
-    else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    for (const r of [ref, ctx.rootRef]) {
+      if (typeof r === 'function') r(node);
+      else if (r) (r as React.MutableRefObject<HTMLElement | null>).current = node;
+    }
     return cleanup;
   }, [animatingRef, ref, ctx]);
   return (
@@ -233,7 +248,9 @@ function SheetPopup({
       ref={setRefs}
       {...rest}
     >
-      {children}
+      <FocusScope trapped={ctx.modal} loop={ctx.modal} autoFocus restoreFocus style={{ display: 'contents' }}>
+        {children}
+      </FocusScope>
       <div ref={ctx.liveRef} data-ag-part="detent-live" aria-live="polite" className="ag-vh" />
     </Base.Popup>
   );
@@ -270,18 +287,21 @@ function SheetClose({ children, className, ref, ...rest }: SheetButtonishProps) 
   );
 }
 
+/* REQ-CMP-93: Sheet.Action is a Base.Close rendered as a plain Button —
+   click closes with reason 'close-press' and it IS a Button (its own
+   data-ag-part pipeline) rather than a bare <button>. */
 function SheetAction({ children, className, onClick, ref, ...rest }: SheetActionProps) {
   return (
-    <button
-      type="button"
+    <Base.Close
       data-ag-part="action"
       className={cn('ag-sheet-action', className)}
-      onClick={onClick as React.MouseEventHandler<HTMLButtonElement>}
-      ref={ref as React.Ref<HTMLButtonElement>}
+      render={<Button variant="clear" data-ag-part="action" />}
+      onClick={onClick as (e: never) => void}
+      ref={ref as never}
       {...rest}
     >
       {children}
-    </button>
+    </Base.Close>
   );
 }
 

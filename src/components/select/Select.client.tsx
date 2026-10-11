@@ -1,6 +1,8 @@
 'use client';
 
 import * as React from 'react';
+import { childAsRender } from '../overlays/_shared/renderChild';
+import { stateRender, toDataState } from '../../foundation/state';
 import { Select as Base } from '@base-ui/react/select';
 import { defaultPositionerProps } from '../overlays/_shared/positioning';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
@@ -11,6 +13,7 @@ import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
 import { sizeAttrs, DEFAULT_CONTROL_SIZE } from '../control-shared/size';
 import type { ControlSize } from '../control-shared/size';
+import { useControllableWarning } from '../../foundation/controllable';
 function ChevronGlyph() {
   return (
     <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" width="1em" height="1em">
@@ -37,15 +40,24 @@ import type {
   SelectSeparatorProps,
 } from './Select.types';
 
+const SelectRootCtx = React.createContext<{ rootRef?: React.Ref<HTMLElement> | undefined }>({});
 const SelectSizeContext = React.createContext<ControlSize>(DEFAULT_CONTROL_SIZE);
 /* REQ-CMP-12: the popup registers with the LayerStack through
    useOverlayLayer — the positioner element is published here for the entry. */
 const SelectLayerContext = React.createContext<{ setPopupElement: (el: HTMLElement | null) => void }>({ setPopupElement: () => {} });
 
-const finePointer = (): boolean =>
-  typeof window !== 'undefined' && typeof window.matchMedia === 'function'
-    ? window.matchMedia('(pointer: fine)').matches
-    : true;
+const FINE_POINTER_QUERY = '(pointer: fine)';
+function subscribeFinePointer(onChange: () => void) {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return () => {};
+  const mql = window.matchMedia(FINE_POINTER_QUERY);
+  mql.addEventListener?.('change', onChange);
+  return () => mql.removeEventListener?.('change', onChange);
+}
+function getFinePointer() {
+  return typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+    ? window.matchMedia(FINE_POINTER_QUERY).matches
+    : false;
+}
 
 function SelectRoot<Value = string>({
   onValueChange,
@@ -54,8 +66,10 @@ function SelectRoot<Value = string>({
   form,
   name,
   children,
+  ref,
   ...rest
 }: SelectRootProps<Value>) {
+  useControllableWarning('Select', 'value', rest.value);
   const scopeRef = React.useRef<HTMLSpanElement | null>(null);
   const [resetNonce, setResetNonce] = React.useState(0);
   const restRec = rest as Record<string, unknown>;
@@ -85,6 +99,7 @@ function SelectRoot<Value = string>({
   }, [form]);
   return (
     <SelectSizeContext.Provider value={size}>
+      <SelectRootCtx.Provider value={{ rootRef: ref }}>
       <span ref={scopeRef} hidden />
       <SelectLayerContext.Provider value={layerCtx}>
       <Base.Root
@@ -101,11 +116,13 @@ function SelectRoot<Value = string>({
         {children}
       </Base.Root>
       </SelectLayerContext.Provider>
+      </SelectRootCtx.Provider>
     </SelectSizeContext.Provider>
   );
 }
 
 function SelectTrigger({ placeholder, children, className, ref, disabled, focusableWhenDisabled, ...rest }: SelectTriggerProps) {
+  const trigger = childAsRender(children);
   const size = React.useContext(SelectSizeContext);
   return (
     <Base.Trigger
@@ -116,10 +133,11 @@ function SelectTrigger({ placeholder, children, className, ref, disabled, focusa
       ref={ref}
       disabled={disabled}
       {...rest}
+      render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), trigger.render, 'button')}
       {...(disabled && focusableWhenDisabled === true ? { tabIndex: 0 } : {})}
       {...(disabled && focusableWhenDisabled === false ? { tabIndex: -1 } : {})}
     >
-      {children ?? (
+      {trigger.children ?? (
         <>
           <Base.Value data-ag-part="value" placeholder={placeholder} />
           <Base.Icon data-ag-part="icon" aria-hidden="true">
@@ -140,13 +158,15 @@ function SelectValue({ children, className }: SelectValueProps) {
 }
 
 function SelectContent({ children, className }: SelectContentProps) {
+  const { rootRef } = React.useContext(SelectRootCtx);
   const container = usePortalContainer('overlay');
   const size = React.useContext(SelectSizeContext);
   const { setPopupElement } = React.useContext(SelectLayerContext);
-  const [alignToTrigger] = React.useState<boolean>(finePointer);
+  const alignToTrigger = React.useSyncExternalStore(subscribeFinePointer, getFinePointer, () => false);
   return (
     <Base.Portal container={container}>
       <Base.Positioner
+        render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), undefined, 'div')}
         data-ag-part="positioner"
         ref={setPopupElement}
         side="bottom"
@@ -156,6 +176,7 @@ function SelectContent({ children, className }: SelectContentProps) {
         {...sizeAttrs(size)}
       >
         <Base.Popup
+          ref={rootRef as React.Ref<HTMLDivElement> | undefined}
           data-ag-part="popup"
           {...overlayMaterial('select')}
           className={cn('ag-select-popup', className)}

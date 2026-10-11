@@ -1,6 +1,7 @@
 /** @jest-environment node */
 // tests/lint/qual/no-global-pointer-listener.test.ts — REQ-QUAL-45 (S-47), REQ-FIN-105, FIN-446.
 
+import { describe, expect, it } from '@jest/globals';
 import { RuleTester } from 'eslint';
 import { ruleConfig } from './helpers';
 

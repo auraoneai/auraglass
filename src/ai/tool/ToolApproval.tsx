@@ -3,7 +3,7 @@
 import * as React from 'react';
 import type { AgToolPart } from '../types';
 import type { ApprovalResponseDetail, ToolCallLabels } from './ToolCall';
-import { useAnnouncer } from '../../theme';
+import { TextField } from '../../components/text-field';
 
 type AnyToolPart = AgToolPart | (Omit<AgToolPart, 'type'> & { type: 'dynamic-tool'; toolName: string });
 
@@ -15,16 +15,21 @@ export interface ToolCallApprovalProps {
   triggerRef?: React.RefObject<HTMLElement | null> | undefined;
 }
 
-export function ToolCallApproval({ part, labels, onApprovalResponse, triggerRef }: {
-  part: AnyToolPart;
-  labels: ToolCallLabels;
-  onApprovalResponse?: ((detail: ApprovalResponseDetail) => void) | undefined;
-  triggerRef?: React.RefObject<HTMLElement | null> | undefined;
-}) {
-  const [responded, setResponded] = React.useState(false);
-  const [askingReason, setAskingReason] = React.useState(false);
-  const [reason, setReason] = React.useState('');
+/**
+ * REQ-SURF-121: Approve / Deny (Deny reveals a CMP TextField reason). A
+ * response fires once and disables both buttons until `part.state` or the
+ * approval id changes — the response state is keyed by both, so a new
+ * approval request re-enables the controls even if the component stays
+ * mounted.
+ */
+export function ToolCallApproval({ part, labels = {}, onApprovalResponse, triggerRef }: ToolCallApprovalProps) {
   const approvalId = part.approval?.id ?? part.toolCallId;
+  const requestKey = `${part.state}:${approvalId}`;
+  const [respondedFor, setRespondedFor] = React.useState<string | null>(null);
+  const [askingFor, setAskingFor] = React.useState<string | null>(null);
+  const [reason, setReason] = React.useState('');
+  const responded = respondedFor === requestKey;
+  const askingReason = askingFor === requestKey;
 
   React.useEffect(() => {
     if (!onApprovalResponse) {
@@ -34,7 +39,7 @@ export function ToolCallApproval({ part, labels, onApprovalResponse, triggerRef 
 
   const respond = (approved: boolean, r?: string) => {
     if (responded) return;
-    setResponded(true);
+    setRespondedFor(requestKey);
     onApprovalResponse?.({ approvalId, toolCallId: part.toolCallId, approved, ...(r ? { reason: r } : {}) });
     triggerRef?.current?.focus();
   };
@@ -58,17 +63,19 @@ export function ToolCallApproval({ part, labels, onApprovalResponse, triggerRef 
             type="button"
             data-ag-part="deny"
             disabled={responded}
-            onClick={() => setAskingReason(true)}
+            onClick={() => { setReason(''); setAskingFor(requestKey); }}
           >
             {labels.deny ?? 'Deny'}
           </button>
         </>
       ) : (
         <div data-ag-part="deny-reason">
-          <label>
-            {labels.denyReason ?? 'Reason (optional)'}
-            <input type="text" value={reason} onChange={(e) => setReason(e.target.value)} />
-          </label>
+          <TextField
+            label={labels.denyReason ?? 'Reason (optional)'}
+            value={reason}
+            onValueChange={(v) => setReason(v)}
+            disabled={responded}
+          />
           <button type="button" disabled={responded} onClick={() => respond(false, reason)}>
             {labels.deny ?? 'Deny'}
           </button>

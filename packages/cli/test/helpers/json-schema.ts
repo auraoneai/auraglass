@@ -4,7 +4,7 @@
    schema/output/*.json without adding a dependency. */
 
 type Schema = {
-  type?: string; const?: unknown; enum?: unknown[];
+  type?: string | string[]; const?: unknown; enum?: unknown[];
   required?: string[]; properties?: Record<string, Schema>;
   items?: Schema; additionalProperties?: boolean;
 };
@@ -16,7 +16,8 @@ export function validateJsonSchema(value: unknown, schema: Schema, path = '$'): 
   if (schema.enum && !schema.enum.includes(value))
     errors.push(`${path}: ${JSON.stringify(value)} not in enum`);
   if (schema.type) {
-    const t = schema.type;
+    const types = Array.isArray(schema.type) ? schema.type : [schema.type];
+    const matches = (t: string): boolean => {
     const ok =
       (t === 'object' && value !== null && typeof value === 'object' && !Array.isArray(value)) ||
       (t === 'array' && Array.isArray(value)) ||
@@ -24,7 +25,9 @@ export function validateJsonSchema(value: unknown, schema: Schema, path = '$'): 
       (t === 'number' && typeof value === 'number') ||
       (t === 'boolean' && typeof value === 'boolean') ||
       (t === 'null' && value === null);
-    if (!ok) { errors.push(`${path}: expected ${t}, got ${Array.isArray(value) ? 'array' : typeof value}`); return errors; }
+      return ok;
+    };
+    if (!types.some(matches)) { errors.push(`${path}: expected ${types.join(' | ')}, got ${Array.isArray(value) ? 'array' : typeof value}`); return errors; }
   }
   if (schema.type === 'object' && value && typeof value === 'object') {
     const obj = value as Record<string, unknown>;

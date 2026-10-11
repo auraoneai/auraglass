@@ -16,7 +16,7 @@ async function mountTwice(node: () => React.ReactElement, depId: string) {
   a.unmount();
   const b = render(node());
   await flush();
-  const depCalls = warn.mock.calls.filter((c: unknown) => String((c as unknown[])[0]).includes(`'${depId}'`));
+  const depCalls = warn.mock.calls.filter((c: unknown) => String((c as unknown[])[0]).startsWith(`[aura-glass] ${depId} `));
   warn.mockRestore();
   return { depCalls, b };
 }
@@ -30,5 +30,19 @@ describe('GlassDrawer compat (CMP-338)', () => {
     const popup = document.querySelector('[data-ag-overlay="sheet"]');
     expect(popup).toBeTruthy();
     expect(popup?.getAttribute('data-side')).toBe('right');
+  });
+});
+
+describe('GlassDrawer compat — 4.x title slot (REQ-CMP-135)', () => {
+  it('title renders as Sheet.Title and names the sheet', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    render(<GlassDrawer open title="Filters"><p>body</p></GlassDrawer>);
+    await flush();
+    warn.mockRestore();
+    const popup = document.querySelector('[data-ag-overlay="sheet"]') as HTMLElement | null;
+    expect(popup).toBeTruthy();
+    const heading = screen.getByText('Filters');
+    expect(popup!.contains(heading)).toBe(true);
+    expect(screen.getByRole('dialog', { name: 'Filters' })).toBeTruthy();
   });
 });

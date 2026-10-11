@@ -3,7 +3,7 @@
   "name": "app-shell-workspace",
   "type": "registry:item",
   "title": "App shell workspace",
-  "description": "The archived 'workspace' block as an item — AppShell + page-header tabs + resizable panels + inspector with .ag-app-shell__auto-grid content.",
+  "description": "The archived 'workspace' block as an item \u2014 AppShell + page-header tabs + resizable panels + inspector with .ag-app-shell__auto-grid content.",
   "dependencies": [
     "react"
   ],
@@ -27,10 +27,12 @@
       "client": false,
       "components": [
         "AppShell",
+        "Card",
         "Inspector",
         "ResizablePanels",
         "Sidebar",
         "Tabs",
+        "Timeline",
         "TopBar"
       ],
       "ga": true,

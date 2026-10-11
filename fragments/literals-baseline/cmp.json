@@ -1207,7 +1207,7 @@
       "shadow": 0,
       "spring": 0
     },
-    "src/components/image-list/ImageList.client.tsx": {
+    "src/components/image-list/ImageList.Masonry.client.tsx": {
       "blur": 0,
       "color": 0,
       "duration": 0,

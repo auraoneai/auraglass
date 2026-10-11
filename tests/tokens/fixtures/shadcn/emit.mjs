@@ -38,5 +38,9 @@ if (!c) {
   console.error(`unknown case: ${name}; expected one of ${Object.keys(CASES).join(', ')}`);
   process.exit(2);
 }
-const cells = Object.entries(c.vars).map(([cssVar, value]) => ({ name: cssVar, cssVar, renderType: 'string', value }));
-process.stdout.write(await emitTokensCss(cells, {}, new Map(), new Map(), c.opts));
+// MAT-06: the emitter requires the density axis (definition, private factor and
+// its public readout); a single-value axis keeps the fixture output minimal.
+const DENSITY = { '--_ag-density': '1', '--ag-density': 'var(--_ag-density)' };
+const AXIS_DEFS = { density: { default: 'regular', values: ['regular'] } };
+const cells = Object.entries({ ...DENSITY, ...c.vars }).map(([cssVar, value]) => ({ name: cssVar, cssVar, renderType: 'string', value }));
+process.stdout.write(await emitTokensCss(cells, AXIS_DEFS, new Map(), new Map(), c.opts));

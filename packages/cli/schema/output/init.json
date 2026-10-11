@@ -24,7 +24,10 @@
       "type": "object"
     },
     "install": {
-      "type": "object"
+      "type": [
+        "string",
+        "null"
+      ]
     }
   },
   "additionalProperties": true

@@ -19,9 +19,12 @@ export function useOverlayAnimating(): React.RefCallback<HTMLElement> {
     const popup = node;
     let pendingProps: Set<string> | null = null;
     let unsubStyle: (() => void) | null = null;
+    let unsubZero: (() => void) | null = null;
 
     const clearAnimating = () => {
       pendingProps = null;
+      unsubZero?.();
+      unsubZero = null;
       unsubStyle?.();
       unsubStyle = null;
       markAnimating(popup, false);
@@ -39,15 +42,20 @@ export function useOverlayAnimating(): React.RefCallback<HTMLElement> {
 
     const setAnimating = () => {
       markAnimating(popup, true);
+      const cs = getComputedStyle(popup);
       // Collect the property names we expect transitionend for; a property not
       // in the computed transition list ends immediately.
-      const list = (getComputedStyle(popup).transitionProperty || '')
+      const list = (cs.transitionProperty || '')
         .split(',')
         .map((p) => p.trim())
         .filter((p) => ANIMATED_PROPS.has(p));
       pendingProps = list.length ? new Set(list) : null;
       popup.addEventListener('transitionend', onDone);
       popup.addEventListener('transitioncancel', onDone);
+      const hasDuration = (cs.transitionDuration || '').split(',').some((d) => parseFloat(d) > 0);
+      if (!pendingProps || !hasDuration) {
+        unsubZero = subscribeFrame(() => clearAnimating());
+      }
     };
 
     // REQ-CMP-16: no MutationObserver — transition events mark the start,

@@ -55,8 +55,24 @@ describe('auraglass/require-data-ag-part', () => {
           code: `export function WithMeta() { return <button data-ag-part="root" />; }`,
           filename: FILE('WithMeta.tsx'),
         },
+        {
+          // DOM-less state root / provider: its single element child carries the part
+          code: `export function WithMeta() { return <DialogRoot open><Ctx.Provider value={1}><DialogContent data-ag-part="command-palette" /></Ctx.Provider></DialogRoot>; }`,
+          filename: FILE('WithMeta.tsx'),
+        },
       ],
       invalid: [
+        {
+          code: `export function MissingPart() { return <DialogRoot open><DialogContent /></DialogRoot>; }`,
+          filename: FILE('MissingPart.tsx'),
+          errors: [{ messageId: 'missing' }],
+        },
+        {
+          // a DOM-rendering wrapper does not delegate to its child
+          code: `export function MissingPart() { return <section><div data-ag-part="root" /></section>; }`,
+          filename: FILE('MissingPart.tsx'),
+          errors: [{ messageId: 'missing' }],
+        },
         {
           code: `export const MissingPart = () => <div />;`,
           filename: FILE('MissingPart.tsx'),

@@ -27,7 +27,7 @@ describe('pure displayName emission', () => {
     for (const f of walk(join(ROOT, 'src/icons'), (p) => p.endsWith('.tsx'))) {
       const t = readFileSync(f, 'utf8');
       for (const m of t.matchAll(/export const (\w+) = ([^;]+);/g)) {
-        if (!/createIcon\(|\w+$/.test(m[2].trim()) && !/^\w+$/.test(m[2].trim())) bad.push(`${f}: ${m[0]}`);
+        if (!/createIcon\(|\w+$/.test(m[2]!.trim()) && !/^\w+$/.test(m[2]!.trim())) bad.push(`${f}: ${m[0]}`);
       }
     }
     expect(bad).toEqual([]);

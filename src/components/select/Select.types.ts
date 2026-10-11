@@ -6,6 +6,8 @@ import type { ChangeDetails } from '../../contracts/components';
 export type RenderProp = import('react').ReactElement | ((props: any) => import('react').ReactElement);
 
 export interface SelectRootProps<Value = string> {
+  /** Ref to the popup DOM element. */
+  ref?: Ref<HTMLElement> | undefined;
   value?: Value | Value[] | null;
   defaultValue?: Value | Value[] | null;
   onValueChange?: (value: Value | Value[] | null, details: ChangeDetails) => void;

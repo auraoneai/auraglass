@@ -9,8 +9,10 @@ describe('Text', () => {
     const { container } = render(<Text>hello</Text>);
     const el = container.querySelector('[data-ag-part="root"]')!;
     expect(el.tagName).toBe('P');
-    expect(el.getAttribute('data-type')).toBe('body');
-    expect(el.getAttribute('data-ag-size')).toBe('md');
+    expect(el.getAttribute('data-ag-type')).toBe('body');
+    // REQ-CMP-111: no size prop → no data-ag-size (type role governs)
+    expect(el.getAttribute('data-ag-size')).toBeNull();
+    expect(el.className).not.toMatch(/ag-text-size-/);
     expect(el.getAttribute('data-ag-intent')).toBe('neutral');
   });
   it('maps type roles callout|caption|label|mono onto data-type', () => {

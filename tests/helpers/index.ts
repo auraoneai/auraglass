@@ -285,7 +285,8 @@ export const perf: PerfProbe = {
       const origClear = window.clearInterval;
       const live = new Set<number>();
       window.setInterval = ((...args: Parameters<typeof window.setInterval>) => {
-        const id = origSet.apply(window, args);
+        // runs in the browser page, where setInterval returns a number (not node's Timeout)
+        const id = origSet.apply(window, args) as unknown as number;
         live.add(id);
         return id;
       }) as typeof window.setInterval;

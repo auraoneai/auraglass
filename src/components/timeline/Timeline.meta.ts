@@ -7,6 +7,8 @@ export default defineMeta({
   tier: 'T1',
   flagship: 37,
   rsc: 'server',
+  // REQ-SURF-96: the parts Timeline itself renders (ActivityFeed's own parts
+  // live in ActivityFeed.meta.ts).
   parts: ['timeline', 'timeline-description', 'timeline-item', 'timeline-marker', 'timeline-meta', 'timeline-time', 'timeline-title'],
   states: [],
   apg: 'feed',

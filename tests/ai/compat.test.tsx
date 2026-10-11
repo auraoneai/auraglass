@@ -1,48 +1,74 @@
 /** @jest-environment jsdom */
-// tests/ai/compat.test.tsx — SURF-379: compat adapters at aura-glass/compat
-// map the 4.x ai-kit API onto the 5.0 ./ai surface (REQ-SURF-172/-173).
-
+// REQ-SURF-13 (W3): every AI compat adapter renders its 5.0 ./ai successor
+// from its 4.x story props and warns exactly once with its DEP-S id; the
+// 4.x ChatMessage → AgMessage mapping is asserted part by part.
 import { describe, expect, it, jest } from '@jest/globals';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import * as React from 'react';
+import { expectAdapter, type CompatRow } from '../app-shell/compat-harness';
+import { W3_STORY_ARGS as A } from '../fixtures/consumer-4x/cases/surf/ai/story-args';
+import * as compat from '../../src/compat/surf';
+import { COMPAT_IDS } from '../fixtures/consumer-4x/cases/surf/compat-ids';
+import { toAgMessages } from '../../src/compat/surf/ai/_messages';
 
-import { GlassChat } from '../../src/compat/surf/ai/GlassChat';
-import { GlassMessageList } from '../../src/compat/surf/ai/GlassMessageList';
-import { GlassChatInput } from '../../src/compat/surf/ai/GlassChatInput';
-import { GlassTypingIndicator } from '../../src/compat/surf/ai/GlassTypingIndicator';
+type C = React.ComponentType<Record<string, unknown>>;
+const row = (name: keyof typeof compat & keyof typeof A, part: string, extra?: Record<string, unknown>): CompatRow => ({
+  name, id: COMPAT_IDS[name]!.id, part, C: compat[name] as unknown as C, args: A[name]!, ...(extra ? { extra } : {}),
+});
 
-const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+export const W3_ROWS: CompatRow[] = [
+  row('GlassChat', 'section[aria-label="General Chat"] [data-ag-part="message"]', { onSendMessage: jest.fn() }),
+  row('GlassChatInput', '[data-ag-part="composer"]', { onSend: jest.fn() }),
+  row('GlassMessageList', '[data-ag-part="message"]'),
+  row('GlassTypingIndicator', '[role="status"]'),
+];
 
-describe('compat ai adapters (SURF-379)', () => {
-  it('GlassChat maps 4.x ChatMessage to AgMessage and fires deprecation', () => {
-    const messages = [
-      { id: '1', content: 'hi', sender: { id: 'me' } },
-      { id: '2', content: 'hello', sender: { id: 'agent', name: 'Agent' } },
-    ];
-    const { container } = render(
-      <GlassChat messages={messages as never} currentUserId="me" />,
+describe('W3 compat adapters render from 4.x story props (REQ-SURF-13)', () => {
+  it.each(W3_ROWS.map((r) => [r.name, r] as const))('%s', (_name, r) => {
+    expectAdapter(r);
+  });
+});
+
+describe('W3 ChatMessage → AgMessage mapping', () => {
+  const quiet = () => jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+  it('maps content → text part, attachments → file parts, system type, user/assistant roles, timestamp → createdAt', () => {
+    const at = new Date(Date.UTC(2026, 9, 7, 12, 0, 0));
+    const ag = toAgMessages(
+      [
+        { id: '1', content: 'hi', sender: { id: 'me' }, timestamp: at, attachments: [{ name: 'a.pdf', type: 'application/pdf', url: '/a.pdf' }] },
+        { id: '2', content: 'hello', sender: { id: 'agent' } },
+        { id: '3', content: 'joined', sender: { id: 'system' }, type: 'system' },
+      ],
+      'me',
     );
-    expect(container.querySelectorAll('[data-ag-part="message"]')).not.toHaveLength(0);
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('GlassChat'));
+    expect(ag[0]).toEqual({
+      id: '1',
+      role: 'user',
+      parts: [{ type: 'text', text: 'hi' }, { type: 'file', mediaType: 'application/pdf', url: '/a.pdf', filename: 'a.pdf' }],
+      metadata: { createdAt: '2026-10-07T12:00:00.000Z' },
+    });
+    expect(ag[1]!.role).toBe('assistant');
+    expect(ag[2]!.role).toBe('system');
   });
 
-  it('GlassMessageList renders the mapped roles', () => {
-    const messages = [{ id: '1', content: 'x', sender: { id: 'me' } }];
-    const { container } = render(<GlassMessageList messages={messages as never} currentUserId="me" />);
-    expect(container.textContent).toContain('x');
-  });
-
-  it('GlassChatInput onSend(text) maps to onSubmit({text})', () => {
+  it('GlassChatInput onSend(text) maps to Composer onSubmit({text})', () => {
+    quiet();
     const onSend = jest.fn();
-    const { getByLabelText, getByRole } = render(<GlassChatInput onSend={onSend} placeholder="Say" />);
-    const input = getByLabelText('Say');
-    fireEvent.change(input, { target: { value: 'hello' } });
+    const { getByLabelText, getByRole } = render(<compat.GlassChatInput onSend={onSend} placeholder="Say" />);
+    fireEvent.change(getByLabelText('Say'), { target: { value: 'hello' } });
     act(() => { getByRole('button', { name: /send/i }).click(); });
     expect(onSend).toHaveBeenCalledWith('hello');
+    cleanup();
   });
 
-  it('GlassTypingIndicator is a live status', () => {
-    const { container } = render(<GlassTypingIndicator />);
-    expect(container.querySelector('[role="status"]')).toBeTruthy();
+  it('GlassTypingIndicator renders the 4.x text template and hides when not visible', () => {
+    quiet();
+    const one = render(<compat.GlassTypingIndicator users="Ops assistant" text="{users} {isAre} summarizing the handoff..." />);
+    expect(one.container.textContent).toContain('Ops assistant is summarizing the handoff...');
+    cleanup();
+    const hidden = render(<compat.GlassTypingIndicator visible={false} />);
+    expect(hidden.container.innerHTML).toBe('');
+    cleanup();
   });
 });

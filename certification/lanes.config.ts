@@ -5,6 +5,7 @@
    A built-in whose producing gate has not landed yet is listed in `PENDING_BUILTINS` with the producing G-id; the
    runner reports it `pending` (never a skipped test, never a pass), drops it once the producer registers the gate,
    and fails if the gate file exists but nobody registered it. */
+import { locationDirs } from './lanes/_fixtures/behaviour';
 import type { LaneRegistration } from '../src/contracts/fragments';
 
 /** `owner` attributes a built-in's failure (contract §6.1 pre-existing): the stream that owns the config the gate
@@ -46,13 +47,29 @@ export const BUILTINS: BuiltinRegistration[] = [
   // at pr, so they run at every scope.
   { lane: 'L6', kind: 'playwright', path: 'certification/lanes/preference-modes.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L6', kind: 'playwright', path: 'certification/lanes/console.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // Integrated G-10/G-14/G-17/G-21 producers; pr registrations inherit all wider scopes.
+  { lane: 'L1', kind: 'node-script', path: 'scripts/qual/lint-stories.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/qual/verify-lab-not-shipped.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'node_modules/jest/bin/jest.js --ci tests/lint/qual/story-rules.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/a11y/browser/behaviour-plan.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/qual/perf/resolve-budgets.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L12', kind: 'jest', path: 'tests/perf/qual/budgets-frozen.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'certification/lanes/behaviour.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/browser/axe.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/browser/__selftest__/harness.selftest.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L7', kind: 'playwright', path: 'certification/lanes/regression.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/contract/**/*.test.ts*', scope: 'release', remote: false, failClosed: true },
 ];
 
 /** Built-in L1 gates whose producer has not merged yet: reported `pending` with the producing work item. */
 export const PENDING_BUILTINS: Array<{ lane: LaneRegistration['lane']; path: string; producer: string }> = [
   { lane: 'L1', path: 'scripts/qual/lint-tests.mjs', producer: 'G-19 (REQ-QUAL-31)' },
   { lane: 'L1', path: 'scripts/qual/verify-dist-perf.mjs', producer: 'G-24 (REQ-QUAL-46)' },
-  { lane: 'L1', path: 'scripts/qual/lint-stories.mjs', producer: 'G-10 (REQ-QUAL-55 story-glass gate)' },
 ];
+
+export function locationBuiltins(root: string): BuiltinRegistration[] {
+  return locationDirs(root).filter((d) => d.kind !== 'a11y-browser').map((d) =>
+    ({ lane: 'L5', kind: 'playwright', path: `${d.dir}/${d.testMatch}`, scope: 'pr', remote: true, failClosed: true, owner: d.stream }));
+}
 
 export default BUILTINS;

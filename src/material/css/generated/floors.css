@@ -192,13 +192,16 @@
   [data-ag-variant="identity"][data-ag-thickness="thin"] {
     --_ag-floor-alpha: 0.6;
   }
-  [data-ag-variant="regular"][data-ag-thickness="regular"] {
+  [data-ag-variant="regular"][data-ag-thickness="regular"],
+  [data-ag-variant="regular"]:not([data-ag-thickness]) {
     --_ag-floor-alpha: 0.55;
   }
-  [data-ag-variant="clear"][data-ag-thickness="regular"] {
+  [data-ag-variant="clear"][data-ag-thickness="regular"],
+  [data-ag-variant="clear"]:not([data-ag-thickness]) {
     --_ag-floor-alpha: 0.55;
   }
-  [data-ag-variant="identity"][data-ag-thickness="regular"] {
+  [data-ag-variant="identity"][data-ag-thickness="regular"],
+  [data-ag-variant="identity"]:not([data-ag-thickness]) {
     --_ag-floor-alpha: 0.55;
   }
   [data-ag-variant="regular"][data-ag-thickness="thick"] {
@@ -235,7 +238,6 @@
     ) {
       --ag-glass-opacity: 1;
       --_ag-mat-blur: 0px;
-      --_ag-scrim-clear: 0.35;
     }
   }
 

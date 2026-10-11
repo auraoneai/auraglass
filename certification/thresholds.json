@@ -30,5 +30,176 @@
   "materialPresence": { "maxStageSigma": 4, "minSceneSigma": 20, "regularMinDelta": 30, "floorSlack": 5 },
   "preference": { "contrastMoreMinShare": 0.005, "contrastMoreTarget": 7, "tintedMinSigmaCut": 0.25 },
   "layout": { "containmentSlackPx": 1, "targetMin": 44, "targetMinSm": 24, "targetSpacingSm": 24, "focusMinContrast": 3, "productViewport": { "width": 768, "height": 1024 } },
-  "layers": { "$comment": "REQ-QUAL-38 visible blurred surfaces per pointer class (L6 `cost`, packages/qa/src/inspect/cost.ts).", "fine": 6, "coarse": 3 }
+  "layers": { "$comment": "REQ-QUAL-38 visible blurred surfaces per pointer class (L6 `cost`, packages/qa/src/inspect/cost.ts).", "fine": 6, "coarse": 3 },
+  "perf": {
+  "$comment": "REQ-QUAL-37..41 (QUAL). Default runtime ceilings (REQ-QUAL-38) applied to every subject at standard tier; a fragments/perf-budgets/<stream>.ts PerfBudgetRow may only tighten them (perf-budget-looser). Read only through packages/qa/src/perf/{budgets,grade,ratchet}.ts. 'fine' = (hover:hover) and (pointer:fine) = profile (a) desktop-120hz; 'coarse' = (pointer:coarse) = profile (b) mid-mobile. MB = 2^20 bytes.",
+  "ceilings": {
+    "blurredSurfaces": {
+      "fine": 6,
+      "coarse": 3
+    },
+    "bci": {
+      "fine": 2.0,
+      "coarse": 1.2
+    },
+    "effectiveNesting": {
+      "default": 1,
+      "allowNested": 2
+    },
+    "blurRadiusPx": 32,
+    "fullViewportBlur": {
+      "layer": "scrim",
+      "maxPx": 12,
+      "minViewportShare": 0.95
+    },
+    "refractingSurfaces": {
+      "fine": 2,
+      "coarse": 1,
+      "maxViewportShare": 0.25
+    },
+    "liveWebglContexts": 1,
+    "frameP95Ms": {
+      "fine": 16.7,
+      "coarse": 25
+    },
+    "settledLongAnimationFrames": {
+      "fine": 0,
+      "coarse": 1
+    },
+    "interactionLatencyP95Ms": {
+      "fine": 50,
+      "coarse": 100,
+      "subjects": [
+        "Menu",
+        "Select",
+        "Combobox",
+        "Tabs"
+      ]
+    },
+    "heapDeltaMB": 1,
+    "dashboardHeapAtRestMB": 30,
+    "layoutsPerFrameDuringScroll": 0,
+    "styleRecalcMsDuringScroll": {
+      "fine": 1,
+      "coarse": 3
+    },
+    "dashboardRenderToStringMedianMs": 50
+  },
+  "surfaceBudget": {
+    "viewports": [
+      {
+        "width": 1440,
+        "height": 900,
+        "pointer": "fine"
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "pointer": "fine"
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "pointer": "coarse"
+      }
+    ],
+    "scrollPositions": [
+      0,
+      0.5,
+      1
+    ]
+  },
+  "grades": {
+    "letters": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "F"
+    ],
+    "frameP95Ms": {
+      "desktop-120hz": [
+        8.3,
+        11,
+        16.7,
+        25
+      ],
+      "mid-mobile": [
+        16.7,
+        20,
+        25,
+        33
+      ]
+    },
+    "longAnimationFrames": [
+      0,
+      0,
+      1,
+      3
+    ],
+    "settledIdle": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "heapDeltaMB": [
+      0.5,
+      1,
+      2,
+      5
+    ],
+    "bytesVsRow": [
+      0.8,
+      1,
+      1,
+      1
+    ],
+    "bciVsBudget": {
+      "T1": [
+        0.5,
+        0.75,
+        1,
+        1
+      ],
+      "T2": [
+        0.5,
+        0.75,
+        1,
+        1.5
+      ]
+    },
+    "releaseFloor": {
+      "T1": "C",
+      "T2": "D"
+    },
+    "maxDropLetters": 0
+  },
+  "ratchet": {
+    "p95RegressionRatio": 0.1,
+    "p95RegressionMinMs": 1,
+    "perSubjectSeconds": 60,
+    "perSubjectSecondsSource": "provisional estimate (profile a: 60 Hz + 120 Hz runs, 5 s settled window, 1 s quiet, 10 mount cycles each); replaced from the first nightly's measured perSubjectSeconds in perf-grades.json",
+    "targetMinutes": 10,
+    "sentinel": "Button"
+  },
+  "regression4x": {
+    "minFps": 50,
+    "minBlankRatio": 0.85,
+    "libraryLongTaskMs": 50,
+    "showcases": [
+      "ai-command-center",
+      "ops-console"
+    ]
+  },
+  "calibration": {
+    "seedFreeSubjects": [
+      "Button",
+      "Dialog"
+    ],
+    "raiseFactor": 1.1,
+    "bytesRoundTo": 256,
+    "marker": "perf-budget-raise"
+  }
+}
 }

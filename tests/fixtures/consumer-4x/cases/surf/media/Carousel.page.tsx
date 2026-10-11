@@ -7,11 +7,11 @@ const imgs = ['/a.jpg', '/b.jpg', '/c.jpg'];
 export function GalleryPage() {
   return (
     <>
-      <GlassGallery images={imgs} columns={3} />
+      <GlassGallery images={imgs.map((src, i) => ({ id: `img-${i}`, src, alt: '' }))} columns={3} />
       <GlassCarousel slidesToShow={2} autoPlay infinite>
         {imgs.map((s) => <img key={s} src={s} alt="" />)}
       </GlassCarousel>
-      <GlassImageViewer images={imgs} index={0} />
+      <GlassImageViewer images={imgs.map((src) => ({ src, alt: '' }))} initialIndex={0} />
     </>
   );
 }

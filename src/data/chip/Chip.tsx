@@ -1,11 +1,17 @@
 'use client';
-/* Chip (SURF-257, REQ-SURF-88): Base UI Toggle when selectable, static span
-   otherwise; separate remove button (≥44px coarse hit). */
+/* Chip (SURF-257, REQ-SURF-88): CMP ChipToggle (the REQ-CMP-01 Base UI Toggle
+   seam) when selectable, static span otherwise; separate remove button
+   (≥44px coarse hit). The chip itself is a MAT `content` surface
+   (content-raised) via materialProps — never a data-ag-material attribute. */
 import * as React from 'react';
-import { Toggle } from '@base-ui/react/toggle';
+import { ChipToggle } from '../../components/chip/ChipToggle';
+import { materialProps } from '../../material';
 
 export interface ChipProps {
   children: React.ReactNode;
+  /** Plain-text name of the chip. Names the remove button ("Remove {label}")
+      when `children` is not a string. */
+  label?: string | undefined;
   selectable?: boolean | undefined;
   selected?: boolean | undefined;
   defaultSelected?: boolean | undefined;
@@ -18,8 +24,11 @@ export interface ChipProps {
   className?: string | undefined;
 }
 
+const CONTENT_MATERIAL = materialProps({ layer: 'content', content: 'content-raised' });
+
 export function Chip({
   children,
+  label,
   selectable = false,
   selected,
   defaultSelected,
@@ -31,10 +40,12 @@ export function Chip({
   labels,
   className,
 }: ChipProps) {
-  const label = labels?.remove ?? 'Remove';
-  const text = typeof children === 'string' ? children : undefined;
+  const removeWord = labels?.remove ?? 'Remove';
+  const name = label ?? (typeof children === 'string' ? children : undefined);
+  const cls = `ag-surface ag-chip${className ? ` ${className}` : ''}`;
   const chip = selectable ? (
-    <Toggle
+    <ChipToggle
+      {...CONTENT_MATERIAL}
       pressed={selected}
       defaultPressed={defaultSelected}
       onPressedChange={(p) => onSelectedChange?.(p)}
@@ -42,22 +53,26 @@ export function Chip({
       data-ag-part="chip"
       data-ag-intent={intent}
       data-ag-size={size}
-      className={`ag-chip${className ? ` ${className}` : ''}`}
+      className={cls}
     >
       {children}
-    </Toggle>
+    </ChipToggle>
   ) : (
     <span
+      {...CONTENT_MATERIAL}
       data-ag-part="chip"
       data-ag-intent={intent}
       data-ag-size={size}
       data-disabled={disabled || undefined}
-      className={`ag-chip${className ? ` ${className}` : ''}`}
+      className={cls}
     >
       {children}
     </span>
   );
   if (onRemove === undefined) return chip;
+  if (process.env['NODE_ENV'] === 'development' && name === undefined) {
+    console.warn('[auraglass] Chip: pass `label` when children is not a string so the remove button has a name.');
+  }
   return (
     <span className="ag-chip-group">
       {chip}
@@ -65,7 +80,7 @@ export function Chip({
         type="button"
         data-ag-part="chip-remove"
         className="ag-chip__remove"
-        aria-label={`${label}${text !== undefined ? ` ${text}` : ''}`}
+        aria-label={`${removeWord}${name !== undefined ? ` ${name}` : ''}`}
         disabled={disabled}
         onClick={onRemove}
       >

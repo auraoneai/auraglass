@@ -1,17 +1,19 @@
 'use client';
 
 import * as React from 'react';
+import { stateRender, toDataState } from '../../foundation/state';
 import { Checkbox as Base } from '@base-ui/react/checkbox';
 import { CheckboxGroup as BaseGroup } from '@base-ui/react/checkbox-group';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
 import type { CheckboxGroupProps, CheckboxProps } from './Checkbox.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 function CheckIcon() {
   return (
     <svg data-ag-part="icon" aria-hidden="true" viewBox="0 0 16 16" fill="none">
-      <path d="M3 8.5 6.5 12 13 4.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M3 8.5 6.5 12 13 4.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" pathLength={1} />
     </svg>
   );
 }
@@ -33,6 +35,7 @@ export function Checkbox({
   ref,
   ...rest
 }: CheckboxProps) {
+  useControllableWarning('Checkbox', 'checked', rest.checked);
   return (
     <Base.Root
       data-ag-part="root"
@@ -42,6 +45,10 @@ export function Checkbox({
       ref={ref}
       {...sizeAttrs(size)}
       {...rest}
+      render={stateRender<{ checked: boolean; indeterminate?: boolean }>(
+        (s) => toDataState({ checked: s.indeterminate ? 'mixed' : s.checked }),
+        (rest as { render?: React.ComponentProps<typeof Base.Root>['render'] }).render,
+      )}
     >
       <span data-ag-part="hit-area" aria-hidden="true" />
       <Base.Indicator keepMounted data-ag-part="indicator">
@@ -54,6 +61,7 @@ export function Checkbox({
 
 /** CheckboxGroup — flat wrapper over BU CheckboxGroup (REQ-CMP-52). */
 export function CheckboxGroup({ onValueChange, children, className, ref, ...rest }: CheckboxGroupProps) {
+  useControllableWarning('CheckboxGroup', 'value', rest.value);
   return (
     <BaseGroup
       data-ag-part="root"

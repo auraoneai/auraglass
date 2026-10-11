@@ -8,8 +8,9 @@ export default defineMeta({
   rsc: 'client',
   parts: ['range-calendar'],
   states: ['selected', 'range-start', 'range-end', 'in-range', 'today', 'outside-month', 'unavailable', 'disabled'],
-  apg: 'date',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/',
   variants: {},
+  budgetKb: 4,
   migration: [
     { from: 'GlassDateRangeCalendar', props: {}, automation: 'mostly', compat: true },
   ],

@@ -5,6 +5,7 @@
  * size evidence copies the size tool's numbers verbatim and fails closed when
  * the tool did not measure the row.
  */
+import { afterAll, describe, expect, it } from '@jest/globals';
 import { spawnSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';

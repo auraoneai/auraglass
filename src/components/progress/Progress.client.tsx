@@ -6,22 +6,26 @@
 import * as React from 'react';
 import { Progress as BaseProgress } from '@base-ui/react/progress';
 import { cn } from '../../internal/index';
+import { materialProps } from '../../material/index';
+
+const SUNKEN = materialProps({ layer: 'content', content: 'content-sunken' });
 
 export interface ProgressProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'prefix' | 'onChange'> {
   /** 0..max, or null for indeterminate. */
   value?: number | null;
   min?: number;
   max?: number;
+  /** 'linear' (default) or 'ring' — the circular form (CircularProgress absorbed). */
+  appearance?: 'linear' | 'bar' | 'ring';
+  /** Ring only: diameter in px. */
+  size?: number;
+  /** Ring only: stroke width in px. */
+  thickness?: number;
   label?: string;
   /** Show the formatted value at the end of the track. */
   showValue?: boolean;
   format?: Intl.NumberFormatOptions;
-  /** 'bar' renders the linear track; 'ring' renders a circular svg track. */
-  appearance?: 'bar' | 'ring';
-  /** Ring diameter in px (appearance='ring' only). */
-  size?: number;
-  /** Ring stroke width in px (appearance='ring' only). */
-  thickness?: number;
+
 }
 
 export function Progress({
@@ -66,7 +70,7 @@ export function Progress({
       >
         {labelEl}
         <svg
-          data-ag-part="track"
+          {...SUNKEN} data-ag-part="track"
           className="ag-progress-ring-track"
           width={size}
           height={size}
@@ -105,7 +109,7 @@ export function Progress({
       className={cn('ag-progress', className)}
     >
       {labelEl}
-      <BaseProgress.Track data-ag-part="track" className="ag-progress-track">
+      <BaseProgress.Track {...SUNKEN} data-ag-part="track" className="ag-progress-track">
         <BaseProgress.Indicator data-ag-part="indicator" className="ag-progress-indicator" />
       </BaseProgress.Track>
       {valueEl}
@@ -113,4 +117,3 @@ export function Progress({
     </BaseProgress.Root>
   );
 }
-

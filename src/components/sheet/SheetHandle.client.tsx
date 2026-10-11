@@ -8,10 +8,10 @@
    Keyboard: Enter/Space cycles detents upward; Escape closes through BU's
    dismiss (focus is inside the popup). Detent changes announce via S-26. */
 import * as React from 'react';
-import { useAnnouncer } from '../../theme';
 import { cn } from '../../internal';
 import { resolveDetent } from './useSheetDetents';
 import { subscribeFrame } from '../../motion/ticker';
+import { MotionCapabilityContext } from '../../motion/capability';
 import type { SheetDetent, SheetDetentsHandle } from './useSheetDetents';
 import type { SheetSide } from './Sheet.types';
 
@@ -45,6 +45,7 @@ export function SheetHandle({ className, children, ref }: {
   ref?: React.Ref<HTMLButtonElement>;
 }) {
   const ctx = useSheetHandleContext();
+  const cap = React.useContext(MotionCapabilityContext);
   const drag = React.useRef<{ id: number; start: number; samples: { t: number; v: number }[] } | null>(null);
   const frameUnsub = React.useRef<(() => void) | null>(null);
   const pendingPx = React.useRef(0);
@@ -65,6 +66,8 @@ export function SheetHandle({ className, children, ref }: {
     announceDetent(i);
     // clear the drag-written transform so the CSS snap takes over
     const el = ctx.getPopup();
+    frameUnsub.current?.();
+    frameUnsub.current = null;
     if (el) el.style.transform = '';
   }, [ctx, announceDetent]);
 
@@ -78,7 +81,7 @@ export function SheetHandle({ className, children, ref }: {
       unsub();
       const el = ctx.getPopup();
       if (!el) return;
-      el.style.transform = ctx.axis === 'y' ? `translateY(${pendingPx.current}px)` : `translateX(${pendingPx.current}px)`;
+      el.style.transform = ctx.axis === 'y' ? `translateY(calc(var(--_ag-sheet-detent-offset, 0px) + ${pendingPx.current}px))` : `translateX(${pendingPx.current}px)`;
     });
     frameUnsub.current = unsub;
   }, [ctx]);
@@ -149,16 +152,23 @@ export function SheetHandle({ className, children, ref }: {
 
   React.useEffect(() => () => frameUnsub.current?.(), []);
 
+  const capBindings = React.useMemo(() => cap?.dragDetents?.({
+    detents: ctx.detents.topsPx,
+    axis: ctx.axis,
+    onSettle: settleDetent,
+  }), [cap, ctx.detents.topsPx, ctx.axis, settleDetent]);
+
   return (
     <button
       type="button"
       data-ag-part="handle"
       aria-label={ctx.labels?.handle ?? 'Resize sheet'}
       className={cn('ag-sheet-handle', className)}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={(e) => endDrag(e, false)}
-      onPointerCancel={(e) => endDrag(e, true)}
+      style={capBindings?.style as React.CSSProperties | undefined}
+      onPointerDown={capBindings ? (capBindings.onPointerDown as unknown as React.PointerEventHandler<HTMLButtonElement>) : onPointerDown}
+      onPointerMove={capBindings ? undefined : onPointerMove}
+      onPointerUp={capBindings ? undefined : (e) => endDrag(e, false)}
+      onPointerCancel={capBindings ? undefined : (e) => endDrag(e, true)}
       onKeyDown={onKeyDown}
       ref={ref}
     >

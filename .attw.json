@@ -1,0 +1,11 @@
+{
+  "$schema": "https://arethetypeswrong.github.io/attw/api/libraries/arethetypeswrong-core/interfaces/AttwConfig.html",
+  "excludeEntrypoints": [
+    "./styles.css",
+    "./tokens.css",
+    "./material.css",
+    "./tailwind.css",
+    "./compat/tokens.css",
+    "./compat/globals.css"
+  ]
+}

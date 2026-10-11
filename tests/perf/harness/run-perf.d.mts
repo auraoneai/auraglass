@@ -53,3 +53,8 @@ export function validateResults(doc: unknown): { ok: boolean; errors: string[] }
 export function runCli(argv?: string[]): Promise<number>;
 /** Flagship subjects of a Storybook build (cert-manifest.json, else index.json `flagship` tags), one story per subject. */
 export function listFlagships(staticDir: string): Array<{ id: string; subject: string; owner: string | null }>;
+
+/* consumed by the G-21 specs (surface-budget, regression-4x) */
+export function loadQaPerf(): Promise<typeof import('../../../packages/qa/src/perf/bci.ts')>;
+export function readDrive(page: Page): Promise<DriveStep[]>;
+export function openStory(page: Page, base: string, storyId: string, env: { scene?: string; tier?: string }): Promise<{ failedRequests: string[]; brokenImages: string[] }>;

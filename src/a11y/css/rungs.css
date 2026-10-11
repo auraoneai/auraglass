@@ -10,10 +10,12 @@
 @layer ag.a11y {
   /* ---- attribute rungs ---- */
   :where([data-ag-transparency="tinted"]) [data-ag-surface] {
+    --_ag-tint-floor: var(--_ag-tint-floor-tinted);
     --_ag-refraction-scale: 0;
   }
   :where([data-ag-transparency="solid"]) [data-ag-surface],
   :where([data-ag-transparency="solid"]) [data-ag-surface]::before {
+    --_ag-tint-floor: var(--_ag-tint-floor-solid);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     --_ag-refraction-scale: 0;
@@ -33,6 +35,7 @@
   @media (prefers-reduced-transparency: reduce) {
     :where(:not([data-ag-transparency])) [data-ag-surface]:not(:where([data-ag-transparency] *)),
     :where([data-ag-transparency="glass"]) [data-ag-surface]:not(:where([data-ag-transparency="tinted"] *)):not(:where([data-ag-transparency="solid"] *)) {
+      --_ag-tint-floor: var(--_ag-tint-floor-tinted);
       --_ag-refraction-scale: 0;
     }
   }
@@ -44,10 +47,16 @@
       border: 1px solid var(--_ag-border-strong);
     }
   }
+  @media (prefers-contrast: more) {
+    [data-ag-surface]:not(:where([data-ag-transparency="solid"], [data-ag-transparency="solid"] *)) {
+      --_ag-tint-floor: var(--_ag-tint-floor-more);
+    }
+  }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     :where(:not([data-ag-transparency])) [data-ag-surface],
     :where([data-ag-transparency="glass"]) [data-ag-surface],
     :where([data-ag-transparency="tinted"]) [data-ag-surface] {
+    --_ag-tint-floor: var(--_ag-tint-floor-tinted);
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
       --_ag-refraction-scale: 0;
@@ -61,6 +70,7 @@
     :where(:not([data-ag-transparency])) [data-ag-surface],
     :where([data-ag-transparency="glass"]) [data-ag-surface],
     :where([data-ag-transparency="tinted"]) [data-ag-surface] {
+    --_ag-tint-floor: var(--_ag-tint-floor-tinted);
       background: var(--_ag-fallback-fill);
       background-image: none;
     }

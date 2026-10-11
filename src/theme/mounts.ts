@@ -12,8 +12,7 @@ import { LensDefs } from '../material/lens/LensDefs';
 import { installPointerLight, pointerLightActive } from '../motion/pointerLight';
 import type { PointerLightWindow } from '../motion/pointerLight';
 import { startSurfaceCounter } from '../material/dev/surfaceCounter';
-import { presets } from './presets';
-import type { PresetId } from './presets';
+import { presetCss } from './presets';
 import { createBrandTheme } from './createBrandTheme';
 
 /** Attributes whose change can flip the pointer-light enable conditions. */
@@ -61,11 +60,6 @@ export const gatedPointerLight = (doc: Document): (() => void) => {
     mql?.removeEventListener?.('change', evaluate);
     if (release !== null) { release(); release = null; }
   };
-};
-
-const presetCss = (id: string): string | null => {
-  const p = (presets as Record<string, (typeof presets)[PresetId] | undefined>)[id];
-  return p ? createBrandTheme(p.accent, { preset: p.id }).cssText : null;
 };
 
 const brandCss = (brand: string): string => createBrandTheme(brand).cssText;

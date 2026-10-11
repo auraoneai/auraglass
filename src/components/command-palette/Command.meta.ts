@@ -6,7 +6,7 @@ export default defineMeta({
   entry: '.',
 
   material: { layer: 'chrome', refractionEligible: false },
-  apg: 'listbox',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/combobox/',
   budgetKb: 6,
   flagship: 29,
   tier: 'T1',

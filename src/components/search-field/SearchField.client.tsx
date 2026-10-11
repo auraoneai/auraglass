@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useImeGuard } from '../control-shared/ime';
 import { Field as Base } from '@base-ui/react/field';
 import { Input as BaseInput } from '@base-ui/react/input';
 import { materialProps } from '../../material/index';
@@ -11,6 +12,7 @@ import { CONTROL_MESSAGES } from '../control-shared/messages';
 import { IconButton } from '../icon-button';
 import { Kbd } from '../kbd';
 import type { SearchFieldProps } from './SearchField.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 function SearchGlyph() {
   return (
@@ -47,6 +49,7 @@ export function SearchField({
   ref,
   ...rest
 }: SearchFieldProps) {
+  useControllableWarning('SearchField', 'value', value);
   const autoId = React.useId();
   const controlId = id ?? autoId;
   const innerRef = React.useRef<HTMLInputElement | null>(null);
@@ -54,9 +57,10 @@ export function SearchField({
   const current = value !== undefined ? value : innerValue;
   const hasValue = current.length > 0;
 
+  const ime = useImeGuard<string>((v, d) => onValueChange?.(v, d as never));
   const handleValue = (v: string, details: unknown) => {
     if (value === undefined) setInnerValue(v);
-    onValueChange?.(v, toChangeDetails(details));
+    ime.wrapChange(v, toChangeDetails(details));
   };
 
   const clear = (ev: React.SyntheticEvent | Event) => {
@@ -81,6 +85,7 @@ export function SearchField({
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    ime.onKeyDown(e);
     if (e.key === 'Escape' && hasValue && !readOnly) {
       e.stopPropagation();
       clear(e.nativeEvent);
@@ -115,6 +120,8 @@ export function SearchField({
           {...(defaultValue !== undefined ? { defaultValue } : {})}
           onValueChange={(v, details) => handleValue(v, details)}
           onKeyDown={onKeyDown}
+          onCompositionStart={ime.onCompositionStart}
+          onCompositionEnd={ime.onCompositionEnd}
           data-ag-part="control"
           {...sizeAttrs(size)}
           placeholder={placeholder}

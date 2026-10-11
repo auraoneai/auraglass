@@ -19,11 +19,16 @@ const SIGNAL_HOOKS = new Set([
 const SIGNAL_SOURCES = /^react$|^@base-ui\/react(\/.*)?$/;
 const DOM_GLOBALS = new Set([
   'window', 'document', 'navigator', 'matchMedia',
-  'ResizeObserver', 'IntersectionObserver', 'localStorage',
+  'ResizeObserver', 'IntersectionObserver', 'localStorage', 'HTMLElement', 'Element',
 ]);
 const SKIP = /\.d\.ts$|\.test\.|\.spec\.|\.stories\.|\/__tests__\//;
 const EXTS = ['.ts', '.tsx', '.js', '.jsx', '.mts', '.cts'];
 
+const TYPE_CONTEXT = /^TS(TypeAnnotation|TypeReference|TypeQuery|InterfaceDeclaration|TypeAliasDeclaration|TypeParameterInstantiation|TypeParameterDeclaration|QualifiedName|InterfaceHeritage|ClassImplements)$/;
+const inTypePosition = (node) => {
+  for (let p = node.parent; p; p = p.parent) if (TYPE_CONTEXT.test(p.type)) return true;
+  return false;
+};
 const hasClientDirective = (ast) =>
   ast.body.some((n) => n.type === 'ExpressionStatement' && n.directive === 'use client');
 
@@ -59,13 +64,25 @@ module.exports = {
     if (SKIP.test(filename)) return {};
     let found = null;
     const signalNames = new Set();  // identifiers imported from a signal source
+    const isModuleFunction = (expr, at) => {
+      if (!expr) return false;
+      if (expr.type === 'ArrowFunctionExpression' || expr.type === 'FunctionExpression') return true;
+      if (expr.type !== 'Identifier') return false;
+      for (let scope = sourceCode.getScope(at); scope; scope = scope.upper) {
+        const v = scope.set.get(expr.name);
+        if (!v) continue;
+        return v.defs.some((d) => d.type === 'FunctionName'
+          || (d.type === 'Variable' && d.node.init && /^(ArrowFunctionExpression|FunctionExpression)$/.test(d.node.init.type)));
+      }
+      return false;
+    };
     return {
       ImportDeclaration(node) {
-        if (found) return;
+        if (found || node.importKind === 'type') return;
         const src = node.source.value;
         if (SIGNAL_SOURCES.test(src)) {
           for (const s of node.specifiers) {
-            if (s.type === 'ImportSpecifier' && SIGNAL_HOOKS.has(s.imported.name)) signalNames.add(s.local.name);
+            if (s.type === 'ImportSpecifier' && s.importKind !== 'type' && SIGNAL_HOOKS.has(s.imported.name)) signalNames.add(s.local.name);
             if (s.type === 'ImportDefaultSpecifier' || s.type === 'ImportNamespaceSpecifier') signalNames.add(s.local.name);
           }
         }
@@ -82,13 +99,16 @@ module.exports = {
       },
       CallExpression(node) {
         if (found) return;
-        if (node.callee.type === 'Identifier' && signalNames.has(node.callee.name)) {
-          found = `call to ${node.callee.name}()`;
-        }
+        const callee = node.callee;
+        const name = callee.type === 'Identifier' ? callee.name
+          : callee.type === 'MemberExpression' && !callee.computed && callee.object.type === 'Identifier'
+            && (callee.object.name === 'React' || signalNames.has(callee.object.name)) && callee.property.type === 'Identifier'
+            ? callee.property.name : null;
+        if (name && (SIGNAL_HOOKS.has(name) || signalNames.has(name))) found = `call to ${name}()`;
       },
       Identifier(node) {
         if (found) return;
-        if (DOM_GLOBALS.has(node.name)) {
+        if (DOM_GLOBALS.has(node.name) && !inTypePosition(node)) {
           const p = node.parent;
           // object keys, non-computed member names (o.window), type positions
           if (p && p.type === 'Property' && p.key === node && !p.computed) return;
@@ -104,10 +124,7 @@ module.exports = {
         const v = node.value;
         if (!v || v.type !== 'JSXExpressionContainer') return;
         const expr = v.expression;
-        if (expr.type === 'ArrowFunctionExpression' || expr.type === 'FunctionExpression' ||
-            (expr.type === 'Identifier' && expr.name !== 'undefined')) {
-          found = `function passed to JSX prop ${name}`;
-        }
+        if (isModuleFunction(expr, node)) found = `JSX event prop ${name}`;
       },
       'Program:exit'() {
         if (found && !hasClientDirective(sourceCode.ast)) {

@@ -1,23 +1,40 @@
-'use client';
+/* GlassTypingIndicator — 4.x compat adapter (REQ-SURF-13, DEP-S0403). The
+   5.0 successor is a streaming-status message (or AgentSteps); this adapter
+   keeps the 4.x standalone placement as a polite live status. users
+   (string | string[]) with showUsers, and the 4.x `text` template
+   ("{users} {isAre} …"), become the status text; visible={false} renders
+   nothing. Dot animation styling (variant/dotColor/size) is dropped. */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { AiIcon } from '../../../ai/icons/AiIcon';
 
 export interface GlassTypingIndicatorProps {
   visible?: boolean;
+  users?: string | string[];
   names?: string[];
+  showUsers?: boolean;
+  text?: string;
   className?: string;
+  [legacy: string]: unknown;
 }
 
-export function GlassTypingIndicator({ visible = true, names, className }: GlassTypingIndicatorProps) {
-  warnDeprecated('GlassTypingIndicator');
+/**
+ * 4.x `GlassTypingIndicator` compat adapter (DEP-S0403).
+ * @deprecated since 4.2.0, removed in 5.0.0. Use {@link a streaming-status AgMessage or AgentSteps from aura-glass/ai}.
+ */
+export function GlassTypingIndicator(props: GlassTypingIndicatorProps) {
+  warnDeprecated('DEP-S0403');
+  const { visible = true, users, names, showUsers = true, text, className } = props;
   if (!visible) return null;
+  const list = names ?? (Array.isArray(users) ? users : users ? [users] : []);
+  const who = showUsers ? list.join(', ') : '';
+  const message = text
+    ? text.replace('{users}', who).replace('{isAre}', list.length > 1 ? 'are' : 'is').trim()
+    : who
+      ? `${who} ${list.length > 1 ? 'are' : 'is'} typing`
+      : 'Typing';
   return (
-    <div data-ag-part="typing-indicator" className={className} role="status">
-      <span data-ag-part="typing-dot" aria-hidden="true" />
-      <span data-ag-part="typing-dot" aria-hidden="true" />
-      <span data-ag-part="typing-dot" aria-hidden="true" />
-      {names?.length ? <span className="ag-visually-hidden">{names.join(', ')} typing</span> : <span className="ag-visually-hidden">Typing</span>}
+    <div role="status" aria-live="polite" {...(className ? { className } : {})}>
+      <span aria-hidden="true">•••</span> {message}
     </div>
   );
 }

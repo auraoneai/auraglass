@@ -8,7 +8,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['key-input', 'key-value-add', 'key-value-editor', 'key-value-error', 'key-value-remove', 'key-value-row', 'value-input'],
   states: ['duplicate-key', 'disabled'],
-  apg: 'textbox',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/',
   variants: {},
   budgetKb: 15,
   migration: [

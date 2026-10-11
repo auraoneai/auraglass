@@ -34,4 +34,27 @@ describe('SourceList', () => {
     expect(document.querySelector('a[href^="data:"]')).toBeNull();
     expect(screen.getByText('evil')).toBeTruthy();
   });
+
+  it('source {url:\'mailto:x\'} with no title renders text \'mailto:x\'', () => {
+    render(<SourceList messageId="m" sources={[src('g', 'mailto:x')]} />);
+    const item = document.getElementById('ag-src-m-g')!;
+    expect(item.querySelector('[data-ag-part="source-text"]')!.textContent).toBe('mailto:x');
+    expect(item.querySelector('a')).toBeNull();
+  });
+
+  it('invalid URL with no title shows the raw url; http without title shows the hostname', () => {
+    render(<SourceList messageId="m" sources={[src('h', 'not a url'), src('i', 'https://host.example/p')]} />);
+    expect(document.getElementById('ag-src-m-h')!.querySelector('[data-ag-part="source-text"]')!.textContent).toBe('not a url');
+    expect(document.getElementById('ag-src-m-i')!.querySelector('[data-ag-part="source-link"]')!.textContent).toBe('host.example (opens in new tab)');
+  });
+
+  it('closed list keeps its items mounted (hidden) so #ag-src-… and aria-controls resolve', () => {
+    render(<SourceList messageId="m" sources={[...sources, src('d', 'https://x.y/4')]} />);
+    const trigger = document.querySelector('[data-ag-part="source-list"] > [data-ag-part="trigger"]')!;
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    const panel = document.getElementById(trigger.getAttribute('aria-controls')!)!;
+    expect(panel.tagName).toBe('OL');
+    expect(panel.hidden).toBe(true);
+    expect(document.getElementById('ag-src-m-d')).not.toBeNull();
+  });
 });

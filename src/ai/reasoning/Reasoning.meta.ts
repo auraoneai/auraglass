@@ -8,7 +8,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['content', 'reasoning', 'trigger'],
   states: ['streaming', 'done'],
-  apg: 'disclosure',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/',
   variants: {},
   budgetKb: 4,
   migration: [],

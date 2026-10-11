@@ -119,3 +119,9 @@ export interface MenubarProps extends React.HTMLAttributes<HTMLDivElement> {
   orientation?: 'horizontal' | 'vertical' | undefined;
   children?: React.ReactNode;
 }
+
+export interface MenuContentProps extends MenuPopupProps,
+  Pick<MenuPositionerProps, 'side' | 'align' | 'sideOffset'> {
+  keepMounted?: boolean | undefined;
+  ref?: React.Ref<HTMLDivElement> | undefined;
+}

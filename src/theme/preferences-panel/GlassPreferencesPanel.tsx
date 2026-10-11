@@ -73,6 +73,7 @@ const FLOOR_NOTES: Record<string, string> = {
   'prefers-contrast-more': "Your system's Increase Contrast setting requires at least Tinted",
   'prefers-reduced-transparency': "Your system's Reduce Transparency setting requires at least Tinted",
   'no-backdrop-filter': 'This browser cannot apply glass, so Solid is required',
+  'contrast-more': 'More contrast requires at least Tinted',
   'glass-opacity': 'Glass opacity above 70% requires at least Tinted',
   'forced-colors-contrast': "Your system's forced-colours mode requires More contrast",
   'prefers-contrast-more-contrast': "Your system's Increase Contrast setting requires More contrast",
@@ -111,6 +112,7 @@ export function GlassPreferencesPanel({
         : contrastMoreOS ? FLOOR_NOTES['prefers-contrast-more']!
         : reducedTransparencyOS ? FLOOR_NOTES['prefers-reduced-transparency']!
         : glassOpacity >= 0.7 ? FLOOR_NOTES['glass-opacity']!
+        : floor === 'tinted' && resolved.contrast === 'more' ? FLOOR_NOTES['contrast-more']!
         : FLOOR_NOTES['no-backdrop-filter']!;
       return { floor: RANK[floor] ?? 0, note };
     }
@@ -145,10 +147,9 @@ export function GlassPreferencesPanel({
   return React.createElement(
     'fieldset',
     {
-      'data-preferences-panel': '',
       'data-ag-part': 'root',
       ...materialProps({ layer: 'chrome', variant: 'regular' }),
-      className,
+      className: className ? `ag-preferences-panel ${className}` : 'ag-preferences-panel',
     },
     React.createElement('legend', { 'data-ag-part': 'legend' }, 'Preferences'),
     ...shown.map((key) => {
@@ -177,10 +178,10 @@ function PanelField({ prefKey, note, belowFloor, apply }: PanelFieldProps): Reac
 
   if (prefKey === 'allowContinuous') {
     return React.createElement(
-      'fieldset', { 'data-pref': prefKey, 'data-ag-part': 'group' },
+      'fieldset', { name: prefKey, 'data-ag-part': 'group' },
       label,
       React.createElement(
-        'label', { 'data-option': '', 'data-ag-part': 'option' },
+        'label', { 'data-ag-part': 'option' },
         React.createElement('input', {
           type: 'checkbox', role: 'switch',
           checked: Boolean(value),
@@ -189,14 +190,14 @@ function PanelField({ prefKey, note, belowFloor, apply }: PanelFieldProps): Reac
         }),
         ' Allow continuous animation',
       ),
-      note ? React.createElement('p', { id: noteId, 'data-floor-note': '', 'data-ag-part': 'floor-note' }, note) : null,
+      note ? React.createElement('p', { id: noteId, 'data-ag-part': 'floor-note' }, note) : null,
     );
   }
 
   if (prefKey === 'glassOpacity') {
     const pct = Math.round(Number(value) * 100);
     return React.createElement(
-      'fieldset', { 'data-pref': prefKey, 'data-ag-part': 'group' },
+      'fieldset', { name: prefKey, 'data-ag-part': 'group' },
       label,
       React.createElement('input', {
         type: 'range', min: 0, max: 100, step: 5,
@@ -209,20 +210,20 @@ function PanelField({ prefKey, note, belowFloor, apply }: PanelFieldProps): Reac
           apply(prefKey, Number(e.target.value) / 100),
       }),
       React.createElement('output', { 'data-ag-part': 'output' }, `${pct}%`),
-      note ? React.createElement('p', { id: noteId, 'data-floor-note': '', 'data-ag-part': 'floor-note' }, note) : null,
+      note ? React.createElement('p', { id: noteId, 'data-ag-part': 'floor-note' }, note) : null,
     );
   }
 
   const choices = CHOICES[prefKey] ?? [];
   return React.createElement(
-    'fieldset', { 'data-pref': prefKey, 'data-ag-part': 'group' },
+    'fieldset', { name: prefKey, 'data-ag-part': 'group' },
     label,
     React.createElement(
-      'div', { role: 'radiogroup', 'data-options': '' },
+      'div', { role: 'radiogroup', 'data-ag-part': 'options' },
       ...choices.map((c) => {
         const disabled = c.value !== 'system' && belowFloor(c.value);
         return React.createElement(
-          'label', { 'data-option': '', 'data-ag-part': 'option', key: c.value },
+          'label', { 'data-ag-part': 'option', key: c.value },
           React.createElement('input', {
             type: 'radio', name: `ag-pref-${prefKey}-${id}`, 'data-ag-part': 'radio',
             checked: value === c.value,
@@ -235,6 +236,6 @@ function PanelField({ prefKey, note, belowFloor, apply }: PanelFieldProps): Reac
         );
       }),
     ),
-    note ? React.createElement('p', { id: noteId, 'data-floor-note': '', 'data-ag-part': 'floor-note' }, note) : null,
+    note ? React.createElement('p', { id: noteId, 'data-ag-part': 'floor-note' }, note) : null,
   );
 }

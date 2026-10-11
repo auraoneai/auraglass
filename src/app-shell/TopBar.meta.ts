@@ -11,7 +11,7 @@ export default defineMeta({
   states: [],
 
   material: { layer: 'chrome', refractionEligible: false },
-  apg: 'landmarks',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
   variants: {},
   migration: [{ from: 'GlassTopBar', props: {}, automation: 'mostly', compat: true }],
 });

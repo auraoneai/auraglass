@@ -195,6 +195,13 @@ export async function run() {
     },
   };
   writeFileSync(GENERATED, JSON.stringify(aggregate, null, 2) + '\n');
+  // Claims consume evidence bound to the producing revision.
+  const sha = process.env.CI_COMMIT_SHA || git(['rev-parse', 'HEAD'])?.trim();
+  if (sha) {
+    const artifact = join(ROOT, '.artifacts', 'plat', 'size-budgets', 'size-budgets.json');
+    mkdirSync(dirname(artifact), { recursive: true });
+    writeFileSync(artifact, JSON.stringify({ sha, ...aggregate }, null, 2) + '\n');
+  }
   for (const [key, ceiling] of Object.entries(DEFAULT_CEILINGS)) {
     const v = key === 'stylesCssBytes' ? aggregate.measured.stylesCssGzBytes : null;
     if (v !== null && v > ceiling) problems.push(`${key}: ${v} B > ${ceiling} B`);

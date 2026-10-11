@@ -55,8 +55,9 @@ export function renderValue(rec) {
     case 'cubicBezier': return bezier(v);
     case 'motion-spring': return compileSpring(v, rec.name).linear;
     case 'shadow': {
-      const s = v;
-      return `${dim(s.offsetX)} ${dim(s.offsetY)} ${dim(s.blur)} ${s.spread ? dim(s.spread) : '0px'} ${colorToCss(s.color)}`;
+      // DTCG shadow: one layer or an array of layers (REQ-MAT-07 two-layer ambient + key)
+      const layer = (s) => `${dim(s.offsetX)} ${dim(s.offsetY)} ${dim(s.blur)} ${s.spread ? dim(s.spread) : '0px'} ${colorToCss(s.color)}`;
+      return Array.isArray(v) ? v.map(layer).join(', ') : layer(v);
     }
     case 'number': case 'fontWeight': return String(v);
     case 'fontFamily': return String(v);

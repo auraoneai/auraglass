@@ -45,7 +45,7 @@ function listEntries(): { built: string[]; pending: string[] } {
   for (const line of out.split('\n')) {
     if (line.startsWith('exports (built):')) section = 'built';
     else if (line.startsWith('pending')) section = 'pending';
-    else if (section && /^\s+\S/.test(line)) (section === 'built' ? built : pending).push(line.trim().split(/\s+/)[0]);
+    else if (section && /^\s+\S/.test(line)) (section === 'built' ? built : pending).push(line.trim().split(/\s+/)[0]!);
   }
   return { built, pending };
 }

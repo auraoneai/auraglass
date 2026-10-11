@@ -15,7 +15,8 @@ const evidence = resolve(ROOT, process.env.AURAGLASS_EVIDENCE_DIR ?? '.artifacts
 const storybookUrl = process.env.AG_STORYBOOK_URL ?? 'http://127.0.0.1:6006';
 const streams = process.env.AG_L10_STREAMS === '1';
 const invariants = process.env.AG_L10_INVARIANTS === '1';
-const run = streams ? 'streams' : invariants ? 'invariants' : 'selftest';
+const serve = streams || invariants || process.env.AG_L10_SERVE === '1';
+const run = process.env.AG_L10_REPORT ?? (streams ? 'streams' : invariants ? 'invariants' : 'selftest');
 
 const INVARIANT_SPECS = ['backdrop-root.spec.ts', 'lens-defs.spec.ts', 'webgl-context.spec.ts', 'a11y-fallback.spec.ts'];
 const invariantsProject = (engine: 'chromium' | 'webkit' | 'firefox', device: (typeof devices)[string], extra: object = {}) => ({
@@ -40,11 +41,17 @@ export default defineConfig({
        settled window (~40 mouse/keyboard/wheel steps), which lands on the measured page's main thread as long tasks. */
     { name: 'qual:l10-selftest', testDir: '.', testMatch: 'harness-selftest.spec.ts', use: { ...devices['Desktop Chrome'], channel: 'chromium-headless-shell', trace: 'off' } },
     { name: 'qual:l10-streams', testDir: '../browser', testMatch: '**/*.spec.ts', use: { ...devices['Desktop Chrome'], baseURL: storybookUrl } },
+    { name: 'qual:l10-surface-budget-chromium', testDir: '.', testMatch: 'surface-budget.spec.ts', use: { browserName: 'chromium' } },
+    { name: 'qual:l10-surface-budget-webkit', testDir: '.', testMatch: 'surface-budget.spec.ts', use: { browserName: 'webkit' } },
+    { name: 'qual:l10-surface-budget-firefox', testDir: '.', testMatch: 'surface-budget.spec.ts', use: { browserName: 'firefox' } },
+    { name: 'qual:l10-regression-4x', testDir: '.', testMatch: 'regression-4x.spec.ts',
+      use: { browserName: 'chromium', channel: 'chromium-headless-shell', launchOptions: { args: ['--disable-gpu'] } } },
+    { name: 'qual:l10-ratchet', testDir: '.', testMatch: 'pr-ratchet.spec.ts' },
     invariantsProject('chromium', devices['Desktop Chrome'], { launchOptions: { args: ['--js-flags=--expose-gc'] } }),
     invariantsProject('webkit', devices['Desktop Safari']),
     invariantsProject('firefox', devices['Desktop Firefox'], { launchOptions: { firefoxUserPrefs: { 'webgl.force-enabled': true } } }),
   ],
-  ...(streams || invariants ? { webServer: {
+  ...(serve ? { webServer: {
     command: 'node tests/perf/harness/run-perf.mjs --serve storybook-static --port 6006',
     cwd: ROOT, url: `${storybookUrl}/index.json`, reuseExistingServer: false, timeout: 60_000,
     env: { AG_REMOTE_RUNNER: process.env.AG_REMOTE_RUNNER ?? '' },

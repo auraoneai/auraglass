@@ -46,3 +46,30 @@ describe('Rating', () => {
     expect(seen[0]).toBe(2);
   });
 });
+describe('Rating REQ-CMP-123', () => {
+  it('roving tabindex: checked item is the only tabbable radio', () => {
+    const { container } = render(<Rating value={3} />);
+    const items = [...container.querySelectorAll('[role="radio"]')];
+    const tabs = items.filter((i) => i.getAttribute('tabindex') === '0');
+    expect(tabs).toHaveLength(1);
+    expect(tabs[0].getAttribute('aria-checked')).toBe('true');
+  });
+  it('each radio gets an ordinal aria-label; fractional checked item reads e.g. "3.5 of 5"', () => {
+    const { container } = render(<Rating value={3.5} allowHalf />);
+    const items = [...container.querySelectorAll('[role="radio"]')];
+    expect(items[0].getAttribute('aria-label')).toBe('1 of 5');
+    const checked = items.filter((i) => i.getAttribute('aria-checked') === 'true');
+    expect(checked[checked.length - 1].getAttribute('aria-label')).toBe('3.5 of 5');
+  });
+  it('arrow commit focuses the newly-checked item', () => {
+    const { container } = render(<Rating defaultValue={2} />);
+    fireEvent.keyDown(container.querySelector('[data-ag-part="root"]')!, { key: 'ArrowRight' });
+    const focused = container.querySelector('[data-ag-value="3"]') as HTMLElement;
+    expect(document.activeElement).toBe(focused);
+  });
+  it('hit area bleed lives in ::before', () => {
+    const css = require('node:fs').readFileSync(require('node:path').join(__dirname, 'Rating.css'), 'utf8');
+    expect(css).toContain('.ag-rating-item::before');
+    expect(css).toContain('24px');
+  });
+});

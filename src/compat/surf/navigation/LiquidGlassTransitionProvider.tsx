@@ -1,15 +1,25 @@
-/* LiquidGlassTransitionProvider — 4.x compat adapter (SC-34). Delegates to the 5.0 component and
-   warns once per session via warnDeprecated; prop mapping per
-   fragments/codemods/surf.ts W1 rows. */
-'use client';
+/* LiquidGlassTransitionProvider — 4.x compat adapter (REQ-SURF-13,
+   DEP-S0024) → SourceTransition.Root. `disabled` keeps the 4.x opt-out by
+   rendering children without a transition root; namespace/duration have no
+   5.0 equivalent (motion timing is token-owned). */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { SourceTransition } from '../../../components/source-transition/SourceTransition';
 
-export type LiquidGlassTransitionProviderProps = Record<string, unknown> & { children?: React.ReactNode };
+export interface LiquidGlassTransitionProviderProps {
+  disabled?: boolean;
+  namespace?: string;
+  duration?: number;
+  children?: React.ReactNode;
+}
 
+/**
+ * 4.x `LiquidGlassTransitionProvider` compat adapter (DEP-S0024).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link SourceTransition from aura-glass}.
+ */
 export function LiquidGlassTransitionProvider(props: LiquidGlassTransitionProviderProps) {
-  warnDeprecated('LiquidGlassTransitionProvider');
-  const { children, ...rest } = props as Record<string, React.ReactNode>;
-  return <SourceTransition.Root {...rest}>{children}</SourceTransition.Root>;
+  warnDeprecated('DEP-S0024');
+  const { disabled = false, children } = props;
+  if (disabled) return <>{children}</>;
+  return <SourceTransition.Root>{children}</SourceTransition.Root>;
 }

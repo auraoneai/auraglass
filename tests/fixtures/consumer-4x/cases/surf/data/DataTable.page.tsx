@@ -3,21 +3,24 @@
 // onto Table's REQ-SURF-66..77 grammar.
 import { GlassDataTable } from 'aura-glass';
 
-interface Order { id: string; customer: string; total: number }
+type Order = { id: string; customer: string; total: number };
 
 export function OrdersPage({ rows }: { rows: Order[] }) {
   return (
     <GlassDataTable
-      rows={rows}
+      data={rows}
       columns={[
-        { key: 'customer', label: 'Customer', sortable: true },
-        { key: 'total', label: 'Total', align: 'right' },
+        { accessorKey: 'customer', header: 'Customer', sortable: true },
+        { accessorKey: 'total', header: 'Total', align: 'right' },
       ]}
       filterable
       compact
+      selectable
+      selectionMode="multiple"
       selectedRows={['o-1']}
       onSelectionChange={(ids) => console.log(ids)}
       onRowClick={(row) => console.log(row.id)}
+      getRowId={(row) => row.id}
       emptyMessage="No orders"
     />
   );

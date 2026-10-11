@@ -1,7 +1,7 @@
 {
   "name": "aura-glass",
   "version": "5.0.0-alpha.1",
-  "description": "AuraGlass 5.0 — the liquid-glass design system for React 19.",
+  "description": "AuraGlass 5.0 \u2014 the liquid-glass design system for React 19.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -135,7 +135,7 @@
     "artifact:publint": "publint",
     "artifact:attw": "attw --pack .",
     "storybook:build": "storybook build -o storybook-static",
-    "docs:build": "node scripts/docs/gen-llms.mjs && node scripts/docs/install-pack.mjs && node scripts/docs/prepare-docs-app.mjs && npm run build -w apps/docs && node scripts/docs/verify-docs-out.mjs",
+    "docs:build": "node scripts/release/gen-deprecations.mjs --docs && node scripts/docs/gen-llms.mjs && node scripts/docs/install-pack.mjs && node scripts/docs/prepare-docs-app.mjs && npm run build -w apps/docs && node scripts/docs/verify-docs-out.mjs",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:contract": "npm test -- tests/contract",
     "lint": "eslint . && stylelint \"src/**/*.css\"",
@@ -151,7 +151,11 @@
     "plat:package:pack": "npm run build --workspace=@auraglass/cli && npm pack --ignore-scripts --workspace=@auraglass/cli",
     "plat:test:cli": "npm run plat:package:pack && node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.dx.config.js tests/dx/",
     "plat:test:dx": "playwright test --config playwright.dx.config.ts",
-    "plat:test:registry": "node scripts/registry/build.mjs && node --experimental-vm-modules node_modules/jest/bin/jest.js tests/registry/ && node --experimental-vm-modules node_modules/jest/bin/jest.js -c tests/registry/jest.doubles.cjs"
+    "plat:test:registry": "node scripts/registry/build.mjs && node --experimental-vm-modules node_modules/jest/bin/jest.js tests/registry/ && node --experimental-vm-modules node_modules/jest/bin/jest.js -c tests/registry/jest.doubles.cjs",
+    "docs:claims": "node scripts/docs/gen-claims.mjs && node scripts/docs/gen-readme.mjs && node scripts/docs/render-claims.mjs && node scripts/docs/lint-claims.mjs",
+    "docs:claims:release": "node scripts/docs/gen-claims.mjs && node scripts/docs/render-claims.mjs --file .artifacts/plat/release-notes.md && node scripts/docs/lint-claims.mjs --file .artifacts/plat/release-notes.md",
+    "plat:test:dx:e2e": "playwright test -c playwright.dx-e2e.config.ts",
+    "plat:test:types:dx": "node tests/types/plat/setup-extract.mjs && tsc -p tests/types/plat/tsconfig.json && jest --runInBand tests/types/plat/completions.test.ts"
   },
   "dependencies": {
     "@base-ui/react": "1.8.0",

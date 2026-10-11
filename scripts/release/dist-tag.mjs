@@ -96,11 +96,51 @@ function registryDistTags(pkg) {
   return JSON.parse(out || '{}');
 }
 
+function move(arg, has) {
+  const tag = arg('move');
+  const version = arg('version');
+  const pkg = arg('package') ?? 'aura-glass';
+  if (!tag || !version || !SEMVER.test(version.replace(/^v/, ''))) {
+    console.error('usage: dist-tag.mjs --move <tag> --version <semver> [--package p] [--registry url]');
+    process.exit(2);
+  }
+  const reg = [];
+  if (arg('registry')) reg.push('--registry', arg('registry'));
+  if (arg('userconfig')) reg.push('--userconfig', arg('userconfig'));
+  let current = arg('current');
+  if (!current) {
+    try {
+      current = execFileSync('npm', ['view', pkg, `dist-tags.${tag}`, ...reg], {
+        encoding: 'utf8',
+        stdio: ['pipe', 'pipe', 'pipe'],
+      }).trim();
+    } catch (e) {
+      console.error(`dist-tag --move: registry read failed for ${pkg}: ${e.message}`);
+      process.exit(1);
+    }
+  }
+  const v = version.replace(/^v/, '');
+  const violation = monotonicViolation(tag, v, current, { rollbackOk: process.env.AG_ROLLBACK_LATEST_TO_4X === 'true' });
+  if (violation) {
+    console.error(violation);
+    process.exit(1);
+  }
+  const cmd = ['dist-tag', 'add', `${pkg}@${v}`, tag, ...reg];
+  if (has('dry-run')) {
+    console.log(`dist-tag --move (dry-run): npm ${cmd.join(' ')}`);
+    process.exit(0);
+  }
+  execFileSync('npm', cmd, { stdio: 'inherit' });
+  console.log(`dist-tag --move: ${pkg} ${tag} ${current || '(none)'} -> ${v}`);
+  process.exit(0);
+}
+
 function main(argv) {
   const arg = (n) => {
     const i = argv.indexOf(`--${n}`);
     return i >= 0 ? argv[i + 1] : null;
   };
+  if (arg('move')) move(arg, (n) => argv.includes(`--${n}`));
   const check = arg('check');
   const v4DistTag = arg('v4-dist-tag') ?? process.env.AG_V4_DIST_TAG ?? 'latest';
   const line = arg('line') ?? process.env.AG_LINE ?? '';

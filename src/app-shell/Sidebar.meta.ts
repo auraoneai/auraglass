@@ -11,7 +11,7 @@ export default defineMeta({
   states: ['expanded', 'collapsed', 'rail'],
 
   material: { layer: 'chrome', refractionEligible: false },
-  apg: 'landmarks',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
   variants: {},
   migration: [{ from: 'GlassSidebar', props: { items: null, activeId: 'currentValue', onClick: 'onSelect', badge: 'badge' }, automation: 'mostly', compat: true }],
 });

@@ -180,4 +180,4 @@ export default {
   removed,
   areaTransforms,
   fixtures,
-} satisfies CodemodMappingFragment;
+} satisfies CodemodMappingFragment & { names?: string[] };

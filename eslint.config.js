@@ -3,7 +3,9 @@ import tsParser from '@typescript-eslint/parser';
 import reactHooks from 'eslint-plugin-react-hooks';
 import auraglass from './eslint-plugin-auraglass.js';
 export default [
-  { ignores: ['legacy/**', 'dist/**', 'storybook-static/**', 'reports/**', '.artifacts/**', '**/node_modules/**', 'packages/*/dist/**', 'apps/docs/.next/**', 'apps/docs/public/r/**'] },
+  { ignores: ['legacy/**', 'dist/**', 'storybook-static/**', 'reports/**', '.artifacts/**', '**/node_modules/**', 'packages/*/dist/**', 'apps/docs/.next/**', 'apps/docs/public/r/**',
+    // Deliberately-violating rule fixtures (read as text by their RuleTester suites, e.g. tests/overlays/lint-overlays.test.mjs).
+    'src/**/__fixtures__/lint/**'] },
   { files: ['**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}'],
     languageOptions: { parser: tsParser, ecmaVersion: 2023, sourceType: 'module', parserOptions: { ecmaFeatures: { jsx: true } } },
     plugins: { auraglass, 'react-hooks': reactHooks },

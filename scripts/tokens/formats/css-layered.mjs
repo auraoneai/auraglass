@@ -7,6 +7,44 @@ import { fileURLToPath } from 'node:url';
 import { die, dim, renderValue, prettierFormat, HEADER_CSS, LAYER_ORDER, SHADCN_MAP, AXIS_ORDER } from './_shared.mjs';
 export { HEADER_CSS, LAYER_ORDER };
 
+/** Selector of the ConcentricFrame part (REQ-MAT-26): disambiguates the frame's
+    data-ag-radius from a surface's fallbackRadius data-ag-radius. */
+export const CONCENTRIC_FRAME_PART = 'concentric-frame';
+
+/**
+ * REQ-MAT-26 (FIN D.3-17): structural attribute -> var mapping rules, generated
+ * from the emitted space/radius scales so every SpaceToken / RadiusToken has a
+ * rule and no value is hand-copied.
+ *  - SurfaceGroup  [data-ag-group][data-ag-spacing=N]   -> --_ag-group-spacing: var(--ag-space-N)
+ *  - ConcentricFrame [data-ag-part=concentric-frame][data-ag-radius=r] -> --ag-radius-outer: var(--ag-radius-r)
+ *  - ConcentricFrame [data-ag-part=concentric-frame][data-ag-inset=N]  -> --ag-inset: var(--ag-space-N)
+ *  - surface fallbackRadius [data-ag-radius=r] outside the frame part  -> --_ag-fallback-radius: var(--ag-radius-r);
+ *    a concentric surface with no fallbackRadius gets the md default (REQ-MAT-26 "default md").
+ * The group gap and the out-of-frame concentric radius are applied by
+ * material.css reading these vars (REQ-FIN-02 clause transfer).
+ * @param {Array<{cssVar?: string}>} cells
+ * @returns {string[]} rule lines (two-space indent, inside @layer ag.tokens)
+ */
+export function structuralMappingRules(cells) {
+  const keys = (re) => [...new Set(cells.map((c) => c.cssVar && re.exec(c.cssVar)?.[1]).filter(Boolean))];
+  const space = keys(/^--ag-space-(\d+)$/).sort((a, b) => Number(a) - Number(b));
+  const radius = keys(/^--ag-radius-(xs|sm|md|lg|xl|full)$/);
+  if (!space.length) die('structural mapping: no --ag-space-* tokens emitted');
+  if (!radius.length) die('structural mapping: no --ag-radius-* tokens emitted');
+  if (!radius.includes('md')) die('structural mapping: fallback default --ag-radius-md is not emitted');
+  const frame = `[data-ag-part="${CONCENTRIC_FRAME_PART}"]`;
+  const rule = (sel, decl) => ['', `  ${sel} {`, `    ${decl};`, '  }'];
+  return [
+    '',
+    '  /* REQ-MAT-26 structural mapping (generated; scripts/tokens/formats/css-layered.mjs) */',
+    ...space.flatMap((n) => rule(`[data-ag-group][data-ag-spacing="${n}"]`, `--_ag-group-spacing: var(--ag-space-${n})`)),
+    ...radius.flatMap((r) => rule(`${frame}[data-ag-radius="${r}"]`, `--ag-radius-outer: var(--ag-radius-${r})`)),
+    ...space.flatMap((n) => rule(`${frame}[data-ag-inset="${n}"]`, `--ag-inset: var(--ag-space-${n})`)),
+    ...radius.flatMap((r) => rule(`[data-ag-radius="${r}"]:not(${frame})`, `--_ag-fallback-radius: var(--ag-radius-${r})`)),
+    ...rule('[data-ag-shape="concentric"]:not([data-ag-radius])', '--_ag-fallback-radius: var(--ag-radius-md)'),
+  ];
+}
+
 /** REQ-MAT-20 / OD-16 C-2: the shadcn-authoritative direction keys on this attribute. */
 export const SHADCN_SOURCE_ATTR = 'data-ag-shadcn-source';
 const MATERIAL_CONTRACT = fileURLToPath(new URL('../../../src/contracts/material.ts', import.meta.url));
@@ -164,19 +202,7 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
   assertShadcnAcyclic([...baseDecls, ...downPairs], 'default');
   assertShadcnAcyclic([...baseDecls, ...sourcePairs], 'shadcn-source');
 
-  // preset emission: [data-ag-theme=<id>] blocks may only override --ag-* vars (guard)
-  const presetDecls = new Map();
-  for (const rec of records.values()) {
-    if (!rec.name.startsWith('preset.') || rec.type !== 'theme-preset') continue;
-    const id = rec.name.split('.')[1];
-    const v = resolved.get(rec.name);
-    const decls = [
-      `    --ag-color-canvas: light-dark(${colorToCss(v.canvas.light)}, ${colorToCss(v.canvas.dark)});`,
-      `    --ag-color-accent: ${colorToCss(v.accent)};`,
-    ];
-    if (decls.some((d) => /--_ag-/.test(d))) die(`${rec.name}: preset/theme output contains --_ag-*`);
-    presetDecls.set(id, decls);
-  }
+  // MAT-14: presets ship as scoped cssText, never data-ag-theme selectors.
 
   const parts = [HEADER_CSS, '', LAYER_ORDER, '', '@layer ag.tokens {', '  :root {', '    color-scheme: light dark;', '    --_ag-target: var(--ag-target-min);', ...base, '  }'];
 
@@ -220,6 +246,7 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
     }
   };
   for (const axis of AXIS_ORDER) {
+    if (axis === 'preset') continue;
     const def = axisDefs[axis];
     if (!def) continue;
     for (const axisValue of def.values) {
@@ -255,14 +282,11 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
     }
   }
 
-  for (const [id, decls] of presetDecls) {
-    parts.push('', `  [data-ag-theme="${id}"] {`, ...decls, '  }');
-    noteDecls(decls, `[data-ag-theme="${id}"]`);
-  }
-
   // shadcn bridge emission (inside @layer ag.tokens)
   if (emitShadcnSource) parts.push('', `  :root[${SHADCN_SOURCE_ATTR}] {`, ...shadcnSource, '  }');
   parts.push('', `  :where(:root:not([${SHADCN_SOURCE_ATTR}])) {`, ...shadcnDown, '  }');
+
+  parts.push(...structuralMappingRules(cells));
 
   // fallback @supports blocks stay inside ag.tokens (MAT-036: only @property unlayered)
   parts.push(
@@ -287,6 +311,7 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
   const schemeDark = srgbDecls(base.filter(hasLightDark), 'dark');
   const supports = ['@supports not (color: oklch(0 0 0)) {', ...fb(':root', srgbDecls(base, 'light'))];
   for (const axis of AXIS_ORDER) {
+    if (axis === 'preset') continue;
     const def = axisDefs[axis];
     if (!def) continue;
     for (const axisValue of def.values) {
@@ -298,15 +323,6 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
         else supports.push(...fb(sel, decls));
       }
     }
-  }
-  for (const [id, decls] of presetDecls) {
-    const t = `[data-ag-theme="${id}"]`;
-    const dark = srgbDecls(decls.filter(hasLightDark), 'dark');
-    supports.push(
-      ...fb(t, srgbDecls(decls, 'light')),
-      ...fb(`${DARK} ${t}, ${DARK}${t}`, dark),
-      ...fbMedia(DARK_MEDIA, `:root:not([data-ag-scheme]) ${t}, :root:not([data-ag-scheme])${t}`, dark),
-    );
   }
   const shSel = ':root[data-ag-shadcn-source]';
   const shDark = srgbDecls(shadcnSource.filter(hasLightDark), 'dark');
@@ -358,7 +374,7 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
   }
   // the shadcn-source bridge and the light-dark() fallback blocks above also
   // re-declare --ag-color-*
-  noteDecls(shadcnSource, ':root[data-ag-shadcn-source]');
+  if (emitShadcnSource) noteDecls(shadcnSource, `:root[${SHADCN_SOURCE_ATTR}]`);
   noteDecls(darkFallback, '[data-ag-scheme="dark"]');
   noteDecls(darkFallback, ':root:not([data-ag-scheme])');
   if (forced.size) {
