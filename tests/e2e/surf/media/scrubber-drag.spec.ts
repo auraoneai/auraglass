@@ -7,12 +7,12 @@ test.describe('media scrubber drag (SURF-445)', () => {
   test('drag on the track moves aria-valuenow', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'MediaControls' ) ?? subjects.find((s) => s.subject === 'MediaScrubber');
-    if (!subject) { console.warn('MediaControls subject not registered — pending'); return; }
+    if (!subject) throw new Error('MediaControls subject not registered');
     await gotoStory(page, subject.id);
     const scrubber = page.locator('[data-ag-part="media-scrubber"]').first();
-    if (await scrubber.count() === 0) { console.warn('no scrubber — pending'); return; }
+    expect(await scrubber.count(), 'no scrubber').toBeGreaterThan(0);
     const box = await scrubber.boundingBox();
-    if (!box) { console.warn('no box — pending'); return; }
+    if (!box) throw new Error('no box');
     await page.mouse.move(box.x + box.width * 0.2, box.y + box.height / 2);
     await page.mouse.down();
     await page.mouse.move(box.x + box.width * 0.8, box.y + box.height / 2, { steps: 8 });
