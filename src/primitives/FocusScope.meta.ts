@@ -10,10 +10,12 @@ export const FocusScopeMeta = defineMeta({
   parts: ['root'],
   states: [],
   variants: {},
+  material: { layer: 'content' },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/',
+  budgetKb: 4,
   migration: [
-    { from: 'GlassFocusScope', automation: 'full', compat: true },
-    { from: 'FocusTrap', automation: 'partial', compat: false },
-    { from: 'RovingFocusGroup', automation: 'manual', compat: false },
+    { from: 'GlassFocusScope', props: {}, selectors: { '.glass-focus-scope': '.ag-focus-scope' },  automation: 'full', compat: true },
+    { from: 'FocusTrap', props: {}, selectors: { '.glass-focus-trap': '.ag-focus-scope' },  automation: 'partial', compat: false },
+    { from: 'RovingFocusGroup', props: {}, selectors: { '.glass-roving-focus-group': '.ag-focus-scope' },  automation: 'manual', compat: false },
   ],
 });

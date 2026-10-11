@@ -7,6 +7,19 @@
     flex-direction: column;
     max-block-size: var(--_ag-command-palette-max-h, 60vh);
     overflow: hidden;
+    /* REQ-FIN-82: the palette positions itself (no CMP Dialog chrome). */
+    position: fixed;
+    inset-block-start: var(--_ag-command-palette-top, 12vh);
+    inset-inline: 0;
+    margin-inline: auto;
+    inline-size: min(100% - 2 * var(--ag-space-4, 1rem), 40rem);
+    border-radius: var(--ag-radius-lg, 0.75rem);
+  }
+  /* Clear scrim: dims nothing, blocks pointer input behind the modal. */
+  .ag-command-palette__scrim {
+    position: fixed;
+    inset: 0;
+    background: var(--ag-scrim-clear, transparent);
   }
   .ag-command {
     display: flex;
