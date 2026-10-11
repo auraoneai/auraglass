@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root','item','item-bar','item-bar-text','item-bar-title','item-bar-subtitle','item-bar-action'],
   states: [],
   variants: { variant: ['standard','quilted','masonry'] },
-  migration: [{ from: 'GlassImageList', automation: 'mostly', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 10,
+  migration: [{ from: 'GlassImageList', props: {}, selectors: { '.glass-image-list': '.ag-image-list' },  automation: 'mostly', compat: true }],
 });

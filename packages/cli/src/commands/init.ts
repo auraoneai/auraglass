@@ -8,9 +8,9 @@ import { EXIT } from '../cli/errors.js';
 import { detectProject, type ProjectInfo } from '../core/project-detect.js';
 import { readConfig, SCHEMA_URL, CONFIG_FILE } from '../core/config.js';
 import { installCommand } from '../core/package-manager.js';
+import { unifiedDiff } from '../migrate/4to5/index.js';
 import { assertClean } from '../core/git-guard.js';
 import { writeProjectFile } from '../core/fs-safety.js';
-import { unifiedDiff } from '../migrate/4to5/index.js';
 import {
   mergeGlobalsCss, providersTsx, transformLayoutTsx, transformMainTsx,
   transformIndexHtml, NEXT_GLOBALS_CSS,
