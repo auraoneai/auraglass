@@ -112,7 +112,27 @@ LTS clock keeps running.
 
 ## Drill record (AC-PLAT-19)
 
-A real rollback drill must produce a pipeline URL + the commands actually run,
-committed under `docs/release/decisions/`. The template: S2 + S3 on a scratch
-tag, verify with `npm view aura-glass dist-tags`, paste the job URL into the
-decision record. Pipeline URL: pending the GitLab mirror (OD-8).
+The drill is a CI job, never a hand-typed record. Run the manual job
+`plat:release:rollback-drill` on a green `release/4.1.x` pipeline. It executes
+S2 and S3 against the job's ephemeral registry (verdaccio service) with a
+scratch package (`@ag-drill/aura-glass` at 4.9.9 / 5.0.0):
+
+```sh
+node scripts/release/rollback-drill.mjs --registry http://verdaccio:4873 --out-dir docs/release/drills
+```
+
+Steps it runs and records (argv, exit code, output): publish both versions
+(`latest` = 5.0.0, `v4-lts` = 4.9.9); S2 `dist-tag.mjs --move latest --version
+4.9.9` refused without `AG_ROLLBACK_LATEST_TO_4X`, then accepted with it;
+S3 `npm deprecate` + `npm dist-tag add`; `npm view` dist-tags/versions after
+each scenario. It writes `docs/release/drills/<date>.json` (and
+`.artifacts/plat/rollback-drill.json`) with the pipeline and job URLs and a
+digest. Commit the artifact file unchanged, then check it:
+
+```sh
+node scripts/release/rollback-drill.mjs --verify docs/release/drills/<date>.json
+```
+
+`--verify` fails on a non-GitLab pipeline/job URL, a missing or failed step,
+any `npm unpublish`, a final `latest` other than 4.9.9, or an edit after the
+job wrote the file.
