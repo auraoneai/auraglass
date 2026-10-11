@@ -40,3 +40,19 @@ describe('d.ts hygiene (PLAT-253)', () => {
     expect(bad).toEqual([]);
   });
 });
+
+/* REQ-PLAT-66: JSX-namespace hygiene — emitted d.ts must reference React.JSX
+   (import-qualified), never the bare global JSX namespace. */
+describe('jsx namespace hygiene (REQ-PLAT-66)', () => {
+  it('no bare JSX.* references leak the global namespace', () => {
+    ensureBuilt();
+    const bad: string[] = [];
+    for (const f of walk(DIST, (p) => p.endsWith('.d.ts'))) {
+      for (const [i, line] of readFileSync(f, 'utf8').split('\n').entries()) {
+        // React.JSX.* is fine; a bare JSX.* (no qualifier) leaks the global
+        if (/(?<![\w.])JSX\./.test(line) && !/React\.JSX\./.test(line)) bad.push(`${f}:${i + 1}`);
+      }
+    }
+    expect(bad).toEqual([]);
+  });
+});

@@ -3,19 +3,37 @@
   "name": "code-surface",
   "type": "registry:item",
   "title": "Code surface",
-  "description": "Code viewer/editor card — lazily mounted CodeMirror 6 + Shiki with a readable static fallback.",
-  "dependencies": ["react", "aura-glass@^5", "@codemirror/view@^6", "@codemirror/state@^6", "shiki@^3"],
-  "registryDependencies": ["auraglass"],
+  "description": "Code viewer/editor card \u2014 lazily mounted CodeMirror 6 + Shiki with a readable static fallback.",
+  "dependencies": [
+    "react",
+    "aura-glass@^5",
+    "@codemirror/view@^6",
+    "shiki@^3"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:item" },
-    { "path": "fixtures.ts", "type": "registry:item" }
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
   ],
   "meta": {
     "auraglass": {
       "owner": "PLAT",
       "surface": "item",
       "client": true,
-      "components": ["Badge", "Button", "Card", "Text"],
+      "components": [
+        "Badge",
+        "Button",
+        "Card",
+        "Text"
+      ],
       "ga": true,
       "minVersion": "5.0.0",
       "certified": null,

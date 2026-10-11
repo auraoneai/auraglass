@@ -1,9 +1,11 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-295/420 Text */
 @layer ag.components {
   .ag-text { margin: 0; font-family: var(--_ag-type-body-family, inherit); }
-  .ag-text-type-callout { font-size: var(--ag-type-callout-size, 1.0625rem); }
-  .ag-text-type-caption { font-size: var(--ag-type-caption-size, 0.8125rem); }
-  .ag-text-type-label { font-size: var(--ag-type-label-size, 0.875rem); font-weight: 500; }
+  .ag-text-type-callout { font-size: var(--ag-type-callout-size); }
+  .ag-text-type-caption { font-size: var(--ag-type-caption-size); }
+  .ag-text-type-label { font-size: var(--ag-type-label-size); font-weight: 500; }
   .ag-text-type-mono { font-family: var(--_ag-type-mono-family, ui-monospace, monospace); }
   .ag-text-size-xs { font-size: var(--_ag-text-xs, 0.75rem); }
   .ag-text-size-sm { font-size: var(--_ag-text-sm, 0.875rem); }

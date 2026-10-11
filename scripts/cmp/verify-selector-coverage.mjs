@@ -7,12 +7,20 @@
 
    Modes:
      --css <file.css> --dom <rendered.html>      fixture/local mode (repeatable)
-     --storybook <url>                            remote lane: drives storybook-static
+     --storybook <url|dir>                        remote lane: drives storybook-static
                                                  with playwright (remote only per
-                                                 machine policy; never run locally)
+                                                 machine policy; never run locally).
+                                                 A directory is served in-process.
+                                                 With no --css args, every css file
+                                                 under src/components is checked
+                                                 against the union of all story
+                                                 iframe DOMs.
+     --out <dir>                                  also write report.txt + summary.json
 */
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { createServer } from 'node:http';
+import { extname, join, resolve, sep } from 'node:path';
 
 const PSEUDO = /:{1,2}[a-zA-Z-]+(?:\([^)]*\))?/g;
 
@@ -96,11 +104,28 @@ export function checkPair(cssText, domText, file) {
   return misses;
 }
 
+function* walk(dir) {
+  for (const d of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, d.name);
+    if (d.isDirectory()) yield* walk(p);
+    else yield p;
+  }
+}
+
 async function main() {
   const argv = process.argv.slice(2);
   const storybook = argv.indexOf('--storybook');
   if (storybook !== -1) {
-    // Remote-only lane: drives storybook-static; never executed locally.
+    // Remote-only lane (PRD-F §12 rule 6): outside the remote runner, exit 2 with
+    // the command that runs it remotely instead of driving a browser on the host.
+    if (process.env.AG_REMOTE_RUNNER !== '1') {
+      console.error(
+        'verify-selector-coverage --storybook runs only on the remote runner (AG_REMOTE_RUNNER=1).\n' +
+          'Remote: GitLab job cmp:test:selectors (ci/cmp.gitlab-ci.yml), which runs\n' +
+          '  node scripts/cmp/verify-selector-coverage.mjs --storybook storybook-static --out .artifacts/cmp/test-selectors/',
+      );
+      process.exit(2);
+    }
     const require2 = createRequire(import.meta.url);
     let chromium;
     try {
@@ -109,23 +134,97 @@ async function main() {
       console.error('playwright unavailable — --storybook mode runs only in the remote lane');
       process.exit(2);
     }
-    const url = argv[storybook + 1];
+    const target = argv[storybook + 1];
+    const outIdx = argv.indexOf('--out');
+    const outDir = outIdx !== -1 ? argv[outIdx + 1] : null;
+    let server = null;
+    let url = target;
+    if (existsSync(target) && statSync(target).isDirectory()) {
+      // Serve storybook-static in-process — zero-dependency static file server.
+      const rootDir = resolve(target);
+      const MIME = {
+        '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript',
+        '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml',
+        '.png': 'image/png', '.woff2': 'font/woff2', '.map': 'application/json',
+      };
+      server = createServer((req, res) => {
+        try {
+          const p = join(rootDir, decodeURIComponent(new URL(req.url, 'http://x').pathname));
+          if (p !== rootDir && !p.startsWith(rootDir + sep)) { res.writeHead(403); res.end(); return; }
+          const file = statSync(p).isDirectory() ? join(p, 'index.html') : p;
+          res.writeHead(200, { 'content-type': MIME[extname(file)] ?? 'application/octet-stream' });
+          res.end(readFileSync(file));
+        } catch {
+          res.writeHead(404); res.end();
+        }
+      });
+      await new Promise((r) => server.listen(0, '127.0.0.1', r));
+      url = `http://127.0.0.1:${server.address().port}`;
+    }
+    const base = url.replace(/\/$/, '');
+    const report = (lines, summary, code) => {
+      for (const l of lines) console.log(l);
+      console.log(
+        `selector-coverage: ${summary.cssFiles} css files, ${summary.stories} stories, ` +
+          `${summary.renderErrors} render errors, ${summary.misses} misses`,
+      );
+      if (outDir) {
+        mkdirSync(outDir, { recursive: true });
+        writeFileSync(join(outDir, 'report.txt'), lines.join('\n') + '\n');
+        writeFileSync(join(outDir, 'summary.json'), JSON.stringify(summary, null, 2) + '\n');
+      }
+      server?.close();
+      process.exit(code);
+    };
+    // Story ids come from storybook's index.json; an unreadable or empty index
+    // fails closed (no fallback story list).
+    let storyIds;
+    try {
+      const res = await fetch(`${base}/index.json`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const index = await res.json();
+      const entries = index.entries ?? index.stories ?? {};
+      storyIds = Object.keys(entries).filter((id) => (entries[id]?.type ?? 'story') === 'story');
+    } catch (err) {
+      report([`index.json unreadable at ${base}/index.json: ${err.message}`], { cssFiles: 0, stories: 0, renderErrors: 1, misses: 0 }, 1);
+    }
+    if (storyIds.length === 0) {
+      report([`index.json at ${base}/index.json lists 0 stories`], { cssFiles: 0, stories: 0, renderErrors: 1, misses: 0 }, 1);
+    }
     const browser = await chromium.launch();
     const page = await browser.newPage();
-    await page.goto(`${url.replace(/\/$/, '')}/iframe.html?id=index`);
-    const dom = await page.content();
-    await browser.close();
-    let failures = 0;
-    for (let i = 0; i < argv.length; i++) {
-      if (argv[i] === '--css') {
-        const css = readFileSync(argv[i + 1], 'utf8');
-        for (const m of checkPair(css, dom, argv[i + 1])) {
-          console.log(m);
-          failures++;
-        }
+    // Every story iframe's DOM, unioned — coverage is "renders somewhere". A
+    // story that never mounts into #storybook-root is a render error, not skipped.
+    let dom = '';
+    const renderErrors = [];
+    for (const id of storyIds) {
+      try {
+        await page.goto(`${base}/iframe.html?id=${encodeURIComponent(id)}&viewMode=story`, { waitUntil: 'load' });
+        await page.waitForSelector('#storybook-root > *, #root > *', { state: 'attached', timeout: 15000 });
+        dom += await page.content();
+      } catch (err) {
+        renderErrors.push(`story ${id}: did not render (${String(err.message).split('\n')[0]})`);
       }
     }
-    process.exit(failures ? 1 : 0);
+    await browser.close();
+    const cssArgs = [];
+    for (let i = 0; i < argv.length; i++) if (argv[i] === '--css') cssArgs.push(argv[i + 1]);
+    // CMP-owned css only: the SURF dirs under src/components (PRD-F §6) are
+    // covered by SURF's own lane, not this one.
+    const SURF_DIRS = ['tabs', 'tab-bar', 'breadcrumbs', 'pagination', 'command-palette', 'source-transition', 'timeline'];
+    const cssFiles = cssArgs.length
+      ? cssArgs
+      : [...walk('src/components')]
+          .filter((f) => f.endsWith('.css'))
+          .filter((f) => !SURF_DIRS.includes(f.split(sep)[2]))
+          .sort();
+    const misses = [];
+    for (const f of cssFiles) misses.push(...checkPair(readFileSync(f, 'utf8'), dom, f));
+    report(
+      [...renderErrors, ...misses],
+      { cssFiles: cssFiles.length, stories: storyIds.length, renderErrors: renderErrors.length, misses: misses.length },
+      renderErrors.length || misses.length ? 1 : 0,
+    );
   }
   let failures = 0;
   const pairs = [];

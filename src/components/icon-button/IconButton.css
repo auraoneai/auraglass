@@ -1,8 +1,29 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 @layer ag.components {
   .ag-icon-button {
     padding-inline: var(--ag-space-0);
+    /* REQ-CMP-36: square visual box at the control-height token per size
+       (sm/md/lg -> 28/36/44px); the hit-area span still expands to
+       --ag-target-min (44px) via Button.css. */
     inline-size: var(--ag-target-min);
     border-radius: var(--ag-radius-full);
+    color: var(--ag-color-on-surface);
+  }
+  .ag-icon-button[data-ag-size='sm'] {
+    inline-size: var(--ag-comp-control-height-sm-default, 28px);
+    block-size: var(--ag-comp-control-height-sm-default, 28px);
+    min-block-size: var(--ag-comp-control-height-sm-default, 28px);
+  }
+  .ag-icon-button[data-ag-size='md'] {
+    inline-size: var(--ag-comp-control-height-md-default, 36px);
+    block-size: var(--ag-comp-control-height-md-default, 36px);
+    min-block-size: var(--ag-comp-control-height-md-default, 36px);
+  }
+  .ag-icon-button[data-ag-size='lg'] {
+    inline-size: var(--ag-comp-control-height-lg-default, 44px);
+    block-size: var(--ag-comp-control-height-lg-default, 44px);
+    min-block-size: var(--ag-comp-control-height-lg-default, 44px);
   }
   .ag-icon-button[data-ag-shape='fixed'] {
     border-radius: var(--ag-radius-md);

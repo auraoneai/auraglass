@@ -21,6 +21,9 @@ const w1 = [
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/tabs-indicator.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/tabbar-minimize.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/source-transition.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // REQ-SURF-190: every SURF subject idle 1,000 ms after load at full/calm/none.
+  { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/idle.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/idle.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/app-shell-scroll.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/sidebar-toggle.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/resizable-drag.spec.ts', scope: 'pr', remote: true, failClosed: true },
@@ -45,6 +48,8 @@ const w2 = [
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/{data-table-5000,data-tree-view,data-filter,date-picker-open,activity-feed-prepend}.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L11', kind: 'node-script', path: 'canaries/next16/app/surf/data-server/page.tsx', scope: 'main', remote: true, failClosed: true },
   { lane: 'L11', kind: 'node-script', path: 'canaries/vite/src/surf/DataTable.page.tsx', scope: 'main', remote: true, failClosed: true },
+  // REQ-SURF-08: cross-TZ canary hydration (job surf:test:canary-hydration).
+  { lane: 'L11', kind: 'playwright', path: 'tests/ssr/surf/hydration.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L12', kind: 'jest', path: 'tests/data/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
 ] as const;
 // --- lane W2 end ---
@@ -136,6 +141,25 @@ const w5 = [
     kind: 'node-script',
     path: 'scripts/surf/verify-surf-purity.mjs',
     scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-06: dist side-effect trap over the SURF entries (PLAT's trap,
+  // SURF verdict: 0 undeclared SURF calls, surf fragment []). Needs dist/, so
+  // main + release scopes only — never pr.
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-side-effects.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-side-effects.mjs',
+    scope: 'release',
     remote: false,
     failClosed: true,
   },
