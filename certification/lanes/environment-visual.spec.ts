@@ -15,7 +15,15 @@
 
    Each test title carries `@engine-<engine>`; the chromium/webkit/firefox projects of certification/playwright.cert.config.ts
    select their own engine with `grep`, so no test is skipped. Sharding: AG_SHARD="i/n" or CI_NODE_INDEX/CI_NODE_TOTAL keeps
-   only the cells whose stable hash falls into the shard. Browser lane: GitLab CI / gated remote runner only. */
+   only the cells whose stable hash falls into the shard. Browser lane: GitLab CI / gated remote runner only.
+
+   G-13 (REQ-QUAL-13..18, FIN-430) adds to every cell: labels read back from the page (label-mismatch), console hygiene,
+   OCR text contrast against the text-hidden twin, the REQ-QUAL-15 pixel gates and the ported 4.1 layout detector,
+   glass-over-nothing and separation per glass surface, and in mobile cells containment (ancestor overflow-x clipping
+   disabled, right-edge pixels) and target sizes, in focus-visible cells the focus-indicator contrast. Outside the cell
+   loop: the flat-white/flat-black interior delta (REQ-QUAL-14), the 768×1024 layout-only pass for product scenes and the
+   negative-fixture checks (stories/qual/fixtures/PixelGates.stories.tsx). Measurement code: packages/qa/src/{ocr,pixel,
+   inspect,evidence}; page driving: ./_fixtures/pixel-gates.ts. */
 import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
@@ -32,6 +40,21 @@ import {
   type CapturePlan, type LaneScope, type PlanAg, type PlanEntry, type PlanMeta,
 } from '../../packages/qa/src/matrix/plan';
 import { SENTINELS } from '../matrix.config';
+// G-13 / REQ-QUAL-13..18: per-cell OCR contrast, pixel gates, material presence, labels, console, containment/targets/focus
+import {
+  collectConsole, consoleFailures, focusGate, runCellGates, tesseractInfo, whiteBlackGates, capture as captureRgba, captureWith,
+  settle as settleGates, THRESHOLDS, THRESHOLDS_SHA256, SCENES_SHA256, STORY_ROOT, sceneSigma,
+} from './_fixtures/pixel-gates';
+import { failures, type GateResult } from '../../packages/qa/src/pixel/gate';
+import { toDeviceRect } from '../../packages/qa/src/pixel/raster';
+import { glassOverNothing, markPresenceSurfaces } from '../../packages/qa/src/pixel/materialPresence';
+import { ocr } from '../../packages/qa/src/ocr/tesseract';
+import { evaluateOcr } from '../../packages/qa/src/ocr/contrast';
+import { collectTextRuns, twinCss } from '../../packages/qa/src/ocr/twin';
+import {
+  analyseLayout, collectLayoutSnapshot, collectTargets, containment, measureContainment, restoreAncestorOverflow, targetSizes,
+} from '../../packages/qa/src/inspect/layout';
+import type { Cell } from '../../packages/qa/src/matrix/axes';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const SCOPE = (process.env.AG_SCOPE ?? 'pr') as LaneScope;
@@ -162,6 +185,8 @@ function writePlanEvidence(l: Loaded, shardEntries: PlanEntry[]): void {
     certManifestSha256: sha256File(join(STATIC_DIR, 'cert-manifest.json')),
     storybookBuild: existsSync(join(STATIC_DIR, 'ag-build.json')) ? readJson(join(STATIC_DIR, 'ag-build.json')) : null,
     shard: shardFromEnv(process.env), cellsTotal: l.plan.entries.length,
+    // G-13: gate inputs bound to this run (REQ-QUAL-13 tesseract version; REQ-QUAL-15 thresholds; REQ-QUAL-14 scene σ)
+    thresholdsSha256: THRESHOLDS_SHA256, scenesSha256: SCENES_SHA256, tesseract: tesseractInfo(),
     subjects: [...new Set(shardEntries.map((e) => e.subject))].sort(),
     cells: shardEntries.map((e) => e.id),
     problems: l.plan.problems, loadErrors: l.loadErrors, pendingSentinels: l.plan.pendingSentinels,
@@ -385,6 +410,7 @@ test.describe('L6 environment-visual', () => {
       });
       try {
         const page = await context.newPage();
+        const consoleEvents = collectConsole(page); // REQ-QUAL-17: attached before the story loads
         await installDeterminism(page);
         await page.emulateMedia(force.media);
         await page.goto(storyUrl(STORYBOOK_URL, entry.sourceStoryId, entry.cell));
@@ -411,14 +437,182 @@ test.describe('L6 environment-visual', () => {
         expect(outside.ratio, `REQ-QUAL-09: outside-subject pixels differing from the scene (${(outside.ratio * 100).toFixed(3)} % of ${outside.frame})`)
           .toBeLessThanOrEqual(OUTSIDE_PIXEL_MAX);
 
+        // G-13: REQ-QUAL-13 OCR contrast, -14 glass over nothing, -15 pixel gates + layout, -17 labels, -18 containment,
+        // targets (mobile cells) and focus (focus-visible cells). Measured on this live render only.
+        const gates = await runCellGates(page, {
+          cell: entry.cell, kind: entry.kind, focusDriven: (entry.drive ?? []).some((s) => s.action === 'focus'),
+        });
+        const consoleBad = consoleFailures(consoleEvents);
+
         recordCapture({
           id: entry.id, sourceStoryId: entry.sourceStoryId, renderedStoryId: rendered.id, subject: entry.subject, owner: entry.owner,
-          set: entry.set, matrix: entry.matrix, state: entry.state, cell: entry.cell, captures: 2,
-          outsideDiffRatio: outside.ratio, durationMs: Date.now() - t0,
+          set: entry.set, matrix: entry.matrix, state: entry.state, cell: entry.cell, labels: gates.labels, captures: 2,
+          outsideDiffRatio: outside.ratio, gates: gates.results, ocr: gates.ocr && { status: gates.ocr.status, worst: gates.ocr.worst, words: gates.ocr.subjectWords, textRuns: gates.ocr.visibleTextRuns },
+          tesseract: gates.tesseract, console: consoleEvents, durationMs: Date.now() - t0,
         });
+        expect(failures(gates.results), `L6 gates for ${entry.id}`).toEqual([]);
+        expect(consoleBad, `REQ-QUAL-17 console for ${entry.id}`).toEqual([]);
+        const pendingGates = gates.results.filter((r) => r.status === 'pending');
+        if (pendingGates.length) pendingOrFail(pendingGates.map((r) => `${r.gate}: ${r.detail}`).join(' | '), 'see gate detail');
       } finally {
         await context.close();
       }
     });
   }
+});
+
+// ---- G-13 suites outside the per-cell loop ----------------------------------------------------------------------------
+/** Opens a story in a fresh context forced to `cell`, optionally at another viewport (768×1024 layout pass). */
+async function openStory(browser: import('@playwright/test').Browser, storyId: string, cell: Cell, viewport?: { width: number; height: number }) {
+  const force = forceFor(cell);
+  const context = await browser.newContext({
+    ...force.context, ...(viewport ? { viewport, deviceScaleFactor: 1, hasTouch: false, isMobile: false } : {}),
+    colorScheme: force.media.colorScheme, reducedMotion: force.media.reducedMotion, forcedColors: force.media.forcedColors,
+    contrast: force.media.contrast, baseURL: STORYBOOK_URL,
+  });
+  const page = await context.newPage();
+  const consoleEvents = collectConsole(page);
+  await installDeterminism(page);
+  await page.emulateMedia(force.media);
+  await page.goto(storyUrl(STORYBOOK_URL, storyId, cell));
+  await page.locator('[data-ag-story-content][data-ag-cert-ready]').waitFor({ state: 'attached', timeout: READY_TIMEOUT_MS });
+  await settleGates(page);
+  return { context, page, consoleEvents };
+}
+
+const DEFAULT_CELL = (engine: Cell['engine'], scene: Cell['scene'], viewport: Cell['viewport'] = '1440'): Cell =>
+  ({ engine, scene, scheme: 'light', transparency: 'glass', preference: 'default', tier: 'standard', viewport });
+
+test.describe('L6 G-13 suites', () => {
+  if ('pending' in loaded) {
+    test('G-13 suite inputs @engine-chromium', () => { pendingOrFail(loaded.pending, loaded.producer); });
+    return;
+  }
+  const shard = shardFromEnv(process.env);
+  const inShard = (key: string) => !shard || shardOf(key, shard.total) === shard.index;
+
+  // REQ-QUAL-14: standard-tier glass cells, flat-white vs flat-black, per story-state × engine × scheme present in the plan
+  const pairs = new Map<string, { white?: PlanEntry; black?: PlanEntry }>();
+  for (const e of loaded.plan.entries) {
+    const c = e.cell;
+    if (c.transparency !== 'glass' || c.tier !== 'standard' || c.preference !== 'default' || c.viewport !== '1440') continue;
+    if (c.scene !== 'flat-white' && c.scene !== 'flat-black') continue;
+    const key = `${e.sourceStoryId}|${e.state}|${c.engine}|${c.scheme}`;
+    const p = pairs.get(key) ?? {};
+    if (c.scene === 'flat-white') p.white = e; else p.black = e;
+    pairs.set(key, p);
+  }
+  for (const [key, p] of pairs) {
+    if (!p.white || !p.black || !inShard(`wb|${key}`)) continue;
+    const { white, black } = p;
+    test(`REQ-QUAL-14 flat-white vs flat-black ${key} @engine-${white.cell.engine}`, async ({ browser }) => {
+      test.setTimeout(TEST_TIMEOUT_MS);
+      const w = await openStory(browser, white.sourceStoryId, white.cell);
+      const b = await openStory(browser, black.sourceStoryId, black.cell);
+      try {
+        await driveState(w.page, white); await settleGates(w.page);
+        await driveState(b.page, black); await settleGates(b.page);
+        const results = await whiteBlackGates(w.page, b.page);
+        recordCapture({ id: `wb|${key}`, sourceStoryId: white.sourceStoryId, subject: white.subject, owner: white.owner, gates: results });
+        expect(failures(results), `REQ-QUAL-14 white/black interior for ${key}`).toEqual([]);
+        const pending = results.filter((r) => r.status === 'pending');
+        if (pending.length) pendingOrFail(pending.map((r) => r.detail).join(' | '), 'MAT dist/tokens/manifest.json glass-material floorAlpha');
+      } finally {
+        await w.context.close(); await b.context.close();
+      }
+    });
+  }
+
+  // REQ-QUAL-18: product scenes (showcases) also run at 768×1024, layout gates only
+  const product = [...new Map(loaded.plan.entries.filter((e) => e.kind === 'showcase').map((e) => [e.sourceStoryId, e])).values()];
+  for (const e of product) {
+    if (!inShard(`768|${e.sourceStoryId}`)) continue;
+    test(`REQ-QUAL-18 768×1024 layout ${e.sourceStoryId} @engine-chromium`, async ({ browser }) => {
+      test.setTimeout(TEST_TIMEOUT_MS);
+      const o = await openStory(browser, e.sourceStoryId, DEFAULT_CELL('chromium', 'photo'), THRESHOLDS.layout.productViewport);
+      try {
+        const issues = analyseLayout(await o.page.evaluate(collectLayoutSnapshot, STORY_ROOT));
+        const m = await o.page.evaluate(measureContainment, STORY_ROOT);
+        await o.page.evaluate(restoreAncestorOverflow);
+        const results: GateResult[] = [containment(m, THRESHOLDS.layout),
+          { gate: 'layout', status: issues.length ? 'fail' : 'pass', detail: issues.map((i) => `${i.type}: ${i.detail}`).join('; ') || 'clean' }];
+        recordCapture({ id: `768|${e.sourceStoryId}`, sourceStoryId: e.sourceStoryId, subject: e.subject, owner: e.owner, gates: results });
+        expect(failures(results), `REQ-QUAL-18 768×1024 layout for ${e.sourceStoryId}`).toEqual([]);
+      } finally {
+        await o.context.close();
+      }
+    });
+  }
+
+  // Negative fixtures (stories/qual/fixtures/PixelGates.stories.tsx): each gate must report its fixture.
+  const FIXTURE = (name: string) => `qual-fixtures-pixel-gates--${name}`;
+  const needFixture = (id: string): void => {
+    if (!loaded.indexIds.has(id)) pendingOrFail(`fixture story ${id} is not in this pipeline's index.json`, 'stories/qual/fixtures/PixelGates.stories.tsx in qual:build:storybook');
+  };
+
+  test('REQ-QUAL-18 containment fails on the overflowing fixture @engine-chromium', async ({ browser }) => {
+    needFixture(FIXTURE('overflowing'));
+    const o = await openStory(browser, FIXTURE('overflowing'), DEFAULT_CELL('chromium', 'flat-white', '390'));
+    try {
+      const m = await o.page.evaluate(measureContainment, STORY_ROOT);
+      await settleGates(o.page);
+      expect(containment(m, THRESHOLDS.layout).status).toBe('fail');
+      await o.page.evaluate(restoreAncestorOverflow);
+    } finally { await o.context.close(); }
+  });
+
+  test('REQ-QUAL-18 target size fails on the 20 px target fixture @engine-chromium', async ({ browser }) => {
+    needFixture(FIXTURE('small-target'));
+    const o = await openStory(browser, FIXTURE('small-target'), DEFAULT_CELL('chromium', 'flat-white', '390'));
+    try {
+      const r = targetSizes(await o.page.evaluate(collectTargets, STORY_ROOT), THRESHOLDS.layout);
+      expect(r.status).toBe('fail');
+      expect(r.detail).toMatch(/20(\.0)?×20(\.0)? < 44×44/);
+    } finally { await o.context.close(); }
+  });
+
+  for (const scene of ['flat-white', 'photo'] as const) {
+    test(`REQ-QUAL-18 focus indicator fails on the low-contrast ring fixture (${scene}) @engine-chromium`, async ({ browser }) => {
+      needFixture(FIXTURE('low-contrast-ring'));
+      const o = await openStory(browser, FIXTURE('low-contrast-ring'), DEFAULT_CELL('chromium', scene));
+      try {
+        await o.page.keyboard.press('Shift');
+        await o.page.locator('[data-ag-story-content] [data-ag-part="trigger"]').focus();
+        await settleGates(o.page);
+        const dpr = await o.page.evaluate(() => window.devicePixelRatio);
+        const r = await focusGate(o.page, dpr);
+        expect(r.gate).toBe('focus-indicator');
+        expect(r.status, r.detail).toBe('fail');
+      } finally { await o.context.close(); }
+    });
+  }
+
+  test('REQ-QUAL-13 OCR contrast fails on the 4.1 App Shell ink fixture @engine-chromium', async ({ browser }) => {
+    needFixture(FIXTURE('low-contrast-text'));
+    const tess = tesseractInfo();
+    if ('error' in tess) pendingOrFail(tess.error, 'FIN-B AG_PLAYWRIGHT_IMAGE with tesseract 5');
+    const o = await openStory(browser, FIXTURE('low-contrast-text'), DEFAULT_CELL('chromium', 'flat-white'));
+    try {
+      const shot = await captureRgba(o.page);
+      const runs = await o.page.evaluate(collectTextRuns, STORY_ROOT);
+      const twin = await captureWith(o.page, twinCss(STORY_ROOT));
+      const v = evaluateOcr({ capture: shot, twin, words: ocr(shot, { psm: THRESHOLDS.ocr.psm, upscale: THRESHOLDS.ocr.upscale }).words, runs, dpr: 1, contrastMore: false, thresholds: THRESHOLDS.ocr });
+      expect(runs.length).toBeGreaterThan(0);
+      expect(v.status, v.detail).toBe('fail');
+    } finally { await o.context.close(); }
+  });
+
+  test('REQ-QUAL-14 glass-over-nothing fails on the opaque-stage fixture @engine-chromium', async ({ browser }) => {
+    needFixture(FIXTURE('opaque-stage'));
+    const o = await openStory(browser, FIXTURE('opaque-stage'), DEFAULT_CELL('chromium', 'photo'));
+    try {
+      const surfaces = await o.page.evaluate(markPresenceSurfaces, STORY_ROOT);
+      expect(surfaces.length, 'the fixture renders one regular Surface').toBeGreaterThan(0);
+      const hidden = await captureWith(o.page, `[data-qa-surface="${surfaces[0]!.index}"] { visibility: hidden !important; }`);
+      const r = glassOverNothing(hidden, toDeviceRect(surfaces[0]!.rect, 1), sceneSigma('photo'), THRESHOLDS.materialPresence);
+      if (r.status === 'pending') pendingOrFail(r.detail, 'G-11 scenes.manifest.json');
+      expect(r.status, r.detail).toBe('fail');
+    } finally { await o.context.close(); }
+  });
+
 });

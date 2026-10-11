@@ -57,7 +57,7 @@ describe('readCaptureEvidence', () => {
   });
 });
 
-test('L6 environment-visual is registered at every scope, remote and fail-closed', () => {
+test('L6 environment-visual, preference-modes and console are registered at every scope, remote and fail-closed', () => {
   // loadRegistrations bundles lanes.config.ts and imports it as a data: URL, which only real Node ESM can load.
   const root = join(__dirname, '../../..');
   const script = `const m = await import(${JSON.stringify(pathToFileURL(join(root, 'certification/run.mjs')).href)});
@@ -66,8 +66,11 @@ test('L6 environment-visual is registered at every scope, remote and fail-closed
   const r = spawnSync(process.execPath, ['--input-type=module', '-e', script], { cwd: root, encoding: 'utf8' });
   expect(r.stderr).toBe('');
   const rows = JSON.parse(r.stdout) as Array<Record<string, unknown>>;
-  expect(rows.map((x) => x.scope)).toEqual(['pr', 'main', 'nightly', 'release']);
-  for (const row of rows) {
-    expect(row).toMatchObject({ lane: 'L6', kind: 'playwright', path: 'certification/lanes/environment-visual.spec.ts', remote: true, failClosed: true });
+  // G-13 adds preference-modes (REQ-QUAL-16) and console (REQ-QUAL-17) next to the capture driver
+  for (const spec of ['environment-visual', 'preference-modes', 'console']) {
+    const mine = rows.filter((x) => x.path === `certification/lanes/${spec}.spec.ts`);
+    expect(mine.map((x) => x.scope)).toEqual(['pr', 'main', 'nightly', 'release']);
+    for (const row of mine) expect(row).toMatchObject({ lane: 'L6', kind: 'playwright', remote: true, failClosed: true });
   }
+  expect(rows).toHaveLength(12);
 });
