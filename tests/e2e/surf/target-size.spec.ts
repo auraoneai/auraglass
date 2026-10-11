@@ -9,10 +9,7 @@ const INTERACTIVE = 'a[href], button, [role="button"], input, select, textarea, 
 test.describe('SURF target size', () => {
   test('every shipped SURF subject keeps interactive targets >= 24x24', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
-    if (subjects.length === 0) {
-      console.warn('no SURF subjects registered in the subject index — pending');
-      return;
-    }
+    expect(subjects.length, 'no SURF subjects registered in the subject index').toBeGreaterThan(0);
     for (const subject of subjects) {
       await test.step(subject.id, async () => {
         await gotoStory(page, subject.id);
