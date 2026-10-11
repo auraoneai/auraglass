@@ -47,22 +47,52 @@ bun add aura-glass
 
 ## Quickstart
 
-Import the stylesheet once, then compose components from the public package entrypoint:
+<!-- generated:quickstart -->
+<!-- Generated from docs/quickstart/next.md by scripts/docs/gen-readme.mjs; edit that file, not this region. -->
 
-```tsx
-import { GlassButton, GlassCard } from 'aura-glass';
-import 'aura-glass/styles';
+1. Create the app:
 
-export function BillingCard() {
-  return (
-    <GlassCard>
-      <h2>Revenue</h2>
-      <p>$128,400</p>
-      <GlassButton>Open dashboard</GlassButton>
-    </GlassCard>
-  );
-}
-```
+   ```bash
+   npx create-next-app@latest my-app --yes
+   cd my-app
+   ```
+
+2. Install AuraGlass:
+
+   ```bash
+   npm install aura-glass@next
+   ```
+
+3. Set up AuraGlass:
+
+   ```bash
+   npx @auraglass/cli@latest init --yes
+   ```
+
+4. Add the app-frame block:
+
+   ```bash
+   npx @auraglass/cli@latest add app-frame --yes
+   ```
+
+5. Render it — replace `app/page.tsx` with:
+
+   ```tsx
+   import { AppFrame } from '@/components/aura/app-frame';
+
+   export default function Page() {
+     return <AppFrame />;
+   }
+   ```
+
+6. Start the dev server:
+
+   ```bash
+   npm run dev
+   ```
+
+Without Tailwind, or on Vite: [docs/quickstart/next.md](./docs/quickstart/next.md) and [docs/quickstart/vite.md](./docs/quickstart/vite.md).
+<!-- /generated:quickstart -->
 
 ## What You Can Build
 
