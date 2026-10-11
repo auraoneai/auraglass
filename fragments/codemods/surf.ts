@@ -7,7 +7,9 @@ const w1: CodemodMappingFragment = {
     { component: 'AppShell', from: 'header', to: null, todo: 'slot children: render TopBar/PageHeader inside AppShell.Root' },
     { component: 'AppShell', from: 'sidebar', to: null, todo: 'slot children: render Sidebar inside AppShell.Root' },
     { component: 'AppShell', from: 'footer', to: null, todo: 'slot children: render StatusBar inside AppShell.Root' },
-    { component: 'AppShell', from: 'sidebarWidth', to: 'sidebarWidth' },
+    { component: 'AppShell', from: 'sidebarWidth', to: null, todo: 'sidebar width is css on .ag-app-shell, not a prop' },
+    { component: 'AppShell', from: 'sidebarPlacement', to: 'sidebarSide', values: { left: 'start', right: 'end' } },
+    { component: 'AppShell', from: 'collapsed', to: 'defaultSidebar', values: { true: 'rail', false: 'expanded' }, todo: "collapsed={x} -> defaultSidebar={x ? 'rail' : 'expanded'}" },
     { component: 'AppShell', from: 'collapsible', to: null, todo: 'sidebar always collapsible via AppShell.SidebarToggle' },
     { component: 'AppShell', from: 'mobileOverlay', to: null, todo: 'mobile overlay is SidebarDrawer, shown by container query' },
     { component: 'AppShell', from: 'padding', to: null, todo: 'padding is css, --ag-space-* tokens' },
@@ -18,6 +20,9 @@ const w1: CodemodMappingFragment = {
     { component: 'Sidebar', from: 'badge', to: 'badge' },
     { component: 'Tabs', from: 'selectedTab', to: 'value' },
     { component: 'Tabs', from: 'onTabChange', to: 'onValueChange' },
+    { component: 'Tabs', from: 'activeTab', to: 'value' },
+    { component: 'Tabs', from: 'onTabClick', to: 'onValueChange' },
+    { component: 'Tabs', from: 'onChange', to: 'onValueChange', todo: 'an index handler onChange(event, index) must map the index to the tab value' },
     { component: 'TabBar', from: 'items', to: null, todo: 'item arrays become TabBar.Item children' },
     { component: 'TabBar', from: 'activeTab', to: 'value' },
     { component: 'Breadcrumbs', from: 'items', to: null, todo: 'item arrays become Breadcrumbs.Item children' },
@@ -56,15 +61,37 @@ const w1: CodemodMappingFragment = {
     { from: 'LiquidGlassTransitionProvider', fromEntry: 'aura-glass', to: 'SourceTransition', toEntry: 'aura-glass' },
     { from: 'LiquidGlassSource', fromEntry: 'aura-glass', to: 'SourceTransition', toEntry: 'aura-glass' },
     { from: 'LiquidGlassDestination', fromEntry: 'aura-glass', to: 'SourceTransition', toEntry: 'aura-glass' },
+    // DEP-S0027..S0037 (REQ-SURF-14: every absorbed name has a rename row).
+    { from: 'EnhancedGlassTabs', fromEntry: 'aura-glass', to: 'Tabs', toEntry: 'aura-glass' },
+    { from: 'GlassTabItem', fromEntry: 'aura-glass', to: 'Tabs', toEntry: 'aura-glass' },
+    { from: 'GlassSplitPane', fromEntry: 'aura-glass', to: 'GlassSplitPane', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassNavigationMenu', fromEntry: 'aura-glass', to: 'GlassNavigationMenu', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'LiquidGlassInsetSidebar', fromEntry: 'aura-glass', to: 'LiquidGlassInsetSidebar', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'LiquidGlassInspectorPanel', fromEntry: 'aura-glass', to: 'LiquidGlassInspectorPanel', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassSidebarRail', fromEntry: 'aura-glass/app-shell', to: 'Sidebar', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassSidebarPanel', fromEntry: 'aura-glass/app-shell', to: 'Sidebar', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassBreadcrumbs', fromEntry: 'aura-glass/app-shell', to: 'Breadcrumbs', toEntry: 'aura-glass' },
+    { from: 'GlassPage', fromEntry: 'aura-glass/app-shell', to: 'Container', toEntry: 'aura-glass' },
   ],
   areaTransforms: [
     {
       id: 'app-shell-slots',
       module: 'packages/cli/src/migrate/4to5/transforms/app-shell-slots.ts',
-      spec: 'GlassAppShell header/sidebar/footer props -> slot children; GlassSidebar/GlassSidebarRail item arrays -> Sidebar.Item/Rail.Item children; handler-only items (onClick/onSelect, no href) stay actions',
+      spec: [
+        'GlassAppShell header/sidebar/footer props -> slot children of AppShell.Root (TopBar.Root, Sidebar.Root, footer element); children -> AppShell.Main.',
+        'GlassSidebar/GlassSidebarRail item arrays -> <Sidebar.Nav aria-label="Main"> with Sidebar.Item children (label -> children, icon -> icon, href -> href); children arrays -> Sidebar.Collapsible label=<label>.',
+        'Handler-only items (onClick/onSelect/onNavigate, no href) -> render={<button type="button" onClick={handler} />}, no TODO and no fabricated href.',
+        'Imports come from aura-glass/app-shell (AppShell, Sidebar, TopBar); layout-only props (variant, collapsible, sidebarWidth, mobileOverlay, padding, maxWidth) drop.',
+      ].join(' '),
     },
   ],
-  fixtures: ['fragments/codemods/surf/fixtures/app-shell-slots'],
+  // <id>/<case>/{input,output}.<ext>; <id> is the engine transform the case runs.
+  // canonical-names holds one case per renames[].from of every lane.
+  fixtures: [
+    'fragments/codemods/surf/fixtures/app-shell-slots',
+    'fragments/codemods/surf/fixtures/canonical-names',
+    'fragments/codemods/surf/fixtures/prop-grammar',
+  ],
 };
 // --- lane W1 end ---
 
@@ -169,6 +196,8 @@ const w2: CodemodMappingFragment = {
     { symbol: 'GlassChartsDemo', entry: 'aura-glass', reason: 'demo-only export removed at 5.0', doc: 'docs/auraglass-5/migration/chart-adapter.md' },
     { symbol: 'GlassHeatmap', entry: 'aura-glass', reason: 'no 5.0 successor (5.x candidate)', doc: 'docs/auraglass-5/migration/chart-adapter.md' },
     { symbol: 'GlassGanttChart', entry: 'aura-glass', reason: 'moved to a registry item owned by PLAT', registryItem: 'gantt', doc: 'docs/auraglass-5/migration/chart-adapter.md' },
+    { symbol: 'GlassKanbanBoard', entry: 'aura-glass', reason: 'moved to a registry item (dnd-kit Kanban)', registryItem: 'kanban', doc: 'docs/auraglass-5/migration/kanban.md' },
+    { symbol: 'GlassKanban', entry: 'aura-glass', reason: 'moved to a registry item (dnd-kit Kanban)', registryItem: 'kanban', doc: 'docs/auraglass-5/migration/kanban.md' },
     { symbol: 'KpiChart', entry: 'aura-glass', reason: 'chart engines removed at 5.0', doc: 'docs/auraglass-5/migration/chart-adapter.md' },
     { symbol: 'GlassMetricsGrid', entry: 'aura-glass', reason: 'docs composition over StatCard grid', doc: 'docs/auraglass-5/migration/data-table.md' },
     { symbol: 'GlassVirtualGrid', entry: 'aura-glass', reason: 'replaced; no 5.0 successor', doc: 'docs/auraglass-5/migration/data-table.md' },
@@ -186,7 +215,9 @@ const w2: CodemodMappingFragment = {
     { pkg: 'react-chartjs-2', range: '-', when: 'consumer direct import — remove' },
     { pkg: 'date-fns', range: '-', when: 'consumer direct import — migrate to @internationalized/date' },
   ],
-  fixtures: ['fragments/codemods/surf/fixtures/data-grid-columns'],
+  // ColumnDefinition -> column def is folded into canonical-names
+  // (canonical-names/data-grid-column-definition); no separate transform id.
+  fixtures: ['fragments/codemods/surf/fixtures/removed', 'fragments/codemods/surf/fixtures/deps'],
 };
 // --- lane W2 end ---
 
@@ -225,6 +256,10 @@ const w3: CodemodMappingFragment = {
     { symbol: 'GlassMusicVisualizer', entry: 'aura-glass', reason: 'no successor until 5.1 (Waveform)', doc: 'apps/docs/content/surf/migration/ai.md' },
     { symbol: 'GlassVoiceWaveform', entry: 'aura-glass', reason: 'no successor until 5.1 (Waveform)', doc: 'apps/docs/content/surf/migration/ai.md' },
     { symbol: 'GlassLiveFilter', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'usePredictiveEngine', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'GlassPredictionIndicator', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'useInteractionRecorder', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'predictiveEnginePresets', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
   ],
   areaTransforms: [
     {
@@ -233,7 +268,7 @@ const w3: CodemodMappingFragment = {
       spec: "Rewrite the four chat imports (GlassChat, GlassChatInput, GlassMessageList, GlassTypingIndicator) from 'aura-glass' to 'aura-glass/compat' and insert '// TODO(aura-glass 5): migrate to aura-glass/ai Thread/Message/Composer, see <doc>' above the import without touching JSX structure.",
     },
   ],
-  fixtures: ['fragments/codemods/surf/fixtures/ai-chat-imports'],
+  fixtures: ['fragments/codemods/surf/fixtures/ai-chat'],
 };
 // --- lane W3 end ---
 
@@ -285,6 +320,10 @@ const w4: CodemodMappingFragment = {
     { symbol: 'GlassParticleField', entry: 'aura-glass', reason: 'particles move to the labs package', doc: 'apps/docs/content/surf/migration/media.md' },
     { symbol: 'LiquidGlassBackdropSampler', entry: 'aura-glass', reason: 'tone sampling is Backdrop/useMediaElement({sampleTone})', doc: 'apps/docs/content/surf/migration/media.md' },
     { symbol: 'useLiquidGlassBackdrop', entry: 'aura-glass', reason: 'tone sampling is Backdrop/useMediaElement({sampleTone})', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'AuroraPro', entry: 'aura-glass', reason: 'absorbed; Backdrop preset="aurora"', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'SeasonalParticles', entry: 'aura-glass', reason: 'Backdrop presets; particles move to the labs package', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassAuroraDisplay', entry: 'aura-glass', reason: 'absorbed; Backdrop preset="aurora"', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassNebulaClouds', entry: 'aura-glass', reason: 'absorbed; Backdrop presets aurora/mesh', doc: 'apps/docs/content/surf/migration/media.md' },
   ],
   areaTransforms: [
     {
@@ -299,12 +338,7 @@ const w4: CodemodMappingFragment = {
       ].join(' '),
     },
   ],
-  fixtures: [
-    'fragments/codemods/surf/fixtures/media-backdrops/media-controls',
-    'fragments/codemods/surf/fixtures/media-backdrops/image-viewer',
-    'fragments/codemods/surf/fixtures/media-backdrops/carousel-autoplay',
-    'fragments/codemods/surf/fixtures/media-backdrops/aurora-motion',
-  ],
+  fixtures: ['fragments/codemods/surf/fixtures/media-backdrops'],
 };
 // --- lane W4 end ---
 
