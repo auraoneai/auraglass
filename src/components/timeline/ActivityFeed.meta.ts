@@ -7,8 +7,9 @@ export default defineMeta({
   tier: 'T1',
   flagship: 37,
   rsc: 'mixed',
-  parts: ['activity-feed', 'activity-day', 'activity-heading', 'activity-item', 'activity-actor', 'activity-new-items'],
+  parts: ['activity-actor', 'activity-day-heading', 'activity-feed', 'activity-load-more'],
   states: ['new-items'],
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: {},
   budgetKb: 4,
   migration: [

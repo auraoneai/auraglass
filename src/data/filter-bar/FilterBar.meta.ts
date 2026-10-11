@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 34,
   rsc: 'client',
-  parts: ['filter-bar', 'filter-search', 'filter-chip', 'filter-chip-remove', 'filter-add', 'filter-clear', 'filter-count'],
+  parts: ['filter-add', 'filter-bar', 'filter-clear', 'filter-quick', 'filter-quick-toggle', 'filter-rule-chip', 'filter-rule-editor', 'filter-rules', 'filter-search'],
   states: ['empty', 'active'],
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/',

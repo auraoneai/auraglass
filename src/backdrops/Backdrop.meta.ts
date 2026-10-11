@@ -6,9 +6,10 @@ export default defineMeta({
   entry: './backdrops',
   tier: 'T2',
   rsc: 'server',
-  parts: ['backdrop-layer', 'backdrop-content', 'backdrop-pause'],
+  parts: ['backdrop-content', 'backdrop-layer', 'backdrop-pause'],
   states: ['media', 'light', 'dark', 'auto', 'none'],
   variants: { preset: ['photo', 'video', 'aurora', 'mesh', 'grain'] },
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/',
   budgetKb: 3,
   migration: [
     { from: 'AuroraBackground', props: { motion: 'motion' }, automation: 'partial', compat: true },

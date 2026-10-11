@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 14,
   rsc: 'client',
-  parts: ['date-picker', 'field-label', 'field-input', 'field-segment', 'picker-trigger', 'popover', 'calendar'],
+  parts: ['date-input', 'date-picker', 'date-picker-popover', 'date-picker-trigger'],
   states: ['open', 'invalid', 'disabled', 'required', 'readonly'],
   variants: { size: ['sm', 'md', 'lg'] },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/',

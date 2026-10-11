@@ -6,7 +6,8 @@ export default defineMeta({
   entry: './charts',
   tier: 'preview',
   rsc: 'mixed',
-  parts: ['chart', 'chart-frame', 'chart-title', 'chart-plot', 'chart-legend', 'chart-legend-item', 'chart-table', 'chart-tooltip'],
+  // Chart renders inside ChartFrame (chart-frame/title/plot/legend/table are ChartFrame's parts).
+  parts: ['chart-focus-cursor', 'chart-grid', 'chart-mark-area', 'chart-mark-bar', 'chart-mark-donut', 'chart-mark-line', 'chart-plot-svg', 'chart-tooltip'],
   states: ['empty', 'loading'],
   variants: { type: ['line', 'area', 'bar', 'donut'] },
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/grid-and-table-properties/',
@@ -14,5 +15,5 @@ export default defineMeta({
   migration: [
     { from: 'GlassDataChart', props: {}, automation: 'manual', compat: false, note: 'on @tier preview until 5.1.0' },
   ],
-  selectors: [{ from: '.glass-data-chart', to: '[data-ag-part="chart"]' }],
+  selectors: [{ from: '.glass-data-chart', to: '[data-ag-part="chart-frame"]' }],
 });

@@ -6,7 +6,7 @@ export default defineMeta({
   entry: './ai',
   tier: 'T2',
   rsc: 'client',
-  parts: ['streaming-text', 'text', 'caret'],
+  parts: ['caret', 'streaming-text', 'text'],
   states: ['streaming', 'done'],
   variants: {},
   budgetKb: 2,

@@ -7,10 +7,11 @@ export default defineMeta({
   tier: 'T1',
   flagship: 42,
   rsc: 'client',
-  parts: ['citation', 'citation-preview', 'citation-preview-title', 'citation-preview-host', 'citation-preview-kind'],
+  parts: ['citation', 'citation-preview', 'citation-preview-host', 'citation-preview-kind', 'citation-preview-title'],
   states: [],
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/link/',
   variants: {},
-  budgetKb: 4,
+  budgetKb: 9,
   migration: [],
   selectors: [],
 });
