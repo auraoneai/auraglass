@@ -7,14 +7,14 @@ export default defineMeta({
   tier: 'T2',
   flagship: 14,
   rsc: 'client',
-  parts: ['time-field', 'field-label', 'field-input', 'field-segment'],
+  parts: ['time-field', 'time-input'],
   states: ['invalid', 'disabled', 'required', 'readonly'],
+  apg: 'spinbutton',
   variants: { size: ['sm', 'md', 'lg'] },
-  budgetKb: 4,
+  budgetKb: 6,
   migration: [
-    { from: 'GlassTimeField', props: { onChange: 'onValueChange' }, automation: 'mostly', compat: true },
+    { from: 'GlassTimeField', props: { onChange: 'onValueChange' }, selectors: { '.glass-time-field': '[data-ag-part="time-field"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-time-field', to: '[data-ag-part="time-field"]' }],
 });
 
 export const TIME_PICKER_META = {
@@ -24,8 +24,9 @@ export const TIME_PICKER_META = {
   tier: 'T2',
   flagship: 14,
   rsc: 'client',
-  parts: ['time-picker', 'field-label', 'field-input', 'field-segment', 'popover', 'listbox', 'option'],
+  parts: ['time-picker', 'time-input', 'time-picker-trigger', 'time-picker-popover', 'time-picker-hours', 'time-picker-minutes'],
   states: ['open', 'invalid', 'disabled'],
+  variants: {},
   budgetKb: 6,
   migration: [{ from: 'GlassTimePicker', props: {}, automation: 'manual', compat: false }],
 } as const;
