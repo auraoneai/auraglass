@@ -1196,7 +1196,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 35
+     "count": 37
     }
    ],
    "value": "9999px"
@@ -1212,7 +1212,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 11
+     "count": 13
     }
    ],
    "value": "20px"
@@ -1228,7 +1228,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 18
+     "count": 21
     }
    ],
    "value": "14px"
@@ -1244,7 +1244,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 16
+     "count": 18
     }
    ],
    "value": "10px"
@@ -1260,7 +1260,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 11
+     "count": 13
     }
    ],
    "value": "28px"
@@ -1276,7 +1276,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 2
+     "count": 4
     }
    ],
    "value": "6px"
@@ -1340,7 +1340,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 3
+     "count": 5
     }
    ],
    "value": "calc(0px * var(--_ag-density))"
@@ -1356,7 +1356,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 73
+     "count": 75
     }
    ],
    "value": "calc(4px * var(--_ag-density))"
@@ -1372,7 +1372,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 3
+     "count": 5
     }
    ],
    "value": "calc(40px * var(--_ag-density))"
@@ -1388,7 +1388,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 3
     }
    ],
    "value": "calc(48px * var(--_ag-density))"
@@ -1404,7 +1404,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 3
     }
    ],
    "value": "calc(64px * var(--_ag-density))"
@@ -1420,7 +1420,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 103
+     "count": 105
     }
    ],
    "value": "calc(8px * var(--_ag-density))"
@@ -1436,7 +1436,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 35
+     "count": 37
     }
    ],
    "value": "calc(12px * var(--_ag-density))"
@@ -1452,7 +1452,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 39
+     "count": 41
     }
    ],
    "value": "calc(16px * var(--_ag-density))"
@@ -1468,7 +1468,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 13
+     "count": 15
     }
    ],
    "value": "calc(20px * var(--_ag-density))"
@@ -1484,7 +1484,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 7
+     "count": 9
     }
    ],
    "value": "calc(24px * var(--_ag-density))"
@@ -1500,7 +1500,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 6
+     "count": 8
     }
    ],
    "value": "calc(32px * var(--_ag-density))"

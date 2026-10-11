@@ -5,6 +5,44 @@ import { compileSpring } from '../transforms/motion-spring.mjs';
 import { die, dim, renderValue, prettierFormat, HEADER_CSS, LAYER_ORDER, SHADCN_MAP, AXIS_ORDER } from './_shared.mjs';
 export { HEADER_CSS, LAYER_ORDER };
 
+/** Selector of the ConcentricFrame part (REQ-MAT-26): disambiguates the frame's
+    data-ag-radius from a surface's fallbackRadius data-ag-radius. */
+export const CONCENTRIC_FRAME_PART = 'concentric-frame';
+
+/**
+ * REQ-MAT-26 (FIN D.3-17): structural attribute -> var mapping rules, generated
+ * from the emitted space/radius scales so every SpaceToken / RadiusToken has a
+ * rule and no value is hand-copied.
+ *  - SurfaceGroup  [data-ag-group][data-ag-spacing=N]   -> --_ag-group-spacing: var(--ag-space-N)
+ *  - ConcentricFrame [data-ag-part=concentric-frame][data-ag-radius=r] -> --ag-radius-outer: var(--ag-radius-r)
+ *  - ConcentricFrame [data-ag-part=concentric-frame][data-ag-inset=N]  -> --ag-inset: var(--ag-space-N)
+ *  - surface fallbackRadius [data-ag-radius=r] outside the frame part  -> --_ag-fallback-radius: var(--ag-radius-r);
+ *    a concentric surface with no fallbackRadius gets the md default (REQ-MAT-26 "default md").
+ * The group gap and the out-of-frame concentric radius are applied by
+ * material.css reading these vars (REQ-FIN-02 clause transfer).
+ * @param {Array<{cssVar?: string}>} cells
+ * @returns {string[]} rule lines (two-space indent, inside @layer ag.tokens)
+ */
+export function structuralMappingRules(cells) {
+  const keys = (re) => [...new Set(cells.map((c) => c.cssVar && re.exec(c.cssVar)?.[1]).filter(Boolean))];
+  const space = keys(/^--ag-space-(\d+)$/).sort((a, b) => Number(a) - Number(b));
+  const radius = keys(/^--ag-radius-(xs|sm|md|lg|xl|full)$/);
+  if (!space.length) die('structural mapping: no --ag-space-* tokens emitted');
+  if (!radius.length) die('structural mapping: no --ag-radius-* tokens emitted');
+  if (!radius.includes('md')) die('structural mapping: fallback default --ag-radius-md is not emitted');
+  const frame = `[data-ag-part="${CONCENTRIC_FRAME_PART}"]`;
+  const rule = (sel, decl) => ['', `  ${sel} {`, `    ${decl};`, '  }'];
+  return [
+    '',
+    '  /* REQ-MAT-26 structural mapping (generated; scripts/tokens/formats/css-layered.mjs) */',
+    ...space.flatMap((n) => rule(`[data-ag-group][data-ag-spacing="${n}"]`, `--_ag-group-spacing: var(--ag-space-${n})`)),
+    ...radius.flatMap((r) => rule(`${frame}[data-ag-radius="${r}"]`, `--ag-radius-outer: var(--ag-radius-${r})`)),
+    ...space.flatMap((n) => rule(`${frame}[data-ag-inset="${n}"]`, `--ag-inset: var(--ag-space-${n})`)),
+    ...radius.flatMap((r) => rule(`[data-ag-radius="${r}"]:not(${frame})`, `--_ag-fallback-radius: var(--ag-radius-${r})`)),
+    ...rule('[data-ag-shape="concentric"]:not([data-ag-radius])', '--_ag-fallback-radius: var(--ag-radius-md)'),
+  ];
+}
+
 /** Emit dist/tokens.css (MAT-026). */
 export async function emitTokensCss(cells, axisDefs, records, resolved) {
   const base = [];                       // decls for :root
@@ -130,6 +168,9 @@ export async function emitTokensCss(cells, axisDefs, records, resolved) {
     '',
     '  :where(:root:not([data-ag-shadcn-source])) {', ...shadcnDown, '  }',
   );
+
+  // structural attribute -> var mapping (REQ-MAT-26)
+  parts.push(...structuralMappingRules(cells));
 
   // fallback @supports blocks stay inside ag.tokens (MAT-036: only @property unlayered)
   parts.push(
