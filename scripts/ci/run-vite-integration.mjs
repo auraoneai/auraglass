@@ -12,8 +12,8 @@ const ROOT = process.cwd();
 
 const LEGS = [
   { dir: 'vite', gate: ['npm', ['run', 'build']], playwright: true },
-  { dir: 'vite-tailwind4', gate: ['npm', ['run', 'build']], playwright: false },
-  { dir: 'vite-compiler', gate: ['npm', ['run', 'build']], playwright: false },
+  { dir: 'vite-tailwind4', gate: ['npm', ['run', 'build']], playwright: true },
+  { dir: 'vite-compiler', gate: ['npm', ['run', 'build']], playwright: true },
   { dir: 'types-strict', gate: ['npm', ['run', 'check']], playwright: false },
   { dir: 'jest-cjs', gate: ['npm', ['test']], playwright: false },
 ];
