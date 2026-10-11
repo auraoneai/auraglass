@@ -89,11 +89,14 @@ const CI_JOBS = {
 // report are both named by the contract table. plat:gate:change-class keeps
 // the scripts/release/lib/policy.mjs writer path (changeClassOut); since
 // FIN-A REQ-FIN-10 the 4x visual-class reader path is plat:test:visual-4x's
-// own job dir, so that job needs no producer path (B3-6).
+// own job dir, so that job needs no producer path (B3-6). plat:test:registry:
+// apps/docs/public/r/, the registry output of PLAT PRD §4.2 that pages
+// publishes as public/r/ (REQ-PLAT-94 / REQ-PLAT-07, B3-8).
 const PRODUCER_PATHS = {
   'plat:build:dist': ['dist/'],
   'plat:package:pack': ['.artifacts/pack/', '.artifacts/plat/pack.env'],
   'plat:gate:change-class': ['.artifacts/plat/change-class/'],
+  'plat:test:registry': ['apps/docs/public/r/'],
   'plat:build:docs': ['apps/docs/out/', 'apps/docs/public/', 'storybook-static/'],
   'mat:build:tokens': ['dist/tokens/', 'dist/tokens.css', 'dist/compat/tokens.css'],
   'qual:build:storybook': ['storybook-static/'],
