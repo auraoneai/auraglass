@@ -16,3 +16,4 @@ export const Default: Story = { render: () => <StatusBar.Root><StatusBar.Item>Re
 export const RTL: Story = { render: () => <StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item><StatusBar.Item>3 issues</StatusBar.Item></StatusBar.Root>, parameters: { globals: { dir: 'rtl' } } };
 export const ReducedTransparency: Story = { render: () => <StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item><StatusBar.Item>3 issues</StatusBar.Item></StatusBar.Root>, parameters: { ag: { material: 'regular' } } };
 export const ForcedColors: Story = { render: () => <StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item><StatusBar.Item>3 issues</StatusBar.Item></StatusBar.Root>, parameters: { globals: { forcedColors: 'active' } } };
+export const WithLive: Story = { render: () => <StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item><StatusBar.Live>Saved</StatusBar.Live></StatusBar.Root> };
