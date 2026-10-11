@@ -1,46 +1,53 @@
-/* MAT-238 / REQ-MOT-T05,-23,-72,-17,-129: settled-state invariant for every
- * motion subject story × engine × 2 viewports × {no-preference, reduce} ×
- * data-ag-motion {full, calm, none}. will-change on 0 elements at steady
- * state (during-animation budget <= 3 is asserted by frame-strip.spec.ts). */
+/* MAT-238 / REQ-MAT-44 (REQ-MOT-T05,-23,-72,-17,-129): settled-state invariant
+ * for every motion subject story × data-ag-motion {full, calm, none}.
+ *
+ * The engine × width × OS-preference matrix comes from the Playwright project:
+ * the twelve mat:motion-{chromium,webkit,firefox}-{desktop,mobile}[-reduce]
+ * projects in fragments/playwright/mat.json (3 engines × {1440, 390} ×
+ * {no-preference, reduce}); ci/mat.gitlab-ci.yml mat:test:motion-settle runs
+ * this spec on exactly those projects, remote only.
+ *
+ * A state change is the story mount and every trigger activation. After each
+ * one, at --ag-duration-large + 100 ms (read from the token source), every
+ * visible part must be settled: opacity >= 0.99, scale ∈ {none, 1},
+ * translate ∈ {none, 0px}, visibility != hidden, non-zero box, no running
+ * animation and will-change on 0 elements (during-animation budget <= 3 is
+ * asserted by frame-strip.spec.ts). */
 import { test, expect } from '@playwright/test';
 import { gotoStory, listSubjects } from '../helpers';
-import { settle, willChangeCount } from './helpers/settle';
+import { settle, settleWaitMs, willChangeCount, type SettleResult } from './helpers/settle';
 
-const VIEWPORTS = [
-  { name: 'desktop', width: 1440, height: 900 },
-  { name: 'mobile', width: 390, height: 844 },
-] as const;
 const MOTION_MODES = ['full', 'calm', 'none'] as const;
+const TRIGGERS = '[data-ag-part="trigger"], button, [role="tab"]';
+
+const describe = (r: SettleResult): string =>
+  `running=${r.runningAnimations} names=[${r.runningNames}] faded=[${r.fadedParts}] ` +
+  `transformed=[${r.transformedParts}] scaled=[${r.scaledParts}] translated=[${r.translatedParts}] ` +
+  `hidden=[${r.hiddenParts}] willChange=[${r.willChangeParts}] collapsed=[${r.collapsedParts}]`;
 
 test.describe.configure({ mode: 'parallel' });
 
-for (const vp of VIEWPORTS) {
-  for (const pref of ['no-preference', 'reduce'] as const) {
-    test.describe(`${vp.name} × ${pref}`, () => {
-      test.use({
-        viewport: { width: vp.width, height: vp.height },
-        reducedMotion: pref,
-      });
-      for (const mode of MOTION_MODES) {
-        test(`settled invariant — motion=${mode}`, async ({ page }) => {
-          const subjects = (await listSubjects({ tags: ['mat:motion'] })).map((s) => s.id);
-          expect(subjects.length, 'motion subjects present').toBeGreaterThan(0);
-          for (const id of subjects) {
-            await gotoStory(page, id, { motion: mode });
-            const root = page.locator('[data-ag-root]');
-            const trigger = root.locator('[data-ag-part="trigger"], button, [role="tab"]').first();
-            if (await trigger.count()) await trigger.click().catch(() => undefined);
-            const res = await settle(root, { waitMs: 400 });
-            expect(
-              res.pass,
-              `${id} @${vp.name}/${pref}/${mode}: running=${res.runningAnimations} ` +
-              `names=[${res.runningNames}] faded=[${res.fadedParts}] transformed=[${res.transformedParts}] ` +
-              `willChange=[${res.willChangeParts}] collapsed=[${res.collapsedParts}]`,
-            ).toBe(true);
-            await expect(willChangeCount(root)).resolves.toBe(0);
-          }
-        });
+for (const mode of MOTION_MODES) {
+  test(`settled invariant — motion=${mode}`, async ({ page }, info) => {
+    const waitMs = settleWaitMs();
+    const subjects = (await listSubjects({ tags: ['mat:motion'] })).map((s) => s.id);
+    expect(subjects.length, 'motion subjects present').toBeGreaterThan(0);
+    const cell = `${info.project.name}/${mode}`;
+    for (const id of subjects) {
+      await gotoStory(page, id, { motion: mode });
+      const root = page.locator('[data-ag-root]');
+
+      const mounted = await settle(root, { waitMs });
+      expect(mounted.pass, `${id} @${cell} after mount: ${describe(mounted)}`).toBe(true);
+      await expect(willChangeCount(root)).resolves.toBe(0);
+
+      const triggers = await root.locator(TRIGGERS).all();
+      for (const [i, trigger] of triggers.entries()) {
+        await trigger.click();
+        const after = await settle(root, { waitMs });
+        expect(after.pass, `${id} @${cell} after trigger #${i}: ${describe(after)}`).toBe(true);
+        await expect(willChangeCount(root)).resolves.toBe(0);
       }
-    });
-  }
+    }
+  });
 }
