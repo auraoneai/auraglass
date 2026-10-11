@@ -1,13 +1,19 @@
 /* MAT-295 (REQ-MAT-61): layer stack — single portal root, stacked Escape order
    with focus restore, inert background (Tab stays in the dialog, aria-modal on
    the panel, scrim has no role), inert application timing <=2ms for 1000 nodes
-   (Chromium). Runs on A11y/LayerStack. */
+   (every engine). Runs on A11y/LayerStack, resolved through listSubjects() and
+   required to be MAT-owned (REQ-MAT-65). */
 import { test, expect } from '@playwright/test';
+import { listSubjects } from '../../helpers';
+import { matFixture } from './helpers/subjects';
 
-const STORY = 'a11y-layer-stack--default';
+const STORY_ID = 'a11y-layerstack--default';
+async function story(): Promise<string> {
+  return (await matFixture(listSubjects, STORY_ID)).id;
+}
 
 async function openAll(page: import('@playwright/test').Page) {
-  await page.goto(`/iframe.html?id=${STORY}&viewMode=story`);
+  await page.goto(`/iframe.html?id=${await story()}&viewMode=story`);
   for (const kind of ['dialog', 'popover', 'tooltip', 'toast']) {
     await page.click(`[data-ag-part="trigger"][data-ag-kind="${kind}"]`);
   }
@@ -40,7 +46,7 @@ test.describe('layer stack', () => {
   });
 
   test('inert background', async ({ page }) => {
-    await page.goto(`/iframe.html?id=${STORY}&viewMode=story`);
+    await page.goto(`/iframe.html?id=${await story()}&viewMode=story`);
     await page.click('[data-ag-part="trigger"][data-ag-kind="dialog"]');
     const panel = page.locator('[data-ag-part="dialog"]');
     await expect(panel).toHaveAttribute('role', 'dialog');
@@ -59,9 +65,8 @@ test.describe('layer stack', () => {
     }
   });
 
-  test('inert timing', async ({ page, browserName }) => {
-    test.skip(browserName !== 'chromium', 'timing probe is Chromium-only');
-    await page.goto(`/iframe.html?id=${STORY}&viewMode=story`);
+  test('inert timing', async ({ page }) => {
+    await page.goto(`/iframe.html?id=${await story()}&viewMode=story`);
     const ms = await page.evaluate(async () => {
       const host = document.createElement('div');
       for (let i = 0; i < 1000; i += 1) host.appendChild(document.createElement('span'));

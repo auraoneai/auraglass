@@ -2,15 +2,20 @@
    required rung under: forced colors (ignores data-ag-transparency=glass),
    prefers-contrast=more, reduced transparency (Chromium CDP; WebKit/Gecko via
    the user-selected 'tinted' path, named as such), and no-js
-   (javaScriptEnabled:false) repeating all. */
+   (javaScriptEnabled:false) repeating all. REQ-MAT-65: the fixture is resolved
+   through listSubjects() and must be MAT-owned; forced colours and contrast
+   more run on every engine via page.emulateMedia. */
 import { test, expect } from '@playwright/test';
 import { listSurfaces, surfaceRung } from './helpers/surfaces';
-import { emulateReducedTransparency, emulateContrastMore, emulateForcedColors } from './helpers/emulate';
+import { emulateReducedTransparency, emulateContrastMore, emulateForcedColors, assertMedia } from './helpers/emulate';
+import { listSubjects } from '../../helpers';
+import { matFixture } from './helpers/subjects';
 
 const STORY = 'a11y-rungs--default';
 
 async function gotoRungs(page: import('@playwright/test').Page) {
-  await page.goto(`/iframe.html?id=${STORY}&viewMode=story`);
+  const fixture = await matFixture(listSubjects, STORY);
+  await page.goto(`/iframe.html?id=${fixture.id}&viewMode=story`);
   await page.waitForSelector('[data-ag-surface]', { timeout: 15_000 });
 }
 
@@ -36,17 +41,17 @@ async function expectAllAtRung(page: import('@playwright/test').Page, required: 
 }
 
 test.describe('floors', () => {
-  test('forced colors ignores data-ag-transparency=glass', async ({ page, browserName }) => {
-    test.skip(browserName !== 'chromium', 'forced-colors emulation is Chromium-only (reported, not faked)');
+  test('forced colors ignores data-ag-transparency=glass', async ({ page }) => {
     await emulateForcedColors(page);
     await gotoRungs(page);
+    await assertMedia(page, '(forced-colors: active)');
     await expectAllAtRung(page, 'solid', 'forced-colors');
   });
 
-  test('contrast more floor', async ({ page, browserName }) => {
-    test.skip(browserName !== 'chromium', 'prefers-contrast emulation is Chromium-only');
+  test('contrast more floor', async ({ page }) => {
     await emulateContrastMore(page);
     await gotoRungs(page);
+    await assertMedia(page, '(prefers-contrast: more)');
     await expectAllAtRung(page, 'tinted', 'prefers-contrast=more');
   });
 
@@ -59,7 +64,8 @@ test.describe('floors', () => {
       // No media-switch channel on WebKit/Gecko: exercise the same floor through
       // the user path (data-ag-transparency=tinted), named in the report.
       testInfo.annotations.push({ type: 'note', description: 'reduced-transparency media switch unavailable on this engine; verified via the user-selected tinted path' });
-      await page.goto(`/iframe.html?id=${STORY}&viewMode=story&globals=transparency:tinted`);
+      const fixture = await matFixture(listSubjects, STORY);
+      await page.goto(`/iframe.html?id=${fixture.id}&viewMode=story&globals=transparency:tinted`);
       await page.waitForSelector('[data-ag-surface]');
       await expectAllAtRung(page, 'tinted', 'user-tinted-path');
     }
@@ -68,7 +74,8 @@ test.describe('floors', () => {
   test('no-js floors', async ({ browser }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
-    await page.goto(`/iframe.html?id=${STORY}&viewMode=story`);
+    const fixture = await matFixture(listSubjects, STORY);
+    await page.goto(`/iframe.html?id=${fixture.id}&viewMode=story`);
     // With JS off the server-rendered surface markup still carries data-ag-*;
     // floors resolve through CSS/media queries alone.
     const surfaces = await listSurfaces(page);

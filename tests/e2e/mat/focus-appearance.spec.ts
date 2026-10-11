@@ -1,15 +1,19 @@
 /* MAT-299 (REQ-MAT-58): focus appearance — for every focusable part reached by
    Tab on every story under test: changed-pixel area in box+4px between
    unfocused and focused (2 rAFs) >= 2 CSS px perimeter, and the worst decile of
-   focused-vs-unfocused contrast ratio >= 3:1. Emits focus-appearance.json. */
+   focused-vs-unfocused contrast ratio >= 3:1. Emits
+   focus-appearance-<engine>.json. REQ-MAT-65: stories come from
+   listSubjects() (S-40; flagship + MAT at MAT_A11Y_SCOPE=pr, the whole index at
+   full) and every failing part is attributed to the subject's owner. */
 import { test, expect } from '@playwright/test';
 import { diffRatioInBox } from './helpers/pixels';
+import { listSubjects } from '../../helpers';
+import { sweepSubjects, tag, byOwner, type Owner } from './helpers/subjects';
 import fs from 'node:fs';
 
-const STORIES = ['a11y-focus-ring--default', 'a11y-targets--default', 'a11y-rungs--default'];
 const PAD = 4;
 
-interface Row { story: string; part: string; scene: string; engine: string; area: number; required: number; worstRatio: number; fail: boolean }
+interface Row { story: string; subject: string; owner: Owner; part: string; scene: string; engine: string; area: number; required: number; worstRatio: number; fail: boolean }
 
 async function focusedRatio(page: import('@playwright/test').Page): Promise<number> {
   return page.evaluate(() => {
@@ -40,11 +44,13 @@ async function focusedRatio(page: import('@playwright/test').Page): Promise<numb
 }
 
 test.describe('focus appearance', () => {
-  for (const storyId of STORIES) {
-    test(`${storyId}: indicator area + 3:1 worst decile`, async ({ page, browserName }, testInfo) => {
-      await page.goto(`/iframe.html?id=${storyId}&viewMode=story`);
-      await page.waitForSelector('body');
-      const rows: Row[] = [];
+  test('every subject: indicator area + 3:1 worst decile', async ({ page, browserName }, testInfo) => {
+    test.setTimeout(45 * 60 * 1000);
+    const subjects = await sweepSubjects(listSubjects);
+    const rows: Row[] = [];
+    for (const s of subjects) {
+      await page.goto(`/iframe.html?id=${s.id}&viewMode=story`);
+      await page.waitForSelector('[data-ag-cert-ready]', { state: 'attached', timeout: 30_000 });
       // walk the tab order (cap 40 parts)
       for (let i = 0; i < 40; i += 1) {
         const handle = await page.evaluateHandle(() => document.activeElement);
@@ -76,20 +82,20 @@ test.describe('focus appearance', () => {
         const required = 2 * (2 * box.width + 2 * box.height) * dpr * dpr; // ~2 CSS px of perimeter
         const worstRatio = await focusedRatio(page);
         rows.push({
-          story: storyId, part, scene: String(testInfo.project.name), engine: browserName,
+          story: s.id, subject: s.subject, owner: s.owner, part, scene: String(testInfo.project.name), engine: browserName,
           area: changed, required, worstRatio,
           fail: changed < required * 0.25 || worstRatio < 3,
         });
         await page.keyboard.press('Tab');
       }
-      fs.mkdirSync('.artifacts/mat', { recursive: true });
-      const out = `.artifacts/mat/focus-appearance-${testInfo.project.name}.json`;
-      const existing: Row[] = fs.existsSync('.artifacts/mat/focus-appearance.json')
-        ? (JSON.parse(fs.readFileSync('.artifacts/mat/focus-appearance.json', 'utf8')) as Row[]) : [];
-      fs.writeFileSync('.artifacts/mat/focus-appearance.json', JSON.stringify([...existing, ...rows], null, 2));
-      const fails = rows.filter((r) => r.fail);
-      expect(fails, `failed parts: ${fails.map((f) => f.part).join(',')}`).toHaveLength(0);
-      expect(rows.length, 'at least one focusable part measured').toBeGreaterThan(0);
-    });
-  }
+    }
+    fs.mkdirSync('.artifacts/mat', { recursive: true });
+    const fails = rows.filter((r) => r.fail);
+    fs.writeFileSync(`.artifacts/mat/focus-appearance-${browserName}.json`, JSON.stringify({
+      rows, byOwner: byOwner(fails.map((f) => ({ owner: f.owner, msg: `${tag({ owner: f.owner, subject: f.subject, id: f.story })} ${f.part}` }))),
+    }, null, 2));
+    expect(rows.length, 'at least one focusable part measured').toBeGreaterThan(0);
+    expect(fails.map((f) => `${tag({ owner: f.owner, subject: f.subject, id: f.story })} part=${f.part} area=${f.area.toFixed(0)}/${f.required.toFixed(0)} ratio=${f.worstRatio.toFixed(2)}`),
+      'focus indicators below the appearance minimum').toEqual([]);
+  });
 });
