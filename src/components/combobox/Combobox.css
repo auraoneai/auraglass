@@ -102,7 +102,7 @@
   /* Popup */
   .ag-combobox-popup {
     min-inline-size: var(--_ag-combobox-popup-min-w, 100%);
-    max-block-size: var(--_ag-combobox-popup-max-h, var(--_ag-space-72));
+    max-block-size: var(--available-height, var(--_ag-combobox-popup-max-h, var(--_ag-space-72)));
     overflow-y: auto;
     overscroll-behavior: contain;
     border-radius: var(--ag-radius-lg);

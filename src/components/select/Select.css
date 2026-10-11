@@ -61,7 +61,7 @@
   .ag-select-popup {
     min-inline-size: var(--_ag-select-popup-min-w, 100%);
     max-inline-size: var(--_ag-select-popup-max-w, var(--_ag-space-96));
-    max-block-size: var(--_ag-select-popup-max-h, var(--_ag-space-72));
+    max-block-size: var(--available-height, var(--_ag-select-popup-max-h, var(--_ag-space-72)));
     overflow-y: auto;
     overscroll-behavior: contain;
     border-radius: var(--ag-radius-lg);

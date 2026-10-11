@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 import { Combobox as Base } from '@base-ui/react/combobox';
+import { defaultPositionerProps } from '../overlays/_shared/positioning';
+import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { materialProps } from '../../material';
 import { usePortalContainer } from '../../foundation/portal';
 import { useAnnouncer } from '../../theme';
@@ -321,13 +323,15 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
         data-ag-part="positioner"
         side="bottom"
         align="start"
-        sideOffset={6}
+        {...defaultPositionerProps}
         {...sizeAttrs(size)}
       >
         <Base.Popup
           data-ag-part="popup"
-          {...materialProps({ layer: 'overlay', thickness: 'regular' })}
+          {...overlayMaterial('combobox')}
           className={cn('ag-combobox-popup', className)}
+          /* CMP-205: popup open state mirrored as data-state like every overlay popup. */
+          render={(props, state) => <div {...props} data-state={state.open ? 'open' : 'closed'} />}
         >
           <Base.List data-ag-part="list" aria-busy={loading || undefined}>
             {virtual ? (
