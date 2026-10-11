@@ -4,6 +4,9 @@
 - `AlertTriangleIcon`
 - `BellIcon`
 - `ErrorIcon`
+- `GlassIcon`
+- `GlassIconNode`
+- `GlassIconProps`
 - `InfoIcon`
 - `LoaderIcon`
 - `NotificationIcon`

@@ -7,6 +7,9 @@
 - `ChevronUpIcon`
 - `DashboardIcon`
 - `FolderIcon`
+- `GlassIcon`
+- `GlassIconNode`
+- `GlassIconProps`
 - `GridIcon`
 - `HomeIcon`
 - `ListIcon`

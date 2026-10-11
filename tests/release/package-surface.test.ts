@@ -1,15 +1,13 @@
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { v410PackageJson } from "./lib/v410-package";
 
 const ROOT = path.resolve(__dirname, "..", "..");
 
 describe("4.1.1 package surface (patch-scope)", () => {
-  const base = JSON.parse(
-    execFileSync("git", ["show", "15b6de6f7:package.json"], {
-      cwd: ROOT, encoding: "utf8", maxBuffer: 8 * 1024 * 1024,
-    }),
-  );
+  // git show 15b6de6f7:package.json, fetching the v4.1.0 tag in shallow CI clones.
+  const base = v410PackageJson();
   const head = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8"));
 
   it.each(["dependencies", "peerDependencies", "exports"])(

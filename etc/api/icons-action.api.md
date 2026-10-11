@@ -8,6 +8,9 @@
 - `CopyIcon`
 - `DownloadIcon`
 - `FilterIcon`
+- `GlassIcon`
+- `GlassIconNode`
+- `GlassIconProps`
 - `LoaderIcon`
 - `PlusIcon`
 - `RefreshIcon`

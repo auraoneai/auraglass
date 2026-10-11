@@ -1,7 +1,34 @@
 {
  "entry": "./styles",
- "exports": [],
- "unanalysable": [
-  "no analysable target for './styles'"
- ]
+ "exports": [
+  "--ag-aurora-a",
+  "--ag-aurora-b",
+  "--ag-aurora-c",
+  "--ag-aurora-d",
+  "--ag-card-radius",
+  "--ag-display-hero-size",
+  "--ag-display-section-size",
+  "--ag-display-title-size",
+  "--ag-feature-visual-min-height",
+  "--ag-logo-size",
+  "--ag-marketing-bg-0",
+  "--ag-marketing-bg-1",
+  "--ag-marketing-display-font",
+  "--ag-marketing-focus",
+  "--ag-marketing-grain-opacity",
+  "--ag-marketing-label-font",
+  "--ag-marketing-vignette-opacity",
+  "--ag-orb-size",
+  "--ag-particle-alpha",
+  "--ag-particle-delay",
+  "--ag-particle-duration",
+  "--ag-particle-size",
+  "--ag-particle-x",
+  "--ag-particle-y",
+  "--ag-selector-blur",
+  "--ag-tabbar-blur",
+  "--ag-tilt-x",
+  "--ag-tilt-y"
+ ],
+ "unanalysable": []
 }

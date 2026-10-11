@@ -1,7 +1,5 @@
 {
  "entry": "./tokens/css",
  "exports": [],
- "unanalysable": [
-  "no analysable target for './tokens/css'"
- ]
+ "unanalysable": []
 }

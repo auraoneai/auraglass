@@ -2,13 +2,17 @@
 
 - `ARGlassAnimations`
 - `ARGlassEffects`
+- `ARGlassEffectsProps`
 - `ARGlassGeometryFactory`
 - `ARGlassInteractions`
 - `ARGlassMaterialFactory`
 - `ARGlassUtils`
 - `AuroraPro`
+- `AuroraProProps`
 - `GlassShatterEffects`
+- `GlassShatterEffectsProps`
 - `SeasonalParticles`
+- `SeasonalParticlesProps`
 - `auroraPresets`
 - `auroraThemes`
 - `seasonalPresets`

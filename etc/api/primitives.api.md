@@ -1,5 +1,7 @@
 ## API Report — aura-glass ./primitives
 
+- `AnimationEasing`
+- `AnimationPreset`
 - `DismissableLayer`
 - `DismissableLayerOutsideEvent`
 - `DismissableLayerProps`
@@ -16,6 +18,7 @@
 - `GlassPortal`
 - `GlassPositioner`
 - `GlassPrimitive`
+- `GlassProps`
 - `GlassRovingFocusGroup`
 - `GlassSlot`
 - `Label`
@@ -50,9 +53,11 @@
 - `Motion`
 - `MotionFramer`
 - `MotionNative`
+- `MotionProps`
 - `OptimizedGlass`
 - `OptimizedGlassAdvanced`
 - `OptimizedGlassCore`
+- `OptimizedGlassProps`
 - `Portal`
 - `PortalProps`
 - `Positioner`

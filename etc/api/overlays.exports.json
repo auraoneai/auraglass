@@ -1,5 +1,11 @@
 {
  "entry": "./overlays",
- "exports": [],
+ "exports": [
+  "LiquidGlassAdaptiveSheet",
+  "LiquidGlassAdaptiveSheetProps",
+  "LiquidGlassPopoverMenu",
+  "LiquidGlassPopoverMenuItem",
+  "LiquidGlassPopoverMenuProps"
+ ],
  "unanalysable": []
 }
