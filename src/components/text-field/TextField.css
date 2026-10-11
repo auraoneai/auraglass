@@ -23,7 +23,7 @@
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     border-radius: var(--ag-radius-inner);
-    transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
   }
   .ag-text-field [data-ag-part='control-shell']:focus-within {
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--_ag-focus-outer, var(--ag-color-focus-outer)),

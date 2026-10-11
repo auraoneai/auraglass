@@ -16,7 +16,7 @@
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 6%), transparent);
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     cursor: text;
-    transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
   }
   .ag-combobox[data-ag-size='sm'] {
     min-block-size: var(--_ag-control-h-sm, var(--ag-space-8));
@@ -62,7 +62,12 @@
     color: var(--ag-color-on-surface-muted);
   }
   .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
-    animation: ag-combobox-rotate var(--ag-duration-ambient) linear infinite;
+    animation: none;
+  }
+  /* REQ-CMP-18: finite spin under explicit full motion only; no loop and no
+     allowContinuous read (that is Skeleton's alone). */
+  [data-ag-motion='full'] .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
+    animation: ag-combobox-rotate var(--ag-duration-large) linear 240;
   }
   @keyframes ag-combobox-rotate {
     to { transform: rotate(360deg); }
@@ -123,6 +128,7 @@
   }
   .ag-combobox-popup[data-ending-style] {
     transition-duration: var(--ag-duration-small-exit);
+    transition-timing-function: var(--ag-ease-accelerate);
   }
   .ag-combobox-popup[data-open],
   .ag-combobox-popup[data-instant] {

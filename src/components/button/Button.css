@@ -21,7 +21,7 @@
     min-block-size: var(--ag-target-min);
     position: relative;
     background: transparent;
-    transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard), opacity var(--ag-duration-micro) var(--ag-ease-standard);
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
   }
 
   .ag-button[data-ag-size='sm'] {
@@ -46,8 +46,13 @@
     border-radius: var(--ag-radius-full);
     border: var(--_ag-focus-width) solid var(--ag-color-on-surface-muted);
     border-block-start-color: var(--ag-color-accent);
-    animation: ag-spin var(--ag-duration-ambient) var(--ag-ease-standard) infinite;
     flex: none;
+    /* REQ-CMP-18/-33: static under calm/none and by default; a finite spin only
+       under explicit full motion (never a loop, never allowContinuous). */
+    animation: none;
+  }
+  [data-ag-motion='full'] .ag-button [data-ag-part='spinner'] {
+    animation: ag-spin var(--ag-duration-large) linear 240;
   }
 
   /* Loading: label/icons stay mounted, hidden for stable width. */
