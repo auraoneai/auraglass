@@ -18,7 +18,7 @@ export function GlassVirtualList(props: GlassVirtualListProps) {
   warnDeprecated('GlassVirtualList');
   const { items, renderItem, children } = props;
   if (items && renderItem) {
-    return <div data-ag-compat="GlassVirtualList">{items.map((it, i) => <React.Fragment key={i}>{renderItem(it, i)}</React.Fragment>)}</div>;
+    return <div data-compat="GlassVirtualList">{items.map((it, i) => <React.Fragment key={i}>{renderItem(it, i)}</React.Fragment>)}</div>;
   }
-  return <div data-ag-compat="GlassVirtualList">{children}</div>;
+  return <div data-compat="GlassVirtualList">{children}</div>;
 }
