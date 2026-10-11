@@ -17,7 +17,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'content', refractionEligible: true },
   apg: 'spinbutton',
-  budgetKb: 6,
+  budgetKb: 14,
   migration: [
     {
       from: 'GlassNumberInput',
@@ -26,7 +26,7 @@ const meta: ControlMeta = defineMeta({
         formatter: { to: 'format' },
         parser: { to: 'locale/format' },
       },
-      automation: 'partial',
+      selectors: { '.glass-number-input': '.ag-number-field' }, automation: 'partial',
       compat: true,
     },
   ],

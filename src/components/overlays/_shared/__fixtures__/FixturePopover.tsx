@@ -5,7 +5,7 @@
 'use client';
 import * as React from 'react';
 import { Popover as Base } from '@base-ui/react/popover';
-import { usePortalContainer } from '../../../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../portalContainer';
 import { overlayMaterial } from '../overlaySurface';
 import { defaultPositionerProps } from '../positioning';
 import { useOverlayLayer } from '../useOverlayLayer';
