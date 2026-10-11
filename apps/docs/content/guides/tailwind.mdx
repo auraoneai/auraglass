@@ -1,0 +1,86 @@
+# Tailwind CSS
+
+AuraGlass supports **Tailwind CSS v4 only**. Tailwind v3 (JavaScript `tailwind.config.js`, `@tailwind` directives, presets) is not supported and no preset or plugin ships for it.
+
+The bridge is a single stylesheet, `aura-glass/tailwind.css`. It contains only CSS: an `@theme inline` block that maps Tailwind theme variables to AuraGlass tokens, a few `@utility` rules and three `@custom-variant` rules. There is no JavaScript configuration.
+
+## Setup
+
+Put this at the top of your main stylesheet (for Next.js `app/globals.css`, for Vite `src/index.css`):
+
+```css
+@layer theme, base, ag, components, utilities;
+@import "tailwindcss";
+@import "aura-glass/styles.css" layer(ag);
+@import "aura-glass/tailwind.css";
+```
+
+- The **layer statement** comes first. It places the AuraGlass `ag` layer after Tailwind's `base` (preflight) and before `components` and `utilities`, so a Tailwind utility on an AuraGlass component wins over the component's own styles without `!important`.
+- `aura-glass/styles.css` is the component and material CSS. Importing it into `layer(ag)` keeps all of it inside the `ag` layer.
+- `aura-glass/tailwind.css` imports the token sheet and registers the theme mapping, utilities and variants.
+
+`npx @auraglass/cli init` writes these lines for you when it detects an existing `@import "tailwindcss";`.
+
+## No `@source` needed
+
+The library ships no Tailwind class strings in its JavaScript, so Tailwind never has to scan `node_modules/aura-glass`. Do **not** add `@source "../node_modules/aura-glass"`: it only slows the build and finds nothing.
+
+## Theme mapping (`@theme inline`)
+
+The bridge maps token families into Tailwind's namespaces with `var()` references, so utilities follow the live AuraGlass values (light/dark, tinted, solid, contrast) instead of copying them:
+
+| Tailwind variable | Points at | Example utilities |
+|---|---|---|
+| `--color-*` | `--ag-color-*`, `--ag-on-surface*` | `bg-canvas`, `text-on-surface`, `border-border`, `text-accent` |
+| `--radius-*` | `--ag-radius-*`, `--ag-surface-radius` (as `--radius-surface`) | `rounded-md`, `rounded-full`, `rounded-surface` |
+| `--shadow-*` | `--ag-shadow-*`, `--ag-surface-shadow` (as `--shadow-glass`) | `shadow-regular`, `shadow-glass` |
+
+Because the mapping is `inline`, the generated utility contains the AuraGlass variable itself, for example `.bg-canvas { background-color: var(--ag-color-canvas) }`.
+
+## Utilities
+
+| Utility | What it draws |
+|---|---|
+| `glass-regular` | the regular glass material: fill, rim, radius, shadow and backdrop blur |
+| `glass-clear` | clear glass: rim and blur without a fill (use over media) |
+| `glass-thin` | thinner blur and lighter shadow |
+| `glass-thick` | stronger blur and deeper shadow |
+| `content-raised` | an opaque raised content panel (no backdrop blur) |
+
+```tsx
+export function Panel({ children }: { children: React.ReactNode }) {
+  return <section className="glass-regular p-4">{children}</section>;
+}
+```
+
+Use these on your own layout elements. AuraGlass components already render their material; do not add `glass-*` to them.
+
+## Variants
+
+| Variant | Matches |
+|---|---|
+| `ag-dark:` | inside `[data-ag-scheme=dark]` (the resolved AuraGlass colour scheme, not `prefers-color-scheme`) |
+| `ag-tinted:` | inside `[data-ag-tinted]` |
+| `ag-solid:` | inside `[data-ag-transparency='solid']` (the user chose solid surfaces) |
+
+```tsx
+export function Hint() {
+  return <p className="text-on-surface ag-dark:text-on-surface-muted ag-solid:shadow-none">Saved</p>;
+}
+```
+
+The attributes are set by `AuraGlassProvider` and the pre-paint `AuraGlassScript` from the user's preferences, so the variants follow the user's choice rather than the operating system alone.
+
+## Overriding a component with a utility
+
+Utilities sit in Tailwind's `utilities` layer, which the layer statement orders after `ag`. A utility class on a component therefore wins:
+
+```tsx
+import { Button } from 'aura-glass';
+
+export function Danger() {
+  return <Button className="bg-red-500 text-white">Delete</Button>;
+}
+```
+
+If a utility does not apply, check that the layer statement is the first rule of the stylesheet; an `@import` of `styles.css` without `layer(ag)` or a missing statement changes the order.
