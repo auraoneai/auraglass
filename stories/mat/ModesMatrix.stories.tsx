@@ -15,7 +15,9 @@ const SCENE_IDS = [
   'photo', 'flat-white', 'flat-black', 'dense-text',
   'video', 'map', 'data-viz', 'edge-bleed',
 ];
-const sceneImages = globUrls('/certification/scenes/*.{png,jpg,jpeg,webp,avif}');
+const sceneImages = globUrls(
+  import.meta.glob('/certification/scenes/*.{png,jpg,jpeg,webp,avif}', { eager: true, query: '?url', import: 'default' }),
+);
 const VARIANTS: MaterialVariant[] = ['regular', 'clear', 'identity'];
 const THICKNESSES: Thickness[] = ['thin', 'regular', 'thick'];
 

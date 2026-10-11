@@ -8,8 +8,6 @@ import {
   TopBar,
   StatusBar,
   Inspector,
-  AppShellSidebarToggle,
-  AppShellInspectorToggle,
 } from 'aura-glass/app-shell';
 import { APP_NAV, APP_TITLE, STATUS_TEXT } from './fixtures';
 
@@ -18,11 +16,11 @@ export function AppFrame({ children }: { children?: React.ReactNode }) {
     <AppShell.Root>
       <TopBar.Root>
         <TopBar.Leading>
-          <AppShellSidebarToggle />
+          <AppShell.SidebarToggle />
           <strong>{APP_TITLE}</strong>
         </TopBar.Leading>
         <TopBar.Trailing>
-          <AppShellInspectorToggle />
+          <AppShell.InspectorToggle />
         </TopBar.Trailing>
       </TopBar.Root>
       <Sidebar.Root labels={{ navigation: 'Primary' }}>

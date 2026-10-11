@@ -20,7 +20,7 @@ test.describe('optics', () => {
   });
 
   test('blur ladder 12/20/32 and never > 32px', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab--matrix');
+    await gotoMaterialStory(page, 'material-lab-matrix--matrix');
     const blurs = await page.locator('.ag-surface').evaluateAll((els) =>
       els.map((el) => {
         const m = getComputedStyle(el, '::before').backdropFilter.match(/blur\((\d+)px\)/);
@@ -37,7 +37,7 @@ test.describe('optics', () => {
   });
 
   test('prominent accent <= 0.18', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab--optics-prominent');
+    await gotoMaterialStory(page, 'material-optics--prominent');
     const acc = await computedVar(page, '.ag-surface[data-ag-prominent]', '--_ag-accent-mix');
     expect(parseFloat(acc)).toBeLessThanOrEqual(0.18);
   });
@@ -59,7 +59,7 @@ test.describe('optics', () => {
   });
 
   test('specular driven by --ag-specular; 0 under contrast-more', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab--optics-specular');
+    await gotoMaterialStory(page, 'material-optics--specular');
     const s0 = await computedVar(page, 'html', '--ag-specular');
     void s0;
     // under prefers-contrast: more, specular is killed
@@ -70,7 +70,7 @@ test.describe('optics', () => {
   });
 
   test('shadow scales by thickness', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab--matrix');
+    await gotoMaterialStory(page, 'material-lab-matrix--matrix');
     const shadows = await page.locator('.ag-surface').evaluateAll((els) =>
       els.map((el) => getComputedStyle(el, '::before').boxShadow));
     expect(new Set(shadows).size).toBeGreaterThanOrEqual(2);

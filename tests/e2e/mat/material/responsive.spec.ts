@@ -15,7 +15,7 @@ test.describe('responsive', () => {
   test.use({ ...iPhone13, isMobile: async ({ browserName }, use) => use(browserName !== 'firefox') });
 
   test('coarse pointer: thick blur 20px, grain <= 0.02', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab--matrix');
+    await gotoMaterialStory(page, 'material-lab-matrix--matrix');
     const blur = await computedVar(page, '.ag-surface[data-ag-thickness="thick"]', '--_ag-blur');
     expect(blur).toBe('20px');
     const grain = await computedVar(page, '.ag-surface[data-ag-thickness="thick"]', '--_ag-grain-opacity');
@@ -32,7 +32,7 @@ test.describe('responsive', () => {
   });
 
   test('ScrollEdge height 16-32px, no overlap with focusables', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab-shape--scroll-edge-soft-hard');
+    await gotoMaterialStory(page, 'material-lab-shape-concentricity--scroll-edge-soft-hard');
     const edge = page.locator('[data-ag-part="scroll-edge"]').first();
     const box = await edge.boundingBox();
     expect(box).toBeTruthy();
@@ -43,7 +43,7 @@ test.describe('responsive', () => {
   });
 
   test('concentric inner radius >= 0 at every density', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab-shape--radius-rhythm');
+    await gotoMaterialStory(page, 'material-lab-shape-concentricity--radius-rhythm');
     const inner = await computedVar(page, '.ag-surface[data-ag-shape="concentric"]', '--ag-radius-inner');
     expect(parseFloat(inner)).toBeGreaterThanOrEqual(0);
   });

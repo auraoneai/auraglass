@@ -10,7 +10,7 @@ const BLUR_LADDER = { thin: '12px', regular: '20px', thick: '32px' } as const;
 test.describe('material layer stack', () => {
   for (const [thickness, px] of Object.entries(BLUR_LADDER)) {
     test(`::before --_ag-blur = ${px} at thickness ${thickness}`, async ({ page }) => {
-      await gotoMaterialStory(page, 'material-lab--matrix');
+      await gotoMaterialStory(page, 'material-lab-matrix--matrix');
       const sel = `.ag-surface[data-ag-thickness="${thickness}"]`;
       await expect(page.locator(sel).first()).toHaveCount(1);
       expect(await computedVar(page, sel, '--_ag-blur')).toBe(px);

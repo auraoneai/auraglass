@@ -16,7 +16,9 @@ interface FloorRow {
   [k: string]: unknown;
 }
 
-const floors = globJson('/tokens/generated/opacity-floors.json');
+const floors = globJson(
+  import.meta.glob('/tokens/generated/opacity-floors.json', { eager: true, import: 'default' }),
+);
 
 function cellHeat(ratio: number | string | undefined): React.CSSProperties {
   const r = Number(ratio);

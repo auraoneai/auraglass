@@ -18,7 +18,9 @@ const INTERACTIONS = [
   { id: 'scroll-edge', label: 'scroll edge reveal' },
 ] as const;
 
-const sceneImages = globUrls('/certification/scenes/*.{png,jpg,jpeg,webp,avif}');
+const sceneImages = globUrls(
+  import.meta.glob('/certification/scenes/*.{png,jpg,jpeg,webp,avif}', { eager: true, query: '?url', import: 'default' }),
+);
 
 function ScenePane({ scene, policy, interaction }: { scene: string; policy: (typeof POLICIES)[number]; interaction: string }) {
   const img = sceneImages[SCENE_IDS.indexOf(scene)] ?? sceneImages[0];
