@@ -190,6 +190,11 @@ tests/visual/**/*.spec.ts-snapshots/
 /apps/docs/out/
 /apps/docs/generated/
 /apps/docs/public/r/
+# REQ-PLAT-100: the generated component reference is committed and verified by
+# `gen-component-docs.mjs --check`; the rest of apps/docs/public stays ignored.
+!/apps/docs/public/
+/apps/docs/public/*
+!/apps/docs/public/components/
 /public/
 /dist-maps.tgz
 /storybook-static/
