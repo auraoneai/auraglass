@@ -74,7 +74,7 @@
     background: currentColor;
     transform: none;
   }
-  .ag-menu-checkbox-item[data-ag-indeterminate] .ag-menu-item-indicator::after {
+  .ag-menu-checkbox-item[data-indeterminate] .ag-menu-item-indicator::after {
     width: 0.6em;
     height: 2px;
     border: none;

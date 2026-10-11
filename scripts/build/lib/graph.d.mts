@@ -1,5 +1,5 @@
 /* Type declarations for graph.mjs (REQ-FIN-06), so TS tests can import it. */
-export interface ManifestEntry { subpath: string; source: string; types?: string; default?: string; css?: string; ga?: string }
+export interface ManifestEntry { subpath: string; source: string; types?: string; default?: string; css?: string; ga?: string; [key: string]: unknown }
 export interface PendingEntry extends ManifestEntry { reason: string; gaDropped?: boolean; seedFiles?: string[] }
 export const ROOT: string;
 export const SRC: string;

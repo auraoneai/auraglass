@@ -18,7 +18,7 @@ function SheetDetents() {
     <section>
       <h4 style={{ margin: '0 0 8px' }}>Sheet — drag between detents</h4>
       <div
-        data-ag-sheet
+        data-sheet
         style={{ position: 'relative', height: 220, width: 260, border: '1px solid #e2e8f0', borderRadius: 10, overflow: 'hidden', touchAction: 'none' }}
         onPointerDown={(e) => {
           drag.current = { y: e.clientY, time: performance.now(), t };
@@ -45,14 +45,14 @@ function SheetDetents() {
           </div>
         ))}
         <div
-          data-ag-sheet-handle
+          data-sheet-handle
           style={{
             position: 'absolute', left: '20%', right: '20%', bottom: `${t * 100}%`, height: 24,
             background: '#0ea5e9', borderRadius: 8, transform: 'translateY(50%)',
           }}
         />
       </div>
-      <div data-ag-velocity style={{ fontFamily: 'ui-monospace, monospace', fontSize: 13, marginTop: 6 }}>
+      <div data-velocity style={{ fontFamily: 'ui-monospace, monospace', fontSize: 13, marginTop: 6 }}>
         velocity {velocity.toFixed(2)} px/ms · t {t.toFixed(2)}
       </div>
     </section>
@@ -102,10 +102,10 @@ type Story = StoryObj<typeof meta>;
 export const Lab: Story = {
   render: () => <Physics />,
   play: async ({ canvasElement }) => {
-    for (const sel of ['.ag-phys-tabbar', '.ag-phys-magnetic', '.ag-phys-shared-a', '.ag-phys-shared-b', '[data-ag-sheet]', '[data-ag-velocity]']) {
+    for (const sel of ['.ag-phys-tabbar', '.ag-phys-magnetic', '.ag-phys-shared-a', '.ag-phys-shared-b', '[data-sheet]', '[data-velocity]']) {
       if (!canvasElement.querySelector(sel)) throw new Error(`Motion/Physics: ${sel} missing`);
     }
-    const vel = canvasElement.querySelector('[data-ag-velocity]');
+    const vel = canvasElement.querySelector('[data-velocity]');
     if (!/velocity \d+\.\d+ px\/ms/.test(vel?.textContent ?? '')) {
       throw new Error('Motion/Physics: velocity read-out missing');
     }

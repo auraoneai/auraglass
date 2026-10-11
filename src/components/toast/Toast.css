@@ -1,7 +1,7 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 /* CMP-289 (REQ-CMP-106/107): Toast — six viewport regions via
-   data-ag-position, stacked cards, 150ms translate+fade enter, exit fade,
+   data-position, stacked cards, 150ms translate+fade enter, exit fade,
    progress bar driven by the toast's timeout. */
 @layer ag.components {
   .ag-toast-viewport {
@@ -16,11 +16,11 @@
     pointer-events: none; /* children re-enable */
     outline: none;
   }
-  .ag-toast-viewport[data-ag-position^='top'] { top: 0; flex-direction: column; }
-  .ag-toast-viewport[data-ag-position^='bottom'] { bottom: 0; flex-direction: column-reverse; }
-  .ag-toast-viewport[data-ag-position$='left'] { left: 0; align-items: flex-start; }
-  .ag-toast-viewport[data-ag-position$='right'] { right: 0; align-items: flex-end; }
-  .ag-toast-viewport[data-ag-position$='center'] { left: 50%; transform: translateX(-50%); align-items: center; }
+  .ag-toast-viewport[data-position^='top'] { top: 0; flex-direction: column; }
+  .ag-toast-viewport[data-position^='bottom'] { bottom: 0; flex-direction: column-reverse; }
+  .ag-toast-viewport[data-position$='left'] { left: 0; align-items: flex-start; }
+  .ag-toast-viewport[data-position$='right'] { right: 0; align-items: flex-end; }
+  .ag-toast-viewport[data-position$='center'] { left: 50%; transform: translateX(-50%); align-items: center; }
 
   .ag-toast {
     pointer-events: auto;
