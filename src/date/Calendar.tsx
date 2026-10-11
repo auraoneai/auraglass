@@ -10,8 +10,10 @@ import {
   CalendarGridBody as RACCalendarGridBody,
   CalendarGridHeader as RACCalendarGridHeader,
   CalendarHeaderCell as RACCalendarHeaderCell,
+  CalendarStateContext as RACCalendarStateContext,
   Heading as RACHeading,
   RangeCalendar as RACRangeCalendar,
+  RangeCalendarStateContext as RACRangeCalendarStateContext,
 } from 'react-aria-components';
 import { DateProvider } from './DateProvider';
 import { isoWeekNumber } from './week-number';
@@ -30,7 +32,38 @@ interface GridProps {
   showWeekNumbers?: boolean | undefined;
 }
 
+const noopSubscribe = () => () => {};
+
+function hasZone(v: unknown): boolean {
+  const first = Array.isArray(v) ? v[0] : v;
+  return first != null && typeof first === 'object' && 'timeZone' in first;
+}
+
+/* REQ-SURF-08: React Aria derives "today" (data-today, the "Today, " cell
+   label) from the calendar state's timeZone, which is the host's local zone,
+   so a server in one zone and a client in another render different markup and
+   hydration fails. Until hydration completes (server render + hydrating pass)
+   cells resolve "today" in UTC, identical on every host; the post-hydration
+   render restores the viewer's local zone. A zoned value keeps its own zone.
+   The state object is adjusted in place: React Aria keys per-state data on
+   its identity, and RACCalendar builds a fresh state object every render. */
+const hostTimeZone = new WeakMap<object, string>();
+
+function useHydrationSafeToday() {
+  const hydrated = React.useSyncExternalStore(noopSubscribe, () => true, () => false);
+  const calendarState = React.useContext(RACCalendarStateContext);
+  const rangeState = React.useContext(RACRangeCalendarStateContext);
+  const state = (calendarState ?? rangeState) as { timeZone: string; value: unknown } | null;
+  if (!state) return;
+  if (!hostTimeZone.has(state)) hostTimeZone.set(state, state.timeZone);
+  const host = hostTimeZone.get(state)!;
+  const value = state.value as { start?: unknown } | null;
+  const zoned = hasZone(value && typeof value === 'object' && 'start' in value ? value.start : value);
+  state.timeZone = !hydrated && !zoned ? 'UTC' : host;
+}
+
 function Grid({ showWeekNumbers }: GridProps) {
+  useHydrationSafeToday();
   return (
     <RACCalendarGrid className="ag-calendar__grid">
       <RACCalendarGridHeader>
