@@ -1,0 +1,5 @@
+[
+  { "file": "src/components/combobox/Combobox.css", "owner": "CMP", "reqFin": "REQ-FIN-70", "expires": "RC-1", "vars": ["--ag-space-1_5"] },
+  { "file": "src/components/select/Select.css", "owner": "CMP", "reqFin": "REQ-FIN-70", "expires": "RC-1", "vars": ["--ag-space-1_5"] },
+  { "file": "src/material/css/material.css", "owner": "MAT", "reqFin": "REQ-FIN-02", "expires": "RC-1", "vars": ["--ag-group-spacing"] }
+]
