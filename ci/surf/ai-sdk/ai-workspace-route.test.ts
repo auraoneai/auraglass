@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 /* ai-workspace route (SURF-377): mocked Prism — global fetch stub inside this
  * test only, no network. Asserts the guards (503 auth, 413 cap, 429 bucket
  * with Retry-After) and that the stream path issues exactly one Prism call
@@ -55,9 +58,10 @@ describe('ai-workspace route (SURF-377)', () => {
     global.fetch = fetchSpy as never;
     const res = await POST(req({ messages: [{ role: 'user', content: 'hi' }] }));
     expect(res.status).toBe(200);
+    await res.text(); // streamText is lazy: the upstream call happens as the body is read
     expect(fetchSpy).toHaveBeenCalled();
     const [url, init] = (fetchSpy.mock.calls[0] as never) as [string, RequestInit];
     expect(String(url)).toContain('prism.auraone.ai/v1');
-    expect(String((init as RequestInit).headers?.['Authorization'] ?? (init as any).headers?.Authorization ?? '')).toContain(`Bearer ${KEY}`);
+    expect(String(new Headers(init.headers).get('Authorization') ?? '')).toContain(`Bearer ${KEY}`);
   });
 });

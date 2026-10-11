@@ -17,14 +17,14 @@
     --_ag-refraction-scale: 0;
   }
   :where([data-ag-transparency="solid"]) [data-ag-surface] {
-    background: var(--ag-fallback-fill, var(--ag-color-canvas, Canvas));
+    background: var(--_ag-fallback-fill, var(--ag-color-canvas, Canvas));
     background-image: none;
   }
   :where([data-ag-contrast="more"]) [data-ag-surface] {
-    --ag-on-surface: var(--ag-color-on-surface-max, var(--ag-color-on-surface));
+    --ag-on-surface: var(--_ag-color-on-surface-max, var(--ag-color-on-surface));
     --ag-specular: 0;
     --_ag-grain-opacity: 0;
-    border: 1px solid var(--ag-color-border-strong, var(--ag-color-border, CanvasText));
+    border: 1px solid var(--_ag-color-border-strong, var(--ag-color-border, CanvasText));
   }
 
   /* ---- raise-only floors (equal specificity, later in source) ---- */
@@ -37,10 +37,10 @@
   }
   @media (prefers-contrast: more) {
     :where(:not([data-ag-contrast])) [data-ag-surface]:not(:where([data-ag-contrast] *)) {
-      --ag-on-surface: var(--ag-color-on-surface-max, var(--ag-color-on-surface));
+      --ag-on-surface: var(--_ag-color-on-surface-max, var(--ag-color-on-surface));
       --ag-specular: 0;
       --_ag-grain-opacity: 0;
-      border: 1px solid var(--ag-color-border-strong, var(--ag-color-border, CanvasText));
+      border: 1px solid var(--_ag-color-border-strong, var(--ag-color-border, CanvasText));
     }
     :where(:not([data-ag-transparency])) [data-ag-surface]:not(:where([data-ag-transparency] *)) {
       --_ag-tint-floor: var(--_ag-tint-floor-tinted, 0.55);
@@ -64,7 +64,7 @@
     :where(:not([data-ag-transparency])) [data-ag-surface],
     :where([data-ag-transparency="glass"]) [data-ag-surface],
     :where([data-ag-transparency="tinted"]) [data-ag-surface] {
-      background: var(--ag-fallback-fill, var(--ag-color-canvas, Canvas));
+      background: var(--_ag-fallback-fill, var(--ag-color-canvas, Canvas));
       background-image: none;
       --_ag-tint-floor: var(--_ag-tint-floor-solid, 1);
     }
@@ -94,6 +94,6 @@
 
   /* ---- disabled row (MAT-279): no opacity on the host ---- */
   [data-ag-surface]:is([aria-disabled="true"], [data-disabled]) {
-    --ag-on-surface: var(--ag-color-on-surface-disabled, GrayText);
+    --ag-on-surface: var(--_ag-color-on-surface-disabled, GrayText);
   }
 }
