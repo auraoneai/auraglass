@@ -1,5 +1,5 @@
 // breadcrumbs-overflow.apg.spec.ts — SURF-079: APG breadcrumbs overflow keyboard script over the shipped subject.
-// Remote lane; absent subjects report pending, never fail.
+// Remote lane; a missing subject fails the test.
 import { test, expect } from '@playwright/test';
 import { listSubjects, gotoStory } from '../../../helpers';
 import { apg } from '../harness';
@@ -10,7 +10,7 @@ test.describe('APG breadcrumbs overflow (SURF)', () => {
   test('keyboard contract', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === SUBJECT);
-    if (!subject) { console.warn(`${SUBJECT} subject not registered — pending`); return; }
+    if (!subject) throw new Error(`${SUBJECT} subject not registered`);
     await gotoStory(page, subject.id);
     await apg.keyboard(page, SCRIPT);
   });
@@ -18,7 +18,7 @@ test.describe('APG breadcrumbs overflow (SURF)', () => {
   test('axe clean', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === SUBJECT);
-    if (!subject) { console.warn(`${SUBJECT} subject not registered — pending`); return; }
+    if (!subject) throw new Error(`${SUBJECT} subject not registered`);
     await gotoStory(page, subject.id);
     await apg.axe(page);
     const res = await page.evaluate(() => []);

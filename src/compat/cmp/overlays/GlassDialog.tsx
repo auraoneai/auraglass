@@ -21,11 +21,11 @@ export function GlassDialog(props: GlassDialogProps) {
   warnDeprecated(DEP);
   const { confirmText, cancelText, destructive } = props;
   const m = useGlassModalMapping(props, DEP);
-  const size = m.mappedSize as 'sm' | 'md' | 'lg' | 'full' | undefined;
+  const appearance = m.mappedAppearance;
   return wrap('GlassDialog', (
     <Dialog.Root {...(m.open !== undefined ? { open: m.open } : {})} onOpenChange={m.handleOpenChange}>
       {m.trigger ? <Dialog.Trigger>{m.trigger}</Dialog.Trigger> : null}
-      <Dialog.Content {...(size !== undefined ? { size } : {})} {...(m.className !== undefined ? { className: m.className } : {})}>
+      <Dialog.Content {...(m.mappedSize !== undefined ? { size: m.mappedSize as 'sm' | 'md' | 'lg' } : {})} {...(appearance !== undefined ? { appearance: appearance as 'wide' | 'fullscreen' } : {})} {...(m.className !== undefined ? { className: m.className } : {})}>
         {m.title !== undefined ? <Dialog.Title>{m.title}</Dialog.Title> : null}
         {m.description !== undefined ? <Dialog.Description>{m.description}</Dialog.Description> : null}
         {m.children}
