@@ -87,9 +87,11 @@ plat:test:pack-matrix:
   script:
     - npm install -g "npm@$AG_PACK_NPM_VERSION"
     - npm --version
-    - 'node -e "process.exit(Object.keys(require(''./package.json'').scripts||{}).includes(''prepublishOnly'')?0:1)" || { echo "PENDING: prepublishOnly script (lane 1b)"; exit 1; }'
-    - npm run prepublishOnly
-    - npm publish --dry-run
+    # prepublishOnly = require-ci-publish guard (exits 1 outside plat:publish:npm, REQ-PLAT-12)
+    # + prepublish:verify. The matrix runs the verify half on each node/npm leg, then a
+    # dry-run publish with lifecycle scripts skipped (the guard would refuse this job).
+    - npm run prepublish:verify
+    - npm publish --dry-run --ignore-scripts
 
 plat:test:react19:
   extends: .plat-node
@@ -102,7 +104,9 @@ plat:test:react19:
       - { AG_REACT19_LEG: "react19-smoke" }
       - { AG_REACT19_LEG: "unit-react19" }
   script:
-    - 'test -d "tests/react19" || test -f "tests/react19/$AG_REACT19_LEG.test.tsx" || { echo "PENDING: tests/react19/$AG_REACT19_LEG (lane 1b)"; exit 1; }'
+    # REQ-PLAT-47: each leg runs on React 19 (tests/react19/runtime.ts asserts the major).
+    - npm install --no-save --no-audit --no-fund --ignore-scripts react@19.3.0 react-dom@19.3.0 @types/react@19.3.0 @types/react-dom@19.3.0
+    - test -f "tests/react19/$AG_REACT19_LEG.test.tsx"
     - npx jest --ci --testPathPattern "tests/react19/$AG_REACT19_LEG"
 
 plat:test:visual-4x:
