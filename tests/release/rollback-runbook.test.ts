@@ -24,4 +24,13 @@ describe('rollback runbook (REQ-PLAT-33)', () => {
   it('forbids npm unpublish as a rollback path', () => {
     expect(doc).toMatch(/never `?npm unpublish`?/i);
   });
+  it('the drill record is written by the CI drill job, not by hand', () => {
+    expect(doc).toContain('plat:release:rollback-drill');
+    expect(doc).toContain('node scripts/release/rollback-drill.mjs --registry');
+    expect(doc).toContain('docs/release/drills/<date>.json');
+    expect(doc).toContain('node scripts/release/rollback-drill.mjs --verify');
+  });
+  it('the S2 command is executable by dist-tag.mjs', () => {
+    expect(doc).toContain('node scripts/release/dist-tag.mjs --move latest --version 4.9.9');
+  });
 });
