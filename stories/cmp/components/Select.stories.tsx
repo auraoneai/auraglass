@@ -43,6 +43,7 @@ export const Overview: Story = {
 };
 
 export const Default: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'Select', id: 'overlays-select--playground' } },
   render: () => (
     <AuraGlassProvider>
       <FruitSelect defaultOpen />
