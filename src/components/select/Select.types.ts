@@ -27,6 +27,10 @@ export interface SelectRootProps<Value = string> {
 export interface SelectTriggerProps {
   /** Placeholder text rendered by the value slot when nothing is selected. */
   placeholder?: ReactNode;
+  /** aria-disabled on the trigger; focusable per APG unless focusableWhenDisabled=false */
+  disabled?: boolean | undefined;
+  /** false → tabIndex -1 so a disabled trigger leaves the tab order */
+  focusableWhenDisabled?: boolean | undefined;
   children?: ReactNode;
   className?: string;
   ref?: Ref<HTMLButtonElement>;
