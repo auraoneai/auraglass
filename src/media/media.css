@@ -1,25 +1,24 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 /* media.css — W4 lane skeleton. Layer order is contract-frozen; fills land
  * per-part as components ship. No @import (bundle concatenates lanes). */
 
-/* --- lane W4 begin --- */
-@layer media {
+@layer ag.components {
+  /* --- lane W4 begin --- */
   /* [data-ag-media-root] progress var is written by useMediaElement frames. */
-}
-/* --- lane W4 end --- */
+  /* --- lane W4 end --- */
 
-/* --- lane W4: controls + now-playing --- */
-@layer media {
+  /* --- lane W4: controls + now-playing --- */
   .ag-media-controls {
     display: flex; flex-wrap: nowrap; align-items: center; gap: var(--ag-space-2, 0.5rem);
-    min-block-size: 2.75rem;
+    min-block-size: var(--ag-target-coarse, 2.75rem);
   }
-  .ag-media-btn { min-inline-size: 2rem; min-block-size: 2rem; }
+  .ag-media-btn { min-inline-size: var(--ag-target-min, 2rem); min-block-size: var(--ag-target-min, 2rem); }
   @media (pointer: coarse) {
     .ag-media-btn { min-inline-size: var(--ag-target-coarse, 2.75rem); min-block-size: var(--ag-target-coarse, 2.75rem); }
   }
-  .ag-media-scrubber { flex: 1 1 auto; min-inline-size: 4rem; position: relative; touch-action: none; }
-  .ag-media-scrubber-track { position: relative; block-size: 100%; min-block-size: 0.25rem; }
-  @media (pointer: coarse) { .ag-media-scrubber { min-block-size: 2.75rem; } }
+  .ag-media-scrubber { flex: 1 1 auto; min-inline-size: var(--ag-target-min, 4rem); position: relative; touch-action: none; }
+  .ag-media-scrubber-track { position: relative; block-size: 100%; min-block-size: var(--ag-space-1, 0.25rem); }
+  @media (pointer: coarse) { .ag-media-scrubber { min-block-size: var(--ag-target-coarse, 2.75rem); } }
   [data-ag-part='media-scrubber-buffered'] {
     position: absolute; inset-inline-start: var(--_ag-start); inline-size: calc(var(--_ag-end) - var(--_ag-start));
     inset-block: 0; opacity: 0.35; pointer-events: none;
@@ -49,11 +48,11 @@
   .ag-now-playing {
     container-name: ag-now-playing; container-type: inline-size;
     display: flex; align-items: center; gap: var(--ag-space-2, 0.5rem);
-    block-size: 3rem;
+    block-size: var(--ag-target-min, 3rem);
   }
-  @media (pointer: coarse) { .ag-now-playing { block-size: 3.5rem; } }
+  @media (pointer: coarse) { .ag-now-playing { block-size: var(--ag-target-min, 3.5rem); } }
   .ag-now-playing[data-ag-now-playing-fixed] { padding-block-end: env(safe-area-inset-bottom); }
-  .ag-now-playing-artwork img { inline-size: 2.5rem; block-size: 2.5rem; object-fit: cover; border-radius: 0.25rem; }
+  .ag-now-playing-artwork img { inline-size: var(--ag-target-min, 2.5rem); block-size: var(--ag-target-min, 2.5rem); object-fit: cover; border-radius: var(--_ag-radius-1, 0.25rem); }
   .ag-now-playing-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .ag-now-playing-progress {
     position: relative; flex: 1 1 auto; block-size: 2px;
@@ -69,11 +68,9 @@
     .ag-now-playing > :not([data-ag-part='now-playing-play']):not([data-ag-part='now-playing-title']):not([data-ag-part='now-playing-actions']) { display: none; }
     .ag-now-playing-subtitle { display: none; }
   }
-}
-/* --- end lane W4 controls --- */
+  /* --- end lane W4 controls --- */
 
-/* --- lane W4: image-viewer + carousel --- */
-@layer media {
+  /* --- lane W4: image-viewer + carousel --- */
   .ag-image-viewer-scrim {
     position: fixed; inset: 0; background: var(--ag-scrim-media, rgba(0,0,0,0.8));
   }
@@ -91,13 +88,13 @@
     object-fit: contain;
   }
   .ag-image-viewer-toolbar, [data-ag-part='image-viewer-caption'] {
-    position: absolute; inset-inline: 0; display: flex; justify-content: center; gap: 0.5rem;
-    padding: 0.5rem;
+    position: absolute; inset-inline: 0; display: flex; justify-content: center; gap: var(--ag-space-2, 0.5rem);
+    padding: var(--ag-space-2, 0.5rem);
   }
   .ag-image-viewer-toolbar { inset-block-start: 0; }
   [data-ag-part='image-viewer-caption'] { inset-block-end: 0; }
   .ag-image-viewer-inspector {
-    position: absolute; inset-inline-end: 0; inset-block: 0; inline-size: 20rem;
+    position: absolute; inset-inline-end: 0; inset-block: 0; inline-size: var(--_ag-media-panel-width, 20rem);
   }
   @container (max-width: 767.98px) {
     .ag-image-viewer-inspector { inset-inline: 0; inset-block-start: auto; inline-size: auto; max-block-size: 50dvh; }
@@ -120,11 +117,11 @@
     .ag-carousel-slide { inline-size: 100%; }
   }
   .ag-carousel-nav { position: absolute; inset-block: 0; margin-block: auto; }
-  [data-ag-part='carousel-prev'] { inset-inline-start: 0.5rem; }
-  [data-ag-part='carousel-next'] { inset-inline-end: 0.5rem; }
+  [data-ag-part='carousel-prev'] { inset-inline-start: var(--ag-space-2, 0.5rem); }
+  [data-ag-part='carousel-next'] { inset-inline-end: var(--ag-space-2, 0.5rem); }
   @media (pointer: coarse) { .ag-carousel-nav { display: none; } }
-  .ag-carousel-indicators { display: flex; justify-content: center; gap: 0.375rem; padding: 0.5rem; }
-  [data-ag-part='carousel-indicator'] { inline-size: 0.625rem; block-size: 0.625rem; border-radius: 50%; }
-  [data-ag-part='carousel-autoplay-toggle'] { position: absolute; inset-inline-start: 0.5rem; inset-block-start: 0.5rem; z-index: 1; }
+  .ag-carousel-indicators { display: flex; justify-content: center; gap: var(--ag-space-2, 0.375rem); padding: var(--ag-space-2, 0.5rem); }
+  [data-ag-part='carousel-indicator'] { inline-size: var(--ag-space-3, 0.625rem); block-size: var(--ag-space-3, 0.625rem); border-radius: 50%; }
+  [data-ag-part='carousel-autoplay-toggle'] { position: absolute; inset-inline-start: var(--ag-space-2, 0.5rem); inset-block-start: var(--ag-space-2, 0.5rem); z-index: 1; }
+  /* --- end lane W4 iv/carousel --- */
 }
-/* --- end lane W4 iv/carousel --- */

@@ -1,10 +1,13 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 /* --- lane W4 begin --- */
 /* presets/media.css (SURF-429): the media preset layer — photo/video fill the
  * 120% drift box; tone hint vars come from useMediaElement sampleTone. */
-.ag-backdrop[data-ag-backdrop='media'] > .ag-backdrop-layer > img,
-.ag-backdrop[data-ag-backdrop='media'] > .ag-backdrop-layer > video {
-  inline-size: 100%;
-  block-size: 100%;
-  object-fit: cover;
+@layer ag.components {
+  .ag-backdrop[data-ag-backdrop='media'] > .ag-backdrop-layer > img,
+  .ag-backdrop[data-ag-backdrop='media'] > .ag-backdrop-layer > video {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
 }
 /* --- lane W4 end --- */

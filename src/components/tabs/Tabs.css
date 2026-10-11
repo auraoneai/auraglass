@@ -1,3 +1,4 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 /* Tabs chrome (SURF-061/063/064, contract S-03/S-12/SC-19):
    indicator is a layout-overlay — position is read from data-ag-vt-participant
    by the motion seam, never from element metrics in JS. No !important, no
@@ -25,8 +26,8 @@
     mask-image: linear-gradient(
       to right,
       transparent,
-      #000 var(--ag-space-4),
-      #000 calc(100% - var(--ag-space-4)),
+      black var(--ag-space-4),
+      black calc(100% - var(--ag-space-4)),
       transparent
     );
   }
