@@ -1,5 +1,12 @@
 # AuraGlass by AuraOne
 
+<!-- AG-RELEASE-BANNER -->
+> **v5.0.0 is on the `next` train.** The 5.0 alpha/beta/RC releases publish from
+> `next` under the `next` dist-tag; `latest` stays on 4.x until GA. Migrating
+> from 4.x: `npx @auraglass/cli migrate 4to5`. 4.x remains in LTS (fixes +
+> security only) for 12 months after GA — see `docs/release/lts-policy.md`.
+<!-- /AG-RELEASE-BANNER -->
+
 Build Liquid Glass React and Next.js interfaces without rebuilding glass surfaces, tokens, motion, accessibility guardrails, and SSR-safe package wiring from scratch.
 
 [![npm version](https://img.shields.io/npm/v/aura-glass.svg)](https://www.npmjs.com/package/aura-glass)
@@ -40,22 +47,8 @@ bun add aura-glass
 
 ## Quickstart
 
-Import the stylesheet once, then compose components from the public package entrypoint:
-
-```tsx
-import { GlassButton, GlassCard } from 'aura-glass';
-import 'aura-glass/styles';
-
-export function BillingCard() {
-  return (
-    <GlassCard>
-      <h2>Revenue</h2>
-      <p>$128,400</p>
-      <GlassButton>Open dashboard</GlassButton>
-    </GlassCard>
-  );
-}
-```
+<!-- generated:quickstart -->
+<!-- /generated:quickstart -->
 
 ## What You Can Build
 
