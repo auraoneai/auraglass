@@ -44,9 +44,12 @@ surf:build:ai-fixtures:
     paths:
       - .artifacts/surf/ai-fixtures/
 
-# SURF-637 (REQ-SURF-195): AI SDK contract suite — provider-agnostic envelope
-# tests against the AI SDK v6 devDeps. Reports pending (not red) until the
-# suite exists (lane W3).
+# SURF-637 (REQ-SURF-195): AI SDK contract suite against the SDK pinned in the
+# root package.json devDependencies (ai@5.0.29 / @ai-sdk/react@2.0.29, AI SDK
+# v5; a move to v6 is OD-16). No scratch install: the root tsc covers
+# tests/types/surf (REQ-SURF-106) and root jest runs the compat fixture test,
+# the useAuraChat adapter test and the ai-workspace route tests
+# (REQ-SURF-106/-172).
 surf:test:ai-sdk:
   extends: .surf-base
   stage: test
@@ -54,15 +57,10 @@ surf:test:ai-sdk:
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
   script:
-    # AC-SURF-02: the pins install into .artifacts/, never the repo package.json.
+    - set -o pipefail
     - mkdir -p .artifacts/surf/ai-sdk
-    - cp ci/surf/ai-sdk/package.json .artifacts/surf/ai-sdk/package.json
-    # --legacy-peer-deps: react/zod peers resolve from the repo node_modules
-    # (an ancestor of .artifacts/), so the harness shares the one React copy.
-    - npm install --prefix .artifacts/surf/ai-sdk --no-save --legacy-peer-deps
-    - ln -sfn ../../../.artifacts/surf/ai-sdk/node_modules ci/surf/ai-sdk/node_modules
-    - npx tsc -p ci/surf/ai-sdk/tsconfig.json
-    - npx jest -c ci/surf/ai-sdk/jest.config.mjs --ci
+    - npx tsc -p tsconfig.json --noEmit 2>&1 | tee .artifacts/surf/ai-sdk/tsc.log
+    - npm test -- --ci tests/types/surf registry/items/ai-sdk-adapter registry/blocks/ai-workspace tests/capability/registry/ai-workspace-route 2>&1 | tee .artifacts/surf/ai-sdk/jest.log
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
@@ -90,9 +88,11 @@ surf:test:ledger:
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
   script:
+    - set -o pipefail
+    - mkdir -p .artifacts/surf/ledger
     - git fetch --no-tags origin "+refs/heads/next:refs/remotes/origin/next"
-    - node scripts/surf/verify-capability-ledger.mjs
-    - node scripts/surf/verify-capability-ledger.mjs --diff "$(git merge-base HEAD origin/next)"
+    - node scripts/surf/verify-capability-ledger.mjs 2>&1 | tee .artifacts/surf/ledger/verify.log
+    - node scripts/surf/verify-capability-ledger.mjs --diff "$(git merge-base HEAD origin/next)" 2>&1 | tee .artifacts/surf/ledger/diff.log
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
@@ -100,9 +100,11 @@ surf:test:ledger:
     paths:
       - .artifacts/surf/ledger/
 
-# SURF doubles: each lane maps CMP module specifiers onto tests/contract-doubles/cmp/*
-# through tests/<area>/jest.doubles.cjs. A missing preset reports pending and does
-# not fail the matrix cell (per lane prompts).
+# SURF doubles: one cell per area. ci/surf/doubles/run.mjs runs the area's
+# tests/<area>/jest.doubles.cjs preset (CMP specifiers mapped onto
+# tests/contract-doubles/cmp/*) while it exists, and the root jest config on the
+# same test paths once the preset is retired (REQ-FIN-08/09). A cell never
+# passes without running tests; output goes to .artifacts/surf/doubles/<area>.*.
 surf:test:doubles:
   extends: .surf-base
   stage: test
@@ -113,12 +115,7 @@ surf:test:doubles:
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   script:
-    - |
-      if [ -f "tests/${DOUBLES_AREA}/jest.doubles.cjs" ]; then
-        npx jest -c "tests/${DOUBLES_AREA}/jest.doubles.cjs" --ci
-      else
-        echo "pending: tests/${DOUBLES_AREA}/jest.doubles.cjs not present"
-      fi
+    - node ci/surf/doubles/run.mjs "$DOUBLES_AREA"
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
