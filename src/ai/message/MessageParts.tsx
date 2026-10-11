@@ -26,16 +26,27 @@ export interface MessagePartsProps {
 
 type SourcePart = Extract<AgPart, { type: 'source-url' | 'source-document' }>;
 
-/** Splits text into string | citation-marker chunks for [n] and [^id]. */
-function markText(text: string): Array<string | { ref: string; index: number }> {
-  const out: Array<string | { ref: string; index: number }> = [];
-  const re = /\[\^?([A-Za-z0-9-]+)\]/g;
+type Marker = { raw: string; source: SourcePart | undefined; index: number };
+
+/**
+ * REQ-SURF-112: splits text into string | citation-marker chunks. `[n]` cites
+ * `sources[n - 1]` (the number inside the brackets, not the marker's position);
+ * `[^sourceId]` resolves through the message's sourceId index. A marker with
+ * no matching source stays literal text.
+ */
+function markText(
+  text: string,
+  sources: SourcePart[],
+  sourceIndex: Map<string, number>,
+): Array<string | Marker> {
+  const out: Array<string | Marker> = [];
+  const re = /\[(\d+)\]|\[\^([^\]]+)\]/g;
   let last = 0;
   let m: RegExpExecArray | null;
-  let idx = 0;
   while ((m = re.exec(text))) {
     if (m.index > last) out.push(text.slice(last, m.index));
-    out.push({ ref: m[1] ?? '', index: ++idx });
+    const index = m[1] !== undefined ? Number(m[1]) : (sourceIndex.get(m[2] ?? '') ?? 0);
+    out.push({ raw: m[0], index, source: index > 0 ? sources[index - 1] : undefined });
     last = m.index + m[0].length;
   }
   if (last < text.length) out.push(text.slice(last));
@@ -64,30 +75,51 @@ function FilePart({ part, size }: { part: Extract<AgPart, { type: 'file' }>; siz
       />
     );
   }
-  const downloadable = part.url.startsWith('blob:') || part.url.startsWith('data:');
+  const href = safeFileHref(part.url);
+  const name = part.filename ?? 'Attachment';
+  const local = href !== null && /^(?:blob|data):/i.test(href);
   return (
     <span data-ag-part="attachment" data-media-type={part.mediaType}>
-      <span data-ag-part="attachment-name">{part.filename ?? 'Attachment'}</span>
-      <span data-ag-part="attachment-type">{part.mediaType}</span>
-      {downloadable ? (
-        <a data-ag-part="attachment-download" href={part.url} download={part.filename ?? true}>
-          Download
+      {href !== null ? (
+        <a
+          data-ag-part="attachment-link"
+          href={href}
+          {...(local ? { download: part.filename ?? true } : { rel: 'noopener' })}
+        >
+          {name}
         </a>
-      ) : null}
+      ) : (
+        <span data-ag-part="attachment-name">{name}</span>
+      )}
+      <span data-ag-part="attachment-type">{part.mediaType}</span>
     </span>
   );
 }
 
-/* Renderer precedence (REQ-SURF-115): exact type > prefix 'x-*' > '*' default. */
+/**
+ * REQ-SURF-115: file links accept http(s), blob:, data: and scheme-less
+ * (relative) URLs only; anything else (javascript:, vbscript:, file:, …)
+ * renders as text. Browsers strip ASCII whitespace/control characters
+ * inside a scheme, so they are stripped before the check.
+ */
+function safeFileHref(url: string): string | null {
+  const compact = url.replace(/[\u0000-\u0020\u007f]/g, '');
+  const scheme = /^([a-z][a-z0-9+.-]*):/i.exec(compact)?.[1]?.toLowerCase();
+  if (scheme === undefined) return compact ? url.trim() : null;
+  return scheme === 'http' || scheme === 'https' || scheme === 'blob' || scheme === 'data' ? url.trim() : null;
+}
+
+/*
+ * Renderer precedence (REQ-SURF-112): exact type > prefix ('tool-*' for
+ * `tool-<name>` and `dynamic-tool`, 'data-*' for `data-<name>`) > built-in.
+ * There is no catch-all key: unknown types render null with one dev warning.
+ */
 function pickRenderer(renderers: Record<string, AgPartRenderer | undefined>, type: string): AgPartRenderer | undefined {
   const exact = renderers[type];
   if (exact) return exact;
-  const dash = type.indexOf('-');
-  if (dash > 0) {
-    const prefix = renderers[`${type.slice(0, dash)}-*`];
-    if (prefix) return prefix;
-  }
-  return renderers['*'];
+  if (type === 'dynamic-tool' || type.startsWith('tool-')) return renderers['tool-*'];
+  if (type.startsWith('data-')) return renderers['data-*'];
+  return undefined;
 }
 
 const KNOWN_PART = new Set(['text', 'reasoning', 'dynamic-tool', 'source-url', 'source-document', 'file', 'step-start']);
@@ -137,28 +169,23 @@ export function MessageParts({
     if (part.type === 'text') {
       const streaming = part.state === 'streaming';
       const body = renderText ? (
-        renderText(part.text, { streaming })
+        renderText(part.text, { streaming, messageId: message.id })
       ) : streaming ? (
         <StreamingText text={part.text} streaming />
       ) : (
         part.text
       );
-      const marked = citations === 'markers' && typeof body === 'string' ? markText(body) : null;
+      const marked = citations === 'markers' && typeof body === 'string' ? markText(body, sources, sourceIndex) : null;
       nodes.push(
         <div key={key} data-ag-part="text-part" data-state={part.state ?? 'done'}>
           {marked
             ? marked.map((chunk, j) =>
                 typeof chunk === 'string'
                   ? chunk
-                  : sources[chunk.index - 1] ? (
-                      <Citation
-                        key={j}
-                        messageId={message.id}
-                        source={sources[chunk.index - 1] as SourcePart}
-                        index={chunk.index}
-                      />
+                  : chunk.source ? (
+                      <Citation key={j} messageId={message.id} source={chunk.source} index={chunk.index} />
                     ) : (
-                      chunk.ref
+                      chunk.raw
                     ),
               )
             : body}
@@ -194,6 +221,11 @@ export function MessageParts({
     }
     // data-* / unknown: only a named renderer may render them (handled above).
   });
+
+  // Sources with no text part: the one SourceList goes after the last part.
+  if (!sourcesEmitted && sources.length > 0) {
+    nodes.push(<SourceList key={`${message.id}-sources`} messageId={message.id} sources={sources} />);
+  }
 
   if (message.metadata?.status === 'error') {
     nodes.push(<ProviderErrorState key={`${message.id}-err`} kind="unknown" variant="compact" />);
