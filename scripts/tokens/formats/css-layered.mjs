@@ -329,7 +329,7 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
   }
   // the shadcn-source bridge and the light-dark() fallback blocks above also
   // re-declare --ag-color-*
-  noteDecls(shadcnSource, ':root[data-ag-shadcn-source]');
+  if (emitShadcnSource) noteDecls(shadcnSource, `:root[${SHADCN_SOURCE_ATTR}]`);
   noteDecls(darkFallback, '[data-ag-scheme="dark"]');
   noteDecls(darkFallback, ':root:not([data-ag-scheme])');
   if (forced.size) {

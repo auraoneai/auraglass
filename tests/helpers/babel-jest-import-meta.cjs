@@ -15,13 +15,26 @@ function importMetaPlugin({ template }) {
     glob: () => template.expression.ast`((..._args) => ({}))`,
     url: () => template.expression.ast`(__filename.startsWith("file://") ? __filename : require("url").pathToFileURL(__filename).href)`,
   };
+  const rewrite = {
+    MemberExpression(path) {
+      const { object, property, computed } = path.node;
+      if (computed || object.type !== 'MetaProperty' || object.meta.name !== 'import' || object.property.name !== 'meta') return;
+      const make = replacements[property.name];
+      if (make) path.replaceWith(make());
+    },
+  };
   return {
     visitor: {
-      MemberExpression(path) {
-        const { object, property, computed } = path.node;
-        if (computed || object.type !== 'MetaProperty' || object.meta.name !== 'import' || object.property.name !== 'meta') return;
-        const make = replacements[property.name];
-        if (make) path.replaceWith(make());
+      Program(path) {
+        // ESM sources may declare their own top-level `require` / `__filename` /
+        // `__dirname` shims (prettier's index.mjs does: `const __filename =
+        // fileURLToPath(import.meta.url)`). The rewrite below must reference the
+        // CJS wrapper's bindings, not those shims, or the shim reads itself in
+        // its own TDZ. Rename such program-scope bindings first, then rewrite.
+        for (const name of ['require', '__filename', '__dirname']) {
+          if (path.scope.hasOwnBinding(name)) path.scope.rename(name, path.scope.generateUid(name.replace(/^_+/, '')));
+        }
+        path.traverse(rewrite);
       },
     },
   };
@@ -40,6 +53,6 @@ module.exports = {
   ...base,
   // The import.meta rewrite is part of the transform output: key the cache on it.
   getCacheKey(sourceText, sourcePath, options) {
-    return `${base.getCacheKey(sourceText, sourcePath, options)}:import-meta-ast-v2`;
+    return `${base.getCacheKey(sourceText, sourcePath, options)}:import-meta-ast-v3`;
   },
 };
