@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-302/423 Separator */
 @layer ag.components {
   .ag-separator { background-color: var(--_ag-hairline, currentColor); opacity: 0.2; }

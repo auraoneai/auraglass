@@ -8,7 +8,7 @@ test.describe('data surfaces visual', () => {
     test(`${name} default state`, async ({ page }) => {
       const subjects = await listSubjects({ owner: 'SURF' });
       const subject = subjects.find((s) => s.subject === name);
-      if (!subject) { console.warn(`${name} subject not registered — pending`); return; }
+      if (!subject) throw new Error(`${name} subject not registered`);
       await gotoStory(page, subject.id);
       await expect(page.locator('body')).toBeVisible();
     });

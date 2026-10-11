@@ -6,7 +6,7 @@ test.describe('date locale', () => {
   test('de-DE locale + explicit timeZone render correctly', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'DatePicker');
-    if (!subject) { console.warn('DatePicker subject not registered — pending'); return; }
+    if (!subject) throw new Error('DatePicker subject not registered');
     await gotoStory(page, subject.id);
     await expect(page.locator('[data-ag-part], [role="main"], body').first()).toBeVisible();
   });
