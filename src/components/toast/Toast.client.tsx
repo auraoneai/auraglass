@@ -76,6 +76,9 @@ const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
   },
 );
 
+/** Base UI Toast's default auto-dismiss timeout. */
+const DEFAULT_TIMEOUT_MS = 5000;
+
 const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
   function ToastRoot({ toast, className, children, ...rest }, ref) {
     const intent = (toast?.type as ToastIntent | undefined) ?? 'info';
@@ -91,7 +94,13 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
         data-ag-part="toast"
         data-ag-intent={intent}
         data-state={state}
-        style={timeout !== undefined ? ({ '--_ag-toast-timeout': `${timeout}ms` } as React.CSSProperties) : undefined}
+        /* the progress bar runs for the toast's real timeout (Base UI's
+           default is 5000ms; the CSS fallback was the 40s ambient duration).
+           timeout 0 is a persistent toast with no countdown to show (a 0ms
+           run left an empty grey track). */
+        style={(timeout ?? DEFAULT_TIMEOUT_MS) > 0
+          ? ({ '--_ag-toast-timeout': `${timeout ?? DEFAULT_TIMEOUT_MS}ms` } as React.CSSProperties)
+          : ({ '--_ag-toast-progress-display': 'none' } as React.CSSProperties)}
         {...overlayMaterial('toast')}
         className={cn('ag-toast', className)}
         {...rest}

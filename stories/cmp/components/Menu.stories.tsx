@@ -4,14 +4,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Menu, ContextMenu } from '../../../src/components/menu';
+import { Button } from '../../../src/components/button';
+import { Surface } from '../../../src/root/mat';
 import { AuraGlassProvider } from '../../../src/theme';
+import { OverlayStage } from '../overlays/OverlayStage';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
   title: 'Flagships/Overlays/Menu',
   component: Menu.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Menu', kind: 'component' } },
+  parameters: { layout: 'fullscreen', ag: { tier: 'standard', subject: 'Menu', kind: 'component' } },
 } satisfies Meta<typeof Menu.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
@@ -40,7 +43,9 @@ export const Playground: Story = {
   render: () => (
     <AuraGlassProvider>
       <Menu.Root defaultOpen>
-        <Menu.Trigger>Actions</Menu.Trigger>
+        <OverlayStage title="Release notes" subtitle="v5.0 · draft">
+          <Menu.Trigger render={<Button />}>Actions</Menu.Trigger>
+        </OverlayStage>
         <Menu.Portal>
           <Menu.Positioner>
             <Menu.Popup><Items /></Menu.Popup>
@@ -56,7 +61,9 @@ export const Submenu: Story = {
   render: () => (
     <AuraGlassProvider>
       <Menu.Root defaultOpen>
-        <Menu.Trigger>File</Menu.Trigger>
+        <OverlayStage title="Release notes" subtitle="v5.0 · draft">
+          <Menu.Trigger render={<Button />}>File</Menu.Trigger>
+        </OverlayStage>
         <Menu.Portal>
           <Menu.Positioner>
             <Menu.Popup>
@@ -87,8 +94,27 @@ export const ContextMenuScene: Story = {
   render: () => (
     <AuraGlassProvider>
       <ContextMenu.Root>
+        {/* the whole stage is the right-click region; the hint sits in a
+            sunken content well (content layer, no glass) — the menu it opens
+            is the only glass */}
         <ContextMenu.Trigger>
-          <div style={{ padding: 24, border: '1px dashed #888' }}>Right-click or Shift+F10 here</div>
+          <OverlayStage
+            title="Assets"
+            subtitle="Right-click to see actions"
+            content={(
+              <Surface
+                layer="content"
+                content="content-sunken"
+                style={{
+                  padding: 'var(--ag-space-8)', borderRadius: 'var(--ag-radius-lg)', textAlign: 'center',
+                  color: 'var(--ag-on-surface-muted, var(--ag-color-on-surface-muted))',
+                  fontSize: 'var(--ag-type-callout-size)',
+                }}
+              >
+                Right-click or Shift+F10 here
+              </Surface>
+            )}
+          />
         </ContextMenu.Trigger>
         <ContextMenu.Portal>
           <ContextMenu.Positioner>
@@ -113,9 +139,9 @@ export const MenuButton: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Menu', id: 'overlays-menu--menu-button' } },
   render: () => (
     <AuraGlassProvider>
-      <div style={{ display: 'flex', gap: 16 }}>
+      <OverlayStage title="Grocery list" subtitle="Pick a fruit">
         <Menu.Root>
-          <Menu.Trigger>Fruits</Menu.Trigger>
+          <Menu.Trigger render={<Button />}>Fruits</Menu.Trigger>
           <Menu.Portal>
             <Menu.Positioner>
               <Menu.Popup>
@@ -137,8 +163,8 @@ export const MenuButton: Story = {
             </Menu.Positioner>
           </Menu.Portal>
         </Menu.Root>
-        <button type="button">Next tabbable</button>
-      </div>
+        <Button>Next tabbable</Button>
+      </OverlayStage>
     </AuraGlassProvider>
   ),
 };

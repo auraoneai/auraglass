@@ -17,6 +17,8 @@ import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
+import { SCRIM_ATTRIBUTES } from '../overlays/_shared/scrimAttributes';
+import { Button } from '../button';
 import { useSheetDetents } from './useSheetDetents';
 import { SheetHandle, SheetHandleContext } from './SheetHandle.client';
 import { SheetHeader, SheetBody, SheetFooter } from './SheetLayout';
@@ -50,8 +52,9 @@ function useSheetCtx(part: string): SheetCtx {
 
 function resolveSide(side: SheetSide, rtl: boolean): 'left' | 'right' | 'top' | 'bottom' {
   switch (side) {
-    case 'start': return rtl ? 'left' : 'right';
-    case 'end': return rtl ? 'right' : 'left';
+    // inline-start is the left edge in LTR and the right edge in RTL
+    case 'start': return rtl ? 'right' : 'left';
+    case 'end': return rtl ? 'left' : 'right';
     default: return side;
   }
 }
@@ -196,6 +199,7 @@ function SheetBackdrop({ className }: { className?: string }) {
   return (
     <Base.Backdrop
       data-ag-part="backdrop"
+      {...SCRIM_ATTRIBUTES}
       data-ag-overlay-depth={ctx.depth}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
@@ -256,12 +260,15 @@ function SheetDescription({ children, className, ref, ...rest }: SheetButtonishP
 }
 
 function SheetClose({ children, className, ref, ...rest }: SheetButtonishProps) {
-  const { labels } = useSheetCtx('Close');
+  const { labels, preset } = useSheetCtx('Close');
   return (
     <Base.Close
       data-ag-part="close"
       aria-label={labels?.close ?? 'Close'}
       className={cn('ag-sheet-close', className)}
+      /* panel sheets: a footer Button; the action preset keeps its own
+         full-width cancel row (styled in Sheet.css) */
+      {...(preset === 'action' ? {} : { render: <Button suppressInnerParts /> })}
       ref={ref as React.Ref<HTMLButtonElement>}
       {...rest}
     >

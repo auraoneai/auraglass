@@ -11,8 +11,12 @@
   .ag-scrim {
     position: fixed;
     inset: 0;
-    /* solved tint from the scrim token; optics come only through MAT */
-    background: color-mix(in srgb, black calc(var(--ag-scrim-media) * 100%), transparent);
+    /* --ag-scrim-media is a colour (oklch(0 0 0 / 0.72)), not a number: the
+       old `black calc(var(--ag-scrim-media) * 100%)` mix was invalid and left
+       the scrim transparent. Modal dim = half the media scrim (~0.36 black)
+       so the glass above stays light and readable; the blur comes from MAT
+       ([data-ag-layer="scrim"], top scrim only). */
+    background: color-mix(in oklab, var(--ag-scrim-media) 50%, transparent);
     opacity: 1;
     transition: opacity var(--ag-duration-medium) var(--ag-ease-standard);
   }
@@ -21,11 +25,18 @@
     opacity: 0;
   }
 
-  /* anchored popups (positioner-mounted) */
-  [data-ag-part='popup'][data-ag-overlay],
+  /* anchored popups (positioner-mounted). Scoped to the anchored kinds: on a
+     dialog/alert/sheet/toast --available-height is undefined, which voided
+     their max-block-size (long dialogs ran off-screen). Only list popups
+     scroll; popover/tooltip keep overflow visible so their Arrow (painted
+     outside the box) is not clipped. */
+  [data-ag-part='popup']:is([data-ag-overlay='popover'], [data-ag-overlay='tooltip'],
+    [data-ag-overlay='menu'], [data-ag-overlay='select'], [data-ag-overlay='combobox']),
   [data-ag-part='popup'][data-positioned] {
     transform-origin: var(--transform-origin);
     max-block-size: var(--available-height);
+  }
+  [data-ag-part='popup']:is([data-ag-overlay='menu'], [data-ag-overlay='select'], [data-ag-overlay='combobox']) {
     overflow: auto;
   }
 
@@ -40,7 +51,8 @@
   [data-ag-part='close']:focus-visible,
   [data-ag-part='handle']:focus-visible,
   [data-ag-part='action']:focus-visible {
-    outline: var(--_ag-focus-width) solid var(--_ag-focus-color, Highlight);
+    /* --_ag-focus-width is not emitted by the token build; the public token is */
+    outline: var(--ag-focus-width, 2px) solid var(--_ag-focus-color, var(--ag-color-focus-outer, Highlight));
     outline-offset: 2px;
   }
 
@@ -54,8 +66,9 @@
       border: 1px solid CanvasText;
     }
   }
+  /* --_ag-surface-rim is a colour; it was used as the border width */
   [data-ag-transparency='solid'] [data-ag-part='popup'] {
-    border: var(--_ag-surface-rim) solid var(--ag-color-border, currentColor);
+    border: 1px solid var(--_ag-surface-rim, var(--ag-color-border, currentColor));
   }
 
   @media (prefers-reduced-motion: reduce) {

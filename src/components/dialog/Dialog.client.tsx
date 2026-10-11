@@ -14,6 +14,8 @@ import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
+import { SCRIM_ATTRIBUTES } from '../overlays/_shared/scrimAttributes';
+import { Button } from '../button';
 import { DialogHeader, DialogBody, DialogFooter } from './DialogLayout';
 import type {
   DialogRootProps, DialogTriggerProps, DialogCloseProps, DialogPortalProps,
@@ -80,17 +82,22 @@ function DialogTrigger({ children, className, ref, ...rest }: DialogTriggerProps
   );
 }
 
+/* Without children Close is the corner icon button (×). With children it is a
+   footer action and renders through Button so it carries the control material
+   (a nested surface inside the popup: shared backdrop, no second blur). */
 function DialogClose({ children, className, ref, ...rest }: DialogCloseProps) {
   const { labels } = React.useContext(DialogContext);
+  const iconOnly = children === undefined || children === null;
   return (
     <Base.Close
       data-ag-part="close"
       aria-label={labels?.close ?? 'Close'}
-      className={cn('ag-dialog-close', className)}
+      className={cn(iconOnly ? 'ag-dialog-close' : 'ag-dialog-action', className)}
+      {...(iconOnly ? {} : { render: <Button suppressInnerParts /> })}
       ref={ref}
       {...rest}
     >
-      {children ?? '×'}
+      {iconOnly ? <span aria-hidden="true">×</span> : children}
     </Base.Close>
   );
 }
@@ -111,6 +118,7 @@ function DialogBackdrop({ className, ref }: DialogBackdropProps) {
   return (
     <Base.Backdrop
       data-ag-part="backdrop"
+      {...SCRIM_ATTRIBUTES}
       data-ag-overlay-depth={depth}
       className={cn('ag-scrim', className)}
       ref={animatingRef}

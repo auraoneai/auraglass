@@ -157,4 +157,30 @@ describe('Sheet (CMP-229..236)', () => {
     expect(document.querySelector('.ag-scrim')).toBeNull();
     expect(popup()!.getAttribute('aria-modal')).toBeNull();
   });
+
+  it('start/end resolve to the physical edge for LTR (end = right, start = left)', async () => {
+    const { unmount } = render(<Demo root={{ defaultOpen: true, side: 'end' }} />);
+    await act(async () => {});
+    expect(popup()!.getAttribute('data-side')).toBe('right');
+    unmount();
+    render(<Demo root={{ defaultOpen: true, side: 'start' }} />);
+    await act(async () => {});
+    expect(popup()!.getAttribute('data-side')).toBe('left');
+  });
+
+  it('modal backdrop is the MAT scrim layer and the top scrim keeps its blur marker', async () => {
+    render(<Demo root={{ defaultOpen: true }} />);
+    await act(async () => {});
+    const scrim = document.querySelector('.ag-scrim')!;
+    expect(scrim.getAttribute('data-ag-layer')).toBe('scrim');
+    expect(scrim.hasAttribute('data-overlay-top')).toBe(true);
+  });
+
+  it('panel Close with children renders as a Button inside the popup', async () => {
+    render(<Demo root={{ defaultOpen: true }} />);
+    await act(async () => {});
+    const close = document.querySelector('[data-ag-part="close"]')!;
+    expect(close.classList.contains('ag-button')).toBe(true);
+    expect(close.classList.contains('ag-sheet-close')).toBe(true);
+  });
 });

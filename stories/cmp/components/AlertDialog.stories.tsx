@@ -2,14 +2,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { AlertDialog } from '../../../src/components/alert-dialog';
+import { Button } from '../../../src/components/button';
 import { AuraGlassProvider } from '../../../src/theme';
+import { OverlayStage } from '../overlays/OverlayStage';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
   title: 'Flagships/Overlays/AlertDialog',
   component: AlertDialog.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'AlertDialog', kind: 'component' } },
+  parameters: { layout: 'fullscreen', ag: { tier: 'standard', subject: 'AlertDialog', kind: 'component' } },
 } satisfies Meta<typeof AlertDialog.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
@@ -18,6 +20,7 @@ export const Confirm: Story = {
   parameters: { ag: { tier: 'standard', subject: 'AlertDialog', id: 'overlays-alert-dialog--confirm' } },
   render: () => (
     <AuraGlassProvider>
+      <OverlayStage title="Untitled draft" subtitle="Edited just now" />
       <AlertDialog.Root defaultOpen>
         <AlertDialog.Portal>
           <AlertDialog.Backdrop />
@@ -39,6 +42,7 @@ export const Danger: Story = {
   parameters: { ag: { tier: 'standard', subject: 'AlertDialog', id: 'overlays-alert-dialog--danger' } },
   render: () => (
     <AuraGlassProvider>
+      <OverlayStage title="Acme workspace" subtitle="12 members · 48 projects" />
       <AlertDialog.Root defaultOpen intent="danger">
         <AlertDialog.Portal>
           <AlertDialog.Backdrop />
@@ -62,7 +66,9 @@ export const Anatomy: Story = {
   render: () => (
     <AuraGlassProvider>
       <AlertDialog.Root defaultOpen>
-        <AlertDialog.Trigger>Remove member</AlertDialog.Trigger>
+        <OverlayStage title="Members" subtitle="Acme workspace">
+          <AlertDialog.Trigger render={<Button intent="danger" />}>Remove member</AlertDialog.Trigger>
+        </OverlayStage>
         <AlertDialog.Portal>
           <AlertDialog.Backdrop />
           <AlertDialog.Popup>

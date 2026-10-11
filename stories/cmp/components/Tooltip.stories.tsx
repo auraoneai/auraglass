@@ -3,14 +3,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Tooltip } from '../../../src/components/tooltip';
+import { Button } from '../../../src/components/button';
 import { AuraGlassProvider } from '../../../src/theme';
+import { OverlayStage } from '../overlays/OverlayStage';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
   title: 'Flagships/Overlays/Tooltip',
   component: Tooltip.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Tooltip', kind: 'component' } },
+  parameters: { layout: 'fullscreen', ag: { tier: 'standard', subject: 'Tooltip', kind: 'component' } },
 } satisfies Meta<typeof Tooltip.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
@@ -19,7 +21,9 @@ const Demo = ({ label = 'Hint text' }: { label?: string }) => (
   <AuraGlassProvider>
     <Tooltip.Provider>
       <Tooltip.Root defaultOpen>
-        <Tooltip.Trigger>Hover me</Tooltip.Trigger>
+        <OverlayStage title="Editor" subtitle="Untitled document">
+          <Tooltip.Trigger render={<Button />}>Hover me</Tooltip.Trigger>
+        </OverlayStage>
         <Tooltip.Portal>
           <Tooltip.Positioner>
             <Tooltip.Popup><Tooltip.Arrow />{label}</Tooltip.Popup>

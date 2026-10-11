@@ -9,20 +9,25 @@ import { Select } from '../../../src/components/select';
 import { Popover } from '../../../src/components/popover';
 import { Menu } from '../../../src/components/menu';
 import { Toast } from '../../../src/components/toast';
+import { Button } from '../../../src/components/button';
 import { AuraGlassProvider } from '../../../src/theme';
+import { OverlayStage } from '../overlays/OverlayStage';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
   title: 'Flagships/Overlays/Dialog Scenes',
   component: Dialog.Root,
   tags: ['flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Dialog', kind: 'scene' } },
+  parameters: { layout: 'fullscreen', ag: { tier: 'standard', subject: 'Dialog', kind: 'scene' } },
 } satisfies Meta<typeof Dialog.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
 const Shell = ({ children }: { children: React.ReactNode }) => (
-  <AuraGlassProvider>{children}</AuraGlassProvider>
+  <AuraGlassProvider>
+    <OverlayStage title="Team" subtitle="Acme workspace" />
+    {children}
+  </AuraGlassProvider>
 );
 
 export const Form: Story = {
@@ -33,7 +38,10 @@ export const Form: Story = {
         <Dialog.Portal>
           <Dialog.Backdrop />
           <Dialog.Popup render={<form onSubmit={(e) => e.preventDefault()} />}>
-            <Dialog.Header><Dialog.Title>Invite teammate</Dialog.Title></Dialog.Header>
+            <Dialog.Header>
+              <Dialog.Title>Invite teammate</Dialog.Title>
+              <Dialog.Description>They get an email with a link to join the workspace.</Dialog.Description>
+            </Dialog.Header>
             <Dialog.Body>
               <TextField label="Email" placeholder="name@auraone.ai" />
               {/* CMP-378: Select inside a Dialog — composite scene for the
@@ -49,7 +57,7 @@ export const Form: Story = {
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.Close>Cancel</Dialog.Close>
-              <button type="submit" data-ag-part="action">Send invite</button>
+              <Button type="submit" data-ag-part="action" prominent>Send invite</Button>
             </Dialog.Footer>
           </Dialog.Popup>
         </Dialog.Portal>
@@ -73,7 +81,7 @@ export const WithPopover: Story = {
             <Dialog.Body>
               <p data-testid="dialog-outside-target">Press here — inside the dialog, outside the popover.</p>
               <Popover.Root defaultOpen>
-                <Popover.Trigger>Details</Popover.Trigger>
+                <Popover.Trigger render={<Button />}>Details</Popover.Trigger>
                 <Popover.Portal>
                   <Popover.Positioner>
                     <Popover.Popup aria-label="composite popover">
@@ -104,13 +112,13 @@ export const WithPopoverMenu: Story = {
             <Dialog.Header><Dialog.Title>Stacked overlays</Dialog.Title></Dialog.Header>
             <Dialog.Body>
               <Popover.Root defaultOpen>
-                <Popover.Trigger>Row details</Popover.Trigger>
+                <Popover.Trigger render={<Button />}>Row details</Popover.Trigger>
                 <Popover.Portal>
                   <Popover.Positioner>
                     <Popover.Popup aria-label="stack popover">
                       <Popover.Description>Row actions live in the menu.</Popover.Description>
                       <Menu.Root defaultOpen>
-                        <Menu.Trigger>Actions</Menu.Trigger>
+                        <Menu.Trigger render={<Button size="sm" />}>Actions</Menu.Trigger>
                         <Menu.Portal>
                           <Menu.Positioner>
                             <Menu.Popup aria-label="stack menu">

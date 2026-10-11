@@ -13,6 +13,7 @@ import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAni
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
+import { materialProps } from '../../material';
 import type {
   MenuRootProps, MenuTriggerProps, MenuPortalProps, MenuPositionerProps,
   MenuPopupProps, MenuArrowProps, MenuItemProps, MenuLinkItemProps,
@@ -300,6 +301,9 @@ export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
           aria-orientation={orientation}
           orientation={orientation}
           data-ag-part="root"
+          /* chrome glass bar: the one material layer here; the menus it opens
+             are portaled overlays with their own material */
+          {...materialProps({ layer: 'chrome', thickness: 'regular' })}
           className={cn('ag-menubar', className)}
           {...rest}
         />

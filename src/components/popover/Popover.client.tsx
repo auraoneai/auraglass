@@ -10,6 +10,7 @@ import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAni
 import { toOverlayReason, type OverlayKind } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
+import { Button } from '../button';
 import type {
   PopoverRootProps, PopoverTriggerProps, PopoverPortalProps,
   PopoverPositionerProps, PopoverPopupProps, PopoverArrowProps,
@@ -160,7 +161,17 @@ const PopoverDescription = React.forwardRef<HTMLParagraphElement, PopoverDescrip
 
 const PopoverClose = React.forwardRef<HTMLButtonElement, PopoverCloseProps>(
   function PopoverClose({ className, ...rest }, ref) {
-    return <Base.Close ref={ref} data-ag-part="close" className={cn('ag-popover-close', className)} {...rest} />;
+    /* a real (small) control by default instead of a UA-styled <button>;
+       a caller's render still wins */
+    return (
+      <Base.Close
+        ref={ref}
+        data-ag-part="close"
+        className={cn('ag-popover-close', className)}
+        render={<Button size="sm" suppressInnerParts />}
+        {...rest}
+      />
+    );
   },
 );
 

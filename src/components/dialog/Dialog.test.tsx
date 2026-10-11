@@ -215,4 +215,56 @@ describe('Dialog (CMP-209..216, 220)', () => {
     const outer = popups.find((p) => p.getAttribute('aria-label') === 'outer')!;
     expect(outer.hasAttribute('data-ag-nested-open')).toBe(true);
   });
+
+  it('Close: no children = corner icon button; with children = footer Button', async () => {
+    render(
+      <Dialog.Root defaultOpen>
+        <Dialog.Portal>
+          <Dialog.Popup>
+            <Dialog.Close />
+            <Dialog.Title>T</Dialog.Title>
+            <Dialog.Footer><Dialog.Close>Done</Dialog.Close></Dialog.Footer>
+          </Dialog.Popup>
+        </Dialog.Portal>
+      </Dialog.Root>,
+    );
+    await act(async () => {});
+    const [icon, text] = [...document.querySelectorAll('[data-ag-part="close"]')];
+    expect(icon!.classList.contains('ag-dialog-close')).toBe(true);
+    expect(icon!.classList.contains('ag-button')).toBe(false);
+    expect(text!.classList.contains('ag-dialog-close')).toBe(false);
+    expect(text!.classList.contains('ag-button')).toBe(true);
+    expect(text!.textContent).toBe('Done');
+  });
+
+  it('scrim: the backdrop is the MAT scrim layer and keeps its blur while a nested dialog is open', async () => {
+    render(
+      <Dialog.Root defaultOpen>
+        <Dialog.Portal>
+          <Dialog.Backdrop />
+          <Dialog.Popup aria-label="outer">
+            <Dialog.Root defaultOpen>
+              <Dialog.Portal>
+                <Dialog.Backdrop />
+                <Dialog.Popup aria-label="inner"><Dialog.Title>Inner</Dialog.Title></Dialog.Popup>
+              </Dialog.Portal>
+            </Dialog.Root>
+          </Dialog.Popup>
+        </Dialog.Portal>
+      </Dialog.Root>,
+    );
+    await act(async () => { await new Promise((r) => setTimeout(r, 10)); });
+    // Base UI renders no backdrop for the nested dialog: one scrim, and it is the top one
+    const scrims = [...document.querySelectorAll('.ag-scrim')];
+    expect(scrims).toHaveLength(1);
+    expect(scrims[0]!.getAttribute('data-ag-layer')).toBe('scrim');
+    expect(scrims[0]!.hasAttribute('data-overlay-top')).toBe(true);
+  });
+
+  it('CSS: the resting popup does not zero --_ag-optics (blur/rim stay on)', () => {
+    const css = readFileSync(resolve(__dirname, 'Dialog.css'), 'utf8');
+    const resting = css.match(/\.ag-dialog-popup \{[^}]*\}/u)?.[0] ?? '';
+    expect(resting).not.toBe('');
+    expect(resting).not.toContain('--_ag-optics');
+  });
 });

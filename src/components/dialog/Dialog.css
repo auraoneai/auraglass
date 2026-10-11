@@ -16,12 +16,17 @@
     max-inline-size: var(--_ag-dialog-w-md, 560px);
     max-block-size: calc(100dvh - 2 * var(--ag-space-4));
     max-block-size: calc(var(--_ag-visual-viewport-height, 100dvh) - 2 * var(--ag-space-4));
+    /* the anchored-popup rule in overlays/_shared no longer reaches dialogs;
+       the body scrolls, the popup never does */
+    overflow: hidden;
     border-radius: var(--ag-radius-xl);
     box-shadow: var(--_ag-shadow-overlay, var(--ag-shadow-thick));
     color: var(--ag-on-surface);
+    font-family: var(--ag-font-sans);
+    font-size: var(--ag-type-body-size);
+    line-height: var(--ag-type-body-leading);
     outline: none;
     z-index: var(--ag-z-overlay, 300);
-    --_ag-optics: 0;
   }
   .ag-dialog-popup[data-placement='top'] {
     inset-block-start: min(20dvh, 160px);
@@ -42,8 +47,11 @@
   }
 
   /* modal emergence — opacity + scale .96→1 over medium; scrim is opacity-only */
+  /* optics (blur/rim/sheen) ramp in with the popup and rest at full; a
+     resting --_ag-optics: 0 here would beat MAT and leave the glass flat */
   .ag-dialog-popup[data-starting-style],
   .ag-dialog-popup[data-ending-style] {
+    --_ag-optics: 0;
     opacity: 0;
     transform: scale(0.96);
     transition:
@@ -65,59 +73,90 @@
     --_ag-surface-alpha: 0.72;
   }
 
+  /* layout rhythm: one inset (space-5) on every edge, tight title→description */
   .ag-dialog-header,
   .ag-dialog-footer {
     flex: none;
-    padding: var(--ag-space-4);
+    padding-inline: var(--ag-space-5);
+  }
+  .ag-dialog-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ag-space-1);
+    padding-block: var(--ag-space-5) var(--ag-space-2);
+  }
+  /* keep the title clear of the corner close button */
+  .ag-dialog-popup:has(> .ag-dialog-close) > .ag-dialog-header {
+    padding-inline-end: calc(var(--ag-space-5) + var(--ag-space-8));
   }
   .ag-dialog-footer {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--ag-space-2);
     justify-content: flex-end;
-    border-block-start: var(--_ag-surface-rim) solid var(--ag-color-border, transparent);
+    padding-block: var(--ag-space-3) var(--ag-space-5);
   }
   .ag-dialog-body {
     flex: 1 1 auto;
     min-block-size: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: var(--ag-space-4);
+    padding: var(--ag-space-2) var(--ag-space-5);
     /* keep focused controls clear of the pinned header/footer (WCAG 2.4.11) */
     scroll-padding-block-start: var(--_ag-dialog-head-h, 0px);
     scroll-padding-block-end: var(--_ag-dialog-foot-h, 0px);
   }
+  .ag-dialog-body:first-child { padding-block-start: var(--ag-space-5); }
+  .ag-dialog-body:last-child { padding-block-end: var(--ag-space-5); }
+  .ag-dialog-body > * + * { margin-block-start: var(--ag-space-3); }
   .ag-dialog-body[data-padding='none'] {
     padding: 0;
   }
 
   .ag-dialog-title {
     margin: 0;
-    font-weight: var(--_ag-font-semibold, 600);
-    font-size: var(--_ag-text-lg, 1.125rem);
-    line-height: var(--_ag-leading-tight, 1.25);
+    color: var(--ag-on-surface);
+    font-size: var(--ag-type-title-3-size);
+    font-weight: var(--ag-type-title-3-weight);
+    line-height: var(--ag-type-title-3-leading);
+    letter-spacing: var(--_ag-type-title-3-tracking, normal);
   }
   .ag-dialog-description {
     margin: 0;
-    color: var(--ag-color-on-surface-muted, currentColor);
-    font-size: var(--_ag-text-sm, 0.875rem);
+    color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
+    font-size: var(--ag-type-callout-size);
+    line-height: var(--ag-type-callout-leading);
   }
 
   .ag-dialog-trigger,
   .ag-dialog-close {
     cursor: default;
   }
+  /* corner icon close (Close without children); a Close with children is a
+     footer Button (.ag-dialog-action) and stays in flow */
   .ag-dialog-close {
     position: absolute;
-    inset-block-start: var(--ag-space-3);
-    inset-inline-end: var(--ag-space-3);
+    inset-block-start: var(--ag-space-4);
+    inset-inline-end: var(--ag-space-4);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-inline-size: 24px;
-    min-block-size: 24px;
-    border-radius: var(--ag-radius-sm);
-    color: var(--ag-color-on-surface-muted, currentColor);
+    inline-size: var(--ag-space-8);
+    block-size: var(--ag-space-8);
+    padding: 0;
+    border: 0;
+    border-radius: var(--ag-radius-full);
+    background: color-mix(in oklab, currentColor 8%, transparent);
+    color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
+    font: inherit;
+    font-size: var(--ag-type-title-3-size);
+    line-height: 1;
+    transition: background-color var(--ag-duration-micro) var(--ag-ease-standard);
   }
+  @media (hover: hover) {
+    .ag-dialog-close:hover { background: color-mix(in oklab, currentColor 14%, transparent); }
+  }
+  .ag-dialog-action { min-inline-size: calc(var(--ag-space-16) + var(--ag-space-4)); }
   /* 44px hit area on coarse pointers via pseudo-element */
   @media (pointer: coarse) {
     .ag-dialog-close::before {

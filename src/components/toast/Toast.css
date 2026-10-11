@@ -27,13 +27,23 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: var(--_ag-space-1-5, 6px);
-    padding: var(--ag-space-3) var(--_ag-space-3-5, 14px);
-    border-radius: var(--ag-radius-md);
+    gap: var(--ag-space-2);
+    /* room on the end edge for the corner close button */
+    padding-block: var(--ag-space-3);
+    padding-inline: var(--ag-space-4) calc(var(--ag-space-4) + var(--ag-space-6));
+    border-radius: var(--ag-radius-lg);
+    inline-size: 100%;
     min-width: 240px;
     max-width: 100%;
+    box-sizing: border-box;
+    color: var(--ag-on-surface);
+    font-family: var(--ag-font-sans);
+    font-size: var(--ag-type-callout-size);
+    line-height: var(--ag-type-callout-leading);
     outline: none;
-    border-inline-start: 3px solid var(--_ag-toast-accent, transparent);
+    /* intent is a dot before the title, not a 3px border stripe bent around
+       the glass corner radius */
+    --_ag-toast-accent: var(--ag-color-info);
   }
   .ag-toast[data-state='open'],
   .ag-toast[data-open] {
@@ -58,27 +68,75 @@
   .ag-toast[data-ag-intent='error'] { --_ag-toast-accent: var(--_ag-danger, var(--ag-color-danger)); }
   .ag-toast[data-ag-intent='info'] { --_ag-toast-accent: var(--_ag-info, var(--ag-color-info)); }
 
-  .ag-toast-content { display: flex; flex-direction: column; gap: 2px; }
-  .ag-toast-title { font-weight: 600; font-size: var(--_ag-font-sm, 13px); }
-  .ag-toast-description { font-size: var(--_ag-font-sm, 13px); color: var(--_ag-fg-muted, var(--ag-color-on-surface-muted)); }
+  .ag-toast-content { display: flex; flex-direction: column; gap: var(--ag-space-1); }
+  .ag-toast-title {
+    display: flex;
+    align-items: center;
+    gap: var(--ag-space-2);
+    font-size: var(--ag-type-callout-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-label-leading);
+  }
+  .ag-toast-title::before {
+    content: '';
+    flex: none;
+    inline-size: var(--ag-space-2);
+    block-size: var(--ag-space-2);
+    border-radius: var(--ag-radius-full);
+    background: var(--_ag-toast-accent);
+  }
+  .ag-toast-description {
+    padding-inline-start: calc(var(--ag-space-2) * 2);
+    font-size: var(--ag-type-callout-size);
+    color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
+  }
   .ag-toast-action {
     align-self: flex-start;
-    font-size: var(--_ag-font-sm, 13px);
-    font-weight: 600;
-    color: var(--_ag-accent, var(--ag-color-accent));
+    margin-inline-start: calc(var(--ag-space-2) * 2);
+    padding: var(--ag-space-1) var(--ag-space-3);
+    border: 0;
+    border-radius: var(--ag-radius-full);
+    background: color-mix(in oklab, var(--ag-color-accent) 16%, transparent);
+    font: inherit;
+    font-size: var(--ag-type-label-size);
+    font-weight: var(--ag-type-label-weight);
+    color: var(--ag-on-surface);
+    cursor: default;
   }
   .ag-toast-close {
     position: absolute;
-    top: var(--ag-space-2);
-    right: var(--ag-space-2);
-    opacity: 0.6;
+    inset-block-start: var(--ag-space-2);
+    inset-inline-end: var(--ag-space-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--ag-space-6);
+    block-size: var(--ag-space-6);
+    padding: 0;
+    border: 0;
+    border-radius: var(--ag-radius-full);
+    background: transparent;
+    color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
+    font: inherit;
+    font-size: var(--ag-type-body-size);
+    line-height: 1;
+    cursor: default;
+  }
+  @media (hover: hover) {
+    .ag-toast-close:hover { background: color-mix(in oklab, currentColor 12%, transparent); }
+  }
+  .ag-toast-action:focus-visible,
+  .ag-toast-close:focus-visible {
+    outline: var(--ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
+    outline-offset: 1px;
   }
 
   .ag-toast-progress {
+    display: var(--_ag-toast-progress-display, block);
     height: 2px;
     border-radius: var(--ag-radius-xs);
     overflow: hidden;
-    background: var(--_ag-border, var(--ag-color-border));
+    background: color-mix(in oklab, var(--ag-color-border) 25%, transparent);
   }
   .ag-toast-progress-bar {
     display: block;
@@ -86,6 +144,7 @@
     width: 100%;
     background: var(--_ag-toast-accent, var(--_ag-accent, var(--ag-color-accent)));
     transform-origin: left;
+    /* --_ag-toast-timeout is always written by Toast.Root (Base UI default 5s) */
     animation: ag-toast-progress var(--_ag-toast-timeout, var(--ag-duration-ambient)) linear forwards;
   }
   [dir='rtl'] .ag-toast-progress-bar { transform-origin: right; }

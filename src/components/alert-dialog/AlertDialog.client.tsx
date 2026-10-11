@@ -13,6 +13,7 @@ import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
+import { SCRIM_ATTRIBUTES } from '../overlays/_shared/scrimAttributes';
 import { Button } from '../button';
 import {
   AlertDialogHeader, AlertDialogBody, AlertDialogFooter,
@@ -51,7 +52,7 @@ function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', 
   });
   const ctx = React.useMemo<AlertCtx>(
     () => ({ depth, open: effectiveOpen, intent, labels, popupElRef, setPopupElement }),
-    [depth, intent, labels],
+    [depth, effectiveOpen, intent, labels],
   );
   return (
     <AlertContext.Provider value={ctx}>
@@ -89,6 +90,7 @@ function AlertDialogBackdrop({ className }: { className?: string }) {
   return (
     <Base.Backdrop
       data-ag-part="backdrop"
+      {...SCRIM_ATTRIBUTES}
       data-ag-overlay-depth={depth}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
@@ -163,6 +165,9 @@ function AlertDialogCancel({ children, className, ref, ...rest }: AlertDialogBut
       data-ag-part="cancel"
       aria-label={labels?.cancel}
       className={cn('ag-alert-dialog-cancel', className)}
+      /* Cancel is a real control like Action (same Button material), not a
+         bare UA-styled <button> next to a styled one */
+      render={<Button suppressInnerParts />}
       ref={ref as React.Ref<HTMLButtonElement>}
       {...rest}
     >
