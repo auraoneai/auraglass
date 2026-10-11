@@ -1,6 +1,5 @@
-'use client';
 /* REQ-SURF-140 — pure deterministic max-abs downsampling; same input →
- * byte-identical output. */
+ * byte-identical output. Shared (no 'use client'): the server Waveform imports it. */
 export function downsamplePeaks(peaks: Float32Array | number[], bars: number): number[] {
   const n = Math.min(256, Math.max(8, Math.floor(bars)));
   const src = Array.from(peaks, (v) => Math.min(1, Math.max(0, Number.isFinite(v) ? v : 0)));
