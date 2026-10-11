@@ -11,6 +11,18 @@ const DOM_TIERS = ['lightweight', 'standard', 'enhanced']; // data-ag-tier (mate
 const TIER_BLUR_SCALE = { lightweight: 0.5, standard: 1, enhanced: 1 };
 const LADDER_STEPS = 9;
 
+/* A surface whose thickness is not explicit (materialProps emits
+   data-ag-thickness only when set) resolves to the regular row, as the
+   material contract documents ("ladder cells default to regular"). Without
+   it TopBar, TabBar, Sidebar, Inspector, SurfaceGroup, the preferences panel
+   and every other implicit-thickness surface matched no cell: zero blur and a
+   floor alpha of 1, i.e. an opaque canvas slab instead of glass. The default
+   is its own rule (same declarations) so the explicit cell rule is unchanged. */
+const DEFAULT_THICKNESS = 'regular';
+const cellSelectors = (variant, th) => [
+  `[data-ag-variant="${variant}"][data-ag-thickness="${th}"]`,
+  ...(th === DEFAULT_THICKNESS ? [`[data-ag-variant="${variant}"]:not([data-ag-thickness])`] : []),
+];
 const dim = (v) => `${v.value}${v.unit}`;
 const shadowCss = (s) => `${dim(s.offsetX)} ${dim(s.offsetY)} ${dim(s.blur)} ${dim(s.spread ?? { value: 0, unit: 'px' })} ${colorToCss(s.color)}`;
 
@@ -50,19 +62,20 @@ export function buildLadders(records, resolved) {
       const c = cell(variant, th);
       const b = c.blur;
       if (b.unit === 'px' && b.value > 32) throw new Error(`blur > 32px at material.material.variants.${variant}.${th}`);
-      out.push(`  [data-ag-variant="${variant}"][data-ag-thickness="${th}"] {`);
-      out.push(`    --_ag-mat-blur: ${dim(b)};`);
-      out.push(`    --_ag-mat-saturation: ${c.saturation};`);
-      out.push(`    --_ag-mat-grain: ${c.grain};`);
-      out.push(`    --_ag-mat-rim: ${dim(c.rim)};`);
-      out.push(`    --_ag-mat-bezel: ${bezel(th)};`);
-      out.push(`    --_ag-mat-tint-alpha: ${c.alpha};`);
-      out.push(`    --_ag-mat-shadow: ${shadow(th)};`);
-      out.push(`    --_ag-surface-alpha: ${c.alpha};`); // disabled state scales this (MAT-018)
-      out.push(`    --ag-surface-fill: oklch(from var(--ag-color-canvas) l c h / var(--_ag-alpha, ${c.alpha}));`);
+      const body = [
+        `    --_ag-mat-blur: ${dim(b)};`,
+        `    --_ag-mat-saturation: ${c.saturation};`,
+        `    --_ag-mat-grain: ${c.grain};`,
+        `    --_ag-mat-rim: ${dim(c.rim)};`,
+        `    --_ag-mat-bezel: ${bezel(th)};`,
+        `    --_ag-mat-tint-alpha: ${c.alpha};`,
+        `    --_ag-mat-shadow: ${shadow(th)};`,
+        `    --_ag-surface-alpha: ${c.alpha};`, // disabled state scales this (MAT-018)
+        `    --ag-surface-fill: oklch(from var(--ag-color-canvas) l c h / var(--_ag-alpha, ${c.alpha}));`,
+      ];
       for (let i = 1; i <= LADDER_STEPS; i++)
-        out.push(`    --_ag-ladder-${i}: ${Math.round((c.alpha + i * LADDER_STEP) * 10000) / 10000};`);
-      out.push('  }');
+        body.push(`    --_ag-ladder-${i}: ${Math.round((c.alpha + i * LADDER_STEP) * 10000) / 10000};`);
+      for (const sel of cellSelectors(variant, th)) out.push(`  ${sel} {`, ...body, '  }');
     }
   }
   // backdrop-filter literals: blurred variants x thickness x DOM tier (18 rules, MAT-041)
@@ -146,9 +159,7 @@ export function buildFloors(records, resolved, matrix = null) {
   // fallback rules below stay in the material layer.
   for (const th of THICKNESS) {
     for (const variant of VARIANTS) {
-      out.push(`  [data-ag-variant="${variant}"][data-ag-thickness="${th}"] {`);
-      out.push(`    --_ag-floor-alpha: ${floor(th)};`);
-      out.push('  }');
+      for (const sel of cellSelectors(variant, th)) out.push(`  ${sel} {`, `    --_ag-floor-alpha: ${floor(th)};`, '  }');
     }
   }
   // Rung inputs read by src/a11y/css/rungs.css (REQ-FIN-03 / REQ-FIN-05):

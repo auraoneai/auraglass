@@ -195,10 +195,19 @@
   [data-ag-variant="regular"][data-ag-thickness="regular"] {
     --_ag-floor-alpha: 0.55;
   }
+  [data-ag-variant="regular"]:not([data-ag-thickness]) {
+    --_ag-floor-alpha: 0.55;
+  }
   [data-ag-variant="clear"][data-ag-thickness="regular"] {
     --_ag-floor-alpha: 0.55;
   }
+  [data-ag-variant="clear"]:not([data-ag-thickness]) {
+    --_ag-floor-alpha: 0.55;
+  }
   [data-ag-variant="identity"][data-ag-thickness="regular"] {
+    --_ag-floor-alpha: 0.55;
+  }
+  [data-ag-variant="identity"]:not([data-ag-thickness]) {
     --_ag-floor-alpha: 0.55;
   }
   [data-ag-variant="regular"][data-ag-thickness="thick"] {
