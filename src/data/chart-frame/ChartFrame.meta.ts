@@ -13,9 +13,8 @@ export default defineMeta({
   apg: 'figure',
   budgetKb: 5,
   migration: [
-    { from: 'GlassChart', props: {}, automation: 'manual', compat: false },
-    { from: 'GlassDataChart', props: {}, automation: 'manual', compat: false },
-    { from: 'GlassChartContainer', props: {}, automation: 'manual', compat: false },
+    { from: 'GlassChart', props: {}, selectors: { '.glass-chart': '[data-ag-part="chart-frame"]' }, automation: 'manual', compat: false },
+    { from: 'GlassDataChart', props: {}, selectors: { '.glass-chart': '[data-ag-part="chart-frame"]' }, automation: 'manual', compat: false },
+    { from: 'GlassChartContainer', props: {}, selectors: { '.glass-chart': '[data-ag-part="chart-frame"]' }, automation: 'manual', compat: false },
   ],
-  selectors: [{ from: '.glass-chart', to: '[data-ag-part="chart-frame"]' }],
 });

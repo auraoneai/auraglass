@@ -11,6 +11,6 @@ export default defineMeta({
   variants: { variant: ['standard','quilted','masonry'] },
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 10,
+  budgetKb: 10000 / 1024,
   migration: [{ from: 'GlassImageList', props: {}, selectors: { '.glass-image-list': '.ag-image-list' },  automation: 'mostly', compat: true }],
 });

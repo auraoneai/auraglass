@@ -12,7 +12,6 @@ export default defineMeta({
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/grid-and-table-properties/',
   budgetKb: 15,
   migration: [
-    { from: 'GlassDataChart', props: {}, automation: 'manual', compat: false, note: 'on @tier preview until 5.1.0' },
+    { from: 'GlassDataChart', props: {}, selectors: { '.glass-data-chart': '[data-ag-part="chart"]' }, automation: 'manual', compat: false, note: 'on @tier preview until 5.1.0' },
   ],
-  selectors: [{ from: '.glass-data-chart', to: '[data-ag-part="chart"]' }],
 });

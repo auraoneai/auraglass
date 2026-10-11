@@ -13,7 +13,6 @@ export default defineMeta({
   variants: { density: ['compact', 'comfortable'] },
   budgetKb: 4,
   migration: [
-    { from: 'GlassTimeline', props: { events: 'items' }, automation: 'mostly', compat: true },
+    { from: 'GlassTimeline', props: { events: 'items' }, selectors: { '.glass-timeline': '[data-ag-part="timeline"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-timeline', to: '[data-ag-part="timeline"]' }],
 });

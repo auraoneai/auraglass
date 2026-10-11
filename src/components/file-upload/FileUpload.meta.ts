@@ -11,6 +11,6 @@ export default defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'button',
-  budgetKb: 15,
+  budgetKb: 15000 / 1024,
   migration: [{ from: 'GlassFileUpload', props: {}, selectors: { '.glass-file-upload': '.ag-file-upload' },  automation: 'mostly', compat: true }],
 });

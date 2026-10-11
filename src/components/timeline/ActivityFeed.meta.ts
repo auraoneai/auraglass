@@ -13,7 +13,6 @@ export default defineMeta({
   variants: {},
   budgetKb: 4,
   migration: [
-    { from: 'GlassActivityFeed', props: { entries: 'items' }, automation: 'mostly', compat: true },
+    { from: 'GlassActivityFeed', props: { entries: 'items' }, selectors: { '.glass-activity-feed': '[data-ag-part="activity-feed"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-activity-feed', to: '[data-ag-part="activity-feed"]' }],
 });

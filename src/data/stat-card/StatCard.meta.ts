@@ -12,12 +12,11 @@ export default defineMeta({
   variants: { trendDirection: ['up-is-good', 'down-is-good', 'neutral'] },
   budgetKb: 3,
   migration: [
-    { from: 'GlassStatCard', props: { title: 'label', trend: 'trendDirection' }, automation: 'full', compat: true },
-    { from: 'GlassKPICard', props: {}, automation: 'full', compat: true },
-    { from: 'GlassMetricCard', props: {}, automation: 'full', compat: true },
-    { from: 'GlassAnimatedNumber', props: {}, automation: 'manual', compat: true },
-    { from: 'KpiChart', props: {}, automation: 'manual', compat: false },
-    { from: 'GlassMetricsGrid', props: {}, automation: 'manual', compat: false },
+    { from: 'GlassStatCard', props: { title: 'label', trend: { to: 'trendDirection', values: { up: 'up-is-good', down: 'up-is-good', flat: 'neutral' } } }, selectors: { '.glass-stat-card': '[data-ag-part="stat-card"]' }, automation: 'full', compat: true },
+    { from: 'GlassKPICard', props: {}, selectors: { '.glass-stat-card': '[data-ag-part="stat-card"]' }, automation: 'full', compat: true },
+    { from: 'GlassMetricCard', props: {}, selectors: { '.glass-stat-card': '[data-ag-part="stat-card"]' }, automation: 'full', compat: true },
+    { from: 'GlassAnimatedNumber', props: {}, selectors: { '.glass-stat-card': '[data-ag-part="stat-card"]' }, automation: 'manual', compat: true },
+    { from: 'KpiChart', props: {}, selectors: { '.glass-stat-card': '[data-ag-part="stat-card"]' }, automation: 'manual', compat: false },
+    { from: 'GlassMetricsGrid', props: {}, selectors: { '.glass-stat-card': '[data-ag-part="stat-card"]' }, automation: 'manual', compat: false },
   ],
-  selectors: [{ from: '.glass-stat-card', to: '[data-ag-part="stat-card"]' }],
 });

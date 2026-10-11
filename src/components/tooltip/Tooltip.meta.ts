@@ -19,7 +19,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'tooltip',
-  budgetKb: 10,
+  budgetKb: 10000 / 1024,
   migration: [
     {
       from: 'GlassTooltip',

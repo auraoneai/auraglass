@@ -4,6 +4,8 @@ import type { CssFragment } from '../../src/contracts/fragments';
 export default [
   // generated @property registry + ladders/floors are 2a-T compiler outputs
   { file: 'src/material/css/generated/properties.css', layer: 'ag.material', bundle: 'material.css', order: 10 },
+  // REQ-MAT-28: the hand-authored @property registry
+  { file: 'src/material/css/properties.css', layer: 'ag.material', bundle: 'material.css', order: 15 },
   { file: 'src/material/css/generated/floors.css', layer: 'ag.material', bundle: 'material.css', order: 20 },
   { file: 'src/material/css/generated/ladders.css', layer: 'ag.material', bundle: 'material.css', order: 30 },
   { file: 'src/material/css/material.css', layer: 'ag.material', bundle: 'material.css', order: 40 },

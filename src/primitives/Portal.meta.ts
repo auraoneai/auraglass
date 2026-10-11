@@ -13,7 +13,7 @@ export const PortalMeta = defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 4,
+  budgetKb: 1500 / 1024,
   migration: [
     { from: 'GlassPortal', props: {}, selectors: { '.glass-portal': '.ag-portal' },  automation: 'full', compat: true },
   ],

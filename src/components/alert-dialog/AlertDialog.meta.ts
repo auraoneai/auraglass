@@ -21,7 +21,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'alertdialog',
-  budgetKb: 20,
+  budgetKb: 20000 / 1024,
   migration: [
     {
       from: 'GlassModal',

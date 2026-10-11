@@ -22,7 +22,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'combobox',
-  budgetKb: 30,
+  budgetKb: 30000 / 1024,
   migration: [
     {
       from: 'GlassCombobox',

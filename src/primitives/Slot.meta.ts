@@ -12,7 +12,7 @@ export const SlotMeta = defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 4,
+  budgetKb: 1500 / 1024,
   migration: [
     { from: 'GlassSlot', props: {}, selectors: { '.glass-slot': '.ag-slot' },  automation: 'full', compat: true },
   ],

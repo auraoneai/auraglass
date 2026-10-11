@@ -12,5 +12,4 @@ export default defineMeta({
   variants: {},
   budgetKb: 5,
   migration: [],
-  selectors: [],
 });

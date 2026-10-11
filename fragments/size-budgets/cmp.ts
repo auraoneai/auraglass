@@ -61,6 +61,7 @@ export default [
   // CMP-165 — §16 inputs rows (provisional until calibration, D-26)
   { id: 'Switch', import: "{ Switch } from 'aura-glass'", limitBytes: 8000, kind: 'js' },
   { id: 'Slider', import: "{ Slider } from 'aura-glass'", limitBytes: 14000, kind: 'js' },
+  { id: 'Checkbox', import: "{ Checkbox } from 'aura-glass'", limitBytes: 10000, kind: 'js' },
   { id: 'Checkbox+CheckboxGroup', import: "{ Checkbox, CheckboxGroup } from 'aura-glass'", limitBytes: 10000, kind: 'js' },
   { id: 'RadioGroup', import: "{ RadioGroup } from 'aura-glass'", limitBytes: 10000, kind: 'js' },
   { id: 'TextField', import: "{ TextField } from 'aura-glass'", limitBytes: 12000, kind: 'js' },
@@ -74,13 +75,12 @@ export default [
   { id: 'controls-all-families', import: "{ Button, IconButton, ButtonGroup, Toolbar, ToggleGroup, SegmentedControl, Switch, Slider, Checkbox, CheckboxGroup, RadioGroup, TextField, SearchField, Select, Combobox, NumberField, Field, Fieldset } from 'aura-glass'", limitBytes: 60000, kind: 'js' },
   { id: 'aura-glass/forms', import: "'aura-glass/forms'", limitBytes: 4000, kind: 'js' },
   { id: 'CheckboxGroup', import: "{ CheckboxGroup } from 'aura-glass'", limitBytes: 6000, kind: 'js' },
-  { id: 'Fieldset', import: "{ Fieldset } from 'aura-glass'", limitBytes: 8000, kind: 'js' },
-  { id: 'ImageList', import: "{ ImageList } from 'aura-glass'", limitBytes: 15000, kind: 'js' },
   { id: 'DismissableLayer', import: "{ DismissableLayer } from 'aura-glass/primitives'", limitBytes: 2000, kind: 'js' },
   { id: 'FocusScope', import: "{ FocusScope } from 'aura-glass/primitives'", limitBytes: 2000, kind: 'js' },
   { id: 'Icon', import: "{ Icon } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
   { id: 'Label', import: "{ Label } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
   { id: 'Portal', import: "{ Portal } from 'aura-glass/primitives'", limitBytes: 1500, kind: 'js' },
+  { id: 'VisuallyHidden', import: "{ VisuallyHidden } from 'aura-glass/primitives'", limitBytes: 4000, kind: 'js' },
   { id: 'Slot', import: "{ Slot } from 'aura-glass/primitives'", limitBytes: 1500, kind: 'js' },
   // CMP-165 — controls CSS (§16 controls ≤7 KB total)
   { id: 'controls.css', import: "src/components/control-shared/controls.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },

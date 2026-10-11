@@ -20,7 +20,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'select',
-  budgetKb: 25,
+  budgetKb: 25000 / 1024,
   migration: [
     {
       from: 'GlassSelect',

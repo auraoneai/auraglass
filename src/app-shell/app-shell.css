@@ -198,7 +198,7 @@
     grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
     gap: var(--ag-space-3, 0.75rem);
     padding: var(--ag-space-4, 1rem);
-  
+  }
   /* SURF-037/057: inspector is its own inline-size container; content owns
      its scroll. */
   .ag-inspector {
@@ -212,7 +212,7 @@
     overscroll-behavior: contain;
     min-block-size: 0;
     flex: 1;
-  
+  }
   /* SURF-038: inspector material/geometry by mode. Docked (or auto under a
      wide shell) reads sunken with no backdrop-filter; floating (or auto
      under expanded/medium) overlays the main area at inline-end. Compact
@@ -235,7 +235,7 @@
   }
   .ag-app-shell[data-ag-mode='compact'] [data-ag-slot='inspector'] {
     display: none;
-  
+  }
   /* SURF-043/045/046: panel handles — 1px line, >=24px fine / >=44px coarse
      hit area via ::before, touch-action none (handle only); stacked mode
      (data-ag-stacked, set by ResizeObserver) drops to a column and hides

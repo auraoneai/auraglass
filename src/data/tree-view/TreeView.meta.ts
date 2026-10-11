@@ -13,10 +13,9 @@ export default defineMeta({
   apg: 'treeview',
   budgetKb: 8,
   migration: [
-    { from: 'GlassTreeView', props: { nodes: 'items', selectedId: 'selectedKeys', onSelect: 'onSelectionChange' }, automation: 'mostly', compat: true },
-    { from: 'TreeView', props: { nodes: 'items', selectedId: 'selectedKeys', onSelect: 'onSelectionChange' }, automation: 'mostly', compat: true },
-    { from: 'GlassFileTree', props: {}, automation: 'manual', compat: true },
-    { from: 'GlassFileExplorer', props: {}, automation: 'manual', compat: true },
+    { from: 'GlassTreeView', props: { nodes: 'items', selectedId: 'selectedKeys', onSelect: 'onSelectionChange' }, selectors: { '.glass-tree-view': '[data-ag-part="tree"]' }, automation: 'mostly', compat: true },
+    { from: 'TreeView', props: { nodes: 'items', selectedId: 'selectedKeys', onSelect: 'onSelectionChange' }, selectors: { '.glass-tree-view': '[data-ag-part="tree"]' }, automation: 'mostly', compat: true },
+    { from: 'GlassFileTree', props: {}, selectors: { '.glass-tree-view': '[data-ag-part="tree"]' }, automation: 'manual', compat: true },
+    { from: 'GlassFileExplorer', props: {}, selectors: { '.glass-tree-view': '[data-ag-part="tree"]' }, automation: 'manual', compat: true },
   ],
-  selectors: [{ from: '.glass-tree-view', to: '[data-ag-part="tree"]' }],
 });

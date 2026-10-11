@@ -11,6 +11,6 @@ export default defineMeta({
   variants: { size: ['sm','md','lg','xl','full'] },
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 1.5,
+  budgetKb: 1500 / 1024,
   migration: [{ from: 'GlassContainer', props: {}, selectors: { '.glass-container': '.ag-container' },  automation: 'full', compat: true }],
 });

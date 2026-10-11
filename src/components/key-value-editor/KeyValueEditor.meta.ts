@@ -11,7 +11,7 @@ export const KeyValueEditorMeta = defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 15,
+  budgetKb: 15000 / 1024,
   migration: [
     {
       from: 'GlassKeyValueEditor',

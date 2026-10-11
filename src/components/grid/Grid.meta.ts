@@ -11,6 +11,6 @@ export default defineMeta({
   variants: { variant: ['standard','masonry'] },
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 1.5,
+  budgetKb: 1500 / 1024,
   migration: [{ from: 'GlassGrid', props: {}, selectors: { '.glass-grid': '.ag-grid' },  automation: 'full', compat: true }, { from: 'GlassMasonry', props: {}, selectors: { '.glass-masonry': '.ag-grid' },  automation: 'mostly', compat: true }],
 });

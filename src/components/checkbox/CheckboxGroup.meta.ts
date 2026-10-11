@@ -16,12 +16,12 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'content', refractionEligible: false },
   apg: 'group',
-  budgetKb: 10,
+  budgetKb: 6000 / 1024,
   migration: [
     {
       from: 'GlassCheckboxGroup',
       props: {
-        options: null,
+        options: 'children',
         onChange: { to: 'onValueChange' },
       },
       selectors: { '.glass-checkbox-group': '.ag-checkbox-group' }, automation: 'partial',

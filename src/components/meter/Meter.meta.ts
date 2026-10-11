@@ -11,6 +11,6 @@ export default defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 5,
+  budgetKb: 5000 / 1024,
   migration: [],
 });

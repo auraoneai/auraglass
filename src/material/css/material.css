@@ -270,7 +270,7 @@
        flex so the gap separates children into a toolbar row (no inline style) */
     display: flex;
     align-items: center;
-    gap: var(--ag-group-spacing, var(--ag-space-2));
+    gap: var(--_ag-group-spacing, var(--ag-space-2));
   }
   :where([data-ag-group]) > [data-ag-surface]::before {
     backdrop-filter: none;
@@ -582,17 +582,17 @@
   [data-ag-inset="10"] { --ag-inset: var(--ag-space-10); }
   [data-ag-inset="12"] { --ag-inset: var(--ag-space-12); }
   [data-ag-inset="16"] { --ag-inset: var(--ag-space-16); }
-  [data-ag-group][data-ag-spacing="0"] { --ag-group-spacing: var(--ag-space-0); }
-  [data-ag-group][data-ag-spacing="1"] { --ag-group-spacing: var(--ag-space-1); }
-  [data-ag-group][data-ag-spacing="2"] { --ag-group-spacing: var(--ag-space-2); }
-  [data-ag-group][data-ag-spacing="3"] { --ag-group-spacing: var(--ag-space-3); }
-  [data-ag-group][data-ag-spacing="4"] { --ag-group-spacing: var(--ag-space-4); }
-  [data-ag-group][data-ag-spacing="5"] { --ag-group-spacing: var(--ag-space-5); }
-  [data-ag-group][data-ag-spacing="6"] { --ag-group-spacing: var(--ag-space-6); }
-  [data-ag-group][data-ag-spacing="8"] { --ag-group-spacing: var(--ag-space-8); }
-  [data-ag-group][data-ag-spacing="10"] { --ag-group-spacing: var(--ag-space-10); }
-  [data-ag-group][data-ag-spacing="12"] { --ag-group-spacing: var(--ag-space-12); }
-  [data-ag-group][data-ag-spacing="16"] { --ag-group-spacing: var(--ag-space-16); }
+  [data-ag-group][data-ag-spacing="0"] { --_ag-group-spacing: var(--ag-space-0); }
+  [data-ag-group][data-ag-spacing="1"] { --_ag-group-spacing: var(--ag-space-1); }
+  [data-ag-group][data-ag-spacing="2"] { --_ag-group-spacing: var(--ag-space-2); }
+  [data-ag-group][data-ag-spacing="3"] { --_ag-group-spacing: var(--ag-space-3); }
+  [data-ag-group][data-ag-spacing="4"] { --_ag-group-spacing: var(--ag-space-4); }
+  [data-ag-group][data-ag-spacing="5"] { --_ag-group-spacing: var(--ag-space-5); }
+  [data-ag-group][data-ag-spacing="6"] { --_ag-group-spacing: var(--ag-space-6); }
+  [data-ag-group][data-ag-spacing="8"] { --_ag-group-spacing: var(--ag-space-8); }
+  [data-ag-group][data-ag-spacing="10"] { --_ag-group-spacing: var(--ag-space-10); }
+  [data-ag-group][data-ag-spacing="12"] { --_ag-group-spacing: var(--ag-space-12); }
+  [data-ag-group][data-ag-spacing="16"] { --_ag-group-spacing: var(--ag-space-16); }
   :where([data-ag-part="concentric-frame"], [data-ag-radius]:not([data-ag-surface])) {
     padding: var(--ag-inset, var(--ag-space-2));
     border-radius: var(--ag-radius-outer, var(--ag-radius-md));

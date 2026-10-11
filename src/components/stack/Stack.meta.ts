@@ -11,6 +11,6 @@ export default defineMeta({
   variants: { direction: ['row','column'] },
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 1.5,
+  budgetKb: 1500 / 1024,
   migration: [{ from: 'GlassStack', props: {}, selectors: { '.glass-stack': '.ag-stack' },  automation: 'full', compat: true }],
 });

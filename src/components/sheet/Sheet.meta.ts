@@ -24,7 +24,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'dialog-modal',
-  budgetKb: 24,
+  budgetKb: 24000 / 1024,
   migration: [
     {
       from: 'GlassDrawer',

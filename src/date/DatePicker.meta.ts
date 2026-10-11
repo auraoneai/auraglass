@@ -13,7 +13,6 @@ export default defineMeta({
   apg: 'date',
   budgetKb: 8,
   migration: [
-    { from: 'GlassDatePicker', props: { onChange: 'onValueChange', minDate: 'minValue', maxDate: 'maxValue', disabledDates: 'isDateUnavailable', disabled: 'isDisabled', required: 'isRequired', error: 'isInvalid', helperText: 'description', format: null, mode: null }, automation: 'mostly', compat: true },
+    { from: 'GlassDatePicker', props: { onChange: 'onValueChange', minDate: 'minValue', maxDate: 'maxValue', disabledDates: 'isDateUnavailable', disabled: 'isDisabled', required: 'isRequired', error: 'isInvalid', helperText: 'description', format: null, mode: null }, selectors: { '.glass-date-picker': '[data-ag-part="date-picker"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-date-picker', to: '[data-ag-part="date-picker"]' }],
 });

@@ -11,6 +11,6 @@ export default defineMeta({
   variants: {},
   material: { layer: 'overlay' },
   apg: 'none',
-  budgetKb: 15,
+  budgetKb: 15000 / 1024,
   migration: [{ from: 'GlassCoachmarks', props: {}, selectors: { '.glass-coachmarks': '.ag-tour' },  automation: 'partial', compat: true }, { from: 'GlassSpotlight', props: {}, selectors: { '.glass-spotlight': '.ag-tour' },  automation: 'partial', compat: true }],
 });

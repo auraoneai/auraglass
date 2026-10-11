@@ -27,7 +27,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'menu-button',
-  budgetKb: 22,
+  budgetKb: 22000 / 1024,
   migration: [
     {
       from: 'GlassMenu',

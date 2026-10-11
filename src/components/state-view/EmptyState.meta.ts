@@ -11,6 +11,6 @@ export const EmptyStateMeta = defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 1.5,
+  budgetKb: 1500 / 1024,
   migration: [{ from: 'GlassEmptyState', props: {}, selectors: { '.glass-empty-state': '.ag-empty-state' },  automation: 'full', compat: true }],
 });

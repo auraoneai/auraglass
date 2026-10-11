@@ -13,13 +13,9 @@ export default defineMeta({
   apg: 'table',
   budgetKb: 14,
   migration: [
-    { from: 'GlassDataTable', props: { rows: 'data', filterable: 'enableColumnFilter', compact: 'size', selectedRows: 'rowSelection', onSelectionChange: 'onRowSelectionChange', onRowClick: 'onRowAction', emptyMessage: 'emptyState', consciousness: null }, automation: 'mostly', compat: true },
-    { from: 'GlassDataGrid', props: {}, automation: 'mostly', compat: true },
-    { from: 'GlassVirtualTable', props: {}, automation: 'manual', compat: true },
-  ],
-  selectors: [
-    { from: '.glass-data-table', to: '[data-ag-part="table"]' },
-    { from: '.glass-data-grid', to: '[data-ag-part="table"]' },
+    { from: 'GlassDataTable', props: { rows: 'data', filterable: 'enableColumnFilter', compact: { to: 'size', values: { true: 'sm' } }, selectedRows: 'rowSelection', onSelectionChange: 'onRowSelectionChange', onRowClick: 'onRowAction', emptyMessage: 'emptyState', consciousness: null }, selectors: { '.glass-data-table': '[data-ag-part="table"]', '.glass-data-grid': '[data-ag-part="table"]' }, automation: 'mostly', compat: true },
+    { from: 'GlassDataGrid', props: {}, selectors: { '.glass-data-table': '[data-ag-part="table"]', '.glass-data-grid': '[data-ag-part="table"]' }, automation: 'mostly', compat: true },
+    { from: 'GlassVirtualTable', props: {}, selectors: { '.glass-data-table': '[data-ag-part="table"]', '.glass-data-grid': '[data-ag-part="table"]' }, automation: 'manual', compat: true },
   ],
 });
 

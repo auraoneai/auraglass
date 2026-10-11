@@ -13,9 +13,8 @@ export default defineMeta({
   variants: { size: ['sm', 'md', 'lg'] },
   budgetKb: 6,
   migration: [
-    { from: 'GlassTimeField', props: { onChange: 'onValueChange' }, automation: 'mostly', compat: true },
+    { from: 'GlassTimeField', props: { onChange: 'onValueChange' }, selectors: { '.glass-time-field': '[data-ag-part="time-field"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-time-field', to: '[data-ag-part="time-field"]' }],
 });
 
 export const TIME_PICKER_META = {
@@ -27,6 +26,7 @@ export const TIME_PICKER_META = {
   rsc: 'client',
   parts: ['calendar', 'date-field', 'date-input', 'date-input-end', 'date-input-start', 'date-picker', 'date-picker-popover', 'date-picker-trigger', 'date-range-picker', 'date-range-picker-popover', 'date-range-picker-trigger', 'date-range-presets', 'range-calendar', 'time-field', 'time-input', 'time-picker', 'time-picker-hours', 'time-picker-minutes', 'time-picker-popover', 'time-picker-trigger'],
   states: ['open', 'invalid', 'disabled'],
+  variants: {},
   budgetKb: 6,
   migration: [{ from: 'GlassTimePicker', props: {}, automation: 'manual', compat: false }],
 } as const;

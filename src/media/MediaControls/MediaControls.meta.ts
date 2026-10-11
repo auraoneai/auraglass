@@ -15,8 +15,7 @@ export default defineMeta({
   // §16 perf row: perf/media-playback; APG: tests/e2e/apg/media-controls.apg.spec.ts;
   // env baseline: env-baseline-2026-10 (SURF-495); fixtures: fragments/codemods/surf/fixtures/media-backdrops/media-controls/.
   migration: [
-    { from: 'LiquidGlassMediaControls', props: { onPlayPause: 'onPlayingChange', compact: null }, automation: 'partial', compat: true },
-    { from: 'GlassMediaControls', props: { onPlayPause: 'onPlayingChange' }, automation: 'partial', compat: true },
+    { from: 'LiquidGlassMediaControls', props: { onPlayPause: 'onPlayingChange', compact: null }, selectors: { '.glass-media-controls': '[data-ag-part="media-controls"]' }, automation: 'partial', compat: true },
+    { from: 'GlassMediaControls', props: { onPlayPause: 'onPlayingChange' }, selectors: { '.glass-media-controls': '[data-ag-part="media-controls"]' }, automation: 'partial', compat: true },
   ],
-  selectors: [{ from: '.glass-media-controls', to: '[data-ag-part="media-controls"]' }],
 });

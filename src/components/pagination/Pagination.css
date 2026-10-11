@@ -26,6 +26,7 @@
   .ag-pagination__link[aria-current='page'] {
     background: var(--_ag-accent-soft, transparent);
     font-weight: var(--_ag-weight-medium, 500);
+  }
     /* SURF-059: own inline-size container; compact <400px hides page/ellipsis
      links and shows the 'Page N of M' status span. */
   [data-ag-part='pagination'] {

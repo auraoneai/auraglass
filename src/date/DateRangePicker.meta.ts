@@ -13,7 +13,6 @@ export default defineMeta({
   apg: 'date',
   budgetKb: 8,
   migration: [
-    { from: 'GlassDateRangePicker', props: {}, automation: 'mostly', compat: true },
+    { from: 'GlassDateRangePicker', props: {}, selectors: { '.glass-date-range-picker': '[data-ag-part="date-range-picker"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-date-range-picker', to: '[data-ag-part="date-range-picker"]' }],
 });

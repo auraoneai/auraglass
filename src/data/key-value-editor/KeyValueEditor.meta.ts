@@ -12,7 +12,6 @@ export default defineMeta({
   variants: {},
   budgetKb: 15,
   migration: [
-    { from: 'GlassKeyValueEditor', props: { entries: 'value', pairs: 'value', onChange: 'onValueChange' }, automation: 'mostly', compat: true },
+    { from: 'GlassKeyValueEditor', props: { entries: 'value', pairs: 'value', onChange: 'onValueChange' }, selectors: { '.glass-key-value-editor': '[data-ag-part="key-value-editor"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-key-value-editor', to: '[data-ag-part="key-value-editor"]' }],
 });

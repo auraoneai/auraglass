@@ -66,10 +66,10 @@
     will-change: transform;
     transition: transform var(--ag-duration-small) var(--ag-ease-emphasized);
   }
-}
 
-/* REQ-CMP-41 */
-.ag-segmented-control[data-orientation='vertical'] {
-  flex-direction: column;
-  align-items: stretch;
+  /* REQ-CMP-41 */
+  .ag-segmented-control[data-orientation='vertical'] {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

@@ -13,7 +13,6 @@ export default defineMeta({
   apg: 'spinbutton',
   budgetKb: 4,
   migration: [
-    { from: 'GlassDateField', props: { onChange: 'onValueChange', minDate: 'minValue', maxDate: 'maxValue' }, automation: 'mostly', compat: true },
+    { from: 'GlassDateField', props: { onChange: 'onValueChange', minDate: 'minValue', maxDate: 'maxValue' }, selectors: { '.glass-date-field': '[data-ag-part="date-field"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-date-field', to: '[data-ag-part="date-field"]' }],
 });

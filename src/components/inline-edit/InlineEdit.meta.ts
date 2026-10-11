@@ -11,6 +11,6 @@ export default defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'textbox',
-  budgetKb: 10,
+  budgetKb: 10000 / 1024,
   migration: [{ from: 'GlassInlineEdit', props: {}, selectors: { '.glass-inline-edit': '.ag-inline-edit' },  automation: 'mostly', compat: true }],
 });

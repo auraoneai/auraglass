@@ -11,6 +11,6 @@ export const StepsMeta = defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 1.5,
+  budgetKb: 1500 / 1024,
   migration: [],
 });

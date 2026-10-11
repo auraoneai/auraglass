@@ -14,7 +14,7 @@ export default defineMeta({
   },
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 10,
+  budgetKb: 10000 / 1024,
   migration: [
     {
       from: 'GlassButtonGroup',

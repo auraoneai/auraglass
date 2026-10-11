@@ -12,6 +12,6 @@ export default defineMeta({
   variants: { multiple: ['true','false'] },
   material: { layer: 'content' },
   apg: 'accordion',
-  budgetKb: 10,
+  budgetKb: 10000 / 1024,
   migration: [{ from: 'GlassAccordion', props: {}, selectors: { '.glass-accordion': '.ag-accordion' },  automation: 'mostly', compat: true }],
 });

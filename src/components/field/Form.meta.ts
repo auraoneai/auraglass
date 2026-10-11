@@ -13,7 +13,7 @@ const meta: ControlMeta = defineMeta({
   variants: {},
   material: { layer: 'content', refractionEligible: false },
   apg: 'none',
-  budgetKb: 10,
+  budgetKb: 10000 / 1024,
   migration: [
     {
       from: 'GlassForm',

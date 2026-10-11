@@ -15,7 +15,7 @@ export default defineMeta({
   },
   material: { layer: 'content' },
   apg: 'button',
-  budgetKb: 11,
+  budgetKb: 11000 / 1024,
   migration: [
     {
       from: 'GlassToggleGroup',

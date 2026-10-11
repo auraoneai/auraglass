@@ -11,6 +11,6 @@ export default defineMeta({
   variants: { intent: ['info','success','warning','danger'], urgent: ['true','false'] },
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 3,
+  budgetKb: 3000 / 1024,
   migration: [{ from: 'GlassAlert', props: {}, selectors: { '.glass-alert': '.ag-alert' },  automation: 'mostly', compat: true }],
 });

@@ -11,6 +11,6 @@ export const ChipMeta = defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'button',
-  budgetKb: 3,
+  budgetKb: 3000 / 1024,
   migration: [{ from: 'GlassChip', props: {}, selectors: { '.glass-chip': '.ag-chip' },  automation: 'full', compat: true }],
 });

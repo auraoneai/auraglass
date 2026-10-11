@@ -13,7 +13,7 @@ export const VisuallyHiddenMeta = defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 4,
+  budgetKb: 4000 / 1024,
   migration: [
     { from: 'ScreenReader', props: {}, selectors: { '.glass-screen-reader': '.ag-visually-hidden' },  automation: 'full', compat: false },
     { from: 'ScreenReaderText', props: {}, selectors: { '.glass-screen-reader-text': '.ag-visually-hidden' },  automation: 'full', compat: false },

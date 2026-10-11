@@ -28,7 +28,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'transient', refractionEligible: false },
   apg: 'alert',
-  budgetKb: 14,
+  budgetKb: 14000 / 1024,
   migration: [
     {
       from: 'GlassToast',
