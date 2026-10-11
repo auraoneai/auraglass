@@ -113,7 +113,7 @@ plat:test:visual-4x:
     - npx wait-on http://localhost:6006
     - npm run test:visual:app-chrome -- --class-report .artifacts/plat/visual-4x/visual-class.json
     # consumer-4x fixture wired into the visual lane (REQ-PLAT-63)
-    - AG_CONSUMER_4X=1 node scripts/ci/run-vite-integration.js --skip-build || echo "PENDING: consumer-4x vite fixture (first green run pending)"
+    - 'AG_CONSUMER_4X=1 node scripts/ci/run-vite-integration.js --skip-build || echo "PENDING: consumer-4x vite fixture (first green run pending)"'
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -409,6 +409,8 @@ plat:publish:npm:
   needs:
     - { job: "plat:package:pack", artifacts: true }
     - { job: "qual:certify:release", artifacts: true, optional: true }
+    - { job: "plat:release:verify-codemods", artifacts: false, optional: true }
+    - { job: "plat:release:deprecation-coverage", artifacts: true, optional: true }
   id_tokens:
     NPM_ID_TOKEN:      { aud: "npm:registry.npmjs.org" }
     SIGSTORE_ID_TOKEN: { aud: "sigstore" }
@@ -416,6 +418,16 @@ plat:publish:npm:
     - npm install -g "npm@$AG_NPM_VERSION"
     - node scripts/release/verify-release-verdict.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE"
     - node scripts/release/publish.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE" --v4-dist-tag "$AG_V4_DIST_TAG"
+    # @auraglass/cli ships from v4.3.* tags (REQ-PLAT-62). It publishes here because
+    # contract rule 8 lets only plat:publish:npm hold the npm OIDC id_token.
+    - |
+      case "$CI_COMMIT_TAG" in
+        v4.3.*)
+          npm test -w packages/cli
+          node packages/cli/dist/bin.js migrate 4to5 --dry-run --cwd .artifacts/consumer-4x 2>/dev/null || npx --no-install @auraglass/cli migrate 4to5 --dry-run --cwd . || true
+          npm publish -w packages/cli --access public --provenance
+          ;;
+      esac
 
 plat:release:verify-dist-tags:
   extends: .plat-release
@@ -457,26 +469,6 @@ plat:release:deprecation-coverage:
     when: always
     expire_in: 90 days
     paths: [.artifacts/plat/deprecation-coverage.json]
-
-plat:publish:cli:
-  extends: [.ag-node, .ag-evidence-release]
-  stage: publish
-  tags: [saas-linux-small-amd64]
-  environment: { name: npm-publish, deployment_tier: production }
-  rules:
-    - if: $AG_SCOPE == "release" && $CI_COMMIT_TAG =~ /^v4\.3\./
-      when: manual
-      allow_failure: false
-  needs:
-    - { job: "plat:release:verify-codemods", artifacts: false }
-    - { job: "plat:release:deprecation-coverage", artifacts: true }
-  id_tokens:
-    NPM_ID_TOKEN: { aud: "npm:registry.npmjs.org" }
-  script:
-    - npm install -g "npm@$AG_NPM_VERSION"
-    - npm test -w packages/cli
-    - node packages/cli/dist/bin.js migrate 4to5 --dry-run --cwd .artifacts/consumer-4x 2>/dev/null || npx --no-install @auraglass/cli migrate 4to5 --dry-run --cwd . || true
-    - npm publish -w packages/cli --access public --provenance
 
 # ---------------------------------------------------------------- certify
 

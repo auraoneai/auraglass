@@ -31,6 +31,8 @@ workflow:
       variables: { AG_SCOPE: main, AG_LINE: "4x" }
     - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "next"
       variables: { AG_SCOPE: main, AG_LINE: "5x" }
+    - if: $CI_COMMIT_BRANCH =~ /^contract\/(.+-)?4x(-|$)/
+      variables: { AG_SCOPE: pr, AG_LINE: "4x" }        # 4.x-targeting contract branches (e.g. contract/batch-4x-1) test the 4x line
     - if: $CI_COMMIT_BRANCH =~ /^4x-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^4x11-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-codemods-/
       variables: { AG_SCOPE: pr, AG_LINE: "4x" }
     - if: $CI_COMMIT_BRANCH =~ /^next-(plat|mat|cmp|surf|qual|fin)\// || $CI_COMMIT_BRANCH =~ /^sync\/fragments-deprecations-/ || $CI_COMMIT_BRANCH =~ /^contract\// || $CI_COMMIT_BRANCH =~ /^sync\//
