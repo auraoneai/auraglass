@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "preview": "vite preview",
+    "test": "playwright test"
   },
   "dependencies": {
     "aura-glass": "file:../../aura-glass.tgz",

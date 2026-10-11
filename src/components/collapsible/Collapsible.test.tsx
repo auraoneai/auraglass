@@ -30,3 +30,33 @@ describe('Collapsible', () => {
     expect(seen[0]).toBe(true);
   });
 });
+
+describe('Collapsible REQ-CMP-120', () => {
+  it('trigger aria-controls resolves to the content id', () => {
+    const { container } = render(
+      <Collapsible.Root defaultOpen>
+        <Collapsible.Trigger>T</Collapsible.Trigger>
+        <Collapsible.Content>B</Collapsible.Content>
+      </Collapsible.Root>,
+    );
+    const trigger = container.querySelector('[data-ag-part="trigger"]')!;
+    const content = container.querySelector('[data-ag-part="content"]')!;
+    expect(trigger.getAttribute('aria-controls')).toBeTruthy();
+    expect(trigger.getAttribute('aria-controls')).toBe(content.id);
+  });
+
+  it('closed content is hidden and CSS carries the height/calm contract', () => {
+    const { container } = render(
+      <Collapsible.Root>
+        <Collapsible.Trigger>T</Collapsible.Trigger>
+        <Collapsible.Content>B</Collapsible.Content>
+      </Collapsible.Root>,
+    );
+    const content = container.querySelector('[data-ag-part="content"]');
+    // BU unmounts the panel when closed (or marks it hidden) — either is legal
+    expect(content === null || content.getAttribute('hidden') !== null || content.getAttribute('data-hidden') !== null).toBe(true);
+    const css = require('node:fs').readFileSync(require('node:path').join(__dirname, 'Collapsible.css'), 'utf8');
+    expect(css).toContain('var(--collapsible-panel-height');
+    expect(css).toContain('[data-ag-motion=\'calm\']');
+  });
+});

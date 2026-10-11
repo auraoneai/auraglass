@@ -7,10 +7,10 @@ test.describe('NowPlayingBar APG', () => {
   test('progressbar semantics + labelled actions + expand', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'NowPlayingBar');
-    if (!subject) { console.warn('NowPlayingBar subject not registered — pending'); return; }
+    if (!subject) throw new Error('NowPlayingBar subject not registered');
     await gotoStory(page, subject.id);
     const bar = page.locator('[data-ag-part="now-playing"]');
-    if (await bar.count() === 0) { console.warn('no bar — pending'); return; }
+    expect(await bar.count(), 'no bar').toBeGreaterThan(0);
     const progress = bar.first().locator('[role="progressbar"]');
     if (await progress.count() > 0) {
       await expect(progress.first()).toHaveAttribute('aria-valuenow', /^\d+$/);

@@ -6,6 +6,7 @@ import { makeOut, status, printJson } from '../cli/output.js';
 import { EXIT, CliError, usageError } from '../cli/errors.js';
 import { fetchItem } from '../registry/client.js';
 import { rewriteAliases } from './add.js';
+import { unifiedDiff } from '../migrate/4to5/index.js';
 import { assertClean } from '../core/git-guard.js';
 import { ensureInsideCwd, atomicWrite } from '../core/fs-safety.js';
 
@@ -85,6 +86,16 @@ export async function updateCommand(args: string[], flags: Record<string, string
     if (out.json) printJson({ version: 1, files: results, error: `refusing to overwrite modified files: ${refused.join(', ')}` });
     else status(out, 'fail', `refusing to overwrite modified files: ${refused.join(', ')} (use --force to write .auraglass-upstream)`);
     return EXIT.validation;
+  }
+  if (flags['dry-run']) {
+    const diffs = plannedWrites.map((w: any) => {
+      const abs = path.join(cwd, w.path);
+      const before = fs.existsSync(abs) ? fs.readFileSync(abs, 'utf8') : '';
+      return { path: w.path, diff: unifiedDiff(w.path, before, w.content) };
+    });
+    if (out.json) printJson({ version: 1, dryRun: true, files: diffs.map((d) => d.path), diffs });
+    else for (const d of diffs) { if (!out.silent) process.stdout.write(`${d.diff}\n`); }
+    return EXIT.ok;
   }
   if (plannedWrites.length) {
     assertClean(cwd, plannedWrites.map((p: any) => p.path), { allowDirty: Boolean(flags['allow-dirty']), allowNoGit: Boolean(flags['allow-no-git']) });
