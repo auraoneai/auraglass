@@ -2,6 +2,7 @@
 /* DateField (SURF-210, REQ-SURF-99): RAC DateField + DateInput segments.
    onValueChange maps RA's onChange; `name` serializes the ISO value. */
 import * as React from 'react';
+import { useCallback } from 'react';
 import {
   DateField as RACDateField,
   DateInput as RACDateInput,
@@ -10,7 +11,7 @@ import {
   Label as RACLabel,
   Text as RACText,
 } from 'react-aria-components';
-import { DateProvider } from './DateProvider';
+import { DateProvider, useDateLocale } from './DateProvider';
 import type { DateFieldLikeProps, DateValue } from './shared';
 
 export interface DateFieldProps extends DateFieldLikeProps<DateValue> {
@@ -18,14 +19,18 @@ export interface DateFieldProps extends DateFieldLikeProps<DateValue> {
 }
 
 function Inner({ value, defaultValue, onValueChange, minValue, maxValue, isDateUnavailable, granularity, hourCycle, label, description, errorMessage, isInvalid, isRequired, isDisabled, isReadOnly, name, size = 'md', className }: DateFieldProps) {
+  const { anchorRef, dir } = useDateLocale();
+  const onChange = useCallback((v: unknown) => onValueChange?.((v ?? null) as DateValue | null), [onValueChange]);
   return (
     <RACDateField
+      ref={anchorRef as React.Ref<HTMLDivElement>}
       data-ag-part="date-field"
       data-ag-size={size}
+      {...(dir !== undefined ? { dir } : {})}
       className={`ag-date-field${className ? ` ${className}` : ''}`}
       {...(value !== undefined ? { value: value as never } : {})}
       {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
-      {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v ?? null) } : {})}
+      {...(onValueChange !== undefined ? { onChange } : {})}
       {...(minValue !== undefined ? { minValue: minValue as never } : {})}
       {...(maxValue !== undefined ? { maxValue: maxValue as never } : {})}
       {...(isDateUnavailable !== undefined ? { isDateUnavailable } : {})}
@@ -52,9 +57,8 @@ function Inner({ value, defaultValue, onValueChange, minValue, maxValue, isDateU
 }
 
 export function DateField(props: DateFieldProps) {
-  const { locale } = props;
   return (
-    <DateProvider locale={locale}>
+    <DateProvider locale={props.locale} dir={props.dir}>
       <Inner {...props} />
     </DateProvider>
   );
