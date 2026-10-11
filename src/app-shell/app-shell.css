@@ -15,12 +15,12 @@
      --_ag-app-shell-mode on the frame (compact|medium|expanded|wide); the
      store reads it for toggle ARIA and drawer/sheet behaviour only. */
   .ag-app-shell {
-    --_ag-app-shell-side: 16rem;
-    --_ag-app-shell-rail: 4rem;
-    --_ag-app-shell-insp: 20rem;
-    --_ag-app-shell-top: 3.25rem;
-    --_ag-app-shell-tabbar: 3.5rem;
-    --_ag-app-shell-content-max: 96rem;
+    --_ag-app-shell-side: var(--_ag-app-shell-sidebar-width, 16rem);
+    --_ag-app-shell-rail: var(--_ag-app-shell-rail-width, 4rem);
+    --_ag-app-shell-insp: var(--_ag-app-shell-inspector-width, 20rem);
+    --_ag-app-shell-top: var(--_ag-app-shell-topbar-height, 3.25rem);
+    --_ag-app-shell-tabbar: var(--_ag-app-shell-tabbar-height, 3.5rem);
+    --_ag-app-shell-content-max: calc(var(--ag-space-4, 1rem) * 96);
     --_ag-app-shell-gap: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
 
     container: ag-app-shell / inline-size;
@@ -146,10 +146,10 @@
     --_ag-app-shell-side: var(--_ag-app-shell-rail);
   }
   .ag-app-shell[data-ag-sidebar='collapsed'] {
-    --_ag-app-shell-side: 0rem;
+    --_ag-app-shell-side: 0px;
   }
   .ag-app-shell[data-ag-inspector='closed'] {
-    --_ag-app-shell-insp: 0rem;
+    --_ag-app-shell-insp: 0px;
   }
 
   /* Right-docked sidebar swaps the two fixed columns. */
@@ -197,9 +197,9 @@
      matching bottom scroll padding so the last item scrolls fully clear. */
   .ag-app-shell:is([data-ag-layout='mobile'], [data-ag-layout='compact']) > .ag-app-shell__frame {
     --_ag-app-shell-mode: compact;
-    --_ag-app-shell-top: 2.75rem;
-    --_ag-app-shell-side: 0rem;
-    --_ag-app-shell-insp: 0rem;
+    --_ag-app-shell-top: calc(var(--ag-space-1, 0.25rem) * 11);
+    --_ag-app-shell-side: 0px;
+    --_ag-app-shell-insp: 0px;
     grid-template-areas:
       'skip'
       'top'
@@ -371,7 +371,7 @@
      never wider than its container); tokens only, no JS layout. */
   .ag-app-shell__auto-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--ag-space-4, 1rem) * 28)), 1fr));
     gap: var(--ag-space-3, 0.75rem);
     padding: var(--ag-space-4, 1rem);
   }
@@ -394,7 +394,7 @@
      itself is narrower than 280px (its own container, not the viewport). */
   .ag-inspector__field {
     display: grid;
-    grid-template-columns: minmax(6rem, 40%) minmax(0, 1fr);
+    grid-template-columns: minmax(calc(var(--ag-space-4, 1rem) * 6), 40%) minmax(0, 1fr);
     gap: var(--ag-space-2, 0.5rem);
     align-items: baseline;
   }
@@ -420,7 +420,7 @@
     inset-inline-end: var(--ag-space-2);
     inset-block: var(--ag-space-2);
     z-index: 2;
-    max-inline-size: min(24rem, 90%);
+    max-inline-size: min(calc(var(--ag-space-4, 1rem) * 24), 90%);
     border-radius: var(--ag-radius-lg);
   }
 
@@ -593,9 +593,9 @@
   @container ag-app-shell (width < 600px) {
     .ag-app-shell[data-ag-layout='auto'] > .ag-app-shell__frame {
       --_ag-app-shell-mode: compact;
-      --_ag-app-shell-top: 2.75rem;
-      --_ag-app-shell-side: 0rem;
-      --_ag-app-shell-insp: 0rem;
+      --_ag-app-shell-top: calc(var(--ag-space-1, 0.25rem) * 11);
+      --_ag-app-shell-side: 0px;
+      --_ag-app-shell-insp: 0px;
       grid-template-areas:
         'skip'
         'top'

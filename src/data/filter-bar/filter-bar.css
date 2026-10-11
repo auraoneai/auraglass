@@ -5,7 +5,7 @@
      collapse into "Filters (n)" (CMP Sheet, side=bottom), 480–767 px the chip
      list clamps to two lines and "+n more" expands it. */
   .ag-filter-bar { container: ag-filter-bar / inline-size; display: flex; flex-wrap: wrap; align-items: center; gap: var(--ag-space-2, 0.5rem); }
-  .ag-filter-bar__search { flex: 1 1 12rem; min-inline-size: 0; }
+  .ag-filter-bar__search { flex: 1 1 var(--_ag-filter-bar-search-basis, 12rem); min-inline-size: 0; }
   .ag-filter-bar__rules { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ag-space-1, 0.25rem); min-inline-size: 0; flex: 1 1 100%; }
   .ag-filter-bar__chips { position: relative; display: flex; flex-wrap: wrap; gap: var(--ag-space-1, 0.25rem); min-inline-size: 0; }
   .ag-filter-bar__chip { box-sizing: border-box; display: inline-flex; align-items: center; gap: var(--ag-space-1, 0.25rem); max-inline-size: 100%; block-size: var(--_ag-touch-target, 44px); border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor); border-radius: var(--_ag-radius-2, 0.5rem); padding-inline: var(--ag-space-2, 0.5rem) 0; background: var(--_ag-surface, Canvas); }

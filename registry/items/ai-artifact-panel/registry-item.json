@@ -8,8 +8,7 @@
     "react"
   ],
   "registryDependencies": [
-    "auraglass",
-    "code-surface"
+    "auraglass"
   ],
   "files": [
     {

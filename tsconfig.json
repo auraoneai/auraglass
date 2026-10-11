@@ -17,6 +17,7 @@
     "noEmit": true,
     "types": ["node"],
     "paths": {
+      "@/registry/*": ["./registry/*"],
       "@/*": ["./src/*"],
       "aura-glass": ["./src/index.ts"],
       "aura-glass/*": ["./src/*/index.ts", "./src/*"]

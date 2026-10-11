@@ -23,3 +23,22 @@ export const Empty: Story = { args: { initialMessages: [] }, parameters: { note:
 export const RTL: Story = { decorators: [(S) => <div dir="rtl"><S /></div>] };
 export const ReducedTransparency: Story = { parameters: { agEnvironment: { transparency: 'none' } } };
 export const ForcedColors: Story = { parameters: { agEnvironment: { forcedColors: 'active' } } };
+
+/** Submits through the real Composer/useAuraChat path and delays recorded
+ * chunks so the pending/streaming state is visible without provider access. */
+export const Loading: Story = {
+  args: { initialMessages: [] },
+  render: (args) => <AiWorkspace {...args} transport={createReplayTransport([REPLAY_REPLY], { delayMs: 1000 })} />,
+  play: async ({ canvasElement }) => {
+    const textarea = canvasElement.querySelector('textarea');
+    if (!textarea) throw new Error('Loading story requires the Composer textarea');
+    const setValue = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
+    if (!setValue) throw new Error('Textarea value setter unavailable');
+    setValue.call(textarea, 'Investigate the recorded latency regression.');
+    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+    // Let React commit the controlled draft before submitting its form.
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    if (!textarea.form) throw new Error('Loading story requires the Composer form');
+    textarea.form.requestSubmit();
+  },
+};

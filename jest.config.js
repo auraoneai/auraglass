@@ -10,6 +10,7 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'mjs', 'json'],
   transformIgnorePatterns: ['/node_modules/(?!prettier)'],
   moduleNameMapper: {
+    '^@/registry/(.+)$': '<rootDir>/registry/$1',
     '\\.css$': 'identity-obj-proxy',
     '^prettier$': '<rootDir>/node_modules/prettier/index.mjs',
     // C-4: the package name resolves to the ENTRIES sources (src/contracts/entries.ts), never to dist/ or node_modules.

@@ -1,14 +1,15 @@
 /** @jest-environment node */
 import { describe, test, expect } from '@jest/globals';
 // MAT-041: material transform — exactly 3 variants x 3 thicknesses; every blur
-// <= 32px; -webkit-backdrop-filter literal count = variants_with_blur x
-// thicknesses x tiers (18); materialSpec carries no intent/elevation keys;
+// <= 32px; WebKit literals cover explicit/default thickness, clear fail-safe
+// and coarse-pointer overrides, excluding lightweight; no intent/elevation keys;
 // a 40px blur fixture exits 1.
 import { cpSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
+import postcss, { type Rule, type AtRule } from 'postcss';
 
 // CJS require: the generated module has no .d.ts (jest transforms it)
 const { materialSpec } = require('../../src/tokens/generated/material-spec.ts');
@@ -17,7 +18,6 @@ const LADDERS = readFileSync(join(ROOT, 'src/material/css/generated/ladders.css'
 
 const VARIANTS = ['regular', 'clear', 'identity'];
 const THICKNESS = ['thin', 'regular', 'thick'];
-const TIERS = ['lightweight', 'standard', 'enhanced'];
 
 describe('material transform (MAT-041)', () => {
   test('exactly 3 variants x 3 thicknesses', () => {
@@ -35,15 +35,50 @@ describe('material transform (MAT-041)', () => {
       expect(Number(m[1])).toBeLessThanOrEqual(32);
   });
 
-  test('-webkit-backdrop-filter literal count = 18', () => {
-    const n = (LADDERS.match(/-webkit-backdrop-filter:/g) ?? []).length;
-    console.log(`-webkit-backdrop-filter literals: ${n} (variants_with_blur x thickness x tiers)`);
-    expect(n).toBe(18);
-    // every webkit line is immediately followed by the unprefixed declaration
-    const lines = LADDERS.split('\n');
-    for (let i = 0; i < lines.length; i++)
-      if (lines[i]!.includes('-webkit-backdrop-filter:'))
-        expect(lines[i + 1]!).toContain('backdrop-filter:');
+  test('WebKit literals cover each non-lightweight cell, fail-safe and coarse override', () => {
+    // REQ-FIN-03 replaces 2 variants x 3 thicknesses x 3 tiers with a shared
+    // non-lightweight selector. Identity and lightweight never get a literal.
+    // 8 cell rows (2 variants x [3 explicit + 1 default thickness]),
+    // 4 clear fail-safe rows and 3 coarse overrides (regular, clear, fail-safe).
+    const css = postcss.parse(LADDERS);
+    const rows: { selector: string; value: string; coarse: boolean }[] = [];
+    css.walkDecls('-webkit-backdrop-filter', (decl) => {
+      const rule = decl.parent as Rule;
+      const parent = rule.parent as AtRule;
+      rows.push({ selector: rule.selector, value: decl.value,
+        coarse: parent.type === 'atrule' && parent.name === 'media' && parent.params === '(pointer: coarse)' });
+    });
+    expect(rows).toHaveLength(15);
+    const base = rows.filter((r) => !r.coarse && !r.selector.includes(':where('));
+    const failSafe = rows.filter((r) => !r.coarse && r.selector.includes(':where('));
+    const coarse = rows.filter((r) => r.coarse);
+    expect(base).toHaveLength(8);
+    expect(failSafe).toHaveLength(4);
+    expect(coarse).toHaveLength(3);
+    for (const variant of ['regular', 'clear']) {
+      const cells = base.filter((r) => r.selector.includes(`[data-ag-variant="${variant}"]`));
+      expect(cells).toHaveLength(4);
+      for (const thickness of THICKNESS)
+        expect(cells.filter((r) => r.selector.includes(`[data-ag-thickness="${thickness}"]`))).toHaveLength(1);
+      expect(cells.filter((r) => r.selector.includes(':not([data-ag-thickness])'))).toHaveLength(1);
+    }
+    for (const row of rows) {
+      expect(row.selector).toContain('[data-ag-surface]');
+      expect(row.selector).toMatch(/::before$/);
+      expect(row.selector).toContain(':not([data-ag-tier="lightweight"], [data-ag-tier="lightweight"] *)');
+      expect(row.selector).not.toContain('[data-ag-variant="identity"]');
+      expect(row.value).not.toContain('var(');
+      expect(row.value).toMatch(/^blur\([\d.]+px\) saturate\([\d.]+\) brightness\([\d.]+\)$/);
+    }
+    for (const row of coarse) {
+      expect(row.selector).toContain('[data-ag-thickness="thick"]');
+      expect(row.value).toMatch(/^blur\(20px\)/);
+    }
+    // The generic unprefixed filter belongs to the material engine, not the
+    // generated WebKit literal override layer (REQ-MAT-34/-35).
+    const unprefixed: string[] = [];
+    css.walkDecls('backdrop-filter', (decl) => { unprefixed.push(decl.value); });
+    expect(unprefixed).toEqual([]);
   });
 
   test('materialSpec has no intent/elevation keys', () => {

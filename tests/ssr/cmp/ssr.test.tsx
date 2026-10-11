@@ -44,6 +44,8 @@ function pickStories(name: string): { file: string; name: string; element: React
 // index, generated ids land, tabindex/aria refs update. Compare markup modulo
 // those artifacts — anything else rewritten is a real SSR/hydration defect.
 const norm = (html: string) => html
+  // Tabs measures scroll geometry after hydration; SSR cannot know overflow.
+  .replace(/\sdata-overflow-(start|end)="(true|false)"/g, '')
   // BU focus-guard spans + popup-position/base-ui internal attrs — client-only
   .replace(/<span[^>]*data-base-ui-focus-guard[^>]*><\/span>/g, '')
   .replace(/\sdata-base-ui-[a-z-]+(="[^"]*")?/g, '')
@@ -72,12 +74,17 @@ describe('ssr hydration contract (REQ-CMP-17)', () => {
       try {
         const { hydrateRoot } = await import('react-dom/client');
         let root: ReturnType<typeof hydrateRoot> | undefined;
-        await act(async () => { root = hydrateRoot(container, pick.element); });
+        await act(async () => { root = hydrateRoot(container, pick.element, { onRecoverableError: (error) => warnings.push(String(error)) }); });
         await act(async () => { await new Promise((r) => setTimeout(r, 0)); });
         const filtered = warnings.filter((w) => !/useLayoutEffect does nothing on the server|ReactDOM\.render|findDOMNode|no accessible name|no AuraGlassProvider mounted/.test(w));
         if (filtered.length) failures.push(`${pick.file}#${pick.name}: warnings ${JSON.stringify(filtered).slice(0,300)}`);
         // hydration must not rewrite the server markup
-        if (norm(container.innerHTML) !== norm(ssrHtml)) failures.push(`${pick.file}#${pick.name}: hydration rewrote markup`);
+        const actual = norm(container.innerHTML), expected = norm(ssrHtml);
+        if (actual !== expected) {
+          let offset = 0;
+          while (offset < Math.min(actual.length, expected.length) && actual[offset] === expected[offset]) offset++;
+          failures.push(`${pick.file}#${pick.name}: hydration rewrote markup at ${offset}; server=${JSON.stringify(expected.slice(Math.max(0, offset - 80), offset + 200))}; client=${JSON.stringify(actual.slice(Math.max(0, offset - 80), offset + 200))}`);
+        }
         if (root) await act(async () => { root!.unmount(); });
       } finally {
         console.error = origError;

@@ -6,7 +6,6 @@
   "description": "Thread + Composer + UsageMeter + ProviderErrorState via useAuraChat; Next.js chat route on Kiro Prism (PRISM_* env). The route has no auth: add authentication/authorisation before exposure (README).",
   "dependencies": [
     "@ai-sdk/openai-compatible",
-    "@ai-sdk/react",
     "ai",
     "react"
   ],

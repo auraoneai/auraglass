@@ -7,7 +7,7 @@
 import * as React from 'react';
 import { DefaultChatTransport, type ChatTransport, type UIMessage } from 'ai';
 import { Composer, ProviderErrorState, Thread, UsageMeter, type AgMessage, type AgUsage } from 'aura-glass/ai';
-import { useAuraChat } from '../../items/ai-sdk-adapter/useAuraChat';
+import { useAuraChat } from '@/registry/items/ai-sdk-adapter/useAuraChat';
 import { MESSAGES } from './fixtures';
 
 export interface AiWorkspaceProps {

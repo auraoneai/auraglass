@@ -4,7 +4,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import * as React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 
 const mockMotion = { bound: [] as HTMLElement[] };
 
@@ -23,8 +23,7 @@ const flush = async () => { await act(async () => {}); };
 describe('MagneticButton compat (REQ-CMP-35)', () => {
   it('with motion resolved, magnetic() applies its ref to the button element', async () => {
     render(<MagneticButton magnetic>hover</MagneticButton>);
-    await flush(); await flush();
-    expect(magnetic).toHaveBeenCalled();
+    await waitFor(() => expect(magnetic).toHaveBeenCalled());
     const btn = screen.getByRole('button');
     expect(mockMotion.bound).toContain(btn);
   });
@@ -46,7 +45,7 @@ describe('MagneticButton compat (REQ-CMP-35)', () => {
   it('preserves caller styles and forwards and clears the caller ref', async () => {
     const ref = React.createRef<HTMLButtonElement>();
     const { unmount } = render(<MagneticButton magnetic ref={ref} style={{ color: 'red' }}>styled</MagneticButton>);
-    await flush(); await flush();
+    await waitFor(() => expect(magnetic).toHaveBeenCalled());
     const button = screen.getByRole('button');
     expect(ref.current).toBe(button);
     expect(button.style.color).toBe('red');

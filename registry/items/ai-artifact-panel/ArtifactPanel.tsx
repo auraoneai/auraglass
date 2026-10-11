@@ -29,8 +29,8 @@ function PlainCode({ code, language }: { code: string; language: string | undefi
 
 /** ai-artifact-panel (SURF-371, REQ-SURF-173): artifact panel on the W1
  * ResizablePanels + Tabs (Preview / Code) on a content-raised Surface. Code
- * bodies go through the `renderCode` slot (code-surface stays a
- * registryDependency); the item never imports another item at runtime. */
+ * bodies go through the `renderCode` slot; consumers may install code-surface
+ * for that slot. The item never imports another item at runtime. */
 export function ArtifactPanel({ artifact, open = true, onOpenChange, onCopy, renderCode }: ArtifactPanelProps) {
   if (!open || !artifact) return null;
   const isCode = artifact.kind === 'code';

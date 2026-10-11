@@ -66,7 +66,7 @@
     [data-minimize-on-scroll] .ag-tab-bar__item-label {
       animation: ag-tabbar-min linear both;
       animation-timeline: scroll(nearest block);
-      animation-range: 0 10rem;
+      animation-range: 0 var(--_ag-tab-bar-minimize-range, 10rem);
     }
   }
   [data-ag-motion='calm'] [data-minimize-on-scroll] .ag-tab-bar__item-label,
@@ -84,7 +84,7 @@
     [data-minimize-on-scroll]:not([data-accessory-placement='persist']) .ag-tab-bar__accessory {
       animation: ag-tabbar-min linear both;
       animation-timeline: scroll(nearest block);
-      animation-range: 0 10rem;
+      animation-range: 0 var(--_ag-tab-bar-minimize-range, 10rem);
     }
   }
   [data-ag-motion='calm'] [data-minimize-on-scroll] .ag-tab-bar__accessory,
@@ -97,7 +97,7 @@
   }
   /* SURF-052: floating capsule + 44px coarse-pointer targets. */
   [data-ag-part='tab-bar'][data-ag-appearance='floating'] {
-    max-inline-size: min(100% - 2 * var(--ag-space-4, 1rem), 36rem);
+    max-inline-size: min(100% - 2 * var(--ag-space-4, 1rem), var(--_ag-tab-bar-floating-max-width, 36rem));
     margin-inline: auto;
   }
   @media (pointer: coarse) {
