@@ -1,3 +1,4 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 /* TabBar chrome (SURF-061/070/071): root navigation surface — labels must
    survive collapse, scroll edge from the material seam, minimize animation
    only under [data-ag-animating] and never at motion calm/none. */
@@ -62,14 +63,14 @@
      labels only, disabled under motion calm|none and when the timeline
      isn't supported. */
   @supports (animation-timeline: scroll()) {
-    [data-ag-minimize-on-scroll] .ag-tab-bar__item-label {
+    [data-minimize-on-scroll] .ag-tab-bar__item-label {
       animation: ag-tabbar-min linear both;
       animation-timeline: scroll(nearest block);
       animation-range: 0 10rem;
     }
   }
-  [data-ag-motion='calm'] [data-ag-minimize-on-scroll] .ag-tab-bar__item-label,
-  [data-ag-motion='none'] [data-ag-minimize-on-scroll] .ag-tab-bar__item-label {
+  [data-ag-motion='calm'] [data-minimize-on-scroll] .ag-tab-bar__item-label,
+  [data-ag-motion='none'] [data-minimize-on-scroll] .ag-tab-bar__item-label {
     animation: none;
   }
   @keyframes ag-tabbar-min {
@@ -78,7 +79,7 @@
       scale: var(--_ag-scale-down, 0.8);
     }
   }
-  [data-ag-accessory-placement='persist'] .ag-tab-bar__accessory {
+  [data-accessory-placement='persist'] .ag-tab-bar__accessory {
     opacity: 1;
     visibility: visible;
   }

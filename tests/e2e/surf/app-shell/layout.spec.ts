@@ -10,7 +10,7 @@ const CSS = join(__dirname, '../../../src/app-shell/app-shell.css');
 
 test.describe('app-shell layout (SURF-013/033/044)', () => {
   test('css contract: grid areas, breakpoints, no !important', () => {
-    if (!existsSync(CSS)) { console.warn('app-shell.css absent — pending'); return; }
+    expect(existsSync(CSS), 'src/app-shell/app-shell.css must exist').toBe(true);
     const css = readFileSync(CSS, 'utf8');
     expect(css).toContain("grid-template-areas");
     expect(css).toContain('600');

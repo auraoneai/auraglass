@@ -43,5 +43,22 @@ export const Succeeded: Story = { render: () => <ToolCall part={part('output-ava
 export const Failed: Story = { render: () => <ToolCall part={part('output-error', { errorText: 'timeout' })} /> };
 export const Denied: Story = { render: () => <ToolCall part={part('output-denied')} /> };
 export const LargeOutput: Story = {
-  render: () => <ToolCall part={part('output-available', { output: 'row\n'.repeat(400) })} />,
+  render: () => <ToolCall part={part('output-available', { output: 'row\n'.repeat(400) })} defaultOpen maxPreviewChars={200} />,
 };
+/* No onApprovalResponse: the call shows the waiting notice instead of buttons. */
+export const AwaitingApproval: Story = {
+  render: () => <ToolCall part={part('approval-requested', { approval: { id: 'ap-3' } })} />,
+};
+/* Deny pressed: the optional reason form is open. */
+function DenyReasonOpen() {
+  const host = React.useRef<HTMLDivElement | null>(null);
+  React.useEffect(() => {
+    host.current?.querySelector<HTMLButtonElement>('[data-ag-part="deny"]')?.click();
+  }, []);
+  return (
+    <div ref={host}>
+      <ToolCall part={part('approval-requested', { approval: { id: 'ap-4' } })} onApprovalResponse={() => undefined} />
+    </div>
+  );
+}
+export const DenyReason: Story = { render: () => <DenyReasonOpen /> };

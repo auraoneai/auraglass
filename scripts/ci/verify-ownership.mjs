@@ -22,7 +22,7 @@
    - any other branch: fail closed.
    Renames count as the delete+add pair (--no-renames). */
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import picomatch from "picomatch";
@@ -231,6 +231,8 @@ for (const f of files) {
     }
     continue;
   }
+  // Deleting a file from an invalid location is the remediation the row asks for, not a write there.
+  if (r.owner === "NONE" && /^invalid location/.test(r.note ?? "") && !explicit && !existsSync(f)) continue;
   if (r.owner === "NONE" || !allowed(r, f)) {
     const note = r.note ? ` [${r.note}]` : "";
     bad.push(`${f}  -> ${r.owner} (${r.id} ${r.glob})${note}`);

@@ -7,7 +7,7 @@ test.describe('ai streaming perf (SURF-359)', () => {
   test('200-message thread at 60 updates/s: 0 long tasks >50ms', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.id.includes('thread') && s.id.includes('streaming'));
-    if (!subject) { console.warn('AI/Thread streaming subject not registered — pending'); return; }
+    if (!subject) throw new Error('AI/Thread streaming subject not registered');
     await gotoStory(page, subject.id);
     const res = await perf.frames(page, {
       durationMs: 30000,
@@ -30,7 +30,7 @@ test.describe('ai streaming perf (SURF-359)', () => {
   test('2,000-message fling ≥55fps desktop', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.id.includes('virtual') || s.id.includes('long'));
-    if (!subject) { console.warn('Long2000Virtualized subject not registered — pending'); return; }
+    if (!subject) throw new Error('Long2000Virtualized subject not registered');
     await gotoStory(page, subject.id);
     const res = await perf.frames(page, {
       durationMs: 3000,
