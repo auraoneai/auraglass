@@ -196,7 +196,7 @@ function PanelField({ prefKey, note, belowFloor, apply }: PanelFieldProps): Reac
     'fieldset', { 'data-pref': prefKey, 'data-ag-part': 'group' },
     label,
     React.createElement(
-      'div', { role: 'radiogroup', 'aria-describedby': noteId, 'data-options': '' },
+      'div', { role: 'radiogroup', 'aria-describedby': noteId, 'data-options': '', 'data-ag-part': 'options' },
       ...choices.map((c) => {
         const disabled = c.value !== 'system' && belowFloor(c.value);
         return React.createElement(
