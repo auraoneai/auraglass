@@ -66,7 +66,7 @@ export function Alert({
       data-ag-intent={intent}
       data-ag-appearance={appearance}
       role={urgent ? 'alert' : 'status'}
-      className={cn('ag-alert', mat.className, className)}
+      className={cn('ag-alert', className)}
     >
       {icon ? (
         <span data-ag-part="icon" className="ag-alert-icon" aria-hidden="true">

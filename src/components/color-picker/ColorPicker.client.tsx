@@ -38,7 +38,7 @@ function toHsvAlpha(v: PickerValueLike | undefined, fallback: Hsv): { hsv: Hsv; 
   return { hsv: parsed.hsv, alpha: parsed.alpha, space };
 }
 
-export interface ColorPickerRootProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface ColorPickerRootProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'defaultValue'> {
   /** Controlled color: { space:'srgb'|'oklch', value:'#rrggbb[aa]'|'oklch(l c h[ / a])' }.
      A bare string is treated as space:'srgb'. */
   value?: PickerValueLike;
@@ -208,7 +208,7 @@ export interface ChannelProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
   'aria-label'?: string;
 }
 
-const CHANNEL_RANGE: Record<string, [number, number, number]> = {
+const CHANNEL_RANGE: Record<ChannelProps['channel'], [number, number, number]> = {
   h: [0, 360, 1], s: [0, 100, 1], v: [0, 100, 1], r: [0, 255, 1], g: [0, 255, 1], b: [0, 255, 1],
 };
 
@@ -241,7 +241,7 @@ function Channel({ channel, className, ref, 'aria-label': ariaLabel, ...rest }: 
       setHsv(n);
     }
   };
-  const labels: Record<string, string> = { h: 'Hue', s: 'Saturation', v: 'Brightness', r: 'Red', g: 'Green', b: 'Blue' };
+  const labels: Record<ChannelProps['channel'], string> = { h: 'Hue', s: 'Saturation', v: 'Brightness', r: 'Red', g: 'Green', b: 'Blue' };
   return (
     <div {...rest} ref={ref} data-ag-part="channel" data-ag-channel={channel} className={cn('ag-color-picker-channel', className)}>
       <Slider.Root
@@ -250,7 +250,7 @@ function Channel({ channel, className, ref, 'aria-label': ariaLabel, ...rest }: 
         max={max}
         step={step}
         aria-label={ariaLabel ?? labels[channel]}
-        onValueChange={(v) => set(Array.isArray(v) ? v[0] : v)}
+        onValueChange={(v) => set(v)}
       />
     </div>
   );
@@ -276,7 +276,7 @@ function Alpha({ className, ref, 'aria-label': ariaLabel, ...rest }: AlphaProps 
         max={1}
         step={0.01}
         aria-label={ariaLabel ?? 'Alpha'}
-        onValueChange={(v) => ctx.setAlpha(Array.isArray(v) ? v[0] : v)}
+        onValueChange={(v) => ctx.setAlpha(v)}
       />
     </div>
   );

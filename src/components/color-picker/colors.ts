@@ -109,16 +109,21 @@ export function parseColorString(input: string): { hsv: Hsv; alpha: number } | n
   const hexM = /^#([0-9a-fA-F]{3,8})$/.exec(s);
   if (hexM) {
     const n = hexM[1];
-    if (![3, 4, 6, 8].includes(n.length)) return null;
+    if (n === undefined || ![3, 4, 6, 8].includes(n.length)) return null;
     const expand = (x: string) => (x.length === 1 ? x + x : x);
     const hex6 = n.length <= 4 ? n.split('').slice(0, 3).map(expand).join('') : n.slice(0, 6);
-    const alpha = n.length === 4 ? parseInt(expand(n[3]), 16) / 255 : n.length === 8 ? parseInt(n.slice(6, 8), 16) / 255 : 1;
+    const alpha = n.length === 4 ? parseInt(expand(n.charAt(3)), 16) / 255 : n.length === 8 ? parseInt(n.slice(6, 8), 16) / 255 : 1;
     return { hsv: hexToHsv(`#${hex6}`), alpha };
   }
   const okM = /^oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\s*\)$/i.exec(s);
   if (okM) {
-    const hex = oklchToHex({ l: parseFloat(okM[1]), c: parseFloat(okM[2]), h: parseFloat(okM[3]) });
-    return { hsv: hexToHsv(hex), alpha: okM[4] !== undefined ? clamp01(parseFloat(okM[4])) : 1 };
+    const [, lightness, chroma, hue, opacity] = okM;
+    if (lightness === undefined || chroma === undefined || hue === undefined) return null;
+    const l = Number(lightness), c = Number(chroma), h = Number(hue);
+    const alpha = opacity === undefined ? 1 : Number(opacity);
+    if (![l, c, h, alpha].every(Number.isFinite)) return null;
+    const hex = oklchToHex({ l, c, h });
+    return { hsv: hexToHsv(hex), alpha: clamp01(alpha) };
   }
   return null;
 }

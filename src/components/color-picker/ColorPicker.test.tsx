@@ -77,8 +77,8 @@ describe('ColorPicker REQ-CMP-125', () => {
     fireEvent.keyDown(document.querySelector('[data-ag-part="area"]')!, { key: 'ArrowRight' });
     await act(async () => {});
     expect(seen.length).toBeGreaterThan(0);
-    expect(seen[0].space).toBe('srgb');
-    expect(seen[0].value).toMatch(/^#[0-9a-f]{6}$/);
+    expect(seen[0]?.space).toBe('srgb');
+    expect(seen[0]?.value).toMatch(/^#[0-9a-f]{6}$/);
   });
 
   it('Channel renders a slider wired to the channel', async () => {
@@ -116,7 +116,7 @@ describe('ColorPicker REQ-CMP-125', () => {
     fireEvent.change(input, { target: { value: 'oklch(0.7 0.15 200)' } });
     fireEvent.keyDown(input, { key: 'Enter' });
     expect(seen.length).toBe(1);
-    expect(seen[0].space).toBe('oklch');
-    expect(seen[0].value).toMatch(/^oklch\(/);
+    expect(seen[0]?.space).toBe('oklch');
+    expect(seen[0]?.value).toMatch(/^oklch\(/);
   });
 });

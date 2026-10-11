@@ -19,6 +19,7 @@
     "legacy", "dist", "node_modules", "packages/*/dist", "apps/docs/.next",
     "src/contracts/seed.tsx", "src/contracts/testing.ts",
     "src/contracts/fragments.ts", "src/contracts/load-fragments.mjs",
+    "**/*.stories.ts", "**/*.stories.tsx",
     "**/__tests__/**", "**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"
   ]
 }

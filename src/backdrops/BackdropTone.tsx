@@ -10,7 +10,7 @@ import { sampleElementTone } from './sampling/sampleElementTone';
 /* REQ-SURF-153 — BackdropMediaLayer: the photo/video layer as a client
  * island (Backdrop stays a server component and passes the <img>/<video> in
  * as children, so no extra DOM node is added). With `sample` — Backdrop sets
- * it only when no explicit `tone` prop is given — it samples that element
+ * it only when no explicit `mediaTone` prop is given — it samples that element
  * (an <img> after decode(); a <video> by its poster first, else at the first
  * loadeddata) once per src through the tone LRU, and writes exactly two
  * things on the .ag-backdrop root: data-ag-media-tone and --_ag-media-luma. */

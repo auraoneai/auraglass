@@ -62,7 +62,7 @@ export const Backdrop = function Backdrop(props: BackdropProps & { ref?: React.R
       {...rest}
     >
       {isMedia ? (
-        <BackdropMediaLayer sample={tone === undefined} source={(props as BackdropPhotoProps | BackdropVideoProps).src}>
+        <BackdropMediaLayer sample={mediaTone === undefined} source={(props as BackdropPhotoProps | BackdropVideoProps).src}>
           {layer}
         </BackdropMediaLayer>
       ) : (

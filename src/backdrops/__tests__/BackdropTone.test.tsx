@@ -50,7 +50,7 @@ describe('BackdropTone (SURF-435)', () => {
 });
 
 /* REQ-SURF-153 — the photo/video layer island samples its own media when no
- * `tone` prop is given. jsdom has no decode() and no 2D canvas: the test
+ * `mediaTone` prop is given. jsdom has no decode() and no 2D canvas: the test
  * installs a resolving decode() that gives the image a natural size, and a
  * canvas context whose getImageData returns a uniform dark buffer. */
 describe('BackdropMediaLayer tone sampling (REQ-SURF-153)', () => {
@@ -111,8 +111,8 @@ describe('BackdropMediaLayer tone sampling (REQ-SURF-153)', () => {
     host.remove();
   });
 
-  it('an explicit tone prop wins: nothing is sampled', async () => {
-    const { container } = render(<Backdrop preset="photo" src="https://x/explicit.jpg" tone="light" />);
+  it('an explicit mediaTone prop wins: nothing is sampled', async () => {
+    const { container } = render(<Backdrop preset="photo" src="https://x/explicit.jpg" mediaTone="light" />);
     await settle();
     expect(decode).not.toHaveBeenCalled();
     expect(getImageData).not.toHaveBeenCalled();

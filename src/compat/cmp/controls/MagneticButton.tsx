@@ -9,6 +9,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { GlassButton } from './GlassButton';
 import type { GlassButtonProps } from './GlassButton';
+import type { MotionStyle } from 'motion/react';
 
 const DEP = 'DEP-C0007';
 const drop = (p: string) => warnDeprecated(`${DEP}.prop.${p}`);
@@ -21,7 +22,20 @@ export interface MagneticButtonProps extends GlassButtonProps {
 }
 
 type MotionModule = typeof import('../../../motion/public');
-type LoadedMotion = { mod: MotionModule; Button: React.ComponentType<GlassButtonProps & { ref?: React.Ref<HTMLButtonElement> }> };
+// Keep native DOM handlers inside buttonProps. Motion otherwise interprets
+// names such as onDrag/onAnimationStart as its own gesture/lifecycle callbacks.
+const MotionHost = React.forwardRef<HTMLButtonElement, {
+  buttonProps: GlassButtonProps;
+  style?: React.CSSProperties;
+}>(function MotionHost({ buttonProps, style }, ref) {
+  return <GlassButton {...{ ...buttonProps, ref, style }} />;
+});
+
+function createMotionButton(peer: typeof import('motion/react')) {
+  return peer.motion.create(MotionHost);
+}
+
+type LoadedMotion = { mod: MotionModule; Button: ReturnType<typeof createMotionButton> };
 type MotionState = LoadedMotion | 'missing' | null;
 
 /* Resolves aura-glass/motion on mount; 'missing' when the optional peer is
@@ -33,7 +47,7 @@ function useMotionModule(enabled: boolean): MotionState {
     let live = true;
     Promise.all([import('../../../motion/public'), import('../../../motion/adapter/peer').then((peer) => peer.importMotionPeer())])
       .then(([mod, peer]) => {
-        if (live) setMod({ mod, Button: peer.motion.create(GlassButton) as LoadedMotion['Button'] });
+        if (live) setMod({ mod, Button: createMotionButton(peer) });
       })
       .catch(() => { if (live) setMod('missing'); });
     return () => { live = false; };
@@ -60,7 +74,7 @@ function MagneticInner({ loaded, magneticStrength, ref: forwardedRef, style: use
     return () => { for (const cleanup of cleanups) cleanup(); };
   }, [magneticRef, forwardedRef]);
   const MotionButton = loaded.Button;
-  return <MotionButton {...rest} ref={ref} style={{ ...style, ...userStyle } as React.CSSProperties} />;
+  return <MotionButton buttonProps={rest} ref={ref} style={{ ...style, ...userStyle } as MotionStyle} />;
 }
 
 export function MagneticButton({ magnetic, magneticStrength, magneticRadius, ...rest }: MagneticButtonProps) {

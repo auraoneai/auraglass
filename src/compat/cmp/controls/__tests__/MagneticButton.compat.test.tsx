@@ -4,7 +4,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import * as React from 'react';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 const mockMotion = { bound: [] as HTMLElement[] };
 
@@ -26,6 +26,19 @@ describe('MagneticButton compat (REQ-CMP-35)', () => {
     await waitFor(() => expect(magnetic).toHaveBeenCalled());
     const btn = screen.getByRole('button');
     expect(mockMotion.bound).toContain(btn);
+  });
+
+  it('preserves native drag and animation event handlers through the motion host', async () => {
+    const onDrag = jest.fn();
+    const onAnimationStart = jest.fn();
+    (magnetic as jest.Mock).mockClear();
+    render(<MagneticButton magnetic onDrag={onDrag} onAnimationStart={onAnimationStart}>events</MagneticButton>);
+    await waitFor(() => expect(magnetic).toHaveBeenCalled());
+    const button = screen.getByRole('button');
+    fireEvent.drag(button);
+    fireEvent.animationStart(button);
+    expect(onDrag).toHaveBeenCalledWith(expect.objectContaining({ type: 'drag', target: button }));
+    expect(onAnimationStart).toHaveBeenCalledWith(expect.objectContaining({ type: 'animationstart', target: button }));
   });
 
   it('without magnetic props it renders a plain button and never loads motion', async () => {

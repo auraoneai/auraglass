@@ -4,7 +4,7 @@
    color-vision e2e spec measures numerically. */
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { feColorMatrix } from '../../../tests/e2e/mat/helpers/machado';
+import { feColorMatrix } from '../internal/machado';
 import type { StoryAgParameters } from '../../contracts/testing';
 
 const INTENTS = [

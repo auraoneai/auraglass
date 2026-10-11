@@ -1,5 +1,5 @@
 /* fragments/deprecations/plat.ts — PLAT owns this file on both branches (§3.4). */
-import type { DeprecationFragment } from '../../src/contracts/fragments';
+import type { DeprecationEntry, DeprecationFragment } from '../../src/contracts/fragments';
 
 const REPORT_PATH_ENTRIES = [
   ['component_inventory_json', 'reports/component_inventory.json'],
@@ -19,7 +19,7 @@ const REPORT_PATH_ENTRIES = [
 // reports/ is no longer a tracked artifact directory (evidence lives in CI
 // artifacts), so these public path strings are sunset in 5.0.0. Values are
 // unchanged for the 4.1.x line.
-export default REPORT_PATH_ENTRIES.map(([symbol, value], i) => ({
+export default REPORT_PATH_ENTRIES.map<DeprecationEntry>(([symbol, value], i) => ({
   id: `DEP-P${String(i + 1).padStart(4, '0')}` as `DEP-P${number}`,
   kind: 'export' as const,
   status: 'active' as const,
