@@ -1,7 +1,7 @@
 /* REQ-PLAT-32: release-notes.mjs — fixed heading order, numbers traced to
    artifacts, commit subjects + changesets + change-class inputs. */
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -43,5 +43,124 @@ describe('release notes (REQ-PLAT-32)', () => {
     const out = EVAL(`console.log(m.renderNotes({ version: '9.9.9',
       claims: { deprecations: 'x\\n## Numbers\\n- deprecated_total: 245\\n' } }))`);
     expect(out).toContain('deprecated_total: 245');
+  });
+});
+
+/* REQ-PLAT-16: the tag pipeline calls `release-notes.mjs --tag "$CI_COMMIT_TAG"
+   --line "$AG_LINE"`; the version comes from the tag and a 4.x tag gets 4.x
+   notes, never the 5.0.0 skeleton. */
+describe('release notes --tag/--line (REQ-PLAT-16)', () => {
+  const git = (cwd: string, ...args: string[]) =>
+    execFileSync('git', args, { cwd, encoding: 'utf8',
+      env: { ...process.env, GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@example.invalid',
+        GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@example.invalid' } });
+  const CHANGELOG = [
+    '## [4.2.0] - 2026-11-01', '', '### Moved dependencies', '', '- date-fns moved to peer.', '',
+    '## [4.1.1] - 2026-10-20', '', '### Security', '', '- assertJwtSecret fails closed.', '',
+    '# Changelog', '', '## [4.1.0] - 2026-09-05', '', '- old entry', '',
+  ].join('\n');
+  const DEPS = [
+    { id: 'DEP-P0001', kind: 'export', entry: '.', symbol: 'oldThing', since: '4.2.0',
+      removeIn: '5.0.0', message: 'use newThing' },
+    { id: 'DEP-P0002', kind: 'export', entry: '.', symbol: 'olderThing', since: '4.1.1',
+      removeIn: '5.0.0', message: 'gone' },
+  ];
+
+  /** Real temp git repo: v4.1.0 → v5.0.0-alpha.1 (a 5.x prerelease tag in the
+   *  same clone) → 4.2.0 work → HEAD. */
+  function fixtureRepo() {
+    const dir = mkdtempSync(join(tmpdir(), 'rn-'));
+    mkdirSync(join(dir, 'fragments/deprecations'), { recursive: true });
+    mkdirSync(join(dir, 'src/contracts'), { recursive: true });
+    copyFileSync(join(ROOT, 'src/contracts/load-fragments.mjs'), join(dir, 'src/contracts/load-fragments.mjs'));
+    symlinkSync(join(ROOT, 'node_modules'), join(dir, 'node_modules'));
+    writeFileSync(join(dir, '.gitignore'), 'node_modules\n');
+    writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'aura-glass', version: '4.2.0' }));
+    writeFileSync(join(dir, 'CHANGELOG.md'), CHANGELOG);
+    writeFileSync(join(dir, 'fragments/deprecations/plat.json'), JSON.stringify(DEPS));
+    git(dir, 'init', '-q', '-b', 'main');
+    git(dir, 'add', '-A');
+    git(dir, 'commit', '-q', '-m', 'feat: before 4.1.0');
+    git(dir, 'tag', 'v4.1.0');
+    git(dir, 'commit', '-q', '--allow-empty', '-m', 'feat: only-in-5x-prerelease-range');
+    git(dir, 'tag', 'v5.0.0-alpha.1');
+    git(dir, 'commit', '-q', '--allow-empty', '-m', 'fix(cms): GlassCanvas action guard');
+    git(dir, 'commit', '-q', '--allow-empty', '-m', 'docs: not user facing');
+    return dir;
+  }
+  const RUN = (root: string, argv: string[]) => EVAL(
+    `const code = await m.main(${JSON.stringify(argv)}, { root: ${JSON.stringify(root)} }); console.log('EXIT=' + code)`);
+
+  it('renderNotes4x heads the tag version and carries the CHANGELOG section verbatim', () => {
+    const out = EVAL(`console.log(m.renderNotes4x({ version: '4.2.0',
+      changelog: ${JSON.stringify(CHANGELOG)}, deprecations: ${JSON.stringify(DEPS)} }))`);
+    expect(out.split('\n')[0]).toBe('# aura-glass 4.2.0 release notes');
+    expect(out).toContain('- date-fns moved to peer.');
+    expect(out).not.toContain('assertJwtSecret fails closed');
+    // 5.0.0 skeleton content never appears in 4.x notes.
+    expect(out).not.toContain('Dependency floors');
+    expect(out).not.toContain('migrate 4to5');
+    expect(out).not.toContain('5.0.0 release notes');
+  });
+  it('lists exactly the deprecations whose since is the released version', () => {
+    const out = EVAL(`console.log(m.renderNotes4x({ version: '4.2.0',
+      changelog: ${JSON.stringify(CHANGELOG)}, deprecations: ${JSON.stringify(DEPS)} }))`);
+    const dep = out.slice(out.indexOf('## Deprecations added'), out.indexOf('## Commits'));
+    expect(dep).toContain('`DEP-P0001` (export . oldThing, removed in 5.0.0): use newThing');
+    expect(dep).not.toContain('DEP-P0002');
+  });
+  it('fails closed when CHANGELOG.md has no section for the version', () => {
+    expect(() => EVAL(`m.renderNotes4x({ version: '4.3.0', changelog: ${JSON.stringify(CHANGELOG)} })`))
+      .toThrow(/no non-empty '## \[4\.3\.0\]' section/);
+  });
+  it('rejects a 5.x version on the 4x line', () => {
+    expect(() => EVAL(`m.renderNotes4x({ version: '5.0.0-beta.1', changelog: '' })`))
+      .toThrow(/--line 4x needs a 4\.x version/);
+  });
+  it('previousTag stays on the major for 4x and orders prereleases for 5x', () => {
+    const tags = ['v4.0.0', 'v4.1.0', 'v4.1.1', 'v5.0.0-alpha.1', 'v5.0.0-alpha.10', 'v5.0.0-alpha.2', 'v2.1.5'];
+    const out = EVAL(`const t = ${JSON.stringify(tags)}; console.log(JSON.stringify([
+      m.previousTag(t, '4.2.0', '4x'), m.previousTag(t, '4.1.1', '4x'),
+      m.previousTag(t, '5.0.0-beta.1', '5x'), m.previousTag(t, '5.0.0-alpha.2', '5x'),
+      m.previousTag(t, '4.0.0', '4x')]))`);
+    expect(JSON.parse(out)).toEqual(['v4.1.1', 'v4.1.0', 'v5.0.0-alpha.10', 'v5.0.0-alpha.1', null]);
+  });
+  it('CLI --tag v4.2.0 --line 4x writes 4.x notes with commits since v4.1.0 only', () => {
+    const dir = fixtureRepo();
+    const outFile = join(dir, 'notes.md');
+    expect(RUN(dir, ['--tag', 'v4.2.0', '--line', '4x', '--out', outFile])).toContain('EXIT=0');
+    const notes = readFileSync(outFile, 'utf8');
+    expect(notes.split('\n')[0]).toBe('# aura-glass 4.2.0 release notes');
+    expect(notes).toContain('## Commits since v4.1.0');
+    expect(notes).toContain('- GlassCanvas action guard');
+    // The range starts at v4.1.0, not at the newer 5.x prerelease tag…
+    expect(notes).toContain('only-in-5x-prerelease-range');
+    expect(notes).not.toContain('before 4.1.0');
+    expect(notes).not.toContain('not user facing');
+    expect(notes).toContain('`DEP-P0001`');
+  });
+  it('CLI --tag v5.0.0-beta.1 --line 5x heads the prerelease version', () => {
+    const dir = fixtureRepo();
+    const outFile = join(dir, 'notes.md');
+    expect(RUN(dir, ['--tag', 'v5.0.0-beta.1', '--line', '5x', '--out', outFile])).toContain('EXIT=0');
+    const notes = readFileSync(outFile, 'utf8');
+    expect(notes.split('\n')[0]).toBe('# aura-glass 5.0.0-beta.1 release notes');
+    expect(notes).toContain('## Breaking');
+    // Range base is v5.0.0-alpha.1, so the pre-alpha commit is out of range.
+    expect(notes).toContain('GlassCanvas action guard');
+    expect(notes).not.toContain('only-in-5x-prerelease-range');
+  });
+  it('CLI exits 1 on an unknown --line and on a 4x tag without a CHANGELOG section', () => {
+    const dir = fixtureRepo();
+    expect(RUN(dir, ['--tag', 'v4.2.0', '--line', '6x', '--out', join(dir, 'a.md')])).toContain('EXIT=1');
+    expect(() => RUN(dir, ['--tag', 'v4.3.0', '--line', '4x', '--out', join(dir, 'b.md')]))
+      .toThrow(/no non-empty '## \[4\.3\.0\]' section/);
+  });
+  it('a commit range that cannot be computed is stated in the notes, not silently empty', () => {
+    const dir = fixtureRepo();
+    git(dir, 'tag', '-d', 'v4.1.0');
+    const outFile = join(dir, 'notes.md');
+    expect(RUN(dir, ['--tag', 'v4.2.0', '--line', '4x', '--out', outFile])).toContain('EXIT=0');
+    expect(readFileSync(outFile, 'utf8')).toContain('_Commit range unavailable: no earlier v4.* tag in the clone._');
   });
 });

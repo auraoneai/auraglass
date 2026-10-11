@@ -24,6 +24,25 @@ immutable.
 `standard` is the default and covers everything except exposed secrets or a
 shipping artifact that is itself the vulnerability.
 
+## Release records (REQ-PLAT-16)
+
+The tag pipeline's `plat:release:notes` job creates the GitLab Release for the
+tag with linked assets `release-notes.md` (written by
+`release-notes.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE"`) and
+`dist-maps.tgz` (written by `plat:package:pack`, carried as a `needs` artifact).
+After that tag pipeline is green, the operator mirrors the same release on
+GitHub from the downloaded job artifacts:
+
+```sh
+gh release create v4.x.y \
+  --notes-file .artifacts/plat/release-notes.md \
+  .artifacts/plat/dist-maps.tgz .artifacts/pack/*.tgz
+```
+
+A rollback never deletes either release: S2/S3 below move dist-tags and
+deprecate the version, and the operator edits the GitHub release notes to name
+the replacement version (`gh release edit v4.x.y --notes-file <notes>`).
+
 ## Scenarios
 
 ### S1 — Consumer reverts to the 4.x LTS line (app-side)
