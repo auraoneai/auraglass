@@ -10,7 +10,7 @@ export const GlassPreferencesPanelMeta: ComponentMeta = {
   entry: './theme',
   tier: 'T2',
   rsc: 'client',
-  parts: ['root', 'legend', 'group', 'option', 'radio', 'slider', 'switch', 'floor-note', 'output'],
+  parts: ['root', 'legend', 'group', 'options', 'option', 'radio', 'slider', 'switch', 'floor-note', 'output'],
   states: ['checked', 'disabled', 'floor-locked'],
   variants: {},
   material: { layer: 'chrome' },

@@ -1,6 +1,8 @@
 /* MAT-308: A11y/Targets — fine vs coarse hit targets rendered with HitArea and
-   data-ag-debug-targets so the remote target-size spec can measure rects and
-   detect hit-area overlap / host-layout drift. */
+   a story-local debug outline so the remote target-size spec can measure rects
+   and detect hit-area overlap / host-layout drift. REQ-MAT-27: story-only
+   markers are plain data-* (never unregistered data-ag-*); the outline rule is
+   scoped to this story instead of shipping in targets.css. */
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { HitArea } from '../HitArea';
@@ -11,7 +13,7 @@ function IconButton({ label, small }: { label: string; small?: boolean }) {
     <button
       type="button"
       data-ag-part="icon-button"
-      data-ag-small={small ? '' : undefined}
+      data-small={small ? '' : undefined}
       aria-label={label}
       data-ag-hit-clamp="both"
       style={{ position: 'relative', width: 24, height: 24 }}
@@ -22,9 +24,13 @@ function IconButton({ label, small }: { label: string; small?: boolean }) {
   );
 }
 
+const DEBUG_TARGETS_CSS =
+  '[data-debug-targets] [data-ag-part="hit-area"] { outline: 1px dashed var(--ag-color-focus-outer, Highlight); }';
+
 function Targets() {
   return (
-    <div data-ag-debug-targets="" style={{ padding: 16 }}>
+    <div data-debug-targets="" style={{ padding: 16 }}>
+      <style>{DEBUG_TARGETS_CSS}</style>
       <p>Fine pointer: 24×24. Coarse: ≥44×44 (HitArea inflates in coarse media).</p>
       <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
         <IconButton label="←" />
