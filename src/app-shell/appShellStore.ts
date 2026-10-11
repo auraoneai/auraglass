@@ -19,6 +19,9 @@ export interface ShellSnapshot {
   sidebar: SidebarState;
   inspector: InspectorState;
   mode: ShellMode;
+  /** Ephemeral compact/medium drawer (root data-drawer) — never written to
+      the cookie and never read back from it. */
+  drawer: 'open' | 'closed';
 }
 
 export interface ControlledHandlers {
@@ -30,6 +33,10 @@ interface ShellRecord {
   snapshot: ShellSnapshot;
   listeners: Set<() => void>;
   controlled: ControlledHandlers;
+  /** Element focused when the drawer was asked to open (focus return). */
+  drawerReturnFocus: HTMLElement | null;
+  /** Mod+B action registered by an opted-in SidebarToggle. */
+  shortcut: (() => void) | null;
 }
 
 const records = new WeakMap<HTMLElement, ShellRecord>();
@@ -70,6 +77,7 @@ function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
   root.dataset['agSidebar'] = snapshot.sidebar;
   root.dataset['agInspector'] = snapshot.inspector;
   root.dataset['mode'] = snapshot.mode;
+  root.dataset['drawer'] = snapshot.drawer;
   const sidebarEl = root.querySelector<HTMLElement>('[data-ag-slot="sidebar"]');
   if (sidebarEl) {
     const inert = snapshot.sidebar === 'collapsed' || snapshot.mode === 'compact';
@@ -78,7 +86,12 @@ function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
   }
 }
 
-function transition(root: HTMLElement, next: ShellSnapshot, rec: ShellRecord): void {
+function transition(
+  root: HTMLElement,
+  next: ShellSnapshot,
+  rec: ShellRecord,
+  opts?: { persist?: boolean },
+): void {
   if (motionIsFull(root)) {
     setAnimating(root, true);
     const ms = Number.parseFloat(
@@ -87,7 +100,7 @@ function transition(root: HTMLElement, next: ShellSnapshot, rec: ShellRecord): v
     window.setTimeout(() => setAnimating(root, false), Number.isFinite(ms) ? ms : 200);
   }
   applyState(root, next);
-  writeCookie(root, next);
+  if (opts?.persist !== false) writeCookie(root, next);
   rec.snapshot = next;
   for (const l of rec.listeners) l();
 }
@@ -102,9 +115,12 @@ function observeRoot(root: HTMLElement): void {
       const rec = records.get(el);
       if (!rec) continue;
       const mode = deriveMode(el.offsetWidth, el.dataset['agLayout'] ?? 'auto');
-      if (mode !== rec.snapshot.mode) {
-        applyState(el, { ...rec.snapshot, mode });
-        rec.snapshot = { ...rec.snapshot, mode };
+      // Leaving drawer modes (compact/medium) also closes the drawer.
+      const closesDrawer = mode !== 'compact' && mode !== 'medium' && rec.snapshot.drawer === 'open';
+      if (mode !== rec.snapshot.mode || closesDrawer) {
+        const next = { ...rec.snapshot, mode, ...(closesDrawer ? { drawer: 'closed' as const } : {}) };
+        applyState(el, next);
+        rec.snapshot = next;
         for (const l of rec.listeners) l();
       }
     }
@@ -136,9 +152,16 @@ function recordFor(root: HTMLElement): ShellRecord {
     }
   }
   rec = {
-    snapshot: { sidebar, inspector, mode: deriveMode(root.offsetWidth, root.dataset['agLayout'] ?? 'auto') },
+    snapshot: {
+      sidebar,
+      inspector,
+      mode: deriveMode(root.offsetWidth, root.dataset['agLayout'] ?? 'auto'),
+      drawer: 'closed',
+    },
     listeners: new Set(),
     controlled: {},
+    drawerReturnFocus: null,
+    shortcut: null,
   };
   records.set(root, rec);
   applyState(root, rec.snapshot);
@@ -168,6 +191,7 @@ export function getServerSnapshot(root: HTMLElement): ShellSnapshot {
     mode: (VALID_MODES as readonly string[]).includes(modeAttr ?? '')
       ? (modeAttr as ShellMode)
       : deriveMode(1024, root.dataset['agLayout'] ?? 'auto'),
+    drawer: 'closed',
   };
 }
 const VALID_MODES: readonly string[] = ['compact', 'medium', 'expanded', 'wide'];
@@ -186,6 +210,72 @@ export function setSidebar(root: HTMLElement, next: SidebarState): void {
   rec.controlled.onSidebarChange?.(next);
   if (rec.controlled.onSidebarChange) return; // controlled: attributes change only via props
   transition(root, { ...rec.snapshot, sidebar: next }, rec);
+}
+
+export function setDrawer(root: HTMLElement, next: 'open' | 'closed'): void {
+  const rec = recordFor(root);
+  if (next === rec.snapshot.drawer) return;
+  // Capture the opener synchronously, before React renders the drawer and
+  // the modal Sheet moves focus into it (SURF-31 focus return).
+  if (next === 'open' && typeof document !== 'undefined') {
+    const active = document.activeElement;
+    rec.drawerReturnFocus = active instanceof HTMLElement && active !== document.body ? active : null;
+  }
+  // The drawer is ephemeral — it never writes the cookie.
+  transition(root, { ...rec.snapshot, drawer: next }, rec, { persist: false });
+}
+
+/** The element to refocus after the drawer closes (null when none). */
+export function drawerReturnFocus(root: HTMLElement): HTMLElement | null {
+  return recordFor(root).drawerReturnFocus;
+}
+
+/** True for Mod+B (Cmd+B / Ctrl+B) with no other modifier, outside editable
+    targets (where Mod+B is the text "bold" command) and not already handled. */
+export function isSidebarShortcut(e: {
+  key: string;
+  metaKey: boolean;
+  ctrlKey: boolean;
+  altKey: boolean;
+  shiftKey: boolean;
+  defaultPrevented: boolean;
+  target: EventTarget | null;
+}): boolean {
+  if (e.defaultPrevented || e.altKey || e.shiftKey) return false;
+  if (!(e.metaKey || e.ctrlKey) || e.key.toLowerCase() !== 'b') return false;
+  const t = e.target;
+  if (t instanceof HTMLElement && (t.isContentEditable || t.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"]'))) {
+    return false;
+  }
+  return true;
+}
+
+/** Registers the shell's Mod+B action (SURF-32). The binding is scoped to the
+    shell root element — never a document or window listener (SURF-05; global
+    key listeners are owned by the Command layer). Keys pressed inside the
+    portalled drawer reach it through the drawer's React onKeyDown
+    (runSidebarShortcut). Returns the unregister function. */
+export function registerSidebarShortcut(root: HTMLElement, run: () => void): () => void {
+  const rec = recordFor(root);
+  rec.shortcut = run;
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (!isSidebarShortcut(e)) return;
+    e.preventDefault();
+    run();
+  };
+  root.addEventListener('keydown', onKeyDown);
+  return () => {
+    root.removeEventListener('keydown', onKeyDown);
+    if (rec.shortcut === run) rec.shortcut = null;
+  };
+}
+
+/** Runs the registered Mod+B action; false when no toggle opted in. */
+export function runSidebarShortcut(root: HTMLElement): boolean {
+  const run = recordFor(root).shortcut;
+  if (!run) return false;
+  run();
+  return true;
 }
 
 export function setInspector(root: HTMLElement, next: InspectorState): void {

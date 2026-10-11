@@ -24,7 +24,7 @@ export interface AppShellInspectorToggleProps extends PartProps<'button'> {
 // return this one stable object: useSyncExternalStore requires referentially
 // stable snapshots, and a fresh literal per call logs "getServerSnapshot should
 // be cached" during hydration (REQ-SURF-08 cross-TZ hydration gate).
-const DETACHED_SNAPSHOT: ShellSnapshot = { sidebar: 'expanded', inspector: 'closed', mode: 'expanded' };
+const DETACHED_SNAPSHOT: ShellSnapshot = { sidebar: 'expanded', inspector: 'closed', mode: 'expanded', drawer: 'closed' };
 
 export function AppShellInspectorToggle({ labels, icon, ...rest }: AppShellInspectorToggleProps) {
   const ref = React.useRef<HTMLElement | null>(null);
