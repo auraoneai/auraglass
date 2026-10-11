@@ -22,7 +22,7 @@ type Story = StoryObj<typeof meta>;
 
 function Frame({ name, children }: { name: string; children?: React.ReactNode }) {
   return (
-    <div data-ag-fixture={name} style={{ minHeight: '100vh', boxSizing: 'border-box', padding: 48 }}>
+    <div data-fixture={name} style={{ minHeight: '100vh', boxSizing: 'border-box', padding: 48 }}>
       <Surface layer="chrome" thickness="regular" style={{ padding: 24, minInlineSize: 240 }}>{children ?? name}</Surface>
     </div>
   );
@@ -61,6 +61,7 @@ function IntervalLeak() {
 const retainedObservers: ResizeObserver[] = [];
 function ObserverLeak() {
   React.useEffect(() => {
+    if (typeof ResizeObserver === 'undefined') return; // jsdom: nothing to leak
     const ro = new ResizeObserver(() => undefined);
     ro.observe(document.body);
     retainedObservers.push(ro);
@@ -79,10 +80,11 @@ function CleanComponent() {
     const tick = () => { raf = requestAnimationFrame(tick); };
     raf = requestAnimationFrame(tick);
     const interval = setInterval(() => undefined, 1000);
-    const ro = new ResizeObserver(() => undefined);
-    if (ref.current) ro.observe(ref.current);
-    const io = new IntersectionObserver(() => undefined);
-    if (ref.current) io.observe(ref.current);
+    // jsdom has neither observer; browsers (the perf lane) always do.
+    const ro = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(() => undefined);
+    if (ref.current) ro?.observe(ref.current);
+    const io = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(() => undefined);
+    if (ref.current) io?.observe(ref.current);
     const mo = new MutationObserver(() => undefined);
     mo.observe(document.body, { childList: true });
     return () => {
@@ -90,8 +92,8 @@ function CleanComponent() {
       document.removeEventListener('pointermove', onMove);
       cancelAnimationFrame(raf);
       clearInterval(interval);
-      ro.disconnect();
-      io.disconnect();
+      ro?.disconnect();
+      io?.disconnect();
       mo.disconnect();
     };
   }, []);

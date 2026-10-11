@@ -62,11 +62,22 @@ function ToggleGroupRoot({
 }
 
 function ToggleGroupItem({ value, disabled, focusableWhenDisabled, className, children, ref }: ToggleGroupItemProps) {
+  /* Base UI's Toggle has no focusableWhenDisabled (a disabled Toggle is
+     natively disabled and leaves the roving order). Keep it focusable by not
+     disabling it natively: expose aria-disabled/data-disabled and veto every
+     press before the group commits. */
+  const focusableDisabled = disabled === true && focusableWhenDisabled === true;
   return (
     <Toggle
       value={value}
-      disabled={disabled}
-      focusableWhenDisabled={focusableWhenDisabled}
+      disabled={focusableDisabled ? false : disabled}
+      {...(focusableDisabled
+        ? {
+            'aria-disabled': true,
+            'data-disabled': '',
+            onPressedChange: (_pressed: boolean, details: { cancel: () => void }) => details.cancel(),
+          }
+        : {})}
       data-ag-part="item"
       className={cn('ag-toggle-item', className)}
       ref={ref}

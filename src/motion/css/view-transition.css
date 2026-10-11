@@ -1,9 +1,9 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 /* aura-glass 5.0 — View Transition optics drop (REQ-MAT-48, REQ-MOT-37, §4.7 verbatim).
    Layer: ag.material (REQ-MAT-19 — src/motion/css belongs to ag.material, not ag.components;
    the archived §4.7 block's layer label was superseded by the layer-ownership table).
    Snapshots flatten backdrop blur, so participants drop optics during the morph and
    fade them back over --ag-duration-micro once settled. */
-@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 @layer ag.material {
   :root:active-view-transition [data-ag-surface][data-ag-vt],

@@ -11,7 +11,7 @@ export const IconMeta = defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 1,
+  budgetKb: 1500 / 1024,
   migration: [
     { from: 'GlassIcon', props: { name: 'name' }, selectors: { '.glass-icon': '.ag-icon' }, automation: 'full', compat: true },
   ],

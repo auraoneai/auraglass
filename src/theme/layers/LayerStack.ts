@@ -21,8 +21,9 @@
      outer modal is still open.
    - Scroll lock: <html data-ag-scroll-locked> while any open modal entry has
      lockScroll !== false (attribute only, never an inline style).
-   - Markers: data-ag-overlay-depth (open order) on every open entry's
-     element, data-ag-obscured on open entries covered by a later one. */
+   - Markers: data-ag-obscured on open entries covered by a later one. The
+     open order is reported through depth(); the overlay (CMP, the
+     data-ag-overlay-depth setter, S-01) writes data-ag-overlay-depth itself. */
 import type { LayerEntry, PortalLayerRoot } from '../../contracts/preferences';
 import { layerInputFor } from './layerInput';
 
@@ -131,7 +132,7 @@ export const createLayerStack = (doc: Document): LayerStack => {
     for (const el of want) applyInert(el);
   };
 
-  // ---- overlay-depth + obscured markers ----
+  // ---- obscured markers ----
   const marked = new Set<Element>();
   const syncMarkers = (): void => {
     const open = items.filter((it) => it.open && it.element);
@@ -140,13 +141,11 @@ export const createLayerStack = (doc: Document): LayerStack => {
       const el = it.element!;
       keep.add(el);
       marked.add(el);
-      el.setAttribute('data-ag-overlay-depth', String(i));
       if (i < open.length - 1) el.setAttribute('data-ag-obscured', '');
       else el.removeAttribute('data-ag-obscured');
     });
     for (const el of Array.from(marked)) {
       if (keep.has(el)) continue;
-      el.removeAttribute('data-ag-overlay-depth');
       el.removeAttribute('data-ag-obscured');
       marked.delete(el);
     }
