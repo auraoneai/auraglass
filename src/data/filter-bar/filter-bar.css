@@ -1,9 +1,33 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 @layer ag.components {
-  .ag-filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ag-space-2, 0.5rem); }
-  .ag-filter-bar__rules { display: flex; flex-wrap: wrap; gap: var(--ag-space-1, 0.25rem); }
-  .ag-filter-bar__chip { display: inline-flex; align-items: center; gap: var(--ag-space-1, 0.25rem); border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor); border-radius: var(--_ag-radius-2, 0.5rem); padding-block: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1)); padding-inline: var(--ag-space-2, 0.5rem); background: var(--_ag-surface, Canvas); }
-  .ag-filter-bar__remove { min-inline-size: var(--_ag-touch-target, 44px); min-block-size: var(--_ag-touch-target, 44px); border: 0; background: transparent; cursor: pointer; color: inherit; }
+  /* REQ-SURF-87: the bar is its own inline-size container; < 480 px the chips
+     collapse into "Filters (n)" (CMP Sheet, side=bottom), 480–767 px the chip
+     list clamps to two lines and "+n more" expands it. */
+  .ag-filter-bar { container: ag-filter-bar / inline-size; display: flex; flex-wrap: wrap; align-items: center; gap: var(--ag-space-2, 0.5rem); }
+  .ag-filter-bar__search { flex: 1 1 12rem; min-inline-size: 0; }
+  .ag-filter-bar__rules { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ag-space-1, 0.25rem); min-inline-size: 0; flex: 1 1 100%; }
+  .ag-filter-bar__chips { position: relative; display: flex; flex-wrap: wrap; gap: var(--ag-space-1, 0.25rem); min-inline-size: 0; }
+  .ag-filter-bar__chip { box-sizing: border-box; display: inline-flex; align-items: center; gap: var(--ag-space-1, 0.25rem); max-inline-size: 100%; block-size: var(--_ag-touch-target, 44px); border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor); border-radius: var(--_ag-radius-2, 0.5rem); padding-inline: var(--ag-space-2, 0.5rem) 0; background: var(--_ag-surface, Canvas); }
+  .ag-filter-bar__chip[data-clamped] { visibility: hidden; }
+  .ag-filter-bar__chip-label { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; padding: 0; }
+  .ag-filter-bar__chip-remove { min-inline-size: var(--_ag-touch-target, 44px); min-block-size: var(--_ag-touch-target, 44px); }
+  .ag-filter-bar__more,
+  .ag-filter-bar__collapsed { min-block-size: var(--_ag-touch-target, 44px); }
+  .ag-filter-bar__more[hidden] { display: none; }
+  .ag-filter-bar__collapsed { display: none; }
+  .ag-filter-bar__editor-form { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--ag-space-2, 0.5rem); padding: var(--ag-space-2, 0.5rem); }
+  .ag-filter-bar__editor-form > button { grid-column: 1 / -1; justify-self: end; }
+  .ag-filter-bar__sheet-chips { display: flex; flex-wrap: wrap; gap: var(--ag-space-1, 0.25rem); margin-block-end: var(--ag-space-2, 0.5rem); }
   .ag-filter-bar__count { font-size: var(--_ag-text-sm, 0.875rem); color: var(--_ag-fg-muted, inherit); }
+
+  @container ag-filter-bar (width < 480px) {
+    .ag-filter-bar__rules,
+    .ag-filter-bar__clear { display: none; }
+    .ag-filter-bar__collapsed { display: inline-flex; align-items: center; }
+  }
+
+  @container ag-filter-bar (480px <= width < 768px) {
+    .ag-filter-bar__chips:not([data-expanded]) { max-block-size: calc(2 * var(--_ag-touch-target, 44px) + var(--ag-space-1, 0.25rem)); overflow: hidden; }
+  }
 }

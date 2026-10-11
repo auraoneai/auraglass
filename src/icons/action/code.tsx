@@ -8,4 +8,4 @@ const code: IconNode[] = [
 ];
 
 export const CodeIcon = /*#__PURE__*/ createIcon('Code', code);
-export const Code2 = /*#__PURE__*/ CodeIcon;
+export const Code2 = CodeIcon;
