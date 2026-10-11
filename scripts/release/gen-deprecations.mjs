@@ -3,15 +3,15 @@
    build for deprecations:
 
      node scripts/release/gen-deprecations.mjs            # all outputs
-     node scripts/release/gen-deprecations.mjs --check    # diff without writing
+     node scripts/release/gen-deprecations.mjs --check    # committed outputs only, no writes
      node scripts/release/gen-deprecations.mjs --schema   # + schema regen
-     node scripts/release/gen-deprecations.mjs --line 4x --out <path>
+     node scripts/release/gen-deprecations.mjs --out <path>   # table to another path
      node scripts/release/gen-deprecations.mjs --docs
 
    Outputs:
      - deprecations.json (git-ignored root): {$schema, version:1, entries}
      - src/internal/deprecations.generated.ts (committed): runtime-kinds table
-     - --line 4x --out <path>: the same table for the 4.x tree
+     - --out <path>: the same table at another path
      - --docs → apps/docs/generated/migration/deprecations.md (git-ignored):
        one <h2 id="dep-<id>"> per entry, grouped under <h2 id="b-<n>"> anchors. */
 import { createRequire } from 'node:module';
@@ -96,12 +96,24 @@ export function docsMd(entries, breaking = []) {
 }
 
 // ---- schema (PLAT-180): JSON schema for S-38 via the TypeScript compiler API -
+// Every type reference (DeprecationKind, CodemodId, ...) is resolved through the
+// type checker to its literal union, and template-literal types are translated
+// span by span, so the schema follows src/contracts/fragments.ts without any
+// hand-maintained enum list (REQ-PLAT-24 remaining-work 4).
 const TS_TYPE_MAP = {
   string: { type: 'string' }, number: { type: 'number' }, boolean: { type: 'boolean' },
 };
+const reEscape = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 export function genSchema(tsModule, { contractsFile } = {}) {
   const ts = tsModule;
-  const src = ts.createSourceFile('fragments.ts', readFileSync(contractsFile ?? join(ROOT, 'src/contracts/fragments.ts'), 'utf8'), ts.ScriptTarget.Latest, true);
+  const file = contractsFile ?? join(ROOT, 'src/contracts/fragments.ts');
+  const program = ts.createProgram([file], {
+    noEmit: true, strict: true, skipLibCheck: true, target: ts.ScriptTarget.ES2022,
+    module: ts.ModuleKind.ESNext, moduleResolution: ts.ModuleResolutionKind.Bundler,
+  });
+  const checker = program.getTypeChecker();
+  const src = program.getSourceFile(file);
+  if (!src) throw new Error(`cannot read ${file}`);
   let entryNode = null;
   const find = (node) => {
     if (ts.isInterfaceDeclaration(node) && node.name.text === 'DeprecationEntry') entryNode = node;
@@ -109,31 +121,46 @@ export function genSchema(tsModule, { contractsFile } = {}) {
   };
   find(src);
   if (!entryNode) throw new Error('DeprecationEntry interface not found');
+  const literalsOf = (type) => {
+    const parts = type.isUnion() ? type.types : [type];
+    const vals = parts.map((t) => (t.isStringLiteral() ? t.value : null));
+    return vals.every((v) => v != null) ? [...new Set(vals)].sort() : null;
+  };
+  // Regex source for one template-literal span type.
+  const spanRe = (t) => {
+    if (t.kind === ts.SyntaxKind.NumberKeyword) return '\\d+';
+    if (t.kind === ts.SyntaxKind.StringKeyword) return '.*';
+    if (ts.isLiteralTypeNode(t) && ts.isStringLiteral(t.literal)) return reEscape(t.literal.text);
+    if (ts.isParenthesizedTypeNode(t)) return spanRe(t.type);
+    if (ts.isUnionTypeNode(t)) {
+      const alts = t.types.map(spanRe);
+      return alts.every((a) => /^[A-Za-z0-9]$/.test(a)) ? `[${alts.join('')}]` : `(?:${alts.join('|')})`;
+    }
+    const lits = literalsOf(checker.getTypeFromTypeNode(t));
+    if (lits) return `(?:${lits.map(reEscape).join('|')})`;
+    throw new Error(`genSchema: unsupported template span '${t.getText(src)}'`);
+  };
   const kindProp = (t) => {
-    if (ts.isLiteralTypeNode(t) && t.literal) return { const: t.literal.text };
+    if (ts.isLiteralTypeNode(t) && t.literal) {
+      if (t.literal.kind === ts.SyntaxKind.NullKeyword) return { type: 'null' };
+      return { const: t.literal.text };
+    }
     if (t.kind === ts.SyntaxKind.StringKeyword) return TS_TYPE_MAP.string;
     if (t.kind === ts.SyntaxKind.NumberKeyword) return TS_TYPE_MAP.number;
+    if (t.kind === ts.SyntaxKind.BooleanKeyword) return TS_TYPE_MAP.boolean;
+    if (t.kind === ts.SyntaxKind.NullKeyword) return { type: 'null' };
     if (ts.isUnionTypeNode(t)) return { anyOf: t.types.map(kindProp) };
     if (ts.isTypeReferenceNode(t)) {
-      const name = t.typeName.text;
-      if (name === 'DeprecationKind') {
-        return { enum: ['export', 'subpath', 'prop', 'prop-value', 'css-var', 'css-global', 'peer', 'dependency', 'engine', 'behavior', 'cli', 'data-attr', 'asset'] };
-      }
-      if (name === 'CodemodId') {
-        return { enum: ['imports-subpaths', 'canonical-names', 'prop-grammar', 'dead-optical-props', 'providers', 'css-vars', 'deps', 'removed', 'ai-chat', 'app-shell-slots', 'media-backdrops', 'reduced-motion-initial', 'motion-imports', 'motion-props'] };
-      }
-      return { type: 'string' };
+      const lits = literalsOf(checker.getTypeFromTypeNode(t));
+      if (lits) return { enum: lits };
+      throw new Error(`genSchema: type reference '${t.getText(src)}' is not a string-literal union`);
     }
     if (ts.isTemplateLiteralTypeNode(t)) {
-      const text = t.getText(src);
-      if (text.includes('DEP-')) return { type: 'string', pattern: '^DEP-[PMCSQ]\\d+$' };
-      if (text.includes('4.')) return { type: 'string', pattern: '^4\\.\\d+\\.\\d+$' };
-      if (text.includes('B')) return { type: 'string', pattern: '^B\\d+$' };
-      if (text.includes('dep-')) return { type: 'string', pattern: '^#dep-.+$' };
-      return { type: 'string', pattern: text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') };
+      let re = reEscape(t.head.text);
+      for (const span of t.templateSpans) re += spanRe(span.type) + reEscape(span.literal.text);
+      return { type: 'string', pattern: `^${re}$` };
     }
-    if (t.kind === ts.SyntaxKind.NullKeyword) return { type: 'null' };
-    return {};
+    throw new Error(`genSchema: unsupported member type '${t.getText(src)}'`);
   };
   const properties = {}; const required = [];
   for (const m of entryNode.members) {
@@ -159,39 +186,49 @@ export function genSchema(tsModule, { contractsFile } = {}) {
   }, null, 2)}\n`;
 }
 
-export function outputs(entries, { line = '5x' } = {}) {
+export function outputs(entries, { breaking = [] } = {}) {
   return {
     json: jsonOut(entries),
     ts: tsTable(entries),
-    docs: docsMd(entries),
+    docs: docsMd(entries, breaking),
   };
 }
 
 export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
-  const arg = (n) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : null; };
+  const arg = (n, def = null) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : def; };
   const has = (f) => argv.includes(f);
-  const check = has('--check'); const line = arg('--line', '5x'); const customOut = arg('--out');
+  const paths = relPaths(root);
+  const check = has('--check'); const customOut = arg('--out');
   const entries = await loadEntries(root);
-  const o = outputs(entries, { line });
+  // The register titles head every #b-<n> section of the migration guide.
+  const register = existsSync(paths.breakingRegister) ? JSON.parse(readFileSync(paths.breakingRegister, 'utf8')) : {};
+  const o = outputs(entries, { breaking: register.items ?? register.changes ?? [] });
 
+  // [path, content, committed]. Untracked build outputs (deprecations.json at
+  // prepack, the docs guide) are written but never compared by --check: a
+  // clean CI checkout does not have them, and they are regenerated every run.
   const targets = [];
-  if (customOut) targets.push([customOut, o.ts, false]);
-  else targets.push([PATHS.generatedTs, o.ts, false]);
-  targets.push([PATHS.deprecationsJson, o.json, true]);
-  if (has('--docs')) targets.push([PATHS.docsMigrationOut, o.docs, true]);
+  if (customOut) targets.push([customOut, o.ts, true]);
+  else targets.push([paths.generatedTs, o.ts, true]);
+  targets.push([paths.deprecationsJson, o.json, false]);
+  if (has('--docs')) targets.push([paths.docsMigrationOut, o.docs, false]);
   if (has('--schema')) {
     const require = createRequire(import.meta.url);
     const ts = require('typescript');
-    targets.push([PATHS.schemaPath, genSchema(ts), false]);
+    targets.push([paths.schemaPath, genSchema(ts, { contractsFile: join(root, 'src/contracts/fragments.ts') }), true]);
   }
 
   const stale = [];
-  for (const [p, content] of targets) {
-    if (check) { if (!existsSync(p) || readFileSync(p, 'utf8') !== content) stale.push(p); }
-    else { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, content); }
+  let compared = 0;
+  for (const [p, content, committed] of targets) {
+    if (check) {
+      if (!committed) continue;
+      compared += 1;
+      if (!existsSync(p) || readFileSync(p, 'utf8') !== content) stale.push(p);
+    } else { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, content); }
   }
-  if (check && stale.length) { console.error(`gen-deprecations --check FAIL: ${stale.join(', ')}`); return 1; }
-  console.log(`gen-deprecations: ${entries.length} entries -> ${targets.length} target(s) ${check ? 'verified' : 'written'}`);
+  if (check && stale.length) { console.error(`gen-deprecations --check FAIL: ${stale.join(', ')} (regenerate with node scripts/release/gen-deprecations.mjs${has('--schema') ? ' --schema' : ''})`); return 1; }
+  console.log(`gen-deprecations: ${entries.length} entries -> ${check ? `${compared} committed target(s) verified` : `${targets.length} target(s) written`}`);
   return 0;
 }
 
