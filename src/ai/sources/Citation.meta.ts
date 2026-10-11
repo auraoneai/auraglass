@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 42,
   rsc: 'client',
-  parts: ['citation', 'citation-preview', 'citation-preview-host', 'citation-preview-kind', 'citation-preview-title'],
+  parts: ['citation', 'citation-preview', 'citation-preview-host', 'citation-preview-kind', 'citation-preview-positioner', 'citation-preview-snippet', 'citation-preview-title'],
   states: [],
   apg: 'link',
   variants: {},

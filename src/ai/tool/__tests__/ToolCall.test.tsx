@@ -1,8 +1,19 @@
-import { describe, expect, it, jest } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import * as React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ToolCall } from '../ToolCall';
 import type { AgToolPart } from '../../types';
+
+// Announcer double (jest.mock is hoisted above the imports): every announce()
+// call is recorded; the rest of the theme stays real.
+const mockAnnounce = jest.fn<(message: string, opts?: unknown) => void>();
+jest.mock('../../../theme', () => {
+  const actual = jest.requireActual<typeof import('../../../theme')>('../../../theme');
+  return { ...actual, useAnnouncer: () => ({ announce: mockAnnounce, clear: () => undefined }) };
+});
+beforeEach(() => { mockAnnounce.mockClear(); });
+
+const trigger = (c: HTMLElement) => c.querySelector<HTMLButtonElement>('[data-ag-part="trigger"]')!;
 
 const part = (state: AgToolPart['state'], extra: Partial<AgToolPart> = {}): AgToolPart => ({
   type: 'tool-search', toolCallId: 'tc-1', state,
@@ -27,9 +38,9 @@ describe('ToolCall', () => {
 
   it('default open for needs-approval and failed; header button has aria-expanded/controls', () => {
     const { container } = render(<ToolCall part={part('approval-requested', { approval: { id: 'ap-1' } })} />);
-    const trigger = screen.getByRole('button');
-    expect(trigger.getAttribute('aria-expanded')).toBe('true');
-    expect(trigger.getAttribute('aria-controls')).toBeTruthy();
+    const t = trigger(container);
+    expect(t.getAttribute('aria-expanded')).toBe('true');
+    expect(t.getAttribute('aria-controls')).toBeTruthy();
     const { container: c2 } = render(<ToolCall part={part('output-error')} />);
     expect(c2.querySelector('[data-ag-part="trigger"]')!.getAttribute('aria-expanded')).toBe('true');
     const { container: c3 } = render(<ToolCall part={part('output-available')} />);
@@ -75,4 +86,120 @@ describe('ToolCall', () => {
   it('ToolCall.displayState static', () => {
     expect(ToolCall.displayState(part('output-available'))).toBe('succeeded');
   });
+
+  it('opens on transition to needs-approval: input-streaming → approval-requested expands and shows Approve', () => {
+    const onApprovalResponse = jest.fn();
+    const { container, rerender } = render(<ToolCall part={part('input-streaming')} onApprovalResponse={onApprovalResponse} />);
+    expect(trigger(container).getAttribute('aria-expanded')).toBe('false');
+    expect(screen.queryByRole('button', { name: 'Approve' })).toBeNull();
+    rerender(<ToolCall part={part('approval-requested', { approval: { id: 'ap-1' } })} onApprovalResponse={onApprovalResponse} />);
+    expect(trigger(container).getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByRole('button', { name: 'Approve' })).toBeTruthy();
+    expect(mockAnnounce).toHaveBeenCalledWith('Approval needed: search', { politeness: 'assertive' });
+  });
+
+  it('opens on transition to failed and announces the failure exactly once; no role=alert', () => {
+    const { container, rerender } = render(<ToolCall part={part('input-available')} />);
+    expect(trigger(container).getAttribute('aria-expanded')).toBe('false');
+    rerender(<ToolCall part={part('output-error', { errorText: 'timeout' })} />);
+    expect(trigger(container).getAttribute('aria-expanded')).toBe('true');
+    expect(container.querySelector('[data-ag-part="error-text"]')!.textContent).toBe('timeout');
+    expect(container.querySelector('[role=alert]')).toBeNull();
+    rerender(<ToolCall part={part('output-error', { errorText: 'timeout' })} />);
+    const failures = mockAnnounce.mock.calls.filter(([m]) => m === 'search failed: timeout');
+    expect(failures).toHaveLength(1);
+    expect(failures[0]![1]).toEqual({ politeness: 'assertive' });
+  });
+
+  it('a call rendered already failed (history) opens but is not announced', () => {
+    render(<ToolCall part={part('output-error', { errorText: 'timeout' })} />);
+    expect(mockAnnounce).not.toHaveBeenCalled();
+  });
+
+  it('a user toggle suppresses the auto-open on a later transition', () => {
+    const { container, rerender } = render(<ToolCall part={part('input-available')} />);
+    fireEvent.click(trigger(container)); // user opens
+    fireEvent.click(trigger(container)); // user closes
+    expect(trigger(container).getAttribute('aria-expanded')).toBe('false');
+    rerender(<ToolCall part={part('output-error', { errorText: 'x' })} />);
+    expect(trigger(container).getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('panel stays mounted while closed so aria-controls always resolves', () => {
+    const { container } = render(<ToolCall part={part('output-available')} />);
+    const t = trigger(container);
+    expect(t.getAttribute('aria-expanded')).toBe('false');
+    const panel = document.getElementById(t.getAttribute('aria-controls')!);
+    expect(panel).not.toBeNull();
+    expect(panel!.getAttribute('data-ag-part')).toBe('content');
+    expect(panel!.hidden).toBe(true);
+    fireEvent.click(t);
+    expect(t.getAttribute('aria-expanded')).toBe('true');
+    expect(document.getElementById(t.getAttribute('aria-controls')!)!.hidden).toBe(false);
+  });
+
+  it.each([
+    ['input-streaming', 'queued', 'Preparing'], ['input-available', 'running', 'Running'],
+    ['approval-requested', 'needs-approval', 'Needs approval'], ['output-available', 'succeeded', 'Done'],
+    ['output-error', 'failed', 'Failed'], ['output-denied', 'denied', 'Denied'],
+  ] as const)('%s header shows the %s icon and the text "%s"', (state, display, label) => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const { container } = render(<ToolCall part={part(state)} />);
+    const icon = trigger(container).querySelector('svg[data-ag-part="state-icon"]')!;
+    expect(icon.getAttribute('data-ag-icon')).toBe(display);
+    expect(icon.getAttribute('aria-hidden')).toBe('true');
+    expect(trigger(container).querySelector('[data-ag-part="tool-state"]')!.textContent).toBe(label);
+    warn.mockRestore();
+  });
+
+  it('per-state icons are distinct glyphs', () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const states = ['input-streaming', 'input-available', 'approval-requested', 'output-available', 'output-error', 'output-denied'] as const;
+    const paths = states.map((st) => {
+      const { container, unmount } = render(<ToolCall part={part(st)} />);
+      const d = container.querySelector('svg[data-ag-part="state-icon"] path')!.getAttribute('d');
+      unmount();
+      return d;
+    });
+    expect(new Set(paths).size).toBe(6);
+    warn.mockRestore();
+  });
+
+  it('approval resets on new approval id', () => {
+    const onApprovalResponse = jest.fn();
+    const { rerender } = render(<ToolCall part={part('approval-requested', { approval: { id: 'ap-1' } })} onApprovalResponse={onApprovalResponse} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Approve' }));
+    expect((screen.getByRole('button', { name: 'Approve' }) as HTMLButtonElement).disabled).toBe(true);
+    expect((screen.getByRole('button', { name: 'Deny' }) as HTMLButtonElement).disabled).toBe(true);
+    // The same call is asked again under a new approval id (component stays mounted).
+    rerender(<ToolCall part={part('approval-requested', { approval: { id: 'ap-2' } })} onApprovalResponse={onApprovalResponse} />);
+    const approve = screen.getByRole('button', { name: 'Approve' }) as HTMLButtonElement;
+    expect(approve.disabled).toBe(false);
+    expect((screen.getByRole('button', { name: 'Deny' }) as HTMLButtonElement).disabled).toBe(false);
+    fireEvent.click(approve);
+    expect(onApprovalResponse).toHaveBeenCalledTimes(2);
+    expect(onApprovalResponse.mock.calls[1]![0]).toMatchObject({ approvalId: 'ap-2', approved: true });
+  });
+
+  it('approval resets when part.state changes away and back', () => {
+    const onApprovalResponse = jest.fn();
+    const { rerender } = render(<ToolCall part={part('approval-requested', { approval: { id: 'ap-1' } })} onApprovalResponse={onApprovalResponse} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Deny' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Deny' }));
+    expect(onApprovalResponse.mock.calls[0]![0]).toMatchObject({ approvalId: 'ap-1', approved: false });
+    rerender(<ToolCall part={part('approval-responded', { approval: { id: 'ap-1', approved: false } })} onApprovalResponse={onApprovalResponse} />);
+    expect(screen.queryByRole('button', { name: 'Approve' })).toBeNull();
+    rerender(<ToolCall part={part('approval-requested', { approval: { id: 'ap-3' } })} onApprovalResponse={onApprovalResponse} />);
+    expect((screen.getByRole('button', { name: 'Approve' }) as HTMLButtonElement).disabled).toBe(false);
+    expect(screen.queryByLabelText('Reason (optional)')).toBeNull();
+  });
+
+  it('deny reason is a CMP TextField labelled "Reason (optional)"', () => {
+    render(<ToolCall part={part('approval-requested', { approval: { id: 'ap-9' } })} onApprovalResponse={() => undefined} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Deny' }));
+    const input = screen.getByLabelText('Reason (optional)');
+    expect(input.getAttribute('data-ag-part')).toBe('control');
+    expect(input.closest('.ag-text-field')).not.toBeNull();
+  });
+
 });

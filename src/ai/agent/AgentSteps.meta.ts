@@ -6,7 +6,7 @@ export default defineMeta({
   entry: './ai',
   tier: 'T2',
   rsc: 'server',
-  parts: ['agent-steps', 'step', 'step-detail', 'step-duration', 'step-icon', 'step-label', 'step-state'],
+  parts: ['agent-steps', 'state-icon', 'step', 'step-detail', 'step-duration', 'step-icon', 'step-label', 'step-state'],
   states: ['queued', 'running', 'needs-approval', 'succeeded', 'failed', 'denied', 'skipped'],
   apg: 'feed',
   variants: {},
