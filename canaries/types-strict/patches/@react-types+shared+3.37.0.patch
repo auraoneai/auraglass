@@ -1,0 +1,11 @@
+--- a/node_modules/@react-types/shared/src/dom.d.ts
++++ b/node_modules/@react-types/shared/src/dom.d.ts
+@@ -72,7 +72,7 @@
+    * The element's unique identifier. See
+    * [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id).
+    */
+-  id?: string;
++  id?: string | undefined;
+ }
+ 
+ export interface FocusableDOMProps extends DOMProps {
