@@ -1,0 +1,1278 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "homepage": "https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/",
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "css": "@import \"aura-glass/styles.css\" layer(ag);",
+      "cssVars": {
+        "dark": {
+          "--background": "var(--ag-color-canvas, var(--ag-surface-fill))",
+          "--border": "var(--ag-surface-rim)",
+          "--foreground": "var(--ag-on-surface)",
+          "--muted": "var(--ag-on-surface-muted)",
+          "--primary": "var(--ag-surface-fill)",
+          "--primary-foreground": "var(--ag-on-surface)",
+          "--radius": "var(--ag-surface-radius)",
+          "--ring": "var(--ag-focus-outer)"
+        },
+        "light": {
+          "--background": "var(--ag-color-canvas, var(--ag-surface-fill))",
+          "--border": "var(--ag-surface-rim)",
+          "--foreground": "var(--ag-on-surface)",
+          "--muted": "var(--ag-on-surface-muted)",
+          "--primary": "var(--ag-surface-fill)",
+          "--primary-foreground": "var(--ag-on-surface)",
+          "--radius": "var(--ag-surface-radius)",
+          "--ring": "var(--ag-focus-outer)"
+        },
+        "theme": {
+          "radius": "var(--ag-surface-radius)"
+        }
+      },
+      "dependencies": [
+        "aura-glass@^5"
+      ],
+      "description": "AuraGlass 5.0 design system base — package dependency, layer import and shadcn variable bridge generated from the token manifest.",
+      "files": [
+        {
+          "content": "export { cn } from 'aura-glass';\n",
+          "path": "lib/auraglass.ts",
+          "target": "lib/auraglass.ts",
+          "type": "registry:item"
+        }
+      ],
+      "meta": {
+        "auraglass": {
+          "client": false,
+          "components": [],
+          "ga": true,
+          "minVersion": "5.0.0",
+          "owner": "PLAT",
+          "surface": "base"
+        }
+      },
+      "name": "auraglass",
+      "registryDependencies": [],
+      "title": "AuraGlass",
+      "type": "registry:base"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Thread + Composer + UsageMeter + ProviderErrorState; chat route is consumer-owned (interim harness under ci/surf/ai-sdk).",
+      "files": [
+        {
+          "content": "/* ai-workspace (REQ-SURF-172): the AI chat page — Thread + Composer + StatusBar\n * usage + ProviderErrorState, wired to a consumer route (the interim route\n * lives at ci/surf/ai-sdk/ai-workspace/app/api/chat/route.ts until\n * contract/ai-sdk-devdeps lands). The library makes no model call itself. */\n'use client';\nimport * as React from 'react';\nimport { Composer, ProviderErrorState, Thread, UsageMeter, type AgMessage } from 'aura-glass/ai';\nimport { MESSAGES } from './fixtures';\n\nexport interface AiWorkspaceProps {\n  initialMessages?: AgMessage[];\n  /** Consumer submit handler — e.g. app/api/chat via Kiro Prism. */\n  onSubmit?: (payload: { text: string; files: File[] }) => void;\n  status?: 'idle' | 'streaming' | 'error';\n}\n\nexport function AiWorkspace({ initialMessages = MESSAGES, onSubmit, status = 'idle' }: AiWorkspaceProps) {\n  const [messages, setMessages] = React.useState<AgMessage[]>(initialMessages);\n  const [error, setError] = React.useState(false);\n  return (\n    <div data-ag-part=\"ai-workspace\" className=\"ag-ai-workspace\" style={{ display: 'grid', gridTemplateRows: 'auto 1fr auto', blockSize: '100%' }}>\n      <header style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 1rem' }}>\n        <strong>Assistant</strong>\n        <UsageMeter usage={{ inputTokens: 1820, contextWindow: 4096 }} />\n      </header>\n      {error ? (\n        <ProviderErrorState kind=\"rate-limit\" onRetry={() => setError(false)} />\n      ) : null}\n      <Thread messages={messages} />\n      <Composer\n        onSubmit={({ text, files }: { text: string; files: File[] }) => {\n          setMessages((m) => [\n            ...m,\n            { id: `u-${m.length + 1}`, role: 'user', parts: [{ type: 'text', text }] },\n          ]);\n          onSubmit?.({ text, files });\n        }}\n      />\n    </div>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "/* ai-workspace fixtures — deterministic messages over the AgMessage model. */\nimport type { AgMessage } from 'aura-glass/ai';\n\nexport const MESSAGES: AgMessage[] = [\n  {\n    id: 'w1',\n    role: 'user',\n    parts: [{ type: 'text', text: 'Draft a release note for the data workspace block.' }],\n    metadata: { createdAt: '2026-10-05T09:00:00Z' },\n  },\n  {\n    id: 'w2',\n    role: 'assistant',\n    parts: [\n      { type: 'reasoning', text: 'The block combines a collection sidebar, filter bar, table and stat cards.' },\n      {\n        type: `tool-list_collections`,\n        toolCallId: 't1',\n        state: 'output-available',\n        input: { scope: 'workspace' },\n        output: { collections: ['live', 'archived'] },\n      },\n      { type: 'step-start' },\n      { type: 'text', text: 'Here is a draft release note for the data workspace.' },\n      { type: 'source-url', sourceId: 's1', url: 'https://docs.auraglass.dev/blocks/data-workspace', title: 'Data workspace block' },\n    ],\n    metadata: { createdAt: '2026-10-05T09:00:03Z' },\n  },\n];\n\nexport const STREAMING_MESSAGES: AgMessage[] = [\n  ...MESSAGES.slice(0, 1),\n  {\n    id: 'w3',\n    role: 'assistant',\n    parts: [{ type: 'text', text: 'Still drafting the note' }],\n    metadata: { createdAt: '2026-10-05T09:00:10Z' },\n  },\n];\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "ai-workspace",
+      "registryDependencies": [],
+      "title": "AI workspace",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "StatCard row + Sparkline + ChartFrame + Timeline.",
+      "files": [
+        {
+          "content": "/* analytics-dashboard (REQ-SURF-171): StatCard row + Sparkline + ChartFrame\n   + Timeline. */\nimport * as React from 'react';\nimport { ChartFrame, Sparkline, StatCard } from 'aura-glass/data';\nimport { Timeline } from 'aura-glass';\nimport { CHART_ROWS, EVENTS, SPARK, STATS } from './fixtures';\n\nexport function AnalyticsDashboard() {\n  return (\n    <div data-ag-part=\"analytics-dashboard\" className=\"ag-analytics-dashboard\" style={{ display: 'grid', gap: '1rem' }}>\n      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>\n        {STATS.map((s) => (\n          <StatCard key={s.label} label={s.label} value={s.value} delta={s.delta} trendDirection=\"up-is-good\" sparkline={[...SPARK]} />\n        ))}\n      </div>\n      <Sparkline data={[...SPARK]} label=\"Weekly active\" variant=\"area\" />\n      <ChartFrame title=\"Product revenue\" data={[...CHART_ROWS]} series={[{ key: 'alpha', label: 'Alpha' }, { key: 'beta', label: 'Beta' }]} x={{ key: 'm', label: 'Month' }}>\n        {(ctx: import('aura-glass/data').ChartContext<typeof CHART_ROWS[number]>) => (\n          <svg width=\"100%\" height={ctx.height} role=\"img\" aria-label=\"Revenue chart\">\n            {ctx.visibleSeries.map((s: { key: string; label: string }) => (\n              <polyline key={s.key} fill=\"none\" stroke={ctx.color(s.key)} strokeWidth={2}\n                points={ctx.data.map((d: (typeof CHART_ROWS)[number], i: number) => `${(i + 0.5) * (640 / ctx.data.length)},${220 - ((d as unknown as Record<string, number>)[s.key] ?? 0) * 2}`).join(' ')} />\n            ))}\n          </svg>\n        )}\n      </ChartFrame>\n      <Timeline items={[...EVENTS]} timeFormat=\"absolute\" />\n    </div>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "/* analytics-dashboard fixtures — deterministic values only. */\nexport const STATS = [\n  { label: 'Revenue', value: 128430, delta: 0.125 },\n  { label: 'Signups', value: 1932, delta: -0.04 },\n  { label: 'Churn', value: 0.9, delta: -0.12 },\n] as const;\n\nexport const SPARK = [4, 6, 5, 8, 9, 7, 11, 12] as const;\n\nexport const CHART_ROWS = [\n  { m: 'Jan', alpha: 30, beta: 50 },\n  { m: 'Feb', alpha: 55, beta: 40 },\n  { m: 'Mar', alpha: 42, beta: 70 },\n  { m: 'Apr', alpha: 66, beta: 58 },\n];\n\nexport const EVENTS = [\n  { id: 'e1', timestamp: '2026-10-05T09:00:00Z', title: 'Deploy 4.9.2 shipped' },\n  { id: 'e2', timestamp: '2026-10-06T12:30:00Z', title: 'Alert: p99 latency over 400ms' },\n  { id: 'e3', timestamp: '2026-10-07T08:15:00Z', title: 'Weekly report generated' },\n];\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "analytics-dashboard",
+      "registryDependencies": [],
+      "title": "Analytics dashboard",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "The GA application frame — AppShell with sidebar navigation, top bar, status bar and a docked inspector.",
+      "files": [
+        {
+          "content": "/* app-frame (SURF-102, SC-32): the GA application block — AppShell composed\n   with sidebar navigation, top bar, status bar and a docked inspector.\n   Server-renderable; the drawer/toggle islands light up on hydration. */\nimport * as React from 'react';\nimport {\n  AppShell,\n  Sidebar,\n  TopBar,\n  StatusBar,\n  Inspector,\n  AppShellSidebarToggle,\n  AppShellInspectorToggle,\n} from 'aura-glass/app-shell';\nimport { APP_NAV, APP_TITLE, STATUS_TEXT } from './fixtures';\n\nexport function AppFrame({ children }: { children?: React.ReactNode }) {\n  return (\n    <AppShell.Root>\n      <TopBar.Root>\n        <TopBar.Leading>\n          <AppShellSidebarToggle />\n          <strong>{APP_TITLE}</strong>\n        </TopBar.Leading>\n        <TopBar.Trailing>\n          <AppShellInspectorToggle />\n        </TopBar.Trailing>\n      </TopBar.Root>\n      <Sidebar.Root labels={{ navigation: 'Primary' }}>\n        <Sidebar.Nav aria-label=\"Primary\">\n          {APP_NAV.map((item) => (\n            <Sidebar.Item key={item.id} href={item.href} current={item.id === 'overview'}>\n              {item.label}\n            </Sidebar.Item>\n          ))}\n        </Sidebar.Nav>\n      </Sidebar.Root>\n      <AppShell.Main>{children}</AppShell.Main>\n      <Inspector.Root aria-label=\"Details\">\n        <Inspector.Header title=\"Details\" />\n        <Inspector.Content>\n          <Inspector.Section title=\"Summary\" defaultOpen>\n            <p>Select a row to inspect it.</p>\n          </Inspector.Section>\n        </Inspector.Content>\n      </Inspector.Root>\n      <StatusBar.Root>{STATUS_TEXT}</StatusBar.Root>\n    </AppShell.Root>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "/* app-frame fixtures — deterministic values only. */\nexport const APP_NAV = [\n  { id: 'overview', href: '#overview', label: 'Overview' },\n  { id: 'reports', href: '#reports', label: 'Reports' },\n  { id: 'settings', href: '#settings', label: 'Settings' },\n] as const;\n\nexport const APP_TITLE = 'Acme Console';\nexport const STATUS_TEXT = 'Synced 2m ago';\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "app-frame",
+      "registryDependencies": [],
+      "title": "App frame",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Server-paginated audit Table + FilterBar + DateRangePicker window (5.2).",
+      "files": [
+        {
+          "content": "export { AuditLog } from './AuditLogPage';\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "/* audit-log fixtures — deterministic values only (5.2 block, REQ-SURF-178). */\nexport interface AuditEvent { id: string; at: string; actor: string; action: string; target: string; ip: string }\n\nexport const EVENTS: AuditEvent[] = Array.from({ length: 24 }, (_, i) => ({\n  id: `evt-${String(i + 1).padStart(3, '0')}`,\n  at: `2026-10-0${(i % 7) + 1}T0${i % 9}:15:00Z`,\n  actor: ['mira', 'jon', 'priya', 'system'][i % 4]!,\n  action: ['user.invited', 'key.rotated', 'role.changed', 'export.created'][i % 4]!,\n  target: `subject-${(i % 6) + 1}`,\n  ip: `10.0.0.${i + 2}`,\n}));\n\nexport const FIELDS = [\n  { id: 'actor', label: 'Actor', type: 'enum' as const, options: [{ value: 'mira', label: 'Mira' }, { value: 'jon', label: 'Jon' }, { value: 'priya', label: 'Priya' }, { value: 'system', label: 'System' }] },\n  { id: 'action', label: 'Action', type: 'enum' as const, options: [{ value: 'user.invited', label: 'User.invited' }, { value: 'key.rotated', label: 'Key.rotated' }, { value: 'role.changed', label: 'Role.changed' }, { value: 'export.created', label: 'Export.created' }] },\n];\n\nexport const TOTAL_EVENTS = 183;\nexport const PAGE_SIZE = 10;\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "audit-log",
+      "registryDependencies": [],
+      "title": "Audit log",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass@^5"
+      ],
+      "description": "Sign-in / sign-up / password-reset card on the AuraGlass field grammar (replaces the 4.x auth surfaces).",
+      "files": [
+        {
+          "content": "// registry/blocks/auth — PLAT-358. Sign-in / sign-up / reset flows on the\n// CMP field grammar (replaces the 4.x auth recipe surfaces). All data comes\n// in by props; the block renders a token-only card inside a container-query\n// shell so it adapts without viewport classes.\nimport { useState } from 'react';\nimport {\n  Button, Card, Link, Separator, Text, TextField,\n} from 'aura-glass';\n\nexport type AuthFlow = 'sign-in' | 'sign-up' | 'reset';\n\nexport interface AuthBlockProps {\n  flow?: AuthFlow;\n  defaultFlow?: AuthFlow;\n  onFlowChange?: (flow: AuthFlow) => void;\n  /** Called with the submitted credentials. Async errors surface inline. */\n  onSubmit?: (values: { flow: AuthFlow; email: string; password?: string; name?: string }) => void | Promise<void>;\n  /** Optional SSO providers rendered above the form. */\n  providers?: readonly { id: string; label: string }[];\n  onProvider?: (id: string) => void;\n  loading?: boolean;\n  error?: string;\n}\n\nconst COPY: Record<AuthFlow, { title: string; action: string; hint: string }> = {\n  'sign-in': { title: 'Sign in', action: 'Sign in', hint: 'Use your account email.' },\n  'sign-up': { title: 'Create account', action: 'Sign up', hint: 'Start your workspace.' },\n  reset: { title: 'Reset password', action: 'Send reset link', hint: 'We email a sign-in link.' },\n};\n\nfunction useControlled<T>(value: T | undefined, fallback: T, onChange?: (v: T) => void): [T, (v: T) => void] {\n  const [internal, setInternal] = useState(fallback);\n  const current = value ?? internal;\n  return [current, (v) => { setInternal(v); onChange?.(v); }];\n}\n\nexport function AuthBlock({\n  flow, defaultFlow = 'sign-in', onFlowChange, onSubmit,\n  providers, onProvider, loading = false, error,\n}: AuthBlockProps) {\n  const [current, setCurrent] = useControlled(flow, defaultFlow, onFlowChange);\n  const [localError, setLocalError] = useState<string>();\n  const copy = COPY[current];\n  const submit = async (e: React.FormEvent<HTMLFormElement>) => {\n    e.preventDefault();\n    const data = new FormData(e.currentTarget);\n    try {\n      setLocalError(undefined);\n      await onSubmit?.({\n        flow: current,\n        email: String(data.get('email') ?? ''),\n        password: current === 'reset' ? undefined : String(data.get('password') ?? ''),\n        name: current === 'sign-up' ? String(data.get('name') ?? '') : undefined,\n      });\n    } catch (err) {\n      setLocalError(err instanceof Error ? err.message : 'Something went wrong.');\n    }\n  };\n\n  return (\n    <Card.Root data-ag-part=\"root\" className=\"@container\">\n      <Card.Header data-ag-part=\"header\">\n        <Card.Title>{copy.title}</Card.Title>\n        <Text muted>{copy.hint}</Text>\n      </Card.Header>\n      <Card.Body data-ag-part=\"body\">\n        {providers?.length ? (\n          <div data-ag-part=\"providers\" className=\"grid gap-2 @sm:grid-cols-2\">\n            {providers.map((p) => (\n              <Button key={p.id} onClick={() => onProvider?.(p.id)} disabled={loading}>\n                {p.label}\n              </Button>\n            ))}\n            <div data-ag-part=\"providers-separator\" className=\"grid items-center gap-2\">\n              <Separator decorative />\n              <Text size=\"sm\" muted>or</Text>\n            </div>\n          </div>\n        ) : null}\n        <form data-ag-part=\"form\" onSubmit={submit} className=\"grid gap-4\">\n          {current === 'sign-up' ? <TextField label=\"Name\" name=\"name\" autoComplete=\"name\" required /> : null}\n          <TextField label=\"Email\" name=\"email\" type=\"email\" autoComplete=\"email\" placeholder=\"user@example.com\" required />\n          {current !== 'reset' ? (\n            <TextField label=\"Password\" name=\"password\" type=\"password\"\n              autoComplete={current === 'sign-in' ? 'current-password' : 'new-password'} required />\n          ) : null}\n          {error || localError ? <Text intent=\"danger\" size=\"sm\">{error ?? localError}</Text> : null}\n          <Button data-ag-part=\"submit\" type=\"submit\" variant=\"identity\" loading={loading}>\n            {copy.action}\n          </Button>\n        </form>\n      </Card.Body>\n      <Card.Footer data-ag-part=\"footer\">\n        {current === 'sign-in' ? (\n          <>\n            <Link href=\"#\" onClick={(e) => { e.preventDefault(); setCurrent('reset'); }}>Forgot password?</Link>\n            <Link href=\"#\" onClick={(e) => { e.preventDefault(); setCurrent('sign-up'); }}>Create account</Link>\n          </>\n        ) : (\n          <Link href=\"#\" onClick={(e) => { e.preventDefault(); setCurrent('sign-in'); }}>Back to sign in</Link>\n        )}\n      </Card.Footer>\n    </Card.Root>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "// fixtures.ts — deterministic sample data for the auth block (no clocks,\n// no randomness, no network — contract §3.3 block file contract).\nimport type { AuthBlockProps } from './index';\n\nexport const authProviders = [\n  { id: 'github', label: 'Continue with GitHub' },\n  { id: 'google', label: 'Continue with Google' },\n];\n\nexport const authProps: AuthBlockProps = {\n  defaultFlow: 'sign-in',\n  providers: authProviders,\n};\n\nexport const signUpProps: AuthBlockProps = {\n  defaultFlow: 'sign-up',\n  providers: authProviders,\n};\n\nexport const resetProps: AuthBlockProps = {\n  defaultFlow: 'reset',\n};\n\nexport const errorProps: AuthBlockProps = {\n  defaultFlow: 'sign-in',\n  error: 'Invalid email or password.',\n};\n\nexport const loadingProps: AuthBlockProps = {\n  defaultFlow: 'sign-in',\n  loading: true,\n};\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "meta": {
+        "auraglass": {
+          "certified": null,
+          "client": true,
+          "components": [
+            "Button",
+            "Card",
+            "Field",
+            "Link",
+            "Separator",
+            "Text",
+            "TextField"
+          ],
+          "ga": true,
+          "minVersion": "5.0.0",
+          "owner": "PLAT",
+          "replaces": [
+            "login-form"
+          ],
+          "surface": "block"
+        }
+      },
+      "name": "auth",
+      "registryDependencies": [
+        "auraglass"
+      ],
+      "title": "Auth",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Controlled cart UI — line items, quantity steppers, localized totals.",
+      "files": [
+        {
+          "content": "// registry/blocks/commerce-cart — REQ-SURF-176 (5.1 scope).\n// Controlled cart UI: items, currency and locale arrive by props; totals are\n// formatted with Intl.NumberFormat — no discounts, tax, or fetch logic.\n// Parts (SURF-585/-586/-587): ProductCard, LineItem, CartSummary.\nimport { Badge, Card } from 'aura-glass';\nimport { CartSummary } from './CartSummary';\nimport { LineItem, type LineItemData } from './LineItem';\n\nexport type CartItem = LineItemData;\n\nexport interface CommerceCartProps {\n  items: CartItem[];\n  /** BCP-47 tag, e.g. 'en-US', 'de-DE' */\n  locale?: string;\n  /** ISO 4217, e.g. 'USD', 'EUR', 'JPY' */\n  currency?: string;\n  shippingAmount?: number;\n  onQuantityChange?: (id: string, quantity: number) => void;\n  onCheckout?: () => void;\n  emptyLabel?: string;\n}\n\nexport function CommerceCart({\n  items,\n  locale = 'en-US',\n  currency = 'USD',\n  shippingAmount = 0,\n  onQuantityChange,\n  onCheckout,\n  emptyLabel = 'Your cart is empty',\n}: CommerceCartProps) {\n  const subtotal = items.reduce((s, i) => s + i.unitAmount * i.quantity, 0);\n  const total = subtotal + (items.length ? shippingAmount : 0);\n\n  return (\n    <Card.Root data-ag-part=\"root\">\n      <Card.Header data-ag-part=\"header\">\n        <Card.Title>Cart</Card.Title>\n        <Badge>{items.reduce((s, i) => s + i.quantity, 0)} items</Badge>\n      </Card.Header>\n      <Card.Body data-ag-part=\"body\">\n        {items.length === 0 && <p data-ag-part=\"empty\">{emptyLabel}</p>}\n        <ul data-ag-part=\"lines\" style={{ listStyle: 'none', margin: 0, padding: 0 }}>\n          {items.map((item) => (\n            <LineItem\n              key={item.id}\n              item={item}\n              currency={currency}\n              locale={locale}\n              onQuantityChange={onQuantityChange}\n            />\n          ))}\n        </ul>\n      </Card.Body>\n      {items.length > 0 && (\n        <CartSummary\n          subtotal={total - shippingAmount}\n          shippingAmount={shippingAmount}\n          currency={currency}\n          locale={locale}\n          onCheckout={onCheckout}\n        />\n      )}\n    </Card.Root>\n  );\n}\n\nexport { CartSummary } from './CartSummary';\nexport { LineItem, type LineItemData, type LineItemProps } from './LineItem';\nexport { ProductCard, type ProductCardProps } from './ProductCard';\nexport { formatMoney } from './format-money';\nexport default CommerceCart;\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "// fixtures.ts — deterministic sample data for commerce-cart (no clocks,\n// no randomness, no network — contract §3.3 block file contract).\nimport type { CartItem } from './index';\n\nexport const cartItems: CartItem[] = [\n  { id: 'sku-atlas', title: 'Atlas chair', unitAmount: 499, quantity: 1 },\n  { id: 'sku-nimbus', title: 'Nimbus lamp', unitAmount: 89.5, quantity: 2 },\n  { id: 'sku-vega', title: 'Vega desk mat', unitAmount: 24, quantity: 1 },\n];\n\nexport const cartProps = {\n  items: cartItems,\n  locale: 'en-US',\n  currency: 'USD',\n  shippingAmount: 12,\n};\n\nexport const cartPropsDE = {\n  items: cartItems,\n  locale: 'de-DE',\n  currency: 'EUR',\n  shippingAmount: 12,\n};\n\nexport const cartPropsJP = {\n  items: cartItems,\n  locale: 'ja-JP',\n  currency: 'JPY',\n  shippingAmount: 0,\n};\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "commerce-cart",
+      "registryDependencies": [
+        "card",
+        "button",
+        "badge",
+        "separator"
+      ],
+      "title": "Commerce cart",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Step-gated checkout shell — shipping, payment, review — with grammar-triple step control.",
+      "files": [
+        {
+          "content": "// registry/blocks/commerce-checkout — REQ-SURF-176 (5.1 scope).\n// Step-gated checkout shell: shipping → payment → review. Steps follow the\n// §4.9 grammar triple (step/defaultStep/onStepChange); all data by props.\n// Parts: CheckoutSteps (SURF-589).\nimport { Button, Card, Separator, TextField } from 'aura-glass';\nimport { useState } from 'react';\nimport type { CartItem } from '../commerce-cart/index';\nimport { formatMoney } from '../commerce-cart/index';\nimport { CheckoutSteps } from './CheckoutSteps';\nimport { CHECKOUT_STEPS, type CheckoutStep } from './steps';\n\nexport interface CommerceCheckoutProps {\n  items: CartItem[];\n  locale?: string;\n  currency?: string;\n  shippingAmount?: number;\n  step?: CheckoutStep['id'];\n  defaultStep?: CheckoutStep['id'];\n  onStepChange?: (step: CheckoutStep['id']) => void;\n  onSubmitOrder?: () => void;\n}\n\nexport function CommerceCheckout({\n  items,\n  locale = 'en-US',\n  currency = 'USD',\n  shippingAmount = 0,\n  step,\n  defaultStep = 'shipping',\n  onStepChange,\n  onSubmitOrder,\n}: CommerceCheckoutProps) {\n  // Uncontrolled fallback keeps the grammar triple valid when `step` is unset.\n  const [internal, setInternal] = useControlled(step, defaultStep, onStepChange);\n  const idx = CHECKOUT_STEPS.findIndex((s) => s.id === internal);\n  const fmt = (n: number) => formatMoney(n, currency, locale);\n  const subtotal = items.reduce((s, i) => s + i.unitAmount * i.quantity, 0);\n\n  return (\n    <Card.Root data-ag-part=\"root\">\n      <Card.Header data-ag-part=\"header\">\n        <Card.Title>Checkout</Card.Title>\n        <CheckoutSteps steps={CHECKOUT_STEPS} current={internal} />\n      </Card.Header>\n      <Card.Body data-ag-part=\"body\">\n        {internal === 'shipping' && (\n          <div data-ag-part=\"shipping-form\">\n            <TextField label=\"Full name\" name=\"name\" />\n            <TextField label=\"Street\" name=\"street\" />\n            <TextField label=\"City\" name=\"city\" />\n          </div>\n        )}\n        {internal === 'payment' && (\n          <div data-ag-part=\"payment-form\">\n            <TextField label=\"Card number\" name=\"card\" />\n            <TextField label=\"Expiry\" name=\"expiry\" placeholder=\"MM/YY\" />\n          </div>\n        )}\n        {internal === 'review' && (\n          <ul data-ag-part=\"review-lines\" style={{ listStyle: 'none', margin: 0, padding: 0 }}>\n            {items.map((i) => (\n              <li key={i.id} data-ag-part=\"line\">\n                {i.title} × {i.quantity} — {fmt(i.unitAmount * i.quantity)}\n              </li>\n            ))}\n            <Separator />\n            <li data-ag-part=\"review-total\"><strong>Total {fmt(subtotal + shippingAmount)}</strong></li>\n          </ul>\n        )}\n      </Card.Body>\n      <Card.Footer data-ag-part=\"footer\">\n        <Button\n          data-ag-part=\"back\"\n          disabled={idx === 0}\n          onClick={() => setInternal(CHECKOUT_STEPS[idx - 1]!.id)}\n        >Back</Button>\n        {internal !== 'review' ? (\n          <Button data-ag-part=\"next\" onClick={() => setInternal(CHECKOUT_STEPS[idx + 1]!.id)}>Continue</Button>\n        ) : (\n          <Button data-ag-part=\"place-order\" onClick={onSubmitOrder}>Place order</Button>\n        )}\n      </Card.Footer>\n    </Card.Root>\n  );\n}\n\n// Minimal controlled/uncontrolled helper — mirrors the §4.9 triple.\nfunction useControlled<T>(value: T | undefined, fallback: T, onChange?: (v: T) => void) {\n  const [inner, setInner] = useState(fallback);\n  const current = value === undefined ? inner : value;\n  return [\n    current,\n    (next: T) => {\n      if (value === undefined) setInner(next);\n      onChange?.(next);\n    },\n  ] as const;\n}\n\nexport { CheckoutSteps } from './CheckoutSteps';\nexport { CHECKOUT_STEPS, type CheckoutStep } from './steps';\nexport default CommerceCheckout;\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "// fixtures.ts — deterministic sample data for commerce-checkout.\nimport { cartItems, cartProps } from '../commerce-cart/fixtures';\n\nexport const checkoutProps = {\n  items: cartItems,\n  locale: cartProps.locale,\n  currency: cartProps.currency,\n  shippingAmount: cartProps.shippingAmount,\n  defaultStep: 'shipping' as const,\n};\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "commerce-checkout",
+      "registryDependencies": [
+        "card",
+        "button",
+        "text-field",
+        "separator",
+        "commerce-cart"
+      ],
+      "title": "Commerce checkout",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Collection sidebar (TreeView) + FilterBar + Table + StatCards + Pagination.",
+      "files": [
+        {
+          "content": "/* data-workspace (REQ-SURF-171): FilterBar + TreeView collection sidebar +\n   Table + StatCard summary + Pagination. Every input wired to state. */\n'use client';\nimport * as React from 'react';\nimport { FilterBar, StatCard, Table, TreeView, type FilterGroup } from 'aura-glass/data';\nimport { Pagination } from 'aura-glass';\nimport { COLLECTIONS, FILTER_FIELDS, ROWS, type Row } from './fixtures';\n\nconst COLUMNS = [\n  { accessorKey: 'name', header: 'Name' },\n  { accessorKey: 'status', header: 'Status' },\n  { accessorKey: 'owner', header: 'Owner' },\n  { accessorKey: 'views', header: 'Views', meta: { numeric: true } },\n  { accessorKey: 'updated', header: 'Updated' },\n];\n\nconst treeItems = COLLECTIONS.map((c) => ({ key: c.id, label: c.label }));\n\nexport function DataWorkspace() {\n  const [model, setModel] = React.useState<FilterGroup>({ kind: 'group', id: 'root', combinator: 'and', children: [] });\n  const [page, setPage] = React.useState(0);\n  const totalViews = ROWS.reduce((s, r) => s + r.views, 0);\n  return (\n    <div data-ag-part=\"data-workspace\" className=\"ag-data-workspace\" style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: '1rem' }}>\n      <aside>\n        <TreeView items={treeItems} aria-label=\"Collections\" preset=\"files\" defaultExpandedKeys={['all']} />\n      </aside>\n      <section>\n        <div style={{ display: 'flex', gap: '0.75rem', marginBlockEnd: '0.75rem' }}>\n          <StatCard label=\"Records\" value={ROWS.length} />\n          <StatCard label=\"Total views\" value={totalViews} />\n          <StatCard label=\"Live\" value={ROWS.filter((r) => r.status === 'live').length} />\n        </div>\n        <FilterBar\n          schema={FILTER_FIELDS}\n          value={model}\n          onValueChange={(m: FilterGroup) => { setModel(m); setPage(0); }}\n          resultCount={ROWS.length}\n        />\n        <Table data={ROWS} columns={COLUMNS} getRowId={(r: Row) => r.id} />\n        <Pagination.Root aria-label=\"Pages\" pageCount={Math.ceil(ROWS.length / 10)}>\n          <Pagination.Previous href=\"#prev\" disabled={page === 0} />\n          <Pagination.Item page={1} current={page === 0} href=\"#p1\">1</Pagination.Item>\n          <Pagination.Next href=\"#next\" disabled />\n        </Pagination.Root>\n      </section>\n    </div>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "/* data-workspace fixtures — deterministic values only. */\nimport type { FilterField } from 'aura-glass/data';\n\nexport interface Row { id: string; name: string; status: 'live' | 'draft' | 'archived'; updated: string; owner: string; views: number }\n\nexport const COLLECTIONS = [\n  { id: 'all', label: 'All records' },\n  { id: 'live', label: 'Live' },\n  { id: 'archived', label: 'Archived' },\n] as const;\n\nexport const FILTER_FIELDS: FilterField[] = [\n  { id: 'status', label: 'Status', type: 'enum', options: [{ value: 'live', label: 'Live' }, { value: 'draft', label: 'Draft' }, { value: 'archived', label: 'Archived' }] },\n  { id: 'owner', label: 'Owner', type: 'text' },\n  { id: 'views', label: 'Views', type: 'number' },\n];\n\nexport const ROWS: Row[] = [\n  { id: 'r1', name: 'Pricing page', status: 'live', updated: '2026-10-01T09:00:00Z', owner: 'mira', views: 40210 },\n  { id: 'r2', name: 'Onboarding flow', status: 'draft', updated: '2026-10-03T14:20:00Z', owner: 'jon', views: 0 },\n  { id: 'r3', name: 'Legacy banner', status: 'archived', updated: '2026-08-19T11:00:00Z', owner: 'mira', views: 1204 },\n  { id: 'r4', name: 'Docs search', status: 'live', updated: '2026-10-05T16:45:00Z', owner: 'priya', views: 18930 },\n];\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "data-workspace",
+      "registryDependencies": [],
+      "title": "Data workspace",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass"
+      ],
+      "description": "Media detail page: Backdrop photo + consumer-owned <video> with captions, compound MediaControls, ImageViewer gallery — tone sampled from owned pixels.",
+      "files": [
+        {
+          "content": "/* media-viewer (SURF-503): media detail page — Backdrop, consumer-owned media\n * element + useMediaElement, compound MediaControls, ImageViewer gallery, and\n * the transcript cues wired to the same handle. */\n'use client';\nimport * as React from 'react';\nimport { Backdrop } from 'aura-glass/backdrops';\nimport { ImageViewer, MediaControls, useMediaElement } from 'aura-glass/media';\nimport { ITEM_IMAGES, ITEM_TITLE, TRACKS } from './fixtures';\n\nexport interface MediaViewerProps {\n  src?: string;\n  title?: string;\n}\n\nexport function MediaViewer({ src = TRACKS.video, title = ITEM_TITLE }: MediaViewerProps) {\n  const ref = React.useRef<HTMLVideoElement | null>(null);\n  const media = useMediaElement(ref, { sampleTone: true });\n  return (\n    <Backdrop preset=\"photo\" src={ITEM_IMAGES[0]!.src} tone=\"dark\" data-ag-part=\"media-viewer\">\n      <main style={{ padding: '4rem 2rem', display: 'grid', gap: '1.5rem' }}>\n        <h1>{title}</h1>\n        <div data-ag-media-root style={{ maxInlineSize: '48rem' }}>\n          <video ref={ref} src={src} crossOrigin=\"anonymous\" playsInline aria-label={title}\n            style={{ inlineSize: '100%', borderRadius: '0.75rem' }}>\n            <track kind=\"captions\" src={TRACKS.captions} srcLang=\"en\" label=\"English\" default />\n          </video>\n          <MediaControls.Root media={media}>\n            <MediaControls.PlayButton />\n            <MediaControls.Scrubber />\n            <MediaControls.Time />\n            <MediaControls.Spacer />\n            <MediaControls.Volume />\n            <MediaControls.Mute />\n            <MediaControls.Fullscreen />\n          </MediaControls.Root>\n        </div>\n        <section aria-label=\"Screenshots\">\n          <ImageViewer.Root items={ITEM_IMAGES}>\n            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>\n              {ITEM_IMAGES.map((it) => (\n                <ImageViewer.Trigger key={it.id} id={it.id} className=\"ag-media-thumb\">\n                  <img src={it.src} alt={it.alt} loading=\"lazy\" style={{ inlineSize: '10rem', borderRadius: '0.5rem' }} />\n                </ImageViewer.Trigger>\n              ))}\n            </div>\n            <ImageViewer.Popup />\n          </ImageViewer.Root>\n        </section>\n      </main>\n    </Backdrop>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "/** Fixture data only — real consumers pass their own media. */\nexport const ITEM_TITLE = 'Sisyphus — Big Buck Bunny trailer';\nexport const TRACKS = {\n  video: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',\n  captions: '/fixtures/captions-en.vtt',\n};\nexport const ITEM_IMAGES = [\n  { id: 'shot-1', src: 'https://picsum.photos/seed/ag-mv1/640/360', alt: 'Bunny waking in the meadow' },\n  { id: 'shot-2', src: 'https://picsum.photos/seed/ag-mv2/640/360', alt: 'Bunny rolling down the hill' },\n  { id: 'shot-3', src: 'https://picsum.photos/seed/ag-mv3/640/360', alt: 'Butterflies over the grass' },\n];\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        },
+        {
+          "content": "import { MediaViewer } from './index';\n\nexport default function MediaViewerPage() {\n  return <MediaViewer />;\n}\n",
+          "path": "page.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "media-viewer",
+      "registryDependencies": [],
+      "title": "Media viewer",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "MobileShell with a bottom TabBar and a settings sheet — one-hand reachable controls at coarse pointers.",
+      "files": [
+        {
+          "content": "/* mobile-settings (SURF-131, §3.3): MobileShell + TabBar + CMP Sheet +\n   MAT GlassPreferencesPanel seam. Deterministic fixtures; every primary\n   control rides the 44px touch target from --ag-touch-target. */\nimport * as React from 'react';\nimport { MobileShell } from 'aura-glass/app-shell';\nimport { TabBar } from 'aura-glass';\nimport { SETTINGS_TABS } from './fixtures';\n\nexport function MobileSettings() {\n  return (\n    <MobileShell\n      topBar={<strong>Settings</strong>}\n      tabBar={\n        <TabBar.Root aria-label=\"Settings sections\">\n          {SETTINGS_TABS.map((tab) => (\n            <TabBar.Item key={tab.id} href={`#${tab.id}`} current={tab.id === 'general'}>\n              {tab.label}\n            </TabBar.Item>\n          ))}\n        </TabBar.Root>\n      }\n    >\n      <section aria-labelledby=\"settings-general\">\n        <h2 id=\"settings-general\">General</h2>\n        <p>Theme, haptics and transparency preferences.</p>\n      </section>\n    </MobileShell>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "/* mobile-settings fixtures — deterministic. */\nexport const SETTINGS_TABS = [\n  { id: 'general', label: 'General' },\n  { id: 'appearance', label: 'Appearance' },\n  { id: 'notifications', label: 'Notifications' },\n  { id: 'account', label: 'Account' },\n] as const;\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "mobile-settings",
+      "registryDependencies": [],
+      "title": "Mobile settings",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "aura-glass"
+      ],
+      "description": "GA block: confirm-delete AlertDialog, edit Dialog with form, bottom Sheet with detents, Popover filter, Menu/ContextMenu actions, Tooltip on IconButtons, Toast with undo.",
+      "files": [
+        {
+          "content": "'use client';\n/* CMP-346: registry block overlay-flows — the GA overlay block (SC-32). Covers:\n   confirm-delete AlertDialog, edit Dialog with form, bottom Sheet with detents,\n   Popover filter, Menu + ContextMenu row actions, Tooltip on IconButtons and a\n   Toast with undo — all on 5.0 flagships only. */\nimport * as React from 'react';\nimport { AlertDialog } from '../../../src/components/alert-dialog';\nimport { Dialog } from '../../../src/components/dialog';\nimport { Sheet } from '../../../src/components/sheet';\nimport { Popover } from '../../../src/components/popover';\nimport { Menu, Menubar, ContextMenu } from '../../../src/components/menu';\nimport { Tooltip } from '../../../src/components/tooltip';\nimport { Toast, useToast } from '../../../src/components/toast';\nimport { Button } from '../../../src/components/button';\nimport { IconButton } from '../../../src/components/icon-button';\nimport { Field } from '../../../src/components/field';\nimport { Select } from '../../../src/components/select';\nimport { TextField } from '../../../src/components/text-field';\nimport { CheckboxGroup, Checkbox } from '../../../src/components/checkbox';\nimport { rows, roles, contextMenuItems, type OverlayFlowsRow } from './fixtures';\n\nfunction RowActions({ row }: { row: OverlayFlowsRow }) {\n  return (\n    <Menu.Root>\n      <Menu.Trigger aria-label={`Actions for ${row.name}`}>\n        <Button variant=\"clear\">Actions</Button>\n      </Menu.Trigger>\n      <Menu.Portal>\n        <Menu.Positioner side=\"bottom\" align=\"end\">\n          <Menu.Popup>\n            <Menu.Item>Duplicate</Menu.Item>\n            <Menu.Item>Share</Menu.Item>\n            <Menu.Separator />\n            <Menu.Item data-ag-intent=\"danger\">Delete</Menu.Item>\n          </Menu.Popup>\n        </Menu.Positioner>\n      </Menu.Portal>\n    </Menu.Root>\n  );\n}\n\nfunction UndoToast() {\n  const t = useToast();\n  return (\n    <Button\n      onClick={() =>\n        t.add({\n          title: 'Row archived',\n          intent: 'info',\n          data: { undo: true },\n        })\n      }\n    >\n      Archive row (toast)\n    </Button>\n  );\n}\n\nexport function OverlayFlows() {\n  const [deleting, setDeleting] = React.useState<OverlayFlowsRow | null>(null);\n  const [editing, setEditing] = React.useState<OverlayFlowsRow | null>(null);\n  return (\n    <Toast.Provider>\n      <Toast.Viewport position=\"bottom-right\" />\n      <Tooltip.Provider>\n        <div data-ag-part=\"overlay-flows\" style={{ display: 'grid', gap: 16 }}>\n          <Menubar aria-label=\"Demo\">\n            <Menu.Root>\n              <Menu.Trigger>File</Menu.Trigger>\n              <Menu.Portal>\n                <Menu.Positioner side=\"bottom\" align=\"start\">\n                  <Menu.Popup>\n                    <Menu.Item>Export</Menu.Item>\n                    <Menu.Item>Import</Menu.Item>\n                  </Menu.Popup>\n                </Menu.Positioner>\n              </Menu.Portal>\n            </Menu.Root>\n          </Menubar>\n\n          <table>\n            <thead>\n              <tr><th>Name</th><th>Role</th><th>Last seen</th><th aria-label=\"Actions\" /></tr>\n            </thead>\n            <tbody>\n              {rows.map((r) => (\n                <ContextMenu.Root key={r.id}>\n                  <ContextMenu.Trigger render={<tr />}>\n                    <td>{r.name}</td>\n                    <td>{r.role}</td>\n                    <td>{r.lastSeen}</td>\n                    <td>\n                      <RowActions row={r} />\n                      <Tooltip.Root>\n                        <Tooltip.Trigger>\n                          <IconButton label={`Edit ${r.name}`} icon={<span aria-hidden>*</span>} onClick={() => setEditing(r)} />\n                        </Tooltip.Trigger>\n                        <Tooltip.Portal>\n                          <Tooltip.Positioner side=\"top\">\n                            <Tooltip.Popup>Edit row</Tooltip.Popup>\n                          </Tooltip.Positioner>\n                        </Tooltip.Portal>\n                      </Tooltip.Root>\n                      <Tooltip.Root>\n                        <Tooltip.Trigger>\n                          <IconButton label={`Delete ${r.name}`} icon={<span aria-hidden>x</span>} onClick={() => setDeleting(r)} />\n                        </Tooltip.Trigger>\n                        <Tooltip.Portal>\n                          <Tooltip.Positioner side=\"top\">\n                            <Tooltip.Popup>Delete row</Tooltip.Popup>\n                          </Tooltip.Positioner>\n                        </Tooltip.Portal>\n                      </Tooltip.Root>\n                    </td>\n                  </ContextMenu.Trigger>\n                  <ContextMenu.Portal>\n                    <ContextMenu.Positioner>\n                      <ContextMenu.Popup>\n                        {contextMenuItems.map((i) => (\n                          <ContextMenu.Item key={i.id}>{i.label}</ContextMenu.Item>\n                        ))}\n                      </ContextMenu.Popup>\n                    </ContextMenu.Positioner>\n                  </ContextMenu.Portal>\n                </ContextMenu.Root>\n              ))}\n            </tbody>\n          </table>\n\n          <UndoToast />\n\n          {/* confirm-delete AlertDialog */}\n          <AlertDialog.Root\n            intent=\"danger\"\n            open={deleting !== null}\n            onOpenChange={(o) => { if (!o) setDeleting(null); }}\n          >\n            <AlertDialog.Content>\n              <AlertDialog.Header>\n                <AlertDialog.Title>Delete {deleting?.name}?</AlertDialog.Title>\n                <AlertDialog.Description>This cannot be undone.</AlertDialog.Description>\n              </AlertDialog.Header>\n              <AlertDialog.Footer>\n                <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>\n                <AlertDialog.Action onClick={() => setDeleting(null)}>Delete</AlertDialog.Action>\n              </AlertDialog.Footer>\n            </AlertDialog.Content>\n          </AlertDialog.Root>\n\n          {/* edit Dialog with form */}\n          <Dialog.Root\n            open={editing !== null}\n            onOpenChange={(o) => { if (!o) setEditing(null); }}\n          >\n            <Dialog.Portal>\n              <Dialog.Backdrop />\n              <Dialog.Popup size=\"md\">\n                <Dialog.Header>\n                  <Dialog.Title>Edit {editing?.name}</Dialog.Title>\n                </Dialog.Header>\n                <Dialog.Body>\n                  <Field.Root>\n                    <Field.Label>Name</Field.Label>\n                    <Field.Control render={<input defaultValue={editing?.name} />} />\n                  </Field.Root>\n                  <Select.Root defaultValue={editing?.role}>\n                    <Select.Trigger placeholder=\"Role\" />\n                    <Select.Content>\n                      {roles.map((r) => <Select.Item key={r} value={r} label={r} />)}\n                    </Select.Content>\n                  </Select.Root>\n                </Dialog.Body>\n                <Dialog.Footer>\n                  <Dialog.Close>Cancel</Dialog.Close>\n                  <Dialog.Close data-ag-intent=\"primary\">Save</Dialog.Close>\n                </Dialog.Footer>\n              </Dialog.Popup>\n            </Dialog.Portal>\n          </Dialog.Root>\n\n          {/* bottom Sheet with detents */}\n          <Sheet.Root detents={[240, 0.5, 'full']}>\n            <Sheet.Trigger>Open details sheet</Sheet.Trigger>\n            <Sheet.Portal>\n              <Sheet.Backdrop />\n              <Sheet.Popup side=\"bottom\">\n                <Sheet.Handle />\n                <Sheet.Header><Sheet.Title>Details</Sheet.Title></Sheet.Header>\n                <Sheet.Body>\n                  <CheckboxGroup defaultValue={['a']} aria-label=\"Flags\">\n                    <Checkbox value=\"a\">Flag A</Checkbox>\n                    <Checkbox value=\"b\">Flag B</Checkbox>\n                  </CheckboxGroup>\n                </Sheet.Body>\n              </Sheet.Popup>\n            </Sheet.Portal>\n          </Sheet.Root>\n\n          {/* Popover filter */}\n          <Popover.Root>\n            <Popover.Trigger>Filter</Popover.Trigger>\n            <Popover.Portal>\n              <Popover.Positioner side=\"bottom\" align=\"start\">\n                <Popover.Popup>\n                  <Popover.Title>Filter rows</Popover.Title>\n                  <TextField label=\"Name contains\" />\n                  <Popover.Close>Apply</Popover.Close>\n                </Popover.Popup>\n              </Popover.Positioner>\n            </Popover.Portal>\n          </Popover.Root>\n        </div>\n      </Tooltip.Provider>\n    </Toast.Provider>\n  );\n}\nexport default OverlayFlows;\n",
+          "path": "index.tsx",
+          "target": "blocks/overlay-flows/index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "/* registry/blocks/overlay-flows fixtures — deterministic sample data (no\n   Math.random, no wall clock, no network per the block file contract). */\n\nexport interface OverlayFlowsRow {\n  id: string;\n  name: string;\n  role: string;\n  lastSeen: string;\n}\n\nexport const rows: OverlayFlowsRow[] = [\n  { id: 'u-001', name: 'Amara Osei', role: 'Admin', lastSeen: '2026-09-30' },\n  { id: 'u-002', name: 'Ben Iwata', role: 'Editor', lastSeen: '2026-10-01' },\n  { id: 'u-003', name: 'Cora Lindqvist', role: 'Viewer', lastSeen: '2026-10-02' },\n];\n\nexport const roles = ['Admin', 'Editor', 'Viewer'] as const;\n\nexport const contextMenuItems = [\n  { id: 'open', label: 'Open' },\n  { id: 'rename', label: 'Rename' },\n  { id: 'archive', label: 'Archive' },\n];\n",
+          "path": "fixtures.ts",
+          "target": "blocks/overlay-flows/fixtures.ts",
+          "type": "registry:block"
+        }
+      ],
+      "name": "overlay-flows",
+      "title": "Overlay Flows",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Roles x permissions Table with labelled Checkbox cells (5.2).",
+      "files": [
+        {
+          "content": "export { PermissionsMatrix } from './PermissionsMatrix';\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "/* permissions-matrix fixtures — deterministic values only (5.2 block). */\nexport const ROLES = ['Owner', 'Admin', 'Editor', 'Viewer'] as const;\nexport const PERMISSIONS = [\n  { id: 'project.read', label: 'Read project', description: 'View projects and their content' },\n  { id: 'project.write', label: 'Edit project', description: 'Change project settings and content' },\n  { id: 'billing.manage', label: 'Manage billing', description: 'Invoices, plans and payment methods' },\n  { id: 'members.invite', label: 'Invite members', description: 'Send invitations and assign roles' },\n] as const;\n\nexport const GRANTS: Record<string, string[]> = {\n  Owner: ['project.read', 'project.write', 'billing.manage', 'members.invite'],\n  Admin: ['project.read', 'project.write', 'members.invite'],\n  Editor: ['project.read', 'project.write'],\n  Viewer: ['project.read'],\n};\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "permissions-matrix",
+      "registryDependencies": [],
+      "title": "Permissions matrix",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Plan grid with localized prices and a controlled billing-period toggle.",
+      "files": [
+        {
+          "content": "// registry/blocks/pricing — REQ-SURF-176 (5.2 scope).\n// Plan grid: localized price formatting via Intl.NumberFormat, controlled\n// billing-period via the §4.9 grammar triple. No fetch, no timers.\n// Parts (SURF-591/-592): PricingTable, PlanComparison.\nimport { useState } from 'react';\nimport { PricingTable } from './PricingTable';\nimport type { PricingPlan } from './types';\n\nexport interface PricingProps {\n  plans: PricingPlan[];\n  locale?: string;\n  currency?: string;\n  period?: 'monthly' | 'yearly';\n  defaultPeriod?: 'monthly' | 'yearly';\n  onPeriodChange?: (p: 'monthly' | 'yearly') => void;\n  onSelect?: (planId: string) => void;\n}\n\nexport function Pricing({\n  plans,\n  locale = 'en-US',\n  currency = 'USD',\n  period,\n  defaultPeriod = 'monthly',\n  onPeriodChange,\n  onSelect,\n}: PricingProps) {\n  const [inner, setInner] = useState(defaultPeriod);\n  const current = period === undefined ? inner : period;\n  const setPeriod = (p: 'monthly' | 'yearly') => {\n    if (period === undefined) setInner(p);\n    onPeriodChange?.(p);\n  };\n  const featured = plans.find((p) => p.featured)?.id;\n\n  return (\n    <PricingTable\n      plans={plans}\n      period={current}\n      onPeriodChange={setPeriod}\n      highlightPlanId={featured}\n      locale={locale}\n      currency={currency}\n      onSelect={onSelect}\n    />\n  );\n}\n\nexport { PlanComparison } from './PlanComparison';\nexport { PricingTable, type PricingTableProps } from './PricingTable';\nexport type { PricingPlan } from './types';\nexport default Pricing;\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "// fixtures.ts — deterministic sample data for pricing.\nimport type { PricingPlan } from './index';\n\nexport const plans: PricingPlan[] = [\n  { id: 'starter', name: 'Starter', monthlyAmount: 9, yearlyAmount: 90, features: ['1 workspace', '3 seats', 'Community support'] },\n  { id: 'team', name: 'Team', monthlyAmount: 29, yearlyAmount: 290, features: ['Unlimited workspaces', '25 seats', 'SSO'], featured: true },\n  { id: 'enterprise', name: 'Enterprise', monthlyAmount: 99, yearlyAmount: 990, features: ['SAML + SCIM', 'Audit log', 'Dedicated support'] },\n];\n\nexport const pricingProps = { plans, locale: 'en-US', currency: 'USD' };\nexport const pricingPropsDE = { plans, locale: 'de-DE', currency: 'EUR' };\nexport const pricingPropsJP = { plans, locale: 'ja-JP', currency: 'JPY' };\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "pricing",
+      "registryDependencies": [
+        "card",
+        "button",
+        "badge",
+        "commerce-cart"
+      ],
+      "title": "Pricing",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass@^5"
+      ],
+      "description": "Sectioned settings surface — GlassPreferencesPanel plus app rows on the CMP field grammar (replaces settings-billing / settings-and-billing-suite).",
+      "files": [
+        {
+          "content": "// registry/blocks/settings — PLAT-359. Settings surface: sectioned tabs +\n// the MAT GlassPreferencesPanel (S-24) wired to usePreferenceActions, plus\n// plain CMP controls for app-level settings rows (replaces the 4.x\n// settings-billing/settings-and-billing-suite recipes).\nimport { useState } from 'react';\nimport { Card, SegmentedControl, Switch, Tabs, Text } from 'aura-glass';\nimport { GlassPreferencesPanel, usePreferenceActions } from 'aura-glass/theme';\nimport type { UserSettableKey } from 'aura-glass/theme';\n\nexport interface SettingsSection {\n  id: string;\n  label: string;\n  /** 'preferences' renders GlassPreferencesPanel; 'rows' renders `rows`. */\n  kind: 'preferences' | 'rows';\n  /** Which preference keys the panel exposes (defaults to all user-settable). */\n  preferenceKeys?: readonly UserSettableKey[];\n  rows?: SettingsRow[];\n}\n\nexport interface SettingsRow {\n  id: string;\n  label: string;\n  description?: string;\n  control: 'switch' | 'segmented';\n  value: boolean | string;\n  options?: readonly { value: string; label: string }[];\n}\n\nexport interface SettingsPanelProps {\n  sections: readonly SettingsSection[];\n  section?: string;\n  defaultSection?: string;\n  onSectionChange?: (id: string) => void;\n  onRowChange?: (rowId: string, value: boolean | string) => void;\n  onPreferenceChange?: (key: UserSettableKey, value: unknown) => void;\n}\n\nfunction useControlled<T>(value: T | undefined, fallback: T, onChange?: (v: T) => void): [T, (v: T) => void] {\n  const [internal, setInternal] = useState(fallback);\n  const current = value ?? internal;\n  return [current, (v) => { setInternal(v); onChange?.(v); }];\n}\n\nexport function SettingsPanel({ sections, section, defaultSection, onSectionChange, onRowChange, onPreferenceChange }: SettingsPanelProps) {\n  const actions = usePreferenceActions();\n  const [current, setCurrent] = useControlled(section, defaultSection ?? sections[0]?.id ?? '', onSectionChange);\n  const active = sections.find((s) => s.id === current) ?? sections[0];\n\n  return (\n    <Card.Root data-ag-part=\"root\" className=\"@container\">\n      <Card.Header data-ag-part=\"header\">\n        <Card.Title>Settings</Card.Title>\n      </Card.Header>\n      <Card.Body data-ag-part=\"body\">\n        <Tabs.Root data-ag-part=\"sections\" value={current} onValueChange={(v) => setCurrent(String(v))}>\n          <Tabs.List>\n            {sections.map((s) => <Tabs.Tab key={s.id} value={s.id}>{s.label}</Tabs.Tab>)}\n          </Tabs.List>\n          {sections.map((s) => (\n            <Tabs.Panel key={s.id} value={s.id} data-ag-part=\"panel\">\n              {s.kind === 'preferences' ? (\n                <GlassPreferencesPanel\n                  keys={s.preferenceKeys}\n                  onChange={(key, value) => { actions.set(key as UserSettableKey, value as never); onPreferenceChange?.(key, value); }}\n                />\n              ) : (\n                <div data-ag-part=\"rows\" className=\"grid gap-4 @md:grid-cols-2\">\n                  {(s.rows ?? []).map((row) => (\n                    <div key={row.id} data-ag-part=\"row\" className=\"grid gap-1\">\n                      <Text weight=\"medium\">{row.label}</Text>\n                      {row.description ? <Text size=\"sm\" muted>{row.description}</Text> : null}\n                      {row.control === 'switch' ? (\n                        <Switch checked={Boolean(row.value)} onCheckedChange={(v) => onRowChange?.(row.id, v)} />\n                      ) : (\n                        <SegmentedControl.Root value={String(row.value)} onValueChange={(v) => onRowChange?.(row.id, String(v))}>\n                          {(row.options ?? []).map((o) => (\n                            <SegmentedControl.Item key={o.value} value={o.value}>{o.label}</SegmentedControl.Item>\n                          ))}\n                        </SegmentedControl.Root>\n                      )}\n                    </div>\n                  ))}\n                </div>\n              )}\n            </Tabs.Panel>\n          ))}\n        </Tabs.Root>\n      </Card.Body>\n    </Card.Root>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "// fixtures.ts — deterministic settings sections (contract §3.3).\nimport type { SettingsPanelProps } from './index';\n\nexport const settingsSections: SettingsPanelProps['sections'] = [\n  {\n    id: 'appearance',\n    label: 'Appearance',\n    kind: 'preferences',\n    preferenceKeys: ['scheme', 'transparency', 'glassOpacity', 'density'],\n  },\n  {\n    id: 'accessibility',\n    label: 'Accessibility',\n    kind: 'preferences',\n    preferenceKeys: ['contrast', 'motion', 'allowContinuous'],\n  },\n  {\n    id: 'workspace',\n    label: 'Workspace',\n    kind: 'rows',\n    rows: [\n      { id: 'autosave', label: 'Autosave drafts', description: 'Save changes every few seconds.', control: 'switch', value: true },\n      { id: 'default-view', label: 'Default view', control: 'segmented', value: 'board',\n        options: [{ value: 'board', label: 'Board' }, { value: 'list', label: 'List' }, { value: 'calendar', label: 'Calendar' }] },\n      { id: 'digest', label: 'Weekly digest', description: 'Email a Monday summary.', control: 'switch', value: false },\n    ],\n  },\n];\n\nexport const settingsProps: SettingsPanelProps = {\n  sections: settingsSections,\n  defaultSection: 'appearance',\n};\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "meta": {
+        "auraglass": {
+          "certified": null,
+          "client": true,
+          "components": [
+            "Card",
+            "SegmentedControl",
+            "Switch",
+            "Tabs",
+            "Text",
+            "GlassPreferencesPanel"
+          ],
+          "ga": true,
+          "minVersion": "5.0.0",
+          "owner": "PLAT",
+          "replaces": [
+            "settings-billing",
+            "settings-and-billing-suite"
+          ],
+          "surface": "block"
+        }
+      },
+      "name": "settings",
+      "registryDependencies": [
+        "auraglass"
+      ],
+      "title": "Settings",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Ticket list (Table + FilterBar) with a conversation detail pane.",
+      "files": [
+        {
+          "content": "/* support-inbox (REQ-SURF-171): list/detail — Table of tickets + FilterBar +\n   message list detail pane. The detail pane composes a plain message list\n   (Thread's seam lands with W3's ai entry; swap target noted in the lane\n   report — the block keeps every input wired to state). */\n'use client';\nimport * as React from 'react';\nimport { FilterBar, Table, type FilterGroup } from 'aura-glass/data';\nimport { MESSAGES, TICKETS, type Ticket } from './fixtures';\n\nconst COLUMNS = [\n  { accessorKey: 'id', header: 'Ticket' },\n  { accessorKey: 'subject', header: 'Subject' },\n  { accessorKey: 'requester', header: 'Requester' },\n  { accessorKey: 'priority', header: 'Priority' },\n  { accessorKey: 'status', header: 'Status' },\n];\n\nconst FIELDS = [\n  { id: 'status', label: 'Status', type: 'enum' as const, options: [{ value: 'open', label: 'Open' }, { value: 'pending', label: 'Pending' }, { value: 'closed', label: 'Closed' }] },\n  { id: 'priority', label: 'Priority', type: 'enum' as const, options: [{ value: 'low', label: 'Low' }, { value: 'normal', label: 'Normal' }, { value: 'high', label: 'High' }] },\n];\n\nexport function SupportInbox() {\n  const [model, setModel] = React.useState<FilterGroup>({ kind: 'group', id: 'root', combinator: 'and', children: [] });\n  const [selected, setSelected] = React.useState<Ticket | null>(TICKETS[0] ?? null);\n  const [draft, setDraft] = React.useState('');\n  const msgs = selected !== null ? (MESSAGES[selected.id] ?? []) : [];\n  return (\n    <div data-ag-part=\"support-inbox\" className=\"ag-support-inbox\" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>\n      <section>\n        <FilterBar schema={FIELDS} value={model} onValueChange={setModel} resultCount={TICKETS.length} />\n        <Table data={TICKETS} columns={COLUMNS} getRowId={(t: Ticket) => t.id}\n          selectionMode=\"single\" onRowSelectionChange={(k: Record<string, boolean>) => { const first = Object.keys(k)[0]; setSelected(TICKETS.find((t) => t.id === first) ?? null); }} />\n      </section>\n      <section aria-label=\"Conversation\">\n        {selected !== null ? (\n          <>\n            <h3>{selected.subject}</h3>\n            <ol>\n              {msgs.map((m) => (\n                <li key={m.id}>\n                  <article>\n                    <strong>{m.author}</strong> <time dateTime={m.at}>{m.at.slice(0, 16).replace('T', ' ')}</time>\n                    <p>{m.body}</p>\n                  </article>\n                </li>\n              ))}\n            </ol>\n            <form onSubmit={(e) => { e.preventDefault(); setDraft(''); }}>\n              <label>\n                Reply\n                <textarea value={draft} onChange={(e) => setDraft(e.target.value)} rows={3} />\n              </label>\n              <button type=\"submit\">Send</button>\n            </form>\n          </>\n        ) : (\n          <p>Select a ticket to read the conversation.</p>\n        )}\n      </section>\n    </div>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:block"
+        },
+        {
+          "content": "/* support-inbox fixtures — deterministic values only. */\nexport interface Ticket { id: string; subject: string; requester: string; priority: 'low' | 'normal' | 'high'; status: 'open' | 'pending' | 'closed'; updated: string }\nexport interface Msg { id: string; author: string; body: string; at: string }\n\nexport const TICKETS: Ticket[] = [\n  { id: 'T-1042', subject: 'Cannot reset password', requester: 'ava@ex.com', priority: 'high', status: 'open', updated: '2026-10-07T08:00:00Z' },\n  { id: 'T-1041', subject: 'Billing question', requester: 'sam@ex.com', priority: 'normal', status: 'pending', updated: '2026-10-06T19:00:00Z' },\n  { id: 'T-1039', subject: 'SSO setup help', requester: 'lee@ex.com', priority: 'low', status: 'closed', updated: '2026-10-05T11:30:00Z' },\n];\n\nexport const MESSAGES: Record<string, Msg[]> = {\n  'T-1042': [\n    { id: 'm1', author: 'Ava', body: 'Reset link never arrives.', at: '2026-10-07T08:00:00Z' },\n    { id: 'm2', author: 'Support', body: 'Checking the mail queue now.', at: '2026-10-07T08:05:00Z' },\n  ],\n};\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "support-inbox",
+      "registryDependencies": [],
+      "title": "Support inbox",
+      "type": "registry:block"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "aura-glass"
+      ],
+      "description": "Menu composition replacing 4.x HeaderUserMenu: avatar trigger, labelled account group, destructive sign-out.",
+      "files": [
+        {
+          "content": "'use client';\n/* CMP-345: registry item account-menu — Menu composition replacing 4.x\n   HeaderUserMenu. Registry items are never root-exported (D-15/D-17). */\nimport * as React from 'react';\nimport { Menu } from '../../../src/components/menu';\nimport { Avatar } from '../../../src/components/avatar';\n\nexport interface AccountMenuItem {\n  id: string;\n  label: string;\n  onSelect?: () => void;\n  danger?: boolean;\n}\n\nexport interface AccountMenuProps {\n  name: string;\n  email?: string;\n  avatarSrc?: string;\n  items: AccountMenuItem[];\n  onSignOut?: () => void;\n}\n\nexport function AccountMenu({ name, email, avatarSrc, items, onSignOut }: AccountMenuProps) {\n  return (\n    <Menu.Root>\n      <Menu.Trigger aria-label={`Account menu for ${name}`}>\n        <Avatar.Root {...(avatarSrc !== undefined ? { src: avatarSrc } : {})} alt={name} name={name} size=\"sm\" />\n      </Menu.Trigger>\n      <Menu.Portal>\n        <Menu.Positioner side=\"bottom\" align=\"end\">\n          <Menu.Popup>\n            <Menu.Group>\n              <Menu.GroupLabel>\n                {name}{email ? ` — ${email}` : ''}\n              </Menu.GroupLabel>\n              {items.map((it) => (\n                <Menu.Item key={it.id} {...(it.onSelect !== undefined ? { onSelect: it.onSelect } : {})}>\n                  {it.label}\n                </Menu.Item>\n              ))}\n            </Menu.Group>\n            {onSignOut ? (\n              <>\n                <Menu.Separator />\n                <Menu.Item onSelect={onSignOut} data-ag-intent=\"danger\">Sign out</Menu.Item>\n              </>\n            ) : null}\n          </Menu.Popup>\n        </Menu.Positioner>\n      </Menu.Portal>\n    </Menu.Root>\n  );\n}\nexport default AccountMenu;\n",
+          "path": "index.tsx",
+          "target": "components/account-menu.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "account-menu",
+      "title": "Account Menu",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Kind-adapted side panel for agent-produced artifacts (code, document, preview, data).",
+      "files": [
+        {
+          "content": "'use client';\nimport * as React from 'react';\nimport { ResizablePanels } from 'aura-glass/app-shell';\nimport { Tabs } from 'aura-glass';\n\nexport interface Artifact {\n  id: string;\n  title: string;\n  kind: 'code' | 'document' | 'preview' | 'data';\n  content: string;\n  language?: string;\n  version?: number;\n}\n\nexport interface ArtifactPanelProps {\n  artifact: Artifact | null;\n  open?: boolean | undefined;\n  onOpenChange?: ((open: boolean) => void) | undefined;\n  onCopy?: ((artifact: Artifact) => void) | undefined;\n}\n\n/** The code-surface registry item renders code bodies when the consumer has\n * installed it; this lazy wrapper falls back to a plain <pre>. */\nconst CodeSurface = React.lazy(async () => {\n  const mod = await import('@/registry/items/code-surface' as string).catch(() => null);\n  const C = (mod as Record<string, React.ComponentType<{ code: string; language?: string }>> | null)?.CodeSurface;\n  return { default: C ?? ((p: { code: string }) => <pre data-ag-part=\"artifact-code\"><code>{p.code}</code></pre>) };\n});\n\n/** ai-artifact-panel (SURF-371, REQ-SURF-173): artifact panel on the W1\n * ResizablePanels + Tabs (Preview / Code) with a lazy code-surface body on a\n * content-raised Surface. */\nexport function ArtifactPanel({ artifact, open = true, onOpenChange, onCopy }: ArtifactPanelProps) {\n  if (!open || !artifact) return null;\n  const isCode = artifact.kind === 'code';\n  const body = (\n    <div data-ag-part=\"artifact-body\">\n      {isCode ? (\n        <React.Suspense fallback={<pre data-ag-part=\"artifact-code\"><code>{artifact.content}</code></pre>}>\n          <CodeSurface code={artifact.content} language={artifact.language} />\n        </React.Suspense>\n      ) : artifact.kind === 'preview' ? (\n        <iframe title={artifact.title} sandbox=\"\" srcDoc={artifact.content} data-ag-part=\"artifact-preview\" />\n      ) : artifact.kind === 'data' ? (\n        <pre data-ag-part=\"artifact-data\">{artifact.content}</pre>\n      ) : (\n        <article data-ag-part=\"artifact-document\">{artifact.content}</article>\n      )}\n    </div>\n  );\n  return (\n    <ResizablePanels.Root orientation=\"horizontal\" style={{ minBlockSize: '100%' }}>\n      <ResizablePanels.Panel id=\"artifact\" defaultSize={60} label={artifact.title}>\n        <aside data-ag-part=\"artifact-panel\" aria-label={artifact.title} data-surface=\"content-raised\">\n          <header data-ag-part=\"artifact-header\">\n            <h2>{artifact.title}</h2>\n            {artifact.version !== undefined ? <span data-ag-part=\"artifact-version\">v{artifact.version}</span> : null}\n            {onCopy ? <button type=\"button\" onClick={() => onCopy(artifact)}>Copy</button> : null}\n            {onOpenChange ? (\n              <button type=\"button\" aria-label=\"Close artifact panel\" onClick={() => onOpenChange(false)}>Close</button>\n            ) : null}\n          </header>\n          {isCode ? (\n            <Tabs.Root defaultValue=\"preview\">\n              <Tabs.List>\n                <Tabs.Tab value=\"preview\">Preview</Tabs.Tab>\n                <Tabs.Tab value=\"code\">Code</Tabs.Tab>\n              </Tabs.List>\n              <Tabs.Panel value=\"preview\">{body}</Tabs.Panel>\n              <Tabs.Panel value=\"code\">\n                <pre data-ag-part=\"artifact-code\"><code data-language={artifact.language}>{artifact.content}</code></pre>\n              </Tabs.Panel>\n            </Tabs.Root>\n          ) : body}\n        </aside>\n      </ResizablePanels.Panel>\n    </ResizablePanels.Root>\n  );\n}\n",
+          "path": "ArtifactPanel.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "export { ArtifactPanel } from './ArtifactPanel';\nexport type { Artifact, ArtifactPanelProps } from './ArtifactPanel';\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "ai-artifact-panel",
+      "registryDependencies": [
+        "code-surface"
+      ],
+      "title": "AI artifact panel",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Eval run summary — pass rate, per-case scores, token usage on UsageMeter.",
+      "files": [
+        {
+          "content": "'use client';\nimport * as React from 'react';\nimport { StatCard, Table } from 'aura-glass/data';\nimport type { TableColumnDef } from 'aura-glass/data';\nimport { UsageMeter , type AgUsage } from 'aura-glass/ai';\n\nexport interface EvalRun {\n  id: string;\n  model: string;\n  dataset: string;\n  passRate: number;\n  deltaBaseline: number;\n  costUsd: number;\n  startedAt: string;\n}\n\nexport interface EvalDashboardProps {\n  runs: readonly EvalRun[];\n  title?: string | undefined;\n  usage?: AgUsage | undefined;\n}\n\nconst pct = (n: number) => `${Math.round(n * 100)}%`;\nconst usd = (n: number) => `$${n.toFixed(2)}`;\n\n/** ai-eval-dashboard (SURF-373, REQ-SURF-173): eval runs table (run, model,\n * dataset, pass rate, Δ baseline, cost, started) on the W2 Table plus three\n * StatCards. All metric numbers come from props/fixtures — no literals. */\nexport function EvalDashboard({ runs, title = 'Evaluation', usage }: EvalDashboardProps) {\n  const best = runs.reduce<EvalRun | null>((b, r) => (b == null || r.passRate > b.passRate ? r : b), null);\n  const meanRate = runs.length ? runs.reduce((n, r) => n + r.passRate, 0) / runs.length : 0;\n  const totalCost = runs.reduce((n, r) => n + r.costUsd, 0);\n  const columns = React.useMemo<TableColumnDef<EvalRun>[]>(() => [\n    { id: 'run', header: 'Run', accessorKey: 'id' },\n    { id: 'model', header: 'Model', accessorKey: 'model' },\n    { id: 'dataset', header: 'Dataset', accessorKey: 'dataset' },\n    { id: 'passRate', header: 'Pass rate', accessorFn: (r: EvalRun) => pct(r.passRate) },\n    { id: 'delta', header: 'Δ baseline', accessorFn: (r: EvalRun) => `${r.deltaBaseline >= 0 ? '+' : ''}${pct(r.deltaBaseline)}` },\n    { id: 'cost', header: 'Cost', accessorFn: (r: EvalRun) => usd(r.costUsd) },\n    { id: 'started', header: 'Started', accessorKey: 'startedAt' },\n  ], []);\n  return (\n    <section data-ag-part=\"eval-dashboard\" aria-label={title}>\n      <header data-ag-part=\"eval-summary\" style={{ display: 'flex', gap: '1rem' }}>\n        <StatCard label=\"Runs\" value={runs.length} />\n        <StatCard label=\"Mean pass rate\" value={pct(meanRate)} />\n        <StatCard label=\"Total cost\" value={usd(totalCost)} description={best ? `best: ${best.id}` : undefined} />\n      </header>\n      <Table columns={columns} data={[...runs]} aria-label={title} />\n      {usage ? <UsageMeter usage={usage} /> : null}\n    </section>\n  );\n}\n",
+          "path": "EvalDashboard.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "export { EvalDashboard } from './EvalDashboard';\nexport type { EvalDashboardProps, EvalRun } from './EvalDashboard';\nexport { default as EVAL_RUNS } from './fixtures/runs.json';\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "{\n  \"runs\": [\n    { \"id\": \"run-104\", \"model\": \"aura-large\", \"dataset\": \"support-v3\", \"passRate\": 0.92, \"deltaBaseline\": 0.04, \"costUsd\": 3.41, \"startedAt\": \"2026-10-06T21:12:00Z\" },\n    { \"id\": \"run-103\", \"model\": \"aura-small\", \"dataset\": \"support-v3\", \"passRate\": 0.81, \"deltaBaseline\": -0.07, \"costUsd\": 0.62, \"startedAt\": \"2026-10-06T20:44:00Z\" },\n    { \"id\": \"run-102\", \"model\": \"aura-large\", \"dataset\": \"refusal-edge\", \"passRate\": 0.97, \"deltaBaseline\": 0.01, \"costUsd\": 5.88, \"startedAt\": \"2026-10-06T19:02:00Z\" }\n  ]\n}\n",
+          "path": "fixtures/runs.json",
+          "type": "registry:item"
+        }
+      ],
+      "name": "ai-eval-dashboard",
+      "registryDependencies": [],
+      "title": "AI eval dashboard",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Streaming-safe renderText for Message.Parts: closes unterminated fences and emphasis while streaming.",
+      "files": [
+        {
+          "content": "'use client';\nimport * as React from 'react';\n\n/**\n * ai-markdown (REQ-SURF-173): streaming-safe renderer behind `renderText` —\n * while `streaming`, unterminated code fences and emphasis are closed so a\n * half-delivered token never corrupts the rest of the message. Lightweight:\n * fenced code, inline code, bold/italic, links, lists.\n */\nexport function StreamingMarkdown({ text, streaming = false }: { text: string; streaming?: boolean }) {\n  const rendered = React.useMemo(() => closeStreamingMarkdown(text), [text]);\n  const src = streaming ? rendered : text;\n  return <>{renderMarkdown(src)}</>;\n}\n\nexport function closeStreamingMarkdown(text: string): string {\n  let out = text;\n  const fences = (out.match(/```/g) ?? []).length;\n  if (fences % 2 === 1) out += '\\n```';\n  return out;\n}\n\nfunction renderMarkdown(src: string): React.ReactNode[] {\n  const nodes: React.ReactNode[] = [];\n  const chunks = src.split(/(```[\\s\\S]*?```)/g);\n  chunks.forEach((chunk, i) => {\n    if (chunk.startsWith('```')) {\n      const body = chunk.replace(/^```[^\\n]*\\n?/, '').replace(/\\n?```$/, '');\n      nodes.push(<pre key={i} data-ag-part=\"md-code\"><code>{body}</code></pre>);\n      return;\n    }\n    nodes.push(\n      <React.Fragment key={i}>\n        {chunk.split(/\\n\\n+/).map((para, j) => (\n          <p key={j}>{inlineMarkdown(para)}</p>\n        ))}\n      </React.Fragment>,\n    );\n  });\n  return nodes;\n}\n\nfunction inlineMarkdown(text: string): React.ReactNode[] {\n  const re = /(\\*\\*[^*]+\\*\\*|\\*[^*]+\\*|`[^`]+`|\\[[^\\]]+\\]\\([^)]+\\))/g;\n  return text.split(re).map((part, i) => {\n    if (part.startsWith('**')) return <strong key={i}>{part.slice(2, -2)}</strong>;\n    if (part.startsWith('`')) return <code key={i}>{part.slice(1, -1)}</code>;\n    if (part.startsWith('[')) {\n      const m = part.match(/\\[([^\\]]+)\\]\\(([^)]+)\\)/);\n      if (m && /^https?:/i.test(m[2]!)) return <a key={i} href={m[2]} rel=\"noopener noreferrer\" target=\"_blank\">{m[1]}</a>;\n      return <React.Fragment key={i}>{part}</React.Fragment>;\n    }\n    if (part.startsWith('*') && part.endsWith('*') && part.length > 2) return <em key={i}>{part.slice(1, -1)}</em>;\n    return <React.Fragment key={i}>{part}</React.Fragment>;\n  });\n}\n",
+          "path": "StreamingMarkdown.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "export { StreamingMarkdown } from './StreamingMarkdown';\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "ai-markdown",
+      "registryDependencies": [],
+      "title": "AI streaming markdown",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Combobox grouped by provider with capability badges and context-window counts.",
+      "files": [
+        {
+          "content": "'use client';\nimport * as React from 'react';\nimport { Combobox, Badge } from 'aura-glass';\n\nexport interface ModelOption {\n  id: string;\n  label: string;\n  provider: string;\n  capabilities?: readonly string[] | undefined;\n  contextWindow?: number | undefined;\n}\n\nexport interface ModelPickerProps {\n  options: readonly ModelOption[];\n  value?: string | undefined;\n  onValueChange?: ((id: string) => void) | undefined;\n  'aria-label'?: string | undefined;\n}\n\n/** ai-model-picker (SURF-370, REQ-SURF-173): model Combobox grouped by\n * provider, capability Badges and context-window counts. Options come from\n * the app's route that proxies Kiro Prism GET /v1/models — see fixtures.ts. */\nexport function ModelPicker({ options, value, onValueChange, 'aria-label': ariaLabel = 'Model' }: ModelPickerProps) {\n  const byProvider = React.useMemo(() => {\n    const groups = new Map<string, ModelOption[]>();\n    for (const o of options) {\n      const list = groups.get(o.provider) ?? [];\n      list.push(o);\n      groups.set(o.provider, list);\n    }\n    return groups;\n  }, [options]);\n  const items = React.useMemo(() => options.map((o) => o.id), [options]);\n  return (\n    <Combobox.Root\n      value={value}\n      onValueChange={(v: unknown) => onValueChange?.(String(v))}\n      items={items}\n    >\n      <Combobox.Input aria-label={ariaLabel} placeholder=\"Search models\" />\n      <Combobox.Trigger aria-label={ariaLabel}>\n        {options.find((o) => o.id === value)?.label ?? 'Select model'}\n      </Combobox.Trigger>\n      <Combobox.Content data-ag-part=\"model-picker\">\n        <Combobox.Empty>No models</Combobox.Empty>\n        {Array.from(byProvider.entries()).map(([provider, opts]) => (\n          <React.Fragment key={provider}>\n            <div role=\"presentation\" data-ag-part=\"model-provider\">{provider}</div>\n            {opts.map((o) => (\n              <Combobox.Item key={o.id} value={o.id} data-ag-part=\"model-option\">\n                <span>{o.label}</span>\n                {o.contextWindow !== undefined ? (\n                  <span data-ag-part=\"model-context\">{Math.round(o.contextWindow / 1000)}k</span>\n                ) : null}\n                {(o.capabilities ?? []).map((c) => <Badge key={c}>{c}</Badge>)}\n              </Combobox.Item>\n            ))}\n          </React.Fragment>\n        ))}\n      </Combobox.Content>\n    </Combobox.Root>\n  );\n}\n",
+          "path": "ModelPicker.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "export { ModelPicker } from './ModelPicker';\nexport type { ModelOption, ModelPickerProps } from './ModelPicker';\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "ai-model-picker",
+      "registryDependencies": [],
+      "title": "AI model picker",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "ai@5.0.29",
+        "@ai-sdk/react@2.0.29"
+      ],
+      "description": "useAuraChat wraps @ai-sdk/react useChat into { threadProps, composerProps, status } for the ./ai surface.",
+      "files": [
+        {
+          "content": "/* ai-sdk-adapter (SURF-390, REQ-SURF-106/170): wraps @ai-sdk/react `useChat`\n * and returns ready-made props for ./ai — `{ threadProps: { messages },\n * composerProps: { onSubmit, onStop }, status }`. Requires the consumer's\n * `ai` + `@ai-sdk/react` dependencies (declared in registry-item.json). */\n'use client';\nimport { useChat } from '@ai-sdk/react';\nimport type { ChatTransport, UIMessage } from 'ai';\nimport type { AgMessage } from 'aura-glass/ai';\n\nexport interface UseAuraChatOptions {\n  /** Transport — e.g. `new DefaultChatTransport({ api: '/api/chat' })`. */\n  transport?: ChatTransport<UIMessage>;\n  messages?: UIMessage[];\n}\n\nexport interface UseAuraChatResult {\n  threadProps: { messages: AgMessage[] };\n  composerProps: {\n    onSubmit: (payload: { text: string; files: File[] }) => void;\n    onStop?: (() => void) | undefined;\n  };\n  status: 'submitted' | 'streaming' | 'ready' | 'error';\n}\n\nexport function useAuraChat(options: UseAuraChatOptions = {}): UseAuraChatResult {\n  const chat = useChat<UIMessage>({\n    ...(options.transport ? { transport: options.transport } : {}),\n    ...(options.messages ? { messages: options.messages } : {}),\n  });\n  const streaming = chat.status === 'streaming' || chat.status === 'submitted';\n  return {\n    threadProps: { messages: chat.messages as AgMessage[] },\n    composerProps: {\n      onSubmit: ({ text }) => {\n        void chat.sendMessage({ text });\n      },\n      ...(streaming ? { onStop: () => { void chat.stop(); } } : {}),\n    },\n    status: chat.status,\n  };\n}\n",
+          "path": "useAuraChat.ts",
+          "type": "registry:item"
+        },
+        {
+          "content": "export { useAuraChat } from './useAuraChat';\nexport type { UseAuraChatOptions, UseAuraChatResult } from './useAuraChat';\n",
+          "path": "index.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "ai-sdk-adapter",
+      "registryDependencies": [],
+      "title": "AI SDK → ./ai adapter",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Nested agent trace with timing and expandable per-step detail; wraps the shipped AgStep model.",
+      "files": [
+        {
+          "content": "'use client';\nimport * as React from 'react';\nimport { TreeView } from 'aura-glass/data';\nimport type { AgStep } from 'aura-glass/ai';\n\nexport interface TraceTreeProps {\n  steps: readonly AgStep[];\n  /** Total run duration in ms for the duration bars; defaults to the sum of\n   * top-level step durations. */\n  totalMs?: number | undefined;\n  renderDetail?: ((step: AgStep) => React.ReactNode) | undefined;\n  'aria-label'?: string | undefined;\n}\n\ninterface TraceItem extends Record<string, unknown> {\n  step: AgStep;\n}\n\nconst STATE_ICON: Record<string, string> = {\n  queued: '○', running: '◌', 'needs-approval': '⚠', succeeded: '✓', failed: '✕', denied: '⊘', skipped: '—',\n};\n\n/** ai-trace-tree (SURF-372, REQ-SURF-173): AgStep trees on W2 TreeView with a\n * duration bar per span (width = span/total, min 2px) plus the text duration\n * and state icon. */\nexport function TraceTree({ steps, totalMs, renderDetail, 'aria-label': ariaLabel = 'Trace' }: TraceTreeProps) {\n  const total = totalMs ?? steps.reduce((n, s) => n + (s.endedAt != null && s.startedAt != null ? s.endedAt - s.startedAt : 0), 0);\n  const items = React.useMemo<TraceItem[]>(() => steps.map((step) => ({ step })), [steps]);\n  return (\n    <div data-ag-part=\"trace-tree\" data-total-ms={total}>\n      <TreeView<TraceItem>\n        items={items}\n        getKey={(i: TraceItem) => i.step.id}\n        getChildren={(i: TraceItem) => i.step.children?.map((c: AgStep) => ({ step: c }))}\n        getTextValue={(i: TraceItem) => i.step.label}\n        aria-label={ariaLabel}\n        renderItem={(i: TraceItem) => {\n          const span = i.step.endedAt != null && i.step.startedAt != null ? i.step.endedAt - i.step.startedAt : null;\n          const pct = span != null && total > 0 ? Math.max((span / total) * 100, 2 / Math.max(total, 1)) : 0;\n          return (\n            <span data-ag-part=\"trace-node\" data-state={i.step.state}>\n              <span aria-hidden=\"true\" data-ag-part=\"trace-icon\">{STATE_ICON[i.step.state] ?? '•'}</span>\n              <span data-ag-part=\"trace-label\">{i.step.label}</span>\n              {span != null ? (\n                <>\n                  <span\n                    data-ag-part=\"trace-duration-bar\"\n                    role=\"presentation\"\n                    style={{ display: 'inline-block', blockSize: '4px', minInlineSize: '2px', inlineSize: `${pct}%`, background: 'currentColor', opacity: 0.35 }}\n                  />\n                  <span data-ag-part=\"trace-duration\">{span} ms</span>\n                </>\n              ) : null}\n              {renderDetail ? <span data-ag-part=\"trace-detail\">{renderDetail(i.step)}</span> : null}\n            </span>\n          );\n        }}\n      />\n    </div>\n  );\n}\n",
+          "path": "TraceTree.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "export { TraceTree } from './TraceTree';\nexport type { TraceTreeProps } from './TraceTree';\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "ai-trace-tree",
+      "registryDependencies": [],
+      "title": "AI trace tree",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Composer.Action voice capture via real MediaRecorder — recording announced, stop produces a File; explicit unsupported/denied states.",
+      "files": [
+        {
+          "content": "'use client';\nimport * as React from 'react';\nimport { Composer } from 'aura-glass/ai';\n\nexport interface VoiceInputActionProps {\n  /** Called with the recorded audio File (built from dataavailable chunks,\n   * mimeType taken from the recorder). The consumer transcribes it. */\n  onFile?: ((file: File) => void) | undefined;\n  disabled?: boolean | undefined;\n  'aria-label'?: string | undefined;\n}\n\ntype VoiceState = 'idle' | 'recording' | 'unsupported' | 'denied';\n\n/** ai-voice-input (SURF-374, REQ-SURF-170/173): Composer.Action using a real\n * MediaRecorder. getUserMedia prompts for mic permission; the recording state\n * is announced; stop produces a File from the recorded chunks. Browsers\n * without MediaRecorder/getUserMedia get an explicit unsupported state — no\n * mock capture path. */\nexport function VoiceInputAction({ onFile, disabled, 'aria-label': ariaLabel = 'Voice input' }: VoiceInputActionProps) {\n  const [state, setState] = React.useState<VoiceState>(() =>\n    typeof navigator !== 'undefined' && 'mediaDevices' in navigator && 'MediaRecorder' in globalThis ? 'idle' : 'unsupported');\n  const recorderRef = React.useRef<MediaRecorder | null>(null);\n  const chunksRef = React.useRef<Blob[]>([]);\n\n  const stop = React.useCallback(() => {\n    const rec = recorderRef.current;\n    if (rec && rec.state !== 'inactive') rec.stop();\n  }, []);\n\n  const start = React.useCallback(async () => {\n    if (state === 'unsupported') return;\n    try {\n      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });\n      const rec = new MediaRecorder(stream);\n      chunksRef.current = [];\n      rec.addEventListener('dataavailable', (e) => {\n        if (e.data.size > 0) chunksRef.current.push(e.data);\n      });\n      rec.addEventListener('stop', () => {\n        stream.getTracks().forEach((t) => t.stop());\n        const blob = new Blob(chunksRef.current, { type: rec.mimeType });\n        onFile?.(new File([blob], 'voice-input.webm', { type: rec.mimeType }));\n        setState('idle');\n      }, { once: true });\n      recorderRef.current = rec;\n      rec.start();\n      setState('recording');\n    } catch {\n      setState('denied');\n    }\n  }, [state, onFile]);\n\n  return (\n    <Composer.Action\n      aria-label={ariaLabel}\n      aria-pressed={state === 'recording'}\n      disabled={disabled === true || state === 'unsupported'}\n      data-ag-part=\"voice-input\"\n      data-state={state}\n      title={state === 'unsupported' ? 'Voice input is not supported in this browser' : ariaLabel}\n      onClick={state === 'recording' ? stop : () => { void start(); }}\n    >\n      <svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" aria-hidden=\"true\"><path d=\"M8 1a2 2 0 0 0-2 2v4a2 2 0 0 0 4 0V3a2 2 0 0 0-2-2Zm-5 6a5 5 0 0 0 4 4.9V14H5.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1H9v-2.1A5 5 0 0 0 13 7h-1a4 4 0 0 1-8 0Z\" fill=\"currentColor\"/></svg>\n      <span data-ag-part=\"voice-state\" aria-live=\"polite\">\n        {state === 'recording' ? 'Recording' : state === 'denied' ? 'Microphone blocked' : state === 'unsupported' ? 'Unsupported' : ''}\n      </span>\n    </Composer.Action>\n  );\n}\n",
+          "path": "VoiceInputAction.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "export { VoiceInputAction } from './VoiceInputAction';\nexport type { VoiceInputActionProps } from './VoiceInputAction';\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "ai-voice-input",
+      "registryDependencies": [],
+      "title": "AI voice input button",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "The archived 'workspace' block as an item — AppShell + page-header tabs + resizable panels + inspector with .ag-app-shell__auto-grid content.",
+      "files": [
+        {
+          "content": "/* app-shell-workspace (SURF-060, SC-32): the archived 'workspace' block as a\n   registry item — AppShell frame + page-header Tabs + ResizablePanels +\n   docked Inspector; content lands in .ag-app-shell__auto-grid. Asserts\n   sidebar-beside-main and docked inspector at 1440px in its capability test.\n   No !important, no hex — tokens only. */\nimport * as React from 'react';\nimport { AppShell, Sidebar, TopBar, Inspector, ResizablePanels } from 'aura-glass/app-shell';\nimport { Tabs } from 'aura-glass';\nimport { WORKSPACE_TABS, WORKSPACE_TITLE } from './fixtures';\n\nexport function AppShellWorkspace() {\n  return (\n    <AppShell.Root>\n      <TopBar.Root>\n        <TopBar.Leading>\n          <strong>{WORKSPACE_TITLE}</strong>\n        </TopBar.Leading>\n      </TopBar.Root>\n      <Sidebar.Root labels={{ navigation: 'Workspace' }}>\n        <Sidebar.Nav aria-label=\"Workspace\">\n          <Sidebar.Item href=\"#files\" current>Files</Sidebar.Item>\n          <Sidebar.Item href=\"#search\">Search</Sidebar.Item>\n        </Sidebar.Nav>\n      </Sidebar.Root>\n      <AppShell.Main>\n        <AppShell.PageHeader\n          title={WORKSPACE_TITLE}\n          actions={\n            <Tabs.Root defaultValue=\"editor\" aria-label=\"Workspace views\">\n              <Tabs.List>\n                {WORKSPACE_TABS.map((tab) => (\n                  <Tabs.Tab key={tab.id} value={tab.id}>\n                    {tab.label}\n                  </Tabs.Tab>\n                ))}\n              </Tabs.List>\n            </Tabs.Root>\n          }\n        />\n        <ResizablePanels.Root orientation=\"horizontal\">\n          <ResizablePanels.Panel id=\"document\" defaultSize={70} minSize={40}>\n            <div className=\"ag-app-shell__auto-grid\">\n              <p>Document content</p>\n            </div>\n          </ResizablePanels.Panel>\n          <ResizablePanels.Handle label=\"Resize document and outline\" />\n          <ResizablePanels.Panel id=\"outline\" defaultSize={30} minSize={20}>\n            <p>Outline</p>\n          </ResizablePanels.Panel>\n        </ResizablePanels.Root>\n      </AppShell.Main>\n      <Inspector.Root aria-label=\"Inspector\">\n        <Inspector.Header title=\"Properties\" />\n        <Inspector.Content>\n          <Inspector.Section title=\"Document\" defaultOpen>\n            <p>No selection.</p>\n          </Inspector.Section>\n        </Inspector.Content>\n      </Inspector.Root>\n    </AppShell.Root>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "/* app-shell-workspace fixtures — deterministic. */\nexport const WORKSPACE_TABS = [\n  { id: 'editor', label: 'Editor' },\n  { id: 'preview', label: 'Preview' },\n  { id: 'history', label: 'History' },\n] as const;\n\nexport const WORKSPACE_TITLE = 'Untitled document';\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "app-shell-workspace",
+      "registryDependencies": [
+        "tabs",
+        "card"
+      ],
+      "title": "App shell workspace",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass"
+      ],
+      "description": "Hero section composed on Backdrop presets (aurora/mesh/grain server-renderable; photo/video consumer-supplied media).",
+      "files": [
+        {
+          "content": "import * as React from 'react';\nimport { Backdrop } from 'aura-glass/backdrops';\n\nexport interface BackdropHeroProps {\n  preset: 'aurora' | 'mesh' | 'photo' | 'video' | 'grain';\n  title: string;\n  lede?: string;\n  cta?: React.ReactNode;\n  src?: string;\n  tone?: 'light' | 'dark' | 'auto';\n  motion?: 'static' | 'drift';\n}\n\n/** backdrop-hero (REQ-SURF-155): hero section on a Backdrop — server-renderable\n * for aurora/mesh/grain presets. */\nexport function BackdropHero({ preset, title, lede, cta, src, tone, motion = 'static' }: BackdropHeroProps) {\n  const mediaProps = preset === 'photo' ? { src, alt: '' } : preset === 'video' ? { src } : {};\n  return (\n    <Backdrop {...({ preset, scheme: tone, motion, ...mediaProps } as React.ComponentProps<typeof Backdrop>)}>\n      <div data-ag-part=\"backdrop-hero\" style={{ padding: '6rem 2rem', textAlign: 'center' }}>\n        <h1 style={{ margin: 0, fontSize: '2.5rem' }}>{title}</h1>\n        {lede ? <p style={{ maxInlineSize: '40rem', margin: '1rem auto' }}>{lede}</p> : null}\n        {cta}\n      </div>\n    </Backdrop>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "backdrop-hero",
+      "registryDependencies": [],
+      "title": "Backdrop hero",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass@^5",
+        "@codemirror/view@^6",
+        "@codemirror/state@^6",
+        "shiki@^3"
+      ],
+      "description": "Code viewer/editor card — lazily mounted CodeMirror 6 + Shiki with a readable static fallback.",
+      "files": [
+        {
+          "content": "// registry/items/code-surface — PLAT-363. Code viewer/editor: header\n// (name, language, copy) + lazily mounted CodeMirror 6 with Shiki\n// highlighting. Deps are consumer-installed; before they resolve the item\n// renders a plain <pre> surface — readable, focusable, never blank.\nimport { useEffect, useRef, useState } from 'react';\nimport { Badge, Button, Card, Text } from 'aura-glass';\n\nexport interface CodeSurfaceProps {\n  name?: string;\n  language?: string;\n  code: string;\n  readOnly?: boolean;\n  onChange?: (code: string) => void;\n  /** Pre-loaded modules for tests/doubles; lazy import otherwise. */\n  modules?: { cm: unknown; shiki: unknown };\n}\n\nconst CM_SPECIFIER = '@codemirror/view';\nconst SHIKI_SPECIFIER = 'shiki';\n\nexport function CodeSurface({ name, language = 'ts', code, readOnly = true, onChange, modules: injected }: CodeSurfaceProps) {\n  const host = useRef<HTMLDivElement>(null);\n  const [ready, setReady] = useState(false);\n  const [copied, setCopied] = useState(false);\n\n  useEffect(() => {\n    let live = true;\n    const load = injected ? Promise.resolve(injected) : Promise.all([\n      import(/* @vite-ignore */ CM_SPECIFIER),\n      import(/* @vite-ignore */ SHIKI_SPECIFIER),\n    ]).then(([cm, shiki]) => ({ cm, shiki }));\n    load.then(({ cm }) => {\n      if (!live || !host.current) return;\n      const mod = cm as { EditorView?: new (config: { doc: string; parent: HTMLElement; extensions?: unknown[] }) => { destroy(): void } };\n      const view = new mod.EditorView!({ doc: code, parent: host.current, extensions: [] });\n      setReady(true);\n      return () => view.destroy();\n    }).catch(() => { /* static <pre> fallback stays */ });\n    return () => { live = false; };\n  }, [code, injected]);\n\n  const copy = async () => {\n    try { await navigator.clipboard.writeText(code); setCopied(true); setTimeout(() => setCopied(false), 1200); }\n    catch { /* clipboard unavailable */ }\n  };\n\n  return (\n    <Card.Root data-ag-part=\"root\" className=\"@container\" data-ag-state={ready ? 'live' : 'static'}>\n      <Card.Header data-ag-part=\"header\">\n        <div className=\"grid grid-flow-col auto-cols-max items-center gap-2\">\n          {name ? <Text type=\"mono\" size=\"sm\">{name}</Text> : null}\n          <Badge>{language}</Badge>\n        </div>\n        <Button size=\"sm\" onClick={copy}>{copied ? 'Copied' : 'Copy'}</Button>\n      </Card.Header>\n      <Card.Body data-ag-part=\"body\">\n        <div ref={host} data-ag-part=\"editor\" hidden={!ready} />\n        {!ready ? (\n          <pre data-ag-part=\"static\" className=\"overflow-x-auto\" role=\"region\" aria-label={name ?? 'Code'} tabIndex={0}>\n            <code>{code}</code>\n          </pre>\n        ) : null}\n      </Card.Body>\n    </Card.Root>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "// fixtures.ts — deterministic code sample (contract §3.3).\nimport type { CodeSurfaceProps } from './index';\n\nexport const codeSample = `export function emit(value: unknown): string {\n  if (value == null) return '';\n  if (Array.isArray(value)) return value.map(emit).join(',');\n  return JSON.stringify(value);\n}\n`;\n\nexport const codeProps: CodeSurfaceProps = {\n  name: 'emit.ts',\n  language: 'ts',\n  code: codeSample,\n  readOnly: true,\n};\n\nexport const codePropsEditable: CodeSurfaceProps = {\n  name: 'notes.ts',\n  language: 'ts',\n  code: 'const draft = true;\\n',\n  readOnly: false,\n};\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "meta": {
+        "auraglass": {
+          "certified": null,
+          "client": true,
+          "components": [
+            "Badge",
+            "Button",
+            "Card",
+            "Text"
+          ],
+          "ga": true,
+          "minVersion": "5.0.0",
+          "owner": "PLAT",
+          "replaces": [],
+          "surface": "item"
+        }
+      },
+      "name": "code-surface",
+      "registryDependencies": [
+        "auraglass"
+      ],
+      "title": "Code surface",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Controlled comment list with an IME-safe composer.",
+      "files": [
+        {
+          "content": "// registry/items/comment-thread — REQ-SURF-177 (5.1 scope).\n// Part file per SURF-596: CommentThread lives in ./CommentThread.tsx.\nexport { CommentThread, type CommentThreadProps, type ThreadComment } from './CommentThread';\nexport { CommentThread as default } from './CommentThread';\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "// fixtures.ts — deterministic sample data for comment-thread.\nimport type { ThreadComment } from './index';\n\nexport const comments: ThreadComment[] = [\n  { id: 'c-1', author: 'Amara Osei', body: 'Ship looks good — one nit on the totals row.', at: '2026-09-30T14:02:00Z' },\n  { id: 'c-2', author: 'Chen Wei', body: 'Fixed; the separator was missing on empty carts.', at: '2026-09-30T14:20:00Z' },\n  { id: 'c-3', author: 'Dana Kim', body: 'Verified on RTL too — mirrors cleanly.', at: '2026-09-30T15:01:00Z' },\n];\n\nexport const commentThreadProps = { comments };\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "comment-thread",
+      "registryDependencies": [
+        "card",
+        "avatar",
+        "text-field",
+        "button"
+      ],
+      "title": "Comment thread",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "aura-glass"
+      ],
+      "description": "AlertDialog composition replacing the 4.x modal confirm variants (destructive and neutral).",
+      "files": [
+        {
+          "content": "'use client';\n/* CMP-344: registry item confirm-dialog — AlertDialog composition replacing the\n   4.x modal confirm variants. D-15/D-17: registry items are never root-exported. */\nimport * as React from 'react';\nimport { AlertDialog } from '../../../src/components/alert-dialog';\nimport { Button } from '../../../src/components/button';\n\nexport interface ConfirmDialogProps {\n  /** 'destructive' renders the confirm in danger intent; 'neutral' is the default. */\n  variant?: 'destructive' | 'neutral';\n  title: string;\n  description?: string;\n  confirmLabel?: string;\n  cancelLabel?: string;\n  open?: boolean;\n  defaultOpen?: boolean;\n  onConfirm?: () => void;\n  onOpenChange?: (open: boolean) => void;\n  trigger?: React.ReactElement;\n}\n\nexport function ConfirmDialog({\n  variant = 'neutral', title, description, confirmLabel = 'Confirm', cancelLabel = 'Cancel',\n  open, defaultOpen, onConfirm, onOpenChange, trigger,\n}: ConfirmDialogProps) {\n  return (\n    <AlertDialog.Root\n      intent={variant === 'destructive' ? 'danger' : 'neutral'}\n      {...(open !== undefined ? { open } : {})}\n      {...(defaultOpen !== undefined ? { defaultOpen } : {})}\n      {...(onOpenChange !== undefined ? { onOpenChange: (o: boolean) => onOpenChange(o) } : {})}\n    >\n      {trigger ? <AlertDialog.Trigger>{trigger}</AlertDialog.Trigger> : null}\n      <AlertDialog.Content>\n        <AlertDialog.Header>\n          <AlertDialog.Title>{title}</AlertDialog.Title>\n          {description ? <AlertDialog.Description>{description}</AlertDialog.Description> : null}\n        </AlertDialog.Header>\n        <AlertDialog.Footer>\n          <AlertDialog.Cancel>{cancelLabel}</AlertDialog.Cancel>\n          <AlertDialog.Action {...(onConfirm !== undefined ? { onClick: onConfirm } : {})}>{confirmLabel}</AlertDialog.Action>\n        </AlertDialog.Footer>\n      </AlertDialog.Content>\n    </AlertDialog.Root>\n  );\n}\nexport default ConfirmDialog;\n",
+          "path": "index.tsx",
+          "target": "components/confirm-dialog.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "confirm-dialog",
+      "title": "Confirm Dialog",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass@^5"
+      ],
+      "description": "Unified-diff table with add/del/context states and dual line numbering.",
+      "files": [
+        {
+          "content": "// registry/items/diff-viewer — PLAT-365. Unified-diff viewer: consumer\n// supplies parsed lines; the item renders a scrollable line-numbered table\n// with data-ag-state markers per row kind. No diff parsing dependency —\n// hunks are a prop.\nimport { Badge, Card, Text } from 'aura-glass';\n\nexport interface DiffLine {\n  kind: 'add' | 'del' | 'context' | 'hunk';\n  text: string;\n  oldNo?: number;\n  newNo?: number;\n}\nexport interface DiffViewerProps {\n  fileName: string;\n  lines: DiffLine[];\n  added?: number;\n  removed?: number;\n}\n\nconst KIND_PREFIX: Record<DiffLine['kind'], string> = { add: '+', del: '-', context: ' ', hunk: '@' };\n\nexport function DiffViewer({ fileName, lines, added, removed }: DiffViewerProps) {\n  const adds = added ?? lines.filter((l) => l.kind === 'add').length;\n  const dels = removed ?? lines.filter((l) => l.kind === 'del').length;\n  return (\n    <Card.Root data-ag-part=\"root\" className=\"@container\">\n      <Card.Header data-ag-part=\"header\">\n        <Card.Title>{fileName}</Card.Title>\n        <div className=\"grid grid-flow-col auto-cols-max gap-2\">\n          <Badge>+{adds}</Badge>\n          <Badge>-{dels}</Badge>\n        </div>\n      </Card.Header>\n      <Card.Body data-ag-part=\"body\">\n        <div data-ag-part=\"lines\" className=\"overflow-x-auto font-mono\" role=\"region\" aria-label={`Diff for ${fileName}`} tabIndex={0}>\n          <table className=\"w-full border-collapse\">\n            <tbody>\n              {lines.map((l, i) => (\n                <tr key={i} data-ag-part=\"line\" data-ag-state={l.kind}>\n                  <td data-ag-part=\"line-no\" className=\"w-12 select-none text-end align-top\">\n                    <Text size=\"sm\" muted>{l.oldNo ?? ''}</Text>\n                  </td>\n                  <td data-ag-part=\"line-no\" className=\"w-12 select-none text-end align-top\">\n                    <Text size=\"sm\" muted>{l.newNo ?? ''}</Text>\n                  </td>\n                  <td data-ag-part=\"line-text\" className=\"whitespace-pre-wrap align-top\">\n                    <Text type=\"mono\" size=\"sm\">{KIND_PREFIX[l.kind]}{l.text}</Text>\n                  </td>\n                </tr>\n              ))}\n            </tbody>\n          </table>\n          {lines.length === 0 ? <Text muted size=\"sm\">No changes</Text> : null}\n        </div>\n      </Card.Body>\n    </Card.Root>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "// fixtures.ts — deterministic diff rows (contract §3.3).\nimport type { DiffViewerProps } from './index';\n\nexport const diffLines: DiffViewerProps['lines'] = [\n  { kind: 'hunk', text: '@@ -12,7 +12,8 @@ export function build' },\n  { kind: 'context', text: '  const items = collect();', oldNo: 12, newNo: 12 },\n  { kind: 'del', text: '  return items.sort((a, b) => a.name - b.name);', oldNo: 13 },\n  { kind: 'add', text: '  return items.sort((a, b) => a.name.localeCompare(b.name));', newNo: 13 },\n  { kind: 'add', text: '}', newNo: 14 },\n  { kind: 'context', text: '}', oldNo: 14, newNo: 15 },\n];\n\nexport const diffProps: DiffViewerProps = {\n  fileName: 'scripts/registry/build.mjs',\n  lines: diffLines,\n};\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "meta": {
+        "auraglass": {
+          "certified": null,
+          "client": true,
+          "components": [
+            "Badge",
+            "Card",
+            "Text"
+          ],
+          "ga": true,
+          "minVersion": "5.0.0",
+          "owner": "PLAT",
+          "replaces": [],
+          "surface": "item"
+        }
+      },
+      "name": "diff-viewer",
+      "registryDependencies": [
+        "auraglass"
+      ],
+      "title": "Diff viewer",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "FilterBar facet panel + result list.",
+      "files": [
+        {
+          "content": "/* faceted-search (REQ-SURF-174): FilterBar as the facet panel + search +\n   result list with the announced count. */\n'use client';\nimport * as React from 'react';\nimport { FilterBar, type FilterField, type FilterGroup } from 'aura-glass/data';\n\nexport interface FacetedResult { id: string; title: string; [k: string]: unknown }\n\nexport interface FacetedSearchProps {\n  facets: readonly FilterField[];\n  results: readonly FacetedResult[];\n  renderResult?: ((r: FacetedResult) => React.ReactNode) | undefined;\n}\n\nexport function FacetedSearch({ facets, results, renderResult }: FacetedSearchProps) {\n  const [model, setModel] = React.useState<FilterGroup>({ kind: 'group', id: 'root', combinator: 'and', children: [] });\n  const [q, setQ] = React.useState('');\n  return (\n    <div data-ag-part=\"faceted-search\" className=\"ag-faceted-search\" style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '1rem' }}>\n      <aside>\n        <FilterBar schema={facets} value={model} onValueChange={setModel} resultCount={results.length}\n          search={{ value: q, onValueChange: setQ, placeholder: 'Search results' }} />\n      </aside>\n      <ol aria-label=\"Results\">\n        {results.map((r) => (\n          <li key={r.id}>{renderResult ? renderResult(r) : r.title}</li>\n        ))}\n      </ol>\n    </div>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "/* faceted-search fixtures — deterministic values only. */\nexport const FACETS = [\n  { id: 'type', label: 'Type', type: 'enum' as const, options: [{ value: 'doc', label: 'Doc' }, { value: 'issue', label: 'Issue' }, { value: 'pr', label: 'Pr' }] },\n  { id: 'repo', label: 'Repo', type: 'enum' as const, options: [{ value: 'core', label: 'Core' }, { value: 'web', label: 'Web' }, { value: 'docs', label: 'Docs' }] },\n  { id: 'stars', label: 'Stars', type: 'number' as const },\n];\n\nexport const RESULTS = [\n  { id: 'r1', title: 'Grid keyboard spec', type: 'doc', repo: 'core', stars: 41 },\n  { id: 'r2', title: 'Fix paginator off-by-one', type: 'issue', repo: 'web', stars: 3 },\n  { id: 'r3', title: 'Add aria-live to feed', type: 'pr', repo: 'core', stars: 12 },\n];\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "faceted-search",
+      "registryDependencies": [],
+      "title": "Faceted search",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass@^5"
+      ],
+      "description": "Deterministic timeline bars over consumer-owned ISO day ranges (replaces calendar-operations-board scheduling view).",
+      "files": [
+        {
+          "content": "// registry/items/gantt — PLAT-361. Timeline view over task rows:\n// start/end are ISO day strings supplied by the consumer (no wall clock —\n// the bar math derives only from the data, keeping fixtures deterministic).\nimport { Badge, Card, Text } from 'aura-glass';\n\nexport interface GanttTask {\n  id: string;\n  title: string;\n  /** ISO day (YYYY-MM-DD) — deterministic, consumer-owned. */\n  start: string;\n  end: string;\n  /** 0..1 completion fill. */\n  progress?: number;\n  owner?: string;\n}\nexport interface GanttChartProps {\n  tasks: GanttTask[];\n  /** Inclusive day range; defaults to the tasks' min start / max end. */\n  rangeStart?: string;\n  rangeEnd?: string;\n}\n\nconst dayMs = 86_400_000;\nconst toDay = (iso: string) => Math.floor(Date.parse(`${iso}T00:00:00Z`) / dayMs);\n\nexport function GanttChart({ tasks, rangeStart, rangeEnd }: GanttChartProps) {\n  const start = toDay(rangeStart ?? tasks.reduce((m, t) => (t.start < m ? t.start : m), tasks[0]?.start ?? '2000-01-01'));\n  const end = toDay(rangeEnd ?? tasks.reduce((m, t) => (t.end > m ? t.end : m), tasks[0]?.end ?? '2000-01-01')) + 1;\n  const span = Math.max(1, end - start);\n  const offset = (iso: string) => Math.min(1, Math.max(0, (toDay(iso) - start) / span));\n  const width = (a: string, b: string) => Math.min(1, Math.max(0, (toDay(b) - toDay(a) + 1) / span));\n\n  return (\n    <Card.Root data-ag-part=\"root\" className=\"@container\">\n      <Card.Header data-ag-part=\"header\">\n        <Card.Title>Timeline</Card.Title>\n        <Text size=\"sm\" muted>{rangeStart ?? tasks[0]?.start} → {rangeEnd ?? tasks[tasks.length - 1]?.end}</Text>\n      </Card.Header>\n      <Card.Body data-ag-part=\"body\">\n        <div data-ag-part=\"rows\" className=\"grid gap-3\">\n          {tasks.map((t) => (\n            <div key={t.id} data-ag-part=\"row\" className=\"grid gap-1 @md:grid-cols-[12rem_1fr] @md:items-center\">\n              <div className=\"grid grid-flow-col auto-cols-max items-center gap-2\">\n                <Text weight=\"medium\" truncate>{t.title}</Text>\n                {t.owner ? <Badge>{t.owner}</Badge> : null}\n              </div>\n              <div data-ag-part=\"track\" className=\"relative\" role=\"img\" aria-label={`${t.title}: ${t.start} to ${t.end}`}>\n                <div\n                  data-ag-part=\"bar\"\n                  data-ag-state={t.progress === 1 ? 'done' : 'active'}\n                  style={{ marginInlineStart: `${offset(t.start) * 100}%`, inlineSize: `${width(t.start, t.end) * 100}%` }}\n                  className=\"h-2 rounded-full bg-[var(--ag-surface-fill)]\"\n                >\n                  {t.progress != null && t.progress > 0 && t.progress < 1 ? (\n                    <span\n                      data-ag-part=\"progress\"\n                      style={{ inlineSize: `${t.progress * 100}%` }}\n                      className=\"block h-full rounded-full bg-[var(--ag-on-surface)] opacity-40\"\n                    />\n                  ) : null}\n                </div>\n              </div>\n            </div>\n          ))}\n          {tasks.length === 0 ? <Text muted size=\"sm\">No tasks</Text> : null}\n        </div>\n      </Card.Body>\n    </Card.Root>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "// fixtures.ts — deterministic gantt rows (contract §3.3).\nimport type { GanttChartProps } from './index';\n\nexport const ganttTasks: GanttChartProps['tasks'] = [\n  { id: 'g-1', title: 'Registry schema', start: '2026-10-01', end: '2026-10-03', progress: 1, owner: 'PLAT' },\n  { id: 'g-2', title: 'Blocks wave', start: '2026-10-03', end: '2026-10-08', progress: 0.6, owner: 'PLAT' },\n  { id: 'g-3', title: 'Docs site shell', start: '2026-10-05', end: '2026-10-12', progress: 0.3, owner: 'PLAT' },\n  { id: 'g-4', title: 'Render gate', start: '2026-10-10', end: '2026-10-15', progress: 0, owner: 'QUAL' },\n];\n\nexport const ganttProps: GanttChartProps = {\n  tasks: ganttTasks,\n  rangeStart: '2026-10-01',\n  rangeEnd: '2026-10-15',\n};\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "meta": {
+        "auraglass": {
+          "certified": null,
+          "client": true,
+          "components": [
+            "Badge",
+            "Card",
+            "Text"
+          ],
+          "ga": true,
+          "minVersion": "5.0.0",
+          "owner": "PLAT",
+          "replaces": [
+            "calendar-operations-board"
+          ],
+          "surface": "item"
+        }
+      },
+      "name": "gantt",
+      "registryDependencies": [
+        "auraglass"
+      ],
+      "title": "Gantt chart",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass@^5",
+        "@dnd-kit/core@^6.3.1"
+      ],
+      "description": "@dnd-kit/core kanban board (replaces recipe kanban-workspace); renders statically until the engine loads.",
+      "files": [
+        {
+          "content": "// registry/items/kanban — PLAT-360 (replaces recipe kanban-workspace).\n// @dnd-kit/core board, loaded lazily so the item renders (static) before the\n// consumer-installed engine resolves; drag activates once it does.\nimport { useEffect, useState } from 'react';\nimport { Badge, Card, Text } from 'aura-glass';\n\n/* Minimal surface of @dnd-kit/core used by the board. The dependency is\n   consumer-installed; types are duplicated here so the item typechecks\n   before it is installed. */\nexport interface DndCoreModule {\n  DndContext: React.ComponentType<{\n    sensors?: unknown; collisionDetection?: unknown;\n    onDragEnd?: (event: { active: { id: unknown }; over: { id: unknown } | null }) => void;\n    children?: React.ReactNode;\n  }>;\n  closestCorners: unknown;\n  PointerSensor: new (...args: unknown[]) => unknown;\n  useSensor: (sensor: unknown, options?: unknown) => unknown;\n  useSensors: (...sensors: unknown[]) => unknown;\n}\nconst DND_SPECIFIER = '@dnd-kit/core';\n\nexport interface KanbanCard {\n  id: string;\n  title: string;\n  labels?: readonly string[];\n  points?: number;\n}\nexport interface KanbanColumn {\n  id: string;\n  title: string;\n  cards: KanbanCard[];\n}\nexport interface KanbanBoardProps {\n  columns: KanbanColumn[];\n  onMove?: (cardId: string, from: string, to: string, index: number) => void;\n  /** Optional pre-loaded dnd-kit module (tests/doubles); lazy import otherwise. */\n  dnd?: DndCoreModule;\n}\n\nexport function KanbanBoard({ columns, onMove, dnd: injected }: KanbanBoardProps) {\n  const [dnd, setDnd] = useState<DndCoreModule | null>(injected ?? null);\n  useEffect(() => {\n    if (injected || dnd) return;\n    let live = true;\n    import(/* @vite-ignore */ DND_SPECIFIER).then((m) => { if (live) setDnd(m as DndCoreModule); }).catch(() => { /* static board */ });\n    return () => { live = false; };\n  }, [injected, dnd]);\n\n  const board = (\n    <div data-ag-part=\"columns\" className=\"grid gap-4 @md:grid-cols-3\">\n      {columns.map((col) => (\n        <Card.Root key={col.id} data-ag-part=\"column\" data-ag-column={col.id}>\n          <Card.Header>\n            <Card.Title>{col.title}</Card.Title>\n            <Badge>{col.cards.length}</Badge>\n          </Card.Header>\n          <Card.Body>\n            <div className=\"grid gap-2\">\n              {col.cards.map((card) => (\n                <Card.Root key={card.id} data-ag-part=\"card\" data-ag-card={card.id}>\n                  <Card.Body>\n                    <Text weight=\"medium\">{card.title}</Text>\n                    {card.labels?.length ? (\n                      <div className=\"grid grid-flow-col auto-cols-max gap-1\">\n                        {card.labels.map((l) => <Badge key={l}>{l}</Badge>)}\n                      </div>\n                    ) : null}\n                    {card.points != null ? <Text size=\"sm\" muted>{card.points} pts</Text> : null}\n                  </Card.Body>\n                </Card.Root>\n              ))}\n              {col.cards.length === 0 ? <Text muted size=\"sm\">No cards</Text> : null}\n            </div>\n          </Card.Body>\n        </Card.Root>\n      ))}\n    </div>\n  );\n\n  if (!dnd || !onMove) return board;\n  return <DndBoard dnd={dnd} columns={columns} onMove={onMove}>{board}</DndBoard>;\n}\n\nfunction DndBoard({ dnd, columns, onMove, children }: {\n  dnd: DndCoreModule;\n  columns: KanbanColumn[];\n  onMove: (cardId: string, from: string, to: string, index: number) => void;\n  children: React.ReactNode;\n}) {\n  const { DndContext, closestCorners, PointerSensor, useSensor, useSensors } = dnd;\n  const sensors = useSensors(useSensor(PointerSensor));\n  const locate = (cardId: string) => columns.find((c) => c.cards.some((x) => x.id === cardId));\n  return (\n    <DndContext\n      sensors={sensors}\n      collisionDetection={closestCorners}\n      onDragEnd={({ active, over }) => {\n        if (!over) return;\n        const from = locate(String(active.id));\n        const to = columns.find((c) => c.id === over.id) ?? locate(String(over.id));\n        if (!from || !to || !over) return;\n        const index = to.cards.findIndex((x) => x.id === over.id);\n        onMove(String(active.id), from.id, to.id, index < 0 ? to.cards.length : index);\n      }}\n    >\n      {children}\n    </DndContext>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "// fixtures.ts — deterministic kanban data (contract §3.3).\nimport type { KanbanBoardProps } from './index';\n\nexport const kanbanColumns: KanbanBoardProps['columns'] = [\n  {\n    id: 'todo', title: 'To do',\n    cards: [\n      { id: 't-1', title: 'Draft onboarding copy', labels: ['docs'], points: 2 },\n      { id: 't-2', title: 'Token audit for charts', labels: ['design'], points: 3 },\n    ],\n  },\n  {\n    id: 'doing', title: 'Doing',\n    cards: [\n      { id: 't-3', title: 'Settings block certification', labels: ['registry'], points: 5 },\n    ],\n  },\n  {\n    id: 'done', title: 'Done',\n    cards: [\n      { id: 't-4', title: 'Auth block flows', labels: ['registry'], points: 3 },\n      { id: 't-5', title: 'Schema validation', labels: ['build'], points: 1 },\n    ],\n  },\n];\n\nexport const kanbanProps: KanbanBoardProps = { columns: kanbanColumns };\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "meta": {
+        "auraglass": {
+          "certified": null,
+          "client": true,
+          "components": [
+            "Badge",
+            "Card",
+            "Text"
+          ],
+          "ga": true,
+          "minVersion": "5.0.0",
+          "owner": "PLAT",
+          "replaces": [
+            "kanban-workspace"
+          ],
+          "surface": "item"
+        }
+      },
+      "name": "kanban",
+      "registryDependencies": [
+        "auraglass"
+      ],
+      "title": "Kanban board",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass"
+      ],
+      "description": "Consumer-owned <audio> + useMediaElement + MediaControls (play, scrubber, time, volume, rate).",
+      "files": [
+        {
+          "content": "'use client';\nimport * as React from 'react';\nimport { MediaControls, useMediaElement } from 'aura-glass/media';\n\nexport interface MediaAudioPlayerProps {\n  src: string;\n  /** Captions/subtitle tracks — real <track kind=\"captions\"> children. */\n  captions?: Array<{ src: string; srclang: string; label: string; default?: boolean }>;\n  'aria-label'?: string;\n}\n\n/** media-audio-player (REQ-SURF-134): consumer-owned <audio> + useMediaElement;\n * no visual element — controls carry the whole surface. */\nexport function MediaAudioPlayer({ src, captions = [], 'aria-label': ariaLabel = 'Audio player' }: MediaAudioPlayerProps) {\n  const ref = React.useRef<HTMLAudioElement | null>(null);\n  const media = useMediaElement(ref);\n  return (\n    <div data-ag-media-root data-ag-part=\"media-audio-player\">\n      <audio ref={ref} src={src} aria-label={ariaLabel}>\n        {captions.map((t) => (\n          <track key={t.srclang} kind=\"captions\" src={t.src} srcLang={t.srclang} label={t.label} default={t.default} />\n        ))}\n      </audio>\n      <MediaControls.Root media={media}>\n        <MediaControls.PlayButton />\n        <MediaControls.Scrubber />\n        <MediaControls.Time />\n        <MediaControls.Spacer />\n        <MediaControls.Volume />\n        <MediaControls.Mute />\n        <MediaControls.Rate />\n      </MediaControls.Root>\n    </div>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "media-audio-player",
+      "registryDependencies": [],
+      "title": "Audio player",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass"
+      ],
+      "description": "Thumbnail grid of ImageViewer.Trigger + the shared popup (counter, keys, zoom).",
+      "files": [
+        {
+          "content": "'use client';\nimport * as React from 'react';\nimport { ImageViewer } from 'aura-glass/media';\n\nexport interface MediaGalleryProps {\n  items: Array<{ id: string; src: string; alt: string; caption?: string }>;\n  label?: string;\n}\n\n/** media-gallery (REQ-SURF-141/-14): grid of triggers + the shared ImageViewer\n * popup; the viewer carries counter/keys/zoom — the item is just composition. */\nexport function MediaGallery({ items, label = 'Gallery' }: MediaGalleryProps) {\n  return (\n    <ImageViewer.Root items={items}>\n      <div data-ag-part=\"media-gallery\" role=\"group\" aria-label={label}\n        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(10rem,1fr))', gap: '0.75rem' }}>\n        {items.map((it) => (\n          <ImageViewer.Trigger key={it.id} id={it.id} className=\"ag-media-thumb\">\n            <img src={it.src} alt={it.alt} loading=\"lazy\" style={{ inlineSize: '100%', borderRadius: '0.5rem' }} />\n          </ImageViewer.Trigger>\n        ))}\n      </div>\n      <ImageViewer.Popup />\n    </ImageViewer.Root>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "media-gallery",
+      "registryDependencies": [],
+      "title": "Media gallery",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass"
+      ],
+      "description": "Consumer-owned <audio> + useMediaElement (with Media Session metadata) feeding NowPlayingBar.",
+      "files": [
+        {
+          "content": "'use client';\nimport * as React from 'react';\nimport { NowPlayingBar, useMediaElement } from 'aura-glass/media';\n\nexport interface MediaNowPlayingProps {\n  src: string;\n  title: string;\n  subtitle?: string;\n  artworkSrc?: string;\n}\n\n/** media-now-playing (REQ-SURF-142): mini-player — consumer-owned <audio> +\n * useMediaElement feeding the NowPlayingBar compound. */\nexport function MediaNowPlaying({ src, title, subtitle, artworkSrc }: MediaNowPlayingProps) {\n  const ref = React.useRef<HTMLAudioElement | null>(null);\n  const media = useMediaElement(ref, { mediaSession: { title, ...(subtitle !== undefined ? { artist: subtitle } : {}) } });\n  return (\n    <div data-ag-media-root data-ag-part=\"media-now-playing\">\n      <audio ref={ref} src={src} aria-label={title} />\n      <NowPlayingBar.Root media={media}>\n        <NowPlayingBar.Artwork src={artworkSrc} />\n        <NowPlayingBar.Title>{title}</NowPlayingBar.Title>\n        <NowPlayingBar.Subtitle>{subtitle}</NowPlayingBar.Subtitle>\n        <NowPlayingBar.Progress />\n        <NowPlayingBar.Actions />\n      </NowPlayingBar.Root>\n    </div>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "media-now-playing",
+      "registryDependencies": [],
+      "title": "Now-playing mini player",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass"
+      ],
+      "description": "Cue list (<ol>) with aria-current on the active cue and click-to-seek via a MediaHandle; static without one.",
+      "files": [
+        {
+          "content": "'use client';\nimport * as React from 'react';\nimport { formatMediaTime, type MediaHandle } from 'aura-glass/media';\n\nexport interface TranscriptCue {\n  /** Cue start time in seconds. */\n  start: number;\n  end?: number;\n  text: string;\n  speaker?: string;\n}\n\nexport interface MediaTranscriptProps {\n  cues: TranscriptCue[];\n  /** A live MediaHandle — renders the active cue with aria-current and\n   * click-to-seek. Without it the list is static. */\n  media?: MediaHandle;\n  label?: string;\n}\n\n/** media-transcript (SURF-512, lands public in 5.1): cues as an <ol>; the\n * current cue carries aria-current=\"true\"; clicking a cue seeks the media. */\nexport function MediaTranscript({ cues, media, label = 'Transcript' }: MediaTranscriptProps) {\n  const now = media?.state.currentTime ?? 0;\n  const active = media ? cues.findIndex((c) => now >= c.start && (c.end == null || now < c.end)) : -1;\n  return (\n    <ol data-ag-part=\"media-transcript\" aria-label={label} style={{ listStyle: 'none', margin: 0, padding: 0 }}>\n      {cues.map((c, i) => (\n        <li key={i} aria-current={i === active ? 'true' : undefined} data-active={i === active || undefined}>\n          <button type=\"button\" disabled={!media}\n            onClick={() => media?.seek(c.start)}\n            style={{ background: 'none', border: 0, padding: '0.25rem 0.5rem', textAlign: 'start', cursor: media ? 'pointer' : 'default' }}>\n            <time dateTime={`PT${c.start}S`}>{formatMediaTime(c.start)}</time>{' '}\n            {c.speaker ? <strong>{c.speaker}: </strong> : null}\n            {c.text}\n          </button>\n        </li>\n      ))}\n    </ol>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "media-transcript",
+      "registryDependencies": [],
+      "title": "Media transcript",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass"
+      ],
+      "description": "Consumer-owned <video> + useMediaElement + compound MediaControls; captions via real <track kind=\"captions\"> children.",
+      "files": [
+        {
+          "content": "'use client';\nimport * as React from 'react';\nimport { MediaControls, useMediaElement } from 'aura-glass/media';\n\nexport interface MediaVideoPlayerProps {\n  src: string;\n  /** Caption tracks — shipped as <track kind=\"captions\"> children of the\n   * consumer-owned <video>. */\n  captions?: Array<{ src: string; srclang: string; label: string; default?: boolean }>;\n  poster?: string;\n  'aria-label'?: string;\n}\n\n/** media-video-player (REQ-SURF-134/-156): the element stays consumer-owned —\n * the item wires useMediaElement + the compound MediaControls; captions are\n * real <track> children, never a simulated overlay. */\nexport function MediaVideoPlayer({ src, captions = [], poster, 'aria-label': ariaLabel = 'Video player' }: MediaVideoPlayerProps) {\n  const ref = React.useRef<HTMLVideoElement | null>(null);\n  const media = useMediaElement(ref);\n  return (\n    <div data-ag-media-root data-ag-part=\"media-video-player\" style={{ position: 'relative' }}>\n      <video ref={ref} src={src} poster={poster} aria-label={ariaLabel} playsInline style={{ inlineSize: '100%' }}>\n        {captions.map((t) => (\n          <track key={t.srclang} kind=\"captions\" src={t.src} srcLang={t.srclang} label={t.label} default={t.default} />\n        ))}\n      </video>\n      <MediaControls.Root media={media}>\n        <MediaControls.PlayButton />\n        <MediaControls.Scrubber />\n        <MediaControls.Time />\n        <MediaControls.Spacer />\n        <MediaControls.Volume />\n        <MediaControls.Mute />\n        <MediaControls.Captions />\n        <MediaControls.PictureInPicture />\n        <MediaControls.Fullscreen />\n      </MediaControls.Root>\n    </div>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        }
+      ],
+      "name": "media-video-player",
+      "registryDependencies": [],
+      "title": "Video player",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Avatar stack with deterministic per-id colours and +N overflow — data by props.",
+      "files": [
+        {
+          "content": "// registry/items/presence-stack — REQ-SURF-177 (5.1 scope).\n// Part file per SURF-594: PresenceStack lives in ./PresenceStack.tsx.\nexport {\n  PresenceStack,\n  hueForId,\n  presenceColor,\n  type PresenceStackProps,\n  type PresenceUser,\n} from './PresenceStack';\nexport { PresenceStack as default } from './PresenceStack';\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "// fixtures.ts — deterministic sample data for presence-stack.\nimport type { PresenceUser } from './index';\n\nexport const presenceUsers: PresenceUser[] = [\n  { id: 'u-amara', name: 'Amara Osei' },\n  { id: 'u-bert', name: 'Bert Hughes' },\n  { id: 'u-chen', name: 'Chen Wei' },\n  { id: 'u-dana', name: 'Dana Kim' },\n  { id: 'u-eli', name: 'Eli Novak' },\n  { id: 'u-farid', name: 'Farid Aziz' },\n  { id: 'u-gita', name: 'Gita Rao' },\n];\n\nexport const presenceProps = { users: presenceUsers, max: 5 };\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "presence-stack",
+      "registryDependencies": [
+        "avatar",
+        "avatar-group"
+      ],
+      "title": "Presence stack",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Nested filter groups over FilterBar.useModel — no private logic.",
+      "files": [
+        {
+          "content": "/* query-builder (REQ-SURF-174): nested groups over FilterBar.useModel —\n   the model does all the logic; this file only renders the tree. */\n'use client';\nimport * as React from 'react';\nimport { FilterBar, type FilterField, type FilterGroup, type FilterNode, type FilterRule } from 'aura-glass/data';\n\nfunction isGroup(n: FilterNode): n is FilterGroup { return n.kind === 'group'; }\n\nfunction NodeEditor({ node, model, schema, depth }: { node: FilterNode; model: ReturnType<typeof FilterBar.useModel>; schema: readonly FilterField[]; depth: number }) {\n  if (!isGroup(node)) {\n    const rule = node as FilterRule;\n    const field = schema.find((f) => f.id === rule.fieldId);\n    return (\n      <li data-ag-part=\"qb-rule\">\n        <span>{field?.label ?? rule.fieldId} {rule.operator} {String(rule.value ?? '')}</span>\n        <button type=\"button\" aria-label={`Remove rule ${rule.fieldId}`}\n          onClick={() => model.removeRule(rule.id)}>Remove</button>\n      </li>\n    );\n  }\n  const firstField = schema[0];\n  return (\n    <li data-ag-part=\"qb-group\">\n      <fieldset>\n        <legend>\n          Match\n          <select aria-label=\"Combinator\" value={node.combinator}\n            onChange={(e) => model.setCombinator(node.id, e.target.value as 'and' | 'or')}>\n            <option value=\"and\">all</option>\n            <option value=\"or\">any</option>\n          </select>\n          {depth === 0 ? null : (\n            <button type=\"button\" aria-label=\"Remove group\" onClick={() => model.removeGroup(node.id)}>Remove group</button>\n          )}\n        </legend>\n        <ol>\n          {node.children.map((c: FilterNode) => (\n            <NodeEditor key={c.id} node={c} model={model} schema={schema} depth={depth + 1} />\n          ))}\n        </ol>\n        <button type=\"button\" disabled={firstField === undefined}\n          onClick={() => {\n            if (firstField === undefined) return;\n            model.addRule(\n              {\n                kind: 'rule',\n                id: `qb-${node.id}-${node.children.length}`,\n                fieldId: firstField.id,\n                operator: (firstField.operators?.[0] ?? 'is') as FilterRule['operator'],\n              },\n              node.id,\n            );\n          }}>Add rule</button>\n        <button type=\"button\" onClick={() => model.addGroup(undefined, node.id)}>Add group</button>\n      </fieldset>\n    </li>\n  );\n}\n\nexport interface QueryBuilderProps {\n  schema: readonly FilterField[];\n  value?: FilterGroup | undefined;\n  defaultValue?: FilterGroup | undefined;\n  onValueChange?: ((g: FilterGroup) => void) | undefined;\n}\n\nexport function QueryBuilder({ schema, value, defaultValue, onValueChange }: QueryBuilderProps) {\n  const model = FilterBar.useModel(schema, { value, defaultValue, onValueChange });\n  return (\n    <div data-ag-part=\"query-builder\" className=\"ag-query-builder\">\n      <ol>\n        <NodeEditor node={model.value} model={model} schema={schema} depth={0} />\n      </ol>\n      <button type=\"button\" onClick={() => model.clear()}>Clear all</button>\n    </div>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "/* query-builder fixtures — deterministic values only. */\nimport type { FilterField } from 'aura-glass/data';\n\nexport const FIELDS: FilterField[] = [\n  { id: 'name', label: 'Name', type: 'text' },\n  { id: 'age', label: 'Age', type: 'number' },\n  { id: 'country', label: 'Country', type: 'enum', options: [{ value: 'US', label: 'US' }, { value: 'DE', label: 'DE' }, { value: 'JP', label: 'JP' }] },\n  { id: 'verified', label: 'Verified', type: 'boolean' },\n];\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "query-builder",
+      "registryDependencies": [],
+      "title": "Query builder",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass@^5",
+        "react-hook-form@^7"
+      ],
+      "description": "Binds CMP Field + TextField to react-hook-form Controller — uncontrolled fallback until the engine installs.",
+      "files": [
+        {
+          "content": "// registry/items/react-hook-form — PLAT-366. Adapter binding CMP Field +\n// TextField to react-hook-form's Controller grammar. The dep is\n// consumer-installed; import it lazily so the module graph still builds\n// without it (the adapter is only meaningful once installed).\nimport { useEffect, useState } from 'react';\nimport { Field, TextField } from 'aura-glass';\nimport type { ReactNode } from 'react';\n\nexport interface RHFAdapter {\n  Controller: React.ComponentType<{\n    name: string; control: unknown; rules?: Record<string, unknown>;\n    render: (args: { field: { value: unknown; onChange: (v: unknown) => void; onBlur: () => void; ref: unknown }; fieldState: { error?: { message?: string } } }) => ReactNode;\n  }>;\n}\n\nexport interface RhfFieldProps {\n  name: string;\n  control: unknown;\n  label: ReactNode;\n  rules?: Record<string, unknown>;\n  type?: string;\n  required?: boolean;\n  placeholder?: string;\n  autoComplete?: string;\n  /** Pre-loaded react-hook-form module for tests/doubles. */\n  rhf?: RHFAdapter;\n}\n\nconst RHF_SPECIFIER = 'react-hook-form';\nlet cached: RHFAdapter | null = null;\nexport function useRhf(injected?: RHFAdapter): RHFAdapter | null {\n  const [mod, setMod] = useState<RHFAdapter | null>(injected ?? cached);\n  useEffect(() => {\n    if (injected || mod) return;\n    let live = true;\n    import(/* @vite-ignore */ RHF_SPECIFIER).then((m) => { if (live) { cached = m as RHFAdapter; setMod(cached); } }).catch(() => {});\n    return () => { live = false; };\n  }, [injected, mod]);\n  return mod;\n}\n\n/** Field bound through RHF Controller → CMP Field + TextField. */\nexport function RhfTextField({ name, control, label, rules, type, required, placeholder, autoComplete, rhf: injected }: RhfFieldProps) {\n  const rhf = useRhf(injected);\n  if (!rhf || !control) {\n    /* Engine not installed yet — render the field uncontrolled so the form\n       still displays (submit handlers just get the DOM value). */\n    return <TextField label={label} name={name} type={type} required={required} placeholder={placeholder} autoComplete={autoComplete} />;\n  }\n  const { Controller } = rhf;\n  return (\n    <Controller\n      name={name}\n      control={control}\n      rules={rules}\n      render={({ field, fieldState }) => (\n        <Field.Root invalid={!!fieldState.error}>\n          <Field.Label>{label}</Field.Label>\n          <Field.Control>\n            <TextField\n              name={field.name ?? name}\n              type={type}\n              required={required}\n              placeholder={placeholder}\n              autoComplete={autoComplete}\n              value={field.value == null ? '' : String(field.value)}\n              onValueChange={(v) => field.onChange(v)}\n              invalid={!!fieldState.error}\n            />\n          </Field.Control>\n          {fieldState.error?.message ? <Field.Error>{fieldState.error.message}</Field.Error> : null}\n        </Field.Root>\n      )}\n    />\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "// fixtures.ts — deterministic adapter demo state (contract §3.3).\nimport type { RhfFieldProps } from './index';\n\nexport const rhfFieldProps: Omit<RhfFieldProps, 'control'> = {\n  name: 'email',\n  label: 'Email',\n  type: 'email',\n  required: true,\n  placeholder: 'user@example.com',\n  autoComplete: 'email',\n  rules: { required: 'Email is required' },\n};\n\n/* A minimal control double: adapters accept any RHF control object. */\nexport const rhfControlDouble = { _formValues: { email: '' } };\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "meta": {
+        "auraglass": {
+          "certified": null,
+          "client": true,
+          "components": [
+            "Field",
+            "TextField"
+          ],
+          "ga": true,
+          "minVersion": "5.0.0",
+          "owner": "PLAT",
+          "replaces": [],
+          "surface": "item"
+        }
+      },
+      "name": "react-hook-form",
+      "registryDependencies": [
+        "auraglass"
+      ],
+      "title": "React Hook Form adapter",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass@^5",
+        "@tiptap/core@^3",
+        "@tiptap/starter-kit@^3"
+      ],
+      "description": "Tiptap editor card on the CMP Toolbar grammar with a read-only static fallback.",
+      "files": [
+        {
+          "content": "// registry/items/rich-text — PLAT-364. Tiptap editor card: toolbar on the\n// CMP Toolbar grammar (bold/italic/lists) + a lazily mounted editor.\n// Before the consumer-installed engine resolves, content renders read-only.\nimport { useEffect, useRef, useState } from 'react';\nimport { Card, Text, Toolbar } from 'aura-glass';\n\nexport interface RichTextProps {\n  /** Initial HTML or plain-text content. */\n  content: string;\n  onChange?: (html: string) => void;\n  readOnly?: boolean;\n  /** Pre-loaded tiptap modules for tests/doubles. */\n  modules?: { core: unknown; starterKit: unknown };\n}\n\nconst TIPTAP_SPECIFIER = '@tiptap/core';\nconst STARTER_SPECIFIER = '@tiptap/starter-kit';\n\nexport function RichText({ content, onChange, readOnly = false, modules: injected }: RichTextProps) {\n  const host = useRef<HTMLDivElement>(null);\n  const [editor, setEditor] = useState<{ commands: Record<string, () => unknown>; chain(): Record<string, () => unknown> } | null>(null);\n\n  useEffect(() => {\n    let live = true;\n    const load = injected\n      ? Promise.resolve(injected)\n      : Promise.all([import(/* @vite-ignore */ TIPTAP_SPECIFIER), import(/* @vite-ignore */ STARTER_SPECIFIER)])\n        .then(([core, starterKit]) => ({ core, starterKit }));\n    load.then(({ core, starterKit }) => {\n      if (!live || !host.current) return;\n      const mod = core as { Editor?: new (config: { element: HTMLElement; extensions: unknown[]; content: string; editable: boolean; onUpdate?: (e: { editor: { getHTML(): string } }) => void }) => { destroy(): void } };\n      const sk = starterKit as { default?: unknown; StarterKit?: unknown };\n      const ed = new mod.Editor!({\n        element: host.current,\n        extensions: [sk.default ?? sk.StarterKit],\n        content,\n        editable: !readOnly,\n        onUpdate: ({ editor }) => onChange?.(editor.getHTML()),\n      });\n      setEditor(ed as never);\n      return () => ed.destroy();\n    }).catch(() => { /* static fallback stays */ });\n    return () => { live = false; };\n  }, [content, readOnly, injected, onChange]);\n\n  const cmd = (name: string) => () => {\n    const chain = (editor as { chain?: () => Record<string, () => { run(): void }> } | null)?.chain?.();\n    chain?.[name]?.()?.run?.();\n  };\n\n  return (\n    <Card.Root data-ag-part=\"root\" className=\"@container\" data-ag-state={editor ? 'live' : 'static'}>\n      {editor ? (\n        <Toolbar.Root data-ag-part=\"toolbar\" aria-label=\"Formatting\">\n          <Toolbar.Button onClick={cmd('toggleBold')}>Bold</Toolbar.Button>\n          <Toolbar.Button onClick={cmd('toggleItalic')}>Italic</Toolbar.Button>\n          <Toolbar.Separator />\n          <Toolbar.Button onClick={cmd('toggleBulletList')}>List</Toolbar.Button>\n        </Toolbar.Root>\n      ) : null}\n      <Card.Body data-ag-part=\"body\">\n        <div ref={host} data-ag-part=\"editor\" hidden={!editor} />\n        {!editor ? <div data-ag-part=\"static\" className=\"prose\" dangerouslySetInnerHTML={{ __html: content }} /> : null}\n      </Card.Body>\n      <Card.Footer data-ag-part=\"footer\">\n        <Text size=\"sm\" muted>{editor ? 'Editing' : 'Preview'}</Text>\n      </Card.Footer>\n    </Card.Root>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "// fixtures.ts — deterministic rich-text content (contract §3.3).\nimport type { RichTextProps } from './index';\n\nexport const richTextProps: RichTextProps = {\n  content: '<p>Release notes draft: registry pipeline landed; docs site next.</p>',\n};\n\nexport const richTextEmpty: RichTextProps = {\n  content: '<p></p>',\n};\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "meta": {
+        "auraglass": {
+          "certified": null,
+          "client": true,
+          "components": [
+            "Card",
+            "Text",
+            "Toolbar"
+          ],
+          "ga": true,
+          "minVersion": "5.0.0",
+          "owner": "PLAT",
+          "replaces": [],
+          "surface": "item"
+        }
+      },
+      "name": "rich-text",
+      "registryDependencies": [
+        "auraglass"
+      ],
+      "title": "Rich text",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "JSON-schema document rendered as a TreeView.",
+      "files": [
+        {
+          "content": "/* schema-viewer (REQ-SURF-174, DX-085): a JSON-schema document rendered as a\n   TreeView — nodes are properties/keywords, children nest objects/arrays. */\n'use client';\nimport * as React from 'react';\nimport { TreeView } from 'aura-glass/data';\n\ninterface Node { [k: string]: unknown; key: string; label: string; children?: Node[] | undefined }\n\nfunction toNodes(obj: Record<string, unknown>, prefix: string): Node[] {\n  return Object.entries(obj).map(([k, v]) => {\n    const key = `${prefix}.${k}`;\n    const label = `${k}: ${typeof v === 'object' && v !== null ? (Array.isArray(v) ? 'array' : (v as Record<string, unknown>).type ?? 'object') : JSON.stringify(v)}`;\n    const children = typeof v === 'object' && v !== null && !Array.isArray(v)\n      ? toNodes(v as Record<string, unknown>, key)\n      : Array.isArray(v) && typeof v[0] === 'object'\n        ? toNodes(v[0] as Record<string, unknown>, `${key}[]`)\n        : undefined;\n    return { key, label, ...(children !== undefined && children.length > 0 ? { children } : {}) };\n  });\n}\n\nexport interface SchemaViewerProps {\n  schema: Record<string, unknown>;\n  label?: string | undefined;\n}\n\nexport function SchemaViewer({ schema, label = 'Schema' }: SchemaViewerProps) {\n  const items = React.useMemo(() => toNodes(schema, '$'), [schema]);\n  return (\n    <div data-ag-part=\"schema-viewer\" className=\"ag-schema-viewer\">\n      <TreeView items={items} aria-label={label} preset=\"files\" defaultExpandedKeys={items.map((i) => i.key)} />\n    </div>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "/* schema-viewer fixtures — a fixed JSON-schema document, deterministic. */\nexport const SCHEMA = {\n  $schema: 'https://json-schema.org/draft/2020-12/schema',\n  title: 'Deployment',\n  type: 'object',\n  properties: {\n    name: { type: 'string', description: 'Deployment name' },\n    replicas: { type: 'integer', minimum: 1, maximum: 64 },\n    image: { type: 'string', pattern: '^[a-z0-9./:_-]+$' },\n    env: { type: 'object', additionalProperties: { type: 'string' } },\n    ports: { type: 'array', items: { type: 'integer' } },\n  },\n  required: ['name', 'image'],\n} as const;\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "schema-viewer",
+      "registryDependencies": [],
+      "title": "Schema viewer",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react",
+        "aura-glass@^5"
+      ],
+      "description": "Two-column pick-and-move list control on the CMP field grammar.",
+      "files": [
+        {
+          "content": "// registry/items/transfer-list — PLAT-362. Two-column transfer control:\n// pick rows in a source list and move them to a target list. Buttons only —\n// no drag engine — so it works everywhere the CMP grammar does.\nimport { useMemo, useState } from 'react';\nimport { Button, Card, Checkbox, Text } from 'aura-glass';\n\nexport interface TransferRow { id: string; label: string; hint?: string }\n\nexport interface TransferListProps {\n  source: { title: string; rows: TransferRow[] };\n  target: { title: string; rows: TransferRow[] };\n  onChange?: (targetIds: string[]) => void;\n  onMove?: (moved: { ids: string[]; direction: 'to-target' | 'to-source' }) => void;\n}\n\nexport function TransferList({ source, target, onChange, onMove }: TransferListProps) {\n  const [picked, setPicked] = useState<{ source: string[]; target: string[] }>({ source: [], target: [] });\n  const [internalTarget, setInternalTarget] = useState<string[] | null>(null);\n  const targetIds = internalTarget ?? target.rows.map((r) => r.id);\n  const sourceRows = useMemo(\n    () => [...source.rows, ...target.rows].filter((r) => !targetIds.includes(r.id)),\n    [source.rows, target.rows, targetIds],\n  );\n  const targetRows = useMemo(\n    () => [...source.rows, ...target.rows].filter((r) => targetIds.includes(r.id)),\n    [source.rows, target.rows, targetIds],\n  );\n\n  const toggle = (side: 'source' | 'target', id: string, on: boolean) =>\n    setPicked((p) => ({ ...p, [side]: on ? [...p[side], id] : p[side].filter((x) => x !== id) }));\n\n  const move = (direction: 'to-target' | 'to-source') => {\n    const ids = direction === 'to-target' ? picked.source : picked.target;\n    if (!ids.length) return;\n    const next = direction === 'to-target' ? [...targetIds, ...ids] : targetIds.filter((x) => !ids.includes(x));\n    setInternalTarget(next);\n    setPicked({ source: [], target: [] });\n    onChange?.(next);\n    onMove?.({ ids, direction });\n  };\n\n  const Column = ({ title, rows, side }: { title: string; rows: TransferRow[]; side: 'source' | 'target' }) => (\n    <div data-ag-part={`${side}-column`}>\n      <Text weight=\"medium\">{title}</Text>\n      <div className=\"grid gap-1\">\n        {rows.map((r) => (\n          <label key={r.id} data-ag-part=\"row\" className=\"grid grid-flow-col auto-cols-max items-center gap-2\">\n            <Checkbox\n              checked={picked[side].includes(r.id)}\n              onCheckedChange={(v) => toggle(side, r.id, Boolean(v))}\n              aria-label={r.label}\n            />\n            <span>{r.label}</span>\n            {r.hint ? <Text size=\"sm\" muted>{r.hint}</Text> : null}\n          </label>\n        ))}\n        {rows.length === 0 ? <Text muted size=\"sm\">Empty</Text> : null}\n      </div>\n    </div>\n  );\n\n  return (\n    <Card.Root data-ag-part=\"root\" className=\"@container\">\n      <Card.Body data-ag-part=\"body\">\n        <div className=\"grid gap-4 @md:grid-cols-[1fr_auto_1fr] @md:items-center\">\n          <Column title={source.title} rows={sourceRows} side=\"source\" />\n          <div data-ag-part=\"controls\" className=\"grid grid-flow-row gap-2 justify-items-center\">\n            <Button size=\"sm\" onClick={() => move('to-target')} disabled={picked.source.length === 0} aria-label=\"Move selected to target\">→</Button>\n            <Button size=\"sm\" onClick={() => move('to-source')} disabled={picked.target.length === 0} aria-label=\"Move selected to source\">←</Button>\n          </div>\n          <Column title={target.title} rows={targetRows} side=\"target\" />\n        </div>\n      </Card.Body>\n    </Card.Root>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "// fixtures.ts — deterministic transfer data (contract §3.3).\nimport type { TransferListProps } from './index';\n\nexport const transferProps: TransferListProps = {\n  source: {\n    title: 'Available',\n    rows: [\n      { id: 'u-1', label: 'Ada', hint: 'Design' },\n      { id: 'u-2', label: 'Grace', hint: 'Build' },\n      { id: 'u-3', label: 'Katherine', hint: 'Docs' },\n      { id: 'u-4', label: 'Mary', hint: 'QA' },\n    ],\n  },\n  target: {\n    title: 'Reviewers',\n    rows: [\n      { id: 'u-5', label: 'Radia', hint: 'PLAT' },\n    ],\n  },\n};\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "meta": {
+        "auraglass": {
+          "certified": null,
+          "client": true,
+          "components": [
+            "Button",
+            "Card",
+            "Checkbox",
+            "Text"
+          ],
+          "ga": true,
+          "minVersion": "5.0.0",
+          "owner": "PLAT",
+          "replaces": [],
+          "surface": "item"
+        }
+      },
+      "name": "transfer-list",
+      "registryDependencies": [
+        "auraglass"
+      ],
+      "title": "Transfer list",
+      "type": "registry:item"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "dependencies": [
+        "react"
+      ],
+      "description": "Hierarchical single-select — trigger + TreeView popup.",
+      "files": [
+        {
+          "content": "/* tree-select (REQ-SURF-174): CMP Select-style trigger + TreeView inside a\n   popover; selection announced on the trigger. */\n'use client';\nimport * as React from 'react';\nimport { TreeView } from 'aura-glass/data';\n\nexport interface TreeSelectItem { [k: string]: unknown; key: string; label: string; children?: TreeSelectItem[] | undefined }\n\nexport interface TreeSelectProps {\n  items: readonly TreeSelectItem[];\n  label?: string | undefined;\n  value?: string | undefined;\n  defaultValue?: string | undefined;\n  onValueChange?: ((key: string) => void) | undefined;\n  placeholder?: string | undefined;\n}\n\nfunction flatten(items: readonly TreeSelectItem[]): Map<string, string> {\n  const m = new Map<string, string>();\n  const walk = (list: readonly TreeSelectItem[]) => { for (const i of list) { m.set(i.key, i.label); if (i.children) walk(i.children); } };\n  walk(items);\n  return m;\n}\n\nexport function TreeSelect({ items, label, value, defaultValue, onValueChange, placeholder = 'Choose…' }: TreeSelectProps) {\n  const [open, setOpen] = React.useState(false);\n  const [inner, setInner] = React.useState<string | undefined>(defaultValue);\n  const selected = value ?? inner;\n  const labels = React.useMemo(() => flatten(items), [items]);\n  return (\n    <span data-ag-part=\"tree-select\" className=\"ag-tree-select\">\n      {label !== undefined ? <span className=\"ag-tree-select__label\">{label}</span> : null}\n      <button type=\"button\" aria-haspopup=\"tree\" aria-expanded={open} onClick={() => setOpen((o) => !o)}>\n        {(selected !== undefined ? labels.get(selected) : undefined) ?? placeholder}\n      </button>\n      {open ? (\n        <div role=\"dialog\" aria-label={label ?? 'Choose'} className=\"ag-tree-select__popup\">\n          <TreeView\n            items={items}\n            aria-label={label ?? 'Options'}\n            selectionMode=\"single\"\n            selectedKeys={selected !== undefined ? [selected] : []}\n            onSelectionChange={(keys: Iterable<unknown>) => {\n              const k = [...keys][0];\n              if (k !== undefined) { setInner(String(k)); onValueChange?.(String(k)); setOpen(false); }\n            }}\n          />\n        </div>\n      ) : null}\n    </span>\n  );\n}\n",
+          "path": "index.tsx",
+          "type": "registry:item"
+        },
+        {
+          "content": "/* tree-select fixtures — deterministic values only. */\nexport const FILES = [\n  { key: 'src', label: 'src', children: [\n    { key: 'src/app', label: 'app' },\n    { key: 'src/lib', label: 'lib', children: [{ key: 'src/lib/util', label: 'util' }] },\n  ] },\n  { key: 'docs', label: 'docs', children: [{ key: 'docs/api', label: 'api' }] },\n];\n",
+          "path": "fixtures.ts",
+          "type": "registry:item"
+        }
+      ],
+      "name": "tree-select",
+      "registryDependencies": [],
+      "title": "Tree select",
+      "type": "registry:item"
+    }
+  ],
+  "name": "auraglass"
+}

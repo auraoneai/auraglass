@@ -1,16 +1,13 @@
 // tests/e2e/surf/motion/idle.spec.ts — SURF loop-idle matrix (REQ-SURF-05).
 // Each shipped SURF subject stops rAF when the page is hidden and when the
-// element scrolls out of view; absence of subjects passes.
+// element scrolls out of view; an empty subject index fails the test.
 import { test, expect } from '@playwright/test';
 import { listSubjects, gotoStory } from '../../../helpers';
 
 test.describe('SURF motion idle', () => {
   test('every shipped SURF subject suspends rAF when hidden', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
-    if (subjects.length === 0) {
-      console.warn('no SURF subjects registered in the subject index — pending');
-      return;
-    }
+    expect(subjects.length, 'no SURF subjects registered in the subject index').toBeGreaterThan(0);
     for (const subject of subjects) {
       await test.step(subject.id, async () => {
         await gotoStory(page, subject.id);

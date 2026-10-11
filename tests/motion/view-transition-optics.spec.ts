@@ -89,8 +89,8 @@ const morphOver = (page: Page) =>
 /** swap, then wait until the morph is over: no data-ag-vt / -settled left, no
     running animation, two frames + a microtask. */
 const swapAndSettle = async (page: Page) => {
-  await page.locator('[data-ag-vt-trigger]').click();
-  await expect(page.locator('[data-ag-vt-node]')).toContainText('(after)');
+  await page.locator('[data-vt-trigger]').click();
+  await expect(page.locator('[data-vt-node]')).toContainText('(after)');
   await morphOver(page);
   await page.evaluate(async () => {
     await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));

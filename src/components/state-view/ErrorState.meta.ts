@@ -6,8 +6,11 @@ export const ErrorStateMeta = defineMeta({
   entry: '.',
   tier: 'T2',
   rsc: 'server',
-  parts: ['root', 'icon', 'title', 'description', 'actions', 'action'],
+  parts: ['root', 'icon', 'title', 'description', 'actions'],
   states: [],
   variants: {},
-  migration: [{ from: 'GlassErrorState', automation: 'full', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1500 / 1024,
+  migration: [{ from: 'GlassErrorState', props: {}, selectors: { '.glass-error-state': '.ag-error-state' },  automation: 'full', compat: true }],
 });
