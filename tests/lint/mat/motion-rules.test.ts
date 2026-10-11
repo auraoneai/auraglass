@@ -46,11 +46,13 @@ describe('auraglass lint rules (MAT)', () => {
 
     tester.run('motion-single-preference-source', rule('motion-single-preference-source') as never, {
       valid: [
-        { code: `matchMedia('(prefers-reduced-motion: reduce)');`, filename: 'src/motion/ticker.ts' },
+        { code: `matchMedia('(prefers-reduced-motion: reduce)');`, filename: 'src/theme/preferences/media.ts' },
         { code: `import { usePreference } from '../theme';`, filename: SRC },
       ],
       invalid: [
         { code: `const mq = matchMedia('(prefers-reduced-motion: reduce)');`, filename: SRC, errors: 1 },
+        // MAT-47: the motion runtime no longer owns an OS floor of its own
+        { code: `matchMedia('(prefers-reduced-motion: reduce)');`, filename: 'src/motion/ticker.ts', errors: 1 },
         { code: `import { useReducedMotion } from 'motion/react';`, filename: SRC, errors: 1 },
       ],
     } as never);

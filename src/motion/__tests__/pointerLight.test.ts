@@ -2,6 +2,7 @@
    ≤1 setProperty per frame + rect caching + leave removal. No React. */
 import { describe, expect, it, jest, beforeEach, afterEach } from '@jest/globals';
 import { installPointerLight, pointerLightActive } from '../pointerLight';
+import * as media from '../../theme/preferences/media';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -21,11 +22,19 @@ const host = () => {
 const move = (el: Element, x: number, y: number) =>
   el.dispatchEvent(new MouseEvent('pointermove', { clientX: x, clientY: y, bubbles: true }));
 
-const fineHoverWin = { matchMedia: (q: string) => ({ matches: q.includes('hover: hover') && q.includes('pointer: fine') }) } as unknown as Window;
-const coarseWin = { matchMedia: () => ({ matches: false }) } as unknown as Window;
+/* Input capability is read through the preference store's shared media
+   registry; each fake window carries its own answer for that registry. */
+const fineHoverWin = {} as Window;
+const coarseWin = {} as Window;
+const pointerCaps = new Map<Window, Partial<Record<media.PointerSignalKey, boolean>>>([
+  [fineHoverWin, { fineHover: true, fine: true }],
+  [coarseWin, { fineHover: false, fine: false }],
+]);
 
 beforeEach(() => {
   rafQ = []; rafSeq = 0;
+  jest.spyOn(media, 'readPointerSignal').mockImplementation(
+    (win, key) => pointerCaps.get(win)?.[key] ?? false);
   globalThis.requestAnimationFrame = ((cb: (t: number) => void) => {
     const id = ++rafSeq; rafQ.push({ id, cb }); return id;
   }) as typeof requestAnimationFrame;
