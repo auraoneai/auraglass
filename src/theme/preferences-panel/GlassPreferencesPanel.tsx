@@ -66,6 +66,7 @@ const FLOOR_NOTES: Record<string, string> = {
   'prefers-reduced-transparency': "Your system's Reduce Transparency setting requires at least Tinted",
   'no-backdrop-filter': 'This browser cannot apply glass, so Solid is required',
   'glass-opacity': 'Glass opacity above 70% requires at least Tinted',
+  'contrast-more': 'More contrast requires at least Tinted',
   'prefers-reduced-motion': "Your system's Reduce Motion setting allows at most Calm",
   'save-data': 'Data Saver keeps the lightweight tier',
   'low-memory-coarse': 'This device renders the lightweight tier',
@@ -100,6 +101,7 @@ export function GlassPreferencesPanel({
         : contrastMoreOS ? FLOOR_NOTES['prefers-contrast-more']!
         : reducedTransparencyOS ? FLOOR_NOTES['prefers-reduced-transparency']!
         : glassOpacity >= 0.7 ? FLOOR_NOTES['glass-opacity']!
+        : floor === 'tinted' && resolved.contrast === 'more' ? FLOOR_NOTES['contrast-more']!
         : FLOOR_NOTES['no-backdrop-filter']!;
       return { floor: RANK[floor] ?? 0, note };
     }
