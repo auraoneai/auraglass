@@ -532,3 +532,160 @@ describe('root .gitlab-ci.yml (R1 workflow prefixes, stage order)', () => {
     expect(j.script[fetchIdx]).toContain('refs/remotes/origin/$BASE');
   });
 });
+
+// B3-9 4x port (§6.1 REQ-FIN-31 → REQ-FIN-22; REQ-PLAT-11): plat:package:pack writes
+// .artifacts/plat/$CI_JOB_NAME_SLUG/pack-record.json { name: { file, integrity } } from
+// `npm pack --json`. The pack lines run under bash -eo pipefail (runner semantics) in a scratch
+// project with a stub `npm` on PATH that writes real bytes and reports their real sha512.
+describe('pack-record.json from plat:package:pack (B3-9, REQ-PLAT-11)', () => {
+  const { createHash } = require('node:crypto') as typeof import('node:crypto');
+  const { copyFileSync } = require('node:fs') as typeof import('node:fs');
+  const SLUG = 'plat-package-pack'; // GitLab CI_JOB_NAME_SLUG of plat:package:pack
+  const JOB_DIR = `.artifacts/plat/${SLUG}`;
+  const lines: string[] = job('plat:package:pack').script;
+  const at = (needle: string) => lines.findIndex((l) => l.includes(needle));
+  const sha512 = (b: Buffer | string) => 'sha512-' + createHash('sha512').update(b).digest('base64');
+
+  // `npm pack --json [-w packages/<w>] --pack-destination <d>` writes <d>/<file> and prints
+  // npm's --json array. STUB_NPM_MODE: noise (4.x prepack/postpack stdout before the JSON),
+  // npm12 (name-keyed object), bad-integrity, dup-name, no-json.
+  const NPM_STUB = `#!/usr/bin/env node
+const fs = require('fs'), path = require('path'), crypto = require('crypto');
+const a = process.argv.slice(2);
+if (a[0] !== 'pack' || !a.includes('--json')) { console.error('stub npm: unexpected ' + a.join(' ')); process.exit(9); }
+const d = a[a.indexOf('--pack-destination') + 1];
+const w = a.includes('-w') ? path.basename(a[a.indexOf('-w') + 1]) : null;
+const mode = process.env.STUB_NPM_MODE || '';
+const name = w && mode !== 'dup-name' ? '@auraglass/' + w : 'aura-glass';
+const version = w ? '0.1.0' : '4.3.0';
+const filename = (w ? 'auraglass-' + w : 'aura-glass') + '-' + version + '.tgz';
+const body = Buffer.from('tarball:' + filename);
+fs.mkdirSync(d, { recursive: true });
+fs.writeFileSync(path.join(d, filename), body);
+let integrity = 'sha512-' + crypto.createHash('sha512').update(body).digest('base64');
+if (mode === 'bad-integrity' && !w) integrity = 'sha512-' + crypto.createHash('sha512').update('other').digest('base64');
+if (mode === 'no-json') { console.log('> aura-glass@4.3.0 prepack'); process.exit(0); }
+if (mode === 'noise') {
+  console.log('> aura-glass@4.3.0 prepack');
+  console.log('gen-deprecations: 42 entries -> deprecations.json');
+  console.log('bridge-exports: 3 emitted, 0 omitted');
+}
+const r = { id: name + '@' + version, name, version, filename, integrity, size: body.length, files: [{ path: 'package.json' }] };
+console.log(JSON.stringify(mode === 'npm12' ? { [name]: r } : [r], null, 2));
+`;
+  const PACK_LINES = [
+    lines[at('mkdir -p .artifacts/pack .artifacts/plat')],
+    lines[at('npm pack --json --pack-destination .artifacts/pack')],
+    lines[at('for w in cli registry mcp labs')],
+    lines[at('ci/plat/pack-record.mjs')],
+  ];
+  const scratch = () => {
+    const dir = mkdtempSync(join(tmpdir(), 'b3-9-4x-'));
+    mkdirSync(join(dir, 'bin'));
+    writeFileSync(join(dir, 'bin/npm'), NPM_STUB);
+    chmodSync(join(dir, 'bin/npm'), 0o755);
+    mkdirSync(join(dir, 'ci/plat'), { recursive: true });
+    mkdirSync(join(dir, 'scripts/ci/lib'), { recursive: true });
+    copyFileSync('ci/plat/pack-record.mjs', join(dir, 'ci/plat/pack-record.mjs'));
+    copyFileSync('scripts/ci/lib/npm-pack.js', join(dir, 'scripts/ci/lib/npm-pack.js'));
+    // packages/mcp and packages/labs absent: the 5x loop must skip them, not fail.
+    for (const w of ['cli', 'registry']) mkdirSync(join(dir, 'packages', w), { recursive: true });
+    return dir;
+  };
+  const run = (cwd: string, env: Record<string, string> = {}) =>
+    spawnSync('bash', ['-eo', 'pipefail', '-c', PACK_LINES.join('\n')], {
+      cwd,
+      encoding: 'utf8',
+      env: { ...process.env, PATH: `${join(cwd, 'bin')}:${process.env.PATH}`, AG_LINE: '4x', CI_JOB_NAME_SLUG: SLUG, STUB_NPM_MODE: '', ...env },
+    });
+  const withScratch = (fn: (dir: string) => void) => {
+    const dir = scratch();
+    try {
+      fn(dir);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  };
+  const recordPath = (dir: string) => join(dir, JOB_DIR, 'pack-record.json');
+
+  it('require-activated.mjs stays the first script line', () => {
+    expect(lines[0]).toBe('node scripts/ci/require-activated.mjs --line "$AG_LINE"');
+  });
+
+  it('every npm pack call is --json into the job dir; the record is built after them and before pack.env', () => {
+    for (const l of PACK_LINES) expect(l).toBeDefined();
+    const packCalls = lines.join('\n').match(/npm pack (?:--|-w)[^\n]*/g)!;
+    expect(packCalls).toHaveLength(2);
+    for (const c of packCalls) {
+      expect(c).toContain('--json');
+      expect(c).toMatch(/> "\.artifacts\/plat\/\$CI_JOB_NAME_SLUG\/npm-pack\/[^"]+\.json"$/);
+    }
+    expect(lines[at('ci/plat/pack-record.mjs')]).toBe(
+      'node ci/plat/pack-record.mjs --pack-dir .artifacts/pack --out ".artifacts/plat/$CI_JOB_NAME_SLUG/pack-record.json" ".artifacts/plat/$CI_JOB_NAME_SLUG"/npm-pack/*.json',
+    );
+    expect(at('ci/plat/pack-record.mjs')).toBeGreaterThan(at('for w in cli registry mcp labs'));
+    expect(at('ci/plat/pack-record.mjs')).toBeLessThan(at('AURAGLASS_TARBALL='));
+  });
+
+  it('the job dir is in the uploaded artifacts that plat:publish:npm receives', () => {
+    const paths: string[] = job('plat:package:pack').artifacts.paths;
+    expect(paths.some((p) => `${JOB_DIR}/pack-record.json`.startsWith(p))).toBe(true);
+    expect(job('plat:publish:npm').needs).toContainEqual({ job: 'plat:package:pack', artifacts: true });
+  });
+
+  it('4x: records the root tarball by name with npm\'s sha512, with prepack/postpack stdout ahead of the JSON', () => {
+    withScratch((dir) => {
+      const r = run(dir, { STUB_NPM_MODE: 'noise' });
+      expect([r.status, r.stderr]).toEqual([0, '']);
+      expect(r.stdout).toContain(`pack-record: 1 tarball(s) -> ${JOB_DIR}/pack-record.json`);
+      const file = '.artifacts/pack/aura-glass-4.3.0.tgz';
+      expect(JSON.parse(readFileSync(recordPath(dir), 'utf8'))).toEqual({
+        'aura-glass': { file, integrity: sha512(readFileSync(join(dir, file))) },
+      });
+    });
+  });
+
+  it('accepts the npm 12 name-keyed --json shape', () => {
+    withScratch((dir) => {
+      const r = run(dir, { STUB_NPM_MODE: 'npm12' });
+      expect([r.status, r.stderr]).toEqual([0, '']);
+      expect(Object.keys(JSON.parse(readFileSync(recordPath(dir), 'utf8')))).toEqual(['aura-glass']);
+    });
+  });
+
+  it('5x: records every packed tarball (workspace loop skips absent package dirs)', () => {
+    withScratch((dir) => {
+      const r = run(dir, { AG_LINE: '5x' });
+      expect([r.status, r.stderr]).toEqual([0, '']);
+      expect(Object.keys(JSON.parse(readFileSync(recordPath(dir), 'utf8'))).sort()).toEqual([
+        '@auraglass/cli',
+        '@auraglass/registry',
+        'aura-glass',
+      ]);
+    });
+  });
+
+  it.each([
+    ['npm reports an integrity the tarball does not have', { STUB_NPM_MODE: 'bad-integrity' }, 'sha512'],
+    ['npm pack prints no JSON', { STUB_NPM_MODE: 'no-json' }, 'not npm pack --json output'],
+    ['two reports name the same package', { STUB_NPM_MODE: 'dup-name', AG_LINE: '5x' }, 'aura-glass packed twice'],
+  ])('fails closed and writes no record when %s', (_n, env, msg) => {
+    withScratch((dir) => {
+      const r = run(dir, env);
+      expect(r.status).toBe(1);
+      expect(r.stderr).toContain(msg);
+      expect(existsSync(recordPath(dir))).toBe(false);
+    });
+  });
+
+  it('fails closed when .artifacts/pack holds a tarball no npm pack report records', () => {
+    withScratch((dir) => {
+      mkdirSync(join(dir, '.artifacts/pack'), { recursive: true });
+      writeFileSync(join(dir, '.artifacts/pack/aura-glass-4.2.9.tgz'), 'stale');
+      const r = run(dir);
+      expect(r.status).toBe(1);
+      expect(r.stderr).toContain('tarballs no npm pack report records: aura-glass-4.2.9.tgz');
+      expect(existsSync(recordPath(dir))).toBe(false);
+    });
+  });
+});

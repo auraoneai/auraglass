@@ -350,14 +350,23 @@ plat:package:pack:
           || { echo "PENDING: npm script pack:verify (lane 1d)"; exit 1; }
         npm run pack:verify
       fi
-    - mkdir -p .artifacts/pack .artifacts/plat
-    - npm pack --pack-destination .artifacts/pack
+    # REQ-PLAT-11 (B3-9): every npm pack call keeps its --json report in the
+    # job dir (.artifacts/plat/$CI_JOB_NAME_SLUG/, contract EVIDENCE.jobDir);
+    # pack-record.json is built from those reports below.
+    - mkdir -p .artifacts/pack .artifacts/plat ".artifacts/plat/$CI_JOB_NAME_SLUG/npm-pack"
+    - npm pack --json --pack-destination .artifacts/pack > ".artifacts/plat/$CI_JOB_NAME_SLUG/npm-pack/aura-glass.json"
     - |
       if [ "$AG_LINE" = "5x" ]; then
         for w in cli registry mcp labs; do
-          [ -d "packages/$w" ] && npm pack -w "packages/$w" --pack-destination .artifacts/pack
+          if [ -d "packages/$w" ]; then
+            npm pack --json -w "packages/$w" --pack-destination .artifacts/pack > ".artifacts/plat/$CI_JOB_NAME_SLUG/npm-pack/$w.json"
+          fi
         done
       fi
+    # REQ-PLAT-11: { name: { file, integrity } } for every tarball in
+    # .artifacts/pack, from npm's sha512 (re-hashed; fails closed on mismatch or
+    # an unrecorded .tgz). plat:publish:npm receives it with this job's artifacts.
+    - node ci/plat/pack-record.mjs --pack-dir .artifacts/pack --out ".artifacts/plat/$CI_JOB_NAME_SLUG/pack-record.json" ".artifacts/plat/$CI_JOB_NAME_SLUG"/npm-pack/*.json
     - echo "AURAGLASS_TARBALL=$(ls .artifacts/pack/*.tgz 2>/dev/null | head -1)" > .artifacts/plat/pack.env
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
