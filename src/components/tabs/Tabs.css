@@ -90,7 +90,7 @@
   .ag-tabs[data-ag-appearance='pill'] .ag-tabs__list {
     border-block-end: 0;
     padding: var(--ag-space-1, 0.25rem);
-    border-radius: var(--ag-radius-full, 999px);
+    border-radius: var(--ag-radius-full);
   }
   .ag-tabs[data-ag-appearance='pill'] .ag-tabs__indicator {
     inset-block-start: var(--active-tab-top);
@@ -100,7 +100,7 @@
   }
   .ag-tabs[data-ag-appearance='pill'] .ag-tabs__tab {
     z-index: 1;
-    border-radius: var(--ag-radius-full, 999px);
+    border-radius: var(--ag-radius-full);
   }
   .ag-tabs[data-ag-appearance='underline'] .ag-tabs__indicator {
     inset-block-end: 0;
