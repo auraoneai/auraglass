@@ -40,6 +40,11 @@ const w2 = [
   { lane: 'L1', kind: 'jest', path: 'src/charts/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L1', kind: 'jest', path: 'src/components/timeline/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L1', kind: 'jest', path: 'tests/{data,date,charts}/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  // REQ-SURF-95: chart palette contrast / chroma / CVD ΔE2000 rows, computed
+  // from the built tokens.css + material.css + data.css (L4 token contrast;
+  // AG_BUILT_CSS_DIR points the test at the lane's built dist).
+  { lane: 'L4', kind: 'jest', path: 'tests/data/chart-palette.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L4', kind: 'jest', path: 'tests/data/chart-palette.test.ts', scope: 'main', remote: false, failClosed: true },
   // REQ-SURF-73: the grid APG spec is tests/a11y/apg/surf/table.apg.spec.ts
   // (the old 'table-grid' name matched no file, so it never ran).
   { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{calendar,date-picker,date-range-picker,filter-bar,tree-view,table,activity-feed}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },

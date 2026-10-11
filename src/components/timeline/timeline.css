@@ -1,6 +1,9 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 @layer ag.components {
+  /* REQ-SURF-96: the wrapper is the size container, so the 480px query
+     below can switch a horizontal timeline back to vertical. */
+  .ag-timeline__container { container-type: inline-size; }
   .ag-timeline {
     list-style: none;
     margin: 0;
@@ -60,16 +63,13 @@
     color: var(--_ag-fg-muted, inherit);
     margin: 0 0 var(--ag-space-2, 0.5rem);
   }
-  .ag-activity__load-more {
-    min-block-size: var(--_ag-touch-target, 44px);
-    padding-inline: var(--ag-space-4, 1rem);
-    border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor);
-    border-radius: var(--_ag-radius-2, 0.5rem);
-    background: var(--_ag-surface-raised, Canvas);
-    color: inherit;
-    cursor: pointer;
-    font: inherit;
-    justify-self: center;
+  /* Load more is a CMP Button: it brings its own material, size and focus. */
+  .ag-activity__load-more { justify-self: center; }
+  .ag-activity__actor {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ag-space-2, 0.5rem);
+    font-size: var(--_ag-text-sm, 0.875rem);
+    color: var(--_ag-fg-muted, inherit);
   }
-  .ag-activity__actor { font-size: var(--_ag-text-sm, 0.875rem); color: var(--_ag-fg-muted, inherit); }
 }

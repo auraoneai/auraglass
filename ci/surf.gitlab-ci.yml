@@ -61,6 +61,40 @@ surf:test:canary-hydration:
     paths:
       - .artifacts/surf/canary-hydration/
 
+# REQ-SURF-94/97 (REQ-FIN-83): ChartFrame accessibility-tree snapshots per
+# table mode and the ActivityFeed APG script on chromium/webkit/firefox, and
+# the ActivityFeed prepend frame budget (fragments/perf-budgets/surf.ts) on
+# chromium under the throttled mobile profile, against the built Storybook.
+# Reuses QUAL's storybook-static artifact, builds it when absent, serves it on
+# AG_STORYBOOK_URL and fails closed if it never comes up. The specs fail
+# (never skip) when their story is missing.
+surf:test:chart-feed-browser:
+  extends: .surf-playwright
+  stage: test
+  allow_failure: true # owning lane flips to false after first green on next
+  needs:
+    - job: qual:build:storybook
+      artifacts: true
+      optional: true # foreign job (contract §4.13.4); built here when absent
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  variables:
+    AG_STORYBOOK_URL: "http://127.0.0.1:6006"
+    AURAGLASS_EVIDENCE_DIR: .artifacts/surf/chart-feed-browser
+  script:
+    - mkdir -p .artifacts/surf/chart-feed-browser
+    - test -f storybook-static/iframe.html || npm run storybook:build
+    - (python3 -m http.server 6006 --bind 127.0.0.1 --directory storybook-static >/dev/null 2>&1 &)
+    - node -e "const t=Date.now();(async function p(){try{if((await fetch('http://127.0.0.1:6006/iframe.html')).ok)return}catch{}if(Date.now()-t>60000){console.error('storybook-static not served on :6006');process.exit(1)}setTimeout(p,500)})()"
+    - npx playwright test tests/e2e/surf/data/chart-frame-sr.spec.ts tests/a11y/apg/surf/activity-feed.apg.spec.ts --project=chromium --project=webkit --project=firefox --reporter=line --output=.artifacts/surf/chart-feed-browser/test-results
+    - npx playwright test tests/perf/browser/surf/activity-feed-prepend.spec.ts --project=chromium --reporter=line --output=.artifacts/surf/chart-feed-browser/perf-results
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/chart-feed-browser/
+
 # REQ-SURF-81/84 (REQ-FIN-83): SURF type tests — every @ts-expect-error in
 # tests/types/surf/*.test-d.ts(x) must be consumed (tsc reports an unused
 # directive as TS2578), positive rows must compile.

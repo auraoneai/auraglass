@@ -1,7 +1,13 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 @layer ag.components {
-  .ag-chart-frame { margin: 0; display: grid; gap: var(--ag-space-2, 0.5rem); }
+  .ag-chart-frame {
+    margin: 0;
+    display: grid;
+    gap: var(--ag-space-2, 0.5rem);
+    /* REQ-SURF-92: the frame is the size container for its narrow layout. */
+    container-type: inline-size;
+  }
   .ag-chart-frame__caption { display: grid; gap: var(--ag-space-1, 0.25rem); }
   .ag-chart-frame__legend {
     display: flex;
@@ -18,12 +24,14 @@
     font-size: var(--_ag-text-sm, 0.875rem);
   }
   .ag-chart-frame__legend-item[aria-pressed='false'] { opacity: 0.55; }
+  .ag-chart-frame__legend-item[aria-disabled='true'] { cursor: not-allowed; }
   .ag-chart-frame__swatch {
     inline-size: var(--ag-space-3, 0.75rem);
     block-size: var(--ag-space-3, 0.75rem);
     border-radius: var(--_ag-radius-1, 0.25rem);
   }
   .ag-chart-frame__plot { min-block-size: 160px; position: relative; }
+  .ag-chart-frame__placeholder { inline-size: 100%; }
   .ag-chart-frame__toggle {
     all: unset;
     cursor: pointer;
@@ -43,16 +51,67 @@
     text-align: start;
     font-variant-numeric: tabular-nums;
   }
-  /* REQ-SURF-95: 8 chart hues from S-03 vars (relative OKLCH in the built
-     theme); values verified by tests/data/chart-palette.test.ts. */
+
+  /* REQ-SURF-92: below 480px the legend sits after the plot and wraps; the
+     plot keeps a 160px minimum. Before hydration this container query moves
+     a top legend visually; after the plot is measured the island also renders
+     it after the plot in DOM order, so focus order matches what is shown. */
+  @container (max-width: 480px) {
+    .ag-chart-frame__legend { order: 1; flex-wrap: wrap; }
+    .ag-chart-frame__plot { min-block-size: 160px; }
+  }
+
+  /* REQ-SURF-95: eight private series colours. Each index takes its hue from
+     a distinct S-03 colour (accent, warning, success, danger, info) or a
+     rotation of one, and sets explicit OKLCH lightness and chroma per scheme
+     so every colour holds >=3:1 against content-raised in both schemes and
+     indices 1-4 stay apart under protan/deutan/tritan simulation.
+     tests/data/chart-palette.test.ts computes those numbers from the built
+     CSS. Public --ag-chart-N names wait for the OI-03 contract item. */
   .ag-chart-frame {
-    --_ag-chart-1: var(--_ag-chart-1, oklch(from var(--_ag-accent) l c h));
-    --_ag-chart-2: var(--_ag-chart-2, oklch(from var(--_ag-accent) l c calc(h + 45)));
-    --_ag-chart-3: var(--_ag-chart-3, oklch(from var(--_ag-accent) l c calc(h + 90)));
-    --_ag-chart-4: var(--_ag-chart-4, oklch(from var(--_ag-accent) l c calc(h + 135)));
-    --_ag-chart-5: var(--_ag-chart-5, oklch(from var(--_ag-accent) l c calc(h + 180)));
-    --_ag-chart-6: var(--_ag-chart-6, oklch(from var(--_ag-accent) l c calc(h + 225)));
-    --_ag-chart-7: var(--_ag-chart-7, oklch(from var(--_ag-accent) l c calc(h + 270)));
-    --_ag-chart-8: var(--_ag-chart-8, oklch(from var(--_ag-accent) l c calc(h + 315)));
+    --_ag-chart-1: light-dark(oklch(from var(--ag-color-accent) 0.35 0.09 calc(h + 15)), oklch(from var(--ag-color-accent) 0.6 0.1 calc(h + 15)));
+    --_ag-chart-2: light-dark(oklch(from var(--ag-color-warning) 0.55 0.1 calc(h + 15)), oklch(from var(--ag-color-warning) 0.85 0.15 calc(h + 15)));
+    --_ag-chart-3: light-dark(oklch(from var(--ag-color-success) 0.6 0.1 calc(h + 45)), oklch(from var(--ag-color-success) 0.85 0.13 calc(h + 45)));
+    --_ag-chart-4: light-dark(oklch(from var(--ag-color-danger) 0.3 0.09 h), oklch(from var(--ag-color-danger) 0.6 0.11 h));
+    --_ag-chart-5: light-dark(oklch(from var(--ag-color-info) 0.52 0.09 h), oklch(from var(--ag-color-info) 0.75 0.12 h));
+    --_ag-chart-6: light-dark(oklch(from var(--ag-color-danger) 0.5 0.14 calc(h - 60)), oklch(from var(--ag-color-danger) 0.72 0.14 calc(h - 60)));
+    --_ag-chart-7: light-dark(oklch(from var(--ag-color-success) 0.5 0.07 h), oklch(from var(--ag-color-success) 0.8 0.08 h));
+    --_ag-chart-8: light-dark(oklch(from var(--ag-color-accent) 0.45 0.08 calc(h + 60)), oklch(from var(--ag-color-accent) 0.7 0.08 calc(h + 60)));
+  }
+  /* Engines without light-dark(): the same two arms, selected the way
+     tokens.css selects its scheme fallback. */
+  @supports not (color: light-dark(black, white)) {
+    .ag-chart-frame {
+      --_ag-chart-1: oklch(from var(--ag-color-accent) 0.35 0.09 calc(h + 15));
+      --_ag-chart-2: oklch(from var(--ag-color-warning) 0.55 0.1 calc(h + 15));
+      --_ag-chart-3: oklch(from var(--ag-color-success) 0.6 0.1 calc(h + 45));
+      --_ag-chart-4: oklch(from var(--ag-color-danger) 0.3 0.09 h);
+      --_ag-chart-5: oklch(from var(--ag-color-info) 0.52 0.09 h);
+      --_ag-chart-6: oklch(from var(--ag-color-danger) 0.5 0.14 calc(h - 60));
+      --_ag-chart-7: oklch(from var(--ag-color-success) 0.5 0.07 h);
+      --_ag-chart-8: oklch(from var(--ag-color-accent) 0.45 0.08 calc(h + 60));
+    }
+    [data-ag-scheme='dark'] .ag-chart-frame {
+      --_ag-chart-1: oklch(from var(--ag-color-accent) 0.6 0.1 calc(h + 15));
+      --_ag-chart-2: oklch(from var(--ag-color-warning) 0.85 0.15 calc(h + 15));
+      --_ag-chart-3: oklch(from var(--ag-color-success) 0.85 0.13 calc(h + 45));
+      --_ag-chart-4: oklch(from var(--ag-color-danger) 0.6 0.11 h);
+      --_ag-chart-5: oklch(from var(--ag-color-info) 0.75 0.12 h);
+      --_ag-chart-6: oklch(from var(--ag-color-danger) 0.72 0.14 calc(h - 60));
+      --_ag-chart-7: oklch(from var(--ag-color-success) 0.8 0.08 h);
+      --_ag-chart-8: oklch(from var(--ag-color-accent) 0.7 0.08 calc(h + 60));
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-ag-scheme]) .ag-chart-frame {
+        --_ag-chart-1: oklch(from var(--ag-color-accent) 0.6 0.1 calc(h + 15));
+        --_ag-chart-2: oklch(from var(--ag-color-warning) 0.85 0.15 calc(h + 15));
+        --_ag-chart-3: oklch(from var(--ag-color-success) 0.85 0.13 calc(h + 45));
+        --_ag-chart-4: oklch(from var(--ag-color-danger) 0.6 0.11 h);
+        --_ag-chart-5: oklch(from var(--ag-color-info) 0.75 0.12 h);
+        --_ag-chart-6: oklch(from var(--ag-color-danger) 0.72 0.14 calc(h - 60));
+        --_ag-chart-7: oklch(from var(--ag-color-success) 0.8 0.08 h);
+        --_ag-chart-8: oklch(from var(--ag-color-accent) 0.7 0.08 calc(h + 60));
+      }
+    }
   }
 }
