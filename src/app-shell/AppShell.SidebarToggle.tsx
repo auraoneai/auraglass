@@ -13,6 +13,7 @@ import {
   getSnapshot,
   setSidebar,
   subscribe,
+  type ShellSnapshot,
   type SidebarState,
 } from './appShellStore';
 
@@ -29,6 +30,12 @@ function nextFor(mode: string, current: SidebarState, collapseTo: 'rail' | 'coll
   return 'expanded';
 }
 
+// Until the layout effect resolves the shell root, both snapshot getters
+// return this one stable object: useSyncExternalStore requires referentially
+// stable snapshots, and a fresh literal per call logs "getServerSnapshot should
+// be cached" during hydration (REQ-SURF-08 cross-TZ hydration gate).
+const DETACHED_SNAPSHOT: ShellSnapshot = { sidebar: 'expanded', inspector: 'closed', mode: 'expanded' };
+
 export function AppShellSidebarToggle({
   shortcut = false,
   labels,
@@ -43,11 +50,8 @@ export function AppShellSidebarToggle({
       (cb: () => void) => (rootEl ? subscribe(rootEl, cb) : () => {}),
       [rootEl],
     ),
-    () => (rootEl ? getSnapshot(rootEl) : { sidebar: 'expanded' as const, inspector: 'closed' as const, mode: 'expanded' as const }),
-    () =>
-      rootEl
-        ? getServerSnapshot(rootEl)
-        : { sidebar: 'expanded' as const, inspector: 'closed' as const, mode: 'expanded' as const },
+    () => (rootEl ? getSnapshot(rootEl) : DETACHED_SNAPSHOT),
+    () => (rootEl ? getServerSnapshot(rootEl) : DETACHED_SNAPSHOT),
   );
 
   React.useLayoutEffect(() => {
@@ -55,7 +59,7 @@ export function AppShellSidebarToggle({
   }, [rootEl]);
 
   const collapseTo: 'rail' | 'collapsed' =
-    rootEl?.dataset['agCollapseTo'] === 'collapsed' ? 'collapsed' : 'rail';
+    rootEl?.dataset['collapseTo'] === 'collapsed' ? 'collapsed' : 'rail';
   const isDrawer = snapshot.mode === 'compact' || snapshot.mode === 'medium';
   const next = nextFor(snapshot.mode, snapshot.sidebar, collapseTo);
   const open = snapshot.sidebar === 'expanded';
@@ -69,7 +73,7 @@ export function AppShellSidebarToggle({
     if (!rootEl) return;
     const side = rootEl.querySelector<HTMLElement>('[data-ag-slot="sidebar"]');
     if (side && !side.id) {
-      side.id = `${rootEl.dataset['agShellId'] ?? 'ag-shell'}-sidebar`;
+      side.id = `${rootEl.dataset['shellId'] ?? 'ag-shell'}-sidebar`;
     }
     setControls(side?.id);
   }, [rootEl, snapshot.sidebar, snapshot.mode]);

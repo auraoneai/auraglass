@@ -9,6 +9,7 @@ import {
   parseAppShellCookie,
   type AppShellCookie,
 } from './parseAppShellCookie';
+import { setAnimating } from '../material/stateAttributes';
 
 export type SidebarState = 'expanded' | 'rail' | 'collapsed';
 export type InspectorState = 'open' | 'closed';
@@ -56,7 +57,7 @@ function motionIsFull(root: HTMLElement): boolean {
 }
 
 function writeCookie(root: HTMLElement, snapshot: ShellSnapshot): void {
-  const key = root.dataset['agPersistKey'];
+  const key = root.dataset['persistKey'];
   if (!key) return;
   const state: AppShellCookie = {};
   if (snapshot.sidebar !== 'expanded') state.sidebar = snapshot.sidebar;
@@ -68,7 +69,7 @@ function writeCookie(root: HTMLElement, snapshot: ShellSnapshot): void {
 function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
   root.dataset['agSidebar'] = snapshot.sidebar;
   root.dataset['agInspector'] = snapshot.inspector;
-  root.dataset['agMode'] = snapshot.mode;
+  root.dataset['mode'] = snapshot.mode;
   const sidebarEl = root.querySelector<HTMLElement>('[data-ag-slot="sidebar"]');
   if (sidebarEl) {
     const inert = snapshot.sidebar === 'collapsed' || snapshot.mode === 'compact';
@@ -79,11 +80,11 @@ function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
 
 function transition(root: HTMLElement, next: ShellSnapshot, rec: ShellRecord): void {
   if (motionIsFull(root)) {
-    root.setAttribute('data-ag-animating', '');
+    setAnimating(root, true);
     // Clear on real animation completion — no timers, no style probes:
     // animation.finished resolves after the CSS duration and rejects on
     // cancel; no running animations means clear immediately (jsdom/none).
-    const clear = () => root.removeAttribute('data-ag-animating');
+    const clear = () => setAnimating(root, false);
     (typeof requestAnimationFrame === 'function' ? requestAnimationFrame : (cb: () => void) => cb())(() => {
       const anims = typeof root.getAnimations === 'function' ? root.getAnimations({ subtree: true }) : [];
       if (!anims.length) { clear(); return; }
@@ -127,7 +128,7 @@ function recordFor(root: HTMLElement): ShellRecord {
   let inspector: InspectorState = VALID_INSPECTOR.includes(inspectorAttr ?? '')
     ? (inspectorAttr as InspectorState)
     : 'closed';
-  const key = root.dataset['agPersistKey'];
+  const key = root.dataset['persistKey'];
   if (key && typeof document !== 'undefined') {
     const raw = document.cookie
       .split(';')
@@ -163,7 +164,7 @@ export function getSnapshot(root: HTMLElement): ShellSnapshot {
 export function getServerSnapshot(root: HTMLElement): ShellSnapshot {
   const sidebarAttr = root.dataset['agSidebar'];
   const inspectorAttr = root.dataset['agInspector'];
-  const modeAttr = root.dataset['agMode'];
+  const modeAttr = root.dataset['mode'];
   return {
     sidebar: VALID_SIDEBAR.includes(sidebarAttr ?? '') ? (sidebarAttr as SidebarState) : 'expanded',
     inspector: VALID_INSPECTOR.includes(inspectorAttr ?? '')
