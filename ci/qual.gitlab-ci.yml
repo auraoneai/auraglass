@@ -17,6 +17,8 @@ qual:build:storybook:
   rules:
     - if: $AG_LINE == "5x"
   script:
+    # REQ-QUAL-09..11 / REQ-FIN-106: preview, StoryRoot readiness and determinism unit tests gate the build
+    - npx jest --ci tests/storybook
     - npm run storybook:build
   artifacts:
     name: "storybook-$CI_COMMIT_SHORT_SHA"
