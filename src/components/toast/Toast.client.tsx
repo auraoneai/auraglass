@@ -6,7 +6,7 @@
 'use client';
 import * as React from 'react';
 import { Toast as Base } from '@base-ui/react/toast';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial } from '../overlays/_shared';
 import { cn } from '../../internal';
 import type {

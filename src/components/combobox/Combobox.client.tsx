@@ -5,7 +5,7 @@ import { Combobox as Base } from '@base-ui/react/combobox';
 import { defaultPositionerProps } from '../overlays/_shared/positioning';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { materialProps } from '../../material';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { useAnnouncer } from '../../theme';
 import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
