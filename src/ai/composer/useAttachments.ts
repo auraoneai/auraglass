@@ -12,6 +12,8 @@ export interface UseAttachmentsOptions {
   maxFiles?: number | undefined;
   maxFileSize?: number | undefined;
   onAttachmentReject?: ((rej: AttachmentReject) => void) | undefined;
+  /** Files attached on mount (e.g. a restored draft); not validated. */
+  initialFiles?: readonly File[] | undefined;
 }
 
 function accepts(file: File, accept: string): boolean {
@@ -24,8 +26,8 @@ function accepts(file: File, accept: string): boolean {
   });
 }
 
-export function useAttachments({ accept, maxFiles = 10, maxFileSize = 20 * 1024 * 1024, onAttachmentReject }: UseAttachmentsOptions = {}) {
-  const [files, setFiles] = React.useState<File[]>([]);
+export function useAttachments({ accept, maxFiles = 10, maxFileSize = 20 * 1024 * 1024, onAttachmentReject, initialFiles }: UseAttachmentsOptions = {}) {
+  const [files, setFiles] = React.useState<File[]>(() => [...(initialFiles ?? [])]);
   const { announce } = useAnnouncer();
 
   const add = React.useCallback((incoming: File[] | FileList, _source: 'picker' | 'paste' | 'drop') => {

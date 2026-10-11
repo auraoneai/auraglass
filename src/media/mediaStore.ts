@@ -34,12 +34,20 @@ export const SERVER_SNAPSHOT: MediaState = {
   tone: undefined,
 };
 
-const EVENTS = [
-  'play', 'pause', 'ended', 'waiting', 'seeking', 'seeked', 'timeupdate',
+/** Every HTMLMediaElement event the store listens to (PRD-SURF §4.6 plus the
+ * readiness events that move `ready`/`waiting`). Exported for the event-matrix
+ * test only; not part of the ./media barrel. */
+export const MEDIA_EVENTS = [
+  'play', 'playing', 'pause', 'ended', 'waiting', 'seeking', 'seeked', 'timeupdate',
   'durationchange', 'progress', 'volumechange', 'ratechange', 'error',
-  'loadedmetadata', 'canplay', 'emptied', 'enterpictureinpicture' as const,
-];
+  'loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough', 'emptied',
+  'enterpictureinpicture', 'leavepictureinpicture',
+] as const;
+/** TextTrackList events: tracks added/removed, or a track's mode changed. */
+export const TEXT_TRACK_EVENTS = ['addtrack', 'removetrack', 'change'] as const;
 const IMMEDIATE = new Set(['play', 'pause', 'seeked', 'ended', 'error', 'volumechange']);
+/** Events after which the element is no longer stalled waiting for data. */
+const CLEARS_WAITING = new Set(['playing', 'canplay', 'canplaythrough', 'pause', 'ended', 'emptied', 'error']);
 
 interface Store {
   state: MediaState;
@@ -63,7 +71,7 @@ function snapshot(el: HTMLMediaElement, prev: MediaState): MediaState {
   }
   const err = (el as HTMLMediaElement & { error?: MediaError | null }).error ?? null;
   return {
-    paused: el.paused, ended: el.ended, waiting: false,
+    paused: el.paused, ended: el.ended, waiting: prev.waiting,
     seeking: el.seeking, ready: el.readyState >= 2,
     currentTime: el.currentTime, duration: el.duration,
     buffered, volume: el.volume, muted: el.muted,
@@ -100,13 +108,28 @@ export function ensureStore(el: HTMLMediaElement, snapshotHz: number): Store {
   };
   const notify = () => { for (const l of store.listeners) l(); };
   const on = (ev: string) => {
-    if (ev === 'waiting') store.state = { ...store.state, waiting: true };
-    else store.state = snapshot(el, store.state);
+    const next = snapshot(el, store.state);
+    if (ev === 'waiting') next.waiting = true;
+    else if (CLEARS_WAITING.has(ev)) next.waiting = false;
+    store.state = next;
     publish(ev);
   };
-  for (const ev of EVENTS) el.addEventListener(ev, () => on(ev), { signal: store.abort.signal });
+  const { signal } = store.abort;
+  for (const ev of MEDIA_EVENTS) el.addEventListener(ev, () => on(ev), { signal });
+  // textTracks is absent in some non-browser DOMs; when present, track list
+  // changes (and mode toggles) refresh state.textTracks on the same signal.
+  const tracks = el.textTracks as TextTrackList | undefined;
+  if (tracks && typeof tracks.addEventListener === 'function') {
+    for (const ev of TEXT_TRACK_EVENTS) tracks.addEventListener(ev, () => on(ev), { signal });
+  }
   stores.set(el, store);
   return store;
+}
+
+/** The element's single AbortSignal (creating its store if needed). Every
+ * listener the ./media hook adds to the element must carry it (REQ-SURF-133). */
+export function getSignal(el: HTMLMediaElement, snapshotHz: number): AbortSignal {
+  return ensureStore(el, snapshotHz).abort.signal;
 }
 
 export function subscribe(el: HTMLMediaElement, cb: () => void, snapshotHz: number): () => void {

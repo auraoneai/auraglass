@@ -11,24 +11,36 @@ import { loadFragments } from '../../src/contracts/load-fragments.mjs';
 import { DIST, ROOT, walk } from '../build/lib/graph.mjs';
 
 const TRAP = join(dirname(fileURLToPath(import.meta.url)), '../../tests/side-effects/trap.mjs');
+const TRAP_NODE = join(dirname(fileURLToPath(import.meta.url)), '../../tests/side-effects/trap-node.mjs');
 
 const declared = async () => {
   const rows = [];
   for (const { value } of await loadFragments('side-effects', ROOT)) {
     for (const row of value ?? []) rows.push(row);
   }
+  /* REQ-PLAT-70: exceptions are {module, api} pairs — a module exception no
+     longer whitelists every api it touches. Rows may also carry optionalPeers
+     (api allowed only when the peer import was attempted) and expires (semver
+     floor at which the exception lapses). */
   const expired = rows.filter(r => r.expires && r.expires < process.env.AG_VERSION);
-  return { modules: new Set(rows.map(r => r.module)), expired };
+  const pairs = new Set(rows.filter(r => r.api).map(r => `${r.module}|${r.api}`));
+  const modules = new Set(rows.filter(r => !r.api).map(r => r.module));
+  return { allowed: (c) => pairs.has(`${c.module}|${c.api}`) || modules.has(c.module), modules, pairs, expired };
 };
 
 export async function run() {
   if (!existsSync(DIST)) { console.error('verify-side-effects: dist/ missing — build first'); return 1; }
-  const { modules, expired } = await declared();
+  const { allowed, modules, expired } = await declared();
   if (expired.length) console.error(`verify-side-effects: ${expired.length} exception(s) past their expiry version`);
   const calls = spawnSync(process.execPath, [TRAP], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 << 20 });
   if (calls.status !== 0) { console.error(calls.stderr || calls.stdout); return 1; }
   const observed = JSON.parse(calls.stdout.trim().split('\n').pop() ?? '[]');
-  const bad = observed.filter(c => !modules.has(c.module));
+  /* REQ-PLAT-70: the Node realm trap covers what jsdom can't — timers, fs
+     writes, child processes, process listeners, workers, sockets. */
+  const callsNode = spawnSync(process.execPath, [TRAP_NODE], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 << 20 });
+  if (callsNode.status !== 0) { console.error(callsNode.stderr || callsNode.stdout); return 1; }
+  observed.push(...JSON.parse(callsNode.stdout.trim().split('\n').pop() ?? '[]'));
+  const bad = observed.filter(c => !allowed(c));
   mkdirSync(join(ROOT, '.artifacts', 'plat'), { recursive: true });
   writeFileSync(join(ROOT, '.artifacts', 'plat', 'side-effects.json'),
     JSON.stringify({ observed, allowed: [...modules], violations: bad.map(b => b.module), generatedAt: new Date().toISOString() }, null, 2));

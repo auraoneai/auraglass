@@ -57,53 +57,49 @@ const transitionProps = (node: postcss.Container): string[] => {
   });
   return props;
 };
-/* MAT-196 allow-list (task text): ANIMATABLE + rotate + paint colors +
-   --_ag-hover/--_ag-optics scalars + display/overlay allow-discrete. */
-const T03_ALLOWED = new Set([
-  ...ANIMATABLE, 'rotate', '--_ag-hover',
-  'color', 'background-color', 'border-color', 'outline-color',
-  'display', 'overlay',
+/* REQ-MAT-42: every transition list in the MAT-owned motion files
+   (motion.css, view-transition.css) is a subset of ANIMATABLE (S-12) — no
+   --_ag-hover, display/overlay, rotate or paint colours. motion-modes.css's
+   calm paint-property list (color/background-color/border-color/outline-color)
+   is REQ-FIN-12's file (FIN-A) and is checked against this wider set until
+   that change lands. */
+const MAT_TRANSITION_FILES = ['motion', 'vt'] as const;
+const FOREIGN_MODES_ALLOWED = new Set([
+  ...ANIMATABLE, 'color', 'background-color', 'border-color', 'outline-color',
 ]);
 
-describe('REQ-MOT-10: @property registrations', () => {
-  const atProps = () => {
-    const out: postcss.AtRule[] = [];
-    parse(FILES.motion).walkAtRules('property', (r) => { out.push(r); });
-    return out;
-  };
-  it('registers exactly the four motion scalars, all unlayered, inherits:false', () => {
-    const regs = atProps().map((r) => r.params.trim());
-    expect(regs).toEqual(['--_ag-hover', '--_ag-press', '--_ag-optics', '--_ag-pointer']);
-    for (const r of atProps()) {
-      expect(r.parent?.type).toBe('root'); // unlayered
-      const get = (n: string) => decls(r).find((d) => d.prop === n)?.value;
-      expect(get('inherits')).toBe('false');
-    }
-  });
-  it('syntax + initial values per contract', () => {
-    const map = new Map(atProps().map((r) => [r.params.trim(), r]));
-    const check = (name: string, syntax: string, initial: string) => {
-      const r = map.get(name);
-      expect(r).toBeTruthy();
-      const get = (n: string) => decls(r!).find((d) => d.prop === n)?.value;
-      expect(get('syntax')).toBe(syntax);
-      expect(get('initial-value')).toBe(initial);
-    };
-    check('--_ag-hover', "'<number>'", '0');
-    check('--_ag-press', "'<number>'", '0');
-    check('--_ag-optics', "'<number>'", '1');
-    check('--_ag-pointer', "'<percentage>+'", '50% 30%');
-  });
-  it('no runtime registration anywhere in motion css', () => {
-    const src = Object.values(FILES).map(read).join('\n');
-    expect(src).not.toMatch(/registerProperty/);
-  });
+describe('REQ-MOT-10 / REQ-MAT-28: motion css registers no @property', () => {
+  /* --_ag-optics/--_ag-press are registered once in
+     src/material/css/properties.css (REQ-MAT-28); --_ag-hover folds into
+     --ag-specular and --_ag-pointer stays an unregistered string written only
+     by pointerLight (REQ-MAT-49). Re-registering them here would duplicate the
+     MAT registry (tests/material/properties-union.test.ts). */
+  for (const [name, file] of Object.entries(FILES)) {
+    it(`${name} contains 0 @property rules`, () => {
+      const regs: string[] = [];
+      parse(file).walkAtRules('property', (r) => { regs.push(r.params.trim()); });
+      expect(regs).toEqual([]);
+    });
+  }
 });
 
 describe('layering (REQ-MAT-19)', () => {
   const LAYERS: Record<keyof typeof FILES, string> = {
     motion: 'ag.material', loading: 'ag.material', vt: 'ag.material', modes: 'ag.a11y',
   };
+  /* REQ-FIN-58: MAT-owned motion files carry the statement on line 1 (the
+     REQ-FIN-14 rule); loading.css / motion-modes.css are FIN-A's (REQ-FIN-14). */
+  const LINE_ONE: ReadonlySet<keyof typeof FILES> = new Set(['motion', 'vt']);
+  for (const name of LINE_ONE) {
+    it(`${name} has LAYER_ORDER_STATEMENT on line 1, exactly once`, () => {
+      const text = read(FILES[name]);
+      expect(text.split('\n')[0]).toBe(LAYER_ORDER_STATEMENT);
+      expect(text.split(LAYER_ORDER_STATEMENT).length - 1).toBe(1);
+      const first = parse(FILES[name]).first;
+      expect(first?.type).toBe('atrule');
+      expect(first?.toString().trim()).toBe(LAYER_ORDER_STATEMENT.replace(/;$/, ''));
+    });
+  }
   for (const [name, file] of Object.entries(FILES) as Array<[keyof typeof FILES, string]>) {
     it(`${name} starts with the layer order statement and 0 !important`, () => {
       const text = read(file);
@@ -162,7 +158,7 @@ describe('REQ-MOT-11/-100: hover/press are light-only', () => {
   it('hover/press rules exist and set only the scalars', () => {
     expect(hoverPress.length).toBeGreaterThanOrEqual(2);
     const texts = hoverPress.map((r) => r.toString()).join('\n');
-    expect(texts).toContain('--_ag-hover: 1');
+    expect(texts).not.toContain('--_ag-hover');
     expect(texts).toContain('--_ag-press: 1');
     expect(texts).toContain('--ag-state-hover-specular');
   });
@@ -180,17 +176,36 @@ describe('REQ-MOT-11/-100: hover/press are light-only', () => {
   });
 });
 
-describe('REQ-MOT-12/-18: transition allow-list', () => {
-  it('every transitioned property is on the contract allow-list', () => {
+describe('REQ-MOT-12/-18, REQ-MAT-42: transition allow-list', () => {
+  const offenders = (root: postcss.Root, allowed: ReadonlySet<string>): string[] => {
     const bad: string[] = [];
-    concat.walk((node) => {
+    root.walk((node) => {
       if (node.type === 'rule' || (node.type === 'atrule' && node.name === 'starting-style')) {
         for (const p of transitionProps(node as postcss.Container)) {
-          if (!T03_ALLOWED.has(p)) bad.push(`${node.type === 'rule' ? (node as postcss.Rule).selector : '@' + (node as postcss.AtRule).name} -> ${p}`);
+          if (!allowed.has(p)) bad.push(`${node.type === 'rule' ? (node as postcss.Rule).selector : '@' + (node as postcss.AtRule).name} -> ${p}`);
         }
       }
     });
-    expect(bad).toEqual([]);
+    return bad;
+  };
+  const animatable: ReadonlySet<string> = new Set(ANIMATABLE);
+  for (const name of MAT_TRANSITION_FILES) {
+    it(`${name}: every transitioned property is in ANIMATABLE`, () => {
+      expect(offenders(parse(FILES[name]), animatable)).toEqual([]);
+    });
+    it(`${name}: no discrete display/overlay transitions or transition-behavior`, () => {
+      const bad: string[] = [];
+      parse(FILES[name]).walkDecls(/^transition(-behavior)?$/, (d) => {
+        if (d.prop === 'transition-behavior' || /allow-discrete/.test(d.value)) bad.push(`${d.prop}: ${d.value}`);
+      });
+      expect(bad).toEqual([]);
+    });
+  }
+  it('loading.css transitions only ANIMATABLE properties', () => {
+    expect(offenders(parse(FILES.loading), animatable)).toEqual([]);
+  });
+  it('motion-modes.css stays within ANIMATABLE plus its calm paint list (REQ-FIN-12 file)', () => {
+    expect(offenders(parse(FILES.modes), FOREIGN_MODES_ALLOWED)).toEqual([]);
   });
 });
 

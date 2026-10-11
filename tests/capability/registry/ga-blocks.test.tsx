@@ -179,7 +179,7 @@ describe('GA registry blocks (REQ-SURF-171)', () => {
   it('mobile-settings: TabBar + a CMP Sheet that opens GlassPreferencesPanel, primary controls on the 44px hook', async () => {
     const { container } = renderBlock(<MobileSettings />);
     for (const tab of SETTINGS_TABS) expect(container.querySelector(`a[href="#${tab.id}"]`)!.textContent).toBe(tab.label);
-    expect(document.querySelector('[data-ag-preferences-panel]')).toBeNull();
+    expect(document.querySelector('[data-preferences-panel]')).toBeNull();
     const trigger = container.querySelector('[data-ag-part="trigger"]') as HTMLElement;
     expect(trigger).not.toBeNull();
     expect(trigger.classList.contains('ag-mobile-settings__control')).toBe(true);
@@ -189,7 +189,7 @@ describe('GA registry blocks (REQ-SURF-171)', () => {
     const sheet = document.querySelector('[data-ag-overlay="sheet"][data-ag-part="popup"]') as HTMLElement;
     expect(sheet).not.toBeNull();
     expect(sheet.getAttribute('data-state')).toBe('open');
-    const panel = sheet.querySelector('[data-ag-preferences-panel]') as HTMLElement;
+    const panel = sheet.querySelector('[data-preferences-panel]') as HTMLElement;
     expect(panel).not.toBeNull();
     expect(panel.classList.contains('ag-mobile-settings__panel')).toBe(true);
     expect(panel.querySelectorAll('[data-ag-part="group"]').length).toBeGreaterThan(0);

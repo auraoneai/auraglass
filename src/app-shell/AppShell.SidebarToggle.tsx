@@ -13,6 +13,7 @@ import {
   getSnapshot,
   setSidebar,
   subscribe,
+  type ShellSnapshot,
   type SidebarState,
 } from './appShellStore';
 
@@ -24,15 +25,16 @@ export interface AppShellSidebarToggleProps extends PartProps<'button'> {
   icon?: React.ReactNode;
 }
 
-/* Stable pre-attach snapshot: useSyncExternalStore requires getSnapshot to
-   return the same reference until the store changes (a fresh literal per call
-   loops and logs "The result of getSnapshot should be cached"). */
-const DETACHED_SNAPSHOT = { sidebar: 'expanded', inspector: 'closed', mode: 'expanded' } as const;
-
 function nextFor(mode: string, current: SidebarState, collapseTo: 'rail' | 'collapsed') {
   if (current === 'expanded') return collapseTo;
   return 'expanded';
 }
+
+// Until the layout effect resolves the shell root, both snapshot getters
+// return this one stable object: useSyncExternalStore requires referentially
+// stable snapshots, and a fresh literal per call logs "getServerSnapshot should
+// be cached" during hydration (REQ-SURF-08 cross-TZ hydration gate).
+const DETACHED_SNAPSHOT: ShellSnapshot = { sidebar: 'expanded', inspector: 'closed', mode: 'expanded' };
 
 export function AppShellSidebarToggle({
   shortcut = false,
@@ -57,7 +59,7 @@ export function AppShellSidebarToggle({
   }, [rootEl]);
 
   const collapseTo: 'rail' | 'collapsed' =
-    rootEl?.dataset['agCollapseTo'] === 'collapsed' ? 'collapsed' : 'rail';
+    rootEl?.dataset['collapseTo'] === 'collapsed' ? 'collapsed' : 'rail';
   const isDrawer = snapshot.mode === 'compact' || snapshot.mode === 'medium';
   const next = nextFor(snapshot.mode, snapshot.sidebar, collapseTo);
   const open = snapshot.sidebar === 'expanded';
@@ -84,7 +86,7 @@ export function AppShellSidebarToggle({
     if (!rootEl) return;
     const side = rootEl.querySelector<HTMLElement>('[data-ag-slot="sidebar"]');
     if (side && !side.id) {
-      side.id = `${rootEl.dataset['agShellId'] ?? 'ag-shell'}-sidebar`;
+      side.id = `${rootEl.dataset['shellId'] ?? 'ag-shell'}-sidebar`;
     }
     setControls(side?.id);
   }, [rootEl, snapshot.sidebar, snapshot.mode]);

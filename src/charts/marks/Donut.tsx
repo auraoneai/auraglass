@@ -1,25 +1,7 @@
-'use client';
-/* marks/{Line,Area,Bar,Donut} — pure svg generators over the plot context. */
+/* marks/{Line,Area,Bar,Donut} — pure svg generators over the plot context;
+   server-safe (no directive, no hooks), rendered by the ChartPlot island. */
 import * as React from 'react';
-import { bandScale, extent, linePath, linearScale } from '../scale';
-import type { ChartContext } from '../../data/chart-frame/types';
-import type { ChartCurve } from '../types';
-
-export interface MarkProps<TRow> {
-  ctx: ChartContext<TRow>;
-  xKey: string;
-  w: number;
-  h: number;
-  curve?: ChartCurve | undefined;
-  stacked?: boolean | undefined;
-  orientation?: 'horizontal' | 'vertical' | undefined;
-  innerRadius?: number | undefined;
-}
-
-function val(d: unknown, key: string): number {
-  const v = (d as Record<string, unknown>)[key];
-  return typeof v === 'number' && Number.isFinite(v) ? v : 0;
-}
+import { val, type MarkProps } from './types';
 
 export function Donut<TRow>({ ctx, w, h, innerRadius = 0.55 }: MarkProps<TRow>) {
   const cx = w / 2;

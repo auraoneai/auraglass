@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useMediaModel } from '../mediaContext';
 
-export const Rate = React.forwardRef<HTMLButtonElement, { className?: string }>(function Rate({ className }, ref) {
+export const Rate = function Rate({className, ref}: { className?: string } & { ref?: React.Ref<HTMLButtonElement> }) {
   const m = useMediaModel('Rate');
   return (
     <button
@@ -18,4 +18,4 @@ export const Rate = React.forwardRef<HTMLButtonElement, { className?: string }>(
       {m.playbackRate}×
     </button>
   );
-});
+};
