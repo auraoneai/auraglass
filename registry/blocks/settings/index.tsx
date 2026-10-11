@@ -60,7 +60,7 @@ export function SettingsPanel({ sections, section, defaultSection, onSectionChan
             <Tabs.Panel key={s.id} value={s.id} data-ag-part="panel">
               {s.kind === 'preferences' ? (
                 <GlassPreferencesPanel
-                  keys={s.preferenceKeys}
+                  {...(s.preferenceKeys ? { keys: s.preferenceKeys } : {})}
                   onChange={(key, value) => { actions.set(key as UserSettableKey, value as never); onPreferenceChange?.(key, value); }}
                 />
               ) : (
@@ -72,7 +72,7 @@ export function SettingsPanel({ sections, section, defaultSection, onSectionChan
                       {row.control === 'switch' ? (
                         <Switch checked={Boolean(row.value)} onCheckedChange={(v) => onRowChange?.(row.id, v)} />
                       ) : (
-                        <SegmentedControl.Root value={String(row.value)} onValueChange={(v) => onRowChange?.(row.id, String(v))}>
+                        <SegmentedControl.Root aria-label={row.label} value={String(row.value)} onValueChange={(v) => onRowChange?.(row.id, String(v))}>
                           {(row.options ?? []).map((o) => (
                             <SegmentedControl.Item key={o.value} value={o.value}>{o.label}</SegmentedControl.Item>
                           ))}
