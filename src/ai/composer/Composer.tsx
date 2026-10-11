@@ -122,6 +122,8 @@ export interface ComposerRootProps {
   maxFiles?: number | undefined;
   maxFileSize?: number | undefined;
   onAttachmentReject?: ((rej: AttachmentReject) => void) | undefined;
+  /** Attachments present on mount (uncontrolled), e.g. a restored draft. */
+  defaultFiles?: readonly File[] | undefined;
   labels?: ComposerLabels | undefined;
   className?: string | undefined;
   children?: React.ReactNode;
@@ -145,6 +147,7 @@ export function ComposerRoot({
   maxFiles = 10,
   maxFileSize = 20 * 1024 * 1024,
   onAttachmentReject,
+  defaultFiles,
   labels = {},
   className,
   children,
@@ -158,7 +161,7 @@ export function ComposerRoot({
     onValueChange?.(v);
   }, [valueProp, onValueChange]);
 
-  const attachments = useAttachments({ accept, maxFiles, maxFileSize, onAttachmentReject });
+  const attachments = useAttachments({ accept, maxFiles, maxFileSize, onAttachmentReject, initialFiles: defaultFiles });
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const textareaRef = React.useRef<HTMLTextAreaElement | null>(null);
   const formRef = React.useRef<HTMLFormElement | null>(null);

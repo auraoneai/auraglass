@@ -24,7 +24,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'dialog-modal',
-  budgetKb: 14,
+  budgetKb: 14000 / 1024,
   migration: [
     {
       from: 'GlassPopover',
@@ -36,7 +36,7 @@ const meta: ControlMeta = defineMeta({
         side: 'Positioner side',
         align: 'Positioner align',
       },
-      automation: 'mostly',
+      selectors: { '.glass-popover': '.ag-popover' }, automation: 'mostly',
       compat: true,
     },
     {
@@ -46,19 +46,21 @@ const meta: ControlMeta = defineMeta({
         trigger: 'Popover.Trigger openOnHover',
         content: 'Popover.Popup children',
       },
-      automation: 'partial', // HoverCard successor = Trigger openOnHover + delay/closeDelay
+      selectors: { '.glass-hover-card': '.ag-popover' }, automation: 'partial', // HoverCard successor = Trigger openOnHover + delay/closeDelay
       compat: false,
     },
     {
       from: 'GlassTooltip',
-      props: { content: 'Popover.Popup children' },
-      automation: 'partial', // rich/interactive content uses Popover; plain hints use Tooltip
+      // The codemod maps GlassTooltip.content to Tooltip.Popup children (Tooltip meta, S-39);
+      // moving rich/interactive content into Popover.Popup children is a manual step.
+      props: {},
+      selectors: { '.glass-tooltip': '.ag-popover' }, automation: 'partial', // rich/interactive content uses Popover; plain hints use Tooltip
       compat: false,
     },
     {
       from: 'GlassDropdown',
-      props: { items: 'Menu/Popover composition', open: 'open' },
-      automation: 'manual', // action-list dropdowns go to Menu; panels stay Popover
+      props: { items: 'Menu.Item children', open: 'open' },
+      selectors: { '.glass-dropdown': '.ag-popover' }, automation: 'manual', // action-list dropdowns go to Menu; panels stay Popover
       compat: false,
     },
   ],

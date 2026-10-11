@@ -7,10 +7,10 @@ test.describe('waveform modes (SURF-479)', () => {
   test('waveform renders labeled bars', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Waveform');
-    if (!subject) { console.warn('Waveform subject not registered — pending'); return; }
+    if (!subject) throw new Error('Waveform subject not registered');
     await gotoStory(page, subject.id);
     const wave = page.locator('[data-ag-part="waveform"], [aria-label*="waveform" i]').first();
-    if (await wave.count() === 0) { console.warn('no waveform — pending'); return; }
+    expect(await wave.count(), 'no waveform').toBeGreaterThan(0);
     await expect(wave).toBeVisible();
   });
 });

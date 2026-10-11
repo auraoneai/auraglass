@@ -17,6 +17,8 @@ export interface UseAttachmentsOptions {
   maxFiles?: number | undefined;
   maxFileSize?: number | undefined;
   onAttachmentReject?: ((rej: AttachmentReject) => void) | undefined;
+  /** Files attached on mount (e.g. a restored draft); not validated. */
+  initialFiles?: readonly File[] | undefined;
 }
 
 function accepts(file: File, accept: string): boolean {
@@ -35,11 +37,15 @@ function accepts(file: File, accept: string): boolean {
  * reject callback and the announcement fire exactly once per file even when
  * React replays updaters (StrictMode, concurrent rendering).
  */
-export function useAttachments({ accept, maxFiles = 10, maxFileSize = 20 * 1024 * 1024, onAttachmentReject }: UseAttachmentsOptions = {}) {
-  const [items, setItems] = React.useState<ComposerAttachment[]>([]);
-  const itemsRef = React.useRef<ComposerAttachment[]>(items);
+export function useAttachments({ accept, maxFiles = 10, maxFileSize = 20 * 1024 * 1024, onAttachmentReject, initialFiles }: UseAttachmentsOptions = {}) {
   const seq = React.useRef(0);
   const prefix = React.useId();
+  const [items, setItems] = React.useState<ComposerAttachment[]>(() =>
+    (initialFiles ?? []).map((file) => {
+      seq.current += 1;
+      return { id: `${prefix}a${seq.current}`, file };
+    }));
+  const itemsRef = React.useRef<ComposerAttachment[]>(items);
   const { announce } = useAnnouncer();
 
   const commit = React.useCallback((next: ComposerAttachment[]) => {

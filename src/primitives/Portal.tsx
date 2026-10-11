@@ -4,7 +4,7 @@
    empty and hydration is clean. Ref-as-prop API (no forwardRef). */
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { usePortalContainer } from '../foundation/portal';
+import { usePortalContainer } from '../theme/portal';
 import type { PortalLayerRoot } from '../contracts/preferences';
 
 export interface PortalProps {
