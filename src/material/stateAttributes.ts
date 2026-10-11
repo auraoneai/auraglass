@@ -34,3 +34,12 @@ export function setAnimating(el: Element, on: boolean): void {
 export function viewTransitionParticipantAttributes(): { 'data-ag-vt-participant': '' } {
   return { 'data-ag-vt-participant': '' };
 }
+
+/** Modal scrim hand-off (REQ-MAT-31): material.css paints [data-ag-layer="scrim"]
+    (scrim colour + backdrop blur capped at 12px) and zeroes the blur on scrims
+    without data-overlay-top. The overlay owner renders the scrim element and
+    spreads these on it; Base UI renders no backdrop for a nested dialog, so
+    the rendered scrim is always the top one. */
+export function scrimAttributes(): { 'data-ag-layer': 'scrim'; 'data-overlay-top': '' } {
+  return { 'data-ag-layer': 'scrim', 'data-overlay-top': '' };
+}

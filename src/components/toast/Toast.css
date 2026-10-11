@@ -11,7 +11,9 @@
     gap: var(--ag-space-2);
     width: min(360px, calc(100vw - 32px));
     max-height: calc(100vh - 32px);
-    padding: var(--ag-space-2);
+    box-sizing: border-box;
+    /* toasts float a full step off the screen edge, not hugging it */
+    padding: var(--ag-space-4);
     z-index: var(--ag-z-toast, 60);
     pointer-events: none; /* children re-enable */
     outline: none;

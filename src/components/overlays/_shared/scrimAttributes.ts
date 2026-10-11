@@ -1,12 +1,8 @@
-/* Modal scrim attributes (REQ-MAT-31 scrim hand-off). material.css styles the
-   overlay owner's scrim through [data-ag-layer="scrim"] (backdrop blur capped
-   at 12px) and zeroes the blur on any scrim without data-overlay-top. The
-   backdrops never emitted either attribute, so the MAT rule never applied and
-   modal scrims had no blur at all.
+/* Modal scrim attributes for the overlay backdrops (Dialog, AlertDialog,
+   Sheet). The backdrops never carried [data-ag-layer="scrim"], so the MAT
+   scrim rule (colour + backdrop blur capped at 12px) never applied and modal
+   scrims had no blur at all. The attribute is MAT-owned (S-01 setter MAT), so
+   the names come from the MAT setter path. */
+import { scrimAttributes } from '../../../material/stateAttributes';
 
-   Base UI renders no Backdrop for a dialog nested inside another dialog, so
-   the one rendered scrim is always the top scrim. */
-export const SCRIM_ATTRIBUTES: Readonly<Record<string, string>> = Object.freeze({
-  'data-ag-layer': 'scrim',
-  'data-overlay-top': '',
-});
+export const SCRIM_ATTRIBUTES = Object.freeze(scrimAttributes());

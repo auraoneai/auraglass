@@ -77,21 +77,25 @@ export const WithPopover: Story = {
         <Dialog.Portal>
           <Dialog.Backdrop />
           <Dialog.Popup aria-label="composite dialog">
-            <Dialog.Header><Dialog.Title>Composite</Dialog.Title></Dialog.Header>
+            <Dialog.Header>
+              <Dialog.Title>Share “Q3 roadmap”</Dialog.Title>
+              <Dialog.Description>Anyone with the link can view.</Dialog.Description>
+            </Dialog.Header>
             <Dialog.Body>
-              <p data-testid="dialog-outside-target">Press here — inside the dialog, outside the popover.</p>
+              <p data-testid="dialog-outside-target">4 people have access. Editors can change sharing settings.</p>
               <Popover.Root defaultOpen>
-                <Popover.Trigger render={<Button />}>Details</Popover.Trigger>
+                <Popover.Trigger render={<Button />}>Link settings</Popover.Trigger>
                 <Popover.Portal>
                   <Popover.Positioner>
                     <Popover.Popup aria-label="composite popover">
-                      <Popover.Description>Anchored popover mounted inside the dialog.</Popover.Description>
+                      <Popover.Title>Link access</Popover.Title>
+                      <Popover.Description>The link expires in 7 days. Viewers can’t download files.</Popover.Description>
                     </Popover.Popup>
                   </Popover.Positioner>
                 </Popover.Portal>
               </Popover.Root>
             </Dialog.Body>
-            <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+            <Dialog.Footer><Dialog.Close>Done</Dialog.Close></Dialog.Footer>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
@@ -109,23 +113,27 @@ export const WithPopoverMenu: Story = {
         <Dialog.Portal>
           <Dialog.Backdrop />
           <Dialog.Popup aria-label="stack dialog">
-            <Dialog.Header><Dialog.Title>Stacked overlays</Dialog.Title></Dialog.Header>
+            <Dialog.Header>
+              <Dialog.Title>Members</Dialog.Title>
+              <Dialog.Description>12 people in Acme workspace.</Dialog.Description>
+            </Dialog.Header>
             <Dialog.Body>
               <Popover.Root defaultOpen>
-                <Popover.Trigger render={<Button />}>Row details</Popover.Trigger>
+                <Popover.Trigger render={<Button />}>Jordan Lee</Popover.Trigger>
                 <Popover.Portal>
                   <Popover.Positioner>
                     <Popover.Popup aria-label="stack popover">
-                      <Popover.Description>Row actions live in the menu.</Popover.Description>
+                      <Popover.Title>Jordan Lee</Popover.Title>
+                      <Popover.Description>Editor · joined March 2026</Popover.Description>
                       <Menu.Root defaultOpen>
                         <Menu.Trigger render={<Button size="sm" />}>Actions</Menu.Trigger>
                         <Menu.Portal>
                           <Menu.Positioner>
                             <Menu.Popup aria-label="stack menu">
-                              <Menu.Item>Edit</Menu.Item>
-                              <Menu.Item>Duplicate</Menu.Item>
+                              <Menu.Item>Change role…</Menu.Item>
+                              <Menu.Item>Copy email</Menu.Item>
                               <Menu.Separator />
-                              <Menu.Item>Delete</Menu.Item>
+                              <Menu.Item>Remove from workspace</Menu.Item>
                             </Menu.Popup>
                           </Menu.Positioner>
                         </Menu.Portal>
@@ -135,7 +143,7 @@ export const WithPopoverMenu: Story = {
                 </Popover.Portal>
               </Popover.Root>
             </Dialog.Body>
-            <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+            <Dialog.Footer><Dialog.Close>Done</Dialog.Close></Dialog.Footer>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
@@ -156,9 +164,12 @@ export const WithToastViewport: Story = {
         <Dialog.Portal>
           <Dialog.Backdrop />
           <Dialog.Popup>
-            <Dialog.Header><Dialog.Title>Dialog over the toast region</Dialog.Title></Dialog.Header>
-            <Dialog.Body>The toast viewport stays outside the inert set.</Dialog.Body>
-            <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+            <Dialog.Header>
+              <Dialog.Title>Export workspace</Dialog.Title>
+              <Dialog.Description>We’ll email you a download link when the archive is ready.</Dialog.Description>
+            </Dialog.Header>
+            <Dialog.Body><p>Exports include documents, comments and version history. Large workspaces can take a few minutes.</p></Dialog.Body>
+            <Dialog.Footer><Dialog.Close>Cancel</Dialog.Close><Dialog.Close>Start export</Dialog.Close></Dialog.Footer>
           </Dialog.Popup>
         </Dialog.Portal>
       </Dialog.Root>
