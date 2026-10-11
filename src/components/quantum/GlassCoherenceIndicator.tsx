@@ -435,7 +435,9 @@ export const GlassCoherenceIndicator = forwardRef<
                 className={cn(
                   "glass-flex glass-items-center glass-space-x-1 glass-text-danger"
                 )}
-                animate={prefersReducedMotion ? {} : { opacity: [1, 0.5, 1] }}
+                animate={
+                  prefersReducedMotion ? undefined : { opacity: [1, 0.5, 1] }
+                }
                 transition={
                   prefersReducedMotion
                     ? { duration: 0 }
@@ -591,9 +593,7 @@ export const GlassCoherenceIndicator = forwardRef<
 
             <div>
               <span className={cn("glass-text-secondary")}>Status:</span>
-              <div
-                className={cn("glass-font-medium glass-text-primary")}
-              >
+              <div className={cn("glass-font-medium glass-text-primary")}>
                 {clamp(currentCoherence) >= safeCoherenceThreshold
                   ? "Stable"
                   : "Unstable"}

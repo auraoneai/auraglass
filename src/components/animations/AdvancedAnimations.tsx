@@ -221,7 +221,7 @@ export const AdvancedAnimations: React.FC<AdvancedAnimationsProps> = ({
                   boxShadow:
                     "0 18px 42px -28px rgba(15, 23, 42, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.74)",
                 }}
-                animate={prefersReducedMotion ? {} : { y: [0, -8, 0] }}
+                animate={prefersReducedMotion ? undefined : { y: [0, -8, 0] }}
                 transition={
                   prefersReducedMotion
                     ? { duration: 0 }
@@ -256,7 +256,7 @@ export const AdvancedAnimations: React.FC<AdvancedAnimationsProps> = ({
                     }}
                     animate={
                       prefersReducedMotion
-                        ? {}
+                        ? undefined
                         : { width: ["10%", "90%", "10%"] }
                     }
                     transition={

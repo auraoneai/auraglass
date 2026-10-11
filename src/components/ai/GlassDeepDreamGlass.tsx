@@ -553,8 +553,8 @@ export const GlassDeepDreamGlass = forwardRef<
                 boxShadow:
                   "inset 0 1px 0 rgba(255,255,255,.8), 0 7px 20px rgba(30,41,59,.06)",
               }}
-              whileHover={shouldAnimate ? { scale: 1.01 } : {}}
-              whileTap={shouldAnimate ? { scale: 0.99 } : {}}
+              whileHover={shouldAnimate ? { scale: 1.01 } : undefined}
+              whileTap={shouldAnimate ? { scale: 0.99 } : undefined}
               onClick={() => toggleLayer(layer.id)}
               onKeyDown={(event) => {
                 if (event.key === "Enter" || event.key === " ") {
@@ -573,7 +573,8 @@ export const GlassDeepDreamGlass = forwardRef<
                       className="glass-px-2 glass-py-0.5 glass-radius-full glass-text-xs glass-font-medium"
                       style={{
                         background: "rgba(71,85,105,.1)",
-                        color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+                        color:
+                          "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
                       }}
                     >
                       {layer.type}
@@ -1018,16 +1019,16 @@ export const GlassDeepDreamGlass = forwardRef<
               <motion.label
                 htmlFor="dream-image-upload"
                 className="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-cursor-pointer glass-transition-colors"
-                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
+                whileTap={shouldAnimate ? { scale: 0.98 } : undefined}
               >
                 Upload Image
               </motion.label>
 
               <motion.button
                 className="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:glass-border-white/50 glass-text-primary-glass-opacity-80 glass-radius-lg glass-text-sm glass-transition-colors disabled:glass-opacity-50"
-                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
+                whileTap={shouldAnimate ? { scale: 0.98 } : undefined}
                 onClick={generateDeepDream}
                 disabled={
                   isGenerating || !originalImage || settings.layers.length === 0
@@ -1042,8 +1043,8 @@ export const GlassDeepDreamGlass = forwardRef<
                 href={dreamedImage}
                 download="deep-dream.png"
                 className="glass-px-4 glass-py-2 glass-surface-green hover:glass-surface-green glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors"
-                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
+                whileTap={shouldAnimate ? { scale: 0.98 } : undefined}
               >
                 Download Dream
               </motion.a>

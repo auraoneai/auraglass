@@ -1262,7 +1262,10 @@ export function GlassContextualDashboard({
 
   return (
     <div
-      className={cn("glass-fixed glass-top-4 glass-right-4 glass-z-50", className)}
+      className={cn(
+        "glass-fixed glass-top-4 glass-right-4 glass-z-50",
+        className
+      )}
       style={{ maxWidth: "calc(100vw - 2rem)" }}
     >
       <motion.button
@@ -1273,8 +1276,8 @@ export function GlassContextualDashboard({
           { transitionDuration: "var(--glass-motion-duration-normal)" }
         )}
         onClick={() => setShowDashboard(!showDashboard)}
-        whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
-        whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+        whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}
+        whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
         transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
         aria-label="Toggle contextual engine dashboard"
         aria-expanded={showDashboard}
@@ -1284,7 +1287,7 @@ export function GlassContextualDashboard({
           <motion.div
             className="glass-absolute glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-green glass-radius-full"
             initial={{ scale: 0 }}
-            animate={prefersReducedMotion ? {} : { scale: 1 }}
+            animate={prefersReducedMotion ? undefined : { scale: 1 }}
           />
         )}
       </motion.button>

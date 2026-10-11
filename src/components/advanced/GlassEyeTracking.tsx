@@ -559,8 +559,8 @@ export function GlassEyeTrackingCalibration({
                 "hover:glass-elev-3 focus:outline-none focus:ring-2 glass-focus-ring-blue-500"
               )}
               onClick={handleStartCalibration}
-              whileHover={prefersReducedMotion ? {} : { scale: 1.02 }}
-              whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
+              whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
               transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
               aria-label="Start eye tracking calibration"
             >
