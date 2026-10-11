@@ -1,16 +1,26 @@
 /* stories/mat/motion/ViewTransitions.stories.tsx — MAT-368 (REQ-MOT-91/-93).
    Motion Lab view-transitions page with an optics debug toggle: toggling draws
-   the transition bounds/layer outlines the certification reviewer needs. The
-   toggle and overlay are real; document.startViewTransition wiring is pending
-   the seeded runtime. */
+   the transition bounds/layer outlines the certification reviewer needs.
+   REQ-MAT-48: the swap runs through startMorph. The Surface is a morph
+   participant (useMorphName name + data-ag-vt-participant, so it carries
+   view-transition-class ag-morph); calm/none come from the story's
+   data-ag-motion global. This is the MAT subject of
+   tests/motion/view-transition-optics.spec.ts. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
+import { flushSync } from 'react-dom';
 import { Surface } from '../../../src/material/index';
-import { PendingCallout } from '../_shared';
+import { startMorph, useMorphName } from '../../../src/motion/index';
 
 function TransitionsLab() {
   const [debug, setDebug] = React.useState(false);
   const [swapped, setSwapped] = React.useState(false);
+  const morphName = useMorphName('vt-lab');
+  const surfaceRef = React.useRef<HTMLElement>(null);
+  const swap = () => {
+    const el = surfaceRef.current;
+    void startMorph(() => flushSync(() => setSwapped((s) => !s)), { surfaces: el ? [el] : [] });
+  };
   return (
     <div style={{ display: 'grid', gap: 14 }}>
       <label style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13 }}>
@@ -35,13 +45,17 @@ function TransitionsLab() {
             ::view-transition-old/new bounds
           </span>
         ) : null}
-        <Surface variant="regular" thickness="thin">
+        <Surface
+          variant="regular"
+          thickness="thin"
+          ref={surfaceRef}
+          data-ag-vt-participant=""
+          style={{ viewTransitionName: morphName, width: 'fit-content', marginLeft: swapped ? 160 : 0 }}
+        >
           <div
             data-ag-vt-node
             style={{
               padding: '14px 18px',
-              marginLeft: swapped ? 160 : 0,
-              transition: 'none',
               outline: debug ? '1px solid #f97316' : undefined,
             }}
           >
@@ -52,12 +66,11 @@ function TransitionsLab() {
       <button
         type="button"
         data-ag-vt-trigger
-        onClick={() => setSwapped((s) => !s)}
+        onClick={swap}
         style={{ width: 'fit-content', padding: '6px 14px', borderRadius: 6, border: '1px solid #64748b' }}
       >
-        swap (runs startViewTransition when runtime lands)
+        swap (startMorph)
       </button>
-      <PendingCallout what="document.startViewTransition orchestration — seeded motion runtime pending" />
     </div>
   );
 }

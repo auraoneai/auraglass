@@ -140,6 +140,40 @@ mat:test:material-browsers:
     paths: [.artifacts/mat/]
     when: always
 
+# MAT-48 (D.3-29, REQ-FIN-58): view-transition optics + timing on 3 engines
+# (tests/motion/view-transition-optics.spec.ts): group = --ag-duration-medium,
+# calm = opacity-only at --ag-duration-micro, optics 0 during / 1 after. Drives
+# the Storybook build at AG_STORYBOOK_URL (QUAL's storybook-static artifact,
+# built when absent); the readiness probe fails the job if it is never served.
+# Transitional like mat:test:material-browsers: folded into the L9 lane once
+# QUAL's runner reports tests/motion; allow_failure: true until its first green
+# on next (ci/plat/activation.json row).
+mat:test:motion-vt:
+  extends: [.mat-base, .mat-browser]
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+  variables:
+    AG_STORYBOOK_URL: "http://127.0.0.1:6006"
+  script:
+    - test -f storybook-static/iframe.html || npm run storybook:build
+    - (cd storybook-static && python3 -m http.server 6006 --bind 127.0.0.1 > /dev/null 2>&1 &)
+    - >-
+      node -e "const t0=Date.now();(async function w(){try{if((await fetch(process.env.AG_STORYBOOK_URL+'/iframe.html')).ok)process.exit(0)}catch{}
+      if(Date.now()-t0>60000){console.error('storybook-static not served within 60 s');process.exit(1)}setTimeout(w,500)})()"
+    - >-
+      npx playwright test tests/motion/view-transition-optics.spec.ts
+      --project=mat:motion-chromium-desktop --project=mat:motion-webkit-desktop --project=mat:motion-firefox-desktop
+      --reporter=line --output=".artifacts/mat/$CI_JOB_NAME_SLUG/test-results"
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/mat/]
+    when: always
+
 # MAT-362 (next half): codemod-fixture integrity + the vendored frozen 4.x
 # consumer cases + material unit specs on 5x PR scope. The release/4.x face of
 # this check (4.x-era suites on the 4.x line) lives in the 4.x copy of this file.

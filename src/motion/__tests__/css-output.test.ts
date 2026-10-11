@@ -302,16 +302,82 @@ describe('REQ-MOT-37: view-transition optics block', () => {
     expect(text).toContain(':root:active-view-transition [data-ag-surface][data-ag-vt]');
     expect(text).toContain(':root:active-view-transition [data-ag-surface][data-ag-vt-participant]');
     expect(text).toContain('--_ag-optics: 0');
-    expect(text).toContain('::view-transition-group(*.ag-morph)');
-    expect(text).toContain('var(--ag-duration-medium)');
-    expect(text).toContain('var(--ag-spring-fluid)');
     expect(text).toContain('[data-ag-surface][data-ag-vt-settled]');
     expect(text).toContain('var(--ag-duration-micro)');
   });
-  it('has the calm fallback (ag-morph-calm) with no group animation', () => {
-    expect(text).toContain('::view-transition-group(*.ag-morph-calm)');
-    expect(text).toContain('::view-transition-old(*.ag-morph-calm)');
-    expect(text).toContain('::view-transition-new(*.ag-morph-calm)');
+});
+
+describe('REQ-MAT-48: view-transition selection and calm cross-fade', () => {
+  const root = parse(FILES.vt);
+  const all = rules(root);
+  const declsOf = (r: postcss.Rule) => Object.fromEntries(
+    (r.nodes ?? []).filter((n): n is postcss.Declaration => n.type === 'decl').map((d) => [d.prop, d.value]));
+  const isCalm = (sel: string) =>
+    sel.includes(':active-view-transition-type(ag-morph-calm)') || sel.includes('[data-ag-motion=calm]');
+  const keyframes = new Map<string, postcss.AtRule>();
+  root.walkAtRules('keyframes', (k) => { keyframes.set(k.params, k); });
+
+  it('participants carry view-transition-class: ag-morph', () => {
+    const hit = all.filter((r) => declsOf(r)['view-transition-class'] === 'ag-morph').map((r) => r.selector);
+    expect(hit.join(',')).toContain('[data-ag-vt-participant]');
+    expect(hit.join(',')).toContain('[data-ag-vt]');
+  });
+
+  it('the morph group runs --ag-duration-medium + --ag-spring-fluid by class and by type', () => {
+    for (const sel of [
+      '::view-transition-group(*.ag-morph)',
+      ':root:active-view-transition-type(ag-morph)::view-transition-group(*)',
+    ]) {
+      const r = all.find((x) => x.selector === sel);
+      expect(r).toBeDefined();
+      expect(declsOf(r!)).toMatchObject({
+        'animation-duration': 'var(--ag-duration-medium)',
+        'animation-timing-function': 'var(--ag-spring-fluid)',
+      });
+    }
+  });
+
+  it('no transition is declared on a view-transition pseudo-element (they animate, never transition)', () => {
+    const bad = all.filter((r) => r.selector.includes('::view-transition-') && 'transition' in declsOf(r));
+    expect(bad.map((r) => r.selector)).toEqual([]);
+  });
+
+  it('calm (type and calm root) drops group geometry and cross-fades old/new over micro, opacity only', () => {
+    for (const scope of [':root:active-view-transition-type(ag-morph-calm)', ':root[data-ag-motion=calm]']) {
+      const group = all.find((r) => r.selector === `${scope}::view-transition-group(*)`);
+      expect(group && declsOf(group).animation).toBe('none');
+      for (const [pseudo, from, to] of [['old', '1', '0'], ['new', '0', '1']] as const) {
+        const r = all.find((x) => x.selector === `${scope}::view-transition-${pseudo}(*)`);
+        expect(r).toBeDefined();
+        const anim = declsOf(r!).animation ?? '';
+        expect(anim).toContain('var(--ag-duration-micro)');
+        const name = anim.split(/\s+/)[0]!;
+        const kf = keyframes.get(name);
+        expect(kf).toBeDefined();
+        const steps: Record<string, Record<string, string>> = {};
+        kf!.walkRules((step) => { steps[step.selector] = declsOf(step); });
+        expect(steps).toEqual({ from: { opacity: from }, to: { opacity: to } });
+      }
+    }
+  });
+
+  it('every calm rule animates only through opacity keyframes', () => {
+    const calm = all.filter((r) => isCalm(r.selector));
+    const groups = calm.filter((r) => r.selector.includes('::view-transition-group('));
+    const snapshots = calm.filter((r) => !r.selector.includes('::view-transition-group('));
+    expect([groups.length, snapshots.length]).toEqual([2, 4]);
+    expect(groups.map((r) => declsOf(r).animation)).toEqual(['none', 'none']);
+    for (const r of snapshots) {
+      const kf = keyframes.get((declsOf(r).animation ?? '').split(/\s+/)[0]!);
+      expect(kf).toBeDefined();
+      const props = new Set<string>();
+      kf!.walkDecls((d) => { props.add(d.prop); });
+      expect([...props]).toEqual(['opacity']);
+    }
+  });
+
+  it('no rule targets the never-assigned ag-morph-calm class', () => {
+    expect(all.filter((r) => r.selector.includes('*.ag-morph-calm'))).toEqual([]);
   });
 });
 
