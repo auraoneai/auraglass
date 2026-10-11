@@ -207,22 +207,19 @@ qual:certify:devices:
     expire_in: 30 days
     paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
 
-# Release capture matrix as a child pipeline (REQ-QUAL-65). The shard planner (scripts/qual/shard-plan.mjs, G-04)
-# replaces the static child with its generated .artifacts/qual/shards.gitlab-ci.yml; until then the child fails closed.
+# Release capture matrix (REQ-QUAL-65). G-04's shard planner (scripts/qual/shard-plan.mjs) writes
+# .artifacts/qual/<slug>/shards.gitlab-ci.yml from the measured capture rate; the dynamic child trigger
+# (`trigger: include: artifact`, `strategy: depend`) needs a contract:ci-fragments rule-2 exemption for bridge jobs
+# (GitLab rejects image/tags/cache/before_script/artifacts on a trigger job, so it cannot extend a root template) — FIN-B.
+# Until both land this job fails closed at release scope, so a release can never pass without its sharded matrix.
 qual:certify:release-matrix:
-  extends: .ag-node
+  extends: [.ag-node, .ag-evidence-release]
   stage: certify
-  image: null
-  tags: null
-  cache: null
-  before_script: null
-  interruptible: null
-  artifacts: null
   rules:
     - if: $AG_SCOPE == "release" && $AG_LINE == "5x"
-  trigger:
-    include: ci/qual/release-matrix.gitlab-ci.yml
-    strategy: depend
+  script:
+    - 'test -f scripts/qual/shard-plan.mjs || { echo "PENDING: scripts/qual/shard-plan.mjs (G-04, REQ-QUAL-65) not merged; the release matrix cannot be sharded"; exit 1; }'
+    - node scripts/qual/shard-plan.mjs --out .artifacts/qual/$CI_JOB_NAME_SLUG/shards.gitlab-ci.yml
 
 # Visual baseline refresh (REQ-QUAL-25, G-14): candidate PNGs + diff report as artifacts, reviewed before commit.
 qual:certify:baseline-refresh:

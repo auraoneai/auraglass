@@ -62,7 +62,9 @@ describe('ci/qual.gitlab-ci.yml', () => {
     for (const j of QUAL_ONLY) expect(jobs).toContain(j);
     expect(parents('qual:certify:l10-gpu')).toContain('.ag-gpu');
     expect(parents('qual:certify:devices')).toContain('.ag-aws-remote');
-    expect(doc['qual:certify:release-matrix']!.trigger).toMatchObject({ strategy: 'depend' });
+    // dynamic child trigger is G-04's + a FIN-B bridge-job exemption; until then the job fails closed at release
+    expect(eff('qual:certify:release-matrix', 'script')).toEqual(expect.arrayContaining([expect.stringContaining('scripts/qual/shard-plan.mjs')]));
+    expect(eff('qual:certify:release-matrix', 'allow_failure')).toBeUndefined();
     expect(eff('qual:test:selftest', 'script')).toEqual(['node node_modules/jest/bin/jest.js -c jest.qual.config.js --ci']);
     for (const j of ['qual:certify:baseline-refresh', 'qual:certify:review-record']) {
       expect(doc[j]!.rules!.every((r) => r.when === 'manual')).toBe(true);
