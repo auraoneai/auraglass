@@ -74,6 +74,7 @@ describe('ConcentricFrame', () => {
       <ConcentricFrame radius="lg" inset="3">x</ConcentricFrame>,
     );
     const el = container.firstElementChild!;
+    expect(el.getAttribute('data-ag-part')).toBe('concentric-frame');
     expect(el.getAttribute('data-ag-radius')).toBe('lg');
     expect(el.getAttribute('data-ag-inset')).toBe('3');
     expect(el.getAttribute('style')).toBeNull();
