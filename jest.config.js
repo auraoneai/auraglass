@@ -1,4 +1,4 @@
-/* contract-v1.1 verbatim (ESM). Node-environment tests add the docblock  @jest-environment node. */
+/* contract-v1.2 verbatim (ESM). Node-environment tests add the docblock  @jest-environment node. */
 export default {
   testEnvironment: 'jsdom',
   roots: ['<rootDir>'],
@@ -6,6 +6,33 @@ export default {
     '<rootDir>/showcase/**/*.test.{ts,tsx}', '<rootDir>/fragments/**/*.test.ts', '<rootDir>/scripts/**/*.test.{ts,mjs}'],
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/legacy/', '<rootDir>/dist/', '<rootDir>/packages/', '<rootDir>/apps/'],
   setupFilesAfterEnv: ['<rootDir>/tests/helpers/setup.ts'],
-  transform: { '^.+\\.(t|j|mj)sx?$': ['babel-jest', { presets: [['@babel/preset-env', { targets: { node: '20.19' } }], ['@babel/preset-react', { runtime: 'automatic' }], '@babel/preset-typescript'] }] },
-  moduleNameMapper: { '\\.css$': 'identity-obj-proxy' },
+  transform: { '^.+\\.(t|j|mj)sx?$': ['<rootDir>/tests/helpers/babel-jest-import-meta.cjs', {}] },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'mjs', 'json'],
+  transformIgnorePatterns: ['/node_modules/(?!prettier)'],
+  moduleNameMapper: {
+    '\\.css$': 'identity-obj-proxy',
+    '^prettier$': '<rootDir>/node_modules/prettier/index.mjs',
+    // C-4: the package name resolves to the ENTRIES sources (src/contracts/entries.ts), never to dist/ or node_modules.
+    // Subpaths not in ENTRIES (e.g. 'aura-glass/components') stay unresolvable, as in the published package.
+    '^aura-glass$': '<rootDir>/src/index.ts',
+    '^aura-glass/material$': '<rootDir>/src/material/index.ts',
+    '^aura-glass/theme$': '<rootDir>/src/theme/public.ts',
+    '^aura-glass/tokens$': '<rootDir>/src/tokens/index.ts',
+    '^aura-glass/motion$': '<rootDir>/src/motion/public.ts',
+    '^aura-glass/primitives$': '<rootDir>/src/primitives/index.ts',
+    '^aura-glass/icons$': '<rootDir>/src/icons/index.ts',
+    '^aura-glass/icons/(.+)$': '<rootDir>/src/icons/$1',
+    '^aura-glass/forms$': '<rootDir>/src/forms/index.ts',
+    '^aura-glass/app-shell$': '<rootDir>/src/app-shell/index.ts',
+    '^aura-glass/data$': '<rootDir>/src/data/index.ts',
+    '^aura-glass/date$': '<rootDir>/src/date/index.ts',
+    '^aura-glass/ai$': '<rootDir>/src/ai/index.ts',
+    '^aura-glass/media$': '<rootDir>/src/media/index.ts',
+    '^aura-glass/backdrops$': '<rootDir>/src/backdrops/index.ts',
+    '^aura-glass/three$': '<rootDir>/src/three/index.ts',
+    '^aura-glass/charts$': '<rootDir>/src/charts/index.ts',
+    '^aura-glass/compat$': '<rootDir>/src/compat/index.ts',
+    '^aura-glass/deprecations\\.json$': '<rootDir>/deprecations.json',
+    '^aura-glass/package\\.json$': '<rootDir>/package.json',
+  },
 };

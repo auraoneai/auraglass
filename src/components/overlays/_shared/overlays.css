@@ -1,8 +1,13 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-194 (REQ-CMP-79): shared overlay CSS — scrim, forced-colors/solid fallbacks,
    anchored-popup geometry, animating hint. No pseudo optics/grain, no
-   transition:all, no !important, no infinite animations, no transitioned
-   filter/backdrop-filter (scrim animates opacity only). */
-@layer ag.overlays {
+   transition:all, no !important, no infinite animations, no
+   filter/backdrop-filter declarations at all (REQ-CMP-08): blur and its
+   solid / prefers-contrast / forced-colors resets are MAT's
+   (src/material/css/material.css, src/a11y/css/rungs.css); the scrim
+   animates opacity only. */
+@layer ag.components {
   /* CMP-89/96: the layer root is the overlay container — every portal child
      becomes a viewport-sized container query context named ag-overlay. */
   [data-ag-layer-root] {
@@ -19,19 +24,14 @@
   .ag-scrim {
     position: fixed;
     inset: 0;
-    /* solved tint; blur from the scrim token (ceiling 12px) */
-    background: var(--ag-scrim-bg, var(--ag-scrim-tint, rgb(0 0 0 / 0.32)));
-    backdrop-filter: blur(var(--_ag-scrim-blur, var(--ag-scrim-blur, 8px)));
+    /* solved tint from the scrim token; optics come only through MAT */
+    background: color-mix(in srgb, black calc(var(--ag-scrim-media) * 100%), transparent);
     opacity: 1;
-    transition: opacity var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease);
+    transition: opacity var(--ag-duration-medium) var(--ag-ease-standard);
   }
   .ag-scrim[data-starting-style],
   .ag-scrim[data-ending-style] {
     opacity: 0;
-  }
-  /* stacked scrims: only the topmost keeps the blur */
-  .ag-scrim[data-ag-overlay-depth]:not(:last-of-type) {
-    backdrop-filter: none;
   }
 
   /* anchored popups (positioner-mounted) */
@@ -42,7 +42,9 @@
     overflow: auto;
   }
 
-  [data-ag-animating] {
+  /* scoped to elements carrying an ag-* class (no bare attribute selector) */
+  [class^='ag-'][data-ag-animating],
+  [class*=' ag-'][data-ag-animating] {
     will-change: transform, opacity;
   }
 
@@ -51,41 +53,27 @@
   [data-ag-part='close']:focus-visible,
   [data-ag-part='handle']:focus-visible,
   [data-ag-part='action']:focus-visible {
-    outline: var(--ag-focus-width, 2px) solid var(--ag-focus-color, Highlight);
+    outline: var(--_ag-focus-width) solid var(--_ag-focus-color, Highlight);
     outline-offset: 2px;
   }
 
   @media (forced-colors: active) {
     .ag-scrim {
-      backdrop-filter: none;
       background: color-mix(in srgb, Canvas 60%, transparent);
     }
     [data-ag-part='popup'] {
-      backdrop-filter: none;
       background: Canvas;
       color: CanvasText;
       border: 1px solid CanvasText;
     }
   }
-  @media (prefers-contrast: more) {
-    .ag-scrim {
-      backdrop-filter: none;
-    }
-  }
-  [data-ag-transparency='solid'] .ag-scrim,
   [data-ag-transparency='solid'] [data-ag-part='popup'] {
-    backdrop-filter: none;
-  }
-  [data-ag-transparency='solid'] .ag-scrim {
-    background: rgb(0 0 0 / 0.5);
-  }
-  [data-ag-transparency='solid'] [data-ag-part='popup'] {
-    border: var(--ag-surface-rim, 1px) solid var(--ag-color-border, currentColor);
+    border: var(--_ag-surface-rim) solid var(--ag-color-border, currentColor);
   }
 
   @media (prefers-reduced-motion: reduce) {
     .ag-scrim {
-      transition-duration: var(--ag-duration-micro, 80ms);
+      transition-duration: var(--ag-duration-micro);
     }
   }
 }

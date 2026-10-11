@@ -9,4 +9,4 @@ const user: IconNode[] = [
 ];
 
 export const UserIcon = /*#__PURE__*/ createIcon('User', user);
-export const UserRound = /*#__PURE__*/ UserIcon;
+export const UserRound = UserIcon;
