@@ -188,7 +188,9 @@ describe('FIN-B.2 direct-push rule fixes', () => {
     const j = job('plat:tag:release-ledger');
     expect(j).toBeDefined();
     expect(j.extends).toBe('.plat-release');
-    expect(doc['.plat-release'].extends).toContain('.ag-evidence-release');
+    // REQ-PLAT-51: .plat-release reaches the contract release template via .plat-evidence-release.
+    expect(doc['.plat-release'].extends).toContain('.plat-evidence-release');
+    expect(doc['.plat-evidence-release'].extends).toContain('.ag-evidence-release');
     expect(j.rules).toEqual([{ if: '$AG_SCOPE == "release"' }]);
     const s = yaml.stringify(j.script, { lineWidth: 0 });
     expect(s).toContain('verify-release-ledger.mjs');
@@ -322,10 +324,13 @@ describe('REQ-PLAT-51 evidence under .artifacts/plat/<job-slug>/', () => {
     'plat:release:notes': '.plat-evidence-release',
     'plat:release:verify-dist-tags': '.plat-evidence-release',
     'plat:audit:backdrop': '.plat-evidence-nightly',
+    // release/4.1.x-only job (direct push 7363ec27a, canonical per OD-13).
+    'plat:tag:release-ledger': '.plat-evidence-release',
   };
   const EXPIRE = { '.plat-evidence-pr': '14 days', '.plat-evidence-nightly': '30 days', '.plat-evidence-release': '90 days' };
   // Every PLAT job except the §4.13.7 verbatim publish job (B3-6..B3-12 jobs join this list when they land).
-  const EVIDENCE_JOBS = JOBS.filter((n) => n !== 'plat:publish:npm');
+  // plat:tag:release-ledger exists only on release/4.1.x (FIN-B.2).
+  const EVIDENCE_JOBS = [...JOBS, 'plat:tag:release-ledger'].filter((n) => n !== 'plat:publish:npm');
   const platJobs = Object.keys(doc).filter((k) => !k.startsWith('.') && (k.startsWith('plat:') || k === 'pages'));
 
   it('covers every PLAT job in the fragment', () => {
@@ -372,8 +377,12 @@ describe('REQ-PLAT-51 evidence under .artifacts/plat/<job-slug>/', () => {
 
   it('no PLAT script writes evidence to a flat .artifacts/plat/ path outside the job dir or producer paths', () => {
     const allowed = /^\.artifacts\/plat\/(\$CI_JOB_NAME_SLUG(\/|$)|visual-4x\/|change-class\/|pack\.env$)/;
+    // An upstream job's evidence dir may be read (needs: artifacts), never written.
+    const upstreamRead = (n: string, line: string) =>
+      n === 'plat:release:notes' && /^(test -f|cp) \.artifacts\/plat\/plat-package-pack\/dist-maps\.tgz( |$)/.test(line.replace(/^- /, '').replace(/^'/, ''));
     for (const n of platJobs) {
-      const text = yaml.stringify(doc[n].script ?? [], { lineWidth: 0 });
+      const lines = ([] as string[]).concat(doc[n].script ?? []).filter((l) => !upstreamRead(n, l));
+      const text = yaml.stringify(lines, { lineWidth: 0 });
       for (const m of text.matchAll(/\.artifacts\/plat\/[^\s"']*/g)) expect([n, m[0]]).toEqual([n, expect.stringMatching(allowed)]);
       expect([n, /\.artifacts\/(?!plat\b|pack\b)/.test(text)]).toEqual([n, false]);
     }
@@ -392,6 +401,20 @@ describe('REQ-PLAT-51 evidence under .artifacts/plat/<job-slug>/', () => {
     const links = j.release.assets.links.map((l: any) => l.url);
     expect(links).toContain(`$CI_JOB_URL/artifacts/file/${dir}release-notes.md`);
     expect(links).toContain(`$CI_JOB_URL/artifacts/browse/${dir}`);
+  });
+
+  it('dist-maps.tgz is produced in the pack job dir and linked from the release-notes job dir', () => {
+    const pack = yaml.stringify(job('plat:package:pack').script, { lineWidth: 0 });
+    expect(pack).toContain('tar -czf "$AURAGLASS_EVIDENCE_DIR/dist-maps.tgz"');
+    expect(pack).toContain('test -f "$AURAGLASS_EVIDENCE_DIR/dist-maps.tgz" || {');
+    const notes = job('plat:release:notes');
+    expect(notes.needs).toEqual([{ job: 'plat:package:pack', artifacts: true }]);
+    const packDir = `.artifacts/plat/${slug('plat:package:pack')}/`;
+    const notesDir = `.artifacts/plat/${slug('plat:release:notes')}/`;
+    const s = yaml.stringify(notes.script, { lineWidth: 0 });
+    expect(s).toContain(`test -f ${packDir}dist-maps.tgz || {`);
+    expect(s).toContain(`cp ${packDir}dist-maps.tgz "$AURAGLASS_EVIDENCE_DIR/dist-maps.tgz"`);
+    expect(notes.release.assets.links.map((l: any) => l.url)).toContain(`$CI_JOB_URL/artifacts/file/${notesDir}dist-maps.tgz`);
   });
 
   it('plat:publish:npm stays the §4.13.7 verbatim job on the contract release template', () => {

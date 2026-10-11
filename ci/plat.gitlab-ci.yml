@@ -353,16 +353,17 @@ plat:package:pack:
     - echo "AURAGLASS_TARBALL=$(ls .artifacts/pack/*.tgz 2>/dev/null | head -1)" > .artifacts/plat/pack.env
     # REQ-PLAT-16: dist-maps.tgz is a linked release asset — the pack job must
     # produce it (empty tar when the build emits no sourcemaps, so the link
-    # never 404s).
+    # never 404s). REQ-PLAT-51: written into this job's evidence dir;
+    # plat:release:notes copies it into its own dir for the Release link.
     - |
       if ls dist/**/*.map dist/*.map >/dev/null 2>&1; then
-        tar -czf .artifacts/plat/dist-maps.tgz --exclude=node_modules \
+        tar -czf "$AURAGLASS_EVIDENCE_DIR/dist-maps.tgz" --exclude=node_modules \
           $(find dist -name '*.map' | tr '\n' ' ')
       else
-        tar -czf .artifacts/plat/dist-maps.tgz --files-from /dev/null
+        tar -czf "$AURAGLASS_EVIDENCE_DIR/dist-maps.tgz" --files-from /dev/null
       fi
     # FIN-B.2: quoted so YAML keeps it a string (unquoted, "FAIL: …" parsed as a mapping key).
-    - 'test -f .artifacts/plat/dist-maps.tgz || { echo "FAIL: dist-maps.tgz missing (release asset)"; exit 1; }'
+    - 'test -f "$AURAGLASS_EVIDENCE_DIR/dist-maps.tgz" || { echo "FAIL: dist-maps.tgz missing (release asset)"; exit 1; }'
   artifacts:
     paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/", .artifacts/pack/, .artifacts/plat/pack.env]
     reports: { dotenv: .artifacts/plat/pack.env }
@@ -423,6 +424,10 @@ plat:release:notes:
     - 'test -f scripts/release/release-notes.mjs || { echo "PENDING: scripts/release/release-notes.mjs (lane 1c)"; exit 1; }'
     - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
     - node scripts/release/release-notes.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE" --out "$AURAGLASS_EVIDENCE_DIR/release-notes.md"
+    # REQ-PLAT-16/51: the linked dist-maps.tgz comes from the upstream pack job's
+    # evidence dir (needs: artifacts) and is re-uploaded under this job's dir.
+    - 'test -f .artifacts/plat/plat-package-pack/dist-maps.tgz || { echo "FAIL: dist-maps.tgz missing from plat:package:pack evidence"; exit 1; }'
+    - cp .artifacts/plat/plat-package-pack/dist-maps.tgz "$AURAGLASS_EVIDENCE_DIR/dist-maps.tgz"
   release:
     tag_name: $CI_COMMIT_TAG
     name: "AuraGlass $CI_COMMIT_TAG"
@@ -430,7 +435,7 @@ plat:release:notes:
     assets:
       links:
         - { name: "release-notes.md", url: "$CI_JOB_URL/artifacts/file/.artifacts/plat/plat-release-notes/release-notes.md", link_type: other }
-        - { name: "dist-maps.tgz", url: "$CI_JOB_URL/artifacts/file/.artifacts/plat/dist-maps.tgz", link_type: package }
+        - { name: "dist-maps.tgz", url: "$CI_JOB_URL/artifacts/file/.artifacts/plat/plat-release-notes/dist-maps.tgz", link_type: package }
         - { name: "job evidence", url: "$CI_JOB_URL/artifacts/browse/.artifacts/plat/plat-release-notes/", link_type: other }
 
 plat:publish:npm:
