@@ -1,0 +1,4 @@
+@layer ag.a11y {
+  :where([data-ag-transparency="tinted"]) [data-ag-surface] { --_ag-fixture-floor: var(--_ag-tint-floor-tinted, 0.55); }
+  :where([data-ag-transparency="solid"]) [data-ag-surface] { background: var(--_ag-fallback-fill, Canvas); }
+}

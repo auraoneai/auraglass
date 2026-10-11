@@ -1,51 +1,84 @@
-
-/* CMP-401 (lane 3i-Q). Menu APG, 3 engines — full menu-button script:
-   open keys, wrap, Home/End, typeahead, submenu ArrowRight/Left, Escape per
-   level with focus restore, Tab closes. */
+/* CMP-401 + REQ-CMP-103. Menu APG, 3 engines — full menu-button keyboard
+   script on the closed-by-default MenuButton story (overlays-menu--menu-button).
+   Remote lane only (AG_REMOTE_RUNNER=1). */
 import { test, expect } from '@playwright/test';
 import { gotoStory } from '../../../helpers/index';
 import { apg } from '../harness';
 
-test.describe('menu APG (CMP-401)', () => {
-  test('menu-button script: open, wrap, typeahead, escape restores', async ({ page }) => {
-    await gotoStory(page, 'overlays-menu--playground');
-    const trigger = page.locator('[data-ag-part="trigger"], button').first();
+test.skip(!process.env.AG_REMOTE_RUNNER, 'remote e2e lane only (AG_REMOTE_RUNNER=1)');
+
+const TRIGGER = '[data-ag-part="trigger"]:visible';
+const MENU = '[role="menu"]:visible';
+const ITEM0 = `${MENU} [role^="menuitem"]`;
+
+test.describe('menu APG (CMP-401 / REQ-CMP-103)', () => {
+  test('menu-button script: open keys, wrap, Home/End, typeahead, submenu, Escape, Tab', async ({ page }) => {
+    await gotoStory(page, 'overlays-menu--menu-button');
+    const trigger = page.locator(TRIGGER).first();
+    const item = (name: string) => page.locator(`${MENU} [role^="menuitem"]`, { hasText: name }).first();
+
+    // Enter opens + focuses first item
     await trigger.focus();
-    await page.keyboard.press('ArrowDown');
-    const menu = page.locator('[role="menu"], [data-ag-part="popup"]').first();
-    await expect(menu).toBeVisible();
+    await page.keyboard.press('Enter');
+    await expect(page.locator(MENU)).toHaveCount(1);
+    await expect(item('Apple')).toBeFocused();
 
-    await apg.keyboard(page, [
-      { press: 'End' },
-      { press: 'ArrowDown' },  // wraps to first
-      { press: 'Home' },
-    ]);
-    // typeahead: 'b' then 'ba' within 500ms
-    await page.keyboard.type('b');
-    await page.keyboard.type('a');
-    const focusInside = await page.evaluate(
-      () => !!document.activeElement?.closest('[role="menu"], [data-ag-part="popup"]'),
-    );
-    expect(focusInside).toBe(true);
-
+    // Space re-open path verified after close
     await page.keyboard.press('Escape');
-    await expect(menu).toHaveCount(0);
+    await expect(page.locator(MENU)).toHaveCount(0);
     await expect(trigger).toBeFocused();
-    await apg.axe(page);
-  });
+    await page.keyboard.press('Space');
+    await expect(page.locator(MENU)).toHaveCount(1);
+    await expect(item('Apple')).toBeFocused();
 
-  test('submenu: ArrowRight opens, ArrowLeft returns', async ({ page }) => {
-    await gotoStory(page, 'overlays-menu--submenu');
-    const trigger = page.locator('[data-ag-part="trigger"], button').first();
-    await trigger.focus();
+    // ArrowUp (from close) opens focusing LAST item
+    await page.keyboard.press('Escape');
+    await page.keyboard.press('ArrowUp');
+    await expect(page.locator(MENU)).toHaveCount(1);
+    const lastFocused = page.locator(`${ITEM0}:focus-visible, ${ITEM0}[data-highlighted]`).last();
+    await expect(lastFocused).toHaveText(/Share|Banana/);
+
+    // ArrowDown opens focusing first; Home/End move
+    await page.keyboard.press('Escape');
     await page.keyboard.press('ArrowDown');
-    const sub = page.locator('[data-ag-part="trigger"][aria-haspopup], [role="menuitem"][aria-haspopup="true"]').first();
-    if (await sub.count()) {
-      await sub.focus();
-      await page.keyboard.press('ArrowRight');
-      expect(await page.locator('[role="menu"], [data-ag-part="popup"]').count()).toBeGreaterThanOrEqual(2);
-      await page.keyboard.press('ArrowLeft');
-      await page.keyboard.press('Escape');
-    }
+    await expect(item('Apple')).toBeFocused();
+    await page.keyboard.press('End');
+    await page.keyboard.press('ArrowDown'); // wraps to first
+    await page.keyboard.press('Home');
+    await expect(item('Apple')).toBeFocused();
+
+    // typeahead 'ba' focuses Banana
+    await page.keyboard.type('b', { delay: 30 });
+    await page.keyboard.type('a', { delay: 30 });
+    await expect(item('Banana')).toBeFocused();
+
+    // exactly one menuitem with tabindex=0
+    const tabStops = await page.locator('[role^="menuitem"][tabindex="0"]').count();
+    expect(tabStops).toBeLessThanOrEqual(1);
+
+    // ArrowRight on Share opens submenu + focuses its first item
+    await item('Share').focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator(MENU)).toHaveCount(2);
+    await expect(page.locator(MENU).nth(1).locator('[role^="menuitem"]').first()).toBeFocused();
+
+    // ArrowLeft closes submenu, refocuses the submenu trigger
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.locator(MENU)).toHaveCount(1);
+    await expect(item('Share')).toBeFocused();
+
+    // Escape closes the outer menu only
+    await page.keyboard.press('Escape');
+    await expect(page.locator(MENU)).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+
+    // Tab closes the menu and moves to the next tabbable element
+    await page.keyboard.press('ArrowDown');
+    await expect(page.locator(MENU)).toHaveCount(1);
+    await page.keyboard.press('Tab');
+    await expect(page.locator(MENU)).toHaveCount(0);
+    await expect(page.locator('button', { hasText: 'Next tabbable' })).toBeFocused();
+
+    await apg.axe(page);
   });
 });

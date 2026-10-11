@@ -22,7 +22,7 @@ const Items = () => (
 describe('SegmentedControl', () => {
   it('renders radiogroup semantics with parts', () => {
     render(
-      <SegmentedControl.Root aria-label="View" defaultValue="list">
+      <SegmentedControl.Root aria-label="View" name="view" defaultValue="list">
         <Items />
       </SegmentedControl.Root>,
     );
@@ -36,7 +36,7 @@ describe('SegmentedControl', () => {
   it('single-select: choosing an item checks it and calls onValueChange', () => {
     const onValueChange = jest.fn();
     render(
-      <SegmentedControl.Root aria-label="View" onValueChange={onValueChange}>
+      <SegmentedControl.Root aria-label="View" name="view" onValueChange={onValueChange}>
         <Items />
       </SegmentedControl.Root>,
     );
@@ -47,7 +47,7 @@ describe('SegmentedControl', () => {
 
   it('defaultValue checks the initial item', () => {
     render(
-      <SegmentedControl.Root aria-label="View" defaultValue="map">
+      <SegmentedControl.Root aria-label="View" name="view" defaultValue="map">
         <Items />
       </SegmentedControl.Root>,
     );
@@ -57,7 +57,7 @@ describe('SegmentedControl', () => {
   it('disabled item cannot be selected', () => {
     const onValueChange = jest.fn();
     render(
-      <SegmentedControl.Root aria-label="View" onValueChange={onValueChange}>
+      <SegmentedControl.Root aria-label="View" name="view" onValueChange={onValueChange}>
         <SegmentedControl.Item value="a" disabled>A</SegmentedControl.Item>
       </SegmentedControl.Root>,
     );
@@ -67,11 +67,25 @@ describe('SegmentedControl', () => {
 
   it('size emits data-ag-size', () => {
     render(
-      <SegmentedControl.Root aria-label="View" size="sm">
+      <SegmentedControl.Root aria-label="View" name="view" size="sm">
         <Items />
       </SegmentedControl.Root>,
     );
     expect(screen.getByRole('radiogroup').getAttribute('data-ag-size')).toBe('sm');
+  });
+
+  it('orientation=vertical emits data-orientation; indicator suppressed when supplied (REQ-CMP-41)', () => {
+    const { container } = render(
+      <SegmentedControl.Root aria-label="View" name="v" orientation="vertical" defaultValue="a">
+        <SegmentedControl.Indicator className="custom-ind">!</SegmentedControl.Indicator>
+        <SegmentedControl.Item value="a">A</SegmentedControl.Item>
+        <SegmentedControl.Item value="b">B</SegmentedControl.Item>
+      </SegmentedControl.Root>,
+    );
+    expect(container.querySelector('[data-orientation="vertical"]')).not.toBeNull();
+    const inds = container.querySelectorAll('[data-ag-part="indicator"]');
+    expect(inds.length).toBe(1);
+    expect(inds[0]?.classList.contains('custom-ind')).toBe(true);
   });
 });
 
