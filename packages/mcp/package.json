@@ -27,6 +27,7 @@
     "./data/mcp-data.json": "./data/mcp-data.json"
   },
   "scripts": {
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config jest.config.mjs",
     "build": "tsc -p tsconfig.json",
     "start": "node --permission --allow-fs-read=./data node dist/server.js",
     "prepublishOnly": "node ../../scripts/ci/require-ci-publish.js"

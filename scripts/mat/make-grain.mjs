@@ -11,6 +11,7 @@ import { execFileSync } from 'node:child_process';
 import { join, dirname, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { createRequire } from 'node:module';
+import { isMain as isMainModule } from './_is-main.mjs';
 
 const require = createRequire(import.meta.url);
 const { PNG } = require('pngjs');
@@ -40,7 +41,7 @@ export function grainPixels() {
   return png;
 }
 
-const isMain = process.argv[1] && resolve(process.argv[1]) === resolve(new URL(import.meta.url).pathname);
+const isMain = isMainModule(import.meta.url);
 
 if (isMain) {
   const args = process.argv.slice(2);

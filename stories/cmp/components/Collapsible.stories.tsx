@@ -21,4 +21,12 @@ export const Default: Story = {
     </Collapsible.Root>
   ),
 };
-
+export const Closed: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'Collapsible', id: 'core-collapsible--closed' } },
+  render: () => (
+    <Collapsible.Root>
+      <Collapsible.Trigger>Toggle</Collapsible.Trigger>
+      <Collapsible.Content>Panel</Collapsible.Content>
+    </Collapsible.Root>
+  ),
+};

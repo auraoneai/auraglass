@@ -47,7 +47,7 @@ const meta: ControlMeta = defineMeta({
         cancelText: 'AlertDialog.Cancel',
         destructive: { to: 'intent', values: { true: 'danger' } },
       },
-      automation: 'partial',
+      selectors: { '.glass-dialog': '.ag-alert-dialog' }, automation: 'partial',
       compat: true,
     },
   ],

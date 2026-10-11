@@ -23,7 +23,7 @@ export interface GlassModalProps {
   description?: React.ReactNode;
   footer?: React.ReactNode;
   role?: string;
-  size?: 'small' | 'medium' | 'large' | 'fullscreen' | 'sm' | 'md' | 'lg' | 'full';
+  size?: 'small' | 'medium' | 'large' | 'fullscreen' | 'sm' | 'md' | 'lg' | 'full' | 'xl' | 'wide';
   variant?: string;
   closeOnBackdropClick?: boolean;
   closeOnOverlayClick?: boolean;
@@ -44,7 +44,9 @@ export interface GlassModalProps {
   className?: string;
 }
 
-const SIZE_MAP = { small: 'sm', medium: 'md', large: 'lg', fullscreen: 'full' } as const;
+const SIZE_MAP = { small: 'sm', medium: 'md', large: 'lg', fullscreen: 'fullscreen', xl: 'wide' } as const;
+/* 4.x 'xl'/'full' sizes map to the 5.0 appearance axis (wide/fullscreen). */
+const APPEARANCE_SIZES = new Set(['fullscreen', 'xl', 'wide', 'default']);
 
 export function useGlassModalMapping(props: GlassModalProps, dep = DEP) {
   const {
@@ -63,8 +65,10 @@ export function useGlassModalMapping(props: GlassModalProps, dep = DEP) {
     if (!o) onClose?.();
   };
   const dismissible = closeOnBackdropClick !== false && closeOnOverlayClick !== false;
-  const mappedSize = size !== undefined ? ((SIZE_MAP as Record<string, string>)[size] ?? size) : undefined;
-  return { open, handleOpenChange, dismissible, mappedSize, variant, role, title, description, footer, children, trigger, className, rest };
+  const mapped = size !== undefined ? ((SIZE_MAP as Record<string, string>)[size] ?? size) : undefined;
+  const mappedSize = mapped !== undefined && !APPEARANCE_SIZES.has(mapped) ? mapped : undefined;
+  const mappedAppearance = mapped !== undefined && APPEARANCE_SIZES.has(mapped) ? mapped : undefined;
+  return { open, handleOpenChange, dismissible, mappedSize, mappedAppearance, variant, role, title, description, footer, children, trigger, className, rest };
 }
 
 export function GlassModal(props: GlassModalProps) {
@@ -96,12 +100,13 @@ export function GlassModal(props: GlassModalProps) {
       </Sheet.Root>
     ));
   }
-  const size = m.variant === 'fullscreen' ? 'full' : (m.mappedSize as 'sm' | 'md' | 'lg' | 'full' | undefined);
+  const appearance = m.variant === 'fullscreen' ? 'fullscreen' : m.mappedAppearance;
   return wrap('GlassModal', (
     <Dialog.Root {...(m.open !== undefined ? { open: m.open } : {})} onOpenChange={m.handleOpenChange}>
       {m.trigger ? <Dialog.Trigger>{m.trigger}</Dialog.Trigger> : null}
       <Dialog.Content
-        {...(size !== undefined ? { size: size as 'sm' | 'md' | 'lg' | 'xl' | 'full' } : {})}
+        {...(m.mappedSize !== undefined ? { size: m.mappedSize as 'sm' | 'md' | 'lg' } : {})}
+        {...(appearance !== undefined ? { appearance: appearance as 'wide' | 'fullscreen' } : {})}
         {...(m.className !== undefined ? { className: m.className } : {})}
       >
         {m.title !== undefined ? <Dialog.Title>{m.title}</Dialog.Title> : null}
