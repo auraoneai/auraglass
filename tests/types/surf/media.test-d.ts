@@ -27,6 +27,13 @@ const o2: UseMediaElementOptions = { mediaSession: { title: 't', artwork: [{ src
 // @ts-expect-error sampleTone is boolean
 const o3: UseMediaElementOptions = { sampleTone: 'yes' };
 
+// REQ-SURF-141: ImageViewerItem requires `alt` (no decorative viewer images)
+type IvItem = import('../../../src/media/index').ImageViewerItem;
+const ivOk: IvItem = { id: 'p1', src: '/p1.jpg', alt: 'Harbour at dusk' };
+// @ts-expect-error an ImageViewer item without alt is a type error
+const ivNoAlt: IvItem = { id: 'p2', src: '/p2.jpg' };
+void ivOk; void ivNoAlt;
+
 // formatMediaTime signature
 const t: string = formatMediaTime(92, { spoken: true });
 // @ts-expect-error seconds must be a number
