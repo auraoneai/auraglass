@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { materialProps } from '../../material';
 import { Field as Base } from '@base-ui/react/field';
 import { Input as BaseInput } from '@base-ui/react/input';
 import { cn } from '../../internal';
@@ -81,7 +82,7 @@ export function TextField({
       validationMode={validationMode}
     >
       {label !== undefined && label !== null ? <Base.Label data-ag-part="label">{label}</Base.Label> : null}
-      <div data-ag-part="control-shell" className="ag-tf-shell">
+      <div data-ag-part="control-shell" className="ag-tf-shell" {...materialProps({ layer: 'content', content: 'content-sunken' })}>
         {startAdornment !== undefined && startAdornment !== null ? (
           <span data-ag-part="adornment-start">{startAdornment}</span>
         ) : null}
