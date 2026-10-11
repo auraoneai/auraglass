@@ -42,3 +42,14 @@ export const LongLabel: Story = {
     </Breadcrumbs.Root>
   ),
 };
+
+/* Collapsed middle items behind the ellipsis menu (open). */
+export const OverflowOpen: Story = {
+  render: () => (
+    <Breadcrumbs.Root>
+      <Breadcrumbs.Item><Breadcrumbs.Link href="/">Home</Breadcrumbs.Link></Breadcrumbs.Item>
+      <Breadcrumbs.Item><Breadcrumbs.Overflow items={[{ href: '/archive', label: 'Archive' }, { href: '/archive/2026', label: '2026' }]} defaultOpen /></Breadcrumbs.Item>
+      <Breadcrumbs.Current>Current</Breadcrumbs.Current>
+    </Breadcrumbs.Root>
+  ),
+};

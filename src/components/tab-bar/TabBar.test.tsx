@@ -55,7 +55,7 @@ describe('TabBar (SURF-073)', () => {
       </TabBar.Root>,
     );
     expect(document.querySelector('[role="tablist"]')).not.toBeNull();
-    expect(screen.getByRole('tab')).toHaveAttribute('data-ag-value', 'x');
+    expect(screen.getByRole('tab')).toHaveAttribute('data-value', 'x');
   });
 });
 
@@ -191,8 +191,8 @@ describe('TabBar SURF-54: accessory placement', () => {
     expect(list.contains(acc)).toBe(false);
     expect(acc.compareDocumentPosition(list) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     const bar = document.querySelector('[data-ag-part="tab-bar"]');
-    expect(bar).toHaveAttribute('data-ag-accessory-placement', 'persist');
-    expect(bar).toHaveAttribute('data-ag-minimize-on-scroll');
+    expect(bar).toHaveAttribute('data-accessory-placement', 'persist');
+    expect(bar).toHaveAttribute('data-minimize-on-scroll');
   });
 
   it('minimize-on-scroll installs no scroll listener (CSS scroll-timeline only)', async () => {

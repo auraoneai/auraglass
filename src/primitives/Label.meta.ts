@@ -12,7 +12,7 @@ export const LabelMeta = defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 4,
+  budgetKb: 1500 / 1024,
   migration: [
     { from: 'GlassLabel', props: {}, selectors: { '.glass-label': '.ag-label' },  automation: 'full', compat: true },
     { from: 'GlassLabelPrimitive', props: {}, selectors: { '.glass-label-primitive': '.ag-label' },  automation: 'full', compat: true },

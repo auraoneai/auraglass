@@ -10,7 +10,7 @@ const meta: ControlMeta = defineMeta({
   tier: 'T1',
   flagship: 20,
   rsc: 'client',
-  parts: ['provider', 'trigger', 'positioner', 'popup', 'arrow'],
+  parts: ['trigger', 'positioner', 'popup', 'arrow'],
   states: ['open', 'closed', 'starting-style', 'ending-style', 'instant', 'animating'],
   variants: {
     side: ['top', 'bottom', 'left', 'right', 'inline-start', 'inline-end'],
@@ -19,7 +19,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'tooltip',
-  budgetKb: 10,
+  budgetKb: 10000 / 1024,
   migration: [
     {
       from: 'GlassTooltip',

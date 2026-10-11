@@ -32,3 +32,16 @@ export const Overflow: Story = {
     </Tabs.Root>
   ),
 };
+export const WithIndicator: Story = {
+  render: () => (
+    <Tabs.Root defaultValue="a">
+      <Tabs.List>
+        <Tabs.Tab value="a">Alpha</Tabs.Tab>
+        <Tabs.Tab value="b">Beta</Tabs.Tab>
+        <Tabs.Indicator />
+      </Tabs.List>
+      <Tabs.Panel value="a">Alpha content</Tabs.Panel>
+      <Tabs.Panel value="b">Beta content</Tabs.Panel>
+    </Tabs.Root>
+  ),
+};

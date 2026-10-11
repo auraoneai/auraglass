@@ -85,7 +85,7 @@ test.describe('tabs indicator (SURF-067)', () => {
     await expect(last).toHaveAttribute('data-state', 'active');
     await expect(last).toBeInViewport();
     const list = page.locator('[data-ag-part="list"]');
-    await expect(list).toHaveAttribute('data-ag-overflow-start', 'true');
+    await expect(list).toHaveAttribute('data-overflow-start', 'true');
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
     const panels = page.locator('[data-ag-part="panel"]');
     for (const el of await panels.all()) await expect(el).toHaveAttribute('data-state', /^(active|inactive)$/);

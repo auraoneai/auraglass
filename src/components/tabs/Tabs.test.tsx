@@ -296,7 +296,7 @@ describe('Tabs SURF-50: overflow mask, scrollIntoView, data-state', () => {
       masked.push((d.parent as postcss.Rule).selector);
     });
     expect(masked.length).toBeGreaterThan(0);
-    for (const sel of masked) expect(sel).toMatch(/\.ag-tabs__list\[data-ag-overflow-(start|end)='true'\]/);
+    for (const sel of masked) expect(sel).toMatch(/\.ag-tabs__list\[data-overflow-(start|end)='true'\]/);
   });
 
   it('scrollIntoView({block,inline:nearest}) is called once on activation', () => {

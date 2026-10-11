@@ -24,7 +24,7 @@ export const ForcedColors: Story = { render: () => <CommandPalette defaultOpen><
 export const WithOpener: Story = {
   render: () => (
     <>
-      <button type="button" data-ag-test="opener">Opener</button>
+      <button type="button" data-testid="opener">Opener</button>
       <CommandPalette>
         <Command.Root>
           <Command.Input placeholder="Type a command…" />
@@ -32,5 +32,31 @@ export const WithOpener: Story = {
         </Command.Root>
       </CommandPalette>
     </>
+  ),
+};
+export const Anatomy: Story = {
+  render: () => (
+    <CommandPalette defaultOpen>
+      <Command.Root>
+        <Command.Input placeholder="Type a command…" />
+        <Command.List>
+          <Command.Group heading="Navigate">
+            <Command.Item value="home" shortcut="G H">Go home</Command.Item>
+          </Command.Group>
+          <Command.Separator />
+          <Command.Loading>Loading…</Command.Loading>
+        </Command.List>
+      </Command.Root>
+    </CommandPalette>
+  ),
+};
+export const Empty: Story = {
+  render: () => (
+    <CommandPalette defaultOpen>
+      <Command.Root>
+        <Command.Input placeholder="Type a command…" />
+        <Command.List><Command.Empty>No commands</Command.Empty></Command.List>
+      </Command.Root>
+    </CommandPalette>
   ),
 };

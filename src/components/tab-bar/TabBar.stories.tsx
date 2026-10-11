@@ -61,3 +61,13 @@ export const InShellFloating: Story = {
     </AppShell.Root>
   ),
 };
+export const Anatomy: Story = {
+  render: () => (
+    <TabBar.Root>
+      <TabBar.Item href="/home" current><TabBar.ItemIcon>⌂</TabBar.ItemIcon>Home<TabBar.ItemBadge>2</TabBar.ItemBadge></TabBar.Item>
+      <TabBar.Item href="/library">Library</TabBar.Item>
+      <TabBar.Accessory>Now playing</TabBar.Accessory>
+      <TabBar.Search aria-label="Search" />
+    </TabBar.Root>
+  ),
+};
