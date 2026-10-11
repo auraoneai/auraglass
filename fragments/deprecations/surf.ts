@@ -554,4 +554,103 @@ const w4 = [
 ] as const;
 // --- lane W4 end ---
 
-export default [...w4] satisfies DeprecationFragment;
+// --- lane SURF-34 begin ---
+// REQ-SURF-34: 4.x navigation/top-bar names -> 5.0 app-shell family. Same
+// contract as the app-shell block: adapters live in compat until 6.0.0.
+const surf34 = [
+  {
+    id: 'DEP-S0633',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'GlassNavigation',
+    since: '4.3.0',
+    removeIn: '6.0.0',
+    replacement: 'Sidebar + Sidebar.Nav from aura-glass/app-shell',
+    codemod: 'app-shell-slots',
+    automation: 'partial',
+    breaking: 'B4',
+    message:
+      'GlassNavigation is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to Sidebar + Sidebar.Nav from aura-glass/app-shell.',
+    doc: '#dep-s0633',
+    compat: 'GlassNavigation',
+  },
+  {
+    id: 'DEP-S0634',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'GlassTopBar',
+    since: '4.3.0',
+    removeIn: '6.0.0',
+    replacement: 'TopBar.Root from aura-glass/app-shell',
+    codemod: 'app-shell-slots',
+    automation: 'partial',
+    breaking: 'B4',
+    message:
+      'GlassTopBar is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to TopBar.Root from aura-glass/app-shell.',
+    doc: '#dep-s0634',
+    compat: 'GlassTopBar',
+  },
+  {
+    id: 'DEP-S0635',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'GlassHeader',
+    since: '4.3.0',
+    removeIn: '6.0.0',
+    replacement: 'TopBar.Root from aura-glass/app-shell',
+    codemod: 'app-shell-slots',
+    automation: 'partial',
+    breaking: 'B4',
+    message:
+      'GlassHeader is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to TopBar.Root from aura-glass/app-shell.',
+    doc: '#dep-s0635',
+    compat: 'GlassHeader',
+  },
+] as const;
+// --- lane SURF-34 end ---
+
+// --- lane SURF-47 begin ---
+// REQ-SURF-47 (REQ-FIN-82): the remaining 4.x tab names Tabs absorbs. Both are
+// root exports on 4.x; neither has a 5.0 compat adapter, so they are removed
+// at 5.0 and the canonical-names codemod rewrites them to Tabs. (TabItem was
+// an internal 4.x part, never exported — its codemod rename lives in
+// fragments/codemods/surf.ts only.) Ids continue the W1 navigation block
+// (DEP-S0001..0026 on release/4.x).
+const surf47 = [
+  {
+    id: 'DEP-S0027',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'EnhancedGlassTabs',
+    since: '4.3.0',
+    removeIn: '5.0.0',
+    replacement: 'Tabs from aura-glass',
+    codemod: 'canonical-names',
+    automation: 'mostly',
+    breaking: 'B4',
+    message: 'EnhancedGlassTabs is removed in 5.0; use Tabs with Tabs.List/Tabs.Tab/Tabs.Panel/Tabs.Indicator.',
+    doc: '#dep-s0027',
+  },
+  {
+    id: 'DEP-S0028',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'GlassTabItem',
+    since: '4.3.0',
+    removeIn: '5.0.0',
+    replacement: 'Tabs.Tab from aura-glass',
+    codemod: 'canonical-names',
+    automation: 'mostly',
+    breaking: 'B4',
+    message: 'GlassTabItem is removed in 5.0; use Tabs.Tab inside Tabs.List.',
+    doc: '#dep-s0028',
+  },
+] as const;
+// --- lane SURF-47 end ---
+
+export default [...w4, ...surf34, ...surf47] satisfies DeprecationFragment;
