@@ -125,4 +125,14 @@ describe('Sheet (CMP-229..236)', () => {
     expect(document.querySelector('.ag-scrim')).toBeNull();
     expect(popup()!.getAttribute('aria-modal')).toBeNull();
   });
+  /* REQ-CMP-88: the LayerStack is the only scroll-lock writer. */
+  it('scroll lock has one owner: stack attribute set, no Base UI overflow write', async () => {
+    const html = document.documentElement;
+    render(<Demo root={{ defaultOpen: true }} />);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(html.hasAttribute('data-ag-scroll-locked')).toBe(true);
+    for (const el of [html, document.body]) {
+      expect(`${el.style.overflow} ${el.style.overflowY} ${el.style.overflowX}`).not.toMatch(/hidden|clip/);
+    }
+  });
 });

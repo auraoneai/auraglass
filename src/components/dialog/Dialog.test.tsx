@@ -132,6 +132,26 @@ describe('Dialog (CMP-209..216, 220)', () => {
     expect(document.querySelectorAll('.ag-scrim').length).toBe(1);
   });
 
+  /* REQ-CMP-88: the LayerStack is the only scroll-lock writer (Base UI's
+     useScrollLock only runs for modal === true, which the root no longer
+     passes); modal={false} gets neither lock nor inert. */
+  it('scroll lock has one owner: stack attribute set, no Base UI overflow write', async () => {
+    const html = document.documentElement;
+    const buWrote = () => [html, document.body].some((el) =>
+      /hidden|clip/.test(`${el.style.overflow} ${el.style.overflowY} ${el.style.overflowX}`));
+    const { unmount } = render(<Demo root={{ modal: true, defaultOpen: true }} />);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(html.hasAttribute('data-ag-scroll-locked')).toBe(true);
+    expect(buWrote()).toBe(false);
+    unmount();
+    expect(html.hasAttribute('data-ag-scroll-locked')).toBe(false);
+    render(<Demo root={{ modal: false, defaultOpen: true }} />);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(html.hasAttribute('data-ag-scroll-locked')).toBe(false);
+    expect(buWrote()).toBe(false);
+    expect(document.querySelector('[inert]')).toBeNull();
+  });
+
   it('close label localisable via labels.close', async () => {
     render(<Demo root={{ defaultOpen: true, labels: { close: 'Schließen' } }} />);
     await act(async () => {});

@@ -1,13 +1,17 @@
 'use client';
-/* CMP-217 (REQ-CMP-78/-89/-91): AlertDialog over Base UI AlertDialog (which
-   shares Dialog's popup — BU sets role=alertdialog from the root store).
-   - outside press never closes (BU omits disablePointerDismissal on this root)
+/* CMP-217 (REQ-CMP-78/-89/-91): AlertDialog over the Base UI Dialog parts.
+   - outside press never closes (disablePointerDismissal on the root)
    - Escape closes with reason 'escape-key' through the same emit path
    - default initial focus is the Cancel/Close part (least destructive)
    - intent='danger' styles ONLY the Action button
-   - Cancel is the close part; Action closes via BU Close with a Button render. */
+   - Cancel is the close part; Action closes via BU Close with a Button render.
+   REQ-CMP-88: the LayerStack owns the scroll lock, so the root runs with
+   modal='trap-focus'. Base UI's AlertDialog root forces modal=true (its
+   useScrollLock then writes overflow on <html> as a second lock), so this
+   component uses BU's Dialog root (which AlertDialog wraps, with the same
+   trigger/popup/backdrop/close parts) and sets role=alertdialog on the popup. */
 import * as React from 'react';
-import { AlertDialog as Base } from '@base-ui/react/alert-dialog';
+import { Dialog as Base } from '@base-ui/react/dialog';
 import { usePortalContainer } from '../../foundation/portal';
 import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
@@ -58,6 +62,8 @@ function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', 
       <Base.Root
         open={open}
         defaultOpen={defaultOpen}
+        modal="trap-focus"
+        disablePointerDismissal
         onOpenChange={(o, d) => { setInternalOpen(o); emit(o, { event: d?.event, reason: d?.reason }); }}
       >
         {children}
@@ -141,6 +147,7 @@ function AlertDialogPopup({ render, className, children, ref, initialFocus, ...r
   return (
     <Base.Popup
       data-ag-part="popup"
+      role="alertdialog"
       data-state={ctxOpen ? 'open' : 'closed'}
       {...overlayMaterial('alert-dialog')}
       /* initialFocus=false keeps BU's lazy pipeline from racing our own
