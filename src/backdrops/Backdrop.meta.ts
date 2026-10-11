@@ -6,7 +6,7 @@ export default defineMeta({
   entry: './backdrops',
   tier: 'T2',
   rsc: 'server',
-  parts: ['backdrop-layer', 'backdrop-content', 'backdrop-pause'],
+  parts: ['backdrop-content', 'backdrop-layer', 'backdrop-pause'],
   states: ['media', 'light', 'dark', 'auto', 'none'],
   variants: { preset: ['photo', 'video', 'aurora', 'mesh', 'grain'] },
   budgetKb: 3,

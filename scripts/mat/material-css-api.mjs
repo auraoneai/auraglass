@@ -17,8 +17,9 @@
 import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync, existsSync, mkdtempSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
-import { pathToFileURL, fileURLToPath } from 'node:url';
+import { pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
+import { isMain as isMainModule } from './_is-main.mjs';
 
 const require = createRequire(import.meta.url);
 const esbuild = require('esbuild');
@@ -106,7 +107,7 @@ export async function generate(root) {
   };
 }
 
-const isMain = process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url));
+const isMain = isMainModule(import.meta.url);
 
 if (isMain) {
   const ROOT = resolve(opt('--root', '.'));
