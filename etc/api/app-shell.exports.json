@@ -1,18 +1,13 @@
 {
- "entry": "./app-shell",
+ "entry": "app-shell",
  "exports": [
   "AppShell",
-  "AppShellController",
-  "AppShellInspectorToggle",
-  "AppShellSidebarToggle",
   "Inspector",
   "MobileShell",
   "ResizablePanels",
   "Sidebar",
-  "SidebarDrawer",
   "StatusBar",
-  "TopBar",
-  "parseAppShellCookie",
-  "serializeAppShellCookie"
- ]
+  "TopBar"
+ ],
+ "unanalysable": []
 }

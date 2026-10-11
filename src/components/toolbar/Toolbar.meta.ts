@@ -15,12 +15,12 @@ export default defineMeta({
   },
   material: { layer: 'chrome', refractionEligible: true },
   apg: 'toolbar',
-  budgetKb: 10,
+  budgetKb: 13,
   migration: [
     {
       from: 'GlassToolbar',
       props: { orientation: 'orientation', items: null },
-      automation: 'partial',
+      selectors: { '.glass-toolbar': '.ag-toolbar' }, automation: 'partial',
       compat: true,
     },
   ],

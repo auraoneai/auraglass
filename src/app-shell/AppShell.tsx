@@ -11,8 +11,8 @@ import { partElement } from './_internal/partElement';
 import { AppShellSidebarToggle } from './AppShell.SidebarToggle';
 import { AppShellInspectorToggle } from './AppShell.InspectorToggle';
 import { AppShellController } from './AppShell.Controller';
-import type { SidebarState, InspectorState, ShellMode } from './appShellStore';
 import { parseAppShellCookie } from './parseAppShellCookie';
+import type { SidebarState, InspectorState, ShellMode } from './appShellStore';
 
 export type AppShellRootProps = PartProps<'div'> & {
   defaultSidebar?: SidebarState | undefined;
@@ -92,6 +92,7 @@ function Main({ id, children, render, ...rest }: AppShellMainProps) {
     render,
     id: id ?? mainId,
     tabIndex: -1,
+    'data-ag-part': 'main',
     'data-ag-slot': 'main',
     ...rest,
     children,
@@ -163,6 +164,7 @@ function SkipLink({
   return partElement('a', {
     render,
     href: href ?? `#${mainId}`,
+    'data-ag-part': 'skip-link',
     'data-ag-slot': 'skip',
     className: 'ag-skip-link',
     ...rest,
@@ -179,7 +181,6 @@ export const AppShell = {
   SidebarToggle: AppShellSidebarToggle,
   InspectorToggle: AppShellInspectorToggle,
   Controller: AppShellController,
-  // SURF-21: namespace static for the ag-shell-* cookie body parser.
   parseCookie: parseAppShellCookie,
 };
 export type {

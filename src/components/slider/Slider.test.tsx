@@ -47,3 +47,58 @@ describe('Slider (CMP-152)', () => {
     expect(screen.getAllByRole('slider')).toHaveLength(2);
   });
 });
+
+describe('REQ-CMP-48 slider parts', () => {
+  it('getAriaValueText lands on each thumb as aria-valuetext', () => {
+    render(
+      <Slider.Root
+        aria-label="level"
+        defaultValue={[20, 80]}
+        getAriaValueText={(v) => `${v} points`}
+      />,
+    );
+    const texts = screen.getAllByRole('slider').map((el) => el.getAttribute('aria-valuetext'));
+    expect(texts).toEqual(['20 points', '80 points']);
+  });
+
+  it('range thumbs respect minStepsBetweenValues', async () => {
+    render(
+      <Slider.Root
+        aria-label="band"
+        defaultValue={[30, 60]}
+        step={10}
+        minStepsBetweenValues={2}
+      />,
+    );
+    const [a, b] = screen.getAllByRole('slider');
+    a.focus();
+    await userEvent.keyboard('{ArrowRight}{ArrowRight}{ArrowRight}'); /* +30 would collide */
+    expect(Number(a.getAttribute('aria-valuenow'))).toBeLessThanOrEqual(40);
+    expect(Number(b.getAttribute('aria-valuenow'))).toBe(60);
+  });
+
+  it('marks emit mark + mark-label parts; root emits data-orientation', () => {
+    const { container } = render(
+      <Slider.Root aria-label="m" defaultValue={50} orientation="vertical" marks={[{ value: 0, label: 'min' }, { value: 100, label: 'max' }]} />,
+    );
+    expect(container.querySelector('[data-ag-part="root"]')?.getAttribute('data-orientation')).toBe('vertical');
+    expect(container.querySelectorAll('[data-ag-part="mark"]').length).toBe(2);
+    expect(container.querySelectorAll('[data-ag-part="mark-label"]').length).toBe(2);
+  });
+
+  it('exported parts compose a custom layout', () => {
+    const { container } = render(
+      <Slider.Root aria-label="x" defaultValue={10}>
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Range />
+            <Slider.Thumb aria-label="x" />
+          </Slider.Track>
+        </Slider.Control>
+      </Slider.Root>,
+    );
+    for (const part of ['control', 'track', 'range', 'thumb']) {
+      expect(container.querySelector(`[data-ag-part="${part}"]`)).not.toBeNull();
+    }
+  });
+});
