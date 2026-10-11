@@ -118,6 +118,7 @@ function Root(props: CarouselRailRootProps): React.ReactElement {
 
   const step = React.useCallback((d: number): number => {
     const cur = indexRef.current;
+    if (count === 0) return cur;
     const n = loop ? ((cur + d) % count + count) % count : Math.min(count - 1, Math.max(0, cur + d));
     if (n !== cur) goTo(n);
     return n;
@@ -198,7 +199,7 @@ function Root(props: CarouselRailRootProps): React.ReactElement {
   // subscription exists only while rotation is active
   const interval = autoplay ? Math.max(5000, autoplay.interval) : 0;
   React.useEffect(() => {
-    if (!interval || !autoplayActive) return;
+    if (!interval || !autoplayActive || count < 2) return;
     let elapsed = 0;
     const el = rootRef.current;
     return subscribeFrame((dt) => {
