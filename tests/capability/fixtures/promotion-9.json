@@ -16,6 +16,7 @@
         "GlassHologram",
         "SpatialComputingEngine"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
         "exception:rejected spatial family"
@@ -34,7 +35,11 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-90",
@@ -50,6 +55,7 @@
       "names": [
         "fixture-thing"
       ],
+      "subpath": "./data",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:1"
@@ -70,8 +76,9 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": null,
       "status": "planned",
-      "subpath": "./data",
+      "artifacts": [],
       "demand": [
         "https://github.com/auraoneai/auraglass/issues/100",
         "https://github.com/auraoneai/auraglass/issues/101",
@@ -82,7 +89,8 @@
         "https://github.com/auraoneai/auraglass/issues/106",
         "https://github.com/auraoneai/auraglass/issues/107",
         "https://github.com/auraoneai/auraglass/issues/108"
-      ]
+      ],
+      "stories": []
     }
   ]
 }

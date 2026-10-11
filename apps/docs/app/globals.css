@@ -1,7 +1,45 @@
 @import "aura-glass/styles.css";
 
+/* REQ-PLAT-99: works at 320 px — nav moves into a Sheet below 64rem, code
+   blocks and tables scroll inside their own focusable region, never the page. */
+*, *::before, *::after { box-sizing: border-box; }
 .skip { position: absolute; left: -9999px; }
-.skip:focus { left: 0; }
-body { margin: 0; font-family: var(--ag-font-sans, system-ui); color: var(--ag-on-surface); background: var(--ag-color-canvas); }
-main { padding: 1rem; max-width: 72rem; }
+.skip:focus { left: 0.5rem; top: 0.5rem; z-index: 10; }
+body { margin: 0; font-family: var(--ag-font-sans, system-ui); color: var(--ag-on-surface); background: var(--ag-color-canvas); overflow-wrap: anywhere; }
+:focus-visible { outline: 2px solid var(--ag-focus-outer, currentColor); outline-offset: 2px; }
+
+.docs-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.75rem 1rem; }
+.docs-shell { display: grid; grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr); gap: 2rem; }
+.docs-sidebar { padding: 0 1rem 2rem; }
+main { padding: 1rem; max-width: 72rem; min-width: 0; }
+footer { padding: 1rem; }
+
+.docs-nav ul { list-style: none; margin: 0; padding: 0; }
+.docs-nav li li { margin-block: 0.125rem; }
+.docs-nav-section { font-size: 0.95rem; margin: 1rem 0 0.25rem; }
+.docs-nav-group { font-size: 0.8rem; margin: 0.5rem 0 0.25rem; }
+.docs-nav [aria-current="page"] { font-weight: 600; }
+.docs-nav-empty { font-size: 0.8rem; margin: 0; }
+
+.docs-mobile-nav { display: none; }
+@media (max-width: 63.99rem) {
+  .docs-shell { grid-template-columns: minmax(0, 1fr); }
+  .docs-sidebar { display: none; }
+  .docs-mobile-nav { display: block; }
+}
 @media (max-width: 320px) { main { padding: 0.5rem; } }
+
+.docs-scroll { max-inline-size: 100%; overflow: auto; }
+.docs-scroll pre { margin: 0; padding: 0.75rem; }
+.docs-scroll table { border-collapse: collapse; }
+.docs-scroll th, .docs-scroll td { padding: 0.25rem 0.5rem; text-align: start; vertical-align: top; }
+
+.docs-meta { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.25rem 1rem; }
+.docs-meta dd { margin: 0; }
+
+.docs-example-controls { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-block-end: 0.5rem; }
+.docs-example-controls [role="group"] { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.docs-example-preview { max-inline-size: 100%; overflow: auto; }
+.docs-example-preview > [data-ag-backdrop] { position: relative; min-block-size: 12rem; padding: 1rem; }
+.docs-example-preview [data-ag-part="backdrop-media"] { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; z-index: 0; }
+.docs-example-preview > [data-ag-backdrop] > :not([data-ag-part="backdrop-media"]) { position: relative; z-index: 1; }

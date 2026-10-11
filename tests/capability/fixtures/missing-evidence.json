@@ -16,6 +16,7 @@
         "GlassHologram",
         "SpatialComputingEngine"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
         "exception:rejected spatial family"
@@ -34,7 +35,11 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-02",
@@ -49,6 +54,7 @@
       "names": [
         "positioner"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [],
       "findings": [],
@@ -67,7 +73,11 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     }
   ]
 }

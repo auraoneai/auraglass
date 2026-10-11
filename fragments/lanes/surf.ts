@@ -45,6 +45,8 @@ const w2 = [
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/{data-table-5000,data-tree-view,data-filter,date-picker-open,activity-feed-prepend}.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L11', kind: 'node-script', path: 'canaries/next16/app/surf/data-server/page.tsx', scope: 'main', remote: true, failClosed: true },
   { lane: 'L11', kind: 'node-script', path: 'canaries/vite/src/surf/DataTable.page.tsx', scope: 'main', remote: true, failClosed: true },
+  // REQ-SURF-08: cross-TZ canary hydration (job surf:test:canary-hydration).
+  { lane: 'L11', kind: 'playwright', path: 'tests/ssr/surf/hydration.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L12', kind: 'jest', path: 'tests/data/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
 ] as const;
 // --- lane W2 end ---
@@ -90,7 +92,27 @@ const w4 = [
 // mirror). SURF-633: labs admission gate on L1 with scopes pr + release, so a
 // red run fails the tag pipeline whose plat:publish:npm job publishes labs
 // (REQ-SURF-167). SURF-561: SURF purity gate on L1 (REQ-SURF-05).
+// REQ-SURF-181/184 (REQ-FIN-89): L2 delivery + export-budget check on the
+// packed tarball (.artifacts/pack from plat:package:pack; the root package's
+// .tgz is picked by name), scopes main and release; at a v5.0.0-rc.N tag the
+// script also fails any planned 5.0 P0/P1 row, at v5.0.0 it applies --ga.
 const w5 = [
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-capability-ledger.mjs --manifest .artifacts/pack --budget .artifacts/pack',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-capability-ledger.mjs --manifest .artifacts/pack --budget .artifacts/pack',
+    scope: 'release',
+    remote: false,
+    failClosed: true,
+  },
   {
     lane: 'L1',
     kind: 'node-script',
@@ -136,6 +158,25 @@ const w5 = [
     kind: 'node-script',
     path: 'scripts/surf/verify-surf-purity.mjs',
     scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-06: dist side-effect trap over the SURF entries (PLAT's trap,
+  // SURF verdict: 0 undeclared SURF calls, surf fragment []). Needs dist/, so
+  // main + release scopes only — never pr.
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-side-effects.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-side-effects.mjs',
+    scope: 'release',
     remote: false,
     failClosed: true,
   },
