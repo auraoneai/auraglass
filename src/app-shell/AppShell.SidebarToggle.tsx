@@ -4,7 +4,8 @@
    useSyncExternalStore. Mode-aware action: expanded/wide toggle
    expanded<->collapseTo on `sidebar`; compact/medium toggle the ephemeral
    `drawer` field instead (aria-expanded/haspopup=dialog +
-   aria-controls=${shellId}-drawer). Mod+B routes through the same handler. */
+   aria-controls=${shellId}-drawer). Mod+B routes through the same handler,
+   bound on the shell root element (never document/window). */
 
 import * as React from 'react';
 import { IconButton } from '../components/icon-button';
@@ -13,6 +14,7 @@ import {
   appShellRoot,
   getServerSnapshot,
   getSnapshot,
+  registerSidebarShortcut,
   setDrawer,
   setSidebar,
   subscribe,
@@ -31,7 +33,8 @@ const DETACHED = {
 };
 
 export interface AppShellSidebarToggleProps extends PartProps<'button'> {
-  /** Also register a Mod+B keydown toggle (default false). */
+  /** Also bind Mod+B (Cmd/Ctrl+B) inside this shell to the same action
+      (default false). Scoped to the shell root, never a global listener. */
   shortcut?: boolean;
   /** Override the aria-labels for the next action. */
   labels?: { expand?: string; collapse?: string };
@@ -84,16 +87,11 @@ export function AppShellSidebarToggle({
     }
   }, [rootEl, collapseTo]);
 
+  // Mod+B is bound on the shell root element only (no document/window
+  // listener — SURF-05); the drawer forwards it from its portal.
   React.useEffect(() => {
     if (!shortcut || !rootEl) return;
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
-        e.preventDefault();
-        activate();
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+    return registerSidebarShortcut(rootEl, activate);
   }, [shortcut, rootEl, activate]);
 
   // aria-controls: the drawer id in drawer modes, the sidebar slot id else.
@@ -101,7 +99,7 @@ export function AppShellSidebarToggle({
   React.useLayoutEffect(() => {
     if (!rootEl) return;
     if (isDrawer) {
-      setControls(`${rootEl.dataset['agShellId'] ?? 'ag-shell'}-drawer`);
+      setControls(`${rootEl.dataset['shellId'] ?? 'ag-shell'}-drawer`);
       return;
     }
     const side = rootEl.querySelector<HTMLElement>('[data-ag-slot="sidebar"]');

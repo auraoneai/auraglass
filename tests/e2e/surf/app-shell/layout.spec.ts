@@ -47,16 +47,52 @@ test.describe('app-shell layout (SURF-013/033/044)', () => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'AppShell');
     expect(subject, 'AppShell subject must be registered').toBeDefined();
+    await page.setViewportSize({ width: 1440, height: 900 });
     await gotoStory(page, subject!.id);
     const shell = page.locator('.ag-app-shell');
-    // expanded sidebar at desktop width is a real column
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await expect(shell).toHaveAttribute('data-mode', 'expanded');
-    // medium width forces the resolved mode to medium (expanded->rail via css)
+    const sidebar = page.locator('.ag-app-shell [data-ag-slot="sidebar"]');
+    const sidebarWidth = async () => {
+      const box = await sidebar.boundingBox();
+      expect(box, 'inline sidebar must be laid out').not.toBeNull();
+      return box!.width;
+    };
+    // 1440: the expanded sidebar is a real column (mode expanded or wide,
+    // depending on the story padding around the shell).
+    await expect(shell).toHaveAttribute('data-ag-sidebar', 'expanded');
+    await expect(shell).toHaveAttribute('data-mode', /^(expanded|wide)$/);
+    const expandedWidth = await sidebarWidth();
+    expect(expandedWidth).toBeGreaterThan(0);
+    // 900: medium resolves; CSS forces the expanded sidebar to the rail width
+    // without changing the stored state.
     await page.setViewportSize({ width: 900, height: 700 });
     await expect(shell).toHaveAttribute('data-mode', 'medium');
-    // restore
+    await expect(shell).toHaveAttribute('data-ag-sidebar', 'expanded');
+    await expect.poll(sidebarWidth).toBeLessThan(expandedWidth);
+    // back to 1440: the expanded column is restored at its original width.
     await page.setViewportSize({ width: 1440, height: 900 });
-    await expect(shell).toHaveAttribute('data-mode', 'expanded');
+    await expect(shell).toHaveAttribute('data-mode', /^(expanded|wide)$/);
+    await expect(shell).toHaveAttribute('data-ag-sidebar', 'expanded');
+    await expect.poll(sidebarWidth).toBe(expandedWidth);
+  });
+
+  test('375: compact hides the inline sidebar (display:none) and main starts at the shell edge (SURF-031)', async ({ page }) => {
+    const subjects = await listSubjects({ owner: 'SURF' });
+    const subject = subjects.find((s) => s.subject === 'AppShell');
+    expect(subject, 'AppShell subject must be registered').toBeDefined();
+    await page.setViewportSize({ width: 375, height: 812 });
+    await gotoStory(page, subject!.id);
+    const shell = page.locator('.ag-app-shell');
+    await expect(shell).toHaveAttribute('data-mode', 'compact');
+    await expect(shell).toHaveAttribute('data-ag-sidebar', 'expanded');
+    expect(await page.locator('.ag-app-shell [data-ag-slot="sidebar"]').boundingBox()).toBeNull();
+    const [shellBox, mainBox] = await Promise.all([
+      shell.boundingBox(),
+      page.locator('.ag-app-shell main').boundingBox(),
+    ]);
+    expect(shellBox).not.toBeNull();
+    expect(mainBox).not.toBeNull();
+    expect({ x: mainBox!.x, width: mainBox!.width }).toEqual({ x: shellBox!.x, width: shellBox!.width });
+    // Drawer content is not mounted until the drawer is opened.
+    await expect(page.locator('[data-ag-part="sidebar-drawer"]')).toHaveCount(0);
   });
 });

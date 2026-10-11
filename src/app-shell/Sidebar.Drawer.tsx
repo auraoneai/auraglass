@@ -1,15 +1,19 @@
 'use client';
 /* SidebarDrawer (SURF-031): the compact/medium presentation of the sidebar —
-   a CMP Sheet (side=start, modal; Sheet registers the `kind:'sheet'` layer
-   via useLayer) that renders the SAME server children while the inline
-   sidebar stays display:none + inert (store-owned). Open state comes from
-   the store's ephemeral `drawer` field — it never touches `sidebar` or the
-   cookie. Mounted only while open; closes on Escape/scrim/item activation;
-   returns focus to the element captured before opening. The drawer id is
-   deterministic — `${shellId}-drawer` — so the toggle's aria-controls can
-   point at it before mount. */
+   a CMP Sheet (side=start, modal) that renders the SAME server children
+   while the inline sidebar stays display:none + inert (store-owned). The
+   Sheet registers the drawer's modal layer with the S-25 LayerStack through
+   useLayer (kind 'sheet' today: CMP Sheet has no layer-kind input; the
+   'drawer' kind is a seam request to CMP), so Escape closes only the top
+   layer. Open state comes from the store's ephemeral `drawer` field — it
+   never touches `sidebar` or the cookie. Content is mounted only while open;
+   closes on Escape/scrim/item activation; returns focus to the element
+   captured by setDrawer('open') before the drawer rendered. Width is
+   min(85%, 20rem). The drawer id is deterministic — `${shellId}-drawer` — so
+   the toggle's aria-controls can point at it before mount. */
 
 import * as React from 'react';
+import { useDirection } from '@base-ui/react/direction-provider';
 import { Sheet } from '../components/sheet';
 import type { FC, ReactNode } from 'react';
 
@@ -17,14 +21,18 @@ import type { FC, ReactNode } from 'react';
 const SheetRoot = Sheet.Root as FC<{
   open?: boolean;
   modal?: boolean;
+  side?: 'left' | 'right';
   onOpenChange?: (open: boolean) => void;
   children?: ReactNode;
 }>;
 const SheetContent = Sheet.Content as FC<Record<string, unknown> & { children?: ReactNode }>;
 import {
   appShellRoot,
+  drawerReturnFocus,
   getServerSnapshot,
   getSnapshot,
+  isSidebarShortcut,
+  runSidebarShortcut,
   setDrawer,
   subscribe,
 } from './appShellStore';
@@ -45,7 +53,6 @@ const DETACHED_SNAPSHOT = {
 export function SidebarDrawer({ children, side = 'start' }: SidebarDrawerProps) {
   const marker = React.useRef<HTMLSpanElement | null>(null);
   const [rootEl, setRootEl] = React.useState<HTMLElement | null>(null);
-  const lastTrigger = React.useRef<HTMLElement | null>(null);
 
   const snapshot = React.useSyncExternalStore(
     React.useCallback((cb: () => void) => (rootEl ? subscribe(rootEl, cb) : () => {}), [rootEl]),
@@ -57,53 +64,70 @@ export function SidebarDrawer({ children, side = 'start' }: SidebarDrawerProps) 
     if (marker.current && !rootEl) setRootEl(appShellRoot(marker.current));
   }, [rootEl]);
 
+  // Resolve the logical side to a physical edge with the same direction
+  // source the Sheet reads (CMP Sheet's own start/end mapping is a seam
+  // request; physical sides are unambiguous).
+  const rtl = useDirection() === 'rtl';
+  const physicalSide = (side === 'start') !== rtl ? 'left' : 'right';
+
   const isDrawerMode = snapshot.mode === 'compact' || snapshot.mode === 'medium';
   const open = isDrawerMode && snapshot.drawer === 'open';
-  const drawerId = `${rootEl?.dataset['agShellId'] ?? 'ag-shell'}-drawer`;
+  const drawerId = `${rootEl?.dataset['shellId'] ?? 'ag-shell'}-drawer`;
 
-  // Capture the trigger before opening so close can return focus there.
+  // Focus return: the opener is captured by setDrawer('open') before the
+  // drawer renders; on close, focus goes back to it.
+  const returnFocus = React.useCallback(
+    () => (rootEl ? drawerReturnFocus(rootEl) : null),
+    [rootEl],
+  );
   const wasOpen = React.useRef(false);
   React.useEffect(() => {
-    if (open && !wasOpen.current) {
-      lastTrigger.current = document.activeElement as HTMLElement | null;
-    }
     if (!open && wasOpen.current) {
-      lastTrigger.current?.focus();
+      const el = returnFocus();
+      if (el && el.isConnected) el.focus();
     }
     wasOpen.current = open;
-  }, [open]);
+  }, [open, returnFocus]);
 
   const close = React.useCallback(() => {
     if (rootEl) setDrawer(rootEl, 'closed');
   }, [rootEl]);
 
-  React.useEffect(() => {
-    if (!rootEl) return;
-    const onClick = (e: Event) => {
+  // Item activation closes the drawer (React event, bubbles through the portal).
+  const onClick = React.useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
       const target = e.target as HTMLElement;
-      if (target.closest(`#${CSS.escape(drawerId)} [data-ag-part="sidebar-item"]`)) {
-        close();
-      }
-    };
-    document.addEventListener('click', onClick, true);
-    return () => document.removeEventListener('click', onClick, true);
-  }, [rootEl, drawerId, close]);
+      if (target.closest('[data-ag-part="sidebar-item"]')) close();
+    },
+    [close],
+  );
+  // Mod+B pressed inside the portalled drawer: the shell root never sees the
+  // native event, so forward it to the shell's registered shortcut.
+  const onKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<HTMLElement>) => {
+      if (!rootEl || !isSidebarShortcut(e.nativeEvent)) return;
+      if (runSidebarShortcut(rootEl)) e.preventDefault();
+    },
+    [rootEl],
+  );
 
   if (!isDrawerMode) return <span hidden ref={marker} />;
   return (
     <span hidden ref={marker} data-drawer-anchor="">
-      {open ? (
-        <SheetRoot open modal onOpenChange={(o: boolean) => !o && close()}>
+      <SheetRoot open={open} modal side={physicalSide} onOpenChange={(o: boolean) => !o && close()}>
+        {open ? (
           <SheetContent
             id={drawerId}
             data-ag-part="sidebar-drawer"
-            data-side={side}
             style={{ inlineSize: 'min(85%, 20rem)' }}
+            finalFocus={returnFocus}
+            onClick={onClick}
+            onKeyDown={onKeyDown}
           >
             {children}
           </SheetContent>
-        </SheetRoot>
-      ) : null}
+        ) : null}
+      </SheetRoot>
     </span>
   );
 }
