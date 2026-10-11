@@ -1,0 +1,5 @@
+/* consumer-4x globals: reads --glass-* custom props + relies on global styles. */
+html, body { margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+.card { background: var(--glass-color-white); opacity: var(--glass-opacity-24); }
+main { color: var(--glass-on-surface, canvas); }
+@supports (backdrop-filter: blur(1px)) { .card { backdrop-filter: var(--glass-recipe-backdrop); } }
