@@ -6,8 +6,9 @@ export default defineMeta({
   entry: './media',
   tier: 'T2',
   rsc: 'client',
-  parts: ['viewer', 'trigger', 'popup', 'stage', 'toolbar', 'caption', 'inspector', 'prev', 'next', 'counter', 'zoom-in', 'zoom-out', 'zoom-reset', 'close'],
+  parts: ['image-viewer-caption', 'image-viewer-close', 'image-viewer-counter', 'image-viewer-inspector', 'image-viewer-next', 'image-viewer-popup', 'image-viewer-prev', 'image-viewer-scrim', 'image-viewer-stage', 'image-viewer-toolbar', 'image-viewer-trigger', 'image-viewer-zoom-in', 'image-viewer-zoom-out', 'image-viewer-zoom-reset'],
   states: ['closed', 'open', 'zoomed'],
+  apg: 'dialog-modal',
   variants: {},
   budgetKb: 10,
   migration: [

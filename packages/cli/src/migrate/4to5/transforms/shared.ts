@@ -21,6 +21,12 @@ export interface FileUnit {
 export interface Change {
   transform: string;
   description: string;
+  /** 1-based source line the change applies to (when the transform knows it). */
+  line?: number;
+  /** source text before the change (when the transform knows it). */
+  before?: string;
+  /** source text after the change (when the transform knows it). */
+  after?: string;
 }
 
 export interface TransformResult {

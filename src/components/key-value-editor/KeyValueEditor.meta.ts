@@ -6,9 +6,12 @@ export const KeyValueEditorMeta = defineMeta({
   entry: './data',
   tier: 'T2',
   rsc: 'client',
-  parts: ['root', 'list', 'item', 'input', 'actions', 'error'],
+  parts: ['actions', 'error', 'hit-area', 'input', 'item', 'key-input', 'key-value-add', 'key-value-editor', 'key-value-error', 'key-value-remove', 'key-value-row', 'label', 'list', 'root', 'value-input'],
   states: ['invalid', 'disabled'],
   variants: {},
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 15,
   migration: [
     {
       from: 'GlassKeyValueEditor',
@@ -16,7 +19,7 @@ export const KeyValueEditorMeta = defineMeta({
         onChange: { to: 'onValueChange' },
         'data-testid': { to: 'data-ag-part hooks' },
       },
-      automation: 'mostly',
+      selectors: { '.glass-key-value-editor': '.ag-key-value-editor' }, automation: 'mostly',
       compat: true,
     },
   ],
