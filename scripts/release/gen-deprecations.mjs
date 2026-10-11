@@ -21,7 +21,6 @@ import { fileURLToPath } from 'node:url';
 import { relPaths } from './lib/policy.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const PATHS = relPaths(ROOT);
 const RUNTIME_KINDS = new Set(['export', 'prop', 'prop-value', 'css-global', 'cli', 'data-attr']);
 const STREAM_ORDER = ['plat', 'mat', 'cmp', 'surf', 'qual'];
 
@@ -95,13 +94,21 @@ export function docsMd(entries, breaking = []) {
   return `${out.join('\n')}\n`;
 }
 
-// ---- schema (PLAT-180): JSON schema for S-38 via the TypeScript compiler API -
+// ---- schema (PLAT-180): JSON schema for S-38 via the TypeScript checker ------
+// Named aliases (DeprecationKind, CodemodId) and template-literal types
+// (id, since, breaking, doc) are resolved by the type checker, so the schema
+// follows src/contracts/fragments.ts instead of hard-coded copies.
 const TS_TYPE_MAP = {
   string: { type: 'string' }, number: { type: 'number' }, boolean: { type: 'boolean' },
 };
+const reEscape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 export function genSchema(tsModule, { contractsFile } = {}) {
   const ts = tsModule;
-  const src = ts.createSourceFile('fragments.ts', readFileSync(contractsFile ?? join(ROOT, 'src/contracts/fragments.ts'), 'utf8'), ts.ScriptTarget.Latest, true);
+  const file = contractsFile ?? join(ROOT, 'src/contracts/fragments.ts');
+  const program = ts.createProgram([file], { strict: true, noEmit: true, skipLibCheck: true, types: [] });
+  const checker = program.getTypeChecker();
+  const src = program.getSourceFile(file);
+  if (!src) throw new Error(`cannot read ${file}`);
   let entryNode = null;
   const find = (node) => {
     if (ts.isInterfaceDeclaration(node) && node.name.text === 'DeprecationEntry') entryNode = node;
@@ -109,31 +116,40 @@ export function genSchema(tsModule, { contractsFile } = {}) {
   };
   find(src);
   if (!entryNode) throw new Error('DeprecationEntry interface not found');
+  const members = (type) => (type.isUnion() ? type.types : [type]);
+  // One template-literal type → regex body; `${number}` → \d+, `${string}` → .+
+  const tplBody = (t) => {
+    let out = reEscape(t.texts[0]);
+    t.types.forEach((part, i) => {
+      if (part.flags & ts.TypeFlags.Number) out += '\\d+';
+      else if (part.flags & ts.TypeFlags.String) out += '.+';
+      else throw new Error(`genSchema: unsupported template part ${checker.typeToString(part)}`);
+      out += reEscape(t.texts[i + 1]);
+    });
+    return out;
+  };
   const kindProp = (t) => {
-    if (ts.isLiteralTypeNode(t) && t.literal) return { const: t.literal.text };
+    if (ts.isLiteralTypeNode(t) && t.literal) {
+      return t.literal.kind === ts.SyntaxKind.NullKeyword ? { type: 'null' } : { const: t.literal.text };
+    }
     if (t.kind === ts.SyntaxKind.StringKeyword) return TS_TYPE_MAP.string;
     if (t.kind === ts.SyntaxKind.NumberKeyword) return TS_TYPE_MAP.number;
+    if (t.kind === ts.SyntaxKind.NullKeyword) return { type: 'null' };
     if (ts.isUnionTypeNode(t)) return { anyOf: t.types.map(kindProp) };
     if (ts.isTypeReferenceNode(t)) {
-      const name = t.typeName.text;
-      if (name === 'DeprecationKind') {
-        return { enum: ['export', 'subpath', 'prop', 'prop-value', 'css-var', 'css-global', 'peer', 'dependency', 'engine', 'behavior', 'cli', 'data-attr', 'asset'] };
-      }
-      if (name === 'CodemodId') {
-        return { enum: ['imports-subpaths', 'canonical-names', 'prop-grammar', 'dead-optical-props', 'providers', 'css-vars', 'deps', 'removed', 'ai-chat', 'app-shell-slots', 'media-backdrops', 'reduced-motion-initial', 'motion-imports', 'motion-props'] };
-      }
-      return { type: 'string' };
+      const resolved = members(checker.getTypeAtLocation(t));
+      if (resolved.every((m) => m.isStringLiteral())) return { enum: resolved.map((m) => m.value) };
+      throw new Error(`genSchema: alias ${t.getText(src)} does not resolve to string literals`);
     }
     if (ts.isTemplateLiteralTypeNode(t)) {
-      const text = t.getText(src);
-      if (text.includes('DEP-')) return { type: 'string', pattern: '^DEP-[PMCSQ]\\d+$' };
-      if (text.includes('4.')) return { type: 'string', pattern: '^4\\.\\d+\\.\\d+$' };
-      if (text.includes('B')) return { type: 'string', pattern: '^B\\d+$' };
-      if (text.includes('dep-')) return { type: 'string', pattern: '^#dep-.+$' };
-      return { type: 'string', pattern: text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') };
+      const alts = members(checker.getTypeAtLocation(t));
+      if (!alts.every((m) => m.flags & ts.TypeFlags.TemplateLiteral)) {
+        throw new Error(`genSchema: ${t.getText(src)} is not a template-literal type`);
+      }
+      const bodies = alts.map(tplBody);
+      return { type: 'string', pattern: bodies.length === 1 ? `^${bodies[0]}$` : `^(?:${bodies.join('|')})$` };
     }
-    if (t.kind === ts.SyntaxKind.NullKeyword) return { type: 'null' };
-    return {};
+    throw new Error(`genSchema: unsupported member type ${t.getText(src)}`);
   };
   const properties = {}; const required = [];
   for (const m of entryNode.members) {
@@ -159,38 +175,54 @@ export function genSchema(tsModule, { contractsFile } = {}) {
   }, null, 2)}\n`;
 }
 
-export function outputs(entries, { line = '5x' } = {}) {
+// docs/release/breaking-changes.json is `{version, items}` on next and
+// `{version, changes}` on release/4.x; the guide's #b-<n> headings carry the
+// register titles (REQ-PLAT-24 item 5).
+export function loadBreakingRegister(path) {
+  if (!existsSync(path)) return [];
+  const j = JSON.parse(readFileSync(path, 'utf8'));
+  return j.items ?? j.changes ?? [];
+}
+
+export function outputs(entries, { line = '5x', breaking = [] } = {}) {
   return {
     json: jsonOut(entries),
     ts: tsTable(entries),
-    docs: docsMd(entries),
+    docs: docsMd(entries, breaking),
   };
 }
 
 export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
   const arg = (n) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : null; };
   const has = (f) => argv.includes(f);
-  const check = has('--check'); const line = arg('--line', '5x'); const customOut = arg('--out');
+  const paths = relPaths(root);
+  const check = has('--check'); const line = arg('--line') ?? '5x'; const customOut = arg('--out');
   const entries = await loadEntries(root);
-  const o = outputs(entries, { line });
+  const o = outputs(entries, { line, breaking: loadBreakingRegister(paths.breakingRegister) });
 
+  // [path, content, gitIgnored]. Git-ignored outputs (deprecations.json, the
+  // docs guide) are build products: --check proves they generate, but only
+  // committed outputs are compared byte-for-byte.
   const targets = [];
   if (customOut) targets.push([customOut, o.ts, false]);
-  else targets.push([PATHS.generatedTs, o.ts, false]);
-  targets.push([PATHS.deprecationsJson, o.json, true]);
-  if (has('--docs')) targets.push([PATHS.docsMigrationOut, o.docs, true]);
+  else targets.push([paths.generatedTs, o.ts, false]);
+  targets.push([paths.deprecationsJson, o.json, true]);
+  if (has('--docs')) targets.push([paths.docsMigrationOut, o.docs, true]);
   if (has('--schema')) {
     const require = createRequire(import.meta.url);
     const ts = require('typescript');
-    targets.push([PATHS.schemaPath, genSchema(ts), false]);
+    targets.push([paths.schemaPath, genSchema(ts, { contractsFile: join(root, 'src/contracts/fragments.ts') }), false]);
   }
 
   const stale = [];
-  for (const [p, content] of targets) {
-    if (check) { if (!existsSync(p) || readFileSync(p, 'utf8') !== content) stale.push(p); }
+  for (const [p, content, ignored] of targets) {
+    if (check) { if (!ignored && (!existsSync(p) || readFileSync(p, 'utf8') !== content)) stale.push(p); }
     else { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, content); }
   }
-  if (check && stale.length) { console.error(`gen-deprecations --check FAIL: ${stale.join(', ')}`); return 1; }
+  if (check && stale.length) {
+    console.error(`gen-deprecations --check FAIL (regenerate with \`npm run gen:deprecations\`): ${stale.join(', ')}`);
+    return 1;
+  }
   console.log(`gen-deprecations: ${entries.length} entries -> ${targets.length} target(s) ${check ? 'verified' : 'written'}`);
   return 0;
 }

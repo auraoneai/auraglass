@@ -15,7 +15,6 @@ import { fileURLToPath } from 'node:url';
 import { relPaths } from './lib/policy.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const PATHS = relPaths(ROOT);
 export const NOTICE_KINDS = new Set(['peer', 'engine', 'behavior']);
 const NOTICE_B = new Set(['B1', 'B2', 'B13']);
 
@@ -42,17 +41,19 @@ export function checkRegister(items, entries, guideText) {
 
 // Coverage: every 4.x name renamed or removed in 5.0 (the register's removal
 // scope) is covered|uncovered by a deprecation entry shipped in a published
-// 4.x minor >= 4.2.0. Exception-allowlisted ids count as covered.
+// 4.x minor >= 4.2.0. An allowlisted id counts as covered only when its
+// entry carries an `exception` (REQ-PLAT-28 item 4).
 export function coverage(entries, { published = {}, allowlist = new Set(), ga = false } = {}) {
   const rows = []; const minors = (v) => /^4\.(\d+)\.\d+$/.exec(v ?? '');
   for (const e of entries) {
     const m = minors(e.since);
     const shipped = m != null && Number(m[1]) >= 2 && (published[e.since] ?? []).includes(e.id);
-    const status = allowlist.has(e.id) ? 'covered' : shipped ? 'covered' : 'uncovered';
+    const excepted = allowlist.has(e.id) && e.exception != null;
+    const status = excepted || shipped ? 'covered' : 'uncovered';
     rows.push({
       id: e.id, kind: e.kind, symbol: e.symbol, entry: e.entry,
       removeIn: e.removeIn, since: e.since, breaking: e.breaking,
-      coverage: status, verifiedIn: shipped ? e.since : (allowlist.has(e.id) ? 'exception' : null),
+      coverage: status, verifiedIn: shipped ? e.since : (excepted ? 'exception' : null),
     });
   }
   const uncovered = rows.filter((r) => r.coverage === 'uncovered');
@@ -62,6 +63,7 @@ export function coverage(entries, { published = {}, allowlist = new Set(), ga = 
 export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
   const arg = (n) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : null; };
   const has = (f) => argv.includes(f);
+  const PATHS = relPaths(root);
   const register = JSON.parse(readFileSync(arg('--register') ?? PATHS.breakingRegister, 'utf8'));
   const guidePath = arg('--guide') ?? PATHS.docsMigrationOut;
   const guideText = existsSync(guidePath) ? readFileSync(guidePath, 'utf8') : null;
