@@ -4,7 +4,8 @@ exports[`CompactCookieNotice matches snapshot 1`] = `
 <div
   aria-hidden="false"
   class="container positionBottomLeft"
-  style="--cookie-blur-scale: 0.6; --cookie-box-shadow: 0 10px 14.40px color-mix(in srgb, var(--glass-black) 16%, transparent); opacity: 0; transform: translateY(15px);"
+  data-state="open"
+  style="--cookie-blur-scale: 0.6; --cookie-box-shadow: 0 10px 14.40px color-mix(in srgb, var(--glass-black) 16%, transparent);"
 >
   <p
     class="glass-text-primary glass-text-base"
@@ -19,10 +20,10 @@ exports[`CompactCookieNotice matches snapshot 1`] = `
       data-glass-component="true"
     >
       <button
-        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-link hover:glass-text-link-hover underline-offset-4 hover:underline glass-radius-md glass-magnet glass-ripple glass-press"
+        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden box-border glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-link hover:glass-text-link-hover underline-offset-4 hover:underline glass-radius-md glass-magnet glass-ripple glass-press moreInfoButton"
         data-button-size="sm"
         data-button-variant="link"
-        id="glass-button-:ra:"
+        id="glass-button-:rk:"
       >
         More Info
       </button>
@@ -32,14 +33,14 @@ exports[`CompactCookieNotice matches snapshot 1`] = `
       data-glass-component="true"
     >
       <button
-        class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+        class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden box-border glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
         data-button-size="sm"
         data-button-variant="primary"
         data-caustics="true"
         data-magnet="true"
         data-performance-mode="ultra"
-        id="glass-button-:rb:"
-        style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
+        id="glass-button-:rm:"
+        style="background-color: rgba(255, 255, 255, 0.018); border: 1px solid rgba(255,255,255,0.18); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
       >
         <span
           class="glass-relative glass-z-10"

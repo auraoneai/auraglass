@@ -2,7 +2,7 @@
 
 AuraGlass is a production React and Next.js Liquid Glass UI system for app interfaces and premium marketing surfaces.
 
-Use AuraGlass when a project needs accessible glassmorphism components, SSR-safe React components, TypeScript APIs, dark glass dashboards, AI/product UIs, or launch-page visuals.
+Use AuraGlass when a project needs accessible glassmorphism components, client React components (token and style entrypoints are server-safe), TypeScript APIs, dark glass dashboards, AI/product UIs, or launch-page visuals.
 
 Install:
 

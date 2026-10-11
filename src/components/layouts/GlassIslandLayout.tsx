@@ -611,8 +611,8 @@ export const GlassIslandLayout = forwardRef<
       >
         <motion.button
           className="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-          whileHover={shouldAnimate ? { scale: 1.05 } : {}}
-          whileTap={shouldAnimate ? { scale: 0.95 } : {}}
+          whileHover={shouldAnimate ? { scale: 1.05 } : undefined}
+          whileTap={shouldAnimate ? { scale: 0.95 } : undefined}
           onClick={() => setCurrentZoom((prev: any) => Math.min(3, prev * 1.2))}
           style={{
             appearance: "none",
@@ -629,8 +629,8 @@ export const GlassIslandLayout = forwardRef<
 
         <motion.button
           className="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-          whileHover={shouldAnimate ? { scale: 1.05 } : {}}
-          whileTap={shouldAnimate ? { scale: 0.95 } : {}}
+          whileHover={shouldAnimate ? { scale: 1.05 } : undefined}
+          whileTap={shouldAnimate ? { scale: 0.95 } : undefined}
           onClick={() =>
             setCurrentZoom((prev: any) => Math.max(0.2, prev / 1.2))
           }
@@ -658,8 +658,8 @@ export const GlassIslandLayout = forwardRef<
             background: "rgba(255,255,255,.2)",
             color: "var(--glass-theme-text, var(--glass-text-primary))",
           }}
-          whileHover={shouldAnimate ? { scale: 1.05 } : {}}
-          whileTap={shouldAnimate ? { scale: 0.95 } : {}}
+          whileHover={shouldAnimate ? { scale: 1.05 } : undefined}
+          whileTap={shouldAnimate ? { scale: 0.95 } : undefined}
           onClick={() => setConnectionMode(!connectionMode)}
         >
           🔗
@@ -667,8 +667,8 @@ export const GlassIslandLayout = forwardRef<
 
         <motion.button
           className="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-          whileHover={shouldAnimate ? { scale: 1.05 } : {}}
-          whileTap={shouldAnimate ? { scale: 0.95 } : {}}
+          whileHover={shouldAnimate ? { scale: 1.05 } : undefined}
+          whileTap={shouldAnimate ? { scale: 0.95 } : undefined}
           onClick={autoArrange}
           style={{
             appearance: "none",
@@ -773,115 +773,119 @@ export const GlassIslandLayout = forwardRef<
               transformOrigin: "0 0",
             }}
           >
-          {/* Grid background */}
-          {showGrid && (
-            <div
-              className="glass-absolute glass-inset-0 glass-opacity-10"
-              style={{
-                backgroundImage: `
+            {/* Grid background */}
+            {showGrid && (
+              <div
+                className="glass-absolute glass-inset-0 glass-opacity-10"
+                style={{
+                  backgroundImage: `
                   linear-gradient(var(--glass-bg-default) 1px, transparent 1px),
                   linear-gradient(90deg, var(--glass-bg-default) 1px, transparent 1px)
                 `,
-                backgroundSize: "50px 50px",
-              }}
+                  backgroundSize: "50px 50px",
+                }}
+              />
+            )}
+
+            {/* Canvas for connections */}
+            <canvas
+              ref={canvasRef}
+              data-glass-overlay="true"
+              className="glass-absolute glass-inset-0 glass-pointer-events-none"
+              width={2000}
+              height={2000}
             />
-          )}
 
-          {/* Canvas for connections */}
-          <canvas
-            ref={canvasRef}
-            data-glass-overlay="true"
-            className="glass-absolute glass-inset-0 glass-pointer-events-none"
-            width={2000}
-            height={2000}
-          />
-
-          {/* Islands */}
-          {layoutIslands.map((island, index) => (
-            <motion.div
-              key={island.id}
-              className={`absolute cursor-pointer transition-all duration-[${ANIMATION.DURATION.fast}ms] ${
-                selectedIsland === island.id ? "ring-2 ring-blue-400" : ""
-              } ${island.minimized ? "opacity-50" : ""}`}
-              style={{
-                left: island.x,
-                top: island.y,
-                width: island.width,
-                height: island.minimized ? 40 : island.height,
-                zIndex:
-                  island.zIndex ||
-                  (selectedIsland === island.id ? 1000 : index),
-              }}
-              initial={shouldAnimate ? { opacity: 0, scale: 0.8 } : false}
-              animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
-              transition={
-                prefersReducedMotion
-                  ? { duration: 0 }
-                  : { duration: ANIMATION.DURATION.normal / 1000 }
-              }
-              onMouseDown={(e) => handleMouseDown(e, island)}
-            >
-              <OptimizedGlass
-                variant="frosted"
-                className={`w-full h-full box-border p-4 hover:bg-white/10 transition-all duration-[${ANIMATION.DURATION.fast}ms] ${
-                  island.pinned ? "border-yellow-400/50" : ""
-                } ${connectionMode ? "hover:border-blue-400" : ""}`}
-                style={{ boxSizing: "border-box", overflow: "hidden" }}
+            {/* Islands */}
+            {layoutIslands.map((island, index) => (
+              <motion.div
+                key={island.id}
+                className={`absolute cursor-pointer transition-all duration-[${ANIMATION.DURATION.fast}ms] ${
+                  selectedIsland === island.id ? "ring-2 ring-blue-400" : ""
+                } ${island.minimized ? "opacity-50" : ""}`}
+                style={{
+                  left: island.x,
+                  top: island.y,
+                  width: island.width,
+                  height: island.minimized ? 40 : island.height,
+                  zIndex:
+                    island.zIndex ||
+                    (selectedIsland === island.id ? 1000 : index),
+                }}
+                initial={shouldAnimate ? { opacity: 0, scale: 0.8 } : false}
+                animate={
+                  prefersReducedMotion ? undefined : { opacity: 1, scale: 1 }
+                }
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : { duration: ANIMATION.DURATION.normal / 1000 }
+                }
+                onMouseDown={(e) => handleMouseDown(e, island)}
               >
-                {!island.minimized && island.content}
-
-                {/* Island controls */}
-                <div
-                  className="glass-absolute glass-top-2 glass-right-2 glass-flex glass-space-x-1"
-                  data-glass-overlay="true"
+                <OptimizedGlass
+                  variant="frosted"
+                  className={`w-full h-full box-border p-4 hover:bg-white/10 transition-all duration-[${ANIMATION.DURATION.fast}ms] ${
+                    island.pinned ? "border-yellow-400/50" : ""
+                  } ${connectionMode ? "hover:border-blue-400" : ""}`}
+                  style={{ boxSizing: "border-box", overflow: "hidden" }}
                 >
-                  {island.category && (
-                    <span
-                      className="glass-px-2 glass-py-1 glass-surface-overlay glass-radius glass-text-xs"
+                  {!island.minimized && island.content}
+
+                  {/* Island controls */}
+                  <div
+                    className="glass-absolute glass-top-2 glass-right-2 glass-flex glass-space-x-1"
+                    data-glass-overlay="true"
+                  >
+                    {island.category && (
+                      <span
+                        className="glass-px-2 glass-py-1 glass-surface-overlay glass-radius glass-text-xs"
+                        style={{
+                          color:
+                            "var(--glass-theme-text, var(--glass-text-primary))",
+                        }}
+                      >
+                        {island.category}
+                      </span>
+                    )}
+
+                    <button
+                      tabIndex={-1}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setLayoutIslands((prev: any) =>
+                          prev.map((i: any) =>
+                            i.id === island.id
+                              ? { ...i, minimized: !i.minimized }
+                              : i
+                          )
+                        );
+                      }}
+                      className="glass-w-6 glass-h-6 glass-surface-overlay hover:glass-surface-subtle glass-radius glass-text-xs glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                       style={{
-                        color: "var(--glass-theme-text, var(--glass-text-primary))",
+                        color:
+                          "var(--glass-theme-text, var(--glass-text-primary))",
                       }}
                     >
-                      {island.category}
-                    </span>
-                  )}
-
-                  <button
-                    tabIndex={-1}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setLayoutIslands((prev: any) =>
-                        prev.map((i: any) =>
-                          i.id === island.id
-                            ? { ...i, minimized: !i.minimized }
-                            : i
-                        )
-                      );
-                    }}
-                    className="glass-w-6 glass-h-6 glass-surface-overlay hover:glass-surface-subtle glass-radius glass-text-xs glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-                    style={{
-                      color: "var(--glass-theme-text, var(--glass-text-primary))",
-                    }}
-                  >
-                    {island.minimized ? "□" : "_"}
-                  </button>
-                </div>
-
-                {/* Resize handle */}
-                {enableResizing && !island.minimized && (
-                  <div
-                    className="glass-absolute glass-bottom-0 glass-right-0 glass-w-4 glass-h-4 glass-surface-subtle/20 glass-cursor-se-resize glass-opacity-0 glass-hover-opacity-100 glass-transition-opacity"
-                    onMouseDown={(e) => {
-                      e.stopPropagation();
-                      setIsResizing(island.id);
-                    }}
-                  >
-                    ⋮⋮
+                      {island.minimized ? "□" : "_"}
+                    </button>
                   </div>
-                )}
-              </OptimizedGlass>
-            </motion.div>
-          ))}
+
+                  {/* Resize handle */}
+                  {enableResizing && !island.minimized && (
+                    <div
+                      className="glass-absolute glass-bottom-0 glass-right-0 glass-w-4 glass-h-4 glass-surface-subtle/20 glass-cursor-se-resize glass-opacity-0 glass-hover-opacity-100 glass-transition-opacity"
+                      onMouseDown={(e) => {
+                        e.stopPropagation();
+                        setIsResizing(island.id);
+                      }}
+                    >
+                      ⋮⋮
+                    </div>
+                  )}
+                </OptimizedGlass>
+              </motion.div>
+            ))}
           </div>
         </div>
 

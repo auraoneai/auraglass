@@ -778,10 +778,7 @@ export const ColorAdaptationDemo: React.FC = () => {
           )}
         >
           {Object.entries(currentPalette).map(([name, color]) => (
-            <div
-              key={name}
-              className={cn("glass-min-w-0 glass-text-center")}
-            >
+            <div key={name} className={cn("glass-min-w-0 glass-text-center")}>
               <div
                 className={cn(
                   "glass-w-full glass-h-12 glass-radius-lg glass-mb-2"
@@ -825,8 +822,10 @@ export const ColorAdaptationDemo: React.FC = () => {
                     color: currentPalette.background,
                   }}
                   onClick={() => adaptToTime([6, 12, 18, 0][index])}
-                  whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
-                  whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                  whileHover={
+                    prefersReducedMotion ? undefined : { scale: 1.05 }
+                  }
+                  whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
                   transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
                   aria-label={`Switch to ${time} color scheme`}
                 >
@@ -860,8 +859,12 @@ export const ColorAdaptationDemo: React.FC = () => {
                       color: currentPalette.background,
                     }}
                     onClick={() => adaptToSeason(season)}
-                    whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
-                    whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+                    whileHover={
+                      prefersReducedMotion ? undefined : { scale: 1.05 }
+                    }
+                    whileTap={
+                      prefersReducedMotion ? undefined : { scale: 0.95 }
+                    }
                     transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
                     aria-label={`Switch to ${season} color scheme`}
                   >
@@ -895,8 +898,8 @@ export const ColorAdaptationDemo: React.FC = () => {
                     borderColor: currentPalette.border,
                   }}
                   onClick={() => adaptToBrand([color])}
-                  whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
-                  whileTap={prefersReducedMotion ? {} : { scale: 0.9 }}
+                  whileHover={prefersReducedMotion ? undefined : { scale: 1.1 }}
+                  whileTap={prefersReducedMotion ? undefined : { scale: 0.9 }}
                   transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
                   aria-label={`Apply brand color ${i + 1}`}
                 />
@@ -918,7 +921,7 @@ export const ColorAdaptationDemo: React.FC = () => {
                 config.enabled ? "glass-surface-success" : "glass-surface-muted"
               )}
               onClick={() => updateConfig({ enabled: !config.enabled })}
-              whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+              whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
               transition={{ duration: ANIMATION.DURATION.fast / 1000 }}
               aria-label={
                 config.enabled
@@ -931,7 +934,9 @@ export const ColorAdaptationDemo: React.FC = () => {
                   "glass-w-4 glass-h-4 glass-surface-light glass-radius-full"
                 )}
                 animate={
-                  prefersReducedMotion ? {} : { x: config.enabled ? 24 : 0 }
+                  prefersReducedMotion
+                    ? undefined
+                    : { x: config.enabled ? 24 : 0 }
                 }
                 transition={
                   prefersReducedMotion

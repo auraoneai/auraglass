@@ -41,19 +41,19 @@
           },
           "kind": {
             "enum": [
-              "export",
-              "subpath",
-              "prop",
-              "prop-value",
-              "css-var",
-              "css-global",
-              "peer",
-              "dependency",
-              "engine",
+              "asset",
               "behavior",
               "cli",
+              "css-global",
+              "css-var",
               "data-attr",
-              "asset"
+              "dependency",
+              "engine",
+              "export",
+              "peer",
+              "prop",
+              "prop-value",
+              "subpath"
             ]
           },
           "status": {
@@ -91,30 +91,34 @@
               {
                 "type": "string"
               },
-              {}
+              {
+                "type": "null"
+              }
             ]
           },
           "codemod": {
             "anyOf": [
               {
                 "enum": [
-                  "imports-subpaths",
-                  "canonical-names",
-                  "prop-grammar",
-                  "dead-optical-props",
-                  "providers",
-                  "css-vars",
-                  "deps",
-                  "removed",
                   "ai-chat",
                   "app-shell-slots",
+                  "canonical-names",
+                  "css-vars",
+                  "dead-optical-props",
+                  "deps",
+                  "imports-subpaths",
                   "media-backdrops",
-                  "reduced-motion-initial",
                   "motion-imports",
-                  "motion-props"
+                  "motion-props",
+                  "prop-grammar",
+                  "providers",
+                  "reduced-motion-initial",
+                  "removed"
                 ]
               },
-              {}
+              {
+                "type": "null"
+              }
             ]
           },
           "automation": {
@@ -145,7 +149,7 @@
           },
           "doc": {
             "type": "string",
-            "pattern": "^#dep-.+$"
+            "pattern": "^#dep-.*$"
           },
           "compat": {
             "type": "string"

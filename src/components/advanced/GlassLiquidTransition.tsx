@@ -379,7 +379,9 @@ function LiquidRipples({
           className="glass-absolute glass-pointer-events-none"
           initial={{ scale: 0, opacity: 1 }}
           animate={
-            prefersReducedMotion ? {} : { scale: 3 * intensity, opacity: 0 }
+            prefersReducedMotion
+              ? undefined
+              : { scale: 3 * intensity, opacity: 0 }
           }
           exit={{ opacity: 0 }}
           transition={
@@ -554,7 +556,9 @@ export const GlassLiquidContainer = React.forwardRef<
             : {}),
         }}
         transition={
-          shouldAnimate ? { type: "spring", stiffness: 100, damping: 20 } : {}
+          shouldAnimate
+            ? { type: "spring", stiffness: 100, damping: 20 }
+            : undefined
         }
         {...restProps}
       >
