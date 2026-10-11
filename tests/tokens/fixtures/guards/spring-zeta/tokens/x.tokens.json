@@ -1,0 +1,1 @@
+{"sys": {"spring": {"wobbly": {"$type": "motion-spring", "$value": {"dampingRatio": 0.5, "response": {"value": 350, "unit": "ms"}}, "$extensions": {"ag.tier": "sys"}}}}}

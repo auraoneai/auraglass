@@ -1,0 +1,1 @@
+{"ref": {"dimension": {"r8": {"$type": "dimension", "$value": {"value": 8, "unit": "px"}, "$extensions": {"ag.tier": "ref", "ag.public": true, "ag.cssVar": "--ag-leak"}}}}}
