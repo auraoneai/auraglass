@@ -75,10 +75,10 @@ describe('W4 prop mapping', () => {
     quiet();
     const mesh = render(<compat.GlassMeshGradient variant="dark" />);
     const m = mesh.container.querySelector('.ag-backdrop')!;
-    expect(m.getAttribute('data-ag-motion')).toBe('drift');
+    expect(m.getAttribute('data-backdrop-motion')).toBe('drift');
     cleanup();
     const orb = render(<compat.AuroraOrb palette="ocean" pulse={false} />);
-    expect(orb.container.querySelector('.ag-backdrop')!.getAttribute('data-ag-motion')).toBe('static');
+    expect(orb.container.querySelector('.ag-backdrop')!.getAttribute('data-backdrop-motion')).toBe('static');
     cleanup();
   });
 });

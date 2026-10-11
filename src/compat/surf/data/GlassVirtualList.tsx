@@ -3,7 +3,9 @@
    props} render `component` with its props; itemHeight (or each item's
    height) seeds estimateSize; height bounds the scroll viewport;
    onEndReached / endThreshold / overscan map 1:1. The legacy
-   items + renderItem(item, index) form is also accepted. */
+   items + renderItem(item, index) form is also accepted; with no items the
+   children render statically. */
+'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { VirtualList } from '../../../data/virtual-list/VirtualList';
@@ -20,11 +22,13 @@ export interface GlassVirtualListProps {
   renderItem?: (item: unknown, index: number) => React.ReactNode;
   height?: number | string;
   itemHeight?: number;
+  rowHeight?: number;
   estimatedItemHeight?: number;
   overscan?: number;
   onEndReached?: () => void;
   endThreshold?: number;
   className?: string;
+  children?: React.ReactNode;
   'aria-label'?: string;
   [legacy: string]: unknown;
 }
@@ -37,8 +41,9 @@ const isItem = (x: unknown): x is VirtualListItem => typeof x === 'object' && x 
  */
 export function GlassVirtualList(props: GlassVirtualListProps) {
   warnDeprecated('DEP-S0203');
-  const { items = [], renderItem, height = 400, itemHeight, estimatedItemHeight, overscan, onEndReached, endThreshold, className } = props;
-  const fallback = itemHeight ?? estimatedItemHeight ?? 40;
+  const { items, renderItem, height = 400, itemHeight, rowHeight, estimatedItemHeight, overscan, onEndReached, endThreshold, className, children } = props;
+  if (!items) return <div data-compat="GlassVirtualList" {...(className ? { className } : {})}>{children}</div>;
+  const fallback = itemHeight ?? rowHeight ?? estimatedItemHeight ?? 40;
   return (
     <VirtualList<unknown>
       items={items}

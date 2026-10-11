@@ -23,6 +23,9 @@ const { keep, pending: pendingEntries } = buildableEntries();
 for (const e of pendingEntries) console.log(`   pending entry ${e.subpath}: ${e.reason}`);
 const emitConfig = join(ROOT, 'build', '.tsconfig.emit.json');
 writeFileSync(emitConfig, JSON.stringify({ extends: '../tsconfig.build.json', include: [], files: keep.map(e => '../' + e.source) }, null, 2) + '\n');
+// REQ-PLAT-66: typecheck the full emit set before emitting — a type error must
+// fail the build, never emit partial declarations.
+execFileSync('npx', ['tsc', '-p', emitConfig, '--noEmit'], { cwd: ROOT, stdio: 'inherit' });
 execFileSync('npx', ['tsc', '-p', emitConfig, '--outDir', 'dist'], { cwd: ROOT, stdio: 'inherit' });
 const rw = rewriteAll();
 console.log(`   d.ts rewritten: ${rw.rewritten}/${rw.files}`);
@@ -31,6 +34,7 @@ step(2, 'css assembly');
 const css = await assembleAllCss(ROOT, { lower: true });
 console.log(`   wrote ${css.written.join(', ')}`);
 for (const p of css.pending) console.log(`   pending: ${p}`);
+for (const b of css.baselined) console.log(`   ${b}`);
 execFileSync('node', ['scripts/build/gen-tailwind-bridge.mjs'], { cwd: ROOT, stdio: 'inherit' });
 
 step(3, 'package exports');
@@ -59,7 +63,7 @@ if (existsSync(join(ROOT, 'scripts/release/gen-deprecations.mjs'))) {
   execFileSync('node', ['scripts/release/gen-deprecations.mjs'], { cwd: ROOT, stdio: 'inherit' });
 } else console.log('   pending: scripts/release/gen-deprecations.mjs (lane 1c) — deprecations.json passes through as committed');
 mkdirSync(join(ROOT, 'build'), { recursive: true });
-writeFileSync(join(ROOT, 'build/css-ownership.json'), JSON.stringify({ version: 1, layers: LAYER_CONTENT_OWNER }, null, 2) + '\n');
+writeFileSync(join(ROOT, 'build/css-ownership.json'), JSON.stringify({ version: 1, selectors: css.ownership.selectors, a11y: css.ownership.a11y, layers: LAYER_CONTENT_OWNER }, null, 2) + '\n');
 const sse = generateServerSafeExports(ROOT);
 writeFileSync(join(ROOT, 'build/server-safe-exports.json'), JSON.stringify(sse, null, 2) + '\n');
 console.log(`   build/css-ownership.json, build/server-safe-exports.json (${sse.entries.length} entries)`);

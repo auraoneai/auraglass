@@ -74,9 +74,19 @@ describe('W4 deprecation coverage (SURF-398)', () => {
     }
   });
 
-  it('every §9 media row ids to DEP-S06xx, since 4.2.0/4.3.0, doc anchor #dep-s0NNN', () => {
-    for (const r of rows.filter((row) => N9.includes(row.symbol))) {
-      expect(r.id).toMatch(/^DEP-S06\d\d$/);
+  it('every W4 (§9 media/backdrop) row ids to DEP-S06xx', () => {
+    // Ids are pre-allocated per lane (W1 S0001–0199 … W4 S0600–0799); rows
+    // from other lanes in the same fragment use their own ranges.
+    for (const name of N9) {
+      const row = bySymbol.get(name);
+      if (!row) continue; // covered by the it.each above
+      expect(row.id).toMatch(/^DEP-S06\d\d$/);
+    }
+  });
+
+  it('every row has since 4.2.0/4.3.0, doc anchor #dep-s0NNN, message <= 200', () => {
+    for (const r of rows) {
+      expect(r.id).toMatch(/^DEP-S\d{4}$/);
       expect(r.doc).toBe(`#${r.id.toLowerCase()}`);
       expect(['4.2.0', '4.3.0']).toContain(r.since);
       expect(r.message.length).toBeLessThanOrEqual(200);

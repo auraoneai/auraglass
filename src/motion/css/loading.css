@@ -16,8 +16,9 @@
   }
 
   /* static frame, always present: a centred specular band on the loading surface's
-     ::before. Component CSS may style the geometry; motion ships the optics. */
-  :is([data-loading], [aria-busy=true])::before {
+     ::after (::before is reserved for the surface's backdrop optics). Component
+     CSS may style the geometry; motion ships the optics. */
+  :is([data-loading], [aria-busy=true])::after {
     background-image: linear-gradient(
       100deg,
       transparent 20%,
@@ -35,7 +36,7 @@
   /* the only animation in core, and only while continuous motion is on.
      Sweep period is a lane-internal custom prop (no public token exists for a
      1,400 ms indicator cycle) — declared once, referenced by the animation. */
-  [data-ag-continuous=on] :is([data-loading], [aria-busy=true])::before {
+  [data-ag-continuous=on] :is([data-loading], [aria-busy=true])::after {
     --_ag-sweep-duration: 1400ms;
     animation: ag-sweep var(--_ag-sweep-duration) var(--ag-ease-standard) infinite;
   }

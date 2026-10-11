@@ -98,7 +98,6 @@ export type {
   SheetButtonishProps, SheetActionProps, SheetLayoutProps, SheetSide, SheetPreset,
 } from '../components/sheet';
 export type { SheetDetent } from '../components/sheet';
-export { SheetHandle, useSheetDetents, resolveDetent } from '../components/sheet';
 
 export { Popover } from '../components/popover';
 export { Tooltip } from '../components/tooltip';
@@ -139,8 +138,8 @@ export { ImageList } from '../components/image-list';
 export type { ImageListProps, ItemBarProps } from '../components/image-list';
 export { Avatar } from '../components/avatar';
 export type { AvatarRootProps } from '../components/avatar';
-export { Progress, ProgressRing } from '../components/progress';
-export type { ProgressProps, ProgressRingProps } from '../components/progress';
+export { Progress } from '../components/progress';
+export type { ProgressProps } from '../components/progress';
 export { Meter } from '../components/meter';
 export type { MeterProps } from '../components/meter';
 export { Accordion } from '../components/accordion';

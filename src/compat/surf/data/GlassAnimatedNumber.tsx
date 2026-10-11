@@ -3,7 +3,10 @@
    immediately (no count-up animation; reduced motion is moot). This adapter
    keeps the 4.x inline placement: the final value formatted with decimals /
    separator / prefix / suffix (or formatter), as a single text span with the
-   4.x aria-label. */
+   4.x aria-label. The fallback format pins 'en-US' (StatCard's default
+   locale) so server and client text match across host locales
+   (REQ-SURF-08). */
+'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 
@@ -30,7 +33,7 @@ export function GlassAnimatedNumber(props: GlassAnimatedNumberProps) {
   const fmt = formatter ?? format;
   const body = fmt
     ? fmt(value)
-    : new Intl.NumberFormat(undefined, {
+    : new Intl.NumberFormat('en-US', {
         useGrouping: separator,
         ...(decimals !== undefined ? { minimumFractionDigits: decimals, maximumFractionDigits: decimals } : {}),
       }).format(value);

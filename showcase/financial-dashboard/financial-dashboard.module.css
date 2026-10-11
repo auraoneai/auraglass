@@ -1,0 +1,68 @@
+/* financial-dashboard layout only (REQ-QUAL-59 property allowlist). */
+.overview {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  container-type: inline-size;
+}
+
+.kpis {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.kpiRow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.chart {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.chartHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.ledger {
+  display: grid;
+  gap: 0.75rem;
+  min-inline-size: 0;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.sectionHeading {
+  margin: 0;
+}
+
+.fragment {
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.mark {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+}
+
+@container (max-width: 60rem) {
+  .kpiRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container (max-width: 30rem) {
+  .kpiRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
