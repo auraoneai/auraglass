@@ -19,8 +19,10 @@ export type AppShellRootProps = PartProps<'div'> & {
   defaultSidebar?: SidebarState | undefined;
   defaultInspector?: InspectorState | undefined;
   sidebarSide?: 'start' | 'end' | undefined;
-  /** 'auto' derives the mode from the shell's own width via container queries;
-      'desktop'/'mobile' pin the wide/compact contract modes (SURF-20). */
+  /** Contract values (AG_ATTRIBUTES data-ag-layout): 'auto' lets the
+      `ag-app-shell` container queries resolve compact/medium/expanded/wide
+      from the shell's own width (REQ-SURF-17); 'desktop'/'mobile' pin the
+      wide/compact geometry (SURF-20). */
   layout?: 'auto' | 'desktop' | 'mobile' | undefined;
   /** When set, sidebar/inspector persist to an `ag-shell-<key>` cookie. */
   persistKey?: string | undefined;
@@ -95,7 +97,15 @@ function Root({
     ...(persistKey ? { 'data-persist-key': persistKey } : {}),
     ...rest,
   };
-  return partElement('div', { render, ...props, children: threaded });
+  // REQ-SURF-17: Root is the `ag-app-shell` inline-size container; a
+  // container cannot query itself, so the grid and every container rule live
+  // on this inner frame. It carries no data-ag-part (it is not a styling hook
+  // for consumers) and is always Root's only child.
+  return partElement('div', {
+    render,
+    ...props,
+    children: <div className="ag-app-shell__frame">{threaded}</div>,
+  });
 }
 Root.displayName = 'AppShell.Root';
 

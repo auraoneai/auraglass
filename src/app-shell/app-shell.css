@@ -4,7 +4,16 @@
   /* Private shell geometry (contract §4.2): --_ag-app-shell-* vars are component
      internals derived from the S-03 public scale only — never public API.
      Grid columns never transition: layout changes are instant; motion presets
-     animate the panel contents, not the tracks. */
+     animate the panel contents, not the tracks.
+
+     REQ-SURF-17: Root (.ag-app-shell) is the named inline-size container and
+     never a grid. A container cannot query itself, so the grid lives on the
+     inner .ag-app-shell__frame and every @container ag-app-shell rule targets
+     the frame or other descendants of Root. Layout comes only from these
+     selectors: no data-mode, ResizeObserver, matchMedia or window width
+     decides it. The resolved mode is published back to JS as
+     --_ag-app-shell-mode on the frame (compact|medium|expanded|wide); the
+     store reads it for toggle ARIA and drawer/sheet behaviour only. */
   .ag-app-shell {
     --_ag-app-shell-side: 16rem;
     --_ag-app-shell-rail: 4rem;
@@ -15,17 +24,8 @@
     --_ag-app-shell-gap: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
 
     container: ag-app-shell / inline-size;
-    display: grid;
+    display: block;
     block-size: 100dvh;
-    grid-template-areas:
-      'skip skip skip'
-      'side top insp'
-      'side main insp'
-      'side status insp';
-    grid-template-columns:
-      var(--_ag-app-shell-side) minmax(0, 1fr) var(--_ag-app-shell-insp);
-    gap: var(--_ag-app-shell-gap);
-    grid-template-rows: auto auto minmax(0, 1fr) auto;
     padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
     padding-block-end: env(safe-area-inset-bottom);
     padding-block-start: env(safe-area-inset-top);
@@ -35,6 +35,24 @@
      the right edge, so the physical insets swap to stay on their own edges. */
   .ag-app-shell:dir(rtl) {
     padding-inline: env(safe-area-inset-right) env(safe-area-inset-left);
+  }
+
+  /* Unconditioned base = expanded (1024–1439px container). */
+  .ag-app-shell__frame {
+    --_ag-app-shell-mode: expanded;
+
+    display: grid;
+    block-size: 100%;
+    min-inline-size: 0;
+    grid-template-areas:
+      'skip skip skip'
+      'side top insp'
+      'side main insp'
+      'side status insp';
+    grid-template-columns:
+      var(--_ag-app-shell-side) minmax(0, 1fr) var(--_ag-app-shell-insp);
+    gap: var(--_ag-app-shell-gap);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
   }
 
   /* Parts self-place by data-ag-slot (server markup has no JS positioning). */
@@ -117,7 +135,9 @@
     min-block-size: var(--_ag-app-shell-tabbar);
   }
 
-  /* Column state driven by data attributes so RSC/SSR emits identical markup. */
+  /* Column state driven by data attributes so RSC/SSR emits identical markup.
+     Set on Root, inherited by the frame (container rules override on the
+     frame itself). */
   .ag-app-shell[data-ag-sidebar='rail'] {
     --_ag-app-shell-side: var(--_ag-app-shell-rail);
   }
@@ -129,7 +149,7 @@
   }
 
   /* Right-docked sidebar swaps the two fixed columns. */
-  .ag-app-shell[data-ag-sidebar-side='end'] {
+  .ag-app-shell[data-ag-sidebar-side='end'] > .ag-app-shell__frame {
     grid-template-areas:
       'skip skip skip'
       'insp top side'
@@ -141,13 +161,13 @@
 
   /* Overlay top bar floats over main; its height is handed back to the scroll
      region so content is never covered at scroll edges. */
-  .ag-app-shell:has(> .ag-top-bar[data-ag-placement='overlay']) {
+  .ag-app-shell__frame:has(> .ag-top-bar[data-ag-placement='overlay']) {
     /* SURF-119: focused content must clear the overlay bar + breathing room,
        resolved in css — no JS measurement. */
     --ag-scroll-padding-top: calc(var(--_ag-app-shell-top) + var(--ag-space-2, 0.5rem));
   }
   /* SURF-36: an inline top bar takes its own row — nothing to clear. */
-  .ag-app-shell:has(> .ag-top-bar[data-ag-placement='inline']) {
+  .ag-app-shell__frame:has(> .ag-top-bar[data-ag-placement='inline']) {
     --ag-scroll-padding-top: 0px;
   }
   .ag-top-bar[data-ag-placement='overlay'] {
@@ -157,29 +177,45 @@
     z-index: var(--ag-z-overlay, 30);
   }
 
-  /* Compact geometry — applied by the container query below in layout=auto,
-     and by data-ag-layout='mobile' when the app pins a mode. */
-  .ag-app-shell[data-ag-layout='mobile'] {
+  /* layout='desktop' pins the wide mode (SURF-20 contract values
+     auto|desktop|mobile): no container rule applies to it. */
+  .ag-app-shell[data-ag-layout='desktop'] > .ag-app-shell__frame {
+    --_ag-app-shell-mode: wide;
+  }
+  .ag-app-shell[data-ag-layout='desktop'] [data-ag-slot='main'] {
+    max-inline-size: var(--_ag-app-shell-content-max);
+    inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  /* layout='mobile' pins the compact geometry. SURF-40: the mobile tab bar
+     overlays the bottom of Main instead of taking its own row; Main gets
+     matching bottom scroll padding so the last item scrolls fully clear. */
+  .ag-app-shell[data-ag-layout='mobile'] > .ag-app-shell__frame {
+    --_ag-app-shell-mode: compact;
     --_ag-app-shell-top: 2.75rem;
     --_ag-app-shell-side: 0rem;
     --_ag-app-shell-insp: 0rem;
     grid-template-areas:
       'skip'
       'top'
-      'main'
-      'tabbar';
+      'main';
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto minmax(0, 1fr) auto;
-    padding-block-start: env(safe-area-inset-top);
+    grid-template-rows: auto auto minmax(0, 1fr);
   }
-  /* SURF-054: the bottom tab bar only exists in compact — hide at >=600
-     under auto layout (the <600 container query below re-enables it). */
+  /* SURF-054: the bottom tab bar only exists in compact — hidden under auto
+     layout (the <600 container rule below re-enables it). */
   .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'] {
     display: none;
   }
   .ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='tabbar'] {
     display: grid;
     padding-block-end: env(safe-area-inset-bottom);
+    grid-area: main;
+    align-self: end;
+    position: sticky;
+    inset-block-end: 0;
+    z-index: var(--ag-z-overlay, 30);
   }
   .ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='status'] {
     display: none;
@@ -190,100 +226,12 @@
   .ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='inspector'] {
     display: none;
   }
-  /* SURF-40: the mobile tab bar overlays the bottom of Main instead of
-     taking its own row; Main gets matching bottom scroll padding so the
-     last item scrolls fully clear of it. */
-  .ag-app-shell[data-ag-layout='mobile'] {
-    grid-template-areas:
-      'skip'
-      'top'
-      'main';
-    grid-template-rows: auto auto minmax(0, 1fr);
-  }
-  .ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='tabbar'] {
-    grid-area: main;
-    align-self: end;
-    position: sticky;
-    inset-block-end: 0;
-    z-index: var(--ag-z-overlay, 30);
-  }
   .ag-app-shell[data-ag-layout='mobile']:has([data-ag-slot='tabbar']) {
     --ag-scroll-padding-bottom: calc(
       var(--_ag-app-shell-tabbar) + env(safe-area-inset-bottom) + var(--ag-space-2, 0.5rem)
     );
   }
-  .ag-app-shell[data-mode='medium'][data-ag-sidebar='expanded'] {
-    --_ag-app-shell-side: var(--_ag-app-shell-rail);
-  }
-  .ag-app-shell[data-ag-layout='desktop'] [data-ag-slot='main'] {
-    max-inline-size: var(--_ag-app-shell-content-max);
-    inline-size: 100%;
-    margin-inline: auto;
-  }
 
-  /* Compact: < 600px — sidebar becomes an off-canvas drawer, inspector is
-     hidden, the bottom tab bar appears (its slots render via data-ag-slot). */
-  @container ag-app-shell (width < 600px) {
-    .ag-app-shell .ag-page-header__actions {
-      flex-basis: 100%;
-      margin-inline-start: 0;
-    }
-    .ag-app-shell[data-ag-layout='auto'] {
-      --_ag-app-shell-top: 2.75rem;
-      --_ag-app-shell-side: 0rem;
-      --_ag-app-shell-insp: 0rem;
-      grid-template-areas:
-        'skip'
-        'top'
-        'main'
-        'tabbar';
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-rows: auto auto minmax(0, 1fr) auto;
-      padding-block-start: env(safe-area-inset-top);
-    }
-    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'] {
-      display: grid;
-      padding-block-end: env(safe-area-inset-bottom);
-    }
-    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='status'] {
-      display: none;
-    }
-    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='sidebar'],
-    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='inspector'] {
-      display: none;
-    }
-    /* SURF-36: the center region is the first thing to go. */
-    .ag-top-bar__center:not([data-keep-center]) {
-      display: none;
-    }
-  }
-
-  /* Medium: 600–1023px — an expanded sidebar collapses to the rail width. */
-  @container ag-app-shell (600px <= width < 1024px) {
-    .ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] {
-      --_ag-app-shell-side: var(--_ag-app-shell-rail);
-    }
-    .ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] .ag-sidebar__item-label {
-      position: absolute;
-      inline-size: 1px;
-      block-size: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
-      border: 0;
-    }
-  }
-
-  /* Wide: >= 1440px — cap the content column so lines stay readable. */
-  @container ag-app-shell (width >= 1440px) {
-    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='main'] {
-      max-inline-size: var(--_ag-app-shell-content-max);
-      inline-size: 100%;
-      margin-inline: auto;
-    }
-  }
   /* SURF-23: page header wraps; actions drop to a full row under 600px. */
   .ag-app-shell .ag-page-header__row {
     display: flex;
@@ -365,11 +313,11 @@
       min-inline-size: 44px;
     }
   }
-  /* SURF-29: rail (and medium, which renders an expanded sidebar at rail
-     width) keeps accessible names — the label is visually hidden with the
-     clip pattern, never display:none; Sidebar.ItemTooltip shows it. */
-  .ag-app-shell[data-ag-sidebar='rail'] .ag-sidebar__item-label,
-  .ag-app-shell[data-mode='medium'][data-ag-sidebar='expanded'] .ag-sidebar__item-label {
+  /* SURF-29: rail keeps accessible names — the label is visually hidden with
+     the clip pattern, never display:none; Sidebar.ItemTooltip shows it. The
+     medium container rule below applies the same clip to an expanded
+     sidebar rendered at rail width. */
+  .ag-app-shell[data-ag-sidebar='rail'] .ag-sidebar__item-label {
     position: absolute;
     inline-size: 1px;
     block-size: 1px;
@@ -451,27 +399,24 @@
     }
   }
   /* SURF-038: inspector material/geometry by mode. Docked (or auto under a
-     wide shell) reads sunken with no backdrop-filter; floating (or auto
-     under expanded/medium) overlays the main area at inline-end. Compact
-     hides the inline inspector — Inspector.Sheet takes over. */
+     wide or desktop-pinned shell) reads sunken with no backdrop-filter;
+     floating (or auto under expanded/medium) overlays the main area at
+     inline-end. Compact hides the inline inspector — Inspector.Sheet takes
+     over. The wide case is the >=1440 container rule at the end. */
   [data-inspector-mode='docked'],
-  .ag-app-shell[data-mode='wide'] [data-inspector-mode='auto'] {
+  .ag-app-shell[data-ag-layout='desktop'] [data-inspector-mode='auto'] {
     background: var(--ag-color-canvas);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
   [data-inspector-mode='floating'],
-  .ag-app-shell[data-mode='expanded'] [data-inspector-mode='auto'],
-  .ag-app-shell[data-mode='medium'] [data-inspector-mode='auto'] {
+  .ag-app-shell[data-ag-layout='auto'] [data-inspector-mode='auto'] {
     position: absolute;
     inset-inline-end: var(--ag-space-2);
     inset-block: var(--ag-space-2);
     z-index: 2;
     max-inline-size: min(24rem, 90%);
     border-radius: var(--ag-radius-lg);
-  }
-  .ag-app-shell[data-mode='compact'] [data-ag-slot='inspector'] {
-    display: none;
   }
 
   /* SURF-043/045/046: panel handles — 1px line, >=24px fine / >=44px coarse
@@ -517,5 +462,94 @@
   }
   .ag-panels[data-stacked='true'] .ag-panels__handle {
     display: none;
+  }
+
+  /* REQ-SURF-17 container breakpoints — exactly three conditions, last in
+     the layer so they win over the equal-specificity base rules above.
+     Every rule targets the frame or another descendant of Root (the
+     container), never Root itself. Expanded (1024–1439px) is the
+     unconditioned base. layout='desktop'|'mobile' are gated out by
+     [data-ag-layout='auto']. */
+
+  /* Compact: < 600px — sidebar becomes an off-canvas drawer, inspector is
+     hidden, the bottom tab bar appears (its slots render via data-ag-slot). */
+  @container ag-app-shell (width < 600px) {
+    .ag-app-shell[data-ag-layout='auto'] > .ag-app-shell__frame {
+      --_ag-app-shell-mode: compact;
+      --_ag-app-shell-top: 2.75rem;
+      --_ag-app-shell-side: 0rem;
+      --_ag-app-shell-insp: 0rem;
+      grid-template-areas:
+        'skip'
+        'top'
+        'main'
+        'tabbar';
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto auto minmax(0, 1fr) auto;
+    }
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'] {
+      display: grid;
+      padding-block-end: env(safe-area-inset-bottom);
+    }
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='status'] {
+      display: none;
+    }
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='sidebar'],
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='inspector'] {
+      display: none;
+    }
+    .ag-app-shell .ag-page-header__actions {
+      flex-basis: 100%;
+      margin-inline-start: 0;
+    }
+    /* SURF-36: the center region is the first thing to go. */
+    .ag-top-bar__center:not([data-keep-center]) {
+      display: none;
+    }
+  }
+
+  /* Medium: 600–1023px — an expanded sidebar renders at the rail width (the
+     stored state stays 'expanded', SURF-31) with clip-hidden labels. */
+  @container ag-app-shell (600px <= width < 1024px) {
+    .ag-app-shell[data-ag-layout='auto'] > .ag-app-shell__frame {
+      --_ag-app-shell-mode: medium;
+    }
+    .ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] > .ag-app-shell__frame {
+      --_ag-app-shell-side: var(--_ag-app-shell-rail);
+    }
+    .ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] .ag-sidebar__item-label {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
+    }
+  }
+
+  /* Wide: >= 1440px — cap the content column so lines stay readable, and
+     dock an auto inspector as a sunken column (SURF-038). */
+  @container ag-app-shell (width >= 1440px) {
+    .ag-app-shell[data-ag-layout='auto'] > .ag-app-shell__frame {
+      --_ag-app-shell-mode: wide;
+    }
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='main'] {
+      max-inline-size: var(--_ag-app-shell-content-max);
+      inline-size: 100%;
+      margin-inline: auto;
+    }
+    .ag-app-shell[data-ag-layout='auto'] [data-inspector-mode='auto'] {
+      position: static;
+      inset: auto;
+      z-index: auto;
+      max-inline-size: none;
+      border-radius: 0;
+      background: var(--ag-color-canvas);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
   }
 }

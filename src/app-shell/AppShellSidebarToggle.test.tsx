@@ -1,5 +1,5 @@
 /** @jest-environment jsdom */
-import { describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import * as React from 'react';
 import { AppShell } from './AppShell';
@@ -11,6 +11,20 @@ import { DirectionProvider } from '@base-ui/react/direction-provider';
 const rootAttrs = (el: HTMLElement | null) => ({
   sidebar: el?.getAttribute('data-ag-sidebar'),
   inspector: el?.getAttribute('data-ag-inspector'),
+});
+
+/* REQ-SURF-17: the shell mode is resolved by app-shell.css container rules
+   and published as --_ag-app-shell-mode on the frame. jsdom evaluates
+   neither @container nor @layer, so a medium case injects exactly what the
+   medium container rule writes (asserted in app-shell.css.test.ts). */
+const cssResolves = (mode: 'compact' | 'medium' | 'expanded' | 'wide') => {
+  const style = document.createElement('style');
+  style.dataset['testMode'] = mode;
+  style.textContent = `.ag-app-shell__frame { --_ag-app-shell-mode: ${mode}; }`;
+  document.head.append(style);
+};
+afterEach(() => {
+  for (const s of document.head.querySelectorAll('style[data-test-mode]')) s.remove();
 });
 
 describe('shell toggles (SURF-027)', () => {
@@ -100,7 +114,7 @@ describe('shell toggles (SURF-027)', () => {
 
   it('mod+B is ignored without the shortcut opt-in, in editable targets and with extra modifiers', () => {
     const { unmount } = render(
-      <AppShell.Root data-testid="shell-off" layout="wide">
+      <AppShell.Root data-testid="shell-off" layout="desktop">
         <AppShellSidebarToggle />
         <AppShell.Main data-testid="main-off" />
       </AppShell.Root>,
@@ -110,7 +124,7 @@ describe('shell toggles (SURF-027)', () => {
     unmount();
 
     render(
-      <AppShell.Root data-testid="shell" layout="wide">
+      <AppShell.Root data-testid="shell" layout="desktop">
         <AppShellSidebarToggle shortcut />
         <AppShell.Main data-testid="main">
           <input aria-label="Note" />
@@ -125,9 +139,10 @@ describe('shell toggles (SURF-027)', () => {
   });
 
   it('ARIA by container mode (SURF-31/32): medium->drawer id, expanded->sidebar id', () => {
-    // medium layout resolves drawer mode: aria-expanded/haspopup + drawer id
+    // a medium container resolves drawer mode: aria-expanded/haspopup + drawer id
+    cssResolves('medium');
     const { unmount } = render(
-      <AppShell.Root data-testid="shell-m" layout="medium">
+      <AppShell.Root data-testid="shell-m">
         <AppShellSidebarToggle />
         <Sidebar.Root>
           <Sidebar.Nav aria-label="N">
@@ -144,6 +159,7 @@ describe('shell toggles (SURF-027)', () => {
     expect(btn).toHaveAttribute('aria-expanded', 'false');
     expect(btn).toHaveAttribute('aria-haspopup', 'dialog');
     unmount();
+    for (const st of document.head.querySelectorAll('style[data-test-mode]')) st.remove();
 
     // expanded layout: aria-controls === sidebar slot id, no expanded/pressed
     render(
@@ -167,7 +183,7 @@ describe('shell toggles (SURF-027)', () => {
 
   it('compact drawer: toggle opens sidebar-drawer (async portal), never touches sidebar/cookie (SURF-31)', async () => {
     render(
-      <AppShell.Root data-testid="shell-c" layout="compact" persistKey="dw1">
+      <AppShell.Root data-testid="shell-c" layout="mobile" persistKey="dw1">
         <AppShellSidebarToggle />
         <Sidebar.Root>
           <Sidebar.Nav aria-label="N">
@@ -213,7 +229,7 @@ describe('shell toggles (SURF-027)', () => {
 
   it('Mod+B routes through the same drawer-mode handler (SURF-32)', async () => {
     render(
-      <AppShell.Root data-testid="shell-k" layout="compact">
+      <AppShell.Root data-testid="shell-k" layout="mobile">
         <AppShellSidebarToggle shortcut />
         <Sidebar.Root>
           <Sidebar.Nav aria-label="N">
@@ -239,8 +255,9 @@ describe('shell toggles (SURF-027)', () => {
   });
 
   it('drawer: side start, width min(85%, 20rem), item activation closes, focus returns to the toggle (SURF-31)', async () => {
+    cssResolves('medium');
     render(
-      <AppShell.Root data-testid="shell-f" layout="medium">
+      <AppShell.Root data-testid="shell-f">
         <AppShellSidebarToggle />
         <Sidebar.Root>
           <Sidebar.Nav aria-label="N">
@@ -278,7 +295,7 @@ describe('shell toggles (SURF-027)', () => {
   it('drawer side start resolves to the right edge under RTL (SURF-31)', async () => {
     render(
       <DirectionProvider direction="rtl">
-        <AppShell.Root data-testid="shell-rtl" layout="compact">
+        <AppShell.Root data-testid="shell-rtl" layout="mobile">
           <AppShellSidebarToggle />
           <Sidebar.Root>
             <Sidebar.Nav aria-label="N">
@@ -300,7 +317,7 @@ describe('shell toggles (SURF-027)', () => {
 
   it('leaving drawer modes closes the drawer; desktop sidebar state is untouched (SURF-31)', () => {
     render(
-      <AppShell.Root data-testid="shell-r" layout="compact" defaultSidebar="expanded">
+      <AppShell.Root data-testid="shell-r" layout="mobile" defaultSidebar="expanded">
         <AppShellSidebarToggle />
         <AppShell.Main />
       </AppShell.Root>,

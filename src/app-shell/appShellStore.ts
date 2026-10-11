@@ -42,22 +42,40 @@ const records = new WeakMap<HTMLElement, ShellRecord>();
 
 const VALID_SIDEBAR: readonly string[] = ['expanded', 'rail', 'collapsed'];
 const VALID_INSPECTOR: readonly string[] = ['open', 'closed'];
+const VALID_MODES: readonly string[] = ['compact', 'medium', 'expanded', 'wide'];
 
-function deriveMode(width: number, layout: string | null): ShellMode {
-  // SURF-20 contract values: auto|desktop|mobile pin wide/compact modes.
+/* REQ-SURF-17: JS holds no breakpoints and never decides layout. app-shell.css
+   resolves the mode with `@container ag-app-shell` rules (or the
+   desktop/mobile pin) and publishes it as --_ag-app-shell-mode on the inner
+   frame; the store only reads that value back for toggle ARIA and the
+   drawer/sheet behaviour (REQ-SURF-32: one ResizeObserver on the root, ARIA
+   only). */
+const MODE_VAR = '--_ag-app-shell-mode';
+
+/** The mode a pinned layout resolves to without any measurement — also the
+    fallback before app-shell.css applies (SSR, unstyled test DOMs). */
+function pinnedMode(layout: string | undefined): ShellMode {
   if (layout === 'mobile') return 'compact';
   if (layout === 'desktop') return 'wide';
-  if (layout && layout !== 'auto' && (VALID_MODES as readonly string[]).includes(layout))
-    return layout as ShellMode;
-  // width <= 0 means the element is unmeasured (jsdom, display:none) — not a
-  // real viewport; fall back to the default desktop mode.
-  if (width <= 0) return 'expanded';
-  if (width < 600) return 'compact';
-  if (width < 1024) return 'medium';
-  if (width >= 1440) return 'wide';
   return 'expanded';
 }
 
+function frameOf(root: HTMLElement): HTMLElement | null {
+  for (const child of root.children) {
+    if (child instanceof HTMLElement && child.classList.contains('ag-app-shell__frame')) return child;
+  }
+  return null;
+}
+
+/** The CSS-resolved mode of a shell root. */
+function cssMode(root: HTMLElement): ShellMode {
+  const frame = frameOf(root);
+  if (frame && typeof getComputedStyle === 'function') {
+    const v = getComputedStyle(frame).getPropertyValue(MODE_VAR).trim();
+    if (VALID_MODES.includes(v)) return v as ShellMode;
+  }
+  return pinnedMode(root.dataset['agLayout']);
+}
 
 function writeCookie(root: HTMLElement, snapshot: ShellSnapshot): void {
   const key = root.dataset['persistKey'];
@@ -74,12 +92,15 @@ function writeCookie(root: HTMLElement, snapshot: ShellSnapshot): void {
 function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
   root.dataset['agSidebar'] = snapshot.sidebar;
   root.dataset['agInspector'] = snapshot.inspector;
+  // data-mode mirrors the CSS-resolved mode for tests and debugging only; no
+  // stylesheet selects on it (app-shell.css.test enforces that).
   root.dataset['mode'] = snapshot.mode;
   root.dataset['drawer'] = snapshot.drawer;
   const sidebarEl = root.querySelector<HTMLElement>('[data-ag-slot="sidebar"]');
   if (sidebarEl) {
-    const inert = snapshot.sidebar === 'collapsed' || snapshot.mode === 'compact';
-    if (inert) sidebarEl.setAttribute('inert', '');
+    // Compact needs no JS inert: the container rule sets display:none, which
+    // already removes the inline sidebar from focus order and the a11y tree.
+    if (snapshot.sidebar === 'collapsed') sidebarEl.setAttribute('inert', '');
     else sidebarEl.removeAttribute('inert');
   }
 }
@@ -98,7 +119,9 @@ function transition(
   for (const l of rec.listeners) l();
 }
 
-/* One shared ResizeObserver for every subscribed shell root. */
+/* One shared ResizeObserver for every subscribed shell root (REQ-SURF-32:
+   ARIA only). It never computes a mode from a width: on a root resize it
+   re-reads the mode app-shell.css resolved and notifies subscribers. */
 let sharedObserver: ResizeObserver | null = null;
 function observeRoot(root: HTMLElement): void {
   if (typeof ResizeObserver === 'undefined') return; // jsdom / non-visual envs
@@ -107,7 +130,7 @@ function observeRoot(root: HTMLElement): void {
       const el = e.target as HTMLElement;
       const rec = records.get(el);
       if (!rec) continue;
-      const mode = deriveMode(el.offsetWidth, el.dataset['agLayout'] ?? 'auto');
+      const mode = cssMode(el);
       // Leaving drawer modes (compact/medium) also closes the drawer.
       const closesDrawer = mode !== 'compact' && mode !== 'medium' && rec.snapshot.drawer === 'open';
       if (mode !== rec.snapshot.mode || closesDrawer) {
@@ -139,7 +162,7 @@ function recordFor(root: HTMLElement): ShellRecord {
     snapshot: {
       sidebar,
       inspector,
-      mode: deriveMode(root.offsetWidth, root.dataset['agLayout'] ?? 'auto'),
+      mode: cssMode(root),
       drawer: 'closed',
     },
     listeners: new Set(),
@@ -172,13 +195,12 @@ export function getServerSnapshot(root: HTMLElement): ShellSnapshot {
     inspector: VALID_INSPECTOR.includes(inspectorAttr ?? '')
       ? (inspectorAttr as InspectorState)
       : 'closed',
-    mode: (VALID_MODES as readonly string[]).includes(modeAttr ?? '')
+    mode: VALID_MODES.includes(modeAttr ?? '')
       ? (modeAttr as ShellMode)
-      : deriveMode(1024, root.dataset['agLayout'] ?? 'auto'),
+      : pinnedMode(root.dataset['agLayout']),
     drawer: 'closed',
   };
 }
-const VALID_MODES: readonly string[] = ['compact', 'medium', 'expanded', 'wide'];
 
 /** Read the persisted cookie once and apply it (effect-time, never render). */
 function hydrateFromCookie(root: HTMLElement): void {

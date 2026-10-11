@@ -1,8 +1,9 @@
 'use client';
 /* Inspector.Sheet (SURF-038): the compact presentation of the inspector —
    a CMP Sheet side='bottom' with detents [0.5, 1] that renders the SAME
-   server children while the inline inspector stays hidden (CSS:
-   [data-mode=compact] [data-ag-slot=inspector] display:none). It has no
+   server children while the inline inspector stays hidden (CSS: the
+   compact container rule / layout=mobile set the inspector slot to
+   display:none). It has no
    Sheet.Trigger: it opens only when the shell store says inspector=open,
    i.e. from AppShell.InspectorToggle, and is closed by default. The Sheet
    root stays mounted for the whole compact mode so Base UI can run its close

@@ -205,6 +205,28 @@ export const Mobile: Story = {
   ),
 };
 
+/** REQ-SURF-17: the shell inside a fixed 900px host. Layout follows the
+    shell's own container width, so at any viewport (1920px in layout.spec)
+    the shell resolves medium: an expanded sidebar renders at rail width. */
+export const ContainerPlayground: Story = {
+  render: () => (
+    <div data-testid="container-host" style={{ inlineSize: '900px', blockSize: '100dvh' }}>
+      <AppShell.Root>
+        <TopBar.Root><TopBar.Title>App</TopBar.Title></TopBar.Root>
+        <Sidebar.Root>
+          <Sidebar.Nav aria-label="Primary">
+            {NAV.map((n, i) => (
+              <Sidebar.Item key={n} href={`#${n.toLowerCase()}`} current={i === 0} icon={<span>{n[0]}</span>}>{n}</Sidebar.Item>
+            ))}
+          </Sidebar.Nav>
+        </Sidebar.Root>
+        <AppShell.Main><p>Content</p></AppShell.Main>
+        <StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item></StatusBar.Root>
+      </AppShell.Root>
+    </div>
+  ),
+};
+
 /* Page chrome: skip link and a full PageHeader inside Main. */
 export const Anatomy: Story = {
   render: () => (

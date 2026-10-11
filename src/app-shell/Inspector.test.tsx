@@ -88,7 +88,7 @@ describe('Inspector (SURF-058)', () => {
 
   it('compact sheet is CMP Sheet side=bottom, opened only by the toggle, focus returns to it (SURF-38)', async () => {
     render(
-      <AppShell.Root layout="compact" defaultInspector="closed">
+      <AppShell.Root layout="mobile" defaultInspector="closed">
         <TopBarStub />
         <AppShell.Main />
         <Inspector.Sheet aria-label="Props">
@@ -116,7 +116,8 @@ describe('Inspector (SURF-058)', () => {
 
   it('non-compact shells render no sheet even when the inspector is open (SURF-38)', () => {
     render(
-      <AppShell.Root layout="expanded" defaultInspector="open">
+      // layout auto resolves the unconditioned expanded base (REQ-SURF-17).
+      <AppShell.Root layout="auto" defaultInspector="open">
         <TopBarStub />
         <AppShell.Main />
         <Inspector.Sheet aria-label="Props">

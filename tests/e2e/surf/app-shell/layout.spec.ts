@@ -1,23 +1,61 @@
-// SURF-013/033/044 — app-shell layout: grid geometry, container-query
+// SURF-013/017/033/044 — app-shell layout: grid geometry, container-query
 // breakpoints, and resizable tracks across engines. Static half asserts the
-// CSS contract locally; dynamic half runs on the remote browser lane.
-import { test, expect } from '@playwright/test';
+// CSS contract; dynamic half runs on the remote browser lane (Storybook, a
+// Vite app without Tailwind, all three engines).
+import { test, expect, type Page } from '@playwright/test';
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { listSubjects, gotoStory } from '../../../helpers';
 
-const CSS = join(__dirname, '../../../src/app-shell/app-shell.css');
 const SHELL_CSS = join(__dirname, '../../../../src/app-shell/app-shell.css');
 const SHELL_STORIES = ['default', 'rtl', 'reduced-transparency', 'forced-colors', 'skip-link', 'scroll-ownership'];
 
-test.describe('app-shell layout (SURF-013/033/044)', () => {
+/** Geometry + resolved layout of the first shell on the page (REQ-SURF-17). */
+const shellGeometry = (page: Page) =>
+  page.evaluate(() => {
+    const root = document.querySelector<HTMLElement>('.ag-app-shell')!;
+    const frame = root.querySelector<HTMLElement>(':scope > .ag-app-shell__frame');
+    const box = (sel: string) => {
+      const el = root.querySelector<HTMLElement>(sel);
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return { left: r.left, right: r.right, top: r.top, width: r.width, height: r.height };
+    };
+    // Tailwind ships --tw-* custom properties; a shell rendered next to it
+    // would not prove the package CSS alone lays it out.
+    let tailwindRules = 0;
+    for (const sheet of document.styleSheets) {
+      let rules: CSSRuleList;
+      try {
+        rules = sheet.cssRules;
+      } catch {
+        continue; // cross-origin sheet (none expected in Storybook)
+      }
+      for (const rule of rules) if (rule.cssText.includes('--tw-')) tailwindRules++;
+    }
+    return {
+      viewport: window.innerWidth,
+      rootWidth: root.getBoundingClientRect().width,
+      rootDisplay: getComputedStyle(root).display,
+      frameDisplay: frame ? getComputedStyle(frame).display : null,
+      cssMode: frame ? getComputedStyle(frame).getPropertyValue('--_ag-app-shell-mode').trim() : null,
+      dataMode: root.getAttribute('data-mode'),
+      sidebarState: root.getAttribute('data-ag-sidebar'),
+      sidebar: box('[data-ag-slot="sidebar"]'),
+      main: box('[data-ag-slot="main"]'),
+      top: box('[data-ag-slot="top"]'),
+      tailwindRules,
+    };
+  });
+
+test.describe('app-shell layout (SURF-013/017/033/044)', () => {
   test('css contract: grid areas, breakpoints, no !important', () => {
-    expect(existsSync(CSS), 'src/app-shell/app-shell.css must exist').toBe(true);
-    const css = readFileSync(CSS, 'utf8');
-    expect(css).toContain("grid-template-areas");
-    expect(css).toContain('600');
-    expect(css).toContain('1024');
-    expect(css).toContain('1440');
+    expect(existsSync(SHELL_CSS), 'src/app-shell/app-shell.css must exist').toBe(true);
+    const css = readFileSync(SHELL_CSS, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    expect(css).toContain('grid-template-areas');
+    expect(css).toContain('@container ag-app-shell (width < 600px)');
+    expect(css).toContain('@container ag-app-shell (600px <= width < 1024px)');
+    expect(css).toContain('@container ag-app-shell (width >= 1440px)');
     expect(css).not.toMatch(/!important/);
     expect(css).not.toMatch(/will-change|transform:\s|contain:\s*paint/);
     expect(css).toContain('overscroll-behavior');
@@ -30,9 +68,57 @@ test.describe('app-shell layout (SURF-013/033/044)', () => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await gotoStory(page, subject!.id);
     const cols = await page.evaluate(() =>
-      getComputedStyle(document.querySelector('.ag-app-shell')!).gridTemplateColumns.split(' ').length,
+      getComputedStyle(document.querySelector('.ag-app-shell > .ag-app-shell__frame')!).gridTemplateColumns.split(' ').length,
     );
     expect(cols).toBe(3);
+  });
+
+  // REQ-SURF-17: at container width >= 1024 the sidebar sits beside Main.
+  // Storybook is a Vite app; the assertion also proves no Tailwind is loaded.
+  for (const [width, mode] of [
+    [1440, 'wide'],
+    [1024, 'expanded'],
+  ] as const) {
+    test(`desktop sidebar beside main at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await gotoStory(page, 'surf-app-shell--default');
+      await expect(page.locator('.ag-app-shell')).toHaveAttribute('data-mode', mode);
+      const g = await shellGeometry(page);
+      expect({
+        tailwindRules: g.tailwindRules,
+        rootDisplay: g.rootDisplay,
+        frameDisplay: g.frameDisplay,
+        cssMode: g.cssMode,
+        rootWidth: g.rootWidth,
+      }).toEqual({ tailwindRules: 0, rootDisplay: 'block', frameDisplay: 'grid', cssMode: mode, rootWidth: width });
+      expect(g.sidebar, 'inline sidebar must be laid out').not.toBeNull();
+      expect(g.main).not.toBeNull();
+      expect(g.top, 'the Default story has a top bar').not.toBeNull();
+      expect(g.sidebar!.width).toBeGreaterThan(0);
+      expect(g.sidebar!.right).toBeLessThanOrEqual(g.main!.left + 1);
+      expect(Math.abs(g.sidebar!.top - g.main!.top)).toBeLessThanOrEqual(g.top!.height);
+    });
+  }
+
+  // REQ-SURF-17: a 900px shell in a 1920px viewport resolves medium — the
+  // container decides, not the window.
+  test('layout follows container not viewport', async ({ page }) => {
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await gotoStory(page, 'surf-app-shell--container-playground');
+    await expect(page.locator('.ag-app-shell')).toHaveAttribute('data-mode', 'medium');
+    const g = await shellGeometry(page);
+    expect({ viewport: g.viewport, rootWidth: g.rootWidth, cssMode: g.cssMode, sidebarState: g.sidebarState, tailwindRules: g.tailwindRules }).toEqual({
+      viewport: 1920,
+      rootWidth: 900,
+      cssMode: 'medium',
+      sidebarState: 'expanded',
+      tailwindRules: 0,
+    });
+    // Medium renders the stored 'expanded' sidebar at the rail width (4rem).
+    const rail = await page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).fontSize) * 4);
+    expect(g.sidebar).not.toBeNull();
+    expect(Math.abs(g.sidebar!.width - rail)).toBeLessThanOrEqual(1);
+    expect(g.sidebar!.right).toBeLessThanOrEqual(g.main!.left + 1);
   });
 
   test('compact layout under 600px shows bottom tab bar', async ({ page }) => {
@@ -155,10 +241,12 @@ test.describe('app-shell layout (SURF-013/033/044)', () => {
         :root { --ag-test-safe-top: 11px; --ag-test-safe-right: 13px; --ag-test-safe-bottom: 17px; --ag-test-safe-left: 19px; }
       </style><style>${rewritten}</style></head><body>
         <div class="ag-app-shell" data-ag-part="root" data-ag-layout="auto" data-ag-sidebar="expanded" data-ag-inspector="closed" data-ag-sidebar-side="start">
-          <a data-ag-slot="skip" href="#m">Skip to content</a>
-          <header data-ag-slot="top">Top</header>
-          <main data-ag-slot="main" id="m" tabindex="-1">Main</main>
-          <nav data-ag-slot="tabbar" data-ag-placement="overlay" aria-label="Tabs">Tabs</nav>
+          <div class="ag-app-shell__frame">
+            <a data-ag-slot="skip" href="#m">Skip to content</a>
+            <header data-ag-slot="top">Top</header>
+            <main data-ag-slot="main" id="m" tabindex="-1">Main</main>
+            <nav data-ag-slot="tabbar" data-ag-placement="overlay" aria-label="Tabs">Tabs</nav>
+          </div>
         </div></body></html>`);
       const r = await page.evaluate(() => {
         const root = getComputedStyle(document.querySelector('.ag-app-shell')!);

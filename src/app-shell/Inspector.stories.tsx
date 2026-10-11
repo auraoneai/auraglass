@@ -49,6 +49,6 @@ export const InShell: Story = {
       <Inspector.Sheet aria-label="Details">{fields}</Inspector.Sheet>
     </AppShell.Root>
   ),
-  // The shell measures its own width for data-mode; no canvas padding.
+  // The shell's container queries follow its own width; no canvas padding.
   parameters: { layout: 'fullscreen' },
 };

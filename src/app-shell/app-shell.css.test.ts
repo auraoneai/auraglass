@@ -79,6 +79,10 @@ function scan(source: string): { rules: CssRule[]; atrules: CssAtRule[] } {
 
 const { rules, atrules } = scan(stripped);
 const appShell = rules.find((r) => r.selector === '.ag-app-shell');
+const frame = rules.find((r) => r.selector === '.ag-app-shell__frame' && r.ancestors.length === 1);
+const selectorsOf = (r: { selector: string }) => r.selector.split(/,\s*(?![^(]*\))/).map((x) => x.trim());
+/** Last compound of a selector (the element the declarations land on). */
+const subjectOf = (selector: string) => selector.split(/\s*[>+~]\s*|\s+(?![^(]*\))/).filter(Boolean).pop() ?? '';
 
 describe('app-shell.css structure (SURF-011)', () => {
   it('starts with the exact layer-order statement (SC-20)', () => {
@@ -110,6 +114,92 @@ describe('app-shell.css structure (SURF-011)', () => {
       'ag-app-shell (600px <= width < 1024px)',
       'ag-app-shell (width >= 1440px)',
     ]);
+  });
+
+  describe('REQ-SURF-17: Root is the container, the inner frame holds the grid', () => {
+    const CONDITIONS = [
+      '@container ag-app-shell (width < 600px)',
+      '@container ag-app-shell (600px <= width < 1024px)',
+      '@container ag-app-shell (width >= 1440px)',
+    ];
+    const inCondition = (c: string) => rules.filter((r) => r.ancestors.includes(c));
+
+    it('applies all three conditions to descendants of the container, never to Root itself', () => {
+      for (const c of CONDITIONS) {
+        const scoped = inCondition(c);
+        expect(scoped.length).toBeGreaterThan(0);
+        const onRoot = scoped.flatMap(selectorsOf).filter((x) => /^\.ag-app-shell(?![\w-])/.test(subjectOf(x)));
+        expect({ condition: c, onRoot }).toEqual({ condition: c, onRoot: [] });
+      }
+    });
+
+    it('Root is a block container with no grid; the frame owns the four-row grid', () => {
+      expect(appShell?.declarations.get('container')).toBe('ag-app-shell / inline-size');
+      expect(appShell?.declarations.get('display')).toBe('block');
+      for (const r of rules) {
+        for (const x of selectorsOf(r)) {
+          if (!/^\.ag-app-shell(?![\w-])/.test(subjectOf(x))) continue;
+          const grid = [...r.declarations.keys()].filter((k) => k.startsWith('grid-template') || k === 'display');
+          if (x === '.ag-app-shell') continue;
+          expect({ selector: x, grid }).toEqual({ selector: x, grid: [] });
+        }
+      }
+      expect(frame?.declarations.get('display')).toBe('grid');
+      expect(frame?.declarations.get('block-size')).toBe('100%');
+    });
+
+    it('each condition targets the frame through [data-ag-layout=auto] and publishes its mode', () => {
+      const frameRule = ".ag-app-shell[data-ag-layout='auto'] > .ag-app-shell__frame";
+      const modes = CONDITIONS.map(
+        (c) => inCondition(c).find((r) => selectorsOf(r).includes(frameRule))?.declarations.get('--_ag-app-shell-mode'),
+      );
+      expect(modes).toEqual(['compact', 'medium', 'wide']);
+      expect(frame?.declarations.get('--_ag-app-shell-mode')).toBe('expanded');
+      const pinned = (layout: string) =>
+        rules
+          .find((r) => r.ancestors.length === 1 && r.selector === `.ag-app-shell[data-ag-layout='${layout}'] > .ag-app-shell__frame`)
+          ?.declarations.get('--_ag-app-shell-mode');
+      expect({ desktop: pinned('desktop'), mobile: pinned('mobile') }).toEqual({ desktop: 'wide', mobile: 'compact' });
+    });
+
+    it('compact moves to one column with a tab-bar row; medium renders an expanded sidebar at rail width', () => {
+      const compact = inCondition(CONDITIONS[0]!).find((r) =>
+        selectorsOf(r).includes(".ag-app-shell[data-ag-layout='auto'] > .ag-app-shell__frame"),
+      );
+      expect({
+        columns: compact?.declarations.get('grid-template-columns'),
+        side: compact?.declarations.get('--_ag-app-shell-side'),
+        areas: compact?.declarations.get('grid-template-areas')?.replace(/\s+/g, ' '),
+      }).toEqual({ columns: 'minmax(0, 1fr)', side: '0rem', areas: "'skip' 'top' 'main' 'tabbar'" });
+      const medium = inCondition(CONDITIONS[1]!).find((r) =>
+        selectorsOf(r).includes(".ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] > .ag-app-shell__frame"),
+      );
+      expect(medium?.declarations.get('--_ag-app-shell-side')).toBe('var(--_ag-app-shell-rail)');
+    });
+
+    it('the container rules come after every base rule (equal specificity: later wins)', () => {
+      const firstConditioned = rules.findIndex((r) => CONDITIONS.some((c) => r.ancestors.includes(c)));
+      const lastBase = rules.reduce((i, r, idx) => (r.ancestors.length === 1 ? idx : i), -1);
+      expect(firstConditioned).toBeGreaterThan(lastBase);
+    });
+
+    it('no selector reads data-mode or a JS-written layout mode', () => {
+      const offenders = rules.flatMap(selectorsOf).filter((x) => /\[data-mode|data-ag-layout='(compact|medium|expanded|wide)'/.test(x));
+      expect(offenders).toEqual([]);
+      const layoutValues = new Set([...stripped.matchAll(/data-ag-layout='([a-z]+)'/g)].map((m) => m[1]));
+      expect([...layoutValues].sort()).toEqual(['auto', 'desktop', 'mobile']);
+    });
+
+    it('an auto inspector floats in the base and docks under the wide condition (SURF-38)', () => {
+      const auto = ".ag-app-shell[data-ag-layout='auto'] [data-inspector-mode='auto']";
+      const base = rules.find((r) => r.ancestors.length === 1 && selectorsOf(r).includes(auto));
+      expect(base?.declarations.get('position')).toBe('absolute');
+      const wide = inCondition(CONDITIONS[2]!).find((r) => selectorsOf(r).includes(auto));
+      expect({ position: wide?.declarations.get('position'), bg: wide?.declarations.get('background') }).toEqual({
+        position: 'static',
+        bg: 'var(--ag-color-canvas)',
+      });
+    });
   });
 
   it('declares only known named containers in @container queries', () => {
@@ -154,7 +244,7 @@ describe('app-shell.css structure (SURF-011)', () => {
   });
 
   it('uses the four-row named-area grid with a scroll-owning main and dvh sizing', () => {
-    const areas = appShell?.declarations.get('grid-template-areas') ?? '';
+    const areas = frame?.declarations.get('grid-template-areas') ?? '';
     expect(areas).toContain("'skip skip skip'");
     expect(areas).toContain("'side top insp'");
     expect(areas).toContain("'side main insp'");
@@ -335,7 +425,7 @@ describe('app-shell.css structure (SURF-011)', () => {
     const forced = withSel('.ag-top-bar').find((r) => r.ancestors.some((a) => a.includes('forced-colors: active')));
     expect(forced?.declarations.get('border-block-end')).toBe('1px solid CanvasText');
     expect(
-      withSel(".ag-app-shell:has(> .ag-top-bar[data-ag-placement='inline'])")[0]?.declarations.get('--ag-scroll-padding-top'),
+      withSel(".ag-app-shell__frame:has(> .ag-top-bar[data-ag-placement='inline'])")[0]?.declarations.get('--ag-scroll-padding-top'),
     ).toBe('0px');
   });
 
@@ -369,7 +459,6 @@ describe('app-shell.css structure (SURF-011)', () => {
       clip: 'inset(50%)',
       display: undefined,
     });
-    expect(withSel(".ag-app-shell[data-mode='medium'][data-ag-sidebar='expanded'] .ag-sidebar__item-label")[0]).toBe(clip);
     const medium = withSel(".ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] .ag-sidebar__item-label");
     expect(medium.map((r) => r.declarations.get('clip-path'))).toEqual(['inset(50%)']);
     const items = withSel(".ag-app-shell [data-ag-part='sidebar-item']");
