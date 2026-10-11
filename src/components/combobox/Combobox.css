@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* Combobox (CMP-181): input-shell content-sunken; popup overlay-regular with the
    Select entrance motion; chips wrap inside Combobox.Chips; coarse/390px popup
    sizing as Select. */
@@ -6,21 +8,21 @@
     display: inline-flex;
     align-items: center;
     gap: var(--ag-space-1);
-    min-block-size: var(--ag-control-h-md, var(--ag-space-9));
-    inline-size: var(--ag-combobox-inline-size, var(--ag-space-48, 100%));
+    min-block-size: var(--_ag-control-h-md, var(--_ag-space-9));
+    inline-size: var(--_ag-combobox-inline-size, var(--_ag-space-48, 100%));
     padding-inline: var(--ag-space-2);
     border-radius: var(--ag-radius-md);
     color: var(--ag-on-surface);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-sunken-alpha, 6%), transparent);
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 6%), transparent);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     cursor: text;
     transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
   }
   .ag-combobox[data-ag-size='sm'] {
-    min-block-size: var(--ag-control-h-sm, var(--ag-space-8));
+    min-block-size: var(--_ag-control-h-sm, var(--ag-space-8));
   }
   .ag-combobox[data-ag-size='lg'] {
-    min-block-size: var(--ag-control-h-lg, var(--ag-space-10));
+    min-block-size: var(--_ag-control-h-lg, var(--ag-space-10));
   }
 
   .ag-combobox [data-ag-part='input'] {
@@ -34,7 +36,7 @@
     padding-block: var(--ag-space-1);
   }
   .ag-combobox:focus-within {
-    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-color-focus-outer);
+    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-color-focus-outer);
   }
   .ag-combobox [data-ag-part='trigger'],
   .ag-combobox [data-ag-part='clear'] {
@@ -51,14 +53,14 @@
   }
   .ag-combobox [data-ag-part='clear']:hover,
   .ag-combobox [data-ag-part='trigger']:hover {
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-raised-alpha, 10%), transparent);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-raised-alpha, 10%), transparent);
   }
   .ag-combobox [data-ag-part='loading'] {
     display: inline-flex;
     color: var(--ag-color-on-surface-muted);
   }
   .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
-    animation: ag-combobox-rotate var(--ag-duration-loading, 800ms) linear infinite;
+    animation: ag-combobox-rotate var(--ag-duration-ambient) linear infinite;
   }
   @keyframes ag-combobox-rotate {
     to { transform: rotate(360deg); }
@@ -74,18 +76,18 @@
     display: inline-flex;
     align-items: center;
     gap: var(--ag-space-1);
-    block-size: var(--ag-chip-h-md, var(--ag-space-6));
+    block-size: var(--_ag-chip-h-md, var(--ag-space-6));
     padding-inline: var(--ag-space-2);
     border-radius: var(--ag-radius-full);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-raised-alpha, 10%), transparent);
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-raised-alpha, 10%), transparent);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     white-space: nowrap;
   }
   .ag-combobox[data-ag-size='sm'] [data-ag-part='chip'] {
-    block-size: var(--ag-chip-h-sm, var(--ag-space-5));
+    block-size: var(--_ag-chip-h-sm, var(--ag-space-5));
   }
   .ag-combobox[data-ag-size='lg'] [data-ag-part='chip'] {
-    block-size: var(--ag-chip-h-lg, var(--ag-space-7));
+    block-size: var(--_ag-chip-h-lg, var(--_ag-space-7));
   }
   .ag-combobox [data-ag-part='chip-remove'] {
     display: inline-flex;
@@ -99,13 +101,13 @@
 
   /* Popup */
   .ag-combobox-popup {
-    min-inline-size: var(--ag-combobox-popup-min-w, 100%);
-    max-block-size: var(--ag-combobox-popup-max-h, var(--ag-space-72));
+    min-inline-size: var(--_ag-combobox-popup-min-w, 100%);
+    max-block-size: var(--available-height, var(--_ag-combobox-popup-max-h, var(--_ag-space-72)));
     overflow-y: auto;
     overscroll-behavior: contain;
     border-radius: var(--ag-radius-lg);
     padding: var(--ag-space-1);
-    box-shadow: var(--ag-shadow-overlay, var(--ag-shadow-thin));
+    box-shadow: var(--_ag-shadow-overlay, var(--ag-shadow-thin));
     transform-origin: var(--transform-origin);
     z-index: var(--ag-z-overlay, auto);
   }
@@ -118,7 +120,7 @@
       transform var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-combobox-popup[data-ending-style] {
-    transition-duration: var(--ag-duration-exit, 140ms);
+    transition-duration: var(--ag-duration-small-exit);
   }
   .ag-combobox-popup[data-open],
   .ag-combobox-popup[data-instant] {
@@ -130,7 +132,7 @@
     display: flex;
     align-items: center;
     gap: var(--ag-space-2);
-    padding-block: var(--ag-space-1_5, var(--ag-space-2));
+    padding-block: var(--ag-space-2);
     padding-inline: var(--ag-space-2);
     border-radius: var(--ag-radius-sm);
     color: var(--ag-on-surface);
@@ -138,11 +140,10 @@
     user-select: none;
   }
   .ag-combobox-item[data-highlighted] {
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-raised-alpha, 10%), transparent);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-raised-alpha, 10%), transparent);
   }
-  .ag-combobox-item[data-disabled] {
-    opacity: var(--ag-state-disabled-alpha);
-  }
+
+  .ag-combobox-item[data-disabled] > :where(*) {opacity: var(--ag-state-disabled-alpha);}
   .ag-combobox-item [data-ag-part='item-indicator'] {
     display: inline-flex;
     inline-size: var(--ag-space-4);
@@ -172,7 +173,7 @@
   .ag-combobox-popup [data-ag-part='group-label'] {
     padding: var(--ag-space-1) var(--ag-space-2);
     color: var(--ag-color-on-surface-muted);
-    font-size: var(--ag-text-sm, inherit);
+    font-size: var(--_ag-text-sm, inherit);
   }
 
   @media (pointer: coarse) {
@@ -197,11 +198,11 @@
   }
   @media (forced-colors: active) {
     .ag-combobox {
-      border: var(--ag-focus-width) solid ButtonText;
+      border: var(--_ag-focus-width) solid ButtonText;
       box-shadow: none;
     }
     .ag-combobox-popup {
-      border: var(--ag-focus-width) solid ButtonText;
+      border: var(--_ag-focus-width) solid ButtonText;
       background: Canvas;
     }
     .ag-combobox-item[data-highlighted] {
@@ -209,8 +210,30 @@
       color: HighlightText;
     }
   }
+  /* Empty state: status node stays mounted; hidden by clip (not display:none)
+     so the live region announces when it appears (REQ-CMP-71). */
+  [data-ag-part="empty"].ag-combobox-empty {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  [data-ag-part="list"][data-empty] > [data-ag-part="empty"].ag-combobox-empty {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+    white-space: normal;
+    padding: var(--ag-space-3, 8px) var(--ag-space-4, 12px);
+    color: var(--ag-on-surface-muted, var(--ag-on-surface));
+  }
 }
-
-/* Empty state: visible only when Base.List reports data-empty. */
-[data-ag-part="empty"].ag-combobox-empty { display: none; }
-[data-ag-part="list"][data-empty] > [data-ag-part="empty"].ag-combobox-empty { display: block; }

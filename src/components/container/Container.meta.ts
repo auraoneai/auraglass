@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root'],
   states: [],
   variants: { size: ['sm','md','lg','xl','full'] },
-  migration: [{ from: 'GlassContainer', automation: 'full', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1.5,
+  migration: [{ from: 'GlassContainer', props: {}, selectors: { '.glass-container': '.ag-container' },  automation: 'full', compat: true }],
 });
