@@ -32,3 +32,17 @@ describe('GlassDrawer compat (CMP-338)', () => {
     expect(popup?.getAttribute('data-ag-side')).toBe('right');
   });
 });
+
+describe('GlassDrawer compat — 4.x title slot (REQ-CMP-135)', () => {
+  it('title renders as Sheet.Title and names the sheet', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    render(<GlassDrawer open title="Filters"><p>body</p></GlassDrawer>);
+    await flush();
+    warn.mockRestore();
+    const popup = document.querySelector('[data-ag-overlay="sheet"]') as HTMLElement | null;
+    expect(popup).toBeTruthy();
+    const heading = screen.getByText('Filters');
+    expect(popup!.contains(heading)).toBe(true);
+    expect(screen.getByRole('dialog', { name: 'Filters' })).toBeTruthy();
+  });
+});

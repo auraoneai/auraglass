@@ -40,3 +40,48 @@ describe('useToast compat (CMP-341)', () => {
     warn.mockRestore();
   });
 });
+
+import { useToast as useToast5 } from '../../../../components/toast';
+
+describe('useToast compat — 4.x description (REQ-CMP-135)', () => {
+  type Opts = Parameters<ReturnType<typeof useToast>['toast']>[0];
+  /* Adds through the compat hook; renders the queue the 5.0 way. */
+  function Host({ opts }: { opts: Opts }) {
+    const compat = useToast();
+    const t = useToast5();
+    React.useEffect(() => { compat.toast(opts); }, [compat, opts]);
+    return (
+      <Toast.Viewport>
+        {t.toasts.map((toast) => (
+          <Toast.Root key={toast.id} toast={toast}>
+            <Toast.Title>{toast.title}</Toast.Title>
+            <Toast.Description>{toast.description}</Toast.Description>
+          </Toast.Root>
+        ))}
+      </Toast.Viewport>
+    );
+  }
+  const mount = async (opts: Opts) => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    render(<Toast.Provider><Host opts={opts} /></Toast.Provider>);
+    await flush();
+    warn.mockRestore();
+  };
+  const desc = () => document.querySelector('[data-ag-part="description"]')?.textContent;
+
+  it('description maps onto the toast description', async () => {
+    await mount({ title: 'Saved', description: 'All changes stored' });
+    expect(document.querySelector('[data-ag-part="title"]')?.textContent).toBe('Saved');
+    expect(desc()).toBe('All changes stored');
+  });
+
+  it('description wins over message when both are given', async () => {
+    await mount({ title: 'Saved', description: 'from description', message: 'from message' });
+    expect(desc()).toBe('from description');
+  });
+
+  it('message still maps onto the description when description is absent', async () => {
+    await mount({ title: 'Saved', message: 'from message' });
+    expect(desc()).toBe('from message');
+  });
+});
