@@ -21,7 +21,7 @@
     "prebuild": "node scripts/gen-mappings.mjs",
     "pretest": "node scripts/gen-mappings.mjs",
     "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config jest.config.mjs",
-    "prepublishOnly": "node scripts/gen-mappings.mjs && npx tsdown && node ../../scripts/ci/require-ci-publish.js"
+    "prepublishOnly": "node ../../scripts/ci/require-ci-publish.js && node scripts/gen-mappings.mjs && npx tsdown"
   },
   "publishConfig": {
     "access": "public"
