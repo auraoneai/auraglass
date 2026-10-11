@@ -20,17 +20,24 @@ test.describe('toast APG (CMP-408)', () => {
     });
     expect(landed).toBe(true);
 
-    // exactly one live-region entry per toast
+    // exactly one live-region entry per toast (raise two: polite + danger)
+    await page.getByRole('button', { name: 'Info' }).click();
+    await page.getByRole('button', { name: 'Error' }).click();
+    await expect(page.locator('[data-ag-part="viewport"] [data-ag-part="root"]')).toHaveCount(2);
     const liveCounts = await page.evaluate(() => {
-      const toasts = document.querySelectorAll('[data-ag-part="root"], [data-ag-part="toast"], [role="status"], [role="alert"]');
+      const toasts = document.querySelectorAll('[data-ag-part="viewport"] [data-ag-part="root"]');
       let live = 0;
       toasts.forEach((t) => {
-        const v = t.getAttribute('aria-live') ?? (t.getAttribute('role') === 'alert' ? 'assertive' : null);
+        const role = t.getAttribute('role');
+        const v = t.getAttribute('aria-live') ?? (role === 'alert' ? 'assertive' : role === 'status' ? 'polite' : null);
         if (v) live++;
+        // no nested live region inside a toast (would double-announce)
+        live += t.querySelectorAll('[aria-live], [role="status"], [role="alert"]').length;
       });
       return { toasts: toasts.length, live };
     });
-    expect(liveCounts.live).toBeLessThanOrEqual(Math.max(1, liveCounts.toasts));
+    expect(liveCounts.toasts).toBeGreaterThan(0);
+    expect(liveCounts.live).toBe(liveCounts.toasts);
     expect(activeBefore).not.toBe('BODY');
     await apg.axe(page);
   });
