@@ -92,12 +92,12 @@ describe('VisuallyHidden', () => {
   });
 });
 
-describe('GlassLabel deprecation (DEP-C0221)', () => {
-  it('deprecations.json mappings carry GlassLabel -> Label', () => {
-    const m = JSON.parse(readFileSync(join(ROOT, 'packages/cli/src/migrate/4to5/mappings/deprecations.json'), 'utf8'));
-    const e = m.find((x: { symbol?: string }) => x.symbol === 'GlassLabel');
+describe('GlassLabel deprecation (DEP-C0280)', () => {
+  it('deprecations.json carries GlassLabel -> Label', () => {
+    const m = JSON.parse(readFileSync(join(ROOT, 'deprecations.json'), 'utf8'));
+    const e = m.entries.find((x: { symbol?: string }) => x.symbol === 'GlassLabel');
     expect(e?.replacement).toBe('Label');
-    expect(e?.id).toBe('DEP-C0221');
+    expect(e?.id).toBe('DEP-C0280');
   });
 
   it('GlassLabel is no longer in the RM-11 removal list', () => {
@@ -105,9 +105,9 @@ describe('GlassLabel deprecation (DEP-C0221)', () => {
     expect(rm).not.toContain('"GlassLabel"');
   });
 
-  it('the generated runtime table has DEP-C0221', () => {
+  it('the generated runtime table has DEP-C0280', () => {
     const gen = readFileSync(join(ROOT, 'src/internal/deprecations.generated.ts'), 'utf8');
-    expect(gen).toContain('"DEP-C0221"');
+    expect(gen).toContain('"DEP-C0280"');
   });
 });
 

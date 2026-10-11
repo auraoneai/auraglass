@@ -5,7 +5,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Label } from '../../../primitives/Label';
 
-const DEP = 'DEP-C0221';
+const DEP = 'DEP-C0280';
 
 export interface GlassLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   required?: boolean;
