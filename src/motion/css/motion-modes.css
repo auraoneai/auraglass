@@ -27,6 +27,8 @@
     scale: none;
     translate: none;
     rotate: none;
+    /* popups that animate transform are covered without a CMP change */
+    transform: none;
   }
 
   /* hover/press light response is instant in calm */
@@ -49,6 +51,7 @@
       scale: none;
       translate: none;
       rotate: none;
+      transform: none;
     }
     :root:not([data-ag-motion]) :where([data-ag-interactive]) {
       transition-duration: 0s;

@@ -6,7 +6,7 @@
 'use client';
 import * as React from 'react';
 import { Toast as Base } from '@base-ui/react/toast';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial } from '../overlays/_shared';
 import { cn } from '../../internal';
 import type {
@@ -53,8 +53,10 @@ const POSITION_SWIPE: Record<ToastPosition, ('up' | 'down' | 'left' | 'right')[]
 };
 
 /* The single shared manager for the app — BU contract requires a stable
-   manager instance passed to the provider. */
-export const toastManager = Base.createToastManager();
+   manager instance passed to the provider. Module-private (REQ-CMP-01): its
+   inferred type is Base UI's, so exporting it leaks Base UI into the d.ts;
+   consumers drive toasts through useToast(). */
+const toastManager = Base.createToastManager();
 
 function ToastProvider({ limit = 3, timeout = 5000, children }: ToastProviderProps) {
   return (
@@ -89,6 +91,7 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
     const priority = intent === 'error' || intent === 'warning' ? 'alert' : 'status';
     // dom-contract (CMP-202) requires data-state open|closed on the surface
     const state = toast?.transitionStatus === 'ending' ? 'closed' : 'open';
+    const timeout = (toast as { timeout?: number } | undefined)?.timeout;
     const position = React.useContext(ToastViewportCtx);
     const localRef = React.useRef<HTMLDivElement | null>(null);
     /* REQ-CMP-109: --toast-index from DOM order so the collapsed-stack CSS
@@ -112,6 +115,7 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
         data-ag-part="root"
         data-ag-intent={intent}
         data-state={state}
+        style={timeout !== undefined ? ({ '--_ag-toast-timeout': `${timeout}ms` } as React.CSSProperties) : undefined}
         {...overlayMaterial('toast')}
         className={cn('ag-toast', className)}
         {...rest}
@@ -152,7 +156,7 @@ const ToastClose = React.forwardRef<HTMLButtonElement, ToastCloseProps>(
   },
 );
 
-/* REQ-CMP-109: decorative intent icon — tinted by --ag-toast-accent in css. */
+/* REQ-CMP-109: decorative intent icon — tinted by --_ag-toast-accent in css. */
 function ToastIcon({ className, children, ...rest }: React.HTMLAttributes<HTMLSpanElement>) {
   return (
     <span data-ag-part="icon" aria-hidden="true" className={cn('ag-toast-icon', className)} {...rest}>
@@ -163,7 +167,7 @@ function ToastIcon({ className, children, ...rest }: React.HTMLAttributes<HTMLSp
 
 /* CMP-292: optional progress bar — BU exposes remaining time via swipe/timeout
    state on the toast object; we render a track whose bar is driven by the
-   CSS var --ag-toast-progress set per-toast in css via animation duration. */
+   CSS var --_ag-toast-progress set per-toast in css via animation duration. */
 const ToastProgress = React.forwardRef<HTMLElement, ToastProgressProps>(
   function ToastProgress({ className, children, ...rest }, ref) {
     return (

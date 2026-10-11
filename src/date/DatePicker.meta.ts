@@ -7,10 +7,10 @@ export default defineMeta({
   tier: 'T1',
   flagship: 14,
   rsc: 'client',
-  parts: ['date-picker', 'field-label', 'field-input', 'field-segment', 'picker-trigger', 'popover', 'calendar'],
+  parts: ['calendar', 'date-field', 'date-input', 'date-input-end', 'date-input-start', 'date-picker', 'date-picker-popover', 'date-picker-trigger', 'date-range-picker', 'date-range-picker-popover', 'date-range-picker-trigger', 'date-range-presets', 'range-calendar', 'time-field', 'time-input', 'time-picker', 'time-picker-hours', 'time-picker-minutes', 'time-picker-popover', 'time-picker-trigger'],
   states: ['open', 'invalid', 'disabled', 'required', 'readonly'],
   variants: { size: ['sm', 'md', 'lg'] },
-  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/',
+  apg: 'date',
   budgetKb: 8,
   migration: [
     { from: 'GlassDatePicker', props: { onChange: 'onValueChange', minDate: 'minValue', maxDate: 'maxValue', disabledDates: 'isDateUnavailable', disabled: 'isDisabled', required: 'isRequired', error: 'isInvalid', helperText: 'description', format: null, mode: null }, automation: 'mostly', compat: true },
