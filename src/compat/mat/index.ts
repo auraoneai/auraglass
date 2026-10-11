@@ -18,3 +18,4 @@ export {
   type LiquidGlassConcentricFrameCompatProps,
 } from './material/LiquidGlassMaterial';
 export { createGlassThemeCssVars, type GlassThemeCssVarsInput } from './theme';
+export { createBrandGlassTheme, type CreateBrandGlassThemeOptions } from './createBrandGlassTheme';
