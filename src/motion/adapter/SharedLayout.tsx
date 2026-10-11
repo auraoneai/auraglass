@@ -3,10 +3,10 @@
  * layoutId, toggling data-ag-animating + --_ag-optics around the layout
  * animation lifecycle. */
 import * as React from 'react';
-import { LayoutGroup, motion } from 'motion/react';
+import { motionPeer } from './peer';
 
 export function SharedLayout({ children, id }: { children?: React.ReactNode; id?: string }): React.ReactElement {
-  return React.createElement(LayoutGroup, id === undefined ? {} : { id }, children) as React.ReactElement;
+  return React.createElement(motionPeer().LayoutGroup, id === undefined ? {} : { id }, children) as React.ReactElement;
 }
 
 export function Shared({ id, children, ...rest }: { id: string; children?: React.ReactNode } & Record<string, unknown>) {
@@ -20,7 +20,7 @@ export function Shared({ id, children, ...rest }: { id: string; children?: React
     ref.current?.style.removeProperty('--_ag-optics');
   };
   return React.createElement(
-    motion.div,
+    motionPeer().motion.div,
     {
       layoutId: id, ref,
       onLayoutAnimationStart: onStart,

@@ -1,3 +1,4 @@
+'use client';
 /* `aura-glass/motion` adapter internals — frozen surface is re-exported by
    ../public.ts; this index is for type/test imports only. */
 export { MotionProvider } from './MotionProvider';
