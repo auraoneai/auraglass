@@ -34,3 +34,31 @@ qual:certify:release:
   extends: [.qual-lane, .ag-evidence-release]
   rules: [{ if: $AG_SCOPE == "release" && $AG_LINE == "5x" }]
   script: [node certification/run.mjs --lane all --scope release --verdict .artifacts/qual/release-verdict.json]
+# QUAL-only self-tests (REQ-QUAL-64). Offline; starts allow_failure: true until its first green run on next (contract §2.3).
+qual:test:selftest:
+  extends: .ag-node
+  stage: test
+  allow_failure: true
+  needs: [] # offline, consumes no artifacts: start at once instead of waiting for the build stage
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "nightly")
+  script:
+    - node scripts/qual/devices/device-farm-run.mjs --self-check --out .artifacts/qual/devices/self-check.json
+    - npx jest --ci tests/perf/qual/device-farm-self-check.test.mjs
+# Real devices (REQ-QUAL-48): AWS Device Farm + EC2 mac1.metal Safari, runner instance role only.
+# Manual until the auraglass-aws-remote runner and Device Farm project exist (OD-11, OD-5); the
+# self-check runs first so a broken runner never reaches AWS. Results JSON is an artifact only;
+# sign-off is docs/certification/real-device-matrix.md (REQ-FIN-112, human).
+qual:certify:devices:
+  extends: .ag-aws-remote
+  stage: certify
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "main" || $AG_SCOPE == "nightly" || $AG_SCOPE == "release")
+      when: manual
+      allow_failure: true
+  timeout: 3h
+  script:
+    - node scripts/qual/devices/device-farm-run.mjs --self-check --out .artifacts/qual/devices/self-check.json
+    - node scripts/qual/devices/device-farm-run.mjs --subjects storybook-static/cert-manifest.json --out .artifacts/qual/devices/real-device-results.json
