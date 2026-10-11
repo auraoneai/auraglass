@@ -7,10 +7,7 @@ import { listSubjects, gotoStory } from '../../helpers';
 test.describe('SURF focus-visible', () => {
   test('every shipped SURF subject shows a focus indicator on Tab', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
-    if (subjects.length === 0) {
-      console.warn('no SURF subjects registered in the subject index — pending');
-      return;
-    }
+    expect(subjects.length, 'no SURF subjects registered in the subject index').toBeGreaterThan(0);
     for (const subject of subjects) {
       await test.step(subject.id, async () => {
         await gotoStory(page, subject.id);

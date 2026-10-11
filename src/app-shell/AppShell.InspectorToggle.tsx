@@ -12,6 +12,7 @@ import {
   getSnapshot,
   setInspector,
   subscribe,
+  type ShellSnapshot,
 } from './appShellStore';
 
 export interface AppShellInspectorToggleProps extends PartProps<'button'> {
@@ -19,8 +20,11 @@ export interface AppShellInspectorToggleProps extends PartProps<'button'> {
   icon?: React.ReactNode;
 }
 
-/* Stable pre-attach snapshot (useSyncExternalStore needs a cached reference). */
-const DETACHED_SNAPSHOT = { sidebar: 'expanded', inspector: 'closed', mode: 'expanded' } as const;
+// Until the layout effect resolves the shell root, both snapshot getters
+// return this one stable object: useSyncExternalStore requires referentially
+// stable snapshots, and a fresh literal per call logs "getServerSnapshot should
+// be cached" during hydration (REQ-SURF-08 cross-TZ hydration gate).
+const DETACHED_SNAPSHOT: ShellSnapshot = { sidebar: 'expanded', inspector: 'closed', mode: 'expanded' };
 
 export function AppShellInspectorToggle({ labels, icon, ...rest }: AppShellInspectorToggleProps) {
   const ref = React.useRef<HTMLElement | null>(null);
@@ -47,7 +51,7 @@ export function AppShellInspectorToggle({ labels, icon, ...rest }: AppShellInspe
     if (!rootEl) return;
     const insp = rootEl.querySelector<HTMLElement>('[data-ag-slot="inspector"]');
     if (insp && !insp.id) {
-      insp.id = `${rootEl.dataset['agShellId'] ?? 'ag-shell'}-inspector`;
+      insp.id = `${rootEl.dataset['shellId'] ?? 'ag-shell'}-inspector`;
     }
     setControls(insp?.id);
   }, [rootEl, snapshot.inspector]);

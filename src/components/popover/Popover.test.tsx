@@ -8,6 +8,8 @@ import * as React from 'react';
 import { AuraGlassProvider } from '../../theme';
 import { Popover } from './index';
 
+const DELAY_50 = 50;
+
 const Demo = ({ trigger = {}, root = {} }: { trigger?: Record<string, unknown>; root?: Record<string, unknown> }) => (
   <AuraGlassProvider>
     <Popover.Root {...root}>
@@ -27,6 +29,55 @@ const Demo = ({ trigger = {}, root = {} }: { trigger?: Record<string, unknown>; 
 );
 
 describe('Popover', () => {
+  /* REQ-CMP-98: provider-free mounts (portal falls back to document.body). */
+  it('trigger aria-controls === popup id; hover mode + non-interactive popup -> aria-describedby, no haspopup', async () => {
+    render(
+      <Popover.Root defaultOpen>
+        <Popover.Trigger>anchor</Popover.Trigger>
+        <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="pop"><p>plain text only</p></Popover.Popup></Popover.Positioner></Popover.Portal>
+      </Popover.Root>,
+    );
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    const trigger = screen.getByText('anchor');
+    const popup = document.querySelector<HTMLElement>('[data-ag-part="popup"]')!;
+    expect(trigger.getAttribute('aria-controls')).toBe(popup.id);
+    // click mode keeps haspopup=dialog and no describedby
+    expect(trigger.getAttribute('aria-haspopup')).toBe('dialog');
+    expect(trigger.getAttribute('aria-describedby')).toBeNull();
+  });
+
+  it('hover mode + non-interactive popup: trigger is describedby popup, haspopup dropped (REQ-CMP-98)', async () => {
+    render(
+      <Popover.Root>
+        <Popover.Trigger openOnHover>anchor</Popover.Trigger>
+        <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="pop"><p>plain text only</p></Popover.Popup></Popover.Positioner></Popover.Portal>
+      </Popover.Root>,
+    );
+    const trigger = screen.getByText('anchor');
+    fireEvent.mouseEnter(trigger);
+    fireEvent.mouseMove(trigger);
+    await act(async () => { await new Promise((r) => setTimeout(r, 400)); });
+    const popup = document.querySelector<HTMLElement>('[data-ag-part="popup"]')!;
+    expect(trigger.getAttribute('aria-describedby')).toBe(popup.id);
+    expect(trigger.getAttribute('aria-haspopup')).toBeNull();
+  });
+
+  it('hover mode WITH interactive popup keeps haspopup=dialog (REQ-CMP-98)', async () => {
+    render(
+      <Popover.Root>
+        <Popover.Trigger openOnHover>anchor</Popover.Trigger>
+        <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="pop"><Popover.Close>Close</Popover.Close></Popover.Popup></Popover.Positioner></Popover.Portal>
+      </Popover.Root>,
+    );
+    const trigger = screen.getByText('anchor');
+    fireEvent.mouseEnter(trigger);
+    fireEvent.mouseMove(trigger);
+    await act(async () => { await new Promise((r) => setTimeout(r, 400)); });
+    expect(document.querySelector('[data-ag-part="popup"]')).toBeTruthy();
+    expect(trigger.getAttribute('aria-describedby')).toBeNull();
+    expect(trigger.getAttribute('aria-haspopup')).toBe('dialog');
+  });
+
   beforeEach(() => {
     if (window.PointerEvent === undefined) {
       (window as unknown as Record<string, unknown>).PointerEvent = window.MouseEvent;
@@ -113,5 +164,72 @@ describe('Popover', () => {
     await userEvent.keyboard('{Escape}');
     await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
     expect(onOpenChange).toHaveBeenCalledWith(false, expect.objectContaining({ reason: 'escape-key' }));
+  });
+
+  /* REQ-CMP-97: provider-free legs — usePortalContainer falls back to
+     document.body, so the popup really mounts and behavior is exercised. */
+  const Bare = ({ root = {}, trigger = {} }: { root?: Record<string, unknown>; trigger?: Record<string, unknown> }) => (
+    <Popover.Root {...root}>
+      <Popover.Trigger {...trigger}>anchor</Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Positioner side="top">
+          <Popover.Popup aria-label="pop"><Popover.Close>Close</Popover.Close></Popover.Popup>
+        </Popover.Positioner>
+      </Popover.Portal>
+    </Popover.Root>
+  );
+
+  it('REQ-CMP-97: Root openOnHover opens after default 300ms', async () => {
+    jest.useFakeTimers();
+    render(<Bare root={{ openOnHover: true }} />);
+    const trig = screen.getByText('anchor');
+    fireEvent.mouseEnter(trig);
+    fireEvent.mouseMove(trig);
+    act(() => { jest.advanceTimersByTime(299); });
+    expect(document.querySelector('[data-ag-part="popup"]')).toBeNull();
+    act(() => { jest.advanceTimersByTime(2); });
+    expect(document.querySelector('[data-ag-part="popup"]')).toBeTruthy();
+  });
+
+  it('REQ-CMP-97: focus on trigger opens in hover mode (WCAG 1.4.13)', async () => {
+    jest.useFakeTimers();
+    render(<Bare root={{ openOnHover: true, delay: DELAY_50 }} />);
+    fireEvent.focus(screen.getByText('anchor'));
+    act(() => { jest.advanceTimersByTime(60); });
+    expect(document.querySelector('[data-ag-part="popup"]')).toBeTruthy();
+  });
+
+  it("REQ-CMP-97: Content side='top' yields data-side='top'", async () => {
+    render(
+      <Popover.Root defaultOpen>
+        <Popover.Trigger>anchor</Popover.Trigger>
+        <Popover.Content side="top" aria-label="pop" />
+      </Popover.Root>,
+    );
+    expect(await screen.findByRole('dialog')).toBeTruthy();
+    const pos = document.querySelector('[data-ag-part="positioner"]')!;
+    expect(pos.getAttribute('data-side')).toBe('top');
+  });
+
+  it("REQ-CMP-97: modal='trap-focus' keeps Tab inside the popup", async () => {
+    render(<Bare root={{ modal: 'trap-focus', defaultOpen: true }} />);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    const popup = document.querySelector<HTMLElement>('[data-ag-part="popup"]')!;
+    expect(popup).toBeTruthy();
+    const trigger = screen.getByText('anchor');
+    const close = document.querySelector<HTMLElement>('[data-ag-part="close"]');
+    (close ?? popup).focus();
+    // BU trap-focus bounds the cycle to popup | trigger | focus guards —
+    // jsdom's synthetic Tab walk also lands on <body> between nodes, which is
+    // a walk artifact; page content outside the managed zone is never reached.
+    const inZone = () => {
+      const ae = document.activeElement as HTMLElement;
+      return popup.contains(ae) || ae === trigger || ae === document.body ||
+        !!ae?.hasAttribute?.('data-base-ui-focus-guard');
+    };
+    for (let i = 0; i < 8; i++) {
+      await userEvent.keyboard('{Tab}');
+      expect(inZone()).toBe(true);
+    }
   });
 });

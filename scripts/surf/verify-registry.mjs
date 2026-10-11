@@ -66,6 +66,9 @@ const isFixture = (rel) => /(^|\/)fixtures(?:\.[jt]sx?|\/)/.test(rel);
 const isDev = (rel) => isTest(rel) || isStory(rel);
 /* Harness toolchain available to stories/tests only (never shipped). */
 const DEV_PKG = /^(?:node:|@storybook\/|@jest\/|@testing-library\/|jest-axe$)/;
+/* Repo harness contract (StoryAgParameters, REQ-PLAT-96): stories/tests may import its
+   types relatively; it is erased at compile time and never ships. */
+const DEV_CONTRACT = ['src', 'contracts', 'testing'];
 /* Satisfied by the JSX runtime: a declared react dependency need not be imported by name. */
 const IMPLICIT = new Set(['react', 'react-dom']);
 
@@ -322,6 +325,7 @@ export function lintRegistry({ root = REPO, repo = REPO } = {}) {
         if (!spec) continue;
         if (spec.startsWith('.')) {
           const target = resolve(dirname(join(dir, f)), spec);
+          if (dev && imp.typeOnly && target.replace(/\.[jt]sx?$/, '') === join(root, ...DEV_CONTRACT)) continue;
           if (!(target === dir || target.startsWith(dir + sep))) {
             v(id, 'relative-escape', `relative import '${spec}' leaves the item dir (import a sibling as '@/registry/<kind>/<id>/...' and list it in registryDependencies)`, rel, line);
           }

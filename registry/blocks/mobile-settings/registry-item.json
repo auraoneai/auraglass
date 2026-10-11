@@ -3,7 +3,7 @@
   "name": "mobile-settings",
   "type": "registry:block",
   "title": "Mobile settings",
-  "description": "MobileShell with a bottom TabBar and a CMP Sheet that opens GlassPreferencesPanel — 44×44 primary controls, one-hand reachable.",
+  "description": "MobileShell with a bottom TabBar and a CMP Sheet that opens GlassPreferencesPanel \u2014 44\u00d744 primary controls, one-hand reachable.",
   "dependencies": [
     "react",
     "aura-glass"
@@ -37,7 +37,8 @@
         "TabBar"
       ],
       "ga": true,
-      "minVersion": "5.0.0"
+      "minVersion": "5.0.0",
+      "certified": null
     }
   }
 }

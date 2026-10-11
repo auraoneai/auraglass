@@ -43,7 +43,8 @@
         "UsageMeter"
       ],
       "ga": true,
-      "minVersion": "5.0.0"
+      "minVersion": "5.0.0",
+      "certified": null
     }
   }
 }

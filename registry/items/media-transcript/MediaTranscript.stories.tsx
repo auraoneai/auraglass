@@ -1,8 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { MediaTranscript } from './index';
 import { TRANSCRIPT_CUES } from './fixtures';
 
-const meta: Meta<typeof MediaTranscript> = { title: 'registry/media-transcript', component: MediaTranscript };
+const meta: Meta<typeof MediaTranscript> = {
+  title: 'registry/media-transcript',
+  component: MediaTranscript,
+  parameters: { ag: { subject: 'media-transcript', kind: 'showcase', scenes: 'all' } satisfies StoryAgParameters },
+};
 export default meta;
 type Story = StoryObj<typeof MediaTranscript>;
 

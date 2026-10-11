@@ -18,7 +18,7 @@ export function MediaGallery({ items, label = 'Gallery' }: MediaGalleryProps) {
         <Grid minItemWidth="10rem" gap="0.75rem">
           {items.map((it) => (
             <ImageViewer.Trigger key={it.id} id={it.id} className="ag-media-thumb">
-              <img src={it.src} alt={it.alt} loading="lazy" style={{ inlineSize: '100%', borderRadius: '0.5rem' }} />
+              <img src={it.src} alt={it.alt} loading="lazy" style={{ inlineSize: '100%' }} className="rounded-lg" />
             </ImageViewer.Trigger>
           ))}
         </Grid>

@@ -1,0 +1,413 @@
+{
+  "ga": false,
+  "items": [
+    {
+      "certified": "base",
+      "file": "registry/base/auraglass/registry-item.json",
+      "kind": "base",
+      "name": "auraglass",
+      "owner": "PLAT",
+      "sizeBytes": 1706,
+      "status": "certified"
+    },
+    {
+      "file": "registry/blocks/ai-workspace/registry-item.json",
+      "kind": "blocks",
+      "name": "ai-workspace",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 3769,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/analytics-dashboard/registry-item.json",
+      "kind": "blocks",
+      "name": "analytics-dashboard",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 3045,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/app-frame/registry-item.json",
+      "kind": "blocks",
+      "name": "app-frame",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 2567,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/audit-log/registry-item.json",
+      "kind": "blocks",
+      "name": "audit-log",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 1714,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/auth/registry-item.json",
+      "kind": "blocks",
+      "name": "auth",
+      "owner": "PLAT",
+      "reason": "uncertified",
+      "sizeBytes": 6562,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/commerce-cart/registry-item.json",
+      "kind": "blocks",
+      "name": "commerce-cart",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 3846,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/commerce-checkout/registry-item.json",
+      "kind": "blocks",
+      "name": "commerce-checkout",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 4886,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/data-workspace/registry-item.json",
+      "kind": "blocks",
+      "name": "data-workspace",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 4104,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/media-viewer/registry-item.json",
+      "kind": "blocks",
+      "name": "media-viewer",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 3807,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/mobile-settings/registry-item.json",
+      "kind": "blocks",
+      "name": "mobile-settings",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 1843,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/overlay-flows/registry-item.json",
+      "kind": "blocks",
+      "name": "overlay-flows",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 10301,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/permissions-matrix/registry-item.json",
+      "kind": "blocks",
+      "name": "permissions-matrix",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 1448,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/pricing/registry-item.json",
+      "kind": "blocks",
+      "name": "pricing",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 2927,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/settings/registry-item.json",
+      "kind": "blocks",
+      "name": "settings",
+      "owner": "PLAT",
+      "reason": "uncertified",
+      "sizeBytes": 6410,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/blocks/support-inbox/registry-item.json",
+      "kind": "blocks",
+      "name": "support-inbox",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 4586,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/account-menu/registry-item.json",
+      "kind": "items",
+      "name": "account-menu",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 2238,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/ai-artifact-panel/registry-item.json",
+      "kind": "items",
+      "name": "ai-artifact-panel",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 4265,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/ai-eval-dashboard/registry-item.json",
+      "kind": "items",
+      "name": "ai-eval-dashboard",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 3847,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/ai-markdown/registry-item.json",
+      "kind": "items",
+      "name": "ai-markdown",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 2901,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/ai-model-picker/registry-item.json",
+      "kind": "items",
+      "name": "ai-model-picker",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 3079,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/ai-sdk-adapter/registry-item.json",
+      "kind": "items",
+      "name": "ai-sdk-adapter",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 2299,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/ai-trace-tree/registry-item.json",
+      "kind": "items",
+      "name": "ai-trace-tree",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 3428,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/ai-voice-input/registry-item.json",
+      "kind": "items",
+      "name": "ai-voice-input",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 3900,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/app-shell-workspace/registry-item.json",
+      "kind": "items",
+      "name": "app-shell-workspace",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 3375,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/backdrop-hero/registry-item.json",
+      "kind": "items",
+      "name": "backdrop-hero",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 1586,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/code-surface/registry-item.json",
+      "kind": "items",
+      "name": "code-surface",
+      "owner": "PLAT",
+      "reason": "uncertified",
+      "sizeBytes": 4381,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/comment-thread/registry-item.json",
+      "kind": "items",
+      "name": "comment-thread",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 1420,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/confirm-dialog/registry-item.json",
+      "kind": "items",
+      "name": "confirm-dialog",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 2425,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/diff-viewer/registry-item.json",
+      "kind": "items",
+      "name": "diff-viewer",
+      "owner": "PLAT",
+      "reason": "uncertified",
+      "sizeBytes": 3984,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/faceted-search/registry-item.json",
+      "kind": "items",
+      "name": "faceted-search",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 2603,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/gantt/registry-item.json",
+      "kind": "items",
+      "name": "gantt",
+      "owner": "PLAT",
+      "reason": "uncertified",
+      "sizeBytes": 4914,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/kanban/registry-item.json",
+      "kind": "items",
+      "name": "kanban",
+      "owner": "PLAT",
+      "reason": "uncertified",
+      "sizeBytes": 6145,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/media-audio-player/registry-item.json",
+      "kind": "items",
+      "name": "media-audio-player",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 1856,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/media-gallery/registry-item.json",
+      "kind": "items",
+      "name": "media-gallery",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 1526,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/media-now-playing/registry-item.json",
+      "kind": "items",
+      "name": "media-now-playing",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 1610,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/media-transcript/registry-item.json",
+      "kind": "items",
+      "name": "media-transcript",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 2148,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/media-video-player/registry-item.json",
+      "kind": "items",
+      "name": "media-video-player",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 2192,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/presence-stack/registry-item.json",
+      "kind": "items",
+      "name": "presence-stack",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 1404,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/query-builder/registry-item.json",
+      "kind": "items",
+      "name": "query-builder",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 4129,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/react-hook-form/registry-item.json",
+      "kind": "items",
+      "name": "react-hook-form",
+      "owner": "PLAT",
+      "reason": "uncertified",
+      "sizeBytes": 4409,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/rich-text/registry-item.json",
+      "kind": "items",
+      "name": "rich-text",
+      "owner": "PLAT",
+      "reason": "uncertified",
+      "sizeBytes": 4468,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/schema-viewer/registry-item.json",
+      "kind": "items",
+      "name": "schema-viewer",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 2621,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/transfer-list/registry-item.json",
+      "kind": "items",
+      "name": "transfer-list",
+      "owner": "PLAT",
+      "reason": "uncertified",
+      "sizeBytes": 5062,
+      "status": "omitted"
+    },
+    {
+      "file": "registry/items/tree-select/registry-item.json",
+      "kind": "items",
+      "name": "tree-select",
+      "owner": null,
+      "reason": "meta.auraglass missing",
+      "sizeBytes": 3109,
+      "status": "omitted"
+    }
+  ],
+  "manifest": "canaries/types-strict/node_modules/aura-glass/dist/tokens/manifest.json",
+  "sha": "84a3b94f19707044a2a7b45275689acb0c0596a1",
+  "version": "5.0.0-alpha.0"
+}

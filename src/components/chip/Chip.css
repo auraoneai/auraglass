@@ -1,10 +1,12 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 @layer ag.components {
   .ag-chip {
     display: inline-flex;
     align-items: center;
     gap: var(--ag-space-1);
     border-radius: var(--ag-radius-full);
-    border: var(--_ag-focus-width, 1px) solid var(--ag-color-border);
+    border: var(--_ag-focus-width) solid var(--ag-color-border);
     padding-inline: var(--ag-space-3);
     padding-block: var(--ag-space-1);
     font-size: var(--ag-type-label-size);
@@ -27,5 +29,36 @@
   .ag-chip .ag-chip-leading,
   .ag-chip .ag-chip-trailing {
     display: inline-flex;
+  }
+  .ag-chip-group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ag-space-1);
+  }
+  /* CMP-047 close part: >=24px target, 44px hit area on coarse pointers. */
+  .ag-chip-close {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: var(--ag-target-min);
+    min-block-size: var(--ag-target-min);
+    border: 0;
+    border-radius: var(--ag-radius-full);
+    padding: 0;
+    color: var(--ag-color-on-surface-muted);
+    background: var(--ag-scrim-clear);
+    cursor: pointer;
+  }
+  .ag-chip-close:disabled {
+    cursor: default;
+  }
+  @media (pointer: coarse) {
+    .ag-chip-close::after {
+      content: '';
+      position: absolute;
+      inset-block: calc((var(--ag-target-min) - var(--ag-target-coarse)) / 2);
+      inset-inline: calc((var(--ag-target-min) - var(--ag-target-coarse)) / 2);
+    }
   }
 }

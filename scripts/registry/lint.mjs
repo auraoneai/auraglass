@@ -146,6 +146,8 @@ export function lint({ root = ROOT_DEFAULT, only = null } = {}) {
       for (const dep of deps) {
         const bare = dep.replace(/@[~^]?\d[\w.-]*$/, '').trim();
         if (IMPLICIT_DEPS.has(bare)) continue;
+        /* registry:base exists to carry the aura-glass dependency itself. */
+        if (item.type === 'registry:base' && bare === 'aura-glass') continue;
         if (!imported.has(bare) && ![...imported].some((s) => s === bare || s.startsWith(`${bare}/`)))
           violations.push({ file: relative(root, itemFile), line: 1, rule: 'declared-dep-imported', excerpt: `'${dep}' declared but never imported` });
       }
