@@ -23,8 +23,12 @@ export interface ImageViewerPopupProps {
 
 export function Popup({ children, className }: ImageViewerPopupProps): React.ReactElement | null {
   const c = useImageViewer('Popup');
-  const portal = usePortalContainer('overlay');
-  const layer = useLayer({ id: 'image-viewer', kind: 'image-viewer', modal: true, open: c.open, onEscape: () => c.setOpen(false) } as never);
+  /* Outside AuraGlassProvider there is no layer root: fall back to <body>, like the CMP overlays. */
+  const layerRoot = usePortalContainer('overlay');
+  const portal = layerRoot ?? (typeof document !== 'undefined' ? document.body : null);
+  /* Registers with the layer stack (Escape, inert); the popup keeps the Dialog's
+     overlay material layer attribute (S-01: that attribute is MAT's). */
+  useLayer({ id: 'image-viewer', kind: 'image-viewer', modal: true, open: c.open, onEscape: () => c.setOpen(false) } as never);
   const { announce } = useAnnouncer();
   const announced = React.useRef<number>(-1);
   const closeRef = React.useRef<HTMLButtonElement | null>(null);
@@ -59,7 +63,6 @@ export function Popup({ children, className }: ImageViewerPopupProps): React.Rea
         className={['ag-image-viewer', className].filter(Boolean).join(' ')}
         data-ag-part="image-viewer-popup"
         data-ag-backdrop="media"
-        data-ag-layer={layer.id}
         role="dialog"
         aria-modal="true"
         aria-label={label}

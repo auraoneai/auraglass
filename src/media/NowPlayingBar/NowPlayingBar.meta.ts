@@ -13,7 +13,6 @@ export default defineMeta({
   variants: {},
   budgetKb: 8,
   migration: [
-    { from: 'LiquidGlassNowPlayingBar', props: {}, automation: 'mostly', compat: true },
+    { from: 'LiquidGlassNowPlayingBar', props: {}, selectors: { '.glass-now-playing': '[data-ag-part="now-playing"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-now-playing', to: '[data-ag-part="now-playing"]' }],
 });
