@@ -16,7 +16,7 @@ npx @auraglass/cli init --yes --framework vite
 
 {step 3 — add a block}
 ```bash
-npx @auraglass/cli add auth
+npx @auraglass/cli add app-frame
 ```
 
 {step 4 — wire the styles (the CLI writes this import for you)}

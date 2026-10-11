@@ -310,6 +310,13 @@ plat:test:docs:
       done
     - npx playwright test -c tests/dx/docs.playwright.config.ts
     - npx playwright test -c tests/dx/plain-css.playwright.config.ts
+    # REQ-PLAT-103: the quickstart replay installs this commit's packed
+    # aura-glass (plat:package:pack) and a built+packed @auraglass/cli from a
+    # seeded verdaccio, and `add` reads the locally built registry output.
+    - ls .artifacts/pack/aura-glass-*.tgz >/dev/null || { echo "plat:test:docs: no aura-glass tarball in .artifacts/pack (plat:package:pack)"; exit 1; }
+    - npm run build --workspace=@auraglass/cli
+    - rm -f .artifacts/pack/auraglass-cli-*.tgz && npm pack --ignore-scripts --workspace=@auraglass/cli --pack-destination .artifacts/pack
+    - node scripts/registry/build.mjs
     - npx playwright test --project plat:dx-quickstart
 
 plat:gate:removal:
