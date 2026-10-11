@@ -13,6 +13,7 @@ import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
+import { useScrimTop } from '../overlays/_shared/useScrimTop';
 import { Button } from '../button';
 import {
   AlertDialogHeader, AlertDialogBody, AlertDialogFooter,
@@ -51,7 +52,7 @@ function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', 
   });
   const ctx = React.useMemo<AlertCtx>(
     () => ({ depth, open: effectiveOpen, intent, labels, popupElRef, setPopupElement }),
-    [depth, intent, labels],
+    [depth, effectiveOpen, intent, labels],
   );
   return (
     <AlertContext.Provider value={ctx}>
@@ -84,12 +85,17 @@ function AlertDialogPortal({ children, keepMounted }: { children?: React.ReactNo
 }
 
 function AlertDialogBackdrop({ className }: { className?: string }) {
-  const { depth } = React.useContext(AlertContext);
+  const { depth, open } = React.useContext(AlertContext);
   const animatingRef = useOverlayAnimating();
+  const isTop = useScrimTop(depth, open);
   return (
     <Base.Backdrop
+      /* REQ-CMP-79: one scrim per modal — BU skips nested backdrops unless forced */
+      forceRender
       data-ag-part="backdrop"
+      data-ag-layer="scrim"
       data-ag-overlay-depth={depth}
+      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />

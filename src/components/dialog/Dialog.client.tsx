@@ -15,6 +15,7 @@ import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { ConcentricFrame } from '../../material';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
+import { useScrimTop } from '../overlays/_shared/useScrimTop';
 import { DialogHeader, DialogBody, DialogFooter } from './DialogLayout';
 import type {
   DialogRootProps, DialogTriggerProps, DialogCloseProps, DialogPortalProps,
@@ -112,13 +113,18 @@ function DialogPortal({ children, keepMounted }: DialogPortalProps) {
 }
 
 function DialogBackdrop({ className, ref }: DialogBackdropProps) {
-  const { depth, modal } = React.useContext(DialogContext);
+  const { depth, open, modal } = React.useContext(DialogContext);
   const animatingRef = useOverlayAnimating();
+  const isTop = useScrimTop(depth, open && modal === true);
   if (modal !== true) return null; // CMP-211: no scrim for non-modal/trap-focus
   return (
     <Base.Backdrop
+      /* REQ-CMP-79: one scrim per modal — BU skips nested backdrops unless forced */
+      forceRender
       data-ag-part="backdrop"
+      data-ag-layer="scrim"
       data-ag-overlay-depth={depth}
+      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />
