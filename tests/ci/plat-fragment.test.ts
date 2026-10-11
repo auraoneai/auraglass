@@ -2,6 +2,7 @@
 // PLAT-010..017: structural assertions on ci/plat.gitlab-ci.yml.
 import { describe, expect, it } from '@jest/globals';
 import { readFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import yaml from 'yaml';
 
 const doc = yaml.parse(readFileSync('ci/plat.gitlab-ci.yml', 'utf8')) as Record<string, any>;
@@ -177,6 +178,31 @@ describe('REQ-PLAT-05 fixes (fail-closed tag gates)', () => {
     const mainRule = j.rules.find((r: any) => /main/.test(r.if));
     expect(mainRule).toMatchObject({ when: 'manual', allow_failure: true });
     expect(yaml.stringify(j.script, { lineWidth: 0 })).toContain('--out ".artifacts/plat/$CI_JOB_NAME_SLUG/dist-tags.json"');
+  });
+});
+
+// FIN-B.2 (B3-2): direct-pushed release/4.1.x jobs (OD-13 canonical, never
+// reverted) must pass every verify-ci-fragments rule.
+describe('FIN-B.2 direct-push rule fixes', () => {
+  it('plat:tag:release-ledger is release-scoped 90-day evidence under .artifacts/plat/<slug>/', () => {
+    const j = job('plat:tag:release-ledger');
+    expect(j).toBeDefined();
+    expect(j.extends).toBe('.plat-release');
+    expect(doc['.plat-release'].extends).toContain('.ag-evidence-release');
+    expect(j.rules).toEqual([{ if: '$AG_SCOPE == "release"' }]);
+    const s = yaml.stringify(j.script, { lineWidth: 0 });
+    expect(s).toContain('verify-release-ledger.mjs');
+    expect(s).toContain('set -o pipefail');
+    expect(s).toContain('.artifacts/plat/$CI_JOB_NAME_SLUG/release-ledger.log');
+  });
+  it('verify-ci-fragments reports no rule violation in ci/plat.gitlab-ci.yml', () => {
+    let out = '';
+    try {
+      out = execFileSync('node', ['scripts/ci/verify-ci-fragments.mjs'], { encoding: 'utf8', stdio: 'pipe' });
+    } catch (e: any) {
+      out = `${e.stdout ?? ''}${e.stderr ?? ''}`;
+    }
+    expect(out.split('\n').filter((l) => l.startsWith('ci/plat.gitlab-ci.yml:'))).toEqual([]);
   });
 });
 
