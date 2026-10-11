@@ -1,0 +1,20 @@
+/* fixture: every loop sits under [data-ag-continuous="on"] (own selector or a
+   nesting ancestor); a static frame outside the gate carries no animation */
+@layer ag.components {
+  @keyframes ag-fix-sweep {
+    from { translate: -100% 0; }
+    to { translate: 100% 0; }
+  }
+  .fix-sweep {
+    opacity: 0.5;
+  }
+  [data-ag-continuous=on] .fix-sweep {
+    animation: ag-fix-sweep var(--ag-duration-small) var(--ag-ease-standard) infinite;
+  }
+  [data-ag-continuous="on"] {
+    .fix-drift {
+      animation-iteration-count: infinite;
+      animation-duration: var(--ag-duration-ambient);
+    }
+  }
+}
