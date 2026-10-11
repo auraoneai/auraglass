@@ -32,18 +32,25 @@ import {
   resolveChartPalette,
 } from "../utils/chartColors";
 
-// Ensure required Chart.js elements/scales are registered once for all tests/usages
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  ArcElement,
-  ChartTooltipCore,
-  ChartLegendCore
-);
+// Ensure required Chart.js elements/scales are registered once for all tests/usages.
+// chart.js is an optional peer (REQ-PLAT-56): this runs on first render, not at
+// module load, so importing aura-glass without chart.js does not throw.
+let chartJsRegistered = false;
+function ensureChartJsRegistered(): void {
+  if (chartJsRegistered) return;
+  chartJsRegistered = true;
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    RadialLinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    ArcElement,
+    ChartTooltipCore,
+    ChartLegendCore
+  );
+}
 
 export interface ChartRendererProps {
   chartType: "line" | "bar" | "area" | "pie" | "scatter" | "heatmap" | "radar";
@@ -97,6 +104,7 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
   "data-testid": dataTestId,
   "aria-label": ariaLabel,
 }) => {
+  ensureChartJsRegistered();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
   const [isLoaded, setIsLoaded] = useState(false);

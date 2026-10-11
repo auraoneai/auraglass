@@ -642,20 +642,6 @@ const TooltipValue: React.FC<TooltipValueProps> = ({
   />
 );
 
-// Register required Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  ArcElement,
-  RadialLinearScale,
-  Tooltip,
-  Legend,
-  Filler
-);
-
 // Custom SVG path animation plugin
 const pathAnimationPlugin: Plugin<ChartType> = {
   id: "pathAnimation",
@@ -705,40 +691,46 @@ const pathAnimationPlugin: Plugin<ChartType> = {
   },
 };
 
-// Register the custom plugin
-ChartJS.register(pathAnimationPlugin);
-// Register our interaction plugin
-ChartJS.register(AuraElementInteractionPlugin);
+// chart.js is an optional peer (REQ-PLAT-56): registration and defaults run
+// once on first render, not at module load, so importing aura-glass without
+// chart.js installed does not throw.
+let chartJsRegistered = false;
+function ensureChartJsRegistered(): void {
+  if (chartJsRegistered) return;
+  chartJsRegistered = true;
 
-// Adjust Chart.js defaults safely
-if (defaults?.plugins?.tooltip) {
-  defaults.plugins.tooltip.enabled = false; // Use custom tooltip
-}
-if (defaults?.font) {
-  defaults.font.family =
-    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-}
-// Set colors safely
-defaults.color =
-  "color-mix(in srgb, var(--aura-color-global-text-secondary) 85%, transparent)";
-defaults.borderColor =
-  "color-mix(in srgb, var(--aura-color-global-border-soft) 70%, transparent)";
+  // Register required Chart.js components (Filler is required for area charts)
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    ArcElement,
+    RadialLinearScale,
+    Tooltip,
+    Legend,
+    Filler
+  );
+  // Register the custom plugin
+  ChartJS.register(pathAnimationPlugin);
+  // Register our interaction plugin
+  ChartJS.register(AuraElementInteractionPlugin);
 
-/**
- * Register required Chart.js components
- */
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  ArcElement,
-  RadialLinearScale,
-  Tooltip,
-  Legend,
-  Filler // Required for area charts
-);
+  // Adjust Chart.js defaults safely
+  if (defaults?.plugins?.tooltip) {
+    defaults.plugins.tooltip.enabled = false; // Use custom tooltip
+  }
+  if (defaults?.font) {
+    defaults.font.family =
+      'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  }
+  // Set colors safely
+  defaults.color =
+    "color-mix(in srgb, var(--aura-color-global-text-secondary) 85%, transparent)";
+  defaults.borderColor =
+    "color-mix(in srgb, var(--aura-color-global-border-soft) 70%, transparent)";
+}
 
 // Define a type for the hovered point value structure
 interface HoveredPointValue {
@@ -915,6 +907,7 @@ const GlassDataChartComponent = React.forwardRef<
   GlassDataChartRef,
   GlassDataChartProps
 >((props, ref) => {
+  ensureChartJsRegistered();
   const {
     title,
     subtitle,

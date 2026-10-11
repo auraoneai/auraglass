@@ -18,8 +18,17 @@ import { lazyPeer } from "../../utils/optionalPeer";
 const RHF = lazyPeer<typeof import("react-hook-form")>("react-hook-form");
 import { GlassLabel } from "./GlassLabel";
 
-// Form root is just the FormProvider
-const GlassForm = RHF.FormProvider as <
+// Form root is just the FormProvider. Wrapped in a component (not aliased) so
+// RHF.FormProvider is read at render time, not at module load.
+const GlassForm = (<
+  TFieldValues extends FieldValues,
+  TContext = unknown,
+  TTransformedValues = TFieldValues,
+>(
+  props: React.ComponentProps<
+    typeof RHF.FormProvider<TFieldValues, TContext, TTransformedValues>
+  >
+) => <RHF.FormProvider {...props} />) as <
   TFieldValues extends FieldValues,
   TContext = unknown,
   TTransformedValues = TFieldValues,
