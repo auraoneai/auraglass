@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Field as Base } from '@base-ui/react/field';
 import { Input as BaseInput } from '@base-ui/react/input';
 import { useImeGuard } from '../control-shared/ime';
+import { materialProps } from '../../material/index';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
@@ -110,7 +111,7 @@ export function SearchField({
       {...(refraction === true ? { 'data-ag-refraction': true } : {})}
     >
       {label !== undefined && label !== null ? <Base.Label data-ag-part="label">{label}</Base.Label> : null}
-      <div data-ag-part="control-shell" className="ag-sf-shell">
+      <div data-ag-part="control-shell" className="ag-sf-shell" {...materialProps({ layer: 'chrome', thickness: 'thin', variant, refraction })}>
         <SearchGlyph />
         <BaseInput
           id={controlId}
