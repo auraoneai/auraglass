@@ -9,7 +9,6 @@
     "start": "npx serve out"
   },
   "dependencies": {
-    "aura-glass": "file:../../.artifacts/pack/aura-glass-5.0.0-alpha.0.tgz",
     "next": "16.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

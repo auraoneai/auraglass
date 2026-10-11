@@ -92,7 +92,11 @@ describe('Sheet (CMP-229..236)', () => {
     render(<Demo root={{ defaultOpen: true, detents: [0.5, 'full'], onDetentChange }} />);
     await act(async () => {});
     const handle = document.querySelector('[data-ag-part="handle"]')!;
-    expect(handle.getAttribute('role')).toBe('separator');
+    // REQ-CMP-95: plain button, no separator role or orientation
+    expect(handle.tagName).toBe('BUTTON');
+    expect(handle.getAttribute('role')).toBeNull();
+    expect(handle.getAttribute('aria-orientation')).toBeNull();
+    expect(handle.getAttribute('aria-label')).toBe('Resize sheet');
     (handle as HTMLElement).focus();
     await userEvent.keyboard('{Enter}');
     await act(async () => {});
@@ -117,6 +121,34 @@ describe('Sheet (CMP-229..236)', () => {
     fireEvent.pointerUp(handle, { pointerId: 7, clientY: 500 });
     await act(async () => {});
     expect(el.hasAttribute('data-ag-dragging')).toBe(false);
+  });
+
+  it('modal=false: focus enters on open; Tab past last control leaves to the page; close restores to trigger', async () => {
+    render(
+      <>
+        <button data-testid="before">page button</button>
+        <Demo root={{ modal: false }} />
+      </>,
+    );
+    const trigger = screen.getByText('Open sheet');
+    await userEvent.click(trigger);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    const el = popup()!;
+    // focus moved into the popup on open
+    expect(el.contains(document.activeElement) || el === document.activeElement).toBe(true);
+    // body children are not inert
+    expect(document.querySelector('[inert]')).toBeNull();
+    // Tab past the last control leaves to the page (no trap)
+    const tabbables = [...el.querySelectorAll<HTMLElement>('button, [href], input, [tabindex]')]
+      .filter((n) => (n as HTMLElement).tabIndex >= 0);
+    const last = tabbables[tabbables.length - 1] ?? el;
+    (last as HTMLElement).focus();
+    await userEvent.tab();
+    expect(el.contains(document.activeElement)).toBe(false);
+    // close returns focus to the trigger
+    await userEvent.keyboard('{Escape}');
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(document.activeElement).toBe(trigger);
   });
 
   it('Sheet.Action click closes with reason close-press; rendered as a Button', async () => {
