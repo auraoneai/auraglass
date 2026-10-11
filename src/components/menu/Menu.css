@@ -43,7 +43,7 @@
     grid-template-columns: 1.25em 1fr auto;
     align-items: center;
     gap: var(--ag-space-2);
-    padding: var(--_ag-space-1-5, 6px) var(--ag-space-2);
+    padding: calc(var(--ag-space-1) * 1.5) var(--ag-space-2);
     min-block-size: calc(var(--ag-space-8) - var(--ag-space-1));
     border-radius: var(--ag-radius-sm);
     font: inherit;
@@ -145,7 +145,7 @@
   .ag-menubar {
     display: inline-flex;
     align-items: center;
-    gap: var(--_ag-space-0-5, 2px);
+    gap: calc(var(--ag-space-1) / 2);
     padding: var(--ag-space-1);
     border-radius: var(--ag-radius-md);
     font-family: var(--ag-font-sans);

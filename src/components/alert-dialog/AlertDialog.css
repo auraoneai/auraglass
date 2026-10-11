@@ -19,7 +19,10 @@
     padding: var(--ag-space-5);
     gap: var(--ag-space-2);
     border-radius: var(--ag-radius-xl);
-    box-shadow: var(--_ag-shadow-overlay, var(--ag-shadow-thick));
+    /* depth is the material shadow for this thickness (MAT ladder,
+       --_ag-mat-shadow); the old --_ag-shadow-overlay/-transient were never
+       defined and overrode identity/solid rungs with a fixed shadow */
+    box-shadow: var(--_ag-surface-shadow);
     color: var(--ag-on-surface);
     font-family: var(--ag-font-sans);
     font-size: var(--ag-type-body-size);

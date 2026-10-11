@@ -13,14 +13,17 @@
     display: flex;
     flex-direction: column;
     inline-size: 100%;
-    max-inline-size: var(--_ag-dialog-w-md, 560px);
+    max-inline-size: 560px;
     max-block-size: calc(100dvh - 2 * var(--ag-space-4));
     max-block-size: calc(var(--_ag-visual-viewport-height, 100dvh) - 2 * var(--ag-space-4));
     /* the anchored-popup rule in overlays/_shared no longer reaches dialogs;
        the body scrolls, the popup never does */
     overflow: hidden;
     border-radius: var(--ag-radius-xl);
-    box-shadow: var(--_ag-shadow-overlay, var(--ag-shadow-thick));
+    /* depth is the material shadow for this thickness (MAT ladder,
+       --_ag-mat-shadow); the old --_ag-shadow-overlay/-transient were never
+       defined and overrode identity/solid rungs with a fixed shadow */
+    box-shadow: var(--_ag-surface-shadow);
     color: var(--ag-on-surface);
     font-family: var(--ag-font-sans);
     font-size: var(--ag-type-body-size);

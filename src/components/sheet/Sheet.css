@@ -17,7 +17,10 @@
     line-height: var(--ag-type-body-leading);
     outline: none;
     z-index: var(--ag-z-overlay, 300);
-    box-shadow: var(--_ag-shadow-overlay, var(--ag-shadow-thick));
+    /* depth is the material shadow for this thickness (MAT ladder,
+       --_ag-mat-shadow); the old --_ag-shadow-overlay/-transient were never
+       defined and overrode identity/solid rungs with a fixed shadow */
+    box-shadow: var(--_ag-surface-shadow);
     background-clip: padding-box;
     overflow: hidden;
     /* default (md) side width; sm/lg below. It was never declared, so md
@@ -198,7 +201,7 @@
   .ag-sheet-handle:active { cursor: grabbing; }
   .ag-sheet-handle-bar {
     display: block;
-    inline-size: var(--_ag-space-9, 36px);
+    inline-size: calc(var(--ag-space-1) * 9);
     block-size: var(--ag-space-1);
     border-radius: var(--ag-radius-full);
     background: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted, currentColor));

@@ -63,10 +63,10 @@
   }
   .ag-toast[data-swiping] { transition: none; }
 
-  .ag-toast[data-ag-intent='success'] { --_ag-toast-accent: var(--_ag-success, var(--ag-color-success)); }
-  .ag-toast[data-ag-intent='warning'] { --_ag-toast-accent: var(--_ag-warning, var(--ag-color-warning)); }
-  .ag-toast[data-ag-intent='error'] { --_ag-toast-accent: var(--_ag-danger, var(--ag-color-danger)); }
-  .ag-toast[data-ag-intent='info'] { --_ag-toast-accent: var(--_ag-info, var(--ag-color-info)); }
+  .ag-toast[data-ag-intent='success'] { --_ag-toast-accent: var(--ag-color-success); }
+  .ag-toast[data-ag-intent='warning'] { --_ag-toast-accent: var(--ag-color-warning); }
+  .ag-toast[data-ag-intent='error'] { --_ag-toast-accent: var(--ag-color-danger); }
+  .ag-toast[data-ag-intent='info'] { --_ag-toast-accent: var(--ag-color-info); }
 
   .ag-toast-content { display: flex; flex-direction: column; gap: var(--ag-space-1); }
   .ag-toast-title {
@@ -142,7 +142,7 @@
     display: block;
     height: 100%;
     width: 100%;
-    background: var(--_ag-toast-accent, var(--_ag-accent, var(--ag-color-accent)));
+    background: var(--_ag-toast-accent, var(--ag-color-accent));
     transform-origin: left;
     /* --_ag-toast-timeout is always written by Toast.Root (Base UI default 5s) */
     animation: ag-toast-progress var(--_ag-toast-timeout, var(--ag-duration-ambient)) linear forwards;
