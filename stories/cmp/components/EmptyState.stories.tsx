@@ -19,7 +19,7 @@ export const Default: Story = {
       {...args}
       description="Create a record to populate this surface."
       icon={<svg width="24" height="24" aria-hidden="true" />}
-      actions={[{ label: 'Create record' }, { label: 'Import data' }]}
+      actions={<><button type="button">Create record</button><button type="button">Import data</button></>}
     />
   ),
 };

@@ -1,7 +1,30 @@
 // MAT-029: dist/tokens/manifest.json + src/tokens/generated/manifest.ts.
 import { colorToCss } from '../color.mjs';
 import { compileSpring } from '../transforms/motion-spring.mjs';
-import { renderValue } from './_shared.mjs';
+import { die, renderValue } from './_shared.mjs';
+
+/** REQ-MAT-04 / S-11: the closed `TokenManifestEntry['type']` union of
+ *  src/contracts/tokens.ts. tests/tokens/private-ag-namespace.test.ts proves this
+ *  list and the contract union are the same set (compile-time) and that every
+ *  emitted entry is in it. */
+export const MANIFEST_TYPES = Object.freeze([
+  'color', 'dimension', 'number', 'duration', 'cubicBezier', 'motion-spring',
+  'shadow', 'glass-material', 'fontFamily', 'fontWeight',
+]);
+
+/** Map a token record's DTCG/AuraGlass `$type` to the contract union.
+ *  `mode-table` (per-axis cells) and `string` (a raw CSS expression such as
+ *  `clamp()`/`calc()`/`var()`) are carriers, not value types: they must declare
+ *  the value type they resolve to in `$extensions["ag.valueType"]`. Anything that
+ *  does not land in the union fails the build instead of shipping. */
+export function manifestType(name, rec) {
+  const carrier = rec.type === 'mode-table' || rec.type === 'string';
+  const type = carrier ? rec.ext?.['ag.valueType'] ?? (rec.type === 'mode-table' ? 'number' : undefined) : rec.type;
+  if (!MANIFEST_TYPES.includes(type))
+    die(`manifest: ${name} ($type ${rec.type}) maps to '${type}', outside the TokenManifestEntry type union`
+      + (carrier ? ' — set $extensions["ag.valueType"]' : ''));
+  return type;
+}
 
 /** Emit dist/tokens/manifest.json (MAT-029, contract TokenManifest shape).
  *  `readerCorpus`: emitted-css + hand-written src texts; consumers counts recorded. */
@@ -30,11 +53,11 @@ export function emitManifest(records, cells, readerCorpus = []) {
       if (!c.axisValue || !MODES_KEYS.has(c.axisValue)) continue;
       modes[c.axisValue] = renderValue({ ...c, renderType: c.renderType });
     }
-    const typeMap = { 'mode-table': rec.ext?.['ag.valueType'] ?? 'number' };
+    const type = manifestType(name, rec);
     tokens.push({
       name,
       cssVar: base.cssVar,
-      type: typeMap[rec.type] ?? rec.type,
+      type,
       tier,
       group: name.split('.')[0],
       modes,

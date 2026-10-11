@@ -3,7 +3,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Popover } from '../../../src/components/popover';
-import { Button } from '../../../src/components/button';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
@@ -19,14 +18,14 @@ type Story = StoryObj<typeof sbMeta>;
 const Demo = ({ root = {}, positioner = {}, children }: { root?: Record<string, unknown>; positioner?: Record<string, unknown>; children?: React.ReactNode }) => (
   <AuraGlassProvider>
     <Popover.Root defaultOpen {...root}>
-      <Popover.Trigger><Button>Open popover</Button></Popover.Trigger>
+      <Popover.Trigger>Open popover</Popover.Trigger>
       <Popover.Portal>
         <Popover.Positioner {...positioner}>
           <Popover.Popup>
             <Popover.Arrow />
             <Popover.Title>Popover</Popover.Title>
             <Popover.Description>{children ?? 'Anchored overlay content.'}</Popover.Description>
-            <Popover.Close><Button >Close</Button></Popover.Close>
+            <Popover.Close>Close</Popover.Close>
           </Popover.Popup>
         </Popover.Positioner>
       </Popover.Portal>
@@ -47,7 +46,7 @@ export const HoverIntent: Story = {
   render: () => (
     <AuraGlassProvider>
       <Popover.Root defaultOpen>
-        <Popover.Trigger openOnHover delay={300} closeDelay={150}><Button>Hover me</Button></Popover.Trigger>
+        <Popover.Trigger openOnHover delay={300} closeDelay={150}>Hover me</Popover.Trigger>
         <Popover.Portal>
           <Popover.Positioner>
             <Popover.Popup><Popover.Description>Opens after 300ms hover intent.</Popover.Description></Popover.Popup>
