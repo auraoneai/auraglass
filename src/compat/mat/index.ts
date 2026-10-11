@@ -3,7 +3,9 @@
 export {
   OptimizedGlass,
   GlassCore,
+  GlassPrimitive,
   OptimizedGlassAdvanced,
+  GlassAdvanced,
   type OptimizedGlassCompatProps,
 } from './material/OptimizedGlass';
 export {
@@ -18,3 +20,9 @@ export {
   type LiquidGlassConcentricFrameCompatProps,
 } from './material/LiquidGlassMaterial';
 export { createGlassThemeCssVars, type GlassThemeCssVarsInput } from './theme';
+// REQ-MAT-45 (D.3-27): the 4.x createGlassTheme `motionPolicy` option (DEP-M0902).
+export {
+  createGlassTheme,
+  type CompatCreateGlassThemeOptions,
+  type GlassMotionPolicy,
+} from './createGlassTheme';

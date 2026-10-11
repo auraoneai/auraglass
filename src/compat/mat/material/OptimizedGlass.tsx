@@ -2,14 +2,15 @@
    4.x glass primitives -> Surface. elevation levelN/0|1->thin, 2->regular,
    3+->thick; intent='primary' -> prominent (other intents dropped); interactive
    passthrough; variant='solid' -> data-ag-transparency="solid" wrapper;
-   adaptive -> data-ag-backdrop="auto" wrapper (renders 'regular' for clear);
-   the deleted optical props drop with one warnDeprecated(id) (REL-072).
+   adaptive -> data-ag-backdrop="auto" wrapper only (the variant is not
+   rewritten); unmapped variants/intents and the deleted optical props drop
+   with one warnDeprecated(<adapter DEP-M id>) (REL-072).
    className/style/children passthrough; no style attribute unless the consumer
    passed one (Surface emits no style otherwise). */
 import * as React from 'react';
 import { Surface } from '../../../material/index';
 import type { MaterialVariant, SurfaceProps } from '../../../contracts/material';
-import { dropNoopProps, elevationToThickness } from './shared';
+import { dropNoopProps, elevationToThickness, type CompatAdapter } from './shared';
 
 /** 4.x OptimizedGlass surface props (subset mapped by REQ-MAT-24). */
 export interface OptimizedGlassCompatProps extends Omit<SurfaceProps, 'variant' | 'thickness'> {
@@ -23,7 +24,7 @@ export interface OptimizedGlassCompatProps extends Omit<SurfaceProps, 'variant' 
 
 const FIVE_VARIANTS = new Set<MaterialVariant>(['regular', 'clear', 'identity']);
 
-function adaptOptimizedGlass(id: string, props: OptimizedGlassCompatProps): React.ReactElement {
+function adaptOptimizedGlass(id: CompatAdapter, props: OptimizedGlassCompatProps): React.ReactElement {
   const { as, intent, elevation, variant, adaptive, interactive, ref, ...rest } = props;
   const domProps = dropNoopProps(
     id,
@@ -33,12 +34,12 @@ function adaptOptimizedGlass(id: string, props: OptimizedGlassCompatProps): Reac
      ...(variant !== undefined && !FIVE_VARIANTS.has(variant as MaterialVariant) && variant !== 'solid' ? ['variant'] : [])],
   );
   const thickness = elevationToThickness(elevation);
-  // adaptive "renders regular for clear": a clear surface backed by an auto
-  // backdrop collapses to regular in 4.x — keep that.
+  // adaptive only adds the data-ag-backdrop="auto" wrapper below; the 5.0
+  // variant passes through unchanged (REQ-MAT-24). Unmapped 4.x variants drop.
   const mappedVariant: MaterialVariant | undefined =
-    variant === 'solid' || variant === undefined ? undefined
-      : variant === 'clear' && adaptive ? 'regular'
-      : (variant as MaterialVariant);
+    variant !== undefined && FIVE_VARIANTS.has(variant as MaterialVariant)
+      ? (variant as MaterialVariant)
+      : undefined;
   // consumer attrs first, mapped role props last — consumer non-data-ag-*
   // attributes win, role data-ag-* always win (REQ-MAT-24).
   const surface = (
@@ -67,15 +68,25 @@ function adaptOptimizedGlass(id: string, props: OptimizedGlassCompatProps): Reac
 
 /** 4.x `OptimizedGlass` (exported as `OptimizedGlassCore` internally). */
 export function OptimizedGlass(props: OptimizedGlassCompatProps): React.ReactElement {
-  return adaptOptimizedGlass('compat.mat.OptimizedGlass', props);
+  return adaptOptimizedGlass('OptimizedGlass', props);
 }
 
-/** 4.x `GlassCore` / `GlassPrimitive` — same prop surface, fewer defaults. */
+/** 4.x `GlassCore` — same prop surface, fewer defaults. */
 export function GlassCore(props: OptimizedGlassCompatProps): React.ReactElement {
-  return adaptOptimizedGlass('compat.mat.GlassCore', props);
+  return adaptOptimizedGlass('GlassCore', props);
+}
+
+/** 4.x `GlassPrimitive` — the GlassCore surface under its 4.x primitive name. */
+export function GlassPrimitive(props: OptimizedGlassCompatProps): React.ReactElement {
+  return adaptOptimizedGlass('GlassPrimitive', props);
 }
 
 /** 4.x `OptimizedGlassAdvanced` — adds optical props; all map to the same drops. */
 export function OptimizedGlassAdvanced(props: OptimizedGlassCompatProps): React.ReactElement {
-  return adaptOptimizedGlass('compat.mat.OptimizedGlassAdvanced', props);
+  return adaptOptimizedGlass('OptimizedGlassAdvanced', props);
+}
+
+/** 4.x `GlassAdvanced` — the OptimizedGlassAdvanced surface under its 4.x name. */
+export function GlassAdvanced(props: OptimizedGlassCompatProps): React.ReactElement {
+  return adaptOptimizedGlass('GlassAdvanced', props);
 }
