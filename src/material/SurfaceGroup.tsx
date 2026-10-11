@@ -1,15 +1,16 @@
 /* MAT-137 — SurfaceGroup: one chrome surface carrying data-ag-group +
    data-ag-spacing=<SpaceToken>. No variant/thickness props; no inline style. */
 import * as React from 'react';
-import clsx from 'clsx';
+import { cn } from '../internal';
 import type { SurfaceGroupProps } from './types';
 import { materialProps } from './materialProps';
 
-export function SurfaceGroup({ spacing = '2', children, className }: SurfaceGroupProps) {
+export function SurfaceGroup({ spacing = '2', refraction, children, className }: SurfaceGroupProps) {
   return React.createElement('div', {
     ...materialProps({ layer: 'chrome' }),
     'data-ag-group': '',
     'data-ag-spacing': spacing,
-    className: clsx('ag-surface', className),
+    ...(refraction ? { 'data-ag-refraction': '' } : {}),
+    className: cn('ag-surface', className),
   }, children);
 }

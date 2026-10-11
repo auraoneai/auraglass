@@ -575,7 +575,8 @@
             "string",
             "glass-material",
             "theme-preset",
-            "mode-table"
+            "mode-table",
+            "ag-rendered"
           ]
         },
         "$description": {

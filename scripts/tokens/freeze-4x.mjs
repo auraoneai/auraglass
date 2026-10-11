@@ -23,7 +23,9 @@ const GLASS_TS = join(root, 'legacy/src/tokens/glass.ts');
 const TOKENS_CSS = join(root, 'legacy/src/styles/tokens.css');
 const OUT = join(root, 'tokens/legacy/4x-rendered.tokens.json');
 
-const LEGACY_EXT = { 'ag.tier': 'legacy' };
+const LEGACY_EXT = { 'ag.tier': 'legacy', 'ag.legacy': true };
+// Frozen values are pre-resolved rendered CSS strings — $type 'ag-rendered'
+// (schema MAT-005): verbatim strings, never re-interpreted by the compiler.
 const tok = (value, type) => ({ $value: value, $type: type, $extensions: { ...LEGACY_EXT } });
 
 // --- 1. load the legacy module ------------------------------------------------
@@ -58,7 +60,7 @@ for (const intent of intents) {
     for (const tier of tiers) {
       const styles = glassTokenUtils.buildSurfaceStyles(intent, elevation, tier);
       surface[intent][elevation][tier] = {
-        'backdrop-blur': tok(`${AURA_GLASS.surfaces[intent][elevation].backdropBlur.px}px`, 'dimension'),
+        'backdrop-blur': tok(`${AURA_GLASS.surfaces[intent][elevation].backdropBlur.px}px`, 'ag-rendered'),
         'backdrop-filter': tok(styles.backdropFilter, 'ag-rendered'),
         'box-shadow': tok(styles.boxShadow, 'ag-rendered'),
       };
@@ -104,8 +106,7 @@ for (const block of cssSrc.matchAll(/:root\s*\{([^}]*)\}/gs)) {
   for (const decl of block[1].matchAll(/(--glass-[A-Za-z0-9_-]*)\s*:\s*([^;]+);/g)) {
     const [, name, raw] = decl;
     const value = raw.trim().replace(/\s+/g, ' ');
-    const type = /px|rem|em$|ms$|s$/.test(value) ? 'dimension' : /rgba?\(|#|hsl|var\(/.test(value) ? 'color' : 'ag-css-var';
-    primitives[name] = { ...tok(value, type), $extensions: { ...LEGACY_EXT, 'ag.cssVar': name } };
+    primitives[name] = { ...tok(value, 'ag-rendered'), $extensions: { ...LEGACY_EXT, 'ag.legacyVar': name } };
   }
 }
 const primitiveCount = Object.keys(primitives).length;

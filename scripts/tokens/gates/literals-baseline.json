@@ -1,4 +1,234 @@
 {
   "version": 1,
-  "files": {}
+  "files": {
+    "src/a11y/css/focus.css": {
+      "shadow": 1,
+      "color": 1
+    },
+    "src/a11y/css/rungs.css": {
+      "blur": 12
+    },
+    "src/a11y/stories/ColorVision.stories.tsx": {
+      "color": 7
+    },
+    "src/ai/ai.css": {
+      "duration": 3
+    },
+    "src/app-shell/app-shell.css": {
+      "blur": 2
+    },
+    "src/backdrops/backdrops.css": {
+      "duration": 2,
+      "easing": 1,
+      "color": 1
+    },
+    "src/backdrops/presets/aurora.css": {
+      "color": 3
+    },
+    "src/backdrops/presets/mesh.css": {
+      "color": 5
+    },
+    "src/charts/charts.css": {
+      "shadow": 1
+    },
+    "src/compat/mat/material/__tests__/adapters.test.tsx": {
+      "color": 1
+    },
+    "src/components/alert-dialog/AlertDialog.css": {
+      "radius": 1,
+      "shadow": 1,
+      "color": 1,
+      "duration": 3
+    },
+    "src/components/badge/Badge.css": {
+      "radius": 1
+    },
+    "src/components/color-picker/ColorPicker.client.tsx": {
+      "color": 1
+    },
+    "src/components/color-picker/ColorPicker.css": {
+      "radius": 2,
+      "color": 2
+    },
+    "src/components/color-picker/ColorPicker.test.tsx": {
+      "color": 13
+    },
+    "src/components/combobox/Combobox.css": {
+      "duration": 2
+    },
+    "src/components/dialog/Dialog.css": {
+      "radius": 2,
+      "shadow": 1,
+      "color": 1,
+      "duration": 3
+    },
+    "src/components/menu/Menu.css": {
+      "radius": 4,
+      "duration": 2,
+      "easing": 2,
+      "color": 6
+    },
+    "src/components/meter/Meter.css": {
+      "radius": 1
+    },
+    "src/components/overlays/_shared/overlays.css": {
+      "color": 2,
+      "blur": 6,
+      "duration": 2
+    },
+    "src/components/popover/Popover.css": {
+      "color": 6,
+      "radius": 1,
+      "shadow": 1,
+      "duration": 2
+    },
+    "src/components/progress/Progress.css": {
+      "radius": 1,
+      "duration": 1
+    },
+    "src/components/scroll-area/ScrollArea.css": {
+      "radius": 1
+    },
+    "src/components/select/Select.css": {
+      "duration": 1
+    },
+    "src/components/sheet/Sheet.css": {
+      "shadow": 1,
+      "color": 1,
+      "duration": 5,
+      "spring": 1,
+      "radius": 2
+    },
+    "src/components/skeleton/Skeleton.css": {
+      "duration": 1,
+      "easing": 1
+    },
+    "src/components/tab-bar/TabBar.css": {
+      "radius": 1
+    },
+    "src/components/tabs/Tabs.css": {
+      "color": 2,
+      "radius": 1,
+      "duration": 1
+    },
+    "src/components/timeline/timeline.css": {
+      "radius": 1
+    },
+    "src/components/toast/Toast.css": {
+      "radius": 2,
+      "duration": 3,
+      "easing": 2,
+      "color": 8
+    },
+    "src/components/tooltip/Tooltip.css": {
+      "color": 4,
+      "radius": 1,
+      "shadow": 1,
+      "duration": 2
+    },
+    "src/data/chip/Chip.css": {
+      "radius": 2
+    },
+    "src/data/table/table.css": {
+      "shadow": 2
+    },
+    "src/data/virtual-list/VirtualList.stories.tsx": {
+      "color": 2
+    },
+    "src/date/date.css": {
+      "shadow": 1,
+      "color": 1
+    },
+    "src/material/__tests__/css-contract.test.ts": {
+      "blur": 2
+    },
+    "src/material/__tests__/defineMaterial.test.ts": {
+      "color": 1
+    },
+    "src/material/css/lens.css": {
+      "blur": 19
+    },
+    "src/material/css/material.css": {
+      "color": 50,
+      "blur": 23,
+      "shadow": 2,
+      "duration": 2,
+      "easing": 3,
+      "radius": 1
+    },
+    "src/material/defineMaterial.ts": {
+      "color": 16
+    },
+    "src/material/types.ts": {
+      "color": 2
+    },
+    "src/media/__tests__/MediaControls.controlled.test.tsx": {
+      "duration": 1
+    },
+    "src/media/__tests__/NowPlayingBar.test.tsx": {
+      "duration": 1
+    },
+    "src/media/CarouselRail.stories.tsx": {
+      "color": 2
+    },
+    "src/media/media.css": {
+      "color": 2,
+      "duration": 1
+    },
+    "src/media/NowPlayingBar.stories.tsx": {
+      "color": 2
+    },
+    "src/media/NowPlayingBar/NowPlayingBar.tsx": {
+      "duration": 1
+    },
+    "src/media/useMediaElement.ts": {
+      "duration": 1
+    },
+    "src/motion/__tests__/modes.test.ts": {
+      "duration": 2
+    },
+    "src/motion/__tests__/spring-linear.test.ts": {
+      "duration": 6
+    },
+    "src/motion/__tests__/ticker.test.ts": {
+      "duration": 5
+    },
+    "src/motion/__tests__/tokens-generated.test.ts": {
+      "easing": 1
+    },
+    "src/motion/__tests__/viewTransition.test.ts": {
+      "spring": 2
+    },
+    "src/motion/adapter/__tests__/adapter.test.tsx": {
+      "duration": 1
+    },
+    "src/motion/adapter/toMotionTransition.ts": {
+      "duration": 2
+    },
+    "src/motion/css/motion-modes.css": {
+      "duration": 3
+    },
+    "src/theme/__tests__/color.test.ts": {
+      "color": 36
+    },
+    "src/theme/__tests__/createBrandTheme.test.ts": {
+      "color": 4
+    },
+    "src/theme/__tests__/createGlassTheme.test.ts": {
+      "color": 6
+    },
+    "src/theme/generated/prepaint-script.ts": {
+      "blur": 3
+    },
+    "src/theme/materials.ts": {
+      "blur": 15,
+      "color": 25
+    },
+    "src/theme/preferences/prepaint.ts": {
+      "blur": 3
+    },
+    "src/theme/preferences/store.ts": {
+      "blur": 3
+    }
+  }
 }

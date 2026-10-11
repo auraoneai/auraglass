@@ -73,6 +73,7 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
   React.useEffect(() => { store.setApp(JSON.parse(appJson) as PreferenceInput); }, [store, appJson]);
 
   const [portalRoot, setPortalRoot] = React.useState<HTMLElement | null>(null);
+  const ownRootRef = React.useRef<HTMLElement | null>(null);
   const [adoptedRoot, setAdoptedRoot] = React.useState<HTMLElement | null>(null);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const doc = (typeof document === 'undefined' ? null : document);
@@ -85,7 +86,11 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
       html.setAttribute('data-ag-root', '');
       store.setTarget(html);
       const existing = doc.querySelector<HTMLElement>(`[${PORTAL_ROOT_ATTR}]`);
-      if (existing && existing !== portalRoot) setAdoptedRoot(existing);
+      /* Adopt only a FOREIGN root — the effect's `portalRoot` closure is stale
+         (the own-root ref callback fires during commit, after render), so
+         compare against ownRootRef instead. Adopting our own root would flip
+         needsOwnRoot off and unmount it. */
+      if (existing && existing !== ownRootRef.current) setAdoptedRoot(existing);
       return () => {
         html.removeAttribute('data-ag-root');
         store.setTarget(null);
@@ -136,7 +141,7 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
         { container },
         React.createElement(PortalRootMarkup, {
           toasts, tooltips,
-          ref: (el: HTMLDivElement | null) => setPortalRoot(el),
+          ref: (el: HTMLDivElement | null) => { ownRootRef.current = el; setPortalRoot(el); },
         }),
       )
       : null,

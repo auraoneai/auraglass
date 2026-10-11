@@ -1,1 +1,3 @@
-[]
+[
+  { "name": "plat:dx-node", "testDir": "./tests/dx", "testMatch": "codemod-canary.spec.ts" }
+]

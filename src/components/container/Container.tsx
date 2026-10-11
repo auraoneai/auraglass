@@ -13,10 +13,10 @@ export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const MAX: Record<NonNullable<ContainerProps['size']>, string> = {
-  sm: 'var(--ag-container-sm, 40rem)',
-  md: 'var(--ag-container-md, 48rem)',
-  lg: 'var(--ag-container-lg, 64rem)',
-  xl: 'var(--ag-container-xl, 80rem)',
+  sm: 'var(--_ag-container-sm, 40rem)',
+  md: 'var(--_ag-container-md, 48rem)',
+  lg: 'var(--_ag-container-lg, 64rem)',
+  xl: 'var(--_ag-container-xl, 80rem)',
   full: '100%',
 };
 

@@ -3,7 +3,7 @@ import { warnDeprecated } from '../../../internal';
 import { DatePicker } from '../../../date/DatePicker';
 import type { DatePickerProps } from '../../../date/DatePicker';
 import { toDateValue } from './shared';
-import type { DateValue } from '@internationalized/date';
+import type { DateValue } from '../../../date/shared';
 
 export type GlassDatePickerProps = {
   value?: Date;
