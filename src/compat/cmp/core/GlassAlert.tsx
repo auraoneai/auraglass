@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Alert } from '../../../components/alert';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0244';
+const DEP = 'DEP-C0241';
 
 export function GlassAlert(props: React.ComponentProps<typeof Alert>) {
   warnDeprecated(DEP);

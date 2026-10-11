@@ -38,6 +38,7 @@ export { GlassBottomNav } from './navigation/GlassBottomNav';
 export { LiquidGlassBottomAccessory } from './navigation/LiquidGlassBottomAccessory';
 export { GlassMobileNav } from './navigation/GlassMobileNav';
 export { GlassBreadcrumb } from './navigation/GlassBreadcrumb';
+export { GlassBreadcrumbs } from './navigation/GlassBreadcrumbs';
 export { GlassPagination } from './navigation/GlassPagination';
 export { GlassCommandPalette } from './navigation/GlassCommandPalette';
 export { GlassCommand } from './navigation/GlassCommand';

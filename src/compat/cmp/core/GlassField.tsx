@@ -6,7 +6,8 @@ import { warnDeprecated } from '../../../internal';
 import { Field } from '../../../components/field';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0262';
+// No CMP DEP id yet: the row lands via #313 (4.x) + REQ-FIN-13 sync; re-point then.
+const DEP = 'GlassField';
 
 export function GlassField(props: React.ComponentProps<typeof Field.Root>) {
   warnDeprecated(DEP);

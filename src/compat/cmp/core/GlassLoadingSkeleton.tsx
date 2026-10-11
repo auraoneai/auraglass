@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Skeleton } from '../../../components/skeleton';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0271';
+const DEP = 'DEP-C0245';
 
 export function GlassLoadingSkeleton(props: React.ComponentProps<typeof Skeleton>) {
   warnDeprecated(DEP);

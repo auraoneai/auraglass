@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 
-const DEP = 'DEP-C0298';
+const DEP = 'DEP-C0282';
 
 export interface GlassStepperProps extends React.OlHTMLAttributes<HTMLOListElement> {
   steps?: readonly React.ReactNode[];

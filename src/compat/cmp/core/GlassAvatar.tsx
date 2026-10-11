@@ -6,7 +6,7 @@ import { warnDeprecated } from '../../../internal';
 import { Avatar } from '../../../components/avatar';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0245';
+const DEP = 'DEP-C0239';
 
 export function GlassAvatar(props: React.ComponentProps<typeof Avatar.Root>) {
   warnDeprecated(DEP);

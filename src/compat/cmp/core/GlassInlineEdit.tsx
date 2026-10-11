@@ -6,7 +6,7 @@ import { warnDeprecated } from '../../../internal';
 import { InlineEdit } from '../../../components/inline-edit';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0268';
+const DEP = 'DEP-C0254';
 
 export function GlassInlineEdit(props: React.ComponentProps<typeof InlineEdit>) {
   warnDeprecated(DEP);

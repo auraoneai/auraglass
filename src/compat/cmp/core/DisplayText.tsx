@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Heading } from '../../../components/heading';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0241';
+const DEP = 'DEP-C0266';
 
 export function DisplayText(props: React.ComponentProps<typeof Heading>) {
   warnDeprecated(DEP);

@@ -5,9 +5,9 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 
-const DEP = 'DEP-C0294';
+const DEP = 'DEP-C0284';
 
-export interface GlassNotificationItemProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassNotificationItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   title?: React.ReactNode;
   message?: React.ReactNode;
   description?: React.ReactNode;

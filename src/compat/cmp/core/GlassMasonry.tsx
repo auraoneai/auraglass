@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Grid } from '../../../components/grid';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0274';
+const DEP = 'DEP-C0271';
 
 export function GlassMasonry(props: React.ComponentProps<typeof Grid>) {
   warnDeprecated(DEP);

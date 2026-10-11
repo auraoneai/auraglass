@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { EmptyState } from '../../../components/state-view';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0260';
+const DEP = 'DEP-C0248';
 
 export function GlassEmptyState(props: React.ComponentProps<typeof EmptyState>) {
   warnDeprecated(DEP);

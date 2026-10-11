@@ -36,7 +36,7 @@ const meta: ControlMeta = defineMeta({
         side: 'Positioner side',
         align: 'Positioner align',
       },
-      automation: 'mostly',
+      selectors: { '.glass-popover': '.ag-popover' }, automation: 'mostly',
       compat: true,
     },
     {
@@ -46,20 +46,20 @@ const meta: ControlMeta = defineMeta({
         trigger: 'Popover.Trigger openOnHover',
         content: 'Popover.Popup children',
       },
-      automation: 'partial', // HoverCard successor = Trigger openOnHover + delay/closeDelay
+      selectors: { '.glass-hover-card': '.ag-popover' }, automation: 'partial', // HoverCard successor = Trigger openOnHover + delay/closeDelay
       compat: false,
     },
     {
       from: 'GlassTooltip',
       props: { content: 'Popover.Popup children' },
-      automation: 'partial', // rich/interactive content uses Popover; plain hints use Tooltip
+      selectors: { '.glass-tooltip': '.ag-popover' }, automation: 'partial', // rich/interactive content uses Popover; plain hints use Tooltip
       compat: false,
     },
     { from: 'GlassPositioner', props: {}, automation: 'mostly', compat: true },
     {
       from: 'GlassDropdown',
       props: { items: 'Menu/Popover composition', open: 'open' },
-      automation: 'manual', // action-list dropdowns go to Menu; panels stay Popover
+      selectors: { '.glass-dropdown': '.ag-popover' }, automation: 'manual', // action-list dropdowns go to Menu; panels stay Popover
       compat: false,
     },
   ],

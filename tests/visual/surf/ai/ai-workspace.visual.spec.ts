@@ -11,7 +11,7 @@ test.describe('ai visual matrix (SURF-356)', () => {
     test(`AI/${name} subject renders without horizontal overflow at 390`, async ({ page }) => {
       const subjects = await listSubjects({ owner: 'SURF' });
       const subject = subjects.find((s) => s.subject === name);
-      if (!subject) { console.warn(`${name} subject not registered — pending`); return; }
+      if (!subject) throw new Error(`${name} subject not registered`);
       await page.setViewportSize({ width: 390, height: 844 });
       await gotoStory(page, subject.id);
       const overflow = await page.evaluate(() =>
@@ -23,7 +23,7 @@ test.describe('ai visual matrix (SURF-356)', () => {
   test('320px: no horizontal page scroll', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Thread') ?? subjects[0];
-    if (!subject) { console.warn('AI subject not registered — pending'); return; }
+    if (!subject) throw new Error('AI subject not registered');
     await page.setViewportSize({ width: 320, height: 568 });
     await gotoStory(page, subject.id);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > 320);
@@ -35,7 +35,7 @@ test.describe('ai reduced motion (SURF-357)', () => {
   test('500ms after settle: 0 running CSS animations, 0 rAF callbacks', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const aiSubjects = subjects.filter((s) => AI_SUBJECTS.includes(s.subject));
-    if (aiSubjects.length === 0) { console.warn('no AI subjects — pending'); return; }
+    expect(aiSubjects.length, 'no AI subjects').toBeGreaterThan(0);
     await page.emulateMedia({ reducedMotion: 'reduce' });
     for (const s of aiSubjects) {
       await gotoStory(page, s.id, { motion: 'none' });

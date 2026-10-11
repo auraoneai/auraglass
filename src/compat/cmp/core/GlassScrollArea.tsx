@@ -6,7 +6,7 @@ import { warnDeprecated } from '../../../internal';
 import { ScrollArea } from '../../../components/scroll-area';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0280';
+const DEP = 'DEP-C0252';
 
 export function GlassScrollArea(props: React.ComponentProps<typeof ScrollArea.Root>) {
   warnDeprecated(DEP);

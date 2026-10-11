@@ -6,7 +6,7 @@ import { warnDeprecated } from '../../../internal';
 import { Sheet } from '../../../components/sheet';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0292';
+const DEP = 'DEP-C0132';
 
 export function MobileGlassBottomSheet(props: React.ComponentProps<typeof Sheet.Root>) {
   warnDeprecated(DEP);

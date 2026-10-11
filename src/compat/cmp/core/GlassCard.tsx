@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Card } from '../../../components/card';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0250';
+const DEP = 'DEP-C0231';
 
 export function GlassCard(props: React.ComponentProps<typeof Card>) {
   warnDeprecated(DEP);

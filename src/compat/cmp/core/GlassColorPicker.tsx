@@ -6,7 +6,7 @@ import { warnDeprecated } from '../../../internal';
 import { ColorPicker } from '../../../components/color-picker';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0253';
+const DEP = 'DEP-C0256';
 
 export function GlassColorPicker(props: React.ComponentProps<typeof ColorPicker.Root>) {
   warnDeprecated(DEP);

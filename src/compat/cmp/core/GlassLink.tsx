@@ -5,7 +5,8 @@ import { warnDeprecated } from '../../../internal';
 import { Link } from '../../../components/link';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0270';
+// No CMP DEP id yet: the row lands via #313 (4.x) + REQ-FIN-13 sync; re-point then.
+const DEP = 'GlassLink';
 
 export function GlassLink(props: React.ComponentProps<typeof Link>) {
   warnDeprecated(DEP);

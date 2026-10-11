@@ -6,7 +6,8 @@ import { warnDeprecated } from '../../../internal';
 import { NumberField } from '../../../components/number-field';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0276';
+// No CMP DEP id yet: the row lands via #313 (4.x) + REQ-FIN-13 sync; re-point then.
+const DEP = 'GlassNumberInput';
 
 export function GlassNumberInput(props: React.ComponentProps<typeof NumberField>) {
   warnDeprecated(DEP);

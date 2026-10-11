@@ -44,7 +44,8 @@ describe('compat core adapters (REQ-CMP-131)', () => {
   it('every core adapter renders + warns once in dev', async () => {
     const core = report.rows.filter((r) =>
       r.exported && exists(r.name) && !HOOKS.has(r.name));
-    expect(core.length).toBeGreaterThan(50);
+    // 46 core adapters after the FIN trim (SURF names + batch-owned duplicates removed).
+    expect(core.length).toBeGreaterThanOrEqual(46);
     for (const row of core) {
       const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
       try {
@@ -61,7 +62,7 @@ describe('compat core adapters (REQ-CMP-131)', () => {
           // BU Portal lazy-mounts children — call the fn directly to prove warn+shape
           const out = (Adapter as (p: Record<string, unknown>) => React.ReactElement)({});
           expect(out).toBeTruthy();
-          expect((warn as jest.Mock).mock.calls.some((c) => String(c[0]).includes('DEP-'))).toBe(true);
+          expect((warn as jest.Mock).mock.calls.some((c) => String(c[0]).startsWith('[aura-glass]'))).toBe(true);
           warn.mockRestore();
           continue;
         }
@@ -70,7 +71,7 @@ describe('compat core adapters (REQ-CMP-131)', () => {
           const r = render(el); container = r.container; unmount = r.unmount;
         } catch (e) { throw new Error(row.name + ': ' + (e as Error).message); }
         if (row.name !== 'GlassPositioner' && !document.querySelector(`[data-ag-compat="${row.name}"]`)) throw new Error(row.name + ': no data-ag-compat marker');
-        const calls = (warn as jest.Mock).mock.calls.filter((c) => String(c[0]).includes('DEP-'));
+        const calls = (warn as jest.Mock).mock.calls.filter((c) => String(c[0]).startsWith('[aura-glass]'));
         if (calls.length !== 1) throw new Error(row.name + ': warned ' + calls.length + 'x');
         unmount();
       } finally {
@@ -82,11 +83,12 @@ describe('compat core adapters (REQ-CMP-131)', () => {
   it('hook adapter useNotifications warns once', async () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     try {
-      const mod = await import('../../src/compat/cmp/core/useNotifications');
+      // useNotifications is owned by overlays/GlassNotificationCenter (CMP-341).
+      const mod = await import('../../src/compat/cmp');
       const { Toast } = await import('../../src/components/toast');
       const Probe = () => { mod.useNotifications(); return null; };
       render(<Toast.Provider><Probe /></Toast.Provider>);
-      expect((warn as jest.Mock).mock.calls.some((c) => String(c[0]).includes('DEP-C0297'))).toBe(true);
+      expect((warn as jest.Mock).mock.calls.some((c) => String(c[0]).startsWith('[aura-glass]'))).toBe(true);
     } finally {
       warn.mockRestore();
     }

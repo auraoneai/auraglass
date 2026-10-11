@@ -6,7 +6,7 @@ import { warnDeprecated } from '../../../internal';
 import { Rating } from '../../../components/rating';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0279';
+const DEP = 'DEP-C0253';
 
 export function GlassRating(props: React.ComponentProps<typeof Rating>) {
   warnDeprecated(DEP);

@@ -6,7 +6,7 @@ import { warnDeprecated } from '../../../internal';
 import { Tour } from '../../../components/tour';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0252';
+const DEP = 'DEP-C0263';
 
 export function GlassCoachmarks(props: React.ComponentProps<typeof Tour.Root>) {
   warnDeprecated(DEP);

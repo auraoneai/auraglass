@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Container } from '../../../components/container';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0256';
+const DEP = 'DEP-C0273';
 
 export function GlassContainer(props: React.ComponentProps<typeof Container>) {
   warnDeprecated(DEP);

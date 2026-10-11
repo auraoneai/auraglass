@@ -6,7 +6,7 @@ import { warnDeprecated } from '../../../internal';
 import { Accordion } from '../../../components/accordion';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0242';
+const DEP = 'DEP-C0251';
 
 export function GlassAccordion(props: React.ComponentProps<typeof Accordion.Root>) {
   warnDeprecated(DEP);

@@ -6,7 +6,8 @@ import { warnDeprecated } from '../../../internal';
 import { ToggleGroup } from '../../../components/toggle-group';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0290';
+// No CMP DEP id yet: the row lands via #313 (4.x) + REQ-FIN-13 sync; re-point then.
+const DEP = 'GlassToggleGroup';
 
 export function GlassToggleGroup(props: React.ComponentProps<typeof ToggleGroup.Root>) {
   warnDeprecated(DEP);

@@ -6,7 +6,7 @@ import { warnDeprecated } from '../../../internal';
 import { Progress } from '../../../components/progress';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0278';
+const DEP = 'DEP-C0242';
 
 export function GlassProgress(props: React.ComponentProps<typeof Progress>) {
   warnDeprecated(DEP);

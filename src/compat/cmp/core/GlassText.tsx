@@ -5,7 +5,8 @@ import { warnDeprecated } from '../../../internal';
 import { Text } from '../../../components/text';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0288';
+// No CMP DEP id yet: the row lands via #313 (4.x) + REQ-FIN-13 sync; re-point then.
+const DEP = 'GlassText';
 
 export function GlassText(props: React.ComponentProps<typeof Text>) {
   warnDeprecated(DEP);

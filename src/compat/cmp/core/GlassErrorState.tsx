@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { ErrorState } from '../../../components/state-view';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0261';
+const DEP = 'DEP-C0249';
 
 export function GlassErrorState(props: React.ComponentProps<typeof ErrorState>) {
   warnDeprecated(DEP);

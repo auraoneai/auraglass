@@ -62,7 +62,7 @@ describe('compat overlays adapters (REQ-CMP-131)', () => {
           expect(Adapter).toBeTruthy();
         }
         let unmounted = () => {};
-        const calls = (warn as jest.Mock).mock.calls.filter((c) => String(c[0]).includes('DEP-'));
+        const calls = (warn as jest.Mock).mock.calls.filter((c) => String(c[0]).startsWith('[aura-glass]'));
         if (!calls.length) throw new Error(name);
       } finally {
         warn.mockRestore();

@@ -6,7 +6,7 @@ import { warnDeprecated } from '../../../internal';
 import { FileUpload } from '../../../components/file-upload';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0263';
+const DEP = 'DEP-C0255';
 
 export function GlassFileUpload(props: React.ComponentProps<typeof FileUpload>) {
   warnDeprecated(DEP);

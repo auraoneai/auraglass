@@ -4,10 +4,38 @@
   "type": "registry:block",
   "title": "Pricing",
   "description": "Plan grid with localized prices and a controlled billing-period toggle.",
-  "dependencies": ["react"],
-  "registryDependencies": ["card", "button", "badge", "commerce-cart"],
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [
+    "card",
+    "button",
+    "badge",
+    "commerce-cart"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "block",
+      "client": false,
+      "components": [
+        "Badge",
+        "Button",
+        "Card"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null
+    }
+  }
 }

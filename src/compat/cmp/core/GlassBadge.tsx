@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Badge } from '../../../components/badge';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0247';
+const DEP = 'DEP-C0235';
 
 export function GlassBadge(props: React.ComponentProps<typeof Badge>) {
   warnDeprecated(DEP);

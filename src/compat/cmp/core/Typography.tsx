@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Text } from '../../../components/text';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0293';
+const DEP = 'DEP-C0265';
 
 export function Typography(props: React.ComponentProps<typeof Text>) {
   warnDeprecated(DEP);

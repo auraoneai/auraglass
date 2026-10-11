@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Stack } from '../../../components/stack';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0285';
+const DEP = 'DEP-C0267';
 
 export function GlassStack(props: React.ComponentProps<typeof Stack>) {
   warnDeprecated(DEP);

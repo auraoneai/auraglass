@@ -6,7 +6,7 @@ import { warnDeprecated } from '../../../internal';
 import { Toast } from '../../../components/toast';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0295';
+const DEP = 'DEP-C0121';
 
 export function GlassNotificationProvider(props: React.ComponentProps<typeof Toast.Provider>) {
   warnDeprecated(DEP);

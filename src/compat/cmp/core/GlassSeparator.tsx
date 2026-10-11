@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Separator } from '../../../components/separator';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0282';
+const DEP = 'DEP-C0246';
 
 export function GlassSeparator(props: React.ComponentProps<typeof Separator>) {
   warnDeprecated(DEP);
