@@ -9,6 +9,7 @@ import {
   parseAppShellCookie,
   type AppShellCookie,
 } from './parseAppShellCookie';
+import { setAnimating } from '../material/stateAttributes';
 
 export type SidebarState = 'expanded' | 'rail' | 'collapsed';
 export type InspectorState = 'open' | 'closed';
@@ -58,7 +59,7 @@ function motionIsFull(root: HTMLElement): boolean {
 }
 
 function writeCookie(root: HTMLElement, snapshot: ShellSnapshot): void {
-  const key = root.dataset['agPersistKey'];
+  const key = root.dataset['persistKey'];
   if (!key) return;
   const state: AppShellCookie = {};
   if (snapshot.sidebar !== 'expanded') state.sidebar = snapshot.sidebar;
@@ -70,8 +71,8 @@ function writeCookie(root: HTMLElement, snapshot: ShellSnapshot): void {
 function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
   root.dataset['agSidebar'] = snapshot.sidebar;
   root.dataset['agInspector'] = snapshot.inspector;
-  root.dataset['agMode'] = snapshot.mode;
-  root.dataset['agDrawer'] = snapshot.drawer;
+  root.dataset['mode'] = snapshot.mode;
+  root.dataset['drawer'] = snapshot.drawer;
   const sidebarEl = root.querySelector<HTMLElement>('[data-ag-slot="sidebar"]');
   if (sidebarEl) {
     const inert = snapshot.sidebar === 'collapsed' || snapshot.mode === 'compact';
@@ -87,11 +88,11 @@ function transition(
   opts?: { persist?: boolean },
 ): void {
   if (motionIsFull(root)) {
-    root.setAttribute('data-ag-animating', '');
+    setAnimating(root, true);
     const ms = Number.parseFloat(
       getComputedStyle(root).getPropertyValue('--ag-duration-medium') || '200',
     );
-    window.setTimeout(() => root.removeAttribute('data-ag-animating'), Number.isFinite(ms) ? ms : 200);
+    window.setTimeout(() => setAnimating(root, false), Number.isFinite(ms) ? ms : 200);
   }
   applyState(root, next);
   if (opts?.persist !== false) writeCookie(root, next);
@@ -133,7 +134,7 @@ function recordFor(root: HTMLElement): ShellRecord {
   let inspector: InspectorState = VALID_INSPECTOR.includes(inspectorAttr ?? '')
     ? (inspectorAttr as InspectorState)
     : 'closed';
-  const key = root.dataset['agPersistKey'];
+  const key = root.dataset['persistKey'];
   if (key && typeof document !== 'undefined') {
     const raw = document.cookie
       .split(';')
@@ -174,7 +175,7 @@ export function getSnapshot(root: HTMLElement): ShellSnapshot {
 export function getServerSnapshot(root: HTMLElement): ShellSnapshot {
   const sidebarAttr = root.dataset['agSidebar'];
   const inspectorAttr = root.dataset['agInspector'];
-  const modeAttr = root.dataset['agMode'];
+  const modeAttr = root.dataset['mode'];
   return {
     sidebar: VALID_SIDEBAR.includes(sidebarAttr ?? '') ? (sidebarAttr as SidebarState) : 'expanded',
     inspector: VALID_INSPECTOR.includes(inspectorAttr ?? '')

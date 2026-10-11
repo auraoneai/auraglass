@@ -33,7 +33,7 @@ test.describe.configure({ mode: 'serial' });
 
 test('negative fixture: each host style that makes a backdrop root is reported, [data-ag-animating] will-change is allowed', async ({ page }) => {
   const violations = await fixture(page, FIXTURE.backdropRoot.hosts);
-  const byFixture = violations.map((x) => [x.code, /data-ag-fixture=([\w-]+)/.exec(x.detail)?.[1]]);
+  const byFixture = violations.map((x) => [x.code, /data-fixture=([\w-]+)/.exec(x.detail)?.[1]]);
   expect(byFixture.sort()).toEqual([
     ['backdrop-filter', 'backdrop-filter'], ['filter', 'filter'], ['mix-blend-mode', 'mix-blend-mode'],
     ['opacity', 'opacity'], ['will-change', 'will-change'],

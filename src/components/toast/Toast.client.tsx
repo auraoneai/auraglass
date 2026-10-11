@@ -65,7 +65,7 @@ const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
         <Base.Viewport
           ref={ref}
           data-ag-part="viewport"
-          data-ag-position={position}
+          data-position={position}
           className={cn('ag-toast-viewport', className)}
           {...rest}
         >
@@ -88,7 +88,7 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
         ref={ref}
         toast={toast}
         role={priority}
-        data-ag-part="root"
+        data-ag-part="toast"
         data-ag-intent={intent}
         data-state={state}
         style={timeout !== undefined ? ({ '--_ag-toast-timeout': `${timeout}ms` } as React.CSSProperties) : undefined}

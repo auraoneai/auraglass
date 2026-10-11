@@ -223,7 +223,7 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
   const content = React.createElement(
     React.Fragment,
     null,
-    themeCss ? React.createElement('style', { 'data-ag-theme-style': '' }, themeCss) : null,
+    themeCss ? React.createElement('style', { 'data-theme-style': '' }, themeCss) : null,
     children,
     outermost ? React.createElement(LensDefsSlot, { tier }) : null,
     needsOwnRoot && container

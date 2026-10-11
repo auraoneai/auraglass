@@ -23,7 +23,7 @@
 
   /* anchored popups (positioner-mounted) */
   [data-ag-part='popup'][data-ag-overlay],
-  [data-ag-part='popup'][data-ag-positioned] {
+  [data-ag-part='popup'][data-positioned] {
     transform-origin: var(--transform-origin);
     max-block-size: var(--available-height);
     overflow: auto;

@@ -200,7 +200,7 @@ export async function settleAnimations() {
 export function probeSurfaceHosts() {
   const desc = (el) => {
     const parts = [el.tagName.toLowerCase()];
-    for (const a of ['data-ag-part', 'data-ag-layer', 'data-ag-fixture']) if (el.hasAttribute(a)) parts.push(`[${a}=${el.getAttribute(a)}]`);
+    for (const a of ['data-ag-part', 'data-ag-layer', 'data-fixture']) if (el.hasAttribute(a)) parts.push(`[${a}=${el.getAttribute(a)}]`);
     return `.ag-surface ${parts.join('')}`;
   };
   return [...document.querySelectorAll('.ag-surface')].map((el) => {
@@ -226,7 +226,7 @@ export function probeBlurred() {
     let s = el.tagName.toLowerCase();
     if (el.id) s += `#${el.id}`;
     if (el.classList && el.classList.length) s += `.${[...el.classList].slice(0, 3).join('.')}`;
-    for (const a of ['data-ag-part', 'data-ag-fixture']) if (el.hasAttribute(a)) s += `[${a}=${el.getAttribute(a)}]`;
+    for (const a of ['data-ag-part', 'data-fixture']) if (el.hasAttribute(a)) s += `[${a}=${el.getAttribute(a)}]`;
     return s;
   };
   for (const el of document.querySelectorAll('*')) {
@@ -251,7 +251,7 @@ export function probeLens() {
       for (const property of ['backdrop-filter', '-webkit-backdrop-filter']) {
         const value = cs.getPropertyValue(property);
         if (value && /url\(/.test(value)) {
-          urlBackdrops.push({ desc: `${el.tagName.toLowerCase()}${el.getAttribute('data-ag-fixture') ? `[data-ag-fixture=${el.getAttribute('data-ag-fixture')}]` : ''}${pseudo ?? ''}`, property, value });
+          urlBackdrops.push({ desc: `${el.tagName.toLowerCase()}${el.getAttribute('data-fixture') ? `[data-fixture=${el.getAttribute('data-fixture')}]` : ''}${pseudo ?? ''}`, property, value });
           break;
         }
       }
@@ -398,13 +398,13 @@ export async function whileHidden(page, fn) {
 export async function whileOffscreen(page, fn) {
   await page.evaluate(() => {
     const root = document.querySelector('#storybook-root') ?? document.body;
-    root.setAttribute('data-ag-offscreen-probe', root.style.transform);
+    root.setAttribute('data-offscreen-probe', root.style.transform);
     root.style.transform = 'translateY(400vh)';
   });
   try { return await fn(); } finally {
     await page.evaluate(() => {
-      const root = document.querySelector('[data-ag-offscreen-probe]');
-      if (root) { root.style.transform = root.getAttribute('data-ag-offscreen-probe') ?? ''; root.removeAttribute('data-ag-offscreen-probe'); }
+      const root = document.querySelector('[data-offscreen-probe]');
+      if (root) { root.style.transform = root.getAttribute('data-offscreen-probe') ?? ''; root.removeAttribute('data-offscreen-probe'); }
     });
   }
 }

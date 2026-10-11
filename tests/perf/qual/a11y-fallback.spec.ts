@@ -63,7 +63,7 @@ for (const engine of ['chromium', 'webkit', 'firefox'] as const) {
         await applyCondition(page, c);
         const v = await blurred(page, c);
         expect(v.map((x) => x.code)).toEqual(['backdrop-filter-under-fallback']);
-        expect(v[0]!.detail).toContain('[data-ag-fixture=bespoke-blur]');
+        expect(v[0]!.detail).toContain('[data-fixture=bespoke-blur]');
       });
 
       test('Surfaces fixture: public Surfaces drop every backdrop-filter', async ({ page }) => {

@@ -91,13 +91,13 @@ export function SidebarDrawer({ children, side = 'start' }: SidebarDrawerProps) 
 
   if (!isDrawerMode) return <span hidden ref={marker} />;
   return (
-    <span hidden ref={marker} data-ag-drawer-anchor="">
+    <span hidden ref={marker} data-drawer-anchor="">
       {open ? (
         <SheetRoot open modal onOpenChange={(o: boolean) => !o && close()}>
           <SheetContent
             id={drawerId}
             data-ag-part="sidebar-drawer"
-            data-ag-side={side}
+            data-side={side}
             style={{ inlineSize: 'min(85%, 20rem)' }}
           >
             {children}

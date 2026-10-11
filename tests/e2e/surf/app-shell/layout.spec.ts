@@ -51,12 +51,12 @@ test.describe('app-shell layout (SURF-013/033/044)', () => {
     const shell = page.locator('.ag-app-shell');
     // expanded sidebar at desktop width is a real column
     await page.setViewportSize({ width: 1440, height: 900 });
-    await expect(shell).toHaveAttribute('data-ag-mode', 'expanded');
+    await expect(shell).toHaveAttribute('data-mode', 'expanded');
     // medium width forces the resolved mode to medium (expanded->rail via css)
     await page.setViewportSize({ width: 900, height: 700 });
-    await expect(shell).toHaveAttribute('data-ag-mode', 'medium');
+    await expect(shell).toHaveAttribute('data-mode', 'medium');
     // restore
     await page.setViewportSize({ width: 1440, height: 900 });
-    await expect(shell).toHaveAttribute('data-ag-mode', 'expanded');
+    await expect(shell).toHaveAttribute('data-mode', 'expanded');
   });
 });

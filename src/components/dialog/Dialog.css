@@ -23,7 +23,7 @@
     z-index: var(--ag-z-overlay, 300);
     --_ag-optics: 0;
   }
-  .ag-dialog-popup[data-ag-placement='top'] {
+  .ag-dialog-popup[data-placement='top'] {
     inset-block-start: min(20dvh, 160px);
     translate: -50% 0;
   }
@@ -86,7 +86,7 @@
     scroll-padding-block-start: var(--_ag-dialog-head-h, 0px);
     scroll-padding-block-end: var(--_ag-dialog-foot-h, 0px);
   }
-  .ag-dialog-body[data-ag-padding='none'] {
+  .ag-dialog-body[data-padding='none'] {
     padding: 0;
   }
 

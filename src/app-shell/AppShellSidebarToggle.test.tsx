@@ -146,7 +146,7 @@ describe('shell toggles (SURF-027)', () => {
     expect(shell.getAttribute('data-ag-sidebar')).toBe('expanded');
 
     fireEvent.click(screen.getByRole('button'));
-    expect(shell.getAttribute('data-ag-drawer')).toBe('open');
+    expect(shell.getAttribute('data-drawer')).toBe('open');
     expect(shell.getAttribute('data-ag-sidebar')).toBe('expanded');
     const drawer = await waitFor(() => {
       const d = document.querySelector<HTMLElement>('[data-ag-part="sidebar-drawer"]');
@@ -165,7 +165,7 @@ describe('shell toggles (SURF-027)', () => {
 
     // Escape closes the drawer without touching sidebar state
     fireEvent.keyDown(document.activeElement ?? document.body, { key: 'Escape' });
-    expect(shell.getAttribute('data-ag-drawer')).toBe('closed');
+    expect(shell.getAttribute('data-drawer')).toBe('closed');
     expect(shell.getAttribute('data-ag-sidebar')).toBe('expanded');
     await waitFor(() => {
       expect(document.querySelector('[data-ag-part="sidebar-drawer"]')).toBeNull();
@@ -187,9 +187,9 @@ describe('shell toggles (SURF-027)', () => {
     );
     const shell = screen.getByTestId('shell-k');
     fireEvent.keyDown(document, { key: 'b', metaKey: true });
-    expect(shell.getAttribute('data-ag-drawer')).toBe('open');
+    expect(shell.getAttribute('data-drawer')).toBe('open');
     expect(shell.getAttribute('data-ag-sidebar')).toBe('expanded');
     fireEvent.keyDown(document, { key: 'b', metaKey: true });
-    expect(shell.getAttribute('data-ag-drawer')).toBe('closed');
+    expect(shell.getAttribute('data-drawer')).toBe('closed');
   });
 });
