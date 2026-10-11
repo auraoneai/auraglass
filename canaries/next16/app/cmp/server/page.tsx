@@ -22,7 +22,6 @@ import {
   Separator,
   Skeleton,
   Stack,
-  Steps,
   Text,
   Timeline,
   ActivityFeed,
@@ -62,7 +61,6 @@ export default function CmpServerPage() {
       <Separator />
       <Skeleton lines={2} />
       <Stack gap={2}><span>x</span><span>y</span></Stack>
-      <Steps><Steps.Item status="current">Step one</Steps.Item></Steps>
       <Timeline items={[{ id: 't1', timestamp: '2026-01-01', title: 'Created' }]} />
       <ActivityFeed items={[{ id: 'a1', timestamp: '2026-01-02', title: 'Opened PR', actor: { name: 'dev' } }]} />
     </main>

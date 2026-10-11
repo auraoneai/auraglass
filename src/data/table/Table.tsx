@@ -122,7 +122,7 @@ type PinnableColumn = {
 
 /* SURF-072: pinned cells are sticky with inset-inline-start from
    getStart('left') / inset-inline-end from getAfter('right') (logical, so
-   RTL flips). data-ag-pinned marks the cell for table.css (surface + layer);
+   RTL flips). data-pinned marks the cell for table.css (surface + layer);
    data-ag-pinned-edge marks the boundary of each pin region (last start-
    pinned / first end-pinned) where table.css draws --_ag-table-pin-shadow. */
 function pinAttrs(column: PinnableColumn): Record<string, string> {
@@ -130,7 +130,7 @@ function pinAttrs(column: PinnableColumn): Record<string, string> {
   if (pinned === false) return {};
   const edge =
     pinned === 'left' ? (column.getIsLastColumn('left') ? 'start' : null) : column.getIsFirstColumn('right') ? 'end' : null;
-  return { 'data-ag-pinned': pinned === 'left' ? 'start' : 'end', ...(edge !== null ? { 'data-ag-pinned-edge': edge } : {}) };
+  return { 'data-pinned': pinned === 'left' ? 'start' : 'end', ...(edge !== null ? { 'data-ag-pinned-edge': edge } : {}) };
 }
 
 function pinStyle(column: PinnableColumn): React.CSSProperties {
@@ -177,7 +177,7 @@ function TableRowImpl<TData>({
   ctx,
 }: TableRowProps<TData>) {
   const c = () => ctx.current!;
-  const inSelectCell = (t: EventTarget) => (t as HTMLElement).closest?.('[data-ag-cell="__select"]') != null;
+  const inSelectCell = (t: EventTarget) => (t as HTMLElement).closest?.('[data-cell="__select"]') != null;
   return (
     <tr
       data-ag-part="table-row"
@@ -233,7 +233,7 @@ function TableRowImpl<TData>({
               }
             }}
             data-ag-part={isSelectCol ? 'table-selection-cell' : 'table-cell'}
-            data-ag-cell={cell.column.id}
+            data-cell={cell.column.id}
             {...pinAttrs(cell.column)}
             className={`ag-table__td${meta?.truncate ? ' ag-table__td--truncate' : ''}`}
             style={{
@@ -613,7 +613,7 @@ export function Table<TData>(props: TableProps<TData>) {
       focusCell: (rowId, columnId) => {
         (
           scrollerRef.current?.querySelector(
-            `[data-row-id="${CSS.escape(rowId)}"] [data-ag-cell="${CSS.escape(columnId)}"]`,
+            `[data-row-id="${CSS.escape(rowId)}"] [data-cell="${CSS.escape(columnId)}"]`,
           ) as HTMLElement | null
         )?.focus();
       },
@@ -678,7 +678,7 @@ export function Table<TData>(props: TableProps<TData>) {
   const focusWanted = React.useRef(false);
   const cellEl = (rowId: string, columnId: string) =>
     scrollerRef.current?.querySelector<HTMLElement>(
-      `[data-row-id="${CSS.escape(rowId)}"] [data-ag-cell="${CSS.escape(columnId)}"]`,
+      `[data-row-id="${CSS.escape(rowId)}"] [data-cell="${CSS.escape(columnId)}"]`,
     ) ?? null;
   React.useLayoutEffect(() => {
     if (!grid || !focusWanted.current || activeRowId === undefined || activeColId === undefined) return;

@@ -2,7 +2,7 @@
    Consumed by tests/perf/qual/lens-defs.spec.ts.
      Enhanced10  AuraGlassProvider tier="enhanced" + 10 refraction-eligible chrome surfaces. The provider's LensDefs slot
                  must mount exactly one svg[data-ag-lens-defs]; Gecko/WebKit must apply 0 url() backdrops. The root
-                 carries data-ag-lens-registered (whether src/material registered LensDefs with the provider mount
+                 carries data-lens-registered (whether src/material registered LensDefs with the provider mount
                  registry), so the spec can tell a missing producer from a broken invariant.
      Duplicate   two LensDefs mounted directly, a root that claims data-ag-engine="chromium" on every engine (engine
                  mis-detection) and an inline url() backdrop  → lens-defs-duplicate everywhere, lens-url-backdrop on
@@ -31,7 +31,7 @@ function Enhanced10Fixture() {
   const registered = Boolean(getProviderMounts().lensDefs);
   return (
     <AuraGlassProvider tier="enhanced">
-      <div data-ag-fixture="lens-enhanced-10" data-ag-lens-registered={String(registered)} style={page}>
+      <div data-fixture="lens-enhanced-10" data-lens-registered={String(registered)} style={page}>
         {Array.from({ length: 10 }, (_, i) => (
           <Surface key={i} layer="chrome" shape="capsule" refraction interactive style={{ padding: '12px 24px' }}>Lens {i + 1}</Surface>
         ))}
@@ -48,12 +48,12 @@ function DuplicateFixture() {
     return () => { if (prev === null) html.removeAttribute('data-ag-engine'); else html.setAttribute('data-ag-engine', prev); };
   }, []);
   return (
-    <div data-ag-fixture="lens-duplicate" data-ag-tier="enhanced" style={page}>
+    <div data-fixture="lens-duplicate" data-ag-tier="enhanced" style={page}>
       <LensDefs />
       <LensDefs />
       <Surface layer="chrome" shape="capsule" refraction interactive style={{ padding: '12px 24px' }}>Lens</Surface>
       <div
-        data-ag-fixture="lens-inline-url"
+        data-fixture="lens-inline-url"
         style={{ inlineSize: 200, blockSize: 80, backdropFilter: 'url(#ag-lens-fixed-control) blur(4px)', WebkitBackdropFilter: 'url(#ag-lens-fixed-control) blur(4px)' }}
       />
     </div>
