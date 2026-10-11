@@ -26,16 +26,66 @@ export const versionsSection = (llms) => {
 };
 export const majorOf = (v) => v.split('.')[0];
 
+// REQ-PLAT-34: the banner and llms.txt carry machine-readable tag=version rows
+// (banner: inside the AG-RELEASE-BANNER marker; llms.txt: `<!-- dist-tags: ... -->`
+// inside ## Versions). `none` declares the tag must not exist on npm.
+export function parseTagRows(text) {
+  const rows = {};
+  // Visible rows: `latest = 4.1.0`, `- \`latest\`: 4.1.0`, `> - \`next\`: none`.
+  for (const m of text.matchAll(/^\s*(?:>\s*)?(?:-\s*)?`?(latest|next|v4-lts|canary)`?\s*[=:]\s*`?([\w.\-]+)`?\s*$/gm))
+    rows[m[1]] = m[2];
+  const inline = text.match(/<!--\s*dist-tags\s*:\s*([^>]*)-->/);
+  if (inline) for (const kv of inline[1].trim().split(/\s+/)) {
+    const [k, v] = kv.split('='); if (k && v) rows[k] = v;
+  }
+  return rows;
+}
+
+export function distTagDiff(rows, distTags) {
+  const errors = [];
+  for (const [tag, v] of Object.entries(rows)) {
+    const live = distTags?.[tag] ?? null;
+    if (v === 'none') {
+      if (live != null) errors.push(`${tag}: docs say none but npm has ${live}`);
+    } else if (live !== v) {
+      errors.push(`${tag}: docs say ${v} but npm has ${live ?? 'none'}`);
+    }
+  }
+  for (const tag of ['latest', 'next']) {
+    if (distTags?.[tag] && rows[tag] == null)
+      errors.push(`${tag}: npm has ${distTags[tag]} but neither doc names it`);
+  }
+  return errors;
+}
+
 export function checkComms({ readme = '', llms = '', pkgVersion = '0.0.0', distTags = null } = {}) {
   const errors = []; const notes = [];
   const banner = bannerOf(readme);
   if (!banner) errors.push('README.md: missing <!-- AG-RELEASE-BANNER --> block');
-  else if (!banner.includes(`v${majorOf(pkgVersion)}`) && !banner.includes(`${majorOf(pkgVersion)}.x`))
-    notes.push(`README banner does not mention v${majorOf(pkgVersion)} (update at each major cut)`);
+  else {
+    // REQ-PLAT-34: any exact semver in the banner markers must equal package.json.
+    const base = pkgVersion.split('-')[0]; // prerelease train: '5.0.0' ≡ '5.0.0-alpha.N' base
+    const bannerText = banner.replace(/<!--[\s\S]*?-->/g, '');
+    // Versions named by a dist-tag row are checked against npm below instead.
+    const tagged = new Set(Object.values(parseTagRows(banner)));
+    const vers = [...bannerText.matchAll(/v?(\d+\.\d+\.\d+(?:-[0-9a-z.-]+)?)/gi)].map((m) => m[1]);
+    for (const v of vers) if (v !== pkgVersion && v !== base && !tagged.has(v))
+      errors.push(`README banner lists exact version ${v} but package.json is ${pkgVersion}`);
+    if (!banner.includes(`v${majorOf(pkgVersion)}`) && !banner.includes(`${majorOf(pkgVersion)}.x`))
+      notes.push(`README banner does not mention v${majorOf(pkgVersion)} (update at each major cut)`);
+  }
   const vers = versionsSection(llms);
   if (!vers) errors.push('llms.txt: missing ## Versions section');
-  else if (!vers.includes(`${majorOf(pkgVersion)}.x`) && !vers.includes(`v${majorOf(pkgVersion)}`))
-    errors.push(`llms.txt Versions does not list ${majorOf(pkgVersion)}.x`);
+  else {
+    const base2 = pkgVersion.split('-')[0];
+    const versText = vers.replace(/<!--[\s\S]*?-->/g, '');
+    const taggedL = new Set(Object.values(parseTagRows(vers)));
+    const exact = [...versText.matchAll(/v?(\d+\.\d+\.\d+(?:-[0-9a-z.-]+)?)/g)].map((m) => m[1]);
+    for (const v of exact) if (v !== pkgVersion && v !== base2 && !taggedL.has(v))
+      errors.push(`llms.txt Versions lists exact version ${v} but package.json is ${pkgVersion}`);
+    if (!vers.includes(`${majorOf(pkgVersion)}.x`) && !vers.includes(`v${majorOf(pkgVersion)}`))
+      errors.push(`llms.txt Versions does not list ${majorOf(pkgVersion)}.x`);
+  }
   if (distTags) {
     const latestMajor = majorOf(distTags.latest ?? '');
     if (latestMajor && latestMajor !== majorOf(pkgVersion))
@@ -43,7 +93,28 @@ export function checkComms({ readme = '', llms = '', pkgVersion = '0.0.0', distT
     if (distTags.next && !distTags.next.startsWith(`${majorOf(pkgVersion)}.`))
       errors.push(`npm next dist-tag (${distTags.next}) does not match package.json major ${majorOf(pkgVersion)}`);
   }
+  // Named-tag compare: banner rows and llms.txt rows must agree with each
+  // other and (when --dist-tags) with npm view.
+  const bannerRows = parseTagRows(banner ?? '');
+  const llmsRows = parseTagRows(vers ?? '');
+  const merged = { ...bannerRows, ...llmsRows };
+  if (!Object.keys(merged).length)
+    errors.push('neither README banner nor llms.txt names dist-tag versions');
+  else {
+    for (const [tag, v] of Object.entries(bannerRows))
+      if (llmsRows[tag] != null && llmsRows[tag] !== v)
+        errors.push(`tag ${tag}: README says ${v}, llms.txt says ${llmsRows[tag]}`);
+    if (distTags) for (const e of distTagDiff(merged, distTags)) errors.push(e);
+  }
   return { errors, notes };
+}
+
+// Some npm versions wrap `npm view --json` output in a one-element array.
+export function normalizeDistTags(raw) {
+  const v = Array.isArray(raw) ? (raw.length === 1 ? raw[0] : null) : raw;
+  if (!v || typeof v !== 'object' || typeof v.latest !== 'string')
+    throw new Error(`unexpected dist-tags payload: ${JSON.stringify(raw)}`);
+  return v;
 }
 
 export function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
@@ -51,8 +122,9 @@ export function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
   const pkg = JSON.parse(read(join(root, 'package.json')) || '{}');
   let distTags = null;
   if (argv.includes('--dist-tags')) {
-    try { distTags = JSON.parse(execFileSync('npm', ['view', 'aura-glass', 'dist-tags', '--json'], { encoding: 'utf8', timeout: 30000 })); }
-    catch { distTags = { error: 'unreachable' }; }
+    // A registry failure is an error, never an empty tag set.
+    try { distTags = normalizeDistTags(JSON.parse(execFileSync('npm', ['view', 'aura-glass', 'dist-tags', '--json'], { encoding: 'utf8', timeout: 30000 }))); }
+    catch (e) { console.error(`FAIL npm view aura-glass dist-tags: ${e.message.split('\n')[0]}`); return 1; }
   }
   const { errors, notes } = checkComms({
     readme: read(join(root, 'README.md')), llms: read(join(root, 'llms.txt')),
