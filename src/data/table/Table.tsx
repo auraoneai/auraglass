@@ -19,6 +19,7 @@ import {
   type ColumnPinningState,
   type ColumnSizingState,
   type PaginationState,
+  type Row,
   type RowSelectionState,
   type SortingState,
   type VisibilityState,
@@ -111,12 +112,156 @@ export interface TableProps<TData> {
 
 const ROW_HEIGHT: Record<TableDensity, number> = { sm: 32, md: 40, lg: 48 };
 
+type PinnableColumn = {
+  getIsPinned: () => false | 'left' | 'right';
+  getStart: (position?: 'left' | 'center' | 'right') => number;
+  getAfter: (position?: 'left' | 'center' | 'right') => number;
+  getIsLastColumn: (position?: 'left' | 'center' | 'right') => boolean;
+  getIsFirstColumn: (position?: 'left' | 'center' | 'right') => boolean;
+};
+
+/* SURF-072: pinned cells are sticky with inset-inline-start from
+   getStart('left') / inset-inline-end from getAfter('right') (logical, so
+   RTL flips). data-ag-pinned marks the cell for table.css (surface + layer);
+   data-ag-pinned-edge marks the boundary of each pin region (last start-
+   pinned / first end-pinned) where table.css draws --_ag-table-pin-shadow. */
+function pinAttrs(column: PinnableColumn): Record<string, string> {
+  const pinned = column.getIsPinned();
+  if (pinned === false) return {};
+  const edge =
+    pinned === 'left' ? (column.getIsLastColumn('left') ? 'start' : null) : column.getIsFirstColumn('right') ? 'end' : null;
+  return { 'data-ag-pinned': pinned === 'left' ? 'start' : 'end', ...(edge !== null ? { 'data-ag-pinned-edge': edge } : {}) };
+}
+
+function pinStyle(column: PinnableColumn): React.CSSProperties {
+  const pinned = column.getIsPinned();
+  if (pinned === false) return {};
+  return pinned === 'left'
+    ? { position: 'sticky', insetInlineStart: column.getStart('left') }
+    : { position: 'sticky', insetInlineEnd: column.getAfter('right') };
+}
+
+interface RowCtx<TData> {
+  onRowAction: ((row: TData) => void) | undefined;
+  selectionMode: SelectionMode;
+  /** Toggle (shift=false) or range-select from the anchor (shift=true). */
+  select: (rowId: string, shift: boolean) => void;
+  /** A cell received focus: it becomes the grid's active cell. */
+  focusCell: (rowId: string, columnId: string) => void;
+}
+
+interface TableRowProps<TData> {
+  row: Row<TData>;
+  index: number;
+  top: number | undefined;
+  selected: boolean;
+  loading: boolean;
+  grid: boolean;
+  virtualized: boolean;
+  /** Set only on the row owning the grid's roving tab stop. */
+  activeColumnId: string | undefined;
+  /** Identity token: columns/visibility/sizing/pinning/order. */
+  layout: object;
+  ctx: React.RefObject<RowCtx<TData>>;
+}
+
+function TableRowImpl<TData>({
+  row,
+  index,
+  top,
+  selected,
+  loading,
+  grid,
+  virtualized,
+  activeColumnId,
+  ctx,
+}: TableRowProps<TData>) {
+  const c = () => ctx.current!;
+  const inSelectCell = (t: EventTarget) => (t as HTMLElement).closest?.('[data-ag-cell="__select"]') != null;
+  return (
+    <tr
+      data-ag-part="table-row"
+      data-row-id={row.id}
+      {...(selected ? { 'data-selected': '' } : {})}
+      {...(loading ? { 'data-state': 'loading' } : {})}
+      {...(c().selectionMode !== 'none' ? { 'aria-selected': selected } : {})}
+      {...(virtualized ? { 'aria-rowindex': index + 2 } : {})}
+      {...(grid ? { role: 'row' } : {})}
+      className="ag-table__tr"
+      onClick={(e) => {
+        const { selectionMode, onRowAction, select } = c();
+        // SURF-069: the checkbox cell selects through its own onCheckedChange.
+        if (selectionMode !== 'none' && !inSelectCell(e.target)) {
+          if (selectionMode === 'multiple') select(row.id, e.shiftKey);
+          else row.toggleSelected();
+        }
+        onRowAction?.(row.original);
+      }}
+      style={
+        top !== undefined
+          ? { position: 'absolute', top: 0, transform: `translateY(${top}px)`, width: '100%' }
+          : undefined
+      }
+    >
+      {row.getVisibleCells().map((cell) => {
+        const meta = cell.column.columnDef.meta;
+        const isSelectCol = cell.column.id === '__select';
+        return (
+          <td
+            key={cell.id}
+            {...(grid
+              ? {
+                  role: 'gridcell',
+                  // SURF-073: the roving active cell is the only tab stop.
+                  tabIndex: activeColumnId === cell.column.id ? 0 : -1,
+                  onFocus: () => c().focusCell(row.id, cell.column.id),
+                }
+              : {})}
+            onKeyDown={(e) => {
+              const { selectionMode, onRowAction, select } = c();
+              if (grid && e.key === 'Enter') {
+                // SURF-073: Enter activates the row.
+                e.preventDefault();
+                onRowAction?.(row.original);
+              } else if (e.key === ' ' && selectionMode !== 'none' && (grid || (isSelectCol && e.shiftKey))) {
+                // SURF-073: Space toggles; SURF-069: Shift+Space selects the
+                // anchor..row range on the sorted model. (Plain Space on the
+                // table-mode checkbox is the checkbox's own activation.)
+                e.preventDefault();
+                if (selectionMode === 'multiple') select(row.id, e.shiftKey);
+                else row.toggleSelected();
+              }
+            }}
+            data-ag-part={isSelectCol ? 'table-selection-cell' : 'table-cell'}
+            data-ag-cell={cell.column.id}
+            {...pinAttrs(cell.column)}
+            className={`ag-table__td${meta?.truncate ? ' ag-table__td--truncate' : ''}`}
+            style={{
+              width: cell.column.getSize(),
+              ...(meta?.numeric
+                ? { textAlign: 'end', fontVariantNumeric: 'tabular-nums' }
+                : meta?.align
+                  ? { textAlign: meta.align }
+                  : {}),
+              ...pinStyle(cell.column),
+            }}
+          >
+            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          </td>
+        );
+      })}
+    </tr>
+  );
+}
+
+const TableRow = React.memo(TableRowImpl) as typeof TableRowImpl;
+
 const MenuRoot = Menu.Root as React.FC<{ children?: React.ReactNode }>;
 const MenuTrigger = Menu.Trigger as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
-const MenuContent = Menu.Content as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
+// REQ-SURF-78: Menu.Content is CMP's Portal>Positioner>Popup composite, so
+// the table adds no portal/positioner of its own.
+const MenuContent = Menu.Content as React.FC<{ children?: React.ReactNode }>;
 const MenuItem = Menu.Item as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
-const MaybePortal = ('Portal' in Menu ? Menu.Portal : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
-const MaybePositioner = ('Positioner' in Menu ? Menu.Positioner : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
 
 function ResizeHandleInner<TData>({
   header,
@@ -297,6 +442,9 @@ export function Table<TData>(props: TableProps<TData>) {
     }
   }
 
+  // SURF-069: selection goes through one ref'd handler so the memoized
+  // column defs never change identity when selection state changes.
+  const selectRef = React.useRef<(rowId: string, shift: boolean) => void>(() => undefined);
   const helper = React.useMemo(() => createColumnHelper<TData>(), []);
   const allColumns = React.useMemo(() => {
     const cols: ColumnDef<TData, unknown>[] = [];
@@ -310,10 +458,11 @@ export function Table<TData>(props: TableProps<TData>) {
           enableResizing: false,
           enableSorting: false,
           enablePinning: true,
+          // REQ-SURF-75: the checkboxes carry CMP's own parts; the table
+          // part for the column is the cell (table-selection-cell) only.
           header: ({ table }) => (
             <Checkbox
               aria-label={msgs.selectAll}
-              data-ag-part="table-selection-all"
               checked={table.getIsAllRowsSelected()}
               indeterminate={table.getIsSomeRowsSelected()}
               onCheckedChange={() => table.toggleAllRowsSelected()}
@@ -322,9 +471,10 @@ export function Table<TData>(props: TableProps<TData>) {
           cell: ({ row }) => (
             <Checkbox
               aria-label={`Select row ${row.id}`}
-              data-ag-part="table-selection"
               checked={row.getIsSelected()}
-              onCheckedChange={() => row.toggleSelected()}
+              onCheckedChange={(_checked, details) =>
+                selectRef.current(row.id, (details.event as MouseEvent | KeyboardEvent | undefined)?.shiftKey === true)
+              }
             />
           ),
         }),
@@ -335,6 +485,32 @@ export function Table<TData>(props: TableProps<TData>) {
   }, [columns, selectionMode, helper, msgs.selectAll]);
 
   const sticky = stickyHeader ?? !!virtualize;
+  const scrollerRef = React.useRef<HTMLDivElement | null>(null);
+
+  // SURF-072: below 480 px with >3 data columns and no pinning props, the
+  // selection column + first data column auto-pin to the start edge.
+  const pinPropsGiven = columnPinning !== undefined || defaultColumnPinning !== undefined;
+  const [narrow, setNarrow] = React.useState(false);
+  React.useEffect(() => {
+    const el = scrollerRef.current;
+    if (pinPropsGiven || el === null || typeof ResizeObserver === 'undefined') return undefined;
+    const ro = new ResizeObserver((entries) => {
+      const w = entries[entries.length - 1]?.contentRect.width ?? el.clientWidth;
+      setNarrow(w > 0 && w < 480);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [pinPropsGiven]);
+  const firstDataCol = columns[0] as { id?: string; accessorKey?: unknown } | undefined;
+  const firstDataColId = firstDataCol?.id ?? (typeof firstDataCol?.accessorKey === 'string' ? firstDataCol.accessorKey : undefined);
+  const autoPin = !pinPropsGiven && narrow && columns.length > 3 && firstDataColId !== undefined;
+  const effectivePinning = React.useMemo<ColumnPinningState>(
+    () =>
+      autoPin
+        ? { left: [...(selectionMode === 'multiple' ? ['__select'] : []), firstDataColId!], right: [] }
+        : pinning,
+    [autoPin, selectionMode, firstDataColId, pinning],
+  );
 
   const table = useReactTable({
     data: data as TData[],
@@ -351,7 +527,7 @@ export function Table<TData>(props: TableProps<TData>) {
       rowSelection: rowSel,
       columnVisibility: vis,
       columnSizing: sizing,
-      columnPinning: pinning,
+      columnPinning: effectivePinning,
       columnOrder: order,
       // SURF-066: pagination state only participates when a pagination prop
       // was supplied — keeps the row model out of the tree otherwise.
@@ -373,6 +549,7 @@ export function Table<TData>(props: TableProps<TData>) {
     sortDescFirst: false,
     enableMultiSort,
     enableRowSelection: selectionMode !== 'none',
+    enableMultiRowSelection: selectionMode === 'multiple',
     enableColumnResizing,
     columnResizeMode: data.length > 1000 ? 'onEnd' : 'onChange',
     ...(pageCount !== undefined ? { pageCount } : {}),
@@ -384,7 +561,12 @@ export function Table<TData>(props: TableProps<TData>) {
   const allRows = table.getPrePaginationRowModel().rows;
   const rows = virtualize || !hasPagination ? allRows : table.getRowModel().rows;
   const leafCols = table.getVisibleLeafColumns();
-  const scrollerRef = React.useRef<HTMLDivElement | null>(null);
+  // Identity token for everything a row's cells depend on besides the row
+  // itself — column defs, visibility, sizing, pinning and order.
+  const layoutDeps = React.useMemo(
+    () => [allColumns, vis, sizing, effectivePinning, order] as const,
+    [allColumns, vis, sizing, effectivePinning, order],
+  );
 
   const vOpts = typeof virtualize === 'object' ? virtualize : {};
   const estimate = vOpts.estimateRowHeight ?? ROW_HEIGHT[size];
@@ -396,8 +578,22 @@ export function Table<TData>(props: TableProps<TData>) {
     overscan,
   });
 
-  // Shift-range selection: anchor = last normally-clicked row index.
+  // Shift-range selection anchor: index into `rows` (the sorted model).
   const anchorIndex = React.useRef<number | null>(null);
+  selectRef.current = (rowId, shift) => {
+    const idx = rows.findIndex((r) => r.id === rowId);
+    if (idx < 0) return;
+    if (shift && anchorIndex.current !== null) {
+      const lo = Math.min(anchorIndex.current, idx);
+      const hi = Math.max(anchorIndex.current, idx);
+      const next: RowSelectionState = { ...rowSel };
+      for (let k = lo; k <= hi; k++) next[rows[k]!.id] = true;
+      setRowSel(next);
+      return;
+    }
+    anchorIndex.current = idx;
+    rows[idx]!.toggleSelected();
+  };
 
   const handle = React.useMemo<TableHandle<TData>>(
     () => ({
@@ -450,21 +646,40 @@ export function Table<TData>(props: TableProps<TData>) {
     if (next === 'asc') announce(msgs.sortedAsc.replace('{col}', label));
     else if (next === 'desc') announce(msgs.sortedDesc.replace('{col}', label));
     else announce(msgs.sortCleared.replace('{col}', label));
-    void announce;
   };
 
-  const moveColumn = (columnId: string, dir: -1 | 1) => {
-    const ids = leafCols.map((c) => c.id);
-    const i = ids.indexOf(columnId);
+  // REQ-SURF-78: reorder moves a data column one slot within its pinning
+  // partition (start-pinned | center | end-pinned, from the effective
+  // pinning state). A move that would cross a partition boundary, pass the
+  // selection column or leave the ends is rejected (no-op; the menu item is
+  // disabled). Positions are 1-based over the visible data columns.
+  const dataColIds = leafCols.map((c) => c.id).filter((id) => id !== '__select');
+  const partitionOf = (columnId: string): 'left' | 'center' | 'right' => {
+    if (effectivePinning.left?.includes(columnId)) return 'left';
+    if (effectivePinning.right?.includes(columnId)) return 'right';
+    return 'center';
+  };
+  const moveTarget = (columnId: string, dir: -1 | 1): number | null => {
+    const i = dataColIds.indexOf(columnId);
     const j = i + dir;
-    if (i < 0 || j < 0 || j >= ids.length) return;
-    const next = [...ids];
-    const [id] = next.splice(i, 1);
-    next.splice(j, 0, id!);
-    setOrder(next);
+    if (i < 0 || j < 0 || j >= dataColIds.length) return null;
+    return partitionOf(dataColIds[j]!) === partitionOf(columnId) ? j : null;
+  };
+  const moveColumn = (columnId: string, dir: -1 | 1) => {
+    const j = moveTarget(columnId, dir);
+    if (j === null) return;
+    const next = dataColIds.filter((id) => id !== columnId);
+    next.splice(j, 0, columnId);
+    // Keep the selection column first and hidden columns in the state, so
+    // the new order never drops a column TanStack would re-append.
+    const hidden = table
+      .getAllLeafColumns()
+      .map((c) => c.id)
+      .filter((id) => id !== '__select' && !next.includes(id));
+    setOrder([...(selectionMode === 'multiple' ? ['__select'] : []), ...next, ...hidden]);
     const label = (table.getColumn(columnId)?.columnDef.meta?.headerLabel ?? columnId) as string;
     announce(
-      msgs.movedTo.replace('{col}', label).replace('{n}', String(j + 1)).replace('{m}', String(ids.length)),
+      msgs.movedTo.replace('{col}', label).replace('{n}', String(j + 1)).replace('{m}', String(dataColIds.length)),
     );
   };
 
@@ -473,10 +688,39 @@ export function Table<TData>(props: TableProps<TData>) {
 
   const grid = mode === 'grid';
   const roleTable = grid ? 'grid' : undefined;
-  // SURF-073: APG data-grid roving tabindex — one cell owns tabIndex 0.
+  // SURF-073: APG data-grid roving tabindex — one cell owns tabIndex 0. The
+  // active cell is tracked by rowId+columnId so focus survives the row being
+  // unmounted by virtualization and is re-resolved when it mounts again.
   const [activeCell, setActiveCell] = React.useState<{ rowId: string; columnId: string } | null>(null);
-  const gridKeyboard = useGridKeyboard(scrollerRef, {
-    onActiveCellChange: (rowId, columnId) => setActiveCell({ rowId, columnId }),
+  const activeRowId = activeCell?.rowId ?? rows[0]?.id;
+  const activeColId = activeCell?.columnId ?? leafCols[0]?.id;
+  const focusWanted = React.useRef(false);
+  const cellEl = (rowId: string, columnId: string) =>
+    scrollerRef.current?.querySelector<HTMLElement>(
+      `[data-row-id="${CSS.escape(rowId)}"] [data-ag-cell="${CSS.escape(columnId)}"]`,
+    ) ?? null;
+  React.useLayoutEffect(() => {
+    if (!grid || !focusWanted.current || activeRowId === undefined || activeColId === undefined) return;
+    const el = cellEl(activeRowId, activeColId);
+    const doc = scrollerRef.current?.ownerDocument;
+    // Only reclaim focus when nothing else took it (row unmount drops focus
+    // to <body>); never steal focus from another control.
+    if (el !== null && doc !== undefined && el !== doc.activeElement &&
+        (doc.activeElement === null || doc.activeElement === doc.body || scrollerRef.current!.contains(doc.activeElement))) {
+      el.focus();
+    }
+  });
+  const gridKeyboard = useGridKeyboard({
+    rowIds: () => rows.map((r) => r.id),
+    columnIds: () => leafCols.map((c) => c.id),
+    pageRows: () => Math.floor((scrollerRef.current?.clientHeight ?? 0) / estimate),
+    moveTo: (rowId, columnId, rowIndex) => {
+      focusWanted.current = true;
+      setActiveCell({ rowId, columnId });
+      const el = cellEl(rowId, columnId);
+      if (el !== null) el.focus();
+      else if (virtualize) virtualizer.scrollToIndex(rowIndex);
+    },
   });
 
   const renderHeaderCell = (headerGroupIndex: number, header: ReturnType<typeof table.getFlatHeaders>[number]) => {
@@ -494,30 +738,15 @@ export function Table<TData>(props: TableProps<TData>) {
         {...(sorted ? { 'data-sorted': sorted === 'asc' ? 'asc' : 'desc' } : {})}
         data-ag-part="table-header-cell"
         className="ag-table__th"
+        {...pinAttrs(header.column)}
         style={{
           width: header.getSize(),
-          textAlign: meta?.numeric ? 'end' : meta?.align,
-          ...(header.column.getIsPinned()
-            ? {
-                position: 'sticky',
-                // SURF-072: right pins resolve against getAfter('right'),
-                // left pins against getStart('left') — inset-inline for RTL.
-                [header.column.getIsPinned() === 'left' ? 'insetInlineStart' : 'insetInlineEnd']:
-                  header.column.getIsPinned() === 'left'
-                    ? header.column.getStart('left')
-                    : header.column.getAfter('right'),
-                background: 'var(--_ag-surface-raised, Canvas)',
-                zIndex: 1,
-              }
-            : {}),
-          // SURF-072: pinned-edge marks the boundary column of each pin
-          // region (last left / first right) — CSS draws the shadow there.
-          ...(header.column.getIsLastColumn('left')
-            ? { 'data-ag-pinned-edge': 'start' }
-            : {}),
-          ...(header.column.getIsFirstColumn('right')
-            ? { 'data-ag-pinned-edge': 'end' }
-            : {}),
+          ...(meta?.numeric
+            ? { textAlign: 'end', fontVariantNumeric: 'tabular-nums' }
+            : meta?.align
+              ? { textAlign: meta.align }
+              : {}),
+          ...pinStyle(header.column),
         }}
       >
         {canSort ? (
@@ -533,30 +762,30 @@ export function Table<TData>(props: TableProps<TData>) {
         ) : (
           flexRender(header.column.columnDef.header, header.getContext())
         )}
-        {enableColumnReordering && !header.isPlaceholder ? (
+        {enableColumnReordering && !header.isPlaceholder && header.column.id !== '__select' ? (
           <MenuRoot>
             <MenuTrigger
-              render={<IconButton label={`${msgs.columnMenu ?? 'Column actions'} ${label}`} icon={'\u2026'} />}
+              render={<IconButton label={`${msgs.columnActions} ${label}`} icon={'\u2026'} />}
               data-ag-part="table-column-menu"
               className="ag-table__col-menu"
             />
-            <MaybePortal>
-              <MaybePositioner>
-                <MenuContent data-ag-part="table-column-menu-content">
-                  <MenuItem onClick={() => moveColumn(header.column.id, -1)}>
-                    {msgs.moveLeft} {label}
-                  </MenuItem>
-                  <MenuItem onClick={() => moveColumn(header.column.id, 1)}>
-                    {msgs.moveRight} {label}
-                  </MenuItem>
-                  {header.column.getCanHide() ? (
-                    <MenuItem onClick={() => header.column.toggleVisibility(false)}>
-                      {msgs.hideColumn ?? 'Hide'} {label}
-                    </MenuItem>
-                  ) : null}
-                </MenuContent>
-              </MaybePositioner>
-            </MaybePortal>
+            <MenuContent>
+              <MenuItem
+                disabled={moveTarget(header.column.id, -1) === null}
+                onClick={() => moveColumn(header.column.id, -1)}
+              >
+                {msgs.moveLeft}
+              </MenuItem>
+              <MenuItem
+                disabled={moveTarget(header.column.id, 1) === null}
+                onClick={() => moveColumn(header.column.id, 1)}
+              >
+                {msgs.moveRight}
+              </MenuItem>
+              {header.column.getCanHide() ? (
+                <MenuItem onClick={() => header.column.toggleVisibility(false)}>{msgs.hideColumn}</MenuItem>
+              ) : null}
+            </MenuContent>
           </MenuRoot>
         ) : null}
         {enableColumnResizing && header.column.getCanResize() && !header.isPlaceholder ? (
@@ -571,141 +800,34 @@ export function Table<TData>(props: TableProps<TData>) {
     return cell;
   };
 
-  const renderRow = (row: (typeof rows)[number], viIndex: number, absoluteTop?: number) => {
-    const selected = row.getIsSelected();
-    const cells = row.getVisibleCells();
-    return (
-      <tr
-        key={row.id}
-        data-ag-part="table-row"
-        data-row-id={row.id}
-        {...(selected ? { 'data-selected': '' } : {})}
-        {...(loading ? { 'data-state': 'loading' } : {})}
-        {...(selectionMode !== 'none' ? { 'aria-selected': selected } : {})}
-        {...(virtualize ? { 'aria-rowindex': viIndex + 2 } : {})}
-        {...(grid ? { role: 'row' } : {})}
-        className="ag-table__tr"
-        onClick={
-          selectionMode === 'multiple'
-            ? (e) => {
-                if (e.shiftKey && anchorIndex.current !== null) {
-                  const lo = Math.min(anchorIndex.current, viIndex);
-                  const hi = Math.max(anchorIndex.current, viIndex);
-                  const next: RowSelectionState = { ...rowSel };
-                  for (let k = lo; k <= hi; k++) next[rows[k]!.id] = true;
-                  setRowSel(next);
-                } else {
-                  anchorIndex.current = viIndex;
-                }
-                onRowAction?.(row.original);
-              }
-            : selectionMode === 'single'
-              ? () => {
-                  row.toggleSelected();
-                  onRowAction?.(row.original);
-                }
-              : onRowAction !== undefined
-                ? () => onRowAction(row.original)
-                : undefined
-        }
-        style={
-          absoluteTop !== undefined
-            ? { position: 'absolute', top: 0, transform: `translateY(${absoluteTop}px)`, width: '100%' }
-            : undefined
-        }
-      >
-        {cells.map((cell) => {
-          const meta = cell.column.columnDef.meta;
-          const content = flexRender(cell.column.columnDef.cell, cell.getContext());
-          const isSelectCol = cell.column.id === '__select';
-          const tag = isSelectCol ? 'td' : 'td';
-          const el = React.createElement(
-            tag,
-            {
-              key: cell.id,
-              ...(grid
-                ? {
-                    role: 'gridcell',
-                    // SURF-073: the roving active cell is the only tab stop.
-                    tabIndex:
-                      (activeCell ?? { rowId: rows[0]?.id, columnId: leafCols[0]?.id }).rowId === row.id &&
-                      (activeCell ?? { rowId: rows[0]?.id, columnId: leafCols[0]?.id }).columnId === cell.column.id
-                        ? 0
-                        : -1,
-                    onFocus: () => setActiveCell({ rowId: row.id, columnId: cell.column.id }),
-                    onKeyDown: (e: React.KeyboardEvent) => {
-                      // SURF-073: Enter activates the row, Space toggles its
-                      // selection (grid cells; table mode unaffected).
-                      if (e.key === 'Enter') {
-                        onRowAction?.(row.original);
-                        e.preventDefault();
-                      } else if (e.key === ' ' && !e.shiftKey) {
-                        if (selectionMode !== 'none') {
-                          e.preventDefault();
-                          row.toggleSelected();
-                          if (selectionMode === 'multiple') anchorIndex.current = viIndex;
-                        }
-                      }
-                    },
-                  }
-                : {}),
-              'data-ag-part': isSelectCol ? 'table-selection-cell' : 'table-cell',
-              'data-ag-cell': cell.column.id,
-              ...(isSelectCol
-                ? {
-                    onKeyDown: (e: React.KeyboardEvent) => {
-                      // SURF-069: Shift+Space on a selection cell selects the
-                      // anchor..row range; plain Space toggles + re-anchors.
-                      if (e.key === ' ' && selectionMode === 'multiple') {
-                        if (e.shiftKey && anchorIndex.current !== null) {
-                          e.preventDefault();
-                          const lo = Math.min(anchorIndex.current, viIndex);
-                          const hi = Math.max(anchorIndex.current, viIndex);
-                          const next: RowSelectionState = { ...rowSel };
-                          for (let k = lo; k <= hi; k++) next[rows[k]!.id] = true;
-                          setRowSel(next);
-                        } else if (!e.shiftKey) {
-                          anchorIndex.current = viIndex;
-                        }
-                      }
-                    },
-                  }
-                : {}),
-              className: `ag-table__td${meta?.truncate ? ' ag-table__td--truncate' : ''}`,
-              style: {
-                width: cell.column.getSize(),
-                ...(meta?.numeric
-                  ? { textAlign: 'end', fontVariantNumeric: 'tabular-nums' }
-                  : meta?.align
-                    ? { textAlign: meta.align }
-                    : {}),
-                ...(cell.column.getIsPinned()
-                  ? {
-                      position: 'sticky',
-                      [cell.column.getIsPinned() === 'left' ? 'insetInlineStart' : 'insetInlineEnd']:
-                        cell.column.getIsPinned() === 'left'
-                          ? cell.column.getStart('left')
-                          : cell.column.getAfter('right'),
-                      background: 'var(--_ag-surface-raised, Canvas)',
-                      zIndex: 1,
-                    }
-                  : {}),
-                ...(cell.column.getIsLastColumn('left')
-                  ? { 'data-ag-pinned-edge': 'start' }
-                  : {}),
-                ...(cell.column.getIsFirstColumn('right')
-                  ? { 'data-ag-pinned-edge': 'end' }
-                  : {}),
-              },
-            },
-            content,
-          );
-          return el;
-        })}
-      </tr>
-    );
+  // SURF-069: rows are a memoized component; the latest handlers live in a
+  // stable ref so a selection toggle re-renders only the changed row (its
+  // `selected` prop flips) plus the header checkbox.
+  const rowCtx = React.useRef<RowCtx<TData>>(null as unknown as RowCtx<TData>);
+  rowCtx.current = {
+    onRowAction,
+    selectionMode,
+    select: (rowId, shift) => selectRef.current(rowId, shift),
+    focusCell: (rowId, columnId) => {
+      focusWanted.current = true;
+      setActiveCell((prev) => (prev?.rowId === rowId && prev.columnId === columnId ? prev : { rowId, columnId }));
+    },
   };
-
+  const renderRow = (row: (typeof rows)[number], index: number, top?: number) => (
+    <TableRow<TData>
+      key={row.id}
+      row={row}
+      index={index}
+      top={top}
+      selected={row.getIsSelected()}
+      loading={loading}
+      grid={grid}
+      virtualized={!!virtualize}
+      activeColumnId={grid && row.id === activeRowId ? activeColId : undefined}
+      layout={layoutDeps}
+      ctx={rowCtx}
+    />
+  );
   return (
     <div
       data-ag-part="table-root"
@@ -716,7 +838,17 @@ export function Table<TData>(props: TableProps<TData>) {
         ref={scrollerRef}
         data-ag-part="table-scroller"
         className="ag-table__scroller"
-        {...(grid ? { onKeyDown: gridKeyboard.onKeyDown } : {})}
+        {...(grid
+          ? {
+              onKeyDown: gridKeyboard.onKeyDown,
+              // Focus moved to another control: stop reclaiming it.
+              onBlur: (e: React.FocusEvent) => {
+                if (e.relatedTarget !== null && !e.currentTarget.contains(e.relatedTarget as Node)) {
+                  focusWanted.current = false;
+                }
+              },
+            }
+          : {})}
         style={maxHeight !== undefined ? { maxHeight, overflow: 'auto' } : { overflow: 'auto' }}
       >
         <table
@@ -749,7 +881,7 @@ export function Table<TData>(props: TableProps<TData>) {
                   <tr key={`loading-${i}`} data-ag-part="table-loading" aria-hidden="true">
                     {leafCols.map((col) => (
                       <td key={col.id} data-ag-part="table-cell" className="ag-table__td">
-                        <Skeleton data-ag-part="table-loading-skeleton" />
+                        <Skeleton />
                       </td>
                     ))}
                   </tr>

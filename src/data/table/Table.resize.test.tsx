@@ -10,7 +10,8 @@ const DATA = [{ id: 'a', name: 'x' }];
 const COLS: TableColumnDef<(typeof DATA)[number]>[] = [{ accessorKey: 'name', header: 'Name' }];
 
 beforeEach(() => {
-  delete (document as { dir?: string }).dir;
+  // document.dir reflects <html dir>; reset it between cases
+  document.documentElement.removeAttribute('dir');
 });
 
 describe('Table resize (SURF-163, REQ-SURF-71)', () => {
@@ -56,5 +57,32 @@ describe('Table resize (SURF-163, REQ-SURF-71)', () => {
     expect(Number(sep(container).getAttribute('aria-valuenow'))).toBe(800);
     fireEvent.keyDown(s, { key: 'Home' });
     expect(Number(sep(container).getAttribute('aria-valuenow'))).toBe(48);
+  });
+
+  it('declared maxSize above 800 is honoured: End gives 1200 for maxSize 1200', () => {
+    const cols: TableColumnDef<(typeof DATA)[number]>[] = [
+      { accessorKey: 'name', header: 'Name', minSize: 64, maxSize: 1200 },
+    ];
+    const { container } = render(<Table data={DATA} columns={cols} caption="t" enableColumnResizing />);
+    expect(sep(container).getAttribute('aria-valuemax')).toBe('1200');
+    expect(sep(container).getAttribute('aria-valuemin')).toBe('64');
+    fireEvent.keyDown(sep(container), { key: 'End' });
+    expect(sep(container).getAttribute('aria-valuenow')).toBe('1200');
+    fireEvent.keyDown(sep(container), { key: 'Home' });
+    expect(sep(container).getAttribute('aria-valuenow')).toBe('64');
+  });
+
+  it('RTL from a <div dir="rtl"> wrapper (document stays ltr): ArrowLeft grows', () => {
+    const { container } = render(
+      <div dir="rtl">
+        <Table data={DATA} columns={COLS} caption="t" enableColumnResizing />
+      </div>,
+    );
+    expect(document.dir).toBe('');
+    const start = Number(sep(container).getAttribute('aria-valuenow'));
+    fireEvent.keyDown(sep(container), { key: 'ArrowLeft' });
+    expect(Number(sep(container).getAttribute('aria-valuenow'))).toBe(start + 8);
+    fireEvent.keyDown(sep(container), { key: 'ArrowRight' });
+    expect(Number(sep(container).getAttribute('aria-valuenow'))).toBe(start);
   });
 });

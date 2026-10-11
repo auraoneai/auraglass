@@ -4,10 +4,12 @@
 
 export type FilterFieldType = 'text' | 'number' | 'date' | 'date-range' | 'enum' | 'multi-enum' | 'boolean';
 
-export interface FilterField {
+/** REQ-SURF-84: the type parameter keeps the literal field type, so a
+    schema declared `as const` narrows each field's operator set. */
+export interface FilterField<T extends FilterFieldType = FilterFieldType> {
   id: string;
   label: string;
-  type: FilterFieldType;
+  type: T;
   options?: readonly { value: string; label: string }[] | undefined;
   operators?: readonly string[] | undefined;
 }
@@ -22,7 +24,8 @@ export const DEFAULT_OPERATORS: Record<FilterFieldType, readonly string[]> = {
   boolean: ['is'],
 };
 
-type Ops<T extends FilterFieldType> = T extends 'text'
+/** Operators valid for a field type (REQ-SURF-84 matrix). */
+export type Ops<T extends FilterFieldType> = T extends 'text'
   ? 'contains' | 'equals' | 'starts-with' | 'is-empty'
   : T extends 'number'
     ? '=' | '!=' | '<' | '<=' | '>' | '>=' | 'between'
