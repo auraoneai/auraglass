@@ -7,4 +7,4 @@ const x: IconNode[] = [
 ];
 
 export const XIcon = /*#__PURE__*/ createIcon('X', x);
-export const CloseIcon = /*#__PURE__*/ XIcon;
+export const CloseIcon = XIcon;

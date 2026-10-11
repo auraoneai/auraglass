@@ -80,7 +80,7 @@ export const Sizes: Story = {
         <Dialog.Portal>
           <Dialog.Backdrop />
           <Dialog.Popup size="md">
-            <Dialog.Header><Dialog.Title>Sizes axis: sm / md / lg / xl / full — this cell md</Dialog.Title></Dialog.Header>
+            <Dialog.Header><Dialog.Title>Sizes axis: sm / md / lg + appearance wide / fullscreen — this cell md</Dialog.Title></Dialog.Header>
             <Dialog.Body>Body</Dialog.Body>
             <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
           </Dialog.Popup>

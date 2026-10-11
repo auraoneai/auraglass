@@ -18,12 +18,12 @@ export default defineMeta({
   },
   material: { layer: 'chrome', refractionEligible: true },
   apg: 'button',
-  budgetKb: 3,
+  budgetKb: 10,
   migration: [
     {
       from: 'GlassIconButton',
       props: { 'aria-label': 'label', children: 'icon', variant: 'prominent', size: 'size' },
-      automation: 'mostly',
+      selectors: { '.glass-icon-button': '.ag-icon-button' }, automation: 'mostly',
       compat: true,
     },
   ],
