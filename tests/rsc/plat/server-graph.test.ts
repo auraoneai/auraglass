@@ -8,10 +8,10 @@ import { join } from 'node:path';
 import { ROOT } from '../../build/helpers';
 
 const RECORD = join(ROOT, 'build', 'server-safe-exports.json');
-let importClosure, manifestEntries;
-beforeAll(async () => { ({ importClosure, manifestEntries } = await import('../../../scripts/build/lib/graph.mjs')); });
+let importClosure, serverClosure, manifestEntries;
+beforeAll(async () => { ({ importClosure, serverClosure, manifestEntries } = await import('../../../scripts/build/lib/graph.mjs')); });
 
-const hasClientHead = (f: string) => /^\s*['"]use client['"]/.test(readFileSync(f, 'utf8').slice(0, 400));
+const hasClientHead = (f: string) => /^\s*(?:\/\*[\s\S]*?\*\/|\/\/[^\n]*\n|\s)*['\"]use client['\"]/.test(readFileSync(f, 'utf8').slice(0, 1200));;
 
 describe('server-safe exports (PLAT-261)', () => {
   it('record exists, lists every js manifest entry, and flags are honest', () => {
@@ -21,16 +21,20 @@ describe('server-safe exports (PLAT-261)', () => {
     for (const e of manifestEntries(ROOT).js) expect(bySub.has(e.subpath)).toBe(true);
   });
 
-  it('every safe entry\'s source closure has no use client head or DOM top-level', () => {
+  it('every safe entry\'s server-reachable graph is free of client signals', () => {
     const rec = JSON.parse(readFileSync(RECORD, 'utf8'));
     const srcOf = new Map(manifestEntries(ROOT).js.map(e => [e.subpath, e.source]));
+    const SIGNAL = /(^|\s)(document|window|navigator|localStorage|matchMedia|ResizeObserver|IntersectionObserver)\s*[.(\[=]|\buse(State|Effect|LayoutEffect|Ref|Reducer|Context)\b/;
     const bad: string[] = [];
     for (const e of rec.entries as { subpath: string; safe: boolean }[]) {
       if (!e.safe) continue;
       const src = srcOf.get(e.subpath);
       if (!src) continue;
-      for (const f of importClosure(join(ROOT, src))) {
-        if (hasClientHead(f)) bad.push(`${e.subpath}: ${f}`);
+      // files reached without crossing a 'use client' boundary
+      for (const f of serverClosure(join(ROOT, src))) {
+        if (hasClientHead(f)) continue; // the boundary itself may be reached
+        const head = readFileSync(f, 'utf8').slice(0, 400);
+        if (SIGNAL.test(head)) bad.push(`${e.subpath}: ${f}`);
       }
     }
     expect(bad).toEqual([]);
