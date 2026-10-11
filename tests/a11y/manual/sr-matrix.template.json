@@ -75,7 +75,6 @@
       "date-field",
       "date-picker",
       "date-range-picker",
-      "range-calendar",
       "time-field",
       "time-picker"
     ],
@@ -87,6 +86,9 @@
     ],
     "17": [
       "sheet"
+    ],
+    "18": [
+      "accordion"
     ],
     "19": [
       "popover"
@@ -150,20 +152,20 @@
       "timeline"
     ],
     "38": [
-      "thread"
+      "ai-thread"
     ],
     "39": [
-      "message"
+      "ai-message"
     ],
     "40": [
-      "composer"
+      "ai-composer"
     ],
     "41": [
-      "tool-call"
+      "ai-tool-call"
     ],
     "42": [
-      "citation",
-      "source-list"
+      "ai-citation",
+      "ai-source-list"
     ],
     "43": [
       "media-controls",
@@ -173,61 +175,8 @@
       "carousel-rail"
     ]
   },
-  "missingFlagships": [
-    18
-  ],
-  "missingStories": [
-    {
-      "subject": "calendar",
-      "name": "Calendar",
-      "owner": "SURF"
-    },
-    {
-      "subject": "date-field",
-      "name": "DateField",
-      "owner": "SURF"
-    },
-    {
-      "subject": "date-range-picker",
-      "name": "DateRangePicker",
-      "owner": "SURF"
-    },
-    {
-      "subject": "range-calendar",
-      "name": "RangeCalendar",
-      "owner": "SURF"
-    },
-    {
-      "subject": "time-field",
-      "name": "TimeField",
-      "owner": "SURF"
-    },
-    {
-      "subject": "time-picker",
-      "name": "TimePicker",
-      "owner": "SURF"
-    },
-    {
-      "subject": "activity-feed",
-      "name": "ActivityFeed",
-      "owner": "SURF"
-    },
-    {
-      "subject": "timeline",
-      "name": "Timeline",
-      "owner": "SURF"
-    },
-    {
-      "subject": "citation",
-      "name": "Citation",
-      "owner": "SURF"
-    },
-    {
-      "subject": "sidebar-drawer",
-      "name": "SidebarDrawer",
-      "owner": "SURF"
-    }
-  ],
+  "missingFlagships": [],
+  "missingStories": [],
   "issue16": [
     {
       "topic": "menus",
@@ -356,11 +305,83 @@
     },
     "byStream": {
       "mat": 32,
-      "cmp": 162,
-      "surf": 224
+      "cmp": 168,
+      "surf": 218
     }
   },
   "rows": [
+    {
+      "subject": "accordion",
+      "name": "Accordion",
+      "stream": "cmp",
+      "flagship": 18,
+      "pass": "sr",
+      "at": "voiceover-macos",
+      "storyId": "core-accordion--default",
+      "script": "tests/a11y/manual/scripts/cmp/accordion.md",
+      "record": "tests/a11y/manual/records/cmp/accordion-voiceover-macos.json",
+      "required": true
+    },
+    {
+      "subject": "accordion",
+      "name": "Accordion",
+      "stream": "cmp",
+      "flagship": 18,
+      "pass": "sr",
+      "at": "voiceover-ios",
+      "storyId": "core-accordion--default",
+      "script": "tests/a11y/manual/scripts/cmp/accordion.md",
+      "record": "tests/a11y/manual/records/cmp/accordion-voiceover-ios.json",
+      "required": true
+    },
+    {
+      "subject": "accordion",
+      "name": "Accordion",
+      "stream": "cmp",
+      "flagship": 18,
+      "pass": "sr",
+      "at": "nvda-chrome",
+      "storyId": "core-accordion--default",
+      "script": "tests/a11y/manual/scripts/cmp/accordion.md",
+      "record": "tests/a11y/manual/records/cmp/accordion-nvda-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "accordion",
+      "name": "Accordion",
+      "stream": "cmp",
+      "flagship": 18,
+      "pass": "sr",
+      "at": "talkback-chrome",
+      "storyId": "core-accordion--default",
+      "script": "tests/a11y/manual/scripts/cmp/accordion.md",
+      "record": "tests/a11y/manual/records/cmp/accordion-talkback-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "accordion",
+      "name": "Accordion",
+      "stream": "cmp",
+      "flagship": 18,
+      "pass": "touch",
+      "at": "touch-ios",
+      "storyId": "core-accordion--default",
+      "script": "tests/a11y/manual/scripts/cmp/accordion.md",
+      "record": "tests/a11y/manual/records/cmp/accordion-touch-ios.json",
+      "required": true
+    },
+    {
+      "subject": "accordion",
+      "name": "Accordion",
+      "stream": "cmp",
+      "flagship": 18,
+      "pass": "touch",
+      "at": "touch-android",
+      "storyId": "core-accordion--default",
+      "script": "tests/a11y/manual/scripts/cmp/accordion.md",
+      "record": "tests/a11y/manual/records/cmp/accordion-touch-android.json",
+      "required": true
+    },
     {
       "subject": "alert-dialog",
       "name": "AlertDialog",
@@ -2696,7 +2717,7 @@
       "flagship": 37,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": null,
+      "storyId": "surf-activity-feed--default",
       "script": "tests/a11y/manual/scripts/surf/activity-feed.md",
       "record": "tests/a11y/manual/records/surf/activity-feed-voiceover-macos.json",
       "required": true
@@ -2708,7 +2729,7 @@
       "flagship": 37,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": null,
+      "storyId": "surf-activity-feed--default",
       "script": "tests/a11y/manual/scripts/surf/activity-feed.md",
       "record": "tests/a11y/manual/records/surf/activity-feed-voiceover-ios.json",
       "required": true
@@ -2720,7 +2741,7 @@
       "flagship": 37,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": null,
+      "storyId": "surf-activity-feed--default",
       "script": "tests/a11y/manual/scripts/surf/activity-feed.md",
       "record": "tests/a11y/manual/records/surf/activity-feed-nvda-chrome.json",
       "required": true
@@ -2732,7 +2753,7 @@
       "flagship": 37,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": null,
+      "storyId": "surf-activity-feed--default",
       "script": "tests/a11y/manual/scripts/surf/activity-feed.md",
       "record": "tests/a11y/manual/records/surf/activity-feed-talkback-chrome.json",
       "required": true
@@ -2744,7 +2765,7 @@
       "flagship": 37,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": null,
+      "storyId": "surf-activity-feed--default",
       "script": "tests/a11y/manual/scripts/surf/activity-feed.md",
       "record": "tests/a11y/manual/records/surf/activity-feed-touch-ios.json",
       "required": true
@@ -2756,9 +2777,441 @@
       "flagship": 37,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": null,
+      "storyId": "surf-activity-feed--default",
       "script": "tests/a11y/manual/scripts/surf/activity-feed.md",
       "record": "tests/a11y/manual/records/surf/activity-feed-touch-android.json",
+      "required": true
+    },
+    {
+      "subject": "ai-citation",
+      "name": "Citation",
+      "stream": "surf",
+      "flagship": 42,
+      "pass": "sr",
+      "at": "voiceover-macos",
+      "storyId": "ai-citation--citation-focused",
+      "script": "tests/a11y/manual/scripts/surf/ai-citation.md",
+      "record": "tests/a11y/manual/records/surf/ai-citation-voiceover-macos.json",
+      "required": true
+    },
+    {
+      "subject": "ai-citation",
+      "name": "Citation",
+      "stream": "surf",
+      "flagship": 42,
+      "pass": "sr",
+      "at": "voiceover-ios",
+      "storyId": "ai-citation--citation-focused",
+      "script": "tests/a11y/manual/scripts/surf/ai-citation.md",
+      "record": "tests/a11y/manual/records/surf/ai-citation-voiceover-ios.json",
+      "required": true
+    },
+    {
+      "subject": "ai-citation",
+      "name": "Citation",
+      "stream": "surf",
+      "flagship": 42,
+      "pass": "sr",
+      "at": "nvda-chrome",
+      "storyId": "ai-citation--citation-focused",
+      "script": "tests/a11y/manual/scripts/surf/ai-citation.md",
+      "record": "tests/a11y/manual/records/surf/ai-citation-nvda-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "ai-citation",
+      "name": "Citation",
+      "stream": "surf",
+      "flagship": 42,
+      "pass": "sr",
+      "at": "talkback-chrome",
+      "storyId": "ai-citation--citation-focused",
+      "script": "tests/a11y/manual/scripts/surf/ai-citation.md",
+      "record": "tests/a11y/manual/records/surf/ai-citation-talkback-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "ai-citation",
+      "name": "Citation",
+      "stream": "surf",
+      "flagship": 42,
+      "pass": "touch",
+      "at": "touch-ios",
+      "storyId": "ai-citation--citation-focused",
+      "script": "tests/a11y/manual/scripts/surf/ai-citation.md",
+      "record": "tests/a11y/manual/records/surf/ai-citation-touch-ios.json",
+      "required": true
+    },
+    {
+      "subject": "ai-citation",
+      "name": "Citation",
+      "stream": "surf",
+      "flagship": 42,
+      "pass": "touch",
+      "at": "touch-android",
+      "storyId": "ai-citation--citation-focused",
+      "script": "tests/a11y/manual/scripts/surf/ai-citation.md",
+      "record": "tests/a11y/manual/records/surf/ai-citation-touch-android.json",
+      "required": true
+    },
+    {
+      "subject": "ai-composer",
+      "name": "Composer",
+      "stream": "surf",
+      "flagship": 40,
+      "pass": "sr",
+      "at": "voiceover-macos",
+      "storyId": "ai-composer--ready",
+      "script": "tests/a11y/manual/scripts/surf/ai-composer.md",
+      "record": "tests/a11y/manual/records/surf/ai-composer-voiceover-macos.json",
+      "required": true
+    },
+    {
+      "subject": "ai-composer",
+      "name": "Composer",
+      "stream": "surf",
+      "flagship": 40,
+      "pass": "sr",
+      "at": "voiceover-ios",
+      "storyId": "ai-composer--ready",
+      "script": "tests/a11y/manual/scripts/surf/ai-composer.md",
+      "record": "tests/a11y/manual/records/surf/ai-composer-voiceover-ios.json",
+      "required": true
+    },
+    {
+      "subject": "ai-composer",
+      "name": "Composer",
+      "stream": "surf",
+      "flagship": 40,
+      "pass": "sr",
+      "at": "nvda-chrome",
+      "storyId": "ai-composer--ready",
+      "script": "tests/a11y/manual/scripts/surf/ai-composer.md",
+      "record": "tests/a11y/manual/records/surf/ai-composer-nvda-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "ai-composer",
+      "name": "Composer",
+      "stream": "surf",
+      "flagship": 40,
+      "pass": "sr",
+      "at": "talkback-chrome",
+      "storyId": "ai-composer--ready",
+      "script": "tests/a11y/manual/scripts/surf/ai-composer.md",
+      "record": "tests/a11y/manual/records/surf/ai-composer-talkback-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "ai-composer",
+      "name": "Composer",
+      "stream": "surf",
+      "flagship": 40,
+      "pass": "touch",
+      "at": "touch-ios",
+      "storyId": "ai-composer--ready",
+      "script": "tests/a11y/manual/scripts/surf/ai-composer.md",
+      "record": "tests/a11y/manual/records/surf/ai-composer-touch-ios.json",
+      "required": true
+    },
+    {
+      "subject": "ai-composer",
+      "name": "Composer",
+      "stream": "surf",
+      "flagship": 40,
+      "pass": "touch",
+      "at": "touch-android",
+      "storyId": "ai-composer--ready",
+      "script": "tests/a11y/manual/scripts/surf/ai-composer.md",
+      "record": "tests/a11y/manual/records/surf/ai-composer-touch-android.json",
+      "required": true
+    },
+    {
+      "subject": "ai-message",
+      "name": "Message",
+      "stream": "surf",
+      "flagship": 39,
+      "pass": "sr",
+      "at": "voiceover-macos",
+      "storyId": "ai-message--user",
+      "script": "tests/a11y/manual/scripts/surf/ai-message.md",
+      "record": "tests/a11y/manual/records/surf/ai-message-voiceover-macos.json",
+      "required": true
+    },
+    {
+      "subject": "ai-message",
+      "name": "Message",
+      "stream": "surf",
+      "flagship": 39,
+      "pass": "sr",
+      "at": "voiceover-ios",
+      "storyId": "ai-message--user",
+      "script": "tests/a11y/manual/scripts/surf/ai-message.md",
+      "record": "tests/a11y/manual/records/surf/ai-message-voiceover-ios.json",
+      "required": true
+    },
+    {
+      "subject": "ai-message",
+      "name": "Message",
+      "stream": "surf",
+      "flagship": 39,
+      "pass": "sr",
+      "at": "nvda-chrome",
+      "storyId": "ai-message--user",
+      "script": "tests/a11y/manual/scripts/surf/ai-message.md",
+      "record": "tests/a11y/manual/records/surf/ai-message-nvda-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "ai-message",
+      "name": "Message",
+      "stream": "surf",
+      "flagship": 39,
+      "pass": "sr",
+      "at": "talkback-chrome",
+      "storyId": "ai-message--user",
+      "script": "tests/a11y/manual/scripts/surf/ai-message.md",
+      "record": "tests/a11y/manual/records/surf/ai-message-talkback-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "ai-message",
+      "name": "Message",
+      "stream": "surf",
+      "flagship": 39,
+      "pass": "touch",
+      "at": "touch-ios",
+      "storyId": "ai-message--user",
+      "script": "tests/a11y/manual/scripts/surf/ai-message.md",
+      "record": "tests/a11y/manual/records/surf/ai-message-touch-ios.json",
+      "required": true
+    },
+    {
+      "subject": "ai-message",
+      "name": "Message",
+      "stream": "surf",
+      "flagship": 39,
+      "pass": "touch",
+      "at": "touch-android",
+      "storyId": "ai-message--user",
+      "script": "tests/a11y/manual/scripts/surf/ai-message.md",
+      "record": "tests/a11y/manual/records/surf/ai-message-touch-android.json",
+      "required": true
+    },
+    {
+      "subject": "ai-source-list",
+      "name": "SourceList",
+      "stream": "surf",
+      "flagship": 42,
+      "pass": "sr",
+      "at": "voiceover-macos",
+      "storyId": "ai-sourcelist--three",
+      "script": "tests/a11y/manual/scripts/surf/ai-source-list.md",
+      "record": "tests/a11y/manual/records/surf/ai-source-list-voiceover-macos.json",
+      "required": true
+    },
+    {
+      "subject": "ai-source-list",
+      "name": "SourceList",
+      "stream": "surf",
+      "flagship": 42,
+      "pass": "sr",
+      "at": "voiceover-ios",
+      "storyId": "ai-sourcelist--three",
+      "script": "tests/a11y/manual/scripts/surf/ai-source-list.md",
+      "record": "tests/a11y/manual/records/surf/ai-source-list-voiceover-ios.json",
+      "required": true
+    },
+    {
+      "subject": "ai-source-list",
+      "name": "SourceList",
+      "stream": "surf",
+      "flagship": 42,
+      "pass": "sr",
+      "at": "nvda-chrome",
+      "storyId": "ai-sourcelist--three",
+      "script": "tests/a11y/manual/scripts/surf/ai-source-list.md",
+      "record": "tests/a11y/manual/records/surf/ai-source-list-nvda-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "ai-source-list",
+      "name": "SourceList",
+      "stream": "surf",
+      "flagship": 42,
+      "pass": "sr",
+      "at": "talkback-chrome",
+      "storyId": "ai-sourcelist--three",
+      "script": "tests/a11y/manual/scripts/surf/ai-source-list.md",
+      "record": "tests/a11y/manual/records/surf/ai-source-list-talkback-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "ai-source-list",
+      "name": "SourceList",
+      "stream": "surf",
+      "flagship": 42,
+      "pass": "touch",
+      "at": "touch-ios",
+      "storyId": "ai-sourcelist--three",
+      "script": "tests/a11y/manual/scripts/surf/ai-source-list.md",
+      "record": "tests/a11y/manual/records/surf/ai-source-list-touch-ios.json",
+      "required": true
+    },
+    {
+      "subject": "ai-source-list",
+      "name": "SourceList",
+      "stream": "surf",
+      "flagship": 42,
+      "pass": "touch",
+      "at": "touch-android",
+      "storyId": "ai-sourcelist--three",
+      "script": "tests/a11y/manual/scripts/surf/ai-source-list.md",
+      "record": "tests/a11y/manual/records/surf/ai-source-list-touch-android.json",
+      "required": true
+    },
+    {
+      "subject": "ai-thread",
+      "name": "Thread",
+      "stream": "surf",
+      "flagship": 38,
+      "pass": "sr",
+      "at": "voiceover-macos",
+      "storyId": "ai-thread--empty",
+      "script": "tests/a11y/manual/scripts/surf/ai-thread.md",
+      "record": "tests/a11y/manual/records/surf/ai-thread-voiceover-macos.json",
+      "required": true
+    },
+    {
+      "subject": "ai-thread",
+      "name": "Thread",
+      "stream": "surf",
+      "flagship": 38,
+      "pass": "sr",
+      "at": "voiceover-ios",
+      "storyId": "ai-thread--empty",
+      "script": "tests/a11y/manual/scripts/surf/ai-thread.md",
+      "record": "tests/a11y/manual/records/surf/ai-thread-voiceover-ios.json",
+      "required": true
+    },
+    {
+      "subject": "ai-thread",
+      "name": "Thread",
+      "stream": "surf",
+      "flagship": 38,
+      "pass": "sr",
+      "at": "nvda-chrome",
+      "storyId": "ai-thread--empty",
+      "script": "tests/a11y/manual/scripts/surf/ai-thread.md",
+      "record": "tests/a11y/manual/records/surf/ai-thread-nvda-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "ai-thread",
+      "name": "Thread",
+      "stream": "surf",
+      "flagship": 38,
+      "pass": "sr",
+      "at": "talkback-chrome",
+      "storyId": "ai-thread--empty",
+      "script": "tests/a11y/manual/scripts/surf/ai-thread.md",
+      "record": "tests/a11y/manual/records/surf/ai-thread-talkback-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "ai-thread",
+      "name": "Thread",
+      "stream": "surf",
+      "flagship": 38,
+      "pass": "touch",
+      "at": "touch-ios",
+      "storyId": "ai-thread--empty",
+      "script": "tests/a11y/manual/scripts/surf/ai-thread.md",
+      "record": "tests/a11y/manual/records/surf/ai-thread-touch-ios.json",
+      "required": true
+    },
+    {
+      "subject": "ai-thread",
+      "name": "Thread",
+      "stream": "surf",
+      "flagship": 38,
+      "pass": "touch",
+      "at": "touch-android",
+      "storyId": "ai-thread--empty",
+      "script": "tests/a11y/manual/scripts/surf/ai-thread.md",
+      "record": "tests/a11y/manual/records/surf/ai-thread-touch-android.json",
+      "required": true
+    },
+    {
+      "subject": "ai-tool-call",
+      "name": "ToolCall",
+      "stream": "surf",
+      "flagship": 41,
+      "pass": "sr",
+      "at": "voiceover-macos",
+      "storyId": "ai-toolcall--queued",
+      "script": "tests/a11y/manual/scripts/surf/ai-tool-call.md",
+      "record": "tests/a11y/manual/records/surf/ai-tool-call-voiceover-macos.json",
+      "required": true
+    },
+    {
+      "subject": "ai-tool-call",
+      "name": "ToolCall",
+      "stream": "surf",
+      "flagship": 41,
+      "pass": "sr",
+      "at": "voiceover-ios",
+      "storyId": "ai-toolcall--queued",
+      "script": "tests/a11y/manual/scripts/surf/ai-tool-call.md",
+      "record": "tests/a11y/manual/records/surf/ai-tool-call-voiceover-ios.json",
+      "required": true
+    },
+    {
+      "subject": "ai-tool-call",
+      "name": "ToolCall",
+      "stream": "surf",
+      "flagship": 41,
+      "pass": "sr",
+      "at": "nvda-chrome",
+      "storyId": "ai-toolcall--queued",
+      "script": "tests/a11y/manual/scripts/surf/ai-tool-call.md",
+      "record": "tests/a11y/manual/records/surf/ai-tool-call-nvda-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "ai-tool-call",
+      "name": "ToolCall",
+      "stream": "surf",
+      "flagship": 41,
+      "pass": "sr",
+      "at": "talkback-chrome",
+      "storyId": "ai-toolcall--queued",
+      "script": "tests/a11y/manual/scripts/surf/ai-tool-call.md",
+      "record": "tests/a11y/manual/records/surf/ai-tool-call-talkback-chrome.json",
+      "required": true
+    },
+    {
+      "subject": "ai-tool-call",
+      "name": "ToolCall",
+      "stream": "surf",
+      "flagship": 41,
+      "pass": "touch",
+      "at": "touch-ios",
+      "storyId": "ai-toolcall--queued",
+      "script": "tests/a11y/manual/scripts/surf/ai-tool-call.md",
+      "record": "tests/a11y/manual/records/surf/ai-tool-call-touch-ios.json",
+      "required": true
+    },
+    {
+      "subject": "ai-tool-call",
+      "name": "ToolCall",
+      "stream": "surf",
+      "flagship": 41,
+      "pass": "touch",
+      "at": "touch-android",
+      "storyId": "ai-toolcall--queued",
+      "script": "tests/a11y/manual/scripts/surf/ai-tool-call.md",
+      "record": "tests/a11y/manual/records/surf/ai-tool-call-touch-android.json",
       "required": true
     },
     {
@@ -2912,7 +3365,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": null,
+      "storyId": "surf-calendar--default",
       "script": "tests/a11y/manual/scripts/surf/calendar.md",
       "record": "tests/a11y/manual/records/surf/calendar-voiceover-macos.json",
       "required": true
@@ -2924,7 +3377,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": null,
+      "storyId": "surf-calendar--default",
       "script": "tests/a11y/manual/scripts/surf/calendar.md",
       "record": "tests/a11y/manual/records/surf/calendar-voiceover-ios.json",
       "required": true
@@ -2936,7 +3389,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": null,
+      "storyId": "surf-calendar--default",
       "script": "tests/a11y/manual/scripts/surf/calendar.md",
       "record": "tests/a11y/manual/records/surf/calendar-nvda-chrome.json",
       "required": true
@@ -2948,7 +3401,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": null,
+      "storyId": "surf-calendar--default",
       "script": "tests/a11y/manual/scripts/surf/calendar.md",
       "record": "tests/a11y/manual/records/surf/calendar-talkback-chrome.json",
       "required": true
@@ -2960,7 +3413,7 @@
       "flagship": 14,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": null,
+      "storyId": "surf-calendar--default",
       "script": "tests/a11y/manual/scripts/surf/calendar.md",
       "record": "tests/a11y/manual/records/surf/calendar-touch-ios.json",
       "required": true
@@ -2972,7 +3425,7 @@
       "flagship": 14,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": null,
+      "storyId": "surf-calendar--default",
       "script": "tests/a11y/manual/scripts/surf/calendar.md",
       "record": "tests/a11y/manual/records/surf/calendar-touch-android.json",
       "required": true
@@ -3056,7 +3509,7 @@
       "flagship": 36,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "surf-chart-frame--basic",
+      "storyId": "surf-chart-frame--default",
       "script": "tests/a11y/manual/scripts/surf/chart-frame.md",
       "record": "tests/a11y/manual/records/surf/chart-frame-voiceover-macos.json",
       "required": true
@@ -3068,7 +3521,7 @@
       "flagship": 36,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "surf-chart-frame--basic",
+      "storyId": "surf-chart-frame--default",
       "script": "tests/a11y/manual/scripts/surf/chart-frame.md",
       "record": "tests/a11y/manual/records/surf/chart-frame-voiceover-ios.json",
       "required": true
@@ -3080,7 +3533,7 @@
       "flagship": 36,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "surf-chart-frame--basic",
+      "storyId": "surf-chart-frame--default",
       "script": "tests/a11y/manual/scripts/surf/chart-frame.md",
       "record": "tests/a11y/manual/records/surf/chart-frame-nvda-chrome.json",
       "required": true
@@ -3092,7 +3545,7 @@
       "flagship": 36,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "surf-chart-frame--basic",
+      "storyId": "surf-chart-frame--default",
       "script": "tests/a11y/manual/scripts/surf/chart-frame.md",
       "record": "tests/a11y/manual/records/surf/chart-frame-talkback-chrome.json",
       "required": true
@@ -3104,7 +3557,7 @@
       "flagship": 36,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "surf-chart-frame--basic",
+      "storyId": "surf-chart-frame--default",
       "script": "tests/a11y/manual/scripts/surf/chart-frame.md",
       "record": "tests/a11y/manual/records/surf/chart-frame-touch-ios.json",
       "required": true
@@ -3116,81 +3569,9 @@
       "flagship": 36,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "surf-chart-frame--basic",
+      "storyId": "surf-chart-frame--default",
       "script": "tests/a11y/manual/scripts/surf/chart-frame.md",
       "record": "tests/a11y/manual/records/surf/chart-frame-touch-android.json",
-      "required": true
-    },
-    {
-      "subject": "citation",
-      "name": "Citation",
-      "stream": "surf",
-      "flagship": 42,
-      "pass": "sr",
-      "at": "voiceover-macos",
-      "storyId": null,
-      "script": "tests/a11y/manual/scripts/surf/citation.md",
-      "record": "tests/a11y/manual/records/surf/citation-voiceover-macos.json",
-      "required": true
-    },
-    {
-      "subject": "citation",
-      "name": "Citation",
-      "stream": "surf",
-      "flagship": 42,
-      "pass": "sr",
-      "at": "voiceover-ios",
-      "storyId": null,
-      "script": "tests/a11y/manual/scripts/surf/citation.md",
-      "record": "tests/a11y/manual/records/surf/citation-voiceover-ios.json",
-      "required": true
-    },
-    {
-      "subject": "citation",
-      "name": "Citation",
-      "stream": "surf",
-      "flagship": 42,
-      "pass": "sr",
-      "at": "nvda-chrome",
-      "storyId": null,
-      "script": "tests/a11y/manual/scripts/surf/citation.md",
-      "record": "tests/a11y/manual/records/surf/citation-nvda-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "citation",
-      "name": "Citation",
-      "stream": "surf",
-      "flagship": 42,
-      "pass": "sr",
-      "at": "talkback-chrome",
-      "storyId": null,
-      "script": "tests/a11y/manual/scripts/surf/citation.md",
-      "record": "tests/a11y/manual/records/surf/citation-talkback-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "citation",
-      "name": "Citation",
-      "stream": "surf",
-      "flagship": 42,
-      "pass": "touch",
-      "at": "touch-ios",
-      "storyId": null,
-      "script": "tests/a11y/manual/scripts/surf/citation.md",
-      "record": "tests/a11y/manual/records/surf/citation-touch-ios.json",
-      "required": true
-    },
-    {
-      "subject": "citation",
-      "name": "Citation",
-      "stream": "surf",
-      "flagship": 42,
-      "pass": "touch",
-      "at": "touch-android",
-      "storyId": null,
-      "script": "tests/a11y/manual/scripts/surf/citation.md",
-      "record": "tests/a11y/manual/records/surf/citation-touch-android.json",
       "required": true
     },
     {
@@ -3338,85 +3719,13 @@
       "required": true
     },
     {
-      "subject": "composer",
-      "name": "Composer",
-      "stream": "surf",
-      "flagship": 40,
-      "pass": "sr",
-      "at": "voiceover-macos",
-      "storyId": "ai-composer--ready",
-      "script": "tests/a11y/manual/scripts/surf/composer.md",
-      "record": "tests/a11y/manual/records/surf/composer-voiceover-macos.json",
-      "required": true
-    },
-    {
-      "subject": "composer",
-      "name": "Composer",
-      "stream": "surf",
-      "flagship": 40,
-      "pass": "sr",
-      "at": "voiceover-ios",
-      "storyId": "ai-composer--ready",
-      "script": "tests/a11y/manual/scripts/surf/composer.md",
-      "record": "tests/a11y/manual/records/surf/composer-voiceover-ios.json",
-      "required": true
-    },
-    {
-      "subject": "composer",
-      "name": "Composer",
-      "stream": "surf",
-      "flagship": 40,
-      "pass": "sr",
-      "at": "nvda-chrome",
-      "storyId": "ai-composer--ready",
-      "script": "tests/a11y/manual/scripts/surf/composer.md",
-      "record": "tests/a11y/manual/records/surf/composer-nvda-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "composer",
-      "name": "Composer",
-      "stream": "surf",
-      "flagship": 40,
-      "pass": "sr",
-      "at": "talkback-chrome",
-      "storyId": "ai-composer--ready",
-      "script": "tests/a11y/manual/scripts/surf/composer.md",
-      "record": "tests/a11y/manual/records/surf/composer-talkback-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "composer",
-      "name": "Composer",
-      "stream": "surf",
-      "flagship": 40,
-      "pass": "touch",
-      "at": "touch-ios",
-      "storyId": "ai-composer--ready",
-      "script": "tests/a11y/manual/scripts/surf/composer.md",
-      "record": "tests/a11y/manual/records/surf/composer-touch-ios.json",
-      "required": true
-    },
-    {
-      "subject": "composer",
-      "name": "Composer",
-      "stream": "surf",
-      "flagship": 40,
-      "pass": "touch",
-      "at": "touch-android",
-      "storyId": "ai-composer--ready",
-      "script": "tests/a11y/manual/scripts/surf/composer.md",
-      "record": "tests/a11y/manual/records/surf/composer-touch-android.json",
-      "required": true
-    },
-    {
       "subject": "date-field",
       "name": "DateField",
       "stream": "surf",
       "flagship": 14,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": null,
+      "storyId": "surf-date-field--default",
       "script": "tests/a11y/manual/scripts/surf/date-field.md",
       "record": "tests/a11y/manual/records/surf/date-field-voiceover-macos.json",
       "required": true
@@ -3428,7 +3737,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": null,
+      "storyId": "surf-date-field--default",
       "script": "tests/a11y/manual/scripts/surf/date-field.md",
       "record": "tests/a11y/manual/records/surf/date-field-voiceover-ios.json",
       "required": true
@@ -3440,7 +3749,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": null,
+      "storyId": "surf-date-field--default",
       "script": "tests/a11y/manual/scripts/surf/date-field.md",
       "record": "tests/a11y/manual/records/surf/date-field-nvda-chrome.json",
       "required": true
@@ -3452,7 +3761,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": null,
+      "storyId": "surf-date-field--default",
       "script": "tests/a11y/manual/scripts/surf/date-field.md",
       "record": "tests/a11y/manual/records/surf/date-field-talkback-chrome.json",
       "required": true
@@ -3464,7 +3773,7 @@
       "flagship": 14,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": null,
+      "storyId": "surf-date-field--default",
       "script": "tests/a11y/manual/scripts/surf/date-field.md",
       "record": "tests/a11y/manual/records/surf/date-field-touch-ios.json",
       "required": true
@@ -3476,7 +3785,7 @@
       "flagship": 14,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": null,
+      "storyId": "surf-date-field--default",
       "script": "tests/a11y/manual/scripts/surf/date-field.md",
       "record": "tests/a11y/manual/records/surf/date-field-touch-android.json",
       "required": true
@@ -3488,7 +3797,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "surf-date-picker--picker",
+      "storyId": "surf-date-picker--default",
       "script": "tests/a11y/manual/scripts/surf/date-picker.md",
       "record": "tests/a11y/manual/records/surf/date-picker-voiceover-macos.json",
       "required": true
@@ -3500,7 +3809,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "surf-date-picker--picker",
+      "storyId": "surf-date-picker--default",
       "script": "tests/a11y/manual/scripts/surf/date-picker.md",
       "record": "tests/a11y/manual/records/surf/date-picker-voiceover-ios.json",
       "required": true
@@ -3512,7 +3821,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "surf-date-picker--picker",
+      "storyId": "surf-date-picker--default",
       "script": "tests/a11y/manual/scripts/surf/date-picker.md",
       "record": "tests/a11y/manual/records/surf/date-picker-nvda-chrome.json",
       "required": true
@@ -3524,7 +3833,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "surf-date-picker--picker",
+      "storyId": "surf-date-picker--default",
       "script": "tests/a11y/manual/scripts/surf/date-picker.md",
       "record": "tests/a11y/manual/records/surf/date-picker-talkback-chrome.json",
       "required": true
@@ -3536,7 +3845,7 @@
       "flagship": 14,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "surf-date-picker--picker",
+      "storyId": "surf-date-picker--default",
       "script": "tests/a11y/manual/scripts/surf/date-picker.md",
       "record": "tests/a11y/manual/records/surf/date-picker-touch-ios.json",
       "required": true
@@ -3548,7 +3857,7 @@
       "flagship": 14,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "surf-date-picker--picker",
+      "storyId": "surf-date-picker--default",
       "script": "tests/a11y/manual/scripts/surf/date-picker.md",
       "record": "tests/a11y/manual/records/surf/date-picker-touch-android.json",
       "required": true
@@ -3560,7 +3869,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": null,
+      "storyId": "surf-date-range-picker--default",
       "script": "tests/a11y/manual/scripts/surf/date-range-picker.md",
       "record": "tests/a11y/manual/records/surf/date-range-picker-voiceover-macos.json",
       "required": true
@@ -3572,7 +3881,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": null,
+      "storyId": "surf-date-range-picker--default",
       "script": "tests/a11y/manual/scripts/surf/date-range-picker.md",
       "record": "tests/a11y/manual/records/surf/date-range-picker-voiceover-ios.json",
       "required": true
@@ -3584,7 +3893,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": null,
+      "storyId": "surf-date-range-picker--default",
       "script": "tests/a11y/manual/scripts/surf/date-range-picker.md",
       "record": "tests/a11y/manual/records/surf/date-range-picker-nvda-chrome.json",
       "required": true
@@ -3596,7 +3905,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": null,
+      "storyId": "surf-date-range-picker--default",
       "script": "tests/a11y/manual/scripts/surf/date-range-picker.md",
       "record": "tests/a11y/manual/records/surf/date-range-picker-talkback-chrome.json",
       "required": true
@@ -3608,7 +3917,7 @@
       "flagship": 14,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": null,
+      "storyId": "surf-date-range-picker--default",
       "script": "tests/a11y/manual/scripts/surf/date-range-picker.md",
       "record": "tests/a11y/manual/records/surf/date-range-picker-touch-ios.json",
       "required": true
@@ -3620,7 +3929,7 @@
       "flagship": 14,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": null,
+      "storyId": "surf-date-range-picker--default",
       "script": "tests/a11y/manual/scripts/surf/date-range-picker.md",
       "record": "tests/a11y/manual/records/surf/date-range-picker-touch-android.json",
       "required": true
@@ -3632,7 +3941,7 @@
       "flagship": 34,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "surf-filter-bar--basic",
+      "storyId": "surf-filter-bar--default",
       "script": "tests/a11y/manual/scripts/surf/filter-bar.md",
       "record": "tests/a11y/manual/records/surf/filter-bar-voiceover-macos.json",
       "required": true
@@ -3644,7 +3953,7 @@
       "flagship": 34,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "surf-filter-bar--basic",
+      "storyId": "surf-filter-bar--default",
       "script": "tests/a11y/manual/scripts/surf/filter-bar.md",
       "record": "tests/a11y/manual/records/surf/filter-bar-voiceover-ios.json",
       "required": true
@@ -3656,7 +3965,7 @@
       "flagship": 34,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "surf-filter-bar--basic",
+      "storyId": "surf-filter-bar--default",
       "script": "tests/a11y/manual/scripts/surf/filter-bar.md",
       "record": "tests/a11y/manual/records/surf/filter-bar-nvda-chrome.json",
       "required": true
@@ -3668,7 +3977,7 @@
       "flagship": 34,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "surf-filter-bar--basic",
+      "storyId": "surf-filter-bar--default",
       "script": "tests/a11y/manual/scripts/surf/filter-bar.md",
       "record": "tests/a11y/manual/records/surf/filter-bar-talkback-chrome.json",
       "required": true
@@ -3680,7 +3989,7 @@
       "flagship": 34,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "surf-filter-bar--basic",
+      "storyId": "surf-filter-bar--default",
       "script": "tests/a11y/manual/scripts/surf/filter-bar.md",
       "record": "tests/a11y/manual/records/surf/filter-bar-touch-ios.json",
       "required": true
@@ -3692,7 +4001,7 @@
       "flagship": 34,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "surf-filter-bar--basic",
+      "storyId": "surf-filter-bar--default",
       "script": "tests/a11y/manual/scripts/surf/filter-bar.md",
       "record": "tests/a11y/manual/records/surf/filter-bar-touch-android.json",
       "required": true
@@ -3767,78 +4076,6 @@
       "storyId": "media-mediacontrols--paused",
       "script": "tests/a11y/manual/scripts/surf/media-controls.md",
       "record": "tests/a11y/manual/records/surf/media-controls-touch-android.json",
-      "required": true
-    },
-    {
-      "subject": "message",
-      "name": "Message",
-      "stream": "surf",
-      "flagship": 39,
-      "pass": "sr",
-      "at": "voiceover-macos",
-      "storyId": "ai-message--user",
-      "script": "tests/a11y/manual/scripts/surf/message.md",
-      "record": "tests/a11y/manual/records/surf/message-voiceover-macos.json",
-      "required": true
-    },
-    {
-      "subject": "message",
-      "name": "Message",
-      "stream": "surf",
-      "flagship": 39,
-      "pass": "sr",
-      "at": "voiceover-ios",
-      "storyId": "ai-message--user",
-      "script": "tests/a11y/manual/scripts/surf/message.md",
-      "record": "tests/a11y/manual/records/surf/message-voiceover-ios.json",
-      "required": true
-    },
-    {
-      "subject": "message",
-      "name": "Message",
-      "stream": "surf",
-      "flagship": 39,
-      "pass": "sr",
-      "at": "nvda-chrome",
-      "storyId": "ai-message--user",
-      "script": "tests/a11y/manual/scripts/surf/message.md",
-      "record": "tests/a11y/manual/records/surf/message-nvda-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "message",
-      "name": "Message",
-      "stream": "surf",
-      "flagship": 39,
-      "pass": "sr",
-      "at": "talkback-chrome",
-      "storyId": "ai-message--user",
-      "script": "tests/a11y/manual/scripts/surf/message.md",
-      "record": "tests/a11y/manual/records/surf/message-talkback-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "message",
-      "name": "Message",
-      "stream": "surf",
-      "flagship": 39,
-      "pass": "touch",
-      "at": "touch-ios",
-      "storyId": "ai-message--user",
-      "script": "tests/a11y/manual/scripts/surf/message.md",
-      "record": "tests/a11y/manual/records/surf/message-touch-ios.json",
-      "required": true
-    },
-    {
-      "subject": "message",
-      "name": "Message",
-      "stream": "surf",
-      "flagship": 39,
-      "pass": "touch",
-      "at": "touch-android",
-      "storyId": "ai-message--user",
-      "script": "tests/a11y/manual/scripts/surf/message.md",
-      "record": "tests/a11y/manual/records/surf/message-touch-android.json",
       "required": true
     },
     {
@@ -4082,78 +4319,6 @@
       "required": true
     },
     {
-      "subject": "range-calendar",
-      "name": "RangeCalendar",
-      "stream": "surf",
-      "flagship": 14,
-      "pass": "sr",
-      "at": "voiceover-macos",
-      "storyId": null,
-      "script": "tests/a11y/manual/scripts/surf/range-calendar.md",
-      "record": "tests/a11y/manual/records/surf/range-calendar-voiceover-macos.json",
-      "required": true
-    },
-    {
-      "subject": "range-calendar",
-      "name": "RangeCalendar",
-      "stream": "surf",
-      "flagship": 14,
-      "pass": "sr",
-      "at": "voiceover-ios",
-      "storyId": null,
-      "script": "tests/a11y/manual/scripts/surf/range-calendar.md",
-      "record": "tests/a11y/manual/records/surf/range-calendar-voiceover-ios.json",
-      "required": true
-    },
-    {
-      "subject": "range-calendar",
-      "name": "RangeCalendar",
-      "stream": "surf",
-      "flagship": 14,
-      "pass": "sr",
-      "at": "nvda-chrome",
-      "storyId": null,
-      "script": "tests/a11y/manual/scripts/surf/range-calendar.md",
-      "record": "tests/a11y/manual/records/surf/range-calendar-nvda-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "range-calendar",
-      "name": "RangeCalendar",
-      "stream": "surf",
-      "flagship": 14,
-      "pass": "sr",
-      "at": "talkback-chrome",
-      "storyId": null,
-      "script": "tests/a11y/manual/scripts/surf/range-calendar.md",
-      "record": "tests/a11y/manual/records/surf/range-calendar-talkback-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "range-calendar",
-      "name": "RangeCalendar",
-      "stream": "surf",
-      "flagship": 14,
-      "pass": "touch",
-      "at": "touch-ios",
-      "storyId": null,
-      "script": "tests/a11y/manual/scripts/surf/range-calendar.md",
-      "record": "tests/a11y/manual/records/surf/range-calendar-touch-ios.json",
-      "required": true
-    },
-    {
-      "subject": "range-calendar",
-      "name": "RangeCalendar",
-      "stream": "surf",
-      "flagship": 14,
-      "pass": "touch",
-      "at": "touch-android",
-      "storyId": null,
-      "script": "tests/a11y/manual/scripts/surf/range-calendar.md",
-      "record": "tests/a11y/manual/records/surf/range-calendar-touch-android.json",
-      "required": true
-    },
-    {
       "subject": "resizable-panels",
       "name": "ResizablePanels",
       "stream": "surf",
@@ -4304,7 +4469,7 @@
       "flagship": null,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": null,
+      "storyId": "surf-sidebar-drawer--open",
       "script": "tests/a11y/manual/scripts/surf/sidebar-drawer.md",
       "record": "tests/a11y/manual/records/surf/sidebar-drawer-voiceover-macos.json",
       "required": true
@@ -4316,7 +4481,7 @@
       "flagship": null,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": null,
+      "storyId": "surf-sidebar-drawer--open",
       "script": "tests/a11y/manual/scripts/surf/sidebar-drawer.md",
       "record": "tests/a11y/manual/records/surf/sidebar-drawer-voiceover-ios.json",
       "required": true
@@ -4328,7 +4493,7 @@
       "flagship": null,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": null,
+      "storyId": "surf-sidebar-drawer--open",
       "script": "tests/a11y/manual/scripts/surf/sidebar-drawer.md",
       "record": "tests/a11y/manual/records/surf/sidebar-drawer-nvda-chrome.json",
       "required": true
@@ -4340,7 +4505,7 @@
       "flagship": null,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": null,
+      "storyId": "surf-sidebar-drawer--open",
       "script": "tests/a11y/manual/scripts/surf/sidebar-drawer.md",
       "record": "tests/a11y/manual/records/surf/sidebar-drawer-talkback-chrome.json",
       "required": true
@@ -4352,7 +4517,7 @@
       "flagship": null,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": null,
+      "storyId": "surf-sidebar-drawer--open",
       "script": "tests/a11y/manual/scripts/surf/sidebar-drawer.md",
       "record": "tests/a11y/manual/records/surf/sidebar-drawer-touch-ios.json",
       "required": true
@@ -4364,81 +4529,9 @@
       "flagship": null,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": null,
+      "storyId": "surf-sidebar-drawer--open",
       "script": "tests/a11y/manual/scripts/surf/sidebar-drawer.md",
       "record": "tests/a11y/manual/records/surf/sidebar-drawer-touch-android.json",
-      "required": true
-    },
-    {
-      "subject": "source-list",
-      "name": "SourceList",
-      "stream": "surf",
-      "flagship": 42,
-      "pass": "sr",
-      "at": "voiceover-macos",
-      "storyId": "ai-sourcelist--three",
-      "script": "tests/a11y/manual/scripts/surf/source-list.md",
-      "record": "tests/a11y/manual/records/surf/source-list-voiceover-macos.json",
-      "required": true
-    },
-    {
-      "subject": "source-list",
-      "name": "SourceList",
-      "stream": "surf",
-      "flagship": 42,
-      "pass": "sr",
-      "at": "voiceover-ios",
-      "storyId": "ai-sourcelist--three",
-      "script": "tests/a11y/manual/scripts/surf/source-list.md",
-      "record": "tests/a11y/manual/records/surf/source-list-voiceover-ios.json",
-      "required": true
-    },
-    {
-      "subject": "source-list",
-      "name": "SourceList",
-      "stream": "surf",
-      "flagship": 42,
-      "pass": "sr",
-      "at": "nvda-chrome",
-      "storyId": "ai-sourcelist--three",
-      "script": "tests/a11y/manual/scripts/surf/source-list.md",
-      "record": "tests/a11y/manual/records/surf/source-list-nvda-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "source-list",
-      "name": "SourceList",
-      "stream": "surf",
-      "flagship": 42,
-      "pass": "sr",
-      "at": "talkback-chrome",
-      "storyId": "ai-sourcelist--three",
-      "script": "tests/a11y/manual/scripts/surf/source-list.md",
-      "record": "tests/a11y/manual/records/surf/source-list-talkback-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "source-list",
-      "name": "SourceList",
-      "stream": "surf",
-      "flagship": 42,
-      "pass": "touch",
-      "at": "touch-ios",
-      "storyId": "ai-sourcelist--three",
-      "script": "tests/a11y/manual/scripts/surf/source-list.md",
-      "record": "tests/a11y/manual/records/surf/source-list-touch-ios.json",
-      "required": true
-    },
-    {
-      "subject": "source-list",
-      "name": "SourceList",
-      "stream": "surf",
-      "flagship": 42,
-      "pass": "touch",
-      "at": "touch-android",
-      "storyId": "ai-sourcelist--three",
-      "script": "tests/a11y/manual/scripts/surf/source-list.md",
-      "record": "tests/a11y/manual/records/surf/source-list-touch-android.json",
       "required": true
     },
     {
@@ -4874,85 +4967,13 @@
       "required": true
     },
     {
-      "subject": "thread",
-      "name": "Thread",
-      "stream": "surf",
-      "flagship": 38,
-      "pass": "sr",
-      "at": "voiceover-macos",
-      "storyId": "ai-thread--empty",
-      "script": "tests/a11y/manual/scripts/surf/thread.md",
-      "record": "tests/a11y/manual/records/surf/thread-voiceover-macos.json",
-      "required": true
-    },
-    {
-      "subject": "thread",
-      "name": "Thread",
-      "stream": "surf",
-      "flagship": 38,
-      "pass": "sr",
-      "at": "voiceover-ios",
-      "storyId": "ai-thread--empty",
-      "script": "tests/a11y/manual/scripts/surf/thread.md",
-      "record": "tests/a11y/manual/records/surf/thread-voiceover-ios.json",
-      "required": true
-    },
-    {
-      "subject": "thread",
-      "name": "Thread",
-      "stream": "surf",
-      "flagship": 38,
-      "pass": "sr",
-      "at": "nvda-chrome",
-      "storyId": "ai-thread--empty",
-      "script": "tests/a11y/manual/scripts/surf/thread.md",
-      "record": "tests/a11y/manual/records/surf/thread-nvda-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "thread",
-      "name": "Thread",
-      "stream": "surf",
-      "flagship": 38,
-      "pass": "sr",
-      "at": "talkback-chrome",
-      "storyId": "ai-thread--empty",
-      "script": "tests/a11y/manual/scripts/surf/thread.md",
-      "record": "tests/a11y/manual/records/surf/thread-talkback-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "thread",
-      "name": "Thread",
-      "stream": "surf",
-      "flagship": 38,
-      "pass": "touch",
-      "at": "touch-ios",
-      "storyId": "ai-thread--empty",
-      "script": "tests/a11y/manual/scripts/surf/thread.md",
-      "record": "tests/a11y/manual/records/surf/thread-touch-ios.json",
-      "required": true
-    },
-    {
-      "subject": "thread",
-      "name": "Thread",
-      "stream": "surf",
-      "flagship": 38,
-      "pass": "touch",
-      "at": "touch-android",
-      "storyId": "ai-thread--empty",
-      "script": "tests/a11y/manual/scripts/surf/thread.md",
-      "record": "tests/a11y/manual/records/surf/thread-touch-android.json",
-      "required": true
-    },
-    {
       "subject": "time-field",
       "name": "TimeField",
       "stream": "surf",
       "flagship": 14,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": null,
+      "storyId": "surf-time-field--default",
       "script": "tests/a11y/manual/scripts/surf/time-field.md",
       "record": "tests/a11y/manual/records/surf/time-field-voiceover-macos.json",
       "required": true
@@ -4964,7 +4985,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": null,
+      "storyId": "surf-time-field--default",
       "script": "tests/a11y/manual/scripts/surf/time-field.md",
       "record": "tests/a11y/manual/records/surf/time-field-voiceover-ios.json",
       "required": true
@@ -4976,7 +4997,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": null,
+      "storyId": "surf-time-field--default",
       "script": "tests/a11y/manual/scripts/surf/time-field.md",
       "record": "tests/a11y/manual/records/surf/time-field-nvda-chrome.json",
       "required": true
@@ -4988,7 +5009,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": null,
+      "storyId": "surf-time-field--default",
       "script": "tests/a11y/manual/scripts/surf/time-field.md",
       "record": "tests/a11y/manual/records/surf/time-field-talkback-chrome.json",
       "required": true
@@ -5000,7 +5021,7 @@
       "flagship": 14,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": null,
+      "storyId": "surf-time-field--default",
       "script": "tests/a11y/manual/scripts/surf/time-field.md",
       "record": "tests/a11y/manual/records/surf/time-field-touch-ios.json",
       "required": true
@@ -5012,7 +5033,7 @@
       "flagship": 14,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": null,
+      "storyId": "surf-time-field--default",
       "script": "tests/a11y/manual/scripts/surf/time-field.md",
       "record": "tests/a11y/manual/records/surf/time-field-touch-android.json",
       "required": true
@@ -5024,7 +5045,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": null,
+      "storyId": "surf-time-picker--default",
       "script": "tests/a11y/manual/scripts/surf/time-picker.md",
       "record": "tests/a11y/manual/records/surf/time-picker-voiceover-macos.json",
       "required": true
@@ -5036,7 +5057,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": null,
+      "storyId": "surf-time-picker--default",
       "script": "tests/a11y/manual/scripts/surf/time-picker.md",
       "record": "tests/a11y/manual/records/surf/time-picker-voiceover-ios.json",
       "required": true
@@ -5048,7 +5069,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": null,
+      "storyId": "surf-time-picker--default",
       "script": "tests/a11y/manual/scripts/surf/time-picker.md",
       "record": "tests/a11y/manual/records/surf/time-picker-nvda-chrome.json",
       "required": true
@@ -5060,7 +5081,7 @@
       "flagship": 14,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": null,
+      "storyId": "surf-time-picker--default",
       "script": "tests/a11y/manual/scripts/surf/time-picker.md",
       "record": "tests/a11y/manual/records/surf/time-picker-talkback-chrome.json",
       "required": true
@@ -5072,7 +5093,7 @@
       "flagship": 14,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": null,
+      "storyId": "surf-time-picker--default",
       "script": "tests/a11y/manual/scripts/surf/time-picker.md",
       "record": "tests/a11y/manual/records/surf/time-picker-touch-ios.json",
       "required": true
@@ -5084,7 +5105,7 @@
       "flagship": 14,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": null,
+      "storyId": "surf-time-picker--default",
       "script": "tests/a11y/manual/scripts/surf/time-picker.md",
       "record": "tests/a11y/manual/records/surf/time-picker-touch-android.json",
       "required": true
@@ -5096,7 +5117,7 @@
       "flagship": 37,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": null,
+      "storyId": "surf-timeline--vertical",
       "script": "tests/a11y/manual/scripts/surf/timeline.md",
       "record": "tests/a11y/manual/records/surf/timeline-voiceover-macos.json",
       "required": true
@@ -5108,7 +5129,7 @@
       "flagship": 37,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": null,
+      "storyId": "surf-timeline--vertical",
       "script": "tests/a11y/manual/scripts/surf/timeline.md",
       "record": "tests/a11y/manual/records/surf/timeline-voiceover-ios.json",
       "required": true
@@ -5120,7 +5141,7 @@
       "flagship": 37,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": null,
+      "storyId": "surf-timeline--vertical",
       "script": "tests/a11y/manual/scripts/surf/timeline.md",
       "record": "tests/a11y/manual/records/surf/timeline-nvda-chrome.json",
       "required": true
@@ -5132,7 +5153,7 @@
       "flagship": 37,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": null,
+      "storyId": "surf-timeline--vertical",
       "script": "tests/a11y/manual/scripts/surf/timeline.md",
       "record": "tests/a11y/manual/records/surf/timeline-talkback-chrome.json",
       "required": true
@@ -5144,7 +5165,7 @@
       "flagship": 37,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": null,
+      "storyId": "surf-timeline--vertical",
       "script": "tests/a11y/manual/scripts/surf/timeline.md",
       "record": "tests/a11y/manual/records/surf/timeline-touch-ios.json",
       "required": true
@@ -5156,81 +5177,9 @@
       "flagship": 37,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": null,
+      "storyId": "surf-timeline--vertical",
       "script": "tests/a11y/manual/scripts/surf/timeline.md",
       "record": "tests/a11y/manual/records/surf/timeline-touch-android.json",
-      "required": true
-    },
-    {
-      "subject": "tool-call",
-      "name": "ToolCall",
-      "stream": "surf",
-      "flagship": 41,
-      "pass": "sr",
-      "at": "voiceover-macos",
-      "storyId": "ai-toolcall--queued",
-      "script": "tests/a11y/manual/scripts/surf/tool-call.md",
-      "record": "tests/a11y/manual/records/surf/tool-call-voiceover-macos.json",
-      "required": true
-    },
-    {
-      "subject": "tool-call",
-      "name": "ToolCall",
-      "stream": "surf",
-      "flagship": 41,
-      "pass": "sr",
-      "at": "voiceover-ios",
-      "storyId": "ai-toolcall--queued",
-      "script": "tests/a11y/manual/scripts/surf/tool-call.md",
-      "record": "tests/a11y/manual/records/surf/tool-call-voiceover-ios.json",
-      "required": true
-    },
-    {
-      "subject": "tool-call",
-      "name": "ToolCall",
-      "stream": "surf",
-      "flagship": 41,
-      "pass": "sr",
-      "at": "nvda-chrome",
-      "storyId": "ai-toolcall--queued",
-      "script": "tests/a11y/manual/scripts/surf/tool-call.md",
-      "record": "tests/a11y/manual/records/surf/tool-call-nvda-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "tool-call",
-      "name": "ToolCall",
-      "stream": "surf",
-      "flagship": 41,
-      "pass": "sr",
-      "at": "talkback-chrome",
-      "storyId": "ai-toolcall--queued",
-      "script": "tests/a11y/manual/scripts/surf/tool-call.md",
-      "record": "tests/a11y/manual/records/surf/tool-call-talkback-chrome.json",
-      "required": true
-    },
-    {
-      "subject": "tool-call",
-      "name": "ToolCall",
-      "stream": "surf",
-      "flagship": 41,
-      "pass": "touch",
-      "at": "touch-ios",
-      "storyId": "ai-toolcall--queued",
-      "script": "tests/a11y/manual/scripts/surf/tool-call.md",
-      "record": "tests/a11y/manual/records/surf/tool-call-touch-ios.json",
-      "required": true
-    },
-    {
-      "subject": "tool-call",
-      "name": "ToolCall",
-      "stream": "surf",
-      "flagship": 41,
-      "pass": "touch",
-      "at": "touch-android",
-      "storyId": "ai-toolcall--queued",
-      "script": "tests/a11y/manual/scripts/surf/tool-call.md",
-      "record": "tests/a11y/manual/records/surf/tool-call-touch-android.json",
       "required": true
     },
     {

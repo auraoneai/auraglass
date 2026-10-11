@@ -48,7 +48,7 @@ export const materialSpec = {
         },
         grain: 0.03,
         rim: {
-          value: 1,
+          value: 1.5,
           unit: "px",
         },
         alpha: 0.72,
@@ -101,7 +101,7 @@ export const materialSpec = {
         },
         grain: 0.02,
         rim: {
-          value: 1,
+          value: 1.5,
           unit: "px",
         },
         alpha: 0.55,
@@ -154,7 +154,7 @@ export const materialSpec = {
         },
         grain: 0.03,
         rim: {
-          value: 1,
+          value: 1.5,
           unit: "px",
         },
         alpha: 0.85,
