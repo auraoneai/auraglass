@@ -10,7 +10,7 @@ test.describe('media scrubber drag (REQ-SURF-136)', () => {
     const subject = subjects.find((s) => s.subject === 'MediaScrubber' && s.id.endsWith('--drag-probe'));
     expect(subject, 'MediaScrubber DragProbe story registered in the subject index').toBeTruthy();
     await gotoStory(page, subject!.id);
-    const probe = page.locator('[data-ag-test="probe"]');
+    const probe = page.locator('[data-testid="probe"]');
     const control = probe.locator('[data-ag-part="media-scrubber"] [data-ag-part="control"]');
     const box = await control.boundingBox();
     expect(box, 'scrubber control has a layout box').not.toBeNull();

@@ -69,7 +69,7 @@ describe('MediaControls parts (REQ-SURF-134/135)', () => {
     const { container } = render(<MediaControls.Root playing />);
     const frame = container.querySelector('.ag-media-controls-frame') as HTMLElement;
     expect(frame.contains(container.querySelector('[role="toolbar"]'))).toBe(true);
-    expect(frame.getAttribute('data-ag-media-size')).toBe('full');
+    expect(frame.getAttribute('data-size')).toBe('full');
   });
   it('every part renders its data-ag-part marker', () => {
     const { container } = render(
@@ -160,7 +160,7 @@ describe('MediaControls parts (REQ-SURF-134/135)', () => {
       'media-captions', 'media-pip', 'media-fullscreen']);
     expect(container.querySelector('[data-ag-part="media-time"]')!.textContent).toBe('1:32 / 6:12');
     resize(400);
-    expect(container.querySelector('.ag-media-controls-frame')!.getAttribute('data-ag-media-size')).toBe('compact');
+    expect(container.querySelector('.ag-media-controls-frame')!.getAttribute('data-size')).toBe('compact');
     expect(parts(container)).toEqual(['media-play', 'media-scrubber', 'media-time', 'media-mute',
       'media-captions', 'media-fullscreen', 'media-more']);
     expect(container.querySelector('[data-ag-part="media-time"]')!.textContent).toBe('1:32');

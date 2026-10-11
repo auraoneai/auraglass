@@ -210,7 +210,7 @@ function Root(props: MediaControlsRootProps): React.ReactElement {
   return (
     <MediaControlsContext.Provider value={model}>
       <MediaControlsLayoutContext.Provider value={layout}>
-        <div ref={frameRef} className="ag-media-controls-frame" data-ag-media-size={size}>
+        <div ref={frameRef} className="ag-media-controls-frame" data-size={size}>
           <ToolbarRoot
             ref={rootRef}
             variant={variant}

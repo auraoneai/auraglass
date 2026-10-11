@@ -23,7 +23,7 @@ function DragProbeDemo() {
   const [seeks, setSeeks] = React.useState(0);
   const [commits, setCommits] = React.useState(0);
   return (
-    <div style={{ inlineSize: 360 }} data-ag-test="probe" data-seeks={seeks} data-commits={commits}>
+    <div style={{ inlineSize: 360 }} data-testid="probe" data-seeks={seeks} data-commits={commits}>
       <MediaScrubber
         value={value}
         max={300}

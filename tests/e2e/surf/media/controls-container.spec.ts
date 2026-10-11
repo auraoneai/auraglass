@@ -16,9 +16,9 @@ async function open(page: Page) {
 }
 
 async function atWidth(page: Page, width: number) {
-  await page.locator('[data-ag-test="frame"]').evaluate((el, w) => { (el as HTMLElement).style.inlineSize = `${w}px`; }, width);
+  await page.locator('[data-testid="frame"]').evaluate((el, w) => { (el as HTMLElement).style.inlineSize = `${w}px`; }, width);
   const size = width < 320 ? 'minimal' : width < 480 ? 'compact' : 'full';
-  await expect(page.locator('.ag-media-controls-frame')).toHaveAttribute('data-ag-media-size', size);
+  await expect(page.locator('.ag-media-controls-frame')).toHaveAttribute('data-size', size);
   return page.evaluate((parts) => {
     const toolbar = document.querySelector('[data-ag-part="media-controls"]') as HTMLElement;
     const visible = parts.filter((p) => {

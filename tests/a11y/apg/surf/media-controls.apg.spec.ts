@@ -11,7 +11,7 @@ test.describe('MediaControls APG (REQ-SURF-135)', () => {
     const subject = subjects.find((s) => s.subject === 'MediaControls' && s.id.endsWith('--responsive'));
     expect(subject, 'MediaControls Responsive story registered in the subject index').toBeTruthy();
     await gotoStory(page, subject!.id);
-    await page.locator('[data-ag-test="frame"]').evaluate((el) => { (el as HTMLElement).style.inlineSize = '720px'; });
+    await page.locator('[data-testid="frame"]').evaluate((el) => { (el as HTMLElement).style.inlineSize = '720px'; });
     const toolbar = page.getByRole('toolbar', { name: 'Media controls' });
     await expect(toolbar).toBeVisible();
 
@@ -67,8 +67,8 @@ test.describe('MediaControls APG (REQ-SURF-135)', () => {
     expect(subject).toBeTruthy();
     await gotoStory(page, subject!.id);
     for (const w of [720, 400]) {
-      await page.locator('[data-ag-test="frame"]').evaluate((el, px) => { (el as HTMLElement).style.inlineSize = `${px}px`; }, w);
-      await expect(page.locator('.ag-media-controls-frame')).toHaveAttribute('data-ag-media-size', w < 480 ? 'compact' : 'full');
+      await page.locator('[data-testid="frame"]').evaluate((el, px) => { (el as HTMLElement).style.inlineSize = `${px}px`; }, w);
+      await expect(page.locator('.ag-media-controls-frame')).toHaveAttribute('data-size', w < 480 ? 'compact' : 'full');
       const results = await new AxeBuilder({ page }).include('[data-ag-part="media-controls"]').analyze();
       expect(results.violations.map((v) => v.id)).toEqual([]);
     }

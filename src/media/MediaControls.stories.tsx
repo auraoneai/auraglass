@@ -1,5 +1,5 @@
 // MediaControls.stories.tsx — states + play (SURF-463); Responsive drives the
-// REQ-SURF-135/138 e2e/APG specs (width set on [data-ag-test="frame"]).
+// REQ-SURF-135/138 e2e/APG specs (width set on [data-testid="frame"]).
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { MediaControls } from './MediaControls/MediaControls';
@@ -32,6 +32,7 @@ export const Full: Story = {
       <MediaControls.PlayButton />
       <MediaControls.Scrubber />
       <MediaControls.Time />
+      <MediaControls.Spacer />
       <MediaControls.Volume />
       <MediaControls.Mute />
       <MediaControls.Rate />
@@ -46,7 +47,7 @@ const TRACKS: MediaTextTrack[] = [
   { id: 'de', label: 'Deutsch', language: 'de', kind: 'subtitles', mode: 'disabled' },
 ];
 
-/** Stateful controlled row with every part; specs resize [data-ag-test="frame"]. */
+/** Stateful controlled row with every part; specs resize [data-testid="frame"]. */
 function ResponsiveDemo() {
   const [playing, setPlaying] = React.useState(false);
   const [time, setTime] = React.useState(92);
@@ -55,7 +56,7 @@ function ResponsiveDemo() {
   const [rate, setRate] = React.useState(1);
   const [tracks, setTracks] = React.useState(TRACKS);
   return (
-    <div data-ag-test="frame" style={{ inlineSize: '100%' }}>
+    <div data-testid="frame" style={{ inlineSize: '100%' }}>
       <MediaControls.Root
         playing={playing} onPlayingChange={setPlaying}
         currentTime={time} onSeek={setTime} duration={372}
