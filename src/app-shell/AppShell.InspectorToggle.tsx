@@ -19,6 +19,9 @@ export interface AppShellInspectorToggleProps extends PartProps<'button'> {
   icon?: React.ReactNode;
 }
 
+/* Stable pre-attach snapshot (useSyncExternalStore needs a cached reference). */
+const DETACHED_SNAPSHOT = { sidebar: 'expanded', inspector: 'closed', mode: 'expanded' } as const;
+
 export function AppShellInspectorToggle({ labels, icon, ...rest }: AppShellInspectorToggleProps) {
   const ref = React.useRef<HTMLElement | null>(null);
   const [rootEl, setRootEl] = React.useState<HTMLElement | null>(null);
@@ -28,11 +31,8 @@ export function AppShellInspectorToggle({ labels, icon, ...rest }: AppShellInspe
       (cb: () => void) => (rootEl ? subscribe(rootEl, cb) : () => {}),
       [rootEl],
     ),
-    () => (rootEl ? getSnapshot(rootEl) : { sidebar: 'expanded' as const, inspector: 'closed' as const, mode: 'expanded' as const }),
-    () =>
-      rootEl
-        ? getServerSnapshot(rootEl)
-        : { sidebar: 'expanded' as const, inspector: 'closed' as const, mode: 'expanded' as const },
+    () => (rootEl ? getSnapshot(rootEl) : DETACHED_SNAPSHOT),
+    () => (rootEl ? getServerSnapshot(rootEl) : DETACHED_SNAPSHOT),
   );
 
   React.useLayoutEffect(() => {

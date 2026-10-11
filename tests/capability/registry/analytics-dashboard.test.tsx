@@ -1,18 +1,25 @@
 /** @jest-environment node */
-// SURF-240 — analytics-dashboard block render test (doubles preset).
-import { describe, expect, it } from '@jest/globals';
+// SURF-240 — analytics-dashboard block render test against the real library sources (REQ-SURF-171).
+import { describe, expect, it, jest } from '@jest/globals';
 import { renderToString } from 'react-dom/server';
 import { createElement } from 'react';
-import type * as Mod from '../../../registry/blocks/analytics-dashboard/index';
-import { EVENTS, STATS } from '../../../registry/blocks/analytics-dashboard/fixtures';
+// 'aura-glass' / 'aura-glass/<entry>' are not mapped by the root jest config
+// yet (REQ-FIN-09 / contract C-4, FIN-A): alias them to their
+// src/contracts/entries.ts sources — the real modules, never doubles.
+jest.mock('aura-glass', () => jest.requireActual('../../../src/index'), { virtual: true });
+jest.mock('aura-glass/app-shell', () => jest.requireActual('../../../src/app-shell/index'), { virtual: true });
+jest.mock('aura-glass/data', () => jest.requireActual('../../../src/data/index'), { virtual: true });
+jest.mock('aura-glass/ai', () => jest.requireActual('../../../src/ai/index'), { virtual: true });
+jest.mock('aura-glass/media', () => jest.requireActual('../../../src/media/index'), { virtual: true });
+jest.mock('aura-glass/backdrops', () => jest.requireActual('../../../src/backdrops/index'), { virtual: true });
+jest.mock('aura-glass/theme', () => jest.requireActual('../../../src/theme/public'), { virtual: true });
 
-const PENDING = 'analytics-dashboard: unresolvable under root jest until PR24 lands — assertions run under the doubles preset';
-const M = (() => { try { return require('../../../registry/blocks/analytics-dashboard/index') as typeof Mod; } catch { return null; } })();
+import { AnalyticsDashboard } from '../../../registry/blocks/analytics-dashboard/index';
+import { EVENTS, STATS } from '../../../registry/blocks/analytics-dashboard/fixtures';
 
 describe('analytics-dashboard block', () => {
   it('renders stat cards, chart frame title and the timeline', () => {
-    if (!M) { console.warn(PENDING); return; }
-    const html = renderToString(createElement(M.AnalyticsDashboard));
+    const html = renderToString(createElement(AnalyticsDashboard));
     expect(html).toContain('data-ag-part="analytics-dashboard"');
     for (const s of STATS) expect(html).toContain(s.label);
     expect(html).toContain('Product revenue');

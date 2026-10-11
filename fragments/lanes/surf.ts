@@ -139,6 +139,33 @@ const w5 = [
     remote: false,
     failClosed: true,
   },
+  // REQ-SURF-170 (REQ-FIN-88): SURF registry lint over every source file of
+  // every S-46 SURF block/item directory; its mutation cases live in
+  // tests/capability/registry/blocks-lint.test.ts.
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-registry.mjs',
+    scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-registry.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'jest',
+    path: 'tests/capability/registry/blocks-lint.test.ts',
+    scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
 ] as const;
 // --- lane W5 end ---
 

@@ -8,6 +8,7 @@ type Story = StoryObj<typeof ModelPicker>;
 
 export const Default: Story = { args: { options: MODELS, value: 'aura-large' } };
 export const Empty: Story = { args: { options: [] } };
+export const Loading: Story = { args: { options: [], loading: true } };
 export const RTL: Story = { args: { ...Default.args }, decorators: [(S) => <div dir="rtl"><S /></div>] };
 export const ReducedTransparency: Story = { args: { ...Default.args }, parameters: { agEnvironment: { transparency: 'none' } } };
 export const ForcedColors: Story = { args: { ...Default.args }, parameters: { agEnvironment: { forcedColors: 'active' } } };
