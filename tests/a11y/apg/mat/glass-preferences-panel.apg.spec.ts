@@ -8,13 +8,13 @@ const STORY = 'theme-glasspreferencespanel--default';
 
 async function goto_(page: import('@playwright/test').Page) {
   await page.goto(`/iframe.html?id=${STORY}&viewMode=story`);
-  await page.waitForSelector('[data-ag-preferences-panel]');
+  await page.waitForSelector('fieldset.ag-preferences-panel');
 }
 
 test.describe('GlassPreferencesPanel APG', () => {
   test('radio group: one tab stop, arrows move and select', async ({ page }) => {
     await goto_(page);
-    const radios = page.locator('[data-ag-pref="transparency"] input[type="radio"]');
+    const radios = page.locator('fieldset[name="transparency"] input[type="radio"]');
     await expect(radios).toHaveCount(4);
     await radios.nth(0).focus();
     await apg.keyboard(page, [
@@ -40,7 +40,7 @@ test.describe('GlassPreferencesPanel APG', () => {
 
   test('slider: arrows/PageUp/PageDown/Home/End move the value', async ({ page }) => {
     await goto_(page);
-    const slider = page.locator('[data-ag-pref="glassOpacity"] input[type="range"]');
+    const slider = page.locator('fieldset[name="glassOpacity"] input[type="range"]');
     await expect(slider).toHaveCount(1);
     await slider.focus();
     const v0 = Number(await slider.inputValue());

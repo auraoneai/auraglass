@@ -59,7 +59,7 @@ describe('GlassPreferencesPanel', () => {
     expect(legends).toEqual(expect.arrayContaining([
       'Preferences', 'Transparency', 'Glass opacity', 'Contrast', 'Motion', 'Scheme', 'Density',
     ]));
-    expect(document.querySelector('[data-ag-preferences-panel]')).not.toBeNull();
+    expect(document.querySelector('fieldset.ag-preferences-panel[data-ag-part="root"]')).not.toBeNull();
   });
 
   it('floor-locked options: contrastMoreOS keeps Glass aria-disabled + described; click is a no-op', () => {
@@ -110,8 +110,8 @@ describe('GlassPreferencesPanel', () => {
       storage: null,
       children: h(GlassPreferencesPanel, { keys: ['contrast', 'motion'] }),
     }));
-    const prefs = Array.from(document.querySelectorAll('[data-ag-pref]'))
-      .map((e) => e.getAttribute('data-ag-pref'));
+    const prefs = Array.from(document.querySelectorAll<HTMLFieldSetElement>('fieldset[data-ag-part="group"]'))
+      .map((e) => e.name);
     expect(prefs.sort()).toEqual(['contrast', 'motion']);
   });
 

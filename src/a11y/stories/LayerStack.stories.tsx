@@ -24,7 +24,7 @@ function Layer({ kind, open, modal, onEscape, children }: {
       role={kind === 'dialog' ? 'dialog' : undefined}
       aria-modal={kind === 'dialog' && modal ? true : undefined}
       data-ag-part={kind}
-      data-ag-top={isTop || undefined}
+      data-top={isTop || undefined}
       tabIndex={-1}
       style={{
         position: 'fixed', inset: 'auto 16px auto auto',
@@ -48,7 +48,7 @@ function Tower() {
       <p>Open all four, then press Escape three times: Toast/tooltip closes first,
         popover next, dialog last, and focus returns to each trigger.</p>
       {(['dialog', 'popover', 'tooltip', 'toast'] as const).map((k) => (
-        <button key={k} type="button" data-ag-part="trigger" data-ag-kind={k}
+        <button key={k} type="button" data-ag-part="trigger" data-kind={k}
           onClick={() => setOpen((s) => ({ ...s, [k]: !s[k] }))}>
           {open[k] ? 'Close' : 'Open'} {KIND_LABEL[k]}
         </button>
