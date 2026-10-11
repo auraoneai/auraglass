@@ -1,7 +1,7 @@
 // filter-model-ops.ts: pure tree operations backing FilterBar.useModel —
 // same update logic shared between the React hook and non-React tests.
 import type { FilterGroup, FilterModel, FilterNode, FilterRule } from './filter-model';
-import { isGroup } from './filter-model';
+import { emptyGroup, isGroup } from './filter-model';
 
 /* SURF-085: identity-preserving updates — a subtree is only re-created when
    a descendant actually changed; untouched branches keep their objects so
@@ -56,9 +56,10 @@ export function applyModel(root: FilterGroup, fn: (m: Omit<FilterModel, 'value'>
       next = withoutRule(next, ruleId) as FilterGroup;
     },
     addGroup: (group, parentId) => {
-      if (group === undefined) return;
+      // SURF-085: no argument inserts a fresh empty group (never a no-op).
+      const added = group ?? emptyGroup();
       const target = parentId ?? next.id;
-      next = updateNode(next, (g) => ({ ...g, children: [...g.children, group] }), target) as FilterGroup;
+      next = updateNode(next, (g) => ({ ...g, children: [...g.children, added] }), target) as FilterGroup;
     },
     removeGroup: (groupId) => {
       next = withoutGroup(next, groupId, next.id) as FilterGroup;

@@ -4,7 +4,7 @@
    popover that returns focus to its chip on close. */
 import * as React from 'react';
 import { applyModel } from './filter-model-ops';
-import { emptyGroup, makeRule, type FilterField, type FilterGroup, type FilterRule } from './filter-model';
+import { DEFAULT_OPERATORS, emptyGroup, makeRule, type FilterField, type FilterGroup, type FilterModel, type FilterRule } from './filter-model';
 import { parse, serialize } from './filter-serialize';
 
 export interface FilterBarProps {
@@ -32,15 +32,10 @@ export function FilterBar({
   labels,
   className,
 }: FilterBarProps) {
-  const [inner, setInner] = React.useState<FilterGroup>(defaultValue ?? emptyGroup());
-  const group = value ?? inner;
-  const setGroup = React.useCallback(
-    (next: FilterGroup) => {
-      if (value === undefined) setInner(next);
-      onValueChange?.(next);
-    },
-    [value, onValueChange],
-  );
+  // SURF-085: the bar runs on its own public model hook (looked up on the
+  // component so the static stays the single implementation).
+  const model = FilterBar.useModel(schema, { value, defaultValue, onValueChange });
+  const group = model.value;
   const msgs = {
     filters: labels?.filters ?? 'Filters',
     clearAll: labels?.clearAll ?? 'Clear all',
@@ -48,20 +43,6 @@ export function FilterBar({
     results: labels?.results ?? '{n} results',
     removeFilter: labels?.removeFilter ?? 'Remove filter {label}',
   };
-
-  const model = React.useMemo(
-    () => ({
-      addRule: (r: FilterRule, gid?: string) => setGroup(applyModel(group, (m) => m.addRule(r, gid))),
-      updateRule: (id: string, p: Partial<Omit<FilterRule, 'id' | 'kind'>>) =>
-        setGroup(applyModel(group, (m) => m.updateRule(id, p))),
-      removeRule: (id: string) => setGroup(applyModel(group, (m) => m.removeRule(id))),
-      addGroup: (g?: FilterGroup, pid?: string) => setGroup(applyModel(group, (m) => m.addGroup(g, pid))),
-      removeGroup: (id: string) => setGroup(applyModel(group, (m) => m.removeGroup(id))),
-      setCombinator: (id: string, c: 'and' | 'or') => setGroup(applyModel(group, (m) => m.setCombinator(id, c))),
-      clear: () => setGroup(applyModel(group, (m) => m.clear())),
-    }),
-    [group, setGroup],
-  );
 
   const allRules = React.useMemo(() => {
     const out: FilterRule[] = [];
@@ -180,8 +161,9 @@ export function FilterBar({
           onChange={(e) => {
             const f = fieldById.get(e.target.value);
             if (f !== undefined) {
-              const ops = (f.operators ?? []) as readonly string[];
-              model.addRule(makeRule(f, (ops[0] ?? 'is') as never));
+              // first operator valid for the field type (not a blanket 'is')
+              const ops = (f.operators ?? DEFAULT_OPERATORS[f.type]) as readonly string[];
+              model.addRule(makeRule(f, ops[0] as never));
             }
           }}
         >
@@ -206,33 +188,55 @@ export function FilterBar({
   );
 }
 
-FilterBar.useModel = function useModel(
-  schema: readonly FilterField[],
-  opts: { value?: FilterGroup | undefined; defaultValue?: FilterGroup | undefined; onValueChange?: ((g: FilterGroup) => void) | undefined } = {},
-) {
-  const [inner, setInner] = React.useState<FilterGroup>(opts.defaultValue ?? emptyGroup());
-  const group = opts.value ?? inner;
-  const setGroup = React.useCallback(
-    (next: FilterGroup) => {
-      if (opts.value === undefined) setInner(next);
-      opts.onValueChange?.(next);
-    },
-    [opts],
-  );
-  void schema;
-  return React.useMemo(
-    () => ({
-      value: group,
-      addRule: (r: FilterRule, gid?: string) => setGroup(applyModel(group, (m) => m.addRule(r, gid))),
-      updateRule: (id: string, p: Partial<Omit<FilterRule, 'id' | 'kind'>>) => setGroup(applyModel(group, (m) => m.updateRule(id, p))),
-      removeRule: (id: string) => setGroup(applyModel(group, (m) => m.removeRule(id))),
-      addGroup: (g?: FilterGroup, pid?: string) => setGroup(applyModel(group, (m) => m.addGroup(g, pid))),
-      removeGroup: (id: string) => setGroup(applyModel(group, (m) => m.removeGroup(id))),
-      setCombinator: (id: string, c: 'and' | 'or') => setGroup(applyModel(group, (m) => m.setCombinator(id, c))),
-      clear: () => setGroup(applyModel(group, (m) => m.clear())),
-    }),
-    [group, setGroup],
-  );
+export interface FilterModelOptions {
+  value?: FilterGroup | undefined;
+  defaultValue?: FilterGroup | undefined;
+  onValueChange?: ((g: FilterGroup) => void) | undefined;
+}
+
+/** REQ-SURF-85: FilterBar.useModel(schema, { value?, defaultValue?,
+    onValueChange? }). Actions are referentially stable for the component's
+    lifetime (they read the latest value/handlers through a ref), never
+    mutate, and share structure — only the edited path is new. Calls in the
+    same tick chain (each sees the previous result). */
+FilterBar.useModel = function useModel(schema: readonly FilterField[], opts: FilterModelOptions = {}): FilterModel {
+  const [inner, setInner] = React.useState<FilterGroup>(() => opts.defaultValue ?? emptyGroup());
+  const controlled = opts.value !== undefined;
+  const group = controlled ? opts.value! : inner;
+  const latest = React.useRef({ group, controlled, onValueChange: opts.onValueChange, schema });
+  latest.current = { group, controlled, onValueChange: opts.onValueChange, schema };
+  const actions = React.useMemo(() => {
+    const run = (fn: Parameters<typeof applyModel>[1]) => {
+      const l = latest.current;
+      const next = applyModel(l.group, fn);
+      if (next === l.group) return;
+      l.group = next;
+      if (!l.controlled) setInner(next);
+      l.onValueChange?.(next);
+    };
+    const checkRule = (r: FilterRule) => {
+      if (process.env['NODE_ENV'] !== 'development') return;
+      const field = latest.current.schema.find((f) => f.id === r.fieldId);
+      if (field === undefined) {
+        console.warn(`[auraglass] FilterBar: rule field "${r.fieldId}" is not in the schema.`);
+        return;
+      }
+      const allowed = (field.operators ?? DEFAULT_OPERATORS[field.type]) as readonly string[];
+      if (!allowed.includes(r.operator as string)) {
+        console.warn(`[auraglass] FilterBar: operator "${String(r.operator)}" is invalid for field "${field.id}" (${field.type}).`);
+      }
+    };
+    return {
+      addRule: (r: FilterRule, gid?: string) => { checkRule(r); run((m) => m.addRule(r, gid)); },
+      updateRule: (id: string, p: Partial<Omit<FilterRule, 'id' | 'kind'>>) => run((m) => m.updateRule(id, p)),
+      removeRule: (id: string) => run((m) => m.removeRule(id)),
+      addGroup: (g?: FilterGroup, pid?: string) => run((m) => m.addGroup(g, pid)),
+      removeGroup: (id: string) => run((m) => m.removeGroup(id)),
+      setCombinator: (id: string, c: 'and' | 'or') => run((m) => m.setCombinator(id, c)),
+      clear: () => run((m) => m.clear()),
+    };
+  }, []);
+  return React.useMemo(() => ({ value: group, ...actions }), [group, actions]);
 };
 
 FilterBar.serialize = serialize;

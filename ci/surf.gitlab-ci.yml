@@ -20,7 +20,66 @@
 # --- lane W2 begin ---
 # W2 rides the shared jobs: surf:test:doubles matrix cell DOUBLES_AREA=data
 # (tests/data/jest.doubles.cjs) plus the root lint/test lanes registered in
-# fragments/lanes/surf.ts. No W2-specific jobs.
+# fragments/lanes/surf.ts, plus surf:test:canary-hydration below.
+#
+# REQ-SURF-08 (L11): browser hydration of the built Next 16 canary across time
+# zones. The canary consumes the packed tarball from plat:build:dist's dist/,
+# `next start` runs at TZ=Pacific/Kiritimati (UTC+14) and the spec's browser
+# context at Pacific/Pago_Pago (UTC−11). Fails (never skips) when dist/ is
+# missing.
+surf:test:canary-hydration:
+  extends: .surf-playwright
+  stage: test
+  allow_failure: true # owning lane flips to false after first green on next
+  needs:
+    - job: plat:build:dist
+      artifacts: true
+      optional: true # foreign job (contract §4.13.4); the script fails when dist/ is absent
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "main"
+  variables:
+    AG_CANARY_PORT: "3116"
+    AURAGLASS_EVIDENCE_DIR: .artifacts/surf/canary-hydration
+  script:
+    - mkdir -p .artifacts/surf/canary-hydration
+    - 'test -f dist/index.js || { echo "dist/index.js missing: plat:build:dist must pass first"; exit 1; }'
+    - npm pack --ignore-scripts --pack-destination .artifacts/surf/canary-hydration
+    - mv .artifacts/surf/canary-hydration/aura-glass-*.tgz aura-glass.tgz
+    - (cd canaries/next16 && npm install --no-audit --no-fund && npx next build)
+    - (cd canaries/next16 && TZ=Pacific/Kiritimati nohup npx next start -p "$AG_CANARY_PORT" > ../../.artifacts/surf/canary-hydration/next-start.log 2>&1 &)
+    - |
+      for i in $(seq 1 60); do
+        node -e 'fetch(process.argv[1]).then((r)=>process.exit(r.ok?0:1),()=>process.exit(1))' "http://127.0.0.1:$AG_CANARY_PORT/surf/app-shell" && break
+        [ "$i" = 60 ] && { echo "canary did not start"; cat .artifacts/surf/canary-hydration/next-start.log; exit 1; }
+        sleep 2
+      done
+    - AG_CANARY_BASE_URL="http://127.0.0.1:$AG_CANARY_PORT" npx playwright test tests/ssr/surf/hydration.spec.ts --project=chromium
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/canary-hydration/
+
+# REQ-SURF-81/84 (REQ-FIN-83): SURF type tests — every @ts-expect-error in
+# tests/types/surf/*.test-d.ts(x) must be consumed (tsc reports an unused
+# directive as TS2578), positive rows must compile.
+surf:test:types:
+  extends: .surf-base
+  stage: test
+  allow_failure: true # owning lane flips to false after first green on next
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
+  script:
+    - mkdir -p .artifacts/surf/types
+    - 'npx tsc -p tests/types/surf/tsconfig.json --noEmit --pretty false > .artifacts/surf/types/tsc.log 2>&1 || { cat .artifacts/surf/types/tsc.log; exit 1; }'
+    - 'echo "surf type tests - 0 errors" | tee -a .artifacts/surf/types/tsc.log'
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/types/
 # --- lane W2 end ---
 
 # --- lane W3 begin ---
@@ -125,5 +184,28 @@ surf:test:doubles:
     when: always
     paths:
       - .artifacts/surf/doubles/
+
+# REQ-SURF-06 (AC-SURF-03): dist side-effect trap over the SURF entries.
+# Consumes plat:build:dist's dist/ and runs PLAT's trap through the SURF
+# wrapper; fails on any undeclared SURF call, a non-empty
+# fragments/side-effects/surf.ts, or a SURF entry missing from dist.
+surf:test:side-effects:
+  extends: .surf-base
+  stage: test
+  allow_failure: true # owning lane flips to false after first green on next
+  # optional: true is the contract rule for foreign needs; without the dist
+  # artifact the wrapper fails closed ("dist/ missing").
+  needs:
+    - { job: "plat:build:dist", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
+  script:
+    - node scripts/surf/verify-side-effects.mjs
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/side-effects/
 
 # --- lane W5 end ---

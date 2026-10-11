@@ -186,7 +186,8 @@
           "ag.tier": "sys",
           "ag.since": "5.0.0",
           "ag.public": true,
-          "ag.cssVar": "--ag-density"
+          "ag.cssVar": "--ag-density",
+          "ag.valueType": "number"
         }
       }
     },
@@ -253,7 +254,8 @@
           "ag.tier": "sys",
           "ag.since": "5.0.0",
           "ag.public": true,
-          "ag.cssVar": "--ag-radius-inner"
+          "ag.cssVar": "--ag-radius-inner",
+          "ag.valueType": "dimension"
         }
       }
     },
