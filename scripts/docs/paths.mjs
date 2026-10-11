@@ -3,7 +3,9 @@
    module. DOCS_BASE_URL is $CI_PAGES_URL until OD-12 lands the custom
    domain; only then may it become https://auraglass.dev. */
 
-const PAGES_URL = 'https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/';
+/* GitLab Pages unique domain of project 87152036 (`glab api projects/87152036/pages`
+   → url); CI_PAGES_URL carries the same value inside pipelines. */
+const PAGES_URL = 'https://auraglass-48859d.gitlab.io/';
 const CUSTOM_DOMAIN = 'https://auraglass.dev/';
 
 /** True when the owner decision OD-12 (custom domain) has landed. */
@@ -13,6 +15,10 @@ export const CUSTOM_DOMAIN_LIVE = false;
 export const DOCS_BASE_URL =
   process.env.DOCS_BASE_URL ??
   (CUSTOM_DOMAIN_LIVE ? CUSTOM_DOMAIN : process.env.CI_PAGES_URL ?? PAGES_URL);
+
+/** Environment-independent public docs URL for tracked, shipped files
+    (llms.txt, @auraglass/mcp data): identical locally and in every pipeline. */
+export const PUBLIC_DOCS_URL = CUSTOM_DOMAIN_LIVE ? CUSTOM_DOMAIN : PAGES_URL;
 
 /** Root deprecations.json aggregate (git-ignored build output of fragments/deprecations/*). */
 export const DEPRECATIONS_PATH = 'deprecations.json';
