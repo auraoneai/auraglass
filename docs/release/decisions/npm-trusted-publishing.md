@@ -4,16 +4,20 @@
 
 Configure npm **trusted publishing** (OIDC) for `aura-glass` and `@auraglass/*`
 so `plat:publish:npm` publishes with `npm publish --provenance` and **no**
-`NPM_TOKEN`/`NODE_AUTH_TOKEN` anywhere.
+npm access-token environment variable (`NPM_*` / `NODE_AUTH_*`) anywhere.
 
 ## Operator action (npmjs.com, owner)
 
 npm → each package → Settings → Trusted Publisher → **GitLab CI/CD**:
 
-- project id: `87152036`
+- project id: `87152036` (namespace `chahal-foundation-group/github-auraoneai`,
+  project `auraglass`)
 - file: `.gitlab-ci.yml`
 - job name: `plat:publish:npm`
 - environment: `npm-publish` (must match the job's `environment:`)
+
+Per-package status (5 packages), dates and the first-publish procedure for
+names that do not exist on npm yet: `docs/release/trusted-publishers.md`.
 
 npm's check requires the job's `NPM_ID_TOKEN` OIDC token (aud
 `npm:registry.npmjs.org`) — already in the verbatim §4.13.7 job. Until this is

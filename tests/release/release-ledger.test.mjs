@@ -6,6 +6,13 @@ describe('release ledger (PLAT-200/201)', () => {
   it('parses CHANGELOG headings', () => {
     expect(changelogVersions('# Changelog\n## [4.2.0] — x\n## 4.1.1\n### sub')).toEqual(['4.2.0', '4.1.1']);
   });
+  it('keeps pre-release headings whole and treats a pre-release of a >=cut version as >=cut', () => {
+    expect(changelogVersions('## [5.0.0-alpha.1] - x\n## [4.1.1]')).toEqual(['5.0.0-alpha.1', '4.1.1']);
+    const r = ledgerCheck({
+      changelog: ['5.0.0-alpha.1'], tags: ['5.0.0-alpha.1'], gitlab: ['5.0.0-alpha.1'], npm: [],
+    });
+    expect(r.errors).toEqual(['5.0.0-alpha.1: missing from npm']);
+  });
   it('passes when all ledgers agree', () => {
     const v = ['4.2.0', '4.1.1'];
     const r = ledgerCheck({ changelog: v, tags: v, gitlab: v, npm: v });
