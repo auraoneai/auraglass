@@ -7,6 +7,7 @@
    transparency glass, (hover:hover) and (pointer:fine), tier standard|enhanced —
    and never under [data-ag-highlights] or forced colours (REQ-MAT-45). */
 import { resolvedMotion, subscribeFrame } from './ticker';
+import { readPointerSignal } from '../theme/preferences/media';
 import type { ResolvedPreferences } from '../contracts/preferences';
 
 export interface PointerLightPrefs {
@@ -15,7 +16,9 @@ export interface PointerLightPrefs {
   /** PreferenceValues['forcedColors'] (store OS signal); true disables pointer light. */
   forcedColors?: boolean;
 }
-export type PointerLightWindow = Pick<Window, 'matchMedia'>;
+/** The window whose input capability is read through the preference store's
+    shared media registry (src/theme/preferences/media.ts). */
+export type PointerLightWindow = Window;
 
 /** Forced colours (REQ-MAT-45 / REQ-MOT-113) as seen from the document: the
     pre-paint script and the store resolve transparency to 'solid' as an
@@ -42,7 +45,7 @@ export function pointerLightActive(
   if (prefs.motion !== undefined && prefs.motion !== 'full') return false;
   if (prefs.transparency !== undefined && prefs.transparency !== 'glass') return false;
   if (tier !== 'standard' && tier !== 'enhanced') return false;
-  if (win && !win.matchMedia('(hover: hover) and (pointer: fine)').matches) return false;
+  if (win && !readPointerSignal(win, 'fineHover')) return false;
   const dd = d ?? (typeof document === 'undefined' ? null : document);
   if (dd?.documentElement?.hasAttribute('data-ag-highlights')) return false;
   if (prefs.transparency === undefined && transparencyFloorBlocks(dd)) return false;
