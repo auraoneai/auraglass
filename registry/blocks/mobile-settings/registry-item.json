@@ -3,9 +3,10 @@
   "name": "mobile-settings",
   "type": "registry:block",
   "title": "Mobile settings",
-  "description": "MobileShell with a bottom TabBar and a settings sheet — one-hand reachable controls at coarse pointers.",
+  "description": "MobileShell with a bottom TabBar and a CMP Sheet that opens GlassPreferencesPanel — 44×44 primary controls, one-hand reachable.",
   "dependencies": [
-    "react"
+    "react",
+    "aura-glass"
   ],
   "registryDependencies": [
     "auraglass"
@@ -18,15 +19,21 @@
     {
       "path": "fixtures.ts",
       "type": "registry:item"
+    },
+    {
+      "path": "mobile-settings.css",
+      "type": "registry:style"
     }
   ],
   "meta": {
     "auraglass": {
       "owner": "SURF",
       "surface": "block",
-      "client": false,
+      "client": true,
       "components": [
+        "GlassPreferencesPanel",
         "MobileShell",
+        "Sheet",
         "TabBar"
       ],
       "ga": true,

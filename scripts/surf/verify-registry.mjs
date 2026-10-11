@@ -322,7 +322,10 @@ export function lintRegistry({ root = REPO, repo = REPO } = {}) {
         if (!spec) continue;
         if (spec.startsWith('.')) {
           const target = resolve(dirname(join(dir, f)), spec);
-          if (!(target === dir || target.startsWith(dir + sep))) {
+          /* Harness files (stories/tests) never ship; a story may type-import
+             its `parameters.ag` shape from the repo's story contract (REQ-SURF-188). */
+          const storyContract = dev && imp.typeOnly && target === resolve(root, 'src/contracts/testing');
+          if (!storyContract && !(target === dir || target.startsWith(dir + sep))) {
             v(id, 'relative-escape', `relative import '${spec}' leaves the item dir (import a sibling as '@/registry/<kind>/<id>/...' and list it in registryDependencies)`, rel, line);
           }
           continue;

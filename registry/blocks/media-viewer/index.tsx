@@ -1,16 +1,23 @@
-/* media-viewer (SURF-503): media detail page — Backdrop, consumer-owned media
- * element + useMediaElement, compound MediaControls, ImageViewer gallery, and
- * the transcript cues wired to the same handle. */
+/* media-viewer (SURF-503, REQ-SURF-171): media detail page — Backdrop photo,
+ * consumer-owned media element + useMediaElement, compound MediaControls and
+ * a NowPlayingBar bound to the same media handle, an ImageViewer gallery and
+ * a CarouselRail over the same ITEM_IMAGES. */
 'use client';
 import * as React from 'react';
 import { Backdrop } from 'aura-glass/backdrops';
-import { ImageViewer, MediaControls, useMediaElement } from 'aura-glass/media';
-import { ITEM_IMAGES, ITEM_TITLE, TRACKS } from './fixtures';
+import { CarouselRail, ImageViewer, MediaControls, NowPlayingBar, useMediaElement } from 'aura-glass/media';
+import { ITEM_IMAGES, ITEM_SUBTITLE, ITEM_TITLE, TRACKS } from './fixtures';
 
 export interface MediaViewerProps {
   src?: string;
   title?: string;
 }
+
+const SLIDES = ITEM_IMAGES.map((it) => ({
+  id: it.id,
+  label: it.alt,
+  children: <img src={it.src} alt={it.alt} loading="lazy" style={{ inlineSize: '100%' }} className="rounded-lg" />,
+}));
 
 export function MediaViewer({ src = TRACKS.video, title = ITEM_TITLE }: MediaViewerProps) {
   const ref = React.useRef<HTMLVideoElement | null>(null);
@@ -46,6 +53,15 @@ export function MediaViewer({ src = TRACKS.video, title = ITEM_TITLE }: MediaVie
             <ImageViewer.Popup />
           </ImageViewer.Root>
         </section>
+        <CarouselRail.Root label="Scenes" slides={SLIDES} slidesPerView={1} indicatorsAs="tabs" />
+        {/* Same handle as MediaControls: play/pause and progress stay in sync. */}
+        <NowPlayingBar.Root media={media} artwork={ITEM_IMAGES[0]!.src}>
+          <NowPlayingBar.Artwork />
+          <NowPlayingBar.Title>{title}</NowPlayingBar.Title>
+          <NowPlayingBar.Subtitle>{ITEM_SUBTITLE}</NowPlayingBar.Subtitle>
+          <NowPlayingBar.Actions />
+          <NowPlayingBar.Progress />
+        </NowPlayingBar.Root>
       </main>
     </Backdrop>
   );
