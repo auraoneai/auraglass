@@ -28,10 +28,10 @@ const meta: ControlMeta = defineMeta({
         placement: 'Positioner side/align',
         delay: 'Provider delay',
       },
-      automation: 'full', // duplicate def at GlassPopover.tsx:678 folds into this component
+      selectors: { '.glass-tooltip': '.ag-tooltip' }, automation: 'full', // duplicate def at GlassPopover.tsx:678 folds into this component
       compat: true,
     },
-    { from: 'ChartTooltip', props: {}, automation: 'manual', compat: false },
+    { from: 'ChartTooltip', props: {}, selectors: { '.glass-chart-tooltip': '.ag-tooltip' }, automation: 'manual', compat: false },
   ],
 });
 export default meta;
