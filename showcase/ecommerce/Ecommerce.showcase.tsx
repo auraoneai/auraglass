@@ -66,7 +66,7 @@ export function EcommerceCartSheet({ open, onOpenChange }: { open?: boolean; onO
             <Sheet.Title>{COPY.cartTitle}</Sheet.Title>
           </Sheet.Header>
           <Sheet.Body>
-            <ul className={styles.cartList}>
+            <ul role="list" className={styles.cartList}>
               {CART.map((i) => (
                 <li key={i.id} className={styles.cartItem}>
                   <Surface layer="content" content="content-sunken" className={styles.cartThumb}>
@@ -244,7 +244,7 @@ export function Ecommerce({ now = SHOWCASE_EPOCH }: EcommerceProps) {
               <Heading level={2} size="title-3" id="ec-related">
                 {COPY.relatedHeading}
               </Heading>
-              <ul className={styles.relatedList}>
+              <ul role="list" className={styles.relatedList}>
                 {RELATED.map((r) => (
                   <li key={r.id} className={styles.relatedItem}>
                     <Surface layer="content" content="content-sunken" className={styles.frame}>
@@ -263,7 +263,7 @@ export function Ecommerce({ now = SHOWCASE_EPOCH }: EcommerceProps) {
                 </Heading>
                 <Text type="caption" muted>{COPY.reviewSummary}</Text>
               </Stack>
-              <ul className={styles.reviewList}>
+              <ul role="list" className={styles.reviewList}>
                 {REVIEWS.map((r, i) => (
                   <li key={r.id} className={styles.review}>
                     {i > 0 ? <Separator /> : null}

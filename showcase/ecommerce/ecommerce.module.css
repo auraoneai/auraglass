@@ -93,6 +93,7 @@
 .cartItem {
   display: grid;
   grid-template-columns: 4rem minmax(0, 1fr) auto;
+  align-items: center;
   gap: 0.875rem;
 }
 
@@ -112,6 +113,7 @@
 .totalRow {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
   gap: 1rem;
 }
 

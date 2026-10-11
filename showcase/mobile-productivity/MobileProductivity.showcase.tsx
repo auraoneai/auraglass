@@ -124,10 +124,10 @@ export function MobileQuickAddSheet({
 function TaskList({ onOpen }: { onOpen: (id: string) => void }) {
   return (
     <Card.Root className={styles.card} render={<section aria-labelledby="mp-tasks" />}>
-      <Heading level={2} size="sm" id="mp-tasks">
+      <Heading level={2} size="title-3" id="mp-tasks">
         {COPY.tasksHeading}
       </Heading>
-      <ul className={styles.tasks}>
+      <ul role="list" className={styles.tasks}>
         {TASKS.map((t, i) => (
           <li key={t.id} className={styles.task}>
             {i > 0 ? <Separator /> : null}
@@ -230,7 +230,7 @@ export function MobileProductivity({ now = SHOWCASE_EPOCH }: MobileProductivityP
           </SourceTransition.Root>
           <Card.Root className={styles.prefs} render={<section aria-labelledby="mp-prefs" />}>
             <div className={styles.prefsHead}>
-              <Heading level={2} size="sm" id="mp-prefs">
+              <Heading level={2} size="title-3" id="mp-prefs">
                 {COPY.preferences}
               </Heading>
               <Text type="caption" muted>{COPY.preferencesBody}</Text>
