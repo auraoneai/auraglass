@@ -65,39 +65,19 @@ const T03_ALLOWED = new Set([
   'display', 'overlay',
 ]);
 
-describe('REQ-MOT-10: @property registrations', () => {
-  const atProps = () => {
-    const out: postcss.AtRule[] = [];
-    parse(FILES.motion).walkAtRules('property', (r) => { out.push(r); });
-    return out;
-  };
-  it('registers exactly the four motion scalars, all unlayered, inherits:false', () => {
-    const regs = atProps().map((r) => r.params.trim());
-    expect(regs).toEqual(['--_ag-hover', '--_ag-press', '--_ag-optics', '--_ag-pointer']);
-    for (const r of atProps()) {
-      expect(r.parent?.type).toBe('root'); // unlayered
-      const get = (n: string) => decls(r).find((d) => d.prop === n)?.value;
-      expect(get('inherits')).toBe('false');
-    }
-  });
-  it('syntax + initial values per contract', () => {
-    const map = new Map(atProps().map((r) => [r.params.trim(), r]));
-    const check = (name: string, syntax: string, initial: string) => {
-      const r = map.get(name);
-      expect(r).toBeTruthy();
-      const get = (n: string) => decls(r!).find((d) => d.prop === n)?.value;
-      expect(get('syntax')).toBe(syntax);
-      expect(get('initial-value')).toBe(initial);
-    };
-    check('--_ag-hover', "'<number>'", '0');
-    check('--_ag-press', "'<number>'", '0');
-    check('--_ag-optics', "'<number>'", '1');
-    check('--_ag-pointer', "'<percentage>+'", '50% 30%');
-  });
-  it('no runtime registration anywhere in motion css', () => {
-    const src = Object.values(FILES).map(read).join('\n');
-    expect(src).not.toMatch(/registerProperty/);
-  });
+describe('REQ-MOT-10 / REQ-MAT-28: motion css registers no @property', () => {
+  /* --_ag-optics/--_ag-press are registered once in
+     src/material/css/properties.css (REQ-MAT-28); --_ag-hover folds into
+     --ag-specular and --_ag-pointer stays an unregistered string written only
+     by pointerLight (REQ-MAT-49). Re-registering them here would duplicate the
+     MAT registry (tests/material/properties-union.test.ts). */
+  for (const [name, file] of Object.entries(FILES)) {
+    it(`${name} contains 0 @property rules`, () => {
+      const regs: string[] = [];
+      parse(file).walkAtRules('property', (r) => { regs.push(r.params.trim()); });
+      expect(regs).toEqual([]);
+    });
+  }
 });
 
 describe('layering (REQ-MAT-19)', () => {

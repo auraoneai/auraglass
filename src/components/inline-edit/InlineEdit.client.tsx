@@ -35,6 +35,16 @@ export function InlineEdit({
   const [internalEditing, setEditing] = React.useState(false);
   const editing = editingProp ?? internalEditing;
   const [draft, setDraft] = React.useState(current);
+  const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+  const pendingFocus = React.useRef(false);
+
+  // REQ-CMP-124: return focus to the trigger once editing ends.
+  React.useLayoutEffect(() => {
+    if (!editing && pendingFocus.current) {
+      pendingFocus.current = false;
+      buttonRef.current?.focus();
+    }
+  }, [editing]);
 
   const start = () => {
     if (disabled) return;
@@ -43,6 +53,7 @@ export function InlineEdit({
   };
 
   const commit = (committed: boolean, next: string) => {
+    pendingFocus.current = true;
     setEditing(false);
     if (!committed) { setDraft(current); return; }
     if (next !== current) {
@@ -57,6 +68,7 @@ export function InlineEdit({
       ref={ref}
       data-ag-part="root"
       data-state={editing ? 'active' : 'idle'}
+      data-ag-material={editing ? 'content-sunken' : undefined}
       className={cn('ag-inline-edit', className)}
     >
       {editing ? (
@@ -77,6 +89,7 @@ export function InlineEdit({
       ) : (
         <button
           type="button"
+          ref={buttonRef}
           data-ag-part="trigger"
           className="ag-inline-edit-trigger"
           disabled={disabled}

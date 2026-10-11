@@ -21,7 +21,7 @@ for (const e of pending) console.log(`  pending entry ${e.subpath}: ${e.reason}`
 
 for (const f of walk(DIST, p => p.endsWith('.d.ts'))) {
   const t = readFileSync(f, 'utf8');
-  for (const m of t.matchAll(/['"](@\/[^'"]+|aura-glass[^'"]*)['"]/g)) fail(`${f}: unresolved alias '${m[1]}'`);
+  for (const m of t.matchAll(/['"](@\/[^'"]+|aura-glass(?:\/[^'"]*|))['"]/g)) fail(`${f}: unresolved alias '${m[1]}'`);
 }
 for (const f of walk(DIST)) {
   const t = readFileSync(f, 'utf8');

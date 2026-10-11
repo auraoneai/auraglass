@@ -2,7 +2,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { render } from '@testing-library/react';
 import * as React from 'react';
-import { Progress, ProgressRing } from './index';
+import { Progress } from './index';
 
 describe('Progress', () => {
   it('renders progressbar with aria-valuemin/max/now', () => {
@@ -24,9 +24,10 @@ describe('Progress', () => {
     expect(container.querySelector('[data-ag-part="label"]')!.textContent).toBe('Loading');
     expect(container.querySelector('[data-ag-part="value"]')).not.toBeNull();
   });
-  it('ProgressRing renders an svg circle track+indicator', () => {
-    const { container } = render(<ProgressRing value={30} label="R" />);
+  it("appearance='ring' renders an svg circle track+indicator", () => {
+    const { container } = render(<Progress appearance="ring" value={30} label="R" />);
     expect(container.querySelector('svg')).not.toBeNull();
     expect(container.querySelector('[data-ag-part="indicator"]')).not.toBeNull();
+    expect(container.querySelector('[data-ag-appearance="ring"]')).not.toBeNull();
   });
 });

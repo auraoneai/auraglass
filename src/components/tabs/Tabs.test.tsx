@@ -61,4 +61,37 @@ describe('Tabs (SURF-065)', () => {
     const b = screen.getByText('B').closest('[data-ag-part="panel"]')!;
     expect(b).toHaveAttribute('hidden');
   });
+
+  it('SURF-47/48: pill default + id/aria-controls resolution both ways', () => {
+    const { container } = render(
+      <Tabs.Root defaultValue="a">
+        <Tabs.List>
+          <Tabs.Tab value="a">A</Tabs.Tab>
+          <Tabs.Tab value="b">B</Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Panel value="a" keepMounted>pa</Tabs.Panel>
+        <Tabs.Panel value="b" keepMounted>pb</Tabs.Panel>
+      </Tabs.Root>,
+    );
+    expect(container.querySelector('[data-ag-appearance="pill"]')).toBeTruthy();
+    // tab -> panel via aria-controls; panel -> tab via aria-labelledby
+    for (const tab of screen.getAllByRole('tab')) {
+      const panelId = tab.getAttribute('aria-controls')!;
+      const panel = document.getElementById(panelId);
+      expect(panel).toBeTruthy();
+      expect(panel!.getAttribute('aria-labelledby')).toBe(tab.id);
+    }
+    // two identical instances -> 0 duplicate ids
+    const { container: c2 } = render(
+      <Tabs.Root defaultValue="a">
+        <Tabs.List><Tabs.Tab value="a">A</Tabs.Tab></Tabs.List>
+        <Tabs.Panel value="a">x</Tabs.Panel>
+      </Tabs.Root>,
+    );
+    const ids = new Set(
+      Array.from(document.querySelectorAll('[id]')).map((e) => e.id),
+    );
+    expect(ids.size).toBe(document.querySelectorAll('[id]').length);
+    void c2;
+  });
 });

@@ -4,7 +4,8 @@
    data-starting-style / data-ending-style frame until transitionend or
    transitioncancel of the last transitioned property. No per-frame setState —
    the attribute flips on the DOM element directly; a MutationObserver watches
-   for the starting/ending-style flip; listeners attach only while animating. */
+   transitionstart/run events mark the start and a one-shot frame poll watches
+   the starting/ending-style flip — no MutationObserver is held on the popup. */
 import * as React from 'react';
 import { subscribeFrame } from '../../../motion/ticker';
 
@@ -12,14 +13,16 @@ const ANIMATED_PROPS = new Set(['transform', 'opacity', 'translate', 'scale', 'r
 
 export function useOverlayAnimating(): React.RefCallback<HTMLElement> {
   return React.useCallback((node: HTMLElement | null) => {
-    if (!node || typeof MutationObserver === 'undefined') return;
+    if (!node) return;
 
     const popup = node;
-    let mo: MutationObserver | null = null;
     let pendingProps: Set<string> | null = null;
+    let unsubStyle: (() => void) | null = null;
 
     const clearAnimating = () => {
       pendingProps = null;
+      unsubStyle?.();
+      unsubStyle = null;
       popup.removeAttribute('data-ag-animating');
       popup.removeEventListener('transitionend', onDone);
       popup.removeEventListener('transitioncancel', onDone);
@@ -61,23 +64,34 @@ export function useOverlayAnimating(): React.RefCallback<HTMLElement> {
       }
     };
 
-    const sync = () => {
-      const animating =
-        popup.hasAttribute('data-starting-style') || popup.hasAttribute('data-ending-style');
-      if (animating && !popup.hasAttribute('data-ag-animating')) setAnimating();
-      if (!animating && popup.hasAttribute('data-ag-animating')) {
-        /* REQ-CMP-83: style flags removed and no transition pending → clear
-           immediately; with pending properties, keep until transitionend. */
-        if (pendingProps === null || pendingProps.size === 0) clearAnimating();
-      }
+    // REQ-CMP-16: no MutationObserver — transition events mark the start,
+    // a one-shot subscribeFrame poll watches BU's starting/ending-style
+    // attribute removal (capped ~1s of frames), then everything releases.
+    // REQ-CMP-83: flags removed → clear (no lingering marker).
+    const watchStyleFlags = () => {
+      unsubStyle?.();
+      let frames = 0;
+      const unsub = subscribeFrame(() => {
+        frames += 1;
+        if ((!popup.hasAttribute('data-starting-style') && !popup.hasAttribute('data-ending-style')) || frames > 60) {
+          clearAnimating();
+        }
+      });
+      unsubStyle = unsub;
     };
 
-    mo = new MutationObserver(sync);
-    mo.observe(popup, { attributes: true, attributeFilter: ['data-starting-style', 'data-ending-style'] });
-    sync();
+    const onStart = () => {
+      if (!popup.hasAttribute('data-ag-animating')) setAnimating();
+      watchStyleFlags();
+    };
+
+    popup.addEventListener('transitionstart', onStart);
+    popup.addEventListener('transitionrun', onStart);
+    if (popup.hasAttribute('data-starting-style') || popup.hasAttribute('data-ending-style')) onStart();
 
     return () => {
-      mo?.disconnect();
+      popup.removeEventListener('transitionstart', onStart);
+      popup.removeEventListener('transitionrun', onStart);
       clearAnimating();
     };
   }, []);
