@@ -1,8 +1,10 @@
 /* @jest-environment node */
 // PLAT-010..017: structural assertions on ci/plat.gitlab-ci.yml.
 import { describe, expect, it } from '@jest/globals';
-import { execFileSync } from 'node:child_process';
-import { readFileSync, existsSync } from 'node:fs';
+import { execFileSync, spawnSync } from 'node:child_process';
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import yaml from 'yaml';
 
 const doc = yaml.parse(readFileSync('ci/plat.gitlab-ci.yml', 'utf8')) as Record<string, any>;
@@ -351,6 +353,74 @@ describe('pages job', () => {
     const names = j.needs.map((n: any) => `${n.job}:${String(n.optional ?? false)}`);
     expect(names).toContain('plat:build:docs:false');
     expect(names).toContain('qual:build:storybook:true');
+  });
+});
+
+// B3-8 4x port (REQ-FIN-43 / REQ-FIN-26 wiring; REQ-PLAT-99, REQ-PLAT-07; AC-FIN-26).
+describe('plat:build:docs wiring (B3-8)', () => {
+  const root = yaml.parse(readFileSync('.gitlab-ci.yml', 'utf8')) as Record<string, any>;
+  const STAGES: string[] = root.stages;
+  const j = job('plat:build:docs');
+
+  // Runs the job's script lines in one bash -eo pipefail shell (GitLab runner
+  // semantics) inside a scratch project with a stubbed `npm` on PATH.
+  const runScript = (opts: { version: string; tarballs: string[]; docsBuild: boolean; line?: string }) => {
+    const dir = mkdtempSync(join(tmpdir(), 'b3-8-'));
+    const bin = join(dir, 'bin');
+    try {
+      mkdirSync(bin);
+      mkdirSync(join(dir, '.artifacts/pack'), { recursive: true });
+      for (const t of opts.tarballs) writeFileSync(join(dir, '.artifacts/pack', t), 'tgz');
+      const scripts = opts.docsBuild ? { 'docs:build': 'stub' } : {};
+      writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'aura-glass', version: opts.version, scripts }));
+      // `npm run docs:build` records which tarball the docs build was given.
+      writeFileSync(
+        join(bin, 'npm'),
+        '#!/bin/sh\n[ "$1 $2" = "run docs:build" ] || exit 9\nmkdir -p apps/docs/out\nprintf %s "$AURAGLASS_TARBALL" > apps/docs/out/index.html\n',
+      );
+      chmodSync(join(bin, 'npm'), 0o755);
+      const res = spawnSync('bash', ['-eo', 'pipefail', '-c', (j.script as string[]).join('\n')], {
+        cwd: dir,
+        encoding: 'utf8',
+        env: { ...process.env, PATH: `${bin}:${process.env.PATH}`, AG_LINE: opts.line ?? '4x', AURAGLASS_TARBALL: '' },
+      });
+      const out = join(dir, 'apps/docs/out/index.html');
+      return { status: res.status, log: `${res.stdout}${res.stderr}`, built: existsSync(out) ? readFileSync(out, 'utf8') : null };
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  };
+
+  it('needs plat:package:pack with artifacts, in the package stage, before pages', () => {
+    expect(j.needs).toEqual([{ job: 'plat:package:pack', artifacts: true }]);
+    expect(j.stage).toBe('package');
+    expect(STAGES.indexOf(j.stage)).toBeGreaterThanOrEqual(STAGES.indexOf(job('plat:package:pack').stage));
+    expect(STAGES.indexOf(job('pages').stage)).toBeGreaterThan(STAGES.indexOf(j.stage));
+    // the need always resolves: pack runs on every scope plat:build:docs runs on
+    expect(yaml.stringify(j.rules)).toContain('$AG_SCOPE == "pr" || $AG_SCOPE == "main"');
+    expect(yaml.stringify(job('plat:package:pack').rules)).toContain('$AG_SCOPE == "pr" || $AG_SCOPE == "main"');
+  });
+  it('builds the docs from the tarball named by the package.json version, not another tarball in .artifacts/pack', () => {
+    const r = runScript({ version: '4.3.0', tarballs: ['aura-glass-4.2.9.tgz', 'aura-glass-4.3.0.tgz'], docsBuild: true });
+    expect(r.status).toBe(0);
+    expect(r.built).toBe('.artifacts/pack/aura-glass-4.3.0.tgz');
+    expect(r.log).toContain('docs consume .artifacts/pack/aura-glass-4.3.0.tgz');
+  });
+  it('fails closed when the version tarball is missing from the pack artifacts', () => {
+    const r = runScript({ version: '4.3.0', tarballs: ['aura-glass-4.2.9.tgz'], docsBuild: true });
+    expect(r.status).toBe(1);
+    expect(r.log).toContain('.artifacts/pack/aura-glass-4.3.0.tgz missing from the plat:package:pack artifacts');
+    expect(r.built).toBeNull();
+  });
+  it('fails closed (PENDING, exit 1) while the 4.x docs:build producer is absent', () => {
+    const r = runScript({ version: '4.3.0', tarballs: ['aura-glass-4.3.0.tgz'], docsBuild: false });
+    expect(r.status).toBe(1);
+    expect(r.log).toContain('PENDING: npm script docs:build');
+  });
+  it('pages keeps needs: plat:build:docs and optional plat:test:registry', () => {
+    const p = job('pages');
+    expect(p.needs).toContainEqual({ job: 'plat:build:docs', artifacts: true });
+    expect(p.needs).toContainEqual({ job: 'plat:test:registry', artifacts: true, optional: true });
   });
 });
 
