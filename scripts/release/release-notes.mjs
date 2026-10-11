@@ -17,8 +17,12 @@
    the previous same-major tag) instead of the 5.0.0 skeleton.
    REQ-PLAT-56: on the 4x line the notes open with the dependencies that moved
    to peers since the previous tag (package.json diff), each tied to its
-   kind:'dependency' DEP entry; a moved package without one fails closed.  */
+   kind:'dependency' DEP entry; a moved package without one fails closed.
+   REQ-PLAT-35: a 4.x minor's notes carry the downstream-grep record
+   (docs/release/decisions/downstream-X.Y.0.json); in the tag pipeline of
+   that tag a missing record exits 1.                                      */
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -233,8 +237,38 @@ function movedDependencySection({ moved, deprecations, previous, version }) {
   return { lines, ids: new Set(rows.map((r) => r.dep.id)) };
 }
 
+/** REQ-PLAT-35 / REQ-FIN-113: path of the operator's downstream-grep record
+ *  for a 4.x minor (OP-2 writes it at the cut). */
+export const downstreamRecordPath = (version) => `docs/release/decisions/downstream-${version}.json`;
+
+/** The record section of a 4.x minor's notes: per-root status and hit counts,
+ *  plus the record's sha256 so the attached file can be matched to the notes.
+ *  `record` is { text } when the file exists, null when it does not. */
+export function downstreamSection({ version, record }) {
+  const path = downstreamRecordPath(version);
+  const lines = ['## Downstream grep record', ''];
+  if (!record) {
+    lines.push(`_Not committed yet: \`${path}\` (operator run OP-2 at the cut). The tag pipeline refuses to render these notes without it._`, '');
+    return lines;
+  }
+  let report;
+  try { report = JSON.parse(record.text); } catch (e) {
+    throw new Error(`release-notes: ${path} is not JSON (${String(e?.message ?? e).split('\n')[0]})`);
+  }
+  const roots = Array.isArray(report?.roots) ? report.roots : null;
+  if (!roots || !roots.length) throw new Error(`release-notes: ${path} has no roots`);
+  const n = (x) => (Array.isArray(x) ? x.length : 0);
+  lines.push(`Attached record: \`${path}\` (sha256 \`${createHash('sha256').update(record.text).digest('hex')}\`).`, '',
+    '| Root | Status | Pins | Imports | Removed-symbol hits |', '| --- | --- | --- | --- | --- |');
+  for (const r of roots) {
+    lines.push(`| \`${r.root}\` | ${r.status ?? 'unknown'} | ${n(r.pins)} | ${n(r.imports)} | ${n(r.removedSymbolHits)} |`);
+  }
+  lines.push('');
+  return lines;
+}
+
 export function renderNotes4x({ version, changelog, deprecations = [], commitSubjects = [],
-  previous = null, rangeError = null, moved = undefined } = {}) {
+  previous = null, rangeError = null, moved = undefined, downstream = undefined } = {}) {
   const v = parseSemver(version);
   if (!v || v.major !== 4) throw new Error(`release-notes: --line 4x needs a 4.x version, got '${version}'`);
   const section = changelogSection(changelog ?? '', version);
@@ -252,6 +286,7 @@ export function renderNotes4x({ version, changelog, deprecations = [], commitSub
   }
   lines.push('## Changelog', '', `From \`CHANGELOG.md\` \`${section.heading.replace(/^## /, '')}\`.`, '',
     section.body, '');
+  if (downstream !== undefined) lines.push(...downstreamSection({ version, record: downstream }));
   lines.push('## Deprecations added', '');
   if (shown.size) lines.push(`The ${shown.size} dependency entries are in the table above.`, '');
   const added = deprecations.filter((d) => d.since === version && !shown.has(d.id))
@@ -294,7 +329,7 @@ function commitRange({ root, since, tag, version, line }) {
   return { range: `${previous}..HEAD`, previous };
 }
 
-export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
+export async function main(argv = process.argv.slice(2), { root = ROOT, env = process.env } = {}) {
   const arg = (n, d) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : d; };
   const claimsDir = arg('--claims-dir', join(root, 'docs/claims'));
   const ledgerPath = arg('--capability-ledger', PATHS.capabilityLedger);
@@ -341,8 +376,21 @@ export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
         console.error(`release-notes: package.json at ${previous} unavailable (${String(e?.message ?? e).split('\n')[0]})`);
       }
     }
+    // A 4.x minor (X.Y.0) carries the operator's downstream-grep record. In the
+    // tag pipeline for that tag (CI_COMMIT_TAG === --tag) a missing record
+    // fails the job; anywhere else the notes say it is not committed yet.
+    let downstream;
+    const sv = parseSemver(version);
+    if (sv.patch === 0 && !sv.pre.length) {
+      const recPath = join(root, downstreamRecordPath(version));
+      downstream = existsSync(recPath) ? { text: readFileSync(recPath, 'utf8') } : null;
+      if (!downstream && tag && env.CI_COMMIT_TAG === tag) {
+        console.error(`FAIL release-notes: ${downstreamRecordPath(version)} is required for ${tag} (OP-2 downstream grep at the cut)`);
+        return 1;
+      }
+    }
     text = renderNotes4x({ version, changelog, deprecations: await loadEntries(root),
-      commitSubjects, previous, rangeError, moved });
+      commitSubjects, previous, rangeError, moved, downstream });
   } else {
     const capabilityLedger = existsSync(ledgerPath) ? JSON.parse(readFileSync(ledgerPath, 'utf8')) : null;
     const breakingRegister = existsSync(PATHS.breakingRegister)

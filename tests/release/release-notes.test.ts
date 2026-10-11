@@ -241,3 +241,72 @@ describe('release notes moved dependencies (REQ-PLAT-56)', () => {
     expect(notes).toContain('`DEP-P0040`');
   });
 });
+
+/* REQ-PLAT-35 / REQ-FIN-113: a 4.x minor's notes carry the operator's
+   downstream-grep record; the tag pipeline of that tag refuses to render
+   without it. */
+describe('release notes downstream-grep record (REQ-PLAT-35)', () => {
+  const git = (cwd: string, ...args: string[]) =>
+    execFileSync('git', args, { cwd, encoding: 'utf8',
+      env: { ...process.env, GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@example.invalid',
+        GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@example.invalid' } });
+  const CHANGELOG = '# Changelog\n\n## [4.2.0] - Unreleased\n\n- diet.\n\n## [4.1.1] - Unreleased\n\n- patch.\n\n## [4.1.0] - 2026-09-05\n\n- old\n';
+  const RECORD = JSON.stringify({ tool: 'downstream-grep', roots: [
+    { root: '/src/app-a', status: 'ok', pins: ['package.json:3:"aura-glass": "3.1.1"'], imports: ['a.ts:1', 'b.ts:2'], removedSymbolHits: [] },
+    { root: '/src/app-b', status: 'missing', pins: [], imports: [], removedSymbolHits: [] },
+  ] }, null, 2);
+  function repo({ record }: { record: boolean }) {
+    const dir = mkdtempSync(join(tmpdir(), 'rnd-'));
+    mkdirSync(join(dir, 'fragments/deprecations'), { recursive: true });
+    mkdirSync(join(dir, 'src/contracts'), { recursive: true });
+    mkdirSync(join(dir, 'docs/release/decisions'), { recursive: true });
+    copyFileSync(join(ROOT, 'src/contracts/load-fragments.mjs'), join(dir, 'src/contracts/load-fragments.mjs'));
+    symlinkSync(join(ROOT, 'node_modules'), join(dir, 'node_modules'));
+    writeFileSync(join(dir, '.gitignore'), 'node_modules\n');
+    writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'aura-glass', version: '4.2.0' }));
+    writeFileSync(join(dir, 'CHANGELOG.md'), CHANGELOG);
+    writeFileSync(join(dir, 'fragments/deprecations/plat.json'), '[]');
+    if (record) writeFileSync(join(dir, 'docs/release/decisions/downstream-4.2.0.json'), RECORD);
+    git(dir, 'init', '-q', '-b', 'main');
+    git(dir, 'add', '-A');
+    git(dir, 'commit', '-q', '-m', 'feat: base');
+    git(dir, 'tag', 'v4.1.0');
+    git(dir, 'commit', '-q', '--allow-empty', '-m', 'feat: next');
+    return dir;
+  }
+  const RUN = (root: string, argv: string[], env: Record<string, string>) => EVAL(
+    `const code = await m.main(${JSON.stringify(argv)}, { root: ${JSON.stringify(root)}, env: ${JSON.stringify(env)} }); console.log('EXIT=' + code)`);
+
+  it('summarises each root of the committed record with its sha256', () => {
+    const dir = repo({ record: true });
+    const outFile = join(dir, 'notes.md');
+    expect(RUN(dir, ['--tag', 'v4.2.0', '--line', '4x', '--out', outFile], { CI_COMMIT_TAG: 'v4.2.0' })).toContain('EXIT=0');
+    const notes = readFileSync(outFile, 'utf8');
+    const sha = require('node:crypto').createHash('sha256').update(RECORD).digest('hex');
+    expect(notes).toContain(`Attached record: \`docs/release/decisions/downstream-4.2.0.json\` (sha256 \`${sha}\`).`);
+    expect(notes).toContain('| `/src/app-a` | ok | 1 | 2 | 0 |');
+    expect(notes).toContain('| `/src/app-b` | missing | 0 | 0 | 0 |');
+    expect(notes.indexOf('## Downstream grep record')).toBeGreaterThan(notes.indexOf('## Changelog'));
+  });
+  it('the v4.2.0 tag pipeline exits 1 without the record', () => {
+    const dir = repo({ record: false });
+    const outFile = join(dir, 'notes.md');
+    expect(RUN(dir, ['--tag', 'v4.2.0', '--line', '4x', '--out', outFile], { CI_COMMIT_TAG: 'v4.2.0' })).toContain('EXIT=1');
+  });
+  it('outside the tag pipeline a missing record is stated, not hidden', () => {
+    const dir = repo({ record: false });
+    const outFile = join(dir, 'notes.md');
+    expect(RUN(dir, ['--tag', 'v4.2.0', '--line', '4x', '--out', outFile], {})).toContain('EXIT=0');
+    expect(readFileSync(outFile, 'utf8')).toContain('_Not committed yet: `docs/release/decisions/downstream-4.2.0.json`');
+  });
+  it('a patch release has no downstream section and needs no record', () => {
+    const dir = repo({ record: false });
+    const outFile = join(dir, 'notes.md');
+    expect(RUN(dir, ['--tag', 'v4.1.1', '--line', '4x', '--out', outFile], { CI_COMMIT_TAG: 'v4.1.1' })).toContain('EXIT=0');
+    expect(readFileSync(outFile, 'utf8')).not.toContain('## Downstream grep record');
+  });
+  it('a record without roots fails closed', () => {
+    expect(() => EVAL(`m.downstreamSection({ version: '4.2.0', record: { text: '{"roots":[]}' } })`))
+      .toThrow(/has no roots/);
+  });
+});
