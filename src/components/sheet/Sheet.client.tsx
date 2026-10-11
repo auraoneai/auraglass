@@ -17,6 +17,7 @@ import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
+import { useScrimTop } from '../overlays/_shared/useScrimTop';
 import { useSheetDetents } from './useSheetDetents';
 import { SheetHandle, SheetHandleContext } from './SheetHandle.client';
 import { SheetHeader, SheetBody, SheetFooter } from './SheetLayout';
@@ -186,11 +187,16 @@ function SheetPortal({ children, keepMounted }: { children?: React.ReactNode; ke
 function SheetBackdrop({ className }: { className?: string }) {
   const ctx = useSheetCtx('Backdrop');
   const animatingRef = useOverlayAnimating();
+  const isTop = useScrimTop(ctx.depth, ctx.open && ctx.modal);
   if (!ctx.modal) return null; // CMP-237
   return (
     <Base.Backdrop
+      /* REQ-CMP-79: one scrim per modal — BU skips nested backdrops unless forced */
+      forceRender
       data-ag-part="backdrop"
+      data-ag-layer="scrim"
       data-ag-overlay-depth={ctx.depth}
+      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />
