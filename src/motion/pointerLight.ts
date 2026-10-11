@@ -5,31 +5,47 @@
    pointerenter and invalidated on scroll/resize; removed on leave.
    No React. Installs only while pointerLightActive() — resolved motion full,
    transparency glass, (hover:hover) and (pointer:fine), tier standard|enhanced —
-   and never under [data-ag-highlights]. */
+   and never under [data-ag-highlights] or forced colours (REQ-MAT-45). */
 import { resolvedMotion, subscribeFrame } from './ticker';
 import type { ResolvedPreferences } from '../contracts/preferences';
 
 export interface PointerLightPrefs {
   motion?: 'full' | 'calm' | 'none';
   transparency?: string;
+  /** PreferenceValues['forcedColors'] (store OS signal); true disables pointer light. */
+  forcedColors?: boolean;
 }
 export type PointerLightWindow = Pick<Window, 'matchMedia'>;
 
+/** Forced colours (REQ-MAT-45 / REQ-MOT-113) as seen from the document: the
+    pre-paint script and the store resolve transparency to 'solid' as an
+    absolute floor under `forced-colors: active`, so a non-glass
+    data-ag-transparency on the root means pointer light must stay off. The
+    store's own `forcedColors` signal arrives through `prefs.forcedColors`. */
+function transparencyFloorBlocks(d: Document | null | undefined): boolean {
+  const t = d?.documentElement?.getAttribute('data-ag-transparency');
+  return t !== null && t !== undefined && t !== 'glass';
+}
+
 /** REQ-MOT-41: active only under full motion + glass transparency +
     hover-capable fine pointer + standard|enhanced tier; [data-ag-highlights]
-    present on the document disables it regardless of preferences. */
+    present on the document disables it regardless of preferences.
+    REQ-MAT-45: false under forced colours (prefs.forcedColors, or the solid
+    transparency floor the document carries when prefs omit transparency). */
 export function pointerLightActive(
-  prefs: Pick<ResolvedPreferences, 'motion' | 'transparency'> | PointerLightPrefs,
+  prefs: (Pick<ResolvedPreferences, 'motion' | 'transparency'> & { forcedColors?: boolean }) | PointerLightPrefs,
   tier: string,
   win: PointerLightWindow | null | undefined,
   d?: Document | null,
 ): boolean {
+  if (prefs.forcedColors === true) return false;
   if (prefs.motion !== undefined && prefs.motion !== 'full') return false;
   if (prefs.transparency !== undefined && prefs.transparency !== 'glass') return false;
   if (tier !== 'standard' && tier !== 'enhanced') return false;
   if (win && !win.matchMedia('(hover: hover) and (pointer: fine)').matches) return false;
   const dd = d ?? (typeof document === 'undefined' ? null : document);
   if (dd?.documentElement?.hasAttribute('data-ag-highlights')) return false;
+  if (prefs.transparency === undefined && transparencyFloorBlocks(dd)) return false;
   if (prefs.motion === undefined && resolvedMotion(dd) !== 'full') return false;
   return true;
 }
@@ -77,6 +93,12 @@ function install(d: Document): DocState {
     const p = state.pending;
     if (!p) return;
     state.pending = null;
+    // REQ-MAT-45: forced colours (solid floor on the root) writes nothing and
+    // drops any light already applied before the floor changed.
+    if (transparencyFloorBlocks(d)) {
+      (p.target as HTMLElement).style?.removeProperty('--_ag-pointer');
+      return;
+    }
     let rect = state.rects.get(p.target);
     if (!rect) {
       rect = p.target.getBoundingClientRect();
