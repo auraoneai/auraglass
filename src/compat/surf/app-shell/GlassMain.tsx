@@ -1,15 +1,21 @@
-/* GlassMain — 4.x compat adapter (SC-34). Delegates to the 5.0 component and
-   warns once per session via warnDeprecated; prop mapping per
-   fragments/codemods/surf.ts W1 rows. */
-'use client';
+/* GlassMain — 4.x compat adapter (REQ-SURF-13, DEP-S0005) → AppShell.Main
+   (the page scroll container and skip-link target). */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { AppShell } from '../../../app-shell/AppShell';
+import { domProps } from '../_shared';
 
-export type GlassMainProps = Record<string, unknown> & { children?: React.ReactNode };
+export interface GlassMainProps {
+  children?: React.ReactNode;
+  [legacy: string]: unknown;
+}
 
+/**
+ * 4.x `GlassMain` compat adapter (DEP-S0005).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link AppShell.Main from aura-glass/app-shell}.
+ */
 export function GlassMain(props: GlassMainProps) {
-  warnDeprecated('GlassMain');
-  const { children, ...rest } = props as Record<string, React.ReactNode>;
-  return <AppShell.Main {...rest}>{children}</AppShell.Main>;
+  warnDeprecated('DEP-S0005');
+  const { children, ...rest } = props;
+  return <AppShell.Main {...domProps(rest)}>{children}</AppShell.Main>;
 }

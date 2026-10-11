@@ -9,6 +9,7 @@
 - `GlassAppShell`
 - `GlassBottomNav`
 - `GlassBreadcrumb`
+- `GlassBreadcrumbs`
 - `GlassCalendar`
 - `GlassCarousel`
 - `GlassChat`
@@ -25,7 +26,6 @@
 - `GlassFileExplorer`
 - `GlassFileTree`
 - `GlassFilterBar`
-- `GlassGallery`
 - `GlassHeader`
 - `GlassImageViewer`
 - `GlassInspector`
@@ -38,11 +38,16 @@
 - `GlassMetricCard`
 - `GlassMobileNav`
 - `GlassMobileShell`
+- `GlassNavigationMenu`
+- `GlassPage`
 - `GlassPageHeader`
 - `GlassPageTabs`
 - `GlassPagination`
 - `GlassSidebar`
+- `GlassSidebarPanel`
+- `GlassSidebarRail`
 - `GlassSparkline`
+- `GlassSplitPane`
 - `GlassStatCard`
 - `GlassStatusBar`
 - `GlassTabBar`
@@ -59,6 +64,8 @@
 - `LiquidGlassCarouselRail`
 - `LiquidGlassCommandSurface`
 - `LiquidGlassDestination`
+- `LiquidGlassInsetSidebar`
+- `LiquidGlassInspectorPanel`
 - `LiquidGlassMediaControls`
 - `LiquidGlassNowPlayingBar`
 - `LiquidGlassPhotoInspector`
@@ -66,5 +73,5 @@
 - `LiquidGlassTabBar`
 - `LiquidGlassTransitionProvider`
 - `SURF_COMPAT_ADAPTERS`
-- `TreeView2`
+- `TreeView`
 - `ZSpaceAppLayout`

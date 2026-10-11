@@ -1,15 +1,21 @@
-/* GlassStatusBar — 4.x compat adapter (SC-34). Delegates to the 5.0 component and
-   warns once per session via warnDeprecated; prop mapping per
-   fragments/codemods/surf.ts W1 rows. */
-'use client';
+/* GlassStatusBar — 4.x compat adapter (REQ-SURF-13, DEP-S0007) →
+   StatusBar.Root. */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { StatusBar } from '../../../app-shell/StatusBar';
+import { domProps } from '../_shared';
 
-export type GlassStatusBarProps = Record<string, unknown> & { children?: React.ReactNode };
+export interface GlassStatusBarProps {
+  children?: React.ReactNode;
+  [legacy: string]: unknown;
+}
 
+/**
+ * 4.x `GlassStatusBar` compat adapter (DEP-S0007).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link StatusBar from aura-glass/app-shell}.
+ */
 export function GlassStatusBar(props: GlassStatusBarProps) {
-  warnDeprecated('GlassStatusBar');
-  const { children, ...rest } = props as Record<string, React.ReactNode>;
-  return <StatusBar.Root {...rest}>{children}</StatusBar.Root>;
+  warnDeprecated('DEP-S0007');
+  const { children, ...rest } = props;
+  return <StatusBar.Root {...domProps(rest)}>{children}</StatusBar.Root>;
 }

@@ -1,31 +1,28 @@
-/* GlassVirtualTable — 4.x compat adapter (SURF-319). In 4.x this rendered
-   GlassDataTable unvirtualized; the 5.0 adapter delegates to Table whose
-   internal VirtualList is the honest implementation. */
-'use client';
+/* GlassVirtualTable — 4.x compat adapter (REQ-SURF-13, DEP-S0202) → Table
+   with virtualize. In 4.x this rendered the data table unvirtualized; the 5.0
+   Table's internal VirtualList is the honest implementation. columns
+   (ColumnDef {id, header, accessorKey}) / rows map through ./_table.tsx.
+   disabled has no 5.0 equivalent. */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { Table } from '../../../data/table/Table';
-import type { TableProps } from '../../../data/table/Table';
+import { LegacyTable, type LegacyTableProps } from './_table';
 
-export type GlassVirtualTableProps<TRow extends Record<string, unknown> = Record<string, unknown>> = {
-  rows?: TRow[];
-  data?: TRow[];
-  columns?: { key: string; label?: React.ReactNode }[];
-  rowHeight?: number;
-} & Omit<TableProps<TRow>, 'data' | 'columns' | 'getRowId'>;
+type Row = Record<string, unknown>;
 
-export function GlassVirtualTable<TRow extends Record<string, unknown> = Record<string, unknown>>(props: GlassVirtualTableProps<TRow>) {
-  warnDeprecated('GlassVirtualTable');
-  const { rows, data, columns = [], rowHeight, ...rest } = props;
-  const cols = columns.map((c) => ({ id: c.key, accessorKey: c.key, header: c.label }));
+export type GlassVirtualTableProps<T extends Row = Row> = LegacyTableProps<T> & { rowHeight?: number };
+
+/**
+ * 4.x `GlassVirtualTable` compat adapter (DEP-S0202).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link Table with virtualize from aura-glass/data}.
+ */
+export function GlassVirtualTable<T extends Row = Row>(props: GlassVirtualTableProps<T>) {
+  warnDeprecated('DEP-S0202');
+  const { rowHeight, ...rest } = props;
   return (
-    <Table
+    <LegacyTable<T>
       {...rest}
-      data={rows ?? data ?? []}
-      columns={cols as never}
+      {...(rowHeight !== undefined && rest.size === undefined ? { size: rowHeight <= 32 ? 'sm' : rowHeight >= 48 ? 'lg' : 'md' } : {})}
       virtualize
-      size={rowHeight !== undefined && rowHeight <= 32 ? 'sm' : 'md'}
-      getRowId={(_r: TRow, i: number) => String(i)}
     />
   );
 }

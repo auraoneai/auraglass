@@ -45,6 +45,16 @@ export { LiquidGlassCommandSurface } from './navigation/LiquidGlassCommandSurfac
 export { LiquidGlassTransitionProvider } from './navigation/LiquidGlassTransitionProvider';
 export { LiquidGlassSource } from './navigation/LiquidGlassSource';
 export { LiquidGlassDestination } from './navigation/LiquidGlassDestination';
+// REQ-SURF-13 completion (FIN-F next-fin/f-compat-adapters): the seven
+// missing adapters + GlassPage (PRD-4 REQ-SURF-13 shell list).
+export { GlassSplitPane } from './app-shell/GlassSplitPane';
+export { GlassSidebarRail } from './app-shell/GlassSidebarRail';
+export { GlassSidebarPanel } from './app-shell/GlassSidebarPanel';
+export { GlassPage } from './app-shell/GlassPage';
+export { LiquidGlassInsetSidebar } from './app-shell/LiquidGlassInsetSidebar';
+export { LiquidGlassInspectorPanel } from './app-shell/LiquidGlassInspectorPanel';
+export { GlassNavigationMenu } from './navigation/GlassNavigationMenu';
+export { GlassBreadcrumbs } from './navigation/GlassBreadcrumbs';
 // --- lane W1 end ---
 
 // --- lane W2 begin ---
@@ -53,7 +63,8 @@ export { GlassDataGrid } from './data/GlassDataGrid';
 export { GlassVirtualTable } from './data/GlassVirtualTable';
 export { GlassVirtualList } from './data/GlassVirtualList';
 export { GlassTreeView } from './data/GlassTreeView';
-export { TreeView as TreeView4x } from './data/TreeView4x';
+// The 4.x unglassed TreeView keeps its 4.x name (DEP-S0205 compat: 'TreeView').
+export { TreeView } from './data/TreeView4x';
 export { GlassFileTree } from './data/GlassFileTree';
 export { GlassFileExplorer } from './data/GlassFileExplorer';
 export { GlassFilterBar } from './data/GlassFilterBar';
@@ -88,7 +99,8 @@ export { GlassMediaControls } from './media/GlassMediaControls';
 export { LiquidGlassNowPlayingBar } from './media/LiquidGlassNowPlayingBar';
 export { LiquidGlassPhotoInspector } from './media/LiquidGlassPhotoInspector';
 export { GlassImageViewer } from './media/GlassImageViewer';
-export { GlassGallery } from './media/GlassGallery';
+// GlassGallery has no adapter: it is a removed name (registry item
+// media-gallery, fragments/codemods/surf.ts `removed`; PRD-4 §9).
 export { GlassCarousel } from './media/GlassCarousel';
 export { LiquidGlassCarouselRail } from './media/LiquidGlassCarouselRail';
 export { AuroraBackground } from './backdrops/AuroraBackground';
