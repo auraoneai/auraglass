@@ -1,3 +1,4 @@
+/// <reference path="../../types/playwright-core-utils-bundle.d.ts" />
 /* REQ-QUAL-32 (QUAL, FIN-434) — ported 4.x measurement layer: whole-viewport colour census.
    Verbatim port of v4.1.0:tests/visual/design-system/token-purity-layout-audit.spec.ts (= legacy/tests/visual/design-system/token-purity-layout-audit.spec.ts at 21044a761)
    lines 2103-2227. Read from the tag, never imported; only `export`, imports, type-only `!`/tuple assertions (strict tsconfig; erased at compile time) and this header were added. */

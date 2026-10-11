@@ -1,3 +1,4 @@
+/// <reference path="../../packages/qa/src/types/playwright-core-utils-bundle.d.ts" />
 /* G-15 / REQ-QUAL-32 (FIN-434) — known-failures proof against AuraGlass 4.1.0. AC-QUAL-01: a certification that passes
    4.1.0 is broken.
 
