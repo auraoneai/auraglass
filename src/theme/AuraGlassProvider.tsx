@@ -4,14 +4,20 @@
    warning surface. The outermost provider marks <html> data-ag-root and renders
    the single portal root into document.body (or portalContainer); nested
    providers scope data-ag-* onto their own [data-ag-root][data-ag-provider]
-   wrapper and reuse the outer root — exactly one portal root per document. */
+   wrapper and reuse the outer root — exactly one portal root per document.
+   REQ-FIN-04: production mounts register at render (./mounts), the outermost
+   provider drives warnDeprecated's mode, and nested providers reuse the one
+   document preference store (REQ-MAT-53): an inner provider only scopes its
+   app overrides and the resolved data-ag-* attributes onto its wrapper. */
 'use client';
 import * as React from 'react';
 import type { AuraGlassProviderProps } from '../contracts/preferences';
 import { Portal } from '../primitives/Portal';
 import { createPreferenceStore } from './preferences/store';
 import type { PreferenceStore } from './preferences/store';
-import type { PreferenceInput } from './preferences/types';
+import { createLocalStorageAdapter } from './preferences/storage';
+import { STORAGE_KEY } from './preferences/types';
+import type { PreferenceInput, PreferenceStorage } from './preferences/types';
 import { PreferenceStoreContext } from './preferences/usePreference';
 import { PortalRootContext } from './portal';
 import type { PortalRootState } from './portal';
@@ -19,6 +25,8 @@ import { LayerStackContext } from './layers/useLayer';
 import { layerStackFor } from './layers/LayerStack';
 import { AnnouncerRegions } from './announcer/Announcer';
 import { LensDefsSlot, useProviderMounts } from './providerMounts';
+import { ensureProviderMounts } from './mounts';
+import { setDeprecationMode } from '../internal/warnDeprecated';
 
 const useIsoLayoutEffect = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
 
@@ -28,9 +36,12 @@ export const DeprecationModeContext = React.createContext<'warn' | 'silent' | un
 
 const PORTAL_ROOT_ATTR = 'data-ag-portal-root';
 
-const PortalRootMarkup = React.forwardRef<
-  HTMLDivElement, { toasts: boolean; tooltips: boolean }
->(({ toasts, tooltips }, ref) =>
+/* React 19 ref-as-prop function component (REQ-PLAT-72). */
+const PortalRootMarkup = (
+  { toasts, tooltips, ref }: {
+    toasts: boolean; tooltips: boolean; ref?: React.Ref<HTMLDivElement>;
+  },
+): React.ReactElement =>
   React.createElement(
     'div',
     { [PORTAL_ROOT_ATTR]: '', ref },
@@ -40,8 +51,7 @@ const PortalRootMarkup = React.forwardRef<
       'data-ag-layer-root': 'toast', role: 'region', 'aria-label': 'Notifications',
     }) : null,
     React.createElement(AnnouncerRegions),
-  ));
-PortalRootMarkup.displayName = 'PortalRootMarkup';
+  );
 
 const appInput = (p: AuraGlassProviderProps): PreferenceInput => {
   const out: PreferenceInput = { tier: p.tier ?? 'auto' };
@@ -55,24 +65,83 @@ const appInput = (p: AuraGlassProviderProps): PreferenceInput => {
   return out;
 };
 
+type PersistedUser = Record<string, unknown>;
+
+/** The one preference store per document plus the user values it holds, so
+   nested providers can resolve their scope without a second store. */
+interface DocumentPreferences {
+  store: PreferenceStore;
+  user(): PersistedUser;
+}
+
+const DocumentPreferencesContext = React.createContext<DocumentPreferences | null>(null);
+
+const readUser = (storage: PreferenceStorage | null): PersistedUser => {
+  if (!storage) return {};
+  try {
+    const v = JSON.parse(storage.get(STORAGE_KEY) ?? '') as unknown;
+    return v !== null && typeof v === 'object' && !Array.isArray(v) ? { ...(v as PersistedUser) } : {};
+  } catch {
+    return {};
+  }
+};
+
+const createDocumentPreferences = (
+  storageProp: PreferenceStorage | null | undefined, app: PreferenceInput,
+): DocumentPreferences => {
+  const storage = storageProp === undefined
+    ? createLocalStorageAdapter(typeof window === 'undefined' ? null : window)
+    : storageProp;
+  const base = createPreferenceStore({ storage, app });
+  // read after creation: the store has already written any legacy migration
+  let user = readUser(storage);
+  const store: PreferenceStore = {
+    ...base,
+    set(key, value) { user = { ...user, [key]: value }; base.set(key, value); },
+    reset() { user = {}; base.reset(); },
+  };
+  return { store, user: () => user };
+};
+
+/** Read-only view of the document user values for a nested provider's scope. */
+const scopedStorage = (docPrefs: DocumentPreferences): PreferenceStorage => ({
+  get: (key) => (key === STORAGE_KEY ? JSON.stringify(docPrefs.user()) : null),
+  set: () => {},
+  remove: () => {},
+});
+
 export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactElement {
   const {
     children, storage, portalContainer, toasts = true, tooltips = true,
     tier = 'auto', preset, brand, deprecations,
   } = props;
 
+  ensureProviderMounts();
+
   const parentPortal = React.useContext(PortalRootContext);
   const outermost = parentPortal === null;
+  const parentDocPrefs = React.useContext(DocumentPreferencesContext);
+  const parentDeprecations = React.useContext(DeprecationModeContext);
+  const deprecationMode = deprecations ?? parentDeprecations;
 
-  const store = React.useMemo<PreferenceStore>(() => createPreferenceStore({
-    ...(storage === undefined ? {} : { storage }),
-    app: appInput(props),
+  // one store per document: the outermost provider creates it, nested
+  // providers reuse it (REQ-MAT-53 identity)
+  const docPrefs = React.useMemo<DocumentPreferences>(
+    () => (outermost || parentDocPrefs === null
+      ? createDocumentPreferences(storage, appInput(props))
+      : parentDocPrefs),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), []);
+    [],
+  );
+  const store = docPrefs.store;
   const appJson = JSON.stringify(appInput(props));
-  React.useEffect(() => { store.setApp(JSON.parse(appJson) as PreferenceInput); }, [store, appJson]);
+  React.useEffect(() => {
+    if (docPrefs === parentDocPrefs) return;
+    store.setApp(JSON.parse(appJson) as PreferenceInput);
+  }, [store, appJson, docPrefs, parentDocPrefs]);
 
   const [portalRoot, setPortalRoot] = React.useState<HTMLElement | null>(null);
+  const ownRootRef = React.useRef<HTMLElement | null>(null);
   const [adoptedRoot, setAdoptedRoot] = React.useState<HTMLElement | null>(null);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const doc = (typeof document === 'undefined' ? null : document);
@@ -85,17 +154,44 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
       html.setAttribute('data-ag-root', '');
       store.setTarget(html);
       const existing = doc.querySelector<HTMLElement>(`[${PORTAL_ROOT_ATTR}]`);
-      if (existing && existing !== portalRoot) setAdoptedRoot(existing);
+      /* Adopt only a FOREIGN root — the effect's `portalRoot` closure is stale
+         (the own-root ref callback fires during commit, after render), so
+         compare against ownRootRef instead. Adopting our own root would flip
+         needsOwnRoot off and unmount it. */
+      if (existing && existing !== ownRootRef.current) setAdoptedRoot(existing);
       return () => {
         html.removeAttribute('data-ag-root');
         store.setTarget(null);
       };
     }
-    const el = wrapperRef.current;
-    if (el) store.setTarget(el);
-    return () => store.setTarget(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return undefined;
   }, [outermost, store, doc]);
+
+  // nested scope: resolve the document user values + this provider's app
+  // overrides onto the wrapper; re-resolve whenever the document store changes.
+  // The scope store never persists and is never handed to descendants.
+  useIsoLayoutEffect(() => {
+    if (!doc || outermost) return undefined;
+    const el = wrapperRef.current;
+    if (!el) return undefined;
+    const write = (): void => {
+      el.removeAttribute('data-ag-continuous');
+      createPreferenceStore({
+        storage: scopedStorage(docPrefs),
+        app: JSON.parse(appJson) as PreferenceInput,
+      }).setTarget(el);
+    };
+    write();
+    return store.subscribe(write);
+  }, [outermost, store, doc, docPrefs, appJson]);
+
+  // REQ-PLAT-26 provider half: warnDeprecated's mode is module-wide, so the
+  // outermost provider owns it; nested providers forward theirs via context.
+  useIsoLayoutEffect(() => {
+    if (!outermost) return undefined;
+    setDeprecationMode(deprecationMode ?? 'warn');
+    return () => setDeprecationMode('warn');
+  }, [outermost, deprecationMode]);
 
   const mounts = useProviderMounts();
 
@@ -129,14 +225,14 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
     null,
     themeCss ? React.createElement('style', { 'data-ag-theme-style': '' }, themeCss) : null,
     children,
-    outermost && tier !== undefined ? React.createElement(LensDefsSlot, { tier }) : null,
+    outermost ? React.createElement(LensDefsSlot, { tier }) : null,
     needsOwnRoot && container
       ? React.createElement(
         Portal,
         { container },
         React.createElement(PortalRootMarkup, {
           toasts, tooltips,
-          ref: (el: HTMLDivElement | null) => setPortalRoot(el),
+          ref: (el: HTMLDivElement | null) => { ownRootRef.current = el; setPortalRoot(el); },
         }),
       )
       : null,
@@ -149,18 +245,22 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
     }, content);
 
   return React.createElement(
-    PreferenceStoreContext.Provider,
-    { value: store },
+    DocumentPreferencesContext.Provider,
+    { value: docPrefs },
     React.createElement(
-      PortalRootContext.Provider,
-      { value: rootState },
+      PreferenceStoreContext.Provider,
+      { value: store },
       React.createElement(
-        LayerStackContext.Provider,
-        { value: layerStack },
+        PortalRootContext.Provider,
+        { value: rootState },
         React.createElement(
-          DeprecationModeContext.Provider,
-          { value: deprecations },
-          tree,
+          LayerStackContext.Provider,
+          { value: layerStack },
+          React.createElement(
+            DeprecationModeContext.Provider,
+            { value: deprecationMode },
+            tree,
+          ),
         ),
       ),
     ),

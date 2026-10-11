@@ -1,7 +1,6 @@
-'use client';
 import * as React from 'react';
 import { Toolbar as Base } from '@base-ui/react/toolbar';
-import { materialProps, SurfaceGroup } from '../../material';
+import { materialProps } from '../../material';
 import { cn } from '../../internal';
 import { Button } from '../button/Button.client';
 import { IconButton } from '../icon-button/IconButton.client';
@@ -14,6 +13,7 @@ import type {
 function ToolbarRoot({
   orientation = 'horizontal',
   loop = true,
+  spacing = '2',
   variant = 'regular',
   thickness = 'regular',
   prominent,
@@ -23,47 +23,50 @@ function ToolbarRoot({
   ref,
   ...rest
 }: ToolbarRootProps) {
+  /* REQ-CMP-37: the root IS the SurfaceGroup — merged attrs (chrome surface,
+     data-ag-group, data-ag-spacing, shape=capsule when horizontal), no nested
+     wrapper element. */
   return (
-    <SurfaceGroup className="ag-toolbar-surface">
-      <Base.Root
-        {...rest}
-        render={rest.render as React.ComponentProps<typeof Base.Root>['render']}
-        {...materialProps({
-          layer: 'chrome',
-          variant,
-          thickness,
-          ...(prominent === true ? { prominent } : {}),
-          ...(refraction === true ? { refraction } : {}),
-        })}
-        orientation={orientation}
-        data-ag-part="root"
-        data-ag-shape={orientation === 'horizontal' ? 'capsule' : undefined}
-        className={cn('ag-toolbar', className)}
-        ref={ref}
-      >
-        {children}
-        {lowPriorityItems(children).length > 0 ? (
-          <span data-ag-part="overflow" className="ag-toolbar-overflow">
-            <Menu.Root>
-              <Menu.Trigger>
-                <IconButton label="More actions" icon={<span aria-hidden="true">⋯</span>} size="sm" />
-              </Menu.Trigger>
-              <Menu.Portal>
-                <Menu.Positioner>
-                  <Menu.Popup>
-                    {lowPriorityItems(children).map((it) => (
-                      <Menu.Item key={it.key} onClick={it.onClick as React.MouseEventHandler | undefined}>
-                        {it.icon}{it.label}
-                      </Menu.Item>
-                    ))}
-                  </Menu.Popup>
-                </Menu.Positioner>
-              </Menu.Portal>
-            </Menu.Root>
-          </span>
-        ) : null}
-      </Base.Root>
-    </SurfaceGroup>
+    <Base.Root
+      {...rest}
+      render={rest.render as React.ComponentProps<typeof Base.Root>['render']}
+      {...materialProps({
+        layer: 'chrome',
+        variant,
+        thickness,
+        ...(prominent === true ? { prominent } : {}),
+        ...(refraction === true ? { refraction } : {}),
+      })}
+      orientation={orientation}
+      data-ag-part="root"
+      data-ag-group=""
+      data-ag-spacing={spacing}
+      data-ag-shape={orientation === 'horizontal' ? 'capsule' : undefined}
+      className={cn('ag-toolbar', 'ag-surface', 'ag-toolbar-surface', className)}
+      ref={ref}
+    >
+      {children}
+      {lowPriorityItems(children).length > 0 ? (
+        <span data-ag-part="overflow" className="ag-toolbar-overflow">
+          <Menu.Root>
+            <Menu.Trigger>
+              <IconButton label="More actions" icon={<span aria-hidden="true">⋯</span>} size="sm" />
+            </Menu.Trigger>
+            <Menu.Portal>
+              <Menu.Positioner>
+                <Menu.Popup>
+                  {lowPriorityItems(children).map((it) => (
+                    <Menu.Item key={it.key} onClick={it.onClick as React.MouseEventHandler | undefined}>
+                      {it.icon}{it.label}
+                    </Menu.Item>
+                  ))}
+                </Menu.Popup>
+              </Menu.Positioner>
+            </Menu.Portal>
+          </Menu.Root>
+        </span>
+      ) : null}
+    </Base.Root>
   );
 }
 

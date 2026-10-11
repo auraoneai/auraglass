@@ -1,0 +1,5 @@
+.plat-base: { extends: .ag-node }
+plat:gate:glass-quality: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: ["echo $GITHUB_SHA"] }
+plat:integration:next: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:integration:vite: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:gate:change-class: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }

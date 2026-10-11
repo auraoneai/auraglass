@@ -20,7 +20,12 @@ describe('Toolbar', () => {
     );
     const root = screen.getByRole('toolbar', { name: 'Editor' });
     expect(root.getAttribute('data-ag-part')).toBe('root');
-    expect(root.parentElement?.getAttribute('data-ag-group')).toBe('');
+    /* REQ-CMP-37: root IS the surface group — merged attrs, no wrapper */
+    expect(root.getAttribute('data-ag-group')).toBe('');
+    expect(root.getAttribute('data-ag-spacing')).toBe('2');
+    expect(root.getAttribute('data-ag-surface')).toBe('');
+    expect(root.getAttribute('data-ag-shape')).toBe('capsule');
+    expect(root.parentElement?.getAttribute('data-ag-group')).toBeNull();
     expect(screen.getByText('Help').closest('[data-ag-part="link"]')).not.toBeNull();
     expect(root.querySelector('[data-ag-part="separator"]')).not.toBeNull();
     expect(root.querySelector('[data-ag-part="group"]')).not.toBeNull();
