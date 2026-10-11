@@ -42,6 +42,14 @@ export interface MenuPopupProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
+/** Content = Portal > Positioner > Popup (REQ-CMP-06, Menu and ContextMenu): the placement
+    props go to the positioner, `keepMounted` to the portal, everything else to the popup. */
+export interface MenuContentProps extends MenuPopupProps,
+  Pick<MenuPositionerProps, 'side' | 'align' | 'sideOffset'> {
+  keepMounted?: boolean | undefined;
+  ref?: React.Ref<HTMLDivElement> | undefined;
+}
+
 export interface MenuArrowProps extends React.HTMLAttributes<HTMLElement> {
   render?: RenderProp | undefined;
 }

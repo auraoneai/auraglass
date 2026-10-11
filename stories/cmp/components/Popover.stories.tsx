@@ -19,16 +19,12 @@ const Demo = ({ root = {}, positioner = {}, children }: { root?: Record<string, 
   <AuraGlassProvider>
     <Popover.Root defaultOpen {...root}>
       <Popover.Trigger>Open popover</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner {...positioner}>
-          <Popover.Popup>
-            <Popover.Arrow />
-            <Popover.Title>Popover</Popover.Title>
-            <Popover.Description>{children ?? 'Anchored overlay content.'}</Popover.Description>
-            <Popover.Close>Close</Popover.Close>
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+      <Popover.Content {...positioner}>
+        <Popover.Arrow />
+        <Popover.Title>Popover</Popover.Title>
+        <Popover.Description>{children ?? 'Anchored overlay content.'}</Popover.Description>
+        <Popover.Close>Close</Popover.Close>
+      </Popover.Content>
     </Popover.Root>
   </AuraGlassProvider>
 );
@@ -47,11 +43,7 @@ export const HoverIntent: Story = {
     <AuraGlassProvider>
       <Popover.Root defaultOpen>
         <Popover.Trigger openOnHover delay={300} closeDelay={150}>Hover me</Popover.Trigger>
-        <Popover.Portal>
-          <Popover.Positioner>
-            <Popover.Popup><Popover.Description>Opens after 300ms hover intent.</Popover.Description></Popover.Popup>
-          </Popover.Positioner>
-        </Popover.Portal>
+        <Popover.Content><Popover.Description>Opens after 300ms hover intent.</Popover.Description></Popover.Content>
       </Popover.Root>
     </AuraGlassProvider>
   ),

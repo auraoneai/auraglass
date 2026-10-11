@@ -14,6 +14,7 @@ import type {
   PopoverRootProps, PopoverTriggerProps, PopoverPortalProps,
   PopoverPositionerProps, PopoverPopupProps, PopoverArrowProps,
   PopoverTitleProps, PopoverDescriptionProps, PopoverCloseProps,
+  PopoverContentProps,
 } from './Popover.types';
 
 interface PopoverCtx { open: boolean }
@@ -140,6 +141,24 @@ const PopoverPopup = React.forwardRef<HTMLDivElement, PopoverPopupProps>(
   },
 );
 
+/* REQ-CMP-06: the contract Content part is the whole overlay stack, so callers never
+   compose the internal Portal/Positioner/Popup themselves. */
+function PopoverContent({ side, align, sideOffset, collisionPadding, anchor, keepMounted, ref, ...popupProps }: PopoverContentProps) {
+  return (
+    <PopoverPortal {...(keepMounted !== undefined ? { keepMounted } : {})}>
+      <PopoverPositioner
+        {...(side !== undefined ? { side } : {})}
+        {...(align !== undefined ? { align } : {})}
+        {...(sideOffset !== undefined ? { sideOffset } : {})}
+        {...(collisionPadding !== undefined ? { collisionPadding } : {})}
+        {...(anchor !== undefined ? { anchor } : {})}
+      >
+        <PopoverPopup {...(ref !== undefined ? { ref } : {})} {...popupProps} />
+      </PopoverPositioner>
+    </PopoverPortal>
+  );
+}
+
 const PopoverArrow = React.forwardRef<HTMLDivElement, PopoverArrowProps>(
   function PopoverArrow({ className, ...rest }, ref) {
     return <Base.Arrow ref={ref} data-ag-part="arrow" className={cn('ag-popover-arrow', className)} {...rest} />;
@@ -167,13 +186,13 @@ const PopoverClose = React.forwardRef<HTMLButtonElement, PopoverCloseProps>(
 export const Popover = {
   Root: PopoverRoot,
   Trigger: PopoverTrigger,
-  Portal: PopoverPortal,
-  Positioner: PopoverPositioner,
-  Popup: PopoverPopup,
   Arrow: PopoverArrow,
   Title: PopoverTitle,
   Description: PopoverDescription,
   Close: PopoverClose,
-  /** Contract part aliases (Content = Positioner>Popup block). */
-  Content: PopoverPopup,
+  /** Contract composite: Content = Portal>Positioner>Popup. */
+  Content: PopoverContent,
 };
+
+/** Internal overlay parts (not contract surface, REQ-CMP-06): in-repo composition only. */
+export { PopoverPortal, PopoverPositioner, PopoverPopup };

@@ -6,8 +6,9 @@ import { render, screen, act, fireEvent, createEvent } from '@testing-library/re
 import * as React from 'react';
 import { AuraGlassProvider } from '../../theme';
 import { Tooltip } from './index';
+import { TooltipPortal, TooltipPositioner, TooltipPopup } from './Tooltip.client';
 
-const Demo = ({ children, trigger = 'save', popup = <Tooltip.Popup>hint</Tooltip.Popup>, provider = {} }: {
+const Demo = ({ children, trigger = 'save', popup = <TooltipPopup>hint</TooltipPopup>, provider = {} }: {
   children?: React.ReactNode;
   trigger?: React.ReactNode;
   popup?: React.ReactElement;
@@ -17,9 +18,9 @@ const Demo = ({ children, trigger = 'save', popup = <Tooltip.Popup>hint</Tooltip
     <Tooltip.Provider {...provider}>
       <Tooltip.Root>
         <Tooltip.Trigger>{trigger}</Tooltip.Trigger>
-        <Tooltip.Portal>
-          <Tooltip.Positioner>{popup}</Tooltip.Positioner>
-        </Tooltip.Portal>
+        <TooltipPortal>
+          <TooltipPositioner>{popup}</TooltipPositioner>
+        </TooltipPortal>
       </Tooltip.Root>
       {children}
     </Tooltip.Provider>
@@ -57,7 +58,7 @@ describe('Tooltip', () => {
         <Tooltip.Provider>
           <Tooltip.Root defaultOpen>
             <Tooltip.Trigger>save</Tooltip.Trigger>
-            <Tooltip.Portal><Tooltip.Positioner><Tooltip.Popup>hint text</Tooltip.Popup></Tooltip.Positioner></Tooltip.Portal>
+            <Tooltip.Content>hint text</Tooltip.Content>
           </Tooltip.Root>
         </Tooltip.Provider>
       </AuraGlassProvider>,
@@ -74,7 +75,7 @@ describe('Tooltip', () => {
         <Tooltip.Provider>
           <Tooltip.Root defaultOpen>
             <Tooltip.Trigger>save</Tooltip.Trigger>
-            <Tooltip.Portal><Tooltip.Positioner><Tooltip.Popup><button>click</button></Tooltip.Popup></Tooltip.Positioner></Tooltip.Portal>
+            <Tooltip.Content><button>click</button></Tooltip.Content>
           </Tooltip.Root>
         </Tooltip.Provider>
       </AuraGlassProvider>,
@@ -90,11 +91,11 @@ describe('Tooltip', () => {
         <Tooltip.Provider>
           <Tooltip.Root>
             <Tooltip.Trigger>first</Tooltip.Trigger>
-            <Tooltip.Portal><Tooltip.Positioner><Tooltip.Popup>one</Tooltip.Popup></Tooltip.Positioner></Tooltip.Portal>
+            <Tooltip.Content>one</Tooltip.Content>
           </Tooltip.Root>
           <Tooltip.Root>
             <Tooltip.Trigger>second</Tooltip.Trigger>
-            <Tooltip.Portal><Tooltip.Positioner><Tooltip.Popup>two</Tooltip.Popup></Tooltip.Positioner></Tooltip.Portal>
+            <Tooltip.Content>two</Tooltip.Content>
           </Tooltip.Root>
         </Tooltip.Provider>
       </AuraGlassProvider>,

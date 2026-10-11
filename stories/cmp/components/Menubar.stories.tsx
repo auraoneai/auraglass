@@ -23,11 +23,7 @@ export const MenubarScene: Story = {
         {['File', 'Edit', 'View'].map((m) => (
           <Menu.Root key={m}>
             <Menu.Trigger openOnHover>{m}</Menu.Trigger>
-            <Menu.Portal>
-              <Menu.Positioner>
-                <Menu.Popup><Menu.Item>{m} action</Menu.Item></Menu.Popup>
-              </Menu.Positioner>
-            </Menu.Portal>
+            <Menu.Content><Menu.Item>{m} action</Menu.Item></Menu.Content>
           </Menu.Root>
         ))}
       </Menubar>

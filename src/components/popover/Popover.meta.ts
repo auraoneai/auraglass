@@ -32,9 +32,9 @@ const meta: ControlMeta = defineMeta({
         open: 'open',
         onClose: { to: 'onOpenChange' },
         title: 'Popover.Title',
-        content: 'Popover.Popup children',
-        side: 'Positioner side',
-        align: 'Positioner align',
+        content: 'Popover.Content children',
+        side: 'Popover.Content side',
+        align: 'Popover.Content align',
       },
       selectors: { '.glass-popover': '.ag-popover' }, automation: 'mostly',
       compat: true,
@@ -44,15 +44,15 @@ const meta: ControlMeta = defineMeta({
       props: {
         open: 'open',
         trigger: 'Popover.Trigger openOnHover',
-        content: 'Popover.Popup children',
+        content: 'Popover.Content children',
       },
       selectors: { '.glass-hover-card': '.ag-popover' }, automation: 'partial', // HoverCard successor = Trigger openOnHover + delay/closeDelay
       compat: false,
     },
     {
       from: 'GlassTooltip',
-      // The codemod maps GlassTooltip.content to Tooltip.Popup children (Tooltip meta, S-39);
-      // moving rich/interactive content into Popover.Popup children is a manual step.
+      // The codemod maps GlassTooltip.content to Tooltip.Content children (Tooltip meta, S-39);
+      // moving rich/interactive content into Popover.Content children is a manual step.
       props: {},
       selectors: { '.glass-tooltip': '.ag-popover' }, automation: 'partial', // rich/interactive content uses Popover; plain hints use Tooltip
       compat: false,

@@ -20,11 +20,7 @@ const Demo = ({ label = 'Hint text' }: { label?: string }) => (
     <Tooltip.Provider>
       <Tooltip.Root defaultOpen>
         <Tooltip.Trigger>Hover me</Tooltip.Trigger>
-        <Tooltip.Portal>
-          <Tooltip.Positioner>
-            <Tooltip.Popup><Tooltip.Arrow />{label}</Tooltip.Popup>
-          </Tooltip.Positioner>
-        </Tooltip.Portal>
+        <Tooltip.Content><Tooltip.Arrow />{label}</Tooltip.Content>
       </Tooltip.Root>
     </Tooltip.Provider>
   </AuraGlassProvider>

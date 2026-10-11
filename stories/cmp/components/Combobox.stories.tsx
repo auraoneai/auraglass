@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Combobox } from '../../../src/components/combobox';
+import { ComboboxLoading } from '../../../src/components/combobox/Combobox.client';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
@@ -145,7 +146,7 @@ export const Loading: Story = {
       <Combobox.Root items={[]} loading defaultOpen>
         <Combobox.Input placeholder="Searching people" />
         <Combobox.Content>
-          <Combobox.Loading />
+          <ComboboxLoading />
         </Combobox.Content>
       </Combobox.Root>
     </AuraGlassProvider>

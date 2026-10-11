@@ -76,7 +76,7 @@ describe('provider mount (CMP-246)', () => {
       <AuraGlassProvider>
         <Dialog.Root>
           <Dialog.Trigger>Open</Dialog.Trigger>
-          <Dialog.Portal><Dialog.Popup aria-label="x"><Dialog.Title>t</Dialog.Title></Dialog.Popup></Dialog.Portal>
+          <Dialog.Content aria-label="x" backdrop={false}><Dialog.Title>t</Dialog.Title></Dialog.Content>
         </Dialog.Root>
       </AuraGlassProvider>,
     );
@@ -88,9 +88,7 @@ describe('provider mount (CMP-246)', () => {
     render(
       <Tooltip.Root>
         <Tooltip.Trigger>bare</Tooltip.Trigger>
-        <Tooltip.Portal>
-          <Tooltip.Positioner><Tooltip.Popup>hint</Tooltip.Popup></Tooltip.Positioner>
-        </Tooltip.Portal>
+        <Tooltip.Content>hint</Tooltip.Content>
       </Tooltip.Root>,
     );
     const trigger = screen.getByText('bare');

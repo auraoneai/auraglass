@@ -5,6 +5,7 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Toolbar } from '../../../components/toolbar';
+import { IconButton } from '../../../components/icon-button';
 
 const DEP = 'DEP-C0013';
 const drop = (p: string) => warnDeprecated(`${DEP}.prop.${p}`);
@@ -34,10 +35,9 @@ export function renderToolbarItems(items: readonly GlassToolbarItem[], dep: stri
       return <Toolbar.Link key={item.id ?? i} {...(item.href !== undefined ? { href: item.href } : {})}>{item.label}</Toolbar.Link>;
     if (item.icon !== undefined)
       return (
-        <Toolbar.IconButton
+        <Toolbar.Button
           key={item.id ?? i}
-          label={typeof item.label === 'string' ? item.label : (item.id ?? `item-${i}`)}
-          icon={item.icon}
+          render={<IconButton label={typeof item.label === 'string' ? item.label : (item.id ?? `item-${i}`)} icon={item.icon} />}
           {...(item.disabled !== undefined ? { disabled: item.disabled } : {})}
           {...(item.onClick !== undefined ? { onClick: item.onClick } : {})}
         />

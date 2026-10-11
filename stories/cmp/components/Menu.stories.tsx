@@ -4,6 +4,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Menu, ContextMenu } from '../../../src/components/menu';
+import { MenuArrow } from '../../../src/components/menu/Menu.client';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
@@ -41,11 +42,7 @@ export const Playground: Story = {
     <AuraGlassProvider>
       <Menu.Root defaultOpen>
         <Menu.Trigger>Actions</Menu.Trigger>
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup><Items /></Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+        <Menu.Content><Items /></Menu.Content>
       </Menu.Root>
     </AuraGlassProvider>
   ),
@@ -57,25 +54,17 @@ export const Submenu: Story = {
     <AuraGlassProvider>
       <Menu.Root defaultOpen>
         <Menu.Trigger>File</Menu.Trigger>
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup>
-              <Menu.Arrow />
-              <Menu.Item>New</Menu.Item>
-              <Menu.Submenu defaultOpen>
-                <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
-                      <Menu.Item>Email</Menu.Item>
-                      <Menu.Item>Link</Menu.Item>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Submenu>
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+        <Menu.Content>
+          <MenuArrow />
+          <Menu.Item>New</Menu.Item>
+          <Menu.Submenu defaultOpen>
+            <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
+            <Menu.Content>
+              <Menu.Item>Email</Menu.Item>
+              <Menu.Item>Link</Menu.Item>
+            </Menu.Content>
+          </Menu.Submenu>
+        </Menu.Content>
       </Menu.Root>
     </AuraGlassProvider>
   ),
@@ -90,16 +79,12 @@ export const ContextMenuScene: Story = {
         <ContextMenu.Trigger>
           <div style={{ padding: 24, border: '1px dashed #888' }}>Right-click or Shift+F10 here</div>
         </ContextMenu.Trigger>
-        <ContextMenu.Portal>
-          <ContextMenu.Positioner>
-            <ContextMenu.Popup>
-              <ContextMenu.Item>Inspect</ContextMenu.Item>
-              <ContextMenu.Item>Rename</ContextMenu.Item>
-              <ContextMenu.Separator />
-              <ContextMenu.Item>Delete</ContextMenu.Item>
-            </ContextMenu.Popup>
-          </ContextMenu.Positioner>
-        </ContextMenu.Portal>
+        <ContextMenu.Content>
+          <ContextMenu.Item>Inspect</ContextMenu.Item>
+          <ContextMenu.Item>Rename</ContextMenu.Item>
+          <ContextMenu.Separator />
+          <ContextMenu.Item>Delete</ContextMenu.Item>
+        </ContextMenu.Content>
       </ContextMenu.Root>
     </AuraGlassProvider>
   ),
@@ -116,26 +101,18 @@ export const MenuButton: Story = {
       <div style={{ display: 'flex', gap: 16 }}>
         <Menu.Root>
           <Menu.Trigger>Fruits</Menu.Trigger>
-          <Menu.Portal>
-            <Menu.Positioner>
-              <Menu.Popup>
-                <Menu.Item>Apple</Menu.Item>
-                <Menu.Item>Apricot</Menu.Item>
-                <Menu.Item>Banana</Menu.Item>
-                <Menu.Submenu>
-                  <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
-                  <Menu.Portal>
-                    <Menu.Positioner>
-                      <Menu.Popup>
-                        <Menu.Item>Email</Menu.Item>
-                        <Menu.Item>Link</Menu.Item>
-                      </Menu.Popup>
-                    </Menu.Positioner>
-                  </Menu.Portal>
-                </Menu.Submenu>
-              </Menu.Popup>
-            </Menu.Positioner>
-          </Menu.Portal>
+          <Menu.Content>
+            <Menu.Item>Apple</Menu.Item>
+            <Menu.Item>Apricot</Menu.Item>
+            <Menu.Item>Banana</Menu.Item>
+            <Menu.Submenu>
+              <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
+              <Menu.Content>
+                <Menu.Item>Email</Menu.Item>
+                <Menu.Item>Link</Menu.Item>
+              </Menu.Content>
+            </Menu.Submenu>
+          </Menu.Content>
         </Menu.Root>
         <button type="button">Next tabbable</button>
       </div>

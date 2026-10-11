@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { Slider } from './index';
+import { SliderControl } from './Slider.client';
 
 beforeAll(() => {
   if (typeof window.PointerEvent !== 'function') {
@@ -89,12 +90,12 @@ describe('REQ-CMP-48 slider parts', () => {
   it('exported parts compose a custom layout', () => {
     const { container } = render(
       <Slider.Root aria-label="x" defaultValue={10}>
-        <Slider.Control>
+        <SliderControl>
           <Slider.Track>
             <Slider.Range />
             <Slider.Thumb aria-label="x" />
           </Slider.Track>
-        </Slider.Control>
+        </SliderControl>
       </Slider.Root>,
     );
     for (const part of ['control', 'track', 'range', 'thumb']) {

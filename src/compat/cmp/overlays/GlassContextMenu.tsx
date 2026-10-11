@@ -27,21 +27,17 @@ export function GlassContextMenu({ items, onClose, onOpenChange, children }: Gla
         : {})}
     >
       <ContextMenu.Trigger>{children}</ContextMenu.Trigger>
-      <ContextMenu.Portal>
-        <ContextMenu.Positioner>
-          <ContextMenu.Popup>
-        {items?.map((it, i) => (
-          <ContextMenu.Item
-            key={i}
-            {...(it.disabled !== undefined ? { disabled: it.disabled } : {})}
-            {...(it.onSelect !== undefined ? { onClick: it.onSelect } : {})}
-          >
-            {it.label}
-          </ContextMenu.Item>
-        ))}
-          </ContextMenu.Popup>
-        </ContextMenu.Positioner>
-      </ContextMenu.Portal>
+      <ContextMenu.Content>
+    {items?.map((it, i) => (
+      <ContextMenu.Item
+        key={i}
+        {...(it.disabled !== undefined ? { disabled: it.disabled } : {})}
+        {...(it.onSelect !== undefined ? { onClick: it.onSelect } : {})}
+      >
+        {it.label}
+      </ContextMenu.Item>
+    ))}
+      </ContextMenu.Content>
     </ContextMenu.Root>
   ));
 }

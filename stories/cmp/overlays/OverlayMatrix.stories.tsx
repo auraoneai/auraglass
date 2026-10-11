@@ -19,23 +19,17 @@ type Story = StoryObj<typeof sbMeta>;
 const SUBJECTS = {
   dialog: (props: Record<string, unknown>) => (
     <Dialog.Root defaultOpen {...props}>
-      <Dialog.Portal><Dialog.Backdrop />
-        <Dialog.Popup aria-label="matrix dialog"><Dialog.Title>Dialog</Dialog.Title><Dialog.Body>cell</Dialog.Body></Dialog.Popup>
-      </Dialog.Portal>
+      <Dialog.Content aria-label="matrix dialog"><Dialog.Title>Dialog</Dialog.Title><Dialog.Body>cell</Dialog.Body></Dialog.Content>
     </Dialog.Root>
   ),
   'alert-dialog': (props: Record<string, unknown>) => (
     <AlertDialog.Root defaultOpen {...props}>
-      <AlertDialog.Portal><AlertDialog.Backdrop />
-        <AlertDialog.Popup aria-label="matrix alert"><AlertDialog.Title>Alert</AlertDialog.Title><AlertDialog.Cancel>Cancel</AlertDialog.Cancel><AlertDialog.Action>OK</AlertDialog.Action></AlertDialog.Popup>
-      </AlertDialog.Portal>
+      <AlertDialog.Content aria-label="matrix alert"><AlertDialog.Title>Alert</AlertDialog.Title><AlertDialog.Cancel>Cancel</AlertDialog.Cancel><AlertDialog.Action>OK</AlertDialog.Action></AlertDialog.Content>
     </AlertDialog.Root>
   ),
   sheet: (props: Record<string, unknown>) => (
     <Sheet.Root defaultOpen {...props}>
-      <Sheet.Portal><Sheet.Backdrop />
-        <Sheet.Popup aria-label="matrix sheet"><Sheet.Title>Sheet</Sheet.Title><Sheet.Body>cell</Sheet.Body></Sheet.Popup>
-      </Sheet.Portal>
+      <Sheet.Content aria-label="matrix sheet"><Sheet.Title>Sheet</Sheet.Title><Sheet.Body>cell</Sheet.Body></Sheet.Content>
     </Sheet.Root>
   ),
 } as const;

@@ -5,6 +5,7 @@ import { render, screen, act, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { Sheet } from './index';
+import { SheetAction } from './Sheet.client';
 import { resolveDetent } from './useSheetDetents';
 
 function Demo({ root = {}, children }: { root?: Record<string, unknown>; children?: React.ReactNode }) {
@@ -56,7 +57,7 @@ describe('Sheet (CMP-229..236)', () => {
         <Sheet.Content>
           <Sheet.Handle />
           <Sheet.Body>
-            <Sheet.Action>Save to Photos</Sheet.Action>
+            <SheetAction>Save to Photos</SheetAction>
           </Sheet.Body>
           <Sheet.Close>Cancel</Sheet.Close>
         </Sheet.Content>

@@ -27,17 +27,14 @@ export const Playground: Story = {
     <Shell>
       <Dialog.Root defaultOpen>
         <Dialog.Trigger>Open dialog</Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup>
-            <Dialog.Header><Dialog.Title>Dialog title</Dialog.Title></Dialog.Header>
-            <Dialog.Body><Dialog.Description>A regular dialog over a blurred scrim.</Dialog.Description></Dialog.Body>
-            <Dialog.Footer>
-              <Dialog.Close>Cancel</Dialog.Close>
-              <Dialog.Close>Save</Dialog.Close>
-            </Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content>
+          <Dialog.Header><Dialog.Title>Dialog title</Dialog.Title></Dialog.Header>
+          <Dialog.Body><Dialog.Description>A regular dialog over a blurred scrim.</Dialog.Description></Dialog.Body>
+          <Dialog.Footer>
+            <Dialog.Close>Cancel</Dialog.Close>
+            <Dialog.Close>Save</Dialog.Close>
+          </Dialog.Footer>
+        </Dialog.Content>
       </Dialog.Root>
     </Shell>
   ),
@@ -48,16 +45,13 @@ export const LongContent: Story = {
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup>
-            <Dialog.Header><Dialog.Title>Long content</Dialog.Title></Dialog.Header>
-            <Dialog.Body>
-              {Array.from({ length: 24 }, (_, i) => <p key={i}>Scrollable row {i + 1}</p>)}
-            </Dialog.Body>
-            <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content>
+          <Dialog.Header><Dialog.Title>Long content</Dialog.Title></Dialog.Header>
+          <Dialog.Body>
+            {Array.from({ length: 24 }, (_, i) => <p key={i}>Scrollable row {i + 1}</p>)}
+          </Dialog.Body>
+          <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+        </Dialog.Content>
       </Dialog.Root>
     </Shell>
   ),
@@ -68,14 +62,11 @@ export const Sizes: Story = {
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup size="md">
-            <Dialog.Header><Dialog.Title>Sizes axis: sm / md / lg + appearance wide / fullscreen — this cell md</Dialog.Title></Dialog.Header>
-            <Dialog.Body>Body</Dialog.Body>
-            <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content size="md">
+          <Dialog.Header><Dialog.Title>Sizes axis: sm / md / lg + appearance wide / fullscreen — this cell md</Dialog.Title></Dialog.Header>
+          <Dialog.Body>Body</Dialog.Body>
+          <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+        </Dialog.Content>
       </Dialog.Root>
     </Shell>
   ),
@@ -87,25 +78,19 @@ export const Nested: Story = {
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup aria-label="outer dialog">
-            <Dialog.Header><Dialog.Title>Outer</Dialog.Title></Dialog.Header>
-            <Dialog.Body>
-              <Dialog.Root defaultOpen>
-                <Dialog.Portal>
-                  <Dialog.Backdrop />
-                  <Dialog.Popup aria-label="inner dialog" size="sm">
-                    <Dialog.Header><Dialog.Title>Inner</Dialog.Title></Dialog.Header>
-                    <Dialog.Body>Nested dialog content.</Dialog.Body>
-                    <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-                  </Dialog.Popup>
-                </Dialog.Portal>
-              </Dialog.Root>
-            </Dialog.Body>
-            <Dialog.Footer><Dialog.Close>Close outer</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content aria-label="outer dialog">
+          <Dialog.Header><Dialog.Title>Outer</Dialog.Title></Dialog.Header>
+          <Dialog.Body>
+            <Dialog.Root defaultOpen>
+              <Dialog.Content aria-label="inner dialog" size="sm">
+                <Dialog.Header><Dialog.Title>Inner</Dialog.Title></Dialog.Header>
+                <Dialog.Body>Nested dialog content.</Dialog.Body>
+                <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+              </Dialog.Content>
+            </Dialog.Root>
+          </Dialog.Body>
+          <Dialog.Footer><Dialog.Close>Close outer</Dialog.Close></Dialog.Footer>
+        </Dialog.Content>
       </Dialog.Root>
     </Shell>
   ),
@@ -119,13 +104,11 @@ export const NonModal: Story = {
     <Shell>
       <input placeholder="page input stays interactive" style={{ marginBottom: 12 }} />
       <Dialog.Root defaultOpen modal={false}>
-        <Dialog.Portal>
-          <Dialog.Popup size="md">
-            <Dialog.Header><Dialog.Title>Non-modal</Dialog.Title></Dialog.Header>
-            <Dialog.Body>No scrim; page stays interactive.</Dialog.Body>
-            <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content size="md" backdrop={false}>
+          <Dialog.Header><Dialog.Title>Non-modal</Dialog.Title></Dialog.Header>
+          <Dialog.Body>No scrim; page stays interactive.</Dialog.Body>
+          <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+        </Dialog.Content>
       </Dialog.Root>
     </Shell>
   ),
@@ -138,14 +121,11 @@ export const PaletteShell: Story = {
     return (
       <Shell>
         <Dialog.Root defaultOpen>
-          <Dialog.Portal>
-            <Dialog.Backdrop />
-            <Dialog.Popup placement="top" size="lg" initialFocus={inputRef}>
-              <Dialog.Body padding="none">
-                <input ref={inputRef} placeholder="Type a command…" style={{ width: '100%', padding: 12, font: 'inherit' }} />
-              </Dialog.Body>
-            </Dialog.Popup>
-          </Dialog.Portal>
+          <Dialog.Content placement="top" size="lg" initialFocus={inputRef}>
+            <Dialog.Body padding="none">
+              <input ref={inputRef} placeholder="Type a command…" style={{ width: '100%', padding: 12, font: 'inherit' }} />
+            </Dialog.Body>
+          </Dialog.Content>
         </Dialog.Root>
       </Shell>
     );

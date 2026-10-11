@@ -24,8 +24,8 @@ const meta: ControlMeta = defineMeta({
     {
       from: 'GlassTooltip',
       props: {
-        content: 'Tooltip.Popup children',
-        placement: 'Positioner side/align',
+        content: 'Tooltip.Content children',
+        placement: 'Tooltip.Content side/align',
         delay: 'Provider delay',
       },
       selectors: { '.glass-tooltip': '.ag-tooltip' }, automation: 'full', // duplicate def at GlassPopover.tsx:678 folds into this component

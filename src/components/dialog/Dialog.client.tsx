@@ -230,9 +230,6 @@ export const Dialog = {
   Root: DialogRoot,
   Trigger: DialogTrigger,
   Close: DialogClose,
-  Portal: DialogPortal,
-  Backdrop: DialogBackdrop,
-  Popup: DialogPopup,
   Content: DialogContent,
   Title: DialogTitle,
   Description: DialogDescription,
@@ -240,3 +237,6 @@ export const Dialog = {
   Body: DialogBody,
   Footer: DialogFooter,
 };
+
+/** Internal overlay parts (not contract surface, REQ-CMP-06): in-repo composition only. */
+export { DialogPortal, DialogBackdrop, DialogPopup };

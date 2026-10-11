@@ -66,14 +66,14 @@ function splitButtonProps(props: Record<string, unknown>) {
   return { aura, dom };
 }
 
-function ToolbarButton({ className, children, ...rest }: ToolbarButtonProps) {
+function ToolbarButton({ className, children, render, ...rest }: ToolbarButtonProps) {
   const { aura, dom } = splitButtonProps(rest as Record<string, unknown>);
-  return (
-    <Base.Button
-      {...dom}
-      render={<Button {...aura} data-ag-part="button" className={className}>{children}</Button>}
-    />
-  );
+  /* REQ-CMP-37: icon actions are `Toolbar.Button render={<IconButton …/>}` — a caller
+     element replaces the default Button and receives the AuraGlass props and the part. */
+  const el = React.isValidElement<Record<string, unknown>>(render)
+    ? React.cloneElement(render, { ...aura, 'data-ag-part': 'button', ...(className !== undefined ? { className } : {}) })
+    : <Button {...aura} data-ag-part="button" className={className}>{children}</Button>;
+  return <Base.Button {...dom} render={el} />;
 }
 
 function ToolbarIconButton({ label, icon, className, ...rest }: ToolbarIconButtonProps) {
@@ -121,8 +121,11 @@ function ToolbarLink({ className, children, ref, ...rest }: ToolbarLinkProps) {
 export const Toolbar = {
   Root: ToolbarRoot,
   Button: ToolbarButton,
-  IconButton: ToolbarIconButton,
   Group: ToolbarGroup,
   Separator: ToolbarSeparator,
   Link: ToolbarLink,
 };
+
+/** Not contract surface (REQ-CMP-06/-37): in-repo composition only; public icon actions use
+    `Toolbar.Button render={<IconButton …/>}`. */
+export { ToolbarIconButton };

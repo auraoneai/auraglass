@@ -26,28 +26,24 @@ export function AccountMenu({ name, email, avatarSrc, items, onSignOut }: Accoun
       <Menu.Trigger aria-label={`Account menu for ${name}`}>
         <Avatar.Root {...(avatarSrc !== undefined ? { src: avatarSrc } : {})} alt={name} name={name} size="sm" />
       </Menu.Trigger>
-      <Menu.Portal>
-        <Menu.Positioner side="bottom" align="end">
-          <Menu.Popup>
-            <Menu.Group>
-              <Menu.GroupLabel>
-                {name}{email ? ` — ${email}` : ''}
-              </Menu.GroupLabel>
-              {items.map((it) => (
-                <Menu.Item key={it.id} {...(it.onSelect !== undefined ? { onSelect: it.onSelect } : {})}>
-                  {it.label}
-                </Menu.Item>
-              ))}
-            </Menu.Group>
-            {onSignOut ? (
-              <>
-                <Menu.Separator />
-                <Menu.Item onSelect={onSignOut} data-ag-intent="danger">Sign out</Menu.Item>
-              </>
-            ) : null}
-          </Menu.Popup>
-        </Menu.Positioner>
-      </Menu.Portal>
+      <Menu.Content side="bottom" align="end">
+        <Menu.Group>
+          <Menu.GroupLabel>
+            {name}{email ? ` — ${email}` : ''}
+          </Menu.GroupLabel>
+          {items.map((it) => (
+            <Menu.Item key={it.id} {...(it.onSelect !== undefined ? { onSelect: it.onSelect } : {})}>
+              {it.label}
+            </Menu.Item>
+          ))}
+        </Menu.Group>
+        {onSignOut ? (
+          <>
+            <Menu.Separator />
+            <Menu.Item onSelect={onSignOut} data-ag-intent="danger">Sign out</Menu.Item>
+          </>
+        ) : null}
+      </Menu.Content>
     </Menu.Root>
   );
 }

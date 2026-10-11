@@ -13,28 +13,20 @@ const renderMenu = (extra?: React.ReactNode) =>
     <AuraGlassProvider>
       <Menu.Root>
         <Menu.Trigger>actions</Menu.Trigger>
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup>
-              <Menu.Item shortcut="Ctrl+X">Cut</Menu.Item>
-              <Menu.Item shortcut="Ctrl+C">Copy</Menu.Item>
-              <Menu.Separator />
-              <Menu.CheckboxItem checked>Wrap</Menu.CheckboxItem>
-              <Menu.CheckboxItem checked="indeterminate">Selective</Menu.CheckboxItem>
-              <Menu.Submenu>
-                <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
-                      <Menu.Item>Email</Menu.Item>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Submenu>
-              {extra}
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+        <Menu.Content>
+          <Menu.Item shortcut="Ctrl+X">Cut</Menu.Item>
+          <Menu.Item shortcut="Ctrl+C">Copy</Menu.Item>
+          <Menu.Separator />
+          <Menu.CheckboxItem checked>Wrap</Menu.CheckboxItem>
+          <Menu.CheckboxItem checked="indeterminate">Selective</Menu.CheckboxItem>
+          <Menu.Submenu>
+            <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
+            <Menu.Content>
+              <Menu.Item>Email</Menu.Item>
+            </Menu.Content>
+          </Menu.Submenu>
+          {extra}
+        </Menu.Content>
       </Menu.Root>
     </AuraGlassProvider>,
   );
@@ -98,9 +90,9 @@ describe('Menu', () => {
       <AuraGlassProvider>
         <Menu.Root defaultOpen>
           <Menu.Trigger>t</Menu.Trigger>
-          <Menu.Portal><Menu.Positioner><Menu.Popup>
+          <Menu.Content>
             <Menu.Item disabled>Locked</Menu.Item>
-          </Menu.Popup></Menu.Positioner></Menu.Portal>
+          </Menu.Content>
         </Menu.Root>
       </AuraGlassProvider>,
     );
@@ -131,13 +123,9 @@ describe('ContextMenu', () => {
           <ContextMenu.Trigger>
             <div>canvas region</div>
           </ContextMenu.Trigger>
-          <ContextMenu.Portal>
-            <ContextMenu.Positioner>
-              <ContextMenu.Popup>
-                <ContextMenu.Item>Inspect</ContextMenu.Item>
-              </ContextMenu.Popup>
-            </ContextMenu.Positioner>
-          </ContextMenu.Portal>
+          <ContextMenu.Content>
+            <ContextMenu.Item>Inspect</ContextMenu.Item>
+          </ContextMenu.Content>
         </ContextMenu.Root>
       </AuraGlassProvider>,
     );
@@ -163,11 +151,11 @@ describe('Menubar', () => {
         <Menubar>
           <Menu.Root>
             <Menu.Trigger openOnHover>File</Menu.Trigger>
-            <Menu.Portal><Menu.Positioner><Menu.Popup><Menu.Item>New</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal>
+            <Menu.Content><Menu.Item>New</Menu.Item></Menu.Content>
           </Menu.Root>
           <Menu.Root>
             <Menu.Trigger openOnHover>Edit</Menu.Trigger>
-            <Menu.Portal><Menu.Positioner><Menu.Popup><Menu.Item>Undo</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal>
+            <Menu.Content><Menu.Item>Undo</Menu.Item></Menu.Content>
           </Menu.Root>
         </Menubar>
       </AuraGlassProvider>,
@@ -193,9 +181,9 @@ describe('Menubar', () => {
     render(
       <Menu.Root open>
         <Menu.Trigger>actions</Menu.Trigger>
-        <Menu.Portal><Menu.Positioner><Menu.Popup>
+        <Menu.Content>
           <Menu.Item shortcut="Ctrl+X">Cut</Menu.Item>
-        </Menu.Popup></Menu.Positioner></Menu.Portal>
+        </Menu.Content>
       </Menu.Root>,
     );
     await act(async () => {}); // portal falls back to document.body after settle flush
@@ -208,9 +196,9 @@ describe('Menubar', () => {
     render(
       <Menu.Root open>
         <Menu.Trigger>actions</Menu.Trigger>
-        <Menu.Portal><Menu.Positioner><Menu.Popup>
+        <Menu.Content>
           <Menu.Item render={<a href="https://x" />}>Docs</Menu.Item>
-        </Menu.Popup></Menu.Positioner></Menu.Portal>
+        </Menu.Content>
       </Menu.Root>,
     );
     await act(async () => {});
@@ -224,10 +212,10 @@ describe('Menubar', () => {
     render(
       <Menu.Root defaultOpen>
         <Menu.Trigger>actions</Menu.Trigger>
-        <Menu.Portal><Menu.Positioner><Menu.Popup>
+        <Menu.Content>
           <Menu.CheckboxItem checked={false}>Wrap</Menu.CheckboxItem>
           <Menu.Item>Plain</Menu.Item>
-        </Menu.Popup></Menu.Positioner></Menu.Portal>
+        </Menu.Content>
       </Menu.Root>,
     );
     await act(async () => {});

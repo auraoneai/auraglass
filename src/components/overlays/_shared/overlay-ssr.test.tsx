@@ -20,39 +20,39 @@ const CLOSED: Record<string, React.ReactElement> = {
   Dialog: (
     <Dialog.Root>
       <Dialog.Trigger>Open</Dialog.Trigger>
-      <Dialog.Portal><Dialog.Popup><Dialog.Title>T</Dialog.Title></Dialog.Popup></Dialog.Portal>
+      <Dialog.Content backdrop={false}><Dialog.Title>T</Dialog.Title></Dialog.Content>
     </Dialog.Root>
   ),
   AlertDialog: (
     <AlertDialog.Root>
       <AlertDialog.Trigger>Delete</AlertDialog.Trigger>
-      <AlertDialog.Portal><AlertDialog.Popup><AlertDialog.Title>T</AlertDialog.Title></AlertDialog.Popup></AlertDialog.Portal>
+      <AlertDialog.Content backdrop={false}><AlertDialog.Title>T</AlertDialog.Title></AlertDialog.Content>
     </AlertDialog.Root>
   ),
   Sheet: (
     <Sheet.Root>
       <Sheet.Trigger>Open</Sheet.Trigger>
-      <Sheet.Portal><Sheet.Popup><Sheet.Title>T</Sheet.Title></Sheet.Popup></Sheet.Portal>
+      <Sheet.Content backdrop={false}><Sheet.Title>T</Sheet.Title></Sheet.Content>
     </Sheet.Root>
   ),
   Popover: (
     <Popover.Root>
       <Popover.Trigger>Open</Popover.Trigger>
-      <Popover.Portal><Popover.Positioner><Popover.Popup><Popover.Title>T</Popover.Title></Popover.Popup></Popover.Positioner></Popover.Portal>
+      <Popover.Content><Popover.Title>T</Popover.Title></Popover.Content>
     </Popover.Root>
   ),
   Tooltip: (
     <Tooltip.Provider>
       <Tooltip.Root>
         <Tooltip.Trigger>Hover</Tooltip.Trigger>
-        <Tooltip.Portal><Tooltip.Positioner><Tooltip.Popup>T</Tooltip.Popup></Tooltip.Positioner></Tooltip.Portal>
+        <Tooltip.Content>T</Tooltip.Content>
       </Tooltip.Root>
     </Tooltip.Provider>
   ),
   Menu: (
     <Menu.Root>
       <Menu.Trigger>Open</Menu.Trigger>
-      <Menu.Portal><Menu.Positioner><Menu.Popup><Menu.Item>T</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal>
+      <Menu.Content><Menu.Item>T</Menu.Item></Menu.Content>
     </Menu.Root>
   ),
   Toast: (

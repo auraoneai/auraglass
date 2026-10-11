@@ -6,6 +6,7 @@
 import * as React from 'react';
 import { cn } from '../../internal/index';
 import { Popover } from '../popover';
+import { PopoverPortal, PopoverPositioner, PopoverPopup } from '../popover/Popover.client';
 import { hexToHsv, hsvToHex, type Hsv } from './colors';
 
 interface Ctx {
@@ -87,11 +88,11 @@ function Trigger({ className, ref, ...rest }: React.ComponentProps<typeof Popove
 function Content(props: React.ComponentProps<typeof Popover.Content>) {
   const { children, ...rest } = props;
   return (
-    <Popover.Portal>
-      <Popover.Positioner {...rest} className={cn('ag-color-picker-content', rest.className)}>
-        <Popover.Popup>{children}</Popover.Popup>
-      </Popover.Positioner>
-    </Popover.Portal>
+    <PopoverPortal>
+      <PopoverPositioner {...rest} className={cn('ag-color-picker-content', rest.className)}>
+        <PopoverPopup>{children}</PopoverPopup>
+      </PopoverPositioner>
+    </PopoverPortal>
   );
 }
 

@@ -50,6 +50,14 @@ export interface PopoverPopupProps extends React.HTMLAttributes<HTMLDivElement> 
   children?: React.ReactNode;
 }
 
+/** Content = Portal > Positioner > Popup (REQ-CMP-06): the placement props go to the
+    positioner, `keepMounted` to the portal, everything else to the popup. */
+export interface PopoverContentProps extends PopoverPopupProps,
+  Pick<PopoverPositionerProps, 'side' | 'align' | 'sideOffset' | 'collisionPadding' | 'anchor'> {
+  keepMounted?: boolean | undefined;
+  ref?: React.Ref<HTMLDivElement> | undefined;
+}
+
 export interface PopoverArrowProps extends React.HTMLAttributes<HTMLElement> {
   render?: RenderProp | undefined;
 }
