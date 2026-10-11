@@ -3,11 +3,13 @@
   "name": "ai-workspace",
   "type": "registry:block",
   "title": "AI workspace",
-  "description": "Thread + Composer + UsageMeter + ProviderErrorState; chat route is consumer-owned (interim harness under ci/surf/ai-sdk).",
-  "dependencies": ["react"],
-  "registryDependencies": [],
+  "description": "Thread + Composer + UsageMeter + ProviderErrorState via useAuraChat; Next.js chat route on Kiro Prism (PRISM_* env). The route has no auth: add authentication/authorisation before exposure (README).",
+  "dependencies": ["react", "ai", "@ai-sdk/react", "@ai-sdk/openai-compatible"],
+  "registryDependencies": ["ai-sdk-adapter"],
   "files": [
     { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" }
+    { "path": "fixtures.ts", "type": "registry:item" },
+    { "path": "replay-transport.ts", "type": "registry:lib" },
+    { "path": "app/api/chat/route.ts", "type": "registry:file", "target": "app/api/chat/route.ts" }
   ]
 }
