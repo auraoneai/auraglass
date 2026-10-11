@@ -39,7 +39,7 @@ describe('ImageList', () => {
     };
     try {
       const { container } = render(<ImageList variant="masonry" cols={6} minItemWidth={160}><ImageList.Item><img alt="a" /></ImageList.Item></ImageList>);
-      expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-ag-cols')).toBe('1');
+      expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-cols')).toBe('1');
     } finally {
       (globalThis as Record<string, unknown>).ResizeObserver = old;
     }

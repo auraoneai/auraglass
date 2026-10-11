@@ -144,3 +144,58 @@ describe('helper units', () => {
     expect(miss.uncovered).toHaveLength(1);
   });
 });
+
+/* REQ-FIN-10 deltas: tolerance-filtered cells, 4x >=4.2.0 missing-report
+   error, merged-set breaking lookup, optionalPeer install-level move, trimmed
+   CONTRACT_SURFACE, head-only Multi-Family trailer. */
+describe('REQ-FIN-10 classify-change', () => {
+  it('cells at/below changedRatio tolerance are filtered', () => {
+    const v = visualClass({ report: { cells: [{ id: 'a', changedRatio: 0.0005 }, { id: 'b', changedRatio: 0.001 }] }, line: '5x' });
+    expect(v.status).toBe('clean');
+    expect(v.cells).toHaveLength(0);
+  });
+  it('cells above tolerance need a record (5x) / classify C-B (4x)', () => {
+    const rep = { cells: [{ id: 'a', changedRatio: 0.01 }] };
+    expect(visualClass({ report: rep, line: '5x' }).status).toBe('unrecorded');
+    expect(visualClass({ report: rep, line: '4x' }).class).toBe('C-B');
+  });
+  it('missing visual report errors on 4x >= 4.2.0 only', () => {
+    const base = { line: '4x', target: '4x-minor', markers: M(), visual: { status: 'missing-blocking', cells: [] }, changedFiles: [], version: '4.2.1' };
+    expect(classify(base).errors.join(' ')).toContain('visual-class report missing on 4x >= 4.2.0');
+    expect(classify({ ...base, version: '4.1.9' }).errors.join(' ')).not.toContain('visual-class report missing');
+  });
+  it('dep -> optionalPeerDependencies is an install-level move (C-D-IL), not C-B', () => {
+    const r = classify({
+      markers: M(), line: '4x', target: '4x-minor',
+      packageDiff: {
+        dependencies: { added: [], removed: ['zod'], changed: [] },
+        optionalPeerDependencies: { added: ['zod'], removed: [], changed: [] },
+      },
+      deprecationsAdded: [{ id: 'DEP-P0020', kind: 'dependency', symbol: 'zod', breaking: 13, since: '4.3.0' }],
+      version: '4.3.0',
+      sources: { 'src/x.ts': "await import('zod') // [aura-glass] zod is now an optional peer" },
+      doctorReport: { undeclared: [] }, releaseNotes: { firstList: ['zod …'] },
+    });
+    expect(r.class).toBe('C-D-IL');
+  });
+  it('breaking group lookup uses the merged base+HEAD set (deprecationsAll)', () => {
+    const r = classify({
+      markers: M({ multiFamily: ['separate concerns'] }),
+      apiDiffs: { a: { added: [], removed: ['X', 'Y'] } },
+      deprecationsAdded: [],
+      deprecationsAll: [
+        { id: 'DEP-OLD1', kind: 'export', symbol: 'X', breaking: 3, since: '4.1.0' },
+        { id: 'DEP-OLD2', kind: 'export', symbol: 'Y', breaking: 3, since: '4.1.0' },
+      ],
+    });
+    // both removals resolve to breaking group 3 — one group, trailer not required
+    expect(r.errors.join(' ')).not.toContain('Multi-Family');
+    expect(r.removals.every((x) => x.breaking === 3)).toBe(true);
+  });
+  it('src/index.ts / src/root / src/compat / deprecations.json diffs are not contract-surface hits', () => {
+    const r = classify({ markers: M(), changedFiles: ['src/index.ts', 'src/root/x.ts', 'src/compat/mat/y.ts', 'deprecations.json'] });
+    expect(r.class).toBe('C-I');
+    const hit = classify({ markers: M(), changedFiles: ['src/contracts/preferences.ts'] });
+    expect(hit.class).toBe('C-B');
+  });
+});

@@ -36,5 +36,5 @@ export function AppShellController({
     });
   }, [sidebar, inspector, onSidebarChange, onInspectorChange]);
 
-  return <span hidden ref={ref} data-ag-controller="" />;
+  return <span hidden ref={ref} data-controller="" />;
 }

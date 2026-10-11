@@ -5,18 +5,18 @@ import * as React from 'react';
 import { Stack } from './index';
 
 describe('Stack', () => {
-  it('defaults to column with data-ag-direction', () => {
+  it('defaults to column with data-direction', () => {
     const { container } = render(<Stack><i /><i /></Stack>);
     const el = container.querySelector('[data-ag-part="root"]')!;
-    expect(el.getAttribute('data-ag-direction')).toBe('column');
+    expect(el.getAttribute('data-direction')).toBe('column');
   });
   it('row direction is RTL-aware via logical properties (data attr only)', () => {
     const { container } = render(<Stack direction="row">x</Stack>);
-    expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-ag-direction')).toBe('row');
+    expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-direction')).toBe('row');
   });
-  it('gap=4 emits data-ag-gap', () => {
+  it('gap=4 emits data-gap', () => {
     const { container } = render(<Stack gap={4}>x</Stack>);
-    expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-ag-gap')).toBe('4');
+    expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-gap')).toBe('4');
   });
   it('interleaves aria-hidden separators between children', () => {
     const { container } = render(

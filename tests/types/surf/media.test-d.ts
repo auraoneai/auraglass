@@ -4,7 +4,8 @@
 import type {
   MediaHandle, MediaState, UseMediaElementOptions, MediaSessionMetadataInit,
 } from '../../../src/media/index';
-import { formatMediaTime } from '../../../src/media/index';
+import { formatMediaTime, useMediaElement } from '../../../src/media/index';
+import * as React from 'react';
 import type { UseMediaElementOptions as _O } from '../../../src/media/useMediaElement';
 
 declare const handle: MediaHandle;
@@ -32,4 +33,20 @@ const t: string = formatMediaTime(92, { spoken: true });
 // @ts-expect-error seconds must be a number
 formatMediaTime('92');
 
-export { paused, buffered, tone, dur, badTone, o1, o2, o3, t };
+// REQ-SURF-130: useMediaElement takes only a media-element ref (inside a
+// custom hook so the cases also satisfy rules-of-hooks).
+declare const videoRef: React.RefObject<HTMLVideoElement | null>;
+declare const audioRef: React.RefObject<HTMLAudioElement | null>;
+declare const divRef: React.RefObject<HTMLDivElement | null>;
+function useRefCases(): MediaHandle[] {
+  const h1: MediaHandle = useMediaElement(videoRef);
+  const h2: MediaHandle = useMediaElement(audioRef, { sampleTone: true });
+  const h3: MediaHandle = useMediaElement(React.createRef<HTMLVideoElement>());
+  // @ts-expect-error a non-media ref is a type error
+  useMediaElement(React.createRef<HTMLDivElement>());
+  // @ts-expect-error a non-media ref is a type error
+  useMediaElement(divRef);
+  return [h1, h2, h3];
+}
+
+export { paused, buffered, tone, dur, badTone, o1, o2, o3, t, useRefCases };

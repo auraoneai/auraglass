@@ -1,9 +1,11 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-319 ColorPicker */
 @layer ag.components {
-  .ag-color-picker-trigger { display: inline-flex; align-items: center; gap: var(--ag-space-1, 0.25rem); }
-  .ag-color-picker-swatch { inline-size: 1em; block-size: 1em; border-radius: var(--ag-radius-sm, 0.25rem); }
-  .ag-color-picker-area { position: relative; inline-size: 200px; block-size: 140px; border-radius: var(--ag-radius-sm, 0.25rem); cursor: crosshair; touch-action: none; }
+  .ag-color-picker-trigger { display: inline-flex; align-items: center; gap: var(--ag-space-1); }
+  .ag-color-picker-swatch { inline-size: 1em; block-size: 1em; border-radius: var(--ag-radius-sm); }
+  .ag-color-picker-area { position: relative; inline-size: 200px; block-size: 140px; border-radius: var(--ag-radius-sm); cursor: crosshair; touch-action: none; }
   .ag-color-picker-area-thumb { position: absolute; inline-size: 0.75rem; block-size: 0.75rem; border-radius: 50%; border: 2px solid var(--_ag-thumb-ring, currentColor); translate: -50% -50%; }
-  .ag-color-picker-hue { position: relative; inline-size: 200px; block-size: 0.75rem; margin-block-start: var(--ag-space-2, 0.5rem); border-radius: 999px; background: linear-gradient(90deg in oklch longer hue, oklch(0.7 0.2 0), oklch(0.7 0.2 360)); }
-  .ag-color-picker-hue-thumb { position: absolute; inset-block: -2px; inline-size: 0.75rem; border-radius: 999px; border: 2px solid var(--_ag-thumb-ring, currentColor); translate: -50% 0; }
+  .ag-color-picker-hue { position: relative; inline-size: 200px; block-size: 0.75rem; margin-block-start: var(--ag-space-2); border-radius: var(--ag-radius-full); background: linear-gradient(90deg, var(--ag-color-danger), var(--ag-color-warning), var(--ag-color-success), var(--ag-color-info), var(--ag-color-accent)); }
+  .ag-color-picker-hue-thumb { position: absolute; inset-block: -2px; inline-size: 0.75rem; border-radius: var(--ag-radius-full); border: 2px solid var(--_ag-thumb-ring, currentColor); translate: -50% 0; }
 }
