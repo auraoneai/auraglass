@@ -39,13 +39,14 @@ function UndoToast() {
   const t = useToast();
   return (
     <Button
-      onClick={() =>
-        t.add({
+      onClick={() => {
+        const id = t.add({
           title: 'Row archived',
           intent: 'info',
-          data: { undo: true },
-        })
-      }
+          actionLabel: 'Undo',
+          onAction: () => { t.close(id); },
+        });
+      }}
     >
       Archive row (toast)
     </Button>

@@ -3,10 +3,10 @@
 // ai-artifact-panel) wired with useAuraChat from the ai-sdk-adapter item.
 'use client';
 import * as React from 'react';
-import { DefaultChatTransport, type UIMessage } from 'ai';
+import { DefaultChatTransport } from 'ai';
 import { AppShell, TopBar, Inspector } from 'aura-glass/app-shell';
 import { AgentSteps, Composer, ProviderErrorState, Thread, UsageMeter } from 'aura-glass/ai';
-import { useAuraChat } from '@/registry/items/ai-sdk-adapter/useAuraChat';
+import { useAuraChat, type AuraUIMessage } from '@/registry/items/ai-sdk-adapter/useAuraChat';
 import { ArtifactPanel, type Artifact } from '@/registry/items/ai-artifact-panel/ArtifactPanel';
 import type { AgStep } from 'aura-glass/ai';
 
@@ -18,7 +18,7 @@ const INSPECTOR_STEPS: AgStep[] = [
 
 export default function AiWorkspacePage() {
   // Live wiring: app/api/chat/route.ts streams from Kiro Prism (REQ-SURF-172).
-  const [transport] = React.useState(() => new DefaultChatTransport<UIMessage>({ api: '/api/chat' }));
+  const [transport] = React.useState(() => new DefaultChatTransport<AuraUIMessage>({ api: '/api/chat' }));
   const { threadProps, composerProps, status } = useAuraChat({ transport });
   const [artifact, setArtifact] = React.useState<Artifact | null>({
     id: 'a-1', title: 'deploy-report.md', kind: 'document',

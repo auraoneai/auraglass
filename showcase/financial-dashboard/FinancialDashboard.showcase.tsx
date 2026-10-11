@@ -213,7 +213,7 @@ export function FinancialDashboard({ now = SHOWCASE_EPOCH }: FinancialDashboardP
                     </SegmentedControl.Root>
                   </div>
                   <CashFlowChart />
-                  <Sparkline data={BALANCE_TREND} label={COPY.trendLabel} variant="area" showLastPoint />
+                  <Sparkline data={BALANCE_TREND} label={COPY.trendLabel} appearance="area" showLastPoint />
                 </Card.Root>
                 <Card.Root className={styles.ledger} render={<section aria-labelledby="fd-ledger-heading" />}>
                   <Heading level={2} size="title-3" id="fd-ledger-heading" className={styles.sectionHeading}>

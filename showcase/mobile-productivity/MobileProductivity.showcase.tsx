@@ -80,9 +80,9 @@ export function MobileQuickAddSheet({
       {...(onOpenChange ? { onOpenChange: (o: boolean) => onOpenChange(o) } : {})}
       labels={{ handle: 'Resize new task sheet', detents: ['Peek', 'Form', 'Full screen'] }}
     >
-      <Sheet.Portal>
-        <Sheet.Backdrop />
-        <Sheet.Popup>
+
+
+        <Sheet.Content>
           <Sheet.Handle />
           <Sheet.Header>
             <Sheet.Title>{COPY.sheetTitle}</Sheet.Title>
@@ -115,8 +115,8 @@ export function MobileQuickAddSheet({
               {COPY.save}
             </Sheet.Close>
           </Sheet.Footer>
-        </Sheet.Popup>
-      </Sheet.Portal>
+        </Sheet.Content>
+
     </Sheet.Root>
   );
 }

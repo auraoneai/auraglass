@@ -69,11 +69,11 @@ export function SpatialControlGrid() {
           </Tile>
           <Tile title={COPY.mediaToolbar} value={COPY.nowPlaying}>
             <Toolbar.Root aria-label={COPY.mediaToolbar} variant="identity">
-              <Toolbar.IconButton label="Previous track" icon={<SkipBackIcon />} />
-              <Toolbar.IconButton label="Pause" icon={<PauseIcon />} />
-              <Toolbar.IconButton label="Next track" icon={<SkipForwardIcon />} />
+              <Toolbar.Button render={<IconButton label="Previous track" icon={<SkipBackIcon />} />} />
+              <Toolbar.Button render={<IconButton label="Pause" icon={<PauseIcon />} />} />
+              <Toolbar.Button render={<IconButton label="Next track" icon={<SkipForwardIcon />} />} />
               <Toolbar.Separator />
-              <Toolbar.IconButton label={COPY.volume} icon={<Volume2Icon />} />
+              <Toolbar.Button render={<IconButton label={COPY.volume} icon={<Volume2Icon />} />} />
             </Toolbar.Root>
             <Slider.Root aria-label={COPY.volume} defaultValue={35} min={0} max={100} />
           </Tile>

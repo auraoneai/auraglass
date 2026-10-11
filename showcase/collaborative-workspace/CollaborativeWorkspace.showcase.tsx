@@ -53,38 +53,34 @@ export function CollaborativeShare({ defaultOpen = false }: { defaultOpen?: bool
   return (
     <Popover.Root defaultOpen={defaultOpen}>
       <Popover.Trigger render={<Button startIcon={<Share2Icon />} />}>Share</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner>
-          <Popover.Popup>
-            <Popover.Title>{COPY.shareTitle}</Popover.Title>
-            <Popover.Description>{COPY.shareDescription}</Popover.Description>
-            <div className={styles.share}>
-              <Combobox.Root
-                items={PEOPLE}
-                multiple
-                value={people}
-                onValueChange={(v: unknown) => setPeople(Array.isArray(v) ? (v as string[]) : [])}
-              >
-                <Combobox.Chips>
-                  {people.map((p) => (
-                    <Combobox.Chip key={p}>{p}</Combobox.Chip>
-                  ))}
-                </Combobox.Chips>
-                <Combobox.Input placeholder={COPY.shareLabel} aria-label={COPY.shareLabel} />
-                <Combobox.Content>
-                  {PEOPLE.map((p) => (
-                    <Combobox.Item key={p} value={p}>
-                      {p}
-                    </Combobox.Item>
-                  ))}
-                  <Combobox.Empty>No matching people</Combobox.Empty>
-                </Combobox.Content>
-              </Combobox.Root>
-              <Popover.Close render={<Button prominent />}>Send invites</Popover.Close>
-            </div>
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+      <Popover.Content>
+        <Popover.Title>{COPY.shareTitle}</Popover.Title>
+        <Popover.Description>{COPY.shareDescription}</Popover.Description>
+        <div className={styles.share}>
+          <Combobox.Root
+            items={PEOPLE}
+            multiple
+            value={people}
+            onValueChange={(v: unknown) => setPeople(Array.isArray(v) ? (v as string[]) : [])}
+          >
+            <Combobox.Chips>
+              {people.map((p) => (
+                <Combobox.Chip key={p}>{p}</Combobox.Chip>
+              ))}
+            </Combobox.Chips>
+            <Combobox.Input placeholder={COPY.shareLabel} aria-label={COPY.shareLabel} />
+            <Combobox.Content>
+              {PEOPLE.map((p) => (
+                <Combobox.Item key={p} value={p}>
+                  {p}
+                </Combobox.Item>
+              ))}
+              <Combobox.Empty>No matching people</Combobox.Empty>
+            </Combobox.Content>
+          </Combobox.Root>
+          <Popover.Close render={<Button prominent />}>Send invites</Popover.Close>
+        </div>
+      </Popover.Content>
     </Popover.Root>
   );
 }
@@ -94,26 +90,23 @@ function PublishDialog() {
   return (
     <Dialog.Root open={open} onOpenChange={(o: boolean) => setOpen(o)}>
       <Dialog.Trigger render={<Button prominent />}>Publish</Dialog.Trigger>
-      <Dialog.Portal>
-        <Dialog.Backdrop />
-        <Dialog.Popup>
-          <Dialog.Header>
-            <Dialog.Title>{COPY.publishTitle}</Dialog.Title>
-            <Dialog.Close />
-          </Dialog.Header>
-          <Dialog.Body>
-            <Dialog.Description>{COPY.publishBody}</Dialog.Description>
-          </Dialog.Body>
-          <Dialog.Footer>
-            <Button variant="clear" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button prominent onClick={() => setOpen(false)}>
-              Publish
-            </Button>
-          </Dialog.Footer>
-        </Dialog.Popup>
-      </Dialog.Portal>
+      <Dialog.Content>
+        <Dialog.Header>
+          <Dialog.Title>{COPY.publishTitle}</Dialog.Title>
+          <Dialog.Close />
+        </Dialog.Header>
+        <Dialog.Body>
+          <Dialog.Description>{COPY.publishBody}</Dialog.Description>
+        </Dialog.Body>
+        <Dialog.Footer>
+          <Button variant="clear" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button prominent onClick={() => setOpen(false)}>
+            Publish
+          </Button>
+        </Dialog.Footer>
+      </Dialog.Content>
     </Dialog.Root>
   );
 }
@@ -157,16 +150,12 @@ function Document({ titled }: { titled: boolean }) {
                     ))}
                   </section>
                 </ContextMenu.Trigger>
-                <ContextMenu.Portal>
-                  <ContextMenu.Positioner>
-                    <ContextMenu.Popup>
-                      <ContextMenu.Item>Comment on section</ContextMenu.Item>
-                      <ContextMenu.Item>Copy link to section</ContextMenu.Item>
-                      <ContextMenu.Separator />
-                      <ContextMenu.Item>Suggest an edit</ContextMenu.Item>
-                    </ContextMenu.Popup>
-                  </ContextMenu.Positioner>
-                </ContextMenu.Portal>
+                <ContextMenu.Content>
+                  <ContextMenu.Item>Comment on section</ContextMenu.Item>
+                  <ContextMenu.Item>Copy link to section</ContextMenu.Item>
+                  <ContextMenu.Separator />
+                  <ContextMenu.Item>Suggest an edit</ContextMenu.Item>
+                </ContextMenu.Content>
               </ContextMenu.Root>
             ))}
           </div>
@@ -321,17 +310,13 @@ export function CollaborativeWorkspace({ now = SHOWCASE_EPOCH }: CollaborativeWo
           <PublishDialog />
           <Menu.Root>
             <Menu.Trigger render={<IconButton label="Document options" icon={<MoreHorizontalIcon />} />} />
-            <Menu.Portal>
-              <Menu.Positioner>
-                <Menu.Popup>
-                  <Menu.Item>Version history</Menu.Item>
-                  <Menu.Item>Export as PDF</Menu.Item>
-                  <Menu.Item>Duplicate</Menu.Item>
-                  <Menu.Separator />
-                  <Menu.Item>Move to archive</Menu.Item>
-                </Menu.Popup>
-              </Menu.Positioner>
-            </Menu.Portal>
+            <Menu.Content>
+              <Menu.Item>Version history</Menu.Item>
+              <Menu.Item>Export as PDF</Menu.Item>
+              <Menu.Item>Duplicate</Menu.Item>
+              <Menu.Separator />
+              <Menu.Item>Move to archive</Menu.Item>
+            </Menu.Content>
           </Menu.Root>
         </TopBar.Trailing>
       </TopBar.Root>

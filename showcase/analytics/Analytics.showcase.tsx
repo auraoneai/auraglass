@@ -118,14 +118,10 @@ export function Analytics({ now = SHOWCASE_EPOCH }: AnalyticsProps) {
           <DateRangePicker label={COPY.rangeLabel} />
           <Popover.Root>
             <Popover.Trigger render={<Button variant="clear" startIcon={<HelpCircleIcon />} />}>{COPY.definitionsTitle}</Popover.Trigger>
-            <Popover.Portal>
-              <Popover.Positioner>
-                <Popover.Popup>
-                  <Popover.Title>{COPY.definitionsTitle}</Popover.Title>
-                  <Popover.Description>{COPY.definitionsBody}</Popover.Description>
-                </Popover.Popup>
-              </Popover.Positioner>
-            </Popover.Portal>
+            <Popover.Content>
+              <Popover.Title>{COPY.definitionsTitle}</Popover.Title>
+              <Popover.Description>{COPY.definitionsBody}</Popover.Description>
+            </Popover.Content>
           </Popover.Root>
         </TopBar.Trailing>
       </TopBar.Root>
@@ -163,7 +159,7 @@ export function Analytics({ now = SHOWCASE_EPOCH }: AnalyticsProps) {
                         </Heading>
                         <Text type="caption" muted>{COPY.pagesBody}</Text>
                       </div>
-                      <Sparkline data={PAGES.map((p) => p.sessions)} label="Sessions across the top 20 pages" variant="bar" />
+                      <Sparkline data={PAGES.map((p) => p.sessions)} label="Sessions across the top 20 pages" appearance="bar" />
                       <Table<PageRow>
                         data={PAGES}
                         columns={PAGE_COLUMNS}

@@ -9,7 +9,7 @@
  * is shown as running); seed `initialMessages` with the fixture snapshot to
  * show the approval state itself. */
 import type { ChatTransport, UIMessage, UIMessageChunk } from 'ai';
-import type { AgMessage } from 'aura-glass/ai';
+import type { AgMessage, AgMessageMetadata } from 'aura-glass/ai';
 
 export interface ReplayTransportOptions {
   /** Chunk delay in ms; 0 (default) emits synchronously for stable captures. */
@@ -85,7 +85,7 @@ export function messageToChunks(message: AgMessage): UIMessageChunk[] {
 export function createReplayTransport(
   replies: readonly AgMessage[],
   { delayMs = 0 }: ReplayTransportOptions = {},
-): ChatTransport<UIMessage> {
+): ChatTransport<UIMessage<AgMessageMetadata>> {
   if (replies.length === 0) throw new Error('createReplayTransport: at least one reply is required');
   let turn = 0;
   return {

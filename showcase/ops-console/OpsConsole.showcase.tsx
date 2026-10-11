@@ -34,17 +34,13 @@ export function OpsConsoleIncidents() {
         <h2 id="ops-incidents-heading" className={styles.heading}>{COPY.incidentsHeading}</h2>
         <Menu.Root>
           <Menu.Trigger render={<IconButton label={COPY.actions} icon={<MoreHorizontalIcon />} />} />
-          <Menu.Portal>
-            <Menu.Positioner>
-              <Menu.Popup>
-                <Menu.Item>Acknowledge selected</Menu.Item>
-                <Menu.Item>Reassign commander</Menu.Item>
-                <Menu.Item>Open bridge call</Menu.Item>
-                <Menu.Separator />
-                <Menu.Item>Export as CSV</Menu.Item>
-              </Menu.Popup>
-            </Menu.Positioner>
-          </Menu.Portal>
+          <Menu.Content>
+            <Menu.Item>Acknowledge selected</Menu.Item>
+            <Menu.Item>Reassign commander</Menu.Item>
+            <Menu.Item>Open bridge call</Menu.Item>
+            <Menu.Separator />
+            <Menu.Item>Export as CSV</Menu.Item>
+          </Menu.Content>
         </Menu.Root>
       </div>
       <Table<IncidentRow>
@@ -113,26 +109,19 @@ function IncidentActions() {
           >
             Acknowledge INC-4821
           </Tooltip.Trigger>
-          <Tooltip.Portal>
-            <Tooltip.Positioner>
-              <Tooltip.Popup>{COPY.ackTooltip}</Tooltip.Popup>
-            </Tooltip.Positioner>
-          </Tooltip.Portal>
+          <Tooltip.Content>{COPY.ackTooltip}</Tooltip.Content>
         </Tooltip.Root>
       </Tooltip.Provider>
       <AlertDialog.Root intent="danger">
         <AlertDialog.Trigger>{COPY.resolveAction}</AlertDialog.Trigger>
-        <AlertDialog.Portal>
-          <AlertDialog.Backdrop />
-          <AlertDialog.Popup>
-            <AlertDialog.Title>{COPY.resolveTitle}</AlertDialog.Title>
-            <AlertDialog.Description>{COPY.resolveBody}</AlertDialog.Description>
-            <AlertDialog.Footer>
-              <AlertDialog.Cancel>Keep open</AlertDialog.Cancel>
-              <AlertDialog.Action>{COPY.resolveAction}</AlertDialog.Action>
-            </AlertDialog.Footer>
-          </AlertDialog.Popup>
-        </AlertDialog.Portal>
+        <AlertDialog.Content>
+          <AlertDialog.Title>{COPY.resolveTitle}</AlertDialog.Title>
+          <AlertDialog.Description>{COPY.resolveBody}</AlertDialog.Description>
+          <AlertDialog.Footer>
+            <AlertDialog.Cancel>Keep open</AlertDialog.Cancel>
+            <AlertDialog.Action>{COPY.resolveAction}</AlertDialog.Action>
+          </AlertDialog.Footer>
+        </AlertDialog.Content>
       </AlertDialog.Root>
       <Toast.Viewport>
         {toast.toasts.map((t) => (

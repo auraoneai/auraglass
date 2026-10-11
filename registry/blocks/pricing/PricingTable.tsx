@@ -33,6 +33,7 @@ export function PricingTable({
     <section data-ag-part="root" className="ag-pricing" aria-label="Plans">
       <div data-ag-part="period-toggle" className="ag-pricing__toggle">
         <SegmentedControl.Root
+          name="billing-period"
           aria-label="Billing period"
           value={period}
           onValueChange={(v) => { if (v === 'monthly' || v === 'yearly') onPeriodChange?.(v); }}

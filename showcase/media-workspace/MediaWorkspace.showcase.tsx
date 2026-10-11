@@ -6,7 +6,7 @@
    glass), the playback controls and the now-playing bar are chrome; the stills
    and selects panels are content-raised; the inspector is an overlay Sheet. */
 import * as React from 'react';
-import { Button, DescriptionList, Heading, Popover, Sheet, Slider, Surface, Text, Toolbar } from 'aura-glass';
+import { Button, DescriptionList, Heading, IconButton, Popover, Sheet, Slider, Surface, Text, Toolbar } from 'aura-glass';
 import { AppShell, TopBar } from 'aura-glass/app-shell';
 import { Backdrop } from 'aura-glass/backdrops';
 import { CarouselRail, ImageViewer, MediaControls, NowPlayingBar } from 'aura-glass/media';
@@ -56,8 +56,8 @@ export function MediaWorkspaceInspectorSheet({ defaultOpen = true }: { defaultOp
   return (
     <Sheet.Root side="end" modal={false} defaultOpen={defaultOpen}>
       <Sheet.Trigger render={<Button startIcon={<InfoIcon />} />}>{COPY.inspectorTitle}</Sheet.Trigger>
-      <Sheet.Portal>
-        <Sheet.Popup>
+
+        <Sheet.Content backdrop={false}>
           <Sheet.Header>
             <Sheet.Title>{COPY.inspectorTitle}</Sheet.Title>
           </Sheet.Header>
@@ -78,8 +78,8 @@ export function MediaWorkspaceInspectorSheet({ defaultOpen = true }: { defaultOp
           <Sheet.Footer>
             <Sheet.Close>Close</Sheet.Close>
           </Sheet.Footer>
-        </Sheet.Popup>
-      </Sheet.Portal>
+        </Sheet.Content>
+
     </Sheet.Root>
   );
 }
@@ -87,10 +87,10 @@ export function MediaWorkspaceInspectorSheet({ defaultOpen = true }: { defaultOp
 function GradePopover() {
   return (
     <Popover.Root>
-      <Popover.Trigger render={<Toolbar.IconButton label="Grade" icon={<PaletteIcon />} />} />
-      <Popover.Portal>
-        <Popover.Positioner>
-          <Popover.Popup>
+      <Popover.Trigger render={<Toolbar.Button render={<IconButton label="Grade" icon={<PaletteIcon />} />} />} />
+
+
+          <Popover.Content>
             <Popover.Title>Quick grade</Popover.Title>
             <div className={styles.sliders}>
               <Text type="label">{COPY.gradeLabel}</Text>
@@ -98,9 +98,9 @@ function GradePopover() {
               <Text type="label">{COPY.saturationLabel}</Text>
               <Slider.Root aria-label={COPY.saturationLabel} defaultValue={90} min={0} max={200} />
             </div>
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+          </Popover.Content>
+
+
     </Popover.Root>
   );
 }
@@ -124,8 +124,8 @@ export function MediaWorkspace({ now = SHOWCASE_EPOCH }: MediaWorkspaceProps) {
           <TopBar.Trailing className={styles.topBarTrailing}>
             <Toolbar.Root aria-label={COPY.toolbarLabel} variant="identity">
               <GradePopover />
-              <Toolbar.IconButton label="Share review link" icon={<Share2Icon />} />
-              <Toolbar.IconButton label="Fit to window" icon={<MaximizeIcon />} />
+              <Toolbar.Button render={<IconButton label="Share review link" icon={<Share2Icon />} />} />
+              <Toolbar.Button render={<IconButton label="Fit to window" icon={<MaximizeIcon />} />} />
               <Toolbar.Separator />
               <Toolbar.Button prominent>Approve take</Toolbar.Button>
             </Toolbar.Root>

@@ -59,9 +59,9 @@ export function EcommerceCartSheet({ open, onOpenChange }: { open?: boolean; onO
       {...(open !== undefined ? { open } : { defaultOpen: true })}
       {...(onOpenChange ? { onOpenChange: (o: boolean) => onOpenChange(o) } : {})}
     >
-      <Sheet.Portal>
-        <Sheet.Backdrop />
-        <Sheet.Popup>
+
+
+        <Sheet.Content>
           <Sheet.Header>
             <Sheet.Title>{COPY.cartTitle}</Sheet.Title>
           </Sheet.Header>
@@ -104,8 +104,8 @@ export function EcommerceCartSheet({ open, onOpenChange }: { open?: boolean; onO
             </Sheet.Close>
             <Button prominent>{COPY.checkout}</Button>
           </Sheet.Footer>
-        </Sheet.Popup>
-      </Sheet.Portal>
+        </Sheet.Content>
+
     </Sheet.Root>
   );
 }
