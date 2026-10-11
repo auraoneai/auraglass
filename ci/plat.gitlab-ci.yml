@@ -455,7 +455,7 @@ plat:release:verify-codemods:
           echo "FAIL: fragments/codemods/$f.ts is empty — v4.3.0 requires non-empty mat/cmp/surf (arrive via the next -> release/4.x codemods sync, REQ-FIN-13)"; exit 1;
         fi
       done
-    - echo "codemod fragments: mat/cmp/surf non-empty (qual.ts stays {} — docs/release/decisions/operator-codemods-qual.md)"
+    - 'echo "codemod fragments: mat/cmp/surf non-empty (qual.ts stays {} — docs/release/decisions/operator-codemods-qual.md)"'
 
 plat:release:deprecation-coverage:
   extends: .plat-release
