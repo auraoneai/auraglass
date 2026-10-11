@@ -1,0 +1,6 @@
+/* PLAT-292: consumer stylesheet — Tailwind v4 plus the aura-glass bridge
+   (aura-glass/tailwind.css: @theme inline map onto --ag-* tokens, @utility,
+   @custom-variant). A real consumer needs `@import "tailwindcss"` for the
+   theme/base/components/utilities layers and utility generation. */
+@import "tailwindcss";
+@import "aura-glass/tailwind.css";
