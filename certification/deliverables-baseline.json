@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "gate": "REQ-QUAL-71",
+  "rows": [
+    {
+      "kind": "missing",
+      "flagship": 18,
+      "owner": "CMP",
+      "metas": [],
+      "expires": "RC-1"
+    },
+    {
+      "kind": "owner-range",
+      "flagship": 22,
+      "owner": "CMP",
+      "metas": [
+        "src/components/menu/Menu.meta.ts#Menu"
+      ],
+      "expires": "RC-1"
+    }
+  ]
+}

@@ -47,6 +47,7 @@ function StateGrid() {
 }
 
 const meta: Meta = {
+  parameters: { ag: { subject: 'InteractionStates', kind: 'showcase' } },
   title: 'MAT/Interaction States',
   parameters: {
     layout: 'padded',

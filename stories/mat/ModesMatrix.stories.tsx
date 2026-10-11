@@ -64,6 +64,7 @@ function Matrix() {
 }
 
 const meta: Meta = {
+  parameters: { ag: { subject: 'ModesMatrix', kind: 'showcase' } },
   title: 'MAT/Modes Matrix',
   parameters: {
     layout: 'padded',
