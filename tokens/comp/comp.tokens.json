@@ -1,149 +1,242 @@
 {
- "$schema": "../$schema.json",
- "comp": {
-  "$extensions": {
-   "ag.tier": "comp",
-   "ag.since": "5.0.0"
-  },
-  "$description": "Component-tier defaults. Comp vars are private (--_ag-comp-*) except the few promoted to public readouts.",
-  "control": {
-   "height": {
-    "$type": "dimension",
-    "$value": "{sys.target.min}",
+  "$schema": "../$schema.json",
+  "comp": {
     "$extensions": {
-     "ag.public": false
-    }
-   },
-   "height-coarse": {
-    "$type": "dimension",
-    "$value": "{sys.target.coarse}",
-    "$extensions": {
-     "ag.public": false
-    }
-   },
-   "padding-x": {
-    "$type": "dimension",
-    "$value": "{sys.space.3}",
-    "$extensions": {
-     "ag.public": false
-    }
-   },
-   "gap": {
-    "$type": "dimension",
-    "$value": "{sys.space.2}",
-    "$extensions": {
-     "ag.public": false
-    }
-   },
-   "radius": {
-    "$type": "dimension",
-    "$value": {
-     "value": 14,
-     "unit": "px"
+      "ag.tier": "comp",
+      "ag.since": "5.0.0"
     },
-    "$extensions": {
-     "ag.public": false
-    }
-   }
-  },
-  "panel": {
-   "padding": {
-    "$type": "dimension",
-    "$value": "{sys.space.4}",
-    "$extensions": {
-     "ag.public": false
-    }
-   },
-   "radius": {
-    "$type": "dimension",
-    "$value": {
-     "value": 20,
-     "unit": "px"
+    "$description": "Component-tier defaults. Comp vars are private (--_ag-comp-*) except the few promoted to public readouts.",
+    "control": {
+      "height": {
+        "$type": "dimension",
+        "$value": "{sys.target.min}",
+        "$extensions": {
+          "ag.public": false
+        }
+      },
+      "height-coarse": {
+        "$type": "dimension",
+        "$value": "{sys.target.coarse}",
+        "$extensions": {
+          "ag.public": false
+        }
+      },
+      "padding-x": {
+        "$type": "dimension",
+        "$value": "{sys.space.3}",
+        "$extensions": {
+          "ag.public": false
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": "{sys.space.2}",
+        "$extensions": {
+          "ag.public": false
+        }
+      },
+      "radius": {
+        "$type": "dimension",
+        "$value": {
+          "value": 14,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.public": false
+        }
+      },
+      "height-vars": {
+        "$description": "Promoted public control-height readouts (MAT-003): per size x density override hooks.",
+        "$type": "dimension",
+        "$value": {
+          "value": 36,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": false
+        }
+      }
     },
-    "$extensions": {
-     "ag.public": false
-    }
-   },
-   "thickness": {
-    "$type": "string",
-    "$value": "regular",
-    "$extensions": {
-     "ag.public": false
-    }
-   }
-  },
-  "text": {
-   "large-min": {
-    "$type": "dimension",
-    "$value": {
-     "value": 24,
-     "unit": "px"
+    "panel": {
+      "padding": {
+        "$type": "dimension",
+        "$value": "{sys.space.4}",
+        "$extensions": {
+          "ag.public": false
+        }
+      },
+      "radius": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.public": false
+        }
+      },
+      "thickness": {
+        "$type": "string",
+        "$value": "regular",
+        "$extensions": {
+          "ag.public": false
+        }
+      }
     },
-    "$description": ">= 24px is 'large text' for the 3:1 contrast tier.",
-    "$extensions": {
-     "ag.public": false
+    "text": {
+      "large-min": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        },
+        "$description": ">= 24px is 'large text' for the 3:1 contrast tier.",
+        "$extensions": {
+          "ag.public": false
+        }
+      }
+    },
+    "readout": {
+      "sm-compact": {
+        "$type": "dimension",
+        "$value": {
+          "value": 28,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-sm-compact"
+        }
+      },
+      "sm-default": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-sm-default"
+        }
+      },
+      "md-compact": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-md-compact"
+        }
+      },
+      "md-default": {
+        "$type": "dimension",
+        "$value": {
+          "value": 36,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-md-default"
+        }
+      },
+      "lg-compact": {
+        "$type": "dimension",
+        "$value": {
+          "value": 36,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-lg-compact"
+        }
+      },
+      "lg-default": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-lg-default"
+        }
+      }
+    },
+    "switch": {
+      "$type": "dimension",
+      "$description": "Switch track geometry (REQ-CMP-45): public track vars consumed by .ag-switch.",
+      "track-w-sm": {
+        "$type": "dimension",
+        "$value": "32px",
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-w-sm"
+        }
+      },
+      "track-h-sm": {
+        "$type": "dimension",
+        "$value": "18px",
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-h-sm"
+        }
+      },
+      "track-w-md": {
+        "$type": "dimension",
+        "$value": "40px",
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-w-md"
+        }
+      },
+      "track-h-md": {
+        "$type": "dimension",
+        "$value": "22px",
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-h-md"
+        }
+      },
+      "track-w-lg": {
+        "$type": "dimension",
+        "$value": "52px",
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-w-lg"
+        }
+      },
+      "track-h-lg": {
+        "$type": "dimension",
+        "$value": "30px",
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-h-lg"
+        }
+      },
+      "thumb-inset": {
+        "$type": "dimension",
+        "$value": "2px",
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-thumb-inset"
+        }
+      }
     }
-   }
-  },
-  "switch": {
-   "$type": "dimension",
-   "$description": "Switch track geometry (REQ-CMP-45): public track vars consumed by .ag-switch.",
-   "track-w-sm": {
-    "$type": "dimension",
-    "$value": "32px",
-    "$extensions": {
-     "ag.public": true,
-     "ag.cssVar": "--ag-switch-track-w-sm"
-    }
-   },
-   "track-h-sm": {
-    "$type": "dimension",
-    "$value": "18px",
-    "$extensions": {
-     "ag.public": true,
-     "ag.cssVar": "--ag-switch-track-h-sm"
-    }
-   },
-   "track-w-md": {
-    "$type": "dimension",
-    "$value": "40px",
-    "$extensions": {
-     "ag.public": true,
-     "ag.cssVar": "--ag-switch-track-w-md"
-    }
-   },
-   "track-h-md": {
-    "$type": "dimension",
-    "$value": "22px",
-    "$extensions": {
-     "ag.public": true,
-     "ag.cssVar": "--ag-switch-track-h-md"
-    }
-   },
-   "track-w-lg": {
-    "$type": "dimension",
-    "$value": "52px",
-    "$extensions": {
-     "ag.public": true,
-     "ag.cssVar": "--ag-switch-track-w-lg"
-    }
-   },
-   "track-h-lg": {
-    "$type": "dimension",
-    "$value": "30px",
-    "$extensions": {
-     "ag.public": true,
-     "ag.cssVar": "--ag-switch-track-h-lg"
-    }
-   },
-   "thumb-inset": {
-    "$type": "dimension",
-    "$value": "2px",
-    "$extensions": {
-     "ag.public": true,
-     "ag.cssVar": "--ag-switch-thumb-inset"
-    }
-   }
   }
- }
 }

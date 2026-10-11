@@ -1,0 +1,10 @@
+{
+  "$comment": "audit backdrop thresholds \u2014 shipped copy of src/audit/thresholds.ts (PLAT-319). Remote service enforces; CLI sends.",
+  "version": 1,
+  "thresholds": {
+    "maxTranslucentCoverage": 0.6,
+    "maxStackDepth": 3,
+    "minTextContrast": 4.5,
+    "maxBlurPx": 48
+  }
+}

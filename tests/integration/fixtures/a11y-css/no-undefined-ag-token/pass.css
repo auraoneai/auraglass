@@ -1,0 +1,4 @@
+@layer ag.a11y {
+  [data-ag-layer-root="overlay"] { z-index: var(--ag-z-overlay); }
+  [data-ag-layer-root="toast"] { inset-block-start: var(--ag-fixture-hook-written, 0px); }
+}

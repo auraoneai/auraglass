@@ -1,0 +1,221 @@
+{
+  ".": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
+  "./tokens": {
+    "types": "./dist/tokens/generated.d.ts",
+    "import": "./dist/tokens/index.mjs",
+    "require": "./dist/tokens/index.cjs",
+    "default": "./dist/tokens/index.mjs"
+  },
+  "./tokens/json": {
+    "import": "./dist/tokens/tokens.json",
+    "default": "./dist/tokens/tokens.json"
+  },
+  "./tokens/tailwind": {
+    "import": "./dist/tokens/tailwind.theme.mjs",
+    "require": "./dist/tokens/tailwind.theme.cjs",
+    "default": "./dist/tokens/tailwind.theme.mjs"
+  },
+  "./tokens/manifest": {
+    "import": "./dist/tokens/manifest.mjs",
+    "default": "./dist/tokens/manifest.mjs"
+  },
+  "./tokens/css": "./dist/tokens/tokens.css",
+  "./tokens/keyframes": "./dist/tokens/tokens.keyframes.css",
+  "./styles": "./dist/styles/index.css",
+  "./icons": {
+    "types": "./dist/icons/index.d.ts",
+    "import": "./dist/icons/index.mjs",
+    "require": "./dist/icons/index.js"
+  },
+  "./icons/action": {
+    "types": "./dist/icons/action.d.ts",
+    "import": "./dist/icons/action.mjs",
+    "require": "./dist/icons/action.js"
+  },
+  "./icons/navigation": {
+    "types": "./dist/icons/navigation.d.ts",
+    "import": "./dist/icons/navigation.mjs",
+    "require": "./dist/icons/navigation.js"
+  },
+  "./icons/status": {
+    "types": "./dist/icons/status.d.ts",
+    "import": "./dist/icons/status.mjs",
+    "require": "./dist/icons/status.js"
+  },
+  "./icons/media": {
+    "types": "./dist/icons/media.d.ts",
+    "import": "./dist/icons/media.mjs",
+    "require": "./dist/icons/media.js"
+  },
+  "./icons/data": {
+    "types": "./dist/icons/data.d.ts",
+    "import": "./dist/icons/data.mjs",
+    "require": "./dist/icons/data.js"
+  },
+  "./icons/commerce": {
+    "types": "./dist/icons/commerce.d.ts",
+    "import": "./dist/icons/commerce.mjs",
+    "require": "./dist/icons/commerce.js"
+  },
+  "./icons/collaboration": {
+    "types": "./dist/icons/collaboration.d.ts",
+    "import": "./dist/icons/collaboration.mjs",
+    "require": "./dist/icons/collaboration.js"
+  },
+  "./icons/ai": {
+    "types": "./dist/icons/ai.d.ts",
+    "import": "./dist/icons/ai.mjs",
+    "require": "./dist/icons/ai.js"
+  },
+  "./primitives": {
+    "types": "./dist/primitives/index.d.ts",
+    "import": "./dist/primitives/index.mjs",
+    "require": "./dist/primitives/index.js"
+  },
+  "./primitives/slot": {
+    "types": "./dist/primitives/Slot.d.ts",
+    "import": "./dist/esm/primitives/Slot.js",
+    "require": "./dist/cjs/primitives/Slot.js"
+  },
+  "./primitives/portal": {
+    "types": "./dist/primitives/Portal.d.ts",
+    "import": "./dist/esm/primitives/Portal.js",
+    "require": "./dist/cjs/primitives/Portal.js"
+  },
+  "./primitives/focus": {
+    "types": "./dist/primitives/FocusScope.d.ts",
+    "import": "./dist/esm/primitives/FocusScope.js",
+    "require": "./dist/cjs/primitives/FocusScope.js"
+  },
+  "./primitives/dismissable-layer": {
+    "types": "./dist/primitives/DismissableLayer.d.ts",
+    "import": "./dist/esm/primitives/DismissableLayer.js",
+    "require": "./dist/cjs/primitives/DismissableLayer.js"
+  },
+  "./primitives/roving-focus": {
+    "types": "./dist/primitives/RovingFocusGroup.d.ts",
+    "import": "./dist/esm/primitives/RovingFocusGroup.js",
+    "require": "./dist/cjs/primitives/RovingFocusGroup.js"
+  },
+  "./primitives/positioning": {
+    "types": "./dist/primitives/Positioner.d.ts",
+    "import": "./dist/esm/primitives/Positioner.js",
+    "require": "./dist/cjs/primitives/Positioner.js"
+  },
+  "./app-shell": {
+    "types": "./dist/app-shell/index.d.ts",
+    "import": "./dist/app-shell/index.mjs",
+    "require": "./dist/app-shell/index.js"
+  },
+  "./workspace": {
+    "types": "./dist/workspace/index.d.ts",
+    "import": "./dist/workspace/index.mjs",
+    "require": "./dist/workspace/index.js"
+  },
+  "./theme": {
+    "types": "./dist/theme/index.d.ts",
+    "import": "./dist/theme/index.mjs",
+    "require": "./dist/theme/index.js"
+  },
+  "./forms": {
+    "types": "./dist/forms/index.d.ts",
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
+  "./data": {
+    "types": "./dist/data/index.d.ts",
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
+  "./navigation": {
+    "types": "./dist/navigation/index.d.ts",
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
+  "./overlays": {
+    "types": "./dist/overlays/index.d.ts",
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
+  "./workflows": {
+    "types": "./dist/workflows/index.d.ts",
+    "import": "./dist/workspace/index.mjs",
+    "require": "./dist/workspace/index.js"
+  },
+  "./marketing": {
+    "types": "./dist/marketing/index.d.ts",
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
+  "./core/mixins/glassMixins": {
+    "types": "./dist/core/mixins/glassMixins.d.ts",
+    "import": "./dist/esm/core/mixins/glassMixins.js",
+    "default": "./dist/esm/core/mixins/glassMixins.js"
+  },
+  "./utils/env": {
+    "types": "./dist/utils/env.d.ts",
+    "import": "./dist/esm/utils/env.js",
+    "default": "./dist/esm/utils/env.js"
+  },
+  "./hooks/useGlassProbes": {
+    "types": "./dist/hooks/useGlassProbes.d.ts",
+    "import": "./dist/esm/hooks/useGlassProbes.js",
+    "require": "./dist/cjs/hooks/useGlassProbes.js",
+    "default": "./dist/esm/hooks/useGlassProbes.js"
+  },
+  "./services/ai/config": {
+    "types": "./dist/services/ai/config.d.ts",
+    "import": "./dist/esm/services/ai/config.js",
+    "default": "./dist/esm/services/ai/config.js"
+  },
+  "./services/ai/cache-service": {
+    "types": "./dist/services/ai/cache-service.d.ts",
+    "import": "./dist/esm/services/ai/cache-service.js",
+    "default": "./dist/esm/services/ai/cache-service.js"
+  },
+  "./services/ai/openai-service": {
+    "types": "./dist/services/ai/openai-service.d.ts",
+    "import": "./dist/esm/services/ai/openai-service.js",
+    "default": "./dist/esm/services/ai/openai-service.js"
+  },
+  "./services/ai/vision-service": {
+    "types": "./dist/services/ai/vision-service.d.ts",
+    "import": "./dist/esm/services/ai/vision-service.js",
+    "default": "./dist/esm/services/ai/vision-service.js"
+  },
+  "./services/websocket/collaboration-service": {
+    "types": "./dist/services/websocket/collaboration-service.d.ts",
+    "import": "./dist/esm/services/websocket/collaboration-service.js",
+    "default": "./dist/esm/services/websocket/collaboration-service.js"
+  },
+  "./registry": {
+    "types": "./dist/registry/index.d.ts",
+    "import": "./dist/registry/index.mjs",
+    "require": "./dist/registry/index.js"
+  },
+  "./client": {
+    "types": "./dist/client/index.d.ts",
+    "import": "./dist/client/index.mjs",
+    "require": "./dist/client/index.js"
+  },
+  "./server": {
+    "types": "./dist/server/index.d.ts",
+    "import": "./dist/server/index.mjs",
+    "require": "./dist/server/index.js"
+  },
+  "./ssr": {
+    "types": "./dist/ssr/index.d.ts",
+    "import": "./dist/ssr/index.mjs",
+    "require": "./dist/ssr/index.js"
+  },
+  "./three": {
+    "types": "./dist/three/index.d.ts",
+    "import": "./dist/three/index.mjs",
+    "require": "./dist/three/index.js"
+  },
+  "./package.json": "./package.json"
+}
