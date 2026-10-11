@@ -19,7 +19,7 @@ const JOBS = [
   'plat:test:visual-4x', 'plat:package:pack', 'plat:gate:change-class', 'plat:integration:next',
   'plat:integration:vite', 'plat:test:canaries', 'plat:test:cli', 'plat:test:registry',
   'plat:test:docs', 'plat:gate:removal', 'plat:build:docs', 'pages', 'plat:release:notes',
-  'plat:publish:npm', 'plat:release:verify-dist-tags', 'plat:audit:backdrop',
+  'plat:publish:npm', 'plat:release:verify-dist-tags', 'plat:audit:backdrop', 'plat:tag:release-ledger',
 ];
 
 describe('plat fragment job set', () => {
@@ -436,6 +436,7 @@ describe('REQ-PLAT-51 evidence under .artifacts/plat/<job-slug>/', () => {
     'plat:release:notes': '.plat-evidence-release',
     'plat:release:verify-dist-tags': '.plat-evidence-release',
     'plat:audit:backdrop': '.plat-evidence-nightly',
+    'plat:tag:release-ledger': '.plat-evidence-release',
   };
   const EXPIRE = { '.plat-evidence-pr': '14 days', '.plat-evidence-nightly': '30 days', '.plat-evidence-release': '90 days' };
   // Every PLAT job except the §4.13.7 verbatim publish job (B3-6..B3-12 jobs join this list when they land).
@@ -560,5 +561,164 @@ describe('plat:gate:change-class receives the VisualClassReport (B3-6)', () => {
         expect([n, target, STAGES.indexOf(ts) <= STAGES.indexOf(stageOf(n)!)]).toEqual([n, target, true]);
       }
     }
+  });
+});
+
+// next-fin/b-wire-fin31 (§6.1 REQ-FIN-31 → REQ-FIN-22; #127 ci/plat hunk re-authored;
+// REQ-PLAT-16, -22, -24, -25, -27, -28, -29, -31, -13).
+describe('REQ-FIN-31 wiring: glass-quality, dist-maps producer, release ledger', () => {
+  const { execFileSync, spawnSync } = require('node:child_process') as typeof import('node:child_process');
+  const { mkdtempSync, mkdirSync, writeFileSync, rmSync } = require('node:fs') as typeof import('node:fs');
+  const { tmpdir } = require('node:os') as typeof import('node:os');
+  const { join } = require('node:path') as typeof import('node:path');
+  const root = yaml.parse(readFileSync('.gitlab-ci.yml', 'utf8')) as Record<string, any>;
+  const STAGES: string[] = root.stages;
+
+  // Run one fragment script block the way the GitLab bash runner does (errexit + pipefail).
+  const runBlock = (block: string, cwd: string, env: Record<string, string>) =>
+    spawnSync('bash', ['-eo', 'pipefail', '-c', block], { cwd, env: { ...process.env, ...env }, encoding: 'utf8' });
+
+  describe('plat:gate:glass-quality (5x branch)', () => {
+    const block = (job('plat:gate:glass-quality').script as string[]).find((l) => l.includes('npm test -- --ci $DIRS'))!;
+    const rows = block.split('\n').map((l) => l.trim());
+    const elseAt = rows.indexOf('else');
+    const fiAt = rows.lastIndexOf('fi');
+    const CMDS = [
+      'node scripts/release/gen-deprecations.mjs --schema --check', // PLAT-24
+      'node scripts/release/check-tsdoc-deprecated.mjs --line 5x', // PLAT-27
+      'node scripts/release/verify-compat-coverage.mjs', // PLAT-28
+      'node scripts/release/gen-deprecations.mjs --docs', // PLAT-29 (guide first)
+      'node scripts/release/verify-breaking-register.mjs', // PLAT-29
+      'node scripts/build/api-report.mjs --all --check', // PLAT-22
+      'node scripts/release/verify-deprecations.mjs --line "$AG_LINE"', // PLAT-25
+    ];
+    it('runs every change-control/deprecation check, in order, inside the 5x branch', () => {
+      const at = CMDS.map((c) => rows.indexOf(c));
+      for (const [i, c] of CMDS.entries()) expect([c, at[i]! > elseAt && at[i]! < fiAt]).toEqual([c, true]);
+      expect(at).toEqual([...at].sort((a, b) => a - b));
+    });
+    it('each check is its own command (no mid-block `&&` list that errexit would not stop)', () => {
+      for (const r of rows.filter((x) => x.startsWith('node scripts/'))) expect(r).not.toContain('&&');
+    });
+    it('the guide is generated before the register reads it', () => {
+      expect(rows.indexOf(CMDS[3]!)).toBe(rows.indexOf(CMDS[4]!) - 1);
+    });
+    it('every wired script is on the line', () => {
+      for (const c of CMDS) {
+        const p = c.split(' ')[1]!;
+        expect([p, existsSync(p)]).toEqual([p, true]);
+      }
+    });
+    it('a failing check fails the block (errexit applies inside the else branch)', () => {
+      const dir = mkdtempSync(join(tmpdir(), 'ag-gq-'));
+      try {
+        const r = runBlock('if [ "$AG_LINE" = "4x" ]; then :; else\n  false\n  echo reached\nfi', dir, { AG_LINE: '5x' });
+        expect(r.status).not.toBe(0);
+        expect(r.stdout).not.toContain('reached');
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    });
+  });
+
+  describe('plat:package:pack dist-maps.tgz (REQ-PLAT-16, canonical fail-closed producer)', () => {
+    const lines: string[] = job('plat:package:pack').script;
+    const at = lines.findIndex((l) => l.includes('dist-maps.tgz') && l.includes('tar -czf'));
+    const block = lines[at]!;
+    const fixture = (files: string[]) => {
+      const dir = mkdtempSync(join(tmpdir(), 'ag-maps-'));
+      for (const f of files) {
+        mkdirSync(join(dir, f, '..'), { recursive: true });
+        writeFileSync(join(dir, f), '{"version":3}');
+      }
+      mkdirSync(join(dir, 'ev'), { recursive: true });
+      return dir;
+    };
+    const list = (tgz: string) =>
+      execFileSync('tar', ['-tzf', tgz], { encoding: 'utf8' }).split('\n').filter(Boolean).sort();
+
+    it('runs after the tarball and pack.env are written, and writes into the job dir', () => {
+      expect(at).toBeGreaterThan(lines.findIndex((l) => l.includes('AURAGLASS_TARBALL=$TARBALL')));
+      expect(block).toContain('tar -czf "$AURAGLASS_EVIDENCE_DIR/dist-maps.tgz"');
+      expect(block).not.toContain('/dev/null'); // never an empty archive
+      expect(lines.filter((l) => l.includes('dist-maps.tgz') && l.includes('tar -czf'))).toHaveLength(1);
+    });
+    it('5x: archives exactly the maps post.mjs staged in dist-maps/', () => {
+      const dir = fixture(['dist-maps/index.js.map', 'dist-maps/forms/index.js.map', 'dist-maps/README']);
+      try {
+        const r = runBlock(block, dir, { AG_LINE: '5x', AURAGLASS_EVIDENCE_DIR: 'ev' });
+        expect([r.status, r.stderr]).toEqual([0, '']);
+        expect(list(join(dir, 'ev/dist-maps.tgz'))).toEqual(['dist-maps/forms/index.js.map', 'dist-maps/index.js.map']);
+        expect(r.stdout).toContain('dist-maps.tgz (2 maps from dist-maps/)');
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    });
+    it('4x: archives dist/**/*.map', () => {
+      const dir = fixture(['dist/index.mjs.map', 'dist/a/b.cjs.map', 'dist/index.mjs']);
+      try {
+        const r = runBlock(block, dir, { AG_LINE: '4x', AURAGLASS_EVIDENCE_DIR: 'ev' });
+        expect(r.status).toBe(0);
+        expect(list(join(dir, 'ev/dist-maps.tgz'))).toEqual(['dist/a/b.cjs.map', 'dist/index.mjs.map']);
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    });
+    it.each([
+      ['no dist-maps/ dir', [] as string[], 'dist-maps/ missing'],
+      ['dist-maps/ without .map files', ['dist-maps/README'], 'dist-maps.tgz would be empty'],
+    ])('5x fails closed with %s and writes no archive', (_n, files, msg) => {
+      const dir = fixture(files);
+      try {
+        const r = runBlock(block, dir, { AG_LINE: '5x', AURAGLASS_EVIDENCE_DIR: 'ev' });
+        expect(r.status).toBe(1);
+        expect(r.stdout).toContain(msg);
+        expect(existsSync(join(dir, 'ev/dist-maps.tgz'))).toBe(false);
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    });
+  });
+
+  describe('plat:tag:release-ledger (REQ-PLAT-31 / -13)', () => {
+    const j = job('plat:tag:release-ledger');
+    const stageOf = (n: string) => job(n).stage;
+    it('runs on release scope only, blocking, with 90-day release evidence', () => {
+      expect(j.extends).toEqual(['.plat-node', '.plat-evidence-release']);
+      expect(j.rules).toEqual([{ if: '$AG_SCOPE == "release"' }]);
+      expect(j.allow_failure).toBe(false);
+      expect(j.needs).toEqual([]);
+    });
+    it('plat:publish:npm needs it, so a ledger mismatch blocks the publish', () => {
+      expect(job('plat:publish:npm').needs).toContainEqual({ job: 'plat:tag:release-ledger', artifacts: false });
+      expect(STAGES.indexOf(stageOf('plat:tag:release-ledger'))).toBeLessThanOrEqual(STAGES.indexOf(stageOf('plat:publish:npm')));
+      expect(yaml.stringify(job('plat:publish:npm').rules)).toBe(yaml.stringify(j.rules));
+    });
+    it('fetches tags before verify-release-ledger.mjs (which reads `git tag -l`)', () => {
+      const lines: string[] = j.script;
+      const fetch = lines.indexOf('git fetch --no-tags origin "+refs/tags/*:refs/tags/*"');
+      const run = lines.findIndex((l) => l.includes('node scripts/release/verify-release-ledger.mjs'));
+      expect(fetch).toBeGreaterThanOrEqual(0);
+      expect(run).toBeGreaterThan(fetch);
+      expect(existsSync('scripts/release/verify-release-ledger.mjs')).toBe(true);
+    });
+    it.each([[0], [1], [3]])('keeps the ledger log as evidence and preserves exit code %i', (code) => {
+      const block = (j.script as string[]).find((l) => l.includes('verify-release-ledger.mjs'))!;
+      const dir = mkdtempSync(join(tmpdir(), 'ag-ledger-'));
+      try {
+        mkdirSync(join(dir, 'scripts/release'), { recursive: true });
+        mkdirSync(join(dir, 'ev'));
+        writeFileSync(
+          join(dir, 'scripts/release/verify-release-ledger.mjs'),
+          `console.log('ledger out'); console.error('ledger err'); process.exit(${code});\n`,
+        );
+        const r = runBlock(block, dir, { AURAGLASS_EVIDENCE_DIR: 'ev' });
+        expect(r.status).toBe(code);
+        expect(readFileSync(join(dir, 'ev/release-ledger.log'), 'utf8')).toBe('ledger out\nledger err\n');
+        expect(r.stdout).toContain('ledger out');
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    });
   });
 });

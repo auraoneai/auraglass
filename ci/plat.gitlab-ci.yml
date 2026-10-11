@@ -88,6 +88,18 @@ plat:gate:glass-quality:
             || { echo "PENDING: npm script $s"; exit 1; }
           npm run "$s"
         done
+        # REQ-FIN-31 change control and deprecations (#127 ci/plat hunk, re-authored):
+        # PLAT-24 schema, PLAT-27 TSDoc tags, PLAT-28 compat coverage, PLAT-29
+        # breaking register over the generated guide, PLAT-22 every etc/api
+        # report, PLAT-25 entry rules. One command per line: an `a && b` list
+        # mid-block would not stop the job when `a` fails (bash errexit).
+        node scripts/release/gen-deprecations.mjs --schema --check
+        node scripts/release/check-tsdoc-deprecated.mjs --line 5x
+        node scripts/release/verify-compat-coverage.mjs
+        node scripts/release/gen-deprecations.mjs --docs
+        node scripts/release/verify-breaking-register.mjs
+        node scripts/build/api-report.mjs --all --check
+        node scripts/release/verify-deprecations.mjs --line "$AG_LINE"
         for s in verify-size-budgets.mjs verify-deps.mjs verify-side-effects.mjs; do
           [ -f "scripts/ci/$s" ] || { echo "PENDING: scripts/ci/$s"; exit 1; }
           node "scripts/ci/$s"
@@ -396,6 +408,19 @@ plat:package:pack:
       TARBALL=$(ls .artifacts/pack/aura-glass-*.tgz | head -1)
       if [ -z "$TARBALL" ]; then echo "plat:package:pack: npm pack wrote no aura-glass tarball to .artifacts/pack"; exit 1; fi
       echo "AURAGLASS_TARBALL=$TARBALL" > .artifacts/plat/pack.env
+    # REQ-PLAT-16: dist-maps.tgz, the sourcemap release asset plat:release:notes
+    # links, is produced here and only here (canonical, fail-closed; #179's
+    # fail-open copy is dropped). 5x: scripts/build/post.mjs moved the maps out
+    # of dist/ into dist-maps/ (the tarball denies *.map); 4x: dist/**/*.map.
+    # No sourcemap is a failure, never an empty archive.
+    - |
+      if [ "$AG_LINE" = "5x" ]; then MAPS_SRC=dist-maps; else MAPS_SRC=dist; fi
+      test -d "$MAPS_SRC" || { echo "plat:package:pack: $MAPS_SRC/ missing, no sourcemaps for dist-maps.tgz (REQ-PLAT-16)"; exit 1; }
+      find "$MAPS_SRC" -type f -name '*.map' | LC_ALL=C sort > "$AURAGLASS_EVIDENCE_DIR/dist-maps.list"
+      test -s "$AURAGLASS_EVIDENCE_DIR/dist-maps.list" || { echo "plat:package:pack: no $MAPS_SRC/**/*.map, dist-maps.tgz would be empty (REQ-PLAT-16)"; exit 1; }
+      tar -czf "$AURAGLASS_EVIDENCE_DIR/dist-maps.tgz" -T "$AURAGLASS_EVIDENCE_DIR/dist-maps.list"
+      tar -tzf "$AURAGLASS_EVIDENCE_DIR/dist-maps.tgz" | LC_ALL=C sort | cmp - "$AURAGLASS_EVIDENCE_DIR/dist-maps.list"
+      echo "plat:package:pack: dist-maps.tgz ($(grep -c '' "$AURAGLASS_EVIDENCE_DIR/dist-maps.list") maps from $MAPS_SRC/)"
   artifacts:
     paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/", .artifacts/pack/, .artifacts/plat/pack.env]
     reports: { dotenv: .artifacts/plat/pack.env }
@@ -467,6 +492,28 @@ plat:release:notes:
         - { name: "dist-maps.tgz", url: "$CI_JOB_URL/artifacts/file/.artifacts/plat/dist-maps.tgz", link_type: package }
         - { name: "job evidence", url: "$CI_JOB_URL/artifacts/browse/.artifacts/plat/plat-release-notes/", link_type: other }
 
+# REQ-PLAT-31 / REQ-PLAT-13 (REQ-FIN-31, #127 ci/plat hunk re-authored): the
+# release ledger (CHANGELOG heading, git tag, GitLab Release, npm version for
+# every version >= 4.1.1) must agree before anything is published; it is one of
+# the "earlier jobs in the same tag pipeline that plat:publish:npm needs"
+# (contract §4.13.7). No needs of its own, so it starts with the pipeline.
+plat:tag:release-ledger:
+  extends: [.plat-node, .plat-evidence-release]
+  stage: publish
+  allow_failure: false
+  needs: []
+  rules:
+    - if: $AG_SCOPE == "release"
+  script:
+    - git fetch --no-tags origin "+refs/tags/*:refs/tags/*"
+    - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
+    # The log is the job's evidence; the script's exit code is preserved.
+    - |
+      rc=0
+      node scripts/release/verify-release-ledger.mjs > "$AURAGLASS_EVIDENCE_DIR/release-ledger.log" 2>&1 || rc=$?
+      cat "$AURAGLASS_EVIDENCE_DIR/release-ledger.log"
+      exit "$rc"
+
 plat:publish:npm:
   extends: [.ag-node, .ag-evidence-release]
   stage: publish
@@ -476,6 +523,7 @@ plat:publish:npm:
     - if: $AG_SCOPE == "release"
   needs:
     - { job: "plat:package:pack", artifacts: true }
+    - { job: "plat:tag:release-ledger", artifacts: false }
     - { job: "qual:certify:release", artifacts: true, optional: true }
   id_tokens:
     NPM_ID_TOKEN:      { aud: "npm:registry.npmjs.org" }
