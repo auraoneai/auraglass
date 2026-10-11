@@ -11,12 +11,21 @@ export function realpath(p: string): string {
   try {
     return fs.realpathSync(p);
   } catch {
-    // The path may not exist yet; resolve its nearest existing ancestor.
-    const dir = path.dirname(p);
-    try {
-      return path.join(fs.realpathSync(dir), path.basename(p));
-    } catch {
-      return path.resolve(p);
+    // Walk up to the nearest existing ancestor, realpath it, then re-append
+    // the remaining segments (handles nested non-existent dirs + symlinked
+    // intermediate components like `link/new/f.ts`).
+    const abs = path.resolve(p);
+    const segs: string[] = [];
+    let cur = abs;
+    for (;;) {
+      try {
+        const base = fs.realpathSync(cur);
+        return segs.reduceRight((acc, s) => path.join(acc, s), base);
+      } catch { /* keep walking */ }
+      const parent = path.dirname(cur);
+      if (parent === cur) return path.resolve(p);
+      segs.push(path.basename(cur));
+      cur = parent;
     }
   }
 }

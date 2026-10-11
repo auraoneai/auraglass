@@ -1,6 +1,7 @@
 {
  "$schema": "https://json-schema.org/draft/2020-12/schema",
  "$id": "sr-record.schema.json",
+ "$comment": "contract-v1.2 C-16: the single SrRecord schema (src/contracts/fragments.ts SrRecord). MAT verify-a11y-manual.mjs and the QUAL aggregator both read this file.",
  "title": "SrRecord",
  "type": "object",
  "additionalProperties": false,
@@ -42,6 +43,75 @@
   },
   "sha": {
    "type": "string"
+  },
+  "atVersion": {
+   "type": "string",
+   "minLength": 1
+  },
+  "browser": {
+   "type": "string",
+   "minLength": 1
+  },
+  "browserVersion": {
+   "type": "string",
+   "minLength": 1
+  },
+  "os": {
+   "type": "string",
+   "minLength": 1
+  },
+  "osVersion": {
+   "type": "string",
+   "minLength": 1
+  },
+  "device": {
+   "type": "string",
+   "minLength": 1
+  },
+  "subject": {
+   "type": "string",
+   "minLength": 1
+  },
+  "steps": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "nameRoleValue",
+     "stateChange",
+     "openClose",
+     "liveRegion",
+     "pass"
+    ],
+    "properties": {
+     "nameRoleValue": {
+      "type": "string"
+     },
+     "stateChange": {
+      "type": "string"
+     },
+     "openClose": {
+      "type": "string"
+     },
+     "liveRegion": {
+      "type": "string"
+     },
+     "gesture": {
+      "type": "string"
+     },
+     "nonDragAlternative": {
+      "type": "string"
+     },
+     "pass": {
+      "type": "boolean"
+     },
+     "notes": {
+      "type": "string"
+     }
+    }
+   }
   }
  }
 }

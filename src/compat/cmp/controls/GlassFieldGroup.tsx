@@ -20,9 +20,11 @@ export interface GlassFieldGroupProps {
 export function GlassFieldGroup({ legend, title, description, children, ...rest }: GlassFieldGroupProps) {
   warnDeprecated(DEP);
   return (
-    <Fieldset.Root {...rest} {...(legend !== undefined || title !== undefined ? { legend: legend ?? title } : {})}>
-      {description}
+    <Fieldset {...rest} {...(legend !== undefined || title !== undefined ? { legend: legend ?? title } : {})}>
+      {description !== undefined && description !== null ? (
+        <span data-ag-part="description">{description}</span>
+      ) : null}
       {children}
-    </Fieldset.Root>
+    </Fieldset>
   );
 }
