@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { MediaAudioPlayer } from './index';
 import { AUDIO_PLAYER_EMPTY_PROPS, AUDIO_PLAYER_PROPS } from './fixtures';
 
-const meta: Meta<typeof MediaAudioPlayer> = { title: 'registry/media-audio-player', component: MediaAudioPlayer };
+const meta: Meta<typeof MediaAudioPlayer> = {
+  parameters: { ag: { subject: 'MediaAudioPlayer', kind: 'showcase' } }, title: 'registry/media-audio-player', component: MediaAudioPlayer };
 export default meta;
 type Story = StoryObj<typeof MediaAudioPlayer>;
 

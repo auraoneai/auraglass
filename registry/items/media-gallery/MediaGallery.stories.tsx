@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { MediaGallery } from './index';
 import { GALLERY_ITEMS } from './fixtures';
 
-const meta: Meta<typeof MediaGallery> = { title: 'registry/media-gallery', component: MediaGallery };
+const meta: Meta<typeof MediaGallery> = {
+  parameters: { ag: { subject: 'MediaGallery', kind: 'showcase' } }, title: 'registry/media-gallery', component: MediaGallery };
 export default meta;
 type Story = StoryObj<typeof MediaGallery>;
 

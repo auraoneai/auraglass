@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ArtifactPanel } from './ArtifactPanel';
 import { CODE_ARTIFACT, DOCUMENT_ARTIFACT } from './fixtures';
 
-const meta: Meta<typeof ArtifactPanel> = { title: 'registry/ai-artifact-panel', component: ArtifactPanel };
+const meta: Meta<typeof ArtifactPanel> = {
+  parameters: { ag: { subject: 'ArtifactPanel', kind: 'showcase' } }, title: 'registry/ai-artifact-panel', component: ArtifactPanel };
 export default meta;
 type Story = StoryObj<typeof ArtifactPanel>;
 

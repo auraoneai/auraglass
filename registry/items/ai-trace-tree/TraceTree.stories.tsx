@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { TraceTree } from './TraceTree';
 import { TRACE_STEPS, TRACE_TOTAL_MS } from './fixtures';
 
-const meta: Meta<typeof TraceTree> = { title: 'registry/ai-trace-tree', component: TraceTree };
+const meta: Meta<typeof TraceTree> = {
+  parameters: { ag: { subject: 'TraceTree', kind: 'showcase' } }, title: 'registry/ai-trace-tree', component: TraceTree };
 export default meta;
 type Story = StoryObj<typeof TraceTree>;
 
