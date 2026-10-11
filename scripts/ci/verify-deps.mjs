@@ -15,12 +15,12 @@ const rows = allow.packages ?? allow;
 const depRows = Object.fromEntries(Object.entries(rows).filter(([, v]) => v.kind === 'dependency'));
 
 /* src/** glob -> dist-relative prefix it emits to (importer dirs are src paths). */
-const toDistDirs = (globs) => (globs ?? []).map(g => g.replace(/^src\//, '').replace(/\/\*\*.*$/, '').replace(/\/[^/]*$/, m => m.endsWith('.ts') || m.endsWith('.tsx') ? m : m + '/'));
+const toDistDirs = (globs) => (globs ?? []).map(g => g.replace(/^src\//, '').replace(/\/\*\*.*$/, '').replace(/\.tsx?$/, '.js').replace(/\/[^/]*$/, m => m.endsWith('.js') ? m : m + '/'));
 
 const PEER_DIRS = {
   motion: ['motion/', 'motion/public.js'],
   'react-aria-components': ['date/', 'data/tree-view/'],
-  '@internationalized/date': ['date/'],
+  '@internationalized/date': ['date/', 'compat/surf/date/'],
   'react-hook-form': ['forms/'],
   three: ['three/'],
   tailwindcss: [],

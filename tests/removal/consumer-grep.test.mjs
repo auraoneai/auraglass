@@ -24,6 +24,13 @@ describe('consumer-grep units', () => {
     expect(rows[0].codemod).toBe('removed');
   });
 
+  it('still parses the earlier 9-column table (no Owner/Codemod)', () => {
+    const doc9 = '| 7 | GlassVoice | `src/components/voice/GlassVoice.tsx` | CLASS | yes | removed | - | PRD-03 | rm-02 |\n';
+    const rows = dispositionsRows(doc9 + DOC);
+    expect(rows.map((r) => r.name)).toEqual(['GlassAiChat', 'GlassWidget', 'GlassVoice']);
+    expect(rows[2]).toMatchObject({ prd: 'PRD-03', owner: '', codemod: '' });
+  });
+
   it('familyNames matches prefixes; RM-11 is the src/components catch-all', () => {
     const rows = dispositionsRows(DOC);
     expect(familyNames('RM-02', rows).map((r) => r.name)).toEqual(['GlassAiChat']);

@@ -37,10 +37,17 @@ export const FAMILY_PATHS = {
 
 export function dispositionsRows(text) {
   const rows = [];
+  /* 11-column table (Owner + Codemod, written by gen-component-dispositions
+     after REQ-PLAT-80) or the earlier 9-column table. The two shapes cannot
+     both match one row (fixed cell count, pipe-free cells), so a doc in either
+     format parses fully instead of silently yielding zero names. */
   for (const m of text.matchAll(/^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*`([^`]+)`\s*\|\s*([A-Z]+)\s*\|\s*(yes|no)\s*\|\s*([a-z]+)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]*?)\s*\|$/gm)) {
     rows.push({ i: +m[1], name: m[2].replace(/\\\|/g, '|'), file: m[3] === '-' ? '' : m[3], disp: m[4], pub: m[5] === 'yes', dest: m[6], target: m[7], owner: m[8], codemod: m[9], prd: m[10], note: m[11] });
   }
-  return rows;
+  for (const m of text.matchAll(/^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*`([^`]+)`\s*\|\s*([A-Z]+)\s*\|\s*(yes|no)\s*\|\s*([a-z]+)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]*?)\s*\|$/gm)) {
+    rows.push({ i: +m[1], name: m[2].replace(/\\\|/g, '|'), file: m[3] === '-' ? '' : m[3], disp: m[4], pub: m[5] === 'yes', dest: m[6], target: m[7], owner: '', codemod: '', prd: m[8], note: m[9] });
+  }
+  return rows.sort((a, b) => a.i - b.i);
 }
 const tokenOf = (name) => name.split(/[\s(/]/)[0];
 
@@ -151,6 +158,11 @@ export function main(argv = process.argv.slice(2)) {
       : undefined,
   };
   if (argv.includes('--write')) {
+    // Keep the removal commit pointer (revert-dry-run.mjs reads it) on rewrite.
+    if (existsSync(recordPath)) {
+      const prev = JSON.parse(readFileSync(recordPath, 'utf8'));
+      for (const k of ['mergeSha', 'sha']) if (prev[k]) record[k] = prev[k];
+    }
     mkdirSync(dirname(recordPath), { recursive: true });
     writeFileSync(recordPath, JSON.stringify(record, null, 2));
     console.log(`consumer-grep ${family}: wrote ${recordPath} (${names.length} names, status=${record.status})`);
