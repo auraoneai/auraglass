@@ -1,0 +1,83 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+/* aura-glass 5.0 — registered material properties (REQ-MAT-28).
+   Hand-authored; src/material/__tests__/properties.test.ts checks this file
+   against the REQ-MAT-28 list by exact set equality. Exactly 14 registrations,
+   every initial value computationally independent (no var()), every private
+   --_ag-* scalar inherits: false. ≤ 16 registrations repo-wide
+   (tests/material/properties-union.test.ts); no runtime (JS) registration
+   exists. `.ag-surface::before/::after` set the privates and
+   --ag-specular to `inherit` (material.css), so pseudo-elements see host
+   values while nested surfaces do not inherit their parent's. */
+
+@layer ag.material {
+  @property --ag-light-angle {
+    syntax: '<angle>';
+    inherits: true;
+    initial-value: 300deg;
+  }
+  @property --ag-specular {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0.5;
+  }
+  @property --ag-glass-opacity {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
+  @property --_ag-blur {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 0px;
+  }
+  @property --_ag-saturation {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 1;
+  }
+  @property --_ag-brightness {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 1;
+  }
+  @property --_ag-tint-floor {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0.6;
+  }
+  @property --_ag-dim {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0;
+  }
+  @property --_ag-surface-alpha {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 1;
+  }
+  @property --_ag-refraction-scale {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0;
+  }
+  @property --_ag-rim-width {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 1px;
+  }
+  @property --_ag-grain-opacity {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0.03;
+  }
+  @property --_ag-optics {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 1;
+  }
+  @property --_ag-press {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0;
+  }
+}

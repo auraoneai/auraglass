@@ -9,5 +9,5 @@ export const CheckCircleIcon = /*#__PURE__*/ createIcon('CheckCircle', [
   ...circle,
   ...check,
 ]);
-export const CheckCircle2 = /*#__PURE__*/ CheckCircleIcon;
-export const SuccessIcon = /*#__PURE__*/ CheckCircleIcon;
+export const CheckCircle2 = CheckCircleIcon;
+export const SuccessIcon = CheckCircleIcon;

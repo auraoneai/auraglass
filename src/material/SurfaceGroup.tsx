@@ -4,12 +4,12 @@ import * as React from 'react';
 import { cn } from '../internal';
 import type { SurfaceGroupProps } from './types';
 import { materialProps } from './materialProps';
+import { surfaceGroupAttributes } from './stateAttributes';
 
 export function SurfaceGroup({ spacing = '2', refraction, children, className }: SurfaceGroupProps) {
   return React.createElement('div', {
     ...materialProps({ layer: 'chrome' }),
-    'data-ag-group': '',
-    'data-ag-spacing': spacing,
+    ...surfaceGroupAttributes(spacing),
     ...(refraction ? { 'data-ag-refraction': '' } : {}),
     className: cn('ag-surface', className),
   }, children);
