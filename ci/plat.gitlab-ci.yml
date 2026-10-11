@@ -326,8 +326,13 @@ plat:package:pack:
 
 plat:build:docs:
   extends: .plat-node
-  stage: build
+  # package stage: docs:build installs the aura-glass tarball that
+  # plat:package:pack writes to .artifacts/pack (REQ-PLAT-99); GitLab needs
+  # may not point at a later stage, so this job runs alongside pack.
+  stage: package
   allow_failure: true
+  needs:
+    - { job: "plat:package:pack", artifacts: true }
   rules:
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main"
   script:
