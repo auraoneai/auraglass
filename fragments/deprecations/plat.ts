@@ -32,7 +32,8 @@ export default REPORT_PATH_ENTRIES.map<DeprecationEntry>(([symbol, value], i) =>
   automation: 'none' as const,
   breaking: 'B14',
   message: `root export '${symbol}' ("${value}") is a tracked-reports path constant; reports/ is untracked evidence now — drop the import.`,
-  doc: `#dep-${symbol.toLowerCase()}`,
+  // Keep the existing uppercase-alias anchor; distinguish its lowercase alias.
+  doc: `#dep-${symbol.toLowerCase()}${symbol === 'component_inventory_json_path' ? '-p0003' : ''}`,
 })).concat([
   {
     id: 'DEP-P0012',
