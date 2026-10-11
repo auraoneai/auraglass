@@ -33,7 +33,7 @@ const FLAGSHIP_ROOTS: Record<string, string> = {
   Slider: '.ag-slider[data-ag-part="root"]',
   TextField: '.ag-text-field[data-ag-part="root"]',
   Switch: '.ag-switch[data-ag-part="root"]',
-  Toast: '.ag-toast[data-ag-part="root"]',
+  Toast: '.ag-toast[data-ag-part="toast"]',
 };
 
 afterEach(() => cleanup());

@@ -320,4 +320,5 @@ qual:test:scene-bands:
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "nightly" || $AG_SCOPE == "release")
   script:
+    - command -v tesseract >/dev/null || (apt-get update -qq && apt-get install -y -qq tesseract-ocr >/dev/null)
     - npx jest --ci tests/storybook/scene-bands.test.mjs
