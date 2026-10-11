@@ -7,8 +7,12 @@ import { computedVar, computedPseudoVar } from '../../../material/helpers/comput
 import { readDensity } from '../../../material/helpers/density';
 import { gotoMaterialStory } from '../../../material/helpers/story';
 
+// The project picks the engine; a describe-level use() may not set
+// defaultBrowserType, and Gecko has no isMobile emulation.
+const { defaultBrowserType: _engine, isMobile: _isMobile, ...iPhone13 } = devices['iPhone 13'];
+
 test.describe('responsive', () => {
-  test.use({ ...devices['iPhone 13'] });
+  test.use({ ...iPhone13, isMobile: async ({ browserName }, use) => use(browserName !== 'firefox') });
 
   test('coarse pointer: thick blur 20px, grain <= 0.02', async ({ page }) => {
     await gotoMaterialStory(page, 'material-lab--matrix');
