@@ -12,7 +12,7 @@ import * as React from 'react';
 import { Dialog as Base } from '@base-ui/react/dialog';
 import { useDirection } from '@base-ui/react/direction-provider';
 import { useAnnouncer } from '../../theme';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
@@ -100,6 +100,10 @@ function SheetRoot({
         detents[detentState.index] === 'full' ||
         popupElement.offsetHeight >= window.innerHeight * 0.9;
       popupElement.toggleAttribute('data-ag-full-height', full);
+      /* REQ-CMP-95: CC-CMP-03 keys the floor row on data-ag-appearance. */
+      if (full) popupElement.setAttribute('data-ag-appearance', 'full-height');
+      else popupElement.removeAttribute('data-ag-appearance');
+      popupElement.setAttribute('data-ag-detent', String(detentState.index));
       popupElement.style.setProperty(
         '--_ag-sheet-detent-h',
         `${detentState.heightsPx[detentState.index] ?? axisVw}px`,
@@ -137,6 +141,9 @@ function SheetRoot({
     sign: (resolved === 'bottom' || resolved === 'right' ? 1 : -1) as 1 | -1,
     side,
     detents: detentState,
+    /* REQ-CMP-95: raw detent defs so the handle can announce by VALUE
+       (1/'full' → 'Full height', 0.5 → 'Half height'). */
+    detentDefs: resolved === 'bottom' ? detents : ['content'],
     get viewportPx() { return viewportPx; },
     getPopup: () => popupRef.current,
     onRequestClose: () => handleOpenChange(false, { reason: 'imperative' }),

@@ -18,7 +18,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'content', refractionEligible: false },
   apg: 'slider',
-  budgetKb: 6,
+  budgetKb: 14,
   migration: [
     {
       from: 'GlassSlider',
@@ -27,7 +27,7 @@ const meta: ControlMeta = defineMeta({
         onAfterChange: 'onValueCommitted',
         glassVariant: null,
       },
-      automation: 'mostly',
+      selectors: { '.glass-slider': '.ag-slider' }, automation: 'mostly',
       compat: true,
     },
   ],

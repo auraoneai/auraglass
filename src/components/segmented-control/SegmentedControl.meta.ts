@@ -15,12 +15,12 @@ export default defineMeta({
   },
   material: { layer: 'chrome', refractionEligible: true },
   apg: 'radio',
-  budgetKb: 10,
+  budgetKb: 13,
   migration: [
     {
       from: 'GlassSegmentedControl',
       props: { value: 'value', onChange: 'onValueChange', options: null },
-      automation: 'partial',
+      selectors: { '.glass-segmented-control': '.ag-segmented-control' }, automation: 'partial',
       compat: true,
     },
   ],

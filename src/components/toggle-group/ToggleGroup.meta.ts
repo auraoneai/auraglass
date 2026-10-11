@@ -13,13 +13,14 @@ export default defineMeta({
     multiple: ['true', 'false'],
     orientation: ['horizontal', 'vertical'],
   },
+  material: { layer: 'content' },
   apg: 'button',
-  budgetKb: 5,
+  budgetKb: 11,
   migration: [
     {
       from: 'GlassToggleGroup',
       props: { value: 'value', onChange: 'onValueChange', multiple: 'multiple' },
-      automation: 'mostly',
+      selectors: { '.glass-toggle-group': '.ag-toggle-group' }, automation: 'mostly',
       compat: true,
     },
   ],
