@@ -285,6 +285,7 @@ describe('REQ-PLAT-05 defects (B3-5)', () => {
         'scripts/removal/gen-component-dispositions.mjs',
         'scripts/removal/consumer-grep.mjs',
         'scripts/removal/revert-dry-run.mjs',
+        'scripts/removal/verify-archive.mjs',
       ]),
     );
     for (const p of paths) expect([p, existsSync(p)]).toEqual([p, true]);
@@ -297,6 +298,16 @@ describe('REQ-PLAT-05 defects (B3-5)', () => {
     expect(s).not.toMatch(/PENDING: removal revert dry-run/);
     expect(s).not.toMatch(/if \[ -f scripts\/removal\/revert-dry-run\.mjs \]/);
     expect(s).not.toMatch(/dist-maps/);
+  });
+
+  it('plat:gate:removal runs verify-archive --verify fail-closed, without flipping allow_failure (REQ-PLAT-82)', () => {
+    const j = job('plat:gate:removal');
+    const script = ([] as string[]).concat(j.script ?? []);
+    expect(script).toContain('node scripts/removal/verify-archive.mjs --verify');
+    expect(script.join('\n')).not.toMatch(/verify-archive[^\n]*(\|\||2>\/dev\/null|PENDING)/);
+    // The flip to allow_failure:false belongs to a ci/plat/activation.json row
+    // from a green pipeline, not to this wiring change (#184's flip rejected).
+    expect(j.allow_failure).toBe(true);
   });
 
   it('plat:package:pack fails closed when no aura-glass tarball was packed', () => {
