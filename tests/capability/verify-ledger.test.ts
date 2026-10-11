@@ -60,7 +60,7 @@ describe('verify-capability-ledger negative fixtures', () => {
     const nine = run(['--ledger', join(FX, 'promotion-9.json'), '--promotion', base]);
     expect(nine.status).toBe(1);
     expect(`${nine.stdout}${nine.stderr}`).toContain('X-90');
-    const ten = run(['--ledger', join(FX, 'promotion-10.json'), '--promotion', base]);
+    const ten = run(['--ledger', join(FX, 'promotion-10.json'), '--promotion', base, '--entries', join(FX, 'promotion-entries.txt')]);
     expect(ten.status).toBe(0);
   });
 });
