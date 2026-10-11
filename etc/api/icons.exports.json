@@ -1,5 +1,5 @@
 {
- "entry": "./icons",
+ "entry": "icons",
  "exports": [
   "AccessibilityIcon",
   "ActivityIcon",
@@ -183,5 +183,6 @@
   "ZoomOutIcon",
   "createIcon",
   "iconRegistry"
- ]
+ ],
+ "unanalysable": []
 }

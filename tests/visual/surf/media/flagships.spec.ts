@@ -10,7 +10,7 @@ test.describe('media flagships (SURF-500)', () => {
     test(`${name} flagship state screenshot`, async ({ page }) => {
       const subjects = await listSubjects({ owner: 'SURF' });
       const subject = subjects.find((s) => s.subject === name);
-      if (!subject) { console.warn(`${name} subject not registered — pending`); return; }
+      if (!subject) throw new Error(`${name} subject not registered`);
       await gotoStory(page, subject.id);
       await expect(page).toHaveScreenshot(`media-${name.toLowerCase()}.png`, { maxDiffPixelRatio: 0.02 });
     });

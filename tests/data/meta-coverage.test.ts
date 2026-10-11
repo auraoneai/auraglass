@@ -50,7 +50,7 @@ describe('W2 meta coverage (SURF-224)', () => {
 });
 
 const fragment = require('../../fragments/codemods/surf') as {
-  default: { props?: Array<{ component: string; from: string; to: unknown }> };
+  default: { props?: Array<{ component: string; from: string; to: unknown; values?: Record<string, string> }> };
 };
 
 describe('W2 meta migration rows == codemod fragment rows (SURF-228)', () => {
@@ -63,8 +63,10 @@ describe('W2 meta migration rows == codemod fragment rows (SURF-228)', () => {
       if (!meta) throw new Error(`no meta for ${row.component}`);
       const migrations = (meta['migration'] as Array<Record<string, unknown>> | undefined) ?? [];
       const props = migrations.flatMap((m) => Object.entries((m['props'] ?? {}) as Record<string, unknown>));
-      const hit = props.find(([k, v]) => k === row.from && JSON.stringify(v) === JSON.stringify(row.to));
-      if (!hit) throw new Error(`${row.component}: meta migration missing '${row.from}' -> ${JSON.stringify(row.to)}`);
+      // A codemod row with a value map mirrors the contract's { to, values } meta form (S-31).
+      const expected = row.values ? { to: row.to, values: row.values } : row.to;
+      const hit = props.find(([k, v]) => k === row.from && JSON.stringify(v) === JSON.stringify(expected));
+      if (!hit) throw new Error(`${row.component}: meta migration missing '${row.from}' -> ${JSON.stringify(expected)}`);
     }
   });
 });

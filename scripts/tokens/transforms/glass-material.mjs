@@ -142,7 +142,8 @@ export function buildFloors(records, resolved, matrix = null) {
       out.push('  }');
     }
   }
-  out.push('}', '', '@layer ag.a11y {');
+  // One @layer ag.material block (REQ-MAT-19 item 2, S-04): the floor and
+  // fallback rules below stay in the material layer.
   for (const th of THICKNESS) {
     for (const variant of VARIANTS) {
       out.push(`  [data-ag-variant="${variant}"][data-ag-thickness="${th}"] {`);
@@ -150,12 +151,23 @@ export function buildFloors(records, resolved, matrix = null) {
       out.push('  }');
     }
   }
+  // Rung inputs read by src/a11y/css/rungs.css (REQ-FIN-03 / REQ-FIN-05):
+  // max-contrast text and boundary = the opposite end of the canvas ramp per
+  // scheme; opaque fill = the material tint (canvas) at fallbackFill.alpha.
+  const canvas = get(records, resolved, 'sys.color.canvas');
+  if (!canvas?.light || !canvas?.dark) throw new Error('floors: sys.color.canvas needs light and dark values');
+  const maxInk = `light-dark(${colorToCss(canvas.dark)}, ${colorToCss(canvas.light)})`;
+  out.push('  [data-ag-surface] {');
+  out.push(`    --_ag-on-surface-max: ${maxInk};`);
+  out.push(`    --_ag-border-strong: ${maxInk};`);
+  out.push(`    --_ag-fallback-fill: color-mix(in oklab, var(--ag-color-canvas) ${Math.round(fallback * 1000) / 10}%, transparent);`);
+  out.push('  }');
   out.push(
     '',
     '  /* Opaque fallback: forced-colors flattens the glass (blur contributes nothing);',
     '     transparency=solid raises fills to the authored floors via --_ag-tint-floor above. */',
     '  @media (forced-colors: active) {',
-    '    [data-ag-variant] {',
+    '    [data-ag-variant]:is([data-ag-surface][data-ag-variant][data-ag-thickness][data-ag-tier][data-ag-state], *) {',
     '      --ag-glass-opacity: 1;',
     '      --_ag-mat-blur: 0px;',
     `      --_ag-scrim-clear: ${scrim};`,
@@ -164,7 +176,7 @@ export function buildFloors(records, resolved, matrix = null) {
     '',
     `  /* No backdrop-filter support: opaque fill at fallbackFill.alpha ${fallback}. */`,
     '  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {',
-    '    [data-ag-variant] {',
+    '    [data-ag-variant]:is([data-ag-surface][data-ag-variant][data-ag-thickness][data-ag-tier][data-ag-state], *) {',
     `      --_ag-alpha: ${fallback};`,
     '    }',
     '  }',

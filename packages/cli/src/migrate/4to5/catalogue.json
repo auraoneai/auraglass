@@ -1,19 +1,103 @@
 {
   "version": 1,
   "transforms": [
-    { "id": "imports-subpaths", "kind": "core", "automation": "full", "doc": "docs/auraglass-5/migrate/5.md#imports-subpaths" },
-    { "id": "providers", "kind": "core", "automation": "full", "doc": "docs/auraglass-5/migrate/5.md#providers" },
-    { "id": "canonical-names", "kind": "core", "automation": "full", "doc": "docs/auraglass-5/migrate/5.md#canonical-names" },
-    { "id": "prop-grammar", "kind": "core", "automation": "review", "doc": "docs/auraglass-5/migrate/5.md#prop-grammar" },
-    { "id": "ai-chat", "kind": "area", "automation": "review", "doc": "apps/docs/content/surf/migration/ai.md" },
-    { "id": "app-shell-slots", "kind": "area", "automation": "review", "doc": "apps/docs/content/surf/migration/app-shell.md" },
-    { "id": "media-backdrops", "kind": "area", "automation": "review", "doc": "apps/docs/content/surf/migration/media.md" },
-    { "id": "reduced-motion-initial", "kind": "area", "automation": "full", "doc": "docs/motion.md" },
-    { "id": "motion-imports", "kind": "area", "automation": "review", "doc": "docs/motion.md" },
-    { "id": "motion-props", "kind": "area", "automation": "full", "doc": "docs/motion.md" },
-    { "id": "dead-optical-props", "kind": "core", "automation": "full", "doc": "docs/auraglass-5/migrate/5.md#dead-optical-props" },
-    { "id": "css-vars", "kind": "core", "automation": "review", "doc": "docs/auraglass-5/migrate/5.md#css-vars" },
-    { "id": "deps", "kind": "core", "automation": "full", "doc": "docs/auraglass-5/migrate/5.md#deps" },
-    { "id": "removed", "kind": "core", "automation": "review", "doc": "docs/auraglass-5/migrate/5.md#removed" }
+    {
+      "id": "imports-subpaths",
+      "kind": "core",
+      "automation": "full",
+      "doc": "docs/auraglass-5/migrate/5.md#imports-subpaths",
+      "minCases": 4
+    },
+    {
+      "id": "providers",
+      "kind": "core",
+      "automation": "full",
+      "doc": "docs/auraglass-5/migrate/5.md#providers",
+      "minCases": 4
+    },
+    {
+      "id": "canonical-names",
+      "kind": "core",
+      "automation": "full",
+      "doc": "docs/auraglass-5/migrate/5.md#canonical-names",
+      "minCases": 66
+    },
+    {
+      "id": "prop-grammar",
+      "kind": "core",
+      "automation": "review",
+      "doc": "docs/auraglass-5/migrate/5.md#prop-grammar",
+      "minCases": 10
+    },
+    {
+      "id": "ai-chat",
+      "kind": "area",
+      "automation": "review",
+      "doc": "apps/docs/content/surf/migration/ai.md",
+      "minCases": 2
+    },
+    {
+      "id": "app-shell-slots",
+      "kind": "area",
+      "automation": "review",
+      "doc": "apps/docs/content/surf/migration/app-shell.md",
+      "minCases": 2
+    },
+    {
+      "id": "media-backdrops",
+      "kind": "area",
+      "automation": "review",
+      "doc": "apps/docs/content/surf/migration/media.md",
+      "minCases": 6
+    },
+    {
+      "id": "reduced-motion-initial",
+      "kind": "area",
+      "automation": "full",
+      "doc": "docs/motion.md",
+      "minCases": 9
+    },
+    {
+      "id": "motion-imports",
+      "kind": "area",
+      "automation": "review",
+      "doc": "docs/motion.md",
+      "minCases": 8
+    },
+    {
+      "id": "motion-props",
+      "kind": "area",
+      "automation": "full",
+      "doc": "docs/motion.md",
+      "minCases": 6
+    },
+    {
+      "id": "dead-optical-props",
+      "kind": "core",
+      "automation": "full",
+      "doc": "docs/auraglass-5/migrate/5.md#dead-optical-props",
+      "minCases": 1
+    },
+    {
+      "id": "css-vars",
+      "kind": "core",
+      "automation": "review",
+      "doc": "docs/auraglass-5/migrate/5.md#css-vars",
+      "minCases": 1
+    },
+    {
+      "id": "deps",
+      "kind": "core",
+      "automation": "full",
+      "doc": "docs/auraglass-5/migrate/5.md#deps",
+      "minCases": 1
+    },
+    {
+      "id": "removed",
+      "kind": "core",
+      "automation": "review",
+      "doc": "docs/auraglass-5/migrate/5.md#removed",
+      "minCases": 4
+    }
   ]
 }
