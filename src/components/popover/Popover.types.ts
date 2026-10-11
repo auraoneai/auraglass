@@ -27,7 +27,7 @@ export interface PopoverRootProps extends MaterialBearingProps {
 export interface PopoverContentProps extends PopoverPopupProps, Pick<PopoverPortalProps, 'keepMounted'>, Pick<PopoverPositionerProps, 'side' | 'align' | 'sideOffset' | 'collisionPadding' | 'anchor'> {}
 
 /* openOnHover/delay/closeDelay here OVERRIDE the root context values. */
-export interface PopoverTriggerProps extends React.HTMLAttributes<HTMLElement> {
+export interface PopoverTriggerProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onChange'> {
   render?: RenderProp | undefined;
   /** Hover-to-open mode (the HoverCard successor). Default false. */
   openOnHover?: boolean | undefined;
@@ -43,7 +43,7 @@ export interface PopoverPortalProps {
   keepMounted?: boolean | undefined;
 }
 
-export interface PopoverPositionerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface PopoverPositionerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   render?: RenderProp | undefined;
   side?: 'top' | 'bottom' | 'left' | 'right' | 'inline-start' | 'inline-end' | undefined;
   align?: 'start' | 'center' | 'end' | undefined;
@@ -55,28 +55,28 @@ export interface PopoverPositionerProps extends React.HTMLAttributes<HTMLDivElem
   children?: React.ReactNode;
 }
 
-export interface PopoverPopupProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface PopoverPopupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   render?: RenderProp | undefined;
   initialFocus?: React.RefObject<HTMLElement | null> | ((openType: string) => HTMLElement | null | undefined) | undefined;
   finalFocus?: React.RefObject<HTMLElement | null> | ((closeType: string) => HTMLElement | null | undefined) | undefined;
   children?: React.ReactNode;
 }
 
-export interface PopoverArrowProps extends React.HTMLAttributes<HTMLElement> {
+export interface PopoverArrowProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onChange'> {
   render?: RenderProp | undefined;
 }
 
-export interface PopoverTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  render?: RenderProp | undefined;
-  children?: React.ReactNode;
-}
-
-export interface PopoverDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {
+export interface PopoverTitleProps extends Omit<React.HTMLAttributes<HTMLHeadingElement>, 'onChange'> {
   render?: RenderProp | undefined;
   children?: React.ReactNode;
 }
 
-export interface PopoverCloseProps extends React.HTMLAttributes<HTMLElement> {
+export interface PopoverDescriptionProps extends Omit<React.HTMLAttributes<HTMLParagraphElement>, 'onChange'> {
+  render?: RenderProp | undefined;
+  children?: React.ReactNode;
+}
+
+export interface PopoverCloseProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onChange'> {
   render?: RenderProp | undefined;
   children?: React.ReactNode;
 }
