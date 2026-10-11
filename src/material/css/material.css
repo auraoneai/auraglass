@@ -317,7 +317,8 @@
      The overlay owner renders a [data-ag-layer="scrim"] sibling. Colour is the
      environment scrim token; blur is capped at 12 px. No pointer-events:none:
      it would swallow outside-press on the Base UI backdrop. Only the top scrim
-     keeps its blur; deeper scrims are un-blurred via the depth marker. */
+     keeps its blur; deeper scrims zero the private blur scalar via the depth
+     marker (the single backdrop-filter declaration above stays the only one). */
   [data-ag-layer="scrim"] {
     position: fixed;
     inset: 0;
@@ -326,8 +327,7 @@
     -webkit-backdrop-filter: blur(min(var(--_ag-scrim-blur, 12px), 12px));
   }
   [data-ag-layer="scrim"][data-ag-overlay-depth]:not([data-overlay-top]) {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    --_ag-scrim-blur: 0px;
   }
 
   /* ---- interaction states (REQ-MAT-09, REQ-FIN-02): light response, never
@@ -350,11 +350,11 @@
   [data-ag-surface][aria-selected="true"],
   [data-ag-surface][data-state="on"],
   [data-ag-surface][aria-pressed="true"] {
-    --_ag-fill: oklch(from var(--ag-color-accent, oklch(60% 0.2 270)) l c h / var(--_ag-state-selected-tint));
+    --_ag-fill: oklch(from var(--ag-color-accent) l c h / var(--_ag-state-selected-tint));
     --_ag-rim-width: var(--_ag-state-selected-rim-width);
     /* weight cue = rim weight (interaction tokens: "accent tint plus a rim
        weight, not colour-only") */
-    --_ag-rim-light: var(--ag-color-accent, oklch(60% 0.2 270));
+    --_ag-rim-light: var(--ag-color-accent);
   }
   [data-ag-surface][data-loading],
   [data-ag-surface][aria-busy="true"] {
@@ -366,8 +366,8 @@
   }
   [data-ag-surface][data-drop-target] {
     --_ag-rim-width: var(--_ag-state-drop-target-rim);
-    --_ag-rim-light: var(--ag-color-accent, oklch(60% 0.2 270));
-    --_ag-fill: oklch(from var(--ag-color-accent, oklch(60% 0.2 270)) l c h / var(--_ag-state-drop-target-fill));
+    --_ag-rim-light: var(--ag-color-accent);
+    --_ag-fill: oklch(from var(--ag-color-accent) l c h / var(--_ag-state-drop-target-fill));
   }
 
   /* contrast=more (MAT-09 mode rows, MAT-32 grain off): rim/outline forms,
@@ -436,13 +436,13 @@
      interactive or overlay list, and an interactive overlay gets the union. */
   [data-ag-surface][data-ag-interactive] {
     transition:
-      --ag-specular var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
-      --_ag-press var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
-      --_ag-optics var(--ag-duration-small, 200ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+      --ag-specular var(--ag-duration-micro) var(--ag-ease-standard),
+      --_ag-press var(--ag-duration-micro) var(--ag-ease-standard),
+      --_ag-optics var(--ag-duration-small) var(--ag-ease-standard);
   }
   [data-ag-surface]:where([data-ag-interactive])::before,
   [data-ag-surface]:where([data-ag-interactive])::after {
-    transition: opacity var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
   }
   /* resting overlay rule (MAT-43): scale/translate own the open/close
      motion; transform-origin follows the positioner's --transform-origin so
@@ -450,19 +450,19 @@
   [data-ag-surface][data-ag-overlay] {
     transform-origin: var(--transform-origin, 50% 50%);
     transition:
-      scale var(--ag-duration-short, 200ms) var(--ag-ease-emphasized, cubic-bezier(0.3, 0, 0, 1)),
-      translate var(--ag-duration-short, 200ms) var(--ag-ease-emphasized, cubic-bezier(0.3, 0, 0, 1)),
-      opacity var(--ag-duration-short, 200ms) var(--ag-ease-emphasized, cubic-bezier(0.3, 0, 0, 1)),
-      --_ag-optics var(--ag-duration-small, 200ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+      scale var(--ag-duration-small) var(--ag-ease-emphasized),
+      translate var(--ag-duration-small) var(--ag-ease-emphasized),
+      opacity var(--ag-duration-small) var(--ag-ease-emphasized),
+      --_ag-optics var(--ag-duration-small) var(--ag-ease-standard);
   }
   [data-ag-surface][data-ag-overlay][data-ag-interactive] {
     transition:
-      --ag-specular var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
-      --_ag-press var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
-      scale var(--ag-duration-short, 200ms) var(--ag-ease-emphasized, cubic-bezier(0.3, 0, 0, 1)),
-      translate var(--ag-duration-short, 200ms) var(--ag-ease-emphasized, cubic-bezier(0.3, 0, 0, 1)),
-      opacity var(--ag-duration-short, 200ms) var(--ag-ease-emphasized, cubic-bezier(0.3, 0, 0, 1)),
-      --_ag-optics var(--ag-duration-small, 200ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+      --ag-specular var(--ag-duration-micro) var(--ag-ease-standard),
+      --_ag-press var(--ag-duration-micro) var(--ag-ease-standard),
+      scale var(--ag-duration-small) var(--ag-ease-emphasized),
+      translate var(--ag-duration-small) var(--ag-ease-emphasized),
+      opacity var(--ag-duration-small) var(--ag-ease-emphasized),
+      --_ag-optics var(--ag-duration-small) var(--ag-ease-standard);
   }
 
   /* ---- tiers (REQ-MAT-35). Standard is the default; lightweight rungs below.
