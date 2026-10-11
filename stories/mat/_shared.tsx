@@ -23,16 +23,17 @@ export function PendingCallout({ what }: { what: string }) {
   );
 }
 
-/** Read optional JSON/text assets without breaking the build when absent. */
-export function globJson(pattern: string): Record<string, unknown> | null {
-  const found = import.meta.glob<Record<string, unknown>>([pattern], { eager: true, import: 'default' });
+/** Read optional JSON/text assets without breaking the build when absent.
+    Vite only expands `import.meta.glob` with literal patterns, so callers pass
+    the eager glob result (`import.meta.glob('/x.json', { eager: true, import:
+    'default' })`) and these helpers normalise the possibly-empty match. */
+export function globJson(found: Record<string, unknown>): Record<string, unknown> | null {
   const values = Object.values(found);
   return values.length > 0 ? (values[0] as Record<string, unknown>) : null;
 }
 
-export function globUrls(pattern: string): string[] {
-  const found = import.meta.glob<string>([pattern], { eager: true, query: '?url', import: 'default' });
-  return Object.values(found);
+export function globUrls(found: Record<string, unknown>): string[] {
+  return Object.values(found) as string[];
 }
 
 /** WCAG "adjusted" threshold used by presets playground marking. */
