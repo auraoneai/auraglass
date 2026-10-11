@@ -171,3 +171,37 @@ mat:test:consumer-4x:
     expire_in: 14 days
     paths: [.artifacts/mat/]
     when: always
+
+# REQ-FIN-52 / AC-FIN-52 seed bullet + AC-FIN-06 tarball line (FIN-D D.2-01):
+# no entry is held back by a contract-seed header any more, and the packed tarball
+# installed into an empty consumer resolves `Button` from `import('aura-glass')`.
+# Every step fails closed; the pack/install/import logs are the job's evidence.
+mat:test:seed-free-pack:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    - set -o pipefail  # every `| tee` below keeps the producer's exit status
+    - export EV="$PWD/.artifacts/mat/$CI_JOB_NAME_SLUG" && mkdir -p "$EV/pack"
+    - node scripts/build/generate-exports.mjs --check
+    - node scripts/build/generate-exports.mjs --list-entries | tee "$EV/seed-free-entries.txt"
+    - |
+      if grep -q '^pending' "$EV/seed-free-entries.txt"; then
+        echo "entries still held back by the seed filter (see above)"; exit 1
+      fi
+    - npm test -- tests/material/exports/seed-free.test.ts
+    - npm run build 2>&1 | tee "$EV/build.log"
+    - npm pack --ignore-scripts --pack-destination "$EV/pack" 2>&1 | tee "$EV/pack.log"
+    - TGZ="$(ls "$EV"/pack/aura-glass-*.tgz)" && test -f "$TGZ"
+    # empty consumer outside the project tree (no workspace/node_modules leakage)
+    - export CONSUMER="$(mktemp -d)" && cd "$CONSUMER" && npm init -y >/dev/null
+    - npm install --no-audit --no-fund "$TGZ" 2>&1 | tee "$EV/install.log"
+    - node -e "import('aura-glass').then(m=>console.log(!!m.Button))" | tee "$EV/import-button.txt"
+    - test "$(cat "$EV/import-button.txt")" = "true"
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/mat/]
+    when: always
