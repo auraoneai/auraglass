@@ -39,3 +39,28 @@ describe('InlineEdit', () => {
     expect(seen[0]).toBe('c');
   });
 });
+
+describe('InlineEdit REQ-CMP-124', () => {
+  it('focus returns to the trigger after Enter', () => {
+    render(<InlineEdit defaultValue="a" />);
+    const trigger = screen.getByRole('button');
+    fireEvent.click(trigger);
+    const input = screen.getByRole('textbox');
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(document.activeElement).toBe(screen.getByRole('button'));
+  });
+
+  it('focus returns to the trigger after Escape', () => {
+    render(<InlineEdit defaultValue="a" />);
+    fireEvent.click(screen.getByRole('button'));
+    const input = screen.getByRole('textbox');
+    fireEvent.keyDown(input, { key: 'Escape' });
+    expect(document.activeElement).toBe(screen.getByRole('button'));
+  });
+
+  it('editing root carries content-sunken material marker', () => {
+    const { container } = render(<InlineEdit defaultValue="a" editing />);
+    const root = container.querySelector('[data-ag-part="root"]')!;
+    expect(root.getAttribute('data-ag-material')).toBe('content-sunken');
+  });
+});

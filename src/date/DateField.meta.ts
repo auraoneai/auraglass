@@ -7,10 +7,10 @@ export default defineMeta({
   tier: 'T1',
   flagship: 14,
   rsc: 'client',
-  parts: ['date-field', 'field-label', 'field-input', 'field-segment', 'field-description', 'field-error'],
+  parts: ['calendar', 'date-field', 'date-input', 'date-input-end', 'date-input-start', 'date-picker', 'date-picker-popover', 'date-picker-trigger', 'date-range-picker', 'date-range-picker-popover', 'date-range-picker-trigger', 'date-range-presets', 'range-calendar', 'time-field', 'time-input', 'time-picker', 'time-picker-hours', 'time-picker-minutes', 'time-picker-popover', 'time-picker-trigger'],
   states: ['invalid', 'disabled', 'required', 'readonly'],
   variants: { size: ['sm', 'md', 'lg'] },
-  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/',
+  apg: 'spinbutton',
   budgetKb: 4,
   migration: [
     { from: 'GlassDateField', props: { onChange: 'onValueChange', minDate: 'minValue', maxDate: 'maxValue' }, automation: 'mostly', compat: true },
