@@ -64,6 +64,7 @@ function FloorsTable({ data }: { data: Record<string, unknown> }) {
 }
 
 const meta: Meta = {
+  parameters: { ag: { subject: 'ContrastFloors', kind: 'showcase' } },
   title: 'MAT/Contrast Floors',
   parameters: { layout: 'padded' },
 };
