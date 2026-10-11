@@ -8,7 +8,7 @@ import * as React from 'react';
 import { AuraGlassProvider } from '../../theme';
 import { Popover } from './index';
 
-const DELAY_300 = 300, DELAY_50 = 50;
+const DELAY_50 = 50;
 
 const Demo = ({ trigger = {}, root = {} }: { trigger?: Record<string, unknown>; root?: Record<string, unknown> }) => (
   <AuraGlassProvider>
@@ -102,10 +102,10 @@ describe('Popover', () => {
 
   it('aria wiring: trigger haspopup=dialog, expanded; popup role=dialog labelled', async () => {
     render(<Demo root={{ defaultOpen: true }} />);
+    const trigger = screen.getByText('anchor');
     expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
     const popup = document.querySelector('[data-ag-part="popup"]')!;
-    const trigger = screen.getByText('anchor');
     expect(popup).toHaveAttribute('role', 'dialog');
     const title = popup.querySelector('[data-ag-part="title"]');
     expect(popup.getAttribute('aria-labelledby')).toBe(title?.id);
@@ -115,6 +115,7 @@ describe('Popover', () => {
     jest.useFakeTimers();
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<Demo trigger={{ openOnHover: true }} />);
+    const trigger = screen.getByText('anchor');
     fireEvent.mouseEnter(trigger);
     // jsdom PointerEvent lacks pointerType; BU's hover is mouse-gated
     fireEvent.pointerMove(trigger, { pointerType: 'mouse' });
@@ -213,7 +214,7 @@ describe('Popover', () => {
   it("REQ-CMP-97: modal='trap-focus' keeps Tab inside the popup", async () => {
     render(<Bare root={{ modal: 'trap-focus', defaultOpen: true }} />);
     await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
-    const popup = document.querySelector('[data-ag-part="popup"]')!;
+    const popup = document.querySelector<HTMLElement>('[data-ag-part="popup"]')!;
     expect(popup).toBeTruthy();
     const trigger = screen.getByText('anchor');
     const close = document.querySelector<HTMLElement>('[data-ag-part="close"]');

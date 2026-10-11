@@ -9,6 +9,7 @@ import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
 import { toOverlayReason, type OverlayKind } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
+import type { OverlayMaterialOptions } from '../overlays/_shared/overlaySurface';
 import { cn } from '../../internal';
 import type {
   PopoverRootProps, PopoverTriggerProps, PopoverPortalProps,
@@ -19,7 +20,7 @@ import type {
 interface PopoverCtx {
   open: boolean;
   hover: { openOnHover: boolean; delay: number; closeDelay: number };
-  material: { variant?: never; thickness?: 'thick' | 'regular' | 'thin'; prominent?: boolean };
+  material: OverlayMaterialOptions;
 }
 /* ms defaults for the hover contract (props, not style). */
 const HOVER_DELAY_MS = 300, HOVER_CLOSE_DELAY_MS = 150;
@@ -43,7 +44,7 @@ function synthPointer(type: string): Event {
     ? new PointerEvent(type, { bubbles: true, pointerType: 'mouse' })
     : new MouseEvent(type, { bubbles: true });
   if ((e as PointerEvent).pointerType === undefined) {
-    (e as PointerEvent).pointerType = 'mouse';
+    Object.defineProperty(e, 'pointerType', { value: 'mouse' });
   }
   return e;
 }
@@ -55,7 +56,13 @@ function PopoverRoot({ open, defaultOpen, onOpenChange, modal, openOnHover = fal
   const ctxValue = React.useMemo<PopoverCtx>(() => ({
     open: current,
     hover: { openOnHover, delay, closeDelay },
-    material: { variant: variant as never, thickness, prominent },
+    /* REQ-CMP-78: per-instance overlay variant is 'regular' | 'identity' only;
+       'clear' is not an overlay material and falls back to the kind default. */
+    material: {
+      variant: variant === 'regular' || variant === 'identity' ? variant : undefined,
+      thickness,
+      prominent,
+    },
   }), [current, openOnHover, delay, closeDelay, variant, thickness, prominent]);
   return (
     <PopoverCtx.Provider value={ctxValue}>
@@ -103,15 +110,23 @@ const PopoverTrigger = React.forwardRef<HTMLElement, PopoverTriggerProps>(
       const mo = new MutationObserver(apply);
       mo.observe(node, { attributes: true, attributeFilter: ['aria-controls'] });
       apply();
-      return () => mo.disconnect();
+      return () => {
+        // Trigger now re-renders on root context changes (REQ-CMP-97); flush
+        // any queued aria-controls record before disconnecting so a rebind
+        // never drops the mutation that mounted the popup.
+        if (mo.takeRecords().length > 0) apply();
+        mo.disconnect();
+      };
     }, [hoverOn]);
     const ariaCleanup = React.useRef<(() => void) | undefined>(undefined);
-    const setRefs = (node: HTMLElement | null) => {
+    // Stable ref callback: rebinding (and so re-observing) only when the hover
+    // mode or the forwarded ref changes, not on every render.
+    const setRefs = React.useCallback((node: HTMLElement | null) => {
       ariaCleanup.current?.();
       ariaCleanup.current = node ? bindAria(node) : undefined;
       if (typeof ref === 'function') ref(node);
       else if (ref) ref.current = node;
-    };
+    }, [bindAria, ref]);
     return (
       <Base.Trigger
         ref={setRefs as React.Ref<HTMLButtonElement>}
@@ -225,7 +240,13 @@ const PopoverContent = React.forwardRef<HTMLDivElement, import('./Popover.types'
   function PopoverContent({ keepMounted, side, align, sideOffset, collisionPadding, anchor, children, ...rest }, ref) {
     return (
       <PopoverPortal {...(keepMounted !== undefined ? { keepMounted } : {})}>
-        <PopoverPositioner {...({ side, align, sideOffset, collisionPadding, anchor } as never)}>
+        <PopoverPositioner
+          {...(side !== undefined ? { side } : {})}
+          {...(align !== undefined ? { align } : {})}
+          {...(sideOffset !== undefined ? { sideOffset } : {})}
+          {...(collisionPadding !== undefined ? { collisionPadding } : {})}
+          {...(anchor !== undefined ? { anchor } : {})}
+        >
           <PopoverPopup ref={ref} {...rest}>
             {children}
           </PopoverPopup>
