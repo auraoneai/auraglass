@@ -1,16 +1,19 @@
 /* stories/mat/ModesMatrix.stories.tsx — MAT-334 (S-40..S-43).
    One MAT Surface per variant x thickness over the 8 SC-28 certification
    scenes. Scene assets are QUAL's pending input — the story reports pending
-   (never blocks) until they merge. Play toggles data-ag-theme and asserts the
-   computed --ag-on-surface differs between light and dark when the token is
-   emitted by the (pending) styles layer; plain assertions until
-   @storybook/test lands (package.json scripts are PLAT-frozen). */
+   (never blocks) until they merge. Scheme is the story's `scheme` global
+   (applied by the preview decorator, S-41/S-42); the story supplies no stage,
+   optics, ink or private vars and imports nothing from .storybook/**
+   (REQ-FIN-59 / REQ-FIN-106, D.3-38). Play probes [data-ag-scheme="light"]
+   and [data-ag-scheme="dark"] and asserts the computed --ag-on-surface differs
+   when the token is emitted by the (pending) styles layer; plain assertions
+   until @storybook/test lands (package.json scripts are PLAT-frozen). */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Surface } from '../../src/material/index';
 import type { MaterialVariant, Thickness } from '../../src/contracts/material';
+import type { StoryAgParameters } from '../../src/contracts/testing';
 import { PendingCallout, globUrls } from './_shared';
-import { StorySurface } from '../../.storybook/StorySurface';
 
 const SCENE_IDS = [
   'photo', 'flat-white', 'flat-black', 'dense-text',
@@ -61,36 +64,37 @@ function Matrix() {
 }
 
 const meta: Meta = {
+  parameters: { ag: { subject: 'ModesMatrix', kind: 'showcase' } },
   title: 'MAT/Modes Matrix',
-  parameters: { layout: 'padded' },
-  decorators: [
-    (Story) => (
-      <StorySurface mode="light">
-        <Story />
-      </StorySurface>
-    ),
-  ],
+  parameters: {
+    layout: 'padded',
+    ag: { subject: 'Surface', kind: 'lab' } satisfies StoryAgParameters,
+  },
 };
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+/** Reads --ag-on-surface under each scheme on detached probes, so the story
+    tree itself is never re-attributed. */
+function onSurfaceByScheme(host: HTMLElement): Record<'light' | 'dark', string> {
+  const read = (scheme: 'light' | 'dark') => {
+    const probe = document.createElement('div');
+    probe.setAttribute('data-ag-scheme', scheme);
+    host.appendChild(probe);
+    const value = getComputedStyle(probe).getPropertyValue('--ag-on-surface').trim();
+    probe.remove();
+    return value;
+  };
+  return { light: read('light'), dark: read('dark') };
+}
+
 export const LightScheme: Story = {
   name: 'variant x thickness — light',
-  render: () => (
-    <div data-ag-theme="light">
-      <Matrix />
-    </div>
-  ),
+  globals: { scheme: 'light' },
+  render: () => <Matrix />,
   play: async ({ canvasElement }) => {
-    const root = canvasElement.querySelector('[data-ag-theme]');
-    if (!(root instanceof HTMLElement)) throw new Error('ModesMatrix: [data-ag-theme] root missing');
-    const read = (scheme: 'light' | 'dark') => {
-      root.setAttribute('data-ag-theme', scheme);
-      return getComputedStyle(root).getPropertyValue('--ag-on-surface').trim();
-    };
-    const light = read('light');
-    const dark = read('dark');
+    const { light, dark } = onSurfaceByScheme(canvasElement);
     if (light === '' && dark === '') {
       console.info('pending: --ag-on-surface not emitted (styles layer MAT-341 blocked) — scheme toggle asserted when tokens land');
       return;
@@ -103,9 +107,6 @@ export const LightScheme: Story = {
 
 export const DarkScheme: Story = {
   name: 'variant x thickness — dark',
-  render: () => (
-    <div data-ag-theme="dark">
-      <Matrix />
-    </div>
-  ),
+  globals: { scheme: 'dark' },
+  render: () => <Matrix />,
 };

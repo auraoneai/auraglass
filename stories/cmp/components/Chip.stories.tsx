@@ -33,3 +33,19 @@ export const States: Story = {
     </div>
   ),
 };
+const REMOVABLE_START = ['Alpha', 'Beta', 'Gamma'];
+function RemovableChips() {
+  const [chips, setChips] = React.useState(REMOVABLE_START);
+  return (
+    <div role="group" aria-label="Filters" style={{ display: 'flex', gap: 8 }}>
+      {chips.map((name) => (
+        <Chip key={name} onRemove={() => setChips((cur) => cur.filter((c) => c !== name))}>
+          {name}
+        </Chip>
+      ))}
+    </div>
+  );
+}
+export const Removable: Story = {
+  render: () => <RemovableChips />,
+};

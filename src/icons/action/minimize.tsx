@@ -9,4 +9,4 @@ const minimize: IconNode[] = [
 ];
 
 export const MinimizeIcon = /*#__PURE__*/ createIcon('Minimize', minimize);
-export const Minimize2 = /*#__PURE__*/ MinimizeIcon;
+export const Minimize2 = MinimizeIcon;

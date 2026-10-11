@@ -1,56 +1,64 @@
-/* stories/mat/Presets.stories.tsx — MAT-336 (REQ-MAT-01).
-   Every material preset in light and dark, plus a createBrandGlassTheme
-   playground with labelled, keyboard-operable OKLCH L/C/H number inputs
-   rendering contrast pairs and the adjusted list; adjusted steps are marked
-   with text AND an icon, not colour alone. The L/C/H inputs convert to hex
-   locally and drive the kept-4.x createBrandGlassTheme; the frozen 5.0 theme
-   API substitutes when MAT's theme internals land (pending, not blocked). */
+/* stories/mat/Presets.stories.tsx — MAT-336 (REQ-MAT-01), story contract per
+   REQ-FIN-59 / REQ-FIN-106 (D.3-38).
+   Every theme preset (the generated `presets` table) in light and dark, plus a
+   createBrandTheme playground with labelled, keyboard-operable OKLCH L/C/H
+   number inputs rendering contrast pairs and the adjusted list; adjusted steps
+   are marked with text AND an icon, not colour alone.
+   The story supplies no optics, ink or private vars: each preset is applied
+   through `<AuraGlassProvider preset scheme>` and the Surfaces inside it are
+   painted only by the shipped material CSS. Scheme is the story's `scheme`
+   global (the preview decorator owns the axes, contract S-41/S-42). */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Surface } from '../../src/material/index';
-import { glassMaterialPresets } from '../../src/theme/materials';
-import { createBrandGlassTheme } from '../../src/theme/createBrandGlassTheme';
-import { CONTRAST_FLOOR, oklchToHex } from './_shared';
-import { StorySurface } from '../../.storybook/StorySurface';
+import { AuraGlassProvider } from '../../src/theme/AuraGlassProvider';
+import { presets, type PresetId } from '../../src/theme/presets';
+import { createBrandTheme } from '../../src/theme/createBrandTheme';
+import type { StoryAgParameters } from '../../src/contracts/testing';
+import { CONTRAST_FLOOR } from './_shared';
 
-const PRESETS = Object.entries(glassMaterialPresets);
+type Scheme = 'light' | 'dark';
+const PRESET_IDS = Object.keys(presets) as PresetId[];
+const cellPad: React.CSSProperties = { padding: '2px 10px' };
 
-function PresetCard({ name, tokens }: { name: string; tokens: (typeof PRESETS)[number][1] }) {
+function PresetCard({ id, scheme }: { id: PresetId; scheme: Scheme }) {
+  const preset = presets[id];
   return (
-    <Surface variant="regular" className={`preset-${name}`} style={{ padding: 0, overflow: 'hidden' }}>
-      <div
-        style={{
-          background: tokens.background,
-          backdropFilter: tokens.backdropFilter,
-          WebkitBackdropFilter: tokens.WebkitBackdropFilter,
-          border: `1px solid ${tokens.border}`,
-          boxShadow: tokens.shadow,
-          borderRadius: 12,
-          padding: '14px 18px',
-          minWidth: 150,
-        }}
-      >
-        <code style={{ fontSize: 13 }}>{name}</code>
-        <div style={{ fontSize: 11, opacity: 0.7 }}>blur {tokens.backdropBlur}</div>
+    <AuraGlassProvider storage={null} preset={id} scheme={scheme}>
+      <div data-preset={id} style={{ display: 'grid', gap: 8, minWidth: 180 }}>
+        <Surface variant="regular" thickness="regular">
+          <div style={{ padding: '14px 18px' }}>
+            <code style={{ fontSize: 13 }}>{preset.name}</code>
+            <dl style={{ margin: '6px 0 0', fontSize: 11 }}>
+              <dt>canvas ({scheme})</dt>
+              <dd style={{ margin: 0 }}>{preset.canvas[scheme]}</dd>
+              <dt>accent</dt>
+              <dd style={{ margin: 0 }}>{preset.accent}</dd>
+              <dt>radius scale</dt>
+              <dd style={{ margin: 0 }}>{preset.radiusScale ?? 1}</dd>
+            </dl>
+          </div>
+        </Surface>
+        <Surface variant="clear" thickness="thin">
+          <span style={{ display: 'block', padding: '8px 18px', fontSize: 12 }}>clear / thin</span>
+        </Surface>
       </div>
-    </Surface>
+    </AuraGlassProvider>
   );
 }
 
-function PresetGrid({ scheme }: { scheme: 'light' | 'dark' }) {
+function PresetGrid({ scheme }: { scheme: Scheme }) {
   return (
-    <StorySurface mode={scheme}>
-      <div data-ag-theme={scheme} style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-        {PRESETS.map(([name, tokens]) => (
-          <PresetCard key={name} name={name} tokens={tokens} />
-        ))}
-      </div>
-    </StorySurface>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+      {PRESET_IDS.map((id) => (
+        <PresetCard key={id} id={id} scheme={scheme} />
+      ))}
+    </div>
   );
 }
 
 /** contrast.pairs as key->ratio rows from the real theme object. */
-function ContrastPairs({ theme }: { theme: ReturnType<typeof createBrandGlassTheme> }) {
+function ContrastPairs({ theme }: { theme: ReturnType<typeof createBrandTheme> }) {
   return (
     <div>
       <h4 style={{ margin: '8px 0 4px' }}>contrast.pairs</h4>
@@ -60,9 +68,9 @@ function ContrastPairs({ theme }: { theme: ReturnType<typeof createBrandGlassThe
             const adjusted = pair.ratio < CONTRAST_FLOOR;
             return (
               <tr key={pair.name} data-pair={pair.name} data-adjusted={adjusted || undefined}>
-                <td style={{ padding: '2px 10px', borderBottom: '1px solid #e2e8f0' }}>{pair.name}</td>
-                <td style={{ padding: '2px 10px', borderBottom: '1px solid #e2e8f0' }}>{pair.ratio.toFixed(2)}:1</td>
-                <td style={{ padding: '2px 10px', borderBottom: '1px solid #e2e8f0' }}>
+                <td style={cellPad}>{pair.name}</td>
+                <td style={cellPad}>{pair.ratio.toFixed(2)}:1</td>
+                <td style={cellPad}>
                   {adjusted ? <span role="img" aria-label="below contrast floor">⚠ below {CONTRAST_FLOOR} floor</span> : 'ok'}
                 </td>
               </tr>
@@ -78,13 +86,13 @@ function BrandPlayground() {
   const [l, setL] = React.useState(0.6);
   const [c, setC] = React.useState(0.15);
   const [h, setH] = React.useState(250);
-  const hex = oklchToHex(l, c, h);
-  const theme = createBrandGlassTheme(hex);
+  const brand = `oklch(${l} ${c} ${h})`;
+  const theme = createBrandTheme({ l, c, h });
   const adjustedPairs = theme.contrast.adjusted;
   const input: React.CSSProperties = { width: 80, font: 'inherit' };
   return (
     <div data-ag-brand-playground style={{ display: 'grid', gap: 12 }}>
-      <fieldset style={{ display: 'flex', gap: 16, border: '1px solid #cbd5e1', borderRadius: 8, padding: 12 }}>
+      <fieldset style={{ display: 'flex', gap: 16, borderRadius: 8, padding: 12 }}>
         <legend>OKLCH brand colour</legend>
         <label>
           L (lightness 0–1)<br />
@@ -101,8 +109,9 @@ function BrandPlayground() {
           <input aria-label="OKLCH hue" type="number" min={0} max={360} step={1} value={h}
             onChange={(e) => setH(Number(e.target.value))} style={input} />
         </label>
-        <span aria-hidden style={{ width: 28, height: 28, borderRadius: '50%', background: hex, alignSelf: 'end' }} />
-        <code style={{ alignSelf: 'end' }}>{hex}</code>
+        {/* swatch of the user-entered input value; not a library component or its wrapper */}
+        <span aria-hidden style={{ width: 28, height: 28, borderRadius: '50%', background: brand, alignSelf: 'end' }} />
+        <code style={{ alignSelf: 'end' }}>{brand}</code>
       </fieldset>
       <ContrastPairs theme={theme} />
       <div data-ag-adjusted-count={adjustedPairs.length}>
@@ -125,25 +134,53 @@ function BrandPlayground() {
 }
 
 const meta: Meta = {
+  parameters: { ag: { subject: 'Presets', kind: 'showcase' } },
   title: 'MAT/Presets',
-  parameters: { layout: 'padded' },
+  parameters: {
+    layout: 'padded',
+    ag: { subject: 'MatPresets', kind: 'lab' } satisfies StoryAgParameters,
+  },
 };
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+/** Each preset's provider emits its preset <style> through the registered
+    presetCss mount (REQ-FIN-04, FIN-A). Until that mount is registered the
+    providers emit none and this reports pending; once present, every preset
+    must yield exactly one style and no two presets may emit the same text. */
+const presetPlay: Story['play'] = async ({ canvasElement }) => {
+  const cards = Array.from(canvasElement.querySelectorAll<HTMLElement>('[data-preset]'));
+  if (cards.length !== PRESET_IDS.length) {
+    throw new Error(`Presets: rendered ${cards.length} preset cards, expected ${PRESET_IDS.length}`);
+  }
+  const styles = cards.map((card) => card.parentElement?.querySelectorAll(':scope > style[data-ag-theme-style]') ?? []);
+  if (styles.every((s) => s.length === 0)) {
+    console.info('pending: AuraGlassProvider presetCss mount not registered (REQ-FIN-04, FIN-A) — preset styles asserted when it lands');
+    return;
+  }
+  const bad = cards.filter((_, i) => styles[i]!.length !== 1).map((card) => card.dataset.preset);
+  if (bad.length > 0) throw new Error(`Presets: providers without exactly one preset style: ${bad.join(', ')}`);
+  const texts = new Set(styles.map((s) => s[0]!.textContent ?? ''));
+  if (texts.size !== cards.length) throw new Error('Presets: two presets emitted identical preset CSS');
+};
+
 export const LightScheme: Story = {
   name: 'presets — light',
+  globals: { scheme: 'light' },
   render: () => <PresetGrid scheme="light" />,
+  play: presetPlay,
 };
 
 export const DarkScheme: Story = {
   name: 'presets — dark',
+  globals: { scheme: 'dark' },
   render: () => <PresetGrid scheme="dark" />,
+  play: presetPlay,
 };
 
 export const BrandThemePlayground: Story = {
-  name: 'createBrandGlassTheme playground',
+  name: 'createBrandTheme playground',
   render: () => <BrandPlayground />,
   play: async ({ canvasElement }) => {
     const lInput = canvasElement.querySelector('input[aria-label="OKLCH lightness"]');
