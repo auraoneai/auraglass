@@ -84,7 +84,12 @@ function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
   }
 }
 
-function transition(root: HTMLElement, next: ShellSnapshot, rec: ShellRecord): void {
+function transition(
+  root: HTMLElement,
+  next: ShellSnapshot,
+  rec: ShellRecord,
+  opts?: { persist?: boolean },
+): void {
   // SURF-24: no animating flag/timer — the optional sidebar slide is pure CSS
   // gated on [data-ag-motion='full'] in app-shell.css.
   applyState(root, next);

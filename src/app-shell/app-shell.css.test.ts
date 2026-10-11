@@ -149,7 +149,8 @@ describe('app-shell.css structure (SURF-011)', () => {
     // 1px line + 2 x 24px outset = 49px >= 44px coarse target
     expect(coarse?.declarations.get('inset')).toBe('calc(var(--ag-space-6, 24px) * -1)');
     const focus = rules.find((r) => r.selector === '.ag-panels__handle:focus-visible');
-    expect(focus?.declarations.get('outline')).toContain('var(--_ag-focus-color)');
+    // SURF-25 (#641/#647): the handle ring keys on the public accent var.
+    expect(focus?.declarations.get('outline')).toContain('var(--ag-color-accent)');
   });
 
   it('uses the four-row named-area grid with a scroll-owning main and dvh sizing', () => {
