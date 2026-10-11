@@ -521,4 +521,8 @@ export default REPORT_PATH_ENTRIES.map(([symbol, value], i) => ({
   { id: 'DEP-P0069', kind: 'behavior', status: 'active', entry: '.', symbol: 'CJS/require entry', since: '4.3.0', removeIn: '5.0.0', replacement: 'ESM entry only', codemod: null, automation: 'none', breaking: 'B21', message: 'the CommonJS require() entry is removed in 5.0.0; consume the ESM build.', doc: '#dep-cjs-entry' },
   { id: 'DEP-P0070', kind: 'peer', status: 'active', entry: '.', symbol: 'react@18', since: '4.3.0', removeIn: '5.0.0', replacement: 'react@19', codemod: null, automation: 'none', breaking: 'B21', message: 'React 18 support ends with 5.0.0; React 19 is the floor.', doc: '#dep-peer-react18' },
   { id: 'DEP-P0071', kind: 'engine', status: 'active', entry: '.', symbol: 'node < 20.19', since: '4.3.0', removeIn: '5.0.0', replacement: 'node >= 20.19', codemod: null, automation: 'none', breaking: 'B21', message: 'Node < 20.19 support ends with 5.0.0.', doc: '#dep-engine-node-20-19' },
+  // PLAT-48 (#199): the spring hooks stay exported on 4.x (removing them in a
+  // 4.x minor would break consumers) and warn instead; fields mirror the
+  // planned MAT row DEP-M0864. DEP queue: after #159 (DEP-P0073..P0106).
+  { id: 'DEP-P0107', kind: 'export', status: 'active', entry: '.', symbol: 'useGalileoStateSpring', since: '4.2.0', removeIn: '5.0.0', replacement: 'aura-glass/motion springs', codemod: 'motion-imports', automation: 'partial', breaking: 'B3', message: "'useGalileoStateSpring' (alias 'useAuraStateSpring') never animated and is removed in 5.0.0; use aura-glass/motion springs (codemod: motion-imports).", doc: '#dep-use-galileo-state-spring' },
 ]) satisfies DeprecationFragment;
