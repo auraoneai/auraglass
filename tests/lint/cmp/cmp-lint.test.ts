@@ -51,7 +51,7 @@ describe('cmp-lint (REQ-CMP-08)', () => {
     ).not.toThrow();
   });
 
-  it('no optics outside material: backdrop-filter/blur()/saturate() literals = 0', () => {
+  it('no optics outside material: REQ-MAT-39 optics literals = 0', () => {
     const bad: string[] = [];
     for (const f of files) {
       const text = stripComments(readFileSync(f, 'utf8'), f.endsWith('.css'));

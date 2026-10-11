@@ -1,7 +1,8 @@
 /* auraglass/no-optics-outside-material — REQ-MAT-39 (was no-inline-glass, SC-16).
    Outside src/material/**, tokens/** and generated CSS, no code may emit backdrop
    filters, white-glass rgba() tints, blur()/saturate() literals or white specular
-   gradients. Stories and tests are not exempt; the rule's own test file is. */
+   gradients. Stories and tests are not exempt; RuleTester fixtures of optics rules (this rule's
+   and QUAL's backdrop-filter CSS rules) and frozen 4.x codemod inputs are. */
 'use strict';
 
 const PATTERNS = [
@@ -23,6 +24,8 @@ const EXEMPT = [
   /tailwind[^/]*\.(css|ts|mjs|cjs)$/,   // the generated Tailwind bridge
   /(^|\/)tests\/lint\/mat\//,           // this rule's own RuleTester fixtures live here
   /(^|\/)legacy\//,                     // quarantined 4.x tree (PLAT-owned)
+  /(^|\/)tests\/dx\/fixtures\/recipes-4x\//, // frozen 4.x recipe inputs of the 4to5 codemod (REQ-PLAT-92): 4.x source by definition, read as text, never rendered
+  /(^|\/)tests\/lint\/qual\/css-perf\.test\.ts$/, // RuleTester fixtures of the QUAL backdrop-filter CSS rules (same standing as tests/lint/mat/)
 ];
 
 const norm = (f) => (typeof f === 'string' ? f.replace(/\\/g, '/') : '');

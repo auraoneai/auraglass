@@ -36,6 +36,10 @@ describe('auraglass/no-optics-outside-material', () => {
         { filename: 'build/tailwind-bridge.mjs', code: "const u = 'linear-gradient(rgba(255,255,255,0.4), transparent)';" },
         // this rule's own test/fixture dir
         { filename: 'tests/lint/mat/fixture.ts', code: "const s = 'backdrop-filter: blur(9px)';" },
+        // RuleTester fixtures of QUAL's backdrop-filter CSS rules
+        { filename: 'tests/lint/qual/css-perf.test.ts', code: "const s = '.a { backdrop-filter: blur(20px) saturate(1.8); }';" },
+        // frozen 4.x codemod recipe inputs (REQ-PLAT-92)
+        { filename: 'tests/dx/fixtures/recipes-4x/saas-dashboard/input.tsx', code: 'const p = { backdropFilter: "blur(12px)" };' },
         // ordinary code with no optics
         { filename: inSrc, code: 'const x = { padding: 8 };' },
         { filename: inSrc, code: 'const label = `blur the lines`;' }, // no call syntax
@@ -87,6 +91,17 @@ describe('auraglass/no-optics-outside-material', () => {
         {
           filename: inSrc,
           code: 'const g = "linear-gradient(300deg, rgba(255,255,255,0.35), transparent)";',
+          errors: [{ messageId: 'pattern' }],
+        },
+        // the fixture exemptions are narrow: sibling dx/qual tests are still linted
+        {
+          filename: 'tests/dx/codemod-canary.test.ts',
+          code: "const s = 'backdrop-filter: blur(9px)';",
+          errors: [{ messageId: 'pattern' }],
+        },
+        {
+          filename: 'tests/lint/qual/other.test.ts',
+          code: "const s = 'backdrop-filter: blur(9px)';",
           errors: [{ messageId: 'pattern' }],
         },
         // 9. stories are NOT exempt
