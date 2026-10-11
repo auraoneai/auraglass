@@ -13,12 +13,12 @@ const OD8 = "docs/release/decisions/od-8.md";
 const GITLAB_URL =
   /https:\/\/gitlab\.com\/chahal-foundation-group\/github-auraoneai\/auraglass\/-\/(jobs|pipelines)\/\d+/;
 
-const FACTS: Array<{ key: string; match: RegExp }> = [
+const FACTS = [
   { key: "multi-ref push", match: /multi-ref push creates a pipeline/i },
   { key: "saas runner tags", match: /saas runner tags on the group tier/i },
   { key: "playwright image", match: /playwright image .* exists/i },
   { key: "provenance", match: /--provenance.*SIGSTORE_ID_TOKEN/ },
-];
+] as const;
 const LINES = ["next", "release/4.x"];
 const RESULTS = ["verified", "failed", "partial", "unverified"];
 
@@ -47,7 +47,7 @@ function factRows(text: string) {
     .split("\n")
     .filter((l) => /^\|\s*\d+\s*\|/.test(l))
     .map(cells)
-    .map(([n, fact, line, result, evidence]) => ({
+    .map(([n = "", fact = "", line = "", result = "", evidence = ""]) => ({
       n: Number(n),
       fact,
       line: line.replace(/`/g, ""),
@@ -77,7 +77,7 @@ type SettingRow = {
 
 function od11Rows(text: string): SettingRow[] {
   return sectionRows(text, "## OD-11 settings").map(
-    ([, setting, , status, appliedBy, date, evidence]) => ({
+    ([, setting = "", , status = "", appliedBy = "", date = "", evidence = ""]) => ({
       setting,
       status: status.toLowerCase(),
       appliedBy,
@@ -124,7 +124,7 @@ function tagExists(tag: string): boolean {
 function od8Applied(): boolean {
   if (!existsSync(OD8)) return false;
   const m = /^status:\s*(\S+)/m.exec(readFileSync(OD8, "utf8"));
-  return !!m && ["decided", "defaulted", "done", "applied"].includes(m[1]);
+  return !!m && ["decided", "defaulted", "done", "applied"].includes(m[1] ?? "");
 }
 
 describe("gitlab-ci-verification.md (REQ-FIN-23, AC-FIN-23)", () => {
@@ -188,12 +188,12 @@ describe("gitlab-ci-verification.md (REQ-FIN-23, AC-FIN-23)", () => {
 
   it("carries a contract amendment draft for every failed fact", () => {
     // fact index → amendment draft id; provenance/Playwright failures would add A-3/A-4.
-    const draftIds = ["A-1", "A-2", "A-3", "A-4"];
+    const draftIds = ["A-1", "A-2", "A-3", "A-4"] as const;
     const needed = FACTS.map((f, i) =>
       rows.some((r) => f.match.test(r.fact) && r.result === "failed")
-        ? draftIds[i]
+        ? (draftIds[i] ?? null)
         : null
-    ).filter((x): x is string => x !== null);
+    ).filter((x) => x !== null);
     const drafts = text.includes("## Contract amendment drafts")
       ? text.slice(text.indexOf("## Contract amendment drafts"))
       : "";

@@ -1,7 +1,7 @@
 'use client';
 /* REQ-SURF-146..150 — CarouselRail.
  * 146: compositional parts — Root renders its children when given, else the
- *      default layout; `<CarouselRail.Indicators as>` picks tabs|buttons
+ *      default layout; `<CarouselRail.Indicators semantics>` picks tabs|buttons
  *      (Root `indicatorsAs` stays as an alias); `.ag-carousel` is the size
  *      container the 480 px rule queries.
  * 147: APG carousel — tabs variant moves DOM focus with Arrow/Home/End.
@@ -44,20 +44,20 @@ export interface CarouselRailRootProps {
   /** {interval ms ≥5000} | false — rotates only under the continuous gate. */
   autoplay?: { interval: number } | false | undefined;
   overMedia?: boolean | undefined;
-  /** Alias of `<CarouselRail.Indicators as>` for the default layout. */
+  /** Alias of `<CarouselRail.Indicators semantics>` for the default layout. */
   indicatorsAs?: CarouselRailIndicatorsAs | undefined;
   className?: string | undefined;
   /** Compose the parts yourself; omitted → Autoplay toggle, Viewport, Prev, Next, Indicators. */
   children?: React.ReactNode;
 }
 
-/** `as` of an Indicators element among Root's children (through fragments). */
+/** `semantics` of an Indicators element among Root's children (through fragments). */
 function indicatorsAsIn(children: React.ReactNode): CarouselRailIndicatorsAs | undefined {
   let found: CarouselRailIndicatorsAs | undefined;
   React.Children.forEach(children, (child) => {
     if (found || !React.isValidElement(child)) return;
-    const props = child.props as { as?: CarouselRailIndicatorsAs; children?: React.ReactNode };
-    if (child.type === Indicators) found = props.as;
+    const props = child.props as { semantics?: CarouselRailIndicatorsAs; children?: React.ReactNode };
+    if (child.type === Indicators) found = props.semantics;
     else if (child.type === React.Fragment) found = indicatorsAsIn(props.children);
   });
   return found;

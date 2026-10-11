@@ -171,7 +171,7 @@ describe('Sheet (CMP-229..236)', () => {
         <Sheet.Trigger>Open sheet</Sheet.Trigger>
         <Sheet.Content>
           <Sheet.Body>body</Sheet.Body>
-          <Sheet.Action>Got it</Sheet.Action>
+          <SheetAction>Got it</SheetAction>
           <Sheet.Close>Cancel</Sheet.Close>
         </Sheet.Content>
       </Sheet.Root>,

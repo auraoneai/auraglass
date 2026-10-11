@@ -5,6 +5,7 @@ import { describe, expect, it, beforeAll } from '@jest/globals';
 import { act, render } from '@testing-library/react';
 import * as React from 'react';
 import { Menu } from '../../src/components/menu';
+import { MenuPortal, MenuPositioner, MenuPopup } from '../../src/components/menu/Menu.client';
 import { Select } from '../../src/components/select';
 import { IconButton } from '../../src/components/icon-button';
 
@@ -20,13 +21,13 @@ describe('focusableWhenDisabled (REQ-CMP-13)', () => {
   it('Menu.Item: default keeps focus (tabIndex 0-ish, aria-disabled); false drops to -1', async () => {
     const { container, rerender } = render(
       <Menu.Root open>
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup>
+        <MenuPortal>
+          <MenuPositioner>
+            <MenuPopup>
               <Menu.Item disabled data-testid="it">one</Menu.Item>
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+            </MenuPopup>
+          </MenuPositioner>
+        </MenuPortal>
       </Menu.Root>,
     );
     await act(async () => {}); // portal container resolves on a microtask
@@ -35,14 +36,14 @@ describe('focusableWhenDisabled (REQ-CMP-13)', () => {
     expect(item).toHaveAttribute('aria-disabled', 'true');
     rerender(
       <Menu.Root open>
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup>
+        <MenuPortal>
+          <MenuPositioner>
+            <MenuPopup>
               <Menu.Item disabled focusableWhenDisabled={false} data-testid="it">one</Menu.Item>
               <Menu.Item disabled focusableWhenDisabled data-testid="it2">two</Menu.Item>
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+            </MenuPopup>
+          </MenuPositioner>
+        </MenuPortal>
       </Menu.Root>,
     );
     await act(async () => {});
@@ -55,16 +56,16 @@ describe('focusableWhenDisabled (REQ-CMP-13)', () => {
   it('Menu.CheckboxItem + RadioItem: focusableWhenDisabled=false → tabIndex -1', async () => {
     render(
       <Menu.Root open>
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup>
+        <MenuPortal>
+          <MenuPositioner>
+            <MenuPopup>
               <Menu.CheckboxItem checked disabled focusableWhenDisabled={false}>c</Menu.CheckboxItem>
               <Menu.RadioGroup value="a">
                 <Menu.RadioItem value="a" disabled focusableWhenDisabled={false}>r</Menu.RadioItem>
               </Menu.RadioGroup>
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+            </MenuPopup>
+          </MenuPositioner>
+        </MenuPortal>
       </Menu.Root>,
     );
     await act(async () => {});

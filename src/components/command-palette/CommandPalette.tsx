@@ -117,7 +117,7 @@ export function CommandPalette({
       onOpenChange={(next, details) => {
         // Escape is owned by the layer stack + the popup handler above.
         if (!next && details?.reason === 'escape-key') return;
-        setOpen(next, toChangeDetails(details, 'none'));
+        setOpen(next, toChangeDetails(details));
       }}
     >
       {/* null = no provider: Base UI's default container (S-23 fallback). */}

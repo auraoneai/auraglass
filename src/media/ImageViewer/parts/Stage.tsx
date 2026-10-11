@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useImageViewer } from '../ivContext';
 import { useZoomPan } from '../useZoomPan';
-import { getOrSampleTone } from '../../sampling/toneCache';
-import type { MediaTone } from '../../sampling/classifyTone';
+import { getOrSampleTone } from '../../../backdrops/sampling/toneCache';
+import type { MediaTone } from '../../../backdrops/sampling/classifyTone';
 import type { ImageViewerItem } from '../types';
 
 /** The zoom/pan stage — renders ≤3 <img> (current + hidden prev/next).

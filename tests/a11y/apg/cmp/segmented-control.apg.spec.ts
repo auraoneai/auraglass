@@ -85,7 +85,7 @@ test('REQ-CMP-42: indicator measures item 3 within 1px; calm jumps', async ({ pa
     return r && !r.hasAttribute('data-ag-animating');
   }, null, { timeout: 3000 });
   const [ir, cr] = await Promise.all([ind.boundingBox(), third.boundingBox()]);
-  if (!ir || !cr) test.skip();
+  if (!ir || !cr) throw new Error('Selected item and indicator must both have visible bounds');
   expect(Math.abs(ir.x - cr.x)).toBeLessThanOrEqual(1);
   expect(Math.abs(ir.width - cr.width)).toBeLessThanOrEqual(1);
 

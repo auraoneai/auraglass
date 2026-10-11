@@ -68,7 +68,7 @@ const noop = () => undefined;
 const captionedMedia: MediaHandle = {
   state: { ...SERVER_SNAPSHOT, duration: 60, textTracks: [{ id: 'en', label: 'English', language: 'en', kind: 'captions', mode: 'disabled' }] },
   play: async () => undefined, pause: noop, toggle: noop, seek: noop, seekBy: noop,
-  setVolume: noop, setMuted: noop, setRate: noop, requestPictureInPicture: noop, requestFullscreen: noop,
+  setVolume: noop, setMuted: noop, setRate: noop, setTextTrackMode: noop, requestPictureInPicture: noop, requestFullscreen: noop,
 };
 
 const TIMELINE_ITEMS = [
@@ -192,7 +192,7 @@ export const FIXTURES: Record<string, MetaFixture> = {
         </Inspector.Root>
       ),
       'compact sheet open': () => (
-        <AppShell.Root layout="compact" defaultInspector="open">
+        <AppShell.Root layout="mobile" defaultInspector="open">
           <AppShell.Main />
           <Inspector.Sheet aria-label="Props"><Inspector.Header title="Props" /></Inspector.Sheet>
         </AppShell.Root>
@@ -225,7 +225,7 @@ export const FIXTURES: Record<string, MetaFixture> = {
     composes: ['AppShell', 'Sheet', 'Sidebar'],
     states: {
       'compact, sidebar expanded: drawer open': () => (
-        <AppShell.Root layout="compact" defaultSidebar="expanded">
+        <AppShell.Root layout="mobile" defaultSidebar="expanded">
           <AppShell.Main />
           <Sidebar.Drawer><Sidebar.Nav aria-label="Main"><Sidebar.Item href="/home">Home</Sidebar.Item></Sidebar.Nav></Sidebar.Drawer>
         </AppShell.Root>
@@ -330,7 +330,7 @@ export const FIXTURES: Record<string, MetaFixture> = {
   FilterBar: {
     composes: ['SearchField', 'ToggleGroup', 'Popover', 'Sheet'],
     states: {
-      'rule editor open': { render: story(FilterBarStories.Basic), interact: click('[data-ag-part="filter-rule-chip"] button[aria-expanded]') },
+      'rule editor open': { render: story(FilterBarStories.Default), interact: click('[data-ag-part="filter-rule-chip"] button[aria-expanded]') },
     },
   },
   KeyValueEditor: {},

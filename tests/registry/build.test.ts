@@ -110,6 +110,8 @@ describe('registry build', () => {
     writeFileSync(join(root, 'manifest/m.json'), JSON.stringify({ tokens: [] }));
     const { errors, report } = build({ root, sha: SHA, manifest: join(root, 'manifest/m.json') });
     expect(errors.some((e) => e.includes('manifest misses vars'))).toBe(true);
+    expect(report.base).toBeDefined();
+    if (!report.base) throw new Error('Missing manifest diagnostics in registry report');
     expect(report.base.missingCssVars.length).toBeGreaterThan(0);
     rmSync(root, { recursive: true });
   });

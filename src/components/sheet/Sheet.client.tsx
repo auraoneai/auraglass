@@ -296,8 +296,8 @@ function SheetAction({ children, className, onClick, ref, ...rest }: SheetAction
       data-ag-part="action"
       className={cn('ag-sheet-action', className)}
       render={<Button variant="clear" data-ag-part="action" />}
-      onClick={onClick as (e: never) => void}
-      ref={ref as never}
+      onClick={onClick}
+      ref={ref as React.Ref<HTMLButtonElement>}
       {...rest}
     >
       {children}

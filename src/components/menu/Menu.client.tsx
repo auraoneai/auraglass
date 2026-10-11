@@ -14,6 +14,7 @@ import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAni
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
+import { materialProps } from '../../material';
 import { useControllableWarning } from '../../foundation/controllable';
 import type {
   MenuRootProps, MenuTriggerProps, MenuPortalProps, MenuPositionerProps,
@@ -282,6 +283,7 @@ function MenubarRoot({ className, orientation = 'horizontal', ref, ...rest }: Me
           aria-orientation={orientation}
           orientation={orientation}
           data-ag-part="root"
+          {...materialProps({ layer: 'chrome', thickness: 'regular' })}
           className={cn('ag-menubar', className)}
           {...rest}
         />

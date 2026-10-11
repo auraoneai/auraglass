@@ -1,7 +1,7 @@
 'use client';
-/* REQ-SURF-146/147/148/150 — Indicators. `as="tabs"` (default) is the APG
+/* REQ-SURF-146/147/148/150 — Indicators. `semantics="tabs"` (default) is the APG
  * tabbed carousel: one tab stop, Arrow keys (flipped in RTL), Home and End
- * move both the selection and DOM focus. `as="buttons"` renders plain
+ * move both the selection and DOM focus. `semantics="buttons"` renders plain
  * buttons with aria-current. Clicks scroll the viewport through Root's
  * goTo helper. The group is thin chrome (clear over media). */
 import * as React from 'react';
@@ -11,20 +11,20 @@ import { navMaterial } from '../material';
 
 export interface CarouselRailIndicatorsProps {
   /** tabs (APG tabbed carousel, default) | buttons (APG basic carousel picker). */
-  as?: CarouselRailIndicatorsAs | undefined;
+  semantics?: CarouselRailIndicatorsAs | undefined;
   className?: string | undefined;
 }
 
-export function Indicators({ as, className }: CarouselRailIndicatorsProps = {}): React.ReactElement {
+export function Indicators({ semantics, className }: CarouselRailIndicatorsProps = {}): React.ReactElement {
   const c = useCarouselRail('Indicators');
   const refs = React.useRef<Array<HTMLButtonElement | null>>([]);
   const { registerIndicatorsAs } = c;
   useIsoLayoutEffect(() => {
-    if (as === undefined) return;
-    registerIndicatorsAs(as);
+    if (semantics === undefined) return;
+    registerIndicatorsAs(semantics);
     return () => registerIndicatorsAs(undefined);
-  }, [as, registerIndicatorsAs]);
-  const variant = as ?? c.indicatorsAs;
+  }, [semantics, registerIndicatorsAs]);
+  const variant = semantics ?? c.indicatorsAs;
   const material = navMaterial(c.overMedia);
   const cls = cn(material.className, 'ag-carousel-indicators', className);
 

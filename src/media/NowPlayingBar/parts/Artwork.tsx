@@ -1,7 +1,7 @@
 'use client';
 import * as React from 'react';
 import { useNowPlaying } from '../npContext';
-import { getOrSampleTone } from '../../sampling/toneCache';
+import { getOrSampleTone } from '../../../backdrops/sampling/toneCache';
 
 /* REQ-SURF-139 — <img alt=""> (decorative; no extra aria-hidden). With the
  * Root's `sampleTone`, the image is sampled once per src through the tone LRU

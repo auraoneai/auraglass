@@ -65,7 +65,7 @@ function Nav() {
 function OverlaysHarness() {
   const [paletteOpen, setPaletteOpen] = React.useState(false);
   return (
-    <AppShell.Root layout="compact" defaultSidebar="collapsed">
+    <AppShell.Root layout="mobile" defaultSidebar="collapsed">
       <TopBar.Root placement="overlay">
         <TopBar.Leading>
           <AppShellSidebarToggle data-focus-overlay="sidebar-drawer" />

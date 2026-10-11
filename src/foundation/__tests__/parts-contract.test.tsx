@@ -120,11 +120,13 @@ describe('data-state interaction contract (REQ-CMP-07)', () => {
       </RadioGroup.Root>,
     );
     const items = container.querySelectorAll('[data-ag-part="item"]');
-    expectSingleState(items[0], 'checked');
-    expectSingleState(items[1], 'unchecked');
-    fireEvent.click(items[1]);
+    const [firstItem, secondItem] = items;
+    if (!firstItem || !secondItem) throw new Error("Expected two rendered items");
+    expectSingleState(firstItem, 'checked');
+    expectSingleState(secondItem, 'unchecked');
+    fireEvent.click(secondItem);
     await act(async () => {});
-    expectSingleState(items[1], 'checked');
+    expectSingleState(secondItem, 'checked');
   });
 
   it('toggle-group item + toggle Button: off → on on click', async () => {
@@ -140,11 +142,13 @@ describe('data-state interaction contract (REQ-CMP-07)', () => {
       </>,
     );
     const items = container.querySelectorAll('[data-ag-part="item"]');
-    expectSingleState(items[0], 'on');
-    expectSingleState(items[1], 'off');
-    fireEvent.click(items[1]);
+    const [firstItem, secondItem] = items;
+    if (!firstItem || !secondItem) throw new Error("Expected two rendered items");
+    expectSingleState(firstItem, 'on');
+    expectSingleState(secondItem, 'off');
+    fireEvent.click(secondItem);
     await act(async () => {});
-    expectSingleState(items[1], 'on');
+    expectSingleState(secondItem, 'on');
     const btn = container.querySelector('.ag-button') as HTMLElement;
     expectSingleState(btn, 'off');
     fireEvent.click(btn);
@@ -216,16 +220,18 @@ describe('data-state interaction contract (REQ-CMP-07)', () => {
   it('segmented-control item: unchecked → checked on click', async () => {
     const { SegmentedControl } = await import('../../components/segmented-control/SegmentedControl.client');
     const { container } = render(
-      <SegmentedControl.Root defaultValue="a">
+      <SegmentedControl.Root defaultValue="a" name="selection" aria-label="Selection">
         <SegmentedControl.Item value="a">A</SegmentedControl.Item>
         <SegmentedControl.Item value="b">B</SegmentedControl.Item>
       </SegmentedControl.Root>,
     );
     const items = container.querySelectorAll('[data-ag-part="item"]');
-    expectSingleState(items[0], 'checked');
-    expectSingleState(items[1], 'unchecked');
-    fireEvent.click(items[1]);
+    const [firstItem, secondItem] = items;
+    if (!firstItem || !secondItem) throw new Error("Expected two rendered items");
+    expectSingleState(firstItem, 'checked');
+    expectSingleState(secondItem, 'unchecked');
+    fireEvent.click(secondItem);
     await act(async () => {});
-    expectSingleState(items[1], 'checked');
+    expectSingleState(secondItem, 'checked');
   });
 });

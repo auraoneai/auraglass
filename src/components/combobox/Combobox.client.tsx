@@ -547,7 +547,7 @@ function ComboboxItem<Value = string>({ value, disabled, children, className, re
 
 function ComboboxEmpty({ children, className }: ComboboxEmptyProps) {
   const { messages, loadError } = useInternal();
-  const text = children ?? (loadError ? controlMessage('loadError', messages) : controlMessage('noResults', messages));
+  const text = children ?? (loadError ? controlMessage('loadFailed', messages) : controlMessage('noResults', messages));
   /* Own element: BU Empty snapshots its live-region text and never re-renders
    * the children swap in jsdom. Visibility is gated by the list's `data-empty`
    * attribute (set by Base.List when filteredItems is empty) via CSS. */

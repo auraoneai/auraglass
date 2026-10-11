@@ -170,7 +170,7 @@ describe('app-shell.css structure (SURF-011)', () => {
         columns: compact?.declarations.get('grid-template-columns'),
         side: compact?.declarations.get('--_ag-app-shell-side'),
         areas: compact?.declarations.get('grid-template-areas')?.replace(/\s+/g, ' '),
-      }).toEqual({ columns: 'minmax(0, 1fr)', side: '0rem', areas: "'skip' 'top' 'main' 'tabbar'" });
+      }).toEqual({ columns: 'minmax(0, 1fr)', side: '0px', areas: "'skip' 'top' 'main' 'tabbar'" });
       const medium = inCondition(CONDITIONS[1]!).find((r) =>
         selectorsOf(r).includes(".ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] > .ag-app-shell__frame"),
       );
@@ -220,7 +220,7 @@ describe('app-shell.css structure (SURF-011)', () => {
     expect(inspector?.declarations.get('container')).toBe('ag-inspector / inline-size');
     const field = rules.find((r) => r.selector === '.ag-inspector__field' && r.ancestors.length === 1);
     expect(field?.declarations.get('display')).toBe('grid');
-    expect(field?.declarations.get('grid-template-columns')).toBe('minmax(6rem, 40%) minmax(0, 1fr)');
+    expect(field?.declarations.get('grid-template-columns')).toBe('minmax(calc(var(--ag-space-4, 1rem) * 6), 40%) minmax(0, 1fr)');
     const stacked = rules.filter(
       (r) => r.selector === '.ag-inspector__field' && r.ancestors.includes('@container ag-inspector (width < 280px)'),
     );
@@ -485,13 +485,13 @@ describe('app-shell.css structure (SURF-011)', () => {
 });
 
 describe('app-shell.css workspace auto-grid (REQ-SURF-41)', () => {
-  it('flows content on repeat(auto-fit, minmax(min(100%, 28rem), 1fr)) exactly', () => {
+  it('auto-fits cards with a token-scaled 28rem default minimum capped at container width', () => {
     const grid = rules.filter((r) => r.selector === '.ag-app-shell__auto-grid');
     expect(grid).toHaveLength(1);
     expect(grid[0]!.ancestors).toEqual(['@layer ag.components']);
     expect(grid[0]!.declarations.get('display')).toBe('grid');
     expect(grid[0]!.declarations.get('grid-template-columns')).toBe(
-      'repeat(auto-fit, minmax(min(100%, 28rem), 1fr))',
+      'repeat(auto-fit, minmax(min(100%, calc(var(--ag-space-4, 1rem) * 28)), 1fr))',
     );
   });
 });

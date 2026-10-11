@@ -267,16 +267,19 @@ describe('main.ts (REQ-QUAL-56/-57)', () => {
 
   it('viteFinal: AG_STORYBOOK_DIST=1 installs the exports→dist resolver first and refuses src/@ aliases', async () => {
     const main = loadMain();
-    const viteFinal = main.viteFinal as (c: Record<string, unknown>, o: { configDir: string }) => Promise<Record<string, unknown>> | Record<string, unknown>;
+    const viteFinal = main.viteFinal;
+    if (!viteFinal) throw new Error('Storybook viteFinal is required');
+    // This hook reads configDir only; preserve its actual Vite signature.
+    const options = { configDir: SB } as Parameters<typeof viteFinal>[1];
     const prev = process.env.AG_STORYBOOK_DIST;
     try {
       process.env.AG_STORYBOOK_DIST = '1';
-      const out = await viteFinal({ plugins: [] }, { configDir: SB });
+      const out = await viteFinal({ plugins: [] }, options);
       expect((out.plugins as Array<{ name: string }>)[0]!.name).toBe('aura-glass:resolve');
       expect(out.define).toEqual({ __AG_STORYBOOK_DIST__: 'true' });
-      expect(() => viteFinal({ resolve: { alias: { '@': join(ROOT, 'src') } } }, { configDir: SB })).toThrow(/AG_STORYBOOK_DIST=1/);
+      expect(() => viteFinal({ resolve: { alias: { '@': join(ROOT, 'src') } } }, options)).toThrow(/AG_STORYBOOK_DIST=1/);
       delete process.env.AG_STORYBOOK_DIST;
-      const dev = await viteFinal({ plugins: [] }, { configDir: SB });
+      const dev = await viteFinal({ plugins: [] }, options);
       expect(dev.define).toEqual({ __AG_STORYBOOK_DIST__: 'false' });
     } finally {
       if (prev === undefined) delete process.env.AG_STORYBOOK_DIST; else process.env.AG_STORYBOOK_DIST = prev;

@@ -44,7 +44,7 @@ const at = (code: string, needle: string) => code.lastIndexOf(needle) + needle.l
 
 describe('type DX completions', () => {
   it('Button props complete to the 5.0 grammar (stub fixture)', () => {
-    const code = `interface ButtonProps { intent?: 'primary'|'secondary'|'ghost'|'danger'; prominent?: boolean; disabled?: boolean }\nconst p: ButtonProps = { int: 1, };`;
+    const code = `interface ButtonProps { intent?: 'neutral'|'info'|'success'|'warning'|'danger'; prominent?: boolean; disabled?: boolean }\nconst p: ButtonProps = { int: 1, };`;
     const ls = makeLS(code);
     const res = ls.getCompletionsAtPosition('x.ts', code.lastIndexOf('int') + 1, {});
     const names = (res?.entries ?? []).map((e) => e.name);
@@ -56,10 +56,10 @@ describe('type DX completions', () => {
   const run = it;
   run('Button variant/intent, Surface thickness, Dialog member, data named import — packed d.ts', () => {
     const code = [
-      `import { GlassButton, GlassSurface, GlassDialog } from 'aura-glass';`,
-      `const b: import('react').ComponentProps<typeof GlassButton> = { variant: 'X' };`,
-      `const s: import('react').ComponentProps<typeof GlassSurface> = { thickness: 'X' };`,
-      `const d: typeof GlassDialog = {};`,
+      `import { Button, Surface, Dialog } from 'aura-glass';`,
+      `const b: import('react').ComponentProps<typeof Button> = { variant: 'X' };`,
+      `const s: import('react').ComponentProps<typeof Surface> = { thickness: 'X' };`,
+      `const d: typeof Dialog = {};`,
     ].join('\n');
     const ls = makeLS(code, 'y.tsx');
     const variantAt = code.indexOf(`variant: 'X'`) + `variant: '`.length;

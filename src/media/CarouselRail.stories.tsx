@@ -45,14 +45,14 @@ export const AutoplayGated: Story = {
     </AuraGlassProvider>
   ),
 };
-/** Compositional parts: custom layout, Indicators as="buttons". */
+/** Compositional parts: custom layout, Indicators semantics="buttons". */
 export const Composed: Story = {
   render: () => (
     <CarouselRail.Root label="Composed" slides={SLIDES}>
       <CarouselRail.Viewport />
       <div style={{ display: 'flex', justifyContent: 'center', gap: 8 }}>
         <CarouselRail.Prev />
-        <CarouselRail.Indicators as="buttons" />
+        <CarouselRail.Indicators semantics="buttons" />
         <CarouselRail.Next />
       </div>
     </CarouselRail.Root>

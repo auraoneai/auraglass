@@ -52,14 +52,14 @@ describe('Rating REQ-CMP-123', () => {
     const items = [...container.querySelectorAll('[role="radio"]')];
     const tabs = items.filter((i) => i.getAttribute('tabindex') === '0');
     expect(tabs).toHaveLength(1);
-    expect(tabs[0].getAttribute('aria-checked')).toBe('true');
+    expect(tabs[0]?.getAttribute('aria-checked')).toBe('true');
   });
   it('each radio gets an ordinal aria-label; fractional checked item reads e.g. "3.5 of 5"', () => {
     const { container } = render(<Rating value={3.5} allowHalf />);
     const items = [...container.querySelectorAll('[role="radio"]')];
-    expect(items[0].getAttribute('aria-label')).toBe('1 of 5');
+    expect(items[0]?.getAttribute('aria-label')).toBe('1 of 5');
     const checked = items.filter((i) => i.getAttribute('aria-checked') === 'true');
-    expect(checked[checked.length - 1].getAttribute('aria-label')).toBe('3.5 of 5');
+    expect(checked[checked.length - 1]?.getAttribute('aria-label')).toBe('3.5 of 5');
   });
   it('arrow commit focuses the newly-checked item', () => {
     const { container } = render(<Rating defaultValue={2} />);

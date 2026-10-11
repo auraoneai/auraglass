@@ -17,7 +17,9 @@ describe('TextField IME composition (REQ-CMP-62)', () => {
     expect(spy).not.toHaveBeenCalled();
     fireEvent.compositionEnd(input);
     expect(spy).toHaveBeenCalledTimes(1); /* single flush with latest value */
-    expect(spy.mock.calls[0][0]).toBe('にほ');
+    const firstCall = spy.mock.calls[0];
+    if (!firstCall) throw new Error('Expected the composition-end callback');
+    expect(firstCall[0]).toBe('にほ');
     fireEvent.change(input, { target: { value: 'にほん' } });
     expect(spy).toHaveBeenCalledTimes(2); /* normal forwarding resumes */
   });

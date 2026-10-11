@@ -18,7 +18,7 @@
 // A subject missing from the index fails. A negative control proves the
 // nesting and radius probes catch a violation, so their [] is never vacuous.
 import { test, expect, type Page } from '@playwright/test';
-import { gotoStory } from '../../../helpers';
+import { gotoStory, listSubjects } from '../../../helpers';
 import {
   CHROME_MAX_BLUR_PX,
   coarseContext,

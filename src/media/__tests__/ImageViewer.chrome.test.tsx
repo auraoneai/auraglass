@@ -6,7 +6,7 @@ import * as React from 'react';
  * Toolbar/Caption, Inspector layout hook, sampling opt-out. The tone LRU is
  * replaced by a recorder so the test controls what the sampler "measured". */
 const mockSampled: string[] = [];
-jest.mock('../sampling/toneCache', () => ({
+jest.mock('../../backdrops/sampling/toneCache', () => ({
   getOrSampleTone: (el: HTMLImageElement, _region: unknown, apply: (t: 'light' | 'dark' | undefined, l: number | null) => void) => {
     mockSampled.push(el.getAttribute('src') ?? '');
     apply(el.getAttribute('src')?.includes('dark') ? 'dark' : 'light', 0.5);

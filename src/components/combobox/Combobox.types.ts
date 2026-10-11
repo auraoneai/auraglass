@@ -1,4 +1,4 @@
-import type { ReactNode, Ref } from 'react';
+import type { KeyboardEventHandler, ReactNode, Ref } from 'react';
 import type { ControlSize } from '../control-shared/size';
 import type { ControlMessages } from '../control-shared/messages';
 import type { ChangeDetails } from '../../contracts/components';
@@ -50,6 +50,7 @@ export interface ComboboxRootProps<Value = string> {
 }
 
 export interface ComboboxInputProps {
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement> | undefined;
   placeholder?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;

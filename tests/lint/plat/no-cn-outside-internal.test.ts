@@ -1,5 +1,6 @@
 /* @jest-environment node */
 // REQ-PLAT-26 / AC-FIN-33: `cn` lives only in src/internal/cn.ts.
+import { describe, expect, it } from '@jest/globals';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { Linter } from 'eslint';

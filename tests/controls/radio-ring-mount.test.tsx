@@ -18,7 +18,9 @@ describe('radio ring always mounted (REQ-CMP-55)', () => {
     for (const it of items) {
       expect(it.querySelector("[data-ag-part='indicator']")).not.toBeNull();
     }
-    expect(items[0].getAttribute('aria-checked')).toBe('false');
-    expect(items[1].getAttribute('aria-checked')).toBe('true');
+    const [uncheckedItem, checkedItem] = items;
+    if (!uncheckedItem || !checkedItem) throw new Error('Expected both radio items');
+    expect(uncheckedItem.getAttribute('aria-checked')).toBe('false');
+    expect(checkedItem.getAttribute('aria-checked')).toBe('true');
   });
 });

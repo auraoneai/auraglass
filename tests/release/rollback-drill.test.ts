@@ -76,7 +76,7 @@ const base = () => ({
   tool: { node: "v20.19.0", npm: "10.9.4" },
   steps: STEPS.map((id) => ({
     id,
-    scenario: id.split("-")[0].toUpperCase(),
+    scenario: id.slice(0, id.indexOf("-")).toUpperCase(),
     argv: ["npm", "x"],
     expectExit: id === "s2-guard-refuses" ? 1 : 0,
     exit: id === "s2-guard-refuses" ? 1 : 0,
@@ -229,7 +229,9 @@ describe("rollback-drill.mjs", () => {
 
   it("rejects npm unpublish anywhere in the drill", () => {
     const rec = base();
-    rec.steps[0].argv = ["npm", "unpublish", "@ag-drill/aura-glass@5.0.0"];
+    const firstStep = rec.steps[0];
+    if (!firstStep) throw new Error("Drill fixture must contain a step");
+    firstStep.argv = ["npm", "unpublish", "@ag-drill/aura-glass@5.0.0"];
     const r = verify(seal(rec));
     expect(r.code).toBe(1);
     expect(r.out).toContain("npm unpublish is never a rollback step");

@@ -135,9 +135,9 @@ type _plantOk = AssertNone<Hits<Planted<{
 
 // ---- the specific REQ-SURF-11 renames, at the props level --------------------
 // Sparkline / ProviderErrorState: `appearance`, never `variant`.
-const spark: SparklineProps = { data: [1, 2], appearance: 'bar' };
+const spark: SparklineProps = { data: [1, 2], appearance: 'bar', label: 'Trend' };
 // @ts-expect-error Sparkline 'variant' was renamed to 'appearance'
-const sparkVariant: SparklineProps = { data: [1, 2], variant: 'bar' };
+const sparkVariant: SparklineProps = { data: [1, 2], variant: 'bar', label: 'Trend' };
 const perr: ProviderErrorStateProps = { kind: 'network', appearance: 'compact' };
 // @ts-expect-error ProviderErrorState 'variant' was renamed to 'appearance'
 const perrVariant: ProviderErrorStateProps = { kind: 'network', variant: 'compact' };

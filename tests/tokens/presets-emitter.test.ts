@@ -43,7 +43,7 @@ const pair = (decls: Map<string, string>, v: string) => {
   return { light: m[1]!, dark: m[2]! };
 };
 
-afterEach(() => jest.restoreAllMocks());
+afterEach(() => { jest.restoreAllMocks(); });
 
 describe('preset emitter (MAT-14)', () => {
   test('dist token CSS has 0 data-ag-theme occurrences', () => {
@@ -127,7 +127,7 @@ describe('preset emitter (MAT-14)', () => {
       }
     }
     // the aura ladder is the :root ladder
-    const root = DIST_CSS[0][1];
+    const root = DIST_CSS[0]![1];
     for (const v of RADIUS_VARS) expect(root).toContain(`${v}: ${base.get(v)};`);
   });
 
@@ -161,8 +161,10 @@ describe('preset emitter (MAT-14)', () => {
     const o = presetOverrides('aura', records, resolved);
     for (const t of ['accent', 'border'] as const) {
       const sys = resolved.get(`sys.color.${t}`);
-      expect(colorToCss(o.colors[t].light)).toBe(colorToCss(sys.light));
-      expect(colorToCss(o.colors[t].dark)).toBe(colorToCss(sys.dark));
+      if (!sys || typeof sys !== 'object' || !('light' in sys) || !('dark' in sys))
+        throw new Error(`sys.color.${t} must contain light/dark colors`);
+      expect(colorToCss(o.colors[t].light)).toBe(colorToCss(sys.light as import('../../scripts/tokens/color.mjs').DtcgColorValue));
+      expect(colorToCss(o.colors[t].dark)).toBe(colorToCss(sys.dark as import('../../scripts/tokens/color.mjs').DtcgColorValue));
     }
   });
 

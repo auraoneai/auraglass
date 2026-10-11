@@ -254,12 +254,12 @@ describe('AC-FIN-07 with real overlays', () => {
             open={open}
             onOpenChange={(o, d) => { onOpenChange(o, d); setOpen(o); }}
           >
-            <Dialog.Portal><Dialog.Popup aria-label="dialog">dialog body</Dialog.Popup></Dialog.Portal>
+            <Dialog.Content backdrop={false} aria-label="dialog">dialog body</Dialog.Content>
           </Dialog.Root>
           <Tooltip.Provider>
             <Tooltip.Root open={false}>
               <Tooltip.Trigger>later</Tooltip.Trigger>
-              <Tooltip.Portal><Tooltip.Positioner><Tooltip.Popup>tip</Tooltip.Popup></Tooltip.Positioner></Tooltip.Portal>
+              <Tooltip.Content>tip</Tooltip.Content>
             </Tooltip.Root>
           </Tooltip.Provider>
         </>
@@ -281,15 +281,15 @@ describe('AC-FIN-07 with real overlays', () => {
     render(
       <AuraGlassProvider>
         <Dialog.Root defaultOpen modal={false}>
-          <Dialog.Portal><Dialog.Popup aria-label="d">d</Dialog.Popup></Dialog.Portal>
+          <Dialog.Content backdrop={false} aria-label="d">d</Dialog.Content>
         </Dialog.Root>
         <Popover.Root defaultOpen>
           <Popover.Trigger>p</Popover.Trigger>
-          <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="p">p</Popover.Popup></Popover.Positioner></Popover.Portal>
+          <Popover.Content aria-label="p">p</Popover.Content>
         </Popover.Root>
         <Menu.Root defaultOpen>
           <Menu.Trigger>m</Menu.Trigger>
-          <Menu.Portal><Menu.Positioner><Menu.Popup aria-label="m"><Menu.Item>x</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal>
+          <Menu.Content aria-label="m"><Menu.Item>x</Menu.Item></Menu.Content>
         </Menu.Root>
       </AuraGlassProvider>,
     );
@@ -310,11 +310,11 @@ describe('AC-FIN-07 with real overlays', () => {
           <button onClick={() => setOpen(true)}>open pop</button>
           <Popover.Root open={open} onOpenChange={setOpen}>
             <Popover.Trigger>p</Popover.Trigger>
-            <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="p">p</Popover.Popup></Popover.Positioner></Popover.Portal>
+            <Popover.Content aria-label="p">p</Popover.Content>
           </Popover.Root>
           {/* controlled open: the outside click must not close the dialog */}
           <Dialog.Root open modal={false}>
-            <Dialog.Portal><Dialog.Popup aria-label="d">d</Dialog.Popup></Dialog.Portal>
+            <Dialog.Content backdrop={false} aria-label="d">d</Dialog.Content>
           </Dialog.Root>
         </>
       );
@@ -333,7 +333,7 @@ describe('AC-FIN-07 with real overlays', () => {
       <AuraGlassProvider>
         <main data-testid="app">app</main>
         <Dialog.Root open>
-          <Dialog.Portal><Dialog.Popup aria-label="modal">m</Dialog.Popup></Dialog.Portal>
+          <Dialog.Content backdrop={false} aria-label="modal">m</Dialog.Content>
         </Dialog.Root>
       </AuraGlassProvider>,
     );

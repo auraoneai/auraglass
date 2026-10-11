@@ -95,12 +95,12 @@ describe('CarouselRail (REQ-SURF-146..150)', () => {
   });
 
   describe('REQ-SURF-146 composable parts', () => {
-    it('renders composed children: Viewport + Prev/Next + Indicators as="buttons"', () => {
+    it('renders composed children: Viewport + Prev/Next + Indicators semantics="buttons"', () => {
       const { container } = render(
         <CarouselRail.Root label="Composed" slides={slides(3)}>
           <CarouselRail.Viewport />
           <div className="toolbar"><CarouselRail.Prev /><CarouselRail.Next /></div>
-          <CarouselRail.Indicators as="buttons" />
+          <CarouselRail.Indicators semantics="buttons" />
         </CarouselRail.Root>,
       );
       expect(qa(container, 'carousel-slide')).toHaveLength(3);
@@ -114,11 +114,11 @@ describe('CarouselRail (REQ-SURF-146..150)', () => {
       // no autoplay toggle unless composed
       expect(q(container, 'carousel-autoplay-toggle')).toBeNull();
     });
-    it('Indicators `as` nested below Root children still sets the slide roles', () => {
+    it('Indicators `semantics` nested below Root children still sets the slide roles', () => {
       const { container } = render(
         <CarouselRail.Root label="Nested" slides={slides(2)}>
           <CarouselRail.Viewport />
-          <footer><CarouselRail.Indicators as="buttons" /></footer>
+          <footer><CarouselRail.Indicators semantics="buttons" /></footer>
         </CarouselRail.Root>,
       );
       expect(qa(container, 'carousel-slide').map((s) => s.getAttribute('role'))).toEqual(['group', 'group']);

@@ -103,7 +103,11 @@ test.describe('cmp motion contract (REQ-CMP-18)', () => {
             const durs = cs.transitionDuration.split(',').map((s) => parseFloat(s) || 0);
             const part = el.getAttribute('data-ag-part') ?? '';
             // CSS repeats the duration list to the property list's length
-            return props.map((property, i) => ({ part, property, durationS: durs[i % durs.length] }));
+            return props.map((property, i) => {
+              const durationS = durs[i % durs.length];
+              if (durationS === undefined) throw new Error(`Missing transition duration for ${part}.${property}`);
+              return { part, property, durationS };
+            });
           }),
         );
         expect(legs.length).toBeGreaterThan(0);

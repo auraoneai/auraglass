@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 
-jest.mock('../sampling/sampleOwnedPixels', () => {
-  const actual = jest.requireActual('../sampling/sampleOwnedPixels') as object;
+jest.mock('../../backdrops/sampling/sampleOwnedPixels', () => {
+  const actual = jest.requireActual('../../backdrops/sampling/sampleOwnedPixels') as object;
   return {
     ...actual,
     sampleOwnedPixels: jest.fn((el: HTMLImageElement) =>
@@ -11,8 +11,8 @@ jest.mock('../sampling/sampleOwnedPixels', () => {
   };
 });
 import { act, fireEvent, render } from '@testing-library/react';
-import { sampleOwnedPixels } from '../sampling/sampleOwnedPixels';
-import { clearToneCache } from '../sampling/toneCache';
+import { sampleOwnedPixels } from '../../backdrops/sampling/sampleOwnedPixels';
+import { clearToneCache } from '../../backdrops/sampling/toneCache';
 import { NowPlayingBar } from '../NowPlayingBar/NowPlayingBar';
 
 const flush = async () => { await act(async () => { await new Promise((r) => setTimeout(r, 20)); }); };

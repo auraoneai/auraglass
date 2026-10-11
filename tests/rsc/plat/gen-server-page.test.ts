@@ -7,14 +7,9 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-type Gen = {
-  importableSubpaths: (map: unknown, keys: string[]) => { safe: string[]; skipped: { subpath: string; reason: string }[] };
-  renderServerPage: (subpaths: string[]) => string;
-  main: (root: string) => number;
-  CANARIES: string[];
-};
+type Gen = typeof import('../../../scripts/ci/gen-server-page.mjs');
 let gen: Gen;
-beforeAll(async () => { gen = (await import('../../../scripts/ci/gen-server-page.mjs')) as unknown as Gen; });
+beforeAll(async () => { gen = await import('../../../scripts/ci/gen-server-page.mjs'); });
 
 const MAP = {
   entries: [

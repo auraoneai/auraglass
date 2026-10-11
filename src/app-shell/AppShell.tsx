@@ -9,12 +9,11 @@ import * as React from 'react';
 import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
 import { Sidebar } from './Sidebar';
-import { preferenceScopeAttributes } from '../material/stateAttributes';
 import { AppShellSidebarToggle } from './AppShell.SidebarToggle';
 import { AppShellInspectorToggle } from './AppShell.InspectorToggle';
 import { AppShellController } from './AppShell.Controller';
 import { parseAppShellCookie } from './parseAppShellCookie';
-import type { SidebarState, InspectorState, ShellMode } from './appShellStore';
+import type { SidebarState, InspectorState } from './appShellStore';
 
 export type AppShellRootProps = PartProps<'div'> & {
   defaultSidebar?: SidebarState | undefined;
@@ -24,10 +23,7 @@ export type AppShellRootProps = PartProps<'div'> & {
       `ag-app-shell` container queries resolve compact/medium/expanded/wide
       from the shell's own width (REQ-SURF-17); 'desktop'/'mobile' pin the
       wide/compact geometry (SURF-20). */
-  layout?: 'auto' | 'desktop' | 'mobile' | ShellMode | undefined;
-  collapseTo?: Exclude<SidebarState, 'expanded'> | undefined;
-  density?: 'compact' | 'regular' | 'comfortable' | undefined;
-  backdrop?: 'none' | 'page' | 'region' | undefined;
+  layout?: 'auto' | 'desktop' | 'mobile' | undefined;
   /** When set, sidebar/inspector persist to an `ag-shell-<key>` cookie. */
   persistKey?: string | undefined;
 };
@@ -37,9 +33,6 @@ function Root({
   defaultInspector = 'closed',
   sidebarSide = 'start',
   layout = 'auto',
-  collapseTo = 'rail',
-  density,
-  backdrop,
   persistKey,
   children,
   render,
@@ -101,9 +94,6 @@ function Root({
     'data-ag-inspector': defaultInspector,
     'data-ag-sidebar-side': sidebarSide,
     'data-ag-layout': layout,
-    'data-collapse-to': collapseTo,
-    ...preferenceScopeAttributes({ density: density === 'comfortable' ? 'spacious' : density }),
-    ...(backdrop ? { 'data-ag-backdrop': backdrop } : {}),
     ...(persistKey ? { 'data-persist-key': persistKey } : {}),
     ...rest,
   };

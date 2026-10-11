@@ -46,7 +46,7 @@ describe('REQ-CMP-51 frame coalescing', () => {
     expect(subCalls).toBe(1);
     frameCb!();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy.mock.calls[0][0]).toBe(9);
+    expect(spy).toHaveBeenNthCalledWith(1, 9, expect.objectContaining({ reason: 'pointer' }));
   });
 
   it('keyboard reasons forward synchronously', () => {
@@ -54,7 +54,7 @@ describe('REQ-CMP-51 frame coalescing', () => {
     render(<Slider.Root aria-label="x" onValueChange={spy} />);
     captured.change!(5, { reason: 'keyboard' });
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy.mock.calls[0][0]).toBe(5);
+    expect(spy).toHaveBeenNthCalledWith(1, 5, expect.objectContaining({ reason: 'keyboard' }));
   });
 
   it('pointerup flushes pending before one onValueCommitted', () => {
@@ -65,6 +65,6 @@ describe('REQ-CMP-51 frame coalescing', () => {
     captured.committed!(7, { reason: 'drag' });
     expect(changeSpy).toHaveBeenCalledTimes(1); /* flushed first */
     expect(commitSpy).toHaveBeenCalledTimes(1);
-    expect(changeSpy.mock.calls[0][0]).toBe(7);
+    expect(changeSpy).toHaveBeenNthCalledWith(1, 7, expect.objectContaining({ reason: 'pointer' }));
   });
 });

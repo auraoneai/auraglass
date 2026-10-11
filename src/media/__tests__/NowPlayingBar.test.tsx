@@ -6,12 +6,12 @@ import { getServerSnapshot } from '../mediaStore';
 
 describe('NowPlayingBar (REQ-SURF-139)', () => {
   it('Progress is role=progressbar, 0–100 int valuenow, no inline width', () => {
-    const handle = {
+    const handle: MediaHandle = {
       state: { ...getServerSnapshot(), paused: false, currentTime: 50, duration: 100 },
       toggle: () => {}, seek: () => {}, seekBy: () => {}, setVolume: () => {},
       setMuted: () => {}, setRate: () => {}, play: async () => {}, pause: () => {},
-      requestPictureInPicture: () => {}, requestFullscreen: () => {},
-    } as MediaHandle;
+      requestPictureInPicture: () => {}, requestFullscreen: () => {}, setTextTrackMode: () => {},
+    };
     const { container } = render(
       <NowPlayingBar.Root media={handle}>
         <NowPlayingBar.Progress />
@@ -95,12 +95,12 @@ describe('NowPlayingBar Root (REQ-SURF-139 remainder)', () => {
     // media length in seconds (a media time, not a motion duration)
     const state = { ...getServerSnapshot(), paused: false, currentTime: 30 };
     state.duration = 120;
-    const handle = {
+    const handle: MediaHandle = {
       state,
       toggle: () => {}, seek: () => {}, seekBy: () => {}, setVolume: () => {},
       setMuted: () => {}, setRate: () => {}, play: async () => {}, pause: () => {},
-      requestPictureInPicture: () => {}, requestFullscreen: () => {},
-    } as MediaHandle;
+      requestPictureInPicture: () => {}, requestFullscreen: () => {}, setTextTrackMode: () => {},
+    };
     const { container } = render(<NowPlayingBar.Root media={handle} />);
     const root = container.querySelector('[data-ag-part="now-playing"]') as HTMLElement;
     expect(root.style.getPropertyValue('--_ag-media-progress')).toBe('0.2500');

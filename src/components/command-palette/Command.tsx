@@ -307,7 +307,6 @@ export function CommandList({ children, render, ...rest }: PartProps<'div'>) {
         role="listbox"
         id={ctx.listId}
         pinnedIndexes={activeIndex >= 0 ? [activeIndex] : undefined}
-        data-ag-part="list"
         className="ag-command__list"
         renderItem={(spec, index) => (
           <VirtualCommandRow ctx={ctx} spec={spec} index={index} />

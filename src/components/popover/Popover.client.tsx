@@ -13,6 +13,7 @@ import { toOverlayReason, type OverlayKind } from '../overlays/_shared/overlayTy
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import type { OverlayMaterialOptions } from '../overlays/_shared/overlaySurface';
 import { cn } from '../../internal';
+import { Button } from '../button';
 import type {
   PopoverRootProps, PopoverTriggerProps, PopoverPortalProps,
   PopoverPositionerProps, PopoverPopupProps, PopoverArrowProps,
@@ -234,7 +235,7 @@ function PopoverDescription({ className, ref, ...rest }: PopoverDescriptionProps
 
 function PopoverClose({ className, children, ref, ...rest }: PopoverCloseProps & { ref?: React.Ref<HTMLButtonElement> | undefined }) {
     const trigger = rest.render === undefined ? childAsRender(children) : { render: rest.render, children };
-    return <Base.Close ref={ref} data-ag-part="close" className={cn('ag-popover-close', className)} {...rest} render={trigger.render}>{trigger.children}</Base.Close>;
+    return <Base.Close ref={ref} data-ag-part="close" className={cn('ag-popover-close', className)} {...rest} render={trigger.render ?? <Button size="sm" suppressInnerParts />}>{trigger.children}</Base.Close>;
 }
 
 function PopoverContent({ keepMounted, side, align, sideOffset, collisionPadding, anchor, children, ref, ...rest }: import('./Popover.types').PopoverContentProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {

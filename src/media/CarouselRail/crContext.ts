@@ -16,7 +16,7 @@ export interface CarouselRailContextValue {
   autoplayStopped: boolean;
   setAutoplayStopped(v: boolean): void;
   overMedia: boolean;
-  /** Resolved indicator variant (Indicators `as` wins over Root `indicatorsAs`). */
+  /** Resolved indicator variant (Indicators `semantics` wins over Root `indicatorsAs`). */
   indicatorsAs: CarouselRailIndicatorsAs;
   /** Lets an Indicators part nested below Root's direct children declare its variant. */
   registerIndicatorsAs(v: CarouselRailIndicatorsAs | undefined): void;

@@ -20,7 +20,7 @@ export function Kbd({
   ...rest
 }: KbdProps & { ref?: React.Ref<HTMLElement> | undefined }) {
   return (
-    <kbd {...rest} {...SUNKEN} ref={ref} data-ag-part="root" className={cn('ag-kbd', SUNKEN.className, className)}>
+    <kbd {...rest} {...SUNKEN} ref={ref} data-ag-part="root" className={cn('ag-kbd', className)}>
       {keys && keys.length > 0
         ? keys.map((key, i) => (
             <React.Fragment key={`${key}-${i}`}>

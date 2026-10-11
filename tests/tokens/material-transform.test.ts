@@ -65,7 +65,9 @@ describe('material transform (MAT-041)', () => {
     for (const row of rows) {
       expect(row.selector).toContain('[data-ag-surface]');
       expect(row.selector).toMatch(/::before$/);
-      expect(row.selector).toContain(':not([data-ag-tier="lightweight"], [data-ag-tier="lightweight"] *)');
+      // Formatting may wrap :not() arguments. Keep the descendant whitespace
+      // before `*` mandatory while permitting whitespace around punctuation.
+      expect(row.selector).toMatch(/:not\(\s*\[data-ag-tier="lightweight"\]\s*,\s*\[data-ag-tier="lightweight"\]\s+\*\s*\)/);
       expect(row.selector).not.toContain('[data-ag-variant="identity"]');
       expect(row.value).not.toContain('var(');
       expect(row.value).toMatch(/^blur\([\d.]+px\) saturate\([\d.]+\) brightness\([\d.]+\)$/);

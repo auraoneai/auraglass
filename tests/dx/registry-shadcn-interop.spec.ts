@@ -64,7 +64,7 @@ test.setTimeout(900_000);
 function staticServer(dir: string): Promise<{ server: Server; url: string }> {
   return new Promise((resolve) => {
     const server = createServer((req, res) => {
-      const p = normalize(join(dir, decodeURIComponent((req.url ?? '/').split('?')[0])));
+      const p = normalize(join(dir, decodeURIComponent((req.url ?? '/').split('?')[0] ?? '/')));
       const f = p.startsWith(dir) && existsSync(p) && (req.url === '/' ? join(dir, 'index.html') : p);
       const file = req.url === '/' ? join(dir, 'index.html') : (f && existsSync(f) ? f : null);
       if (!file || !existsSync(file)) { res.writeHead(404).end(); return; }
@@ -170,7 +170,7 @@ for (const block of BLOCKS) {
               /* material marker */
               const mp = materialPresence(await page.evaluate(() => {
                 const el = document.querySelector('[data-ag-material], [data-glass], .ag-glass, [class*="solid"]');
-                return { material: el?.getAttribute('data-ag-material'), glass: el?.getAttribute('data-glass'), classes: el?.className?.toString?.() };
+                return { material: el?.getAttribute('data-ag-material') ?? null, glass: el?.getAttribute('data-glass') ?? null, classes: el?.className?.toString() ?? '' };
               }), cap.material);
               test.info().annotations.push({ type: 'material', description: `${cap.material}: ${mp.detail}` });
 
@@ -304,4 +304,4 @@ for (const block of BLOCKS) {
   });
 }
 
-function pascal(s: string) { return s.split('-').map((p) => p[0].toUpperCase() + p.slice(1)).join(''); }
+function pascal(s: string) { return s.split('-').map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join(''); }

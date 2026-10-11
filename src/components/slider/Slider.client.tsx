@@ -47,7 +47,7 @@ function SliderRoot<V extends number | number[]>({
   };
   React.useEffect(() => () => { frameOff.current?.(); latest.current = null; }, []);
   const handleChange = (value: V, eventDetails: unknown) => {
-    const details = toChangeDetails(eventDetails, 'unknown');
+    const details = toChangeDetails(eventDetails);
     if (details.reason === 'pointer') {
       latest.current = { value, details };
       frameOff.current ??= subscribeFrame(flush);
@@ -62,7 +62,7 @@ function SliderRoot<V extends number | number[]>({
         data-ag-part="root"
       className={cn('ag-slider', className)}
       onValueChange={(v, details) => handleChange(v as V, details)}
-      onValueCommitted={(v, details) => { flush(); onValueCommitted?.(v as V, toChangeDetails(details, 'unknown')); }}
+      onValueCommitted={(v, details) => { flush(); onValueCommitted?.(v as V, toChangeDetails(details)); }}
       ref={ref}
       {...(format !== undefined ? { format } : {})}
       {...sizeAttrs(size)}

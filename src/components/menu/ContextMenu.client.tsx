@@ -14,7 +14,7 @@ import type {
   ContextMenuRootProps, ContextMenuTriggerProps, MenuPortalProps,
   MenuPositionerProps, MenuPopupProps, MenuContentProps, MenuItemProps, MenuGroupProps,
   MenuGroupLabelProps, MenuSeparatorProps, MenuCheckboxItemProps,
-  MenuRadioGroupProps, MenuRadioItemProps, MenuContentProps,
+  MenuRadioGroupProps, MenuRadioItemProps,
 } from './Menu.types';
 
 interface Ctx { open: boolean }
@@ -209,19 +209,6 @@ function ContextMenuRadioItem({ className, children, ref, ...rest }: MenuRadioIt
     );
   }
 
-function ContextMenuContent({ side, align, sideOffset, keepMounted, ref, ...popupProps }: MenuContentProps) {
-  return (
-    <ContextMenuPortal {...(keepMounted !== undefined ? { keepMounted } : {})}>
-      <ContextMenuPositioner
-        {...(side !== undefined ? { side } : {})}
-        {...(align !== undefined ? { align } : {})}
-        {...(sideOffset !== undefined ? { sideOffset } : {})}
-      >
-        <ContextMenuPopup {...(ref !== undefined ? { ref } : {})} {...popupProps} />
-      </ContextMenuPositioner>
-    </ContextMenuPortal>
-  );
-}
 
 export const ContextMenu = {
   Root: ContextMenuRoot,

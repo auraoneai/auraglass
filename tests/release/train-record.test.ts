@@ -1,6 +1,7 @@
 /* REQ-FIN-45 / REQ-PLAT-36 (FIN-C.3 C.3-15): train-record.mjs writes a
    train-checklist stop's `record` from the tag pipeline's own evidence and
    fails closed on every missing or contrary input. */
+import { describe, expect, it } from '@jest/globals';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';

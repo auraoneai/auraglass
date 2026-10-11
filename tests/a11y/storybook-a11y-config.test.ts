@@ -102,7 +102,7 @@ function loadPreview(): PreviewConfig {
 function storyFiles(): string[] {
   const main = fs.readFileSync(MAIN, 'utf8');
   const block = /stories:\s*\[([\s\S]*?)\]/.exec(main)?.[1] ?? '';
-  const globs = [...block.matchAll(/'([^']+)'/g)].map((m) => m[1]);
+  const globs = [...block.matchAll(/'([^']+)'/g)].map((m) => m[1]!);
   expect(globs.length).toBeGreaterThan(0);
   const roots = new Set<string>();
   for (const g of globs) {
@@ -240,7 +240,8 @@ describe('storybook a11y config (REQ-FIN-59 / REQ-QUAL-49..57)', () => {
       for (const pair of pairs.split(';')) {
         const m = /^([A-Za-z]+):([A-Za-z0-9-]+|\$\{[^}]+\})$/.exec(pair);
         if (!m) continue;
-        const [, name, value] = m;
+        const name = m[1]!;
+        const value = m[2]!;
         if (!strict && !FROZEN_GLOBALS[name] && !ARCHIVED.includes(name)) continue;
         const frozen = FROZEN_GLOBALS[name];
         if (!frozen) bad.push(`${rel(f)}: unknown global "${name}"`);
@@ -249,8 +250,8 @@ describe('storybook a11y config (REQ-FIN-59 / REQ-QUAL-49..57)', () => {
     };
     for (const f of files) {
       const text = fs.readFileSync(f, 'utf8');
-      for (const m of text.matchAll(/globals=([^&`'"\s]+)/g)) if (!m[1].startsWith('${')) check(f, m[1], true);
-      for (const m of text.matchAll(/['"]((?:[A-Za-z]+:[a-z0-9-]+;?)+)['"]/g)) check(f, m[1], false);
+      for (const m of text.matchAll(/globals=([^&`'"\s]+)/g)) if (!m[1]!.startsWith('${')) check(f, m[1]!, true);
+      for (const m of text.matchAll(/['"]((?:[A-Za-z]+:[a-z0-9-]+;?)+)['"]/g)) check(f, m[1]!, false);
     }
     expect(bad).toEqual([]);
   });

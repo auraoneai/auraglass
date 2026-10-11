@@ -32,7 +32,6 @@ const invariantsProject = (engine: 'chromium' | 'webkit' | 'firefox', device: (t
   timeout: 120_000,
   use: { ...device, baseURL: storybookUrl, ...extra },
 });
-const serve = streams || invariants || process.env.AG_L10_SERVE === '1';
 const reportName = process.env.AG_L10_REPORT ?? run;
 
 export default defineConfig({

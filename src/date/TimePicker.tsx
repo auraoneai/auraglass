@@ -130,7 +130,7 @@ function withParts(cur: TimeValue | null, hour: number, minute: number): TimeVal
 
 interface ColumnsProps {
   current: TimeValue | null;
-  set: (v: TimeValue | null) => void;
+  set: (v: TimeValue | null, details?: ReturnType<typeof raChangeDetails>) => void;
   minuteStep: 1 | 5 | 10 | 15 | 30;
   hourCycle: 12 | 24 | undefined;
   labels: TimePickerProps['labels'];

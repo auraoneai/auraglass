@@ -8,6 +8,7 @@ export const SEED_HEADER_RE: RegExp;
 export function resolveSpecifier(spec: string, fromFile: string): string | null;
 export function specifiersOf(file: string): string[];
 export function importClosure(entryFile: string, opts?: { within?: string }): Set<string>;
+export function serverClosure(entryFile: string, opts?: { within?: string }): Set<string>;
 export function fileIsSeed(file: string): boolean;
 export function closureSeedFiles(entryFile: string, root?: string): string[];
 export function closureHasSeed(entryFile: string): boolean;

@@ -8,7 +8,9 @@ export type IconNode = readonly [
   attrs: Record<string, string | number | boolean | undefined>,
 ];
 
-export interface IconProps extends React.SVGProps<SVGSVGElement> {
+// SVG's elevation belongs to light-source primitives; the Icon root follows
+// the component grammar and does not expose a material elevation escape hatch.
+export interface IconProps extends Omit<React.SVGProps<SVGSVGElement>, 'elevation'> {
   size?: string | number;
   absoluteStrokeWidth?: boolean;
   title?: string;

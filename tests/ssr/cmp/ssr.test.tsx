@@ -44,6 +44,11 @@ function pickStories(name: string): { file: string; name: string; element: React
 // index, generated ids land, tabindex/aria refs update. Compare markup modulo
 // those artifacts — anything else rewritten is a real SSR/hydration defect.
 const norm = (html: string) => html
+  // Base UI Avatar starts its image request after hydration. Only its loading
+  // marker may appear; keep the image/fallback content in the comparison.
+  .replace(/<span\b[^>]*>/g, (tag) => /\bclass="[^"]*\bag-avatar(?:\s|")/.test(tag)
+    ? tag.replace(/\sdata-loading(?:="")?/g, '')
+    : tag)
   // Tabs measures scroll geometry after hydration; SSR cannot know overflow.
   .replace(/\sdata-overflow-(start|end)="(true|false)"/g, '')
   // BU focus-guard spans + popup-position/base-ui internal attrs — client-only

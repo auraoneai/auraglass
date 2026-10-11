@@ -9,6 +9,7 @@ import { mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from '@jest/globals';
+import type { TsdocEntry, EntryCheckOptions } from '../../scripts/release/check-tsdoc-deprecated.mjs';
 import { checkEntry, checkReverse, declarations, parseTag } from '../../scripts/release/check-tsdoc-deprecated.mjs';
 
 const ENTRY = {
@@ -21,7 +22,7 @@ const GOOD = `/**
  */
 export function GlassThing() { return null; }
 `;
-const check = (e: Record<string, unknown>, src: string | null, opts: Record<string, unknown> = {}) =>
+const check = (e: TsdocEntry, src: string | null, opts: EntryCheckOptions = {}) =>
   checkEntry({ entry: e, readFile: () => src ?? '', findFiles: () => (src == null ? [] : ['src/compat/x.tsx']), ...opts });
 
 describe('checkEntry (exact form, attached JSDoc)', () => {

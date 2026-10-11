@@ -1,5 +1,6 @@
 /* REQ-PLAT-32: release-notes.mjs — fixed heading order, numbers traced to
    artifacts, commit subjects + changesets + change-class inputs. */
+import { describe, expect, it } from '@jest/globals';
 import { execFileSync } from 'node:child_process';
 import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -16,7 +17,7 @@ describe('release notes (REQ-PLAT-32)', () => {
     const out = EVAL(`console.log(m.renderNotes({ version: '9.9.9' }))`);
     const idx = ['## Breaking', '## Deprecated', '## Added', '## Fixed', '## Visual bug fixes', '## Security']
       .map((h) => out.indexOf(h));
-    expect(idx.every((v, i) => v >= 0 && (i === 0 || v > idx[i - 1]))).toBe(true);
+    expect(idx.every((v, i) => v >= 0 && (i === 0 || v > (idx[i - 1] ?? -1)))).toBe(true);
   });
   it('change-class visual fixes land under Visual bug fixes', () => {
     const out = EVAL(`console.log(m.renderNotes({ version: '9.9.9',

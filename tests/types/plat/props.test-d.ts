@@ -1,10 +1,9 @@
 /** REQ-PLAT-93 props grammar against the packed 5.0 d.ts (extracted by setup-extract.mjs). */
 import type { ComponentProps } from 'react';
-import { GlassButton, GlassSurface, GlassDialog } from 'aura-glass';
+import { Button, Surface } from 'aura-glass';
 
-type ButtonProps = ComponentProps<typeof GlassButton>;
-type SurfaceProps = ComponentProps<typeof GlassSurface>;
-type DialogProps = ComponentProps<typeof GlassDialog>;
+type ButtonProps = ComponentProps<typeof Button>;
+type SurfaceProps = ComponentProps<typeof Surface>;
 
 /* variant is exactly 'regular' | 'clear' | 'identity' | undefined */
 const _v: ButtonProps['variant'] = 'regular';
@@ -14,8 +13,12 @@ const _vBad: ButtonProps['variant'] = 'primary';
 // @ts-expect-error
 const _vBad2: SurfaceProps['variant'] = 'solid';
 /* intent equals Button meta.variants.intent set */
-const _i: ButtonProps['intent'] = 'primary';
-const _i2: ButtonProps['intent'] = 'ghost';
+const _i: ButtonProps['intent'] = 'neutral';
+const _i2: ButtonProps['intent'] = 'danger';
+// @ts-expect-error primary is legacy appearance, not a semantic intent
+const _legacyIntent: ButtonProps['intent'] = 'primary';
+// @ts-expect-error ghost is legacy appearance, not a semantic intent
+const _legacyGhost: ButtonProps['intent'] = 'ghost';
 // @ts-expect-error
 const _iBad: ButtonProps['intent'] = 'solid';
 /* prominent is boolean | undefined */
