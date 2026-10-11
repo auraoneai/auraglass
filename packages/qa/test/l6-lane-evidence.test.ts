@@ -54,12 +54,18 @@ describe('readCaptureEvidence', () => {
   });
 });
 
-test('L6 environment-visual is registered once at pr, so it runs at every scope, remote and fail-closed', async () => {
+test('L6 environment-visual, preference-modes and console are registered once at pr, so they run at every scope, remote and fail-closed', async () => {
   const root = join(__dirname, '../../..');
   const { rows } = await loadRegistrations(root);
+  // G-13 adds preference-modes (REQ-QUAL-16) and console (REQ-QUAL-17) next to the capture driver
+  const specs = ['environment-visual', 'preference-modes', 'console'];
   for (const scope of ['pr', 'main', 'nightly', 'release'] as const) {
     const l6 = selectRows(rows, 'L6', scope).filter((r) => r.stream === 'qual');
-    expect(l6).toHaveLength(1);
-    expect(l6[0]).toMatchObject({ lane: 'L6', kind: 'playwright', path: 'certification/lanes/environment-visual.spec.ts', scope: 'pr', remote: true, failClosed: true });
+    expect(l6).toHaveLength(specs.length);
+    for (const spec of specs) {
+      const mine = l6.filter((x) => x.path === `certification/lanes/${spec}.spec.ts`);
+      expect(mine).toHaveLength(1);
+      expect(mine[0]).toMatchObject({ lane: 'L6', kind: 'playwright', scope: 'pr', remote: true, failClosed: true });
+    }
   }
 });

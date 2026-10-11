@@ -11,6 +11,6 @@ export const LoadingStateMeta = defineMeta({
   variants: {},
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 1.5,
+  budgetKb: 1500 / 1024,
   migration: [{ from: 'GlassLoadingState', props: {}, selectors: { '.glass-loading-state': '.ag-loading-state' },  automation: 'full', compat: true }],
 });

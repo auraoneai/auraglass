@@ -35,7 +35,7 @@ describe('ButtonGroup', () => {
       </ButtonGroup>,
     );
     expect(html).toContain('ag-button-group--attached');
-    expect(html).not.toContain('data-ag-attached');
+    expect(html).not.toContain('data-attached');
     expect(html).toContain('data-orientation="horizontal"');
     /* flat: root's parent chain has no surface-group element */
     expect(html).not.toContain('data-ag-group');
