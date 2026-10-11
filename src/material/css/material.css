@@ -23,8 +23,9 @@
     box-shadow: var(--_ag-surface-shadow, none);
 
     /* private scalars (registered with inherits:false in properties.css) */
-    --_ag-blur: 0px;
-    --_ag-saturation: 1;
+    /* read the material ladder (generated/ladders.css writes --_ag-mat-*) */
+    --_ag-blur: var(--_ag-mat-blur, 0px);
+    --_ag-saturation: var(--_ag-mat-saturation, 1);
     --_ag-brightness: 1;
     /* state lift on top of the emitted floor row; reset on every host so a
        nested surface never inherits its parent's hover/press lift. A custom
@@ -39,8 +40,8 @@
     --_ag-dim: 0;
     --_ag-surface-alpha: 1;
     --_ag-refraction-scale: 0;
-    --_ag-rim-width: 1px;
-    --_ag-grain-opacity: 0.03;
+    --_ag-rim-width: var(--_ag-mat-rim, 1px);
+    --_ag-grain-opacity: var(--_ag-mat-grain, 0.03);
     --_ag-optics: 1;
     --_ag-press: 0;
     --_ag-inner-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) calc(l - 0.02) c h);
@@ -50,7 +51,7 @@
     --_ag-canvas-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h / var(--_ag-alpha));
     --_ag-fill: var(--_ag-canvas-fill);
     --_ag-alpha: min(1, max(var(--_ag-tint-floor), calc(var(--_ag-tint-floor) + (1 - var(--_ag-tint-floor)) * var(--ag-glass-opacity, 0))));
-    --_ag-shadow: var(--ag-shadow-regular, none);
+    --_ag-shadow: var(--_ag-mat-shadow, var(--ag-shadow-regular, none));
     --_ag-rim-light: oklch(1 0 0 / 0.5);
     --_ag-rim-shade: oklch(0% 0 0 / 0.12);
 
