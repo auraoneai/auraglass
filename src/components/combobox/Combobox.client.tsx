@@ -258,6 +258,7 @@ function ComboboxRoot<Value = string>({
         {...(itemToString ? { itemToStringLabel: toStringLabel } : {})}
         {...(itemToValue ? { itemToStringValue: itemToValue as (v: unknown) => string } : {})}
         autoHighlight={rest.autoHighlight ?? true}
+        {...(virtual ? { virtualized: true } : {})}
         onValueChange={handleValueChange}
         onInputValueChange={handleInputValueChange}
         onOpenChange={(o, d) => onOpenChange?.(o, toChangeDetails(d))}
