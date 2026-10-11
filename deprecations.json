@@ -2555,6 +2555,36 @@
       "doc": "#dep-dep-c0309"
     },
     {
+      "id": "DEP-S0027",
+      "kind": "export",
+      "status": "planned",
+      "entry": ".",
+      "symbol": "EnhancedGlassTabs",
+      "since": "4.3.0",
+      "removeIn": "5.0.0",
+      "replacement": "Tabs from aura-glass",
+      "codemod": "canonical-names",
+      "automation": "mostly",
+      "breaking": "B4",
+      "message": "EnhancedGlassTabs is removed in 5.0; use Tabs with Tabs.List/Tabs.Tab/Tabs.Panel/Tabs.Indicator.",
+      "doc": "#dep-s0027"
+    },
+    {
+      "id": "DEP-S0028",
+      "kind": "export",
+      "status": "planned",
+      "entry": ".",
+      "symbol": "GlassTabItem",
+      "since": "4.3.0",
+      "removeIn": "5.0.0",
+      "replacement": "Tabs.Tab from aura-glass",
+      "codemod": "canonical-names",
+      "automation": "mostly",
+      "breaking": "B4",
+      "message": "GlassTabItem is removed in 5.0; use Tabs.Tab inside Tabs.List.",
+      "doc": "#dep-s0028"
+    },
+    {
       "id": "DEP-S0600",
       "kind": "export",
       "status": "planned",
@@ -3062,6 +3092,54 @@
       "breaking": "B3",
       "message": "useLiquidGlassBackdrop is removed in 5.0; Backdrop + useMediaElement({ sampleTone: true }).",
       "doc": "#dep-s0632"
+    },
+    {
+      "id": "DEP-S0633",
+      "kind": "export",
+      "status": "planned",
+      "entry": ".",
+      "symbol": "GlassNavigation",
+      "since": "4.3.0",
+      "removeIn": "6.0.0",
+      "replacement": "Sidebar + Sidebar.Nav from aura-glass/app-shell",
+      "codemod": "app-shell-slots",
+      "automation": "partial",
+      "breaking": "B4",
+      "message": "GlassNavigation is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to Sidebar + Sidebar.Nav from aura-glass/app-shell.",
+      "doc": "#dep-s0633",
+      "compat": "GlassNavigation"
+    },
+    {
+      "id": "DEP-S0634",
+      "kind": "export",
+      "status": "planned",
+      "entry": ".",
+      "symbol": "GlassTopBar",
+      "since": "4.3.0",
+      "removeIn": "6.0.0",
+      "replacement": "TopBar.Root from aura-glass/app-shell",
+      "codemod": "app-shell-slots",
+      "automation": "partial",
+      "breaking": "B4",
+      "message": "GlassTopBar is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to TopBar.Root from aura-glass/app-shell.",
+      "doc": "#dep-s0634",
+      "compat": "GlassTopBar"
+    },
+    {
+      "id": "DEP-S0635",
+      "kind": "export",
+      "status": "planned",
+      "entry": ".",
+      "symbol": "GlassHeader",
+      "since": "4.3.0",
+      "removeIn": "6.0.0",
+      "replacement": "TopBar.Root from aura-glass/app-shell",
+      "codemod": "app-shell-slots",
+      "automation": "partial",
+      "breaking": "B4",
+      "message": "GlassHeader is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to TopBar.Root from aura-glass/app-shell.",
+      "doc": "#dep-s0635",
+      "compat": "GlassHeader"
     }
   ]
 }
