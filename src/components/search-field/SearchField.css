@@ -73,3 +73,12 @@
     opacity: var(--ag-state-disabled-alpha);
   }
 }
+
+/* REQ-CMP-63: capsule shell; inside a surface group the ::before overlay drops
+   its backdrop-filter (MAT group semantics — the parent surface filters). */
+.ag-search-field [data-ag-part='control-shell'] {
+  border-radius: var(--ag-radius-full);
+}
+[data-ag-surface-group] .ag-search-field [data-ag-part='control-shell']::before {
+  backdrop-filter: none;
+}
