@@ -45,10 +45,26 @@ describe('plat:test:pack-matrix', () => {
     expect(yaml.stringify(j.rules)).toContain('$AG_LINE == "4x"');
     expect(j.timeout).toBe('45 minutes');
   });
-  it('runs prepublishOnly equivalent + npm publish --dry-run', () => {
-    const s = yaml.stringify(j.script);
-    expect(s).toContain('prepublishOnly');
-    expect(s).toContain('npm publish --dry-run');
+  it('runs the build + verify steps explicitly, then npm publish --dry-run --ignore-scripts (PLAT-05 item 2)', () => {
+    const lines: string[] = j.script;
+    const s = lines.join('\n');
+    // prepublishOnly starts with require-ci-publish.js, which exits 1 outside plat:publish:npm.
+    expect(s).not.toContain('prepublishOnly');
+    expect(s).not.toContain('require-ci-publish');
+    const idx = (needle: string) => lines.findIndex((l) => l.includes(needle));
+    const build = lines.indexOf('npm run build');
+    const verify = idx('for s in verify:pack verify:css-vars');
+    const prepack = idx('npm run prepack');
+    const publish = lines.indexOf('npm publish --dry-run --ignore-scripts');
+    expect(build).toBeGreaterThanOrEqual(0);
+    expect(verify).toBeGreaterThan(build);
+    expect(prepack).toBeGreaterThan(verify);
+    expect(publish).toBeGreaterThan(prepack);
+    expect(publish).toBe(lines.length - 1);
+    // every publish line is the lifecycle-free dry run
+    expect(lines.filter((l) => /npm publish/.test(l))).toEqual(['npm publish --dry-run --ignore-scripts']);
+    // a missing verify script fails closed
+    expect(lines[verify]).toMatch(/\{ echo "PENDING: npm script \$s \(lane 1b\)"; exit 1; \}/);
   });
 });
 
@@ -205,6 +221,116 @@ describe('FIN-B.2 direct-push rule fixes', () => {
       out = `${e.stdout ?? ''}${e.stderr ?? ''}`;
     }
     expect(out.split('\n').filter((l) => l.startsWith('ci/plat.gitlab-ci.yml:'))).toEqual([]);
+  });
+});
+
+// B3-5 (REQ-FIN-22; REQ-PLAT-05 items 2, 3, 6, 10, 11; REQ-PLAT-34 item 5).
+describe('REQ-PLAT-05 defects (B3-5)', () => {
+  const raw = readFileSync('ci/plat.gitlab-ci.yml', 'utf8');
+  const scriptText = (n: string) => ([] as string[]).concat(job(n).script ?? []).join('\n');
+
+  it('has no `|| echo` / `|| true` fail-open anywhere in the fragment (item 6)', () => {
+    const hits = raw.split('\n').map((l, i) => [i + 1, l] as const).filter(([, l]) => /\|\| *(echo|true)/.test(l));
+    expect(hits).toEqual([]);
+    expect(raw).not.toMatch(/2>\/dev\/null/);
+  });
+
+  it('every PENDING guard fails closed (`{ echo "PENDING: …"; exit 1; }` or an else-branch exit 1)', () => {
+    for (const [k, v] of Object.entries(doc)) {
+      if (k.startsWith('.') || typeof v !== 'object' || v === null || !Array.isArray((v as any).script)) continue;
+      for (const line of (v as any).script as string[]) {
+        const rows = line.split('\n');
+        rows.forEach((row, i) => {
+          const m = row.match(/echo "PENDING:[^"]*"(.*)$/);
+          if (!m) return;
+          const after = `${m[1] ?? ''}\n${rows[i + 1] ?? ''}`;
+          const closed =
+            /^\s*;\s*exit 1\b/.test(after) ||
+            /^\s*\n\s*exit 1\b/.test(after) ||
+            (/^\s*;\s*ok=0\b/.test(after) && line.includes('[ "$ok" = 1 ] || exit 1'));
+          expect([k, row.trim(), closed]).toEqual([k, row.trim(), true]);
+        });
+      }
+    }
+  });
+
+  // Item 3 on 4.x: the removal gate is a 5x-only job (its scripts/removal/*
+  // producers live on `next`, where the B3-5 test asserts they exist on disk).
+  // On this line the job must never be scheduled, so a 4.x pipeline cannot
+  // reach the PENDING branch; the paths stay the canonical `next` paths.
+  it('plat:gate:removal runs only on the 5x line and names the canonical scripts/removal paths (item 3, 4.x)', () => {
+    const j = job('plat:gate:removal');
+    expect(j.rules.length).toBeGreaterThan(0);
+    for (const r of j.rules) {
+      expect(String(r.if)).toMatch(/^\$AG_LINE == "5x" && /);
+      expect(String(r.if)).not.toContain('"4x"');
+    }
+    const paths = [...scriptText('plat:gate:removal').matchAll(/scripts\/[\w/.-]+\.mjs/g)].map((m) => m[0]);
+    expect(new Set(paths)).toEqual(
+      new Set([
+        'scripts/removal/gen-component-dispositions.mjs',
+        'scripts/removal/consumer-grep.mjs',
+        'scripts/removal/revert-dry-run.mjs',
+      ]),
+    );
+  });
+
+  it('4x plat:package:pack runs verify:pack unguarded after a fail-closed presence check (item 6)', () => {
+    const s = scriptText('plat:package:pack');
+    const fourX = s.slice(s.indexOf('if [ "$AG_LINE" = "4x" ]; then\n  # A missing script'), s.indexOf('else\n  node -e'));
+    expect(fourX).toMatch(/\|\| \{ echo "verify:pack missing on 4x"; exit 1; \}\n\s*npm run verify:pack\s*$/);
+    expect(fourX).not.toMatch(/&&\s*npm run verify:pack/);
+  });
+
+  // PLAT-39 item 3: on a v4 tag pipeline (AG_SCOPE=release, AG_LINE=4x on the
+  // release SHA) glass-quality cannot fail open and runs the full jest suite
+  // and lint:check.
+  it('4x plat:gate:glass-quality is allow_failure:false on tags and runs npx jest --ci + npm run lint:check (PLAT-39 item 3)', () => {
+    const j = job('plat:gate:glass-quality');
+    expect(j.rules[0]).toEqual({ if: '$CI_COMMIT_TAG', allow_failure: false });
+    expect(j.rules.some((r: any) => /\$AG_SCOPE == "release"/.test(r.if))).toBe(true);
+    for (const r of j.rules) expect(r.when).toBeUndefined(); // never manual
+    const lines: string[] = j.script;
+    const block = lines.find((l) => l.startsWith('if [ "$AG_LINE" = "4x" ]; then'));
+    expect(block).toBeDefined();
+    const fourX = block!.slice(0, block!.indexOf('\nelse\n'));
+    const rows = fourX.split('\n').map((l) => l.trim());
+    expect(rows).toContain('npm run lint:check');
+    expect(rows).toContain('npx jest --ci');
+    expect(fourX).not.toMatch(/--passWithNoTests|--testPathIgnorePatterns|\|\|/);
+    const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+    expect(pkg.scripts['lint:check']).toBeDefined();
+  });
+
+  it('plat:package:pack fails closed when no aura-glass tarball was packed', () => {
+    const s = scriptText('plat:package:pack');
+    expect(s).toContain('TARBALL=$(ls .artifacts/pack/aura-glass-*.tgz | head -1)');
+    expect(s).toMatch(/if \[ -z "\$TARBALL" \]; then echo "[^"]+"; exit 1; fi/);
+    expect(s).toContain('echo "AURAGLASS_TARBALL=$TARBALL" > .artifacts/plat/pack.env');
+  });
+
+  it('plat:release:verify-dist-tags is manual on every scope and runs after publish (item 10)', () => {
+    const j = job('plat:release:verify-dist-tags');
+    const scopes = j.rules.flatMap((r: any) => [...String(r.if).matchAll(/\$AG_SCOPE == "(\w+)"/g)].map((m) => m[1]));
+    expect(new Set(scopes)).toEqual(new Set(['release', 'main', 'pr', 'nightly']));
+    for (const r of j.rules) expect(r.when).toBe('manual');
+    expect(j.rules.find((r: any) => /release/.test(r.if)).allow_failure).toBe(false);
+    expect(j.needs).toEqual([{ job: 'plat:publish:npm', optional: true }]);
+  });
+
+  it('plat:release:verify-dist-tags writes dist-tags.json from the registry, then checks policy and release comms (item 10, PLAT-34)', () => {
+    const lines: string[] = job('plat:release:verify-dist-tags').script;
+    const view = lines.indexOf('npm view aura-glass dist-tags --json > ".artifacts/plat/$CI_JOB_NAME_SLUG/dist-tags.json"');
+    const policy = lines.findIndex((l) => l.startsWith('node scripts/release/dist-tag.mjs --check'));
+    const comms = lines.findIndex((l) => l.includes('node scripts/release/verify-release-comms.mjs --dist-tags'));
+    expect(view).toBeGreaterThanOrEqual(0);
+    expect(policy).toBeGreaterThan(view);
+    expect(comms).toBeGreaterThan(policy);
+    // the release-comms exit code is preserved, its log kept in the job dir
+    expect(lines[comms]).toContain('> ".artifacts/plat/$CI_JOB_NAME_SLUG/release-comms.log" 2>&1 || rc=$?');
+    expect(lines[comms]).toMatch(/exit "\$rc"\s*$/);
+    expect(existsSync('scripts/release/verify-release-comms.mjs')).toBe(true);
+    expect(existsSync('scripts/release/dist-tag.mjs')).toBe(true);
   });
 });
 
