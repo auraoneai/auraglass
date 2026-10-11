@@ -174,7 +174,7 @@ describe('SURF registry lint (REQ-SURF-170)', () => {
     const r = run(root);
     expectRule(r, 'schema-viewer', 'npm-deps', /dayjs/);
     expectRule(r, 'presence-stack', 's46', /owner "PLAT"/);
-    expectRule(r, 'presence-stack', 'meta-components', /AvatarGroup/);
+    expectRule(r, 'presence-stack', 'meta-components', /VisuallyHidden/);
   });
 
   it('fails on non-deterministic fixtures and on a missing fixtures.ts', () => {

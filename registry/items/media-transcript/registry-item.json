@@ -3,7 +3,7 @@
   "name": "media-transcript",
   "type": "registry:item",
   "title": "Media transcript",
-  "description": "Cue list (<ol>) with aria-current on the active cue and click-to-seek via a MediaHandle; static without one.",
+  "description": "Cue list (<ol>) from cues or a TextTrack: aria-current on the active cue, click-to-seek via a MediaHandle, active cue scrolled into view only at full motion while not hovered/focused.",
   "dependencies": [
     "react",
     "aura-glass"

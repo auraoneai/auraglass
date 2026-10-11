@@ -3,9 +3,10 @@
   "name": "audit-log",
   "type": "registry:block",
   "title": "Audit log",
-  "description": "Server-paginated audit Table + FilterBar + DateRangePicker window (5.2).",
+  "description": "Server-paginated audit Table (filter then slice per page) with Pagination, FilterBar and DateRangePicker; filters move into a Sheet at <=390 px.",
   "dependencies": [
-    "react"
+    "react",
+    "aura-glass"
   ],
   "registryDependencies": [
     "auraglass"
@@ -22,6 +23,10 @@
     {
       "path": "AuditLogPage.tsx",
       "type": "registry:component"
+    },
+    {
+      "path": "audit-query.ts",
+      "type": "registry:lib"
     }
   ],
   "meta": {
@@ -32,6 +37,8 @@
       "components": [
         "DateRangePicker",
         "FilterBar",
+        "Pagination",
+        "Sheet",
         "Table"
       ],
       "ga": false,

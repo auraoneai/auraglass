@@ -3,9 +3,10 @@
   "name": "presence-stack",
   "type": "registry:item",
   "title": "Presence stack",
-  "description": "Avatar stack with deterministic per-id colours and +N overflow — data by props.",
+  "description": "List of present users (names as text) with id-hashed palette colours, +N overflow and a 3-avatar clamp below 390 px of container width.",
   "dependencies": [
-    "react"
+    "react",
+    "aura-glass"
   ],
   "registryDependencies": [
     "auraglass"
@@ -22,6 +23,10 @@
     {
       "path": "PresenceStack.tsx",
       "type": "registry:component"
+    },
+    {
+      "path": "presence-stack.css",
+      "type": "registry:style"
     }
   ],
   "meta": {
@@ -31,7 +36,7 @@
       "client": false,
       "components": [
         "Avatar",
-        "AvatarGroup"
+        "VisuallyHidden"
       ],
       "ga": true,
       "minVersion": "5.0.0"

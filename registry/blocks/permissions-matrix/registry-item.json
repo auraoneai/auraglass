@@ -3,9 +3,10 @@
   "name": "permissions-matrix",
   "type": "registry:block",
   "title": "Permissions matrix",
-  "description": "Roles x permissions Table with labelled Checkbox cells (5.2).",
+  "description": "Roles x permissions Table: permission row headers with rendered descriptions, role column headers, checkboxes named '{role} {permission}' and described by the permission.",
   "dependencies": [
-    "react"
+    "react",
+    "aura-glass"
   ],
   "registryDependencies": [
     "auraglass"

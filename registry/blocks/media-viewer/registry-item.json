@@ -3,7 +3,7 @@
   "name": "media-viewer",
   "type": "registry:block",
   "title": "Media viewer",
-  "description": "Media detail page: Backdrop photo + consumer-owned <video> with captions, compound MediaControls and a NowPlayingBar on the same media handle, ImageViewer gallery and CarouselRail — tone sampled from owned pixels.",
+  "description": "Media detail page: Backdrop photo + consumer-owned <video> with captions, compound MediaControls and a NowPlayingBar on the same media handle, ImageViewer gallery and CarouselRail \u2014 tone sampled from owned pixels.",
   "dependencies": [
     "react",
     "aura-glass"

@@ -3,9 +3,10 @@
   "name": "faceted-search",
   "type": "registry:item",
   "title": "Faceted search",
-  "description": "FilterBar facet panel + result list.",
+  "description": "FilterBar facet panel (enum facets as quick filters) + search; results derived from the filter model, count announced.",
   "dependencies": [
-    "react"
+    "react",
+    "aura-glass"
   ],
   "registryDependencies": [
     "auraglass"

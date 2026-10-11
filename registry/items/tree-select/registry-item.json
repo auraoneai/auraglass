@@ -3,9 +3,10 @@
   "name": "tree-select",
   "type": "registry:item",
   "title": "Tree select",
-  "description": "Hierarchical single-select — trigger + TreeView popup.",
+  "description": "Hierarchical single-select — CMP Select trigger + TreeView inside the Select popup.",
   "dependencies": [
-    "react"
+    "react",
+    "aura-glass"
   ],
   "registryDependencies": [
     "auraglass"
@@ -26,6 +27,7 @@
       "surface": "item",
       "client": true,
       "components": [
+        "Select",
         "TreeView"
       ],
       "ga": true,
