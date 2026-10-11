@@ -1,6 +1,7 @@
 /* MAT-136 — Surface. Emits materialProps() attributes; no `as`, no deleted
    optical props (types.ts never-markers make them compile errors). Dev warnings
-   run from the ref callback — no 'use client' directive. */
+   run from the ref callback — no 'use client' directive. REQ-MAT-24: `style`
+   is forwarded only when passed; refs are React 19 ref-as-prop (RefObject). */
 import * as React from 'react';
 import { cn } from '../internal';
 import type { SurfaceProps } from './types';
@@ -13,7 +14,7 @@ const composeRef = (
 ): ((node: HTMLElement | null) => void) => (node) => {
   b(node);
   if (typeof a === 'function') return a(node) as void;
-  if (a && typeof a === 'object') (a as React.MutableRefObject<HTMLElement | null>).current = node;
+  if (a && typeof a === 'object') (a as React.RefObject<HTMLElement | null>).current = node;
   return undefined;
 };
 
@@ -48,7 +49,9 @@ export function Surface({ render, className, style, ref, ...rest }: SurfaceProps
     ...attrs,
     ...domProps,          // consumer wins for non-data-ag-* attributes
     className: cls,
-    style,                // by reference — never merged or rewritten
+    // by reference — never merged or rewritten; the key is added only when the
+    // consumer passed `style`, so cloneElement keeps a render element's own style
+    ...(style !== undefined ? { style } : {}),
     ref: finalRef,
   };
   // data-ag-* attributes are authoritative: re-apply over any consumer spread
