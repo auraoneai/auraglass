@@ -10,13 +10,42 @@
 .plat-playwright:
   extends: .ag-playwright
 
+# Evidence mixins (REQ-PLAT-51 / REQ-FIN-22, contract §4.13.2 EVIDENCE.jobDir).
+# Every PLAT job lists exactly one of these after its runner template, so its
+# evidence lives only under .artifacts/plat/$CI_JOB_NAME_SLUG/ (plus the fixed
+# producer paths of §4.13.2, listed per job). expire_in follows the longest
+# scope the job's rules run on: release 90d > nightly 30d > pr/main 14d (a job
+# cannot vary expire_in per pipeline). AURAGLASS_EVIDENCE_DIR points scripts
+# that honour it at the job dir. after_script copies top-level files that
+# scripts still write to the flat .artifacts/plat/ into the job dir, so their
+# evidence is uploaded until each producer writes to $AURAGLASS_EVIDENCE_DIR.
+.plat-evidence-pr:
+  variables: { AURAGLASS_EVIDENCE_DIR: ".artifacts/plat/$CI_JOB_NAME_SLUG" }
+  after_script:
+    - 'd=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done'
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/"]
+
+.plat-evidence-nightly:
+  extends: .plat-evidence-pr
+  artifacts:
+    expire_in: 30 days
+
+.plat-evidence-release:
+  extends: [.ag-evidence-release, .plat-evidence-pr]
+  artifacts:
+    expire_in: 90 days
+
 .plat-release:
-  extends: [.plat-node, .ag-evidence-release]
+  extends: [.plat-node, .plat-evidence-release]
 
 # ---------------------------------------------------------------- build
 
 plat:build:dist:
-  extends: .plat-node
+  extends: [.plat-node, .plat-evidence-release]
   stage: build
   allow_failure: true
   rules:
@@ -24,15 +53,12 @@ plat:build:dist:
   script:
     - npm run build
   artifacts:
-    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
-    when: always
-    expire_in: 14 days
-    paths: [dist/, .artifacts/plat/]
+    paths: [dist/, ".artifacts/plat/$CI_JOB_NAME_SLUG/"]
 
 # ---------------------------------------------------------------- test
 
 plat:gate:glass-quality:
-  extends: .plat-node
+  extends: [.plat-node, .plat-evidence-release]
   stage: test
   allow_failure: true # PLAT-015: remove per line once activation.json records first green run
   rules:
@@ -69,7 +95,7 @@ plat:gate:glass-quality:
       fi
 
 plat:test:pack-matrix:
-  extends: .plat-node
+  extends: [.plat-node, .plat-evidence-pr]
   stage: test
   allow_failure: true
   timeout: 45 minutes
@@ -88,7 +114,7 @@ plat:test:pack-matrix:
     - npm publish --dry-run
 
 plat:test:react19:
-  extends: .plat-node
+  extends: [.plat-node, .plat-evidence-pr]
   stage: test
   allow_failure: true
   rules:
@@ -102,7 +128,7 @@ plat:test:react19:
     - npx jest --ci --testPathPattern "tests/react19/$AG_REACT19_LEG"
 
 plat:test:visual-4x:
-  extends: .plat-playwright
+  extends: [.plat-playwright, .plat-evidence-pr]
   stage: test
   allow_failure: true
   rules:
@@ -111,15 +137,15 @@ plat:test:visual-4x:
     - npm run build-storybook
     - npx serve -s storybook-static -l 6006 &
     - npx wait-on http://localhost:6006
+    # The class report stays at the §4.4 reader path that
+    # scripts/release/lib/policy.mjs reads (FIN-A REQ-FIN-10 moves the reader);
+    # every other output goes to $AURAGLASS_EVIDENCE_DIR (the job dir).
     - npm run test:visual:app-chrome -- --class-report .artifacts/plat/visual-4x/visual-class.json
   artifacts:
-    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
-    when: always
-    expire_in: 14 days
-    paths: [.artifacts/plat/visual-4x/, .artifacts/plat/]
+    paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/", .artifacts/plat/visual-4x/]
 
 plat:test:canaries:
-  extends: .plat-playwright
+  extends: [.plat-playwright, .plat-evidence-pr]
   stage: test
   allow_failure: true
   rules:
@@ -139,7 +165,7 @@ plat:test:canaries:
     - node scripts/ci/verify-compiler.mjs
 
 plat:test:cli:
-  extends: .plat-playwright
+  extends: [.plat-playwright, .plat-evidence-pr]
   stage: test
   allow_failure: true
   rules:
@@ -157,7 +183,7 @@ plat:test:cli:
       fi
 
 plat:test:registry:
-  extends: .plat-playwright
+  extends: [.plat-playwright, .plat-evidence-pr]
   stage: test
   allow_failure: true
   rules:
@@ -173,7 +199,7 @@ plat:test:registry:
       done
 
 plat:test:docs:
-  extends: .plat-playwright
+  extends: [.plat-playwright, .plat-evidence-pr]
   stage: test
   allow_failure: true
   rules:
@@ -188,7 +214,7 @@ plat:test:docs:
       done
 
 plat:gate:removal:
-  extends: .plat-node
+  extends: [.plat-node, .plat-evidence-pr]
   stage: test
   allow_failure: true
   rules:
@@ -206,9 +232,9 @@ plat:gate:removal:
       fi
 
 plat:gate:change-class:
-  extends: .plat-node
+  extends: [.plat-node, .plat-evidence-release]
   stage: test
-  allow_failure: true # PLAT-015
+  allow_failure: false # PLAT-015: activated on 5x, ci/plat/activation.json row (first green: pipeline 2934559777)
   variables: { GIT_DEPTH: "0" }
   rules:
     - if: $CI_COMMIT_TAG
@@ -225,9 +251,13 @@ plat:gate:change-class:
       else
         node scripts/release/classify-change.mjs --base "origin/$BASE" --line "$AG_LINE"
       fi
+  artifacts:
+    # change-class.json stays at the scripts/release/lib/policy.mjs path until
+    # FIN-A REQ-FIN-10 moves it into the job dir.
+    paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/", .artifacts/plat/change-class/]
 
 plat:integration:next:
-  extends: .plat-playwright
+  extends: [.plat-playwright, .plat-evidence-release]
   stage: test
   allow_failure: true # PLAT-015
   rules:
@@ -251,7 +281,7 @@ plat:integration:next:
       fi
 
 plat:integration:vite:
-  extends: .plat-playwright
+  extends: [.plat-playwright, .plat-evidence-release]
   stage: test
   allow_failure: true # PLAT-015
   rules:
@@ -306,7 +336,9 @@ plat:package:pack:
           || { echo "PENDING: npm script pack:verify (lane 1d)"; exit 1; }
         npm run pack:verify
       fi
-    - mkdir -p .artifacts/pack .artifacts/plat
+    # Tarballs go to the §4.13.2 / EVIDENCE.tarballDir producer path and the
+    # dotenv report to the §4.13.2 pack.env path (both contract-frozen).
+    - mkdir -p .artifacts/pack .artifacts/plat "$AURAGLASS_EVIDENCE_DIR"
     - npm pack --pack-destination .artifacts/pack
     - |
       if [ "$AG_LINE" = "5x" ]; then
@@ -316,18 +348,20 @@ plat:package:pack:
       fi
     - echo "AURAGLASS_TARBALL=$(ls .artifacts/pack/*.tgz 2>/dev/null | head -1)" > .artifacts/plat/pack.env
   artifacts:
-    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
-    when: always
-    expire_in: 90 days
-    paths: [.artifacts/pack/, .artifacts/plat/]
+    paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/", .artifacts/pack/, .artifacts/plat/pack.env]
     reports: { dotenv: .artifacts/plat/pack.env }
 
 # ---------------------------------------------------------------- build (docs)
 
 plat:build:docs:
-  extends: .plat-node
-  stage: build
+  extends: [.plat-node, .plat-evidence-pr]
+  # package stage: docs:build installs the aura-glass tarball that
+  # plat:package:pack writes to .artifacts/pack (REQ-PLAT-99); GitLab needs
+  # may not point at a later stage, so this job runs alongside pack.
+  stage: package
   allow_failure: true
+  needs:
+    - { job: "plat:package:pack", artifacts: true }
   rules:
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main"
   script:
@@ -340,15 +374,12 @@ plat:build:docs:
         npm run docs:build
       fi
   artifacts:
-    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
-    when: always
-    expire_in: 14 days
-    paths: [apps/docs/out/, apps/docs/public/, storybook-static/, .artifacts/plat/]
+    paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/", apps/docs/out/, apps/docs/public/, storybook-static/]
 
 # ---------------------------------------------------------------- deploy
 
 pages:
-  extends: .plat-node
+  extends: [.plat-node, .plat-evidence-pr]
   stage: deploy
   needs:
     - { job: "plat:build:docs", artifacts: true }
@@ -360,10 +391,8 @@ pages:
     - node scripts/ci/assemble-pages.mjs
   environment: { name: pages, deployment_tier: production, url: $CI_PAGES_URL }
   artifacts:
-    name: "pages-$CI_COMMIT_SHORT_SHA"
-    when: always
-    expire_in: 14 days
-    paths: [public/]
+    name: "pages-$CI_COMMIT_SHORT_SHA" # GitLab Pages deploys this job's public/
+    paths: [public/, ".artifacts/plat/$CI_JOB_NAME_SLUG/"]
 
 # ---------------------------------------------------------------- publish
 
@@ -377,21 +406,17 @@ plat:release:notes:
     - if: $AG_SCOPE == "release"
   script:
     - 'test -f scripts/release/release-notes.mjs || { echo "PENDING: scripts/release/release-notes.mjs (lane 1c)"; exit 1; }'
-    - node scripts/release/release-notes.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE" --out .artifacts/plat/release-notes.md
-  artifacts:
-    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
-    when: always
-    expire_in: 90 days
-    paths: [.artifacts/plat/]
+    - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
+    - node scripts/release/release-notes.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE" --out "$AURAGLASS_EVIDENCE_DIR/release-notes.md"
   release:
     tag_name: $CI_COMMIT_TAG
     name: "AuraGlass $CI_COMMIT_TAG"
-    description: "Release notes for this tag are generated by the pipeline into .artifacts/plat/release-notes.md (linked asset)."
+    description: "Release notes for this tag are generated by the pipeline into .artifacts/plat/plat-release-notes/release-notes.md (linked asset)."
     assets:
       links:
-        - { name: "release-notes.md", url: "$CI_JOB_URL/artifacts/file/.artifacts/plat/release-notes.md", link_type: other }
+        - { name: "release-notes.md", url: "$CI_JOB_URL/artifacts/file/.artifacts/plat/plat-release-notes/release-notes.md", link_type: other }
         - { name: "dist-maps.tgz", url: "$CI_JOB_URL/artifacts/file/.artifacts/plat/dist-maps.tgz", link_type: package }
-        - { name: "job evidence", url: "$CI_JOB_URL/artifacts/browse/.artifacts/plat/", link_type: other }
+        - { name: "job evidence", url: "$CI_JOB_URL/artifacts/browse/.artifacts/plat/plat-release-notes/", link_type: other }
 
 plat:publish:npm:
   extends: [.ag-node, .ag-evidence-release]
@@ -428,7 +453,7 @@ plat:release:verify-dist-tags:
 # ---------------------------------------------------------------- certify
 
 plat:audit:backdrop:
-  extends: .ag-aws-remote
+  extends: [.ag-aws-remote, .plat-evidence-nightly]
   stage: certify
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE != "release"

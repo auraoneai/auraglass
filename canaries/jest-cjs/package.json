@@ -2,7 +2,7 @@
   "name": "ag-canary-jest-cjs",
   "private": true,
   "version": "0.0.0",
-  "scripts": { "test": "jest" },
+  "scripts": { "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js" },
   "dependencies": {
     "aura-glass": "file:../../aura-glass.tgz",
     "react": "^19.3.0",
