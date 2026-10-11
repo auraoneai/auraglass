@@ -769,7 +769,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 9
+     "count": 53
     }
    ],
    "value": "var(--_ag-density)"
