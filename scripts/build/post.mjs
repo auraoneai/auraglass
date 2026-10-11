@@ -23,6 +23,9 @@ const { keep, pending: pendingEntries } = buildableEntries();
 for (const e of pendingEntries) console.log(`   pending entry ${e.subpath}: ${e.reason}`);
 const emitConfig = join(ROOT, 'build', '.tsconfig.emit.json');
 writeFileSync(emitConfig, JSON.stringify({ extends: '../tsconfig.build.json', include: [], files: keep.map(e => '../' + e.source) }, null, 2) + '\n');
+// REQ-PLAT-66: typecheck the full emit set before emitting — a type error must
+// fail the build, never emit partial declarations.
+execFileSync('npx', ['tsc', '-p', emitConfig, '--noEmit'], { cwd: ROOT, stdio: 'inherit' });
 execFileSync('npx', ['tsc', '-p', emitConfig, '--outDir', 'dist'], { cwd: ROOT, stdio: 'inherit' });
 const rw = rewriteAll();
 console.log(`   d.ts rewritten: ${rw.rewritten}/${rw.files}`);
