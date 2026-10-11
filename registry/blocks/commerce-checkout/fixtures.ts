@@ -1,10 +1,19 @@
-// fixtures.ts — deterministic sample data for commerce-checkout.
-import { cartItems, cartProps } from '../commerce-cart/fixtures';
+// fixtures.ts — deterministic sample data for commerce-checkout (no clocks,
+// no randomness, no network — contract §3.3 block file contract). The block
+// owns its sample data; only the CartItem type comes from the commerce-cart
+// registry dependency.
+import type { CartItem } from '@/registry/blocks/commerce-cart/index';
+
+export const checkoutItems: CartItem[] = [
+  { id: 'sku-atlas', title: 'Atlas chair', unitAmount: 499, quantity: 1 },
+  { id: 'sku-nimbus', title: 'Nimbus lamp', unitAmount: 89.5, quantity: 2 },
+  { id: 'sku-vega', title: 'Vega desk mat', unitAmount: 24, quantity: 1 },
+];
 
 export const checkoutProps = {
-  items: cartItems,
-  locale: cartProps.locale,
-  currency: cartProps.currency,
-  shippingAmount: cartProps.shippingAmount,
+  items: checkoutItems,
+  locale: 'en-US',
+  currency: 'USD',
+  shippingAmount: 12,
   defaultStep: 'shipping' as const,
 };

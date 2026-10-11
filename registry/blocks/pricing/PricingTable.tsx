@@ -3,7 +3,7 @@
 // monthly/yearly; 1/2/3+ columns at 390/768/>=1024 px via auto-fit grid;
 // the toggle is sticky under 390 px.
 import { Badge, Button, Card } from 'aura-glass';
-import { formatMoney } from '../commerce-cart/format-money';
+import { formatMoney } from '@/registry/blocks/commerce-cart/format-money';
 import type { PricingPlan } from './types';
 
 export interface PricingTableProps {

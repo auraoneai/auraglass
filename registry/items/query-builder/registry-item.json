@@ -4,10 +4,32 @@
   "type": "registry:item",
   "title": "Query builder",
   "description": "Nested filter groups over FilterBar.useModel — no private logic.",
-  "dependencies": ["react"],
-  "registryDependencies": [],
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:item" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "FilterBar"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }
