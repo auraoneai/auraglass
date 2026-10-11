@@ -7,8 +7,8 @@
 @import url('./table/table.css') layer(ag.components);
 @import url('./tree-view/tree-view.css') layer(ag.components);
 @import url('./filter-bar/filter-bar.css') layer(ag.components);
-@import url('./chip/chip.css') layer(ag.components);
-@import url('./key-value-editor/key-value-editor.css') layer(ag.components);
+@import url('./chip/Chip.css') layer(ag.components);
+@import url('./key-value-editor/KeyValueEditor.css') layer(ag.components);
 @import url('./stat-card/stat-card.css') layer(ag.components);
 @import url('./sparkline/sparkline.css') layer(ag.components);
 @import url('./chart-frame/chart-frame.css') layer(ag.components);
