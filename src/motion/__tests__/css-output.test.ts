@@ -104,6 +104,19 @@ describe('layering (REQ-MAT-19)', () => {
   const LAYERS: Record<keyof typeof FILES, string> = {
     motion: 'ag.material', loading: 'ag.material', vt: 'ag.material', modes: 'ag.a11y',
   };
+  /* REQ-FIN-58: MAT-owned motion files carry the statement on line 1 (the
+     REQ-FIN-14 rule); loading.css / motion-modes.css are FIN-A's (REQ-FIN-14). */
+  const LINE_ONE: ReadonlySet<keyof typeof FILES> = new Set(['motion', 'vt']);
+  for (const name of LINE_ONE) {
+    it(`${name} has LAYER_ORDER_STATEMENT on line 1, exactly once`, () => {
+      const text = read(FILES[name]);
+      expect(text.split('\n')[0]).toBe(LAYER_ORDER_STATEMENT);
+      expect(text.split(LAYER_ORDER_STATEMENT).length - 1).toBe(1);
+      const first = parse(FILES[name]).first;
+      expect(first?.type).toBe('atrule');
+      expect(first?.toString().trim()).toBe(LAYER_ORDER_STATEMENT.replace(/;$/, ''));
+    });
+  }
   for (const [name, file] of Object.entries(FILES) as Array<[keyof typeof FILES, string]>) {
     it(`${name} starts with the layer order statement and 0 !important`, () => {
       const text = read(file);
