@@ -51,7 +51,7 @@ export default REPORT_PATH_ENTRIES.map(([symbol, value], i) => ({
   },
   {
     id: 'DEP-P0013',
-    kind: 'prop',
+    kind: 'behavior',
     status: 'active',
     entry: '.',
     symbol: 'GlassCanvas string action execution',
