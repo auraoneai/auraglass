@@ -74,7 +74,10 @@ qual:certify:known-failures:
     - git fetch --no-tags origin "+refs/tags/v4.1.0:refs/tags/v4.1.0"
     - test "$(git rev-parse 'v4.1.0^{commit}')" = "$AG_V410_SHA"
     - git worktree add --detach "$AG_V410_DIR" v4.1.0
-    - (cd "$AG_V410_DIR" && HUSKY=0 npm ci --no-audit --no-fund && NODE_OPTIONS=--max-old-space-size=8192 npm run build-storybook -- -o storybook-static)
+    # --ignore-scripts: 4.1's dev-only native iltorb (via bundlesize) has no prebuilt for this Node and no toolchain here;
+    # the Storybook build needs none of the install scripts (esbuild resolves its platform package, protobufjs only
+    # prints a version notice). The 4.1 build script itself runs unchanged.
+    - (cd "$AG_V410_DIR" && npm ci --ignore-scripts --no-audit --no-fund && NODE_OPTIONS=--max-old-space-size=8192 npm run build-storybook -- -o storybook-static)
     - test -f "$AG_KNOWN_FAILURES_STORYBOOK/index.json"
     - |
       rc=0
