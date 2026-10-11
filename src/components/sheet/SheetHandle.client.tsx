@@ -13,7 +13,7 @@ import { cn } from '../../internal';
 import { resolveDetent } from './useSheetDetents';
 import { subscribeFrame } from '../../motion/ticker';
 import type { SheetDetentsHandle } from './useSheetDetents';
-import type { SheetSide } from './Sheet.types';
+import type { SheetDetent, SheetSide } from './Sheet.types';
 
 export interface SheetHandleContextValue {
   axis: 'x' | 'y';
@@ -21,6 +21,8 @@ export interface SheetHandleContextValue {
   sign: 1 | -1;
   side: SheetSide;
   detents: SheetDetentsHandle;
+  /** Effective (bottom-only) detent defs for value-derived announcements. */
+  detentDefs: SheetDetent[];
   viewportPx: number;
   getPopup: () => HTMLElement | null;
   onRequestClose: () => void;
@@ -37,8 +39,6 @@ export function useSheetHandleContext(): SheetHandleContextValue {
   return ctx;
 }
 
-const DEFAULT_DETENT_LABELS = ['Half height', 'Full height'];
-
 export function SheetHandle({ className, children, ref }: {
   className?: string;
   children?: React.ReactNode;
@@ -49,8 +49,15 @@ export function SheetHandle({ className, children, ref }: {
   const frameUnsub = React.useRef<(() => void) | null>(null);
   const pendingPx = React.useRef(0);
 
+  /* REQ-CMP-95: announcement derives from the detent VALUE — 1/'full' →
+     'Full height', 0.5 → 'Half height', otherwise labels.detents[i]. */
   const announceDetent = React.useCallback((i: number) => {
-    ctx.announce(ctx.labels?.detents?.[i] ?? DEFAULT_DETENT_LABELS[i] ?? `Detent ${i + 1}`);
+    const def = ctx.detentDefs[i];
+    const text =
+      def === 1 || def === 'full' ? 'Full height'
+      : def === 0.5 ? 'Half height'
+      : ctx.labels?.detents?.[i] ?? `Detent ${i + 1}`;
+    ctx.announce(text);
   }, [ctx]);
 
   const settleDetent = React.useCallback((i: number) => {
@@ -146,8 +153,6 @@ export function SheetHandle({ className, children, ref }: {
     <button
       type="button"
       data-ag-part="handle"
-      role="separator"
-      aria-orientation={ctx.axis === 'y' ? 'vertical' : 'horizontal'}
       aria-label={ctx.labels?.handle ?? 'Resize sheet'}
       className={cn('ag-sheet-handle', className)}
       onPointerDown={onPointerDown}

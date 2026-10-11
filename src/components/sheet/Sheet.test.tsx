@@ -92,7 +92,11 @@ describe('Sheet (CMP-229..236)', () => {
     render(<Demo root={{ defaultOpen: true, detents: [0.5, 'full'], onDetentChange }} />);
     await act(async () => {});
     const handle = document.querySelector('[data-ag-part="handle"]')!;
-    expect(handle.getAttribute('role')).toBe('separator');
+    // REQ-CMP-95: plain button, no separator role or orientation
+    expect(handle.tagName).toBe('BUTTON');
+    expect(handle.getAttribute('role')).toBeNull();
+    expect(handle.getAttribute('aria-orientation')).toBeNull();
+    expect(handle.getAttribute('aria-label')).toBe('Resize sheet');
     (handle as HTMLElement).focus();
     await userEvent.keyboard('{Enter}');
     await act(async () => {});
