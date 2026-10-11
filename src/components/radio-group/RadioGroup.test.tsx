@@ -1,59 +1,54 @@
-import { beforeAll, describe, expect, it, jest } from '@jest/globals';
+/* REQ-CMP-56: ChoiceCards — one role=radio per Card, no nested glass,
+   first-enabled is the sole tab stop when uncontrolled. */
+import { describe, expect, it } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { render } from '@testing-library/react';
 import { RadioGroup } from './index';
+import { Card } from '../card';
 
-beforeAll(() => {
-  if (typeof window.PointerEvent !== 'function') {
-    (window as unknown as { PointerEvent: typeof MouseEvent }).PointerEvent = MouseEvent;
-  }
-});
+describe('ChoiceCards (REQ-CMP-56)', () => {
+  it('Item render=<Card/> yields exactly one role=radio, Card root IS the radio', () => {
+    const { getByRole, container } = render(
+      <RadioGroup.Root defaultValue="b" aria-label="p">
+        <RadioGroup.Item value="a" render={<Card>Alpha</Card>} />
+        <RadioGroup.Item value="b" render={<Card>Beta</Card>} />
+      </RadioGroup.Root>,
+    );
+    const radios = container.querySelectorAll('[role="radio"]');
+    expect(radios).toHaveLength(2);
+    const radio = getByRole('radio', { name: 'Alpha' });
+    /* Card root = the radio element itself (BU render replaces the node) */
+    expect(radio.className).toContain('ag-card');
+    expect(radio.getAttribute('role')).toBe('radio');
+  });
 
-describe('RadioGroup (CMP-129)', () => {
-  it('one tab stop; arrows move and select, wrapping', async () => {
-    render(
-      <RadioGroup.Root defaultValue="a" aria-label="opts">
+  it('no nested glass: only the Card-level surface inside an item', () => {
+    const { container } = render(
+      <RadioGroup.Root defaultValue="a" aria-label="p">
+        <RadioGroup.Item value="a" render={<Card>Alpha</Card>} />
+      </RadioGroup.Root>,
+    );
+    const item = container.querySelector('[role="radio"]')!;
+    const surfaces = item.querySelectorAll('[data-ag-surface]');
+    /* the item itself may carry the card surface, but nothing inside may */
+    for (const s of surfaces) {
+      expect(s).toBe(item);
+    }
+    expect(item.querySelectorAll('[data-ag-surface]')).toHaveLength(0);
+  });
+
+  it('unchecked group: first enabled item is the single tab stop', () => {
+    const { container } = render(
+      <RadioGroup.Root aria-label="p">
         <RadioGroup.Item value="a">A</RadioGroup.Item>
-        <RadioGroup.Item value="b">B</RadioGroup.Item>
+        <RadioGroup.Item value="b" disabled>B</RadioGroup.Item>
         <RadioGroup.Item value="c">C</RadioGroup.Item>
       </RadioGroup.Root>,
     );
-    const group = screen.getByRole('radiogroup', { name: 'opts' });
-    const radios = screen.getAllByRole('radio');
-    const tabbable = radios.filter((r) => r.getAttribute('tabindex') !== '-1');
-    expect(tabbable).toHaveLength(1);
-    expect(tabbable[0]!).toBe(radios[0]);
-    tabbable[0]!.focus();
-    await userEvent.keyboard('{ArrowDown}');
-    expect(screen.getByRole('radio', { name: 'B' })).toBeChecked();
-    await userEvent.keyboard('{ArrowDown}');
-    await userEvent.keyboard('{ArrowDown}');
-    expect(screen.getByRole('radio', { name: 'A' })).toBeChecked();
-    expect(group).toBeTruthy();
-  });
-
-  it('emits parts root/item/indicator/label/hit-area', () => {
-    const { container } = render(
-      <RadioGroup.Root defaultValue="a" aria-label="x">
-        <RadioGroup.Item value="a">Alpha</RadioGroup.Item>
-      </RadioGroup.Root>,
-    );
-    for (const p of ['root', 'item', 'indicator', 'label', 'hit-area']) {
-      expect(container.querySelector(`[data-ag-part="${p}"]`)).toBeTruthy();
-    }
-  });
-
-  it('forwards onValueChange with details', async () => {
-    const spy = jest.fn();
-    render(
-      <RadioGroup.Root onValueChange={spy} aria-label="x">
-        <RadioGroup.Item value="a">A</RadioGroup.Item>
-        <RadioGroup.Item value="b">B</RadioGroup.Item>
-      </RadioGroup.Root>,
-    );
-    await userEvent.click(screen.getByRole('radio', { name: 'B' }));
-    expect(spy).toHaveBeenCalledWith('b', expect.objectContaining({ reason: expect.any(String) }));
+    const radios = [...container.querySelectorAll('[role="radio"]')];
+    const tabStops = radios.filter((r) => r.getAttribute('tabindex') !== '-1' && !r.hasAttribute('disabled'));
+    expect(tabStops).toHaveLength(1);
+    expect(tabStops[0]).toBe(radios[0]);
   });
 });

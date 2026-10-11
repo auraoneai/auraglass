@@ -1,8 +1,6 @@
 /* MAT-235 REQ-MOT-T20: type-level contract — MotionTokenName accepts the
    contract literals and rejects unknown ones; deprecated 4.x motion props are
-   rejected by the provider surface. Component-level rejections on CMP-owned
-   seeds (Button/Dialog) land when CMP replaces the seeds (Report: DOUBLE-PASS).
-   This file is typechecked by `tsc --noEmit`; runtime assertions are none. */
+   rejected by the provider surface. This file is typechecked by `tsc --noEmit`; runtime assertions are none. */
 import type { ComponentProps } from 'react';
 import type { MotionTokenName } from '../../contracts/motion';
 import { AuraGlassProvider } from '../../theme/index';
@@ -27,9 +25,7 @@ export const bad: unknown[] = [bad1, bad2, bad3];
 // ---- adapter binding types ----
 export const types: [DragBindings?, MomentumBindings?, MagneticBindings?] = [];
 
-/* Pending CMP (DOUBLE-PASS): once real components replace the S-30 seeds these
-   must all be type errors — add them verbatim then:
-     <Button respectMotionPreference={false} />
-     <Button motionPolicy='always-safe' />
-     <Dialog animationPreset='fadeIn' />
-   Seed props are Record<string, unknown>, so the rejections cannot fire yet. */
+/* The banned motion keys on the provider, MaterialRole, SurfaceProps and
+   MotionProvider props are asserted in tests/types/mat/motion-ban.test-d.ts
+   (REQ-MAT-45); component-level (Button/Dialog) rejections are CMP's
+   tests/types/cmp suite. */

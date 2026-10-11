@@ -9,6 +9,8 @@ export default defineMeta({
   parts: ['root','trigger','input'],
   states: ['active','idle'],
   variants: {},
+  material: { layer: 'content' },
   apg: 'textbox',
-  migration: [{ from: 'GlassInlineEdit', automation: 'mostly', compat: true }],
+  budgetKb: 10,
+  migration: [{ from: 'GlassInlineEdit', props: {}, selectors: { '.glass-inline-edit': '.ag-inline-edit' },  automation: 'mostly', compat: true }],
 });

@@ -40,6 +40,7 @@ afterEach(() => {
   document.body.innerHTML = '';
   document.documentElement.removeAttribute('data-ag-highlights');
   document.documentElement.removeAttribute('data-ag-motion');
+  document.documentElement.removeAttribute('data-ag-transparency');
 });
 
 describe('pointerLightActive (REQ-MOT-41)', () => {
@@ -66,6 +67,45 @@ describe('pointerLightActive (REQ-MOT-41)', () => {
   it('falls back to the resolved attribute when prefs omit motion', () => {
     document.documentElement.setAttribute('data-ag-motion', 'calm');
     expect(pointerLightActive({ transparency: 'glass' }, 'standard', fineHoverWin)).toBe(false);
+  });
+});
+
+describe('forced colours (REQ-MAT-45)', () => {
+  it('pointerLightActive is false when the store reports forcedColors', () => {
+    expect(pointerLightActive({ motion: 'full', transparency: 'glass', forcedColors: true }, 'standard', fineHoverWin)).toBe(false);
+    expect(pointerLightActive({ motion: 'full', transparency: 'glass', forcedColors: false }, 'standard', fineHoverWin)).toBe(true);
+  });
+  it('pointerLightActive is false under the forced-colours solid floor on the document', () => {
+    document.documentElement.setAttribute('data-ag-transparency', 'solid');
+    expect(pointerLightActive({ motion: 'full' }, 'standard', fineHoverWin)).toBe(false);
+    document.documentElement.setAttribute('data-ag-transparency', 'glass');
+    expect(pointerLightActive({ motion: 'full' }, 'standard', fineHoverWin)).toBe(true);
+  });
+  it('an installed pointer light makes 0 setProperty calls under forced colours', () => {
+    document.documentElement.setAttribute('data-ag-transparency', 'solid');
+    const el = host();
+    const un = installPointerLight(document);
+    const setProp = jest.spyOn(el.style, 'setProperty');
+    jest.spyOn(el, 'getBoundingClientRect').mockReturnValue(
+      { left: 0, top: 0, width: 100, height: 50 } as DOMRect);
+    for (let i = 0; i < 5; i++) { move(el, 10 + i, 10); step(16 * (i + 1)); }
+    expect(setProp).toHaveBeenCalledTimes(0);
+    expect(el.style.getPropertyValue('--_ag-pointer')).toBe('');
+    un();
+  });
+  it('a light written before forced colours turn on is removed on the next frame', () => {
+    const el = host();
+    const un = installPointerLight(document);
+    jest.spyOn(el, 'getBoundingClientRect').mockReturnValue(
+      { left: 0, top: 0, width: 100, height: 50 } as DOMRect);
+    move(el, 25, 25); step(16);
+    expect(el.style.getPropertyValue('--_ag-pointer')).toBe('25% 50%');
+    document.documentElement.setAttribute('data-ag-transparency', 'solid');
+    const setProp = jest.spyOn(el.style, 'setProperty');
+    move(el, 50, 25); step(32);
+    expect(setProp).toHaveBeenCalledTimes(0);
+    expect(el.style.getPropertyValue('--_ag-pointer')).toBe('');
+    un();
   });
 });
 
