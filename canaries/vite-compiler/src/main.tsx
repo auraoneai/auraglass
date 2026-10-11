@@ -17,7 +17,7 @@ function App() {
   }, []);
   return (
     <Surface>
-      <Button ref={buttonRef} onClick={() => setCount((c) => c + 1)}>
+      <Button ref={buttonRef} variant="regular" onClick={() => setCount((c) => c + 1)}>
         clicks {count}
       </Button>
       <output data-testid="button-ref">{refTag}</output>
