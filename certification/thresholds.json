@@ -29,5 +29,6 @@
   },
   "materialPresence": { "maxStageSigma": 4, "minSceneSigma": 20, "regularMinDelta": 30, "floorSlack": 5 },
   "preference": { "contrastMoreMinShare": 0.005, "contrastMoreTarget": 7, "tintedMinSigmaCut": 0.25 },
-  "layout": { "containmentSlackPx": 1, "targetMin": 44, "targetMinSm": 24, "targetSpacingSm": 24, "focusMinContrast": 3, "productViewport": { "width": 768, "height": 1024 } }
+  "layout": { "containmentSlackPx": 1, "targetMin": 44, "targetMinSm": 24, "targetSpacingSm": 24, "focusMinContrast": 3, "productViewport": { "width": 768, "height": 1024 } },
+  "layers": { "$comment": "REQ-QUAL-38 visible blurred surfaces per pointer class (L6 `cost`, packages/qa/src/inspect/cost.ts).", "fine": 6, "coarse": 3 }
 }
