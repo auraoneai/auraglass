@@ -44,3 +44,44 @@ cmp:build:dts:
     - npm pack --ignore-scripts --pack-destination .artifacts/cmp/dts
     - tar -xzf .artifacts/cmp/dts/*.tgz -C .artifacts/cmp/dts/pkg
     - AG_DTS_DIR="$PWD/.artifacts/cmp/dts/pkg/package/dist" npm test -- tests/foundation/exports/no-foundation-types.test.ts
+
+# REQ-CMP-135 always-on half: run `migrate 4to5` over the frozen consumer-4x cmp
+# cases and assert 0 TODO(aura-glass 5) markers on mechanically mappable props.
+# The jest file tests/dx/consumer-4x-cmp.test.ts is FIN-C's (tests/dx/**) and
+# lands through FIN-C's hand-off PR; until then this job fails with "no tests
+# found" — allow_failure stays true only until its first green run (activation
+# row in ci/plat/activation.json, FIN-B).
+cmp:test:consumer-4x:
+  extends: .cmp-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - node packages/cli/scripts/gen-mappings.mjs
+    - npx jest tests/dx/consumer-4x-cmp.test.ts
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/]
+    when: always
+
+# REQ-CMP-135 remote L11 leg: the cases compile inside a release/4.x worktree;
+# `migrate 4to5` then runs on this line and the migrated files type-check with
+# 0 TODOs on mappable props. Runs on the gated AWS remote runner (OD-11,
+# .ag-aws-remote extends .ag-playwright); manual until the owner registers it.
+# No credentials beyond the runner's own (the script only fetches origin).
+cmp:remote:consumer-4x:
+  extends: .ag-aws-remote
+  stage: certify
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+      when: manual
+      allow_failure: true
+  script:
+    - node scripts/cmp/consumer-4x-l11.mjs
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/cmp/consumer-4x/]
+    when: always

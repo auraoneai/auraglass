@@ -1,0 +1,39 @@
+{
+  "$schema": "auraglass/consumer-4x-cases/v1",
+  "owner": "cmp",
+  "description": "CMP-426: frozen 4.x usage covering the CMP-owned surface \u2014 controls, overlays, content. Compiles unchanged on 4.x; after `aura-glass migrate 4to5` produces 0 TODO(aura-glass 5) markers on mechanically mappable props (G-08).",
+  "cases": [
+    {
+      "id": "detail-panel",
+      "covers": [
+        "GlassModal",
+        "GlassDrawer",
+        "GlassPopover",
+        "GlassTooltip",
+        "GlassButton",
+        "GlassToastProvider",
+        "useToast",
+        "GlassToast"
+      ]
+    },
+    {
+      "id": "nav-actions",
+      "covers": [
+        "GlassDropdownMenu",
+        "GlassCard"
+      ]
+    },
+    {
+      "id": "settings-form",
+      "covers": [
+        "GlassButton",
+        "GlassInput",
+        "GlassSwitch",
+        "GlassCheckbox",
+        "GlassSelectCompound",
+        "GlassCard",
+        "Typography"
+      ]
+    }
+  ]
+}

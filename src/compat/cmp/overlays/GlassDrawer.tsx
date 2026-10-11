@@ -24,6 +24,8 @@ export interface GlassDrawerProps {
   closeOnOverlayClick?: boolean;
   children?: React.ReactNode;
   className?: string;
+  /** 4.x title slot — rendered inside Sheet.Content. */
+  title?: React.ReactNode;
 }
 
 /* 4.x position is the physical edge; Sheet side is logical (start resolves to
@@ -36,7 +38,7 @@ export function toSide(p?: string): SheetSide | undefined {
   return p !== undefined ? (SIDE_MAP[p] ?? 'start') : undefined;
 }
 
-export function GlassDrawer({ open, onClose, onOpenChange, position, placement, snap, detents, modal, closeOnOverlayClick, children, className }: GlassDrawerProps) {
+export function GlassDrawer({ open, onClose, onOpenChange, position, placement, snap, detents, modal, closeOnOverlayClick, children, className, title }: GlassDrawerProps) {
   warnDeprecated(DEP);
   const side = toSide(position ?? placement) ?? 'end';
   const d = detents ?? (snap !== undefined
@@ -51,7 +53,7 @@ export function GlassDrawer({ open, onClose, onOpenChange, position, placement, 
       {...(modal !== undefined ? { modal } : {})}
       {...(closeOnOverlayClick !== undefined ? { dismissible: closeOnOverlayClick } : {})}
     >
-      <Sheet.Content {...(className !== undefined ? { className } : {})}>{children}</Sheet.Content>
+      <Sheet.Content {...(className !== undefined ? { className } : {})}>{title !== undefined ? <Sheet.Title>{title}</Sheet.Title> : null}{children}</Sheet.Content>
     </Sheet.Root>
   ));
 }
