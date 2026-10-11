@@ -1,9 +1,9 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 /* aura-glass 5.0 — interaction motion (REQ-MAT-42..44, REQ-MOT-10..18).
    Layer: ag.material (REQ-MAT-19). Only @property rules sit outside the layer block.
    Contract values come from MOTION_CSS_VARS / SPRINGS (src/contracts/motion.ts);
    spring timing resolves through --ag-spring-* emitted by the token compiler (linear() curves
    with an @supports fallback to named eases, REQ-MAT-08). */
-@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 /* ---- motion scalars (REQ-MOT-10): registered so the transitions below interpolate. ---- */
 @property --_ag-hover {
