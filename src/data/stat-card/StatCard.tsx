@@ -1,10 +1,14 @@
-/* StatCard (SURF-176, REQ-SURF-90): server component. Whole card is one link
-   when href is set; nested interactive children are a dev error. Trend is an
+/* StatCard (SURF-176, REQ-SURF-90): server component (React.useId is the one
+   hook legal in RSC). Whole card is one link when href is set; nested
+   interactive descendants (deep walk) are a dev error. Trend is an
    aria-hidden arrow plus hidden text. */
 import * as React from 'react';
 import { Sparkline } from '../sparkline/Sparkline';
 
 export interface StatCardProps {
+  /** Id base for the card's labelledby target; defaults to a React.useId id
+      so two cards with the same label never share an id. */
+  id?: string | undefined;
   label: string;
   value: number | React.ReactNode;
   format?: Intl.NumberFormatOptions | undefined;
@@ -21,7 +25,36 @@ export interface StatCardProps {
   labels?: { up?: string | undefined; down?: string | undefined; unchanged?: string | undefined } | undefined;
 }
 
+const INTERACTIVE_TAGS = new Set(['a', 'button', 'input', 'select', 'textarea', 'details', 'summary', 'iframe', 'audio', 'video']);
+
+/** Deep-walks a React children tree (host elements and the props of
+    component elements) for anything focusable or activatable. */
+function hasInteractiveDescendant(node: React.ReactNode): boolean {
+  let found = false;
+  const visit = (n: React.ReactNode) => {
+    if (found) return;
+    React.Children.forEach(n, (c) => {
+      if (found || !React.isValidElement(c)) return;
+      const props = c.props as Record<string, unknown>;
+      if (
+        (typeof c.type === 'string' && INTERACTIVE_TAGS.has(c.type)) ||
+        typeof props['href'] === 'string' ||
+        typeof props['onClick'] === 'function' ||
+        (typeof props['tabIndex'] === 'number' && props['tabIndex'] >= 0) ||
+        props['contentEditable'] === true || props['contentEditable'] === 'true'
+      ) {
+        found = true;
+        return;
+      }
+      visit(props['children'] as React.ReactNode);
+    });
+  };
+  visit(node);
+  return found;
+}
+
 export function StatCard({
+  id: idProp,
   label,
   value,
   format,
@@ -37,18 +70,21 @@ export function StatCard({
   children,
   labels,
 }: StatCardProps) {
-  // Server component: no hooks. Id derives from the label text so SSR/CSR agree.
-  const id = `ag-stat-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'card'}`;
-  if (process.env['NODE_ENV'] === 'development' && href !== undefined && children !== undefined) {
-    const hasInteractive = React.Children.toArray(children).some(
-      (c) => React.isValidElement(c) && ['button', 'a', 'input', 'select'].includes(String(c.type)),
-    );
-    if (hasInteractive) {
-      console.error('[auraglass] StatCard: nested interactive children are not allowed inside a linked card.');
-    }
+  // useId is deterministic across SSR/CSR and unique per card instance.
+  const autoId = React.useId();
+  const id = idProp ?? `ag-stat-${autoId.replace(/[^A-Za-z0-9_-]/g, '')}`;
+  if (
+    process.env['NODE_ENV'] === 'development' &&
+    href !== undefined &&
+    (hasInteractiveDescendant(children) || hasInteractiveDescendant(description))
+  ) {
+    console.error('[auraglass] StatCard: nested interactive children are not allowed inside a linked card.');
   }
   const fmt = new Intl.NumberFormat(locale, format);
   const deltaFmt = new Intl.NumberFormat(locale, deltaFormat);
+  // The hidden trend text carries direction in words ("Up 12.5% …"), so its
+  // magnitude is unsigned regardless of deltaFormat.signDisplay.
+  const magnitudeFmt = new Intl.NumberFormat(locale, { ...deltaFormat, signDisplay: 'never' });
   const valueNode = typeof value === 'number' ? fmt.format(value) : value;
   const trend = delta === undefined ? null : delta > 0 ? 'up' : delta < 0 ? 'down' : 'unchanged';
   const intent =
@@ -65,7 +101,7 @@ export function StatCard({
   const trendText =
     delta === undefined
       ? null
-      : `${trend === 'up' ? up : trend === 'down' ? down : unchanged} ${deltaFmt.format(Math.abs(delta) * (deltaFormat.style === 'percent' ? 1 : 1))} ${deltaLabel}`;
+      : `${trend === 'up' ? up : trend === 'down' ? down : unchanged} ${magnitudeFmt.format(Math.abs(delta))} ${deltaLabel}`;
 
   const body = (
     <>

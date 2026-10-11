@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { linearScale } from './scale';
 
-export interface SparklineProps {
+interface SparklineBaseProps {
   data: readonly (number | null)[];
   variant?: 'line' | 'area' | 'bar' | undefined;
   width?: number | string | undefined;
@@ -13,11 +13,17 @@ export interface SparklineProps {
   min?: number | undefined;
   max?: number | undefined;
   showLastPoint?: boolean | undefined;
-  /** Required unless aria-hidden; the svg accessible name carries the summary. */
-  label?: string | undefined;
-  'aria-hidden'?: boolean | undefined;
   locale?: string | undefined;
 }
+
+/** `label` is required unless the sparkline is `aria-hidden` (decorative,
+    e.g. inside a StatCard that already names the metric): the svg's
+    accessible name carries the data summary. */
+export type SparklineProps = SparklineBaseProps &
+  (
+    | { label: string; 'aria-hidden'?: boolean | undefined }
+    | { label?: string | undefined; 'aria-hidden': true }
+  );
 
 function summarize(
   label: string,
@@ -47,8 +53,13 @@ export function Sparkline({
   locale = 'en-US',
 }: SparklineProps) {
   const clean = data.map((v) => (v !== null && Number.isFinite(v) ? v : null));
-  if (process.env['NODE_ENV'] === 'development' && data.some((v) => v !== null && !Number.isFinite(v))) {
-    console.warn('[auraglass] Sparkline: NaN/Infinity values render as gaps.');
+  if (process.env['NODE_ENV'] === 'development') {
+    if (data.some((v) => v !== null && !Number.isFinite(v))) {
+      console.warn('[auraglass] Sparkline: NaN/Infinity values render as gaps.');
+    }
+    if (ariaHidden !== true && (label === undefined || label === '')) {
+      console.warn('[auraglass] Sparkline: `label` is required unless aria-hidden; role="img" has no accessible name.');
+    }
   }
   const points = clean.filter((v): v is number => v !== null);
   const lo = min ?? (points.length ? Math.min(...points) : 0);
