@@ -3,11 +3,46 @@
   "name": "audit-log",
   "type": "registry:block",
   "title": "Audit log",
-  "description": "Server-paginated audit Table + FilterBar + DateRangePicker window (5.2).",
-  "dependencies": ["react"],
-  "registryDependencies": [],
+  "description": "Server-paginated audit Table (filter then slice per page) with Pagination, FilterBar and DateRangePicker; filters move into a Sheet at <=390 px.",
+  "dependencies": [
+    "react",
+    "aura-glass"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    },
+    {
+      "path": "AuditLogPage.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "audit-query.ts",
+      "type": "registry:lib"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "block",
+      "client": true,
+      "components": [
+        "DateRangePicker",
+        "FilterBar",
+        "Pagination",
+        "Sheet",
+        "Table"
+      ],
+      "ga": false,
+      "minVersion": "5.0.0"
+    }
+  }
 }

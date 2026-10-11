@@ -1,1 +1,2 @@
-export { AuditLog } from './AuditLogPage';
+export { AuditLog, type AuditLogProps } from './AuditLogPage';
+export { queryAuditPage, type AuditPage } from './audit-query';

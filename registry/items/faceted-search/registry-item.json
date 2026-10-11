@@ -3,11 +3,34 @@
   "name": "faceted-search",
   "type": "registry:item",
   "title": "Faceted search",
-  "description": "FilterBar facet panel + result list.",
-  "dependencies": ["react"],
-  "registryDependencies": [],
+  "description": "FilterBar facet panel (enum facets as quick filters) + search; results derived from the filter model, count announced.",
+  "dependencies": [
+    "react",
+    "aura-glass"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:item" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "FilterBar"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

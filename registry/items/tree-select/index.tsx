@@ -1,7 +1,10 @@
-/* tree-select (REQ-SURF-174): CMP Select-style trigger + TreeView inside a
-   popover; selection announced on the trigger. */
+/* tree-select (REQ-SURF-174): CMP Select (Select.Root / Trigger / Content
+   popup) from 'aura-glass' with a TreeView from 'aura-glass/data' inside the
+   popup. Picking a tree node commits it as the Select value, so the trigger's
+   Select.Value renders that node's label and the popup closes. */
 'use client';
 import * as React from 'react';
+import { Select } from 'aura-glass';
 import { TreeView } from 'aura-glass/data';
 
 export interface TreeSelectItem { [k: string]: unknown; key: string; label: string; children?: TreeSelectItem[] | undefined }
@@ -15,9 +18,10 @@ export interface TreeSelectProps {
   placeholder?: string | undefined;
 }
 
-function flatten(items: readonly TreeSelectItem[]): Map<string, string> {
-  const m = new Map<string, string>();
-  const walk = (list: readonly TreeSelectItem[]) => { for (const i of list) { m.set(i.key, i.label); if (i.children) walk(i.children); } };
+/** key -> label for every node (Select.Value resolves the trigger label from it). */
+function flatten(items: readonly TreeSelectItem[]): Record<string, string> {
+  const m: Record<string, string> = {};
+  const walk = (list: readonly TreeSelectItem[]) => { for (const i of list) { m[i.key] = i.label; if (i.children) walk(i.children); } };
   walk(items);
   return m;
 }
@@ -27,26 +31,39 @@ export function TreeSelect({ items, label, value, defaultValue, onValueChange, p
   const [inner, setInner] = React.useState<string | undefined>(defaultValue);
   const selected = value ?? inner;
   const labels = React.useMemo(() => flatten(items), [items]);
+  const labelId = React.useId();
+  const commit = (key: string) => {
+    if (value === undefined) setInner(key);
+    onValueChange?.(key);
+    setOpen(false);
+  };
   return (
     <span data-ag-part="tree-select" className="ag-tree-select">
-      {label !== undefined ? <span className="ag-tree-select__label">{label}</span> : null}
-      <button type="button" aria-haspopup="tree" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
-        {(selected !== undefined ? labels.get(selected) : undefined) ?? placeholder}
-      </button>
-      {open ? (
-        <div role="dialog" aria-label={label ?? 'Choose'} className="ag-tree-select__popup">
+      {label !== undefined ? <span id={labelId} className="ag-tree-select__label">{label}</span> : null}
+      <Select.Root<string>
+        items={labels}
+        value={selected ?? null}
+        open={open}
+        onOpenChange={(o) => setOpen(o)}
+        onValueChange={(v) => { if (typeof v === 'string') commit(v); }}
+      >
+        <Select.Trigger
+          placeholder={placeholder}
+          {...(label !== undefined ? { 'aria-labelledby': labelId } : { 'aria-label': 'Choose' })}
+        />
+        <Select.Content className="ag-tree-select__popup">
           <TreeView
             items={items}
-            aria-label={label ?? 'Options'}
+            {...(label !== undefined ? { 'aria-labelledby': labelId } : { 'aria-label': 'Options' })}
             selectionMode="single"
             selectedKeys={selected !== undefined ? [selected] : []}
-            onSelectionChange={(keys: Iterable<unknown>) => {
+            onSelectionChange={(keys) => {
               const k = [...keys][0];
-              if (k !== undefined) { setInner(String(k)); onValueChange?.(String(k)); setOpen(false); }
+              if (k !== undefined) commit(String(k));
             }}
           />
-        </div>
-      ) : null}
+        </Select.Content>
+      </Select.Root>
     </span>
   );
 }

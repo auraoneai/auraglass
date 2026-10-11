@@ -100,6 +100,35 @@ surf:test:ledger:
     paths:
       - .artifacts/surf/ledger/
 
+# REQ-SURF-170 (REQ-FIN-88): SURF registry lint over every S-46 SURF block and
+# item directory, plus its mutation cases. The per-id files[] count and the
+# violation report are kept as evidence.
+surf:test:registry-lint:
+  extends: .surf-base
+  stage: test
+  allow_failure: true # owning lane flips to false after first green on next
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - mkdir -p .artifacts/surf/registry-lint
+    - node scripts/surf/verify-registry.mjs --count --json .artifacts/surf/registry-lint/report.json
+    - npx jest tests/capability/registry/blocks-lint.test.ts --ci
+    # REQ-SURF-177: registry-only names never reach the published package —
+    # scanned in the extracted `npm pack` tarball's dist/. Extracted outside the
+    # repo: a package.json named aura-glass inside it would collide with the
+    # root package in jest-haste-map.
+    - npm run build
+    - AG_PACK_DIR="$(mktemp -d)"
+    - npm pack --ignore-scripts --pack-destination "$AG_PACK_DIR"
+    - tar -xzf "$AG_PACK_DIR"/*.tgz -C "$AG_PACK_DIR"
+    - AG_TARBALL_DIR="$AG_PACK_DIR/package" npx jest tests/capability/registry-only.test.ts --ci
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/registry-lint/
+
 # SURF doubles: each lane maps CMP module specifiers onto tests/contract-doubles/cmp/*
 # through tests/<area>/jest.doubles.cjs. A missing preset reports pending and does
 # not fail the matrix cell (per lane prompts).
@@ -110,12 +139,19 @@ surf:test:doubles:
   parallel:
     matrix:
       - DOUBLES_AREA: [app-shell, data, ai, media, capability]
+  # Jest runs over sources only. Earlier-stage artifacts (cmp:build:dts's
+  # .artifacts/cmp/dts/pkg/package/package.json, name "aura-glass") would
+  # collide with the root package in jest-haste-map and break every
+  # jest.mock('aura-glass', …) — fetch none.
+  dependencies: []
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  # registry-only.test.ts needs the packed tarball: it runs in
+  # surf:test:registry-lint (AG_TARBALL_DIR), not against doubles.
   script:
     - |
       if [ -f "tests/${DOUBLES_AREA}/jest.doubles.cjs" ]; then
-        npx jest -c "tests/${DOUBLES_AREA}/jest.doubles.cjs" --ci
+        npx jest -c "tests/${DOUBLES_AREA}/jest.doubles.cjs" --ci --testPathIgnorePatterns '/node_modules/' '/legacy/' '/dist/' '/packages/' '/apps/' 'tests/capability/registry-only\.test\.ts$'
       else
         echo "pending: tests/${DOUBLES_AREA}/jest.doubles.cjs not present"
       fi

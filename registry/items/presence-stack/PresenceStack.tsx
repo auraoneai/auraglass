@@ -1,70 +1,90 @@
-// registry/items/presence-stack/PresenceStack.tsx — SURF-594 (AC-SURF-30).
-// Avatar stack of present users on AvatarGroup: names as text, overflow +N
-// button labelled "N more collaborators", colour = FNV-1a-style hash of the
-// user id over the categorical palette hue space. Below 390 px the container
-// clamps max to 3. No timers, no simulated presence — data by props.
-import { Avatar, AvatarGroup } from 'aura-glass';
+// registry/items/presence-stack/PresenceStack.tsx — SURF-594 (AC-SURF-30),
+// REQ-SURF-176. A <ul> of present users: each <li> carries the avatar
+// (decorative) and the user's name as visually-hidden text. Overflow is a +N
+// button named "N more collaborators". Colour = a deterministic hash of the
+// user id indexed into the categorical chart palette (var(--_ag-chart-k)).
+// Below 390 px of CONTAINER width the stack clamps to 3 (container query in
+// presence-stack.css; `narrow` sets the data-narrow fallback for engines
+// without container queries). No timers, no simulated presence — data by props.
+import { Avatar, VisuallyHidden } from 'aura-glass';
+import './presence-stack.css';
 
 export interface PresenceUser {
   id: string;
   name: string;
-  imageUrl?: string;
-  status?: string;
+  avatarUrl?: string;
+  /** Overrides the id-derived palette colour (any CSS colour / var()). */
+  color?: string;
+  status?: 'active' | 'idle';
 }
 
 export interface PresenceStackProps {
   users: PresenceUser[];
-  /** max avatars shown before the +N overflow (default 4; ≤3 below 390px) */
+  /** Avatars shown before the +N overflow (default 4). Below 390 px of
+   *  container width at most 3 are shown, whatever `max` is. */
   max?: number;
-  /** hue space offset for the deterministic fallback colour */
-  hueOffset?: number;
+  /** Force the narrow (≤3) layout: the data-narrow fallback for engines
+   *  without CSS container queries. */
+  narrow?: boolean;
   onOverflowClick?: () => void;
+  /** Accessible name of the list (default 'Collaborators'). */
+  label?: string;
 }
 
-/** Deterministic hue from a string id — same id, same colour, always. */
-export function hueForId(id: string, offset = 0): number {
+/** Categorical palette slots (--_ag-chart-1 … --_ag-chart-8). */
+export const PALETTE_SIZE = 8;
+/** Narrow-container cap (REQ-SURF-176). */
+export const NARROW_MAX = 3;
+
+/** Deterministic 32-bit hash of a string id — same id, same value, always. */
+export function hashId(id: string): number {
   let h = 0;
   for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
-  return (h + offset) % 360;
+  return h;
 }
 
-export function presenceColor(id: string, offset = 0): string {
-  return `hsl(${hueForId(id, offset)} 55% 45%)`;
-}
-
-export function PresenceStack({ users, max = 4, hueOffset = 0, onOverflowClick }: PresenceStackProps) {
-  // Container max ≤3 below 390 px (CSS container query in the shipped styles;
-  // the deterministic cap here keeps SSR output consistent at narrow widths).
-  const effectiveMax = Math.min(max, 5);
-  const shown = users.slice(0, effectiveMax);
-  const overflow = users.length - shown.length;
-  return (
-    <div data-ag-part="root" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <AvatarGroup data-ag-part="avatars">
-        {shown.map((u) => (
-          <Avatar.Root key={u.id} data-ag-part="avatar" data-status={u.status}>
-            {u.imageUrl ? <Avatar.Image src={u.imageUrl} alt={u.name} /> : null}
-            <Avatar.Fallback style={{ background: presenceColor(u.id, hueOffset) }}>
-              {initials(u.name)}
-            </Avatar.Fallback>
-          </Avatar.Root>
-        ))}
-      </AvatarGroup>
-      {overflow > 0 && (
-        <button
-          type="button"
-          data-ag-part="overflow"
-          aria-label={`${overflow} more collaborators`}
-          onClick={onOverflowClick}
-        >+{overflow}</button>
-      )}
-      <span data-ag-part="count">{users.length} online</span>
-    </div>
-  );
+/** Palette colour var for a user id: var(--_ag-chart-((hash % N) + 1)). */
+export function presenceColor(id: string): string {
+  return `var(--_ag-chart-${(hashId(id) % PALETTE_SIZE) + 1})`;
 }
 
 function initials(name: string): string {
-  return name.split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+  return name.split(/\s+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+}
+
+export function PresenceStack({ users, max = 4, narrow, onOverflowClick, label = 'Collaborators' }: PresenceStackProps) {
+  const wideMax = Math.max(0, max);
+  const narrowMax = Math.min(wideMax, NARROW_MAX);
+  const wideOverflow = Math.max(0, users.length - wideMax);
+  const narrowOverflow = Math.max(0, users.length - narrowMax);
+  const shown = users.slice(0, wideMax);
+  return (
+    <div data-ag-part="root" className="ag-presence-stack" data-narrow={narrow ? '' : undefined}>
+      <ul data-ag-part="avatars" className="ag-presence-stack__list" aria-label={label}>
+        {shown.map((u, i) => (
+          <li key={u.id} data-ag-part="avatar" data-status={u.status}
+            className="ag-presence-stack__item" data-beyond-narrow={i >= narrowMax ? '' : undefined}>
+            <Avatar.Root aria-hidden="true" className="ag-presence-stack__avatar"
+              style={{ background: u.color ?? presenceColor(u.id) }}>
+              {u.avatarUrl ? <Avatar.Image src={u.avatarUrl} alt="" /> : null}
+              <Avatar.Fallback>{initials(u.name)}</Avatar.Fallback>
+            </Avatar.Root>
+            <VisuallyHidden>{u.status === 'idle' ? `${u.name} (idle)` : u.name}</VisuallyHidden>
+          </li>
+        ))}
+      </ul>
+      {/* Two overflow buttons, one per layout; CSS shows exactly one, so the
+          accessible name always matches the visible +N. */}
+      {wideOverflow > 0 ? (
+        <button type="button" data-ag-part="overflow" data-layout="wide" className="ag-presence-stack__overflow"
+          aria-label={`${wideOverflow} more collaborators`} onClick={onOverflowClick}>+{wideOverflow}</button>
+      ) : null}
+      {narrowOverflow > 0 ? (
+        <button type="button" data-ag-part="overflow" data-layout="narrow" className="ag-presence-stack__overflow"
+          aria-label={`${narrowOverflow} more collaborators`} onClick={onOverflowClick}>+{narrowOverflow}</button>
+      ) : null}
+    </div>
+  );
 }
 
 export default PresenceStack;

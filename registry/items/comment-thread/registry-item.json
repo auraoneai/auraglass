@@ -3,11 +3,45 @@
   "name": "comment-thread",
   "type": "registry:item",
   "title": "Comment thread",
-  "description": "Controlled comment list with an IME-safe composer.",
-  "dependencies": ["react"],
-  "registryDependencies": ["card", "avatar", "text-field", "button"],
+  "description": "Comment list (ol > li > article, time) with Resolve, an anchor label and an IME-safe multiline composer.",
+  "dependencies": [
+    "react",
+    "aura-glass"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:item" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    },
+    {
+      "path": "CommentThread.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "comment-thread.css",
+      "type": "registry:style"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "Avatar",
+        "Button",
+        "Card",
+        "TextField"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

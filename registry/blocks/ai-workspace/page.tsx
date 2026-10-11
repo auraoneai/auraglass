@@ -5,8 +5,8 @@
 import * as React from 'react';
 import { AppShell, TopBar, Inspector } from 'aura-glass/app-shell';
 import { AgentSteps, Composer, ProviderErrorState, Thread, UsageMeter } from 'aura-glass/ai';
-import { useAuraChat } from '../../items/ai-sdk-adapter/useAuraChat';
-import { ArtifactPanel, type Artifact } from '../../items/ai-artifact-panel/ArtifactPanel';
+import { useAuraChat } from '@/registry/items/ai-sdk-adapter/useAuraChat';
+import { ArtifactPanel, type Artifact } from '@/registry/items/ai-artifact-panel/ArtifactPanel';
 import type { AgStep } from 'aura-glass/ai';
 
 const INSPECTOR_STEPS: AgStep[] = [

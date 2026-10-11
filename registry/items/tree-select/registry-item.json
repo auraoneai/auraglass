@@ -3,11 +3,35 @@
   "name": "tree-select",
   "type": "registry:item",
   "title": "Tree select",
-  "description": "Hierarchical single-select — trigger + TreeView popup.",
-  "dependencies": ["react"],
-  "registryDependencies": [],
+  "description": "Hierarchical single-select — CMP Select trigger + TreeView inside the Select popup.",
+  "dependencies": [
+    "react",
+    "aura-glass"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:item" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "Select",
+        "TreeView"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

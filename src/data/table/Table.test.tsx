@@ -47,6 +47,17 @@ describe('Table (SURF-155)', () => {
     expect(container.querySelectorAll('th[scope="col"]').length).toBe(2);
   });
 
+  it('meta.rowHeader renders that column as <th scope="row"> (rowheader)', () => {
+    const cols: TableColumnDef<Row>[] = [{ ...COLS[0]!, meta: { headerLabel: 'Name', rowHeader: true } }, COLS[1]!];
+    const { container, getAllByRole } = render(<T columns={cols} />);
+    const rowHeaders = container.querySelectorAll('tbody th[scope="row"]');
+    expect([...rowHeaders].map((th) => th.textContent)).toEqual(['Atlas', 'Boreal', 'Cinder']);
+    expect(getAllByRole('rowheader')).toHaveLength(DATA.length);
+    expect(container.querySelectorAll('tbody td[data-ag-cell="qty"]')).toHaveLength(DATA.length);
+    const grid = render(<T columns={cols} mode="grid" />);
+    expect(grid.container.querySelectorAll('tbody th[role="rowheader"]')).toHaveLength(DATA.length);
+  });
+
   it('controlled and uncontrolled: sorting', () => {
     const onSort = jest.fn();
     const { rerender, container } = render(<T sorting={[{ id: 'qty', desc: true }]} onSortingChange={onSort} />);

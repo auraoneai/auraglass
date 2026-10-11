@@ -3,11 +3,57 @@
   "name": "pricing",
   "type": "registry:block",
   "title": "Pricing",
-  "description": "Plan grid with localized prices and a controlled billing-period toggle.",
-  "dependencies": ["react"],
-  "registryDependencies": ["card", "button", "badge", "commerce-cart"],
+  "description": "Plan grid with localized prices, a SegmentedControl billing-period toggle and a scrollable comparison table (sticky first column, Included/Not included text).",
+  "dependencies": [
+    "react",
+    "aura-glass"
+  ],
+  "registryDependencies": [
+    "auraglass",
+    "commerce-cart"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    },
+    {
+      "path": "PlanComparison.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "PricingTable.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "types.ts",
+      "type": "registry:lib"
+    },
+    {
+      "path": "pricing.css",
+      "type": "registry:style"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "block",
+      "client": true,
+      "components": [
+        "Badge",
+        "Button",
+        "Card",
+        "CheckIcon",
+        "MinusIcon",
+        "SegmentedControl",
+        "VisuallyHidden"
+      ],
+      "ga": false,
+      "minVersion": "5.0.0"
+    }
+  }
 }
