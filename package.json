@@ -137,7 +137,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test:tokens:exports": "node --test tests/tokens/export.spec.mjs",
     "artifact:size-budgets": "node scripts/ci/verify-size-budgets.mjs",
-    "artifact:deps": "node scripts/ci/verify-deps.mjs"
+    "artifact:deps": "node scripts/ci/verify-deps.mjs",
+    "version:packages": "changeset version && node scripts/release/release-notes.mjs",
+    "release-notes": "node scripts/release/release-notes.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.8.0",

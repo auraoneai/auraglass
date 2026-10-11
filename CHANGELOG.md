@@ -1,5 +1,9 @@
 # Changelog
 
+## Ledger corrections
+
+Pre-4.1.1 ledger mismatches are recorded once in `docs/release/ledger-corrections.json` (regenerate with `node scripts/release/verify-release-ledger.mjs --regen`); history is not rewritten. Versions >= 4.1.1 must agree across CHANGELOG heading, git tag, GitLab Release and npm — the `verify-release-ledger` step runs in the tag pipeline and fails closed.
+
 ## [4.1.0] - 2026-09-05
 
 ### Fixed

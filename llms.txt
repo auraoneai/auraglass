@@ -36,4 +36,10 @@ Current release track: `5.x` (pre-release train on `next`)
 - `4.x` — LTS: fixes and security only, 12 months after 5.0.0 GA (`latest` dist-tag until GA)
 - `<4.x` — unsupported
 
+npm dist-tags today:
+
+- `latest`: 4.1.0
+- `next`: none
+- `v4-lts`: none
+
 See llms-full.txt for the expanded index.

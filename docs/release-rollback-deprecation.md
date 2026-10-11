@@ -1,170 +1,175 @@
 # AuraGlass Release Rollback And Deprecation Runbook
 
-This runbook covers bad public `aura-glass` npm releases and matching GitHub tags. It is repository-side operational guidance; executing npm or GitHub changes still requires release-owner credentials and approval.
+This runbook covers a bad `aura-glass` release on any of the three npm dist-tag lines:
 
-## Fixed Sequence
-
-Every rollback follows the same five steps in order. Do not reorder; each step's evidence gates the next.
-
-```text
-1. Triage        -> classify severity (S1/S2/S3), capture the bad version + dist-tag state
-2. Contain       -> move `latest` off the bad version; post the consumer notice
-3. Verify fix    -> dry-run evidence (verify:pack + pack --dry-run + install smoke)
-4. Deprecate     -> `npm deprecate` the bad version with the notice message
-5. Recover       -> publish the fixed patch, realign tags/notes, run post-incident checklist
-```
-
-## Preflight Checklist
-
-Run before step 4/5. Every box requires committed or recorded evidence — do not
-deprecate or publish from memory.
-
-```text
-preflight:
-  - [ ] dry-run passed: `npm run release:dry-run` output recorded (integrity + shasum)
-  - [ ] pack contents verified: `npm pack --dry-run --json` file list attached to the incident record
-  - [ ] install smoke passed on a clean project (both `import` and `require`)
-  - [ ] target dist-tag state recorded: `npm view aura-glass dist-tags --json`
-  - [ ] deprecation message drafted (see Consumer Mitigation Message template)
-  - [ ] decision gate signed off: release owner (2FA-verified) approves the severity class
-```
-
-## The First-72-Hours Deprecation Window
-
-A version less than 72 hours on npm may be **deprecated immediately** once the severity class and preflight pass — installs that already fetched it still resolve, so deprecation is the only safe signal. After 72 hours the version may be deeply installed in lockfiles; prefer `latest` moves plus deprecation, and never `npm unpublish` it: unpublish within the npm window breaks every lockfile that already references the tarball.
-
-**Whole-package `npm unpublish` is forbidden.** Only a single version may ever be
-unpublished, only inside npm's unpublish window, and only with owner sign-off recorded
-in `docs/release/decisions/`.
-
-## Decision Gates
-
-| Gate | Approver | Evidence recorded |
+| Dist-tag | Line | Published from |
 | --- | --- | --- |
-| Severity class | Release owner | Incident record in `docs/release/decisions/` |
-| Deprecate now vs patch-first | Release owner | Preflight checklist output |
-| `npm unpublish` of a single version | Owner + second reviewer | Decision record (rare; window-limited) |
-| Tag rewrite | Owner only | Explicit record — default answer is no |
+| `latest` | 4.x before 5.0 GA, 5.x after GA | `release/4.x` (4.x), `main` (5.x) |
+| `next` | 5.0 pre-releases (`-alpha.N`, `-beta.N`, `-rc.N`) | `next` |
+| `v4-lts` | 4.x after 5.0 GA | `release/4.x` |
 
-## Scope
+Every npm write below is a release-owner action with their own npm session; the agent and CI
+never run these commands outside the tag pipeline (`plat:publish:npm`).
 
-- Public npm package releases.
-- GitHub release notes and tags.
-- Package-only consumers using CJS, ESM, CSS, tokens, recipes, workers, and optional self-hosted runtime exports.
-
-This runbook does not cover live hosted infrastructure rollback. If a hosted runtime is deployed, use the deployment platform rollback process in addition to this package procedure.
-
-## Before Any Release
-
-1. Confirm the release commit passes `npm run release:dry-run`.
-2. Confirm `npm run verify:pack` reports a clean install smoke and no nested runtimes.
-3. Confirm `npm pack --dry-run --json` does not include unsupported source server entrypoints such as `server/api-server.js`.
-4. Record the tarball filename, version, integrity, and shasum from the dry run.
-5. Draft release notes that state the supported scope: public package plus optional self-hosted runtime contracts.
+**`npm unpublish` is never a rollback step.** A published version may already be pinned in
+consumer lockfiles, and unpublishing breaks every reproducible install. Roll back by moving a
+dist-tag and deprecating the bad version. The only exception is an exposed secret or a legal
+emergency that meets npm policy; that is an owner action with a decision record under
+`docs/release/decisions/`, never part of a scenario below.
 
 ## Severity Levels
 
 | Severity | Example | Action |
 | --- | --- | --- |
-| S1 | Package cannot install, imports crash, React runtime bundled, secrets exposed, or malicious/unintended files shipped. | Move `latest` immediately, publish a patch, deprecate the bad version, and update GitHub release notes. |
-| S2 | Important component, type, CSS, token, recipe, worker, or Storybook regression. | Publish a patch after verification; move `latest` if the bad version is already `latest`. |
-| S3 | Documentation, examples, metadata, warning noise, or minor visual issue. | Fix in the next patch unless release owner chooses immediate patch. |
+| S1 | Package cannot install, imports crash, React bundled, secrets exposed, or unintended files shipped. | Move the dist-tag immediately, deprecate the bad version, publish a fixed patch, update the release notes. |
+| S2 | Important component, type, CSS, token, material or Storybook regression. | Publish a fixed patch after verification; move the dist-tag if the bad version holds it. |
+| S3 | Documentation, examples, metadata, warning noise or a minor visual issue. | Fix in the next patch unless the release owner chooses an immediate patch. |
 
-## Immediate Containment
+Before any npm write, record the registry state in the incident record:
 
-1. Identify the currently published version:
+```bash
+npm view aura-glass dist-tags --json
+npm view aura-glass@<bad> version dist.integrity time --json
+```
 
-   ```bash
-   npm view aura-glass version dist-tags versions --json
-   ```
+## Scenarios
 
-2. If the bad version is tagged as `latest`, move `latest` to the last known-good version:
+### 1. Bad 4.x release before 5.0 GA
 
-   ```bash
-   npm dist-tag add aura-glass@<last-good-version> latest
-   npm view aura-glass dist-tags --json
-   ```
+`latest` still points at 4.x. Move it back to the previous good 4.x version and deprecate the
+bad one:
 
-3. Deprecate the bad version with an actionable message:
+```bash
+npm dist-tag add aura-glass@<prev> latest
+npm deprecate aura-glass@<bad> "<msg>"
+npm view aura-glass dist-tags --json
+```
 
-   ```bash
-   npm deprecate aura-glass@<bad-version> "Do not use this release. Upgrade to <fixed-version> or downgrade to <last-good-version>; see <GitHub release or issue URL>."
-   ```
+Then ship the forward fix as the next 4.x patch from `release/4.x` (or `release/4.1.x` for a
+4.1.x patch) through the tag pipeline. A forward patch is preferred over a rollback when the
+previous version carries known security or privacy defects (4.1.0).
 
-4. Avoid `npm unpublish` except for an exposed-secret or legal/security emergency that meets npm policy and has release-owner approval. Prefer dist-tag movement plus deprecation because unpublish can break reproducible installs.
+### 2. Bad LTS patch (`v4-lts`)
 
-## Patch Release Procedure
+After 5.0 GA, 4.x patches publish to `v4-lts`; `latest` stays on 5.x and is not touched:
 
-1. Create a patch branch from the bad release tag or current main, whichever contains the fix with the least risk.
-2. Apply only the rollback fix and required tests.
-3. Run:
+```bash
+npm dist-tag add aura-glass@<prev-4.x> v4-lts
+npm deprecate aura-glass@<bad-4.x> "<msg>"
+npm view aura-glass dist-tags --json
+```
 
-   ```bash
-   npm run release:dry-run
-   npm pack --dry-run --json
-   ```
+### 3. Bad pre-release (`next`)
 
-4. Inspect the dry-run pack output for:
+Retag `next` to the previous good pre-release and deprecate the bad one. `latest` and `v4-lts`
+are not touched; the fixed train publishes the next pre-release on schedule.
 
-   - Expected `dist/`, `bin/`, `workers/`, `README.md`, `LICENSE`, and `package.json` entries.
-   - No nested `node_modules`.
-   - No React, React DOM, or styled-components runtime bundles.
-   - No unsupported source server files such as `server/api-server.js`.
-   - No test reports, Playwright artifacts, screenshots, snapshots, caches, or local env files.
+```bash
+npm dist-tag add aura-glass@<prev-prerelease> next
+npm deprecate aura-glass@<bad-prerelease> "<msg>"
+```
 
-5. Publish the fixed patch with provenance when release infrastructure supports it:
+### 4. Bad 5.0 GA (`latest` back to `v4-lts`)
 
-   ```bash
-   npm publish --access public --provenance
-   ```
+Move `latest` to the version that `v4-lts` currently holds. 5.0 stays installable by exact
+version; it is not unpublished.
 
-6. Verify public registry state:
+```bash
+npm view aura-glass dist-tags.v4-lts
+npm dist-tag add aura-glass@<current-v4-lts> latest
+npm deprecate aura-glass@<bad-5.x> "<msg>"
+```
 
-   ```bash
-   npm view aura-glass@<fixed-version> version dist.integrity dist.shasum time --json
-   npm view aura-glass dist-tags --json
-   ```
+While `latest` is rolled back, a 4.x fix that must also land on `latest` is published by the
+tag pipeline with the protected CI variable `AG_ROLLBACK_LATEST_TO_4X=true`. Without it,
+`scripts/release/publish.mjs` and `scripts/release/dist-tag.mjs` refuse to move `latest`
+backwards from 5.x to 4.x. Remove the variable as soon as a fixed 5.0.x takes `latest` again.
 
-7. If needed, explicitly set `latest`:
+### 5. Tier regression
 
-   ```bash
-   npm dist-tag add aura-glass@<fixed-version> latest
-   ```
+A rendering tier misbehaves on some devices. Consumers pin the tier while the fix ships:
+
+```tsx
+<AuraGlassProvider tier="standard">{app}</AuraGlassProvider>
+```
+
+The provider writes `data-ag-tier="standard"` on `<html>`; no package rollback is needed unless
+`standard` itself is broken (then scenario 1, 2 or 4).
+
+### 6. Unreadable material
+
+Text over glass is unreadable on a backdrop the contrast solver missed. Consumers switch the
+transparency preference while the fix ships:
+
+```tsx
+<AuraGlassProvider transparency="tinted">{app}</AuraGlassProvider>
+```
+
+or set the attribute directly: `data-ag-transparency="tinted"` (or `data-ag-transparency="solid"`
+for no backdrop at all).
+
+### 7. Codemod damage
+
+`npx @auraglass/cli migrate 4to5` refuses to run on a dirty working tree (exit code 3) unless
+`--allow-dirty` is passed, so its edits are always the only uncommitted changes. To undo a bad
+run:
+
+```bash
+git status
+git checkout .
+npx @auraglass/cli migrate 4to5 --dry-run
+```
+
+Report the damaging transform with the `--dry-run` output so the codemod fixture suite gains
+the failing case.
+
+### 8. Removed item needed
+
+A consumer depends on a component or export that 5.0 removed. Either stay on the 4.x LTS line:
+
+```bash
+npm install aura-glass@v4-lts
+```
+
+or install the registry item that replaces it into the app:
+
+```bash
+npx @auraglass/cli add <item>
+```
+
+The breaking-change register (`docs/release/breaking-changes.json`, B3) lists both paths for
+removed exports; the `removed` codemod's TODO comment names the registry item per export where
+one exists.
 
 ## GitHub Release And Tag Recovery
 
-1. If a GitHub release exists for the bad version, edit its notes with:
+1. If a GitHub Release exists for the bad version, edit its notes with the bad version, the
+   affected install range, the recommended fixed or previous version, the user impact and the
+   mitigation commands from the scenario above.
+2. Do not rewrite a released Git tag unless the release owner explicitly approves. Prefer a new
+   patch tag.
+3. Create the GitHub Release for every published tag (operator step, REQ-PLAT-16). The GitLab
+   tag pipeline creates the GitLab Release itself (`plat:release:notes`, `release:` keyword) and
+   leaves `release-notes.md` and `dist-maps.tgz` as artifacts of that job. After the pipeline is
+   green, the release owner downloads those two artifacts and runs, with the existing `gh` login:
 
-   - Bad version.
-   - Affected install range.
-   - Recommended fixed or last-good version.
-   - User impact.
-   - Mitigation commands.
+   ```bash
+   gh release create <tag> --notes-file release-notes.md dist-maps.tgz
+   ```
 
-2. If the bad Git tag points to a released artifact, do not rewrite it unless the release owner explicitly approves. Prefer a new patch tag.
-3. If a draft release exists but is unpublished, update or delete the draft before publishing the fixed tag.
-4. Link the npm deprecation notice, issue, and fixed release from the GitHub release notes.
+   Add `--prerelease` for `-alpha.N`, `-beta.N` and `-rc.N` tags only.
 
 ## Consumer Mitigation Message
 
-Use this template for release notes, issue comments, and support responses:
-
 ```text
-AuraGlass <bad-version> has been deprecated because <short reason>.
-Use aura-glass@<fixed-version>. If you cannot upgrade immediately, pin aura-glass@<last-good-version>.
+aura-glass <bad> has been deprecated because <short reason>.
+Use aura-glass@<fixed>. If you cannot upgrade immediately, pin aura-glass@<prev>.
 
-npm install aura-glass@<fixed-version>
+npm install aura-glass@<fixed>
 ```
 
-Include any migration steps or known workarounds after the install command.
+## Drill (AC-PLAT-19)
 
-## Post-Incident Checklist
-
-- [ ] `latest` points to the fixed or last-good version.
-- [ ] Bad version is deprecated with a clear message.
-- [ ] Fixed patch passes `npm run release:dry-run`.
-- [ ] Registry integrity and shasum for the fixed version are recorded.
-- [ ] GitHub release notes identify the bad version and the fixed version.
-- [ ] Release evidence under `reports/` and [deployment.md](./deployment.md) are updated if the incident changes hosted-runtime or package guidance.
-- [ ] A regression test or pack verification is added for the failure mode.
-
+The rollback drill exercises scenarios 3 and 1 on a scratch pre-release in a GitLab pipeline.
+Its record, with the real pipeline URL written by the job, lives in
+`docs/release/decisions/rollback-drill.md`. The record stays open until that pipeline has run.
