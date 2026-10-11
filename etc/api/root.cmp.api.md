@@ -39,6 +39,7 @@
 - `NumberField`
 - `Popover`
 - `Progress`
+- `ProgressRing`
 - `RadioGroup`
 - `Rating`
 - `ScrollArea`
@@ -47,6 +48,7 @@
 - `Select`
 - `Separator`
 - `Sheet`
+- `SheetHandle`
 - `Skeleton`
 - `Slider`
 - `Stack`
@@ -59,4 +61,6 @@
 - `Tooltip`
 - `Tour`
 - `VisuallyHidden`
+- `resolveDetent`
+- `useSheetDetents`
 - `useToast`
