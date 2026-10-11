@@ -138,7 +138,8 @@
     "test:tokens:exports": "node --test tests/tokens/export.spec.mjs",
     "artifact:size-budgets": "node scripts/ci/verify-size-budgets.mjs",
     "artifact:deps": "node scripts/ci/verify-deps.mjs",
-    "prepack": "node scripts/release/gen-deprecations.mjs"
+    "prepack": "node scripts/release/gen-deprecations.mjs",
+    "gen:deprecations": "node scripts/release/gen-deprecations.mjs --schema"
   },
   "dependencies": {
     "@base-ui/react": "1.8.0",
