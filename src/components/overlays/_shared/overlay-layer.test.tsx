@@ -9,6 +9,8 @@ import * as React from 'react';
 import { AuraGlassProvider } from '../../../theme';
 import { MOUNTED_SUBJECTS, SEAM_SUBJECTS } from './__tests__/subjects';
 import { Dialog } from '../../dialog/index';
+import { Popover } from '../../popover/index';
+import { Menu } from '../../menu/index';
 
 describe('overlay-layer (CMP-201)', () => {
   beforeEach(() => {
@@ -71,6 +73,90 @@ describe('overlay-layer (CMP-201)', () => {
     expect(document.querySelector('[data-ag-part="popup"]')).toBeTruthy();
     unmount();
     expect(document.querySelector('[data-ag-part="popup"]')).toBeNull();
+  });
+
+  /* REQ-CMP-80: open-order depth + modal inert exemptions. These mount without
+     AuraGlassProvider (its jsdom portal flake is baselined separately) — BU
+     portals land on document.body and the per-document LayerStack singleton
+     still tracks them. */
+  it('Dialog→Popover→Menu open order → data-ag-overlay-depth 0/1/2 on popups', async () => {
+    render(
+      <>
+        <Dialog.Root defaultOpen>
+          <Dialog.Portal><Dialog.Backdrop /><Dialog.Popup aria-label="d" /></Dialog.Portal>
+        </Dialog.Root>
+        <Popover.Root defaultOpen>
+          <Popover.Trigger>p</Popover.Trigger>
+          <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="p" /></Popover.Positioner></Popover.Portal>
+        </Popover.Root>
+        <Menu.Root defaultOpen>
+          <Menu.Trigger>m</Menu.Trigger>
+          <Menu.Portal><Menu.Positioner><Menu.Popup aria-label="m"><Menu.Item>x</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal>
+        </Menu.Root>
+      </>,
+    );
+    await act(async () => { await new Promise((r) => setTimeout(r, 60)); });
+    const d = document.querySelector<HTMLElement>('[aria-label="d"]');
+    const p = document.querySelector<HTMLElement>('[aria-label="p"]');
+    const m = document.querySelector<HTMLElement>('[aria-label="m"]');
+    expect(d?.getAttribute('data-ag-overlay-depth')).toBe('0');
+    expect(p?.getAttribute('data-ag-overlay-depth')).toBe('1');
+    expect(m?.getAttribute('data-ag-overlay-depth')).toBe('2');
+  });
+
+  it('a closed earlier-mounted Popover does not change later depths', async () => {
+    function Scene() {
+      const [open, setOpen] = React.useState(false);
+      return (
+        <>
+          <button onClick={() => setOpen(true)}>open pop</button>
+          <Popover.Root open={open} onOpenChange={setOpen}>
+            <Popover.Trigger>p</Popover.Trigger>
+            <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="p" /></Popover.Positioner></Popover.Portal>
+          </Popover.Root>
+          <Dialog.Root defaultOpen>
+            <Dialog.Portal><Dialog.Popup aria-label="d" /></Dialog.Portal>
+          </Dialog.Root>
+        </>
+      );
+    }
+    render(<Scene />);
+    await act(async () => { await new Promise((r) => setTimeout(r, 60)); });
+    expect(document.querySelector('[aria-label="p"]')).toBeNull();
+    const d = document.querySelector<HTMLElement>('[aria-label="d"]');
+    expect(d?.getAttribute('data-ag-overlay-depth')).toBe('0');
+    await userEvent.click(document.querySelector('button')!);
+    await act(async () => { await new Promise((r) => setTimeout(r, 60)); });
+    // opening the popover later pushes it on top — depth 1
+    expect(document.querySelector('[aria-label="p"]')?.getAttribute('data-ag-overlay-depth')).toBe('1');
+  });
+
+  it('toast layer root children are never inerted while a modal is open', async () => {
+    /* applyModalEffects inerts every [data-ag-layer-root] child except toast.
+       The provider's real portal root is a jsdom flake, so this test builds an
+       equivalent root and renders a real modal Dialog against the singleton. */
+    const pr = document.createElement('div');
+    pr.setAttribute('data-ag-portal-root', '');
+    const overlayRoot = document.createElement('div');
+    overlayRoot.setAttribute('data-ag-layer-root', 'overlay');
+    const overlayChild = document.createElement('div');
+    overlayRoot.appendChild(overlayChild);
+    const toastRoot = document.createElement('div');
+    toastRoot.setAttribute('data-ag-layer-root', 'toast');
+    const toastChild = document.createElement('div');
+    toastRoot.appendChild(toastChild);
+    pr.append(overlayRoot, toastRoot);
+    document.body.appendChild(pr);
+
+    render(
+      <Dialog.Root defaultOpen>
+        <Dialog.Portal><Dialog.Backdrop /><Dialog.Popup aria-label="d" /></Dialog.Portal>
+      </Dialog.Root>,
+    );
+    await act(async () => { await new Promise((r) => setTimeout(r, 60)); });
+    expect(toastChild.hasAttribute('inert')).toBe(false);
+    expect(overlayChild.hasAttribute('inert')).toBe(true);
+    pr.remove();
   });
 
   it('PENDING: seam subjects (3f/3i) are covered once their components land', () => {
