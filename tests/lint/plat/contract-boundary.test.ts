@@ -1,4 +1,5 @@
 /* @jest-environment node */
+import { describe } from '@jest/globals';
 import { tester, F } from './helpers';
 
 const boundary = require('../../../lint/rules/plat/contract-boundary.cjs');

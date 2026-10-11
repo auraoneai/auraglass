@@ -8,8 +8,8 @@ import type { ReactNode } from 'react';
 
 export interface RHFAdapter {
   Controller: React.ComponentType<{
-    name: string; control: unknown; rules?: Record<string, unknown>;
-    render: (args: { field: { value: unknown; onChange: (v: unknown) => void; onBlur: () => void; ref: unknown }; fieldState: { error?: { message?: string } } }) => ReactNode;
+    name: string; control: unknown; rules?: Record<string, unknown> | undefined;
+    render: (args: { field: { name: string; value: unknown; onChange: (v: unknown) => void; onBlur: () => void; ref: unknown }; fieldState: { error?: { message?: string } } }) => ReactNode;
   }>;
 }
 
@@ -18,7 +18,7 @@ export interface RhfFieldProps {
   control: unknown;
   label: ReactNode;
   rules?: Record<string, unknown>;
-  type?: string;
+  type?: 'text' | 'email' | 'password' | 'search' | 'tel' | 'url';
   required?: boolean;
   placeholder?: string;
   autoComplete?: string;
@@ -42,10 +42,17 @@ export function useRhf(injected?: RHFAdapter): RHFAdapter | null {
 /** Field bound through RHF Controller → CMP Field + TextField. */
 export function RhfTextField({ name, control, label, rules, type, required, placeholder, autoComplete, rhf: injected }: RhfFieldProps) {
   const rhf = useRhf(injected);
+  /* exactOptionalPropertyTypes: forward only the props the caller set. */
+  const inputProps = {
+    ...(type !== undefined && { type }),
+    ...(required !== undefined && { required }),
+    ...(placeholder !== undefined && { placeholder }),
+    ...(autoComplete !== undefined && { autoComplete }),
+  };
   if (!rhf || !control) {
     /* Engine not installed yet — render the field uncontrolled so the form
        still displays (submit handlers just get the DOM value). */
-    return <TextField label={label} name={name} type={type} required={required} placeholder={placeholder} autoComplete={autoComplete} />;
+    return <TextField label={label} name={name} {...inputProps} />;
   }
   const { Controller } = rhf;
   return (
@@ -58,14 +65,11 @@ export function RhfTextField({ name, control, label, rules, type, required, plac
           <Field.Label>{label}</Field.Label>
           <Field.Control>
             <TextField
-              name={field.name ?? name}
-              type={type}
-              required={required}
-              placeholder={placeholder}
-              autoComplete={autoComplete}
+              name={field.name}
+              {...inputProps}
               value={field.value == null ? '' : String(field.value)}
               onValueChange={(v) => field.onChange(v)}
-              invalid={!!fieldState.error}
+              error={fieldState.error?.message}
             />
           </Field.Control>
           {fieldState.error?.message ? <Field.Error>{fieldState.error.message}</Field.Error> : null}

@@ -9,7 +9,10 @@ export const IconMeta = defineMeta({
   parts: ['root'],
   states: [],
   variants: {},
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1,
   migration: [
-    { from: 'GlassIcon', props: { name: 'name' }, automation: 'full', compat: true },
+    { from: 'GlassIcon', props: { name: 'name' }, selectors: { '.glass-icon': '.ag-icon' }, automation: 'full', compat: true },
   ],
 });
