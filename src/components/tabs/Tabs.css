@@ -1,3 +1,4 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 /* Tabs chrome (SURF-061/063/064, contract S-03/S-12/SC-19):
    indicator is a layout-overlay — position is read from data-ag-vt-participant
    by the motion seam, never from element metrics in JS. No !important, no
@@ -20,8 +21,8 @@
     border-block-end: var(--_ag-border-width, 1px) solid var(--_ag-border, transparent);
   }
   /* SURF-050: edge fade only where the list actually overflows. */
-  .ag-tabs__list[data-ag-overflow-start='true'],
-  .ag-tabs__list[data-ag-overflow-end='true'] {
+  .ag-tabs__list[data-overflow-start='true'],
+  .ag-tabs__list[data-overflow-end='true'] {
     mask-image: linear-gradient(
       to right,
       transparent,

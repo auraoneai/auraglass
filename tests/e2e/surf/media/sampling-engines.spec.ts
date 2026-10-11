@@ -9,7 +9,7 @@ const SCENES = ['light-uniform', 'light-gradient', 'dark-uniform', 'dark-gradien
 test.describe('media sampling engines (SURF-439)', () => {
   test('classifyTone matches expected tone for all 8 scenes', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
-    if (subjects.length === 0) { console.warn('no subjects — pending'); return; }
+    expect(subjects.length, 'no subjects').toBeGreaterThan(0);
     const result = await page.evaluate(async (scenes) => {
       try {
         const spec = '/src/media/sampling/index.ts';
@@ -18,14 +18,14 @@ test.describe('media sampling engines (SURF-439)', () => {
         return scenes.map((s) => ({ scene: s, tone: mod.classifyTone!(s) }));
       } catch { return null; }
     }, SCENES);
-    if (result === null) { console.warn('sampling module not reachable in-page — pending'); return; }
+    if (result === null) throw new Error('sampling module not reachable in-page');
     for (const r of result) expect(['light', 'dark', 'none']).toContain(r.tone);
   });
   test('CORS-less media produces no tone and one dev warning', async ({ page }) => {
     const warnings: string[] = [];
     page.on('console', (m) => { if (m.type() === 'warning') warnings.push(m.text()); });
     const subjects = await listSubjects({ owner: 'SURF' });
-    if (subjects.length === 0) { console.warn('no subjects — pending'); return; }
+    expect(subjects.length, 'no subjects').toBeGreaterThan(0);
     const corsWarnings = warnings.filter((w) => /crossOrigin|CORS/i.test(w));
     expect(corsWarnings.length).toBeLessThanOrEqual(1);
   });

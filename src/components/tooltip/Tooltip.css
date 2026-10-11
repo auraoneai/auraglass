@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-268 (REQ-CMP-101): Tooltip — overlayMaterial('tooltip') thin; no
    contain:layout/paint on popup; enter = 200ms opacity + 2px data-side
    translate, exit = opacity only; text-only (max-inline cap). */
@@ -5,22 +7,23 @@
   .ag-tooltip-positioner { z-index: var(--ag-z-transient, 80); }
 
   .ag-tooltip-popup {
-    background: var(--_ag-surface-fill-strong, var(--_ag-glass-fill, rgb(255 255 255 / 0.92)));
-    border: 1px solid var(--_ag-rim, rgb(0 0 0 / 0.08));
-    border-radius: var(--ag-radius-sm, 8px);
-    box-shadow: var(--_ag-shadow-transient, 0 4px 12px rgb(0 0 0 / 0.12));
+    background: var(--_ag-surface-fill-strong, var(--_ag-glass-fill, var(--_ag-surface-fill)));
+    border: 1px solid var(--_ag-rim, var(--ag-color-border));
+    border-radius: var(--ag-radius-sm);
+    box-shadow: var(--_ag-shadow-transient, var(--ag-shadow-thin));
     color: var(--ag-on-surface, inherit);
     font-size: var(--_ag-text-sm, 12px);
     line-height: 1.4;
     padding: 6px 10px;
-    max-inline-size: min(320px, calc(100vw - 32px));
+    /* REQ-CMP-100: 280px cap with a 16px viewport margin. */
+    max-inline-size: min(280px, calc(100vw - 16px));
     inline-size: max-content;
-    transition: opacity var(--ag-duration-small, 200ms) var(--ag-ease-standard, ease),
-                transform var(--ag-duration-small, 200ms) var(--ag-ease-standard, ease);
+    transition: opacity var(--ag-duration-small) var(--ag-ease-standard),
+                transform var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-tooltip-popup[data-starting-style] {
     opacity: 0;
-    transform: var(--_ag-tip-in, translateY(2px));
+    transform: var(--_ag-tip-in);
   }
   .ag-tooltip-popup[data-ending-style] { opacity: 0; transition-property: opacity; }
   .ag-tooltip-popup[data-side='top'][data-starting-style] { --_ag-tip-in: translateY(2px); }
@@ -33,12 +36,15 @@
   .ag-tooltip-arrow {
     inline-size: 8px;
     block-size: 8px;
-    background: var(--_ag-surface-fill-strong, rgb(255 255 255 / 0.92));
+    background: var(--_ag-surface-fill-strong, var(--_ag-surface-fill));
     clip-path: polygon(0 0, 100% 0, 50% 100%);
   }
 
+  /* REQ-CMP-101: calm motion mode gets the same no-transform guarantee as
+     the media-query path — data-ag-motion='calm' rides along, not replaces. */
+  [data-ag-motion='calm'] .ag-tooltip-popup { transform: none; }
   @media (prefers-reduced-motion: reduce) {
-    .ag-tooltip-popup { transition: opacity var(--ag-duration-small, 200ms) linear; transform: none !important; }
+    .ag-tooltip-popup { transition: opacity var(--ag-duration-small) linear; transform: none; }
   }
   @media (forced-colors: active) {
     .ag-tooltip-popup { border: 1px solid CanvasText; }

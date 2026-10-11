@@ -33,4 +33,14 @@ export const Multiple: Story = {
     </Accordion.Root>
   ),
 };
-
+export const HeadingLevel: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'Accordion', id: 'core-accordion--heading-level' } },
+  render: () => (
+    <Accordion.Root defaultValue={['i1']}>
+      <Accordion.Item value="i1">
+        <Accordion.Header headingLevel={4}><Accordion.Trigger>Section</Accordion.Trigger></Accordion.Header>
+        <Accordion.Content>Content</Accordion.Content>
+      </Accordion.Item>
+    </Accordion.Root>
+  ),
+};
