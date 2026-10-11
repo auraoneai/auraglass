@@ -90,10 +90,7 @@
     opacity: var(--ag-state-disabled-alpha);
   }
 
-  .ag-switch[data-ag-part='root']:focus-visible {
-    outline: var(--_ag-focus-width) solid var(--_ag-focus-outer, var(--ag-color-focus-outer));
-    outline-offset: var(--_ag-focus-width);
-  }
+  /* Focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
 
   @media (prefers-reduced-motion: reduce) {
     .ag-switch [data-ag-part='thumb'] {
@@ -103,7 +100,7 @@
 
   @media (forced-colors: active) {
     .ag-switch[data-ag-part='root'] {
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
       background: ButtonFace;
       box-shadow: none;
     }

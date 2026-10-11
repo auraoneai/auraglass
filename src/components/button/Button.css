@@ -44,7 +44,7 @@
     inline-size: var(--ag-space-4);
     block-size: var(--ag-space-4);
     border-radius: var(--ag-radius-full);
-    border: var(--_ag-focus-width) solid var(--ag-color-on-surface-muted);
+    border: var(--ag-focus-width) solid var(--ag-color-on-surface-muted);
     border-block-start-color: var(--ag-color-accent);
     flex: none;
     /* REQ-CMP-18/-33: static under calm/none and by default; a finite spin only
@@ -69,10 +69,10 @@
 
   /* identity: no optics until hover — hover raises specular */
   .ag-button[data-ag-variant='identity']:hover {
-    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-color-specular, var(--ag-color-border));
+    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-color-specular, var(--ag-color-border));
   }
   .ag-button:not([data-ag-variant='identity']):hover {
-    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-state-hover-specular);
+    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-state-hover-specular);
   }
 
   /* intent tints text/rim only; never selects material (REQ-CMP-34) */
@@ -90,13 +90,10 @@
   /* press glow via rim opacity only — transform stays none at rest/hover/press */
   .ag-button:active,
   .ag-button[data-pressed] {
-    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-state-press-glow);
+    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-state-press-glow);
   }
 
-  .ag-button:focus-visible {
-    outline: var(--_ag-focus-width) solid var(--_ag-color-focus-ring, var(--_ag-focus-outer));
-    outline-offset: var(--_ag-focus-width);
-  }
+  /* Focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
 
   .ag-button:disabled,
   .ag-button[data-disabled] {
@@ -111,7 +108,7 @@
       forced-color-adjust: none;
       color: ButtonText;
       background: ButtonFace;
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
     }
   }
 }

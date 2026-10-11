@@ -1,6 +1,7 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
-/* TextField (CMP-137): sunken shell + rim; focus rim --ag-color-focus-outer;
+/* TextField (CMP-137): sunken shell + rim; focus ring from the shared
+   REQ-CMP-19 rule (--ag-focus-outer / --ag-focus-inner);
    invalid rim + error text --ag-color-danger (REQ-CMP-61). */
 @layer ag.components {
   .ag-text-field {
@@ -15,7 +16,9 @@
     line-height: var(--ag-type-label-leading);
   }
 
-  .ag-text-field [data-ag-part='control-shell'] {
+  /* :where() keeps the rim at single-attribute specificity so the shared
+     REQ-CMP-19 focus-within ring (control-shared/controls.css) replaces it. */
+  :where(.ag-text-field) [data-ag-part='control-shell'] {
     display: flex;
     align-items: center;
     gap: var(--ag-space-2);
@@ -24,10 +27,6 @@
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     border-radius: var(--ag-radius-inner);
     transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
-  }
-  .ag-text-field [data-ag-part='control-shell']:focus-within {
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--_ag-focus-outer, var(--ag-color-focus-outer)),
-      0 0 0 calc(var(--_ag-focus-width, 2px) * 2) var(--_ag-focus-inner, var(--ag-color-focus-inner, transparent));
   }
   .ag-text-field[data-invalid] [data-ag-part='control-shell'] {
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-danger);
@@ -86,7 +85,7 @@
 
   @media (forced-colors: active) {
     .ag-text-field [data-ag-part='control-shell'] {
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
       background: Field;
       box-shadow: none;
     }

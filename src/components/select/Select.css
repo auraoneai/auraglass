@@ -52,10 +52,7 @@
   .ag-select[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
-  .ag-select:focus-visible {
-    outline: var(--_ag-focus-width) solid var(--_ag-focus-outer, var(--ag-color-focus-outer));
-    outline-offset: var(--_ag-focus-width);
-  }
+  /* Trigger focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
 
   /* Popup */
   .ag-select-popup {
@@ -157,11 +154,11 @@
   }
   @media (forced-colors: active) {
     .ag-select {
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
       box-shadow: none;
     }
     .ag-select-popup {
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
       background: Canvas;
     }
     .ag-select-item[data-highlighted] {

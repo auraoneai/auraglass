@@ -35,14 +35,8 @@
     will-change: transform, opacity;
   }
 
-  /* focus ring baseline for overlay parts (§6 two-tone ring) */
-  [data-ag-part='popup']:focus-visible,
-  [data-ag-part='close']:focus-visible,
-  [data-ag-part='handle']:focus-visible,
-  [data-ag-part='action']:focus-visible {
-    outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus-outer, var(--_ag-focus-color, Highlight));
-    outline-offset: 2px;
-  }
+  /* Overlay parts (popup, close, handle, action) take the shared REQ-CMP-19
+     two-tone ring from control-shared/controls.css. */
 
   @media (forced-colors: active) {
     .ag-scrim {

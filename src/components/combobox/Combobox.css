@@ -35,11 +35,7 @@
     outline: none;
     padding-block: var(--ag-space-1);
   }
-  .ag-combobox:focus-within {
-    outline: var(--_ag-focus-width) solid var(--_ag-focus-outer, var(--ag-color-focus-outer));
-    outline-offset: var(--_ag-focus-width);
-    box-shadow: 0 0 0 calc(var(--_ag-focus-width, 2px) * 2) var(--_ag-focus-inner, var(--ag-color-focus-inner, transparent));
-  }
+  /* Focus ring on the input-shell: the shared REQ-CMP-19 rule in control-shared/controls.css. */
   .ag-combobox [data-ag-part='trigger'],
   .ag-combobox [data-ag-part='clear'] {
     display: inline-flex;
@@ -206,11 +202,11 @@
   }
   @media (forced-colors: active) {
     .ag-combobox {
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
       box-shadow: none;
     }
     .ag-combobox-popup {
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
       background: Canvas;
     }
     .ag-combobox-item[data-highlighted] {

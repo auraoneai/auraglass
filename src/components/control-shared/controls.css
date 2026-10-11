@@ -42,19 +42,38 @@
     border-radius: var(--ag-radius-inner);
   }
 
-
-  /* REQ-CMP-19 shared focus ring — --ag-focus-outer outline plus the inner
-     --ag-focus-inner colour ring. Covers every focusable library part,
-     including focusable disabled elements (aria-disabled / data-disabled). */
-  :where([data-ag-part]):focus-visible,
-  :where([data-ag-part][aria-disabled='true']):focus-visible,
-  :where([data-ag-part][data-disabled]):focus-visible {
-    outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus-outer, var(--ag-color-focus-outer, Highlight));
-    outline-offset: var(--_ag-focus-width, 2px);
-    box-shadow: 0 0 0 calc(var(--_ag-focus-width, 2px) * 2) var(--_ag-focus-inner, var(--ag-color-focus-inner, Highlight));
+  /* REQ-CMP-19 shared focus ring — the single CMP focus implementation.
+     Outer band: --ag-focus-width outline in --ag-focus-outer, offset by the
+     width; inner band: a 2×width spread in --ag-focus-inner under it.
+     Applies to every focusable [data-ag-part] (buttons, toggle/segmented
+     items, switch, checkbox, radio, slider thumb, select trigger, number-field
+     input/steppers, menu items, tabs, accordion triggers, links, overlay
+     close/action) and to text shells on :focus-within; the text control inside
+     a shell is excluded so the ring is drawn once, on the shell.
+     Specificity is (0,2,0) for every branch ([data-ag-part] + pseudo-class;
+     the exclusion sits in :where()), so it wins over component rest rules.
+     Focusable disabled parts keep the ring at (0,3,0); no component rule
+     removes it. [data-ag-focus-inset] (S-01 opt-in) draws it inside the box
+     for clipping containers. */
+  [data-ag-part]:where(:not(:is([data-ag-part='control-shell'], [data-ag-part='input-shell']) :is([data-ag-part='control'], [data-ag-part='input']))):focus-visible,
+  [data-ag-part='control-shell']:focus-within,
+  [data-ag-part='input-shell']:focus-within,
+  [data-ag-part][aria-disabled='true']:focus-visible,
+  [data-ag-part][data-disabled]:focus-visible {
+    outline: var(--ag-focus-width) solid var(--ag-focus-outer, Highlight);
+    outline-offset: var(--ag-focus-width);
+    box-shadow: 0 0 0 calc(var(--ag-focus-width) * 2) var(--ag-focus-inner, Canvas);
+  }
+  [data-ag-part][data-ag-focus-inset]:focus-visible {
+    outline-offset: calc(var(--ag-focus-width) * -1);
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) * 2) var(--ag-focus-inner, Canvas);
   }
   @media (forced-colors: active) {
-    :where([data-ag-part]):focus-visible {
+    [data-ag-part]:where(:not(:is([data-ag-part='control-shell'], [data-ag-part='input-shell']) :is([data-ag-part='control'], [data-ag-part='input']))):focus-visible,
+    [data-ag-part='control-shell']:focus-within,
+    [data-ag-part='input-shell']:focus-within,
+    [data-ag-part][aria-disabled='true']:focus-visible,
+    [data-ag-part][data-disabled]:focus-visible {
       outline: 2px solid Highlight;
       box-shadow: none;
     }

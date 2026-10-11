@@ -6,7 +6,7 @@
     align-items: center;
     gap: var(--ag-space-1);
     border-radius: var(--ag-radius-full);
-    border: var(--_ag-focus-width) solid var(--ag-color-border);
+    border: var(--ag-focus-width) solid var(--ag-color-border);
     padding-inline: var(--ag-space-3);
     padding-block: var(--ag-space-1);
     font-size: var(--ag-type-label-size);
