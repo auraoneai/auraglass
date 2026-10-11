@@ -21,5 +21,5 @@ export default defineMeta({
 
 export const TABLE_COLUMN_META = {
   name: 'Table.Column',
-  migration: [{ from: 'ColumnDefinition', props: { key: 'accessorKey', label: 'header', sortable: 'enableSorting', width: 'size', render: 'cell', cellRenderer: 'cell', align: 'meta.align' } }],
+  migration: [{ from: 'ColumnDefinition', props: { key: 'accessorKey', label: 'header', sortable: 'enableSorting', width: 'size', render: 'cell', cellRenderer: 'cell', align: { to: 'meta.align', values: { left: 'start', right: 'end', center: 'center' } } } }],
 } as const;
