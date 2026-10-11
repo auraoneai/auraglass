@@ -11,9 +11,10 @@ import * as React from 'react';
 import { useAnnouncer } from '../../theme';
 import { cn } from '../../internal';
 import { resolveDetent } from './useSheetDetents';
-import { subscribeFrame, MotionCapabilityContext } from '../../motion';
+import { subscribeFrame } from '../../motion/ticker';
+import { MotionCapabilityContext } from '../../motion/capability';
 import type { SheetDetentsHandle } from './useSheetDetents';
-import type { SheetSide } from './Sheet.types';
+import type { SheetDetent, SheetSide } from './Sheet.types';
 
 export interface SheetHandleContextValue {
   axis: 'x' | 'y';
@@ -21,6 +22,8 @@ export interface SheetHandleContextValue {
   sign: 1 | -1;
   side: SheetSide;
   detents: SheetDetentsHandle;
+  /** Effective (bottom-only) detent defs for value-derived announcements. */
+  detentDefs: SheetDetent[];
   viewportPx: number;
   getPopup: () => HTMLElement | null;
   onRequestClose: () => void;
@@ -37,8 +40,6 @@ export function useSheetHandleContext(): SheetHandleContextValue {
   return ctx;
 }
 
-const DEFAULT_DETENT_LABELS = ['Half height', 'Full height'];
-
 export function SheetHandle({ className, children, ref }: {
   className?: string;
   children?: React.ReactNode;
@@ -46,13 +47,21 @@ export function SheetHandle({ className, children, ref }: {
 }) {
   const ctx = useSheetHandleContext();
   const drag = React.useRef<{ id: number; start: number; samples: { t: number; v: number }[] } | null>(null);
-  const frameUnsub = React.useRef<null | (() => void)>(null);
+  const frameUnsub = React.useRef<(() => void) | null>(null);
+  const pendingPx = React.useRef(0);
   /* REQ-CMP-94: MotionCapability.dragDetents (aura-glass/motion provider) owns
      the drag when present; otherwise the local subscribeFrame path runs. */
   const cap = React.useContext(MotionCapabilityContext);
 
+  /* REQ-CMP-95: announcement derives from the detent VALUE — 1/'full' →
+     'Full height', 0.5 → 'Half height', otherwise labels.detents[i]. */
   const announceDetent = React.useCallback((i: number) => {
-    ctx.announce(ctx.labels?.detents?.[i] ?? DEFAULT_DETENT_LABELS[i] ?? `Detent ${i + 1}`);
+    const def = ctx.detentDefs[i];
+    const text =
+      def === 1 || def === 'full' ? 'Full height'
+      : def === 0.5 ? 'Half height'
+      : ctx.labels?.detents?.[i] ?? `Detent ${i + 1}`;
+    ctx.announce(text);
   }, [ctx]);
 
   const settleDetent = React.useCallback((i: number) => {
@@ -63,15 +72,19 @@ export function SheetHandle({ className, children, ref }: {
     if (el) el.style.transform = '';
   }, [ctx, announceDetent]);
 
-  // translate writes go through the S-13 ticker (subscribeFrame), not raw rAF
+  // S-13: one transform write per frame via the shared ticker (no raw rAF)
   const writeTransform = React.useCallback((px: number) => {
-    frameUnsub.current?.();
-    frameUnsub.current = subscribeFrame(() => {
+    pendingPx.current = px;
+    if (frameUnsub.current) return;
+    let unsub: () => void;
+    unsub = subscribeFrame(() => {
       frameUnsub.current = null;
+      unsub();
       const el = ctx.getPopup();
       if (!el) return;
-      el.style.transform = ctx.axis === 'y' ? `translateY(${px}px)` : `translateX(${px}px)`;
+      el.style.transform = ctx.axis === 'y' ? `translateY(${pendingPx.current}px)` : `translateX(${pendingPx.current}px)`;
     });
+    frameUnsub.current = unsub;
   }, [ctx]);
 
   const onPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
@@ -157,8 +170,6 @@ export function SheetHandle({ className, children, ref }: {
     <button
       type="button"
       data-ag-part="handle"
-      role="separator"
-      aria-orientation={ctx.axis === 'y' ? 'vertical' : 'horizontal'}
       aria-label={ctx.labels?.handle ?? 'Resize sheet'}
       className={cn('ag-sheet-handle', className)}
       style={capBindings?.style as React.CSSProperties | undefined}
