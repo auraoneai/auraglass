@@ -70,11 +70,61 @@ describe('useAnnouncer', () => {
     expect(regions().assertive.textContent).toBe('');
   });
 
-  it('id replacement swaps the previous message under the same id', () => {
+  it('id replacement: a same-id message within 100 ms replaces the queued one; only the second is ever written', () => {
     const { api } = setup();
+    const polite = regions().polite;
+    const seen: string[] = [];
+    const desc = Object.getOwnPropertyDescriptor(Node.prototype, 'textContent')!;
+    Object.defineProperty(polite, 'textContent', {
+      configurable: true,
+      get() { return desc.get!.call(this); },
+      set(v: string) { seen.push(v); desc.set!.call(this, v); },
+    });
     act(() => { api().announce('Step 1 of 3', { id: 'wizard' }); });
+    expect(polite.textContent).toBe('');
+    act(() => { jest.advanceTimersByTime(100); });
+    expect(polite.textContent).toBe('');
     act(() => { api().announce('Step 2 of 3', { id: 'wizard' }); });
-    expect(regions().polite.textContent).toBe('Step 2 of 3');
+    act(() => { jest.advanceTimersByTime(1000); });
+    delete (polite as unknown as Record<string, unknown>).textContent;
+    expect(polite.textContent).toBe('Step 2 of 3');
+    expect(seen.some((t) => t.includes('Step 1 of 3'))).toBe(false);
+    expect(seen).toContain('Step 2 of 3');
+  });
+
+  it('per-region queue: a write inside the 500 ms gap is queued, then written in order', () => {
+    const { api } = setup();
+    const polite = regions().polite;
+    act(() => { api().announce('First'); });
+    expect(polite.textContent).toBe('First');
+    act(() => { jest.advanceTimersByTime(100); api().announce('Second'); });
+    // still inside the gap: queued, not written
+    expect(polite.textContent).toBe('First');
+    act(() => { jest.advanceTimersByTime(399); });
+    expect(polite.textContent).toBe('First');
+    act(() => { jest.advanceTimersByTime(1); });
+    expect(polite.textContent).toBe('Second');
+  });
+
+  it('regions queue independently: an assertive write is not delayed by a busy polite lane', () => {
+    const { api } = setup();
+    act(() => {
+      api().announce('Polite 1');
+      api().announce('Polite 2');
+      api().announce('Alert', { politeness: 'assertive' });
+    });
+    expect(regions().polite.textContent).toBe('Polite 1');
+    expect(regions().assertive.textContent).toBe('Alert');
+    act(() => { jest.advanceTimersByTime(500); });
+    expect(regions().polite.textContent).toBe('Polite 2');
+  });
+
+  it('clear() drops queued entries so nothing is written afterwards', () => {
+    const { api } = setup();
+    act(() => { api().announce('Now'); api().announce('Later'); });
+    act(() => { api().clear(); });
+    act(() => { jest.advanceTimersByTime(2000); });
+    expect(regions().polite.textContent).toBe('');
   });
 
   it('no-op + exactly one dev warning when no provider is mounted', () => {
@@ -89,17 +139,52 @@ describe('useAnnouncer', () => {
     warn.mockRestore();
   });
 
-  it('createStreamingAnnouncer: 10 s stream, token every 50 ms -> <= 11 writes', () => {
+  it('createStreamingAnnouncer: 10 s stream, token every 50 ms -> <= 11 writes, final token is the last write', () => {
     const writes: string[] = [];
     const announce = (m: string) => { writes.push(m); };
     const s = createStreamingAnnouncer(announce, { intervalMs: 1000 });
+    // tokens at t = 0, 50, ..., 9950 ms; stop() at 9950 ms with the tail
+    // (token-181..token-199) still buffered.
     for (let i = 0; i < 200; i += 1) {
+      if (i > 0) jest.advanceTimersByTime(50);
       s.push(`token-${i}`);
-      jest.advanceTimersByTime(50);
     }
     s.stop();
-    // first chunk immediate + at most one flush per 1000 ms window + tail
+    // first chunk immediate + one flush per 1000 ms window + the stop() tail
     expect(writes.length).toBeLessThanOrEqual(11);
     expect(writes[0]).toBe('token-0');
+    expect(writes[writes.length - 1]).toContain('token-199');
+    // every token is announced exactly once, in order, across the writes
+    const announced = Array.from(writes.join(' ').matchAll(/token-(\d+)/g), (m) => Number(m[1]));
+    expect(announced).toEqual(Array.from({ length: 200 }, (_, i) => i));
+    // no write after stop()
+    const n = writes.length;
+    jest.advanceTimersByTime(5000);
+    expect(writes.length).toBe(n);
+  });
+
+  it('createStreamingAnnouncer: stream through useAnnouncer leaves the final token in the region', () => {
+    const { api } = setup();
+    const s = createStreamingAnnouncer((m) => api().announce(m), { intervalMs: 1000 });
+    act(() => {
+      for (let i = 0; i < 200; i += 1) {
+        if (i > 0) jest.advanceTimersByTime(50);
+        s.push(`token-${i} `);
+      }
+      s.stop();
+    });
+    act(() => { jest.advanceTimersByTime(500); });
+    expect(regions().polite.textContent).toContain('token-199');
+  });
+
+  it('createStreamingAnnouncer: cancel() discards the buffered tail', () => {
+    const writes: string[] = [];
+    const s = createStreamingAnnouncer((m) => { writes.push(m); }, { intervalMs: 1000 });
+    s.push('a');
+    jest.advanceTimersByTime(200);
+    s.push('b');
+    s.cancel();
+    jest.advanceTimersByTime(5000);
+    expect(writes).toEqual(['a']);
   });
 });
