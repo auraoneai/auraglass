@@ -1,7 +1,7 @@
 /** @jest-environment node */
 import { describe, test, expect } from '@jest/globals';
 // MAT-078: export tests for the 5.0 map — ESM aura-glass/tokens exposes exactly
-// {tokens, token, materialSpec, manifest}; tokens.css, material.css, tailwind.css
+// {tokens} (REQ-MAT-22: token(), the manifest and MaterialSpec stay internal); tokens.css, material.css, tailwind.css
 // and compat/tokens.css resolve; removed 4.x subpaths throw
 // ERR_PACKAGE_PATH_NOT_EXPORTED; no CJS entry on ./tokens.
 import { existsSync, readFileSync } from 'node:fs';
@@ -26,7 +26,7 @@ const specResolution = (specs: string[]): Record<string, string> => {
 };
 
 describe('5.0 exports map (MAT-078)', () => {
-  test('aura-glass/tokens ESM exposes exactly tokens, token, materialSpec, manifest', async () => {
+  test('aura-glass/tokens ESM exposes exactly tokens', async () => {
     const { build } = await import('esbuild');
     const res = await build({
       entryPoints: [join(ROOT, 'src/tokens/index.ts')],
@@ -37,7 +37,7 @@ describe('5.0 exports map (MAT-078)', () => {
       .map((s) => s.trim().replace(/\s+as\s+\w+$/, ''))
       .filter((s) => s && !s.startsWith('type '))
       .sort();
-    expect(names).toEqual(['manifest', 'materialSpec', 'token', 'tokens']);
+    expect(names).toEqual(['tokens']);
   });
 
   test('css subpaths resolve', () => {
