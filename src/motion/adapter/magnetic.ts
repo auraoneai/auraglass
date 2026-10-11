@@ -5,7 +5,7 @@
  * resolved 'full' + (pointer: fine). Exported under the frozen name
  * `magnetic`; implementation is a hook. */
 import * as React from 'react';
-import { useMotionValue, useSpring } from 'motion/react';
+import { motionPeer } from './peer';
 import { resolvedMotion } from '../ticker';
 import { toMotionTransition } from './toMotionTransition';
 import type { SpringTransition } from './toMotionTransition';
@@ -18,13 +18,19 @@ export interface MagneticBindings {
 
 function useMagnetic(opts: { strength?: number } = {}): MagneticBindings {
   const strength = Math.max(0, Math.min(0.3, opts.strength ?? 0.15));
+  const { useMotionValue, useSpring } = motionPeer();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const spring = toMotionTransition('spring-snappy') as SpringTransition;
   const sx = useSpring(x, spring);
   const sy = useSpring(y, spring);
   const enabled = React.useRef(false);
+  // Listener teardown for the element currently bound (REQ-MAT-50): React calls
+  // the ref with null on unmount and before re-binding a new callback.
+  const detach = React.useRef<(() => void) | null>(null);
   const ref = React.useCallback((el: HTMLElement | null) => {
+    detach.current?.();
+    detach.current = null;
     if (!el) return;
     enabled.current =
       resolvedMotion() === 'full' &&
@@ -42,6 +48,12 @@ function useMagnetic(opts: { strength?: number } = {}): MagneticBindings {
     const leave = () => { x.set(0); y.set(0); };
     el.addEventListener('pointermove', move);
     el.addEventListener('pointerleave', leave);
+    detach.current = () => {
+      el.removeEventListener('pointermove', move);
+      el.removeEventListener('pointerleave', leave);
+      x.set(0);
+      y.set(0);
+    };
   }, [strength, x, y]);
   return { ref, style: { x: sx, y: sy } };
 }

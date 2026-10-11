@@ -1,3 +1,4 @@
+'use client';
 /* MAT-217 REQ-MOT-52/-53: motionTokens → motion-library transition objects.
    Springs emit {type:'spring', stiffness, damping, mass:1, velocity?} — never
    bounce/visualDuration. Durations emit {duration: ms/1000, ease}; exit uses

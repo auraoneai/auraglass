@@ -1,3 +1,4 @@
+'use client';
 /* MAT lane V: analytic spring parameters (REQ-MAT-08). The DS-053 generator
    emits `spring.<name>` linear() strings + `spring.<name>-duration` ms; this
    module derives the equivalent motion-library params from the frozen contract

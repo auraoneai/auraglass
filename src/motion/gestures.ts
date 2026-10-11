@@ -1,3 +1,4 @@
+'use client';
 /* MAT-219/-220: DOM gesture engines behind MotionCapability — no React, no
    motion-library imports. Runs on the shared ticker and contract springs. */
 import { resolvedMotion, subscribeFrame } from './ticker';
@@ -55,9 +56,12 @@ const drive = (el: HTMLElement, axis: 'x' | 'y', from: number, to: number, mode:
   const { zeta, responseMs } = springParams('smooth');
   const omega0 = (2 * Math.PI) / (responseMs / 1000);
   const wd = zeta >= 1 ? omega0 : omega0 * Math.sqrt(1 - zeta * zeta);
-  const started = performance.now();
-  const un = subscribeFrame((_dt, now) => {
-    const t = (now - started) / 1000;
+  // Elapsed time accumulates the ticker's frame dt (capped at 50 ms), so the
+  // spring runs on the shared frame clock rather than a separate wall clock.
+  let elapsedMs = 0;
+  const un = subscribeFrame((dt) => {
+    elapsedMs += dt;
+    const t = elapsedMs / 1000;
     const w = omega0 * t;
     const x = zeta >= 1
       ? 1 - Math.exp(-w) * (1 + w)
@@ -86,7 +90,8 @@ export function attachDragDetents(el: HTMLElement, opts: {
     cancel?.();
     const el2 = (e.currentTarget as HTMLElement) ?? el;
     el2.setPointerCapture?.(e.pointerId);
-    let t = track(pos(el2, opts.axis), null, e.timeStamp);
+    const origin = pos(el2, opts.axis);
+    let t = track(origin, null, e.timeStamp);
     const size = opts.axis === 'y' ? el2.offsetHeight : el2.offsetWidth;
     const coord = (ev: PointerEvent) => (opts.axis === 'x' ? ev.clientX : ev.clientY);
     const start = coord(e) - pos(el2, opts.axis);
@@ -101,9 +106,14 @@ export function attachDragDetents(el: HTMLElement, opts: {
       el2.removeEventListener('pointercancel', up);
       const end = track(coord(ev) - start, t, ev.timeStamp);
       const projected = end.pos + end.v * PROJECT_S;
-      const dismissed =
-        Math.abs(end.pos) > DISMISS_FRAC * Math.max(1, size) || Math.abs(end.v) > DISMISS_V;
-      let idx = dismissed ? (end.pos >= 0 ? detents.length - 1 : 0) : 0;
+      // Dismiss on travel > 25% of the element's size (when measured) or a
+      // release faster than 800 px/s; it goes to the end detent in the
+      // direction of the release velocity, else of the travel.
+      const travel = end.pos - origin;
+      const byVelocity = Math.abs(end.v) > DISMISS_V;
+      const dismissed = byVelocity || (size > 0 && Math.abs(travel) > DISMISS_FRAC * size);
+      const forward = byVelocity ? end.v > 0 : travel >= 0;
+      let idx = dismissed ? (forward ? detents.length - 1 : 0) : 0;
       if (!dismissed) {
         for (let i = 0; i < detents.length; i++) {
           if (Math.abs(detents[i]! - projected) < Math.abs((detents[idx] ?? 0) - projected)) idx = i;

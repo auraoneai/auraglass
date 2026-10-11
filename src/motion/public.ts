@@ -1,7 +1,15 @@
-/* Frozen public surface of `aura-glass/motion` (ENTRIES).
-   Implementation lives in adapter.tsx (+ toMotionTransition.ts, gestures.ts, springs.ts);
-   `motion` (optional peer) is imported only from this lane (§4.10). */
-import './peer-guard'; // must precede adapter — throws the friendly peer error first
+'use client';
+/* Frozen public surface of `aura-glass/motion` (ENTRIES, REQ-MAT-50).
+   Implementation lives in adapter/** (+ ../gestures.ts). `motion` (optional
+   peer) is loaded only through adapter/peer.ts (§4.10): the top-level await
+   below runs after the adapter modules evaluate (they never touch the peer at
+   module scope) and before any consumer code can call into them, and it
+   rejects with the install message when the peer is missing. */
+import { guardMotionPeer } from './peer-guard';
+import { importMotionPeer } from './adapter/peer';
+
+await guardMotionPeer(importMotionPeer);
+
 export { MotionProvider, SharedLayout, Shared, useDragDetents, useMomentum, magnetic } from './adapter/index';
 export { toMotionTransition } from './adapter/toMotionTransition';
 export type { MotionTokenName } from '../contracts/motion';
