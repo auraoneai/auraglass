@@ -13,7 +13,11 @@ import { ActivityFeed } from '../../../src/components/timeline/ActivityFeed';
 import { Message } from '../../../src/ai/message/Message';
 import { formatMediaTime } from '../../../src/media/formatMediaTime';
 import { useMediaElement } from '../../../src/media/useMediaElement';
-import { AppShell, AppShellSidebarToggle, parseAppShellCookie, serializeAppShellCookie } from '../../../src/app-shell';
+// The './app-shell' entry is trimmed to the 7 contract names (SURF-023); the
+// toggle and the cookie codec are imported from their modules.
+import { AppShell } from '../../../src/app-shell';
+import { AppShellSidebarToggle } from '../../../src/app-shell/AppShell.SidebarToggle';
+import { parseAppShellCookie, serializeAppShellCookie } from '../../../src/app-shell/parseAppShellCookie';
 import { Calendar, DateField, DatePicker, TimeField } from '../../../src/date';
 
 function MediaTime({ seconds }: { seconds: number }) {

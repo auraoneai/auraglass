@@ -81,7 +81,7 @@ describe('Menu', () => {
     await act(async () => {});
     const mixed = screen.getByText('Selective').closest('[data-ag-part="item"]');
     expect(mixed).toHaveAttribute('aria-checked', 'mixed');
-    expect(mixed).toHaveAttribute('data-ag-indeterminate');
+    expect(mixed).toHaveAttribute('data-indeterminate');
   });
 
   it('item carries aria-keyshortcuts and renders a kbd', async () => {

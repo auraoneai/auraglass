@@ -18,7 +18,7 @@ export default defineMeta({
   },
   material: { layer: 'chrome', refractionEligible: true },
   apg: 'button',
-  budgetKb: 10,
+  budgetKb: 10000 / 1024,
   migration: [
     {
       from: 'GlassIconButton',
