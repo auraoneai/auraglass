@@ -1,0 +1,14 @@
+{
+  "mode": "ratchet",
+  "recordedAt": "d681707e9",
+  "note": "REQ-MAT-51 / REQ-FIN-58 (D.3-31): MAT motion rules at error over src/**. Each row is a finding that existed when the guard was widened, in a file another WP owns; the row is routed to that WP as a clause transfer and expires at RC-1. scripts/mat/motion-lint-l1.mjs fails on any finding without a row, on a count above its row, on a row whose count is now lower or zero (delete or lower it: the baseline only shrinks), and on any row under --enforce-zero. Never add rows.",
+  "rows": [
+    { "file": "src/components/sheet/SheetHandle.client.tsx", "rule": "motion-raf-via-ticker", "count": 1, "owner": "CMP", "wp": "FIN-E", "reqFin": "REQ-FIN-58", "req": "REQ-MAT-51", "transfer": "Replace the drag-frame requestAnimationFrame with src/motion's subscribeFrame (shared ticker).", "expires": "RC-1" },
+    { "file": "src/ai/error/ProviderErrorState.tsx", "rule": "motion-raf-via-ticker", "count": 1, "owner": "SURF", "wp": "FIN-F", "reqFin": "REQ-FIN-58", "req": "REQ-MAT-51", "transfer": "Replace the 1 s retry-countdown setInterval with a timer that is not a component-owned loop (setTimeout chain or a shared ticker subscription).", "expires": "RC-1" },
+    { "file": "src/ai/thread/useThreadScroll.ts", "rule": "motion-raf-via-ticker", "count": 1, "owner": "SURF", "wp": "FIN-F", "reqFin": "REQ-FIN-58", "req": "REQ-MAT-51", "transfer": "Schedule the scroll-to-end frame through src/motion's ticker instead of requestAnimationFrame.", "expires": "RC-1" },
+    { "file": "src/ai/sources/SourceList.tsx", "rule": "motion-raf-via-ticker", "count": 1, "owner": "SURF", "wp": "FIN-F", "reqFin": "REQ-FIN-58", "req": "REQ-MAT-51", "transfer": "Schedule the post-expand focus/scroll frame through src/motion's ticker instead of requestAnimationFrame.", "expires": "RC-1" },
+    { "file": "src/app-shell/ResizablePanels.tsx", "rule": "motion-raf-via-ticker", "count": 1, "owner": "SURF", "wp": "FIN-F", "reqFin": "REQ-FIN-58", "req": "REQ-MAT-51", "transfer": "Flush resize deltas through src/motion's subscribeFrame instead of requestAnimationFrame.", "expires": "RC-1" },
+    { "file": "src/media/CarouselRail/CarouselRail.tsx", "rule": "motion-raf-via-ticker", "count": 1, "owner": "SURF", "wp": "FIN-F", "reqFin": "REQ-FIN-58", "req": "REQ-MAT-51", "transfer": "Drive autoplay advance without a component-owned setInterval (gated by usePreference('allowContinuous'), via a timer or the shared ticker).", "expires": "RC-1" },
+    { "file": "src/data/chart-frame/ChartFrame.Interactive.tsx", "rule": "motion-single-preference-source", "count": 1, "owner": "SURF", "wp": "FIN-F", "reqFin": "REQ-FIN-58", "req": "REQ-MAT-51", "transfer": "Read reduced motion via usePreference('motion') (src/theme/preferences) instead of matchMedia('(prefers-reduced-motion: reduce)').", "expires": "RC-1" }
+  ]
+}

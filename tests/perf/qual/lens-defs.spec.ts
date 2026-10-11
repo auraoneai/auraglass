@@ -25,7 +25,7 @@ async function lensProbe(page: Page) {
   return page.evaluate(probeLens);
 }
 
-test.describe.configure({ mode: 'serial' });
+// Independent tests (default mode): one failure never hides the others' evidence.
 
 test('10 enhanced surfaces: exactly one svg[data-ag-lens-defs], 0 url() backdrops on Gecko/WebKit', async ({ page, browserName }) => {
   await page.addInitScript(agInstrument);
