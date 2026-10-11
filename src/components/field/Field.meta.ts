@@ -27,8 +27,10 @@ const meta: ControlMeta = defineMeta({
         required: 'aria-required on the inner control',
       },
       automation: 'mostly',
-      compat: true,
+      compat: false,
     },
+    { from: 'GlassFormField', automation: 'full', compat: true },
+    { from: 'GlassValidationMessage', automation: 'full', compat: true },
   ],
 });
 

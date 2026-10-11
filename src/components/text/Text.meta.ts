@@ -9,5 +9,5 @@ export default defineMeta({
   parts: ['root'],
   states: [],
   variants: { type: ['body','callout','caption','label','mono'], size: ['xs','sm','md','lg'], intent: ['neutral','success','warning','danger'] },
-  migration: [{ from: 'Typography', automation: 'mostly', compat: true }, { from: 'GlassText', automation: 'mostly', compat: true }],
+  migration: [{ from: 'Typography', automation: 'mostly', compat: true }, { from: 'GlassText', automation: 'mostly', compat: false }],
 });

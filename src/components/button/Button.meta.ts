@@ -61,5 +61,10 @@ export default defineMeta({
       automation: 'partial',
       compat: true,
     },
+    { from: 'Button', automation: 'full', compat: true },
+    { from: 'GlassLinkButton', automation: 'full', compat: true },
+    { from: 'LiquidGlassButtonStyle', automation: 'partial', compat: true },
+    { from: 'MagneticButton', automation: 'full', compat: true },
+    { from: 'RippleButton', automation: 'full', compat: true },
   ],
 });

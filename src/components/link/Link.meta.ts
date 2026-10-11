@@ -9,5 +9,5 @@ export default defineMeta({
   parts: ['root'],
   states: [],
   variants: { intent: ['neutral','danger'], underline: ['always','hover','none'] },
-  migration: [{ from: 'GlassLink', automation: 'full', compat: true }],
+  migration: [{ from: 'GlassLink', automation: 'full', compat: false }],
 });

@@ -13,6 +13,6 @@ export const LabelMeta = defineMeta({
   migration: [
     { from: 'GlassLabel', automation: 'full', compat: true },
     { from: 'GlassLabelPrimitive', automation: 'full', compat: true },
-    { from: 'LabelRoot', automation: 'full', compat: false },
+    { from: 'LabelRoot', automation: 'full', compat: true },
   ],
 });

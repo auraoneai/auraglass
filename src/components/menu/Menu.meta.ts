@@ -38,13 +38,13 @@ const meta: ControlMeta = defineMeta({
         side: 'Positioner side',
       },
       automation: 'mostly',
-      compat: true,
+      compat: false,
     },
     {
       from: 'GlassDropdown',
       props: { items: 'Menu.Item children', open: 'open' },
       automation: 'mostly',
-      compat: true,
+      compat: false,
     },
     {
       from: 'GlassContextMenu',
@@ -56,8 +56,10 @@ const meta: ControlMeta = defineMeta({
       from: 'GlassMenubar',
       props: { menus: 'Menubar>Menu.Root children' },
       automation: 'partial',
-      compat: false,
+      compat: true,
     },
+    { from: 'GlassDropdownMenu', automation: 'full', compat: true },
+    { from: 'LiquidGlassPopoverMenu', automation: 'full', compat: true },
   ],
 });
 export default meta;

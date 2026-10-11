@@ -26,5 +26,6 @@ export default defineMeta({
       automation: 'mostly',
       compat: true,
     },
+    { from: 'GlassFab', automation: 'full', compat: true },
   ],
 });

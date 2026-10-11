@@ -9,5 +9,5 @@ export default defineMeta({
   parts: ['root','item','item-bar','item-bar-text','item-bar-title','item-bar-subtitle','item-bar-action'],
   states: [],
   variants: { variant: ['standard','quilted','masonry'] },
-  migration: [{ from: 'GlassImageList', automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassImageList', automation: 'mostly', compat: false }],
 });

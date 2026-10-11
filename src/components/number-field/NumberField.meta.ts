@@ -27,7 +27,7 @@ const meta: ControlMeta = defineMeta({
         parser: { to: 'locale/format' },
       },
       automation: 'partial',
-      compat: true,
+      compat: false,
     },
   ],
 });

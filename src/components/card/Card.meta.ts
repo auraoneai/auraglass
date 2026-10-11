@@ -9,5 +9,5 @@ export default defineMeta({
   parts: ['root','header','title','description','body','footer'],
   states: [],
   variants: { interactive: ['true','false'] },
-  migration: [{ from: 'GlassCard', automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassCard', automation: 'mostly', compat: true }, { from: 'GlowingCard', automation: 'full', compat: true }, { from: 'WidgetGlass', automation: 'full', compat: true }, { from: 'GlassWorkspacePanel', automation: 'full', compat: true }],
 });

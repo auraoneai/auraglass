@@ -23,5 +23,6 @@ export default defineMeta({
       automation: 'partial',
       compat: true,
     },
+    { from: 'LiquidGlassSegmentedControl', automation: 'full', compat: true },
   ],
 });

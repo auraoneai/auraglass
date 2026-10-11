@@ -10,5 +10,5 @@ export default defineMeta({
   states: ['open','closed'],
   variants: {},
   apg: 'slider',
-  migration: [{ from: 'GlassColorPicker', automation: 'partial', compat: true }],
+  migration: [{ from: 'GlassColorPicker', automation: 'partial', compat: true }, { from: 'GlassColorWheel', automation: 'full', compat: true }, { from: 'GlassGradientPicker', automation: 'full', compat: true }],
 });
