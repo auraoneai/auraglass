@@ -1,2 +1,9 @@
-export { useAuraChat } from './useAuraChat';
-export type { UseAuraChatOptions, UseAuraChatResult } from './useAuraChat';
+export { useAuraChat, filesToFileParts } from './useAuraChat';
+export type {
+  AuraUIMessage,
+  AuraMessageProps,
+  AuraToolCallProps,
+  AuraToolApprovalOutput,
+  UseAuraChatOptions,
+  UseAuraChatResult,
+} from './useAuraChat';
