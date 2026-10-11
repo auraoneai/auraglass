@@ -1,0 +1,25 @@
+{
+  "sha": "0123456789abcdef0123456789abcdef01234567",
+  "subject": "button",
+  "flagship": 1,
+  "stream": "cmp",
+  "pass": "motion",
+  "at": "nvda-chrome",
+  "atVersion": "NVDA 2025.2",
+  "browser": "Chrome",
+  "browserVersion": "141",
+  "os": "Windows",
+  "osVersion": "11 24H2",
+  "tester": "fixture-tester",
+  "date": "2026-10-10",
+  "result": "pass",
+  "steps": [
+    {
+      "action": "Activate Button with OS reduced motion on",
+      "expected": "No press scale animation",
+      "announced": "Save, button",
+      "pass": true
+    }
+  ],
+  "storybookArtifactUrl": "https://gitlab.com/example/-/jobs/1/artifacts/storybook-static/index.html"
+}

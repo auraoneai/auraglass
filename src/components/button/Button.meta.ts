@@ -52,13 +52,13 @@ export default defineMeta({
     {
       from: 'EnhancedGlassButton',
       props: { variant: 'prominent', leftIcon: 'startIcon', rightIcon: 'endIcon' },
-      automation: 'partial',
+      selectors: { '.glass-enhanced-glass-button': '.ag-button' }, automation: 'partial',
       compat: true,
     },
     {
       from: 'GlassMagneticButton',
       props: { magnetic: null, variant: 'prominent' },
-      automation: 'partial',
+      selectors: { '.glass-magnetic-button': '.ag-button' }, automation: 'partial',
       compat: true,
     },
   ],

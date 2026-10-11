@@ -1,7 +1,7 @@
 {
   "name": "aura-glass",
   "version": "5.0.0-alpha.0",
-  "description": "AuraGlass 5.0 — the liquid-glass design system for React 19.",
+  "description": "AuraGlass 5.0 \u2014 the liquid-glass design system for React 19.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -28,19 +28,49 @@
     "node": ">=20.19"
   },
   "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js",
+      "css": "./dist/styles.css"
+    },
     "./material": {
       "types": "./dist/material/index.d.ts",
       "default": "./dist/material/index.js",
       "css": "./dist/material.css"
+    },
+    "./theme": {
+      "types": "./dist/theme/public.d.ts",
+      "default": "./dist/theme/public.js"
     },
     "./tokens": {
       "types": "./dist/tokens/index.d.ts",
       "default": "./dist/tokens/index.js",
       "css": "./dist/tokens.css"
     },
+    "./motion": {
+      "types": "./dist/motion/public.d.ts",
+      "default": "./dist/motion/public.js"
+    },
+    "./primitives": {
+      "types": "./dist/primitives/index.d.ts",
+      "default": "./dist/primitives/index.js"
+    },
     "./icons": {
       "types": "./dist/icons/index.d.ts",
       "default": "./dist/icons/index.js"
+    },
+    "./icons/*": {
+      "types": "./dist/icons/*.d.ts",
+      "default": "./dist/icons/*.js"
+    },
+    "./forms": {
+      "types": "./dist/forms/index.d.ts",
+      "default": "./dist/forms/index.js"
+    },
+    "./app-shell": {
+      "types": "./dist/app-shell/index.d.ts",
+      "default": "./dist/app-shell/index.js",
+      "css": "./dist/app-shell.css"
     },
     "./data": {
       "types": "./dist/data/index.d.ts",
@@ -52,14 +82,28 @@
       "default": "./dist/date/index.js",
       "css": "./dist/date.css"
     },
+    "./ai": {
+      "types": "./dist/ai/index.d.ts",
+      "default": "./dist/ai/index.js",
+      "css": "./dist/ai.css"
+    },
+    "./media": {
+      "types": "./dist/media/index.d.ts",
+      "default": "./dist/media/index.js",
+      "css": "./dist/media.css"
+    },
+    "./backdrops": {
+      "types": "./dist/backdrops/index.d.ts",
+      "default": "./dist/backdrops/index.js",
+      "css": "./dist/backdrops.css"
+    },
     "./three": {
       "types": "./dist/three/index.d.ts",
       "default": "./dist/three/index.js"
     },
-    "./charts": {
-      "types": "./dist/charts/index.d.ts",
-      "default": "./dist/charts/index.js",
-      "css": "./dist/charts.css"
+    "./compat": {
+      "types": "./dist/compat/index.d.ts",
+      "default": "./dist/compat/index.js"
     },
     "./styles.css": "./dist/styles.css",
     "./tokens.css": "./dist/tokens.css",
@@ -70,13 +114,15 @@
     "./deprecations.json": "./deprecations.json",
     "./package.json": "./package.json"
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "sideEffects": [
     "**/*.css"
   ],
   "scripts": {
     "tokens:build": "node scripts/tokens/build.mjs",
     "prebuild": "node scripts/mat/build-prepaint-script.mjs",
-    "build": "npm run tokens:build && tsdown",
+    "build": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\" && npm run tokens:build && tsdown --no-clean",
     "postbuild": "node scripts/build/post.mjs",
     "dev": "tsdown --watch",
     "api:update": "node scripts/build/api-report.mjs",
@@ -85,14 +131,15 @@
     "artifact:publint": "publint",
     "artifact:attw": "attw --pack .",
     "storybook:build": "storybook build -o storybook-static",
-    "docs:build": "npm run build -w apps/docs",
+    "docs:build": "node scripts/docs/install-pack.mjs && node scripts/docs/prepare-docs-app.mjs && npm run build -w apps/docs && node scripts/docs/verify-docs-out.mjs",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:contract": "npm test -- tests/contract",
     "lint": "eslint . && stylelint \"src/**/*.css\"",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test:tokens:exports": "node --test tests/tokens/export.spec.mjs",
     "artifact:size-budgets": "node scripts/ci/verify-size-budgets.mjs",
-    "artifact:deps": "node scripts/ci/verify-deps.mjs"
+    "artifact:deps": "node scripts/ci/verify-deps.mjs",
+    "plat:test:registry": "node scripts/registry/build.mjs && node --experimental-vm-modules node_modules/jest/bin/jest.js tests/registry/ && node --experimental-vm-modules node_modules/jest/bin/jest.js -c tests/registry/jest.doubles.cjs"
   },
   "dependencies": {
     "@base-ui/react": "1.8.0",
@@ -189,6 +236,7 @@
     "tsdown": "0.23.0",
     "typescript": "5.9.3",
     "vite": "7.3.7",
-    "yaml": "2.9.1"
+    "yaml": "2.9.1",
+    "prettier": "3.9.9"
   }
 }

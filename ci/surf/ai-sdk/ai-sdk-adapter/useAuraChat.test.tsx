@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 /* useAuraChat (SURF-368): @ai-sdk/react with a mocked ChatTransport — an
  * in-memory stream, no network. Asserts sendMessage receives the text, stop
  * is only exposed while streaming/submitted. */
@@ -14,7 +17,7 @@ class MockTransport implements ChatTransport<UIMessage> {
         controller.enqueue({ type: 'text-start', id: 'p1' });
         controller.enqueue({ type: 'text-delta', id: 'p1', delta: 'hi' });
         controller.enqueue({ type: 'text-end', id: 'p1' });
-        controller.enqueue({ type: 'finish', finishReason: 'stop' });
+        controller.enqueue({ type: 'finish' });
         controller.close();
       },
     });
@@ -34,7 +37,7 @@ describe('useAuraChat (ai-sdk adapter, SURF-368)', () => {
     }
     const html = renderToString(<Probe />);
     expect(html).toBe('');
-    const last = seen.at(-1)!;
+    const last = seen[seen.length - 1]!;
     expect(Array.isArray(last.threadProps.messages)).toBe(true);
     expect(typeof last.composerProps.onSubmit).toBe('function');
     expect(last.status).toBe('ready');
