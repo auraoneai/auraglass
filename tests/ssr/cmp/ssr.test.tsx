@@ -57,7 +57,9 @@ const metas = discoverCmpMetas();
 describe('ssr hydration contract (REQ-CMP-17)', () => {
   it.each(metas.map((m) => m.name))('%s: server render → hydrate, 0 warnings, identical HTML', async (name) => {
     const picks = pickStories(name);
-    if (!picks.length) return;
+    // A meta with no story has nothing to hydrate: that is a coverage gap,
+    // never a pass (no vacuous early return).
+    expect(picks.length ? [] : [`${name}: no story file to hydrate (add <Name>.stories.tsx)`]).toEqual([]);
     const failures: string[] = [];
     for (const pick of picks) {
       const server = renderAgServer(pick.element);

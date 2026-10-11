@@ -15,6 +15,7 @@ import {
   ErrorState,
   Grid,
   Heading,
+  ImageList,
   Kbd,
   Link,
   LoadingState,
@@ -53,6 +54,11 @@ export default function CmpServerPage() {
       <LoadingState description="Loading" />
       <Grid columns={2}><div>a</div><div>b</div></Grid>
       <Heading level={2}>Heading</Heading>
+      {/* REQ-CMP-17 (#330): ImageList standard/quilted are server-rendered; only masonry is a client island. */}
+      <ImageList cols={2}>
+        <ImageList.Item><ImageList.ItemBar title="One" /></ImageList.Item>
+        <ImageList.Item><ImageList.ItemBar title="Two" /></ImageList.Item>
+      </ImageList>
       <Text>Body text <Kbd>⌘K</Kbd></Text>
       <Link href="/docs">Docs</Link>
       <Pagination.Root aria-label="Pages">
