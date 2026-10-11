@@ -23,5 +23,8 @@ describe('Avatar', () => {
     const fb = container.querySelector('[data-ag-part="fallback"]')!;
     expect(fb.textContent).toBe('AL');
     expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('aria-label')).toBe('Ada Lovelace');
+    /* REQ-CMP-115 */
+    expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('role')).toBe('img');
+    expect(container.querySelector('[role="img"]')).not.toBeNull();
   });
 });

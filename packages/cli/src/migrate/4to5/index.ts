@@ -27,6 +27,7 @@ import { deps } from './transforms/deps.js';
 import { removed } from './transforms/removed.js';
 import { nearestPackageJson } from './transforms/deps.js';
 import { findTodos, lineOf, type TodoItem } from './todo.js';
+import { usageError } from '../../cli/errors.js';
 import { PACKAGE_VERSION } from '../../meta.js';
 
 export const CORE_ORDER = [
@@ -60,7 +61,7 @@ const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'build', '.next', 'ou
 
 export interface FileReport {
   path: string;
-  changes: Array<{ transform: string; description: string }>;
+  changes: Array<{ transform: string; description: string; line: number | null; before: string | null; after: string | null }>;
   todos: TodoItem[];
 }
 
@@ -96,6 +97,8 @@ export interface RunOptions {
   dryRun?: boolean;
   allowTodo?: boolean;
   write?: (abs: string, contents: string) => void;
+  /** optional path roots (project-relative); defaults to the whole tree. */
+  paths?: string[] | undefined;
 }
 
 /** Minimal .gitignore matcher: dir names, `*.ext`, leading-slash, `**`. */
@@ -175,7 +178,7 @@ export function runOnSource(
   for (const t of transforms) {
     const r = t.run({ ...unit, source: src }, { file: { ...unit, source: src }, mappings: ctx.mappings, docBase: ctx.docBase });
     src = r.source;
-    for (const c of r.changes) changes.push(c);
+    for (const c of r.changes) changes.push({ ...c, line: c.line ?? null, before: c.before ?? null, after: c.after ?? null });
     for (const td of r.todos) todos.push(td);
   }
   return { final: src, changes, todos };
@@ -186,7 +189,7 @@ export function selectTransforms(only?: string[]): Transform[] {
   const wanted = only?.length ? new Set(only) : null;
   const bad = only?.filter((t: any) => !REGISTRY[t]);
   if (bad?.length) {
-    throw new Error(`unknown transform: ${bad.join(', ')} (known: ${order.join(', ')})`);
+    throw usageError(`unknown transform: ${bad.join(', ')} (known: ${order.join(', ')})`);
   }
   return order.filter((id) => !wanted || wanted.has(id)).map((id) => REGISTRY[id]!);
 }
@@ -200,7 +203,7 @@ export function runMigration(opts: RunOptions): { report: MigrateReport; writes:
   const hasDeps = transforms.some((t: any) => t.id === 'deps');
   const extraPkgJsons = new Set<string>();
 
-  const roots: string[] | undefined = undefined;
+  const roots: string[] | undefined = opts.paths?.length ? opts.paths : undefined;
   for (const abs of walkFiles(opts.cwd, roots)) {
     const rel = path.relative(opts.cwd, abs).split(path.sep).join('/');
     const kind = kindOf(rel);

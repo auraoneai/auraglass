@@ -612,4 +612,45 @@ const surf34 = [
 ] as const;
 // --- lane SURF-34 end ---
 
-export default [...w4, ...surf34] satisfies DeprecationFragment;
+// --- lane SURF-47 begin ---
+// REQ-SURF-47 (REQ-FIN-82): the remaining 4.x tab names Tabs absorbs. Both are
+// root exports on 4.x; neither has a 5.0 compat adapter, so they are removed
+// at 5.0 and the canonical-names codemod rewrites them to Tabs. (TabItem was
+// an internal 4.x part, never exported — its codemod rename lives in
+// fragments/codemods/surf.ts only.) Ids continue the W1 navigation block
+// (DEP-S0001..0026 on release/4.x).
+const surf47 = [
+  {
+    id: 'DEP-S0027',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'EnhancedGlassTabs',
+    since: '4.3.0',
+    removeIn: '5.0.0',
+    replacement: 'Tabs from aura-glass',
+    codemod: 'canonical-names',
+    automation: 'mostly',
+    breaking: 'B4',
+    message: 'EnhancedGlassTabs is removed in 5.0; use Tabs with Tabs.List/Tabs.Tab/Tabs.Panel/Tabs.Indicator.',
+    doc: '#dep-s0027',
+  },
+  {
+    id: 'DEP-S0028',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'GlassTabItem',
+    since: '4.3.0',
+    removeIn: '5.0.0',
+    replacement: 'Tabs.Tab from aura-glass',
+    codemod: 'canonical-names',
+    automation: 'mostly',
+    breaking: 'B4',
+    message: 'GlassTabItem is removed in 5.0; use Tabs.Tab inside Tabs.List.',
+    doc: '#dep-s0028',
+  },
+] as const;
+// --- lane SURF-47 end ---
+
+export default [...w4, ...surf34, ...surf47] satisfies DeprecationFragment;

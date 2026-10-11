@@ -23,10 +23,10 @@ describe('component dispositions (PLAT-219..222)', () => {
   });
   it('destination totals match the PRD table', () => {
     const count = (d) => rows.filter((r) => r.dest === d).length;
-    expect(count('removed')).toBe(234);
-    expect(count('compat')).toBe(152);
+    expect(count('removed')).toBe(236);
+    expect(count('compat')).toBe(151);
     expect(count('flagship')).toBe(47);
-    expect(count('core')).toBe(41);
+    expect(count('core')).toBe(40);
     expect(count('registry')).toBe(13);
     expect(count('labs')).toBe(9);
   });

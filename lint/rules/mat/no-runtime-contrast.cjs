@@ -3,7 +3,8 @@
    feeding contrast/luminance calls, canvas getImageData, and ResizeObserver/
    MutationObserver callbacks that call contrast functions. Contrast is solved
    statically (PRD-03 matrix), never measured at runtime. Exemption:
-   src/backdrops/** (PRD-13 sampler is the sanctioned measured-contrast site). */
+   src/backdrops/** (PRD-13 sampler is the sanctioned measured-contrast site),
+   plus the expiring rows in no-runtime-contrast.exemptions.json (REQ-MAT-64). */
 'use strict';
 
 const meta = {
@@ -20,7 +21,52 @@ const meta = {
 const CONTRAST_FNS = /^(?:contrast|wcag|luminan|contrastRatio|wcagContrast|deltaE|apca|relativeLuminance)/i;
 const COLOR_PROPS = /^(?:color|background|background-color|fill|stroke)/i;
 
-const isExempt = (f) => /(?:^|[/\\])src[/\\]backdrops[/\\]/.test(f);
+const fs = require('node:fs');
+const path = require('node:path');
+
+const EXEMPTIONS_FILE = path.join(__dirname, 'no-runtime-contrast.exemptions.json');
+const PACKAGE_JSON = path.join(__dirname, '..', '..', '..', 'package.json');
+
+/* Minimal SemVer 2.0 precedence compare (core, then pre-release identifiers). */
+function compareSemver(a, b) {
+  const parse = (v) => {
+    const m = /^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?(?:\+.*)?$/.exec(String(v).trim());
+    if (!m) throw new Error(`no-runtime-contrast: not a SemVer version: ${v}`);
+    return { core: [Number(m[1]), Number(m[2]), Number(m[3])], pre: m[4] ? m[4].split('.') : [] };
+  };
+  const x = parse(a);
+  const y = parse(b);
+  for (let i = 0; i < 3; i += 1) if (x.core[i] !== y.core[i]) return x.core[i] < y.core[i] ? -1 : 1;
+  if (!x.pre.length || !y.pre.length) return x.pre.length === y.pre.length ? 0 : (x.pre.length ? -1 : 1);
+  for (let i = 0; i < Math.max(x.pre.length, y.pre.length); i += 1) {
+    const p = x.pre[i];
+    const q = y.pre[i];
+    if (p === undefined) return -1;
+    if (q === undefined) return 1;
+    const pn = /^\d+$/.test(p);
+    const qn = /^\d+$/.test(q);
+    if (pn && qn) { if (Number(p) !== Number(q)) return Number(p) < Number(q) ? -1 : 1; continue; }
+    if (pn !== qn) return pn ? -1 : 1;
+    if (p !== q) return p < q ? -1 : 1;
+  }
+  return 0;
+}
+
+/* Temporary exemption rows (REQ-MAT-64). A row is active only while the
+   package version is below its `expires` version. */
+function loadExemptions(version = JSON.parse(fs.readFileSync(PACKAGE_JSON, 'utf8')).version) {
+  const rows = JSON.parse(fs.readFileSync(EXEMPTIONS_FILE, 'utf8')).rows ?? [];
+  return rows.map((row) => ({ ...row, expired: compareSemver(version, row.expires) >= 0 }));
+}
+
+const toPosix = (f) => String(f).replace(/\\/g, '/');
+const ACTIVE_EXEMPT_PATHS = loadExemptions().filter((r) => !r.expired).map((r) => r.path);
+
+const isExempt = (f) => {
+  const file = toPosix(f);
+  if (/(?:^|\/)src\/backdrops\//.test(file)) return true;
+  return ACTIVE_EXEMPT_PATHS.some((p) => file.startsWith(p) || file.includes(`/${p}`));
+};
 
 function create(context) {
   const filename = context.filename ?? context.getFilename?.() ?? '';
@@ -110,8 +156,9 @@ const agConfig = [
       'src/backdrops/**',
       '**/*.test.*', '**/__tests__/**', 'tests/**',
     ],
-    severity: 'warn',
+    // REQ-MAT-64: runtime contrast is an error in every stream, not only MAT's.
+    severity: 'error',
   },
 ];
 
-module.exports = { meta, create, agConfig };
+module.exports = { meta, create, agConfig, compareSemver, loadExemptions, EXEMPTIONS_FILE };
