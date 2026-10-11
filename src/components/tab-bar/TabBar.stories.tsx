@@ -18,3 +18,13 @@ export const Default: Story = { args: { children: defaultChildren } };
 export const RTL: Story = { args: { children: defaultChildren }, parameters: { globals: { dir: 'rtl' } } };
 export const ReducedTransparency: Story = { args: { children: defaultChildren }, parameters: { ag: { material: 'regular' } } };
 export const ForcedColors: Story = { args: { children: defaultChildren }, parameters: { globals: { forcedColors: 'active' } } };
+export const Anatomy: Story = {
+  render: () => (
+    <TabBar.Root>
+      <TabBar.Item href="/home" current><TabBar.ItemIcon>⌂</TabBar.ItemIcon>Home<TabBar.ItemBadge>2</TabBar.ItemBadge></TabBar.Item>
+      <TabBar.Item href="/library">Library</TabBar.Item>
+      <TabBar.Accessory>Now playing</TabBar.Accessory>
+      <TabBar.Search aria-label="Search" />
+    </TabBar.Root>
+  ),
+};
