@@ -185,4 +185,33 @@ export function TreeView<T extends TreeItemData>({
   );
 }
 
-TreeView.Item = RACTreeItem;
+/* REQ-CMP-01 / CMP-014: static children use an AuraGlass-owned item seam so
+   the emitted d.ts never names react-aria-components (assigning RACTreeItem
+   directly leaked its type into TreeView.d.ts). */
+export interface TreeViewItemProps {
+  /** Unique key of the item within the tree. */
+  id: React.Key;
+  /** Plain-text label used for typeahead and the accessible name. */
+  textValue: string;
+  /** Mark the item expandable before its children are known. */
+  hasChildItems?: boolean | undefined;
+  children?: React.ReactNode;
+  className?: string | undefined;
+  'aria-label'?: string | undefined;
+}
+
+function TreeViewItem({ id, textValue, hasChildItems, children, className, 'aria-label': ariaLabel }: TreeViewItemProps) {
+  return (
+    <RACTreeItem
+      id={id as unknown as import('react-aria-components').Key}
+      textValue={textValue}
+      {...(hasChildItems !== undefined ? { hasChildItems } : {})}
+      {...(className !== undefined ? { className } : {})}
+      {...(ariaLabel !== undefined ? { 'aria-label': ariaLabel } : {})}
+    >
+      {children}
+    </RACTreeItem>
+  );
+}
+
+TreeView.Item = TreeViewItem;
