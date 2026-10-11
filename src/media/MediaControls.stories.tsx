@@ -38,3 +38,13 @@ export const Full: Story = {
     </MediaControls.Root>
   ),
 };
+export const WithCaptions: Story = {
+  render: () => (
+    <MediaControls.Root playing={false} duration={372} currentTime={120}>
+      <MediaControls.PlayButton />
+      <MediaControls.Time />
+      <MediaControls.Spacer />
+      <MediaControls.Captions />
+    </MediaControls.Root>
+  ),
+};

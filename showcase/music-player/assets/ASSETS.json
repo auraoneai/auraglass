@@ -1,0 +1,36 @@
+{
+  "licence": "CC0-1.0",
+  "source": "Original artwork drawn from deterministic SVG by scripts/qual/showcase/generate-assets.mjs (no third-party imagery).",
+  "files": [
+    {
+      "file": "cover-tidal.avif",
+      "width": 512,
+      "height": 512,
+      "format": "avif"
+    },
+    {
+      "file": "cover-ember.avif",
+      "width": 512,
+      "height": 512,
+      "format": "avif"
+    },
+    {
+      "file": "cover-meadow.avif",
+      "width": 512,
+      "height": 512,
+      "format": "avif"
+    },
+    {
+      "file": "cover-dusk.avif",
+      "width": 512,
+      "height": 512,
+      "format": "avif"
+    },
+    {
+      "file": "cover-salt.avif",
+      "width": 512,
+      "height": 512,
+      "format": "avif"
+    }
+  ]
+}
