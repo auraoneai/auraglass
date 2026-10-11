@@ -84,9 +84,15 @@ export interface ContrastGuardProps extends React.HTMLAttributes<HTMLElement> {
   as?: ContrastGuardElement;
 
   /**
-   * Callback when contrast adjustment is applied
+   * Callback when contrast adjustment is applied. `status` is always
+   * 'unverified' — adjustments are heuristics over a translucent backdrop,
+   * never a verified WCAG claim (DEP-P0021).
    */
-  onAdjustment?: (meetsRequirement: boolean, ratio: number) => void;
+  onAdjustment?: (
+    meetsRequirement: boolean,
+    ratio: number,
+    status: "unverified"
+  ) => void;
 
   /**
    * Show a small contrast status indicator. Useful in docs, previews, and
@@ -142,7 +148,9 @@ function demoBackdropStyle(
 
 /**
  * ContrastGuard wrapper component
- * Ensures text content meets WCAG contrast requirements
+ * Applies heuristic contrast adjustments over translucent backdrops.
+ * The rendered state is always reported as `unverified` — the package cannot
+ * measure the real backdrop, so it never claims a WCAG result.
  */
 /** @deprecated ContrastGuard DEP-M0921 since 4.2.0, removed in 5.0.0. {@link solved contrast floors (the material guarantees contrast)} */
 export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
@@ -189,7 +197,11 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
               if (elementRef.current) {
                 applyContrastAdjustment(elementRef.current, adj);
               }
-              onAdjustment?.(adj.meetsRequirement, adj.adjustedContrast);
+              onAdjustment?.(
+                adj.meetsRequirement,
+                adj.adjustedContrast,
+                "unverified"
+              );
 
               // Apply styles dynamically
               const styles: React.CSSProperties = {};
@@ -222,7 +234,7 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
                 : "rgba(253,186,116,0.92)",
             },
           },
-          adjustment?.meetsRequirement ? "AA" : "Check"
+          "unverified"
         )
       : null;
 
@@ -245,7 +257,7 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
         },
         "data-contrast-level": level,
         "data-contrast-ratio": adjustment?.adjustedContrast?.toFixed(2),
-        "data-meets-wcag": adjustment?.meetsRequirement,
+        "data-contrast-status": "unverified",
         "data-demo-backdrop":
           demoBackdrop === "none" ? undefined : demoBackdrop,
         ...rest,
