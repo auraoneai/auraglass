@@ -29,6 +29,55 @@ const Demo = ({ trigger = {}, root = {} }: { trigger?: Record<string, unknown>; 
 );
 
 describe('Popover', () => {
+  /* REQ-CMP-98: provider-free mounts (portal falls back to document.body). */
+  it('trigger aria-controls === popup id; hover mode + non-interactive popup -> aria-describedby, no haspopup', async () => {
+    render(
+      <Popover.Root defaultOpen>
+        <Popover.Trigger>anchor</Popover.Trigger>
+        <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="pop"><p>plain text only</p></Popover.Popup></Popover.Positioner></Popover.Portal>
+      </Popover.Root>,
+    );
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    const trigger = screen.getByText('anchor');
+    const popup = document.querySelector<HTMLElement>('[data-ag-part="popup"]')!;
+    expect(trigger.getAttribute('aria-controls')).toBe(popup.id);
+    // click mode keeps haspopup=dialog and no describedby
+    expect(trigger.getAttribute('aria-haspopup')).toBe('dialog');
+    expect(trigger.getAttribute('aria-describedby')).toBeNull();
+  });
+
+  it('hover mode + non-interactive popup: trigger is describedby popup, haspopup dropped (REQ-CMP-98)', async () => {
+    render(
+      <Popover.Root>
+        <Popover.Trigger openOnHover>anchor</Popover.Trigger>
+        <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="pop"><p>plain text only</p></Popover.Popup></Popover.Positioner></Popover.Portal>
+      </Popover.Root>,
+    );
+    const trigger = screen.getByText('anchor');
+    fireEvent.mouseEnter(trigger);
+    fireEvent.mouseMove(trigger);
+    await act(async () => { await new Promise((r) => setTimeout(r, 400)); });
+    const popup = document.querySelector<HTMLElement>('[data-ag-part="popup"]')!;
+    expect(trigger.getAttribute('aria-describedby')).toBe(popup.id);
+    expect(trigger.getAttribute('aria-haspopup')).toBeNull();
+  });
+
+  it('hover mode WITH interactive popup keeps haspopup=dialog (REQ-CMP-98)', async () => {
+    render(
+      <Popover.Root>
+        <Popover.Trigger openOnHover>anchor</Popover.Trigger>
+        <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="pop"><Popover.Close>Close</Popover.Close></Popover.Popup></Popover.Positioner></Popover.Portal>
+      </Popover.Root>,
+    );
+    const trigger = screen.getByText('anchor');
+    fireEvent.mouseEnter(trigger);
+    fireEvent.mouseMove(trigger);
+    await act(async () => { await new Promise((r) => setTimeout(r, 400)); });
+    expect(document.querySelector('[data-ag-part="popup"]')).toBeTruthy();
+    expect(trigger.getAttribute('aria-describedby')).toBeNull();
+    expect(trigger.getAttribute('aria-haspopup')).toBe('dialog');
+  });
+
   beforeEach(() => {
     if (window.PointerEvent === undefined) {
       (window as unknown as Record<string, unknown>).PointerEvent = window.MouseEvent;

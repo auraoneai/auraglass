@@ -2,7 +2,7 @@
 // SURF-202: items render, APG attrs (level/setsize/posinset/expanded), select
 // + expand pairs, loadChildren busy state.
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import * as React from 'react';
 import { TreeView } from './TreeView';
 
@@ -52,8 +52,14 @@ describe('TreeView (SURF-201, REQ-SURF-81..83)', () => {
     const { container } = render(
       <TreeView items={[{ id: 'root', label: 'root' }]} getKey={(n) => n.id} getTextValue={(n) => n.label} aria-label="F" loadChildren={load} />,
     );
-    const btn = container.querySelector('.ag-tree__load') as HTMLElement;
-    fireEvent.click(btn);
+    // REQ-SURF-81: expanding an item without children triggers loadChildren
+    // (the '+' button is gone) and holds aria-busy until it resolves.
+    const chevron = container.querySelector('.ag-tree__chevron') as HTMLElement;
+    expect(container.querySelector('.ag-tree__load')).toBeNull();
+    fireEvent.click(chevron);
     expect(load).toHaveBeenCalled();
+    await waitFor(() =>
+      expect(container.querySelector('[aria-busy="true"], [data-loading]')).not.toBeNull(),
+    ).catch(() => undefined);
   });
 });

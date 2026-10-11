@@ -11,6 +11,7 @@ import { partElement } from './_internal/partElement';
 import { AppShellSidebarToggle } from './AppShell.SidebarToggle';
 import { AppShellInspectorToggle } from './AppShell.InspectorToggle';
 import { AppShellController } from './AppShell.Controller';
+import { parseAppShellCookie } from './parseAppShellCookie';
 import type { SidebarState, InspectorState, ShellMode } from './appShellStore';
 
 export type AppShellRootProps = PartProps<'div'> & {
@@ -69,6 +70,7 @@ function Main({ id = 'ag-main', children, render, ...rest }: AppShellMainProps) 
     render,
     id,
     tabIndex: -1,
+    'data-ag-part': 'main',
     'data-ag-slot': 'main',
     ...rest,
     children,
@@ -139,6 +141,7 @@ function SkipLink({
   return partElement('a', {
     render,
     href,
+    'data-ag-part': 'skip-link',
     'data-ag-slot': 'skip',
     className: 'ag-skip-link',
     ...rest,
@@ -155,6 +158,7 @@ export const AppShell = {
   SidebarToggle: AppShellSidebarToggle,
   InspectorToggle: AppShellInspectorToggle,
   Controller: AppShellController,
+  parseCookie: parseAppShellCookie,
 };
 export type {
   SidebarState as AppShellSidebarState,
