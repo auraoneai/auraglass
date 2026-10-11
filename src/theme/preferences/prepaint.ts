@@ -1,14 +1,20 @@
-/* MAT-273: the pre-paint routine. Bundled + minified by
+/* MAT-273/REQ-MAT-59: the pre-paint routine. Bundled + minified by
    scripts/mat/build-prepaint-script.mjs into src/theme/generated/prepaint-script.ts
-   and inlined by <AuraGlassScript/> — kept at the semantic minimum so the
-   emitted body fits the 1 536 B budget. Reads the persisted record, the OS
-   media queries and CSS.supports, resolves floors via resolve.ts, and stamps
-   data-ag-* + --ag-glass-opacity + data-ag-engine on <html> before first
-   paint. data-ag-tier is written only when it resolves to 'lightweight'
-   (saveData, deviceMemory <= 2 with a coarse pointer, or a persisted/app
-   value). The legacy 4.x key is migrated by the preference store, not here. */
+   and inlined by <AuraGlassScript/>; REQ-MAT-59 budgets the emitted body at
+   1 536 B (the build enforces its ceiling, see build-prepaint-script.mjs), so
+   this file is kept at the semantic minimum. Reads the persisted record, the
+   six OS media queries and CSS.supports, resolves every axis through
+   resolve.ts (resolvePaint, the same source the store uses), detects the
+   engine through engine.ts (the store's detector), and stamps data-ag-* +
+   --ag-glass-opacity on <html> before first paint.
+   Tier: written when it resolves to 'lightweight' (saveData, deviceMemory <= 2
+   with a coarse pointer, or a persisted/app value) or when a persisted/app
+   value names 'standard'/'enhanced'; otherwise left unset. An 'unknown'
+   engine caps the tier at 'standard'. The legacy 4.x key is migrated by the
+   preference store, not here. */
+import { detectEngine } from './engine';
 import { resolvePaint } from './resolve';
-import type { OsSignals, CapabilitySignals, PreferenceInput } from './types';
+import type { PreferenceInput } from './types';
 
 export interface PrepaintArgs {
   storageKey?: string;
@@ -17,62 +23,52 @@ export interface PrepaintArgs {
 
 type W = Window & {
   matchMedia?: (q: string) => { matches?: boolean } | null;
-  CSS?: { supports?: (q: string) => boolean };
+  CSS?: { supports?: (property: string, value: string) => boolean };
   navigator?: Window['navigator'] & {
     userAgentData?: { brands?: readonly { brand: string }[] } | null;
     deviceMemory?: number; connection?: { saveData?: boolean } | null;
   };
 };
 
+const AXES = ['transparency', 'contrast', 'motion', 'scheme', 'density'] as const;
+
 export const auraGlassPrepaint = (w: W, d: Document, a: PrepaintArgs = {}): void => {
   try {
-    const mq = (q: string): boolean => {
-      try { return w.matchMedia?.(q)?.matches === true; } catch { return false; }
-    };
-    const os: OsSignals = {
-      forcedColors: mq('(forced-colors: active)'),
-      contrastMore: mq('(prefers-contrast: more)'),
-      reducedTransparency: mq('(prefers-reduced-transparency: reduce)'),
-      reducedMotion: mq('(prefers-reduced-motion: reduce)'),
-      schemeDark: mq('(prefers-color-scheme: dark)'),
-      coarsePointer: mq('(pointer: coarse)'),
-    };
+    // matchMedia/CSS.supports do not throw for these well-formed queries; a
+    // missing API reads as false (no OS signal, no backdrop-filter => solid).
+    const mq = (q: string): boolean => !!w.matchMedia?.(`(${q})`)?.matches;
+    // Property-support probe (REQ-MAT-18): the two-argument form with the
+    // keyword value carries no design literal.
+    const sup = (p: string): boolean => !!w.CSS?.supports?.(p, 'none');
     const nav = (w.navigator ?? {}) as NonNullable<W['navigator']>;
-    let bf = false;
+    const def = a.defaults ?? {};
+    let rec: PreferenceInput = {};
     try {
-      bf = w.CSS?.supports?.('(backdrop-filter: blur(1px))') === true
-        || w.CSS?.supports?.('(-webkit-backdrop-filter: blur(1px))') === true;
-    } catch { /* no CSS.supports */ }
-    const cap: CapabilitySignals = {
-      backdropFilter: bf,
-      saveData: nav.connection?.saveData === true,
-      deviceMemory: typeof nav.deviceMemory === 'number' ? nav.deviceMemory : null,
-    };
-
-    let rec = {} as PreferenceInput;
-    try {
-      const v = JSON.parse(w.localStorage?.getItem(a.storageKey ?? 'ag:prefs:v1') ?? 'null') as unknown;
-      if (v !== null && typeof v === 'object' && !Array.isArray(v)) rec = v as PreferenceInput;
+      rec = JSON.parse(w.localStorage.getItem(a.storageKey ?? 'ag:prefs:v1') as string) || {};
     } catch { /* unreadable storage */ }
 
-    const r = resolvePaint(os, cap, a.defaults ?? {}, rec);
-    const br = nav.userAgentData?.brands;
-    const ua = nav.userAgent ?? '';
-    const engine = Array.isArray(br) && br.length
-      ? (br.some((b) => /chrom|edg|opera|brave|vivaldi|arc|samsung/i.test(b.brand)) ? 'chromium' : 'unknown')
-      : /AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg/.test(ua) ? 'webkit'
-        : /Gecko\//.test(ua) && /Firefox/.test(ua) ? 'gecko' : 'unknown';
+    const r = resolvePaint({
+      forcedColors: mq('forced-colors: active'),
+      contrastMore: mq('prefers-contrast: more'),
+      reducedTransparency: mq('prefers-reduced-transparency: reduce'),
+      reducedMotion: mq('prefers-reduced-motion: reduce'),
+      schemeDark: mq('prefers-color-scheme: dark'),
+      coarsePointer: mq('pointer: coarse'),
+    }, {
+      backdropFilter: sup('backdrop-filter') || sup('-webkit-backdrop-filter'),
+      saveData: !!nav.connection?.saveData,
+      deviceMemory: nav.deviceMemory ?? null,
+    }, def, rec);
+    const engine = detectEngine(nav);
 
     const el = d.documentElement;
-    const at = (k: string, v: string): void => { el.setAttribute(`data-ag-${k}`, v); };
-    at('transparency', r.transparency);
-    at('contrast', r.contrast);
-    at('motion', r.motion);
-    at('scheme', r.scheme);
-    at('density', r.density);
-    if (r.allowContinuous) at('continuous', 'on');
+    const at = (k: string, v: string): void => el.setAttribute(`data-ag-${k}`, v);
+    for (const k of AXES) at(k, r[k]);
+    if (r.allowContinuous && r.motion === 'full') at('continuous', 'on');
     at('engine', engine);
-    if (r.tier === 'lightweight') at('tier', 'lightweight');
+    if (r.tier !== 'standard' || rec.tier === 'standard' || def.tier === 'standard') {
+      at('tier', engine === 'unknown' && r.tier === 'enhanced' ? 'standard' : r.tier);
+    }
     el.style.setProperty('--ag-glass-opacity', String(r.glassOpacity));
   } catch {
     /* pre-paint must never throw: without attributes every rung still works */

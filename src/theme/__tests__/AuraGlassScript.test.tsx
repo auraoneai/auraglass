@@ -1,6 +1,6 @@
 /* MAT-275: AuraGlassScript — nonce, no eval/new Function, minified budget,
    engine+tier fixtures executing the emitted body in jsdom, persisted solid. */
-import { beforeEach, describe, expect, it } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { AuraGlassScript, auraGlassPrepaintScript } from '../AuraGlassScript';
@@ -66,11 +66,11 @@ describe('AuraGlassScript', () => {
     expect(auraGlassPrepaintScript).not.toMatch(/\beval\s*\(/);
   });
 
-  it('minified budget: emitted body within the ratchet limit', () => {
-    // REQ-MAT-59 spec target is 1536 B; the mandated feature set (6 MQLs,
-    // CSS.supports floor, persisted resolution, engine, tier) compresses to
-    // ~2.9 KB — recorded as a lane deviation; the ratchet prevents growth.
+  it('minified budget: emitted body within the enforced ceiling; REQ-MAT-59 budget is 1536 B', () => {
+    // The ceiling (PREPAINT_LIMIT) only ever goes down; raising the 1536 B
+    // REQ-MAT-59 budget is an owner-approved contract change (D.3-35).
     expect(Buffer.byteLength(PREPAINT_IMPL, 'utf8')).toBeLessThanOrEqual(PREPAINT_LIMIT);
+    expect(PREPAINT_LIMIT).toBeLessThanOrEqual(2304);
     expect(PREPAINT_BYTES).toBe(Buffer.byteLength(PREPAINT_IMPL, 'utf8'));
     expect(PREPAINT_SPEC_LIMIT).toBe(1536);
   });
@@ -148,6 +148,57 @@ describe('emitted script fixtures', () => {
     expect(doc.documentElement.getAttribute('data-ag-tier')).toBe('lightweight');
   });
 
+  it('no persisted/app tier and no lightweight signal -> data-ag-tier unset', () => {
+    impl(fakeWindow({ brands: [{ brand: 'Chromium' }] }), doc, {});
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBeNull();
+  });
+
+  it.each(['standard', 'enhanced'] as const)('persisted tier %s is written', (tier) => {
+    impl(fakeWindow({
+      brands: [{ brand: 'Chromium' }],
+      storage: { 'ag:prefs:v1': JSON.stringify({ tier }) },
+    }), doc, {});
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe(tier);
+  });
+
+  it.each(['standard', 'enhanced'] as const)('app default tier %s is written', (tier) => {
+    impl(fakeWindow({ brands: [{ brand: 'Chromium' }] }), doc, { defaults: { tier } });
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe(tier);
+  });
+
+  it('persisted tier wins over the app default', () => {
+    impl(fakeWindow({
+      brands: [{ brand: 'Chromium' }],
+      storage: { 'ag:prefs:v1': JSON.stringify({ tier: 'standard' }) },
+    }), doc, { defaults: { tier: 'enhanced' } });
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe('standard');
+  });
+
+  it('unknown engine caps a persisted/app enhanced tier at standard', () => {
+    impl(fakeWindow({
+      brands: null, ua: 'curl/8.4.0',
+      storage: { 'ag:prefs:v1': JSON.stringify({ tier: 'enhanced' }) },
+    }), doc, {});
+    expect(doc.documentElement.getAttribute('data-ag-engine')).toBe('unknown');
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe('standard');
+    impl(fakeWindow({ brands: [{ brand: 'Not A Brand' }] }), doc, { defaults: { tier: 'enhanced' } });
+    expect(doc.documentElement.getAttribute('data-ag-engine')).toBe('unknown');
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe('standard');
+  });
+
+  it('known engines keep enhanced', () => {
+    impl(fakeWindow({
+      brands: null,
+      ua: 'Mozilla/5.0 (X11; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0',
+    }), doc, { defaults: { tier: 'enhanced' } });
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe('enhanced');
+  });
+
+  it('unknown engine keeps a heuristic lightweight tier', () => {
+    impl(fakeWindow({ brands: null, ua: 'curl/8.4.0', saveData: true }), doc, {});
+    expect(doc.documentElement.getAttribute('data-ag-tier')).toBe('lightweight');
+  });
+
   it('allowContinuous persisted + full motion -> data-ag-continuous=on', () => {
     impl(fakeWindow({
       storage: { 'ag:prefs:v1': JSON.stringify({ allowContinuous: true }) },
@@ -162,6 +213,23 @@ describe('emitted script fixtures', () => {
     }), doc, {});
     expect(doc.documentElement.getAttribute('data-ag-continuous')).toBeNull();
     expect(doc.documentElement.getAttribute('data-ag-motion')).toBe('calm');
+  });
+
+  it.each(['calm', 'none'] as const)(
+    'persisted motion=%s suppresses continuous even with allowContinuous',
+    (motion) => {
+      impl(fakeWindow({
+        storage: { 'ag:prefs:v1': JSON.stringify({ allowContinuous: true, motion }) },
+      }), doc, {});
+      expect(doc.documentElement.getAttribute('data-ag-motion')).toBe(motion);
+      expect(doc.documentElement.getAttribute('data-ag-continuous')).toBeNull();
+    },
+  );
+
+  it('app default allowContinuous + app motion calm -> no continuous', () => {
+    impl(fakeWindow({}), doc, { defaults: { allowContinuous: true, motion: 'calm' } });
+    expect(doc.documentElement.getAttribute('data-ag-motion')).toBe('calm');
+    expect(doc.documentElement.getAttribute('data-ag-continuous')).toBeNull();
   });
 
   it('defaults merge with persisted (persisted wins)', () => {
@@ -201,5 +269,46 @@ describe('emitted script fixtures', () => {
     };
     expect(() => impl(bare, doc, {})).not.toThrow();
     expect(doc.documentElement.getAttribute('data-ag-transparency')).toBe('solid');
+  });
+});
+
+/* REQ-FIN-12 / MAT-59: the pre-paint write site gates data-ag-continuous on
+   motion === 'full' itself, so a resolver result that pairs allowContinuous
+   with a reduced motion axis never reaches <html> (no-flash parity with
+   store.ts). resolvePaint is replaced here to isolate the write site. */
+describe('prepaint write site: continuous gate', () => {
+  type Prepaint = typeof import('../preferences/prepaint').auraGlassPrepaint;
+  const run = (paint: { allowContinuous: boolean; motion: 'full' | 'calm' | 'none' }) => {
+    let prepaint: Prepaint | undefined;
+    jest.isolateModules(() => {
+      jest.doMock('../preferences/resolve', () => ({
+        resolvePaint: () => ({
+          transparency: 'glass', contrast: 'standard', scheme: 'light', density: 'regular',
+          glassOpacity: 0, tier: 'standard', ...paint,
+        }),
+      }));
+      prepaint = (jest.requireActual('../preferences/prepaint') as { auraGlassPrepaint: Prepaint })
+        .auraGlassPrepaint;
+    });
+    jest.dontMock('../preferences/resolve');
+    const doc = document.implementation.createHTMLDocument();
+    prepaint!(fakeWindow({}) as never, doc, {});
+    return doc.documentElement;
+  };
+
+  it('writes on only for allowContinuous && motion full', () => {
+    const el = run({ allowContinuous: true, motion: 'full' });
+    expect(el.getAttribute('data-ag-motion')).toBe('full');
+    expect(el.getAttribute('data-ag-continuous')).toBe('on');
+  });
+
+  it.each(['calm', 'none'] as const)('allowContinuous with motion=%s -> no attribute', (motion) => {
+    const el = run({ allowContinuous: true, motion });
+    expect(el.getAttribute('data-ag-motion')).toBe(motion);
+    expect(el.getAttribute('data-ag-continuous')).toBeNull();
+  });
+
+  it('allowContinuous false -> no attribute', () => {
+    expect(run({ allowContinuous: false, motion: 'full' }).getAttribute('data-ag-continuous')).toBeNull();
   });
 });

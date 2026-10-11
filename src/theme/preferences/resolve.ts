@@ -1,6 +1,7 @@
 /* MAT-263: pure preference resolution (PRD §4.5, D-11). No DOM access — this
-   module is bundled into the pre-paint script (≤ 1 536 B after minification),
-   so the resolver body is kept semantically minimal.
+   module is bundled into the pre-paint script (REQ-MAT-59 budget 1 536 B
+   after minification; see scripts/mat/build-prepaint-script.mjs), so the
+   resolver body is kept semantically minimal.
      transparency = max(osFloor, capFloor, app, user)   glass<tinted<solid
      contrast     = max(prefers-contrast:more, app, user), less/custom -> standard
      motion       = min(osCeiling, app, user)           reduced-motion -> at most calm
@@ -13,8 +14,21 @@ import type {
   ContrastSetting, MotionSetting, SchemeSetting, TransparencySetting,
 } from './types';
 
-const T: Record<Transparency, number> = { glass: 0, tinted: 1, solid: 2 };
-const M: Record<MotionPreference, number> = { none: 0, calm: 1, full: 2 };
+/* Rank ladders (index = rank). Kept as arrays so the bundled pre-paint body
+   (REQ-MAT-59) carries each value name once. */
+const TRANSPARENCY: readonly Transparency[] = ['glass', 'tinted', 'solid'];
+const MOTION: readonly MotionPreference[] = ['none', 'calm', 'full'];
+const TIERS: readonly DomTier[] = ['standard', 'enhanced', 'lightweight'];
+
+/** Rank of `v` in `list`, or `fallback` for 'system' / unset / unknown values. */
+const rank = (list: readonly string[], v: string | undefined, fallback: number): number => {
+  const i = list.indexOf(v as string);
+  return i < 0 ? fallback : i;
+};
+
+/** First of `vs` (highest precedence first) that is a member of `list`. */
+const pick = <T extends string>(list: readonly T[], ...vs: (string | undefined)[]): T | undefined =>
+  vs.find((v) => list.includes(v as T)) as T | undefined;
 
 export const resolveTransparency = (
   os: OsSignals,
@@ -22,54 +36,36 @@ export const resolveTransparency = (
   app?: TransparencySetting,
   user?: TransparencySetting,
   glassOpacity = 0,
-): Transparency => {
-  const floor = Math.max(
-    os.forcedColors ? 2 : os.contrastMore || os.reducedTransparency ? 1 : 0,
-    backdropFilter ? 0 : 2,
-    T[app === 'system' ? 'glass' : (app ?? 'glass') as Transparency] ?? 0,
-    T[user === 'system' ? 'glass' : (user ?? 'glass') as Transparency] ?? 0,
-    glassOpacity >= 0.7 ? 1 : 0,
-  );
-  return floor >= 2 ? 'solid' : floor === 1 ? 'tinted' : 'glass';
-};
+): Transparency => TRANSPARENCY[Math.max(
+  os.forcedColors ? 2 : os.contrastMore || os.reducedTransparency ? 1 : 0,
+  backdropFilter ? 0 : 2,
+  rank(TRANSPARENCY, app, 0),
+  rank(TRANSPARENCY, user, 0),
+  glassOpacity >= 0.7 ? 1 : 0,
+)]!;
 
 export const resolveContrast = (
   os: OsSignals,
   app?: ContrastSetting | 'less' | 'custom',
   user?: ContrastSetting | 'less' | 'custom',
-): Contrast => {
-  if (os.forcedColors || os.contrastMore) return 'more';
-  const pick = (v: ContrastSetting | 'less' | 'custom' | undefined): Contrast | undefined =>
-    v === 'more' || v === 'standard' || v === 'less' || v === 'custom'
-      ? (v === 'more' ? 'more' : 'standard') : undefined;
-  return pick(user) ?? pick(app) ?? 'standard';
-};
+): Contrast =>
+  os.forcedColors || os.contrastMore
+  || pick(['more', 'standard', 'less', 'custom'], user, app) === 'more' ? 'more' : 'standard';
 
 export const resolveMotion = (
   os: OsSignals,
   app?: MotionSetting,
   user?: MotionSetting,
-): MotionPreference => {
-  const req = (v: MotionSetting | undefined): number =>
-    v === 'none' || v === 'calm' || v === 'full' ? M[v] : 2;
-  const n = Math.min(os.reducedMotion ? 1 : 2, req(app), req(user));
-  return n === 0 ? 'none' : n === 1 ? 'calm' : 'full';
-};
-
-const pickScheme = (v: SchemeSetting | undefined): Scheme | undefined =>
-  v === 'light' || v === 'dark' ? v : undefined;
+): MotionPreference =>
+  MOTION[Math.min(os.reducedMotion ? 1 : 2, rank(MOTION, app, 2), rank(MOTION, user, 2))]!;
 
 export const resolveScheme = (
   os: OsSignals,
   app?: SchemeSetting,
   user?: SchemeSetting,
-): Scheme => pickScheme(user) ?? pickScheme(app) ?? (os.schemeDark ? 'dark' : 'light');
+): Scheme => pick<Scheme>(['light', 'dark'], user, app) ?? (os.schemeDark ? 'dark' : 'light');
 
-const pickDensity = (v: Density | undefined): Density | undefined =>
-  v === 'regular' || v === 'compact' ? v : undefined;
-
-const pickTier = (v: 'auto' | DomTier | undefined): DomTier | undefined =>
-  v === 'standard' || v === 'enhanced' || v === 'lightweight' ? v : undefined;
+const pickTier = (v: 'auto' | DomTier | undefined): DomTier | undefined => pick(TIERS, v);
 
 export interface ResolveAllInput {
   os: OsSignals;
@@ -100,18 +96,20 @@ export const resolvePaint = (
   user: PreferenceInput = {},
 ): PaintResult => {
   const glassOpacity = Math.min(1, Math.max(0, user.glassOpacity ?? app.glassOpacity ?? 0));
-  const transparency = os.forcedColors
-    ? 'solid'
-    : resolveTransparency(os, cap.backdropFilter, app.transparency, user.transparency, glassOpacity);
-  const contrast = resolveContrast(os, app.contrast, user.contrast);
   const motion = resolveMotion(os, app.motion, user.motion);
-  const scheme = resolveScheme(os, app.scheme, user.scheme);
-  const density = pickDensity(user.density) ?? pickDensity(app.density) ?? 'regular';
-  const tier = pickTier(user.tier) ?? pickTier(app.tier)
-    ?? (cap.saveData || (cap.deviceMemory !== null && cap.deviceMemory <= 2 && os.coarsePointer)
-      ? 'lightweight' : 'standard');
-  const allowContinuous = (user.allowContinuous ?? app.allowContinuous ?? false) && motion === 'full';
-  return { transparency, contrast, motion, scheme, density, glassOpacity, tier, allowContinuous };
+  return {
+    // forced colours resolve to solid inside resolveTransparency (floor 2).
+    transparency: resolveTransparency(os, cap.backdropFilter, app.transparency, user.transparency, glassOpacity),
+    contrast: resolveContrast(os, app.contrast, user.contrast),
+    motion,
+    scheme: resolveScheme(os, app.scheme, user.scheme),
+    density: pick<Density>(['regular', 'compact'], user.density, app.density) ?? 'regular',
+    glassOpacity,
+    tier: pick(TIERS, user.tier, app.tier)
+      ?? (cap.saveData || (cap.deviceMemory !== null && cap.deviceMemory <= 2 && os.coarsePointer)
+        ? 'lightweight' : 'standard'),
+    allowContinuous: (user.allowContinuous ?? app.allowContinuous ?? false) && motion === 'full',
+  };
 };
 
 export const resolvePreferences = ({ os, cap, app = {}, user = {} }: ResolveAllInput): ResolvedDetail => {
