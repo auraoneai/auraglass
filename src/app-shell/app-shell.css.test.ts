@@ -122,6 +122,51 @@ describe('app-shell.css structure (SURF-011)', () => {
     expect(main?.declarations.get('overflow')).toBe('auto');
   });
 
+  it('reveals the skip link only on :focus-visible of the link itself (SURF-18)', () => {
+    const skipRules = rules.filter((r) => r.selector.includes("[data-ag-slot='skip']"));
+    const reveal = skipRules.filter((r) => r.declarations.get('clip-path') === 'none');
+    expect(reveal.map((r) => r.selector)).toEqual([".ag-app-shell [data-ag-slot='skip']:focus-visible"]);
+    expect(skipRules.filter((r) => /:focus-within|:has\(/.test(r.selector))).toEqual([]);
+  });
+
+  it('main owns scroll; content parts scroll inside flex-column slots; four safe-area edges (SURF-19)', () => {
+    const decl = (sel: string) => rules.find((r) => r.selector === sel)?.declarations;
+    const main = decl(".ag-app-shell [data-ag-slot='main']");
+    expect({
+      overflow: main?.get('overflow'),
+      overscroll: main?.get('overscroll-behavior'),
+      start: main?.get('scroll-padding-block-start'),
+      end: main?.get('scroll-padding-block-end'),
+    }).toEqual({
+      overflow: 'auto',
+      overscroll: 'contain',
+      start: 'var(--ag-scroll-padding-top, 0px)',
+      end: 'var(--ag-scroll-padding-bottom, 0px)',
+    });
+    for (const slot of ['sidebar', 'inspector']) {
+      const s = decl(`.ag-app-shell [data-ag-slot='${slot}']`);
+      expect({ display: s?.get('display'), dir: s?.get('flex-direction') }).toEqual({ display: 'flex', dir: 'column' });
+    }
+    const content = rules.find((r) => r.selector.includes("[data-ag-part='sidebar-content']"));
+    expect(content?.selector).toContain("[data-ag-part='inspector-content']");
+    expect({
+      overflow: content?.declarations.get('overflow'),
+      overscroll: content?.declarations.get('overscroll-behavior'),
+      minBlock: content?.declarations.get('min-block-size'),
+    }).toEqual({ overflow: 'auto', overscroll: 'contain', minBlock: '0' });
+    expect({
+      inline: appShell?.declarations.get('padding-inline'),
+      start: appShell?.declarations.get('padding-block-start'),
+      end: appShell?.declarations.get('padding-block-end'),
+    }).toEqual({
+      inline: 'env(safe-area-inset-left) env(safe-area-inset-right)',
+      start: 'env(safe-area-inset-top)',
+      end: 'env(safe-area-inset-bottom)',
+    });
+    const overlay = rules.find((r) => r.selector.includes("[data-ag-slot='tabbar'][data-ag-placement='overlay']"));
+    expect(overlay?.declarations.get('padding-block-end')).toBe('env(safe-area-inset-bottom)');
+  });
+
   it('contains no !important, no transition:all, no will-change outside animating', () => {
     expect(css).not.toContain('!important');
     expect(stripped.replace(/\s+/g, ' ')).not.toContain('transition: all');

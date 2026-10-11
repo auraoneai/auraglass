@@ -7,6 +7,11 @@ describe('parseAppShellCookie', () => {
     expect(parseAppShellCookie('inspector:closed;sidebar:collapsed')).toEqual({ sidebar: 'collapsed', inspector: 'closed' });
   });
 
+  it("parses the ',' body written since SURF-21 and the legacy ';' body", () => {
+    expect(parseAppShellCookie('sidebar:rail,inspector:open')).toEqual({ sidebar: 'rail', inspector: 'open' });
+    expect(parseAppShellCookie('inspector:closed,sidebar:collapsed')).toEqual({ sidebar: 'collapsed', inspector: 'closed' });
+  });
+
   it('partial input yields partial output', () => {
     expect(parseAppShellCookie('sidebar:expanded')).toEqual({ sidebar: 'expanded' });
     expect(parseAppShellCookie('inspector:open')).toEqual({ inspector: 'open' });
@@ -38,10 +43,8 @@ describe('parseAppShellCookie', () => {
     const state = { sidebar: 'rail' as const, inspector: 'closed' as const };
     expect(parseAppShellCookie(serializeAppShellCookieValue(state))).toEqual(state);
     expect(parseAppShellCookie(serializeAppShellCookieValue({}))).toEqual({});
-    const full = serializeAppShellCookie('demo', state);
-    expect(full).toContain('ag-shell-demo=sidebar:rail;inspector:closed');
-    expect(full).toContain('SameSite=Lax');
-    expect(full).toContain('Path=/');
-    expect(full).toContain('Max-Age=31536000');
+    expect(serializeAppShellCookie('demo', state)).toBe(
+      'ag-shell-demo=sidebar:rail,inspector:closed; Path=/; Max-Age=31536000; SameSite=Lax',
+    );
   });
 });

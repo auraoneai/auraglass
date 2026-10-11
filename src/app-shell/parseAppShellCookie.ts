@@ -1,6 +1,8 @@
 /**
  * Server-safe `ag-shell-*` cookie parser (SURF-007).
- * Cookie body is `sidebar:<state>;inspector:<state>` in any key order with
+ * Cookie body is `sidebar:<state>,inspector:<state>` in any key order with
+ * (';' still parsed — it was the old separator, which document.cookie
+ * truncates so it could never have round-tripped in a real browser).
  * extra keys tolerated. Never throws; anything oversized or malformed
  * parses to {}.
  */
@@ -22,7 +24,7 @@ export function parseAppShellCookie(value: string | undefined | null): AppShellC
     return {};
   }
   const out: AppShellCookie = {};
-  for (const part of value.split(';')) {
+  for (const part of value.split(/[;,]/)) {
     const eq = part.indexOf(':');
     if (eq <= 0) continue;
     const key = part.slice(0, eq).trim();
@@ -37,12 +39,13 @@ export function parseAppShellCookie(value: string | undefined | null): AppShellC
   return out;
 }
 
-/** Cookie value body (`sidebar:x;inspector:y`) without name or attributes. */
+/** Cookie value body (`sidebar:x,inspector:y`) without name or attributes. */
 export function serializeAppShellCookieValue(state: AppShellCookie): string {
   const parts: string[] = [];
   if (state.sidebar) parts.push(`sidebar:${state.sidebar}`);
   if (state.inspector) parts.push(`inspector:${state.inspector}`);
-  return parts.join(';');
+  // ',' not ';' — document.cookie truncates the value at the first ';'
+  return parts.join(',');
 }
 
 /** Full `ag-shell-<key>=...` Set-Cookie pair (SURF-007). */
