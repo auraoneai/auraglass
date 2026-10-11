@@ -1370,36 +1370,6 @@
       "doc": "#dep-dep-c0220"
     },
     {
-      "id": "DEP-S0027",
-      "kind": "export",
-      "status": "planned",
-      "entry": ".",
-      "symbol": "EnhancedGlassTabs",
-      "since": "4.3.0",
-      "removeIn": "5.0.0",
-      "replacement": "Tabs from aura-glass",
-      "codemod": "canonical-names",
-      "automation": "mostly",
-      "breaking": "B4",
-      "message": "EnhancedGlassTabs is removed in 5.0; use Tabs with Tabs.List/Tabs.Tab/Tabs.Panel/Tabs.Indicator.",
-      "doc": "#dep-s0027"
-    },
-    {
-      "id": "DEP-S0028",
-      "kind": "export",
-      "status": "planned",
-      "entry": ".",
-      "symbol": "GlassTabItem",
-      "since": "4.3.0",
-      "removeIn": "5.0.0",
-      "replacement": "Tabs.Tab from aura-glass",
-      "codemod": "canonical-names",
-      "automation": "mostly",
-      "breaking": "B4",
-      "message": "GlassTabItem is removed in 5.0; use Tabs.Tab inside Tabs.List.",
-      "doc": "#dep-s0028"
-    },
-    {
       "id": "DEP-S0600",
       "kind": "export",
       "status": "planned",
