@@ -1,5 +1,5 @@
 // ssr-hydration.spec.ts — SURF-031: SSR markup hydrates without console errors; sidebar/inspector state cookie survives round-trip. Remote lane (3 engines where required); absent
-// subjects report pending, never fail.
+// subjects fail the test.
 import { test, expect } from '@playwright/test';
 import { listSubjects, gotoStory } from '../../../helpers';
 
@@ -7,7 +7,7 @@ test.describe('app-shell SSR + hydration (SURF-031)', () => {
   test('hydrates without console errors', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'AppShell');
-    if (!subject) { console.warn('AppShell subject not registered — pending'); return; }
+    if (!subject) throw new Error('AppShell subject not registered');
     const errors: string[] = [];
     page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
     page.on('pageerror', (e) => errors.push(String(e)));
@@ -19,7 +19,7 @@ test.describe('app-shell SSR + hydration (SURF-031)', () => {
   test('sidebar state persists via cookie across reload', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'AppShell');
-    if (!subject) { console.warn('AppShell subject not registered — pending'); return; }
+    if (!subject) throw new Error('AppShell subject not registered');
     await gotoStory(page, subject.id);
     const before = await page.evaluate(() => document.querySelector('.ag-app-shell')?.getAttribute('data-ag-sidebar'));
     await page.keyboard.press('ControlOrMeta+b');

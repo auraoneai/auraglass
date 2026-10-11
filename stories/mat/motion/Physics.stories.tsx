@@ -93,7 +93,8 @@ function Physics() {
   );
 }
 
-const meta: Meta = { title: 'MAT/Motion/Physics', parameters: { layout: 'padded' } };
+const meta: Meta = {
+  parameters: { ag: { subject: 'Physics', kind: 'showcase' } }, title: 'MAT/Motion/Physics', parameters: { layout: 'padded' } };
 export default meta;
 
 type Story = StoryObj<typeof meta>;
