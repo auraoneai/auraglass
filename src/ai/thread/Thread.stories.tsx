@@ -50,3 +50,14 @@ export const LoadingEarlier: Story = {
     />
   ),
 };
+/* Composed anatomy: Items inside a Viewport plus an explicit JumpToLatest. */
+export const Anatomy: Story = {
+  render: () => (
+    <Thread.Root messages={MESSAGES.slice(0, 2)}>
+      <Thread.Viewport>
+        <Thread.Items />
+      </Thread.Viewport>
+      <Thread.JumpToLatest aria-label="Jump to latest">1 new message</Thread.JumpToLatest>
+    </Thread.Root>
+  ),
+};

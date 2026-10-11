@@ -16,8 +16,8 @@ function Floors() {
     <div data-ag-surface="" data-ag-variant="regular" style={{ padding: 16, fontSize: 13 }}>
       <h3 style={{ marginTop: 0 }}>Resolved floors</h3>
       <dl>
-        <dt>floors.transparency</dt><dd data-ag-floor="transparency">{r.floors.transparency}</dd>
-        <dt>floors.motion</dt><dd data-ag-floor="motion">{r.floors.motion}</dd>
+        <dt>floors.transparency</dt><dd data-floor="transparency">{r.floors.transparency}</dd>
+        <dt>floors.motion</dt><dd data-floor="motion">{r.floors.motion}</dd>
         <dt>resolved transparency / contrast / motion</dt>
         <dd>{r.transparency} / {r.contrast} / {r.motion}</dd>
         <dt>os signals</dt>

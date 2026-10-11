@@ -219,7 +219,7 @@ export function FileUpload({
       {items.length > 0 ? (
         <ul data-ag-part="list" className="ag-file-upload-list">
           {items.map((item) => (
-            <li key={item.file.name + item.file.size} data-ag-part="item" data-ag-status={item.status} className="ag-file-upload-item">
+            <li key={item.file.name + item.file.size} data-ag-part="item" data-status={item.status} className="ag-file-upload-item">
               <span data-ag-part="item-name" className="ag-file-upload-name">
                 {item.file.name}
               </span>

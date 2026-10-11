@@ -149,7 +149,7 @@ const ContextMenuCheckboxItem = React.forwardRef<HTMLElement, MenuCheckboxItemPr
         data-ag-part="item"
         className={cn('ag-menu-item', 'ag-menu-checkbox-item', className)}
         {...(typeof checked === 'boolean' ? { checked } : {})}
-        {...(checked === 'indeterminate' ? { 'aria-checked': 'mixed', 'data-ag-indeterminate': true } : {})}
+        {...(checked === 'indeterminate' ? { 'aria-checked': 'mixed', 'data-indeterminate': true } : {})}
         {...(onCheckedChange !== undefined ? { onCheckedChange: (c: boolean) => onCheckedChange(c) } : {})}
         {...rest}
       >

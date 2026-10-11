@@ -104,8 +104,6 @@ export function SearchField({
       disabled={disabled}
       name={name}
       aria-busy={loading ? true : undefined}
-      {...(variant !== undefined ? { 'data-ag-variant': variant } : {})}
-      {...(refraction === true ? { 'data-ag-refraction': true } : {})}
     >
       {label !== undefined && label !== null ? <Base.Label data-ag-part="label">{label}</Base.Label> : null}
       <div data-ag-part="control-shell" className="ag-sf-shell" {...materialProps({ layer: 'chrome', thickness: 'thin', variant, refraction })}>

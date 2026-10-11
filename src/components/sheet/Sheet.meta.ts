@@ -10,7 +10,7 @@ const meta: ControlMeta = defineMeta({
   rsc: 'client',
   parts: [
     'trigger', 'backdrop', 'popup', 'handle', 'title', 'description',
-    'close', 'action', 'header', 'body', 'footer',
+    'close', 'action', 'header', 'body', 'footer', 'detent-live',
   ],
   states: [
     'popup-open', 'open', 'closed', 'starting-style', 'ending-style',
@@ -36,7 +36,7 @@ const meta: ControlMeta = defineMeta({
     {
       from: 'GlassBottomSheet',
       props: { snap: 'detents', height: 'detents' },
-      selectors: { '.glass-bottom-sheet': ".ag-sheet-popup[data-ag-side='bottom']" },
+      selectors: { '.glass-bottom-sheet': ".ag-sheet-popup[data-side='bottom']" },
       automation: 'mostly',
       compat: true,
     },

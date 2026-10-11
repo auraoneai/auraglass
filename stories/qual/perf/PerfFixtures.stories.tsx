@@ -27,7 +27,7 @@ const panel: React.CSSProperties = { padding: 24, minInlineSize: 200, minBlockSi
 export const Default: Story = {
   name: 'Harness blank',
   parameters: { __id: 'perf-harness-blank--default', ag: { subject: 'perf-harness-blank', kind: 'lab', scenes: ['photo'] } satisfies StoryAgParameters },
-  render: () => <div data-ag-perf-fixture="perf-harness-blank" style={page} />,
+  render: () => <div data-perf-fixture="perf-harness-blank" style={page} />,
 };
 
 /** Four nested surfaces (effective nesting 3 for the innermost; budget is ≤1). */
@@ -35,7 +35,7 @@ export const Nest4: Story = {
   name: 'Nesting 4',
   parameters: { __id: 'perf-nesting--nest-4', ag: { subject: 'perf-nesting', kind: 'lab', scenes: ['photo'] } satisfies StoryAgParameters },
   render: () => (
-    <div data-ag-perf-fixture="perf-nesting" style={page}>
+    <div data-perf-fixture="perf-nesting" style={page}>
       <Surface layer="chrome" thickness="regular" style={{ padding: 32 }}>
         <Surface layer="chrome" thickness="regular" allowNested style={{ padding: 32 }}>
           <Surface layer="chrome" thickness="regular" allowNested style={{ padding: 32 }}>
@@ -52,7 +52,7 @@ export const Budget7: Story = {
   name: 'Budget 7',
   parameters: { __id: 'perf-budget--budget-7', ag: { subject: 'perf-budget', kind: 'lab', scenes: ['photo'] } satisfies StoryAgParameters },
   render: () => (
-    <div data-ag-perf-fixture="perf-budget" style={{ ...page, display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 24 }}>
+    <div data-perf-fixture="perf-budget" style={{ ...page, display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 24 }}>
       {Array.from({ length: 7 }, (_, i) => (
         <Surface key={i} layer="chrome" thickness="regular" style={panel}>Surface {i + 1}</Surface>
       ))}
@@ -66,7 +66,7 @@ export const Lens3: Story = {
   globals: { tier: 'enhanced' },
   parameters: { __id: 'perf-lens--lens-3', ag: { subject: 'perf-lens', kind: 'lab', scenes: ['photo'], tier: 'enhanced', refraction: true } satisfies StoryAgParameters },
   render: () => (
-    <div data-ag-perf-fixture="perf-lens" style={{ ...page, display: 'flex', gap: 24, alignItems: 'flex-start' }}>
+    <div data-perf-fixture="perf-lens" style={{ ...page, display: 'flex', gap: 24, alignItems: 'flex-start' }}>
       {Array.from({ length: 3 }, (_, i) => (
         <Surface key={i} layer="chrome" shape="capsule" refraction interactive style={{ padding: '12px 24px' }}>Lens {i + 1}</Surface>
       ))}
@@ -81,12 +81,14 @@ function GlCanvas({ index }: { index: number }) {
     const canvas = ref.current;
     if (!canvas) return undefined;
     const gl = canvas.getContext('webgl2') ?? canvas.getContext('webgl');
-    if (!gl) throw new Error('perf-webgl fixture: WebGL is unavailable in this browser');
+    /* No WebGL (e.g. jsdom): mark the canvas instead of throwing; the browser perf lane
+       counts live contexts, so a missing one still fails there. */
+    if (!gl) { canvas.setAttribute('data-webgl-unavailable', ''); return undefined; }
     gl.clearColor(0.1 * (index + 1), 0.3, 0.6, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
     return () => { gl.getExtension('WEBGL_lose_context')?.loseContext(); };
   }, [index]);
-  return <canvas ref={ref} width={320} height={180} data-ag-perf-webgl={index} style={{ display: 'block', inlineSize: 320, blockSize: 180 }} />;
+  return <canvas ref={ref} width={320} height={180} data-perf-webgl={index} style={{ display: 'block', inlineSize: 320, blockSize: 180 }} />;
 }
 
 /** Three surfaces each hosting a live WebGL context (budget ≤1 context). './three' exports nothing at 5.0 (OI-01),
@@ -95,7 +97,7 @@ export const Webgl3: Story = {
   name: 'WebGL 3',
   parameters: { __id: 'perf-webgl--webgl-3', ag: { subject: 'perf-webgl', kind: 'lab', scenes: ['photo'] } satisfies StoryAgParameters },
   render: () => (
-    <div data-ag-perf-fixture="perf-webgl" style={{ ...page, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+    <div data-perf-fixture="perf-webgl" style={{ ...page, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
       {Array.from({ length: 3 }, (_, i) => (
         <Surface key={i} layer="content" content="content-raised" style={{ padding: 12 }}><GlCanvas index={i} /></Surface>
       ))}
@@ -106,7 +108,7 @@ export const Webgl3: Story = {
 function MountCycle() {
   const [mounted, setMounted] = React.useState(true);
   return (
-    <div data-ag-perf-fixture="perf-mount-cycle" style={page}>
+    <div data-perf-fixture="perf-mount-cycle" style={page}>
       <button type="button" data-ag-part="toggle" aria-pressed={mounted} onClick={() => setMounted((m) => !m)}>
         {mounted ? 'Unmount surfaces' : 'Mount surfaces'}
       </button>

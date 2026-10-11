@@ -10,7 +10,7 @@ const meta: ControlMeta = defineMeta({
   tier: 'T1',
   flagship: 20,
   rsc: 'client',
-  parts: ['provider', 'trigger', 'positioner', 'popup', 'arrow'],
+  parts: ['trigger', 'positioner', 'popup', 'arrow'],
   states: ['open', 'closed', 'starting-style', 'ending-style', 'instant', 'animating'],
   variants: {
     side: ['top', 'bottom', 'left', 'right', 'inline-start', 'inline-end'],

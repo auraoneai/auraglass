@@ -64,9 +64,8 @@ function FloorsTable({ data }: { data: Record<string, unknown> }) {
 }
 
 const meta: Meta = {
-  parameters: { ag: { subject: 'ContrastFloors', kind: 'showcase' } },
   title: 'MAT/Contrast Floors',
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', ag: { subject: 'ContrastFloors', kind: 'showcase' } },
 };
 export default meta;
 
@@ -80,9 +79,9 @@ export const Table: Story = {
       <PendingCallout what="tokens/generated/opacity-floors.json — pending lane 2a-T token generation" />
     ),
   play: async ({ canvasElement }) => {
-    const pending = canvasElement.querySelector('[data-ag-pending]');
+    const pending = canvasElement.querySelector('[data-pending]');
     if (pending) {
-      console.info(`pending: ${pending.getAttribute('data-ag-pending')}`);
+      console.info(`pending: ${pending.getAttribute('data-pending')}`);
       return;
     }
     const cells = canvasElement.querySelectorAll('tbody td');

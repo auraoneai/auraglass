@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Toast, useToast } from '../../../components/toast';
 
 export const __compatWrap = (compat: string, children: React.ReactNode) => (
-  <div data-ag-compat={compat} data-ag-part="root" style={{ display: 'contents' }}>{children}</div>
+  <div data-compat={compat} data-ag-part="root" style={{ display: 'contents' }}>{children}</div>
 );
 
 /** Toast.Viewport does not auto-render manager toasts — compat viewports mount

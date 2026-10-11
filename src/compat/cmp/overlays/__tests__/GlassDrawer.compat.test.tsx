@@ -29,6 +29,6 @@ describe('GlassDrawer compat (CMP-338)', () => {
     expect(depCalls).toHaveLength(1);
     const popup = document.querySelector('[data-ag-overlay="sheet"]');
     expect(popup).toBeTruthy();
-    expect(popup?.getAttribute('data-ag-side')).toBe('right');
+    expect(popup?.getAttribute('data-side')).toBe('right');
   });
 });

@@ -16,5 +16,5 @@ export function GlassAnimatedNumber(props: GlassAnimatedNumberProps) {
   warnDeprecated('GlassAnimatedNumber');
   const { value, format, decimals } = props;
   const text = format ? format(value) : decimals !== undefined ? value.toFixed(decimals) : new Intl.NumberFormat('en-US').format(value);
-  return <span data-ag-compat="GlassAnimatedNumber">{text}</span>;
+  return <span data-compat="GlassAnimatedNumber">{text}</span>;
 }

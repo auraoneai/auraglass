@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Toolbar as Base } from '@base-ui/react/toolbar';
 import { materialProps } from '../../material';
+import { surfaceGroupAttributes } from '../../material/stateAttributes';
 import { cn } from '../../internal';
 import { Button } from '../button/Button.client';
 import { IconButton } from '../icon-button/IconButton.client';
@@ -33,14 +34,13 @@ function ToolbarRoot({
         layer: 'chrome',
         variant,
         thickness,
+        ...(orientation === 'horizontal' ? { shape: 'capsule' as const } : {}),
         ...(prominent === true ? { prominent } : {}),
         ...(refraction === true ? { refraction } : {}),
       })}
+      {...surfaceGroupAttributes(spacing)}
       orientation={orientation}
       data-ag-part="root"
-      data-ag-group=""
-      data-ag-spacing={spacing}
-      data-ag-shape={orientation === 'horizontal' ? 'capsule' : undefined}
       className={cn('ag-toolbar', 'ag-surface', 'ag-toolbar-surface', className)}
       ref={ref}
     >

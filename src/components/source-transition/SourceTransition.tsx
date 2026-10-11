@@ -7,6 +7,7 @@
 import * as React from 'react';
 import { flushSync } from 'react-dom';
 import { startMorph } from '../../motion';
+import { viewTransitionParticipantAttributes } from '../../material/stateAttributes';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 
@@ -65,8 +66,8 @@ function Source({ id, children, render, style, ...rest }: TransitionSourceProps)
   return partElement('div', {
     render: render as React.ReactElement | undefined,
     'data-ag-part': 'source',
-    'data-ag-src': sanitize(id),
-    'data-ag-vt-participant': '',
+    'data-src': sanitize(id),
+    ...viewTransitionParticipantAttributes(),
     style: {
       ...style,
       viewTransitionName: transitioning ? `ag-src-${sanitize(id)}` : undefined,
@@ -86,8 +87,8 @@ function Destination({ id, children, render, style, ...rest }: TransitionDestina
   return partElement('div', {
     render: render as React.ReactElement | undefined,
     'data-ag-part': 'destination',
-    'data-ag-src-dest': sanitize(id),
-    'data-ag-vt-participant': '',
+    'data-src-dest': sanitize(id),
+    ...viewTransitionParticipantAttributes(),
     style: {
       ...style,
       opacity: settled ? 1 : undefined,
@@ -108,8 +109,8 @@ Destination.displayName = 'SourceTransition.Destination';
 export function SourceTransitionStart(id: string, update: () => void): Promise<void> {
   const sid = sanitize(id);
   const name = `ag-src-${sid}`;
-  const source = document.querySelector<HTMLElement>(`[data-ag-src="${sid}"]`);
-  const dest = document.querySelector<HTMLElement>(`[data-ag-src-dest="${sid}"]`);
+  const source = document.querySelector<HTMLElement>(`[data-src="${sid}"]`);
+  const dest = document.querySelector<HTMLElement>(`[data-src-dest="${sid}"]`);
   const hadFocus = source ? source.contains(document.activeElement) : false;
   if (source) {
     flushSync(() => {

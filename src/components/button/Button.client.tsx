@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Button as BaseButton } from '@base-ui/react/button';
 import { Toggle } from '@base-ui/react/toggle';
 import { materialProps } from '../../material';
+import { pointerLightAttributes } from '../../material/stateAttributes';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import type { ChangeDetails } from '../../contracts/components';
@@ -108,12 +109,10 @@ export function Button(props: ButtonProps) {
   const shared = {
     ...attrs,
     'data-ag-part': partOverride ?? 'root',
-    'data-ag-interactive': '',
-    'data-ag-size-class': 'control',
+    'data-size-class': 'control',
     'data-ag-size': size,
     'data-ag-intent': intent !== 'neutral' ? intent : undefined,
-    'data-ag-variant': variant === 'identity' ? 'identity' : attrs['data-ag-variant'],
-    ...(pointerLight ? { 'data-ag-pointer-light': '' } : {}),
+    ...pointerLightAttributes(pointerLight),
     'aria-busy': loading || undefined,
     disabled,
     className: cn('ag-button', className),

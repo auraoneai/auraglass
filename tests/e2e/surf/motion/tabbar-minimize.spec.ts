@@ -14,7 +14,7 @@ test.describe('tab-bar minimize (SURF-075)', () => {
     expect(await bar.count(), 'no tab bar').toBeGreaterThan(0);
     await page.evaluate(() => document.querySelector('[data-ag-part="main"]')?.scrollBy(0, 400) ?? window.scrollBy(0, 400));
     await page.waitForTimeout(400);
-    const attr = await bar.first().getAttribute('data-ag-minimized');
+    const attr = await bar.first().getAttribute('data-minimized');
     expect([null, 'true', '']).toContain(attr);
   });
 });

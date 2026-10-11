@@ -45,9 +45,9 @@ describe('T0 server components', () => {
     for (const part of ['root', 'header', 'title', 'description', 'body', 'footer']) {
       expect(html).toContain(`data-ag-part="${part}"`);
     }
-    expect(html).toContain('data-ag-type="caption"');
-    expect(html).toContain('data-ag-level="2"');
-    expect(html).toContain('data-ag-cols="2"');
+    expect(html).toContain('data-type="caption"');
+    expect(html).toContain('data-level="2"');
+    expect(html).toContain('data-cols="2"');
   });
   it('implementation files carry no "use client" directive', () => {
     for (const f of SERVER_SOURCES) {

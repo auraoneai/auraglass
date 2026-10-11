@@ -51,7 +51,7 @@ export function AppShellInspectorToggle({ labels, icon, ...rest }: AppShellInspe
     if (!rootEl) return;
     const insp = rootEl.querySelector<HTMLElement>('[data-ag-slot="inspector"]');
     if (insp && !insp.id) {
-      insp.id = `${rootEl.dataset['agShellId'] ?? 'ag-shell'}-inspector`;
+      insp.id = `${rootEl.dataset['shellId'] ?? 'ag-shell'}-inspector`;
     }
     setControls(insp?.id);
   }, [rootEl, snapshot.inspector]);

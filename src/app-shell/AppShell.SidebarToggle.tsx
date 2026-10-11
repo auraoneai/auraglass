@@ -59,7 +59,7 @@ export function AppShellSidebarToggle({
   }, [rootEl]);
 
   const collapseTo: 'rail' | 'collapsed' =
-    rootEl?.dataset['agCollapseTo'] === 'collapsed' ? 'collapsed' : 'rail';
+    rootEl?.dataset['collapseTo'] === 'collapsed' ? 'collapsed' : 'rail';
   const isDrawer = snapshot.mode === 'compact' || snapshot.mode === 'medium';
   const next = nextFor(snapshot.mode, snapshot.sidebar, collapseTo);
   const open = snapshot.sidebar === 'expanded';
@@ -86,7 +86,7 @@ export function AppShellSidebarToggle({
     if (!rootEl) return;
     const side = rootEl.querySelector<HTMLElement>('[data-ag-slot="sidebar"]');
     if (side && !side.id) {
-      side.id = `${rootEl.dataset['agShellId'] ?? 'ag-shell'}-sidebar`;
+      side.id = `${rootEl.dataset['shellId'] ?? 'ag-shell'}-sidebar`;
     }
     setControls(side?.id);
   }, [rootEl, snapshot.sidebar, snapshot.mode]);

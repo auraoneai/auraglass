@@ -119,7 +119,12 @@ function ComboboxRoot<Value = string>({
   children,
   ...rest
 }: ComboboxRootProps<Value>) {
-  const [query, setQuery] = React.useState('');
+  /* The create-item / filter query starts from the input's initial text
+     (controlled inputValue or defaultInputValue), not always ''. */
+  const [query, setQuery] = React.useState(() => rest.inputValue ?? rest.defaultInputValue ?? '');
+  React.useEffect(() => {
+    if (rest.inputValue !== undefined) setQuery(rest.inputValue);
+  }, [rest.inputValue]);
   const [asyncItems, setAsyncItems] = React.useState<Value[] | null>(null);
   const [loadError, setLoadError] = React.useState(false);
   const [asyncLoading, setAsyncLoading] = React.useState(false);

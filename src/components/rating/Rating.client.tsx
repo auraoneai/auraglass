@@ -83,7 +83,7 @@ export function Rating({
       tabIndex={interactive ? 0 : undefined}
       onKeyDown={onKeyDown}
       data-ag-part="root"
-      data-ag-readonly={readOnly ? '' : undefined}
+      data-readonly={readOnly ? '' : undefined}
       className={cn('ag-rating', className)}
     >
       {Array.from({ length: max }, (_, i) => {
@@ -100,9 +100,9 @@ export function Rating({
             tabIndex={-1}
             onClick={(e) => onItemClick(v, e)}
             data-ag-part="item"
-            data-ag-value={v}
+            data-value={v}
             data-state={filled ? 'on' : 'off'}
-            data-ag-half={half ? '' : undefined}
+            data-half={half ? '' : undefined}
             className={cn('ag-rating-item', filled ? 'ag-rating-item-on' : undefined)}
           >
             {icon ?? '★'}

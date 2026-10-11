@@ -19,7 +19,7 @@ export function DialogBody({ children, className, padding = 'default' }: DialogL
   return (
     <div
       data-ag-part="body"
-      data-ag-padding={padding}
+      data-padding={padding}
       className={cn('ag-dialog-body', className)}
     >
       {children}

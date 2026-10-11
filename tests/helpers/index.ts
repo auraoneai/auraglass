@@ -27,7 +27,7 @@ const envAttrs = (env: AgEnvironment): Record<string, string> => {
   if (env.motion) out['data-ag-motion'] = env.motion;
   if (env.tier) out['data-ag-tier'] = env.tier;
   if (env.backdrop) out['data-ag-backdrop'] = env.backdrop;
-  if (env.forcedColors) out['data-ag-forced-colors'] = '';   // jsdom test marker (forced-colors media query cannot be emulated)
+  if (env.forcedColors) out['data-forced-colors'] = '';   // jsdom test marker (forced-colors media query cannot be emulated)
   return out;
 };
 
@@ -120,7 +120,7 @@ export const gotoStory: GotoStory = async (page, storyId, env = {}) => {
   // globals filter: strip the data-ag- prefix and drop empty-valued keys
   // (forced-colors markers have no Storybook global; cert mode is opt-in via ag-cert=1).
   const qs = Object.entries(globals)
-    .filter(([k, v]) => k !== 'data-ag-forced-colors' && v !== undefined && v !== '')
+    .filter(([k, v]) => k !== 'data-forced-colors' && v !== undefined && v !== '')
     .map(([k, v]) => `${k.replace(/^data-ag-/, '')}:${v}`)
     .join(';');
   const base = process.env.AG_STORYBOOK_URL ?? 'http://localhost:6006';

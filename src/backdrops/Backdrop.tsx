@@ -48,8 +48,8 @@ export const Backdrop = function Backdrop(props: BackdropProps & { ref?: React.R
       {...(declaration !== undefined ? { 'data-ag-backdrop': declaration } : {})}
       {...(tone !== undefined ? { 'data-ag-media-tone': tone } : {})}
       {...(isMedia ? { 'data-ag-media-root': '' } : {})}
-      data-ag-backdrop-grain={grain ? '' : undefined}
-      data-ag-motion={motion}
+      data-backdrop-grain={grain ? '' : undefined}
+      data-backdrop-motion={motion}
       {...rest}
     >
       <div className="ag-backdrop-layer" data-ag-part="backdrop-layer" aria-hidden="true">

@@ -55,3 +55,30 @@ export const Danger: Story = {
     </AuraGlassProvider>
   ),
 };
+
+/* Every AlertDialog part: Trigger plus the Header / Body / Footer layout. */
+export const Anatomy: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'AlertDialog', id: 'overlays-alert-dialog--anatomy' } },
+  render: () => (
+    <AuraGlassProvider>
+      <AlertDialog.Root defaultOpen>
+        <AlertDialog.Trigger>Remove member</AlertDialog.Trigger>
+        <AlertDialog.Portal>
+          <AlertDialog.Backdrop />
+          <AlertDialog.Popup>
+            <AlertDialog.Header>
+              <AlertDialog.Title>Remove member?</AlertDialog.Title>
+            </AlertDialog.Header>
+            <AlertDialog.Body>
+              <AlertDialog.Description>They lose access to every project in this workspace.</AlertDialog.Description>
+            </AlertDialog.Body>
+            <AlertDialog.Footer>
+              <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+              <AlertDialog.Action>Remove</AlertDialog.Action>
+            </AlertDialog.Footer>
+          </AlertDialog.Popup>
+        </AlertDialog.Portal>
+      </AlertDialog.Root>
+    </AuraGlassProvider>
+  ),
+};

@@ -92,7 +92,7 @@ describe('cmp-lint (REQ-CMP-08)', () => {
       const text = readFileSync(f, 'utf8');
       for (const m of text.matchAll(/([^{}]*)\{([^{}]*will-change[^{}]*)\}/g)) {
         const sel = m[1];
-        if (!/data-ag-animating|data-ag-vt-animating|data-ending|data-starting/.test(sel)) {
+        if (!/data-ag-animating|data-vt-animating|data-ending|data-starting/.test(sel)) {
           bad.push(`${f}: ${sel.trim()}`);
         }
       }

@@ -21,19 +21,21 @@ export type BreadcrumbsOverflowProps = {
   /** Collapsed middle items — serializable {href,label} pairs from the
       server Root (SURF-056); React elements also accepted for compat. */
   items?: Array<BreadcrumbsOverflowItem | React.ReactNode> | undefined;
+  /** Initial menu state (uncontrolled). */
+  defaultOpen?: boolean | undefined;
 };
 
 const isPair = (v: unknown): v is BreadcrumbsOverflowItem =>
   typeof v === 'object' && v !== null && 'label' in (v as object);
 
-export function BreadcrumbsOverflow({ label = 'Show more', items = [] }: BreadcrumbsOverflowProps) {
+export function BreadcrumbsOverflow({ label = 'Show more', items = [], defaultOpen }: BreadcrumbsOverflowProps) {
   // Real CMP Menu stacks Popup inside Positioner (optionally Portal); the
   // contract double maps Content straight to Base.Popup, so wrap only when
   // the parts exist.
   const MaybePortal = ('Portal' in Menu ? Menu.Portal : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
   const MaybePositioner = ('Positioner' in Menu ? Menu.Positioner : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
   return (
-    <MenuRoot>
+    <MenuRoot {...(defaultOpen !== undefined ? { defaultOpen } : {})}>
       <MenuTrigger
         render={<IconButton label={label} icon={'\u2026'} />}
         data-ag-part="ellipsis"

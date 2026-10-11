@@ -35,7 +35,9 @@ function useGlCanvas(ref: React.RefObject<HTMLCanvasElement | null>, { maxDpr, l
     canvas.width = Math.round(CSS_W * dpr);
     canvas.height = Math.round(CSS_H * dpr);
     const gl = (canvas.getContext('webgl2') ?? canvas.getContext('webgl')) as WebGLRenderingContext | null;
-    if (!gl) throw new Error('webgl fixture: WebGL is unavailable in this browser');
+    /* No WebGL (e.g. jsdom): mark the canvas instead of throwing out of the tree; the
+       browser perf lane counts live contexts, so a missing one still fails there. */
+    if (!gl) { canvas.setAttribute('data-webgl-unavailable', ''); return undefined; }
     let frame = 0;
     const draw = () => {
       frame += 1;
@@ -76,14 +78,14 @@ function useGlCanvas(ref: React.RefObject<HTMLCanvasElement | null>, { maxDpr, l
 function GlCanvas(props: GlOptions & { name: string }) {
   const ref = React.useRef<HTMLCanvasElement | null>(null);
   useGlCanvas(ref, props);
-  return <canvas ref={ref} data-ag-fixture={props.name} style={{ display: 'block', inlineSize: CSS_W, blockSize: CSS_H }} />;
+  return <canvas ref={ref} data-fixture={props.name} style={{ display: 'block', inlineSize: CSS_W, blockSize: CSS_H }} />;
 }
 
 const page: React.CSSProperties = { minHeight: '100vh', boxSizing: 'border-box', padding: 48, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'flex-start' };
 
 function Fixture({ name, count = 1, ...opts }: GlOptions & { name: string; count?: number }) {
   return (
-    <div data-ag-fixture={`webgl-${name}`} style={page}>
+    <div data-fixture={`webgl-${name}`} style={page}>
       {Array.from({ length: count }, (_, i) => (
         <Surface key={i} layer="content" content="content-raised" style={{ padding: 12 }}>
           <GlCanvas name={`${name}-${i}`} {...opts} />

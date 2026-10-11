@@ -217,15 +217,15 @@
      wide shell) reads sunken with no backdrop-filter; floating (or auto
      under expanded/medium) overlays the main area at inline-end. Compact
      hides the inline inspector — Inspector.Sheet takes over. */
-  [data-ag-inspector-mode='docked'],
-  .ag-app-shell[data-ag-mode='wide'] [data-ag-inspector-mode='auto'] {
+  [data-inspector-mode='docked'],
+  .ag-app-shell[data-mode='wide'] [data-inspector-mode='auto'] {
     background: var(--_ag-surface-sunken);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  [data-ag-inspector-mode='floating'],
-  .ag-app-shell[data-ag-mode='expanded'] [data-ag-inspector-mode='auto'],
-  .ag-app-shell[data-ag-mode='medium'] [data-ag-inspector-mode='auto'] {
+  [data-inspector-mode='floating'],
+  .ag-app-shell[data-mode='expanded'] [data-inspector-mode='auto'],
+  .ag-app-shell[data-mode='medium'] [data-inspector-mode='auto'] {
     position: absolute;
     inset-inline-end: var(--ag-space-2);
     inset-block: var(--ag-space-2);
@@ -233,12 +233,12 @@
     max-inline-size: min(24rem, 90%);
     border-radius: var(--ag-radius-lg);
   }
-  .ag-app-shell[data-ag-mode='compact'] [data-ag-slot='inspector'] {
+  .ag-app-shell[data-mode='compact'] [data-ag-slot='inspector'] {
     display: none;
   }
   /* SURF-043/045/046: panel handles — 1px line, >=24px fine / >=44px coarse
      hit area via ::before, touch-action none (handle only); stacked mode
-     (data-ag-stacked, set by ResizeObserver) drops to a column and hides
+     (data-stacked, set by ResizeObserver) drops to a column and hides
      handles. */
   .ag-panels { container: ag-panels / inline-size; }
   .ag-panels__handle {
@@ -248,7 +248,7 @@
     background: var(--_ag-border-subtle);
     flex: none;
   }
-  .ag-panels[data-ag-orientation='vertical'] .ag-panels__handle {
+  .ag-panels[data-orientation='vertical'] .ag-panels__handle {
     inline-size: auto;
     block-size: var(--_ag-border-1, 1px);
   }
@@ -273,10 +273,10 @@
     border-radius: var(--ag-radius-sm);
     background: var(--_ag-border-subtle);
   }
-  .ag-panels[data-ag-stacked='true'] {
+  .ag-panels[data-stacked='true'] {
     flex-direction: column;
   }
-  .ag-panels[data-ag-stacked='true'] .ag-panels__handle {
+  .ag-panels[data-stacked='true'] .ag-panels__handle {
     display: none;
   }
 }

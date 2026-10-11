@@ -11,7 +11,6 @@ import { Surface } from '../../src/material/index';
 import { glassMaterialPresets } from '../../src/theme/materials';
 import { createBrandGlassTheme } from '../../src/theme/createBrandGlassTheme';
 import { CONTRAST_FLOOR, oklchToHex } from './_shared';
-import { StorySurface } from '../../.storybook/StorySurface';
 
 const PRESETS = Object.entries(glassMaterialPresets);
 
@@ -39,13 +38,14 @@ function PresetCard({ name, tokens }: { name: string; tokens: (typeof PRESETS)[n
 
 function PresetGrid({ scheme }: { scheme: 'light' | 'dark' }) {
   return (
-    <StorySurface mode={scheme}>
+    /* StorySurface was retired with StoryRoot (G-07); the scheme scopes the grid. */
+    <div data-ag-scheme={scheme}>
       <div data-ag-theme={scheme} style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
         {PRESETS.map(([name, tokens]) => (
           <PresetCard key={name} name={name} tokens={tokens} />
         ))}
       </div>
-    </StorySurface>
+    </div>
   );
 }
 
@@ -83,7 +83,7 @@ function BrandPlayground() {
   const adjustedPairs = theme.contrast.adjusted;
   const input: React.CSSProperties = { width: 80, font: 'inherit' };
   return (
-    <div data-ag-brand-playground style={{ display: 'grid', gap: 12 }}>
+    <div data-brand-playground style={{ display: 'grid', gap: 12 }}>
       <fieldset style={{ display: 'flex', gap: 16, border: '1px solid #cbd5e1', borderRadius: 8, padding: 12 }}>
         <legend>OKLCH brand colour</legend>
         <label>
@@ -105,7 +105,7 @@ function BrandPlayground() {
         <code style={{ alignSelf: 'end' }}>{hex}</code>
       </fieldset>
       <ContrastPairs theme={theme} />
-      <div data-ag-adjusted-count={adjustedPairs.length}>
+      <div data-adjusted-count={adjustedPairs.length}>
         <h4 style={{ margin: '8px 0 4px' }}>contrast.adjusted ({adjustedPairs.length})</h4>
         {adjustedPairs.length === 0 ? (
           <p style={{ fontSize: 12 }}>all pairs above {CONTRAST_FLOOR}:1</p>
@@ -125,9 +125,8 @@ function BrandPlayground() {
 }
 
 const meta: Meta = {
-  parameters: { ag: { subject: 'Presets', kind: 'showcase' } },
   title: 'MAT/Presets',
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', ag: { subject: 'Presets', kind: 'showcase' } },
 };
 export default meta;
 
@@ -156,8 +155,8 @@ export const BrandThemePlayground: Story = {
     nativeSetter.call(lInput, '0.85');
     lInput.dispatchEvent(new Event('input', { bubbles: true }));
     await new Promise((r) => setTimeout(r, 60));
-    const count = canvasElement.querySelector('[data-ag-adjusted-count]');
-    const n = Number(count?.getAttribute('data-ag-adjusted-count') ?? '0');
+    const count = canvasElement.querySelector('[data-adjusted-count]');
+    const n = Number(count?.getAttribute('data-adjusted-count') ?? '0');
     if (!(n >= 1)) {
       throw new Error(`Presets: changing L to 0.85 showed ${n} adjusted steps, expected >= 1`);
     }

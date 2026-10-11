@@ -4376,7 +4376,7 @@
       "flagship": 42,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "ai-sources--three",
+      "storyId": "ai-sourcelist--three",
       "script": "tests/a11y/manual/scripts/surf/source-list.md",
       "record": "tests/a11y/manual/records/surf/source-list-voiceover-macos.json",
       "required": true
@@ -4388,7 +4388,7 @@
       "flagship": 42,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "ai-sources--three",
+      "storyId": "ai-sourcelist--three",
       "script": "tests/a11y/manual/scripts/surf/source-list.md",
       "record": "tests/a11y/manual/records/surf/source-list-voiceover-ios.json",
       "required": true
@@ -4400,7 +4400,7 @@
       "flagship": 42,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "ai-sources--three",
+      "storyId": "ai-sourcelist--three",
       "script": "tests/a11y/manual/scripts/surf/source-list.md",
       "record": "tests/a11y/manual/records/surf/source-list-nvda-chrome.json",
       "required": true
@@ -4412,7 +4412,7 @@
       "flagship": 42,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "ai-sources--three",
+      "storyId": "ai-sourcelist--three",
       "script": "tests/a11y/manual/scripts/surf/source-list.md",
       "record": "tests/a11y/manual/records/surf/source-list-talkback-chrome.json",
       "required": true
@@ -4424,7 +4424,7 @@
       "flagship": 42,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "ai-sources--three",
+      "storyId": "ai-sourcelist--three",
       "script": "tests/a11y/manual/scripts/surf/source-list.md",
       "record": "tests/a11y/manual/records/surf/source-list-touch-ios.json",
       "required": true
@@ -4436,7 +4436,7 @@
       "flagship": 42,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "ai-sources--three",
+      "storyId": "ai-sourcelist--three",
       "script": "tests/a11y/manual/scripts/surf/source-list.md",
       "record": "tests/a11y/manual/records/surf/source-list-touch-android.json",
       "required": true

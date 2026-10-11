@@ -22,7 +22,7 @@ const panel: React.CSSProperties = { padding: 24, minInlineSize: 200, minBlockSi
 
 export const Surfaces: Story = {
   render: () => (
-    <div data-ag-fixture="fallback-surfaces" style={page}>
+    <div data-fixture="fallback-surfaces" style={page}>
       <SurfaceGroup>
         <Surface layer="chrome" thickness="thin" style={panel}>chrome thin</Surface>
         <Surface layer="chrome" thickness="regular" style={panel}>chrome regular</Surface>
@@ -36,8 +36,8 @@ export const Surfaces: Story = {
 
 export const BespokeBlur: Story = {
   render: () => (
-    <div data-ag-fixture="fallback-bespoke" style={page}>
-      <div data-ag-fixture="bespoke-blur" style={{ ...panel, background: 'rgb(255 255 255 / 0.2)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+    <div data-fixture="fallback-bespoke" style={page}>
+      <div data-fixture="bespoke-blur" style={{ ...panel, background: 'rgb(255 255 255 / 0.2)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
         hand-rolled blur
       </div>
     </div>

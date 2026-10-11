@@ -11,9 +11,11 @@ const meta: ControlMeta = defineMeta({
   flagship: 22,
   rsc: 'client',
   parts: [
-    'trigger', 'positioner', 'popup', 'arrow', 'item', 'link-item',
-    'checkbox-item', 'radio-item', 'indicator', 'group', 'group-label',
-    'separator', 'submenu-trigger', 'shortcut',
+    // Menu and ContextMenu share this meta (Menubar is flat: its root is 'root'). Link, checkbox and radio
+    // items render the 'item' part (their kind is in role/aria-checked).
+    'trigger', 'context-trigger', 'positioner', 'popup', 'arrow', 'item',
+    'indicator', 'group', 'group-label', 'separator', 'submenu-trigger',
+    'submenu-indicator', 'shortcut',
   ],
   states: [
     'open', 'closed', 'starting-style', 'ending-style', 'animating',

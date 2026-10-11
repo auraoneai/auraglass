@@ -35,12 +35,12 @@ export function Text({
     ...rest,
     ref,
     'data-ag-part': 'root',
-    'data-ag-type': type,
+    'data-type': type,
     'data-ag-size': size,
     'data-ag-intent': intent ?? 'neutral',
-    'data-ag-muted': muted ? '' : undefined,
-    'data-ag-weight': weight,
-    'data-ag-truncate': truncate ? '' : undefined,
+    'data-muted': muted ? '' : undefined,
+    'data-weight': weight,
+    'data-truncate': truncate ? '' : undefined,
     className: cn('ag-text', `ag-text-type-${type}`, `ag-text-size-${size}`, className),
   } as React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> };
   return renderElement(render, <p />, props);

@@ -7,7 +7,7 @@
   .ag-image-list-masonry .ag-image-list-item { break-inside: avoid; margin-block-end: var(--ag-space-2); }
   .ag-image-list-item { position: relative; overflow: hidden; border-radius: var(--ag-radius-sm); }
   .ag-image-list-bar { position: absolute; inset-inline: 0; display: flex; align-items: center; padding: var(--ag-space-1) var(--ag-space-2); }
-  .ag-image-list-bar[data-ag-position='bottom'] { inset-block-end: 0; }
-  .ag-image-list-bar[data-ag-position='top'] { inset-block-start: 0; }
+  .ag-image-list-bar[data-position='bottom'] { inset-block-end: 0; }
+  .ag-image-list-bar[data-position='top'] { inset-block-start: 0; }
   .ag-image-list-bar-text { display: flex; flex-direction: column; min-inline-size: 0; }
 }

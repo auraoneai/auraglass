@@ -24,7 +24,7 @@ function ScenePane({ scene, policy, interaction }: { scene: string; policy: (typ
   const img = sceneImages[SCENE_IDS.indexOf(scene)] ?? sceneImages[0];
   return (
     <div
-      data-ag-motion-cell={`${interaction}:${scene}:${policy}`}
+      data-motion-cell={`${interaction}:${scene}:${policy}`}
       style={{
         position: 'relative', borderRadius: 10, overflow: 'hidden', border: '1px solid #e2e8f0',
         minHeight: 90, background: img ? undefined : '#f1f5f9',
@@ -38,7 +38,7 @@ function ScenePane({ scene, policy, interaction }: { scene: string; policy: (typ
           </span>
         </Surface>
         <div style={{ fontSize: 10, opacity: 0.75, marginTop: 6 }}>
-          {scene} · motion: <code data-ag-policy={policy}>{policy}</code>
+          {scene} · motion: <code data-policy={policy}>{policy}</code>
         </div>
       </div>
     </div>
@@ -80,7 +80,7 @@ export const PoliciesSideBySide: Story = {
   play: async ({ canvasElement }) => {
     for (const { id } of INTERACTIONS) {
       for (const policy of POLICIES) {
-        if (!canvasElement.querySelector(`[data-ag-motion-cell^="${id}:"][data-ag-motion-cell$=":${policy}"]`)) {
+        if (!canvasElement.querySelector(`[data-motion-cell^="${id}:"][data-motion-cell$=":${policy}"]`)) {
           throw new Error(`Motion/Interactions: missing pane for ${id}/${policy}`);
         }
       }

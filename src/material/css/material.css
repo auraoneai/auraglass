@@ -325,7 +325,7 @@
     backdrop-filter: blur(min(var(--_ag-scrim-blur, 12px), 12px));
     -webkit-backdrop-filter: blur(min(var(--_ag-scrim-blur, 12px), 12px));
   }
-  [data-ag-layer="scrim"][data-ag-overlay-depth]:not([data-ag-overlay-top]) {
+  [data-ag-layer="scrim"][data-ag-overlay-depth]:not([data-overlay-top]) {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }

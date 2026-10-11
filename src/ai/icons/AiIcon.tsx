@@ -12,5 +12,5 @@ export interface AiIconProps extends IconProps {
 
 export function AiIcon({ name, ...rest }: AiIconProps) {
   const Glyph = AI_ICONS[name];
-  return <Glyph data-ag-part="icon" data-ag-icon={name} {...rest} />;
+  return <Glyph data-ag-part="icon" data-icon={name} {...rest} />;
 }

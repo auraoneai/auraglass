@@ -42,7 +42,7 @@ test.describe('overlay stack (CMP-394/399/404/409)', () => {
     await expect(popoverPopup).toBeVisible();
 
     // Press inside the dialog popup but outside the popover → popover only.
-    await page.locator('[data-ag-testid="dialog-outside-target"]').click();
+    await page.locator('[data-testid="dialog-outside-target"]').click();
     await expect(popoverPopup).toHaveCount(0);
     await expect(dialogPopup).toBeVisible();
   });
@@ -70,7 +70,7 @@ test.describe('overlay stack (CMP-394/399/404/409)', () => {
   });
 
   test('T-OVL-STACK-03: toast viewport has no inert ancestor over a modal Dialog; F6 reaches it', async ({ page }) => {
-    await gotoStory(page, 'overlays-dialog--default');
+    await gotoStory(page, 'overlays-dialog--with-toast-viewport');
     // mount a toast through the page's own toast manager if present, else the
     // toast viewport from the provider; assert no inert ancestor either way.
     const viewport = page.locator('[data-ag-part="viewport"], [data-ag-part="region"]').first();
@@ -83,6 +83,6 @@ test.describe('overlay stack (CMP-394/399/404/409)', () => {
     } else {
       test.skip(true, 'no toast viewport mounted alongside the dialog scene');
     }
-    // viewport is mounted by the --default scene (Toast.Provider + Viewport)
+    // viewport is mounted by the --with-toast-viewport scene (Toast.Provider + Viewport)
   });
 });

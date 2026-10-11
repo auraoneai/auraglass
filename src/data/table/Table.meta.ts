@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 32,
   rsc: 'client',
-  parts: ['table-body', 'table-empty', 'table-header', 'table-header-cell', 'table-loading', 'table-resize-handle', 'table-root', 'table-row', 'table-scroller', 'table-selection-all', 'table-selection-cell', 'table-sort-trigger'],
+  parts: ['hit-area', 'icon', 'indicator', 'root', 'table-body', 'table-cell', 'table-column-menu', 'table-empty', 'table-header', 'table-header-cell', 'table-loading', 'table-resize-handle', 'table-root', 'table-row', 'table-scroller', 'table-selection', 'table-selection-all', 'table-selection-cell', 'table-sort-trigger'],
   states: ['sorted-asc', 'sorted-desc', 'selected', 'empty', 'loading', 'resizing'],
   variants: { size: ['sm', 'md', 'lg'], mode: ['table', 'grid'] },
   apg: 'table',

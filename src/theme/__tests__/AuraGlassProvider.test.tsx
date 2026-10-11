@@ -71,7 +71,7 @@ describe('AuraGlassProvider', () => {
     expect(html.getAttribute('data-ag-motion')).not.toBeNull();
     expect(html.getAttribute('data-ag-density')).not.toBeNull();
     // at most one <style> for brand/preset inside the provider output
-    expect(document.querySelectorAll('style[data-ag-theme-style]').length).toBeLessThanOrEqual(1);
+    expect(document.querySelectorAll('style[data-theme-style]').length).toBeLessThanOrEqual(1);
   });
 
   it('nested providers scope attributes to their own div and share the outer portal root', () => {

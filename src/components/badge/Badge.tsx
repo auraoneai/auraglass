@@ -35,7 +35,7 @@ export function Badge({
       ref={ref}
       data-ag-part="root"
       data-ag-intent={intent}
-      data-ag-dot={dot ? '' : undefined}
+      data-dot={dot ? '' : undefined}
       className={cn('ag-badge', dot ? 'ag-badge-dot' : 'ag-badge-pill', className)}
     >
       {label ? <VisuallyHidden>{label}</VisuallyHidden> : null}

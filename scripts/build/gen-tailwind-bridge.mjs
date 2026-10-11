@@ -96,7 +96,7 @@ ${[...themeVars.values()].join('\n')}
 }
 
 @custom-variant ag-dark (&:where([data-ag-scheme=dark], [data-ag-scheme=dark] *));
-@custom-variant ag-tinted (&:where([data-ag-tinted], [data-ag-tinted] *));
+@custom-variant ag-tinted (&:where([data-tinted], [data-tinted] *));
 @custom-variant ag-solid (&:where([data-ag-transparency='solid'], [data-ag-transparency='solid'] *));
 `;
   return css;

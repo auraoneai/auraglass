@@ -33,7 +33,7 @@ export function Link({
     rel: external ? [rel, 'noopener', 'noreferrer'].filter(Boolean).join(' ') : rel,
     'data-ag-part': 'root',
     'data-ag-intent': intent,
-    'data-ag-underline': underline,
+    'data-underline': underline,
     className: cn('ag-link', className),
     children: (
       <>

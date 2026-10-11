@@ -32,11 +32,11 @@ const HOST_OFFENCES = [
 
 export const Hosts: Story = {
   render: () => (
-    <div data-ag-fixture="backdrop-root-hosts" style={page}>
+    <div data-fixture="backdrop-root-hosts" style={page}>
       {HOST_OFFENCES.map((o) => (
-        <Surface key={o.name} layer="chrome" thickness="regular" data-ag-fixture={o.name} style={{ ...panel, ...o.style }}>{o.name}</Surface>
+        <Surface key={o.name} layer="chrome" thickness="regular" data-fixture={o.name} style={{ ...panel, ...o.style }}>{o.name}</Surface>
       ))}
-      <Surface layer="chrome" thickness="regular" data-ag-fixture="animating-allowed" data-ag-animating="" style={{ ...panel, willChange: 'transform' }}>
+      <Surface layer="chrome" thickness="regular" data-fixture="animating-allowed" data-ag-animating="" style={{ ...panel, willChange: 'transform' }}>
         animating
       </Surface>
     </div>
@@ -45,7 +45,7 @@ export const Hosts: Story = {
 
 export const Clean: Story = {
   render: () => (
-    <div data-ag-fixture="backdrop-root-clean" style={page}>
+    <div data-fixture="backdrop-root-clean" style={page}>
       <Surface layer="chrome" thickness="regular" style={panel}>chrome</Surface>
       <Surface layer="chrome" thickness="thin" interactive style={panel}>chrome interactive</Surface>
       <Surface layer="content" content="content-raised" style={panel}>content</Surface>

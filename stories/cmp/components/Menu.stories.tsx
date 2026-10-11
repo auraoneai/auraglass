@@ -1,10 +1,9 @@
 /* CMP-281 (REQ-CMP-01/22): Menu scenes — Playground, ItemSemantics (checkbox
-   mixed + radio group + shortcut), Submenu, plus ContextMenu and Menubar
-   scenes. ids overlays-menu--*. */
+   mixed + radio group + shortcut), Submenu, plus the ContextMenu scene
+   (Menubar lives in Menubar.stories.tsx). ids overlays-menu--*. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Menu, Menubar, ContextMenu } from '../../../src/components/menu';
-import { Button } from '../../../src/components/button';
+import { Menu, ContextMenu } from '../../../src/components/menu';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
@@ -41,7 +40,7 @@ export const Playground: Story = {
   render: () => (
     <AuraGlassProvider>
       <Menu.Root defaultOpen>
-        <Menu.Trigger><Button>Actions</Button></Menu.Trigger>
+        <Menu.Trigger>Actions</Menu.Trigger>
         <Menu.Portal>
           <Menu.Positioner>
             <Menu.Popup><Items /></Menu.Popup>
@@ -57,10 +56,11 @@ export const Submenu: Story = {
   render: () => (
     <AuraGlassProvider>
       <Menu.Root defaultOpen>
-        <Menu.Trigger><Button>File</Button></Menu.Trigger>
+        <Menu.Trigger>File</Menu.Trigger>
         <Menu.Portal>
           <Menu.Positioner>
             <Menu.Popup>
+              <Menu.Arrow />
               <Menu.Item>New</Menu.Item>
               <Menu.Submenu defaultOpen>
                 <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
@@ -105,26 +105,6 @@ export const ContextMenuScene: Story = {
   ),
 };
 
-export const MenubarScene: Story = {
-  name: 'Menubar',
-  parameters: { ag: { tier: 'standard', subject: 'Menu', id: 'overlays-menu--menubar' } },
-  render: () => (
-    <AuraGlassProvider>
-      <Menubar>
-        {['File', 'Edit', 'View'].map((m) => (
-          <Menu.Root key={m}>
-            <Menu.Trigger openOnHover>{m}</Menu.Trigger>
-            <Menu.Portal>
-              <Menu.Positioner>
-                <Menu.Popup><Menu.Item>{m} action</Menu.Item></Menu.Popup>
-              </Menu.Positioner>
-            </Menu.Portal>
-          </Menu.Root>
-        ))}
-      </Menubar>
-    </AuraGlassProvider>
-  ),
-};
 
 
 /* REQ-CMP-103: closed-by-default menu-button scene for the APG keyboard
@@ -135,7 +115,7 @@ export const MenuButton: Story = {
     <AuraGlassProvider>
       <div style={{ display: 'flex', gap: 16 }}>
         <Menu.Root>
-          <Menu.Trigger><Button>Fruits</Button></Menu.Trigger>
+          <Menu.Trigger>Fruits</Menu.Trigger>
           <Menu.Portal>
             <Menu.Positioner>
               <Menu.Popup>
@@ -157,7 +137,7 @@ export const MenuButton: Story = {
             </Menu.Positioner>
           </Menu.Portal>
         </Menu.Root>
-        <Button>Next tabbable</Button>
+        <button type="button">Next tabbable</button>
       </div>
     </AuraGlassProvider>
   ),

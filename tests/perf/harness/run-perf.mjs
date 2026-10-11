@@ -282,7 +282,7 @@ export function agPerfInit() {
      same on every subject and cancels out in the delta vs blank. */
   P.startClock = () => {
     const d = document.createElement('div');
-    d.setAttribute('data-ag-perf-clock', '');
+    d.setAttribute('data-perf-clock', '');
     d.setAttribute('aria-hidden', 'true');
     d.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:1px;pointer-events:none;z-index:2147483647;contain:strict';
     document.body.appendChild(d);

@@ -29,7 +29,7 @@ test.describe('overlay a11y modes (CMP-390/410)', () => {
           return (cs.backdropFilter !== 'none' && cs.backdropFilter !== '') && el.offsetParent !== null;
         }).length,
       );
-      // In emulation the marker is data-ag-forced-colors; css drops the blur either way.
+      // In emulation the marker is data-forced-colors; css drops the blur either way.
       expect(blurred).toBe(0);
       const popup = page.locator('[data-ag-part="popup"], [data-ag-part="root"], [role="tooltip"]').first();
       if (await popup.count()) {

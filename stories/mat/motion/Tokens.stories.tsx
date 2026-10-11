@@ -64,7 +64,7 @@ function HoldToPlayDot({ values }: { values: number[] }) {
     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
       <button
         type="button"
-        data-ag-play
+        data-play
         onPointerDown={() => setPlaying(true)}
         onPointerUp={() => setPlaying(false)}
         onPointerLeave={() => setPlaying(false)}
@@ -76,9 +76,9 @@ function HoldToPlayDot({ values }: { values: number[] }) {
       </button>
       <svg width={W} height={H} style={{ border: '1px solid #e2e8f0', borderRadius: 8 }}>
         <path d={toPath(values)} fill="none" stroke="#94a3b8" strokeWidth={1.5} />
-        <circle data-ag-dot cx={PAD + pos * (W - 2 * PAD)} cy={H - PAD - y * (H - 2 * PAD)} r={5} fill="#0ea5e9" />
+        <circle data-dot cx={PAD + pos * (W - 2 * PAD)} cy={H - PAD - y * (H - 2 * PAD)} r={5} fill="#0ea5e9" />
       </svg>
-      <code data-ag-pos>{pos.toFixed(2)}</code>
+      <code data-pos>{pos.toFixed(2)}</code>
     </div>
   );
 }
@@ -97,7 +97,7 @@ function Tokens() {
         <span style={{ color: '#0ea5e9' }}>— analytic spring(170/26)</span>{' '}
         <span style={{ color: '#f97316' }}>-- linear() approximation</span>
       </div>
-      <div data-ag-linear-error style={{ fontFamily: 'ui-monospace, monospace', fontSize: 13 }}>
+      <div data-linear-error style={{ fontFamily: 'ui-monospace, monospace', fontSize: 13 }}>
         max |linear() - analytic| = {maxError().toFixed(4)} over t in [0,1]
       </div>
       <h3>Dot animates only while Play is held</h3>
@@ -116,12 +116,12 @@ type Story = StoryObj<typeof meta>;
 export const CurvesAndHold: Story = {
   render: () => <Tokens />,
   play: async ({ canvasElement }) => {
-    const err = canvasElement.querySelector('[data-ag-linear-error]');
+    const err = canvasElement.querySelector('[data-linear-error]');
     if (!err || !/max \|linear\(\) - analytic\| = \d/.test(err.textContent ?? '')) {
       throw new Error('Motion/Tokens: error read-out missing');
     }
-    const dot = canvasElement.querySelector('[data-ag-dot]');
-    const pos = canvasElement.querySelector('[data-ag-pos]');
+    const dot = canvasElement.querySelector('[data-dot]');
+    const pos = canvasElement.querySelector('[data-pos]');
     if (!(dot instanceof SVGCircleElement) || !pos) throw new Error('Motion/Tokens: dot missing');
     if (pos.textContent !== '0.00') {
       throw new Error(`Motion/Tokens: dot moved without Play held (pos=${pos.textContent})`);

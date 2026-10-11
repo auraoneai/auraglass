@@ -17,19 +17,19 @@ export function useGridKeyboard(
     (e: React.KeyboardEvent) => {
       const root = scroller.current;
       if (root === null) return;
-      const cell = (e.target as HTMLElement).closest('[data-ag-cell]') as HTMLElement | null;
+      const cell = (e.target as HTMLElement).closest('[data-cell]') as HTMLElement | null;
       const row = (cell?.closest('[data-row-id]') ?? null) as Element | null;
       if (cell === null || row === null) {
         // Focus inside the grid but not on a cell: move to first cell.
         if ((e.key === 'ArrowDown' || e.key === 'ArrowRight') && root.contains(e.target as Node)) {
-          root.querySelector<HTMLElement>('[data-ag-cell]')?.focus();
+          root.querySelector<HTMLElement>('[data-cell]')?.focus();
           e.preventDefault();
         }
         return;
       }
-      const colId = cell.getAttribute('data-ag-cell')!;
+      const colId = cell.getAttribute('data-cell')!;
       const rowId = row.getAttribute('data-row-id')!;
-      const cellsOfRow = (r: Element) => Array.from(r.querySelectorAll<HTMLElement>('[data-ag-cell]'));
+      const cellsOfRow = (r: Element) => Array.from(r.querySelectorAll<HTMLElement>('[data-cell]'));
       const idx = cellsOfRow(row).findIndex((c) => c === cell);
       const cellFrom = (r: Element | null | undefined, i: number) =>
         r == null ? undefined : cellsOfRow(r)[Math.max(0, Math.min(i, cellsOfRow(r).length - 1))];
@@ -40,7 +40,7 @@ export function useGridKeyboard(
           target.focus();
           _options.onActiveCellChange?.(
             r!.getAttribute('data-row-id')!,
-            target.getAttribute('data-ag-cell')!,
+            target.getAttribute('data-cell')!,
           );
         }
       };

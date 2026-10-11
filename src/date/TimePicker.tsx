@@ -85,10 +85,12 @@ export function TimeField(props: TimeFieldProps) {
 export interface TimePickerProps extends TimeFieldProps {
   minuteStep?: 1 | 5 | 10 | 15 | 30 | undefined;
   labels?: { choose?: string | undefined; hour?: string | undefined; minute?: string | undefined } | undefined;
+  /** Initial popover state (uncontrolled). */
+  defaultOpen?: boolean | undefined;
 }
 
-export function TimePicker({ minuteStep = 5, labels, ...props }: TimePickerProps) {
-  const [open, setOpen] = React.useState(false);
+export function TimePicker({ minuteStep = 5, labels, defaultOpen = false, ...props }: TimePickerProps) {
+  const [open, setOpen] = React.useState(defaultOpen);
   const triggerRef = React.useRef<HTMLDivElement | null>(null);
   const hours = React.useMemo(() => Array.from({ length: 24 }, (_, h) => ({ id: h, label: String(h).padStart(2, '0') })), []);
   const minutes = React.useMemo(

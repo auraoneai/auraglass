@@ -58,9 +58,10 @@ describe('InlineEdit REQ-CMP-124', () => {
     expect(document.activeElement).toBe(screen.getByRole('button'));
   });
 
-  it('editing root carries content-sunken material marker', () => {
+  it('editing root is a content-sunken surface (materialProps; data-ag-material is banned)', () => {
     const { container } = render(<InlineEdit defaultValue="a" editing />);
     const root = container.querySelector('[data-ag-part="root"]')!;
-    expect(root.getAttribute('data-ag-material')).toBe('content-sunken');
+    expect(root.getAttribute('data-ag-content')).toBe('content-sunken');
+    expect(root.hasAttribute('data-ag-material')).toBe(false);
   });
 });

@@ -3,7 +3,7 @@
    pointer capture on the handle, touch-action:none, translate written to the
    popup's style inside rAF (0 React commits per pointermove). Release calls
    resolveDetent; the snap animates via the CSS linear() spring transition
-   (data-ag-dragging removed → transition live). When aura-glass/motion ships
+   (data-dragging removed → transition live). When aura-glass/motion ships
    its spring adapter the same settle path can hand off — no core import.
    Keyboard: Enter/Space cycles detents upward; Escape closes through BU's
    dismiss (focus is inside the popup). Detent changes announce via S-26. */
@@ -90,7 +90,7 @@ export function SheetHandle({ className, children, ref }: {
     } catch { /* jsdom has no pointer capture */ }
     const v = ctx.axis === 'y' ? e.clientY : e.clientX;
     drag.current = { id: e.pointerId, start: v, samples: [{ t: performance.now(), v }] };
-    ctx.getPopup()?.setAttribute('data-ag-dragging', '');
+    ctx.getPopup()?.setAttribute('data-dragging', '');
   };
 
   const onPointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
@@ -112,7 +112,7 @@ export function SheetHandle({ className, children, ref }: {
       (e.currentTarget as HTMLButtonElement).releasePointerCapture?.(e.pointerId);
     } catch { /* already released / jsdom */ }
     const popup = ctx.getPopup();
-    popup?.removeAttribute('data-ag-dragging');
+    popup?.removeAttribute('data-dragging');
     if (cancelled || !popup) {
       writeTransform(0);
       return;

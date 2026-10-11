@@ -10,7 +10,7 @@ describe('Heading', () => {
       const { container, unmount } = render(<Heading level={lvl}>T</Heading>);
       const el = container.querySelector('[data-ag-part="root"]')!;
       expect(el.tagName).toBe('H' + lvl);
-      expect(el.getAttribute('data-ag-level')).toBe(String(lvl));
+      expect(el.getAttribute('data-level')).toBe(String(lvl));
       unmount();
     });
   }

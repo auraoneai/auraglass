@@ -37,6 +37,8 @@ export interface DateRangePickerProps extends Omit<DateFieldLikeProps<DateValue>
   presets?: readonly DateRangePreset[] | undefined;
   visibleMonths?: 1 | 2 | undefined;
   className?: string | undefined;
+  /** Initial popover state (uncontrolled). */
+  defaultOpen?: boolean | undefined;
   labels?: { choose?: string | undefined; start?: string | undefined; end?: string | undefined; presets?: string | undefined } | undefined;
 }
 
@@ -60,9 +62,11 @@ function Inner({
   size = 'md',
   className,
   labels,
+  defaultOpen,
 }: DateRangePickerProps) {
   return (
     <RACDateRangePicker
+      {...(defaultOpen !== undefined ? { defaultOpen } : {})}
       data-ag-part="date-range-picker"
       data-ag-size={size}
       className={`ag-date-range-picker${className ? ` ${className}` : ''}`}

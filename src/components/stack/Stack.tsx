@@ -1,6 +1,6 @@
 /* CMP-297: Stack — T0 server layout. direction row|column uses logical flex
    axes (RTL-aware without prop changes); gap maps to space tokens via
-   data-ag-gap; separator nodes render between children, aria-hidden when
+   data-gap; separator nodes render between children, aria-hidden when
    `separatorDecorative` (default true). */
 import * as React from 'react';
 import { cn } from '../../internal/index';
@@ -55,8 +55,8 @@ export function Stack({
       {...rest}
       ref={ref}
       data-ag-part="root"
-      data-ag-direction={direction}
-      data-ag-gap={gap === undefined ? undefined : String(gap)}
+      data-direction={direction}
+      data-gap={gap === undefined ? undefined : String(gap)}
       className={cn('ag-stack', className)}
       style={cssStyle}
     >

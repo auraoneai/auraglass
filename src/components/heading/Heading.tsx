@@ -27,7 +27,7 @@ export function Heading({
     ...rest,
     ref,
     'data-ag-part': 'root',
-    'data-ag-level': level,
+    'data-level': level,
     'data-ag-size': size,
     className: cn('ag-heading', `ag-heading-size-${size}`, className),
   } as React.HTMLAttributes<HTMLHeadingElement> & { ref?: React.Ref<HTMLHeadingElement> };

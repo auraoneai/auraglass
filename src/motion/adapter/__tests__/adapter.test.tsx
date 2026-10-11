@@ -87,8 +87,8 @@ describe('MotionProvider (REQ-MOT-54)', () => {
   it('maps resolved motion to MotionConfig reducedMotion', () => {
     // seed usePreference('motion') => 'system' → resolvedMotion() → 'full' → 'never'
     document.documentElement.setAttribute('data-ag-motion', 'full');
-    const { container } = render(<MotionProvider><div data-ag-child /></MotionProvider>);
-    expect(container.querySelector('[data-ag-child]')).not.toBeNull();
+    const { container } = render(<MotionProvider><div data-child /></MotionProvider>);
+    expect(container.querySelector('[data-child]')).not.toBeNull();
   });
 });
 

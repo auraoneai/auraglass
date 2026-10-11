@@ -29,7 +29,7 @@ function InspectorRoot({ mode = 'auto', children, render, ...rest }: InspectorRo
         render,
         'data-ag-slot': 'inspector',
         'data-ag-part': 'inspector',
-        'data-ag-inspector-mode': mode,
+        'data-inspector-mode': mode,
         className: 'ag-inspector',
         ...rest,
         children,

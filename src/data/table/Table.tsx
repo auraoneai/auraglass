@@ -417,7 +417,7 @@ export function Table<TData>(props: TableProps<TData>) {
       focusCell: (rowId, columnId) => {
         (
           scrollerRef.current?.querySelector(
-            `[data-row-id="${CSS.escape(rowId)}"] [data-ag-cell="${CSS.escape(columnId)}"]`,
+            `[data-row-id="${CSS.escape(rowId)}"] [data-cell="${CSS.escape(columnId)}"]`,
           ) as HTMLElement | null
         )?.focus();
       },
@@ -650,7 +650,7 @@ export function Table<TData>(props: TableProps<TData>) {
                   }
                 : {}),
               'data-ag-part': isSelectCol ? 'table-selection-cell' : 'table-cell',
-              'data-ag-cell': cell.column.id,
+              'data-cell': cell.column.id,
               ...(isSelectCol
                 ? {
                     onKeyDown: (e: React.KeyboardEvent) => {

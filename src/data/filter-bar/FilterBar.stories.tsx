@@ -32,3 +32,12 @@ const renderBar = () => (
 );
 export const Basic: Story = { render: renderBar };
 export const RTL: Story = { globals: { dir: 'rtl' }, render: renderBar };
+/* A rule chip activated: its inline rule editor is open. */
+function EditingRule() {
+  const host = React.useRef<HTMLDivElement | null>(null);
+  React.useEffect(() => {
+    host.current?.querySelector<HTMLButtonElement>('.ag-filter-bar__chip-label')?.click();
+  }, []);
+  return <div ref={host}>{renderBar()}</div>;
+}
+export const EditingRuleOpen: Story = { render: () => <EditingRule /> };

@@ -6,7 +6,7 @@ export const ErrorStateMeta = defineMeta({
   entry: '.',
   tier: 'T2',
   rsc: 'server',
-  parts: ['root', 'icon', 'title', 'description', 'actions', 'action'],
+  parts: ['root', 'icon', 'title', 'description', 'actions'],
   states: [],
   variants: {},
   material: { layer: 'content' },

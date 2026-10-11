@@ -207,8 +207,8 @@ describe('evaluators', () => {
 
   it('fallbackViolations: every blurred element is a violation of the condition', () => {
     expect(fallbackViolations([], 'forced-colors')).toEqual([]);
-    expect(fallbackViolations([{ desc: 'div[data-ag-fixture=bespoke-blur]', pseudo: null, property: 'backdrop-filter', value: 'blur(12px)' }], 'tier-lightweight'))
-      .toEqual([{ code: 'backdrop-filter-under-fallback', detail: 'tier-lightweight: div[data-ag-fixture=bespoke-blur] backdrop-filter: blur(12px)' }]);
+    expect(fallbackViolations([{ desc: 'div[data-fixture=bespoke-blur]', pseudo: null, property: 'backdrop-filter', value: 'blur(12px)' }], 'tier-lightweight'))
+      .toEqual([{ code: 'backdrop-filter-under-fallback', detail: 'tier-lightweight: div[data-fixture=bespoke-blur] backdrop-filter: blur(12px)' }]);
   });
 });
 

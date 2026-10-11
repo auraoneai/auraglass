@@ -101,10 +101,9 @@ function TabBarRoot({
     'data-ag-slot': 'tabbar',
     'data-ag-appearance': appearance ?? (placement === 'floating' ? 'floating' : 'bar'),
     'data-ag-placement': placement,
-    'data-ag-semantics': semantics,
-    ...(minimizeOnScroll ? { 'data-ag-minimize-on-scroll': '' } : {}),
-    ...(accessoryPlacement ? { 'data-ag-accessory-placement': accessoryPlacement } : {}),
-    ...(refraction ? { 'data-ag-refraction': '' } : {}),
+    'data-semantics': semantics,
+    ...(minimizeOnScroll ? { 'data-minimize-on-scroll': '' } : {}),
+    ...(accessoryPlacement ? { 'data-accessory-placement': accessoryPlacement } : {}),
     ...(semantics === 'navigation' && ariaLabel !== undefined ? { 'aria-label': ariaLabel } : {}),
     ...rest,
     children: inner,
@@ -152,7 +151,7 @@ function TabBarItem({ value, current, icon, badge, href, children, render, ...re
     'data-ag-part': 'tab-bar-item',
     className: 'ag-tab-bar__item',
     ...(current ? { 'aria-current': 'page' as const } : {}),
-    ...(semantics === 'tabs' && value !== undefined ? { role: 'tab', 'data-ag-value': value } : {}),
+    ...(semantics === 'tabs' && value !== undefined ? { role: 'tab', 'data-value': value } : {}),
     ...rest,
     children: (
       <>

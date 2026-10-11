@@ -31,7 +31,7 @@ describe('GlassModal compat (CMP-337)', () => {
     expect(document.querySelector('[data-ag-overlay="dialog"]')).toBeTruthy();
     expect(document.querySelector('[data-ag-part="title"]')).toHaveTextContent('T');
     expect(document.querySelector('[data-ag-part="footer"]')).toHaveTextContent('F');
-    expect(document.querySelector('[data-ag-compat="GlassModal"]')).toBeTruthy();
+    expect(document.querySelector('[data-compat="GlassModal"]')).toBeTruthy();
   });
 
   it('role=alertdialog renders AlertDialog; size map; variant=drawer renders Sheet', async () => {

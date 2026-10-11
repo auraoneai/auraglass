@@ -56,9 +56,9 @@ describe('5.0 AppShell (SURF-024)', () => {
     expect(el).toHaveAttribute('data-ag-inspector', 'open');
     expect(el).toHaveAttribute('data-ag-sidebar-side', 'end');
     expect(el).toHaveAttribute('data-ag-layout', 'wide');
-    expect(el).toHaveAttribute('data-ag-collapse-to', 'collapsed');
+    expect(el).toHaveAttribute('data-collapse-to', 'collapsed');
     expect(el).toHaveAttribute('data-ag-density', 'compact');
-    expect(el).toHaveAttribute('data-ag-persist-key', 'prefs');
+    expect(el).toHaveAttribute('data-persist-key', 'prefs');
   });
 
   it('page header uses the requested heading level', () => {

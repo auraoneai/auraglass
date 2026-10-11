@@ -55,6 +55,6 @@ describe('TabBar (SURF-073)', () => {
       </TabBar.Root>,
     );
     expect(document.querySelector('[role="tablist"]')).not.toBeNull();
-    expect(screen.getByRole('tab')).toHaveAttribute('data-ag-value', 'x');
+    expect(screen.getByRole('tab')).toHaveAttribute('data-value', 'x');
   });
 });

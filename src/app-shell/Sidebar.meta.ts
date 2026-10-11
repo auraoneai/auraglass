@@ -7,7 +7,7 @@ export default defineMeta({
   flagship: 23,
   tier: 'T1',
   rsc: 'server',
-  parts: ['sidebar', 'sidebar-collapsible', 'sidebar-content', 'sidebar-drawer', 'sidebar-footer', 'sidebar-group', 'sidebar-group-items', 'sidebar-group-label', 'sidebar-header', 'sidebar-item', 'sidebar-item-badge', 'sidebar-item-icon', 'sidebar-item-li', 'sidebar-nav', 'sidebar-separator'],
+  parts: ['content', 'sidebar', 'sidebar-collapsible', 'sidebar-content', 'sidebar-footer', 'sidebar-group', 'sidebar-group-items', 'sidebar-group-label', 'sidebar-header', 'sidebar-item', 'sidebar-item-badge', 'sidebar-item-icon', 'sidebar-item-li', 'sidebar-nav', 'sidebar-separator', 'trigger'],
   states: ['expanded', 'collapsed', 'rail'],
 
   material: { layer: 'chrome', refractionEligible: false },

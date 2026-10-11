@@ -16,7 +16,7 @@ function makeRoot(attrs: Record<string, string> = {}): HTMLElement {
   el.dataset['agSidebar'] = attrs['sidebar'] ?? 'expanded';
   el.dataset['agInspector'] = attrs['inspector'] ?? 'closed';
   el.dataset['agLayout'] = attrs['layout'] ?? 'auto';
-  if (attrs['persistKey']) el.dataset['agPersistKey'] = attrs['persistKey'];
+  if (attrs['persistKey']) el.dataset['persistKey'] = attrs['persistKey'];
   const side = document.createElement('aside');
   side.dataset['agSlot'] = 'sidebar';
   el.append(side);

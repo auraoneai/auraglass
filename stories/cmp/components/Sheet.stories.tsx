@@ -83,5 +83,29 @@ export const NonModalInspector: Story = {
 };
 export const FullHeight: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Sheet', id: 'overlays-sheet--full-height' } },
-  render: () => <Demo root={{ side: 'bottom', detents: ['full'] }}>At the full detent: data-ag-full-height.</Demo>,
+  render: () => <Demo root={{ side: 'bottom', detents: ['full'] }}>At the full detent: data-ag-appearance="full-height".</Demo>,
+};
+
+/* Every Sheet part: Trigger and Description alongside the default layout. */
+export const Anatomy: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'Sheet', id: 'overlays-sheet--anatomy' } },
+  render: () => (
+    <AuraGlassProvider>
+      <Sheet.Root defaultOpen>
+        <Sheet.Trigger>Open filters</Sheet.Trigger>
+        <Sheet.Portal>
+          <Sheet.Backdrop />
+          <Sheet.Popup>
+            <Sheet.Handle />
+            <Sheet.Header>
+              <Sheet.Title>Filters</Sheet.Title>
+              <Sheet.Description>Narrow the list by status and owner.</Sheet.Description>
+            </Sheet.Header>
+            <Sheet.Body>Filter controls</Sheet.Body>
+            <Sheet.Footer><Sheet.Close>Done</Sheet.Close></Sheet.Footer>
+          </Sheet.Popup>
+        </Sheet.Portal>
+      </Sheet.Root>
+    </AuraGlassProvider>
+  ),
 };

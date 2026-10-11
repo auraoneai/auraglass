@@ -28,6 +28,6 @@ describe('LiquidGlassAdaptiveSheet compat (CMP-338)', () => {
     ), 'DEP-C0106');
     expect(depCalls).toHaveLength(1);
     const popup = document.querySelector('[data-ag-overlay="sheet"]');
-    expect(popup?.getAttribute('data-ag-side')).toBe('bottom');
+    expect(popup?.getAttribute('data-side')).toBe('bottom');
   });
 });

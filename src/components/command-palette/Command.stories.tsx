@@ -18,3 +18,27 @@ export const Default: Story = { render: () => <Command.Root><Command.Input place
 export const RTL: Story = { render: () => <Command.Root><Command.Input placeholder="Search…" /><Command.List><Command.Item value="open">Open</Command.Item><Command.Item value="save">Save</Command.Item></Command.List></Command.Root>, parameters: { globals: { dir: 'rtl' } } };
 export const ReducedTransparency: Story = { render: () => <Command.Root><Command.Input placeholder="Search…" /><Command.List><Command.Item value="open">Open</Command.Item><Command.Item value="save">Save</Command.Item></Command.List></Command.Root>, parameters: { ag: { material: 'regular' } } };
 export const ForcedColors: Story = { render: () => <Command.Root><Command.Input placeholder="Search…" /><Command.List><Command.Item value="open">Open</Command.Item><Command.Item value="save">Save</Command.Item></Command.List></Command.Root>, parameters: { globals: { forcedColors: 'active' } } };
+/* Groups, shortcut, separator and the loading row. */
+export const Anatomy: Story = {
+  render: () => (
+    <Command.Root>
+      <Command.Input placeholder="Search…" />
+      <Command.List>
+        <Command.Group heading="Files">
+          <Command.Item value="open" shortcut="⌘O">Open</Command.Item>
+          <Command.Item value="save" shortcut="⌘S">Save</Command.Item>
+        </Command.Group>
+        <Command.Separator />
+        <Command.Loading>Loading recent files…</Command.Loading>
+      </Command.List>
+    </Command.Root>
+  ),
+};
+export const Empty: Story = {
+  render: () => (
+    <Command.Root>
+      <Command.Input placeholder="Search…" />
+      <Command.List><Command.Empty>No results</Command.Empty></Command.List>
+    </Command.Root>
+  ),
+};

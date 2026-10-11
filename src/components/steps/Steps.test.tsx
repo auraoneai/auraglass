@@ -23,7 +23,7 @@ describe('Steps', () => {
     expect(container.querySelector('ol[data-ag-part="list"]')).toBeInTheDocument();
     const items = container.querySelectorAll('[data-ag-part="item"]');
     expect(items).toHaveLength(4);
-    expect(items[1]).toHaveAttribute('data-ag-status', 'current');
+    expect(items[1]).toHaveAttribute('data-status', 'current');
     expect(items[1]).toHaveAttribute('aria-current', 'step');
     expect(items[0]).not.toHaveAttribute('aria-current');
   });

@@ -67,7 +67,7 @@ describe('Toast + useToast', () => {
     renderHost();
     const viewport = document.querySelector('[data-ag-part="viewport"]') as HTMLElement;
     expect(viewport).not.toBeNull();
-    expect(viewport).toHaveAttribute('data-ag-position', 'bottom-right');
+    expect(viewport).toHaveAttribute('data-position', 'bottom-right');
     expect(viewport.closest('[data-ag-layer-root="toast"]')).not.toBeNull();
   });
 

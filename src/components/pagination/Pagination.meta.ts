@@ -9,7 +9,7 @@ export default defineMeta({
   flagship: 28,
   tier: 'T1',
   rsc: 'mixed',
-  parts: ['ellipsis', 'item', 'next', 'page', 'pagination', 'pagination-list', 'previous'],
+  parts: ['ellipsis', 'item', 'next', 'page', 'pagination', 'pagination-list', 'previous', 'status'],
   states: ['current'],
   variants: {},
   migration: [{ from: 'GlassPagination', props: { totalPages: 'pageCount', currentPage: 'page', onChange: 'onPageChange' }, automation: 'mostly', compat: true }],

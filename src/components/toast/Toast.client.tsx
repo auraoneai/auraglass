@@ -65,7 +65,7 @@ const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
         <Base.Viewport
           ref={ref}
           data-ag-part="viewport"
-          data-ag-position={position}
+          data-position={position}
           className={cn('ag-toast-viewport', className)}
           {...rest}
         >

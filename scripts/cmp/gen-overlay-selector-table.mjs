@@ -60,7 +60,7 @@ const lines = [
   'Overlay components no longer emit `glass-*` class names. Styling hooks are the',
   'published parts (`data-ag-part`) plus state attributes (`data-open`, `data-state`,',
   '`data-ag-layer`, `data-ag-thickness`, `data-ag-overlay`, `data-ag-full-height`,',
-  '`data-ag-dragging`, `data-ag-animating`).',
+  '`data-dragging`, `data-ag-animating`).',
   '',
 ];
 for (const m of metas) {

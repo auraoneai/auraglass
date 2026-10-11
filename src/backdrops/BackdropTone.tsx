@@ -45,7 +45,7 @@ export function BackdropTone(): React.ReactElement | null {
       type="button"
       data-ag-part="backdrop-pause"
       aria-pressed={pausedByUser}
-      data-ag-backdrop-pause-visible={playing ? '' : undefined}
+      data-backdrop-pause-visible={playing ? '' : undefined}
       onClick={() => setPausedByUser((v) => !v)}
     >
       {pausedByUser ? 'Play background video' : 'Pause background video'}

@@ -5,5 +5,5 @@
   .ag-rating { display: inline-flex; gap: var(--ag-space-1); }
   .ag-rating-item { cursor: pointer; color: var(--_ag-rating-off, currentColor); opacity: 0.35; }
   .ag-rating-item-on { opacity: 1; color: var(--_ag-rating-on, currentColor); }
-  .ag-rating[data-ag-readonly] .ag-rating-item { cursor: default; }
+  .ag-rating[data-readonly] .ag-rating-item { cursor: default; }
 }

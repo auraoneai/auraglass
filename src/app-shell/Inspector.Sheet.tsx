@@ -52,14 +52,14 @@ export function InspectorSheet({ children, ...rest }: InspectorSheetProps) {
 
   if (!isSheetMode) return <span hidden ref={marker} />;
   return (
-    <span hidden ref={marker} data-ag-sheet-anchor="">
+    <span hidden ref={marker} data-sheet-anchor="">
       {open ? (
         <SheetRoot
           open
           modal
           onOpenChange={(o: boolean) => !o && rootEl && setInspector(rootEl, 'closed')}
         >
-          <SheetContent id={sheetId} data-ag-part="inspector-sheet" data-ag-side="end" {...rest}>
+          <SheetContent id={sheetId} data-ag-part="inspector-sheet" data-side="end" {...rest}>
             {children}
           </SheetContent>
         </SheetRoot>

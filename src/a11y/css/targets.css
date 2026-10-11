@@ -58,7 +58,7 @@
       inline-size: min(max(100%, var(--ag-target-coarse)), calc(100% + var(--_ag-hit-gap)));
     }
   }
-  [data-ag-debug-targets] [data-ag-part="hit-area"] {
+  [data-debug-targets] [data-ag-part="hit-area"] {
     outline: 1px dashed var(--ag-color-focus-outer, Highlight);
     pointer-events: none;
   }

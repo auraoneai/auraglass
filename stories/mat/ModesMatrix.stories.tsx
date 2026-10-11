@@ -10,7 +10,6 @@ import * as React from 'react';
 import { Surface } from '../../src/material/index';
 import type { MaterialVariant, Thickness } from '../../src/contracts/material';
 import { PendingCallout, globUrls } from './_shared';
-import { StorySurface } from '../../.storybook/StorySurface';
 
 const SCENE_IDS = [
   'photo', 'flat-white', 'flat-black', 'dense-text',
@@ -61,16 +60,9 @@ function Matrix() {
 }
 
 const meta: Meta = {
-  parameters: { ag: { subject: 'ModesMatrix', kind: 'showcase' } },
   title: 'MAT/Modes Matrix',
-  parameters: { layout: 'padded' },
-  decorators: [
-    (Story) => (
-      <StorySurface mode="light">
-        <Story />
-      </StorySurface>
-    ),
-  ],
+  // The preview decorator (AuraGlassProvider -> Environment -> StoryRoot) paints the scene.
+  parameters: { layout: 'padded', ag: { subject: 'ModesMatrix', kind: 'showcase' } },
 };
 export default meta;
 

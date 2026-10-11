@@ -38,7 +38,7 @@ describe('CommandPalette (SURF-087)', () => {
     render(<CommandPalette open />);
     await waitFor(() => expect(document.querySelector('[data-ag-part="command-palette"]')).not.toBeNull());
     const el = document.querySelector('[data-ag-part="command-palette"]')!;
-    expect(el.querySelector('[data-ag-backdrop], [data-ag-scrim], .ag-scrim')).toBeNull();
+    expect(el.querySelector('[data-ag-backdrop], [data-scrim], .ag-scrim')).toBeNull();
     expect((el as HTMLElement).style.backdropFilter ?? '').toBe('');
   });
 });

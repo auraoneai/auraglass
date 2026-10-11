@@ -41,12 +41,12 @@ describe('Sheet (CMP-229..236)', () => {
     await act(async () => {});
     const el = popup()!;
     expect(el.getAttribute('data-ag-overlay')).toBe('sheet');
-    expect(['left', 'right']).toContain(el.getAttribute('data-ag-side'));
+    expect(['left', 'right']).toContain(el.getAttribute('data-side'));
     expect(el.getAttribute('data-ag-thickness')).toBe('thick');
     unmount();
     render(<Demo root={{ defaultOpen: true, side: 'bottom' }} />);
     await act(async () => {});
-    expect(popup()!.getAttribute('data-ag-side')).toBe('bottom');
+    expect(popup()!.getAttribute('data-side')).toBe('bottom');
   });
 
   it("preset='action' forces bottom + emits action part", async () => {
@@ -64,8 +64,8 @@ describe('Sheet (CMP-229..236)', () => {
     );
     await act(async () => {});
     const el = popup()!;
-    expect(el.getAttribute('data-ag-side')).toBe('bottom');
-    expect(el.getAttribute('data-ag-preset')).toBe('action');
+    expect(el.getAttribute('data-side')).toBe('bottom');
+    expect(el.getAttribute('data-preset')).toBe('action');
     expect(document.querySelector('[data-ag-part="action"]')).toBeTruthy();
   });
 
@@ -116,11 +116,11 @@ describe('Sheet (CMP-229..236)', () => {
     fireEvent.pointerMove(handle, { pointerId: 7, clientY: 500 });
     await act(async () => { await new Promise((r) => setTimeout(r, 40)); });
     expect(el.style.transform).toContain('translateY(');
-    expect(el.hasAttribute('data-ag-dragging')).toBe(true);
+    expect(el.hasAttribute('data-dragging')).toBe(true);
     expect(raf).toHaveBeenCalled();
     fireEvent.pointerUp(handle, { pointerId: 7, clientY: 500 });
     await act(async () => {});
-    expect(el.hasAttribute('data-ag-dragging')).toBe(false);
+    expect(el.hasAttribute('data-dragging')).toBe(false);
   });
 
   it('modal=false: focus enters on open; Tab past last control leaves to the page; close restores to trigger', async () => {

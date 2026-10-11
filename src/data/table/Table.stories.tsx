@@ -70,3 +70,6 @@ export const Empty: Story = { render: renderStates };
 
 export const RTL: Story = { globals: { direction: 'rtl' }, render: renderResize };
 export const ForcedColors: Story = { globals: { forcedColors: 'active' }, render: renderBasic };
+export const Loading: Story = {
+  render: () => <Table data={[]} columns={COLS} getRowId={(r) => r.id} caption="Loading" loading />,
+};

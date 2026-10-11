@@ -6,6 +6,7 @@
 import * as React from 'react';
 import { Input } from '@base-ui/react/input';
 import { cn } from '../../internal/index';
+import { materialProps } from '../../material';
 
 export interface InlineEditProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
   value?: string;
@@ -68,7 +69,7 @@ export function InlineEdit({
       ref={ref}
       data-ag-part="root"
       data-state={editing ? 'active' : 'idle'}
-      data-ag-material={editing ? 'content-sunken' : undefined}
+      {...(editing ? materialProps({ layer: 'content', content: 'content-sunken' }) : {})}
       className={cn('ag-inline-edit', className)}
     >
       {editing ? (

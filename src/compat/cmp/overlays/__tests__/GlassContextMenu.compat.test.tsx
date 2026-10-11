@@ -27,6 +27,6 @@ describe('GlassContextMenu compat (CMP-340)', () => {
       <GlassContextMenu items={[{ label: 'Do' }]}><div>area</div></GlassContextMenu>
     ), 'DEP-C0112');
     expect(depCalls).toHaveLength(1);
-    expect(document.querySelector('[data-ag-compat="GlassContextMenu"]')).toBeTruthy();
+    expect(document.querySelector('[data-compat="GlassContextMenu"]')).toBeTruthy();
   });
 });

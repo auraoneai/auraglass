@@ -7,7 +7,7 @@ import * as React from 'react';
 export function PendingCallout({ what }: { what: string }) {
   return (
     <div
-      data-ag-pending={what}
+      data-pending={what}
       style={{
         border: '1px dashed #f59e0b',
         borderRadius: 8,
