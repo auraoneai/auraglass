@@ -8,7 +8,10 @@
    (reporting only on 4.x tags). Line-neutral.
 
      node scripts/release/verify-breaking-register.mjs [--guide <md>] [--coverage]
-       [--allowlist <json>] [--published-dir <dir>] [--ga] */
+       [--coverage-only] [--register <json>] [--allowlist <json>]
+       [--published-dir <dir>] [--ga]
+     --coverage-only skips the register+guide checks (4.x has no generated
+     guide on this line) and implies --coverage. */
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -62,16 +65,26 @@ export function coverage(entries, { published = {}, allowlist = new Set(), ga = 
 export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
   const arg = (n) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : null; };
   const has = (f) => argv.includes(f);
-  const register = JSON.parse(readFileSync(arg('--register') ?? PATHS.breakingRegister, 'utf8'));
-  const guidePath = arg('--guide') ?? PATHS.docsMigrationOut;
-  const guideText = existsSync(guidePath) ? readFileSync(guidePath, 'utf8') : null;
+  const coverageOnly = has('--coverage-only');
   const { loadEntries } = await import('./gen-deprecations.mjs');
   const entries = await loadEntries(root);
+  const errors = [];
+  let register = null;
 
-  const errors = checkRegister(register.items ?? register.changes ?? [], entries, guideText);
-  if (guideText == null) errors.push(`generated migration guide missing at ${guidePath} (run gen-deprecations --docs)`);
+  if (!coverageOnly) {
+    const registerPath = arg('--register') ?? PATHS.breakingRegister;
+    if (!existsSync(registerPath)) {
+      errors.push(`breaking register missing at ${registerPath}`);
+    } else {
+      register = JSON.parse(readFileSync(registerPath, 'utf8'));
+      const guidePath = arg('--guide') ?? PATHS.docsMigrationOut;
+      const guideText = existsSync(guidePath) ? readFileSync(guidePath, 'utf8') : null;
+      errors.push(...checkRegister(register.items ?? register.changes ?? [], entries, guideText));
+      if (guideText == null) errors.push(`generated migration guide missing at ${guidePath} (run gen-deprecations --docs)`);
+    }
+  }
 
-  if (has('--coverage')) {
+  if (has('--coverage') || coverageOnly) {
     const allowPath = arg('--allowlist') ?? PATHS.exceptionAllowlist;
     const allowlist = new Set(existsSync(allowPath) ? JSON.parse(readFileSync(allowPath, 'utf8')).allowlist ?? [] : []);
     const published = {};
@@ -89,7 +102,9 @@ export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
     if (has('--ga') && cov.uncoveredCount) errors.push(`${cov.uncoveredCount} entries without a deprecation shipped in a published 4.x minor >= 4.2.0 (G-07)`);
   }
   if (errors.length) { for (const e of errors) console.error(`FAIL ${e}`); return 1; }
-  console.log(`verify-breaking-register: ${(register.items ?? register.changes ?? []).length} B-ids covered`);
+  console.log(register
+    ? `verify-breaking-register: ${(register.items ?? register.changes ?? []).length} B-ids covered`
+    : 'verify-breaking-register: ok (coverage only)');
   return 0;
 }
 

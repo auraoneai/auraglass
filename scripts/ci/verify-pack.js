@@ -200,6 +200,25 @@ try {
     process.exit(1);
   }
 
+  // REQ-PLAT-54 — Aeonik is removed (licence unconfirmed, D-31): the
+  // tarball must not ship Aeonik font binaries and no packed stylesheet
+  // may still reference the family. The deprecation note in
+  // deprecations.generated.* legitimately names the old family, so the
+  // scan covers file names + .css contents only.
+  const aeonikFileHits = packResult.files.filter(({ path: filePath }) => /aeonik/i.test(filePath));
+  const aeonikCssHits = [];
+  for (const { path: filePath } of packResult.files) {
+    if (!/\.css$/.test(filePath)) continue;
+    const content = fs.readFileSync(path.join(packageRoot, filePath), 'utf8');
+    if (/aeonik/i.test(content)) aeonikCssHits.push(filePath);
+  }
+  if (aeonikFileHits.length > 0 || aeonikCssHits.length > 0) {
+    console.error('❌ npm pack still references the removed Aeonik family:');
+    aeonikFileHits.forEach(({ path: filePath }) => console.error(` - font file: ${filePath}`));
+    aeonikCssHits.forEach((filePath) => console.error(` - css: ${filePath}`));
+    process.exit(1);
+  }
+
   const testArtifacts = packResult.files.filter(
     ({ path: filePath }) =>
       /^dist\/tests\//.test(filePath) ||

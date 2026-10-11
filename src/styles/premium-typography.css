@@ -234,7 +234,7 @@ pre {
 }
 
 /* High contrast mode support */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more), (prefers-contrast: high) {
   .glass-base,
   .glass-card,
   [class*="glass-"] {

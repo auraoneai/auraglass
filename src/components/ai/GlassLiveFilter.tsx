@@ -869,8 +869,8 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                     : "glass-border-white/20 hover:glass-border-white/40 glass-surface-subtle/5"
                 }
               `}
-              whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-              whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+              whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
+              whileTap={shouldAnimate ? { scale: 0.98 } : undefined}
               onClick={() => {
                 if (activeFilters.includes(filter.id)) {
                   removeFilter(filter.id);
@@ -1250,16 +1250,16 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
               <motion.label
                 htmlFor="image-upload"
                 className="glass-px-4 glass-py-2 glass-surface-subtle hover:glass-surface-overlay glass-text-primary glass-border glass-border-subtle glass-radius-lg glass-text-sm glass-font-medium glass-cursor-pointer glass-transition-colors"
-                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
+                whileTap={shouldAnimate ? { scale: 0.98 } : undefined}
               >
                 Upload Image
               </motion.label>
 
               <motion.button
                 className="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:glass-border-white/50 glass-text-primary-glass-opacity-80 glass-radius-lg glass-text-sm glass-transition-colors"
-                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
+                whileTap={shouldAnimate ? { scale: 0.98 } : undefined}
                 onClick={() => processFrame()}
               >
                 Apply Filters
@@ -1271,8 +1271,8 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                 href={processedImageUrl}
                 download="filtered-image.png"
                 className="glass-px-4 glass-py-2 glass-surface-subtle hover:glass-surface-overlay glass-text-primary glass-border glass-border-subtle glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors"
-                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
+                whileTap={shouldAnimate ? { scale: 0.98 } : undefined}
               >
                 Download Result
               </motion.a>

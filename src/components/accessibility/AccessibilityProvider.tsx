@@ -103,7 +103,7 @@ export function AccessibilityProvider({
       "(prefers-reduced-motion: reduce)"
     );
     const mediaQueryHighContrast = window.matchMedia(
-      "(prefers-contrast: high)"
+      "(prefers-contrast: more)"
     );
     const mediaQueryColorScheme = window.matchMedia(
       "(prefers-color-scheme: dark)"
@@ -128,7 +128,7 @@ export function AccessibilityProvider({
     const handlePreferenceChange = (event: MediaQueryListEvent) => {
       if (event.media === "(prefers-reduced-motion: reduce)") {
         updateSettings({ reducedMotion: event.matches });
-      } else if (event.media === "(prefers-contrast: high)") {
+      } else if (event.media === "(prefers-contrast: more)") {
         updateSettings({ highContrast: event.matches });
       }
     };

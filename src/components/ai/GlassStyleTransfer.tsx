@@ -340,8 +340,8 @@ export const GlassStyleTransfer = forwardRef<
                     : "glass-border-white/20 hover:glass-border-white/40 glass-surface-subtle/5"
                 }
               `}
-              whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-              whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+              whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
+              whileTap={shouldAnimate ? { scale: 0.98 } : undefined}
               onClick={() => handleStyleSelect(style.id)}
             >
               <div className="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden">
@@ -663,8 +663,8 @@ export const GlassStyleTransfer = forwardRef<
             <div className="glass-flex glass-items-center glass-gap-2 glass-flex-wrap">
               <motion.button
                 className="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors"
-                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
+                whileTap={shouldAnimate ? { scale: 0.98 } : undefined}
                 onClick={() =>
                   uploadedImage &&
                   selectedStyleId &&
@@ -677,8 +677,8 @@ export const GlassStyleTransfer = forwardRef<
 
               <motion.button
                 className="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:glass-border-white/50 glass-text-primary-glass-opacity-80 glass-radius-lg glass-text-sm glass-transition-colors"
-                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
+                whileTap={shouldAnimate ? { scale: 0.98 } : undefined}
                 onClick={() => {
                   setPreviewImage("");
                   setProgress(0);
@@ -693,8 +693,8 @@ export const GlassStyleTransfer = forwardRef<
                 href={previewImage}
                 download="styled-image.png"
                 className="glass-px-4 glass-py-2 glass-surface-green hover:glass-surface-green glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors"
-                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
+                whileTap={shouldAnimate ? { scale: 0.98 } : undefined}
               >
                 Download Result
               </motion.a>

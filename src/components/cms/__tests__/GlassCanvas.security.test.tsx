@@ -61,4 +61,13 @@ describe("GlassCanvas onComponentAction", () => {
     expect(src).not.toMatch(/new Function/);
     expect(src).not.toMatch(/\beval\(/);
   });
+  it("never constructs Function during render + click (Function spy)", () => {
+    const spy = jest.spyOn(global, "Function");
+    spy.mockClear();
+    const onComponentAction = jest.fn();
+    render(<GlassCanvas onComponentAction={onComponentAction} />);
+    fireEvent.click(screen.getByRole("button"));
+    expect(spy).not.toHaveBeenCalled();
+    spy.mockRestore();
+  });
 });

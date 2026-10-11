@@ -9,8 +9,12 @@
 
      node scripts/release/release-notes.mjs [--claims-dir docs/claims]
             [--capability-ledger docs/auraglass-5/capability-ledger.json]
-            [--out docs/release/notes/5.0.0.md] [--check]                */
-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+            [--out docs/release/notes/5.0.0.md] [--check]
+            [--breaking-register <json>] [--change-class <json>]
+     Visual fixes come from the change-class record, falling back to
+     docs/release/visual-fixes/*.json records.                        */
+import { execFileSync } from 'node:child_process';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { relPaths } from './lib/policy.mjs';
@@ -145,10 +149,18 @@ export function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
       { cwd: root, encoding: 'utf8' }).split('\n').filter(Boolean);
   } catch { /* shallow/young history — proceed without subjects */ }
   const capabilityLedger = existsSync(ledgerPath) ? JSON.parse(readFileSync(ledgerPath, 'utf8')) : null;
-  const breakingRegister = existsSync(PATHS.breakingRegister)
-    ? JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')) : null;
+  const breakingRegisterPath = arg('--breaking-register', PATHS.breakingRegister);
+  const breakingRegister = existsSync(breakingRegisterPath)
+    ? JSON.parse(readFileSync(breakingRegisterPath, 'utf8')) : null;
   const changeClassPath = arg('--change-class', join(root, '.artifacts/plat/change-class.json'));
-  const changeClass = existsSync(changeClassPath) ? JSON.parse(readFileSync(changeClassPath, 'utf8')) : null;
+  let changeClass = existsSync(changeClassPath) ? JSON.parse(readFileSync(changeClassPath, 'utf8')) : null;
+  const vfDir = join(root, 'docs/release/visual-fixes');
+  if (!(changeClass?.visualFixes ?? changeClass?.visual)?.length && existsSync(vfDir)) {
+    const visualFixes = readdirSync(vfDir).filter((f) => f.endsWith('.json')).sort()
+      .map((f) => JSON.parse(readFileSync(join(vfDir, f), 'utf8')))
+      .map((f) => ({ ...f, title: f.title ?? f.fix ?? f.id }));
+    changeClass = { ...(changeClass ?? {}), visualFixes };
+  }
   const version = tag ? tag.replace(/^v/, '') : '5.0.0';
   const text = renderNotes({ version, claims: loadClaims(claimsDir), capabilityLedger,
     breakingRegister, changesets: loadChangesets(join(root, '.changeset')),
@@ -158,6 +170,7 @@ export function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
     if (existing !== text) { console.error(`FAIL release-notes: ${out} is stale`); return 1; }
     console.log('release-notes: up to date'); return 0;
   }
+  mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, text);
   console.log(`release-notes: wrote ${out}`);
   return 0;

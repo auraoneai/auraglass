@@ -1136,13 +1136,16 @@ export function GlassPredictionIndicator({
 /** PLAT-085: optional reader — returns the same {recordClick, recordHover,
     recordFocus} shape as useInteractionRecorder, or null outside the provider
     (never throws). Call sites hoist it unconditionally and gate on the flag. */
-export function useOptionalInteractionRecorder(elementId?: string) {
+export function useOptionalInteractionRecorder(
+  elementId?: string,
+  enabled = true
+) {
   const engine = useContext(PredictiveEngineContext);
   const recordInteraction = engine?.recordInteraction;
 
   const recordClick = useCallback(
     (event: React.MouseEvent) => {
-      if (!recordInteraction) return;
+      if (!enabled || !recordInteraction) return;
       recordInteraction({
         type: "click",
         element: elementId || event.currentTarget.id || "unknown",
@@ -1165,12 +1168,12 @@ export function useOptionalInteractionRecorder(elementId?: string) {
         },
       });
     },
-    [recordInteraction, elementId]
+    [enabled, recordInteraction, elementId]
   );
 
   const recordHover = useCallback(
     (event: React.MouseEvent) => {
-      if (!recordInteraction) return;
+      if (!enabled || !recordInteraction) return;
       recordInteraction({
         type: "hover",
         element: elementId || event.currentTarget.id || "unknown",
@@ -1188,12 +1191,12 @@ export function useOptionalInteractionRecorder(elementId?: string) {
         metadata: {},
       });
     },
-    [recordInteraction, elementId]
+    [enabled, recordInteraction, elementId]
   );
 
   const recordFocus = useCallback(
     (event: React.FocusEvent | React.MouseEvent) => {
-      if (!recordInteraction) return;
+      if (!enabled || !recordInteraction) return;
       recordInteraction({
         type: "focus",
         element: elementId || event.currentTarget.id || "unknown",
@@ -1210,10 +1213,10 @@ export function useOptionalInteractionRecorder(elementId?: string) {
         metadata: {},
       });
     },
-    [recordInteraction, elementId]
+    [enabled, recordInteraction, elementId]
   );
 
-  return engine ? { recordClick, recordHover, recordFocus } : null;
+  return engine && enabled ? { recordClick, recordHover, recordFocus } : null;
 }
 
 /** @deprecated useInteractionRecorder DEP-S0421 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */

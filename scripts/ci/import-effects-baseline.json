@@ -1,0 +1,32 @@
+{
+  "effects": [
+    {
+      "kind": "listener",
+      "symbol": "document.addEventListener(click)"
+    },
+    {
+      "kind": "listener",
+      "symbol": "document.addEventListener(keydown)"
+    },
+    {
+      "kind": "listener",
+      "symbol": "document.addEventListener(mouseout)"
+    },
+    {
+      "kind": "listener",
+      "symbol": "document.addEventListener(mouseover)"
+    },
+    {
+      "kind": "listener",
+      "symbol": "document.addEventListener(touchstart)"
+    },
+    {
+      "kind": "listener",
+      "symbol": "window.addEventListener(test)"
+    },
+    {
+      "kind": "style",
+      "symbol": "document.createElement(style)"
+    }
+  ]
+}

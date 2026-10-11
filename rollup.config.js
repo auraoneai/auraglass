@@ -224,6 +224,48 @@ export default [
         external: isExternal,
         plugins: getPlugins(false),
     },
+    // Forms bundle (REQ-PLAT-57)
+    {
+        input: 'src/forms/index.ts',
+        output: [
+            {
+                file: 'dist/forms/index.js',
+                format: 'cjs',
+                sourcemap: true,
+                exports: 'named',
+                inlineDynamicImports: true,
+            },
+            {
+                file: 'dist/forms/index.mjs',
+                format: 'esm',
+                sourcemap: true,
+                inlineDynamicImports: true,
+            },
+        ],
+        external: isExternal,
+        plugins: getPlugins(false),
+    },
+    // Data bundle (REQ-PLAT-57)
+    {
+        input: 'src/data/index.ts',
+        output: [
+            {
+                file: 'dist/data/index.js',
+                format: 'cjs',
+                sourcemap: true,
+                exports: 'named',
+                inlineDynamicImports: true,
+            },
+            {
+                file: 'dist/data/index.mjs',
+                format: 'esm',
+                sourcemap: true,
+                inlineDynamicImports: true,
+            },
+        ],
+        external: isExternal,
+        plugins: getPlugins(false),
+    },
     // Three / R3F bundle (3D effects only)
     {
         input: 'src/three/index.ts',

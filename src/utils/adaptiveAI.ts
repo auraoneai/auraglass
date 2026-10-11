@@ -81,8 +81,13 @@ export class AdaptiveAIEngine {
     this.adaptiveConfig = this.getDefaultConfig();
     this.modelWeights = new Map();
     this.sessionStartTime = Date.now();
-    this.initializeTracking();
+    // REQ-PLAT-40: no tracking in the constructor — start() attaches the
+    // listeners/timers; the engine is inert until enableAdaptiveAI() opts in.
   }
+
+  private trackingActive = false;
+  private trackingListeners: { type: string; handler: EventListener }[] = [];
+  private trackingTimers: ReturnType<typeof setInterval>[] = [];
 
   static getInstance(): AdaptiveAIEngine {
     if (!AdaptiveAIEngine.instance) {
@@ -140,41 +145,55 @@ export class AdaptiveAIEngine {
     return "desktop";
   }
 
-  /**
-   * Initialize behavior tracking
-   */
-  private initializeTracking() {
-    if (typeof document === "undefined") return;
+  /** Behavior arrays are capped — a long session must not grow memory
+      without bound (REQ-PLAT-40). */
+  private static readonly MAX_CLICKS = 500;
+  private static readonly MAX_SCROLLS = 1000;
+  private static readonly MAX_HOVERS = 500;
 
-    // Track clicks
-    document.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
+  /**
+   * Attach the document listeners and the session-duration interval.
+   * Idempotent: calling start() while tracking is a no-op.
+   */
+  start() {
+    if (this.trackingActive || typeof document === "undefined") return;
+    this.trackingActive = true;
+
+    const clickHandler: EventListener = (e) => {
+      const me = e as MouseEvent;
+      const target = me.target as HTMLElement;
+      if (this.userBehavior.clicks.length >= AdaptiveAIEngine.MAX_CLICKS) {
+        this.userBehavior.clicks.shift();
+      }
       this.userBehavior.clicks.push({
         element: target.tagName + (target.id ? `#${target.id}` : ""),
         timestamp: Date.now(),
-        position: { x: e.clientX, y: e.clientY },
+        position: { x: me.clientX, y: me.clientY },
       });
 
       // Update heatmap
-      const gridX = Math.floor((e.clientX / window.innerWidth) * 10);
-      const gridY = Math.floor((e.clientY / window.innerHeight) * 10);
+      const gridX = Math.floor((me.clientX / window.innerWidth) * 10);
+      const gridY = Math.floor((me.clientY / window.innerHeight) * 10);
       if (this.userBehavior.interactionHeatmap[gridY]?.[gridX] !== undefined) {
         this.userBehavior.interactionHeatmap[gridY][gridX]++;
       }
 
       this.analyzeAndAdapt();
-    });
+    };
 
-    // Track scroll
     let lastScrollY = 0;
     let lastScrollTime = Date.now();
-
-    document.addEventListener("scroll", () => {
+    const scrollHandler: EventListener = () => {
       const currentScrollY = window.scrollY;
       const currentTime = Date.now();
       const scrollSpeed =
         Math.abs(currentScrollY - lastScrollY) / (currentTime - lastScrollTime);
 
+      if (
+        this.userBehavior.scrollPatterns.length >= AdaptiveAIEngine.MAX_SCROLLS
+      ) {
+        this.userBehavior.scrollPatterns.shift();
+      }
       this.userBehavior.scrollPatterns.push({
         depth: currentScrollY,
         speed: scrollSpeed,
@@ -188,12 +207,37 @@ export class AdaptiveAIEngine {
       if (this.userBehavior.scrollPatterns.length % 10 === 0) {
         this.analyzeAndAdapt();
       }
-    });
+    };
 
-    // Track session duration
-    setInterval(() => {
-      this.userBehavior.sessionDuration = Date.now() - this.sessionStartTime;
-    }, 1000);
+    document.addEventListener("click", clickHandler);
+    document.addEventListener("scroll", scrollHandler);
+    this.trackingListeners.push(
+      { type: "click", handler: clickHandler },
+      { type: "scroll", handler: scrollHandler }
+    );
+
+    this.trackingTimers.push(
+      setInterval(() => {
+        this.userBehavior.sessionDuration = Date.now() - this.sessionStartTime;
+      }, 1000)
+    );
+  }
+
+  /**
+   * Detach every listener and clear every timer start() installed.
+   * Idempotent: disable() on an idle engine is a no-op.
+   */
+  disable() {
+    if (!this.trackingActive) return;
+    this.trackingActive = false;
+    if (typeof document !== "undefined") {
+      for (const { type, handler } of this.trackingListeners) {
+        document.removeEventListener(type, handler);
+      }
+    }
+    this.trackingListeners = [];
+    for (const t of this.trackingTimers) clearInterval(t);
+    this.trackingTimers = [];
   }
 
   /**
@@ -564,28 +608,59 @@ const ADAPTIVE_AI_ENABLED =
   process.env?.NEXT_PUBLIC_AURAGLASS_ADAPTIVE_AI === "true";
 
 let adaptiveAIEngine: AdaptiveAIEngine | null = null;
+let adaptiveAIDisposer: (() => void) | null = null;
+let adaptiveAIWarned = false;
 
 /**
- * Opt in to the adaptive AI engine. Constructs the engine singleton (and its
- * ML subscribers) on first call. Behavior tracking is disabled unless this is
- * called or NEXT_PUBLIC_AURAGLASS_ADAPTIVE_AI=true is set in the environment.
+ * Opt in to the adaptive AI engine. Constructs the engine singleton, starts
+ * behavior tracking, and returns a disposer that stops it again. Idempotent:
+ * every call returns the same disposer while the engine is live; calling the
+ * disposer detaches the listeners/intervals it installed.
+ *
+ * Behavior tracking is disabled unless this is called or
+ * NEXT_PUBLIC_AURAGLASS_ADAPTIVE_AI=true is set in the environment.
  */
-/** @deprecated enableAdaptiveAI DEP-P0012 since 4.2.0, removed in 5.0.0. {@link enableAdaptiveAI opt-in flag (adaptive AI is disabled unless explicitly enabled)} */
-export function enableAdaptiveAI(): AdaptiveAIEngine {
-  if (!adaptiveAIEngine) adaptiveAIEngine = AdaptiveAIEngine.getInstance();
-  return adaptiveAIEngine;
+/** @deprecated enableAdaptiveAI DEP-P0012 since 4.1.1, removed in 5.0.0 — the adaptive AI engine is removed in 5.0.0; enable it only if you still need the 4.x behaviour. */
+export function enableAdaptiveAI(): () => void {
+  if (!adaptiveAIEngine) {
+    if (
+      !adaptiveAIWarned &&
+      typeof process !== "undefined" &&
+      process.env?.NODE_ENV !== "production"
+    ) {
+      adaptiveAIWarned = true;
+      // eslint-disable-next-line no-console
+      console.warn(
+        "[aura-glass] adaptiveAI is deprecated (DEP-P0012/DEP-P0016) and removed " +
+          "in 5.0.0. Tracking is opt-in: enableAdaptiveAI() attaches document " +
+          "listeners until the returned disposer runs."
+      );
+    }
+    adaptiveAIEngine = AdaptiveAIEngine.getInstance();
+    adaptiveAIEngine.start();
+    adaptiveAIDisposer = () => {
+      adaptiveAIEngine?.disable();
+      adaptiveAIEngine = null;
+      adaptiveAIDisposer = null;
+    };
+  }
+  return adaptiveAIDisposer!;
 }
 
-// Exported instance is null until opted in (env flag or enableAdaptiveAI()).
-/** @deprecated adaptiveAI DEP-P0016 since 4.2.0, removed in 5.0.0. */
+// Exported instance stays the 4.1.0 shape (engine or null); it is null until
+// opted in via enableAdaptiveAI() or the env flag.
+/** @deprecated adaptiveAI DEP-P0016 since 4.1.1, removed in 5.0.0. */
 export const adaptiveAI: AdaptiveAIEngine | null = ADAPTIVE_AI_ENABLED
-  ? enableAdaptiveAI()
+  ? (() => {
+      enableAdaptiveAI();
+      return adaptiveAIEngine;
+    })()
   : null;
 
 // React hook for adaptive AI. Returns null state until opted in; calling
 // enableAdaptiveAI() activates the engine and begins reporting on the next
 // interval tick.
-/** @deprecated useAdaptiveAI DEP-P0017 since 4.2.0, removed in 5.0.0. */
+/** @deprecated useAdaptiveAI DEP-P0017 since 4.1.1, removed in 5.0.0. */
 export function useAdaptiveAI() {
   const engine = adaptiveAI;
   const [config, setConfig] = useState(engine?.getConfiguration() ?? null);

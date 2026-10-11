@@ -38,7 +38,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The real ContrastGuard export rendered over a detailed, neutral canvas so its adaptive WCAG text protection can be inspected directly.",
+          "The real ContrastGuard export over a detailed, neutral canvas — contrast adjustments are heuristics; the status reads unverified by design.",
       },
     },
   },
