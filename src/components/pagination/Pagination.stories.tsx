@@ -18,3 +18,6 @@ export const Default: Story = { render: () => <Pagination.Root page={5} pageCoun
 export const RTL: Story = { render: () => <Pagination.Root page={5} pageCount={12} getHref={(p: number) => `?page=${p}`} />, parameters: { globals: { dir: 'rtl' } } };
 export const ReducedTransparency: Story = { render: () => <Pagination.Root page={5} pageCount={12} getHref={(p: number) => `?page=${p}`} />, parameters: { ag: { material: 'regular' } } };
 export const ForcedColors: Story = { render: () => <Pagination.Root page={5} pageCount={12} getHref={(p: number) => `?page=${p}`} />, parameters: { globals: { forcedColors: 'active' } } };
+
+/* SURF-58/59: client button mode (uncontrolled). */
+export const Buttons: Story = { render: () => <Pagination.Root defaultPage={5} pageCount={12} aria-label="Results pages" /> };
