@@ -7,10 +7,10 @@ export default defineMeta({
   tier: 'T1',
   flagship: 41,
   rsc: 'client',
-  parts: ['tool-call', 'trigger', 'state-icon', 'tool-name', 'tool-state', 'content', 'io', 'io-pre', 'io-expand', 'error-text', 'approval', 'approve', 'deny', 'deny-reason', 'waiting'],
+  parts: ['approval', 'approve', 'content', 'deny', 'deny-reason', 'error-text', 'icon', 'io', 'io-expand', 'io-pre', 'running-dots', 'state-icon', 'tool-call', 'tool-name', 'tool-state', 'trigger', 'waiting'],
   states: ['queued', 'running', 'needs-approval', 'succeeded', 'failed', 'denied'],
+  apg: 'disclosure',
   variants: {},
   budgetKb: 8,
   migration: [],
-  selectors: [],
 });

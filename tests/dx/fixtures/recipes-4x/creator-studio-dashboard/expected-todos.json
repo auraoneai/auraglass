@@ -1,0 +1,6 @@
+[
+  "icon category subpath 'aura-glass/icons/media' is gone in 5.0; import the glyph by name from 'aura-glass/icons'",
+  "unmapped token --glass-theme-text",
+  "unmapped token --glass-text-primary",
+  "removed in 5.0 (apps/docs/content/surf/migration/ai.md)"
+]
