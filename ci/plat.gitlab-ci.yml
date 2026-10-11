@@ -439,6 +439,9 @@ plat:package:pack:
       TARBALL=$(ls .artifacts/pack/aura-glass-*.tgz | head -1)
       if [ -z "$TARBALL" ]; then echo "plat:package:pack: npm pack wrote no aura-glass tarball to .artifacts/pack"; exit 1; fi
       echo "AURAGLASS_TARBALL=$TARBALL" > .artifacts/plat/pack.env
+      # REQ-PLAT-78: plat:release:notes links dist-maps.tgz by THIS job's
+      # artifact URL; the dotenv report hands it the pack job id.
+      echo "AG_PACK_JOB_ID=$CI_JOB_ID" >> .artifacts/plat/pack.env
     # REQ-PLAT-16: dist-maps.tgz, the sourcemap release asset plat:release:notes
     # links, is produced here and only here (canonical, fail-closed; #179's
     # fail-open copy is dropped). 5x: scripts/build/post.mjs moved the maps out
@@ -505,6 +508,9 @@ plat:release:notes:
   extends: .plat-release
   stage: publish
   allow_failure: true
+  # REQ-PLAT-78: where the plat:package:pack artifacts (its CI_JOB_NAME_SLUG
+  # evidence dir) land in this job, and the path the dist-maps link uses.
+  variables: { AG_PACK_EVIDENCE_DIR: ".artifacts/plat/plat-package-pack" }
   needs:
     - { job: "plat:package:pack", artifacts: true }
   rules:
@@ -512,6 +518,12 @@ plat:release:notes:
   script:
     - 'test -f scripts/release/release-notes.mjs || { echo "PENDING: scripts/release/release-notes.mjs (lane 1c)"; exit 1; }'
     - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
+    # REQ-PLAT-78: the dist-maps.tgz asset is the plat:package:pack artifact
+    # (needs above, dotenv AG_PACK_JOB_ID). Fail closed if either is missing, so
+    # the Release never links a job that has no sourcemap archive.
+    - |
+      test -n "$AG_PACK_JOB_ID" || { echo "plat:release:notes: AG_PACK_JOB_ID missing from the plat:package:pack dotenv (REQ-PLAT-78)"; exit 1; }
+      test -s "$AG_PACK_EVIDENCE_DIR/dist-maps.tgz" || { echo "plat:release:notes: plat:package:pack artifacts carry no dist-maps.tgz (REQ-PLAT-78)"; exit 1; }
     - node scripts/release/release-notes.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE" --out "$AURAGLASS_EVIDENCE_DIR/release-notes.md"
   release:
     tag_name: $CI_COMMIT_TAG
@@ -520,7 +532,9 @@ plat:release:notes:
     assets:
       links:
         - { name: "release-notes.md", url: "$CI_JOB_URL/artifacts/file/.artifacts/plat/plat-release-notes/release-notes.md", link_type: other }
-        - { name: "dist-maps.tgz", url: "$CI_JOB_URL/artifacts/file/.artifacts/plat/dist-maps.tgz", link_type: package }
+        # The pack job's artifact (not this job's $CI_JOB_URL); tag-pipeline
+        # artifacts are kept as the ref's latest successful job artifacts.
+        - { name: "dist-maps.tgz", url: "$CI_PROJECT_URL/-/jobs/$AG_PACK_JOB_ID/artifacts/raw/$AG_PACK_EVIDENCE_DIR/dist-maps.tgz", link_type: package }
         - { name: "job evidence", url: "$CI_JOB_URL/artifacts/browse/.artifacts/plat/plat-release-notes/", link_type: other }
 
 # REQ-PLAT-31 / REQ-PLAT-13 (REQ-FIN-31, #127 ci/plat hunk re-authored): the

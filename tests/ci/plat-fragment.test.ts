@@ -785,3 +785,115 @@ describe('plat:test:pack-matrix:5x (REQ-PLAT-68)', () => {
     }
   });
 });
+
+// next-fin/b-wire-plat78 (FIN-B.1b row #179; REQ-PLAT-78, REQ-PLAT-16, REQ-FIN-38 producer,
+// REQ-FIN-22 wiring): the GitLab Release links dist-maps.tgz by the PACK job's artifact URL
+// (ledger gap: it used the release job's own $CI_JOB_URL and a path no job writes), and the
+// pack job artifacts carry pack-breakdown.json.
+describe('dist-maps.tgz release asset via the pack job artifact (REQ-PLAT-78)', () => {
+  const { spawnSync } = require('node:child_process') as typeof import('node:child_process');
+  const { mkdtempSync, mkdirSync, writeFileSync, rmSync } = require('node:fs') as typeof import('node:fs');
+  const { tmpdir } = require('node:os') as typeof import('node:os');
+  const { join } = require('node:path') as typeof import('node:path');
+  const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 63).replace(/^-+|-+$/g, '');
+  const PACK_DIR = `.artifacts/plat/${slug('plat:package:pack')}`;
+  const pack = job('plat:package:pack');
+  const notes = job('plat:release:notes');
+  const packLines: string[] = pack.script;
+  const notesLines: string[] = notes.script;
+  const run = (block: string, cwd: string, env: Record<string, string>) =>
+    spawnSync('bash', ['-eo', 'pipefail', '-c', block], { cwd, env: { ...process.env, ...env }, encoding: 'utf8' });
+  const tmp = () => mkdtempSync(join(tmpdir(), 'ag-plat78-'));
+  const touch = (dir: string, f: string, body = 'x') => {
+    mkdirSync(join(dir, f, '..'), { recursive: true });
+    writeFileSync(join(dir, f), body);
+  };
+  const distMapsLink = () => notes.release.assets.links.find((l: any) => l.name === 'dist-maps.tgz');
+
+  it('plat:release:notes needs plat:package:pack with its artifacts', () => {
+    expect(notes.needs).toContainEqual({ job: 'plat:package:pack', artifacts: true });
+  });
+
+  it('links dist-maps.tgz at the pack job id + the pack job dir, never $CI_JOB_URL', () => {
+    const l = distMapsLink();
+    expect(l.link_type).toBe('package');
+    expect(notes.variables.AG_PACK_EVIDENCE_DIR).toBe(PACK_DIR);
+    expect(l.url).toBe('$CI_PROJECT_URL/-/jobs/$AG_PACK_JOB_ID/artifacts/raw/$AG_PACK_EVIDENCE_DIR/dist-maps.tgz');
+    expect(l.url).not.toContain('$CI_JOB_URL');
+    expect(notes.release.assets.links.filter((x: any) => x.name === 'dist-maps.tgz')).toHaveLength(1);
+  });
+
+  it('the linked path is where the pack job writes and uploads dist-maps.tgz', () => {
+    expect(packLines.some((b) => b.includes('tar -czf "$AURAGLASS_EVIDENCE_DIR/dist-maps.tgz"'))).toBe(true);
+    expect(job('.plat-evidence-pr').variables.AURAGLASS_EVIDENCE_DIR).toBe('.artifacts/plat/$CI_JOB_NAME_SLUG');
+    expect(pack.artifacts.paths).toContain('.artifacts/plat/$CI_JOB_NAME_SLUG/');
+  });
+
+  it('pack.env (dotenv) hands AG_PACK_JOB_ID=$CI_JOB_ID to plat:release:notes', () => {
+    const block = packLines.find((b) => b.includes('AURAGLASS_TARBALL=$TARBALL'))!;
+    const dir = tmp();
+    try {
+      touch(dir, '.artifacts/pack/aura-glass-5.0.0.tgz');
+      mkdirSync(join(dir, '.artifacts/plat'), { recursive: true });
+      const r = run(block, dir, { CI_JOB_ID: '4242' });
+      expect([r.status, r.stderr]).toEqual([0, '']);
+      expect(readFileSync(join(dir, '.artifacts/plat/pack.env'), 'utf8')).toBe(
+        'AURAGLASS_TARBALL=.artifacts/pack/aura-glass-5.0.0.tgz\nAG_PACK_JOB_ID=4242\n',
+      );
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  describe('plat:release:notes fails closed before writing notes', () => {
+    const guard = notesLines.find((b) => b.includes('AG_PACK_JOB_ID'))!;
+    const genAt = notesLines.findIndex((b) => b.includes('release-notes.mjs --tag'));
+    it('the guard runs before release-notes.mjs', () => {
+      expect(notesLines.indexOf(guard)).toBeGreaterThan(-1);
+      expect(notesLines.indexOf(guard)).toBeLessThan(genAt);
+    });
+    it.each([
+      ['no AG_PACK_JOB_ID', {}, true, 'AG_PACK_JOB_ID missing'],
+      ['no dist-maps.tgz in the pack artifacts', { AG_PACK_JOB_ID: '7' }, false, 'carry no dist-maps.tgz'],
+    ])('exits 1 with %s', (_n, env, withMaps, msg) => {
+      const dir = tmp();
+      try {
+        if (withMaps) touch(dir, `${PACK_DIR}/dist-maps.tgz`);
+        const r = run(`${guard}\necho reached`, dir, { AG_PACK_JOB_ID: '', AG_PACK_EVIDENCE_DIR: PACK_DIR, ...env });
+        expect(r.status).toBe(1);
+        expect(r.stdout).toContain(msg);
+        expect(r.stdout).not.toContain('reached');
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    });
+    it('passes with the pack job id and its dist-maps.tgz', () => {
+      const dir = tmp();
+      try {
+        touch(dir, `${PACK_DIR}/dist-maps.tgz`);
+        const r = run(`${guard}\necho reached`, dir, { AG_PACK_JOB_ID: '7', AG_PACK_EVIDENCE_DIR: PACK_DIR });
+        expect([r.status, r.stdout.trim()]).toEqual([0, 'reached']);
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    });
+  });
+
+  // verify-pack.js (FIN-C) writes the breakdown to the flat .artifacts/plat/; the pack job's
+  // evidence after_script copies flat files into the uploaded job dir (REQ-PLAT-51 forbids
+  // a script line naming the flat path, so no extra copy line is added here).
+  it('pack-breakdown.json written by pack:verify lands in the uploaded pack job dir', () => {
+    const after: string[] = job('.plat-evidence-pr').after_script;
+    expect(job('.plat-release').extends).toContain('.plat-evidence-release');
+    expect(job('.plat-evidence-release').extends).toContain('.plat-evidence-pr');
+    const dir = tmp();
+    try {
+      touch(dir, '.artifacts/plat/pack-breakdown.json', '{"distDirs":{}}\n');
+      const r = run(after.join('\n'), dir, { CI_JOB_NAME_SLUG: slug('plat:package:pack') });
+      expect([r.status, r.stderr]).toEqual([0, '']);
+      expect(readFileSync(join(dir, PACK_DIR, 'pack-breakdown.json'), 'utf8')).toBe('{"distDirs":{}}\n');
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+});
