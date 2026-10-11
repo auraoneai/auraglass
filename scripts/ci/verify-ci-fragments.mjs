@@ -83,6 +83,8 @@ const PRODUCER_PATHS = {
   'plat:package:pack': ['.artifacts/pack/', 'pack.env'],
   'plat:build:docs': ['apps/docs/out/', 'apps/docs/public/', 'storybook-static/'],
   'mat:build:tokens': ['dist/tokens/', 'dist/tokens.css', 'dist/compat/tokens.css'],
+  // 4.x bridge replay (contract §2.4, verbatim script): the regenerated H cells it diffs.
+  'mat:build:bridge': ['src/material/', 'src/styles/v5.css', 'src/styles/preview-v5.css', 'dist/tokens/4x/'],
   'qual:build:storybook': ['storybook-static/'],
   pages: ['public/'],
 };
