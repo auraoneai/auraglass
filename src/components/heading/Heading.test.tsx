@@ -20,6 +20,18 @@ describe('Heading', () => {
     expect(el.tagName).toBe('H3');
     expect(el.getAttribute('data-ag-size')).toBe('display');
   });
+  it('derives size from level when unset (REQ-CMP-111)', () => {
+    const cases: Array<[1 | 2 | 3 | 4 | 5 | 6, string]> = [
+      [1, 'title-1'], [2, 'title-2'], [3, 'title-3'], [6, 'title-3'],
+    ];
+    for (const [level, expected] of cases) {
+      const { container, unmount } = render(<Heading level={level}>T</Heading>);
+      const el = container.querySelector('[data-ag-part="root"]')!;
+      expect(el.tagName).toBe(`H${level}`);
+      expect(el.getAttribute('data-ag-size')).toBe(expected);
+      unmount();
+    }
+  });
   it('supports title-1..3 sizes', () => {
     for (const s of ['title-1', 'title-2', 'title-3'] as const) {
       const { container, unmount } = render(<Heading level={2} size={s}>T</Heading>);
