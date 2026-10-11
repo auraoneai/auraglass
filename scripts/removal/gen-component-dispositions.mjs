@@ -8,16 +8,22 @@
    fail the run with 'UNMAPPED records' (exit 1).
    Mapping authority: the archived FND §4.6 family map + §4.7 reconciliation
    R-01..R-18 (carried verbatim below), then the inventory disposition.
-   Revived verbatim from docs/auraglass-5/archive/v1-19-prd/prd/appendix/. */
+   Revived verbatim from docs/auraglass-5/archive/v1-19-prd/prd/appendix/.
+   Every row also carries its 5.0 owner stream (PLAT | MAT | CMP | SURF |
+   QUAL, from the architecture §16 PRD id) and its SC-33 codemod id (checked
+   against packages/cli/src/migrate/4to5/catalogue.json). The §4.7 R-01..R-18
+   decisions are encoded in RECONCILIATION and checked by name before emit;
+   tests/deprecations/dispositions.test.mjs imports the same table. */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..', '..');
 const argOf = (n, d) => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : d; };
-const inventoryPath = argOf('--inventory', join(root, 'docs/auraglass-5/component-inventory.json'));
-export const records = JSON.parse(readFileSync(inventoryPath, 'utf8'));
+export const DEFAULT_INVENTORY = join(root, 'docs/auraglass-5/component-inventory.json');
+export const DEFAULT_OUT = join(root, 'docs/inventory/component-dispositions.md');
+const CATALOGUE = join(root, 'packages/cli/src/migrate/4to5/catalogue.json');
 
 // Entry constructors. dest is resolved later for A (absorbed) entries.
 const F = (target, prd, note = '') => ({ kind: 'flagship', target, prd, note }); // seed of a T1 flagship
@@ -189,7 +195,7 @@ const MAP = {
   GlassMobileNav: A('Sheet', 'PRD-09', '§11.2 #17'),
   GlassPopover: F('Popover', 'PRD-09'),
   GlassTooltip: F('Tooltip', 'PRD-09', 'ACCESSIBILITY-10'),
-  GlassHoverCard: A('Popover', 'PRD-14', 'compat target Popover openOnHover (was PreviewCard)'),
+  GlassHoverCard: A('Popover openOnHover', 'PRD-14', 'SC-34: compat adapter over Popover openOnHover (was core HoverCard / Base UI PreviewCard)'),
   GlassDropdownMenu: F('Menu', 'PRD-09', 'canonical part naming'),
   GlassContextMenu: A('ContextMenu', 'PRD-09'),
   GlassMenubar: A('Menubar', 'PRD-09', 'ACCESSIBILITY-12'),
@@ -357,92 +363,217 @@ const DELIBERATE_REMOVALS = {
   ARGlassEffects: '§13.3 AR/XR',
 };
 
-const tokenOf = (name) => name.split(/[\s(/]/)[0];
+export const tokenOf = (name) => name.split(/[\s(/]/)[0];
 const fileOf = (file) => (file || '').split(/[\s;]/)[0];
 const isPublic = (r) => r.exported_from_root || (r.sub_exports && r.sub_exports.length > 0) || /^src\/(app-shell|workspace)\//.test(fileOf(r.file));
 
-const rows = [];
-const unmapped = [];
-records.forEach((r, i) => {
-  const tok = tokenOf(r.name);
-  let e = MAP[`${tok}@${fileOf(r.file)}`] ?? MAP[tok];
-  if (!e) {
-    if (['REMOVE', 'DEPRECATE'].includes(r.disposition)) e = X('§13.3 / inventory ' + r.disposition);
-    else if (tok in DELIBERATE_REMOVALS) e = X(DELIBERATE_REMOVALS[tok]);
-    else { unmapped.push(`${i} ${r.name} (${r.disposition})`); return; }
+/* 5.0 owner stream per architecture §16 PRD id, via the archived PRD keys
+   (archive MASTER §5.2) and their 5.0 streams (MASTER PRD §5): TRUST/REL/PKG/
+   DX + FND removal -> PLAT; DS/MAT/A11Y/MOT -> MAT; FND/CTL/OVL -> CMP;
+   NAV/DATA/AI/MED/EXP (labs) -> SURF; QA/SB -> QUAL. Rows leaving the package
+   (`removed`) are PLAT's removal train (contract §7.1 R-01) whatever their PRD;
+   `registry` is PRD-18 (DX -> PLAT); `labs` is PRD-21 (`packages/labs`, SURF). */
+export const PRD_STREAM = {
+  'PRD-00': 'PLAT', 'PRD-01': 'PLAT', 'PRD-02': 'PLAT', 'PRD-03': 'MAT', 'PRD-04': 'MAT', 'PRD-05': 'MAT',
+  'PRD-06': 'MAT', 'PRD-07': 'CMP', 'PRD-08': 'CMP', 'PRD-09': 'CMP', 'PRD-10': 'SURF', 'PRD-11': 'SURF',
+  'PRD-12': 'SURF', 'PRD-13': 'SURF', 'PRD-14': 'CMP', 'PRD-15': 'MAT', 'PRD-16': 'PLAT', 'PRD-17': 'PLAT',
+  'PRD-18': 'PLAT', 'PRD-19': 'QUAL', 'PRD-20': 'PLAT', 'PRD-21': 'SURF',
+};
+export function ownerOf(dest, prd) {
+  if (dest === 'note') return '-';
+  if (dest === 'removed') return 'PLAT';
+  const s = PRD_STREAM[prd];
+  if (!s) throw new Error(`no owner stream for ${prd}`);
+  return s;
+}
+
+/* SC-33 codemod id: rows leaving the package -> `removed` (prints the TODO
+   with the registry/labs pointer from deprecations); a public name that moves
+   to a different 5.0 name or to aura-glass/compat -> `canonical-names`
+   (merged renames map, incl. moves to 'aura-glass/compat'); a seed whose name
+   is unchanged needs no codemod (`-`). */
+export function codemodOf(dest, name, target) {
+  if (dest === 'note') return '-';
+  if (['removed', 'registry', 'labs'].includes(dest)) return 'removed';
+  if (dest === 'compat') return 'canonical-names';
+  const lead = /^[A-Za-z_$][\w$]*/.exec(target)?.[0];
+  return lead === tokenOf(name) ? '-' : 'canonical-names';
+}
+
+export function buildRows(records) {
+  const rows = [];
+  const unmapped = [];
+  records.forEach((r, i) => {
+    const tok = tokenOf(r.name);
+    let e = MAP[`${tok}@${fileOf(r.file)}`] ?? MAP[tok];
+    if (!e) {
+      if (['REMOVE', 'DEPRECATE'].includes(r.disposition)) e = X('§13.3 / inventory ' + r.disposition);
+      else if (tok in DELIBERATE_REMOVALS) e = X(DELIBERATE_REMOVALS[tok]);
+      else { unmapped.push(`${i} ${r.name} (${r.disposition})`); return; }
+    }
+    let dest = e.kind;
+    if (e.kind === 'absorbed') dest = isPublic(r) ? 'compat' : 'removed';
+    const flags = [];
+    if (['REMOVE', 'DEPRECATE'].includes(r.disposition) && !['removed', 'note'].includes(dest)) flags.push('overrides inventory ' + r.disposition);
+    if (['KEEP', 'POLISH', 'REDESIGN'].includes(r.disposition) && dest === 'removed' && e.kind !== 'absorbed') flags.push('overrides inventory ' + r.disposition);
+    if (e.kind === 'absorbed' && dest === 'removed') flags.push('internal; merged into target');
+    rows.push({
+      i, name: r.name, file: fileOf(r.file), disp: r.disposition, pub: isPublic(r), dest, target: e.target,
+      owner: ownerOf(dest, e.prd), codemod: codemodOf(dest, r.name, e.target), prd: e.prd, absorbed: e.kind === 'absorbed',
+      note: [e.note, ...flags].filter(Boolean).join('; '),
+    });
+  });
+  return { rows, unmapped };
+}
+
+/* §4.7 R-01..R-18 (archive FND, canonical survivor decisions). Each decision
+   names its records by `token@file` (or token when unique) and the exact
+   destination/target the decision requires. A named record that is missing
+   from the rows is itself a violation. */
+const at = (token, file) => ({ token, file });
+const is = (dest, target) => (r) => r.dest === dest && (target === undefined || r.target === target);
+export const RECONCILIATION = [
+  ['R-01', 'all -> Surface', [
+    [at('AdaptiveGlass'), is('compat', 'Surface')], [at('GlassOpacityEngine'), is('compat', 'Surface')],
+    [at('GlassEngine'), is('compat', 'Surface')], [at('OptimizedGlassCore'), is('compat', 'Surface')]]],
+  ['R-02', 'both -> SourceTransition', [
+    [at('GlassTransitions'), is('compat', 'SourceTransition')], [at('GlassLiquidTransition'), is('compat', 'SourceTransition')]]],
+  ['R-03', 'StatCard, seed GlassStatCard', [
+    [at('GlassStatCard'), is('flagship', 'StatCard')], [at('GlassMetricCard'), is('compat', 'StatCard')],
+    [at('GlassKPICard'), is('compat', 'StatCard')]]],
+  ['R-04', 'two survivors: Command and CommandPalette', [
+    [at('GlassCommand'), is('flagship', 'Command')], [at('GlassCommandPalette'), is('flagship', 'CommandPalette')]]],
+  ['R-05', 'TreeView, seed src/components/tree-view/TreeView.tsx', [
+    [at('TreeView', 'src/components/tree-view/TreeView.tsx'), is('flagship', 'TreeView')], [at('GlassTreeView'), is('compat', 'TreeView')]]],
+  ['R-06', 'Toast, seed data-display; feedback copy removed', [
+    [at('GlassToast', 'src/components/data-display/GlassToast.tsx'), is('flagship', 'Toast')],
+    [at('GlassToast', 'src/components/feedback/GlassToast.tsx'), is('removed')],
+    [at('GlassToastProvider'), (r) => r.dest === 'compat' && r.target.startsWith('Toast')]]],
+  ['R-07', 'FileUpload, seed interactive/', [
+    [at('GlassFileUpload', 'src/components/interactive/GlassFileUpload.tsx'), is('core', 'FileUpload')],
+    [at('GlassFileUpload', 'src/components/input/GlassFileUpload.tsx'), is('removed')]]],
+  ['R-08', 'input/ -> NumberField; interactive/ -> Steps', [
+    [at('GlassStepper', 'src/components/input/GlassStepper.tsx'), is('flagship', 'NumberField')],
+    [at('GlassStepper', 'src/components/interactive/GlassStepper.tsx'), is('core', 'Steps')]]],
+  ['R-09', 'AppShell from the app-shell slot API; ResizablePanels from layout/GlassSplitPane', [
+    [at('GlassAppShell', 'src/app-shell/components.tsx'), is('flagship', 'AppShell')],
+    [at('GlassAppShell', 'src/components/layout/GlassAppShell.tsx'), is('compat', 'AppShell')],
+    [at('GlassSplitPane', 'src/components/layout/GlassSplitPane.tsx'), is('flagship', 'ResizablePanels')],
+    [at('GlassSplitPane', 'src/app-shell/components.tsx'), is('compat', 'ResizablePanels')]]],
+  ['R-10', 'AppShell.Inspector slot, seed LiquidGlassInspectorPanel', [
+    [at('LiquidGlassInspectorPanel'), is('flagship', 'AppShell.Inspector')], [at('GlassInspectorPanel'), is('compat', 'AppShell.Inspector')]]],
+  ['R-11', 'Tabs: GlassTabs value contract, GlassPageTabs visual reference', [
+    [at('GlassTabs'), is('flagship', 'Tabs')], [at('GlassPageTabs'), is('compat', 'Tabs')]]],
+  ['R-12', 'labs ParticleField; no core survivor', [
+    [at('GlassParticles'), is('labs', 'ParticleField')], [at('GlassParticleField'), is('labs', 'ParticleField')],
+    [at('ParticleBackground'), is('labs', 'ParticleField')]]],
+  ['R-13', 'Backdrop presets, seed AuroraBackground', [
+    [at('AuroraBackground'), (r) => r.dest === 'core' && r.target.startsWith('Backdrop')],
+    [at('DynamicAtmosphere'), is('compat', 'Backdrop')], [at('AtmosphericBackground'), is('compat', 'Backdrop')]]],
+  ['R-14', 'two survivors: Select and Combobox', [
+    [at('GlassCombobox'), is('flagship', 'Combobox')], [at('GlassSelect', 'src/components/input/GlassSelect.tsx'), is('compat', 'Select')]]],
+  ['R-15', 'Toolbar / ButtonGroup', [[at('ToggleButtonGroup'), is('compat', 'Toolbar')]]],
+  ['R-16', 'D-21: ChartFrame in 5.0', [
+    [at('GlassDataChart'), is('compat', 'ChartFrame')], [at('GlassAdvancedDataViz'), is('removed', 'ChartFrame')]]],
+  ['R-17', 'the six §12 consolidation losers become compat names', [
+    [at('EnhancedGlassButton'), is('compat')], [at('GlassResizablePanel'), is('compat')],
+    [at('GlassSplitPane', 'src/app-shell/components.tsx'), is('compat')], [at('MobileGlassBottomSheet'), is('compat')],
+    [at('GlassNavigation'), is('compat')], [at('GlassIconButton'), is('compat')]]],
+  ['R-18', 'POLISH/REDESIGN records without a §11 slot are removed', [
+    [at('GlassPullToRefresh'), is('removed')], [at('GlassInfiniteScroll'), is('removed')], [at('FeatureTile'), is('removed')],
+    [at('InstallCommand'), is('removed')], [at('LogoMark'), is('removed')], [at('MotionFramer'), is('removed')],
+    [at('RovingFocusGroup'), is('removed')]]],
+];
+/* SC-34 corrections the ledger names explicitly (REQ-PLAT-80). */
+export const SC34 = [
+  [at('GlassHoverCard'), is('compat', 'Popover openOnHover')],
+  [at('GlassTimelineRail'), is('removed', 'Timeline')],
+  [at('GlassAdvancedDataViz'), is('removed', 'ChartFrame')],
+];
+
+export function findRows(rows, { token, file }) {
+  return rows.filter((r) => tokenOf(r.name) === token && (file === undefined || r.file === file));
+}
+
+export function checkReconciliation(rows) {
+  const fail = [];
+  const check = (rid, sel, ok) => {
+    const recs = findRows(rows, sel);
+    const label = sel.file ? `${sel.token}@${sel.file}` : sel.token;
+    if (recs.length !== 1) fail.push(`${rid}: ${label} matches ${recs.length} rows (expected exactly 1)`);
+    else if (!ok(recs[0])) fail.push(`${rid}: ${label} -> ${recs[0].dest}/${recs[0].target}`);
+  };
+  for (const [rid, , cases] of RECONCILIATION) for (const [sel, ok] of cases) check(rid, sel, ok);
+  for (const [sel, ok] of SC34) check('SC-34', sel, ok);
+  /* R-18 covers exactly 18 POLISH/REDESIGN records with no §11 slot; each
+     row must carry its successor capability or the reason it has none. */
+  const r18 = rows.filter((r) => ['POLISH', 'REDESIGN'].includes(r.disp) && r.dest === 'removed' && !r.absorbed);
+  if (r18.length !== 18) fail.push(`R-18: ${r18.length} POLISH/REDESIGN -> removed rows (archive §4.7 counts 18)`);
+  for (const r of r18) if (r.target === '-' && !r.note) fail.push(`R-18: ${r.name} names neither a successor nor a reason`);
+  /* R-17: every REMOVE record that §12 overrides to a compat name is flagged. */
+  for (const [sel] of RECONCILIATION.find(([id]) => id === 'R-17')[2]) {
+    const [r] = findRows(rows, sel);
+    if (r && r.disp === 'REMOVE' && !r.note.includes('overrides inventory REMOVE')) fail.push(`R-17: ${r.name} lacks the "overrides inventory REMOVE" flag`);
   }
-  let dest = e.kind;
-  if (e.kind === 'absorbed') dest = isPublic(r) ? 'compat' : 'removed';
-  const flags = [];
-  if (['REMOVE', 'DEPRECATE'].includes(r.disposition) && !['removed', 'note'].includes(dest)) flags.push('overrides inventory ' + r.disposition);
-  if (['KEEP', 'POLISH', 'REDESIGN'].includes(r.disposition) && dest === 'removed' && e.kind !== 'absorbed') flags.push('overrides inventory ' + r.disposition);
-  if (e.kind === 'absorbed' && dest === 'removed') flags.push('internal; merged into target');
-  const owner = dest === 'registry' ? 'plat' : dest === 'labs' ? 'labs' : dest === 'removed' ? 'plat' : dest === 'note' ? '-' : 'cmp';
-  const codemod = dest === 'registry' ? 'removed->registry'
-    : dest === 'labs' ? 'removed->labs'
-    : dest === 'compat' ? 'compat-adapter'
-    : dest === 'removed' ? 'removed'
-    : dest === 'note' ? '-'
-    : `rename:${e.target}`;
-  rows.push({ i, name: r.name, file: fileOf(r.file), disp: r.disposition, pub: isPublic(r), dest, target: e.target, prd: e.prd, owner, codemod, note: [e.note, ...flags].filter(Boolean).join('; ') });
-});
-if (unmapped.length) { console.error('UNMAPPED records:\n' + unmapped.join('\n')); process.exit(1); }
+  return fail;
+}
+
+export function checkColumns(rows, catalogueIds) {
+  const fail = [];
+  const streams = new Set(['PLAT', 'MAT', 'CMP', 'SURF', 'QUAL']);
+  for (const r of rows) {
+    if (r.dest === 'note') { if (r.owner !== '-' || r.codemod !== '-') fail.push(`${r.i} ${r.name}: note row with owner/codemod`); continue; }
+    if (!streams.has(r.owner)) fail.push(`${r.i} ${r.name}: owner '${r.owner}' is not a 5.0 stream`);
+    if (r.codemod !== '-' && !catalogueIds.has(r.codemod)) fail.push(`${r.i} ${r.name}: codemod '${r.codemod}' not in catalogue.json`);
+    if (!r.target) fail.push(`${r.i} ${r.name}: empty 5.0 target`);
+  }
+  return fail;
+}
+
+export function catalogueIds(path = CATALOGUE) {
+  return new Set(JSON.parse(readFileSync(path, 'utf8')).transforms.map((t) => t.id));
+}
 
 const esc = (s) => String(s).replace(/\|/g, '\\|').replace(/\n/g, ' ');
-const count = (key) => rows.reduce((m, r) => ((m[r[key]] = (m[r[key]] || 0) + 1), m), {});
+const countBy = (rows, key) => rows.reduce((m, r) => ((m[r[key]] = (m[r[key]] || 0) + 1), m), {});
 const table = (m) => Object.entries(m).sort((a, b) => b[1] - a[1]).map(([k, v]) => `| ${k} | ${v} |`).join('\n');
-const out = [
-  '# Appendix: component dispositions (GENERATED, do not edit)',
-  '',
-  'Generated by `node scripts/removal/gen-component-dispositions.mjs` from `docs/auraglass-5/component-inventory.json` (' + records.length + ' records). Parent: `AURAGLASS_COMPONENT_REMEDIATION_PRD.md`. Authority order: architecture §11–§13, then the inventory disposition. Owning PRD ids use architecture §16 numbering.',
-  '',
-  'Destinations: **flagship** (T1 lineage seed), **core** (T0/T2 seed), **compat** (public 4.x name re-exported from `aura-glass/compat` with a prop adapter, removed in 6.0), **labs** (`@auraglass/labs`, rebuilt), **registry** (re-authored registry item/block), **removed** (deleted from the package; a target means the capability lives on elsewhere), **note** (inventory note record).',
-  '',
-  '## Totals by destination', '', '| Destination | Records |', '|---|---|', table(count('dest')), '',
-  '## Totals by owning PRD', '', '| PRD | Records |', '|---|---|', table(count('prd')), '',
-  '## Totals by 4.x disposition', '', '| Disposition | Records |', '|---|---|', table(count('disp')), '',
-  '## Every record', '',
-  '| # | Name | File | 4.x disposition | Public | 5.0 destination | 5.0 target | Owner | Codemod | Owning PRD | Reconciliation note |',
-  '|---|---|---|---|---|---|---|---|---|---|---|',
-  ...rows.map((r) => `| ${r.i} | ${esc(r.name)} | \`${esc(r.file || '-')}\` | ${r.disp} | ${r.pub ? 'yes' : 'no'} | ${r.dest} | ${esc(r.target)} | ${r.owner} | ${r.codemod} | ${r.prd} | ${esc(r.note)} |`),
-  '',
-];
-/* §4.7 R-01..R-18 reconciliation decisions encoded as named assertions — a
-   MAP edit that disagrees with the archive fails the run. */
-const R_ASSERTIONS = [
-  ['R-01', ['AdaptiveGlass', 'GlassOpacityEngine', 'GlassEngine', 'OptimizedGlassCore'], (r) => r.target === 'Surface'],
-  ['R-02', ['GlassTransitions', 'GlassLiquidTransition'], (r) => r.target === 'SourceTransition'],
-  ['R-03', ['GlassMetricCard', 'GlassKPICard', 'GlassKPI'], (r) => ['StatCard', 'GlassStatCard'].includes(r.target)],
-  ['R-04', ['GlassCommandPalette'], (r) => r.target === 'CommandPalette' || (r.name === 'GlassCommand' && r.target === 'Command')],
-  ['R-05', ['GlassTreeView'], (r) => r.target === 'TreeView'],
-  ['R-06', ['GlassToastProvider'], (r) => r.target.startsWith('Toast')],
-  ['R-07', ['GlassFileUpload'], (r) => r.target === 'FileUpload' || r.dest === 'removed'],
-  ['R-08', ['GlassStepper'], (r) => ['Steps', 'NumberField'].includes(r.target)],
-  ['R-09', ['GlassAppShell', 'GlassSplitPane'], (r) => ['AppShell', 'ResizablePanels'].includes(r.target)],
-  ['R-10', ['LiquidGlassInspectorPanel', 'GlassInspectorPanel'], (r) => r.target.includes('AppShell') || r.target.includes('Inspector')],
-  ['R-11', ['GlassPageTabs', 'GlassTabs'], (r) => r.target === 'Tabs'],
-  ['R-12', ['GlassParticles', 'GlassParticleField', 'ParticleBackground'], (r) => r.dest === 'labs' || r.target.includes('Particle')],
-  ['R-13', ['DynamicAtmosphere', 'AtmosphericBackground', 'AuroraBackground'], (r) => r.target.startsWith('Backdrop') || r.dest === 'labs'],
-  ['R-14', ['GlassCombobox', 'GlassSelect'], (r) => ['Select', 'Combobox'].includes(r.target)],
-  ['R-15', ['ToggleButtonGroup'], (r) => ['Toolbar', 'ButtonGroup', 'ToggleGroup'].includes(r.target)],
-  ['R-16', ['GlassDataChart', 'ModularGlassDataChart'], (r) => ['ChartFrame', 'Chart'].includes(r.target) || r.dest === 'removed'],
-  ['R-17', ['EnhancedGlassButton', 'GlassResizablePanel', 'GlassSplitPane', 'MobileGlassBottomSheet', 'GlassNavigation', 'GlassIconButton'], (r) => r.dest !== 'removed' || r.name === 'GlassSplitPane'],
-  ['R-18', ['GlassPullToRefresh', 'GlassInfiniteScroll', 'MotionFramer', 'RovingFocusGroup'], (r) => r.dest === 'removed'],
-];
-const rFail = [];
-for (const [rid, names, ok] of R_ASSERTIONS) {
-  for (const n of names) {
-    const recs = rows.filter((r) => r.name.split(/[\s(/]/)[0] === n);
-    if (recs.length && !recs.every(ok)) rFail.push(`${rid}: ${n} -> ${recs.map((r) => `${r.dest}/${r.target}`).join(',')}`);
-  }
-}
-if (rFail.length) { console.error('R-01..R-18 reconciliation violations:\n' + rFail.join('\n')); process.exit(1); }
 
-const outPath = argOf('--out', join(root, 'docs/inventory/component-dispositions.md'));
-const path = outPath;
-const text = out.join('\n');
-if (process.argv.includes('--check')) {
-  const cur = readFileSync(path, 'utf8');
-  if (cur !== text) { console.error('component-dispositions.md is stale; re-run the generator'); process.exit(1); }
-} else writeFileSync(path, text);
-console.log(JSON.stringify({ records: rows.length, byDest: count('dest'), byPrd: count('prd') }));
+export function render(rows, recordCount) {
+  const count = (key) => countBy(rows, key);
+  return [
+    '# Appendix: component dispositions (GENERATED, do not edit)',
+    '',
+    'Generated by `node scripts/removal/gen-component-dispositions.mjs` from `docs/auraglass-5/component-inventory.json` (' + recordCount + ' records). Parent: `AURAGLASS_COMPONENT_REMEDIATION_PRD.md`. Authority order: architecture §11–§13, then the inventory disposition. Owning PRD ids use architecture §16 numbering. Owner is the 5.0 stream (PLAT, MAT, CMP, SURF, QUAL); Codemod is the SC-33 `migrate 4to5` transform id (`-` = no codemod needed).',
+    '',
+    'Destinations: **flagship** (T1 lineage seed), **core** (T0/T2 seed), **compat** (public 4.x name re-exported from `aura-glass/compat` with a prop adapter, removed in 6.0), **labs** (`@auraglass/labs`, rebuilt), **registry** (re-authored registry item/block), **removed** (deleted from the package; a target means the capability lives on elsewhere), **note** (inventory note record).',
+    '',
+    '## Totals by destination', '', '| Destination | Records |', '|---|---|', table(count('dest')), '',
+    '## Totals by owner stream', '', '| Owner | Records |', '|---|---|', table(count('owner')), '',
+    '## Totals by owning PRD', '', '| PRD | Records |', '|---|---|', table(count('prd')), '',
+    '## Totals by 4.x disposition', '', '| Disposition | Records |', '|---|---|', table(count('disp')), '',
+    '## Every record', '',
+    '| # | Name | File | 4.x disposition | Public | 5.0 destination | 5.0 target | Owner | Codemod | Owning PRD | Reconciliation note |',
+    '|---|---|---|---|---|---|---|---|---|---|---|',
+    ...rows.map((r) => `| ${r.i} | ${esc(r.name)} | \`${esc(r.file || '-')}\` | ${r.disp} | ${r.pub ? 'yes' : 'no'} | ${r.dest} | ${esc(r.target)} | ${r.owner} | ${r.codemod} | ${r.prd} | ${esc(r.note)} |`),
+    '',
+  ].join('\n');
+}
+
+function main() {
+  const records = JSON.parse(readFileSync(argOf('--inventory', DEFAULT_INVENTORY), 'utf8'));
+  const { rows, unmapped } = buildRows(records);
+  if (unmapped.length) { console.error('UNMAPPED records:\n' + unmapped.join('\n')); process.exit(1); }
+  const rFail = checkReconciliation(rows);
+  if (rFail.length) { console.error('R-01..R-18 reconciliation violations:\n' + rFail.join('\n')); process.exit(1); }
+  const cFail = checkColumns(rows, catalogueIds());
+  if (cFail.length) { console.error('owner/codemod column violations:\n' + cFail.join('\n')); process.exit(1); }
+  const path = argOf('--out', DEFAULT_OUT);
+  const text = render(rows, records.length);
+  if (process.argv.includes('--check')) {
+    const cur = readFileSync(path, 'utf8');
+    if (cur !== text) { console.error('component-dispositions.md is stale; re-run the generator'); process.exit(1); }
+  } else writeFileSync(path, text);
+  console.log(JSON.stringify({ records: rows.length, byDest: countBy(rows, 'dest'), byOwner: countBy(rows, 'owner'), byPrd: countBy(rows, 'prd') }));
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();
