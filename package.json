@@ -146,6 +146,8 @@
     "prepublish:verify": "npm run build && npm run pack:verify && node scripts/ci/run-next-integration.mjs && node scripts/ci/run-vite-integration.mjs",
     "docs:llms": "node scripts/docs/gen-llms.mjs",
     "docs:llms:check": "node scripts/docs/gen-llms.mjs --check",
+    "version:packages": "changeset version && node scripts/release/release-notes.mjs",
+    "release-notes": "node scripts/release/release-notes.mjs",
     "plat:package:pack": "npm run build --workspace=@auraglass/cli && npm pack --ignore-scripts --workspace=@auraglass/cli",
     "plat:test:cli": "npm run plat:package:pack && node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.dx.config.js tests/dx/",
     "plat:test:dx": "playwright test --config playwright.dx.config.ts",

@@ -1,0 +1,239 @@
+{
+  "version": 2,
+  "rule": "A missed gate moves the date, never the gate.",
+  "source": "docs/release/train.md (gate text mirrored; status/evidence are written by the release jobs at each cut)",
+  "stops": [
+    {
+      "id": "4.1.1",
+      "line": "release/4.1.x",
+      "kind": "patch",
+      "targetDate": "2026-10-12",
+      "gates": [
+        {
+          "id": "TR-4.1.1-1",
+          "gate": "REQ-PLAT-37..55 done on `release/4.1.x` (trust patch scope; patch-scope gate green).",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-4.1.1-2",
+          "gate": "The hosted-runtime security advisory is published before the tag (OD-21).",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-4.1.1-3",
+          "gate": "Release ledger green: `verify-release-ledger --cut 4.1.1` (CHANGELOG, tag, GitLab Release, npm).",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-4.1.1-4",
+          "gate": "npm trusted publishing repointed to GitLab CI (G-15 / OD-10 recorded).",
+          "status": "open",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "4.2.0",
+      "line": "release/4.x",
+      "kind": "minor",
+      "targetDate": "2026-11-16",
+      "gates": [
+        {
+          "id": "TR-4.2.0-1",
+          "gate": "Change class ≤ C-D against 4.1.1.",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-4.2.0-2",
+          "gate": "Every \"C-D since 4.2\" row of the breaking-change register has a deprecation entry (G-07 feed).",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-4.2.0-3",
+          "gate": "REQ-PLAT-56..61 done on `release/4.x`.",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-4.2.0-4",
+          "gate": "Downstream grep attached: `docs/release/decisions/downstream-4.2.0.json` (operator run, REQ-PLAT-35).",
+          "status": "open",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "4.3.0",
+      "line": "release/4.x",
+      "kind": "minor",
+      "targetDate": "2027-01-18",
+      "gates": [
+        {
+          "id": "TR-4.3.0-1",
+          "gate": "Change class ≤ C-D against 4.2.0.",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-4.3.0-2",
+          "gate": "Every C-B item of the breaking-change register has an entry with `since` ≤ 4.3.0 (G-07 feed).",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-4.3.0-3",
+          "gate": "Codemod fixture suite green.",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-4.3.0-4",
+          "gate": "`@auraglass/cli@0.x` published from the tag pipeline.",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-4.3.0-5",
+          "gate": "Preview baselines captured by `plat:test:visual-4x` (preview cells).",
+          "status": "open",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "4.4.0",
+      "line": "release/4.x",
+      "kind": "minor-late-cd-only",
+      "targetDate": "after 4.3.0",
+      "gates": [
+        {
+          "id": "TR-4.4.0-1",
+          "gate": "**Late C-D only**: deprecation entries discovered after 4.3.0 whose B-id already exists in the register, nothing else. This is the last 4.x minor.",
+          "status": "open",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "5.0.0-alpha.N",
+      "line": "next",
+      "kind": "prerelease",
+      "targetDate": "rolling",
+      "gates": [
+        {
+          "id": "TR-5.0.0-alpha.N-1",
+          "gate": "Fixed train: every alpha publishes from `next` to the `next` dist-tag on the same cadence and never waits for a stream.",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-5.0.0-alpha.N-2",
+          "gate": "Change-class check green; API reports regenerated (`api:update`).",
+          "status": "open",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "5.0.0-beta.1",
+      "line": "next",
+      "kind": "prerelease",
+      "targetDate": "after alpha",
+      "gates": [
+        {
+          "id": "TR-5.0.0-beta.1-1",
+          "gate": "REQ-PLAT-28 deprecation-coverage report attached (G-07).",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-5.0.0-beta.1-2",
+          "gate": "Canaries green **including the frozen 4.x fixture after `migrate 4to5`** (feeds G-08).",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-5.0.0-beta.1-3",
+          "gate": "Lint literal baseline 0 (G-05).",
+          "status": "open",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "5.0.0-rc.1",
+      "line": "next",
+      "kind": "prerelease",
+      "targetDate": "after beta",
+      "gates": [
+        {
+          "id": "TR-5.0.0-rc.1-1",
+          "gate": "Flagship API frozen: a C-B change in `etc/api/*.api.md` between rc.1 and GA fails unless it fixes a P0 and is listed in the RC notes.",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-5.0.0-rc.1-2",
+          "gate": "Zero open P0 (G-11 window starts).",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-5.0.0-rc.1-3",
+          "gate": "Codemods clean on every canary and every registry block (G-08).",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-5.0.0-rc.1-4",
+          "gate": "Downstream grep at rc.1 attached: `docs/release/decisions/downstream-5.0.0-rc.1.json`.",
+          "status": "open",
+          "evidence": null
+        }
+      ]
+    },
+    {
+      "id": "5.0.0-GA",
+      "line": "next -> main",
+      "kind": "ga",
+      "targetDate": ">= 4 weeks after first P0-free RC",
+      "gates": [
+        {
+          "id": "TR-5.0.0-GA-1",
+          "gate": "`ReleaseVerdict.ga === true` (every G-01 … G-16 item `pass`).",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-5.0.0-GA-2",
+          "gate": "At least 4 weeks since the first P0-free RC.",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-5.0.0-GA-3",
+          "gate": "`next` merged into `main`.",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-5.0.0-GA-4",
+          "gate": "`5.0.0` published as a new version, never a retag.",
+          "status": "open",
+          "evidence": null
+        },
+        {
+          "id": "TR-5.0.0-GA-5",
+          "gate": "`v4-lts` dist-tag set on the last 4.x; the LTS clock starts (`docs/release/lts-policy.md`).",
+          "status": "open",
+          "evidence": null
+        }
+      ]
+    }
+  ]
+}
