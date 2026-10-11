@@ -6,7 +6,7 @@
       "ag.since": "5.0.0"
     },
     "space": {
-      "$description": "4pt grid; emitted as calc(<px> * var(--_ag-density)) so density scales at runtime (MAT-015).",
+      "$description": "4pt grid; emitted as calc(<px> * var(--ag-density)) on :root and redeclared in every [data-ag-density] block so nested density scales at runtime (MAT-015, MAT-06).",
       "0": {
         "$type": "dimension",
         "$value": {

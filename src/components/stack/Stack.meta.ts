@@ -12,5 +12,5 @@ export default defineMeta({
   material: { layer: 'content' },
   apg: 'none',
   budgetKb: 1500 / 1024,
-  migration: [{ from: 'GlassStack', props: {}, selectors: { '.glass-stack': '.ag-stack' },  automation: 'full', compat: true }],
+  migration: [{ from: 'GlassStack', props: {}, selectors: { '.glass-stack': '.ag-stack' },  automation: 'full', compat: true }, { from: 'GlassFlex', props: {}, selectors: {},  automation: 'mostly', compat: true }, { from: 'Box', props: {}, selectors: {},  automation: 'mostly', compat: true }],
 });

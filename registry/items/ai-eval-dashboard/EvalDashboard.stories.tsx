@@ -1,9 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { EvalDashboard } from './EvalDashboard';
 import runs from './fixtures/runs.json';
 
 const meta: Meta<typeof EvalDashboard> = {
-  parameters: { ag: { subject: 'EvalDashboard', kind: 'showcase' } }, title: 'registry/ai-eval-dashboard', component: EvalDashboard };
+  title: 'registry/ai-eval-dashboard',
+  component: EvalDashboard,
+  parameters: { ag: { subject: 'ai-eval-dashboard', kind: 'showcase', scenes: 'all' } satisfies StoryAgParameters },
+};
 export default meta;
 type Story = StoryObj<typeof EvalDashboard>;
 

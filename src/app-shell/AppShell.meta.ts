@@ -11,5 +11,5 @@ export default defineMeta({
   states: ['expanded', 'collapsed', 'rail'],
   apg: 'landmarks',
   variants: {},
-  migration: [{ from: 'GlassAppShell', props: { header: null, sidebar: null, footer: null, sidebarWidth: 'sidebarWidth', collapsible: null, mobileOverlay: null, padding: null, maxWidth: null }, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassAppShell', props: { header: null, sidebar: null, footer: null, sidebarWidth: null, sidebarPlacement: 'sidebarSide', collapsed: 'defaultSidebar', collapsible: null, mobileOverlay: null, padding: null, maxWidth: null }, automation: 'mostly', compat: true }],
 });
