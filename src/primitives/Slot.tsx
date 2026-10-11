@@ -73,7 +73,13 @@ export const Slot = React.forwardRef<HTMLElement, SlotProps>(
     }
 
     const child = children as React.ReactElement<AnyProps>;
-    const childRef = (child as unknown as { ref?: React.Ref<HTMLElement> }).ref;
+    // React 19 exposes ref as a normal prop (element.ref access is removed);
+    // React 18 carries it on the element object. Branch on the runtime major.
+    const reactMajor = parseInt(React.version, 10);
+    const childRef =
+      reactMajor >= 19
+        ? ((child.props as AnyProps).ref as React.Ref<HTMLElement> | undefined)
+        : (child as unknown as { ref?: React.Ref<HTMLElement> }).ref;
 
     return React.cloneElement(child, {
       ...mergeProps(props as AnyProps, child.props),

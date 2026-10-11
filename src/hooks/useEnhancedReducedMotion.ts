@@ -31,10 +31,9 @@ import { isBrowser, safeMatchMedia } from "../utils/env";
  */
 /** @deprecated useEnhancedReducedMotion DEP-M0897 since 4.2.0, removed in 5.0.0. {@link usePreference(\} */
 export function useEnhancedReducedMotion(): boolean {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
-    // SSR-safe initialization with conservative default
-    return safeMatchMedia("(prefers-reduced-motion: reduce)")?.matches ?? true;
-  });
+  // Constant initial value: the server and the first client render must
+  // agree for hydration; the real preference is applied in the effect.
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(true);
 
   useEffect(() => {
     if (!isBrowser()) return;
