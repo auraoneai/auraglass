@@ -8,3 +8,19 @@ export function importClosure(entryFile: string, seen?: Map<string, string[]>): 
 export function tsVarRefs(text: string): Array<{ name: string }>;
 export function tsVarUses(text: string): Array<{ name: string }>;
 export function tsVarDefs(text: string): Set<string>;
+export const PRODUCERS: Array<{ test: (p: string) => boolean; producer: string }>;
+export function streamOf(relPath: string): string;
+export function reportByStream<F extends { stream: string }>(
+  gate: string,
+  findings: F[],
+  describe: (f: F) => string,
+): { mat: F[]; other: F[] };
+export function scanCss(
+  text: string,
+  from?: string,
+): {
+  defs: Array<{ name: string; value: string; line: number }>;
+  uses: Array<{ name: string; hasFallback: boolean; via: string | null; line: number }>;
+  properties: string[];
+  parseError: string | null;
+};

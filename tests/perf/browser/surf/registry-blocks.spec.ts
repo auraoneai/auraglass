@@ -7,10 +7,7 @@ import { listSubjects, gotoStory } from '../../../helpers';
 test.describe('SURF registry blocks perf', () => {
   test('every shipped SURF block renders within the 4 s interaction budget', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF', kind: 'showcase' });
-    if (subjects.length === 0) {
-      console.warn('no SURF block subjects registered in the subject index — pending');
-      return;
-    }
+    expect(subjects.length, 'no SURF block subjects registered in the subject index').toBeGreaterThan(0);
     for (const subject of subjects) {
       await test.step(subject.id, async () => {
         await gotoStory(page, subject.id);

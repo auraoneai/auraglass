@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root','item','label','value'],
   states: [],
   variants: { layout: ['stacked','inline'] },
-  migration: [{ from: 'GlassDescriptionList', automation: 'full', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1.5,
+  migration: [{ from: 'GlassDescriptionList', props: {}, selectors: { '.glass-description-list': '.ag-description-list' },  automation: 'full', compat: true }],
 });

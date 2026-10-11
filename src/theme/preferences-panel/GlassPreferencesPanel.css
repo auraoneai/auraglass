@@ -1,0 +1,70 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* REQ-MAT-60 transfer — GlassPreferencesPanel sheet. Logical properties only;
+   one column under @media (pointer: coarse). The panel is a fieldset grid:
+   each preference group is a fieldset[data-ag-pref] with option/slider/
+   output parts; floor notes carry the compiler's floor explanation. */
+@layer ag.components {
+  [data-ag-preferences-panel] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: var(--ag-space-4);
+    padding: var(--ag-space-4);
+    margin: 0;
+    border: 1px solid var(--ag-color-border);
+    border-radius: var(--ag-radius-md);
+    min-inline-size: 0;
+  }
+  [data-ag-preferences-panel] > [data-ag-part="legend"] {
+    padding-inline: var(--ag-space-2);
+    font-weight: 600;
+    font-size: var(--ag-type-callout-size);
+  }
+  [data-ag-preferences-panel] [data-ag-part="group"] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ag-space-2);
+    margin: 0;
+    padding: var(--ag-space-2);
+    border: 1px solid var(--ag-color-border);
+    border-radius: var(--ag-radius-sm);
+    min-inline-size: 0;
+  }
+  :where([data-ag-preferences-panel] [data-ag-part="group"]) > [data-ag-part="legend"] {
+    padding-inline: var(--ag-space-2);
+    font-weight: 500;
+  }
+  [data-ag-preferences-panel] [data-ag-part="option"] {
+    display: flex;
+    align-items: center;
+    gap: var(--ag-space-2);
+    min-block-size: var(--ag-target-min);
+  }
+  [data-ag-preferences-panel] [data-ag-options] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ag-space-2);
+  }
+  [data-ag-preferences-panel] [data-ag-part="slider"] {
+    inline-size: 100%;
+    accent-color: var(--ag-color-accent);
+  }
+  [data-ag-preferences-panel] [data-ag-part="output"] {
+    font-variant-numeric: tabular-nums;
+    margin-inline-start: var(--ag-space-2);
+  }
+  [data-ag-preferences-panel] [data-ag-part="floor-note"] {
+    margin: 0;
+    font-size: var(--ag-type-caption-size);
+    color: var(--ag-color-on-surface-muted);
+  }
+  /* coarse pointers: single column, thumb-friendly spacing */
+  @media (pointer: coarse) {
+    [data-ag-preferences-panel] {
+      grid-template-columns: 1fr;
+    }
+    [data-ag-preferences-panel] [data-ag-part="option"] {
+      min-block-size: var(--ag-target-coarse);
+    }
+  }
+}

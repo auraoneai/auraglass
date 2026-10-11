@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* Combobox (CMP-181): input-shell content-sunken; popup overlay-regular with the
    Select entrance motion; chips wrap inside Combobox.Chips; coarse/390px popup
    sizing as Select. */
@@ -14,7 +16,7 @@
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 6%), transparent);
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     cursor: text;
-    transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
   }
   .ag-combobox[data-ag-size='sm'] {
     min-block-size: var(--_ag-control-h-sm, var(--ag-space-8));
@@ -33,9 +35,7 @@
     outline: none;
     padding-block: var(--ag-space-1);
   }
-  .ag-combobox:focus-within {
-    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-color-focus-outer);
-  }
+  /* Focus ring on the input-shell: the shared REQ-CMP-19 rule in control-shared/controls.css. */
   .ag-combobox [data-ag-part='trigger'],
   .ag-combobox [data-ag-part='clear'] {
     display: inline-flex;
@@ -58,7 +58,12 @@
     color: var(--ag-color-on-surface-muted);
   }
   .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
-    animation: ag-combobox-rotate var(--_ag-duration-loading, 800ms) linear infinite;
+    animation: none;
+  }
+  /* REQ-CMP-18: finite spin under explicit full motion only; no loop and no
+     allowContinuous read (that is Skeleton's alone). */
+  [data-ag-motion='full'] .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
+    animation: ag-combobox-rotate var(--ag-duration-large) linear 240;
   }
   @keyframes ag-combobox-rotate {
     to { transform: rotate(360deg); }
@@ -100,7 +105,7 @@
   /* Popup */
   .ag-combobox-popup {
     min-inline-size: var(--_ag-combobox-popup-min-w, 100%);
-    max-block-size: var(--_ag-combobox-popup-max-h, var(--_ag-space-72));
+    max-block-size: var(--available-height, var(--_ag-combobox-popup-max-h, var(--_ag-space-72)));
     overflow-y: auto;
     overscroll-behavior: contain;
     border-radius: var(--ag-radius-lg);
@@ -118,7 +123,8 @@
       transform var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-combobox-popup[data-ending-style] {
-    transition-duration: var(--_ag-duration-exit, 140ms);
+    transition-duration: var(--ag-duration-small-exit);
+    transition-timing-function: var(--ag-ease-accelerate);
   }
   .ag-combobox-popup[data-open],
   .ag-combobox-popup[data-instant] {
@@ -130,7 +136,7 @@
     display: flex;
     align-items: center;
     gap: var(--ag-space-2);
-    padding-block: var(--ag-space-1_5, var(--ag-space-2));
+    padding-block: var(--ag-space-2);
     padding-inline: var(--ag-space-2);
     border-radius: var(--ag-radius-sm);
     color: var(--ag-on-surface);
@@ -140,9 +146,8 @@
   .ag-combobox-item[data-highlighted] {
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-raised-alpha, 10%), transparent);
   }
-  .ag-combobox-item[data-disabled] {
-    opacity: var(--ag-state-disabled-alpha);
-  }
+
+  .ag-combobox-item[data-disabled] > :where(*) {opacity: var(--ag-state-disabled-alpha);}
   .ag-combobox-item [data-ag-part='item-indicator'] {
     display: inline-flex;
     inline-size: var(--ag-space-4);
@@ -197,11 +202,11 @@
   }
   @media (forced-colors: active) {
     .ag-combobox {
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
       box-shadow: none;
     }
     .ag-combobox-popup {
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
       background: Canvas;
     }
     .ag-combobox-item[data-highlighted] {
@@ -209,8 +214,30 @@
       color: HighlightText;
     }
   }
+  /* Empty state: status node stays mounted; hidden by clip (not display:none)
+     so the live region announces when it appears (REQ-CMP-71). */
+  [data-ag-part="empty"].ag-combobox-empty {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  [data-ag-part="list"][data-empty] > [data-ag-part="empty"].ag-combobox-empty {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+    white-space: normal;
+    padding: var(--ag-space-3, 8px) var(--ag-space-4, 12px);
+    color: var(--ag-on-surface-muted, var(--ag-on-surface));
+  }
 }
-
-/* Empty state: visible only when Base.List reports data-empty. */
-[data-ag-part="empty"].ag-combobox-empty { display: none; }
-[data-ag-part="list"][data-empty] > [data-ag-part="empty"].ag-combobox-empty { display: block; }

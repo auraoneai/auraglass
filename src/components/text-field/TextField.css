@@ -1,4 +1,7 @@
-/* TextField (CMP-137): sunken shell + rim; focus rim --ag-color-focus-outer;
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* TextField (CMP-137): sunken shell + rim; focus ring from the shared
+   REQ-CMP-19 rule (--ag-focus-outer / --ag-focus-inner);
    invalid rim + error text --ag-color-danger (REQ-CMP-61). */
 @layer ag.components {
   .ag-text-field {
@@ -13,19 +16,52 @@
     line-height: var(--ag-type-label-leading);
   }
 
-  .ag-text-field [data-ag-part='control-shell'] {
+  /* REQ-CMP-61 shell grid. sizeAttrs() puts data-ag-size on the control, so
+     the root reads it through :has(). Padding sm/md/lg = --ag-space-2/3/4.
+     Heights read MAT's emitted --ag-comp-control-height-{size}-{density}
+     tokens (tokens/comp: 28/36/44 default, 24/32/44 compact, 32/40/48
+     spacious); they are never redefined here. md is the default size. */
+  .ag-text-field {
+    --_ag-tf-pad: var(--ag-space-3);
+    --_ag-tf-h-default: var(--ag-comp-control-height-md-default);
+    --_ag-tf-h-compact: var(--ag-comp-control-height-md-compact);
+    --_ag-tf-h-spacious: var(--ag-comp-control-height-md-spacious);
+    --_ag-tf-h: var(--_ag-tf-h-default);
+  }
+  .ag-text-field:has([data-ag-part='control'][data-ag-size='sm']) {
+    --_ag-tf-pad: var(--ag-space-2);
+    --_ag-tf-h-default: var(--ag-comp-control-height-sm-default);
+    --_ag-tf-h-compact: var(--ag-comp-control-height-sm-compact);
+    --_ag-tf-h-spacious: var(--ag-comp-control-height-sm-spacious);
+  }
+  .ag-text-field:has([data-ag-part='control'][data-ag-size='lg']) {
+    --_ag-tf-pad: var(--ag-space-4);
+    --_ag-tf-h-default: var(--ag-comp-control-height-lg-default);
+    --_ag-tf-h-compact: var(--ag-comp-control-height-lg-compact);
+    --_ag-tf-h-spacious: var(--ag-comp-control-height-lg-spacious);
+  }
+  [data-ag-density='compact'] .ag-text-field,
+  .ag-text-field[data-ag-density='compact'] {
+    --_ag-tf-h: var(--_ag-tf-h-compact);
+  }
+  [data-ag-density='spacious'] .ag-text-field,
+  .ag-text-field[data-ag-density='spacious'] {
+    --_ag-tf-h: var(--_ag-tf-h-spacious);
+  }
+
+  /* :where() keeps the rim at single-attribute specificity so the shared
+     REQ-CMP-19 focus-within ring (control-shared/controls.css) replaces it.
+     No local focus ring: the rim/ring on focus comes only from that rule. */
+  :where(.ag-text-field) [data-ag-part='control-shell'] {
     display: flex;
     align-items: center;
     gap: var(--ag-space-2);
-    padding-inline: var(--ag-space-3);
+    padding-inline: var(--_ag-tf-pad);
+    min-block-size: var(--_ag-tf-h);
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     border-radius: var(--ag-radius-inner);
-    transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
-  }
-  .ag-text-field [data-ag-part='control-shell']:focus-within {
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-focus-outer),
-      0 0 0 var(--_ag-focus-inner) var(--ag-color-focus-outer);
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
   }
   .ag-text-field[data-invalid] [data-ag-part='control-shell'] {
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-danger);
@@ -40,6 +76,13 @@
     color: inherit;
     font: inherit;
     padding-block: var(--ag-space-2);
+    font-size: var(--ag-type-body-size);
+    line-height: var(--ag-type-body-leading);
+  }
+  /* REQ-CMP-61 text: sm uses --ag-type-label-*, md/lg --ag-type-body-*. */
+  .ag-text-field [data-ag-part='control'][data-ag-size='sm'] {
+    font-size: var(--ag-type-label-size);
+    line-height: var(--ag-type-label-leading);
   }
   .ag-text-field textarea[data-ag-part='control'] {
     resize: vertical;
@@ -70,7 +113,7 @@
     justify-self: end;
   }
 
-  .ag-text-field[data-disabled] {
+  .ag-text-field[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
 
@@ -84,7 +127,7 @@
 
   @media (forced-colors: active) {
     .ag-text-field [data-ag-part='control-shell'] {
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
       background: Field;
       box-shadow: none;
     }

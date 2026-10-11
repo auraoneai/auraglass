@@ -106,3 +106,7 @@ export function Timeline({
     </ol>
   );
 }
+
+/* Contract namespace (REQ-SURF-01): the formatter ships on the component,
+   keeping the root surf slice at its nine flagship names. */
+Timeline.formatTimestamp = formatTimestamp;
