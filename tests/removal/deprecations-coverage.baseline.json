@@ -1,0 +1,1093 @@
+{
+  "$comment": "Expiring baseline (PRD-F §4.3 rule 3) for tests/removal/deprecations-coverage.test.ts, written from `node scripts/removal/deprecations-coverage.mjs --json` on origin/next d681707e9. missing: removed/registry/labs public names with no deprecation entry (REQ-FIN-13 = entry exists on release/4.x, arrives with the fragment sync; otherwise the owning stream authors it). invalid: entries whose replacement is not a 5.0 export, registry:<item>, labs:<name> or null. Rows only shrink; a fixed row must be deleted (stale rows fail). Empty at RC-1.",
+  "missing": [
+    {
+      "name": "AdaptiveGlassDensity",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "AIGlassThemeProvider",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "AuraGlassClientBoundary",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "BrandColorIntegration",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "ChartWidget",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "CollaborativeGlassWorkspace",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "CompactCookieNotice",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "ContrastGuard",
+      "owner": "MAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "CookieConsent",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "DimensionalDashboardContainer",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "EnvironmentalGlass",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "FeatureTile",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "FocusIndicator",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "Glass360Viewer",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "Glass3DEngine",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassA11y",
+      "owner": "MAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassA11yAuditor",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassAccordionUI",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassAchievementDashboard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassAchievementSystem",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassAdvancedDataViz",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassARPreview",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassBadgeLine",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassBiomeSimulator",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassBiometricAdaptation",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassBiometricDashboard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassCanvas",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassCardLink",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassChartsDemo",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassCheckboxUI",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassCodeEditor",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassCoherenceIndicator",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassCollaborationDashboard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassCollaborationProvider",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassCollaborativeComments",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassCollaborativeCursor",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassColorSchemeGenerator",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassColorTinting",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassCommentThread",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassComponentPalette",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassComponentPlayground",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassContextAware",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassContextualDashboard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassContextualEngine",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassDashboard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassDataGridPro",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassDataTable",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassDeepDreamGlass",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassDepthLayer",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassDetailView",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassDiffViewer",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassDragDropProvider",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassDraggable",
+      "owner": "MAT",
+      "reqFin": "REQ-FIN-57",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassEcommerceProvider",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassEngineDemo",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassEyeTracking",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassEyeTrackingCalibration",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassFluidSimulation",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassFocusIndicators",
+      "owner": "MAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassFocusRing",
+      "owner": "MAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassFoldableSupport",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassFormBuilder",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassFormTable",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassFormTemplate",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassFractalLayout",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassGANGenerator",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassGanttChart",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassGazeResponsive",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassGazeVisualization",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassGenerativeArt",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassGoldenRatioGrid",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassHeatmap",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassHighContrast",
+      "owner": "MAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassHologram",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassImageProcessingProvider",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassInfiniteScroll",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassIntelligentFormBuilder",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassIntelligentImageUploader",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassIslandLayout",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassJSONViewer",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassKanban",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassKanbanBoard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassListView",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassLiveCursorPresence",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassLiveFilter",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassMagneticCursor",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassMetaDashboard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassMindMap",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-80",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassMoodRing",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassMorphingEngine",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassMotionController",
+      "owner": "MAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassMultiStepForm",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassNeuroFeedback",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassNeuroMetricsDashboard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassOrbitalMenu",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassOrientationEffects",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassPageBuilder",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassPageStructure",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassParallaxLayers",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-80",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassPerformanceOptimization",
+      "owner": "MAT",
+      "reqFin": "REQ-FIN-57",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassPhysicsEngine",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassPredictiveEngine",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassPresenceIndicator",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassPrismComparison",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassProbabilityCloud",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassProductRecommendations",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassPropertyPanel",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassPullToRefresh",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassQuantumField",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassQuantumStates",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassQuantumTunnel",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassQueryBuilder",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassReactionBar",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassReactionBubbles",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassReactions",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassRichTextEditor",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassSchemaViewer",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassSelfHealingSystem",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassSharedWhiteboard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassSkeletonLoader",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassSmartShoppingCart",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassSocialFeed",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassSpatialAudio",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-80",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassStepIcon",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassStepLabel",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassStressResponsive",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassStyleTransfer",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassSuperpositionalMenu",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassTeamCursors",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassTeamCursorsWithEffects",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassTessellation",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassTextureVariations",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassThemeDemo",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassTimelineRail",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-80",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassUserPresence",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassVortexPortal",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassWaveFunction",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassWeatherGlass",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassWebGLShader",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassWhiteboard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassWipeSlider",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassWizard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlassWizardTemplate",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "GlobalCookieConsent",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "HeatGlass",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "HoudiniGlassCard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "HoudiniGlassProvider",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "HStack",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "InstallCommand",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "IntelligentColorSystem",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "LiquidGlassGPU",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "LiquidGlassSearchTab",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "LiquidGlassShowcase",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "LivingEcosystemSimulator",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "LogoMark",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "MobileGlassNavigation",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "MolecularBondingInterface",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "MotionAwareGlass",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "MotionFramer",
+      "owner": "MAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "MotionNative",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "MultiDimensionalGestureRecognizer",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "MultiUserGlassEditor",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "NeuralWeightVisualization",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "NeuromorphicLearningNetwork",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "QuantumEntanglementVisualizer",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "RovingFocusGroup",
+      "owner": "CMP",
+      "reqFin": "REQ-FIN-76",
+      "expires": "RC-1"
+    },
+    {
+      "name": "ShowcaseCard",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "SpatialComputingEngine",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "StateIndicator",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "TouchOptimizedGlass",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "TouchRippleEffects",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-13",
+      "expires": "RC-1"
+    },
+    {
+      "name": "VisualFeedback",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "VoiceGlassControl",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    },
+    {
+      "name": "VStack",
+      "owner": "PLAT",
+      "reqFin": "REQ-FIN-36",
+      "expires": "RC-1"
+    }
+  ],
+  "invalid": [
+    {
+      "id": "DEP-S0617",
+      "name": "GlassLazyImage",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-80",
+      "expires": "RC-1"
+    },
+    {
+      "id": "DEP-S0622",
+      "name": "GlassVoiceWaveform",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-80",
+      "expires": "RC-1"
+    },
+    {
+      "id": "DEP-S0623",
+      "name": "GlassMusicVisualizer",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-80",
+      "expires": "RC-1"
+    },
+    {
+      "id": "DEP-S0624",
+      "name": "ParticleBackground",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-80",
+      "expires": "RC-1"
+    },
+    {
+      "id": "DEP-S0625",
+      "name": "GlassParticles",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-80",
+      "expires": "RC-1"
+    },
+    {
+      "id": "DEP-S0626",
+      "name": "GlassParticleField",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-80",
+      "expires": "RC-1"
+    }
+  ]
+}
