@@ -3,5 +3,21 @@
 /* CMP-314 Collapsible */
 @layer ag.components {
   .ag-collapsible-trigger { cursor: pointer; }
-  .ag-collapsible-content { overflow: hidden; }
+  /* REQ-CMP-120: height transition driven by BU's --collapsible-panel-height
+     measurement; calm motion collapses via opacity only. */
+  .ag-collapsible-content {
+    overflow: hidden;
+    block-size: var(--collapsible-panel-height, auto);
+    transition: block-size var(--ag-duration-medium, 300ms) ease;
+  }
+  .ag-collapsible-content[data-starting-style],
+  .ag-collapsible-content[data-ending-style] { block-size: 0; }
+  [data-ag-motion='calm'] .ag-collapsible-content {
+    transition: opacity var(--ag-duration-medium, 300ms) ease;
+  }
+  [data-ag-motion='calm'] .ag-collapsible-content[data-starting-style],
+  [data-ag-motion='calm'] .ag-collapsible-content[data-ending-style] {
+    block-size: var(--collapsible-panel-height, auto);
+    opacity: 0;
+  }
 }
