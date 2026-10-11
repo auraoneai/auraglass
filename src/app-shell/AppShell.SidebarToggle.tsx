@@ -19,6 +19,10 @@ import {
   type SidebarState,
 } from './appShellStore';
 
+// Until the layout effect resolves the shell root, both snapshot getters
+// return this one stable object: useSyncExternalStore requires referentially
+// stable snapshots, and a fresh literal per call logs "getServerSnapshot should
+// be cached" during hydration (REQ-SURF-08 cross-TZ hydration gate).
 const DETACHED = {
   sidebar: 'expanded' as const,
   inspector: 'closed' as const,

@@ -1,0 +1,4 @@
+/* missing line-1 statement: baselined until RC-1 */
+@layer ag.components {
+  [data-ag-part="button"] { display: inline-flex; }
+}
