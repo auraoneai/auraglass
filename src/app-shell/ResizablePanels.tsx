@@ -137,14 +137,14 @@ function ResizablePanelsRoot({
       return Math.min(Math.max(v, c?.min ?? 0), c?.max ?? 100);
     });
     for (const [i, s] of specsRef.current.entries()) {
-      const el = rootRef.current?.querySelector<HTMLElement>(`[data-ag-panel="${s.id}"]`);
+      const el = rootRef.current?.querySelector<HTMLElement>(`[data-panel="${s.id}"]`);
       const basis = layoutRef.current[i];
       if (el && basis !== undefined) el.style.flexBasis = `${basis}%`;
     }
   });
 
   const writeBasis = (panelId: string, percent: number) => {
-    const el = rootRef.current?.querySelector<HTMLElement>(`[data-ag-panel="${panelId}"]`);
+    const el = rootRef.current?.querySelector<HTMLElement>(`[data-panel="${panelId}"]`);
     if (el) el.style.flexBasis = `${percent}%`;
   };
 
@@ -222,16 +222,16 @@ function ResizablePanelsRoot({
       ).indexOf(el),
     rootEl: () => rootRef.current,
     panelEl: (id) =>
-      rootRef.current?.querySelector<HTMLElement>(`[data-ag-panel="${id}"]`) ?? null,
+      rootRef.current?.querySelector<HTMLElement>(`[data-panel="${id}"]`) ?? null,
   };
 
   // stackBelow (SURF-46): a @container query can't take a runtime px value,
-  // so a ResizeObserver flips data-ag-stacked; CSS stacks + hides handles.
+  // so a ResizeObserver flips data-stacked; CSS stacks + hides handles.
   React.useLayoutEffect(() => {
     const el = rootRef.current;
     if (!el || stackBelow === undefined || orientation !== 'horizontal') return;
     const apply = () => {
-      el.dataset['agStacked'] = el.getBoundingClientRect().width < stackBelow ? 'true' : 'false';
+      el.dataset['stacked'] = el.getBoundingClientRect().width < stackBelow ? 'true' : 'false';
     };
     apply();
     if (typeof ResizeObserver === 'undefined') return;
@@ -246,8 +246,8 @@ function ResizablePanelsRoot({
         render,
         ref: rootRef,
         'data-ag-part': 'resizable-panels',
-        'data-ag-orientation': orientation,
-        ...(stackBelow !== undefined ? { 'data-ag-stack-below': String(stackBelow) } : {}),
+        'data-orientation': orientation,
+        ...(stackBelow !== undefined ? { 'data-stack-below': String(stackBelow) } : {}),
         className: 'ag-panels',
         style: { display: 'flex', flexDirection: orientation === 'horizontal' ? 'row' : 'column' },
         ...rest,
@@ -309,7 +309,7 @@ function ResizablePanel({
   return partElement('div', {
     render,
     id,
-    'data-ag-panel': id,
+    'data-panel': id,
     'data-ag-part': 'resizable-panel',
     style: { ...style, flexBasis: basis },
     ...rest,

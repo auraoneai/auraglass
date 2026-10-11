@@ -54,7 +54,7 @@ export function SidebarItem({ href, current, icon, badge, children, render, ...r
     ...(href !== undefined ? { href } : {}),
     'data-ag-part': 'sidebar-item',
     className: 'ag-sidebar__item',
-    ...(current ? { 'aria-current': 'page', 'data-ag-current': '' } : {}),
+    ...(current ? { 'aria-current': 'page', 'data-current': '' } : {}),
     ...rest,
     children: (
       <>

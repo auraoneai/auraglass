@@ -284,7 +284,7 @@ describe('app-shell.css structure (SURF-011)', () => {
       overflow: title?.declarations.get('text-overflow'),
       ws: title?.declarations.get('white-space'),
     }).toEqual({ overflow: 'ellipsis', ws: 'nowrap' });
-    const hide = withSel('.ag-top-bar__center:not([data-ag-keep-center])').filter((r) =>
+    const hide = withSel('.ag-top-bar__center:not([data-keep-center])').filter((r) =>
       r.ancestors.some((a) => a.includes('width < 600px')),
     );
     expect(hide.map((r) => r.declarations.get('display'))).toEqual(['none']);
@@ -326,7 +326,7 @@ describe('app-shell.css structure (SURF-011)', () => {
       clip: 'inset(50%)',
       display: undefined,
     });
-    expect(withSel(".ag-app-shell[data-ag-mode='medium'][data-ag-sidebar='expanded'] .ag-sidebar__item-label")[0]).toBe(clip);
+    expect(withSel(".ag-app-shell[data-mode='medium'][data-ag-sidebar='expanded'] .ag-sidebar__item-label")[0]).toBe(clip);
     const medium = withSel(".ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] .ag-sidebar__item-label");
     expect(medium.map((r) => r.declarations.get('clip-path'))).toEqual(['inset(50%)']);
     const items = withSel(".ag-app-shell [data-ag-part='sidebar-item']");

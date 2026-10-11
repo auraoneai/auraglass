@@ -59,11 +59,12 @@ describe('5.0 AppShell (SURF-024)', () => {
     expect(el).toHaveAttribute('data-ag-inspector', 'open');
     expect(el).toHaveAttribute('data-ag-sidebar-side', 'end');
     expect(el).toHaveAttribute('data-ag-layout', 'desktop');
-    expect(el).toHaveAttribute('data-ag-persist-key', 'prefs');
+    expect(el).toHaveAttribute('data-persist-key', 'prefs');
     // SURF-20: density/backdrop/collapseTo are gone from the contract
     expect(el.hasAttribute('data-ag-density')).toBe(false);
     expect(el.hasAttribute('data-ag-backdrop')).toBe(false);
     expect(el.hasAttribute('data-ag-collapse-to')).toBe(false);
+    expect(el.hasAttribute('data-collapse-to')).toBe(false);
   });
 
   it('page header uses the requested heading level', () => {

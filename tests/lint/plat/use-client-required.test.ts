@@ -1,4 +1,5 @@
 /* @jest-environment node */
+import { describe } from '@jest/globals';
 import { tester, F } from './helpers';
 
 const rule = require('../../../lint/rules/plat/use-client-required.cjs');

@@ -1,12 +1,12 @@
 // a11y.spec.ts — SURF-032/105/120: axe scan + focus-not-obscured over every SURF shell subject. Remote lane (3 engines where required); absent
-// subjects report pending, never fail.
+// subjects fail the test.
 import { test, expect } from '@playwright/test';
 import { listSubjects, gotoStory } from '../../../helpers';
 
 test.describe('app-shell a11y (SURF-032/105/120)', () => {
   test('axe-clean shell subjects', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
-    if (subjects.length === 0) { console.warn('no SURF subjects — pending'); return; }
+    expect(subjects.length, 'no SURF subjects').toBeGreaterThan(0);
     const { AxeBuilder } = await import('@axe-core/playwright');
     for (const s of subjects.filter((x) => ['AppShell','Sidebar','TopBar','StatusBar','MobileShell','Inspector','ResizablePanels'].includes(x.subject))) {
       await test.step(s.id, async () => {

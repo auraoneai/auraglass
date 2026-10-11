@@ -3,7 +3,7 @@ import * as React from 'react';
 import { MediaScrubber } from '../../MediaScrubber/MediaScrubber';
 import { useMediaModel } from '../mediaContext';
 
-export const Volume = React.forwardRef<HTMLDivElement, { className?: string }>(function Volume({ className }, ref) {
+export const Volume = function Volume({className, ref}: { className?: string } & { ref?: React.Ref<HTMLDivElement> }) {
   const m = useMediaModel('Volume');
   return (
     <div ref={ref} className={['ag-media-volume', className].filter(Boolean).join(' ')} data-ag-part="media-volume">
@@ -17,4 +17,4 @@ export const Volume = React.forwardRef<HTMLDivElement, { className?: string }>(f
       />
     </div>
   );
-});
+};
