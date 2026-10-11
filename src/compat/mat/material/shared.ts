@@ -1,6 +1,7 @@
 /* src/compat/mat/material/shared.ts — REQ-MAT-24 mapping helpers shared by the
    4.x material compat adapters (MAT-354/355). Dropped optical props warn once
-   per adapter id via warnDeprecated (REL-072). */
+   per adapter through warnDeprecated with that adapter's DEP-M id (REL-072,
+   REQ-MAT-24; ids from fragments/deprecations/mat.ts). */
 import { warnDeprecated } from '../../../internal/index';
 import type { Thickness } from '../../../contracts/material';
 
@@ -77,28 +78,44 @@ export const EXTRA_NOOP = [
 
 const NOOP = new Set<string>([...OPTICAL_NOOP, ...EXTRA_NOOP]);
 
+/** One DEP-M id per compat adapter (fragments/deprecations/mat.ts, MAT-351/352
+ *  rows DEP-M0805..DEP-M0815). */
+export const ADAPTER_DEPRECATION_IDS = {
+  OptimizedGlass: 'DEP-M0805',
+  GlassAdvanced: 'DEP-M0807',
+  OptimizedGlassAdvanced: 'DEP-M0808',
+  LiquidGlassMaterial: 'DEP-M0809',
+  GlassCore: 'DEP-M0810',
+  GlassPrimitive: 'DEP-M0811',
+  LiquidGlassEffectGroup: 'DEP-M0812',
+  LiquidGlassScrollEdge: 'DEP-M0813',
+  LiquidGlassConcentricFrame: 'DEP-M0814',
+  LiquidGlassLayerProvider: 'DEP-M0815',
+} as const;
+
+export type CompatAdapter = keyof typeof ADAPTER_DEPRECATION_IDS;
+
 /**
  * Partition `rest` into the DOM props that still pass through and the dropped
- * props. Fires one warnDeprecated naming the adapter and every dropped prop.
- * Returns the surviving props object (mutated copy — callers must not reuse
- * `rest` afterwards).
+ * props. When any prop drops, fires warnDeprecated with the adapter's DEP-M id
+ * (once per id per session). Returns the surviving props object (mutated copy —
+ * callers must not reuse `rest` afterwards).
  */
 export function dropNoopProps(
-  adapterId: string,
+  adapter: CompatAdapter,
   rest: Record<string, unknown>,
   extraDropped: string[] = [],
 ): Record<string, unknown> {
-  const dropped: string[] = [];
+  let dropped = extraDropped.length > 0;
   for (const key of Object.keys(rest)) {
     if (NOOP.has(key) || extraDropped.includes(key)) {
       delete rest[key];
-      dropped.push(key);
+      dropped = true;
     }
   }
   // extraDropped names props the caller destructured out of `rest` before
   // calling (e.g. an unmappable `intent` value) — they still warn.
-  for (const key of extraDropped) if (!dropped.includes(key)) dropped.push(key);
-  if (dropped.length > 0) warnDeprecated(`${adapterId}:${dropped.join(',')}`);
+  if (dropped) warnDeprecated(ADAPTER_DEPRECATION_IDS[adapter]);
   return rest;
 }
 
