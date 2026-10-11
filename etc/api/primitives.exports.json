@@ -1,5 +1,5 @@
 {
- "entry": "./primitives",
+ "entry": "primitives",
  "exports": [
   "DismissableLayer",
   "FocusScope",
@@ -7,5 +7,6 @@
   "Portal",
   "Slot",
   "VisuallyHidden"
- ]
+ ],
+ "unanalysable": []
 }

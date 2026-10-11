@@ -98,6 +98,17 @@ export const Preferences: Story = {
   ),
 };
 
+/* REQ-CMP-33: identical label with/without loading — the label stays mounted
+   (hidden via CSS) so the button's offsetWidth must not change. */
+export const WidthStability: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+      <Button data-testid="idle">Save changes</Button>
+      <Button loading data-testid="busy">Save changes</Button>
+    </div>
+  ),
+};
+
 /* REQ-CMP-35: APG toggle leg — pressed state flips aria-pressed. */
 export const Toggle: Story = {
   render: () => <Button defaultPressed>Toggle me</Button>,

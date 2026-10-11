@@ -6,8 +6,9 @@ CI/CD here is **GitLab CI only** (contract §4.13). The repo
 
 ## Layout
 
-- `.gitlab-ci.yml` (root) — stages `contract, build, test, certify, package,
-  deploy, publish`; workflow rules set `AG_SCOPE` (`pr|main|nightly|release`)
+- `.gitlab-ci.yml` (root) — stages `contract, build, test, package, certify,
+  deploy, publish` (package before certify: `qual:certify:*` need
+  `plat:package:pack`); workflow rules set `AG_SCOPE` (`pr|main|nightly|release`)
   and `AG_LINE` (`4x|5x`); `.ag-*` runner templates; the three `contract:*` jobs.
 - `ci/<stream>.gitlab-ci.yml` — per-stream fragments, included by wildcard.
 - `ci/plat/activation.json` — first-green-run records that let a REQUIRED job
@@ -17,7 +18,8 @@ CI/CD here is **GitLab CI only** (contract §4.13). The repo
 
 | Script | Purpose |
 |---|---|
-| `verify-ownership.mjs` | `contract:ownership` — every changed path is owned by the branch's stream (§3.1) |
+| `verify-ownership.mjs` | `contract:ownership` — every changed path is owned by the branch's stream (§3.1); `next-fin/<wp>-*` by that FIN WP (PRD-F §6), `4x-fin/*`, `4x11-fin/*`, `4x11-<stream>/*` by the 4x zone rule |
+| `fin-ownership.json` | PRD-F §6 FIN work-package path rows read by `verify-ownership.mjs` (REQ-FIN-30; FIN-463 ports them to `contracts/ownership.json`) |
 | `verify-ci-fragments.mjs` | `contract:ci-fragments` — §4.13.4 rules 1-9 + G-16 + activation + task-graph hook |
 | `gitlab-status.mjs` | Merge gate — `node scripts/ci/gitlab-status.mjs --sha <head>` must print `success` |
 | `assemble-pages.mjs` | `pages` job — builds `public/` (docs, storybook, lab redirect, `r/` registry) |
