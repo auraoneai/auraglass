@@ -1,0 +1,80 @@
+# AI agents
+
+AuraGlass gives coding agents two sources of truth so they generate current 5.x code instead of guessing from older examples: an MCP server with the component, registry and migration data of the installed version, and the component registry itself.
+
+## MCP server
+
+The server is the `@auraglass/mcp` npm package. It speaks MCP over stdio and answers only from the docs, registry and migration data bundled with the package, so its answers match the release it came with. Add it to your agent with one of the configurations below; each file goes in your project root and can be committed so the whole team gets it.
+
+### Claude Code
+
+`.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "auraglass": {
+      "command": "npx",
+      "args": ["-y", "@auraglass/mcp"]
+    }
+  }
+}
+```
+
+Or from the terminal: `claude mcp add auraglass -- npx -y @auraglass/mcp`
+
+### Cursor
+
+`.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "auraglass": {
+      "command": "npx",
+      "args": ["-y", "@auraglass/mcp"]
+    }
+  }
+}
+```
+
+### VS Code
+
+`.vscode/mcp.json` (GitHub Copilot agent mode):
+
+```json
+{
+  "servers": {
+    "auraglass": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@auraglass/mcp"]
+    }
+  }
+}
+```
+
+After adding the server, ask the agent to list its tools to confirm the connection.
+
+## Registry
+
+Registry blocks and items are plain JSON in the shadcn registry format, served from:
+
+```text
+https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/r/
+```
+
+- `r/<name>.json` — the current version of an item, for example `r/auth.json`;
+- `r/v/<version>/<name>.json` — an immutable copy pinned to a release;
+- `r/auraglass.json` — the base item every block depends on.
+
+Agents can install any of them with `npx shadcn@latest add <url>` or `npx @auraglass/cli add <name>` (see the shadcn guide).
+
+## `llms.txt`
+
+The package ships `llms.txt` at its root (`node_modules/aura-glass/llms.txt`): a short, version-matched index of entry points, components and canonical names. Point agents that do not support MCP at that file.
+
+## Prompting tips
+
+- Name the entry point: "use `Dialog` from `aura-glass`", not "a glass modal". 4.x names such as `GlassModal` are renamed in 5.0 (`GlassModal` is now `Dialog`; the old names survive only in `aura-glass/compat`). The migration guide and the MCP server map old names to new ones.
+- Ask for styling through `className`, `data-ag-part` and `data-state` (see the Plain CSS guide) rather than inline colour values: AuraGlass colours come from tokens.
