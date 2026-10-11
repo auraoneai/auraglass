@@ -125,6 +125,10 @@ export default [
   { lane: 'L6', kind: 'playwright', path: 'tests/e2e/mat/pixel-modes.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L6', kind: 'playwright', path: 'tests/e2e/mat/focus-appearance.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L6', kind: 'playwright', path: 'tests/e2e/mat/color-vision.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // FIN D.3-09 (REQ-MAT-12): zero-JS vs attribute parity for light, dark,
+  // contrast more, reduced transparency, forced colours and reduced motion on
+  // chromium/webkit/firefox, <= VISUAL_TOLERANCE.changedRatio. No baselines.
+  { lane: 'L6', kind: 'playwright', path: 'tests/visual/mat/modes-zero-js.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L6', kind: 'playwright', path: 'tests/e2e/mat/rungs.spec.ts', scope: 'release', remote: true, failClosed: true },
 
   // MAT-362 (L9 Motion cell): motion Playwright specs run under the
