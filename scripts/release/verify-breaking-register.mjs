@@ -19,7 +19,8 @@ export const NOTICE_KINDS = new Set(['peer', 'engine', 'behavior']);
 const NOTICE_B = new Set(['B1', 'B2', 'B13']);
 
 export function anchorsOf(guideText) {
-  return new Set([...guideText.matchAll(/id="(b-\d+|dep-dep-[pmcsq]\d+)"/g)].map((m) => m[1]));
+  /* HTML ids (`id="b-4"`) and the docs-renderer Markdown form (`{#b-4}`) the generator writes. */
+  return new Set([...guideText.matchAll(/(?:id="|\{#)(b-\d+|dep-[\w-]+)(?="|\})/g)].map((m) => m[1]));
 }
 
 export function checkRegister(items, entries, guideText) {

@@ -12,20 +12,27 @@
      - deprecations.json (git-ignored root): {$schema, version:1, entries}
      - src/internal/deprecations.generated.ts (committed): runtime-kinds table
      - --line 4x --out <path>: the same table for the 4.x tree
-     - --docs → apps/docs/generated/migration/deprecations.md (git-ignored):
-       one <h2 id="dep-<id>"> per entry, grouped under <h2 id="b-<n>"> anchors. */
+     - --docs (REQ-PLAT-105) → two git-ignored docs-app sources:
+       apps/docs/generated/migration/deprecations.md  every entry under its
+         B-id: `## Bn: title {#b-<n>}`, `### DEP-…: symbol {#<doc fragment>}`
+       apps/docs/generated/plat/migrate/5.md  the 4.x → 5.0 guide, assembled
+         from apps/docs/templates/plat/migrate/5.mdx by
+         scripts/docs/lib/migration-guide.mjs (catalogue transforms + basic
+         fixtures, breaking register, ComponentMeta migration rows, removed
+         rows). Markdown subset of apps/docs/lib/markdown.tsx, no raw HTML. */
 import { createRequire } from 'node:module';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { relPaths } from './lib/policy.mjs';
+import { loadFragments } from '../../src/contracts/load-fragments.mjs';
+import { GUIDE_OUT, GUIDE_ROUTE, breakingMd, buildGuide, guideInputs } from '../docs/lib/migration-guide.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const RUNTIME_KINDS = new Set(['export', 'prop', 'prop-value', 'css-global', 'cli', 'data-attr']);
 const STREAM_ORDER = ['plat', 'mat', 'cmp', 'surf', 'qual'];
 
 export async function loadEntries(root = ROOT) {
-  const { loadFragments } = await import(pathToFileUrl(join(root, 'src/contracts/load-fragments.mjs')));
   const rows = await loadFragments('deprecations', root);
   const entries = [];
   for (const { stream, file, value } of rows) {
@@ -34,7 +41,6 @@ export async function loadEntries(root = ROOT) {
   entries.sort((a, b) => String(a.id).localeCompare(String(b.id)));
   return entries;
 }
-function pathToFileUrl(p) { return new URL(`file://${p}`).href; }
 
 export function jsonOut(entries) {
   const clean = [...entries]
@@ -71,27 +77,10 @@ export const deprecations: readonly DeprecationEntry[] = ${JSON.stringify(entrie
 `;
 }
 
+/** Standalone deprecations page; codemod links point at the guide's transform sections. */
 export function docsMd(entries, breaking = []) {
-  const byB = new Map();
-  for (const e of entries) {
-    const k = e.breaking ?? 'B0';
-    if (!byB.has(k)) byB.set(k, []);
-    byB.get(k).push(e);
-  }
-  const out = ['# Deprecations and removals (generated)\n'];
-  for (const b of [...byB.keys()].sort((a, c) => Number(a.slice(1)) - Number(c.slice(1)))) {
-    const reg = breaking.find((x) => String(x.id) === b);
-    out.push(`<h2 id="b-${b.replace(/^B/i, '').toLowerCase()}">${b}${reg?.title ? ` — ${reg.title}` : ''}</h2>\n`);
-    for (const e of byB.get(b)) {
-      out.push(`<h3 id="dep-${e.id.toLowerCase()}">${e.id}: ${e.symbol}</h3>`);
-      out.push(`- kind: \`${e.kind}\` · entry: \`${e.entry}\` · since \`${e.since}\` · removed in \`${e.removeIn}\``);
-      if (e.replacement) out.push(`- replacement: \`${e.replacement}\``);
-      if (e.codemod) out.push(`- codemod: \`npx @auraglass/cli migrate 4to5 --transform ${e.codemod}\``);
-      if (e.compat) out.push(`- 5.x compat: \`aura-glass/compat\` → \`${e.compat}\``);
-      out.push(`\n${e.message}\n`);
-    }
-  }
-  return `${out.join('\n')}\n`;
+  const body = breakingMd(entries, breaking, { depth: 2, codemodHref: (id) => `${GUIDE_ROUTE}#${id}` });
+  return `# Deprecations and removals (generated)\n\n${body.replace(/\n+$/, '')}\n`;
 }
 
 // ---- schema (PLAT-180): JSON schema for S-38 via the TypeScript checker ------
@@ -207,7 +196,11 @@ export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
   if (customOut) targets.push([customOut, o.ts, false]);
   else targets.push([paths.generatedTs, o.ts, false]);
   targets.push([paths.deprecationsJson, o.json, true]);
-  if (has('--docs')) targets.push([paths.docsMigrationOut, o.docs, true]);
+  if (has('--docs')) {
+    targets.push([paths.docsMigrationOut, o.docs, true]);
+    const register = loadBreakingRegister(paths.breakingRegister);
+    targets.push([join(root, GUIDE_OUT), buildGuide(root, await guideInputs(root, { entries, register })), true]);
+  }
   if (has('--schema')) {
     const require = createRequire(import.meta.url);
     const ts = require('typescript');

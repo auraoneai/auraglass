@@ -67,6 +67,9 @@ describe('checkRegister', () => {
   it('anchorsOf parses b-<n> and dep-dep-<id> anchors', () => {
     expect([...anchorsOf('x id="b-7" y id="dep-dep-c0001" z id="other"')]).toEqual(['b-7', 'dep-dep-c0001']);
   });
+  it('anchorsOf parses the generated Markdown {#id} form', () => {
+    expect([...anchorsOf('## B7: Deps {#b-7}\n### DEP-S0600: `X` {#dep-s0600}\n## Other {#other}')]).toEqual(['b-7', 'dep-s0600']);
+  });
 });
 
 describe('generated guide', () => {
@@ -74,10 +77,10 @@ describe('generated guide', () => {
     const items = loadBreakingRegister(REGISTER);
     const entries = items.map((it: { id: string }, i: number) =>
       E(`DEP-P${String(i + 1).padStart(4, '0')}`, it.id, ['B1', 'B2', 'B13'].includes(it.id) ? 'behavior' : 'export',
-        { codemod: ['B1', 'B2', 'B13'].includes(it.id) ? null : 'canonical-names', message: 'm', doc: '#dep-x', entry: '.' }));
+        { codemod: ['B1', 'B2', 'B13'].includes(it.id) ? null : 'canonical-names', message: 'm', doc: `#dep-dep-p${String(i + 1).padStart(4, '0')}`, entry: '.' }));
     const md = docsMd(entries, items);
-    expect([...md.matchAll(/<h2 id="b-(\d+)">/g)]).toHaveLength(21);
-    expect(md).toContain(`<h2 id="b-17">B17 — ${items[16].title}</h2>`);
+    expect([...md.matchAll(/^## B\d+[^\n]* \{#b-(\d+)\}$/gm)]).toHaveLength(21);
+    expect(md).toContain(`## B17: ${items[16]!.title} {#b-17}`);
     expect(checkRegister(items, entries, md)).toEqual([]);
   });
 });

@@ -133,7 +133,8 @@ describe('docs IA (nav.config.ts)', () => {
     }
     expect(site.pages.get('/plat/introduction')).toMatchObject({ kind: 'markdown', source: { repoPath: 'apps/docs/content/plat/introduction.mdx' } });
     expect(site.pages.get('/quickstart/next')).toMatchObject({ kind: 'markdown', source: { repoPath: 'docs/quickstart/next.md' } });
-    expect(site.pages.get('/plat/migrate/5')).toMatchObject({ kind: 'markdown', source: { repoPath: 'apps/docs/content/plat/migrate/5.mdx' } });
+    expect(site.pages.get('/plat/migrate/from-mui')).toMatchObject({ kind: 'markdown', source: { repoPath: 'apps/docs/content/plat/migrate/from-mui.mdx' } });
+    /* /plat/migrate/5 is generated (gen-deprecations --docs, REQ-PLAT-105); tests/docs/migration-guide.test.ts routes it. */
   });
 
   it('turns a pending nav page into a content page when its owner lands it; content beats docs/guides', () => {

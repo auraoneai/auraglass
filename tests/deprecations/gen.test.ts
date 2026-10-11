@@ -61,11 +61,11 @@ describe('gen-deprecations outputs', () => {
     expect(tsTable([E({ codemod: null })])).toContain('codemod: null');
   });
   it('docs output groups by breaking id with register titles and #dep- anchors', () => {
-    const md = docsMd([E({ breaking: 'B9' }), E({ id: 'DEP-P0002', breaking: 'B4' })],
+    const md = docsMd([E({ breaking: 'B9' }), E({ id: 'DEP-P0002', breaking: 'B4', doc: '#dep-dep-p0002' })],
       [{ id: 'B4', title: 'Removed subpaths' }]);
-    expect(md).toContain('<h2 id="b-4">B4 — Removed subpaths</h2>');
-    expect(md).toContain('<h2 id="b-9">B9</h2>');
-    expect(md).toContain('<h3 id="dep-dep-p0001">');
+    expect(md).toContain('## B4: Removed subpaths {#b-4}');
+    expect(md).toContain('## B9 {#b-9}');
+    expect(md).toMatch(/^### DEP-P0001: `[^`]+` \{#dep-dep-p0001\}$/m);
     expect(md).toContain('--transform canonical-names');
     expect(md.indexOf('b-4')).toBeLessThan(md.indexOf('b-9'));
   });
@@ -116,6 +116,8 @@ describe('gen-deprecations CLI on a temp tree', () => {
     mkdirSync(join(root, 'scripts/release/lib'), { recursive: true });
     cpSync(join(REPO, 'scripts/release/lib'), join(root, 'scripts/release/lib'), { recursive: true });
     cpSync(GEN, join(root, 'scripts/release/gen-deprecations.mjs'));
+    // gen-deprecations renders its docs through the migration-guide library (REQ-PLAT-105)
+    cpSync(join(REPO, 'scripts/docs/lib'), join(root, 'scripts/docs/lib'), { recursive: true });
     symlinkSync(join(REPO, 'node_modules'), join(root, 'node_modules'), 'dir');
     mkdirSync(join(root, 'fragments/deprecations'), { recursive: true });
     writeFileSync(join(root, 'fragments/deprecations/plat.ts'), `export default [
