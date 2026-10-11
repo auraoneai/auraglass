@@ -1,11 +1,12 @@
 /* MAT-217 REQ-MOT-52/-53: motionTokens → motion-library transition objects.
    Springs emit {type:'spring', stiffness, damping, mass:1, velocity?} — never
    bounce/visualDuration. Durations emit {duration: ms/1000, ease}; exit uses
-   durationExit + ease.accelerate. Only ms→s conversion is applied. */
+   durationExit + ease.accelerate. Only ms→s conversion is applied.
+   REQ-MAT-08: spring stiffness/damping are read from the generated
+   motionTokens.spring.<name> entries (build-time (2π/r)² and 2ζ√k). */
 import { DURATIONS_MS, EASES } from '../../contracts/motion';
 import type { DurationName, EaseName, MotionTokenName, SpringName } from '../../contracts/motion';
 import { motionTokens } from '../tokens.generated';
-import { springParams } from './springs';
 
 export interface SpringTransition {
   type: 'spring';
@@ -35,7 +36,7 @@ const tokenMs = (dotted: string, dashed: string, fallback: number): number => {
 export function toMotionTransition(token: MotionTokenName, opts: ToMotionTransitionOpts = {}): MotionTransition {
   if (token.startsWith('spring-')) {
     const name = token.slice('spring-'.length) as SpringName;
-    const { stiffness, damping } = springParams(name);
+    const { stiffness, damping } = motionTokens.spring[name];
     const t: SpringTransition = { type: 'spring', stiffness, damping, mass: 1 };
     if (opts.velocity !== undefined) t.velocity = opts.velocity;
     return t;
