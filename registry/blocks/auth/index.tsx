@@ -49,8 +49,8 @@ export function AuthBlock({
       await onSubmit?.({
         flow: current,
         email: String(data.get('email') ?? ''),
-        password: current === 'reset' ? undefined : String(data.get('password') ?? ''),
-        name: current === 'sign-up' ? String(data.get('name') ?? '') : undefined,
+        ...(current === 'reset' ? {} : { password: String(data.get('password') ?? '') }),
+        ...(current === 'sign-up' ? { name: String(data.get('name') ?? '') } : {}),
       });
     } catch (err) {
       setLocalError(err instanceof Error ? err.message : 'Something went wrong.');
