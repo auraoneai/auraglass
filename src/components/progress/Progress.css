@@ -10,7 +10,8 @@
   .ag-progress-ring-indicator { stroke: var(--_ag-accent, currentColor); }
   @media (prefers-reduced-motion: no-preference) {
     .ag-progress-ring-indeterminate { transform-origin: center; animation: none; }
-    [data-ag-continuous="on"] .ag-progress-ring-indeterminate { animation: ag-ring-spin var(--ag-duration-ambient) linear infinite; }
+    /* REQ-CMP-18: finite spin under explicit full motion only (no loop, no allowContinuous read). */
+    [data-ag-motion='full'] .ag-progress-ring-indeterminate { animation: ag-ring-spin var(--ag-duration-large) linear 240; }
     @keyframes ag-ring-spin { to { transform: rotate(360deg); } }
   }
 }

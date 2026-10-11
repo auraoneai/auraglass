@@ -2,7 +2,7 @@
 
 /* CMP-194 (REQ-CMP-79): shared overlay CSS — scrim, forced-colors/solid fallbacks,
    anchored-popup geometry, animating hint. No pseudo optics/grain, no
-   transition:all, no !important, no infinite animations, no
+   transition:all, no !important, no looping animations, no
    filter/backdrop-filter declarations at all (REQ-CMP-08): blur and its
    solid / prefers-contrast / forced-colors resets are MAT's
    (src/material/css/material.css, src/a11y/css/rungs.css); the scrim

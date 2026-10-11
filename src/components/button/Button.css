@@ -46,11 +46,13 @@
     border-radius: var(--ag-radius-full);
     border: var(--_ag-focus-width) solid var(--ag-color-on-surface-muted);
     border-block-start-color: var(--ag-color-accent);
+    flex: none;
+    /* REQ-CMP-18/-33: static under calm/none and by default; a finite spin only
+       under explicit full motion (never a loop, never allowContinuous). */
     animation: none;
   }
   [data-ag-motion='full'] .ag-button [data-ag-part='spinner'] {
-    animation: ag-spin var(--ag-duration-ambient) var(--ag-ease-standard) 240;
-    flex: none;
+    animation: ag-spin var(--ag-duration-large) linear 240;
   }
 
   /* Loading: label/icons stay mounted, hidden for stable width. */

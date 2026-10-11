@@ -4,11 +4,5 @@
   "owner": "SURF",
   "reqFin": "REQ-FIN-90",
   "expires": "RC-1"
- },
- {
-  "file": "src/components/button/Button.css",
-  "owner": "CMP",
-  "reqFin": "REQ-FIN-70",
-  "expires": "RC-1"
  }
 ]

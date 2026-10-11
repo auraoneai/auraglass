@@ -62,8 +62,10 @@
   .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
     animation: none;
   }
-  [data-ag-continuous="on"] .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
-    animation: ag-combobox-rotate var(--ag-duration-ambient) linear infinite;
+  /* REQ-CMP-18: finite spin under explicit full motion only; no loop and no
+     allowContinuous read (that is Skeleton's alone). */
+  [data-ag-motion='full'] .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
+    animation: ag-combobox-rotate var(--ag-duration-large) linear 240;
   }
   @keyframes ag-combobox-rotate {
     to { transform: rotate(360deg); }
