@@ -1,4 +1,4 @@
-## API Report — aura-glass ./icons
+## API Report — aura-glass icons
 
 - `AccessibilityIcon`
 - `ActivityIcon`
