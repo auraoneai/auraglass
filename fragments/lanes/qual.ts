@@ -9,4 +9,12 @@ export default [
   // RC-1; structural offenders outside certification/deliverables-baseline.json fail immediately.
   { lane: 'L1', kind: 'node-script', path: 'scripts/qual/deliverables/check.ts', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L1', kind: 'node-script', path: 'scripts/qual/deliverables/check.ts', scope: 'release', remote: false, failClosed: true },
+  // REQ-QUAL-46 dist JS scans (G-24): L1 = static scans over dist (LANE=L1 → --mode scan) plus the scanner's own tests;
+  // L2 = scans + per-export esbuild bundles (banned modules, min+gzip-9 bytes map for the lane manifest).
+  { lane: 'L1', kind: 'node-script', path: 'scripts/qual/verify-dist-perf.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/perf/qual/dist-perf.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/perf/qual/node-cold-import-eval.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L2', kind: 'node-script', path: 'scripts/qual/verify-dist-perf.mjs', scope: 'pr', remote: false, failClosed: true },
+  // REQ-QUAL-47 node cold import (G-24): remote L2 only (tarball, Node 20.19.0 + 22 LTS, runner tag required).
+  { lane: 'L2', kind: 'jest', path: 'tests/perf/qual/node-cold-import.test.mjs', scope: 'pr', remote: true, failClosed: true },
 ] satisfies LaneRegistration[];

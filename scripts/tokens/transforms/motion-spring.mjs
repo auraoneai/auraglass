@@ -1,6 +1,7 @@
 /* motion-spring -> linear() easing (MAT-042/044, REQ-MOT-04 contract).
    omega0 = 2*pi / response; step response sampled at 1 ms until |1-x| < 0.001 and
-   |x'| < 0.001*omega0 have held for 50 ms; stops decimated by RDP at tolerance 0.002,
+   |x'| < 0.001*omega0 have held for 50 ms; settle T = start of that hold (REQ-MAT-08);
+   stops decimated by RDP at tolerance 0.002,
    capped at 40 stops, 4 decimals, last stop exactly 1. Deterministic. */
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
@@ -38,7 +39,8 @@ function rdp(pts, tol) {
 
 /**
  * Compile a spring token value {dampingRatio, response:{value,unit}} to:
- *   { linear: 'linear(...)', durationMs: settle time rounded up to 10 ms }.
+ *   { linear: 'linear(...)', durationMs: settle time rounded up to 10 ms,
+ *     zeta, responseMs, stiffness, damping }.
  * Rejects zeta outside [0.8, 1.0] or response outside [120, 800] ms (MAT-042).
  */
 export function compileSpring(spring, tokenPath = '<token>') {
@@ -61,7 +63,12 @@ export function compileSpring(spring, tokenPath = '<token>') {
     if (!settled) settledSince = -1;
     if (settledSince >= 0 && tMs - settledSince >= 50) break;
   }
-  let settleMs = samples.at(-1).t;
+  // REQ-MAT-08: settle T is the START of the 50 ms hold (the earliest t from which
+  // the spring stays settled), not its end. Samples past it are dropped so the
+  // curve ends at x(settledSince), normalised to exactly 1.
+  if (settledSince < 0) throw new Error(`${tokenPath}: spring did not settle within ${rMs * 3 + 100}ms`);
+  samples.length = settledSince + 1;                  // samples[i].t === i ms
+  const settleMs = settledSince;
   // normalize so the endpoint is exactly 1
   const endX = samples.at(-1).x || 1;
   for (const p of samples) p.x /= endX;
@@ -82,7 +89,10 @@ export function compileSpring(spring, tokenPath = '<token>') {
     if (i === stops.length - 1) return `1 100%`; // last stop exactly 1 (contract)
     return `${x} ${+progress.toFixed(4)}%`;
   });
-  return { linear: `linear(${pts.join(', ')})`, durationMs };
+  // motion-library params (REQ-MAT-08): stiffness = (2π/(r/1000))², damping = 2ζ√k, mass 1
+  const stiffness = omega0 * omega0;
+  const damping = 2 * zeta * Math.sqrt(stiffness);
+  return { linear: `linear(${pts.join(', ')})`, durationMs, zeta, responseMs: rMs, stiffness, damping };
 }
 
 /** Back-compat shim for earlier call sites. */
