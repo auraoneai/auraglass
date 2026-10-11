@@ -17,7 +17,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'content', refractionEligible: false },
   apg: 'switch',
-  budgetKb: 8,
+  budgetKb: 8000 / 1024,
   migration: [
     {
       from: 'GlassSwitch',

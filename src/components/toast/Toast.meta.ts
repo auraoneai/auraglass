@@ -11,7 +11,7 @@ const meta: ControlMeta = defineMeta({
   flagship: 21,
   rsc: 'client',
   parts: [
-    'provider', 'viewport', 'root', 'content', 'title', 'description',
+    'viewport', 'toast', 'content', 'title', 'description',
     'action', 'close', 'progress',
   ],
   states: [
@@ -28,7 +28,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'transient', refractionEligible: false },
   apg: 'alert',
-  budgetKb: 14,
+  budgetKb: 14000 / 1024,
   migration: [
     {
       from: 'GlassToast',

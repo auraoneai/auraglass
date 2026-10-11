@@ -18,3 +18,20 @@ export const Default: Story = { render: () => <AppShell.Root><TopBar.Root><TopBa
 export const RTL: Story = { render: () => <AppShell.Root><TopBar.Root><TopBar.Title>App</TopBar.Title></TopBar.Root><Sidebar.Root><Sidebar.Nav aria-label="Main"><Sidebar.Item href="/home">Home</Sidebar.Item></Sidebar.Nav></Sidebar.Root><AppShell.Main><p>Content</p></AppShell.Main><StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item></StatusBar.Root></AppShell.Root>, parameters: { globals: { dir: 'rtl' } } };
 export const ReducedTransparency: Story = { render: () => <AppShell.Root><TopBar.Root><TopBar.Title>App</TopBar.Title></TopBar.Root><Sidebar.Root><Sidebar.Nav aria-label="Main"><Sidebar.Item href="/home">Home</Sidebar.Item></Sidebar.Nav></Sidebar.Root><AppShell.Main><p>Content</p></AppShell.Main><StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item></StatusBar.Root></AppShell.Root>, parameters: { ag: { material: 'regular' } } };
 export const ForcedColors: Story = { render: () => <AppShell.Root><TopBar.Root><TopBar.Title>App</TopBar.Title></TopBar.Root><Sidebar.Root><Sidebar.Nav aria-label="Main"><Sidebar.Item href="/home">Home</Sidebar.Item></Sidebar.Nav></Sidebar.Root><AppShell.Main><p>Content</p></AppShell.Main><StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item></StatusBar.Root></AppShell.Root>, parameters: { globals: { forcedColors: 'active' } } };
+/* Page chrome: skip link and a full PageHeader inside Main. */
+export const Anatomy: Story = {
+  render: () => (
+    <AppShell.Root>
+      <AppShell.SkipLink />
+      <AppShell.Main>
+        <AppShell.PageHeader
+          eyebrow="Projects"
+          title="Atlas"
+          description="Release train for the 5.0 line."
+          actions={<span>Share</span>}
+          tabs={<span>Overview</span>}
+        />
+      </AppShell.Main>
+    </AppShell.Root>
+  ),
+};

@@ -5,7 +5,7 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 import { globJson, PendingCallout } from './_shared';
 
-export const manifest = globJson('/dist/tokens/manifest.json');
+export const manifest = globJson(import.meta.glob('/dist/tokens/manifest.json', { eager: true, import: 'default' }));
 
 <Meta title="MAT/Tokens" />
 

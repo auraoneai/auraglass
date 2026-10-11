@@ -1,0 +1,80 @@
+# React Router
+
+AuraGlass works with React Router v7 in framework mode (server rendering) and in library/SPA mode. Requires `aura-glass@^5`, React 19 and Node 20.19 or later.
+
+```bash
+npm install aura-glass@^5
+```
+
+## Framework mode (`app/root.tsx`)
+
+The root route's `Layout` renders the document, so it is where the stylesheet, the pre-paint script and the provider go:
+
+```tsx
+// app/root.tsx
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
+import { AuraGlassProvider, AuraGlassScript } from 'aura-glass/theme';
+import 'aura-glass/styles.css';
+import './app.css';
+
+export function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <AuraGlassScript />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <AuraGlassProvider>{children}</AuraGlassProvider>
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+export default function App() {
+  return <Outlet />;
+}
+```
+
+- `AuraGlassScript` comes first in `<head>` so stored preferences (scheme, transparency, contrast, motion) apply before first paint. It sets `data-ag-*` attributes on `<html>` before hydration, hence `suppressHydrationWarning`.
+- Import `aura-glass/styles.css` before your own CSS. Library CSS is in `ag.*` cascade layers, so your unlayered rules win (see the Plain CSS guide). With Tailwind v4, use the setup in the Tailwind guide inside `app.css` instead.
+- If you pass defaults to the provider, pass the same values to `<AuraGlassScript defaults={…} />`.
+
+## Library / SPA mode
+
+Without server rendering, set the app up exactly as in the Vite guide (stylesheet import and provider in `src/main.tsx`, pre-paint script in `index.html`), then add the router inside the provider:
+
+```tsx
+// src/main.tsx
+import 'aura-glass/styles.css';
+import { createRoot } from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router';
+import { AuraGlassProvider } from 'aura-glass/theme';
+import { routes } from './routes';
+
+const router = createBrowserRouter(routes);
+
+createRoot(document.getElementById('root')!).render(
+  <AuraGlassProvider>
+    <RouterProvider router={router} />
+  </AuraGlassProvider>,
+);
+```
+
+## Links inside AuraGlass components
+
+AuraGlass `Link` renders an `<a>` and accepts a `render` prop (other components that render links document the same prop on their pages). Pass React Router's `Link` so navigation stays client-side; AuraGlass merges its attributes and classes onto it:
+
+```tsx
+import { Link as RouterLink } from 'react-router';
+import { Link } from 'aura-glass';
+
+export function DocsLink() {
+  return <Link render={<RouterLink to="/docs" />}>Docs</Link>;
+}
+```

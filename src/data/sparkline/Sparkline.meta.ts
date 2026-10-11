@@ -13,7 +13,6 @@ export default defineMeta({
   variants: { variant: ['line', 'area', 'bar'], intent: ['neutral', 'info', 'success', 'danger'] },
   budgetKb: 2.5,
   migration: [
-    { from: 'GlassSparkline', props: { values: 'data', color: 'intent' }, automation: 'mostly', compat: true },
+    { from: 'GlassSparkline', props: { values: 'data', color: 'intent' }, selectors: { '.glass-sparkline': '[data-ag-part="sparkline"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-sparkline', to: '[data-ag-part="sparkline"]' }],
 });
