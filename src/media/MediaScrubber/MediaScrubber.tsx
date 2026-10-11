@@ -146,7 +146,9 @@ export function MediaScrubber(props: MediaScrubberProps) {
         aria-label={ariaLabel}
         onValueChange={(v, details) => {
           const n = Array.isArray(v) ? v[0]! : v;
-          if (details.reason === 'drag') {
+          // contract reason 'pointer' = Base UI track-press/drag: the pointer
+          // gesture runs until onValueCommitted (keyboard steps never drag)
+          if (details.reason === 'pointer') {
             if (!dragging) setDragging(true);
             setDragValue(n);
           }

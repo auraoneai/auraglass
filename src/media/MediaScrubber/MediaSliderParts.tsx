@@ -2,10 +2,10 @@
 /* Slider parts shared by MediaScrubber and MediaControls.Volume: the Base UI
  * Control/Track/Indicator/Thumb set composed inside CMP Slider.Root (the
  * S-30 seam renders these same parts by default). Composing them here lets
- * the media slider (a) put aria-valuetext on the thumb input (CMP
- * Slider.Root forwards getAriaValueText to the Base UI root, which ignores
- * it), (b) mark the thumb transient glass only while it is dragged, and (c) join the MediaControls toolbar as a roving
- * item that keeps its own arrow keys (REQ-SURF-135/136). */
+ * the media slider (a) mark the thumb transient glass only while it is
+ * dragged (the CMP default thumb is always transient), (b) join the
+ * MediaControls toolbar as a roving item that keeps its own arrow keys, and
+ * (c) carry the media aria-valuetext on its thumb input (REQ-SURF-135/136). */
 import * as React from 'react';
 import { Slider as BaseSlider } from '@base-ui/react/slider';
 import { CompositeItem } from '@base-ui/react/internals/composite';
