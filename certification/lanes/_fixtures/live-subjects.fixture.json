@@ -1,0 +1,11 @@
+{
+  "$comment": "REQ-QUAL-04 self-check (G-12): a fixture index + capture list. 'cmp-button--removed' was captured but is not a story of this index, so the live-subject rule must reject it.",
+  "indexIds": ["cmp-button--playground", "mat-surface--playground", "overlays-dialog--default"],
+  "captures": [
+    { "sourceStoryId": "cmp-button--playground" },
+    { "sourceStoryId": "mat-surface--playground" },
+    { "sourceStoryId": "cmp-button--removed" },
+    { "sourceStoryId": "cmp-button--removed" }
+  ],
+  "absent": ["cmp-button--removed"]
+}

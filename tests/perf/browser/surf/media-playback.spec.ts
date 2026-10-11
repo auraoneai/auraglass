@@ -7,10 +7,10 @@ test.describe('media playback perf (SURF-495)', () => {
   test('no long tasks over 50ms while scrubbing', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'MediaControls');
-    if (!subject) { console.warn('MediaControls subject not registered — pending'); return; }
+    if (!subject) throw new Error('MediaControls subject not registered');
     await gotoStory(page, subject.id);
     const scrubber = page.locator('[data-ag-part="media-scrubber"]').first();
-    if (await scrubber.count() === 0) { console.warn('no scrubber — pending'); return; }
+    expect(await scrubber.count(), 'no scrubber').toBeGreaterThan(0);
     const longTasks = await page.evaluate(async () => {
       const tasks: number[] = [];
       const po = new PerformanceObserver((l) => { for (const e of l.getEntries()) tasks.push(e.duration); });
@@ -18,7 +18,7 @@ test.describe('media playback perf (SURF-495)', () => {
       await new Promise((r) => setTimeout(r, 800));
       return tasks;
     });
-    if (longTasks[0] === -1) { console.warn('longtask observer unsupported — pending'); return; }
+    if (longTasks[0] === -1) throw new Error('longtask observer unsupported');
     for (const t of longTasks) expect(t).toBeLessThanOrEqual(50);
   });
 });

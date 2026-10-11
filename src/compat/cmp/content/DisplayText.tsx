@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Heading } from '../../../components/heading/Heading';
 import type { HeadingProps } from '../../../components/heading/Heading';
 
-const DEP = 'DEP-C0223';
+const DEP = 'DEP-C0266';
 
 export interface DisplayTextProps extends Omit<HeadingProps, 'size' | 'level'> {
   /** 4.x DisplayText rendered h1 by default; override if needed. */

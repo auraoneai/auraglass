@@ -7,10 +7,10 @@ test.describe('now-playing container (SURF-461)', () => {
   test('bar exposes parts and expand controls the region', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'NowPlayingBar');
-    if (!subject) { console.warn('NowPlayingBar subject not registered — pending'); return; }
+    if (!subject) throw new Error('NowPlayingBar subject not registered');
     await gotoStory(page, subject.id);
     const bar = page.locator('[data-ag-part="now-playing"]').first();
-    if (await bar.count() === 0) { console.warn('no bar — pending'); return; }
+    expect(await bar.count(), 'no bar').toBeGreaterThan(0);
     await expect(bar).toBeVisible();
     const expand = page.locator('[data-ag-part="now-playing-expand"]');
     if (await expand.count() > 0) {

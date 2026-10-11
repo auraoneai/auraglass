@@ -7,7 +7,7 @@ import { warnDeprecated } from '../../../internal';
 import { Text } from '../../../components/text/Text';
 import type { TextProps } from '../../../components/text/Text';
 
-const DEP = 'DEP-C0222';
+const DEP = 'DEP-C0265';
 
 const VARIANT_TO_TYPE: Record<string, TextProps['type']> = {
   body: 'body',

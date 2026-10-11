@@ -12,6 +12,12 @@ test.describe('accordion APG (CMP-351)', () => {
       { press: 'Tab', expectFocus: 'trigger' },
       { press: 'Enter', expectState: { 'aria-expanded': 'true' } },
       { press: 'Space', expectState: { 'aria-expanded': 'false' } },
+      // roving arrow navigation across triggers (REQ-CMP-121)
+      { press: 'ArrowDown', expectFocus: 'trigger' },
+      { press: 'ArrowDown', expectFocus: 'trigger' },
+      { press: 'ArrowUp', expectFocus: 'trigger' },
+      { press: 'End', expectFocus: 'trigger' },
+      { press: 'Home', expectFocus: 'trigger' },
       { press: 'Tab', expectFocus: 'trigger' },
     ]);
     const triggers = page.locator('[data-ag-part="trigger"]');
@@ -22,5 +28,11 @@ test.describe('accordion APG (CMP-351)', () => {
       expect(await t.getAttribute('role')).not.toBe('tab');
     }
     await apg.axe(page, { colorContrast: true });
+  });
+
+  test('headingLevel story renders trigger inside an h4', async ({ page }) => {
+    await gotoStory(page, 'core-accordion--heading-level');
+    const trigger = page.locator('[data-ag-part="trigger"]');
+    expect(await trigger.evaluate((el) => !!el.closest('h4'))).toBe(true);
   });
 });
