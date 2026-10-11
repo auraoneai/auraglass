@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "types": [
+      "node"
+    ],
+    "baseUrl": "../.."
+  },
+  "include": [
+    "src",
+    "test",
+    "../../src/contracts/*.ts"
+  ],
+  "exclude": [
+    "test/fixtures/**"
+  ]
+}
