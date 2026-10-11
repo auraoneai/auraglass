@@ -11,6 +11,9 @@
 
 .session {
   display: grid;
+  /* data-ag-radius frames get the engine's default inset padding; this
+     frame clips edge-to-edge media, so the inset is zero */
+  padding: 0;
   min-inline-size: 0;
   overflow: hidden;
 }

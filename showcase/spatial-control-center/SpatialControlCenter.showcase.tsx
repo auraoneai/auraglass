@@ -114,25 +114,32 @@ export function SpatialControlCenter({ now = SHOWCASE_EPOCH }: SpatialControlCen
             </ButtonGroup>
           </div>
         </Surface>
+        {/* The rooms sit on their own platter like the controls below: no
+            heading or caption is set straight on the high-frequency pattern. */}
         <section className={styles.rooms} aria-labelledby="scc-rooms">
-          <Heading level={2} size="md" id="scc-rooms">{COPY.roomsHeading}</Heading>
-          <ul className={styles.roomList}>
-            {ROOMS.map((r) => (
-              <li key={r.id}>
-                <ConcentricFrame radius="xl" inset="2">
-                  <Surface layer="content" shape="concentric" className={styles.room}>
-                    <div className={styles.roomMedia} data-ag-radius="lg">
-                      <img className={styles.roomImage} src={r.image} alt="" width={960} height={600} />
-                    </div>
-                    <div className={styles.roomText}>
-                      <Heading level={3} size="sm">{r.name}</Heading>
-                      <Text type="caption" muted>{r.status}</Text>
-                    </div>
-                  </Surface>
-                </ConcentricFrame>
-              </li>
-            ))}
-          </ul>
+          <SurfaceGroup spacing="3" className={String(styles.platter)}>
+            <div className={styles.platterHeader}>
+              <Heading level={2} size="lg" id="scc-rooms">{COPY.roomsHeading}</Heading>
+              <Text type="caption" muted>{COPY.roomsSummary}</Text>
+            </div>
+            <ul className={styles.roomList}>
+              {ROOMS.map((r) => (
+                <li key={r.id}>
+                  <ConcentricFrame radius="xl" inset="2">
+                    <Surface layer="content" shape="concentric" className={styles.room}>
+                      <div className={styles.roomMedia} data-ag-radius="lg">
+                        <img className={styles.roomImage} src={r.image} alt="" width={960} height={600} />
+                      </div>
+                      <div className={styles.roomText}>
+                        <Heading level={3} size="sm">{r.name}</Heading>
+                        <Text type="caption" muted>{r.status}</Text>
+                      </div>
+                    </Surface>
+                  </ConcentricFrame>
+                </li>
+              ))}
+            </ul>
+          </SurfaceGroup>
         </section>
         <SpatialControlGrid />
       </main>
