@@ -1,5 +1,27 @@
 # Changelog
 
+## [4.3.0] - Unreleased
+
+Minor release on `release/4.x`: the bridge to 5.0. The 5.0 entry points can be used next to the 4.x API, the remaining 5.0 removals start warning in development, and `@auraglass/cli@0.x` ships with the `migrate 4to5` codemods.
+
+### Deprecated
+
+- 190 new DEP entries with `since: 4.3.0`, generated from `fragments/deprecations/*.ts`; `RELEASE_NOTES_4.3.0.md` lists each one. 54 have `removeIn: 5.0.0`. The other 136 are component renames that keep a compat export through 5.x (`removeIn: 6.0.0`):
+  - components: 146 `DEP-C*` entries (144 exports, one subpath, one prop value), e.g. `GlassButton`, `GlassToolbar` and `GlassCommandBar`;
+  - material and theme: 29 `DEP-M*` entries (`DEP-M0948`–`DEP-M0976`): the `--glass-*`, `--aura-*`, `--persona-*` and `--glass-theme-*` variables, the `data-theme`/`data-persona`/`data-bg` and `.dark`/`.light` hooks, the persona and theme helpers (`PersonaPicker`, `usePersonaTheme`, `createBrandGlassTheme`, `createGlassThemeCssVars`, `glassMaterialPresets`, `auraTokens`), the `COLORS`/`BORDER_RADIUS`/`BOX_SHADOW` constants and the `glass-*` slash utilities;
+  - platform: 12 `DEP-P*` entries (`DEP-P0060`–`DEP-P0071`): the bundled `aura-glass` bin, `./styles`, `./tokens/{css,tailwind,json,manifest}`, `./utils/env`, deep `./primitives/*` and `./icons/*` imports, the CommonJS entry, React 18 and Node < 20.19;
+  - surfaces: 3 `DEP-S*` entries (`DEP-S0614`–`DEP-S0616`): `ImageList`, `ImageListItem` and `ImageListItemBar`.
+
+### Added
+
+- 5.0 bridge entry points, emitted at `prepack` by `scripts/ci/prune-bridge-exports.mjs` when their sources exist: `aura-glass/material`, `aura-glass/styles/v5.css`, `aura-glass/compat/tokens.css` and `aura-glass/compat/globals.css` (REQ-PLAT-156/157).
+- `@auraglass/cli@0.x`: `init`, `add`/`diff`/`update`, `doctor --v5` and the `migrate 4to5` codemods. It is published by the v4.3.0 tag pipeline after `scripts/release/verify-codemods-gate.mjs` passes: non-empty `fragments/codemods/{mat,cmp,surf}.ts` and a clean `migrate 4to5 --dry-run` on the `consumer-4x` fixture (REQ-PLAT-62).
+- The bundled `aura-glass` bin prints `aura-glass CLI moved: use npx @auraglass/cli <command>` once per run; `doctor --v5` reports undeclared imports.
+
+### Internal (no change to the published package)
+
+- `consumer-4x` fixture (Next 15 + React 19, Vite + React 18.3) frozen as the migration target; `verify-codemods-gate.mjs` tag gate; release notes accept DEP entries from an untagged minor inside the tag range.
+
 ## [4.2.0] - Unreleased
 
 Minor release on `release/4.x`. Runtime dependencies become optional peers, `/forms` and `/data` become real bundle entries, and the 5.0 removals start warning in development.
