@@ -57,6 +57,7 @@
   }
 }
 
+@layer ag.components {
 /* REQ-CMP-40: concentric item shape inside capsule roots — inner radius =
    max(0, root radius - root inset padding). */
 .ag-toolbar[data-ag-shape='capsule'] .ag-button {
@@ -79,4 +80,6 @@
   .ag-toolbar [data-ag-part='overflow'] {
     display: inline-flex;
   }
+}
+
 }

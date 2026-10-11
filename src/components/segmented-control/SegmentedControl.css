@@ -122,8 +122,11 @@
   }
 }
 
+@layer ag.components {
 /* REQ-CMP-44: single-row guard — items never wrap */
 .ag-segmented-control {
   white-space: nowrap;
   flex-wrap: nowrap;
+}
+
 }

@@ -113,6 +113,7 @@
   }
 }
 
+@layer ag.components {
 /* REQ-CMP-53: check path draws in on [data-checked] — pathLength=1 +
    stroke-dasharray:1, dashoffset 1 -> 0 over duration-micro; instant under
    reduced-motion and calm/none. */
@@ -131,4 +132,6 @@
 [data-ag-motion='none'] .ag-checkbox[data-ag-part='root'][data-checked] [data-ag-part='icon'] path,
 [data-ag-motion='none'] .ag-checkbox[data-checked] [data-ag-part='icon'] path {
   transition: none;
+}
+
 }
