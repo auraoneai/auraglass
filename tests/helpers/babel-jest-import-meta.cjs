@@ -27,19 +27,33 @@ function importMetaPlugin({ template }) {
   };
 }
 
-const base = babelJest.default.createTransformer({
-  plugins: [importMetaPlugin],
-  presets: [
-    ['@babel/preset-env', { targets: { node: '20.19' }, modules: 'commonjs' }],
-    ['@babel/preset-react', { runtime: 'automatic' }],
-    '@babel/preset-typescript',
-  ],
-});
+const presets = (modules) => [
+  ['@babel/preset-env', { targets: { node: '20.19' }, modules }],
+  ['@babel/preset-react', { runtime: 'automatic' }],
+  '@babel/preset-typescript',
+];
+
+// CJS graph (default): import.meta rewritten to __filename equivalents.
+const cjs = babelJest.default.createTransformer({ plugins: [importMetaPlugin], presets: presets('commonjs') });
+// Under --experimental-vm-modules jest loads .mjs (and type:module .js) as real ES
+// modules (options.supportsStaticESM). CJS output there has no `exports` binding
+// ("ReferenceError: exports is not defined", e.g. src/theme/wcag.mjs required by
+// src/theme/color.ts), so keep ESM syntax and the native import.meta.
+const esm = babelJest.default.createTransformer({ presets: presets(false) });
+
+const pick = (options) => (options && options.supportsStaticESM ? esm : cjs);
 
 module.exports = {
-  ...base,
-  // The import.meta rewrite is part of the transform output: key the cache on it.
+  canInstrument: cjs.canInstrument,
+  process(sourceText, sourcePath, options) {
+    return pick(options).process(sourceText, sourcePath, options);
+  },
+  processAsync(sourceText, sourcePath, options) {
+    return pick(options).processAsync(sourceText, sourcePath, options);
+  },
+  // The import.meta rewrite and the ESM/CJS split are part of the transform output: key the cache on them.
   getCacheKey(sourceText, sourcePath, options) {
-    return `${base.getCacheKey(sourceText, sourcePath, options)}:import-meta-ast-v2`;
+    const mode = options && options.supportsStaticESM ? 'esm' : 'cjs';
+    return `${pick(options).getCacheKey(sourceText, sourcePath, options)}:import-meta-ast-v3:${mode}`;
   },
 };
