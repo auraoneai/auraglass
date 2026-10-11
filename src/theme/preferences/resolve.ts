@@ -37,13 +37,10 @@ export const resolveContrast = (
   os: OsSignals,
   app?: ContrastSetting | 'less' | 'custom',
   user?: ContrastSetting | 'less' | 'custom',
-): Contrast => {
-  if (os.forcedColors || os.contrastMore) return 'more';
-  const pick = (v: ContrastSetting | 'less' | 'custom' | undefined): Contrast | undefined =>
-    v === 'more' || v === 'standard' || v === 'less' || v === 'custom'
-      ? (v === 'more' ? 'more' : 'standard') : undefined;
-  return pick(user) ?? pick(app) ?? 'standard';
-};
+): Contrast =>
+  // max(prefers-contrast:more, app, user) on standard(0) < more(1): 'less',
+  // 'custom' and 'system' rank as standard, so a user value never lowers app.
+  os.forcedColors || os.contrastMore || app === 'more' || user === 'more' ? 'more' : 'standard';
 
 export const resolveMotion = (
   os: OsSignals,
@@ -66,7 +63,12 @@ export const resolveScheme = (
 ): Scheme => pickScheme(user) ?? pickScheme(app) ?? (os.schemeDark ? 'dark' : 'light');
 
 const pickDensity = (v: Density | undefined): Density | undefined =>
-  v === 'regular' || v === 'compact' ? v : undefined;
+  v === 'regular' || v === 'compact' || v === 'spacious' ? v : undefined;
+
+/** NaN and non-numbers (e.g. an unparsable persisted record) count as unset
+   instead of poisoning the [0, 1] clamp. */
+const pickOpacity = (v: unknown): number | undefined =>
+  typeof v === 'number' && v === v ? v : undefined;
 
 const pickTier = (v: 'auto' | DomTier | undefined): DomTier | undefined =>
   v === 'standard' || v === 'enhanced' || v === 'lightweight' ? v : undefined;
@@ -99,11 +101,14 @@ export const resolvePaint = (
   app: PreferenceInput = {},
   user: PreferenceInput = {},
 ): PaintResult => {
-  const glassOpacity = Math.min(1, Math.max(0, user.glassOpacity ?? app.glassOpacity ?? 0));
-  const transparency = os.forcedColors
+  const glassOpacity = Math.min(1, Math.max(0,
+    pickOpacity(user.glassOpacity) ?? pickOpacity(app.glassOpacity) ?? 0));
+  const contrast = resolveContrast(os, app.contrast, user.contrast);
+  const t = os.forcedColors
     ? 'solid'
     : resolveTransparency(os, cap.backdropFilter, app.transparency, user.transparency, glassOpacity);
-  const contrast = resolveContrast(os, app.contrast, user.contrast);
+  // REQ-MAT-12: contrast=more (OS, app or user) selects at least tinted.
+  const transparency: Transparency = contrast === 'more' && t === 'glass' ? 'tinted' : t;
   const motion = resolveMotion(os, app.motion, user.motion);
   const scheme = resolveScheme(os, app.scheme, user.scheme);
   const density = pickDensity(user.density) ?? pickDensity(app.density) ?? 'regular';
@@ -126,9 +131,13 @@ export const resolvePreferences = ({ os, cap, app = {}, user = {} }: ResolveAllI
   if (r.tier === 'lightweight' && !pickTier(user.tier) && !pickTier(app.tier)) {
     reasons.push(cap.saveData ? 'save-data' : 'low-memory-coarse');
   }
+  // App/user contrast=more is a tinted floor too (OS contrast-more is above).
+  const contrastMore = r.contrast === 'more' && !os.forcedColors && !os.contrastMore;
+  if (contrastMore) reasons.push('contrast-more');
   const floor = Math.max(
     os.forcedColors ? 2 : os.contrastMore || os.reducedTransparency ? 1 : 0,
     cap.backdropFilter ? 0 : 2,
+    r.glassOpacity >= 0.7 || contrastMore ? 1 : 0,
   );
   return {
     ...r,
