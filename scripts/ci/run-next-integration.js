@@ -45,9 +45,17 @@ if (!SKIP_BUILD) {
 
 const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'auraglass-next-'));
 const packOutput = runWithOutput('npm pack --dry-run=false --json --pack-destination ' + tmpRoot, { cwd: rootDir });
-const packInfo = JSON.parse(packOutput)[0];
+const packParsed = JSON.parse(packOutput);
+// Accept array, package-keyed object, and direct package metadata output.
+const packInfo = Array.isArray(packParsed)
+  ? packParsed[0]
+  : packParsed && typeof packParsed === 'object'
+    ? Object.hasOwn(packParsed, 'filename')
+      ? packParsed
+      : Object.values(packParsed)[0]
+    : undefined;
 
-if (!packInfo || !packInfo.filename) {
+if (!packInfo || typeof packInfo.filename !== 'string' || !packInfo.filename.trim()) {
   throw new Error('Failed to generate npm pack tarball for AuraGlass.');
 }
 

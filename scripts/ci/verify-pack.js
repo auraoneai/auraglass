@@ -134,12 +134,22 @@ try {
   const packOutput = run(
     `npm pack --dry-run=false --ignore-scripts --json --pack-destination "${tmpRoot}"`
   );
-  const jsonStart = packOutput.indexOf('[');
-  const [packResult] = JSON.parse(
+  const jsonStart = packOutput.search(/[[{]/);
+  const packParsed = JSON.parse(
     jsonStart >= 0 ? packOutput.slice(jsonStart) : packOutput
   );
 
-  if (!packResult || !Array.isArray(packResult.files) || !packResult.filename) {
+  // Accept array, package-keyed object, and direct package metadata output.
+  const packResult = Array.isArray(packParsed)
+    ? packParsed[0]
+    : packParsed && typeof packParsed === 'object'
+      ? Object.hasOwn(packParsed, 'filename')
+        ? packParsed
+        : Object.values(packParsed)[0]
+      : undefined;
+
+  if (!packResult || !Array.isArray(packResult.files) ||
+      typeof packResult.filename !== 'string' || !packResult.filename.trim()) {
     throw new Error('Unexpected npm pack output.');
   }
 
