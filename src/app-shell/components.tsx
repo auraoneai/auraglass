@@ -21,6 +21,7 @@ export interface GlassAppShellProps extends DivProps {
   density?: "compact" | "comfortable" | "spacious";
 }
 
+/** @deprecated GlassAppShell DEP-S0001 since 4.2.0, removed in 5.0.0. {@link AppShell from aura-glass/app-shell} */
 export const GlassAppShell = React.forwardRef<
   HTMLDivElement,
   GlassAppShellProps
@@ -89,6 +90,7 @@ export interface GlassTopBarProps extends HeaderProps {
   sticky?: boolean;
 }
 
+/** @deprecated GlassTopBar DEP-S0003 since 4.2.0, removed in 5.0.0. {@link TopBar from aura-glass/app-shell} */
 export const GlassTopBar = React.forwardRef<HTMLElement, GlassTopBarProps>(
   (
     {
@@ -246,6 +248,7 @@ export const GlassSidebarPanel = React.forwardRef<
 );
 GlassSidebarPanel.displayName = "GlassSidebarPanel";
 
+/** @deprecated GlassMain DEP-S0005 since 4.2.0, removed in 5.0.0. {@link AppShell.Main from aura-glass/app-shell} */
 export const GlassMain = React.forwardRef<HTMLElement, MainProps>(
   ({ className, children, ...props }, ref) => (
     <main
@@ -289,6 +292,7 @@ export interface GlassPageHeaderProps extends DivPropsWithNodeTitle {
   actions?: React.ReactNode;
 }
 
+/** @deprecated GlassPageHeader DEP-S0006 since 4.2.0, removed in 5.0.0. {@link AppShell.PageHeader from aura-glass/app-shell} */
 export const GlassPageHeader = React.forwardRef<
   HTMLDivElement,
   GlassPageHeaderProps
@@ -472,6 +476,7 @@ export const GlassCommandDock = React.forwardRef<
 ));
 GlassCommandDock.displayName = "GlassCommandDock";
 
+/** @deprecated GlassStatusBar DEP-S0007 since 4.2.0, removed in 5.0.0. {@link StatusBar from aura-glass/app-shell} */
 export const GlassStatusBar = React.forwardRef<HTMLDivElement, DivProps>(
   ({ className, ...props }, ref) => (
     <div
@@ -493,6 +498,7 @@ export interface GlassMobileShellProps extends DivProps {
   bottomBar?: React.ReactNode;
 }
 
+/** @deprecated GlassMobileShell DEP-S0009 since 4.2.0, removed in 5.0.0. {@link MobileShell from aura-glass/app-shell} */
 export const GlassMobileShell = React.forwardRef<
   HTMLDivElement,
   GlassMobileShellProps

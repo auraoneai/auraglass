@@ -16,6 +16,8 @@ export interface LiquidGlassBackdropSamplerProps
   onSample?: (sample: LiquidGlassBackdropSample) => void;
 }
 
+/** @deprecated LiquidGlassBackdropSampler DEP-M0818 since 4.2.0, removed in 5.0.0. {@link data-ag-backdrop or Environment (backdrop is declared, never sampled)} */
+/** @deprecated LiquidGlassBackdropSampler DEP-S0631 since 4.2.0, removed in 5.0.0. */
 export const LiquidGlassBackdropSampler = forwardRef<
   HTMLDivElement,
   LiquidGlassBackdropSamplerProps

@@ -173,6 +173,8 @@ interface AIGlassThemeProviderProps {
   "data-testid"?: string;
 }
 
+/** @deprecated AIGlassThemeProvider DEP-M0940 since 4.2.0, removed in 5.0.0. {@link AuraGlassProvider} */
+/** @deprecated AIGlassThemeProvider DEP-S0410 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */
 export function AIGlassThemeProvider({
   children,
   initialConfig = {},

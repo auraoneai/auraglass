@@ -101,6 +101,7 @@ export interface TableWidgetProps extends React.HTMLAttributes<HTMLDivElement> {
  * TableWidget component
  * Display tabular data with sorting and styling
  */
+/** @deprecated TableWidget DEP-S0246 since 4.2.0, removed in 5.0.0. */
 export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
   (
     {

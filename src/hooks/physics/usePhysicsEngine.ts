@@ -1,17 +1,17 @@
-'use client';
+"use client";
 /**
  * Physics Engine Hook
  * React hook for managing physics engine instance and body interactions
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AuraPhysicsEngineAPI,
   PhysicsBodyState,
   PhysicsBodyOptions,
   CollisionEvent,
-} from '../../physics/AuraPhysicsEngine';
-import { Vector2D } from '../../types/common';
+} from "../../physics/AuraPhysicsEngine";
+import { Vector2D } from "../../types/common";
 
 /**
  * Physics engine hook options
@@ -25,12 +25,15 @@ export interface UsePhysicsEngineOptions {
 /**
  * Hook for managing a physics engine instance
  */
+/** @deprecated usePhysicsEngine DEP-M0861 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion springs (toMotionTransition)} */
 export const usePhysicsEngine = (options: UsePhysicsEngineOptions = {}) => {
   const { autoStart = false, gravity, timeScale = 1.0 } = options;
 
   const engineRef = useRef<AuraPhysicsEngineAPI | null>(null);
   const [isRunning, setIsRunning] = useState(false);
-  const [bodyStates, setBodyStates] = useState<Map<string, PhysicsBodyState>>(new Map());
+  const [bodyStates, setBodyStates] = useState<Map<string, PhysicsBodyState>>(
+    new Map()
+  );
 
   /**
    * Initialize engine
@@ -81,7 +84,7 @@ export const usePhysicsEngine = (options: UsePhysicsEngineOptions = {}) => {
   const createBody = useCallback(
     (id: string, options?: PhysicsBodyOptions): string => {
       if (!engineRef.current) {
-        throw new Error('Physics engine not initialized');
+        throw new Error("Physics engine not initialized");
       }
       return engineRef.current.createBody(id, options);
     },

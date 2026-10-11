@@ -43,6 +43,26 @@ if (!skipBuild) {
 const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "auraglass-vite-"));
 const packInfo = packToDir(rootDir, tmpRoot);
 const tarballPath = packInfo.tarballPath;
+
+// REQ-PLAT-63 — consumer-4x mode: run the frozen fixture instead of the
+// inline scaffold. AG_CONSUMER_4X=1 copies tests/fixtures/consumer-4x/
+// vite-react18, installs the packed tgz, and runs `vite build`.
+if (process.env.AG_CONSUMER_4X === "1") {
+  const fixtureDir = path.join(rootDir, "tests/fixtures/consumer-4x/vite-react18");
+  const appDir = path.join(tmpRoot, "consumer-4x-vite");
+  fs.cpSync(fixtureDir, appDir, { recursive: true });
+  const rel = path.relative(appDir, tarballPath);
+  const pkgPath = path.join(appDir, "package.json");
+  const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
+  pkg.dependencies["aura-glass"] = `file:${rel}`;
+  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + "\n");
+  console.log("📥 Installing consumer-4x/vite-react18 fixture...");
+  run("npm install --prefer-offline --no-audit --no-fund --legacy-peer-deps", { cwd: appDir });
+  run("npm run build", { cwd: appDir });
+  console.log("✅ consumer-4x/vite-react18 fixture build passed");
+  process.exit(0);
+}
+
 const appDir = path.join(tmpRoot, "vite-app");
 fs.mkdirSync(appDir);
 

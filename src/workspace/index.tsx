@@ -4,6 +4,10 @@ import React from "react";
 
 import { cn } from "../lib/utilsComprehensive";
 import {
+import { warnDeprecated } from "../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0055");
   GlassActionBar,
   GlassCommandDock,
   GlassPage,
@@ -88,10 +92,11 @@ export interface GlassWorkspaceTabsProps extends DivProps {
   onValueChange?: (value: string) => void;
 }
 
+/** @deprecated GlassWorkspaceTabs DEP-S0014 since 4.2.0, removed in 5.0.0. {@link Tabs from aura-glass} */
 export const GlassWorkspaceTabs = React.forwardRef<
   HTMLDivElement,
   GlassWorkspaceTabsProps
->(({ className, children, ...props }, ref) => (
+>(({ className, children, value, onValueChange, ...props }, ref) => (
   <div
     ref={ref}
     role="tablist"
@@ -101,7 +106,14 @@ export const GlassWorkspaceTabs = React.forwardRef<
     )}
     {...props}
   >
-    {children}
+    {React.Children.map(children, (child) =>
+      React.isValidElement(child)
+        ? React.cloneElement(child as React.ReactElement<any>, {
+            value,
+            onValueChange,
+          })
+        : child
+    )}
   </div>
 ));
 GlassWorkspaceTabs.displayName = "GlassWorkspaceTabs";
@@ -109,28 +121,52 @@ GlassWorkspaceTabs.displayName = "GlassWorkspaceTabs";
 export interface GlassWorkspaceTabProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean;
+  /** Controlled value assigned by the parent tablist (REQ-PLAT-59). */
+  value?: string;
+  /** Called with this tab's own `data-value`/children-derived id when clicked. */
+  onValueChange?: (value: string) => void;
 }
 
 export const GlassWorkspaceTab = React.forwardRef<
   HTMLButtonElement,
   GlassWorkspaceTabProps
->(({ className, active = false, type = "button" as const, ...props }, ref) => (
-  <button
-    ref={ref}
-    type={type}
-    role="tab"
-    aria-selected={active}
-    className={cn(
-      "glass-rounded-lg glass-px-3 glass-py-1.5 glass-text-sm glass-transition-colors",
-      "focus-visible:glass-outline-none focus-visible:glass-ring-2 focus-visible:glass-ring-sky-300",
-      active
-        ? "glass-surface-primary/15 glass-border glass-border-sky-300/40 glass-text-primary"
-        : "glass-text-secondary hover:glass-bg-white/10 hover:glass-text-primary",
-      className
-    )}
-    {...props}
-  />
-));
+>(
+  (
+    {
+      className,
+      active = false,
+      type = "button" as const,
+      value,
+      onValueChange,
+      onClick,
+      ...props
+    },
+    ref
+  ) => (
+    <button
+      ref={ref}
+      type={type}
+      role="tab"
+      aria-selected={active}
+      className={cn(
+        "glass-rounded-lg glass-px-3 glass-py-1.5 glass-text-sm glass-transition-colors",
+        "focus-visible:glass-outline-none focus-visible:glass-ring-2 focus-visible:glass-ring-sky-300",
+        active
+          ? "glass-surface-primary/15 glass-border glass-border-sky-300/40 glass-text-primary"
+          : "glass-text-secondary hover:glass-bg-white/10 hover:glass-text-primary",
+        className
+      )}
+      onClick={(event) => {
+        onClick?.(event);
+        onValueChange?.(
+          (event.currentTarget.getAttribute("data-value") ??
+            String(event.currentTarget.textContent ?? "")) as string
+        );
+      }}
+      {...props}
+    />
+  )
+);
 GlassWorkspaceTab.displayName = "GlassWorkspaceTab";
 
 export interface GlassWorkspacePanelProps extends DivPropsWithNodeTitle {

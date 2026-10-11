@@ -99,6 +99,7 @@ export interface GlassMessageListProps {
  * GlassMessageList component
  * A scrollable list of chat messages with reactions, replies, and attachments
  */
+/** @deprecated GlassMessageList DEP-S0402 since 4.2.0, removed in 6.0.0. {@link Thread from aura-glass/ai} */
 export const GlassMessageList: React.FC<GlassMessageListProps> = ({
   messages = [],
   currentUserId,

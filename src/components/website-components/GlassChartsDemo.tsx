@@ -115,6 +115,7 @@ export interface GlassChartsDemoProps {
   children?: React.ReactNode;
 }
 
+/** @deprecated GlassChartsDemo DEP-S0237 since 4.2.0, removed in 5.0.0. */
 export function GlassChartsDemo({ className, children }: GlassChartsDemoProps) {
   const gradientId = useId().replace(/:/g, "");
   const lineGradient = `${gradientId}-line`;

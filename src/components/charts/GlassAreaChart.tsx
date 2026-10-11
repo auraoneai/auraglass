@@ -122,6 +122,7 @@ export interface GlassAreaChartProps {
  * GlassAreaChart component
  * A glassmorphism area chart with multiple series support and smooth area fills
  */
+/** @deprecated GlassAreaChart DEP-S0231 since 4.2.0, removed in 5.0.0. */
 export const GlassAreaChart: React.FC<GlassAreaChartProps> = ({
   title,
   series = [],

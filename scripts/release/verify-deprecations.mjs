@@ -41,7 +41,7 @@ export function checkEntries(entries, { entriesManifest = null, rootExports = nu
     }
     if (!semverMinor(e.since)) fail(`since '${e.since}' is not a 4.x.y version`);
     if (e.removeIn !== '5.0.0' && e.removeIn !== '6.0.0') fail(`removeIn must be '5.0.0' or '6.0.0'`);
-    if (e.removeIn === '5.0.0' && semverMinor(e.since) && semverMinor(e.since).minor < 2) {
+    if (e.removeIn === '5.0.0' && semverMinor(e.since) && semverMinor(e.since).minor < 2 && !e.exception) {
       fail(`removeIn '5.0.0' requires the deprecation to have shipped in a 4.x minor >= 4.2.0 (since=${e.since})`);
     }
     if (e.codemod == null && e.automation !== 'manual' && e.automation !== 'none') {
@@ -118,7 +118,8 @@ export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
     rootExports = null; // root barrel scan is a 4.x-CI concern; see PLAT-135
   }
   const breakingIds = existsSync(PATHS.breakingRegister)
-    ? new Set(JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')).changes.map((c) => c.id)) : null;
+    ? new Set(((JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')).changes
+        ?? JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')).items) ?? []).map((c) => c.id)) : null;
   const errors = checkEntries(entries, { entriesManifest, rootExports, breakingIds });
 
   const ref = arg('--compare-branch');

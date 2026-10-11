@@ -53,6 +53,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+
+/** @deprecated GlassParticleField DEP-S0626 since 4.2.0, removed in 5.0.0. {@link the labs ParticleField (seeded PRNG)} */
 export const GlassParticleField: Story = {
   render: () => (
     <div style={{ width: "min(620px, calc(100vw - 32px))" }}>

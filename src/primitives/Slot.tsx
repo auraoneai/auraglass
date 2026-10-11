@@ -66,6 +66,16 @@ export interface SlotProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
 }
 
+// React 19 exposes ref as a normal prop (element.ref access is removed);
+// React 18 carries it on the element object. Exported for unit coverage.
+export const pickChildRef = (
+  child: React.ReactElement<AnyProps>,
+  reactMajor: number
+): React.Ref<HTMLElement> | undefined =>
+  reactMajor >= 19
+    ? ((child.props as AnyProps).ref as React.Ref<HTMLElement> | undefined)
+    : (child as unknown as { ref?: React.Ref<HTMLElement> }).ref;
+
 export const Slot = React.forwardRef<HTMLElement, SlotProps>(
   ({ children, ...props }, forwardedRef) => {
     if (!React.isValidElement(children)) {
@@ -73,7 +83,7 @@ export const Slot = React.forwardRef<HTMLElement, SlotProps>(
     }
 
     const child = children as React.ReactElement<AnyProps>;
-    const childRef = (child as unknown as { ref?: React.Ref<HTMLElement> }).ref;
+    const childRef = pickChildRef(child, parseInt(React.version, 10));
 
     return React.cloneElement(child, {
       ...mergeProps(props as AnyProps, child.props),

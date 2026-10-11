@@ -139,6 +139,7 @@ export interface LiquidGlassMaterialProps
  * - GPU-accelerated rendering with fallbacks
  * - Performance-optimized across devices
  */
+/** @deprecated LiquidGlassMaterial DEP-M0809 since 4.2.0, removed in 5.0.0. {@link Surface} */
 export const LiquidGlassMaterial = forwardRef<
   HTMLDivElement,
   LiquidGlassMaterialProps

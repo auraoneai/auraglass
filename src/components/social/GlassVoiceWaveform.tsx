@@ -64,6 +64,8 @@ const rainbowColors = [
   "#FF9F43",
 ];
 
+/** @deprecated GlassVoiceWaveform DEP-S0418 since 4.2.0, removed in 5.0.0. {@link none until 5.1 (Waveform)} */
+/** @deprecated GlassVoiceWaveform DEP-S0622 since 4.2.0, removed in 5.0.0. {@link no successor until 5.1 (Waveform)} */
 export const GlassVoiceWaveform = forwardRef<
   HTMLDivElement,
   GlassVoiceWaveformProps
@@ -538,7 +540,9 @@ export const GlassVoiceWaveform = forwardRef<
                 <motion.div
                   className="glass-absolute glass-top-1 glass-w-4 glass-h-4 glass-radius-full"
                   style={{ right: -4, background: "rgba(71,85,105,.88)" }}
-                  animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1] }}
+                  animate={
+                    prefersReducedMotion ? undefined : { scale: [1, 1.2, 1] }
+                  }
                   transition={
                     shouldAnimate
                       ? {

@@ -88,6 +88,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+
+/** @deprecated GlassEcommerceProvider DEP-S0806 since 4.2.0, removed in 5.0.0. {@link consumer-owned commerce state; the 5.x commerce registry blocks take data by props} */
 export const GlassEcommerceProvider: Story = {
   args: {
     children: null,

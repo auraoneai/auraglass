@@ -7,6 +7,7 @@ import { GlassInput, type GlassInputProps } from "./GlassInput";
 export interface GlassDateFieldProps
   extends Omit<GlassInputProps, "type" | "leftIcon"> {}
 
+/** @deprecated GlassDateField DEP-S0220 since 4.2.0, removed in 5.0.0. {@link DateField from aura-glass/date} */
 export const GlassDateField = forwardRef<HTMLInputElement, GlassDateFieldProps>(
   ({ label = "Date", ...props }, ref) => (
     <GlassInput

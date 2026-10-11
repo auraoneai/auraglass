@@ -19,6 +19,7 @@ export interface GlassFormTableProps<
   "data-testid"?: string;
 }
 
+/** @deprecated GlassFormTable DEP-S0245 since 4.2.0, removed in 5.0.0. */
 export function GlassFormTable<
   T extends GlassFormTableRow = GlassFormTableRow,
 >({
@@ -79,11 +80,7 @@ export function GlassFormTable<
         </thead>
         <tbody>
           {safeRows.map((r, ri) => (
-            <tr
-              key={ri}
-              role="row"
-              className={cn("glass-bg-white/12")}
-            >
+            <tr key={ri} role="row" className={cn("glass-bg-white/12")}>
               {safeColumns.map((c) => (
                 <td
                   key={String(c.key)}

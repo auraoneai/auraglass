@@ -55,6 +55,7 @@ const DEFAULT_FOCUSABLE_SELECTOR = [
  * FocusTrap component
  * Traps focus within a container for accessibility
  */
+/** @deprecated FocusTrap DEP-M0946 since 4.2.0, removed in 5.0.0. {@link the 5.x overlay components (focus managed internally)} */
 export function FocusTrap({
   children,
   active = true,
@@ -333,6 +334,7 @@ export function FocusTrap({
 /**
  * Hook to create a focus trap programmatically
  */
+/** @deprecated useFocusTrap DEP-M0947 since 4.2.0, removed in 5.0.0. {@link the 5.x overlay components (focus managed internally)} */
 export function useFocusTrap(
   containerRef: React.RefObject<HTMLElement>,
   options: Omit<FocusTrapProps, "children"> = {}

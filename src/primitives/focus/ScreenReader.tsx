@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/design-system/utilsCore";
 
@@ -33,6 +33,7 @@ export interface ScreenReaderProps {
  * ScreenReader component
  * Provides screen reader only content and announcements
  */
+/** @deprecated ScreenReader DEP-M0941 since 4.2.0, removed in 5.0.0. {@link useAnnouncer (ScreenReaderOnly → VisuallyHidden)} */
 export function ScreenReader({
   children,
   politeness = "polite",
@@ -81,6 +82,7 @@ export function ScreenReader({
  * ScreenReaderOnly component
  * Visually hidden content for screen readers
  */
+/** @deprecated ScreenReaderOnly DEP-M0942 since 4.2.0, removed in 5.0.0. {@link VisuallyHidden (CMP)} */
 export function ScreenReaderOnly({
   children,
   as: Component = "span",
@@ -102,6 +104,7 @@ export function ScreenReaderOnly({
  * LiveRegion component
  * Announces dynamic content changes to screen readers
  */
+/** @deprecated LiveRegion DEP-M0943 since 4.2.0, removed in 5.0.0. {@link useAnnouncer} */
 export function LiveRegion({
   children,
   politeness = "polite",
@@ -157,6 +160,7 @@ function getAnnouncer() {
 /**
  * Announce a message to screen readers
  */
+/** @deprecated announce DEP-M0944 since 4.2.0, removed in 5.0.0. {@link useAnnouncer} */
 export function announce(
   message: string,
   options: {
@@ -191,6 +195,7 @@ export function announce(
 /**
  * Hook for screen reader announcements
  */
+/** @deprecated useAnnounce DEP-M0945 since 4.2.0, removed in 5.0.0. {@link useAnnouncer} */
 export function useAnnounce() {
   const announcerRef = useRef<HTMLDivElement | null>(null);
 
@@ -201,7 +206,7 @@ export function useAnnounce() {
     const div = document.createElement("div");
     div.setAttribute("aria-live", "polite");
     div.setAttribute("aria-atomic", "true");
-    div.className="glass-sr-only";
+    div.className = "glass-sr-only";
     document.body.appendChild(div);
     announcerRef.current = div;
 
@@ -264,7 +269,7 @@ export function DescribedBy({
       {React.cloneElement(children as any, {
         "aria-describedby": descriptionId,
       })}
-      <span id={descriptionId} className='glass-sr-only'>
+      <span id={descriptionId} className="glass-sr-only">
         {description}
       </span>
     </>
@@ -288,7 +293,7 @@ export function LabelledBy({
 
   return (
     <>
-      <span id={labelId} className='glass-sr-only'>
+      <span id={labelId} className="glass-sr-only">
         {label}
       </span>
       {React.cloneElement(children as any, {

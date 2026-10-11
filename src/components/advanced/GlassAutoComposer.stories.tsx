@@ -97,6 +97,8 @@ function StoryStage({ children }: { children: ReactNode }) {
   );
 }
 
+
+/** @deprecated GlassAutoComposer DEP-S0408 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */
 export const GlassAutoComposer: Story = {
   name: "GlassAutoComposer",
   render: () => (

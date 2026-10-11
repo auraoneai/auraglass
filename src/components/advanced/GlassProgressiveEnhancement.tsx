@@ -447,7 +447,7 @@ export function GlassProgressiveEnhancement({
       reducedMotion:
         safeMatchMedia("(prefers-reduced-motion: reduce)")?.matches ?? false,
       highContrast:
-        safeMatchMedia("(prefers-contrast: high)")?.matches ?? false,
+        safeMatchMedia("(prefers-contrast: more)")?.matches ?? false,
       forcedColors: safeMatchMedia("(forced-colors: active)")?.matches ?? false,
     };
   }

@@ -209,6 +209,7 @@ const getColumnValue = <T extends GlassDataTableRow>(
  * GlassDataTable component
  * A comprehensive data table with glassmorphism styling
  */
+/** @deprecated GlassDataTable DEP-S0200 since 4.2.0, removed in 5.0.0. {@link Table from aura-glass/data} */
 export const GlassDataTable = <T extends GlassDataTableRow = GlassDataTableRow>(
   props: GlassDataTableProps<T> & { ref?: React.Ref<HTMLDivElement> }
 ) => {

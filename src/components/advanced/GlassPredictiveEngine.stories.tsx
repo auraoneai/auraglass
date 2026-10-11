@@ -47,6 +47,8 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
+
+/** @deprecated GlassPredictiveEngine DEP-S0406 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */
 export const GlassPredictiveEngine: Story = {
   name: "GlassPredictiveEngine",
   render: () => (
@@ -68,6 +70,8 @@ export const GlassPredictiveEngineProvider: Story = {
   play: async ({ canvasElement }) => openPredictionPanel(canvasElement),
 };
 
+
+/** @deprecated GlassPredictionIndicator DEP-S0420 since 4.2.0, removed in 5.0.0. {@link none — predictive/simulated AI is rejected at 5.0} */
 export const GlassPredictionIndicator: Story = {
   name: "GlassPredictionIndicator",
   render: () => (

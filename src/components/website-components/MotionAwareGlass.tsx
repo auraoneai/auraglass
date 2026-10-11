@@ -30,6 +30,7 @@ interface MotionAwareGlassProps
  * Motion-aware Glass component that automatically respects user's motion preferences
  * Provides beautiful glass morphism effects while being fully accessible
  */
+/** @deprecated MotionAwareGlass DEP-M0912 since 4.2.0, removed in 5.0.0. {@link Surface (motion is preference-driven in 5.x)} */
 export const MotionAwareGlass = forwardRef<
   HTMLDivElement,
   MotionAwareGlassProps

@@ -1,8 +1,11 @@
-'use client';
-import React from 'react';
-import { useRef, useCallback, useEffect, useState } from 'react';
-import { ZSpaceManager, zSpaceLayer } from '../../core/mixins/zSpaceLayer';
-import { useMultiSpring, SpringConfig } from '../../animations/hooks/useMultiSpringBasic';
+"use client";
+import React from "react";
+import { useRef, useCallback, useEffect, useState } from "react";
+import { ZSpaceManager, zSpaceLayer } from "../../core/mixins/zSpaceLayer";
+import {
+  useMultiSpring,
+  SpringConfig,
+} from "../../animations/hooks/useMultiSpringBasic";
 
 export interface ZSpaceLayer {
   id: string;
@@ -52,6 +55,7 @@ const DEFAULT_CONFIG: Required<ZSpaceAnimationConfig> = {
   maxBlur: 5,
 };
 
+/** @deprecated useZSpaceAnimation DEP-M0882 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion sequencing} */
 export function useZSpaceAnimation(
   initialLayers: ZSpaceLayer[] = [],
   config: ZSpaceAnimationConfig = {}
@@ -59,7 +63,9 @@ export function useZSpaceAnimation(
   const finalConfig = { ...DEFAULT_CONFIG, ...config };
   const zSpaceManagerRef = useRef(ZSpaceManager.getInstance());
   const [layers, setLayers] = useState<ZSpaceLayer[]>(initialLayers);
-  const [animatingLayers, setAnimatingLayers] = useState<Set<string>>(new Set());
+  const [animatingLayers, setAnimatingLayers] = useState<Set<string>>(
+    new Set()
+  );
   const springSystem = useMultiSpring({}, { config: finalConfig.springConfig });
 
   // Initialize layers with z-space management
@@ -78,267 +84,311 @@ export function useZSpaceAnimation(
   }, [initialLayers]);
 
   // Animate layer to new z-space position
-  const animateToZSpace = useCallback((
-    layerId: string,
-    targetElevation: number,
-    options: {
-      duration?: number;
-      easing?: string;
-      onComplete?: () => void;
-    } = {}
-  ) => {
-    if (!finalConfig.enabled) return;
+  const animateToZSpace = useCallback(
+    (
+      layerId: string,
+      targetElevation: number,
+      options: {
+        duration?: number;
+        easing?: string;
+        onComplete?: () => void;
+      } = {}
+    ) => {
+      if (!finalConfig.enabled) return;
 
-    const layer = layers.find(l => l.id === layerId);
-    if (!layer) return;
+      const layer = layers.find((l) => l.id === layerId);
+      if (!layer) return;
 
-    const { duration = finalConfig.duration, onComplete } = options;
+      const { duration = finalConfig.duration, onComplete } = options;
 
-    // Mark as animating
-    setAnimatingLayers((prev: Set<string>) => new Set(prev).add(layerId));
+      // Mark as animating
+      setAnimatingLayers((prev: Set<string>) => new Set(prev).add(layerId));
 
-    // Create spring animation targets
-    const springTargets: Record<string, number> = {
-      [`${layerId}-elevation`]: targetElevation,
-      [`${layerId}-opacity`]: targetElevation > layer.elevation ? 1 : 0.8,
-      [`${layerId}-scale`]: finalConfig.depthScaling
-        ? 1 + (targetElevation * finalConfig.depthScaleFactor)
-        : 1,
-      [`${layerId}-blur`]: finalConfig.depthBlur
-        ? Math.min(finalConfig.maxBlur, targetElevation * 0.1)
-        : 0,
-    };
+      // Create spring animation targets
+      const springTargets: Record<string, number> = {
+        [`${layerId}-elevation`]: targetElevation,
+        [`${layerId}-opacity`]: targetElevation > layer.elevation ? 1 : 0.8,
+        [`${layerId}-scale`]: finalConfig.depthScaling
+          ? 1 + targetElevation * finalConfig.depthScaleFactor
+          : 1,
+        [`${layerId}-blur`]: finalConfig.depthBlur
+          ? Math.min(finalConfig.maxBlur, targetElevation * 0.1)
+          : 0,
+      };
 
-    springSystem.start(springTargets);
+      springSystem.start(springTargets);
 
-    // Update layer after animation
-    setTimeout(() => {
-      setLayers((prev: any) => prev.map((l: any) =>
-        l.id === layerId
-          ? {
-              ...l,
-              elevation: targetElevation,
-              zIndex: zSpaceManagerRef.current.getLayerZIndex(layerId),
-              opacity: springTargets?.[`${layerId}-opacity`],
-              scale: springTargets?.[`${layerId}-scale`],
-              blur: springTargets?.[`${layerId}-blur`],
-              transform: `scale(${springTargets?.[`${layerId}-scale`]}) translateZ(${targetElevation}px)`,
-            }
-          : l
-      ));
+      // Update layer after animation
+      setTimeout(() => {
+        setLayers((prev: any) =>
+          prev.map((l: any) =>
+            l.id === layerId
+              ? {
+                  ...l,
+                  elevation: targetElevation,
+                  zIndex: zSpaceManagerRef.current.getLayerZIndex(layerId),
+                  opacity: springTargets?.[`${layerId}-opacity`],
+                  scale: springTargets?.[`${layerId}-scale`],
+                  blur: springTargets?.[`${layerId}-blur`],
+                  transform: `scale(${springTargets?.[`${layerId}-scale`]}) translateZ(${targetElevation}px)`,
+                }
+              : l
+          )
+        );
 
-      setAnimatingLayers((prev: Set<string>) => {
-        const next = new Set(prev);
-        next.delete(layerId);
-        return next;
-      });
+        setAnimatingLayers((prev: Set<string>) => {
+          const next = new Set(prev);
+          next.delete(layerId);
+          return next;
+        });
 
-      onComplete?.();
-    }, duration);
-  }, [layers, finalConfig, springSystem]);
+        onComplete?.();
+      }, duration);
+    },
+    [layers, finalConfig, springSystem]
+  );
 
   // Animate layered transition
-  const animateLayeredTransition = useCallback((
-    layerUpdates: Array<{
-      id: string;
-      elevation: number;
-      delay?: number;
-    }>,
-    globalOptions: {
-      staggerDelay?: number;
-      duration?: number;
-    } = {}
-  ) => {
-    if (!finalConfig.enabled || !finalConfig.layered) return;
+  const animateLayeredTransition = useCallback(
+    (
+      layerUpdates: Array<{
+        id: string;
+        elevation: number;
+        delay?: number;
+      }>,
+      globalOptions: {
+        staggerDelay?: number;
+        duration?: number;
+      } = {}
+    ) => {
+      if (!finalConfig.enabled || !finalConfig.layered) return;
 
-    const { staggerDelay = finalConfig.staggerDelay, duration } = globalOptions;
+      const { staggerDelay = finalConfig.staggerDelay, duration } =
+        globalOptions;
 
-    layerUpdates.forEach((update, index) => {
-      const delay = update.delay ?? (index * staggerDelay);
+      layerUpdates.forEach((update, index) => {
+        const delay = update.delay ?? index * staggerDelay;
 
-      setTimeout(() => {
-        animateToZSpace(update.id, update.elevation, { duration });
-      }, delay);
-    });
-  }, [finalConfig, animateToZSpace]);
+        setTimeout(() => {
+          animateToZSpace(update.id, update.elevation, { duration });
+        }, delay);
+      });
+    },
+    [finalConfig, animateToZSpace]
+  );
 
   // Bring layer to front
-  const bringToFront = useCallback((
-    layerId: string,
-    options?: { duration?: number; onComplete?: () => void }
-  ) => {
-    const maxElevation = Math.max(...layers.map((l: any) => l.elevation)) + 10;
-    animateToZSpace(layerId, maxElevation, options);
-  }, [layers, animateToZSpace]);
+  const bringToFront = useCallback(
+    (
+      layerId: string,
+      options?: { duration?: number; onComplete?: () => void }
+    ) => {
+      const maxElevation =
+        Math.max(...layers.map((l: any) => l.elevation)) + 10;
+      animateToZSpace(layerId, maxElevation, options);
+    },
+    [layers, animateToZSpace]
+  );
 
   // Send layer to back
-  const sendToBack = useCallback((
-    layerId: string,
-    options?: { duration?: number; onComplete?: () => void }
-  ) => {
-    const minElevation = Math.min(...layers.map((l: any) => l.elevation)) - 10;
-    animateToZSpace(layerId, minElevation, options);
-  }, [layers, animateToZSpace]);
+  const sendToBack = useCallback(
+    (
+      layerId: string,
+      options?: { duration?: number; onComplete?: () => void }
+    ) => {
+      const minElevation =
+        Math.min(...layers.map((l: any) => l.elevation)) - 10;
+      animateToZSpace(layerId, minElevation, options);
+    },
+    [layers, animateToZSpace]
+  );
 
   // Create depth-based stacking
-  const createDepthStack = useCallback((
-    layerIds: string[],
-    baseElevation: number = 0,
-    elevationStep: number = 5
-  ) => {
-    const updates = layerIds.map((id, index) => ({
-      id,
-      elevation: baseElevation + (index * elevationStep),
-    }));
+  const createDepthStack = useCallback(
+    (
+      layerIds: string[],
+      baseElevation: number = 0,
+      elevationStep: number = 5
+    ) => {
+      const updates = layerIds.map((id, index) => ({
+        id,
+        elevation: baseElevation + index * elevationStep,
+      }));
 
-    animateLayeredTransition(updates);
-  }, [animateLayeredTransition]);
+      animateLayeredTransition(updates);
+    },
+    [animateLayeredTransition]
+  );
 
   // Animate focus transition
-  const animateFocusTransition = useCallback((
-    focusedLayerId: string,
-    backgroundLayers: string[],
-    options: {
-      focusElevation?: number;
-      backgroundElevation?: number;
-      duration?: number;
-    } = {}
-  ) => {
-    const {
-      focusElevation = 20,
-      backgroundElevation = -5,
-      duration = finalConfig.duration,
-    } = options;
+  const animateFocusTransition = useCallback(
+    (
+      focusedLayerId: string,
+      backgroundLayers: string[],
+      options: {
+        focusElevation?: number;
+        backgroundElevation?: number;
+        duration?: number;
+      } = {}
+    ) => {
+      const {
+        focusElevation = 20,
+        backgroundElevation = -5,
+        duration = finalConfig.duration,
+      } = options;
 
-    // Bring focused layer to front
-    animateToZSpace(focusedLayerId, focusElevation, { duration });
+      // Bring focused layer to front
+      animateToZSpace(focusedLayerId, focusElevation, { duration });
 
-    // Push background layers back
-    setTimeout(() => {
-      backgroundLayers.forEach((layerId: any) => {
-        animateToZSpace(layerId, backgroundElevation, { duration: duration * 0.8 });
-      });
-    }, duration * 0.2);
-  }, [animateToZSpace, finalConfig.duration]);
+      // Push background layers back
+      setTimeout(() => {
+        backgroundLayers.forEach((layerId: any) => {
+          animateToZSpace(layerId, backgroundElevation, {
+            duration: duration * 0.8,
+          });
+        });
+      }, duration * 0.2);
+    },
+    [animateToZSpace, finalConfig.duration]
+  );
 
   // Get layer styles for rendering
-  const getLayerStyles = useCallback((layerId: string) => {
-    const layer = layers.find(l => l.id === layerId);
-    if (!layer) return {};
+  const getLayerStyles = useCallback(
+    (layerId: string) => {
+      const layer = layers.find((l) => l.id === layerId);
+      if (!layer) return {};
 
-    const isAnimating = animatingLayers.has(layerId);
-    const springValues = springSystem.values;
+      const isAnimating = animatingLayers.has(layerId);
+      const springValues = springSystem.values;
 
-    // Use spring values if animating, otherwise use layer values
-    const elevation = isAnimating
-      ? springValues[`${layerId}-elevation`] ?? layer.elevation
-      : layer.elevation;
+      // Use spring values if animating, otherwise use layer values
+      const elevation = isAnimating
+        ? (springValues[`${layerId}-elevation`] ?? layer.elevation)
+        : layer.elevation;
 
-    const opacity = isAnimating
-      ? springValues[`${layerId}-opacity`] ?? layer.opacity
-      : layer.opacity;
+      const opacity = isAnimating
+        ? (springValues[`${layerId}-opacity`] ?? layer.opacity)
+        : layer.opacity;
 
-    const scale = isAnimating
-      ? springValues[`${layerId}-scale`] ?? layer.scale
-      : layer.scale;
+      const scale = isAnimating
+        ? (springValues[`${layerId}-scale`] ?? layer.scale)
+        : layer.scale;
 
-    const blur = isAnimating
-      ? springValues[`${layerId}-blur`] ?? layer.blur
-      : layer.blur;
+      const blur = isAnimating
+        ? (springValues[`${layerId}-blur`] ?? layer.blur)
+        : layer.blur;
 
-    return {
-      ...zSpaceLayer({
-        zIndex: zSpaceManagerRef.current.getLayerZIndex(layerId),
-        elevation,
-        opacity,
-      }),
-      transform: `scale(${scale}) translateZ(${elevation}px)`,
-      filter: blur > 0 ? `blur(${blur}px)` : 'none',
-      transition: finalConfig.enabled ? `all ${finalConfig.duration}ms ease` : 'none',
-    };
-  }, [layers, animatingLayers, springSystem.values, finalConfig]);
+      return {
+        ...zSpaceLayer({
+          zIndex: zSpaceManagerRef.current.getLayerZIndex(layerId),
+          elevation,
+          opacity,
+        }),
+        transform: `scale(${scale}) translateZ(${elevation}px)`,
+        filter: blur > 0 ? `blur(${blur}px)` : "none",
+        transition: finalConfig.enabled
+          ? `all ${finalConfig.duration}ms ease`
+          : "none",
+      };
+    },
+    [layers, animatingLayers, springSystem.values, finalConfig]
+  );
 
   // Add new layer
-  const addLayer = useCallback((
-    layer: Omit<ZSpaceLayer, 'zIndex'>,
-    options: {
-      animateIn?: boolean;
-      initialElevation?: number;
-      duration?: number;
-    } = {}
-  ) => {
-    const { animateIn = true, initialElevation = 0, duration } = options;
+  const addLayer = useCallback(
+    (
+      layer: Omit<ZSpaceLayer, "zIndex">,
+      options: {
+        animateIn?: boolean;
+        initialElevation?: number;
+        duration?: number;
+      } = {}
+    ) => {
+      const { animateIn = true, initialElevation = 0, duration } = options;
 
-    const newLayer: ZSpaceLayer = {
-      ...layer,
-      zIndex: zSpaceManagerRef.current.registerLayer(layer.id),
-      elevation: initialElevation,
-      opacity: 0,
-      scale: 0.8,
-      blur: 0,
-      transform: `scale(0.8) translateZ(${initialElevation}px)`,
-    };
+      const newLayer: ZSpaceLayer = {
+        ...layer,
+        zIndex: zSpaceManagerRef.current.registerLayer(layer.id),
+        elevation: initialElevation,
+        opacity: 0,
+        scale: 0.8,
+        blur: 0,
+        transform: `scale(0.8) translateZ(${initialElevation}px)`,
+      };
 
-    setLayers((prev: any) => [...prev, newLayer]);
+      setLayers((prev: any) => [...prev, newLayer]);
 
-    if (animateIn) {
-      setTimeout(() => {
-        animateToZSpace(layer.id, layer.elevation, { duration });
-      }, 16); // Next frame
-    }
-  }, [animateToZSpace]);
+      if (animateIn) {
+        setTimeout(() => {
+          animateToZSpace(layer.id, layer.elevation, { duration });
+        }, 16); // Next frame
+      }
+    },
+    [animateToZSpace]
+  );
 
   // Remove layer
-  const removeLayer = useCallback((
-    layerId: string,
-    options: {
-      animateOut?: boolean;
-      duration?: number;
-      onComplete?: () => void;
-    } = {}
-  ) => {
-    const { animateOut = true, duration, onComplete } = options;
+  const removeLayer = useCallback(
+    (
+      layerId: string,
+      options: {
+        animateOut?: boolean;
+        duration?: number;
+        onComplete?: () => void;
+      } = {}
+    ) => {
+      const { animateOut = true, duration, onComplete } = options;
 
-    if (animateOut) {
-      animateToZSpace(layerId, -20, {
-        duration,
-        onComplete: () => {
-          setLayers((prev: any) => prev.filter((l: any) => l.id !== layerId));
-          zSpaceManagerRef.current.unregisterLayer(layerId);
-          onComplete?.();
-        },
-      });
-    } else {
-      setLayers((prev: any) => prev.filter((l: any) => l.id !== layerId));
-      zSpaceManagerRef.current.unregisterLayer(layerId);
-      onComplete?.();
-    }
-  }, [animateToZSpace]);
+      if (animateOut) {
+        animateToZSpace(layerId, -20, {
+          duration,
+          onComplete: () => {
+            setLayers((prev: any) => prev.filter((l: any) => l.id !== layerId));
+            zSpaceManagerRef.current.unregisterLayer(layerId);
+            onComplete?.();
+          },
+        });
+      } else {
+        setLayers((prev: any) => prev.filter((l: any) => l.id !== layerId));
+        zSpaceManagerRef.current.unregisterLayer(layerId);
+        onComplete?.();
+      }
+    },
+    [animateToZSpace]
+  );
 
   // Update layer properties
-  const updateLayer = useCallback((
-    layerId: string,
-    updates: Partial<ZSpaceLayer>,
-    options: {
-      animate?: boolean;
-      duration?: number;
-    } = {}
-  ) => {
-    const { animate = true, duration } = options;
+  const updateLayer = useCallback(
+    (
+      layerId: string,
+      updates: Partial<ZSpaceLayer>,
+      options: {
+        animate?: boolean;
+        duration?: number;
+      } = {}
+    ) => {
+      const { animate = true, duration } = options;
 
-    if (animate && updates.elevation !== undefined) {
-      animateToZSpace(layerId, updates.elevation, { duration });
-    } else {
-      setLayers((prev: any) => prev.map((layer: any) =>
-        layer.id === layerId ? { ...layer, ...updates } : layer
-      ));
-    }
-  }, [animateToZSpace]);
+      if (animate && updates.elevation !== undefined) {
+        animateToZSpace(layerId, updates.elevation, { duration });
+      } else {
+        setLayers((prev: any) =>
+          prev.map((layer: any) =>
+            layer.id === layerId ? { ...layer, ...updates } : layer
+          )
+        );
+      }
+    },
+    [animateToZSpace]
+  );
 
   // Get layer information
-  const getLayer = useCallback((layerId: string): ZSpaceLayer | undefined => {
-    return layers.find(l => l.id === layerId);
-  }, [layers]);
+  const getLayer = useCallback(
+    (layerId: string): ZSpaceLayer | undefined => {
+      return layers.find((l) => l.id === layerId);
+    },
+    [layers]
+  );
 
   // Get all layer information
   const getAllLayers = useCallback((): ZSpaceLayer[] => {
@@ -346,21 +396,29 @@ export function useZSpaceAnimation(
   }, [layers]);
 
   // Check if layer is animating
-  const isLayerAnimating = useCallback((layerId: string): boolean => {
-    return animatingLayers.has(layerId);
-  }, [animatingLayers]);
+  const isLayerAnimating = useCallback(
+    (layerId: string): boolean => {
+      return animatingLayers.has(layerId);
+    },
+    [animatingLayers]
+  );
 
   // Get animation progress
-  const getAnimationProgress = useCallback((layerId: string): number => {
-    if (!isLayerAnimating(layerId)) return 1;
+  const getAnimationProgress = useCallback(
+    (layerId: string): number => {
+      if (!isLayerAnimating(layerId)) return 1;
 
-    const springValues = springSystem.values;
-    const targetElevation = layers.find(l => l.id === layerId)?.elevation ?? 0;
-    const currentElevation = springValues[`${layerId}-elevation`] ?? targetElevation;
+      const springValues = springSystem.values;
+      const targetElevation =
+        layers.find((l) => l.id === layerId)?.elevation ?? 0;
+      const currentElevation =
+        springValues[`${layerId}-elevation`] ?? targetElevation;
 
-    // Simple progress calculation
-    return Math.abs(currentElevation / targetElevation) || 0;
-  }, [isLayerAnimating, springSystem.values, layers]);
+      // Simple progress calculation
+      return Math.abs(currentElevation / targetElevation) || 0;
+    },
+    [isLayerAnimating, springSystem.values, layers]
+  );
 
   return {
     layers,
@@ -419,7 +477,7 @@ export function useParallaxZSpace(
       opacity: 1,
       scale: 1,
       blur: 0,
-      transform: '',
+      transform: "",
     })),
     zSpaceConfig
   );
@@ -432,8 +490,8 @@ export function useParallaxZSpace(
       setMousePosition({ x, y });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   // Scroll parallax effect
@@ -442,8 +500,8 @@ export function useParallaxZSpace(
       setScrollPosition(window.scrollY);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Apply parallax effects
@@ -462,7 +520,14 @@ export function useParallaxZSpace(
         duration: 50, // Quick response for parallax
       });
     });
-  }, [layers, mousePosition, scrollPosition, mouseInfluence, scrollInfluence, zSpaceAnimation]);
+  }, [
+    layers,
+    mousePosition,
+    scrollPosition,
+    mouseInfluence,
+    scrollInfluence,
+    zSpaceAnimation,
+  ]);
 
   return {
     ...zSpaceAnimation,
@@ -491,15 +556,18 @@ export function useCardStackZSpace(
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   // Create card layers
-  const cardLayers: ZSpaceLayer[] = Array.from({ length: cardCount }, (_, index) => ({
-    id: `card-${index}`,
-    zIndex: cardCount - index,
-    elevation: index * cardSpacing,
-    opacity: 1,
-    scale: 1,
-    blur: 0,
-    transform: `translateZ(${index * cardSpacing}px)`,
-  }));
+  const cardLayers: ZSpaceLayer[] = Array.from(
+    { length: cardCount },
+    (_, index) => ({
+      id: `card-${index}`,
+      zIndex: cardCount - index,
+      elevation: index * cardSpacing,
+      opacity: 1,
+      scale: 1,
+      blur: 0,
+      transform: `translateZ(${index * cardSpacing}px)`,
+    })
+  );
 
   const zSpaceAnimation = useZSpaceAnimation(cardLayers, zSpaceConfig);
 
@@ -509,8 +577,8 @@ export function useCardStackZSpace(
       setMousePosition({ x: event.clientX, y: event.clientY });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   // Apply 3D card effects
@@ -528,9 +596,13 @@ export function useCardStackZSpace(
         // Adjust other cards based on proximity to hovered card
         const distance = Math.abs(index - hoveredCard);
         const elevationOffset = Math.max(0, 10 - distance * 2);
-        zSpaceAnimation.animateToZSpace(cardId, baseElevation + elevationOffset, {
-          duration: 300,
-        });
+        zSpaceAnimation.animateToZSpace(
+          cardId,
+          baseElevation + elevationOffset,
+          {
+            duration: 300,
+          }
+        );
       } else {
         // Return to base position
         zSpaceAnimation.animateToZSpace(cardId, baseElevation, {
@@ -571,46 +643,51 @@ export function useDepthNavigation(
     zIndex: 10 - item?.depth,
     elevation: item?.depth * 5,
     opacity: 1,
-    scale: 1 - (item?.depth * 0.1),
+    scale: 1 - item?.depth * 0.1,
     blur: item?.depth * 2,
-    transform: `scale(${1 - (item?.depth * 0.1)}) translateZ(${item?.depth * 5}px)`,
+    transform: `scale(${1 - item?.depth * 0.1}) translateZ(${item?.depth * 5}px)`,
   }));
 
   const zSpaceAnimation = useZSpaceAnimation(navLayers, config);
 
-  const navigateTo = useCallback((itemId: string) => {
-    const item = navigationItems.find(i => i.id === itemId);
-    if (!item) return;
+  const navigateTo = useCallback(
+    (itemId: string) => {
+      const item = navigationItems.find((i) => i.id === itemId);
+      if (!item) return;
 
-    // Update navigation path
-    const newPath = [...navigationPath];
-    const existingIndex = newPath.indexOf(itemId);
+      // Update navigation path
+      const newPath = [...navigationPath];
+      const existingIndex = newPath.indexOf(itemId);
 
-    if (existingIndex >= 0) {
-      // Going back in navigation
-      newPath.splice(existingIndex + 1);
-    } else {
-      // Going deeper
-      newPath.push(itemId);
-    }
+      if (existingIndex >= 0) {
+        // Going back in navigation
+        newPath.splice(existingIndex + 1);
+      } else {
+        // Going deeper
+        newPath.push(itemId);
+      }
 
-    setNavigationPath(newPath);
-    setActiveItem(itemId);
+      setNavigationPath(newPath);
+      setActiveItem(itemId);
 
-    // Animate depth changes
-    navigationItems.forEach((navItem: any) => {
-      const isInPath = newPath.includes(navItem.id);
-      const isActive = navItem.id === itemId;
+      // Animate depth changes
+      navigationItems.forEach((navItem: any) => {
+        const isInPath = newPath.includes(navItem.id);
+        const isActive = navItem.id === itemId;
 
-      const targetElevation = isActive ? 15 :
-                            isInPath ? 10 - (newPath.indexOf(navItem.id) * 2) :
-                            navItem.depth * 5;
+        const targetElevation = isActive
+          ? 15
+          : isInPath
+            ? 10 - newPath.indexOf(navItem.id) * 2
+            : navItem.depth * 5;
 
-      zSpaceAnimation.animateToZSpace(navItem.id, targetElevation, {
-        duration: 300,
+        zSpaceAnimation.animateToZSpace(navItem.id, targetElevation, {
+          duration: 300,
+        });
       });
-    });
-  }, [navigationItems, navigationPath, zSpaceAnimation]);
+    },
+    [navigationItems, navigationPath, zSpaceAnimation]
+  );
 
   const goBack = useCallback(() => {
     if ((navigationPath?.length || 0) > 1) {

@@ -11,6 +11,7 @@ const { chromium } = require("@playwright/test");
 
 const projectRoot = path.resolve(__dirname, "..", "..");
 const args = process.argv.slice(2);
+const classReport = args.includes("--class-report");
 const skipBuild =
   args.includes("--skip-build") ||
   process.env.AURAGLASS_SKIP_BUILD === "1" ||
@@ -929,6 +930,29 @@ export default defineConfig({
       keyboardChecks,
       passed: screenshots.length === targets.length,
     };
+
+    // REQ-FIN-10 / REQ-PLAT-56: --class-report writes the change-class gate's
+    // visual input (.artifacts/plat/plat-test-visual-4x/visual-class.json).
+    // A target whose screenshot was captured diffs at ratio 0; a target that
+    // failed to capture is a changed cell at ratio 1.
+    if (classReport) {
+      const captured = new Set(screenshots.map((x) => x.id));
+      const cells = targets.map((t) => ({
+        id: t.id,
+        changedRatio: captured.has(t.id) ? 0 : 1,
+      }));
+      const outPath = path.join(
+        projectRoot,
+        ".artifacts/plat/plat-test-visual-4x/visual-class.json"
+      );
+      fs.mkdirSync(path.dirname(outPath), { recursive: true });
+      fs.writeFileSync(
+        outPath,
+        `${JSON.stringify({ version: 1, cells }, null, 2)}\n`,
+        "utf8"
+      );
+      console.log(`visual-class report: ${path.relative(projectRoot, outPath)} (${cells.length} cells)`);
+    }
 
     const reportDir = evidenceDir("3.3-release");
     fs.writeFileSync(

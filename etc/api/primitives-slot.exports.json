@@ -1,0 +1,10 @@
+{
+ "entry": "./primitives/slot",
+ "exports": [
+  "GlassSlot",
+  "Slot",
+  "SlotProps",
+  "default"
+ ],
+ "unanalysable": []
+}

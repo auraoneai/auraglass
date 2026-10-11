@@ -115,6 +115,7 @@ export interface GlassPieChartProps {
  * GlassPieChart component
  * A glassmorphism pie/donut chart with interactive segments and smooth animations
  */
+/** @deprecated GlassPieChart DEP-S0232 since 4.2.0, removed in 5.0.0. */
 export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
   function GlassPieChartComponent(
     {
@@ -512,6 +513,7 @@ export interface GlassDonutChartProps
   innerRadiusRatio?: number;
 }
 
+/** @deprecated GlassDonutChart DEP-S0233 since 4.2.0, removed in 5.0.0. */
 export const GlassDonutChart = forwardRef<HTMLDivElement, GlassDonutChartProps>(
   ({ size = 300, innerRadiusRatio = 0.6, ...props }, ref) => {
     const innerRadius = ((size - 40) / 2) * innerRadiusRatio;

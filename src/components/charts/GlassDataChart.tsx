@@ -38,7 +38,6 @@ import { Chart } from "../../vendor/react_chartjs_2";
 import { useAccessibilitySettings } from "../../hooks/useAccessibilitySettings";
 // import { glassGlow } from '../../core/mixins/glowEffects'; // unused
 // import { createThemeContext } from '../../core/themeContext'; // unused
-// import { useGalileoStateSpring, GalileoStateSpringOptions } from '../../hooks/useGalileoStateSpring'; // unused
 import { GlassTooltip } from "../modal/GlassTooltip";
 
 import {
@@ -717,7 +716,7 @@ if (defaults?.plugins?.tooltip) {
 }
 if (defaults?.font) {
   defaults.font.family =
-    "'Aeonik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
 }
 // Set colors safely
 defaults.color =
@@ -2007,6 +2006,7 @@ const GlassDataChartComponent = React.forwardRef<
 GlassDataChartComponent.displayName = "GlassDataChart";
 
 // Export memoized component for better performance
+/** @deprecated GlassDataChart DEP-S0225 since 4.2.0, removed in 5.0.0. */
 export const GlassDataChart = memo(GlassDataChartComponent);
 
 // ESLint disable for TypeScript forwardRef type issues in some configurations

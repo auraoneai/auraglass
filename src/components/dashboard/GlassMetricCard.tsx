@@ -118,6 +118,7 @@ export interface GlassMetricCardProps
  * GlassMetricCard component
  * A glassmorphism metric card for displaying various dashboard metrics
  */
+/** @deprecated GlassMetricCard DEP-S0212 since 4.2.0, removed in 5.0.0. {@link StatCard from aura-glass/data} */
 export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
   (
     {

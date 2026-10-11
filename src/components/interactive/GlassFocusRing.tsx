@@ -13,6 +13,7 @@ import styles from "./GlassFocusRing.module.css";
  * A component that wraps a focusable element to provide an animated,
  * glass-styled focus indicator ring.
  */
+/** @deprecated GlassFocusRing DEP-M0931 since 4.2.0, removed in 5.0.0. {@link focus.css} */
 export const GlassFocusRing: React.FC<GlassFocusRingProps> = ({
   children,
   color,

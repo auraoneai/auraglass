@@ -293,7 +293,7 @@ export interface GlassMigrationStatus {
 
 /**
  * @deprecated Legacy glass APIs — deprecated since 4.2.0, removed in 5.0.0 (DEP-P0060)
- * @removal v2.0.0
+ * @removal 5.0.0
  */
 export interface DeprecatedGlassAPIs {
   glassBorder: GlassMigrationStatus;

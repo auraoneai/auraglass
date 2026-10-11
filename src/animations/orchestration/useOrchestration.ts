@@ -61,6 +61,7 @@ interface OrchestrationState {
 /**
  * Hook for orchestrating complex animations
  */
+/** @deprecated useOrchestration DEP-M0875 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion sequencing} */
 export const useOrchestration = (sequence: OrchestrationSequence) => {
   const {
     elements = [],

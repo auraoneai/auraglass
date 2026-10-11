@@ -103,6 +103,7 @@ export interface GlassMobileNavProps
  * GlassMobileNav component
  * Mobile-first navigation with glassmorphism design
  */
+/** @deprecated GlassMobileNav DEP-S0018 since 4.2.0, removed in 5.0.0. {@link SidebarDrawer from aura-glass/app-shell} */
 export const GlassMobileNav = forwardRef<HTMLDivElement, GlassMobileNavProps>(
   (
     {

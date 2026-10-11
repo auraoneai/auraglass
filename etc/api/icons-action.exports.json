@@ -1,0 +1,21 @@
+{
+ "entry": "./icons/action",
+ "exports": [
+  "ArrowDownIcon",
+  "ArrowRightIcon",
+  "ArrowUpIcon",
+  "CheckIcon",
+  "CloseIcon",
+  "CopyIcon",
+  "DownloadIcon",
+  "FilterIcon",
+  "LoaderIcon",
+  "PlusIcon",
+  "RefreshIcon",
+  "SaveIcon",
+  "SearchIcon",
+  "SendIcon",
+  "XIcon"
+ ],
+ "unanalysable": []
+}

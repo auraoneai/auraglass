@@ -96,6 +96,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+
+/** @deprecated GlassProductRecommendations DEP-S0805 since 4.2.0, removed in 5.0.0. {@link the commerce registry blocks (5.1) composed on Card and CarouselRail} */
 export const GlassProductRecommendations: Story = {
   render: () => (
     <EcommerceProvider>

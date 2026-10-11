@@ -1,0 +1,10 @@
+{
+ "entry": "./primitives/portal",
+ "exports": [
+  "GlassPortal",
+  "Portal",
+  "PortalProps",
+  "default"
+ ],
+ "unanalysable": []
+}

@@ -117,6 +117,7 @@ const DEFAULT_CONFIG: Required<GalileoSpringConfig> = {
   },
 };
 
+/** @deprecated useGalileoSprings DEP-M0865 since 4.2.0, removed in 5.0.0. {@link aura-glass/motion springs} */
 export function useGalileoSprings(
   targets: GalileoSpringTarget[] = [],
   config: GalileoSpringConfig = {}

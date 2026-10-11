@@ -611,8 +611,8 @@ export const GlassIslandLayout = forwardRef<
       >
         <motion.button
           className="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-          whileHover={shouldAnimate ? { scale: 1.05 } : {}}
-          whileTap={shouldAnimate ? { scale: 0.95 } : {}}
+          whileHover={shouldAnimate ? { scale: 1.05 } : undefined}
+          whileTap={shouldAnimate ? { scale: 0.95 } : undefined}
           onClick={() => setCurrentZoom((prev: any) => Math.min(3, prev * 1.2))}
           style={{
             appearance: "none",
@@ -629,8 +629,8 @@ export const GlassIslandLayout = forwardRef<
 
         <motion.button
           className="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-          whileHover={shouldAnimate ? { scale: 1.05 } : {}}
-          whileTap={shouldAnimate ? { scale: 0.95 } : {}}
+          whileHover={shouldAnimate ? { scale: 1.05 } : undefined}
+          whileTap={shouldAnimate ? { scale: 0.95 } : undefined}
           onClick={() =>
             setCurrentZoom((prev: any) => Math.max(0.2, prev / 1.2))
           }
@@ -658,8 +658,8 @@ export const GlassIslandLayout = forwardRef<
             background: "rgba(255,255,255,.2)",
             color: "var(--glass-theme-text, var(--glass-text-primary))",
           }}
-          whileHover={shouldAnimate ? { scale: 1.05 } : {}}
-          whileTap={shouldAnimate ? { scale: 0.95 } : {}}
+          whileHover={shouldAnimate ? { scale: 1.05 } : undefined}
+          whileTap={shouldAnimate ? { scale: 0.95 } : undefined}
           onClick={() => setConnectionMode(!connectionMode)}
         >
           🔗
@@ -667,8 +667,8 @@ export const GlassIslandLayout = forwardRef<
 
         <motion.button
           className="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-          whileHover={shouldAnimate ? { scale: 1.05 } : {}}
-          whileTap={shouldAnimate ? { scale: 0.95 } : {}}
+          whileHover={shouldAnimate ? { scale: 1.05 } : undefined}
+          whileTap={shouldAnimate ? { scale: 0.95 } : undefined}
           onClick={autoArrange}
           style={{
             appearance: "none",
@@ -813,7 +813,9 @@ export const GlassIslandLayout = forwardRef<
                     (selectedIsland === island.id ? 1000 : index),
                 }}
                 initial={shouldAnimate ? { opacity: 0, scale: 0.8 } : false}
-                animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
+                animate={
+                  prefersReducedMotion ? undefined : { opacity: 1, scale: 1 }
+                }
                 transition={
                   prefersReducedMotion
                     ? { duration: 0 }

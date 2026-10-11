@@ -379,7 +379,9 @@ function LiquidRipples({
           className="glass-absolute glass-pointer-events-none"
           initial={{ scale: 0, opacity: 1 }}
           animate={
-            prefersReducedMotion ? {} : { scale: 3 * intensity, opacity: 0 }
+            prefersReducedMotion
+              ? undefined
+              : { scale: 3 * intensity, opacity: 0 }
           }
           exit={{ opacity: 0 }}
           transition={
@@ -554,7 +556,9 @@ export const GlassLiquidContainer = React.forwardRef<
             : {}),
         }}
         transition={
-          shouldAnimate ? { type: "spring", stiffness: 100, damping: 20 } : {}
+          shouldAnimate
+            ? { type: "spring", stiffness: 100, damping: 20 }
+            : undefined
         }
         {...restProps}
       >
@@ -604,4 +608,4 @@ export const liquidPresets = {
     damping: 10,
     intensity: 1.5,
   },
-};
+}; /** @deprecated animate DEP-M0905 since 4.2.0, removed in 5.0.0. {@link CSS motion tokens or aura-glass/motion} */

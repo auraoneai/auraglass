@@ -1,0 +1,7 @@
+{
+ "entry": "./tokens/tailwind",
+ "exports": [],
+ "unanalysable": [
+  "no analysable target for './tokens/tailwind'"
+ ]
+}

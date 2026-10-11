@@ -5,6 +5,10 @@
  */
 
 import { CSSProperties } from 'react';
+import { warnDeprecated } from "../../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0075");
 
 
 
@@ -75,6 +79,7 @@ export const createInteractiveGlassVariants = () => {
 
 
  */
+/** @deprecated createRippleEffect DEP-M0885 since 4.2.0, removed in 5.0.0. {@link none — ripple effects are not part of the material grammar} */
 export const createRippleEffect = (color: string = 'rgba(255, 255, 255, 0.3)'): CSSProperties => {
   return {
     position: 'relative',
@@ -87,6 +92,7 @@ export const createRippleEffect = (color: string = 'rgba(255, 255, 255, 0.3)'): 
 
 
  */
+/** @deprecated createMagneticEffect DEP-M0884 since 4.2.0, removed in 5.0.0. {@link magnetic() (aura-glass/motion)} */
 export const createMagneticEffect = (strength: number = 0.3): CSSProperties => {
   return {
     transition: 'transform 0.3s ease',

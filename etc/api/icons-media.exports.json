@@ -1,0 +1,11 @@
+{
+ "entry": "./icons/media",
+ "exports": [
+  "ImageIcon",
+  "MediaIcon",
+  "MicIcon",
+  "PlayIcon",
+  "VideoIcon"
+ ],
+ "unanalysable": []
+}

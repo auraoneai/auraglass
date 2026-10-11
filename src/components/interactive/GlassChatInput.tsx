@@ -117,6 +117,7 @@ export interface GlassChatInputProps {
  * GlassChatInput component
  * A rich chat input with attachments, voice recording, and formatting
  */
+/** @deprecated GlassChatInput DEP-S0401 since 4.2.0, removed in 6.0.0. {@link Composer from aura-glass/ai} */
 export const GlassChatInput: React.FC<GlassChatInputProps> = ({
   placeholder = "Type a message...",
   enableAttachments = true,

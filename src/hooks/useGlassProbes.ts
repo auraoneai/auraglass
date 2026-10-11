@@ -9,6 +9,10 @@ import React from 'react';
 
 import { useEffect, useRef, useState } from 'react';
 import { GlassStyleProbes, GlassProbeResult } from '../utils/glassStyleProbes';
+import { warnDeprecated } from "../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0048");
 
 export interface UseGlassProbesOptions {
   /** Enable automatic monitoring for this component */
@@ -32,6 +36,7 @@ export interface GlassProbesData {
 /**
  * Hook for monitoring glass elements with real-time probes
  */
+/** @deprecated useGlassProbes DEP-M0820 since 4.2.0, removed in 5.0.0. {@link data-ag-backdrop or Environment (backdrop is declared, never sampled)} */
 export function useGlassProbes(options: UseGlassProbesOptions = {}): GlassProbesData {
   const {
     monitor = true,

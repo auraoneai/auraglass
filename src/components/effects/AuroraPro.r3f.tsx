@@ -301,6 +301,7 @@ export interface AuroraProProps {
   children?: React.ReactNode;
 }
 
+/** @deprecated AuroraPro DEP-S0627 since 4.2.0, removed in 5.0.0. {@link Backdrop preset="aurora"} */
 export function AuroraPro({
   intensity = 1.0,
   speed = 1.0,
@@ -632,7 +633,7 @@ export function AuroraPro({
           <motion.div
             animate={
               prefersReducedMotion
-                ? {}
+                ? undefined
                 : {
                     scale: isPlaying ? [1, 1.2, 1] : 1,
                     opacity: isPlaying ? [0.6, 1, 0.6] : 0.6,

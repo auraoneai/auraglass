@@ -2,11 +2,21 @@
   "name": "consumer-4x-next15",
   "private": true,
   "version": "0.0.0",
-  "scripts": { "dev": "next dev", "build": "next build" },
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 4311",
+    "build": "next build"
+  },
   "dependencies": {
-    "aura-glass": "4.1.1",
+    "aura-glass": "file:../aura-glass-4.x.tgz",
     "next": "15.0.0",
     "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react-dom": "19.0.0",
+    "date-fns": "4.1.0"
+  },
+  "devDependencies": {
+    "typescript": "5.3.3",
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "@types/node": "20.0.0"
   }
 }

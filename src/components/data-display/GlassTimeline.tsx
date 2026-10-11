@@ -4,20 +4,16 @@ import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
 import { ContrastGuard } from "@/components/accessibility/ContrastGuard";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 const timelineInk: React.CSSProperties = {
   color: "var(--glass-theme-text, var(--glass-text-primary))",
 } as React.CSSProperties;
 
-const timelineCard: React.CSSProperties = {
-  ...timelineInk,
-  background:
-    "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
-  backgroundColor: "rgba(255,255,255,0.018)",
-  border: "1px solid rgba(255,255,255,0.18)",
-  boxShadow:
-    "inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 10px 28px rgba(15, 23, 42, 0.1)",
-};
+const timelineCard: React.CSSProperties = createGlassStyle({
+  intent: "neutral",
+  elevation: "level2",
+});
 
 const timelineLayoutStyles = `.glass-timeline { width: 100%; max-width: 100%; box-sizing: border-box; }
 .glass-timeline-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
@@ -72,7 +68,8 @@ export interface TimelineItem {
   onClick?: () => void;
 }
 
-export interface GlassTimelineProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassTimelineProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Timeline items to display
    */
@@ -115,6 +112,7 @@ export interface GlassTimelineProps extends React.HTMLAttributes<HTMLDivElement>
  * GlassTimeline component
  * A timeline component with glassmorphism styling for displaying chronological events
  */
+/** @deprecated GlassTimeline DEP-S0216 since 4.2.0, removed in 5.0.0. {@link Timeline from aura-glass} */
 export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
   (
     {
@@ -281,7 +279,11 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
         ref={ref}
         id={timelineId}
         data-testid={dataTestId || "glasstimeline"}
-        className={cn("glass-timeline glass-relative", config.container, className)}
+        className={cn(
+          "glass-timeline glass-relative",
+          config.container,
+          className
+        )}
         style={timelineInk}
         aria-label={ariaLabel || "Timeline"}
         {...props}
@@ -289,16 +291,26 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
         {/* Connecting line */}
         {showLine && (
           <div
-            className={cn("glass-timeline-line glass-absolute top-0 bottom-0", config.line)}
+            className={cn(
+              "glass-timeline-line glass-absolute top-0 bottom-0",
+              config.line
+            )}
             style={{ backgroundColor: lineColor || "rgba(15, 23, 42, 0.2)" }}
           />
         )}
 
         {/* Timeline items */}
-        <ul className={cn("glass-timeline-list glass-relative", config.gap)} role="list">
+        <ul
+          className={cn("glass-timeline-list glass-relative", config.gap)}
+          role="list"
+        >
           {items.map((item) => {
             return (
-              <li key={item.id} className="glass-timeline-item glass-relative" role="listitem">
+              <li
+                key={item.id}
+                className="glass-timeline-item glass-relative"
+                role="listitem"
+              >
                 {/* Dot */}
                 <span
                   className={cn(
@@ -307,8 +319,8 @@ export const GlassTimeline = forwardRef<HTMLDivElement, GlassTimelineProps>(
                   )}
                   style={{
                     backgroundColor:
-                    dotColor ||
-                    "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+                      dotColor ||
+                      "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
                     border: "2px solid rgba(255, 255, 255, 0.92)",
                     boxShadow: "0 0 0 3px rgba(15, 23, 42, 0.12)",
                   }}
@@ -405,7 +417,8 @@ export default GlassTimeline;
 /**
  * TimelineItem utility component for building timeline structures
  */
-export interface TimelineItemComponentProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TimelineItemComponentProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Timeline item data
    */
