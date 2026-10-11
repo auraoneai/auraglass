@@ -84,7 +84,7 @@ describe('TreeView (SURF-201, REQ-SURF-81..83)', () => {
       expect(i.tagName.toLowerCase()).toBe('svg');
       expect(i.getAttribute('aria-hidden')).toBe('true');
     });
-    expect(icons.map((i) => i.getAttribute('data-ag-icon'))).toEqual(['folder-open', 'file', 'file', 'folder']);
+    expect(icons.map((i) => i.getAttribute('data-icon'))).toEqual(['folder-open', 'file', 'file', 'folder']);
     // no emoji glyphs left in the accessible text
     expect(container.textContent).not.toMatch(/[\u{1F4C1}\u{1F4C2}\u{1F4C4}]/u);
   });
