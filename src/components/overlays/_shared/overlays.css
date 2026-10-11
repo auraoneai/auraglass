@@ -30,7 +30,7 @@
     inset: 0;
     /* REQ-CMP-79: tint and blur are the material layer's — material.css
        paints [data-ag-layer="scrim"] and keeps the blur on the top scrim only
-       ([data-ag-overlay-top]). This rule keeps geometry + the opacity
+       ([data-overlay-top]). This rule keeps geometry + the opacity
        transition. */
     opacity: 1;
     transition: opacity var(--ag-duration-medium) var(--ag-ease-standard);

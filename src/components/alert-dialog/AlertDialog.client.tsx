@@ -22,6 +22,7 @@ import { Button } from '../button';
 import {
   AlertDialogHeader, AlertDialogBody, AlertDialogFooter,
 } from './AlertDialogLayout';
+import { scrimLayerAttributes } from '../../material/stateAttributes';
 import type {
   AlertDialogRootProps, AlertDialogTriggerProps, AlertDialogContentProps,
   AlertDialogPopupProps, AlertDialogButtonishProps, AlertDialogActionProps,
@@ -99,9 +100,9 @@ function AlertDialogBackdrop({ className }: { className?: string }) {
       /* REQ-CMP-79: one scrim per modal — BU skips nested backdrops unless forced */
       forceRender
       data-ag-part="backdrop"
-      data-ag-layer="scrim"
+      {...scrimLayerAttributes()}
       data-ag-overlay-depth={depth}
-      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
+      {...(isTop ? { 'data-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />

@@ -27,6 +27,7 @@ import type {
 } from './Sheet.types';
 import type { SheetDetentsHandle } from './useSheetDetents';
 import type { SheetSide } from './Sheet.types';
+import { scrimLayerAttributes } from '../../material/stateAttributes';
 
 interface SheetCtx {
   depth: number;
@@ -200,9 +201,9 @@ function SheetBackdrop({ className }: { className?: string }) {
       /* REQ-CMP-79: one scrim per modal — BU skips nested backdrops unless forced */
       forceRender
       data-ag-part="backdrop"
-      data-ag-layer="scrim"
+      {...scrimLayerAttributes()}
       data-ag-overlay-depth={ctx.depth}
-      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
+      {...(isTop ? { 'data-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />

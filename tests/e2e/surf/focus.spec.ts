@@ -165,11 +165,11 @@ test.describe('SURF focus (REQ-SURF-193)', () => {
   });
 
   const OVERLAYS: Array<{ name: string; trigger: string; surface: string; viewport?: { width: number; height: number } }> = [
-    { name: 'sidebar drawer', trigger: '[data-ag-focus-overlay="sidebar-drawer"]', surface: '[data-ag-part="sidebar-drawer"]' },
-    { name: 'sheet', trigger: '[data-ag-focus-overlay="sheet"]', surface: '[role="dialog"]' },
-    { name: 'command palette', trigger: '[data-ag-focus-overlay="command-palette"]', surface: '[data-ag-part="command-palette"]' },
-    { name: 'image viewer', trigger: '[data-ag-focus-overlay-host="image-viewer"] [data-ag-part="image-viewer-trigger"]', surface: '[role="dialog"]' },
-    { name: 'popover', trigger: '[data-ag-focus-overlay="popover"]', surface: '[role="dialog"]' },
+    { name: 'sidebar drawer', trigger: '[data-focus-overlay="sidebar-drawer"]', surface: '[data-ag-part="sidebar-drawer"]' },
+    { name: 'sheet', trigger: '[data-focus-overlay="sheet"]', surface: '[role="dialog"]' },
+    { name: 'command palette', trigger: '[data-focus-overlay="command-palette"]', surface: '[data-ag-part="command-palette"]' },
+    { name: 'image viewer', trigger: '[data-focus-overlay-host="image-viewer"] [data-ag-part="image-viewer-trigger"]', surface: '[role="dialog"]' },
+    { name: 'popover', trigger: '[data-focus-overlay="popover"]', surface: '[role="dialog"]' },
   ];
   for (const o of OVERLAYS) {
     test(`focus returns to the trigger when the ${o.name} closes`, async ({ page }) => {

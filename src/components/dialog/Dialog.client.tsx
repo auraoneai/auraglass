@@ -17,6 +17,7 @@ import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { useScrimTop } from '../overlays/_shared/useScrimTop';
 import { DialogHeader, DialogBody, DialogFooter } from './DialogLayout';
+import { scrimLayerAttributes } from '../../material/stateAttributes';
 import type {
   DialogRootProps, DialogTriggerProps, DialogCloseProps, DialogPortalProps,
   DialogBackdropProps, DialogPopupProps, DialogTitleProps, DialogDescriptionProps,
@@ -122,9 +123,9 @@ function DialogBackdrop({ className, ref }: DialogBackdropProps) {
       /* REQ-CMP-79: one scrim per modal — BU skips nested backdrops unless forced */
       forceRender
       data-ag-part="backdrop"
-      data-ag-layer="scrim"
+      {...scrimLayerAttributes()}
       data-ag-overlay-depth={depth}
-      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
+      {...(isTop ? { 'data-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />

@@ -1,7 +1,7 @@
 /* REQ-CMP-79: scrim contract — every modal Backdrop is exactly one
    [data-ag-part=backdrop][data-ag-layer=scrim].ag-scrim; nested dialogs stack
    by open-order depth and only the top modal scrim carries
-   data-ag-overlay-top (its blur survives; deeper scrims are un-blurred by
+   data-overlay-top (its blur survives; deeper scrims are un-blurred by
    material.css). A non-modal layer above the top dialog does not take it. */
 import { describe, expect, it } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
@@ -18,7 +18,7 @@ const settle = async () => {
 };
 const scrims = () => [...document.querySelectorAll<HTMLElement>(SCRIMS)];
 const depthOf = (el: Element) => Number(el.getAttribute('data-ag-overlay-depth'));
-const topScrims = () => scrims().filter((s) => s.hasAttribute('data-ag-overlay-top'));
+const topScrims = () => scrims().filter((s) => s.hasAttribute('data-overlay-top'));
 
 function Nested({ innerOpen, popover = false }: { innerOpen: boolean; popover?: boolean }) {
   return (
@@ -65,10 +65,10 @@ describe('scrim contract (REQ-CMP-79)', () => {
     const view = render(<Nested innerOpen />);
     await settle();
     const outer = scrims()[0]!;
-    expect(outer).not.toHaveAttribute('data-ag-overlay-top');
+    expect(outer).not.toHaveAttribute('data-overlay-top');
     view.rerender(<Nested innerOpen={false} />);
     await settle();
-    expect(outer).toHaveAttribute('data-ag-overlay-top');
+    expect(outer).toHaveAttribute('data-overlay-top');
     expect(topScrims()).toEqual([outer]);
   });
 
