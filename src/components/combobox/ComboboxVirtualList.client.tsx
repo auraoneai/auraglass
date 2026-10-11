@@ -1,14 +1,17 @@
 'use client';
 
-/* CMP-185 (REQ-CMP-72): virtual list for >200-item Combobox. Loaded via dynamic
-   import() by Combobox.Content so @tanstack/react-virtual stays out of the base
-   chunk. Each row keeps aria-setsize = total and aria-posinset = 1-based index;
-   DOM option count <= visible + 2 x overscan. */
+/* CMP-185 (REQ-CMP-72): owned windowed list for >200-item Combobox — no
+   tanstack import (not in CMP's allowlisted importers; CC-CMP-06 stays a
+   fallback). One scrollTop ref + one subscribeFrame recomputes the render
+   window (overscan 5). Each row keeps aria-setsize = total and
+   aria-posinset = 1-based index; DOM option count <= visible + 2*overscan. */
 import * as React from 'react';
-import { useVirtualizer } from '@tanstack/react-virtual';
-import { Combobox as Base } from '@base-ui/react/combobox';
+import { subscribeFrame } from '../../motion/ticker';
 
 export const VIRTUAL_OVERSCAN = 5;
+/* Matches the popup's max-block-size (288px) — jsdom measures 0, so a real
+   measurement only ever shrinks the window, never grows it. */
+const DEFAULT_VIEWPORT_PX = 288;
 
 export interface ComboboxVirtualListProps<Item> {
   items: readonly Item[];
@@ -19,40 +22,63 @@ export interface ComboboxVirtualListProps<Item> {
 
 export function ComboboxVirtualList<Item>({ items, estimateSize = 32, children }: ComboboxVirtualListProps<Item>) {
   const parentRef = React.useRef<HTMLDivElement>(null);
-  const virtualizer = useVirtualizer({
-    count: items.length,
-    initialRect: { width: 320, height: 288 },
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => estimateSize,
-    overscan: VIRTUAL_OVERSCAN,
-  });
+  const scrollTopRef = React.useRef(0);
+  const viewRef = React.useRef(DEFAULT_VIEWPORT_PX);
+  const rangeRef = React.useRef({ start: 0, end: 0 });
+  const [, bump] = React.useReducer((c: number) => c + 1, 0);
+
+  const recompute = React.useCallback(() => {
+    const n = items.length;
+    const visible = Math.ceil(viewRef.current / estimateSize);
+    const start = Math.max(0, Math.floor(scrollTopRef.current / estimateSize) - VIRTUAL_OVERSCAN);
+    const end = Math.min(n, start + visible + 2 * VIRTUAL_OVERSCAN);
+    if (start !== rangeRef.current.start || end !== rangeRef.current.end) {
+      rangeRef.current = { start, end };
+      bump();
+    }
+  }, [items.length, estimateSize]);
+
+  React.useEffect(() => {
+    const el = parentRef.current;
+    if (el && el.clientHeight > 0) viewRef.current = el.clientHeight;
+    recompute();
+    return subscribeFrame(recompute);
+  }, [recompute]);
+
+  const onScroll = React.useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    scrollTopRef.current = e.currentTarget.scrollTop;
+  }, []);
+
+  const { start, end } = rangeRef.current;
+  const rows: React.ReactNode[] = [];
+  for (let i = start; i < end; i++) {
+    const item = items[i] as Item;
+    const node = children(item, i);
+    const rendered = React.isValidElement(node)
+      ? React.cloneElement(node as React.ReactElement<Record<string, unknown>>, {
+          index: i,
+          'aria-setsize': items.length,
+          'aria-posinset': i + 1,
+        })
+      : node;
+    rows.push(
+      <div
+        key={i}
+        style={{
+          position: 'absolute',
+          insetInlineStart: 0,
+          insetBlockStart: 0,
+          inlineSize: '100%',
+          transform: `translateY(${i * estimateSize}px)`,
+        }}
+      >
+        {rendered}
+      </div>,
+    );
+  }
   return (
-    <div ref={parentRef} className="ag-combobox-vscroll" style={{ overflowY: 'auto', maxBlockSize: 'inherit' }}>
-      <div style={{ blockSize: `${virtualizer.getTotalSize()}px`, position: 'relative' }}>
-        {virtualizer.getVirtualItems().map((row) => {
-          const node = children(items[row.index] as Item, row.index);
-          const rendered = React.isValidElement(node)
-            ? React.cloneElement(node as React.ReactElement<Record<string, unknown>>, {
-                'aria-setsize': items.length,
-                'aria-posinset': row.index + 1,
-              })
-            : node;
-          return (
-            <div
-              key={row.key}
-              style={{
-                position: 'absolute',
-                insetInlineStart: 0,
-                insetBlockStart: 0,
-                inlineSize: '100%',
-                transform: `translateY(${row.start}px)`,
-              }}
-            >
-              {rendered}
-            </div>
-          );
-        })}
-      </div>
+    <div ref={parentRef} className="ag-combobox-vscroll" onScroll={onScroll} style={{ overflowY: 'auto', maxBlockSize: 'inherit' }}>
+      <div style={{ blockSize: `${items.length * estimateSize}px`, position: 'relative' }}>{rows}</div>
     </div>
   );
 }

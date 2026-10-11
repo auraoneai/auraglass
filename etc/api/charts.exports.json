@@ -1,7 +1,6 @@
 {
- "entry": "charts",
+ "entry": "./charts",
  "exports": [
   "Chart"
- ],
- "unanalysable": []
+ ]
 }
