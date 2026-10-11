@@ -31,13 +31,17 @@ function textsIn(container: HTMLElement): string[] {
 
 describe('ai labels plumbing (REQ-SURF-129)', () => {
   it('Composer label overrides replace the defaults', () => {
-    const { container, queryByText } = render(
+    const { container, queryByText, getByLabelText } = render(
       <Composer labels={{ input: 'MSG', submit: 'GO', stop: 'HALT' }} />,
     );
     expect(queryByText('Send')).toBeNull();
     expect(queryByText('Send message')).toBeNull();
     const texts = textsIn(container).join(' ');
-    expect(container.querySelector('[aria-label="MSG"]')).toBeTruthy();
+    // REQ-SURF-116: the textarea is named by its (visually hidden) <label>.
+    const input = getByLabelText('MSG');
+    expect(input.tagName).toBe('TEXTAREA');
+    expect(container.querySelector(`label[for="${input.id}"]`)?.textContent).toBe('MSG');
+    expect(container.querySelector('[aria-label="GO"]')).toBeTruthy();
     void texts;
   });
 
