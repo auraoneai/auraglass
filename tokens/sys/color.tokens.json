@@ -15,7 +15,8 @@
         },
         "$extensions": {
           "ag.public": true,
-          "ag.cssVar": "--ag-color-canvas"
+          "ag.cssVar": "--ag-color-canvas",
+          "ag.forcedColor": "Canvas"
         }
       },
       "on-surface": {
@@ -27,7 +28,8 @@
         },
         "$extensions": {
           "ag.public": true,
-          "ag.cssVar": "--ag-color-on-surface"
+          "ag.cssVar": "--ag-color-on-surface",
+          "ag.forcedColor": "CanvasText"
         }
       },
       "on-surface-muted": {
@@ -39,7 +41,8 @@
         },
         "$extensions": {
           "ag.public": true,
-          "ag.cssVar": "--ag-color-on-surface-muted"
+          "ag.cssVar": "--ag-color-on-surface-muted",
+          "ag.forcedColor": "CanvasText"
         }
       },
       "accent": {
@@ -50,7 +53,8 @@
         },
         "$extensions": {
           "ag.public": true,
-          "ag.cssVar": "--ag-color-accent"
+          "ag.cssVar": "--ag-color-accent",
+          "ag.forcedColor": "Highlight"
         }
       },
       "on-accent": {
@@ -61,7 +65,8 @@
         },
         "$extensions": {
           "ag.public": true,
-          "ag.cssVar": "--ag-color-on-accent"
+          "ag.cssVar": "--ag-color-on-accent",
+          "ag.forcedColor": "HighlightText"
         }
       },
       "border": {
@@ -73,7 +78,8 @@
         },
         "$extensions": {
           "ag.public": true,
-          "ag.cssVar": "--ag-color-border"
+          "ag.cssVar": "--ag-color-border",
+          "ag.forcedColor": "CanvasText"
         }
       },
       "focus-inner": {
@@ -110,7 +116,8 @@
         },
         "$extensions": {
           "ag.public": true,
-          "ag.cssVar": "--ag-color-specular"
+          "ag.cssVar": "--ag-color-specular",
+          "ag.forcedColor": "Canvas"
         }
       },
       "danger": {
@@ -121,7 +128,8 @@
         },
         "$extensions": {
           "ag.public": true,
-          "ag.cssVar": "--ag-color-danger"
+          "ag.cssVar": "--ag-color-danger",
+          "ag.forcedColor": "CanvasText"
         }
       },
       "warning": {
@@ -132,7 +140,8 @@
         },
         "$extensions": {
           "ag.public": true,
-          "ag.cssVar": "--ag-color-warning"
+          "ag.cssVar": "--ag-color-warning",
+          "ag.forcedColor": "CanvasText"
         }
       },
       "success": {
@@ -143,7 +152,8 @@
         },
         "$extensions": {
           "ag.public": true,
-          "ag.cssVar": "--ag-color-success"
+          "ag.cssVar": "--ag-color-success",
+          "ag.forcedColor": "CanvasText"
         }
       },
       "info": {
@@ -154,7 +164,8 @@
         },
         "$extensions": {
           "ag.public": true,
-          "ag.cssVar": "--ag-color-info"
+          "ag.cssVar": "--ag-color-info",
+          "ag.forcedColor": "CanvasText"
         }
       }
     }

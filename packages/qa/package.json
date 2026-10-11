@@ -1,0 +1,16 @@
+{
+  "name": "@auraglass/qa",
+  "version": "0.0.0",
+  "private": true,
+  "description": "AuraGlass 5 certification internals (QUAL): subject resolver, export inventory, pixel distinctness, evidence guards. Never published.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./resolve": "./src/resolve/resolveSubject.ts",
+    "./inventory": "./src/inventory/buildInventory.ts",
+    "./pixel": "./src/pixel/duplicates.ts",
+    "./evidence/committed": "./src/evidence/committedEvidence.ts",
+    "./package.json": "./package.json"
+  },
+  "license": "MIT"
+}
