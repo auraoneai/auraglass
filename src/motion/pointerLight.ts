@@ -7,13 +7,16 @@
    transparency glass, (hover:hover) and (pointer:fine), tier standard|enhanced —
    and never under [data-ag-highlights]. */
 import { resolvedMotion, subscribeFrame } from './ticker';
+import { readPointerSignal } from '../theme/preferences/media';
 import type { ResolvedPreferences } from '../contracts/preferences';
 
 export interface PointerLightPrefs {
   motion?: 'full' | 'calm' | 'none';
   transparency?: string;
 }
-export type PointerLightWindow = Pick<Window, 'matchMedia'>;
+/** The window whose input capability is read through the preference store's
+    shared media registry (src/theme/preferences/media.ts). */
+export type PointerLightWindow = Window;
 
 /** REQ-MOT-41: active only under full motion + glass transparency +
     hover-capable fine pointer + standard|enhanced tier; [data-ag-highlights]
@@ -27,7 +30,7 @@ export function pointerLightActive(
   if (prefs.motion !== undefined && prefs.motion !== 'full') return false;
   if (prefs.transparency !== undefined && prefs.transparency !== 'glass') return false;
   if (tier !== 'standard' && tier !== 'enhanced') return false;
-  if (win && !win.matchMedia('(hover: hover) and (pointer: fine)').matches) return false;
+  if (win && !readPointerSignal(win, 'fineHover')) return false;
   const dd = d ?? (typeof document === 'undefined' ? null : document);
   if (dd?.documentElement?.hasAttribute('data-ag-highlights')) return false;
   if (prefs.motion === undefined && resolvedMotion(dd) !== 'full') return false;
