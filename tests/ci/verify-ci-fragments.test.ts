@@ -41,6 +41,8 @@ describe('verify-ci-fragments fixtures', () => {
     'rule3-empty-rules': 'rules',
     'rule4-foreign-needs': 'foreign',
     'rule5-evidence-when': 'when: always',
+    // REQ-PLAT-51: PLAT evidence only under .artifacts/plat/<job-slug>/
+    'rule5-plat-path': "artifact path '.artifacts/pack/' outside .artifacts/plat/$CI_JOB_NAME_SLUG/ and its producer paths (REQ-PLAT-51)",
     'rule6-missing-required': 'not defined',
     'rule7-foreign-certify': 'outside ci/qual.gitlab-ci.yml',
     'rule8-credential': 'credential',
