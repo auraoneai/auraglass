@@ -459,14 +459,22 @@ plat:package:pack:
       fi
     # Tarballs go to the §4.13.2 / EVIDENCE.tarballDir producer path and the
     # dotenv report to the §4.13.2 pack.env path (both contract-frozen).
-    - mkdir -p .artifacts/pack .artifacts/plat "$AURAGLASS_EVIDENCE_DIR"
-    - npm pack --pack-destination .artifacts/pack
+    # REQ-PLAT-11: every npm pack call keeps its --json report in the job dir;
+    # pack-record.json is built from those reports below.
+    - mkdir -p .artifacts/pack .artifacts/plat "$AURAGLASS_EVIDENCE_DIR/npm-pack"
+    - npm pack --json --pack-destination .artifacts/pack > "$AURAGLASS_EVIDENCE_DIR/npm-pack/aura-glass.json"
     - |
       if [ "$AG_LINE" = "5x" ]; then
         for w in cli registry mcp labs; do
-          [ -d "packages/$w" ] && npm pack -w "packages/$w" --pack-destination .artifacts/pack
+          if [ -d "packages/$w" ]; then
+            npm pack --json -w "packages/$w" --pack-destination .artifacts/pack > "$AURAGLASS_EVIDENCE_DIR/npm-pack/$w.json"
+          fi
         done
       fi
+    # REQ-PLAT-11: { name: { file, integrity } } for every tarball in
+    # .artifacts/pack, from npm's sha512 (re-hashed; fails closed). plat:publish:npm
+    # receives it with this job's artifacts and publish.mjs checks each sha512.
+    - node ci/plat/pack-record.mjs --pack-dir .artifacts/pack --out "$AURAGLASS_EVIDENCE_DIR/pack-record.json" "$AURAGLASS_EVIDENCE_DIR"/npm-pack/*.json
     # Fail closed: an empty AURAGLASS_TARBALL would let every consumer job run
     # against nothing (REQ-PLAT-05 item 6).
     - |
@@ -476,6 +484,12 @@ plat:package:pack:
       # REQ-PLAT-78: plat:release:notes links dist-maps.tgz by THIS job's
       # artifact URL; the dotenv report hands it the pack job id.
       echo "AG_PACK_JOB_ID=$CI_JOB_ID" >> .artifacts/plat/pack.env
+      # REQ-PLAT-104: gen-claims reads the tarball-mb claim (packed bytes / 10^6,
+      # two decimals, as npm reports MB) and its sha custody (PACK_SHA) from here.
+      test -n "$CI_COMMIT_SHA" || { echo "plat:package:pack: CI_COMMIT_SHA unset, pack.env would carry no PACK_SHA (REQ-PLAT-104)"; exit 1; }
+      TARBALL_MB=$(node -p '(require("node:fs").statSync(process.argv[1]).size / 1e6).toFixed(2)' "$TARBALL")
+      echo "TARBALL_MB=$TARBALL_MB" >> .artifacts/plat/pack.env
+      echo "PACK_SHA=$CI_COMMIT_SHA" >> .artifacts/plat/pack.env
     # REQ-PLAT-16: dist-maps.tgz, the sourcemap release asset plat:release:notes
     # links, is produced here and only here (canonical, fail-closed; #179's
     # fail-open copy is dropped). 5x: scripts/build/post.mjs moved the maps out
