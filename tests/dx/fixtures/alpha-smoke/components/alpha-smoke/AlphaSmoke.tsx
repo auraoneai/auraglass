@@ -36,14 +36,11 @@ export function AlphaSmoke() {
           <strong>AuraGlass</strong>
           <Dialog.Root>
             <Dialog.Trigger>Open dialog</Dialog.Trigger>
-            <Dialog.Portal>
-              <Dialog.Backdrop />
-              <Dialog.Popup>
+            <Dialog.Content>
                 <Dialog.Title>Alpha smoke</Dialog.Title>
                 <Dialog.Description>Surface, Button and Dialog from the packed aura-glass.</Dialog.Description>
                 <Dialog.Close>Close</Dialog.Close>
-              </Dialog.Popup>
-            </Dialog.Portal>
+              </Dialog.Content>
           </Dialog.Root>
         </Surface>
         <Surface render={<main />} style={{ display: 'grid', gap: 12, padding: 24, maxWidth: 560 }}>

@@ -1,21 +1,46 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
-/* NumberField (CMP-154): grouped shell with − / + steppers. */
+/* NumberField (CMP-154): grouped content-sunken shell with − / + steppers.
+   The rendered parts are `group` (the shell, a content-sunken surface) and
+   `input` (meta.parts). The previous selectors keyed on 'shell' / 'control',
+   which nothing renders, so the shell was an unstyled block and the steppers
+   were raw UA buttons around a raw UA input. */
 @layer ag.components {
   .ag-number-field {
     display: grid;
     gap: var(--ag-space-1);
-    color: var(--ag-on-surface);
+  }
+  .ag-number-field [data-ag-part='label'],
+  .ag-number-field [data-ag-part='scrub-area'] {
+    font-size: var(--ag-type-label-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-label-leading);
+  }
+  .ag-number-field [data-ag-part='scrub-area'] {
+    cursor: ew-resize;
+    user-select: none;
+    justify-self: start;
   }
   .ag-number-field [data-ag-part='group'] {
     display: flex;
     align-items: stretch;
+    inline-size: fit-content;
+    max-inline-size: 100%;
     border-radius: var(--ag-radius-md);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
+    overflow: hidden;
+    /* opaque content-sunken fill from the engine; canvas ink (not the
+       backdrop-flipped --ag-on-surface) because the fill is opaque canvas */
+    background: var(--_ag-fill, var(--ag-color-canvas));
+    color: var(--ag-color-on-surface);
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) / 2) var(--ag-color-border);
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
+  }
+  .ag-number-field[data-invalid] [data-ag-part='group'] {
+    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-color-danger);
   }
   .ag-number-field [data-ag-part='input'] {
     flex: 1;
+    inline-size: calc(var(--ag-space-16) + var(--ag-space-2));
     min-inline-size: 0;
     text-align: center;
     font-variant-numeric: tabular-nums;
@@ -25,28 +50,69 @@
     color: inherit;
     font: inherit;
     padding-block: var(--ag-space-2);
+    padding-inline: var(--ag-space-1);
   }
   .ag-number-field [data-ag-part='increment'],
   .ag-number-field [data-ag-part='decrement'] {
     display: grid;
     place-items: center;
-    padding-inline: var(--ag-space-3);
-    color: var(--ag-on-surface);
+    min-inline-size: var(--ag-comp-control-height-md-default, var(--ag-target-min));
+    padding-inline: var(--ag-space-2);
+    color: var(--ag-color-on-surface);
     cursor: pointer;
     border: 0;
     background: transparent;
     font: inherit;
+    font-size: var(--ag-type-body-size);
+    line-height: 1;
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
+  }
+  /* hairline dividers between the steppers and the value */
+  .ag-number-field [data-ag-part='decrement'] {
+    box-shadow: inset calc(var(--ag-focus-width) / -2) 0 0 color-mix(in oklab, var(--ag-color-border) 45%, transparent);
+  }
+  .ag-number-field [data-ag-part='increment'] {
+    box-shadow: inset calc(var(--ag-focus-width) / 2) 0 0 color-mix(in oklab, var(--ag-color-border) 45%, transparent);
+  }
+  @media (hover: hover) {
+    .ag-number-field [data-ag-part='increment']:not([data-disabled]):hover,
+    .ag-number-field [data-ag-part='decrement']:not([data-disabled]):hover {
+      background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-stepper-hover-tint, 8%), transparent);
+    }
+  }
+  .ag-number-field [data-ag-part='increment']:active,
+  .ag-number-field [data-ag-part='decrement']:active {
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-stepper-press-tint, 14%), transparent);
+  }
+  .ag-number-field [data-ag-part='increment'][data-disabled],
+  .ag-number-field [data-ag-part='decrement'][data-disabled] {
+    cursor: default;
+    opacity: var(--ag-state-disabled-alpha);
   }
   /* Increment/decrement/input focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
   .ag-number-field [data-ag-part='description'] {
     font-size: var(--ag-type-caption-size);
-    color: var(--ag-on-surface-muted);
+    line-height: var(--ag-type-caption-leading);
+    opacity: 0.78;
   }
   .ag-number-field [data-ag-part='error'] {
     font-size: var(--ag-type-caption-size);
+    line-height: var(--ag-type-caption-leading);
     color: var(--ag-color-danger);
   }
   .ag-number-field[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
+  }
+
+  @media (forced-colors: active) {
+    .ag-number-field [data-ag-part='group'] {
+      border: calc(var(--ag-focus-width) / 2) solid ButtonText;
+      background: Field;
+      box-shadow: none;
+    }
+    .ag-number-field [data-ag-part='input'] {
+      background: Field;
+      color: FieldText;
+    }
   }
 }

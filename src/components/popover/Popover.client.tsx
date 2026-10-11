@@ -186,7 +186,7 @@ function PopoverPositioner({ className, children, ref, ...rest }: PopoverPositio
     );
 }
 
-function PopoverPopup({ className, children, initialFocus, finalFocus, ref, ...rest }: PopoverPopupProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+function PopoverPopup({ className, children, initialFocus, finalFocus, variant, prominent, ref, ...rest }: PopoverPopupProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
     const ctx = React.useContext(PopoverCtx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
@@ -205,7 +205,11 @@ function PopoverPopup({ className, children, initialFocus, finalFocus, ref, ...r
         data-ag-part="popup"
         data-ag-overlay-depth={depth}
         data-state={ctx.open ? 'open' : 'closed'}
-        {...overlayMaterial(KIND, ctx.material)}
+        {...overlayMaterial(KIND, {
+          ...ctx.material,
+          ...(variant !== undefined ? { variant } : {}),
+          ...(prominent !== undefined ? { prominent } : {}),
+        })}
         {...(initialFocus !== undefined ? { initialFocus: initialFocus as never } : {})}
         {...(finalFocus !== undefined ? { finalFocus: finalFocus as never } : {})}
         className={cn('ag-popover-popup', className)}
@@ -254,9 +258,6 @@ function PopoverContent({ keepMounted, side, align, sideOffset, collisionPadding
 export const Popover = {
   Root: PopoverRoot,
   Trigger: PopoverTrigger,
-  Portal: PopoverPortal,
-  Positioner: PopoverPositioner,
-  Popup: PopoverPopup,
   Arrow: PopoverArrow,
   Title: PopoverTitle,
   Description: PopoverDescription,
@@ -264,3 +265,6 @@ export const Popover = {
   /** REQ-CMP-97: real convenience block — Portal > Positioner > Popup. */
   Content: PopoverContent,
 };
+
+/** Internal overlay parts for in-repo composition (REQ-CMP-06). */
+export { PopoverPortal, PopoverPositioner, PopoverPopup };

@@ -28,8 +28,10 @@
   .ag-scrim {
     position: fixed;
     inset: 0;
-    /* solved tint from the scrim token; optics come only through MAT */
-    background: color-mix(in srgb, black calc(var(--ag-scrim-media) * 100%), transparent);
+    /* REQ-CMP-79: tint and blur are the material layer's — material.css
+       paints [data-ag-layer="scrim"] and keeps the blur on the top scrim only
+       ([data-overlay-top]). This rule keeps geometry + the opacity
+       transition. */
     opacity: 1;
     transition: opacity var(--ag-duration-medium) var(--ag-ease-standard);
   }
@@ -38,11 +40,18 @@
     opacity: 0;
   }
 
-  /* anchored popups (positioner-mounted) */
-  [data-ag-part='popup'][data-ag-overlay],
+  /* anchored popups (positioner-mounted). Scoped to the anchored kinds: on a
+     dialog/alert/sheet/toast --available-height is undefined, which voided
+     their max-block-size (long dialogs ran off-screen). Only list popups
+     scroll; popover/tooltip keep overflow visible so their Arrow (painted
+     outside the box) is not clipped. */
+  [data-ag-part='popup']:is([data-ag-overlay='popover'], [data-ag-overlay='tooltip'],
+    [data-ag-overlay='menu'], [data-ag-overlay='select'], [data-ag-overlay='combobox']),
   [data-ag-part='popup'][data-positioned] {
     transform-origin: var(--transform-origin);
     max-block-size: var(--available-height);
+  }
+  [data-ag-part='popup']:is([data-ag-overlay='menu'], [data-ag-overlay='select'], [data-ag-overlay='combobox']) {
     overflow: auto;
   }
 
@@ -65,8 +74,9 @@
       border: 1px solid CanvasText;
     }
   }
+  /* --_ag-surface-rim is a colour; it was used as the border width */
   [data-ag-transparency='solid'] [data-ag-part='popup'] {
-    border: var(--_ag-surface-rim) solid var(--ag-color-border, currentColor);
+    border: 1px solid var(--_ag-surface-rim, var(--ag-color-border, currentColor));
   }
 
   @media (prefers-reduced-motion: reduce) {

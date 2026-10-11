@@ -84,7 +84,9 @@ function SliderRoot<V extends number | number[]>({
                   {...(getAriaValueText !== undefined
                     ? { getAriaValueText: (_formatted: string, value: number, index: number) => getAriaValueText(value, index) }
                     : {})}
-                />
+                >
+                  <span data-ag-part="hit-area" aria-hidden="true" />
+                </Base.Thumb>
               ))}
             </Base.Track>
           </Base.Control>
@@ -152,8 +154,10 @@ function SliderThumb({ className, getAriaValueText, ...rest }: SliderThumbPartPr
 export const Slider = {
   Root: SliderRoot,
   Value: SliderValue,
-  Control: SliderControl,
   Track: SliderTrack,
   Range: SliderRange,
   Thumb: SliderThumb,
 };
+
+/** Internal part (not contract surface, REQ-CMP-06): in-repo composition only. */
+export { SliderControl };

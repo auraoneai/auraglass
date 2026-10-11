@@ -14,8 +14,11 @@
     max-inline-size: min(320px, calc(100vw - 16px));
     max-height: var(--available-height);
     overflow-y: auto;
+    /* concentric: item radius (sm) = popup radius (md) - this inset */
     padding: var(--ag-space-1);
     border-radius: var(--ag-radius-md);
+    color: var(--ag-on-surface);
+    font-family: var(--ag-font-sans);
     outline: none;
   }
 
@@ -44,11 +47,12 @@
     gap: var(--ag-space-2);
     /* REQ-CMP-104: 32px min-height / 12px inline padding; 44px on coarse. */
     min-block-size: 32px;
-    padding: var(--_ag-space-1-5, 6px) var(--ag-space-3);
+    padding: calc(var(--ag-space-1) * 1.5) var(--ag-space-3);
     border-radius: var(--ag-radius-sm);
     font: inherit;
-    font-size: var(--_ag-font-sm, 13px);
-    color: var(--_ag-fg, var(--ag-color-on-surface));
+    font-size: var(--ag-type-callout-size);
+    line-height: var(--ag-type-label-leading);
+    color: var(--ag-on-surface);
     cursor: default;
     user-select: none;
     outline: none;
@@ -57,9 +61,10 @@
     .ag-menu-item, .ag-menu-submenu-trigger { min-block-size: 44px; }
   }
   .ag-menu-item[data-highlighted],
-  .ag-menu-submenu-trigger[data-highlighted] {
+  .ag-menu-submenu-trigger[data-highlighted],
+  .ag-menu-submenu-trigger[data-popup-open] {
     /* plain fill step, no backdrop-filter (REQ-CMP-104) */
-    background: var(--_ag-accent-subtle, color-mix(in srgb, var(--ag-color-accent) 12%, transparent));
+    background: color-mix(in oklab, var(--ag-color-accent) 22%, transparent);
   }
   .ag-menu-item[data-disabled],
   .ag-menu-submenu-trigger[data-disabled] {
@@ -105,7 +110,8 @@
   .ag-menu-submenu-indicator { grid-column: 3; justify-self: end; }
   .ag-menu-shortcut {
     font-family: inherit;
-    font-size: var(--_ag-font-xs, 11px);
+    font-size: var(--ag-type-caption-size);
+    color: inherit;
     opacity: 0.6;
     letter-spacing: 0.02em;
   }
@@ -121,38 +127,63 @@
   [dir='rtl'] .ag-menu-submenu-indicator::after { transform: rotate(-135deg); }
 
   .ag-menu-group-label {
-    padding: var(--_ag-space-1-5, 6px) var(--ag-space-2);
-    font-size: var(--_ag-font-xs, 11px);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--_ag-fg-muted, var(--ag-color-on-surface-muted));
+    padding: var(--ag-space-2) var(--ag-space-2) var(--ag-space-1);
+    padding-inline-start: calc(var(--ag-space-2) * 2 + 1.25em);
+    font-size: var(--ag-type-caption-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-caption-leading);
+    color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
   }
   .ag-menu-separator {
     height: 1px;
-    margin: var(--ag-space-1) var(--ag-space-1);
-    background: var(--_ag-border, var(--ag-color-border));
+    margin: var(--ag-space-1) var(--ag-space-2);
+    background: color-mix(in oklab, var(--ag-color-border) 30%, transparent);
   }
 
+  /* Base UI renders the arrow as a div (svg `fill` never painted it) */
   .ag-menu-arrow {
-    fill: var(--_ag-surface-fill, var(--_ag-surface-fill));
-    width: 10px;
-    height: 5px;
+    width: 12px;
+    height: 6px;
+    background: color-mix(in oklab, var(--ag-color-canvas) 86%, transparent);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
   }
+  .ag-menu-arrow[data-side='top'] { bottom: -6px; }
+  .ag-menu-arrow[data-side='bottom'] { top: -6px; rotate: 180deg; }
+  .ag-menu-arrow[data-side='left'],
+  .ag-menu-arrow[data-side='inline-start'] { right: -9px; rotate: -90deg; }
+  .ag-menu-arrow[data-side='right'],
+  .ag-menu-arrow[data-side='inline-end'] { left: -9px; rotate: 90deg; }
 
+  /* Menubar is chrome: a regular glass bar (materialProps chrome/regular on
+     the root). Triggers are flat text buttons inside it — nested, no glass. */
   .ag-menubar {
-    display: flex;
-    gap: var(--_ag-space-0-5, 2px);
-    padding: var(--_ag-space-0-5, 2px);
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--ag-space-1) / 2);
+    padding: var(--ag-space-1);
     border-radius: var(--ag-radius-md);
+    font-family: var(--ag-font-sans);
   }
   .ag-menubar .ag-menu-trigger {
-    padding: var(--_ag-space-1-5, 6px) var(--_ag-space-2-5, 10px);
+    appearance: none;
+    padding: var(--ag-space-1) var(--ag-space-3);
+    min-block-size: calc(var(--ag-space-8) - var(--ag-space-1));
+    border: 0;
     border-radius: var(--ag-radius-sm);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: var(--ag-type-callout-size);
+    font-weight: var(--ag-type-label-weight);
+    cursor: default;
   }
   .ag-menubar .ag-menu-trigger[data-popup-open],
   .ag-menubar .ag-menu-trigger[data-highlighted] {
-    background: var(--_ag-accent-subtle, color-mix(in srgb, var(--ag-color-accent) 12%, transparent));
+    background: color-mix(in oklab, currentColor 12%, transparent);
+  }
+  .ag-menubar .ag-menu-trigger:focus-visible {
+    outline: var(--ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
+    outline-offset: -2px;
   }
 
   .ag-contextmenu-trigger {

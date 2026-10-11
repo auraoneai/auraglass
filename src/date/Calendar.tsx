@@ -94,10 +94,41 @@ interface GridProps {
   weekLabel: string;
 }
 
+const noopSubscribe = () => () => {};
+
+function hasZone(v: unknown): boolean {
+  const first = Array.isArray(v) ? v[0] : v;
+  return first != null && typeof first === 'object' && 'timeZone' in first;
+}
+
+/* REQ-SURF-08: React Aria derives "today" (data-today, the "Today, " cell
+   label) from the calendar state's timeZone, which is the host's local zone,
+   so a server in one zone and a client in another render different markup and
+   hydration fails. Until hydration completes (server render + hydrating pass)
+   cells resolve "today" in UTC, identical on every host; the post-hydration
+   render restores the viewer's local zone. A zoned value keeps its own zone.
+   The state object is adjusted in place: React Aria keys per-state data on
+   its identity, and RACCalendar builds a fresh state object every render. */
+const hostTimeZone = new WeakMap<object, string>();
+
+function useHydrationSafeToday() {
+  const hydrated = React.useSyncExternalStore(noopSubscribe, () => true, () => false);
+  const calendarState = React.useContext(CalendarStateContext);
+  const rangeState = React.useContext(RangeCalendarStateContext);
+  const state = (calendarState ?? rangeState) as { timeZone: string; value: unknown } | null;
+  if (!state) return;
+  if (!hostTimeZone.has(state)) hostTimeZone.set(state, state.timeZone);
+  const host = hostTimeZone.get(state)!;
+  const value = state.value as { start?: unknown } | null;
+  const zoned = hasZone(value && typeof value === 'object' && 'start' in value ? value.start : value);
+  state.timeZone = !hydrated && !zoned ? 'UTC' : host;
+}
+
 function Grid({ showWeekNumbers, offsetMonths = 0, weekLabel }: GridProps) {
   const { locale } = useLocale();
   const firstDayOfWeek = useGridFirstDayOfWeek();
   const weeks = showWeekNumbers === true;
+  useHydrationSafeToday();
   return (
     <RACCalendarGrid
       className="ag-calendar__grid"

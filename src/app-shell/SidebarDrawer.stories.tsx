@@ -4,6 +4,7 @@ import * as React from 'react';
 import { AppShell } from './AppShell';
 import { Sidebar } from './Sidebar';
 import { Menu } from '../components/menu';
+import { MenuPortal, MenuPositioner, MenuPopup } from '../components/menu/Menu.client';
 import { appShellRoot, setDrawer } from './appShellStore';
 
 const meta: Meta = {
@@ -56,14 +57,14 @@ export const Toggle: Story = {
         <Nav />
         <Menu.Root>
           <Menu.Trigger data-testid="drawer-menu">More</Menu.Trigger>
-          <Menu.Portal>
-            <Menu.Positioner side="bottom" align="start">
-              <Menu.Popup data-testid="drawer-menu-popup">
+          <MenuPortal>
+            <MenuPositioner side="bottom" align="start">
+              <MenuPopup data-testid="drawer-menu-popup">
                 <Menu.Item>Rename</Menu.Item>
                 <Menu.Item>Archive</Menu.Item>
-              </Menu.Popup>
-            </Menu.Positioner>
-          </Menu.Portal>
+              </MenuPopup>
+            </MenuPositioner>
+          </MenuPortal>
         </Menu.Root>
       </Sidebar.Root>
       <AppShell.Main><p>Content</p></AppShell.Main>

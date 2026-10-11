@@ -6,7 +6,7 @@ Frozen 4.x usage the L11 codemod canary runs `migrate 4to5` over:
   `onPlayingChange`), GlassVideoPlayer (`sources`) → compat /
   removed (`media-video-player` registry item).
 - `Carousel.page.tsx` — GlassCarousel (slidesToShow → slidesPerView, autoPlay
-  → autoplay, infinite → loop), GlassGallery (removed, `media-gallery`),
+  → autoplay, infinite → loop), GlassGallery (removed with no compat adapter; the codemod leaves a TODO pointing at `media-gallery`),
   GlassImageViewer (`images` → `items`, `initialIndex` → `defaultValue`).
 - `Backdrop.page.tsx` — AuroraBackground/AtmosphericBackground/
   DynamicAtmosphere → Backdrop presets (media-backdrops area transform).

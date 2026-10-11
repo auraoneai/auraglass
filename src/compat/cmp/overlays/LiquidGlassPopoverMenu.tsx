@@ -26,11 +26,7 @@ export function LiquidGlassPopoverMenu({ open, onOpenChange, trigger, children, 
       {...(onOpenChange !== undefined ? { onOpenChange: (o: boolean, _d: OverlayOpenChangeDetails) => onOpenChange(o) } : {})}
     >
       <Menu.Trigger>{trigger}</Menu.Trigger>
-      <Menu.Portal>
-        <Menu.Positioner>
-          <Menu.Popup className={className}>{children}</Menu.Popup>
-        </Menu.Positioner>
-      </Menu.Portal>
+      <Menu.Content className={className}>{children}</Menu.Content>
     </Menu.Root>
   ));
 }

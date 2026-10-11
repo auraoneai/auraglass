@@ -1,5 +1,6 @@
 /* CMP-272 (REQ-CMP-01/22): Popover scenes — Playground, ArrowTitle, HoverIntent,
    SideAlign — open by default, ids overlays-popover--*. */
+import { OverlayStage } from '../overlays/OverlayStage';
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Popover } from '../../../src/components/popover';
@@ -16,21 +17,17 @@ export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
 const Demo = ({ root = {}, positioner = {}, children }: { root?: Record<string, unknown>; positioner?: Record<string, unknown>; children?: React.ReactNode }) => (
-  <AuraGlassProvider>
+  <AuraGlassProvider><OverlayStage>
     <Popover.Root defaultOpen {...root}>
       <Popover.Trigger>Open popover</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner {...positioner}>
-          <Popover.Popup>
-            <Popover.Arrow />
-            <Popover.Title>Popover</Popover.Title>
-            <Popover.Description>{children ?? 'Anchored overlay content.'}</Popover.Description>
-            <Popover.Close>Close</Popover.Close>
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+      <Popover.Content {...positioner}>
+        <Popover.Arrow />
+        <Popover.Title>Popover</Popover.Title>
+        <Popover.Description>{children ?? 'Anchored overlay content.'}</Popover.Description>
+        <Popover.Close>Close</Popover.Close>
+      </Popover.Content>
     </Popover.Root>
-  </AuraGlassProvider>
+  </OverlayStage></AuraGlassProvider>
 );
 
 export const Playground: Story = {
@@ -44,16 +41,12 @@ export const ArrowTitle: Story = {
 export const HoverIntent: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Popover', id: 'overlays-popover--hover-intent' } },
   render: () => (
-    <AuraGlassProvider>
+    <AuraGlassProvider><OverlayStage>
       <Popover.Root defaultOpen>
         <Popover.Trigger openOnHover delay={300} closeDelay={150}>Hover me</Popover.Trigger>
-        <Popover.Portal>
-          <Popover.Positioner>
-            <Popover.Popup><Popover.Description>Opens after 300ms hover intent.</Popover.Description></Popover.Popup>
-          </Popover.Positioner>
-        </Popover.Portal>
+        <Popover.Content><Popover.Description>Opens after 300ms hover intent.</Popover.Description></Popover.Content>
       </Popover.Root>
-    </AuraGlassProvider>
+    </OverlayStage></AuraGlassProvider>
   ),
 };
 export const SideAlign: Story = {

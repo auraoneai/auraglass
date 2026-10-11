@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 18,
   rsc: 'client',
-  parts: ['root','item','header','trigger','content'],
+  parts: ['root','item','header','trigger','content','hit-area'],
   states: ['expanded','collapsed'],
   variants: { multiple: ['true','false'] },
   material: { layer: 'content' },

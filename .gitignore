@@ -200,3 +200,6 @@ tests/visual/**/*.spec.ts-snapshots/
 /storybook-static/
 __generated__/
 dist-maps/
+
+# Extracted packed declarations for the PLAT type-DX harness.
+tests/types/plat/vendor/

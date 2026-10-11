@@ -1,20 +1,36 @@
-/* spatial-control-center layout only (REQ-QUAL-59 property allowlist). */
+/* spatial-control-center layout only (REQ-QUAL-59 property allowlist: no
+   colour, no material, no [data-ag-part] selectors). Auto block margins centre
+   items because alignment properties are outside the allowlist. */
 .page {
   display: grid;
-  gap: 1.5rem;
-  padding: 2rem;
+  gap: 1.25rem;
+  min-block-size: 100dvh;
+  padding: 1.5rem;
   container-type: inline-size;
-}
-
-.header {
-  display: grid;
-  gap: 0.25rem;
 }
 
 .sceneBar {
   display: flex;
-  max-inline-size: max-content;
-  padding: 0.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.875rem 1rem 0.875rem 1.5rem;
+}
+
+.headerText {
+  display: grid;
+  gap: 0.125rem;
+  margin-block: auto;
+}
+
+.sceneSwitch {
+  display: flex;
+  gap: 0.75rem;
+  margin-block: auto;
+  margin-inline-start: auto;
+}
+
+.sceneSwitch > * {
+  margin-block: auto;
 }
 
 .rooms {
@@ -24,7 +40,7 @@
 
 .roomList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
   padding: 0;
   margin: 0;
@@ -32,8 +48,12 @@
 
 .room {
   display: grid;
-  gap: 0.25rem;
-  padding: 0.75rem;
+  gap: 0.75rem;
+  padding: 0.5rem 0.5rem 0.875rem;
+}
+
+.roomMedia {
+  overflow: hidden;
 }
 
 .roomImage {
@@ -41,22 +61,48 @@
   block-size: auto;
 }
 
+.roomText {
+  display: grid;
+  gap: 0.125rem;
+  padding-inline: 0.5rem;
+}
+
 .controls {
   display: grid;
-  gap: 0.75rem;
+}
+
+.platter {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.platterHeader {
+  display: grid;
+  gap: 0.125rem;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .tile {
   display: grid;
+  grid-auto-rows: max-content;
   gap: 0.75rem;
   padding: 1rem;
   min-block-size: 8rem;
+}
+
+.tileHeader {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tileHeader > :last-child {
+  margin-inline-start: auto;
 }
 
 .toggles {
@@ -64,4 +110,10 @@
   gap: 0.5rem;
   padding: 0;
   margin: 0;
+}
+
+@container (max-width: 48rem) {
+  .roomList {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

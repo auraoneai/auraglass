@@ -64,10 +64,11 @@ export const auraGlassPrepaint = (w: W, d: Document, a: PrepaintArgs = {}): void
     const el = d.documentElement;
     const at = (k: string, v: string): void => el.setAttribute(`data-ag-${k}`, v);
     for (const k of AXES) at(k, r[k]);
-    if (r.allowContinuous && r.motion === 'full') at('continuous', 'on');
+    if (r.allowContinuous) at('continuous', 'on');
     at('engine', engine);
-    if (r.tier !== 'standard' || rec.tier === 'standard' || def.tier === 'standard') {
-      at('tier', engine === 'unknown' && r.tier === 'enhanced' ? 'standard' : r.tier);
+    const tier = r.tier;
+    if (tier !== 'standard' || [rec.tier, def.tier].includes('standard')) {
+      at('tier', engine === 'unknown' && tier === 'enhanced' ? 'standard' : tier);
     }
     el.style.setProperty('--ag-glass-opacity', String(r.glassOpacity));
   } catch {

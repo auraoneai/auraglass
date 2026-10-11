@@ -24,18 +24,18 @@ export function ComboboxVirtualList<Item>({ items, estimateSize = 32, children }
   const parentRef = React.useRef<HTMLDivElement>(null);
   const scrollTopRef = React.useRef(0);
   const viewRef = React.useRef(DEFAULT_VIEWPORT_PX);
-  const rangeRef = React.useRef({ start: 0, end: 0 });
-  const [, bump] = React.useReducer((c: number) => c + 1, 0);
+  /* The render window is state, not a ref: render must not read ref.current
+     (REQ-CMP-24, React Compiler 'Refs' rule). The functional update returns
+     the previous object when the window is unchanged, so a frame with no
+     scroll movement schedules no re-render. */
+  const [range, setRange] = React.useState({ start: 0, end: 0 });
 
   const recompute = React.useCallback(() => {
     const n = items.length;
     const visible = Math.ceil(viewRef.current / estimateSize);
     const start = Math.max(0, Math.floor(scrollTopRef.current / estimateSize) - VIRTUAL_OVERSCAN);
     const end = Math.min(n, start + visible + 2 * VIRTUAL_OVERSCAN);
-    if (start !== rangeRef.current.start || end !== rangeRef.current.end) {
-      rangeRef.current = { start, end };
-      bump();
-    }
+    setRange((prev) => (prev.start === start && prev.end === end ? prev : { start, end }));
   }, [items.length, estimateSize]);
 
   React.useEffect(() => {
@@ -49,7 +49,7 @@ export function ComboboxVirtualList<Item>({ items, estimateSize = 32, children }
     scrollTopRef.current = e.currentTarget.scrollTop;
   }, []);
 
-  const { start, end } = rangeRef.current;
+  const { start, end } = range;
   const rows: React.ReactNode[] = [];
   for (let i = start; i < end; i++) {
     const item = items[i] as Item;

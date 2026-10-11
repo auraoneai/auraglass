@@ -6,7 +6,7 @@
    shell root via closest() like the other client leaves. */
 
 import * as React from 'react';
-import { Tooltip } from '../components/tooltip/Tooltip.client';
+import { Tooltip, TooltipPortal, TooltipPositioner, TooltipPopup } from '../components/tooltip/Tooltip.client';
 import { appShellRoot, getServerSnapshot, getSnapshot, subscribe } from './appShellStore';
 
 const DETACHED = {
@@ -49,11 +49,11 @@ export function SidebarItemTooltip({
       <span hidden ref={marker} />
       <Tooltip.Root>
         <Tooltip.Trigger render={children} />
-        <Tooltip.Portal>
-          <Tooltip.Positioner>
-            <Tooltip.Popup data-ag-part="sidebar-item-tooltip">{label}</Tooltip.Popup>
-          </Tooltip.Positioner>
-        </Tooltip.Portal>
+        <TooltipPortal>
+          <TooltipPositioner>
+            <TooltipPopup data-ag-part="sidebar-item-tooltip">{label}</TooltipPopup>
+          </TooltipPositioner>
+        </TooltipPortal>
       </Tooltip.Root>
     </>
   );

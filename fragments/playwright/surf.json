@@ -1,83 +1,119 @@
 [
- {
-  "name": "surf:app-shell",
-  "testDir": "tests/e2e/surf/app-shell"
- },
- {
-  "name": "surf:motion",
-  "testDir": "tests/e2e/surf/motion"
- },
- {
-  "name": "surf:perf",
-  "testDir": "tests/perf/browser/surf"
- },
- {
-  "name": "surf:apg",
-  "testDir": "tests/a11y/apg/surf"
- },
- {
-  "name": "surf:rsc",
-  "testDir": "tests/rsc/surf"
- },
- {
-  "name": "surf:data",
-  "testDir": "tests/e2e/surf/data"
- },
- {
-  "name": "surf:date",
-  "testDir": "tests/e2e/surf/date"
- },
- {
-  "name": "surf:charts",
-  "testDir": "tests/e2e/surf/charts"
- },
- {
-  "name": "surf:visual",
-  "testDir": "tests/visual/surf"
- },
- {
-  "name": "surf:cert-rtl",
-  "testDir": "tests/e2e/surf",
-  "testMatch": "rtl.spec.ts"
- },
- {
-  "name": "surf:ai",
-  "testDir": "tests/e2e/surf/ai"
- },
- {
-  "name": "surf:ai-visual",
-  "testDir": "tests/visual/surf/ai"
- },
- {
-  "name": "surf:ai-perf",
-  "testDir": "tests/perf/browser/surf",
-  "testMatch": "ai-streaming.spec.ts"
- },
- {
-  "name": "surf:media",
-  "testDir": "tests/e2e/surf/media"
- },
- {
-  "name": "surf:backdrops",
-  "testDir": "tests/e2e/surf/backdrops"
- },
- {
-  "name": "surf:media-apg",
-  "testDir": "tests/a11y/apg/surf",
-  "testMatch": "{media-controls,now-playing,image-viewer,carousel-rail}.apg.spec.ts"
- },
- {
-  "name": "surf:cert-media-sampling",
-  "testDir": "tests/e2e/surf/media",
-  "testMatch": "sampling-engines.spec.ts"
- },
- {
-  "name": "surf:clear-over-media",
-  "testDir": "tests/e2e/surf/clear-over-media"
- },
- {
-  "name": "surf:media-perf",
-  "testDir": "tests/perf/browser/surf",
-  "testMatch": "{media,backdrops}-*.spec.ts"
- }
+  {
+    "name": "surf:app-shell",
+    "testDir": "tests/e2e/surf/app-shell"
+  },
+  {
+    "name": "surf:motion",
+    "testDir": "tests/e2e/surf/motion"
+  },
+  {
+    "name": "surf:perf",
+    "testDir": "tests/perf/browser/surf"
+  },
+  {
+    "name": "surf:apg",
+    "testDir": "tests/a11y/apg/surf"
+  },
+  {
+    "name": "surf:rsc",
+    "testDir": "tests/rsc/surf"
+  },
+  {
+    "name": "surf:data",
+    "testDir": "tests/e2e/surf/data"
+  },
+  {
+    "name": "surf:date",
+    "testDir": "tests/e2e/surf/date"
+  },
+  {
+    "name": "surf:charts",
+    "testDir": "tests/e2e/surf/charts"
+  },
+  {
+    "name": "surf:visual",
+    "testDir": "tests/visual/surf"
+  },
+  {
+    "name": "surf:cert-rtl",
+    "testDir": "tests/e2e/surf",
+    "testMatch": "rtl.spec.ts"
+  },
+  {
+    "name": "surf:ai",
+    "testDir": "tests/e2e/surf/ai"
+  },
+  {
+    "name": "surf:ai-visual",
+    "testDir": "tests/visual/surf/ai"
+  },
+  {
+    "name": "surf:ai-perf",
+    "testDir": "tests/perf/browser/surf",
+    "testMatch": "ai-streaming.spec.ts"
+  },
+  {
+    "name": "surf:media",
+    "testDir": "tests/e2e/surf/media"
+  },
+  {
+    "name": "surf:backdrops",
+    "testDir": "tests/e2e/surf/backdrops"
+  },
+  {
+    "name": "surf:media-apg",
+    "testDir": "tests/a11y/apg/surf",
+    "testMatch": "{media-controls,now-playing,image-viewer,carousel-rail}.apg.spec.ts"
+  },
+  {
+    "name": "surf:cert-media-sampling",
+    "testDir": "tests/e2e/surf/media",
+    "testMatch": "sampling-engines.spec.ts"
+  },
+  {
+    "name": "surf:clear-over-media",
+    "testDir": "tests/e2e/surf/clear-over-media"
+  },
+  {
+    "name": "surf:media-perf",
+    "testDir": "tests/perf/browser/surf",
+    "testMatch": "{media,backdrops}-*.spec.ts"
+  },
+  {
+    "name": "surf:cert-media-sampling-chromium",
+    "testDir": "tests/e2e/surf/media",
+    "testMatch": "sampling-engines.spec.ts",
+    "use": {
+      "browserName": "chromium",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      }
+    }
+  },
+  {
+    "name": "surf:cert-media-sampling-firefox",
+    "testDir": "tests/e2e/surf/media",
+    "testMatch": "sampling-engines.spec.ts",
+    "use": {
+      "browserName": "firefox",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      }
+    }
+  },
+  {
+    "name": "surf:cert-media-sampling-webkit",
+    "testDir": "tests/e2e/surf/media",
+    "testMatch": "sampling-engines.spec.ts",
+    "use": {
+      "browserName": "webkit",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      }
+    }
+  }
 ]

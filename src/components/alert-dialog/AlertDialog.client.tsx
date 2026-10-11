@@ -14,6 +14,7 @@ import { useControllableWarning } from '../../foundation/controllable';
 import {
   AlertDialogHeader, AlertDialogBody, AlertDialogFooter,
 } from './AlertDialogLayout';
+import { scrimLayerAttributes } from '../../material/stateAttributes';
 import type {
   AlertDialogRootProps, AlertDialogTriggerProps, AlertDialogContentProps,
   AlertDialogPopupProps, AlertDialogButtonishProps, AlertDialogActionProps,
@@ -92,7 +93,7 @@ function AlertDialogBackdrop({ className }: { className?: string }) {
       /* REQ-CMP-79: one scrim per modal — BU skips nested backdrops unless forced */
       forceRender
       data-ag-part="backdrop"
-      data-ag-layer="scrim"
+      {...scrimLayerAttributes()}
       data-ag-overlay-depth={depth}
       {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
@@ -120,7 +121,7 @@ function AlertDialogPopup({ render, className, children, ref, initialFocus, ...r
         if (process.env.NODE_ENV !== 'production' && !warnedNoTitle &&
             el.isConnected && !el.hasAttribute('aria-labelledby') && !el.hasAttribute('aria-label')) {
           warnedNoTitle = true;
-          console.error('aura-glass: <AlertDialog.Popup> opened without a Title or aria-label.');
+          console.error('aura-glass: <AlertDialog.Content> opened without a Title or aria-label.');
         }
       }, 0);
     }
@@ -170,6 +171,7 @@ function AlertDialogCancel({ children, className, ref, ...rest }: AlertDialogBut
       data-ag-part="cancel"
       aria-label={labels?.cancel}
       className={cn('ag-alert-dialog-cancel', className)}
+      render={<Button suppressInnerParts />}
       ref={ref as React.Ref<HTMLButtonElement>}
       {...rest}
     >
@@ -225,9 +227,6 @@ export const AlertDialog = {
   Root: AlertDialogRoot,
   Trigger: AlertDialogTrigger,
   Content: AlertDialogContent,
-  Portal: AlertDialogPortal,
-  Backdrop: AlertDialogBackdrop,
-  Popup: AlertDialogPopup,
   Title: AlertDialogTitle,
   Description: AlertDialogDescription,
   Cancel: AlertDialogCancel,
@@ -236,3 +235,6 @@ export const AlertDialog = {
   Body: AlertDialogBody,
   Footer: AlertDialogFooter,
 };
+
+/** Internal overlay parts (not contract surface, REQ-CMP-06): in-repo composition only. */
+export { AlertDialogPortal, AlertDialogBackdrop, AlertDialogPopup };

@@ -6,6 +6,7 @@
 import * as React from 'react';
 import { cn } from '../../internal/index';
 import { Popover } from '../popover';
+import { PopoverPortal, PopoverPositioner, PopoverPopup } from '../popover/Popover.client';
 import { Button } from '../button';
 import { FocusScope } from '../../primitives/FocusScope';
 
@@ -92,9 +93,9 @@ export const Tour = {
     return (
       <div {...rest} ref={ref} data-ag-part="root" className={cn('ag-tour', className)}>
         <Popover.Root open={isOpen} onOpenChange={handleOpenChange}>
-          <Popover.Portal>
-            <Popover.Positioner anchor={anchor ?? undefined} sideOffset={8} collisionPadding={8} className="ag-tour-positioner">
-              <Popover.Popup aria-labelledby={titleId}>
+          <PopoverPortal>
+            <PopoverPositioner anchor={anchor ?? undefined} sideOffset={8} collisionPadding={8} className="ag-tour-positioner">
+              <PopoverPopup aria-labelledby={titleId}>
                 <FocusScope autoFocus={false} restoreFocus={false}>
                 <TourStep
                   titleId={titleId}
@@ -109,9 +110,9 @@ export const Tour = {
                   onSkip={() => dismiss('skip')}
                 />
                 </FocusScope>
-              </Popover.Popup>
-            </Popover.Positioner>
-          </Popover.Portal>
+              </PopoverPopup>
+            </PopoverPositioner>
+          </PopoverPortal>
         </Popover.Root>
       </div>
     );

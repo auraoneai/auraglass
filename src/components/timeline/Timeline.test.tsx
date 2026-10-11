@@ -79,3 +79,12 @@ describe('Timeline (SURF-186, REQ-SURF-96)', () => {
     }
   });
 });
+
+// Preserve compatibility for preformatted 4.x display timestamps.
+it('renders a non-date display timestamp verbatim without dateTime', () => {
+  expect(formatTimestamp('2 hours ago', 'absolute', 'en-US')).toEqual({ dateTime: '', text: '2 hours ago' });
+  const { container } = render(<Timeline items={[{ id: 'legacy', timestamp: '2 hours ago', title: 'Started' }]} />);
+  const time = container.querySelector('[data-ag-part="timeline-time"]')!;
+  expect(time.textContent).toBe('2 hours ago');
+  expect(time.hasAttribute('datetime')).toBe(false);
+});

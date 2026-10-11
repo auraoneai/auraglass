@@ -1,3 +1,4 @@
+import { MenuPortal, MenuPositioner, MenuPopup } from '../menu/Menu.client';
 import * as React from 'react';
 import { Toolbar as Base } from '@base-ui/react/toolbar';
 import { materialProps } from '../../material';
@@ -52,17 +53,17 @@ function ToolbarRoot({
               <Menu.Trigger>
                 <IconButton label="More actions" icon={<span aria-hidden="true">⋯</span>} size="sm" />
               </Menu.Trigger>
-              <Menu.Portal>
-                <Menu.Positioner>
-                  <Menu.Popup>
+              <MenuPortal>
+                <MenuPositioner>
+                  <MenuPopup>
                     {lowPriorityItems(children).map((it) => (
                       <Menu.Item disabled={it.disabled} key={it.key} onClick={it.onClick as React.MouseEventHandler | undefined}>
                         {it.icon}{it.label}
                       </Menu.Item>
                     ))}
-                  </Menu.Popup>
-                </Menu.Positioner>
-              </Menu.Portal>
+                  </MenuPopup>
+                </MenuPositioner>
+              </MenuPortal>
             </Menu.Root>
           </span>
         ) : null}
@@ -87,14 +88,14 @@ function splitButtonProps(props: Record<string, unknown>) {
   return { aura, dom };
 }
 
-function ToolbarButton({ className, children, priority, ...rest }: ToolbarButtonProps) {
+function ToolbarButton({ className, children, priority, render, ...rest }: ToolbarButtonProps) {
   const { aura, dom } = splitButtonProps(rest as Record<string, unknown>);
-  return (
-    <Base.Button
-      {...dom}
-      render={<Button {...aura} data-ag-part="button" {...(priority === 'low' ? { 'data-ag-priority': 'low' } : {})} className={className}>{children}</Button>}
-    />
-  );
+  /* REQ-CMP-37: icon actions are `Toolbar.Button render={<IconButton …/>}` — a caller
+     element replaces the default Button and receives the AuraGlass props and the part. */
+  const el = React.isValidElement<Record<string, unknown>>(render)
+    ? React.cloneElement(render, { ...aura, 'data-ag-part': 'button', ...(priority === 'low' ? { 'data-ag-priority': 'low' } : {}), ...(className !== undefined ? { className } : {}) })
+    : <Button {...aura} data-ag-part="button" {...(priority === 'low' ? { 'data-ag-priority': 'low' } : {})} className={className}>{children}</Button>;
+  return <Base.Button {...dom} render={el} />;
 }
 
 function ToolbarIconButton({ label, icon, className, priority, ...rest }: ToolbarIconButtonProps) {
@@ -164,8 +165,11 @@ function ToolbarLink({ className, children, ref, ...rest }: ToolbarLinkProps) {
 export const Toolbar = {
   Root: ToolbarRoot,
   Button: ToolbarButton,
-  IconButton: ToolbarIconButton,
   Group: ToolbarGroup,
   Separator: ToolbarSeparator,
   Link: ToolbarLink,
 };
+
+/** Not contract surface (REQ-CMP-06/-37): in-repo composition only; public icon actions use
+    `Toolbar.Button render={<IconButton …/>}`. */
+export { ToolbarIconButton };

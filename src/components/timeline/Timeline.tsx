@@ -53,6 +53,8 @@ export function formatTimestamp(
   timeZone = 'UTC',
 ): { dateTime: string; text: string } {
   const d = typeof ts === 'string' ? new Date(ts) : ts;
+  // Legacy adapters may supply already-formatted display text instead of an instant.
+  if (Number.isNaN(d.getTime())) return { dateTime: '', text: typeof ts === 'string' ? ts : '' };
   const dateTime = d.toISOString();
   if (timeFormat === 'relative') {
     const ref = now === undefined ? undefined : typeof now === 'number' ? now : now.getTime();
@@ -114,7 +116,7 @@ export function Timeline({
                     {intentText ? <span className="ag-visually-hidden">{`${intentText}: `}</span> : null}
                     {item.title}
                   </span>
-                  <time data-ag-part="timeline-time" dateTime={t.dateTime} className="ag-timeline__time">
+                  <time data-ag-part="timeline-time" {...(t.dateTime ? { dateTime: t.dateTime } : {})} className="ag-timeline__time">
                     {t.text}
                   </time>
                 </div>

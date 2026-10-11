@@ -1,7 +1,9 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 /* Command + CommandPalette (SURF-127): palette chrome and list layout.
    Scrolling is native inside __list (REQ-SURF-63: VirtualList mounts above
-   the threshold — W2); row highlight is a data-attribute, not JS classes. */
+   the threshold — W2); row highlight is a data-attribute, not JS classes.
+   The palette popup is a Dialog popup (thick overlay glass); Command itself
+   adds no material. */
 @layer ag.components {
   .ag-command-palette {
     display: flex;
@@ -26,15 +28,29 @@
     display: flex;
     flex-direction: column;
     min-inline-size: 0;
+    min-block-size: 0;
+    color: var(--ag-on-surface, var(--ag-color-on-surface));
+    font-family: var(--ag-font-sans);
+    font-size: var(--ag-type-callout-size);
+    line-height: var(--ag-type-callout-leading);
   }
   .ag-command__input {
+    box-sizing: border-box;
     inline-size: 100%;
-    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
+    padding: var(--ag-space-4) var(--ag-space-5);
     border: none;
-    border-block-end: var(--_ag-border-width, 1px) solid var(--_ag-border, transparent);
+    /* hairline under the field; the old width var was undefined and the
+       colour transparent, so input and results ran together */
+    border-block-end: 1px solid color-mix(in oklab, var(--ag-color-border) 28%, transparent);
     background: transparent;
-    color: var(--_ag-fg, currentColor);
+    color: inherit;
     font: inherit;
+    font-size: var(--ag-type-body-size);
+    outline: none;
+  }
+  .ag-command__input::placeholder {
+    color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
+    opacity: 1;
   }
   .ag-command__list {
     /* SURF-060: flex column so item `order` (score rank) re-sorts visually. */
@@ -42,18 +58,52 @@
     flex-direction: column;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: var(--ag-space-1, 0.25rem);
+    padding: var(--ag-space-2);
   }
   .ag-command__item {
     display: flex;
     align-items: center;
-    gap: var(--ag-space-2, 0.5rem);
-    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
-    min-block-size: var(--_ag-touch-target, 2.75rem);
-    border-radius: var(--_ag-radius-1, 0.25rem);
+    gap: var(--ag-space-2);
+    padding: var(--ag-space-2) var(--ag-space-3);
+    min-block-size: var(--ag-target-coarse, 44px);
+    box-sizing: border-box;
+    /* concentric with the palette popup (radius-xl) minus the list inset */
+    border-radius: var(--ag-radius-md);
     cursor: default;
   }
-  .ag-command__item[data-active] {
-    background: var(--_ag-accent-soft, transparent);
+  /* the active row is data-state="active" (Command.tsx); the old
+     [data-active] selector never matched, so nothing ever highlighted */
+  .ag-command__item[data-state='active'] {
+    background: color-mix(in oklab, var(--ag-color-accent) 20%, transparent);
+  }
+  .ag-command__item[aria-disabled='true'] { opacity: var(--ag-state-disabled-alpha, 0.4); }
+  .ag-command__item > [data-ag-part='shortcut'],
+  .ag-command [data-ag-part='shortcut'] {
+    margin-inline-start: auto;
+    padding: 0 var(--ag-space-1);
+    border-radius: var(--ag-radius-xs);
+    background: color-mix(in oklab, currentColor 8%, transparent);
+    color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
+    font-family: inherit;
+    font-size: var(--ag-type-caption-size);
+    line-height: var(--ag-type-caption-leading);
+  }
+  .ag-command [data-ag-part='group-heading'] {
+    padding: var(--ag-space-2) var(--ag-space-3) var(--ag-space-1);
+    color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
+    font-size: var(--ag-type-caption-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-caption-leading);
+  }
+  .ag-command [data-ag-part='separator'] {
+    block-size: 1px;
+    margin: var(--ag-space-2) var(--ag-space-3);
+    background: color-mix(in oklab, var(--ag-color-border) 28%, transparent);
+  }
+  .ag-command [data-ag-part='empty'],
+  .ag-command [data-ag-part='loading'] {
+    padding: var(--ag-space-6) var(--ag-space-3);
+    text-align: center;
+    color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
   }
 }

@@ -7,7 +7,9 @@ const meta = {
   title: 'Showcases/Media Workspace',
   component: MediaWorkspace,
   tags: ['showcase'],
-  globals: { scene: 'video-frame' },
+  /* Dark appearance: a colour-review tool over a video frame. Glass and content
+     fills follow the scheme, and the media backdrop resolves light glyphs. */
+  globals: { scene: 'video-frame', scheme: 'dark' },
   parameters: { layout: 'fullscreen', ag: { subject: 'media-workspace', kind: 'showcase' } },
 } satisfies Meta<typeof MediaWorkspace>;
 export default meta;

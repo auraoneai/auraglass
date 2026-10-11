@@ -19,7 +19,7 @@ export const detectEngine = (nav: NavigatorLike): AgEngine => {
   const brands = nav.userAgentData?.brands;
   const ua = nav.userAgent ?? '';
   return brands?.length
-    ? /chrom|edg|opera|brave|vivaldi|arc|samsung/i.test(brands.map((b) => b.brand).join()) ? 'chromium' : 'unknown'
+    ? brands.some((b) => /chrom|edg|opera|brave|vivaldi|arc|samsung/i.test(b.brand)) ? 'chromium' : 'unknown'
     : /^(?!.*(Chrom|Edg)).*AppleWebKit/i.test(ua) ? 'webkit'
       : /Gecko\/.*Firefox\//i.test(ua) ? 'gecko' : 'unknown';
 };

@@ -34,19 +34,5 @@ export function Text({
 }: TextProps & { ref?: React.Ref<HTMLElement> | undefined }) {
   const props: React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> } = {
     ...rest,
-    ref,
     'data-ag-part': 'root',
     'data-type': type,
-    'data-muted': muted ? '' : undefined,
-    'data-weight': weight,
-    'data-truncate': truncate ? '' : undefined,
-    'data-ag-type': type,
-    'data-ag-size': size ?? undefined,
-    'data-ag-intent': intent ?? 'neutral',
-    'data-ag-muted': muted ? '' : undefined,
-    'data-ag-weight': weight,
-    'data-ag-truncate': truncate ? '' : undefined,
-    className: cn('ag-text', `ag-text-type-${type}`, size ? `ag-text-size-${size}` : undefined, className),
-  } as React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> };
-  return renderElement(render, <p />, props);
-}

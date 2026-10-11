@@ -31,23 +31,19 @@ export function GlassNotificationCenter({ notifications, onMarkAllRead, trigger,
   return wrap('GlassNotificationCenter', (
     <Popover.Root>
       <Popover.Trigger>{trigger ?? 'Notifications'}</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner>
-          <Popover.Popup {...(className !== undefined ? { className } : {})}>
-        <ul data-ag-compat="notification-list">
-          {notifications?.map((n, i) => (
-            <li key={n.id ?? i} data-ag-notification-type={n.type ?? 'info'}>
-              {n.title}
-              {n.message}
-            </li>
-          ))}
-        </ul>
-        {onMarkAllRead !== undefined ? (
-          <button type="button" onClick={onMarkAllRead}>Mark all read</button>
-        ) : null}
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+      <Popover.Content {...(className !== undefined ? { className } : {})}>
+    <ul data-ag-compat="notification-list">
+      {notifications?.map((n, i) => (
+        <li key={n.id ?? i} data-ag-notification-type={n.type ?? 'info'}>
+          {n.title}
+          {n.message}
+        </li>
+      ))}
+    </ul>
+    {onMarkAllRead !== undefined ? (
+      <button type="button" onClick={onMarkAllRead}>Mark all read</button>
+    ) : null}
+      </Popover.Content>
     </Popover.Root>
   ));
 }

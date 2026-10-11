@@ -10,9 +10,10 @@
    - REQ-QUAL-66: screenshots are taken with CSS animations/transitions disabled (L7 pixel regression compares stills;
      `animations: 'disabled'` finishes finite animations and cancels infinite ones before capture), caret hidden. */
 import { defineConfig, devices } from '@playwright/test';
+import { join } from 'node:path';
+import { BASELINE_ROOT, snapshotPathTemplate } from '../packages/qa/src/evidence/regression';
 import { fileURLToPath } from 'node:url';
 import { locationProjects } from './lanes/_fixtures/behaviour';
-import { snapshotPathTemplate } from '../packages/qa/src/evidence/baselines';
 import { loadCertProjects } from './lanes/_fixtures/fragments';
 import { guardRemote } from '../scripts/qual/remote-guard.mjs';
 
@@ -23,26 +24,26 @@ export const L7_SCREENSHOT = { animations: 'disabled', caret: 'hide' } as const;
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const LANES_DIR = fileURLToPath(new URL('./lanes', import.meta.url));
+const BASELINES = join(ROOT, process.env.AG_BASELINE_ROOT ?? BASELINE_ROOT);
 const fragments = loadCertProjects(ROOT);
 for (const i of fragments.issues) console.warn(`[cert-config] ${i.stream} ${i.file} ${i.project}: ${i.code} — ${i.message}`);
 
-const BASELINES = fileURLToPath(new URL('./baselines', import.meta.url));
 const DEVICE = { chromium: 'Desktop Chrome', webkit: 'Desktop Safari', firefox: 'Desktop Firefox' } as const;
 const located = locationProjects(ROOT).map((p) => ({ name: p.name, testDir: p.testDir, testMatch: p.testMatch, use: { ...devices[DEVICE[p.engine]] } }));
 const ENGINES = ['chromium', 'webkit', 'firefox'] as const;
 /** Tests titled `@engine-<engine>` (environment-visual cells) run only in that engine's project; untagged lane tests run in all. */
 const lane = (name: (typeof ENGINES)[number], device: string) => ({
-  snapshotPathTemplate: snapshotPathTemplate(BASELINES),
   name, testDir: LANES_DIR, testMatch: '**/*.spec.ts', testIgnore: '**/_fixtures/**', use: { ...devices[device] },
   grepInvert: new RegExp(`@engine-(${ENGINES.filter((e) => e !== name).join('|')})\\b`),
+  snapshotPathTemplate: snapshotPathTemplate(BASELINES),
 });
 
 export default defineConfig({
   testDir: LANES_DIR,
   fullyParallel: true,
-  updateSnapshots: 'none',
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
+  updateSnapshots: 'none',
   // run.mjs points PLAYWRIGHT_JSON_OUTPUT_NAME at its per-row report; the default path is for direct runs.
   reporter: [['list'], ['json', { outputFile: process.env.PLAYWRIGHT_JSON_OUTPUT_NAME ?? `${process.env.AURAGLASS_EVIDENCE_DIR ?? '.artifacts'}/playwright-cert/results.json` }]],
   use: { baseURL: process.env.AG_STORYBOOK_URL ?? 'http://127.0.0.1:6006', trace: 'retain-on-failure' },

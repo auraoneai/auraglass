@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { AuraGlassProvider } from '../../theme';
 import { Popover } from './index';
+import { PopoverPortal, PopoverPositioner, PopoverPopup } from './Popover.client';
 
 const DELAY_50 = 50;
 
@@ -14,16 +15,12 @@ const Demo = ({ trigger = {}, root = {} }: { trigger?: Record<string, unknown>; 
   <AuraGlassProvider>
     <Popover.Root {...root}>
       <Popover.Trigger {...trigger}>anchor</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner>
-          <Popover.Popup aria-label="pop">
-            <Popover.Arrow />
-            <Popover.Title>Title</Popover.Title>
-            <Popover.Description>Body</Popover.Description>
-            <Popover.Close>Close</Popover.Close>
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+      <Popover.Content aria-label="pop">
+        <Popover.Arrow />
+        <Popover.Title>Title</Popover.Title>
+        <Popover.Description>Body</Popover.Description>
+        <Popover.Close>Close</Popover.Close>
+      </Popover.Content>
     </Popover.Root>
   </AuraGlassProvider>
 );
@@ -34,7 +31,7 @@ describe('Popover', () => {
     render(
       <Popover.Root defaultOpen>
         <Popover.Trigger>anchor</Popover.Trigger>
-        <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="pop"><p>plain text only</p></Popover.Popup></Popover.Positioner></Popover.Portal>
+        <Popover.Content aria-label="pop"><p>plain text only</p></Popover.Content>
       </Popover.Root>,
     );
     await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
@@ -50,7 +47,7 @@ describe('Popover', () => {
     render(
       <Popover.Root>
         <Popover.Trigger openOnHover>anchor</Popover.Trigger>
-        <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="pop"><p>plain text only</p></Popover.Popup></Popover.Positioner></Popover.Portal>
+        <Popover.Content aria-label="pop"><p>plain text only</p></Popover.Content>
       </Popover.Root>,
     );
     const trigger = screen.getByText('anchor');
@@ -66,7 +63,7 @@ describe('Popover', () => {
     render(
       <Popover.Root>
         <Popover.Trigger openOnHover>anchor</Popover.Trigger>
-        <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="pop"><Popover.Close>Close</Popover.Close></Popover.Popup></Popover.Positioner></Popover.Portal>
+        <Popover.Content aria-label="pop"><Popover.Close>Close</Popover.Close></Popover.Content>
       </Popover.Root>,
     );
     const trigger = screen.getByText('anchor');
@@ -91,7 +88,7 @@ describe('Popover', () => {
       <AuraGlassProvider>
         <Popover.Root onOpenChange={onOpenChange}>
           <Popover.Trigger>anchor</Popover.Trigger>
-          <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="pop" /></Popover.Positioner></Popover.Portal>
+          <PopoverPortal><PopoverPositioner><PopoverPopup aria-label="pop" /></PopoverPositioner></PopoverPortal>
         </Popover.Root>
       </AuraGlassProvider>,
     );
@@ -155,7 +152,7 @@ describe('Popover', () => {
       <AuraGlassProvider>
         <Popover.Root defaultOpen onOpenChange={onOpenChange}>
           <Popover.Trigger>anchor</Popover.Trigger>
-          <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="p" /></Popover.Positioner></Popover.Portal>
+          <PopoverPortal><PopoverPositioner><PopoverPopup aria-label="p" /></PopoverPositioner></PopoverPortal>
         </Popover.Root>
       </AuraGlassProvider>,
     );
@@ -171,11 +168,11 @@ describe('Popover', () => {
   const Bare = ({ root = {}, trigger = {} }: { root?: Record<string, unknown>; trigger?: Record<string, unknown> }) => (
     <Popover.Root {...root}>
       <Popover.Trigger {...trigger}>anchor</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner side="top">
-          <Popover.Popup aria-label="pop"><Popover.Close>Close</Popover.Close></Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+      <PopoverPortal>
+        <PopoverPositioner side="top">
+          <PopoverPopup aria-label="pop"><Popover.Close>Close</Popover.Close></PopoverPopup>
+        </PopoverPositioner>
+      </PopoverPortal>
     </Popover.Root>
   );
 

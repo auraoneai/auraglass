@@ -14,7 +14,7 @@ import type {
   ContextMenuRootProps, ContextMenuTriggerProps, MenuPortalProps,
   MenuPositionerProps, MenuPopupProps, MenuContentProps, MenuItemProps, MenuGroupProps,
   MenuGroupLabelProps, MenuSeparatorProps, MenuCheckboxItemProps,
-  MenuRadioGroupProps, MenuRadioItemProps,
+  MenuRadioGroupProps, MenuRadioItemProps, MenuContentProps,
 } from './Menu.types';
 
 interface Ctx { open: boolean }
@@ -131,6 +131,22 @@ function ContextMenuPopup({ className, children, ref, ...rest }: MenuPopupProps 
     );
   }
 
+/* REQ-CMP-06: the contract Content part is the whole overlay stack, so callers never
+   compose the internal Portal/Positioner/Popup themselves. */
+function ContextMenuContent({ side, align, sideOffset, keepMounted, ref, ...popupProps }: MenuContentProps) {
+  return (
+    <ContextMenuPortal {...(keepMounted !== undefined ? { keepMounted } : {})}>
+      <ContextMenuPositioner
+        {...(side !== undefined ? { side } : {})}
+        {...(align !== undefined ? { align } : {})}
+        {...(sideOffset !== undefined ? { sideOffset } : {})}
+      >
+        <ContextMenuPopup {...(ref !== undefined ? { ref } : {})} {...popupProps} />
+      </ContextMenuPositioner>
+    </ContextMenuPortal>
+  );
+}
+
 function ContextMenuItem({ className, children, shortcut, ref, ...rest }: MenuItemProps & { ref?: React.Ref<HTMLElement> | undefined }) {
     return (
       <Base.Item
@@ -218,4 +234,8 @@ export const ContextMenu = {
   Content: ContextMenuContent,
 };
 
-export { ContextMenuPortal, ContextMenuPositioner, ContextMenuPopup, ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem };
+/** Internal overlay parts (not contract surface, REQ-CMP-06): in-repo composition only. */
+export {
+  ContextMenuPortal, ContextMenuPositioner, ContextMenuPopup,
+  ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem,
+};

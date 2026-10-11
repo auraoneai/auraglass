@@ -4,6 +4,7 @@
     in development, and never warns in production. Aliases that share a module
     (Positioner/GlassPositioner, GlassNotificationCenter/useNotifications)
     warn their own id. */
+import { PopoverPortal } from '../../src/components/popover/Popover.client';
 import { afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import * as React from 'react';
@@ -50,13 +51,13 @@ const FIXTURE: Record<string, () => React.ReactElement> = {
   Positioner: () => (
     <Popover.Root open>
       <Popover.Trigger>t</Popover.Trigger>
-      <Popover.Portal>{React.createElement(C('Positioner'), { placement: 'bottom-start', children: <div>inner</div> })}</Popover.Portal>
+      <PopoverPortal>{React.createElement(C('Positioner'), { placement: 'bottom-start', children: <div>inner</div> })}</PopoverPortal>
     </Popover.Root>
   ),
   GlassPositioner: () => (
     <Popover.Root open>
       <Popover.Trigger>t</Popover.Trigger>
-      <Popover.Portal>{React.createElement(C('GlassPositioner'), { placement: 'top', children: <div>inner</div> })}</Popover.Portal>
+      <PopoverPortal>{React.createElement(C('GlassPositioner'), { placement: 'top', children: <div>inner</div> })}</PopoverPortal>
     </Popover.Root>
   ),
   GlassDropdownMenu: () => {

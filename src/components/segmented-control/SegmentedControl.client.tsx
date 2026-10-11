@@ -3,7 +3,8 @@ import * as React from 'react';
 import { stateRender, toDataState } from '../../foundation/state';
 import { RadioGroup as BUGroup } from '@base-ui/react/radio-group';
 import { Radio } from '@base-ui/react/radio';
-import { materialProps, SurfaceGroup } from '../../material';
+import { materialProps } from '../../material';
+import { surfaceGroupAttributes } from '../../material/stateAttributes';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { useControllableWarning } from '../../foundation/controllable';
@@ -109,16 +110,17 @@ function SegmentedControlRoot({
   }, [value]);
 
   return (
-    <SurfaceGroup className="ag-segmented-surface">
       <BUGroup
         {...rest}
         {...materialProps({
           layer: 'chrome',
           variant,
-          ...(thickness !== undefined ? { thickness } : {}),
+          thickness: thickness ?? 'regular',
+          ...(orientation === 'horizontal' ? { shape: 'capsule' as const } : {}),
           ...(prominent === true ? { prominent } : {}),
           ...(refraction === true ? { refraction } : {}),
         })}
+        {...surfaceGroupAttributes(undefined)}
         value={value}
         defaultValue={defaultValue}
         onValueChange={(v, eventDetails) => {
@@ -147,7 +149,6 @@ function SegmentedControlRoot({
         {hasCustomIndicator(children) ? null : <SegmentedControlIndicator />}
         {children}
       </BUGroup>
-    </SurfaceGroup>
   );
 }
 

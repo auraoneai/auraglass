@@ -50,14 +50,14 @@ export function GlassPopover({ open, onClose, onOpenChange, placement, side, ali
       <Popover.Trigger {...(hover ? { openOnHover: true } : {})}>
         {typeof trigger === 'string' ? 'Trigger' : trigger ?? children}
       </Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner {...(s !== undefined ? { side: s } : {})} {...(a !== undefined ? { align: a } : {})}>
-          <Popover.Popup {...(className !== undefined ? { className } : {})}>
-            {title !== undefined ? <Popover.Title>{title}</Popover.Title> : null}
-            {content}
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+      <Popover.Content
+        {...(s !== undefined ? { side: s } : {})}
+        {...(a !== undefined ? { align: a } : {})}
+        {...(className !== undefined ? { className } : {})}
+      >
+        {title !== undefined ? <Popover.Title>{title}</Popover.Title> : null}
+        {content}
+      </Popover.Content>
     </Popover.Root>
   ));
 }

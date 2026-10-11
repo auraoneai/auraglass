@@ -37,6 +37,7 @@ import { loadFragments } from '../../../../src/contracts/load-fragments.mjs';
 import type { LaneRegistration } from '../../../../src/contracts/fragments.ts';
 import { buildCoveragePlan, evaluateCoverage, flagshipDirs, readRatchets, seedDirs, type GroupResult } from './coverageThreshold.ts';
 import { loadOwnerOf } from './ownership.ts';
+import { l7RowResult, writeVisualClass } from './l7Runner.mjs';
 import { runReleaseVerdict } from './verdict.ts';
 import { baselinesSha256 } from './verify.ts';
 import { checkRemote } from '../../../../scripts/qual/remote-guard.mjs';
@@ -147,7 +148,8 @@ const gateFile = (path: string) => path.trim().split(/\s+/)[0]!;
     registered is a problem (the producer landed without wiring its gate). */
 export async function loadRegistrations(root: string): Promise<Registrations> {
   const cfg = await loadTsModule(join(root, 'certification/lanes.config.ts'));
-  const builtins = (cfg.BUILTINS ?? []) as Array<Omit<Registration, 'stream' | 'source'> & { owner?: Stream }>;
+  const located = typeof cfg.locationBuiltins === 'function' ? cfg.locationBuiltins(root) : [];
+  const builtins = [...((cfg.BUILTINS ?? []) as Registration[]), ...located] as Array<Omit<Registration, 'stream' | 'source'> & { owner?: Stream }>;
   const rows: Registration[] = builtins.map(({ owner, ...r }) => ({ ...r, stream: owner ?? 'qual', source: 'certification/lanes.config.ts' }));
   for (const f of await loadFragments('lanes', root)) {
     if (!Array.isArray(f.value)) throw new Error(`${f.file}: default export is not an array`);
@@ -325,7 +327,7 @@ interface PwReport { stats?: { expected?: number; unexpected?: number; flaky?: n
     certification/); stream specs (tests/{a11y/apg,e2e,visual,ssr,rsc}/<stream>/**, canaries, …) under the verbatim root
     playwright.config.ts, whose projects and fragment projects own them. null = a row mixing both. */
 export function playwrightConfigFor(files: readonly string[]): string | null {
-  const cert = files.filter((f) => f.startsWith('certification/'));
+  const cert = files.filter((f) => f.startsWith('certification/') || f.startsWith('tests/a11y/browser/'));
   if (cert.length === files.length) return 'certification/playwright.cert.config.ts';
   return cert.length ? null : 'playwright.config.ts';
 }
@@ -379,7 +381,7 @@ async function runPlaywright(row: Registration, ctx: RowContext): Promise<RowRes
   if (config === 'certification/playwright.cert.config.ts' && existsSync(join(ctx.root, 'certification/lanes/_fixtures/fragments.ts'))) {
     const { loadCertProjects } = await loadTsModule(join(ctx.root, 'certification/lanes/_fixtures/fragments.ts')) as
       { loadCertProjects: (root: string) => { projects: Array<{ testDir: string }> } };
-    const uncovered = uncoveredSpecs(files, ctx.root, loadCertProjects(ctx.root).projects.map((p) => p.testDir));
+    const uncovered = uncoveredSpecs(files, ctx.root, [...loadCertProjects(ctx.root).projects.map((p) => p.testDir), join(ctx.root, 'tests/a11y/browser')]);
     if (uncovered.length) {
       return { state: 'fail', reason: `${uncovered.length} spec(s) outside certification/lanes and every ${row.stream}:cert-* project — register a `
         + `'${row.stream}:cert-<id>' project in fragments/playwright/${row.stream}.json covering: ${uncovered.slice(0, 5).join(', ')}${uncovered.length > 5 ? ', …' : ''}` };
@@ -404,6 +406,10 @@ async function runPlaywright(row: Registration, ctx: RowContext): Promise<RowRes
   (report.suites ?? []).forEach(visit);
   const messages = [...failing.flatMap((f) => f.messages), ...(report.errors ?? []).map((e) => e.message ?? '')];
   const common = { tests: total, failed: s.unexpected ?? 0, durationMs: r.durationMs };
+  if (row.lane === 'L7' && row.path === 'certification/lanes/regression.spec.ts') {
+    const verdict = await l7RowResult({ report, status: r.status, evidenceDir: ctx.evidenceDir, scope: ctx.scope, branch: ctx.env.CI_COMMIT_BRANCH || ctx.env.CI_COMMIT_REF_NAME || null, root: ctx.root });
+    return { ...common, ...verdict };
+  }
   if (r.status === 0 && !(s.unexpected ?? 0)) return { state: 'pass', ...common };
   // REQ-QUAL-66: failures that are all quarantined cells (and no run-level error) are `quarantined`, never `pass`;
   // at release scope they stay `fail` (no release SHA carries a quarantined cell).
@@ -762,6 +768,10 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
   for (const l of lanes) {
     // REQ-QUAL-06: 0 subjects → pending at pr/main/nightly, fail at release.
     if (!results.some((r) => r.lane === l)) push({ lane: l, stream: 'qual', kind: 'node-script', path: '(no registrations)', scope: args.scope, source: null, state: 'pending', reason: '0 subjects registered for this lane at this scope' });
+  }
+  if (lanes.includes('L7')) {
+    try { push(await writeVisualClass({ root, evidenceDir, scope: args.scope, sha: gitSha(root, env) ?? '' })); }
+    catch (e) { push({ lane: 'L7', stream: 'qual', kind: 'node-script', path: '.artifacts/qual/visual-class.json', scope: args.scope, source: 'packages/qa/src/evidence/l7Runner.mjs', state: 'fail', reason: String(e) }); }
   }
   if (args.scope === 'release') {
     // G-01: at release pending, double-pass and pre-existing are not pass.

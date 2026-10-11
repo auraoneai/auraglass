@@ -13,6 +13,7 @@ export interface ColorPickerValue {
   space: 'srgb' | 'oklch';
   value: string;
 }
+import { PopoverPortal, PopoverPositioner, PopoverPopup } from '../popover/Popover.client';
 
 interface Ctx {
   hsv: Hsv;
@@ -65,7 +66,6 @@ function Root({
   const resolved = value !== undefined ? toHsvAlpha(value, uncontrolled.hsv) : uncontrolled;
   const { hsv, alpha } = resolved;
   const space = (typeof value === 'object' ? value.space : resolved.space) ?? 'srgb';
-  const hex = hsvToHex(hsv);
   const ctx = React.useMemo<Ctx>(
     () => {
       const commit = (next: Hsv, a: number, commitFlag: boolean, sp: 'srgb' | 'oklch') => {
@@ -76,7 +76,7 @@ function Root({
         hsv,
         alpha,
         space,
-        hex,
+        hex: hsvToHex(hsv),
         serialized: { space, value: serializeColor(hsv, alpha, space) },
         setHsv: (next, commitFlag = true) => commit(next, alpha, commitFlag, space),
         setAlpha: (a) => commit(hsv, Math.min(1, Math.max(0, a)), true, space),
@@ -89,8 +89,7 @@ function Root({
         },
       };
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [hsv.h, hsv.s, hsv.v, alpha, space, value, onValueChange],
+    [hsv, alpha, space, value, onValueChange],
   );
   return (
     <ColorCtx.Provider value={ctx}>
@@ -116,11 +115,11 @@ function Trigger({ className, ref, ...rest }: React.ComponentProps<typeof Popove
 function Content(props: React.ComponentProps<typeof Popover.Content>) {
   const { children, ...rest } = props;
   return (
-    <Popover.Portal>
-      <Popover.Positioner {...rest} className={cn('ag-color-picker-content', rest.className)}>
-        <Popover.Popup>{children}</Popover.Popup>
-      </Popover.Positioner>
-    </Popover.Portal>
+    <PopoverPortal>
+      <PopoverPositioner {...rest} className={cn('ag-color-picker-content', rest.className)}>
+        <PopoverPopup>{children}</PopoverPopup>
+      </PopoverPositioner>
+    </PopoverPortal>
   );
 }
 

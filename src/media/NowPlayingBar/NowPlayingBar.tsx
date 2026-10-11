@@ -82,7 +82,7 @@ function Root(props: NowPlayingBarRootProps): React.ReactElement {
         {...materialProps({ layer: 'chrome', variant })}
         data-ag-media-root=""
         {...(variant === 'clear' ? { 'data-ag-backdrop': 'media' } : {})}
-        {...(fixed ? { 'data-ag-now-playing-fixed': '' } : {})}
+        {...(fixed ? { 'data-now-playing-fixed': '' } : {})}
         data-now-playing-container=""
         {...(expandedId ? { 'data-expanded-id': expandedId } : {})}
         {...(expanded !== undefined ? { 'data-expanded': expanded ? '' : undefined } : {})}

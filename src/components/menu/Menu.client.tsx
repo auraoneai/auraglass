@@ -59,7 +59,6 @@ function MenuTrigger({ openOnHover, delay, className, children, ref, ...rest }: 
     // openOnHover is only meaningful inside a Menubar (CMP-276)
     const inMenubar = React.useContext(MenubarCtx);
     if (process.env.NODE_ENV !== 'production' && openOnHover && !inMenubar) {
-      // eslint-disable-next-line no-console
       console.warn('[aura-glass] Menu.Trigger openOnHover is only allowed inside a Menubar.');
     }
     return (

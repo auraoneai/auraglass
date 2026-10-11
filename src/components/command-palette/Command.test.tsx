@@ -143,6 +143,23 @@ describe('Command (SURF-086)', () => {
     fireEvent.change(screen.getByRole('combobox'), { target: { value: 'zzz' } });
     expect(screen.getByText('Nothing')).toBeTruthy();
   });
+
+  it('the active-row style keys on the attribute the row actually carries', () => {
+    render(
+      <Command.Root>
+        <Command.Input />
+        <Command.List>
+          <Items count={2} />
+        </Command.List>
+      </Command.Root>,
+    );
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+    const active = document.querySelector('[data-ag-part="item"][aria-selected="true"]');
+    expect(active?.getAttribute('data-state')).toBe('active');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const css: string = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'Command.css'), 'utf8');
+    expect(css).toContain(".ag-command__item[data-state='active']");
+  });
 });
 
 // ---------------------------------------------------------------------------

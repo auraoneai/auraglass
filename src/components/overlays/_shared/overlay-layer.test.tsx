@@ -1,6 +1,9 @@
 /* CMP-201 (REQ-CMP-11): portal target is the provider's overlay layer root;
    document.body has 0 direct overlay children while open; unmount removes the
    portal content; Escape closes only the top layer via BU's topmost dismiss. */
+import { MenuPortal, MenuPositioner, MenuPopup } from '../../menu/Menu.client';
+import { PopoverPortal, PopoverPositioner, PopoverPopup } from '../../popover/Popover.client';
+import { DialogPortal, DialogPopup, DialogBackdrop } from '../../dialog/Dialog.client';
 import { describe, expect, it, jest, beforeEach, afterEach } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import { render, act } from '@testing-library/react';
@@ -44,16 +47,12 @@ describe('overlay-layer (CMP-201)', () => {
     render(
       <AuraGlassProvider>
         <Dialog.Root defaultOpen onOpenChange={outer}>
-          <Dialog.Portal>
-            <Dialog.Popup aria-label="outer">
-              <Dialog.Title>Outer</Dialog.Title>
-              <Dialog.Root defaultOpen onOpenChange={inner}>
-                <Dialog.Portal>
-                  <Dialog.Popup aria-label="inner"><Dialog.Title>Inner</Dialog.Title></Dialog.Popup>
-                </Dialog.Portal>
-              </Dialog.Root>
-            </Dialog.Popup>
-          </Dialog.Portal>
+          <Dialog.Content aria-label="outer" backdrop={false}>
+            <Dialog.Title>Outer</Dialog.Title>
+            <Dialog.Root defaultOpen onOpenChange={inner}>
+              <Dialog.Content aria-label="inner" backdrop={false}><Dialog.Title>Inner</Dialog.Title></Dialog.Content>
+            </Dialog.Root>
+          </Dialog.Content>
         </Dialog.Root>
       </AuraGlassProvider>,
     );
@@ -83,15 +82,15 @@ describe('overlay-layer (CMP-201)', () => {
     render(
       <>
         <Dialog.Root defaultOpen>
-          <Dialog.Portal><Dialog.Backdrop /><Dialog.Popup aria-label="d" /></Dialog.Portal>
+          <DialogPortal><DialogBackdrop /><DialogPopup aria-label="d" /></DialogPortal>
         </Dialog.Root>
         <Popover.Root defaultOpen>
           <Popover.Trigger>p</Popover.Trigger>
-          <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="p" /></Popover.Positioner></Popover.Portal>
+          <PopoverPortal><PopoverPositioner><PopoverPopup aria-label="p" /></PopoverPositioner></PopoverPortal>
         </Popover.Root>
         <Menu.Root defaultOpen>
           <Menu.Trigger>m</Menu.Trigger>
-          <Menu.Portal><Menu.Positioner><Menu.Popup aria-label="m"><Menu.Item>x</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal>
+          <MenuPortal><MenuPositioner><MenuPopup aria-label="m"><Menu.Item>x</Menu.Item></MenuPopup></MenuPositioner></MenuPortal>
         </Menu.Root>
       </>,
     );
@@ -112,10 +111,10 @@ describe('overlay-layer (CMP-201)', () => {
           <button onClick={() => setOpen(true)}>open pop</button>
           <Popover.Root open={open} onOpenChange={setOpen}>
             <Popover.Trigger>p</Popover.Trigger>
-            <Popover.Portal><Popover.Positioner><Popover.Popup aria-label="p" /></Popover.Positioner></Popover.Portal>
+            <PopoverPortal><PopoverPositioner><PopoverPopup aria-label="p" /></PopoverPositioner></PopoverPortal>
           </Popover.Root>
           <Dialog.Root defaultOpen>
-            <Dialog.Portal><Dialog.Popup aria-label="d" /></Dialog.Portal>
+            <DialogPortal><DialogPopup aria-label="d" /></DialogPortal>
           </Dialog.Root>
         </>
       );
@@ -150,7 +149,7 @@ describe('overlay-layer (CMP-201)', () => {
 
     render(
       <Dialog.Root defaultOpen>
-        <Dialog.Portal><Dialog.Backdrop /><Dialog.Popup aria-label="d" /></Dialog.Portal>
+        <DialogPortal><DialogBackdrop /><DialogPopup aria-label="d" /></DialogPortal>
       </Dialog.Root>,
     );
     await act(async () => { await new Promise((r) => setTimeout(r, 60)); });

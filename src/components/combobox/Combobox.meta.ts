@@ -11,7 +11,7 @@ const meta: ControlMeta = defineMeta({
   parts: [
     'input-shell', 'input', 'trigger', 'clear', 'chips', 'chip', 'chip-remove',
     'popup', 'list', 'item', 'item-indicator', 'empty', 'loading',
-    'group', 'group-label', 'positioner', 'create-item',
+    'group', 'group-label', 'positioner', 'create-item', 'hit-area',
   ],
   states: ['popup-open', 'highlighted', 'selected', 'empty', 'disabled', 'invalid', 'loading'],
   variants: {

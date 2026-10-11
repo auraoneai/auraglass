@@ -25,10 +25,24 @@
     inline-size: var(--_ag-switch-track-w-md, var(--ag-space-10));
     block-size: var(--_ag-switch-track-h-md, var(--ag-space-5));
     border-radius: var(--ag-radius-full);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
+    /* unchecked: the engine's content-sunken fill (the track is a surface);
+       a darker on-surface wash on top keeps the off state legible on light
+       canvases without going translucent over media. */
+    background: color-mix(in oklab, var(--_ag-fill, var(--ag-color-canvas)), var(--ag-color-on-surface) var(--_ag-switch-off-tint, 14%));
+    /* hairline rim (was var(--_ag-surface-rim) — a colour read-out used as a
+       length, so the declaration was invalid and the track had no edge) */
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) / 2) var(--ag-color-border);
     transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
     padding: var(--_ag-switch-thumb-inset, 2px);
+    box-sizing: content-box;
+    color: var(--ag-color-on-surface);
+  }
+  /* the root carries data-size-class=control, whose shared min-block-size
+     (36px md) stretched the 20px track into a tall pill with an oversized
+     thumb; the switch sizes itself and the hit-area span covers the target.
+     Extra attribute so this wins regardless of sheet order. */
+  .ag-switch[data-ag-part='root'][data-size-class] {
+    min-block-size: 0;
   }
   .ag-switch[data-ag-part='root'][data-ag-size='sm'] {
     inline-size: var(--_ag-switch-track-w-sm, var(--ag-space-8));
@@ -41,7 +55,7 @@
 
   .ag-switch[data-ag-part='root'][data-checked] {
     background: var(--ag-color-accent);
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-accent);
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) / 2) var(--ag-color-accent);
   }
 
   /* REQ-CMP-46: thumb slides via the translate property = track - thumb -

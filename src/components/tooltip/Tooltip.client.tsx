@@ -16,7 +16,7 @@ import { cn } from '../../internal';
 import { useControllableWarning } from '../../foundation/controllable';
 import type {
   TooltipProviderProps, TooltipRootProps, TooltipTriggerProps,
-  TooltipPortalProps, TooltipPositionerProps, TooltipPopupProps, TooltipArrowProps,
+  TooltipPortalProps, TooltipPositionerProps, TooltipPopupProps, TooltipArrowProps, TooltipContentProps,
 } from './Tooltip.types';
 
 interface TooltipCtx {
@@ -171,6 +171,22 @@ function TooltipPopup({ className, children, ref, ...rest }: TooltipPopupProps &
     );
 }
 
+/* REQ-CMP-06: Content owns the full Portal > Positioner > Popup stack. */
+function TooltipContent({ side, align, sideOffset, collisionPadding, keepMounted, ref, ...popupProps }: TooltipContentProps) {
+  return (
+    <TooltipPortal {...(keepMounted !== undefined ? { keepMounted } : {})}>
+      <TooltipPositioner
+        {...(side !== undefined ? { side } : {})}
+        {...(align !== undefined ? { align } : {})}
+        {...(sideOffset !== undefined ? { sideOffset } : {})}
+        {...(collisionPadding !== undefined ? { collisionPadding } : {})}
+      >
+        <TooltipPopup {...(ref !== undefined ? { ref } : {})} {...popupProps} />
+      </TooltipPositioner>
+    </TooltipPortal>
+  );
+}
+
 function TooltipArrow({ className, ref, ...rest }: TooltipArrowProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
     return <Base.Arrow ref={ref} data-ag-part="arrow" className={cn('ag-tooltip-arrow', className)} {...rest} />;
 }
@@ -179,9 +195,9 @@ export const Tooltip = {
   Provider: TooltipProvider,
   Root: TooltipRoot,
   Trigger: TooltipTrigger,
-  Portal: TooltipPortal,
-  Positioner: TooltipPositioner,
-  Popup: TooltipPopup,
   Arrow: TooltipArrow,
-  Content: TooltipPopup,
+  Content: TooltipContent,
 };
+
+/** Internal overlay parts for in-repo composition (REQ-CMP-06). */
+export { TooltipPortal, TooltipPositioner, TooltipPopup };

@@ -1,6 +1,7 @@
 /* REQ-CMP-83: data-ag-animating never lingers — with data-instant / zero
    computed transition (jsdom: no transition listed, 0ms duration) the
    attribute clears on the next frame; opening leaves no marker at rest. */
+import { DialogPortal, DialogPopup, DialogBackdrop } from '../../src/components/dialog/Dialog.client';
 import { describe, expect, it } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import { render, act } from '@testing-library/react';
@@ -11,10 +12,10 @@ describe('data-ag-animating lifecycle (REQ-CMP-83)', () => {
   it('no data-ag-animating after open with transitions disabled', async () => {
     render(
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup aria-label="d" data-instant />
-        </Dialog.Portal>
+        <DialogPortal>
+          <DialogBackdrop />
+          <DialogPopup aria-label="d" data-instant />
+        </DialogPortal>
       </Dialog.Root>,
     );
     await act(async () => { await new Promise((r) => setTimeout(r, 80)); });
@@ -25,7 +26,7 @@ describe('data-ag-animating lifecycle (REQ-CMP-83)', () => {
   it('will-change marker absent at rest once the enter completes', async () => {
     render(
       <Dialog.Root defaultOpen>
-        <Dialog.Portal><Dialog.Backdrop /><Dialog.Popup aria-label="d2" /></Dialog.Portal>
+        <DialogPortal><DialogBackdrop /><DialogPopup aria-label="d2" /></DialogPortal>
       </Dialog.Root>,
     );
     await act(async () => { await new Promise((r) => setTimeout(r, 80)); });

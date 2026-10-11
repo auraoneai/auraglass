@@ -1,3 +1,4 @@
+import { DialogPortal, DialogPopup } from '../../../src/components/dialog/Dialog.client';
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { DismissableLayer } from '../../../src/primitives/DismissableLayer';
@@ -93,8 +94,8 @@ export const MixedDialog: Story = {
       <div>
         <button type="button" onClick={() => setDialogOpen(true)}>Open dialog</button>
         <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
-          <Dialog.Portal>
-            <Dialog.Popup aria-label="mixed dialog" style={{ padding: 16 }}>
+          <DialogPortal>
+            <DialogPopup aria-label="mixed dialog" style={{ padding: 16 }}>
               <button type="button" onClick={() => setLayerOpen(true)}>Open layer</button>
               {layerOpen ? (
                 <DismissableLayer
@@ -106,8 +107,8 @@ export const MixedDialog: Story = {
                   <div>Primitive layer</div>
                 </DismissableLayer>
               ) : null}
-            </Dialog.Popup>
-          </Dialog.Portal>
+            </DialogPopup>
+          </DialogPortal>
         </Dialog.Root>
       </div>
     );

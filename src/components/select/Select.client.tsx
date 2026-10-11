@@ -145,6 +145,7 @@ function SelectTrigger({ placeholder, children, className, ref, disabled, focusa
           </Base.Icon>
         </>
       )}
+      <span data-ag-part="hit-area" aria-hidden="true" />
     </Base.Trigger>
   );
 }
@@ -259,7 +260,5 @@ export const Select = {
   ItemIndicator: SelectItemIndicator,
   Group: SelectGroup,
   GroupLabel: SelectGroupLabel,
-  /** Alias of GroupLabel (PRD Select.Label). */
-  Label: SelectGroupLabel,
   Separator: SelectSeparator,
 };

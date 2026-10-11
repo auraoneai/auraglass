@@ -9,17 +9,14 @@
 //                   still focusable), so the spec can assert the focus ring
 //                   on aria-disabled cells.
 // Every overlay starts closed; the spec opens each one from the keyboard.
+import { SheetPortal, SheetBackdrop, SheetPopup } from '../../../src/components/sheet/Sheet.client';
+import { PopoverPortal, PopoverPositioner, PopoverPopup } from '../../../src/components/popover/Popover.client';
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { CalendarDate } from '@internationalized/date';
-import {
-  AppShell,
-  AppShellSidebarToggle,
-  Sidebar,
-  SidebarDrawer,
-  StatusBar,
-  TopBar,
-} from '../../../src/app-shell';
+import { AppShell, Sidebar, StatusBar, TopBar } from '../../../src/app-shell';
+import { AppShellSidebarToggle } from '../../../src/app-shell/AppShell.SidebarToggle';
+import { SidebarDrawer } from '../../../src/app-shell/Sidebar.Drawer';
 import { CommandPalette } from '../../../src/components/command-palette/CommandPalette';
 import { Command } from '../../../src/components/command-palette/Command';
 import { Sheet } from '../../../src/components/sheet';
@@ -71,7 +68,7 @@ function OverlaysHarness() {
     <AppShell.Root layout="compact" defaultSidebar="collapsed">
       <TopBar.Root placement="overlay">
         <TopBar.Leading>
-          <AppShellSidebarToggle data-ag-focus-overlay="sidebar-drawer" />
+          <AppShellSidebarToggle data-focus-overlay="sidebar-drawer" />
           <TopBar.Title>Focus restore</TopBar.Title>
         </TopBar.Leading>
       </TopBar.Root>
@@ -84,21 +81,21 @@ function OverlaysHarness() {
       <AppShell.Main>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', paddingBlock: '0.5rem' }}>
           <Sheet.Root>
-            <Sheet.Trigger data-ag-focus-overlay="sheet">Open sheet</Sheet.Trigger>
-            <Sheet.Portal>
-              <Sheet.Backdrop />
-              <Sheet.Popup>
+            <Sheet.Trigger data-focus-overlay="sheet">Open sheet</Sheet.Trigger>
+            <SheetPortal>
+              <SheetBackdrop />
+              <SheetPopup>
                 <Sheet.Header><Sheet.Title>Sheet</Sheet.Title></Sheet.Header>
                 <Sheet.Body>Sheet content</Sheet.Body>
                 <Sheet.Footer><Sheet.Close>Close</Sheet.Close></Sheet.Footer>
-              </Sheet.Popup>
-            </Sheet.Portal>
+              </SheetPopup>
+            </SheetPortal>
           </Sheet.Root>
 
           <button
             type="button"
             className="ag-focusable"
-            data-ag-focus-overlay="command-palette"
+            data-focus-overlay="command-palette"
             aria-haspopup="dialog"
             onClick={() => setPaletteOpen(true)}
           >
@@ -115,23 +112,23 @@ function OverlaysHarness() {
           </CommandPalette>
 
           <ImageViewer.Root items={IMAGES}>
-            <span data-ag-focus-overlay-host="image-viewer">
+            <span data-focus-overlay-host="image-viewer">
               <ImageViewer.Trigger id="focus-im-1">Open image viewer</ImageViewer.Trigger>
             </span>
             <ImageViewer.Popup />
           </ImageViewer.Root>
 
           <Popover.Root>
-            <Popover.Trigger data-ag-focus-overlay="popover">Open popover</Popover.Trigger>
-            <Popover.Portal>
-              <Popover.Positioner>
-                <Popover.Popup>
+            <Popover.Trigger data-focus-overlay="popover">Open popover</Popover.Trigger>
+            <PopoverPortal>
+              <PopoverPositioner>
+                <PopoverPopup>
                   <Popover.Title>Popover</Popover.Title>
                   <Popover.Description>Anchored overlay content.</Popover.Description>
                   <Popover.Close>Close</Popover.Close>
-                </Popover.Popup>
-              </Popover.Positioner>
-            </Popover.Portal>
+                </PopoverPopup>
+              </PopoverPositioner>
+            </PopoverPortal>
           </Popover.Root>
         </div>
         <ol>

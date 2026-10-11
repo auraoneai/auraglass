@@ -28,6 +28,21 @@
     gap: var(--ag-space-1);
   }
 
+  /* UA fieldset chrome (2px groove border, legend inset) off; the legend
+     reads as a label above its group. */
+  .ag-fieldset {
+    display: grid;
+    gap: var(--ag-space-2);
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .ag-fieldset > [data-ag-part='legend'] {
+    padding: 0;
+    margin-block-end: var(--ag-space-2);
+  }
+
   .ag-field[data-disabled] > :where([data-ag-part]),
   .ag-fieldset[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);

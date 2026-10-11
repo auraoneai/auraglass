@@ -438,6 +438,7 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
         <ClearGlyph />
       </Base.Clear>
       <Base.Trigger render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), undefined, 'button')} data-ag-part="trigger" tabIndex={-1}>
+        <span data-ag-part="hit-area" aria-hidden="true" />
         <ChevronGlyph />
       </Base.Trigger>
       {loading ? (
@@ -580,7 +581,7 @@ function ComboboxGroupLabel({ children, className }: ComboboxGroupLabelProps) {
 
 function ComboboxChips({ children, className }: ComboboxChipsProps) {
   return (
-    <Base.Chips data-ag-part="chips" className={className} onKeyDown={comboboxChipsKeyDown}>
+    <Base.Chips data-ag-part="chips" className={cn('ag-combobox-chips', className)} onKeyDown={comboboxChipsKeyDown}>
       {children}
     </Base.Chips>
   );
@@ -589,9 +590,10 @@ function ComboboxChips({ children, className }: ComboboxChipsProps) {
 function ComboboxChip({ children, className, label }: ComboboxChipProps) {
   const { messages } = useInternal();
   return (
-    <Base.Chip data-ag-part="chip" {...materialProps({ layer: 'content', content: 'content-raised', shape: 'capsule' })} className={className}>
+    <Base.Chip data-ag-part="chip" {...materialProps({ layer: 'content', content: 'content-raised', shape: 'capsule' })} className={cn('ag-combobox-chip', className)}>
       {children}
       <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: chipLabel(children, label) })}>
+        <span data-ag-part="hit-area" aria-hidden="true" />
         <XGlyph />
       </Base.ChipRemove>
     </Base.Chip>
@@ -614,6 +616,7 @@ function ComboboxLoading({ children, className }: ComboboxLoadingProps) {
 function ComboboxTrigger({ children, className }: { children?: React.ReactNode; className?: string }) {
   return (
     <Base.Trigger render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), undefined, 'button')} data-ag-part="trigger" tabIndex={-1} className={className}>
+      <span data-ag-part="hit-area" aria-hidden="true" />
       {children ?? <ChevronGlyph />}
     </Base.Trigger>
   );
@@ -632,6 +635,7 @@ function ComboboxChipRemove({ children, className, label }: ComboboxChipRemovePr
   const { messages } = useInternal();
   return (
     <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: label ?? '' })} className={className}>
+      <span data-ag-part="hit-area" aria-hidden="true" />
       {children ?? <XGlyph />}
     </Base.ChipRemove>
   );
@@ -651,5 +655,7 @@ export const Combobox = {
   Chips: ComboboxChips,
   Chip: ComboboxChip,
   ChipRemove: ComboboxChipRemove,
-  Loading: ComboboxLoading,
 };
+
+/** Not contract surface (REQ-CMP-06): in-repo composition only. */
+export { ComboboxLoading };

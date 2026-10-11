@@ -86,6 +86,7 @@ function ToggleGroupItem({ value, disabled, focusableWhenDisabled, className, ch
       ref={ref}
       render={stateRender<{ pressed: boolean }>((s) => toDataState({ pressed: s.pressed }), undefined, 'button')}
     >
+      <span data-ag-part="hit-area" aria-hidden="true" />
       {children}
     </Toggle>
   );

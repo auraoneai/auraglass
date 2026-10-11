@@ -1,23 +1,19 @@
-# ci/surf/ai-sdk — interim AI SDK harness (being retired, REQ-SURF-106)
+# AI SDK major compatibility evidence harness
 
-The SDK pins now live in the root `package.json` devDependencies
-(`ai@5.0.29`, `@ai-sdk/react@2.0.29`, `@ai-sdk/openai-compatible@1.0.29`), so
-SDK-typed code no longer needs a scratch install. This directory is being
-emptied in three steps (REQ-FIN-85 / REQ-FIN-88 / REQ-FIN-90):
+This directory is the isolated historical SDK contract harness used by
+`scripts/surf/od-evidence/ai-sdk-majors.mjs` for the OD-16 major-version comparison.
+Its exact dependency pins describe the v5 baseline; the probe also measures the
+explicitly pinned v6 versions. It copies this directory into a temporary sandbox
+and installs each major under `.artifacts/surf/od-16/`, preserving existing source
+checkout dependencies. Run this workload in remote CI.
 
-- Done (REQ-SURF-106, `next-fin/f-ai-sdk`): the `UIMessage` → `AgMessage`
-  compat test moved to `tests/types/surf/ai-sdk-compat.test-d.ts` (plain
-  type-level asserts, no `tsd`, checked by the root `tsc -p tsconfig.json`);
-  the duplicate `ai-sdk-adapter/` was deleted — `registry/items/ai-sdk-adapter`
-  is canonical and its test moved there; `scripts/surf/gen-ai-fixtures.mjs`
-  typechecks the fixture corpus against the pinned `ai` types.
-- Pending (REQ-SURF-172, `next-fin/f-ai-route`): `ai-workspace/app/api/chat/route.ts`
-  and `ai-workspace-route.test.ts` move to `registry/blocks/ai-workspace/`.
-- Pending (REQ-SURF-195, `next-fin/f-ci-fragment`): `surf:test:ai-sdk` is
-  repointed at the root config and `tests/types/surf`, after which
-  `package.json`, `package-pins.json`, `tsconfig.json`, `jest.config.mjs` and
-  this README are deleted.
+The normal `surf:test:ai-sdk` gate uses root TypeScript and Jest configurations,
+`tests/types/surf`, and the canonical adapters/routes in
+`registry/items/ai-sdk-adapter` and `registry/blocks/ai-workspace`. Those migrations
+are complete. The copies here support historical compatibility measurement and
+are not an additional runtime entry point. The route retains the canonical
+Prism transport contract and its test mocks provider access.
 
-Until then `surf:test:ai-sdk` still installs `package.json` into
-`.artifacts/surf/ai-sdk/` and runs `tsc` + Jest over what remains here (the
-route and its mocked-Prism test).
+The probe records compiler, approval-state, and Jest evidence for each major;
+measurement failures are not claims that a major is supported. Provider or SDK
+migration still requires the corresponding compatibility decision.

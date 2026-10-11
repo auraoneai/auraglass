@@ -7,6 +7,7 @@ import { useAttachments } from './useAttachments';
 import type { AttachmentReject, ComposerAttachment } from './useAttachments';
 import { useAnnouncer } from '../../theme';
 import { Menu } from '../../components/menu';
+import { MenuPortal, MenuPositioner, MenuPopup } from '../../components/menu/Menu.client';
 import { AiIcon } from '../icons/AiIcon';
 import { useStatusAnnouncements } from '../message/useStatusAnnouncements';
 import type { AiIconName } from '../icons/index';
@@ -463,18 +464,18 @@ export function ComposerMenu() {
         <Menu.Trigger aria-label={c.labels.moreActions ?? 'More actions'} data-ag-part="composer-menu-trigger">
           <AiIcon name="chevron" />
         </Menu.Trigger>
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup>
+        <MenuPortal>
+          <MenuPositioner>
+            <MenuPopup>
               {c.actions.map((a) => (
                 <Menu.Item key={a.id} disabled={a.disabled} onClick={(e) => c.selectAction(a.id, e)}>
                   {a.icon ? <AiIcon name={a.icon} /> : null}
                   {a.label}
                 </Menu.Item>
               ))}
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+            </MenuPopup>
+          </MenuPositioner>
+        </MenuPortal>
       </Menu.Root>
     </div>
   );

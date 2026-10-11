@@ -22,15 +22,16 @@ async function mountTwice(node: () => React.ReactElement, depId: string) {
 }
 
 describe('Positioner compat (CMP-339)', () => {
-  it('renders Popover.Positioner semantics + warns', async () => {
+  it('renders the Popover positioner semantics + warns', async () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const { Popover } = await import('../../../../components/popover');
+    const { PopoverPortal } = await import('../../../../components/popover/Popover.client');
     render(
       <Popover.Root open>
         <Popover.Trigger>t</Popover.Trigger>
-        <Popover.Portal>
+        <PopoverPortal>
           <Positioner placement="bottom-start"><div>inner</div></Positioner>
-        </Popover.Portal>
+        </PopoverPortal>
       </Popover.Root>,
     );
     await flush();

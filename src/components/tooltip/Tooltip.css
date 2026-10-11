@@ -7,14 +7,20 @@
   .ag-tooltip-positioner { z-index: var(--ag-z-transient, 80); }
 
   .ag-tooltip-popup {
-    background: var(--_ag-surface-fill-strong, var(--_ag-glass-fill, var(--_ag-surface-fill)));
-    border: 1px solid var(--_ag-rim, var(--ag-color-border));
+    /* fill/rim/shadow from MAT (overlayMaterial('tooltip'), thin). No second
+       background or 1px border on top of the material rim. */
     border-radius: var(--ag-radius-sm);
-    box-shadow: var(--_ag-shadow-transient, var(--ag-shadow-thin));
+    /* depth is the material shadow for this thickness (MAT ladder,
+       --_ag-mat-shadow); the old --_ag-shadow-overlay/-transient were never
+       defined and overrode identity/solid rungs with a fixed shadow */
+    box-shadow: var(--_ag-surface-shadow);
     color: var(--ag-on-surface, inherit);
-    font-size: var(--_ag-text-sm, 12px);
-    line-height: 1.4;
-    padding: 6px 10px;
+    font-family: var(--ag-font-sans);
+    font-size: var(--ag-type-caption-size);
+    font-weight: var(--ag-type-caption-weight);
+    line-height: var(--ag-type-caption-leading);
+    letter-spacing: var(--_ag-type-caption-tracking, normal);
+    padding: var(--ag-space-1) var(--ag-space-2);
     /* REQ-CMP-100: 280px cap with a 16px viewport margin. */
     max-inline-size: min(280px, calc(100vw - 16px));
     inline-size: max-content;
@@ -33,12 +39,19 @@
   .ag-tooltip-popup[data-side='inline-start'][data-starting-style] { --_ag-tip-in: translateX(2px); }
   .ag-tooltip-popup[data-side='inline-end'][data-starting-style] { --_ag-tip-in: translateX(-2px); }
 
+  /* notch in the canvas tint; edge + direction follow data-side */
   .ag-tooltip-arrow {
-    inline-size: 8px;
-    block-size: 8px;
-    background: var(--_ag-surface-fill-strong, var(--_ag-surface-fill));
+    inline-size: 10px;
+    block-size: 5px;
+    background: color-mix(in oklab, var(--ag-color-canvas) 86%, transparent);
     clip-path: polygon(0 0, 100% 0, 50% 100%);
   }
+  .ag-tooltip-arrow[data-side='top'] { bottom: -5px; }
+  .ag-tooltip-arrow[data-side='bottom'] { top: -5px; rotate: 180deg; }
+  .ag-tooltip-arrow[data-side='left'],
+  .ag-tooltip-arrow[data-side='inline-start'] { right: -7px; rotate: -90deg; }
+  .ag-tooltip-arrow[data-side='right'],
+  .ag-tooltip-arrow[data-side='inline-end'] { left: -7px; rotate: 90deg; }
 
   /* REQ-CMP-101: calm motion mode gets the same no-transform guarantee as
      the media-query path — data-ag-motion='calm' rides along, not replaces. */
@@ -48,6 +61,6 @@
   }
   @media (forced-colors: active) {
     .ag-tooltip-popup { border: 1px solid CanvasText; }
-    .ag-tooltip-arrow { background: Canvas; }
+    .ag-tooltip-arrow { background: CanvasText; }
   }
 }

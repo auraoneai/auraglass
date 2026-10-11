@@ -1,9 +1,11 @@
 /* CMP-241 (REQ-CMP-95): RightPanel, LeftPanelRTL, BottomDetents,
    ActionPreset, NonModalInspector, FullHeight — open by default, ids
    overlays-sheet--*. */
+import { OverlayStage } from '../overlays/OverlayStage';
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Sheet } from '../../../src/components/sheet';
+import { SheetAction } from '../../../src/components/sheet/Sheet.client';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
@@ -17,20 +19,17 @@ export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
 const Demo = ({ root = {}, children }: { root?: Record<string, unknown>; children?: React.ReactNode }) => (
-  <AuraGlassProvider>
+  <AuraGlassProvider><OverlayStage>
     <Sheet.Root defaultOpen {...root}>
       <Sheet.Trigger>Open sheet</Sheet.Trigger>
-      <Sheet.Portal>
-        <Sheet.Backdrop />
-        <Sheet.Popup>
+        <Sheet.Content>
           <Sheet.Handle />
           <Sheet.Header><Sheet.Title>Sheet</Sheet.Title></Sheet.Header>
           <Sheet.Body><Sheet.Description>Panel details</Sheet.Description>{children ?? 'Sheet content'}</Sheet.Body>
           <Sheet.Footer><Sheet.Close>Close</Sheet.Close></Sheet.Footer>
-        </Sheet.Popup>
-      </Sheet.Portal>
+        </Sheet.Content>
     </Sheet.Root>
-  </AuraGlassProvider>
+  </OverlayStage></AuraGlassProvider>
 );
 
 export const RightPanel: Story = {
@@ -59,38 +58,33 @@ export const BottomDetents: Story = {
 export const ActionPreset: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Sheet', id: 'overlays-sheet--action-preset' } },
   render: () => (
-    <AuraGlassProvider>
+    <AuraGlassProvider><OverlayStage>
       <Sheet.Root defaultOpen preset="action">
-        <Sheet.Portal>
-          <Sheet.Backdrop />
-          <Sheet.Popup>
-            <Sheet.Handle />
-            <Sheet.Body>
-              <Sheet.Action>Save to Photos</Sheet.Action>
-              <Sheet.Action>Share…</Sheet.Action>
-            </Sheet.Body>
-            <Sheet.Close>Cancel</Sheet.Close>
-          </Sheet.Popup>
-        </Sheet.Portal>
+        <Sheet.Content>
+          <Sheet.Handle />
+          <Sheet.Body>
+            <SheetAction>Save to Photos</SheetAction>
+            <SheetAction>Share…</SheetAction>
+          </Sheet.Body>
+          <Sheet.Close>Cancel</Sheet.Close>
+        </Sheet.Content>
       </Sheet.Root>
-    </AuraGlassProvider>
+    </OverlayStage></AuraGlassProvider>
   ),
 };
 export const NonModalInspector: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Sheet', id: 'overlays-sheet--non-modal-inspector' } },
   render: () => (
-    <AuraGlassProvider>
+    <AuraGlassProvider><OverlayStage>
       <input placeholder="page input stays interactive" />
       <Sheet.Root defaultOpen side="end" modal={false}>
-        <Sheet.Portal>
-          <Sheet.Popup size="sm">
-            <Sheet.Header><Sheet.Title>Inspector</Sheet.Title></Sheet.Header>
-            <Sheet.Body>Non-modal: page remains interactive; Tab can leave.</Sheet.Body>
-            <Sheet.Close>Close</Sheet.Close>
-          </Sheet.Popup>
-        </Sheet.Portal>
+        <Sheet.Content size="sm" backdrop={false}>
+          <Sheet.Header><Sheet.Title>Inspector</Sheet.Title></Sheet.Header>
+          <Sheet.Body>Non-modal: page remains interactive; Tab can leave.</Sheet.Body>
+          <Sheet.Close>Close</Sheet.Close>
+        </Sheet.Content>
       </Sheet.Root>
-    </AuraGlassProvider>
+    </OverlayStage></AuraGlassProvider>
   ),
 };
 export const FullHeight: Story = {
@@ -102,22 +96,19 @@ export const FullHeight: Story = {
 export const Anatomy: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Sheet', id: 'overlays-sheet--anatomy' } },
   render: () => (
-    <AuraGlassProvider>
+    <AuraGlassProvider><OverlayStage>
       <Sheet.Root defaultOpen>
         <Sheet.Trigger>Open filters</Sheet.Trigger>
-        <Sheet.Portal>
-          <Sheet.Backdrop />
-          <Sheet.Popup>
-            <Sheet.Handle />
-            <Sheet.Header>
-              <Sheet.Title>Filters</Sheet.Title>
-              <Sheet.Description>Narrow the list by status and owner.</Sheet.Description>
-            </Sheet.Header>
-            <Sheet.Body>Filter controls</Sheet.Body>
-            <Sheet.Footer><Sheet.Close>Done</Sheet.Close></Sheet.Footer>
-          </Sheet.Popup>
-        </Sheet.Portal>
+        <Sheet.Content>
+          <Sheet.Handle />
+          <Sheet.Header>
+            <Sheet.Title>Filters</Sheet.Title>
+            <Sheet.Description>Narrow the list by status and owner.</Sheet.Description>
+          </Sheet.Header>
+          <Sheet.Body>Filter controls</Sheet.Body>
+          <Sheet.Footer><Sheet.Close>Done</Sheet.Close></Sheet.Footer>
+        </Sheet.Content>
       </Sheet.Root>
-    </AuraGlassProvider>
+    </OverlayStage></AuraGlassProvider>
   ),
 };

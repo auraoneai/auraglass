@@ -26,9 +26,8 @@ export function Link({
   ...rest
 }: LinkProps & { ref?: React.Ref<HTMLAnchorElement> | undefined }) {
   const external = target === '_blank';
-  const props: React.AnchorHTMLAttributes<HTMLAnchorElement> & { ref?: React.Ref<HTMLAnchorElement> } = {
+  const props: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
     ...rest,
-    ref,
     target,
     rel: external ? [rel, 'noopener', 'noreferrer'].filter(Boolean).join(' ') : rel,
     'data-ag-part': 'root',
@@ -37,10 +36,11 @@ export function Link({
     className: cn('ag-link', className),
     children: (
       <>
+        <span data-ag-part="hit-area" aria-hidden="true" />
         {children}
         {external ? <VisuallyHidden> (opens in new tab)</VisuallyHidden> : null}
       </>
     ),
-  } as React.AnchorHTMLAttributes<HTMLAnchorElement> & { ref?: React.Ref<HTMLAnchorElement> };
-  return renderElement(render, <a />, props);
+  } as React.AnchorHTMLAttributes<HTMLAnchorElement>;
+  return renderElement(render, <a ref={ref} />, props);
 }

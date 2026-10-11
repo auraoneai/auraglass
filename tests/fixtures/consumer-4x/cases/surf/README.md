@@ -38,6 +38,14 @@ to the DEP-S id it must warn with (checked against the generated deprecations
 table by `tests/app-shell/compat-registry.test.ts`). `data/story-args.tsx` also
 covers the date adapters.
 
+Compat adapter inputs (REQ-SURF-13): `<area>/story-args.ts(x)` hold the
+frozen 4.x story props (meta args + Default story props, source story path
+per entry) that `tests/{app-shell,data,ai,media}/compat.test.tsx` render every
+`aura-glass/compat` SURF adapter from; `compat-ids.ts` maps each compat export
+to the DEP-S id it must warn with (checked against the generated deprecations
+table by `tests/app-shell/compat-registry.test.ts`). `data/story-args.tsx` also
+covers the date adapters.
+
 Adding a case:
 
 1. `cases/surf/<area>/<Family>.page.tsx` — the frozen 4.x source page, valid

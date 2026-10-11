@@ -96,9 +96,9 @@ export function Button(props: ButtonProps) {
   } = props as ButtonProps & { 'data-ag-part'?: string };
 
   useControllableWarning('Button', 'pressed', pressed);
-  const token = React.useRef<object>({});
+  const [token] = React.useState(() => ({} as object));
   const elementRef = React.useRef<HTMLElement | null>(null);
-  useProminentGuard(prominent, token.current, elementRef);
+  useProminentGuard(prominent, token, elementRef);
 
   const isToggle = pressed !== undefined || defaultPressed !== undefined || onPressedChange !== undefined;
 

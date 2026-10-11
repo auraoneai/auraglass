@@ -6,7 +6,7 @@ import type { FieldsetRootProps } from './Field.types';
 
 function FieldsetRoot({ legend, className, children, ref, ...rest }: FieldsetRootProps) {
   return (
-    <Base.Root data-ag-part="root" className={className} ref={ref} {...rest}>
+    <Base.Root data-ag-part="root" className={className ? `ag-fieldset ${className}` : 'ag-fieldset'} ref={ref} {...rest}>
       {legend !== undefined && <Base.Legend data-ag-part="legend">{legend}</Base.Legend>}
       {children}
     </Base.Root>

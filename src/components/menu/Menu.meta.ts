@@ -15,7 +15,7 @@ const meta: ControlMeta = defineMeta({
     // items render the 'item' part (their kind is in role/aria-checked).
     'trigger', 'context-trigger', 'positioner', 'popup', 'arrow', 'item',
     'indicator', 'group', 'group-label', 'separator', 'submenu-trigger',
-    'submenu-indicator', 'shortcut',
+    'submenu-indicator', 'shortcut', 'hit-area',
   ],
   states: [
     'open', 'closed', 'starting-style', 'ending-style', 'animating',
@@ -37,7 +37,7 @@ const meta: ControlMeta = defineMeta({
         open: 'open',
         onClose: { to: 'onOpenChange' },
         items: 'Menu.Item children',
-        side: 'Positioner side',
+        side: 'Menu.Content side',
       },
       selectors: { '.glass-menu': '.ag-menu' }, automation: 'mostly',
       compat: true,

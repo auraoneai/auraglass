@@ -18,6 +18,7 @@
 import * as React from 'react';
 import { Button } from '../components/button';
 import { Popover } from '../components/popover';
+import { PopoverPortal, PopoverPositioner, PopoverPopup } from '../components/popover/Popover.client';
 
 export interface DatePopupProps {
   open: boolean;
@@ -123,8 +124,8 @@ export function DatePopup({
     <Popover.Root open={open} onOpenChange={(o) => onOpenChange(o)}>
       <Popover.Trigger render={renderTrigger} />
       {open ? (
-        <Popover.Portal>
-          <Popover.Positioner
+        <PopoverPortal>
+          <PopoverPositioner
             {...((compact
               ? {
                   anchor: viewportBottom,
@@ -136,17 +137,17 @@ export function DatePopup({
                   collisionAvoidance: { side: 'none', align: 'none' },
                   'data-ag-presentation': 'sheet',
                 }
-              : { side: 'bottom', align: 'start', sideOffset: 4 }) as React.ComponentProps<typeof Popover.Positioner>)}
+              : { side: 'bottom', align: 'start', sideOffset: 4 }) as React.ComponentProps<typeof PopoverPositioner>)}
           >
-            <Popover.Popup
-              {...(popupProps as React.ComponentProps<typeof Popover.Popup>)}
+            <PopoverPopup
+              {...(popupProps as React.ComponentProps<typeof PopoverPopup>)}
               data-ag-presentation={compact ? 'sheet' : 'popover'}
               {...(compact ? { 'data-ag-side': 'bottom' } : {})}
             >
               {children}
-            </Popover.Popup>
-          </Popover.Positioner>
-        </Popover.Portal>
+            </PopoverPopup>
+          </PopoverPositioner>
+        </PopoverPortal>
       ) : null}
     </Popover.Root>
   );

@@ -328,6 +328,7 @@ export const FIXTURES: Record<string, MetaFixture> = {
   ChartFrame: {},
   Chip: {},
   FilterBar: {
+    composes: ['SearchField', 'ToggleGroup', 'Popover', 'Sheet'],
     states: {
       'rule editor open': { render: story(FilterBarStories.Basic), interact: click('[data-ag-part="filter-rule-chip"] button[aria-expanded]') },
     },

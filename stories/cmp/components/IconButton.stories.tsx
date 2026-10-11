@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { IconButton } from '../../../src/components/icon-button';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
+import { Caption, Glyph, Row, Scene, Section, Stage } from './controls-stage';
 
 const sbMeta = {
   title: 'Flagships/Controls/IconButton',
@@ -13,42 +14,80 @@ const sbMeta = {
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
-const XIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-    <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" />
-  </svg>
-);
-
 export const Default: Story = {
-  args: { label: 'Close', icon: <XIcon /> },
+  args: { label: 'Close', icon: <Glyph name="close" /> },
+  render: (args) => (
+    <Stage>
+      <Scene>
+        <IconButton {...args} />
+      </Scene>
+    </Stage>
+  ),
 };
 
 export const Overview: Story = {
-  args: { icon: <XIcon /> },
+  args: { icon: <Glyph name="close" /> },
+  render: (args) => (
+    <Stage>
+      <Section title="Icon buttons" note="Square-to-capsule glass at the control-height tokens; the hit area still reaches the 44 px target.">
+        <Scene>
+          <IconButton label="Share" icon={<Glyph name="share" />} />
+          <IconButton label="Favourite" icon={<Glyph name="heart" />} />
+          <IconButton label="Settings" icon={<Glyph name="gear" />} />
+          <IconButton {...args} />
+        </Scene>
+      </Section>
+    </Stage>
+  ),
 };
 
 export const Shapes: Story = {
   args: { label: 'Capsule', icon: null },
   render: () => (
-    <div style={{ display: 'flex', gap: '12px' }}>
-      <IconButton label="Capsule" icon={<XIcon />} />
-      <IconButton label="Fixed" icon={<XIcon />} shape="fixed" />
-    </div>
+    <Stage>
+      <Section title="Shapes">
+        <Scene>
+          <Row gap="var(--ag-space-6)">
+            <Row gap="var(--ag-space-2)">
+              <IconButton label="Capsule" icon={<Glyph name="close" />} />
+              <Caption>capsule</Caption>
+            </Row>
+            <Row gap="var(--ag-space-2)">
+              <IconButton label="Fixed" icon={<Glyph name="close" />} shape="fixed" />
+              <Caption>fixed</Caption>
+            </Row>
+          </Row>
+        </Scene>
+      </Section>
+    </Stage>
   ),
 };
 
 export const Sizes: Story = {
   args: { label: 'x', icon: null },
   render: () => (
-    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-      <IconButton label="small" icon={<XIcon />} size="sm" />
-      <IconButton label="medium" icon={<XIcon />} size="md" />
-      <IconButton label="large" icon={<XIcon />} size="lg" />
-    </div>
+    <Stage>
+      <Section title="Sizes" note="sm / md / lg = 28 / 36 / 44 px.">
+        <Scene>
+          <IconButton label="small" icon={<Glyph name="plus" />} size="sm" />
+          <IconButton label="medium" icon={<Glyph name="plus" />} size="md" />
+          <IconButton label="large" icon={<Glyph name="plus" />} size="lg" />
+        </Scene>
+      </Section>
+    </Stage>
   ),
 };
 
 export const Toggle: Story = {
   args: { label: 'Pin', icon: null },
-  render: () => <IconButton label="Pin" icon={<XIcon />} defaultPressed />,
+  render: () => (
+    <Stage>
+      <Section title="Toggle" note="Pressed uses the selected material row: accent tint plus a heavier accent rim.">
+        <Scene>
+          <IconButton label="Pin" icon={<Glyph name="pin" />} defaultPressed />
+          <IconButton label="Favourite" icon={<Glyph name="heart" />} defaultPressed={false} />
+        </Scene>
+      </Section>
+    </Stage>
+  ),
 };

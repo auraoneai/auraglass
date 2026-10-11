@@ -4,6 +4,7 @@
  * listing "Off" + every track with >1. */
 import * as React from 'react';
 import { Menu } from '../../../components/menu';
+import { MenuPortal, MenuPositioner, MenuPopup } from '../../../components/menu/Menu.client';
 import { useMediaLayout, useMediaModel } from '../mediaContext';
 import { MediaToolbarButton } from './ToolbarButton';
 
@@ -47,9 +48,9 @@ export function Captions({ className, ref }: { className?: string | undefined; r
           />
         }
       />
-      <Menu.Portal>
-        <Menu.Positioner>
-          <Menu.Popup aria-label="Captions">
+      <MenuPortal>
+        <MenuPositioner>
+          <MenuPopup aria-label="Captions">
             <Menu.RadioGroup
               value={showing?.id ?? OFF}
               onValueChange={(v) => m.selectCaptions(v === OFF ? null : v)}
@@ -59,9 +60,9 @@ export function Captions({ className, ref }: { className?: string | undefined; r
                 <Menu.RadioItem key={t.id} value={t.id}>{t.label || t.language || t.id}</Menu.RadioItem>
               ))}
             </Menu.RadioGroup>
-          </Menu.Popup>
-        </Menu.Positioner>
-      </Menu.Portal>
+          </MenuPopup>
+        </MenuPositioner>
+      </MenuPortal>
     </Menu.Root>
   );
 }

@@ -105,14 +105,14 @@ describe('NowPlayingBar Root (REQ-SURF-139 remainder)', () => {
     const root = container.querySelector('[data-ag-part="now-playing"]') as HTMLElement;
     expect(root.style.getPropertyValue('--_ag-media-progress')).toBe('0.2500');
   });
-  it('fixed → data-ag-now-playing-fixed; clear → data-ag-backdrop="media"; regular declares no backdrop', () => {
+  it('fixed → data-now-playing-fixed; clear → data-ag-backdrop="media"; regular declares no backdrop', () => {
     const { container, rerender } = render(<NowPlayingBar.Root playing={false} fixed variant="clear" />);
     const root = container.querySelector('[data-ag-part="now-playing"]')!;
-    expect(root.hasAttribute('data-ag-now-playing-fixed')).toBe(true);
+    expect(root.hasAttribute('data-now-playing-fixed')).toBe(true);
     expect(root.getAttribute('data-ag-backdrop')).toBe('media');
     expect(root.getAttribute('data-ag-variant')).toBe('clear');
     rerender(<NowPlayingBar.Root playing={false} />);
-    expect(root.hasAttribute('data-ag-now-playing-fixed')).toBe(false);
+    expect(root.hasAttribute('data-now-playing-fixed')).toBe(false);
     expect(root.hasAttribute('data-ag-backdrop')).toBe(false);
     expect(root.getAttribute('data-ag-variant')).toBe('regular');
   });

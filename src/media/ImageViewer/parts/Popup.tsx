@@ -77,6 +77,9 @@ export function Popup({ children, className }: ImageViewerPopupProps): React.Rea
         appearance="fullscreen"
         ref={popupRef}
         className={['ag-image-viewer', className].filter(Boolean).join(' ')}
+        /* full-viewport lightbox: the popup itself is optically inert (identity);
+           the scrim dims the page and only the floating controls carry glass */
+        variant="identity"
         data-ag-part="image-viewer-popup"
         data-ag-focusable=""
         data-ag-backdrop="media"

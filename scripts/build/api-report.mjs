@@ -57,7 +57,7 @@ export async function extractNames(sourcePath, { root = ROOT } = {}) {
   const text = res.outputFiles[0]?.text ?? '';
   const tail = [...text.matchAll(/export\s*\{([^}]*)\}\s*;?/g)].pop();
   if (tail?.[1]) {
-    return tail[1].split(',').map((s) => s.trim().replace(/\s+as\s+\w+$/, ''))
+    return tail[1].split(',').map((s) => s.trim().replace(/^.*\s+as\s+/, ''))
       .map((s) => s.replace(/^type\s+/, '')).filter(Boolean).sort();
   }
   return [...text.matchAll(/^export\s+(?:const|function|class)\s+(\w+)/gm)].map((m) => m[1]).sort();

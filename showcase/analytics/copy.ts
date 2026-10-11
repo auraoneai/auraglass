@@ -19,7 +19,9 @@ export const COPY = {
   definitionsTitle: 'Metric definitions',
   definitionsBody:
     'Active user: signed-in or device-identified user with at least one foreground session longer than 10 seconds. Conversion: completed checkout within 7 days of first session.',
-  tabs: { overview: 'Overview', funnels: 'Funnels', retention: 'Retention' },
+  tabs: { overview: 'Overview', funnels: 'Accounts', retention: 'Retention' },
+  filtersBody: 'Narrow every chart and table on this tab.',
+  pagesBody: 'Sessions per page, last 28 days.',
 } as const;
 
 export const WAU = [

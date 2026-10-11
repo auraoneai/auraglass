@@ -12,6 +12,8 @@ export const COPY = {
   docTitle: 'Q2 launch brief — Harbor payments',
   docMeta: 'Edited by Mei Chen 6 minutes ago · 4 collaborators',
   commentsHeading: 'Comments',
+  commentsMeta: '4 open · 1 resolved',
+  resolved: 'Resolved',
   shareTitle: 'Share “Q2 launch brief”',
   shareDescription: 'People you add can comment. Only owners can change who has access.',
   shareLabel: 'Add people',
@@ -94,8 +96,8 @@ export const COMMENTS: AgMessage[] = [
   },
   {
     id: 'c-2',
-    role: 'assistant',
-    parts: [{ type: 'text', text: 'Yes — 90 days, matching the risk policy. I will add it to the Summary. (Tomás)' }],
+    role: 'user',
+    parts: [{ type: 'text', text: 'Yes — 90 days, matching the risk policy. I will add it to the Summary.' }],
     metadata: { createdAt: at(-47) },
   },
   {
@@ -106,8 +108,17 @@ export const COMMENTS: AgMessage[] = [
   },
   {
     id: 'c-4',
-    role: 'assistant',
-    parts: [{ type: 'text', text: 'Agreed, moving the NL cohort to Tuesday 28 April and noting it under Risks. (Aisha)' }],
+    role: 'user',
+    parts: [{ type: 'text', text: 'Agreed, moving the NL cohort to Tuesday 28 April and noting it under Risks.' }],
     metadata: { createdAt: at(-6) },
   },
 ];
+
+/** Comment authors by message id (comments are people, not an assistant). */
+export const COMMENT_AUTHORS: Record<string, string> = {
+  'c-1': 'Mei Chen',
+  'c-2': 'Tomás Herrera',
+  'c-3': 'Jonas Weber',
+  'c-4': 'Aisha Bello',
+  'c-draft': 'Mei Chen',
+};

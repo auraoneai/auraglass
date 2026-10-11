@@ -4,9 +4,22 @@
   .ag-button-group {
     display: inline-flex;
     align-items: stretch;
+    /* detached: the group had no gap, so attached={false} buttons touched */
+    gap: var(--ag-space-2);
+  }
+  /* attached: a hairline seam between the joined glass segments */
+  .ag-button-group.ag-button-group--attached {
+    gap: calc(var(--ag-focus-width) / 2);
   }
   .ag-button-group[data-orientation='vertical'] {
     flex-direction: column;
+  }
+  /* vertical: equal-width segments (buttons were content-sized and ragged) */
+  .ag-button-group[data-orientation='vertical'] [data-ag-part='item'] {
+    display: flex;
+  }
+  .ag-button-group[data-orientation='vertical'] [data-ag-part='item'] > .ag-button {
+    flex: 1;
   }
   .ag-button-group.ag-button-group--attached [data-ag-part='item'] {
     display: inline-flex;

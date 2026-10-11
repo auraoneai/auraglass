@@ -2,6 +2,7 @@
    Jest fake timers are installed and NEVER advanced; only animation frames (which StoryRoot's readiness
    needs) run. A story that reaches its state through props (`defaultOpen`, a streaming `step` arg) must
    reach its final DOM and data-ag-cert-ready; a story that opens through setTimeout must not. */
+import { DialogPortal, DialogBackdrop, DialogPopup } from '../../src/components/dialog/Dialog.client';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, cleanup, render } from '@testing-library/react';
 import * as React from 'react';
@@ -36,14 +37,14 @@ function OpenDialog() {
   return (
     <Dialog.Root defaultOpen>
       <Dialog.Trigger>Open</Dialog.Trigger>
-      <Dialog.Portal>
-        <Dialog.Backdrop />
-        <Dialog.Popup>
+      <DialogPortal>
+        <DialogBackdrop />
+        <DialogPopup>
           <Dialog.Title>Delete file</Dialog.Title>
           <Dialog.Description>This cannot be undone.</Dialog.Description>
           <Dialog.Close>Close</Dialog.Close>
-        </Dialog.Popup>
-      </Dialog.Portal>
+        </DialogPopup>
+      </DialogPortal>
     </Dialog.Root>
   );
 }
@@ -54,11 +55,11 @@ function TimerOpenedDialog() {
   React.useEffect(() => { const t = setTimeout(() => setOpen(true), 300); return () => clearTimeout(t); }, []);
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Portal>
-        <Dialog.Popup>
+      <DialogPortal>
+        <DialogPopup>
           <Dialog.Title>Delete file</Dialog.Title>
-        </Dialog.Popup>
-      </Dialog.Portal>
+        </DialogPopup>
+      </DialogPortal>
     </Dialog.Root>
   );
 }

@@ -13,11 +13,9 @@ describe('nested content material (REQ-CMP-81)', () => {
   it('TextField inside a Dialog popup carries data-ag-content=content-sunken', async () => {
     render(
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Popup aria-label="host">
-            <TextField label="Name" />
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content aria-label="host" backdrop={false}>
+          <TextField label="Name" />
+        </Dialog.Content>
       </Dialog.Root>,
     );
     await act(async () => { await new Promise((r) => setTimeout(r, 60)); });

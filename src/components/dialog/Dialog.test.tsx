@@ -17,15 +17,12 @@ function Demo({ root = {}, popup = {}, withTitle = true, children }: {
   return (
     <Dialog.Root {...root}>
       <Dialog.Trigger>Open</Dialog.Trigger>
-      <Dialog.Portal>
-        <Dialog.Backdrop />
-        <Dialog.Popup {...popup}>
-          {withTitle ? <Dialog.Title>Title</Dialog.Title> : null}
-          <Dialog.Description>Description</Dialog.Description>
-          <Dialog.Body>{children ?? 'Body'}</Dialog.Body>
-          <Dialog.Close>Close</Dialog.Close>
-        </Dialog.Popup>
-      </Dialog.Portal>
+      <Dialog.Content {...popup}>
+        {withTitle ? <Dialog.Title>Title</Dialog.Title> : null}
+        <Dialog.Description>Description</Dialog.Description>
+        <Dialog.Body>{children ?? 'Body'}</Dialog.Body>
+        <Dialog.Close>Close</Dialog.Close>
+      </Dialog.Content>
     </Dialog.Root>
   );
 }
@@ -106,12 +103,10 @@ describe('Dialog (CMP-209..216, 220)', () => {
     const onOpenChange = jest.fn();
     render(
       <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
-        <Dialog.Portal>
-          <Dialog.Popup render={<form data-testid="f" onSubmit={(e) => e.preventDefault()} />}>
-            <Dialog.Title>F</Dialog.Title>
-            <button type="submit">Save</button>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content render={<form data-testid="f" onSubmit={(e) => e.preventDefault()} />} backdrop={false}>
+          <Dialog.Title>F</Dialog.Title>
+          <button type="submit">Save</button>
+        </Dialog.Content>
       </Dialog.Root>,
     );
     await act(async () => {});
@@ -178,13 +173,11 @@ describe('Dialog (CMP-209..216, 220)', () => {
   it('layout parts are not surfaces; body padding none', async () => {
     render(
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Popup>
-            <Dialog.Header><Dialog.Title>H</Dialog.Title></Dialog.Header>
-            <Dialog.Body padding="none">B</Dialog.Body>
-            <Dialog.Footer>F</Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content backdrop={false}>
+          <Dialog.Header><Dialog.Title>H</Dialog.Title></Dialog.Header>
+          <Dialog.Body padding="none">B</Dialog.Body>
+          <Dialog.Footer>F</Dialog.Footer>
+        </Dialog.Content>
       </Dialog.Root>,
     );
     await act(async () => {});
@@ -200,12 +193,10 @@ describe('Dialog (CMP-209..216, 220)', () => {
     const inputRef = React.createRef<HTMLInputElement>();
     render(
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Popup placement="top" initialFocus={inputRef}>
-            <Dialog.Title>P</Dialog.Title>
-            <Dialog.Body><input ref={inputRef} data-testid="inside" /></Dialog.Body>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content placement="top" initialFocus={inputRef} backdrop={false}>
+          <Dialog.Title>P</Dialog.Title>
+          <Dialog.Body><input ref={inputRef} data-testid="inside" /></Dialog.Body>
+        </Dialog.Content>
       </Dialog.Root>,
     );
     await act(async () => {});
@@ -218,16 +209,12 @@ describe('Dialog (CMP-209..216, 220)', () => {
   it('nested: parent popup gets data-ag-nested-open while child is open', async () => {
     render(
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Popup aria-label="outer">
-            <Dialog.Title>Outer</Dialog.Title>
-            <Dialog.Root defaultOpen>
-              <Dialog.Portal>
-                <Dialog.Popup aria-label="inner"><Dialog.Title>Inner</Dialog.Title></Dialog.Popup>
-              </Dialog.Portal>
-            </Dialog.Root>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content aria-label="outer" backdrop={false}>
+          <Dialog.Title>Outer</Dialog.Title>
+          <Dialog.Root defaultOpen>
+            <Dialog.Content aria-label="inner" backdrop={false}><Dialog.Title>Inner</Dialog.Title></Dialog.Content>
+          </Dialog.Root>
+        </Dialog.Content>
       </Dialog.Root>,
     );
     await act(async () => { await new Promise((r) => setTimeout(r, 10)); });

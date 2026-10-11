@@ -8,13 +8,9 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parse } from 'yaml';
-// @ts-expect-error — plain ESM module without declarations
-import { blockingExit, l7RowResult } from '../../../certification/run.mjs';
-// @ts-expect-error — plain ESM module without declarations
+import { blockingExit, l7RowResult } from '../src/evidence/l7Runner.mjs';
 import { diffBaselineTrees, renderDiffReport } from '../../../scripts/qual/baseline-refresh.mjs';
-// @ts-expect-error — plain ESM module without declarations
 import { baseRevArgs } from '../../../scripts/qual/l7-base.mjs';
-// @ts-expect-error — plain ESM module without declarations
 import { resolveRequest } from '../../../scripts/qual/serve-static.mjs';
 import { allowedDiffPixels, baselinePath, l7Verdict, parseBaselinePath, REGRESSION_CONFIGS } from '../src/evidence/regression';
 import { readPassingL14 } from '../src/evidence/l14Records';

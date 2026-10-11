@@ -30,6 +30,10 @@ export const COPY = {
   subtotal: 'Subtotal',
   shipping: 'Shipping',
   total: 'Total',
+  cart: 'Cart',
+  reviewSummary: '4.5 out of 5 · 128 reviews',
+  inStock: 'In stock · ships from Portland',
+  shippingNote: 'Free standard delivery and 100-day returns.',
 } as const;
 
 export const BREADCRUMBS = [
@@ -63,18 +67,18 @@ export const RELATED = [
 ] as const;
 
 export const CART = [
-  { id: 'atlas', name: 'Atlas lounge chair · Fog grey', quantity: 1, price: 499 },
-  { id: 'lamp', name: 'Nimbus floor lamp', quantity: 2, price: 89.5 },
-  { id: 'mug', name: 'Vega stoneware mug', quantity: 1, price: 24 },
+  { id: 'atlas', name: 'Atlas lounge chair', variant: 'Fog grey', quantity: 1, price: 499, image: chair },
+  { id: 'lamp', name: 'Nimbus floor lamp', variant: 'Brass', quantity: 2, price: 89.5, image: lamp },
+  { id: 'mug', name: 'Vega stoneware mug', variant: 'Speckled white', quantity: 1, price: 24, image: mug },
 ] as const;
 
 export const SHIPPING = 12;
 
 export const REVIEWS = [
-  { id: 'r1', author: 'Dana K.', rating: 5, text: 'Sturdy, the wool is softer than expected, and it took me 15 minutes to assemble.' },
-  { id: 'r2', author: 'Marcus T.', rating: 4, text: 'Great reading chair. The seat is a little low if you are over six feet.' },
-  { id: 'r3', author: 'Ines R.', rating: 5, text: 'Second one for the studio. Fog grey hides wear well.' },
-  { id: 'r4', author: 'Owen P.', rating: 4, text: 'Arrived two days early. Cushion firmed up after a week of use.' },
+  { id: 'r1', author: 'Dana K.', date: '2026-02-21', rating: 5, text: 'Sturdy, the wool is softer than expected, and it took me 15 minutes to assemble.' },
+  { id: 'r2', author: 'Marcus T.', date: '2026-02-14', rating: 4, text: 'Great reading chair. The seat is a little low if you are over six feet.' },
+  { id: 'r3', author: 'Ines R.', date: '2026-02-09', rating: 5, text: 'Second one for the studio. Fog grey hides wear well.' },
+  { id: 'r4', author: 'Owen P.', date: '2026-01-30', rating: 4, text: 'Arrived two days early. Cushion firmed up after a week of use.' },
   { id: 'r5', author: 'Priya S.', rating: 5, text: 'The oak legs match our dining table exactly. No wobble on a tiled floor.' },
   { id: 'r6', author: 'Henrik L.', rating: 3, text: 'Comfortable, but the armrests are narrower than the photos suggest.' },
   { id: 'r7', author: 'Chloe M.', rating: 5, text: 'Replacement cover arrived within a week when our dog chewed a corner.' },
@@ -83,3 +87,6 @@ export const REVIEWS = [
 
 export const formatPrice = (amount: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+
+/** Select item labels keyed by value, so the trigger shows "Fog grey", not "fog". */
+export const COLOUR_LABELS: Record<string, string> = Object.fromEntries(COLOURS.map((c) => [c.value, c.label]));

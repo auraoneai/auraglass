@@ -27,6 +27,8 @@ import { buildableEntries, manifestEntries, DIST, ROOT } from '../build/lib/grap
 
 const CHANGELOG = join(ROOT, 'docs', 'size-budgets.changelog.md');
 const GENERATED = join(ROOT, 'docs', 'size-budgets.json');
+const SIZE_ARTIFACT = join(ROOT, '.artifacts', 'plat', 'size-budgets', 'size-budgets.json');
+const gitHead = () => { try { return execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim(); } catch { return null; } };
 const META_DIR = join(ROOT, '.artifacts', 'plat', 'size');
 
 const EXTERNALS = ['react', 'react-dom', 'react/*', 'clsx', '@base-ui/*', '@tanstack/*',
@@ -195,12 +197,22 @@ export async function run() {
     },
   };
   writeFileSync(GENERATED, JSON.stringify(aggregate, null, 2) + '\n');
-  // Claims consume evidence bound to the producing revision.
-  const sha = process.env.CI_COMMIT_SHA || git(['rev-parse', 'HEAD'])?.trim();
+  /* REQ-PLAT-104 sha custody: the claims pipeline (scripts/docs/gen-claims.mjs)
+     reads a sha-stamped copy from the job's evidence dir, never the
+     committed docs/size-budgets.json. */
+  const sha = process.env.CI_COMMIT_SHA || gitHead();
   if (sha) {
-    const artifact = join(ROOT, '.artifacts', 'plat', 'size-budgets', 'size-budgets.json');
-    mkdirSync(dirname(artifact), { recursive: true });
-    writeFileSync(artifact, JSON.stringify({ sha, ...aggregate }, null, 2) + '\n');
+    mkdirSync(dirname(SIZE_ARTIFACT), { recursive: true });
+    writeFileSync(SIZE_ARTIFACT, JSON.stringify({ sha, ...aggregate }, null, 2) + '\n');
+  }
+  /* raise check: a row looser than its PLAT floor needs 'Perf-Budget-Raise:
+     <row id>' in the changelog (lower-only ratchet after calibration). */
+  const FLOORS = { 'plat:tailwind-bridge': 6144, 'plat:compat-globals': 1024, 'plat:cn': 512, 'plat:warnDeprecated': 150 };
+  for (const r of results) {
+    const floor = FLOORS[r.id];
+    if (floor !== undefined && r.limitBytes > floor && !changelog.includes(`Perf-Budget-Raise: ${r.id}`)) {
+      problems.push(`${r.id}: limit ${r.limitBytes} exceeds floor ${floor} without 'Perf-Budget-Raise: ${r.id}' changelog entry`);
+    }
   }
   for (const [key, ceiling] of Object.entries(DEFAULT_CEILINGS)) {
     const v = key === 'stylesCssBytes' ? aggregate.measured.stylesCssGzBytes : null;

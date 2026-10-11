@@ -46,19 +46,30 @@ function importMetaPlugin({ template, caller }) {
   };
 }
 
-const base = babelJest.default.createTransformer({
-  plugins: [importMetaPlugin],
-  presets: [
-    ['@babel/preset-env', { targets: { node: '20.19' }, modules: 'auto' }],
-    ['@babel/preset-react', { runtime: 'automatic' }],
-    '@babel/preset-typescript',
-  ],
-});
+const presets = (modules) => [
+  ['@babel/preset-env', { targets: { node: '20.19' }, modules }],
+  ['@babel/preset-react', { runtime: 'automatic' }],
+  '@babel/preset-typescript',
+];
+
+// Select the output format explicitly for Jest's loader. Both modes retain the
+// AST plugin: CJS rewrites URL bindings, ESM keeps native metadata, and both
+// replace Vite-only glob calls without changing source strings or comments.
+const cjs = babelJest.default.createTransformer({ plugins: [importMetaPlugin], presets: presets('commonjs') });
+const esm = babelJest.default.createTransformer({ plugins: [importMetaPlugin], presets: presets(false) });
+const pick = (options) => (options && options.supportsStaticESM ? esm : cjs);
 
 module.exports = {
-  ...base,
-  // The import.meta rewrite is part of the transform output: key the cache on it.
+  canInstrument: cjs.canInstrument,
+  process(sourceText, sourcePath, options) {
+    return pick(options).process(sourceText, sourcePath, options);
+  },
+  processAsync(sourceText, sourcePath, options) {
+    return pick(options).processAsync(sourceText, sourcePath, options);
+  },
+  // The import.meta rewrite and the ESM/CJS split are part of the transform output: key the cache on them.
   getCacheKey(sourceText, sourcePath, options) {
-    return `${base.getCacheKey(sourceText, sourcePath, options)}:import-meta-ast-v4-combined`;
+    const mode = options && options.supportsStaticESM ? 'esm' : 'cjs';
+    return `${pick(options).getCacheKey(sourceText, sourcePath, options)}:import-meta-ast-v5-combined:${mode}`;
   },
 };

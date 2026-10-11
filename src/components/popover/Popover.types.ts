@@ -56,10 +56,21 @@ export interface PopoverPositionerProps extends Omit<React.HTMLAttributes<HTMLDi
 }
 
 export interface PopoverPopupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /** Per-instance overlay material; defaults to the root's material. */
+  variant?: 'regular' | 'identity' | undefined;
+  prominent?: boolean | undefined;
   render?: RenderProp | undefined;
   initialFocus?: React.RefObject<HTMLElement | null> | ((openType: string) => HTMLElement | null | undefined) | undefined;
   finalFocus?: React.RefObject<HTMLElement | null> | ((closeType: string) => HTMLElement | null | undefined) | undefined;
   children?: React.ReactNode;
+}
+
+/** Content = Portal > Positioner > Popup (REQ-CMP-06): the placement props go to the
+    positioner, `keepMounted` to the portal, everything else to the popup. */
+export interface PopoverContentProps extends PopoverPopupProps,
+  Pick<PopoverPositionerProps, 'side' | 'align' | 'sideOffset' | 'collisionPadding' | 'anchor'> {
+  keepMounted?: boolean | undefined;
+  ref?: React.Ref<HTMLDivElement> | undefined;
 }
 
 export interface PopoverArrowProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onChange'> {

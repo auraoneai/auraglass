@@ -5,8 +5,7 @@ import { afterEach, describe, expect, test } from '@jest/globals';
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-// @ts-expect-error — plain ESM module without declarations
-import { writeVisualClass } from '../../../certification/run.mjs';
+import { writeVisualClass } from '../src/evidence/l7Runner.mjs';
 import { REPORTS, VISUAL_TOLERANCE, type VisualClassReport } from '../../../src/contracts/testing';
 import { buildRegressionPlan, configCell, REGRESSION_CONFIGS } from '../src/evidence/regression';
 import {

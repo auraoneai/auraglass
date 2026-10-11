@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Button } from '../../../src/components/button';
 import meta from '../../../src/components/button/Button.meta';
+import { Caption, Glyph, Panel, Row, Scene, Section, Stage } from './controls-stage';
 
 const sbMeta = {
   title: 'Flagships/Controls/Button',
@@ -18,12 +19,51 @@ const sbMeta = {
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
+/* Playground: one Button over real content so the glass has something to
+   sample (a lone control on a flat scene reads as a grey pill). */
 export const Default: Story = {
-  args: { children: 'Save changes', startIcon: <svg width="14" height="14" aria-hidden="true" /> },
+  args: { children: 'Share', startIcon: <Glyph name="share" /> },
+  render: (args) => (
+    <Stage>
+      <Scene>
+        <Button {...args} />
+      </Scene>
+    </Stage>
+  ),
 };
 
 export const Overview: Story = {
   args: { children: 'Save changes' },
+  render: (args) => (
+    <Stage>
+      <Section title="Glass buttons" note="Chrome-layer controls float over content: the fill, blur, rim and shadow come from the material engine.">
+        <Scene>
+          <Button variant="regular" startIcon={<Glyph name="plus" />}>New note</Button>
+          <Button variant="clear" startIcon={<Glyph name="share" />}>Share</Button>
+          {/* one prominent action per view (SC-24): the card's Publish */}
+          <Button {...args} />
+        </Scene>
+      </Section>
+      <Section title="On a content card" note="Inside content, buttons share the card's backdrop instead of stacking a second glass layer.">
+        <Panel
+          title="Publish post"
+          description="Your draft is saved. Publishing makes it visible to everyone with the link."
+          footer={
+            <>
+              <Button variant="identity">Cancel</Button>
+              <Button prominent>Publish</Button>
+            </>
+          }
+        >
+          <Row>
+            <Button size="sm" startIcon={<Glyph name="pin" />}>Pin</Button>
+            <Button size="sm" startIcon={<Glyph name="heart" />}>Favourite</Button>
+            <Button size="sm" intent="danger" startIcon={<Glyph name="trash" />}>Delete</Button>
+          </Row>
+        </Panel>
+      </Section>
+    </Stage>
+  ),
 };
 
 const SIZES = ['sm', 'md', 'lg'] as const;
@@ -36,42 +76,74 @@ const STATES: Array<{ label: string; props: Record<string, unknown> }> = [
 
 const VARIANTS = meta.variants.variant as readonly string[];
 
-export const Matrix: Story = {
-  render: () => (
-    <div style={{ display: 'grid', gap: '24px' }}>
-      {VARIANTS.map((v) => (
-        <div key={v}>
-          <div>{v}</div>
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-            {SIZES.map((s) =>
-              STATES.map((st) => (
-                <Button key={`${s}-${st.label}`} variant={v as 'regular'} size={s} {...st.props}>
-                  {`${s} ${st.label}`}
-                </Button>
-              )),
-            )}
-          </div>
-        </div>
+/* One row per variant (regular, clear, identity) × size, every state in the
+   row. Glass variants sit on the same scene so the rungs compare directly;
+   identity has no optics by design, so it is shown where it is used — on a
+   content card — instead of as bare text over artwork. */
+function MatrixGrid({ variant }: { variant: string }) {
+  return (
+    <div style={{ display: 'grid', gap: 'var(--ag-space-3)' }}>
+      {SIZES.map((s) => (
+        <Row key={s} wrap={false}>
+          <Caption width="var(--ag-space-8)">{s}</Caption>
+          {STATES.map((st) => (
+            <Button key={`${s}-${st.label}`} variant={variant as 'regular'} size={s} {...st.props}>
+              {st.label}
+            </Button>
+          ))}
+        </Row>
       ))}
     </div>
+  );
+}
+
+export const Matrix: Story = {
+  render: () => (
+    <Stage maxWidth={1180}>
+      {VARIANTS.map((v) => (
+        <Section key={v} title={v}>
+          {v === 'identity' ? (
+            <Panel width={720}>
+              <MatrixGrid variant={v} />
+            </Panel>
+          ) : (
+            <Scene minBlockSize="auto" justify="flex-start">
+              <MatrixGrid variant={v} />
+            </Scene>
+          )}
+        </Section>
+      ))}
+    </Stage>
   ),
 };
 
 export const Density: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '12px', alignItems: 'baseline' }}>
-      {SIZES.map((s) => (
-        <Button key={s} size={s}>
-          {s}
-        </Button>
-      ))}
-    </div>
+    <Stage>
+      <Section title="Sizes" note="sm / md / lg map to the 28 / 36 / 44 px control-height tokens.">
+        <Scene minBlockSize="auto">
+          <Row align="center">
+            {SIZES.map((s) => (
+              <Button key={s} size={s}>
+                {s}
+              </Button>
+            ))}
+          </Row>
+        </Scene>
+      </Section>
+    </Stage>
   ),
 };
 
 export const Keyboard: Story = {
   tags: ['apg'],
-  render: () => <Button>Press me</Button>,
+  render: () => (
+    <Stage>
+      <Scene minBlockSize="auto">
+        <Button>Press me</Button>
+      </Scene>
+    </Stage>
+  ),
   play: async () => {
     const { userEvent } = await import('storybook/test');
     await userEvent.keyboard('{Tab}');
@@ -81,20 +153,28 @@ export const Keyboard: Story = {
 
 export const InContext: Story = {
   render: () => (
-    <div role="toolbar" aria-label="Top bar" style={{ display: 'flex', gap: '8px' }}>
-      <Button prominent>Save changes</Button>
-      <Button variant="identity">Discard</Button>
-      <Button intent="danger">Delete project</Button>
-    </div>
+    <Stage>
+      <Scene align="flex-start" justify="space-between">
+        <div role="toolbar" aria-label="Top bar" style={{ display: 'flex', gap: 'var(--ag-space-2)', inlineSize: '100%', justifyContent: 'flex-end' }}>
+          <Button intent="danger">Delete project</Button>
+          <Button variant="clear">Discard</Button>
+          <Button prominent>Save changes</Button>
+        </div>
+      </Scene>
+    </Stage>
   ),
 };
 
 export const Preferences: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '8px' }}>
-      <Button pointerLight>Pointer light</Button>
-      <Button variant="clear">Clear</Button>
-    </div>
+    <Stage>
+      <Section title="Pointer light and clear" note="Pointer light follows the cursor across the rim; clear dims bright backdrops for legibility.">
+        <Scene>
+          <Button pointerLight>Pointer light</Button>
+          <Button variant="clear">Clear</Button>
+        </Scene>
+      </Section>
+    </Stage>
   ),
 };
 
@@ -102,10 +182,12 @@ export const Preferences: Story = {
    (hidden via CSS) so the button's offsetWidth must not change. */
 export const WidthStability: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-      <Button data-testid="idle">Save changes</Button>
-      <Button loading data-testid="busy">Save changes</Button>
-    </div>
+    <Stage>
+      <Scene minBlockSize="auto">
+        <Button data-testid="idle">Save changes</Button>
+        <Button loading data-testid="busy">Save changes</Button>
+      </Scene>
+    </Stage>
   ),
 };
 

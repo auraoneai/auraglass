@@ -4,6 +4,7 @@
  * mounted). Hidden at ≥480 px and <320 px. */
 import * as React from 'react';
 import { Menu } from '../../../components/menu';
+import { MenuPortal, MenuPositioner, MenuPopup } from '../../../components/menu/Menu.client';
 import { MoreHorizontalIcon } from '../../../icons/navigation/more-horizontal';
 import { useMediaLayout, useMediaModel } from '../mediaContext';
 import { RATES } from '../shortcuts';
@@ -19,9 +20,9 @@ export function More() {
       <Menu.Trigger
         render={<MediaToolbarButton data-ag-part="media-more" label="More" icon={<MoreHorizontalIcon />} />}
       />
-      <Menu.Portal>
-        <Menu.Positioner>
-          <Menu.Popup aria-label="More media controls">
+      <MenuPortal>
+        <MenuPositioner>
+          <MenuPopup aria-label="More media controls">
             {parts.rate > 0 ? (
               <Menu.RadioGroup value={String(m.playbackRate)} onValueChange={(v) => m.setRate(Number(v))}>
                 {RATES.map((r) => (
@@ -33,9 +34,9 @@ export function More() {
             {parts.pip > 0 ? (
               <Menu.Item onClick={() => m.requestPictureInPicture()}>Picture in picture</Menu.Item>
             ) : null}
-          </Menu.Popup>
-        </Menu.Positioner>
-      </Menu.Portal>
+          </MenuPopup>
+        </MenuPositioner>
+      </MenuPortal>
     </Menu.Root>
   );
 }

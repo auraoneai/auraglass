@@ -34,3 +34,8 @@ export function setAnimating(el: Element, on: boolean): void {
 export function viewTransitionParticipantAttributes(): { 'data-ag-vt-participant': '' } {
   return { 'data-ag-vt-participant': '' };
 }
+
+/** Modal scrim layer (REQ-CMP-79): the scrim material layer is MAT-set, overlays only place it. */
+export function scrimLayerAttributes(): { 'data-ag-layer': 'scrim' } {
+  return { 'data-ag-layer': 'scrim' };
+}

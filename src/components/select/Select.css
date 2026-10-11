@@ -10,25 +10,39 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--ag-space-2);
-    inline-size: var(--_ag-select-inline-size, var(--_ag-space-48, 100%));
-    min-block-size: var(--_ag-control-h-md, var(--_ag-space-9));
+    inline-size: var(--_ag-select-inline-size, 100%);
+    /* control heights from the comp tokens shared by every control (the
+       private --_ag-control-h-* / --_ag-space-9 names are never defined) */
+    min-block-size: var(--ag-comp-control-height-md-default, var(--ag-target-min));
     padding-inline: var(--ag-space-3);
+    border: 0;
     border-radius: var(--ag-radius-md);
-    color: var(--ag-on-surface);
+    /* opaque content-sunken fill from the engine; canvas ink, never the
+       backdrop-flipped --ag-on-surface (white over media on an opaque fill) */
+    color: var(--ag-color-on-surface);
     font: inherit;
     text-align: start;
     cursor: default;
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 6%), transparent);
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
+    background: var(--_ag-fill, var(--ag-color-canvas));
+    /* hairline rim (--_ag-surface-rim is a colour read-out → was invalid) */
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) / 2) var(--ag-color-border);
     transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
   }
   .ag-select[data-ag-size='sm'] {
-    min-block-size: var(--_ag-control-h-sm, var(--ag-space-8));
+    min-block-size: var(--ag-comp-control-height-sm-default, var(--ag-target-min));
     padding-inline: var(--ag-space-2);
   }
   .ag-select[data-ag-size='lg'] {
-    min-block-size: var(--_ag-control-h-lg, var(--ag-space-10));
+    min-block-size: var(--ag-comp-control-height-lg-default, var(--ag-target-min));
     padding-inline: var(--ag-space-4);
+  }
+  @media (hover: hover) {
+    .ag-select:not([data-disabled]):hover {
+      box-shadow: inset 0 0 0 calc(var(--ag-focus-width) / 2) color-mix(in oklab, var(--ag-color-border), var(--ag-color-on-surface) 35%);
+    }
+  }
+  .ag-select[data-popup-open] {
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) / 2) var(--ag-color-focus-inner);
   }
 
   .ag-select [data-ag-part='value'] {
@@ -64,7 +78,13 @@
     overscroll-behavior: contain;
     border-radius: var(--ag-radius-lg);
     padding: var(--ag-space-1);
-    box-shadow: var(--_ag-shadow-overlay, var(--ag-shadow-thin));
+    /* overlay glass: fill, blur, rim and the thickness shadow are the
+       engine's (overlayMaterial('select')); text uses the canvas ink the
+       overlay floor is solved against */
+    color: var(--ag-color-on-surface);
+    font-size: var(--ag-type-body-size);
+    line-height: var(--ag-type-body-leading);
+    outline: none;
     transform-origin: var(--transform-origin);
     z-index: var(--ag-z-overlay, auto);
   }
@@ -109,12 +129,15 @@
     padding-block: var(--ag-space-2);
     padding-inline: var(--ag-space-2);
     border-radius: var(--ag-radius-sm);
-    color: var(--ag-on-surface);
     cursor: default;
     user-select: none;
+    outline: none;
   }
   .ag-select-item[data-highlighted] {
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-raised-alpha, 10%), transparent);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-raised-alpha, 9%), transparent);
+  }
+  .ag-select-item[data-selected] {
+    font-weight: var(--ag-type-label-weight);
   }
 
   .ag-select-item[data-disabled] > :where(*) {opacity: var(--ag-state-disabled-alpha);}
@@ -131,12 +154,16 @@
   [data-ag-part='group-label'] {
     padding: var(--ag-space-1) var(--ag-space-2);
     color: var(--ag-color-on-surface-muted);
-    font-size: var(--_ag-text-sm, inherit);
+    font-size: var(--ag-type-caption-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-caption-leading);
   }
   .ag-select-popup [data-ag-part='separator'] {
-    block-size: var(--_ag-surface-rim);
+    /* was block-size: var(--_ag-surface-rim) — a colour → invalid → 0px */
+    block-size: calc(var(--ag-focus-width) / 2);
     margin-block: var(--ag-space-1);
-    background: var(--ag-color-border);
+    margin-inline: var(--ag-space-2);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-separator-alpha, 14%), transparent);
   }
 
   @media (pointer: coarse) {

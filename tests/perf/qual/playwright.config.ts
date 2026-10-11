@@ -2,6 +2,10 @@
      qual:l10-selftest  tests/perf/qual/harness-selftest.spec.ts (REQ-QUAL-34 harness self-test, Chromium)
      qual:l10-streams   tests/perf/browser/<stream>/**  — stream-authored perf specs, discovered by location (QUAL never
                         edits them); served from storybook-static by run-perf.mjs --serve when AG_L10_STREAMS=1.
+     qual:l10-surface-budget-{chromium,webkit,firefox}  surface-budget.spec.ts (REQ-QUAL-38, G-21)
+     qual:l10-regression-4x  regression-4x.spec.ts (REQ-QUAL-41, profile c: chromium-headless-shell, --disable-gpu)
+     qual:l10-ratchet   pr-ratchet.spec.ts (REQ-QUAL-40; qual:certify:l10-gpu on PRs)
+   AG_L10_SERVE=1 serves storybook-static for the G-21 projects; AG_L10_REPORT names the JSON report.
      qual:l10-invariants-{chromium,webkit,firefox}
                         REQ-QUAL-42/-43 (G-22): backdrop-root, lens-defs, webgl-context, a11y-fallback in all three
                         engines; mount-unmount-leak in Chromium only (forced GC needs --js-flags=--expose-gc).
@@ -28,12 +32,14 @@ const invariantsProject = (engine: 'chromium' | 'webkit' | 'firefox', device: (t
   timeout: 120_000,
   use: { ...device, baseURL: storybookUrl, ...extra },
 });
+const serve = streams || invariants || process.env.AG_L10_SERVE === '1';
+const reportName = process.env.AG_L10_REPORT ?? run;
 
 export default defineConfig({
   forbidOnly: true,
   retries: 0,
   workers: 1,                                   // perf: one measured page at a time per runner
-  reporter: [['list'], ['json', { outputFile: `${evidence}/playwright-${run}.json` }]],
+  reporter: [['list'], ['json', { outputFile: `${evidence}/playwright-${reportName}.json` }]],
   outputDir: `${evidence}/playwright-output`,
   use: { trace: 'retain-on-failure' },
   projects: [

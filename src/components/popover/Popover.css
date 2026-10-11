@@ -10,18 +10,31 @@
   }
 
   .ag-popover-popup {
-    background: var(--_ag-surface-fill, var(--_ag-glass-fill, var(--_ag-surface-fill)));
-    border: 1px solid var(--_ag-rim, var(--_ag-surface-rim, var(--ag-color-border)));
-    border-radius: var(--ag-radius-md);
-    box-shadow: var(--_ag-shadow-overlay, var(--ag-shadow-regular));
+    /* fill, rim and shadow come from MAT (overlayMaterial('popover')). The old
+       background override and 1px border painted a second, unblurred rim
+       outside the material one (the "glowing border"). */
+    display: flex;
+    flex-direction: column;
+    gap: var(--ag-space-1);
+    border-radius: var(--ag-radius-lg);
+    /* depth is the material shadow for this thickness (MAT ladder,
+       --_ag-mat-shadow); the old --_ag-shadow-overlay/-transient were never
+       defined and overrode identity/solid rungs with a fixed shadow */
+    box-shadow: var(--_ag-surface-shadow);
     color: var(--ag-on-surface, inherit);
-    padding: var(--ag-space-3);
+    font-family: var(--ag-font-sans);
+    font-size: var(--ag-type-callout-size);
+    line-height: var(--ag-type-callout-leading);
+    padding: var(--ag-space-4);
     inline-size: max-content;
-    max-inline-size: min(360px, calc(100vw - 32px));
+    max-inline-size: min(320px, calc(100vw - 32px));
+    outline: none;
     transition:
       opacity var(--ag-duration-small) var(--ag-ease-standard),
       transform var(--ag-duration-small) var(--ag-ease-standard);
   }
+  .ag-popover-popup[data-starting-style],
+  .ag-popover-popup[data-ending-style] { --_ag-optics: 0; }
   .ag-popover-popup[data-starting-style],
   .ag-popover-popup[data-ending-style] {
     opacity: 0;
@@ -39,24 +52,43 @@
   .ag-popover-popup[data-starting-style][data-side='inline-end'],
   .ag-popover-popup[data-ending-style][data-side='inline-end'] { transform: translateX(-4px); }
 
+  /* small solid notch in the canvas tint — no second backdrop-filter. Base UI
+     positions it along the cross axis; the main-axis edge and the point
+     direction follow data-side (the old fixed triangle always pointed down). */
   .ag-popover-arrow {
-    /* solid triangle in surface fill + rim — no second backdrop-filter */
-    inline-size: 10px;
-    block-size: 10px;
-    background: var(--_ag-surface-fill, var(--_ag-surface-fill));
+    inline-size: 14px;
+    block-size: 7px;
+    background: color-mix(in oklab, var(--ag-color-canvas) 86%, transparent);
     clip-path: polygon(0 0, 100% 0, 50% 100%);
-    border-start-start-radius: 0;
-    outline: 1px solid var(--_ag-rim, var(--ag-color-border));
   }
+  .ag-popover-arrow[data-side='top'] { bottom: -7px; }
+  .ag-popover-arrow[data-side='bottom'] { top: -7px; rotate: 180deg; }
+  .ag-popover-arrow[data-side='left'],
+  .ag-popover-arrow[data-side='inline-start'] { right: -10px; rotate: -90deg; }
+  .ag-popover-arrow[data-side='right'],
+  .ag-popover-arrow[data-side='inline-end'] { left: -10px; rotate: 90deg; }
 
-  .ag-popover-title { font-weight: 600; margin: 0 0 4px; }
-  .ag-popover-description { margin: 0; color: var(--_ag-muted, var(--ag-color-on-surface-muted)); }
+  .ag-popover-title {
+    margin: 0;
+    color: var(--ag-on-surface);
+    font-size: var(--ag-type-label-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-label-leading);
+  }
+  .ag-popover-description {
+    margin: 0;
+    color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
+  }
+  .ag-popover-close {
+    align-self: flex-end;
+    margin-block-start: var(--ag-space-2);
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .ag-popover-popup { transition: opacity var(--ag-duration-small) linear; transform: none; }
   }
   @media (forced-colors: active) {
     .ag-popover-popup { border: 1px solid CanvasText; }
-    .ag-popover-arrow { background: Canvas; outline-color: CanvasText; }
+    .ag-popover-arrow { background: CanvasText; }
   }
 }

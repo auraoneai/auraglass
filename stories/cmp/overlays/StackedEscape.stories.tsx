@@ -5,6 +5,9 @@
    overlays-stacked-escape--dialog-popover-menu (meta id overlays-stacked-escape).
    Triggers take plain text children: each Trigger already renders a <button>,
    so nesting a <Button> would produce nested interactive content. */
+import { MenuPortal, MenuPositioner, MenuPopup } from '../../../src/components/menu/Menu.client';
+import { PopoverPortal, PopoverPositioner, PopoverPopup } from '../../../src/components/popover/Popover.client';
+import { DialogPortal, DialogPopup, DialogBackdrop } from '../../../src/components/dialog/Dialog.client';
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Dialog } from '../../../src/components/dialog/index';
@@ -27,37 +30,37 @@ export const DialogPopoverMenu: Story = {
     <AuraGlassProvider>
       <Dialog.Root>
         <Dialog.Trigger>Open dialog</Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup aria-label="Stacked dialog">
+        <DialogPortal>
+          <DialogBackdrop />
+          <DialogPopup aria-label="Stacked dialog">
             <Dialog.Title>Stacked dialog</Dialog.Title>
             <Dialog.Body>
               <Popover.Root>
                 <Popover.Trigger>Open popover</Popover.Trigger>
-                <Popover.Portal>
-                  <Popover.Positioner>
-                    <Popover.Popup aria-label="Stacked popover">
+                <PopoverPortal>
+                  <PopoverPositioner>
+                    <PopoverPopup aria-label="Stacked popover">
                       <Popover.Title>Stacked popover</Popover.Title>
                       <Menu.Root>
                         <Menu.Trigger>Open menu</Menu.Trigger>
-                        <Menu.Portal>
-                          <Menu.Positioner>
-                            <Menu.Popup aria-label="Stacked menu">
+                        <MenuPortal>
+                          <MenuPositioner>
+                            <MenuPopup aria-label="Stacked menu">
                               <Menu.Item>Edit</Menu.Item>
                               <Menu.Item>Duplicate</Menu.Item>
                               <Menu.Separator />
                               <Menu.Item>Delete</Menu.Item>
-                            </Menu.Popup>
-                          </Menu.Positioner>
-                        </Menu.Portal>
+                            </MenuPopup>
+                          </MenuPositioner>
+                        </MenuPortal>
                       </Menu.Root>
-                    </Popover.Popup>
-                  </Popover.Positioner>
-                </Popover.Portal>
+                    </PopoverPopup>
+                  </PopoverPositioner>
+                </PopoverPortal>
               </Popover.Root>
             </Dialog.Body>
-          </Dialog.Popup>
-        </Dialog.Portal>
+          </DialogPopup>
+        </DialogPortal>
       </Dialog.Root>
     </AuraGlassProvider>
   ),

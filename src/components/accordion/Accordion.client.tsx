@@ -74,9 +74,12 @@ export interface AccordionTriggerProps extends Omit<React.ButtonHTMLAttributes<H
   ref?: React.Ref<HTMLButtonElement> | undefined;
 }
 
-function Trigger({ className, ref, ...rest }: AccordionTriggerProps) {
+function Trigger({ className, children, ref, ...rest }: AccordionTriggerProps) {
   return (
-    <BaseAccordion.Trigger render={stateRender<{ open: boolean }>((s) => toDataState({ expanded: s.open }), undefined, 'button')} {...rest} ref={ref} data-ag-part="trigger" className={cn('ag-accordion-trigger', className)} />
+    <BaseAccordion.Trigger render={stateRender<{ open: boolean }>((s) => toDataState({ expanded: s.open }), undefined, 'button')} {...rest} ref={ref} data-ag-part="trigger" className={cn('ag-accordion-trigger', className)}>
+      <span data-ag-part="hit-area" aria-hidden="true" />
+      {children}
+    </BaseAccordion.Trigger>
   );
 }
 

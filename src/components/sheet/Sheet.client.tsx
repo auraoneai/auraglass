@@ -30,6 +30,7 @@ import type {
 import type { SheetDetentsHandle } from './useSheetDetents';
 import type { SheetSide } from './Sheet.types';
 import { useControllableWarning } from '../../foundation/controllable';
+import { scrimLayerAttributes } from '../../material/stateAttributes';
 
 interface SheetCtx {
   depth: number;
@@ -43,7 +44,6 @@ interface SheetCtx {
   setPopupElement: (el: HTMLElement | null) => void;
   rootRef?: React.Ref<HTMLElement> | undefined;
   emit: (open: boolean, details: { event?: Event; reason?: unknown }) => void;
-  liveRef: React.RefObject<HTMLDivElement | null>;
 }
 const SheetContext = React.createContext<SheetCtx | null>(null);
 
@@ -55,8 +55,8 @@ function useSheetCtx(part: string): SheetCtx {
 
 function resolveSide(side: SheetSide, rtl: boolean): 'left' | 'right' | 'top' | 'bottom' {
   switch (side) {
-    case 'start': return rtl ? 'left' : 'right';
-    case 'end': return rtl ? 'right' : 'left';
+    case 'start': return rtl ? 'right' : 'left';
+    case 'end': return rtl ? 'left' : 'right';
     default: return side;
   }
 }
@@ -135,8 +135,6 @@ function SheetRoot({
     emit(o, d);
   }, [emit]);
 
-  const popupRef = React.useRef<HTMLElement | null>(null);
-  popupRef.current = popupElement;
   const liveRef = React.useRef<HTMLDivElement | null>(null);
   const { announce: providerAnnounce } = useAnnouncer();
   const announce = React.useCallback((text: string) => {
@@ -152,16 +150,16 @@ function SheetRoot({
     /* REQ-CMP-95: raw detent defs so the handle can announce by VALUE
        (1/'full' → 'Full height', 0.5 → 'Half height'). */
     detentDefs: resolved === 'bottom' ? detents : ['content' as const],
-    get viewportPx() { return viewportPx; },
-    getPopup: () => popupRef.current,
+    viewportPx,
+    getPopup: () => popupElement,
     onRequestClose: () => handleOpenChange(false, { reason: 'imperative' }),
     labels,
     announce,
-  }), [axis, resolved, side, detentState, detents, viewportPx, labels, handleOpenChange, announce]);
+  }), [axis, resolved, side, detentState, detents, viewportPx, popupElement, labels, handleOpenChange, announce]);
 
   const ctx = React.useMemo<SheetCtx>(() => ({
     depth, open: effectiveOpen, modal, side, resolved, preset, labels, detents: detentState,
-    setPopupElement, emit: handleOpenChange, liveRef, rootRef: ref,
+    setPopupElement, emit: handleOpenChange, rootRef: ref,
   }), [depth, effectiveOpen, modal, side, resolved, preset, labels, detentState, handleOpenChange, ref]);
 
   return (
@@ -175,6 +173,7 @@ function SheetRoot({
           onOpenChange={(o, d) => handleOpenChange(o, { event: d?.event, reason: d?.reason })}
         >
           {children}
+          <div ref={liveRef} data-ag-part="detent-live" aria-live="polite" className="ag-vh" />
         </Base.Root>
       </SheetHandleContext.Provider>
     </SheetContext.Provider>
@@ -206,10 +205,10 @@ function SheetBackdrop({ className }: { className?: string }) {
   return (
     <Base.Backdrop
       forceRender
-      data-ag-layer="scrim"
-      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
       data-ag-part="backdrop"
+      {...scrimLayerAttributes()}
       data-ag-overlay-depth={ctx.depth}
+      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />
@@ -251,7 +250,6 @@ function SheetPopup({
       <FocusScope trapped={ctx.modal} loop={ctx.modal} autoFocus restoreFocus style={{ display: 'contents' }}>
         {children}
       </FocusScope>
-      <div ref={ctx.liveRef} data-ag-part="detent-live" aria-live="polite" className="ag-vh" />
     </Base.Popup>
   );
 }
@@ -273,15 +271,17 @@ function SheetDescription({ children, className, ref, ...rest }: SheetButtonishP
 }
 
 function SheetClose({ children, className, ref, ...rest }: SheetButtonishProps) {
-  const { labels } = useSheetCtx('Close');
+  const { labels, preset } = useSheetCtx('Close');
   return (
     <Base.Close
       data-ag-part="close"
       aria-label={labels?.close ?? 'Close'}
       className={cn('ag-sheet-close', className)}
+      {...(preset === 'action' ? {} : { render: <Button suppressInnerParts /> })}
       ref={ref as React.Ref<HTMLButtonElement>}
       {...rest}
     >
+      <span data-ag-part="hit-area" aria-hidden="true" />
       {children ?? 'Cancel'}
     </Base.Close>
   );
@@ -318,15 +318,14 @@ export const Sheet = {
   Root: SheetRoot,
   Trigger: SheetTrigger,
   Content: SheetContent,
-  Portal: SheetPortal,
-  Backdrop: SheetBackdrop,
-  Popup: SheetPopup,
   Title: SheetTitle,
   Description: SheetDescription,
   Close: SheetClose,
-  Action: SheetAction,
   Handle: SheetHandle,
   Header: SheetHeader,
   Body: SheetBody,
   Footer: SheetFooter,
 };
+
+/** Internal overlay parts (not contract surface, REQ-CMP-06): in-repo composition only. */
+export { SheetPortal, SheetBackdrop, SheetPopup, SheetAction };

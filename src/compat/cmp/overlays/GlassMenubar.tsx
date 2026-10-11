@@ -31,22 +31,18 @@ export function GlassMenubar({ menus, createFileMenu, createEditMenu, children, 
       {menus?.map((m, i) => (
         <Menu.Root key={i}>
           <Menu.Trigger>{m.label}</Menu.Trigger>
-          <Menu.Portal>
-            <Menu.Positioner>
-              <Menu.Popup>
-                {m.content ??
-                  m.items?.map((it, j) => (
-                    <Menu.Item
-                      key={j}
-                      {...(it.disabled !== undefined ? { disabled: it.disabled } : {})}
-                      {...(it.onSelect !== undefined ? { onClick: it.onSelect } : {})}
-                    >
-                      {it.label}
-                    </Menu.Item>
-                  ))}
-              </Menu.Popup>
-            </Menu.Positioner>
-          </Menu.Portal>
+          <Menu.Content>
+            {m.content ??
+              m.items?.map((it, j) => (
+                <Menu.Item
+                  key={j}
+                  {...(it.disabled !== undefined ? { disabled: it.disabled } : {})}
+                  {...(it.onSelect !== undefined ? { onClick: it.onSelect } : {})}
+                >
+                  {it.label}
+                </Menu.Item>
+              ))}
+          </Menu.Content>
         </Menu.Root>
       ))}
     </Menubar>

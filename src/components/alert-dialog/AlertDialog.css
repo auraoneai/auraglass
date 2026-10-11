@@ -14,14 +14,25 @@
     inline-size: 100%;
     max-inline-size: 400px;
     max-block-size: calc(100dvh - 2 * var(--ag-space-4));
+    overflow: hidden;
+    /* one inset on every edge; header/body/footer only stack vertically */
+    padding: var(--ag-space-5);
+    gap: var(--ag-space-2);
     border-radius: var(--ag-radius-xl);
-    box-shadow: var(--_ag-shadow-overlay, var(--ag-shadow-thick));
+    /* depth is the material shadow for this thickness (MAT ladder,
+       --_ag-mat-shadow); the old --_ag-shadow-overlay/-transient were never
+       defined and overrode identity/solid rungs with a fixed shadow */
+    box-shadow: var(--_ag-surface-shadow);
     color: var(--ag-on-surface);
+    font-family: var(--ag-font-sans);
+    font-size: var(--ag-type-body-size);
+    line-height: var(--ag-type-body-leading);
     outline: none;
     z-index: var(--ag-z-overlay, 300);
   }
   .ag-alert-dialog-popup[data-starting-style],
   .ag-alert-dialog-popup[data-ending-style] {
+    --_ag-optics: 0;
     opacity: 0;
     transform: scale(0.96);
     transition:
@@ -46,34 +57,44 @@
   .ag-alert-dialog-header,
   .ag-alert-dialog-footer {
     flex: none;
-    padding: var(--ag-space-4);
+  }
+  .ag-alert-dialog-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ag-space-1);
   }
   .ag-alert-dialog-footer {
     display: flex;
     gap: var(--ag-space-2);
     justify-content: flex-end;
+    /* actions sit a step below the message */
+    margin-block-start: var(--ag-space-3);
   }
   .ag-alert-dialog-body {
     flex: 1 1 auto;
     min-block-size: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: var(--ag-space-4);
   }
   .ag-alert-dialog-body[data-padding='none'] { padding: 0; }
   .ag-alert-dialog-title {
     margin: 0;
-    font-weight: var(--_ag-font-semibold, 600);
-    font-size: var(--_ag-text-lg, 1.125rem);
-    line-height: var(--_ag-leading-tight, 1.25);
+    color: var(--ag-on-surface);
+    font-size: var(--ag-type-title-3-size);
+    font-weight: var(--ag-type-title-3-weight);
+    line-height: var(--ag-type-title-3-leading);
+    letter-spacing: var(--_ag-type-title-3-tracking, normal);
   }
   .ag-alert-dialog-description {
     margin: 0;
-    color: var(--ag-color-on-surface-muted, currentColor);
-    font-size: var(--_ag-text-sm, 0.875rem);
+    color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
+    font-size: var(--ag-type-callout-size);
+    line-height: var(--ag-type-callout-leading);
   }
-  .ag-alert-dialog-cancel {
+  .ag-alert-dialog-cancel,
+  .ag-alert-dialog-action {
     cursor: default;
+    min-inline-size: calc(var(--ag-space-16) + var(--ag-space-4));
   }
 
   @container ag-overlay (max-inline-size: 640px) {
@@ -83,6 +104,7 @@
     }
     .ag-alert-dialog-footer {
       flex-direction: column;
+      align-items: stretch;
     }
     /* Action is last in DOM order — column (not column-reverse) keeps the
        primary action at the bottom of the stack. */

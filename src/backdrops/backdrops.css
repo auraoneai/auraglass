@@ -12,6 +12,9 @@
     inline-size: 120%; block-size: 120%; inset-inline-start: -10%; inset-block-start: -10%;
   }
   .ag-backdrop-content { position: relative; z-index: 1; }
+  /* text placed straight on a declared backdrop takes the backdrop's resolved
+     on-surface (light glyphs over media/dark), not the page's default ink */
+  .ag-backdrop[data-ag-backdrop] > .ag-backdrop-content { color: var(--_ag-on-surface, inherit); }
   .ag-backdrop-layer > img, .ag-backdrop-layer > video {
     inline-size: 100%; block-size: 100%; object-fit: cover;
   }

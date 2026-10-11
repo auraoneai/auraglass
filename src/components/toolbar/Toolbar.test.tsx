@@ -1,8 +1,10 @@
+import { ToolbarIconButton } from './Toolbar.client';
 import { describe, expect, it } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import * as React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Toolbar } from './index';
+import { IconButton } from '../icon-button';
 
 const X = <svg data-testid="x" />;
 
@@ -12,7 +14,7 @@ describe('Toolbar', () => {
       <Toolbar.Root aria-label="Editor">
         <Toolbar.Button>Bold</Toolbar.Button>
         <Toolbar.Group>
-          <Toolbar.IconButton label="Undo" icon={X} />
+          <Toolbar.Button render={<IconButton label="Undo" icon={X} />} />
         </Toolbar.Group>
         <Toolbar.Separator />
         <Toolbar.Link href="/help">Help</Toolbar.Link>
@@ -42,10 +44,10 @@ describe('Toolbar', () => {
     expect(btn.getAttribute('data-ag-prominent')).toBe('');
   });
 
-  it('Toolbar.IconButton renders icon-only button', () => {
+  it('Toolbar.Button render={<IconButton/>} renders an icon-only toolbar button', () => {
     render(
       <Toolbar.Root aria-label="t">
-        <Toolbar.IconButton label="Undo" icon={X} />
+        <Toolbar.Button render={<IconButton label="Undo" icon={X} />} />
       </Toolbar.Root>,
     );
     const btn = screen.getByRole('button', { name: 'Undo' });
@@ -78,7 +80,7 @@ it('priority="low" emits data-ag-priority and a trailing overflow menu (REQ-CMP-
     <Toolbar.Root aria-label="t">
       <Toolbar.Button>Keep</Toolbar.Button>
       <Toolbar.Button priority="low">Later</Toolbar.Button>
-      <Toolbar.IconButton label="settings" icon={<svg />} priority="low" />
+      <ToolbarIconButton label="settings" icon={<svg />} priority="low" />
     </Toolbar.Root>,
   );
   const lows = container.querySelectorAll('[data-ag-priority="low"]');

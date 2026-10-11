@@ -7,7 +7,8 @@ const meta = {
   title: 'Showcases/Spatial Control Center',
   component: SpatialControlCenter,
   tags: ['showcase'],
-  globals: { scene: 'hf-pattern' },
+  /* Dark appearance by default: glass control platters over a busy pattern. */
+  globals: { scene: 'hf-pattern', scheme: 'dark' },
   parameters: { layout: 'fullscreen', ag: { subject: 'spatial-control-center', kind: 'showcase', refraction: true } },
 } satisfies Meta<typeof SpatialControlCenter>;
 export default meta;

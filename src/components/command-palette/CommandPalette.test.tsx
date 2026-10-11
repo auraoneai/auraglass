@@ -1,4 +1,5 @@
 /** @jest-environment jsdom */
+import { PopoverPortal, PopoverPositioner, PopoverPopup } from '../popover/Popover.client';
 import { describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import * as React from 'react';
@@ -113,13 +114,13 @@ describe('CommandPalette layer registration (REQ-FIN-07 transfer)', () => {
         </Command.Root>
         <Popover.Root defaultOpen onOpenChange={popoverChange}>
           <Popover.Trigger>more</Popover.Trigger>
-          <Popover.Portal>
-            <Popover.Positioner>
-              <Popover.Popup aria-label="nested">
+          <PopoverPortal>
+            <PopoverPositioner>
+              <PopoverPopup aria-label="nested">
                 <button type="button">inside</button>
-              </Popover.Popup>
-            </Popover.Positioner>
-          </Popover.Portal>
+              </PopoverPopup>
+            </PopoverPositioner>
+          </PopoverPortal>
         </Popover.Root>
       </CommandPalette>,
     );

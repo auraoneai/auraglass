@@ -1,8 +1,7 @@
 /** PLAT-344 / REQ-PLAT-93: language-service completions over the packed
  * aura-glass d.ts (tests/types/plat/vendor/aura-glass, produced by
- * setup-extract.mjs). When the pack has no dist (alpha stub today) the
- * suite reports pending via skip; the stub fixture below keeps the harness
- * honest in the meantime. */
+ * setup-extract.mjs). Missing packed declarations fail this suite; the
+ * independent stub fixture checks the language-service harness itself. */
 import { describe, expect, it } from '@jest/globals';
 import fs from 'node:fs';
 import path from 'node:path';

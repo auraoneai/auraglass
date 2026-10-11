@@ -22,6 +22,26 @@ exports[`overlay dom contract (CMP-202) AlertDialog: popup attribute-name set is
 ]
 `;
 
+exports[`overlay dom contract (CMP-202) Combobox: popup attribute-name set is stable and contract-shaped 1`] = `
+[
+  "class",
+  "data-ag-layer",
+  "data-ag-overlay",
+  "data-ag-part",
+  "data-ag-surface",
+  "data-ag-thickness",
+  "data-ag-variant",
+  "data-align",
+  "data-anchor-hidden",
+  "data-base-ui-focusable",
+  "data-open",
+  "data-side",
+  "data-state",
+  "role",
+  "tabindex",
+]
+`;
+
 exports[`overlay dom contract (CMP-202) Dialog: popup attribute-name set is stable and contract-shaped 1`] = `
 [
   "aria-describedby",
@@ -87,6 +107,26 @@ exports[`overlay dom contract (CMP-202) Popover: popup attribute-name set is sta
   "data-state",
   "id",
   "role",
+  "tabindex",
+]
+`;
+
+exports[`overlay dom contract (CMP-202) Select: popup attribute-name set is stable and contract-shaped 1`] = `
+[
+  "class",
+  "data-ag-layer",
+  "data-ag-overlay",
+  "data-ag-part",
+  "data-ag-surface",
+  "data-ag-thickness",
+  "data-ag-variant",
+  "data-align",
+  "data-base-ui-focusable",
+  "data-open",
+  "data-side",
+  "data-state",
+  "role",
+  "style",
   "tabindex",
 ]
 `;

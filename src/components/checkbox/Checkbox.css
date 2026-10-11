@@ -8,8 +8,9 @@
     display: inline-flex;
     align-items: center;
     gap: var(--ag-space-2);
-    color: var(--ag-on-surface);
     cursor: default;
+    font-size: var(--ag-type-body-size);
+    line-height: var(--ag-type-body-leading);
   }
 
   .ag-checkbox [data-ag-part='hit-area'] {
@@ -24,8 +25,11 @@
     align-items: center;
     justify-content: center;
     flex: none;
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
+    background: color-mix(in oklab, var(--ag-color-canvas), var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 4%));
+    /* box edge: hairline-and-a-half of the border token (the old
+       var(--_ag-surface-rim) is a colour read-out → invalid → no edge, so an
+       unchecked box was an almost invisible 8% smudge) */
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) * 0.75) var(--ag-color-border);
     border-radius: var(--ag-radius-xs);
     transition: opacity var(--ag-duration-micro) var(--ag-ease-standard),
       --ag-specular var(--ag-duration-micro) var(--ag-ease-standard),
@@ -56,7 +60,7 @@
   .ag-checkbox[data-indeterminate] [data-ag-part='indicator'],
   .ag-radio-group [data-checked] [data-ag-part='indicator'] {
     background: var(--ag-color-accent);
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-accent);
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) * 0.75) var(--ag-color-accent);
     color: var(--_ag-on-accent, var(--ag-color-on-accent));
   }
 
@@ -66,6 +70,18 @@
     .ag-radio-group [data-checked] [data-ag-part='indicator'] {
       color: contrast-color(var(--ag-color-accent));
     }
+  }
+
+  /* The glyph: the indicator is keepMounted, so the check was painted in
+     the label colour inside every UNCHECKED box. It also had no size (an
+     unsized inline SVG) and a 1-unit stroke. */
+  .ag-checkbox [data-ag-part='icon'] {
+    inline-size: 80%;
+    block-size: 80%;
+    stroke-width: 2.25;
+  }
+  .ag-checkbox:not([data-checked], [data-indeterminate]) [data-ag-part='icon'] {
+    visibility: hidden;
   }
 
   .ag-checkbox[data-disabled] > :where([data-ag-part]),

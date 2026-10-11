@@ -31,7 +31,7 @@ interface HistoryStore {
 }
 const ToastHistoryCtx = React.createContext<HistoryStore | null>(null);
 
-const ToastProviderCtx = React.createContext<{ position: ToastPosition } | null>(null);
+const ToastProviderCtx = React.createContext<{ position: ToastPosition; timeout: number } | null>(null);
 const ToastViewportCtx = React.createContext<ToastPosition>('bottom-right');
 let warnedNestedProvider = false;
 let warnedNoProvider = false;
@@ -50,7 +50,7 @@ function ToastProvider({ limit = 3, timeout = 5000, history = true, position = '
     warnedNestedProvider = true;
     console.error('[aura-glass] Toast.Provider must not be nested — use a single top-level provider.');
   }
-  const config = React.useMemo(() => ({ position: LOGICAL_TO_POSITION[position] }), [position]);
+  const config = React.useMemo(() => ({ position: LOGICAL_TO_POSITION[position], timeout }), [position, timeout]);
   const [toastManager] = React.useState(() => Base.createToastManager());
   const historyEnabled = history !== false;
   const historyCap = (typeof history === 'object' && history !== null && history.limit !== undefined)
@@ -156,7 +156,11 @@ function ToastRoot({ toast, className, children, ref, ...rest }: ToastRootProps 
     });
     const timeout = (toast as { timeout?: number } | undefined)?.timeout;
     const position = React.useContext(ToastViewportCtx);
-    const style = { ...rest.style, ...(timeout !== undefined ? { '--_ag-toast-timeout': `${timeout}ms` } : {}) } as React.CSSProperties;
+    const providerTimeout = React.useContext(ToastProviderCtx)?.timeout ?? 5000;
+    const effectiveTimeout = timeout ?? providerTimeout;
+    const style = { ...rest.style, ...(effectiveTimeout > 0
+      ? { '--_ag-toast-timeout': `${effectiveTimeout}ms` }
+      : { '--_ag-toast-progress-display': 'none' }) } as React.CSSProperties;
     React.useLayoutEffect(() => {
       if (!rootEl?.parentElement) return;
       const siblings = Array.from(rootEl.parentElement.children).filter((n) => n.classList.contains('ag-toast'));

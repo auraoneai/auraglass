@@ -13,28 +13,20 @@ const renderMenu = (extra?: React.ReactNode) =>
     <AuraGlassProvider>
       <Menu.Root>
         <Menu.Trigger>actions</Menu.Trigger>
-        
-          
+        <Menu.Content>
+          <Menu.Item shortcut="Ctrl+X">Cut</Menu.Item>
+          <Menu.Item shortcut="Ctrl+C">Copy</Menu.Item>
+          <Menu.Separator />
+          <Menu.CheckboxItem checked>Wrap</Menu.CheckboxItem>
+          <Menu.CheckboxItem checked="indeterminate">Selective</Menu.CheckboxItem>
+          <Menu.Submenu>
+            <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
             <Menu.Content>
-              <Menu.Item shortcut="Ctrl+X">Cut</Menu.Item>
-              <Menu.Item shortcut="Ctrl+C">Copy</Menu.Item>
-              <Menu.Separator />
-              <Menu.CheckboxItem checked>Wrap</Menu.CheckboxItem>
-              <Menu.CheckboxItem checked="indeterminate">Selective</Menu.CheckboxItem>
-              <Menu.Submenu>
-                <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
-                
-                  
-                    <Menu.Content>
-                      <Menu.Item>Email</Menu.Item>
-                    </Menu.Content>
-                  
-                
-              </Menu.Submenu>
-              {extra}
+              <Menu.Item>Email</Menu.Item>
             </Menu.Content>
-          
-        
+          </Menu.Submenu>
+          {extra}
+        </Menu.Content>
       </Menu.Root>
     </AuraGlassProvider>,
   );
@@ -131,13 +123,9 @@ describe('ContextMenu', () => {
           <ContextMenu.Trigger>
             <div>canvas region</div>
           </ContextMenu.Trigger>
-          
-            
-              <ContextMenu.Content>
-                <ContextMenu.Item>Inspect</ContextMenu.Item>
-              </ContextMenu.Content>
-            
-          
+          <ContextMenu.Content>
+            <ContextMenu.Item>Inspect</ContextMenu.Item>
+          </ContextMenu.Content>
         </ContextMenu.Root>
       </AuraGlassProvider>,
     );

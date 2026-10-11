@@ -6,6 +6,9 @@
    order. (registry/blocks/overlay-flows has no story on next; when SURF adds
    one, the lane gains a second subject.) Tagged no-cert: a lane fixture,
    never a certification subject. */
+import { DialogPortal, DialogBackdrop, DialogPopup } from '../../../src/components/dialog/Dialog.client';
+import { MenuPortal, MenuPositioner, MenuPopup } from '../../../src/components/menu/Menu.client';
+import { TooltipPortal, TooltipPositioner, TooltipPopup } from '../../../src/components/tooltip/Tooltip.client';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Dialog } from '../../../src/components/dialog';
 import { Menu } from '../../../src/components/menu';
@@ -26,38 +29,38 @@ export const DialogMenuTooltip: StoryObj<typeof meta> = {
       <Tooltip.Provider delay={0}>
         <Dialog.Root>
           <Dialog.Trigger data-testid="open-dialog">Edit project</Dialog.Trigger>
-          <Dialog.Portal>
-            <Dialog.Backdrop />
-            <Dialog.Popup data-testid="layer-dialog">
+          <DialogPortal>
+            <DialogBackdrop />
+            <DialogPopup data-testid="layer-dialog">
               <Dialog.Header><Dialog.Title>Edit project</Dialog.Title></Dialog.Header>
               <Dialog.Body>
                 <Dialog.Description>Rename the project or move it to another workspace.</Dialog.Description>
                 <Menu.Root>
                   <Menu.Trigger data-testid="open-menu">More actions</Menu.Trigger>
-                  <Menu.Portal>
-                    <Menu.Positioner side="bottom" align="start">
-                      <Menu.Popup data-testid="layer-menu">
+                  <MenuPortal>
+                    <MenuPositioner side="bottom" align="start">
+                      <MenuPopup data-testid="layer-menu">
                         <Menu.Item>Duplicate</Menu.Item>
                         <Menu.Item>Move to workspace</Menu.Item>
                         <Tooltip.Root>
                           <Tooltip.Trigger data-testid="open-tooltip">What is archiving?</Tooltip.Trigger>
-                          <Tooltip.Portal>
-                            <Tooltip.Positioner side="right">
-                              <Tooltip.Popup data-testid="layer-tooltip">Archived projects are read-only and hidden from search.</Tooltip.Popup>
-                            </Tooltip.Positioner>
-                          </Tooltip.Portal>
+                          <TooltipPortal>
+                            <TooltipPositioner side="right">
+                              <TooltipPopup data-testid="layer-tooltip">Archived projects are read-only and hidden from search.</TooltipPopup>
+                            </TooltipPositioner>
+                          </TooltipPortal>
                         </Tooltip.Root>
                         <Menu.Item>Archive</Menu.Item>
-                      </Menu.Popup>
-                    </Menu.Positioner>
-                  </Menu.Portal>
+                      </MenuPopup>
+                    </MenuPositioner>
+                  </MenuPortal>
                 </Menu.Root>
               </Dialog.Body>
               <Dialog.Footer>
                 <Dialog.Close>Cancel</Dialog.Close>
               </Dialog.Footer>
-            </Dialog.Popup>
-          </Dialog.Portal>
+            </DialogPopup>
+          </DialogPortal>
         </Dialog.Root>
       </Tooltip.Provider>
     </AuraGlassProvider>

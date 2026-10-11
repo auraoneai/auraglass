@@ -1,5 +1,6 @@
 /* CMP-272 (REQ-CMP-01/22): Tooltip scenes — Playground, ProviderDelays,
    CoarseLongPress — ids overlays-tooltip--*. */
+import { OverlayStage } from '../overlays/OverlayStage';
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Tooltip } from '../../../src/components/tooltip';
@@ -16,18 +17,14 @@ export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
 const Demo = ({ label = 'Hint text' }: { label?: string }) => (
-  <AuraGlassProvider>
+  <AuraGlassProvider><OverlayStage>
     <Tooltip.Provider>
       <Tooltip.Root defaultOpen>
         <Tooltip.Trigger>Hover me</Tooltip.Trigger>
-        <Tooltip.Portal>
-          <Tooltip.Positioner>
-            <Tooltip.Popup><Tooltip.Arrow />{label}</Tooltip.Popup>
-          </Tooltip.Positioner>
-        </Tooltip.Portal>
+        <Tooltip.Content><Tooltip.Arrow />{label}</Tooltip.Content>
       </Tooltip.Root>
     </Tooltip.Provider>
-  </AuraGlassProvider>
+  </OverlayStage></AuraGlassProvider>
 );
 
 export const Playground: Story = {

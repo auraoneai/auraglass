@@ -28,11 +28,6 @@ const isPair = (v: unknown): v is BreadcrumbsOverflowItem =>
   typeof v === 'object' && v !== null && 'label' in (v as object);
 
 export function BreadcrumbsOverflow({ label = 'Show more', items = [], defaultOpen }: BreadcrumbsOverflowProps) {
-  // Real CMP Menu stacks Popup inside Positioner (optionally Portal); the
-  // contract double maps Content straight to Base.Popup, so wrap only when
-  // the parts exist.
-  const MaybePortal = ('Portal' in Menu ? Menu.Portal : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
-  const MaybePositioner = ('Positioner' in Menu ? Menu.Positioner : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
   return (
     <MenuRoot {...(defaultOpen !== undefined ? { defaultOpen } : {})}>
       <MenuTrigger
@@ -40,8 +35,8 @@ export function BreadcrumbsOverflow({ label = 'Show more', items = [], defaultOp
         data-ag-part="ellipsis"
         className="ag-breadcrumbs__ellipsis"
       />
-      <MaybePortal>
-        <MaybePositioner>
+
+
           <MenuContent data-ag-part="overflow-menu">
             {items.map((item, i) =>
               isPair(item) ? (
@@ -53,8 +48,8 @@ export function BreadcrumbsOverflow({ label = 'Show more', items = [], defaultOp
               ),
             )}
           </MenuContent>
-        </MaybePositioner>
-      </MaybePortal>
+
+
     </MenuRoot>
   );
 }

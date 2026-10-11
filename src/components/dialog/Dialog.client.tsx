@@ -12,12 +12,14 @@ import { Dialog as Base } from '@base-ui/react/dialog';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
+import { Button } from '../button';
 import { ConcentricFrame } from '../../material';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { useScrimTop } from '../overlays/_shared/useScrimTop';
 import { DialogHeader, DialogBody, DialogFooter } from './DialogLayout';
 import { useControllableWarning } from '../../foundation/controllable';
+import { scrimLayerAttributes } from '../../material/stateAttributes';
 import type {
   DialogRootProps, DialogTriggerProps, DialogCloseProps, DialogPortalProps,
   DialogBackdropProps, DialogPopupProps, DialogTitleProps, DialogDescriptionProps,
@@ -88,6 +90,7 @@ function DialogTrigger({ children, className, ref, ...rest }: DialogTriggerProps
 
 function DialogClose({ children, className, ref, ...rest }: DialogCloseProps) {
   const { labels } = React.useContext(DialogContext);
+  const iconOnly = children === undefined || children === null;
   return (
     /* REQ-CMP-89: the close control sits inside a ConcentricFrame so its
        radius resolves concentric to the popup's rim (lg at inset-4). */
@@ -95,11 +98,13 @@ function DialogClose({ children, className, ref, ...rest }: DialogCloseProps) {
       <Base.Close
         data-ag-part="close"
         aria-label={labels?.close ?? 'Close'}
-        className={cn('ag-dialog-close', className)}
+        className={cn(iconOnly ? 'ag-dialog-close' : 'ag-dialog-action', className)}
+        {...(iconOnly ? {} : { render: <Button suppressInnerParts /> })}
         ref={ref}
         {...rest}
       >
-        {children ?? '×'}
+        <span data-ag-part="hit-area" aria-hidden="true" />
+        {iconOnly ? <span aria-hidden="true">×</span> : children}
       </Base.Close>
     </ConcentricFrame>
   );
@@ -126,7 +131,7 @@ function DialogBackdrop({ className, ref }: DialogBackdropProps) {
       /* REQ-CMP-79: one scrim per modal — BU skips nested backdrops unless forced */
       forceRender
       data-ag-part="backdrop"
-      data-ag-layer="scrim"
+      {...scrimLayerAttributes()}
       data-ag-overlay-depth={depth}
       {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
@@ -190,7 +195,7 @@ function DialogPopup({
       if (process.env.NODE_ENV !== 'production' && !warnedNoTitle &&
           el.isConnected && !el.hasAttribute('aria-labelledby') && !el.hasAttribute('aria-label')) {
         warnedNoTitle = true;
-        console.error('aura-glass: <Dialog.Popup> opened without a Dialog.Title or aria-label — the dialog has no accessible name.');
+        console.error('aura-glass: <Dialog.Content> opened without a Dialog.Title or aria-label — the dialog has no accessible name.');
       }
     }, 0);
     return () => { ro?.disconnect(); cleanup?.(); };
@@ -249,9 +254,6 @@ export const Dialog = {
   Root: DialogRoot,
   Trigger: DialogTrigger,
   Close: DialogClose,
-  Portal: DialogPortal,
-  Backdrop: DialogBackdrop,
-  Popup: DialogPopup,
   Content: DialogContent,
   Title: DialogTitle,
   Description: DialogDescription,
@@ -259,3 +261,6 @@ export const Dialog = {
   Body: DialogBody,
   Footer: DialogFooter,
 };
+
+/** Internal overlay parts (not contract surface, REQ-CMP-06): in-repo composition only. */
+export { DialogPortal, DialogBackdrop, DialogPopup };

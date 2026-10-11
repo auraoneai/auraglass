@@ -1,7 +1,7 @@
 'use client';
 /* FilterBar (SURF-196, REQ-SURF-87): schema-driven rule chips, quick-filters,
    search field, clear-all, announced result count. Composes CMP parts only
-   through their public modules (seam S-30): SearchField, ToggleGroup
+   through their public modules and internal overlay composition parts (seam S-30): SearchField, ToggleGroup
    (aria-pressed quick filters), IconButton (chip remove), Popover (chip
    editor: initial focus on the first field, focus back to the chip on close)
    and Sheet (side="bottom", the < 480 px collapsed "Filters (n)" view).
@@ -13,6 +13,7 @@ import { SearchField } from '../../components/search-field';
 import { ToggleGroup } from '../../components/toggle-group';
 import { IconButton } from '../../components/icon-button';
 import { Popover } from '../../components/popover';
+import { PopoverPortal, PopoverPositioner, PopoverPopup } from '../../components/popover/Popover.client';
 import { Sheet } from '../../components/sheet';
 import { Button } from '../../components/button';
 import { useAnnouncer } from '../../theme';
@@ -314,18 +315,18 @@ function RuleChip({
           {label}
         </Popover.Trigger>
         {open && field !== undefined ? (
-          <Popover.Portal>
-            <Popover.Positioner anchor={chipEl} side="bottom" align="start">
-              <Popover.Popup
+          <PopoverPortal>
+            <PopoverPositioner anchor={chipEl} side="bottom" align="start">
+              <PopoverPopup
                 className="ag-filter-bar__editor"
                 aria-label={fill(msgs.editFilter, { field: fieldLabel })}
                 initialFocus={firstFieldRef}
                 finalFocus={triggerRef}
               >
                 <RuleEditor field={field} rule={rule} msgs={msgs} firstFieldRef={firstFieldRef} onCommit={onCommit} />
-              </Popover.Popup>
-            </Popover.Positioner>
-          </Popover.Portal>
+              </PopoverPopup>
+            </PopoverPositioner>
+          </PopoverPortal>
         ) : null}
       </Popover.Root>
       <IconButton
