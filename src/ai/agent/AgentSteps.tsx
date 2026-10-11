@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { AgStep } from '../types';
+import { StateIcon } from '../tool/StateIcon';
 
 export interface AgentStepsProps {
   steps: readonly AgStep[];
@@ -26,7 +27,13 @@ const STATE_TEXT: Record<AgStep['state'], string> = {
   skipped: 'Skipped',
 };
 
-/** REQ-SURF-123: server-safe ordered list of agent steps. */
+/**
+ * REQ-SURF-123: server-safe ordered list of agent steps. Each step shows a
+ * per-state SVG icon + state text (+ duration). The running atom is CSS-only
+ * (ai.css `[data-ag-part=step][data-state=running] [data-ag-part=step-icon]::after`)
+ * and static under reduced motion / `data-ag-motion` calm|none, where the
+ * visible "Running" text remains the signal.
+ */
 export function AgentSteps({ steps, className }: AgentStepsProps) {
   return (
     <ol data-ag-part="agent-steps" className={className}>
@@ -39,7 +46,7 @@ export function AgentSteps({ steps, className }: AgentStepsProps) {
             data-state={step.state}
             aria-current={step.state === 'running' ? 'step' : undefined}
           >
-            <span data-ag-part="step-icon" aria-hidden="true" />
+            <span data-ag-part="step-icon" aria-hidden="true"><StateIcon state={step.state} /></span>
             <span data-ag-part="step-label">{step.label}</span>
             <span data-ag-part="step-state">{STATE_TEXT[step.state]}</span>
             {d !== null ? <span data-ag-part="step-duration">{fmtDuration(d)}</span> : null}

@@ -1,11 +1,14 @@
 'use client';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { PreviewCard } from '@base-ui/react/preview-card';
 import type { AgPart } from '../types';
 import { usePortalContainer, useLayer } from '../../theme';
-import { openAndFocusSource } from './SourceList';
+import { sourceUrlLabel, useOpenSource } from './SourceList';
 
-export type AgCitationSource = Extract<AgPart, { type: 'source-url' | 'source-document' }>;
+/** A citable source; `snippet` (optional) is the quoted passage shown in the preview. */
+export type AgCitationSource = Extract<AgPart, { type: 'source-url' | 'source-document' }> & {
+  snippet?: string | undefined;
+};
 
 export interface CitationProps {
   messageId: string;
@@ -19,88 +22,84 @@ function hostname(url: string): string {
 }
 
 /**
- * REQ-SURF-125: `[n]` anchor to #ag-src-{messageId}-{sourceId}; a preview card
- * opens on focus and after a 300 ms hover (portalled via usePortalContainer,
- * Escape via useLayer). No role="tooltip".
+ * Registers the open card with the LayerStack. Mounted only while the card is
+ * open, so closed citations never sit on the stack. `onEscape` is a no-op by
+ * design: Base UI's dismiss closes the card (see useOverlayLayer.ts), and a
+ * second close path would close two layers on one keypress.
+ */
+function PreviewLayer() {
+  useLayer({ kind: 'preview-card', modal: false, open: true, onEscape: noop, element: null, restoreFocusTo: false });
+  return null;
+}
+const noop = () => {};
+
+/** Hover-open delay (ms) — REQ-SURF-125. */
+export const CITATION_PREVIEW_DELAY = 300;
+
+/**
+ * REQ-SURF-125: `[n]` anchor to #ag-src-{messageId}-{sourceId}, named
+ * "Source {index}: {title}". A Base UI PreviewCard (title, snippet, hostname)
+ * opens after a 300 ms hover and on focus, is portalled into
+ * `usePortalContainer('overlay')`, keeps 8 px collision padding, carries no
+ * popup role (no dialog/tooltip), and closes on blur and on Escape. Escape
+ * follows the repo's Base-UI-overlay rule (src/components/overlays/_shared/
+ * useOverlayLayer.ts): the open card is registered with the LayerStack via
+ * `useLayer({ kind: 'preview-card' })` so the stack orders it and layers below
+ * never see that Escape, while Base UI's dismiss performs the single close
+ * (reason 'escape-key'); there is no local keydown listener.
+ * Activation (touch, Enter, click — including below 480 px and at coarse
+ * pointers) opens the in-message SourceList and moves focus to the item.
  */
 export function Citation({ messageId, source, index, className }: CitationProps) {
-  const [preview, setPreview] = React.useState(false);
-  const hoverAbort = React.useRef<AbortController | null>(null);
+  const [open, setOpen] = React.useState(false);
   const portal = usePortalContainer('overlay');
-  const { isTop } = useLayer({ kind: 'preview-card', modal: false, open: preview, onEscape: () => setPreview(false), element: null });
+  const openSource = useOpenSource();
   const cardId = React.useId();
 
-  React.useEffect(() => () => { hoverAbort.current?.abort(); }, []);
-  void isTop; // Escape routing is the layer stack's (onEscape above) — no local keydown listener.
-
-  const startHover = () => {
-    hoverAbort.current?.abort();
-    const ctl = new AbortController();
-    hoverAbort.current = ctl;
-    // 300 ms hover delay via the platform timeout primitive — the purity gate
-    // (no-fake-timer) bans setTimeout/setInterval calls in shipped ai code.
-    AbortSignal.timeout(300).addEventListener('abort', () => {
-      if (!ctl.signal.aborted) setPreview(true);
-    }, { once: true });
-  };
-  const cancelHover = () => {
-    hoverAbort.current?.abort();
-    hoverAbort.current = null;
-    setPreview(false);
-  };
-
-  const title = source.type === 'source-url' ? (source.title ?? hostname(source.url)) : source.title;
+  const title = source.type === 'source-url' ? sourceUrlLabel(source) : source.title;
+  const host = source.type === 'source-url' ? hostname(source.url) : '';
   const href = `#ag-src-${messageId}-${source.sourceId}`;
 
-  const cardBody = preview ? (
-    <div
-      id={cardId}
-      data-ag-part="citation-preview"
-      role="dialog"
-      aria-label={title}
-      onMouseEnter={() => { /* keep preview open */ }}
-      onMouseLeave={cancelHover}
-    >
-      <span data-ag-part="citation-preview-title">{title}</span>
-      {source.type === 'source-url' ? (
-        <span data-ag-part="citation-preview-host">{hostname(source.url)}</span>
-      ) : (
-        <span data-ag-part="citation-preview-kind">{source.mediaType}</span>
-      )}
-    </div>
-  ) : null;
-  const card = preview
-    ? portal
-      ? ReactDOM.createPortal(cardBody, portal)
-      : cardBody
-    : null;
-
   return (
-    <>
-      <a
+    <PreviewCard.Root
+      open={open}
+      onOpenChange={(next: boolean) => setOpen(next)}
+    >
+      <PreviewCard.Trigger
         href={href}
+        delay={CITATION_PREVIEW_DELAY}
+        closeDelay={0}
         data-ag-part="citation"
         data-index={index}
         className={className}
-        aria-describedby={preview ? cardId : undefined}
-        onFocus={() => setPreview(true)}
-        onBlur={cancelHover}
-        onMouseEnter={startHover}
-        onMouseLeave={cancelHover}
-        onClick={(e) => {
-          // Keyboard/coarse activation opens the in-message SourceList and
-          // focuses the source item (the anchor href itself lands there too).
-          const handled = openAndFocusSource(messageId, source.sourceId);
-          if (handled) e.preventDefault();
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Escape' && preview) { setPreview(false); }
+        aria-describedby={open ? cardId : undefined}
+        onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+          // Touch, Enter and click all land here: expand the in-message
+          // SourceList and focus the item. If no list is mounted, the native
+          // href navigation to #ag-src-… is kept.
+          if (openSource(e.currentTarget, messageId, source.sourceId)) {
+            e.preventDefault();
+            setOpen(false);
+          }
         }}
       >
         <span className="ag-visually-hidden">{`Source ${index}: ${title}`}</span>
         <span aria-hidden="true">{`[${index}]`}</span>
-      </a>
-      {card}
-    </>
+      </PreviewCard.Trigger>
+      <PreviewCard.Portal container={portal ?? undefined}>
+        <PreviewCard.Positioner collisionPadding={8} sideOffset={4} data-ag-part="citation-preview-positioner">
+          <PreviewCard.Popup id={cardId} data-ag-part="citation-preview">
+            {open ? <PreviewLayer /> : null}
+            <span data-ag-part="citation-preview-title">{title}</span>
+            {source.snippet ? <span data-ag-part="citation-preview-snippet">{source.snippet}</span> : null}
+            {source.type === 'source-url' ? (
+              <span data-ag-part="citation-preview-host">{host}</span>
+            ) : (
+              <span data-ag-part="citation-preview-kind">{source.mediaType}</span>
+            )}
+          </PreviewCard.Popup>
+        </PreviewCard.Positioner>
+      </PreviewCard.Portal>
+    </PreviewCard.Root>
   );
 }
