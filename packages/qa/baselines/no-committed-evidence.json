@@ -1,0 +1,82 @@
+[
+  {
+    "file": "src/backdrops/assets/grain-112.png",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-103",
+    "expires": "RC-1",
+    "rule": "png-outside-allowlist",
+    "pendingOn": "OD-19"
+  },
+  {
+    "file": "src/material/assets/lens/ag-lens-capsule-bar.png",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-103",
+    "expires": "RC-1",
+    "rule": "png-outside-allowlist",
+    "pendingOn": "OD-19"
+  },
+  {
+    "file": "src/material/assets/lens/ag-lens-capsule-control.png",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-103",
+    "expires": "RC-1",
+    "rule": "png-outside-allowlist",
+    "pendingOn": "OD-19"
+  },
+  {
+    "file": "src/material/assets/lens/ag-lens-capsule-panel.png",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-103",
+    "expires": "RC-1",
+    "rule": "png-outside-allowlist",
+    "pendingOn": "OD-19"
+  },
+  {
+    "file": "src/material/assets/lens/ag-lens-concentric-bar.png",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-103",
+    "expires": "RC-1",
+    "rule": "png-outside-allowlist",
+    "pendingOn": "OD-19"
+  },
+  {
+    "file": "src/material/assets/lens/ag-lens-concentric-control.png",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-103",
+    "expires": "RC-1",
+    "rule": "png-outside-allowlist",
+    "pendingOn": "OD-19"
+  },
+  {
+    "file": "src/material/assets/lens/ag-lens-concentric-panel.png",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-103",
+    "expires": "RC-1",
+    "rule": "png-outside-allowlist",
+    "pendingOn": "OD-19"
+  },
+  {
+    "file": "src/material/assets/lens/ag-lens-fixed-bar.png",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-103",
+    "expires": "RC-1",
+    "rule": "png-outside-allowlist",
+    "pendingOn": "OD-19"
+  },
+  {
+    "file": "src/material/assets/lens/ag-lens-fixed-control.png",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-103",
+    "expires": "RC-1",
+    "rule": "png-outside-allowlist",
+    "pendingOn": "OD-19"
+  },
+  {
+    "file": "src/material/assets/lens/ag-lens-fixed-panel.png",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-103",
+    "expires": "RC-1",
+    "rule": "png-outside-allowlist",
+    "pendingOn": "OD-19"
+  }
+]

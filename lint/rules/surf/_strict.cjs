@@ -12,14 +12,43 @@ const w1 = {};
 
 // --- lane W2 begin ---
 // W2 builtin-rule assertions (SURF-137/138): the strict map only emits
-// 'auraglass/<rule>' configs, so react-hooks/rules-of-hooks and
-// no-restricted-properties (toLocale* ban) cannot be expressed here.
-// Coverage: rules-of-hooks is 'error' over '**/*.{ts,tsx,js,jsx,mjs,cjs}' in
-// eslint.config.js — asserted for SURF paths by
-// tests/lint/surf/rules-of-hooks.test.ts against the conditional-hook
-// fixture; the toLocale* ban is enforced repo-wide by
-// tests/lint/surf/locale-guard.test.ts (config-level form is contract-owned).
-const w2 = {};
+// 'auraglass/<rule>' configs, so react-hooks/rules-of-hooks cannot be
+// expressed here. Coverage: rules-of-hooks is 'error' over
+// '**/*.{ts,tsx,js,jsx,mjs,cjs}' in eslint.config.js — asserted for SURF paths
+// by tests/lint/surf/rules-of-hooks.test.ts against the conditional-hook
+// fixture.
+// REQ-SURF-08: the toLocale* ban (the REQ's no-restricted-properties clause)
+// ships as SURF's own rule module lint/rules/surf/no-to-locale.cjs and is
+// escalated to 'error' here over every SURF-owned path, including the seven
+// SURF component dirs (PRD-F §6). Planted-violation check:
+// src/data/__tests__/no-to-locale.lint.test.ts.
+const SURF_LOCALE_GLOBS = [
+  'src/app-shell/**',
+  'src/data/**',
+  'src/date/**',
+  'src/ai/**',
+  'src/media/**',
+  'src/backdrops/**',
+  'src/charts/**',
+  'src/three/**',
+  'src/root/surf.ts',
+  'src/compat/surf/**',
+  'src/components/tabs/**',
+  'src/components/tab-bar/**',
+  'src/components/breadcrumbs/**',
+  'src/components/pagination/**',
+  'src/components/command-palette/**',
+  'src/components/source-transition/**',
+  'src/components/timeline/**',
+  // SURF registry blocks/items only (PRD-F §6 list); PLAT/CMP items such as
+  // registry/items/code-surface are not SURF's to escalate.
+  'registry/blocks/{app-frame,ai-workspace,data-workspace,analytics-dashboard,media-viewer,support-inbox,mobile-settings,commerce-cart,commerce-checkout,pricing,audit-log,permissions-matrix}/**',
+  'registry/items/{ai-*,media-*,app-shell-workspace,backdrop-hero,comment-thread,faceted-search,presence-stack,query-builder,schema-viewer,tree-select}/**',
+  'packages/labs/src/**',
+];
+const w2 = {
+  'no-to-locale': SURF_LOCALE_GLOBS,
+};
 // --- lane W2 end ---
 
 // --- lane W3 begin ---
@@ -59,13 +88,14 @@ const SURF_OWNED = [
 // already exist under lint/rules/<owner>/. SURF-574 ships today
 // (lint/rules/surf/no-simulation.cjs). SURF-634/635 wait on the owner lanes:
 //   - 'prop-grammar'   (CMP — eslint fails plugin-wide while unshipped)
-//   - 'no-forward-ref' (CMP)
 //   - 'contract-boundary' (PLAT — covers blocks/labs public-entry-only and
 //     `three` confined to src/three/**, REQ-SURF-166/-170 + OI-01)
 // Each entry is added over SURF_OWNED in the PR that lands the rule module;
 // until then these lines must stay out or every stream's lint job breaks.
 const w5 = {
   'no-simulation': SURF_OWNED,
+  // SURF-10: ref-as-prop over all SURF-owned sources (rule ships from cmp).
+  'no-forward-ref': SURF_OWNED,
 };
 // --- lane W5 end ---
 

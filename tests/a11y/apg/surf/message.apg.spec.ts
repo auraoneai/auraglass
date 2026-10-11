@@ -6,7 +6,7 @@ test.describe('message APG (SURF-383)', () => {
   test('article semantics + actions keyboard reach', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Message');
-    if (!subject) { console.warn('Message subject not registered — pending'); return; }
+    if (!subject) throw new Error('Message subject not registered');
     await gotoStory(page, subject.id);
     await expect(page.locator('[data-ag-part="message"]').first()).toBeVisible();
     await apg.keyboard(page, [

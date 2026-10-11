@@ -6,14 +6,20 @@
 
    Usage:
      node scripts/mat/count-glass-recipes.mjs [--root <dir>]
-         [--ratchet <baseline.json>] [--strict] [--json]
-   Always prints `independent-glass-recipes: N` and writes
+         [--ratchet <baseline.json>] [--strict] [--update [--baseline <baseline.json>]]
+         [--out <recipes.json>]
+   Always prints `independent-glass-recipes: N` and writes the summary to --out
+   (CI: .artifacts/mat/$CI_JOB_NAME_SLUG/recipes.json), else
    $AURAGLASS_EVIDENCE_DIR/mat/count-glass-recipes/recipes.json (default .artifacts).
    --ratchet fails on N > baseline.N or any noRegression file emitting;
-   --strict fails on N > 1 (post-5.0.0-beta.1 mode). */
+   --strict fails on N > 1 (post-5.0.0-beta.1 mode);
+   --update re-records the baseline (default <root>/scripts/mat/glass-recipes-baseline.json)
+   from this measurement, keeping its noRegression list. The baseline is never hand-edited. */
 import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
-import { join, relative, resolve } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { emitsBackdropFilter } from './optics-patterns.mjs';
+import { isMain as isMainModule } from './_is-main.mjs';
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => {
@@ -23,6 +29,9 @@ const opt = (name, fallback) => {
 const ROOT = resolve(opt('--root', '.'));
 const RATCHET = opt('--ratchet', null);
 const STRICT = args.includes('--strict');
+const UPDATE = args.includes('--update');
+const OUT = opt('--out', null);
+const BASELINE = opt('--baseline', null);
 const SCAN_EXT = /\.(css|ts|tsx|js|jsx|mjs|cjs)$/;
 
 const isExcluded = (rel) =>
@@ -59,20 +68,47 @@ export function count(root) {
   return { n, inside, outside };
 }
 
-const isMain = process.argv[1] && resolve(process.argv[1]) === resolve(new URL(import.meta.url).pathname);
+const isMain = isMainModule(import.meta.url);
 
 if (isMain) {
+  if (UPDATE && (RATCHET || STRICT)) {
+    console.error('[count-glass-recipes] --update records a baseline; it cannot be combined with --ratchet/--strict');
+    process.exit(2);
+  }
   const { n, inside, outside } = count(ROOT);
   console.log(`independent-glass-recipes: ${n}`);
   for (const f of inside) console.log(`  inside  ${f}`);
   for (const f of outside) console.log(`  outside ${f}`);
 
-  const evidenceDir = process.env.AURAGLASS_EVIDENCE_DIR ?? join(ROOT, '.artifacts');
-  const outDir = join(evidenceDir, 'mat', 'count-glass-recipes');
-  mkdirSync(outDir, { recursive: true });
-  writeFileSync(join(outDir, 'recipes.json'), JSON.stringify({
+  const outFile = OUT
+    ? resolve(OUT)
+    : join(process.env.AURAGLASS_EVIDENCE_DIR ?? join(ROOT, '.artifacts'), 'mat', 'count-glass-recipes', 'recipes.json');
+  mkdirSync(dirname(outFile), { recursive: true });
+  writeFileSync(outFile, JSON.stringify({
     'independent-glass-recipes': n, inside, outside,
   }, null, 1));
+
+  if (UPDATE) {
+    const baselineFile = resolve(BASELINE ?? join(ROOT, 'scripts/mat/glass-recipes-baseline.json'));
+    const prev = existsSync(baselineFile) ? JSON.parse(readFileSync(baselineFile, 'utf8')) : {};
+    let recordedAt = null;
+    try {
+      recordedAt = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    } catch {
+      recordedAt = null; // not a git checkout (fixture roots): the measurement still records
+    }
+    const next = {
+      N: n,
+      noRegression: prev.noRegression ?? [],
+      inside,
+      outside,
+      recordedAt,
+      recordedBy: 'node scripts/mat/count-glass-recipes.mjs --update',
+    };
+    writeFileSync(baselineFile, `${JSON.stringify(next, null, 2)}\n`);
+    console.log(`[count-glass-recipes] baseline recorded: N=${n} -> ${relative(process.cwd(), baselineFile) || baselineFile}`);
+    process.exit(0);
+  }
 
   let failed = false;
   if (RATCHET) {
