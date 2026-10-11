@@ -33,10 +33,10 @@ describe('AI icons (REQ-CMP-30)', () => {
     expect(svg.querySelector('path')!.getAttribute('stroke')).toBe('none');
   });
 
-  it('AiIcon keeps data-ag-part=icon + data-ag-icon=name', () => {
+  it('AiIcon keeps data-ag-part=icon + data-icon=name', () => {
     const { container } = render(<AiIcon name="stop" />);
     const svg = container.querySelector('svg')!;
     expect(svg.getAttribute('data-ag-part')).toBe('icon');
-    expect(svg.getAttribute('data-ag-icon')).toBe('stop');
+    expect(svg.getAttribute('data-icon')).toBe('stop');
   });
 });

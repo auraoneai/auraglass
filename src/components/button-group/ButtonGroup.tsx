@@ -4,7 +4,7 @@ import { cn } from '../../internal';
 /** @tier Certified. Server-safe: no hooks, no 'use client'.
    REQ-CMP-39: flat — no SurfaceGroup wrapper; data-orientation (Base-UI
    convention, matches radio-group/slider/separator); joined styling via the
-   ag-button-group--attached class instead of data-ag-attached. */
+   ag-button-group--attached class instead of data-attached. */
 type Labeled =
   | { 'aria-label': string; 'aria-labelledby'?: never }
   | { 'aria-label'?: never; 'aria-labelledby': string };

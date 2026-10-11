@@ -173,7 +173,7 @@ describe('Dialog (CMP-209..216, 220)', () => {
       expect(el).toBeTruthy();
       expect(el.hasAttribute('data-ag-surface')).toBe(false);
     }
-    expect(document.querySelector('[data-ag-part="body"]')!.getAttribute('data-ag-padding')).toBe('none');
+    expect(document.querySelector('[data-ag-part="body"]')!.getAttribute('data-padding')).toBe('none');
   });
 
   it('palette shell: placement=top + initialFocus reaches the input', async () => {
@@ -190,7 +190,7 @@ describe('Dialog (CMP-209..216, 220)', () => {
     );
     await act(async () => {});
     const popup = openPopup()!;
-    expect(popup.getAttribute('data-ag-placement')).toBe('top');
+    expect(popup.getAttribute('data-placement')).toBe('top');
     await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
     expect(document.activeElement).toBe(inputRef.current ?? openPopup());
   });

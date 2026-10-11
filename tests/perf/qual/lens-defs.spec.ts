@@ -25,7 +25,7 @@ async function lensProbe(page: Page) {
   return page.evaluate(probeLens);
 }
 
-test.describe.configure({ mode: 'serial' });
+// Independent tests (default mode): one failure never hides the others' evidence.
 
 test('10 enhanced surfaces: exactly one svg[data-ag-lens-defs], 0 url() backdrops on Gecko/WebKit', async ({ page, browserName }) => {
   await page.addInitScript(agInstrument);
@@ -33,7 +33,7 @@ test('10 enhanced surfaces: exactly one svg[data-ag-lens-defs], 0 url() backdrop
   await showStory(page, FIXTURE.lens.enhanced10);
   const probe = await lensProbe(page);
   expect(probe.refractionSurfaces).toBe(10);
-  const registered = await page.locator('[data-ag-fixture="lens-enhanced-10"]').getAttribute('data-ag-lens-registered');
+  const registered = await page.locator('[data-fixture="lens-enhanced-10"]').getAttribute('data-lens-registered');
   if (registered !== 'true') {
     pendingOrFail('src/material/lens/LensDefs is not registered with the provider mount registry (registerProviderMount(\'lensDefs\')), '
       + 'so AuraGlassProvider tier="enhanced" mounts no svg[data-ag-lens-defs]', 'FIN-D (MAT-183 / A11Y-029 LensDefs mount)');
