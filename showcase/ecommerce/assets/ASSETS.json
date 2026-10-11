@@ -1,0 +1,36 @@
+{
+  "licence": "CC0-1.0",
+  "source": "Original artwork drawn from deterministic SVG by scripts/qual/showcase/generate-assets.mjs (no third-party imagery).",
+  "files": [
+    {
+      "file": "atlas-chair.avif",
+      "width": 960,
+      "height": 960,
+      "format": "avif"
+    },
+    {
+      "file": "atlas-chair-side.avif",
+      "width": 960,
+      "height": 960,
+      "format": "avif"
+    },
+    {
+      "file": "nimbus-lamp.avif",
+      "width": 960,
+      "height": 960,
+      "format": "avif"
+    },
+    {
+      "file": "vega-mug.avif",
+      "width": 960,
+      "height": 960,
+      "format": "avif"
+    },
+    {
+      "file": "orbit-tote.avif",
+      "width": 960,
+      "height": 960,
+      "format": "avif"
+    }
+  ]
+}

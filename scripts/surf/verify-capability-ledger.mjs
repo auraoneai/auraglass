@@ -184,9 +184,11 @@ function checkRejectedNames(ledger, rejectedNames) {
 
 /* ---------- REQ-SURF-183 --diff gate ---------- */
 function diffGate(baseSha) {
-  let changed;
+  let changed, added;
   try {
     changed = execSync(`git diff --name-only ${baseSha}...HEAD`, { cwd: ROOT, encoding: 'utf8' })
+      .split('\n').filter(Boolean);
+    added = execSync(`git diff --name-only --diff-filter=A ${baseSha}...HEAD`, { cwd: ROOT, encoding: 'utf8' })
       .split('\n').filter(Boolean);
   } catch (e) {
     fail(`diff: cannot diff ${baseSha}...HEAD: ${e.message.split('\n')[0]}`);
@@ -200,7 +202,8 @@ function diffGate(baseSha) {
     return m ? m[1] : null;
   };
   const kebab = (s) => String(s).replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-  const newIds = [...new Set(changed.map(idOf).filter(Boolean))];
+  // Only entries this diff adds; edits to an existing entry need no new row.
+  const newIds = [...new Set(added.map(idOf).filter(Boolean))];
   if (newIds.length) {
     let namesInChangedRows = new Set();
     if (ledgerChanged) {
