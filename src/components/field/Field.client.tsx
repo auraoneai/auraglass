@@ -14,7 +14,7 @@ function FieldRoot({ invalid, disabled, name, validate, validationMode, validati
   return (
     <Base.Root
       data-ag-part="root"
-      className={className}
+      className={className ? `ag-field ${className}` : 'ag-field'}
       invalid={invalid}
       disabled={disabled}
       name={name}
