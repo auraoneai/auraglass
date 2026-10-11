@@ -35,11 +35,19 @@ describe('resizePanels', () => {
     expect(out[2]).toBe(25);
   });
 
-  it('collapse snap below half min', () => {
+  it('collapsePanel moves the panel to collapsedSize', () => {
     const cons = [{ collapsible: true, min: 20, collapsedSize: 0 }, C(), C()];
     const out = collapsePanel([30, 40, 30], cons, 0);
     expect(out[0]).toBe(0);
     expect(out[1]).toBe(70);
+  });
+
+  it('SURF-45: a drag below min/2 snaps collapsed, between min/2 and min clamps to min', () => {
+    const cons: PanelConstraint[] = [{ collapsible: true, min: 20 }, {}];
+    expect(resizePanels([30, 70], cons, 0, -21)).toEqual([0, 100]);
+    expect(resizePanels([30, 70], cons, 0, -12)).toEqual([20, 80]);
+    // a non-collapsible panel never goes below its min
+    expect(resizePanels([30, 70], [{ min: 20 }, {}], 0, -21)).toEqual([20, 80]);
   });
 
   it('expand restores expandedSize from the same neighbour', () => {

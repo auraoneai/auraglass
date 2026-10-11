@@ -102,12 +102,54 @@ describe('app-shell.css structure (SURF-011)', () => {
   });
 
   it('has exactly three @container ag-app-shell conditions', () => {
-    const queries = atrules.filter((a) => a.name === 'container').map((a) => a.params);
+    const queries = atrules
+      .filter((a) => a.name === 'container' && a.params.startsWith('ag-app-shell '))
+      .map((a) => a.params);
     expect(queries).toEqual([
       'ag-app-shell (width < 600px)',
       'ag-app-shell (600px <= width < 1024px)',
       'ag-app-shell (width >= 1440px)',
     ]);
+  });
+
+  it('declares only known named containers in @container queries', () => {
+    const names = atrules
+      .filter((a) => a.name === 'container')
+      .map((a) => a.params.split(/\s+/)[0]);
+    expect([...new Set(names)].sort()).toEqual(['ag-app-shell', 'ag-inspector']);
+  });
+
+  it('SURF-37: inspector field grid stacks under @container ag-inspector (width < 280px)', () => {
+    const inspector = rules.find((r) => r.selector === '.ag-inspector' && r.ancestors.length === 1);
+    expect(inspector?.declarations.get('container')).toBe('ag-inspector / inline-size');
+    const field = rules.find((r) => r.selector === '.ag-inspector__field' && r.ancestors.length === 1);
+    expect(field?.declarations.get('display')).toBe('grid');
+    expect(field?.declarations.get('grid-template-columns')).toBe('minmax(6rem, 40%) minmax(0, 1fr)');
+    const stacked = rules.filter(
+      (r) => r.selector === '.ag-inspector__field' && r.ancestors.includes('@container ag-inspector (width < 280px)'),
+    );
+    expect(stacked).toHaveLength(1);
+    expect(stacked[0]!.declarations.get('grid-template-columns')).toBe('1fr');
+  });
+
+  it('SURF-43/45: handle owns touch-action:none and a ::before hit area (12px fine / 24px coarse outset)', () => {
+    const handle = rules.find((r) => r.selector === '.ag-panels__handle' && r.ancestors.length === 1);
+    expect(handle?.declarations.get('touch-action')).toBe('none');
+    expect(handle?.declarations.get('position')).toBe('relative');
+    // touch-action is never set on the panels or the group root
+    for (const r of rules) {
+      if (r.declarations.has('touch-action')) expect(r.selector).toBe('.ag-panels__handle');
+    }
+    const fine = rules.find((r) => r.selector === '.ag-panels__handle::before' && r.ancestors.length === 1);
+    expect(fine?.declarations.get('content')).toBe("''");
+    expect(fine?.declarations.get('inset')).toBe('calc(var(--ag-space-3, 12px) * -1)');
+    const coarse = rules.find(
+      (r) => r.selector === '.ag-panels__handle::before' && r.ancestors.includes('@media (pointer: coarse)'),
+    );
+    // 1px line + 2 x 24px outset = 49px >= 44px coarse target
+    expect(coarse?.declarations.get('inset')).toBe('calc(var(--ag-space-6, 24px) * -1)');
+    const focus = rules.find((r) => r.selector === '.ag-panels__handle:focus-visible');
+    expect(focus?.declarations.get('outline')).toContain('var(--_ag-focus-color)');
   });
 
   it('uses the four-row named-area grid with a scroll-owning main and dvh sizing', () => {
