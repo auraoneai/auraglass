@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root','item','separator'],
   states: [],
   variants: {},
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1.5,
   migration: [],
 });
