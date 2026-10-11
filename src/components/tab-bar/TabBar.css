@@ -66,7 +66,7 @@
     [data-minimize-on-scroll] .ag-tab-bar__item-label {
       animation: ag-tabbar-min linear both;
       animation-timeline: scroll(nearest block);
-      animation-range: 0 10rem;
+      animation-range: 0 var(--_ag-tab-bar-minimize-range, 10rem);
     }
   }
   [data-ag-motion='calm'] [data-minimize-on-scroll] .ag-tab-bar__item-label,

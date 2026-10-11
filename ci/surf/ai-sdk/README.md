@@ -1,22 +1,23 @@
-# ci/surf/ai-sdk — interim AI SDK harness (SURF-281, REQ-SURF-106)
+# ci/surf/ai-sdk — interim AI SDK harness (being retired, REQ-SURF-106)
 
-Everything SDK-importing lives here until `contract/ai-sdk-devdeps` merges —
-the repo's `package.json` stays free of `ai`/`@ai-sdk/*` (AC-SURF-02). The
-`surf:test:ai-sdk` CI job installs the exact pins in `package-pins.json` into
-`.artifacts/surf/ai-sdk/` (`npm install --prefix --no-save`) and runs `tsc` +
-Jest from this directory.
+The SDK pins now live in the root `package.json` devDependencies
+(`ai@5.0.29`, `@ai-sdk/react@2.0.29`, `@ai-sdk/openai-compatible@1.0.29`), so
+SDK-typed code no longer needs a scratch install. This directory is being
+emptied in three steps (REQ-FIN-85 / REQ-FIN-88 / REQ-FIN-90):
 
-Contents:
-- `package-pins.json` — the pinned SDK versions (also the contract PR body).
-- `ai-sdk-compat.test-d.ts` — `UIMessage[]` → `AgMessage[]` assignability +
-  `ChatStatus` mirror, checked against the pins.
-- `ai-sdk-adapter/useAuraChat.ts` — `useChat` → `{ threadProps, composerProps,
-  status }` adapter for `./ai` (final home: `registry/items/ai-sdk-adapter`).
-- `ai-workspace/app/api/chat/route.ts` — the ai-workspace chat route:
-  `streamText` + `createOpenAICompatible({ name: 'kiro-prism', baseURL:
-  'https://prism.auraone.ai/v1', apiKey: PRISM_API_KEY })`. Model from
-  `PRISM_MODEL` or the first `/v1/models` entry at request time. 32 KB body
-  cap (413), per-IP 20 req/min bucket (429 + `Retry-After`), 503
-  `{ kind: 'auth' }` without the key. The bucket is **per-instance** — a
-  horizontally scaled deployment must replace it with shared storage; no CI
-  job holds a Prism key (OI-14) and tests use a mocked Prism only.
+- Done (REQ-SURF-106, `next-fin/f-ai-sdk`): the `UIMessage` → `AgMessage`
+  compat test moved to `tests/types/surf/ai-sdk-compat.test-d.ts` (plain
+  type-level asserts, no `tsd`, checked by the root `tsc -p tsconfig.json`);
+  the duplicate `ai-sdk-adapter/` was deleted — `registry/items/ai-sdk-adapter`
+  is canonical and its test moved there; `scripts/surf/gen-ai-fixtures.mjs`
+  typechecks the fixture corpus against the pinned `ai` types.
+- Pending (REQ-SURF-172, `next-fin/f-ai-route`): `ai-workspace/app/api/chat/route.ts`
+  and `ai-workspace-route.test.ts` move to `registry/blocks/ai-workspace/`.
+- Pending (REQ-SURF-195, `next-fin/f-ci-fragment`): `surf:test:ai-sdk` is
+  repointed at the root config and `tests/types/surf`, after which
+  `package.json`, `package-pins.json`, `tsconfig.json`, `jest.config.mjs` and
+  this README are deleted.
+
+Until then `surf:test:ai-sdk` still installs `package.json` into
+`.artifacts/surf/ai-sdk/` and runs `tsc` + Jest over what remains here (the
+route and its mocked-Prism test).

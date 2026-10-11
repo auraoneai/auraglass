@@ -51,6 +51,7 @@
   @container (max-width: 480px) {
     .ag-timeline[data-orientation='horizontal'] { grid-auto-flow: row; }
   }
+
   .ag-activity-feed { display: grid; gap: var(--ag-space-4, 1rem); }
   .ag-activity__heading {
     font-size: var(--_ag-text-sm, 0.875rem);
