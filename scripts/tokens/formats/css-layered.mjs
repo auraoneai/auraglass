@@ -19,9 +19,29 @@ export async function emitTokensCss(cells, axisDefs, records, resolved) {
     axisBlocks.get(key).push(`    ${cssVar}: ${decl};`);
   };
 
+  // MAT-06 (REQ-MAT-06): density-scaled space reads the public --ag-density, and
+  // every [data-ag-density=…] block redeclares --ag-density plus each scaled
+  // --ag-space-* so a nested density wrapper (not only <html>) rescales spacing.
+  // Custom properties inherit their computed value, so a :root-only calc() would
+  // stay at the :root density inside a nested block.
+  const densityScaled = [];              // [cssVar, calc(<px> * var(--ag-density))]
+  const readouts = new Map();            // private axis var -> public readout var (e.g. --_ag-density -> --ag-density)
+  for (const cell of cells) {
+    if (!cell.cssVar || cell.axis) continue;
+    const m = typeof cell.value === 'string' ? cell.value.match(/^var\((--_ag-[a-z0-9-]+)\)$/) : null;
+    if (m && cell.cssVar.startsWith('--ag-')) readouts.set(m[1], cell.cssVar);
+  }
+  const densityVar = readouts.get('--_ag-density');
+  if (!densityVar) die('density: no public readout token for --_ag-density (sys.density.readout)');
+
   for (const cell of cells) {
     if (!cell.cssVar) continue;
-    const css = renderValue(cell);
+    let css = renderValue(cell);
+    if (cell.renderType === 'dimension' && cell.ext?.['ag.calc'] === 'density') {
+      if (cell.axis) die(`${cell.name}: density-scaled dimension cannot also be an axis cell`);
+      css = `calc(${dim(cell.value)} * var(${densityVar}))`;
+      densityScaled.push([cell.cssVar, css]);
+    }
     const extra = [];
     if (cell.renderType === 'motion-spring') {
       extra.push(`${cell.cssVar}-duration: ${compileSpring(cell.value, cell.name).durationMs}ms;`);
@@ -38,6 +58,27 @@ export async function emitTokensCss(cells, axisDefs, records, resolved) {
     const def = axisDefs[cell.axis];
     if (cell.axisValue === def?.default) { base.push(`    ${cell.cssVar}: ${css};`, ...extra.map((e) => `    ${e}`)); }
     else pushAxis(cell.axis, cell.axisValue, cell.cssVar, css);
+  }
+
+  // MAT-06: density factor cells per axis value, re-emitted as the public readout
+  // and followed by the scaled spaces in that block.
+  const densityDef = axisDefs.density;
+  if (!densityDef) die('density: axis definition missing (tokens/modes/density.tokens.json)');
+  const densityFactor = new Map();       // axisValue -> rendered factor
+  for (const cell of cells) {
+    if (cell.cssVar !== '--_ag-density') continue;
+    densityFactor.set(cell.axis === 'density' ? cell.axisValue : densityDef.default, renderValue(cell));
+  }
+  for (const value of densityDef.values)
+    if (!densityFactor.has(value)) die(`density: --_ag-density has no cell for '${value}'`);
+  const densityDecls = (value) => [
+    `    ${densityVar}: ${densityFactor.get(value)};`,
+    ...densityScaled.map(([v, css]) => `    ${v}: ${css};`),
+  ];
+  for (const value of densityDef.values) {
+    if (value === densityDef.default) continue;
+    if (!axisBlocks.has(`density=${value}`)) axisBlocks.set(`density=${value}`, []);
+    axisBlocks.get(`density=${value}`).push(...densityDecls(value));
   }
 
   // shadcn bridge (MAT-070, deviation D-B): bidirectional. Default direction
@@ -104,7 +145,13 @@ export async function emitTokensCss(cells, axisDefs, records, resolved) {
     const def = axisDefs[axis];
     if (!def) continue;
     for (const axisValue of def.values) {
-      if (axisValue === def.default) continue;
+      if (axisValue === def.default) {
+        // MAT-06: a nested [data-ag-density="regular"] inside a compact/spacious
+        // subtree must reset the factor and the scaled spaces back to regular.
+        if (axis === 'density')
+          parts.push('', `  [data-ag-density="${axisValue}"] {`, `    --_ag-density: ${densityFactor.get(axisValue)};`, ...densityDecls(axisValue), '  }');
+        continue;
+      }
       const decls = [...(axisBlocks.get(`${axis}=${axisValue}`) ?? [])];
       if (axis === 'scheme') decls.unshift(`    color-scheme: ${axisValue};`);
       if (!decls.length) continue;
