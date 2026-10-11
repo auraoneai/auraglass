@@ -180,3 +180,101 @@ describe('cert-mode stylesheet (REQ-FIN-05 transfer, REQ-QUAL-09)', () => {
     expect(sheets).toContain("import.meta.glob('../../dist/styles.css')");
   });
 });
+
+/* REQ-QUAL-57 (FIN-452): no 5.0 file imports the deprecated Storybook test packages; Storybook-side interaction
+   flows are Playwright specs (tests/e2e/qual/storybook), never Vitest. REQ-QUAL-56: main.ts wiring. */
+const BANNED_TEST_IMPORT = /(?:from\s+|import\s*\(\s*|require\s*\(\s*|^\s*import\s+)['"]@storybook\/(?:jest|testing-library|test)(?:\/[^'"]*)?['"]/m;
+const SCAN_ROOTS = ['src', 'stories', 'registry', 'showcase', 'certification', '.storybook', 'tests', 'packages', 'scripts', 'fragments', 'lint', 'apps', 'canaries'];
+const SCAN_SKIP = new Set(['node_modules', 'dist', 'storybook-static', '.next', 'out', '.git', 'coverage']);
+const SCAN_FILE = /\.(?:[cm]?[jt]sx?|mdx)$/;
+const SELF = __filename;
+function scanTestImports(roots: string[]): string[] {
+  const visit = (dir: string): string[] => {
+    if (!existsSync(dir)) return [];
+    return readdirSync(dir, { withFileTypes: true }).flatMap((d) => {
+      const p = join(dir, d.name);
+      if (d.isDirectory()) return SCAN_SKIP.has(d.name) ? [] : visit(p);
+      return d.isFile() && SCAN_FILE.test(d.name) && p !== SELF && BANNED_TEST_IMPORT.test(readFileSync(p, 'utf8')) ? [p] : [];
+    });
+  };
+  return roots.flatMap(visit);
+}
+
+describe('test tooling (REQ-QUAL-57)', () => {
+  it('no 5.0 file imports @storybook/jest, @storybook/testing-library or @storybook/test', () => {
+    expect(scanTestImports(SCAN_ROOTS.map((r) => join(ROOT, r))).map((f) => relative(ROOT, f))).toEqual([]);
+  });
+
+  it('the import scan fails on a planted @storybook/test import (and the other two packages)', () => {
+    const { mkdtempSync, writeFileSync, rmSync } = jest.requireActual<typeof import('node:fs')>('node:fs');
+    const { tmpdir } = jest.requireActual<typeof import('node:os')>('node:os');
+    const dir = mkdtempSync(join(tmpdir(), 'ag-sb-import-'));
+    try {
+      const pkg = (name: string) => ['@storybook', name].join('/');
+      writeFileSync(join(dir, 'Planted.stories.tsx'), `import { expect, userEvent } from '${pkg('test')}';\nexport default {};\n`);
+      writeFileSync(join(dir, 'b.ts'), `const j = await import("${pkg('jest')}");\n`);
+      writeFileSync(join(dir, 'c.mdx'), `import { within } from '${pkg('testing-library')}/dom';\n`);
+      writeFileSync(join(dir, 'ok.ts'), `import { a } from 'storybook/test';\nimport x from '${pkg('react-vite')}';\n`);
+      expect(scanTestImports([dir]).map((f) => relative(dir, f)).sort()).toEqual(['Planted.stories.tsx', 'b.ts', 'c.mdx']);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it('package.json carries none of the deprecated test packages, no Vitest addon, no vitest.storybook.config.ts', () => {
+    const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')) as Record<string, Record<string, string> | undefined>;
+    const deps = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies, ...pkg.peerDependencies, ...pkg.optionalDependencies });
+    expect(deps.filter((d) => /^@storybook\/(?:jest|testing-library|test|addon-vitest)$/.test(d) || d === 'vitest')).toEqual([]);
+    expect(existsSync(join(ROOT, 'vitest.storybook.config.ts'))).toBe(false);
+  });
+
+  it('ships at least one Playwright flow spec per S1 showcase plus the Lab round-trip, all on the determinism fixture', () => {
+    const dir = join(ROOT, 'tests', 'e2e', 'qual', 'storybook');
+    const specs = readdirSync(dir).filter((f) => f.endsWith('.spec.ts'));
+    const s1 = ['ai-command-center', 'financial-dashboard', 'ops-console', 'media-workspace', 'collaborative-workspace', 'mobile-productivity'];
+    for (const id of s1) {
+      const text = readFileSync(join(dir, `s1-${id}.spec.ts`), 'utf8');
+      expect(text).toContain(`'showcases-${id}--full-page'`);
+    }
+    expect(specs.filter((f) => f.startsWith('s1-')).length).toBeGreaterThanOrEqual(6);
+    expect(specs).toContain('lab-controls.spec.ts');
+    for (const f of specs) {
+      const text = readFileSync(join(dir, f), 'utf8');
+      expect(text).toMatch(/from '\.\/_storybook'/);
+      expect(text).not.toMatch(/@playwright\/test'|\.(?:only|skip|fixme)\(/);
+    }
+    expect(readFileSync(join(dir, '_storybook.ts'), 'utf8')).toContain("from '../../../../certification/lanes/_fixtures/determinism'");
+  });
+});
+
+describe('main.ts (REQ-QUAL-56/-57)', () => {
+  const loadMain = () => jest.requireActual<{ default: import('@storybook/react-vite').StorybookConfig }>('../../.storybook/main').default;
+
+  it('registers @storybook/addon-a11y next to addon-docs', () => {
+    expect(loadMain().addons).toEqual(['@storybook/addon-docs', '@storybook/addon-a11y']);
+  });
+
+  it('keeps the stories globs verbatim (the build checker walks the same table)', () => {
+    const { STORY_GLOBS } = jest.requireActual<{ STORY_GLOBS: string[] }>('../../scripts/storybook/lib/storybook-build.mjs');
+    expect(loadMain().stories).toEqual(STORY_GLOBS);
+    expect(loadMain().staticDirs).toEqual([{ from: '../certification/scenes', to: '/scenes' }]);
+  });
+
+  it('viteFinal: AG_STORYBOOK_DIST=1 installs the exports→dist resolver first and refuses src/@ aliases', async () => {
+    const main = loadMain();
+    const viteFinal = main.viteFinal as (c: Record<string, unknown>, o: { configDir: string }) => Promise<Record<string, unknown>> | Record<string, unknown>;
+    const prev = process.env.AG_STORYBOOK_DIST;
+    try {
+      process.env.AG_STORYBOOK_DIST = '1';
+      const out = await viteFinal({ plugins: [] }, { configDir: SB });
+      expect((out.plugins as Array<{ name: string }>)[0]!.name).toBe('aura-glass:resolve');
+      expect(out.define).toEqual({ __AG_STORYBOOK_DIST__: 'true' });
+      expect(() => viteFinal({ resolve: { alias: { '@': join(ROOT, 'src') } } }, { configDir: SB })).toThrow(/AG_STORYBOOK_DIST=1/);
+      delete process.env.AG_STORYBOOK_DIST;
+      const dev = await viteFinal({ plugins: [] }, { configDir: SB });
+      expect(dev.define).toEqual({ __AG_STORYBOOK_DIST__: 'false' });
+    } finally {
+      if (prev === undefined) delete process.env.AG_STORYBOOK_DIST; else process.env.AG_STORYBOOK_DIST = prev;
+    }
+  });
+});
