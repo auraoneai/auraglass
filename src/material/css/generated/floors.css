@@ -183,9 +183,6 @@
     [data-ag-thickness="thick"][data-ag-backdrop="media"] {
     --_ag-tint-floor: 0.71;
   }
-}
-
-@layer ag.a11y {
   [data-ag-variant="regular"][data-ag-thickness="thin"] {
     --_ag-floor-alpha: 0.6;
   }
@@ -232,7 +229,10 @@
   /* Opaque fallback: forced-colors flattens the glass (blur contributes nothing);
      transparency=solid raises fills to the authored floors via --_ag-tint-floor above. */
   @media (forced-colors: active) {
-    [data-ag-variant] {
+    [data-ag-variant]:is(
+      [data-ag-surface][data-ag-variant][data-ag-thickness][data-ag-tier][data-ag-state],
+      *
+    ) {
       --ag-glass-opacity: 1;
       --_ag-mat-blur: 0px;
       --_ag-scrim-clear: 0.35;
@@ -243,7 +243,10 @@
   @supports not (
     (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
   ) {
-    [data-ag-variant] {
+    [data-ag-variant]:is(
+      [data-ag-surface][data-ag-variant][data-ag-thickness][data-ag-tier][data-ag-state],
+      *
+    ) {
       --_ag-alpha: 0.98;
     }
   }
