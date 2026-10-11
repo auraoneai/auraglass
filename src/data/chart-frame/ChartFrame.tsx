@@ -2,8 +2,10 @@
    chart adapter. The root is a SERVER module (REQ-SURF-07): <figure> +
    <figcaption> render in the RSC payload; legend toggles, the measured
    plot context and the table toggle live in ChartFrame.Interactive (the
-   client island). render-prop children are invoked inside the island so
-   they never cross the RSC boundary. */
+   client island). render-prop children are invoked inside the island, so
+   they are only valid when ChartFrame is rendered from a client component:
+   a Server Component parent must pass ReactNode children, because functions
+   cannot be serialized across the RSC boundary. */
 import * as React from 'react';
 import { ChartFrameInteractive } from './ChartFrame.Interactive';
 import type { ChartContext, ChartSeries } from './types';
