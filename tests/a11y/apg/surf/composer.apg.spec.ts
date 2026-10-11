@@ -6,7 +6,7 @@ test.describe('composer APG (SURF-384)', () => {
   test('input labelled, Enter submits, Escape stops when streaming', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Composer');
-    if (!subject) { console.warn('Composer subject not registered — pending'); return; }
+    if (!subject) throw new Error('Composer subject not registered');
     await gotoStory(page, subject.id);
     const input = page.locator('[data-ag-part="input"], textarea').first();
     await expect(input).toBeVisible();

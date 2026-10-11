@@ -1,10 +1,10 @@
-/* @ag-contract-seed: S-21..S-26. Owner MAT. Frozen public surface of aura-glass/theme (§4.7).
+/* Frozen public surface of aura-glass/theme (§4.7; S-21..S-26 delivered).
    usePortalContainer/useLayer/useAnnouncer are internal (§4.7): consumed by
    CMP/SURF through src/theme/index.ts and deliberately not re-exported here. */
 export {
   AuraGlassProvider, AuraGlassScript, auraGlassPrepaintScript, GlassPreferencesPanel,
   usePreference, useResolvedPreferences, usePreferenceActions,
-  createGlassTheme, createGlassThemeCssVars, createBrandTheme, createBrandGlassTheme, presets,
+  createGlassTheme, createBrandTheme, createBrandGlassTheme, presets,
 } from './index';
 export type {
   AuraGlassProviderProps, AuraGlassScriptProps, GlassPreferencesPanelProps,

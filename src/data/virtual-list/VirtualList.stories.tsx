@@ -18,7 +18,7 @@ export const Default: Story = {
       getItemKey={(s) => s}
       renderItem={(s, i) => <div style={{ padding: 8 }}>{s} (#{i})</div>}
       estimateSize={() => 36}
-      style={{ height: 320, border: '1px solid var(--ag-border, #ccc)' }}
+      style={{ height: 320, border: '1px solid var(--_ag-border, #ccc)' }}
       aria-label="Thousand rows"
     />
   ),
@@ -83,7 +83,7 @@ const renderDefault = () => (
     getItemKey={(s) => s}
     renderItem={(s, i) => <div style={{ padding: 8 }}>{s} (#{i})</div>}
     estimateSize={() => 36}
-    style={{ height: 320, border: '1px solid var(--ag-border, #ccc)' }}
+    style={{ height: 320, border: '1px solid var(--_ag-border, #ccc)' }}
     aria-label="Thousand rows"
   />
 );

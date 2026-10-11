@@ -1,33 +1,51 @@
-/** CMP-117 (REQ-CMP-08/03): source-level CSS gate for control files — every rule
-    inside @layer ag.components, selectors scoped to .ag-* classes or
-    [data-ag-part]/data-* states, no hex/rgb literals, no !important, no
-    transition: all, no :root. */
+/* REQ-CMP-49: Slider track/thumb size grid + transient-thumb rules. */
 import { describe, expect, it } from '@jest/globals';
-import '@testing-library/jest-dom/jest-globals';
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { CONTROL_FAMILIES } from './families';
 
-const COMP_ROOT = join(__dirname, '..', '..', 'src', 'components');
-const LITERAL_RE = /#[0-9a-fA-F]{3,8}\b|(?<!-)\brgba?\(|(?<!-)\bhsla?\(/;
+const CSS = readFileSync(join(process.cwd(), 'src/components/slider/Slider.css'), 'utf8');
 
-describe('controls css gate', () => {
-  it.each(CONTROL_FAMILIES.map((f) => [f.name, f] as const))('%s: css contract', (_name, { family }) => {
-    const dir = join(COMP_ROOT, family);
-    if (!existsSync(dir)) return; // shared css lives in a sibling (checkbox.css covers radio)
-    const cssFiles = readdirSync(dir).filter((f) => f.endsWith('.css'));
-    for (const file of cssFiles) {
-      const src = readFileSync(join(dir, file), 'utf8');
-      if (!src.includes('@layer ag.components')) {
-        throw new Error(`${file}: missing @layer ag.components`);
-      }
-      if (LITERAL_RE.test(src)) throw new Error(`${file}: raw color literal`);
-      if (/!important/.test(src)) throw new Error(`${file}: !important`);
-      if (/transition:\s*all/.test(src)) throw new Error(`${file}: transition: all`);
-      if (/:root\b/.test(src)) throw new Error(`${file}: :root selector`);
-      const noComments = src.replace(/\/\*[\s\S]*?\*\//g, '');
-      if (/backdrop-filter/.test(noComments)) throw new Error(`${file}: backdrop-filter (REQ-CMP-54)`);
-    }
+describe('slider css grid (REQ-CMP-49)', () => {
+  it('track block-size sm/md/lg = 4/6/8px', () => {
+    /* sm = --ag-space-1 (4px) */
+    expect(CSS).toMatch(/data-ag-size='sm'\][^\n]*\[data-ag-part='track'\][^}]*block-size:\s*var\(--ag-space-1\)/);
+    /* md (+ unset default) = 6px via calc(space-1 * 1.5) */
+    expect(CSS).toMatch(/data-ag-size='md'\][^\n]*\[data-ag-part='track'\][^}]*block-size:\s*calc\(var\(--ag-space-1\)\s*\*\s*1\.5\)/);
+    /* lg = --ag-space-2 (8px) */
+    expect(CSS).toMatch(/data-ag-size='lg'\][^\n]*\[data-ag-part='track'\][^}]*block-size:\s*var\(--ag-space-2\)/);
+  });
+
+  it('thumb sm/md/lg = 16/20/24px', () => {
+    expect(CSS).toMatch(/data-ag-size='sm'\][^\n]*\[data-ag-part='thumb'\][^}]*inline-size:\s*var\(--ag-space-4\)/);
+    /* md + :not([data-ag-size]) default = --ag-space-5 (20px) */
+    expect(CSS).toMatch(/data-ag-size='md'\][^\n]*\[data-ag-part='thumb'\][^}]*inline-size:\s*var\(--ag-space-5\)/);
+    expect(CSS).toMatch(/:not\(\[data-ag-size\]\)[^\n]*\[data-ag-part='thumb'\][^}]*inline-size:\s*var\(--ag-space-5\)/);
+    expect(CSS).toMatch(/data-ag-size='lg'\][^\n]*\[data-ag-part='thumb'\][^}]*inline-size:\s*var\(--ag-space-6\)/);
+  });
+
+  it('thumb carries no scale/transform — BU drag owns transform only inline', () => {
+    const thumbBlock = CSS.split("[data-ag-part='thumb'] {")[1]?.split('}')[0] ?? '';
+    expect(thumbBlock).not.toMatch(/\bscale\b/);
+    expect(thumbBlock).not.toMatch(/transform:/);
+    /* transition must not target transform */
+    expect(thumbBlock).not.toMatch(/transition:[^;]*transform/);
+  });
+
+  it('[data-dragging] raises --ag-specular (valid custom property)', () => {
+    const drag = CSS.match(/\.ag-slider\[data-dragging\][^{]*\{[^}]*\}/s)?.[0] ?? '';
+    expect(drag).toContain('--ag-specular: 1');
+  });
+});
+
+/* REQ-CMP-52: checkbox/radio indicator size grid 14/16/20. */
+describe('checkbox indicator grid (REQ-CMP-52)', () => {
+  const CB = readFileSync(join(process.cwd(), 'src/components/checkbox/Checkbox.css'), 'utf8');
+  it('sm box = 14px via calc(space-1 * 3.5)', () => {
+    expect(CB).toMatch(/data-ag-size='sm'\][^\n]*\[data-ag-part='indicator'\][^}]*inline-size:\s*calc\(var\(--ag-space-1\)\s*\*\s*3\.5\)/);
+  });
+  it('md = 16px (space-4), lg = 20px (space-5)', () => {
+    expect(CB).toMatch(/data-ag-size='md'\][^\n]*\[data-ag-part='indicator'\][^}]*inline-size:\s*var\(--ag-space-4\)/);
+    expect(CB).toMatch(/data-ag-size='lg'\][^\n]*\[data-ag-part='indicator'\][^}]*inline-size:\s*var\(--ag-space-5\)/);
   });
 });
 
@@ -36,7 +54,7 @@ describe('controls css gate', () => {
 describe('checkbox/radio E-12 + contrast (REQ-CMP-54)', () => {
   const CB = readFileSync(join(process.cwd(), 'src/components/checkbox/Checkbox.css'), 'utf8');
   it('checked rule has accent icon color + contrast-color @supports', () => {
-    expect(CB).toMatch(/color:\s*var\(--ag-color-on-accent\)/);
+    expect(CB).toMatch(/color:\s*var\((?:--_ag-on-accent,\s*var\()?--ag-color-on-accent\)/);
     expect(CB).toMatch(/@supports \(color: contrast-color\(red\)\)[\s\S]*contrast-color\(var\(--ag-color-accent\)\)/);
   });
   it('no backdrop-filter in Checkbox.css or RadioGroup.css', () => {

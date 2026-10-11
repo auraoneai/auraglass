@@ -4,10 +4,35 @@
   "type": "registry:block",
   "title": "Data workspace",
   "description": "Collection sidebar (TreeView) + FilterBar + Table + StatCards + Pagination.",
-  "dependencies": ["react"],
+  "dependencies": [
+    "react"
+  ],
   "registryDependencies": [],
   "files": [
-    { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "block",
+      "client": true,
+      "components": [
+        "FilterBar",
+        "Pagination",
+        "StatCard",
+        "Table",
+        "TreeView"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null
+    }
+  }
 }

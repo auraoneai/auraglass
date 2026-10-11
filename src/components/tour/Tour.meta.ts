@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root','step','positioner','popup'],
   states: ['open','closed'],
   variants: {},
-  migration: [{ from: 'GlassCoachmarks', automation: 'partial', compat: true }, { from: 'GlassSpotlight', automation: 'partial', compat: true }],
+  material: { layer: 'overlay' },
+  apg: 'none',
+  budgetKb: 15,
+  migration: [{ from: 'GlassCoachmarks', props: {}, selectors: { '.glass-coachmarks': '.ag-tour' },  automation: 'partial', compat: true }, { from: 'GlassSpotlight', props: {}, selectors: { '.glass-spotlight': '.ag-tour' },  automation: 'partial', compat: true }],
 });
