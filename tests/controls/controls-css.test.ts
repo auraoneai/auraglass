@@ -30,3 +30,15 @@ describe('controls css gate', () => {
     }
   });
 });
+
+/* REQ-CMP-52: checkbox/radio indicator size grid 14/16/20. */
+describe('checkbox indicator grid (REQ-CMP-52)', () => {
+  const CB = readFileSync(join(process.cwd(), 'src/components/checkbox/Checkbox.css'), 'utf8');
+  it('sm box = 14px via calc(space-1 * 3.5)', () => {
+    expect(CB).toMatch(/data-ag-size='sm'\][^\n]*\[data-ag-part='indicator'\][^}]*inline-size:\s*calc\(var\(--ag-space-1\)\s*\*\s*3\.5\)/);
+  });
+  it('md = 16px (space-4), lg = 20px (space-5)', () => {
+    expect(CB).toMatch(/data-ag-size='md'\][^\n]*\[data-ag-part='indicator'\][^}]*inline-size:\s*var\(--ag-space-4\)/);
+    expect(CB).toMatch(/data-ag-size='lg'\][^\n]*\[data-ag-part='indicator'\][^}]*inline-size:\s*var\(--ag-space-5\)/);
+  });
+});
