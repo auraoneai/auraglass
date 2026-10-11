@@ -8,7 +8,8 @@ import { join } from 'node:path';
 import { ROOT } from '../../build/helpers';
 
 const RECORD = join(ROOT, 'build', 'server-safe-exports.json');
-let importClosure, manifestEntries;
+type Graph = typeof import('../../../scripts/build/lib/graph.mjs');
+let importClosure: Graph['importClosure'], manifestEntries: Graph['manifestEntries'];
 beforeAll(async () => { ({ importClosure, manifestEntries } = await import('../../../scripts/build/lib/graph.mjs')); });
 
 const hasClientHead = (f: string) => /^\s*['"]use client['"]/.test(readFileSync(f, 'utf8').slice(0, 400));

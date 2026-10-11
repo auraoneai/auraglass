@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T2',
   flagship: 43,
   rsc: 'client',
-  parts: ['control', 'media-controls', 'media-fullscreen', 'media-mute', 'media-pip', 'media-play', 'media-rate', 'media-scrubber', 'media-spacer', 'media-time', 'media-volume', 'range', 'root', 'thumb', 'track', 'value'],
+  parts: ['control', 'media-captions', 'media-controls', 'media-fullscreen', 'media-more', 'media-mute', 'media-pip', 'media-play', 'media-rate', 'media-scrubber', 'media-spacer', 'media-time', 'media-volume', 'range', 'root', 'thumb', 'track', 'value'],
   states: ['playing', 'paused', 'waiting', 'ended', 'error'],
   variants: {},
   apg: 'toolbar',
