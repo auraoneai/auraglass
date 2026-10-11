@@ -1,0 +1,10 @@
+@property --_ag-channel-fixture { syntax: '<number>'; inherits: true; initial-value: 0; }
+.ag-surface {
+  opacity: var(--_ag-gen-live);
+  --_ag-self-fixture: var(--_ag-self-fixture, 1px);
+  --_ag-chain-a: 1px;
+  --_ag-chain-b: calc(var(--_ag-chain-a) * 2);
+  --_ag-channel-fixture: 0;
+  --_ag-via-public: 4px;
+  --ag-public-fixture: var(--_ag-via-public);
+}

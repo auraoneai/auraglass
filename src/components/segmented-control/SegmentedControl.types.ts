@@ -7,13 +7,23 @@ export interface SegmentedControlRootProps extends MaterialBearingProps {
   defaultValue?: string | undefined;
   onValueChange?: ((value: string, details: ChangeDetails) => void) | undefined;
   size?: 'sm' | 'md' | 'lg' | undefined;
+  /** Layout orientation (default 'horizontal'); roving focus follows it. */
+  orientation?: 'horizontal' | 'vertical' | undefined;
   /** Required accessible name. */
   'aria-label': string;
-  name?: string | undefined;
+  /** Required form name (REQ-CMP-41). */
+  name: string;
   disabled?: boolean | undefined;
   className?: string | undefined;
   children?: React.ReactNode;
   ref?: React.Ref<HTMLDivElement> | undefined;
+}
+
+export interface SegmentedControlIndicatorProps {
+  /** Custom indicator content; supplying an Indicator suppresses the auto-rendered one (REQ-CMP-41). */
+  children?: React.ReactNode;
+  className?: string | undefined;
+  ref?: React.Ref<HTMLSpanElement> | undefined;
 }
 
 export interface SegmentedControlItemProps {
