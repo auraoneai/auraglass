@@ -5,6 +5,7 @@
    synchronously. Focus moves to the destination's first focusable. */
 
 import * as React from 'react';
+import { flushSync } from 'react-dom';
 import { startMorph } from '../../motion';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
@@ -32,20 +33,11 @@ function SourceTransitionRoot({ onTransition, children, render, ...rest }: Sourc
         console.warn(`[auraglass] SourceTransition: duplicate active transition "${id}".`);
       }
       activeIds.current.add(id);
-      setState({ active: id });
-      onTransition?.(id);
-      void startMorph(() => {
+      flushSync(() => setState({ active: id }));
+      void SourceTransitionStart(id, () => {
         setState({ active: null });
         activeIds.current.delete(id);
-        const dest = document.querySelector<HTMLElement>(`[data-ag-src-dest="${sanitize(id)}"]`);
-        const focusable =
-          dest?.querySelector<HTMLElement>(
-            'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
-          ) ?? dest;
-        if (focusable) {
-          if (focusable.tabIndex < 0) focusable.tabIndex = -1;
-          focusable.focus();
-        }
+        onTransition?.(id);
       });
     },
     [onTransition],
@@ -107,18 +99,51 @@ function Destination({ id, children, render, style, ...rest }: TransitionDestina
 }
 Destination.displayName = 'SourceTransition.Destination';
 
-/** Imperative entry point — one call per Root transition. */
+/** Imperative entry point — one call per Root transition.
+    SURF-064/065: flushSync the `ag-src-<id>` name onto the source, then
+    startMorph over surfaces [source, dest]: inside the update the name
+    leaves the source, update() runs, and the name lands on the destination
+    (source->destination migration). Focus moves only when the source
+    contained document.activeElement at begin time. */
+export function SourceTransitionStart(id: string, update: () => void): Promise<void> {
+  const sid = sanitize(id);
+  const name = `ag-src-${sid}`;
+  const source = document.querySelector<HTMLElement>(`[data-ag-src="${sid}"]`);
+  const dest = document.querySelector<HTMLElement>(`[data-ag-src-dest="${sid}"]`);
+  const hadFocus = source ? source.contains(document.activeElement) : false;
+  if (source) {
+    flushSync(() => {
+      source.style.viewTransitionName = name;
+    });
+  }
+  return startMorph(
+    () =>
+      flushSync(() => {
+        if (source) source.style.viewTransitionName = '';
+        update();
+        if (dest) dest.style.viewTransitionName = name;
+        if (hadFocus && dest) {
+          const focusable =
+            dest.querySelector<HTMLElement>(
+              'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
+            ) ?? dest;
+          if (focusable) {
+            if (focusable.tabIndex < 0) focusable.tabIndex = -1;
+            focusable.focus();
+          }
+        }
+      }),
+    { surfaces: [source, dest].filter((e): e is HTMLElement => e !== null), name },
+  );
+}
+
 export function startSourceTransition(root: HTMLElement, id: string, update: () => void): void {
-  const dest = root.querySelector(`[data-ag-src-dest="${sanitize(id)}"]`);
-  void startMorph(() => {
-    update();
-    dest?.setAttribute('data-ag-transitioned', '');
-  });
+  void SourceTransitionStart(id, update);
 }
 
 export const SourceTransition = {
   Root: SourceTransitionRoot,
   Source,
   Destination,
-  start: startSourceTransition,
+  start: SourceTransitionStart,
 };
