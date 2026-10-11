@@ -9,4 +9,4 @@ const search: IconNode[] = [
 ];
 
 export const SearchIcon = /*#__PURE__*/ createIcon('Search', search);
-export const CommandIcon = /*#__PURE__*/ SearchIcon;
+export const CommandIcon = SearchIcon;

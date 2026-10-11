@@ -12,6 +12,7 @@
    Exit 1 on any hit. */
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
+import { isMain as isMainModule } from './_is-main.mjs';
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => {
@@ -101,7 +102,7 @@ export function scan(root) {
   return hits;
 }
 
-const isMain = process.argv[1] && resolve(process.argv[1]) === resolve(new URL(import.meta.url).pathname);
+const isMain = isMainModule(import.meta.url);
 
 if (isMain) {
   const hits = scan(ROOT);
