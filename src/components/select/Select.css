@@ -20,7 +20,7 @@
     cursor: default;
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 6%), transparent);
     box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
-    transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
   }
   .ag-select[data-ag-size='sm'] {
     min-block-size: var(--_ag-control-h-sm, var(--ag-space-8));
@@ -80,6 +80,7 @@
   }
   .ag-select-popup[data-ending-style] {
     transition-duration: var(--ag-duration-small-exit);
+    transition-timing-function: var(--ag-ease-accelerate);
   }
   .ag-select-popup[data-open],
   .ag-select-popup[data-instant] {
