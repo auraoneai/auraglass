@@ -68,6 +68,20 @@ describe('plat:test:visual-4x', () => {
     expect(yaml.stringify(j.script)).toContain('.artifacts/plat/visual-4x/visual-class.json');
     expect(yaml.stringify(j.rules)).toContain('$AG_LINE == "4x"');
   });
+  it('runs the consumer-4x vite fixture as a plain, fail-closed step (REQ-PLAT-63)', () => {
+    const lines = (j.script as string[]).filter((l) => l.includes('AG_CONSUMER_4X'));
+    expect(lines).toEqual(['AG_CONSUMER_4X=1 node scripts/ci/run-vite-integration.js --skip-build']);
+    // runs after the visual suite, inside the same evidence-producing job
+    const idx = (j.script as string[]).indexOf(lines[0]);
+    expect(idx).toBeGreaterThan(
+      (j.script as string[]).findIndex((l) => l.includes('test:visual:app-chrome')),
+    );
+  });
+  it('keeps allow_failure: true only while visual-4x has no activation row', () => {
+    const rows = JSON.parse(readFileSync('ci/plat/activation.json', 'utf8')).activations as any[];
+    const activated = rows.some((r) => r.job === 'plat:test:visual-4x' && r.line === '4x');
+    expect(j.allow_failure).toBe(!activated);
+  });
 });
 
 describe('plat:package:pack', () => {
