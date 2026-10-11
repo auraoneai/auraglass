@@ -828,7 +828,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 2
     }
    ],
    "value": "0px"

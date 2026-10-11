@@ -22,27 +22,10 @@
     font-variant-numeric: tabular-nums;
     border-radius: var(--_ag-radius-1, 0.25rem);
   }
+  /* REQ-SURF-193: no outline reset — every focusable date part carries
+     data-ag-focusable, so the MAT ring (src/a11y/css/focus.css) paints on
+     :focus-visible; [data-focused] keeps the segment highlight. */
   .ag-date-field__segment[data-focused] { background: var(--_ag-accent-soft, Highlight); }
-  /* REQ-SURF-193: the MAT focus ring (src/a11y/css/focus.css values) on every
-     keyboard-focusable date part, keyed on :focus-visible and on the RAC
-     focus attributes. Unavailable (aria-disabled) calendar cells stay
-     focusable and get the same ring. */
-  .ag-date-field__segment:focus-visible,
-  .ag-date-field__segment[data-focused],
-  .ag-date-picker__trigger:focus-visible,
-  .ag-date-picker__trigger[data-focus-visible],
-  .ag-calendar__nav:focus-visible,
-  .ag-calendar__nav[data-focus-visible],
-  .ag-calendar__cell:focus-visible,
-  .ag-calendar__cell[data-focus-visible],
-  .ag-date-range-picker__preset:focus-visible,
-  .ag-date-range-picker__preset[data-focus-visible],
-  .ag-time-picker__option:focus-visible,
-  .ag-time-picker__option[data-focus-visible] {
-    outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus-outer, var(--ag-color-focus-outer, Highlight));
-    outline-offset: var(--_ag-focus-offset, var(--_ag-focus-width, 2px));
-    box-shadow: 0 0 0 var(--_ag-focus-width, 2px) var(--_ag-focus-inner, var(--ag-color-focus-inner, transparent));
-  }
   .ag-date-picker__trigger {
     min-block-size: var(--_ag-touch-target, 44px);
     padding-inline: var(--ag-space-2, 0.5rem);
