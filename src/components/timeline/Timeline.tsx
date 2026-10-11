@@ -1,7 +1,11 @@
 /* Timeline (SURF-186, REQ-SURF-96): server component, <ol> of <li> with
-   <time dateTime>; relative/absolute time formats; horizontal falls back to
-   vertical below 480px via container query. */
+   <time dateTime>; relative/absolute time formats; intent shown by the icon
+   AND a visually-hidden text label (the marker itself is aria-hidden).
+   Horizontal falls back to vertical below 480px: the wrapper is the size
+   container the @container query in timeline.css reads. */
 import * as React from 'react';
+
+export type TimelineIntent = 'neutral' | 'info' | 'success' | 'warning' | 'danger';
 
 export interface TimelineItem {
   id: string;
@@ -9,8 +13,13 @@ export interface TimelineItem {
   title: React.ReactNode;
   description?: React.ReactNode;
   icon?: React.ReactNode;
-  intent?: 'neutral' | 'info' | 'success' | 'warning' | 'danger' | undefined;
+  intent?: TimelineIntent | undefined;
   meta?: React.ReactNode;
+}
+
+export interface TimelineLabels {
+  /** Text read for each intent. Neutral reads nothing by default. */
+  intent?: Partial<Record<TimelineIntent, string>> | undefined;
 }
 
 export interface TimelineProps {
@@ -20,15 +29,28 @@ export interface TimelineProps {
   /** Required when timeFormat='relative' on the server (else dev error). */
   now?: Date | number | undefined;
   locale?: string | undefined;
+  /** IANA zone for absolute and option formats. Default 'UTC', so server
+      and client render the same text whatever their host zone is. */
+  timeZone?: string | undefined;
+  labels?: TimelineLabels | undefined;
   'aria-label'?: string | undefined;
   className?: string | undefined;
 }
+
+export const DEFAULT_INTENT_LABELS: Record<TimelineIntent, string> = {
+  neutral: '',
+  info: 'Info',
+  success: 'Success',
+  warning: 'Warning',
+  danger: 'Error',
+};
 
 export function formatTimestamp(
   ts: Date | string,
   timeFormat: 'relative' | 'absolute' | Intl.DateTimeFormatOptions,
   locale: string,
   now?: Date | number,
+  timeZone = 'UTC',
 ): { dateTime: string; text: string } {
   const d = typeof ts === 'string' ? new Date(ts) : ts;
   const dateTime = d.toISOString();
@@ -49,7 +71,7 @@ export function formatTimestamp(
     return { dateTime, text: rtf.format(Math.round(diff / 86400), 'day') };
   }
   const opts = timeFormat === 'absolute' ? { dateStyle: 'medium', timeStyle: 'short' } as Intl.DateTimeFormatOptions : timeFormat;
-  return { dateTime, text: new Intl.DateTimeFormat(locale, { timeZone: 'UTC', ...opts }).format(d) };
+  return { dateTime, text: new Intl.DateTimeFormat(locale, { timeZone, ...opts }).format(d) };
 }
 
 export function Timeline({
@@ -58,51 +80,63 @@ export function Timeline({
   timeFormat = 'absolute',
   now,
   locale = 'en-US',
+  timeZone = 'UTC',
+  labels,
   'aria-label': ariaLabel,
   className,
 }: TimelineProps) {
+  const intentLabels = { ...DEFAULT_INTENT_LABELS, ...labels?.intent };
   return (
-    <ol
-      data-ag-part="timeline"
-      data-ag-orientation={orientation}
-      className={`ag-timeline${className ? ` ${className}` : ''}`}
-      aria-label={ariaLabel}
-    >
-      {items.map((item) => {
-        const t = formatTimestamp(item.timestamp, timeFormat, locale, now);
-        return (
-          <li
-            key={item.id}
-            data-ag-part="timeline-item"
-            data-ag-intent={item.intent ?? 'neutral'}
-            className="ag-timeline__item"
-          >
-            <span aria-hidden="true" className="ag-timeline__marker" data-ag-part="timeline-marker">
-              {item.icon}
-            </span>
-            <div className="ag-timeline__content">
-              <div className="ag-timeline__row">
-                <span data-ag-part="timeline-title" className="ag-timeline__title">
-                  {item.title}
-                </span>
-                <time data-ag-part="timeline-time" dateTime={t.dateTime} className="ag-timeline__time">
-                  {t.text}
-                </time>
-              </div>
-              {item.description !== undefined && item.description !== null ? (
-                <p data-ag-part="timeline-description" className="ag-timeline__description">
-                  {item.description}
-                </p>
-              ) : null}
-              {item.meta !== undefined && item.meta !== null ? (
-                <div data-ag-part="timeline-meta" className="ag-timeline__meta">
-                  {item.meta}
+    <div className="ag-timeline__container">
+      <ol
+        data-ag-part="timeline"
+        data-ag-orientation={orientation}
+        className={`ag-timeline${className ? ` ${className}` : ''}`}
+        aria-label={ariaLabel}
+      >
+        {items.map((item) => {
+          const t = formatTimestamp(item.timestamp, timeFormat, locale, now, timeZone);
+          const intent = item.intent ?? 'neutral';
+          const intentText = intentLabels[intent];
+          return (
+            <li
+              key={item.id}
+              data-ag-part="timeline-item"
+              data-ag-intent={intent}
+              className="ag-timeline__item"
+            >
+              <span aria-hidden="true" className="ag-timeline__marker" data-ag-part="timeline-marker">
+                {item.icon}
+              </span>
+              <div className="ag-timeline__content">
+                <div className="ag-timeline__row">
+                  <span data-ag-part="timeline-title" className="ag-timeline__title">
+                    {intentText ? <span className="ag-visually-hidden">{`${intentText}: `}</span> : null}
+                    {item.title}
+                  </span>
+                  <time data-ag-part="timeline-time" dateTime={t.dateTime} className="ag-timeline__time">
+                    {t.text}
+                  </time>
                 </div>
-              ) : null}
-            </div>
-          </li>
-        );
-      })}
-    </ol>
+                {item.description !== undefined && item.description !== null ? (
+                  <p data-ag-part="timeline-description" className="ag-timeline__description">
+                    {item.description}
+                  </p>
+                ) : null}
+                {item.meta !== undefined && item.meta !== null ? (
+                  <div data-ag-part="timeline-meta" className="ag-timeline__meta">
+                    {item.meta}
+                  </div>
+                ) : null}
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
   );
 }
+
+/* Contract namespace (REQ-SURF-01): the formatter ships on the component,
+   keeping the root surf slice at its nine flagship names. */
+Timeline.formatTimestamp = formatTimestamp;

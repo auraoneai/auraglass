@@ -3,11 +3,38 @@
   "name": "app-frame",
   "type": "registry:block",
   "title": "App frame",
-  "description": "The GA application frame — AppShell with sidebar navigation, top bar, status bar and a docked inspector.",
-  "dependencies": ["react"],
+  "description": "The GA application frame \u2014 AppShell with sidebar navigation, top bar, status bar and a docked inspector.",
+  "dependencies": [
+    "react"
+  ],
   "registryDependencies": [],
   "files": [
-    { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "block",
+      "client": false,
+      "components": [
+        "AppShell",
+        "AppShellInspectorToggle",
+        "AppShellSidebarToggle",
+        "Inspector",
+        "Sidebar",
+        "StatusBar",
+        "TopBar"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null
+    }
+  }
 }

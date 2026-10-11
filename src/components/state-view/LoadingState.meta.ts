@@ -9,5 +9,8 @@ export const LoadingStateMeta = defineMeta({
   parts: ['root', 'icon', 'description', 'status'],
   states: [],
   variants: {},
-  migration: [{ from: 'GlassLoadingState', automation: 'full', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1.5,
+  migration: [{ from: 'GlassLoadingState', props: {}, selectors: { '.glass-loading-state': '.ag-loading-state' },  automation: 'full', compat: true }],
 });
