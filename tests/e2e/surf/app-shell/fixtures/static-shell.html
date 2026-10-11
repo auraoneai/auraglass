@@ -2,7 +2,7 @@
 <!-- SURF-012: static app-shell fixture. Loads only dist tokens/core CSS and
      dist/css/app-shell.css — no Tailwind, no JS. The 900px wrapper inside the
      1920px Playwright viewport proves layout follows the CONTAINER, not the
-     viewport (REQ-SURF-16). data-ag-safe-area overrides emulate a notched
+     viewport (REQ-SURF-16). data-safe-area overrides emulate a notched
      device via env() fallback variables set by the spec harness. -->
 <html lang="en">
   <head>
@@ -40,7 +40,7 @@
         data-ag-sidebar-side="start"
         data-ag-density="regular"
         data-ag-backdrop="none"
-        data-ag-persist-key=""
+        data-persist-key=""
       >
         <a data-ag-slot="skip" href="#main">Skip to content</a>
         <aside data-ag-slot="sidebar" id="sidebar">

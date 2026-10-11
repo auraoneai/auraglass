@@ -6,7 +6,7 @@ test.describe('citation APG (SURF-386)', () => {
   test('focus opens preview; Escape restores focus', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'SourceList' || s.id.includes('citation'));
-    if (!subject) { console.warn('SourceList subject not registered — pending'); return; }
+    if (!subject) throw new Error('SourceList subject not registered');
     await gotoStory(page, subject.id);
     await apg.keyboard(page, [
       { press: 'Tab' },

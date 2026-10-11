@@ -6,8 +6,11 @@ export const EmptyStateMeta = defineMeta({
   entry: '.',
   tier: 'T2',
   rsc: 'server',
-  parts: ['root', 'icon', 'title', 'description', 'actions', 'action'],
+  parts: ['root', 'icon', 'title', 'description', 'actions'],
   states: [],
   variants: {},
-  migration: [{ from: 'GlassEmptyState', automation: 'full', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1500 / 1024,
+  migration: [{ from: 'GlassEmptyState', props: {}, selectors: { '.glass-empty-state': '.ag-empty-state' },  automation: 'full', compat: true }],
 });

@@ -1,6 +1,78 @@
 {
  "$schema": "./ownership.schema.json",
  "version": 1,
+ "branchRules": [
+  {
+   "prefix": "next-<s>/",
+   "line": "5x",
+   "rule": "stream",
+   "note": "files resolve to owner <S> on the 5x rows"
+  },
+  {
+   "prefix": "4x-<s>/",
+   "line": "4x",
+   "rule": "4x-zone",
+   "note": "PLAT owns every path except other streams fragments/{deprecations,codemods}/<s>* and ci/<s>*, plus the row-H material bridge (MAT only)"
+  },
+  {
+   "prefix": "4x11-<s>/",
+   "line": "4x",
+   "rule": "4x-zone",
+   "note": "C-17 / OD-13: release/4.1.x is line 4x; same zone rule as 4x-<s>/"
+  },
+  {
+   "prefix": "next-fin/<wp>-",
+   "line": "5x",
+   "rule": "fin-wp",
+   "note": "REQ-FIN-30: wp a..h resolves through scripts/ci/fin-ownership.json (PRD-F section 6); next-fin/<s>- uses the FIN WP of <s>"
+  },
+  {
+   "prefix": "next-fin/4x-<s>-",
+   "line": "4x",
+   "rule": "4x-zone",
+   "note": "REQ-FIN-30"
+  },
+  {
+   "prefix": "4x-fin/",
+   "line": "4x",
+   "rule": "4x-zone",
+   "note": "REQ-FIN-30: stream from the optional <wp>-/<s>- segment (d=mat, e=cmp, f=surf, g=qual, else plat)"
+  },
+  {
+   "prefix": "4x11-fin/",
+   "line": "4x",
+   "rule": "4x-zone",
+   "note": "REQ-FIN-30, C-17"
+  },
+  {
+   "prefix": "contract/",
+   "line": "5x",
+   "rule": "any-owned",
+   "note": "any path whose owner is not NONE"
+  },
+  {
+   "prefix": "sync/fragments-deprecations-",
+   "line": "5x",
+   "rule": "sync",
+   "note": "fragments/deprecations/** and src/internal/deprecations.generated.ts only"
+  },
+  {
+   "prefix": "sync/fragments-codemods-",
+   "line": "4x",
+   "rule": "sync",
+   "note": "fragments/codemods/** only"
+  },
+  {
+   "prefix": "main|next|release/4.x|release/4.1.x",
+   "rule": "report-only",
+   "note": "warn, exit 0"
+  },
+  {
+   "prefix": "*",
+   "rule": "fail-closed",
+   "note": "any other branch"
+  }
+ ],
  "rows": [
   {
    "id": "A01",
