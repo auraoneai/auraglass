@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Progress, ProgressRing } from '../../../src/components/progress';
+import { Progress } from '../../../src/components/progress';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
@@ -29,7 +29,7 @@ export const Indeterminate: Story = {
 export const Ring: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Progress', id: 'core-progress--ring' } },
   render: () => (
-    <ProgressRing value={70} showValue label="Ring" />
+    <Progress appearance="ring" value={70} showValue label="Ring" />
   ),
 };
 

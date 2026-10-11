@@ -7,13 +7,12 @@ export default defineMeta({
   tier: 'T1',
   flagship: 14,
   rsc: 'client',
-  parts: ['date-range-picker', 'field-label', 'field-input', 'field-segment', 'picker-trigger', 'popover', 'calendar', 'preset'],
+  parts: ['date-range-picker', 'date-input-start', 'date-input-end', 'date-range-picker-trigger', 'date-range-picker-popover', 'date-range-presets', 'range-calendar'],
   states: ['open', 'invalid', 'disabled'],
   variants: { visibleMonths: ['1', '2'] },
-  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/',
+  apg: 'date',
   budgetKb: 8,
   migration: [
-    { from: 'GlassDateRangePicker', props: {}, automation: 'mostly', compat: true },
+    { from: 'GlassDateRangePicker', props: {}, selectors: { '.glass-date-range-picker': '[data-ag-part="date-range-picker"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-date-range-picker', to: '[data-ag-part="date-range-picker"]' }],
 });

@@ -5,7 +5,8 @@ import type { ChangeDetails } from '../../../contracts/components';
 /** Kinds recognised by the overlay layer stack + material thickness table. */
 export type OverlayKind =
   | 'dialog' | 'alert-dialog' | 'sheet'
-  | 'popover' | 'menu' | 'tooltip' | 'toast';
+  | 'popover' | 'menu' | 'tooltip' | 'toast'
+  | 'select' | 'combobox';
 
 /** The five reasons callers see (contract §10.1); anything else collapses to 'imperative'. */
 export type OverlayOpenReason =
