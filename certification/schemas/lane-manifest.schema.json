@@ -64,6 +64,7 @@
     "thresholdsSha256": { "type": ["string", "null"] },
     "scenesSha256": { "type": ["string", "null"] },
     "inventorySha256": { "type": ["string", "null"] },
+    "baselinesSha256": { "type": ["string", "null"] },
     "durationMs": { "type": "integer" },
     "captureRate": { "type": ["number", "null"] }
   }

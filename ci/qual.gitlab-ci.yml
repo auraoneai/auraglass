@@ -150,6 +150,9 @@ qual:certify:l12:
     - node certification/run.mjs --lane L12 --scope $AG_SCOPE
 
 # ---------------------------------------------------------------- whole-matrix scopes
+# qual:certify:release (REQ-QUAL-63, G-16) writes .artifacts/qual/release-verdict.json (S-55 ReleaseVerdict), the
+# rendered checklist .artifacts/qual/release-checklist.md and, only when the evidence is complete,
+# .artifacts/qual/claims.json (REQ-QUAL-62); .ag-evidence-release keeps all of .artifacts/ for 90 days.
 qual:certify:nightly:
   extends: .qual-browser-lane
   allow_failure: true
@@ -271,18 +274,40 @@ qual:certify:baseline-refresh:
     expire_in: 14 days
     paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
 
-# Human visual review record (REQ-QUAL-73 tooling, G-16): renders composites + rubric for the reviewer; the record
-# itself is human-produced (certification/review/records/**), never written by this job.
+# Human visual review record (REQ-QUAL-73 / REQ-FIN-111 tooling, G-16). Builds the review composites from the L6/L7
+# captures (review-inputs.json) and validates the reviewer's records in certification/review/records/ against
+# certification/schemas/review-record.schema.json, the RC SHA and those composites (pass = every criterion >= 3).
+# It never writes a record: records are the design reviewer's (FIN-H). Manual on the RC tag pipeline, and on the
+# reviewer's records PR (next-fin/h-review-records-<rc>) with AG_RC_SHA set to the RC SHA the records score.
+# Both steps always run; the job fails if either fails (no fail-open).
 qual:certify:review-record:
   extends: [.ag-node, .ag-evidence-release]
   stage: certify
+  needs:
+    - { job: "qual:certify:l6", artifacts: true, optional: true }
+    - { job: "qual:certify:l7", artifacts: true, optional: true }
+    - { job: "qual:certify:release", artifacts: true, optional: true }
   rules:
     - if: $AG_SCOPE == "release" && $AG_LINE == "5x"
       when: manual
       allow_failure: true
+    - if: $AG_SCOPE == "pr" && $AG_LINE == "5x" && $CI_COMMIT_REF_NAME =~ /^next-fin\/h-review-records-/
+      when: manual
+      allow_failure: true
   script:
-    - 'test -f scripts/qual/review-record.mjs || { echo "PENDING: scripts/qual/review-record.mjs (G-16, REQ-QUAL-73) not merged"; exit 1; }'
-    - node scripts/qual/review-record.mjs
+    - |
+      rc=0
+      out=".artifacts/qual/$CI_JOB_NAME_SLUG"
+      inputs=$(find .artifacts -name review-inputs.json -print -quit)
+      if [ -n "$inputs" ]; then
+        node --experimental-strip-types scripts/qual/review-record.mjs composites --inputs "$inputs" --out "$out/composites" || rc=1
+      else
+        echo "review-record: no review-inputs.json from qual:certify:l6/l7 in this pipeline; composites cannot be built"; rc=1
+      fi
+      composites=""
+      if [ -f "$out/composites/index.json" ]; then composites="--composites $out/composites"; fi
+      node --experimental-strip-types scripts/qual/review-record.mjs validate --sha "${AG_RC_SHA:-$CI_COMMIT_SHA}" $composites --out "$out/review-record.json" || rc=1
+      exit $rc
 
 # 4.1 known failures (REQ-QUAL-32, G-15): v4.1.0 Storybook through L6/L7/L8, nightly.
 qual:certify:known-failures:

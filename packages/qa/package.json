@@ -10,6 +10,8 @@
     "./inventory": "./src/inventory/buildInventory.ts",
     "./pixel": "./src/pixel/duplicates.ts",
     "./evidence/committed": "./src/evidence/committedEvidence.ts",
+    "./evidence/verify": "./src/evidence/verify.ts",
+    "./evidence/verdict": "./src/evidence/verdict.ts",
     "./package.json": "./package.json"
   },
   "license": "MIT"

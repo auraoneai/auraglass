@@ -27,6 +27,10 @@ export const BUILTINS: BuiltinRegistration[] = [
   { lane: 'L1', kind: 'node-script', path: 'certification/gates/exemptions.mjs', scope: 'pr', remote: false, failClosed: true },
   // REQ-QUAL-44 CSS perf gate (G-23): QUAL-owned paths and dist/ enforced, other streams report-only until RC-1.
   { lane: 'L1', kind: 'node-script', path: 'scripts/qual/verify-css-perf.mjs', scope: 'pr', remote: false, failClosed: true },
+  // REQ-QUAL-63 GA items G-03 / G-06 (contract §6.2): the conformance suite tests/contract/** (QUAL, G-02) runs on the
+  // release SHA inside the release run, so the ReleaseVerdict reads its result from this run's lane manifest
+  // (contract:conformance runs the same files on every pipeline; this row binds them to the verdict).
+  { lane: 'L1', kind: 'jest', path: 'tests/contract/**/*.test.ts*', scope: 'release', remote: false, failClosed: true },
   // ---- L12 Unit and coverage floors (REQ-QUAL-30): every test by location (jest.config.js verbatim) with
   // --coverageThreshold from certification/ratchets.json, and the floors-only-increase ratchet.
   { lane: 'L12', kind: 'jest', path: 'jest.config.js', coverage: true, scope: 'pr', remote: false, failClosed: true },

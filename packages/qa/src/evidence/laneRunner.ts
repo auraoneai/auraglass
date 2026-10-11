@@ -25,6 +25,8 @@ import { loadFragments } from '../../../../src/contracts/load-fragments.mjs';
 import type { LaneRegistration } from '../../../../src/contracts/fragments.ts';
 import { buildCoveragePlan, evaluateCoverage, flagshipDirs, readRatchets, seedDirs, type GroupResult } from './coverageThreshold.ts';
 import { loadOwnerOf } from './ownership.ts';
+import { runReleaseVerdict } from './verdict.ts';
+import { baselinesSha256 } from './verify.ts';
 
 export const LANE_IDS = ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11', 'L12'] as const;
 export const SCOPES = ['pr', 'main', 'nightly', 'release'] as const;
@@ -92,6 +94,8 @@ export function parseArgs(argv: readonly string[]): Args {
   if (out.lane !== 'all' && !(LANE_IDS as readonly string[]).includes(out.lane ?? '')) throw new Error(`--lane must be one of ${LANE_IDS.join('|')}|all (got ${out.lane})`);
   if (!(SCOPES as readonly string[]).includes(out.scope ?? '')) throw new Error(`--scope must be one of ${SCOPES.join('|')} (got ${out.scope})`);
   if (!['4x', '5x'].includes(out.line)) throw new Error(`--line must be 4x|5x (got ${out.line})`);
+  // REQ-QUAL-63: the verdict reads every lane at release scope, so it is only produced by `--lane all --scope release`.
+  if (out.verdict !== null && (out.lane !== 'all' || out.scope !== 'release' || !out.verdict)) throw new Error('--verdict <path> requires --lane all --scope release');
   return out as Args;
 }
 
@@ -572,6 +576,8 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
     thresholdsSha256: sha256(join(root, 'certification/thresholds.json')),
     scenesSha256: sha256(join(root, 'certification/scenes/scenes.manifest.json')),
     inventorySha256: sha256(join(root, 'storybook-static/cert-manifest.json')),
+    // REQ-QUAL-61: binds the run to the L7 baselines it compared against (recomputed by the evidence verifier).
+    baselinesSha256: baselinesSha256(root),
     durationMs: Date.now() - t0, captureRate: capture?.captureRate ?? null,
     ...(capture ? { tarballSha256: capture.plan.tarball?.sha256 ?? null, storybookIndexSha256: capture.plan.storybookIndexSha256 ?? null, captures: capture.captures } : {}),
     summary: Object.fromEntries(['pass', 'fail', 'pending', 'pre-existing', 'double-pass'].map((s) => [s, results.filter((r) => r.state === s).length])),
@@ -582,12 +588,27 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
   writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
   console.log(`\nlane-manifest: ${manifestPath.slice(root.length + 1)}  ${JSON.stringify(manifest.summary)}`);
   if (errors.length) { console.error(`run.mjs: lane manifest invalid:\n${errors.join('\n')}`); return { code: EXIT.fail, manifestPath, manifest }; }
-  if (args.verdict) {
-    // The release verdict (REQ-QUAL-32/S-55) is G-16's; without it a release run cannot pass.
-    console.error('run.mjs: --verdict is produced by the release-verdict work item (G-16); no verdict written, failing closed.');
-    return { code: EXIT.fail, manifestPath, manifest };
-  }
   const blocking = results.filter((r) => r.state === 'fail');
+  if (args.verdict) {
+    // REQ-QUAL-63 (G-16): ReleaseVerdict S-55 + rendered checklist + claims (REQ-QUAL-62) from this run's evidence.
+    const sha = manifest.sha as string | null;
+    if (!sha) { console.error('run.mjs: --verdict needs the commit SHA (CI_COMMIT_SHA or git HEAD); no verdict written.'); return { code: EXIT.fail, manifestPath, manifest }; }
+    let out: ReturnType<typeof runReleaseVerdict>;
+    try {
+      out = runReleaseVerdict({ root, evidenceRoot: join(root, env.AURAGLASS_EVIDENCE_DIR || '.artifacts'), sha, tag: env.CI_COMMIT_TAG ?? '', line: args.line,
+        results, verdictPath: resolve(root, args.verdict) });
+    } catch (e) {
+      console.error(`run.mjs: release verdict failed: ${(e as Error).stack ?? (e as Error).message}`);
+      return { code: EXIT.fail, manifestPath, manifest };
+    }
+    const { verdict, verification, claims } = out;
+    console.log(`\nrelease-verdict: ${args.verdict}  phase=${verdict.phase} ga=${verdict.ga}${verdict.advisory ? ' (advisory)' : ''}`);
+    for (const i of verdict.items) console.log(`  ${i.id} ${i.status}${i.status === 'pass' ? '' : ` — ${i.reason}`}`);
+    if (!verification.ok) console.error(`run.mjs: evidence verifier: ${verification.problems.length} problem(s):\n${verification.problems.map((p) => `  ${p.code}: ${p.message}`).join('\n')}`);
+    if (claims.code !== 0) console.error(`run.mjs: claims.json not written (${claims.reasons.length} reason(s)):\n${claims.reasons.map((r) => `  ${r}`).join('\n')}`);
+    // Pre-release and 4.x verdicts are advisory (contract §4.13.7); a GA tag fails unless ga is true.
+    if (!verdict.advisory && !verdict.ga) { console.error(`run.mjs: GA tag ${verdict.tag} has open items; failing.`); return { code: EXIT.fail, manifestPath, manifest }; }
+  }
   if (blocking.length) {
     console.error(`run.mjs: ${blocking.length} blocking failure(s):\n${blocking.map((r) => `  [${r.lane}] ${r.stream} ${r.path}: ${r.reason}`).join('\n')}`);
     return { code: EXIT.fail, manifestPath, manifest };

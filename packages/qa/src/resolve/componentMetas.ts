@@ -13,6 +13,9 @@ export interface MetaRecord {
   entry: string;
   tier: ComponentMeta['tier'];
   flagship?: number;
+  /** `ComponentMeta.states` when it is a static string array; null when the meta computes it (REQ-QUAL-73 review
+      items are per subject-state, so a non-static list is reported, never guessed). */
+  states?: string[] | null;
   file: string;
 }
 
@@ -62,6 +65,11 @@ export function readMetaSource(file: string, text: string): MetaRecord[] {
     if (typeof tier !== 'string' || !TIERS.has(tier)) throw new Error(`invalid-meta: ${file}: ${name}.tier '${String(tier)}'`);
     const rec: MetaRecord = { name, owner: owner as MetaRecord['owner'], entry, tier: tier as MetaRecord['tier'], file };
     if (typeof flagship === 'number') rec.flagship = flagship;
+    if (objectProperty(obj, 'states')) {
+      let states: unknown;
+      try { states = field('states'); } catch { states = null; }
+      rec.states = Array.isArray(states) && states.every((s) => typeof s === 'string') ? (states as string[]) : null;
+    }
     return rec;
   });
 }
