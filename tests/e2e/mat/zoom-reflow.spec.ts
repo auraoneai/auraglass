@@ -1,7 +1,7 @@
 /* MAT-312 (REQ-A11Y-31/32): zoom + reflow — at 200% (640x400, dsf 2) no text is
    clipped or overlapped (range rects vs clipping ancestor and siblings); at
    400% (320x256 / 320x640, dsf 4) scrollWidth <= clientWidth except
-   [data-ag-reflow-exempt] (Table, CodeSurface, ImageViewer only), overlays fit
+   [data-reflow-exempt] (Table, CodeSurface, ImageViewer only), overlays fit
    the viewport, sticky chrome sums <=50% viewport height. Never style.zoom. */
 import { test, expect } from '@playwright/test';
 
@@ -46,12 +46,12 @@ async function reflowIssues(page: import('@playwright/test').Page): Promise<Refl
     document.querySelectorAll<HTMLElement>('*').forEach((el) => {
       if (el.scrollWidth > el.clientWidth + 1 && el.scrollWidth > 0 && el.clientWidth > 0) {
         const part = el.getAttribute('data-ag-part') ?? '';
-        const ex = el.hasAttribute('data-ag-reflow-exempt') && exempt.includes(part);
+        const ex = el.hasAttribute('data-reflow-exempt') && exempt.includes(part);
         if (!ex && el !== document.documentElement && el !== document.body) {
           out.push({ kind: 'x-overflow', detail: `${el.tagName}[data-ag-part=${part}] sw=${el.scrollWidth} cw=${el.clientWidth}` });
         }
       }
-      if (el.hasAttribute('data-ag-reflow-exempt') && !exempt.includes(el.getAttribute('data-ag-part') ?? '')) {
+      if (el.hasAttribute('data-reflow-exempt') && !exempt.includes(el.getAttribute('data-ag-part') ?? '')) {
         out.push({ kind: 'unauthorised-exempt', detail: el.getAttribute('data-ag-part') ?? el.tagName });
       }
     });

@@ -5,6 +5,7 @@
  * requires aria-controls, so the default children render it only when
  * `expandedId` is set. */
 import * as React from 'react';
+import { materialProps } from '../../material';
 import type { MediaHandle } from '../useMediaElement';
 import { NowPlayingBarContext, type NowPlayingContext } from './npContext';
 import { Artwork } from './parts/Artwork';
@@ -78,10 +79,12 @@ function Root(props: NowPlayingBarRootProps): React.ReactElement {
         ref={rootRef}
         className={['ag-now-playing', className].filter(Boolean).join(' ')}
         data-ag-part="now-playing"
-        data-ag-variant={variant}
+        {...materialProps({ layer: 'chrome', variant })}
         data-ag-media-root=""
         {...(variant === 'clear' ? { 'data-ag-backdrop': 'media' } : {})}
         {...(fixed ? { 'data-ag-now-playing-fixed': '' } : {})}
+        data-now-playing-container=""
+        {...(expandedId ? { 'data-expanded-id': expandedId } : {})}
         {...(expanded !== undefined ? { 'data-expanded': expanded ? '' : undefined } : {})}
       >
         {children ?? (
