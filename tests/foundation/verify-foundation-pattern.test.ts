@@ -4,10 +4,7 @@
    must pass. Relocated from tests/ci/ per contracts/ownership.json. */
 import { describe, expect, it } from '@jest/globals';
 import { execFileSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import { join } from 'node:path';
 const ROOT = join(__dirname, '..', '..');
 const SCRIPT = join(ROOT, 'scripts', 'cmp', 'verify-foundation-pattern.mjs');
 const FIX = join(__dirname, 'fixtures', 'foundation-pattern');

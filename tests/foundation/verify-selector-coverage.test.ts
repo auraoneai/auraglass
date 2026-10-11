@@ -5,10 +5,9 @@
  */
 import { describe, expect, it } from '@jest/globals';
 import { spawnSync } from 'node:child_process';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 
-const HERE = dirname(fileURLToPath(import.meta.url));
+const HERE = __dirname;
 const ROOT = join(HERE, '..', '..');
 const SCRIPT = join(ROOT, 'scripts/cmp/verify-selector-coverage.mjs');
 const FIX = join(HERE, 'fixtures/selector-coverage');
