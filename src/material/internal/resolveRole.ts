@@ -1,7 +1,6 @@
 /* MAT-134 — pure role→attribute resolution (§4.10 emission rules).
    No DOM, no React, no side effects. Not exported from index.ts. */
-import type { MaterialRole, Layer, Thickness } from '../../contracts/material';
-import type { SizeClass } from '../types';
+import type { MaterialRole, Layer, Thickness, SizeClass } from '../types';
 
 /** sizeClass -> thickness (D-07 internal mapping) */
 const SIZECLASS_TO_THICKNESS: Record<SizeClass, Thickness> = {
@@ -56,11 +55,13 @@ export function resolveRole(role: MaterialRole = {}, sizeClass?: SizeClass): Res
   }
 
   // thickness resolution: explicit prop > sizeClass map > 'regular'. The
-  // attribute is emitted only when explicit; ladder cells default to regular.
-  const thickness: Thickness = role.thickness
-    ?? (sizeClass !== undefined ? SIZECLASS_TO_THICKNESS[sizeClass] : undefined!)
-    ?? 'regular';
-  if (role.thickness !== undefined) out['data-ag-thickness'] = thickness;
+  // attribute is emitted when explicit or derived from a component size class
+  // (REQ-MAT-23, D-07); only the pure default (no thickness, no size class) is
+  // omitted, because the ladder cells default to regular.
+  const derived: Thickness | undefined = role.thickness
+    ?? (sizeClass !== undefined ? SIZECLASS_TO_THICKNESS[sizeClass] : undefined);
+  const thickness: Thickness = derived ?? 'regular';
+  if (derived !== undefined) out['data-ag-thickness'] = derived;
 
   // shape default 'fixed' is emitted only when explicit
   if (role.shape !== undefined) out['data-ag-shape'] = role.shape;

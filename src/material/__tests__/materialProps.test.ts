@@ -3,6 +3,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { materialProps } from '../materialProps';
 import { resolveRole } from '../internal/resolveRole';
+import { componentMaterialProps } from '../internal';
 import type { MaterialRole } from '../types';
 
 const LAYERS = ['chrome', 'overlay', 'transient', 'content'] as const;
@@ -73,8 +74,17 @@ describe('resolveRole size-class mapping', () => {
   it('explicit thickness wins over sizeClass', () => {
     expect(resolveRole({ thickness: 'thick' }, 'control')['data-ag-thickness']).toBe('thick');
   });
-  it('sizeClass maps control→thin bar→regular panel→regular sheet→thick (resolved)', () => {
-    // resolved thickness is internal; attr emitted only when explicit — verify via refraction map
+  it('sizeClass maps control→thin bar→regular panel→regular sheet→thick in emitted data-ag-thickness', () => {
+    expect(resolveRole({ layer: 'chrome' }, 'control')['data-ag-thickness']).toBe('thin');
+    expect(resolveRole({ layer: 'chrome' }, 'bar')['data-ag-thickness']).toBe('regular');
+    expect(resolveRole({ layer: 'chrome' }, 'panel')['data-ag-thickness']).toBe('regular');
+    expect(resolveRole({ layer: 'overlay' }, 'sheet')['data-ag-thickness']).toBe('thick');
+  });
+  it('pure default (no thickness, no size class) omits data-ag-thickness', () => {
+    expect(resolveRole({ layer: 'chrome' })).not.toHaveProperty('data-ag-thickness');
+    expect(materialProps({ layer: 'chrome' })).not.toHaveProperty('data-ag-thickness');
+  });
+  it('sizeClass keys the refraction map', () => {
     expect(resolveRole({ layer: 'chrome', refraction: true }, 'control')['data-ag-sizeclass']).toBe('control');
     expect(resolveRole({ layer: 'chrome', refraction: true }, 'bar')['data-ag-sizeclass']).toBe('bar');
     expect(resolveRole({ layer: 'chrome', refraction: true }, 'panel')['data-ag-sizeclass']).toBe('panel');
@@ -93,5 +103,36 @@ describe('resolveRole size-class mapping', () => {
   });
   it('fallbackRadius emits data-ag-radius token', () => {
     expect(resolveRole({ layer: 'chrome', fallbackRadius: 'lg' })['data-ag-radius']).toBe('lg');
+  });
+});
+
+describe('componentMaterialProps (internal size-class channel, D-07)', () => {
+  it('emits the size-class thickness: control→thin, bar→regular, panel→regular, sheet→thick', () => {
+    expect(componentMaterialProps({ layer: 'chrome', interactive: true }, 'control')['data-ag-thickness']).toBe('thin');
+    expect(componentMaterialProps({ layer: 'chrome' }, 'bar')['data-ag-thickness']).toBe('regular');
+    expect(componentMaterialProps({ layer: 'overlay' }, 'panel')['data-ag-thickness']).toBe('regular');
+    expect(componentMaterialProps({ layer: 'overlay' }, 'sheet')['data-ag-thickness']).toBe('thick');
+  });
+  it('explicit thickness wins over the size class', () => {
+    expect(componentMaterialProps({ layer: 'chrome', thickness: 'thick' }, 'control')['data-ag-thickness']).toBe('thick');
+  });
+  it('equals materialProps plus only the thickness (and refraction sizeclass) attributes', () => {
+    const role: MaterialRole = { layer: 'chrome', variant: 'clear', interactive: true };
+    expect(componentMaterialProps(role, 'control')).toEqual({ ...materialProps(role), 'data-ag-thickness': 'thin' });
+    expect(componentMaterialProps({ layer: 'chrome', refraction: true }, 'bar')).toEqual({
+      ...materialProps({ layer: 'chrome', refraction: true }), 'data-ag-thickness': 'regular', 'data-ag-sizeclass': 'bar',
+    });
+  });
+  it('emits only data-ag-* keys and no style, and never refracts a sheet', () => {
+    const out = componentMaterialProps({ layer: 'overlay', refraction: true }, 'sheet');
+    expect(Object.keys(out).every((k) => k.startsWith('data-ag-'))).toBe(true);
+    expect(out).not.toHaveProperty('style');
+    expect(out).not.toHaveProperty('data-ag-refraction');
+    expect(out).not.toHaveProperty('data-ag-sizeclass');
+  });
+  it('is not part of the public ./material entry', async () => {
+    const pub = (await import('../index')) as Record<string, unknown>;
+    expect(pub).not.toHaveProperty('componentMaterialProps');
+    expect(pub).not.toHaveProperty('resolveRole');
   });
 });

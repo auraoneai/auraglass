@@ -67,7 +67,7 @@ describe('server-safe rendering', () => {
   });
 
   it('nothing in materialProps.ts or internal/ touches window/document', () => {
-    for (const rel of ['materialProps.ts', 'internal/resolveRole.ts']) {
+    for (const rel of ['materialProps.ts', 'internal/resolveRole.ts', 'internal/index.ts']) {
       const src = readFileSync(join(SRC, rel), 'utf8')
         .replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*/g, '');
       expect(src).not.toMatch(/\bwindow\b|\bdocument\b/);
