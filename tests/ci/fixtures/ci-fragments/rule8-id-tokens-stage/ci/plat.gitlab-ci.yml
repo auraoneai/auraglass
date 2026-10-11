@@ -1,0 +1,14 @@
+.plat-base: { extends: .ag-node }
+plat:gate:glass-quality: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:integration:next: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:integration:vite: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:gate:change-class: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+# plat:publish:npm holding id_tokens outside the publish stage (rejected by rule 8).
+plat:publish:npm:
+  extends: .plat-base
+  stage: package
+  environment: { name: npm-publish, deployment_tier: production }
+  rules: [{ if: "$AG_SCOPE == \"release\"" }]
+  id_tokens:
+    NPM_ID_TOKEN: { aud: "npm:registry.npmjs.org" }
+  script: [echo publish]

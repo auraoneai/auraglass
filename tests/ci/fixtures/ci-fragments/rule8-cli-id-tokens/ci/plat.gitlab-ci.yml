@@ -1,0 +1,13 @@
+.plat-base: { extends: .ag-node }
+plat:gate:glass-quality: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:integration:next: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:integration:vite: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:gate:change-class: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+# A second publish job holding the npm OIDC token (rejected by rule 8).
+plat:publish:cli:
+  extends: .plat-base
+  stage: publish
+  rules: [{ if: "$AG_SCOPE == \"release\" && $CI_COMMIT_TAG =~ /^v4\\.3\\./", when: manual, allow_failure: false }]
+  id_tokens:
+    NPM_ID_TOKEN: { aud: "npm:registry.npmjs.org" }
+  script: [npm publish -w packages/cli --access public --provenance]
