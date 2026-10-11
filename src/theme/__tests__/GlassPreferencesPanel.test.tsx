@@ -61,7 +61,7 @@ describe('GlassPreferencesPanel', () => {
     expect(legends).toEqual(expect.arrayContaining([
       'Preferences', 'Transparency', 'Glass opacity', 'Contrast', 'Motion', 'Scheme', 'Density',
     ]));
-    expect(document.querySelector('[data-ag-preferences-panel]')).not.toBeNull();
+    expect(document.querySelector('[data-preferences-panel]')).not.toBeNull();
   });
 
   it('floor-locked options: contrastMoreOS keeps Glass aria-disabled + described; click is a no-op', () => {
@@ -107,8 +107,8 @@ describe('GlassPreferencesPanel', () => {
     }
     // inside one panel, the transparency and density groups are distinct
     const panelA = screen.getByTestId('a');
-    const tName = panelA.querySelector<HTMLInputElement>('[data-ag-pref=transparency] input[type=radio]')!.name;
-    const dName = panelA.querySelector<HTMLInputElement>('[data-ag-pref=density] input[type=radio]')!.name;
+    const tName = panelA.querySelector<HTMLInputElement>('[data-pref=transparency] input[type=radio]')!.name;
+    const dName = panelA.querySelector<HTMLInputElement>('[data-pref=density] input[type=radio]')!.name;
     expect(tName).not.toBe(dName);
   });
 
@@ -118,7 +118,7 @@ describe('GlassPreferencesPanel', () => {
     render(h(PreferenceStoreContext.Provider, {
       value: store, children: h(GlassPreferencesPanel, { keys: ['density'], onChange }),
     }));
-    const labels = Array.from(document.querySelectorAll('[data-ag-pref=density] [data-ag-option]'))
+    const labels = Array.from(document.querySelectorAll('[data-pref=density] [data-option]'))
       .map((l) => l.textContent?.trim());
     expect(labels).toEqual(['Regular', 'Compact', 'Spacious']);
     const spacious = screen.getByRole('radio', { name: /Spacious/i });
@@ -165,7 +165,7 @@ describe('GlassPreferencesPanel', () => {
     const standard = screen.getByRole('radio', { name: /Standard/i });
     expect(standard.getAttribute('aria-disabled')).toBeNull();
     expect(standard.getAttribute('aria-describedby')).toBeNull();
-    expect(document.querySelector('[data-ag-pref=contrast] [data-ag-floor-note]')).toBeNull();
+    expect(document.querySelector('[data-pref=contrast] [data-floor-note]')).toBeNull();
     fireEvent.click(standard);
     expect(store.getSnapshot().contrast).toBe('standard');
   });
@@ -199,8 +199,8 @@ describe('GlassPreferencesPanel', () => {
       storage: null,
       children: h(GlassPreferencesPanel, { keys: ['contrast', 'motion'] }),
     }));
-    const prefs = Array.from(document.querySelectorAll('[data-ag-pref]'))
-      .map((e) => e.getAttribute('data-ag-pref'));
+    const prefs = Array.from(document.querySelectorAll('[data-pref]'))
+      .map((e) => e.getAttribute('data-pref'));
     expect(prefs.sort()).toEqual(['contrast', 'motion']);
   });
 

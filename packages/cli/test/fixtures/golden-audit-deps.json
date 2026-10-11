@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "kind": "deps",
+  "dependencies": 4,
+  "issues": [
+    {
+      "pkg": "@mui/material",
+      "kind": "forbidden"
+    }
+  ]
+}

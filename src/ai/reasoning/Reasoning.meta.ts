@@ -6,10 +6,10 @@ export default defineMeta({
   entry: './ai',
   tier: 'T2',
   rsc: 'client',
-  parts: ['reasoning', 'trigger', 'content'],
+  parts: ['content', 'reasoning', 'trigger'],
   states: ['streaming', 'done'],
+  apg: 'disclosure',
   variants: {},
   budgetKb: 4,
   migration: [],
-  selectors: [],
 });

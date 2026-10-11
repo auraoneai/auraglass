@@ -11,13 +11,13 @@ const RTL_STORY = 'theme-glasspreferencespanel--rtl';
 
 async function goto_(page: import('@playwright/test').Page, story = STORY) {
   await page.goto(`/iframe.html?id=${story}&viewMode=story`);
-  await page.waitForSelector('[data-ag-preferences-panel]');
+  await page.waitForSelector('[data-preferences-panel]');
 }
 
 test.describe('GlassPreferencesPanel APG', () => {
   test('radio group: one tab stop, arrows move and select', async ({ page }) => {
     await goto_(page);
-    const radios = page.locator('[data-ag-pref="transparency"] input[type="radio"]');
+    const radios = page.locator('[data-pref="transparency"] input[type="radio"]');
     await expect(radios).toHaveCount(4);
     await radios.nth(0).focus();
     await apg.keyboard(page, [
@@ -43,7 +43,7 @@ test.describe('GlassPreferencesPanel APG', () => {
 
   test('slider: arrows/PageUp/PageDown/Home/End move the value', async ({ page }) => {
     await goto_(page);
-    const slider = page.locator('[data-ag-pref="glassOpacity"] input[type="range"]');
+    const slider = page.locator('[data-pref="glassOpacity"] input[type="range"]');
     await expect(slider).toHaveCount(1);
     await slider.focus();
     const v0 = Number(await slider.inputValue());
@@ -66,10 +66,10 @@ test.describe('GlassPreferencesPanel APG', () => {
 
   test('RTL: panel resolves rtl, controls sit at inline-start, arrows keep order, axe clean', async ({ page }) => {
     await goto_(page, RTL_STORY);
-    const panel = page.locator('[data-ag-preferences-panel]');
+    const panel = page.locator('[data-preferences-panel]');
     expect(await panel.evaluate((el) => getComputedStyle(el).direction)).toBe('rtl');
     // every option: the native control is on the inline-start (right) side of its label text
-    const sides = await page.locator('[data-ag-pref="transparency"] [data-ag-option]').evaluateAll((labels) =>
+    const sides = await page.locator('[data-pref="transparency"] [data-option]').evaluateAll((labels) =>
       labels.map((label) => {
         const input = label.querySelector('input')!.getBoundingClientRect();
         const range = document.createRange();
@@ -80,7 +80,7 @@ test.describe('GlassPreferencesPanel APG', () => {
       }));
     expect(sides).toHaveLength(4);
     for (const s of sides) expect(s.inputLeft, 'control at inline-start in RTL').toBeGreaterThanOrEqual(s.textRight - 1);
-    const radios = page.locator('[data-ag-pref="transparency"] input[type="radio"]');
+    const radios = page.locator('[data-pref="transparency"] input[type="radio"]');
     await radios.nth(0).focus();
     await apg.keyboard(page, [
       { press: 'ArrowDown', expectFocus: 'role=radio[name=Glass]' },
@@ -93,7 +93,7 @@ test.describe('GlassPreferencesPanel APG', () => {
   test('contrast lock under OS Increase Contrast: Standard aria-disabled, focusable, described, inert', async ({ page }) => {
     await page.emulateMedia({ contrast: 'more' });
     await goto_(page);
-    const standard = page.locator('[data-ag-pref="contrast"] [data-ag-option]', { hasText: 'Standard' }).locator('input');
+    const standard = page.locator('[data-pref="contrast"] [data-option]', { hasText: 'Standard' }).locator('input');
     await expect(standard).toHaveAttribute('aria-disabled', 'true');
     const noteId = await standard.getAttribute('aria-describedby');
     expect(noteId, 'locked option is described by its floor note').toBeTruthy();
@@ -102,7 +102,7 @@ test.describe('GlassPreferencesPanel APG', () => {
     await expect(standard).toBeFocused();
     await page.keyboard.press('Space');
     await expect(standard).not.toBeChecked();
-    const more = page.locator('[data-ag-pref="contrast"] [data-ag-option]', { hasText: 'More' }).locator('input');
+    const more = page.locator('[data-pref="contrast"] [data-option]', { hasText: 'More' }).locator('input');
     await expect(more).not.toHaveAttribute('aria-disabled', 'true');
   });
 

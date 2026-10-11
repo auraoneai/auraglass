@@ -42,7 +42,7 @@
    ]
   },
   "foundation-pattern": {
-   "path": "scripts/cmp/verify-foundation-pattern.mjs + tests/foundation/verify-foundation-pattern.test.mjs",
+   "path": "scripts/cmp/verify-foundation-pattern.mjs + tests/foundation/verify-foundation-pattern.test.ts",
    "status": "green",
    "covers": [
     "asChild ratchet",
@@ -53,7 +53,7 @@
    ]
   },
   "selector-coverage": {
-   "path": "scripts/cmp/verify-selector-coverage.mjs + tests/foundation/verify-selector-coverage.test.mjs",
+   "path": "scripts/cmp/verify-selector-coverage.mjs + tests/foundation/verify-selector-coverage.test.ts",
    "status": "green-fixtures",
    "note": "storybook-static lane evaluation is remote (machine policy)"
   }

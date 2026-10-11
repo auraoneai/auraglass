@@ -1,3 +1,15 @@
+/* WCAG 2.x math (luminance, contrast ratio, composite, sRGB transfer) lives in
+   ./wcag.mjs, the one module shared with the tokens build (scripts/tokens/color.mjs
+   re-exports it for the contrast solver). REQ-FIN-03 / REQ-MAT-10: never
+   re-implement it in this file. */
+import {
+  srgbChannelFromLinear,
+  srgbChannelToLinear,
+  wcagComposite,
+  wcagContrastRatio,
+  wcagRelativeLuminance,
+} from './wcag.mjs';
+
 export interface GlassRgb {
   r: number;
   g: number;
@@ -48,24 +60,16 @@ export const mixHex = (from: string, to: string, amount: number): string => {
 
 export const relativeLuminance = (input: string): number => {
   const { r, g, b } = hexToRgb(input);
-  const convert = (channel: number) => {
-    const value = channel / 255;
-    return value <= 0.03928
-      ? value / 12.92
-      : Math.pow((value + 0.055) / 1.055, 2.4);
-  };
-  return convert(r) * 0.2126 + convert(g) * 0.7152 + convert(b) * 0.0722;
+  return wcagRelativeLuminance([r / 255, g / 255, b / 255]);
 };
 
 export const contrastRatio = (
   foreground: string,
   background: string
 ): number => {
-  const fg = relativeLuminance(foreground);
-  const bg = relativeLuminance(background);
-  const lighter = Math.max(fg, bg);
-  const darker = Math.min(fg, bg);
-  return (lighter + 0.05) / (darker + 0.05);
+  const fg = hexToRgb(foreground);
+  const bg = hexToRgb(background);
+  return wcagContrastRatio([fg.r / 255, fg.g / 255, fg.b / 255], [bg.r / 255, bg.g / 255, bg.b / 255]);
 };
 
 export const bestTextColor = (
@@ -114,10 +118,8 @@ const matVec = (m: Mat3, v: readonly number[]): [number, number, number] =>
     return r[0] * v[0]! + r[1] * v[1]! + r[2] * v[2]!;
   }) as [number, number, number];
 
-const srgbTransfer = (x: number) =>
-  x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055;
-const srgbTransferInv = (x: number) =>
-  x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+const srgbTransfer = srgbChannelFromLinear;
+const srgbTransferInv = srgbChannelToLinear;
 
 const invert3 = (m: Mat3): Mat3 => {
   const [a, b, c] = m;
@@ -247,15 +249,7 @@ export const wcagContrast = (
   a: string | Srgb | Oklch,
   b: string | Srgb | Oklch
 ): number => {
-  const lum = (s: [number, number, number, number]) => {
-    const [r, g, bl] = s.slice(0, 3).map(srgbTransferInv) as [number, number, number];
-    return 0.2126 * r + 0.7152 * g + 0.0722 * bl;
-  };
-  const l1 = lum(toSrgbFlat(a));
-  const l2 = lum(toSrgbFlat(b));
-  const hi = Math.max(l1, l2);
-  const lo = Math.min(l1, l2);
-  return (hi + 0.05) / (lo + 0.05);
+  return wcagContrastRatio(toSrgbFlat(a).slice(0, 3), toSrgbFlat(b).slice(0, 3));
 };
 
 /** source-over composite: fg (with alpha) over opaque bg, returning opaque sRGB. */
@@ -265,8 +259,8 @@ export const compositeOver = (
 ): Srgb => {
   const [fr, fgG, fb, fa] = toSrgbFlat(fg);
   const [br, bgG, bb] = toSrgbFlat(bg);
-  const comp = (f: number, b: number) => f * fa + b * (1 - fa);
-  return { r: comp(fr, br), g: comp(fgG, bgG), b: comp(fb, bb), alpha: 1 };
+  const [r, g, b] = wcagComposite([fr, fgG, fb], fa, [br, bgG, bb]);
+  return { r, g, b, alpha: 1 };
 };
 
 /** Advisory APCA Lc (W3 formula, polarity-aware). Positive = dark text on light bg. */

@@ -81,7 +81,7 @@ describe('Menu', () => {
     await act(async () => {});
     const mixed = screen.getByText('Selective').closest('[data-ag-part="item"]');
     expect(mixed).toHaveAttribute('aria-checked', 'mixed');
-    expect(mixed).toHaveAttribute('data-ag-indeterminate');
+    expect(mixed).toHaveAttribute('data-indeterminate');
   });
 
   it('item carries aria-keyshortcuts and renders a kbd', async () => {
@@ -184,5 +184,60 @@ describe('Menubar', () => {
     act(() => { key(file, 'ArrowRight'); });
     await act(async () => {}); // composite moves focus on a microtask
     expect(document.activeElement?.textContent).toBe('Edit');
+  });
+
+
+  /* REQ-CMP-102 — provider-free legs so the portal really mounts (BU portal
+     falls back to document.body without AuraGlassProvider). */
+  it('shortcut kbd is aria-hidden (REQ-CMP-102)', async () => {
+    render(
+      <Menu.Root open>
+        <Menu.Trigger>actions</Menu.Trigger>
+        <Menu.Portal><Menu.Positioner><Menu.Popup>
+          <Menu.Item shortcut="Ctrl+X">Cut</Menu.Item>
+        </Menu.Popup></Menu.Positioner></Menu.Portal>
+      </Menu.Root>,
+    );
+    await act(async () => {}); // portal falls back to document.body after settle flush
+    const kbd = document.querySelector('kbd[data-ag-part="shortcut"]');
+    expect(kbd).not.toBeNull();
+    expect(kbd!.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('Item render={<a/>} produces an anchor carrying role=menuitem (REQ-CMP-102)', async () => {
+    render(
+      <Menu.Root open>
+        <Menu.Trigger>actions</Menu.Trigger>
+        <Menu.Portal><Menu.Positioner><Menu.Popup>
+          <Menu.Item render={<a href="https://x" />}>Docs</Menu.Item>
+        </Menu.Popup></Menu.Positioner></Menu.Portal>
+      </Menu.Root>,
+    );
+    await act(async () => {});
+    const a = document.querySelector('a[data-ag-part="item"]');
+    expect(a).not.toBeNull();
+    expect(a!.getAttribute('role')).toBe('menuitem');
+    expect(a!.getAttribute('href')).toBe('https://x');
+  });
+
+  it('CheckboxItem click keeps menu open; Item click closes (REQ-CMP-102)', async () => {
+    render(
+      <Menu.Root defaultOpen>
+        <Menu.Trigger>actions</Menu.Trigger>
+        <Menu.Portal><Menu.Positioner><Menu.Popup>
+          <Menu.CheckboxItem checked={false}>Wrap</Menu.CheckboxItem>
+          <Menu.Item>Plain</Menu.Item>
+        </Menu.Popup></Menu.Positioner></Menu.Portal>
+      </Menu.Root>,
+    );
+    await act(async () => {});
+    const popup = () => document.querySelector('[data-ag-part="popup"]');
+    expect(popup()).not.toBeNull();
+    fireEvent.click(screen.getByText('Wrap'));
+    await act(async () => {});
+    expect(popup()).not.toBeNull();
+    fireEvent.click(screen.getByText('Plain'));
+    await act(async () => {});
+    expect(popup()).toBeNull();
   });
 });
