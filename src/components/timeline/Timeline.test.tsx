@@ -33,6 +33,14 @@ describe('Timeline (SURF-186, REQ-SURF-96)', () => {
     err.mockRestore();
     process.env['NODE_ENV'] = dev;
   });
+
+  it('a non-date timestamp string renders verbatim without dateTime (4.x display times via compat)', () => {
+    expect(formatTimestamp('2 hours ago', 'absolute', 'en-US')).toEqual({ dateTime: '', text: '2 hours ago' });
+    const { container } = render(<Timeline items={[{ id: 'a', timestamp: '2 hours ago', title: 'Started' }]} />);
+    const time = container.querySelector('[data-ag-part="timeline-time"]')!;
+    expect(time.textContent).toBe('2 hours ago');
+    expect(time.hasAttribute('datetime')).toBe(false);
+  });
 });
 
 describe('ActivityFeed (SURF-187, REQ-SURF-97)', () => {

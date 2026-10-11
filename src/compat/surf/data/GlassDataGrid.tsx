@@ -1,41 +1,21 @@
-/* GlassDataGrid — 4.x compat adapter (SURF-318). ColumnDefinition key/label
-   map onto accessorKey/header; render/cellRenderer wrap as cell(ctx). */
-'use client';
+/* GlassDataGrid — 4.x compat adapter (REQ-SURF-13, DEP-S0201) → Table.
+   ColumnDefinition {key,label,sortable,width,align,render|cellRenderer} →
+   TanStack column defs (./_table.tsx); data/rows, sortable, height →
+   maxHeight. Row dragging (enableRowDragging) has no 5.0 equivalent. */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { Table } from '../../../data/table/Table';
-import type { TableProps } from '../../../data/table/Table';
+import { LegacyTable, type LegacyTableProps } from './_table';
 
-type Ctx = { getValue: <T = unknown>() => T; row: { original: unknown } };
+type Row = Record<string, unknown>;
 
-export interface ColumnDefinition<TRow = Record<string, unknown>> {
-  key: string;
-  label?: React.ReactNode;
-  sortable?: boolean;
-  width?: number | string;
-  align?: 'left' | 'right' | 'center';
-  render?: (value: unknown, row: TRow) => React.ReactNode;
-  cellRenderer?: (value: unknown, row: TRow) => React.ReactNode;
-}
+export type GlassDataGridProps<T extends Row = Row> = LegacyTableProps<T> & { height?: number | string };
 
-export type GlassDataGridProps<TRow extends Record<string, unknown> = Record<string, unknown>> = {
-  rows?: TRow[];
-  data?: TRow[];
-  columns: ColumnDefinition<TRow>[];
-  getRowId?: (row: TRow, index: number) => string;
-} & Omit<TableProps<TRow>, 'data' | 'columns' | 'getRowId'>;
-
-export function GlassDataGrid<TRow extends Record<string, unknown> = Record<string, unknown>>(props: GlassDataGridProps<TRow>) {
-  warnDeprecated('GlassDataGrid');
-  const { rows, data, columns, getRowId, ...rest } = props;
-  const cols = columns.map((c) => ({
-    id: c.key,
-    accessorKey: c.key,
-    header: c.label,
-    enableSorting: c.sortable,
-    size: typeof c.width === 'number' ? c.width : undefined,
-    meta: c.align ? { align: c.align === 'left' ? 'start' : c.align === 'right' ? 'end' : 'center' } : undefined,
-    ...((c.render ?? c.cellRenderer) ? { cell: (ctx: Ctx) => (c.render ?? c.cellRenderer)!(ctx.getValue(), ctx.row.original as TRow) } : {}),
-  }));
-  return <Table {...rest} data={rows ?? data ?? []} columns={cols as never} getRowId={(getRowId as never) ?? ((_r: TRow, i: number) => String(i))} />;
+/**
+ * 4.x `GlassDataGrid` compat adapter (DEP-S0201).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link Table from aura-glass/data}.
+ */
+export function GlassDataGrid<T extends Row = Row>(props: GlassDataGridProps<T>) {
+  warnDeprecated('DEP-S0201');
+  const { height, ...rest } = props;
+  return <LegacyTable<T> {...rest} {...(height !== undefined && rest.maxHeight === undefined ? { maxHeight: height } : {})} />;
 }

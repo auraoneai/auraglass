@@ -1,32 +1,60 @@
+/* GlassCalendar — 4.x compat adapter (REQ-SURF-13, DEP-S0224) → Calendar.
+   selectedDate → value (CalendarDate via fromDate(date, getLocalTimeZone())
+   client-side), onDateSelect(date) ← onValueChange, minDate/maxDate →
+   minValue/maxValue, locale. The 4.x event-agenda surface (events, week/day
+   views, showEvents) has no 5.0 Calendar equivalent and is not rendered;
+   value/defaultValue/onChange spellings are also accepted. */
 'use client';
+import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Calendar } from '../../../date/Calendar';
-import type { CalendarProps } from '../../../date/Calendar';
-import { toDateValue } from './shared';
-import type { DateValue } from '../../../date/shared';
+import type { CalendarDate, DateValue } from '../../../date/shared';
+import { toCalendarDate, toJsDate } from './shared';
 
-export type GlassCalendarProps = {
+export interface GlassCalendarProps {
+  selectedDate?: Date;
   value?: Date;
   defaultValue?: Date;
-  onChange?: (d: Date | null) => void;
+  onDateSelect?: (date: Date) => void;
+  onChange?: (date: Date | null) => void;
   minDate?: Date;
   maxDate?: Date;
+  locale?: string;
   weekNumbers?: boolean;
   timeZone?: string;
-} & Omit<CalendarProps, 'value' | 'defaultValue' | 'onChange' | 'minValue' | 'maxValue' | 'showWeekNumbers'>;
+  className?: string;
+  'aria-label'?: string;
+  [legacy: string]: unknown;
+}
 
+/**
+ * 4.x `GlassCalendar` compat adapter (DEP-S0224).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link Calendar from aura-glass/date}.
+ */
 export function GlassCalendar(props: GlassCalendarProps) {
-  warnDeprecated('GlassCalendar');
-  const { value, defaultValue, onChange, minDate, maxDate, weekNumbers, timeZone, ...rest } = props;
+  warnDeprecated('DEP-S0224');
+  const { selectedDate, value, defaultValue, onDateSelect, onChange, minDate, maxDate, locale, weekNumbers, timeZone, className } = props;
+  const selected = toCalendarDate(value ?? selectedDate, timeZone);
+  const dv = toCalendarDate(defaultValue, timeZone);
+  const minV = toCalendarDate(minDate, timeZone);
+  const maxV = toCalendarDate(maxDate, timeZone);
+  const [internal, setInternal] = React.useState(selected);
+  const controlled = value !== undefined;
   return (
     <Calendar
-      {...rest}
-      value={value ? (toDateValue(value, timeZone) as never) : undefined}
-      defaultValue={defaultValue ? (toDateValue(defaultValue, timeZone) as never) : undefined}
-      onValueChange={onChange ? (v: DateValue | null) => onChange(v ? new Date(v.toString()) : null) : undefined}
-      minValue={minDate ? (toDateValue(minDate, timeZone) as never) : undefined}
-      maxValue={maxDate ? (toDateValue(maxDate, timeZone) as never) : undefined}
-      showWeekNumbers={weekNumbers}
+      {...(controlled ? { value: selected ?? null } : internal ? { value: internal } : dv ? { defaultValue: dv } : {})}
+      onValueChange={(next: DateValue | null) => {
+        if (!controlled) setInternal(next ? (next as CalendarDate) : undefined);
+        const js = toJsDate(next, timeZone);
+        onChange?.(js);
+        if (js) onDateSelect?.(js);
+      }}
+      {...(minV ? { minValue: minV } : {})}
+      {...(maxV ? { maxValue: maxV } : {})}
+      {...(locale ? { locale } : {})}
+      {...(weekNumbers ? { showWeekNumbers: true } : {})}
+      aria-label={props['aria-label'] ?? 'Calendar'}
+      {...(className ? { className } : {})}
     />
   );
 }

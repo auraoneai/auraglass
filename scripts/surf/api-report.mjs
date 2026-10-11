@@ -35,7 +35,8 @@ for (const [entry, { source, label }] of Object.entries(TARGETS)) {
   const text = res.outputFiles[0].text;
   const m = /export\s*\{([^}]*)\}\s*;?\s*$/m.exec(text);
   const names = m?.[1]
-    ? m[1].split(',').map((s) => s.trim().replace(/\s+as\s+\w+$/, '')).filter(Boolean).sort()
+    // `local as exported` → the exported name (esbuild renames colliding locals, e.g. TreeView2).
+    ? m[1].split(',').map((s) => s.trim().replace(/^[\w$]+\s+as\s+/, '')).filter(Boolean).sort()
     : [];
   mkdirSync('etc/api', { recursive: true });
   writeFileSync(`etc/api/${entry}.exports.json`, JSON.stringify({ entry, exports: names }, null, 1) + '\n');
