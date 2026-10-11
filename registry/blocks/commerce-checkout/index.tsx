@@ -4,8 +4,8 @@
 // Parts: CheckoutSteps (SURF-589).
 import { Button, Card, Separator, TextField } from 'aura-glass';
 import { useState } from 'react';
-import type { CartItem } from '../commerce-cart/index';
-import { formatMoney } from '../commerce-cart/index';
+import type { CartItem } from '@/registry/blocks/commerce-cart/index';
+import { formatMoney } from '@/registry/blocks/commerce-cart/index';
 import { CheckoutSteps } from './CheckoutSteps';
 import { CHECKOUT_STEPS, type CheckoutStep } from './steps';
 

@@ -4,10 +4,34 @@
   "type": "registry:block",
   "title": "Support inbox",
   "description": "Ticket list (Table + FilterBar) with a conversation detail pane.",
-  "dependencies": ["react"],
-  "registryDependencies": [],
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "block",
+      "client": true,
+      "components": [
+        "FilterBar",
+        "Table"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null
+    }
+  }
 }

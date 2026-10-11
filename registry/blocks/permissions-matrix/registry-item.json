@@ -4,10 +4,38 @@
   "type": "registry:block",
   "title": "Permissions matrix",
   "description": "Roles x permissions Table with labelled Checkbox cells (5.2).",
-  "dependencies": ["react"],
-  "registryDependencies": [],
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    },
+    {
+      "path": "PermissionsMatrix.tsx",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "block",
+      "client": true,
+      "components": [
+        "Checkbox",
+        "Table"
+      ],
+      "ga": false,
+      "minVersion": "5.0.0",
+      "certified": null
+    }
+  }
 }

@@ -3,11 +3,13 @@
   "name": "ai-eval-dashboard",
   "type": "registry:item",
   "title": "AI eval dashboard",
-  "description": "Eval run summary \u2014 pass rate, per-case scores, token usage on UsageMeter.",
+  "description": "Eval run summary — pass rate, per-case scores, token usage on UsageMeter.",
   "dependencies": [
     "react"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
     {
       "path": "EvalDashboard.tsx",
@@ -20,6 +22,24 @@
     {
       "path": "fixtures/runs.json",
       "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
     }
-  ]
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "StatCard",
+        "Table",
+        "UsageMeter"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

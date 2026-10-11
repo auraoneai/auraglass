@@ -31,7 +31,7 @@ const wrap = (obj, name, label = name) => {
   if (orig) obj[name] = record(`${label}`, orig);
 };
 for (const name of ['addEventListener', 'setInterval', 'setTimeout', 'requestAnimationFrame', 'requestIdleCallback', 'queueMicrotask', 'fetch']) wrap(window, name, `window.${name}`);
-for (const name of ['MutationObserver', 'ResizeObserver', 'IntersectionObserver', 'Worker', 'AudioContext']) {
+for (const name of ['MutationObserver', 'ResizeObserver', 'IntersectionObserver', 'Worker', 'AudioContext', 'webkitAudioContext']) {
   const Orig = window[name];
   if (Orig) window[name] = new Proxy(Orig, { construct: (t, a) => { const m = agFrame(); if (m) observed.push({ api: `new ${name}`, module: m }); return new t(...a); } });
 }
@@ -41,6 +41,23 @@ for (const name of ['log', 'warn', 'error', 'info', 'debug']) {
 }
 const proto = window.Storage?.prototype;
 if (proto?.setItem) proto.setItem = record('Storage.prototype.setItem', proto.setItem.bind(proto));
+
+/* REQ-PLAT-70: <html> attribute/style writes, head.appendChild (stylesheet/
+script injection), and head/descendant DOM appends are side effects too. */
+const html = window.document?.documentElement;
+if (html) {
+  for (const name of ['setAttribute', 'setAttributeNS']) wrap(html, name, `documentElement.${name}`);
+  const style = html.style;
+  if (style?.setProperty) style.setProperty = record('documentElement.style.setProperty', style.setProperty.bind(style));
+}
+const head = window.document?.head;
+if (head) {
+  for (const name of ['appendChild', 'insertBefore', 'append', 'prepend']) wrap(head, name, `head.${name}`);
+}
+const body = window.document?.body;
+if (body) {
+  for (const name of ['appendChild', 'insertBefore', 'append', 'prepend']) wrap(body, name, `body.${name}`);
+}
 
 const setGlobal = (name, value) => {
   try { Object.defineProperty(globalThis, name, { value, configurable: true, writable: true }); } catch { /* read-only global */ }

@@ -4,7 +4,31 @@
   "type": "registry:item",
   "title": "Media transcript",
   "description": "Cue list (<ol>) with aria-current on the active cue and click-to-seek via a MediaHandle; static without one.",
-  "dependencies": ["react", "aura-glass"],
-  "registryDependencies": [],
-  "files": [{ "path": "index.tsx", "type": "registry:item" }]
+  "dependencies": [
+    "react",
+    "aura-glass"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
+  "files": [
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

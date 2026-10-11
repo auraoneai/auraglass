@@ -45,6 +45,8 @@ const w2 = [
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/{data-table-5000,data-tree-view,data-filter,date-picker-open,activity-feed-prepend}.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L11', kind: 'node-script', path: 'canaries/next16/app/surf/data-server/page.tsx', scope: 'main', remote: true, failClosed: true },
   { lane: 'L11', kind: 'node-script', path: 'canaries/vite/src/surf/DataTable.page.tsx', scope: 'main', remote: true, failClosed: true },
+  // REQ-SURF-08: cross-TZ canary hydration (job surf:test:canary-hydration).
+  { lane: 'L11', kind: 'playwright', path: 'tests/ssr/surf/hydration.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L12', kind: 'jest', path: 'tests/data/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
 ] as const;
 // --- lane W2 end ---
@@ -135,6 +137,52 @@ const w5 = [
     lane: 'L1',
     kind: 'node-script',
     path: 'scripts/surf/verify-surf-purity.mjs',
+    scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-06: dist side-effect trap over the SURF entries (PLAT's trap,
+  // SURF verdict: 0 undeclared SURF calls, surf fragment []). Needs dist/, so
+  // main + release scopes only — never pr.
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-side-effects.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-side-effects.mjs',
+    scope: 'release',
+    remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-170 (REQ-FIN-88): SURF registry lint over every source file of
+  // every S-46 SURF block/item directory; its mutation cases live in
+  // tests/capability/registry/blocks-lint.test.ts.
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-registry.mjs',
+    scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-registry.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'jest',
+    path: 'tests/capability/registry/blocks-lint.test.ts',
     scope: 'pr',
     remote: false,
     failClosed: true,

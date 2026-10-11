@@ -1,15 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MediaGallery } from './index';
+import { GALLERY_ITEMS } from './fixtures';
 
-const meta: Meta<typeof MediaGallery> = { title: 'registry/media-gallery', component: MediaGallery };
+const meta: Meta<typeof MediaGallery> = {
+  parameters: { ag: { subject: 'MediaGallery', kind: 'showcase' } }, title: 'registry/media-gallery', component: MediaGallery };
 export default meta;
 type Story = StoryObj<typeof MediaGallery>;
 
-const ITEMS = [
-  { id: 'a', src: '/media/a.jpg', alt: 'Atrium', caption: 'Specular study 01' },
-  { id: 'b', src: '/media/b.jpg', alt: 'Stair' },
-  { id: 'c', src: '/media/c.jpg', alt: 'Panel' },
-];
+const ITEMS = GALLERY_ITEMS;
 export const Default: Story = { args: { items: ITEMS } };
 export const Filtered: Story = { args: { items: ITEMS } };
 export const Empty: Story = { args: { items: [] } };

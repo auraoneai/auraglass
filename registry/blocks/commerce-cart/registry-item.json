@@ -4,10 +4,52 @@
   "type": "registry:block",
   "title": "Commerce cart",
   "description": "Controlled cart UI — line items, quantity steppers, localized totals.",
-  "dependencies": ["react"],
-  "registryDependencies": ["card", "button", "badge", "separator"],
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    },
+    {
+      "path": "CartSummary.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "LineItem.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "ProductCard.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "format-money.ts",
+      "type": "registry:lib"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "block",
+      "client": false,
+      "components": [
+        "Badge",
+        "Button",
+        "Card",
+        "Separator"
+      ],
+      "ga": false,
+      "minVersion": "5.0.0",
+      "certified": null
+    }
+  }
 }
