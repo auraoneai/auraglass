@@ -5,6 +5,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { PendingCallout } from '../_shared';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const W = 320, H = 140, PAD = 24;
 
@@ -108,7 +109,12 @@ function Tokens() {
 }
 
 const meta: Meta = {
-  parameters: { ag: { subject: 'Tokens', kind: 'showcase' } }, title: 'MAT/Motion/Tokens', parameters: { layout: 'padded' } };
+  title: 'MAT/Motion/Tokens',
+  parameters: {
+    layout: 'padded',
+    ag: { subject: 'MatMotionTokens', kind: 'lab' } satisfies StoryAgParameters,
+  },
+};
 export default meta;
 
 type Story = StoryObj<typeof meta>;
