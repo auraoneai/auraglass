@@ -7,6 +7,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Surface } from '../../../src/material/index';
 import { PendingCallout } from '../_shared';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 function TransitionsLab() {
   const [debug, setDebug] = React.useState(false);
@@ -63,7 +64,12 @@ function TransitionsLab() {
 }
 
 const meta: Meta = {
-  parameters: { ag: { subject: 'ViewTransitions', kind: 'showcase' } }, title: 'MAT/Motion/View Transitions', parameters: { layout: 'padded' } };
+  title: 'MAT/Motion/View Transitions',
+  parameters: {
+    layout: 'padded',
+    ag: { subject: 'MatMotionViewTransitions', kind: 'lab' } satisfies StoryAgParameters,
+  },
+};
 export default meta;
 
 type Story = StoryObj<typeof meta>;
