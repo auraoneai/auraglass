@@ -15,6 +15,7 @@
       "names": [
         "data-ag-surface"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "exception:no competitor ships glass (E-34); platform bar is Apple/Mica"
@@ -42,11 +43,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-02",
-      "capability": "Positioning layer: Base UI positioner inside `Popover`/`Menu`/`Select` (no `@floating-ui` dep)",
+      "capability": "Positioning layer",
       "area": "foundation",
       "priority": "P0",
       "owner": "CMP",
@@ -57,6 +62,7 @@
       "names": [
         "positioner"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:101"
@@ -77,11 +83,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-03",
-      "capability": "Shared Listbox/Menu/Field shells (internal parts for ~13 consumers)",
+      "capability": "Shared Listbox/Menu/Field shells",
       "area": "foundation",
       "priority": "P0",
       "owner": "CMP",
@@ -92,6 +102,7 @@
       "names": [
         "control-shell"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "exception:composition for ~13 consumers (capability map P0 build order step 1)"
@@ -114,11 +125,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-04",
-      "capability": "NumberField",
+      "capability": "`NumberField`",
       "area": "foundation",
       "priority": "P0",
       "owner": "CMP",
@@ -129,6 +144,7 @@
       "names": [
         "NumberField"
       ],
+      "subpath": ".",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:101",
@@ -152,12 +168,15 @@
         "root": 1,
         "subpath": 0
       },
+      "budgetKb": 14,
       "status": "planned",
-      "subpath": "."
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-05",
-      "capability": "Meter (consumed by `UsageMeter`)",
+      "capability": "`Meter`",
       "area": "foundation",
       "priority": "P1",
       "owner": "CMP",
@@ -168,6 +187,7 @@
       "names": [
         "Meter"
       ],
+      "subpath": ".",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:101"
@@ -188,12 +208,15 @@
         "root": 1,
         "subpath": 0
       },
+      "budgetKb": 5,
       "status": "planned",
-      "subpath": "."
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-06",
-      "capability": "Kbd (reused by `SearchField` `shortcut` and `CommandPalette` hints)",
+      "capability": "`Kbd`",
       "area": "foundation",
       "priority": "P2",
       "owner": "CMP",
@@ -204,6 +227,7 @@
       "names": [
         "Kbd"
       ],
+      "subpath": ".",
       "release": "5.0",
       "evidence": [
         "exception:no competitor evidence; reused by SearchField `shortcut` and CommandPalette hints"
@@ -224,12 +248,15 @@
         "root": 1,
         "subpath": 0
       },
+      "budgetKb": 2,
       "status": "planned",
-      "subpath": "."
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-07",
-      "capability": "Direction/locale layer: `dir` and `locale` props on the provider plus Base UI direction wiring and internal `useLocale()`",
+      "capability": "Direction/locale layer",
       "area": "foundation",
       "priority": "P1",
       "owner": "MAT",
@@ -243,6 +270,7 @@
         "dir",
         "locale"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:105"
@@ -265,11 +293,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-08",
-      "capability": "Ranked fuzzy matching, cmdk-style compound (`Command`, `CommandPalette`)",
+      "capability": "Ranked fuzzy matching, cmdk-style compound",
       "area": "navigation",
       "priority": "P0",
       "owner": "SURF",
@@ -281,6 +313,7 @@
         "Command",
         "CommandPalette"
       ],
+      "subpath": ".",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:89"
@@ -305,12 +338,15 @@
         "root": 2,
         "subpath": 0
       },
+      "budgetKb": 6,
       "status": "planned",
-      "subpath": "."
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-09",
-      "capability": "Radiogroup segmented control with thumb (`SegmentedControl` on Base UI `RadioGroup`)",
+      "capability": "Radiogroup segmented control with thumb",
       "area": "navigation",
       "priority": "P0",
       "owner": "CMP",
@@ -321,6 +357,7 @@
       "names": [
         "SegmentedControl"
       ],
+      "subpath": ".",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:101"
@@ -347,12 +384,15 @@
         "root": 1,
         "subpath": 0
       },
+      "budgetKb": 13,
       "status": "planned",
-      "subpath": "."
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-10",
-      "capability": "Pointer-anchored context menu and real menubar (`ContextMenu`, `Menubar`)",
+      "capability": "Pointer-anchored context menu, real menubar",
       "area": "navigation",
       "priority": "P1",
       "owner": "CMP",
@@ -364,6 +404,7 @@
         "ContextMenu",
         "Menubar"
       ],
+      "subpath": ".",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:99",
@@ -387,12 +428,15 @@
         "root": 2,
         "subpath": 0
       },
+      "budgetKb": 22,
       "status": "planned",
-      "subpath": "."
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-11",
-      "capability": "Roving-focus toolbar (`Toolbar`)",
+      "capability": "Roving-focus toolbar",
       "area": "navigation",
       "priority": "P1",
       "owner": "CMP",
@@ -403,6 +447,7 @@
       "names": [
         "Toolbar"
       ],
+      "subpath": ".",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:101"
@@ -424,12 +469,15 @@
         "root": 1,
         "subpath": 0
       },
+      "budgetKb": 13,
       "status": "planned",
-      "subpath": "."
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-12",
-      "capability": "Async, creatable and free-text autocomplete combobox (`mode=\"autocomplete\"`, `loadOptions`, `creatable`)",
+      "capability": "Async, creatable and free-text autocomplete combobox",
       "area": "inputs",
       "priority": "P0",
       "owner": "CMP",
@@ -442,6 +490,7 @@
         "loadOptions",
         "creatable"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:101"
@@ -466,11 +515,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-13",
-      "capability": "Tag input: `Combobox multiple creatable` with `Combobox.Chips` (no `TagInput` export)",
+      "capability": "Tag input",
       "area": "inputs",
       "priority": "P1",
       "owner": "CMP",
@@ -484,6 +537,7 @@
         "creatable",
         "Chips"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:89",
@@ -505,11 +559,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-14",
-      "capability": "Calendar grid + draft-commit range (`Calendar`, `DatePicker`, `DateRangePicker` in `./date`)",
+      "capability": "Calendar grid + draft-commit range",
       "area": "inputs",
       "priority": "P0",
       "owner": "SURF",
@@ -522,6 +580,7 @@
         "DatePicker",
         "DateRangePicker"
       ],
+      "subpath": "./date",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:105"
@@ -546,12 +605,15 @@
         "root": 0,
         "subpath": 3
       },
+      "budgetKb": 8,
       "status": "planned",
-      "subpath": "./date"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-15",
-      "capability": "TimePicker (`./date`)",
+      "capability": "`TimePicker`",
       "area": "inputs",
       "priority": "P1",
       "owner": "SURF",
@@ -562,6 +624,7 @@
       "names": [
         "TimePicker"
       ],
+      "subpath": "./date",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:105",
@@ -585,12 +648,15 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": 6,
       "status": "planned",
-      "subpath": "./date"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-16",
-      "capability": "DateTimePicker (`./date`, composed of `DateField` + `TimeField` + `Calendar`; additive contract PR at 5.1)",
+      "capability": "`DateTimePicker`",
       "area": "inputs",
       "priority": "P1",
       "owner": "SURF",
@@ -601,6 +667,7 @@
       "names": [
         "DateTimePicker"
       ],
+      "subpath": "./date",
       "release": "5.1",
       "evidence": [
         "research/competitors.md:130"
@@ -621,12 +688,15 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": null,
       "status": "planned",
-      "subpath": "./date"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-17",
-      "capability": "Real dropzone with upload adapter (`FileUpload` `onUpload(file, { signal, onProgress })`)",
+      "capability": "Real dropzone with upload adapter",
       "area": "inputs",
       "priority": "P0",
       "owner": "CMP",
@@ -637,6 +707,7 @@
       "names": [
         "onUpload"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:89",
@@ -660,11 +731,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-18",
-      "capability": "2-D colour area (`ColorPicker.Area` part)",
+      "capability": "2-D colour area",
       "area": "inputs",
       "priority": "P1",
       "owner": "CMP",
@@ -675,6 +750,7 @@
       "names": [
         "Area"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:105"
@@ -695,11 +771,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-19",
-      "capability": "One-time-code input (`OtpField`, root export at 5.1)",
+      "capability": "One-time-code input",
       "area": "inputs",
       "priority": "P2",
       "owner": "CMP",
@@ -710,6 +790,7 @@
       "names": [
         "OtpField"
       ],
+      "subpath": ".",
       "release": "5.1",
       "evidence": [
         "research/competitors.md:89"
@@ -732,12 +813,15 @@
         "root": 1,
         "subpath": 0
       },
+      "budgetKb": null,
       "status": "planned",
-      "subpath": "."
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-20",
-      "capability": "AlertDialog",
+      "capability": "`AlertDialog`",
       "area": "overlays",
       "priority": "P0",
       "owner": "CMP",
@@ -748,6 +832,7 @@
       "names": [
         "AlertDialog"
       ],
+      "subpath": ".",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:99"
@@ -768,12 +853,15 @@
         "root": 1,
         "subpath": 0
       },
+      "budgetKb": 20,
       "status": "planned",
-      "subpath": "."
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-21",
-      "capability": "Hover card with hover intent (`Popover openOnHover`)",
+      "capability": "Hover card with hover intent",
       "area": "overlays",
       "priority": "P1",
       "owner": "CMP",
@@ -784,6 +872,7 @@
       "names": [
         "openOnHover"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:99"
@@ -805,11 +894,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-22",
-      "capability": "Notification inbox on the toast store (`Toast.History`)",
+      "capability": "Notification inbox on the toast store",
       "area": "overlays",
       "priority": "P1",
       "owner": "CMP",
@@ -820,6 +913,7 @@
       "names": [
         "History"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "exception:archived OVL PRD design (E-19)"
@@ -843,11 +937,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-23",
-      "capability": "Product Tour on `Popover`",
+      "capability": "Product `Tour`",
       "area": "overlays",
       "priority": "P1",
       "owner": "CMP",
@@ -858,6 +956,7 @@
       "names": [
         "Tour"
       ],
+      "subpath": ".",
       "release": "5.0",
       "evidence": [
         "exception:architecture §11.1 T2 list"
@@ -878,12 +977,15 @@
         "root": 1,
         "subpath": 0
       },
+      "budgetKb": 15,
       "status": "planned",
-      "subpath": "."
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-24",
-      "capability": "Row and column virtualization (`Table` `virtualize` via `@tanstack/react-virtual`)",
+      "capability": "Row and column virtualization",
       "area": "data",
       "priority": "P0",
       "owner": "SURF",
@@ -894,6 +996,7 @@
       "names": [
         "virtualize"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:130"
@@ -917,11 +1020,17 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": [
+        "surf-table--virtualized"
+      ]
     },
     {
       "id": "X-25",
-      "capability": "Column sizing, pinning, reorder (`columnSizing`/`enableColumnResizing`, `columnPinning`; `columnOrder` reorder)",
+      "capability": "Column sizing, pinning, reorder",
       "area": "data",
       "priority": "P0",
       "owner": "SURF",
@@ -936,6 +1045,7 @@
         "columnOrder",
         "enableColumnReordering"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:130"
@@ -959,11 +1069,17 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": [
+        "surf-table--resize-reorder"
+      ]
     },
     {
       "id": "X-26",
-      "capability": "Range row selection, inline cell edit, server pagination/sort adapters (inline edit at 5.1)",
+      "capability": "Range row selection, inline cell edit, server pagination/sort adapters",
       "area": "data",
       "priority": "P1",
       "owner": "SURF",
@@ -979,6 +1095,7 @@
         "editor",
         "onCellEditCommit"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:130"
@@ -1000,11 +1117,17 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": [
+        "surf-table--selection"
+      ]
     },
     {
       "id": "X-27",
-      "capability": "ChartFrame (axes, legend, table fallback, adapter)",
+      "capability": "`ChartFrame` (axes, legend, table fallback, adapter)",
       "area": "data",
       "priority": "P1",
       "owner": "SURF",
@@ -1015,6 +1138,7 @@
       "names": [
         "ChartFrame"
       ],
+      "subpath": "./data",
       "release": "5.0",
       "evidence": [
         "exception:D-21"
@@ -1037,12 +1161,15 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": 5,
       "status": "planned",
-      "subpath": "./data"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-28",
-      "capability": "SVG `Chart` (line, area, bar, donut) in `./charts` with optional peers `d3-scale`, `d3-shape`",
+      "capability": "SVG `Chart` (line, area, bar, donut)",
       "area": "data",
       "priority": "P1",
       "owner": "SURF",
@@ -1053,6 +1180,7 @@
       "names": [
         "Chart"
       ],
+      "subpath": "./charts",
       "release": "5.1",
       "evidence": [
         "exception:D-21"
@@ -1078,12 +1206,15 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": 15,
       "status": "planned",
-      "subpath": "./charts"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-29",
-      "capability": "Sound query builder: headless `useFilterModel` plus registry item `query-builder`",
+      "capability": "Sound query builder",
       "area": "data",
       "priority": "P2",
       "owner": "SURF",
@@ -1096,6 +1227,7 @@
         "useFilterModel",
         "query-builder"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:130"
@@ -1118,11 +1250,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-30",
-      "capability": "Kanban, Gantt, TransferList registry items",
+      "capability": "Kanban, Gantt, TransferList",
       "area": "data",
       "priority": "P2",
       "owner": "PLAT",
@@ -1135,6 +1271,7 @@
         "gantt",
         "transfer-list"
       ],
+      "subpath": null,
       "release": "5.1",
       "evidence": [
         "exception:D-17, §13.5"
@@ -1157,11 +1294,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-31",
-      "capability": "Log thread, message parts, streaming text (`Thread`, `Message`, `StreamingText`)",
+      "capability": "Log thread, message parts, streaming text",
       "area": "ai",
       "priority": "P0",
       "owner": "SURF",
@@ -1174,6 +1315,7 @@
         "Message",
         "StreamingText"
       ],
+      "subpath": "./ai",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:23"
@@ -1198,12 +1340,15 @@
         "root": 0,
         "subpath": 3
       },
+      "budgetKb": 18,
       "status": "planned",
-      "subpath": "./ai"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-32",
-      "capability": "Multimodal composer (attachments, paste/drop, stop) plus `MediaRecorder` voice capture as `ai-voice-input` registry item on `Composer.Action`",
+      "capability": "Multimodal composer (attachments, paste/drop, stop) plus real `MediaRecorder` voice capture",
       "area": "ai",
       "priority": "P0",
       "owner": "SURF",
@@ -1216,6 +1361,7 @@
         "Composer",
         "ai-voice-input"
       ],
+      "subpath": "./ai",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:23",
@@ -1241,12 +1387,15 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": 12,
       "status": "planned",
-      "subpath": "./ai"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-33",
-      "capability": "Reasoning, ToolCall (+ approval), AgentSteps",
+      "capability": "`Reasoning`, `ToolCall` (+ approval), `AgentSteps`",
       "area": "ai",
       "priority": "P1",
       "owner": "SURF",
@@ -1259,6 +1408,7 @@
         "ToolCall",
         "AgentSteps"
       ],
+      "subpath": "./ai",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:24",
@@ -1284,12 +1434,15 @@
         "root": 0,
         "subpath": 3
       },
+      "budgetKb": 8,
       "status": "planned",
-      "subpath": "./ai"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-34",
-      "capability": "Citation, SourceList",
+      "capability": "`Citation`, `SourceList`",
       "area": "ai",
       "priority": "P1",
       "owner": "SURF",
@@ -1301,6 +1454,7 @@
         "Citation",
         "SourceList"
       ],
+      "subpath": "./ai",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:25"
@@ -1322,12 +1476,15 @@
         "root": 0,
         "subpath": 2
       },
+      "budgetKb": 9,
       "status": "planned",
-      "subpath": "./ai"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-35",
-      "capability": "ModelPicker registry item on `Combobox`",
+      "capability": "`ModelPicker`",
       "area": "ai",
       "priority": "P1",
       "owner": "SURF",
@@ -1338,6 +1495,7 @@
       "names": [
         "ai-model-picker"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:25"
@@ -1358,11 +1516,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-36",
-      "capability": "Artifact panel, TraceTree, EvalDashboard registry items",
+      "capability": "`Artifact` panel, `TraceTree`, `EvalDashboard`",
       "area": "ai",
       "priority": "P2",
       "owner": "SURF",
@@ -1375,6 +1537,7 @@
         "ai-trace-tree",
         "ai-eval-dashboard"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:25"
@@ -1398,11 +1561,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-37",
-      "capability": "Headless media element (`useMediaElement` in `./media`)",
+      "capability": "Headless media element",
       "area": "media",
       "priority": "P1",
       "owner": "SURF",
@@ -1413,6 +1580,7 @@
       "names": [
         "useMediaElement"
       ],
+      "subpath": "./media",
       "release": "5.0",
       "evidence": [
         "exception:architecture §3.2 `./media` entry"
@@ -1433,12 +1601,15 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": 3,
       "status": "planned",
-      "subpath": "./media"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-38",
-      "capability": "Scrubber with buffered ranges, chapter markers, hover time, frame step (`MediaScrubber`, also `MediaControls.Scrubber`)",
+      "capability": "Scrubber with buffered ranges, chapter markers, hover time, frame step",
       "area": "media",
       "priority": "P2",
       "owner": "SURF",
@@ -1450,6 +1621,7 @@
       "names": [
         "MediaScrubber"
       ],
+      "subpath": "./media",
       "release": "5.0",
       "evidence": [
         "exception:media PRD scope deviation (archived line 15)"
@@ -1473,12 +1645,18 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": null,
       "status": "planned",
-      "subpath": "./media"
+      "artifacts": [],
+      "demand": [],
+      "stories": [
+        "media-mediascrubber--buffered",
+        "media-mediascrubber--chapters"
+      ]
     },
     {
       "id": "X-39",
-      "capability": "Standalone lightbox (`ImageViewer`, Dialog-based, `items` keyed by `id`) replaces `GlassGallery enableLightbox`",
+      "capability": "Standalone lightbox",
       "area": "media",
       "priority": "P1",
       "owner": "SURF",
@@ -1489,6 +1667,7 @@
       "names": [
         "ImageViewer"
       ],
+      "subpath": "./media",
       "release": "5.0",
       "evidence": [
         "exception:rubric R3"
@@ -1513,12 +1692,17 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": 10,
       "status": "planned",
-      "subpath": "./media"
+      "artifacts": [],
+      "demand": [],
+      "stories": [
+        "media-imageviewer--open"
+      ]
     },
     {
       "id": "X-40",
-      "capability": "APG carousel (`CarouselRail`)",
+      "capability": "APG carousel",
       "area": "media",
       "priority": "P1",
       "owner": "SURF",
@@ -1529,6 +1713,7 @@
       "names": [
         "CarouselRail"
       ],
+      "subpath": "./media",
       "release": "5.0",
       "evidence": [
         "exception:APG carousel pattern"
@@ -1550,12 +1735,15 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": 10,
       "status": "planned",
-      "subpath": "./media"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-41",
-      "capability": "Captions/track toggle (`MediaControls.Captions`, native `TextTrack` modes)",
+      "capability": "Captions/track toggle",
       "area": "media",
       "priority": "P1",
       "owner": "SURF",
@@ -1566,6 +1754,7 @@
       "names": [
         "Captions"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "exception:WCAG 1.2.2"
@@ -1587,11 +1776,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-42",
-      "capability": "Waveform (consumer-supplied decoded `peaks`, or live single-bar `level` 0–1; no audio analysis, no `AudioContext`, no separate `AudioLevel`)",
+      "capability": "`Waveform` (consumer-supplied decoded `peaks`, or a live single-bar `level` 0–1)",
       "area": "media",
       "priority": "P2",
       "owner": "SURF",
@@ -1602,6 +1795,7 @@
       "names": [
         "Waveform"
       ],
+      "subpath": "./media",
       "release": "5.1",
       "evidence": [
         "exception:no competitor evidence"
@@ -1624,12 +1818,15 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": 2,
       "status": "planned",
-      "subpath": "./media"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-43",
-      "capability": "Transcript panel registry item `media-transcript`",
+      "capability": "Transcript panel",
       "area": "media",
       "priority": "P3",
       "owner": "SURF",
@@ -1640,6 +1837,7 @@
       "names": [
         "media-transcript"
       ],
+      "subpath": null,
       "release": "5.1",
       "evidence": [
         "exception:accessibility value"
@@ -1660,7 +1858,11 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-44",
@@ -1675,6 +1877,7 @@
       "names": [
         "ResizablePanels"
       ],
+      "subpath": "./app-shell",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:89"
@@ -1697,8 +1900,11 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": null,
       "status": "planned",
-      "subpath": "./app-shell"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-45",
@@ -1713,6 +1919,7 @@
       "names": [
         "Inspector"
       ],
+      "subpath": "./app-shell",
       "release": "5.0",
       "evidence": [
         "research/competitors.md:89"
@@ -1736,12 +1943,15 @@
         "root": 0,
         "subpath": 1
       },
+      "budgetKb": null,
       "status": "planned",
-      "subpath": "./app-shell"
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-46",
-      "capability": "PresenceStack registry item on `AvatarGroup` (typed `users` prop, no transport)",
+      "capability": "`PresenceStack`",
       "area": "workspaces",
       "priority": "P2",
       "owner": "SURF",
@@ -1754,6 +1964,7 @@
       "names": [
         "presence-stack"
       ],
+      "subpath": null,
       "release": "5.1",
       "evidence": [
         "exception:no competitors.md evidence (Liveblocks-style UIs)"
@@ -1774,11 +1985,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-47",
-      "capability": "CommentThread anchored to content (replaces `GlassCommentThread`)",
+      "capability": "`CommentThread` anchored to content",
       "area": "workspaces",
       "priority": "P2",
       "owner": "SURF",
@@ -1791,6 +2006,7 @@
       "names": [
         "comment-thread"
       ],
+      "subpath": null,
       "release": "5.1",
       "evidence": [
         "exception:replaces GlassCommentThread (§3.5)"
@@ -1811,11 +2027,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-48",
-      "capability": "Commerce cart block (`ProductCard`, `LineItem`, `CartSummary`)",
+      "capability": "`ProductCard`, `LineItem`, `CartSummary`",
       "area": "commerce",
       "priority": "P2",
       "owner": "SURF",
@@ -1828,6 +2048,7 @@
       "names": [
         "commerce-cart"
       ],
+      "subpath": null,
       "release": "5.1",
       "evidence": [
         "exception:recipe demand at recipes.ts:810 (E-24)"
@@ -1851,11 +2072,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-49",
-      "capability": "Checkout steps block (`CheckoutSteps`: ordered list with `aria-current=\"step\"` + `Form` fields)",
+      "capability": "`CheckoutSteps`",
       "area": "commerce",
       "priority": "P2",
       "owner": "SURF",
@@ -1868,6 +2093,7 @@
       "names": [
         "commerce-checkout"
       ],
+      "subpath": null,
       "release": "5.1",
       "evidence": [
         "exception:recipe demand at recipes.ts:810 (E-24)"
@@ -1888,11 +2114,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-50",
-      "capability": "Pricing block (`PricingTable`, `PlanComparison` on `SegmentedControl` + `Table`)",
+      "capability": "`PricingTable`, `PlanComparison`",
       "area": "commerce",
       "priority": "P3",
       "owner": "SURF",
@@ -1905,6 +2135,7 @@
       "names": [
         "pricing"
       ],
+      "subpath": null,
       "release": "5.1",
       "evidence": [
         "exception:E-25"
@@ -1927,7 +2158,11 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-51",
@@ -1942,6 +2177,7 @@
       "names": [
         "registry.json"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:18",
@@ -1963,11 +2199,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-52",
-      "capability": "DescriptionList",
+      "capability": "`DescriptionList`",
       "area": "enterprise",
       "priority": "P1",
       "owner": "CMP",
@@ -1978,6 +2218,7 @@
       "names": [
         "DescriptionList"
       ],
+      "subpath": ".",
       "release": "5.0",
       "evidence": [
         "exception:architecture §11.1 T2 list"
@@ -2000,12 +2241,15 @@
         "root": 1,
         "subpath": 0
       },
+      "budgetKb": 2,
       "status": "planned",
-      "subpath": "."
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-53",
-      "capability": "Banner as `Alert layout=\"banner\"` (no `Banner` export)",
+      "capability": "Banner",
       "area": "enterprise",
       "priority": "P1",
       "owner": "CMP",
@@ -2016,6 +2260,7 @@
       "names": [
         "layout"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "exception:rubric R3"
@@ -2038,11 +2283,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-54",
-      "capability": "EmptyState (polish of `GlassEmptyState`)",
+      "capability": "`EmptyState`",
       "area": "enterprise",
       "priority": "P1",
       "owner": "CMP",
@@ -2053,6 +2302,7 @@
       "names": [
         "EmptyState"
       ],
+      "subpath": ".",
       "release": "5.0",
       "evidence": [
         "exception:capability map Enterprise section"
@@ -2073,12 +2323,15 @@
         "root": 1,
         "subpath": 0
       },
+      "budgetKb": 2,
       "status": "planned",
-      "subpath": "."
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-55",
-      "capability": "Settings page, audit log, permissions matrix blocks (`settings` at 5.0 by PLAT; `audit-log`, `permissions-matrix` at 5.2)",
+      "capability": "Settings page, audit log, permissions matrix",
       "area": "enterprise",
       "priority": "P1",
       "owner": "SURF",
@@ -2093,6 +2346,7 @@
         "audit-log",
         "permissions-matrix"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "research/competitors.md:130",
@@ -2114,11 +2368,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-56",
-      "capability": "Honest depth layering on the existing layer model and `SurfaceGroup` (no `elevation` tokens)",
+      "capability": "Honest depth layering",
       "area": "spatial",
       "priority": "P3",
       "owner": "MAT",
@@ -2129,6 +2387,7 @@
       "names": [
         "SurfaceGroup"
       ],
+      "subpath": null,
       "release": "5.0",
       "evidence": [
         "exception:D-07"
@@ -2152,11 +2411,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-57",
-      "capability": "Parallax, ParticleField, MagneticCursor labs residents (rebuilt to §13.4 criteria)",
+      "capability": "`Parallax`, `ParticleField`, `MagneticCursor`",
       "area": "spatial",
       "priority": "P3",
       "owner": "SURF",
@@ -2171,6 +2434,7 @@
         "ParticleField",
         "MagneticCursor"
       ],
+      "subpath": null,
       "release": "5.x",
       "evidence": [
         "exception:§4.5 admission rubric"
@@ -2192,11 +2456,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-58",
-      "capability": "Cinematic WebGL lens (labs → `./three`, promoted per §13.4)",
+      "capability": "Cinematic WebGL lens",
       "area": "spatial",
       "priority": "P3",
       "owner": "SURF",
@@ -2209,6 +2477,7 @@
       "names": [
         "cinematic-lens"
       ],
+      "subpath": null,
       "release": "5.x",
       "evidence": [
         "exception:D-05, D-16"
@@ -2230,11 +2499,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "planned"
+      "budgetKb": null,
+      "status": "planned",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R01",
-      "capability": "consciousness/quantum/biometric/eye-tracking components and `ConsciousnessFeatures` props",
+      "capability": "Quantum, consciousness, biometric, eye-tracking, gaze, \"predictive\" props (`ConsciousnessFeatures` mixin, `src/components/charts/GlassChart.tsx:43`; conditional hooks, API-CONSISTENCY-02)",
       "area": "rejected",
       "priority": "P3",
       "owner": "PLAT",
@@ -2249,9 +2522,10 @@
         "eye-tracking",
         "ConsciousnessFeatures"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: consciousness/quantum/biometric/eye-tracking components and `ConsciousnessFeatures` props"
+        "exception:fails R1, R4: no product surface; conditional hooks crash; simulated input"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2267,11 +2541,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R02",
-      "capability": "`GlassGANGenerator`, `GlassDeepDreamGlass`, `GlassStyleTransfer`, `GlassGenerativeArt`, `AIGlassThemeProvider`, `GlassPredictiveEngine`, `GlassAutoComposer`",
+      "capability": "\"AI creative\" simulations: GAN, DeepDream, StyleTransfer, GenerativeArt, NeuralWeight, Neuromorphic, `AIGlassThemeProvider`, `GlassPredictiveEngine`, `GlassAutoComposer` (SERVER-SERVICES-AI-06, -10)",
       "area": "rejected",
       "priority": "P3",
       "owner": "PLAT",
@@ -2288,9 +2566,10 @@
         "GlassPredictiveEngine",
         "GlassAutoComposer"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: `GlassGANGenerator`, `GlassDeepDreamGlass`, `GlassStyleTransfer`, `GlassGenerativeArt`, `AIGlassThemeProvider`, `GlassPredictiveEngine`, `GlassAutoComposer`"
+        "exception:fails R4: simulation; provider calls conflict with D-30"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2306,11 +2585,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R03",
-      "capability": "`GlassSmartShoppingCart`, `GlassEcommerceProvider`, `GlassProductRecommendations`",
+      "capability": "Ecommerce engines: `GlassSmartShoppingCart`, `GlassEcommerceProvider`, `GlassProductRecommendations` (fabricated reasons; E-24)",
       "area": "rejected",
       "priority": "P3",
       "owner": "PLAT",
@@ -2323,9 +2606,10 @@
         "GlassEcommerceProvider",
         "GlassProductRecommendations"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: `GlassSmartShoppingCart`, `GlassEcommerceProvider`, `GlassProductRecommendations`"
+        "exception:fails R4: stateful fake engine. Presentational blocks X-48–X-50 replace them"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2341,11 +2625,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R04",
-      "capability": "`SpatialComputingEngine`, `GlassARPreview`, `ARGlassEffects`, `Glass360Viewer`, `GlassHologram`, `GlassVortexPortal`, `GlassFluidSimulation`, `Glass3DEngine`, `AuroraPro`, `GlassShatterEffects`",
+      "capability": "AR/XR/3-D demos: `SpatialComputingEngine`, `GlassARPreview`, `ARGlassEffects`, `Glass360Viewer`, `GlassHologram`, `GlassVortexPortal`, `GlassFluidSimulation`, `Glass3DEngine`, `AuroraPro`, `GlassShatterEffects` (all REMOVE)",
       "area": "rejected",
       "priority": "P3",
       "owner": "PLAT",
@@ -2365,9 +2653,10 @@
         "AuroraPro",
         "GlassShatterEffects"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: `SpatialComputingEngine`, `GlassARPreview`, `ARGlassEffects`, `Glass360Viewer`, `GlassHologram`, `GlassVortexPortal`, `GlassFluidSimulation`, `Glass3DEngine`, `AuroraPro`, `GlassShatterEffects`"
+        "exception:fails R1, R2: no competitor evidence (E-38), self-declared demos, `AuroraPro` renders an empty div"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2383,11 +2672,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R05",
-      "capability": "Fractal, Orbital, Tessellation layouts, `GlassIslandLayout`",
+      "capability": "Novelty layouts: Fractal, Orbital, Tessellation, Island (`GlassIslandLayout` fake resize)",
       "area": "rejected",
       "priority": "P3",
       "owner": "PLAT",
@@ -2401,9 +2694,10 @@
         "Tessellation",
         "GlassIslandLayout"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: Fractal, Orbital, Tessellation layouts, `GlassIslandLayout`"
+        "exception:fails R1, R3: masonry folds into T2 `Grid` (§13.3)"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2419,11 +2713,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R06",
-      "capability": "CMS family incl. `GlassCanvas`, `GlassPropertyPanel` (sink no-op in 4.1.1)",
+      "capability": "CMS canvas/property panel with `new Function` (`src/components/cms/GlassCanvas.tsx:315`)",
       "area": "rejected",
       "priority": "P3",
       "owner": "PLAT",
@@ -2435,9 +2733,10 @@
         "GlassCanvas",
         "GlassPropertyPanel"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: CMS family incl. `GlassCanvas`, `GlassPropertyPanel` (sink no-op in 4.1.1)"
+        "exception:fails R4: code-execution sink; `Inspector` (X-45) is the product surface"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2453,11 +2752,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R07",
-      "capability": "`GlassTeamCursors`",
+      "capability": "Fake collaboration cursors (`GlassTeamCursors`, defined in `src/components/collaboration/CollaborativeGlassWorkspace.tsx`; REMOVE)",
       "area": "rejected",
       "priority": "P3",
       "owner": "PLAT",
@@ -2468,9 +2771,10 @@
       "names": [
         "GlassTeamCursors"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: `GlassTeamCursors`"
+        "exception:fails R4: random positions; `PresenceStack` (X-46) is the honest successor"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2486,11 +2790,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R08",
-      "capability": "gamification, achievements, `emotionalIntelligence`, default-on `soundDesign`",
+      "capability": "Gamification, achievements, emotional intelligence, default-on sound design",
       "area": "rejected",
       "priority": "P3",
       "owner": "PLAT",
@@ -2504,9 +2812,10 @@
         "emotionalIntelligence",
         "soundDesign"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: gamification, achievements, `emotionalIntelligence`, default-on `soundDesign`"
+        "exception:fails R1: no product demand; sound only as opt-in labs `useGlassSound` (§13.3)"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2522,11 +2831,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R09",
-      "capability": "`HoudiniGlassProvider`/`Card`, `LiquidGlassGPU`",
+      "capability": "Houdini paint worklets, `LiquidGlassGPU`, GPU self-displacement",
       "area": "rejected",
       "priority": "P3",
       "owner": "PLAT",
@@ -2539,9 +2852,10 @@
         "HoudiniGlassCard",
         "LiquidGlassGPU"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: `HoudiniGlassProvider`/`Card`, `LiquidGlassGPU`"
+        "exception:fails R2, R5: engine-specific, unbudgeted; cinematic lens (X-58) is the labs path"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2557,11 +2871,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R10",
-      "capability": "library-side presence/transport adapter (never added)",
+      "capability": "A runtime presence/transport adapter inside the library",
       "area": "rejected",
       "priority": "P3",
       "owner": "SURF",
@@ -2574,9 +2892,10 @@
         "presenceAdapter",
         "PresenceAdapter"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: library-side presence/transport adapter (never added)"
+        "exception:fails R4: network in library; presence data is a prop"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2592,11 +2911,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R11",
-      "capability": "alias exports `Autocomplete`, `TagInput`, `HoverCard`, `NotificationCenter`, `Banner`, `Lightbox`, `Dock`, `NavBar` (never added)",
+      "capability": "Separate `Dock`, `NavBar`, `Autocomplete`, `TagInput`, `Banner`, `Lightbox`, `HoverCard`, `NotificationCenter` exports",
       "area": "rejected",
       "priority": "P3",
       "owner": "SURF",
@@ -2614,9 +2937,10 @@
         "Dock",
         "NavBar"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: alias exports `Autocomplete`, `TagInput`, `HoverCard`, `NotificationCenter`, `Banner`, `Lightbox`, `Dock`, `NavBar` (never added)"
+        "exception:fails R3: expressible as parts/props (X-12, X-13, X-21, X-22, X-39, X-53; `AURAGLASS_APP_SHELL_NAVIGATION_PRD.md:14`)"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2632,11 +2956,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R12",
-      "capability": "`elevation` token axis (never added)",
+      "capability": "`elevation` token axis",
       "area": "rejected",
       "priority": "P3",
       "owner": "SURF",
@@ -2647,9 +2975,10 @@
       "names": [
         "elevation"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: `elevation` token axis (never added)"
+        "exception:fails D-07: rejected by architecture (deviation 3)"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2665,11 +2994,15 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     },
     {
       "id": "X-R13",
-      "capability": "`MindMap`, `SignaturePad` as core exports (`GlassMindMap`, `GlassSignaturePad`); labs on demand",
+      "capability": "`MindMap`, `SignaturePad` as core exports",
       "area": "rejected",
       "priority": "P3",
       "owner": "PLAT",
@@ -2685,9 +3018,10 @@
         "GlassMindMap",
         "GlassSignaturePad"
       ],
+      "subpath": null,
       "release": "never",
       "evidence": [
-        "exception:rejected: `MindMap`, `SignaturePad` as core exports (`GlassMindMap`, `GlassSignaturePad`); labs on demand"
+        "exception:fails R1: labs only, and only on recorded demand (§13.4)"
       ],
       "findings": [],
       "reqRefs": [],
@@ -2703,7 +3037,11 @@
         "root": 0,
         "subpath": 0
       },
-      "status": "rejected"
+      "budgetKb": null,
+      "status": "rejected",
+      "artifacts": [],
+      "demand": [],
+      "stories": []
     }
   ]
 }

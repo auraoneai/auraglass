@@ -1,0 +1,3 @@
+// Fixture contract text for the REQ-SURF-184 promotion gate: the promoted
+// name must appear in a value-export list of the contract (src/contracts/entries.ts).
+{ subpath: './data', source: 'src/data/index.ts', owner: 'SURF', ga: '5.1', exports: ['Table', 'fixture-thing'] },

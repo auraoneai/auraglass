@@ -90,7 +90,27 @@ const w4 = [
 // mirror). SURF-633: labs admission gate on L1 with scopes pr + release, so a
 // red run fails the tag pipeline whose plat:publish:npm job publishes labs
 // (REQ-SURF-167). SURF-561: SURF purity gate on L1 (REQ-SURF-05).
+// REQ-SURF-181/184 (REQ-FIN-89): L2 delivery + export-budget check on the
+// packed tarball (.artifacts/pack from plat:package:pack; the root package's
+// .tgz is picked by name), scopes main and release; at a v5.0.0-rc.N tag the
+// script also fails any planned 5.0 P0/P1 row, at v5.0.0 it applies --ga.
 const w5 = [
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-capability-ledger.mjs --manifest .artifacts/pack --budget .artifacts/pack',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-capability-ledger.mjs --manifest .artifacts/pack --budget .artifacts/pack',
+    scope: 'release',
+    remote: false,
+    failClosed: true,
+  },
   {
     lane: 'L1',
     kind: 'node-script',
