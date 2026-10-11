@@ -7,7 +7,7 @@ test.describe('media sampling perf (SURF-496)', () => {
   test('sampling stays under 4ms across 10 seeks', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Backdrop') ?? subjects.find((s) => s.subject === 'MediaControls');
-    if (!subject) { console.warn('no media subject registered — pending'); return; }
+    if (!subject) throw new Error('no media subject registered');
     await gotoStory(page, subject.id);
     const ms = await page.evaluate(async () => {
       const samples: number[] = [];
@@ -18,7 +18,7 @@ test.describe('media sampling perf (SURF-496)', () => {
       }
       return samples;
     });
-    if (ms.length === 0) { console.warn('no samples — pending'); return; }
+    expect(ms.length, 'no samples').toBeGreaterThan(0);
     const worst = Math.max(...ms);
     expect(worst).toBeLessThan(200);
   });

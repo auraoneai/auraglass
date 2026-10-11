@@ -19,10 +19,9 @@ describe('ai side effects (REQ-SURF-06)', () => {
       jest.isolateModules(() => {
         require('../index');
       });
-      // The MAT S-25 layer stack (src/theme/index.ts, contract seam) binds one
-      // document 'keydown' listener at module scope — MAT-owned, exempt here.
-      const surfCalls = calls.filter((c) => c !== 'document.keydown');
-      expect(surfCalls).toEqual([]);
+      // No exemptions: the layer stack binds its keydown lazily inside
+      // layerStackFor(document) at provider render — never at module scope.
+      expect(calls).toEqual([]);
       expect(st).not.toHaveBeenCalled();
       expect(si).not.toHaveBeenCalled();
       expect(create.mock.calls.filter((c) => c[0] === 'style' || c[0] === 'script')).toEqual([]);

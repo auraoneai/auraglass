@@ -20,7 +20,8 @@ test.describe('popover APG (CMP-397)', () => {
 
     await page.keyboard.press('Escape');
     await expect(popup).toHaveCount(0);
-    expect(await page.evaluate(() => document.activeElement?.tagName)).not.toBe('BODY');
+    // REQ-CMP-98: focus returns to the trigger, not merely 'not BODY'
+    await expect(page.locator('[data-ag-part="trigger"]').first()).toBeFocused();
     await apg.axe(page);
   });
 
