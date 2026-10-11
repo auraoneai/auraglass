@@ -326,15 +326,7 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
       }
     }
   }
-  for (const [id, decls] of presetDecls) {
-    const t = `[data-ag-theme="${id}"]`;
-    const dark = srgbDecls(decls.filter(hasLightDark), 'dark');
-    supports.push(
-      ...fb(t, srgbDecls(decls, 'light')),
-      ...fb(`${DARK} ${t}, ${DARK}${t}`, dark),
-      ...fbMedia(DARK_MEDIA, `:root:not([data-ag-scheme]) ${t}, :root:not([data-ag-scheme])${t}`, dark),
-    );
-  }
+  // presets carry their own fallback in src/tokens/generated/presets.ts (see "presets (MAT-14)").
   const shSel = ':root[data-ag-shadcn-source]';
   const shDark = srgbDecls(shadcnSource.filter(hasLightDark), 'dark');
   supports.push(
