@@ -43,7 +43,7 @@ export default function CmpServerPage() {
           <Breadcrumbs.Item><Breadcrumbs.Current>Here</Breadcrumbs.Current></Breadcrumbs.Item>
         </Breadcrumbs.List>
       </Breadcrumbs.Root>
-      <ButtonGroup><Button>One</Button><Button>Two</Button></ButtonGroup>
+      <ButtonGroup aria-label="Actions"><Button>One</Button><Button>Two</Button></ButtonGroup>
       <Card.Root><Card.Header><Card.Title>Card</Card.Title></Card.Header><Card.Body>Body</Card.Body></Card.Root>
       <Container>Contained</Container>
       <DescriptionList><DescriptionList.Item><DescriptionList.Term>Plan</DescriptionList.Term><DescriptionList.Details>Pro</DescriptionList.Details></DescriptionList.Item></DescriptionList>
@@ -54,10 +54,8 @@ export default function CmpServerPage() {
       <Heading level={2}>Heading</Heading>
       <Text>Body text <Kbd>⌘K</Kbd></Text>
       <Link href="/docs">Docs</Link>
-      <Pagination.Root aria-label="Pages">
-        <Pagination.Item page={1} current href="?p=1">1</Pagination.Item>
-        <Pagination.Item page={2} href="?p=2">2</Pagination.Item>
-      </Pagination.Root>
+      {/* Link mode (getHref) is the server-renderable Pagination (SURF-081). */}
+      <Pagination.Root aria-label="Pages" pageCount={2} page={1} getHref={(p) => `?p=${p}`} />
       <Separator />
       <Skeleton lines={2} />
       <Stack gap={2}><span>x</span><span>y</span></Stack>
