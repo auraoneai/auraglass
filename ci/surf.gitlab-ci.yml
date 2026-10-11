@@ -130,6 +130,11 @@ surf:test:doubles:
   parallel:
     matrix:
       - DOUBLES_AREA: [app-shell, data, ai, media, capability]
+  # Jest runs over sources only. Earlier-stage artifacts (cmp:build:dts's
+  # .artifacts/cmp/dts/pkg/package/package.json, name "aura-glass") would
+  # collide with the root package in jest-haste-map and break every
+  # jest.mock('aura-glass', …) — fetch none.
+  dependencies: []
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   script:
