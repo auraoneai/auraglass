@@ -29,7 +29,8 @@
           "state": { "type": "string", "enum": ["pass", "fail", "pending", "double-pass", "pre-existing"] },
           "reason": { "type": "string" },
           "tests": { "type": "integer" },
-          "durationMs": { "type": "integer" }
+          "durationMs": { "type": "integer" },
+          "report": { "type": "object" }
         }
       }
     },

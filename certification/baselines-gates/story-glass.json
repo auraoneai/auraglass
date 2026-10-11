@@ -1,0 +1,52 @@
+{
+  "$comment": "Expiring baseline (PRD-F §4.3 rule 3) for the story-glass gate scripts/qual/lint-stories.mjs (REQ-QUAL-55, REQ-FIN-106). Written by --init-baseline; shrinks only (--prune-baseline). Each row is the owning stream's fix (reqFin). Empty at RC-1.",
+  "version": 1,
+  "gate": "story-glass",
+  "reqFin": "REQ-FIN-106",
+  "expires": "RC-1",
+  "legacy": "legacy/** excluded: not a .storybook/main.ts story root, not shipped, deleted by FIN-C",
+  "rows": [
+    {
+      "check": "story-no-ink-override",
+      "file": "stories/cmp/primitives/Slot.stories.tsx",
+      "owner": "CMP",
+      "reqFin": "REQ-FIN-71",
+      "count": 1
+    },
+    {
+      "check": "story-no-optics",
+      "file": "src/a11y/stories/ColorVision.stories.tsx",
+      "owner": "MAT",
+      "reqFin": "REQ-FIN-59",
+      "count": 1
+    },
+    {
+      "check": "story-no-stage-background",
+      "file": "stories/mat/motion/Interactions.stories.tsx",
+      "owner": "MAT",
+      "reqFin": "REQ-FIN-59",
+      "count": 1
+    },
+    {
+      "check": "story-no-optics",
+      "file": "stories/mat/Presets.stories.tsx",
+      "owner": "MAT",
+      "reqFin": "REQ-FIN-59",
+      "count": 2
+    },
+    {
+      "check": "story-no-private-vars",
+      "file": "src/data/virtual-list/VirtualList.stories.tsx",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-83",
+      "count": 2
+    },
+    {
+      "check": "story-no-stage-background",
+      "file": "src/media/NowPlayingBar.stories.tsx",
+      "owner": "SURF",
+      "reqFin": "REQ-FIN-86",
+      "count": 1
+    }
+  ]
+}
