@@ -1,8 +1,9 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 @layer ag.components {
-  .ag-chart__svg { display: block; outline: none; }
-  .ag-chart__svg:focus-visible { box-shadow: 0 0 0 var(--_ag-focus-width, 2px) var(--_ag-focus, Highlight); }
+  /* REQ-SURF-193: the svg carries data-ag-focusable; the MAT ring
+     (src/a11y/css/focus.css) paints on :focus-visible. */
+  .ag-chart__svg { display: block; }
   .ag-chart__grid-line { stroke: var(--_ag-border, currentColor); stroke-opacity: 0.25; stroke-dasharray: 3 4; }
   .ag-chart__cursor { stroke: var(--_ag-accent, Highlight); stroke-width: 1; }
   .ag-chart__tooltip {

@@ -142,7 +142,7 @@ function RangePopup({
             items={presets.map((p, i) => ({ id: i, label: p.label }))}
           >
             {(item) => (
-              <RACListBoxItem id={item.id} textValue={item.label} className="ag-date-range-picker__preset">
+              <RACListBoxItem data-ag-focusable="" id={item.id} textValue={item.label} className="ag-date-range-picker__preset">
                 {item.label}
               </RACListBoxItem>
             )}
@@ -231,11 +231,11 @@ function Inner({
       {hasLabel ? <RACLabel>{label}</RACLabel> : null}
       <RACGroup className="ag-date-picker__group ag-date-range-picker__group">
         <RACDateInput slot="start" aria-label={labels?.start ?? 'Start date'} data-ag-part="date-input-start" className="ag-date-field__input">
-          {(segment) => <RACDateSegment segment={segment} className="ag-date-field__segment" />}
+          {(segment) => <RACDateSegment data-ag-focusable="" segment={segment} className="ag-date-field__segment" />}
         </RACDateInput>
         <span aria-hidden="true" className="ag-date-range-picker__sep">–</span>
         <RACDateInput slot="end" aria-label={labels?.end ?? 'End date'} data-ag-part="date-input-end" className="ag-date-field__input">
-          {(segment) => <RACDateSegment segment={segment} className="ag-date-field__segment" />}
+          {(segment) => <RACDateSegment data-ag-focusable="" segment={segment} className="ag-date-field__segment" />}
         </RACDateInput>
         <RangePopup
           committed={committed}

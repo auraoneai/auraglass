@@ -130,6 +130,7 @@ export function TreeView<T extends TreeItemData>({
         textValue={textOf(item)}
         {...(hasKids || loadChildren !== undefined ? { hasChildItems: true } : {})}
         data-ag-part="tree-item"
+        data-ag-focusable=""
         data-loading={isLoading || undefined}
         // RAC's filterDOMProps drops aria-busy from TreeItem props, so the
         // attribute is applied to the row element directly (re-run on every

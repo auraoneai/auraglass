@@ -113,7 +113,7 @@ function Grid({ showWeekNumbers, offsetMonths = 0, weekLabel }: GridProps) {
       )}
       <RACCalendarGridBody>
         {(date) => {
-          const cell = <RACCalendarCell date={date} className="ag-calendar__cell" />;
+          const cell = <RACCalendarCell data-ag-focusable="" date={date} className="ag-calendar__cell" />;
           if (!weeks || getDayOfWeek(date, locale, firstDayOfWeek) !== 0) return cell;
           const thursday = date.add({ days: (4 - isoWeekday(date) + 7) % 7 });
           const week = isoWeekNumber(thursday);
@@ -166,11 +166,11 @@ function Months({ className, children }: { className: string; children: React.Re
 function Header({ labels }: { labels?: CalendarLabels | undefined }) {
   return (
     <header className="ag-calendar__header">
-      <RACButton slot="previous" className="ag-calendar__nav" aria-label={labels?.previous ?? 'Previous month'}>
+      <RACButton data-ag-focusable="" slot="previous" className="ag-calendar__nav" aria-label={labels?.previous ?? 'Previous month'}>
         <span aria-hidden="true">‹</span>
       </RACButton>
       <RACHeading className="ag-calendar__heading" aria-live="polite" />
-      <RACButton slot="next" className="ag-calendar__nav" aria-label={labels?.next ?? 'Next month'}>
+      <RACButton data-ag-focusable="" slot="next" className="ag-calendar__nav" aria-label={labels?.next ?? 'Next month'}>
         <span aria-hidden="true">›</span>
       </RACButton>
     </header>
