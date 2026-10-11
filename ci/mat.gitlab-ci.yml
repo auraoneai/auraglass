@@ -74,6 +74,21 @@ mat:test:token-gates:
     - npm run tokens:build
     - node scripts/mat/token-gates-l1.mjs
 
+# REQ-MAT-37 / REQ-FIN-56 (D.3-20): cinematic boundary runtime gate, registered as
+# an L1 row in fragments/lanes/mat.ts. QUAL's lane runner (certification/run.mjs,
+# invoked by qual:certify:l1) has not landed on next, so this transitional
+# test-stage job runs the same script until the runner reports the L1 row; it is
+# deleted in the PR that lands the runner's first green L1 run.
+mat:test:material-runtime:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    - node scripts/mat/verify-material-runtime.mjs
+    - npx jest tests/material/ci/verify-material-runtime.test.ts tests/material/ci/cinematic-boundary.test.ts
+
 # REQ-MAT-18 (D.2-04): literal ratchet on MAT's stream baseline
 # (fragments/literals-baseline/mat.json). Exits 1 only for MAT findings.
 mat:lint:literals:
