@@ -6,7 +6,7 @@
 import * as React from 'react';
 import { useSyncExternalStore } from 'react';
 import { destroyStore, getServerSnapshot, getSnapshot, setError, setTone, subscribe, type MediaState } from './mediaStore';
-import { getOrSampleTone } from '../backdrops/sampling/toneCache';
+import { sampleElementTone } from '../backdrops/sampling/sampleElementTone';
 import { subscribeFrame } from '../motion';
 
 export type { MediaState, MediaError, MediaTextTrack } from './mediaStore';
@@ -89,25 +89,18 @@ export function useMediaElement(
     return () => { unsub(); io?.disconnect(); };
   }, [el, state.paused, state.ended]);
 
-  // Tone sampling — only the ref-bound element, at most once per src.
+  // Tone sampling — only the ref-bound element (a video's poster wins over
+  // its frames), at most once per src through the LRU.
   React.useEffect(() => {
-    if (!el || !sampleTone) return;
+    if (!el || !sampleTone) return undefined;
     const root = el.closest('[data-ag-media-root]') as HTMLElement | null;
-    if (!root) return;
-    const mediaEl = el as HTMLImageElement | HTMLVideoElement;
-    const apply = (tone: MediaState['tone'], luma: number | null) => {
+    if (!root) return undefined;
+    return sampleElementTone(el as HTMLImageElement | HTMLVideoElement, (tone, luma) => {
       if (tone) root.setAttribute('data-ag-media-tone', tone);
       else root.removeAttribute('data-ag-media-tone');
       if (luma !== null) root.style.setProperty('--_ag-media-luma', luma.toFixed(3));
       setTone(el, tone);
-    };
-    if (el instanceof HTMLImageElement) {
-      void el.decode().then(() => getOrSampleTone(mediaEl, undefined, apply)).catch(() => getOrSampleTone(mediaEl, undefined, apply));
-    } else {
-      const onData = () => getOrSampleTone(mediaEl, undefined, apply);
-      if (el.readyState >= 2) onData();
-      else el.addEventListener('loadeddata', onData, { once: true });
-    }
+    });
   }, [el, sampleTone]);
 
   // Media Session

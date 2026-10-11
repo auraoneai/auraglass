@@ -3,7 +3,7 @@
  * z-1; declarations via data-ag-backdrop per preset; zero animations by
  * default; drift gated under [data-ag-continuous="on"]. */
 import * as React from 'react';
-import { BackdropTone } from './BackdropTone';
+import { BackdropMediaLayer, BackdropTone } from './BackdropTone';
 
 export type {
   BackdropPreset, BackdropScheme, BackdropPalette, BackdropMotion,
@@ -53,9 +53,15 @@ export const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps>(function
       data-ag-motion={motion}
       {...rest}
     >
-      <div className="ag-backdrop-layer" data-ag-part="backdrop-layer" aria-hidden="true">
-        {layer}
-      </div>
+      {isMedia ? (
+        <BackdropMediaLayer sample={tone === undefined} source={(props as BackdropPhotoProps | BackdropVideoProps).src}>
+          {layer}
+        </BackdropMediaLayer>
+      ) : (
+        <div className="ag-backdrop-layer" data-ag-part="backdrop-layer" aria-hidden="true">
+          {layer}
+        </div>
+      )}
       {preset === 'video' ? <BackdropTone /> : null}
       {children !== undefined && children !== null ? (
         <div className="ag-backdrop-content" data-ag-part="backdrop-content">{children}</div>

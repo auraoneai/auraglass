@@ -23,7 +23,9 @@ function canvasSize(el: HTMLImageElement | HTMLVideoElement): { w: number; h: nu
 }
 
 /** Draw → getImageData once. Returns null (no tone) on tainted canvas, decode
- * failure or zero natural size — never throws. */
+ * failure or zero natural size — never throws. Every call that reaches the
+ * canvas records one performance measure named 'ag:sample' (REQ-SURF-153;
+ * the L10 media-sampling perf spec reads it at 4× CPU throttle). */
 export function sampleOwnedPixels(
   el: HTMLImageElement | HTMLVideoElement,
   region?: SampleRegion,
@@ -31,6 +33,31 @@ export function sampleOwnedPixels(
   const src = el.currentSrc || el.src || 'media';
   const dims = canvasSize(el);
   if (!dims) { warnOnce(src); return null; }
+  const start = now();
+  try {
+    return drawAndRead(el, dims, region, src);
+  } finally {
+    measure(start);
+  }
+}
+
+const now = (): number => (typeof performance !== 'undefined' && typeof performance.now === 'function' ? performance.now() : 0);
+
+function measure(start: number): void {
+  if (typeof performance === 'undefined' || typeof performance.measure !== 'function') return;
+  try {
+    performance.measure('ag:sample', { start, end: performance.now() });
+  } catch {
+    /* engines without the options form of measure(): no entry, never a throw */
+  }
+}
+
+function drawAndRead(
+  el: HTMLImageElement | HTMLVideoElement,
+  dims: { w: number; h: number },
+  region: SampleRegion | undefined,
+  src: string,
+): ToneStats | null {
   const canvas: HTMLCanvasElement | OffscreenCanvas =
     typeof OffscreenCanvas !== 'undefined' ? new OffscreenCanvas(SIZE, SIZE) : Object.assign(document.createElement('canvas'), { width: SIZE, height: SIZE });
   const ctx = (canvas as HTMLCanvasElement).getContext?.('2d') ?? (canvas as OffscreenCanvas).getContext('2d');

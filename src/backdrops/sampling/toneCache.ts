@@ -1,7 +1,8 @@
 'use client';
 /* REQ-SURF-153 — LRU(64) keyed by `${currentSrc}|${region}` so each source is
  * sampled at most once across 30 s of playback with seeks. Sampling is
- * deferred into requestIdleCallback (500 ms timeout; setTimeout(0) fallback). */
+ * deferred into requestIdleCallback (500 ms timeout; next animation frame
+ * where idle callbacks are unsupported — no timers, REQ-SURF-05). */
 import { sampleOwnedPixels, type SampleRegion, type ToneStats } from './sampleOwnedPixels';
 import { classifyTone, type MediaTone } from './classifyTone';
 
@@ -12,7 +13,7 @@ const keyOf = (el: HTMLImageElement | HTMLVideoElement, region?: SampleRegion) =
 
 const idle = (cb: () => void) => {
   if (typeof requestIdleCallback === 'function') requestIdleCallback(() => cb(), { timeout: 500 });
-  else setTimeout(cb, 0);
+  else requestAnimationFrame(() => cb());
 };
 
 export function getOrSampleTone(
