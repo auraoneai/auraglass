@@ -5,6 +5,7 @@
 
 import * as React from 'react';
 import { LandmarkBeacon } from '../../app-shell/_internal/LandmarkBeacon';
+import { ChevronRightIcon } from '../../icons/navigation/chevron-right';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 import { BreadcrumbsOverflow } from './Breadcrumbs.Overflow';
@@ -39,14 +40,27 @@ function BreadcrumbsRoot({
   const overflowCount = collapse ? items.length - itemsAfterCollapse - 1 : 0;
   const head = collapse ? items.slice(0, 1) : items;
   const tail = collapse ? items.slice(items.length - itemsAfterCollapse) : [];
+  // SURF-056: collapse items to serializable {href,label} pairs — pull the
+  // href off a nested Breadcrumbs.Link when present.
   const middle = collapse
     ? items
         .slice(1, items.length - itemsAfterCollapse)
-        .map((item) =>
-          React.isValidElement(item)
-            ? ((item.props as { children?: React.ReactNode }).children ?? item)
-            : item,
-        )
+        .map((item) => {
+          if (!React.isValidElement(item)) return { label: item };
+          const kids = (item.props as { children?: React.ReactNode }).children;
+          let href: string | undefined;
+          let label: React.ReactNode = kids ?? item;
+          React.Children.forEach(kids, (k) => {
+            if (
+              React.isValidElement(k) &&
+              typeof (k.props as { href?: string }).href === 'string'
+            ) {
+              href = (k.props as { href?: string }).href;
+              label = (k.props as { children?: React.ReactNode }).children ?? label;
+            }
+          });
+          return { href, label };
+        })
     : [];
   const moreLabel = labels?.showMore?.(overflowCount) ?? `Show ${overflowCount} more`;
   return partElement('nav', {
@@ -129,7 +143,7 @@ export function BreadcrumbsSeparator({ render, ...rest }: PartProps<'span'>) {
     'aria-hidden': true,
     className: 'ag-breadcrumbs__separator',
     ...rest,
-    children: '›',
+    children: <ChevronRightIcon aria-hidden data-ag-part="glyph" />,
   });
 }
 BreadcrumbsSeparator.displayName = 'Breadcrumbs.Separator';

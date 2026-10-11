@@ -56,7 +56,8 @@ function PaginationRoot({
       <>
         <LandmarkBeacon role="navigation" name={aria} />
         <PaginationButtons
-        page={page ?? defaultPage}
+        page={page}
+        defaultPage={defaultPage}
         pageCount={pageCount}
         siblingCount={siblingCount}
         boundaryCount={boundaryCount}
@@ -78,6 +79,10 @@ function PaginationRoot({
     'data-ag-part': 'pagination',
     ...rest,
     children: (
+      <>
+      <span data-ag-part="status" className="ag-pagination__status">
+        {`Page ${current} of ${pageCount}`}
+      </span>
       <ol data-ag-part="pagination-list" className="ag-pagination__list">
         <LandmarkBeacon role="navigation" name={aria} />
         <li data-ag-part="item">
@@ -113,6 +118,7 @@ function PaginationRoot({
           />
         </li>
       </ol>
+      </>
     ),
   });
 }
@@ -254,5 +260,5 @@ export const Pagination = {
   Previous: PaginationPrevious,
   Next: PaginationNext,
   Item: PaginationItem,
-  Ellipsis: PaginationEllipsis,
-};
+  Ellipsis: PaginationEllipsis,  getRange: getPaginationRange,
+};;
