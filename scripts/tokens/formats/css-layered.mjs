@@ -2,11 +2,63 @@
 // scheme-paired light-dark(), shadcn bridge, @supports fallbacks.
 import { colorToCss, gamutMapOklch, oklchToSrgb, clampSrgb, srgbToHex } from '../color.mjs';
 import { compileSpring } from '../transforms/motion-spring.mjs';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
 import { die, dim, renderValue, prettierFormat, HEADER_CSS, LAYER_ORDER, SHADCN_MAP, AXIS_ORDER } from './_shared.mjs';
 export { HEADER_CSS, LAYER_ORDER };
 
-/** Emit dist/tokens.css (MAT-026). */
-export async function emitTokensCss(cells, axisDefs, records, resolved) {
+/** REQ-MAT-20 / OD-16 C-2: the shadcn-authoritative direction keys on this attribute. */
+export const SHADCN_SOURCE_ATTR = 'data-ag-shadcn-source';
+const MATERIAL_CONTRACT = fileURLToPath(new URL('../../../src/contracts/material.ts', import.meta.url));
+
+/** True when the attribute registry (contract S-01 AG_ATTRIBUTES) registers
+ *  data-ag-shadcn-source. Until contract C-2 (OD-16) adds it, the
+ *  `:root[data-ag-shadcn-source]` block is not emitted (REQ-MAT-20 fallback):
+ *  dist/ must not key on an unregistered data-ag-* attribute. Reads the real
+ *  registry object (esbuild-bundled to CJS, evaluated in-process; works under
+ *  jest's CJS runtime where dynamic import() does not). */
+export function shadcnSourceRegistered(contractPath = MATERIAL_CONTRACT) {
+  const req = createRequire(import.meta.url);
+  const { buildSync } = req('esbuild');
+  const out = buildSync({
+    entryPoints: [contractPath], bundle: true, write: false, format: 'cjs', platform: 'node', logLevel: 'silent',
+  });
+  const mod = { exports: {} };
+  new Function('module', 'exports', 'require', out.outputFiles[0].text)(mod, mod.exports, req);
+  const registry = mod.exports.AG_ATTRIBUTES;
+  if (!registry || typeof registry !== 'object') die(`shadcn bridge: AG_ATTRIBUTES not found in ${contractPath}`);
+  return Object.hasOwn(registry, SHADCN_SOURCE_ATTR);
+}
+
+/** Throws/dies on a var() cycle in the emitted declaration graph of one mode.
+ *  `decls` is the ordered list of `--name: value` pairs that apply in that mode
+ *  (later entries override earlier ones, as in the cascade). */
+export function assertShadcnAcyclic(decls, mode) {
+  const values = new Map();
+  for (const [name, value] of decls) values.set(name, value);
+  const edges = new Map();
+  for (const [name, value] of values)
+    edges.set(name, [...value.matchAll(/var\(\s*(--[A-Za-z0-9_-]+)/g)].map((m) => m[1]));
+  const seen = new Set();
+  const stack = new Set();
+  const visit = (n, path) => {
+    if (stack.has(n)) die(`shadcn bridge: var cycle in ${mode} mode: ${[...path, n].join(' -> ')}`);
+    if (seen.has(n)) return;
+    stack.add(n);
+    for (const m of edges.get(n) ?? []) visit(m, [...path, n]);
+    stack.delete(n);
+    seen.add(n);
+  };
+  for (const n of edges.keys()) visit(n, []);
+}
+
+/** Emit dist/tokens.css (MAT-026).
+ *  opts.shadcnMap    shadcn <-> ag pairs (default SHADCN_MAP; injectable for the cycle fixture)
+ *  opts.shadcnSource emit the `:root[data-ag-shadcn-source]` block (default: the
+ *                    attribute is registered in AG_ATTRIBUTES, see shadcnSourceRegistered) */
+export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {}) {
+  const shadcnMap = opts.shadcnMap ?? SHADCN_MAP;
+  const emitShadcnSource = opts.shadcnSource ?? shadcnSourceRegistered();
   const base = [];                       // decls for :root
   const axisBlocks = new Map();          // `${axis}=${axisValue}` -> decls
   const darkFallback = [];               // decls for scheme=dark fallback block
@@ -43,35 +95,33 @@ export async function emitTokensCss(cells, axisDefs, records, resolved) {
   // shadcn bridge (MAT-070, deviation D-B): bidirectional. Default direction
   // ag -> shadcn lives under :where(:root:not([data-ag-shadcn-source]));
   // on a shadcn-authored root the direction flips (shadcn -> ag with defaults).
+  // The flipped block ships only when AG_ATTRIBUTES registers the attribute
+  // (REQ-MAT-20: contract C-2 / OD-16; fallback = not emitted).
   const agDefault = new Map(); // --ag-* -> default decl text (from base block)
+  const baseDecls = [];        // [name, value] of every base :root custom property
   for (const d of base) {
-    const m = d.trim().match(/^(--ag-[a-z0-9-]+):\s*(.+);$/i);
-    if (m) agDefault.set(m[1], m[2]);
+    const m = d.trim().match(/^(--[A-Za-z0-9_-]+):\s*(.+);$/);
+    if (!m) continue;
+    baseDecls.push([m[1], m[2]]);
+    if (m[1].startsWith('--ag-')) agDefault.set(m[1], m[2]);
   }
   const shadcnSource = [];   // :root[data-ag-shadcn-source] decls (shadcn -> ag)
   const shadcnDown = [];     // :where(:root:not(...)) decls (ag -> shadcn)
-  for (const [sh, ag] of Object.entries(SHADCN_MAP)) {
+  const sourcePairs = [];
+  const downPairs = [];
+  for (const [sh, ag] of Object.entries(shadcnMap)) {
     const def = agDefault.get(ag);
     if (!def) die(`shadcn bridge: ${ag} has no emitted default (token missing)`);
-    shadcnSource.push(`    ${ag}: var(${sh}, ${def});`);
-    shadcnDown.push(`    ${sh}: var(${ag});`);
+    sourcePairs.push([ag, `var(${sh}, ${def})`]);
+    downPairs.push([sh, `var(${ag})`]);
   }
-  // resolved var-graph cycle check in both directions (MAT-070)
-  const assertAcyclic = (edges, mode) => {
-    const seen = new Set();
-    const stack = new Set();
-    const visit = (n, path) => {
-      if (stack.has(n)) die(`shadcn bridge: var cycle in ${mode} mode: ${[...path, n].join(' -> ')}`);
-      if (seen.has(n)) return;
-      stack.add(n);
-      for (const m of edges.get(n) ?? []) visit(m, [...path, n]);
-      stack.delete(n);
-      seen.add(n);
-    };
-    for (const n of edges.keys()) visit(n, []);
-  };
-  assertAcyclic(new Map(Object.entries(SHADCN_MAP).map(([sh, ag]) => [ag, [sh]])), 'shadcn-source');
-  assertAcyclic(new Map(Object.entries(SHADCN_MAP).map(([sh, ag]) => [sh, [ag]])), 'default');
+  for (const [n, v] of sourcePairs) shadcnSource.push(`    ${n}: ${v};`);
+  for (const [n, v] of downPairs) shadcnDown.push(`    ${n}: ${v};`);
+  // resolved var-graph cycle check in both directions (MAT-070), over the base
+  // :root declarations plus each direction's block. Source mode is checked even
+  // while its block is gated off, so enabling C-2 cannot introduce a cycle.
+  assertShadcnAcyclic([...baseDecls, ...downPairs], 'default');
+  assertShadcnAcyclic([...baseDecls, ...sourcePairs], 'shadcn-source');
 
   // preset emission: [data-ag-theme=<id>] blocks may only override --ag-* vars (guard)
   const presetDecls = new Map();
@@ -124,12 +174,8 @@ export async function emitTokensCss(cells, axisDefs, records, resolved) {
     parts.push('', `  [data-ag-theme="${id}"] {`, ...decls, '  }');
 
   // shadcn bridge emission (inside @layer ag.tokens)
-  parts.push(
-    '',
-    '  :root[data-ag-shadcn-source] {', ...shadcnSource, '  }',
-    '',
-    '  :where(:root:not([data-ag-shadcn-source])) {', ...shadcnDown, '  }',
-  );
+  if (emitShadcnSource) parts.push('', `  :root[${SHADCN_SOURCE_ATTR}] {`, ...shadcnSource, '  }');
+  parts.push('', `  :where(:root:not([${SHADCN_SOURCE_ATTR}])) {`, ...shadcnDown, '  }');
 
   // fallback @supports blocks stay inside ag.tokens (MAT-036: only @property unlayered)
   parts.push(
