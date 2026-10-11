@@ -1,4 +1,4 @@
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Grammar implemented by CMP; obeyed by CMP and SURF. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Grammar implemented by CMP; obeyed by CMP and SURF. */
 import type * as React from 'react';
 import type { MaterialVariant, Thickness } from './material';
 
@@ -71,21 +71,21 @@ export type IconButtonContract = React.FC<React.ComponentProps<ButtonContract> &
 export type CompoundContract<Parts extends string, RootProps> =
   { [P in Parts]: React.FC<(P extends 'Root' ? RootProps : unknown) & PartProps & { children?: React.ReactNode }> };
 export const COMPOUND_PARTS = {
-  Dialog: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Close'],
-  AlertDialog: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Cancel', 'Action'],
-  Sheet: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Close', 'Handle'],
+  Dialog: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Close', 'Header', 'Body', 'Footer'],
+  AlertDialog: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Cancel', 'Action', 'Header', 'Body', 'Footer'],
+  Sheet: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Close', 'Handle', 'Header', 'Body', 'Footer'],
   Popover: ['Root', 'Trigger', 'Content', 'Title', 'Description', 'Close', 'Arrow'],
-  Tooltip: ['Root', 'Trigger', 'Content', 'Arrow'],
+  Tooltip: ['Root', 'Trigger', 'Content', 'Arrow', 'Provider'],
   Menu: ['Root', 'Trigger', 'Content', 'Item', 'CheckboxItem', 'RadioGroup', 'RadioItem', 'Group', 'GroupLabel', 'Separator', 'Submenu', 'SubmenuTrigger'],
   ContextMenu: ['Root', 'Trigger', 'Content', 'Item', 'Group', 'GroupLabel', 'Separator'],
-  Menubar: ['Root', 'Menu'],
-  Toast: ['Provider', 'Viewport', 'Root', 'Title', 'Description', 'Action', 'Close'],
+  ColorPicker: ['Root', 'Trigger', 'Content', 'Area', 'Hue'],
+  Toast: ['Provider', 'Viewport', 'Root', 'Title', 'Description', 'Action', 'Close', 'Progress'],
   Select: ['Root', 'Trigger', 'Value', 'Content', 'Item', 'ItemIndicator', 'Group', 'GroupLabel', 'Separator'],
-  Combobox: ['Root', 'Input', 'Trigger', 'Content', 'Item', 'Empty', 'Chips', 'Chip', 'ChipRemove', 'Clear'],
+  Combobox: ['Root', 'Input', 'Trigger', 'Content', 'Item', 'Empty', 'Chips', 'Chip', 'ChipRemove', 'Clear', 'Group', 'GroupLabel'],
   Toolbar: ['Root', 'Button', 'Group', 'Separator', 'Link'],
   ToggleGroup: ['Root', 'Item'],
-  SegmentedControl: ['Root', 'Item', 'Indicator'],
-  Slider: ['Root', 'Track', 'Range', 'Thumb', 'Value'],
+  SegmentedControl: ['Root', 'Item'],
+  Slider: ['Root', 'Value'],
   RadioGroup: ['Root', 'Item'],
   Field: ['Root', 'Label', 'Control', 'Description', 'Error'],
   Collapsible: ['Root', 'Trigger', 'Content'],
@@ -94,6 +94,15 @@ export const COMPOUND_PARTS = {
   Avatar: ['Root', 'Image', 'Fallback'],
   Card: ['Root', 'Header', 'Title', 'Description', 'Body', 'Footer'],
   Tour: ['Root', 'Step'],
+} as const;
+/** C-3b (v1.2): parts the contract requires (REQ-CMP-06, -105, -110) that are not implemented on next yet. Each moves into
+    COMPOUND_PARTS (Menubar from FLAT_CMP_COMPONENTS) in the contract commit that follows its CMP implementation, so the
+    conformance suite never asserts a part that does not exist. Consumers must not rely on them before that. */
+export const COMPOUND_PARTS_PENDING = {
+  SegmentedControl: ['Indicator'],
+  Slider: ['Track', 'Range', 'Thumb'],
+  Menubar: ['Root', 'Menu'],
+  Toast: ['History', 'HistoryItem'],
 } as const;
 export interface CmpRootProps {
   Dialog: OpenProps & { modal?: boolean } & MaterialBearingProps;
@@ -108,11 +117,12 @@ export interface CmpRootProps {
   RadioGroup: ValueProps<string>; Field: { invalid?: boolean; disabled?: boolean; name?: string };
   Collapsible: OpenProps; Accordion: ValueProps<string[]> & { multiple?: boolean }; ScrollArea: Record<string, never>;
   Avatar: SizeProps; Card: MaterialBearingProps & { interactive?: boolean }; Tour: OpenProps & { step?: number };
+  ColorPicker: OpenProps;
 }
 /** Flat CMP components other streams compose (props = PartProps of the root element + the grammar types they list in meta): */
 export const FLAT_CMP_COMPONENTS = ['Button', 'IconButton', 'ButtonGroup', 'Switch', 'Checkbox', 'CheckboxGroup', 'TextField',
   'SearchField', 'NumberField', 'Fieldset', 'Form', 'Badge', 'AvatarGroup', 'Alert', 'Progress', 'Meter', 'Skeleton', 'Separator', 'Kbd',
-  'Link', 'Rating', 'InlineEdit', 'FileUpload', 'ColorPicker', 'DescriptionList', 'ImageList', 'EmptyState', 'ErrorState',
+  'Link', 'Rating', 'InlineEdit', 'Menubar', 'FileUpload', 'DescriptionList', 'ImageList', 'EmptyState', 'ErrorState',
   'LoadingState', 'Text', 'Heading', 'Stack', 'Grid', 'Container', 'Icon'] as const;
 /** Typed compound contracts, one per COMPOUND_PARTS key (what seeds, doubles and real components all satisfy). */
 export type CmpCompounds = { [K in keyof typeof COMPOUND_PARTS]: CompoundContract<(typeof COMPOUND_PARTS)[K][number], CmpRootProps[K]> };

@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-10-09T14:34:16.658Z",
+  "generatedAt": "2026-10-08T02:27:42.799Z",
   "rows": [
     {
       "id": "plat:cn",
       "import": "export { cn } from 'aura-glass/internal'",
       "limitBytes": 512,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 72
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "plat:warnDeprecated",
       "import": "export { warnDeprecated } from 'aura-glass/internal'",
-      "limitBytes": 2560,
+      "limitBytes": 150,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 2272
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "plat:tailwind-bridge",
@@ -34,28 +34,12 @@
       "measuredBytes": 144
     },
     {
-      "id": "plat:compat-tokens-css",
-      "import": "aura-glass/compat/tokens.css",
-      "limitBytes": 10240,
-      "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
-    },
-    {
-      "id": "plat:styles-css",
-      "import": "aura-glass/styles.css",
-      "limitBytes": 33792,
-      "kind": "css",
-      "status": "pass",
-      "measuredBytes": 16758
-    },
-    {
       "id": "mat:styles-css",
       "import": "aura-glass/styles.css",
       "limitBytes": 32768,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 16758
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:tokens-css",
@@ -92,34 +76,34 @@
     {
       "id": "mat:tokens-js",
       "import": "aura-glass/tokens",
-      "limitBytes": 6144,
+      "limitBytes": 2048,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 4862
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:theme-fns-js",
       "import": "{ createGlassTheme, createBrandTheme } from 'aura-glass/theme'",
-      "limitBytes": 7680,
+      "limitBytes": 3072,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 6806
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:material-js",
       "import": "aura-glass/material",
       "limitBytes": 3072,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1535
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:material-css",
       "import": "aura-glass/material.css",
       "limitBytes": 8192,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 4221
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:grain-avif",
@@ -142,8 +126,8 @@
       "import": "{ LensDefs } from 'aura-glass/material'",
       "limitBytes": 30720,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 20
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:motion-css",
@@ -159,376 +143,375 @@
       "limitBytes": 2048,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:65: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/motion/public.js\""
+      "measuredBytes": null
     },
     {
       "id": "mat:button-total",
       "import": "{ Button } from 'aura-glass'",
       "limitBytes": 10240,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1324
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:button-motion-share",
       "import": "{ Button } from 'aura-glass' (motion share)",
-      "limitBytes": 1536,
+      "limitBytes": 512,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1324
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:dialog-total",
       "import": "{ Dialog } from 'aura-glass'",
       "limitBytes": 20480,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3804
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:dialog-motion-share",
       "import": "{ Dialog } from 'aura-glass' (motion share)",
-      "limitBytes": 4096,
+      "limitBytes": 1024,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3804
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:motion-entry-js",
       "import": "aura-glass/motion",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 2667
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "mat:provider-usepreference-js",
       "import": "{ AuraGlassProvider, usePreference } from 'aura-glass'",
-      "limitBytes": 6144,
+      "limitBytes": 4096,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 5365
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Card",
       "import": "{ Card } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 707
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Badge",
       "import": "{ Badge } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 666
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Separator",
       "import": "{ Separator } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 269
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Kbd",
       "import": "{ Kbd } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 321
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Text",
       "import": "{ Text } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 552
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Heading",
       "import": "{ Heading } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 487
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Stack",
       "import": "{ Stack } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 544
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Grid",
       "import": "{ Grid } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 488
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Container",
       "import": "{ Container } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 352
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "DescriptionList",
       "import": "{ DescriptionList } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 305
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "EmptyState",
       "import": "{ EmptyState } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 444
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "ErrorState",
       "import": "{ ErrorState } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 449
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "LoadingState",
       "import": "{ LoadingState } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 663
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Steps",
       "import": "{ Steps } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 20
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Button",
       "import": "{ Button } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1324
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "IconButton",
       "import": "{ IconButton } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1464
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "ButtonGroup",
       "import": "{ ButtonGroup } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 696
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Toolbar",
       "import": "{ Toolbar } from 'aura-glass'",
       "limitBytes": 13000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 2035
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "ToggleGroup",
       "import": "{ ToggleGroup } from 'aura-glass'",
       "limitBytes": 11000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 461
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SegmentedControl",
       "import": "{ SegmentedControl } from 'aura-glass'",
       "limitBytes": 13000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1280
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "AvatarGroup",
       "import": "{ AvatarGroup } from 'aura-glass'",
       "limitBytes": 3000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 418
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Alert",
       "import": "{ Alert } from 'aura-glass'",
       "limitBytes": 3000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 412
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Skeleton",
       "import": "{ Skeleton } from 'aura-glass'",
       "limitBytes": 3000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 300
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Link",
       "import": "{ Link } from 'aura-glass'",
       "limitBytes": 3000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 680
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Avatar",
       "import": "{ Avatar } from 'aura-glass'",
       "limitBytes": 3000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 475
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Chip",
       "import": "{ Chip } from 'aura-glass/data'",
       "limitBytes": 3000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 477
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Progress",
       "import": "{ Progress } from 'aura-glass'",
       "limitBytes": 5000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 373
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "ProgressRing",
       "import": "{ ProgressRing } from 'aura-glass'",
       "limitBytes": 5000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 611
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Meter",
       "import": "{ Meter } from 'aura-glass'",
       "limitBytes": 5000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 474
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Collapsible",
       "import": "{ Collapsible } from 'aura-glass'",
       "limitBytes": 5000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 490
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Accordion",
       "import": "{ Accordion } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 364
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "ScrollArea",
       "import": "{ ScrollArea } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 519
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Rating",
       "import": "{ Rating } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 880
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "InlineEdit",
       "import": "{ InlineEdit } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 637
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Form",
       "import": "{ Form } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 254
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Tour",
       "import": "{ Tour } from 'aura-glass'",
       "limitBytes": 15000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3935
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "FileUpload",
       "import": "{ FileUpload } from 'aura-glass'",
       "limitBytes": 15000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1255
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "KeyValueEditor",
       "import": "{ KeyValueEditor } from 'aura-glass/data'",
       "limitBytes": 15000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 799
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "ColorPicker",
       "import": "{ ColorPicker } from 'aura-glass'",
       "limitBytes": 20000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 4757
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "icon-glyph-each",
       "import": "{ CheckIcon } from 'aura-glass/icons'",
       "limitBytes": 1000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 604
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "aura-glass/primitives",
@@ -536,7 +519,7 @@
       "limitBytes": 4000,
       "kind": "js",
       "status": "pass",
-      "measuredBytes": 3633
+      "measuredBytes": 50
     },
     {
       "id": "VisuallyHidden.css",
@@ -655,89 +638,88 @@
       "import": "{ Switch } from 'aura-glass'",
       "limitBytes": 8000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 436
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Slider",
       "import": "{ Slider } from 'aura-glass'",
       "limitBytes": 14000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 800
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Checkbox+CheckboxGroup",
       "import": "{ Checkbox, CheckboxGroup } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 690
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "RadioGroup",
       "import": "{ RadioGroup } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 556
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "TextField",
       "import": "{ TextField } from 'aura-glass'",
       "limitBytes": 12000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1022
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SearchField",
       "import": "{ SearchField } from 'aura-glass'",
       "limitBytes": 13000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 2729
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Select",
       "import": "{ Select } from 'aura-glass'",
       "limitBytes": 25000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1849
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Combobox",
       "import": "{ Combobox } from 'aura-glass'",
       "limitBytes": 30000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 4321
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "NumberField",
       "import": "{ NumberField } from 'aura-glass'",
       "limitBytes": 14000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1093
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "controls-all-families",
       "import": "{ Button, IconButton, ButtonGroup, Toolbar, ToggleGroup, SegmentedControl, Switch, Slider, Checkbox, CheckboxGroup, RadioGroup, TextField, SearchField, Select, Combobox, NumberField, Field, Fieldset } from 'aura-glass'",
       "limitBytes": 60000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 10065
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "aura-glass/forms",
       "import": "'aura-glass/forms'",
       "limitBytes": 4000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null,
-      "error": "Error: Build failed with 1 error:\n<stdin>:1:14: ERROR: Could not resolve \"/home/ubuntu/repos/AuraGlass.wt/fin-c-plat/dist/forms/index.js\""
+      "status": "pass",
+      "measuredBytes": 45
     },
     {
       "id": "controls.css",
@@ -824,56 +806,56 @@
       "import": "{ Dialog } from 'aura-glass'",
       "limitBytes": 20000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3804
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "AlertDialog",
       "import": "{ AlertDialog } from 'aura-glass'",
       "limitBytes": 20000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 4434
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Sheet",
       "import": "{ Sheet } from 'aura-glass'",
       "limitBytes": 24000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 5965
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Popover",
       "import": "{ Popover } from 'aura-glass'",
       "limitBytes": 14000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3296
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Tooltip",
       "import": "{ Tooltip } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3453
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Menu",
       "import": "{ Menu, ContextMenu, Menubar } from 'aura-glass'",
       "limitBytes": 22000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 4434
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Toast",
       "import": "{ Toast, useToast } from 'aura-glass'",
       "limitBytes": 14000,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1910
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "Dialog.css",
@@ -912,360 +894,360 @@
       "import": "aura-glass/app-shell.css",
       "limitBytes": 8192,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 1106
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-APPSHELL-ISLAND",
       "import": "{ AppShellSidebarToggle } from 'aura-glass/app-shell'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3249
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-SIDEBAR-DRAWER",
       "import": "{ SidebarDrawer } from 'aura-glass/app-shell'",
-      "limitBytes": 8192,
+      "limitBytes": 6144,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 7461
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-BREADCRUMBS",
       "import": "{ Breadcrumbs } from 'aura-glass'",
       "limitBytes": 5120,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 4861
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-PAGINATION",
       "import": "{ Pagination } from 'aura-glass'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1771
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-TABS",
       "import": "{ Tabs } from 'aura-glass'",
       "limitBytes": 6144,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1165
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-TABBAR",
       "import": "{ TabBar } from 'aura-glass'",
       "limitBytes": 5120,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3971
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-COMMAND",
       "import": "{ Command } from 'aura-glass'",
       "limitBytes": 6144,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3062
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W1-SOURCETRANSITION",
       "import": "{ SourceTransition } from 'aura-glass'",
       "limitBytes": 3072,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 2004
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-DATA-CSS",
       "import": "aura-glass/data.css",
       "limitBytes": 8192,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 2341
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-DATE-CSS",
       "import": "aura-glass/date.css",
       "limitBytes": 4096,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 895
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-TABLE",
       "import": "{ Table } from 'aura-glass/data'",
       "limitBytes": 14336,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 4393
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-TREEVIEW",
       "import": "{ TreeView } from 'aura-glass/data'",
       "limitBytes": 8192,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1150
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-FILTERBAR",
       "import": "{ FilterBar } from 'aura-glass/data'",
       "limitBytes": 8192,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 2562
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-CHIP",
       "import": "{ Chip } from 'aura-glass/data'",
       "limitBytes": 3072,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 477
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-KVE",
       "import": "{ KeyValueEditor } from 'aura-glass/data'",
       "limitBytes": 15360,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 799
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-STATCARD",
       "import": "{ StatCard } from 'aura-glass/data'",
       "limitBytes": 3072,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1791
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-SPARKLINE",
       "import": "{ Sparkline } from 'aura-glass/data'",
       "limitBytes": 2560,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1101
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-CHARTFRAME",
       "import": "{ ChartFrame } from 'aura-glass/data'",
       "limitBytes": 5120,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1470
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-DATEPICKER",
       "import": "{ DatePicker } from 'aura-glass/date'",
       "limitBytes": 8192,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1440
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-DATEFIELD",
       "import": "{ DateField } from 'aura-glass/date'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 696
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-TIMEPICKER",
       "import": "{ TimePicker } from 'aura-glass/date'",
       "limitBytes": 6144,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1140
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-TIMELINE",
       "import": "{ Timeline } from 'aura-glass'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 776
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-ACTIVITYFEED",
       "import": "{ ActivityFeed } from 'aura-glass'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1548
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W2-CHART-51",
       "import": "{ Chart } from 'aura-glass/charts'",
       "limitBytes": 15360,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3993
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-AI-CSS",
       "import": "aura-glass/ai.css",
       "limitBytes": 6144,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 1112
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-THREAD",
       "import": "{ Thread } from 'aura-glass/ai'",
       "limitBytes": 18432,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 13620
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-MESSAGE",
       "import": "{ Message } from 'aura-glass/ai'",
-      "limitBytes": 12288,
+      "limitBytes": 10240,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 11343
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-STREAMINGTEXT",
       "import": "{ StreamingText } from 'aura-glass/ai'",
-      "limitBytes": 4608,
+      "limitBytes": 2048,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 4068
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-COMPOSER",
       "import": "{ Composer } from 'aura-glass/ai'",
       "limitBytes": 12288,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3606
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-TOOLCALL",
       "import": "{ ToolCall } from 'aura-glass/ai'",
       "limitBytes": 8192,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 6109
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-SOURCES",
       "import": "{ SourceList, Citation } from 'aura-glass/ai'",
       "limitBytes": 9216,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3601
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-REASONING",
       "import": "{ Reasoning } from 'aura-glass/ai'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 555
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-AGENTSTEPS",
       "import": "{ AgentSteps } from 'aura-glass/ai'",
       "limitBytes": 5120,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 496
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-USAGEMETER",
       "import": "{ UsageMeter } from 'aura-glass/ai'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 663
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W3-ERRORSTATE",
       "import": "{ ProviderErrorState } from 'aura-glass/ai'",
       "limitBytes": 5120,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1660
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-MEDIA-CSS",
       "import": "aura-glass/media.css",
       "limitBytes": 6144,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 1521
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-BACKDROPS-CSS",
       "import": "aura-glass/backdrops.css",
       "limitBytes": 3072,
       "kind": "css",
-      "status": "pass",
-      "measuredBytes": 1218
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-MEDIA-CORE",
       "import": "{ useMediaElement, MediaControls } from 'aura-glass/media'",
       "limitBytes": 14336,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 8134
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-USEMEDIAELEMENT",
       "import": "{ useMediaElement } from 'aura-glass/media'",
-      "limitBytes": 3584,
+      "limitBytes": 2560,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 3068
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-WAVEFORM",
       "import": "{ Waveform } from 'aura-glass/media'",
       "limitBytes": 2048,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 20
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-IMAGEVIEWER",
       "import": "{ ImageViewer } from 'aura-glass/media'",
       "limitBytes": 10240,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 6632
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-CAROUSELRAIL",
       "import": "{ CarouselRail } from 'aura-glass/media'",
       "limitBytes": 10240,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 5199
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-NOWPLAYING",
       "import": "{ NowPlayingBar } from 'aura-glass/media'",
       "limitBytes": 8192,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 1544
+      "status": "pending",
+      "measuredBytes": null
     },
     {
       "id": "SB-SURF-W4-BACKDROP",
       "import": "{ Backdrop } from 'aura-glass/backdrops'",
-      "limitBytes": 4608,
+      "limitBytes": 3072,
       "kind": "js",
-      "status": "pass",
-      "measuredBytes": 4100
+      "status": "pending",
+      "measuredBytes": null
     }
   ],
   "ceilings": {

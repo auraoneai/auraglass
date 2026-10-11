@@ -1,14 +1,19 @@
+/* PLAT-289: next15 canary — specs run against `next start` of the packed
+   artifact, started by ../next-serve.mjs. */
 import { defineConfig } from '@playwright/test';
+
+const PORT = 3015;
+const baseURL = `http://localhost:${PORT}`;
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 60000,
-  retries: process.env.CI ? 1 : 0,
-  use: { baseURL: process.env.AG_CANARY_BASE || 'http://localhost:3000' },
+  reporter: 'list',
+  use: { baseURL },
   webServer: {
-    command: 'npm run start -- -p 3000',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
+    command: `node ../next-serve.mjs ${PORT}`,
+    url: `${baseURL}/plat/empty`,
+    timeout: 15 * 60_000,
+    reuseExistingServer: false,
+    stdout: 'pipe',
   },
 });

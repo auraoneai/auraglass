@@ -1,14 +1,23 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
+
+/* PLAT-293 / REQ-PLAT-72: the smoke spec runs against the production build
+   (vite build with babel-plugin-react-compiler) served by vite preview. The
+   canary is first installed from the packed artifact with its own pinned
+   toolchain (canaries/_shared/consumer-install.mjs); @playwright/test stays
+   the repo's single copy so the runner and the spec share one instance. */
+const PORT = 4183;
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 60000,
-  retries: process.env.CI ? 1 : 0,
-  use: { baseURL: process.env.AG_CANARY_BASE || 'http://localhost:4173' },
+  forbidOnly: true,
+  retries: 0,
+  reporter: [['list']],
+  use: { baseURL: `http://127.0.0.1:${PORT}` },
+  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: 'npm run preview -- --port 4173',
-    url: 'http://localhost:4173',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
+    command: `node ../_shared/consumer-install.mjs . && npm run build && npx vite preview --host 127.0.0.1 --port ${PORT} --strictPort`,
+    url: `http://127.0.0.1:${PORT}`,
+    reuseExistingServer: false,
+    timeout: 600_000,
   },
 });

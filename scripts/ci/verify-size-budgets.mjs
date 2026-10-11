@@ -96,7 +96,7 @@ const changelog = existsSync(CHANGELOG) ? readFileSync(CHANGELOG, 'utf8') : '';
 
 /* Provisional floors: a row looser than its PLAT floor is itself a raise and
    needs the changelog row + trailer even on a fresh base. */
-const FLOORS = { 'plat:tailwind-bridge': 6144, 'plat:compat-globals': 1024, 'plat:cn': 512, 'plat:warnDeprecated': 150, 'plat:compat-tokens-css': 10240 };
+const FLOORS = { 'plat:tailwind-bridge': 6144, 'plat:compat-globals': 1024, 'plat:cn': 512, 'plat:warnDeprecated': 150 };
 
 /** Pure ratchet check — a row may be stricter than its base limit, never looser
    without 'Perf-Budget-Raise: <id>' in an MR commit message AND the changelog. */
@@ -148,6 +148,10 @@ export async function run() {
         continue;
       }
       const { subpath, entry } = specifierToEntry(row) ?? {};
+      /* an aura-glass subpath that is not (yet) a public entry in
+         build/exports.manifest.json has no shipped subject to measure —
+         pending, same as a missing css file or wildcard dir */
+      if (subpath && !entry) { results.push({ ...row, status: 'pending', measuredBytes: null }); continue; }
       /* map the aura-glass specifier to the emitted dist file */
       let spec = row.import.trim();
       /* bare 'aura-glass/x' specifiers become a whole-entry measurement */

@@ -42,7 +42,8 @@ try {
 
     if (leg.playwright) {
       if (process.env.AG_PLAYWRIGHT === '1') {
-        run('npx', ['vite', 'preview', '--port', '4173'], dir); /* launched by the spec config on CI */
+        /* the canary's playwright.config.ts webServer builds and serves the app;
+           a blocking `vite preview` here would never return. */
         run('npx', ['playwright', 'install', '--with-deps', 'chromium'], dir);
         run('npx', ['playwright', 'test'], dir);
         console.log(`plat:integration:${leg.dir} playwright OK`);

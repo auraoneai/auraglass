@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "summary"
+  ],
+  "properties": {
+    "summary": {
+      "type": "object",
+      "required": [
+        "filesChanged",
+        "changes",
+        "todos"
+      ],
+      "properties": {
+        "filesChanged": {
+          "type": "number"
+        },
+        "changes": {
+          "type": "number"
+        },
+        "todos": {
+          "type": "number"
+        }
+      }
+    },
+    "dryRun": {
+      "type": "boolean"
+    },
+    "diffs": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

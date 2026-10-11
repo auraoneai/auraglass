@@ -1,0 +1,1 @@
+pending: root `Button` alias is compatOnly in the mappings — variant renames for the root export are not yet applied by prop-grammar.

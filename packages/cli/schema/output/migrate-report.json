@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://auraglass.dev/schemas/cli/migrate-report.json",
+  "title": "aura migrate 4to5 --report output",
+  "type": "object",
+  "required": [
+    "version",
+    "cliVersion",
+    "transforms",
+    "files",
+    "summary"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "cliVersion": {
+      "type": "string"
+    },
+    "transforms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "changes",
+          "todos"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "changes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "transform",
+                "line",
+                "before",
+                "after"
+              ],
+              "properties": {
+                "transform": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "line": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "before": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "after": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "todos": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "filesChanged",
+        "changes",
+        "todos"
+      ],
+      "properties": {
+        "filesChanged": {
+          "type": "integer"
+        },
+        "changes": {
+          "type": "integer"
+        },
+        "todos": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

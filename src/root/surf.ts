@@ -1,6 +1,7 @@
 // Root barrel slice for SURF (contract S-28 ROOT_EXPORTS.surf). Lane blocks
 // are owned by SURF lanes W1..W5; edit only your own block.
 // A re-export line lands only when the component's import graph is free of
+// seed markers (index rule) — empty until lanes deliver.
 
 // --- lane W1 begin ---
 // W1 (SURF-113): the CMP + MAT streams landed — every import-graph seam is
@@ -17,7 +18,7 @@ export { SourceTransition } from '../components/source-transition/SourceTransiti
 // --- lane W2 begin ---
 // REQ-SURF-96/97: Timeline + ActivityFeed are seed-free (Timeline imports only
 // its own css; ActivityFeed composes Timeline).
-export { Timeline, formatTimestamp } from '../components/timeline/Timeline';
+export { Timeline } from '../components/timeline/Timeline';
 export type { TimelineItem, TimelineProps } from '../components/timeline/Timeline';
 export { ActivityFeed } from '../components/timeline/ActivityFeed';
 export type { ActivityItem, ActivityFeedProps } from '../components/timeline/ActivityFeed';
