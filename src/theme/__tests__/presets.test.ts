@@ -1,10 +1,10 @@
 /* MAT-248: the four presets are authored, each with light+dark canvases,
    contain no material.* refs, every opacity-floors cell for each preset passes
-   its pair's threshold, and each [data-ag-theme=<id>] block overrides only the
-   ref.color.* and sys.color.{canvas,accent,on-accent,border} vars (allowlist). */
+   its pair's threshold, and each preset cssText overrides only the ref.color.*,
+   sys.color.{canvas,accent,on-accent,border} and radius xs..xl vars (allowlist). */
 import { describe, expect, it } from '@jest/globals';
 import fs from 'node:fs';
-import { presets } from '../presets';
+import { presets, presetCss, presetCssText } from '../presets';
 import type { PresetId } from '../presets';
 import { parseColor, wcagContrast, formatOklch } from '../color';
 import { manifest } from '../../tokens/generated/manifest';
@@ -41,7 +41,8 @@ const visitCells = (preset: string) => {
 };
 
 const allowedVar = (v: string) =>
-  /^ref\.color\./.test(v) || /^sys\.color\.(canvas|accent|on-accent|border)/.test(v);
+  /^ref\.color\./.test(v) || /^sys\.color\.(canvas|accent|on-accent|border)$/.test(v)
+  || /^sys\.radius\.(xs|sm|md|lg|xl)$/.test(v);
 
 describe('theme presets', () => {
   it('exactly 4 presets with light+dark canvases', () => {
@@ -78,26 +79,29 @@ describe('theme presets', () => {
     expect(failures).toEqual([]);
   });
 
-  it('preset [data-ag-theme] blocks override only allowlisted vars', () => {
-    // presets ship as data + a generated css block per id. For presets that
-    // have a generated block file, every overridden var is allowlisted.
-    const dir = 'tokens/generated';
+  it('preset cssText overrides only allowlisted vars', () => {
+    // OD-16 C-2 fallback: presets ship as cssText scoped to [data-ag-root]
+    // (no [data-ag-theme] in dist). Every overridden var maps to an allowlisted
+    // manifest token: ref.color.*, sys.color.{canvas,accent,on-accent,border},
+    // sys.radius.{xs..xl}.
     const byCssVar = new Map(
       (manifest.tokens as readonly { name: string; cssVar: string }[]).map((t) => [t.cssVar, t.name]),
     );
-    for (const id of Object.keys(presets)) {
-      const file = `${dir}/preset-${id}.css`;
-      if (!fs.existsSync(file)) continue; // css block shipped by the theme file itself
-      const css = fs.readFileSync(file, 'utf8');
-      for (const m of css.matchAll(/(--[\w-]+)\s*:/g)) {
-        const name = byCssVar.get(m[1]!);
-        if (name === undefined) throw new Error(`${id} overrides non-allowlisted ${m[1]}`);
-        if (!allowedVar(name)) throw new Error(`${id} ${name} not allowed`);
+    for (const id of Object.keys(presets) as PresetId[]) {
+      const css = presetCss(id);
+      expect(css).toBe(presetCssText[id]);
+      const vars = [...css!.matchAll(/(--[\w-]+)\s*:/g)].map((m) => m[1]!);
+      expect(vars.length).toBeGreaterThan(0);
+      for (const v of vars) {
+        const name = byCssVar.get(v);
+        if (name === undefined) throw new Error(`${id} overrides ${v}, which is not a manifest token`);
+        if (!allowedVar(name)) throw new Error(`${id} overrides ${name}, which is not allowlisted`);
       }
     }
+    expect(presetCss('not-a-preset')).toBeNull();
     // data-level check: a preset only carries canvas/accent/radius/neutralHue —
     // no other override surface exists.
-    for (const [id, p] of Object.entries(presets)) {
+    for (const [, p] of Object.entries(presets)) {
       expect(Object.keys(p).sort()).toEqual(
         ['accent', 'canvas', 'id', 'name', 'neutralHue', ...(p.radiusScale !== undefined ? ['radiusScale'] : [])].sort(),
       );
