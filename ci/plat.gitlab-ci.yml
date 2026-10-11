@@ -368,13 +368,27 @@ plat:package:pack:
 
 # ---------------------------------------------------------------- build (docs)
 
+# B3-8 (REQ-FIN-43 / REQ-FIN-26 wiring; REQ-PLAT-99, REQ-PLAT-07): the docs
+# site is built from the aura-glass tarball that plat:package:pack writes to
+# .artifacts/pack/, so the job runs in the package stage with `needs` on pack
+# (GitLab `needs` may not point at a later stage, and pages in deploy still
+# follows it). The tarball is the one for the root package.json version, never
+# "whatever .artifacts/pack holds"; the docs build receives it as
+# AURAGLASS_TARBALL. pack runs on every scope this job runs on, so the need
+# always resolves.
 plat:build:docs:
   extends: .plat-node
-  stage: build
+  stage: package
   allow_failure: true
+  needs:
+    - { job: "plat:package:pack", artifacts: true }
   rules:
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main"
   script:
+    - TGZ=".artifacts/pack/aura-glass-$(node -p "require('./package.json').version").tgz"
+    - 'test -f "$TGZ" || { echo "plat:build:docs: $TGZ missing from the plat:package:pack artifacts (REQ-PLAT-99)"; exit 1; }'
+    - export AURAGLASS_TARBALL="$TGZ"
+    - 'echo "plat:build:docs: docs consume $AURAGLASS_TARBALL"'
     - |
       if [ "$AG_LINE" = "4x" ]; then
         # 4.x docs site -> apps/docs/out/ (REQ-PLAT-07). Producer is FIN-C's 4x docs build (REQ-FIN-43).
