@@ -1,0 +1,8 @@
+{
+  "name": "consumer-4x",
+  "private": true,
+  "dependencies": {
+    "aura-glass": "^5.0.0",
+    "react": "^19.0.0"
+  }
+}

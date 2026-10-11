@@ -10,5 +10,5 @@ export default defineMeta({
   parts: ['tabs', 'list', 'tab', 'panel', 'indicator'],
   states: ['active', 'inactive'],
   variants: {},
-  migration: [{ from: 'GlassTabs', props: { selectedTab: 'value', onTabChange: 'onValueChange' }, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassTabs', props: { selectedTab: 'value', onTabChange: 'onValueChange', activeTab: 'value', onTabClick: 'onValueChange', onChange: 'onValueChange' }, automation: 'mostly', compat: true }],
 });
