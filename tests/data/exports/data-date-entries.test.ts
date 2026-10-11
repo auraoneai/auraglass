@@ -30,10 +30,15 @@ describe('packed ./data + ./date entries (SURF-141)', () => {
     // npm <=10 prints an array, npm 11 an object keyed by package name.
     const packed = JSON.parse(out);
     const tarball = (Array.isArray(packed) ? packed[0] : Object.values(packed)[0] as { filename: string }).filename as string;
-    // --legacy-peer-deps skips peers, so install the peers a ./data + ./date
-    // consumer must provide, pinned to the versions this repo resolves.
-    const ver = (m: string) => JSON.parse(readFileSync(join(ROOT, 'node_modules', m, 'package.json'), 'utf8')).version as string;
-    const peers = ['react', 'react-dom', 'react-aria-components', '@internationalized/date'].map((m) => `${m}@${ver(m)}`).join(' ');
+    /* --legacy-peer-deps skips peers, so install every declared peer — peer
+       ranges inside the artifact's own package.json are the honest runtime
+       surface — pinned to the version this repo resolves when present. */
+    const tgzPkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
+    const ver = (m: string) => {
+      const pj = join(ROOT, 'node_modules', m, 'package.json');
+      return existsSync(pj) ? `${m}@${JSON.parse(readFileSync(pj, 'utf8')).version as string}` : m;
+    };
+    const peers = Object.keys(tgzPkg.peerDependencies ?? {}).map(ver).join(' ');
     execSync(`npm init -y && npm install --no-save --legacy-peer-deps ${join(ROOT, tarball)} ${peers}`, { cwd: work, stdio: 'pipe', env: { ...process.env, npm_config_loglevel: 'error' } });
     for (const [spec, names] of Object.entries(EXPECTED)) {
       writeFileSync(join(work, 'probe.mjs'), `import * as m from '${spec}'; console.log(JSON.stringify(Object.keys(m).sort()));`);

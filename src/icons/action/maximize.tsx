@@ -9,4 +9,4 @@ const maximize: IconNode[] = [
 ];
 
 export const MaximizeIcon = /*#__PURE__*/ createIcon('Maximize', maximize);
-export const Maximize2 = /*#__PURE__*/ MaximizeIcon;
+export const Maximize2 = MaximizeIcon;
