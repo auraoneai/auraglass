@@ -69,6 +69,10 @@ Minor release on `release/4.x`. Runtime dependencies become optional peers, `/fo
 
 - Gzip budget ratchet per entry (`build/budgets-4x.json`) and a side-effect report; breaking-register coverage and tag gates; `consumer-4x` Next 15 and Vite fixtures; React 19 CI legs; the FIN-B GitLab CI port to `release/4.x`.
 
+## Downstream grep record
+
+_Not committed yet: `docs/release/decisions/downstream-4.2.0.json` (operator run OP-2 at the cut). The tag pipeline refuses to render these notes without it._
+
 ## Deprecations added
 
 The 22 dependency entries are in the table above.
@@ -440,6 +444,7 @@ The 22 dependency entries are in the table above.
 
 ### Added
 
+- 4.x minor notes carry the downstream-grep record (REQ-PLAT-35)
 - 4.x release notes open with moved dependencies (REQ-PLAT-56)
 - port sync-fragments to release/4.x (REQ-FIN-13)
 - port #126 FIN-B CI plumbing to release/4.x (REQ-FIN-20/21/22/23/25/26, R1)
