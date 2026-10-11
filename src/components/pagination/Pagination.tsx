@@ -6,6 +6,7 @@ import * as React from 'react';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 import { getPaginationRange } from './getRange';
+import { materialProps } from '../../material/materialProps';
 import { PaginationButtons } from './Pagination.button';
 
 export type PaginationLabels = {
@@ -58,7 +59,7 @@ function PaginationRoot({
         pageCount={pageCount}
         siblingCount={siblingCount}
         boundaryCount={boundaryCount}
-        labels={{ previous: prevLabel, next: nextLabel }}
+        labels={{ previous: prevLabel, next: nextLabel, ...pageLabelForIsland(labels?.page) }}
         {...(onPageChange ? { onPageChange } : {})}
         ariaLabel={aria}
         render={render as React.ReactElement | undefined}
@@ -73,6 +74,8 @@ function PaginationRoot({
     render: render as React.ReactElement | undefined,
     'aria-label': aria,
     'data-ag-part': 'pagination',
+    // SURF-059: content material, never a backdrop filter.
+    ...materialProps({ layer: 'content' }),
     ...rest,
     children: (
       <>
@@ -118,6 +121,24 @@ function PaginationRoot({
   });
 }
 PaginationRoot.displayName = 'Pagination.Root';
+
+/* SURF-058: labels.page is a function, which cannot cross the RSC boundary
+   into the button-mode island. Probe it once with a sentinel page number and
+   pass a serialisable `{page}` template; a label that does not echo the
+   number verbatim (e.g. locale digit grouping) is passed as the function,
+   which works whenever Root itself renders on the client. */
+const PAGE_SENTINEL = 987654321;
+function pageLabelForIsland(
+  page: ((n: number) => string) | undefined,
+): { pageTemplate?: string; page?: (n: number) => string } {
+  if (page === undefined) return {};
+  const probe = page(PAGE_SENTINEL);
+  const at = probe.indexOf(String(PAGE_SENTINEL));
+  if (at >= 0 && probe.indexOf(String(PAGE_SENTINEL), at + 1) < 0 && !probe.includes('{page}')) {
+    return { pageTemplate: probe.replace(String(PAGE_SENTINEL), '{page}') };
+  }
+  return { page };
+}
 
 function PaginationPageLink({
   page,
@@ -255,5 +276,6 @@ export const Pagination = {
   Previous: PaginationPrevious,
   Next: PaginationNext,
   Item: PaginationItem,
-  Ellipsis: PaginationEllipsis,  getRange: getPaginationRange,
-};;
+  Ellipsis: PaginationEllipsis,
+  getRange: getPaginationRange,
+};

@@ -19,6 +19,7 @@
   }
   .ag-breadcrumbs__link:hover { color: var(--_ag-fg, currentColor); }
   .ag-breadcrumbs__separator {
+    display: inline-flex;
     color: var(--_ag-fg-subtle, currentColor);
     user-select: none;
   }
@@ -41,7 +42,7 @@
   .ag-breadcrumbs__separator:dir(rtl) {
     transform: scaleX(-1);
   }
-    /* SURF-057: 16ch truncation on links — full text stays the accessible
+  /* SURF-057: 16ch truncation on links — full text stays the accessible
      name via the anchor's own text (overflow hidden doesn't clip a11y). */
   .ag-breadcrumbs__link {
     max-inline-size: 16ch;

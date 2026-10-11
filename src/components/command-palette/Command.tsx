@@ -40,8 +40,11 @@ const Ctx = React.createContext<{
   /** SURF-063: true once the visible set exceeded the virtualization
       threshold (sticky — scroll unmounts must not collapse the registry). */
   virtualizing: boolean;
-  scrollTo: ((index: number) => void) | undefined;
+  /** Set by a virtualized List: scrolls a visible-set index into the window. */
+  scrollTo: React.MutableRefObject<((index: number) => void) | undefined>;
   onValueChange: ((v: string) => void) | undefined;
+  /** True while a non-empty query is narrowing the visible set. */
+  filtering: boolean;
 } | null>(null);
 
 export type CommandRootProps = Omit<PartProps<'div'>, 'onChange'> & {
@@ -133,10 +136,11 @@ function CommandRoot({
       loop,
       enabledValues: enabled.map((e) => e.value),
       virtualizing: virtualizingRef.current,
-      scrollTo: scrollRef.current,
+      scrollTo: scrollRef,
       onValueChange,
+      filtering: shouldFilter && query !== '',
     }),
-    [query, setQuery, visible, register, activeId, idBase, enabled, loop],
+    [query, setQuery, visible, register, activeId, idBase, enabled, loop, onValueChange, shouldFilter],
   );
 
   return (
@@ -188,7 +192,7 @@ function CommandInner({
     const spec = list[next];
     if (spec) {
       ctx.setActiveId(`${ctx.idBase}-item-${spec.value}`);
-      ctx.scrollTo?.(next); // SURF-063: keep the active option in the window
+      ctx.scrollTo.current?.(ctx.items.indexOf(spec)); // SURF-063: keep the active option in the window (index in the visible set)
     }
   };
 
@@ -203,11 +207,17 @@ function CommandInner({
     } else if (e.key === 'Home') {
       e.preventDefault();
       const first = enabled[0];
-      if (first) ctx.setActiveId(`${ctx.idBase}-item-${first.value}`);
+      if (first) {
+        ctx.setActiveId(`${ctx.idBase}-item-${first.value}`);
+        ctx.scrollTo.current?.(ctx.items.indexOf(first));
+      }
     } else if (e.key === 'End') {
       e.preventDefault();
       const last = enabled[enabled.length - 1];
-      if (last) ctx.setActiveId(`${ctx.idBase}-item-${last.value}`);
+      if (last) {
+        ctx.setActiveId(`${ctx.idBase}-item-${last.value}`);
+        ctx.scrollTo.current?.(ctx.items.indexOf(last));
+      }
     } else if (e.key === 'Enter') {
       const spec = enabled.find(
         (i) => `${ctx.idBase}-item-${i.value}` === ctx.activeId,
@@ -276,9 +286,11 @@ export function CommandList({ children, render, ...rest }: PartProps<'div'>) {
   React.useEffect(() => {
     if (!ctx.virtualizing) return;
     const h = vlRef.current;
-    ctx.scrollTo = h ? (i) => h.scrollToIndex(i, { align: 'auto' }) : undefined;
+    ctx.scrollTo.current = h ? (i) => h.scrollToIndex(i, { align: 'auto' }) : undefined;
   });
   if (ctx.virtualizing) {
+    // SURF-063: the aria-activedescendant target is always rendered.
+    const activeIndex = ctx.items.findIndex((i) => `${ctx.idBase}-item-${i.value}` === ctx.activeId);
     const { ref: _domRef, role: _role, ...restSafe } = rest as PartProps<'div'>;
     void _domRef;
     void _role;
@@ -289,12 +301,14 @@ export function CommandList({ children, render, ...rest }: PartProps<'div'>) {
         getItemKey={(i) => i.value}
         estimateSize={() => 32}
         role="listbox"
-        itemRole="option"
+        id={ctx.listId}
+        pinnedIndexes={activeIndex >= 0 ? [activeIndex] : undefined}
+        data-ag-part="list"
         className="ag-command__list"
-        renderItem={(spec) => (
-          <VirtualCommandRow ctx={ctx} spec={spec} />
+        renderItem={(spec, index) => (
+          <VirtualCommandRow ctx={ctx} spec={spec} index={index} />
         )}
-        {...restSafe}
+        {...(restSafe as Record<string, unknown>)}
       />
     );
   }
@@ -312,7 +326,15 @@ CommandList.displayName = 'Command.List';
 
 /** Virtualized option row — always renderable from the spec so
     aria-activedescendant always has a live target (SURF-063). */
-function VirtualCommandRow({ ctx, spec }: { ctx: NonNullable<React.ContextType<typeof Ctx>>; spec: ItemSpec }) {
+function VirtualCommandRow({
+  ctx,
+  spec,
+  index,
+}: {
+  ctx: NonNullable<React.ContextType<typeof Ctx>>;
+  spec: ItemSpec;
+  index: number;
+}) {
   const id = `${ctx.idBase}-item-${spec.value}`;
   const active = ctx.activeId === id;
   return (
@@ -320,6 +342,8 @@ function VirtualCommandRow({ ctx, spec }: { ctx: NonNullable<React.ContextType<t
       id={id}
       role="option"
       aria-selected={active}
+      aria-posinset={index + 1}
+      aria-setsize={ctx.items.length}
       aria-disabled={spec.disabled || undefined}
       data-ag-part="item"
       data-state={active ? 'active' : 'inactive'}
@@ -395,7 +419,9 @@ function CommandItem({ value, keywords, onSelect, disabled, shortcut, children, 
   );
   const id = `${ctx.idBase}-item-${value}`;
   const active = ctx.activeId === id;
-  const hidden = ctx.items.length > 0 && !ctx.items.some((i) => i.value === value);
+  // SURF-060: while filtering, every non-matching item hides — including the
+  // zero-match case (then Command.Empty shows).
+  const hidden = ctx.filtering && !ctx.items.some((i) => i.value === value);
   // SURF-060: render in score order — rank within the visible set drives the
   // flex `order` (no DOM reorder; keyboard nav already follows `enabled`).
   const rank = ctx.items.findIndex((i) => i.value === value);
@@ -412,7 +438,10 @@ function CommandItem({ value, keywords, onSelect, disabled, shortcut, children, 
     className: 'ag-command__item',
     onMouseMove: () => !disabled && ctx.setActiveId(id),
     onClick: () => {
-      if (!disabled) onSelect?.();
+      if (!disabled) {
+        onSelect?.();
+        ctx.onValueChange?.(value);
+      }
     },
     ...rest,
     children: (

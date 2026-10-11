@@ -18,3 +18,13 @@ export const Default: Story = { render: () => <SourceTransition.Root><SourceTran
 export const RTL: Story = { render: () => <SourceTransition.Root><SourceTransition.Source id="a"><div>Source</div></SourceTransition.Source><SourceTransition.Destination id="a"><div>Destination</div></SourceTransition.Destination></SourceTransition.Root>, parameters: { globals: { dir: 'rtl' } } };
 export const ReducedTransparency: Story = { render: () => <SourceTransition.Root><SourceTransition.Source id="a"><div>Source</div></SourceTransition.Source><SourceTransition.Destination id="a"><div>Destination</div></SourceTransition.Destination></SourceTransition.Root>, parameters: { ag: { material: 'regular' } } };
 export const ForcedColors: Story = { render: () => <SourceTransition.Root><SourceTransition.Source id="a"><div>Source</div></SourceTransition.Source><SourceTransition.Destination id="a"><div>Destination</div></SourceTransition.Destination></SourceTransition.Root>, parameters: { globals: { forcedColors: 'active' } } };
+
+/* SURF-65: focusable source -> destination (focus follows the morph). */
+export const Focusable: Story = {
+  render: () => (
+    <SourceTransition.Root>
+      <SourceTransition.Source id="card"><button type="button">Open card</button></SourceTransition.Source>
+      <SourceTransition.Destination id="card"><a href="#card">Card detail</a></SourceTransition.Destination>
+    </SourceTransition.Root>
+  ),
+};
