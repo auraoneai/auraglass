@@ -89,11 +89,11 @@ export function Calendar({
         data-ag-part="calendar"
         data-ag-size={size}
         className={`ag-calendar${className ? ` ${className}` : ''}`}
-        {...(value !== undefined ? { value } : {})}
-        {...(defaultValue !== undefined ? { defaultValue } : {})}
+        {...(value !== undefined ? { value: value as never } : {})}
+        {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
         {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v) } : {})}
-        {...(minValue !== undefined ? { minValue } : {})}
-        {...(maxValue !== undefined ? { maxValue } : {})}
+        {...(minValue !== undefined ? { minValue: minValue as never } : {})}
+        {...(maxValue !== undefined ? { maxValue: maxValue as never } : {})}
         {...(isDateUnavailable !== undefined ? { isDateUnavailable } : {})}
         {...(firstDayOfWeek !== undefined ? { firstDayOfWeek } : {})}
         {...(isDisabled !== undefined ? { isDisabled } : {})}
@@ -133,12 +133,12 @@ export function RangeCalendar({
         data-ag-part="range-calendar"
         data-ag-size={size}
         className={`ag-range-calendar${className ? ` ${className}` : ''}`}
-        {...(value !== undefined ? { value } : {})}
-        {...(defaultValue !== undefined ? { defaultValue } : {})}
+        {...(value !== undefined ? { value: value as never } : {})}
+        {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
         {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v) } : {})}
         {...(visibleMonths !== undefined ? { visibleDuration: { months: visibleMonths } } : {})}
-        {...(rest.minValue !== undefined ? { minValue: rest.minValue } : {})}
-        {...(rest.maxValue !== undefined ? { maxValue: rest.maxValue } : {})}
+        {...(rest.minValue !== undefined ? { minValue: rest.minValue as never } : {})}
+        {...(rest.maxValue !== undefined ? { maxValue: rest.maxValue as never } : {})}
         {...(rest.isDateUnavailable !== undefined ? { isDateUnavailable: rest.isDateUnavailable } : {})}
         {...(rest.firstDayOfWeek !== undefined ? { firstDayOfWeek: rest.firstDayOfWeek } : {})}
         {...(rest.isDisabled !== undefined ? { isDisabled: rest.isDisabled } : {})}

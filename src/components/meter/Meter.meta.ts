@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root','track','indicator','label','value'],
   states: [],
   variants: {},
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 5,
   migration: [],
 });

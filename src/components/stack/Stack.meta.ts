@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root','separator'],
   states: [],
   variants: { direction: ['row','column'] },
-  migration: [{ from: 'GlassStack', automation: 'full', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1.5,
+  migration: [{ from: 'GlassStack', props: {}, selectors: { '.glass-stack': '.ag-stack' },  automation: 'full', compat: true }],
 });

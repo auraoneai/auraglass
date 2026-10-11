@@ -1,26 +1,41 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 /* material.css — AuraGlass 5.0 material engine (MAT, REQ-MAT-29..35).
-   Consumes the compiled ladder/floor cells and the @property registry emitted
-   by scripts/tokens into src/material/css/generated/*.css (2a-T outputs) plus
-   lens.css. Every private scalar carries a literal fallback so a surface is
-   still correct before the generated files exist. No !important, ever. */
+   Keys on [data-ag-surface] (S-05: materialProps emits data attributes only,
+   never a class — REQ-FIN-02). Consumes the compiled ladder/floor cells and
+   the @property registry emitted by scripts/tokens into
+   src/material/css/generated/*.css plus lens.css. No !important, ever.
+
+   Specificity policy (REQ-FIN-02): every baseline rule that component or app
+   CSS must be able to override is wrapped in :where() (0,0,0); only rules
+   that must beat a baseline inside ag.material (variants, states, rungs)
+   carry attribute specificity. */
 @layer ag.material {
 
   /* ---- host baseline + private scalars + read-outs (REQ-MAT-29/30) ---- */
-  .ag-surface {
+  :where([data-ag-surface]) {
     position: relative;
     isolation: isolate;
-    border-radius: var(--ag-surface-radius, var(--ag-radius-md));
+    /* painted through the private mirrors of the read-outs (same value) */
+    border-radius: var(--_ag-surface-radius);
     color: var(--ag-on-surface, var(--ag-color-on-surface));
     background: var(--_ag-fill, transparent);
-    box-shadow: var(--_ag-shadow, none);
+    box-shadow: var(--_ag-surface-shadow, none);
 
     /* private scalars (registered with inherits:false in properties.css) */
     --_ag-blur: 0px;
     --_ag-saturation: 1;
     --_ag-brightness: 1;
-    --_ag-tint-floor: 0.6;
+    /* state lift on top of the emitted floor row; reset on every host so a
+       nested surface never inherits its parent's hover/press lift. A custom
+       property cannot read itself, so states add a lift instead of
+       rewriting --_ag-tint-floor in terms of --_ag-tint-floor. */
+    --_ag-floor-lift: 0;
+    --_ag-tint-floor: calc(var(--_ag-floor-alpha, 1) + var(--_ag-floor-lift));
+    /* hover specular lift, added where --ag-specular is consumed (pseudo
+       layers) for the same reason: `--ag-specular: calc(var(--ag-specular)
+       + …)` would be a cycle and resolve to the registered initial value. */
+    --_ag-specular-lift: 0;
     --_ag-dim: 0;
     --_ag-surface-alpha: 1;
     --_ag-refraction-scale: 0;
@@ -29,32 +44,40 @@
     --_ag-optics: 1;
     --_ag-press: 0;
     --_ag-inner-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) calc(l - 0.02) c h);
-    --_ag-on-surface: var(--ag-color-on-surface, currentColor);
-    --_ag-on-surface-muted: var(--ag-color-on-surface-muted, currentColor);
-    --_ag-canvas-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h / var(--_ag-alpha, 0.6));
+    /* no --_ag-on-surface* host redeclarations — they would shadow the
+       [data-ag-backdrop] ancestor's env values (REQ-FIN-02); the read-outs
+       fall back to the color tokens when no backdrop ancestor exists. */
+    --_ag-canvas-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h / var(--_ag-alpha));
     --_ag-fill: var(--_ag-canvas-fill);
-    --_ag-alpha: min(1, max(var(--_ag-tint-floor),
-                     calc(var(--_ag-tint-floor) + (1 - var(--_ag-tint-floor)) * var(--ag-glass-opacity, 0))));
+    --_ag-alpha: min(1, max(var(--_ag-tint-floor), calc(var(--_ag-tint-floor) + (1 - var(--_ag-tint-floor)) * var(--ag-glass-opacity, 0))));
     --_ag-shadow: var(--ag-shadow-regular, none);
     --_ag-rim-light: oklch(1 0 0 / 0.5);
     --_ag-rim-shade: oklch(0% 0 0 / 0.12);
 
-    /* public read-outs (REQ-MAT-29) */
+    /* public read-outs (REQ-MAT-29, contract-v1.1 S-03 PUBLIC_CSS_VARS.readouts).
+       --ag-surface-fill derives from --_ag-fill only. */
     --ag-surface-fill: var(--_ag-fill);
     --ag-surface-rim: var(--_ag-rim-light);
     --ag-surface-shadow: var(--_ag-shadow);
     --ag-surface-radius: var(--ag-radius-outer, var(--ag-radius-md));
-    --ag-on-surface: var(--_ag-on-surface);
-    --ag-on-surface-muted: var(--_ag-on-surface-muted);
+    --ag-on-surface: var(--_ag-on-surface, var(--ag-color-on-surface, currentColor));
+    --ag-on-surface-muted: var(--_ag-on-surface-muted, var(--ag-color-on-surface-muted, currentColor));
     --ag-radius-inner: max(0px, calc(var(--ag-radius-outer, var(--ag-radius-md)) - var(--ag-inset, var(--ag-space-2))));
+    /* private mirrors read by component CSS on `next` (MAT-003 rename of
+       src/contracts/tokens.ts readouts, made outside the contract PR —
+       FIN-463 reconciles; until then both names resolve to one value). */
+    --_ag-surface-fill: var(--ag-surface-fill);
+    --_ag-surface-rim: var(--ag-surface-rim);
+    --_ag-surface-shadow: var(--ag-surface-shadow);
+    --_ag-surface-radius: var(--ag-surface-radius);
   }
-  .ag-surface[data-ag-animating] { will-change: opacity, transform; }
+  [data-ag-surface][data-ag-animating] { will-change: opacity, transform; }
 
   /* ---- pseudo-element layer model (REQ-MAT-30) ----
      Both pseudo-elements inherit every private scalar and --ag-specular from
      the HOST, so they see host values while nested surfaces do not inherit
      their parent's. */
-  .ag-surface::before, .ag-surface::after {
+  :where([data-ag-surface])::before, :where([data-ag-surface])::after {
     --_ag-blur: inherit;
     --_ag-saturation: inherit;
     --_ag-brightness: inherit;
@@ -68,39 +91,50 @@
     --_ag-press: inherit;
     --ag-specular: inherit;
   }
-  .ag-surface::before {
+  /* Layer 1 + 2 (MAT §4.3): backdrop optics, dim, grain, Fresnel band and
+     sheen. Each optic is its own background layer, in this order:
+       1. dim (clear over bright)
+       2. grain — ag-grain-128.avif tile, its own layer (MAT-32); removed
+          (not merely dimmed) under contrast=more, forced colours, solid and
+          lightweight, where --_ag-grain-opacity is 0 / ≤ 0.02
+       3. Fresnel band — brightens the edge facing --ag-light-angle within
+          8 px (MAT-32 Fresnel approximation)
+       4. specular sheen oriented by --ag-light-angle */
+  :where([data-ag-surface])::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     border-radius: inherit;
     pointer-events: none;
-    /* (1) backdrop optics, fixed order blur() saturate() brightness() */
-    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
-    -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
-    /* dim compositing (clear over bright) + grain — one element */
+    /* (1) backdrop optics, fixed order blur() saturate() brightness();
+       the value is constant — the depth cross-fade only moves opacity */
+    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness, 1)));
+    -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness, 1)));
     background-image:
       linear-gradient(oklch(0% 0 0 / var(--_ag-dim)), oklch(0% 0 0 / var(--_ag-dim))),
       url(../assets/ag-grain-128.avif),
-      /* fresnel edge-light, anchored on the light-facing edge */
-      radial-gradient(ellipse 120% 30% at 50% 0%,
-        oklch(1 0 0 / calc(var(--ag-specular) * 0.18)),
-        transparent 8px),
-      /* sheen clipped to the top-lit third by the gradient itself */
       linear-gradient(var(--ag-light-angle),
-        rgb(from var(--ag-color-specular, oklch(1 0 0)) r g b / calc(var(--ag-specular) * 0.35)),
+        oklch(1 0 0 / calc((var(--ag-specular) + var(--_ag-specular-lift)) * 0.18)),
+        transparent 8px),
+      linear-gradient(var(--ag-light-angle),
+        rgb(from var(--ag-color-specular, oklch(1 0 0)) r g b / calc((var(--ag-specular) + var(--_ag-specular-lift)) * 0.35)),
         transparent 40%);
-    background-size: 100% 100%, 128px 128px, 100% 8px, 100% 100%;
+    background-size: 100% 100%, 128px 128px, 100% 100%, 100% 100%;
     background-repeat: no-repeat, repeat, no-repeat, no-repeat;
-    opacity: var(--_ag-surface-alpha);
+    /* bound to --_ag-optics: the depth cross-fade dims the whole optics
+       layer without rewriting the backdrop-filter list (MAT-43) */
+    opacity: calc(var(--_ag-surface-alpha) * var(--_ag-optics));
   }
-  .ag-surface::after {
+  /* Layers 4 + 5: rim band (masked), pointer highlight, inset depth. */
+  :where([data-ag-surface])::after {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    opacity: var(--_ag-surface-alpha);
+    /* sheen/rim bound to --_ag-optics with the ::before depth cross-fade */
+    opacity: calc(var(--_ag-surface-alpha) * var(--_ag-optics));
     /* rim band via mask-composite: visible only inside the padding ring */
     padding: var(--_ag-rim-width);
     background: conic-gradient(from var(--ag-light-angle),
@@ -113,10 +147,21 @@
     box-shadow: inset 0 calc(var(--_ag-press) * 1px) 2px
       oklch(0% 0 0 / calc(var(--_ag-press) * 0.12));
   }
+  /* pointer light (REQ-MAT-49): src/motion/pointerLight.ts writes
+     --_ag-pointer on the nearest [data-ag-pointer-light] element; the
+     highlight rides the ::after sheen under the rim mask. Without the
+     property the highlight rests at 50% 30%. */
+  [data-ag-surface][data-ag-pointer-light]::after {
+    background:
+      radial-gradient(circle at var(--_ag-pointer, 50% 30%),
+        oklch(1 0 0 / calc((var(--ag-specular) + var(--_ag-specular-lift)) * 0.6)), transparent 60%),
+      conic-gradient(from var(--ag-light-angle),
+        var(--_ag-rim-light), var(--_ag-rim-shade), var(--_ag-rim-light));
+  }
 
   /* ---- environment: declared backdrops (REQ-MAT-31 environment css) ----
      Inherited env scalars + backdrop-resolved on-surface (glyph flip). */
-  [data-ag-backdrop] {
+  :where([data-ag-backdrop]) {
     --_ag-env-brightness: 1;
     --_ag-on-surface: var(--ag-color-on-surface, oklch(0.22 0.02 262));
     --_ag-on-surface-muted: var(--ag-color-on-surface-muted, oklch(0.4 0.02 262));
@@ -131,19 +176,18 @@
     --_ag-on-surface: oklch(0.96 0.01 90);
     --_ag-on-surface-muted: oklch(0.8 0.015 90);
   }
-  [data-ag-backdrop="media"],
-  [data-ag-backdrop="auto"] {
-    /* auto + image/video resolves to the media row (REQ-MAT-26) */
+  [data-ag-backdrop="media"] {
+    /* image/video resolves to the media row (REQ-MAT-26); "auto" resolves upstream */
     --_ag-env-brightness: 1;
     --_ag-on-surface: oklch(0.98 0.005 90);
     --_ag-on-surface-muted: oklch(0.85 0.01 90);
   }
 
-  [data-ag-backdrop] {
+  :where([data-ag-backdrop]) {
     position: relative;
     overflow: hidden;
   }
-  [data-ag-part="backdrop-media"] {
+  :where([data-ag-part="backdrop-media"]) {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -154,249 +198,416 @@
   }
 
   /* ---- variants ---- */
-  .ag-surface[data-ag-variant="clear"] {
+  [data-ag-surface][data-ag-variant="clear"] {
     /* clear has its own solved floor row (generated/floors.css) and dims the
        bright backdrop inside ::before when the backdrop is light/media */
     --_ag-fill: var(--_ag-canvas-fill);
   }
-  [data-ag-backdrop="light"] .ag-surface[data-ag-variant="clear"],
-  [data-ag-backdrop="media"] .ag-surface[data-ag-variant="clear"],
-  [data-ag-backdrop="auto"] .ag-surface[data-ag-variant="clear"] {
+  :where([data-ag-backdrop="light"], [data-ag-backdrop="media"])
+    [data-ag-surface][data-ag-variant="clear"] {
     --_ag-dim: 0.35; /* scrim.clearOverBright */
   }
   /* fail-safe: clear with no declared ancestor backdrop renders regular */
-  .ag-surface[data-ag-variant="clear"]:not(:is([data-ag-backdrop="light"], [data-ag-backdrop="dark"], [data-ag-backdrop="media"]) *) {
+  [data-ag-surface][data-ag-variant="clear"]:not(:where([data-ag-backdrop] *)) {
     --_ag-dim: 0;
   }
   /* identity: optically inert, keeps data-ag-surface for a11y rungs */
-  .ag-surface[data-ag-variant="identity"] {
+  [data-ag-surface][data-ag-variant="identity"] {
     --_ag-fill: transparent;
     --_ag-shadow: none;
     --_ag-rim-width: 0px;
     --ag-specular: 0;
   }
-  .ag-surface[data-ag-variant="identity"]::before {
+  [data-ag-surface][data-ag-variant="identity"]::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     background-image: none;
   }
-  .ag-surface[data-ag-variant="identity"]::after { content: none; }
+  [data-ag-surface][data-ag-variant="identity"]::after { content: none; }
 
-  /* prominent: accent mixes into the fill at <= 0.18 alpha (one per view) */
-  .ag-surface[data-ag-prominent] {
-    /* accent mixes into the canvas fill at exactly 0.18 (<= 0.18 alpha) */
+  /* prominent: accent mixes into the canvas fill at exactly 0.18 (<= 0.18
+     alpha, one per view) */
+  [data-ag-surface][data-ag-prominent] {
     --_ag-fill: color-mix(in oklch, var(--_ag-canvas-fill), var(--ag-color-accent, oklch(60% 0.2 270)) 18%);
     --_ag-rim-light: oklch(from var(--ag-color-accent, oklch(60% 0.2 270)) l c h / 0.6);
   }
 
   /* ---- content layer materials (D-08): never a backdrop filter ---- */
-  .ag-surface[data-ag-layer="content"]:not([data-ag-variant])::before,
-  .ag-surface[data-ag-layer="content"][data-ag-content]::before {
+  [data-ag-surface][data-ag-layer="content"]:not(:where([data-ag-variant]))::before,
+  [data-ag-surface][data-ag-layer="content"][data-ag-content]::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  .ag-surface[data-ag-layer="content"]:not([data-ag-variant]) {
+  [data-ag-surface][data-ag-layer="content"]:not(:where([data-ag-variant])) {
     /* opaque content-raised fill (MaterialSpec.content), rim + grain + shadow */
     --_ag-canvas-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) calc(l + 0.015) c h);
     --_ag-fill: var(--_ag-canvas-fill);
     --_ag-alpha: 1;
   }
-  .ag-surface[data-ag-layer="content"][data-ag-content="content-sunken"] {
+  [data-ag-surface][data-ag-layer="content"][data-ag-content="content-sunken"] {
     --_ag-canvas-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) calc(l - 0.03) c h);
     --_ag-fill: var(--_ag-canvas-fill);
   }
-  .ag-surface[data-ag-layer="content"][data-ag-content="content-sunken"]::after {
+  [data-ag-surface][data-ag-layer="content"][data-ag-content="content-sunken"]::after {
     /* 1px inset top shade */
     box-shadow: inset 0 1px 0 oklch(0% 0 0 / 0.08);
   }
 
   /* ---- nesting (REQ-MAT-31) ---- */
-  .ag-surface .ag-surface:not([data-ag-allow-nested])::before {
+  :where([data-ag-surface]) [data-ag-surface]:not(:where([data-ag-allow-nested]))::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  .ag-surface .ag-surface:not([data-ag-allow-nested]) {
+  :where([data-ag-surface]) [data-ag-surface]:not(:where([data-ag-allow-nested])) {
     --_ag-fill: var(--_ag-inner-fill);
   }
   /* portaled overlays are not DOM descendants of their trigger surface, so
      they keep optics — no extra rule needed; allowNested keeps optics. */
 
   /* ---- groups (REQ-MAT-26/31): one shared backdrop ---- */
-  [data-ag-group] {
+  :where([data-ag-group]) {
     /* the group is itself a chrome surface (SurfaceGroup emits the attrs);
        flex so the gap separates children into a toolbar row (no inline style) */
     display: flex;
     align-items: center;
     gap: var(--ag-group-spacing, var(--ag-space-2));
   }
-  [data-ag-group] > .ag-surface::before {
+  :where([data-ag-group]) > [data-ag-surface]::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
 
-  /* ---- state (REQ-MAT-09/31) ---- */
-  .ag-surface[data-disabled],
-  .ag-surface:disabled,
-  .ag-surface[aria-disabled="true"] {
-    --_ag-surface-alpha: var(--ag-state-disabled-alpha, 0.45);
+  /* ---- disabled (REQ-MAT-31): dims fill and pseudo-layers, never host opacity ---- */
+  [data-ag-surface][data-disabled],
+  [data-ag-surface]:disabled,
+  [data-ag-surface][aria-disabled="true"] {
+    --_ag-surface-alpha: var(--_ag-state-disabled-surface-alpha);
     /* fill alpha multiplied: recompute fill at the dimmed alpha */
     --_ag-canvas-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h /
       calc(var(--_ag-alpha) * var(--_ag-surface-alpha)));
     --_ag-fill: var(--_ag-canvas-fill);
   }
-  /* overlay-open / expanded / full-height select solved floor rows in
-     generated/floors.css (its [data-open], [data-expanded] and
-     [data-ag-full-height] attribute keys); no extra scalar is needed here. */
-  /* REQ-CMP-79: scrim tokens --ag-scrim-media (color) / --ag-scrim-clear
-     (clear-state alpha). No pointer-events:none — it swallows outside-press
-     on the BU backdrop. Only the top scrim (data-ag-overlay-top) keeps its
-     blur; deeper scrims are un-blurred via the depth marker. */
+
+  /* ---- overlay / expanded / full-height floor rows (REQ-MAT-31, REQ-FIN-02) ----
+     The generated cells key on [data-ag-thickness][data-ag-backdrop]; overlay
+     popups carry no backdrop attr, so they select the emitted floor row
+     (--_ag-floor-alpha, the variant × thickness readability floor) directly. */
+  [data-ag-surface][data-ag-layer="overlay"][data-open] {
+    --_ag-tint-floor: calc(var(--_ag-floor-alpha) + var(--_ag-floor-lift));
+  }
+  [data-ag-surface][data-expanded] {
+    /* raises the floor one thickness row. The raised row value is a floor
+       cell output (REQ-FIN-03 emitter, --_ag-floor-alpha-expanded); until it
+       is emitted the surface keeps its own row — never below it. */
+    --_ag-tint-floor: max(var(--_ag-floor-alpha, 1), var(--_ag-floor-alpha-expanded, var(--_ag-floor-alpha, 1)));
+  }
+  [data-ag-surface][data-ag-full-height],
+  [data-ag-surface][data-ag-appearance="full-height"] {
+    /* full-height sheets resolve to the tinted rung (CC-CMP-03) */
+    --_ag-tint-floor: var(--_ag-tinted-floor, 0.85);
+  }
+  /* nested-open dialog (REQ-CMP-89, hand-off from #257): the parent popup
+     dims its MATERIAL alpha while a child dialog is open */
+  [data-ag-surface][data-ag-overlay="dialog"][data-ag-nested-open],
+  [data-ag-surface][data-ag-overlay="alert-dialog"][data-ag-nested-open] {
+    --_ag-surface-alpha: 0.72;
+  }
+
+  /* ---- modal scrim (REQ-MAT-31, REQ-CMP-79 hand-off from #248) ----
+     The overlay owner renders a [data-ag-layer="scrim"] sibling. Colour is the
+     environment scrim token; blur is capped at 12 px. No pointer-events:none:
+     it would swallow outside-press on the Base UI backdrop. Only the top scrim
+     keeps its blur; deeper scrims are un-blurred via the depth marker. */
   [data-ag-layer="scrim"] {
     position: fixed;
     inset: 0;
-    background: var(--ag-scrim-media, oklch(0% 0 0 / var(--ag-scrim-clear, 0.35)));
-    backdrop-filter: blur(var(--ag-scrim-blur, 12px));
-    -webkit-backdrop-filter: blur(var(--ag-scrim-blur, 12px));
+    background: var(--ag-scrim-media);
+    backdrop-filter: blur(min(var(--_ag-scrim-blur, 12px), 12px));
+    -webkit-backdrop-filter: blur(min(var(--_ag-scrim-blur, 12px), 12px));
   }
   [data-ag-layer="scrim"][data-ag-overlay-depth]:not([data-ag-overlay-top]) {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
 
-  /* ---- interaction states (REQ-MAT-09/32): light response, never scale ---- */
+  /* ---- interaction states (REQ-MAT-09, REQ-FIN-02): light response, never
+     scale. Every row reads its interaction-state scalar from the
+     interaction tokens (tokens/sys/interaction.tokens.json, emitted into
+     dist/tokens.css per mode); no hard-coded state literals. ---- */
   @media (hover: hover) {
-    .ag-surface[data-ag-interactive]:hover {
-      --ag-specular: var(--ag-state-hover-specular, 0.15);
+    [data-ag-surface][data-ag-interactive]:where(:hover) {
+      --_ag-specular-lift: var(--ag-state-hover-specular);
+      --_ag-floor-lift: var(--_ag-state-hover-floor);
     }
   }
-  .ag-surface[data-ag-interactive]:active,
-  .ag-surface[data-pressed] {
-    --_ag-press: var(--ag-state-press-glow, 0.25);
-  }
-  .ag-surface[data-ag-interactive] {
-    /* pseudo-layer opacity and registered scalars only */
-    transition:
-      --ag-specular var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
-      --_ag-press var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1));
-  }
-  .ag-surface[data-ag-interactive]::before,
-  .ag-surface[data-ag-interactive]::after {
-    transition: opacity var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  [data-ag-surface][data-ag-interactive]:where(:active),
+  [data-ag-surface][data-pressed] {
+    --_ag-press: var(--ag-state-press-glow);
+    --_ag-floor-lift: var(--_ag-state-press-floor);
   }
   /* selected / drop-target: rim + weight cue, not only tint */
-  .ag-surface[data-selected],
-  .ag-surface[aria-selected="true"],
-  .ag-surface[data-state="on"],
-  .ag-surface[aria-pressed="true"] {
-    --_ag-fill: oklch(from var(--ag-color-accent, oklch(60% 0.2 270)) l c h / 0.16);
-  }
-  .ag-surface[data-loading],
-  .ag-surface[aria-busy="true"] {
-    --_ag-surface-alpha: 0.7;
-  }
-  .ag-surface[data-drop-target] {
-    --_ag-rim-width: 2px;
+  [data-ag-surface][data-selected],
+  [data-ag-surface][aria-selected="true"],
+  [data-ag-surface][data-state="on"],
+  [data-ag-surface][aria-pressed="true"] {
+    --_ag-fill: oklch(from var(--ag-color-accent, oklch(60% 0.2 270)) l c h / var(--_ag-state-selected-tint));
+    --_ag-rim-width: var(--_ag-state-selected-rim-width);
+    /* weight cue = rim weight (interaction tokens: "accent tint plus a rim
+       weight, not colour-only") */
     --_ag-rim-light: var(--ag-color-accent, oklch(60% 0.2 270));
-    --_ag-fill: oklch(from var(--ag-color-accent, oklch(60% 0.2 270)) l c h / 0.06);
+  }
+  [data-ag-surface][data-loading],
+  [data-ag-surface][aria-busy="true"] {
+    --_ag-surface-alpha: var(--_ag-state-loading-alpha);
+  }
+  [data-ag-surface][data-dragging] {
+    translate: 0 calc(-1 * var(--_ag-state-dragging-lift));
+    --ag-specular: var(--_ag-state-dragging-specular);
+  }
+  [data-ag-surface][data-drop-target] {
+    --_ag-rim-width: var(--_ag-state-drop-target-rim);
+    --_ag-rim-light: var(--ag-color-accent, oklch(60% 0.2 270));
+    --_ag-fill: oklch(from var(--ag-color-accent, oklch(60% 0.2 270)) l c h / var(--_ag-state-drop-target-fill));
+  }
+
+  /* contrast=more (MAT-09 mode rows, MAT-32 grain off): rim/outline forms,
+     no specular, no grain layer */
+  :where([data-ag-contrast="more"]) [data-ag-surface],
+  [data-ag-surface][data-ag-contrast="more"] {
+    --_ag-grain-opacity: 0;
+    --_ag-specular-lift: 0;
+  }
+  :where([data-ag-contrast="more"]) [data-ag-surface]::before,
+  [data-ag-surface][data-ag-contrast="more"]::before {
+    background-image:
+      linear-gradient(oklch(0% 0 0 / var(--_ag-dim)), oklch(0% 0 0 / var(--_ag-dim)));
+    background-size: 100% 100%;
+  }
+  [data-ag-contrast="more"] [data-ag-surface][data-ag-interactive]:where(:hover),
+  [data-ag-surface][data-ag-contrast="more"][data-ag-interactive]:where(:hover) {
+    --ag-specular: 0;
+    --_ag-specular-lift: 0;
+    outline: 1px solid var(--_ag-border-strong, currentColor);
+    outline-offset: -1px;
+  }
+  [data-ag-contrast="more"] :where([data-ag-surface][data-selected],
+    [data-ag-surface][aria-selected="true"], [data-ag-surface][data-state="on"],
+    [data-ag-surface][aria-pressed="true"], [data-ag-surface][data-drop-target]),
+  :where([data-ag-surface][data-ag-contrast="more"]):where([data-selected],
+    [aria-selected="true"], [data-state="on"], [aria-pressed="true"], [data-drop-target]) {
+    --_ag-rim-width: var(--_ag-state-selected-rim-width);
+    outline: 1px solid var(--_ag-border-strong, currentColor);
+    outline-offset: -1px;
+  }
+
+  /* forced colours: selected/press -> Highlight, disabled -> GrayText */
+  @media (forced-colors: active) {
+    [data-ag-surface][data-selected],
+    [data-ag-surface][aria-selected="true"],
+    [data-ag-surface][data-state="on"],
+    [data-ag-surface][aria-pressed="true"] {
+      border-color: Highlight;
+      color: HighlightText;
+      --_ag-fill: Highlight;
+    }
+    [data-ag-surface][data-pressed],
+    [data-ag-surface][data-ag-interactive]:where(:active) {
+      border-color: Highlight;
+      color: HighlightText;
+    }
+    [data-ag-surface][data-disabled],
+    [data-ag-surface]:disabled,
+    [data-ag-surface][aria-disabled="true"] {
+      color: GrayText;
+      border-color: GrayText;
+      --_ag-fill: Canvas;
+      --_ag-surface-alpha: 1;
+    }
+    [data-ag-surface][data-drop-target] {
+      outline: 2px dashed Highlight;
+      outline-offset: -2px;
+    }
+  }
+
+  /* ---- transition lists (MAT-42/43, REQ-FIN-02) ----
+     Pseudo-layer opacity and registered scalars only (no bare `all`, no
+     blur). The depth cross-fade (--_ag-optics) is merged into every list
+     here, so the [data-ag-layer] depth rule never has to replace an
+     interactive or overlay list, and an interactive overlay gets the union. */
+  [data-ag-surface][data-ag-interactive] {
+    transition:
+      --ag-specular var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+      --_ag-press var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+      --_ag-optics var(--ag-duration-small, 200ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+  [data-ag-surface]:where([data-ag-interactive])::before,
+  [data-ag-surface]:where([data-ag-interactive])::after {
+    transition: opacity var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+  /* resting overlay rule (MAT-43): scale/translate own the open/close
+     motion; transform-origin follows the positioner's --transform-origin so
+     the grow origin never reverts to 50% mid-flight. */
+  [data-ag-surface][data-ag-overlay] {
+    transform-origin: var(--transform-origin, 50% 50%);
+    transition:
+      scale var(--ag-duration-short, 200ms) var(--ag-ease-emphasized, cubic-bezier(0.3, 0, 0, 1)),
+      translate var(--ag-duration-short, 200ms) var(--ag-ease-emphasized, cubic-bezier(0.3, 0, 0, 1)),
+      opacity var(--ag-duration-short, 200ms) var(--ag-ease-emphasized, cubic-bezier(0.3, 0, 0, 1)),
+      --_ag-optics var(--ag-duration-small, 200ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+  [data-ag-surface][data-ag-overlay][data-ag-interactive] {
+    transition:
+      --ag-specular var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+      --_ag-press var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+      scale var(--ag-duration-short, 200ms) var(--ag-ease-emphasized, cubic-bezier(0.3, 0, 0, 1)),
+      translate var(--ag-duration-short, 200ms) var(--ag-ease-emphasized, cubic-bezier(0.3, 0, 0, 1)),
+      opacity var(--ag-duration-short, 200ms) var(--ag-ease-emphasized, cubic-bezier(0.3, 0, 0, 1)),
+      --_ag-optics var(--ag-duration-small, 200ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1));
   }
 
   /* ---- tiers (REQ-MAT-35). Standard is the default; lightweight rungs below.
      Subtree attributes override <html>: :root-level selectors use :where() so
      a nearer [data-ag-tier]/[data-ag-transparency] ancestor wins on specificity. */
-  :where(:root[data-ag-tier="lightweight"]) .ag-surface,
-  [data-ag-tier="lightweight"] .ag-surface,
-  .ag-surface[data-ag-tier="lightweight"],
-  .ag-surface[data-ag-transparency="solid"],
-  [data-ag-transparency="solid"] .ag-surface,
-  :where(:root[data-ag-transparency="solid"]) .ag-surface {
+  :where(:root[data-ag-tier="lightweight"]) [data-ag-surface],
+  [data-ag-tier="lightweight"] [data-ag-surface],
+  [data-ag-surface][data-ag-tier="lightweight"],
+  [data-ag-surface][data-ag-transparency="solid"],
+  [data-ag-transparency="solid"] [data-ag-surface],
+  :where(:root[data-ag-transparency="solid"]) [data-ag-surface] {
     /* fallbackFill: >=0.85 alpha, following the scheme — never a black slab */
     --_ag-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h / 0.9);
     --_ag-alpha: 1;
     --_ag-grain-opacity: 0;
   }
-  :where(:root[data-ag-tier="lightweight"]) .ag-surface::before,
-  [data-ag-tier="lightweight"] .ag-surface::before,
-  .ag-surface[data-ag-tier="lightweight"]::before,
-  .ag-surface[data-ag-transparency="solid"]::before,
-  [data-ag-transparency="solid"] .ag-surface::before,
-  :where(:root[data-ag-transparency="solid"]) .ag-surface::before {
+  :where(:root[data-ag-tier="lightweight"]) [data-ag-surface]::before,
+  [data-ag-tier="lightweight"] [data-ag-surface]::before,
+  [data-ag-surface][data-ag-tier="lightweight"]::before,
+  [data-ag-surface][data-ag-transparency="solid"]::before,
+  [data-ag-transparency="solid"] [data-ag-surface]::before,
+  :where(:root[data-ag-transparency="solid"]) [data-ag-surface]::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    /* grain layer removed; Fresnel band and sheen kept */
     background-image:
       linear-gradient(oklch(0% 0 0 / var(--_ag-dim)), oklch(0% 0 0 / var(--_ag-dim))),
-      /* keep fresnel/sheen */
-      radial-gradient(ellipse 120% 30% at 50% 0%,
-        oklch(1 0 0 / calc(var(--ag-specular) * 0.18)),
+      linear-gradient(var(--ag-light-angle),
+        oklch(1 0 0 / calc((var(--ag-specular) + var(--_ag-specular-lift)) * 0.18)),
         transparent 8px),
       linear-gradient(var(--ag-light-angle),
-        rgb(from var(--ag-color-specular, oklch(1 0 0)) r g b / calc(var(--ag-specular) * 0.35)),
+        rgb(from var(--ag-color-specular, oklch(1 0 0)) r g b / calc((var(--ag-specular) + var(--_ag-specular-lift)) * 0.35)),
         transparent 40%);
-    background-size: 100% 100%, 100% 8px, 100% 100%;
+    background-size: 100% 100%, 100% 100%, 100% 100%;
+    background-repeat: no-repeat;
   }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .ag-surface {
+    [data-ag-surface] {
       --_ag-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h / 0.9);
       --_ag-alpha: 1;
     }
-    .ag-surface::before {
+    [data-ag-surface]::before {
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }
   }
   @media (forced-colors: active) {
-    .ag-surface {
+    [data-ag-surface] {
       --_ag-fill: Canvas;
       --_ag-shadow: none;
+      --_ag-grain-opacity: 0;
       border: 1px solid CanvasText;
       color: CanvasText;
     }
-    .ag-surface::before {
+    [data-ag-surface]::before {
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
       background-image: none;
     }
-    .ag-surface::after { content: none; }
+    [data-ag-surface]::after { content: none; }
   }
   /* tinted rung: blur kept, floor raised to the tinted row, refraction off */
-  [data-ag-transparency="tinted"] .ag-surface,
-  .ag-surface[data-ag-transparency="tinted"],
-  :where(:root[data-ag-transparency="tinted"]) .ag-surface {
-    --_ag-tint-floor: var(--ag-tinted-floor, 0.85);
+  [data-ag-transparency="tinted"] [data-ag-surface],
+  [data-ag-surface][data-ag-transparency="tinted"],
+  :where(:root[data-ag-transparency="tinted"]) [data-ag-surface] {
+    --_ag-tint-floor: var(--_ag-tinted-floor, 0.85);
     --_ag-refraction-scale: 0;
   }
 
   @media (prefers-reduced-transparency: reduce) {
-    :root:not([data-ag-transparency]) .ag-surface {
+    :root:not([data-ag-transparency]) [data-ag-surface] {
       --_ag-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h / 0.9);
       --_ag-alpha: 1;
     }
-    :root:not([data-ag-transparency]) .ag-surface::before {
+    :root:not([data-ag-transparency]) [data-ag-surface]::before {
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }
   }
 
-  /* ---- concentricity + shape (REQ-MAT-26 shape) ---- */
-  .ag-surface[data-ag-shape="concentric"] {
-    border-radius: var(--ag-radius-inner, var(--ag-radius-md));
+  /* ---- shape + concentricity (REQ-MAT-26) ----
+     Shape rules set the --ag-surface-radius read-out; the host baseline's
+     border-radius reads it, so read-out and painted radius never diverge. */
+  [data-ag-surface][data-ag-shape="concentric"] { --ag-surface-radius: var(--ag-radius-inner, var(--ag-radius-md)); }
+  [data-ag-surface][data-ag-shape="capsule"] { --ag-surface-radius: 9999px; }
+  /* a concentric surface outside any ConcentricFrame has no outer radius to
+     subtract from: it takes its data-ag-radius fallback (default md) */
+  [data-ag-surface][data-ag-shape="concentric"]:not(:where([data-ag-part="concentric-frame"] *, [data-ag-radius]:not([data-ag-surface]) *)) {
+    --ag-surface-radius: var(--ag-radius-md);
   }
-  .ag-surface[data-ag-shape="capsule"] {
-    border-radius: 9999px;
-  }
-  /* ConcentricFrame pads by --ag-inset (emitted as private data-ag-inset) */
-  [data-ag-inset] {
+  [data-ag-surface][data-ag-shape="concentric"][data-ag-radius="xs"]:not(:where([data-ag-part="concentric-frame"] *, [data-ag-radius]:not([data-ag-surface]) *)) { --ag-surface-radius: var(--ag-radius-xs); }
+  [data-ag-surface][data-ag-shape="concentric"][data-ag-radius="sm"]:not(:where([data-ag-part="concentric-frame"] *, [data-ag-radius]:not([data-ag-surface]) *)) { --ag-surface-radius: var(--ag-radius-sm); }
+  [data-ag-surface][data-ag-shape="concentric"][data-ag-radius="md"]:not(:where([data-ag-part="concentric-frame"] *, [data-ag-radius]:not([data-ag-surface]) *)) { --ag-surface-radius: var(--ag-radius-md); }
+  [data-ag-surface][data-ag-shape="concentric"][data-ag-radius="lg"]:not(:where([data-ag-part="concentric-frame"] *, [data-ag-radius]:not([data-ag-surface]) *)) { --ag-surface-radius: var(--ag-radius-lg); }
+  [data-ag-surface][data-ag-shape="concentric"][data-ag-radius="xl"]:not(:where([data-ag-part="concentric-frame"] *, [data-ag-radius]:not([data-ag-surface]) *)) { --ag-surface-radius: var(--ag-radius-xl); }
+  [data-ag-surface][data-ag-shape="concentric"][data-ag-radius="full"]:not(:where([data-ag-part="concentric-frame"] *, [data-ag-radius]:not([data-ag-surface]) *)) { --ag-surface-radius: var(--ag-radius-full); }
+
+  /* private attr -> var maps (REQ-MAT-26), one rule per contract token
+     (RadiusToken, SpaceToken). ConcentricFrame emits data-ag-radius /
+     data-ag-inset (and data-ag-part="concentric-frame"); SurfaceGroup emits
+     data-ag-spacing. A surface's own data-ag-radius is its concentric
+     fallback (above), never the outer frame radius. */
+  [data-ag-radius="xs"]:not([data-ag-surface]) { --ag-radius-outer: var(--ag-radius-xs); }
+  [data-ag-radius="sm"]:not([data-ag-surface]) { --ag-radius-outer: var(--ag-radius-sm); }
+  [data-ag-radius="md"]:not([data-ag-surface]) { --ag-radius-outer: var(--ag-radius-md); }
+  [data-ag-radius="lg"]:not([data-ag-surface]) { --ag-radius-outer: var(--ag-radius-lg); }
+  [data-ag-radius="xl"]:not([data-ag-surface]) { --ag-radius-outer: var(--ag-radius-xl); }
+  [data-ag-radius="full"]:not([data-ag-surface]) { --ag-radius-outer: var(--ag-radius-full); }
+  [data-ag-inset="0"] { --ag-inset: var(--ag-space-0); }
+  [data-ag-inset="1"] { --ag-inset: var(--ag-space-1); }
+  [data-ag-inset="2"] { --ag-inset: var(--ag-space-2); }
+  [data-ag-inset="3"] { --ag-inset: var(--ag-space-3); }
+  [data-ag-inset="4"] { --ag-inset: var(--ag-space-4); }
+  [data-ag-inset="5"] { --ag-inset: var(--ag-space-5); }
+  [data-ag-inset="6"] { --ag-inset: var(--ag-space-6); }
+  [data-ag-inset="8"] { --ag-inset: var(--ag-space-8); }
+  [data-ag-inset="10"] { --ag-inset: var(--ag-space-10); }
+  [data-ag-inset="12"] { --ag-inset: var(--ag-space-12); }
+  [data-ag-inset="16"] { --ag-inset: var(--ag-space-16); }
+  [data-ag-group][data-ag-spacing="0"] { --ag-group-spacing: var(--ag-space-0); }
+  [data-ag-group][data-ag-spacing="1"] { --ag-group-spacing: var(--ag-space-1); }
+  [data-ag-group][data-ag-spacing="2"] { --ag-group-spacing: var(--ag-space-2); }
+  [data-ag-group][data-ag-spacing="3"] { --ag-group-spacing: var(--ag-space-3); }
+  [data-ag-group][data-ag-spacing="4"] { --ag-group-spacing: var(--ag-space-4); }
+  [data-ag-group][data-ag-spacing="5"] { --ag-group-spacing: var(--ag-space-5); }
+  [data-ag-group][data-ag-spacing="6"] { --ag-group-spacing: var(--ag-space-6); }
+  [data-ag-group][data-ag-spacing="8"] { --ag-group-spacing: var(--ag-space-8); }
+  [data-ag-group][data-ag-spacing="10"] { --ag-group-spacing: var(--ag-space-10); }
+  [data-ag-group][data-ag-spacing="12"] { --ag-group-spacing: var(--ag-space-12); }
+  [data-ag-group][data-ag-spacing="16"] { --ag-group-spacing: var(--ag-space-16); }
+  :where([data-ag-part="concentric-frame"], [data-ag-radius]:not([data-ag-surface])) {
     padding: var(--ag-inset, var(--ag-space-2));
+    border-radius: var(--ag-radius-outer, var(--ag-radius-md));
+    display: flow-root;
   }
-  /* resolved radius read-outs per shape */
-  .ag-surface[data-ag-shape="concentric"] { --ag-surface-radius: var(--ag-radius-inner, var(--ag-radius-md)); }
-  .ag-surface[data-ag-shape="capsule"] { --ag-surface-radius: 9999px; }
 
   /* ---- scroll edge (REQ-MAT-26; geometry from 4.x glass.css scroll-edge) ---- */
-  [data-ag-part="scroll-edge"] {
+  :where([data-ag-part="scroll-edge"]) {
     position: sticky;
     pointer-events: none;
     height: clamp(16px, 4vh, 32px);
     z-index: 1;
+    /* reads the host surface's resolved fill so the edge fades into it;
+       outside a surface it fades into the canvas */
+    background: var(--ag-surface-fill, var(--ag-color-canvas));
   }
   [data-ag-part="scroll-edge"][data-ag-edge="top"] {
     top: 0;

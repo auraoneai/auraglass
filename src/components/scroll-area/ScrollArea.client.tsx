@@ -7,7 +7,21 @@ import * as React from 'react';
 import { ScrollArea as BaseScrollArea } from '@base-ui/react/scroll-area';
 import { cn } from '../../internal/index';
 
-function Root({ className, ref, ...rest }: React.ComponentProps<typeof BaseScrollArea.Root>) {
+/* REQ-CMP-01: AuraGlass-owned part props (no Base UI types in the d.ts). */
+interface ScrollAreaPartProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> {
+  className?: string;
+  ref?: React.Ref<HTMLDivElement> | undefined;
+}
+export type ScrollAreaRootProps = ScrollAreaPartProps;
+export type ScrollAreaViewportProps = ScrollAreaPartProps;
+export interface ScrollAreaScrollbarProps extends ScrollAreaPartProps {
+  orientation?: 'vertical' | 'horizontal';
+  /** Keep the scrollbar mounted when content does not overflow. */
+  keepMounted?: boolean;
+}
+export type ScrollAreaThumbProps = ScrollAreaPartProps;
+
+function Root({ className, ref, ...rest }: ScrollAreaRootProps) {
   return <BaseScrollArea.Root {...rest} ref={ref} data-ag-part="root" className={cn('ag-scroll-area', className)} />;
 }
 
@@ -15,16 +29,32 @@ function Viewport({
   className,
   ref,
   ...rest
-}: React.ComponentProps<typeof BaseScrollArea.Viewport>) {
+}: ScrollAreaViewportProps) {
   const callbackRef = React.useCallback(
     (node: HTMLDivElement | null) => {
       if (typeof ref === 'function') ref(node);
       else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
       if (!node) return;
+      let warned = false;
       const update = () => {
         const overflowing = node.scrollHeight > node.clientHeight + 1 || node.scrollWidth > node.clientWidth + 1;
-        if (overflowing) node.setAttribute('tabindex', '0');
-        else node.removeAttribute('tabindex');
+        if (overflowing) {
+          node.setAttribute('tabindex', '0');
+          // REQ-CMP-122: a focusable region needs an accessible name — warn once
+          // per instance in dev when it overflows unlabeled.
+          if (
+            !warned &&
+            process.env.NODE_ENV !== 'production' &&
+            !node.getAttribute('aria-label') &&
+            !node.getAttribute('aria-labelledby')
+          ) {
+            warned = true;
+            console.warn(
+              '[aura-glass] ScrollArea.Viewport is overflowing and focusable (tabIndex=0) but has no ' +
+                'aria-label or aria-labelledby — give the scrollable region an accessible name.',
+            );
+          }
+        } else node.removeAttribute('tabindex');
       };
       update();
       if (typeof ResizeObserver === 'undefined') return;
@@ -45,11 +75,11 @@ function Viewport({
   );
 }
 
-function Scrollbar({ className, ref, ...rest }: React.ComponentProps<typeof BaseScrollArea.Scrollbar>) {
+function Scrollbar({ className, ref, ...rest }: ScrollAreaScrollbarProps) {
   return <BaseScrollArea.Scrollbar {...rest} ref={ref} data-ag-part="scrollbar" className={cn('ag-scroll-area-scrollbar', className)} />;
 }
 
-function Thumb({ className, ref, ...rest }: React.ComponentProps<typeof BaseScrollArea.Thumb>) {
+function Thumb({ className, ref, ...rest }: ScrollAreaThumbProps) {
   return <BaseScrollArea.Thumb {...rest} ref={ref} data-ag-part="thumb" className={cn('ag-scroll-area-thumb', className)} />;
 }
 
