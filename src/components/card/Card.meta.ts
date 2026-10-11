@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root','header','title','description','body','footer'],
   states: [],
   variants: { interactive: ['true','false'] },
-  migration: [{ from: 'GlassCard', automation: 'mostly', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1.5,
+  migration: [{ from: 'GlassCard', props: {}, selectors: { '.glass-card': '.ag-card' },  automation: 'mostly', compat: true }],
 });

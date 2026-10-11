@@ -3,11 +3,12 @@ import { defineMeta } from '../foundation';
 export default defineMeta({
   name: 'MobileShell',
   owner: 'SURF',
-  entry: '.',
+  entry: './app-shell',
   tier: 'T1',
   rsc: 'server',
   parts: ['mobile-shell'],
   states: [],
+  apg: 'landmarks',
   variants: {},
   migration: [{ from: 'GlassMobileShell', props: {}, automation: 'mostly', compat: true }],
 });
