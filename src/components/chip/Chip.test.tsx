@@ -32,4 +32,44 @@ describe('Chip', () => {
     render(<Chip disabled>Nope</Chip>);
     expect(screen.getByRole('button', { name: 'Nope' })).toBeDisabled();
   });
+  it('renders no close part unless onRemove is given', () => {
+    const { container } = render(<Chip>Plain</Chip>);
+    expect(container.querySelector('[data-ag-part="close"]')).toBeNull();
+  });
+  it('removable: close part named "Remove {label}" calls onRemove', () => {
+    const removed: string[] = [];
+    const { container } = render(<Chip onRemove={() => removed.push('Tag')}>Tag</Chip>);
+    const close = screen.getByRole('button', { name: 'Remove Tag' });
+    expect(close).toBe(container.querySelector('[data-ag-part="close"]'));
+    fireEvent.click(close);
+    expect(removed).toEqual(['Tag']);
+  });
+  it('removable: removeLabel and messages override the name; disabled disables close', () => {
+    render(
+      <Chip disabled removeLabel="Apple" messages={{ removeItem: 'Entfernen {label}' }} onRemove={() => {}}>
+        <i>Apple</i>
+      </Chip>,
+    );
+    expect(screen.getByRole('button', { name: 'Entfernen Apple' })).toBeDisabled();
+  });
+  it('removing moves focus to the next chip, or the previous one when last', () => {
+    function List() {
+      const [items, setItems] = React.useState(['A', 'B', 'C']);
+      return (
+        <div>
+          {items.map((n) => (
+            <Chip key={n} onRemove={() => setItems((cur) => cur.filter((c) => c !== n))}>
+              {n}
+            </Chip>
+          ))}
+        </div>
+      );
+    }
+    render(<List />);
+    fireEvent.click(screen.getByRole('button', { name: 'Remove B' }));
+    expect(screen.queryByRole('button', { name: 'B' })).toBeNull();
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'C' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Remove C' }));
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'A' }));
+  });
 });

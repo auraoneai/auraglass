@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Badge } from '../../../components/badge/Badge';
 import type { BadgeProps } from '../../../components/badge/Badge';
 
-const DEP = 'DEP-C0228';
+const DEP = 'DEP-C0237';
 
 export type GlassStatusDotProps = Omit<BadgeProps, 'dot'>;
 

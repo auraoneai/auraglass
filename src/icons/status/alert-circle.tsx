@@ -10,4 +10,4 @@ const alertCircle: IconNode[] = [
 ];
 
 export const AlertCircleIcon = /*#__PURE__*/ createIcon('AlertCircle', alertCircle);
-export const ErrorIcon = /*#__PURE__*/ AlertCircleIcon;
+export const ErrorIcon = AlertCircleIcon;

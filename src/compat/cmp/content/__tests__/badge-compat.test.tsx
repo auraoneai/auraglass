@@ -18,20 +18,20 @@ async function warns(el: React.ReactElement, id: string) {
 }
 
 describe('Badge compat (REQ-CMP-114)', () => {
-  it('GlassStatusDot warns DEP-C0228 and renders a dot badge', async () => {
-    expect((await warns(<GlassStatusDot label="on" />, 'DEP-C0228')).length).toBeGreaterThan(0);
+  it('GlassStatusDot warns DEP-C0237 and renders a dot badge', async () => {
+    expect((await warns(<GlassStatusDot label="on" />, 'DEP-C0237')).length).toBeGreaterThan(0);
     const el = document.querySelector('[data-ag-part="root"]')!;
     expect(el.hasAttribute('data-ag-dot')).toBe(true);
   });
 
   it('GlassConnectionStatus maps status to intent', async () => {
-    expect((await warns(<GlassConnectionStatus status="online" />, 'DEP-C0229')).length).toBeGreaterThan(0);
+    expect((await warns(<GlassConnectionStatus status="online" />, 'DEP-C0238')).length).toBeGreaterThan(0);
     const el = document.querySelector('[data-ag-part="root"]')!;
     expect(el.getAttribute('data-ag-intent')).toBe('success');
   });
 
-  it('LiquidGlassBadgeCluster warns DEP-C0227 and renders', async () => {
-    expect((await warns(<LiquidGlassBadgeCluster count={3} />, 'DEP-C0227')).length).toBeGreaterThan(0);
+  it('LiquidGlassBadgeCluster warns DEP-C0236 and renders', async () => {
+    expect((await warns(<LiquidGlassBadgeCluster count={3} />, 'DEP-C0236')).length).toBeGreaterThan(0);
     expect(document.querySelector('.ag-badge')).not.toBeNull();
   });
 });

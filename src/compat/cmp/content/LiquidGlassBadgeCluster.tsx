@@ -5,7 +5,7 @@ import { warnDeprecated } from '../../../internal';
 import { Badge } from '../../../components/badge/Badge';
 import type { BadgeProps } from '../../../components/badge/Badge';
 
-const DEP = 'DEP-C0227';
+const DEP = 'DEP-C0236';
 
 export type LiquidGlassBadgeClusterProps = BadgeProps;
 

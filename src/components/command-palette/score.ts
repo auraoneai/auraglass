@@ -13,6 +13,19 @@ function fold(s: string): string {
     .toLowerCase();
 }
 
+/** Fold `s` and keep a map from each folded index back to its raw index —
+    SURF-061: word boundaries (camelCase) must be checked on the RAW value. */
+function foldWithMap(s: string): { folded: string; rawIdx: number[] } {
+  let folded = '';
+  const rawIdx: number[] = [];
+  for (let i = 0; i < s.length; i++) {
+    const f = fold(s[i] ?? '');
+    for (let j = 0; j < f.length; j++) rawIdx.push(i);
+    folded += f;
+  }
+  return { folded, rawIdx };
+}
+
 function isWordBoundary(value: string, index: number): boolean {
   if (index <= 0) return true;
   const prev = value.charCodeAt(index - 1);
@@ -26,7 +39,7 @@ function isWordBoundary(value: string, index: number): boolean {
 
 function scoreOne(query: string, value: string): number {
   const q = fold(query);
-  const v = fold(value);
+  const { folded: v, rawIdx } = foldWithMap(value);
   if (q.length === 0) return 1;
   if (q.length > v.length) return 0;
 
@@ -48,7 +61,7 @@ function scoreOne(query: string, value: string): number {
 
   const first = pos[0] ?? 0;
   const last = pos[pos.length - 1] ?? 0;
-  const allWordStart = pos.every((p) => isWordBoundary(v, p));
+  const allWordStart = pos.every((p) => isWordBoundary(value, rawIdx[p] ?? p));
   const contiguous = pos.every((p, i) => i === 0 || p === (pos[i - 1] ?? 0) + 1);
   const span = last - first + 1;
 

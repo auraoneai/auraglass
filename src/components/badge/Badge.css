@@ -1,9 +1,11 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-301/421 + REQ-CMP-114 Badge — opaque intent colors from
    tokens/sys/color (replaces the never-defined tint vars). Text is
    contrast-color(<intent>) where supported, else the on-accent token. */
 @layer ag.components {
-  .ag-badge { display: inline-flex; align-items: center; gap: var(--ag-space-1, 0.25rem); font-size: var(--ag-text-xs, 0.75rem); font-weight: 600; }
-  .ag-badge-pill { padding-block: 0.125rem; padding-inline: var(--ag-space-2, 0.5rem); border-radius: var(--ag-radius-full, 999px); }
+  .ag-badge { display: inline-flex; align-items: center; gap: var(--ag-space-1); font-size: var(--_ag-text-xs, 0.75rem); font-weight: 600; }
+  .ag-badge-pill { padding-block: 0.125rem; padding-inline: var(--ag-space-2); border-radius: var(--ag-radius-full); }
   .ag-badge-dot { inline-size: 0.5rem; block-size: 0.5rem; border-radius: 50%; }
   .ag-badge[data-ag-intent='neutral'] { background-color: var(--ag-color-on-surface-muted, var(--ag-color-border, currentColor)); }
   .ag-badge[data-ag-intent='info'] { background-color: var(--ag-color-info, var(--ag-color-accent, currentColor)); }
