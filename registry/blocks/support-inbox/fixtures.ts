@@ -13,4 +13,12 @@ export const MESSAGES: Record<string, Msg[]> = {
     { id: 'm1', author: 'Ava', body: 'Reset link never arrives.', at: '2026-10-07T08:00:00Z' },
     { id: 'm2', author: 'Support', body: 'Checking the mail queue now.', at: '2026-10-07T08:05:00Z' },
   ],
+  'T-1041': [
+    { id: 'm3', author: 'Sam', body: 'I was charged twice for October.', at: '2026-10-06T18:40:00Z' },
+    { id: 'm4', author: 'Support', body: 'One charge is a pending authorisation; it drops off in 3 days.', at: '2026-10-06T19:00:00Z' },
+  ],
+  'T-1039': [
+    { id: 'm5', author: 'Lee', body: 'Which SAML attributes do you need?', at: '2026-10-05T11:00:00Z' },
+    { id: 'm6', author: 'Support', body: 'email and displayName; groups is optional.', at: '2026-10-05T11:30:00Z' },
+  ],
 };

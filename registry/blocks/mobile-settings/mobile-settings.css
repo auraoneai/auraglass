@@ -1,0 +1,13 @@
+/* mobile-settings — 44×44 primary controls at every pointer (REQ-SURF-171):
+   the sheet trigger/close and every GlassPreferencesPanel option/slider. */
+.ag-mobile-settings .ag-mobile-settings__control,
+.ag-mobile-settings__panel [data-ag-part='option'],
+.ag-mobile-settings__panel [data-ag-part='slider'] {
+  min-block-size: var(--ag-target-coarse);
+  min-inline-size: var(--ag-target-coarse);
+}
+
+.ag-mobile-settings__panel [data-ag-part='option'] {
+  display: flex;
+  align-items: center;
+}

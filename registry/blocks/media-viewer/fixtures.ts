@@ -1,5 +1,6 @@
 /** Fixture data only — real consumers pass their own media. */
 export const ITEM_TITLE = 'Sisyphus — Big Buck Bunny trailer';
+export const ITEM_SUBTITLE = 'Blender Foundation · 2008';
 export const TRACKS = {
   video: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   captions: '/fixtures/captions-en.vtt',
