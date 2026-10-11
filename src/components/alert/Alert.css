@@ -2,12 +2,12 @@
 
 /* CMP-306 Alert */
 @layer ag.components {
-  .ag-alert { display: flex; gap: var(--ag-space-2, 0.5rem); padding: var(--ag-space-3, 0.75rem); border-radius: var(--ag-radius-md, 0.5rem); align-items: flex-start; }
+  .ag-alert { display: flex; gap: var(--ag-space-2); padding: var(--ag-space-3); border-radius: var(--ag-radius-md); align-items: flex-start; }
   .ag-alert[data-ag-intent='info'] { background-color: var(--_ag-tint-info, transparent); }
   .ag-alert[data-ag-intent='success'] { background-color: var(--_ag-tint-success, transparent); }
   .ag-alert[data-ag-intent='warning'] { background-color: var(--_ag-tint-warning, transparent); }
   .ag-alert[data-ag-intent='danger'] { background-color: var(--_ag-tint-danger, transparent); }
   .ag-alert-title { margin: 0; font-weight: 600; }
-  .ag-alert-actions { display: flex; gap: var(--ag-space-2, 0.5rem); margin-inline-start: auto; }
+  .ag-alert-actions { display: flex; gap: var(--ag-space-2); margin-inline-start: auto; }
   .ag-alert-action { cursor: pointer; }
 }

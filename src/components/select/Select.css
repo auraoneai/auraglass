@@ -79,7 +79,7 @@
       transform var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-select-popup[data-ending-style] {
-    transition-duration: var(--_ag-duration-exit, 140ms);
+    transition-duration: var(--ag-duration-small-exit);
   }
   .ag-select-popup[data-open],
   .ag-select-popup[data-instant] {

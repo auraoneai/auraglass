@@ -3,7 +3,7 @@
 /* CMP-320 Tour */
 @layer ag.components {
   .ag-tour-step-count { font-size: var(--_ag-text-xs, 0.75rem); opacity: 0.6; }
-  .ag-tour-title { margin: var(--ag-space-1, 0.25rem) 0; font-size: var(--_ag-heading-md, 1.125rem); }
-  .ag-tour-actions { display: flex; justify-content: flex-end; gap: var(--ag-space-2, 0.5rem); margin-block-start: var(--ag-space-2, 0.5rem); }
+  .ag-tour-title { margin: var(--ag-space-1) 0; font-size: var(--_ag-heading-md, 1.125rem); }
+  .ag-tour-actions { display: flex; justify-content: flex-end; gap: var(--ag-space-2); margin-block-start: var(--ag-space-2); }
   .ag-tour-actions button { cursor: pointer; }
 }

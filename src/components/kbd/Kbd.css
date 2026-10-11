@@ -3,6 +3,6 @@
 /* CMP-303/423 Kbd */
 @layer ag.components {
   .ag-kbd { font-family: var(--_ag-type-mono-family, ui-monospace, monospace); font-size: 0.85em; }
-  .ag-kbd-item { padding-inline: 0.25em; border-radius: var(--ag-radius-sm, 0.25rem); }
+  .ag-kbd-item { padding-inline: 0.25em; border-radius: var(--ag-radius-sm); }
   .ag-kbd-separator { margin-inline: 0.15em; opacity: 0.6; }
 }

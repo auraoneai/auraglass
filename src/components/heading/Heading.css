@@ -3,10 +3,10 @@
 /* CMP-296/420 Heading */
 @layer ag.components {
   .ag-heading { margin: 0; font-weight: var(--_ag-heading-weight, 600); line-height: var(--_ag-heading-leading, 1.2); text-wrap: balance; }
-  .ag-heading-size-display { font-size: var(--ag-type-display-size, 3rem); letter-spacing: -0.02em; }
-  .ag-heading-size-title-1 { font-size: var(--ag-type-title-1-size, 2.25rem); }
-  .ag-heading-size-title-2 { font-size: var(--ag-type-title-2-size, 1.75rem); }
-  .ag-heading-size-title-3 { font-size: var(--ag-type-title-3-size, 1.375rem); }
+  .ag-heading-size-display { font-size: var(--ag-type-display-size); letter-spacing: -0.02em; }
+  .ag-heading-size-title-1 { font-size: var(--ag-type-title-1-size); }
+  .ag-heading-size-title-2 { font-size: var(--ag-type-title-2-size); }
+  .ag-heading-size-title-3 { font-size: var(--ag-type-title-3-size); }
   .ag-heading-size-sm { font-size: var(--_ag-heading-sm, 0.9375rem); }
   .ag-heading-size-md { font-size: var(--_ag-heading-md, 1.125rem); }
   .ag-heading-size-lg { font-size: var(--_ag-heading-lg, 1.375rem); }

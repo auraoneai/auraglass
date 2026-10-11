@@ -60,7 +60,7 @@
     color: var(--ag-color-on-surface-muted);
   }
   .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
-    animation: ag-combobox-rotate var(--_ag-duration-loading, 800ms) linear infinite;
+    animation: ag-combobox-rotate var(--ag-duration-ambient) linear infinite;
   }
   @keyframes ag-combobox-rotate {
     to { transform: rotate(360deg); }
@@ -120,7 +120,7 @@
       transform var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-combobox-popup[data-ending-style] {
-    transition-duration: var(--_ag-duration-exit, 140ms);
+    transition-duration: var(--ag-duration-small-exit);
   }
   .ag-combobox-popup[data-open],
   .ag-combobox-popup[data-instant] {

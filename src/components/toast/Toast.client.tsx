@@ -82,6 +82,7 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
     const priority = intent === 'error' || intent === 'warning' ? 'alert' : 'status';
     // dom-contract (CMP-202) requires data-state open|closed on the surface
     const state = toast?.transitionStatus === 'ending' ? 'closed' : 'open';
+    const timeout = (toast as { timeout?: number } | undefined)?.timeout;
     return (
       <Base.Root
         ref={ref}
@@ -90,6 +91,7 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
         data-ag-part="root"
         data-ag-intent={intent}
         data-state={state}
+        style={timeout !== undefined ? ({ '--_ag-toast-timeout': `${timeout}ms` } as React.CSSProperties) : undefined}
         {...overlayMaterial('toast')}
         className={cn('ag-toast', className)}
         {...rest}
