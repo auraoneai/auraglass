@@ -106,7 +106,7 @@ describe('publish/release jobs', () => {
     expect(r.if).toContain('release');
   });
   it('plat:audit:backdrop is manual (remote runner pending OD-11)', () => {
-    expect(job('plat:audit:backdrop').extends).toBe('.ag-aws-remote');
+    expect(job('plat:audit:backdrop').extends).toEqual(['.ag-aws-remote', '.plat-evidence-nightly']);
   });
 });
 
@@ -194,7 +194,7 @@ describe('root .gitlab-ci.yml (R1 workflow prefixes, stage order)', () => {
         const eq = a.match(/^\$CI_COMMIT_BRANCH == "([^"]+)"$/);
         if (eq) return branch === eq[1];
         const re = a.match(/^\$CI_COMMIT_BRANCH =~ \/(.+)\/$/);
-        if (re) return new RegExp(re[1].replace(/\\\//g, '/')).test(branch);
+        if (re) return new RegExp((re[1] ?? '').replace(/\\\//g, '/')).test(branch);
         return false;
       });
       if (hit) return r.variables ?? {};
@@ -231,5 +231,149 @@ describe('root .gitlab-ci.yml (R1 workflow prefixes, stage order)', () => {
     expect(fetchIdx).toBeGreaterThanOrEqual(0);
     expect(fetchIdx).toBeLessThan(runIdx);
     expect(j.script[fetchIdx]).toContain('refs/remotes/origin/$BASE');
+  });
+});
+
+// REQ-PLAT-51 / REQ-FIN-22 (B3-4): every PLAT job's evidence lives only under
+// .artifacts/plat/$CI_JOB_NAME_SLUG/ (plus its §4.13.2 producer paths), via one
+// .plat-evidence-{pr,nightly,release} mixin (14d / 30d / 90d).
+describe('REQ-PLAT-51 evidence under .artifacts/plat/<job-slug>/', () => {
+  const root = yaml.parse(readFileSync('.gitlab-ci.yml', 'utf8')) as Record<string, any>;
+  const SLUG_DIR = '.artifacts/plat/$CI_JOB_NAME_SLUG/';
+  const isObj = (v: unknown): v is Record<string, any> => v !== null && typeof v === 'object' && !Array.isArray(v);
+  const merge = (a: Record<string, any>, b: Record<string, any>): Record<string, any> => {
+    const out: Record<string, any> = { ...a };
+    for (const [k, v] of Object.entries(b)) out[k] = isObj(v) && isObj(out[k]) ? merge(out[k], v) : v;
+    return out;
+  };
+  // GitLab `extends`: deep merge, later parent wins, the job's own keys win.
+  const resolve = (name: string, key: string): any => {
+    const node = doc[name] ?? root[name];
+    if (!isObj(node)) return undefined;
+    let acc: any;
+    for (const e of ([] as string[]).concat(node.extends ?? [])) {
+      const v = resolve(e, key);
+      if (v !== undefined) acc = isObj(v) && isObj(acc) ? merge(acc, v) : v;
+    }
+    const own = node[key];
+    if (own !== undefined) acc = isObj(own) && isObj(acc) ? merge(acc, own) : own;
+    return acc;
+  };
+  const chain = (name: string): string[] => {
+    const node = doc[name] ?? root[name];
+    const ex = ([] as string[]).concat(node?.extends ?? []);
+    return ex.flatMap((e) => [e, ...chain(e)]);
+  };
+  const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 63).replace(/^-+|-+$/g, '');
+
+  // §4.13.2 producer paths (contract) and the policy.mjs paths kept until FIN-A REQ-FIN-10.
+  const PRODUCER: Record<string, string[]> = {
+    'plat:build:dist': ['dist/'],
+    'plat:package:pack': ['.artifacts/pack/', '.artifacts/plat/pack.env'],
+    'plat:build:docs': ['apps/docs/out/', 'apps/docs/public/', 'storybook-static/'],
+    'plat:test:visual-4x': ['.artifacts/plat/visual-4x/'],
+    'plat:gate:change-class': ['.artifacts/plat/change-class/'],
+    pages: ['public/'],
+  };
+  // Longest scope each job's rules run on: release 90d > nightly 30d > pr/main 14d.
+  const TEMPLATE: Record<string, '.plat-evidence-pr' | '.plat-evidence-nightly' | '.plat-evidence-release'> = {
+    'plat:build:dist': '.plat-evidence-release',
+    'plat:gate:glass-quality': '.plat-evidence-release',
+    'plat:test:pack-matrix': '.plat-evidence-pr',
+    'plat:test:react19': '.plat-evidence-pr',
+    'plat:test:visual-4x': '.plat-evidence-pr',
+    'plat:test:canaries': '.plat-evidence-pr',
+    'plat:test:cli': '.plat-evidence-pr',
+    'plat:test:registry': '.plat-evidence-pr',
+    'plat:test:docs': '.plat-evidence-pr',
+    'plat:gate:removal': '.plat-evidence-pr',
+    'plat:gate:change-class': '.plat-evidence-release',
+    'plat:integration:next': '.plat-evidence-release',
+    'plat:integration:vite': '.plat-evidence-release',
+    'plat:package:pack': '.plat-evidence-release',
+    'plat:build:docs': '.plat-evidence-pr',
+    pages: '.plat-evidence-pr',
+    'plat:release:notes': '.plat-evidence-release',
+    'plat:release:verify-dist-tags': '.plat-evidence-release',
+    'plat:audit:backdrop': '.plat-evidence-nightly',
+  };
+  const EXPIRE = { '.plat-evidence-pr': '14 days', '.plat-evidence-nightly': '30 days', '.plat-evidence-release': '90 days' };
+  // Every PLAT job except the §4.13.7 verbatim publish job (B3-6..B3-12 jobs join this list when they land).
+  const EVIDENCE_JOBS = JOBS.filter((n) => n !== 'plat:publish:npm');
+  const platJobs = Object.keys(doc).filter((k) => !k.startsWith('.') && (k.startsWith('plat:') || k === 'pages'));
+
+  it('covers every PLAT job in the fragment', () => {
+    expect([...EVIDENCE_JOBS, 'plat:publish:npm'].sort()).toEqual([...platJobs].sort());
+    expect(Object.keys(TEMPLATE).sort()).toEqual([...EVIDENCE_JOBS].sort());
+  });
+
+  it('the three mixins write only the job dir with when: always and scoped expiry', () => {
+    for (const [t, exp] of Object.entries(EXPIRE)) {
+      const a = resolve(t, 'artifacts');
+      expect(a).toMatchObject({ name: 'evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA', when: 'always', expire_in: exp });
+      expect(a.paths).toEqual([SLUG_DIR]);
+      expect(resolve(t, 'variables')).toEqual({ AURAGLASS_EVIDENCE_DIR: '.artifacts/plat/$CI_JOB_NAME_SLUG' });
+    }
+  });
+
+  it.each(EVIDENCE_JOBS)('%s: artifacts.paths ⊂ .artifacts/plat/<slug>/ ∪ producer paths', (n) => {
+    const a = resolve(n, 'artifacts');
+    expect(a.paths).toContain(SLUG_DIR);
+    for (const p of a.paths) expect([SLUG_DIR, ...(PRODUCER[n] ?? [])]).toContain(p);
+    expect(a.paths).not.toContain('.artifacts/');
+    expect(a.paths).not.toContain('.artifacts/plat/');
+    expect(a.when).toBe('always');
+    expect(a.name).toBe(n === 'pages' ? 'pages-$CI_COMMIT_SHORT_SHA' : 'evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA');
+  });
+
+  it.each(EVIDENCE_JOBS)('%s: uses exactly its scope mixin and expiry', (n) => {
+    const mixins = chain(n).filter((t) => /^\.plat-evidence-(pr|nightly|release)$/.test(t));
+    // a mixin may extend another mixin; the first one in the chain is the job's own choice
+    expect(mixins[0]).toBe(TEMPLATE[n]);
+    const t = TEMPLATE[n];
+    expect(t).toBeDefined();
+    expect(resolve(n, 'artifacts').expire_in).toBe(EXPIRE[t!]);
+    expect(resolve(n, 'variables')?.AURAGLASS_EVIDENCE_DIR).toBe('.artifacts/plat/$CI_JOB_NAME_SLUG');
+  });
+
+  it.each(EVIDENCE_JOBS)('%s: mixin matches the longest scope its rules run on', (n) => {
+    const rules = yaml.stringify(resolve(n, 'rules'));
+    const release = /\$AG_SCOPE == "release"|\$CI_COMMIT_TAG/.test(rules);
+    const nightly = /\$AG_SCOPE != "release"|"nightly"/.test(rules);
+    const expected = release ? '.plat-evidence-release' : nightly ? '.plat-evidence-nightly' : '.plat-evidence-pr';
+    expect(TEMPLATE[n]).toBe(expected);
+  });
+
+  it('no PLAT script writes evidence to a flat .artifacts/plat/ path outside the job dir or producer paths', () => {
+    const allowed = /^\.artifacts\/plat\/(\$CI_JOB_NAME_SLUG(\/|$)|visual-4x\/|change-class\/|pack\.env$)/;
+    for (const n of platJobs) {
+      const text = yaml.stringify(doc[n].script ?? [], { lineWidth: 0 });
+      for (const m of text.matchAll(/\.artifacts\/plat\/[^\s"']*/g)) expect([n, m[0]]).toEqual([n, expect.stringMatching(allowed)]);
+      expect([n, /\.artifacts\/(?!plat\b|pack\b)/.test(text)]).toEqual([n, false]);
+    }
+  });
+
+  it('plat:package:pack keeps the contract tarball dir and dotenv path', () => {
+    const s = yaml.stringify(job('plat:package:pack').script, { lineWidth: 0 });
+    expect(s).toContain('npm pack --pack-destination .artifacts/pack');
+    expect(resolve('plat:package:pack', 'artifacts').reports).toEqual({ dotenv: '.artifacts/plat/pack.env' });
+  });
+
+  it('plat:release:notes writes release-notes.md into its job dir and links it there', () => {
+    const j = job('plat:release:notes');
+    expect(yaml.stringify(j.script, { lineWidth: 0 })).toContain('--out "$AURAGLASS_EVIDENCE_DIR/release-notes.md"');
+    const dir = `.artifacts/plat/${slug('plat:release:notes')}/`;
+    const links = j.release.assets.links.map((l: any) => l.url);
+    expect(links).toContain(`$CI_JOB_URL/artifacts/file/${dir}release-notes.md`);
+    expect(links).toContain(`$CI_JOB_URL/artifacts/browse/${dir}`);
+  });
+
+  it('plat:publish:npm stays the §4.13.7 verbatim job on the contract release template', () => {
+    expect(job('plat:publish:npm').extends).toEqual(['.ag-node', '.ag-evidence-release']);
+    expect(resolve('plat:publish:npm', 'artifacts').expire_in).toBe('90 days');
+  });
+
+  it('root AURAGLASS_EVIDENCE_DIR stays the contract default; PLAT jobs override it per job', () => {
+    expect(root.variables.AURAGLASS_EVIDENCE_DIR).toBe('.artifacts');
   });
 });
