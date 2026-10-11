@@ -16,7 +16,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'content', refractionEligible: false },
   apg: 'group',
-  budgetKb: 4,
+  budgetKb: 10,
   migration: [
     {
       from: 'GlassCheckboxGroup',
@@ -24,7 +24,7 @@ const meta: ControlMeta = defineMeta({
         options: null,
         onChange: { to: 'onValueChange' },
       },
-      automation: 'partial',
+      selectors: { '.glass-checkbox-group': '.ag-checkbox-group' }, automation: 'partial',
       compat: true,
     },
   ],
