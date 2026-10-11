@@ -1,9 +1,11 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-304/423 DescriptionList — terms stack above details below 400px
    container width. */
 @layer ag.components {
   /* container-type on the dl itself so the 400px stacking works standalone. */
   .ag-dl { margin: 0; container-type: inline-size; }
-  .ag-dl-item { display: grid; gap: var(--ag-space-1, 0.25rem); padding-block: var(--ag-space-1, 0.25rem); }
+  .ag-dl-item { display: grid; gap: var(--ag-space-1); padding-block: var(--ag-space-1); }
   .ag-dl[data-ag-layout='inline'] .ag-dl-item { grid-template-columns: 12rem 1fr; }
   .ag-dl-term { font-weight: 600; }
   .ag-dl-details { margin: 0; }

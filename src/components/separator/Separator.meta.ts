@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root'],
   states: [],
   variants: { orientation: ['horizontal','vertical'] },
-  migration: [{ from: 'GlassSeparator', automation: 'full', compat: true }, { from: 'GlassDivider', automation: 'full', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1.5,
+  migration: [{ from: 'GlassSeparator', props: {}, selectors: { '.glass-separator': '.ag-separator' },  automation: 'full', compat: true }, { from: 'GlassDivider', props: {}, selectors: { '.glass-divider': '.ag-separator' },  automation: 'full', compat: true }],
 });
