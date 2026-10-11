@@ -1,5 +1,5 @@
 {
- "entry": "./material",
+ "entry": "material",
  "exports": [
   "ConcentricFrame",
   "Environment",
@@ -8,5 +8,6 @@
   "SurfaceGroup",
   "materialProps",
   "useMaterialTier"
- ]
+ ],
+ "unanalysable": []
 }

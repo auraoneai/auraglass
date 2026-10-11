@@ -1,5 +1,5 @@
 {
- "entry": "./motion",
+ "entry": "motion",
  "exports": [
   "MotionProvider",
   "Shared",
@@ -8,5 +8,6 @@
   "toMotionTransition",
   "useDragDetents",
   "useMomentum"
- ]
+ ],
+ "unanalysable": []
 }
