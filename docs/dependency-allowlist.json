@@ -116,22 +116,6 @@
    "kind": "peer",
    "optional": true,
    "importers": []
-  },
-  "d3-scale": {
-   "version": "^4.0.2",
-   "kind": "peer",
-   "optional": true,
-   "importers": [
-    "src/charts/**"
-   ]
-  },
-  "d3-shape": {
-   "version": "^3.2.0",
-   "kind": "peer",
-   "optional": true,
-   "importers": [
-    "src/charts/**"
-   ]
   }
  }
 }
