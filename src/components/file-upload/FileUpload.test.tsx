@@ -8,7 +8,7 @@ const file = (name: string, size: number, type: string) => new File([new Uint8Ar
 
 describe('FileUpload', () => {
   it('renders dropzone + hidden input + list parts', () => {
-    const { container } = render(<FileUpload defaultItems={[{ file: file('a.png', 1, 'image/png'), status: 'idle' }]} />);
+    const { container } = render(<FileUpload defaultItems={[{ file: file('a.png', 1, 'image/png'), status: 'selected' }]} />);
     for (const p of ['root', 'dropzone', 'input', 'list']) {
       expect(container.querySelector(`[data-ag-part="${p}"]`)).not.toBeNull();
     }
@@ -37,8 +37,8 @@ describe('FileUpload', () => {
   });
   it('remove aborts the in-flight upload', async () => {
     const aborted: string[] = [];
-    const uploader = (f: File, signal: AbortSignal) => new Promise<void>((_res, rej) => {
-      signal.addEventListener('abort', () => { aborted.push(f.name); rej(new DOMException('aborted', 'AbortError')); });
+    const uploader = (f: File, ctx: { signal: AbortSignal }) => new Promise<void>((_res, rej) => {
+      ctx.signal.addEventListener('abort', () => { aborted.push(f.name); rej(new DOMException('aborted', 'AbortError')); });
     });
     const { container } = render(<FileUpload onUpload={uploader} />);
     fireEvent.change(container.querySelector('[data-ag-part="input"]')!, {
@@ -55,5 +55,41 @@ describe('FileUpload', () => {
     await act(async () => {});
     const item = document.querySelector('[data-ag-part="item"]');
     expect(item?.getAttribute('data-ag-status')).not.toBe('complete');
+  });
+});
+
+describe('FileUpload REQ-CMP-126', () => {
+  it('onValueChange carries reason + rejections; errors render via Field.Error linked by aria-describedby', () => {
+    const seen: { reason: string; n?: number }[] = [];
+    const { container } = render(
+      <FileUpload accept="image/*" onValueChange={(_items, d) => seen.push({ reason: d.reason, n: d.rejections?.length })} />,
+    );
+    fireEvent.change(container.querySelector('[data-ag-part="input"]')!, {
+      target: { files: [file('a.txt', 10, 'text/plain')] },
+    });
+    expect(seen.some((s) => s.reason === 'reject' && s.n === 1)).toBe(true);
+    const dropzone = container.querySelector('[data-ag-part="dropzone"]')!;
+    const errId = dropzone.getAttribute('aria-describedby');
+    expect(errId).toBeTruthy();
+    expect(container.querySelector(`#${CSS.escape(errId!)}`)).not.toBeNull();
+  });
+
+  it('dropzone carries content-sunken material', () => {
+    const { container } = render(<FileUpload />);
+    expect(container.querySelector('[data-ag-part="dropzone"]')!.getAttribute('data-ag-content')).toBe('content-sunken');
+  });
+
+  it('onProgress drives item.progress; completion flips status', async () => {
+    let report: ((p: number) => void) | null = null;
+    const uploader = (_f: File, ctx: { signal: AbortSignal; onProgress: (p: number) => void }) =>
+      new Promise<void>((res) => { report = (p) => { ctx.onProgress(p); if (p >= 1) res(); }; });
+    const { container } = render(<FileUpload onUpload={uploader} />);
+    fireEvent.change(container.querySelector('[data-ag-part="input"]')!, {
+      target: { files: [file('x.png', 1, 'image/png')] },
+    });
+    await act(async () => { report!(0.5); });
+    await act(async () => { report!(1); });
+    const item = container.querySelector('[data-ag-part="item"]')!;
+    expect(item.getAttribute('data-ag-status')).toBe('complete');
   });
 });

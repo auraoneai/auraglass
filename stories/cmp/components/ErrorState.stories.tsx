@@ -19,7 +19,7 @@ export const Default: Story = {
       {...args}
       description="The request could not be completed."
       icon={<svg width="24" height="24" aria-hidden="true" />}
-      actions={[{ label: 'Retry' }]}
+      actions={<button type="button">Retry</button>}
     />
   ),
 };
