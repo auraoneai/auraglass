@@ -30,6 +30,7 @@ function SliderRoot<V extends number | number[]>({
       onValueChange={(v, details) => onValueChange?.(v as V, toChangeDetails(details))}
       onValueCommitted={(v, details) => onValueCommitted?.(v as V, toChangeDetails(details))}
       ref={ref}
+      {...(format !== undefined ? { format } : {})}
       {...sizeAttrs(size)}
       {...rest}
     >
@@ -45,8 +46,9 @@ function SliderRoot<V extends number | number[]>({
                   data-ag-part="thumb"
                   aria-label={thumbCount === 1 ? ariaLabel : `${ariaLabel ?? 'value'} ${i + 1}`}
                   aria-labelledby={thumbCount === 1 ? ariaLabelledby : undefined}
-                  {...(getAriaValueText !== undefined ? { getAriaValueText } : {})}
-                  {...(format !== undefined ? { format } : {})}
+                  {...(getAriaValueText !== undefined
+                    ? { getAriaValueText: (_formatted: string, value: number, index: number) => getAriaValueText(value, index) }
+                    : {})}
                 />
               ))}
             </Base.Track>
@@ -77,8 +79,9 @@ function SliderValue({ className, ref }: SliderValueProps) {
 }
 
 /* REQ-CMP-48: exported part wrappers (data-ag-part) so callers can compose
-   the default layout themselves; getAriaValueText/format are Thumb props. */
-function SliderControl({ className, children, ref }: { className?: string; children?: React.ReactNode; ref?: React.Ref<HTMLElement> }) {
+   the default layout themselves. getAriaValueText is a Thumb prop; number
+   formatting (`format`/`locale`) is configured on Slider.Root. */
+function SliderControl({ className, children, ref }: { className?: string; children?: React.ReactNode; ref?: React.Ref<HTMLDivElement> }) {
   return <Base.Control data-ag-part="control" className={cn('ag-slider-control', className)} ref={ref}>{children}</Base.Control>;
 }
 
@@ -94,12 +97,20 @@ export interface SliderThumbPartProps {
   className?: string | undefined;
   'aria-label'?: string | undefined;
   getAriaValueText?: ((value: number, index: number) => string) | undefined;
-  format?: Intl.NumberFormatOptions | undefined;
-  ref?: React.Ref<HTMLElement> | undefined;
+  ref?: React.Ref<HTMLDivElement> | undefined;
 }
 
-function SliderThumb({ className, ...rest }: SliderThumbPartProps) {
-  return <Base.Thumb data-ag-part="thumb" className={cn('ag-slider-thumb', className)} {...rest} />;
+function SliderThumb({ className, getAriaValueText, ...rest }: SliderThumbPartProps) {
+  return (
+    <Base.Thumb
+      data-ag-part="thumb"
+      className={cn('ag-slider-thumb', className)}
+      {...(getAriaValueText !== undefined
+        ? { getAriaValueText: (_formatted: string, value: number, index: number) => getAriaValueText(value, index) }
+        : {})}
+      {...rest}
+    />
+  );
 }
 
 export const Slider = {
