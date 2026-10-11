@@ -251,36 +251,66 @@ plat:test:cli:
         npx playwright test tests/dx/codemod-canary.spec.ts
       fi
 
+# REQ-PLAT-94 / REQ-FIN-42 (B3-8). Also runs on 5x release scope: the
+# registry build is certified against the release SHA there (build.mjs GA
+# rule) and plat:release:notes renders its claims from this run's report
+# (G-14). registry-report.json goes into the job dir (the docs claims chain
+# reads it from there through needs); apps/docs/public/r/ is the §4.2 registry
+# output that pages publishes as public/r/.
 plat:test:registry:
-  extends: [.plat-playwright, .plat-evidence-pr]
+  extends: [.plat-playwright, .plat-evidence-release]
   stage: test
   allow_failure: true
   rules:
-    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
   script:
     - 'test -f scripts/registry/build.mjs || { echo "PENDING: scripts/registry/build.mjs (lane 1f)"; exit 1; }'
     - node scripts/registry/build.mjs
+    - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
+    - cp registry/registry-report.json "$AURAGLASS_EVIDENCE_DIR/registry-report.json"
     - node scripts/registry/lint.mjs
     - |
       for s in tests/dx/registry-render.spec.ts tests/dx/registry-shadcn-interop.spec.ts; do
         test -f "$s" || { echo "PENDING: $s (lane 1f)"; exit 1; }
         npx playwright test "$s"
       done
+  artifacts:
+    paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/", apps/docs/public/r/]
 
+# REQ-PLAT-102 / -103 / -101 / REQ-FIN-43 (B3-8). The docs gates type-check
+# against the packed d.ts and test the static export, so the job needs
+# plat:package:pack and plat:build:docs (package stage) and therefore runs in
+# certify (GitLab `needs` may not point at a later stage); the plain-css spec
+# needs dist/. The a11y/Lighthouse and plain-css specs run under their own dx
+# Playwright configs (the root config does not match tests/dx); the quickstart
+# spec is the plat:dx-quickstart project of fragments/playwright/plat.json.
 plat:test:docs:
-  extends: [.plat-playwright, .plat-evidence-pr]
-  stage: test
+  extends: [.plat-playwright, .plat-evidence-release]
+  stage: certify
   allow_failure: true
+  needs:
+    - { job: "plat:build:dist", artifacts: true }
+    - { job: "plat:package:pack", artifacts: true }
+    - { job: "plat:build:docs", artifacts: true }
   rules:
-    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
   script:
-    - 'test -f scripts/docs/compile-snippets.mjs || { echo "PENDING: scripts/docs/compile-snippets.mjs (lane 1f)"; exit 1; }'
-    - node scripts/docs/compile-snippets.mjs
+    - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
+    - 'test -f scripts/docs/check-docs-imports.mjs || { echo "PENDING: scripts/docs/check-docs-imports.mjs (REQ-PLAT-102, #600)"; exit 1; }'
+    # REQ-PLAT-102: every snippet against the packed d.ts (a missing pack fails).
+    - node scripts/docs/compile-snippets.mjs --require-packed
+    # REQ-PLAT-102 docs gate 1: import bans (@/, ../src, @aura/glass, non-exported subpaths).
+    - node scripts/docs/check-docs-imports.mjs
+    # REQ-PLAT-102 docs gate 2: case-sensitive links resolved against the exported routes and redirects.
+    - node scripts/docs/verify-markdown-links.js --out apps/docs/out --json "$AURAGLASS_EVIDENCE_DIR/docs-links.json"
+    - node scripts/docs/check-docs-budgets.mjs --out apps/docs/out
     - |
-      for s in tests/dx/quickstart.spec.ts tests/dx/plain-css.spec.ts tests/dx/docs-a11y.spec.ts tests/dx/docs-lighthouse.spec.ts; do
-        test -f "$s" || { echo "PENDING: $s (lane 1f)"; exit 1; }
-        npx playwright test "$s"
+      for s in tests/dx/docs.playwright.config.ts tests/dx/plain-css.playwright.config.ts tests/dx/quickstart.spec.ts; do
+        test -f "$s" || { echo "PENDING: $s (REQ-FIN-43)"; exit 1; }
       done
+    - npx playwright test -c tests/dx/docs.playwright.config.ts
+    - npx playwright test -c tests/dx/plain-css.playwright.config.ts
+    - npx playwright test --project plat:dx-quickstart
 
 plat:gate:removal:
   extends: [.plat-node, .plat-evidence-pr]
@@ -466,24 +496,54 @@ plat:package:pack:
 # ---------------------------------------------------------------- build (docs)
 
 plat:build:docs:
-  extends: [.plat-node, .plat-evidence-pr]
+  extends: [.plat-node, .plat-evidence-release]
   # package stage: docs:build installs the aura-glass tarball that
   # plat:package:pack writes to .artifacts/pack (REQ-PLAT-99); GitLab needs
   # may not point at a later stage, so this job runs alongside pack.
+  # B3-8 (REQ-FIN-43): the PLAT-104 claims chain renders README/docs claims
+  # from this run's artifacts before the build, so it also needs the claim
+  # producers that finish earlier (glass-quality: size metafiles;
+  # plat:test:registry: registry-report.json, 5x only; qual:build:storybook:
+  # the subject index, cross-stream). 5x release scope builds the docs for the
+  # release SHA so plat:test:docs gates it in the tag pipeline too.
   stage: package
   allow_failure: true
   needs:
     - { job: "plat:package:pack", artifacts: true }
+    - { job: "plat:gate:glass-quality", artifacts: true }
+    - { job: "plat:test:registry", artifacts: true, optional: true }
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
   rules:
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main"
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "release"
   script:
+    - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
     - |
       if [ "$AG_LINE" = "4x" ]; then
         npm run build-storybook
       else
-        node -e "process.exit(Object.keys(require('./package.json').scripts||{}).includes('docs:build')?0:1)" \
-          || { echo "PENDING: npm script docs:build (lane 1f)"; exit 1; }
-        npm run docs:build
+        # REQ-PLAT-99: the tarball is the one for the root package.json version
+        # (never "whatever .artifacts/pack holds").
+        TGZ=".artifacts/pack/aura-glass-$(node -p "require('./package.json').version").tgz"
+        test -f "$TGZ" || { echo "plat:build:docs: $TGZ missing from the plat:package:pack artifacts (REQ-PLAT-99)"; exit 1; }
+        echo "plat:build:docs: docs consume $TGZ"
+        # REQ-PLAT-104 claims chain: claims.json from this run's artifacts (kept
+        # as evidence even when gen-claims fails), README from its template,
+        # claim regions filled, then the lint over the shipped prose.
+        rc=0
+        node scripts/docs/gen-claims.mjs || rc=$?
+        if [ -f apps/docs/generated/claims.json ]; then cp apps/docs/generated/claims.json "$AURAGLASS_EVIDENCE_DIR/claims.json"; fi
+        if [ "$rc" != 0 ]; then echo "plat:build:docs: gen-claims exited $rc (REQ-PLAT-104)"; exit "$rc"; fi
+        node scripts/docs/gen-readme.mjs
+        node scripts/docs/render-claims.mjs
+        node scripts/docs/lint-claims.mjs
+        # REQ-PLAT-100: the committed component reference equals the packed d.ts.
+        grep -q -- '--require-packed' scripts/docs/gen-component-docs.mjs || { echo "PENDING: gen-component-docs --check --tsdoc --require-packed (REQ-PLAT-100, #533)"; exit 1; }
+        node scripts/release/export-snapshot.mjs --tarball "$TGZ" --out "$AURAGLASS_EVIDENCE_DIR/export-snapshot.json"
+        node scripts/docs/gen-component-docs.mjs --check --tsdoc --require-packed --tarball "$TGZ" --snapshot "$AURAGLASS_EVIDENCE_DIR/export-snapshot.json"
+        # REQ-PLAT-99 build, timed against the REQ-PLAT-102 <=10 min budget.
+        test -f scripts/docs/check-docs-budgets.mjs || { echo "PENDING: scripts/docs/check-docs-budgets.mjs (REQ-PLAT-102, #600)"; exit 1; }
+        node scripts/docs/check-docs-budgets.mjs --time -- npm run docs:build
       fi
   artifacts:
     paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/", apps/docs/out/, apps/docs/public/, storybook-static/]
@@ -515,8 +575,18 @@ plat:release:notes:
   # REQ-PLAT-78: where the plat:package:pack artifacts (its CI_JOB_NAME_SLUG
   # evidence dir) land in this job, and the path the dist-maps link uses.
   variables: { AG_PACK_EVIDENCE_DIR: ".artifacts/plat/plat-package-pack" }
+  # B3-8 (REQ-PLAT-104 / G-14): the claims chain reads this tag pipeline's
+  # artifacts — pack.env (pack), size metafiles (glass-quality), the registry
+  # report and quickstart timing (5x only, so optional), and the cross-stream
+  # S-55 reports (optional: true, §4.13.4 rule 4).
   needs:
     - { job: "plat:package:pack", artifacts: true }
+    - { job: "plat:gate:glass-quality", artifacts: true }
+    - { job: "plat:test:registry", artifacts: true, optional: true }
+    - { job: "plat:test:docs", artifacts: true, optional: true }
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+    - { job: "qual:certify:l10", artifacts: true, optional: true }
+    - { job: "qual:certify:release", artifacts: true, optional: true }
   rules:
     - if: $AG_SCOPE == "release"
   script:
@@ -528,7 +598,19 @@ plat:release:notes:
     - |
       test -n "$AG_PACK_JOB_ID" || { echo "plat:release:notes: AG_PACK_JOB_ID missing from the plat:package:pack dotenv (REQ-PLAT-78)"; exit 1; }
       test -s "$AG_PACK_EVIDENCE_DIR/dist-maps.tgz" || { echo "plat:release:notes: plat:package:pack artifacts carry no dist-maps.tgz (REQ-PLAT-78)"; exit 1; }
+    # REQ-PLAT-104 claims chain (5x): on a v5.x.y tag a pending claim fails
+    # gen-claims; claims.json is kept as evidence either way.
+    - |
+      if [ "$AG_LINE" = "5x" ]; then
+        rc=0
+        node scripts/docs/gen-claims.mjs || rc=$?
+        if [ -f apps/docs/generated/claims.json ]; then cp apps/docs/generated/claims.json "$AURAGLASS_EVIDENCE_DIR/claims.json"; fi
+        if [ "$rc" != 0 ]; then echo "plat:release:notes: gen-claims exited $rc (REQ-PLAT-104)"; exit "$rc"; fi
+        node scripts/docs/gen-readme.mjs
+        node scripts/docs/render-claims.mjs
+      fi
     - node scripts/release/release-notes.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE" --out "$AURAGLASS_EVIDENCE_DIR/release-notes.md"
+    - 'if [ "$AG_LINE" = "5x" ]; then node scripts/docs/lint-claims.mjs; fi'
   release:
     tag_name: $CI_COMMIT_TAG
     name: "AuraGlass $CI_COMMIT_TAG"
