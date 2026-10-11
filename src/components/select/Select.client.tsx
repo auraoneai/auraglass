@@ -2,9 +2,10 @@
 
 import * as React from 'react';
 import { Select as Base } from '@base-ui/react/select';
-import { materialProps } from '../../material';
+import { defaultPositionerProps } from '../overlays/_shared/positioning';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
-import { usePortalContainer } from '../../foundation/portal';
+import { materialProps } from '../../material';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
 import { sizeAttrs, DEFAULT_CONTROL_SIZE } from '../control-shared/size';
@@ -83,7 +84,7 @@ function SelectRoot<Value = string>({
   );
 }
 
-function SelectTrigger({ placeholder, children, className, ref, ...rest }: SelectTriggerProps) {
+function SelectTrigger({ placeholder, children, className, ref, disabled, focusableWhenDisabled, ...rest }: SelectTriggerProps) {
   const size = React.useContext(SelectSizeContext);
   return (
     <Base.Trigger
@@ -92,7 +93,10 @@ function SelectTrigger({ placeholder, children, className, ref, ...rest }: Selec
       {...materialProps({ layer: 'content', content: 'content-sunken', interactive: true })}
       className={cn('ag-select', className)}
       ref={ref}
+      disabled={disabled}
       {...rest}
+      {...(disabled && focusableWhenDisabled === true ? { tabIndex: 0 } : {})}
+      {...(disabled && focusableWhenDisabled === false ? { tabIndex: -1 } : {})}
     >
       {children ?? (
         <>
@@ -114,12 +118,6 @@ function SelectValue({ children, className }: SelectValueProps) {
   );
 }
 
-/* CMP-202 / REQ-CMP-78: overlay popups carry data-state=open|closed like every
-   other overlay kind; BU exposes `open` on the popup render state. */
-function renderPopupWithState(props: React.HTMLAttributes<HTMLDivElement>, state: { open: boolean }) {
-  return <div {...props} data-state={state.open ? 'open' : 'closed'} />;
-}
-
 function SelectContent({ children, className }: SelectContentProps) {
   const container = usePortalContainer('overlay');
   const size = React.useContext(SelectSizeContext);
@@ -130,15 +128,16 @@ function SelectContent({ children, className }: SelectContentProps) {
         data-ag-part="positioner"
         side="bottom"
         align="start"
-        sideOffset={6}
+        {...defaultPositionerProps}
         alignItemWithTrigger={alignToTrigger}
         {...sizeAttrs(size)}
       >
         <Base.Popup
           data-ag-part="popup"
           {...overlayMaterial('select')}
-          render={renderPopupWithState}
           className={cn('ag-select-popup', className)}
+          /* CMP-205: popup open state mirrored as data-state like every overlay popup. */
+          render={(props, state) => <div {...props} data-state={state.open ? 'open' : 'closed'} />}
         >
           <Base.ScrollUpArrow data-ag-part="scroll-up" keepMounted />
           <Base.List data-ag-part="list">{children}</Base.List>

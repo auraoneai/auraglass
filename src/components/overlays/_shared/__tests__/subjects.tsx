@@ -137,11 +137,9 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
   {
     kind: 'select', name: 'Select', available: true, modal: false, layerRoot: 'overlay', popupSelector: '[data-ag-part="popup"]',
     mount: (p) => (
-      <Select.Root defaultOpen {...(p?.onOpenChange ? { onOpenChange: p.onOpenChange } : {})}>
+      <Select.Root defaultOpen onOpenChange={p?.onOpenChange}>
         <Select.Trigger>anchor</Select.Trigger>
-        <Select.Content>
-          <Select.Item value="a">Subject item</Select.Item>
-        </Select.Content>
+        <Select.Content><Select.Item value="a">Subject item</Select.Item></Select.Content>
       </Select.Root>
     ),
   },
@@ -150,9 +148,7 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
     mount: () => (
       <Combobox.Root defaultOpen items={[{ value: 'a', label: 'Subject item' }]}>
         <Combobox.Input />
-        <Combobox.Content>
-          <Combobox.Item value="a">Subject item</Combobox.Item>
-        </Combobox.Content>
+        <Combobox.Content><Combobox.Item value="a">Subject item</Combobox.Item></Combobox.Content>
       </Combobox.Root>
     ),
   },

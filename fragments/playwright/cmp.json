@@ -1,5 +1,87 @@
 [
-  { "name": "overlays-chromium", "testMatch": "tests/overlays/**/*.spec.ts", "use": { "browserName": "chromium" } },
-  { "name": "overlays-webkit", "testMatch": "tests/overlays/**/*.spec.ts", "use": { "browserName": "webkit" } },
-  { "name": "overlays-firefox", "testMatch": "tests/overlays/**/*.spec.ts", "use": { "browserName": "firefox" } }
+  {
+    "name": "cmp:controls-chromium",
+    "testMatch": "tests/e2e/cmp/controls/**/*.spec.ts",
+    "use": {
+      "browserName": "chromium"
+    }
+  },
+  {
+    "name": "cmp:controls-webkit",
+    "testMatch": "tests/e2e/cmp/controls/**/*.spec.ts",
+    "use": {
+      "browserName": "webkit"
+    }
+  },
+  {
+    "name": "cmp:layout-chromium",
+    "testMatch": "tests/e2e/cmp/layout/**/*.spec.ts",
+    "use": {
+      "browserName": "chromium"
+    }
+  },
+  {
+    "name": "cmp:material-chromium",
+    "testMatch": "tests/e2e/cmp/material/**/*.spec.ts",
+    "use": {
+      "browserName": "chromium"
+    }
+  },
+  {
+    "name": "cmp:overlays-chromium",
+    "testMatch": "tests/e2e/cmp/overlays/**/*.spec.ts",
+    "use": {
+      "browserName": "chromium"
+    }
+  },
+  {
+    "name": "cmp:overlays-webkit",
+    "testMatch": "tests/e2e/cmp/overlays/**/*.spec.ts",
+    "use": {
+      "browserName": "webkit"
+    }
+  },
+  {
+    "name": "cmp:overlays-firefox",
+    "testMatch": "tests/e2e/cmp/overlays/**/*.spec.ts",
+    "use": {
+      "browserName": "firefox"
+    }
+  },
+  {
+    "name": "cmp:apg-chromium",
+    "testMatch": "tests/a11y/apg/cmp/**/*.spec.ts",
+    "use": {
+      "browserName": "chromium"
+    }
+  },
+  {
+    "name": "cmp:apg-webkit",
+    "testMatch": "tests/a11y/apg/cmp/**/*.spec.ts",
+    "use": {
+      "browserName": "webkit"
+    }
+  },
+  {
+    "name": "cmp:apg-firefox",
+    "testMatch": "tests/a11y/apg/cmp/**/*.spec.ts",
+    "use": {
+      "browserName": "firefox"
+    }
+  },
+  {
+    "name": "cmp:motion-chromium",
+    "testMatch": "tests/e2e/cmp/motion.spec.ts",
+    "use": {
+      "browserName": "chromium"
+    }
+  },
+  {
+    "name": "cmp:cert-touch",
+    "testMatch": "tests/e2e/cmp/**/*.spec.ts",
+    "use": {
+      "browserName": "chromium",
+      "hasTouch": true
+    }
+  }
 ]
