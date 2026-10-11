@@ -8,7 +8,7 @@
    - Cancel is the close part; Action closes via BU Close with a Button render. */
 import * as React from "react";
 import { AlertDialog as Base } from "@base-ui/react/alert-dialog";
-import { usePortalContainer } from "../../foundation/portal";
+import { useCmpPortalContainer as usePortalContainer } from "../overlays/_shared/portalContainer";
 import { cn } from "../../internal";
 import { overlayMaterial } from "../overlays/_shared/overlaySurface";
 import { useOverlayLayer } from "../overlays/_shared/useOverlayLayer";

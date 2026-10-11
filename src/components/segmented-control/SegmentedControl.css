@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 @layer ag.components {
   .ag-segmented-control {
     display: inline-flex;
@@ -46,6 +48,8 @@
   .ag-segmented-item:disabled,
   .ag-segmented-item[data-disabled] {
     cursor: default;
+  }
+  .ag-segmented-item[data-disabled] > :where(*) {
     opacity: var(--ag-state-disabled-alpha);
   }
 
@@ -62,4 +66,10 @@
     will-change: transform;
     transition: transform var(--ag-duration-small) var(--ag-ease-emphasized);
   }
+}
+
+/* REQ-CMP-41 */
+.ag-segmented-control[data-orientation='vertical'] {
+  flex-direction: column;
+  align-items: stretch;
 }

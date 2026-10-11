@@ -7,6 +7,9 @@
   "rows"
  ],
  "properties": {
+  "$schema": {
+   "type": "string"
+  },
   "version": {
    "const": 1
   },
@@ -51,6 +54,42 @@
      }
     },
     "additionalProperties": false
+   }
+  },
+  "branchRules": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "prefix",
+     "rule"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "prefix": {
+      "type": "string"
+     },
+     "line": {
+      "enum": [
+       "4x",
+       "5x"
+      ]
+     },
+     "rule": {
+      "enum": [
+       "stream",
+       "4x-zone",
+       "fin-wp",
+       "any-owned",
+       "sync",
+       "report-only",
+       "fail-closed"
+      ]
+     },
+     "note": {
+      "type": "string"
+     }
+    }
    }
   }
  },
