@@ -5,8 +5,9 @@
    import no client signal and no SSR shim.
    --check: exit 1 when committed build/server-safe-exports.json drifts. */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
-import { ROOT, manifestEntries, importClosure, walk, loadJson } from './lib/graph.mjs';
+import { join, relative, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { ROOT, manifestEntries, serverClosure, walk, loadJson } from './lib/graph.mjs';
 
 const SRC = join(ROOT, 'src');
 const RECORD = join(ROOT, 'build', 'server-safe-exports.json');
@@ -48,12 +49,15 @@ export function generateServerSafeExports(root = ROOT) {
     const src = join(root, e.source);
     if (!existsSync(src)) { entries.push({ subpath: e.subpath, safe: false, reason: 'missing' }); continue; }
     let safe = true; let reason = '';
-    for (const f of importClosure(src)) {
+    /* serverClosure stops at each 'use client' boundary (the boundary file is
+       reached, its imports are client-side), so every other file it returns
+       is evaluated under react-server and must be signal-free. */
+    for (const f of serverClosure(src, { within: join(root, 'src') })) {
       const head = readFileSync(f, 'utf8');
-      if (USE_CLIENT.test(head.slice(0, 1200))) break; // crossing a client boundary stops the server graph
-      if (SHIM_RE.test(head)) { safe = false; reason = `SSR shim reachable: ${f}`; break; }
+      if (USE_CLIENT.test(head.slice(0, 1200))) continue; // the boundary itself may be reached
+      if (SHIM_RE.test(head)) { safe = false; reason = `SSR shim reachable: ${relative(root, f)}`; break; }
       const top = head.slice(0, 400);
-      if (DOM_RE.test(top) || CLIENT_HOOK.test(top)) { safe = false; reason = `client signal in ${f}`; break; }
+      if (DOM_RE.test(top) || CLIENT_HOOK.test(top)) { safe = false; reason = `client signal in ${relative(root, f)}`; break; }
     }
     entries.push({ subpath: e.subpath, safe, ...(reason ? { reason } : {}) });
   }
@@ -65,16 +69,21 @@ export function generateServerSafeExports(root = ROOT) {
   };
 }
 
-const mode = process.argv[2] ?? '--check';
-const want = generateServerSafeExports();
-if (mode === '--write' || mode === '--emit') {
-  writeFileSync(RECORD, JSON.stringify(want, null, 2) + '\n');
-  console.log(`server-safe-exports: wrote ${want.entries.length} entries, ${want.safeModules.length} safe modules`);
-} else {
-  const have = existsSync(RECORD) ? loadJson(RECORD) : null;
-  if (JSON.stringify(have) !== JSON.stringify(want)) {
-    console.error('server-safe-exports: DRIFT — regenerate with `node scripts/build/server-safe.mjs --write`');
-    process.exit(1);
+/* CLI only: scripts/build/post.mjs imports generateServerSafeExports, and the
+   --check/--write side effects must not run (or exit) inside that build step. */
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href;
+if (isMain) {
+  const mode = process.argv[2] ?? '--check';
+  const want = generateServerSafeExports();
+  if (mode === '--write' || mode === '--emit') {
+    writeFileSync(RECORD, JSON.stringify(want, null, 2) + '\n');
+    console.log(`server-safe-exports: wrote ${want.entries.length} entries, ${want.safeModules.length} safe modules`);
+  } else {
+    const have = existsSync(RECORD) ? loadJson(RECORD) : null;
+    if (JSON.stringify(have) !== JSON.stringify(want)) {
+      console.error('server-safe-exports: DRIFT — regenerate with `node scripts/build/server-safe.mjs --write`');
+      process.exit(1);
+    }
+    console.log(`server-safe-exports: up to date (${want.entries.length} entries)`);
   }
-  console.log(`server-safe-exports: up to date (${want.entries.length} entries)`);
 }

@@ -206,7 +206,6 @@
     "src/icons/status/index.ts",
     "src/icons/status/info.tsx",
     "src/icons/types.ts",
-    "src/internal/cn.ts",
     "src/primitives/Label.meta.ts",
     "src/primitives/Slot.meta.ts",
     "src/primitives/VisuallyHidden.meta.ts",
@@ -697,7 +696,8 @@
     },
     {
       "subpath": "./primitives",
-      "safe": true
+      "safe": false,
+      "reason": "client signal in src/primitives/Portal.tsx"
     },
     {
       "subpath": "./icons",
@@ -705,8 +705,7 @@
     },
     {
       "subpath": "./forms",
-      "safe": false,
-      "reason": "missing"
+      "safe": true
     },
     {
       "subpath": "./app-shell",
