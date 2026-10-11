@@ -21,7 +21,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'alertdialog',
-  budgetKb: 20,
+  budgetKb: 20000 / 1024,
   migration: [
     {
       from: 'GlassModal',
@@ -47,7 +47,7 @@ const meta: ControlMeta = defineMeta({
         cancelText: 'AlertDialog.Cancel',
         destructive: { to: 'intent', values: { true: 'danger' } },
       },
-      automation: 'partial',
+      selectors: { '.glass-dialog': '.ag-alert-dialog' }, automation: 'partial',
       compat: true,
     },
   ],

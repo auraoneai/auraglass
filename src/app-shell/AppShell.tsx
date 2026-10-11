@@ -8,9 +8,11 @@
 import * as React from 'react';
 import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
+import { preferenceScopeAttributes } from '../material/stateAttributes';
 import { AppShellSidebarToggle } from './AppShell.SidebarToggle';
 import { AppShellInspectorToggle } from './AppShell.InspectorToggle';
 import { AppShellController } from './AppShell.Controller';
+import { parseAppShellCookie } from './parseAppShellCookie';
 import type { SidebarState, InspectorState, ShellMode } from './appShellStore';
 
 export type AppShellRootProps = PartProps<'div'> & {
@@ -44,15 +46,16 @@ function Root({
   const props: Record<string, unknown> = {
     className: 'ag-app-shell',
     'data-ag-part': 'root',
-    'data-ag-shell-id': shellId,
+    'data-shell-id': shellId,
     'data-ag-sidebar': defaultSidebar,
     'data-ag-inspector': defaultInspector,
     'data-ag-sidebar-side': sidebarSide,
     'data-ag-layout': layout,
-    'data-ag-collapse-to': collapseTo,
-    ...(density ? { 'data-ag-density': density } : {}),
+    'data-collapse-to': collapseTo,
+    // MAT density scale is compact|regular|spacious; 'comfortable' is the shell's name for spacious.
+    ...preferenceScopeAttributes({ density: density === 'comfortable' ? 'spacious' : density }),
     ...(backdrop ? { 'data-ag-backdrop': backdrop } : {}),
-    ...(persistKey ? { 'data-ag-persist-key': persistKey } : {}),
+    ...(persistKey ? { 'data-persist-key': persistKey } : {}),
     ...rest,
   };
   return partElement('div', { render, ...props, children });
@@ -69,6 +72,7 @@ function Main({ id = 'ag-main', children, render, ...rest }: AppShellMainProps) 
     render,
     id,
     tabIndex: -1,
+    'data-ag-part': 'main',
     'data-ag-slot': 'main',
     ...rest,
     children,
@@ -139,6 +143,7 @@ function SkipLink({
   return partElement('a', {
     render,
     href,
+    'data-ag-part': 'skip-link',
     'data-ag-slot': 'skip',
     className: 'ag-skip-link',
     ...rest,
@@ -155,6 +160,7 @@ export const AppShell = {
   SidebarToggle: AppShellSidebarToggle,
   InspectorToggle: AppShellInspectorToggle,
   Controller: AppShellController,
+  parseCookie: parseAppShellCookie,
 };
 export type {
   SidebarState as AppShellSidebarState,

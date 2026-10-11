@@ -17,9 +17,16 @@ describe('compat globals.css (REQ-PLAT-30)', () => {
   });
 
   it('every rule lives inside a single @layer ag.compat block', () => {
+    // Line 1 is the canonical layer-order statement (REQ-PLAT-74,
+    // scripts/build/verify-css-files.mjs); it declares order only, no rules.
     const top = root.nodes.filter((n) => n.type !== 'comment');
-    expect(top).toHaveLength(1);
-    const layer = top[0] as postcss.AtRule;
+    expect(top).toHaveLength(2);
+    const order = top[0] as postcss.AtRule;
+    expect(order.type).toBe('atrule');
+    expect(order.name).toBe('layer');
+    expect(order.nodes).toBeUndefined();
+    expect(order.params).toBe('ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y');
+    const layer = top[1] as postcss.AtRule;
     expect(layer.type).toBe('atrule');
     expect(layer.name).toBe('layer');
     expect(layer.params).toBe('ag.compat');

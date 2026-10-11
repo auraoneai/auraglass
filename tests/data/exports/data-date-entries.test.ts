@@ -28,7 +28,11 @@ describe('packed ./data + ./date entries (SURF-141)', () => {
     const work = mkdtempSync(join(tmpdir(), 'ag-pack-'));
     const out = execSync('npm pack --json', { cwd: ROOT, encoding: 'utf8', env: { ...process.env, npm_config_loglevel: 'error' } });
     const tarball = JSON.parse(out)[0].filename as string;
-    execSync(`npm init -y && npm install --no-save --legacy-peer-deps ${join(ROOT, tarball)}`, { cwd: work, stdio: 'pipe', env: { ...process.env, npm_config_loglevel: 'error' } });
+    /* Install the tarball plus every declared peer — peer ranges inside the
+       artifact's own package.json are the honest runtime surface. */
+    const tgzPkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
+    const peers = Object.keys(tgzPkg.peerDependencies ?? {}).join(' ');
+    execSync(`npm init -y && npm install --no-save --legacy-peer-deps ${join(ROOT, tarball)} ${peers}`, { cwd: work, stdio: 'pipe', env: { ...process.env, npm_config_loglevel: 'error' } });
     for (const [spec, names] of Object.entries(EXPECTED)) {
       writeFileSync(join(work, 'probe.mjs'), `import * as m from '${spec}'; console.log(JSON.stringify(Object.keys(m).sort()));`);
       const keys: string[] = JSON.parse(execSync('node probe.mjs', { cwd: work, encoding: 'utf8' }));
