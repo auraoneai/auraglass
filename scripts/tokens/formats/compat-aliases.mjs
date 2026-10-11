@@ -141,18 +141,13 @@ export function compatCss(map, darkOverrides = {}) {
     '  :where(:root) {',
   ];
   for (const [shim, target] of Object.entries(SHIM_VARS)) lines.push(`    ${shim}: ${target};`);
-  let uncovered = 0;
+  // Reader names never defined in 4.x tokens.css have no compat value to emit;
+  // they are accounted for in tokens/generated/compat-alias-map.json
+  // (defined: false), not as CSS comments (MAT-021 gzip cap).
   for (const [name, e] of Object.entries(map)) {
-    if (!e.defined) { uncovered++; continue; }
+    if (!e.defined) continue;
     if (e.successor) lines.push(`    ${name}: var(${e.successor});`);
     else lines.push(`    ${name}: ${e.frozen};`);
-  }
-  // Reader names never defined in 4.x tokens.css have no compat value to emit;
-  // they stay accounted for one-per-line (the contract greps `${name}: never
-  // defined`) in a comment block.
-  if (uncovered) {
-    for (const [name, e] of Object.entries(map))
-      if (!e.defined) lines.push(`    /* ${name}: never defined */`);
   }
   lines.push('  }', '}', '');
   // MAT-036 contract: dist/compat/tokens.css emits ZERO legacy hook selectors
