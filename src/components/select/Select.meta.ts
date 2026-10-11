@@ -44,8 +44,9 @@ const meta: ControlMeta = defineMeta({
         menu: 'children',
       },
       selectors: { '.glass-dropdown': '.ag-select' }, automation: 'partial',
-      compat: true,
+      compat: false,
     },
+    { from: 'GlassSelectCompound', automation: 'full', compat: true },
   ],
 });
 

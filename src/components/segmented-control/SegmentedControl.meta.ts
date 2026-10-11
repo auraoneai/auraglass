@@ -23,5 +23,6 @@ export default defineMeta({
       selectors: { '.glass-segmented-control': '.ag-segmented-control' }, automation: 'partial',
       compat: true,
     },
+    { from: 'LiquidGlassSegmentedControl', automation: 'full', compat: true },
   ],
 });

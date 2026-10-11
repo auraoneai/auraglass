@@ -10,6 +10,8 @@ import type { ToastData } from '../../../components/toast';
 import { __compatWrap as wrap } from './_shared';
 
 const DEP = 'DEP-C0119';
+/** useNotifications has its own row (REQ-CMP-131: one warning per symbol). */
+const DEP_HOOK = 'DEP-C0122';
 
 export interface GlassNotification {
   id?: string;
@@ -63,7 +65,7 @@ export function useNotifications(): UseNotificationsCompatReturn {
   const ref = React.useRef(api);
   ref.current = api;
   const pushed = React.useRef<GlassNotification[]>([]);
-  React.useMemo(() => warnDeprecated(`${DEP}.hook`), []);
+  React.useMemo(() => warnDeprecated(DEP_HOOK), []);
   /* Stable return — see useToast.tsx; a fresh object each render loops forever
      for 4.x callers that hold it in effect deps. */
   return React.useMemo(() => ({

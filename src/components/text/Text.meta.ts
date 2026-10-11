@@ -12,5 +12,5 @@ export default defineMeta({
   material: { layer: 'content' },
   apg: 'none',
   budgetKb: 1500 / 1024,
-  migration: [{ from: 'Typography', props: {}, selectors: { '.glass-typography': '.ag-text' },  automation: 'mostly', compat: true }, { from: 'GlassText', props: {}, selectors: { '.glass-text': '.ag-text' },  automation: 'mostly', compat: true }],
+  migration: [{ from: 'Typography', props: {}, selectors: { '.glass-typography': '.ag-text' },  automation: 'mostly', compat: true }, { from: 'GlassText', props: {}, selectors: { '.glass-text': '.ag-text' },  automation: 'mostly', compat: false }],
 });

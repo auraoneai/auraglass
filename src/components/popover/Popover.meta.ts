@@ -47,7 +47,7 @@ const meta: ControlMeta = defineMeta({
         content: 'Popover.Popup children',
       },
       selectors: { '.glass-hover-card': '.ag-popover' }, automation: 'partial', // HoverCard successor = Trigger openOnHover + delay/closeDelay
-      compat: false,
+      compat: true,
     },
     {
       from: 'GlassTooltip',
@@ -63,6 +63,9 @@ const meta: ControlMeta = defineMeta({
       selectors: { '.glass-dropdown': '.ag-popover' }, automation: 'manual', // action-list dropdowns go to Menu; panels stay Popover
       compat: false,
     },
+    { from: 'GlassNotificationCenter', automation: 'full', compat: true },
+    { from: 'Positioner', automation: 'full', compat: true },
+    { from: 'GlassPositioner', automation: 'full', compat: true },
   ],
 });
 export default meta;

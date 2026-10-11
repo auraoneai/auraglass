@@ -17,7 +17,7 @@ async function mountTwice(node: () => React.ReactElement, depId: string) {
   a.unmount();
   const b = render(node());
   await flush();
-  const depCalls = warn.mock.calls.filter((c: unknown) => String((c as unknown[])[0]).includes(`'${depId}'`));
+  const depCalls = warn.mock.calls.filter((c: unknown) => String((c as unknown[])[0]).startsWith(`[aura-glass] ${depId} `));
   warn.mockRestore();
   return { depCalls, b };
 }
