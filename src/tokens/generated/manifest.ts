@@ -113,7 +113,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 12
+     "count": 13
     }
    ],
    "value": "0px 4px 16px 0px oklch(0 0 0 / 0.14), 0px 2px 6px 0px oklch(0 0 0 / 0.12)"
@@ -132,7 +132,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 9
+     "count": 10
     }
    ],
    "value": "0px 8px 32px 0px oklch(0 0 0 / 0.2), 0px 6px 24px 0px oklch(0 0 0 / 0.16)"

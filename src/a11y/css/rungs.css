@@ -2,18 +2,21 @@
    [data-ag-transparency] / [data-ag-contrast] against [data-ag-surface], plus
    the raise-only floors (reduced transparency, prefers-contrast more,
    @supports not backdrop-filter, forced-colors) and the disabled row.
+   Floor values are never hand-written here: each rung reads the
+   --_ag-tint-floor-{tinted,solid,more} companion that generated/floors.css
+   solves for the surface's thickness and backdrop (REQ-FIN-03).
    Zero !important. Floors never lower a caller's higher rung. */
 @layer ag.a11y {
   /* ---- attribute rungs ---- */
   :where([data-ag-transparency="tinted"]) [data-ag-surface] {
-    --_ag-tint-floor: var(--_ag-tint-floor-tinted, 0.55);
+    --_ag-tint-floor: var(--_ag-tint-floor-tinted);
     --_ag-refraction-scale: 0;
   }
   :where([data-ag-transparency="solid"]) [data-ag-surface],
   :where([data-ag-transparency="solid"]) [data-ag-surface]::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    --_ag-tint-floor: var(--_ag-tint-floor-solid, 1);
+    --_ag-tint-floor: var(--_ag-tint-floor-solid);
     --_ag-refraction-scale: 0;
   }
   :where([data-ag-transparency="solid"]) [data-ag-surface] {
@@ -31,7 +34,7 @@
   @media (prefers-reduced-transparency: reduce) {
     :where(:not([data-ag-transparency])) [data-ag-surface]:not(:where([data-ag-transparency] *)),
     :where([data-ag-transparency="glass"]) [data-ag-surface]:not(:where([data-ag-transparency="tinted"] *)):not(:where([data-ag-transparency="solid"] *)) {
-      --_ag-tint-floor: var(--_ag-tint-floor-tinted, 0.55);
+      --_ag-tint-floor: var(--_ag-tint-floor-tinted);
       --_ag-refraction-scale: 0;
     }
   }
@@ -43,7 +46,7 @@
       border: 1px solid var(--_ag-color-border-strong, var(--ag-color-border, CanvasText));
     }
     :where(:not([data-ag-transparency])) [data-ag-surface]:not(:where([data-ag-transparency] *)) {
-      --_ag-tint-floor: var(--_ag-tint-floor-tinted, 0.55);
+      --_ag-tint-floor: var(--_ag-tint-floor-more);
       --_ag-refraction-scale: 0;
     }
   }
@@ -66,7 +69,7 @@
     :where([data-ag-transparency="tinted"]) [data-ag-surface] {
       background: var(--_ag-fallback-fill, var(--ag-color-canvas, Canvas));
       background-image: none;
-      --_ag-tint-floor: var(--_ag-tint-floor-solid, 1);
+      --_ag-tint-floor: var(--_ag-tint-floor-solid);
     }
   }
   @media (forced-colors: active) {

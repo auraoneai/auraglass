@@ -1,10 +1,17 @@
 /* Contrast solver (MAT-046/047/048; A11Y's matrix contract REQ-A11Y-15..17).
    2160 cells: 4 presets x 2 schemes x 2 contrast x 3 transparency x 5 variant forms x
-   3 thicknesses x 3 declared backdrops (light=#ffffff, dark=#000000, media=busy-min).
+   3 thicknesses x 3 declared backdrops {light, dark, media}. Every cell is evaluated
+   over all three composites #ffffff, #000000 and busy-min (the worst of the nine busy
+   samples) — REQ-MAT-10; the declared backdrop selects the clear scrim underlay.
    Alpha search: integer loop i/200 over 0..1 from the authored floor upward.
-   Pairs per REQ-A11Y-16 (target under contrast=more becomes 7:1 for text):
-     on-surface >= 4.5 | muted >= 4.5 (3 if large-only) | border >= 3 | focus >= 3 |
-     disabled >= 3 | text >= 7 (contrast=more only).
+   Pairs per REQ-A11Y-16 / REQ-MAT-10:
+     on-surface >= 4.5 | muted >= 4.5 (3 only when sys.color.on-surface-muted carries
+     ag.usage "large-only") | border >= 3 | focus >= 3 | disabled >= 3; under
+     contrast=more every text pair (on-surface, muted) >= 7.
+   Transparency models (REQ-FIN-03): glass = canvas tint composited at the cell alpha;
+   tinted = the same glass composite, searched from the glass cell's solved alpha
+   (tinted >= glass); solid = opaque — canvas at fallbackFill.alpha must meet every
+   pair, and the solid floor is 1.
    'clear' over light/media adds a scrim.clear 0.35 underlay. Blur contributes nothing.
    An unsolvable cell throws naming the cell, the pair and the best ratio found. */
 import { createHash } from 'node:crypto';
@@ -14,11 +21,9 @@ import { colorToSrgb, composite, contrastRatio, hexToSrgb, relativeLuminance } f
 // nine busy mid-luminance hexes. Kept here as the single authoritative list too, with a
 // consistency check against the token table in solveContrastMatrix.
 const BUSY = ['#777777', '#ff3b30', '#34c759', '#0a84ff', '#ffcc00', '#af52de', '#ff9500', '#5ac8fa', '#8e8e93'];
-const BACKDROPS = {
-  light: ['#ffffff'],
-  dark: ['#000000'],
-  media: BUSY,
-};
+// Every declared backdrop is evaluated over the same three composites (REQ-MAT-10):
+// white, black and every busy sample (busy-min = the worst of them).
+const COMPOSITES = ['#ffffff', '#000000', ...BUSY];
 const SCRIM_BLACK = [0, 0, 0];
 
 const rec_ = (records, resolved, name) => {
@@ -37,10 +42,13 @@ function apcaLc(fg, bg) {
 
 /** The material's pairs at a cell: [pairName, foreground rgb, background rgb, minimum ratio].
  *  The disabled pair reads text on the disabled surface (fill faded 45% toward the backdrop). */
-function cellPairs(ctx, targets, backdrop) {
-  const { surface, canvas, colors, contrast } = ctx;
-  const t = contrast === 'more' ? targets.more : targets.text;
-  const mutedMin = 4.5; // '3 if large-only' — muted here is body-scale, so 4.5 applies
+function cellPairs(ctx, targets) {
+  const { surface, canvas, colors, contrast, mutedLargeOnly } = ctx;
+  const more = contrast === 'more';
+  const t = more ? targets.more : targets.text;
+  // every text pair is 7:1 under contrast=more; otherwise muted is 4.5:1, or 3:1
+  // only when the muted token is declared ag.usage "large-only"
+  const mutedMin = more ? targets.more : (mutedLargeOnly ? 3 : 4.5);
   // disabled surface = the cell surface faded to disabled-alpha (0.45) toward the canvas;
   // on-surface text must still read at 3:1 on it (the pairs live on the same surface family)
   const disabledSurface = composite(surface, 0.45, canvas);
@@ -75,6 +83,10 @@ export function solveContrastMatrix(records, resolved, { throwOnUnmet = true } =
   const tintAt = (variant, th) =>
     (spec.variants[variant] ?? spec.content[variant])[th].alpha;
   const scrimClear = spec.scrim.clear;
+  const fallbackAlpha = spec.fallbackFill?.alpha;
+  if (typeof fallbackAlpha !== 'number' || fallbackAlpha <= 0 || fallbackAlpha > 1)
+    throw new Error('contrast-solve: material.material.fallbackFill.alpha must be a number in (0, 1]');
+  const mutedLargeOnly = records.get('sys.color.on-surface-muted')?.ext?.['ag.usage'] === 'large-only';
   const declared = rec_(records, resolved, 'contrast.matrix.samples');
   const declaredHex = declared.filter((s) => s.startsWith('#'));
   if (declaredHex.length !== BUSY.length || declaredHex.some((h, i) => h.toLowerCase() !== BUSY[i]))
@@ -111,22 +123,28 @@ export function solveContrastMatrix(records, resolved, { throwOnUnmet = true } =
               const tint = tintAt(variant, th);
               const floor = floors[th];
               for (const bd of axes.backdrop) {
-                const samples = BACKDROPS[bd].map(hexToSrgb);
+                const samples = COMPOSITES.map(hexToSrgb);
                 // 'clear' over light/media adds a scrim.clear 0.35 underlay
                 const scrimmed = (variant === 'clear' && (bd === 'light' || bd === 'media'))
                   ? samples.map((s) => composite(SCRIM_BLACK, scrimClear, s))
                   : samples;
 
+                // glass/tinted: the canvas tint composited at the cell alpha; solid: opaque
+                // canvas at fallbackFill.alpha whatever the searched alpha (its floor is 1)
+                const surfaceAt = (s, alpha) => (tr === 'solid'
+                  ? composite(canvas, fallbackAlpha, s)
+                  : composite(canvas, Math.min(1, tint + alpha - floor), s));
                 let floorAlpha = null, best = { margin: -Infinity, ratio: 0, pair: null, alpha: 1 };
                 const cellBase = [preset, scheme, contrast, variant, th, bd].join('/');
-                const startAlpha = tr === 'tinted' ? Math.max(floor, glassCellFloor[cellBase] ?? 0) : floor;
+                const startAlpha = tr === 'tinted' ? Math.max(floor, glassCellFloor[cellBase] ?? 0)
+                  : tr === 'solid' ? 1 : floor;
                 for (let i = Math.round(startAlpha * 200); i <= 200; i++) {
                   const alpha = i / 200;
                   let met = true;
                   let worst = { margin: Infinity, ratio: Infinity, pair: null };
                   for (const s of scrimmed) {
-                    const surface = tr === 'solid' ? canvas : composite(canvas, Math.min(1, tint + alpha - floor), s);
-                    for (const [pair, fg, bg, min] of cellPairs({ surface, canvas, colors: cs, contrast }, targets, s)) {
+                    const surface = surfaceAt(s, alpha);
+                    for (const [pair, fg, bg, min] of cellPairs({ surface, canvas, colors: cs, contrast, mutedLargeOnly }, targets)) {
                       const r = contrastRatio(fg, bg);
                       if (r < min) met = false;
                       if (r - min < worst.margin) worst = { margin: r - min, ratio: r, pair };
@@ -144,13 +162,13 @@ export function solveContrastMatrix(records, resolved, { throwOnUnmet = true } =
                 // worst-case stats at the solved alpha
                 let minRatio = Infinity, worstPair = null;
                 for (const s of scrimmed) {
-                  const surface = tr === 'solid' ? canvas : composite(canvas, Math.min(1, tint + floorAlpha - floor), s);
-                  for (const [pair, fg, bg] of cellPairs({ surface, canvas, colors: cs, contrast }, targets, s)) {
+                  const surface = surfaceAt(s, floorAlpha);
+                  for (const [pair, fg, bg] of cellPairs({ surface, canvas, colors: cs, contrast, mutedLargeOnly }, targets)) {
                     const r = contrastRatio(fg, bg);
                     if (r < minRatio) { minRatio = r; worstPair = pair; }
                   }
                 }
-                const surfaceSample = composite(canvas, Math.min(1, tint + floorAlpha - floor), scrimmed[0]);
+                const surfaceSample = surfaceAt(scrimmed[0], floorAlpha);
                 cells[preset] = cells[preset] ?? {};
                 cells[preset][scheme] = cells[preset][scheme] ?? {};
                 cells[preset][scheme][contrast] = cells[preset][scheme][contrast] ?? {};

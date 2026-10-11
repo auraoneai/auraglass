@@ -29,6 +29,12 @@ function materialSpec(records, resolved) {
   return spec;
 }
 
+/** Raises a row above every ladders.css cell row (max (0,4,0): lightweight
+ *  and disabled rows) without narrowing what it matches: :is() takes the specificity of
+ *  its most specific argument, and the `*` argument matches every element. Floors and
+ *  ladders share @layer ag.material, so precedence between them is by specificity. */
+const OVER_CELLS = ':is([data-ag-variant][data-ag-thickness][data-ag-tier][data-ag-state], *)';
+
 /** Cell scalars for one variant×thickness cell (no backdrop-filter var refs — the
  *  WebKit literals carry those; the generic engine path composes from these). */
 const cellScalars = (spec, v, t) => {
@@ -76,9 +82,21 @@ export function buildLadders(records, resolved) {
     out.push(...cellScalars(spec, variant, 'regular'));
     out.push('  }');
   }
-  // clear fail-safe: clear outside any declared backdrop reads the regular row
-  for (const th of THICKNESS) {
-    out.push(`  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="${th}"]:not(:where([data-ag-backdrop] *)) {`);
+  // overlays read the thick elevation whatever their thickness (REQ-FIN-03 / MAT-07)
+  out.push(`  [data-ag-surface][data-ag-layer="overlay"]${OVER_CELLS} {`);
+  out.push('    --_ag-shadow: var(--ag-shadow-thick);');
+  out.push('  }');
+  // clear fail-safe (MAT-33): clear with no light/dark/media backdrop on itself or an
+  // ancestor (none declared, or auto) reads the regular row. Zero added specificity,
+  // so it ties the cells and wins by order; coarse/lightweight/disabled rows still win.
+  const DECLARED_BD = ':is([data-ag-backdrop="light"], [data-ag-backdrop="dark"], [data-ag-backdrop="media"])';
+  const FAIL_SAFE = `:where(:not(${DECLARED_BD}, ${DECLARED_BD} *))`;
+  const clearKeys = [
+    ...THICKNESS.map((th) => [`[data-ag-surface][data-ag-variant="clear"][data-ag-thickness="${th}"]`, th]),
+    ['[data-ag-surface][data-ag-variant="clear"]:not([data-ag-thickness])', 'regular'],
+  ];
+  for (const [sel, th] of clearKeys) {
+    out.push(`  ${sel}${FAIL_SAFE} {`);
     out.push(...cellScalars(spec, 'regular', th));
     out.push('  }');
   }
@@ -121,6 +139,12 @@ export function buildLadders(records, resolved) {
       out.push('  }');
     }
   }
+  // the clear fail-safe filters like the regular cell (same selectors, later in source)
+  for (const [sel, th] of clearKeys) {
+    out.push(`  ${sel}${FAIL_SAFE}${NOT_LIGHTWEIGHT}::before {`);
+    out.push(`    -webkit-backdrop-filter: ${filterLiteral(spec, 'regular', th, cell('regular', th).blur.value)};`);
+    out.push('  }');
+  }
   out.push('  /* identity has no backdrop filter (MAT-038); nothing emitted for the lightweight tier */');
   out.push('');
   // coarse pointers: thick surfaces cap blur at 20px, every cell pins grain <= 0.02.
@@ -141,6 +165,9 @@ export function buildLadders(records, resolved) {
     out.push(`      -webkit-backdrop-filter: ${filterLiteral(spec, variant, 'thick', 20)};`);
     out.push('    }');
   }
+  out.push(`    [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thick"]${FAIL_SAFE}${NOT_LIGHTWEIGHT}::before {`);
+  out.push(`      -webkit-backdrop-filter: ${filterLiteral(spec, 'regular', 'thick', 20)};`);
+  out.push('    }');
   out.push('  }');
   out.push('');
   // content materials: [data-ag-content] on layer=content surfaces (AG_ATTRIBUTES)
@@ -158,74 +185,100 @@ export function buildLadders(records, resolved) {
   return out.join('\n');
 }
 
-/** floors.css — OS floors + --_ag-tint-floor per [transparency][thickness][backdrop] (MAT-048). */
+/** floors.css — one @layer ag.material block (REQ-MAT-19 item 2): --_ag-tint-floor per
+ *  resolved [transparency][thickness][backdrop] (MAT-048, REQ-FIN-03), the companion
+ *  rows src/a11y/css/rungs.css reads, the rung inputs and the opaque fallbacks. */
 export function buildFloors(records, resolved, matrix = null) {
   const spec = materialSpec(records, resolved);
-  const floor = (t) => get(records, resolved, `contrast.matrix.floors.${t}`);
+  const authored = (t) => get(records, resolved, `contrast.matrix.floors.${t}`);
   const scrim = spec.scrim.clear;
   const fallback = spec.fallbackFill?.alpha ?? 0.98;
+  const BACKDROPS = ['light', 'dark', 'media'];
+  const r3 = (v) => Math.round(v * 1000) / 1000;
+  // matrix may be passed in by build.mjs after solving; otherwise emit authored floors
+  const solved = matrix?.tintFloors ?? null;
+  const solvedMore = matrix?.tintFloorsMore ?? null;
+  // value at [thickness][backdrop]; backdrop null = none declared (or auto): the worst
+  // case over the three declared backdrops
+  const at = (table, th, bd) => {
+    const one = (b) => table?.[th]?.[b] ?? authored(th);
+    return bd ? one(bd) : Math.max(...BACKDROPS.map(one));
+  };
+  const glass = (th, bd) => at(solved?.glass, th, bd);
+  const tinted = (th, bd) => Math.max(at(solved?.tinted, th, bd), glass(th, bd));
+  const solid = (th, bd) => Math.max(at(solved?.solid, th, bd), tinted(th, bd));
+  // contrast=more never goes below the tinted row (MAT-035 contract)
+  const more = (th, bd) => Math.max(at(solvedMore, th, bd), tinted(th, bd));
+
+  // Keys. A surface's thickness is its own attribute (absent = regular); transparency,
+  // backdrop and contrast resolve on the surface itself or any ancestor. Glass is the
+  // unconditioned base row; each later row adds one condition, so it wins on
+  // specificity, and rows of equal specificity resolve by source order, which only
+  // ever raises the floor (glass < tinted < solid, any contrast < more).
+  const KEYS = [...THICKNESS.map((th) => [th, `[data-ag-surface][data-ag-thickness="${th}"]`]),
+    ['regular', '[data-ag-surface]:not([data-ag-thickness])']];
+  const on = (attr, v) => `:is([data-ag-${attr}="${v}"], [data-ag-${attr}="${v}"] *)`;
   const out = [
     '/* @generated by scripts/tokens/build.mjs (floors). Do not edit. */',
     '@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;',
     '',
     '@layer ag.material {',
-    '  /* --_ag-tint-floor: max solved floor across presets, schemes and variants (REQ-MAT-33 key). */',
+    '  /* --_ag-tint-floor: max solved floor across presets, schemes and variants (REQ-MAT-10).',
+    '     No backdrop declared = the worst of light/dark/media. */',
   ];
-  // matrix may be passed in by build.mjs after solving; otherwise emit authored floors
-  const solved = matrix?.tintFloors ?? null;
-  // Keys: transparency may sit on the surface or an ancestor; backdrop likewise
-  // (REQ-FIN-03: [data-ag-transparency=x] [data-ag-surface][data-ag-thickness=y],
-  //  backdrop resolved on the surface itself or an ancestor).
-  for (const tr of ['glass', 'tinted', 'solid']) {
-    for (const th of THICKNESS) {
-      for (const bd of ['light', 'dark', 'media']) {
-        const v = solved?.[tr]?.[th]?.[bd] ?? floor(th);
-        const surf = `[data-ag-surface][data-ag-thickness="${th}"]`;
-        out.push(`  [data-ag-transparency="${tr}"][data-ag-backdrop="${bd}"] ${surf},`);
-        out.push(`  [data-ag-transparency="${tr}"] [data-ag-backdrop="${bd}"] ${surf},`);
-        out.push(`  [data-ag-transparency="${tr}"] ${surf}[data-ag-backdrop="${bd}"],`);
-        out.push(`  [data-ag-transparency="${tr}"][data-ag-surface][data-ag-thickness="${th}"][data-ag-backdrop="${bd}"] {`);
-        out.push(`    --_ag-tint-floor: ${Math.round(v * 1000) / 1000};`);
-        out.push('  }');
-      }
+  const row = (sel, decls) => {
+    out.push(`  ${sel} {`);
+    for (const [k, v] of decls) out.push(`    ${k}: ${v};`);
+    out.push('  }');
+  };
+  const rows = (cond, decls) => {
+    for (const [th, surf] of KEYS) {
+      row(`${surf}${cond}`, decls(th, null));
+      for (const bd of BACKDROPS) row(`${surf}${cond}${on('backdrop', bd)}`, decls(th, bd));
     }
-  }
-  for (const th of THICKNESS) {
-    for (const bd of ['light', 'dark', 'media']) {
-      // contrast=more must never go below the tinted floor row (MAT-035 contract).
-      const v = Math.max(solved?.more?.[th]?.[bd] ?? floor(th), solved?.tinted?.[th]?.[bd] ?? 0);
-      out.push(`  [data-ag-contrast="more"][data-ag-backdrop="${bd}"] [data-ag-surface][data-ag-thickness="${th}"],`);
-      out.push(`  [data-ag-contrast="more"] [data-ag-backdrop="${bd}"] [data-ag-surface][data-ag-thickness="${th}"],`);
-      out.push(`  [data-ag-contrast="more"] [data-ag-surface][data-ag-thickness="${th}"][data-ag-backdrop="${bd}"] {`);
-      out.push(`    --_ag-tint-floor: ${Math.round(v * 1000) / 1000};`);
-      out.push('  }');
-    }
-  }
-  out.push('}', '', '@layer ag.a11y {');
+  };
+  // Resolved floor plus the companions rungs.css reads in @layer ag.a11y (OS mirrors
+  // and attribute rungs), so no rung hand-writes a floor (REQ-FIN-03).
+  rows('', (th, bd) => [
+    ['--_ag-tint-floor', r3(glass(th, bd))],
+    ['--_ag-tint-floor-tinted', r3(tinted(th, bd))],
+    ['--_ag-tint-floor-solid', r3(solid(th, bd))],
+    ['--_ag-tint-floor-more', r3(more(th, bd))],
+  ]);
+  rows(on('transparency', 'tinted'), (th, bd) => [['--_ag-tint-floor', r3(tinted(th, bd))]]);
+  rows(on('transparency', 'solid'), (th, bd) => [['--_ag-tint-floor', r3(solid(th, bd))]]);
+  // contrast=more: every transparency at least the more row; the tinted companion
+  // follows so the tinted rung never lowers a contrast=more surface
+  rows(on('contrast', 'more'), (th, bd) => [
+    ['--_ag-tint-floor', r3(more(th, bd))],
+    ['--_ag-tint-floor-tinted', r3(more(th, bd))],
+  ]);
+  rows(`${on('contrast', 'more')}${on('transparency', 'solid')}`, (th, bd) => [
+    ['--_ag-tint-floor', r3(Math.max(more(th, bd), solid(th, bd)))],
+  ]);
+
   // Rung inputs read by src/a11y/css/rungs.css (REQ-FIN-03 / REQ-FIN-05):
   // max-contrast text and boundary = the opposite end of the canvas ramp per
   // scheme; opaque fill = the material tint (canvas) at fallbackFill.alpha.
   const canvas = get(records, resolved, 'sys.color.canvas');
   if (!canvas?.light || !canvas?.dark) throw new Error('floors: sys.color.canvas needs light and dark values');
   const maxInk = `light-dark(${colorToCss(canvas.dark)}, ${colorToCss(canvas.light)})`;
-  out.push('  [data-ag-surface] {');
-  out.push(`    --_ag-on-surface-max: ${maxInk};`);
-  out.push(`    --_ag-border-strong: ${maxInk};`);
-  out.push(`    --_ag-fallback-fill: color-mix(in oklab, var(--ag-color-canvas) ${Math.round(fallback * 1000) / 10}%, transparent);`);
-  out.push('  }');
+  row('[data-ag-surface]', [
+    ['--_ag-on-surface-max', maxInk],
+    ['--_ag-border-strong', maxInk],
+    ['--_ag-fallback-fill', `color-mix(in oklab, var(--ag-color-canvas) ${Math.round(fallback * 1000) / 10}%, transparent)`],
+  ]);
   for (const th of THICKNESS) {
     for (const variant of VARIANTS) {
-      out.push(`  [data-ag-surface][data-ag-variant="${variant}"][data-ag-thickness="${th}"] {`);
-      out.push(`    --_ag-floor-alpha: ${floor(th)};`);
-      out.push('  }');
+      row(`[data-ag-surface][data-ag-variant="${variant}"][data-ag-thickness="${th}"]`, [['--_ag-floor-alpha', authored(th)]]);
     }
   }
   out.push(
     '',
     '  /* Opaque fallback: forced-colors flattens the glass (blur contributes nothing);',
-    '     transparency=solid raises fills to the authored floors via --_ag-tint-floor above. */',
+    '     transparency=solid raises fills through --_ag-tint-floor above. */',
     '  @media (forced-colors: active) {',
-    '    [data-ag-surface] {',
+    `    [data-ag-surface]${OVER_CELLS} {`,
     '      --ag-glass-opacity: 1;',
     '      --_ag-blur: 0px;',
     `      --_ag-scrim-clear: ${scrim};`,
@@ -234,7 +287,7 @@ export function buildFloors(records, resolved, matrix = null) {
     '',
     `  /* No backdrop-filter support: opaque fill at fallbackFill.alpha ${fallback}. */`,
     '  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {',
-    '    [data-ag-surface] {',
+    `    [data-ag-surface]${OVER_CELLS} {`,
     `      --_ag-alpha: ${fallback};`,
     '    }',
     '  }',

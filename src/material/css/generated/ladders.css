@@ -110,8 +110,26 @@
     --_ag-shadow: var(--ag-shadow-regular);
     --_ag-tint-alpha: 0.85;
   }
-  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thin"]:not(
-      :where([data-ag-backdrop] *)
+  [data-ag-surface][data-ag-layer="overlay"]:is(
+      [data-ag-variant][data-ag-thickness][data-ag-tier][data-ag-state],
+      *
+    ) {
+    --_ag-shadow: var(--ag-shadow-thick);
+  }
+  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thin"]:where(
+      :not(
+        :is(
+          [data-ag-backdrop="light"],
+          [data-ag-backdrop="dark"],
+          [data-ag-backdrop="media"]
+        ),
+        :is(
+            [data-ag-backdrop="light"],
+            [data-ag-backdrop="dark"],
+            [data-ag-backdrop="media"]
+          )
+          *
+      )
     ) {
     --_ag-blur: 12px;
     --_ag-saturation: 1.6;
@@ -121,8 +139,20 @@
     --_ag-shadow: var(--ag-shadow-thin);
     --_ag-tint-alpha: 0.72;
   }
-  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="regular"]:not(
-      :where([data-ag-backdrop] *)
+  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="regular"]:where(
+      :not(
+        :is(
+          [data-ag-backdrop="light"],
+          [data-ag-backdrop="dark"],
+          [data-ag-backdrop="media"]
+        ),
+        :is(
+            [data-ag-backdrop="light"],
+            [data-ag-backdrop="dark"],
+            [data-ag-backdrop="media"]
+          )
+          *
+      )
     ) {
     --_ag-blur: 20px;
     --_ag-saturation: 1.6;
@@ -132,8 +162,20 @@
     --_ag-shadow: var(--ag-shadow-regular);
     --_ag-tint-alpha: 0.72;
   }
-  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thick"]:not(
-      :where([data-ag-backdrop] *)
+  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thick"]:where(
+      :not(
+        :is(
+          [data-ag-backdrop="light"],
+          [data-ag-backdrop="dark"],
+          [data-ag-backdrop="media"]
+        ),
+        :is(
+            [data-ag-backdrop="light"],
+            [data-ag-backdrop="dark"],
+            [data-ag-backdrop="media"]
+          )
+          *
+      )
     ) {
     --_ag-blur: 32px;
     --_ag-saturation: 1.6;
@@ -141,6 +183,29 @@
     --_ag-grain-opacity: 0.03;
     --_ag-rim-width: 1.5px;
     --_ag-shadow: var(--ag-shadow-thick);
+    --_ag-tint-alpha: 0.72;
+  }
+  [data-ag-surface][data-ag-variant="clear"]:not([data-ag-thickness]):where(
+      :not(
+        :is(
+          [data-ag-backdrop="light"],
+          [data-ag-backdrop="dark"],
+          [data-ag-backdrop="media"]
+        ),
+        :is(
+            [data-ag-backdrop="light"],
+            [data-ag-backdrop="dark"],
+            [data-ag-backdrop="media"]
+          )
+          *
+      )
+    ) {
+    --_ag-blur: 20px;
+    --_ag-saturation: 1.6;
+    --_ag-brightness: light-dark(1, 1);
+    --_ag-grain-opacity: 0.03;
+    --_ag-rim-width: 1px;
+    --_ag-shadow: var(--ag-shadow-regular);
     --_ag-tint-alpha: 0.72;
   }
   /* disabled: fill alpha scaled by --ag-state-disabled-alpha via --_ag-tint-alpha; no host opacity: (MAT-033). Before the lightweight rows: same specificity, so lightweight (0px) wins. */
@@ -309,6 +374,86 @@
     )::before {
     -webkit-backdrop-filter: blur(20px) saturate(1.6) brightness(1);
   }
+  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thin"]:where(
+      :not(
+        :is(
+          [data-ag-backdrop="light"],
+          [data-ag-backdrop="dark"],
+          [data-ag-backdrop="media"]
+        ),
+        :is(
+            [data-ag-backdrop="light"],
+            [data-ag-backdrop="dark"],
+            [data-ag-backdrop="media"]
+          )
+          *
+      )
+    ):not(
+      [data-ag-tier="lightweight"],
+      [data-ag-tier="lightweight"] *
+    )::before {
+    -webkit-backdrop-filter: blur(12px) saturate(1.6) brightness(1);
+  }
+  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="regular"]:where(
+      :not(
+        :is(
+          [data-ag-backdrop="light"],
+          [data-ag-backdrop="dark"],
+          [data-ag-backdrop="media"]
+        ),
+        :is(
+            [data-ag-backdrop="light"],
+            [data-ag-backdrop="dark"],
+            [data-ag-backdrop="media"]
+          )
+          *
+      )
+    ):not(
+      [data-ag-tier="lightweight"],
+      [data-ag-tier="lightweight"] *
+    )::before {
+    -webkit-backdrop-filter: blur(20px) saturate(1.6) brightness(1);
+  }
+  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thick"]:where(
+      :not(
+        :is(
+          [data-ag-backdrop="light"],
+          [data-ag-backdrop="dark"],
+          [data-ag-backdrop="media"]
+        ),
+        :is(
+            [data-ag-backdrop="light"],
+            [data-ag-backdrop="dark"],
+            [data-ag-backdrop="media"]
+          )
+          *
+      )
+    ):not(
+      [data-ag-tier="lightweight"],
+      [data-ag-tier="lightweight"] *
+    )::before {
+    -webkit-backdrop-filter: blur(32px) saturate(1.6) brightness(1);
+  }
+  [data-ag-surface][data-ag-variant="clear"]:not([data-ag-thickness]):where(
+      :not(
+        :is(
+          [data-ag-backdrop="light"],
+          [data-ag-backdrop="dark"],
+          [data-ag-backdrop="media"]
+        ),
+        :is(
+            [data-ag-backdrop="light"],
+            [data-ag-backdrop="dark"],
+            [data-ag-backdrop="media"]
+          )
+          *
+      )
+    ):not(
+      [data-ag-tier="lightweight"],
+      [data-ag-tier="lightweight"] *
+    )::before {
+    -webkit-backdrop-filter: blur(20px) saturate(1.6) brightness(1);
+  }
   /* identity has no backdrop filter (MAT-038); nothing emitted for the lightweight tier */
 
   @media (pointer: coarse) {
@@ -357,6 +502,26 @@
       -webkit-backdrop-filter: blur(20px) saturate(1.6) brightness(1);
     }
     [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thick"]:not(
+        [data-ag-tier="lightweight"],
+        [data-ag-tier="lightweight"] *
+      )::before {
+      -webkit-backdrop-filter: blur(20px) saturate(1.6) brightness(1);
+    }
+    [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thick"]:where(
+        :not(
+          :is(
+            [data-ag-backdrop="light"],
+            [data-ag-backdrop="dark"],
+            [data-ag-backdrop="media"]
+          ),
+          :is(
+              [data-ag-backdrop="light"],
+              [data-ag-backdrop="dark"],
+              [data-ag-backdrop="media"]
+            )
+            *
+        )
+      ):not(
         [data-ag-tier="lightweight"],
         [data-ag-tier="lightweight"] *
       )::before {
