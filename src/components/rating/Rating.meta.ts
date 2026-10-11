@@ -9,6 +9,8 @@ export default defineMeta({
   parts: ['root','item'],
   states: ['on','off'],
   variants: { readOnly: ['true','false'] },
+  material: { layer: 'content' },
   apg: 'radio',
-  migration: [{ from: 'GlassRating', automation: 'mostly', compat: true }],
+  budgetKb: 10,
+  migration: [{ from: 'GlassRating', props: {}, selectors: { '.glass-rating': '.ag-rating' },  automation: 'mostly', compat: true }],
 });
