@@ -7,10 +7,10 @@ export default defineMeta({
   tier: 'T1',
   flagship: 39,
   rsc: 'server',
-  parts: ['message', 'heading', 'avatar', 'content', 'actions', 'action', 'footer', 'text-part', 'streaming-text', 'caret', 'attachment', 'attachment-link', 'attachment-name', 'attachment-type', 'stopped'],
+  parts: ['action', 'actions', 'attachment', 'attachment-link', 'attachment-name', 'attachment-type', 'avatar', 'caret', 'content', 'error-detail', 'error-title', 'footer', 'heading', 'icon', 'message', 'provider-error', 'step-separator', 'stopped', 'streaming-text', 'text', 'text-part', 'tool-call', 'tool-name', 'tool-state', 'trigger'],
   states: ['complete', 'streaming', 'pending', 'error', 'aborted'],
+  apg: 'feed',
   variants: {},
   budgetKb: 10,
   migration: [],
-  selectors: [],
 });

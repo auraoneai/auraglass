@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { RadioGroup } from '../../../src/components/radio-group';
+import { Card } from '../../../src/components/card';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
@@ -17,6 +18,17 @@ export const Default: Story = {
     <RadioGroup.Root defaultValue="a" aria-label="plan">
       <RadioGroup.Item value="a">Annual</RadioGroup.Item>
       <RadioGroup.Item value="b">Monthly</RadioGroup.Item>
+    </RadioGroup.Root>
+  ),
+};
+
+/* REQ-CMP-56: ChoiceCards — the Item's render swaps in a Card root so the
+   card IS the radio (no nested focusable, no nested glass). */
+export const ChoiceCards: Story = {
+  render: () => (
+    <RadioGroup.Root defaultValue="a" aria-label="plan" className="ag-radio-group--cards">
+      <RadioGroup.Item value="a" render={<Card>Annual</Card>} />
+      <RadioGroup.Item value="b" render={<Card>Monthly</Card>} />
     </RadioGroup.Root>
   ),
 };

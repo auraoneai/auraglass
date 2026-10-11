@@ -1,2 +1,2 @@
-export { Progress, ProgressRing } from './Progress.client';
-export type { ProgressProps, ProgressRingProps } from './Progress.client';
+export { Progress } from './Progress.client';
+export type { ProgressProps } from './Progress.client';
