@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Toolbar } from '../../../src/components/toolbar';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
+import { Glyph, Scene, Section, Stage } from './controls-stage';
 
 const sbMeta = {
   title: 'Flagships/Controls/Toolbar',
@@ -13,45 +14,62 @@ const sbMeta = {
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
-const I = ({ d }: { d: string }) => (
-  <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-    <text x="2" y="12" fontSize="12" fill="currentColor">{d}</text>
-  </svg>
-);
-
+/* Toolbar is chrome: one glass bar floating over the scene. Its items are
+   flat on that glass (no per-item pills); separators are hairlines. */
 export const Default: Story = {
   args: { 'aria-label': 'Toolbar' },
   render: (args) => (
-    <Toolbar.Root {...args}>
-      <Toolbar.Button>Bold</Toolbar.Button>
-      <Toolbar.IconButton label="Undo" icon={<I d="↩" />} />
-      <Toolbar.Separator />
-      <Toolbar.Link href="/docs">Docs</Toolbar.Link>
-    </Toolbar.Root>
+    <Stage>
+      <Section title="Toolbar" note="A single glass bar; items stay flat until hovered.">
+        <Scene align="flex-start">
+          <Toolbar.Root {...args}>
+            <Toolbar.Button>Bold</Toolbar.Button>
+            <Toolbar.IconButton label="Undo" icon={<Glyph name="undo" />} />
+            <Toolbar.Separator />
+            <Toolbar.Link href="/docs">Docs</Toolbar.Link>
+          </Toolbar.Root>
+        </Scene>
+      </Section>
+    </Stage>
   ),
 };
 
 export const Overview: Story = {
   render: (args) => (
-    <Toolbar.Root {...args}>
-      <Toolbar.Button>Bold</Toolbar.Button>
-      <Toolbar.Button>Italic</Toolbar.Button>
-      <Toolbar.Separator />
-      <Toolbar.Group>
-        <Toolbar.IconButton label="Undo" icon={<I d="↩" />} />
-        <Toolbar.IconButton label="Redo" icon={<I d="↪" />} />
-      </Toolbar.Group>
-      <Toolbar.Link href="/docs">Docs</Toolbar.Link>
-    </Toolbar.Root>
+    <Stage>
+      <Section title="Formatting bar" note="Text actions, a grouped undo/redo pair and a link, divided by hairline separators.">
+        <Scene align="flex-start">
+          <Toolbar.Root {...args}>
+            <Toolbar.Button>Bold</Toolbar.Button>
+            <Toolbar.Button>Italic</Toolbar.Button>
+            <Toolbar.Separator />
+            <Toolbar.Group>
+              <Toolbar.IconButton label="Undo" icon={<Glyph name="undo" />} />
+              <Toolbar.IconButton label="Redo" icon={<Glyph name="redo" />} />
+            </Toolbar.Group>
+            <Toolbar.Separator />
+            <Toolbar.Link href="/docs">Docs</Toolbar.Link>
+          </Toolbar.Root>
+        </Scene>
+      </Section>
+    </Stage>
   ),
 };
 
 export const Vertical: Story = {
   args: { 'aria-label': 'Tools' },
   render: () => (
-    <Toolbar.Root aria-label="Tools" orientation="vertical">
-      <Toolbar.IconButton label="Select" icon={<I d="V" />} />
-      <Toolbar.IconButton label="Move" icon={<I d="M" />} />
-    </Toolbar.Root>
+    <Stage>
+      <Section title="Vertical" note="A tool rail docked to the start edge of the canvas.">
+        <Scene align="flex-start" justify="flex-start">
+          <Toolbar.Root aria-label="Tools" orientation="vertical">
+            <Toolbar.IconButton label="Select" icon={<Glyph name="pointer" />} />
+            <Toolbar.IconButton label="Move" icon={<Glyph name="move" />} />
+            <Toolbar.Separator />
+            <Toolbar.IconButton label="Pin" icon={<Glyph name="pin" />} />
+          </Toolbar.Root>
+        </Scene>
+      </Section>
+    </Stage>
   ),
 };
