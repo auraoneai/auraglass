@@ -70,6 +70,7 @@ function Main({ id = 'ag-main', children, render, ...rest }: AppShellMainProps) 
     render,
     id,
     tabIndex: -1,
+    'data-ag-part': 'main',
     'data-ag-slot': 'main',
     ...rest,
     children,
@@ -140,6 +141,7 @@ function SkipLink({
   return partElement('a', {
     render,
     href,
+    'data-ag-part': 'skip-link',
     'data-ag-slot': 'skip',
     className: 'ag-skip-link',
     ...rest,
