@@ -9,7 +9,13 @@
 
      node scripts/release/release-notes.mjs [--claims-dir docs/claims]
             [--capability-ledger docs/auraglass-5/capability-ledger.json]
-            [--out docs/release/notes/5.0.0.md] [--check]                */
+            [--out docs/release/notes/5.0.0.md] [--check]
+            [--tag vX.Y.Z] [--line 4x|5x] [--since <ref>]
+
+   REQ-PLAT-16: `--tag` sets the version; `--line 4x` renders the 4.x notes
+   (CHANGELOG.md section + deprecations added in that version + commits since
+   the previous same-major tag) instead of the 5.0.0 skeleton.            */
+import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -125,34 +131,159 @@ export function renderNotes({ version = '5.0.0', claims = {}, capabilityLedger =
   return lines.join('\n');
 }
 
-export function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
+// ---------------------------------------------------------------- 4.x line
+// REQ-PLAT-16: a 4.x tag (`--line 4x`) gets 4.x notes — the CHANGELOG.md
+// section of that version plus the deprecations whose `since` is that version.
+// The 5.0.0 skeleton above (dependency floors, compat/migrate entry points)
+// never appears in a 4.x release.
+
+const SEMVER = /^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?$/;
+export function parseSemver(v) {
+  const m = SEMVER.exec(String(v).replace(/^v/, ''));
+  if (!m) return null;
+  return { major: +m[1], minor: +m[2], patch: +m[3], pre: m[4] ? m[4].split('.') : [] };
+}
+export function compareSemver(a, b) {
+  const x = typeof a === 'string' ? parseSemver(a) : a;
+  const y = typeof b === 'string' ? parseSemver(b) : b;
+  for (const k of ['major', 'minor', 'patch']) if (x[k] !== y[k]) return x[k] - y[k];
+  if (!x.pre.length || !y.pre.length) return y.pre.length - x.pre.length;
+  for (let i = 0; i < Math.max(x.pre.length, y.pre.length); i++) {
+    const p = x.pre[i]; const q = y.pre[i];
+    if (p === undefined) return -1;
+    if (q === undefined) return 1;
+    const pn = /^\d+$/.test(p); const qn = /^\d+$/.test(q);
+    if (pn && qn) { if (+p !== +q) return +p - +q; continue; }
+    if (pn !== qn) return pn ? -1 : 1;
+    if (p !== q) return p < q ? -1 : 1;
+  }
+  return 0;
+}
+
+/** Previous release tag: the highest `v*` semver tag below `version`; on the
+ *  4x line restricted to the same major, so a 5.x prerelease tag never becomes
+ *  the base of a 4.x range. */
+export function previousTag(tags, version, line) {
+  const cur = parseSemver(version);
+  if (!cur) throw new Error(`release-notes: '${version}' is not a semver version`);
+  return tags
+    .map((t) => ({ t, v: parseSemver(t) }))
+    .filter(({ t, v }) => /^v/.test(t) && v && compareSemver(v, cur) < 0
+      && (line !== '4x' || v.major === cur.major))
+    .sort((a, b) => compareSemver(b.v, a.v))[0]?.t ?? null;
+}
+
+/** Body of `## [<version>]` in CHANGELOG.md (up to the next `## ` or `# `). */
+export function changelogSection(text, version) {
+  const lines = String(text).split('\n');
+  const esc = version.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const start = lines.findIndex((l) => new RegExp(`^## \\[${esc}\\](\\s|$)`).test(l));
+  if (start < 0) return null;
+  let end = lines.length;
+  for (let i = start + 1; i < lines.length; i++) if (/^#{1,2} /.test(lines[i])) { end = i; break; }
+  return { heading: lines[start], body: lines.slice(start + 1, end).join('\n').trim() };
+}
+
+export function renderNotes4x({ version, changelog, deprecations = [], commitSubjects = [],
+  previous = null, rangeError = null } = {}) {
+  const v = parseSemver(version);
+  if (!v || v.major !== 4) throw new Error(`release-notes: --line 4x needs a 4.x version, got '${version}'`);
+  const section = changelogSection(changelog ?? '', version);
+  if (!section || !section.body) {
+    throw new Error(`release-notes: CHANGELOG.md has no non-empty '## [${version}]' section`);
+  }
+  const lines = [`# aura-glass ${version} release notes`, ''];
+  lines.push('## Changelog', '', `From \`CHANGELOG.md\` \`${section.heading.replace(/^## /, '')}\`.`, '',
+    section.body, '');
+  lines.push('## Deprecations added', '');
+  const added = deprecations.filter((d) => d.since === version)
+    .sort((a, b) => String(a.id).localeCompare(String(b.id)));
+  if (added.length) {
+    for (const d of added) {
+      const subject = [d.kind, d.entry, d.symbol ?? d.component ?? d.prop ?? d.selector]
+        .filter(Boolean).join(' ');
+      lines.push(`- \`${d.id}\` (${subject}, removed in ${d.removeIn ?? 'n/a'}): ${d.message ?? ''}`.trimEnd());
+    }
+  } else {
+    lines.push(`No deprecation entry has \`since: '${version}'\`.`);
+  }
+  lines.push('');
+  lines.push(`## Commits${previous ? ` since ${previous}` : ''}`, '');
+  if (rangeError) {
+    lines.push(`_Commit range unavailable: ${rangeError}._`);
+  } else {
+    const secs = commitsToSections(commitSubjects);
+    const order = ['Breaking', 'Deprecated', 'Added', 'Fixed'];
+    let any = false;
+    for (const h of order) {
+      if (!secs[h].length) continue;
+      any = true;
+      lines.push(`### ${h}`, '', ...secs[h], '');
+    }
+    if (!any) lines.push('_No user-facing conventional commits in the range._');
+  }
+  lines.push('');
+  return lines.join('\n');
+}
+
+function commitRange({ root, since, tag, version, line }) {
+  if (since) return { range: `${since}..HEAD`, previous: since };
+  if (!tag) return { range: null, previous: null };
+  const tags = execFileSync('git', ['tag', '-l', 'v*'], { cwd: root, encoding: 'utf8' })
+    .split('\n').filter(Boolean);
+  const previous = previousTag(tags, version, line);
+  if (!previous) throw new Error(`no earlier ${line === '4x' ? `v${parseSemver(version).major}.*` : 'v*'} tag in the clone`);
+  return { range: `${previous}..HEAD`, previous };
+}
+
+export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
   const arg = (n, d) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : d; };
   const claimsDir = arg('--claims-dir', join(root, 'docs/claims'));
   const ledgerPath = arg('--capability-ledger', PATHS.capabilityLedger);
-  const out = arg('--out', join(root, 'docs/release/notes/5.0.0.md'));
-  // --tag <vX.Y.Z>: subjects since the previous tag; --line <4x|5x> is accepted
-  // (line-neutral: inputs are whatever exists at root); --since overrides range.
+  // --tag <vX.Y.Z>: version from the tag, subjects since the previous tag of
+  // the line; --line <4x|5x> selects the 4.x or 5.x notes; --since overrides
+  // the range.
   const tag = arg('--tag');
-  const argLine = arg('--line', null);
+  const line = arg('--line', '5x');
+  if (line !== '4x' && line !== '5x') {
+    console.error(`FAIL release-notes: --line must be 4x or 5x, got '${line}'`);
+    return 1;
+  }
   const since = arg('--since');
+  const version = tag ? tag.replace(/^v/, '')
+    : line === '4x' ? JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version : '5.0.0';
+  if (!parseSemver(version)) { console.error(`FAIL release-notes: '${tag}' is not a vX.Y.Z tag`); return 1; }
+  const out = arg('--out', join(root, `docs/release/notes/${version}.md`));
   let commitSubjects = [];
+  let previous = null;
+  let rangeError = null;
   try {
-    const range = since ? `${since}..HEAD`
-      : tag ? `${execFileSync('git', ['tag', '-l', 'v*', '--sort=-creatordate'], { cwd: root, encoding: 'utf8' })
-          .split('\n').filter((t) => t && t !== `v${tag.replace(/^v/, '')}`)[0] ?? 'HEAD'}..HEAD`
-        : null;
-    if (range) commitSubjects = execFileSync('git', ['log', range, '--format=%s'],
+    const r = commitRange({ root, since, tag, version, line });
+    previous = r.previous;
+    if (r.range) commitSubjects = execFileSync('git', ['log', '--no-merges', r.range, '--format=%s'],
       { cwd: root, encoding: 'utf8' }).split('\n').filter(Boolean);
-  } catch { /* shallow/young history — proceed without subjects */ }
-  const capabilityLedger = existsSync(ledgerPath) ? JSON.parse(readFileSync(ledgerPath, 'utf8')) : null;
-  const breakingRegister = existsSync(PATHS.breakingRegister)
-    ? JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')) : null;
-  const changeClassPath = arg('--change-class', join(root, '.artifacts/plat/change-class.json'));
-  const changeClass = existsSync(changeClassPath) ? JSON.parse(readFileSync(changeClassPath, 'utf8')) : null;
-  const version = tag ? tag.replace(/^v/, '') : '5.0.0';
-  const text = renderNotes({ version, claims: loadClaims(claimsDir), capabilityLedger,
-    breakingRegister, changesets: loadChangesets(join(root, '.changeset')),
-    commitSubjects, changeClass });
+  } catch (e) {
+    // Shallow/young history: the notes say so instead of silently listing nothing.
+    rangeError = String(e?.message ?? e).split('\n')[0];
+    console.error(`release-notes: commit range unavailable (${rangeError})`);
+  }
+  let text;
+  if (line === '4x') {
+    const changelogPath = join(root, 'CHANGELOG.md');
+    const changelog = existsSync(changelogPath) ? readFileSync(changelogPath, 'utf8') : '';
+    const { loadEntries } = await import('./gen-deprecations.mjs');
+    text = renderNotes4x({ version, changelog, deprecations: await loadEntries(root),
+      commitSubjects, previous, rangeError });
+  } else {
+    const capabilityLedger = existsSync(ledgerPath) ? JSON.parse(readFileSync(ledgerPath, 'utf8')) : null;
+    const breakingRegister = existsSync(PATHS.breakingRegister)
+      ? JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')) : null;
+    const changeClassPath = arg('--change-class', join(root, '.artifacts/plat/change-class.json'));
+    const changeClass = existsSync(changeClassPath) ? JSON.parse(readFileSync(changeClassPath, 'utf8')) : null;
+    text = renderNotes({ version, claims: loadClaims(claimsDir), capabilityLedger,
+      breakingRegister, changesets: loadChangesets(join(root, '.changeset')),
+      commitSubjects, changeClass });
+  }
   if (argv.includes('--check')) {
     const existing = existsSync(out) ? readFileSync(out, 'utf8') : null;
     if (existing !== text) { console.error(`FAIL release-notes: ${out} is stale`); return 1; }
@@ -164,5 +295,5 @@ export function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
-  try { process.exit(main()); } catch (e) { console.error(e); process.exit(1); }
+  main().then((code) => process.exit(code), (e) => { console.error(e); process.exit(1); });
 }
