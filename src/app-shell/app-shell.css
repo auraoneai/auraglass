@@ -218,6 +218,19 @@
     min-block-size: 0;
     flex: 1;
   }
+  /* SURF-037: label/value grid row; stacks to one column when the inspector
+     itself is narrower than 280px (its own container, not the viewport). */
+  .ag-inspector__field {
+    display: grid;
+    grid-template-columns: minmax(6rem, 40%) minmax(0, 1fr);
+    gap: var(--ag-space-2, 0.5rem);
+    align-items: baseline;
+  }
+  @container ag-inspector (width < 280px) {
+    .ag-inspector__field {
+      grid-template-columns: 1fr;
+    }
+  }
   /* SURF-038: inspector material/geometry by mode. Docked (or auto under a
      wide shell) reads sunken with no backdrop-filter; floating (or auto
      under expanded/medium) overlays the main area at inline-end. Compact
@@ -262,8 +275,9 @@
     position: absolute;
     inset: calc(var(--ag-space-3, 12px) * -1);
   }
+  /* Coarse: 1px + 2 x 24px = 49px >= 44px (space-5 = 20px gave only 41px). */
   @media (pointer: coarse) {
-    .ag-panels__handle::before { inset: calc(var(--ag-space-5, 22px) * -1); }
+    .ag-panels__handle::before { inset: calc(var(--ag-space-6, 24px) * -1); }
   }
   .ag-panels__handle:focus-visible {
     outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus-color);

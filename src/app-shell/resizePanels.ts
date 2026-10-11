@@ -65,7 +65,10 @@ function applyDelta(
     const c = constraints[i];
     const current = layout[i];
     if (c === undefined || current === undefined) break;
-    const applied = clamp(current + remaining, c.min, c.max);
+    // A collapsible panel may travel below its min down to collapsedSize; the
+    // snap pass in resizePanels() then resolves it to collapsedSize or min.
+    const floor = c.collapsible ? Math.min(c.min, c.collapsedSize) : c.min;
+    const applied = clamp(current + remaining, floor, c.max);
     remaining = current + remaining - applied;
     layout[i] = applied;
   }

@@ -137,14 +137,27 @@ function ResizablePanelsRoot({
       return Math.min(Math.max(v, c?.min ?? 0), c?.max ?? 100);
     });
     for (const [i, s] of specsRef.current.entries()) {
-      const el = rootRef.current?.querySelector<HTMLElement>(`[data-panel="${s.id}"]`);
+      const el = ownPanel(s.id);
       const basis = layoutRef.current[i];
       if (el && basis !== undefined) el.style.flexBasis = `${basis}%`;
     }
+    // Seed each own handle's aria-valuenow from the resolved layout without a
+    // React commit (handles' layout effects ran before this parent effect).
+    const handles = rootRef.current?.querySelectorAll<HTMLElement>(':scope > [data-ag-part="resize-handle"]');
+    handles?.forEach((h, i) => {
+      const v = layoutRef.current[i];
+      if (v !== undefined) h.setAttribute('aria-valuenow', String(Math.round(v)));
+    });
   });
 
+  // SURF-42 nesting: only this group's DIRECT children are its panels and
+  // handles — a nested group's parts must never be counted by the outer one.
+  function ownPanel(panelId: string): HTMLElement | null {
+    return rootRef.current?.querySelector<HTMLElement>(`:scope > [data-panel="${panelId}"]`) ?? null;
+  }
+
   const writeBasis = (panelId: string, percent: number) => {
-    const el = rootRef.current?.querySelector<HTMLElement>(`[data-panel="${panelId}"]`);
+    const el = ownPanel(panelId);
     if (el) el.style.flexBasis = `${percent}%`;
   };
 
@@ -218,11 +231,10 @@ function ResizablePanelsRoot({
     labels,
     handleIndexFor: (el) =>
       Array.from(
-        rootRef.current?.querySelectorAll<HTMLElement>('[data-ag-part="resize-handle"]') ?? [],
+        rootRef.current?.querySelectorAll<HTMLElement>(':scope > [data-ag-part="resize-handle"]') ?? [],
       ).indexOf(el),
     rootEl: () => rootRef.current,
-    panelEl: (id) =>
-      rootRef.current?.querySelector<HTMLElement>(`[data-panel="${id}"]`) ?? null,
+    panelEl: ownPanel,
   };
 
   // stackBelow (SURF-46): a @container query can't take a runtime px value,
@@ -343,6 +355,7 @@ function ResizableHandle({ label, disabled = false, withGrip = false, render, ..
   const flush = React.useCallback(() => {
     raf.current = null;
     if (!ctx || !ref.current) return;
+    if (pending.current === 0) return; // nothing moved since the last write
     const h = ctx.handleIndexFor(ref.current);
     ctx.resize(h, pending.current);
     const v = ctx.layout[h];
@@ -354,7 +367,12 @@ function ResizableHandle({ label, disabled = false, withGrip = false, render, ..
     const rootEl = ctx?.rootEl();
     if (!ctx || !ref.current || !rootEl) return;
     const rect = rootEl.getBoundingClientRect(); // read once at drag start
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    try {
+      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    } catch {
+      /* NotFoundError for a pointer the UA no longer tracks — the drag still
+         runs; pointerup/pointercancel end it either way. */
+    }
     drag.current = {
       pointerId: e.pointerId,
       last: ctx.orientation === 'horizontal' ? e.clientX : e.clientY,

@@ -86,4 +86,42 @@ describe('Sidebar (SURF-041)', () => {
     );
     expect(screen.getByRole('button', { name: 'Auto' })).toHaveAttribute('aria-expanded', 'true');
   });
+
+  it('collapsible markup nests validly: 0 validateDOMNesting errors (SURF-33)', () => {
+    const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+    try {
+      render(
+        <Sidebar.Root>
+          <Sidebar.Nav aria-label="Nested">
+            <Sidebar.Item href="/top">Top</Sidebar.Item>
+            <Sidebar.Collapsible label="Projects">
+              <Sidebar.Item href="/p/1" current>Atlas</Sidebar.Item>
+              <Sidebar.Collapsible label="Archived">
+                <Sidebar.Item href="/p/old">Old</Sidebar.Item>
+              </Sidebar.Collapsible>
+            </Sidebar.Collapsible>
+          </Sidebar.Nav>
+        </Sidebar.Root>,
+      );
+      fireEvent.click(screen.getByRole('button', { name: 'Archived' }));
+      const nesting = error.mock.calls.filter((c) =>
+        /validateDOMNesting|cannot be a child of|cannot contain a nested|cannot be a descendant of/.test(
+          c.map(String).join(' '),
+        ),
+      );
+      expect(nesting).toEqual([]);
+      expect(error).toHaveBeenCalledTimes(0);
+      // every <li> sits directly in a <ul>, and the collapsible root IS the <li>
+      for (const li of document.querySelectorAll('nav li')) {
+        expect(li.parentElement?.tagName).toBe('UL');
+      }
+      const roots = document.querySelectorAll('[data-ag-part="sidebar-collapsible"]');
+      expect(roots).toHaveLength(2);
+      for (const r of roots) expect(r.tagName).toBe('LI');
+      expect(screen.getByRole('link', { name: 'Old' })).toBeTruthy();
+    } finally {
+      error.mockRestore();
+    }
+  });
 });
+
