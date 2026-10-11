@@ -1,8 +1,9 @@
-'use client';
 /* CMP-001 seam: the only place outside this directory that may touch the Base
    UI Toggle pin. src/data/chip composes this wrapper; Base UI imports are
    confined to src/components/** and src/foundation/** (REQ-CMP-01). Props are
-   AuraGlass-owned so the emitted d.ts never names Base UI. */
+   AuraGlass-owned so the emitted d.ts never names Base UI. No 'use client':
+   the module uses no client-only signal and Base UI's Toggle module carries
+   its own directive (auraglass/use-client-needless). */
 import * as React from 'react';
 import { Toggle } from '@base-ui/react/toggle';
 

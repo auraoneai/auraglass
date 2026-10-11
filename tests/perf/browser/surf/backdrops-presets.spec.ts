@@ -7,7 +7,7 @@ test.describe('backdrops presets perf (SURF-497)', () => {
   test('static presets run no animations or rAF', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Backdrop');
-    if (!subject) { console.warn('Backdrop subject not registered — pending'); return; }
+    if (!subject) throw new Error('Backdrop subject not registered');
     await gotoStory(page, subject.id);
     const rafCount = await page.evaluate(async () => {
       let n = 0;

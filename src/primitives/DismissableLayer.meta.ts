@@ -11,7 +11,10 @@ export const DismissableLayerMeta = defineMeta({
   parts: ['root'],
   states: [],
   variants: {},
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 2000 / 1024,
   migration: [
-    { from: 'GlassDismissableLayer', automation: 'full', compat: true },
+    { from: 'GlassDismissableLayer', props: {}, selectors: { '.glass-dismissable-layer': '.ag-dismissable-layer' },  automation: 'full', compat: true },
   ],
 });

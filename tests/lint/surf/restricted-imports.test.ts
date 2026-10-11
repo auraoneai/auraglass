@@ -57,7 +57,7 @@ describe('restricted-imports for blocks/labs', () => {
       expect(found).toBe(true);
       for (const g of globs) {
         // glob must stay inside SURF-owned paths
-        expect(/^(src\/(app-shell|data|date|ai|media|backdrops|charts|three|components)|registry\/|packages\/labs\/)/.test(g)).toBe(true);
+        expect(/^(src\/(app-shell|data|date|ai|media|backdrops|charts|three|components|compat\/surf\/|root\/surf\.ts$)|registry\/|packages\/labs\/)/.test(g)).toBe(true);
       }
     }
   });

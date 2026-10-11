@@ -1,4 +1,6 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-299 Container */
 @layer ag.components {
-  .ag-container { inline-size: 100%; padding-block: var(--ag-space-2, 0.5rem); }
+  .ag-container { inline-size: 100%; padding-block: var(--ag-space-2); }
 }

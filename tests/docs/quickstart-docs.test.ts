@@ -16,9 +16,9 @@ import { fillQuickstart, generate } from '../../scripts/docs/gen-readme.mjs';
 
 const root = join(__dirname, '..', '..');
 const read = (rel: string) => readFileSync(join(root, rel), 'utf8');
-const CELLS = [
+const CELLS: ReadonlyArray<readonly ['next' | 'vite', 'tailwind' | 'plain']> = [
   ['next', 'tailwind'], ['next', 'plain'], ['vite', 'plain'], ['vite', 'tailwind'],
-] as const;
+];
 
 describe('docs/quickstart conform to REQ-PLAT-103', () => {
   it.each(CELLS)('%s × %s: ≤6 commands, ≤2 edits, no forbidden steps', (framework, variant) => {

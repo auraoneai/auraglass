@@ -31,8 +31,14 @@ export interface PreferenceStore {
   set<K extends UserSettableKey>(key: K, value: PreferenceValues[K]): void;
   reset(): void;
   setApp(input: PreferenceInput): void;
-  /** Point attribute writes at an element once it exists (provider mount). */
-  setTarget(el: HTMLElement | null): void;
+  /** Point attribute writes at an element once it exists (provider mount).
+      A list makes the first element the primary target (every data-ag-*
+      attribute plus --ag-glass-opacity); each further element is a mirror
+      that receives only the resolved data-ag-scheme and data-ag-transparency
+      (REQ-MAT-56: a nested provider mirrors onto [data-ag-portal-root] so
+      portaled overlays resolve like the provider's subtree). A mirror dropped
+      by a later call loses the attributes this store wrote to it. */
+  setTarget(el: HTMLElement | readonly HTMLElement[] | null): void;
 }
 
 export interface StoreSignals {
@@ -96,6 +102,20 @@ const migrateLegacy = (raw: string | null): PersistedRecord => {
   return out;
 };
 
+/* REQ-MAT-53 (transferred to REQ-FIN-12): the runtime domain of each
+   user-settable key, mirroring PreferenceValues in contracts/preferences.ts.
+   Legacy contrast spellings ('less'/'custom') are migration input only and are
+   not accepted by set(). */
+const VALID: Record<UserSettableKey, (v: unknown) => boolean> = {
+  transparency: (v) => v === 'system' || v === 'glass' || v === 'tinted' || v === 'solid',
+  glassOpacity: (v) => typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= 1,
+  contrast: (v) => v === 'system' || v === 'standard' || v === 'more',
+  motion: (v) => v === 'system' || v === 'full' || v === 'calm' || v === 'none',
+  scheme: (v) => v === 'system' || v === 'light' || v === 'dark',
+  density: (v) => v === 'compact' || v === 'regular' || v === 'spacious',
+  allowContinuous: (v) => typeof v === 'boolean',
+};
+
 const ATTRS = {
   transparency: 'data-ag-transparency',
   contrast: 'data-ag-contrast',
@@ -104,6 +124,9 @@ const ATTRS = {
   density: 'data-ag-density',
   tier: 'data-ag-tier',
 } as const;
+
+/** REQ-MAT-56: the attributes mirrored onto secondary targets. */
+const MIRRORED_ATTRS = [ATTRS.scheme, ATTRS.transparency] as const;
 
 export const createPreferenceStore = (opts: PreferenceStoreOptions = {}): PreferenceStore => {
   const win = opts.window ?? (typeof window !== 'undefined' ? window : null);
@@ -114,6 +137,10 @@ export const createPreferenceStore = (opts: PreferenceStoreOptions = {}): Prefer
   const legacyKey = opts.legacyStorageKey ?? LEGACY_STORAGE_KEY;
   const signals = opts.signals ?? {};
   let target: HTMLElement | null = opts.target ?? null;
+  /** Element the lastAttr/lastOpacity diff cache describes. */
+  let writtenTo: HTMLElement | null = target;
+  /** Mirror targets and the values this store last wrote to each. */
+  let mirrors = new Map<HTMLElement, Record<string, string>>();
 
   const readOs = signals.os ?? (() => (win ? readOsSignals(win) : { ...DEFAULT_OS }));
   const readCap = signals.cap ?? (() => capabilityFromWindow(win));
@@ -177,7 +204,7 @@ export const createPreferenceStore = (opts: PreferenceStoreOptions = {}): Prefer
     for (const [name, value] of Object.entries(next)) {
       if (lastAttr[name] !== value) target.setAttribute(name, value);
     }
-    const cont = r.allowContinuous ? 'on' : '';
+    const cont = r.allowContinuous && r.motion === 'full' ? 'on' : '';
     if ((lastAttr['data-ag-continuous'] ?? '') !== cont) {
       if (cont) target.setAttribute('data-ag-continuous', 'on');
       else target.removeAttribute('data-ag-continuous');
@@ -195,12 +222,39 @@ export const createPreferenceStore = (opts: PreferenceStoreOptions = {}): Prefer
     lastAttr = { ...lastAttr, ...next };
   };
 
+  const writeMirrors = (r: ResolvedDetail): void => {
+    const values: Record<string, string> = {
+      [ATTRS.scheme]: r.scheme,
+      [ATTRS.transparency]: r.transparency,
+    };
+    for (const [el, written] of mirrors) {
+      // A mirror (the document's single portal root) can be shared, so diff
+      // against the live attribute rather than this store's cache.
+      for (const name of MIRRORED_ATTRS) {
+        if (el.getAttribute(name) !== values[name]) el.setAttribute(name, values[name]!);
+        written[name] = values[name]!;
+      }
+    }
+  };
+
+  const releaseMirror = (el: HTMLElement, written: Record<string, string>): void => {
+    // Leave values another writer has since put there untouched.
+    for (const name of MIRRORED_ATTRS) {
+      if (written[name] !== undefined && el.getAttribute(name) === written[name]) el.removeAttribute(name);
+    }
+  };
+
+  const write = (r: ResolvedDetail): void => {
+    writeAttributes(r);
+    writeMirrors(r);
+  };
+
   const update = (notify = true): void => {
     const os = readOs();
     const cap = readCap();
     resolvedValue = resolvePreferences({ os, cap, app, user });
     snapshot = buildSnapshot();
-    writeAttributes(resolvedValue);
+    write(resolvedValue);
     if (notify) listeners.forEach((l) => l());
   };
   update(false);
@@ -233,6 +287,10 @@ export const createPreferenceStore = (opts: PreferenceStoreOptions = {}): Prefer
       };
     },
     set(key, value) {
+      // REQ-MAT-53: validate at the boundary. An unknown key or a value outside
+      // the key's declared domain is ignored: user state, storage, listeners
+      // and attribute writes are left untouched.
+      if (!Object.prototype.hasOwnProperty.call(VALID, key) || !VALID[key](value)) return;
       (user as Record<string, unknown>)[key] = value;
       if (storage) {
         const record: Record<string, unknown> = {};
@@ -252,8 +310,22 @@ export const createPreferenceStore = (opts: PreferenceStoreOptions = {}): Prefer
       update();
     },
     setTarget(el) {
-      target = el;
-      if (resolvedValue) writeAttributes(resolvedValue);
+      const list: readonly HTMLElement[] = el === null ? [] : Array.isArray(el) ? el : [el as HTMLElement];
+      const primary = list[0] ?? null;
+      const nextMirrors = new Map<HTMLElement, Record<string, string>>();
+      for (const m of list.slice(1)) {
+        if (m !== primary && !nextMirrors.has(m)) nextMirrors.set(m, mirrors.get(m) ?? {});
+      }
+      for (const [m, written] of mirrors) if (!nextMirrors.has(m)) releaseMirror(m, written);
+      mirrors = nextMirrors;
+      target = primary;
+      // A different element has none of the cached values: write them all.
+      if (primary !== null && primary !== writtenTo) {
+        lastAttr = {};
+        lastOpacity = Number.NaN;
+        writtenTo = primary;
+      }
+      if (resolvedValue) write(resolvedValue);
     },
   };
 };
