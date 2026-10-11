@@ -21,7 +21,10 @@ const tt = load<typeof TT>('../../../registry/items/ai-trace-tree/index');
 const ed = load<typeof ED>('../../../registry/items/ai-eval-dashboard/index');
 const vi = load<typeof VI>('../../../registry/items/ai-voice-input/index');
 const aw = load<typeof AW>('../../../registry/blocks/ai-workspace/index');
-const ai = load<typeof AI>('../../../src/ai/index');
+// Same specifier the registry item imports, so Composer.Root and
+// VoiceInputAction share one context instance (src/ai vs the resolved
+// aura-glass/ai entry would be two distinct React contexts).
+const ai = load<typeof AI>('aura-glass/ai');
 
 describe('ai registry items', () => {
   it('ai-markdown closes open fences mid-stream and blocks non-http links', () => {

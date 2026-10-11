@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { AiWorkspace } from './index';
 import { AWAITING_APPROVAL, COMPLETED, REPLAY_REPLY } from './fixtures';
 import { createReplayTransport } from './replay-transport';
@@ -11,6 +12,7 @@ const meta: Meta<typeof AiWorkspace> = {
   component: AiWorkspace,
   render: (args) => <AiWorkspace {...args} transport={createReplayTransport([REPLAY_REPLY])} />,
   args: { initialMessages: AWAITING_APPROVAL },
+  parameters: { ag: { subject: 'ai-workspace', kind: 'showcase', scenes: 'all' } satisfies StoryAgParameters },
 };
 export default meta;
 type Story = StoryObj<typeof AiWorkspace>;

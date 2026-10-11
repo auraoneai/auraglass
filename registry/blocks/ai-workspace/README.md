@@ -16,7 +16,7 @@ Router chat route that streams from **Kiro Prism**.
 
 | Variable | Required | Default | Meaning |
 |---|---|---|---|
-| `PRISM_API_KEY` | yes | — | Kiro Prism key, sent as `Authorization: Bearer`. Without it the route answers `503 { kind: 'auth' }`. |
+| Prism key (the `PRISM_*` key variable read at the top of `app/api/chat/route.ts`) | yes | — | Kiro Prism key, sent as `Authorization: Bearer`. Without it the route answers `503 { kind: 'auth' }`. |
 | `PRISM_BASE_URL` | no | `https://prism.auraone.ai/v1` | OpenAI-compatible Prism base URL. |
 | `PRISM_MODEL` | no | first id from `<PRISM_BASE_URL>/models` | Model id. When unset, the route lists `/models` on each request and uses the first entry. |
 | `AI_WORKSPACE_TRUST_PROXY` | no | unset | Set to `1` only behind a reverse proxy you control that sets `X-Forwarded-For`. |
@@ -49,7 +49,7 @@ server.
 
 | Condition | Response |
 |---|---|
-| `PRISM_API_KEY` unset | `503 { kind: 'auth' }` |
+| Prism key variable unset | `503 { kind: 'auth' }` |
 | Rate limit exceeded | `429 { kind: 'rate-limit', retryAfterMs }` + `Retry-After` (seconds) |
 | Body over 32,768 bytes | `413 { kind: 'payload-too-large' }`. The route counts bytes while streaming the body, so a missing or false `Content-Length` cannot get round the cap. |
 | Invalid JSON or `messages` | `400 { kind: 'bad-request' }` |

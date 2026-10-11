@@ -4,12 +4,51 @@
   "type": "registry:block",
   "title": "AI workspace",
   "description": "Thread + Composer + UsageMeter + ProviderErrorState via useAuraChat; Next.js chat route on Kiro Prism (PRISM_* env). The route has no auth: add authentication/authorisation before exposure (README).",
-  "dependencies": ["react", "ai", "@ai-sdk/react", "@ai-sdk/openai-compatible"],
-  "registryDependencies": ["ai-sdk-adapter"],
+  "dependencies": [
+    "react",
+    "ai",
+    "@ai-sdk/openai-compatible"
+  ],
+  "registryDependencies": [
+    "ai-sdk-adapter"
+  ],
   "files": [
-    { "path": "index.tsx", "type": "registry:block" },
-    { "path": "fixtures.ts", "type": "registry:item" },
-    { "path": "replay-transport.ts", "type": "registry:lib" },
-    { "path": "app/api/chat/route.ts", "type": "registry:file", "target": "app/api/chat/route.ts" }
-  ]
+    {
+      "path": "index.tsx",
+      "type": "registry:block"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
+    },
+    {
+      "path": "replay-transport.ts",
+      "type": "registry:lib"
+    },
+    {
+      "path": "app/api/chat/route.ts",
+      "type": "registry:file",
+      "target": "app/api/chat/route.ts"
+    }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "block",
+      "client": true,
+      "components": [
+        "AgentSteps",
+        "AppShell",
+        "Composer",
+        "Inspector",
+        "ProviderErrorState",
+        "Thread",
+        "TopBar",
+        "UsageMeter"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null
+    }
+  }
 }

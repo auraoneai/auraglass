@@ -1,0 +1,57 @@
+# shadcn/ui
+
+AuraGlass publishes a shadcn-compatible registry. Its `auraglass` **base** item drops AuraGlass into an existing shadcn app: it adds the package, the stylesheet import and a variable bridge so shadcn components and AuraGlass read the same tokens.
+
+## Install the base
+
+From the root of a shadcn project (one that already has `components.json`):
+
+```bash
+npx shadcn@latest add https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/r/auraglass.json
+```
+
+The base item:
+
+- adds the dependencies `aura-glass@^5` and `clsx`;
+- adds `@import "aura-glass/styles.css" layer(ag);` to your global CSS (plus `@import "aura-glass/tailwind.css";` in Tailwind v4 projects — see the Tailwind guide for the layer statement);
+- writes `lib/auraglass.ts`, which re-exports the `cn` class joiner the registry blocks use;
+- sets the interchange variables below in your theme (`cssVars`).
+
+Projects without shadcn use `npx @auraglass/cli init` instead (see the Next.js and Vite guides).
+
+## Interchange variables
+
+shadcn components style themselves with a small set of CSS variables. The base points each one at an AuraGlass token, so existing shadcn components pick up the AuraGlass palette, radius and focus ring in light and dark mode:
+
+| shadcn variable | AuraGlass source |
+|---|---|
+| `--background` | `var(--ag-color-canvas, var(--ag-surface-fill))` |
+| `--foreground` | `var(--ag-on-surface)` |
+| `--primary` | `var(--ag-surface-fill)` |
+| `--primary-foreground` | `var(--ag-on-surface)` |
+| `--muted` | `var(--ag-on-surface-muted)` |
+| `--border` | `var(--ag-surface-rim)` |
+| `--ring` | `var(--ag-focus-outer)` |
+| `--radius` | `var(--ag-surface-radius)` |
+
+These are the only shadcn variables AuraGlass defines. Others your components use (for example `--card` or `--destructive`) keep the values from your shadcn theme.
+
+## Adding blocks and items
+
+Every registry block and item installs the same way, by URL:
+
+```bash
+npx shadcn@latest add https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/r/auth.json
+```
+
+or through the AuraGlass CLI, which resolves names against the same registry:
+
+```bash
+npx @auraglass/cli add auth
+```
+
+Items list `auraglass` as a registry dependency where they need it, so adding one also installs the base. The installed files are yours to edit. `npx @auraglass/cli update <name>` replaces a file only when you have not modified it; for a file you changed it stops and reports the conflict (with `--force` it writes the upstream version next to yours as `<file>.auraglass-upstream`).
+
+## Mixing components
+
+shadcn components (Radix-based) and AuraGlass components (Base UI-based) can live in the same tree. Prefer one source per role — for example AuraGlass `Dialog` everywhere rather than two dialog implementations — so focus management and stacking stay consistent.
