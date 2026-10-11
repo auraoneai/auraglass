@@ -29,7 +29,7 @@ async function fixture(page: Page, storyId: string) {
   return hostViolations(page);
 }
 
-test.describe.configure({ mode: 'serial' });
+// Independent tests (default mode): one failure never hides the others' evidence.
 
 test('negative fixture: each host style that makes a backdrop root is reported, [data-ag-animating] will-change is allowed', async ({ page }) => {
   const violations = await fixture(page, FIXTURE.backdropRoot.hosts);

@@ -44,7 +44,7 @@ async function fixture(page: Page, storyId: string) {
   return webglCell(page, since);
 }
 
-test.describe.configure({ mode: 'serial' });
+// Independent tests (default mode): one failure never hides the others' evidence.
 
 test('clean fixture: one capped, gated, released context passes', async ({ page }) => {
   const r = await fixture(page, FIXTURE.webgl.clean);

@@ -45,7 +45,7 @@ async function blurred(page: Page, c: Condition) {
   return fallbackViolations(await page.evaluate(probeBlurred), c.id);
 }
 
-test.describe.configure({ mode: 'serial' });
+// Independent tests (default mode): one failure never hides the others' evidence.
 
 /* The condition list is per engine (OI-QUAL-04): each describe is tagged @<engine>, and every invariants project in
    tests/perf/qual/playwright.config.ts greps out the other engines' tags. */

@@ -6,7 +6,7 @@
    Specs: mount-unmount-leak, backdrop-root, lens-defs, webgl-context, a11y-fallback (tests/perf/qual/*.spec.ts),
    all in qual:certify:l10 through tests/perf/qual/playwright.config.ts. */
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 
 export const REMOTE_ONLY_MESSAGE = 'remote-only: the L10 invariant specs (tests/perf/qual/{mount-unmount-leak,backdrop-root,lens-defs,'
   + 'webgl-context,a11y-fallback}.spec.ts) run only on the remote runner (AG_REMOTE_RUNNER=1). Run them in GitLab CI: qual:certify:l10.';
@@ -284,8 +284,14 @@ async function waitRender(page, storyId) {
 
 /** Loads the preview once with `globals` on `storyId` (default: the blank fixture). */
 export async function openPreview(page, { base = STORYBOOK_URL, storyId = BLANK_ID, globals = {} } = {}) {
-  await page.goto(previewUrl(base, storyId, globals), { waitUntil: 'load' });
-  await page.waitForSelector('[data-ag-cert-ready]', { timeout: 30_000, state: 'attached' });
+  const res = await page.goto(previewUrl(base, storyId, globals), { waitUntil: 'load' });
+  if (!res || !res.ok()) throw new Error(`${base}/iframe.html → HTTP ${res ? res.status() : 'no response'}: storybook-static is incomplete (qual:build:storybook)`);
+  try {
+    await page.waitForSelector('[data-ag-cert-ready]', { timeout: 30_000, state: 'attached' });
+  } catch (err) {
+    throw new Error(`the Storybook preview never became ready ([data-ag-cert-ready] absent after 30 s on ${storyId}); `
+      + `check that qual:build:storybook produced a complete storybook-static — ${String(err?.message ?? err).split('\n')[0]}`);
+  }
   const phase = await waitRender(page, storyId);
   if (phase !== 'completed') throw new Error(`story ${storyId} render phase ${phase}`);
 }
@@ -415,9 +421,8 @@ export function evidenceDir() {
   return resolve(process.env.AURAGLASS_EVIDENCE_DIR ?? '.artifacts', 'qual', process.env.CI_JOB_NAME_SLUG ?? 'qual-certify-l10');
 }
 export function writeEvidence(name, doc) {
-  const dir = resolve(evidenceDir(), 'invariants');
-  mkdirSync(dir, { recursive: true });
-  const file = resolve(dir, name);
+  const file = resolve(evidenceDir(), 'invariants', name);
+  mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, `${JSON.stringify({ sha: process.env.CI_COMMIT_SHA ?? null, jobUrl: process.env.CI_JOB_URL ?? null,
     generatedAt: new Date().toISOString(), ...doc }, null, 2)}\n`);
   return file;
