@@ -123,12 +123,19 @@ function runJest(row, root, evidenceDir, idx) {
     tests: total, failed: report.numFailedTests ?? 0, failedSuites, durationMs: r.durationMs };
 }
 
-function runNodeScript(row, root) {
+/* A node-script gate may write a JSON report to $AG_LANE_REPORT (e.g. lint-stories' per-stream counts, REQ-QUAL-55);
+   the runner attaches it to the row's result as `report`. Absent file = no report (the exit code alone decides state). */
+function runNodeScript(row, root, evidenceDir, idx) {
   const [script, ...args] = row.path.trim().split(/\s+/);
   if (!existsSync(join(root, script))) return { state: 'fail', reason: `registered path missing: ${script}` };
-  const r = run(process.execPath, [script, ...args], { cwd: root });
+  const reportFile = join(evidenceDir, `node-script-${idx}.json`);
+  const r = run(process.execPath, [script, ...args], { cwd: root, env: { AG_LANE_REPORT: reportFile } });
   if (r.error || r.signal) return { state: 'fail', reason: `crashed: ${r.error ?? r.signal}`, durationMs: r.durationMs };
-  return { state: r.status === 0 ? 'pass' : 'fail', reason: r.status === 0 ? undefined : `exit ${r.status}`, durationMs: r.durationMs };
+  let report;
+  if (existsSync(reportFile)) {
+    try { report = JSON.parse(readFileSync(reportFile, 'utf8')); } catch (e) { return { state: 'fail', reason: `unreadable AG_LANE_REPORT: ${e.message}`, durationMs: r.durationMs }; }
+  }
+  return { state: r.status === 0 ? 'pass' : 'fail', reason: r.status === 0 ? undefined : `exit ${r.status}`, durationMs: r.durationMs, report };
 }
 
 function runPlaywright(row, root, evidenceDir, idx) {
@@ -151,7 +158,7 @@ export async function executeRow(row, ctx) {
   if (row.failClosed !== true) return { state: 'fail', reason: 'registration must set failClosed: true (S-43)' };
   if (BROWSER_KINDS.has(row.kind) && row.remote !== true) return { state: 'fail', reason: `remote:false is not allowed for browser kind ${row.kind}` };
   switch (row.kind) {
-    case 'node-script': return runNodeScript(row, ctx.root);
+    case 'node-script': return runNodeScript(row, ctx.root, ctx.evidenceDir, ctx.idx);
     case 'jest': return runJest(row, ctx.root, ctx.evidenceDir, ctx.idx);
     case 'playwright': return runPlaywright(row, ctx.root, ctx.evidenceDir, ctx.idx);
     case 'manual-record': return runManualRecord(row, ctx.root);
