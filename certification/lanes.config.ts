@@ -42,6 +42,9 @@ export const BUILTINS: BuiltinRegistration[] = [
   // ---- L6 Environment visual (REQ-QUAL-04/-12, G-12): the capture driver runs at every scope (registered at the
   // narrowest, pr); the spec selects the §4.2 matrix from AG_SCOPE.
   { lane: 'L6', kind: 'playwright', path: 'certification/lanes/environment-visual.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // REQ-QUAL-16 / -17 (G-13): preference modes must change something; console hygiene one-per-subject sweep.
+  { lane: 'L6', kind: 'playwright', path: 'certification/lanes/preference-modes.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L6', kind: 'playwright', path: 'certification/lanes/console.spec.ts', scope: 'pr', remote: true, failClosed: true },
 ];
 
 /** Built-in L1 gates whose producer has not merged yet: reported `pending` with the producing work item. */

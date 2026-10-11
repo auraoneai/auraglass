@@ -10,13 +10,14 @@ import * as React from 'react';
 import { Surface } from '../../src/material/index';
 import type { MaterialVariant, Thickness } from '../../src/contracts/material';
 import { PendingCallout, globUrls } from './_shared';
-import { StorySurface } from '../../.storybook/StorySurface';
 
 const SCENE_IDS = [
   'photo', 'flat-white', 'flat-black', 'dense-text',
   'video', 'map', 'data-viz', 'edge-bleed',
 ];
-const sceneImages = globUrls('/certification/scenes/*.{png,jpg,jpeg,webp,avif}');
+const sceneImages = globUrls(
+  import.meta.glob('/certification/scenes/*.{png,jpg,jpeg,webp,avif}', { eager: true, query: '?url', import: 'default' }),
+);
 const VARIANTS: MaterialVariant[] = ['regular', 'clear', 'identity'];
 const THICKNESSES: Thickness[] = ['thin', 'regular', 'thick'];
 
@@ -61,16 +62,9 @@ function Matrix() {
 }
 
 const meta: Meta = {
-  parameters: { ag: { subject: 'ModesMatrix', kind: 'showcase' } },
   title: 'MAT/Modes Matrix',
-  parameters: { layout: 'padded' },
-  decorators: [
-    (Story) => (
-      <StorySurface mode="light">
-        <Story />
-      </StorySurface>
-    ),
-  ],
+  // The preview decorator (AuraGlassProvider -> Environment -> StoryRoot) paints the scene.
+  parameters: { layout: 'padded', ag: { subject: 'ModesMatrix', kind: 'showcase' } },
 };
 export default meta;
 

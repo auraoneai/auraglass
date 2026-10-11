@@ -32,12 +32,15 @@ describe('readCaptureEvidence', () => {
   });
 });
 
-test('L6 environment-visual runs at every scope, remote and fail-closed', async () => {
+test('L6 environment-visual, preference-modes and console run at every scope, remote and fail-closed', async () => {
   // A registration's scope is the narrowest it runs at (pr ⊂ main ⊂ nightly ⊂ release).
   const { rows } = await loadRegistrations(join(__dirname, '../../..'));
-  for (const scope of SCOPES) {
-    const l6 = selectRows(rows, 'L6', scope).filter((r) => r.stream === 'qual' && r.path === 'certification/lanes/environment-visual.spec.ts');
-    expect([scope, l6.length]).toEqual([scope, 1]);
-    expect(l6[0]).toMatchObject({ lane: 'L6', kind: 'playwright', remote: true, failClosed: true });
+  // G-13 adds preference-modes (REQ-QUAL-16) and console (REQ-QUAL-17) next to the capture driver
+  for (const spec of ['environment-visual', 'preference-modes', 'console']) {
+    for (const scope of SCOPES) {
+      const l6 = selectRows(rows, 'L6', scope).filter((r) => r.stream === 'qual' && r.path === `certification/lanes/${spec}.spec.ts`);
+      expect([spec, scope, l6.length]).toEqual([spec, scope, 1]);
+      expect(l6[0]).toMatchObject({ lane: 'L6', kind: 'playwright', remote: true, failClosed: true });
+    }
   }
 });

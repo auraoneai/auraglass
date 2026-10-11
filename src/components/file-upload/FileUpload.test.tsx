@@ -54,7 +54,7 @@ describe('FileUpload', () => {
     render(<FileUpload defaultItems={[{ file: file('y.png', 1, 'image/png'), status: 'uploading' }]} />);
     await act(async () => {});
     const item = document.querySelector('[data-ag-part="item"]');
-    expect(item?.getAttribute('data-ag-status')).not.toBe('complete');
+    expect(item?.getAttribute('data-status')).not.toBe('complete');
   });
 });
 
@@ -90,6 +90,6 @@ describe('FileUpload REQ-CMP-126', () => {
     await act(async () => { report!(0.5); });
     await act(async () => { report!(1); });
     const item = container.querySelector('[data-ag-part="item"]')!;
-    expect(item.getAttribute('data-ag-status')).toBe('complete');
+    expect(item.getAttribute('data-status')).toBe('complete');
   });
 });
