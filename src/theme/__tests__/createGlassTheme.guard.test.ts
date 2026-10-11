@@ -1,17 +1,24 @@
 /* REQ-MAT-02 / REQ-FIN-50 (D.3-04): createGlassTheme output never defines a
    material.* or private --_ag-* key — over every preset, mode, density, contrast,
-   radius scale and brand-colour syntax. */
+   radius scale and a spread of brand colours (passed as Oklch objects). */
 import { describe, expect, it } from '@jest/globals';
 import { createGlassTheme, type CreateGlassThemeOptions } from '../createGlassTheme';
 import { presets, type PresetId } from '../presets';
+import type { Oklch } from '../color';
 
 const PRESET_IDS = Object.keys(presets) as PresetId[];
 const MODES: NonNullable<CreateGlassThemeOptions['mode']>[] = ['light', 'dark', 'system', 'high-contrast'];
 const DENSITIES: NonNullable<CreateGlassThemeOptions['density']>[] = ['compact', 'comfortable', 'spacious'];
 const CONTRASTS: NonNullable<CreateGlassThemeOptions['contrast']>[] = ['standard', 'more'];
 const RADIUS_SCALES = [0.75, 1, 1.25];
-// a failing on-accent brand (#ffff00) exercises the adjusted path too
-const BRANDS: Array<string | undefined> = [undefined, '#ffff00', 'rgb(59 130 246)', 'hsl(340 80% 45%)', 'oklch(0.6 0.15 250)'];
+// a light yellow brand fails on-accent and exercises the contrast.adjusted path too
+const BRANDS: Array<Oklch | undefined> = [
+  undefined,
+  { l: 0.97, c: 0.21, h: 110 },
+  { l: 0.62, c: 0.19, h: 255 },
+  { l: 0.5, c: 0.2, h: 0 },
+  { l: 0.6, c: 0.15, h: 250 },
+];
 
 const combos: CreateGlassThemeOptions[] = [];
 for (const preset of PRESET_IDS)
@@ -26,6 +33,7 @@ describe('createGlassTheme guard (REQ-MAT-02)', () => {
   it('covers all four presets', () => {
     expect(PRESET_IDS.sort()).toEqual(['aura', 'daylight', 'graphite', 'midnight']);
     expect(combos.length).toBe(4 * 4 * 3 * 2 * 3 * 5);
+    expect(createGlassTheme({ brandColor: BRANDS[1] }).contrast.adjusted.length).toBeGreaterThan(0);
   });
 
   it('vars keys and cssText contain no material and no --_ag- for every option combination', () => {
