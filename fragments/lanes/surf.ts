@@ -139,6 +139,25 @@ const w5 = [
     remote: false,
     failClosed: true,
   },
+  // REQ-SURF-06: dist side-effect trap over the SURF entries (PLAT's trap,
+  // SURF verdict: 0 undeclared SURF calls, surf fragment []). Needs dist/, so
+  // main + release scopes only — never pr.
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-side-effects.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-side-effects.mjs',
+    scope: 'release',
+    remote: false,
+    failClosed: true,
+  },
 ] as const;
 // --- lane W5 end ---
 
