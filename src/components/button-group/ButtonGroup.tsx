@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { SurfaceGroup } from '../../material';
 import { cn } from '../../internal';
 
-/** @tier Certified. Server-safe: no hooks, no 'use client'. */
+/** @tier Certified. Server-safe: no hooks, no 'use client'.
+   REQ-CMP-39: flat — no SurfaceGroup wrapper; data-orientation (Base-UI
+   convention, matches radio-group/slider/separator); joined styling via the
+   ag-button-group--attached class instead of data-ag-attached. */
 type Labeled =
   | { 'aria-label': string; 'aria-labelledby'?: never }
   | { 'aria-label'?: never; 'aria-labelledby': string };
@@ -25,20 +27,17 @@ export function ButtonGroup({
   ...rest
 }: ButtonGroupProps) {
   return (
-    <SurfaceGroup className={cn('ag-button-group-surface')}>
-      <div
-        {...rest}
-        role="group"
-        data-ag-part="root"
-        data-ag-orientation={orientation}
-        data-ag-attached={attached ? '' : undefined}
-        className={cn('ag-button-group', className)}
-        ref={ref}
-      >
-        {React.Children.map(children, (child, i) => (
-          <span data-ag-part="item">{child}</span>
-        ))}
-      </div>
-    </SurfaceGroup>
+    <div
+      {...rest}
+      role="group"
+      data-ag-part="root"
+      data-orientation={orientation}
+      className={cn('ag-button-group', attached && 'ag-button-group--attached', className)}
+      ref={ref}
+    >
+      {React.Children.map(children, (child) => (
+        <span data-ag-part="item">{child}</span>
+      ))}
+    </div>
   );
 }

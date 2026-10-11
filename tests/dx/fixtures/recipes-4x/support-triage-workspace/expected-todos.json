@@ -1,0 +1,9 @@
+[
+  "icon category subpath 'aura-glass/icons/data' is gone in 5.0; import the glyph by name from 'aura-glass/icons'",
+  "icon category subpath 'aura-glass/icons/status' is gone in 5.0; import the glyph by name from 'aura-glass/icons'",
+  "Chip label: children carry the label",
+  "unmapped token --glass-text-primary",
+  "unmapped token --glass-text-secondary",
+  "unmapped token --glass-theme-text",
+  "unmapped token --glass-theme-text-secondary"
+]
