@@ -1,2 +1,2 @@
 export { ModelPicker } from './ModelPicker';
-export type { ModelOption, ModelPickerProps } from './ModelPicker';
+export type { ModelCapability, ModelOption, ModelPickerProps } from './ModelPicker';
