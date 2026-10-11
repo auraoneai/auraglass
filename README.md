@@ -5,6 +5,7 @@
 > `next` under the `next` dist-tag; `latest` stays on 4.x until GA. Migrating
 > from 4.x: `npx @auraglass/cli migrate 4to5`. 4.x remains in LTS (fixes +
 > security only) for 12 months after GA — see `docs/release/lts-policy.md`.
+<!-- dist-tags: latest=4.1.0 next=5.0.0-alpha.0 v4-lts=none -->
 <!-- /AG-RELEASE-BANNER -->
 
 Build Liquid Glass React and Next.js interfaces without rebuilding glass surfaces, tokens, motion, accessibility guardrails, and SSR-safe package wiring from scratch.
