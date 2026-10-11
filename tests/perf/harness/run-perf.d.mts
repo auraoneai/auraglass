@@ -51,3 +51,7 @@ export function measurePage(page: Page, opts: { profileId: ProfileId; engine: 'c
 export function evaluateFailures(result: object, profileId: ProfileId): Failure[];
 export function validateResults(doc: unknown): { ok: boolean; errors: string[] };
 export function runCli(argv?: string[]): Promise<number>;
+/* consumed by the G-21 specs (surface-budget, regression-4x) */
+export function loadQaPerf(): Promise<typeof import('../../../packages/qa/src/perf/bci.ts')>;
+export function readDrive(page: Page): Promise<DriveStep[]>;
+export function openStory(page: Page, base: string, storyId: string, env: { scene?: string; tier?: string }): Promise<{ failedRequests: string[]; brokenImages: string[] }>;

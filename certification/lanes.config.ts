@@ -24,6 +24,12 @@ export const BUILTINS: BuiltinRegistration[] = [
     { lane: 'L6', kind: 'playwright', path: 'certification/lanes/preference-modes.spec.ts', scope, remote: true, failClosed: true },
     { lane: 'L6', kind: 'playwright', path: 'certification/lanes/console.spec.ts', scope, remote: true, failClosed: true },
   ]),
+  // REQ-QUAL-38 (G-21): perf-budget-looser — fragment rows may only tighten thresholds.json#perf defaults (node only, no browser).
+  ...(['pr', 'main', 'release'] as const).map((scope): BuiltinRegistration =>
+    ({ lane: 'L1', kind: 'node-script', path: `scripts/qual/perf/resolve-budgets.mjs --scope ${scope}`, scope, remote: false, failClosed: true })),
+  // REQ-QUAL-39 (G-21): budgets frozen at the calibration sha (pending while certification/calibration.json sha is null).
+  ...(['pr', 'main', 'release'] as const).map((scope): BuiltinRegistration =>
+    ({ lane: 'L12', kind: 'jest', path: 'tests/perf/qual/budgets-frozen.test.ts', scope, remote: false, failClosed: true })),
 ];
 
 /** Built-in L1 gates whose producer has not merged yet: reported `pending` with the producing work item. */

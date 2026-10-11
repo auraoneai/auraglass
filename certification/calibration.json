@@ -1,0 +1,4 @@
+{
+  "$comment": "REQ-QUAL-39 (QUAL, D-26). Written ONLY by scripts/qual/perf/record-calibration.mjs, at the first 5.0 pre-release where Button and Dialog carry no seed marker, with the qual:certify:l10 and qual:certify:l2 artifact URLs that drove the one Perf-Budget-Raise window. sha null = not calibrated: tests/perf/qual/budgets-frozen.test.ts reports pending and stream PRs may raise their own rows once, with the `Perf-Budget-Raise:` trailer, to min(provisional, ceil(measured x 1.10)) (bytes rounded up to 256). From the recorded sha on, raising a max, deleting a row or leaving provisional:true fails.",
+  "sha": null
+}

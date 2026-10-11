@@ -38,15 +38,38 @@ qual:certify:l10:
     - |
       rc=0
       node node_modules/jest/bin/jest.js --ci --testPathIgnorePatterns /node_modules/ \
-        --testMatch '**/packages/qa/test/bci.test.ts' '**/tests/perf/qual/run-perf.test.mjs' '**/tests/storybook/perf-fixtures-index.test.mjs' || rc=1
+        --testMatch '**/packages/qa/test/bci.test.ts' '**/tests/perf/qual/run-perf.test.mjs' '**/tests/storybook/perf-fixtures-index.test.mjs' \
+        '**/packages/qa/test/grade.test.ts' '**/packages/qa/test/perf-budgets.test.ts' '**/packages/qa/test/perf-ratchet.test.ts' \
+        '**/packages/qa/test/perf-surface-4x.test.ts' '**/tests/perf/qual/budgets-frozen.test.ts' || rc=1
       npx playwright test -c tests/perf/qual/playwright.config.ts --project qual:l10-selftest || rc=1
       node tests/perf/harness/run-perf.mjs --profile b,c,d --scope "$AG_SCOPE" || rc=1
       AG_L10_STREAMS=1 npx playwright test -c tests/perf/qual/playwright.config.ts --project qual:l10-streams || rc=1
+      # REQ-QUAL-38/-41 (G-21): resolved budgets, surface budgets in 3 engines, 4.1-regression on profile (c).
+      # pw-verdict applies the lane runner's rule: only an all-`pending:` report below release scope is not a failure.
+      node scripts/qual/perf/resolve-budgets.mjs --scope "$AG_SCOPE" || rc=1
+      AG_L10_SERVE=1 AG_L10_REPORT=surface-budget AG_STORYBOOK_URL=http://127.0.0.1:6006 npx playwright test -c tests/perf/qual/playwright.config.ts \
+        --project qual:l10-surface-budget-chromium --project qual:l10-surface-budget-webkit --project qual:l10-surface-budget-firefox || pw=$?
+      node scripts/qual/perf/pw-verdict.mjs ".artifacts/qual/$CI_JOB_NAME_SLUG/playwright-surface-budget.json" --scope "$AG_SCOPE" --exit "${pw:-0}" || rc=1
+      pw=0
+      AG_L10_SERVE=1 AG_L10_REPORT=regression-4x AG_STORYBOOK_URL=http://127.0.0.1:6006 npx playwright test -c tests/perf/qual/playwright.config.ts \
+        --project qual:l10-regression-4x || pw=$?
+      node scripts/qual/perf/pw-verdict.mjs ".artifacts/qual/$CI_JOB_NAME_SLUG/playwright-regression-4x.json" --scope "$AG_SCOPE" --exit "${pw:-0}" || rc=1
       exit $rc
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+# REQ-QUAL-40 (G-21): sharded over `parallel:` = ceil(flagships × perSubjectSeconds ÷ 600) (thresholds.json#perf.ratchet;
+# perf-ratchet.test.ts keeps this value ≥ that pool). PR scope: this shard's affected flagships (import graph + sentinel)
+# are measured on profile (a) and ratcheted against the merge base's main-scope perf-report.json; main scope: every
+# flagship, sharded, graded by qual:certify:perf-grade.
 qual:certify:l10-gpu:
   extends: [.qual-lane, .ag-gpu]
+  parallel: 6
   variables:
     LANE: L10
+    GIT_DEPTH: "0"
     # Ask the NVIDIA container runtime for the graphics/display userspace. With the stock Playwright image no NVIDIA
     # userspace is present (nvidia-smi missing; Chromium lands on llvmpipe/SwiftShader), and run-perf.mjs fails profile
     # (a) with software-compositing/software-raster until the runner image carries the drivers (infra item, G-20 PR).
@@ -60,7 +83,45 @@ qual:certify:l10-gpu:
       changes: [src/**/*, tests/perf/harness/**/*, stories/qual/perf/**/*, packages/qa/src/perf/**/*, ci/qual.gitlab-ci.yml]
   script:
     - if command -v nvidia-smi >/dev/null; then nvidia-smi -L; else echo "nvidia-smi not present in $AG_PLAYWRIGHT_IMAGE"; fi
-    - xvfb-run -a -s "-screen 0 2880x1800x24" node tests/perf/harness/run-perf.mjs --profile a --scope "$AG_SCOPE"
+    - git fetch --no-tags origin "+refs/heads/next:refs/remotes/origin/next"
+    - |
+      rc=0
+      out=".artifacts/qual/$CI_JOB_NAME_SLUG"
+      if [ "$AG_SCOPE" = "pr" ]; then sel="--base origin/next"; else sel="--all"; fi
+      SUBJECTS=$(node scripts/qual/perf/affected.mjs $sel --shard "$CI_NODE_INDEX/$CI_NODE_TOTAL" --out "$out/affected.json") || exit 1
+      if [ -z "$SUBJECTS" ]; then echo "shard $CI_NODE_INDEX/$CI_NODE_TOTAL: no affected flagship in this shard (see $out/affected.json)"; exit 0; fi
+      xvfb-run -a -s "-screen 0 2880x1800x24" node tests/perf/harness/run-perf.mjs --profile a --scope "$AG_SCOPE" --subjects "$SUBJECTS" --out "$out/perf-results.json" || rc=1
+      if [ "$AG_SCOPE" = "pr" ]; then
+        node scripts/qual/perf/resolve-budgets.mjs --scope "$AG_SCOPE" || rc=1
+        AG_PERF_HEAD_RESULTS="$out/perf-results.json" AG_L10_REPORT=pr-ratchet npx playwright test -c tests/perf/qual/playwright.config.ts --project qual:l10-ratchet || pw=$?
+        node scripts/qual/perf/pw-verdict.mjs "$out/playwright-pr-ratchet.json" --scope "$AG_SCOPE" --exit "${pw:-0}" || rc=1
+      fi
+      exit $rc
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+# REQ-QUAL-37 (G-21): grades profile (a)@120 Hz + (b) into .artifacts/qual/perf-report.json (PerfReport, S-55; PLAT docs-claims)
+# and perf-grades.json on every main, nightly and release run; the release gate (T1 < C, T2 < D, ≥1-letter drop vs the previous
+# release on the same runner tag) fails the job at release scope.
+qual:certify:perf-grade:
+  extends: .qual-lane
+  variables: { GIT_DEPTH: "0" }
+  needs:
+    - { job: "qual:certify:l10", artifacts: true, optional: true }
+    - { job: "qual:certify:l10-gpu", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "main" || $AG_SCOPE == "nightly" || $AG_SCOPE == "release")
+  script:
+    - git fetch --no-tags --tags origin
+    - node scripts/qual/perf/resolve-budgets.mjs --scope "$AG_SCOPE"
+    - node scripts/qual/perf/grade.mjs --scope "$AG_SCOPE" --results ".artifacts/qual/qual-certify-l10/perf-results.json,.artifacts/qual/qual-certify-l10-gpu-*/perf-results.json"
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/qual/perf-report.json, .artifacts/qual/$CI_JOB_NAME_SLUG/]
 qual:certify:nightly:
   extends: .qual-lane
   rules: [{ if: $AG_SCOPE == "nightly" }]
