@@ -7,15 +7,44 @@
       "line": "release/4.1.x",
       "kind": "patch",
       "targetDate": "2026-10-12",
-      "gates": ["patch-scope only (C-I/C-I-VF)", "verify-release-ledger --cut 4.1.1", "npm trusted publishing repointed (G-15/OD-10)"],
-      "evidence": "npm view ledger + tag pipeline"
+      "gates": [
+        "patch-scope only (C-I/C-I-VF)",
+        "verify-release-ledger --cut 4.1.1",
+        "npm trusted publishing repointed (G-15/OD-10)"
+      ],
+      "evidence": "npm view ledger + tag pipeline",
+      "recordInputs": [
+        {
+          "gate": "patch-scope only (C-I/C-I-VF)",
+          "job": "plat:gate:change-class",
+          "artifact": ".artifacts/plat/change-class/change-class.json",
+          "changeClassTarget": "4x-patch"
+        },
+        {
+          "gate": "verify-release-ledger --cut 4.1.1",
+          "job": "plat:tag:release-ledger",
+          "artifact": ".artifacts/plat/plat-tag-release-ledger/release-ledger.log",
+          "mustContain": "verify-release-ledger: all >= 4.1.1 versions agree"
+        },
+        {
+          "gate": "npm trusted publishing repointed (G-15/OD-10)",
+          "decision": "docs/release/decisions/npm-trusted-publishing.md",
+          "row": "npmjs.com trusted-publisher entries",
+          "passWhen": "^configured\\b"
+        }
+      ],
+      "record": null
     },
     {
       "id": "4.2.0",
       "line": "release/4.x",
       "kind": "minor",
       "targetDate": "2026-11-16",
-      "gates": ["every 5.0-slated deprecation ships here or earlier (G-07 feed)", "downstream-grep record at cut committed", "CHANGELOG/tag/GitLab/npm ledger green"],
+      "gates": [
+        "every 5.0-slated deprecation ships here or earlier (G-07 feed)",
+        "downstream-grep record at cut committed",
+        "CHANGELOG/tag/GitLab/npm ledger green"
+      ],
       "evidence": "docs/release/decisions/downstream-4.2.0.json"
     },
     {
@@ -23,7 +52,10 @@
       "line": "release/4.x",
       "kind": "minor",
       "targetDate": "2027-01-18",
-      "gates": ["remaining G-07 deprecations published", "late C-D list frozen for 4.4.0"],
+      "gates": [
+        "remaining G-07 deprecations published",
+        "late C-D list frozen for 4.4.0"
+      ],
       "evidence": "fragments/deprecations/* status"
     },
     {
@@ -31,7 +63,10 @@
       "line": "release/4.x",
       "kind": "minor-late-cd-only",
       "targetDate": "after 4.3.0",
-      "gates": ["late C-D only — deprecations discovered after 4.3.0, nothing else", "last 4.x minor"],
+      "gates": [
+        "late C-D only — deprecations discovered after 4.3.0, nothing else",
+        "last 4.x minor"
+      ],
       "evidence": "fragments/deprecations/* since: '4.4.0'"
     },
     {
@@ -39,7 +74,11 @@
       "line": "next",
       "kind": "prerelease",
       "targetDate": "rolling",
-      "gates": ["fixed train cadence from next", "change-class check green", "api:update regenerated"],
+      "gates": [
+        "fixed train cadence from next",
+        "change-class check green",
+        "api:update regenerated"
+      ],
       "evidence": "publish tag pipeline"
     },
     {
@@ -47,7 +86,11 @@
       "line": "next",
       "kind": "prerelease",
       "targetDate": "after alpha",
-      "gates": ["deprecation-coverage report attached", "canaries green incl. frozen 4.x fixture after migrate 4to5 (G-08)", "lint baseline 0 (G-05)"],
+      "gates": [
+        "deprecation-coverage report attached",
+        "canaries green incl. frozen 4.x fixture after migrate 4to5 (G-08)",
+        "lint baseline 0 (G-05)"
+      ],
       "evidence": ".artifacts/plat/deprecation-coverage.json"
     },
     {
@@ -55,7 +98,12 @@
       "line": "next",
       "kind": "prerelease",
       "targetDate": "after beta",
-      "gates": ["flagship API frozen (api-report --check clean)", "zero open P0 (G-11 start)", "codemods clean on all registry blocks (G-08)", "downstream-grep record at rc.1 committed"],
+      "gates": [
+        "flagship API frozen (api-report --check clean)",
+        "zero open P0 (G-11 start)",
+        "codemods clean on all registry blocks (G-08)",
+        "downstream-grep record at rc.1 committed"
+      ],
       "evidence": "docs/release/decisions/downstream-5.0.0-rc.1.json"
     },
     {
@@ -63,8 +111,14 @@
       "line": "next -> main",
       "kind": "ga",
       "targetDate": ">= 4 weeks after first P0-free RC",
-      "gates": ["ReleaseVerdict.ga === true — every G-01..G-16 pass", "next merged into main", "5.0.0 published new version, never retagged", "v4-lts dist-tag set; LTS clock starts"],
+      "gates": [
+        "ReleaseVerdict.ga === true — every G-01..G-16 pass",
+        "next merged into main",
+        "5.0.0 published new version, never retagged",
+        "v4-lts dist-tag set; LTS clock starts"
+      ],
       "evidence": "release-verdict.json + verify-release-verdict.mjs"
     }
-  ]
+  ],
+  "recordJob": "plat:release:train-record (scripts/release/train-record.mjs); a stop record is committed only from that job artifact"
 }
