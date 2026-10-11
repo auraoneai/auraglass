@@ -7,10 +7,13 @@
 import * as React from 'react';
 import { Dialog } from '../dialog';
 import { Command } from './Command';
+import type { toChangeDetails } from '../../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 const DialogRoot = Dialog.Root as React.FC<{
   open?: boolean;
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange?: (open: boolean, details?: ChangeDetails) => void;
   children?: React.ReactNode;
 }>;
 const DialogContent = Dialog.Content as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
@@ -18,7 +21,7 @@ const DialogContent = Dialog.Content as React.FC<Record<string, unknown> & { chi
 export type CommandPaletteProps = {
   open?: boolean | undefined;
   defaultOpen?: boolean | undefined;
-  onOpenChange?: ((open: boolean) => void) | undefined;
+  onOpenChange?: ((open: boolean, details: ChangeDetails) => void) | undefined;
   /** Global hotkey — 'mod+k' by default; pass false to disable. */
   hotkey?: string | false | undefined;
   children?: React.ReactNode;
@@ -40,9 +43,9 @@ export function CommandPalette({
   const [internal, setInternal] = React.useState(defaultOpen ?? false);
   const isOpen = open ?? internal;
   const setOpen = React.useCallback(
-    (next: boolean) => {
+    (next: boolean, details?: ChangeDetails) => {
       if (open === undefined) setInternal(next);
-      onOpenChange?.(next);
+      onOpenChange?.(next, details ?? { event: undefined, reason: 'none' });
     },
     [open, onOpenChange],
   );
@@ -53,7 +56,7 @@ export function CommandPalette({
     const onKey = (e: KeyboardEvent) => {
       if (hotkeyMatches(e, hotkey)) {
         e.preventDefault();
-        setOpen(!isOpenRef.current);
+        setOpen(!isOpenRef.current, { event: e, reason: 'hotkey' });
       }
     };
     document.addEventListener('keydown', onKey);

@@ -17,7 +17,7 @@ describe('Composer', () => {
     expect((screen.getByLabelText('Message') as HTMLTextAreaElement).value).toBe('hi');
     rerender(<Composer value="controlled" onValueChange={onValueChange} />);
     fireEvent.change(screen.getByLabelText('Message'), { target: { value: 'x' } });
-    expect(onValueChange).toHaveBeenCalledWith('x');
+    expect(onValueChange).toHaveBeenCalledWith('x', { event: expect.any(Event), reason: 'input-change' });
   });
 
   it('Enter submits, Shift+Enter does not, IME composition does not submit', async () => {

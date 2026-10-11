@@ -83,7 +83,7 @@ export function ThreadEmpty({ children }: { children?: React.ReactNode }) {
   return <div data-ag-part="empty">{children}</div>;
 }
 
-export function ThreadJumpToLatest(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export function ThreadJumpToLatest(props: Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'>) {
   const { children, ...rest } = props;
   return (
     <button type="button" data-ag-part="jump-to-latest" {...rest}>

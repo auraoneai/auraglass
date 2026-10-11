@@ -6,12 +6,15 @@ import * as React from 'react';
 import { applyModel } from './filter-model-ops';
 import { emptyGroup, makeRule, type FilterField, type FilterGroup, type FilterRule } from './filter-model';
 import { parse, serialize } from './filter-serialize';
+import type { toChangeDetails } from '../../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 export interface FilterBarProps {
   schema: readonly FilterField[];
   value?: FilterGroup | undefined;
   defaultValue?: FilterGroup | undefined;
-  onValueChange?: ((g: FilterGroup) => void) | undefined;
+  onValueChange?: ((g: FilterGroup, details: ChangeDetails) => void) | undefined;
   search?: { value: string; onValueChange: (v: string) => void; placeholder?: string | undefined } | undefined;
   quickFilters?: readonly { id: string; label: string; rule: FilterRule }[] | undefined;
   onClearAll?: (() => void) | undefined;
@@ -35,9 +38,10 @@ export function FilterBar({
   const [inner, setInner] = React.useState<FilterGroup>(defaultValue ?? emptyGroup());
   const group = value ?? inner;
   const setGroup = React.useCallback(
-    (next: FilterGroup) => {
+    (next: FilterGroup, reason: string) => {
       if (value === undefined) setInner(next);
-      onValueChange?.(next);
+      // Model ops are imperative (no DOM event); the op name is the reason (S-30).
+      onValueChange?.(next, { event: undefined, reason });
     },
     [value, onValueChange],
   );
@@ -51,14 +55,14 @@ export function FilterBar({
 
   const model = React.useMemo(
     () => ({
-      addRule: (r: FilterRule, gid?: string) => setGroup(applyModel(group, (m) => m.addRule(r, gid))),
+      addRule: (r: FilterRule, gid?: string) => setGroup(applyModel(group, (m) => m.addRule(r, gid)), 'add-rule'),
       updateRule: (id: string, p: Partial<Omit<FilterRule, 'id' | 'kind'>>) =>
-        setGroup(applyModel(group, (m) => m.updateRule(id, p))),
-      removeRule: (id: string) => setGroup(applyModel(group, (m) => m.removeRule(id))),
-      addGroup: (g?: FilterGroup, pid?: string) => setGroup(applyModel(group, (m) => m.addGroup(g, pid))),
-      removeGroup: (id: string) => setGroup(applyModel(group, (m) => m.removeGroup(id))),
-      setCombinator: (id: string, c: 'and' | 'or') => setGroup(applyModel(group, (m) => m.setCombinator(id, c))),
-      clear: () => setGroup(applyModel(group, (m) => m.clear())),
+        setGroup(applyModel(group, (m) => m.updateRule(id, p)), 'update-rule'),
+      removeRule: (id: string) => setGroup(applyModel(group, (m) => m.removeRule(id)), 'remove-rule'),
+      addGroup: (g?: FilterGroup, pid?: string) => setGroup(applyModel(group, (m) => m.addGroup(g, pid)), 'add-group'),
+      removeGroup: (id: string) => setGroup(applyModel(group, (m) => m.removeGroup(id)), 'remove-group'),
+      setCombinator: (id: string, c: 'and' | 'or') => setGroup(applyModel(group, (m) => m.setCombinator(id, c)), 'set-combinator'),
+      clear: () => setGroup(applyModel(group, (m) => m.clear()), 'clear'),
     }),
     [group, setGroup],
   );
@@ -208,14 +212,14 @@ export function FilterBar({
 
 FilterBar.useModel = function useModel(
   schema: readonly FilterField[],
-  opts: { value?: FilterGroup | undefined; defaultValue?: FilterGroup | undefined; onValueChange?: ((g: FilterGroup) => void) | undefined } = {},
+  opts: { value?: FilterGroup | undefined; defaultValue?: FilterGroup | undefined; onValueChange?: ((g: FilterGroup, details: ChangeDetails) => void) | undefined } = {},
 ) {
   const [inner, setInner] = React.useState<FilterGroup>(opts.defaultValue ?? emptyGroup());
   const group = opts.value ?? inner;
   const setGroup = React.useCallback(
-    (next: FilterGroup) => {
+    (next: FilterGroup, reason: string) => {
       if (opts.value === undefined) setInner(next);
-      opts.onValueChange?.(next);
+      opts.onValueChange?.(next, { event: undefined, reason });
     },
     [opts],
   );
@@ -223,13 +227,13 @@ FilterBar.useModel = function useModel(
   return React.useMemo(
     () => ({
       value: group,
-      addRule: (r: FilterRule, gid?: string) => setGroup(applyModel(group, (m) => m.addRule(r, gid))),
-      updateRule: (id: string, p: Partial<Omit<FilterRule, 'id' | 'kind'>>) => setGroup(applyModel(group, (m) => m.updateRule(id, p))),
-      removeRule: (id: string) => setGroup(applyModel(group, (m) => m.removeRule(id))),
-      addGroup: (g?: FilterGroup, pid?: string) => setGroup(applyModel(group, (m) => m.addGroup(g, pid))),
-      removeGroup: (id: string) => setGroup(applyModel(group, (m) => m.removeGroup(id))),
-      setCombinator: (id: string, c: 'and' | 'or') => setGroup(applyModel(group, (m) => m.setCombinator(id, c))),
-      clear: () => setGroup(applyModel(group, (m) => m.clear())),
+      addRule: (r: FilterRule, gid?: string) => setGroup(applyModel(group, (m) => m.addRule(r, gid)), 'add-rule'),
+      updateRule: (id: string, p: Partial<Omit<FilterRule, 'id' | 'kind'>>) => setGroup(applyModel(group, (m) => m.updateRule(id, p)), 'update-rule'),
+      removeRule: (id: string) => setGroup(applyModel(group, (m) => m.removeRule(id)), 'remove-rule'),
+      addGroup: (g?: FilterGroup, pid?: string) => setGroup(applyModel(group, (m) => m.addGroup(g, pid)), 'add-group'),
+      removeGroup: (id: string) => setGroup(applyModel(group, (m) => m.removeGroup(id)), 'remove-group'),
+      setCombinator: (id: string, c: 'and' | 'or') => setGroup(applyModel(group, (m) => m.setCombinator(id, c)), 'set-combinator'),
+      clear: () => setGroup(applyModel(group, (m) => m.clear()), 'clear'),
     }),
     [group, setGroup],
   );

@@ -3,6 +3,9 @@ import { describe, expect, it } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { Command } from './Command';
+import type { toChangeDetails } from '../../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 const Items = ({ count = 5 }: { count?: number }) =>
   Array.from({ length: count }, (_, i) => (
@@ -56,6 +59,26 @@ describe('Command (SURF-086)', () => {
     fireEvent.keyDown(input, { key: 'ArrowDown' });
     fireEvent.keyDown(input, { key: 'Enter' });
     expect(picked).toEqual(['open']);
+  });
+
+  it('Enter reports onValueChange(value, ChangeDetails) (S-30)', () => {
+    const calls: Array<[string, ChangeDetails]> = [];
+    render(
+      <Command.Root onValueChange={(v, d) => calls.push([v, d])}>
+        <Command.Input />
+        <Command.List>
+          <Command.Item value="open">Open</Command.Item>
+          <Command.Item value="save">Save</Command.Item>
+        </Command.List>
+      </Command.Root>,
+    );
+    const input = screen.getByRole('combobox');
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(calls).toHaveLength(1);
+    expect(calls[0]![0]).toBe('open');
+    expect(calls[0]![1].reason).toBe('item-press');
+    expect(calls[0]![1].event).toBeInstanceOf(KeyboardEvent);
   });
 
   it('Escape clears the query, then propagates', () => {

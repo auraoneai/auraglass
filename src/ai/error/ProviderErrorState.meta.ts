@@ -9,7 +9,7 @@ export default defineMeta({
   parts: ['error-detail', 'error-title', 'icon', 'provider-error', 'retry'],
   states: ['rate-limit', 'auth', 'network', 'content-filter', 'context-length', 'aborted', 'unknown'],
   apg: 'alert',
-  variants: {},
+  variants: { appearance: ['compact', 'panel'] },
   budgetKb: 5,
   migration: [],
 });

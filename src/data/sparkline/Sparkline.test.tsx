@@ -40,10 +40,20 @@ describe('Sparkline (SURF-173, REQ-SURF-91)', () => {
     process.env['NODE_ENV'] = prev;
   });
 
-  it('bar and area variants render', () => {
-    const { container: bar } = render(<Sparkline data={[1, 2, 3]} label="T" variant="bar" />);
+  it('bar and area appearances render', () => {
+    const { container: bar } = render(<Sparkline data={[1, 2, 3]} label="T" appearance="bar" />);
     expect(bar.querySelectorAll('rect').length).toBe(3);
-    const { container: area } = render(<Sparkline data={[1, 2, 3]} label="T" variant="area" />);
+    expect(bar.querySelector('svg')!.getAttribute('data-ag-appearance')).toBe('bar');
+    const { container: area } = render(<Sparkline data={[1, 2, 3]} label="T" appearance="area" />);
     expect(area.querySelectorAll('.ag-sparkline__area').length).toBe(1);
+    expect(area.querySelector('svg')!.getAttribute('data-ag-appearance')).toBe('area');
+  });
+
+  it('appearance defaults to line and never emits data-ag-variant (S-30)', () => {
+    const { container } = render(<Sparkline data={[1, 2, 3]} label="T" />);
+    const svg = container.querySelector('svg')!;
+    expect(svg.getAttribute('data-ag-appearance')).toBe('line');
+    expect(svg.hasAttribute('data-ag-variant')).toBe(false);
+    expect(svg.hasAttribute('data-variant')).toBe(false);
   });
 });

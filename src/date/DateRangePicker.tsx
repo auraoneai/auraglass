@@ -18,7 +18,11 @@ import {
 } from 'react-aria-components';
 import { DateProvider } from './DateProvider';
 import { RangeCalendar } from './Calendar';
+import { raChangeDetails } from './shared';
 import type { DateFieldLikeProps, DateValue } from './shared';
+import type { toChangeDetails } from '../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 export interface DateRangeValue {
   start: DateValue;
@@ -33,7 +37,7 @@ export interface DateRangePreset {
 export interface DateRangePickerProps extends Omit<DateFieldLikeProps<DateValue>, 'value' | 'defaultValue' | 'onValueChange'> {
   value?: DateRangeValue | null | undefined;
   defaultValue?: DateRangeValue | undefined;
-  onValueChange?: ((v: DateRangeValue | null) => void) | undefined;
+  onValueChange?: ((v: DateRangeValue | null, details: ChangeDetails) => void) | undefined;
   presets?: readonly DateRangePreset[] | undefined;
   visibleMonths?: 1 | 2 | undefined;
   className?: string | undefined;
@@ -72,7 +76,7 @@ function Inner({
       className={`ag-date-range-picker${className ? ` ${className}` : ''}`}
       {...(value !== undefined ? { value: value as never } : {})}
       {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
-      {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v ?? null) } : {})}
+      {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v ?? null, raChangeDetails()) } : {})}
       {...(minValue !== undefined ? { minValue: minValue as never } : {})}
       {...(maxValue !== undefined ? { maxValue: maxValue as never } : {})}
       {...(isDateUnavailable !== undefined ? { isDateUnavailable } : {})}
@@ -109,7 +113,7 @@ function Inner({
               selectionMode="single"
               onAction={(i) => {
                 const p = presets[Number(i)];
-                if (p !== undefined) onValueChange?.(p.value);
+                if (p !== undefined) onValueChange?.(p.value, { event: undefined, reason: 'preset' });
               }}
               items={presets.map((p, i) => ({ id: i, label: p.label }))}
             >
@@ -123,7 +127,7 @@ function Inner({
           <RangeCalendar
             {...(value !== undefined && value !== null ? { value: value as never } : {})}
             {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
-            {...(onValueChange !== undefined ? { onValueChange: (v) => onValueChange(v) } : {})}
+            {...(onValueChange !== undefined ? { onValueChange: (v, d) => onValueChange(v, d) } : {})}
             {...(minValue !== undefined ? { minValue: minValue as never } : {})}
             {...(maxValue !== undefined ? { maxValue: maxValue as never } : {})}
             {...(isDateUnavailable !== undefined ? { isDateUnavailable } : {})}
