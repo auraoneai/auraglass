@@ -140,6 +140,24 @@ mat:test:material-browsers:
     paths: [.artifacts/mat/]
     when: always
 
+# REQ-MAT-23 / AC-FIN-55 (D.3-15): material API unit specs (materialProps, resolveRole,
+# componentMaterialProps size-class channel, server-safety, Surface/hydration emission)
+# and the MAT type tests (tests/types/mat: size class absent from SurfaceProps and
+# MaterialRole). properties/css-contract specs join this job with D.3-19 (REQ-MAT-28).
+mat:test:material-api:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    - npx tsc -p tests/types/mat/tsconfig.json --noEmit
+    - >-
+      NODE_OPTIONS=--experimental-vm-modules npx jest --ci
+      src/material/__tests__/materialProps.test.ts src/material/__tests__/server-safe.test.tsx
+      src/material/__tests__/Surface.test.tsx src/material/__tests__/hydration.test.tsx
+      src/material/__tests__/components.test.tsx
+
 # MAT-362 (next half): codemod-fixture integrity + the vendored frozen 4.x
 # consumer cases + material unit specs on 5x PR scope. The release/4.x face of
 # this check (4.x-era suites on the 4.x line) lives in the 4.x copy of this file.
