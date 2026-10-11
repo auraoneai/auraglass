@@ -86,3 +86,22 @@ test.describe('overlay stack (CMP-394/399/404/409)', () => {
     // viewport is mounted by the --default scene (Toast.Provider + Viewport)
   });
 });
+
+test('T-OVL-STACK-05: mixed DismissableLayer+Dialog — one Escape per layer, stack-ordered (REQ-CMP-12)', async ({ page }) => {
+  await gotoStory(page, 'foundation-dismissable-layer--mixed-dialog');
+  await page.getByRole('button', { name: 'Open dialog' }).click();
+  const dialogPopup = page.locator('[data-ag-part="popup"][aria-label="mixed dialog"]');
+  await expect(dialogPopup).toBeVisible();
+  await page.getByRole('button', { name: 'Open layer' }).click();
+  const layer = page.locator('[data-ag-part="layer"][aria-label="mixed layer"]');
+  await expect(layer).toBeVisible();
+
+  // first Escape: stack top (primitive layer) closes; the BU dialog stays
+  await page.keyboard.press('Escape');
+  await expect(layer).toHaveCount(0);
+  await expect(dialogPopup).toBeVisible();
+
+  // second Escape: the dialog is now stack top and closes
+  await page.keyboard.press('Escape');
+  await expect(dialogPopup).toHaveCount(0);
+});

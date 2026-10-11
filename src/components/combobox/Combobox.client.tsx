@@ -2,8 +2,11 @@
 
 import * as React from 'react';
 import { Combobox as Base } from '@base-ui/react/combobox';
+import { defaultPositionerProps } from '../overlays/_shared/positioning';
+import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { materialProps } from '../../material';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
+import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useAnnouncer } from '../../theme';
 import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
@@ -21,6 +24,7 @@ import type {
   ComboboxGroupLabelProps,
   ComboboxChipsProps,
   ComboboxChipProps,
+  ComboboxChipRemoveProps,
   ComboboxLoadingProps,
   ComboboxMode,
   ComboboxCreatable,
@@ -49,6 +53,9 @@ interface ComboboxInternal {
 }
 
 const InternalCtx = React.createContext<ComboboxInternal | null>(null);
+/* REQ-CMP-12: the popup registers with the LayerStack through
+   useOverlayLayer — the positioner element is published here for the entry. */
+const ComboboxLayerContext = React.createContext<{ setPopupElement: (el: HTMLElement | null) => void }>({ setPopupElement: () => {} });
 const useInternal = () => {
   const c = React.useContext(InternalCtx);
   if (!c) throw new Error('aura-glass Combobox.* must be used inside <Combobox.Root>');
@@ -128,6 +135,19 @@ function ComboboxRoot<Value = string>({
 
   const loading = loadingProp === true || asyncLoading;
   const effectiveItems = (asyncItems ?? items) as Value[] | undefined;
+
+  const restRec = rest as Record<string, unknown>;
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const effectiveOpen = restRec.open !== undefined ? restRec.open === true : internalOpen;
+  const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
+  const { emit } = useOverlayLayer({
+    kind: 'combobox',
+    modal: false,
+    open: effectiveOpen,
+    onOpenChange,
+    element: popupElement,
+  });
+  const layerCtx = React.useMemo(() => ({ setPopupElement }), []);
 
   /* Announce loading at most once per ANNOUNCE_MIN_MS (polite). */
   React.useEffect(() => {
@@ -248,6 +268,7 @@ function ComboboxRoot<Value = string>({
 
   return (
     <InternalCtx.Provider value={internal}>
+      <ComboboxLayerContext.Provider value={layerCtx}>
       <Base.Root
         {...(rest as Record<string, unknown>)}
         {...(effectiveItems !== undefined ? { items: effectiveItems } : {})}
@@ -255,13 +276,18 @@ function ComboboxRoot<Value = string>({
         {...(itemToString ? { itemToStringLabel: toStringLabel } : {})}
         {...(itemToValue ? { itemToStringValue: itemToValue as (v: unknown) => string } : {})}
         autoHighlight={rest.autoHighlight ?? true}
+        {...(virtual ? { virtualized: true } : {})}
         onValueChange={handleValueChange}
         onInputValueChange={handleInputValueChange}
-        onOpenChange={(o, d) => onOpenChange?.(o, toChangeDetails(d))}
+        onOpenChange={(o, d) => {
+          setInternalOpen(o);
+          emit(o, { event: d?.event, reason: d?.reason });
+        }}
         {...(loadError ? { 'data-load-error': '' } : {})}
       >
         {children}
       </Base.Root>
+      </ComboboxLayerContext.Provider>
     </InternalCtx.Provider>
   );
 }
@@ -271,7 +297,7 @@ function ComboboxRoot<Value = string>({
 /* ------------------------------------------------------------------ */
 
 function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputProps) {
-  const { size, mode, loading } = useInternal();
+  const { size, mode, loading, messages } = useInternal();
   return (
     <Base.InputGroup
       data-ag-part="input-shell"
@@ -286,7 +312,7 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
         ref={ref}
         {...rest}
       />
-      <Base.Clear data-ag-part="clear" aria-label="Clear" keepMounted>
+      <Base.Clear data-ag-part="clear" aria-label={controlMessage('clearSearch', messages)} keepMounted>
         <ClearGlyph />
       </Base.Clear>
       <Base.Trigger data-ag-part="trigger" tabIndex={-1}>
@@ -307,6 +333,7 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
 
 function ComboboxContent({ children, className }: ComboboxContentProps) {
   const container = usePortalContainer('overlay');
+  const { setPopupElement } = React.useContext(ComboboxLayerContext);
   const { size, loading, query, creatable, onCreate, hasExactMatch, messages, items, virtual } = useInternal();
   const trimmed = query.trim();
   const offerCreate =
@@ -319,15 +346,18 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
     <Base.Portal container={container}>
       <Base.Positioner
         data-ag-part="positioner"
+        ref={setPopupElement}
         side="bottom"
         align="start"
-        sideOffset={6}
+        {...defaultPositionerProps}
         {...sizeAttrs(size)}
       >
         <Base.Popup
           data-ag-part="popup"
-          {...materialProps({ layer: 'overlay', thickness: 'regular' })}
+          {...overlayMaterial('combobox')}
           className={cn('ag-combobox-popup', className)}
+          /* CMP-205: popup open state mirrored as data-state like every overlay popup. */
+          render={(props, state) => <div {...props} data-state={state.open ? 'open' : 'closed'} />}
         >
           <Base.List data-ag-part="list" aria-busy={loading || undefined}>
             {virtual ? (
@@ -360,6 +390,12 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
 }
 
 /* ------------------------------------------------------------------ */
+function chipLabel(children: React.ReactNode, label?: string): string {
+  if (label !== undefined && label !== null && label !== '') return label;
+  if (typeof children === 'string') return children;
+  return '';
+}
+
 /* Item / Empty / Group / Chips / Chip / Loading                       */
 /* ------------------------------------------------------------------ */
 
@@ -425,12 +461,12 @@ function ComboboxChips({ children, className }: ComboboxChipsProps) {
   );
 }
 
-function ComboboxChip({ children, className }: ComboboxChipProps) {
+function ComboboxChip({ children, className, label }: ComboboxChipProps) {
   const { messages } = useInternal();
   return (
     <Base.Chip data-ag-part="chip" className={className}>
       {children}
-      <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: '' })}>
+      <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: chipLabel(children, label) })}>
         <XGlyph />
       </Base.ChipRemove>
     </Base.Chip>
@@ -467,10 +503,10 @@ function ComboboxClear({ children, className }: { children?: React.ReactNode; cl
   );
 }
 
-function ComboboxChipRemove({ children, className }: { children?: React.ReactNode; className?: string }) {
+function ComboboxChipRemove({ children, className, label }: ComboboxChipRemoveProps) {
   const { messages } = useInternal();
   return (
-    <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: '' })} className={className}>
+    <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: label ?? '' })} className={className}>
       {children ?? <XGlyph />}
     </Base.ChipRemove>
   );

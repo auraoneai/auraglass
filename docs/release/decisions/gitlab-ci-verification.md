@@ -28,6 +28,58 @@ Operator (OD-11) actions: apply the `.gitlab-ci.yml` config path in project
 settings, protected tags `v*`, nightly schedules on both lines, Pages public,
 keep-latest-artifacts — dates go in `gitlab-project-settings.md`.
 
+## OD-8 owner action
+
+Owner-only (Gurbaksh). The agent prepares these steps and the fallback script;
+it never performs them, never runs `--apply`, never pushes to GitLab and never
+edits `.github/workflows/mirror-to-gitlab.yml`. Unblocks AC-FIN-20, AC-FIN-23,
+AC-FIN-24 and every merge (PROMPT_FINAL_COMPLETION_V2 §3.0).
+
+**Primary path — GitLab pull mirror**
+
+1. Create a fine-grained GitHub PAT for `auraoneai/auraglass` with
+   Contents: read, Metadata: read. Only the owner creates it; it is never
+   copied from this Mac.
+2. GitLab project 87152036 → Settings → Repository → Mirroring repositories →
+   add a **pull** mirror of `https://github.com/auraoneai/auraglass.git` with
+   that PAT: "Mirror only protected branches" **off**, "Trigger pipelines for
+   mirror updates" **on**, "Overwrite diverged branches" **on**.
+3. When the pull mirror has synced `next` and `release/4.x` and pipelines
+   appear, disable the org `mirror-to-gitlab` workflow for this repo only (it
+   force-pushes with `--prune`).
+4. Record the date here under "First green pipelines".
+
+Refs that must reach GitLab: `main`, `next`, `release/4.x`, `release/4.1.x`,
+`next-*/**`, `4x-*/**`, `4x11-*/**`, `contract/**`, `sync/**`, tags `v*`.
+
+**Fallback — no PAT (REQ-FIN-20 fallback, `scripts/release/push-gitlab-refs.mjs`)**
+
+1. Remove the `--prune` step from `mirror-to-gitlab` for this repo (org
+   automation; owner action). The script reads
+   `origin/main:.github/workflows/mirror-to-gitlab.yml` and refuses `--apply`
+   while it still contains `--prune`.
+2. After each merge, from the owner Mac (owner account, not under CI):
+
+   ```sh
+   git fetch origin
+   node scripts/release/push-gitlab-refs.mjs           # dry-run: review every git push line
+   node scripts/release/push-gitlab-refs.mjs --apply   # pushes each matching ref by its GitHub SHA
+   ```
+
+   `--apply` refuses when `CI`/`GITLAB_CI` is set, when `$USER` is not the
+   owner account, while the mirror workflow still prunes, or when
+   `--gitlab-url` embeds credentials. It pushes one ref per `git push` without
+   `--force`/`--prune`; a ref that diverged on GitLab is reported and left
+   alone. Authentication comes only from git's credential helper (the
+   existing Keychain GitLab credential); the script never reads or prints a
+   token.
+
+**Or** the owner records OD-8 Option B (merge on review, CI acceptance later)
+in `docs/release/decisions/od-8.md` (FIN-H file).
+
+Confirm: `node scripts/ci/gitlab-status.mjs --sha $(git rev-parse origin/next)`
+prints a pipeline URL.
+
 ## Contract C-items
 
 - **contract C-item: stages package before certify.** Root `stages` is

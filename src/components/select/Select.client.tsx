@@ -2,8 +2,11 @@
 
 import * as React from 'react';
 import { Select as Base } from '@base-ui/react/select';
+import { defaultPositionerProps } from '../overlays/_shared/positioning';
+import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { materialProps } from '../../material';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
+import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
 import { sizeAttrs, DEFAULT_CONTROL_SIZE } from '../control-shared/size';
@@ -35,6 +38,9 @@ import type {
 } from './Select.types';
 
 const SelectSizeContext = React.createContext<ControlSize>(DEFAULT_CONTROL_SIZE);
+/* REQ-CMP-12: the popup registers with the LayerStack through
+   useOverlayLayer — the positioner element is published here for the entry. */
+const SelectLayerContext = React.createContext<{ setPopupElement: (el: HTMLElement | null) => void }>({ setPopupElement: () => {} });
 
 const finePointer = (): boolean =>
   typeof window !== 'undefined' && typeof window.matchMedia === 'function'
@@ -52,6 +58,18 @@ function SelectRoot<Value = string>({
 }: SelectRootProps<Value>) {
   const scopeRef = React.useRef<HTMLSpanElement | null>(null);
   const [resetNonce, setResetNonce] = React.useState(0);
+  const restRec = rest as Record<string, unknown>;
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const effectiveOpen = restRec.open !== undefined ? restRec.open === true : internalOpen;
+  const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
+  const { emit } = useOverlayLayer({
+    kind: 'select',
+    modal: false,
+    open: effectiveOpen,
+    onOpenChange,
+    element: popupElement,
+  });
+  const layerCtx = React.useMemo(() => ({ setPopupElement }), []);
   /* Form reset: BU keeps selection internally, so restore defaultValue by
    * remounting the root (uncontrolled) or notifying the owner (controlled). */
   React.useEffect(() => {
@@ -68,21 +86,26 @@ function SelectRoot<Value = string>({
   return (
     <SelectSizeContext.Provider value={size}>
       <span ref={scopeRef} hidden />
+      <SelectLayerContext.Provider value={layerCtx}>
       <Base.Root
         key={resetNonce}
         {...(rest as Record<string, unknown>)}
         {...(form ? { form } : {})}
         {...(name ? { name } : {})}
         onValueChange={(v, d) => onValueChange?.(v as Value | Value[] | null, toChangeDetails(d))}
-        onOpenChange={(o, d) => onOpenChange?.(o, toChangeDetails(d))}
+        onOpenChange={(o, d) => {
+          setInternalOpen(o);
+          emit(o, { event: d?.event, reason: d?.reason });
+        }}
       >
         {children}
       </Base.Root>
+      </SelectLayerContext.Provider>
     </SelectSizeContext.Provider>
   );
 }
 
-function SelectTrigger({ placeholder, children, className, ref, ...rest }: SelectTriggerProps) {
+function SelectTrigger({ placeholder, children, className, ref, disabled, focusableWhenDisabled, ...rest }: SelectTriggerProps) {
   const size = React.useContext(SelectSizeContext);
   return (
     <Base.Trigger
@@ -91,7 +114,10 @@ function SelectTrigger({ placeholder, children, className, ref, ...rest }: Selec
       {...materialProps({ layer: 'content', content: 'content-sunken', interactive: true })}
       className={cn('ag-select', className)}
       ref={ref}
+      disabled={disabled}
       {...rest}
+      {...(disabled && focusableWhenDisabled === true ? { tabIndex: 0 } : {})}
+      {...(disabled && focusableWhenDisabled === false ? { tabIndex: -1 } : {})}
     >
       {children ?? (
         <>
@@ -116,21 +142,25 @@ function SelectValue({ children, className }: SelectValueProps) {
 function SelectContent({ children, className }: SelectContentProps) {
   const container = usePortalContainer('overlay');
   const size = React.useContext(SelectSizeContext);
+  const { setPopupElement } = React.useContext(SelectLayerContext);
   const [alignToTrigger] = React.useState<boolean>(finePointer);
   return (
     <Base.Portal container={container}>
       <Base.Positioner
         data-ag-part="positioner"
+        ref={setPopupElement}
         side="bottom"
         align="start"
-        sideOffset={6}
+        {...defaultPositionerProps}
         alignItemWithTrigger={alignToTrigger}
         {...sizeAttrs(size)}
       >
         <Base.Popup
           data-ag-part="popup"
-          {...materialProps({ layer: 'overlay', thickness: 'regular' })}
+          {...overlayMaterial('select')}
           className={cn('ag-select-popup', className)}
+          /* CMP-205: popup open state mirrored as data-state like every overlay popup. */
+          render={(props, state) => <div {...props} data-state={state.open ? 'open' : 'closed'} />}
         >
           <Base.ScrollUpArrow data-ag-part="scroll-up" keepMounted />
           <Base.List data-ag-part="list">{children}</Base.List>

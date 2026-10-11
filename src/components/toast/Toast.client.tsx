@@ -6,7 +6,8 @@
 'use client';
 import * as React from 'react';
 import { Toast as Base } from '@base-ui/react/toast';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
+import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { overlayMaterial } from '../overlays/_shared';
 import { cn } from '../../internal';
 import type {
@@ -82,14 +83,33 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
     const priority = intent === 'error' || intent === 'warning' ? 'alert' : 'status';
     // dom-contract (CMP-202) requires data-state open|closed on the surface
     const state = toast?.transitionStatus === 'ending' ? 'closed' : 'open';
+    /* REQ-CMP-12: register the toast as a stack entry so Escape (topmost
+       toast) routes through the LayerStack's single dispatcher. */
+    const mgr = Base.useToastManager();
+    const toastId = (toast as { id?: string } | undefined)?.id;
+    const [rootEl, setRootEl] = React.useState<HTMLElement | null>(null);
+    const refCb = React.useCallback((node: HTMLDivElement | null) => {
+      setRootEl(node);
+      if (typeof ref === 'function') ref(node);
+      else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    }, [ref]);
+    useOverlayLayer({
+      kind: 'toast',
+      modal: false,
+      open: state === 'open',
+      element: rootEl,
+      onOpenChange: (o) => { if (!o && toastId) mgr.close(toastId); },
+    });
+    const timeout = (toast as { timeout?: number } | undefined)?.timeout;
     return (
       <Base.Root
-        ref={ref}
+        ref={refCb}
         toast={toast}
         role={priority}
         data-ag-part="root"
         data-ag-intent={intent}
         data-state={state}
+        style={timeout !== undefined ? ({ '--_ag-toast-timeout': `${timeout}ms` } as React.CSSProperties) : undefined}
         {...overlayMaterial('toast')}
         className={cn('ag-toast', className)}
         {...rest}
