@@ -1,4 +1,3 @@
-'use client';
 /* REQ-SURF-153 — when to sample a library-owned media element:
  *  - <img>: after decode() (or load where decode() is missing);
  *  - <video> with a poster: the poster wins — it is decoded through a

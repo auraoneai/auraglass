@@ -1,0 +1,9 @@
+{
+  "note": "REQ-SURF-152 tone anchors: the classification each QUAL S-42 scene must get by construction. These are expectations, not measurements; measured stats live only in scene-stats.json, written by scripts/surf/calibrate-media-tone.mjs from the CI artifact. 'busy' means classifyTone returns undefined.",
+  "anchors": {
+    "flat-white": "light",
+    "flat-black": "dark",
+    "dark-media": "dark",
+    "hf-pattern": "busy"
+  }
+}
