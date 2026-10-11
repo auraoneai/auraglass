@@ -6,6 +6,7 @@ import * as React from 'react';
 import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
 import { ScrollEdge, Surface } from '../material';
+import { TopBarEdgeRegistrar } from './TopBar.EdgeRegistrar';
 
 export type TopBarRootProps = PartProps<'header'> & {
   placement?: 'inline' | 'overlay';
@@ -13,8 +14,6 @@ export type TopBarRootProps = PartProps<'header'> & {
   scrollEdge?: 'soft' | 'hard' | 'none';
   labels?: { topBar?: string } | undefined;
 };
-
-const seenScrollEdges = new Set<string>();
 
 function TopBarRoot({
   placement = 'inline',
@@ -24,15 +23,6 @@ function TopBarRoot({
   render,
   ...rest
 }: TopBarRootProps) {
-  if (process.env['NODE_ENV'] === 'development' && scrollEdge !== 'none') {
-    if (seenScrollEdges.has('top')) {
-      console.warn(
-        '[auraglass] TopBar: a second ScrollEdge edge="top" was rendered for the same scroll container.',
-      );
-    } else {
-      seenScrollEdges.add('top');
-    }
-  }
   return (
     <Surface
       layer="chrome"
@@ -47,6 +37,7 @@ function TopBarRoot({
         ...rest,
         children: (
           <>
+            <TopBarEdgeRegistrar />
             {children}
             {scrollEdge === 'none' ? null : <ScrollEdge edge="top" edgeStyle={scrollEdge} />}
           </>
