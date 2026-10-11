@@ -77,7 +77,7 @@ export default [
   { id: 'DismissableLayer', import: "{ DismissableLayer } from 'aura-glass/primitives'", limitBytes: 2000, kind: 'js' },
   { id: 'FocusScope', import: "{ FocusScope } from 'aura-glass/primitives'", limitBytes: 2000, kind: 'js' },
   { id: 'Icon', import: "{ Icon } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
-  { id: 'Label', import: "{ Label } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'Label', import: "{ Label } from 'aura-glass/primitives'", limitBytes: 1500, kind: 'js' },
   { id: 'Portal', import: "{ Portal } from 'aura-glass/primitives'", limitBytes: 1500, kind: 'js' },
   { id: 'Slot', import: "{ Slot } from 'aura-glass/primitives'", limitBytes: 1500, kind: 'js' },
   // CMP-165 — controls CSS (§16 controls ≤7 KB total)
