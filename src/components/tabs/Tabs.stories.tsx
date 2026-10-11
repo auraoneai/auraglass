@@ -18,3 +18,16 @@ export const Default: Story = { args: { children: defaultChildren } };
 export const RTL: Story = { args: { children: defaultChildren }, parameters: { globals: { dir: 'rtl' } } };
 export const ReducedTransparency: Story = { args: { children: defaultChildren }, parameters: { ag: { material: 'regular' } } };
 export const ForcedColors: Story = { args: { children: defaultChildren }, parameters: { globals: { forcedColors: 'active' } } };
+export const WithIndicator: Story = {
+  render: () => (
+    <Tabs.Root defaultValue="a">
+      <Tabs.List>
+        <Tabs.Tab value="a">Alpha</Tabs.Tab>
+        <Tabs.Tab value="b">Beta</Tabs.Tab>
+        <Tabs.Indicator />
+      </Tabs.List>
+      <Tabs.Panel value="a">Alpha content</Tabs.Panel>
+      <Tabs.Panel value="b">Beta content</Tabs.Panel>
+    </Tabs.Root>
+  ),
+};

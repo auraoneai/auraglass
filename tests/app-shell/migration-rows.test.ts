@@ -46,17 +46,24 @@ describe('SURF-125 meta migration rows == codemod fragment rows', () => {
     }
   });
 
-  it('fixtures dir named by the fragment exists', () => {
+  it('fixtures dir named by the fragment exists, cases are <id>/<case>/{input,output}', () => {
     const fixtures = (fragment.default as { fixtures?: string[] }).fixtures ?? [];
+    expect(fixtures.length).toBeGreaterThan(0);
     for (const f of fixtures) {
       if (!existsSync(join(ROOT, f))) throw new Error(`missing fixtures dir ${f}`);
-      expect(existsSync(join(ROOT, f))).toBe(true);
+      let cases = 0;
       for (const kase of readdirSync(join(ROOT, f))) {
         const dir = join(ROOT, f, kase);
         if (!statSync(dir).isDirectory()) continue;
-        expect(existsSync(join(dir, 'input.tsx'))).toBe(true);
-        expect(existsSync(join(dir, 'expected.tsx'))).toBe(true);
+        const files = readdirSync(dir);
+        const input = files.filter((n) => /^input\.(tsx|ts|css|json)$/.test(n));
+        const output = files.filter((n) => /^output\.(tsx|ts|css|json)$/.test(n));
+        if (input.length !== 1 || output.length !== 1) throw new Error(`${f}/${kase}: needs exactly one input.* and one output.* (got ${files.join(', ')})`);
+        expect(input[0]!.split('.')[1]).toBe(output[0]!.split('.')[1]);
+        expect(files.some((n) => n.startsWith('expected.'))).toBe(false);
+        cases += 1;
       }
+      expect(cases).toBeGreaterThan(0);
     }
   });
 });

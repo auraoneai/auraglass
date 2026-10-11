@@ -3,7 +3,7 @@
 | case | exercises | expected |
 | --- | --- | --- |
 | `DataTable.page.tsx` | data/columns(accessorKey, header)/filterable/compact/selectable/selectedRows/onRowClick/getRowId/emptyMessage | props rows in `fragments/codemods/surf.ts` W2; flagship (0 TODOs) |
-| `DataGrid.page.tsx` | ColumnDefinition key/label/sortable/cellRenderer | `fragments/codemods/surf/fixtures/data-grid-columns`; flagship |
+| `DataGrid.page.tsx` | ColumnDefinition key/label/sortable/cellRenderer | `fragments/codemods/surf/fixtures/canonical-names/data-grid-column-definition`; flagship |
 | `VirtualTable.page.tsx` | GlassVirtualTable (4.x fake virtualisation) | compat adapter `GlassVirtualTable`; report-only |
 | `StatCard.page.tsx` | GlassStatCard/GlassKPICard (both absorbed into `StatCard`) | renamed to `aura-glass/data`; flagship |
 | `Sparkline.page.tsx` | GlassSparkline data/stroke | renamed to `aura-glass/data` `Sparkline`; flagship |
