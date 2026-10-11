@@ -12,6 +12,7 @@ export const Volume = function Volume({className, ref}: { className?: string } &
         max={1}
         step={0.05}
         aria-label="Volume"
+        formatValueText={(v) => `${Math.round(v * 100)}%`}
         onValueChange={(v) => { m.setMuted(false); m.setVolume(v); }}
         onValueCommit={(v) => { m.setMuted(false); m.setVolume(v); }}
       />

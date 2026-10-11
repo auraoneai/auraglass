@@ -11,9 +11,10 @@ export const SHOWCASE_EPOCH = Date.UTC(2026, 2, 2, 9, 30, 0);
 export const VIDEO_SRC = '/scenes/video-frame.webm';
 
 export const COPY = {
+  product: 'Coastline dailies',
   skip: 'Skip to the review',
   title: 'Coastline — reel 3, take 12',
-  subtitle: 'Colour review · 00:41:12 runtime · due Friday',
+  subtitle: 'Colour review · reel 3 · 41:12 runtime',
   toolbarLabel: 'Review tools',
   stillsLabel: 'Approved stills',
   carouselLabel: 'Scene selects',

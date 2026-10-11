@@ -7,7 +7,8 @@ const meta = {
   title: 'Showcases/Music Player',
   component: MusicPlayer,
   tags: ['showcase'],
-  globals: { scene: 'photo' },
+  /* Dark appearance: a listening app over album photography. */
+  globals: { scene: 'photo', scheme: 'dark' },
   parameters: { layout: 'fullscreen', ag: { subject: 'music-player', kind: 'showcase' } },
 } satisfies Meta<typeof MusicPlayer>;
 export default meta;

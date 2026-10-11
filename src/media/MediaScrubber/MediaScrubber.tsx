@@ -24,6 +24,8 @@ export interface MediaScrubberProps {
   /** When set, , and . step one frame while paused. */
   frameRate?: number | undefined;
   formatHoverTime?: ((seconds: number) => string) | undefined;
+  /** Spoken value; defaults to "X of Y" media time. Volume passes a percentage. */
+  formatValueText?: ((value: number, max: number) => string) | undefined;
   'aria-label'?: string | undefined;
   className?: string | undefined;
   disabled?: boolean | undefined;
@@ -40,6 +42,7 @@ export const MediaScrubber = function MediaScrubber(props: MediaScrubberProps & 
     const {
       value, max, onValueChange, onValueCommit, buffered = [], chapters = [],
       step = 1, largeStep = 10, frameRate, formatHoverTime = formatMediaTime,
+      formatValueText = scrubberValueText,
       className, disabled,
       'aria-label': ariaLabel = 'Seek',
     } = props;
@@ -91,7 +94,7 @@ export const MediaScrubber = function MediaScrubber(props: MediaScrubberProps & 
           largeStep={largeStep}
           {...(disabled !== undefined ? { disabled } : {})}
           aria-label={ariaLabel}
-          getAriaValueText={(v: number) => scrubberValueText(v, safeMax)}
+          getAriaValueText={(v: number) => formatValueText(v, safeMax)}
           onValueChange={(v: number | number[]) => onValueChange?.(Array.isArray(v) ? v[0]! : v)}
           {...(onValueCommit !== undefined ? {
             onValueCommitted: (v: number | number[]) => onValueCommit(Array.isArray(v) ? v[0]! : v),

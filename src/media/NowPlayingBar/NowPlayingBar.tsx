@@ -59,6 +59,11 @@ function Root(props: NowPlayingBarRootProps): React.ReactElement {
         {...materialProps({ layer: 'chrome', variant })}
         data-ag-media-root=""
         data-now-playing-container=""
+        /* controlled progress feeds the same var useMediaElement writes for a
+           media handle, so Progress fills without an inline width */
+        {...(!media && progress !== undefined
+          ? { style: { '--_ag-media-progress': String(Math.min(1, Math.max(0, progress))) } as React.CSSProperties }
+          : {})}
         {...(expandedId ? { 'data-expanded-id': expandedId } : {})}
         {...(expanded !== undefined ? { 'data-expanded': expanded ? '' : undefined } : {})}
       >

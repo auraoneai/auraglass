@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import { useMediaModel } from '../mediaContext';
+import { MediaGlyph } from '../../glyphs';
 
 export const PlayButton = function PlayButton({className, ref}: { className?: string } & { ref?: React.Ref<HTMLButtonElement> }) {
   const m = useMediaModel('PlayButton');
@@ -16,7 +17,7 @@ export const PlayButton = function PlayButton({className, ref}: { className?: st
       aria-label={m.playing ? 'Pause' : 'Play'}
       onClick={() => m.toggle()}
     >
-      <span aria-hidden="true">{m.playing ? '❚❚' : '▶'}</span>
+      <MediaGlyph name={m.playing ? 'pause' : 'play'} />
     </button>
   );
 };

@@ -122,6 +122,7 @@ function Root(props: CarouselRailRootProps): React.ReactElement {
         aria-roledescription="carousel"
         aria-label={label}
         style={{ '--_ag-slides-per-view': typeof effectivePerView === 'number' ? effectivePerView : undefined } as React.CSSProperties}
+        {...(effectivePerView === 'auto' ? { 'data-ag-per-view': 'auto' } : {})}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onFocusCapture={() => setFocusedWithin(true)}

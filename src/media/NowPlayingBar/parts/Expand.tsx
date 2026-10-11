@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import { useNowPlaying } from '../npContext';
+import { MediaGlyph } from '../../glyphs';
 
 export function Expand({ expandedId, expanded, onExpandedChange }: {
   expandedId?: string | undefined;
@@ -21,7 +22,7 @@ export function Expand({ expandedId, expanded, onExpandedChange }: {
       aria-label={expanded ? 'Collapse' : 'Expand'}
       onClick={() => onExpandedChange?.(!expanded)}
     >
-      <span aria-hidden="true">{expanded ? '▾' : '▴'}</span>
+      <MediaGlyph name={expanded ? 'chevron-down' : 'chevron-up'} />
     </button>
   );
 }

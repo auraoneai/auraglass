@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import { useMediaModel } from '../mediaContext';
+import { MediaGlyph } from '../../glyphs';
 
 export const Fullscreen = function Fullscreen({className, ref}: { className?: string } & { ref?: React.Ref<HTMLButtonElement> }) {
   const m = useMediaModel('Fullscreen');
@@ -15,7 +16,7 @@ export const Fullscreen = function Fullscreen({className, ref}: { className?: st
       aria-label="Fullscreen"
       onClick={() => m.requestFullscreen()}
     >
-      <span aria-hidden="true">⛶</span>
+      <MediaGlyph name="fullscreen" />
     </button>
   );
 };

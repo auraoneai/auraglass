@@ -61,6 +61,10 @@ export function Popup({ children, className }: ImageViewerPopupProps): React.Rea
     <DialogRoot open={c.open} onOpenChange={(o: boolean) => c.setOpen(o)}>
       <DialogContent
         className={['ag-image-viewer', className].filter(Boolean).join(' ')}
+        /* full-viewport lightbox: the popup itself is optically inert (identity);
+           the scrim dims the page and only the floating controls carry glass */
+        appearance="fullscreen"
+        variant="identity"
         data-ag-part="image-viewer-popup"
         data-ag-backdrop="media"
         role="dialog"

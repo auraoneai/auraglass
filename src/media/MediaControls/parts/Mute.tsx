@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import { useMediaModel } from '../mediaContext';
+import { MediaGlyph } from '../../glyphs';
 
 export const Mute = function Mute({className, ref}: { className?: string } & { ref?: React.Ref<HTMLButtonElement> }) {
   const m = useMediaModel('Mute');
@@ -16,7 +17,7 @@ export const Mute = function Mute({className, ref}: { className?: string } & { r
       aria-label={m.muted ? 'Unmute' : 'Mute'}
       onClick={() => m.setMuted(!m.muted)}
     >
-      <span aria-hidden="true">{m.muted ? '🔇' : '🔊'}</span>
+      <MediaGlyph name={m.muted ? 'muted' : 'volume'} />
     </button>
   );
 };

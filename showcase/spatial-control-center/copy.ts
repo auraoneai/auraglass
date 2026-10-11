@@ -14,6 +14,8 @@ export const COPY = {
   scenesLabel: 'Scene',
   roomsHeading: 'Rooms',
   controlsHeading: 'Living room',
+  controlsSummary: 'Lights 70% · heating to 21.5 °C · speaker on',
+  nowPlaying: 'Low Tide Signals',
   brightness: 'Brightness',
   warmth: 'Colour temperature',
   volume: 'Speaker volume',
