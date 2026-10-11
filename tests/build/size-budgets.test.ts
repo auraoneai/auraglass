@@ -14,5 +14,13 @@ describe('size budgets (PLAT-282)', () => {
     expect(existsSync(join(ROOT, 'docs', 'size-budgets.json'))).toBe(true);
     const agg = JSON.parse(readFileSync(join(ROOT, 'docs', 'size-budgets.json'), 'utf8'));
     expect(agg.rows.every((r: { status: string }) => r.status !== 'fail')).toBe(true);
+    /* compat rows (target + 2048 B) are reported separately and gate too */
+    expect(Array.isArray(agg.compat)).toBe(true);
+    expect(agg.compat.every((r: { status: string }) => r.status !== 'fail')).toBe(true);
+    /* every PLAT floor row is measured once its subject ships; until then it
+       names its producer */
+    for (const r of agg.rows.filter((x: { id: string }) => ['plat:cn', 'plat:warnDeprecated', 'plat:tailwind-bridge', 'plat:compat-globals'].includes(x.id))) {
+      if (r.measuredBytes === null) expect(r.pendingOn).toEqual(expect.any(String));
+    }
   }, 180_000);
 });
