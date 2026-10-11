@@ -1,74 +1,114 @@
 /** @jest-environment jsdom */
-// SURF-321..342 — REQ-SURF-13: every W2 compat adapter renders its 5.0
-// successor from 4.x-style props and warns exactly once per adapter.
-import { describe, expect, it, jest, beforeEach } from '@jest/globals';
-import { render } from '@testing-library/react';
+// REQ-SURF-13 (W2): every data + date compat adapter renders its 5.0
+// successor from its 4.x story props and warns exactly once with its DEP-S id.
+// Harness: tests/app-shell/compat-harness.tsx. Story props:
+// tests/fixtures/consumer-4x/cases/surf/data/story-args.tsx.
+import { describe, expect, it, jest } from '@jest/globals';
+import { cleanup, fireEvent, render } from '@testing-library/react';
 import * as React from 'react';
-import { GlassDataTable } from '../../src/compat/surf/data/GlassDataTable';
-import { GlassDataGrid } from '../../src/compat/surf/data/GlassDataGrid';
-import { GlassVirtualTable } from '../../src/compat/surf/data/GlassVirtualTable';
-import { GlassVirtualList } from '../../src/compat/surf/data/GlassVirtualList';
-import { GlassTreeView } from '../../src/compat/surf/data/GlassTreeView';
-import { TreeView as TreeView4x } from '../../src/compat/surf/data/TreeView4x';
-import { GlassFileTree } from '../../src/compat/surf/data/GlassFileTree';
-import { GlassFileExplorer } from '../../src/compat/surf/data/GlassFileExplorer';
-import { GlassFilterBar } from '../../src/compat/surf/data/GlassFilterBar';
-import { GlassStatCard } from '../../src/compat/surf/data/GlassStatCard';
-import { GlassKPICard } from '../../src/compat/surf/data/GlassKPICard';
-import { GlassMetricCard } from '../../src/compat/surf/data/GlassMetricCard';
-import { GlassAnimatedNumber } from '../../src/compat/surf/data/GlassAnimatedNumber';
-import { GlassSparkline } from '../../src/compat/surf/data/GlassSparkline';
-import { GlassTimeline } from '../../src/compat/surf/data/GlassTimeline';
-import { GlassActivityFeed } from '../../src/compat/surf/data/GlassActivityFeed';
-import { GlassChip } from '../../src/compat/surf/data/GlassChip';
-import { GlassKeyValueEditor } from '../../src/compat/surf/data/GlassKeyValueEditor';
-import { GlassDateField } from '../../src/compat/surf/date/GlassDateField';
-import { GlassTimeField } from '../../src/compat/surf/date/GlassTimeField';
-import { GlassDatePicker } from '../../src/compat/surf/date/GlassDatePicker';
-import { GlassDateRangePicker } from '../../src/compat/surf/date/GlassDateRangePicker';
-import { GlassCalendar } from '../../src/compat/surf/date/GlassCalendar';
+import { expectAdapter, type CompatRow } from '../app-shell/compat-harness';
+import { W2_STORY_ARGS as A } from '../fixtures/consumer-4x/cases/surf/data/story-args';
+import * as compat from '../../src/compat/surf';
+import { COMPAT_IDS } from '../fixtures/consumer-4x/cases/surf/compat-ids';
 
-const warn = jest.spyOn(console, 'warn').mockImplementation((): void => {});
-beforeEach(() => { warn.mockClear(); });
+type C = React.ComponentType<Record<string, unknown>>;
+const row = (name: keyof typeof compat & keyof typeof A, part: string, extra?: Record<string, unknown>): CompatRow => ({
+  name, id: COMPAT_IDS[name]!.id, part, C: compat[name] as unknown as C, args: A[name]!, ...(extra ? { extra } : {}),
+});
 
-const ROWS = [{ id: '1', name: 'Ada', role: 'eng' }];
-const COLS = [{ key: 'name', label: 'Name' }];
-const NODES = [{ id: 'a', label: 'A', children: [{ id: 'a1', label: 'A1' }] }];
-const DATE = new Date(2026, 9, 7, 12, 0, 0);
-
-type Row = { name: string; C: React.FC<any>; props: Record<string, unknown>; html?: string };
-const ADAPTERS: Row[] = [
-  { name: 'GlassDataTable', C: GlassDataTable, props: { rows: ROWS, columns: COLS }, html: '<table' },
-  { name: 'GlassDataGrid', C: GlassDataGrid, props: { rows: ROWS, columns: COLS }, html: '<table' },
-  { name: 'GlassVirtualTable', C: GlassVirtualTable, props: { rows: ROWS, columns: COLS }, html: '<table' },
-  { name: 'GlassVirtualList', C: GlassVirtualList, props: { items: [1, 2], renderItem: (i: number) => <span key={i}>{i}</span> } },
-  { name: 'GlassTreeView', C: GlassTreeView, props: { nodes: NODES } },
-  { name: 'TreeView(4.x)', C: TreeView4x, props: { items: NODES } },
-  { name: 'GlassFileTree', C: GlassFileTree, props: { files: [{ name: 'src', children: [{ name: 'a.ts' }] }] } },
-  { name: 'GlassFileExplorer', C: GlassFileExplorer, props: { files: [{ name: 'src' }] } },
-  { name: 'GlassFilterBar', C: GlassFilterBar, props: { fields: [{ id: 'name', label: 'Name', type: 'text' }] } },
-  { name: 'GlassStatCard', C: GlassStatCard, props: { title: 'Revenue', value: 4200 }, html: 'Revenue' },
-  { name: 'GlassKPICard', C: GlassKPICard, props: { title: 'KPI', value: 9 } },
-  { name: 'GlassMetricCard', C: GlassMetricCard, props: { label: 'Metric', value: 3 } },
-  { name: 'GlassAnimatedNumber', C: GlassAnimatedNumber, props: { value: 42 } },
-  { name: 'GlassSparkline', C: GlassSparkline, props: { values: [1, 3, 2] } },
-  { name: 'GlassTimeline', C: GlassTimeline, props: { items: [{ id: 't', timestamp: DATE, title: 'T' }] } },
-  { name: 'GlassActivityFeed', C: GlassActivityFeed, props: { items: [{ id: 'a', timestamp: DATE, title: 'A', actor: 'Ada' }] } },
-  { name: 'GlassChip', C: GlassChip, props: { label: 'Tag' } },
-  { name: 'GlassKeyValueEditor', C: GlassKeyValueEditor, props: { entries: { a: '1' } } },
-  { name: 'GlassDateField', C: GlassDateField, props: { value: DATE } },
-  { name: 'GlassTimeField', C: GlassTimeField, props: { value: DATE } },
-  { name: 'GlassDatePicker', C: GlassDatePicker, props: { value: DATE } },
-  { name: 'GlassDateRangePicker', C: GlassDateRangePicker, props: { startDate: DATE, endDate: new Date(2026, 9, 12) } },
-  { name: 'GlassCalendar', C: GlassCalendar, props: { value: DATE } },
+export const W2_ROWS: CompatRow[] = [
+  row('GlassDataTable', 'table [data-ag-part="table-cell"]', { onRowClick: jest.fn() }),
+  row('GlassDataGrid', 'table [data-ag-part="table-cell"]'),
+  row('GlassVirtualTable', '.ag-table__scroller'),
+  row('GlassVirtualList', '[role="list"]', { onEndReached: jest.fn() }),
+  row('GlassTreeView', '[data-ag-part="tree-view"] [data-ag-part="tree-item"]', { onSelect: jest.fn() }),
+  row('TreeView', '[data-ag-part="tree-view"] [data-ag-part="tree-item"]', { onSelectionChange: jest.fn() }),
+  row('GlassFileTree', '[data-ag-part="tree-view"] [data-ag-part="tree-item"]', { onNodeSelect: jest.fn() }),
+  row('GlassFileExplorer', '[data-ag-part="tree-view"] [data-ag-part="tree-item"]', { onFileSelect: jest.fn(), onNavigate: jest.fn(), onFileOpen: jest.fn() }),
+  row('GlassFilterBar', '[data-ag-part="filter-bar"]'),
+  row('GlassStatCard', '[data-ag-part="stat-card-value"]'),
+  row('GlassKPICard', '[data-ag-part="stat-card-delta"]'),
+  row('GlassMetricCard', '[data-ag-part="stat-card-delta"]'),
+  row('GlassAnimatedNumber', 'span'),
+  row('GlassSparkline', '[data-ag-part="sparkline"]'),
+  row('GlassTimeline', '[data-ag-part="timeline"] [data-ag-part="timeline-item"]'),
+  row('GlassActivityFeed', '[data-ag-part="activity-feed"] [data-ag-part="activity-actor"]'),
+  row('GlassChip', '[data-ag-part="chip"]'),
+  row('GlassKeyValueEditor', '[data-ag-part="key-value-editor"] [data-ag-part="key-value-row"]', { onChange: jest.fn() }),
+  row('GlassDateField', '[data-ag-part="date-field"]'),
+  row('GlassTimeField', '[data-ag-part="time-field"]'),
+  row('GlassDatePicker', '[data-ag-part="date-picker"]', { onChange: jest.fn() }),
+  row('GlassDateRangePicker', '[data-ag-part="date-range-picker"]', { onChange: jest.fn() }),
+  row('GlassCalendar', '[data-ag-part="calendar"]', { onDateSelect: jest.fn() }),
 ];
 
-describe('W2 compat adapters (SURF-321..342)', () => {
-  it.each(ADAPTERS.map((a) => [a.name, a] as const))('%s renders its successor and warns once', (_n, a) => {
-    const { container } = render(React.createElement(a.C as React.FC<Record<string, unknown>>, a.props));
-    if (a.html) expect(container.innerHTML).toContain(a.html);
-    else expect(container.firstChild).not.toBeNull();
-    const adapterWarns = warn.mock.calls.filter((c) => String(c[0]).includes(a.name.split('(')[0]!));
-    expect(adapterWarns.length).toBe(1);
+describe('W2 compat adapters render from 4.x story props (REQ-SURF-13)', () => {
+  it.each(W2_ROWS.map((r) => [r.name, r] as const))('%s', (_name, r) => {
+    expectAdapter(r);
+  });
+});
+
+describe('W2 prop mapping', () => {
+  const quiet = () => jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+  it('GlassDataTable maps pagination + initialPageSize and 4.x ColumnDef headers', () => {
+    quiet();
+    const { container } = render(<compat.GlassDataTable {...A.GlassDataTable!.props} />);
+    // initialPageSize 2 → two body rows of the three.
+    expect(container.querySelectorAll('tbody tr')).toHaveLength(2);
+    expect(container.textContent).toContain('Status');
+    cleanup();
+  });
+
+  it('GlassKeyValueEditor is controlled through value/onChange(pairs) as in 4.x', () => {
+    quiet();
+    const onChange = jest.fn();
+    const { container } = render(<compat.GlassKeyValueEditor {...A.GlassKeyValueEditor!.props} onChange={onChange} />);
+    const keys = container.querySelectorAll<HTMLInputElement>('[data-ag-part="key-input"]');
+    expect([...keys].map((k) => k.value)).toEqual(['name', 'email', 'role']);
+    fireEvent.change(keys[0]!, { target: { value: 'fullName' } });
+    expect(onChange).toHaveBeenCalledWith(expect.arrayContaining([{ key: 'fullName', value: 'John Doe' }]));
+    cleanup();
+  });
+
+  it('GlassStatCard keeps a formatted string value verbatim; KPI trendPercentage is a percent delta', () => {
+    quiet();
+    const stat = render(<compat.GlassStatCard {...A.GlassStatCard!.props} />);
+    expect(stat.container.querySelector('[data-ag-part="stat-card-value"]')!.textContent).toBe('$45,231');
+    cleanup();
+    const kpi = render(<compat.GlassKPICard {...A.GlassKPICard!.props} />);
+    expect(kpi.container.querySelector('[data-ag-part="stat-card-delta"]')!.textContent).toContain('12.5%');
+    cleanup();
+  });
+
+  it('GlassTimeline maps subtitle → description and keeps the 4.x display time', () => {
+    quiet();
+    const { container } = render(<compat.GlassTimeline {...A.GlassTimeline!.props} />);
+    expect(container.querySelectorAll('[data-ag-part="timeline-item"]')).toHaveLength(3);
+    expect(container.textContent).toContain('2 hours ago');
+    cleanup();
+  });
+
+  it('GlassFilterBar removing a chip fires that filter\'s onRemove; clear-all fires onClear', () => {
+    quiet();
+    const onRemove = jest.fn();
+    const onClear = jest.fn();
+    const filters = [{ id: 'status', label: 'Status', value: 'Open', onRemove }];
+    const { getByRole } = render(<compat.GlassFilterBar filters={filters} onClear={onClear} />);
+    fireEvent.click(getByRole('button', { name: /remove filter status/i }));
+    expect(onRemove).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByRole('button', { name: /clear all/i }));
+    expect(onClear).toHaveBeenCalledTimes(1);
+    cleanup();
+  });
+
+  it('GlassDateField parses the 4.x ISO string value and reports onChange({target:{value}})', () => {
+    quiet();
+    const onChange = jest.fn();
+    const { container } = render(<compat.GlassDateField label="Launch" value="2026-09-18" onChange={onChange} />);
+    const field = container.querySelector('[data-ag-part="date-field"]')!;
+    expect(field.textContent).toMatch(/18/);
+    expect(field.textContent).toMatch(/2026/);
+    cleanup();
   });
 });

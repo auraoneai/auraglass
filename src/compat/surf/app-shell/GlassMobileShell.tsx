@@ -1,15 +1,34 @@
-/* GlassMobileShell — 4.x compat adapter (SC-34). Delegates to the 5.0 component and
-   warns once per session via warnDeprecated; prop mapping per
-   fragments/codemods/surf.ts W1 rows. */
-'use client';
+/* GlassMobileShell — 4.x `aura-glass/app-shell` compat adapter (REQ-SURF-13,
+   DEP-S0009) → MobileShell. 4.x topBar/bottomBar map to topBar/tabBar
+   (`tabBar` is also accepted). */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { MobileShell } from '../../../app-shell/MobileShell';
+import { domProps } from '../_shared';
 
-export type GlassMobileShellProps = Record<string, unknown> & { children?: React.ReactNode };
+export interface GlassMobileShellProps {
+  topBar?: React.ReactNode;
+  bottomBar?: React.ReactNode;
+  tabBar?: React.ReactNode;
+  children?: React.ReactNode;
+  [legacy: string]: unknown;
+}
 
+/**
+ * 4.x `GlassMobileShell` compat adapter (DEP-S0009).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link MobileShell from aura-glass/app-shell}.
+ */
 export function GlassMobileShell(props: GlassMobileShellProps) {
-  warnDeprecated('GlassMobileShell');
-  const { topBar, tabBar, children, ...rest } = props as Record<string, React.ReactNode>;
-  return <MobileShell topBar={topBar} tabBar={tabBar} {...rest}>{children}</MobileShell>;
+  warnDeprecated('DEP-S0009');
+  const { topBar, bottomBar, tabBar, children, ...rest } = props;
+  const bottom = bottomBar ?? tabBar;
+  return (
+    <MobileShell
+      {...(topBar !== undefined ? { topBar } : {})}
+      {...(bottom !== undefined ? { tabBar: bottom } : {})}
+      {...domProps(rest)}
+    >
+      {children}
+    </MobileShell>
+  );
 }

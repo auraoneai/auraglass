@@ -1,110 +1,84 @@
 /** @jest-environment jsdom */
-// tests/media/compat.test.tsx — SURF-509: every W4 compat adapter renders
-// from its 4.x story props and fires exactly one dev warning (REQ-SURF-13).
-
+// REQ-SURF-13 (W4): every media + backdrop compat adapter renders its 5.0
+// successor from its 4.x story props and warns exactly once with its DEP-S id.
+// GlassGallery is a removed name with no adapter (media-gallery registry item).
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, render } from '@testing-library/react';
+import { cleanup, fireEvent, render } from '@testing-library/react';
 import * as React from 'react';
-import { AuraGlassProvider } from '../../src/theme';
-import { PORTAL_ROOT_MARKUP } from '../../src/contracts/preferences';
+import { expectAdapter, type CompatRow } from '../app-shell/compat-harness';
+import { W4_STORY_ARGS as A } from '../fixtures/consumer-4x/cases/surf/media/story-args';
+import * as compat from '../../src/compat/surf';
+import { COMPAT_IDS } from '../fixtures/consumer-4x/cases/surf/compat-ids';
 
-import { LiquidGlassMediaControls } from '../../src/compat/surf/media/LiquidGlassMediaControls';
-import { GlassMediaControls } from '../../src/compat/surf/media/GlassMediaControls';
-import { LiquidGlassNowPlayingBar } from '../../src/compat/surf/media/LiquidGlassNowPlayingBar';
-import { LiquidGlassPhotoInspector } from '../../src/compat/surf/media/LiquidGlassPhotoInspector';
-import { GlassImageViewer } from '../../src/compat/surf/media/GlassImageViewer';
-import { GlassGallery } from '../../src/compat/surf/media/GlassGallery';
-import { GlassCarousel } from '../../src/compat/surf/media/GlassCarousel';
-import { LiquidGlassCarouselRail } from '../../src/compat/surf/media/LiquidGlassCarouselRail';
-import { AuroraBackground } from '../../src/compat/surf/backdrops/AuroraBackground';
-import { AuroraOrb } from '../../src/compat/surf/backdrops/AuroraOrb';
-import { AtmosphericBackground } from '../../src/compat/surf/backdrops/AtmosphericBackground';
-import { GlassDynamicAtmosphere, DynamicAtmosphere } from '../../src/compat/surf/backdrops/GlassDynamicAtmosphere';
-import { GlassMeshGradient } from '../../src/compat/surf/backdrops/GlassMeshGradient';
+type C = React.ComponentType<Record<string, unknown>>;
+const row = (name: keyof typeof compat & keyof typeof A, part: string, extra?: Record<string, unknown>): CompatRow => ({
+  name, id: COMPAT_IDS[name]!.id, part, C: compat[name] as unknown as C, args: A[name]!, ...(extra ? { extra } : {}),
+});
 
-const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+export const W4_ROWS: CompatRow[] = [
+  row('LiquidGlassMediaControls', '[data-ag-part="media-controls"]', { onPlayPause: jest.fn(), onSeek: jest.fn(), onVolumeChange: jest.fn() }),
+  row('GlassMediaControls', '[data-ag-part="media-controls"]', { onPlayPause: jest.fn() }),
+  row('LiquidGlassNowPlayingBar', '[data-ag-part="now-playing-title"]', { onPlayPause: jest.fn() }),
+  row('LiquidGlassPhotoInspector', 'aside[data-ag-part="inspector"][aria-label="Photo Inspector"] [data-ag-part="inspector-field"]', { onOpenChange: jest.fn() }),
+  row('GlassImageViewer', '[data-ag-part="image-viewer-trigger"]', { onImageChange: jest.fn() }),
+  row('GlassCarousel', '[aria-roledescription="carousel"] [data-ag-part="carousel-slide"]', { onSlideChange: jest.fn() }),
+  row('LiquidGlassCarouselRail', '[aria-roledescription="carousel"] [data-ag-part="carousel-slide"]'),
+  row('AuroraBackground', '.ag-backdrop'),
+  row('AuroraOrb', '.ag-backdrop'),
+  row('AtmosphericBackground', '.ag-backdrop'),
+  row('GlassDynamicAtmosphere', '.ag-backdrop'),
+  row('DynamicAtmosphere', '.ag-backdrop'),
+  row('GlassMeshGradient', '.ag-backdrop'),
+];
 
-function withPortal() {
-  if (!document.body.querySelector('[data-ag-portal-root]')) {
-    document.body.insertAdjacentHTML('beforeend', PORTAL_ROOT_MARKUP);
-  }
-}
+describe('W4 compat adapters render from 4.x story props (REQ-SURF-13)', () => {
+  it.each(W4_ROWS.map((r) => [r.name, r] as const))('%s', (_name, r) => {
+    expectAdapter(r);
+  });
 
-describe('compat media adapters (REQ-SURF-13)', () => {
-  it('LiquidGlassMediaControls maps onPlayPause → onPlayingChange and warns once', () => {
+  it('GlassGallery is not an adapter (removed name)', () => {
+    expect('GlassGallery' in compat).toBe(false);
+  });
+});
+
+describe('W4 prop mapping', () => {
+  const quiet = () => jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+  it('LiquidGlassMediaControls fires onPlayPause from the play control', () => {
+    quiet();
     const onPlayPause = jest.fn();
-    render(<LiquidGlassMediaControls playing={false} onPlayPause={onPlayPause} duration={120} />);
-    expect(document.querySelector('[data-ag-part="media-controls"]')).toBeTruthy();
-    fireEvent.click(document.querySelector('[data-ag-part="media-play"]')!);
-    expect(onPlayPause).toHaveBeenCalledWith(true);
-    expect(warn.mock.calls.filter((c) => String(c[0]).includes('LiquidGlassMediaControls'))).toHaveLength(1);
+    const { container } = render(<compat.LiquidGlassMediaControls {...A.LiquidGlassMediaControls!.props} onPlayPause={onPlayPause} />);
+    fireEvent.click(container.querySelector('[data-ag-part="media-play"]')!);
+    expect(onPlayPause).toHaveBeenCalledTimes(1);
+    cleanup();
   });
-  it('GlassMediaControls renders the toolbar', () => {
-    render(<GlassMediaControls playing={false} />);
-    expect(document.querySelector('[role="toolbar"]')).toBeTruthy();
+
+  it('GlassImageViewer maps description → caption and alt', () => {
+    quiet();
+    const { container } = render(<compat.GlassImageViewer {...A.GlassImageViewer!.props} />);
+    const imgs = [...container.querySelectorAll('[data-ag-part="image-viewer-trigger"] img')].map((i) => i.getAttribute('alt'));
+    expect(imgs).toEqual(['Sample Image 1', 'Sample Image 2', 'Sample Image 3']);
+    cleanup();
   });
-  it('LiquidGlassNowPlayingBar renders title + progressbar', () => {
-    const { container } = render(<LiquidGlassNowPlayingBar playing={false} title="Track" subtitle="Artist" />);
-    expect(container.textContent).toContain('Track');
-    expect(container.querySelector('[role="progressbar"]')).toBeTruthy();
-  });
-  it('GlassImageViewer images → items opens the popup', () => {
-    withPortal();
+
+  it('GlassCarousel infinite → loop; items become slides', () => {
+    quiet();
     const { container } = render(
-      <AuraGlassProvider>
-        <GlassImageViewer images={[{ src: '/a.jpg', alt: 'a' }, { src: '/b.jpg' }]} />
-      </AuraGlassProvider>,
+      <compat.GlassCarousel infinite items={[{ id: 'a', content: 'A' }, { id: 'b', content: 'B' }]} />,
     );
-    const triggers = container.querySelectorAll('[data-ag-part="image-viewer-trigger"]');
-    expect(triggers).toHaveLength(2);
-    fireEvent.click(triggers[0]!);
-    expect(document.body.querySelector('[data-ag-part="image-viewer-popup"]')).toBeTruthy();
-    document.body.querySelector('[data-ag-portal-root]')?.remove();
-  });
-  it('GlassGallery renders a grid of triggers', () => {
-    withPortal();
-    const { container } = render(
-      <AuraGlassProvider>
-        <GlassGallery images={[{ src: '/a.jpg' }, { src: '/b.jpg' }]} />
-      </AuraGlassProvider>,
-    );
-    expect(container.querySelectorAll('[data-ag-part="image-viewer-trigger"]')).toHaveLength(2);
-    document.body.querySelector('[data-ag-portal-root]')?.remove();
-  });
-  it('LiquidGlassPhotoInspector renders with a photo', () => {
-    withPortal();
-    render(
-      <AuraGlassProvider>
-        <LiquidGlassPhotoInspector photo={{ src: '/p.jpg', alt: 'p' }} open />
-      </AuraGlassProvider>,
-    );
-    expect(document.body.querySelector('[data-ag-part="image-viewer-popup"]')).toBeTruthy();
-    document.body.querySelector('[data-ag-portal-root]')?.remove();
-  });
-  it('GlassCarousel infinite → loop; children become slides', () => {
-    const { container } = render(
-      <GlassCarousel label="C" infinite><div>a</div><div>b</div></GlassCarousel>,
-    );
-    expect(container.querySelector('[aria-roledescription="carousel"]')).toBeTruthy();
     expect(container.querySelectorAll('[data-ag-part="carousel-slide"]')).toHaveLength(2);
-    const next = container.querySelector('[data-ag-part="carousel-next"]')!;
-    expect(next.getAttribute('aria-disabled')).not.toBe('true');
+    expect(container.querySelector('[data-ag-part="carousel-next"]')!.getAttribute('aria-disabled')).not.toBe('true');
+    cleanup();
   });
-  it('LiquidGlassCarouselRail renders', () => {
-    const { container } = render(<LiquidGlassCarouselRail items={[<div key="a">a</div>]} label="R" />);
-    expect(container.querySelector('[aria-roledescription="carousel"]')).toBeTruthy();
-  });
-  it('backdrop adapters render the Backdrop root', () => {
-    for (const [C, props] of [
-      [AuroraBackground, { motion: 'subtle' }],
-      [AuroraOrb, {}],
-      [AtmosphericBackground, { variant: 'storm' }],
-      [GlassDynamicAtmosphere, { type: 'sunset' }],
-      [DynamicAtmosphere, {}],
-      [GlassMeshGradient, { colors: ['#fff', '#000'], animate: true }],
-    ] as const) {
-      const { container } = render(<C {...(props as Record<string, unknown>)} />);
-      expect(container.querySelector('.ag-backdrop')).toBeTruthy();
-    }
+
+  it('backdrop adapters map motion / scheme / palette', () => {
+    quiet();
+    const mesh = render(<compat.GlassMeshGradient variant="dark" />);
+    const m = mesh.container.querySelector('.ag-backdrop')!;
+    expect(m.getAttribute('data-ag-motion')).toBe('drift');
+    cleanup();
+    const orb = render(<compat.AuroraOrb palette="ocean" pulse={false} />);
+    expect(orb.container.querySelector('.ag-backdrop')!.getAttribute('data-ag-motion')).toBe('static');
+    cleanup();
   });
 });

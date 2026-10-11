@@ -1,23 +1,27 @@
-'use client';
+/* GlassMessageList — 4.x compat adapter (REQ-SURF-13, DEP-S0402) → Thread.
+   ChatMessage → AgMessage through the GlassChat mapping (content → text
+   part, sender.id === currentUserId → user, timestamp → metadata.createdAt).
+   The dropped 4.x props (virtualScroll, reactions, replyTo, edited) are named
+   in the DEP-S0402 message; onMessageClick/onMessageReaction have no 5.0
+   equivalent. */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Thread } from '../../../ai/thread/Thread';
-import type { ChatMessage } from './GlassChat';
-import type { AgMessage } from '../../../ai/types';
+import { toAgMessages, type ChatMessage } from './GlassChat';
 
 export interface GlassMessageListProps {
-  messages: ChatMessage[];
+  messages?: ChatMessage[];
   currentUserId?: string;
   className?: string;
+  [legacy: string]: unknown;
 }
 
-export function GlassMessageList({ messages, currentUserId, className }: GlassMessageListProps) {
-  warnDeprecated('GlassMessageList (dropped: virtualScroll, reactions, replyTo, edited)');
-  const ag: AgMessage[] = messages.map((m) => ({
-    id: m.id,
-    role: m.type === 'system' ? 'system' : m.sender.id === currentUserId ? 'user' : 'assistant',
-    parts: [{ type: 'text', text: m.content }],
-    ...(m.timestamp !== undefined ? { metadata: { createdAt: m.timestamp } } : {}),
-  }));
-  return <Thread messages={ag} className={className} />;
+/**
+ * 4.x `GlassMessageList` compat adapter (DEP-S0402).
+ * @deprecated since 4.2.0, removed in 5.0.0. Use {@link Thread from aura-glass/ai}.
+ */
+export function GlassMessageList(props: GlassMessageListProps) {
+  warnDeprecated('DEP-S0402');
+  const { messages = [], currentUserId, className } = props;
+  return <Thread messages={toAgMessages(messages, currentUserId, false)} {...(className ? { className } : {})} />;
 }

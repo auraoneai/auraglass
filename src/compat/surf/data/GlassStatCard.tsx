@@ -1,31 +1,16 @@
-'use client';
-import * as React from 'react';
+/* GlassStatCard — 4.x compat adapter (REQ-SURF-13, DEP-S0210) → StatCard.
+   Mapping in ./_stat.tsx (title → label, value + unit, description,
+   trend → delta, sparklineData → sparkline, loading). */
 import { warnDeprecated } from '../../../internal';
-import { StatCard } from '../../../data/stat-card/StatCard';
-import type { StatCardProps } from '../../../data/stat-card/StatCard';
+import { renderLegacyStat, type LegacyStatProps } from './_stat';
 
-export type GlassStatCardProps = {
-  title?: string;
-  label?: string;
-  value?: number | string;
-  suffix?: string;
-  delta?: number;
-  trend?: 'up' | 'down' | 'flat';
-  format?: (v: number) => string;
-} & Omit<StatCardProps, 'label' | 'value' | 'delta' | 'trendDirection'>;
+export type GlassStatCardProps = LegacyStatProps;
 
+/**
+ * 4.x `GlassStatCard` compat adapter (DEP-S0210).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link StatCard from aura-glass/data}.
+ */
 export function GlassStatCard(props: GlassStatCardProps) {
-  warnDeprecated('GlassStatCard');
-  const { title, label, value = 0, suffix, delta, trend, format, ...rest } = props;
-  const num = typeof value === 'number' ? value : Number.parseFloat(String(value)) || 0;
-  const shown = suffix !== undefined ? <>{num}{suffix}</> : format && typeof value === 'number' ? value : num;
-  return (
-    <StatCard
-      {...rest}
-      label={label ?? title ?? ''}
-      value={shown}
-      delta={delta}
-      {...(trend !== undefined ? { trendDirection: 'up-is-good' as const } : {})}
-    />
-  );
+  warnDeprecated('DEP-S0210');
+  return renderLegacyStat(props);
 }

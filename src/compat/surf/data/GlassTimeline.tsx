@@ -1,22 +1,60 @@
-'use client';
+/* GlassTimeline — 4.x compat adapter (REQ-SURF-13, DEP-S0216) → Timeline.
+   items {id,title,subtitle,time,icon} → TimelineItem: subtitle →
+   description, time → timestamp (4.x passed display strings such as
+   "2 hours ago", which Timeline renders verbatim when they are not
+   parseable dates). orientation and aria-label map 1:1. */
+import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Timeline } from '../../../components/timeline/Timeline';
-import type { TimelineProps } from '../../../components/timeline/Timeline';
 
-export type GlassTimelineProps = {
-  items?: { id?: string; timestamp?: string | number | Date; title: string; description?: string; icon?: React.ReactNode }[];
-  events?: GlassTimelineProps['items'];
-} & Omit<TimelineProps, 'items'>;
+export interface GlassTimelineItem {
+  id?: string;
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
+  description?: React.ReactNode;
+  time?: string;
+  timestamp?: string | number | Date;
+  icon?: React.ReactNode;
+}
 
+export interface GlassTimelineProps {
+  items?: GlassTimelineItem[];
+  events?: GlassTimelineItem[];
+  orientation?: 'vertical' | 'horizontal';
+  'aria-label'?: string;
+  className?: string;
+  [legacy: string]: unknown;
+}
+
+export function toTimestamp(ts: string | number | Date | undefined): Date | string {
+  if (ts instanceof Date) return ts;
+  if (typeof ts === 'number') return new Date(ts);
+  return ts ?? '';
+}
+
+/**
+ * 4.x `GlassTimeline` compat adapter (DEP-S0216).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link Timeline from aura-glass}.
+ */
 export function GlassTimeline(props: GlassTimelineProps) {
-  warnDeprecated('GlassTimeline');
-  const { items, events, ...rest } = props;
-  const list = (items ?? events ?? []).map((it, i) => ({
-    id: it.id ?? String(i),
-    timestamp: it.timestamp instanceof Date ? it.timestamp : typeof it.timestamp === 'number' ? new Date(it.timestamp) : (it.timestamp ?? ''),
-    title: it.title,
-    ...(it.description !== undefined ? { description: it.description } : {}),
-    ...(it.icon !== undefined ? { icon: it.icon } : {}),
-  }));
-  return <Timeline {...rest} items={list} />;
+  warnDeprecated('DEP-S0216');
+  const { items, events, orientation, className } = props;
+  const list = (items ?? events ?? []).map((it, i) => {
+    const description = it.description ?? it.subtitle;
+    return {
+      id: it.id ?? String(i),
+      timestamp: toTimestamp(it.timestamp ?? it.time),
+      title: it.title,
+      ...(description !== undefined ? { description } : {}),
+      ...(it.icon !== undefined ? { icon: it.icon } : {}),
+    };
+  });
+  return (
+    <Timeline
+      items={list}
+      {...(orientation ? { orientation } : {})}
+      {...(props['aria-label'] ? { 'aria-label': props['aria-label'] } : {})}
+      {...(className ? { className } : {})}
+    />
+  );
 }
