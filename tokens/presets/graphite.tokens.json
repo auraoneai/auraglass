@@ -1,0 +1,46 @@
+{
+  "$schema": "../$schema.json",
+  "preset": {
+    "graphite": {
+      "$type": "theme-preset",
+      "$value": {
+        "name": "Graphite",
+        "canvas": {
+          "light": {
+            "colorSpace": "oklch",
+            "components": [
+              0.97,
+              0.003,
+              240
+            ],
+            "alpha": 1
+          },
+          "dark": {
+            "colorSpace": "oklch",
+            "components": [
+              0.22,
+              0.008,
+              240
+            ],
+            "alpha": 1
+          }
+        },
+        "neutralHue": 240,
+        "accent": {
+          "colorSpace": "oklch",
+          "components": [
+            0.55,
+            0.02,
+            240
+          ],
+          "alpha": 1
+        },
+        "radiusScale": 0.75
+      }
+    },
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    }
+  }
+}

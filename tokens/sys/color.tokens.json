@@ -1,0 +1,162 @@
+{
+  "$schema": "../$schema.json",
+  "sys": {
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    },
+    "color": {
+      "$description": "System colors. {light, dark} leaves emit light-dark() plus a [data-ag-scheme=dark] fallback block (REQ-MAT-05).",
+      "canvas": {
+        "$type": "color",
+        "$value": {
+          "light": "{ref.color.slate.1}",
+          "dark": "{ref.color.slate.12}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-canvas"
+        }
+      },
+      "on-surface": {
+        "$type": "color",
+        "$description": "Dark-scheme on-surface keeps L >= 0.92, C <= 0.02 (REQ-MAT-05).",
+        "$value": {
+          "light": "{ref.color.slate.11}",
+          "dark": "{ref.color.slate.1}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-on-surface"
+        }
+      },
+      "on-surface-muted": {
+        "$type": "color",
+        "$description": "Muted text; must hold 4.5:1 against the surface (contrast matrix pair).",
+        "$value": {
+          "light": "{ref.color.slate.10}",
+          "dark": "{ref.color.slate.4}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-on-surface-muted"
+        }
+      },
+      "accent": {
+        "$type": "color",
+        "$value": {
+          "light": "{ref.color.accent.7}",
+          "dark": "{ref.color.accent.6}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-accent"
+        }
+      },
+      "on-accent": {
+        "$type": "color",
+        "$value": {
+          "light": "{ref.color.white}",
+          "dark": "{ref.color.white}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-on-accent"
+        }
+      },
+      "border": {
+        "$type": "color",
+        "$description": "Boundary border, must hold 3:1 against the surface (contrast matrix pair).",
+        "$value": {
+          "light": "{ref.color.slate.8}",
+          "dark": "{ref.color.slate.5}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-border"
+        }
+      },
+      "focus-inner": {
+        "$type": "color",
+        "$description": "Focus band; must hold 3:1 against the surface (contrast matrix pair) and 9:1 against focus-outer so max(inner,outer)>=3:1 over every backdrop (REQ-MAT-61).",
+        "$value": {
+          "light": "{ref.color.accent.10}",
+          "dark": "{ref.color.accent.5}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-focus-inner",
+          "ag.forcedColor": "Highlight"
+        }
+      },
+      "focus-outer": {
+        "$type": "color",
+        "$value": {
+          "light": "{ref.color.white}",
+          "dark": "{ref.color.black}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-focus-outer",
+          "ag.forcedColor": "Canvas"
+        }
+      },
+      "specular": {
+        "$type": "color",
+        "$description": "Specular tint used by the material optics (white at --ag-specular alpha).",
+        "$value": {
+          "light": "{ref.color.white}",
+          "dark": "{ref.color.white}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-specular"
+        }
+      },
+      "danger": {
+        "$type": "color",
+        "$value": {
+          "light": "{ref.color.danger.7}",
+          "dark": "{ref.color.danger.6}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-danger"
+        }
+      },
+      "warning": {
+        "$type": "color",
+        "$value": {
+          "light": "{ref.color.warning.6}",
+          "dark": "{ref.color.warning.6}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-warning"
+        }
+      },
+      "success": {
+        "$type": "color",
+        "$value": {
+          "light": "{ref.color.success.7}",
+          "dark": "{ref.color.success.6}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-success"
+        }
+      },
+      "info": {
+        "$type": "color",
+        "$value": {
+          "light": "{ref.color.info.7}",
+          "dark": "{ref.color.info.6}"
+        },
+        "$extensions": {
+          "ag.public": true,
+          "ag.cssVar": "--ag-color-info"
+        }
+      }
+    }
+  }
+}

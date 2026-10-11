@@ -1,0 +1,34 @@
+{
+  "$description": "D-28 visual bug fix (TOKENS-THEME-05, release/4.x only): the 4.x theme-text primitives render rgba(0 0 0 / 0.9|0.7) in every scheme, so dark-scheme content ink sits black on navy. Each record names a frozen 4.x property (ag.legacyVar) and aliases the 5.0 sys colour pair whose dark value replaces it in the dark compat block (dark on-surface L >= 0.92, C <= 0.02). Emitted only by scripts/tokens/build.mjs --platform bridge-4x into src/material/compat/tokens.css; never emitted on next.",
+  "legacy": {
+    "d28-dark": {
+      "glass-theme-text": {
+        "$type": "color",
+        "$value": "{sys.color.on-surface}",
+        "$extensions": {
+          "ag.tier": "legacy",
+          "ag.legacy": true,
+          "ag.legacyVar": "--glass-theme-text"
+        }
+      },
+      "glass-theme-text-secondary": {
+        "$type": "color",
+        "$value": "{sys.color.on-surface-muted}",
+        "$extensions": {
+          "ag.tier": "legacy",
+          "ag.legacy": true,
+          "ag.legacyVar": "--glass-theme-text-secondary"
+        }
+      },
+      "glass-theme-text-tertiary": {
+        "$type": "color",
+        "$value": "{sys.color.on-surface-muted}",
+        "$extensions": {
+          "ag.tier": "legacy",
+          "ag.legacy": true,
+          "ag.legacyVar": "--glass-theme-text-tertiary"
+        }
+      }
+    }
+  }
+}

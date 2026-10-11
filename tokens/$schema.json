@@ -1,0 +1,598 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://auraone.ai/schemas/ag-tokens-1.0.json",
+  "title": "AuraGlass 5.0 DTCG token file",
+  "description": "A token file is a tree of groups; a group is an object whose non-$-prefixed keys are groups or tokens. A token is an object carrying $value (or $value/$type at group level for inherited type).",
+  "type": "object",
+  "$defs": {
+    "colorValue": {
+      "type": "object",
+      "properties": {
+        "colorSpace": {
+          "enum": [
+            "oklch",
+            "srgb",
+            "hsl",
+            "display-p3",
+            "srgb-linear"
+          ]
+        },
+        "components": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": [
+                "number",
+                "string"
+              ],
+              "pattern": "^none$"
+            },
+            {
+              "type": [
+                "number",
+                "string"
+              ],
+              "pattern": "^none$"
+            },
+            {
+              "type": [
+                "number",
+                "string"
+              ],
+              "pattern": "^none$"
+            }
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "alpha": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "hex": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$"
+        }
+      },
+      "required": [
+        "colorSpace",
+        "components"
+      ],
+      "additionalProperties": false
+    },
+    "dimensionValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "enum": [
+            "px",
+            "rem",
+            "em",
+            "%",
+            "deg",
+            "ms",
+            "s",
+            "fr",
+            "vh",
+            "vw"
+          ]
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "durationValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0
+        },
+        "unit": {
+          "enum": [
+            "ms",
+            "s"
+          ]
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "cubicBezierValue": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      ],
+      "items": false,
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "springValue": {
+      "type": "object",
+      "properties": {
+        "dampingRatio": {
+          "type": "number",
+          "minimum": 0.8,
+          "maximum": 1.0
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 120,
+              "maximum": 800
+            },
+            "unit": {
+              "enum": [
+                "ms",
+                "s"
+              ]
+            }
+          },
+          "required": [
+            "value",
+            "unit"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "dampingRatio",
+        "response"
+      ],
+      "additionalProperties": false
+    },
+    "shadowValue": {
+      "type": "object",
+      "properties": {
+        "offsetX": {
+          "$ref": "#/$defs/dimensionValue"
+        },
+        "offsetY": {
+          "$ref": "#/$defs/dimensionValue"
+        },
+        "blur": {
+          "$ref": "#/$defs/dimensionValue"
+        },
+        "spread": {
+          "$ref": "#/$defs/dimensionValue"
+        },
+        "color": {
+          "$ref": "#/$defs/colorValue"
+        }
+      },
+      "required": [
+        "offsetX",
+        "offsetY",
+        "blur",
+        "color"
+      ],
+      "additionalProperties": false
+    },
+    "thicknessCell": {
+      "type": "object",
+      "properties": {
+        "blur": {
+          "$ref": "#/$defs/dimensionValue",
+          "description": "backdrop blur, never > 32px (checked by the compiler)"
+        },
+        "saturation": {
+          "type": "number"
+        },
+        "brightness": {
+          "type": "object",
+          "properties": {
+            "light": {
+              "type": "number"
+            },
+            "dark": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "light",
+            "dark"
+          ],
+          "additionalProperties": false
+        },
+        "grain": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "rim": {
+          "$ref": "#/$defs/dimensionValue"
+        },
+        "alpha": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "blur"
+      ],
+      "additionalProperties": false
+    },
+    "materialValue": {
+      "type": "object",
+      "description": "MaterialSpec: variants x thickness cells plus tint/scrim/fallbackFill/refraction.",
+      "properties": {
+        "variants": {
+          "type": "object",
+          "properties": {
+            "regular": {
+              "$ref": "#/$defs/variantCells"
+            },
+            "clear": {
+              "$ref": "#/$defs/variantCells"
+            },
+            "identity": {
+              "$ref": "#/$defs/variantCells"
+            }
+          },
+          "required": [
+            "regular",
+            "clear",
+            "identity"
+          ],
+          "additionalProperties": false
+        },
+        "content": {
+          "type": "object",
+          "properties": {
+            "raised": {
+              "$ref": "#/$defs/thicknessCell"
+            },
+            "sunken": {
+              "$ref": "#/$defs/thicknessCell"
+            }
+          },
+          "required": [
+            "raised",
+            "sunken"
+          ],
+          "additionalProperties": false
+        },
+        "tint": {
+          "type": "object",
+          "properties": {
+            "light": {
+              "type": "string"
+            },
+            "dark": {
+              "type": "string"
+            },
+            "media": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "light",
+            "dark",
+            "media"
+          ],
+          "additionalProperties": false
+        },
+        "scrim": {
+          "type": "object",
+          "properties": {
+            "clear": {
+              "type": "number"
+            },
+            "clearOverBright": {
+              "type": "number"
+            },
+            "modal": {
+              "type": "number"
+            },
+            "media": {
+              "$ref": "#/$defs/colorValue"
+            }
+          },
+          "required": [
+            "clear"
+          ],
+          "additionalProperties": false
+        },
+        "fallbackFill": {
+          "type": "object",
+          "properties": {
+            "alpha": {
+              "type": "number",
+              "minimum": 0.85,
+              "maximum": 1
+            }
+          },
+          "required": [
+            "alpha"
+          ],
+          "additionalProperties": false
+        },
+        "refraction": {
+          "type": "object",
+          "properties": {
+            "bezel": {
+              "type": "object",
+              "properties": {
+                "thin": {
+                  "$ref": "#/$defs/dimensionValue"
+                },
+                "regular": {
+                  "$ref": "#/$defs/dimensionValue"
+                },
+                "thick": {
+                  "$ref": "#/$defs/dimensionValue"
+                }
+              },
+              "required": [
+                "thin",
+                "regular",
+                "thick"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "bezel"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "variants",
+        "tint",
+        "scrim",
+        "fallbackFill"
+      ],
+      "additionalProperties": false
+    },
+    "variantCells": {
+      "type": "object",
+      "properties": {
+        "thin": {
+          "$ref": "#/$defs/thicknessCell"
+        },
+        "regular": {
+          "$ref": "#/$defs/thicknessCell"
+        },
+        "thick": {
+          "$ref": "#/$defs/thicknessCell"
+        }
+      },
+      "required": [
+        "thin",
+        "regular",
+        "thick"
+      ],
+      "additionalProperties": false
+    },
+    "presetValue": {
+      "type": "object",
+      "description": "ThemePreset: canvas pair, neutralHue, accent, optional radiusScale. No material.* or --_ag-* keys (guard).",
+      "properties": {
+        "canvas": {
+          "type": "object",
+          "properties": {
+            "light": {
+              "$ref": "#/$defs/colorValue"
+            },
+            "dark": {
+              "$ref": "#/$defs/colorValue"
+            }
+          },
+          "required": [
+            "light",
+            "dark"
+          ],
+          "additionalProperties": false
+        },
+        "neutralHue": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 360
+        },
+        "accent": {
+          "$ref": "#/$defs/colorValue"
+        },
+        "radiusScale": {
+          "enum": [
+            0.75,
+            1,
+            1.25
+          ]
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "canvas",
+        "neutralHue",
+        "accent"
+      ],
+      "additionalProperties": false
+    },
+    "modeValue": {
+      "type": "object",
+      "description": "Mode table: axis value -> token value or {alias}. Used only inside tokens/modes/*.tokens.json (the leaf's $extensions.ag.axis names the axis).",
+      "patternProperties": {
+        "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)?$": {}
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "extensions": {
+      "type": "object",
+      "properties": {
+        "ag.tier": {
+          "enum": [
+            "ref",
+            "sys",
+            "material",
+            "comp",
+            "legacy"
+          ]
+        },
+        "ag.public": {
+          "type": "boolean"
+        },
+        "ag.since": {
+          "type": "string"
+        },
+        "ag.deprecated": {
+          "type": "object",
+          "properties": {
+            "since": {
+              "type": "string"
+            },
+            "replacement": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "since",
+            "replacement"
+          ],
+          "additionalProperties": false
+        },
+        "ag.usage": {
+          "enum": [
+            "large-only",
+            "continuous-only"
+          ]
+        },
+        "ag.forcedColor": {
+          "enum": [
+            "Canvas",
+            "CanvasText",
+            "LinkText",
+            "Highlight",
+            "HighlightText",
+            "GrayText",
+            "ButtonFace",
+            "ButtonText"
+          ]
+        },
+        "ag.axis": {
+          "enum": [
+            "scheme",
+            "contrast",
+            "transparency",
+            "density",
+            "preset"
+          ]
+        },
+        "ag.axisDef": {
+          "enum": [
+            "scheme",
+            "contrast",
+            "transparency",
+            "density",
+            "preset",
+            true
+          ]
+        },
+        "ag.valueType": {
+          "type": "string",
+          "description": "Real $type of each mode-table cell."
+        },
+        "ag.fluid": {
+          "type": "boolean",
+          "description": "dimension token is a {min,max} fluid clamp."
+        },
+        "ag.cssVar": {
+          "type": "string",
+          "pattern": "^--_?ag-"
+        },
+        "ag.calc": {
+          "enum": [
+            "density"
+          ],
+          "description": "dimension cell emitted as calc(<v> * var(--_ag-density))"
+        },
+        "ag.legacy": {
+          "type": "boolean",
+          "description": "frozen 4.x primitive (tokens/legacy/*); never emitted"
+        },
+        "ag.legacyVar": {
+          "type": "string",
+          "pattern": "^--(glass|aura|persona|glass-theme)-",
+          "description": "frozen 4.x property name for tier=legacy records"
+        }
+      },
+      "required": [
+        "ag.tier"
+      ],
+      "additionalProperties": false
+    },
+    "token": {
+      "type": "object",
+      "properties": {
+        "$value": {},
+        "$type": {
+          "enum": [
+            "color",
+            "dimension",
+            "duration",
+            "cubicBezier",
+            "motion-spring",
+            "shadow",
+            "fontFamily",
+            "fontWeight",
+            "number",
+            "string",
+            "glass-material",
+            "theme-preset",
+            "mode-table",
+            "ag-rendered"
+          ]
+        },
+        "$description": {
+          "type": "string"
+        },
+        "$extensions": {
+          "$ref": "#/$defs/extensions"
+        },
+        "$deprecated": {}
+      },
+      "required": [
+        "$value",
+        "$extensions"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "minProperties": 1
+}

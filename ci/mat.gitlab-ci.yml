@@ -45,3 +45,39 @@ mat:test:mot-4x:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
     paths: [.artifacts/]
+
+# mat:test:bridge (REQ-MAT-41 / REQ-FIN-57): colocated bridge tests — fresh-compile drift,
+# the six 4.x primitives under data-ag-preview="v5" vs the ladders.css cells, the
+# no-attribute no-match proof, v5.css durations and the D-28 compat block.
+mat:test:bridge:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "4x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - mkdir -p ".artifacts/mat/$CI_JOB_NAME_SLUG"
+    - npx jest src/material --ci --runInBand --json --outputFile=".artifacts/mat/$CI_JOB_NAME_SLUG/jest.json"
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/mat/]
+
+# mat:test:preview-v5 (REQ-MAT-41 item 6, AC-MAT-31): remote pixel check on the frozen 4.x
+# consumer fixture, 3 engines — 0 changed pixels without data-ag-preview, and the six
+# primitives' ::before filter equals the ladders.css cell with it.
+mat:test:preview-v5:
+  extends: [.mat-base, .ag-playwright]
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "4x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - mkdir -p ".artifacts/mat/$CI_JOB_NAME_SLUG"
+    - AG_MAT_REPORT="$CI_PROJECT_DIR/.artifacts/mat/$CI_JOB_NAME_SLUG/results.json" npx playwright test --config src/material/visual/playwright.bridge.config.mjs --output ".artifacts/mat/$CI_JOB_NAME_SLUG/test-results"
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/mat/]
