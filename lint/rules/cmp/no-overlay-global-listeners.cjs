@@ -4,8 +4,33 @@
    the sanctioned seams. Reports:
      - document|window.addEventListener('keydown'|'mousedown'|'pointerdown'|'scroll'|'resize', ...)
      - document|window.removeEventListener(same set)
-     - any assignment to document.body.style.* (scroll locking is Base UI's). */
+     - any assignment to document.body.style.* (scroll locking is the
+       LayerStack's <html data-ag-scroll-locked> attribute).
+   REQ-FIN-07: enforced at error over src/components/**, src/primitives/** and
+   the SURF overlay dirs (src/app-shell/**, src/media/ImageViewer/**). Current
+   offenders outside FIN-A files are listed in the shrink-only, expiring
+   baseline scripts/integration/baselines/no-overlay-global-listeners.json and
+   ignored here; tests/integration/no-overlay-global-listeners.test.ts fails
+   on any new offender, any stale row and any malformed row. */
 'use strict';
+
+const path = require('node:path');
+
+const BASELINE = require(path.join(__dirname, '..', '..', '..', 'scripts', 'integration', 'baselines', 'no-overlay-global-listeners.json'));
+
+const SCOPE = [
+  'src/components/**/*.{ts,tsx}',
+  'src/primitives/**/*.{ts,tsx}',
+  'src/app-shell/**/*.{ts,tsx}',
+  'src/media/ImageViewer/**/*.{ts,tsx}',
+];
+const IGNORES = [
+  '**/__fixtures__/**',
+  '**/__tests__/**',
+  '**/*.test.*',
+  '**/*.stories.*',
+  ...BASELINE.map((row) => row.file),
+];
 
 const GLOBALS = new Set(['document', 'window']);
 const EVENTS = new Set(['keydown', 'mousedown', 'pointerdown', 'scroll', 'resize']);
@@ -21,9 +46,9 @@ module.exports = {
     schema: [],
     messages: {
       listener:
-        'overlay code must not attach global {{name}} listeners ({{event}}); use Base UI dismiss/focus plumbing (REQ-CMP-12).',
+        'overlay code must not attach global {{name}} listeners ({{event}}); register with the LayerStack (useLayer) or use element-level handlers (REQ-CMP-12).',
       bodyStyle:
-        'overlay code must not write document.body.style.{{prop}}; scroll locking is Base UI\'s (REQ-CMP-12).',
+        'overlay code must not write document.body.style.{{prop}}; scroll locking is the LayerStack\'s (REQ-CMP-12).',
     },
   },
   create(context) {
@@ -62,7 +87,7 @@ module.exports = {
       },
     };
   },
-  agConfig: [
-    { files: ['src/components/**/*.{ts,tsx}', 'src/primitives/**/*.{ts,tsx}'], ignores: ['**/__fixtures__/**'], severity: 'error' },
-  ],
+  agConfig: [{ files: SCOPE, ignores: IGNORES, severity: 'error' }],
+  SCOPE,
+  IGNORES,
 };

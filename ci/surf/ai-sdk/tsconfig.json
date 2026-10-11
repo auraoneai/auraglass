@@ -11,10 +11,10 @@
     "types": ["node", "jest"],
     "baseUrl": ".",
     "paths": {
-      "aura-glass/ai": ["../../src/ai/index.ts"],
-      "aura-glass/ai/*": ["../../src/ai/*"],
-      "aura-glass/*": ["../../src/*"]
+      "aura-glass/ai": ["../../../src/ai/index.ts"],
+      "aura-glass/ai/*": ["../../../src/ai/*"],
+      "aura-glass/*": ["../../../src/*"]
     }
   },
-  "include": ["./**/*", "../../src/ai/**/*"]
+  "include": ["./**/*"]
 }

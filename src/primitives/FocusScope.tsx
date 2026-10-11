@@ -1,3 +1,4 @@
+'use client';
 /* FocusScope (CMP-029): ref-as-prop, data-ag-part='root' on the container,
    trapped/loop semantics unchanged, no Glass* alias. Focus manager for owned
    components (Sheet detents, ResizablePanels, Tour) only. */
@@ -82,11 +83,12 @@ export function FocusScope({
     };
   }, [autoFocus, onMountAutoFocus, onUnmountAutoFocus, restoreFocus]);
 
-  /* REQ-CMP-12: no document listeners — Tab cycling and the trapped focus pull
-     are element-level handlers on the scope container itself. */
+  /* REQ-FIN-07 (REQ-CMP-12): no document listeners. Tab cycling and the
+     trapped-focus pull are element-level handlers on the scope container. */
+  const { onKeyDown, onBlur } = props;
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    if (!trapped && !loop) return;
-    if (event.key !== 'Tab') return;
+    onKeyDown?.(event);
+    if (event.defaultPrevented || (!trapped && !loop) || event.key !== 'Tab') return;
     const focusables = getFocusableElements(localRef.current);
     if (focusables.length === 0) return;
     const first = focusables[0];
@@ -104,6 +106,7 @@ export function FocusScope({
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLDivElement>): void => {
+    onBlur?.(event);
     if (!trapped) return;
     const next = event.relatedTarget as Node | null;
     if (next && localRef.current?.contains(next)) return;

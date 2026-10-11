@@ -2,8 +2,10 @@
 
 import * as React from 'react';
 import { Select as Base } from '@base-ui/react/select';
+import { defaultPositionerProps } from '../overlays/_shared/positioning';
+import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { materialProps } from '../../material';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
@@ -103,7 +105,7 @@ function SelectRoot<Value = string>({
   );
 }
 
-function SelectTrigger({ placeholder, children, className, ref, ...rest }: SelectTriggerProps) {
+function SelectTrigger({ placeholder, children, className, ref, disabled, focusableWhenDisabled, ...rest }: SelectTriggerProps) {
   const size = React.useContext(SelectSizeContext);
   return (
     <Base.Trigger
@@ -112,7 +114,10 @@ function SelectTrigger({ placeholder, children, className, ref, ...rest }: Selec
       {...materialProps({ layer: 'content', content: 'content-sunken', interactive: true })}
       className={cn('ag-select', className)}
       ref={ref}
+      disabled={disabled}
       {...rest}
+      {...(disabled && focusableWhenDisabled === true ? { tabIndex: 0 } : {})}
+      {...(disabled && focusableWhenDisabled === false ? { tabIndex: -1 } : {})}
     >
       {children ?? (
         <>
@@ -146,14 +151,16 @@ function SelectContent({ children, className }: SelectContentProps) {
         ref={setPopupElement}
         side="bottom"
         align="start"
-        sideOffset={6}
+        {...defaultPositionerProps}
         alignItemWithTrigger={alignToTrigger}
         {...sizeAttrs(size)}
       >
         <Base.Popup
           data-ag-part="popup"
-          {...materialProps({ layer: 'overlay', thickness: 'regular' })}
+          {...overlayMaterial('select')}
           className={cn('ag-select-popup', className)}
+          /* CMP-205: popup open state mirrored as data-state like every overlay popup. */
+          render={(props, state) => <div {...props} data-state={state.open ? 'open' : 'closed'} />}
         >
           <Base.ScrollUpArrow data-ag-part="scroll-up" keepMounted />
           <Base.List data-ag-part="list">{children}</Base.List>

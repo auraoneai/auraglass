@@ -2,8 +2,10 @@
 
 import * as React from 'react';
 import { Combobox as Base } from '@base-ui/react/combobox';
+import { defaultPositionerProps } from '../overlays/_shared/positioning';
+import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { materialProps } from '../../material';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useAnnouncer } from '../../theme';
 import { toChangeDetails } from '../../foundation';
@@ -22,6 +24,7 @@ import type {
   ComboboxGroupLabelProps,
   ComboboxChipsProps,
   ComboboxChipProps,
+  ComboboxChipRemoveProps,
   ComboboxLoadingProps,
   ComboboxMode,
   ComboboxCreatable,
@@ -273,6 +276,7 @@ function ComboboxRoot<Value = string>({
         {...(itemToString ? { itemToStringLabel: toStringLabel } : {})}
         {...(itemToValue ? { itemToStringValue: itemToValue as (v: unknown) => string } : {})}
         autoHighlight={rest.autoHighlight ?? true}
+        {...(virtual ? { virtualized: true } : {})}
         onValueChange={handleValueChange}
         onInputValueChange={handleInputValueChange}
         onOpenChange={(o, d) => {
@@ -293,7 +297,7 @@ function ComboboxRoot<Value = string>({
 /* ------------------------------------------------------------------ */
 
 function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputProps) {
-  const { size, mode, loading } = useInternal();
+  const { size, mode, loading, messages } = useInternal();
   return (
     <Base.InputGroup
       data-ag-part="input-shell"
@@ -308,7 +312,7 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
         ref={ref}
         {...rest}
       />
-      <Base.Clear data-ag-part="clear" aria-label="Clear" keepMounted>
+      <Base.Clear data-ag-part="clear" aria-label={controlMessage('clearSearch', messages)} keepMounted>
         <ClearGlyph />
       </Base.Clear>
       <Base.Trigger data-ag-part="trigger" tabIndex={-1}>
@@ -345,13 +349,15 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
         ref={setPopupElement}
         side="bottom"
         align="start"
-        sideOffset={6}
+        {...defaultPositionerProps}
         {...sizeAttrs(size)}
       >
         <Base.Popup
           data-ag-part="popup"
-          {...materialProps({ layer: 'overlay', thickness: 'regular' })}
+          {...overlayMaterial('combobox')}
           className={cn('ag-combobox-popup', className)}
+          /* CMP-205: popup open state mirrored as data-state like every overlay popup. */
+          render={(props, state) => <div {...props} data-state={state.open ? 'open' : 'closed'} />}
         >
           <Base.List data-ag-part="list" aria-busy={loading || undefined}>
             {virtual ? (
@@ -384,6 +390,12 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
 }
 
 /* ------------------------------------------------------------------ */
+function chipLabel(children: React.ReactNode, label?: string): string {
+  if (label !== undefined && label !== null && label !== '') return label;
+  if (typeof children === 'string') return children;
+  return '';
+}
+
 /* Item / Empty / Group / Chips / Chip / Loading                       */
 /* ------------------------------------------------------------------ */
 
@@ -449,12 +461,12 @@ function ComboboxChips({ children, className }: ComboboxChipsProps) {
   );
 }
 
-function ComboboxChip({ children, className }: ComboboxChipProps) {
+function ComboboxChip({ children, className, label }: ComboboxChipProps) {
   const { messages } = useInternal();
   return (
     <Base.Chip data-ag-part="chip" className={className}>
       {children}
-      <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: '' })}>
+      <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: chipLabel(children, label) })}>
         <XGlyph />
       </Base.ChipRemove>
     </Base.Chip>
@@ -491,10 +503,10 @@ function ComboboxClear({ children, className }: { children?: React.ReactNode; cl
   );
 }
 
-function ComboboxChipRemove({ children, className }: { children?: React.ReactNode; className?: string }) {
+function ComboboxChipRemove({ children, className, label }: ComboboxChipRemoveProps) {
   const { messages } = useInternal();
   return (
-    <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: '' })} className={className}>
+    <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: label ?? '' })} className={className}>
       {children ?? <XGlyph />}
     </Base.ChipRemove>
   );

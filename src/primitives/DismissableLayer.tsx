@@ -1,9 +1,10 @@
-/* DismissableLayer (CMP-031): outside-interaction dismissal layer. Escape and
-   outside pointer/focus dismissal route through the PRD-05 LayerStack's
-   single document dispatcher — this layer attaches NO global listeners and
-   never writes body inline styles (REQ-CMP-12). `disableOutsidePointerEvents`
-   maps to a non-scroll-locking modal stack entry so the stack's inert covers
-   outside hits. Ref-as-prop; restores focus on unmount. */
+'use client';
+/* DismissableLayer (CMP-031, REQ-FIN-07): outside-interaction dismissal layer.
+   It registers on the S-25 LayerStack via useLayer and receives Escape and
+   outside pointerdown/focusin only while it is the topmost open layer. It
+   attaches no document listener and never writes body inline styles:
+   disableOutsidePointerEvents maps to the stack's inert pass below this layer.
+   Ref-as-prop; restores focus to the previously focused element on unmount. */
 import * as React from 'react';
 import { useLayer } from '../theme/index';
 import type { LayerKind } from '../contracts/preferences';
@@ -63,48 +64,55 @@ export function DismissableLayer({
     [ref],
   );
 
-  // S-25: Escape + outside dismissal are dispatched only to the top open
-  // layer entry, via the stack's single document listeners.
-  const escapeRef = React.useRef<() => void>(() => {});
-  const outsideRef = React.useRef({ onPointerDownOutside, onFocusOutside, onInteractOutside, onDismiss });
-  React.useEffect(() => {
-    escapeRef.current = () => {
-      const synthetic = new KeyboardEvent('keydown', { key: 'Escape', cancelable: true });
-      const prevented = withPreventedTracking(synthetic, (e) => onEscapeKeyDown?.(e as KeyboardEvent));
-      if (!prevented) onDismiss?.();
-    };
-    outsideRef.current = { onPointerDownOutside, onFocusOutside, onInteractOutside, onDismiss };
-  });
+  // S-25: Escape and outside pointer/focus events reach this layer only
+  // while it is the topmost open entry, through the stack's single
+  // per-document dispatcher. No document listener here (REQ-FIN-07).
+  const handlersRef = React.useRef({ onEscapeKeyDown, onPointerDownOutside, onFocusOutside, onInteractOutside, onDismiss });
+  handlersRef.current = { onEscapeKeyDown, onPointerDownOutside, onFocusOutside, onInteractOutside, onDismiss };
+
+  const handleEscape = React.useCallback(() => {
+    const h = handlersRef.current;
+    const synthetic = new KeyboardEvent('keydown', { key: 'Escape', cancelable: true });
+    const prevented = withPreventedTracking(synthetic, (e) => h.onEscapeKeyDown?.(e as KeyboardEvent));
+    if (!prevented) h.onDismiss?.();
+  }, []);
+
+  const handlePointerDownOutside = React.useCallback((event: Event) => {
+    const h = handlersRef.current;
+    const prevented = withPreventedTracking(event as PointerEvent, (trackedEvent) => {
+      h.onPointerDownOutside?.(trackedEvent);
+      h.onInteractOutside?.(trackedEvent);
+    });
+    // A pointerdown moves focus next; that focusin is part of the same
+    // interaction and must not dismiss a second time.
+    ignoreFocusOutsideRef.current = true;
+    window.setTimeout(() => {
+      ignoreFocusOutsideRef.current = false;
+    }, 0);
+    if (!prevented) h.onDismiss?.();
+  }, []);
+
+  const handleFocusOutside = React.useCallback((event: FocusEvent) => {
+    if (ignoreFocusOutsideRef.current) return;
+    const h = handlersRef.current;
+    const prevented = withPreventedTracking(event, (trackedEvent) => {
+      h.onFocusOutside?.(trackedEvent);
+      h.onInteractOutside?.(trackedEvent);
+    });
+    if (!prevented) h.onDismiss?.();
+  }, []);
+
+  // disableOutsidePointerEvents: no body.style write. The stack applies the
+  // below-this-layer inert pass (without a scroll lock) while it is open.
   useLayer({
     kind: layerKind,
-    // disableOutsidePointerEvents → non-scroll-locking modal entry: the
-    // stack's inert replaces the old body pointer-events write.
-    modal: disableOutsidePointerEvents,
-    lockScroll: false,
+    modal: false,
     open: !disabled,
-    onEscape: () => escapeRef.current(),
+    onEscape: handleEscape,
+    onPointerDownOutside: handlePointerDownOutside,
+    onFocusOutside: handleFocusOutside,
     element,
-    onPointerDownOutside: (event) => {
-      const h = outsideRef.current;
-      const prevented = withPreventedTracking(event as PointerEvent, (trackedEvent) => {
-        h.onPointerDownOutside?.(trackedEvent);
-        h.onInteractOutside?.(trackedEvent);
-      });
-      ignoreFocusOutsideRef.current = true;
-      window.setTimeout(() => {
-        ignoreFocusOutsideRef.current = false;
-      }, 0);
-      if (!prevented) h.onDismiss?.();
-    },
-    onFocusOutside: (event) => {
-      if (ignoreFocusOutsideRef.current) return;
-      const h = outsideRef.current;
-      const prevented = withPreventedTracking(event, (trackedEvent) => {
-        h.onFocusOutside?.(trackedEvent);
-        h.onInteractOutside?.(trackedEvent);
-      });
-      if (!prevented) h.onDismiss?.();
-    },
+    pointerLockOutside: disableOutsidePointerEvents && !disabled,
   });
 
   React.useEffect(() => {
