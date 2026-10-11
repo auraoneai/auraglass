@@ -7,10 +7,10 @@ export default defineMeta({
   tier: 'T1',
   flagship: 36,
   rsc: 'server',
-  parts: ['chart-frame', 'chart-title', 'chart-plot', 'chart-legend', 'chart-legend-item', 'chart-table'],
+  parts: ['chart-description', 'chart-frame', 'chart-legend', 'chart-legend-item', 'chart-plot', 'chart-table', 'chart-table-toggle', 'chart-title'],
   states: ['empty', 'loading'],
   variants: {},
-  apg: 'https://www.w3.org/WAI/ARIA/apg/practices/grid-and-table-properties/',
+  apg: 'figure',
   budgetKb: 5,
   migration: [
     { from: 'GlassChart', props: {}, automation: 'manual', compat: false },

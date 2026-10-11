@@ -34,15 +34,6 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
     const src = String((p.node.source as { value?: unknown }).value ?? '');
     if (!/^(aura-glass|@auraglass\/)/.test(src)) return;
     const isCompat = src.endsWith('/compat');
-    // Imported names present in this declaration — lets dotted renames share
-    // one head specifier instead of emitting `import { Menu, Menu, ... }`.
-    const importeds = new Set<string>();
-    for (const s of (p.node.specifiers ?? []) as Spec[]) {
-      if (s.type === 'ImportSpecifier') {
-        const n = ((s.imported as { name?: string }).name ?? (s.imported as { value?: unknown }).value) as string;
-        if (n) importeds.add(n);
-      }
-    }
     const kept: Spec[] = [];
     for (const s of (p.node.specifiers ?? []) as Spec[]) {
       if (s.type === 'ImportNamespaceSpecifier' || s.type === 'ImportDefaultSpecifier') {
@@ -59,40 +50,24 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
       }
       const entry = row.compatOnly ? 'aura-glass/compat' : (row.toEntry ?? src);
       const newImported = row.to;
-      // Dotted targets (Toast.Provider, Field.Error) are member expressions off
-      // a root export: import the head name; JSX/bare refs get head.rest (or
-      // alias.rest when the specifier is aliased).
-      const [head] = newImported.split('.');
-      const rest = newImported.slice(head!.length);
       if (entry === src) {
-        if (local === imp && importeds.has(head!)) {
-          // Head already imported by another specifier — drop this one; the
-          // JSX/bare refs still resolve to `<head>.<rest>` through it.
-          if (rest) jsxRenames.set(imp, `${head}${rest}`);
-          else jsxRenames.set(imp, head!);
-          changes.push({ transform: 'canonical-names', description: `${imp} -> ${newImported} (shared import)` });
-          continue;
-        }
-        (s.imported as { name?: string }).name = head!;
+        (s.imported as { name?: string }).name = newImported;
         if (!s.local?.name || s.local.name === imp) {
           (s.local as { name?: string } | undefined) ??= undefined;
         }
         kept.push(s);
-        importeds.add(head!);
-        if (local === imp) {
-          jsxRenames.set(imp, `${head}${rest}`);
-        } else if (rest) {
-          jsxRenames.set(local, `${local}${rest}`);
+        if ((s.local?.name ?? newImported) === newImported && local === imp) {
+          jsxRenames.set(imp, newImported);
+        } else if (local === imp) {
+          jsxRenames.set(imp, newImported);
         }
         changes.push({ transform: 'canonical-names', description: `${imp} -> ${newImported}` });
       } else {
         // Move to a different entry, preserving any `as` local name.
         const m = moves.get(entry) ?? [];
-        const newLocal = (local === imp ? head : local) ?? head!;
-        m.push({ imported: head, local: newLocal });
+        m.push({ imported: newImported, local: (local === imp ? newImported : local) ?? newImported });
         moves.set(entry, m);
-        if (local === imp) jsxRenames.set(imp, `${newLocal}${rest}`);
-        else if (rest) jsxRenames.set(local, `${newLocal}${rest}`);
+        if (local === imp) jsxRenames.set(imp, newImported);
         changes.push({ transform: 'canonical-names', description: `${imp} -> ${entry} ${newImported}` });
       }
       if (row.compatOnly && !isCompat) {
@@ -108,15 +83,8 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
   // unaliased specifiers renamed to a different name need tag rewrites.
   let out = root.toSource({ quote: 'single', reuseWhitespace: true });
 
-  // Add/move import declarations for moved specifiers (dedup imported+local).
-  for (const [entry, rawSpecs] of moves) {
-    const seen = new Set<string>();
-    const specs = rawSpecs.filter((s) => {
-      const k = `${s.imported}|${s.local}`;
-      if (seen.has(k)) return false;
-      seen.add(k);
-      return true;
-    });
+  // Add/move import declarations for moved specifiers.
+  for (const [entry, specs] of moves) {
     const declText = `import { ${specs.map((s: any) => (s.local === s.imported ? s.imported : `${s.imported} as ${s.local}`)).join(', ')} } from '${entry}';`;
     if (!out.includes(`from '${entry}'`)) {
       // Insert after the last import.

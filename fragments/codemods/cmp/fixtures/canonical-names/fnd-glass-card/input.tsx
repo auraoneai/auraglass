@@ -2,5 +2,5 @@
 import { GlassCard } from 'aura-glass';
 
 export function X() {
-  return <GlassCard><Body/></GlassCard>;
+  return <GlassCard>x</GlassCard>;
 }

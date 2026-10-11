@@ -18,12 +18,7 @@ function providerNames(m: CompiledMappings): Set<string> {
   // spec-listed and not component names in the mappings.
   const s = new Set<string>();
   for (const [from, c] of Object.entries(m.components)) {
-    if (from === 'AuraGlassProvider') continue;
-    // A Glass*Provider with a real 5.0 mapping (e.g. GlassToastProvider ->
-    // Toast.Provider) is a component provider the renames transform rewrites —
-    // it must not be unwrapped. Only providers mapping to AuraGlassProvider or
-    // unmapped legacy Glass*Provider names collapse.
-    if (c.to === 'AuraGlassProvider' || (from.startsWith('Glass') && from.endsWith('Provider') && !c.to)) {
+    if (from !== 'AuraGlassProvider' && (c.to === 'AuraGlassProvider' || (from.startsWith('Glass') && from.endsWith('Provider')))) {
       s.add(from);
     }
   }

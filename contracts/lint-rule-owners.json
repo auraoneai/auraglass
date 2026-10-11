@@ -6,7 +6,6 @@
  "contract-boundary": "plat",
  "no-legacy-import": "plat",
  "no-optics-outside-material": "mat",
- "no-inline-glass": "mat",
  "no-raw-design-values": "mat",
  "motion-no-empty-animate": "mat",
  "motion-raf-via-ticker": "mat",

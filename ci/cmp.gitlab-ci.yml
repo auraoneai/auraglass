@@ -1,15 +1,19 @@
 # ci/cmp.gitlab-ci.yml (CMP). Lane mapping: L1 Static (SC-29). 5x-line jobs only;
-# public/private handling per ci-selection.md; no cloud secrets.
+# public/private handling per ci-selection.md; no cloud credentials.
+# Dependencies: .ag-node's before_script runs `npm ci`; jobs never repeat it.
+# §4.13.4: every job stays allow_failure: true only until its first green run;
+# the flip to false is a ci/plat/activation.json row (FIN-B) citing that job URL.
 .cmp-base:
   extends: .ag-node
 
 cmp:test:foundation-pattern:
   extends: .cmp-base
   stage: test
+  allow_failure: true
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   script:
-    - npm ci
+    - mkdir -p .artifacts/cmp/test-foundation-pattern
     - |
       # FND rules auraglass/require-data-ag-part + auraglass/no-forward-ref are in
       # lint/rules/cmp/ agConfig; consumed rules (no-random-in-render PKG-086,
@@ -17,7 +21,7 @@ cmp:test:foundation-pattern:
       # through their own owners' agConfig when those lanes land.
       npx eslint src/components src/primitives src/foundation --max-warnings 0
     - node scripts/cmp/verify-foundation-pattern.mjs
-    - npm test -- tests/lint tests/foundation src/foundation src/components/field src/components/text-field src/components/search-field src/components/number-field src/components/checkbox src/components/radio-group src/components/switch src/components/slider tests/controls
+    - npm test -- tests/lint tests/foundation src/foundation src/components/field src/components/text-field src/components/search-field src/components/number-field src/components/checkbox src/components/radio-group src/components/switch src/components/slider tests/controls --json --outputFile=.artifacts/cmp/test-foundation-pattern/jest.json
     - npx tsc -p tests/types/cmp/tsconfig.json --noEmit
     - |
       # gen-component-docs --check (CMP-046): scripts/docs/ is PLAT-owned and the
@@ -28,16 +32,59 @@ cmp:test:foundation-pattern:
         echo "gen-component-docs.mjs missing (CMP-046 pending/PLAT-owned path)"
         exit 1
       fi
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/cmp/test-foundation-pattern/]
 
 cmp:build:dts:
   extends: .cmp-base
   stage: build
+  allow_failure: true
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   script:
-    - npm ci
     - npm run build
     - npm test -- tests/foundation/exports/no-foundation-types.test.ts
+      # REQ-CMP-01: same contract against the packed tarball's dist/, not the
+      # build tree — the tarball is what consumers' tsc actually resolves.
+    - mkdir -p .artifacts/cmp/build-dts/pkg
+    - npm pack --ignore-scripts --pack-destination .artifacts/cmp/build-dts
+    - tar -xzf .artifacts/cmp/build-dts/*.tgz -C .artifacts/cmp/build-dts/pkg
+    - AG_DTS_DIR="$PWD/.artifacts/cmp/build-dts/pkg/package/dist" npm test -- tests/foundation/exports/no-foundation-types.test.ts
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/cmp/build-dts/]
+
+# CMP-056 / CMP-141 certify lane: selector coverage against the built Storybook.
+# Remote (playwright image, saas-linux-large runner, AG_REMOTE_RUNNER=1).
+# storybook-static comes from qual:build:storybook in the same pipeline; the
+# need is optional only because it crosses streams (rule 4) — a missing
+# storybook-static fails the job, it is never skipped.
+cmp:test:selectors:
+  extends: .ag-playwright
+  stage: certify
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+  script:
+    - mkdir -p .artifacts/cmp/test-selectors
+    - |
+      if [ ! -f storybook-static/index.json ]; then
+        echo "storybook-static/index.json absent: qual:build:storybook did not run or failed in this pipeline" | tee .artifacts/cmp/test-selectors/report.txt
+        exit 1
+      fi
+    - node scripts/cmp/verify-selector-coverage.mjs --storybook storybook-static --out .artifacts/cmp/test-selectors/
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/cmp/test-selectors/]
 
 # REQ-CMP-135: always-on half — run `migrate 4to5` over the frozen consumer-4x
 # cmp cases and assert 0 TODO markers on mechanically mappable props.

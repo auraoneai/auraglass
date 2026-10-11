@@ -1,6 +1,6 @@
 // @ts-nocheck — codemod fixture: intentionally unbound identifiers/imports
-import { Typography } from 'aura-glass/components/data-display/Typography';
+import { Typography } from 'aura-glass';
 
 export function X() {
-  return <Typography>hello</Typography>;
+  return <Typography>x</Typography>;
 }
