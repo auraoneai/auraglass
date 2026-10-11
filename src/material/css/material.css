@@ -167,21 +167,28 @@
     --_ag-on-surface: var(--ag-color-on-surface, oklch(0.22 0.02 262));
     --_ag-on-surface-muted: var(--ag-color-on-surface-muted, oklch(0.4 0.02 262));
   }
+  /* Glyphs follow the fill, not the backdrop: every surface paints the
+     canvas tint at >= its solved floor (0.5-0.88, generated/floors.css), and
+     the floors are solved for the scheme's on-surface ink over each backdrop.
+     A fixed light glyph on media/dark painted near-white text on light-scheme
+     glass and on opaque content-raised cards (canvas l 0.99); a fixed dark
+     glyph on light did the same in the dark scheme. light-dark() resolves per
+     element against its used color-scheme. */
   [data-ag-backdrop="light"] {
     --_ag-env-brightness: 1.02;
-    --_ag-on-surface: oklch(0.22 0.02 262);
-    --_ag-on-surface-muted: oklch(0.42 0.02 262);
+    --_ag-on-surface: light-dark(oklch(0.22 0.02 262), oklch(0.98 0.005 90));
+    --_ag-on-surface-muted: light-dark(oklch(0.42 0.02 262), oklch(0.85 0.01 90));
   }
   [data-ag-backdrop="dark"] {
     --_ag-env-brightness: 1.06;
-    --_ag-on-surface: oklch(0.96 0.01 90);
-    --_ag-on-surface-muted: oklch(0.8 0.015 90);
+    --_ag-on-surface: light-dark(oklch(0.22 0.02 262), oklch(0.96 0.01 90));
+    --_ag-on-surface-muted: light-dark(oklch(0.42 0.02 262), oklch(0.8 0.015 90));
   }
   [data-ag-backdrop="media"] {
     /* image/video resolves to the media row (REQ-MAT-26); "auto" resolves upstream */
     --_ag-env-brightness: 1;
-    --_ag-on-surface: oklch(0.98 0.005 90);
-    --_ag-on-surface-muted: oklch(0.85 0.01 90);
+    --_ag-on-surface: light-dark(oklch(0.22 0.02 262), oklch(0.98 0.005 90));
+    --_ag-on-surface-muted: light-dark(oklch(0.42 0.02 262), oklch(0.85 0.01 90));
   }
 
   :where([data-ag-backdrop]) {
