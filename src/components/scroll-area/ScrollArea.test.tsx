@@ -40,3 +40,54 @@ describe('ScrollArea', () => {
     }
   });
 });
+
+describe('ScrollArea REQ-CMP-122', () => {
+  const RO = globalThis.ResizeObserver;
+  afterEach(() => { globalThis.ResizeObserver = RO; });
+
+  it('warns once when the viewport overflows unlabeled', () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    // make jsdom elements report overflow
+    const proto = HTMLElement.prototype;
+    const sh = Object.getOwnPropertyDescriptor(proto, 'scrollHeight')!;
+    const ch = Object.getOwnPropertyDescriptor(proto, 'clientHeight')!;
+    Object.defineProperty(proto, 'scrollHeight', { configurable: true, get: () => 500 });
+    Object.defineProperty(proto, 'clientHeight', { configurable: true, get: () => 100 });
+    globalThis.ResizeObserver = class { observe() {} unobserve() {} disconnect() {} } as any;
+    try {
+      render(
+        <ScrollArea.Root>
+          <ScrollArea.Viewport><div /></ScrollArea.Viewport>
+        </ScrollArea.Root>,
+      );
+      expect(warn).toHaveBeenCalledTimes(1);
+      expect(String(warn.mock.calls[0][0])).toContain('ScrollArea');
+    } finally {
+      Object.defineProperty(proto, 'scrollHeight', sh);
+      Object.defineProperty(proto, 'clientHeight', ch);
+      warn.mockRestore();
+    }
+  });
+
+  it('does not warn when aria-label is present', () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const proto = HTMLElement.prototype;
+    const sh = Object.getOwnPropertyDescriptor(proto, 'scrollHeight')!;
+    const ch = Object.getOwnPropertyDescriptor(proto, 'clientHeight')!;
+    Object.defineProperty(proto, 'scrollHeight', { configurable: true, get: () => 500 });
+    Object.defineProperty(proto, 'clientHeight', { configurable: true, get: () => 100 });
+    globalThis.ResizeObserver = class { observe() {} unobserve() {} disconnect() {} } as any;
+    try {
+      render(
+        <ScrollArea.Root>
+          <ScrollArea.Viewport aria-label="list"><div /></ScrollArea.Viewport>
+        </ScrollArea.Root>,
+      );
+      expect(warn).not.toHaveBeenCalled();
+    } finally {
+      Object.defineProperty(proto, 'scrollHeight', sh);
+      Object.defineProperty(proto, 'clientHeight', ch);
+      warn.mockRestore();
+    }
+  });
+});

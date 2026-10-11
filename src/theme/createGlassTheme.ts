@@ -60,7 +60,9 @@ export interface GlassThemeTokens {
 export interface GlassTheme {
   id: string;
   name: string;
-  /** One `[data-ag-theme="<id>"] { ... }` rule — never :root. */
+  /** One `[data-ag-theme="<id>"] { ... }` rule — never :root. For mode
+   *  light/dark/high-contrast it also sets `color-scheme`, so every
+   *  `light-dark()` token under the theme resolves to that scheme. */
   cssText: string;
   /** Custom properties to inject; manifest --ag-* names only. */
   vars: Record<string, string>;
@@ -91,6 +93,50 @@ const manifestValue = (cssVar: string, mode?: "light" | "dark"): string | undefi
 };
 
 const DENSITY_SCALE = { compact: 0.875, regular: 1, spacious: 1.125 } as const;
+
+type ManifestToken = {
+  cssVar: string;
+  public?: boolean;
+  modes?: Readonly<Record<string, string>>;
+  consumers?: readonly { count?: number }[];
+};
+
+/** contrast 'more' values: every public, consumed manifest var that carries a
+ *  `more` mode (the same values dist/tokens.css emits under
+ *  [data-ag-contrast=more]), applied in the theme scope. */
+const CONTRAST_MORE_VARS: readonly (readonly [string, string])[] = (
+  manifest.tokens as readonly ManifestToken[]
+)
+  .filter(
+    (t) =>
+      t.public !== false &&
+      !t.cssVar.startsWith("--_ag-") &&
+      t.modes?.more !== undefined &&
+      (t.consumers ?? []).reduce((n, c) => n + (c.count ?? 1), 0) >= 1
+  )
+  .map((t) => [t.cssVar, t.modes!.more!] as const);
+
+/** One development warning per distinct adjustment set (REQ-MAT-15). */
+const warnedAdjustments = new Set<string>();
+const warnAdjusted = (id: string, adjusted: readonly ContrastAdjustment[]): void => {
+  if (adjusted.length === 0) return;
+  if (typeof process !== "undefined" && process.env?.NODE_ENV === "production") return;
+  const detail = adjusted
+    .map((a) => `${a.name}.${a.field} ${+a.from.toFixed(4)}→${+a.to.toFixed(4)}`)
+    .join(", ");
+  const key = `${id}|${detail}`;
+  if (warnedAdjustments.has(key)) return;
+  warnedAdjustments.add(key);
+  if (typeof console !== "undefined")
+    console.warn(
+      `[aura-glass] createGlassTheme("${id}"): brand input failed contrast; adjusted ${detail}. See theme.contrast.adjusted.`
+    );
+};
+
+const pair = (name: string, foreground: string, background: string, min: number): ContrastPair => {
+  const ratio = wcagContrast(foreground, background);
+  return { name, foreground, background, ratio, min, pass: ratio >= min };
+};
 const RADIUS_BASE = { xs: 6, sm: 10, md: 14, lg: 20, xl: 28 } as const;
 
 const motionAxisFor = (p: GlassMotionPolicy): { axis: GlassMotionAxis; allowContinuous: boolean } => {
@@ -188,13 +234,14 @@ export const createGlassTheme = (
 
   const radiusScale = options.radiusScale ?? preset.radiusScale ?? 1;
 
+  // The canvas always stays a light-dark() pair; a pinned mode sets
+  // `color-scheme` on the theme scope instead, so canvas and on-surface (and
+  // every other light-dark() token) resolve to the same scheme.
+  const colorScheme: "light" | "dark" | null =
+    mode === "light" ? "light" : mode === "dark" || mode === "high-contrast" ? "dark" : null;
+
   const vars: Record<string, string> = {
-    "--ag-color-canvas":
-      mode === "light"
-        ? formatOklch(canvasLight)
-        : mode === "dark" || mode === "high-contrast"
-          ? formatOklch(canvasDark)
-          : formatLightDark(formatOklch(canvasLight), formatOklch(canvasDark)),
+    "--ag-color-canvas": formatLightDark(formatOklch(canvasLight), formatOklch(canvasDark)),
     "--ag-color-accent": accentCss,
     "--ag-color-on-accent": onAccentCss,
   };
@@ -202,48 +249,40 @@ export const createGlassTheme = (
     for (const [k, px] of Object.entries(RADIUS_BASE))
       vars[`--ag-radius-${k}`] = `${+((px * radiusScale)).toFixed(2)}px`;
   }
+  if (densityAxis !== "regular") vars["--ag-density"] = String(DENSITY_SCALE[densityAxis]);
+  if (contrastAxis === "more") for (const [k, v] of CONTRAST_MORE_VARS) vars[k] = v;
 
+  const lightCanvasCss = formatOklch(canvasLight);
+  const darkCanvasCss = formatOklch(canvasDark);
+  // light-scheme pairs first (indices 0..2 are the 4.x report order), then the
+  // dark-scheme pairs; the summary ratios are the worst case over both schemes.
   const pairs: ContrastPair[] = [
-    {
-      name: "textOnSurface",
-      foreground: formatOklch(onSurfaceLight),
-      background: formatOklch(canvasLight),
-      ratio: wcagContrast(formatOklch(onSurfaceLight), formatOklch(canvasLight)),
-      min: 4.5,
-      pass: wcagContrast(formatOklch(onSurfaceLight), formatOklch(canvasLight)) >= 4.5,
-    },
-    {
-      name: "brandOnBackground",
-      foreground: accentCss,
-      background: formatOklch(canvasLight),
-      ratio: wcagContrast(accentCss, formatOklch(canvasLight)),
-      min: 3,
-      pass: wcagContrast(accentCss, formatOklch(canvasLight)) >= 3,
-    },
-    {
-      name: "textOnBrand",
-      foreground: onAccentCss,
-      background: accentCss,
-      ratio: wcagContrast(onAccentCss, accentCss),
-      min: 4.5,
-      pass: wcagContrast(onAccentCss, accentCss) >= 4.5,
-    },
+    pair("textOnSurface", formatOklch(onSurfaceLight), lightCanvasCss, 4.5),
+    pair("brandOnBackground", accentCss, lightCanvasCss, 3),
+    pair("textOnBrand", onAccentCss, accentCss, 4.5),
+    pair("textOnSurface.dark", formatOklch(onSurfaceDark), darkCanvasCss, 4.5),
+    pair("brandOnBackground.dark", accentCss, darkCanvasCss, 3),
   ];
 
-  const cssText = `[data-ag-theme="${options.id ?? "ag-theme"}"] { ${Object.entries(vars)
-    .map(([k, v]) => `${k}: ${v};`)
-    .join(" ")} }`;
+  const id = options.id ?? "ag-theme";
+  warnAdjusted(id, adjusted);
+
+  const declarations = [
+    ...(colorScheme ? [`color-scheme: ${colorScheme};`] : []),
+    ...Object.entries(vars).map(([k, v]) => `${k}: ${v};`),
+  ];
+  const cssText = `[data-ag-theme="${id}"] { ${declarations.join(" ")} }`;
 
   return {
-    id: options.id ?? "ag-theme",
+    id,
     name: options.name ?? "AuraGlass Theme",
     cssText,
     vars,
     contrast: {
       pairs,
       adjusted,
-      brandOnBackground: pairs[1]!.ratio,
-      textOnSurface: pairs[0]!.ratio,
+      brandOnBackground: Math.min(pairs[1]!.ratio, pairs[4]!.ratio),
+      textOnSurface: Math.min(pairs[0]!.ratio, pairs[3]!.ratio),
       textOnBrand: pairs[2]!.ratio,
     },
     tokens: {
@@ -264,33 +303,10 @@ export const createGlassTheme = (
   };
 };
 
-/* ---------------- 4.x deprecated wrappers (MAT-066/067) ---------------- */
-
-const warned = new Set<string>();
-const devWarn = (key: string, msg: string) => {
-  if (warned.has(key)) return;
-  warned.add(key);
-  if (typeof console !== "undefined") console.warn(msg);
-};
-
-/** @deprecated createGlassThemeCssVars is the 4.x --glass-theme-* output; use
- *  createGlassTheme(...).vars instead. Removed at 5.0 (DS-109). */
-export const createGlassThemeCssVars = (theme: {
-  tokens: {
-    color: { canvas: { light: string; dark: string }; accent: string; onAccent: string };
-    density: { scale: number };
-  };
-}): Record<string, string> => {
-  devWarn(
-    "createGlassThemeCssVars",
-    "createGlassThemeCssVars is deprecated; use createGlassTheme(...).vars (--ag-*) instead."
-  );
-  return {
-    "--glass-theme-brand": theme.tokens.color.accent,
-    "--glass-theme-accent": theme.tokens.color.accent,
-    "--glass-theme-background": theme.tokens.color.canvas.light,
-    "--glass-theme-surface": theme.tokens.color.canvas.dark,
-    "--glass-theme-text": theme.tokens.color.onAccent,
-    "--glass-theme-density-scale": String(theme.tokens.density.scale),
-  };
-};
+/* ---------------- 4.x deprecated wrapper (MAT-066/067) ----------------
+   createGlassThemeCssVars moved to src/compat/mat/theme.ts (REQ-MAT-15,
+   FIN-D D.3-11) and is no longer exported from aura-glass/theme. This
+   re-export only keeps src/theme/index.ts (FIN-A, REQ-FIN-04, GitHub PR 121)
+   compiling until PR 121 drops its createGlassThemeCssVars re-export; it is
+   removed in the first FIN-D PR after PR 121 is on next. */
+export { createGlassThemeCssVars } from "../compat/mat/theme";

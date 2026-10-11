@@ -1,6 +1,10 @@
 /* CMP-395 + CMP-400 + CMP-407 (lane 3i-Q). Remote perf lane only — runs under AG_REMOTE_RUNNER=1 on
    the PRD-PERF harness (tests/perf/harness/run-perf.mjs + grade.mjs). This file
-   registers the cases; harness seam lands with PRD-PERF. */
+   registers the cases; harness seam lands with PRD-PERF.
+   REQ-CMP-81: EXACT blurred-layer counts — after the .ag-surface fix (PR #247)
+   overlay popups actually paint, so each row must hit its number: anchored
+   popups 1 (scrim-free), modals 2 (scrim + popup), toast stack 1, +1 per open
+   submenu (max 3 levels). Non-zero popups prove blur is live. */
 import { test, expect } from '@playwright/test';
 import { gotoStory, perf } from '../../../helpers/index';
 
@@ -12,6 +16,9 @@ const LAYER_BUDGETS: Record<string, { story: string; blurred: number }> = {
   AlertDialog: { story: 'overlays-alert-dialog--confirm', blurred: 2 },
   Popover: { story: 'overlays-popover--playground', blurred: 1 },        // CMP-400
   Tooltip: { story: 'overlays-tooltip--playground', blurred: 1 },        // CMP-400
+  Menu: { story: 'overlays-menu--playground', blurred: 1 },
+  MenuSubmenu: { story: 'overlays-menu--submenu', blurred: 2 },
+  Toast: { story: 'overlays-toast--playground', blurred: 1 },
   SheetModal: { story: 'overlays-sheet--bottom-detents', blurred: 2 },   // CMP-407
   SheetNonModal: { story: 'overlays-sheet--non-modal-inspector', blurred: 1 }, // CMP-407
 };
@@ -21,7 +28,7 @@ test.describe('overlay layer+bundle budget (CMP-395/400/407)', () => {
   for (const [name, { story, blurred }] of Object.entries(LAYER_BUDGETS)) {
     test(`${name}: open adds exactly ${blurred} blurred layer(s)`, async ({ page }) => {
       await gotoStory(page, story);
-      expect(await perf.blurredSurfaces(page)).toBeLessThanOrEqual(blurred);
+      expect(await perf.blurredSurfaces(page)).toBe(blurred);
     });
   }
 
@@ -33,7 +40,7 @@ test.describe('overlay layer+bundle budget (CMP-395/400/407)', () => {
     test.skip(!existsSync(budgetPath), 'size-budgets fragment absent');
     const src = readFileSync(budgetPath, 'utf8');
     for (const [name, kb] of Object.entries(IMPORT_BUDGET_KB)) {
-      const row = new RegExp(`${name}[^\n]*budgetKb[^\n]*\b${kb}\b`);
+      const row = new RegExp(String.raw`${name}[^\n]*budgetKb[^\n]*\b${kb}\b`);
       expect(src).toMatch(row);
     }
   });

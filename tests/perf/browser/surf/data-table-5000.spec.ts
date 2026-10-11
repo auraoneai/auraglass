@@ -7,7 +7,7 @@ test.describe('table 5000 rows perf', () => {
   test('scroll frame p95 under budget', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Table');
-    if (!subject) { console.warn('Table subject not registered — pending'); return; }
+    if (!subject) throw new Error('Table subject not registered');
     await gotoStory(page, subject.id);
     await expect(page.locator('[data-ag-part="table"]').first()).toBeVisible();
     void 0; // perf harness measures frames when the lane harness lands

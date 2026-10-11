@@ -144,6 +144,16 @@ This runbook does not cover live hosted infrastructure rollback. If a hosted run
 2. If the bad Git tag points to a released artifact, do not rewrite it unless the release owner explicitly approves. Prefer a new patch tag.
 3. If a draft release exists but is unpublished, update or delete the draft before publishing the fixed tag.
 4. Link the npm deprecation notice, issue, and fixed release from the GitHub release notes.
+5. Create the GitHub Release for every published tag (operator step, REQ-PLAT-16). The GitLab
+   tag pipeline creates the GitLab Release itself (`plat:release:notes`, `release:` keyword) and
+   leaves `release-notes.md` and `dist-maps.tgz` as artifacts of that job. After the pipeline is
+   green, the release owner downloads those two artifacts and runs, with the existing `gh` login:
+
+   ```bash
+   gh release create <tag> --notes-file release-notes.md dist-maps.tgz
+   ```
+
+   Add `--prerelease` for `-alpha.N`, `-beta.N` and `-rc.N` tags only.
 
 ## Consumer Mitigation Message
 

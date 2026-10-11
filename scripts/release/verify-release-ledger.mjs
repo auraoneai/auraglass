@@ -17,10 +17,12 @@ const PATHS = relPaths(ROOT);
 export const GITLAB_PROJECT = '87152036';
 
 export function changelogVersions(text) {
-  return [...text.matchAll(/^##\s+\[?v?(\d+\.\d+\.\d+)/gm)].map((m) => m[1]);
+  // full semver incl. pre-release (`## [5.0.0-alpha.1]` is 5.0.0-alpha.1, not 5.0.0)
+  return [...text.matchAll(/^##\s+\[?v?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)/gm)].map((m) => m[1]);
 }
 export const atLeast = (v, cut) => {
-  const a = v.split('.').map(Number); const b = cut.split('.').map(Number);
+  // compares the release core; a pre-release of a version >= cut is >= cut
+  const a = v.split('-')[0].split('.').map(Number); const b = cut.split('.').map(Number);
   for (let i = 0; i < 3; i++) if (a[i] !== b[i]) return a[i] > b[i];
   return true;
 };

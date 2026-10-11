@@ -1,10 +1,12 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* CMP-300 Card */
 @layer ag.components {
-  .ag-card { border-radius: var(--ag-radius-lg, 0.75rem); padding: var(--ag-space-3, 0.75rem); }
+  .ag-card { border-radius: var(--ag-radius-lg); padding: var(--ag-space-3); }
   .ag-card-interactive { cursor: pointer; }
-  .ag-card-header { margin-block-end: var(--ag-space-2, 0.5rem); }
+  .ag-card-header { margin-block-end: var(--ag-space-2); }
   .ag-card-title { margin: 0; font-size: var(--_ag-heading-md, 1.125rem); font-weight: 600; }
   .ag-card-description { margin: 0; color: var(--_ag-text-secondary, currentColor); }
   .ag-card-body { display: block; }
-  .ag-card-footer { margin-block-start: var(--ag-space-3, 0.75rem); display: flex; gap: var(--ag-space-2, 0.5rem); }
+  .ag-card-footer { margin-block-start: var(--ag-space-3); display: flex; gap: var(--ag-space-2); }
 }

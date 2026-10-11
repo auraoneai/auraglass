@@ -16,7 +16,8 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "prepublishOnly": "node ../../scripts/release/require-ci-publish.js"
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config jest.config.mjs",
+    "prepublishOnly": "node ../../scripts/ci/require-ci-publish.js"
   },
   "publishConfig": {
     "access": "public",
