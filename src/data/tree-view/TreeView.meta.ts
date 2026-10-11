@@ -7,10 +7,10 @@ export default defineMeta({
   tier: 'T1',
   flagship: 33,
   rsc: 'client',
-  parts: ['tree', 'treeitem', 'treeitem-label', 'treeitem-chevron', 'treeitem-children'],
+  parts: ['tree-item', 'tree-view'],
   states: ['expanded', 'collapsed', 'selected', 'focused'],
   variants: {},
-  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/treeview/',
+  apg: 'treeview',
   budgetKb: 8,
   migration: [
     { from: 'GlassTreeView', props: { nodes: 'items', selectedId: 'selectedKeys', onSelect: 'onSelectionChange' }, automation: 'mostly', compat: true },

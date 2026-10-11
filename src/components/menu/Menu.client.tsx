@@ -8,7 +8,7 @@
 import * as React from 'react';
 import { Menu as Base } from '@base-ui/react/menu';
 import { Menubar as BaseMenubar } from '@base-ui/react/menubar';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
@@ -100,7 +100,7 @@ const MenuPopup = React.forwardRef<HTMLDivElement, MenuPopupProps>(
     const ctx = React.useContext(MenuCtx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
-    useOverlayLayer({ kind: 'menu', modal: false, open: ctx.open, element: el });
+    const { depth } = useOverlayLayer({ kind: 'menu', modal: false, open: ctx.open, element: el });
     const setRefs: React.RefCallback<HTMLDivElement> = (node) => {
       setEl(node);
       animatingRef(node);
@@ -111,6 +111,7 @@ const MenuPopup = React.forwardRef<HTMLDivElement, MenuPopupProps>(
       <Base.Popup
         ref={setRefs}
         data-ag-part="popup"
+        data-ag-overlay-depth={depth}
         data-state={ctx.open ? 'open' : 'closed'}
         {...overlayMaterial('menu')}
         className={cn('ag-menu-popup', className)}
@@ -128,19 +129,24 @@ const MenuArrow = React.forwardRef<HTMLDivElement, MenuArrowProps>(
   },
 );
 
+/* REQ-CMP-102: the visible kbd is decorative — the item already exposes the
+   shortcut via aria-keyshortcuts, so hide the element from AT. */
 const shortcutKbd = (shortcut: string | undefined) => (
-  shortcut ? <kbd data-ag-part="shortcut" className="ag-menu-shortcut">{shortcut}</kbd> : null
+  shortcut ? <kbd data-ag-part="shortcut" className="ag-menu-shortcut" aria-hidden="true">{shortcut}</kbd> : null
 );
 
 const MenuItem = React.forwardRef<HTMLElement, MenuItemProps>(
-  function MenuItem({ className, children, shortcut, ...rest }, ref) {
+  function MenuItem({ className, children, shortcut, disabled, focusableWhenDisabled, ...rest }, ref) {
     return (
       <Base.Item
         ref={ref as React.Ref<HTMLDivElement>}
         data-ag-part="item"
         className={cn('ag-menu-item', className)}
+        disabled={disabled}
         {...(shortcut !== undefined ? { 'aria-keyshortcuts': shortcut } : {})}
         {...rest}
+        {...(disabled && focusableWhenDisabled === true ? { tabIndex: 0 } : {})}
+        {...(disabled && focusableWhenDisabled === false ? { tabIndex: -1 } : {})}
       >
         <span className="ag-menu-item-label">{children}</span>
         {shortcutKbd(shortcut)}
@@ -303,6 +309,18 @@ export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
   },
 );
 
+/* REQ-CMP-102: real Content composite = Portal>Positioner>Popup — mirrors the
+   Popover contract (REQ-CMP-97) so callers get the full overlay stack. */
+function MenuContent({ children }: { children: React.ReactNode }) {
+  return (
+    <MenuPortal>
+      <MenuPositioner>
+        <MenuPopup>{children}</MenuPopup>
+      </MenuPositioner>
+    </MenuPortal>
+  );
+}
+
 export const Menu = {
   Root: MenuRoot,
   Trigger: MenuTrigger,
@@ -322,6 +340,6 @@ export const Menu = {
   Separator: MenuSeparator,
   Submenu: MenuSubmenu,
   SubmenuTrigger: MenuSubmenuTrigger,
-  /** Contract alias: Content = Positioner>Popup region */
-  Content: MenuPopup,
+  /** Contract composite: Content = Portal>Positioner>Popup */
+  Content: MenuContent,
 };
