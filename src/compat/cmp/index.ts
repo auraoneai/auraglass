@@ -58,3 +58,9 @@ export * from './overlays/LiquidGlassAdaptiveSheet';
 export * from './overlays/LiquidGlassPopoverMenu';
 export * from './overlays/Positioner';
 export * from './overlays/useToast';
+export * from './core/ImageList';
+export * from './core/ImageListItem';
+export * from './core/ImageListItemBar';
+/* GlassGallery (DEP-C0262, ./core/GlassGallery) joins this barrel once FIN-F
+   drops the src/compat/surf/media/GlassGallery adapter (REQ-SURF-13); until
+   then both `export *` lines in src/compat/index.ts would collide (TS2308). */
