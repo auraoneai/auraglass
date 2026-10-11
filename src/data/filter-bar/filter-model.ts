@@ -39,12 +39,59 @@ export type Ops<T extends FilterFieldType> = T extends 'text'
             ? 'any-of' | 'none-of'
             : 'is';
 
+/** An inclusive range: number fields use numbers, date fields ISO strings. */
+export interface FilterRange<T extends string | number = string | number> {
+  start: T;
+  end: T;
+}
+
+/** REQ-SURF-86: every value shape a rule can carry. 'between' on number is
+    a numeric range, on date/date-range a string range; boolean is a real
+    boolean (never the string 'true'). */
+export type FilterValue = string | number | boolean | readonly string[] | FilterRange<string> | FilterRange<number>;
+
 export interface FilterRule<F extends FilterField = FilterField> {
   kind: 'rule';
   id: string;
   fieldId: string;
   operator: Ops<F['type']>;
-  value?: string | number | readonly string[] | { start: string; end: string } | undefined;
+  value?: FilterValue | undefined;
+}
+
+/** Operators that take no value. */
+export const VALUELESS_OPERATORS: readonly string[] = ['is-empty'];
+
+const isRange = (v: unknown, t: 'string' | 'number'): boolean =>
+  v !== null &&
+  typeof v === 'object' &&
+  !Array.isArray(v) &&
+  Object.keys(v).length === 2 &&
+  typeof (v as FilterRange).start === t &&
+  typeof (v as FilterRange).end === t &&
+  (t === 'string' || (Number.isFinite((v as FilterRange).start) && Number.isFinite((v as FilterRange).end)));
+
+/** REQ-SURF-86: is `value` a legal value for `field` under `operator`?
+    `undefined` (no value yet) is always legal; valueless operators accept
+    nothing else. Used by parse to reject tampered or mistyped URLs. */
+export function isValidRuleValue(field: FilterField, operator: string, value: unknown): boolean {
+  if (value === undefined) return true;
+  if (VALUELESS_OPERATORS.includes(operator)) return false;
+  switch (field.type) {
+    case 'text':
+    case 'enum':
+      return typeof value === 'string';
+    case 'number':
+      return operator === 'between' ? isRange(value, 'number') : typeof value === 'number' && Number.isFinite(value);
+    case 'date':
+    case 'date-range':
+      return operator === 'between' ? isRange(value, 'string') : typeof value === 'string';
+    case 'multi-enum':
+      return Array.isArray(value) && value.every((x) => typeof x === 'string');
+    case 'boolean':
+      return typeof value === 'boolean';
+    default:
+      return false;
+  }
 }
 
 export interface FilterGroup {
