@@ -1,5 +1,5 @@
 // theme.spec.ts — SURF-032/118: brand theme recolours chrome without layout shift. Remote lane (3 engines where required); absent
-// subjects report pending, never fail.
+// subjects fail the test.
 import { test, expect } from '@playwright/test';
 import { listSubjects, gotoStory } from '../../../helpers';
 
@@ -7,7 +7,7 @@ test.describe('theme (SURF-118)', () => {
   test('brand theme recolours chrome surfaces', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'AppShell');
-    if (!subject) { console.warn('AppShell subject not registered — pending'); return; }
+    if (!subject) throw new Error('AppShell subject not registered');
     await gotoStory(page, subject.id);
     const before = await page.evaluate(() =>
       getComputedStyle(document.querySelector('[data-ag-part="top-bar"]')!).color);

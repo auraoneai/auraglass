@@ -4,9 +4,9 @@ export const DEFAULT_CONTROL_SIZE: ControlSize = 'md';
 
 export interface ControlSizeAttrs {
   'data-ag-size': ControlSize;
-  'data-ag-size-class': 'control';
+  'data-size-class': 'control';
 }
 
 export function sizeAttrs(size?: ControlSize): ControlSizeAttrs {
-  return { 'data-ag-size': size ?? DEFAULT_CONTROL_SIZE, 'data-ag-size-class': 'control' };
+  return { 'data-ag-size': size ?? DEFAULT_CONTROL_SIZE, 'data-size-class': 'control' };
 }

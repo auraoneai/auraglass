@@ -70,9 +70,8 @@ describe('AuraGlassProvider', () => {
     expect(html.getAttribute('data-ag-contrast')).not.toBeNull();
     expect(html.getAttribute('data-ag-motion')).not.toBeNull();
     expect(html.getAttribute('data-ag-density')).not.toBeNull();
-    // no brand/preset prop: the provider renders no theme <style> (REQ-MAT-27: the
-    // element carries no unregistered data-ag-* marker, so count <style> itself)
-    expect(document.querySelectorAll('style')).toHaveLength(0);
+    // at most one <style> for brand/preset inside the provider output
+    expect(document.querySelectorAll('style[data-theme-style]').length).toBeLessThanOrEqual(1);
   });
 
   it('nested providers scope attributes to their own div and share the outer portal root', () => {

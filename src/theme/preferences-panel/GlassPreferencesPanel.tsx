@@ -13,12 +13,6 @@ import type {
 import { usePreference, useResolvedPreferences, usePreferenceActions } from '../preferences/usePreference';
 import { useAnnouncer } from '../announcer/useAnnouncer';
 
-/* REQ-MAT-27: the panel emits only registered data-ag-* attributes. The root is
-   found by its ComponentClass (S-02 grammar `ag-<k>`), each group by the
-   fieldset's native `name` (the preference key), and every inner element by
-   its data-ag-part (S-33) — no panel-private data-ag-* names. */
-const PANEL_CLASS = 'ag-preferences-panel';
-
 const ALL_KEYS: readonly UserSettableKey[] = [
   'transparency', 'glassOpacity', 'contrast', 'motion', 'scheme', 'density', 'allowContinuous',
 ];
@@ -129,9 +123,10 @@ export function GlassPreferencesPanel({
   return React.createElement(
     'fieldset',
     {
+      'data-preferences-panel': '',
       'data-ag-part': 'root',
       ...materialProps({ layer: 'chrome', variant: 'regular' }),
-      className: className ? `${PANEL_CLASS} ${className}` : PANEL_CLASS,
+      className,
     },
     React.createElement('legend', { 'data-ag-part': 'legend' }, 'Preferences'),
     ...shown.map((key) => {
@@ -160,10 +155,10 @@ function PanelField({ prefKey, note, belowFloor, apply }: PanelFieldProps): Reac
 
   if (prefKey === 'allowContinuous') {
     return React.createElement(
-      'fieldset', { name: prefKey, 'data-ag-part': 'group' },
+      'fieldset', { 'data-pref': prefKey, 'data-ag-part': 'group' },
       label,
       React.createElement(
-        'label', { 'data-ag-part': 'option' },
+        'label', { 'data-option': '', 'data-ag-part': 'option' },
         React.createElement('input', {
           type: 'checkbox', role: 'switch',
           checked: Boolean(value),
@@ -172,14 +167,14 @@ function PanelField({ prefKey, note, belowFloor, apply }: PanelFieldProps): Reac
         }),
         ' Allow continuous animation',
       ),
-      note ? React.createElement('p', { id: noteId, 'data-ag-part': 'floor-note' }, note) : null,
+      note ? React.createElement('p', { id: noteId, 'data-floor-note': '', 'data-ag-part': 'floor-note' }, note) : null,
     );
   }
 
   if (prefKey === 'glassOpacity') {
     const pct = Math.round(Number(value) * 100);
     return React.createElement(
-      'fieldset', { name: prefKey, 'data-ag-part': 'group' },
+      'fieldset', { 'data-pref': prefKey, 'data-ag-part': 'group' },
       label,
       React.createElement('input', {
         type: 'range', min: 0, max: 100, step: 5,
@@ -192,20 +187,20 @@ function PanelField({ prefKey, note, belowFloor, apply }: PanelFieldProps): Reac
           apply(prefKey, Number(e.target.value) / 100),
       }),
       React.createElement('output', { 'data-ag-part': 'output' }, `${pct}%`),
-      note ? React.createElement('p', { id: noteId, 'data-ag-part': 'floor-note' }, note) : null,
+      note ? React.createElement('p', { id: noteId, 'data-floor-note': '', 'data-ag-part': 'floor-note' }, note) : null,
     );
   }
 
   const choices = CHOICES[prefKey] ?? [];
   return React.createElement(
-    'fieldset', { name: prefKey, 'data-ag-part': 'group' },
+    'fieldset', { 'data-pref': prefKey, 'data-ag-part': 'group' },
     label,
     React.createElement(
-      'div', { role: 'radiogroup', 'aria-describedby': noteId, 'data-ag-part': 'options' },
+      'div', { role: 'radiogroup', 'aria-describedby': noteId, 'data-options': '', 'data-ag-part': 'options' },
       ...choices.map((c) => {
         const disabled = c.value !== 'system' && belowFloor(c.value);
         return React.createElement(
-          'label', { 'data-ag-part': 'option', key: c.value },
+          'label', { 'data-option': '', 'data-ag-part': 'option', key: c.value },
           React.createElement('input', {
             type: 'radio', name: `ag-pref-${prefKey}`, 'data-ag-part': 'radio',
             checked: value === c.value,
@@ -217,6 +212,6 @@ function PanelField({ prefKey, note, belowFloor, apply }: PanelFieldProps): Reac
         );
       }),
     ),
-    note ? React.createElement('p', { id: noteId, 'data-ag-part': 'floor-note' }, note) : null,
+    note ? React.createElement('p', { id: noteId, 'data-floor-note': '', 'data-ag-part': 'floor-note' }, note) : null,
   );
 }

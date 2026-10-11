@@ -1,0 +1,39 @@
+{
+  "$schema": "x",
+  "version": "1",
+  "rows": [
+    {
+      "id": "X-92",
+      "capability": "module-scope variable side-effect fixture",
+      "area": "labs",
+      "priority": "P3",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "labs"
+      ],
+      "names": [
+        "BodyRef"
+      ],
+      "release": "5.x",
+      "evidence": [
+        "exception:fixture"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    }
+  ]
+}
