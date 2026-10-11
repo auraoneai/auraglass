@@ -1,3 +1,8 @@
+declare module 'picomatch' {
+  function picomatch(glob: string, options?: { dot?: boolean }): (path: string) => boolean;
+  export default picomatch;
+}
+
 declare module 'pngjs' {
   export class PNG {
     width: number; height: number; data: Buffer;

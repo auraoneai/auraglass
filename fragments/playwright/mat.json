@@ -282,5 +282,59 @@
     "use": {
       "defaultBrowserType": "firefox"
     }
+  },
+  {
+    "name": "mat:a11y-e2e-chromium",
+    "testDir": "tests/e2e/mat",
+    "testMatch": "*.spec.ts",
+    "testIgnore": ["material/**", "prepaint.spec.ts"],
+    "use": {
+      "defaultBrowserType": "chromium",
+      "viewport": { "width": 1440, "height": 900 }
+    }
+  },
+  {
+    "name": "mat:a11y-e2e-webkit",
+    "testDir": "tests/e2e/mat",
+    "testMatch": "*.spec.ts",
+    "testIgnore": ["material/**", "prepaint.spec.ts"],
+    "use": {
+      "defaultBrowserType": "webkit",
+      "viewport": { "width": 1440, "height": 900 }
+    }
+  },
+  {
+    "name": "mat:a11y-e2e-firefox",
+    "testDir": "tests/e2e/mat",
+    "testMatch": "*.spec.ts",
+    "testIgnore": ["material/**", "prepaint.spec.ts", "target-size-coarse.spec.ts"],
+    "use": {
+      "defaultBrowserType": "firefox",
+      "viewport": { "width": 1440, "height": 900 }
+    }
+  },
+  {
+    "name": "mat:a11y-pixel-contrast-chromium",
+    "testDir": "tests/visual/mat/a11y",
+    "testMatch": "pixel-contrast.spec.ts",
+    "use": {
+      "defaultBrowserType": "chromium"
+    }
+  },
+  {
+    "name": "mat:a11y-pixel-contrast-webkit",
+    "testDir": "tests/visual/mat/a11y",
+    "testMatch": "pixel-contrast.spec.ts",
+    "use": {
+      "defaultBrowserType": "webkit"
+    }
+  },
+  {
+    "name": "mat:a11y-pixel-contrast-firefox",
+    "testDir": "tests/visual/mat/a11y",
+    "testMatch": "pixel-contrast.spec.ts",
+    "use": {
+      "defaultBrowserType": "firefox"
+    }
   }
 ]

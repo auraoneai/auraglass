@@ -1,10 +1,13 @@
 /* MAT-307 (REQ-A11Y-28): focus-not-obscured — on A11y/ScrollPadding at 1440 and
    390 widths, Tab through >=50 focusables; for each, the fraction of the
    focused element covered by sticky chrome must be < 1.0 and the median
-   coverage = 0. */
+   coverage = 0. REQ-MAT-65: the fixture is resolved through listSubjects()
+   and must be MAT-owned. */
 import { test, expect } from '@playwright/test';
+import { listSubjects } from '../../helpers';
+import { matFixture } from './helpers/subjects';
 
-const STORY = 'a11y-scroll-padding--default';
+const STORY = 'a11y-scrollpadding--default';
 
 async function coverageProbe(page: import('@playwright/test').Page): Promise<{ each: number[]; median: number }> {
   const coverages: number[] = [];
@@ -37,7 +40,8 @@ test.describe('focus-not-obscured', () => {
   for (const width of [1440, 390]) {
     test(`sticky chrome never covers the focused element at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: width === 390 ? 844 : 900 });
-      await page.goto(`/iframe.html?id=${STORY}&viewMode=story`);
+      const fixture = await matFixture(listSubjects, STORY);
+      await page.goto(`/iframe.html?id=${fixture.id}&viewMode=story`);
       await page.waitForSelector('[data-ag-scroll-container]');
       await page.click('[data-ag-scroll-container]');
       const { median } = await coverageProbe(page);
