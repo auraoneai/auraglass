@@ -6,8 +6,11 @@ export const ChipMeta = defineMeta({
   entry: './data',
   tier: 'T2',
   rsc: 'client',
-  parts: ['root', 'leading-icon', 'label', 'trailing-icon'],
+  parts: ['root', 'leading-icon', 'label', 'trailing-icon', 'close'],
   states: ['pressed', 'disabled'],
   variants: {},
-  migration: [{ from: 'GlassChip', automation: 'full', compat: true }],
+  material: { layer: 'content' },
+  apg: 'button',
+  budgetKb: 3,
+  migration: [{ from: 'GlassChip', props: {}, selectors: { '.glass-chip': '.ag-chip' },  automation: 'full', compat: true }],
 });

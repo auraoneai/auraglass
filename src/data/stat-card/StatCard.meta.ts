@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 35,
   rsc: 'server',
-  parts: ['stat-card', 'stat-card-label', 'stat-card-value', 'stat-card-delta', 'stat-card-sparkline', 'stat-card-description'],
+  parts: ['stat-card', 'stat-card-delta', 'stat-card-description', 'stat-card-label', 'stat-card-sparkline', 'stat-card-value'],
   states: ['loading'],
   variants: { trendDirection: ['up-is-good', 'down-is-good', 'neutral'] },
   budgetKb: 3,

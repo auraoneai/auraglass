@@ -26,6 +26,7 @@ jest.mock('@base-ui/react/select', () => {
 });
 
 import { Select } from '../../src/components/select';
+import { defaultPositionerProps } from '../../src/components/overlays/_shared/positioning';
 
 describe('Select positioner (REQ-CMP-65)', () => {
   it('items map provides the label in the trigger before open', () => {
@@ -39,8 +40,10 @@ describe('Select positioner (REQ-CMP-65)', () => {
 
   it('sideOffset=8 + collisionPadding=8 on Positioner', () => {
     const src = readFileSync(join(process.cwd(), 'src/components/select/Select.client.tsx'), 'utf8');
-    expect(src).toMatch(/sideOffset=\{8\}/);
-    expect(src).toMatch(/collisionPadding=\{8\}/);
+    // The 8/8 contract now comes from the shared overlay positioner defaults.
+    expect(src).toMatch(/\{\.\.\.defaultPositionerProps\}/);
+    expect(defaultPositionerProps.sideOffset).toBe(8);
+    expect(defaultPositionerProps.collisionPadding).toBe(8);
     expect(src).toMatch(/useSyncExternalStore\(subscribeFinePointer/);
   });
 });
