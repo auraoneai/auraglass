@@ -6,7 +6,7 @@ export const ChipMeta = defineMeta({
   entry: './data',
   tier: 'T2',
   rsc: 'client',
-  parts: ['root', 'leading-icon', 'label', 'trailing-icon'],
+  parts: ['root', 'leading-icon', 'label', 'trailing-icon', 'close'],
   states: ['pressed', 'disabled'],
   variants: {},
   material: { layer: 'content' },
