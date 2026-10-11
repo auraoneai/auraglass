@@ -13,6 +13,12 @@
    `pending` is `fail` (G-01: pending is not pass). Pending is reported only here:
    - node-script rows exit PENDING_EXIT (75) to say "producer not landed";
    - jest/playwright rows whose every failure is an `AgPendingProducer` / `pending:` error are pending.
+   REQ-QUAL-66: certification/quarantine.json is validated on every run (expired or > 7-day entries fail); a Playwright
+   row whose only failures are quarantined cells is `quarantined` below release and `fail` at release, where any active
+   entry fails the run. Nightly runs every L7 browser row twice and records the agreement (≥ 99.9 %). The manifest lists
+   the fonts installed on the runner and the job image digest.
+   REQ-QUAL-65: at release scope with AG_RELEASE_SHARDS=<shards-summary.json> (scripts/qual/shard-plan.mjs collect), L6
+   rows are evaluated from the sharded child pipeline instead of being re-run unsharded.
    Exit codes: 0 no blocking failure · 1 blocking failure · 2 invoked outside a remote runner · 64 usage error. */
 import { execFileSync, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -25,6 +31,11 @@ import { loadFragments } from '../../../../src/contracts/load-fragments.mjs';
 import type { LaneRegistration } from '../../../../src/contracts/fragments.ts';
 import { buildCoveragePlan, evaluateCoverage, flagshipDirs, readRatchets, seedDirs, type GroupResult } from './coverageThreshold.ts';
 import { loadOwnerOf } from './ownership.ts';
+import { checkRemote } from '../../../../scripts/qual/remote-guard.mjs';
+import {
+  DETERMINISM_MIN_AGREEMENT, QUARANTINE_FILE, agreementOf, partitionQuarantined, playwrightOutcomes, validateQuarantine,
+  type Agreement, type QuarantineEntry,
+} from './quarantine.ts';
 
 export const LANE_IDS = ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11', 'L12'] as const;
 export const SCOPES = ['pr', 'main', 'nightly', 'release'] as const;
@@ -42,7 +53,7 @@ const STREAMS = ['plat', 'mat', 'cmp', 'surf', 'qual'] as const;
 export type LaneId = (typeof LANE_IDS)[number];
 export type Scope = (typeof SCOPES)[number];
 export type Stream = (typeof STREAMS)[number];
-export type State = 'pass' | 'fail' | 'pending' | 'double-pass' | 'pre-existing';
+export type State = 'pass' | 'fail' | 'pending' | 'double-pass' | 'pre-existing' | 'quarantined';
 
 export interface Registration extends Omit<LaneRegistration, 'lane'> {
   lane: LaneId | 'L13' | 'L14';
@@ -69,12 +80,16 @@ export interface RowResult {
   subjects?: string[];
   coverage?: Array<GroupResult & { owner: string }>;
   coveragePending?: Array<{ key: string; reason: string }>;
+  /** REQ-QUAL-66: quarantined cells among this row's failures */
+  quarantined?: string[];
+  /** REQ-QUAL-66: nightly L7 double-run agreement */
+  determinism?: Omit<Agreement, 'disagreements'> & { disagreements: Agreement['disagreements']; runs: 2 };
 }
 export interface ManifestResult extends RowResult { lane: string; stream: Stream; kind: string; path: string; scope: Scope; source: string | null; blockingFor?: string }
 
 export interface Tools { node: string; jestBin: string; playwrightCli: string; npm: string }
 export interface Tarball { source: 'env' | 'pack'; path: string }
-export interface RowContext { root: string; evidenceDir: string; idx: number; scope: Scope; env: NodeJS.ProcessEnv; tools: Tools; tarball: Tarball | null }
+export interface RowContext { root: string; evidenceDir: string; idx: number; scope: Scope; env: NodeJS.ProcessEnv; tools: Tools; tarball: Tarball | null; quarantine?: readonly QuarantineEntry[] }
 
 export interface Args { lane: LaneId | 'all'; scope: Scope; verdict: string | null; line: '4x' | '5x' }
 
@@ -278,7 +293,7 @@ function runJest(row: Registration, ctx: RowContext): RowResult {
   return { state: 'fail', reason: why, failedOwners, ...common };
 }
 
-interface PwSuite { file?: string; specs?: Array<{ file?: string; tests?: Array<{ status?: string; results?: Array<{ error?: { message?: string }; errors?: Array<{ message?: string }> }> }> }>; suites?: PwSuite[] }
+interface PwSuite { file?: string; specs?: Array<{ file?: string; title?: string; tests?: Array<{ status?: string; results?: Array<{ error?: { message?: string }; errors?: Array<{ message?: string }> }> }> }>; suites?: PwSuite[] }
 interface PwReport { stats?: { expected?: number; unexpected?: number; flaky?: number; skipped?: number }; suites?: PwSuite[]; errors?: Array<{ message?: string }> }
 
 /** QUAL's certification specs (certification/**) run under certification/playwright.cert.config.ts (its testDir is
@@ -354,10 +369,10 @@ async function runPlaywright(row: Registration, ctx: RowContext): Promise<RowRes
   const s = report.stats;
   const total = (s.expected ?? 0) + (s.unexpected ?? 0) + (s.flaky ?? 0);
   if (total === 0) return { state: 'fail', reason: `0 tests ran for ${files.length} spec file(s)`, tests: 0, durationMs: r.durationMs };
-  const failing: Array<{ file: string; messages: string[] }> = [];
+  const failing: Array<{ file: string; title: string; messages: string[] }> = [];
   const visit = (suite: PwSuite) => {
     for (const spec of suite.specs ?? []) for (const t of spec.tests ?? []) {
-      if (t.status === 'unexpected') failing.push({ file: spec.file ?? suite.file ?? '', messages: (t.results ?? []).map((x) => x.error?.message ?? '').filter(Boolean) });
+      if (t.status === 'unexpected') failing.push({ file: spec.file ?? suite.file ?? '', title: spec.title ?? '', messages: (t.results ?? []).map((x) => x.error?.message ?? '').filter(Boolean) });
     }
     (suite.suites ?? []).forEach(visit);
   };
@@ -365,6 +380,15 @@ async function runPlaywright(row: Registration, ctx: RowContext): Promise<RowRes
   const messages = [...failing.flatMap((f) => f.messages), ...(report.errors ?? []).map((e) => e.message ?? '')];
   const common = { tests: total, failed: s.unexpected ?? 0, durationMs: r.durationMs };
   if (r.status === 0 && !(s.unexpected ?? 0)) return { state: 'pass', ...common };
+  // REQ-QUAL-66: failures that are all quarantined cells (and no run-level error) are `quarantined`, never `pass`;
+  // at release scope they stay `fail` (no release SHA carries a quarantined cell).
+  const q = partitionQuarantined(failing, ctx.quarantine ?? []);
+  if (q.quarantined.length && !q.other.length && !(report.errors ?? []).length) {
+    const cells = [...new Set(q.quarantined.map((f) => f.title.split(' @engine-')[0]!))];
+    return ctx.scope === 'release'
+      ? { state: 'fail', reason: `${cells.length} quarantined cell(s) failed at release scope (quarantined is not pass)`, quarantined: cells, ...common }
+      : { state: 'quarantined', reason: `${cells.length} failing cell(s) are quarantined in ${QUARANTINE_FILE}`, quarantined: cells, ...common };
+  }
   if (allPending(messages)) return { state: 'pending', reason: 'every failure is a pending-producer error', ...common };
   // Playwright reports spec files relative to the config's testDir (tests/ or certification/).
   const testDir = config === 'playwright.config.ts' ? 'tests/' : 'certification/';
@@ -487,7 +511,66 @@ export function validateManifest(manifest: unknown, schema: Schema): string[] {
   return errors;
 }
 
-export interface MainOptions { root: string; env?: NodeJS.ProcessEnv; tools?: Partial<Tools> }
+export interface MainOptions { root: string; env?: NodeJS.ProcessEnv; tools?: Partial<Tools>; now?: () => Date }
+
+// ---------------------------------------------------------------- REQ-QUAL-65/-66 helpers
+
+/** certification/quarantine.json (absent = no quarantine) and its validation problems at `now`. */
+export function loadQuarantine(root: string, now: Date): { entries: QuarantineEntry[]; problems: string[] } {
+  const file = join(root, QUARANTINE_FILE);
+  if (!existsSync(file)) return { entries: [], problems: [] };
+  let value: unknown;
+  try { value = JSON.parse(readFileSync(file, 'utf8')); } catch (e) { return { entries: [], problems: [`${QUARANTINE_FILE}: invalid JSON (${(e as Error).message})`] }; }
+  const problems = validateQuarantine(value, now).map((p) => `${QUARANTINE_FILE}: ${p.message}`);
+  return { entries: Array.isArray(value) ? (value as QuarantineEntry[]).filter((e) => e && typeof e.cell === 'string') : [], problems };
+}
+
+/** Offset of the second nightly L7 run's report index (playwright-<idx>.json). */
+export const DOUBLE_RUN_IDX = 5000;
+
+/** REQ-QUAL-66 nightly: run an L7 browser row a second time on the same SHA and compare per-test outcomes. */
+async function doubleRun(row: Registration, ctx: RowContext, first: RowResult): Promise<RowResult> {
+  if (first.state === 'pending') return first; // the producer has not landed: nothing ran
+  const second = await executeRow(row, { ...ctx, idx: ctx.idx + DOUBLE_RUN_IDX });
+  const read = (i: number) => {
+    const f = join(ctx.evidenceDir, `playwright-${i}.json`);
+    return existsSync(f) ? playwrightOutcomes(JSON.parse(readFileSync(f, 'utf8'))) : null;
+  };
+  const a = read(ctx.idx);
+  const b = read(ctx.idx + DOUBLE_RUN_IDX);
+  if (!a || !b) return { ...first, state: 'fail', reason: `nightly double run: no Playwright report for run ${a ? 2 : 1}${first.reason ? `; ${first.reason}` : ''}` };
+  const agreement = agreementOf(a, b);
+  const determinism = { ...agreement, disagreements: agreement.disagreements.slice(0, 200), runs: 2 as const };
+  if (!agreement.ok) {
+    return { ...first, state: 'fail', determinism, reason: `nightly L7 double run: ${(agreement.ratio * 100).toFixed(3)} % of ${agreement.cells} cells agree (< ${DETERMINISM_MIN_AGREEMENT * 100} %)${first.reason ? `; ${first.reason}` : ''}` };
+  }
+  // Both runs must stand on their own: a failure in either run is the row's failure.
+  if (first.state !== 'fail' && second.state === 'fail') return { ...second, determinism };
+  return { ...first, determinism };
+}
+
+export interface ShardsSummaryInput { ok?: boolean; sha?: string | null; parallel?: number; cells?: number; problems?: string[]; imageDigest?: string | null; maxShardMs?: number | null }
+
+/** REQ-QUAL-65: the L6 row at release scope, evaluated from the collected shard summary. */
+export function shardedL6Result(summary: ShardsSummaryInput | null, sha: string | null, file: string): RowResult {
+  if (!summary) return { state: 'fail', reason: `AG_RELEASE_SHARDS=${file} not found (scripts/qual/shard-plan.mjs collect)` };
+  if (sha && summary.sha !== sha) return { state: 'fail', reason: `shard summary is for ${summary.sha}, not ${sha}` };
+  if (summary.ok !== true) return { state: 'fail', reason: `sharded release matrix: ${(summary.problems ?? ['not ok']).slice(0, 5).join('; ')}` };
+  return { state: 'pass', reason: `${summary.parallel} shard(s), ${summary.cells} cells (child pipeline)`, ...(summary.maxShardMs != null ? { durationMs: summary.maxShardMs } : {}) };
+}
+
+/** Fonts installed on the runner (fontconfig), sorted; null where fc-list is unavailable. */
+export function listFonts(env: NodeJS.ProcessEnv = process.env): Array<{ family: string; file: string }> | null {
+  const r = spawnSync('fc-list', ['--format', '%{family[0]}\t%{file}\n'], { encoding: 'utf8', env, timeout: 30_000 });
+  if (r.status !== 0 || r.error) return null;
+  const rows = r.stdout.split('\n').filter(Boolean).map((l) => { const [family = '', file = ''] = l.split('\t'); return { family, file }; });
+  return [...new Map(rows.map((x) => [`${x.family}\0${x.file}`, x])).values()].sort((a, b) => a.family.localeCompare(b.family) || a.file.localeCompare(b.file));
+}
+
+/** `sha256:<64 hex>` from an image reference pinned by digest (`name@sha256:…`); null for a tag-only reference. */
+export function imageDigestOf(image: string | null | undefined): string | null {
+  return image?.match(/@(sha256:[0-9a-f]{64})$/)?.[1] ?? null;
+}
 export interface MainResult { code: number; manifestPath: string | null; manifest: Record<string, unknown> | null }
 
 export async function runLanes(argv: readonly string[], opts: MainOptions): Promise<MainResult> {
@@ -496,8 +579,10 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
   let args: Args;
   try { args = parseArgs(argv); } catch (e) { console.error(`run.mjs: ${(e as Error).message}`); return { code: EXIT.usage, manifestPath: null, manifest: null }; }
   const command = `node certification/run.mjs ${argv.join(' ')}`;
-  if (!(env.CI === 'true' || env.AG_REMOTE_RUNNER === '1' || env.AG_CERT_ALLOW_LOCAL === '1')) {
-    console.error(`run.mjs: certification lanes run only on GitLab CI or the gated remote runner (machine policy).\nRemote command: ${command}`);
+  // REQ-QUAL-67: the shared remote guard (scripts/qual/remote-guard.mjs) decides; refusal exits 2 with the command.
+  const refusal = checkRemote({ command, env, what: 'certification/run.mjs' });
+  if (refusal) {
+    console.error(refusal.message);
     return { code: EXIT.local, manifestPath: null, manifest: null };
   }
   const tools: Tools = { node: process.execPath, jestBin: join(root, 'node_modules/jest/bin/jest.js'), playwrightCli: join(root, 'node_modules/@playwright/test/cli.js'), npm: 'npm', ...opts.tools };
@@ -522,6 +607,17 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
   const results: ManifestResult[] = [];
   const push = (entry: ManifestResult) => results.push(Object.fromEntries(Object.entries(entry).filter(([, v]) => v !== undefined)) as ManifestResult);
   for (const p of regs.problems) push({ lane: args.lane === 'all' ? 'L1' : args.lane, stream: 'qual', kind: 'node-script', path: 'certification/lanes.config.ts', scope: args.scope, source: 'certification/lanes.config.ts', state: 'fail', reason: p });
+  // REQ-QUAL-66 quarantine: invalid/expired entries fail every run; at release any active entry fails the run.
+  const quarantine = loadQuarantine(root, (opts.now ?? (() => new Date()))());
+  const qRow = { lane: args.lane === 'all' ? 'L1' : args.lane, stream: 'qual' as const, kind: 'node-script', path: QUARANTINE_FILE, scope: args.scope, source: QUARANTINE_FILE };
+  for (const p of quarantine.problems) push({ ...qRow, state: 'fail', reason: p });
+  if (args.scope === 'release' && quarantine.entries.length) {
+    push({ ...qRow, state: 'fail', reason: `${quarantine.entries.length} quarantined cell(s) (${quarantine.entries.map((e) => e.cell).slice(0, 5).join(', ')}): a release SHA carries no quarantined cell` });
+  }
+  // REQ-QUAL-65: release L6 comes from the sharded child pipeline when the release job collected it.
+  const shardsFile = args.scope === 'release' && env.AG_RELEASE_SHARDS ? resolve(root, env.AG_RELEASE_SHARDS) : null;
+  const shards = shardsFile && existsSync(shardsFile) ? (JSON.parse(readFileSync(shardsFile, 'utf8')) as ShardsSummaryInput) : null;
+  const determinism: Array<{ lane: string; path: string } & NonNullable<RowResult['determinism']>> = [];
 
   let tarball: Tarball | null = null;
   let tarballError: string | null = null;
@@ -533,7 +629,15 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
     let res: RowResult;
     if (TARBALL_LANES.has(row.lane) && tarballError) res = { state: 'fail', reason: `tarball: ${tarballError}` };
     else {
-      try { res = await executeRow(row, { root, evidenceDir, idx, scope: args.scope, env, tools, tarball: TARBALL_LANES.has(row.lane) ? tarball : null }); } catch (e) { res = { state: 'fail', reason: `runner crash: ${(e as Error).message}` }; }
+      const ctx: RowContext = { root, evidenceDir, idx, scope: args.scope, env, tools, tarball: TARBALL_LANES.has(row.lane) ? tarball : null, quarantine: quarantine.entries };
+      try {
+        if (shardsFile && row.lane === 'L6') res = shardedL6Result(shards, gitSha(root, env), env.AG_RELEASE_SHARDS!);
+        else {
+          res = await executeRow(row, ctx);
+          if (args.scope === 'nightly' && row.lane === 'L7' && BROWSER_KINDS.has(row.kind)) res = await doubleRun(row, ctx, res);
+        }
+      } catch (e) { res = { state: 'fail', reason: `runner crash: ${(e as Error).message}` }; }
+      if (res.determinism) determinism.push({ lane: row.lane, path: row.path, ...res.determinism });
     }
     let entry: ManifestResult = { lane: row.lane, stream: row.stream, kind: row.kind, path: row.path, scope: args.scope, source: row.source, ...res };
     if (res.state === 'fail' && prStream) {
@@ -558,7 +662,7 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
   }
   if (args.scope === 'release') {
     // G-01: at release pending, double-pass and pre-existing are not pass.
-    for (const r of results) if (r.state === 'pending' || r.state === 'double-pass') { r.reason = `${r.state} at release scope${r.reason ? `: ${r.reason}` : ''}`; r.state = 'fail'; }
+    for (const r of results) if (r.state === 'pending' || r.state === 'double-pass' || r.state === 'quarantined') { r.reason = `${r.state} at release scope${r.reason ? `: ${r.reason}` : ''}`; r.state = 'fail'; }
   }
   const tests = results.reduce((n, r) => n + (r.tests ?? 0), 0);
   // L6 (REQ-QUAL-04/-12): planned cells, live subjects, the packed tarball's sha256 and the measured capture rate.
@@ -566,7 +670,12 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
   const manifest: Record<string, unknown> = {
     version: 1, lane: args.lane, line: args.line, sha: gitSha(root, env), scope: args.scope,
     branch: env.CI_COMMIT_BRANCH || env.CI_COMMIT_REF_NAME || null, prStream,
-    runnerTag: env.CI_RUNNER_TAGS || null, imageDigest: env.CI_JOB_IMAGE || null, browserVersions: {},
+    runnerTag: env.CI_RUNNER_TAGS || null, image: env.CI_JOB_IMAGE || null, imageDigest: imageDigestOf(env.CI_JOB_IMAGE), browserVersions: {},
+    // REQ-QUAL-66: one Playwright version/image digest per run, fonts listed, quarantine and the nightly L7 agreement.
+    fonts: listFonts(env),
+    quarantine: { file: QUARANTINE_FILE, entries: quarantine.entries.length, cells: quarantine.entries.map((e) => e.cell), quarantined: [...new Set(results.flatMap((r) => r.quarantined ?? []))] },
+    ...(determinism.length ? { determinism } : {}),
+    ...(shardsFile ? { shards: shards ? { file: env.AG_RELEASE_SHARDS, parallel: shards.parallel ?? null, cells: shards.cells ?? null, ok: shards.ok === true } : { file: env.AG_RELEASE_SHARDS, missing: true } } : {}),
     subjects: [...new Set([...results.flatMap((r) => r.subjects ?? [r.path]), ...(capture?.plan.subjects ?? [])])], cells: capture?.plan.cells ?? [], results,
     tarball: tarball ? { source: tarball.source, file: tarball.path.startsWith(root) ? tarball.path.slice(root.length + 1) : tarball.path, sha256: sha256(tarball.path) } : null,
     thresholdsSha256: sha256(join(root, 'certification/thresholds.json')),
@@ -574,7 +683,7 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
     inventorySha256: sha256(join(root, 'storybook-static/cert-manifest.json')),
     durationMs: Date.now() - t0, captureRate: capture?.captureRate ?? null,
     ...(capture ? { tarballSha256: capture.plan.tarball?.sha256 ?? null, storybookIndexSha256: capture.plan.storybookIndexSha256 ?? null, captures: capture.captures } : {}),
-    summary: Object.fromEntries(['pass', 'fail', 'pending', 'pre-existing', 'double-pass'].map((s) => [s, results.filter((r) => r.state === s).length])),
+    summary: Object.fromEntries(['pass', 'fail', 'pending', 'pre-existing', 'double-pass', 'quarantined'].map((s) => [s, results.filter((r) => r.state === s).length])),
     tests,
   };
   const schema = JSON.parse(readFileSync(join(root, 'certification/schemas/lane-manifest.schema.json'), 'utf8')) as Schema;
