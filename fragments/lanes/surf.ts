@@ -21,6 +21,9 @@ const w1 = [
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/tabs-indicator.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/tabbar-minimize.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/source-transition.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // REQ-SURF-190: every SURF subject idle 1,000 ms after load at full/calm/none.
+  { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/idle.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/idle.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/app-shell-scroll.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/sidebar-toggle.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/resizable-drag.spec.ts', scope: 'pr', remote: true, failClosed: true },
