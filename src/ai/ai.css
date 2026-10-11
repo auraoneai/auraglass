@@ -44,15 +44,20 @@
   [data-ag-part="composer"] {
     container-type: inline-size;
   }
+  /* REQ-SURF-116/119: grows 1 → maxRows lines (Composer writes
+     --_ag-composer-max-rows; measured fallback without field-sizing). */
   [data-ag-part="composer"] [data-ag-part="textarea"] {
     field-sizing: content;
-    max-block-size: var(--_ag-ai-composer-max-block, 12lh);
+    max-block-size: var(--_ag-ai-composer-max-block, calc(var(--_ag-composer-max-rows, 8) * 1lh));
     resize: none;
   }
-  /* Keyboard inset (SURF-318): pad above the software keyboard. */
+  /* Keyboard inset (SURF-318, REQ-SURF-119): env() where the VirtualKeyboard
+     API exists, else the visualViewport fallback Composer writes. */
   [data-ag-part="composer"] {
-    padding-block-end: env(keyboard-inset-height, 0px);
+    padding-block-end: max(env(keyboard-inset-height, 0px), var(--_ag-ai-keyboard-inset, 0px));
   }
+  /* REQ-SURF-119: the secondary-actions menu exists only below 480 px. */
+  [data-ag-part="composer"] [data-ag-part="composer-menu"] { display: none; }
   [data-ag-part="composer"][data-dragging="true"] {
     outline: 2px dashed var(--_ag-line, currentColor);
     outline-offset: -2px;
@@ -71,9 +76,11 @@
   }
   @container (max-width: 480px) {
     [data-ag-part="composer"] [data-ag-part="avatar"] { display: none; }
-    /* SURF-318: slot actions collapse to one leading action; maxRows -> 5. */
-    [data-ag-part="composer"] [data-ag-part="actions"] > :not([data-ag-part="composer-menu"]) { display: none; }
-    [data-ag-part="composer"] [data-ag-part="textarea"] { max-block-size: 5lh; }
+    /* SURF-318 / REQ-SURF-119: secondary actions collapse into the one
+       leading composer-menu; Submit/Stop stay; maxRows -> 5. */
+    [data-ag-part="composer"] [data-ag-part="actions"] [data-ag-part="action"] { display: none; }
+    [data-ag-part="composer"] [data-ag-part="composer-menu"] { display: inline-flex; }
+    [data-ag-part="composer"] [data-ag-part="textarea"] { max-block-size: min(5lh, var(--_ag-ai-composer-max-block, calc(var(--_ag-composer-max-rows, 8) * 1lh))); }
   }
   /* ToolCall running atom — CSS three-dot (SURF-323); static text under
    * reduced motion via the `motion` preference attribute (S-12). */
