@@ -62,9 +62,9 @@ function Root({
       {...rest}
       ref={setRefs}
       data-ag-part="root"
-      data-ag-variant={variant}
-      data-ag-cols={effectiveCols}
-      data-ag-min-item={minItemWidth}
+      data-ag-appearance={variant}
+      data-cols={effectiveCols}
+      data-min-item={minItemWidth}
       className={cn('ag-image-list', variant === 'masonry' ? 'ag-image-list-masonry' : undefined, className)}
       style={styleObj}
     />
@@ -101,7 +101,7 @@ function ItemBar({
       ref={ref}
       data-ag-part="item-bar"
       data-ag-backdrop="media"
-      data-ag-position={position}
+      data-position={position}
       className={cn('ag-image-list-bar', className)}
     >
       <span data-ag-part="item-bar-text" className="ag-image-list-bar-text">

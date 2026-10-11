@@ -8,6 +8,7 @@
    the starting/ending-style flip — no MutationObserver is held on the popup. */
 import * as React from 'react';
 import { subscribeFrame } from '../../../motion/ticker';
+import { setAnimating as markAnimating } from '../../../material/stateAttributes';
 
 const ANIMATED_PROPS = new Set(['transform', 'opacity', 'translate', 'scale', 'rotate']);
 
@@ -23,7 +24,7 @@ export function useOverlayAnimating(): React.RefCallback<HTMLElement> {
       pendingProps = null;
       unsubStyle?.();
       unsubStyle = null;
-      popup.removeAttribute('data-ag-animating');
+      markAnimating(popup, false);
       popup.removeEventListener('transitionend', onDone);
       popup.removeEventListener('transitioncancel', onDone);
     };
@@ -37,7 +38,7 @@ export function useOverlayAnimating(): React.RefCallback<HTMLElement> {
     };
 
     const setAnimating = () => {
-      popup.setAttribute('data-ag-animating', '');
+      markAnimating(popup, true);
       // Collect the property names we expect transitionend for; a property not
       // in the computed transition list ends immediately.
       const list = (getComputedStyle(popup).transitionProperty || '')

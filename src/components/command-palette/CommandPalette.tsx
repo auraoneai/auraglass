@@ -70,7 +70,7 @@ export function CommandPalette({
       <DialogContent
         data-ag-part="command-palette"
         data-ag-size="lg"
-        data-ag-placement="top"
+        placement="top"
         className="ag-command-palette"
       >
         {children ?? (

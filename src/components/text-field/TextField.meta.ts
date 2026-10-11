@@ -18,7 +18,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'content', refractionEligible: false },
   apg: 'textbox',
-  budgetKb: 12,
+  budgetKb: 12000 / 1024,
   migration: [
     {
       from: 'GlassInput',

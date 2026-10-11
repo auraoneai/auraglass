@@ -8,6 +8,8 @@
  *   node scripts/surf/verify-capability-ledger.mjs --report md [--write|--check]
  *   node scripts/surf/verify-capability-ledger.mjs --report release-notes --version <x.y>
  *   node scripts/surf/verify-capability-ledger.mjs --manifest <exports-manifest.json>
+ *   node scripts/surf/verify-capability-ledger.mjs [--size-report <size-budgets.json>]
+ *        (REQ-SURF-164 size guard; default docs/size-budgets.json)
  *
  * Exits 1 naming the offending row on failure. Dependency-free — the JSON
  * Schema subset (type, enum, pattern, required, items, properties,
@@ -199,13 +201,9 @@ function diffGate(baseSha) {
     const m = /^registry\/(?:blocks|items)\/([^/]+)\//.exec(p) ?? /^packages\/labs\/src\/([^/]+)\//.exec(p);
     return m ? m[1] : null;
   };
-  // The entry directory of a changed path (registry/<kind>/<id> or packages/labs/src/<id>).
-  const entryDirOf = (p) => {
-    const m = /^(registry\/(?:blocks|items)\/[^/]+)\//.exec(p) ?? /^(packages\/labs\/src\/[^/]+)\//.exec(p);
-    return m ? m[1] : null;
-  };
-  // Only entries that did not exist at the base are "added"; edits to an
-  // existing block/item/labs resident (prop renames etc.) need no ledger row.
+  // Only entries that did not exist at <base> are "added"; editing a file of an
+  // existing entry (e.g. a story's parameters) needs no ledger change.
+  const dirOf = (p) => (/^(registry\/(?:blocks|items)\/[^/]+)\//.exec(p) ?? /^(packages\/labs\/src\/[^/]+)\//.exec(p))?.[1];
   const existedAtBase = (dir) => {
     try {
       execSync(`git cat-file -e ${baseSha}:${dir}`, { cwd: ROOT, stdio: 'ignore' });
@@ -215,8 +213,9 @@ function diffGate(baseSha) {
     }
   };
   const kebab = (s) => String(s).replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-  const addedDirs = [...new Set(changed.map(entryDirOf).filter(Boolean))].filter((d) => !existedAtBase(d));
-  const newIds = [...new Set(addedDirs.map((d) => idOf(`${d}/`)).filter(Boolean))];
+  // Only entries this diff adds whose entry directory did not exist at <base>;
+  // edits (or new files) in an existing entry need no new row.
+  const newIds = [...new Set(added.filter((p) => idOf(p) && !existedAtBase(dirOf(p))).map(idOf))];
   if (newIds.length) {
     let namesInChangedRows = new Set();
     if (ledgerChanged) {
@@ -320,6 +319,37 @@ function deliveryCheck(manifestPath) {
   }
 }
 
+/* ---------- REQ-SURF-164 delivery size guard (L2 size artifact) ----------
+ * A guarded row may be 'delivered' only when the L2 size artifact (written by
+ * scripts/ci/verify-size-budgets.mjs as docs/size-budgets.json, or passed with
+ * --size-report) carries a passing measurement of its budget row within
+ * maxBytes (min+gz) AND records every listed peer as external. Runs on every
+ * invocation, so the default ledger gate fails the moment a guarded row is
+ * flipped to 'delivered' without that evidence. */
+const SIZE_GUARDS = {
+  'X-28': { budgetId: 'SB-SURF-W2-CHART-51', maxBytes: 15360, externals: ['d3-scale', 'd3-shape'] },
+};
+function sizeGuard(ledger, reportPath) {
+  for (const row of ledger.rows) {
+    const g = SIZE_GUARDS[row.id];
+    if (!g || row.status !== 'delivered') continue;
+    const f = repoPath(reportPath);
+    if (!existsSync(f)) { fail(`${row.id}: delivered without the L2 size artifact ${reportPath}`); continue; }
+    const report = readJson(f);
+    const r = (report.rows ?? []).find((x) => x.id === g.budgetId);
+    if (!r || r.status !== 'pass' || typeof r.measuredBytes !== 'number') {
+      fail(`${row.id}: L2 size artifact has no passing ${g.budgetId} measurement`);
+      continue;
+    }
+    if (r.measuredBytes > g.maxBytes) fail(`${row.id}: ${g.budgetId} measured ${r.measuredBytes} B > ${g.maxBytes} B min+gz`);
+    const ext = Array.isArray(r.externals) ? r.externals : Array.isArray(report.externals) ? report.externals : [];
+    const covered = (name) => ext.some((e) => e === name || (e.endsWith('*') && name.startsWith(e.slice(0, -1))));
+    for (const name of g.externals) {
+      if (!covered(name)) fail(`${row.id}: L2 size artifact does not record ${name} as external`);
+    }
+  }
+}
+
 /* ---------- REQ-SURF-182 --report ---------- */
 function reportMd(ledger) {
   const live = ledger.rows.filter((r) => r.status !== 'rejected');
@@ -365,6 +395,7 @@ const { rejectedNames } = semanticChecks(ledger, {
   isDefaultLedger: !has('--ledger'),
 });
 checkRejectedNames(ledger, rejectedNames);
+sizeGuard(ledger, arg('--size-report') ?? 'docs/size-budgets.json');
 
 const base = arg('--diff');
 if (has('--diff')) {

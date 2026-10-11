@@ -131,6 +131,7 @@ export function ThreadRoot({
     const el = sentinelRef.current;
     const root = viewportRef.current;
     if (!el || !root || !onReachTop) return;
+    if (typeof IntersectionObserver === 'undefined') return; // SSR / no-IO environments: no top paging
     const io = new IntersectionObserver((entries) => {
       const e = entries[0];
       if (e?.isIntersecting) {

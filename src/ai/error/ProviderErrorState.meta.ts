@@ -6,11 +6,10 @@ export default defineMeta({
   entry: './ai',
   tier: 'T2',
   rsc: 'client',
-  parts: ['error-detail', 'error-title', 'provider-error', 'retry'],
+  parts: ['error-detail', 'error-title', 'icon', 'provider-error', 'retry'],
   states: ['rate-limit', 'auth', 'network', 'content-filter', 'context-length', 'aborted', 'unknown'],
   apg: 'alert',
   variants: { appearance: ['compact', 'panel'] },
   budgetKb: 5,
   migration: [],
-  selectors: [],
 });

@@ -23,6 +23,8 @@ import type { DateFieldLikeProps, DateValue } from './shared';
 export interface DatePickerProps extends DateFieldLikeProps<DateValue> {
   className?: string | undefined;
   labels?: { choose?: string | undefined } | undefined;
+  /** Initial popover state (uncontrolled). */
+  defaultOpen?: boolean | undefined;
 }
 
 function Inner({
@@ -46,9 +48,11 @@ function Inner({
   size = 'md',
   className,
   labels,
+  defaultOpen,
 }: DatePickerProps) {
   return (
     <RACDatePicker
+      {...(defaultOpen !== undefined ? { defaultOpen } : {})}
       data-ag-part="date-picker"
       data-ag-size={size}
       className={`ag-date-picker${className ? ` ${className}` : ''}`}
