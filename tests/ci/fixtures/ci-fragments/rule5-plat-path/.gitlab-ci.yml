@@ -1,0 +1,15 @@
+stages: [contract, build, test, package, certify, deploy, publish]
+variables: { AG_SCOPE: pr }
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+include: [{ local: "ci/*.gitlab-ci.yml" }]
+.ag-node: { image: node:22, tags: [saas-linux-medium-amd64] }
+.ag-playwright: { extends: .ag-node }
+.ag-gpu: { extends: .ag-playwright }
+.ag-aws-remote: { extends: .ag-playwright }
+.ag-evidence-release: { artifacts: { expire_in: 90 days } }
+contract:ownership: { extends: .ag-node, stage: contract, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+contract:conformance: { extends: .ag-node, stage: contract, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+contract:ci-fragments: { extends: .ag-node, stage: contract, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
