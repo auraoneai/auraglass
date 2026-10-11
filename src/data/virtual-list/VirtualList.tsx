@@ -53,9 +53,9 @@ function VirtualListInner<T>(
     onRangeChange,
     className,
     style,
+    ref,
     ...rest
-  }: VirtualListProps<T>,
-  ref: React.ForwardedRef<VirtualListHandle>,
+  }: VirtualListProps<T> & { ref?: React.Ref<VirtualListHandle> },
 ) {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const horizontal = orientation === 'horizontal';
@@ -83,7 +83,6 @@ function VirtualListInner<T>(
     const remaining = horizontal
       ? el.scrollWidth - el.scrollLeft - el.clientWidth
       : el.scrollHeight - el.scrollTop - el.clientHeight;
-    if (items.length > lastLen.current) endLatched.current = false;
     if (remaining > endReachedThreshold) {
       endLatched.current = false;
       return;
@@ -92,9 +91,11 @@ function VirtualListInner<T>(
       endLatched.current = true;
       endRef.current();
     }
-  }, [horizontal, endReachedThreshold, items.length]);
+  }, [horizontal, endReachedThreshold]);
 
   React.useEffect(() => {
+    // A grown list has a new tail to reach: re-arm before re-checking.
+    if (items.length > lastLen.current) endLatched.current = false;
     lastLen.current = items.length;
     checkEnd();
   }, [checkEnd, items.length]);
@@ -184,6 +185,6 @@ function VirtualListInner<T>(
   );
 }
 
-export const VirtualList = React.forwardRef(VirtualListInner) as <T>(
-  props: VirtualListProps<T> & { ref?: React.ForwardedRef<VirtualListHandle> },
+export const VirtualList = VirtualListInner as <T>(
+  props: VirtualListProps<T> & { ref?: React.Ref<VirtualListHandle> },
 ) => React.ReactElement;

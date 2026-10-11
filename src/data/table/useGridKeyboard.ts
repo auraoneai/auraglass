@@ -1,89 +1,55 @@
 'use client';
-// useGridKeyboard (SURF-160): keyboard model for mode='grid'.
-// Arrow keys move the active cell; Home/End row edges, Ctrl+Home/End table
-// edges, PageUp/Down scrolls by viewport. Cells get tabIndex -1; the grid
-// keeps one roving focus.
+// useGridKeyboard (SURF-160, REQ-SURF-73): APG data-grid navigation for
+// mode='grid'. Works on the FULL row model by id (not on the rendered DOM),
+// so PageUp/PageDown and Ctrl+Home/End reach rows that virtualization has
+// not mounted yet: the hook resolves the target {rowId, columnId} and hands
+// it to `moveTo`, which scrolls the virtual row in first and then focuses
+// it. Enter/Space are cell-level (Table owns selection + onRowAction).
+// Size budget: SB-SURF-W2-USEGRIDKEYBOARD (≤2.5 KB gz).
 import * as React from 'react';
 
 export interface GridKeyboardOptions {
-  onActiveCellChange?: ((rowId: string, columnId: string) => void) | undefined;
+  /** Row ids of the full (sorted, pre-virtualization) row model. */
+  rowIds: () => readonly string[];
+  /** Visible leaf column ids in display order. */
+  columnIds: () => readonly string[];
+  /** Rows per page for PageUp/PageDown: floor(viewport / rowHeight). */
+  pageRows: () => number;
+  /** Activate + focus the target cell (scrolling it in first if needed). */
+  moveTo: (rowId: string, columnId: string, rowIndex: number) => void;
 }
 
-export function useGridKeyboard(
-  scroller: React.RefObject<HTMLElement | null>,
-  _options: GridKeyboardOptions = {},
-) {
-  const onKeyDown = React.useCallback(
-    (e: React.KeyboardEvent) => {
-      const root = scroller.current;
-      if (root === null) return;
-      const cell = (e.target as HTMLElement).closest('[data-ag-cell]') as HTMLElement | null;
-      const row = (cell?.closest('[data-row-id]') ?? null) as Element | null;
-      if (cell === null || row === null) {
-        // Focus inside the grid but not on a cell: move to first cell.
-        if ((e.key === 'ArrowDown' || e.key === 'ArrowRight') && root.contains(e.target as Node)) {
-          root.querySelector<HTMLElement>('[data-ag-cell]')?.focus();
-          e.preventDefault();
-        }
-        return;
-      }
-      const colId = cell.getAttribute('data-ag-cell')!;
-      const rowId = row.getAttribute('data-row-id')!;
-      const cellsOfRow = (r: Element) => Array.from(r.querySelectorAll<HTMLElement>('[data-ag-cell]'));
-      const idx = cellsOfRow(row).findIndex((c) => c === cell);
-      const cellFrom = (r: Element | null | undefined, i: number) =>
-        r == null ? undefined : cellsOfRow(r)[Math.max(0, Math.min(i, cellsOfRow(r).length - 1))];
-      const focusAt = (r: Element | null, i: number) => {
-        const cells = r === null ? [] : cellsOfRow(r);
-        const target = cells[Math.max(0, Math.min(i, cells.length - 1))];
-        if (target !== undefined) {
-          target.focus();
-          _options.onActiveCellChange?.(
-            r!.getAttribute('data-row-id')!,
-            target.getAttribute('data-ag-cell')!,
-          );
-        }
-      };
-      switch (e.key) {
-        case 'ArrowRight':
-          focusAt(row, idx + 1);
-          break;
-        case 'ArrowLeft':
-          focusAt(row, idx - 1);
-          break;
-        case 'ArrowDown':
-          focusAt(row.nextElementSibling ?? null, idx);
-          break;
-        case 'ArrowUp':
-          focusAt(row.previousElementSibling ?? null, idx);
-          break;
-        case 'Home':
-          focusAt(e.ctrlKey || e.metaKey ? root.querySelector('[data-row-id]') : row, e.ctrlKey || e.metaKey ? 0 : 0);
-          break;
-        case 'End': {
-          const r = e.ctrlKey || e.metaKey ? root.querySelectorAll('[data-row-id]') : null;
-          const targetRow = r ? r[r.length - 1]! : row;
-          focusAt(targetRow, e.ctrlKey || e.metaKey ? 1e9 : 1e9);
-          break;
-        }
-        case 'PageDown':
-        case 'PageUp': {
-          // SURF-073: move FOCUS by floor(viewport / rowHeight) rows (APG),
-          // not just the scroll position.
-          const rowH = row.getBoundingClientRect().height || 40;
-          const jump = Math.max(1, Math.floor(root.clientHeight / rowH));
-          const all = Array.from(root.querySelectorAll('[data-row-id]'));
-          const ri = all.findIndex((r) => r === row);
-          const target = all[Math.max(0, Math.min(ri + (e.key === 'PageDown' ? jump : -jump), all.length - 1))];
-          focusAt(target ?? null, idx);
-          break;
-        }
-        default:
-          return;
-      }
-      e.preventDefault();
-    },
-    [scroller, _options],
-  );
+export function useGridKeyboard(options: GridKeyboardOptions) {
+  const opts = React.useRef(options);
+  opts.current = options;
+  const onKeyDown = React.useCallback((e: React.KeyboardEvent) => {
+    const cell = (e.target as HTMLElement).closest('[data-ag-cell]');
+    const rowEl = cell?.closest('[data-row-id]');
+    if (!cell || !rowEl) return;
+    const { rowIds, columnIds, pageRows, moveTo } = opts.current;
+    const rows = rowIds();
+    const cols = columnIds();
+    const r = rows.indexOf(rowEl.getAttribute('data-row-id')!);
+    const c = cols.indexOf(cell.getAttribute('data-ag-cell')!);
+    if (r < 0 || c < 0) return;
+    const mod = e.ctrlKey || e.metaKey;
+    let nr = r;
+    let nc = c;
+    switch (e.key) {
+      case 'ArrowRight': nc = c + 1; break;
+      case 'ArrowLeft': nc = c - 1; break;
+      case 'ArrowDown': nr = r + 1; break;
+      case 'ArrowUp': nr = r - 1; break;
+      case 'Home': nc = 0; if (mod) nr = 0; break;
+      case 'End': nc = cols.length - 1; if (mod) nr = rows.length - 1; break;
+      case 'PageDown': nr = r + Math.max(1, pageRows()); break;
+      case 'PageUp': nr = r - Math.max(1, pageRows()); break;
+      default: return;
+    }
+    e.preventDefault();
+    nr = Math.max(0, Math.min(nr, rows.length - 1));
+    nc = Math.max(0, Math.min(nc, cols.length - 1));
+    moveTo(rows[nr]!, cols[nc]!, nr);
+  }, []);
   return { onKeyDown };
 }

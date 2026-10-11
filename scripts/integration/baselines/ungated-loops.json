@@ -1,0 +1,44 @@
+[
+ {
+  "file": "src/ai/ai.css",
+  "owner": "SURF",
+  "reqFin": "REQ-FIN-90",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/button/Button.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/combobox/Combobox.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/progress/Progress.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/search-field/SearchField.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/skeleton/Skeleton.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-75",
+  "expires": "RC-1"
+ },
+ {
+  "file": "src/components/state-view/StateView.css",
+  "owner": "CMP",
+  "reqFin": "REQ-FIN-70",
+  "expires": "RC-1"
+ }
+]

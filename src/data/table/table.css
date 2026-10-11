@@ -63,10 +63,19 @@
     block-size: var(--_ag-table-row-height);
     vertical-align: middle;
   }
-  /* SURF-072: pinned-region boundary shadow — the pinned-edge attr marks
-     the last left-pinned / first right-pinned cell; direction-aware. */
-  [data-ag-pinned-edge='start'] { box-shadow: var(--_ag-table-pin-shadow, inset -1px 0 0 var(--_ag-border, transparent)); }
-  [data-ag-pinned-edge='end'] { box-shadow: var(--_ag-table-pin-shadow, inset 1px 0 0 var(--_ag-border, transparent)); }
+  /* SURF-072: pinned cells keep their sticky offset inline (computed per
+     column); the surface paint + stacking live here. The pinned-edge attr
+     marks the last start-pinned / first end-pinned cell, which carries the
+     private --_ag-table-pin-shadow derived from --ag-shadow-thin. */
+  .ag-table__th[data-ag-pinned],
+  .ag-table__td[data-ag-pinned] {
+    background: var(--_ag-surface-raised, Canvas);
+    z-index: 1;
+  }
+  [data-ag-pinned-edge] {
+    --_ag-table-pin-shadow: var(--ag-shadow-thin, 0 0 0 var(--_ag-border-width, 1px) var(--_ag-border, transparent));
+    box-shadow: var(--_ag-table-pin-shadow);
+  }
 
   .ag-table__td--truncate {
     max-inline-size: 0;
