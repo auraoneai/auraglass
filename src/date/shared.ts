@@ -124,6 +124,8 @@ export interface DateFieldLikeProps<V extends DateValue | TimeValue = DateValue>
   hourCycle?: 12 | 24 | undefined;
   firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | undefined;
   locale?: string | undefined;
+  /** Text direction; defaults to the closest `[dir]` in the DOM (REQ-SURF-98). */
+  dir?: 'ltr' | 'rtl' | undefined;
   label?: React.ReactNode;
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;

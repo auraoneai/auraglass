@@ -3,6 +3,9 @@ import * as React from 'react';
 import { CalendarDate } from '@internationalized/date';
 import { Calendar } from './Calendar';
 
+/* REQ-SURF-100: Calendar subject for the APG grid spec. October 2026 with
+   week numbers; the 13th is unavailable (aria-disabled yet focusable).
+   Calendar only; RangeCalendar lives in RangeCalendar.stories.tsx (S-31). */
 const meta = {
   title: 'surf/calendar',
   parameters: { ag: { subject: 'Calendar', kind: 'component' } },
@@ -11,5 +14,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => <Calendar defaultValue={new CalendarDate(2026, 10, 7)} showWeekNumbers />,
+  render: () => (
+    <Calendar
+      aria-label="Event date"
+      locale="en-US"
+      defaultValue={new CalendarDate(2026, 10, 7)}
+      isDateUnavailable={(d) => d.year === 2026 && d.month === 10 && d.day === 13}
+      showWeekNumbers
+    />
+  ),
 };
