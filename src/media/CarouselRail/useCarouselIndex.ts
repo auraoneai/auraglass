@@ -1,4 +1,3 @@
-'use client';
 import * as React from 'react';
 
 /** Controlled/uncontrolled carousel index — the hook the compound parts and

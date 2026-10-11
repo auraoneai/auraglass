@@ -1,19 +1,43 @@
 'use client';
+/* REQ-SURF-146/147/148/150 — Indicators. `as="tabs"` (default) is the APG
+ * tabbed carousel: one tab stop, Arrow keys (flipped in RTL), Home and End
+ * move both the selection and DOM focus. `as="buttons"` renders plain
+ * buttons with aria-current. Clicks scroll the viewport through Root's
+ * goTo helper. The group is thin chrome (clear over media). */
 import * as React from 'react';
-import { useCarouselRail } from '../crContext';
+import { cn } from '../../../internal';
+import { isRtl, useCarouselRail, useIsoLayoutEffect, type CarouselRailIndicatorsAs } from '../crContext';
+import { navMaterial } from '../material';
 
-export function Indicators(): React.ReactElement {
+export interface CarouselRailIndicatorsProps {
+  /** tabs (APG tabbed carousel, default) | buttons (APG basic carousel picker). */
+  as?: CarouselRailIndicatorsAs | undefined;
+  className?: string | undefined;
+}
+
+export function Indicators({ as, className }: CarouselRailIndicatorsProps = {}): React.ReactElement {
   const c = useCarouselRail('Indicators');
-  const [focused, setFocused] = React.useState(false);
-  if (c.indicatorsAs === 'buttons') {
+  const refs = React.useRef<Array<HTMLButtonElement | null>>([]);
+  const { registerIndicatorsAs } = c;
+  useIsoLayoutEffect(() => {
+    if (as === undefined) return;
+    registerIndicatorsAs(as);
+    return () => registerIndicatorsAs(undefined);
+  }, [as, registerIndicatorsAs]);
+  const variant = as ?? c.indicatorsAs;
+  const material = navMaterial(c.overMedia);
+  const cls = cn(material.className, 'ag-carousel-indicators', className);
+
+  if (variant === 'buttons') {
     return (
-      <div data-ag-part="carousel-indicators" className="ag-carousel-indicators">
+      <div {...material} data-ag-part="carousel-indicators" className={cls}>
         {c.slides.map((s, i) => (
           <button
             key={s.id}
             type="button"
-            aria-label={`Slide ${i + 1}`}
+            aria-label={s.label ?? `Slide ${i + 1}`}
             aria-current={i === c.index}
+            aria-controls={c.viewportId}
             data-ag-part="carousel-indicator"
             onClick={() => c.goTo(i)}
           />
@@ -21,22 +45,32 @@ export function Indicators(): React.ReactElement {
       </div>
     );
   }
+
+  const focusTab = (n: number) => refs.current[n]?.focus();
   return (
     <div
+      {...material}
       role="tablist"
+      aria-label="Slides"
       data-ag-part="carousel-indicators"
-      className="ag-carousel-indicators"
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
+      className={cls}
       onKeyDown={(e) => {
-        if (!focused) return;
-        if (e.key === 'ArrowLeft') { c.step(-1); e.preventDefault(); }
-        if (e.key === 'ArrowRight') { c.step(1); e.preventDefault(); }
+        const back = isRtl(e.currentTarget) ? 'ArrowRight' : 'ArrowLeft';
+        const fwd = back === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft';
+        let n: number | null = null;
+        if (e.key === fwd) n = c.step(1);
+        else if (e.key === back) n = c.step(-1);
+        else if (e.key === 'Home') { n = 0; c.goTo(0); }
+        else if (e.key === 'End') { n = c.count - 1; c.goTo(n); }
+        if (n === null) return;
+        e.preventDefault();
+        focusTab(n);
       }}
     >
       {c.slides.map((s, i) => (
         <button
           key={s.id}
+          ref={(el) => { refs.current[i] = el; }}
           role="tab"
           type="button"
           aria-selected={i === c.index}

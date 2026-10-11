@@ -74,7 +74,9 @@ const w4 = [
   { lane: 'L1', kind: 'jest', path: 'tests/media/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L1', kind: 'jest', path: 'tests/backdrops/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L12', kind: 'jest', path: 'tests/media/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
-  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{media-controls,now-playing,image-viewer}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // REQ-SURF-147: carousel-rail APG (both indicator variants, axe, swipe). The
+  // media blur-budget spec (REQ-SURF-150) runs under the tests/e2e/surf/media glob below.
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{media-controls,now-playing,image-viewer,carousel-rail}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{media,backdrops}/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{media,backdrops}/**/*.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L6', kind: 'playwright', path: 'tests/a11y/clear-over-media/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
