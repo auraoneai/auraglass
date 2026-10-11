@@ -1,91 +1,83 @@
-{
- "W1": [
-  {
-   "name": "surf:app-shell",
-   "testDir": "tests/e2e/surf/app-shell"
-  },
-  {
-   "name": "surf:motion",
-   "testDir": "tests/e2e/surf/motion"
-  },
-  {
-   "name": "surf:perf",
-   "testDir": "tests/perf/browser/surf"
-  },
-  {
-   "name": "surf:apg",
-   "testDir": "tests/a11y/apg/surf"
-  },
-  {
-   "name": "surf:rsc",
-   "testDir": "tests/rsc/surf"
-  }
- ],
- "W2": [
-  {
-   "name": "surf:data",
-   "testDir": "tests/e2e/surf/data"
-  },
-  {
-   "name": "surf:date",
-   "testDir": "tests/e2e/surf/date"
-  },
-  {
-   "name": "surf:charts",
-   "testDir": "tests/e2e/surf/charts"
-  },
-  {
-   "name": "surf:visual",
-   "testDir": "tests/visual/surf"
-  },
-  {
-   "name": "surf:cert-media-sampling",
-   "testDir": "tests/e2e/surf"
-  },
-  {
-   "name": "surf:cert-rtl",
-   "testDir": "tests/a11y/apg/surf"
-  }
- ],
- "W3": [
-  {
-   "name": "surf:ai",
-   "testDir": "tests/e2e/surf/ai"
-  },
-  {
-   "name": "surf:ai-visual",
-   "testDir": "tests/visual/surf/ai"
-  },
-  {
-   "name": "surf:ai-perf",
-   "testDir": "tests/perf/browser/surf/ai-streaming.spec.ts"
-  }
- ],
- "W4": [
-  {
-   "name": "surf:media",
-   "testDir": "tests/e2e/surf/media"
-  },
-  {
-   "name": "surf:backdrops",
-   "testDir": "tests/e2e/surf/backdrops"
-  },
-  {
-   "name": "surf:media-apg",
-   "testDir": "tests/a11y/apg/surf"
-  },
-  {
-   "name": "surf:cert-media-sampling",
-   "testDir": "tests/e2e/surf/media"
-  },
-  {
-   "name": "surf:clear-over-media",
-   "testDir": "tests/a11y/clear-over-media"
-  },
-  {
-   "name": "surf:media-perf",
-   "testDir": "tests/perf/browser/surf"
-  }
- ],
- "W5": []
-}
+[
+ {
+  "name": "surf:app-shell",
+  "testDir": "tests/e2e/surf/app-shell"
+ },
+ {
+  "name": "surf:motion",
+  "testDir": "tests/e2e/surf/motion"
+ },
+ {
+  "name": "surf:perf",
+  "testDir": "tests/perf/browser/surf"
+ },
+ {
+  "name": "surf:apg",
+  "testDir": "tests/a11y/apg/surf"
+ },
+ {
+  "name": "surf:rsc",
+  "testDir": "tests/rsc/surf"
+ },
+ {
+  "name": "surf:data",
+  "testDir": "tests/e2e/surf/data"
+ },
+ {
+  "name": "surf:date",
+  "testDir": "tests/e2e/surf/date"
+ },
+ {
+  "name": "surf:charts",
+  "testDir": "tests/e2e/surf/charts"
+ },
+ {
+  "name": "surf:visual",
+  "testDir": "tests/visual/surf"
+ },
+ {
+  "name": "surf:cert-rtl",
+  "testDir": "tests/e2e/surf",
+  "testMatch": "rtl.spec.ts"
+ },
+ {
+  "name": "surf:ai",
+  "testDir": "tests/e2e/surf/ai"
+ },
+ {
+  "name": "surf:ai-visual",
+  "testDir": "tests/visual/surf/ai"
+ },
+ {
+  "name": "surf:ai-perf",
+  "testDir": "tests/perf/browser/surf",
+  "testMatch": "ai-streaming.spec.ts"
+ },
+ {
+  "name": "surf:media",
+  "testDir": "tests/e2e/surf/media"
+ },
+ {
+  "name": "surf:backdrops",
+  "testDir": "tests/e2e/surf/backdrops"
+ },
+ {
+  "name": "surf:media-apg",
+  "testDir": "tests/a11y/apg/surf",
+  "testMatch": "{media-controls,now-playing,image-viewer,carousel-rail}.apg.spec.ts"
+ },
+ {
+  "name": "surf:cert-media-sampling",
+  "testDir": "tests/e2e/surf/media",
+  "testMatch": "sampling-engines.spec.ts"
+ },
+ {
+  "name": "surf:clear-over-media",
+  "testDir": "tests/e2e/surf/clear-over-media"
+ },
+ {
+  "name": "surf:media-perf",
+  "testDir": "tests/perf/browser/surf",
+  "testMatch": "{media,backdrops}-*.spec.ts"
+ }
+]
