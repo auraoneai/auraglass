@@ -16,12 +16,12 @@
    cannot be analysed are recorded in the report's `unanalysable` list — on the
    5x line that is a hard failure once package.json version >= 5.0.0-alpha.1. */
 import { createRequire } from 'node:module';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const require = createRequire(import.meta.url);
 export const EXTRACTOR_VERSION = '7.59.4';
 
@@ -31,8 +31,20 @@ const EXTERNAL = ['react', 'react-dom', 'react-dom/*', 'react/*', 'clsx', '@base
 
 export const slugify = (key) => (key === '.' ? 'index' : key.replace(/^\.\//, '').replace(/\//g, '-'));
 
+export function extractorBin(root = ROOT) {
+  // ./bin/* is not in the package's exports map; resolve via package.json + bin field.
+  try {
+    const pkgPath = require.resolve('@microsoft/api-extractor/package.json', { paths: [root] });
+    const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'));
+    const rel = (pkg.bin ?? {})['api-extractor'];
+    if (!rel) return null;
+    const bin = join(dirname(pkgPath), rel);
+    return existsSync(bin) ? bin : null;
+  } catch { return null; }
+}
+
 export function extractorAvailable(root = ROOT) {
-  try { return require.resolve('@microsoft/api-extractor/package.json', { paths: [root] }) ? true : false; } catch { return false; }
+  return extractorBin(root) !== null;
 }
 
 // --- name extraction ----------------------------------------------------------
@@ -58,21 +70,29 @@ export function extractCssApi(sourcePath) {
   return [...new Set([...text.matchAll(/(--ag-[a-z0-9-]+)/gi)].map((m) => m[1]))].sort();
 }
 
-// API Extractor on a built d.ts rollup → trimmed markdown lines.
-export function apiExtractorReport({ dtsPath, reportPath, configDir, root = ROOT }) {
+// API Extractor on a built d.ts rollup → .api.md content, or null when the
+// extractor cannot run. The extractor writes into a temp dir inside the repo
+// (it finds the project's package.json by walking up from the config file).
+export function apiExtractorReport({ dtsPath, reportFileName, configDir, root = ROOT }) {
+  const bin = extractorBin(root);
+  if (!bin) return null;
+  const tmp = mkdtempSync(join(root, 'build', '.api-extractor-'));
   const cfg = {
     extends: join(root, 'api-extractor.base.json'),
     projectFolder: root,
     mainEntryPointFilePath: dtsPath,
-    apiReport: { enabled: true, reportFileName: reportPath.split('/').pop(), reportFolder: dirname(reportPath) },
+    apiReport: { enabled: true, reportFileName, reportFolder: tmp },
+    docModel: { enabled: false },
+    tsdocMetadata: { enabled: false },
+    compiler: { overrideTsconfig: { compilerOptions: { skipLibCheck: false } } },
   };
-  const cfgPath = join(dirname(reportPath), '.api-extractor.tmp.json');
+  const cfgPath = join(tmp, 'api-extractor.json');
   writeFileSync(cfgPath, JSON.stringify(cfg, null, 2));
   try {
-    const bin = require.resolve('@microsoft/api-extractor/bin/api-extractor', { paths: [root] });
     execFileSync(process.execPath, [bin, 'run', '--local', '--config', cfgPath], { cwd: configDir ?? root, stdio: 'pipe' });
-    return true;
-  } catch { return false; } finally { try { execFileSync('rm', ['-f', cfgPath]); } catch { /* ignore */ } }
+    const out = join(tmp, reportFileName);
+    return existsSync(out) ? readFileSync(out, 'utf8') : null;
+  } catch { return null; } finally { try { rmSync(tmp, { recursive: true, force: true }); } catch { /* ignore */ } }
 }
 
 const mdHeader = (title) => `## API Report — ${title}\n\n`;
@@ -97,7 +117,8 @@ export function entrySource(entry, { root = ROOT } = {}) {
   if (kind === 'css') return { css: `src/${rest.join('/')}.css`, entry };
   if (kind === 'cli') return { source: 'packages/cli/src/index.ts', subpath: null, cli: true };
   const row = (manifest.entries ?? []).find((e) => e.subpath === `./${entry}` || e.subpath === entry);
-  return row ? { source: row.source, subpath: row.subpath } : null;
+  // Manifest entries are labelled by their package subpath ('./tokens') in the report.
+  return row ? { source: row.source, subpath: row.subpath, label: row.subpath } : null;
 }
 
 export async function run5x(entry, { root = ROOT, check = false, failOnUnanalysable = null } = {}) {
@@ -112,9 +133,20 @@ export async function run5x(entry, { root = ROOT, check = false, failOnUnanalysa
 
   const files = {};
   const stem = entry;
-  const { exportsJson, apiMd } = reportFiles(entry, names, { unanalysable });
+  const { exportsJson, apiMd } = reportFiles(resolved?.label ?? entry, names, { unanalysable });
   files[`etc/api/${stem}.exports.json`] = exportsJson;
   files[`etc/api/${stem}.api.md`] = apiMd;
+  // API Extractor produces the .api.md when the built d.ts rollup exists
+  // (7.59.4, skipLibCheck:false); the name pass is the fallback.
+  const manifestPath = join(root, 'build/exports.manifest.json');
+  const manifest = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, 'utf8')) : { entries: [] };
+  const types = resolved?.subpath
+    ? (manifest.entries ?? []).find((e) => e.subpath === resolved.subpath)?.types
+    : null;
+  if (types && existsSync(join(root, types))) {
+    const api = apiExtractorReport({ dtsPath: join(root, types), reportFileName: `${stem}.api.md`, root });
+    if (api) files[`etc/api/${stem}.api.md`] = api;
+  }
   if (css) files[`etc/api/${stem}.css-api.json`] = `${JSON.stringify({ entry, vars: css }, null, 1)}\n`;
   return { files, unanalysable, check, failOnUnanalysable };
 }
@@ -176,6 +208,10 @@ async function main() {
     const r = run4x({ root: ROOT }); files = r.files;
     unanalysable = r.manifest.unanalysable;
   } else {
+    if (!entrySource(entry, { root: ROOT })) {
+      console.error(`api-report: unknown entry '${entry}' (not in build/exports.manifest.json and not root.*/compat.*/css.*/cli)`);
+      return 2;
+    }
     const r = await run5x(entry, { root: ROOT, check });
     files = r.files; unanalysable = r.unanalysable;
   }
