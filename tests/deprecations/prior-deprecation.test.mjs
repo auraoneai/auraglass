@@ -35,10 +35,15 @@ describe('prior-deprecation coverage (G-07)', () => {
     expect(r.removals[0].verifiedIn).toBe('4.2.0');
   });
   it('entry coverage rows classify allow-listed exceptions as covered', () => {
-    const c = coverage([E({ since: '4.1.0' })], { published: {}, allowlist: new Set(['DEP-P0001']), ga: true });
+    const c = coverage([E({ since: '4.1.0', exception: 'security', evidence: 'advisory' })], { published: {}, allowlist: new Set(['DEP-P0001']), ga: true });
     expect(c.entries[0].coverage).toBe('covered');
     expect(c.entries[0].verifiedIn).toBe('exception');
     expect(c.uncoveredCount).toBe(0);
+  });
+  it('an allow-listed id without `exception` stays uncovered (REQ-PLAT-28 item 4)', () => {
+    const c = coverage([E({ since: '4.1.0' })], { published: {}, allowlist: new Set(['DEP-P0001']), ga: true });
+    expect(c.entries[0].coverage).toBe('uncovered');
+    expect(c.uncoveredCount).toBe(1);
   });
   it('uncovered entries in GA mode surface as uncoveredCount (the gate fails)', () => {
     const c = coverage([E({ since: '4.3.0' })], { published: {}, allowlist: new Set(), ga: true });

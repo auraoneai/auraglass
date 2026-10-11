@@ -43,10 +43,14 @@ export async function extractNames(sourcePath, { root = ROOT } = {}) {
     external: EXTERNAL, logLevel: 'silent', metafile: true, tsconfig: join(root, 'tsconfig.json'),
   });
   const text = res.outputFiles[0]?.text ?? '';
-  const tail = [...text.matchAll(/export\s*\{([^}]*)\}\s*;?/g)].pop();
-  if (tail?.[1]) {
-    return tail[1].split(',').map((s) => s.trim().replace(/\s+as\s+\w+$/, ''))
-      .map((s) => s.replace(/^type\s+/, '')).filter(Boolean).sort();
+  // esbuild emits one export{} group per chunk of re-exports — read them ALL,
+  // and for `a as b` keep b (the public name), not the internal symbol.
+  const groups = [...text.matchAll(/export\s*\{([^}]*)\}\s*;?/g)];
+  if (groups.length) {
+    const names = groups.flatMap((m) => m[1].split(',').map((s) => s.trim()))
+      .map((s) => { const as = /\bas\s+(\w+)$/.exec(s); return as ? as[1] : s.replace(/^type\s+/, ''); })
+      .filter(Boolean);
+    return [...new Set(names)].sort();
   }
   return [...text.matchAll(/^export\s+(?:const|function|class)\s+(\w+)/gm)].map((m) => m[1]).sort();
 }
