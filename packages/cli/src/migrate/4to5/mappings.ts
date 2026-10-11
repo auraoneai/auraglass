@@ -42,6 +42,8 @@ export interface CompiledMappings {
   deprecations: Array<Record<string, unknown>>;
   /** area transform spec text (id -> spec). */
   areaSpecs: Record<string, string>;
+  /** Source names documented by stream specs that transforms may reference (DOC_NAMES replacement). */
+  names: Set<string>;
 }
 
 
@@ -87,9 +89,12 @@ function normEntry(e: string | undefined): string {
   return e;
 }
 
+/** Whole-word 4.x Glass* component names inside stream spec text. */
+const SPEC_NAME_RE = /\bGlass[A-Z][A-Za-z]+/g;
+
 export function loadCompiledMappings(dir: string = MAPPINGS_DIR): CompiledMappings {
   const out: CompiledMappings = {
-    components: {}, removed: {}, cssVars: {}, deps: [], subpaths: {}, deprecations: [], areaSpecs: {},
+    components: {}, removed: {}, cssVars: {}, deps: [], subpaths: {}, deprecations: [], areaSpecs: {}, names: new Set<string>(),
   };
   if (!fs.existsSync(dir)) return out;
   for (const file of fs.readdirSync(dir).sort()) {
@@ -124,7 +129,16 @@ export function loadCompiledMappings(dir: string = MAPPINGS_DIR): CompiledMappin
     for (const row of raw.deps ?? []) {
       if (!out.deps.some((d) => d.pkg === row.pkg)) out.deps.push(row);
     }
-    for (const spec of raw.areaTransforms ?? []) out.areaSpecs[spec.id] = spec.spec;
+    for (const spec of raw.areaTransforms ?? []) {
+      out.areaSpecs[spec.id] = spec.spec;
+      // Source names an area transform may reference are the ones its stream
+      // spec documents: explicit `names` (once the contract carries the field)
+      // plus every whole-word Glass* name in the stream-authored spec text.
+      for (const n of (spec as { names?: string[] }).names ?? []) out.names.add(n);
+      const text = ([] as unknown[]).concat((spec as { spec?: unknown }).spec ?? []).join('\n');
+      for (const n of text.match(SPEC_NAME_RE) ?? []) out.names.add(n);
+    }
+    for (const n of (raw as { names?: string[] }).names ?? []) out.names.add(n);
   }
   const depPath = path.join(dir, 'deprecations.json');
   if (fs.existsSync(depPath)) {
