@@ -1,9 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { ArtifactPanel } from './ArtifactPanel';
 import { CODE_ARTIFACT, DOCUMENT_ARTIFACT } from './fixtures';
 
 const meta: Meta<typeof ArtifactPanel> = {
-  parameters: { ag: { subject: 'ArtifactPanel', kind: 'showcase' } }, title: 'registry/ai-artifact-panel', component: ArtifactPanel };
+  title: 'registry/ai-artifact-panel',
+  component: ArtifactPanel,
+  parameters: { ag: { subject: 'ai-artifact-panel', kind: 'showcase', scenes: 'all' } satisfies StoryAgParameters },
+};
 export default meta;
 type Story = StoryObj<typeof ArtifactPanel>;
 

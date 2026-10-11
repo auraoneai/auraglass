@@ -5,19 +5,25 @@
 import * as React from 'react';
 import { Accordion as BaseAccordion } from '@base-ui/react/accordion';
 import { cn } from '../../internal/index';
+import { toChangeDetails } from '../../foundation';
+import type { ChangeDetails } from '../../contracts/components';
 
 export interface AccordionRootProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: string[];
   defaultValue?: string[];
-  onValueChange?: (value: string[], eventDetails: BaseAccordion.Root.ChangeEventDetails) => void;
+  /* REQ-CMP-01: AuraGlass ChangeDetails, never a Base UI type in the d.ts. */
+  onValueChange?: (value: string[], details: ChangeDetails) => void;
   /** Allow several open items (value stays an array either way). */
   multiple?: boolean;
 }
 
-function Root({ className, ref, ...rest }: AccordionRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+function Root({ className, ref, onValueChange, ...rest }: AccordionRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
   return (
     <BaseAccordion.Root
       {...rest}
+      {...(onValueChange
+        ? { onValueChange: (v: unknown[], eventDetails: unknown) => onValueChange(v as string[], toChangeDetails(eventDetails)) }
+        : {})}
       ref={ref}
       data-ag-part="root"
       className={cn('ag-accordion', className)}

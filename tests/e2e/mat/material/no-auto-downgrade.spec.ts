@@ -6,7 +6,7 @@ import { gotoMaterialStory } from '../../../material/helpers/story';
 
 test.describe('no auto-downgrade', () => {
   test('scroll storm mutates nothing', async ({ page }) => {
-    await gotoMaterialStory(page, 'material-lab--matrix');
+    await gotoMaterialStory(page, 'material-lab-matrix--matrix');
     // mount 20 surfaces for the stress case
     await page.evaluate(() => {
       const host = document.querySelector('[data-ag-root]') ?? document.body;

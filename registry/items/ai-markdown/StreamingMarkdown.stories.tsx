@@ -1,9 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { StreamingMarkdown } from './StreamingMarkdown';
 import { MARKDOWN_BODY, MARKDOWN_STREAMING_SLICE } from './fixtures';
 
 const meta: Meta<typeof StreamingMarkdown> = {
-  parameters: { ag: { subject: 'StreamingMarkdown', kind: 'showcase' } }, title: 'registry/ai-markdown', component: StreamingMarkdown };
+  title: 'registry/ai-markdown',
+  component: StreamingMarkdown,
+  parameters: { ag: { subject: 'ai-markdown', kind: 'showcase', scenes: 'all' } satisfies StoryAgParameters },
+};
 export default meta;
 type Story = StoryObj<typeof StreamingMarkdown>;
 

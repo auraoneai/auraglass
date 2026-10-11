@@ -99,5 +99,17 @@ export function useOverlayLayer({ kind, modal, open, onOpenChange, element }: Ov
     onEscape,
   });
 
+  /* S-01: data-ag-overlay-depth is CMP's marker (setter CMP); the stack
+     supplies the open order, the overlay writes it on its popup. */
+  React.useLayoutEffect(() => {
+    if (!element) return undefined;
+    if (!open || depth < 0) {
+      element.removeAttribute('data-ag-overlay-depth');
+      return undefined;
+    }
+    element.setAttribute('data-ag-overlay-depth', String(depth));
+    return () => element.removeAttribute('data-ag-overlay-depth');
+  }, [element, open, depth]);
+
   return { id, depth, isTop, emit, actionsRef };
 }

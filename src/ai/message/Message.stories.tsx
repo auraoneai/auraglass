@@ -32,7 +32,20 @@ export const WithImage: Story = {
   ),
 };
 export const Streaming: Story = {
-  render: () => <Message message={m({ metadata: { status: 'streaming' } })} />,
+  render: () => (
+    <Message message={m({ metadata: { status: 'streaming' }, parts: [{ type: 'text', text: 'Drafting the rollout', state: 'streaming' } as never] })} />
+  ),
+};
+/* Composed anatomy: avatar, content with step separators, footer. */
+const stepped = m({ parts: [{ type: 'step-start' } as never, { type: 'text', text: 'Checked the deploy log.' }, { type: 'step-start' } as never, { type: 'text', text: 'Rollout is safe.' }] });
+export const Anatomy: Story = {
+  render: () => (
+    <Message message={stepped}>
+      <Message.Avatar>AI</Message.Avatar>
+      <Message.Content><Message.Parts message={stepped} showSteps /></Message.Content>
+      <Message.Footer>2 steps</Message.Footer>
+    </Message>
+  ),
 };
 export const Error: Story = { render: () => <Message message={m({ metadata: { status: 'error' } })} /> };
 export const Aborted: Story = { render: () => <Message message={m({ metadata: { status: 'aborted' } })} /> };
