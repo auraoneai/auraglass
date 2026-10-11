@@ -200,11 +200,21 @@ import { emitManifest, emitManifestTs } from './formats/manifest.mjs';
 import { emitTailwind } from './formats/tailwind-bridge.mjs';
 import { emitRegistry } from './formats/registry-cssvars.mjs';
 import { buildProperties } from './formats/property-registry.mjs';
-import { prettierFormat, die, renderValue } from './formats/_shared.mjs';
+import { prettierFormat, die, renderValue, layerFirst } from './formats/_shared.mjs';
+
+// REQ-MAT-19 item 1: the emitters' layer statement must equal the frozen contract
+// constant (src/contracts/tokens.ts LAYER_ORDER_STATEMENT); fail closed on drift.
+function assertLayerOrderMatchesContract() {
+  const src = readFileSync(join(ROOT, 'src/contracts/tokens.ts'), 'utf8');
+  const m = /export const LAYER_ORDER_STATEMENT = '([^']+)'/.exec(src);
+  if (!m) die('src/contracts/tokens.ts: LAYER_ORDER_STATEMENT not found');
+  if (m[1] !== LAYER_ORDER) die(`layer order drift: emitters use "${LAYER_ORDER}" but the contract declares "${m[1]}"`);
+}
 
 // ---------- driver ----------
 
 export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT, quiet = false } = {}) {
+  assertLayerOrderMatchesContract();
   const schema = loadSchema(join(tokenDir, '$schema.json'));
   const files = discoverTokenFiles(tokenDir);
   const errors = [];
@@ -232,7 +242,9 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   };
 
   // contract outputs (src/contracts/tokens.ts TOKEN_OUTPUTS)
-  const tokensCss = await emitTokensCss(cells, axisDefs, records, resolved);
+  // Every layered token CSS output starts with LAYER_ORDER_STATEMENT on line 1,
+  // header comment after (REQ-MAT-19 item 1, REQ-FIN-01).
+  let tokensCss = layerFirst(await emitTokensCss(cells, axisDefs, records, resolved));
   write('dist/tokens.css', tokensCss);
   const { tokensTs } = await emitTokensTs(cells);
   write('src/tokens/generated/tokens.ts', tokensTs);
@@ -270,15 +282,40 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   // committed once — the build never rewrites it (keeps the generated surface diffable).
 
   // material ladders + floors + @property registrations (MAT-026/027, transforms MAT-038+)
-  const laddersCss = await prettierFormat(buildLadders(records, resolved), 'css');
-  const floorsCss = await prettierFormat(buildFloors(records, resolved, matrix), 'css');
-  const propertiesCss = await prettierFormat(buildProperties(), 'css');
+  const laddersCss = layerFirst(await prettierFormat(buildLadders(records, resolved), 'css'));
+  const floorsCss = layerFirst(await prettierFormat(buildFloors(records, resolved, matrix), 'css'));
+  // properties.css holds only unlayered @property rules; the statement still leads (REQ-MAT-19).
+  const propertiesCss = layerFirst(await prettierFormat(buildProperties(), 'css'));
   write('src/material/css/generated/ladders.css', laddersCss);
   write('src/material/css/generated/floors.css', floorsCss);
   write('src/material/css/generated/properties.css', propertiesCss);
 
   // tailwind bridge + registry + css/ tokens copy (MAT-068/072; @import "./tokens.css" resolves in dist/css)
   const tailwindCss = await emitTailwind(cells, records, resolved);
+  // MAT-003: every --_ag-* private referenced under src/** must be registered in
+  // generated css. Emit a privates registry block inside @layer ag.tokens —
+  // `initial` keeps the var guaranteed-invalid so var(--_ag-x, fb) fallbacks
+  // behave exactly as when the name was undeclared.
+  const PRIVATE_RE = /--_ag-[a-z0-9-]+/g;
+  const emittedPrivates = new Set(cells.map((c) => c.cssVar));
+  const usedPrivates = new Set();
+  const scanDir = (dir) => {
+    for (const f of readdirSync(dir)) {
+      const p = join(dir, f);
+      if (statSync(p).isDirectory()) { if (!p.includes('/generated/')) scanDir(p); }
+      else if (/\.(css|ts|tsx|mts|mjs)$/.test(p) && !p.includes('/generated/'))
+        for (const m of readFileSync(p, 'utf8').matchAll(PRIVATE_RE)) usedPrivates.add(m[0]);
+    }
+  };
+  scanDir(join(ROOT ?? process.cwd(), 'src'));
+  const missingPrivates = [...usedPrivates].filter((n) => !emittedPrivates.has(n)).sort();
+  if (missingPrivates.length) {
+    const lines = ['', '  /* MAT-003 component privates registry — names declared with `initial` so',
+       '     var(--_ag-x, <fallback>) resolution is unchanged; component css/JS still owns values. */'];
+    for (const n of missingPrivates) lines.push(`    ${n}: initial;`);
+    // append inside the final @layer ag.tokens :root block
+    tokensCss = tokensCss.replace(/(  }\n}\n?)$/, `${lines.join('\n')}\n$1`);
+  }
   write('dist/css/tokens.css', tokensCss);
   write('dist/css/tailwind.css', tailwindCss);
   write('dist/tailwind.css', tailwindCss); // ./tailwind.css subpath in package exports
@@ -320,8 +357,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const flag = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : undefined; };
   const fixtures = flag('--fixtures');
   const out = flag('--out');
-  await runBuild({
+  // top-level await breaks jest's CJS transform — wrap in an async main.
+  runBuild({
     tokenDir: fixtures ? resolve(ROOT, fixtures) : join(ROOT, 'tokens'),
     outRoot: out ? resolve(ROOT, out) : ROOT,
+  }).catch((err) => {
+    console.error(err instanceof Error ? err.message : String(err));
+    process.exit(1);
   });
 }

@@ -141,23 +141,17 @@ export function compatCss(map, darkOverrides = {}) {
     '  :where(:root) {',
   ];
   for (const [shim, target] of Object.entries(SHIM_VARS)) lines.push(`    ${shim}: ${target};`);
-  let uncovered = 0;
+  // Reader names never defined in 4.x tokens.css have no compat value to emit;
+  // they are accounted for in tokens/generated/compat-alias-map.json
+  // (defined: false), not as CSS comments (MAT-021 gzip cap).
   for (const [name, e] of Object.entries(map)) {
-    if (!e.defined) { uncovered++; continue; }
+    if (!e.defined) continue;
     if (e.successor) lines.push(`    ${name}: var(${e.successor});`);
     else lines.push(`    ${name}: ${e.frozen};`);
   }
-  // Reader names never defined in 4.x tokens.css have no compat value to emit;
-  // they stay accounted for in tokens/generated/compat-alias-map.json and are
-  // rolled up here (keeps dist/compat/tokens.css inside the 8KB gz cap).
-  if (uncovered) lines.push(`    /* ${uncovered} reader names were never defined in 4.x tokens.css — nothing to alias (see tokens/generated/compat-alias-map.json) */`);
   lines.push('  }', '}', '');
-  const dark = Object.entries(darkOverrides).sort(([a], [b]) => a.localeCompare(b));
-  if (dark.length) {
-    lines.push('@layer ag.compat {', '  :where([data-theme=dark], .dark) {', '    color-scheme: dark;');
-    for (const [name, value] of dark) lines.push(`    ${name}: ${value};`);
-    lines.push('  }', '}', '');
-  }
+  // MAT-036 contract: dist/compat/tokens.css emits ZERO legacy hook selectors
+  // (no [data-theme=dark]/.dark blocks). darkOverrides are not emitted here.
   return lines.join('\n');
 }
 

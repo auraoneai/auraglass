@@ -1,0 +1,17 @@
+{
+  "sha": "0123456789abcdef0123456789abcdef01234567",
+  "subject": "surface-material-lab",
+  "flagship": null,
+  "stream": "mat",
+  "pass": "sr",
+  "at": "voiceover-macos",
+  "atVersion": "macOS 15.5 VoiceOver",
+  "browser": "Safari",
+  "browserVersion": "18.5",
+  "os": "macOS",
+  "osVersion": "15.5",
+  "tester": "fixture-tester",
+  "date": "2026-10-10",
+  "result": "pass",
+  "storybookArtifactUrl": "https://gitlab.com/example/-/jobs/1/artifacts/storybook-static/index.html"
+}
