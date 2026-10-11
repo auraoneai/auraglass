@@ -1,6 +1,6 @@
 /** @jest-environment jsdom */
 import { describe, expect, it, jest } from '@jest/globals';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { Sidebar } from './Sidebar';
 import { AppShell } from './AppShell';
@@ -85,6 +85,29 @@ describe('Sidebar (SURF-041)', () => {
     expect({ link: linkClick.mock.calls.length, item: itemClick.mock.calls.length }).toEqual({ link: 1, item: 1 });
   });
 
+  it('RouterLink onClick + Item onClick both fire (REQ-FIN-81)', () => {
+    const order: string[] = [];
+    const RouterLink = (p: React.AnchorHTMLAttributes<HTMLAnchorElement>) => <a {...p} />;
+    render(
+      <Sidebar.Root>
+        <Sidebar.Nav aria-label="Nav">
+          <Sidebar.Item
+            href="/gamma"
+            onClick={() => order.push('item')}
+            onKeyDown={() => order.push('item-key')}
+            render={<RouterLink onClick={() => order.push('link')} onKeyDown={() => order.push('link-key')} />}
+          >
+            Gamma
+          </Sidebar.Item>
+        </Sidebar.Nav>
+      </Sidebar.Root>,
+    );
+    const link = screen.getByRole('link', { name: 'Gamma' });
+    fireEvent.click(link);
+    fireEvent.keyDown(link, { key: 'Enter' });
+    expect(order).toEqual(['item', 'link', 'item-key', 'link-key']);
+  });
+
   it('button render warns (SURF-28)', () => {
     const prevEnv = process.env['NODE_ENV'];
     process.env['NODE_ENV'] = 'development';
@@ -118,5 +141,35 @@ describe('Sidebar (SURF-041)', () => {
     expect(link.textContent).toContain('Beta');
     // rail mode mounts the tooltip leaf trigger wrapper (jsdom store snapshot).
     expect(link.closest('[data-ag-part="sidebar-item-li"]')).not.toBeNull();
+  });
+
+  it('group containing current opens (SURF-33)', async () => {
+    // closed group: trigger click opens, aria-expanded flips
+    render(
+      <Sidebar.Root>
+        <Sidebar.Nav aria-label="N">
+          <Sidebar.Collapsible label="Closed">
+            <Sidebar.Item href="/one">One</Sidebar.Item>
+          </Sidebar.Collapsible>
+        </Sidebar.Nav>
+      </Sidebar.Root>,
+    );
+    const trigger = screen.getByRole('button', { name: 'Closed' });
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.click(trigger);
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('link', { name: 'One' })).toBeTruthy();
+
+    // group with a current child, no hasCurrent prop, renders open
+    render(
+      <Sidebar.Root>
+        <Sidebar.Nav aria-label="N2">
+          <Sidebar.Collapsible label="Auto">
+            <Sidebar.Item href="/cur" current>Cur</Sidebar.Item>
+          </Sidebar.Collapsible>
+        </Sidebar.Nav>
+      </Sidebar.Root>,
+    );
+    expect(screen.getByRole('button', { name: 'Auto' })).toHaveAttribute('aria-expanded', 'true');
   });
 });

@@ -7,6 +7,7 @@
    class), not removed. */
 
 import * as React from 'react';
+import { mergeProps } from '@base-ui/react/merge-props';
 import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
 import { SidebarItemTooltip } from './Sidebar.ItemTooltip';
@@ -43,13 +44,34 @@ export function SidebarItem({ href, current, icon, badge, children, render, ...r
       console.warn('[auraglass] Sidebar.Item: destinations should be links — render=<button> is discouraged.');
     }
   }
+  // REQ-FIN-81: compose onClick/onKeyDown locally (not in foundation) so a
+  // render element's handler (e.g. a RouterLink's) and the Item's own handler
+  // both fire — the user's Item handler first. Base UI mergeProps runs the
+  // rightmost handler first, so the Item's handlers go on the right.
+  let renderEl = render;
+  const own: Record<string, unknown> = { ...rest };
+  if (React.isValidElement(render)) {
+    const rp = render.props as Record<string, unknown>;
+    const fromRender: Record<string, unknown> = {};
+    const fromItem: Record<string, unknown> = {};
+    for (const key of ['onClick', 'onKeyDown'] as const) {
+      if (typeof rp[key] === 'function' && typeof own[key] === 'function') {
+        fromRender[key] = rp[key];
+        fromItem[key] = own[key];
+        delete own[key];
+      }
+    }
+    if (Object.keys(fromItem).length > 0) {
+      renderEl = React.cloneElement(render, mergeProps(fromRender, fromItem) as never);
+    }
+  }
   const link = partElement('a', {
-    render,
+    render: renderEl,
     ...(href !== undefined ? { href } : {}),
     'data-ag-part': 'sidebar-item',
     className: 'ag-sidebar__item',
     ...(current ? { 'aria-current': 'page', 'data-ag-current': '' } : {}),
-    ...rest,
+    ...own,
     children: (
       <>
         {icon !== undefined ? <SidebarItemIcon>{icon}</SidebarItemIcon> : null}

@@ -95,8 +95,62 @@ describe('Button', () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
+  it('prominent guard scopes to the nearest chrome surface (REQ-CMP-34)', () => {
+    const err = jest.spyOn(console, 'error').mockImplementation(() => {});
+    try {
+      /* two prominent buttons in SEPARATE chrome surfaces -> 0 warnings */
+      render(
+        <>
+          <div data-ag-surface="" data-ag-layer="chrome"><Button prominent>One</Button></div>
+          <div data-ag-surface="" data-ag-layer="chrome"><Button prominent>Two</Button></div>
+        </>,
+      );
+      const surfaceWarnings = err.mock.calls.filter((c) => String(c[0]).includes('prominent'));
+      expect(surfaceWarnings).toHaveLength(0);
+    } finally {
+      err.mockRestore();
+    }
+  });
+
+  it('second prominent button in the SAME chrome surface warns once', async () => {
+    const err = jest.spyOn(console, 'error').mockImplementation(() => {});
+    try {
+      render(
+        <div data-ag-surface="" data-ag-layer="chrome">
+          <Button prominent>One</Button>
+          <Button prominent>Two</Button>
+        </div>,
+      );
+      /* effects flush after render in RTL */
+      await new Promise((r) => setTimeout(r, 0));
+      const surfaceWarnings = err.mock.calls.filter((c) => String(c[0]).includes('prominent'));
+      expect(surfaceWarnings).toHaveLength(1);
+    } finally {
+      err.mockRestore();
+    }
+  });
+
+  it('thickness + interactive defaults land on the root (REQ-CMP-34)', () => {
+    render(<Button>Attrs</Button>);
+    const btn = screen.getByRole('button');
+    expect(btn.getAttribute('data-ag-thickness')).toBe('thin');
+    expect(btn.getAttribute('data-ag-interactive')).toBe('');
+  });
+
+  it('explicit thickness overrides the thin default', () => {
+    render(<Button thickness="thick">Attrs</Button>);
+    expect(screen.getByRole('button').getAttribute('data-ag-thickness')).toBe('thick');
+  });
+
   it('pointerLight emits data-ag-pointer-light', () => {
     render(<Button pointerLight>Glow</Button>);
     expect(screen.getByRole('button').getAttribute('data-ag-pointer-light')).toBe('');
+  });
+
+  it('icon parts carry aria-hidden (REQ-CMP-33)', () => {
+    render(<Button startIcon={<svg data-testid="i1" />} endIcon={<svg data-testid="i2" />}>Icons</Button>);
+    const icons = document.querySelectorAll('[data-ag-part="icon"]');
+    expect(icons.length).toBeGreaterThan(0);
+    for (const icon of icons) expect(icon.getAttribute('aria-hidden')).toBe('true');
   });
 });

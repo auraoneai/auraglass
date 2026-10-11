@@ -18,7 +18,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'content', refractionEligible: false },
   apg: 'textbox',
-  budgetKb: 5,
+  budgetKb: 12,
   migration: [
     {
       from: 'GlassInput',
@@ -33,7 +33,7 @@ const meta: ControlMeta = defineMeta({
         fullWidth: null,
         glassVariant: null,
       },
-      automation: 'mostly',
+      selectors: { '.glass-input': '.ag-text-field' }, automation: 'mostly',
       compat: true,
     },
     {
@@ -43,7 +43,7 @@ const meta: ControlMeta = defineMeta({
         helperText: 'description',
         errorMessage: 'error',
       },
-      automation: 'mostly',
+      selectors: { '.glass-textarea': '.ag-text-field' }, automation: 'mostly',
       compat: true,
     },
   ],
