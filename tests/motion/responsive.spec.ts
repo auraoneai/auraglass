@@ -34,7 +34,7 @@ for (const subject of MORPH_SUBJECTS) {
     await expect(surface).toBeVisible({ timeout: 2_000 });
     // cross the breakpoint while open
     await page.setViewportSize({ width: 390, height: 844 });
-    const sheet = page.locator('[data-ag-part="sheet"], [role="dialog"][data-ag-sheet]').first();
+    const sheet = page.locator('[data-ag-part="sheet"], [role="dialog"][data-sheet]').first();
     await expect(sheet, `${subject} must morph into the sheet surface below ${BREAKPOINT}px`)
       .toBeVisible({ timeout: 2_000 });
   });

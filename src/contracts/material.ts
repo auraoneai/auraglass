@@ -1,4 +1,4 @@
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned: change only in a contract PR. Type-only except frozen constants. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned: change only in a contract PR. Type-only except frozen constants. */
 import type * as React from 'react';
 import type { RadiusToken, SpaceToken } from './tokens';
 
@@ -28,8 +28,8 @@ export interface MaterialRole {
   allowNested?: boolean;
 }
 
+/** C-1 (v1.2): no className key. Material CSS keys on [data-ag-surface]; materialProps() returns data-ag-* attributes only. */
 export interface MaterialAttributes {
-  className: 'ag-surface';
   'data-ag-surface': '';
   'data-ag-layer': Layer;
   'data-ag-variant'?: MaterialVariant;
@@ -48,14 +48,14 @@ export interface SurfaceProps extends MaterialRole, Omit<React.HTMLAttributes<HT
   render?: React.ReactElement;
   ref?: React.Ref<HTMLElement>;
 }
-export interface SurfaceGroupProps { spacing?: SpaceToken; children: React.ReactNode; className?: string   /** Opt-in refraction flag on the group surface. */
-  refraction?: boolean | undefined;
-}
+export interface SurfaceGroupProps { spacing?: SpaceToken; children: React.ReactNode; className?: string; refraction?: boolean }
 export interface EnvironmentProps { backdrop: Backdrop; image?: string; video?: string; children: React.ReactNode; className?: string }
 export interface ScrollEdgeProps { edge: 'top' | 'bottom'; edgeStyle?: EdgeStyle }
 export interface ConcentricFrameProps { radius: RadiusToken; inset: SpaceToken; children: React.ReactNode }
 
-/** S-02: class grammar. Library CSS keys only on these, data-ag-* and data-state. */
+/** S-02: class grammar. Library CSS keys only on these, data-ag-* and STATE_ATTRIBUTES (data-state plus, since v1.2 C-2, the
+    Base UI / component state attributes listed there). Since v1.2 (C-1) no material rule keys on
+    SURFACE_CLASS: Surface/SurfaceGroup still add it as a consumer styling hook, materialProps() never emits it. */
 export const SURFACE_CLASS = 'ag-surface' as const;
 export type ComponentClass<K extends string> = `ag-${K}`;
 export type PartClass<K extends string, P extends string> = `ag-${K}__${P}`;
@@ -117,9 +117,17 @@ export const AG_ATTRIBUTES = {
   'data-ag-sidebar-side': { setter: 'SURF', values: ['start', 'end'] },
   'data-ag-layout': { setter: 'SURF', values: ['auto', 'desktop', 'mobile'] },
   'data-ag-placement': { setter: 'SURF', values: ['inline', 'overlay'] },
-  'data-ag-appearance': { setter: 'CMP|SURF', values: 'component-specific non-material look (e.g. sidebar|inset|floating, underline|pill), declared in meta' },
+  'data-ag-appearance': { setter: 'CMP|SURF', values: 'component-specific non-material look (e.g. sidebar|inset|floating, underline|pill), declared in meta; Sheet popup value full-height is read by the MAT floor (C-2)' },
   'data-ag-inspector': { setter: 'SURF', values: ['open', 'closed'] },
   'data-ag-pinned-edge': { setter: 'SURF', values: ['start', 'end', 'top'] },
+  // ratified in v1.2 (C-2), public. MAT CSS reads all six; MAT code writes scroll-locked and lens-defs. theme, shadcn-source,
+  // hit-clamp and focus-inset are opt-in hooks that the app or a component writes on its own element (setter ANY).
+  'data-ag-theme': { setter: 'ANY', values: 'theme id: a preset id or the id passed to createGlassTheme/createBrandTheme; on the element that scopes that theme cssText' },
+  'data-ag-shadcn-source': { setter: 'ANY', values: [''] },     // on :root only; shadcn variables are authoritative (shadcn -> ag)
+  'data-ag-scroll-locked': { setter: 'MAT', values: [''] },     // LayerStack, on <html> only, while a modal layer is open
+  'data-ag-hit-clamp': { setter: 'ANY', values: ['start', 'end', 'both', 'none'] }, // container of adjacent hit-area targets
+  'data-ag-focus-inset': { setter: 'ANY', values: [''] },       // focusable inside a clipping container: ring drawn inside
+  'data-ag-lens-defs': { setter: 'MAT', values: [''] },         // the hidden SVG host rendered by LensDefs
   // private to MAT (not semver, undocumented)
   'data-ag-sizeclass': { setter: 'MAT', values: 'private' },
   'data-ag-radius': { setter: 'MAT', values: 'private' },
@@ -140,3 +148,8 @@ export const AG_ATTRIBUTES = {
 export type AgAttribute = keyof typeof AG_ATTRIBUTES;
 /** Banned forever (D-20 and erratum to CTL): */
 export const BANNED_ATTRIBUTES = ['data-ag-material', 'data-ag-button-variant', 'data-meets-wcag'] as const;
+/** S-02 / C-2 (v1.2): the only non-data-ag attributes library CSS may select. Base UI or the CMP/SURF component writes them
+    (setter ANY); MAT CSS only reads them. aria-* entries are matched with an explicit value, e.g. [aria-disabled="true"]. */
+export const STATE_ATTRIBUTES = ['data-state', 'data-disabled', 'data-pressed', 'data-selected', 'data-loading', 'data-drop-target',
+  'data-open', 'data-expanded', 'data-side', 'data-starting-style', 'data-ending-style',
+  'aria-disabled', 'aria-pressed', 'aria-selected', 'aria-busy'] as const;
