@@ -1,8 +1,9 @@
-// SURF-249/162 — ./charts peer isolation: d3-* must not leak outside
-// src/charts, and no chart runtime deps exist in src/data/src/date.
+// SURF-249 / REQ-SURF-162 — ./charts peer isolation: d3-scale/d3-shape (the
+// 5.1 optional peers) may be imported only under src/charts/**; every other
+// chart/date runtime stays banned everywhere.
 import { describe, expect, it } from '@jest/globals';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, relative, sep } from 'node:path';
 
 const ROOT = join(__dirname, '..', '..');
 function* walk(dir: string): Generator<string> {
@@ -13,21 +14,49 @@ function* walk(dir: string): Generator<string> {
   }
 }
 
-const BANNED = ['d3-scale', 'd3-shape', 'chart.js', 'react-chartjs-2', 'date-fns', 'echarts', 'recharts', 'visx'];
+const D3 = ['d3-scale', 'd3-shape'];
+const BANNED = ['chart.js', 'react-chartjs-2', 'date-fns', 'echarts', 'recharts', 'visx'];
+const matches = (spec: string, names: readonly string[]) =>
+  names.some((b) => spec === b || spec.startsWith(`${b}/`) || spec.includes(b));
+const rel = (f: string) => relative(ROOT, f).split(sep).join('/');
+// consumer-4x cases are frozen 4.x inputs whose banned imports are the
+// codemod's target (REQ-SURF-15); this file and no-chart-deps.test.ts name
+// the banned specifiers themselves.
+const skip = (f: string) => /peer-isolation\.test\.ts$|no-chart-deps\.test\.ts$/.test(f) || rel(f).startsWith('tests/fixtures/consumer-4x/');
 
-describe('charts peer isolation (SURF-249)', () => {
-  it('no d3/chart.js/date-fns imports outside src/charts (and none there until the 5.1 peer lands)', () => {
+function imports(f: string): string[] {
+  const src = readFileSync(f, 'utf8');
+  return [...src.matchAll(/(?:from|import)\s*\(?\s*['"]([^'"]+)['"]|require\(\s*['"]([^'"]+)['"]\s*\)/g)].map((m) => (m[1] ?? m[2])!);
+}
+
+describe('charts peer isolation (SURF-249, REQ-SURF-162)', () => {
+  it('d3-scale/d3-shape are imported nowhere outside src/charts/**', () => {
     const hits: string[] = [];
     for (const dir of ['src', 'tests', 'registry']) {
       for (const f of walk(join(ROOT, dir))) {
-        if (f.includes('peer-isolation.test.ts') || f.includes('no-chart-deps.test.ts') || f.includes('tests/fixtures/consumer-4x/')) continue; // consumer-4x cases are frozen 4.x inputs whose banned imports are the codemod's target (REQ-SURF-15)
-        const src = readFileSync(f, 'utf8');
-        for (const m of src.matchAll(/from ['"]([^'"]+)['"]/g)) {
-          const spec = m[1]!;
-          if (BANNED.some((b) => spec === b || spec.startsWith(`${b}/`) || spec.includes(b))) {
-            hits.push(`${f.replace(ROOT + '/', '')}: ${spec}`);
-          }
-        }
+        if (skip(f) || rel(f).startsWith('src/charts/')) continue;
+        for (const spec of imports(f)) if (matches(spec, D3)) hits.push(`${rel(f)}: ${spec}`);
+      }
+    }
+    expect(hits).toEqual([]);
+  });
+
+  it('no chart.js/echarts/recharts/visx/date-fns imports anywhere, src/charts included', () => {
+    const hits: string[] = [];
+    for (const dir of ['src', 'tests', 'registry']) {
+      for (const f of walk(join(ROOT, dir))) {
+        if (skip(f)) continue;
+        for (const spec of imports(f)) if (matches(spec, BANNED)) hits.push(`${rel(f)}: ${spec}`);
+      }
+    }
+    expect(hits).toEqual([]);
+  });
+
+  it('src/charts imports d3 only from d3-scale / d3-shape (no other d3 module)', () => {
+    const hits: string[] = [];
+    for (const f of walk(join(ROOT, 'src', 'charts'))) {
+      for (const spec of imports(f)) {
+        if (/^d3(-|$)/.test(spec) && !D3.some((d) => spec === d)) hits.push(`${rel(f)}: ${spec}`);
       }
     }
     expect(hits).toEqual([]);
@@ -36,13 +65,11 @@ describe('charts peer isolation (SURF-249)', () => {
   it('src/charts is self-contained (no src/data import beyond ChartFrame seam)', () => {
     const leaks: string[] = [];
     for (const f of walk(join(ROOT, 'src', 'charts'))) {
-      const src = readFileSync(f, 'utf8');
-      for (const m of src.matchAll(/from ['"]([^'"]+)['"]/g)) {
-        const spec = m[1]!;
-        if (spec.startsWith('.') || spec.startsWith('..')) {
-          const rel = spec.replace(/^\.\.\//, '');
-          if (rel.startsWith('data/') && !rel.startsWith('data/chart-frame')) leaks.push(`${f}: ${spec}`);
-          if (/^(app-shell|date|ai|media|backdrops|three|components)\//.test(rel)) leaks.push(`${f}: ${spec}`);
+      for (const spec of imports(f)) {
+        if (spec.startsWith('.')) {
+          const r = spec.replace(/^(\.\.\/)+/, '');
+          if (spec.startsWith('../') && r.startsWith('data/') && !r.startsWith('data/chart-frame')) leaks.push(`${rel(f)}: ${spec}`);
+          if (spec.startsWith('../') && /^(app-shell|date|ai|media|backdrops|three|components)\//.test(r)) leaks.push(`${rel(f)}: ${spec}`);
         }
       }
     }

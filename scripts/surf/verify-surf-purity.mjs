@@ -87,13 +87,15 @@ const w4 = [
 
 // --- lane W5 begin ---
 // Global SURF bans (S-47): timers are simulated-behaviour machinery — allowed
-// only in the four documented cases (ProviderErrorState retry countdown,
+// only in the documented cases (ProviderErrorState retry countdown,
 // StreamingText sentence flush, StatusBar.Live polling, Command announcement
-// debounce). Spatial APIs exist only inside src/three/**.
-const TIMER_ALLOW = ['ProviderErrorState', 'StreamingText', 'StatusBar', 'Command'];
+// debounce, and the Chart datum-announcement 150 ms trailing debounce that
+// REQ-SURF-163 requires — matched by exact file path, not a name token).
+// Spatial APIs exist only inside src/three/**.
+const TIMER_ALLOW = ['ProviderErrorState', 'StreamingText', 'StatusBar', 'Command', 'src/charts/ChartPlot.tsx'];
 const w5 = [
   {
-    ...rule('no-fake-timer', SURF_ROOTS, /\b(?:setTimeout|setInterval)\s*\(/, 'timer outside the allowlist (ProviderErrorState retry countdown, StreamingText sentence flush, StatusBar.Live, Command announcement debounce)'),
+    ...rule('no-fake-timer', SURF_ROOTS, /\b(?:setTimeout|setInterval)\s*\(/, 'timer outside the allowlist (ProviderErrorState retry countdown, StreamingText sentence flush, StatusBar.Live, Command announcement debounce, ChartPlot announcement debounce)'),
     pathAllowlist: TIMER_ALLOW,
   },
   rule('no-spatial-core', SURF_ROOTS.filter((p) => p !== 'src/three'), /from\s+['"](?:three|@react-three\/[^'"]+)['"]|\bnavigator\.xr\b/, 'three/@react-three imports and navigator.xr exist only inside src/three/**'),

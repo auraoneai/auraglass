@@ -1,7 +1,10 @@
-/* src/charts/scale.ts (SURF-241..248): minimal linear/band scales.
-   d3-scale/d3-shape become the 5.1 optional peers via a contract PR
-   (REQ-SURF-162); until that lands these locals provide the same math so the
-   ./charts entry type-checks and renders today. The swap is internal-only. */
+/* src/charts/scale.ts (SURF-241..248, REQ-SURF-161): linear/band scales,
+   y-extent resolution and the three curve generators.
+   REQ-SURF-162 makes d3-scale/d3-shape the 5.1 optional peers imported only by
+   src/charts/**; that needs the 5.1 contract PR plus their devDependencies
+   (FIN-C, package.json). Until then these locals implement the same math:
+   curveLinear, curveStep and an exact Fritsch-Carlson monotone cubic (the
+   REQ-SURF-161 fallback), which never overshoots the data. */
 
 export interface LinearScale {
   (v: number): number;
@@ -48,10 +51,58 @@ export function extent(values: readonly number[]): [number, number] {
   return [Math.min(0, lo), hi];
 }
 
-/* Path generators matching d3-shape curve semantics for the three supported
-   curves: linear (polyline), monotone (Catmull-Rom→bezier, like curveMonotoneX),
-   step (curveStep mid-point verticals). */
-export function linePath(pts: readonly (readonly [number, number])[], curve: 'linear' | 'monotone' | 'step'): string {
+/** y-scale domain for a mark: a fixed `yDomain` tuple wins (normalised to
+    [min, max]); 'auto', or a degenerate/non-finite tuple, uses the data extent. */
+export function yExtent(values: readonly number[], yDomain: readonly [number, number] | 'auto' | undefined): [number, number] {
+  if (yDomain !== undefined && yDomain !== 'auto') {
+    const [a, b] = yDomain;
+    if (Number.isFinite(a) && Number.isFinite(b) && a !== b) return a < b ? [a, b] : [b, a];
+  }
+  return extent(values);
+}
+
+type Pt = readonly [number, number];
+
+/* Fritsch-Carlson monotone cubic Hermite tangents (Fritsch & Carlson 1980):
+   secant slopes, averaged interior tangents (0 at local extrema and flat
+   segments), then each segment's (alpha, beta) is pulled into the radius-3
+   circle. Every control point then lies between its segment's end values, so
+   the cubic stays inside the data extent. */
+function monotoneTangents(pts: readonly Pt[]): number[] {
+  const n = pts.length;
+  const s: number[] = [];
+  for (let i = 0; i < n - 1; i++) {
+    const dx = pts[i + 1]![0] - pts[i]![0];
+    s.push(dx === 0 ? 0 : (pts[i + 1]![1] - pts[i]![1]) / dx);
+  }
+  const t: number[] = new Array<number>(n).fill(0);
+  t[0] = s[0]!;
+  t[n - 1] = s[n - 2]!;
+  for (let i = 1; i < n - 1; i++) {
+    t[i] = s[i - 1]! * s[i]! <= 0 ? 0 : (s[i - 1]! + s[i]!) / 2;
+  }
+  for (let i = 0; i < n - 1; i++) {
+    if (s[i] === 0) {
+      t[i] = 0;
+      t[i + 1] = 0;
+      continue;
+    }
+    const a = t[i]! / s[i]!;
+    const b = t[i + 1]! / s[i]!;
+    const h = a * a + b * b;
+    if (h > 9) {
+      const tau = 3 / Math.sqrt(h);
+      t[i] = tau * a * s[i]!;
+      t[i + 1] = tau * b * s[i]!;
+    }
+  }
+  return t;
+}
+
+/* Path generators with d3-shape curve semantics: linear (curveLinear
+   polyline), step (curveStep mid-point verticals), monotone (Fritsch-Carlson
+   monotone cubic in x, as cubic Bezier segments). */
+export function linePath(pts: readonly Pt[], curve: 'linear' | 'monotone' | 'step'): string {
   if (pts.length === 0) return '';
   if (pts.length === 1) return `M${pts[0]![0]},${pts[0]![1]}`;
   if (curve === 'linear') return `M${pts[0]![0]},${pts[0]![1]} ${pts.slice(1).map((p) => `L${p[0]},${p[1]}`).join(' ')}`;
@@ -63,18 +114,13 @@ export function linePath(pts: readonly (readonly [number, number])[], curve: 'li
     }
     return d;
   }
-  // monotone: Catmull-Rom to cubic bezier (equivalent to curveMonotoneX shape)
+  const t = monotoneTangents(pts);
   let d = `M${pts[0]![0]},${pts[0]![1]}`;
   for (let i = 0; i < pts.length - 1; i++) {
-    const p0 = pts[Math.max(0, i - 1)]!;
-    const p1 = pts[i]!;
-    const p2 = pts[i + 1]!;
-    const p3 = pts[Math.min(pts.length - 1, i + 2)]!;
-    const c1x = p1[0] + (p2[0] - p0[0]) / 6;
-    const c1y = p1[1] + (p2[1] - p0[1]) / 6;
-    const c2x = p2[0] - (p3[0] - p1[0]) / 6;
-    const c2y = p2[1] - (p3[1] - p1[1]) / 6;
-    d += ` C${c1x},${c1y} ${c2x},${c2y} ${p2[0]},${p2[1]}`;
+    const [x0, y0] = pts[i]!;
+    const [x1, y1] = pts[i + 1]!;
+    const dx = (x1 - x0) / 3;
+    d += ` C${x0 + dx},${y0 + t[i]! * dx} ${x1 - dx},${y1 - t[i + 1]! * dx} ${x1},${y1}`;
   }
   return d;
 }

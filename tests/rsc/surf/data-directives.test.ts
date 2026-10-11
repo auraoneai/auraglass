@@ -14,11 +14,18 @@ const SERVER = [
   'src/data/chart-frame/ChartFrame.tsx',
   'src/components/timeline/Timeline.tsx',
   'src/components/timeline/ActivityFeed.tsx',
+  // REQ-SURF-161: the Chart wrapper, static marks + tooltip are server-safe; ChartPlot is the island.
+  'src/charts/Chart.tsx',
+  'src/charts/ChartTooltip.tsx',
+  'src/charts/marks/Line.tsx',
+  'src/charts/marks/Area.tsx',
+  'src/charts/marks/Bar.tsx',
+  'src/charts/marks/Donut.tsx',
 ];
 const CLIENT = [
   'src/data/chart-frame/ChartFrame.Interactive.tsx',
   'src/data/table/useTableState.ts',
-  'src/charts/marks/Line.tsx',
+  'src/charts/ChartPlot.tsx',
 ];
 
 function* walk(dir: string): Generator<string> {

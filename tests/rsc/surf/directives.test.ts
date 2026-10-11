@@ -69,6 +69,17 @@ const SERVER_MODULE = [
 
 const CLIENT_ONLY = [/^StatusBar\.Live\.tsx?$/, /^Breadcrumbs\.Overflow\.tsx?$/, /^Pagination\.button\.tsx?$/i, /^ChartFrame\.Interactive\.tsx?$/, /^ActivityFeed\.Interactive\.tsx?$/];
 
+// --- lane W2 begin ---
+const CHART_SERVER_PATHS = [
+  'src/charts/Chart.tsx',
+  'src/charts/ChartTooltip.tsx',
+  'src/charts/marks/Line.tsx',
+  'src/charts/marks/Area.tsx',
+  'src/charts/marks/Bar.tsx',
+  'src/charts/marks/Donut.tsx',
+];
+// --- lane W2 end ---
+
 const SKIP_FILE = /\.(test|spec|stories|meta|d)\.tsx?$|\.test-d\.ts$|\.css\.ts$/;
 
 function* modules(dir: string): Generator<string> {
@@ -102,6 +113,12 @@ const serverFiles = files.filter((f) => {
   // Inspector basename but is a client part of a client-only module.
   if (f === 'src/media/ImageViewer/parts/Inspector.tsx') return false;
   // --- lane W4 end ---
+  // --- lane W2 begin ---
+  // REQ-SURF-161: the Chart static marks and the tooltip are pure server-safe
+  // modules (exact paths — their basenames are too generic for SERVER_MODULE);
+  // ChartPlot.tsx is the client island.
+  if (CHART_SERVER_PATHS.includes(f)) return true;
+  // --- lane W2 end ---
   const base = f.split('/').pop() ?? '';
   return !CLIENT_ONLY.some((r) => r.test(base)) && SERVER_MODULE.some((r) => r.test(base));
 });
