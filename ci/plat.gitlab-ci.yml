@@ -297,6 +297,12 @@ plat:gate:removal:
     # REQ-PLAT-79: the producer (scripts/removal/revert-dry-run.mjs, fa36fbf59)
     # is on next, so the dry-run runs unconditionally; a missing script fails.
     - node scripts/removal/revert-dry-run.mjs
+    # REQ-PLAT-82 item 5 (PLAT-225/226): the server-archive check is part of
+    # the removal gate. The producer's --verify mode (#622, re-cut of #184)
+    # exits 1 unless the GHSA is published and auraoneai/auraglass-server-archive
+    # is private and byte-identical (OD-21). allow_failure is NOT flipped here;
+    # only a ci/plat/activation.json row from a green pipeline flips it.
+    - node scripts/removal/verify-archive.mjs --verify
 
 plat:gate:change-class:
   extends: [.plat-node, .plat-evidence-release]
