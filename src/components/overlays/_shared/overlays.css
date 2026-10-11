@@ -8,21 +8,23 @@
    (src/material/css/material.css, src/a11y/css/rungs.css); the scrim
    animates opacity only. */
 @layer ag.components {
-  /* REQ-CMP-89: every layer root is a full-viewport named container so popup
-     CSS can use @container ag-overlay queries instead of @media viewport. */
-  [data-ag-layer-root] {
+  /* REQ-CMP-89: the overlay's portal element is a full-viewport named
+     container so popup CSS can use @container ag-overlay queries instead of
+     @media viewport. It sits on the CMP portal element, not on
+     [data-ag-layer-root]: the layer roots are positioned by
+     src/a11y/css/layers.css (ag.a11y, position: relative + z-index), and a
+     zero-height relative container would become the containing block of the
+     fixed popups. Layer-root z-order is unchanged (this box is inside it). */
+  .ag-overlay-container {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    container-name: ag-overlay;
-    container-type: inline-size;
+    container: ag-overlay / inline-size;
   }
-  [data-ag-layer-root] > * {
+  .ag-overlay-container > * {
     pointer-events: auto;
   }
-}
 
-@layer ag.components {
   .ag-scrim {
     position: fixed;
     inset: 0;

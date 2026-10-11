@@ -17,7 +17,8 @@ const meta: ControlMeta = defineMeta({
     'nested', 'nested-dialog-open', 'nested-open', 'animating',
   ],
   variants: {
-    size: ['sm', 'md', 'lg', 'xl', 'full'],
+    // REQ-CMP-89: DialogSize is sm|md|lg; wide/fullscreen are the appearance axis
+    size: ['sm', 'md', 'lg'],
     placement: ['center', 'top'],
     variant: ['regular', 'identity'],
     prominent: ['true', 'false'],

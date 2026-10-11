@@ -103,7 +103,9 @@ function DialogClose({ children, className, ref, ...rest }: DialogCloseProps) {
 function DialogPortal({ children, keepMounted }: DialogPortalProps) {
   const container = usePortalContainer('overlay');
   return (
-    <Base.Portal container={container} keepMounted={keepMounted}>
+    /* REQ-CMP-89: the portal element is the named ag-overlay container
+       (overlays.css) the responsive size grid queries. */
+    <Base.Portal container={container} keepMounted={keepMounted} className="ag-overlay-container">
       {children}
     </Base.Portal>
   );

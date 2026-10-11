@@ -3,7 +3,7 @@
 /* CMP-215 + CMP-189 (REQ-CMP-01/-86): Dialog sizes, placement, layout,
    emergence motion (opacity + scale .96→1 from --transform-origin over
    --ag-duration-medium, --_ag-optics ramp to 60%; calm = opacity only),
-   nested dim, mobile containment. Scrim rules live in overlays/_shared. */
+   nested recede (dim is MAT's), container-query mobile grid. Scrim rules live in overlays/_shared. */
 @layer ag.components {
   .ag-dialog-popup {
     position: fixed;
@@ -57,6 +57,13 @@
     transition:
       opacity var(--ag-duration-medium) var(--ag-spring-snappy),
       transform var(--ag-duration-medium) var(--ag-spring-snappy);
+  }
+
+  /* nested: the parent recedes while a child dialog is open. The scale is
+     component motion and stays here; the material alpha dim keyed on the same
+     attribute is MAT's (material.css, REQ-CMP-89 hand-off to REQ-FIN-02). */
+  .ag-dialog-popup[data-ag-nested-open] {
+    transform: scale(0.98);
   }
 
   .ag-dialog-header,
