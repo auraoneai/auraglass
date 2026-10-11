@@ -53,7 +53,7 @@ const MAP = {
   GlassTopBar: F('TopBar', 'PRD-10'),
   GlassCanvasArea: A('AppShell.Main', 'PRD-10'),
   GlassInspectorPanel: A('AppShell.Inspector', 'PRD-10'),
-  GlassTimelineRail: A('Timeline', 'PRD-11'),
+  GlassTimelineRail: R('Timeline', 'PRD-11', 'SC-34: removed — capability lives in Timeline'),
   GlassWorkflowShell: A('AppShell', 'PRD-10'),
   GlassWorkspace: A('AppShell', 'PRD-10'),
   GlassWorkspaceHeader: A('TopBar', 'PRD-10'),
@@ -189,7 +189,7 @@ const MAP = {
   GlassMobileNav: A('Sheet', 'PRD-09', '§11.2 #17'),
   GlassPopover: F('Popover', 'PRD-09'),
   GlassTooltip: F('Tooltip', 'PRD-09', 'ACCESSIBILITY-10'),
-  GlassHoverCard: C('HoverCard', 'PRD-14', 'Base UI PreviewCard'),
+  GlassHoverCard: A('Popover', 'PRD-14', 'compat target Popover openOnHover (was PreviewCard)'),
   GlassDropdownMenu: F('Menu', 'PRD-09', 'canonical part naming'),
   GlassContextMenu: A('ContextMenu', 'PRD-09'),
   GlassMenubar: A('Menubar', 'PRD-09', 'ACCESSIBILITY-12'),
@@ -261,7 +261,7 @@ const MAP = {
   GlassLineChart: A('ChartFrame', 'PRD-11'), GlassPieChart: A('ChartFrame', 'PRD-11'),
   GlassDataChart: A('ChartFrame', 'PRD-11', 'chart.js removed'),
   GlassChartWidget: A('ChartFrame', 'PRD-11'),
-  GlassAdvancedDataViz: A('ChartFrame', 'PRD-11'),
+  GlassAdvancedDataViz: R('ChartFrame', 'PRD-11', 'SC-34: removed — capability lives in ChartFrame'),
   ChartGrid: A('ChartFrame', 'PRD-11'), ChartLegend: A('ChartFrame', 'PRD-11'),
   ChartTooltip: A('ChartFrame', 'PRD-11'), ChartElementStyles: A('ChartFrame', 'PRD-11'),
   GlassHeatmap: R('Chart (./charts, 5.1)', 'PRD-11'),
@@ -377,7 +377,14 @@ records.forEach((r, i) => {
   if (['REMOVE', 'DEPRECATE'].includes(r.disposition) && !['removed', 'note'].includes(dest)) flags.push('overrides inventory ' + r.disposition);
   if (['KEEP', 'POLISH', 'REDESIGN'].includes(r.disposition) && dest === 'removed' && e.kind !== 'absorbed') flags.push('overrides inventory ' + r.disposition);
   if (e.kind === 'absorbed' && dest === 'removed') flags.push('internal; merged into target');
-  rows.push({ i, name: r.name, file: fileOf(r.file), disp: r.disposition, pub: isPublic(r), dest, target: e.target, prd: e.prd, note: [e.note, ...flags].filter(Boolean).join('; ') });
+  const owner = dest === 'registry' ? 'plat' : dest === 'labs' ? 'labs' : dest === 'removed' ? 'plat' : dest === 'note' ? '-' : 'cmp';
+  const codemod = dest === 'registry' ? 'removed->registry'
+    : dest === 'labs' ? 'removed->labs'
+    : dest === 'compat' ? 'compat-adapter'
+    : dest === 'removed' ? 'removed'
+    : dest === 'note' ? '-'
+    : `rename:${e.target}`;
+  rows.push({ i, name: r.name, file: fileOf(r.file), disp: r.disposition, pub: isPublic(r), dest, target: e.target, prd: e.prd, owner, codemod, note: [e.note, ...flags].filter(Boolean).join('; ') });
 });
 if (unmapped.length) { console.error('UNMAPPED records:\n' + unmapped.join('\n')); process.exit(1); }
 
@@ -395,11 +402,42 @@ const out = [
   '## Totals by owning PRD', '', '| PRD | Records |', '|---|---|', table(count('prd')), '',
   '## Totals by 4.x disposition', '', '| Disposition | Records |', '|---|---|', table(count('disp')), '',
   '## Every record', '',
-  '| # | Name | File | 4.x disposition | Public | 5.0 destination | 5.0 target | Owning PRD | Reconciliation note |',
-  '|---|---|---|---|---|---|---|---|---|',
-  ...rows.map((r) => `| ${r.i} | ${esc(r.name)} | \`${esc(r.file || '-')}\` | ${r.disp} | ${r.pub ? 'yes' : 'no'} | ${r.dest} | ${esc(r.target)} | ${r.prd} | ${esc(r.note)} |`),
+  '| # | Name | File | 4.x disposition | Public | 5.0 destination | 5.0 target | Owner | Codemod | Owning PRD | Reconciliation note |',
+  '|---|---|---|---|---|---|---|---|---|---|---|',
+  ...rows.map((r) => `| ${r.i} | ${esc(r.name)} | \`${esc(r.file || '-')}\` | ${r.disp} | ${r.pub ? 'yes' : 'no'} | ${r.dest} | ${esc(r.target)} | ${r.owner} | ${r.codemod} | ${r.prd} | ${esc(r.note)} |`),
   '',
 ];
+/* §4.7 R-01..R-18 reconciliation decisions encoded as named assertions — a
+   MAP edit that disagrees with the archive fails the run. */
+const R_ASSERTIONS = [
+  ['R-01', ['AdaptiveGlass', 'GlassOpacityEngine', 'GlassEngine', 'OptimizedGlassCore'], (r) => r.target === 'Surface'],
+  ['R-02', ['GlassTransitions', 'GlassLiquidTransition'], (r) => r.target === 'SourceTransition'],
+  ['R-03', ['GlassMetricCard', 'GlassKPICard', 'GlassKPI'], (r) => ['StatCard', 'GlassStatCard'].includes(r.target)],
+  ['R-04', ['GlassCommandPalette'], (r) => r.target === 'CommandPalette' || (r.name === 'GlassCommand' && r.target === 'Command')],
+  ['R-05', ['GlassTreeView'], (r) => r.target === 'TreeView'],
+  ['R-06', ['GlassToastProvider'], (r) => r.target.startsWith('Toast')],
+  ['R-07', ['GlassFileUpload'], (r) => r.target === 'FileUpload' || r.dest === 'removed'],
+  ['R-08', ['GlassStepper'], (r) => ['Steps', 'NumberField'].includes(r.target)],
+  ['R-09', ['GlassAppShell', 'GlassSplitPane'], (r) => ['AppShell', 'ResizablePanels'].includes(r.target)],
+  ['R-10', ['LiquidGlassInspectorPanel', 'GlassInspectorPanel'], (r) => r.target.includes('AppShell') || r.target.includes('Inspector')],
+  ['R-11', ['GlassPageTabs', 'GlassTabs'], (r) => r.target === 'Tabs'],
+  ['R-12', ['GlassParticles', 'GlassParticleField', 'ParticleBackground'], (r) => r.dest === 'labs' || r.target.includes('Particle')],
+  ['R-13', ['DynamicAtmosphere', 'AtmosphericBackground', 'AuroraBackground'], (r) => r.target.startsWith('Backdrop') || r.dest === 'labs'],
+  ['R-14', ['GlassCombobox', 'GlassSelect'], (r) => ['Select', 'Combobox'].includes(r.target)],
+  ['R-15', ['ToggleButtonGroup'], (r) => ['Toolbar', 'ButtonGroup', 'ToggleGroup'].includes(r.target)],
+  ['R-16', ['GlassDataChart', 'ModularGlassDataChart'], (r) => ['ChartFrame', 'Chart'].includes(r.target) || r.dest === 'removed'],
+  ['R-17', ['EnhancedGlassButton', 'GlassResizablePanel', 'GlassSplitPane', 'MobileGlassBottomSheet', 'GlassNavigation', 'GlassIconButton'], (r) => r.dest !== 'removed' || r.name === 'GlassSplitPane'],
+  ['R-18', ['GlassPullToRefresh', 'GlassInfiniteScroll', 'MotionFramer', 'RovingFocusGroup'], (r) => r.dest === 'removed'],
+];
+const rFail = [];
+for (const [rid, names, ok] of R_ASSERTIONS) {
+  for (const n of names) {
+    const recs = rows.filter((r) => r.name.split(/[\s(/]/)[0] === n);
+    if (recs.length && !recs.every(ok)) rFail.push(`${rid}: ${n} -> ${recs.map((r) => `${r.dest}/${r.target}`).join(',')}`);
+  }
+}
+if (rFail.length) { console.error('R-01..R-18 reconciliation violations:\n' + rFail.join('\n')); process.exit(1); }
+
 const outPath = argOf('--out', join(root, 'docs/inventory/component-dispositions.md'));
 const path = outPath;
 const text = out.join('\n');
