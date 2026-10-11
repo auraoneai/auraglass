@@ -18,7 +18,7 @@
 plat:build:dist:
   extends: .plat-node
   stage: build
-  allow_failure: true
+  allow_failure: false # PLAT-015: activated on 5x, ci/plat/activation.json row (first green: pipeline 2934310753)
   rules:
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release"
   script:
