@@ -1,15 +1,36 @@
-/* GlassPageHeader — 4.x compat adapter (SC-34). Delegates to the 5.0 component and
-   warns once per session via warnDeprecated; prop mapping per
-   fragments/codemods/surf.ts W1 rows. */
-'use client';
+/* GlassPageHeader — 4.x compat adapter (REQ-SURF-13, DEP-S0006) →
+   AppShell.PageHeader. eyebrow/title/description/actions map 1:1; children
+   follow the description, as in 4.x. */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { AppShell } from '../../../app-shell/AppShell';
+import { domProps } from '../_shared';
 
-export type GlassPageHeaderProps = Record<string, unknown> & { children?: React.ReactNode };
+export interface GlassPageHeaderProps {
+  eyebrow?: React.ReactNode;
+  title?: React.ReactNode;
+  description?: React.ReactNode;
+  actions?: React.ReactNode;
+  children?: React.ReactNode;
+  [legacy: string]: unknown;
+}
 
+/**
+ * 4.x `GlassPageHeader` compat adapter (DEP-S0006).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link AppShell.PageHeader from aura-glass/app-shell}.
+ */
 export function GlassPageHeader(props: GlassPageHeaderProps) {
-  warnDeprecated('GlassPageHeader');
-  const { title, children, ...rest } = props as Record<string, React.ReactNode>;
-  return <AppShell.PageHeader title={title}>{children}</AppShell.PageHeader>;
+  warnDeprecated('DEP-S0006');
+  const { eyebrow, title, description, actions, children, ...rest } = props;
+  return (
+    <AppShell.PageHeader
+      title={title ?? null}
+      {...(eyebrow != null ? { eyebrow } : {})}
+      {...(description != null ? { description } : {})}
+      {...(actions != null ? { actions } : {})}
+      {...domProps(rest)}
+    >
+      {children}
+    </AppShell.PageHeader>
+  );
 }

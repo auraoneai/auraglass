@@ -1,25 +1,41 @@
-'use client';
+/* GlassTimeField — 4.x compat adapter (REQ-SURF-13, DEP-S0221) → TimeField.
+   4.x GlassTimeField was a native <input type="time">: value/defaultValue
+   were 'HH:mm' strings (Date also accepted) and onChange received the input
+   change event. Values parse to Time; onChange receives an event-shaped
+   object whose target.value is 'HH:mm' ('' when cleared). label (4.x
+   default "Time"), helperText, error, required, disabled map through
+   ./shared fieldProps. */
+import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { TimeField } from '../../../date/TimePicker';
-import type { TimeFieldProps } from '../../../date/TimePicker';
-import { toDateValue } from './shared';
+import type { TimeValue } from '../../../date/shared';
+import { fieldProps, legacyChange, toTimeValue, type LegacyFieldProps } from './shared';
 
-export type GlassTimeFieldProps = {
-  value?: Date;
-  defaultValue?: Date;
-  onChange?: (d: Date | null) => void;
+export interface GlassTimeFieldProps extends LegacyFieldProps {
+  value?: string | Date | null;
+  defaultValue?: string | Date | null;
+  onChange?: (event: { target: { value: string }; currentTarget: { value: string } }) => void;
   timeZone?: string;
-} & Omit<TimeFieldProps, 'value' | 'defaultValue' | 'onChange'>;
+  className?: string;
+  [legacy: string]: unknown;
+}
 
+/**
+ * 4.x `GlassTimeField` compat adapter (DEP-S0221).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link TimeField from aura-glass/date}.
+ */
 export function GlassTimeField(props: GlassTimeFieldProps) {
-  warnDeprecated('GlassTimeField');
-  const { value, defaultValue, onChange, timeZone, ...rest } = props;
+  warnDeprecated('DEP-S0221');
+  const { value, defaultValue, onChange, timeZone, className, label = 'Time' } = props;
+  const v = toTimeValue(value, timeZone);
+  const dv = toTimeValue(defaultValue, timeZone);
   return (
     <TimeField
-      {...rest}
-      value={value ? (toDateValue(value, timeZone) as never) : undefined}
-      defaultValue={defaultValue ? (toDateValue(defaultValue, timeZone) as never) : undefined}
-      onValueChange={onChange ? (v) => onChange(v ? new Date(v.toString()) : null) : undefined}
+      {...fieldProps({ ...props, label })}
+      {...(value !== undefined ? { value: v ?? null } : {})}
+      {...(dv ? { defaultValue: dv } : {})}
+      {...(onChange ? { onValueChange: (next: TimeValue | null) => onChange(legacyChange(next ? next.toString().slice(0, 5) : '')) } : {})}
+      {...(className ? { className } : {})}
     />
   );
 }

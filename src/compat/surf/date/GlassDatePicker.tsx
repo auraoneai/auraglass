@@ -1,44 +1,67 @@
-'use client';
+/* GlassDatePicker — 4.x compat adapter (REQ-SURF-13, DEP-S0222) →
+   DatePicker. value/defaultValue (Date | null) → CalendarDate via
+   fromDate(date, getLocalTimeZone()) client-side (`timeZone` required on the
+   server); onChange(Date | null) at local midnight; minDate/maxDate →
+   minValue/maxValue; disabledDates (Date[] or predicate) →
+   isDateUnavailable; firstDayOfWeek 0..6 → 'sun'..'sat'; helperText,
+   error/errorMessage, required, disabled, size via ./shared fieldProps.
+   mode="range" consumers move to DateRangePicker (GlassDateRangePicker);
+   placeholder becomes the label when no label is given (the 5.0 field needs
+   an accessible name); format/today/clear buttons are locale- and
+   component-owned in 5.0 and are dropped. */
+import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { DatePicker } from '../../../date/DatePicker';
-import type { DatePickerProps } from '../../../date/DatePicker';
-import { toDateValue } from './shared';
 import type { DateValue } from '../../../date/shared';
+import { fieldProps, toCalendarDate, toJsDate, type LegacyFieldProps } from './shared';
 
-export type GlassDatePickerProps = {
-  value?: Date;
-  defaultValue?: Date;
-  onChange?: (d: Date | null) => void;
+export interface GlassDatePickerProps extends LegacyFieldProps {
+  value?: Date | null;
+  defaultValue?: Date | null;
+  onChange?: (date: Date | null) => void;
   minDate?: Date;
   maxDate?: Date;
-  disabledDates?: (d: Date) => boolean;
-  disabled?: boolean;
-  required?: boolean;
-  error?: boolean | string;
-  helperText?: string;
-  /** 4.x `format` prop is removed — locale drives display. It is accepted
-      only to surface the deprecation warning, then ignored. */
-  format?: string;
+  disabledDates?: Date[] | ((date: Date) => boolean);
   timeZone?: string;
-} & Omit<DatePickerProps, 'value' | 'defaultValue' | 'onChange' | 'minValue' | 'maxValue' | 'isDateUnavailable' | 'isDisabled' | 'isRequired' | 'isInvalid' | 'description'>;
+  className?: string;
+  [legacy: string]: unknown;
+}
 
+export function unavailable(disabledDates: GlassDatePickerProps['disabledDates'], timeZone?: string) {
+  if (!disabledDates) return undefined;
+  return (d: DateValue) => {
+    const js = toJsDate(d, timeZone)!;
+    if (typeof disabledDates === 'function') return disabledDates(js);
+    const day = d.toString().slice(0, 10);
+    return disabledDates.some((x) => toCalendarDate(x, timeZone)!.toString() === day);
+  };
+}
+
+/**
+ * 4.x `GlassDatePicker` compat adapter (DEP-S0222).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link DatePicker from aura-glass/date}.
+ */
 export function GlassDatePicker(props: GlassDatePickerProps) {
-  warnDeprecated('GlassDatePicker');
-  const { value, defaultValue, onChange, minDate, maxDate, disabledDates, disabled, required, error, helperText, format, timeZone, ...rest } = props;
-  void format;
+  warnDeprecated('DEP-S0222');
+  const { value, defaultValue, onChange, minDate, maxDate, disabledDates, timeZone, className } = props;
+  const v = toCalendarDate(value, timeZone);
+  const dv = toCalendarDate(defaultValue, timeZone);
+  const minV = toCalendarDate(minDate, timeZone);
+  const maxV = toCalendarDate(maxDate, timeZone);
+  const isUnavailable = unavailable(disabledDates, timeZone);
+  // 4.x had only a placeholder; the 5.0 field needs a label for its
+  // accessible name, so the placeholder text becomes the label.
+  const label = props.label ?? (typeof props['placeholder'] === 'string' ? props['placeholder'] : 'Date');
   return (
     <DatePicker
-      {...rest}
-      value={value ? (toDateValue(value, timeZone) as never) : undefined}
-      defaultValue={defaultValue ? (toDateValue(defaultValue, timeZone) as never) : undefined}
-      onValueChange={onChange ? (v) => onChange(v ? new Date(v.toString()) : null) : undefined}
-      minValue={minDate ? (toDateValue(minDate, timeZone) as never) : undefined}
-      maxValue={maxDate ? (toDateValue(maxDate, timeZone) as never) : undefined}
-      isDateUnavailable={disabledDates ? (v: DateValue) => disabledDates(new Date(v.toString())) : undefined}
-      isDisabled={disabled}
-      isRequired={required}
-      isInvalid={typeof error === 'boolean' ? error : error !== undefined}
-      description={helperText}
+      {...fieldProps({ ...props, label })}
+      {...(value !== undefined ? { value: v ?? null } : {})}
+      {...(dv ? { defaultValue: dv } : {})}
+      {...(minV ? { minValue: minV } : {})}
+      {...(maxV ? { maxValue: maxV } : {})}
+      {...(isUnavailable ? { isDateUnavailable: isUnavailable } : {})}
+      {...(onChange ? { onValueChange: (next: DateValue | null) => onChange(toJsDate(next, timeZone)) } : {})}
+      {...(className ? { className } : {})}
     />
   );
 }
