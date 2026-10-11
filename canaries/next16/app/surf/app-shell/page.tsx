@@ -1,6 +1,7 @@
 // SURF-130 — Next 16 + React 19.3 server page (no 'use client'): renders the
 // server shell frame and parses the persisted rail cookie server-side via
-// AppShell's cookie helper (REQ-SURF-07/14: shell state survives SSR).
+// AppShell.parseCookie (REQ-SURF-07/14: shell state survives SSR; the codec
+// lives on the namespace, not the 7-name ./app-shell barrel — REQ-SURF-01).
 // REQ-SURF-08: the cookie is the one the toggles write (`ag-shell-<persistKey>`),
 // so a persisted 'sidebar:rail' paints as rail and hydrates without a
 // mismatch (tests/ssr/surf/hydration.spec.ts).
