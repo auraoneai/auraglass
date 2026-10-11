@@ -37,10 +37,7 @@
     background: transparent;
     font: inherit;
   }
-  .ag-number-field [data-ag-part='increment']:focus-visible,
-  .ag-number-field [data-ag-part='decrement']:focus-visible {
-    outline: var(--_ag-focus-width) solid var(--ag-color-focus-outer);
-  }
+  /* Increment/decrement/input focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
   .ag-number-field [data-ag-part='description'] {
     font-size: var(--ag-type-caption-size);
     color: var(--ag-on-surface-muted);
