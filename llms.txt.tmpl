@@ -1,27 +1,36 @@
-# AuraGlass 5.0
+# AuraGlass {{version}}
 
-> Glass-native component system for React 19 + Next 16 / Vite. Components:
-> <!-- ag:claim component-count --> · registry blocks: <!-- ag:claim registry-block-count --> · tarball: <!-- ag:claim tarball-mb -->
+> React 19 component system with a layered glass material (`aura-glass`). Import components by canonical name, style them through `data-ag-part` and `data-state` attributes and the `ag` cascade layer, and add certified registry blocks with `@auraglass/cli`. This file is generated from `package.json`, the exports manifest and the component metas; version {{version}}.
 
-## Start
+## Install
 
-- Quickstart: docs/quickstart/next.md · docs/quickstart/vite.md
-- Install: `npm install aura-glass@^5` then `npx @auraglass/cli init`
-- Add a block: `npx @auraglass/cli add <name>`
+- `npm install {{install}}`
+- `npx @auraglass/cli init` (writes `auraglass.json` and the `aura-glass/styles.css` import plus layer statement)
+- `npx @auraglass/cli add <block>` (shadcn-format registry items)
+- Upgrading from 4.x: `npx @auraglass/cli migrate 4to5 --dry-run`
+- MCP server for agents: `npx @auraglass/mcp` (stdio; tools `search_components`, `get_component`, `list_registry`, `get_registry_item`, `get_migration`)
 
-## Imports
+## Subpaths
 
-- Components: `import { Button, Card, Tabs } from 'aura-glass'`
-- Theme + preferences: `aura-glass/theme`
-- Tokens/motion: `aura-glass/tokens` · `aura-glass/motion`
-- Styles: `import 'aura-glass/styles.css'` (layer `ag`), `aura-glass/tailwind.css`
+{{subpaths}}
 
-## Conventions
+## Components
 
-- Registry items are shadcn-format; base item `auraglass` emits the
-  `--background`/`--foreground`/`--primary`/`--border`/`--ring`/`--radius`
-  bridge aliases onto `--ag-*` tokens.
-- Container queries, never viewport classes, inside blocks/items.
-- Unresolved claims read `pending` — never invented numbers.
+{{flagships}}
 
-See llms-full.txt for the expanded index.
+## Do not
+
+- Do not import `Glass*` names from `aura-glass`: they are 4.x names. Use the canonical name (`Dialog`, not the 4.x modal) or the time-boxed `aura-glass/compat` adapter while migrating.
+- Do not set inline optics (blur, saturation, tint, opacity) through `style`; pick a material variant or token instead.
+- Do not use `!important`; AuraGlass styles live in the `ag` layer, so unlayered app CSS already wins.
+- Do not target internal class names; style via `[data-ag-part="…"]` and `[data-state="…"]` selectors.
+- Do not reference components removed in 5.0; `get_migration` names the replacement.
+
+## Versions
+
+{{versions}}
+
+## Optional
+
+- [Full reference (components and guides)]({{base}}llms-full.txt)
+- [Docs]({{base}})

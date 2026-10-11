@@ -77,6 +77,16 @@ export function run() {
          is the attribute emitted by a module (js/css usage). */
       else if (rel.startsWith('package/dist/') && !rel.endsWith('.d.ts') && text.includes('data-ag-seed')) problems.push(`data-ag-seed inside ${rel}`);
     }
+    /* REQ-PLAT-106: the shipped llms.txt names this exact version (a mismatch
+       blocks release), stays ≤12 KB and recommends no Glass* names. */
+    const llmsPath = path.join(exdir, 'package', 'llms.txt');
+    if (fs.existsSync(llmsPath)) {
+      const llms = fs.readFileSync(llmsPath, 'utf8');
+      const version = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).version;
+      if (llms.split('\n')[0] !== `# AuraGlass ${version}`) problems.push(`llms.txt H1 is "${llms.split('\n')[0]}", expected "# AuraGlass ${version}" (run node scripts/docs/gen-llms.mjs)`);
+      if (Buffer.byteLength(llms) > 12 * 1024) problems.push(`llms.txt ${Buffer.byteLength(llms)}B > 12288B`);
+      if (/\bGlass[A-Z]\w*/.test(llms)) problems.push('llms.txt names a Glass* symbol');
+    }
     fs.rmSync(exdir, { recursive: true, force: true });
 
     /* pack-breakdown: bytes per top-level dist dir — printed and written to
