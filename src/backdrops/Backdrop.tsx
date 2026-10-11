@@ -16,9 +16,8 @@ const PRESET_DECLARATION: Record<BackdropPreset, 'media' | null> = {
   photo: 'media', video: 'media', aurora: null, mesh: null, grain: null,
 };
 
-export const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps>(function Backdrop(
-  props, ref,
-) {
+export const Backdrop = function Backdrop(props: BackdropProps & { ref?: React.Ref<HTMLDivElement> }) {
+  const { ref } = props;
   const {
     preset, palette = 'aurora', scheme = 'auto', tone, grain = false,
     motion = 'static', fixed = false, className, children, ...rest
@@ -49,8 +48,8 @@ export const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps>(function
       {...(declaration !== undefined ? { 'data-ag-backdrop': declaration } : {})}
       {...(tone !== undefined ? { 'data-ag-media-tone': tone } : {})}
       {...(isMedia ? { 'data-ag-media-root': '' } : {})}
-      data-ag-backdrop-grain={grain ? '' : undefined}
-      data-ag-motion={motion}
+      data-backdrop-grain={grain ? '' : undefined}
+      data-backdrop-motion={motion}
       {...rest}
     >
       <div className="ag-backdrop-layer" data-ag-part="backdrop-layer" aria-hidden="true">
@@ -62,4 +61,4 @@ export const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps>(function
       ) : null}
     </div>
   );
-});
+};

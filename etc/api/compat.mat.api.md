@@ -9,4 +9,5 @@
 - `OptimizedGlass`
 - `OptimizedGlassAdvanced`
 - `createBrandGlassTheme`
+- `createGlassTheme2`
 - `createGlassThemeCssVars`

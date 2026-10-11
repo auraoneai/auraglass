@@ -11,6 +11,7 @@ export const registryFileSchema = z.object({
 export const auraMetaSchema = z.object({
   minVersion: z.string().optional(),
   certified: z.boolean().optional(),
+  sha: z.string().optional(),
   surface: z.string().optional(),
   client: z.boolean().optional(),
   components: z.array(z.string()).optional(),

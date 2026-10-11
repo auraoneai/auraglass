@@ -2,13 +2,6 @@
  "entry": "./material.css",
  "surfaceClass": "ag-surface",
  "public": [
-  "--_ag-focus-inner",
-  "--_ag-focus-outer",
-  "--_ag-focus-width",
-  "--_ag-surface-fill",
-  "--_ag-surface-radius",
-  "--_ag-surface-rim",
-  "--_ag-surface-shadow",
   "--ag-color-accent",
   "--ag-color-border",
   "--ag-color-canvas",
@@ -22,6 +15,15 @@
   "--ag-color-specular",
   "--ag-color-success",
   "--ag-color-warning",
+  "--ag-comp-control-height-lg-compact",
+  "--ag-comp-control-height-lg-default",
+  "--ag-comp-control-height-lg-spacious",
+  "--ag-comp-control-height-md-compact",
+  "--ag-comp-control-height-md-default",
+  "--ag-comp-control-height-md-spacious",
+  "--ag-comp-control-height-sm-compact",
+  "--ag-comp-control-height-sm-default",
+  "--ag-comp-control-height-sm-spacious",
   "--ag-density",
   "--ag-duration-ambient",
   "--ag-duration-instant",
@@ -38,6 +40,9 @@
   "--ag-ease-emphasized",
   "--ag-ease-emphasized-decelerate",
   "--ag-ease-standard",
+  "--ag-focus-inner",
+  "--ag-focus-outer",
+  "--ag-focus-width",
   "--ag-font-mono",
   "--ag-font-sans",
   "--ag-glass-opacity",
@@ -81,6 +86,16 @@
   "--ag-state-disabled-alpha",
   "--ag-state-hover-specular",
   "--ag-state-press-glow",
+  "--ag-surface-fill",
+  "--ag-surface-radius",
+  "--ag-surface-rim",
+  "--ag-surface-shadow",
+  "--ag-switch-track-h-lg",
+  "--ag-switch-track-h-md",
+  "--ag-switch-track-h-sm",
+  "--ag-switch-track-w-lg",
+  "--ag-switch-track-w-md",
+  "--ag-switch-track-w-sm",
   "--ag-target-coarse",
   "--ag-target-min",
   "--ag-type-body-leading",
@@ -127,15 +142,18 @@
  "private": [
   "--_ag-alpha",
   "--_ag-blur",
+  "--_ag-border-strong",
   "--_ag-brightness",
   "--_ag-canvas-fill",
-  "--_ag-density",
   "--_ag-dim",
   "--_ag-env-brightness",
+  "--_ag-fallback-fill",
   "--_ag-fill",
   "--_ag-floor-alpha",
+  "--_ag-floor-alpha-expanded",
+  "--_ag-floor-lift",
   "--_ag-grain-opacity",
-  "--_ag-hover",
+  "--_ag-group-spacing",
   "--_ag-inner-fill",
   "--_ag-ladder-1",
   "--_ag-ladder-2",
@@ -154,6 +172,7 @@
   "--_ag-mat-shadow",
   "--_ag-mat-tint-alpha",
   "--_ag-on-surface",
+  "--_ag-on-surface-max",
   "--_ag-on-surface-muted",
   "--_ag-optics",
   "--_ag-pointer",
@@ -166,11 +185,16 @@
   "--_ag-scrim-blur",
   "--_ag-scrim-clear",
   "--_ag-shadow",
+  "--_ag-specular-lift",
+  "--_ag-state-disabled-surface-alpha",
+  "--_ag-state-dragging-lift",
+  "--_ag-state-dragging-specular",
   "--_ag-state-drop-target-fill",
   "--_ag-state-drop-target-rim",
   "--_ag-state-hover-floor",
   "--_ag-state-loading-alpha",
   "--_ag-state-press-floor",
+  "--_ag-state-selected-rim-width",
   "--_ag-state-selected-tint",
   "--_ag-surface-alpha",
   "--_ag-surface-fill",
@@ -193,9 +217,11 @@
   "data-ag-contrast",
   "data-ag-density",
   "data-ag-engine",
+  "data-ag-focus-inset",
   "data-ag-focusable",
   "data-ag-group",
   "data-ag-highlights",
+  "data-ag-hit-clamp",
   "data-ag-inspector",
   "data-ag-intent",
   "data-ag-interactive",
@@ -224,7 +250,9 @@
   "data-ag-root",
   "data-ag-scheme",
   "data-ag-scroll-container",
+  "data-ag-scroll-locked",
   "data-ag-seed",
+  "data-ag-shadcn-source",
   "data-ag-shape",
   "data-ag-sidebar",
   "data-ag-sidebar-side",
@@ -234,6 +262,7 @@
   "data-ag-story-content",
   "data-ag-story-kind",
   "data-ag-surface",
+  "data-ag-theme",
   "data-ag-thickness",
   "data-ag-tier",
   "data-ag-transparency",
@@ -267,19 +296,19 @@
    "group": "light"
   },
   {
-   "name": "--_ag-surface-fill",
+   "name": "--ag-surface-fill",
    "group": "readouts"
   },
   {
-   "name": "--_ag-surface-rim",
+   "name": "--ag-surface-rim",
    "group": "readouts"
   },
   {
-   "name": "--_ag-surface-shadow",
+   "name": "--ag-surface-shadow",
    "group": "readouts"
   },
   {
-   "name": "--_ag-surface-radius",
+   "name": "--ag-surface-radius",
    "group": "readouts"
   },
   {
@@ -303,15 +332,15 @@
    "group": "shape"
   },
   {
-   "name": "--_ag-focus-inner",
+   "name": "--ag-focus-inner",
    "group": "focus"
   },
   {
-   "name": "--_ag-focus-outer",
+   "name": "--ag-focus-outer",
    "group": "focus"
   },
   {
-   "name": "--_ag-focus-width",
+   "name": "--ag-focus-width",
    "group": "focus"
   },
   {
@@ -623,6 +652,66 @@
    "group": "scrim"
   },
   {
+   "name": "--ag-comp-control-height-sm-compact",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-sm-default",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-sm-spacious",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-md-compact",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-md-default",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-md-spacious",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-lg-compact",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-lg-default",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-lg-spacious",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-switch-track-w-sm",
+   "group": "switchTrack"
+  },
+  {
+   "name": "--ag-switch-track-w-md",
+   "group": "switchTrack"
+  },
+  {
+   "name": "--ag-switch-track-w-lg",
+   "group": "switchTrack"
+  },
+  {
+   "name": "--ag-switch-track-h-sm",
+   "group": "switchTrack"
+  },
+  {
+   "name": "--ag-switch-track-h-md",
+   "group": "switchTrack"
+  },
+  {
+   "name": "--ag-switch-track-h-lg",
+   "group": "switchTrack"
+  },
+  {
    "name": "--background",
    "group": "shadcn"
   },
@@ -760,7 +849,7 @@
   },
   "data-ag-appearance": {
    "setter": "CMP|SURF",
-   "values": "component-specific non-material look (e.g. sidebar|inset|floating, underline|pill), declared in meta"
+   "values": "component-specific non-material look (e.g. sidebar|inset|floating, underline|pill), declared in meta; Sheet popup value full-height is read by the MAT floor (C-2)"
   },
   "data-ag-backdrop": {
    "setter": "ANY",
@@ -822,6 +911,12 @@
     "unknown"
    ]
   },
+  "data-ag-focus-inset": {
+   "setter": "ANY",
+   "values": [
+    ""
+   ]
+  },
   "data-ag-focusable": {
    "setter": "ANY",
    "values": [
@@ -838,6 +933,15 @@
    "setter": "MAT",
    "values": [
     ""
+   ]
+  },
+  "data-ag-hit-clamp": {
+   "setter": "ANY",
+   "values": [
+    "start",
+    "end",
+    "both",
+    "none"
    ]
   },
   "data-ag-inspector": {
@@ -1029,9 +1133,21 @@
     ""
    ]
   },
+  "data-ag-scroll-locked": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
   "data-ag-seed": {
    "setter": "CONTRACT",
    "values": "seed-only; banned in dist/ (§1.2 R5)"
+  },
+  "data-ag-shadcn-source": {
+   "setter": "ANY",
+   "values": [
+    ""
+   ]
   },
   "data-ag-shape": {
    "setter": "MAT",
@@ -1091,6 +1207,10 @@
    "values": [
     ""
    ]
+  },
+  "data-ag-theme": {
+   "setter": "ANY",
+   "values": "theme id: a preset id or the id passed to createGlassTheme/createBrandTheme; on the element that scopes that theme cssText"
   },
   "data-ag-thickness": {
    "setter": "MAT",

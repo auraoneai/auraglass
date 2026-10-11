@@ -1,10 +1,9 @@
 /* CMP-281 (REQ-CMP-01/22): Menu scenes — Playground, ItemSemantics (checkbox
-   mixed + radio group + shortcut), Submenu, plus ContextMenu and Menubar
-   scenes. ids overlays-menu--*. */
+   mixed + radio group + shortcut), Submenu, plus the ContextMenu scene
+   (Menubar lives in Menubar.stories.tsx). ids overlays-menu--*. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Menu, Menubar, ContextMenu } from '../../../src/components/menu';
-import { Button } from '../../../src/components/button';
+import { Menu, ContextMenu } from '../../../src/components/menu';
 import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
@@ -41,7 +40,7 @@ export const Playground: Story = {
   render: () => (
     <AuraGlassProvider>
       <Menu.Root defaultOpen>
-        <Menu.Trigger><Button>Actions</Button></Menu.Trigger>
+        <Menu.Trigger>Actions</Menu.Trigger>
         <Menu.Portal>
           <Menu.Positioner>
             <Menu.Popup><Items /></Menu.Popup>
@@ -57,10 +56,11 @@ export const Submenu: Story = {
   render: () => (
     <AuraGlassProvider>
       <Menu.Root defaultOpen>
-        <Menu.Trigger><Button>File</Button></Menu.Trigger>
+        <Menu.Trigger>File</Menu.Trigger>
         <Menu.Portal>
           <Menu.Positioner>
             <Menu.Popup>
+              <Menu.Arrow />
               <Menu.Item>New</Menu.Item>
               <Menu.Submenu defaultOpen>
                 <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
@@ -105,23 +105,40 @@ export const ContextMenuScene: Story = {
   ),
 };
 
-export const MenubarScene: Story = {
-  name: 'Menubar',
-  parameters: { ag: { tier: 'standard', subject: 'Menu', id: 'overlays-menu--menubar' } },
+
+
+/* REQ-CMP-103: closed-by-default menu-button scene for the APG keyboard
+   script — items include 'Banana' for typeahead and a closed Submenu. */
+export const MenuButton: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'Menu', id: 'overlays-menu--menu-button' } },
   render: () => (
     <AuraGlassProvider>
-      <Menubar>
-        {['File', 'Edit', 'View'].map((m) => (
-          <Menu.Root key={m}>
-            <Menu.Trigger openOnHover>{m}</Menu.Trigger>
-            <Menu.Portal>
-              <Menu.Positioner>
-                <Menu.Popup><Menu.Item>{m} action</Menu.Item></Menu.Popup>
-              </Menu.Positioner>
-            </Menu.Portal>
-          </Menu.Root>
-        ))}
-      </Menubar>
+      <div style={{ display: 'flex', gap: 16 }}>
+        <Menu.Root>
+          <Menu.Trigger>Fruits</Menu.Trigger>
+          <Menu.Portal>
+            <Menu.Positioner>
+              <Menu.Popup>
+                <Menu.Item>Apple</Menu.Item>
+                <Menu.Item>Apricot</Menu.Item>
+                <Menu.Item>Banana</Menu.Item>
+                <Menu.Submenu>
+                  <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
+                  <Menu.Portal>
+                    <Menu.Positioner>
+                      <Menu.Popup>
+                        <Menu.Item>Email</Menu.Item>
+                        <Menu.Item>Link</Menu.Item>
+                      </Menu.Popup>
+                    </Menu.Positioner>
+                  </Menu.Portal>
+                </Menu.Submenu>
+              </Menu.Popup>
+            </Menu.Positioner>
+          </Menu.Portal>
+        </Menu.Root>
+        <button type="button">Next tabbable</button>
+      </div>
     </AuraGlassProvider>
   ),
 };

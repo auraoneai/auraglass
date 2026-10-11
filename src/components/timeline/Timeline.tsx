@@ -64,7 +64,7 @@ export function Timeline({
   return (
     <ol
       data-ag-part="timeline"
-      data-ag-orientation={orientation}
+      data-orientation={orientation}
       className={`ag-timeline${className ? ` ${className}` : ''}`}
       aria-label={ariaLabel}
     >
@@ -106,3 +106,7 @@ export function Timeline({
     </ol>
   );
 }
+
+/* Contract namespace (REQ-SURF-01): the formatter ships on the component,
+   keeping the root surf slice at its nine flagship names. */
+Timeline.formatTimestamp = formatTimestamp;

@@ -17,7 +17,7 @@ export const manifest = {
      "count": 1
     }
    ],
-   "value": "36px"
+   "value": "44px"
   },
   {
    "name": "comp.readout.lg-default",
@@ -30,10 +30,26 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 2
+     "count": 5
     }
    ],
-   "value": "40px"
+   "value": "44px"
+  },
+  {
+   "name": "comp.readout.lg-spacious",
+   "cssVar": "--ag-comp-control-height-lg-spacious",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "48px"
   },
   {
    "name": "comp.readout.md-compact",
@@ -62,10 +78,26 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 2
+     "count": 5
     }
    ],
    "value": "36px"
+  },
+  {
+   "name": "comp.readout.md-spacious",
+   "cssVar": "--ag-comp-control-height-md-spacious",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "40px"
   },
   {
    "name": "comp.readout.sm-compact",
@@ -81,7 +113,7 @@ export const manifest = {
      "count": 1
     }
    ],
-   "value": "28px"
+   "value": "24px"
   },
   {
    "name": "comp.readout.sm-default",
@@ -94,7 +126,119 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 2
+     "count": 5
+    }
+   ],
+   "value": "28px"
+  },
+  {
+   "name": "comp.readout.sm-spacious",
+   "cssVar": "--ag-comp-control-height-sm-spacious",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "32px"
+  },
+  {
+   "name": "comp.switch.track-h-lg",
+   "cssVar": "--ag-switch-track-h-lg",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
+   "value": "30px"
+  },
+  {
+   "name": "comp.switch.track-h-md",
+   "cssVar": "--ag-switch-track-h-md",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
+   "value": "22px"
+  },
+  {
+   "name": "comp.switch.track-h-sm",
+   "cssVar": "--ag-switch-track-h-sm",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
+   "value": "18px"
+  },
+  {
+   "name": "comp.switch.track-w-lg",
+   "cssVar": "--ag-switch-track-w-lg",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
+   "value": "52px"
+  },
+  {
+   "name": "comp.switch.track-w-md",
+   "cssVar": "--ag-switch-track-w-md",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
+   "value": "40px"
+  },
+  {
+   "name": "comp.switch.track-w-sm",
+   "cssVar": "--ag-switch-track-w-sm",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 1
     }
    ],
    "value": "32px"
@@ -110,7 +254,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 8
+     "count": 9
     }
    ],
    "value": "0px 4px 16px 0px oklch(0 0 0 / 0.14)"
@@ -142,7 +286,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 10
+     "count": 11
     }
    ],
    "value": "0px 1px 4px 0px oklch(0 0 0 / 0.1)"
@@ -161,7 +305,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 0
+     "count": 2
     }
    ],
    "value": "oklch(0.99 0.004 250)"
@@ -180,7 +324,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 37
+     "count": 39
     }
    ],
    "value": "oklch(0.26 0.016 250)"
@@ -199,7 +343,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 12
+     "count": 13
     }
    ],
    "value": "oklch(0.34 0.019 250)"
@@ -215,7 +359,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 0
+     "count": 1
     }
    ],
    "value": "20px"
@@ -234,7 +378,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 0
+     "count": 1
     }
    ],
    "value": "oklch(1 0 0)"
@@ -250,159 +394,10 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 0
+     "count": 1
     }
    ],
    "value": "oklch(0 0 0 / 0.18)"
-  },
-  {
-   "name": "sys.app-shell.bp-compact",
-   "cssVar": "--ag-app-shell-bp-compact",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "600px"
-  },
-  {
-   "name": "sys.app-shell.bp-expanded",
-   "cssVar": "--ag-app-shell-bp-expanded",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "1024px"
-  },
-  {
-   "name": "sys.app-shell.bp-wide",
-   "cssVar": "--ag-app-shell-bp-wide",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "1440px"
-  },
-  {
-   "name": "sys.app-shell.gap",
-   "cssVar": "--ag-app-shell-gap",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {
-    "compact": "8px",
-    "spacious": "24px"
-   },
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "16px"
-  },
-  {
-   "name": "sys.app-shell.inspector-width",
-   "cssVar": "--ag-app-shell-inspector-width",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "20rem"
-  },
-  {
-   "name": "sys.app-shell.rail-width",
-   "cssVar": "--ag-app-shell-rail-width",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "4rem"
-  },
-  {
-   "name": "sys.app-shell.sidebar-width",
-   "cssVar": "--ag-app-shell-sidebar-width",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "16rem"
-  },
-  {
-   "name": "sys.app-shell.tabbar-height",
-   "cssVar": "--ag-app-shell-tabbar-height",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {},
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "3.5rem"
-  },
-  {
-   "name": "sys.app-shell.topbar-height",
-   "cssVar": "--ag-app-shell-topbar-height",
-   "type": "dimension",
-   "tier": "sys",
-   "group": "sys",
-   "modes": {
-    "compact": "2.75rem"
-   },
-   "since": "5.0.0",
-   "public": true,
-   "consumers": [
-    {
-     "count": 0
-    }
-   ],
-   "value": "3.25rem"
   },
   {
    "name": "sys.color.accent",
@@ -418,7 +413,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 22
+     "count": 37
     }
    ],
    "value": "oklch(0.64 0.16 235)"
@@ -437,7 +432,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 24
+     "count": 29
     }
    ],
    "value": "oklch(0.54 0.022 250)"
@@ -475,7 +470,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 7
+     "count": 9
     }
    ],
    "value": "oklch(0.6 0.21 27)"
@@ -532,7 +527,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 4
     }
    ],
    "value": "oklch(0.62 0.15 215)"
@@ -570,7 +565,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 49
+     "count": 54
     }
    ],
    "value": "oklch(0.26 0.016 250)"
@@ -589,7 +584,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 24
+     "count": 29
     }
    ],
    "value": "oklch(0.34 0.019 250)"
@@ -627,7 +622,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 4
     }
    ],
    "value": "oklch(0.6 0.15 150)"
@@ -646,7 +641,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 4
     }
    ],
    "value": "oklch(0.74 0.16 90)"
@@ -654,7 +649,7 @@ export const manifest = {
   {
    "name": "sys.density.readout",
    "cssVar": "--ag-density",
-   "type": "string",
+   "type": "number",
    "tier": "sys",
    "group": "sys",
    "modes": {},
@@ -662,7 +657,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 9
+     "count": 53
     }
    ],
    "value": "var(--_ag-density)"
@@ -694,7 +689,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 3
+     "count": 6
     }
    ],
    "value": "300deg"
@@ -710,7 +705,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 4
+     "count": 6
     }
    ],
    "value": "0.5"
@@ -726,7 +721,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 3
+     "count": 4
     }
    ],
    "value": "0.35"
@@ -742,7 +737,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 2
+     "count": 3
     }
    ],
    "value": "oklch(0 0 0 / 0.72)"
@@ -860,7 +855,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 3
+     "count": 7
     }
    ],
    "value": "40000ms"
@@ -876,7 +871,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 7
+     "count": 5
     }
    ],
    "value": "90ms"
@@ -940,7 +935,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 32
+     "count": 28
     }
    ],
    "value": "320ms"
@@ -956,7 +951,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 8
+     "count": 6
     }
    ],
    "value": "220ms"
@@ -972,7 +967,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 31
+     "count": 32
     }
    ],
    "value": "120ms"
@@ -988,7 +983,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 3
+     "count": 2
     }
    ],
    "value": "80ms"
@@ -1004,7 +999,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 36
+     "count": 50
     }
    ],
    "value": "200ms"
@@ -1020,7 +1015,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 7
+     "count": 9
     }
    ],
    "value": "140ms"
@@ -1036,7 +1031,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 16
+     "count": 13
     }
    ],
    "value": "cubic-bezier(0.3, 0, 1, 1)"
@@ -1052,7 +1047,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 6
+     "count": 13
     }
    ],
    "value": "cubic-bezier(0.2, 0, 0, 1)"
@@ -1068,7 +1063,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 4
+     "count": 5
     }
    ],
    "value": "cubic-bezier(0.05, 0.7, 0.1, 1)"
@@ -1084,7 +1079,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 79
+     "count": 83
     }
    ],
    "value": "cubic-bezier(0.2, 0, 0, 1)"
@@ -1103,7 +1098,7 @@ export const manifest = {
      "count": 1
     }
    ],
-   "value": "linear(0, 0.0059 1.1429%, 0.0247 2.4286%, 0.054 3.7143%, 0.0958 5.1429%, 0.1396 6.4286%, 0.1931 7.8571%, 0.4232 13.5714%, 0.5321 16.4286%, 0.6346 19.4286%, 0.7189 22.2857%, 0.7897 25.1429%, 0.8501 28.1429%, 0.8976 31.1429%, 0.9369 34.4286%, 0.9651 37.7143%, 0.9865 41.4286%, 1.0007 45.5714%, 1.0085 50.2857%, 1.0108 58.1429%, 1.0025 80.4286%, 1 100%)"
+   "value": "linear(0, 0.0059 1.2308%, 0.0247 2.6154%, 0.054 4%, 0.0958 5.5385%, 0.1396 6.9231%, 0.193 8.4615%, 0.423 14.6154%, 0.5266 17.5385%, 0.6252 20.6154%, 0.7108 23.6923%, 0.7796 26.6154%, 0.8393 29.6923%, 0.8891 32.9231%, 0.9289 36.3077%, 0.9593 39.8462%, 0.9826 43.8462%, 0.998 48.1538%, 1.0069 53.0769%, 1.0104 62.4615%, 1 100%)"
   },
   {
    "name": "sys.motion.spring.fluid",
@@ -1119,7 +1114,7 @@ export const manifest = {
      "count": 0
     }
    ],
-   "value": "700ms"
+   "value": "650ms"
   },
   {
    "name": "sys.motion.spring.smooth",
@@ -1135,7 +1130,7 @@ export const manifest = {
      "count": 5
     }
    ],
-   "value": "linear(0, 0.0054 1.1538%, 0.0204 2.3077%, 0.0474 3.6538%, 0.0879 5.1923%, 0.1749 7.8846%, 0.3979 14.0385%, 0.4969 16.9231%, 0.5976 20.1923%, 0.6797 23.2692%, 0.7491 26.3462%, 0.8097 29.6154%, 0.8582 32.8846%, 0.8982 36.3462%, 0.9327 40.3846%, 0.958 44.6154%, 0.9768 49.4231%, 0.9899 55.1923%, 0.9968 61.1538%, 1.0002 68.6538%, 1 100%)"
+   "value": "linear(0, 0.0054 1.2766%, 0.0237 2.766%, 0.052 4.2553%, 0.0935 5.9574%, 0.1815 8.9362%, 0.3909 15.3191%, 0.4903 18.5106%, 0.5862 21.9149%, 0.665 25.1064%, 0.7326 28.2979%, 0.7928 31.7021%, 0.842 35.1064%, 0.8835 38.7234%, 0.9205 42.9787%, 0.9484 47.4468%, 0.9699 52.5532%, 0.9848 58.2979%, 0.9938 64.6809%, 0.9987 72.3404%, 1 100%)"
   },
   {
    "name": "sys.motion.spring.smooth",
@@ -1151,7 +1146,7 @@ export const manifest = {
      "count": 2
     }
    ],
-   "value": "520ms"
+   "value": "470ms"
   },
   {
    "name": "sys.motion.spring.snappy",
@@ -1164,10 +1159,10 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 10
+     "count": 20
     }
    ],
-   "value": "linear(0, 0.0042 0.8571%, 0.0209 2%, 0.0476 3.1429%, 0.0816 4.2857%, 0.1637 6.5714%, 0.369 11.7143%, 0.4657 14.2857%, 0.571 17.4286%, 0.653 20.2857%, 0.7281 23.4286%, 0.789 26.5714%, 0.8414 30%, 0.8818 33.4286%, 0.9167 37.4286%, 0.9448 42%, 0.9656 47.1429%, 0.9809 53.4286%, 0.9902 60.2857%, 0.9958 68.8571%, 1 100%)"
+   "value": "linear(0, 0.0042 1%, 0.0209 2.3333%, 0.0476 3.6667%, 0.0817 5%, 0.1638 7.6667%, 0.3693 13.6667%, 0.466 16.6667%, 0.5625 20%, 0.6381 23%, 0.7097 26.3333%, 0.769 29.6667%, 0.8175 33%, 0.8602 36.6667%, 0.8988 41%, 0.9311 46%, 0.9547 51.3333%, 0.9721 57.3333%, 0.9845 64.3333%, 0.9927 72.6667%, 1 100%)"
   },
   {
    "name": "sys.motion.spring.snappy",
@@ -1183,7 +1178,7 @@ export const manifest = {
      "count": 4
     }
    ],
-   "value": "350ms"
+   "value": "300ms"
   },
   {
    "name": "sys.radius.full",
@@ -1196,7 +1191,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 35
+     "count": 44
     }
    ],
    "value": "9999px"
@@ -1212,7 +1207,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 11
+     "count": 13
     }
    ],
    "value": "20px"
@@ -1228,7 +1223,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 18
+     "count": 21
     }
    ],
    "value": "14px"
@@ -1244,7 +1239,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 16
+     "count": 19
     }
    ],
    "value": "10px"
@@ -1260,7 +1255,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 11
+     "count": 13
     }
    ],
    "value": "28px"
@@ -1276,7 +1271,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 2
+     "count": 5
     }
    ],
    "value": "6px"
@@ -1300,7 +1295,7 @@ export const manifest = {
   {
    "name": "sys.shape.radius-inner",
    "cssVar": "--ag-radius-inner",
-   "type": "string",
+   "type": "dimension",
    "tier": "sys",
    "group": "sys",
    "modes": {},
@@ -1308,7 +1303,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 4
+     "count": 3
     }
    ],
    "value": "max(0px, calc(var(--ag-radius-outer) - var(--ag-inset)))"
@@ -1324,7 +1319,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 3
+     "count": 4
     }
    ],
    "value": "20px"
@@ -1340,7 +1335,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 3
+     "count": 5
     }
    ],
    "value": "calc(0px * var(--_ag-density))"
@@ -1356,7 +1351,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 73
+     "count": 79
     }
    ],
    "value": "calc(4px * var(--_ag-density))"
@@ -1372,7 +1367,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 3
+     "count": 6
     }
    ],
    "value": "calc(40px * var(--_ag-density))"
@@ -1388,7 +1383,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 4
     }
    ],
    "value": "calc(48px * var(--_ag-density))"
@@ -1404,7 +1399,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 3
     }
    ],
    "value": "calc(64px * var(--_ag-density))"
@@ -1420,7 +1415,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 103
+     "count": 111
     }
    ],
    "value": "calc(8px * var(--_ag-density))"
@@ -1436,7 +1431,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 35
+     "count": 36
     }
    ],
    "value": "calc(12px * var(--_ag-density))"
@@ -1452,7 +1447,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 39
+     "count": 45
     }
    ],
    "value": "calc(16px * var(--_ag-density))"
@@ -1468,7 +1463,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 13
+     "count": 18
     }
    ],
    "value": "calc(20px * var(--_ag-density))"
@@ -1484,7 +1479,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 7
+     "count": 10
     }
    ],
    "value": "calc(24px * var(--_ag-density))"
@@ -1500,7 +1495,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 6
+     "count": 9
     }
    ],
    "value": "calc(32px * var(--_ag-density))"
@@ -1592,7 +1587,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 5
+     "count": 11
     }
    ],
    "value": "44px"
@@ -1608,7 +1603,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 26
+     "count": 31
     }
    ],
    "value": "24px"
@@ -1632,7 +1627,7 @@ export const manifest = {
   {
    "name": "sys.type.body.size",
    "cssVar": "--ag-type-body-size",
-   "type": "string",
+   "type": "dimension",
    "tier": "sys",
    "group": "sys",
    "modes": {},
@@ -1688,7 +1683,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 2
+     "count": 3
     }
    ],
    "value": "clamp(14px, calc(14px + (2) * ((100vw - 320px) / 1120)), 16px)"
@@ -1736,7 +1731,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 16
+     "count": 17
     }
    ],
    "value": "clamp(12px, calc(12px + (1) * ((100vw - 320px) / 1120)), 13px)"
@@ -2088,7 +2083,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 8
+     "count": 9
     }
    ],
    "value": "1000"
@@ -2104,7 +2099,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 2
     }
    ],
    "value": "1200"
@@ -2120,7 +2115,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 2
     }
    ],
    "value": "1100"

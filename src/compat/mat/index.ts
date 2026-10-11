@@ -19,3 +19,9 @@ export {
 } from './material/LiquidGlassMaterial';
 export { createGlassThemeCssVars, type GlassThemeCssVarsInput } from './theme';
 export { createBrandGlassTheme, type CreateBrandGlassThemeOptions } from './createBrandGlassTheme';
+// REQ-MAT-45 (D.3-27): the 4.x createGlassTheme `motionPolicy` option (DEP-M0902).
+export {
+  createGlassTheme,
+  type CompatCreateGlassThemeOptions,
+  type GlassMotionPolicy,
+} from './createGlassTheme';

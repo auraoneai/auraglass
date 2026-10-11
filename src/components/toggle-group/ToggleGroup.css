@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 @layer ag.components {
   .ag-toggle-group {
     display: inline-flex;
@@ -29,6 +31,8 @@
   .ag-toggle-item:disabled,
   .ag-toggle-item[data-disabled] {
     cursor: default;
+  }
+  .ag-toggle-item[data-disabled] > :where(*) {
     opacity: var(--ag-state-disabled-alpha);
   }
 }

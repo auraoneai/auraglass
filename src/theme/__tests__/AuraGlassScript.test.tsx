@@ -1,6 +1,6 @@
 /* MAT-275: AuraGlassScript — nonce, no eval/new Function, minified budget,
    engine+tier fixtures executing the emitted body in jsdom, persisted solid. */
-import { beforeEach, describe, expect, it } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { AuraGlassScript, auraGlassPrepaintScript } from '../AuraGlassScript';
@@ -164,6 +164,23 @@ describe('emitted script fixtures', () => {
     expect(doc.documentElement.getAttribute('data-ag-motion')).toBe('calm');
   });
 
+  it.each(['calm', 'none'] as const)(
+    'persisted motion=%s suppresses continuous even with allowContinuous',
+    (motion) => {
+      impl(fakeWindow({
+        storage: { 'ag:prefs:v1': JSON.stringify({ allowContinuous: true, motion }) },
+      }), doc, {});
+      expect(doc.documentElement.getAttribute('data-ag-motion')).toBe(motion);
+      expect(doc.documentElement.getAttribute('data-ag-continuous')).toBeNull();
+    },
+  );
+
+  it('app default allowContinuous + app motion calm -> no continuous', () => {
+    impl(fakeWindow({}), doc, { defaults: { allowContinuous: true, motion: 'calm' } });
+    expect(doc.documentElement.getAttribute('data-ag-motion')).toBe('calm');
+    expect(doc.documentElement.getAttribute('data-ag-continuous')).toBeNull();
+  });
+
   it('defaults merge with persisted (persisted wins)', () => {
     impl(fakeWindow({
       storage: { 'ag:prefs:v1': JSON.stringify({ scheme: 'dark' }) },
@@ -201,5 +218,46 @@ describe('emitted script fixtures', () => {
     };
     expect(() => impl(bare, doc, {})).not.toThrow();
     expect(doc.documentElement.getAttribute('data-ag-transparency')).toBe('solid');
+  });
+});
+
+/* REQ-FIN-12 / MAT-59: the pre-paint write site gates data-ag-continuous on
+   motion === 'full' itself, so a resolver result that pairs allowContinuous
+   with a reduced motion axis never reaches <html> (no-flash parity with
+   store.ts). resolvePaint is replaced here to isolate the write site. */
+describe('prepaint write site: continuous gate', () => {
+  type Prepaint = typeof import('../preferences/prepaint').auraGlassPrepaint;
+  const run = (paint: { allowContinuous: boolean; motion: 'full' | 'calm' | 'none' }) => {
+    let prepaint: Prepaint | undefined;
+    jest.isolateModules(() => {
+      jest.doMock('../preferences/resolve', () => ({
+        resolvePaint: () => ({
+          transparency: 'glass', contrast: 'standard', scheme: 'light', density: 'regular',
+          glassOpacity: 0, tier: 'standard', ...paint,
+        }),
+      }));
+      prepaint = (jest.requireActual('../preferences/prepaint') as { auraGlassPrepaint: Prepaint })
+        .auraGlassPrepaint;
+    });
+    jest.dontMock('../preferences/resolve');
+    const doc = document.implementation.createHTMLDocument();
+    prepaint!(fakeWindow({}) as never, doc, {});
+    return doc.documentElement;
+  };
+
+  it('writes on only for allowContinuous && motion full', () => {
+    const el = run({ allowContinuous: true, motion: 'full' });
+    expect(el.getAttribute('data-ag-motion')).toBe('full');
+    expect(el.getAttribute('data-ag-continuous')).toBe('on');
+  });
+
+  it.each(['calm', 'none'] as const)('allowContinuous with motion=%s -> no attribute', (motion) => {
+    const el = run({ allowContinuous: true, motion });
+    expect(el.getAttribute('data-ag-motion')).toBe(motion);
+    expect(el.getAttribute('data-ag-continuous')).toBeNull();
+  });
+
+  it('allowContinuous false -> no attribute', () => {
+    expect(run({ allowContinuous: false, motion: 'full' }).getAttribute('data-ag-continuous')).toBeNull();
   });
 });
