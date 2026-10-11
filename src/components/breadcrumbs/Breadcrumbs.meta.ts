@@ -9,7 +9,7 @@ export default defineMeta({
   flagship: 27,
   tier: 'T1',
   rsc: 'mixed',
-  parts: ['breadcrumbs', 'current', 'ellipsis', 'item', 'link', 'list', 'overflow-menu', 'separator'],
+  parts: ['breadcrumbs', 'current', 'ellipsis', 'glyph', 'hit-area', 'icon', 'item', 'link', 'list', 'popup', 'positioner', 'separator'],
   states: [],
   variants: {},
   migration: [{ from: 'GlassBreadcrumbs', props: { items: null, separator: 'separator' }, automation: 'mostly', compat: true }],

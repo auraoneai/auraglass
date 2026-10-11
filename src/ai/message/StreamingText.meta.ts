@@ -6,10 +6,9 @@ export default defineMeta({
   entry: './ai',
   tier: 'T2',
   rsc: 'client',
-  parts: ['action', 'actions', 'attachment', 'attachment-download', 'attachment-name', 'attachment-type', 'avatar', 'caret', 'content', 'footer', 'heading', 'message', 'step-separator', 'stopped', 'streaming-text', 'text', 'text-part'],
+  parts: ['caret', 'streaming-text', 'text'],
   states: ['streaming', 'done'],
   variants: {},
   budgetKb: 2,
   migration: [],
-  selectors: [],
 });
