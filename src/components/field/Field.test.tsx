@@ -54,16 +54,21 @@ describe('Field (CMP-107)', () => {
   });
 });
 
-describe('Fieldset (CMP-417)', () => {
-  it('renders a fieldset with a legend part and forwards disabled', () => {
+describe('Fieldset (CMP-417, REQ-CMP-59)', () => {
+  it('flat Fieldset renders a fieldset with legend[data-ag-part=legend] and forwards disabled', () => {
     render(
-      <Fieldset.Root legend="Shipping" disabled>
+      <Fieldset legend="Shipping" disabled>
         <input data-testid="inner" />
-      </Fieldset.Root>,
+      </Fieldset>,
     );
     expect(screen.getByText('Shipping').closest('[data-ag-part="legend"]')).toBeTruthy();
     const fs = document.querySelector('fieldset[data-ag-part="root"]') as HTMLFieldSetElement;
     expect(fs).toBeTruthy();
     expect(fs.disabled).toBe(true);
+  });
+
+  it('Fieldset.Root alias still works', () => {
+    render(<Fieldset.Root legend="B"><input /></Fieldset.Root>);
+    expect(document.querySelector('fieldset[data-ag-part="root"]')).toBeTruthy();
   });
 });
