@@ -6,7 +6,7 @@
 'use client';
 import * as React from 'react';
 import { Toast as Base } from '@base-ui/react/toast';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial } from '../overlays/_shared';
 import { cn } from '../../internal';
 import type {
@@ -44,8 +44,10 @@ function useHistory(): ToastRecord[] {
 const intentPriority = (intent: ToastIntent): 'low' | 'high' => (intent === 'error' || intent === 'warning' ? 'high' : 'low');
 
 /* The single shared manager for the app — BU contract requires a stable
-   manager instance passed to the provider. */
-export const toastManager = Base.createToastManager();
+   manager instance passed to the provider. Module-private (REQ-CMP-01): its
+   inferred type is Base UI's, so exporting it leaks Base UI into the d.ts;
+   consumers drive toasts through useToast(). */
+const toastManager = Base.createToastManager();
 
 function ToastProvider({ limit = 3, timeout = 5000, children }: ToastProviderProps) {
   return (
@@ -88,9 +90,10 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
     const priority = intent === 'error' || intent === 'warning' ? 'alert' : 'status';
     // dom-contract (CMP-202) requires data-state open|closed on the surface
     const state = toast?.transitionStatus === 'ending' ? 'closed' : 'open';
-    /* REQ-CMP-108: progress bar duration comes from the toast's own timeout. */
+    /* REQ-CMP-108: progress bar duration comes from the toast's own timeout
+       (private --_ag-toast-timeout per the batch token rename). */
     const timeoutMs = (toast as { timeout?: number } | null | undefined)?.timeout;
-    const style = { ...rest.style, ...(timeoutMs ? { '--ag-toast-timeout': `${timeoutMs}ms` } : {}) } as React.CSSProperties;
+    const style = { ...rest.style, ...(timeoutMs ? { '--_ag-toast-timeout': `${timeoutMs}ms` } : {}) } as React.CSSProperties;
     return (
       <Base.Root
         ref={ref}
@@ -142,7 +145,7 @@ const ToastClose = React.forwardRef<HTMLButtonElement, ToastCloseProps>(
 
 /* CMP-292: optional progress bar — BU exposes remaining time via swipe/timeout
    state on the toast object; we render a track whose bar is driven by the
-   CSS var --ag-toast-progress set per-toast in css via animation duration. */
+   CSS var --_ag-toast-progress set per-toast in css via animation duration. */
 const ToastProgress = React.forwardRef<HTMLElement, ToastProgressProps>(
   function ToastProgress({ className, children, ...rest }, ref) {
     return (

@@ -21,7 +21,7 @@ type Story = StoryObj<typeof sbMeta>;
 export const Default: Story = {
   render: () => (
     <div data-ag-density="compact" style={{ display: 'grid', gap: '0.75rem', maxWidth: '24rem' }}>
-      <Fieldset.Root legend="Account">
+      <Fieldset legend="Account">
         <Field.Root>
           <Field.Label>Name</Field.Label>
           <Field.Control render={<input aria-label="name" />} />
@@ -37,7 +37,7 @@ export const Default: Story = {
           <Checkbox size="sm" value="t">Terms</Checkbox>
         </CheckboxGroup>
         <Switch size="sm" aria-label="Notifications" defaultChecked />
-      </Fieldset.Root>
+      </Fieldset>
     </div>
   ),
 };

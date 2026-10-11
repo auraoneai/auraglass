@@ -1,5 +1,24 @@
 {
-  "N": 2,
+  "N": 12,
   "noRegression": [],
-  "note": "N=2 at next-mat lane head: src/theme/materials.ts (4.x emitter, removed by MAT-179 gate) + src/material/css (the canonical recipe). On release/4.x N was ~121."
+  "inside": [
+    "src/material/__tests__/css-contract.test.ts",
+    "src/material/css/lens.css",
+    "src/material/css/material.css"
+  ],
+  "outside": [
+    "src/a11y/css/rungs.css",
+    "src/app-shell/app-shell.css",
+    "src/components/overlays/_shared/overlays.css",
+    "src/theme/__tests__/GlassPreferencesPanel.test.tsx",
+    "src/theme/__tests__/resolve.test.ts",
+    "src/theme/__tests__/store.test.ts",
+    "src/theme/materials.ts",
+    "src/theme/preferences/prepaint.ts",
+    "src/theme/preferences/resolve.ts",
+    "src/theme/preferences/store.ts",
+    "src/theme/preferences/types.ts"
+  ],
+  "recordedAt": "16372b46ecc7c6245e78a1dfbf2b39d0de4b9af7",
+  "recordedBy": "node scripts/mat/count-glass-recipes.mjs --update"
 }

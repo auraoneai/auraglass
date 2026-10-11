@@ -40,15 +40,62 @@ interface BaseEventDetailsLike {
   reason?: unknown;
 }
 
+/* REQ-CMP-02: explicit map from every Base UI 1.8 reason literal (internals/
+   reason-parts) to the 10-value contract enum. BU reasons never leak into the
+   public ChangeDetails surface — unrecognised strings become 'unknown'. */
+export const BU_REASON_MAP = {
+  'none': 'imperative',
+  'trigger-press': 'trigger-press',
+  'trigger-hover': 'pointer',
+  'trigger-focus': 'keyboard',
+  'outside-press': 'outside-press',
+  'item-press': 'item-press',
+  'close-press': 'close-press',
+  'link-press': 'item-press',
+  'clear-press': 'input',
+  'chip-remove-press': 'item-press',
+  'track-press': 'pointer',
+  'increment-press': 'item-press',
+  'decrement-press': 'item-press',
+  'input-change': 'input',
+  'input-clear': 'input',
+  'input-blur': 'input',
+  'input-paste': 'input',
+  'input-press': 'input',
+  'focus-out': 'keyboard',
+  'escape-key': 'escape-key',
+  'close-watcher': 'escape-key',
+  'list-navigation': 'keyboard',
+  'keyboard': 'keyboard',
+  'pointer': 'pointer',
+  'drag': 'pointer',
+  'wheel': 'pointer',
+  'scrub': 'pointer',
+  'cancel-open': 'imperative',
+  'sibling-open': 'item-press',
+  'disabled': 'imperative',
+  'missing': 'imperative',
+  'initial': 'imperative',
+  'imperative-action': 'imperative',
+  'swipe': 'pointer',
+  'window-resize': 'imperative',
+} as const;
+
+export type ChangeReasonEnum = typeof BU_REASON_MAP[keyof typeof BU_REASON_MAP];
+
 /**
  * Normalises a Base UI event-details argument ({ event, reason }) or a raw Event
  * into the contract's ChangeDetails. `fallbackReason` wins when the details carry
- * no string reason (e.g. programmatic changes with no user cause).
+ * no string reason (e.g. programmatic changes with no user cause); known Base UI
+ * reasons are translated through BU_REASON_MAP; anything else is 'unknown'.
  */
 export function toChangeDetails(baseDetails: unknown, fallbackReason: string): ChangeDetails {
   const d = (baseDetails ?? undefined) as BaseEventDetailsLike | undefined;
   const event = d?.event instanceof Event ? d.event : baseDetails instanceof Event ? baseDetails : undefined;
-  const reason = typeof d?.reason === 'string' && d.reason.length > 0 ? d.reason : fallbackReason;
+  const raw = typeof d?.reason === 'string' && d.reason.length > 0 ? d.reason : undefined;
+  const reason = raw === undefined
+    ? fallbackReason
+    : (BU_REASON_MAP as Record<string, string>)[raw] ?? 'unknown';
   return { event, reason };
 }
 

@@ -1,5 +1,5 @@
 /* REQ-CMP-108: toast timer semantics — action toasts never auto-dismiss,
-   progress derives duration from --ag-toast-timeout, hover/focus/hidden
+   progress derives duration from --_ag-toast-timeout, hover/focus/hidden
    pauses bars, progress is decorative (no progressbar role). */
 import { describe, expect, it, jest, afterEach } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
@@ -53,11 +53,11 @@ describe('toast timers (REQ-CMP-108)', () => {
     expect(document.querySelector('[data-ag-part="root"]')).toBeNull();
   });
 
-  it('root carries --ag-toast-timeout for the progress animation', async () => {
+  it('root carries --_ag-toast-timeout for the progress animation', async () => {
     render(<Host options={{ title: 'Timed', timeout: 2500 }} />);
     await act(async () => {});
     const root = document.querySelector('[data-ag-part="root"]');
-    expect(root?.getAttribute('style') ?? '').toContain('--ag-toast-timeout');
+    expect(root?.getAttribute('style') ?? '').toContain('--_ag-toast-timeout');
   });
 
   it('progress part is decorative — no progressbar role, aria-hidden', async () => {

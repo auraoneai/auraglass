@@ -94,7 +94,7 @@ export const relPaths = (root = process.cwd()) => ({
   root,
   artifacts: (line) => join(root, '.artifacts', line === '4x' ? 'plat' : 'qual'),
   visualReport: (line) =>
-    line === '4x' ? join(root, '.artifacts/plat/visual-4x/visual-class.json')
+    line === '4x' ? join(root, '.artifacts/plat/plat-test-visual-4x/visual-class.json')
                   : join(root, '.artifacts/qual/visual-class.json'),
   changeClassOut: join(root, '.artifacts/plat/change-class/change-class.json'),
   deprecationCoverage: join(root, '.artifacts/plat/deprecation-coverage.json'),
