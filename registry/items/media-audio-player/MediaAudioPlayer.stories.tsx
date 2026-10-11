@@ -1,8 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { MediaAudioPlayer } from './index';
 
 const meta: Meta<typeof MediaAudioPlayer> = {
-  parameters: { ag: { subject: 'MediaAudioPlayer', kind: 'showcase' } }, title: 'registry/media-audio-player', component: MediaAudioPlayer };
+  title: 'registry/media-audio-player',
+  component: MediaAudioPlayer,
+  parameters: { ag: { subject: 'media-audio-player', kind: 'showcase', scenes: 'all' } satisfies StoryAgParameters },
+};
 export default meta;
 type Story = StoryObj<typeof MediaAudioPlayer>;
 
