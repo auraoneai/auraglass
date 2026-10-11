@@ -30,7 +30,10 @@ export const DialogOverDashboard: Story = {
         <Surface label="Card 3" />
         <Surface label="Card 4" />
       </div>
-      <Dialog.Root defaultOpen>
+      {/* REQ-CMP-90: trigger-driven so the perf spec measures click→paint
+          open_ms under 4x CPU throttle. */}
+      <Dialog.Root>
+        <Dialog.Trigger>Open dialog</Dialog.Trigger>
         <Dialog.Portal>
           <Dialog.Backdrop />
           <Dialog.Popup>

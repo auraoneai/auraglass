@@ -20,6 +20,5 @@
   ],
   "consumerGrep": "pending \u2014 scripts/removal/consumer-grep.mjs lives on lane 1c's unmerged branch; FAMILY_PATHS lacks RM-13 (recorded deviation). Record produced manually per the family schema.",
   "revertDryRun": "pending \u2014 plat:gate:removal runs it remotely",
-  "sha": null,
-  "mergeSha": "4842edc5e"
+  "sha": null
 }
