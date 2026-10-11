@@ -1,10 +1,10 @@
 import { describe, expect, it } from '@jest/globals';
 import { existsSync, readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { dispositionsRows } from '../../scripts/release/consumer-grep.mjs';
+import { dispositionsRows } from '../../scripts/removal/consumer-grep.mjs';
 
 const DOC = 'docs/inventory/component-dispositions.md';
-const GEN = 'scripts/release/gen-component-dispositions.mjs';
+const GEN = 'scripts/removal/gen-component-dispositions.mjs';
 
 describe('component dispositions (PLAT-219..222)', () => {
   const text = readFileSync(DOC, 'utf8');

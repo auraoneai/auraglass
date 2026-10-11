@@ -1,4 +1,4 @@
-/* @ag-contract-seed: MAT-owned. Frozen public surface of `aura-glass/motion` (ENTRIES).
+/* Frozen public surface of `aura-glass/motion` (ENTRIES).
    Implementation lives in adapter.tsx (+ toMotionTransition.ts, gestures.ts, springs.ts);
    `motion` (optional peer) is imported only from this lane (§4.10). */
 import './peer-guard'; // must precede adapter — throws the friendly peer error first
