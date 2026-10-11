@@ -1,0 +1,6 @@
+{
+  "rows": [
+    { "file": "src/ai/scroll.ts", "rule": "motion-raf-via-ticker", "count": 2, "owner": "SURF", "wp": "FIN-F", "expires": "RC-1" },
+    { "file": "src/ai/gone.ts", "rule": "motion-raf-via-ticker", "count": 1, "owner": "SURF", "wp": "FIN-F", "expires": "RC-1" }
+  ]
+}

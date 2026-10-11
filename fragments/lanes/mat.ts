@@ -97,6 +97,20 @@ export default [
   // coverage check are registered by lane 2d-P's own rows).
   { lane: 'L1', kind: 'node-script', path: 'scripts/mat/a11y-eslint-l1.mjs', scope: 'pr', remote: false, failClosed: true },
 
+  // REQ-MAT-51 / REQ-FIN-58 (D.3-31): motion lint at error over src/** with the
+  // shrink-only ratchet in lint/rules/mat/motion-baseline.json, and the single
+  // preference source check (scripts/mat/preference-source-baseline.json). Both
+  // fail on any baseline row at release scope (--enforce-zero, RC-1 expiry).
+  // The jest rows carry the failing fixtures for each script.
+  { lane: 'L1', kind: 'node-script', path: 'scripts/mat/motion-lint-l1.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/mat/motion-lint-l1.mjs', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/mat/motion-lint-l1.mjs --enforce-zero', scope: 'release', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/mat/verify-preference-source.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/mat/verify-preference-source.mjs', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/mat/verify-preference-source.mjs --enforce-zero', scope: 'release', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/material/ci/verify-preference-source.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/lint/mat/motion-lint-l1.test.ts', scope: 'pr', remote: false, failClosed: true },
+
   // MAT-370 (L5 Behaviour cells): floors, rungs, forced-colors, layer-stack,
   // prepaint, target-size, focus-not-obscured, zoom-reflow, text-spacing,
   // axe (AXE_SCOPE=pr), apg self-tests. Remote runners only.
