@@ -81,6 +81,9 @@ const w4 = [
   { lane: 'L8', kind: 'playwright', path: 'tests/e2e/surf/media/sampling-engines.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/{backdrop-drift,carousel-autoplay}.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/{media-scrub,now-playing-update,image-viewer-open}.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // REQ-SURF-191: media blur budget (also run by the L5 media glob above).
+  { lane: 'L10', kind: 'playwright', path: 'tests/e2e/surf/media/blur-budget.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/e2e/surf/media/blur-budget.spec.ts', scope: 'main', remote: true, failClosed: true },
 ] as const;
 // --- lane W4 end ---
 
@@ -139,6 +142,9 @@ const w5 = [
     remote: false,
     failClosed: true,
   },
+  // REQ-SURF-191: registry-block blur budget (ai-workspace ≤6 fine / ≤3 coarse, others ≤3).
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/registry-blocks.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/registry-blocks.spec.ts', scope: 'main', remote: true, failClosed: true },
 ] as const;
 // --- lane W5 end ---
 
