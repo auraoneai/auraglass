@@ -1,6 +1,11 @@
-/* MAT-273/REQ-MAT-54: engine detection for data-ag-engine. navigator.userAgentData
-   brands first (Chromium family -> 'chromium'), else the UA string, else 'unknown'.
-   Also capability signals for the lightweight tier rule (saveData, deviceMemory). */
+/* MAT-273/REQ-MAT-54/REQ-MAT-59: the single engine detector for data-ag-engine,
+   shared by the preference store and the pre-paint script (prepaint.ts imports
+   it, so it is bundled into the <= 1 536 B body — keep it minimal).
+   navigator.userAgentData brands first (any Chromium/Edge/Opera brand ->
+   'chromium'; every Chromium-based browser also lists the 'Chromium' brand),
+   else the UA string (AppleWebKit without Chrome/Chromium/Edg -> 'webkit';
+   Gecko/ followed by Firefox/ -> 'gecko'), else 'unknown'. Never
+   @supports-based. Also capability signals for the lightweight tier rule. */
 export type AgEngine = 'chromium' | 'webkit' | 'gecko' | 'unknown';
 
 interface NavigatorLike {
@@ -10,17 +15,13 @@ interface NavigatorLike {
   connection?: { saveData?: boolean } | null;
 }
 
-const CHROMIUM_BRANDS = /chromium|google chrome|microsoft edge|edge|opera|brave|vivaldi|arc|samsung internet/i;
-
 export const detectEngine = (nav: NavigatorLike): AgEngine => {
   const brands = nav.userAgentData?.brands;
-  if (Array.isArray(brands) && brands.length > 0) {
-    return brands.some((b) => CHROMIUM_BRANDS.test(b.brand)) ? 'chromium' : 'unknown';
-  }
   const ua = nav.userAgent ?? '';
-  if (/AppleWebKit/i.test(ua) && !/Chrome|Chromium|Edg\//i.test(ua)) return 'webkit';
-  if (/Gecko\//i.test(ua) && /Firefox\//i.test(ua)) return 'gecko';
-  return 'unknown';
+  return brands?.length
+    ? /chrom|edg|opera/i.test(brands.map((b) => b.brand).join()) ? 'chromium' : 'unknown'
+    : /^(?!.*(Chrom|Edg)).*AppleWebKit/.test(ua) ? 'webkit'
+      : /Gecko\/.*Firefox\//.test(ua) ? 'gecko' : 'unknown';
 };
 
 export interface CapabilityInput {

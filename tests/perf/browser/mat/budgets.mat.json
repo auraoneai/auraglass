@@ -12,6 +12,7 @@
     "morph.setup.desktop": { "value": 4, "unit": "ms", "req": "REQ-MOT-126" },
     "morph.setup.mobile": { "value": 12, "unit": "ms", "req": "REQ-MOT-126" },
     "idle.raf.perSecond": { "value": 0, "unit": "count", "req": "REQ-MOT-127" },
-    "glassModal.fps.median.softwareRaster": { "value": 55, "unit": "fps", "req": "REQ-MOT-130" }
+    "glassModal.fps.median.softwareRaster": { "value": 55, "unit": "fps", "req": "REQ-MOT-130" },
+    "prepaint.exec.midTierMobile": { "value": 1, "unit": "ms", "req": "REQ-MAT-59" }
   }
 }
