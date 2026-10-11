@@ -52,6 +52,14 @@
   min-inline-size: 0;
 }
 
+/* token-radius clip for the artwork alone, so the caption below it is not
+   cut by the slide's clip and every cover keeps four rounded corners */
+.coverFrame {
+  display: grid;
+  padding: 0;
+  overflow: hidden;
+}
+
 .cover {
   inline-size: 100%;
   block-size: auto;
