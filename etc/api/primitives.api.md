@@ -1,4 +1,4 @@
-## API Report — aura-glass ./primitives
+## API Report — aura-glass primitives
 
 - `DismissableLayer`
 - `FocusScope`

@@ -45,6 +45,8 @@ const w2 = [
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/{data-table-5000,data-tree-view,data-filter,date-picker-open,activity-feed-prepend}.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L11', kind: 'node-script', path: 'canaries/next16/app/surf/data-server/page.tsx', scope: 'main', remote: true, failClosed: true },
   { lane: 'L11', kind: 'node-script', path: 'canaries/vite/src/surf/DataTable.page.tsx', scope: 'main', remote: true, failClosed: true },
+  // REQ-SURF-08: cross-TZ canary hydration (job surf:test:canary-hydration).
+  { lane: 'L11', kind: 'playwright', path: 'tests/ssr/surf/hydration.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L12', kind: 'jest', path: 'tests/data/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
 ] as const;
 // --- lane W2 end ---
@@ -89,7 +91,8 @@ const w4 = [
 // --diff uses `git merge-base HEAD origin/next` (no CI_MERGE_REQUEST_* on the
 // mirror). SURF-633: labs admission gate on L1 with scopes pr + release, so a
 // red run fails the tag pipeline whose plat:publish:npm job publishes labs
-// (REQ-SURF-167). SURF-561: SURF purity gate on L1 (REQ-SURF-05).
+// (REQ-SURF-167); it passes --manifest build/exports.manifest.json so the
+// REQ-SURF-169 promotion checks always run. SURF-561: SURF purity gate on L1 (REQ-SURF-05).
 const w5 = [
   {
     lane: 'L1',
@@ -118,7 +121,7 @@ const w5 = [
   {
     lane: 'L1',
     kind: 'node-script',
-    path: 'scripts/surf/verify-labs-admission.mjs',
+    path: 'scripts/surf/verify-labs-admission.mjs --manifest build/exports.manifest.json',
     scope: 'pr',
     remote: false,
     failClosed: true,
@@ -126,9 +129,32 @@ const w5 = [
   {
     lane: 'L1',
     kind: 'node-script',
-    path: 'scripts/surf/verify-labs-admission.mjs',
+    path: 'scripts/surf/verify-labs-admission.mjs --manifest build/exports.manifest.json',
     scope: 'release',
     remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-166..169: the labs package, admission-fixture and promotion suites
+  // (npm pack + tsdown build included) on L1, pr + release, so the labs tag
+  // pipeline runs them blocking (AC-FIN-87).
+  { lane: 'L1', kind: 'jest', path: 'tests/labs/**/*.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/labs/**/*.test.ts', scope: 'release', remote: false, failClosed: true },
+  // REQ-SURF-168: spatial labs admission budgets on the remote mid-tier mobile
+  // profile (QUAL S-40) — L10, pr + release so a red run blocks the labs tag.
+  {
+    lane: 'L10',
+    kind: 'playwright',
+    path: 'tests/perf/browser/surf/labs-spatial-admission.spec.ts',
+    scope: 'pr',
+    remote: true,
+    failClosed: true,
+  },
+  {
+    lane: 'L10',
+    kind: 'playwright',
+    path: 'tests/perf/browser/surf/labs-spatial-admission.spec.ts',
+    scope: 'release',
+    remote: true,
     failClosed: true,
   },
   {
@@ -136,6 +162,25 @@ const w5 = [
     kind: 'node-script',
     path: 'scripts/surf/verify-surf-purity.mjs',
     scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-06: dist side-effect trap over the SURF entries (PLAT's trap,
+  // SURF verdict: 0 undeclared SURF calls, surf fragment []). Needs dist/, so
+  // main + release scopes only — never pr.
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-side-effects.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-side-effects.mjs',
+    scope: 'release',
     remote: false,
     failClosed: true,
   },
