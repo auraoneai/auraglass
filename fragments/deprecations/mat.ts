@@ -2917,6 +2917,98 @@ const b = [
       'the glass-* slash utilities are removed in 5.0; utility output is generated from --ag-* tokens (codemod: css-vars).',
     doc: '#dep-m0976',
   },
+  // ---- MAT-67 · 4.2 · root-entry rows for primitives re-exported from '.' ----
+  // 4.x src/index.ts re-exports these from './primitives' (`export * from
+  // "./primitives"` and the named LiquidGlass* exports), and the 5.0 root
+  // drops them (they live on in aura-glass/compat). DEP-M0810/M0812..M0815
+  // cover only entry './primitives', so the root import had no row. Re-proposed
+  // from the compat5x rows trimmed out of PR #127 (DEP-M1000..M1003, M1005);
+  // M1004/M1006/M1007 are already covered at '.' by DEP-M0809/M0805/M0808.
+  {
+    id: 'DEP-M0977',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'GlassCore',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'Surface',
+    codemod: 'canonical-names',
+    automation: 'full',
+    breaking: 'B5',
+    message:
+      "GlassCore (root 'aura-glass' import) is deprecated; use Surface (codemod: canonical-names).",
+    doc: '#dep-m0977',
+    compat: 'GlassCore',
+  },
+  {
+    id: 'DEP-M0978',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'LiquidGlassEffectGroup',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'SurfaceGroup',
+    codemod: 'canonical-names',
+    automation: 'full',
+    breaking: 'B5',
+    message:
+      "LiquidGlassEffectGroup (root 'aura-glass' import) is deprecated; use SurfaceGroup (codemod: canonical-names).",
+    doc: '#dep-m0978',
+    compat: 'LiquidGlassEffectGroup',
+  },
+  {
+    id: 'DEP-M0979',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'LiquidGlassScrollEdge',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'ScrollEdge',
+    codemod: 'canonical-names',
+    automation: 'full',
+    breaking: 'B5',
+    message:
+      "LiquidGlassScrollEdge (root 'aura-glass' import) is deprecated; use ScrollEdge (codemod: canonical-names).",
+    doc: '#dep-m0979',
+    compat: 'LiquidGlassScrollEdge',
+  },
+  {
+    id: 'DEP-M0980',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'LiquidGlassConcentricFrame',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'ConcentricFrame',
+    codemod: 'canonical-names',
+    automation: 'full',
+    breaking: 'B5',
+    message:
+      "LiquidGlassConcentricFrame (root 'aura-glass' import) is deprecated; use ConcentricFrame (codemod: canonical-names).",
+    doc: '#dep-m0980',
+    compat: 'LiquidGlassConcentricFrame',
+  },
+  {
+    id: 'DEP-M0981',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'LiquidGlassLayerProvider',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'the 5.x nested-materials rule and dev layer counter',
+    codemod: 'providers',
+    automation: 'mostly',
+    breaking: 'B5',
+    message:
+      "LiquidGlassLayerProvider (root 'aura-glass' import) is deprecated; counts nested layers in dev and needs no provider (codemod: providers).",
+    doc: '#dep-m0981',
+    compat: 'LiquidGlassLayerProvider',
+  },
 ] as const;
 // --- lane 2e-B end ---
 
