@@ -73,11 +73,29 @@ export default [
     remote: true,
     failClosed: true,
   },
+  // L10 — REQ-CMP-130: T2 composite page quietness (<=1 blurred surface)
+  {
+    lane: "L10",
+    kind: "playwright",
+    path: "tests/perf/browser/cmp/t2-page.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
   // L11 — canaries
   {
     lane: "L11",
     kind: "playwright",
     path: "canaries/*/cmp/**",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
+  // L11 — REQ-CMP-130: next16 /cmp/server canary (0 hydration warnings, no provider)
+  {
+    lane: "L11",
+    kind: "playwright",
+    path: "canaries/next16/app/cmp/server/cmp-server.spec.ts",
     scope: "pr",
     remote: true,
     failClosed: true,
