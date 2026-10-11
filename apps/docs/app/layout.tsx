@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
-import NAV from '../nav.config';
+import Link from 'next/link';
+import { AuraGlassProvider, AuraGlassScript } from 'aura-glass';
+import { buildSite, docsAppDir } from '../lib/routes';
+import { NavTree } from '../components/NavTree';
+import { MobileNav } from '../components/MobileNav';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -8,19 +12,26 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const { nav, data } = buildSite(docsAppDir());
   return (
-    <html lang="en">
+    /* The pre-paint script writes data-ag-* from the reader's own stored and
+       system preferences; the provider gets no preference props, so the docs
+       never force a scheme, contrast, transparency or motion setting. */
+    <html lang="en" suppressHydrationWarning>
+      <head><AuraGlassScript /></head>
       <body>
+        <AuraGlassProvider>
         <a href="#main" className="skip">Skip to content</a>
-        <header role="banner"><nav aria-label="Primary">
-          <ul>{NAV.map((s) => (
-            <li key={s.title}><strong>{s.title}</strong>
-              <ul>{s.entries.map((e) => <li key={e.href}><a href={e.href}>{e.title}</a></li>)}</ul>
-            </li>))}
-          </ul>
-        </nav></header>
-        <main id="main" role="main">{children}</main>
-        <footer role="contentinfo"><p>AuraGlass 5.0 · Apache-2.0</p></footer>
+        <header role="banner" className="docs-header">
+          <Link href="/" className="docs-home">AuraGlass {data.version}</Link>
+          <MobileNav nav={nav} />
+        </header>
+        <div className="docs-shell">
+          <aside className="docs-sidebar"><NavTree nav={nav} label="Primary" /></aside>
+          <main id="main" role="main" tabIndex={-1}>{children}</main>
+        </div>
+        <footer role="contentinfo"><p>AuraGlass {data.version} · Apache-2.0</p></footer>
+        </AuraGlassProvider>
       </body>
     </html>
   );

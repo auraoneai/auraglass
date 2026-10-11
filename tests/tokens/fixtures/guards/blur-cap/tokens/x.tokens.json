@@ -1,0 +1,2 @@
+{"ref": {"dimension": {"d40": {"$type": "dimension", "$value": {"value": 40, "unit": "px"}, "$extensions": {"ag.tier": "ref"}}}},
+ "sys": {"blur": {"huge": {"$type": "dimension", "$value": "{ref.dimension.d40}", "$extensions": {"ag.tier": "sys", "ag.public": true, "ag.cssVar": "--ag-blur-huge"}}}}}

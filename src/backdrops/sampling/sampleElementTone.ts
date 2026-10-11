@@ -5,8 +5,10 @@
  *    and sampled once, so playback frames are never read;
  *  - <video> without a poster: at the first loadeddata (immediately when
  *    readyState >= HAVE_CURRENT_DATA).
- * Results go through the tone LRU (one getImageData per source). The
- * returned cleanup stops a pending sample from applying. */
+ * Results go through the tone LRU (one getImageData per source). Listeners
+ * register on `signal` when given (e.g. the media store's per-element
+ * AbortSignal, REQ-SURF-133) and are removed early by the returned cleanup,
+ * which also stops a pending sample from applying. */
 import { getOrSampleTone } from './toneCache';
 import type { MediaTone } from './classifyTone';
 
@@ -14,7 +16,7 @@ export type ToneApply = (tone: MediaTone, luma: number | null) => void;
 
 const HAVE_CURRENT_DATA = 2;
 
-function whenDecoded(img: HTMLImageElement, run: () => void, signal: AbortSignal): void {
+function whenDecoded(img: HTMLImageElement, run: () => void, signal: AbortSignal, cleanups: Array<() => void>): void {
   if (typeof img.decode === 'function') {
     // A decode failure still runs the sampler: it returns null and emits the
     // single CORS/decoding dev warning instead of failing silently.
@@ -24,27 +26,41 @@ function whenDecoded(img: HTMLImageElement, run: () => void, signal: AbortSignal
   } else {
     img.addEventListener('load', run, { once: true, signal });
     img.addEventListener('error', run, { once: true, signal });
+    cleanups.push(() => { img.removeEventListener('load', run); img.removeEventListener('error', run); });
   }
 }
 
-export function sampleElementTone(el: HTMLImageElement | HTMLVideoElement, apply: ToneApply): () => void {
-  const ac = new AbortController();
+export function sampleElementTone(
+  el: HTMLImageElement | HTMLVideoElement,
+  apply: ToneApply,
+  signal?: AbortSignal,
+): () => void {
+  const ac = signal ? null : new AbortController();
+  const sig = signal ?? ac!.signal;
+  const cleanups: Array<() => void> = [];
   let live = true;
   const guarded: ToneApply = (tone, luma) => { if (live) apply(tone, luma); };
 
   if (el instanceof HTMLImageElement) {
-    whenDecoded(el, () => { if (live) getOrSampleTone(el, undefined, guarded); }, ac.signal);
+    whenDecoded(el, () => { if (live) getOrSampleTone(el, undefined, guarded); }, sig, cleanups);
   } else if (el.poster) {
     const poster = new Image();
     if (el.crossOrigin !== null) poster.crossOrigin = el.crossOrigin;
     poster.decoding = 'async';
     poster.src = el.poster;
-    whenDecoded(poster, () => { if (live) getOrSampleTone(poster, undefined, guarded); }, ac.signal);
+    whenDecoded(poster, () => { if (live) getOrSampleTone(poster, undefined, guarded); }, sig, cleanups);
   } else {
     const onData = () => { if (live) getOrSampleTone(el, undefined, guarded); };
     if (el.readyState >= HAVE_CURRENT_DATA) onData();
-    else el.addEventListener('loadeddata', onData, { once: true, signal: ac.signal });
+    else {
+      el.addEventListener('loadeddata', onData, { once: true, signal: sig });
+      cleanups.push(() => { el.removeEventListener('loadeddata', onData); });
+    }
   }
 
-  return () => { live = false; ac.abort(); };
+  return () => {
+    live = false;
+    for (const c of cleanups) c();
+    ac?.abort();
+  };
 }

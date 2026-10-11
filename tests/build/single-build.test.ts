@@ -43,3 +43,50 @@ describe('single build (PLAT-247)', () => {
     }
   }, 120_000);
 });
+
+/* REQ-PLAT-64 — build-stack pinning checks: deleted legacy files, no
+   rollup/bundlesize, exact scripts, esbuild confinement. */
+describe('build stack pinning (REQ-PLAT-64)', () => {
+  const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
+
+  it('legacy build files are deleted', () => {
+    const present = [
+      'rollup.config.js', 'rollup.config.mjs', 'rollup.config.ts',
+      '.bundlesizerc', 'bundlesize.config.js', 'bundlesize.config.json',
+    ].filter((f) => existsSync(join(ROOT, f)));
+    expect(present).toEqual([]);
+  });
+
+  it('no rollup/bundlesize in dependencies or scripts', () => {
+    const all = { ...pkg.dependencies, ...pkg.devDependencies };
+    const banned = Object.keys(all).filter((n) => /rollup|bundlesize/i.test(n));
+    expect(banned).toEqual([]);
+    const bannedScripts = Object.entries(pkg.scripts ?? {})
+      .filter(([, v]) => /rollup|bundlesize/i.test(String(v)))
+      .map(([k]) => k);
+    expect(bannedScripts).toEqual([]);
+  });
+
+  it('prettier is pinned as an exact devDependency', () => {
+    expect(pkg.devDependencies?.prettier).toMatch(/^\d+\.\d+\.\d+$/);
+  });
+
+  it('exact build script chain (tokens -> tsdown -> tsc emit -> post)', () => {
+    expect(pkg.scripts.build).toBe('npm run tokens:build && tsdown');
+    expect(pkg.scripts.postbuild).toContain('post.mjs');
+  });
+
+  it('esbuild is confined to the tsdown path (no direct esbuild entrypoints)', () => {
+    const hits: string[] = [];
+    const scan = (dir: string) => {
+      for (const f of walk(dir, (p) => /\.(mjs|js|cjs)$/.test(p) && !p.includes('node_modules'))) {
+        const text = readFileSync(f, 'utf8');
+        if (/esbuild\.buildSync|from ['"]esbuild['"]|require\(['"]esbuild['"]\)/.test(text)) hits.push(f);
+      }
+    };
+    scan(join(ROOT, 'scripts', 'build'));
+    scan(join(ROOT, 'scripts', 'tokens'));
+    const allowlisted = hits.filter((f) => /build-all\.js$|tsdown/.test(f));
+    expect(allowlisted).toEqual([]);
+  });
+});

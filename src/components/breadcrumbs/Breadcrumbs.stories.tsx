@@ -18,3 +18,13 @@ export const Default: Story = { render: () => defaultChildren };
 export const RTL: Story = { render: () => defaultChildren, parameters: { globals: { dir: 'rtl' } } };
 export const ReducedTransparency: Story = { render: () => defaultChildren, parameters: { ag: { material: 'regular' } } };
 export const ForcedColors: Story = { render: () => defaultChildren, parameters: { globals: { forcedColors: 'active' } } };
+/* Collapsed middle items behind the ellipsis menu (open). */
+export const Overflow: Story = {
+  render: () => (
+    <Breadcrumbs.Root>
+      <Breadcrumbs.Item><Breadcrumbs.Link href="/">Home</Breadcrumbs.Link></Breadcrumbs.Item>
+      <Breadcrumbs.Item><Breadcrumbs.Ellipsis items={[{ href: '/archive', label: 'Archive' }, { href: '/archive/2026', label: '2026' }]} defaultOpen /></Breadcrumbs.Item>
+      <Breadcrumbs.Current>Current</Breadcrumbs.Current>
+    </Breadcrumbs.Root>
+  ),
+};

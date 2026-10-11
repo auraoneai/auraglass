@@ -12,6 +12,7 @@ import { createRequire } from 'node:module';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { OPTICS_PATTERNS } from './optics-patterns.mjs';
+import { isMain as isMainModule } from './_is-main.mjs';
 
 const require = createRequire(import.meta.url);
 const postcss = (() => {
@@ -80,7 +81,7 @@ export function scan(root) {
   return violations;
 }
 
-const isMain = process.argv[1] && resolve(process.argv[1]) === resolve(new URL(import.meta.url).pathname);
+const isMain = isMainModule(import.meta.url);
 
 if (isMain) {
   const violations = scan(ROOT);

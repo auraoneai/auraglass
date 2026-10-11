@@ -1,0 +1,3 @@
+@layer ag.a11y {
+  :where([data-ag-transparency="solid"]) [data-ag-surface] { --_ag-fallback-fill: Canvas; background: var(--_ag-fallback-fill); }
+}
