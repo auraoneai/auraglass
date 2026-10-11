@@ -1,0 +1,76 @@
+/* REQ-QUAL-08 (FIN-428): scene story layout (story-only stylesheet, never shipped). Cells meet ≥240×160 at 1440 and ≥160×120 at 390 wide. */
+.scene-stage {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 24px;
+  display: grid;
+  gap: 24px;
+  align-content: start;
+}
+
+.scene-cells {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.scene-cell {
+  box-sizing: border-box;
+  min-height: 160px;
+  padding: 16px;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.scene-label {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.scene-label span {
+  display: block;
+}
+
+.scene-body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.scene-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.scene-strip > * {
+  flex: 0 0 auto;
+}
+
+.scene-slider {
+  inline-size: 200px;
+}
+
+@media (max-width: 1100px) {
+  .scene-cells {
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .scene-stage {
+    padding: 12px;
+  }
+
+  .scene-cells {
+    gap: 12px;
+  }
+
+  .scene-cell {
+    padding: 12px;
+  }
+}

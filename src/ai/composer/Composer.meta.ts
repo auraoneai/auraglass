@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 40,
   rsc: 'client',
-  parts: ['action', 'actions', 'attachment', 'attachment-name', 'attachment-remove', 'attachments', 'composer', 'counter', 'file-input', 'icon', 'input', 'stop', 'submit'],
+  parts: ['action', 'actions', 'attachment', 'attachment-name', 'attachment-remove', 'attachments', 'composer', 'composer-menu', 'composer-menu-trigger', 'counter', 'field', 'file-input', 'icon', 'label', 'stop', 'submit', 'textarea'],
   states: ['ready', 'submitted', 'streaming', 'error'],
   apg: 'textbox',
   variants: {},
