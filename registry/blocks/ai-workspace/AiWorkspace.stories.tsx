@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 import AiWorkspacePage from './page';
 
-const meta: Meta<typeof AiWorkspacePage> = { title: 'registry/ai-workspace', component: AiWorkspacePage };
+const meta: Meta<typeof AiWorkspacePage> = {
+  title: 'registry/ai-workspace',
+  component: AiWorkspacePage,
+  parameters: { ag: { subject: 'ai-workspace', kind: 'showcase', scenes: 'all' } satisfies StoryAgParameters },
+};
 export default meta;
 type Story = StoryObj<typeof AiWorkspacePage>;
 

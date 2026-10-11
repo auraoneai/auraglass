@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://auraglass.dev/schema/cli/audit-backdrop.json",
+  "title": "auraglass audit backdrop — remote endpoint contract (REQ-PLAT-89)",
+  "description": "POST <AURAGLASS_AUDIT_ENDPOINT>/audit. The CLI validates the request it sends against #/$defs/request and the endpoint's reply against #/$defs/response. Thresholds are architecture §15.2 constants from packages/cli/src/audit/thresholds.ts.",
+  "$defs": {
+    "rung": {
+      "type": "string",
+      "enum": ["glass", "tinted", "solid"]
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lumVariance", "ocrContrast", "rungs", "translucentRungs"],
+      "properties": {
+        "lumVariance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["minLevels"],
+          "properties": {
+            "minLevels": { "type": "number", "minimum": 0, "maximum": 255 }
+          }
+        },
+        "ocrContrast": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["body", "large"],
+          "properties": {
+            "body": { "type": "number", "minimum": 1, "maximum": 21 },
+            "large": { "type": "number", "minimum": 1, "maximum": 21 }
+          }
+        },
+        "rungs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/rung" } },
+        "translucentRungs": { "type": "array", "items": { "$ref": "#/$defs/rung" } }
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "thresholds"],
+      "properties": {
+        "url": { "type": "string", "pattern": "^https?://\\S+$" },
+        "selector": { "type": "string", "minLength": 1 },
+        "thresholds": { "$ref": "#/$defs/thresholds" }
+      }
+    },
+    "surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selector", "lumVariance", "ocrContrast", "textSize", "rung", "verdict"],
+      "properties": {
+        "selector": { "type": "string", "minLength": 1 },
+        "lumVariance": {
+          "description": "σ of backdrop luminance (8-bit levels) under the surface border box, captured with only that surface hidden.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "ocrContrast": {
+          "description": "Worst rendered-pixel text contrast ratio inside the surface; null when the surface renders no text.",
+          "type": ["number", "null"],
+          "minimum": 1,
+          "maximum": 21
+        },
+        "textSize": {
+          "description": "WCAG size class of the worst text run; null when ocrContrast is null.",
+          "type": ["string", "null"],
+          "enum": ["body", "large", null]
+        },
+        "rung": { "$ref": "#/$defs/rung" },
+        "verdict": { "type": "string", "enum": ["pass", "fail"] },
+        "reasons": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "url", "surfaces"],
+      "properties": {
+        "version": { "const": 1 },
+        "url": { "type": "string" },
+        "selector": { "type": "string" },
+        "surfaces": { "type": "array", "items": { "$ref": "#/$defs/surface" } }
+      }
+    }
+  }
+}

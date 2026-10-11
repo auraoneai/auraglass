@@ -40,7 +40,7 @@ function StepsItem({
     <li
       {...rest}
       data-ag-part="item"
-      data-ag-status={status}
+      data-status={status}
       aria-current={status === 'current' ? 'step' : undefined}
       className={cn('ag-steps-item', className)}
     >
