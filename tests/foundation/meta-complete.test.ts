@@ -24,7 +24,7 @@ function budgetRows(): Record<string, number> {
     const id = m[1] as string;
     const bytes = m[2] as string;
     const covered = ROW_EXPANSIONS[id] ?? (id.includes('+') || id.includes('/') || id === 'controls-all-families' ? [] : [id]);
-    for (const n of covered) kb[n] = parseInt(bytes, 10) / 1000;
+    for (const n of covered) kb[n] = parseInt(bytes, 10) / 1024;
   }
   return kb;
 }
@@ -51,7 +51,7 @@ describe('REQ-CMP-22 meta completeness', () => {
 
   it('has CMP metas', () => expect(all.length).toBeGreaterThan(50));
 
-  it.each(all.map((r) => [r.meta.name, r] as const))('%s has a budget row and budgetKb == limitBytes/1000', (_n, { file, meta }) => {
+  it.each(all.map((r) => [r.meta.name, r] as const))('%s has a budget row and budgetKb == limitBytes/1024 (contract S-44: KiB)', (_n, { file, meta }) => {
     expect(rows[meta.name]).toBeDefined();
     expect({ file, got: meta.budgetKb }).toEqual({ file, got: rows[meta.name] });
   });

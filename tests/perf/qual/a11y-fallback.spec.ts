@@ -45,7 +45,7 @@ async function blurred(page: Page, c: Condition) {
   return fallbackViolations(await page.evaluate(probeBlurred), c.id);
 }
 
-test.describe.configure({ mode: 'serial' });
+// Independent tests (default mode): one failure never hides the others' evidence.
 
 /* The condition list is per engine (OI-QUAL-04): each describe is tagged @<engine>, and every invariants project in
    tests/perf/qual/playwright.config.ts greps out the other engines' tags. */
@@ -63,7 +63,7 @@ for (const engine of ['chromium', 'webkit', 'firefox'] as const) {
         await applyCondition(page, c);
         const v = await blurred(page, c);
         expect(v.map((x) => x.code)).toEqual(['backdrop-filter-under-fallback']);
-        expect(v[0]!.detail).toContain('[data-ag-fixture=bespoke-blur]');
+        expect(v[0]!.detail).toContain('[data-fixture=bespoke-blur]');
       });
 
       test('Surfaces fixture: public Surfaces drop every backdrop-filter', async ({ page }) => {

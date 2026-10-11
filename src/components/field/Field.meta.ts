@@ -16,7 +16,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'content', refractionEligible: false },
   apg: 'none',
-  budgetKb: 6,
+  budgetKb: 6000 / 1024,
   migration: [
     {
       from: 'GlassField',

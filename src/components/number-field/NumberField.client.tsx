@@ -48,8 +48,6 @@ export function NumberField({
       invalid={invalid}
       disabled={disabled}
       name={name}
-      {...(variant !== undefined ? { 'data-ag-variant': variant } : {})}
-      {...(refraction === true ? { 'data-ag-refraction': true } : {})}
     >
       <Base.Root
         onValueChange={(v, details) => onValueChange?.(v, toChangeDetails(details))}
@@ -77,7 +75,12 @@ export function NumberField({
         <Base.Group
           className="ag-nf-shell"
           data-ag-part="group"
-          {...materialProps({ layer: 'content', content: 'content-sunken' })}
+          {...materialProps({
+            layer: 'content',
+            content: 'content-sunken',
+            ...(variant !== undefined ? { variant } : {}),
+            ...(refraction === true ? { refraction: true } : {}),
+          })}
         >
           <Base.Decrement data-ag-part="decrement" aria-label={CONTROL_MESSAGES.decrease}>
             <span aria-hidden="true">−</span>
