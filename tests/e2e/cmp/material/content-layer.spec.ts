@@ -17,7 +17,7 @@ test.describe('content layer (CMP-348)', () => {
   }
 
   test('Card over media keeps its blur (RegularOverMedia)', async ({ page }) => {
-    await gotoStory(page, 'core-card--default', { scene: 'photo', transparency: 'glass' });
+    await gotoStory(page, 'core-card--regular-over-media');
     const root = page.locator('[data-ag-part="root"], [data-ag-surface]').first();
     const bf = await root.evaluate((el) => getComputedStyle(el, '::before').backdropFilter);
     // over-media surfaces blur through ::before or the element itself

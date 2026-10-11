@@ -1,0 +1,3026 @@
+[
+  {
+    "file": "src/components/menu/ContextMenu.client.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1",
+    "entry": ".",
+    "name": "ContextMenu"
+  },
+  {
+    "file": "src/components/timeline/Timeline.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": ".",
+    "name": "formatTimestamp"
+  },
+  {
+    "file": "src/components/menu/Menu.client.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1",
+    "entry": ".",
+    "name": "Menubar"
+  },
+  {
+    "file": "src/components/progress/Progress.client.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1",
+    "entry": ".",
+    "name": "ProgressRing"
+  },
+  {
+    "file": "src/components/sheet/useSheetDetents.ts",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1",
+    "entry": ".",
+    "name": "resolveDetent"
+  },
+  {
+    "file": "src/components/sheet/SheetHandle.client.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1",
+    "entry": ".",
+    "name": "SheetHandle"
+  },
+  {
+    "file": "src/app-shell/AppShell.Controller.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-81",
+    "expires": "RC-1",
+    "entry": "./app-shell",
+    "name": "AppShellController"
+  },
+  {
+    "file": "src/app-shell/AppShell.InspectorToggle.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-81",
+    "expires": "RC-1",
+    "entry": "./app-shell",
+    "name": "AppShellInspectorToggle"
+  },
+  {
+    "file": "src/app-shell/AppShell.SidebarToggle.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-81",
+    "expires": "RC-1",
+    "entry": "./app-shell",
+    "name": "AppShellSidebarToggle"
+  },
+  {
+    "file": "src/app-shell/parseAppShellCookie.ts",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-81",
+    "expires": "RC-1",
+    "entry": "./app-shell",
+    "name": "parseAppShellCookie"
+  },
+  {
+    "file": "src/app-shell/parseAppShellCookie.ts",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-81",
+    "expires": "RC-1",
+    "entry": "./app-shell",
+    "name": "serializeAppShellCookie"
+  },
+  {
+    "file": "src/charts/Chart.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-87",
+    "expires": "RC-1",
+    "entry": "./charts",
+    "name": "Chart"
+  },
+  {
+    "file": "src/compat/surf/backdrops/AtmosphericBackground.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "AtmosphericBackground"
+  },
+  {
+    "file": "src/compat/surf/backdrops/AuroraBackground.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "AuroraBackground"
+  },
+  {
+    "file": "src/compat/surf/backdrops/AuroraOrb.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "AuroraOrb"
+  },
+  {
+    "file": "src/compat/surf/backdrops/GlassDynamicAtmosphere.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "DynamicAtmosphere"
+  },
+  {
+    "file": "src/compat/cmp/controls/EnhancedGlassButton.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "EnhancedGlassButton"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassActionBar.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassActionBar"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassActionSheet.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassActionSheet"
+  },
+  {
+    "file": "src/compat/surf/data/GlassActivityFeed.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassActivityFeed"
+  },
+  {
+    "file": "src/compat/surf/data/GlassAnimatedNumber.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassAnimatedNumber"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassAppShell.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassAppShell"
+  },
+  {
+    "file": "src/compat/surf/navigation/GlassBottomNav.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassBottomNav"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassBottomSheet.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassBottomSheet"
+  },
+  {
+    "file": "src/compat/surf/navigation/GlassBreadcrumb.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassBreadcrumb"
+  },
+  {
+    "file": "src/compat/surf/date/GlassCalendar.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassCalendar"
+  },
+  {
+    "file": "src/compat/surf/media/GlassCarousel.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassCarousel"
+  },
+  {
+    "file": "src/compat/surf/ai/GlassChat.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassChat"
+  },
+  {
+    "file": "src/compat/surf/ai/GlassChatInput.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassChatInput"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassCheckbox.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassCheckbox"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassCheckboxGroup.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassCheckboxGroup"
+  },
+  {
+    "file": "src/compat/surf/data/GlassChip.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassChip"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassCombobox.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassCombobox"
+  },
+  {
+    "file": "src/compat/surf/navigation/GlassCommand.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassCommand"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassCommandBar.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassCommandBar"
+  },
+  {
+    "file": "src/compat/surf/navigation/GlassCommandPalette.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassCommandPalette"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassContextMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassContextMenu"
+  },
+  {
+    "file": "src/compat/mat/material/OptimizedGlass.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-57",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassCore"
+  },
+  {
+    "file": "src/compat/surf/data/GlassDataGrid.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDataGrid"
+  },
+  {
+    "file": "src/compat/surf/data/GlassDataTable.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDataTable"
+  },
+  {
+    "file": "src/compat/surf/date/GlassDateField.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDateField"
+  },
+  {
+    "file": "src/compat/surf/date/GlassDatePicker.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDatePicker"
+  },
+  {
+    "file": "src/compat/surf/date/GlassDateRangePicker.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDateRangePicker"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDialog.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDialog"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDrawer.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDrawer"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenu"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuArrow"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuCheckboxItem"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuContent"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuGroup"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuItem"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuLabel"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuPortal"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuRadioGroup"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuRadioItem"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuRoot"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuSeparator"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuSub"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuSubTrigger"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDropdownMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDropdownMenuTrigger"
+  },
+  {
+    "file": "src/compat/surf/backdrops/GlassDynamicAtmosphere.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDynamicAtmosphere"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassFab.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassFab"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassFieldGroup.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassFieldGroup"
+  },
+  {
+    "file": "src/compat/surf/data/GlassFileExplorer.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassFileExplorer"
+  },
+  {
+    "file": "src/compat/surf/data/GlassFileTree.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassFileTree"
+  },
+  {
+    "file": "src/compat/surf/data/GlassFilterBar.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassFilterBar"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassFormField.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassFormField"
+  },
+  {
+    "file": "src/compat/surf/media/GlassGallery.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassGallery"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassHeader.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassHeader"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassHoverCard.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassHoverCard"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassIconButton.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassIconButton"
+  },
+  {
+    "file": "src/compat/surf/media/GlassImageViewer.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassImageViewer"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassInput.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassInput"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassInspector.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassInspector"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassIntelligentSearch.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassIntelligentSearch"
+  },
+  {
+    "file": "src/compat/surf/data/GlassKeyValueEditor.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassKeyValueEditor"
+  },
+  {
+    "file": "src/compat/surf/data/GlassKPICard.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassKPICard"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassLinkButton.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassLinkButton"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassMain.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMain"
+  },
+  {
+    "file": "src/compat/surf/media/GlassMediaControls.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMediaControls"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassMentionList.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMentionList"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassMenubar.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMenubar"
+  },
+  {
+    "file": "src/compat/surf/backdrops/GlassMeshGradient.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMeshGradient"
+  },
+  {
+    "file": "src/compat/surf/ai/GlassMessageList.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMessageList"
+  },
+  {
+    "file": "src/compat/surf/data/GlassMetricCard.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMetricCard"
+  },
+  {
+    "file": "src/compat/surf/navigation/GlassMobileNav.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMobileNav"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassMobileShell.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMobileShell"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassModal.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassModal"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassMultiSelect.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMultiSelect"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassNotificationCenter.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassNotificationCenter"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassPageHeader.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassPageHeader"
+  },
+  {
+    "file": "src/compat/surf/navigation/GlassPageTabs.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassPageTabs"
+  },
+  {
+    "file": "src/compat/surf/navigation/GlassPagination.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassPagination"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassPopover.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassPopover"
+  },
+  {
+    "file": "src/compat/cmp/overlays/Positioner.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassPositioner"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassRadioGroup.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassRadioGroup"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSearchField.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSearchField"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSearchInterface.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSearchInterface"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSegmentedControl.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSegmentedControl"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSelect.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSelect"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSelectCompound.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSelectCompound"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSelectCompound.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSelectContent"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSelectCompound.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSelectGroup"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSelectCompound.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSelectItem"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSelectCompound.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSelectLabel"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSelectCompound.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSelectRoot"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSelectCompound.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSelectScrollDown"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSelectCompound.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSelectScrollUp"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSelectCompound.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSelectSeparator"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSelectCompound.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSelectTrigger"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSelectCompound.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSelectValue"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassSidebar.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSidebar"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSlider.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSlider"
+  },
+  {
+    "file": "src/compat/surf/data/GlassSparkline.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSparkline"
+  },
+  {
+    "file": "src/compat/surf/data/GlassStatCard.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassStatCard"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassStatusBar.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassStatusBar"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassSwitch.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSwitch"
+  },
+  {
+    "file": "src/compat/surf/navigation/GlassTabBar.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassTabBar"
+  },
+  {
+    "file": "src/compat/surf/navigation/GlassTabs.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassTabs"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassTagInput.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassTagInput"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassTextarea.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassTextarea"
+  },
+  {
+    "file": "src/compat/surf/date/GlassTimeField.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassTimeField"
+  },
+  {
+    "file": "src/compat/surf/data/GlassTimeline.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassTimeline"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassToast.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassToast"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassToastViewport.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassToastViewport"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassToggle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassToggle"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassToolbar.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassToolbar"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassTooltip.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassTooltip"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassTopBar.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassTopBar"
+  },
+  {
+    "file": "src/compat/surf/data/GlassTreeView.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassTreeView"
+  },
+  {
+    "file": "src/compat/surf/ai/GlassTypingIndicator.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassTypingIndicator"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassValidationMessage.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassValidationMessage"
+  },
+  {
+    "file": "src/compat/surf/data/GlassVirtualList.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassVirtualList"
+  },
+  {
+    "file": "src/compat/surf/data/GlassVirtualTable.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassVirtualTable"
+  },
+  {
+    "file": "src/compat/surf/navigation/GlassWorkspaceTabs.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassWorkspaceTabs"
+  },
+  {
+    "file": "src/compat/cmp/overlays/LiquidGlassAdaptiveSheet.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassAdaptiveSheet"
+  },
+  {
+    "file": "src/compat/surf/navigation/LiquidGlassBottomAccessory.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassBottomAccessory"
+  },
+  {
+    "file": "src/compat/cmp/controls/LiquidGlassButtonStyle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassButtonStyle"
+  },
+  {
+    "file": "src/compat/surf/media/LiquidGlassCarouselRail.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassCarouselRail"
+  },
+  {
+    "file": "src/compat/surf/navigation/LiquidGlassCommandSurface.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassCommandSurface"
+  },
+  {
+    "file": "src/compat/mat/material/LiquidGlassMaterial.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-57",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassConcentricFrame"
+  },
+  {
+    "file": "src/compat/cmp/controls/LiquidGlassControlGroup.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassControlGroup"
+  },
+  {
+    "file": "src/compat/surf/navigation/LiquidGlassDestination.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassDestination"
+  },
+  {
+    "file": "src/compat/mat/material/LiquidGlassMaterial.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-57",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassEffectGroup"
+  },
+  {
+    "file": "src/compat/cmp/controls/LiquidGlassMapControls.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassMapControls"
+  },
+  {
+    "file": "src/compat/mat/material/LiquidGlassMaterial.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-57",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassMaterial"
+  },
+  {
+    "file": "src/compat/surf/media/LiquidGlassMediaControls.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassMediaControls"
+  },
+  {
+    "file": "src/compat/surf/media/LiquidGlassNowPlayingBar.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassNowPlayingBar"
+  },
+  {
+    "file": "src/compat/surf/media/LiquidGlassPhotoInspector.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassPhotoInspector"
+  },
+  {
+    "file": "src/compat/cmp/overlays/LiquidGlassPopoverMenu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassPopoverMenu"
+  },
+  {
+    "file": "src/compat/mat/material/LiquidGlassMaterial.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-57",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassScrollEdge"
+  },
+  {
+    "file": "src/compat/cmp/controls/LiquidGlassSearchField.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassSearchField"
+  },
+  {
+    "file": "src/compat/cmp/controls/LiquidGlassSegmentedControl.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassSegmentedControl"
+  },
+  {
+    "file": "src/compat/surf/navigation/LiquidGlassSource.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassSource"
+  },
+  {
+    "file": "src/compat/surf/navigation/LiquidGlassTabBar.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassTabBar"
+  },
+  {
+    "file": "src/compat/cmp/controls/LiquidGlassToolbar.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassToolbar"
+  },
+  {
+    "file": "src/compat/cmp/controls/MagneticButton.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "MagneticButton"
+  },
+  {
+    "file": "src/compat/mat/material/OptimizedGlass.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-57",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "OptimizedGlass"
+  },
+  {
+    "file": "src/compat/mat/material/OptimizedGlass.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-57",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "OptimizedGlassAdvanced"
+  },
+  {
+    "file": "src/compat/cmp/overlays/Positioner.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "Positioner"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassToolbar.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "renderToolbarItems"
+  },
+  {
+    "file": "src/compat/cmp/controls/RippleButton.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "RippleButton"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassPopover.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "splitPlacement"
+  },
+  {
+    "file": "src/compat/surf/index.ts",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "SURF_COMPAT_ADAPTERS"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassToastProvider.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "toastPosition"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassToast.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "toastType"
+  },
+  {
+    "file": "src/compat/cmp/controls/ToggleButton.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "ToggleButton"
+  },
+  {
+    "file": "src/compat/cmp/controls/ToggleButtonGroup.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "ToggleButtonGroup"
+  },
+  {
+    "file": "src/compat/cmp/overlays/GlassDrawer.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "toSide"
+  },
+  {
+    "file": "src/compat/surf/data/TreeView4x.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "TreeView4x"
+  },
+  {
+    "file": "src/compat/surf/app-shell/ZSpaceAppLayout.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "ZSpaceAppLayout"
+  },
+  {
+    "file": "src/date/Calendar.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-84",
+    "expires": "RC-1",
+    "entry": "./date",
+    "name": "RangeCalendar"
+  },
+  {
+    "file": "src/date/TimePicker.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-84",
+    "expires": "RC-1",
+    "entry": "./date",
+    "name": "TimePicker"
+  },
+  {
+    "file": "src/forms/FormField.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./forms",
+    "name": "FormField"
+  },
+  {
+    "file": "src/icons/action/accessibility.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "AccessibilityIcon"
+  },
+  {
+    "file": "src/icons/data/activity.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ActivityIcon"
+  },
+  {
+    "file": "src/icons/status/alert-circle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "AlertCircleIcon"
+  },
+  {
+    "file": "src/icons/status/alert-triangle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "AlertTriangleIcon"
+  },
+  {
+    "file": "src/icons/action/archive.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ArchiveIcon"
+  },
+  {
+    "file": "src/icons/action/arrow-down.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ArrowDownIcon"
+  },
+  {
+    "file": "src/icons/action/arrow-right.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ArrowRightIcon"
+  },
+  {
+    "file": "src/icons/action/arrow-up.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ArrowUpIcon"
+  },
+  {
+    "file": "src/icons/action/bar-chart-3.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "BarChart3Icon"
+  },
+  {
+    "file": "src/icons/collaboration/bell.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "BellIcon"
+  },
+  {
+    "file": "src/icons/action/bold.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "BoldIcon"
+  },
+  {
+    "file": "src/icons/action/book-open.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "BookOpenIcon"
+  },
+  {
+    "file": "src/icons/action/brain.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "BrainIcon"
+  },
+  {
+    "file": "src/icons/action/building-2.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "Building2Icon"
+  },
+  {
+    "file": "src/icons/navigation/calendar.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CalendarIcon"
+  },
+  {
+    "file": "src/icons/action/camera.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CameraIcon"
+  },
+  {
+    "file": "src/icons/action/check-check.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CheckCheckIcon"
+  },
+  {
+    "file": "src/icons/commerce/check-circle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CheckCircle2"
+  },
+  {
+    "file": "src/icons/commerce/check-circle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CheckCircleIcon"
+  },
+  {
+    "file": "src/icons/action/check.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CheckIcon"
+  },
+  {
+    "file": "src/icons/navigation/chevron-down.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ChevronDownIcon"
+  },
+  {
+    "file": "src/icons/navigation/chevron-left.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ChevronLeftIcon"
+  },
+  {
+    "file": "src/icons/navigation/chevron-right.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ChevronRightIcon"
+  },
+  {
+    "file": "src/icons/action/chevrons-left.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ChevronsLeftIcon"
+  },
+  {
+    "file": "src/icons/action/chevrons-right.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ChevronsRightIcon"
+  },
+  {
+    "file": "src/icons/navigation/chevron-up.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ChevronUpIcon"
+  },
+  {
+    "file": "src/icons/action/circle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CircleIcon"
+  },
+  {
+    "file": "src/icons/action/clear.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ClearIcon"
+  },
+  {
+    "file": "src/icons/action/clipboard-paste.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ClipboardPasteIcon"
+  },
+  {
+    "file": "src/icons/action/clock.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ClockIcon"
+  },
+  {
+    "file": "src/icons/action/x.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CloseIcon"
+  },
+  {
+    "file": "src/icons/action/cloud.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CloudIcon"
+  },
+  {
+    "file": "src/icons/action/cloud-upload.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CloudUploadIcon"
+  },
+  {
+    "file": "src/icons/action/code.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "Code2"
+  },
+  {
+    "file": "src/icons/action/code.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CodeIcon"
+  },
+  {
+    "file": "src/icons/action/columns-3.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "Columns3Icon"
+  },
+  {
+    "file": "src/icons/action/search.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CommandIcon"
+  },
+  {
+    "file": "src/icons/action/contrast.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ContrastIcon"
+  },
+  {
+    "file": "src/icons/action/copy.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CopyIcon"
+  },
+  {
+    "file": "src/icons/action/cpu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CpuIcon"
+  },
+  {
+    "file": "src/icons/createIcon.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "createIcon"
+  },
+  {
+    "file": "src/icons/action/credit-card.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CreditCardIcon"
+  },
+  {
+    "file": "src/icons/action/crown.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "CrownIcon"
+  },
+  {
+    "file": "src/icons/commerce/layout-dashboard.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "DashboardIcon"
+  },
+  {
+    "file": "src/icons/data/database.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "DatabaseIcon"
+  },
+  {
+    "file": "src/icons/action/diamond.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "DiamondIcon"
+  },
+  {
+    "file": "src/icons/action/dollar-sign.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "DollarSignIcon"
+  },
+  {
+    "file": "src/icons/action/download.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "DownloadIcon"
+  },
+  {
+    "file": "src/icons/action/droplets.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "DropletsIcon"
+  },
+  {
+    "file": "src/icons/action/edit.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "EditIcon"
+  },
+  {
+    "file": "src/icons/status/alert-circle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ErrorIcon"
+  },
+  {
+    "file": "src/icons/action/eye.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "EyeIcon"
+  },
+  {
+    "file": "src/icons/action/eye-off.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "EyeOffIcon"
+  },
+  {
+    "file": "src/icons/action/file-check-2.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "FileCheck2Icon"
+  },
+  {
+    "file": "src/icons/data/file.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "FileIcon"
+  },
+  {
+    "file": "src/icons/action/file-pen-line.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "FilePenLineIcon"
+  },
+  {
+    "file": "src/icons/action/file-text.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "FileTextIcon"
+  },
+  {
+    "file": "src/icons/action/filter.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "FilterIcon"
+  },
+  {
+    "file": "src/icons/action/flame.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "FlameIcon"
+  },
+  {
+    "file": "src/icons/action/flower.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "FlowerIcon"
+  },
+  {
+    "file": "src/icons/navigation/folder.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "FolderIcon"
+  },
+  {
+    "file": "src/icons/navigation/folder.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "FolderKanban"
+  },
+  {
+    "file": "src/icons/action/folder-open.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "FolderOpenIcon"
+  },
+  {
+    "file": "src/icons/action/folder-search.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "FolderSearchIcon"
+  },
+  {
+    "file": "src/icons/action/gauge.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "GaugeIcon"
+  },
+  {
+    "file": "src/icons/action/gift.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "GiftIcon"
+  },
+  {
+    "file": "src/icons/action/globe.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "GlobeIcon"
+  },
+  {
+    "file": "src/icons/action/grid-3-x-3.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "Grid3X3Icon"
+  },
+  {
+    "file": "src/icons/data/grid.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "GridIcon"
+  },
+  {
+    "file": "src/icons/action/grip-vertical.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "GripVerticalIcon"
+  },
+  {
+    "file": "src/icons/action/hand.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "HandIcon"
+  },
+  {
+    "file": "src/icons/action/hard-drive.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "HardDriveIcon"
+  },
+  {
+    "file": "src/icons/action/hash.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "HashIcon"
+  },
+  {
+    "file": "src/icons/action/heart.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "HeartIcon"
+  },
+  {
+    "file": "src/icons/action/help-circle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "HelpCircleIcon"
+  },
+  {
+    "file": "src/icons/action/hexagon.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "HexagonIcon"
+  },
+  {
+    "file": "src/icons/action/history.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "HistoryIcon"
+  },
+  {
+    "file": "src/icons/navigation/home.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "HomeIcon"
+  },
+  {
+    "file": "src/icons/components.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "iconRegistry"
+  },
+  {
+    "file": "src/icons/media/image.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ImageIcon"
+  },
+  {
+    "file": "src/icons/status/info.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "InfoIcon"
+  },
+  {
+    "file": "src/icons/action/italic.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ItalicIcon"
+  },
+  {
+    "file": "src/icons/action/keyboard.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "KeyboardIcon"
+  },
+  {
+    "file": "src/icons/action/layers.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "LayersIcon"
+  },
+  {
+    "file": "src/icons/commerce/layout-dashboard.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "LayoutDashboardIcon"
+  },
+  {
+    "file": "src/icons/action/leaf.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "LeafIcon"
+  },
+  {
+    "file": "src/icons/action/line-chart.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "LineChartIcon"
+  },
+  {
+    "file": "src/icons/action/link.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "LinkIcon"
+  },
+  {
+    "file": "src/icons/data/list.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ListIcon"
+  },
+  {
+    "file": "src/icons/action/loader-2.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "Loader2Icon"
+  },
+  {
+    "file": "src/icons/action/loader-2.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "LoaderIcon"
+  },
+  {
+    "file": "src/icons/action/lock.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "LockIcon"
+  },
+  {
+    "file": "src/icons/action/mail.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MailIcon"
+  },
+  {
+    "file": "src/icons/action/map-pin.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MapPinIcon"
+  },
+  {
+    "file": "src/icons/action/maximize.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "Maximize2"
+  },
+  {
+    "file": "src/icons/action/maximize.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MaximizeIcon"
+  },
+  {
+    "file": "src/icons/media/play.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MediaIcon"
+  },
+  {
+    "file": "src/icons/navigation/menu.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MenuIcon"
+  },
+  {
+    "file": "src/icons/action/message-circle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MessageCircleIcon"
+  },
+  {
+    "file": "src/icons/action/message-square.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MessageSquareIcon"
+  },
+  {
+    "file": "src/icons/action/message-square-text.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MessageSquareTextIcon"
+  },
+  {
+    "file": "src/icons/collaboration/mic.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MicIcon"
+  },
+  {
+    "file": "src/icons/action/mic-off.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MicOffIcon"
+  },
+  {
+    "file": "src/icons/action/minimize.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "Minimize2"
+  },
+  {
+    "file": "src/icons/action/minimize.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MinimizeIcon"
+  },
+  {
+    "file": "src/icons/action/minus.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MinusIcon"
+  },
+  {
+    "file": "src/icons/action/monitor.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MonitorIcon"
+  },
+  {
+    "file": "src/icons/action/moon.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MoonIcon"
+  },
+  {
+    "file": "src/icons/navigation/more-horizontal.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MoreHorizontalIcon"
+  },
+  {
+    "file": "src/icons/navigation/more-vertical.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MoreVerticalIcon"
+  },
+  {
+    "file": "src/icons/action/mouse-pointer-2.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MousePointer2Icon"
+  },
+  {
+    "file": "src/icons/action/move.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MoveIcon"
+  },
+  {
+    "file": "src/icons/action/music.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "MusicIcon"
+  },
+  {
+    "file": "src/icons/collaboration/bell.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "NotificationIcon"
+  },
+  {
+    "file": "src/icons/action/palette.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "PaletteIcon"
+  },
+  {
+    "file": "src/icons/action/panels-top-left.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "PanelsTopLeftIcon"
+  },
+  {
+    "file": "src/icons/action/paperclip.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "PaperclipIcon"
+  },
+  {
+    "file": "src/icons/action/pause.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "PauseIcon"
+  },
+  {
+    "file": "src/icons/action/phone.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "PhoneIcon"
+  },
+  {
+    "file": "src/icons/action/pie-chart.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "PieChartIcon"
+  },
+  {
+    "file": "src/icons/media/play.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "PlayIcon"
+  },
+  {
+    "file": "src/icons/action/plus.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "PlusIcon"
+  },
+  {
+    "file": "src/icons/action/redo.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "RedoIcon"
+  },
+  {
+    "file": "src/icons/action/refresh-cw.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "RefreshCwIcon"
+  },
+  {
+    "file": "src/icons/action/refresh-cw.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "RefreshIcon"
+  },
+  {
+    "file": "src/icons/action/reply.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ReplyIcon"
+  },
+  {
+    "file": "src/icons/action/rotate-ccw.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "RotateCcwIcon"
+  },
+  {
+    "file": "src/icons/action/rotate-cw.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "RotateCwIcon"
+  },
+  {
+    "file": "src/icons/action/save.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SaveIcon"
+  },
+  {
+    "file": "src/icons/action/search.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SearchIcon"
+  },
+  {
+    "file": "src/icons/action/send.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SendIcon"
+  },
+  {
+    "file": "src/icons/action/server.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ServerIcon"
+  },
+  {
+    "file": "src/icons/navigation/settings.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SettingsIcon"
+  },
+  {
+    "file": "src/icons/action/share-2.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "Share2Icon"
+  },
+  {
+    "file": "src/icons/action/share.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ShareIcon"
+  },
+  {
+    "file": "src/icons/action/shield-check.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ShieldCheckIcon"
+  },
+  {
+    "file": "src/icons/action/shield.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ShieldIcon"
+  },
+  {
+    "file": "src/icons/action/shuffle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ShuffleIcon"
+  },
+  {
+    "file": "src/icons/action/skip-back.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SkipBackIcon"
+  },
+  {
+    "file": "src/icons/action/skip-forward.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SkipForwardIcon"
+  },
+  {
+    "file": "src/icons/action/sliders-horizontal.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SlidersHorizontalIcon"
+  },
+  {
+    "file": "src/icons/action/smile.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SmileIcon"
+  },
+  {
+    "file": "src/icons/action/snowflake.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SnowflakeIcon"
+  },
+  {
+    "file": "src/icons/action/sort-asc.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SortAscIcon"
+  },
+  {
+    "file": "src/icons/action/sort-desc.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SortDescIcon"
+  },
+  {
+    "file": "src/icons/ai/sparkles.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SparkIcon"
+  },
+  {
+    "file": "src/icons/ai/sparkles.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SparklesIcon"
+  },
+  {
+    "file": "src/icons/action/square.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SquareIcon"
+  },
+  {
+    "file": "src/icons/action/star.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "StarIcon"
+  },
+  {
+    "file": "src/icons/commerce/check-circle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SuccessIcon"
+  },
+  {
+    "file": "src/icons/action/sun.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "SunIcon"
+  },
+  {
+    "file": "src/icons/action/tag.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "TagIcon"
+  },
+  {
+    "file": "src/icons/action/target.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "TargetIcon"
+  },
+  {
+    "file": "src/icons/action/test-tube.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "TestTubeIcon"
+  },
+  {
+    "file": "src/icons/action/thumbs-up.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ThumbsUpIcon"
+  },
+  {
+    "file": "src/icons/action/trash-2.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "Trash2Icon"
+  },
+  {
+    "file": "src/icons/action/trending-down.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "TrendingDownIcon"
+  },
+  {
+    "file": "src/icons/action/trending-up.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "TrendingUpIcon"
+  },
+  {
+    "file": "src/icons/action/triangle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "TriangleIcon"
+  },
+  {
+    "file": "src/icons/action/trophy.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "TrophyIcon"
+  },
+  {
+    "file": "src/icons/action/underline.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "UnderlineIcon"
+  },
+  {
+    "file": "src/icons/action/undo.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "Undo2"
+  },
+  {
+    "file": "src/icons/action/undo.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "UndoIcon"
+  },
+  {
+    "file": "src/icons/action/unlock.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "UnlockIcon"
+  },
+  {
+    "file": "src/icons/action/upload.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "UploadIcon"
+  },
+  {
+    "file": "src/icons/collaboration/user.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "UserIcon"
+  },
+  {
+    "file": "src/icons/collaboration/user.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "UserRound"
+  },
+  {
+    "file": "src/icons/collaboration/users.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "UsersIcon"
+  },
+  {
+    "file": "src/icons/media/video.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "VideoIcon"
+  },
+  {
+    "file": "src/icons/action/volume-1.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "Volume1Icon"
+  },
+  {
+    "file": "src/icons/action/volume-2.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "Volume2Icon"
+  },
+  {
+    "file": "src/icons/action/volume-x.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "VolumeXIcon"
+  },
+  {
+    "file": "src/icons/status/alert-triangle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "WarningIcon"
+  },
+  {
+    "file": "src/icons/action/waves.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "WavesIcon"
+  },
+  {
+    "file": "src/icons/action/wifi.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "WifiIcon"
+  },
+  {
+    "file": "src/icons/action/wind.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "WindIcon"
+  },
+  {
+    "file": "src/icons/action/x-circle.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "XCircleIcon"
+  },
+  {
+    "file": "src/icons/action/x.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "XIcon"
+  },
+  {
+    "file": "src/icons/ai/zap.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ZapIcon"
+  },
+  {
+    "file": "src/icons/action/zoom-in.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ZoomInIcon"
+  },
+  {
+    "file": "src/icons/action/zoom-out.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-71",
+    "expires": "RC-1",
+    "entry": "./icons",
+    "name": "ZoomOutIcon"
+  },
+  {
+    "file": "src/material/ConcentricFrame.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-55",
+    "expires": "RC-1",
+    "entry": "./material",
+    "name": "ConcentricFrame"
+  },
+  {
+    "file": "src/material/Environment.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-55",
+    "expires": "RC-1",
+    "entry": "./material",
+    "name": "Environment"
+  },
+  {
+    "file": "src/material/materialProps.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-55",
+    "expires": "RC-1",
+    "entry": "./material",
+    "name": "materialProps"
+  },
+  {
+    "file": "src/material/ScrollEdge.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-55",
+    "expires": "RC-1",
+    "entry": "./material",
+    "name": "ScrollEdge"
+  },
+  {
+    "file": "src/material/Surface.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-55",
+    "expires": "RC-1",
+    "entry": "./material",
+    "name": "Surface"
+  },
+  {
+    "file": "src/material/SurfaceGroup.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-55",
+    "expires": "RC-1",
+    "entry": "./material",
+    "name": "SurfaceGroup"
+  },
+  {
+    "file": "src/media/formatMediaTime.ts",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-86",
+    "expires": "RC-1",
+    "entry": "./media",
+    "name": "formatMediaTime"
+  },
+  {
+    "file": "src/media/MediaScrubber/MediaScrubber.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-86",
+    "expires": "RC-1",
+    "entry": "./media",
+    "name": "MediaScrubber"
+  },
+  {
+    "file": "src/motion/adapter/magnetic.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-58",
+    "expires": "RC-1",
+    "entry": "./motion",
+    "name": "magnetic"
+  },
+  {
+    "file": "src/motion/adapter/SharedLayout.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-58",
+    "expires": "RC-1",
+    "entry": "./motion",
+    "name": "Shared"
+  },
+  {
+    "file": "src/motion/adapter/SharedLayout.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-58",
+    "expires": "RC-1",
+    "entry": "./motion",
+    "name": "SharedLayout"
+  },
+  {
+    "file": "src/motion/adapter/toMotionTransition.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-58",
+    "expires": "RC-1",
+    "entry": "./motion",
+    "name": "toMotionTransition"
+  },
+  {
+    "file": "src/theme/AuraGlassScript.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-52",
+    "expires": "RC-1",
+    "entry": "./theme",
+    "name": "auraGlassPrepaintScript"
+  },
+  {
+    "file": "src/theme/AuraGlassScript.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-52",
+    "expires": "RC-1",
+    "entry": "./theme",
+    "name": "AuraGlassScript"
+  },
+  {
+    "file": "src/theme/createBrandGlassTheme.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-52",
+    "expires": "RC-1",
+    "entry": "./theme",
+    "name": "createBrandGlassTheme"
+  },
+  {
+    "file": "src/theme/createBrandTheme.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-52",
+    "expires": "RC-1",
+    "entry": "./theme",
+    "name": "createBrandTheme"
+  },
+  {
+    "file": "src/theme/createGlassTheme.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-52",
+    "expires": "RC-1",
+    "entry": "./theme",
+    "name": "createGlassTheme"
+  },
+  {
+    "file": "src/theme/createGlassTheme.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-52",
+    "expires": "RC-1",
+    "entry": "./theme",
+    "name": "createGlassThemeCssVars"
+  },
+  {
+    "file": "src/tokens/generated/presets.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-50",
+    "expires": "RC-1",
+    "entry": "./theme",
+    "name": "presets"
+  },
+  {
+    "file": "src/tokens/generated/manifest.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-50",
+    "expires": "RC-1",
+    "entry": "./tokens",
+    "name": "manifest"
+  },
+  {
+    "file": "src/tokens/generated/material-spec.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-50",
+    "expires": "RC-1",
+    "entry": "./tokens",
+    "name": "materialSpec"
+  },
+  {
+    "file": "src/tokens/generated/tokens.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-50",
+    "expires": "RC-1",
+    "entry": "./tokens",
+    "name": "token"
+  },
+  {
+    "file": "src/tokens/generated/tokens.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-50",
+    "expires": "RC-1",
+    "entry": "./tokens",
+    "name": "tokens"
+  }
+]

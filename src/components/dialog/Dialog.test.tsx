@@ -4,6 +4,8 @@ import '@testing-library/jest-dom/jest-globals';
 import { render, screen, act, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { Dialog } from './index';
 
 function Demo({ root = {}, popup = {}, withTitle = true, children }: {
@@ -66,13 +68,28 @@ describe('Dialog (CMP-209..216, 220)', () => {
     expect(spy).not.toHaveBeenCalledWith(expect.stringContaining('accessible name'));
   });
 
-  it('sizes: data-ag-size sm|md|lg|xl|full on the popup', async () => {
-    for (const size of ['sm', 'md', 'lg', 'xl', 'full'] as const) {
+  it('sizes: data-ag-size sm|md|lg on the popup (xl/full moved to appearance)', async () => {
+    for (const size of ['sm', 'md', 'lg'] as const) {
       const { unmount } = render(<Demo popup={{ size }} root={{ defaultOpen: true }} />);
       await act(async () => {});
       expect(openPopup()?.getAttribute('data-ag-size')).toBe(size);
       unmount();
     }
+  });
+
+  it('appearance: data-ag-appearance=wide emitted; CSS maps wide→960px', async () => {
+    render(<Demo popup={{ appearance: 'wide' }} root={{ defaultOpen: true }} />);
+    await act(async () => {});
+    expect(openPopup()?.getAttribute('data-ag-appearance')).toBe('wide');
+    const css = readFileSync(resolve(__dirname, 'Dialog.css'), 'utf8');
+    const wide = css.match(/\[data-ag-appearance='wide'\][^}]*/u)?.[0] ?? '';
+    expect(wide).toContain('max-inline-size: 960px');
+  });
+
+  it('appearance: fullscreen emits the attr; xl is not a size', async () => {
+    render(<Demo popup={{ appearance: 'fullscreen' }} root={{ defaultOpen: true }} />);
+    await act(async () => {});
+    expect(openPopup()?.getAttribute('data-ag-appearance')).toBe('fullscreen');
   });
 
   it('material attributes: overlay layer, thick, data-ag-overlay=dialog', async () => {
@@ -156,7 +173,7 @@ describe('Dialog (CMP-209..216, 220)', () => {
       expect(el).toBeTruthy();
       expect(el.hasAttribute('data-ag-surface')).toBe(false);
     }
-    expect(document.querySelector('[data-ag-part="body"]')!.getAttribute('data-ag-padding')).toBe('none');
+    expect(document.querySelector('[data-ag-part="body"]')!.getAttribute('data-padding')).toBe('none');
   });
 
   it('palette shell: placement=top + initialFocus reaches the input', async () => {
@@ -173,7 +190,7 @@ describe('Dialog (CMP-209..216, 220)', () => {
     );
     await act(async () => {});
     const popup = openPopup()!;
-    expect(popup.getAttribute('data-ag-placement')).toBe('top');
+    expect(popup.getAttribute('data-placement')).toBe('top');
     await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
     expect(document.activeElement).toBe(inputRef.current ?? openPopup());
   });

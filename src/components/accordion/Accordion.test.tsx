@@ -47,3 +47,19 @@ describe('Accordion', () => {
     }
   });
 });
+describe('Accordion REQ-CMP-121', () => {
+  it('trigger aria-controls resolves to the content element id', () => {
+    const { container } = render(
+      <Accordion.Root defaultValue={['i1']}>
+        <Accordion.Item value="i1">
+          <Accordion.Header><Accordion.Trigger>T</Accordion.Trigger></Accordion.Header>
+          <Accordion.Content>B</Accordion.Content>
+        </Accordion.Item>
+      </Accordion.Root>,
+    );
+    const trigger = container.querySelector('[data-ag-part="trigger"]')!;
+    const content = container.querySelector('[data-ag-part="content"]')!;
+    expect(trigger.getAttribute('aria-controls')).toBeTruthy();
+    expect(trigger.getAttribute('aria-controls')).toBe(content.id);
+  });
+});

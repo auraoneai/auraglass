@@ -1,4 +1,4 @@
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. */
 export type RadiusToken = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';           // 6/10/14/20/28/9999px (§5.2)
 export type SpaceToken = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16'; // n × 4px (4pt grid)
 export type TypeRole = 'display' | 'title-1' | 'title-2' | 'title-3' | 'body' | 'callout' | 'caption' | 'label' | 'mono';
@@ -9,9 +9,9 @@ export type ZLayer = 'content' | 'chrome' | 'overlay' | 'transient' | 'toast';
 /** S-03: every public custom property. Anything else starting with --ag- fails MAT's dead/undefined-var gate. */
 export const PUBLIC_CSS_VARS = {
   light: ['--ag-light-angle', '--ag-specular', '--ag-glass-opacity'],
-  readouts: ['--_ag-surface-fill', '--_ag-surface-rim', '--_ag-surface-shadow', '--_ag-surface-radius', '--ag-on-surface', '--ag-on-surface-muted'],
+  readouts: ['--ag-surface-fill', '--ag-surface-rim', '--ag-surface-shadow', '--ag-surface-radius', '--ag-on-surface', '--ag-on-surface-muted'],
   shape: ['--ag-radius-outer', '--ag-inset', '--ag-radius-inner'],
-  focus: ['--_ag-focus-inner', '--_ag-focus-outer', '--_ag-focus-width'],
+  focus: ['--ag-focus-inner', '--ag-focus-outer', '--ag-focus-width'],
   layout: ['--ag-scroll-padding-top', '--ag-scroll-padding-bottom'],
   color: ['canvas', 'on-surface', 'on-surface-muted', 'accent', 'on-accent', 'border', 'focus-inner', 'focus-outer',
     'specular', 'danger', 'warning', 'success', 'info'].map((c) => `--ag-color-${c}`),
@@ -27,6 +27,9 @@ export const PUBLIC_CSS_VARS = {
   density: ['--ag-density'],                                                    // 0.875 | 1 | 1.125
   scrim: ['--ag-scrim-clear', '--ag-scrim-media'],                             // 0.35 / media scrim
   motion: [/* see src/contracts/motion.ts MOTION_CSS_VARS */],
+  // C-7 (v1.2): MAT component tokens consumed by CMP CSS (REQ-FIN-11, REQ-CMP-19/-45). Every other comp/sys output is --_ag-*.
+  comp: ['sm', 'md', 'lg'].flatMap((s) => ['compact', 'default', 'spacious'].map((d) => `--ag-comp-control-height-${s}-${d}`)),
+  switchTrack: ['w', 'h'].flatMap((a) => ['sm', 'md', 'lg'].map((s) => `--ag-switch-track-${a}-${s}`)),
   shadcn: ['--background', '--foreground', '--primary', '--primary-foreground', '--muted', '--border', '--ring', '--radius'],
 } as const;
 
@@ -66,4 +69,13 @@ export const TOKEN_OUTPUTS = {
   ladders: 'src/material/css/generated/ladders.css',
   floors: 'src/material/css/generated/floors.css',
   compat: 'dist/compat/tokens.css',             // from tokens/compat-alias-map.json, @layer ag.compat
+  // C-7 (v1.2): the other outputs tokens:build actually writes and ships or commits. Anything not listed here is not
+  // written by the build (e.g. dist/css/* copies and tokens/contrast/busy-reference.json are not build outputs).
+  generated: ['src/tokens/generated/tokens.ts', 'src/tokens/generated/tokens.d.ts', 'src/tokens/generated/material-spec.ts',
+    'src/tokens/generated/presets.ts', 'src/tokens/generated/manifest.ts'],
+  properties: 'src/material/css/generated/properties.css',
+  tailwind: 'dist/tailwind.css',                // ./tailwind.css subpath, TAILWIND_BRIDGE_ORDER
+  contrastMatrix: 'dist/contrast-matrix.json',
+  opacityFloors: 'tokens/generated/opacity-floors.json',
+  registry: 'dist/tokens/registry-cssvars.json',
 } as const;

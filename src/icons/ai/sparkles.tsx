@@ -7,4 +7,4 @@ const sparkles: IconNode[] = [
 ];
 
 export const SparklesIcon = /*#__PURE__*/ createIcon('Sparkles', sparkles);
-export const SparkIcon = /*#__PURE__*/ SparklesIcon;
+export const SparkIcon = SparklesIcon;

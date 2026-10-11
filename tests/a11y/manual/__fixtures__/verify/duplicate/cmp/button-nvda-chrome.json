@@ -1,0 +1,29 @@
+{
+  "sha": "0123456789abcdef0123456789abcdef01234567",
+  "subject": "button",
+  "flagship": 1,
+  "stream": "cmp",
+  "pass": "sr",
+  "at": "nvda-chrome",
+  "atVersion": "macOS 15.5 VoiceOver",
+  "browser": "Chrome",
+  "browserVersion": "18.5",
+  "os": "macOS",
+  "osVersion": "15.5",
+  "tester": "fixture-tester",
+  "date": "2026-10-10",
+  "result": "pass",
+  "steps": [
+    {
+      "action": "Tab to the Material select",
+      "expected": "Material, pop-up button",
+      "announced": "Material, pop-up button",
+      "nameRoleValue": "Material / pop-up button / Glass",
+      "stateChange": "",
+      "openClose": "",
+      "liveRegion": "",
+      "pass": true
+    }
+  ],
+  "storybookArtifactUrl": "https://gitlab.com/example/-/jobs/1/artifacts/storybook-static/index.html"
+}
