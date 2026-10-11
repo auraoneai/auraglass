@@ -1,0 +1,1 @@
+{"sys": {"spring": {"sluggish": {"$type": "motion-spring", "$value": {"dampingRatio": 0.9, "response": {"value": 1000, "unit": "ms"}}, "$extensions": {"ag.tier": "sys"}}}}}

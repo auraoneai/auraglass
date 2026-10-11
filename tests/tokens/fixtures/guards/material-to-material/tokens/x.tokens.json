@@ -1,0 +1,2 @@
+{"sys": {"base": {"$type": "dimension", "$value": {"value": 12, "unit": "px"}, "$extensions": {"ag.tier": "sys"}}},
+ "material": {"inner": {"$type": "dimension", "$value": "{sys.base}", "$extensions": {"ag.tier": "material"}}, "outer": {"$type": "dimension", "$value": "{material.inner}", "$extensions": {"ag.tier": "material"}}}}
