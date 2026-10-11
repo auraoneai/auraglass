@@ -24,12 +24,13 @@ export type SidebarRootProps = PartProps<'aside'> & {
 };
 
 function SidebarRoot({ appearance = 'sidebar', variant, labels, children, render, ...rest }: SidebarRootProps) {
-  const aside = partElement('aside', {
+  // SURF-26: plain div — the only complementary landmark is Inspector.Root.
+  // No aria-label on the container; labels belong on the Nav landmark inside.
+  const aside = partElement('div', {
     render,
     'data-ag-slot': 'sidebar',
     'data-ag-part': 'sidebar',
     className: 'ag-sidebar',
-    ...(labels?.navigation !== undefined ? { 'aria-label': labels.navigation } : {}),
     'data-ag-appearance': appearance,
     ...rest,
     children,
@@ -42,10 +43,23 @@ function SidebarRoot({ appearance = 'sidebar', variant, labels, children, render
       render={aside}
     />
   );
+  // The drawer is auto-mounted with the same children so consumers do not
+  // duplicate the tree (SURF-31). It renders content only in drawer modes.
+  const drawer = <SidebarDrawer>{children}</SidebarDrawer>;
   if (appearance === 'inset') {
-    return <ConcentricFrame radius="md" inset="2">{surfaced}</ConcentricFrame>;
+    return (
+      <>
+        <ConcentricFrame radius="md" inset="2">{surfaced}</ConcentricFrame>
+        {drawer}
+      </>
+    );
   }
-  return surfaced;
+  return (
+    <>
+      {surfaced}
+      {drawer}
+    </>
+  );
 }
 SidebarRoot.displayName = 'Sidebar.Root';
 

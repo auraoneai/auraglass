@@ -3,6 +3,7 @@
    Pagination.button ('use client'). */
 
 import * as React from 'react';
+import { LandmarkBeacon } from '../../app-shell/_internal/LandmarkBeacon';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 import { getPaginationRange } from './getRange';
@@ -52,7 +53,9 @@ function PaginationRoot({
   if (getHref === undefined) {
     // Button mode: state + handlers live in the client island.
     return (
-      <PaginationButtons
+      <>
+        <LandmarkBeacon role="navigation" name={aria} />
+        <PaginationButtons
         page={page}
         defaultPage={defaultPage}
         pageCount={pageCount}
@@ -65,7 +68,8 @@ function PaginationRoot({
         rest={rest as Record<string, unknown>}
       >
         {children}
-      </PaginationButtons>
+        </PaginationButtons>
+      </>
     );
   }
 
@@ -79,6 +83,7 @@ function PaginationRoot({
       <span data-ag-part="status" className="ag-pagination__status">
         {`Page ${current} of ${pageCount}`}
       </span>
+      <LandmarkBeacon role="navigation" name={aria} />
       <ol data-ag-part="pagination-list" className="ag-pagination__list">
         <li data-ag-part="item">
           <PaginationArrowLink

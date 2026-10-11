@@ -37,6 +37,9 @@ try {
     }
     run('npm', ['install', '--legacy-peer-deps', `../../${tarball}`], dir);
     run('npm', ['install', '--legacy-peer-deps'], dir);
+    /* REQ-PLAT-71: singleton packages must resolve to one version each and
+       no nested node_modules may appear under aura-glass. */
+    run('node', ['../../scripts/ci/single-instance-check.mjs', '.'], dir);
     run(leg.gate[0], leg.gate[1], dir);
     console.log(`plat:integration:${leg.dir} gate OK`);
 

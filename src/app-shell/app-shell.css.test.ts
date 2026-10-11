@@ -79,6 +79,10 @@ function scan(source: string): { rules: CssRule[]; atrules: CssAtRule[] } {
 
 const { rules, atrules } = scan(stripped);
 const appShell = rules.find((r) => r.selector === '.ag-app-shell');
+const frame = rules.find((r) => r.selector === '.ag-app-shell__frame' && r.ancestors.length === 1);
+const selectorsOf = (r: { selector: string }) => r.selector.split(/,\s*(?![^(]*\))/).map((x) => x.trim());
+/** Last compound of a selector (the element the declarations land on). */
+const subjectOf = (selector: string) => selector.split(/\s*[>+~]\s*|\s+(?![^(]*\))/).filter(Boolean).pop() ?? '';
 
 describe('app-shell.css structure (SURF-011)', () => {
   it('starts with the exact layer-order statement (SC-20)', () => {
@@ -102,7 +106,9 @@ describe('app-shell.css structure (SURF-011)', () => {
   });
 
   it('has exactly three @container ag-app-shell conditions', () => {
-    const queries = atrules.filter((a) => a.name === 'container').map((a) => a.params);
+    const queries = atrules
+      .filter((a) => a.name === 'container' && a.params.startsWith('ag-app-shell '))
+      .map((a) => a.params);
     expect(queries).toEqual([
       'ag-app-shell (width < 600px)',
       'ag-app-shell (600px <= width < 1024px)',
@@ -110,8 +116,135 @@ describe('app-shell.css structure (SURF-011)', () => {
     ]);
   });
 
+  describe('REQ-SURF-17: Root is the container, the inner frame holds the grid', () => {
+    const CONDITIONS = [
+      '@container ag-app-shell (width < 600px)',
+      '@container ag-app-shell (600px <= width < 1024px)',
+      '@container ag-app-shell (width >= 1440px)',
+    ];
+    const inCondition = (c: string) => rules.filter((r) => r.ancestors.includes(c));
+
+    it('applies all three conditions to descendants of the container, never to Root itself', () => {
+      for (const c of CONDITIONS) {
+        const scoped = inCondition(c);
+        expect(scoped.length).toBeGreaterThan(0);
+        const onRoot = scoped.flatMap(selectorsOf).filter((x) => /^\.ag-app-shell(?![\w-])/.test(subjectOf(x)));
+        expect({ condition: c, onRoot }).toEqual({ condition: c, onRoot: [] });
+      }
+    });
+
+    it('Root is a block container with no grid; the frame owns the four-row grid', () => {
+      expect(appShell?.declarations.get('container')).toBe('ag-app-shell / inline-size');
+      expect(appShell?.declarations.get('display')).toBe('block');
+      for (const r of rules) {
+        for (const x of selectorsOf(r)) {
+          if (!/^\.ag-app-shell(?![\w-])/.test(subjectOf(x))) continue;
+          const grid = [...r.declarations.keys()].filter((k) => k.startsWith('grid-template') || k === 'display');
+          if (x === '.ag-app-shell') continue;
+          expect({ selector: x, grid }).toEqual({ selector: x, grid: [] });
+        }
+      }
+      expect(frame?.declarations.get('display')).toBe('grid');
+      expect(frame?.declarations.get('block-size')).toBe('100%');
+    });
+
+    it('each condition targets the frame through [data-ag-layout=auto] and publishes its mode', () => {
+      const frameRule = ".ag-app-shell[data-ag-layout='auto'] > .ag-app-shell__frame";
+      const modes = CONDITIONS.map(
+        (c) => inCondition(c).find((r) => selectorsOf(r).includes(frameRule))?.declarations.get('--_ag-app-shell-mode'),
+      );
+      expect(modes).toEqual(['compact', 'medium', 'wide']);
+      expect(frame?.declarations.get('--_ag-app-shell-mode')).toBe('expanded');
+      const pinned = (layout: string) =>
+        rules
+          .find((r) => r.ancestors.length === 1 && r.selector === `.ag-app-shell[data-ag-layout='${layout}'] > .ag-app-shell__frame`)
+          ?.declarations.get('--_ag-app-shell-mode');
+      expect({ desktop: pinned('desktop'), mobile: pinned('mobile') }).toEqual({ desktop: 'wide', mobile: 'compact' });
+    });
+
+    it('compact moves to one column with a tab-bar row; medium renders an expanded sidebar at rail width', () => {
+      const compact = inCondition(CONDITIONS[0]!).find((r) =>
+        selectorsOf(r).includes(".ag-app-shell[data-ag-layout='auto'] > .ag-app-shell__frame"),
+      );
+      expect({
+        columns: compact?.declarations.get('grid-template-columns'),
+        side: compact?.declarations.get('--_ag-app-shell-side'),
+        areas: compact?.declarations.get('grid-template-areas')?.replace(/\s+/g, ' '),
+      }).toEqual({ columns: 'minmax(0, 1fr)', side: '0rem', areas: "'skip' 'top' 'main' 'tabbar'" });
+      const medium = inCondition(CONDITIONS[1]!).find((r) =>
+        selectorsOf(r).includes(".ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] > .ag-app-shell__frame"),
+      );
+      expect(medium?.declarations.get('--_ag-app-shell-side')).toBe('var(--_ag-app-shell-rail)');
+    });
+
+    it('the container rules come after every base rule (equal specificity: later wins)', () => {
+      const firstConditioned = rules.findIndex((r) => CONDITIONS.some((c) => r.ancestors.includes(c)));
+      const lastBase = rules.reduce((i, r, idx) => (r.ancestors.length === 1 ? idx : i), -1);
+      expect(firstConditioned).toBeGreaterThan(lastBase);
+    });
+
+    it('no selector reads data-mode or a JS-written layout mode', () => {
+      const offenders = rules.flatMap(selectorsOf).filter((x) => /\[data-mode|data-ag-layout='(compact|medium|expanded|wide)'/.test(x));
+      expect(offenders).toEqual([]);
+      const layoutValues = new Set([...stripped.matchAll(/data-ag-layout='([a-z]+)'/g)].map((m) => m[1]));
+      expect([...layoutValues].sort()).toEqual(['auto', 'desktop', 'mobile']);
+    });
+
+    it('an auto inspector floats in the base and docks under the wide condition (SURF-38)', () => {
+      const auto = ".ag-app-shell[data-ag-layout='auto'] [data-inspector-mode='auto']";
+      const base = rules.find((r) => r.ancestors.length === 1 && selectorsOf(r).includes(auto));
+      expect(base?.declarations.get('position')).toBe('absolute');
+      const wide = inCondition(CONDITIONS[2]!).find((r) => selectorsOf(r).includes(auto));
+      expect({ position: wide?.declarations.get('position'), bg: wide?.declarations.get('background') }).toEqual({
+        position: 'static',
+        bg: 'var(--ag-color-canvas)',
+      });
+    });
+  });
+
+  it('declares only known named containers in @container queries', () => {
+    const names = atrules
+      .filter((a) => a.name === 'container')
+      .map((a) => a.params.split(/\s+/)[0]);
+    expect([...new Set(names)].sort()).toEqual(['ag-app-shell', 'ag-inspector']);
+  });
+
+  it('SURF-37: inspector field grid stacks under @container ag-inspector (width < 280px)', () => {
+    const inspector = rules.find((r) => r.selector === '.ag-inspector' && r.ancestors.length === 1);
+    expect(inspector?.declarations.get('container')).toBe('ag-inspector / inline-size');
+    const field = rules.find((r) => r.selector === '.ag-inspector__field' && r.ancestors.length === 1);
+    expect(field?.declarations.get('display')).toBe('grid');
+    expect(field?.declarations.get('grid-template-columns')).toBe('minmax(6rem, 40%) minmax(0, 1fr)');
+    const stacked = rules.filter(
+      (r) => r.selector === '.ag-inspector__field' && r.ancestors.includes('@container ag-inspector (width < 280px)'),
+    );
+    expect(stacked).toHaveLength(1);
+    expect(stacked[0]!.declarations.get('grid-template-columns')).toBe('1fr');
+  });
+
+  it('SURF-43/45: handle owns touch-action:none and a ::before hit area (12px fine / 24px coarse outset)', () => {
+    const handle = rules.find((r) => r.selector === '.ag-panels__handle' && r.ancestors.length === 1);
+    expect(handle?.declarations.get('touch-action')).toBe('none');
+    expect(handle?.declarations.get('position')).toBe('relative');
+    // touch-action is never set on the panels or the group root
+    for (const r of rules) {
+      if (r.declarations.has('touch-action')) expect(r.selector).toBe('.ag-panels__handle');
+    }
+    const fine = rules.find((r) => r.selector === '.ag-panels__handle::before' && r.ancestors.length === 1);
+    expect(fine?.declarations.get('content')).toBe("''");
+    expect(fine?.declarations.get('inset')).toBe('calc(var(--ag-space-3, 12px) * -1)');
+    const coarse = rules.find(
+      (r) => r.selector === '.ag-panels__handle::before' && r.ancestors.includes('@media (pointer: coarse)'),
+    );
+    // 1px line + 2 x 24px outset = 49px >= 44px coarse target
+    expect(coarse?.declarations.get('inset')).toBe('calc(var(--ag-space-6, 24px) * -1)');
+    const focus = rules.find((r) => r.selector === '.ag-panels__handle:focus-visible');
+    // SURF-25 (#641/#647): the handle ring keys on the public accent var.
+    expect(focus?.declarations.get('outline')).toContain('var(--ag-color-accent)');
+  });
+
   it('uses the four-row named-area grid with a scroll-owning main and dvh sizing', () => {
-    const areas = appShell?.declarations.get('grid-template-areas') ?? '';
+    const areas = frame?.declarations.get('grid-template-areas') ?? '';
     expect(areas).toContain("'skip skip skip'");
     expect(areas).toContain("'side top insp'");
     expect(areas).toContain("'side main insp'");
@@ -122,14 +255,62 @@ describe('app-shell.css structure (SURF-011)', () => {
     expect(main?.declarations.get('overflow')).toBe('auto');
   });
 
-  it('contains no !important, no transition:all, no will-change outside animating', () => {
+  it('reveals the skip link only on :focus-visible of the link itself (SURF-18)', () => {
+    const skipRules = rules.filter((r) => r.selector.includes("[data-ag-slot='skip']"));
+    const reveal = skipRules.filter((r) => r.declarations.get('clip-path') === 'none');
+    expect(reveal.map((r) => r.selector)).toEqual([".ag-app-shell [data-ag-slot='skip']:focus-visible"]);
+    expect(skipRules.filter((r) => /:focus-within|:has\(/.test(r.selector))).toEqual([]);
+  });
+
+  it('main owns scroll; content parts scroll inside flex-column slots; four safe-area edges (SURF-19)', () => {
+    const decl = (sel: string) => rules.find((r) => r.selector === sel)?.declarations;
+    const main = decl(".ag-app-shell [data-ag-slot='main']");
+    expect({
+      overflow: main?.get('overflow'),
+      overscroll: main?.get('overscroll-behavior'),
+      start: main?.get('scroll-padding-block-start'),
+      end: main?.get('scroll-padding-block-end'),
+    }).toEqual({
+      overflow: 'auto',
+      overscroll: 'contain',
+      start: 'var(--ag-scroll-padding-top, 0px)',
+      end: 'var(--ag-scroll-padding-bottom, 0px)',
+    });
+    for (const slot of ['sidebar', 'inspector']) {
+      const s = decl(`.ag-app-shell [data-ag-slot='${slot}']`);
+      expect({ display: s?.get('display'), dir: s?.get('flex-direction') }).toEqual({ display: 'flex', dir: 'column' });
+    }
+    const content = rules.find((r) => r.selector.includes("[data-ag-part='sidebar-content']"));
+    expect(content?.selector).toContain("[data-ag-part='inspector-content']");
+    expect({
+      overflow: content?.declarations.get('overflow'),
+      overscroll: content?.declarations.get('overscroll-behavior'),
+      minBlock: content?.declarations.get('min-block-size'),
+    }).toEqual({ overflow: 'auto', overscroll: 'contain', minBlock: '0' });
+    expect({
+      inline: appShell?.declarations.get('padding-inline'),
+      start: appShell?.declarations.get('padding-block-start'),
+      end: appShell?.declarations.get('padding-block-end'),
+    }).toEqual({
+      inline: 'env(safe-area-inset-left) env(safe-area-inset-right)',
+      start: 'env(safe-area-inset-top)',
+      end: 'env(safe-area-inset-bottom)',
+    });
+    const overlay = rules.find((r) => r.selector.includes("[data-ag-slot='tabbar'][data-ag-placement='overlay']"));
+    expect(overlay?.declarations.get('padding-block-end')).toBe('env(safe-area-inset-bottom)');
+  });
+
+  it('contains no !important, no transition:all, and promotes no layers (SURF-24)', () => {
     expect(css).not.toContain('!important');
     expect(stripped.replace(/\s+/g, ' ')).not.toContain('transition: all');
+    const promoted: string[] = [];
     for (const rule of rules) {
-      if (rule.declarations.has('will-change')) {
-        expect(rule.selector + ' ' + rule.ancestors.join(' ')).toContain('[data-ag-animating');
+      for (const prop of ['will-change', 'transform', 'translate', 'contain']) {
+        if (rule.declarations.has(prop)) promoted.push(`${rule.selector} { ${prop} }`);
       }
+      if (rule.selector.includes('data-ag-animating')) promoted.push(rule.selector);
     }
+    expect(promoted).toEqual([]);
   });
 
   it('defines private --_ag-app-shell-* defaults and no public shell vars', () => {
@@ -159,5 +340,140 @@ describe('app-shell.css structure (SURF-011)', () => {
         );
       }
     }
+  });
+  it('uses only --ag-* and --_ag-app-shell-* vars (SURF-25)', () => {
+    // `_` is in the class so private --_ag-* reads are seen (and rejected).
+    const vars = new Set([...stripped.matchAll(/var\((--[\w-]+)/g)].map((m) => m[1]!));
+    expect(vars.size).toBeGreaterThan(10);
+    const bad = [...vars].filter((v) => !v.startsWith('--ag-') && !v.startsWith('--_ag-app-shell-'));
+    expect(bad).toEqual([]);
+  });
+
+  it('keys the nav indicator, focus ring and tab indicators on --ag-color-accent (SURF-25)', () => {
+    const decl = (sel: string, prop: string) =>
+      rules.find((r) => r.selector === sel || r.selector.split(/,\s*(?![^(]*\))/).map((x) => x.trim()).includes(sel))
+        ?.declarations.get(prop);
+    expect({
+      nav: decl(".ag-app-shell [data-ag-part='sidebar-item'][aria-current='page']", 'box-shadow'),
+      focus: decl('.ag-app-shell :is(a, button, [tabindex]):not([data-ag-focusable], .ag-focusable):focus-visible', 'outline'),
+      tabs: decl('.ag-app-shell .ag-tabs__indicator', 'background'),
+      tabbar: decl(".ag-app-shell .ag-tab-bar__item[aria-current='page']", 'box-shadow'),
+    }).toEqual({
+      nav: 'inset 3px 0 0 var(--ag-color-accent)',
+      focus: 'var(--ag-focus-width, 2px) solid var(--ag-color-accent)',
+      tabs: 'var(--ag-color-accent)',
+      tabbar: 'inset 0 -2px 0 var(--ag-color-accent)',
+    });
+  });
+
+  it('sidebar content owns its scroll and appearances have geometry (SURF-27)', () => {
+    const has = (sel: string) => rules.filter((r) => r.selector.split(',').map((x) => x.trim()).includes(sel));
+    const content = has('.ag-app-shell .ag-sidebar__content');
+    expect(content.some((r) => r.declarations.get('overflow') === 'auto')).toBe(true);
+    expect(content.some((r) => r.declarations.get('overscroll-behavior') === 'contain')).toBe(true);
+    expect(has('.ag-app-shell .ag-sidebar')[0]?.declarations.get('flex-direction')).toBe('column');
+    expect(has(".ag-app-shell .ag-sidebar[data-ag-appearance='floating']").some((r) => r.declarations.has('box-shadow'))).toBe(true);
+    expect(has(".ag-app-shell .ag-sidebar[data-ag-appearance='inset']")[0]?.declarations.get('margin')).toBe('var(--ag-space-2, 0.5rem)');
+  });
+
+  it('page header wraps and actions take a full row under 600px (SURF-23)', () => {
+    const row = rules.find((r) => r.selector === '.ag-app-shell .ag-page-header__row');
+    expect(row?.declarations.get('flex-wrap')).toBe('wrap');
+    const narrow = rules.find(
+      (r) => r.selector === '.ag-app-shell .ag-page-header__actions' && r.ancestors.some((a) => a.includes('width < 600px')),
+    );
+    expect(narrow?.declarations.get('flex-basis')).toBe('100%');
+  });
+
+  const sel = (r: { selector: string }) => r.selector.split(/,\s*(?![^(]*\))/).map((x) => x.trim());
+  const withSel = (s: string) => rules.filter((r) => sel(r).includes(s));
+
+  it('collapsed sidebar and compact slots use display:none (SURF-30/31)', () => {
+    expect(
+      withSel(".ag-app-shell[data-ag-sidebar='collapsed'] [data-ag-slot='sidebar']").map((r) => r.declarations.get('display')),
+    ).toEqual(['none']);
+    const mobile = withSel(".ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='sidebar']");
+    expect(mobile.some((r) => r.declarations.get('display') === 'none')).toBe(true);
+    const narrow = withSel(".ag-app-shell[data-ag-layout='auto'] [data-ag-slot='sidebar']").filter((r) =>
+      r.ancestors.some((a) => a.includes('width < 600px')),
+    );
+    expect(narrow.map((r) => r.declarations.get('display'))).toEqual(['none']);
+    // never aria-hidden-style visibility tricks on the collapsed sidebar.
+    expect(
+      withSel(".ag-app-shell[data-ag-sidebar='collapsed'] [data-ag-slot='sidebar']").some((r) =>
+        r.declarations.has('visibility'),
+      ),
+    ).toBe(false);
+  });
+
+  it('top bar: flex, one-line ellipsis title, center hides <600 unless keepCenter (SURF-36)', () => {
+    const bar = withSel('.ag-top-bar').find((r) => r.ancestors.length === 1);
+    expect({ display: bar?.declarations.get('display'), min: bar?.declarations.get('min-inline-size') }).toEqual({
+      display: 'flex',
+      min: '0',
+    });
+    const title = withSel('.ag-top-bar__title')[0];
+    expect({
+      overflow: title?.declarations.get('text-overflow'),
+      ws: title?.declarations.get('white-space'),
+    }).toEqual({ overflow: 'ellipsis', ws: 'nowrap' });
+    const hide = withSel('.ag-top-bar__center:not([data-keep-center])').filter((r) =>
+      r.ancestors.some((a) => a.includes('width < 600px')),
+    );
+    expect(hide.map((r) => r.declarations.get('display'))).toEqual(['none']);
+    expect(withSel("[data-ag-transparency='solid'] .ag-top-bar")[0]?.declarations.get('box-shadow')).toBe('none');
+    const forced = withSel('.ag-top-bar').find((r) => r.ancestors.some((a) => a.includes('forced-colors: active')));
+    expect(forced?.declarations.get('border-block-end')).toBe('1px solid CanvasText');
+    expect(
+      withSel(".ag-app-shell__frame:has(> .ag-top-bar[data-ag-placement='inline'])")[0]?.declarations.get('--ag-scroll-padding-top'),
+    ).toBe('0px');
+  });
+
+  it('mobile tab bar overlays main and sets the bottom scroll padding (SURF-40)', () => {
+    const pad = withSel(".ag-app-shell[data-ag-layout='mobile']:has([data-ag-slot='tabbar'])")[0];
+    expect(pad?.declarations.get('--ag-scroll-padding-bottom')?.replace(/\s+/g, ' ')).toBe(
+      'calc( var(--_ag-app-shell-tabbar) + env(safe-area-inset-bottom) + var(--ag-space-2, 0.5rem) )',
+    );
+    const tab = withSel(".ag-app-shell[data-ag-layout='mobile'] [data-ag-slot='tabbar']").find((r) =>
+      r.declarations.has('grid-area'),
+    );
+    expect({ area: tab?.declarations.get('grid-area'), align: tab?.declarations.get('align-self') }).toEqual({
+      area: 'main',
+      align: 'end',
+    });
+    const main = withSel(".ag-app-shell [data-ag-slot='main']")[0];
+    expect({
+      scroll: main?.declarations.get('scroll-padding-block-end'),
+      pad: main?.declarations.get('padding-block-end'),
+      padTop: main?.declarations.get('padding-block-start'),
+    }).toEqual({
+      scroll: 'var(--ag-scroll-padding-bottom, 0px)',
+      pad: 'var(--ag-scroll-padding-bottom, 0px)',
+      padTop: 'var(--ag-scroll-padding-top, 0px)',
+    });
+  });
+
+  it('rail labels clip-hide (never display:none) and item hit boxes are >=40/44px (SURF-29)', () => {
+    const clip = withSel(".ag-app-shell[data-ag-sidebar='rail'] .ag-sidebar__item-label")[0];
+    expect({ clip: clip?.declarations.get('clip-path'), display: clip?.declarations.get('display') }).toEqual({
+      clip: 'inset(50%)',
+      display: undefined,
+    });
+    const medium = withSel(".ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] .ag-sidebar__item-label");
+    expect(medium.map((r) => r.declarations.get('clip-path'))).toEqual(['inset(50%)']);
+    const items = withSel(".ag-app-shell [data-ag-part='sidebar-item']");
+    const fine = items.find((r) => r.ancestors.length === 1);
+    const coarse = items.find((r) => r.ancestors.some((a) => a.includes('pointer: coarse')));
+    expect({
+      fineBlock: fine?.declarations.get('min-block-size'),
+      fineInline: fine?.declarations.get('min-inline-size'),
+      coarseBlock: coarse?.declarations.get('min-block-size'),
+      coarseInline: coarse?.declarations.get('min-inline-size'),
+    }).toEqual({
+      fineBlock: 'max(40px, var(--ag-comp-control-height-md-default, 2.25rem))',
+      fineInline: '40px',
+      coarseBlock: 'max(44px, var(--ag-comp-control-height-md-default, 2.25rem))',
+      coarseInline: '44px',
+    });
   });
 });

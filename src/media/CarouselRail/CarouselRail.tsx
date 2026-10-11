@@ -4,7 +4,7 @@
  * under the continuous gate. */
 import * as React from 'react';
 import { useResolvedPreferences } from '../../theme';
-import { observeOffscreen } from '../../motion';
+import { observeOffscreen, subscribeFrame } from '../../motion';
 import { CarouselRailContext, type CarouselRailContextValue } from './crContext';
 import { useCarouselIndex } from './useCarouselIndex';
 import type { CarouselRailSlide } from './types';
@@ -85,17 +85,21 @@ function Root(props: CarouselRailRootProps): React.ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- slides observed once
   }, [slides.length]);
 
-  // autoplay loop — only under the gate
+  // autoplay — frame-gated elapsed check (no timers; visibility/offscreen-aware)
   React.useEffect(() => {
     if (!autoplay || !autoplayActive) return;
-    const iv = setInterval(() => {
+    const interval = Math.max(5000, autoplay.interval);
+    let last = performance.now();
+    return subscribeFrame(() => {
+      const now = performance.now();
+      if (now - last < interval) return;
+      last = now;
       const next = loop ? (current + 1) % slides.length : Math.min(slides.length - 1, current + 1);
       goTo(next);
       const vp = viewportRef.current;
       const target = vp?.children[next] as HTMLElement | undefined;
       if (typeof vp?.scrollTo === 'function') vp.scrollTo({ left: target ? target.offsetLeft : next * vp.clientWidth, behavior: 'auto' });
-    }, Math.max(5000, autoplay.interval));
-    return () => clearInterval(iv);
+    });
   }, [autoplay, autoplayActive, current, loop, slides.length, goTo]);
 
   const step = (d: number) => {

@@ -85,6 +85,32 @@ describe('TopBar (SURF-028)', () => {
     process.env['NODE_ENV'] = prevEnv;
   });
 
+  it('two shells, one TopBar each -> 0 warnings (SURF-35)', () => {
+    const prevEnv = process.env['NODE_ENV'];
+    process.env['NODE_ENV'] = 'development';
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      render(
+        <>
+          <AppShell.Root>
+            <TopBar.Root><TopBar.Title>first</TopBar.Title></TopBar.Root>
+            <AppShell.Main />
+          </AppShell.Root>
+          <AppShell.Root>
+            <TopBar.Root><TopBar.Title>second</TopBar.Title></TopBar.Root>
+            <AppShell.Main />
+          </AppShell.Root>
+        </>,
+      );
+      expect(document.querySelectorAll('[data-ag-edge="top"]')).toHaveLength(2);
+      const edgeWarns = warn.mock.calls.filter((c) => String(c[0]).includes('ScrollEdge'));
+      expect(edgeWarns).toEqual([]);
+    } finally {
+      warn.mockRestore();
+      process.env['NODE_ENV'] = prevEnv;
+    }
+  });
+
   it('placement=overlay emits data-ag-placement and single banner (SURF-34)', () => {
     const { container } = render(
       <AppShell.Root>
