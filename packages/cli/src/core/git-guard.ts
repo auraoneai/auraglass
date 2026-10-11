@@ -29,17 +29,18 @@ export interface GitGuardOptions {
  * writing without version control is unsafe.
  */
 export function assertClean(cwd: string, touched: string[], opts: GitGuardOptions): void {
-  if (opts.allowDirty) return;
+  /* Non-git is refused unless allowNoGit — independent of allowDirty. */
   if (!isGitRepo(cwd)) {
     if (opts.allowNoGit) return;
     throw safetyError(`Not a git repository: ${cwd} (pass --allow-no-git to proceed without a guard)`);
   }
+  if (opts.allowDirty) return;
   const rel = touched.map((t: any) => path.relative(cwd, path.isAbsolute(t) ? t : path.join(cwd, t)));
   let out = '';
   try {
     out = execFileSync('git', ['status', '--porcelain', '--', ...rel], { cwd, encoding: 'utf8' });
-  } catch {
-    return;
+  } catch (e) {
+    throw safetyError(`git status failed — refusing to write without a cleanliness check: ${(e as Error).message}`);
   }
   const dirty = out.split('\n').map((l) => l.slice(3).trim()).filter(Boolean);
   if (dirty.length > 0) {

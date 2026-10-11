@@ -1,0 +1,22 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* REQ-FIN-05 (REQ-MAT-56 clause) — layer-root z-order. The provider's
+   [data-ag-portal-root] holds three layer roots; they stack by the token-build
+   --ag-z-{overlay,transient,toast} (tokens/sys/elevation.tokens.json), so a
+   toast is always above a transient popup and a transient above an overlay.
+   No numeric fallbacks: verify-a11y-css checks the three vars exist in the
+   token build. */
+@layer ag.a11y {
+  [data-ag-layer-root="overlay"] {
+    position: relative;
+    z-index: var(--ag-z-overlay);
+  }
+  [data-ag-layer-root="transient"] {
+    position: relative;
+    z-index: var(--ag-z-transient);
+  }
+  [data-ag-layer-root="toast"] {
+    position: relative;
+    z-index: var(--ag-z-toast);
+  }
+}

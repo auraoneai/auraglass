@@ -1,0 +1,8 @@
+[
+ {
+  "file": "tests/integration/fixtures/gated-loop.good.css",
+  "owner": "FIN-A",
+  "reqFin": "REQ-FIN-12",
+  "expires": "RC-1"
+ }
+]
