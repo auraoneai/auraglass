@@ -7,9 +7,10 @@
  * and the 'tool' role, so assignability is SDK -> Ag only. */
 import { expectAssignable } from 'tsd';
 import type { ChatStatus, UIMessage } from 'ai';
-import type { AgChatStatus, AgMessage } from '../../src/ai/types';
+import type { AgChatStatus, AgMessage, AgMessageMetadata } from '../../../src/ai/types';
 
-declare const sdk: UIMessage[];
+// UIMessage's metadata generic defaults to `unknown`; envelopes carry AgMessageMetadata.
+declare const sdk: UIMessage<AgMessageMetadata>[];
 declare const status: AgChatStatus;
 
 // Every SDK message deserialises into the shipped model.
