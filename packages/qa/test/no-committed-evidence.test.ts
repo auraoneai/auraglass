@@ -144,7 +144,8 @@ describe('qual:* job artifacts', () => {
     const paths = eff.artifacts!.paths as string[];
     expect(paths.length).toBeGreaterThan(0);
     for (const p of paths) {
-      const allowed = job === 'qual:build:storybook' ? p === 'storybook-static/'
+      // qual:build:storybook publishes the built Storybook plus its own per-job build report (REQ-QUAL-56).
+      const allowed = job === 'qual:build:storybook' ? p === 'storybook-static/' || p === '.artifacts/qual/$CI_JOB_NAME_SLUG/'
         : scope === 'release' ? p === '.artifacts/' : p === '.artifacts/qual/$CI_JOB_NAME_SLUG/';
       expect(`${job} ${p} ${allowed}`).toBe(`${job} ${p} true`);
     }

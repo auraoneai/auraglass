@@ -21,6 +21,14 @@ The toolbar exposes only the frozen globals: `scheme`, `contrast`, `transparency
 
 Cert mode is `?ag-cert=1` on the iframe URL. It loads only the built `dist/styles.css` (build `dist/` first) and makes every ancestor of the story root transparent and unfiltered, so the scene is painted only by the environment. Lanes wait on `data-ag-cert-ready`, never on sleeps, and every lane spec imports `test` from `certification/lanes/_fixtures/determinism.ts` (frozen clock at 2026-03-02T09:30:00Z, seeded `Math.random`).
 
+## Build and freshness (5.0, REQ-QUAL-56/-57)
+
+- The dev server (`storybook dev`) aliases `aura-glass` and its subpaths to the entry sources in `build/exports.manifest.json`.
+- `AG_STORYBOOK_DIST=1` (the `qual:build:storybook` build, `node scripts/storybook/build.mjs`) resolves `aura-glass[/<subpath>]` through package.json `exports` to `dist/`, redirects relative `src/**` imports to their 1:1 `dist/` twin, loads only the built stylesheet, and refuses any `src/` or `@/` alias. `dist/` comes from the `plat:build:dist` artifact; without it the script runs `npm run build` first.
+- `scripts/storybook/check-build-log.mjs` fails on unresolved imports, duplicate or missing story ids, a build over 6 min or a `storybook-static/` over 60 MB excluding maps. `write-build-manifest.mjs` writes `storybook-static/ag-build.json` (`sha`, `dirty`, `builtAt`, `storybookVersion`, `packageVersion`, `storyCount`, `indexSha256`), and every consumer runs `verify-fresh.mjs` first.
+- `@storybook/addon-a11y` runs in the interactive Storybook; the gate of record is REQ-QUAL-19. Interaction flows are Playwright specs in `tests/e2e/qual/storybook/` (job `qual:test:storybook-flows`, remote only); no `@storybook/jest`, `@storybook/testing-library`, `@storybook/test` or Vitest.
+- Story typecheck: `tsc --noEmit -p tsconfig.storybook.json` (L1).
+
 ## Navigation Model
 
 Storybook is organized by developer intent for the 3.0 release:
