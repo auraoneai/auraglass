@@ -3,7 +3,7 @@
    - side start|end|top|bottom|left|right; start/end flip under dir=rtl
      (BU useDirection), left/right never flip; preset 'action' forces bottom.
    - detents via useSheetDetents (fractions of 100dvh | 'content' | 'full');
-     active height lands on --_ag-sheet-detent-h; data-ag-full-height when the
+     active height lands on --ag-sheet-detent-h; data-ag-full-height when the
      active detent is 'full' or a side sheet's block size reaches 90% of the
      viewport (ResizeObserver).
    - modal=false: no Backdrop, BU skips inert/scroll-lock; focus moves in on
@@ -17,6 +17,7 @@ import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
+import { FocusScope } from '../../primitives/FocusScope';
 import { useSheetDetents } from './useSheetDetents';
 import { SheetHandle, SheetHandleContext } from './SheetHandle.client';
 import { SheetHeader, SheetBody, SheetFooter } from './SheetLayout';
@@ -101,7 +102,7 @@ function SheetRoot({
         popupElement.offsetHeight >= window.innerHeight * 0.9;
       popupElement.toggleAttribute('data-ag-full-height', full);
       popupElement.style.setProperty(
-        '--_ag-sheet-detent-h',
+        '--ag-sheet-detent-h',
         `${detentState.heightsPx[detentState.index] ?? axisVw}px`,
       );
     };
@@ -227,7 +228,19 @@ function SheetPopup({
       ref={setRefs}
       {...rest}
     >
-      {children}
+      {/* CMP-028: detent focus containment via the FocusScope primitive —
+          modal sheets trap+loop Tab and autofocus in; non-modal sheets only
+          autofocus + restore on close (Tab may leave, per CMP-92). */}
+      <FocusScope
+        trapped={ctx.modal}
+        loop={ctx.modal}
+        autoFocus
+        restoreFocus
+        className="ag-sheet-focus-scope"
+        style={{ display: 'contents' }}
+      >
+        {children}
+      </FocusScope>
       <div ref={ctx.liveRef} data-ag-part="detent-live" aria-live="polite" className="ag-vh" />
     </Base.Popup>
   );
