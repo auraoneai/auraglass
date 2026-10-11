@@ -68,9 +68,12 @@ describe('labs admission gate', () => {
     expect(r.stderr).toContain('does not exist');
   });
 
-  it('leaves no transpile scratch dirs behind', () => {
-    run(['--root', join(FX, 'clean')]);
-    const left = existsSync(SCRATCH) ? readdirSync(SCRATCH) : [];
-    expect(left).toEqual([]);
+  it('removes the transpile scratch dir it created', () => {
+    const list = () => new Set(existsSync(SCRATCH) ? readdirSync(SCRATCH) : []);
+    const before = list();
+    const r = run(['--root', join(FX, 'clean')]);
+    expect(r.status).toBe(0);
+    const added = [...list()].filter((d) => !before.has(d));
+    expect(added).toEqual([]);
   });
 });

@@ -132,6 +132,11 @@ const w5 = [
     remote: false,
     failClosed: true,
   },
+  // REQ-SURF-166..169: the labs package, admission-fixture and promotion suites
+  // (npm pack + tsdown build included) on L1, pr + release, so the labs tag
+  // pipeline runs them blocking (AC-FIN-87).
+  { lane: 'L1', kind: 'jest', path: 'tests/labs/**/*.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/labs/**/*.test.ts', scope: 'release', remote: false, failClosed: true },
   // REQ-SURF-168: spatial labs admission budgets on the remote mid-tier mobile
   // profile (QUAL S-40) — L10, pr + release so a red run blocks the labs tag.
   {
