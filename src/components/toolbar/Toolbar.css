@@ -44,15 +44,32 @@
   .ag-toolbar .ag-button:not([data-pressed], [aria-pressed='true']):hover {
     --_ag-fill: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-toolbar-hover-tint, 8%), transparent);
   }
+  /* vertical rail: no shape was emitted (capsule is horizontal-only), so
+     the glass rendered as a square-cornered slab; a full radius keeps the
+     rail concentric with its capsule items */
   .ag-toolbar[data-orientation='vertical'] {
     flex-direction: column;
+    border-radius: var(--ag-radius-full);
   }
   .ag-toolbar-link {
     display: inline-flex;
     align-items: center;
     padding-inline: var(--ag-space-3);
+    border-radius: var(--ag-radius-full);
     color: var(--ag-color-accent);
+    font-size: var(--ag-type-label-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-label-leading);
     text-decoration: none;
     min-block-size: var(--ag-target-min);
+  }
+  @media (hover: hover) {
+    .ag-toolbar-link:hover {
+      background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-toolbar-hover-tint, 8%), transparent);
+    }
+  }
+  .ag-toolbar-link:focus-visible {
+    outline: var(--ag-focus-width) solid var(--ag-color-focus-inner);
+    outline-offset: calc(var(--ag-focus-width) * -1);
   }
 }
