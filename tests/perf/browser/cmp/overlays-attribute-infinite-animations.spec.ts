@@ -8,9 +8,17 @@ test.skip(!process.env.AG_REMOTE_RUNNER, 'remote perf lane only (AG_REMOTE_RUNNE
 
 
 test.describe('overlay infinite animations audit (CMP-386)', () => {
-  test('0 animations with iterations===Infinity under hover+scroll on glass-modal', async ({ page }) => {
-    await gotoStory(page, 'glass-modal--default').catch(() => gotoStory(page, 'overlays-dialog--default'));
-    // runtime-remote.md §5 hover+scroll script
+  test('0 animations with iterations===Infinity at rest and while open', async ({ page }) => {
+    // REQ-CMP-82: real story id (parameters.ag.id contract), assert at rest AND
+    // while the overlay is open — not a fallback id that never existed.
+    await gotoStory(page, 'overlays-dialog--default');
+
+    const infiniteAtRest = await page.evaluate(() =>
+      document.getAnimations().filter((a) => a.effect?.getTiming().iterations === Infinity).length,
+    );
+    expect(infiniteAtRest).toBe(0);
+
+    // while open: hover+scroll script (runtime-remote.md §5)
     await page.mouse.move(200, 200);
     await page.mouse.wheel(0, 300);
     await page.waitForTimeout(600);

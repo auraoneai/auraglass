@@ -52,6 +52,8 @@ qual:build:storybook:
   rules:
     - if: $AG_LINE == "5x"
   script:
+    # REQ-QUAL-09..11 / REQ-FIN-106: preview, StoryRoot readiness and determinism unit tests gate the build
+    - npx jest --ci tests/storybook
     - npm run storybook:build
     # REQ-QUAL-01: SubjectIndex (REPORTS.subjects) from index.json + parameters.ag; fails on mismatch.
     - node --experimental-strip-types scripts/storybook/write-cert-manifest.mjs --dir storybook-static
@@ -107,11 +109,31 @@ qual:certify:l9:
   allow_failure: true
   script:
     - node certification/run.mjs --lane L9 --scope $AG_SCOPE
+# L10 Performance (REQ-QUAL-34..36). Profiles b, c, d on .ag-playwright; profile a on .ag-gpu (qual:certify:l10-gpu).
+# Every step runs; the job exits non-zero if any step failed (no fail-open). allow_failure flips through ci/plat/activation.json.
 qual:certify:l10:
   extends: .qual-browser-lane
   allow_failure: true
+  variables: { AG_STORYBOOK_STATIC: "$CI_PROJECT_DIR/storybook-static" }
+  timeout: 90m
+  # Build-stage inputs only (Storybook + dist for bundle bytes), so L10 is not skipped behind package-stage jobs.
+  needs: &qual-l10-needs
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+    - { job: "plat:build:dist", artifacts: true, optional: true }
   script:
+    - |
+      rc=0
+      node node_modules/jest/bin/jest.js --ci --testPathIgnorePatterns /node_modules/ \
+        --testMatch '**/packages/qa/test/bci.test.ts' '**/tests/perf/qual/run-perf.test.mjs' '**/tests/storybook/perf-fixtures-index.test.mjs' \
+        '**/tests/perf/qual/invariants.test.mjs' || rc=1
+      npx playwright test -c tests/perf/qual/playwright.config.ts --project qual:l10-selftest || rc=1
+      node tests/perf/harness/run-perf.mjs --profile b,c,d --scope "$AG_SCOPE" || rc=1
+      AG_L10_STREAMS=1 npx playwright test -c tests/perf/qual/playwright.config.ts --project qual:l10-streams || rc=1
+      # REQ-QUAL-42/-43 invariants (G-22): leak (Chromium) + backdrop root, lens defs, WebGL, a11y fallback (3 engines).
+      AG_L10_INVARIANTS=1 npx playwright test -c tests/perf/qual/playwright.config.ts \
+        --project qual:l10-invariants-chromium --project qual:l10-invariants-webkit --project qual:l10-invariants-firefox || rc=1
     - node certification/run.mjs --lane L10 --scope $AG_SCOPE
+    - exit $rc
 qual:certify:l11:
   extends: .qual-browser-lane
   allow_failure: true
@@ -156,56 +178,64 @@ qual:test:selftest:
   extends: .ag-node
   stage: test
   allow_failure: true
-  needs: []
+  needs: [] # offline, consumes no artifacts: start at once instead of waiting for the build stage
   rules:
-    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "nightly")
   script:
     - node node_modules/jest/bin/jest.js -c jest.qual.config.js --ci
-  artifacts:
-    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
-    when: always
-    expire_in: 14 days
-    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
-
-# L10 (a) on the GPU runner. Manual until a saas-linux-medium-amd64-gpu-standard runner is confirmed for this
-# project: a job whose runner tag no runner serves never starts and would hold every pipeline open.
-qual:certify:l10-gpu:
-  extends: .ag-gpu
-  stage: certify
-  needs:
-    - { job: "qual:build:storybook", artifacts: true, optional: true }
-    - { job: "plat:package:pack", artifacts: true, optional: true }
-  rules:
-    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
-      when: manual
-      allow_failure: true
-  variables: { AG_RUNNER_CLASS: gpu }
-  script:
-    - node certification/run.mjs --lane L10 --scope $AG_SCOPE
-  artifacts:
-    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
-    when: always
-    expire_in: 14 days
-    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
-
-# Real devices (REQ-QUAL-48, G-25) on the gated AWS remote runner; manual until the runner is registered (OD-11).
-qual:certify:devices:
-  extends: .ag-aws-remote
-  stage: certify
-  needs:
-    - { job: "qual:build:storybook", artifacts: true, optional: true }
-  rules:
-    - if: $AG_LINE == "5x" && $AG_SCOPE == "nightly"
-      when: manual
-      allow_failure: true
-  script:
-    - 'test -f scripts/qual/devices/device-farm-run.mjs || { echo "PENDING: scripts/qual/devices/device-farm-run.mjs (G-25, REQ-QUAL-48) not merged"; exit 1; }'
-    - node scripts/qual/devices/device-farm-run.mjs --subjects storybook-static/cert-manifest.json --out .artifacts/qual/$CI_JOB_NAME_SLUG/real-device-results.json
+    # REQ-QUAL-48 device-farm runner self-check (no AWS calls).
+    - node scripts/qual/devices/device-farm-run.mjs --self-check --out .artifacts/qual/$CI_JOB_NAME_SLUG/devices-self-check.json
+    - node node_modules/jest/bin/jest.js --ci tests/perf/qual/device-farm-self-check.test.mjs
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     when: always
     expire_in: 30 days
     paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+
+# L10 (a) on the GPU runner (REQ-QUAL-34).
+qual:certify:l10-gpu:
+  extends: .ag-gpu
+  stage: certify
+  allow_failure: true
+  needs: *qual-l10-needs
+  variables:
+    AG_RUNNER_CLASS: gpu
+    # Ask the NVIDIA container runtime for the graphics/display userspace. With the stock Playwright image no NVIDIA
+    # userspace is present (nvidia-smi missing; Chromium lands on llvmpipe/SwiftShader), and run-perf.mjs fails profile
+    # (a) with software-compositing/software-raster until the runner image carries the drivers (infra item, G-20 PR).
+    NVIDIA_VISIBLE_DEVICES: "all"
+    NVIDIA_DRIVER_CAPABILITIES: "all"
+  timeout: 90m
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "main"
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
+      changes: [src/**/*, tests/perf/harness/**/*, stories/qual/perf/**/*, packages/qa/src/perf/**/*, ci/qual.gitlab-ci.yml]
+  script:
+    - if command -v nvidia-smi >/dev/null; then nvidia-smi -L; else echo "nvidia-smi not present in $AG_PLAYWRIGHT_IMAGE"; fi
+    - xvfb-run -a -s "-screen 0 2880x1800x24" node tests/perf/harness/run-perf.mjs --profile a --scope "$AG_SCOPE"
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+
+# Real devices (REQ-QUAL-48, G-25): AWS Device Farm + EC2 mac1.metal Safari, runner instance role only.
+# Manual until the auraglass-aws-remote runner and Device Farm project exist (OD-11, OD-5); the
+# self-check runs first so a broken runner never reaches AWS. Results JSON is an artifact only;
+# sign-off is docs/certification/real-device-matrix.md (REQ-FIN-112, human).
+qual:certify:devices:
+  extends: [.ag-aws-remote, .ag-evidence-release]
+  stage: certify
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "main" || $AG_SCOPE == "nightly" || $AG_SCOPE == "release")
+      when: manual
+      allow_failure: true
+  timeout: 3h
+  script:
+    - node scripts/qual/devices/device-farm-run.mjs --self-check --out .artifacts/qual/$CI_JOB_NAME_SLUG/self-check.json
+    - node scripts/qual/devices/device-farm-run.mjs --subjects storybook-static/cert-manifest.json --out .artifacts/qual/$CI_JOB_NAME_SLUG/real-device-results.json
 
 # Release capture matrix (REQ-QUAL-65). G-04's shard planner (scripts/qual/shard-plan.mjs) writes
 # .artifacts/qual/<slug>/shards.gitlab-ci.yml from the measured capture rate; the dynamic child trigger
