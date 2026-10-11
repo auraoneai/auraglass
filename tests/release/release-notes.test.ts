@@ -213,7 +213,31 @@ describe('release notes moved dependencies (REQ-PLAT-56)', () => {
     expect(() => EVAL(`m.renderNotes4x({ version: '4.2.0', previous: 'v4.1.1',
       changelog: ${JSON.stringify(CHANGELOG)}, deprecations: ${JSON.stringify(DEPS.slice(1))},
       moved: m.movedDependencies(${JSON.stringify(PREV)}, ${JSON.stringify(CUR)}) })`))
-      .toThrow(/moved dependencies without a kind:'dependency' DEP entry since 4\.2\.0: date-fns/);
+      .toThrow(/moved dependencies without a kind:'dependency' DEP entry with since in \(4\.1\.1, 4\.2\.0\]: date-fns/);
+  });
+  /* C.3-15c: a 4.3.0 render while v4.2.0 is not tagged yet diffs against
+     v4.1.0, so the 4.2.0 dependency entries announce the moves; an entry from
+     before the range or after the version never does. */
+  it('accepts a DEP entry from an untagged minor inside the range and shows its since', () => {
+    const CL = '# Changelog\n\n## [4.3.0] - Unreleased\n\n- bridge.\n';
+    const out = EVAL(`console.log(m.renderNotes4x({ version: '4.3.0', previous: 'v4.1.0',
+      changelog: ${JSON.stringify(CL)}, deprecations: ${JSON.stringify(DEPS)},
+      moved: m.movedDependencies(${JSON.stringify(PREV)}, ${JSON.stringify(CUR)}) }))`);
+    expect(out).toContain('| `date-fns` | `^4.1.0` | `^4.1.0` | yes | `DEP-P0039` (since 4.2.0, removed in 5.0.0) |');
+  });
+  it('depWindow is (previous, version] on semver bases and == version otherwise', () => {
+    const r = JSON.parse(EVAL(`const w = m.depWindow('v4.1.0', '4.3.0'); const x = m.depWindow('abc123', '4.3.0');
+      console.log(JSON.stringify([['4.1.0', '4.1.1', '4.2.0', '4.3.0', '4.4.0', 'x', undefined].map(w), w.label,
+        ['4.2.0', '4.3.0'].map(x), x.label]))`));
+    expect(r).toEqual([[false, true, true, true, false, false, false], 'in (4.1.0, 4.3.0]', [false, true], '== 4.3.0']);
+  });
+  it('still fails closed when the only DEP entry predates the range', () => {
+    const OLD = DEPS.map((d) => (d.symbol === 'date-fns' ? { ...d, since: '4.1.0' } : d));
+    const CL = '# Changelog\n\n## [4.3.0] - Unreleased\n\n- bridge.\n';
+    expect(() => EVAL(`m.renderNotes4x({ version: '4.3.0', previous: 'v4.1.0',
+      changelog: ${JSON.stringify(CL)}, deprecations: ${JSON.stringify(OLD)},
+      moved: m.movedDependencies(${JSON.stringify(PREV)}, ${JSON.stringify(CUR)}) })`))
+      .toThrow(/DEP entry with since in \(4\.1\.0, 4\.3\.0\]: date-fns/);
   });
   it('CLI diffs package.json at the previous tag against HEAD', () => {
     const dir = mkdtempSync(join(tmpdir(), 'rnm-'));

@@ -205,6 +205,23 @@ export function movedDependencies(prevPkg, curPkg) {
     .map((name) => ({ name, from: prevDeps[name], to: peers[name], optional: meta[name]?.optional === true }));
 }
 
+/** DEP `since` values that may announce a dependency moved in the range
+ *  previous..version: any version above the previous tag up to this one. The
+ *  range spans more than one minor only when a minor in between has no tag in
+ *  the clone (a 4.3.0 render before v4.2.0 exists); then the 4.2.0 entries
+ *  are the right ones. A non-semver --since base allows `since == version`
+ *  only. */
+export function depWindow(previous, version) {
+  const lo = previous ? parseSemver(previous) : null;
+  const fn = (since) => {
+    if (!since || !parseSemver(since)) return false;
+    if (!lo) return since === version;
+    return compareSemver(since, lo) > 0 && compareSemver(since, version) <= 0;
+  };
+  fn.label = lo ? `in (${String(previous).replace(/^v/, '')}, ${version}]` : `== ${version}`;
+  return fn;
+}
+
 function movedDependencySection({ moved, deprecations, previous, version }) {
   const lines = ['## Moved dependencies (install them yourself)', ''];
   if (moved === null) {
@@ -216,14 +233,15 @@ function movedDependencySection({ moved, deprecations, previous, version }) {
     return { lines, ids: new Set() };
   }
   const missing = [];
+  const inWindow = depWindow(previous, version);
   const rows = moved.map((m) => {
-    const dep = deprecations.find((d) => d.kind === 'dependency' && d.symbol === m.name && d.since === version);
+    const dep = deprecations.find((d) => d.kind === 'dependency' && d.symbol === m.name && inWindow(d.since));
     if (!dep) missing.push(m.name);
     return { ...m, dep };
   });
   if (missing.length) {
     // G-07: every 4.2 install-level change ships with a DEP entry and a dev warning.
-    throw new Error(`release-notes: moved dependencies without a kind:'dependency' DEP entry since ${version}: ${missing.join(', ')}`);
+    throw new Error(`release-notes: moved dependencies without a kind:'dependency' DEP entry with since ${inWindow.label}: ${missing.join(', ')}`);
   }
   lines.push(`These packages were \`dependencies\` in ${previous} and are now`,
     '`peerDependencies`; npm no longer installs them for you. Install the ones',
@@ -231,7 +249,8 @@ function movedDependencySection({ moved, deprecations, previous, version }) {
     'time; importing `aura-glass` itself does not.', '',
     '| Package | Range in ' + previous + ' | Peer range | Optional | Deprecation |', '| --- | --- | --- | --- | --- |');
   for (const r of rows) {
-    lines.push(`| \`${r.name}\` | \`${r.from}\` | \`${r.to}\` | ${r.optional ? 'yes' : 'no'} | \`${r.dep.id}\` (removed in ${r.dep.removeIn ?? 'n/a'}) |`);
+    const since = r.dep.since === version ? '' : `since ${r.dep.since}, `;
+    lines.push(`| \`${r.name}\` | \`${r.from}\` | \`${r.to}\` | ${r.optional ? 'yes' : 'no'} | \`${r.dep.id}\` (${since}removed in ${r.dep.removeIn ?? 'n/a'}) |`);
   }
   lines.push('');
   return { lines, ids: new Set(rows.map((r) => r.dep.id)) };
