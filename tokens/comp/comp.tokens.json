@@ -99,10 +99,11 @@
       }
     },
     "readout": {
+      "$description": "REQ-FIN-11 / contract C-7 PUBLIC_CSS_VARS.comp: control heights per size x density (CMP PRD size row: compact 24/32/44, default 28/36/44, spacious 32/40/48 for sm/md/lg).",
       "sm-compact": {
         "$type": "dimension",
         "$value": {
-          "value": 28,
+          "value": 24,
           "unit": "px"
         },
         "$extensions": {
@@ -115,7 +116,7 @@
       "sm-default": {
         "$type": "dimension",
         "$value": {
-          "value": 32,
+          "value": 28,
           "unit": "px"
         },
         "$extensions": {
@@ -123,6 +124,19 @@
           "ag.since": "5.0.0",
           "ag.public": true,
           "ag.cssVar": "--ag-comp-control-height-sm-default"
+        }
+      },
+      "sm-spacious": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-sm-spacious"
         }
       },
       "md-compact": {
@@ -151,10 +165,23 @@
           "ag.cssVar": "--ag-comp-control-height-md-default"
         }
       },
+      "md-spacious": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-md-spacious"
+        }
+      },
       "lg-compact": {
         "$type": "dimension",
         "$value": {
-          "value": 36,
+          "value": 44,
           "unit": "px"
         },
         "$extensions": {
@@ -167,7 +194,7 @@
       "lg-default": {
         "$type": "dimension",
         "$value": {
-          "value": 40,
+          "value": 44,
           "unit": "px"
         },
         "$extensions": {
@@ -175,6 +202,113 @@
           "ag.since": "5.0.0",
           "ag.public": true,
           "ag.cssVar": "--ag-comp-control-height-lg-default"
+        }
+      },
+      "lg-spacious": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-comp-control-height-lg-spacious"
+        }
+      }
+    },
+    "switch": {
+      "$description": "REQ-FIN-11 / REQ-CMP-45 switch track geometry (contract C-7 PUBLIC_CSS_VARS.switchTrack); thumb inset is private.",
+      "track-w-sm": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-w-sm"
+        }
+      },
+      "track-w-md": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-w-md"
+        }
+      },
+      "track-w-lg": {
+        "$type": "dimension",
+        "$value": {
+          "value": 52,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-w-lg"
+        }
+      },
+      "track-h-sm": {
+        "$type": "dimension",
+        "$value": {
+          "value": 18,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-h-sm"
+        }
+      },
+      "track-h-md": {
+        "$type": "dimension",
+        "$value": {
+          "value": 22,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-h-md"
+        }
+      },
+      "track-h-lg": {
+        "$type": "dimension",
+        "$value": {
+          "value": 30,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-switch-track-h-lg"
+        }
+      },
+      "thumb-inset": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "comp",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-switch-thumb-inset"
         }
       }
     }
