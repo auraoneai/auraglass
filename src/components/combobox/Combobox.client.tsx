@@ -436,7 +436,7 @@ function ComboboxGroupLabel({ children, className }: ComboboxGroupLabelProps) {
 
 function ComboboxChips({ children, className }: ComboboxChipsProps) {
   return (
-    <Base.Chips data-ag-part="chips" className={className}>
+    <Base.Chips data-ag-part="chips" className={cn('ag-combobox-chips', className)}>
       {children}
     </Base.Chips>
   );
@@ -445,7 +445,7 @@ function ComboboxChips({ children, className }: ComboboxChipsProps) {
 function ComboboxChip({ children, className, label }: ComboboxChipProps) {
   const { messages } = useInternal();
   return (
-    <Base.Chip data-ag-part="chip" className={className}>
+    <Base.Chip data-ag-part="chip" className={cn('ag-combobox-chip', className)}>
       {children}
       <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: chipLabel(children, label) })}>
         <XGlyph />

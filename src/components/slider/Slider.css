@@ -6,25 +6,32 @@
 @layer ag.components {
   .ag-slider {
     position: relative;
-    color: var(--ag-on-surface);
     padding-block: var(--ag-space-2);
   }
   .ag-slider[data-orientation='vertical'] {
     block-size: var(--ag-space-16);
   }
 
+  /* The control is the pointer surface around the track, not a well: the
+     shared control-shared rule paints [data-ag-part='control'] as a sunken
+     field, which drew a grey rounded box behind every slider. */
   .ag-slider [data-ag-part='control'] {
     touch-action: none;
     display: flex;
     align-items: center;
+    /* room for the thumb, which is taller than the track */
+    min-block-size: var(--ag-space-6);
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
   }
 
   .ag-slider [data-ag-part='track'] {
     position: relative;
     flex: 1;
     border-radius: var(--ag-radius-full);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-slider-track-alpha, 16%), transparent);
+    box-shadow: none;
   }
   /* REQ-CMP-49: track block-size sm/md/lg = 4/6/8px */
   .ag-slider[data-ag-size='sm'] [data-ag-part='track'] { block-size: var(--ag-space-1); }
@@ -49,7 +56,7 @@
     block-size: var(--ag-space-4);
     border-radius: var(--ag-radius-full);
     background: var(--ag-color-canvas);
-    box-shadow: var(--ag-shadow-thin), inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
+    box-shadow: var(--ag-shadow-thin), inset 0 0 0 calc(var(--ag-focus-width) / 2) color-mix(in oklab, var(--ag-color-border) 50%, transparent);
     /* REQ-49: never scales; dragging raises specular (MAT optics layer). */
     transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
   }
@@ -64,33 +71,53 @@
   .ag-slider[data-ag-size='lg'] [data-ag-part='thumb'] {
     inline-size: var(--ag-space-6); block-size: var(--ag-space-6);
   }
-  .ag-slider [data-ag-part='thumb']:focus-visible {
-    outline: var(--_ag-focus-width) solid var(--ag-color-focus-outer);
+  .ag-slider [data-ag-part='thumb']:focus-visible,
+  .ag-slider [data-ag-part='thumb']:has(:focus-visible) {
+    outline: var(--ag-focus-width) solid var(--ag-color-focus-inner);
+    outline-offset: var(--ag-focus-width);
   }
+  /* dragging: the engine's specular rises (valid custom property) and the
+     thumb lifts to the regular shadow; the old second shadow layer was the
+     bare number --ag-state-hover-specular, which invalidated the whole
+     box-shadow while dragging. */
   .ag-slider[data-dragging] [data-ag-part='thumb'] {
     --ag-specular: 1;
-    box-shadow: var(--ag-shadow-thin), var(--ag-state-hover-specular);
+    box-shadow: var(--ag-shadow-regular), inset 0 0 0 calc(var(--ag-focus-width) / 2) color-mix(in oklab, var(--ag-color-border) 50%, transparent);
   }
 
+  /* Marks: ticks under the track, labels under the ticks. The root
+     reserves the label row (padding-block-end) so labels no longer spill
+     past the slider box into whatever follows; tick width was the undefined
+     --_ag-focus-width (0px, invisible). Colours inherit the context
+     (currentColor) — --ag-on-surface-muted only exists on surfaces. */
+  .ag-slider:has([data-ag-part='mark-label']) {
+    padding-block-end: calc(var(--ag-space-2) + var(--ag-space-4));
+  }
   .ag-slider [data-ag-part='mark'] {
     position: absolute;
-    inset-block-start: calc(100% - var(--ag-space-1));
-    inline-size: var(--_ag-focus-width);
+    inset-block-start: calc(100% - var(--ag-space-2) - var(--ag-space-4) - var(--ag-space-1));
+    inline-size: calc(var(--ag-focus-width) / 2);
     block-size: var(--ag-space-1);
-    background: var(--ag-on-surface-muted);
+    background: currentColor;
+    opacity: 0.45;
+    translate: -50% 0;
   }
   .ag-slider [data-ag-part='mark-label'] {
     position: absolute;
-    inset-block-start: 100%;
-    transform: translateX(-50%);
+    inset-block-end: 0;
+    translate: -50% 0;
     font-size: var(--ag-type-caption-size);
-    color: var(--ag-on-surface-muted);
+    line-height: var(--ag-type-caption-leading);
+    font-variant-numeric: tabular-nums;
+    opacity: 0.72;
   }
 
   .ag-slider [data-ag-part='value'] {
+    display: block;
+    margin-block-end: var(--ag-space-1);
     font-size: var(--ag-type-label-size);
+    font-weight: var(--ag-type-label-weight);
     font-variant-numeric: tabular-nums;
-    color: var(--ag-on-surface);
   }
 
   .ag-slider[data-disabled] > :where([data-ag-part]) {
@@ -99,7 +126,7 @@
 
   @media (forced-colors: active) {
     .ag-slider [data-ag-part='track'] {
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: calc(var(--ag-focus-width) / 2) solid ButtonText;
       background: ButtonFace;
       box-shadow: none;
     }

@@ -16,8 +16,9 @@
     display: inline-flex;
     align-items: center;
     gap: var(--ag-space-2);
-    color: var(--ag-on-surface);
     cursor: default;
+    font-size: var(--ag-type-body-size);
+    line-height: var(--ag-type-body-leading);
   }
   .ag-radio-item [data-ag-part='hit-area'] {
     position: absolute;
@@ -43,4 +44,27 @@
   }
 
   .ag-radio-item[data-disabled] > :where(*) {opacity: var(--ag-state-disabled-alpha);}
+
+  /* ChoiceCards (REQ-CMP-56): the item renders as a Card, so the card is the
+     radio. Lay the cards out as an even row and make the selected card
+     legible by rim + tint, not colour alone. */
+  .ag-radio-group.ag-radio-group--cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(calc(var(--ag-space-16) * 2.5), 1fr));
+    gap: var(--ag-space-3);
+  }
+  .ag-radio-group--cards .ag-radio-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--ag-space-3);
+    padding: var(--ag-space-4);
+    border-radius: var(--ag-radius-lg);
+    cursor: pointer;
+  }
+  .ag-radio-group--cards .ag-radio-item [data-ag-part='indicator'] {
+    margin-block-start: calc((1lh - var(--ag-space-4)) / 2);
+  }
+  .ag-radio-group--cards .ag-radio-item[data-checked] {
+    box-shadow: var(--_ag-surface-shadow, none), inset 0 0 0 var(--ag-focus-width) var(--ag-color-accent);
+  }
 }

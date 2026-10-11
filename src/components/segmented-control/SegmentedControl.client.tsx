@@ -2,7 +2,8 @@
 import * as React from 'react';
 import { RadioGroup as BUGroup } from '@base-ui/react/radio-group';
 import { Radio } from '@base-ui/react/radio';
-import { materialProps, SurfaceGroup } from '../../material';
+import { materialProps } from '../../material';
+import { surfaceGroupAttributes } from '../../material/stateAttributes';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import type {
@@ -79,32 +80,38 @@ function SegmentedControlRoot({
     else if (ref) ref.current = el;
   };
 
+  /* CMP-085: the track IS the SurfaceGroup — one DOM node per surface
+     (chrome, regular, capsule), as Toolbar does. The old separate
+     <SurfaceGroup> wrapper was a second, block-level surface: it emitted no
+     thickness (no ladder → opaque, unblurred canvas fill), stretched to the
+     full container width, and demoted the real track to a nested opaque
+     inner fill — a full-width grey bar instead of a glass capsule. */
   return (
-    <SurfaceGroup className="ag-segmented-surface">
-      <BUGroup
-        {...rest}
-        {...materialProps({
-          layer: 'chrome',
-          variant,
-          ...(thickness !== undefined ? { thickness } : {}),
-          ...(prominent === true ? { prominent } : {}),
-          ...(refraction === true ? { refraction } : {}),
-        })}
-        value={value}
-        defaultValue={defaultValue}
-        onValueChange={(v, eventDetails) => onValueChange?.(v as string, toChangeDetails(eventDetails))}
-        name={name}
-        disabled={disabled}
-        data-ag-part="root"
-        data-ag-size={size}
-        data-orientation={orientation}
-        className={cn('ag-segmented-control', className)}
-        ref={setRefs}
-      >
-        {hasCustomIndicator(children) ? null : <span data-ag-part="indicator" aria-hidden="true" />}
-        {children}
-      </BUGroup>
-    </SurfaceGroup>
+    <BUGroup
+      {...rest}
+      {...materialProps({
+        layer: 'chrome',
+        variant,
+        thickness: thickness ?? 'regular',
+        ...(orientation === 'horizontal' ? { shape: 'capsule' as const } : {}),
+        ...(prominent === true ? { prominent } : {}),
+        ...(refraction === true ? { refraction } : {}),
+      })}
+      {...surfaceGroupAttributes(undefined)}
+      value={value}
+      defaultValue={defaultValue}
+      onValueChange={(v, eventDetails) => onValueChange?.(v as string, toChangeDetails(eventDetails))}
+      name={name}
+      disabled={disabled}
+      data-ag-part="root"
+      data-ag-size={size}
+      data-orientation={orientation}
+      className={cn('ag-segmented-control', className)}
+      ref={setRefs}
+    >
+      {hasCustomIndicator(children) ? null : <span data-ag-part="indicator" aria-hidden="true" />}
+      {children}
+    </BUGroup>
   );
 }
 

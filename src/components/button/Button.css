@@ -20,7 +20,12 @@
     border-radius: var(--ag-radius-full);
     min-block-size: var(--ag-target-min);
     position: relative;
-    background: transparent;
+    /* The engine paints the glass fill through --_ag-fill (material.css host
+       baseline). A bare `background: transparent` here sat in the later
+       ag.components layer and erased the fill, so every Button rendered as an
+       untinted blur lens with low-contrast text. Read the same variable; the
+       transparent fallback still resets the UA button face off-surface. */
+    background: var(--_ag-fill, transparent);
     transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard), opacity var(--ag-duration-micro) var(--ag-ease-standard);
   }
 
@@ -44,9 +49,11 @@
     inline-size: var(--ag-space-4);
     block-size: var(--ag-space-4);
     border-radius: var(--ag-radius-full);
-    border: var(--_ag-focus-width) solid var(--ag-color-on-surface-muted);
+    border: var(--ag-focus-width) solid var(--ag-color-on-surface-muted);
     border-block-start-color: var(--ag-color-accent);
-    animation: ag-spin var(--ag-duration-ambient) var(--ag-ease-standard) infinite;
+    /* own keyframes (was StateView's ag-spin) at a readable spinner cadence;
+       --ag-duration-ambient is 40s, which left the spinner visually frozen */
+    animation: ag-button-spin calc(var(--ag-duration-large) * 2) linear infinite;
     flex: none;
   }
 
@@ -62,12 +69,18 @@
     margin-inline: auto;
   }
 
-  /* identity: no optics until hover — hover raises specular */
+  /* Hover / press on glass variants are the engine's light response
+     (--_ag-specular-lift, --_ag-floor-lift, --_ag-press on
+     [data-ag-interactive]); the old inset-ring overrides here used the
+     numeric state scalars (--ag-state-hover-specular, --ag-state-press-glow)
+     as colours, so the declarations were invalid AND replaced the surface
+     shadow. identity has no optics, so it gets a quiet tint on hover. */
   .ag-button[data-ag-variant='identity']:hover {
-    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-color-specular, var(--ag-color-border));
+    background: color-mix(in oklab, currentColor var(--_ag-identity-hover-tint, 8%), transparent);
   }
-  .ag-button:not([data-ag-variant='identity']):hover {
-    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-state-hover-specular);
+  .ag-button[data-ag-variant='identity']:active,
+  .ag-button[data-ag-variant='identity'][data-pressed] {
+    background: color-mix(in oklab, currentColor var(--_ag-identity-press-tint, 14%), transparent);
   }
 
   /* intent tints text/rim only; never selects material (REQ-CMP-34) */
@@ -82,15 +95,12 @@
   .ag-button[data-ag-intent='warning'] { color: var(--ag-color-warning); }
   .ag-button[data-ag-intent='danger'] { color: var(--ag-color-danger); }
 
-  /* press glow via rim opacity only — transform stays none at rest/hover/press */
-  .ag-button:active,
-  .ag-button[data-pressed] {
-    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-state-press-glow);
-  }
+  /* toggle buttons: the engine's selected row ([data-pressed]: accent tint +
+     accent rim at the selected rim width) carries the pressed state. */
 
   .ag-button:focus-visible {
-    outline: var(--_ag-focus-width) solid var(--_ag-color-focus-ring, var(--_ag-focus-outer));
-    outline-offset: var(--_ag-focus-width);
+    outline: var(--ag-focus-width) solid var(--ag-color-focus-inner);
+    outline-offset: var(--ag-focus-width);
   }
 
   .ag-button:disabled,
@@ -106,7 +116,7 @@
       forced-color-adjust: none;
       color: ButtonText;
       background: ButtonFace;
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: calc(var(--ag-focus-width) / 2) solid ButtonText;
     }
   }
 
@@ -118,4 +128,8 @@
     inset-inline: calc((var(--ag-target-min) - 100%) / -2);
     z-index: -1;
   }
+}
+
+@keyframes ag-button-spin {
+  to { transform: rotate(1turn); }
 }

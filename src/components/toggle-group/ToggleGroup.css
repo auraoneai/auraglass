@@ -1,5 +1,10 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
+/* ToggleGroup — content-layer control (meta.material.layer = content): a
+   sunken well holding flat items; a pressed item is a raised, opaque platter
+   (never glass). The old pressed cue was `inset 0 0 0 var(--_ag-focus-width)
+   var(--ag-state-press-glow)` — an undefined width and a number used as a
+   colour — so pressed items rendered identical to unpressed ones. */
 @layer ag.components {
   .ag-toggle-group {
     display: inline-flex;
@@ -7,32 +12,69 @@
     gap: var(--ag-space-1);
     padding: var(--ag-space-1);
     border-radius: var(--ag-radius-full);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) / 2) color-mix(in oklab, var(--ag-color-border) 45%, transparent);
+  }
+  .ag-toggle-group[data-orientation='vertical'] {
+    flex-direction: column;
+    border-radius: var(--ag-radius-lg);
   }
   .ag-toggle-item {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding-inline: var(--ag-space-3);
-    min-block-size: var(--ag-target-min);
+    min-block-size: var(--ag-comp-control-height-sm-default, var(--ag-target-min));
     border: none;
     border-radius: var(--ag-radius-full);
     background: transparent;
     color: var(--ag-color-on-surface);
     font-size: var(--ag-type-label-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-label-leading);
     cursor: pointer;
+    transition: background-color var(--ag-duration-micro) var(--ag-ease-standard),
+      box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
   }
+  .ag-toggle-group[data-orientation='vertical'] .ag-toggle-item {
+    justify-content: flex-start;
+    border-radius: var(--ag-radius-md);
+  }
+  @media (hover: hover) {
+    .ag-toggle-item:not([data-pressed], [data-disabled]):hover {
+      background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-toggle-hover-tint, 6%), transparent);
+    }
+  }
+  /* pressed: raised platter (canvas lifted toward specular) + thin shadow +
+     a fill AND an elevation change, not colour only */
   .ag-toggle-item[data-pressed] {
-    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-state-press-glow);
+    background: color-mix(in oklab, var(--ag-color-canvas), var(--ag-color-specular) 20%);
+    box-shadow: var(--ag-shadow-thin);
   }
   .ag-toggle-item:focus-visible {
-    outline: var(--_ag-focus-width) solid var(--_ag-focus-outer);
-    outline-offset: var(--_ag-focus-width);
+    outline: var(--ag-focus-width) solid var(--ag-color-focus-inner);
+    outline-offset: var(--ag-focus-width);
   }
   .ag-toggle-item:disabled,
   .ag-toggle-item[data-disabled] {
     cursor: default;
   }
-  .ag-toggle-item[data-disabled] > :where(*) {
+  /* items hold bare text nodes, which a `> :where(*)` child rule never
+     reached — dim the item itself */
+  .ag-toggle-item[data-disabled] {
     opacity: var(--ag-state-disabled-alpha);
+  }
+
+  @media (forced-colors: active) {
+    .ag-toggle-group {
+      border: calc(var(--ag-focus-width) / 2) solid ButtonText;
+      background: ButtonFace;
+      box-shadow: none;
+    }
+    .ag-toggle-item[data-pressed] {
+      background: Highlight;
+      color: HighlightText;
+      box-shadow: none;
+    }
   }
 }

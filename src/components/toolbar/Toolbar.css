@@ -16,14 +16,36 @@
     gap: var(--ag-space-1);
   }
   .ag-toolbar-separator {
-    inline-size: var(--_ag-focus-width);
+    /* hairline (was --_ag-focus-width, which is never defined -> 0 width) */
+    inline-size: calc(var(--ag-focus-width) / 2);
     block-size: var(--ag-space-5);
-    background: var(--ag-color-border);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-toolbar-separator-alpha, 22%), transparent);
     margin-inline: var(--ag-space-1);
   }
-  .ag-toolbar-separator[aria-orientation='vertical'] {
+  /* Base UI flips the separator: a horizontal toolbar renders
+     aria-orientation="vertical" (a vertical rule, the default above); only a
+     vertical toolbar's separator is horizontal. The old rule keyed the
+     horizontal geometry on 'vertical', drawing a flat dash in every bar. */
+  .ag-toolbar-separator[aria-orientation='horizontal'] {
     inline-size: var(--ag-space-5);
-    block-size: var(--_ag-focus-width);
+    block-size: calc(var(--ag-focus-width) / 2);
+    margin-inline: 0;
+    margin-block: var(--ag-space-1);
+  }
+  /* Items sit ON the toolbar's glass: the engine's nesting rule turns a
+     nested surface into an opaque inner fill + rim + shadow, which painted a
+     grey pill per button inside the bar (glass-on-glass). Toolbar items are
+     flat until hovered; a pressed toggle keeps the engine's selected row. */
+  .ag-toolbar .ag-button:not([data-pressed], [aria-pressed='true']) {
+    --_ag-fill: transparent;
+    --_ag-shadow: none;
+    --_ag-rim-width: var(--ag-space-0);
+  }
+  .ag-toolbar .ag-button:not([data-pressed], [aria-pressed='true']):hover {
+    --_ag-fill: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-toolbar-hover-tint, 8%), transparent);
+  }
+  .ag-toolbar[data-orientation='vertical'] {
+    flex-direction: column;
   }
   .ag-toolbar-link {
     display: inline-flex;

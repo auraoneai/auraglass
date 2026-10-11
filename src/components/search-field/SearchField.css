@@ -5,7 +5,6 @@
   .ag-search-field {
     display: grid;
     gap: var(--ag-space-1);
-    color: var(--ag-on-surface);
   }
   .ag-search-field [data-ag-part='control-shell'] {
     display: flex;
@@ -13,16 +12,24 @@
     gap: var(--ag-space-2);
     padding-inline: var(--ag-space-3);
     border-radius: var(--ag-radius-full);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
+    /* The shell is a chrome-thin GLASS surface: fill, blur, rim and shadow
+       are the engine's. The old 8% on-surface wash replaced the glass fill
+       (a grey translucent film) and the rim/focus box-shadows were invalid
+       (--_ag-surface-rim is a colour read-out). Glyph ink is the canvas ink,
+       which is what the engine's light tint floor is solved against. */
+    background: var(--_ag-fill, transparent);
+    box-shadow: var(--_ag-surface-shadow, none);
+    color: var(--ag-color-on-surface);
     transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
   }
   .ag-search-field [data-ag-part='control-shell']:focus-within {
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-focus-outer),
-      0 0 0 var(--_ag-focus-inner) var(--ag-color-focus-outer);
+    box-shadow: var(--_ag-surface-shadow, none), 0 0 0 var(--ag-focus-width) var(--ag-color-focus-inner);
+  }
+  .ag-search-field[data-invalid] [data-ag-part='control-shell'] {
+    box-shadow: var(--_ag-surface-shadow, none), inset 0 0 0 var(--ag-focus-width) var(--ag-color-danger);
   }
   .ag-search-field [data-ag-part='icon'] {
-    color: var(--ag-on-surface-muted);
+    color: var(--ag-color-on-surface-muted);
     flex: none;
   }
   .ag-search-field [data-ag-part='control'] {
@@ -34,6 +41,13 @@
     color: inherit;
     font: inherit;
     padding-block: var(--ag-space-2);
+    /* bare input inside the shell (the shared control rule draws a well) */
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .ag-search-field [data-ag-part='control']::placeholder {
+    color: var(--ag-color-on-surface-muted);
+    opacity: 1;
   }
   .ag-search-field [data-ag-part='control']::-webkit-search-cancel-button {
     display: none;
@@ -42,15 +56,23 @@
     flex: none;
   }
   .ag-search-field [data-ag-part='shortcut'] {
-    color: var(--ag-on-surface-muted);
+    color: var(--ag-color-on-surface-muted);
     flex: none;
+    display: inline-flex;
+    align-items: center;
+    padding-inline: var(--ag-space-1);
+    border-radius: var(--ag-radius-xs);
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) / 2) color-mix(in oklab, var(--ag-color-border) 55%, transparent);
+    font-size: var(--ag-type-caption-size);
+    line-height: var(--ag-type-caption-leading);
   }
   .ag-search-field [data-ag-part='spinner'] {
     flex: none;
     inline-size: var(--ag-space-4);
     block-size: var(--ag-space-4);
     border-radius: var(--ag-radius-full);
-    border: var(--_ag-focus-width) solid var(--ag-on-surface-muted);
+    /* ring width was the undefined --_ag-focus-width: the spinner never drew */
+    border: var(--ag-focus-width) solid var(--ag-color-on-surface-muted);
     border-block-start-color: transparent;
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -61,12 +83,19 @@
       to { transform: rotate(1turn); }
     }
   }
+  .ag-search-field [data-ag-part='label'] {
+    font-size: var(--ag-type-label-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-label-leading);
+  }
   .ag-search-field [data-ag-part='description'] {
     font-size: var(--ag-type-caption-size);
-    color: var(--ag-on-surface-muted);
+    line-height: var(--ag-type-caption-leading);
+    opacity: 0.78;
   }
   .ag-search-field [data-ag-part='error'] {
     font-size: var(--ag-type-caption-size);
+    line-height: var(--ag-type-caption-leading);
     color: var(--ag-color-danger);
   }
   .ag-search-field[data-disabled] > :where([data-ag-part]) {

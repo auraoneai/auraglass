@@ -6,7 +6,6 @@
   .ag-text-field {
     display: grid;
     gap: var(--ag-space-1);
-    color: var(--ag-on-surface);
   }
 
   .ag-text-field [data-ag-part='label'] {
@@ -20,17 +19,25 @@
     align-items: center;
     gap: var(--ag-space-2);
     padding-inline: var(--ag-space-3);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
-    border-radius: var(--ag-radius-inner);
+    /* The shell IS a content-sunken surface: its opaque fill comes from the
+       engine (--_ag-fill). The old translucent 8% wash replaced it, so over
+       media the field showed the backdrop through a grey film. Text uses the
+       canvas ink, never the backdrop-flipped --ag-on-surface (white over
+       media), because the sunken fill is opaque canvas. */
+    background: var(--_ag-fill, var(--ag-color-canvas));
+    color: var(--ag-color-on-surface);
+    /* hairline rim; --_ag-surface-rim is a colour read-out (old value was
+       invalid, so fields had no edge and no focus/invalid indication) */
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) / 2) var(--ag-color-border);
+    border-radius: var(--ag-radius-md);
     transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
   }
   .ag-text-field [data-ag-part='control-shell']:focus-within {
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-focus-outer),
-      0 0 0 var(--_ag-focus-inner) var(--ag-color-focus-outer);
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) / 2) var(--ag-color-focus-inner),
+      0 0 0 var(--ag-focus-width) var(--ag-color-focus-inner);
   }
   .ag-text-field[data-invalid] [data-ag-part='control-shell'] {
-    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-danger);
+    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-color-danger);
   }
 
   .ag-text-field [data-ag-part='control'] {
@@ -42,6 +49,14 @@
     color: inherit;
     font: inherit;
     padding-block: var(--ag-space-2);
+    /* the shared control rule paints [data-ag-part='control'] as a well;
+       inside the shell the input is bare */
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .ag-text-field [data-ag-part='control']::placeholder {
+    color: var(--ag-color-on-surface-muted);
+    opacity: 1;
   }
   .ag-text-field textarea[data-ag-part='control'] {
     resize: vertical;
@@ -51,14 +66,17 @@
   .ag-text-field [data-ag-part='adornment-end'] {
     display: inline-flex;
     align-items: center;
-    color: var(--ag-on-surface-muted);
+    color: var(--ag-color-on-surface-muted);
     flex: none;
   }
 
+  /* label/description/counter sit outside the shell, on whatever is behind
+     the field: they inherit the context colour (--ag-on-surface-muted only
+     exists on surfaces, so it resolved to nothing off-surface) */
   .ag-text-field [data-ag-part='description'] {
     font-size: var(--ag-type-caption-size);
     line-height: var(--ag-type-caption-leading);
-    color: var(--ag-on-surface-muted);
+    opacity: 0.78;
   }
   .ag-text-field [data-ag-part='error'] {
     font-size: var(--ag-type-caption-size);
@@ -68,7 +86,8 @@
   .ag-text-field [data-ag-part='counter'] {
     font-size: var(--ag-type-caption-size);
     line-height: var(--ag-type-caption-leading);
-    color: var(--ag-on-surface-muted);
+    font-variant-numeric: tabular-nums;
+    opacity: 0.78;
     justify-self: end;
   }
 
@@ -79,14 +98,14 @@
   /* REQ-CMP-62: autofill keeps shell fill + text color; coarse pointer >= 16px
      handled by --ag-type-body-size floor on touch platforms via token ladder. */
   .ag-text-field [data-ag-part='control']:-webkit-autofill {
-    -webkit-text-fill-color: var(--ag-on-surface);
-    caret-color: var(--ag-on-surface);
+    -webkit-text-fill-color: var(--ag-color-on-surface);
+    caret-color: var(--ag-color-on-surface);
     box-shadow: inset 0 0 0 var(--ag-target-min) color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
   }
 
   @media (forced-colors: active) {
     .ag-text-field [data-ag-part='control-shell'] {
-      border: var(--_ag-focus-width) solid ButtonText;
+      border: calc(var(--ag-focus-width) / 2) solid ButtonText;
       background: Field;
       box-shadow: none;
     }

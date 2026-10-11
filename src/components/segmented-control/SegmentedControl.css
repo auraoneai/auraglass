@@ -8,42 +8,70 @@
     padding: var(--ag-space-1);
     border-radius: var(--ag-radius-full);
     position: relative;
-    container-type: inline-size;
+    /* no container-type here: inline-size containment on a shrink-to-fit
+       inline-flex root sizes it as if it were empty, collapsing every
+       segment to its min-inline-size with an ellipsised label. Items still
+       ellipsise when a parent constrains the track (max-inline-size). */
+    max-inline-size: 100%;
   }
   .ag-segmented-item {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-inline-size: var(--ag-target-min);
-    padding-inline: var(--ag-space-3);
-    min-block-size: var(--ag-target-min);
+    padding-inline: var(--ag-space-4);
+    /* segment height = control-height token minus the track padding, so the
+       track lands on the md control height (36px) like every other control */
+    min-block-size: calc(var(--ag-comp-control-height-md-default, var(--ag-target-min)) - 2 * var(--ag-space-1));
     border: none;
     border-radius: var(--ag-radius-full);
     background: transparent;
     color: var(--ag-color-on-surface);
     font-size: var(--ag-type-label-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-label-leading);
     cursor: pointer;
+    transition: background-color var(--ag-duration-micro) var(--ag-ease-standard),
+      box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
     position: relative;
     z-index: var(--_ag-z-base, auto);
     flex: 0 1 auto;
     min-width: var(--ag-target-min);
   }
   .ag-segmented-control[data-ag-size='sm'] .ag-segmented-item {
-    padding-inline: var(--ag-space-2);
+    padding-inline: var(--ag-space-3);
+    min-block-size: calc(var(--ag-comp-control-height-sm-default, var(--ag-target-min)) - 2 * var(--ag-space-1));
     font-size: var(--ag-type-caption-size);
+  }
+  .ag-segmented-control[data-ag-size='lg'] .ag-segmented-item {
+    padding-inline: var(--ag-space-5);
+    min-block-size: calc(var(--ag-comp-control-height-lg-default, var(--ag-target-min)) - 2 * var(--ag-space-1));
+    font-size: var(--ag-type-body-size);
   }
   .ag-segmented-item [data-ag-part='item-label'] {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  @media (hover: hover) {
+    .ag-segmented-item:not([data-checked], [data-disabled]):hover {
+      background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-segmented-hover-tint, 6%), transparent);
+    }
+  }
+  /* Selected segment = the thumb: an opaque raised platter on the glass
+     track (canvas lifted toward specular + thin shadow). The old cue was an
+     inset ring with an undefined width and a numeric "colour"
+     (--ag-state-press-glow), so the selected segment was invisible; the
+     auto-rendered indicator below stays hidden until the measured,
+     animated thumb lands (MAT-211 morph). */
   .ag-segmented-item[data-checked],
   .ag-segmented-item[aria-checked='true'] {
-    box-shadow: inset 0 0 0 var(--_ag-focus-width) var(--ag-state-press-glow);
+    background: color-mix(in oklab, var(--ag-color-canvas), var(--ag-color-specular) 20%);
+    box-shadow: var(--ag-shadow-thin);
   }
   .ag-segmented-item:focus-visible {
-    outline: var(--_ag-focus-width) solid var(--_ag-focus-outer);
-    outline-offset: var(--_ag-focus-width);
+    outline: var(--ag-focus-width) solid var(--ag-color-focus-inner);
+    outline-offset: var(--ag-focus-width);
   }
   .ag-segmented-item:disabled,
   .ag-segmented-item[data-disabled] {
@@ -51,6 +79,14 @@
   }
   .ag-segmented-item[data-disabled] > :where(*) {
     opacity: var(--ag-state-disabled-alpha);
+  }
+  @media (forced-colors: active) {
+    .ag-segmented-item[data-checked],
+    .ag-segmented-item[aria-checked='true'] {
+      background: Highlight;
+      color: HighlightText;
+      box-shadow: none;
+    }
   }
 
   /* indicator: transient layer, thin, concentric, inner fill at rest.
