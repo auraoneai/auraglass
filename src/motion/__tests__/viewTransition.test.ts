@@ -4,6 +4,7 @@
 import { describe, expect, it, jest, beforeEach, afterEach } from '@jest/globals';
 import * as React from 'react';
 import { startMorph, reactViewTransition } from '../viewTransition';
+import { motionTokens } from '../tokens.generated';
 
 jest.useFakeTimers();
 
@@ -23,11 +24,20 @@ const withoutVT = () => {
   (document as unknown as Record<string, unknown>).startViewTransition = undefined;
 };
 
+/* jsdom has no CSS.supports: model an engine with/without
+   :active-view-transition-type() support. */
+const withTypeSupport = (on: boolean) => {
+  (window as unknown as { CSS: unknown }).CSS = {
+    supports: (q: string) => on && q.startsWith('selector(:active-view-transition-type('),
+  };
+};
+
 const abortErr = () => new DOMException('aborted', 'AbortError');
 const invalidErr = () => new DOMException('invalid', 'InvalidStateError');
 
 beforeEach(() => {
   withoutVT();
+  withTypeSupport(true);
   document.documentElement.removeAttribute('data-ag-motion');
 });
 afterEach(() => {
@@ -63,6 +73,32 @@ describe('startMorph — native path (REQ-MOT-36)', () => {
     });
     withVT(spy as unknown as VTStub);
     await startMorph(() => {}, { surfaces: [surface()], motion: 'calm' });
+  });
+  it('calm without :active-view-transition-type() support cross-fades without a VT', async () => {
+    withTypeSupport(false);
+    const spy = jest.fn(() => ({ finished: Promise.resolve() }));
+    withVT(spy as unknown as VTStub);
+    const el = surface();
+    const frames: Keyframe[][] = [];
+    (el as unknown as Record<string, unknown>).animate = (k: Keyframe[]) => {
+      frames.push(k);
+      return { finished: Promise.resolve(), finish: jest.fn() } as unknown as Animation;
+    };
+    const rects = [{ left: 0, top: 0, width: 10, height: 10 }, { left: 50, top: 0, width: 10, height: 10 }];
+    let i = 0;
+    jest.spyOn(el, 'getBoundingClientRect').mockImplementation(() => rects[i++] as DOMRect);
+    let ran = 0;
+    await startMorph(() => { ran += 1; }, { surfaces: [el], motion: 'calm' });
+    expect(spy).not.toHaveBeenCalled();
+    expect(ran).toBe(1);
+    expect(frames).toEqual([[{ opacity: 0 }, { opacity: 1 }]]);
+  });
+  it('full mode keeps the native VT without type support', async () => {
+    withTypeSupport(false);
+    const spy = jest.fn((spec: { update: () => void }) => { spec.update(); return { finished: Promise.resolve() }; });
+    withVT(spy as unknown as VTStub);
+    await startMorph(() => {}, { surfaces: [surface()], motion: 'full' });
+    expect(spy).toHaveBeenCalledTimes(1);
   });
   it('falls back to the callback form on TypeError', async () => {
     let calls = 0;
@@ -132,6 +168,105 @@ describe('startMorph — FLIP fallback (REQ-MOT-39)', () => {
     await startMorph(() => { ran += 1; }, { surfaces: [el], motion: 'full' });
     expect(ran).toBe(1);
     expect(calls).toHaveLength(0);
+  });
+});
+
+describe('startMorph — calm FLIP is an opacity cross-fade (REQ-MAT-48)', () => {
+  const animateStub = (el: Element) => {
+    const calls: Array<[Keyframe[], KeyframeAnimationOptions]> = [];
+    (el as unknown as Record<string, unknown>).animate = (k: Keyframe[] | Keyframe, o?: KeyframeAnimationOptions) => {
+      calls.push([(Array.isArray(k) ? k : [k]) as Keyframe[], o ?? {}]);
+      return { finished: Promise.resolve(), finish: jest.fn() } as unknown as Animation;
+    };
+    return calls;
+  };
+  const moving = (el: Element) => {
+    const rects = [
+      { left: 10, top: 10, width: 100, height: 50 },
+      { left: 40, top: 10, width: 200, height: 50 },
+    ];
+    let i = 0;
+    jest.spyOn(el, 'getBoundingClientRect').mockImplementation(() => rects[i++] as DOMRect);
+  };
+  it('animates opacity only, at the computed --ag-duration-micro and --ag-ease-standard', async () => {
+    const el = surface();
+    const calls = animateStub(el);
+    moving(el);
+    el.style.setProperty('--ag-duration-micro', '0.15s');
+    el.style.setProperty('--ag-ease-standard', motionTokens['ease.standard']);
+    el.style.setProperty('--ag-spring-fluid', motionTokens['spring.fluid']);
+    let ran = 0;
+    await startMorph(() => { ran += 1; }, { surfaces: [el], motion: 'calm' });
+    expect(ran).toBe(1);
+    expect(calls).toHaveLength(1);
+    const [frames, opts] = calls[0]!;
+    expect(frames).toEqual([{ opacity: 0 }, { opacity: 1 }]);
+    expect(opts.duration).toBe(150);
+    expect(opts.easing).toBe(motionTokens['ease.standard']);
+  });
+  it('uses the generated micro (120 ms) when no token sheet resolves the var', async () => {
+    const el = surface();
+    const calls = animateStub(el);
+    moving(el);
+    await startMorph(() => {}, { surfaces: [el], motion: 'calm' });
+    expect(calls[0]![1].duration).toBe(120);
+  });
+  it('takes the calm path from the nearest data-ag-motion ancestor', async () => {
+    const scope = document.createElement('div');
+    scope.setAttribute('data-ag-motion', 'calm');
+    document.body.appendChild(scope);
+    const el = surface();
+    scope.appendChild(el);
+    const calls = animateStub(el);
+    moving(el);
+    await startMorph(() => {}, { surfaces: [el] });
+    expect(calls).toHaveLength(1);
+    expect(Object.keys(calls[0]![0][0]!)).toEqual(['opacity']);
+  });
+});
+
+describe('startMorph — settled micro read from computed CSS (REQ-MAT-48)', () => {
+  const nativeVT = () => withVT(((spec: { update: () => void }) => {
+    spec.update();
+    return { finished: Promise.resolve() };
+  }) as VTStub);
+  it('data-ag-vt-settled lasts the computed --ag-duration-micro', async () => {
+    nativeVT();
+    const el = surface();
+    el.style.setProperty('--ag-duration-micro', '300ms');
+    await startMorph(() => {}, { surfaces: [el], motion: 'full' });
+    jest.advanceTimersByTime(299);
+    expect(el.hasAttribute('data-ag-vt-settled')).toBe(true);
+    jest.advanceTimersByTime(1);
+    expect(el.hasAttribute('data-ag-vt-settled')).toBe(false);
+  });
+  it('falls back to the generated 120 ms micro when the var is unset', async () => {
+    nativeVT();
+    const el = surface();
+    await startMorph(() => {}, { surfaces: [el], motion: 'full' });
+    jest.advanceTimersByTime(119);
+    expect(el.hasAttribute('data-ag-vt-settled')).toBe(true);
+    jest.advanceTimersByTime(1);
+    expect(el.hasAttribute('data-ag-vt-settled')).toBe(false);
+  });
+  it('a calm ancestor sends the ag-morph-calm type; none skips the transition', async () => {
+    const seen: string[][] = [];
+    withVT(((spec: { update: () => void; types?: string[] }) => {
+      seen.push(spec.types ?? []);
+      spec.update();
+      return { finished: Promise.resolve() };
+    }) as VTStub);
+    const scope = document.createElement('div');
+    document.body.appendChild(scope);
+    const el = surface();
+    scope.appendChild(el);
+    scope.setAttribute('data-ag-motion', 'calm');
+    await startMorph(() => {}, { surfaces: [el] });
+    scope.setAttribute('data-ag-motion', 'none');
+    let ran = 0;
+    await startMorph(() => { ran += 1; }, { surfaces: [el] });
+    expect(seen).toEqual([['ag-morph-calm']]);
+    expect(ran).toBe(1);
   });
 });
 
