@@ -1,7 +1,7 @@
 /** @jest-environment node */
 import { describe, test, expect } from '@jest/globals';
 // MAT-035: mode matrix — every scheme/contrast/transparency/density axis value has
-// an attribute block AND a media mirror; OS floors re-emitted in ag.a11y;
+// an attribute block AND a media mirror; OS floors inside the single ag.material block (S-04);
 // contrast=more selects >= tinted floor row; zero 'prefers-contrast: high';
 // zero postcss warnings.
 import { readFileSync } from 'node:fs';
@@ -22,7 +22,7 @@ describe('mode matrix (MAT-035)', () => {
   const AXES: Array<[string, string[]]> = [
     ['scheme', ['light', 'dark']],
     ['contrast', ['more']],
-    ['transparency', ['solid']],
+    ['transparency', ['tinted', 'solid']],
     ['density', ['compact', 'spacious']],
   ];
   for (const [axis, values] of AXES) {
@@ -46,8 +46,11 @@ describe('mode matrix (MAT-035)', () => {
     expect(css).toContain(':root:not([data-ag-transparency])');
   });
 
-  test('OS floors re-emitted in ag.a11y', () => {
-    expect(floors).toContain('@layer ag.a11y');
+  // S-04 / REQ-MAT-19 item 2: floors.css is one @layer ag.material block; the
+  // OS fallbacks (forced-colors, no backdrop-filter) live inside it, and the
+  // ag.a11y overrides are rungs.css's job.
+  test('OS floors emitted inside the single ag.material block', () => {
+    expect(floors.match(/@layer [\w.]+\s*\{/g)).toEqual(['@layer ag.material {']);
     expect(floors).toContain('forced-colors: active');
   });
 

@@ -8,6 +8,7 @@ import * as React from 'react';
 import { flushSync } from 'react-dom';
 import { Tabs as BaseTabs } from '@base-ui/react/tabs';
 import { startMorph } from '../../motion';
+import { viewTransitionParticipantAttributes } from '../../material/stateAttributes';
 import { useTabBarPanel } from '../tab-bar/TabBar';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
@@ -109,8 +110,8 @@ function TabsList({ activateOnFocus, children, render, ...rest }: TabsListProps)
     const el = listRef.current;
     if (!el) return;
     const update = () => {
-      el.dataset['agOverflowStart'] = el.scrollLeft > 0 ? 'true' : 'false';
-      el.dataset['agOverflowEnd'] =
+      el.dataset['overflowStart'] = el.scrollLeft > 0 ? 'true' : 'false';
+      el.dataset['overflowEnd'] =
         el.scrollLeft + el.clientWidth < el.scrollWidth - 1 ? 'true' : 'false';
     };
     update();
@@ -208,7 +209,7 @@ export function TabsIndicator({ render, ...rest }: PartProps<'div'>) {
       render={partElement('div', {
         render,
         'data-ag-part': 'indicator',
-        'data-ag-vt-participant': '',
+        ...viewTransitionParticipantAttributes(),
         className: 'ag-tabs__indicator',
         style: { viewTransitionName: `ag-tabs-indicator-${vtName}` },
         'aria-hidden': true,

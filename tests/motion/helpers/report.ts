@@ -35,7 +35,7 @@ export const currentSha = (): string => {
   try {
     return execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
   } catch {
-    return process.env.GITHUB_SHA ?? process.env.CI_COMMIT_SHA ?? 'unknown';
+    return process.env.CI_COMMIT_SHA ?? 'unknown';
   }
 };
 

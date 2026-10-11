@@ -1,0 +1,92 @@
+# Plain CSS
+
+AuraGlass needs no CSS framework. Import one stylesheet and style the components with ordinary CSS.
+
+```ts
+// app/layout.tsx (Next.js) or src/main.tsx (Vite), before your own CSS
+import 'aura-glass/styles.css';
+```
+
+## The layer statement
+
+Every stylesheet AuraGlass ships starts with the same statement:
+
+```css
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+```
+
+All library CSS lives inside these `ag.*` cascade layers, in that order: compatibility aliases, a scoped reset, tokens, the glass material, component styles and accessibility overrides (focus rings, forced colours, reduced transparency). Nothing in the library uses `!important`.
+
+## Why your CSS wins
+
+Styles that are not in any cascade layer beat every layered style, whatever the selector specificity. Your application CSS is unlayered unless you put it in a layer, so it overrides AuraGlass without `!important` and without matching the library's selectors:
+
+```css
+/* app.css — unlayered */
+.cta[data-ag-part="root"] {
+  border-radius: 0;
+}
+```
+
+```tsx
+import { Button } from 'aura-glass';
+
+export function SignUp() {
+  return <Button className="cta">Create account</Button>;
+}
+```
+
+The button's corners compute to `0px`. The same rule inside a layer you declared **after** `ag` also wins; inside a layer declared before `ag` it loses.
+
+If you use your own layers, name `ag` in your statement so its position is explicit:
+
+```css
+@layer reset, ag, app;
+@import "aura-glass/styles.css" layer(ag);
+```
+
+## Style through parts and states, not class names
+
+Component internals are not public API. Target only:
+
+- `[data-ag-part="…"]` — the named parts of a component (`root`, `label`, `icon`, …). Each component page lists its parts.
+- `[data-state="…"]` and the other state attributes the component documents (`[data-disabled]`, `[data-pressed]`, `[data-open]`, …).
+- the `className` you pass yourself (it lands on the `root` part).
+
+```css
+.toolbar [data-ag-part="root"][data-state="on"] {
+  outline: 2px solid currentColor;
+}
+```
+
+Internal class names such as `.ag-button` and private custom properties (`--_ag-*`) can change in any release. Do not select on them.
+
+## Redefining tokens
+
+Public tokens are custom properties named `--ag-*`. Redefine them in **your own layer** so the cascade order stays explicit and the library's contrast and accessibility layers still apply on top:
+
+```css
+@layer ag, app;
+
+@layer app {
+  :root {
+    --ag-color-accent: oklch(0.62 0.19 260);
+    --ag-radius-md: 10px;
+  }
+}
+```
+
+For brand colours prefer the provider's `brand` prop (an `oklch()` accent) or a `preset`, described in the Theming guide: the theme derives the accessible ramp and on-colours for you. Redefining a raw token changes that one value only.
+
+## Partial sheets
+
+`aura-glass/styles.css` is the complete sheet. The parts are also exported on their own for apps that assemble CSS themselves:
+
+| Import | Contains |
+|---|---|
+| `aura-glass/tokens.css` | the token custom properties (`ag.tokens`) |
+| `aura-glass/material.css` | the glass material rules (`ag.material`) |
+| `aura-glass/compat/globals.css` | 4.x global aliases for migrating apps (`ag.compat`) |
+| `aura-glass/compat/tokens.css` | 4.x token-name aliases (`ag.compat`) |
+
+Each partial starts with the same layer statement, so importing them in any order keeps the cascade correct. Load either `styles.css` or the partials, not both.

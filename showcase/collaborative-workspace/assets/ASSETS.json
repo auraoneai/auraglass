@@ -1,0 +1,12 @@
+{
+  "licence": "CC0-1.0",
+  "source": "Original artwork drawn from deterministic SVG by scripts/qual/showcase/generate-assets.mjs (no third-party imagery).",
+  "files": [
+    {
+      "file": "brief-cover.avif",
+      "width": 960,
+      "height": 540,
+      "format": "avif"
+    }
+  ]
+}
