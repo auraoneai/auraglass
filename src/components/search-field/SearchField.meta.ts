@@ -17,7 +17,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'chrome', refractionEligible: true },
   apg: 'searchbox',
-  budgetKb: 6,
+  budgetKb: 13,
   migration: [
     {
       from: 'GlassSearchInput',
@@ -26,7 +26,7 @@ const meta: ControlMeta = defineMeta({
         onSearch: { to: 'onValueChange + Enter submit' },
         clearable: null,
       },
-      automation: 'mostly',
+      selectors: { '.glass-search-input': '.ag-search-field' }, automation: 'mostly',
       compat: true,
     },
   ],

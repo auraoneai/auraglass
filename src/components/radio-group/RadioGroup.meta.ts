@@ -17,7 +17,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'content', refractionEligible: false },
   apg: 'radio',
-  budgetKb: 4,
+  budgetKb: 10,
   migration: [
     {
       from: 'GlassRadioGroup',
@@ -27,7 +27,7 @@ const meta: ControlMeta = defineMeta({
         direction: 'orientation',
         glassVariant: null,
       },
-      automation: 'mostly',
+      selectors: { '.glass-radio-group': '.ag-radio-group' }, automation: 'mostly',
       compat: true,
     },
   ],
