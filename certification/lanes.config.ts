@@ -27,6 +27,11 @@ export const BUILTINS: BuiltinRegistration[] = [
   ...(['pr', 'main', 'nightly', 'release'] as const).flatMap((scope): BuiltinRegistration[] => [
     'certification/lanes/behaviour.spec.ts', 'tests/a11y/browser/axe.spec.ts', 'tests/a11y/browser/__selftest__/harness.selftest.spec.ts',
   ].map((path) => ({ lane: 'L5', kind: 'playwright', path, scope, remote: true, failClosed: true }))),
+  // REQ-QUAL-16 / -17 (G-13): preference modes must change something; console hygiene one-per-subject sweep.
+  ...(['pr', 'main', 'nightly', 'release'] as const).flatMap((scope): BuiltinRegistration[] => [
+    { lane: 'L6', kind: 'playwright', path: 'certification/lanes/preference-modes.spec.ts', scope, remote: true, failClosed: true },
+    { lane: 'L6', kind: 'playwright', path: 'certification/lanes/console.spec.ts', scope, remote: true, failClosed: true },
+  ]),
 ];
 
 /** REQ-QUAL-19: L5 runs every stream's tests/a11y/apg/<stream>/**\/*.apg.spec.ts and tests/e2e/<stream>/**\/*.spec.ts,

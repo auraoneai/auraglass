@@ -17,7 +17,7 @@ const STEP_RE = /\{step[^}]*\}\s*```(?:bash|ts|tsx)\n([\s\S]*?)```/g;
 
 export function steps(docPath: string): string[] {
   const src = readFileSync(docPath, 'utf8');
-  return [...src.matchAll(STEP_RE)].map((m) => m[1].trim()).filter((s) => s.startsWith('npx') || s.startsWith('npm') || s.startsWith('cd'));
+  return [...src.matchAll(STEP_RE)].map((m) => m[1]!.trim()).filter((s) => s.startsWith('npx') || s.startsWith('npm') || s.startsWith('cd'));
 }
 
 test.describe('quickstart replay', () => {
@@ -33,7 +33,7 @@ test.describe('quickstart replay', () => {
       let cwd = work;
       for (const cmd of commands) {
         if (cmd.startsWith('cd ')) { cwd = join(work, cmd.slice(3).trim()); continue; }
-        const [bin, ...args] = cmd.split(/\s+/);
+        const [bin = '', ...args] = cmd.split(/\s+/);
         execFileSync(bin, args, { cwd, timeout: budget, stdio: 'pipe', env: { ...process.env, CI: '1' } });
         if (existsSync(join(work, appDir))) cwd = join(work, appDir);
       }
