@@ -18,11 +18,15 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const PATHS = relPaths(ROOT);
 export const GITLAB_PROJECT = '87152036';
 
+// Full semver (prerelease included). A heading marked Unreleased has not been
+// tagged or published yet, so it is not a ledger entry.
 export function changelogVersions(text) {
-  return [...text.matchAll(/^##\s+\[?v?(\d+\.\d+\.\d+)/gm)].map((m) => m[1]);
+  return [...text.matchAll(/^##\s+\[?v?(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)\]?(.*)$/gm)]
+    .filter((m) => !/\bunreleased\b/i.test(m[2])).map((m) => m[1]);
 }
 export const atLeast = (v, cut) => {
-  const a = v.split('.').map(Number); const b = cut.split('.').map(Number);
+  const core = (x) => x.split('-')[0].split('.').map(Number);
+  const a = core(v); const b = core(cut);
   for (let i = 0; i < 3; i++) if (a[i] !== b[i]) return a[i] > b[i];
   return true;
 };

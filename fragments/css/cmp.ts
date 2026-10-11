@@ -18,6 +18,7 @@ export default [
   { file: 'src/components/alert-dialog/AlertDialog.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/sheet/Sheet.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/popover/Popover.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/overlays/_shared/overlays.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/tooltip/Tooltip.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/menu/Menu.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/toast/Toast.css', layer: 'ag.components', bundle: 'styles.css' },

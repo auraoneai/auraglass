@@ -33,6 +33,13 @@ describe('release ledger (REQ-PLAT-31)', () => {
       .toEqual(['4.2.0', '4.1.1']);
   });
 
+  it('keeps prerelease ids and skips Unreleased headings', () => {
+    expect(json(`console.log(JSON.stringify(m.changelogVersions('## [5.0.0-alpha.2] - Unreleased\\n## [5.0.0-alpha.1] - 2026-10-01\\n## [4.1.0] - 2026-09-05')))`))
+      .toEqual(['5.0.0-alpha.1', '4.1.0']);
+    expect(json(`console.log(JSON.stringify([m.atLeast('5.0.0-alpha.1', '4.1.1'), m.atLeast('4.0.0-beta.1', '4.1.1')]))`))
+      .toEqual([true, false]);
+  });
+
   it('passes when all ledgers agree', () => {
     expect(json(`const v = ['4.2.0', '4.1.1'];
       console.log(JSON.stringify(m.ledgerCheck({ changelog: v, tags: v, gitlab: v, npm: v }).errors))`)).toEqual([]);

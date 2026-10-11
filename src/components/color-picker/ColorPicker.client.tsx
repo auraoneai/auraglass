@@ -27,7 +27,7 @@ export interface ColorPickerRootProps extends React.HTMLAttributes<HTMLSpanEleme
 
 function Root({
   value,
-  defaultValue = '#3b82f6',
+  defaultValue,
   onValueChange,
   open,
   defaultOpen,
@@ -37,7 +37,11 @@ function Root({
   ref,
   ...rest
 }: ColorPickerRootProps & { ref?: React.Ref<HTMLSpanElement> | undefined }) {
-  const [uncontrolled, setUncontrolled] = React.useState(() => hexToHsv(defaultValue));
+  /* Default swatch ≈ accent blue (as HSV so no colour literal ships). */
+  const FALLBACK_HSV: Hsv = { h: 217, s: 0.76, v: 0.96 };
+  const [uncontrolled, setUncontrolled] = React.useState(() =>
+    defaultValue !== undefined ? hexToHsv(defaultValue) : FALLBACK_HSV,
+  );
   const hsv = value !== undefined ? hexToHsv(value) : uncontrolled;
   const hex = hsvToHex(hsv);
   const ctx = React.useMemo<Ctx>(

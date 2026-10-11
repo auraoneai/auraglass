@@ -70,7 +70,7 @@ export const auraGlassPrepaint = (w: W, d: Document, a: PrepaintArgs = {}): void
     at('motion', r.motion);
     at('scheme', r.scheme);
     at('density', r.density);
-    if (r.allowContinuous) at('continuous', 'on');
+    if (r.allowContinuous && r.motion === 'full') at('continuous', 'on');
     at('engine', engine);
     if (r.tier === 'lightweight') at('tier', 'lightweight');
     el.style.setProperty('--ag-glass-opacity', String(r.glassOpacity));

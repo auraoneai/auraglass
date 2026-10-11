@@ -6,7 +6,7 @@ test.describe('table virtual', () => {
   test('virtualized 5k-row table keeps row count in DOM bounded', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Table');
-    if (!subject) { console.warn('Table subject not registered — pending'); return; }
+    if (!subject) throw new Error('Table subject not registered');
     await gotoStory(page, subject.id);
     await expect(page.locator('[data-ag-part], [role="main"], body').first()).toBeVisible();
   });

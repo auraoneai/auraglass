@@ -15,7 +15,8 @@ const meta: ControlMeta = defineMeta({
     disabled: ['true', 'false'],
   },
   material: { layer: 'content', refractionEligible: false },
-  budgetKb: 6,
+  apg: 'none',
+  budgetKb: 6000 / 1024,
   migration: [
     {
       from: 'GlassField',
@@ -26,7 +27,7 @@ const meta: ControlMeta = defineMeta({
         hint: { to: 'children' },
         required: 'aria-required on the inner control',
       },
-      automation: 'mostly',
+      selectors: { '.glass-field': '.ag-field' }, automation: 'mostly',
       compat: true,
     },
   ],

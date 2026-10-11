@@ -4,6 +4,69 @@
 
 Pre-4.1.1 ledger mismatches are recorded once in `docs/release/ledger-corrections.json` (regenerate with `node scripts/release/verify-release-ledger.mjs --regen`); history is not rewritten. Versions >= 4.1.1 must agree across CHANGELOG heading, git tag, GitLab Release and npm — the `verify-release-ledger` step runs in the tag pipeline and fails closed.
 
+## [5.0.0-alpha.1] - Unreleased
+
+First 5.0 pre-release. It is published from `next` to the npm `next` dist-tag
+by the tag pipeline (`plat:publish:npm`); `latest` stays on 4.x. It contains
+what has merged on `next` on the train date. It is not production-ready: the
+5.0 gates are listed per stop in `docs/release/5.0.0-gates.md`, and the
+alpha.1 stop only requires the change-class check and regenerated API reports.
+
+### Breaking
+
+The full list, with affected exports and the codemod that handles each item, is
+the breaking-change register `docs/release/breaking-changes.json`:
+
+- B1: React ^19.0 floor
+- B2: ESM-only, Node >=20.19
+- B3: Removed components (119 root exports)
+- B4: Removed subpaths
+- B5: Names: prefix dropped, aliases removed
+- B6: Prop grammar
+- B7: Dependency diet
+- B8: Global CSS removed; layered CSS
+- B9: `--glass-*` renamed to `--ag-*`
+- B10: Base UI DOM, ARIA and `data-*` changes
+- B11: New default material (every surface changes pixels)
+- B12: Content layer is no longer glass by default
+- B13: OS signals are floors; reduced motion cannot be overridden
+- B14: Server, services and simulated AI removed
+- B15: CLI moved to `@auraglass/cli`
+- B16: ssr/server shims removed
+- B17: Asset subpath renames (icons/env/json/manifest namespaces)
+- B18: Primitives collapse (4.x primitive set folds into the 5.0 primitives entry)
+- B19: Icons, env vars, .json/.css manifest subpaths removed
+- B20: Dead optical props removed
+- B21: Provider trees collapse to the 5.0 provider
+
+### Migration
+
+- `npx @auraglass/cli migrate 4to5` runs the codemods; `--dry-run` reports the
+  changes without writing.
+- `aura-glass/compat` keeps the deprecated 4.x component exports working, with a
+  development warning per symbol.
+
+### Included work
+
+The changesets below describe the stream work merged on `next`. They stay in
+`.changeset/` until 5.0.0, so each pre-release's notes list them:
+
+- Platform: `plat-c0-bootstrap`, `plat-ci-bootstrap`, `plat-1d-build`,
+  `plat-1d-canaries`, `plat-cli-codemods`, `plat-cli-workspace-deps`,
+  `plat-dx-blocks`, `plat-dx-claims`, `plat-dx-docs`, `plat-dx-llms-mcp`,
+  `plat-dx-migration`, `plat-dx-quickstart`, `plat-dx-registry`,
+  `plat-dx-render-gate`
+- Material: `mat-t-tokens`, `mat-material-engine`, `mat-material-engine-gates`,
+  `mat-p-prefs-a11y`, `mat-v-runtime`, `mat-v-motion-adapter`,
+  `mat-v-motion-css`, `mat-v-motion-lint`, `mat-v-motion-specs`,
+  `mat-compat-adapters`, `mat-compat-tokens`, `mat-legacy-freeze`,
+  `mat-codemods-fragment`, `mat-fragments`, `mat-ci-fragment`,
+  `mat-api-reports`, `mat-stories`, `mat-lab-stories`
+- Components: `cmp-f-foundation`, `cmp-a-actions`, `cmp-i-inputs`,
+  `cmp-p-pickers`, `cmp-o1-modal`, `cmp-o2-anchored`, `cmp-t-core`,
+  `cmp-form-kv-editor`, `cmp-h-compat`, `cmp-q-browser-specs`
+- Surfaces: `surf-day0`
+
 ## [4.1.0] - 2026-09-05
 
 ### Fixed
