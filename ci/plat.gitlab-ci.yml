@@ -151,12 +151,13 @@ plat:test:visual-4x:
     - npm run build-storybook
     - npx serve -s storybook-static -l 6006 &
     - npx wait-on http://localhost:6006
-    # The class report stays at the §4.4 reader path that
-    # scripts/release/lib/policy.mjs reads (FIN-A REQ-FIN-10 moves the reader);
-    # every other output goes to $AURAGLASS_EVIDENCE_DIR (the job dir).
-    - npm run test:visual:app-chrome -- --class-report .artifacts/plat/visual-4x/visual-class.json
+    # The class report goes into the job dir, the 4x reader path of
+    # scripts/release/lib/policy.mjs (REQ-FIN-10:
+    # .artifacts/plat/plat-test-visual-4x/visual-class.json); plat:gate:change-class
+    # receives it through `needs` (B3-6).
+    - npm run test:visual:app-chrome -- --class-report ".artifacts/plat/$CI_JOB_NAME_SLUG/visual-class.json"
   artifacts:
-    paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/", .artifacts/plat/visual-4x/]
+    paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/"]
 
 plat:test:canaries:
   extends: [.plat-playwright, .plat-evidence-pr]
@@ -247,9 +248,20 @@ plat:gate:removal:
 
 plat:gate:change-class:
   extends: [.plat-node, .plat-evidence-release]
-  stage: test
+  # REQ-FIN-10 / REQ-PLAT-05 item 8 / REQ-PLAT-19 (B3-6): certify stage, so the
+  # VisualClassReport producers (qual:certify:l7 on 5x, plat:test:visual-4x on
+  # 4x) finish first and hand the report over through `needs`. Both needs are
+  # optional: l7 is QUAL's (cross-stream, §4.13.4 rule 4) and neither producer
+  # runs on every scope/line; classify-change.mjs reports a missing 5x report as
+  # pending and fails a missing 4x >= 4.2.0 report itself. Because certify comes
+  # after package, plat:package:pack re-runs the classifier on release scope
+  # (see there) instead of needing this job.
+  stage: certify
   allow_failure: false # PLAT-015: activated on 5x, ci/plat/activation.json row (first green: pipeline 2934559777)
   variables: { GIT_DEPTH: "0" }
+  needs:
+    - { job: "qual:certify:l7", artifacts: true, optional: true }   # .artifacts/qual/visual-class.json (§4.13.2, S-55)
+    - { job: "plat:test:visual-4x", artifacts: true, optional: true } # .artifacts/plat/plat-test-visual-4x/visual-class.json
   rules:
     - if: $CI_COMMIT_TAG
       allow_failure: false
@@ -324,9 +336,13 @@ plat:package:pack:
   extends: .plat-release
   stage: package
   allow_failure: true
+  # plat:gate:change-class runs in the later certify stage (B3-6), and GitLab
+  # `needs` may not point at a later stage, so the classifier is re-run below on
+  # release scope: plat:publish:npm needs this job, so a disallowed class still
+  # blocks the publish (§4.13.7 "classify-change re-run").
+  variables: { GIT_DEPTH: "0" }
   needs:
     - { job: "plat:gate:glass-quality" }
-    - { job: "plat:gate:change-class" }
     - { job: "plat:integration:next" }
     - { job: "plat:integration:vite" }
   rules:
@@ -339,6 +355,9 @@ plat:package:pack:
       if [ "$AG_SCOPE" = "release" ]; then
         test -f scripts/release/dry-run.mjs || { echo "PENDING: scripts/release/dry-run.mjs"; exit 1; }
         node scripts/release/dry-run.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE"
+        git fetch --no-tags origin "+refs/tags/*:refs/tags/*"
+        PREV=$(git tag --list --sort=-v:refname | grep -v "^$CI_COMMIT_TAG\$" | head -1)
+        node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --out "$AURAGLASS_EVIDENCE_DIR/change-class.json"
       fi
     - |
       if [ "$AG_LINE" = "4x" ]; then
