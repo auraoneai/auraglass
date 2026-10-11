@@ -12,8 +12,10 @@ import { Dialog as Base } from '@base-ui/react/dialog';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
+import { ConcentricFrame } from '../../material';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
+import { useScrimTop } from '../overlays/_shared/useScrimTop';
 import { DialogHeader, DialogBody, DialogFooter } from './DialogLayout';
 import type {
   DialogRootProps, DialogTriggerProps, DialogCloseProps, DialogPortalProps,
@@ -83,35 +85,46 @@ function DialogTrigger({ children, className, ref, ...rest }: DialogTriggerProps
 function DialogClose({ children, className, ref, ...rest }: DialogCloseProps) {
   const { labels } = React.useContext(DialogContext);
   return (
-    <Base.Close
-      data-ag-part="close"
-      aria-label={labels?.close ?? 'Close'}
-      className={cn('ag-dialog-close', className)}
-      ref={ref}
-      {...rest}
-    >
-      {children ?? '×'}
-    </Base.Close>
+    /* REQ-CMP-89: the close control sits inside a ConcentricFrame so its
+       radius resolves concentric to the popup's rim (lg at inset-4). */
+    <ConcentricFrame radius="lg" inset="4">
+      <Base.Close
+        data-ag-part="close"
+        aria-label={labels?.close ?? 'Close'}
+        className={cn('ag-dialog-close', className)}
+        ref={ref}
+        {...rest}
+      >
+        {children ?? '×'}
+      </Base.Close>
+    </ConcentricFrame>
   );
 }
 
 function DialogPortal({ children, keepMounted }: DialogPortalProps) {
   const container = usePortalContainer('overlay');
   return (
-    <Base.Portal container={container} keepMounted={keepMounted}>
+    /* REQ-CMP-89: the portal element is the named ag-overlay container
+       (overlays.css) the responsive size grid queries. */
+    <Base.Portal container={container} keepMounted={keepMounted} className="ag-overlay-container">
       {children}
     </Base.Portal>
   );
 }
 
 function DialogBackdrop({ className, ref }: DialogBackdropProps) {
-  const { depth, modal } = React.useContext(DialogContext);
+  const { depth, open, modal } = React.useContext(DialogContext);
   const animatingRef = useOverlayAnimating();
+  const isTop = useScrimTop(depth, open && modal === true);
   if (modal !== true) return null; // CMP-211: no scrim for non-modal/trap-focus
   return (
     <Base.Backdrop
+      /* REQ-CMP-79: one scrim per modal — BU skips nested backdrops unless forced */
+      forceRender
       data-ag-part="backdrop"
+      data-ag-layer="scrim"
       data-ag-overlay-depth={depth}
+      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />

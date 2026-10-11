@@ -8,11 +8,30 @@
    (src/material/css/material.css, src/a11y/css/rungs.css); the scrim
    animates opacity only. */
 @layer ag.components {
+  /* REQ-CMP-89: the overlay's portal element is a full-viewport named
+     container so popup CSS can use @container ag-overlay queries instead of
+     @media viewport. It sits on the CMP portal element, not on
+     [data-ag-layer-root]: the layer roots are positioned by
+     src/a11y/css/layers.css (ag.a11y, position: relative + z-index), and a
+     zero-height relative container would become the containing block of the
+     fixed popups. Layer-root z-order is unchanged (this box is inside it). */
+  .ag-overlay-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    container: ag-overlay / inline-size;
+  }
+  .ag-overlay-container > * {
+    pointer-events: auto;
+  }
+
   .ag-scrim {
     position: fixed;
     inset: 0;
-    /* solved tint from the scrim token; optics come only through MAT */
-    background: color-mix(in srgb, black calc(var(--ag-scrim-media) * 100%), transparent);
+    /* REQ-CMP-79: tint and blur are the material layer's — material.css
+       paints [data-ag-layer="scrim"] and keeps the blur on the top scrim only
+       ([data-ag-overlay-top]). This rule keeps geometry + the opacity
+       transition. */
     opacity: 1;
     transition: opacity var(--ag-duration-medium) var(--ag-ease-standard);
   }
