@@ -100,7 +100,7 @@ const MenuPopup = React.forwardRef<HTMLDivElement, MenuPopupProps>(
     const ctx = React.useContext(MenuCtx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
-    useOverlayLayer({ kind: 'menu', modal: false, open: ctx.open, element: el });
+    const { depth } = useOverlayLayer({ kind: 'menu', modal: false, open: ctx.open, element: el });
     const setRefs: React.RefCallback<HTMLDivElement> = (node) => {
       setEl(node);
       animatingRef(node);
@@ -111,6 +111,7 @@ const MenuPopup = React.forwardRef<HTMLDivElement, MenuPopupProps>(
       <Base.Popup
         ref={setRefs}
         data-ag-part="popup"
+        data-ag-overlay-depth={depth}
         data-state={ctx.open ? 'open' : 'closed'}
         {...overlayMaterial('menu')}
         className={cn('ag-menu-popup', className)}
