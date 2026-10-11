@@ -22,6 +22,9 @@
     }
   },
   "scripts": {
+    "build": "tsdown",
+    "prepack": "tsdown",
+    "prepublishOnly": "node ../../scripts/ci/require-ci-publish.js",
     "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config jest.config.mjs"
   },
   "publishConfig": {

@@ -79,7 +79,10 @@ const w4 = [
   { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{media-controls,now-playing,image-viewer}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{media,backdrops}/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{media,backdrops}/**/*.spec.ts', scope: 'main', remote: true, failClosed: true },
-  { lane: 'L6', kind: 'playwright', path: 'tests/a11y/clear-over-media/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // REQ-SURF-188 (REQ-FIN-90): SURF clear-over-media text-contrast spec lives under tests/e2e/surf
+  // (tests/a11y/** is MAT's, contract D06).
+  { lane: 'L6', kind: 'playwright', path: 'tests/e2e/surf/clear-over-media/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L6', kind: 'playwright', path: 'tests/e2e/surf/clear-over-media/**/*.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L8', kind: 'playwright', path: 'tests/e2e/surf/media/sampling-engines.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/{backdrop-drift,carousel-autoplay}.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/{media-scrub,now-playing-update,image-viewer-open}.spec.ts', scope: 'pr', remote: true, failClosed: true },
@@ -91,8 +94,29 @@ const w4 = [
 // --diff uses `git merge-base HEAD origin/next` (no CI_MERGE_REQUEST_* on the
 // mirror). SURF-633: labs admission gate on L1 with scopes pr + release, so a
 // red run fails the tag pipeline whose plat:publish:npm job publishes labs
-// (REQ-SURF-167). SURF-561: SURF purity gate on L1 (REQ-SURF-05).
+// (REQ-SURF-167); it passes --manifest build/exports.manifest.json so the
+// REQ-SURF-169 promotion checks always run. SURF-561: SURF purity gate on L1 (REQ-SURF-05).
+// REQ-SURF-181/184 (REQ-FIN-89): L2 delivery + export-budget check on the
+// packed tarball (.artifacts/pack from plat:package:pack; the root package's
+// .tgz is picked by name), scopes main and release; at a v5.0.0-rc.N tag the
+// script also fails any planned 5.0 P0/P1 row, at v5.0.0 it applies --ga.
 const w5 = [
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-capability-ledger.mjs --manifest .artifacts/pack --budget .artifacts/pack',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-capability-ledger.mjs --manifest .artifacts/pack --budget .artifacts/pack',
+    scope: 'release',
+    remote: false,
+    failClosed: true,
+  },
   {
     lane: 'L1',
     kind: 'node-script',
@@ -120,7 +144,7 @@ const w5 = [
   {
     lane: 'L1',
     kind: 'node-script',
-    path: 'scripts/surf/verify-labs-admission.mjs',
+    path: 'scripts/surf/verify-labs-admission.mjs --manifest build/exports.manifest.json',
     scope: 'pr',
     remote: false,
     failClosed: true,
@@ -128,9 +152,32 @@ const w5 = [
   {
     lane: 'L1',
     kind: 'node-script',
-    path: 'scripts/surf/verify-labs-admission.mjs',
+    path: 'scripts/surf/verify-labs-admission.mjs --manifest build/exports.manifest.json',
     scope: 'release',
     remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-166..169: the labs package, admission-fixture and promotion suites
+  // (npm pack + tsdown build included) on L1, pr + release, so the labs tag
+  // pipeline runs them blocking (AC-FIN-87).
+  { lane: 'L1', kind: 'jest', path: 'tests/labs/**/*.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/labs/**/*.test.ts', scope: 'release', remote: false, failClosed: true },
+  // REQ-SURF-168: spatial labs admission budgets on the remote mid-tier mobile
+  // profile (QUAL S-40) — L10, pr + release so a red run blocks the labs tag.
+  {
+    lane: 'L10',
+    kind: 'playwright',
+    path: 'tests/perf/browser/surf/labs-spatial-admission.spec.ts',
+    scope: 'pr',
+    remote: true,
+    failClosed: true,
+  },
+  {
+    lane: 'L10',
+    kind: 'playwright',
+    path: 'tests/perf/browser/surf/labs-spatial-admission.spec.ts',
+    scope: 'release',
+    remote: true,
     failClosed: true,
   },
   {
