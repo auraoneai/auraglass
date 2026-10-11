@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 33,
   rsc: 'client',
-  parts: ['tree-item', 'tree-view'],
+  parts: ['root', 'tree-item', 'tree-view'],
   states: ['expanded', 'collapsed', 'selected', 'focused'],
   variants: {},
   apg: 'treeview',
