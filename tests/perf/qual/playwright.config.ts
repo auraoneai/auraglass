@@ -5,7 +5,11 @@
      qual:l10-surface-budget-{chromium,webkit,firefox}  surface-budget.spec.ts (REQ-QUAL-38, G-21)
      qual:l10-regression-4x  regression-4x.spec.ts (REQ-QUAL-41, profile c: chromium-headless-shell, --disable-gpu)
      qual:l10-ratchet   pr-ratchet.spec.ts (REQ-QUAL-40; qual:certify:l10-gpu on PRs)
-   AG_L10_SERVE=1 serves storybook-static for the G-21 projects; AG_L10_REPORT names the JSON report. */
+   AG_L10_SERVE=1 serves storybook-static for the G-21 projects; AG_L10_REPORT names the JSON report.
+     qual:l10-invariants-{chromium,webkit,firefox}
+                        REQ-QUAL-42/-43 (G-22): backdrop-root, lens-defs, webgl-context, a11y-fallback in all three
+                        engines; mount-unmount-leak in Chromium only (forced GC needs --js-flags=--expose-gc).
+                        Served the same way when AG_L10_INVARIANTS=1. */
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, devices } from '@playwright/test';
@@ -14,8 +18,21 @@ const ROOT = fileURLToPath(new URL('../../..', import.meta.url));
 const evidence = resolve(ROOT, process.env.AURAGLASS_EVIDENCE_DIR ?? '.artifacts', 'qual', process.env.CI_JOB_NAME_SLUG ?? 'qual-certify-l10');
 const storybookUrl = process.env.AG_STORYBOOK_URL ?? 'http://127.0.0.1:6006';
 const streams = process.env.AG_L10_STREAMS === '1';
-const serve = streams || process.env.AG_L10_SERVE === '1';
-const reportName = process.env.AG_L10_REPORT ?? (streams ? 'streams' : 'selftest');
+const invariants = process.env.AG_L10_INVARIANTS === '1';
+const run = streams ? 'streams' : invariants ? 'invariants' : 'selftest';
+
+const INVARIANT_SPECS = ['backdrop-root.spec.ts', 'lens-defs.spec.ts', 'webgl-context.spec.ts', 'a11y-fallback.spec.ts'];
+const invariantsProject = (engine: 'chromium' | 'webkit' | 'firefox', device: (typeof devices)[string], extra: object = {}) => ({
+  name: `qual:l10-invariants-${engine}`,
+  testDir: '.',
+  testMatch: engine === 'chromium' ? ['mount-unmount-leak.spec.ts', ...INVARIANT_SPECS] : INVARIANT_SPECS,
+  // a11y-fallback tags its per-engine condition lists @<engine> (OI-QUAL-04); drop the other engines' tags.
+  grepInvert: new RegExp(['chromium', 'webkit', 'firefox'].filter((e) => e !== engine).map((e) => `@${e}\\b`).join('|')),
+  timeout: 120_000,
+  use: { ...device, baseURL: storybookUrl, ...extra },
+});
+const serve = streams || invariants || process.env.AG_L10_SERVE === '1';
+const reportName = process.env.AG_L10_REPORT ?? run;
 
 export default defineConfig({
   forbidOnly: true,
@@ -25,7 +42,9 @@ export default defineConfig({
   outputDir: `${evidence}/playwright-output`,
   use: { trace: 'retain-on-failure' },
   projects: [
-    { name: 'qual:l10-selftest', testDir: '.', testMatch: 'harness-selftest.spec.ts', use: { ...devices['Desktop Chrome'], channel: 'chromium-headless-shell' } },
+    /* No Playwright trace here: its recorder takes a DOM snapshot and screencast frame around every action of the
+       settled window (~40 mouse/keyboard/wheel steps), which lands on the measured page's main thread as long tasks. */
+    { name: 'qual:l10-selftest', testDir: '.', testMatch: 'harness-selftest.spec.ts', use: { ...devices['Desktop Chrome'], channel: 'chromium-headless-shell', trace: 'off' } },
     { name: 'qual:l10-streams', testDir: '../browser', testMatch: '**/*.spec.ts', use: { ...devices['Desktop Chrome'], baseURL: storybookUrl } },
     { name: 'qual:l10-surface-budget-chromium', testDir: '.', testMatch: 'surface-budget.spec.ts', use: { browserName: 'chromium' } },
     { name: 'qual:l10-surface-budget-webkit', testDir: '.', testMatch: 'surface-budget.spec.ts', use: { browserName: 'webkit' } },
@@ -33,6 +52,9 @@ export default defineConfig({
     { name: 'qual:l10-regression-4x', testDir: '.', testMatch: 'regression-4x.spec.ts',
       use: { browserName: 'chromium', channel: 'chromium-headless-shell', launchOptions: { args: ['--disable-gpu'] } } },
     { name: 'qual:l10-ratchet', testDir: '.', testMatch: 'pr-ratchet.spec.ts' },
+    invariantsProject('chromium', devices['Desktop Chrome'], { launchOptions: { args: ['--js-flags=--expose-gc'] } }),
+    invariantsProject('webkit', devices['Desktop Safari']),
+    invariantsProject('firefox', devices['Desktop Firefox'], { launchOptions: { firefoxUserPrefs: { 'webgl.force-enabled': true } } }),
   ],
   ...(serve ? { webServer: {
     command: 'node tests/perf/harness/run-perf.mjs --serve storybook-static --port 6006',

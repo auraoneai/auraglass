@@ -13,9 +13,9 @@ describe('root surface (PLAT-258)', () => {
     const indexPath = join(ROOT, 'src/index.ts');
     const text = readFileSync(indexPath, 'utf8');
     for (const m of text.matchAll(/from\s*['"]([^'"]+)['"]/g)) {
-      const spec = m[1];
+      const spec = m[1]!;
       if (spec.includes('root/')) {
-        const grp = spec.split('root/')[1].replace(/['"]|\.ts.*/g, '').replace(/[^\w-]/g, '');
+        const grp = spec.split('root/')[1]!.replace(/['"]|\.ts.*/g, '').replace(/[^\w-]/g, '');
         expect(ROOT_EXPORTS).toContain(grp);
       }
     }
@@ -27,12 +27,12 @@ describe('root surface (PLAT-258)', () => {
     const text = readFileSync(distIndex, 'utf8');
     const names = new Set<string>();
     for (const m of text.matchAll(/export\s*\{([^}]*)\}/g)) {
-      for (const part of m[1].split(',')) {
+      for (const part of m[1]!.split(',')) {
         const n = part.trim().split(/\s+as\s+/).pop()?.trim();
         if (n) names.add(n);
       }
     }
-    for (const m of text.matchAll(/export\s+(?:const|function|class|let|var)\s+(\w+)/g)) names.add(m[1]);
+    for (const m of text.matchAll(/export\s+(?:const|function|class|let|var)\s+(\w+)/g)) names.add(m[1]!);
     expect(names.size).toBeLessThanOrEqual(160);
   });
 });

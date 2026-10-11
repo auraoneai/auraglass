@@ -7,10 +7,10 @@ test.describe('backdrop modes (SURF-438)', () => {
   test('each preset renders decorative layer + content', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s: { subject: string }) => s.subject === 'Backdrop');
-    if (!subject) { console.warn('Backdrop subject not registered — pending'); return; }
+    if (!subject) throw new Error('Backdrop subject not registered');
     await gotoStory(page, subject.id);
     const layer = page.locator('[data-ag-part="backdrop-layer"]');
-    if (await layer.count() === 0) { console.warn('no layer — pending'); return; }
+    expect(await layer.count(), 'no layer').toBeGreaterThan(0);
     await expect(layer.first()).toBeVisible();
     await expect(layer.first()).toHaveAttribute('aria-hidden', 'true');
   });
