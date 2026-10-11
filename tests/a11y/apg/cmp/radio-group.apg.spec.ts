@@ -28,3 +28,19 @@ test.describe('radio-group APG (CMP-362)', () => {
     await apg.axe(page);
   });
 });
+
+/* REQ-CMP-56: ChoiceCards — one role=radio per card, first-enabled is the
+   sole tab stop when uncontrolled. */
+test.describe('ChoiceCards (REQ-CMP-56)', () => {
+  test('cards render as radios; first enabled is the tab stop', async ({ page }) => {
+    await gotoStory(page, 'flagships-controls-radiogroup--choice-cards');
+    const radios = page.getByRole('radio');
+    expect(await radios.count()).toBeGreaterThanOrEqual(2);
+    const tabs = await radios.evaluateAll((els) =>
+      els.filter((e) => e.getAttribute('tabindex') !== '-1' && !e.hasAttribute('disabled')).length,
+    );
+    /* exactly one roving tab stop */
+    expect(tabs).toBe(1);
+    await apg.axe(page);
+  });
+});

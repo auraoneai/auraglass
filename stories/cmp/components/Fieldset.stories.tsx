@@ -5,18 +5,18 @@ import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
   title: 'Flagships/Controls/Fieldset',
-  component: Fieldset.Root,
+  component: Fieldset,
   tags: ['certified', 'flagship'],
   parameters: { ag: { tier: 'standard', subject: 'Fieldset', kind: 'component' } },
-} satisfies Meta<typeof Fieldset.Root>;
+} satisfies Meta<typeof Fieldset>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
 export const Default: Story = {
   render: () => (
-    <Fieldset.Root legend="Notifications">
+    <Fieldset legend="Notifications">
       <input type="checkbox" aria-label="email" />
       <input type="checkbox" aria-label="sms" />
-    </Fieldset.Root>
+    </Fieldset>
   ),
 };

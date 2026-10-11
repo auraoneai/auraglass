@@ -2,15 +2,21 @@
 // server shell frame and parses the persisted rail cookie server-side via
 // AppShell.parseCookie (REQ-SURF-07/14: shell state survives SSR; the codec
 // lives on the namespace, not the 7-name ./app-shell barrel — REQ-SURF-01).
+// REQ-SURF-08: the cookie is the one the toggles write (`ag-shell-<persistKey>`),
+// so a persisted 'sidebar:rail' paints as rail and hydrates without a
+// mismatch (tests/ssr/surf/hydration.spec.ts).
 import { cookies } from 'next/headers';
 import { AppShell, Sidebar, TopBar, StatusBar } from 'aura-glass/app-shell';
 
+const PERSIST_KEY = 'canary';
+
 export default async function AppShellCanaryPage() {
   const store = await cookies();
-  const shell = AppShell.parseCookie(store.get('ag-app-shell')?.value);
+  const shell = AppShell.parseCookie(store.get(`ag-shell-${PERSIST_KEY}`)?.value);
   return (
-    <AppShell.Root defaultSidebar={shell.sidebar} defaultInspector={shell.inspector}>
+    <AppShell.Root persistKey={PERSIST_KEY} defaultSidebar={shell.sidebar} defaultInspector={shell.inspector}>
       <TopBar.Root>
+        <AppShell.SidebarToggle />
         <strong>AuraGlass Next canary</strong>
       </TopBar.Root>
       <Sidebar.Root labels={{ navigation: 'Primary' }}>
