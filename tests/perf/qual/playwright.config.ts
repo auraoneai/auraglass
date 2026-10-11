@@ -36,7 +36,9 @@ export default defineConfig({
   outputDir: `${evidence}/playwright-output`,
   use: { trace: 'retain-on-failure' },
   projects: [
-    { name: 'qual:l10-selftest', testDir: '.', testMatch: 'harness-selftest.spec.ts', use: { ...devices['Desktop Chrome'], channel: 'chromium-headless-shell' } },
+    /* No Playwright trace here: its recorder takes a DOM snapshot and screencast frame around every action of the
+       settled window (~40 mouse/keyboard/wheel steps), which lands on the measured page's main thread as long tasks. */
+    { name: 'qual:l10-selftest', testDir: '.', testMatch: 'harness-selftest.spec.ts', use: { ...devices['Desktop Chrome'], channel: 'chromium-headless-shell', trace: 'off' } },
     { name: 'qual:l10-streams', testDir: '../browser', testMatch: '**/*.spec.ts', use: { ...devices['Desktop Chrome'], baseURL: storybookUrl } },
     invariantsProject('chromium', devices['Desktop Chrome'], { launchOptions: { args: ['--js-flags=--expose-gc'] } }),
     invariantsProject('webkit', devices['Desktop Safari']),
