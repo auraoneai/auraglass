@@ -1,3 +1,5 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
 /* Checkbox / RadioGroup shared box visuals (CMP-122/416): sunken box + rim,
    opaque accent when checked, contrast-color icon. No backdrop-filter. */
 @layer ag.components {
@@ -22,17 +24,19 @@
     align-items: center;
     justify-content: center;
     flex: none;
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-sunken-alpha, 8%), transparent);
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-border);
     border-radius: var(--ag-radius-xs);
     transition: background var(--ag-duration-micro) var(--ag-ease-standard),
       box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
   }
 
+  /* REQ-CMP-52: sm box = 14px (space-1 * 3.5), was 12px; same rule feeds
+     RadioGroup. */
   .ag-checkbox[data-ag-size='sm'] [data-ag-part='indicator'],
   .ag-radio-group[data-ag-size='sm'] [data-ag-part='indicator'] {
-    inline-size: var(--ag-space-3);
-    block-size: var(--ag-space-3);
+    inline-size: calc(var(--ag-space-1) * 3.5);
+    block-size: calc(var(--ag-space-1) * 3.5);
   }
   .ag-checkbox[data-ag-size='md'] [data-ag-part='indicator'],
   .ag-radio-group[data-ag-size='md'] [data-ag-part='indicator'],
@@ -51,19 +55,19 @@
   .ag-checkbox[data-indeterminate] [data-ag-part='indicator'],
   .ag-radio-group [data-checked] [data-ag-part='indicator'] {
     background: var(--ag-color-accent);
-    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-accent);
-    color: var(--ag-on-accent, var(--ag-color-on-accent));
+    box-shadow: inset 0 0 0 var(--_ag-surface-rim) var(--ag-color-accent);
+    color: var(--_ag-on-accent, var(--ag-color-on-accent));
   }
 
-  .ag-checkbox[data-disabled],
-  .ag-radio-group [data-disabled] {
+  .ag-checkbox[data-disabled] > :where([data-ag-part]),
+  .ag-radio-group [data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
 
   .ag-checkbox[data-ag-part='root']:focus-visible,
   .ag-radio-group [data-ag-part='item']:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-focus-outer);
-    outline-offset: var(--ag-focus-width);
+    outline: var(--_ag-focus-width) solid var(--_ag-focus-outer, var(--ag-color-focus-outer));
+    outline-offset: var(--_ag-focus-width);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -76,7 +80,7 @@
   @media (forced-colors: active) {
     .ag-checkbox [data-ag-part='indicator'],
     .ag-radio-group [data-ag-part='indicator'] {
-      border: var(--ag-focus-width) solid ButtonText;
+      border: var(--_ag-focus-width) solid ButtonText;
       background: ButtonFace;
       box-shadow: none;
     }

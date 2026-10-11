@@ -68,7 +68,8 @@ function InteractionGrid() {
   );
 }
 
-const meta: Meta = { title: 'MAT/Motion/Interactions', parameters: { layout: 'padded' } };
+const meta: Meta = {
+  parameters: { ag: { subject: 'Interactions', kind: 'showcase' } }, title: 'MAT/Motion/Interactions', parameters: { layout: 'padded' } };
 export default meta;
 
 type Story = StoryObj<typeof meta>;

@@ -11,5 +11,5 @@ export type LiquidGlassTabBarProps = Record<string, unknown> & { children?: Reac
 export function LiquidGlassTabBar(props: LiquidGlassTabBarProps) {
   warnDeprecated('LiquidGlassTabBar');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
-  return <TabBar.Root {...rest}>{children}</TabBar.Root>;
+  return <TabBar.Root appearance="floating" placement="overlay" {...rest}>{children}</TabBar.Root>;
 }
