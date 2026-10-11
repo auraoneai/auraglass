@@ -2,20 +2,23 @@ import { describe, expect, it } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import * as React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { EmptyState, ErrorState, LoadingState } from './index';
 
 describe('StateView components', () => {
-  it('EmptyState renders parts and fires actions', () => {
+  it('EmptyState renders parts and consumer-supplied action nodes', () => {
     const calls: string[] = [];
     const { container } = render(
       <EmptyState
         title="No results"
         description="Try a different query"
         icon={<svg data-testid="i" />}
-        actions={[
-          { label: 'Clear filters', onPress: () => calls.push('clear') },
-          { label: 'Docs', href: '/docs' },
-        ]}
+        actions={
+          <>
+            <button type="button" onClick={() => calls.push('clear')}>Clear filters</button>
+            <a href="/docs">Docs</a>
+          </>
+        }
       />,
     );
     expect(container.querySelector('[data-ag-part="root"]')).toBeInTheDocument();
@@ -23,7 +26,7 @@ describe('StateView components', () => {
     fireEvent.click(screen.getByText('Clear filters'));
     expect(calls).toEqual(['clear']);
     expect(screen.getByText('Docs').closest('a')).toHaveAttribute('href', '/docs');
-    expect(container.querySelector('[data-ag-part="root"]')).toHaveAttribute('role', 'status');
+    expect(container.querySelector('[data-ag-part="actions"]')).toBeInTheDocument();
   });
   it('ErrorState uses role=alert only when urgent', () => {
     const { container: neutral } = render(<ErrorState title="Saved offline" />);
@@ -39,5 +42,14 @@ describe('StateView components', () => {
     expect(status).toHaveAttribute('role', 'status');
     expect(status).toHaveTextContent('Loading');
     expect(status.parentElement).toHaveClass('ag-visually-hidden');
+  });
+  it('server-renders with 0 errors (RSC-safe: no hooks, actions are nodes)', () => {
+    const html = renderToStaticMarkup(
+      <EmptyState title="T" description="d" actions={<button type="button">Go</button>} />,
+    );
+    expect(html).toContain('data-ag-part="actions"');
+    expect(html).toContain('Go');
+    const html2 = renderToStaticMarkup(<ErrorState title="E" urgent />);
+    expect(html2).toContain('role="alert"');
   });
 });

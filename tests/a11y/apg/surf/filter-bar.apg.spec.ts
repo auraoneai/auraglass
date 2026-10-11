@@ -5,7 +5,7 @@ test.describe('filter bar APG', () => {
   test('chips are buttons; remove button has accessible name', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'FilterBar');
-    if (!subject) { console.warn('FilterBar subject not registered — pending'); return; }
+    if (!subject) throw new Error('FilterBar subject not registered');
     await gotoStory(page, subject.id);
     const bar = page.locator('[data-ag-part="filter-bar"]').first();
     await expect(bar).toBeVisible();

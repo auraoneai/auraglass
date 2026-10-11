@@ -6,10 +6,10 @@ export default defineMeta({
   entry: './data',
   tier: 'T2',
   rsc: 'client',
-  parts: ['chip', 'chip-label', 'chip-remove'],
+  parts: ['chip', 'chip-remove'],
   states: ['selected', 'disabled'],
   variants: { intent: ['neutral', 'info', 'success', 'warning', 'danger'], size: ['sm', 'md', 'lg'] },
-  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/',
+  apg: 'button',
   budgetKb: 3,
   migration: [
     { from: 'GlassChip', props: { label: null, text: null, onSelect: 'onSelectedChange' }, automation: 'mostly', compat: true },

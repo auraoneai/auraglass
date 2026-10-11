@@ -47,6 +47,7 @@ export const Overview: Story = {
 };
 
 export const Default: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'Combobox', id: 'overlays-combobox--playground' } },
   render: () => (
     <AuraGlassProvider>
       <Combobox.Root items={ASSIGNEES} defaultOpen>
