@@ -17,7 +17,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'content', refractionEligible: false },
   apg: 'switch',
-  budgetKb: 3,
+  budgetKb: 8,
   migration: [
     {
       from: 'GlassSwitch',
@@ -27,7 +27,7 @@ const meta: ControlMeta = defineMeta({
         glassVariant: null,
         'size:xl': { to: 'size', values: { xl: 'lg' } },
       },
-      automation: 'mostly',
+      selectors: { '.glass-switch': '.ag-switch' }, automation: 'mostly',
       compat: true,
     },
   ],

@@ -4,7 +4,10 @@ import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes'
 /** BU render-prop shape, declared locally — .types.ts no headless-lib imports allowed here. */
 export type RenderProp = import('react').ReactElement | ((props: any, state?: any) => import('react').ReactElement);
 
-export type DialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+export type DialogSize = 'sm' | 'md' | 'lg';
+
+/** Wide gallery layouts and edge-to-edge fullscreen are appearances, not sizes. */
+export type DialogAppearance = 'default' | 'wide' | 'fullscreen';
 export type DialogPlacement = 'center' | 'top';
 export type DialogVariant = 'regular' | 'identity';
 
@@ -47,6 +50,7 @@ export interface DialogBackdropProps {
 
 export interface DialogPopupProps {
   size?: DialogSize;
+  appearance?: DialogAppearance;
   placement?: DialogPlacement;
   /** 'identity' carries the product shell variant; 'regular' is the default overlay material. */
   variant?: DialogVariant;
