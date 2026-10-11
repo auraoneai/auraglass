@@ -3,19 +3,31 @@
    (foundation pattern). */
 import type * as React from 'react';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
+import type { MaterialBearingProps } from '../../contracts/components';
 
 type RenderProp = React.ReactElement | ((props: any) => React.ReactElement);
 
-export interface PopoverRootProps {
+export interface PopoverRootProps extends MaterialBearingProps {
   open?: boolean | undefined;
   defaultOpen?: boolean;
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
-  /** Modal behaviour; non-modal is the default for anchored overlays. */
-  modal?: boolean | 'trap-focus' | undefined;
+  /** Modal behaviour; non-modal is the default for anchored overlays and
+     'trap-focus' is the only modal value. */
+  modal?: false | 'trap-focus' | undefined;
+  /** Hover-to-open mode (the HoverCard successor). Default false. */
+  openOnHover?: boolean | undefined;
+  /** Hover open delay ms — default 300. */
+  delay?: number | undefined;
+  /** Hover close delay ms — default 150. */
+  closeDelay?: number | undefined;
   children?: React.ReactNode;
 }
 
-export interface PopoverTriggerProps extends React.HTMLAttributes<HTMLElement> {
+/** Real convenience block: Portal > Positioner > Popup. */
+export interface PopoverContentProps extends PopoverPopupProps, Pick<PopoverPortalProps, 'keepMounted'>, Pick<PopoverPositionerProps, 'side' | 'align' | 'sideOffset' | 'collisionPadding' | 'anchor'> {}
+
+/* openOnHover/delay/closeDelay here OVERRIDE the root context values. */
+export interface PopoverTriggerProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onChange'> {
   render?: RenderProp | undefined;
   /** Hover-to-open mode (the HoverCard successor). Default false. */
   openOnHover?: boolean | undefined;
@@ -31,7 +43,7 @@ export interface PopoverPortalProps {
   keepMounted?: boolean | undefined;
 }
 
-export interface PopoverPositionerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface PopoverPositionerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   render?: RenderProp | undefined;
   side?: 'top' | 'bottom' | 'left' | 'right' | 'inline-start' | 'inline-end' | undefined;
   align?: 'start' | 'center' | 'end' | undefined;
@@ -43,28 +55,28 @@ export interface PopoverPositionerProps extends React.HTMLAttributes<HTMLDivElem
   children?: React.ReactNode;
 }
 
-export interface PopoverPopupProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface PopoverPopupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   render?: RenderProp | undefined;
   initialFocus?: React.RefObject<HTMLElement | null> | ((openType: string) => HTMLElement | null | undefined) | undefined;
   finalFocus?: React.RefObject<HTMLElement | null> | ((closeType: string) => HTMLElement | null | undefined) | undefined;
   children?: React.ReactNode;
 }
 
-export interface PopoverArrowProps extends React.HTMLAttributes<HTMLElement> {
+export interface PopoverArrowProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onChange'> {
   render?: RenderProp | undefined;
 }
 
-export interface PopoverTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  render?: RenderProp | undefined;
-  children?: React.ReactNode;
-}
-
-export interface PopoverDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {
+export interface PopoverTitleProps extends Omit<React.HTMLAttributes<HTMLHeadingElement>, 'onChange'> {
   render?: RenderProp | undefined;
   children?: React.ReactNode;
 }
 
-export interface PopoverCloseProps extends React.HTMLAttributes<HTMLElement> {
+export interface PopoverDescriptionProps extends Omit<React.HTMLAttributes<HTMLParagraphElement>, 'onChange'> {
+  render?: RenderProp | undefined;
+  children?: React.ReactNode;
+}
+
+export interface PopoverCloseProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onChange'> {
   render?: RenderProp | undefined;
   children?: React.ReactNode;
 }

@@ -1,0 +1,3 @@
+[
+  { "file": "src/components/card/card.css", "layer": "ag.components", "bundle": "material.css", "order": 20 }
+]

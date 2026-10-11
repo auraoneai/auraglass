@@ -11,4 +11,4 @@ const folder: IconNode[] = [
 ];
 
 export const FolderIcon = /*#__PURE__*/ createIcon('Folder', folder);
-export const FolderKanban = /*#__PURE__*/ FolderIcon;
+export const FolderKanban = FolderIcon;

@@ -1,0 +1,111 @@
+{
+  "source": {
+    "file": "docs/auraglass-5/autopsy/remote-evidence/metrics.json",
+    "generatedAt": "2026-10-07T01:11:29.289Z",
+    "chromium": "141.0.7390.37",
+    "storyId": "surfaces-modals-glass-modal--default",
+    "line": "v4.1.0",
+    "note": "Copied verbatim by script from the remote-runner evidence (E14). topGlass lists only the 3 largest blurred layers of each record (box = [x, y, width, height] in CSS px); visibleBackdropCount is the total. A BCI over topGlass is therefore a lower bound of the real 4.1 modal BCI.",
+    "viewportsSource": "docs/auraglass-5/autopsy/runtime-remote.md:33 (Viewports: 1440×900 and 390×844); scrollHeight 844/900 in the records"
+  },
+  "viewports": {
+    "mobile": {
+      "width": 390,
+      "height": 844
+    },
+    "desktop": {
+      "width": 1440,
+      "height": 900
+    }
+  },
+  "records": [
+    {
+      "viewport": "mobile",
+      "background": "default",
+      "mode": "none",
+      "fps": 12,
+      "visibleBackdropCount": 12,
+      "maxBackdropNesting": 2,
+      "maxBlurPx": 40,
+      "topGlass": [
+        {
+          "tag": "div",
+          "cls": "motion-primitive glass-absolute glass-inset-0 glass-backdrop-blur-md",
+          "box": [
+            0,
+            0,
+            390,
+            1061
+          ],
+          "backdropFilter": "blur(24px) saturate(1.8) brightness(1.05) contrast(0.95)"
+        },
+        {
+          "tag": "div",
+          "cls": "optimized-glass-surface glass-neutral-level4 glass-tier-low w-full flex flex-col glass-overlay-noise glass-edge glass-ov",
+          "box": [
+            16,
+            319,
+            358,
+            726
+          ],
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)"
+        },
+        {
+          "tag": "div",
+          "cls": "glass-m-8 glass-flex glass-max-w-xl glass-flex-col glass-gap-4 glass-radius-xl glass-border glass-border-subtle glass-su",
+          "box": [
+            32,
+            72,
+            326,
+            199
+          ],
+          "backdropFilter": "blur(24px) saturate(1.8) brightness(1.05) contrast(0.95)"
+        }
+      ]
+    },
+    {
+      "viewport": "desktop",
+      "background": "default",
+      "mode": "none",
+      "fps": 12,
+      "visibleBackdropCount": 12,
+      "maxBackdropNesting": 2,
+      "maxBlurPx": 40,
+      "topGlass": [
+        {
+          "tag": "div",
+          "cls": "motion-primitive glass-absolute glass-inset-0 glass-backdrop-blur-md",
+          "box": [
+            0,
+            0,
+            1440,
+            1008
+          ],
+          "backdropFilter": "blur(24px) saturate(1.8) brightness(1.05) contrast(0.95)"
+        },
+        {
+          "tag": "div",
+          "cls": "optimized-glass-surface glass-neutral-level4 glass-tier-low w-full flex flex-col glass-overlay-noise glass-edge glass-ov",
+          "box": [
+            496,
+            283,
+            448,
+            708
+          ],
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)"
+        },
+        {
+          "tag": "div",
+          "cls": "glass-m-8 glass-flex glass-max-w-xl glass-flex-col glass-gap-4 glass-radius-xl glass-border glass-border-subtle glass-su",
+          "box": [
+            32,
+            72,
+            1376,
+            163
+          ],
+          "backdropFilter": "blur(24px) saturate(1.8) brightness(1.05) contrast(0.95)"
+        }
+      ]
+    }
+  ]
+}

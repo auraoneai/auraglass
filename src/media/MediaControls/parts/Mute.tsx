@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useMediaModel } from '../mediaContext';
 
-export const Mute = React.forwardRef<HTMLButtonElement, { className?: string }>(function Mute({ className }, ref) {
+export const Mute = function Mute({className, ref}: { className?: string } & { ref?: React.Ref<HTMLButtonElement> }) {
   const m = useMediaModel('Mute');
   return (
     <button
@@ -19,4 +19,4 @@ export const Mute = React.forwardRef<HTMLButtonElement, { className?: string }>(
       <span aria-hidden="true">{m.muted ? '🔇' : '🔊'}</span>
     </button>
   );
-});
+};
