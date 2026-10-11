@@ -1,13 +1,17 @@
 /* MAT-314 (REQ-A11Y-34): color vision — every intent pair in the intent matrix
    must stay discriminable under protan/deutan/tritan severity-1.0 simulation:
    ΔE2000 >= 10 for every pair, or the cell carries a registered non-colour cue
-   (data-ag-part="intent-icon" with an accessible name, or literal text). */
+   (data-ag-part="intent-icon" with an accessible name, or literal text).
+   REQ-MAT-65: the A11y/ColorVision fixture is resolved through listSubjects()
+   and must be MAT-owned. */
 import { test, expect } from '@playwright/test';
 import { simulateCvd } from './helpers/machado';
 import { deltaE2000 } from './helpers/ciede2000';
+import { listSubjects } from '../../helpers';
+import { matFixture } from './helpers/subjects';
 import fs from 'node:fs';
 
-const STORY = 'a11y-color-vision--default';
+const STORY = 'a11y-colorvision--default';
 const CVD = ['protan', 'deutan', 'tritan'] as const;
 
 // sRGB -> CIE Lab (D65)
@@ -34,7 +38,8 @@ const INTENT_COLORS: Record<string, string> = {
 
 test.describe('color vision', () => {
   test('every intent pair >= dE2000 10 under all three CVDs or has a cue', async ({ page, baseURL }, testInfo) => {
-    await page.goto(`${baseURL ?? ''}/iframe.html?id=${STORY}&viewMode=story`);
+    const fixture = await matFixture(listSubjects, STORY);
+    await page.goto(`${baseURL ?? ''}/iframe.html?id=${fixture.id}&viewMode=story`);
     await page.waitForSelector('[data-ag-part="intent-cell"]');
     const cues = await page.evaluate(() => {
       const out: Record<string, boolean> = {};
