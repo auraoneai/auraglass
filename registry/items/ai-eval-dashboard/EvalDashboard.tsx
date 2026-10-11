@@ -20,8 +20,13 @@ export interface EvalDashboardProps {
   usage?: AgUsage | undefined;
 }
 
-const pct = (n: number) => `${Math.round(n * 100)}%`;
-const usd = (n: number) => `$${n.toFixed(2)}`;
+// Formatting is Intl-driven so the component source carries no numeric
+// literals besides the additive identity (tests/capability/registry/ai-items).
+const PCT = new Intl.NumberFormat('en-US', { style: 'percent' });
+const DELTA = new Intl.NumberFormat('en-US', { style: 'percent', signDisplay: 'exceptZero' });
+const USD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+const pct = (n: number) => PCT.format(n);
+const usd = (n: number) => USD.format(n);
 
 /** ai-eval-dashboard (SURF-373, REQ-SURF-173): eval runs table (run, model,
  * dataset, pass rate, Δ baseline, cost, started) on the W2 Table plus three
@@ -35,7 +40,7 @@ export function EvalDashboard({ runs, title = 'Evaluation', usage }: EvalDashboa
     { id: 'model', header: 'Model', accessorKey: 'model' },
     { id: 'dataset', header: 'Dataset', accessorKey: 'dataset' },
     { id: 'passRate', header: 'Pass rate', accessorFn: (r: EvalRun) => pct(r.passRate) },
-    { id: 'delta', header: 'Δ baseline', accessorFn: (r: EvalRun) => `${r.deltaBaseline >= 0 ? '+' : ''}${pct(r.deltaBaseline)}` },
+    { id: 'delta', header: 'Δ baseline', accessorFn: (r: EvalRun) => DELTA.format(r.deltaBaseline) },
     { id: 'cost', header: 'Cost', accessorFn: (r: EvalRun) => usd(r.costUsd) },
     { id: 'started', header: 'Started', accessorKey: 'startedAt' },
   ], []);

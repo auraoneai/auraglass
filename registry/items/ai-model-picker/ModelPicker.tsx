@@ -2,11 +2,14 @@
 import * as React from 'react';
 import { Combobox, Badge } from 'aura-glass';
 
+/** Capability badges a model can carry (REQ-SURF-173). */
+export type ModelCapability = 'vision' | 'tools' | 'reasoning' | 'long-context';
+
 export interface ModelOption {
   id: string;
   label: string;
   provider: string;
-  capabilities?: readonly string[] | undefined;
+  capabilities?: readonly ModelCapability[] | undefined;
   contextWindow?: number | undefined;
 }
 
