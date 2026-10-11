@@ -58,10 +58,59 @@ const renderResize = () => (
 );
 export const ResizeReorder: Story = { render: renderResize };
 
-const renderGrid = () => (
-  <Table data={DATA.slice(0, 8)} columns={COLS} getRowId={(r) => r.id} caption="Grid mode" mode="grid" />
+// REQ-SURF-73: grid mode with single selection; the last onRowAction is
+// echoed into an <output> so the APG spec can assert Enter.
+function GridModeDemo() {
+  const [action, setAction] = React.useState('');
+  return (
+    <>
+      <Table
+        data={DATA.slice(0, 8)}
+        columns={COLS}
+        getRowId={(r) => r.id}
+        caption="Grid mode"
+        mode="grid"
+        selectionMode="single"
+        onRowAction={(r) => setAction(r.id)}
+      />
+      <output data-testid="row-action">{action}</output>
+    </>
+  );
+}
+export const GridMode: Story = { render: () => <GridModeDemo /> };
+
+// REQ-SURF-72: 12 wide columns (3,600px) with start + end pins, inside a
+// 480px-wide scroller, for the 2,000px horizontal-scroll pinning spec.
+const WIDE_COLS: TableColumnDef<Row>[] = [
+  { accessorKey: 'name', header: 'Name', size: 300, meta: { headerLabel: 'Name' } },
+  ...Array.from({ length: 10 }, (_, i): TableColumnDef<Row> => ({
+    id: `c${i}`,
+    header: `Column ${i + 1}`,
+    size: 300,
+    accessorFn: (r) => `${r.name} · ${i + 1}`,
+  })),
+  { accessorKey: 'status', header: 'Status', size: 300, meta: { headerLabel: 'Status' } },
+];
+const renderPinned = (dir: 'ltr' | 'rtl') => (
+  <div dir={dir} style={{ inlineSize: 480 }}>
+    <Table
+      data={DATA.slice(0, 12)}
+      columns={WIDE_COLS}
+      getRowId={(r) => r.id}
+      caption="Pinned columns"
+      columnPinning={{ left: ['name'], right: ['status'] }}
+    />
+  </div>
 );
-export const GridMode: Story = { render: renderGrid };
+export const Pinned: Story = { render: () => renderPinned('ltr') };
+// The preview has no direction global, so the story sets dir itself.
+export const PinnedRTL: Story = { render: () => renderPinned('rtl') };
+
+// REQ-SURF-74/76: loading state keeps the rows and appends skeleton rows.
+const renderLoading = () => (
+  <Table data={DATA.slice(0, 3)} columns={COLS} getRowId={(r) => r.id} caption="Loading" loading />
+);
+export const Loading: Story = { render: renderLoading };
 
 const renderStates = () => (
   <Table data={[]} columns={COLS} getRowId={(r) => r.id} caption="Empty" emptyState={<em>No orders</em>} />
