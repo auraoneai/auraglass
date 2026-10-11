@@ -30,8 +30,13 @@ describe('packed ./data + ./date entries (SURF-141)', () => {
     const work = mkdtempSync(join(tmpdir(), 'ag-pack-'));
     writeFileSync(join(work, 'package.json'), '{"name":"surf-141-probe","private":true,"type":"module"}');
     /* Install the tarball plus every declared peer — peer ranges inside the
-       artifact's own package.json are the honest runtime surface. */
-    const peers = Object.keys(JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')).peerDependencies ?? {});
+       artifact's own package.json are the honest runtime surface — pinned to
+       the version this repo resolves when present. */
+    const ver = (m: string) => {
+      const pj = join(ROOT, 'node_modules', m, 'package.json');
+      return existsSync(pj) ? `${m}@${JSON.parse(readFileSync(pj, 'utf8')).version as string}` : m;
+    };
+    const peers = Object.keys(JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')).peerDependencies ?? {}).map(ver);
     execFileSync('npm', ['install', '--ignore-scripts', '--no-save', '--no-audit', '--no-fund', '--legacy-peer-deps', tgz, ...peers], {
       cwd: work, stdio: 'pipe', env: { ...process.env, npm_config_loglevel: 'error' },
     });
