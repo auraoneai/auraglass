@@ -76,11 +76,16 @@ export type Measure = (subject: HTMLElement) => Promise<ContrastEstimate>;
 
 // ---- browser readback --------------------------------------------------------------------------------------------
 
-/** Resolve any CSS colour the engine understands to sRGB RGBA by painting one pixel on a canvas the Lab owns. */
+/** Resolve any CSS colour the engine understands to sRGB RGBA by painting one pixel on a canvas the Lab owns.
+    Throws when the canvas parser rejects the value (an assignment it cannot parse leaves fillStyle unchanged). */
 function resolveColor(ctx: CanvasRenderingContext2D, value: string): Rgba {
+  const sentinel = '#010203';
   ctx.clearRect(0, 0, 1, 1);
-  ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+  ctx.fillStyle = sentinel;
   ctx.fillStyle = value;
+  if (String(ctx.fillStyle).toLowerCase() === sentinel && value.trim().toLowerCase() !== sentinel) {
+    throw new Error(`ContrastReadout: the engine cannot resolve the colour "${value}"`);
+  }
   ctx.fillRect(0, 0, 1, 1);
   const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
   return [r!, g!, b!, a! / 255];
