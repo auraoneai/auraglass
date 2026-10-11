@@ -29,4 +29,19 @@ describe('ProviderErrorState', () => {
     expect((btn as HTMLButtonElement).disabled).toBe(false);
     jest.useRealTimers();
   });
+  it('settled state keeps no timer alive after the countdown (REQ-SURF-190)', () => {
+    jest.useFakeTimers();
+    render(<ProviderErrorState kind="rate-limit" retryAfterMs={2000} onRetry={() => {}} />);
+    expect(jest.getTimerCount()).toBe(1);
+    act(() => { jest.advanceTimersByTime(2000); });
+    expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(false);
+    expect(jest.getTimerCount()).toBe(0);
+    jest.useRealTimers();
+  });
+  it('no retryAfterMs starts no timer', () => {
+    jest.useFakeTimers();
+    render(<ProviderErrorState kind="network" onRetry={() => {}} />);
+    expect(jest.getTimerCount()).toBe(0);
+    jest.useRealTimers();
+  });
 });

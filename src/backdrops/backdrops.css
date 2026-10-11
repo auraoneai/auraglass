@@ -20,7 +20,7 @@
     inline-size: 100%; block-size: 100%; object-fit: cover;
   }
   /* One keyframe only under the continuous gate; paused offscreen/hidden. */
-  [data-ag-continuous='on'] .ag-backdrop[data-ag-motion='drift'] .ag-backdrop-layer {
+  [data-ag-continuous='on'] .ag-backdrop.ag-backdrop--drift .ag-backdrop-layer {
     animation: ag-backdrop-drift var(--ag-duration-ambient, 40s) ease-in-out infinite alternate;
   }
   .ag-backdrop[data-ag-offscreen] .ag-backdrop-layer { animation-play-state: paused; }

@@ -4,7 +4,7 @@ import type { AgToolPart } from '../types';
 import { toolDisplayState } from '../tool-state';
 import type { AgToolDisplayState } from '../types';
 import { AiIcon } from '../icons/AiIcon';
-import { useAnnouncer, usePreference } from '../../theme';
+import { useAnnouncer, useResolvedPreferences } from '../../theme';
 import { ToolCallApproval } from './ToolApproval';
 
 export interface ApprovalResponseDetail {
@@ -97,7 +97,9 @@ function ToolCallBase({
   const contentId = React.useId();
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
   const { announce } = useAnnouncer();
-  const motion = usePreference('motion');
+  // REQ-SURF-190: the resolved motion (min of OS floor, app, user), never
+  // the raw setting, which can be 'system' or above the reduced-motion floor.
+  const { motion } = useResolvedPreferences();
   const lastAnnounced = React.useRef<AgToolDisplayState | null>(null);
   React.useEffect(() => {
     if (display === 'needs-approval' && lastAnnounced.current !== 'needs-approval') {

@@ -25,7 +25,6 @@
     inline-size: 1ch;
     block-size: 1em;
     background: currentColor;
-    animation: ag-ai-caret-blink var(--_ag-duration-normal, 1s) steps(1) infinite;
   }
   [data-ag-part="message"] {
     max-inline-size: min(var(--_ag-ai-message-max-inline, 72ch), 100%);
@@ -79,22 +78,40 @@
    * reduced motion via the `motion` preference attribute (S-12). */
   [data-ag-part="tool-call"][data-state="running"] [data-ag-part="running-dots"]::after {
     content: "\2026";
-    animation: ag-ai-caret-blink var(--_ag-duration-slow, 1s) steps(1) infinite;
   }
   [data-ag-part="running-dots"][data-motion="none"]::after,
-  [data-ag-part="running-dots"][data-motion="calm"]::after { content: none; }
+  [data-ag-part="running-dots"][data-motion="calm"]::after,
+  [data-ag-motion="none"] [data-ag-part="running-dots"]::after,
+  [data-ag-motion="calm"] [data-ag-part="running-dots"]::after { content: none; }
   [data-ag-part="typing-indicator"] [data-ag-part="typing-dot"] {
     display: inline-block;
     inline-size: 4px; block-size: 4px;
     border-radius: 50%;
     background: currentColor;
     margin-inline-end: 3px;
+  }
+  /* REQ-SURF-190 / REQ-FIN-12: the caret blink, the running dots and the
+   * typing dots are loops, so they run only under [data-ag-continuous="on"]
+   * (the provider writes it only when allowContinuous && motion === 'full').
+   * Everywhere else each part is its static frame: a solid caret, a static
+   * ellipsis, solid dots. The calm/none overrides below (the part's own
+   * data-motion or any data-ag-motion ancestor) still win for a nested
+   * provider or subtree that lowers motion inside a continuous root. */
+  [data-ag-continuous="on"] [data-ag-part="streaming-text"] [data-ag-part="caret"] {
+    animation: ag-ai-caret-blink var(--_ag-duration-normal, 1s) steps(1) infinite;
+  }
+  [data-ag-continuous="on"] [data-ag-part="tool-call"][data-state="running"] [data-ag-part="running-dots"]::after {
+    animation: ag-ai-caret-blink var(--_ag-duration-slow, 1s) steps(1) infinite;
+  }
+  [data-ag-continuous="on"] [data-ag-part="typing-indicator"] [data-ag-part="typing-dot"] {
     animation: ag-ai-caret-blink var(--_ag-duration-slower, 1.2s) steps(1) infinite;
   }
   [data-ag-part="streaming-text"] [data-ag-part="caret"][data-motion="none"],
   [data-ag-part="streaming-text"] [data-ag-part="caret"][data-motion="calm"],
   [data-ag-part="typing-indicator"][data-motion="none"] [data-ag-part="typing-dot"],
-  [data-ag-part="typing-indicator"][data-motion="calm"] [data-ag-part="typing-dot"] {
+  [data-ag-part="typing-indicator"][data-motion="calm"] [data-ag-part="typing-dot"],
+  [data-ag-continuous="on"] [data-ag-motion="none"] :is([data-ag-part="caret"], [data-ag-part="typing-dot"]),
+  [data-ag-continuous="on"] [data-ag-motion="calm"] :is([data-ag-part="caret"], [data-ag-part="typing-dot"]) {
     animation: none;
   }
   @media (prefers-reduced-motion: reduce) {

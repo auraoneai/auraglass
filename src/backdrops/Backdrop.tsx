@@ -43,14 +43,22 @@ export const Backdrop = React.forwardRef<HTMLDivElement, BackdropProps>(function
   return (
     <div
       ref={ref}
-      className={['ag-backdrop', fixed ? 'ag-backdrop--fixed' : undefined, className].filter(Boolean).join(' ')}
+      className={[
+        'ag-backdrop',
+        fixed ? 'ag-backdrop--fixed' : undefined,
+        // REQ-SURF-190: the drift opt-in is a class, never `data-ag-motion`.
+        // That attribute is the MAT preference axis (full|calm|none, setter
+        // MAT); writing 'static'/'drift' on the backdrop shadowed the resolved
+        // motion for nearest-carrier readers inside it.
+        motion === 'drift' ? 'ag-backdrop--drift' : undefined,
+        className,
+      ].filter(Boolean).join(' ')}
       data-ag-backdrop-preset={preset}
       data-ag-palette={palette}
       {...(declaration !== undefined ? { 'data-ag-backdrop': declaration } : {})}
       {...(tone !== undefined ? { 'data-ag-media-tone': tone } : {})}
       {...(isMedia ? { 'data-ag-media-root': '' } : {})}
       data-ag-backdrop-grain={grain ? '' : undefined}
-      data-ag-motion={motion}
       {...rest}
     >
       <div className="ag-backdrop-layer" data-ag-part="backdrop-layer" aria-hidden="true">
