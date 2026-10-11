@@ -48,7 +48,23 @@ const w4 = [
 // --- lane W4 end ---
 
 // --- lane W5 begin ---
-const w5 = [] as const;
+// REQ-SURF-194 (REQ-FIN-90): L14 design-review items for the six product-surface
+// blocks, subject `blocks/<id>--default`. Definitions only — L14 scores are human
+// work (FIN-H, REQ-FIN-111); nothing here records a result.
+const w5 = [
+  { id: 'RV-SURF-W5-01', subject: 'blocks/app-frame--default', criterion: 'optical-hierarchy', note: 'main column reads first; sidebar, inspector, top bar and status bar recede' },
+  { id: 'RV-SURF-W5-02', subject: 'blocks/app-frame--default', criterion: 'specular-quality', note: 'glass sheen only on sidebar/inspector/top-bar chrome; content area stays flat' },
+  { id: 'RV-SURF-W5-03', subject: 'blocks/app-frame--default', criterion: 'radius-rhythm', note: 'rail, inspector and content corners follow one --ag-radius ladder' },
+  { id: 'RV-SURF-W5-04', subject: 'blocks/data-workspace--default', criterion: 'optical-hierarchy', note: 'table rows lead; filter bar, tree and pagination recede; stat cards scan in one row' },
+  { id: 'RV-SURF-W5-05', subject: 'blocks/data-workspace--default', criterion: 'radius-rhythm', note: 'stat cards, filter chips and table frame share the --ag-radius ladder' },
+  { id: 'RV-SURF-W5-06', subject: 'blocks/analytics-dashboard--default', criterion: 'optical-hierarchy', note: 'chart marks lead; axes, gridlines and timeline meta dim' },
+  { id: 'RV-SURF-W5-07', subject: 'blocks/analytics-dashboard--default', criterion: 'specular-quality', note: 'chart frame and stat cards stay flat; no sheen over data marks' },
+  { id: 'RV-SURF-W5-08', subject: 'blocks/media-viewer--default', criterion: 'specular-quality', note: 'clear transport controls over video keep legibility; scrim only when the viewer opens' },
+  { id: 'RV-SURF-W5-09', subject: 'blocks/media-viewer--default', criterion: 'one-hand', note: 'play, scrubber and fullscreen reachable at coarse pointers (>=44px targets)' },
+  { id: 'RV-SURF-W5-10', subject: 'blocks/ai-workspace--default', criterion: 'radius-rhythm', note: 'message bubbles, composer and tool cards follow the --ag-radius ladder' },
+  { id: 'RV-SURF-W5-11', subject: 'blocks/support-inbox--default', criterion: 'optical-hierarchy', note: 'selected ticket leads; queue table and filters recede' },
+  { id: 'RV-SURF-W5-12', subject: 'blocks/support-inbox--default', criterion: 'one-hand', note: 'ticket actions and filter chips reachable at coarse pointers' },
+] as const;
 // --- lane W5 end ---
 
 export default [...w1, ...w2, ...w3, ...w4, ...w5] satisfies readonly ReviewItem[];
