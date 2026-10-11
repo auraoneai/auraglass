@@ -186,8 +186,68 @@ describe('publish/release jobs', () => {
     expect(r.when).toBe('manual');
     expect(r.if).toContain('release');
   });
-  it('plat:audit:backdrop is manual (remote runner pending OD-11)', () => {
-    expect(job('plat:audit:backdrop').extends).toBe('.ag-aws-remote');
+});
+
+// B3-7 4x port (REQ-FIN-09 / -40 / -41 CI half; REQ-PLAT-89, -91, -92, -93; AC-FIN-09).
+describe('plat:test:cli and plat:audit:backdrop wiring (B3-7, 4.3 scope)', () => {
+  const root = yaml.parse(readFileSync('.gitlab-ci.yml', 'utf8')) as Record<string, any>;
+  const STAGES: string[] = root.stages;
+  const cliText = yaml.stringify(job('plat:test:cli').script, { lineWidth: 0 });
+  const cliRows = cliText.split('\n').map((l) => l.trim());
+  const branch4x = cliText.slice(cliText.indexOf('if [ "$AG_LINE" = "4x" ]'), cliText.indexOf('\n  else\n'));
+  const branch5x = cliText.slice(cliText.indexOf('\n  else\n'));
+
+  it('plat:test:cli needs plat:package:pack with artifacts, in a stage after package', () => {
+    const j = job('plat:test:cli');
+    expect(j.needs).toEqual([{ job: 'plat:package:pack', artifacts: true }]);
+    expect(STAGES.indexOf(j.stage)).toBeGreaterThan(STAGES.indexOf(job('plat:package:pack').stage));
+    // the need always resolves: pack runs on every scope plat:test:cli runs on
+    expect(yaml.stringify(job('plat:package:pack').rules)).toContain('$AG_SCOPE == "pr" || $AG_SCOPE == "main"');
+  });
+  it('4x runs the @auraglass/cli workspace suite with npm test -w, failing closed without a test script', () => {
+    expect(branch4x).toContain('npm test -w packages/cli -- --ci');
+    expect(branch4x).toMatch(/PENDING: npm test -w packages\/cli has no test script[^"]*"; exit 1; }/);
+    expect(branch4x).toContain('--outputFile="$CI_PROJECT_DIR/.artifacts/plat/$CI_JOB_NAME_SLUG/cli-jest.json"');
+    // the 4x workspace exists and has the test script the job runs
+    const pkg = JSON.parse(readFileSync('packages/cli/package.json', 'utf8'));
+    expect(typeof pkg.scripts.test).toBe('string');
+    expect(JSON.parse(readFileSync('package.json', 'utf8')).workspaces).toContain('packages/cli');
+  });
+  it('4x does not run 5.0-only workspaces or tests/types/plat', () => {
+    expect(branch4x).not.toMatch(/packages\/(registry|mcp|labs)/);
+    expect(branch4x).not.toContain('tests/types/plat');
+  });
+  it('5x runs the four workspace suites, then tsc over the packed d.ts, then the canary', () => {
+    expect(branch5x).toContain('for w in cli registry mcp labs; do');
+    expect(branch5x).toMatch(/PENDING: npm test -w packages\/\$w has no test script[^"]*"; exit 1; }/);
+    const ws = cliRows.indexOf('npm test -w packages/cli -w packages/registry -w packages/mcp -w packages/labs');
+    const tsc = cliRows.indexOf('npx tsc -p tests/types/plat');
+    expect(ws).toBeGreaterThan(-1);
+    expect(tsc).toBeGreaterThan(ws);
+    expect(cliRows[tsc - 1]).toMatch(/^test -f tests\/types\/plat\/tsconfig\.json \|\| \{ echo "PENDING: [^"]*"; exit 1; \}$/);
+    expect(cliRows.indexOf('npx playwright test tests/dx/codemod-canary.spec.ts')).toBeGreaterThan(tsc);
+    expect(cliText).not.toContain('npm test -- --ci packages/cli');
+  });
+  it('plat:test:cli keeps evidence under .artifacts/plat/<slug>/', () => {
+    const a = job('plat:test:cli').artifacts;
+    expect(a.paths).toEqual(['.artifacts/plat/$CI_JOB_NAME_SLUG/']);
+    expect(a.when).toBe('always');
+    expect(a.name).toBe('evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA');
+  });
+
+  it('plat:audit:backdrop is a manual job on the Playwright image', () => {
+    const j = job('plat:audit:backdrop');
+    expect(j.extends).toBe('.plat-playwright');
+    expect(j.image).toBe('$AG_PLAYWRIGHT_IMAGE');
+    expect(root.variables.AG_PLAYWRIGHT_IMAGE).toMatch(/^mcr\.microsoft\.com\/playwright:/);
+    // with rules: present, `when` must be on the rule to take effect
+    expect(j.rules).toEqual([{ if: '$AG_LINE == "5x" && $AG_SCOPE != "release"', when: 'manual' }]);
+    expect(j.allow_failure).toBe(true);
+  });
+  it('plat:audit:backdrop runs the audit Playwright config', () => {
+    const rows = yaml.stringify(job('plat:audit:backdrop').script, { lineWidth: 0 }).split('\n').map((l) => l.trim());
+    expect(rows).toContain('- npx playwright test -c packages/cli/audit/playwright.config.ts');
+    expect(rows.join('\n')).toMatch(/test -f packages\/cli\/audit\/playwright\.config\.ts \|\| \{ echo "PENDING: [^"]*"; exit 1; \}/);
   });
 });
 
