@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AuraGlass certification quarantine (REQ-QUAL-66)",
+  "description": "Flaky capture cells quarantined for at most 7 days (expires ≤ run date + 7 d; expired entries fail). Reported `quarantined`; never pass at release. Validated by packages/qa/src/evidence/quarantine.ts.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["cell", "issue", "expires"],
+    "properties": {
+      "cell": { "type": "string", "description": "capture-cell id <storyId>|<scene>|<engine>|<axes>" },
+      "issue": { "type": "string", "pattern": "^(https://\\S+|#\\d+)$" },
+      "expires": { "type": "string", "description": "ISO date, at most 7 days after the run date" }
+    }
+  }
+}
