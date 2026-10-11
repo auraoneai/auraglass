@@ -1,7 +1,0 @@
-/* MAT-280: aggregate import for PRD-02's styles.css emission inside
-   @layer ag.a11y. gzip target <= 3 KB for the whole src/a11y/css dir.
-   (.ag-visually-hidden is FND-038 in ag.components, not here.) */
-@import url(./rungs.css);
-@import url(./focus.css);
-@import url(./targets.css);
-@import url(./scroll-padding.css);

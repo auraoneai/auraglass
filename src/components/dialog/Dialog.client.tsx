@@ -9,7 +9,7 @@
    - Dev guard: opening with no Title and no aria-label logs console.error. */
 import * as React from 'react';
 import { Dialog as Base } from '@base-ui/react/dialog';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { cn } from '../../internal';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
@@ -132,6 +132,7 @@ let warnedNoTitle = false;
 
 function DialogPopup({
   size = 'md',
+  appearance = 'default',
   placement = 'center',
   variant = 'regular',
   prominent,
@@ -182,6 +183,7 @@ function DialogPopup({
       aria-modal={modal !== false ? 'true' : undefined}
       data-state={ctxOpen ? 'open' : 'closed'}
       data-ag-size={size}
+      data-ag-appearance={appearance}
       data-ag-placement={placement}
       {...overlayMaterial('dialog')}
       data-ag-variant={variant}

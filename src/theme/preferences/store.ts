@@ -102,6 +102,20 @@ const migrateLegacy = (raw: string | null): PersistedRecord => {
   return out;
 };
 
+/* REQ-MAT-53 (transferred to REQ-FIN-12): the runtime domain of each
+   user-settable key, mirroring PreferenceValues in contracts/preferences.ts.
+   Legacy contrast spellings ('less'/'custom') are migration input only and are
+   not accepted by set(). */
+const VALID: Record<UserSettableKey, (v: unknown) => boolean> = {
+  transparency: (v) => v === 'system' || v === 'glass' || v === 'tinted' || v === 'solid',
+  glassOpacity: (v) => typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= 1,
+  contrast: (v) => v === 'system' || v === 'standard' || v === 'more',
+  motion: (v) => v === 'system' || v === 'full' || v === 'calm' || v === 'none',
+  scheme: (v) => v === 'system' || v === 'light' || v === 'dark',
+  density: (v) => v === 'compact' || v === 'regular' || v === 'spacious',
+  allowContinuous: (v) => typeof v === 'boolean',
+};
+
 const ATTRS = {
   transparency: 'data-ag-transparency',
   contrast: 'data-ag-contrast',
@@ -190,7 +204,7 @@ export const createPreferenceStore = (opts: PreferenceStoreOptions = {}): Prefer
     for (const [name, value] of Object.entries(next)) {
       if (lastAttr[name] !== value) target.setAttribute(name, value);
     }
-    const cont = r.allowContinuous ? 'on' : '';
+    const cont = r.allowContinuous && r.motion === 'full' ? 'on' : '';
     if ((lastAttr['data-ag-continuous'] ?? '') !== cont) {
       if (cont) target.setAttribute('data-ag-continuous', 'on');
       else target.removeAttribute('data-ag-continuous');
@@ -273,6 +287,10 @@ export const createPreferenceStore = (opts: PreferenceStoreOptions = {}): Prefer
       };
     },
     set(key, value) {
+      // REQ-MAT-53: validate at the boundary. An unknown key or a value outside
+      // the key's declared domain is ignored: user state, storage, listeners
+      // and attribute writes are left untouched.
+      if (!Object.prototype.hasOwnProperty.call(VALID, key) || !VALID[key](value)) return;
       (user as Record<string, unknown>)[key] = value;
       if (storage) {
         const record: Record<string, unknown> = {};

@@ -1,4 +1,4 @@
-/* @ag-contract-seed: S-40. Owner QUAL. Jest setup: @testing-library/jest-dom + jest-axe matchers. */
+/* S-40 (QUAL). Jest setup: @testing-library/jest-dom + jest-axe matchers. */
 import '@testing-library/jest-dom/jest-globals';
 import { expect } from '@jest/globals';
 import { toHaveNoViolations } from 'jest-axe';
