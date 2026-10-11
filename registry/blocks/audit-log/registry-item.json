@@ -7,7 +7,9 @@
   "dependencies": [
     "react"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
     {
       "path": "index.tsx",
@@ -16,19 +18,23 @@
     {
       "path": "fixtures.ts",
       "type": "registry:item"
+    },
+    {
+      "path": "AuditLogPage.tsx",
+      "type": "registry:component"
     }
   ],
   "meta": {
     "auraglass": {
-      "owner": "PLAT",
+      "owner": "SURF",
       "surface": "block",
-      "client": false,
+      "client": true,
       "components": [
         "DateRangePicker",
         "FilterBar",
         "Table"
       ],
-      "ga": true,
+      "ga": false,
       "minVersion": "5.0.0",
       "certified": null
     }

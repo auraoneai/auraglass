@@ -7,7 +7,9 @@
   "dependencies": [
     "react"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "auraglass"
+  ],
   "files": [
     {
       "path": "TraceTree.tsx",
@@ -16,6 +18,22 @@
     {
       "path": "index.tsx",
       "type": "registry:item"
+    },
+    {
+      "path": "fixtures.ts",
+      "type": "registry:item"
     }
-  ]
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "SURF",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "TreeView"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }
