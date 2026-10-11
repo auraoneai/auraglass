@@ -213,6 +213,21 @@
   [data-ag-variant="identity"][data-ag-thickness="thick"] {
     --_ag-floor-alpha: 0.5;
   }
+  [data-ag-surface] {
+    --_ag-on-surface-max: light-dark(
+      oklch(0.18 0.012 250),
+      oklch(0.99 0.004 250)
+    );
+    --_ag-border-strong: light-dark(
+      oklch(0.18 0.012 250),
+      oklch(0.99 0.004 250)
+    );
+    --_ag-fallback-fill: color-mix(
+      in oklab,
+      var(--ag-color-canvas) 98%,
+      transparent
+    );
+  }
 
   /* Opaque fallback: forced-colors flattens the glass (blur contributes nothing);
      transparency=solid raises fills to the authored floors via --_ag-tint-floor above. */

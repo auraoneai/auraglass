@@ -8,12 +8,12 @@
   .ag-collapsible-content {
     overflow: hidden;
     block-size: var(--collapsible-panel-height, auto);
-    transition: block-size var(--ag-duration-medium, 300ms) ease;
+    transition: block-size var(--ag-duration-medium) ease;
   }
   .ag-collapsible-content[data-starting-style],
   .ag-collapsible-content[data-ending-style] { block-size: 0; }
   [data-ag-motion='calm'] .ag-collapsible-content {
-    transition: opacity var(--ag-duration-medium, 300ms) ease;
+    transition: opacity var(--ag-duration-medium) ease;
   }
   [data-ag-motion='calm'] .ag-collapsible-content[data-starting-style],
   [data-ag-motion='calm'] .ag-collapsible-content[data-ending-style] {
