@@ -12,7 +12,7 @@ describe('Badge', () => {
   it('dot renders the indicator without a label', () => {
     const { container } = render(<Badge dot intent="danger" />);
     const el = container.querySelector('[data-ag-part="root"]')!;
-    expect(el.hasAttribute('data-ag-dot')).toBe(true);
+    expect(el.hasAttribute('data-dot')).toBe(true);
   });
   it('count clamps at max as "<max>+"', () => {
     const { container } = render(<Badge count={120} max={99} />);

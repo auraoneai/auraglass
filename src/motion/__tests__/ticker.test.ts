@@ -4,6 +4,7 @@ import { describe, expect, it, jest, beforeEach, afterEach } from '@jest/globals
 import {
   subscribeFrame, observeOffscreen, tween, announceFinal, onMotionChange, resolvedMotion,
 } from '../ticker';
+import * as media from '../../theme/preferences/media';
 
 /* ---- deterministic rAF ---- */
 let rafQ: Array<{ id: number; cb: (t: number) => void }> = [];
@@ -137,6 +138,64 @@ describe('observeOffscreen (SC-21)', () => {
   });
 });
 
+describe('observed-element ref-count (MAT-47)', () => {
+  const sharedIO = () => {
+    // force the shared observer into existence, then return it
+    const probe = document.createElement('div');
+    observeOffscreen(probe)();
+    return FakeIO.instances.at(-1)!;
+  };
+
+  it('subscribe/unsubscribe on an observeOffscreen element keeps data-ag-offscreen live', () => {
+    const el = document.createElement('div');
+    document.body.appendChild(el);
+    const io = sharedIO();
+    const unobserve = observeOffscreen(el);
+    const unsub = subscribeFrame(() => {}, { element: el });
+    unsub();
+    expect(io.observed.has(el)).toBe(true); // still held by observeOffscreen
+    io.fire(el, false);
+    expect(el.hasAttribute('data-ag-offscreen')).toBe(true);
+    io.fire(el, true);
+    expect(el.hasAttribute('data-ag-offscreen')).toBe(false);
+    unobserve();
+    expect(io.observed.has(el)).toBe(false);
+    document.body.removeChild(el);
+  });
+
+  it('two frame subscribers on one element: dropping one keeps the other skipped while offscreen', () => {
+    const el = document.createElement('div');
+    document.body.appendChild(el);
+    const io = sharedIO();
+    let a = 0, b = 0;
+    const ua = subscribeFrame(() => { a += 1; }, { element: el });
+    const ub = subscribeFrame(() => { b += 1; }, { element: el });
+    ua();
+    expect(io.observed.has(el)).toBe(true);
+    io.fire(el, false);
+    step(16);
+    expect(a).toBe(0);
+    expect(b).toBe(0); // still skipped: el still observed and offscreen
+    io.fire(el, true);
+    step(32);
+    expect(b).toBe(1);
+    ub();
+    expect(io.observed.has(el)).toBe(false);
+    document.body.removeChild(el);
+  });
+
+  it('releasing a handle twice does not drop another holder', () => {
+    const el = document.createElement('div');
+    const io = sharedIO();
+    const un1 = observeOffscreen(el);
+    const un2 = observeOffscreen(el);
+    un1(); un1();
+    expect(io.observed.has(el)).toBe(true);
+    un2();
+    expect(io.observed.has(el)).toBe(false);
+  });
+});
+
 describe('tween (REQ-MOT-26/-34)', () => {
   it('writes intermediate values via the ticker and lands on the final value', async () => {
     const el = document.createElement('span');
@@ -183,6 +242,16 @@ describe('onMotionChange / resolvedMotion', () => {
     expect(resolvedMotion()).toBe('full');
     document.documentElement.setAttribute('data-ag-motion', 'calm');
     expect(resolvedMotion()).toBe('calm');
+  });
+  it('without an attribute, the floor comes from the store\'s shared reducedMotion signal', () => {
+    const read = jest.spyOn(media, 'readOsSignal').mockImplementation(
+      (_win, key) => key === 'reducedMotion');
+    expect(resolvedMotion()).toBe('calm');
+    // comparing a jsdom Window structurally is too deep for the matcher types
+    expect(read.mock.calls[0]?.[0] === window).toBe(true);
+    expect(read.mock.calls[0]?.[1]).toBe('reducedMotion');
+    document.documentElement.setAttribute('data-ag-motion', 'full');
+    expect(resolvedMotion()).toBe('full'); // attribute wins over the OS floor
   });
   it('notifies subscribers on attribute change', async () => {
     const seen: string[] = [];

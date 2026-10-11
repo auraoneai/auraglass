@@ -1,0 +1,56 @@
+/* ai-command-center layout only (REQ-QUAL-59 property allowlist: no colour, no
+   material, no [data-ag-part] selectors). */
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(18rem, 2fr);
+  gap: 1.5rem;
+  padding: 1.5rem;
+  container-type: inline-size;
+}
+
+.conversation {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 32rem;
+  min-inline-size: 0;
+}
+
+.activity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-inline-size: 0;
+}
+
+.toolStack {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.fragment {
+  display: grid;
+  gap: 1rem;
+  max-inline-size: 48rem;
+  padding: 1.5rem;
+}
+
+.mark {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+}
+
+.visuallyQuiet {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+}
+
+@media (max-width: 48rem) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1rem;
+  }
+}

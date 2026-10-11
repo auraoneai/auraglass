@@ -7,14 +7,13 @@ export default defineMeta({
   tier: 'T1',
   flagship: 34,
   rsc: 'client',
-  parts: ['filter-bar', 'filter-search', 'filter-chip', 'filter-chip-remove', 'filter-add', 'filter-clear', 'filter-count'],
+  parts: ['filter-add', 'filter-bar', 'filter-clear', 'filter-quick', 'filter-quick-toggle', 'filter-rule-chip', 'filter-rule-editor', 'filter-rules', 'filter-search'],
   states: ['empty', 'active'],
   variants: {},
-  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/',
+  apg: 'searchbox',
   budgetKb: 8,
   migration: [
-    { from: 'GlassFilterBar', props: { fields: 'schema', filters: 'value', onChange: 'onValueChange' }, automation: 'mostly', compat: true },
-    { from: 'GlassSearchBar', props: {}, automation: 'manual', compat: true },
+    { from: 'GlassFilterBar', props: { fields: 'schema', filters: 'value', onChange: 'onValueChange' }, selectors: { '.glass-filter-bar': '[data-ag-part="filter-bar"]' }, automation: 'mostly', compat: true },
+    { from: 'GlassSearchBar', props: {}, selectors: { '.glass-filter-bar': '[data-ag-part="filter-bar"]' }, automation: 'manual', compat: true },
   ],
-  selectors: [{ from: '.glass-filter-bar', to: '[data-ag-part="filter-bar"]' }],
 });

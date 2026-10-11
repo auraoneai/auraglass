@@ -11,9 +11,11 @@ const meta: ControlMeta = defineMeta({
   flagship: 22,
   rsc: 'client',
   parts: [
-    'trigger', 'positioner', 'popup', 'arrow', 'item', 'link-item',
-    'checkbox-item', 'radio-item', 'indicator', 'group', 'group-label',
-    'separator', 'submenu-trigger', 'shortcut',
+    // Menu and ContextMenu share this meta (Menubar is flat: its root is 'root'). Link, checkbox and radio
+    // items render the 'item' part (their kind is in role/aria-checked).
+    'trigger', 'context-trigger', 'positioner', 'popup', 'arrow', 'item',
+    'indicator', 'group', 'group-label', 'separator', 'submenu-trigger',
+    'submenu-indicator', 'shortcut',
   ],
   states: [
     'open', 'closed', 'starting-style', 'ending-style', 'animating',
@@ -27,7 +29,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'menu-button',
-  budgetKb: 22,
+  budgetKb: 22000 / 1024,
   migration: [
     {
       from: 'GlassMenu',
@@ -37,25 +39,25 @@ const meta: ControlMeta = defineMeta({
         items: 'Menu.Item children',
         side: 'Positioner side',
       },
-      automation: 'mostly',
+      selectors: { '.glass-menu': '.ag-menu' }, automation: 'mostly',
       compat: true,
     },
     {
       from: 'GlassDropdown',
       props: { items: 'Menu.Item children', open: 'open' },
-      automation: 'mostly',
+      selectors: { '.glass-dropdown': '.ag-menu' }, automation: 'mostly',
       compat: true,
     },
     {
       from: 'GlassContextMenu',
       props: { items: 'ContextMenu.Item children' },
-      automation: 'mostly',
+      selectors: { '.glass-context-menu': '.ag-menu' }, automation: 'mostly',
       compat: true,
     },
     {
       from: 'GlassMenubar',
       props: { menus: 'Menubar>Menu.Root children' },
-      automation: 'partial',
+      selectors: { '.glass-menubar': '.ag-menu' }, automation: 'partial',
       compat: false,
     },
   ],

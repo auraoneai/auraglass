@@ -9,7 +9,7 @@ const config: StorybookConfig = {
     '../certification/scenes/**/*.stories.@(ts|tsx)', '../.storybook/lab/**/*.stories.@(ts|tsx)',
   ],
   staticDirs: [{ from: '../certification/scenes', to: '/scenes' }],
-  framework: { name: '@storybook/react-vite', options: {} },
+  framework: { name: '@storybook/react-vite', options: { builder: { viteConfigPath: '.storybook/vite.config.ts' } } },
   addons: ['@storybook/addon-docs'],
 };
 
