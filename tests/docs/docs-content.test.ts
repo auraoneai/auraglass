@@ -20,7 +20,10 @@ import ts from 'typescript';
 import { LAYER_ORDER_STATEMENT, PUBLIC_CSS_VARS, TAILWIND_BRIDGE_ORDER } from '../../src/contracts/tokens';
 import { manifest as tokenManifest } from '../../src/tokens/generated/manifest';
 import { MANIFEST_PATH, RECORD_PATH, RSC_GUIDE_PATH, manifestJsSubpaths, renderRscGuide } from '../../scripts/docs/gen-rsc-guide.mjs';
-import { generateBaseTheme } from '../../scripts/registry/build.mjs';
+// build.mjs has no .d.mts (adding one would retype tests/registry/*, another lane's files).
+const { generateBaseTheme } = require('../../scripts/registry/build.mjs') as {
+  generateBaseTheme: (manifestPath: string | null) => { cssVars: { light: Record<string, string> } };
+};
 
 const ROOT = join(__dirname, '..', '..');
 const GUIDES_DIR = 'apps/docs/content/guides';
@@ -206,7 +209,7 @@ describe('registry URL and shadcn base', () => {
   });
 
   it('shadcn.mdx documents exactly the interchange variables the base item sets', () => {
-    const bridge = generateBaseTheme(null).cssVars.light as Record<string, string>;
+    const bridge = generateBaseTheme(null).cssVars.light;
     expect(Object.keys(bridge).sort()).toEqual([...PUBLIC_CSS_VARS.shadcn].sort());
     const rows = [...guide('shadcn').matchAll(/^\| `(--[a-z-]+)` \| `([^`]+)` \|$/gm)].map((m) => [m[1], m[2]]);
     expect(Object.fromEntries(rows)).toEqual(bridge);
