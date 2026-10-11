@@ -7,7 +7,11 @@
   "dependencies": [
     "react"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "auraglass",
+    "ai-artifact-panel",
+    "ai-sdk-adapter"
+  ],
   "files": [
     {
       "path": "index.tsx",
@@ -16,11 +20,16 @@
     {
       "path": "fixtures.ts",
       "type": "registry:item"
+    },
+    {
+      "path": "page.tsx",
+      "type": "registry:page",
+      "target": "app/ai-workspace/page.tsx"
     }
   ],
   "meta": {
     "auraglass": {
-      "owner": "PLAT",
+      "owner": "SURF",
       "surface": "block",
       "client": true,
       "components": [
