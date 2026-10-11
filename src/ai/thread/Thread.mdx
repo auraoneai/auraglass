@@ -6,13 +6,17 @@ import Meta from './Thread.meta';
 
 Scroll-pinned message log: virtualizes after `virtualizeAfter` rows, keeps the last message pinned while streaming, and jumps back with an announced button when the reader scrolls up.
 
+`<Thread messages={…} />` renders `<Thread.Root><Thread.Viewport><Thread.Items /></Thread.Viewport></Thread.Root>`.
+`Thread.Viewport` is the single `role="log"` scroll container (virtualized rows scroll inside it, never in a nested scroller);
+compose the parts yourself to add content around the log. The JumpToLatest pill's accessible name is its visible text.
+
 ## Anatomy
 
 <Anatomy of={Meta} />
 
 ## Keyboard
 
-<KeyboardTable script={[{ press: 'End', expectFocus: 'jump-to-latest' }, { press: 'ArrowUp' }]} />
+<KeyboardTable script={[{ press: 'Tab', expectFocus: 'log' }, { press: 'Home' }, { press: 'End' }, { press: 'Enter', expectFocus: 'log' }]} />
 
 ## Props
 
