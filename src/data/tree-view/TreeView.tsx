@@ -104,6 +104,7 @@ export function TreeView<T extends TreeItemData>({
         textValue={textOf(item)}
         {...(hasKids || loadChildren !== undefined ? { hasChildItems: true } : {})}
         data-ag-part="tree-item"
+        data-ag-focusable=""
         data-loading={isLoading || undefined}
         aria-busy={isLoading || undefined}
         className="ag-tree__item"

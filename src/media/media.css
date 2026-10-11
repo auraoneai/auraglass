@@ -78,8 +78,8 @@
     position: fixed; inset: 0; background: var(--ag-scrim-media, rgba(0,0,0,0.8));
   }
   .ag-image-viewer {
+    /* REQ-SURF-193: data-ag-focusable — MAT ring on :focus-visible. */
     position: fixed; inset: 5%; display: flex; flex-direction: column;
-    outline: none;
   }
   .ag-image-viewer-stage {
     flex: 1 1 auto; position: relative; overflow: hidden;

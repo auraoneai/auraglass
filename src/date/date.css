@@ -21,8 +21,10 @@
     padding-inline: var(--ag-space-1, 0.25rem);
     font-variant-numeric: tabular-nums;
     border-radius: var(--_ag-radius-1, 0.25rem);
-    outline: none;
   }
+  /* REQ-SURF-193: no outline reset — every focusable date part carries
+     data-ag-focusable, so the MAT ring (src/a11y/css/focus.css) paints on
+     :focus-visible; [data-focused] keeps the segment highlight. */
   .ag-date-field__segment[data-focused] { background: var(--_ag-accent-soft, Highlight); }
   .ag-date-picker__trigger {
     min-block-size: var(--_ag-touch-target, 44px);

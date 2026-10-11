@@ -69,9 +69,9 @@ function Inner({
       {label !== undefined && label !== null ? <RACLabel>{label}</RACLabel> : null}
       <RACGroup className="ag-date-picker__group">
         <RACDateInput data-ag-part="date-input" className="ag-date-field__input">
-          {(segment) => <RACDateSegment segment={segment} className="ag-date-field__segment" />}
+          {(segment) => <RACDateSegment data-ag-focusable="" segment={segment} className="ag-date-field__segment" />}
         </RACDateInput>
-        <RACButton data-ag-part="date-picker-trigger" className="ag-date-picker__trigger">
+        <RACButton data-ag-focusable="" data-ag-part="date-picker-trigger" className="ag-date-picker__trigger">
           {labels?.choose ?? 'Choose date'}
         </RACButton>
       </RACGroup>

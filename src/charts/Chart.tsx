@@ -75,6 +75,7 @@ function Plot<TRow>({ ctx, type, stacked, orientation, curve, yDomain, grid, too
         aria-roledescription="chart"
         aria-labelledby={labelledBy}
         tabIndex={0}
+        data-ag-focusable=""
         width="100%"
         height={h}
         viewBox={`0 0 ${w} ${h}`}
