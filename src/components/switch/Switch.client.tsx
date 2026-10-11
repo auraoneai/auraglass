@@ -5,6 +5,7 @@ import { Switch as Base } from '@base-ui/react/switch';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { materialProps } from '../../material';
+import { setAnimating } from '../../material/stateAttributes';
 import { sizeAttrs } from '../control-shared/size';
 
 /* REQ-CMP-46: data-ag-animating on the thumb while the toggle animates
@@ -12,8 +13,8 @@ import { sizeAttrs } from '../control-shared/size';
 function flagAnimating(root: HTMLElement | null) {
   const thumb = root?.querySelector<HTMLElement>("[data-ag-part='thumb']");
   if (!thumb) return;
-  thumb.setAttribute('data-ag-animating', '');
-  const off = () => thumb.removeAttribute('data-ag-animating');
+  setAnimating(thumb, true);
+  const off = () => setAnimating(thumb, false);
   thumb.addEventListener('transitionend', off, { once: true });
   /* transitionend may not fire under calm/none (0 duration) — bound it */
   setTimeout(off, 400);

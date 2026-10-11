@@ -8,11 +8,14 @@ module.exports = {
   ...base,
   rootDir: '../..',
   displayName: 'data-doubles',
-  // Scoped to the W2 surface only: inheriting the root testMatch ran the
-  // whole repo suite under the doubles mapping (unrelated suites fail there).
+  // Scope to the W2 area only (matching the ai/app-shell presets); spreading
+  // base.testMatch ran the entire repo suite under the doubles mappings.
   testMatch: [
     '<rootDir>/tests/data/**/*.test.{ts,tsx}',
-    '<rootDir>/src/{data,date,charts}/**/*.test.{ts,tsx}',
+    '<rootDir>/src/data/**/*.test.{ts,tsx}',
+    '<rootDir>/src/date/**/*.test.{ts,tsx}',
+    '<rootDir>/src/charts/**/*.test.{ts,tsx}',
+    '<rootDir>/tests/capability/registry/data-*.test.{ts,tsx}',
   ],
   moduleNameMapper: {
     ...base.moduleNameMapper,
