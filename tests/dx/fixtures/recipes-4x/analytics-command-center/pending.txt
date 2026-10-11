@@ -1,1 +1,0 @@
-migrate engine not idempotent on this recipe source (second pass emits new TODOs, e.g. icon-subpath TODO on its own output); idempotence leg skipped until engine is fixed
