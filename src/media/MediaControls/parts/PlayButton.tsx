@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useMediaModel } from '../mediaContext';
 
-export const PlayButton = React.forwardRef<HTMLButtonElement, { className?: string }>(function PlayButton({ className }, ref) {
+export const PlayButton = function PlayButton({className, ref}: { className?: string } & { ref?: React.Ref<HTMLButtonElement> }) {
   const m = useMediaModel('PlayButton');
   return (
     <button
@@ -19,4 +19,4 @@ export const PlayButton = React.forwardRef<HTMLButtonElement, { className?: stri
       <span aria-hidden="true">{m.playing ? '❚❚' : '▶'}</span>
     </button>
   );
-});
+};
