@@ -5,7 +5,29 @@ import { Radio } from '@base-ui/react/radio';
 import { materialProps, SurfaceGroup } from '../../material';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
-import type { SegmentedControlRootProps, SegmentedControlItemProps } from './SegmentedControl.types';
+import type {
+  SegmentedControlRootProps,
+  SegmentedControlItemProps,
+  SegmentedControlIndicatorProps,
+} from './SegmentedControl.types';
+
+function SegmentedControlIndicator({ children, className, ref }: SegmentedControlIndicatorProps) {
+  return (
+    <span data-ag-part="indicator" aria-hidden="true" className={className} ref={ref}>
+      {children}
+    </span>
+  );
+}
+SegmentedControlIndicator.displayName = 'SegmentedControl.Indicator';
+
+/* REQ-CMP-41: a consumer-supplied Indicator replaces the auto-rendered one. */
+function hasCustomIndicator(children: React.ReactNode): boolean {
+  let found = false;
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement(child) && child.type === SegmentedControlIndicator) found = true;
+  });
+  return found;
+}
 
 const SEGMENT_SELECT_WARNED = new WeakSet<Element>();
 
@@ -14,6 +36,7 @@ function SegmentedControlRoot({
   defaultValue,
   onValueChange,
   size = 'md',
+  orientation = 'horizontal',
   variant = 'regular',
   thickness,
   prominent,
@@ -40,7 +63,7 @@ function SegmentedControlRoot({
         !SEGMENT_SELECT_WARNED.has(el)
       ) {
         SEGMENT_SELECT_WARNED.add(el);
-         
+        // eslint-disable-next-line no-console
         console.warn(
           '[aura-glass] SegmentedControl with more than 5 items at ≤390px — prefer Select.',
         );
@@ -74,12 +97,11 @@ function SegmentedControlRoot({
         disabled={disabled}
         data-ag-part="root"
         data-ag-size={size}
+        data-orientation={orientation}
         className={cn('ag-segmented-control', className)}
         ref={setRefs}
       >
-        {!React.Children.toArray(children).some(
-          (c) => React.isValidElement(c) && c.type === SegmentedControlIndicator,
-        ) ? <span data-ag-part="indicator" aria-hidden="true" /> : null}
+        {hasCustomIndicator(children) ? null : <span data-ag-part="indicator" aria-hidden="true" />}
         {children}
       </BUGroup>
     </SurfaceGroup>
@@ -99,10 +121,6 @@ function SegmentedControlItem({ value, disabled, title, className, children, ref
       <span data-ag-part="item-label">{children}</span>
     </Radio.Root>
   );
-}
-
-function SegmentedControlIndicator({ className, ref }: { className?: string; ref?: React.Ref<HTMLSpanElement> | undefined }) {
-  return <span data-ag-part="indicator" aria-hidden="true" className={className} ref={ref} />;
 }
 
 export const SegmentedControl = {

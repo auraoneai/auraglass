@@ -125,3 +125,40 @@ export const MenubarScene: Story = {
     </AuraGlassProvider>
   ),
 };
+
+
+/* REQ-CMP-103: closed-by-default menu-button scene for the APG keyboard
+   script — items include 'Banana' for typeahead and a closed Submenu. */
+export const MenuButton: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'Menu', id: 'overlays-menu--menu-button' } },
+  render: () => (
+    <AuraGlassProvider>
+      <div style={{ display: 'flex', gap: 16 }}>
+        <Menu.Root>
+          <Menu.Trigger><Button>Fruits</Button></Menu.Trigger>
+          <MenuPortal>
+            <MenuPositioner>
+              <MenuPopup>
+                <Menu.Item>Apple</Menu.Item>
+                <Menu.Item>Apricot</Menu.Item>
+                <Menu.Item>Banana</Menu.Item>
+                <Menu.Submenu>
+                  <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
+                  <MenuPortal>
+                    <MenuPositioner>
+                      <MenuPopup>
+                        <Menu.Item>Email</Menu.Item>
+                        <Menu.Item>Link</Menu.Item>
+                      </MenuPopup>
+                    </MenuPositioner>
+                  </MenuPortal>
+                </Menu.Submenu>
+              </MenuPopup>
+            </MenuPositioner>
+          </MenuPortal>
+        </Menu.Root>
+        <Button>Next tabbable</Button>
+      </div>
+    </AuraGlassProvider>
+  ),
+};

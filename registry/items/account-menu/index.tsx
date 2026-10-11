@@ -2,8 +2,10 @@
 /* CMP-345: registry item account-menu — Menu composition replacing 4.x
    HeaderUserMenu. Registry items are never root-exported (D-15/D-17). */
 import * as React from 'react';
-import { MenuPortal, MenuPositioner, MenuPopup, Menu } from '../../../src/components/menu';
-import { Avatar } from '../../../src/components/avatar';
+import { Menu } from 'aura-glass';
+import { Avatar } from 'aura-glass';
+/* REQ-CMP-06: overlay stack parts left the compound; named part exports. */
+import { MenuPortal, MenuPositioner, MenuPopup } from 'aura-glass/components/menu';
 
 export interface AccountMenuItem {
   id: string;

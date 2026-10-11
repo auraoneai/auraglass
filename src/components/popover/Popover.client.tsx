@@ -5,7 +5,7 @@
 'use client';
 import * as React from 'react';
 import { Popover as Base } from '@base-ui/react/popover';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
 import { toOverlayReason, type OverlayKind } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
@@ -39,9 +39,40 @@ function PopoverRoot({ open, defaultOpen, onOpenChange, children }: PopoverRootP
 
 const PopoverTrigger = React.forwardRef<HTMLElement, PopoverTriggerProps>(
   function PopoverTrigger({ openOnHover = false, delay = 300, closeDelay = 150, className, children, ...rest }, ref) {
+    /* REQ-CMP-98 (WCAG popover-in-hover-mode): when the trigger is hover-opened
+       and the popup carries no interactive descendants, the trigger must be
+       aria-describedby the popup id (not aria-haspopup=dialog) — the content is
+       a tooltip-class affordance, not a dialog. BU sets aria-controls when the
+       popup mounts; we copy it into describedby. */
+    const bindAria = React.useCallback((node: HTMLElement | null) => {
+      if (!node || !openOnHover) return;
+      const apply = () => {
+        const id = node.getAttribute('aria-controls');
+        const popup = id ? document.getElementById(id) : null;
+        const interactive = popup?.querySelector('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"]),[role="button"],[role="link"]');
+        if (popup && !interactive) {
+          node.setAttribute('aria-describedby', popup.id);
+          node.removeAttribute('aria-haspopup');
+        } else {
+          node.removeAttribute('aria-describedby');
+        }
+      };
+      if (typeof MutationObserver === 'undefined') return undefined;
+      const mo = new MutationObserver(apply);
+      mo.observe(node, { attributes: true, attributeFilter: ['aria-controls'] });
+      apply();
+      return () => mo.disconnect();
+    }, [openOnHover]);
+    const ariaCleanup = React.useRef<(() => void) | undefined>(undefined);
+    const setRefs = (node: HTMLElement | null) => {
+      ariaCleanup.current?.();
+      ariaCleanup.current = node ? bindAria(node) : undefined;
+      if (typeof ref === 'function') ref(node);
+      else if (ref) ref.current = node;
+    };
     return (
       <Base.Trigger
-        ref={ref as React.Ref<HTMLButtonElement>}
+        ref={setRefs as React.Ref<HTMLButtonElement>}
         data-ag-part="trigger"
         className={cn('ag-popover-trigger', className)}
         openOnHover={openOnHover}

@@ -147,4 +147,10 @@ describe('Tooltip', () => {
     expect(document.querySelector('[data-ag-part="popup"]')).not.toBeNull();
     up(trigger);
   });
+
+  it('popup has no contain:paint (REQ-CMP-101)', () => {
+    const css = require('fs').readFileSync(require('path').join(__dirname, 'Tooltip.css'), 'utf8');
+    const popupBlock = css.match(/\.ag-tooltip-popup\s*\{[^}]*\}/)![0];
+    expect(popupBlock).not.toMatch(/contain\s*:/);
+  });
 });

@@ -4,19 +4,25 @@
    Popover filter, Menu + ContextMenu row actions, Tooltip on IconButtons and a
    Toast with undo — all on 5.0 flagships only. */
 import * as React from 'react';
-import { AlertDialog } from '../../../src/components/alert-dialog';
-import { DialogPortal, DialogBackdrop, DialogPopup, Dialog } from '../../../src/components/dialog';
-import { SheetPortal, SheetBackdrop, SheetPopup, Sheet } from '../../../src/components/sheet';
-import { PopoverPortal, PopoverPositioner, PopoverPopup, Popover } from '../../../src/components/popover';
-import { MenuPortal, MenuPositioner, MenuPopup, ContextMenuPortal, ContextMenuPositioner, ContextMenuPopup, Menu, Menubar, ContextMenu } from '../../../src/components/menu';
-import { TooltipPortal, TooltipPositioner, TooltipPopup, Tooltip } from '../../../src/components/tooltip';
-import { Toast, useToast } from '../../../src/components/toast';
-import { Button } from '../../../src/components/button';
-import { IconButton } from '../../../src/components/icon-button';
-import { Field } from '../../../src/components/field';
-import { Select } from '../../../src/components/select';
-import { TextField } from '../../../src/components/text-field';
-import { CheckboxGroup, Checkbox } from '../../../src/components/checkbox';
+import { AlertDialog } from 'aura-glass';
+import { Dialog } from 'aura-glass';
+import { Sheet } from 'aura-glass';
+import { Popover } from 'aura-glass';
+import { Menu, Menubar, ContextMenu } from 'aura-glass';
+import { Tooltip } from 'aura-glass';
+import { Toast, useToast } from 'aura-glass';
+import { Button } from 'aura-glass';
+import { IconButton } from 'aura-glass';
+import { Field } from 'aura-glass';
+import { Select } from 'aura-glass';
+import { TextField } from 'aura-glass';
+import { CheckboxGroup, Checkbox } from 'aura-glass';
+/* REQ-CMP-06: overlay stack parts left the compounds; named part exports. */
+import { DialogPortal, DialogBackdrop, DialogPopup } from 'aura-glass/components/dialog';
+import { SheetPortal, SheetBackdrop, SheetPopup } from 'aura-glass/components/sheet';
+import { PopoverPortal, PopoverPositioner, PopoverPopup } from 'aura-glass/components/popover';
+import { MenuPortal, MenuPositioner, MenuPopup, ContextMenuPortal, ContextMenuPositioner, ContextMenuPopup } from 'aura-glass/components/menu';
+import { TooltipPortal, TooltipPositioner, TooltipPopup } from 'aura-glass/components/tooltip';
 import { rows, roles, contextMenuItems, type OverlayFlowsRow } from './fixtures';
 
 function RowActions({ row }: { row: OverlayFlowsRow }) {
