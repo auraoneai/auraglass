@@ -129,6 +129,9 @@ export function TimePicker({ minuteStep = 5, labels, ...props }: TimePickerProps
             {labels?.choose ?? 'Choose time'}
           </RACButton>
         </RACGroup>
+        {props.description !== undefined && props.description !== null ? (
+          <RACText slot="description">{props.description}</RACText>
+        ) : null}
         <RACFieldError className="ag-date-field__error">{props.errorMessage}</RACFieldError>
         <RACPopover
           data-ag-part="time-picker-popover"

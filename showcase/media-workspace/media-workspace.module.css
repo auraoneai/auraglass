@@ -1,0 +1,66 @@
+/* media-workspace layout only (REQ-QUAL-59 property allowlist). */
+.page {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  container-type: inline-size;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.stage {
+  min-inline-size: 0;
+}
+
+.section {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 0.75rem;
+  padding: 0;
+  margin: 0;
+}
+
+.thumb,
+.slide,
+.frame {
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.overMedia {
+  position: relative;
+  max-inline-size: 64rem;
+}
+
+.controlsDock {
+  position: absolute;
+  inset-inline: 1rem;
+  inset-block-end: 1rem;
+}
+
+.sliders {
+  display: grid;
+  gap: 1rem;
+  min-inline-size: 16rem;
+  padding: 0.5rem 0;
+}
+
+.facts {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.fact {
+  display: grid;
+  gap: 0.25rem;
+}

@@ -12,12 +12,14 @@ export default defineMeta({
     orientation: ['horizontal', 'vertical'],
     attached: ['true', 'false'],
   },
-  budgetKb: 3,
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 10,
   migration: [
     {
       from: 'GlassButtonGroup',
       props: { orientation: 'orientation', attached: 'attached' },
-      automation: 'full',
+      selectors: { '.glass-button-group': '.ag-button-group' }, automation: 'full',
       compat: true,
     },
   ],

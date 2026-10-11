@@ -125,6 +125,7 @@ function BrandPlayground() {
 }
 
 const meta: Meta = {
+  parameters: { ag: { subject: 'Presets', kind: 'showcase' } },
   title: 'MAT/Presets',
   parameters: { layout: 'padded' },
 };
