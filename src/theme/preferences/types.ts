@@ -58,6 +58,7 @@ export type FloorReason =
   | 'prefers-reduced-motion'
   | 'no-backdrop-filter'
   | 'glass-opacity'
+  | 'contrast-more'
   | 'save-data'
   | 'low-memory-coarse';
 
