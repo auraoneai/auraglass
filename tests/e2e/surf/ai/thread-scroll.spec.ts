@@ -7,7 +7,7 @@ test.describe('ai thread scroll (SURF-351)', () => {
   test('pinned thread keeps distanceFromBottom ≤1px while streaming', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.id.includes('thread') && s.id.includes('streaming'));
-    if (!subject) { console.warn('AI/Thread streaming subject not registered — pending'); return; }
+    if (!subject) throw new Error('AI/Thread streaming subject not registered');
     await gotoStory(page, subject.id);
     const viewport = page.locator('[data-ag-part="viewport"]');
     await expect(viewport).toBeVisible();
@@ -29,7 +29,7 @@ test.describe('ai thread scroll (SURF-351)', () => {
   test('scrolled-up thread shows JumpToLatest; activation re-pins', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.id.includes('jump') || (s.id.includes('thread') && s.id.includes('unpinned')));
-    if (!subject) { console.warn('AI/Thread unpinned subject not registered — pending'); return; }
+    if (!subject) throw new Error('AI/Thread unpinned subject not registered');
     await gotoStory(page, subject.id);
     await page.locator('[data-ag-part="viewport"]').evaluate((el) => { el.scrollTop -= 400; });
     const jump = page.locator('[data-ag-part="jump-to-latest"]');
@@ -43,7 +43,7 @@ test.describe('ai thread scroll (SURF-351)', () => {
   test('prepend keeps the first visible message offset ≤1px', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'Thread');
-    if (!subject) { console.warn('AI/Thread subject not registered — pending'); return; }
+    if (!subject) throw new Error('AI/Thread subject not registered');
     await gotoStory(page, subject.id);
     const result = await page.evaluate(async () => {
       const vp = document.querySelector<HTMLElement>('[data-ag-part="viewport"]');
@@ -57,7 +57,7 @@ test.describe('ai thread scroll (SURF-351)', () => {
       for (let i = 0; i < 20 && log; i++) log.insertBefore(document.createElement('article'), log.firstChild);
       return Math.abs(first.getBoundingClientRect().top - y0);
     });
-    if (result === null) { console.warn('thread structure pending'); return; }
+    if (result === null) throw new Error('thread viewport/log structure not found');
     expect(result).toBeLessThanOrEqual(1);
   });
 });

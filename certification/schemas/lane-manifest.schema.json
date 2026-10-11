@@ -12,6 +12,29 @@
     "scope": { "type": "string", "enum": ["pr", "main", "nightly", "release"] },
     "runnerTag": { "type": ["string", "null"] },
     "imageDigest": { "type": ["string", "null"] },
+    "image": { "type": ["string", "null"] },
+    "fonts": {
+      "type": ["array", "null"],
+      "items": { "type": "object", "required": ["family", "file"], "properties": { "family": { "type": "string" }, "file": { "type": "string" } } }
+    },
+    "quarantine": {
+      "type": "object",
+      "required": ["file", "entries", "cells", "quarantined"],
+      "properties": { "file": { "type": "string" }, "entries": { "type": "integer" }, "cells": { "type": "array", "items": { "type": "string" } }, "quarantined": { "type": "array", "items": { "type": "string" } } }
+    },
+    "determinism": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["lane", "path", "cells", "agreeing", "ratio", "ok", "runs"],
+        "properties": { "lane": { "type": "string" }, "path": { "type": "string" }, "cells": { "type": "integer" }, "agreeing": { "type": "integer" }, "ratio": { "type": "number" }, "ok": { "type": "boolean" }, "runs": { "type": "integer", "enum": [2] } }
+      }
+    },
+    "shards": {
+      "type": "object",
+      "required": ["file"],
+      "properties": { "file": { "type": "string" }, "parallel": { "type": ["integer", "null"] }, "cells": { "type": ["integer", "null"] }, "ok": { "type": "boolean" }, "missing": { "type": "boolean" } }
+    },
     "browserVersions": { "type": "object" },
     "subjects": { "type": "array", "items": { "type": "string" } },
     "cells": { "type": "array" },
@@ -26,11 +49,45 @@
           "kind": { "type": "string", "enum": ["node-script", "jest", "playwright", "story-subjects", "manual-record"] },
           "path": { "type": "string" },
           "scope": { "type": "string", "enum": ["pr", "main", "nightly", "release"] },
-          "state": { "type": "string", "enum": ["pass", "fail", "pending", "double-pass", "pre-existing"] },
+          "state": { "type": "string", "enum": ["pass", "fail", "pending", "double-pass", "pre-existing", "quarantined"] },
+          "quarantined": { "type": "array", "items": { "type": "string" } },
+          "determinism": {
+            "type": "object",
+            "required": ["cells", "agreeing", "ratio", "ok", "runs"],
+            "properties": { "cells": { "type": "integer" }, "agreeing": { "type": "integer" }, "ratio": { "type": "number" }, "ok": { "type": "boolean" }, "runs": { "type": "integer", "enum": [2] }, "disagreements": { "type": "array" } }
+          },
           "reason": { "type": "string" },
           "tests": { "type": "integer" },
-          "durationMs": { "type": "integer" }
+          "durationMs": { "type": "integer" },
+          "failedOwners": { "type": "array", "items": { "type": "string" } },
+          "blockingFor": { "type": "string" },
+          "subjects": { "type": "array", "items": { "type": "string" } },
+          "coverage": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["key", "files", "lines", "branches", "floor", "state", "owner"],
+              "properties": {
+                "key": { "type": "string" },
+                "files": { "type": "integer" },
+                "lines": { "type": ["number", "null"] },
+                "branches": { "type": ["number", "null"] },
+                "floor": { "type": "object", "required": ["lines", "branches"] },
+                "state": { "type": "string", "enum": ["pass", "fail"] },
+                "owner": { "type": "string" }
+              }
+            }
+          }
         }
+      }
+    },
+    "tarball": {
+      "type": ["object", "null"],
+      "required": ["source", "file", "sha256"],
+      "properties": {
+        "source": { "type": "string", "enum": ["env", "pack"] },
+        "file": { "type": "string" },
+        "sha256": { "type": ["string", "null"] }
       }
     },
     "thresholdsSha256": { "type": ["string", "null"] },
