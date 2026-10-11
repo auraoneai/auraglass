@@ -28,16 +28,16 @@ describe('shell toggles (SURF-027)', () => {
     expect(rootAttrs(shell).sidebar).toBe('expanded');
   });
 
-  it('collapseTo=collapsed makes the toggle collapse fully', () => {
+  it('toggle collapses to rail (collapseTo removed, SURF-20)', () => {
     render(
-      <AppShell.Root data-testid="shell" collapseTo="collapsed">
+      <AppShell.Root data-testid="shell">
         <AppShellSidebarToggle />
         <AppShell.Main />
       </AppShell.Root>,
     );
     const shell = screen.getByTestId('shell');
     fireEvent.click(screen.getByRole('button'));
-    expect(rootAttrs(shell).sidebar).toBe('collapsed');
+    expect(rootAttrs(shell).sidebar).toBe('rail');
     fireEvent.click(screen.getByRole('button'));
     expect(rootAttrs(shell).sidebar).toBe('expanded');
   });
@@ -59,7 +59,7 @@ describe('shell toggles (SURF-027)', () => {
 
   it('exposes aria-expanded + aria-haspopup=dialog in drawer modes', () => {
     render(
-      <AppShell.Root data-testid="shell" layout="compact" defaultSidebar="collapsed">
+      <AppShell.Root data-testid="shell" layout="mobile" defaultSidebar="collapsed">
         <AppShellSidebarToggle />
         <AppShell.Main />
       </AppShell.Root>,
@@ -71,17 +71,16 @@ describe('shell toggles (SURF-027)', () => {
     expect(btn).toHaveAttribute('aria-expanded', 'true');
   });
 
-  it('mod+B keyboard shortcut toggles the sidebar when opted in', () => {
+  it('registers no global keydown listener (S-47; REQ-SURF-05)', () => {
+    const spy = jest.spyOn(document, 'addEventListener');
     render(
-      <AppShell.Root data-testid="shell" layout="wide">
+      <AppShell.Root data-testid="shell" layout="desktop">
         <AppShellSidebarToggle shortcut />
         <AppShell.Main />
       </AppShell.Root>,
     );
-    const shell = screen.getByTestId('shell');
-    fireEvent.keyDown(document.body, { key: 'b', ctrlKey: true });
-    expect(rootAttrs(shell).sidebar).toBe('rail');
-    fireEvent.keyDown(document.body, { key: 'b', metaKey: true });
-    expect(rootAttrs(shell).sidebar).toBe('expanded');
+    const keys = spy.mock.calls.filter(([type]) => /^key/.test(String(type)));
+    expect({ keys }).toEqual({ keys: [] });
+    spy.mockRestore();
   });
 });

@@ -7,6 +7,7 @@
    class), not removed. */
 
 import * as React from 'react';
+import { LandmarkBeacon } from './_internal/LandmarkBeacon';
 import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
 
@@ -20,7 +21,7 @@ export function SidebarNav({ children, render, ...rest }: SidebarNavProps) {
     render,
     'data-ag-part': 'sidebar-nav',
     ...rest,
-    children: <ul>{children}</ul>,
+    children: <ul><LandmarkBeacon role="navigation" name={rest['aria-label'] as string | undefined} />{children}</ul>,
   });
 }
 SidebarNav.displayName = 'Sidebar.Nav';

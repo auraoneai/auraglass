@@ -1,5 +1,5 @@
 /** @jest-environment jsdom */
-import { beforeEach, describe, expect, it } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import {
   getServerSnapshot,
   getSnapshot,
@@ -78,6 +78,30 @@ describe('appShellStore (SURF-026)', () => {
     expect(s.sidebar).toBe('rail');
     expect(s.inspector).toBe('open');
     expect(s.mode).toBe('wide');
+  });
+
+  it('writes the exact cookie string with both keys (SURF-21)', () => {
+    const root = makeRoot({ persistKey: 'demo' });
+    const desc = Object.getOwnPropertyDescriptor(Document.prototype, 'cookie')!;
+    const written: string[] = [];
+    const set = jest.spyOn(Document.prototype, 'cookie', 'set').mockImplementation(function (this: Document, v: string) {
+      written.push(v);
+      desc.set!.call(this, v);
+    });
+    try {
+      setInspector(root, 'open');
+      setSidebar(root, 'rail');
+    } finally {
+      set.mockRestore();
+    }
+    // Defaults are written too: the first write carries sidebar:expanded.
+    expect(written).toEqual([
+      'ag-shell-demo=sidebar:expanded,inspector:open; Path=/; Max-Age=31536000; SameSite=Lax',
+      'ag-shell-demo=sidebar:rail,inspector:open; Path=/; Max-Age=31536000; SameSite=Lax',
+    ]);
+    // The browser jar keeps the whole value (',' is not a cookie delimiter).
+    expect(document.cookie).toBe('ag-shell-demo=sidebar:rail,inspector:open');
+    document.cookie = 'ag-shell-demo=; Path=/; Max-Age=0';
   });
 
   it('subscribe notifies listeners and unsubscribes cleanly', () => {

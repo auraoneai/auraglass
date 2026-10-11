@@ -7,6 +7,7 @@
 import * as React from 'react';
 import { SurfaceGroup, ScrollEdge } from '../../material';
 import { SearchField } from '../search-field';
+import { LandmarkBeacon } from '../../app-shell/_internal/LandmarkBeacon';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 
@@ -112,6 +113,7 @@ function TabBarRoot({
   return (
     <TabBarCtx.Provider value={ctxValue}>
       <SurfaceGroup className="ag-tab-bar" spacing="0" {...(refraction ? { refraction: true } : {})}>
+        {semantics === 'navigation' ? <LandmarkBeacon role="navigation" name={ariaLabel} /> : null}
         {nav}
         <ScrollEdge edge="bottom" edgeStyle="soft" />
       </SurfaceGroup>

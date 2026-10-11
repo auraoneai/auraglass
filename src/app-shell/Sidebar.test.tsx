@@ -86,4 +86,15 @@ describe('Sidebar (SURF-041)', () => {
     );
     expect(screen.getByRole('button', { name: 'Auto' })).toHaveAttribute('aria-expanded', 'true');
   });
+
+  it('appearance is not variant (SURF-27)', () => {
+    render(<Sidebar.Root appearance="floating" data-testid="sb" />);
+    const el = screen.getByTestId('sb');
+    expect(el).toHaveAttribute('data-ag-appearance', 'floating');
+    // appearance never maps to variant: whatever Surface's default variant
+    // attr is, it must not be 'floating'.
+    expect(el.getAttribute('data-ag-variant')).not.toBe('floating');
+    render(<Sidebar.Root appearance="inset" variant="clear" data-testid="sb2" />);
+    expect(screen.getByTestId('sb2').closest('[data-ag-variant]') ?? screen.getByTestId('sb2')).toHaveAttribute('data-ag-variant', 'clear');
+  });
 });
