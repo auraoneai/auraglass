@@ -6,7 +6,7 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { ActivityFeed } from '../../../components/timeline/ActivityFeed';
-import { toTimestamp } from './GlassTimeline';
+import { toTimestamp } from './_time';
 
 export interface GlassActivityItem {
   id?: string;

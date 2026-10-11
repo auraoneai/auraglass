@@ -4,11 +4,11 @@
    maxHeight. Row dragging (enableRowDragging) has no 5.0 equivalent. */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { LegacyTable, type GlassDataTableProps } from './GlassDataTable';
+import { LegacyTable, type LegacyTableProps } from './_table';
 
 type Row = Record<string, unknown>;
 
-export type GlassDataGridProps<T extends Row = Row> = GlassDataTableProps<T> & { height?: number | string };
+export type GlassDataGridProps<T extends Row = Row> = LegacyTableProps<T> & { height?: number | string };
 
 /**
  * 4.x `GlassDataGrid` compat adapter (DEP-S0201).

@@ -9,8 +9,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { TimeField } from '../../../date/TimePicker';
 import type { TimeValue } from '../../../date/shared';
-import { fieldProps, toTimeValue, type LegacyFieldProps } from './shared';
-import { legacyChange } from './GlassDateField';
+import { fieldProps, legacyChange, toTimeValue, type LegacyFieldProps } from './shared';
 
 export interface GlassTimeFieldProps extends LegacyFieldProps {
   value?: string | Date | null;

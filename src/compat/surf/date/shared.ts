@@ -94,3 +94,8 @@ export function fieldProps(p: LegacyFieldProps): Record<string, unknown> {
     ...(p.firstDayOfWeek !== undefined ? { firstDayOfWeek: DAYS[p.firstDayOfWeek] } : {}),
   };
 }
+
+/** 4.x native-input onChange payload: an event-shaped object carrying the value. */
+export function legacyChange(value: string) {
+  return { target: { value }, currentTarget: { value } };
+}

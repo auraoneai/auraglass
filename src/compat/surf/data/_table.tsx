@@ -9,8 +9,10 @@
    column's own renderer. */
 import * as React from 'react';
 import type { TableColumnDef } from '../../../data/table/types';
+import { Table } from '../../../data/table/Table';
 
 type Row = Record<string, unknown>;
+
 
 export interface LegacyColumn<T extends Row = Row> {
   key?: string;
@@ -61,3 +63,67 @@ export function legacyRowId<T extends Row>(row: T, index: number): string {
   const id = row['id'];
   return typeof id === 'string' || typeof id === 'number' ? String(id) : String(index);
 }
+
+export interface LegacyTableProps<T extends Row = Row> {
+  data?: T[];
+  rows?: T[];
+  columns?: LegacyColumn<T>[];
+  cellRenderers?: Record<string, (value: unknown, row: T) => React.ReactNode>;
+  sortable?: boolean;
+  pagination?: boolean;
+  initialPageSize?: number;
+  selectable?: boolean;
+  selectionMode?: 'single' | 'multiple';
+  selectedRows?: (string | number)[];
+  onSelectionChange?: (ids: string[]) => void;
+  onRowClick?: (row: T) => void;
+  getRowId?: (row: T, index: number) => string;
+  loading?: boolean;
+  emptyMessage?: React.ReactNode;
+  emptyState?: { message?: string; description?: string };
+  compact?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  stickyHeader?: boolean;
+  maxHeight?: number | string;
+  'aria-label'?: string;
+  className?: string;
+  [legacy: string]: unknown;
+}
+
+export function LegacyTable<T extends Row>({ virtualize, ...props }: LegacyTableProps<T> & { virtualize?: boolean }) {
+  const {
+    data, rows, columns = [], cellRenderers, sortable = true, pagination, initialPageSize = 10, selectable,
+    selectionMode, selectedRows, onSelectionChange, onRowClick, getRowId, loading, emptyMessage, emptyState,
+    compact, size, stickyHeader, maxHeight, className,
+  } = props;
+  const cols = React.useMemo(() => {
+    const mapped = legacyColumns(columns, cellRenderers);
+    return sortable ? mapped : mapped.map((c) => ({ ...c, enableSorting: false }));
+  }, [columns, cellRenderers, sortable]);
+  const mode = selectable || selectedRows || onSelectionChange ? (selectionMode ?? 'multiple') : undefined;
+  return (
+    <Table<T>
+      data={rows ?? data ?? []}
+      columns={cols}
+      getRowId={getRowId ?? legacyRowId}
+      {...(pagination ? { defaultPagination: { pageIndex: 0, pageSize: initialPageSize } } : {})}
+      {...(mode ? { selectionMode: mode } : {})}
+      {...(selectedRows ? { rowSelection: Object.fromEntries(selectedRows.map((id) => [String(id), true])) } : {})}
+      {...(onSelectionChange ? { onRowSelectionChange: (s: Record<string, boolean>) => onSelectionChange(Object.keys(s).filter((k) => s[k])) } : {})}
+      {...(onRowClick ? { onRowAction: onRowClick } : {})}
+      {...(loading ? { loading: true } : {})}
+      emptyState={emptyMessage ?? emptyState?.message ?? 'No rows'}
+      size={compact ? 'sm' : (size ?? 'md')}
+      {...(stickyHeader ? { stickyHeader: true } : {})}
+      {...(maxHeight !== undefined ? { maxHeight } : {})}
+      {...(props['aria-label'] ? { 'aria-label': props['aria-label'] } : {})}
+      {...(className ? { className } : {})}
+      {...(virtualize ? { virtualize: true } : {})}
+    />
+  );
+}
+
+/**
+ * 4.x `GlassDataTable` compat adapter (DEP-S0200).
+ * @deprecated since 4.3.0, removed in 5.0.0. Use {@link Table from aura-glass/data}.
+ */

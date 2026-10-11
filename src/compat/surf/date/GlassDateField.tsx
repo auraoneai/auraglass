@@ -9,7 +9,7 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { DateField } from '../../../date/DateField';
 import type { DateValue } from '../../../date/shared';
-import { fieldProps, toCalendarDate, type LegacyFieldProps } from './shared';
+import { fieldProps, legacyChange, toCalendarDate, type LegacyFieldProps } from './shared';
 
 export interface GlassDateFieldProps extends LegacyFieldProps {
   value?: string | Date | null;
@@ -20,10 +20,6 @@ export interface GlassDateFieldProps extends LegacyFieldProps {
   timeZone?: string;
   className?: string;
   [legacy: string]: unknown;
-}
-
-export function legacyChange(value: string) {
-  return { target: { value }, currentTarget: { value } };
 }
 
 /**

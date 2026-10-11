@@ -9,7 +9,7 @@ import { expectAdapter, type CompatRow } from '../app-shell/compat-harness';
 import { W3_STORY_ARGS as A } from '../fixtures/consumer-4x/cases/surf/ai/story-args';
 import * as compat from '../../src/compat/surf';
 import { COMPAT_IDS } from '../fixtures/consumer-4x/cases/surf/compat-ids';
-import { toAgMessages } from '../../src/compat/surf/ai/GlassChat';
+import { toAgMessages } from '../../src/compat/surf/ai/_messages';
 
 type C = React.ComponentType<Record<string, unknown>>;
 const row = (name: keyof typeof compat & keyof typeof A, part: string, extra?: Record<string, unknown>): CompatRow => ({

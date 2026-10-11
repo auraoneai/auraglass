@@ -12,17 +12,9 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Thread } from '../../../ai/thread/Thread';
 import { Composer } from '../../../ai/composer/Composer';
-import type { AgMessage } from '../../../ai/types';
+import { toAgMessages, type ChatMessage } from './_messages';
 
-export interface ChatMessage {
-  id: string;
-  content: string;
-  sender: { id: string; name?: string; avatar?: string; status?: string };
-  type?: 'text' | 'system' | string;
-  timestamp?: Date | string | number;
-  attachments?: Array<{ name?: string; type?: string; url?: string }>;
-  [legacy: string]: unknown;
-}
+export type { ChatMessage } from './_messages';
 
 export interface GlassChatProps {
   messages?: ChatMessage[];
@@ -34,29 +26,6 @@ export interface GlassChatProps {
   [legacy: string]: unknown;
 }
 
-export function toAgMessages(messages: readonly ChatMessage[], currentUserId: string | undefined, withFiles = true): AgMessage[] {
-  return messages.map((m) => ({
-    id: m.id,
-    role: m.type === 'system' ? 'system' : m.sender.id === currentUserId ? 'user' : 'assistant',
-    parts: [
-      { type: 'text' as const, text: m.content },
-      ...(withFiles ? (m.attachments ?? []) : []).map((a) => ({
-        type: 'file' as const,
-        mediaType: a.type ?? 'application/octet-stream',
-        url: a.url ?? '',
-        ...(a.name !== undefined ? { filename: a.name } : {}),
-      })),
-    ],
-    ...(m.timestamp !== undefined
-      ? { metadata: { createdAt: m.timestamp instanceof Date ? m.timestamp.toISOString() : m.timestamp } }
-      : {}),
-  }));
-}
-
-/**
- * 4.x `GlassChat` compat adapter (DEP-S0400).
- * @deprecated since 4.2.0, removed in 5.0.0. Use {@link Thread + Message + Composer from aura-glass/ai}.
- */
 export function GlassChat(props: GlassChatProps) {
   warnDeprecated('DEP-S0400');
   const { messages = [], currentUserId, title, onSend, onSendMessage, className } = props;

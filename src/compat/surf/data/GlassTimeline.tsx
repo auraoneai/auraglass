@@ -6,6 +6,7 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Timeline } from '../../../components/timeline/Timeline';
+import { toTimestamp } from './_time';
 
 export interface GlassTimelineItem {
   id?: string;
@@ -24,12 +25,6 @@ export interface GlassTimelineProps {
   'aria-label'?: string;
   className?: string;
   [legacy: string]: unknown;
-}
-
-export function toTimestamp(ts: string | number | Date | undefined): Date | string {
-  if (ts instanceof Date) return ts;
-  if (typeof ts === 'number') return new Date(ts);
-  return ts ?? '';
 }
 
 /**

@@ -1,5 +1,5 @@
 /* LiquidGlassPhotoInspector — 4.x compat adapter (REQ-SURF-13, DEP-S0603).
-   The 4.x component was a LiquidGlassInspectorPanel preset (open, title,
+   The 4.x component was an inspector-panel preset (open, title,
    selectionLabel, metadata record, tags, rating, onOpenChange), not an image
    viewer; its 5.0 successor for that panel is Inspector (ImageViewer +
    Inspector per DEP-S0603). metadata entries → Inspector.Field rows, tags →

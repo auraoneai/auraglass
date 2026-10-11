@@ -1,5 +1,5 @@
 /* GlassMessageList — 4.x compat adapter (REQ-SURF-13, DEP-S0402) → Thread.
-   ChatMessage → AgMessage through the GlassChat mapping (content → text
+   ChatMessage → AgMessage through the shared chat mapping (./_messages) (content → text
    part, sender.id === currentUserId → user, timestamp → metadata.createdAt).
    The dropped 4.x props (virtualScroll, reactions, replyTo, edited) are named
    in the DEP-S0402 message; onMessageClick/onMessageReaction have no 5.0
@@ -7,7 +7,7 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Thread } from '../../../ai/thread/Thread';
-import { toAgMessages, type ChatMessage } from './GlassChat';
+import { toAgMessages, type ChatMessage } from './_messages';
 
 export interface GlassMessageListProps {
   messages?: ChatMessage[];
