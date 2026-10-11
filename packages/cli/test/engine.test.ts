@@ -32,7 +32,7 @@ describe('migrate 4to5 engine', () => {
     const dir = tmp();
     const f = path.join(dir, 'a.tsx');
     fs.writeFileSync(f, `import { Nav } from 'aura-glass/navigation';\nexport const x = <Nav/>;\n`);
-    fs.writeFileSync(path.join(dir, '.git'), 'x'); // marker so the guard is bypassed with --allow-no-git
+    /* no .git — --allow-no-git opts out of the guard */
     const code = await migrateCommand(['4to5'], { cwd: dir, 'allow-no-git': true, silent: true });
     expect(code).toBe(0);
     const out = fs.readFileSync(f, 'utf8');

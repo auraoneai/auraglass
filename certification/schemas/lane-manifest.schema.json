@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AuraGlass lane manifest (REQ-QUAL-05)",
+  "type": "object",
+  "required": ["version", "lane", "sha", "scope", "runnerTag", "imageDigest", "browserVersions", "subjects", "cells", "results",
+    "thresholdsSha256", "scenesSha256", "inventorySha256", "durationMs", "captureRate"],
+  "properties": {
+    "version": { "type": "integer", "enum": [1] },
+    "lane": { "type": "string", "enum": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "all"] },
+    "line": { "type": "string", "enum": ["4x", "5x"] },
+    "sha": { "type": ["string", "null"] },
+    "scope": { "type": "string", "enum": ["pr", "main", "nightly", "release"] },
+    "runnerTag": { "type": ["string", "null"] },
+    "imageDigest": { "type": ["string", "null"] },
+    "browserVersions": { "type": "object" },
+    "subjects": { "type": "array", "items": { "type": "string" } },
+    "cells": { "type": "array" },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["lane", "stream", "kind", "path", "scope", "state"],
+        "properties": {
+          "lane": { "type": "string", "enum": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L13", "L14"] },
+          "stream": { "type": "string", "enum": ["plat", "mat", "cmp", "surf", "qual"] },
+          "kind": { "type": "string", "enum": ["node-script", "jest", "playwright", "story-subjects", "manual-record"] },
+          "path": { "type": "string" },
+          "scope": { "type": "string", "enum": ["pr", "main", "nightly", "release"] },
+          "state": { "type": "string", "enum": ["pass", "fail", "pending", "double-pass", "pre-existing"] },
+          "reason": { "type": "string" },
+          "tests": { "type": "integer" },
+          "durationMs": { "type": "integer" }
+        }
+      }
+    },
+    "thresholdsSha256": { "type": ["string", "null"] },
+    "scenesSha256": { "type": ["string", "null"] },
+    "inventorySha256": { "type": ["string", "null"] },
+    "durationMs": { "type": "integer" },
+    "captureRate": { "type": ["number", "null"] }
+  }
+}

@@ -81,11 +81,11 @@ export function runChecks(cwd: string): CheckResult[] {
   };
   const dupReact = dup('react').length > 1;
   results.push(dupReact
-    ? { id: 'duplicate-react', status: 'warn', message: 'multiple react copies detected' }
+    ? { id: 'duplicate-react', status: 'fail', message: 'multiple react copies detected' }
     : { id: 'duplicate-react', status: 'pass', message: 'single react' });
   const dupBase = dup('@base-ui-components/react').length > 1 || dup('@base-ui/react').length > 1;
   results.push(dupBase
-    ? { id: 'duplicate-base-ui', status: 'warn', message: 'multiple base-ui copies detected' }
+    ? { id: 'duplicate-base-ui', status: 'fail', message: 'multiple base-ui copies detected' }
     : { id: 'duplicate-base-ui', status: 'pass', message: 'single base-ui' });
 
   // undeclared-transitive warns
@@ -147,9 +147,9 @@ export function runChecks(cwd: string): CheckResult[] {
 
   // MUI / Radix → info (never fail)
   const mui = Object.keys(deps).filter((d) => d.startsWith('@mui/') || d === 'mui');
-  if (mui.length) results.push({ id: 'mui-present', status: 'info', message: `mui packages present (${mui.join(', ')}) — report-only guidance` });
+  if (mui.length) results.push({ id: 'mui-present', status: 'info', message: 'Coexists with AuraGlass; not required' });
   const radix = Object.keys(deps).filter((d) => d.startsWith('@radix-ui/'));
-  if (radix.length) results.push({ id: 'radix-present', status: 'info', message: `radix packages present (${radix.length}) — 5.0 uses Base UI` });
+  if (radix.length) results.push({ id: 'radix-present', status: 'info', message: 'Coexists with AuraGlass; not required' });
   if (deps['shadcn'] || project.componentsJson) {
     results.push({ id: 'shadcn-app', status: 'info', message: 'shadcn app detected — registry add handles @/ aliases' });
   }

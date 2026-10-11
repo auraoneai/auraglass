@@ -1,8 +1,14 @@
 # ci/mat.gitlab-ci.yml (MAT). Jobs are named mat:<stage>:<name>, extend .mat-base, rule only on
-# $AG_SCOPE/$AG_LINE, keep allow_failure: true until each job's first green on next, put evidence
-# under .artifacts/ with expire_in, and never use merge_request_event or credentials (§4.13.4).
+# $AG_SCOPE/$AG_LINE, keep allow_failure: true until each job's first green on next (the flip is a
+# ci/plat/activation.json row), put evidence under .artifacts/mat/ with when: always + expire_in,
+# and never use merge_request_event or credentials (§4.13.4). Certify jobs live only in ci/qual
+# (rule 7): MAT registers lane cells in fragments/lanes/mat.ts instead. No `|| true` fail-opens.
 .mat-base:
   extends: .ag-node
+
+# Browser lanes run on the remote Playwright image only (rule 9).
+.mat-browser:
+  extends: .ag-playwright
 
 mat:build:tokens:
   extends: .mat-base
@@ -14,12 +20,15 @@ mat:build:tokens:
     - npm run tokens:build
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
     expire_in: 14 days
-    paths: [dist/tokens/, dist/tokens.css, dist/compat/tokens.css, .artifacts/]
+    paths: [dist/tokens/, dist/tokens.css, dist/compat/tokens.css, .artifacts/mat/]
 
 # MAT-329 (interim, DS-047): token build + generated-output drift + tests/tokens.
 # Retires once QUAL's L1/L4 lanes report on next; the same checks then run inside
 # qual:certify:l1/l4 through the lane registrations in fragments/lanes/mat.ts.
+# Evidence (dist/tokens/, dist/contrast-matrix.json) is copied into the job's own
+# .artifacts/mat/<slug>/ dir right after the build; a failed copy fails the job.
 mat:test:tokens-interim:
   extends: .mat-base
   stage: test
@@ -29,11 +38,67 @@ mat:test:tokens-interim:
   script:
     # tokens:build (fails closed > 20 s) + git diff --exit-code on generated outputs
     - node scripts/mat/token-drift-l4.mjs
-    - npx jest tests/tokens --passWithNoTests
+    - mkdir -p ".artifacts/mat/$CI_JOB_NAME_SLUG"
+    - cp -R dist/tokens dist/contrast-matrix.json ".artifacts/mat/$CI_JOB_NAME_SLUG/"
+    - npx jest tests/tokens
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
     expire_in: 14 days
-    paths: [dist/tokens/, dist/contrast-matrix.json, .artifacts/]
+    paths: [.artifacts/mat/]
+
+# REQ-FIN-01 / AC-FIN-01: token-build drift gate — every generated surface equals a
+# fresh build, and dist/compat/tokens.css stays <= 8 KB gzip (MAT-021).
+mat:test:drift:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    - node scripts/tokens/drift.mjs
+
+# MAT-332 / REQ-MAT-17 (D.2-03): L1 Static token gates (undefined-vars, dead-vars,
+# tier-skip, types-runtime, literals) + stylelint over src/**/*.css, <= 30 s.
+mat:test:token-gates:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    # Gates read the full tokens:build output closure (dist/compat/tokens.css
+    # @imports ../css/tokens.css). The mat:build:tokens producer artifact only
+    # carries dist/tokens/, dist/tokens.css and dist/compat/tokens.css, and
+    # plat:build:dist's tsdown cleans dist/, so rebuild in-job (deterministic, < 20 s).
+    - npm run tokens:build
+    - node scripts/mat/token-gates-l1.mjs
+
+# REQ-MAT-37 / REQ-FIN-56 (D.3-20): cinematic boundary runtime gate, registered as
+# an L1 row in fragments/lanes/mat.ts. QUAL's lane runner (certification/run.mjs,
+# invoked by qual:certify:l1) has not landed on next, so this transitional
+# test-stage job runs the same script until the runner reports the L1 row; it is
+# deleted in the PR that lands the runner's first green L1 run.
+mat:test:material-runtime:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    - node scripts/mat/verify-material-runtime.mjs
+    - npx jest tests/material/ci/verify-material-runtime.test.ts tests/material/ci/cinematic-boundary.test.ts
+
+# REQ-MAT-18 (D.2-04): literal ratchet on MAT's stream baseline
+# (fragments/literals-baseline/mat.json). Exits 1 only for MAT findings.
+mat:lint:literals:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    - node scripts/tokens/gates/literals.mjs --stream mat
 
 # MAT-344: optics lint, recipe metric and css-api checks on every 5x PR/main.
 # The invoked scripts are lane 2b-M's (MAT-096/100/102) — until they merge the
@@ -45,50 +110,68 @@ mat:test:optics:
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
   script:
+    # REQ-MAT-39: N never rises over the measured baseline (re-record with --update).
+    - node scripts/mat/count-glass-recipes.mjs --ratchet scripts/mat/glass-recipes-baseline.json --out ".artifacts/mat/$CI_JOB_NAME_SLUG/recipes.json"
+    # REQ-MAT-39: optics lint over src/stories/tests/apps held at optics-baseline.json.
+    - node scripts/mat/optics-lint.mjs --out ".artifacts/mat/$CI_JOB_NAME_SLUG/optics-lint.json"
+    # REQ-MAT-39 CSS scanner (no baseline). Runs after the two ratchets so their
+    # evidence is always produced; it fails the job on any optics/unparseable CSS.
     - node scripts/mat/verify-optics-css.mjs
-    - node scripts/mat/count-glass-recipes.mjs
     - node scripts/mat/material-css-api.mjs --check
     - npx jest tests/lint tests/ci --passWithNoTests
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
-    paths: [.artifacts/]
+    paths: [.artifacts/mat/]
     when: always
 
 # MAT-358: beta gate — strict recipe count (N>1 fails), optics scanner without a
-# baseline, and the recipe-removal sweep on every 5x release pipeline.
-mat:certify:beta-optics:
+# baseline, and the recipe-removal sweep on every 5x release pipeline. A test-stage
+# job (rule 7: certify jobs live only in ci/qual).
+mat:test:beta-optics:
   extends: .mat-base
-  stage: certify
+  stage: test
   allow_failure: true
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE == "release"
   script:
-    - node scripts/mat/count-glass-recipes.mjs --strict
+    - node scripts/mat/count-glass-recipes.mjs --strict --out ".artifacts/mat/$CI_JOB_NAME_SLUG/recipes.json"
     - node scripts/mat/verify-optics-css.mjs
     - node scripts/mat/verify-recipe-removal.mjs
     - npx eslint 'src/**/*.{ts,tsx}' --format stylish
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
-    paths: [.artifacts/]
+    paths: [.artifacts/mat/]
     when: always
 
-# MAT-349: the 'material' Playwright projects run as L5 Behaviour cells on PR
-# scope (WebKit/Gecko-only specs are the L8 Engine-specific cells, SC-29).
-# Remote runners only; evidence uploaded per SC-07.
-mat:certify:l5-material:
-  extends: .mat-base
-  stage: certify
+# MAT-349: the 'material' Playwright projects are registered as L5 Behaviour and
+# L8 Engine-specific cells in fragments/lanes/mat.ts (SC-29). QUAL's lane runner
+# (certification/run.mjs, invoked by qual:certify:l5/l8) has not landed on next, so
+# this transitional test-stage job runs the same projects on the remote Playwright
+# image and stays allow_failure: true (pending) until the runner reports them. It is
+# deleted in the PR that lands the runner's first green L5/L8 run.
+mat:test:material-browsers:
+  extends: [.mat-base, .mat-browser]
+  stage: test
   allow_failure: true
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
+  # The specs drive material-lab stories at AG_STORYBOOK_URL (127.0.0.1:6006,
+  # playwright.config.ts baseURL): reuse QUAL's storybook-static artifact, build
+  # it here when absent, and serve it before the run (fail-closed if it never
+  # comes up).
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
   script:
-    - npx playwright test --project=mat:material-chromium --project=mat:material-webkit --project=mat:material-firefox --reporter=line
+    - test -f storybook-static/iframe.html || npm run storybook:build
+    - (python3 -m http.server 6006 --bind 127.0.0.1 --directory storybook-static >/dev/null 2>&1 &)
+    - node -e "const t=Date.now();(async function p(){try{if((await fetch('http://127.0.0.1:6006/iframe.html')).ok)return}catch{}if(Date.now()-t>60000){console.error('storybook-static not served on :6006');process.exit(1)}setTimeout(p,500)})()"
+    - npx playwright test --project=mat:material-chromium --project=mat:material-webkit --project=mat:material-firefox --reporter=line --output=".artifacts/mat/$CI_JOB_NAME_SLUG/test-results"
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
-    paths: [.artifacts/]
+    paths: [.artifacts/mat/]
     when: always
 
 # MAT-362 (next half): codemod-fixture integrity + the vendored frozen 4.x
@@ -106,5 +189,39 @@ mat:test:consumer-4x:
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
-    paths: [.artifacts/]
+    paths: [.artifacts/mat/]
+    when: always
+
+# REQ-FIN-52 / AC-FIN-52 seed bullet + AC-FIN-06 tarball line (FIN-D D.2-01):
+# no entry is held back by a contract-seed header any more, and the packed tarball
+# installed into an empty consumer resolves `Button` from `import('aura-glass')`.
+# Every step fails closed; the pack/install/import logs are the job's evidence.
+mat:test:seed-free-pack:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    - set -o pipefail  # every `| tee` below keeps the producer's exit status
+    - export EV="$PWD/.artifacts/mat/$CI_JOB_NAME_SLUG" && mkdir -p "$EV/pack"
+    - node scripts/build/generate-exports.mjs --check
+    - node scripts/build/generate-exports.mjs --list-entries | tee "$EV/seed-free-entries.txt"
+    - |
+      if grep -q '^pending' "$EV/seed-free-entries.txt"; then
+        echo "entries still held back by the seed filter (see above)"; exit 1
+      fi
+    - npm test -- tests/material/exports/seed-free.test.ts
+    - npm run build 2>&1 | tee "$EV/build.log"
+    - npm pack --ignore-scripts --pack-destination "$EV/pack" 2>&1 | tee "$EV/pack.log"
+    - TGZ="$(ls "$EV"/pack/aura-glass-*.tgz)" && test -f "$TGZ"
+    # empty consumer outside the project tree (no workspace/node_modules leakage)
+    - export CONSUMER="$(mktemp -d)" && cd "$CONSUMER" && npm init -y >/dev/null
+    - npm install --no-audit --no-fund "$TGZ" 2>&1 | tee "$EV/install.log"
+    - node -e "import('aura-glass').then(m=>console.log(!!m.Button))" | tee "$EV/import-button.txt"
+    - test "$(cat "$EV/import-button.txt")" = "true"
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/mat/]
     when: always
