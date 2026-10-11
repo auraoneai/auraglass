@@ -133,13 +133,13 @@
     },
     "./forms": {
       "types": "./dist/forms/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "import": "./dist/forms/index.mjs",
+      "require": "./dist/forms/index.js"
     },
     "./data": {
       "types": "./dist/data/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "import": "./dist/data/index.mjs",
+      "require": "./dist/data/index.js"
     },
     "./navigation": {
       "types": "./dist/navigation/index.d.ts",
