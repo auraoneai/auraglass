@@ -7,7 +7,7 @@
 'use client';
 import * as React from 'react';
 import { Tooltip as Base } from '@base-ui/react/tooltip';
-import { usePortalContainer } from '../../foundation/portal';
+import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
@@ -19,13 +19,16 @@ import type {
 
 interface TooltipCtx {
   open: boolean;
+  /** popup actually mounted — trigger emits aria-describedby only then */
+  popupMounted: boolean;
   /** stable popup id — trigger exposes it via aria-describedby while open (BU emits neither role nor describedby; we own both) */
   popupId: string;
   /** trigger long-press (coarse) requests open through root state */
   requestOpen: () => void;
   rootRef?: React.Ref<HTMLElement> | undefined;
+  setPopupMounted: (m: boolean) => void;
 }
-const TooltipCtx = React.createContext<TooltipCtx>({ open: false, popupId: '', requestOpen: () => {} });
+const TooltipCtx = React.createContext<TooltipCtx>({ open: false, popupMounted: false, popupId: '', requestOpen: () => {}, setPopupMounted: () => {} });
 
 const LONG_PRESS_MS = 500;
 
@@ -47,7 +50,8 @@ function TooltipRoot({ open, defaultOpen, onOpenChange, children, ref }: Tooltip
     setOpen(true);
     onOpenChange?.(true, { reason: 'imperative' } as OverlayOpenChangeDetails);
   }, [setOpen, onOpenChange]);
-  const ctx = React.useMemo(() => ({ open: current, popupId, requestOpen, rootRef: ref }), [current, popupId, requestOpen, ref]);
+  const [popupMounted, setPopupMounted] = React.useState(false);
+  const ctx = React.useMemo(() => ({ open: current, popupMounted, popupId, requestOpen, setPopupMounted, rootRef: ref }), [current, popupMounted, popupId, requestOpen, ref]);
   return (
     <TooltipCtx.Provider value={ctx}>
       <Base.Root
@@ -87,7 +91,7 @@ function TooltipTrigger({ className, children, onPointerDown, onPointerUp, onPoi
         ref={ref as React.Ref<HTMLButtonElement>}
         data-ag-part="trigger"
         className={cn('ag-tooltip-trigger', className)}
-        aria-describedby={ctx.open ? ctx.popupId : undefined}
+        aria-describedby={ctx.popupMounted ? ctx.popupId : undefined}
         onPointerDown={handleDown}
         onPointerUp={handleEnd}
         onPointerCancel={handleEnd}
@@ -136,6 +140,7 @@ function TooltipPopup({ className, children, ref, ...rest }: TooltipPopupProps &
     }, [el]);
     const setRefs: React.RefCallback<HTMLDivElement> = (node) => {
       setEl(node);
+      ctx.setPopupMounted(Boolean(node));
       animatingRef(node);
       for (const r of [ref, ctx.rootRef]) {
         if (typeof r === 'function') r(node);

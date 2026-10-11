@@ -96,6 +96,12 @@ export interface ComboboxChipsProps {
 export interface ComboboxChipProps {
   children?: ReactNode;
   className?: string;
+  label?: string;
+}
+export interface ComboboxChipRemoveProps {
+  children?: ReactNode;
+  className?: string;
+  label?: string;
 }
 
 export interface ComboboxLoadingProps {

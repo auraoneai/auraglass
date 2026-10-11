@@ -53,9 +53,9 @@ function VirtualListInner<T>(
     onRangeChange,
     className,
     style,
+    ref,
     ...rest
-  }: VirtualListProps<T>,
-  ref: React.ForwardedRef<VirtualListHandle>,
+  }: VirtualListProps<T> & { ref?: React.Ref<VirtualListHandle> },
 ) {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const horizontal = orientation === 'horizontal';
@@ -184,6 +184,6 @@ function VirtualListInner<T>(
   );
 }
 
-export const VirtualList = React.forwardRef(VirtualListInner) as <T>(
-  props: VirtualListProps<T> & { ref?: React.ForwardedRef<VirtualListHandle> },
+export const VirtualList = VirtualListInner as <T>(
+  props: VirtualListProps<T> & { ref?: React.Ref<VirtualListHandle> },
 ) => React.ReactElement;
