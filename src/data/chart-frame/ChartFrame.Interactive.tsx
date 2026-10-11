@@ -4,6 +4,7 @@
    ResizeObserver-measured plot context, reduced-motion detection and the
    three-mode table fallback. */
 import * as React from 'react';
+import { useResolvedPreferences } from '../../theme';
 import type { ChartContext, ChartSeries } from './types';
 import type { ChartFrameProps } from './ChartFrame';
 
@@ -30,7 +31,10 @@ export function ChartFrameInteractive<TRow extends Record<string, unknown>>({
   };
   const [tableOpen, setTableOpen] = React.useState(table === 'always');
   const [width, setWidth] = React.useState<number | undefined>(undefined);
-  const [reducedMotion, setReducedMotion] = React.useState(false);
+  // REQ-MOT-63: motion resolves through the single preference source (the
+  // OS reduced-motion floor is folded into resolved.motion).
+  const { motion } = useResolvedPreferences();
+  const reducedMotion = motion === 'calm' || motion === 'none';
   const plotRef = React.useRef<HTMLDivElement | null>(null);
   const tableId = React.useId();
 
@@ -44,14 +48,6 @@ export function ChartFrameInteractive<TRow extends Record<string, unknown>>({
     return () => ro.disconnect();
   }, []);
 
-  React.useEffect(() => {
-    if (typeof matchMedia !== 'function') return undefined;
-    const mq = matchMedia('(prefers-reduced-motion: reduce)');
-    const on = () => setReducedMotion(mq.matches);
-    on();
-    mq.addEventListener?.('change', on);
-    return () => mq.removeEventListener?.('change', on);
-  }, []);
 
   const visible = series.filter((s) => !hidden.includes(s.key));
   const colorOf = (key: string) => {

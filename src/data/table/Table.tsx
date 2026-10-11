@@ -258,10 +258,10 @@ const TableRow = React.memo(TableRowImpl) as typeof TableRowImpl;
 
 const MenuRoot = Menu.Root as React.FC<{ children?: React.ReactNode }>;
 const MenuTrigger = Menu.Trigger as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
-const MenuContent = Menu.Content as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
+// REQ-SURF-78: Menu.Content is CMP's Portal>Positioner>Popup composite, so
+// the table adds no portal/positioner of its own.
+const MenuContent = Menu.Content as React.FC<{ children?: React.ReactNode }>;
 const MenuItem = Menu.Item as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
-const MaybePortal = ('Portal' in Menu ? Menu.Portal : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
-const MaybePositioner = ('Positioner' in Menu ? Menu.Positioner : React.Fragment) as React.FC<{ children?: React.ReactNode }>;
 
 function ResizeHandleInner<TData>({
   header,
@@ -646,21 +646,40 @@ export function Table<TData>(props: TableProps<TData>) {
     if (next === 'asc') announce(msgs.sortedAsc.replace('{col}', label));
     else if (next === 'desc') announce(msgs.sortedDesc.replace('{col}', label));
     else announce(msgs.sortCleared.replace('{col}', label));
-    void announce;
   };
 
-  const moveColumn = (columnId: string, dir: -1 | 1) => {
-    const ids = leafCols.map((c) => c.id);
-    const i = ids.indexOf(columnId);
+  // REQ-SURF-78: reorder moves a data column one slot within its pinning
+  // partition (start-pinned | center | end-pinned, from the effective
+  // pinning state). A move that would cross a partition boundary, pass the
+  // selection column or leave the ends is rejected (no-op; the menu item is
+  // disabled). Positions are 1-based over the visible data columns.
+  const dataColIds = leafCols.map((c) => c.id).filter((id) => id !== '__select');
+  const partitionOf = (columnId: string): 'left' | 'center' | 'right' => {
+    if (effectivePinning.left?.includes(columnId)) return 'left';
+    if (effectivePinning.right?.includes(columnId)) return 'right';
+    return 'center';
+  };
+  const moveTarget = (columnId: string, dir: -1 | 1): number | null => {
+    const i = dataColIds.indexOf(columnId);
     const j = i + dir;
-    if (i < 0 || j < 0 || j >= ids.length) return;
-    const next = [...ids];
-    const [id] = next.splice(i, 1);
-    next.splice(j, 0, id!);
-    setOrder(next);
+    if (i < 0 || j < 0 || j >= dataColIds.length) return null;
+    return partitionOf(dataColIds[j]!) === partitionOf(columnId) ? j : null;
+  };
+  const moveColumn = (columnId: string, dir: -1 | 1) => {
+    const j = moveTarget(columnId, dir);
+    if (j === null) return;
+    const next = dataColIds.filter((id) => id !== columnId);
+    next.splice(j, 0, columnId);
+    // Keep the selection column first and hidden columns in the state, so
+    // the new order never drops a column TanStack would re-append.
+    const hidden = table
+      .getAllLeafColumns()
+      .map((c) => c.id)
+      .filter((id) => id !== '__select' && !next.includes(id));
+    setOrder([...(selectionMode === 'multiple' ? ['__select'] : []), ...next, ...hidden]);
     const label = (table.getColumn(columnId)?.columnDef.meta?.headerLabel ?? columnId) as string;
     announce(
-      msgs.movedTo.replace('{col}', label).replace('{n}', String(j + 1)).replace('{m}', String(ids.length)),
+      msgs.movedTo.replace('{col}', label).replace('{n}', String(j + 1)).replace('{m}', String(dataColIds.length)),
     );
   };
 
@@ -746,27 +765,27 @@ export function Table<TData>(props: TableProps<TData>) {
         {enableColumnReordering && !header.isPlaceholder && header.column.id !== '__select' ? (
           <MenuRoot>
             <MenuTrigger
-              render={<IconButton label={`${msgs.columnMenu ?? 'Column actions'} ${label}`} icon={'\u2026'} />}
+              render={<IconButton label={`${msgs.columnActions} ${label}`} icon={'\u2026'} />}
               data-ag-part="table-column-menu"
               className="ag-table__col-menu"
             />
-            <MaybePortal>
-              <MaybePositioner>
-                <MenuContent>
-                  <MenuItem onClick={() => moveColumn(header.column.id, -1)}>
-                    {msgs.moveLeft} {label}
-                  </MenuItem>
-                  <MenuItem onClick={() => moveColumn(header.column.id, 1)}>
-                    {msgs.moveRight} {label}
-                  </MenuItem>
-                  {header.column.getCanHide() ? (
-                    <MenuItem onClick={() => header.column.toggleVisibility(false)}>
-                      {msgs.hideColumn ?? 'Hide'} {label}
-                    </MenuItem>
-                  ) : null}
-                </MenuContent>
-              </MaybePositioner>
-            </MaybePortal>
+            <MenuContent>
+              <MenuItem
+                disabled={moveTarget(header.column.id, -1) === null}
+                onClick={() => moveColumn(header.column.id, -1)}
+              >
+                {msgs.moveLeft}
+              </MenuItem>
+              <MenuItem
+                disabled={moveTarget(header.column.id, 1) === null}
+                onClick={() => moveColumn(header.column.id, 1)}
+              >
+                {msgs.moveRight}
+              </MenuItem>
+              {header.column.getCanHide() ? (
+                <MenuItem onClick={() => header.column.toggleVisibility(false)}>{msgs.hideColumn}</MenuItem>
+              ) : null}
+            </MenuContent>
           </MenuRoot>
         ) : null}
         {enableColumnResizing && header.column.getCanResize() && !header.isPlaceholder ? (
