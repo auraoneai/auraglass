@@ -8,15 +8,18 @@ import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { dispositionsRows, familyNames, verifyRecord, ghSearch } from '../../scripts/removal/consumer-grep.mjs';
 
-const ROW = (i, name, file, disp = 'REMOVE', pub = 'yes', dest = 'removed', target = '-', prd = 'PRD-16') =>
-  `| ${i} | ${name} | \`${file}\` | ${disp} | ${pub} | ${dest} | ${target} | ${prd} |  |`;
-const TABLE = `# x\n\n| # | Name | File | 4.x disposition | Public | 5.0 destination | 5.0 target | Owning PRD | Reconciliation note |\n|---|---|---|---|---|---|---|---|---|\n`;
+const ROW = (i, name, file, disp = 'REMOVE', pub = 'yes', dest = 'removed', target = '-', prd = 'PRD-16', owner = 'PLAT', codemod = 'removed') =>
+  `| ${i} | ${name} | \`${file}\` | ${disp} | ${pub} | ${dest} | ${target} | ${owner} | ${codemod} | ${prd} |  |`;
+const TABLE = `# x\n\n| # | Name | File | 4.x disposition | Public | 5.0 destination | 5.0 target | Owner | Codemod | Owning PRD | Reconciliation note |\n|---|---|---|---|---|---|---|---|---|---|---|\n`;
 
 test('dispositionsRows parses the generated table', () => {
   const rows = dispositionsRows(TABLE + ROW(0, 'GlassChat', 'src/components/ai/GlassChat.tsx'));
   assert.equal(rows.length, 1);
   assert.equal(rows[0].name, 'GlassChat');
   assert.equal(rows[0].dest, 'removed');
+  assert.equal(rows[0].owner, 'PLAT');
+  assert.equal(rows[0].codemod, 'removed');
+  assert.equal(rows[0].prd, 'PRD-16');
 });
 test('familyNames resolves export names from family paths', () => {
   const rows = dispositionsRows(TABLE + [
