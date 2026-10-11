@@ -8,7 +8,7 @@ const meta: ControlMeta = defineMeta({
   tier: 'T1',
   flagship: 9,
   rsc: 'client',
-  parts: ['control-shell', 'error', 'hit-area', 'label', 'root'],
+  parts: ['root'],
   states: ['invalid', 'disabled'],
   variants: {},
   material: { layer: 'content', refractionEligible: false },

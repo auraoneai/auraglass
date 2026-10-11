@@ -10,6 +10,7 @@ export default defineMeta({
   parts: ['stat-card', 'stat-card-delta', 'stat-card-description', 'stat-card-label', 'stat-card-sparkline', 'stat-card-value'],
   states: ['loading'],
   variants: { trendDirection: ['up-is-good', 'down-is-good', 'neutral'] },
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/link/',
   budgetKb: 3,
   migration: [
     { from: 'GlassStatCard', props: { title: 'label', trend: 'trendDirection' }, automation: 'full', compat: true },

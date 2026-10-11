@@ -9,7 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['approval', 'approve', 'content', 'deny', 'deny-reason', 'error-text', 'io', 'io-expand', 'io-pre', 'running-dots', 'tool-call', 'tool-name', 'tool-state', 'trigger', 'waiting'],
   states: ['queued', 'running', 'needs-approval', 'succeeded', 'failed', 'denied'],
-  apg: 'disclosure',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/',
   variants: {},
   budgetKb: 8,
   migration: [],

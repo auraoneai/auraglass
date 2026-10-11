@@ -10,7 +10,7 @@ export default defineMeta({
   parts: ['tree-item', 'tree-view'],
   states: ['expanded', 'collapsed', 'selected', 'focused'],
   variants: {},
-  apg: 'treeview',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/treeview/',
   budgetKb: 8,
   migration: [
     { from: 'GlassTreeView', props: { nodes: 'items', selectedId: 'selectedKeys', onSelect: 'onSelectionChange' }, automation: 'mostly', compat: true },

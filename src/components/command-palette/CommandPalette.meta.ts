@@ -7,11 +7,11 @@ export default defineMeta({
   flagship: 29,
   tier: 'T1',
   rsc: 'client',
-  parts: ['command', 'command-palette', 'empty', 'group', 'group-heading', 'input', 'item', 'list', 'loading', 'separator', 'shortcut'],
+  parts: ['command-palette'],
   states: ['open', 'closed'],
 
   material: { layer: 'overlay', refractionEligible: false },
-  apg: 'listbox',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/',
   variants: {},
   migration: [{ from: 'GlassCommandPalette', props: { open: 'open', hotkey: 'hotkey' }, automation: 'mostly', compat: true }],
 });

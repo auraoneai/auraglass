@@ -6,7 +6,7 @@ export default defineMeta({
   entry: '.',
 
   material: { layer: 'chrome', refractionEligible: false },
-  apg: 'tabs',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/tabs/',
   budgetKb: 5,
   flagship: 26,
   tier: 'T1',

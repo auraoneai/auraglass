@@ -9,7 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['bottom-sentinel', 'empty', 'jump-to-latest', 'log', 'thread', 'top-sentinel', 'viewport'],
   states: ['complete', 'streaming', 'pending', 'error', 'aborted'],
-  apg: 'feed',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: {},
   budgetKb: 18,
   migration: [],

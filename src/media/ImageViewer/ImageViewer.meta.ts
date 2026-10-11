@@ -8,7 +8,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['image-viewer-caption', 'image-viewer-close', 'image-viewer-counter', 'image-viewer-inspector', 'image-viewer-next', 'image-viewer-popup', 'image-viewer-prev', 'image-viewer-scrim', 'image-viewer-stage', 'image-viewer-toolbar', 'image-viewer-trigger', 'image-viewer-zoom-in', 'image-viewer-zoom-out', 'image-viewer-zoom-reset'],
   states: ['closed', 'open', 'zoomed'],
-  apg: 'dialog-modal',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/',
   variants: {},
   budgetKb: 10,
   migration: [

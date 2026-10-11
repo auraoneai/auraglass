@@ -8,7 +8,7 @@ export default defineMeta({
   rsc: 'server',
   parts: ['usage', 'usage-meter', 'usage-window', 'usage-window-text'],
   states: ['normal', 'warning', 'critical'],
-  apg: 'meter',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/meter/',
   variants: {},
   budgetKb: 4,
   migration: [],

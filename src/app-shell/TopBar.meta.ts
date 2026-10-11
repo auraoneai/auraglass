@@ -7,11 +7,11 @@ export default defineMeta({
   flagship: 24,
   tier: 'T1',
   rsc: 'server',
-  parts: ['top-bar', 'top-bar-center', 'top-bar-leading', 'top-bar-title', 'top-bar-trailing'],
+  parts: ['edge-registrar', 'top-bar', 'top-bar-center', 'top-bar-leading', 'top-bar-title', 'top-bar-trailing'],
   states: [],
 
   material: { layer: 'chrome', refractionEligible: false },
-  apg: 'landmarks',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
   variants: {},
   migration: [{ from: 'GlassTopBar', props: {}, automation: 'mostly', compat: true }],
 });

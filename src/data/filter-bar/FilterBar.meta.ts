@@ -10,7 +10,7 @@ export default defineMeta({
   parts: ['filter-add', 'filter-bar', 'filter-clear', 'filter-quick', 'filter-quick-toggle', 'filter-rule-chip', 'filter-rule-editor', 'filter-rules', 'filter-search'],
   states: ['empty', 'active'],
   variants: {},
-  apg: 'searchbox',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/',
   budgetKb: 8,
   migration: [
     { from: 'GlassFilterBar', props: { fields: 'schema', filters: 'value', onChange: 'onValueChange' }, automation: 'mostly', compat: true },

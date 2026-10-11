@@ -9,7 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['resizable-panel', 'resizable-panels', 'resize-handle'],
   states: ['collapsed'],
-  apg: 'window-splitter',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/',
   variants: {},
   migration: [{ from: 'GlassResizablePanels', props: {}, automation: 'mostly', compat: true }],
 });
