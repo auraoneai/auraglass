@@ -89,7 +89,8 @@ const w4 = [
 // --diff uses `git merge-base HEAD origin/next` (no CI_MERGE_REQUEST_* on the
 // mirror). SURF-633: labs admission gate on L1 with scopes pr + release, so a
 // red run fails the tag pipeline whose plat:publish:npm job publishes labs
-// (REQ-SURF-167). SURF-561: SURF purity gate on L1 (REQ-SURF-05).
+// (REQ-SURF-167); it passes --manifest build/exports.manifest.json so the
+// REQ-SURF-169 promotion checks always run. SURF-561: SURF purity gate on L1 (REQ-SURF-05).
 const w5 = [
   {
     lane: 'L1',
@@ -118,7 +119,7 @@ const w5 = [
   {
     lane: 'L1',
     kind: 'node-script',
-    path: 'scripts/surf/verify-labs-admission.mjs',
+    path: 'scripts/surf/verify-labs-admission.mjs --manifest build/exports.manifest.json',
     scope: 'pr',
     remote: false,
     failClosed: true,
@@ -126,9 +127,27 @@ const w5 = [
   {
     lane: 'L1',
     kind: 'node-script',
-    path: 'scripts/surf/verify-labs-admission.mjs',
+    path: 'scripts/surf/verify-labs-admission.mjs --manifest build/exports.manifest.json',
     scope: 'release',
     remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-168: spatial labs admission budgets on the remote mid-tier mobile
+  // profile (QUAL S-40) — L10, pr + release so a red run blocks the labs tag.
+  {
+    lane: 'L10',
+    kind: 'playwright',
+    path: 'tests/perf/browser/surf/labs-spatial-admission.spec.ts',
+    scope: 'pr',
+    remote: true,
+    failClosed: true,
+  },
+  {
+    lane: 'L10',
+    kind: 'playwright',
+    path: 'tests/perf/browser/surf/labs-spatial-admission.spec.ts',
+    scope: 'release',
+    remote: true,
     failClosed: true,
   },
   {
