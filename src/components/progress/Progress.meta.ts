@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root','track','indicator','label','value'],
   states: ['loading','idle'],
   variants: {},
-  migration: [{ from: 'GlassProgress', automation: 'mostly', compat: true }, { from: 'CircularProgress', automation: 'mostly', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 5,
+  migration: [{ from: 'GlassProgress', props: {}, selectors: { '.glass-progress': '.ag-progress' },  automation: 'mostly', compat: true }, { from: 'CircularProgress', props: {}, selectors: { '.glass-circular-progress': '.ag-progress' },  automation: 'mostly', compat: true }],
 });

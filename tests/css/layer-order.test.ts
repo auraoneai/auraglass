@@ -27,7 +27,8 @@ describe('layer order (PLAT-278)', () => {
   it('dist/styles.css starts with the verbatim order statement', () => {
     ensureBuilt();
     const css = readFileSync(`${DIST}/styles.css`, 'utf8');
-    expect(css.startsWith(ORDER)).toBe(true);
+    // REQ-PLAT-74 minifies shipped css — compare with insignificant whitespace removed.
+    expect(css.replace(/\s/g, '').startsWith(ORDER.replace(/\s/g, ''))).toBe(true);
   });
 
   it('only contract layer names appear in emitted blocks', () => {

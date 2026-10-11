@@ -11,16 +11,23 @@ npm run build-storybook
 
 Storybook runs at `http://localhost:6006`.
 
-## Preview Modes
+## Preview (5.0, REQ-QUAL-09..11)
 
-The global Storybook toolbar includes a `Preview` control:
+The toolbar exposes only the frozen globals: `scheme`, `contrast`, `transparency`, `motion`, `density`, `tier` and `scene`. `.storybook/preview.tsx` has exactly one decorator, which renders:
 
-- `Light`: neutral product documentation surface.
-- `Dark`: dark UI validation surface.
-- `Liquid Glass`: controlled liquid backdrop for glass-specific composition.
-- `High Contrast`: accessibility inspection surface with stronger contrast requirements.
+1. `AuraGlassProvider` with its props taken from the globals (no persistence; the provider applies the OS motion floor),
+2. `Environment` with `backdrop = SCENE_BACKDROP[scene]` and the scene image `/scenes/<file>` (scenes whose backdrop is not `media`, and stories of kind `scene`, are painted by the `<body>` background instead),
+3. `.storybook/contract/StoryRoot.tsx`: one `<div data-ag-story-content data-ag-story-kind>` that sets `data-ag-cert-ready` after `document.fonts.ready`, every image decode and two animation frames, and clears it on unmount.
 
-Stories are no longer forced into dark mode and no global decorative blob wrapper is injected around every component. Shared presentation is handled by `.storybook/StorySurface.tsx`, which gives each story a predictable `component`, `app`, `media`, or `plain` surface.
+Cert mode is `?ag-cert=1` on the iframe URL. It loads only the built `dist/styles.css` (build `dist/` first) and makes every ancestor of the story root transparent and unfiltered, so the scene is painted only by the environment. Lanes wait on `data-ag-cert-ready`, never on sleeps, and every lane spec imports `test` from `certification/lanes/_fixtures/determinism.ts` (frozen clock at 2026-03-02T09:30:00Z, seeded `Math.random`).
+
+## Build and freshness (5.0, REQ-QUAL-56/-57)
+
+- The dev server (`storybook dev`) aliases `aura-glass` and its subpaths to the entry sources in `build/exports.manifest.json`.
+- `AG_STORYBOOK_DIST=1` (the `qual:build:storybook` build, `node scripts/storybook/build.mjs`) resolves `aura-glass[/<subpath>]` through package.json `exports` to `dist/`, redirects relative `src/**` imports to their 1:1 `dist/` twin, loads only the built stylesheet, and refuses any `src/` or `@/` alias. `dist/` comes from the `plat:build:dist` artifact; without it the script runs `npm run build` first.
+- `scripts/storybook/check-build-log.mjs` fails on unresolved imports, duplicate or missing story ids, a build over 6 min or a `storybook-static/` over 60 MB excluding maps. `write-build-manifest.mjs` writes `storybook-static/ag-build.json` (`sha`, `dirty`, `builtAt`, `storybookVersion`, `packageVersion`, `storyCount`, `indexSha256`), and every consumer runs `verify-fresh.mjs` first.
+- `@storybook/addon-a11y` runs in the interactive Storybook; the gate of record is REQ-QUAL-19. Interaction flows are Playwright specs in `tests/e2e/qual/storybook/` (job `qual:test:storybook-flows`, remote only); no `@storybook/jest`, `@storybook/testing-library`, `@storybook/test` or Vitest.
+- Story typecheck: `tsc --noEmit -p tsconfig.storybook.json` (L1).
 
 ## Navigation Model
 
@@ -48,17 +55,11 @@ Use these parameters when adding or cleaning up stories:
 
 ```ts
 parameters: {
-  layout: "fullscreen",
-  previewSurface: "app",
+  ag: { subject: "Button", kind: "component" }, // StoryAgParameters (S-41)
 }
 ```
 
-Supported `previewSurface` values:
-
-- `component`: centered component inspection.
-- `app`: full application or showcase composition.
-- `media`: immersive media/control demos.
-- `plain`: no additional presentation styling.
+`kind` is one of `lab`, `component`, `matrix`, `scene`, `showcase`. Stories reach their captured state through args (`defaultOpen`, controlled `open`, a streaming `step`), never through timers.
 
 ## QA Gates
 
@@ -78,4 +79,4 @@ The presentation tests verify visual composition, preview-surface wiring, the ab
 - Use composed, realistic data in `Showcases`.
 - Place new component stories by intent, not source-folder name.
 - Avoid story-level decorative backgrounds unless the component itself is a background or media surface.
-- When a story needs a specific environment, opt into it with `previewSurface` instead of changing the global decorator.
+- When a story needs a specific environment, select it through the `scene` global instead of changing the global decorator.

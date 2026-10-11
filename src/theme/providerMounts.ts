@@ -1,11 +1,13 @@
-/* Internal provider mount registry. Sibling lanes register their runtime
-   modules here once their files land (lane M: LensDefs, dev diagnostics;
-   lane O: pointer-light installer; lane T: preset/brand css resolvers). The
-   provider consumes whatever is registered — nothing registered, nothing
-   mounted. No placeholders: the registry is the seam, not a stub. */
+/* Internal provider mount registry. The production implementations (LensDefs,
+   dev diagnostics, gated pointer-light installer, preset/brand css resolvers)
+   are registered by src/theme/mounts.ts when the first AuraGlassProvider
+   renders (REQ-FIN-04) — never at import. The provider consumes whatever is
+   registered; tests and embedders may register their own implementation
+   first. No placeholders: the registry is the seam, not a stub. */
 'use client';
 import * as React from 'react';
 import type { DomTier } from '../contracts/material';
+import { useResolvedPreferences } from './preferences/usePreference';
 
 export interface ProviderMounts {
   /** src/material/lens/LensDefs — mounted once per document unless tier is
@@ -42,11 +44,16 @@ export const useProviderMounts = (): ProviderMounts =>
     () => mounts,
   );
 
-/** LensDefs slot: renders the registered component only when tier is eligible
-   ('auto' or 'enhanced' resolve enhanced-capable; 'standard'/'lightweight'
-   suppress it, per REQ-MAT-36). */
-export const LensDefsSlot = ({ tier }: { tier: 'auto' | DomTier }): React.ReactElement | null => {
+/** LensDefs slot: renders the registered component only when the tier setting
+   is eligible — 'enhanced', or 'auto' (also when the prop is undefined) unless
+   the store resolved the capability floor 'lightweight'. 'standard' and
+   'lightweight' suppress it (REQ-MAT-36). */
+export const LensDefsSlot = (
+  { tier = 'auto' }: { tier?: 'auto' | DomTier | undefined },
+): React.ReactElement | null => {
   const m = useProviderMounts();
+  const resolved = useResolvedPreferences();
   if (!m.lensDefs || tier === 'standard' || tier === 'lightweight') return null;
+  if (tier === 'auto' && resolved.tier === 'lightweight') return null;
   return React.createElement(m.lensDefs);
 };

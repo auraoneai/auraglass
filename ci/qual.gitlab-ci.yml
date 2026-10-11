@@ -1,4 +1,7 @@
 # ci/qual.gitlab-ci.yml (QUAL), seed: Storybook build and the lane matrix. Real lanes report pending until registered.
+# REQ-QUAL-56/-57 (FIN-452): qual:build:storybook is dist-backed (AG_STORYBOOK_DIST=1, dist/ from the optional
+# plat:build:dist artifact, else `npm run build`), checked by check-build-log.mjs and stamped with ag-build.json.
+# Every consumer of the built Storybook runs verify-fresh.mjs first.
 .qual-lane:
   extends: .ag-playwright
   stage: certify
@@ -9,26 +12,131 @@
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   script:
+    - node scripts/storybook/verify-fresh.mjs --dir storybook-static
     - node certification/run.mjs --lane "$LANE" --scope "$AG_SCOPE"
 qual:build:storybook:
   extends: .ag-node
   stage: build
   allow_failure: true
+  needs:
+    - { job: "plat:build:dist", artifacts: true, optional: true }
   rules:
     - if: $AG_LINE == "5x"
   script:
-    - npm run storybook:build
+    # REQ-QUAL-09..11 / REQ-FIN-106: preview, StoryRoot readiness and determinism unit tests gate the build
+    - npx jest --ci tests/storybook
+    # REQ-QUAL-56: dist from plat:build:dist (else npm run build), then AG_STORYBOOK_DIST=1 storybook build
+    - node scripts/storybook/build.mjs
+    - node scripts/storybook/check-build-log.mjs --dir storybook-static
+    - node scripts/storybook/write-build-manifest.mjs --dir storybook-static
+    - node scripts/storybook/verify-fresh.mjs --dir storybook-static
   artifacts:
-    name: "storybook-$CI_COMMIT_SHORT_SHA"
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
     expire_in: 14 days
-    paths: [storybook-static/]
-qual:certify:l1:  { extends: .qual-lane, variables: { LANE: L1 } }
+    paths: [storybook-static/, .artifacts/qual/$CI_JOB_NAME_SLUG/]
+qual:test:storybook-flows:
+  # REQ-QUAL-57: S1 showcase primary-task flows + Lab control round-trips against the fresh built Storybook
+  extends: .ag-playwright
+  stage: test
+  allow_failure: true
+  needs:
+    - { job: "qual:build:storybook", artifacts: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - AURAGLASS_EVIDENCE_DIR=".artifacts/qual/$CI_JOB_NAME_SLUG" node scripts/storybook/run-flows.mjs --dir storybook-static -- --output ".artifacts/qual/$CI_JOB_NAME_SLUG/test-results"
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+qual:certify:l1:
+  extends: .qual-lane
+  variables: { LANE: L1 }
+  script:
+    # REQ-QUAL-56: story typecheck is part of L1
+    - node_modules/.bin/tsc --noEmit -p tsconfig.storybook.json
+    - node certification/run.mjs --lane "$LANE" --scope "$AG_SCOPE"
 # ... one job per lane L1..L12, named exactly as CERT_JOBS ...
+# L10 Performance (REQ-QUAL-34..36). Profiles b, c, d on .ag-playwright; profile a on .ag-gpu (qual:certify:l10-gpu).
+# Every step runs; the job exits non-zero if any step failed (no fail-open). allow_failure flips through ci/plat/activation.json.
+qual:certify:l10:
+  extends: .qual-lane
+  variables: { LANE: L10, AG_STORYBOOK_STATIC: "$CI_PROJECT_DIR/storybook-static" }
+  timeout: 90m
+  # Build-stage inputs only (Storybook + dist for bundle bytes), so L10 is not skipped behind package-stage jobs.
+  needs: &qual-l10-needs
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+    - { job: "plat:build:dist", artifacts: true, optional: true }
+  script:
+    - |
+      rc=0
+      node node_modules/jest/bin/jest.js --ci --testPathIgnorePatterns /node_modules/ \
+        --testMatch '**/packages/qa/test/bci.test.ts' '**/tests/perf/qual/run-perf.test.mjs' '**/tests/storybook/perf-fixtures-index.test.mjs' \
+        '**/tests/perf/qual/invariants.test.mjs' || rc=1
+      npx playwright test -c tests/perf/qual/playwright.config.ts --project qual:l10-selftest || rc=1
+      node tests/perf/harness/run-perf.mjs --profile b,c,d --scope "$AG_SCOPE" || rc=1
+      AG_L10_STREAMS=1 npx playwright test -c tests/perf/qual/playwright.config.ts --project qual:l10-streams || rc=1
+      # REQ-QUAL-42/-43 invariants (G-22): leak (Chromium) + backdrop root, lens defs, WebGL, a11y fallback (3 engines).
+      AG_L10_INVARIANTS=1 npx playwright test -c tests/perf/qual/playwright.config.ts \
+        --project qual:l10-invariants-chromium --project qual:l10-invariants-webkit --project qual:l10-invariants-firefox || rc=1
+      exit $rc
+qual:certify:l10-gpu:
+  extends: [.qual-lane, .ag-gpu]
+  variables:
+    LANE: L10
+    # Ask the NVIDIA container runtime for the graphics/display userspace. With the stock Playwright image no NVIDIA
+    # userspace is present (nvidia-smi missing; Chromium lands on llvmpipe/SwiftShader), and run-perf.mjs fails profile
+    # (a) with software-compositing/software-raster until the runner image carries the drivers (infra item, G-20 PR).
+    NVIDIA_VISIBLE_DEVICES: "all"
+    NVIDIA_DRIVER_CAPABILITIES: "all"
+  timeout: 90m
+  needs: *qual-l10-needs
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "main"
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
+      changes: [src/**/*, tests/perf/harness/**/*, stories/qual/perf/**/*, packages/qa/src/perf/**/*, ci/qual.gitlab-ci.yml]
+  script:
+    - if command -v nvidia-smi >/dev/null; then nvidia-smi -L; else echo "nvidia-smi not present in $AG_PLAYWRIGHT_IMAGE"; fi
+    - xvfb-run -a -s "-screen 0 2880x1800x24" node tests/perf/harness/run-perf.mjs --profile a --scope "$AG_SCOPE"
 qual:certify:nightly:
   extends: .qual-lane
   rules: [{ if: $AG_SCOPE == "nightly" }]
-  script: [node certification/run.mjs --lane all --scope nightly]
+  script:
+    - node scripts/storybook/verify-fresh.mjs --dir storybook-static
+    - node certification/run.mjs --lane all --scope nightly
 qual:certify:release:
   extends: [.qual-lane, .ag-evidence-release]
   rules: [{ if: $AG_SCOPE == "release" && $AG_LINE == "5x" }]
-  script: [node certification/run.mjs --lane all --scope release --verdict .artifacts/qual/release-verdict.json]
+  script:
+    - node scripts/storybook/verify-fresh.mjs --dir storybook-static
+    - node certification/run.mjs --lane all --scope release --verdict .artifacts/qual/release-verdict.json
+# QUAL-only self-tests (REQ-QUAL-64). Offline; starts allow_failure: true until its first green run on next (contract §2.3).
+qual:test:selftest:
+  extends: .ag-node
+  stage: test
+  allow_failure: true
+  needs: [] # offline, consumes no artifacts: start at once instead of waiting for the build stage
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "nightly")
+  script:
+    - node scripts/qual/devices/device-farm-run.mjs --self-check --out .artifacts/qual/devices/self-check.json
+    - npx jest --ci tests/perf/qual/device-farm-self-check.test.mjs
+# Real devices (REQ-QUAL-48): AWS Device Farm + EC2 mac1.metal Safari, runner instance role only.
+# Manual until the auraglass-aws-remote runner and Device Farm project exist (OD-11, OD-5); the
+# self-check runs first so a broken runner never reaches AWS. Results JSON is an artifact only;
+# sign-off is docs/certification/real-device-matrix.md (REQ-FIN-112, human).
+qual:certify:devices:
+  extends: .ag-aws-remote
+  stage: certify
+  needs:
+    - { job: "qual:build:storybook", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "main" || $AG_SCOPE == "nightly" || $AG_SCOPE == "release")
+      when: manual
+      allow_failure: true
+  timeout: 3h
+  script:
+    - node scripts/qual/devices/device-farm-run.mjs --self-check --out .artifacts/qual/devices/self-check.json
+    - node scripts/qual/devices/device-farm-run.mjs --subjects storybook-static/cert-manifest.json --out .artifacts/qual/devices/real-device-results.json

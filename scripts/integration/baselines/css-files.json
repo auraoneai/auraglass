@@ -1,0 +1,182 @@
+[
+  {
+    "file": "src/ai/ai.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/backdrops/backdrops.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/backdrops/presets/aurora.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/backdrops/presets/grain.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/backdrops/presets/media.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/backdrops/presets/mesh.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/backdrops/presets/photo.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/backdrops/presets/video.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/compat/css/globals.css",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-33",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/compat/css/reset.css",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-33",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/components/breadcrumbs/Breadcrumbs.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/components/command-palette/Command.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/components/pagination/Pagination.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/components/popover/Popover.css",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/components/sheet/Sheet.css",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/components/source-transition/SourceTransition.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/components/tab-bar/TabBar.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/components/tabs/Tabs.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/components/timeline/timeline.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/components/tooltip/Tooltip.css",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/data/data.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/material/css/generated/floors.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-03",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/material/css/generated/properties.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-03",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/material/css/lens.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-02",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/material/css/material.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-02",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/media/media.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/motion/css/loading.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-12",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/motion/css/motion-modes.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-12",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/motion/css/motion.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-58",
+    "expires": "RC-1"
+  },
+  {
+    "file": "src/motion/css/view-transition.css",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-58",
+    "expires": "RC-1"
+  }
+]
