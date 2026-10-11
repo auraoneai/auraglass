@@ -15,6 +15,8 @@ export interface GlassCheckboxProps {
   defaultChecked?: boolean;
   indeterminate?: boolean;
   onChange?: (event: { target: { checked: boolean } }) => void;
+  /** 4.x direct-value handler — called alongside onChange. */
+  onCheckedChange?: (checked: boolean) => void;
   label?: React.ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   glassVariant?: string;
@@ -25,14 +27,17 @@ export interface GlassCheckboxProps {
   className?: string;
 }
 
-export function GlassCheckbox({ onChange, label, size, glassVariant, ...rest }: GlassCheckboxProps) {
+export function GlassCheckbox({ onChange, onCheckedChange, label, size, glassVariant, ...rest }: GlassCheckboxProps) {
   warnDeprecated(DEP);
   if (glassVariant !== undefined) drop('glassVariant');
   return (
     <Checkbox
       {...rest}
-      {...(onChange !== undefined
-        ? { onCheckedChange: (c: boolean, _d: ChangeDetails) => onChange({ target: { checked: c } }) }
+      {...(onChange !== undefined || onCheckedChange !== undefined
+        ? { onCheckedChange: (c: boolean, _d: ChangeDetails) => {
+            onChange?.({ target: { checked: c } });
+            onCheckedChange?.(c);
+          } }
         : {})}
       {...(size === 'xl' ? { size: 'lg' } : size !== undefined ? { size } : {})}
     >

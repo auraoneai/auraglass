@@ -1,0 +1,394 @@
+[
+  {
+    "file": ".storybook/lab/motion/parity.stories.tsx",
+    "owner": "QUAL",
+    "reqFin": "REQ-FIN-106",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": ""
+  },
+  {
+    "file": "registry/blocks/analytics-dashboard/AnalyticsDashboard.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": "analytics-dashboard"
+  },
+  {
+    "file": "registry/blocks/app-frame/AppFrame.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": "AppFrame"
+  },
+  {
+    "file": "registry/blocks/audit-log/AuditLog.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": "audit-log"
+  },
+  {
+    "file": "registry/blocks/auth/AuthBlock.stories.tsx",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-42",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "auth"
+  },
+  {
+    "file": "registry/blocks/commerce-cart/CommerceCart.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "commerce-cart"
+  },
+  {
+    "file": "registry/blocks/commerce-checkout/CommerceCheckout.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "commerce-checkout"
+  },
+  {
+    "file": "registry/blocks/data-workspace/DataWorkspace.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": "data-workspace"
+  },
+  {
+    "file": "registry/blocks/mobile-settings/MobileSettings.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": "MobileSettings"
+  },
+  {
+    "file": "registry/blocks/permissions-matrix/PermissionsMatrix.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": "permissions-matrix"
+  },
+  {
+    "file": "registry/blocks/pricing/Pricing.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "pricing"
+  },
+  {
+    "file": "registry/blocks/settings/SettingsPanel.stories.tsx",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-42",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "settings"
+  },
+  {
+    "file": "registry/blocks/support-inbox/SupportInbox.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": "support-inbox"
+  },
+  {
+    "file": "registry/items/app-shell-workspace/AppShellWorkspace.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": "AppShellWorkspace"
+  },
+  {
+    "file": "registry/items/code-surface/CodeSurface.stories.tsx",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-42",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "code-surface"
+  },
+  {
+    "file": "registry/items/comment-thread/CommentThread.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "comment-thread"
+  },
+  {
+    "file": "registry/items/diff-viewer/DiffViewer.stories.tsx",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-42",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "diff-viewer"
+  },
+  {
+    "file": "registry/items/faceted-search/FacetedSearch.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": "faceted-search"
+  },
+  {
+    "file": "registry/items/gantt/GanttChart.stories.tsx",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-42",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "gantt"
+  },
+  {
+    "file": "registry/items/kanban/KanbanBoard.stories.tsx",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-42",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "kanban"
+  },
+  {
+    "file": "registry/items/presence-stack/PresenceStack.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "presence-stack"
+  },
+  {
+    "file": "registry/items/query-builder/QueryBuilder.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": "query-builder"
+  },
+  {
+    "file": "registry/items/react-hook-form/RhfTextField.stories.tsx",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-42",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "react-hook-form"
+  },
+  {
+    "file": "registry/items/rich-text/RichText.stories.tsx",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-42",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "rich-text"
+  },
+  {
+    "file": "registry/items/schema-viewer/SchemaViewer.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": "schema-viewer"
+  },
+  {
+    "file": "registry/items/transfer-list/TransferList.stories.tsx",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-42",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "transfer-list"
+  },
+  {
+    "file": "registry/items/tree-select/TreeSelect.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-88",
+    "expires": "RC-1",
+    "code": "invalid-ag",
+    "subject": "tree-select"
+  },
+  {
+    "file": "src/a11y/stories/Announcer.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "A11yAnnouncer"
+  },
+  {
+    "file": "src/a11y/stories/ColorVision.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "A11yColorVision"
+  },
+  {
+    "file": "src/a11y/stories/Floors.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "A11yFloors"
+  },
+  {
+    "file": "src/a11y/stories/FocusRing.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "A11yFocusRing"
+  },
+  {
+    "file": "src/a11y/stories/LayerStack.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "A11yLayerStack"
+  },
+  {
+    "file": "src/a11y/stories/Rungs.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "A11yRungs"
+  },
+  {
+    "file": "src/a11y/stories/ScrollPadding.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "A11yScrollPadding"
+  },
+  {
+    "file": "src/a11y/stories/Targets.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "A11yTargets"
+  },
+  {
+    "file": "src/data/chip/Chip.surf.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "code": "ambiguous-subject",
+    "subject": "Chip"
+  },
+  {
+    "file": "src/data/key-value-editor/KeyValueEditor.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "code": "ambiguous-subject",
+    "subject": "KeyValueEditor"
+  },
+  {
+    "file": "src/data/virtual-list/VirtualList.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "VirtualList"
+  },
+  {
+    "file": "src/material/stories/Clear.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "Surface"
+  },
+  {
+    "file": "src/material/stories/Material.Lab.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "Surface"
+  },
+  {
+    "file": "src/material/stories/Material.Matrix.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "Surface"
+  },
+  {
+    "file": "src/material/stories/Optics.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "Surface"
+  },
+  {
+    "file": "src/material/stories/ShapeConcentricity.stories.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-59",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "ConcentricFrame"
+  },
+  {
+    "file": "src/media/MediaScrubber.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "MediaScrubber"
+  },
+  {
+    "file": "src/media/Waveform.stories.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "Waveform"
+  },
+  {
+    "file": "stories/cmp/components/Chip.stories.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1",
+    "code": "ambiguous-subject",
+    "subject": "Chip"
+  },
+  {
+    "file": "stories/cmp/components/ControlsDenseForm.stories.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "ControlsDenseForm"
+  },
+  {
+    "file": "stories/cmp/components/KeyValueEditor.stories.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1",
+    "code": "ambiguous-subject",
+    "subject": "KeyValueEditor"
+  },
+  {
+    "file": "stories/cmp/overlays/OverlayMatrix.stories.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1",
+    "code": "unresolved-subject",
+    "subject": "OverlayMatrix"
+  }
+]
