@@ -1,31 +1,30 @@
 /* CMP-039: StateView internals for EmptyState / ErrorState / LoadingState.
    Server-first leaf components (no hooks, no effects): title, description, icon,
    actions. ErrorState escalates to role='alert' only when `urgent`; LoadingState
-   is aria-busy with a VisuallyHidden role='status' live region (default 'Loading'). */
+   is aria-busy with a VisuallyHidden role='status' live region (default 'Loading').
+   REQ-CMP-129: `actions` is a ReactNode (consumer passes <Button/>/links) so these
+   components stay renderable from React Server Components — event-handler props
+   cannot cross the RSC boundary. */
 import * as React from 'react';
 import { cn } from '../../internal/index';
 import { VisuallyHidden } from '../../primitives/VisuallyHidden';
 import { Skeleton } from '../skeleton/Skeleton';
 import { Progress } from '../progress/Progress.client';
 
-export interface StateViewAction {
-  label: string;
-  onPress?: () => void;
-  href?: string;
-}
-
 export interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   description?: string;
   icon?: React.ReactNode;
-  actions?: readonly StateViewAction[];
+  /** Action node (e.g. <Button onClick/>) — a ReactNode keeps this server-renderable. */
+  actions?: React.ReactNode;
 }
 
 export interface ErrorStateProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   description?: string;
   icon?: React.ReactNode;
-  actions?: readonly StateViewAction[];
+  /** Action node (e.g. <Button onClick/>) — a ReactNode keeps this server-renderable. */
+  actions?: React.ReactNode;
   /** When true, escalates to role='alert'. Default renders a neutral region. */
   urgent?: boolean;
 }
@@ -41,35 +40,11 @@ export interface LoadingStateProps extends React.HTMLAttributes<HTMLDivElement> 
   label?: string;
 }
 
-function Actions({ actions }: { actions: readonly StateViewAction[] }) {
-  return (
-    <div data-ag-part="actions" className="ag-state-view-actions">
-      {actions.map((a) =>
-        a.href ? (
-          <a key={a.label} data-ag-part="action" className="ag-state-view-action" href={a.href} onClick={a.onPress}>
-            {a.label}
-          </a>
-        ) : (
-          <button
-            key={a.label}
-            data-ag-part="action"
-            className="ag-state-view-action"
-            type="button"
-            onClick={a.onPress}
-          >
-            {a.label}
-          </button>
-        ),
-      )}
-    </div>
-  );
-}
-
 interface BaseProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   description?: string;
   icon?: React.ReactNode;
-  actions?: readonly StateViewAction[];
+  actions?: React.ReactNode;
   role?: 'status' | 'alert' | undefined;
   ref?: React.Ref<HTMLDivElement> | undefined;
 }
@@ -95,13 +70,17 @@ function Base({ title, description, icon, actions, role, className, ...rest }: B
           {description}
         </p>
       ) : null}
-      {actions && actions.length > 0 ? <Actions actions={actions} /> : null}
+      {actions ? (
+        <div data-ag-part="actions" className="ag-state-view-actions">
+          {actions}
+        </div>
+      ) : null}
     </div>
   );
 }
 
 export function EmptyState({ className, ref, ...props }: EmptyStateProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
-  return <Base {...props} ref={ref} role="status" className={className} />;
+  return <Base {...props} ref={ref} className={className} />;
 }
 
 export function ErrorState({ urgent, ref, ...props }: ErrorStateProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
