@@ -1,0 +1,4 @@
+[
+  { "file": "src/app-shell/AppShell.SidebarToggle.tsx", "owner": "SURF", "reqFin": "REQ-FIN-80", "expires": "RC-1" },
+  { "file": "src/components/command-palette/CommandPalette.tsx", "owner": "SURF", "reqFin": "REQ-FIN-82", "expires": "RC-1" }
+]
