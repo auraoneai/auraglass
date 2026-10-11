@@ -6,11 +6,11 @@
      Grid columns never transition: layout changes are instant; motion presets
      animate the panel contents, not the tracks. */
   .ag-app-shell {
-    --_ag-app-shell-side: 16rem;
-    --_ag-app-shell-rail: 4rem;
-    --_ag-app-shell-insp: 20rem;
-    --_ag-app-shell-top: 3.25rem;
-    --_ag-app-shell-tabbar: 3.5rem;
+    --_ag-app-shell-side: var(--ag-app-shell-sidebar-width, 16rem);
+    --_ag-app-shell-rail: var(--ag-app-shell-rail-width, 4rem);
+    --_ag-app-shell-insp: var(--ag-app-shell-inspector-width, 20rem);
+    --_ag-app-shell-top: var(--ag-app-shell-topbar-height, 3.25rem);
+    --_ag-app-shell-tabbar: var(--ag-app-shell-tabbar-height, 3.5rem);
     --_ag-app-shell-gap: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
 
     container: ag-app-shell / inline-size;
@@ -83,10 +83,10 @@
     --_ag-app-shell-side: var(--_ag-app-shell-rail);
   }
   .ag-app-shell[data-ag-sidebar='collapsed'] {
-    --_ag-app-shell-side: 0rem;
+    --_ag-app-shell-side: 0;
   }
   .ag-app-shell[data-ag-inspector='closed'] {
-    --_ag-app-shell-insp: 0rem;
+    --_ag-app-shell-insp: 0;
   }
 
   /* Right-docked sidebar swaps the two fixed columns. */
@@ -117,9 +117,9 @@
   /* Compact geometry — applied by the container query below in layout=auto,
      and by data-ag-layout='compact' when the app pins a mode. */
   .ag-app-shell[data-ag-layout='compact'] {
-    --_ag-app-shell-top: 2.75rem;
-    --_ag-app-shell-side: 0rem;
-    --_ag-app-shell-insp: 0rem;
+    --_ag-app-shell-top: var(--ag-app-shell-topbar-height, 2.75rem);
+    --_ag-app-shell-side: 0;
+    --_ag-app-shell-insp: 0;
     grid-template-areas:
       'skip'
       'top'
@@ -154,9 +154,9 @@
      hidden, the bottom tab bar appears (its slots render via data-ag-slot). */
   @container ag-app-shell (width < 600px) {
     .ag-app-shell[data-ag-layout='auto'] {
-      --_ag-app-shell-top: 2.75rem;
-      --_ag-app-shell-side: 0rem;
-      --_ag-app-shell-insp: 0rem;
+      --_ag-app-shell-top: var(--ag-app-shell-topbar-height, 2.75rem);
+      --_ag-app-shell-side: 0;
+      --_ag-app-shell-insp: 0;
       grid-template-areas:
         'skip'
         'top'
@@ -194,10 +194,10 @@
      inside Main; tokens only, no JS layout. */
   .ag-app-shell__auto-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--_ag-app-shell-card-min, 18rem), 100%), 1fr));
     gap: var(--ag-space-3, 0.75rem);
     padding: var(--ag-space-4, 1rem);
-  
+  }
   /* SURF-037/057: inspector is its own inline-size container; content owns
      its scroll. */
   .ag-inspector {
@@ -211,7 +211,7 @@
     overscroll-behavior: contain;
     min-block-size: 0;
     flex: 1;
-  
+  }
   /* SURF-038: inspector material/geometry by mode. Docked (or auto under a
      wide shell) reads sunken with no backdrop-filter; floating (or auto
      under expanded/medium) overlays the main area at inline-end. Compact
@@ -229,12 +229,12 @@
     inset-inline-end: var(--ag-space-2);
     inset-block: var(--ag-space-2);
     z-index: 2;
-    max-inline-size: min(24rem, 90%);
+    max-inline-size: min(var(--_ag-app-shell-insp-float-max, 24rem), 90%);
     border-radius: var(--ag-radius-lg);
   }
   .ag-app-shell[data-ag-mode='compact'] [data-ag-slot='inspector'] {
     display: none;
-  
+  }
   /* SURF-043/045/046: panel handles — 1px line, >=24px fine / >=44px coarse
      hit area via ::before, touch-action none (handle only); stacked mode
      (data-ag-stacked, set by ResizeObserver) drops to a column and hides
