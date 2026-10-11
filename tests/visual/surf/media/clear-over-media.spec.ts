@@ -7,10 +7,10 @@ test.describe('clear-over-media (SURF-498/499)', () => {
   test('clear variant over light and dark media backdrops', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'NowPlayingBar') ?? subjects.find((s) => s.subject === 'Backdrop');
-    if (!subject) { console.warn('no clear-over-media subject — pending'); return; }
+    if (!subject) throw new Error('no clear-over-media subject');
     await gotoStory(page, subject.id);
     const surface = page.locator('[data-ag-variant="clear"], .ag-now-playing').first();
-    if (await surface.count() === 0) { console.warn('no clear surface — pending'); return; }
+    expect(await surface.count(), 'no clear surface').toBeGreaterThan(0);
     await expect(surface).toBeVisible();
     await expect(page).toHaveScreenshot('clear-over-media.png', { maxDiffPixelRatio: 0.02 });
   });

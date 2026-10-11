@@ -45,6 +45,56 @@ describe('toChangeDetails', () => {
     expect(toChangeDetails.length).toBe(1);
     expect(toChangeDetails(undefined).reason).toBe('unknown');
   });
+
+  /* REQ-CMP-02: every Base UI 1.8 reason literal (internals/reason-parts)
+     maps into the 10-value contract enum — table-driven so a new BU reason
+     surfaces as a failing row instead of a leak. */
+  const ENUM = ['trigger-press', 'outside-press', 'escape-key', 'close-press', 'item-press', 'keyboard', 'pointer', 'input', 'imperative', 'unknown'] as const;
+  const BU_REASONS: ReadonlyArray<[string, (typeof ENUM)[number]]> = [
+    ['none', 'imperative'],
+    ['trigger-press', 'trigger-press'],
+    ['trigger-hover', 'pointer'],
+    ['trigger-focus', 'keyboard'],
+    ['outside-press', 'outside-press'],
+    ['item-press', 'item-press'],
+    ['close-press', 'close-press'],
+    ['link-press', 'item-press'],
+    ['clear-press', 'input'],
+    ['chip-remove-press', 'item-press'],
+    ['track-press', 'pointer'],
+    ['increment-press', 'item-press'],
+    ['decrement-press', 'item-press'],
+    ['input-change', 'input'],
+    ['input-clear', 'input'],
+    ['input-blur', 'input'],
+    ['input-paste', 'input'],
+    ['input-press', 'input'],
+    ['focus-out', 'keyboard'],
+    ['escape-key', 'escape-key'],
+    ['close-watcher', 'escape-key'],
+    ['list-navigation', 'keyboard'],
+    ['keyboard', 'keyboard'],
+    ['pointer', 'pointer'],
+    ['drag', 'pointer'],
+    ['wheel', 'pointer'],
+    ['scrub', 'pointer'],
+    ['cancel-open', 'imperative'],
+    ['sibling-open', 'item-press'],
+    ['disabled', 'imperative'],
+    ['missing', 'imperative'],
+    ['initial', 'imperative'],
+    ['imperative-action', 'imperative'],
+    ['swipe', 'pointer'],
+    ['window-resize', 'imperative'],
+  ];
+  it.each(BU_REASONS)("BU reason '%s' maps to enum value '%s'", (bu, expected) => {
+    const d = toChangeDetails({ event: new Event('x'), reason: bu });
+    expect(d.reason).toBe(expected);
+    expect(ENUM).toContain(d.reason);
+  });
+  it("unrecognised reason strings become 'unknown'", () => {
+    expect(toChangeDetails({ reason: 'some-future-reason' }).reason).toBe('unknown');
+  });
 });
 
 describe('renderElement', () => {

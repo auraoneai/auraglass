@@ -7,10 +7,10 @@ test.describe('backdrop motion (SURF-437)', () => {
   test('drift animates only with allowContinuous; video pause toggles', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s: { subject: string }) => s.subject === 'Backdrop');
-    if (!subject) { console.warn('Backdrop subject not registered — pending'); return; }
+    if (!subject) throw new Error('Backdrop subject not registered');
     await gotoStory(page, subject.id);
     const backdrop = page.locator('[data-ag-backdrop-preset]');
-    if (await backdrop.count() === 0) { console.warn('no backdrop — pending'); return; }
+    expect(await backdrop.count(), 'no backdrop').toBeGreaterThan(0);
     await expect(backdrop.first()).toBeVisible();
     // zero animations by default (static)
     const anims = await page.evaluate(() => document.getAnimations().length);

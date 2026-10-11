@@ -3,6 +3,14 @@
   "_comment": "PLAT-014/015: rows = {job, line, firstGreenPipelineUrl, sha, date}. A job (REQUIRED_JOBS gate or any other plat:* / stream job) stays allow_failure:true on a line until a row here records its first green pipeline on that line; the activation PR flips it to false and contract:ci-fragments enforces the flip.",
   "activations": [
     {
+      "job": "plat:gate:change-class",
+      "line": "5x",
+      "firstGreenPipelineUrl": "https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/pipelines/2934559777",
+      "jobUrl": "https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/jobs/17086709815",
+      "sha": "16372b46ecc7c6245e78a1dfbf2b39d0de4b9af7",
+      "date": "2026-10-10"
+    },
+    {
       "job": "plat:build:dist",
       "line": "5x",
       "firstGreenPipelineUrl": "https://gitlab.com/chahal-foundation-group/github-auraoneai/auraglass/-/pipelines/2934310753",

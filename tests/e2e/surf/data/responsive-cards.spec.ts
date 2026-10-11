@@ -6,7 +6,7 @@ test.describe('responsive cards', () => {
   test('StatCard hides sparkline below 200px container', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });
     const subject = subjects.find((s) => s.subject === 'StatCard');
-    if (!subject) { console.warn('StatCard subject not registered — pending'); return; }
+    if (!subject) throw new Error('StatCard subject not registered');
     await gotoStory(page, subject.id);
     await expect(page.locator('[data-ag-part], [role="main"], body').first()).toBeVisible();
   });

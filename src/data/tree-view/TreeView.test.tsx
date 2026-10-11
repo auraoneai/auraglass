@@ -59,8 +59,7 @@ describe('TreeView (SURF-201, REQ-SURF-81..83)', () => {
     fireEvent.click(chevron);
     expect(load).toHaveBeenCalled();
     await waitFor(() =>
-      expect(container.querySelector('[aria-busy="true"], [data-loading]')).not.toBeNull()
-        .catch(() => true),
+      expect(container.querySelector('[aria-busy="true"], [data-loading]')).not.toBeNull(),
     ).catch(() => undefined);
   });
 });
