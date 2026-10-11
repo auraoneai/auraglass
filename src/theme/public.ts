@@ -4,7 +4,7 @@
 export {
   AuraGlassProvider, AuraGlassScript, auraGlassPrepaintScript, GlassPreferencesPanel,
   usePreference, useResolvedPreferences, usePreferenceActions,
-  createGlassTheme, createBrandTheme, createBrandGlassTheme, presets,
+  createGlassTheme, createBrandTheme, presets,
 } from './index';
 export type {
   AuraGlassProviderProps, AuraGlassScriptProps, GlassPreferencesPanelProps,
