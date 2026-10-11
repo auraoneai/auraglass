@@ -53,7 +53,15 @@ export function main(root = ROOT_DEFAULT, { install = true } = {}) {
     return 1;
   }
   if (install) {
-    execFileSync('npm', ['install', '--no-save', '--no-audit', '--no-fund', '--ignore-scripts', '-w', 'apps/docs', `./${rel}`], { cwd: root, stdio: 'inherit' });
+    /* --install-strategy=nested places the tarball in apps/docs/node_modules
+       (its only consumer) instead of hoisting it to the root node_modules.
+       Hoisted, it lands on the resolution path of every workspace, and
+       packages/labs' optional peer `aura-glass ^5.0.0` (REQ-SURF-166) does not
+       match a 5.0.0-alpha.x prerelease, so npm tries to fetch aura-glass@^5.0.0
+       from the registry and fails with ETARGET. Already-installed packages
+       (the tarball's dependencies/peers from `npm ci`) are reused in place;
+       peer checking stays strict. */
+    execFileSync('npm', ['install', '--no-save', '--no-audit', '--no-fund', '--ignore-scripts', '--install-strategy=nested', '-w', 'apps/docs', `./${rel}`], { cwd: root, stdio: 'inherit' });
   }
   const errors = verifyInstalled(root);
   for (const e of errors) console.error(`install-pack: ${e}`);
