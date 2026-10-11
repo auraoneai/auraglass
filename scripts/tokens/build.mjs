@@ -200,11 +200,21 @@ import { emitManifest, emitManifestTs } from './formats/manifest.mjs';
 import { emitTailwind } from './formats/tailwind-bridge.mjs';
 import { emitRegistry } from './formats/registry-cssvars.mjs';
 import { buildProperties } from './formats/property-registry.mjs';
-import { prettierFormat, die, renderValue } from './formats/_shared.mjs';
+import { prettierFormat, die, renderValue, layerFirst } from './formats/_shared.mjs';
+
+// REQ-MAT-19 item 1: the emitters' layer statement must equal the frozen contract
+// constant (src/contracts/tokens.ts LAYER_ORDER_STATEMENT); fail closed on drift.
+function assertLayerOrderMatchesContract() {
+  const src = readFileSync(join(ROOT, 'src/contracts/tokens.ts'), 'utf8');
+  const m = /export const LAYER_ORDER_STATEMENT = '([^']+)'/.exec(src);
+  if (!m) die('src/contracts/tokens.ts: LAYER_ORDER_STATEMENT not found');
+  if (m[1] !== LAYER_ORDER) die(`layer order drift: emitters use "${LAYER_ORDER}" but the contract declares "${m[1]}"`);
+}
 
 // ---------- driver ----------
 
 export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT, quiet = false } = {}) {
+  assertLayerOrderMatchesContract();
   const schema = loadSchema(join(tokenDir, '$schema.json'));
   const files = discoverTokenFiles(tokenDir);
   const errors = [];
@@ -232,7 +242,9 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   };
 
   // contract outputs (src/contracts/tokens.ts TOKEN_OUTPUTS)
-  let tokensCss = await emitTokensCss(cells, axisDefs, records, resolved);
+  // Every layered token CSS output starts with LAYER_ORDER_STATEMENT on line 1,
+  // header comment after (REQ-MAT-19 item 1, REQ-FIN-01).
+  let tokensCss = layerFirst(await emitTokensCss(cells, axisDefs, records, resolved));
   write('dist/tokens.css', tokensCss);
   const { tokensTs } = await emitTokensTs(cells);
   write('src/tokens/generated/tokens.ts', tokensTs);
@@ -270,9 +282,10 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   // committed once — the build never rewrites it (keeps the generated surface diffable).
 
   // material ladders + floors + @property registrations (MAT-026/027, transforms MAT-038+)
-  const laddersCss = await prettierFormat(buildLadders(records, resolved), 'css');
-  const floorsCss = await prettierFormat(buildFloors(records, resolved, matrix), 'css');
-  const propertiesCss = await prettierFormat(buildProperties(), 'css');
+  const laddersCss = layerFirst(await prettierFormat(buildLadders(records, resolved), 'css'));
+  const floorsCss = layerFirst(await prettierFormat(buildFloors(records, resolved, matrix), 'css'));
+  // properties.css holds only unlayered @property rules; the statement still leads (REQ-MAT-19).
+  const propertiesCss = layerFirst(await prettierFormat(buildProperties(), 'css'));
   write('src/material/css/generated/ladders.css', laddersCss);
   write('src/material/css/generated/floors.css', floorsCss);
   write('src/material/css/generated/properties.css', propertiesCss);
@@ -345,10 +358,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const fixtures = flag('--fixtures');
   const out = flag('--out');
   // top-level await breaks jest's CJS transform — wrap in an async main.
-  void (async () => {
-    await runBuild({
-      tokenDir: fixtures ? resolve(ROOT, fixtures) : join(ROOT, 'tokens'),
-      outRoot: out ? resolve(ROOT, out) : ROOT,
-    });
-  })();
+  runBuild({
+    tokenDir: fixtures ? resolve(ROOT, fixtures) : join(ROOT, 'tokens'),
+    outRoot: out ? resolve(ROOT, out) : ROOT,
+  }).catch((err) => {
+    console.error(err instanceof Error ? err.message : String(err));
+    process.exit(1);
+  });
 }
