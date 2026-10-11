@@ -170,10 +170,26 @@ export function extractMdNames(text) {
 }
 
 // --- d.ts export names for the 4x line (no bundler needed for dist .d.ts) -----
-export function extractDtsNames(text, _dir) {
+// Resolve a relative module specifier from a .d.ts to the declaration file tsc
+// emitted for it: ./x → ./x.d.ts | ./x/index.d.ts (./x.js → ./x.d.ts).
+export function resolveDts(spec, dir) {
+  const base = join(dir, spec.replace(/\.(?:m|c)?js$/, ''));
+  for (const cand of [`${base}.d.ts`, `${base}.d.mts`, `${base}.d.cts`, join(base, 'index.d.ts')]) {
+    if (existsSync(cand)) return cand;
+  }
+  return null;
+}
+
+// REQ-PLAT-55: `export * from './x'` and `export type { … }` are part of the
+// entry's public surface (dist/app-shell/index.d.ts is only `export * from
+// "./components"`). Star re-exports are followed through the emitted d.ts graph
+// (ES semantics: `default` is not re-exported by `export *`); a star re-export
+// that cannot be resolved throws, so run4x records the key as unanalysable
+// instead of silently reporting a short list.
+export function extractDtsNames(text, dir, seen = new Set()) {
   const names = new Set();
   for (const m of text.matchAll(/export\s+(?:declare\s+)?(?:const|let|var|function|class|interface|type|enum|namespace)\s+(\w+)/g)) names.add(m[1]);
-  for (const m of text.matchAll(/export\s*\{([^}]*)\}/g)) {
+  for (const m of text.matchAll(/export\s*(?:type\s*)?\{([^}]*)\}/g)) {
     for (const part of m[1].split(',')) {
       const aliased = /\s+as\s+(\w+)$/.exec(part.trim());
       const t = (aliased ? aliased[1] : part.trim().replace(/^type\s+/, '')).trim();
@@ -181,6 +197,17 @@ export function extractDtsNames(text, _dir) {
     }
   }
   if (/export\s+default\b/.test(text)) names.add('default');
+  for (const m of text.matchAll(/export\s+(?:type\s+)?\*\s+as\s+(\w+)\s+from\s*['"][^'"]+['"]/g)) names.add(m[1]);
+  for (const m of text.matchAll(/export\s+(?:type\s+)?\*\s+from\s*['"]([^'"]+)['"]/g)) {
+    const spec = m[1];
+    const target = dir && spec.startsWith('.') ? resolveDts(spec, dir) : null;
+    if (!target) throw new Error(`cannot resolve \`export * from '${spec}'\``);
+    if (seen.has(target)) continue;
+    seen.add(target);
+    for (const n of extractDtsNames(readFileSync(target, 'utf8'), dirname(target), seen)) {
+      if (n !== 'default') names.add(n);
+    }
+  }
   return [...names].sort();
 }
 

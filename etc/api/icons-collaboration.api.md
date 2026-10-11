@@ -2,6 +2,9 @@
 
 - `BellIcon`
 - `CopyIcon`
+- `GlassIcon`
+- `GlassIconNode`
+- `GlassIconProps`
 - `MicIcon`
 - `NotificationIcon`
 - `SendIcon`
