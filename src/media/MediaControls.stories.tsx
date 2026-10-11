@@ -1,7 +1,9 @@
-// MediaControls.stories.tsx — states + play (SURF-463).
+// MediaControls.stories.tsx — states + play (SURF-463); Responsive drives the
+// REQ-SURF-135/138 e2e/APG specs (width set on [data-ag-test="frame"]).
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { MediaControls } from './MediaControls/MediaControls';
+import type { MediaTextTrack } from './mediaStore';
 
 const meta = {
   title: 'Media/MediaControls',
@@ -38,3 +40,41 @@ export const Full: Story = {
     </MediaControls.Root>
   ),
 };
+
+const TRACKS: MediaTextTrack[] = [
+  { id: 'en', label: 'English', language: 'en', kind: 'captions', mode: 'disabled' },
+  { id: 'de', label: 'Deutsch', language: 'de', kind: 'subtitles', mode: 'disabled' },
+];
+
+/** Stateful controlled row with every part; specs resize [data-ag-test="frame"]. */
+function ResponsiveDemo() {
+  const [playing, setPlaying] = React.useState(false);
+  const [time, setTime] = React.useState(92);
+  const [volume, setVolume] = React.useState(0.7);
+  const [muted, setMuted] = React.useState(false);
+  const [rate, setRate] = React.useState(1);
+  const [tracks, setTracks] = React.useState(TRACKS);
+  return (
+    <div data-ag-test="frame" style={{ inlineSize: '100%' }}>
+      <MediaControls.Root
+        playing={playing} onPlayingChange={setPlaying}
+        currentTime={time} onSeek={setTime} duration={372}
+        volume={volume} onVolumeChange={setVolume}
+        muted={muted} onMutedChange={setMuted}
+        playbackRate={rate} onRateChange={setRate}
+        textTracks={tracks}
+        onCaptionsChange={(id) => setTracks((ts) => ts.map((t) => ({ ...t, mode: t.id === id ? 'showing' : 'disabled' })))}
+      >
+        <MediaControls.PlayButton />
+        <MediaControls.Scrubber />
+        <MediaControls.Time />
+        <MediaControls.Volume />
+        <MediaControls.Rate />
+        <MediaControls.Captions />
+        <MediaControls.PictureInPicture />
+        <MediaControls.Fullscreen />
+      </MediaControls.Root>
+    </div>
+  );
+}
+export const Responsive: Story = { render: () => <ResponsiveDemo /> };

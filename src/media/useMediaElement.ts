@@ -39,6 +39,8 @@ export interface MediaHandle {
   setRate(r: number): void;
   requestPictureInPicture(): void;
   requestFullscreen(target?: Element | null): void;
+  /** Set a text track's mode by MediaTextTrack id (REQ-SURF-134 captions). */
+  setTextTrackMode(id: string, mode: TextTrackMode): void;
 }
 
 export function useMediaElement(
@@ -152,5 +154,14 @@ export function useMediaElement(
     setRate: (r: number) => { const m = ref.current; if (m) m.playbackRate = r; },
     requestPictureInPicture: () => { void (ref.current as HTMLVideoElement | null)?.requestPictureInPicture?.(); },
     requestFullscreen: (target?: Element | null) => { void (target ?? ref.current)?.requestFullscreen?.(); },
+    setTextTrackMode: (id: string, mode: TextTrackMode) => {
+      const tt = ref.current?.textTracks;
+      for (let i = 0; i < (tt?.length ?? 0); i++) {
+        const t = tt![i]!;
+        // matches the store snapshot id (TextTrack.id) or, for id-less
+        // tracks, their index
+        if (t.id === id || (!t.id && String(i) === id)) { t.mode = mode; return; }
+      }
+    },
   }), [state, ref]);
 }

@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T2',
   flagship: 43,
   rsc: 'client',
-  parts: ['controls', 'play', 'scrubber', 'time', 'volume', 'mute', 'rate', 'captions', 'pip', 'fullscreen', 'spacer'],
+  parts: ['controls', 'play', 'scrubber', 'time', 'volume', 'mute', 'rate', 'captions', 'pip', 'fullscreen', 'spacer', 'more'],
   states: ['playing', 'paused', 'waiting', 'ended', 'error'],
   variants: {},
   apg: 'apg/media-controls',

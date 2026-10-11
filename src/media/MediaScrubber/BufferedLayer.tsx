@@ -1,4 +1,3 @@
-'use client';
 import * as React from 'react';
 
 /** Buffered range layers — the only inline style is --_ag-start/--_ag-end

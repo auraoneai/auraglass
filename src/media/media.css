@@ -9,17 +9,27 @@
 
 /* --- lane W4: controls + now-playing --- */
 @layer media {
+  /* REQ-SURF-135: the container wrapper sizes the row (≥480 full,
+     320–479 compact, <320 minimal). The parts that leave the row are removed
+     by MediaControls from the measured width; these queries give the same
+     row before the first measurement (SSR/first paint). */
+  .ag-media-controls-frame { container-name: ag-media-controls; container-type: inline-size; }
   .ag-media-controls {
     display: flex; flex-wrap: nowrap; align-items: center; gap: var(--ag-space-2, 0.5rem);
     min-block-size: 2.75rem;
   }
-  .ag-media-btn { min-inline-size: 2rem; min-block-size: 2rem; }
+  /* REQ-SURF-138 target sizes: ≥32×32 fine, ≥44×44 coarse */
+  .ag-media-btn { min-inline-size: 2rem; min-block-size: 2rem; flex: none; }
   @media (pointer: coarse) {
     .ag-media-btn { min-inline-size: var(--ag-target-coarse, 2.75rem); min-block-size: var(--ag-target-coarse, 2.75rem); }
   }
+  .ag-media-captions-glyph { font-size: 0.75em; font-weight: 600; }
   .ag-media-scrubber { flex: 1 1 auto; min-inline-size: 4rem; position: relative; touch-action: none; }
-  .ag-media-scrubber-track { position: relative; block-size: 100%; min-block-size: 0.25rem; }
-  @media (pointer: coarse) { .ag-media-scrubber { min-block-size: 2.75rem; } }
+  .ag-media-scrubber-control { position: relative; }
+  /* REQ-SURF-136: hit area ≥44 px tall at a coarse pointer */
+  @media (pointer: coarse) {
+    .ag-media-scrubber, .ag-media-scrubber-control { min-block-size: var(--ag-target-coarse, 2.75rem); }
+  }
   [data-ag-part='media-scrubber-buffered'] {
     position: absolute; inset-inline-start: var(--_ag-start); inline-size: calc(var(--_ag-end) - var(--_ag-start));
     inset-block: 0; opacity: 0.35; pointer-events: none;
@@ -31,19 +41,31 @@
   [data-ag-part='media-scrubber-tooltip'] {
     position: absolute; inset-inline-start: var(--_ag-start); inset-block-end: 100%;
     transform: translateX(-50%); display: none; font-variant-numeric: tabular-nums;
+    pointer-events: none;
   }
   @media (hover: hover) {
     .ag-media-scrubber:hover [data-ag-part='media-scrubber-tooltip'] { display: block; }
   }
-  .ag-media-scrubber-thumb[data-dragging] { background: var(--ag-scrim-clear, rgba(255,255,255,0.2)); }
-  .ag-media-time { font-variant-numeric: tabular-nums; }
+  /* coarse pointer: no hover — the time shows above the thumb while dragging */
+  @media (pointer: coarse) {
+    .ag-media-scrubber[data-dragging] [data-ag-part='media-scrubber-tooltip'] {
+      display: block; inset-block-end: calc(100% + var(--ag-space-2, 0.5rem));
+    }
+  }
+  /* the thumb is transient glass only while dragged: the MAT layer
+     attributes (data-ag-surface, data-ag-layer=transient) are present only
+     under data-dragging; at rest it keeps the CMP Slider knob */
+  .ag-media-volume { flex: 0 1 auto; min-inline-size: 4rem; }
+  .ag-media-time { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .ag-media-spacer { flex: 1 1 auto; }
-  /* container rows: ≥480 full / 320–479 compact / <320 minimal */
+  [data-ag-part='media-more'] { display: none; }
   @container ag-media-controls (max-width: 479.98px) {
     [data-ag-part='media-volume'], [data-ag-part='media-rate'], [data-ag-part='media-pip'] { display: none; }
+    [data-ag-part='media-more'] { display: inline-flex; }
   }
   @container ag-media-controls (max-width: 319.98px) {
-    [data-ag-part='media-time'], [data-ag-part='media-captions'], [data-ag-part='media-fullscreen'] { display: none; }
+    [data-ag-part='media-time'], [data-ag-part='media-captions'], [data-ag-part='media-fullscreen'],
+    [data-ag-part='media-mute'], [data-ag-part='media-more'] { display: none; }
   }
   /* NowPlayingBar */
   .ag-now-playing {
