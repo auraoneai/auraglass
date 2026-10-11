@@ -6,7 +6,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { dispositionsRows, familyNames, verifyRecord, ghSearch } from '../../scripts/release/consumer-grep.mjs';
+import { dispositionsRows, familyNames, verifyRecord, ghSearch } from '../../scripts/removal/consumer-grep.mjs';
 
 const ROW = (i, name, file, disp = 'REMOVE', pub = 'yes', dest = 'removed', target = '-', prd = 'PRD-16') =>
   `| ${i} | ${name} | \`${file}\` | ${disp} | ${pub} | ${dest} | ${target} | ${prd} |  |`;

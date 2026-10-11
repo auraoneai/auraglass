@@ -6,6 +6,7 @@ import { makeOut, status, printJson } from '../cli/output.js';
 import { EXIT, CliError, usageError } from '../cli/errors.js';
 import { fetchItem } from '../registry/client.js';
 import { rewriteAliases } from './add.js';
+import { unifiedDiff } from '../migrate/4to5/index.js';
 import { assertClean } from '../core/git-guard.js';
 import { ensureInsideCwd, atomicWrite } from '../core/fs-safety.js';
 
@@ -82,6 +83,20 @@ export async function updateCommand(args: string[], flags: Record<string, string
     results.push({ file: f.path, action: 'updated' });
   }
 
+  if (flags['dry-run']) {
+    const diffs = plannedWrites.map((w: any) => {
+      const abs = path.join(cwd, w.path);
+      const before = fs.existsSync(abs) ? fs.readFileSync(abs, 'utf8') : '';
+      return { path: w.path, diff: unifiedDiff(w.path, before, w.content) };
+    });
+    const dryRefused = refused.length && !force ? `refusing to overwrite modified files: ${refused.join(', ')}` : null;
+    if (out.json) printJson({ version: 1, dryRun: true, files: diffs.map((d) => d.path), diffs, ...(dryRefused ? { error: dryRefused } : {}) });
+    else {
+      for (const d of diffs) { if (!out.silent) process.stdout.write(`${d.diff}\n`); }
+      if (dryRefused) status(out, 'fail', `${dryRefused} (use --force to write .auraglass-upstream)`);
+    }
+    return dryRefused ? EXIT.validation : EXIT.ok;
+  }
   /* apply what's allowed first; refused files still report + exit 1 */
   if (plannedWrites.length) {
     assertClean(cwd, plannedWrites.map((p: any) => p.path), { allowDirty: Boolean(flags['allow-dirty']), allowNoGit: Boolean(flags['allow-no-git']) });

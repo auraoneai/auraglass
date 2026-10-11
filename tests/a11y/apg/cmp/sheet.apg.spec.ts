@@ -12,7 +12,9 @@ test.describe('sheet APG (CMP-405)', () => {
     await gotoStory(page, 'overlays-sheet--bottom-detents');
     const popup = page.locator('[data-ag-part="popup"]').first();
     await expect(popup).toBeVisible();
-    const handle = page.locator('[data-ag-part="handle"]').first();
+    /* REQ-CMP-95: the handle is a plain button named 'Resize sheet'
+       (no separator role, no aria-orientation). */
+    const handle = page.getByRole('button', { name: 'Resize sheet' }).first();
     await expect(handle).toBeVisible();
 
     const detentBefore = await popup.getAttribute('data-ag-detent');
@@ -22,6 +24,9 @@ test.describe('sheet APG (CMP-405)', () => {
     expect(detentAfter).not.toBe(detentBefore);
 
     // body reachable by Tab from the handle at the new detent
+    // announcement derives from the detent value — 'full' reads 'Full height'
+    await expect(page.locator('[data-ag-part="detent-live"]')).toHaveText(/full height/i);
+
     await apg.keyboard(page, [{ press: 'Tab' }]);
     const inside = await page.evaluate(
       () => !!document.querySelector('[data-ag-part="popup"]')?.contains(document.activeElement),
