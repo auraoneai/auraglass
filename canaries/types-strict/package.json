@@ -3,14 +3,19 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": { "check": "tsc --noEmit" },
+  "scripts": {
+    "check": "tsc --noEmit",
+    "postinstall": "patch -s -p1 -R -f --dry-run < patches/@react-types+shared+3.37.0.patch > /dev/null || patch -s -p1 -N -f < patches/@react-types+shared+3.37.0.patch"
+  },
   "dependencies": {
+    "@internationalized/date": "^3.12.4",
     "aura-glass": "file:../../aura-glass.tgz",
     "react": "^19.3.0",
+    "react-aria-components": "^1.21.1",
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@types/react": "^19.0.0",
+    "@types/react": "^19.3.0",
     "@types/react-dom": "^19.0.0",
     "typescript": "^5.6.0"
   }
