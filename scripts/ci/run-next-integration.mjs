@@ -17,6 +17,12 @@ const run = (cmd, args, cwd, env = {}) => {
   execFileSync(cmd, args, { cwd, stdio: 'inherit', env: { ...process.env, ...env } });
 };
 
+const timed = (cmd, args, cwd, env = {}) => {
+  const t0 = Date.now();
+  run(cmd, args, cwd, env);
+  return (Date.now() - t0) / 1000;
+};
+
 /* 1. pack the artifact */
 const packOut = execFileSync('npm', ['pack', '--pack-destination', ROOT], { cwd: ROOT, encoding: 'utf8' }).trim();
 const tarball = packOut.split('\n').pop().trim();
@@ -33,9 +39,18 @@ try {
     /* 2. install against the packed tarball */
     run('npm', ['install', '--legacy-peer-deps', `../../${tarball}`], dir);
     run('npm', ['install', '--legacy-peer-deps'], dir);
-    /* 3. next build — hard gate: exit 0, no transpilePackages */
-    run('npm', ['run', 'build'], dir);
-    console.log(`plat:integration:${canary} build OK`);
+    /* REQ-PLAT-71: singleton packages must resolve to one version each and
+       no nested node_modules may appear under aura-glass. */
+    run('node', ['../../scripts/ci/single-instance-check.mjs', '.'], dir);
+    /* 2.5 regenerate the server page from the live server-safe map — the page
+       imports only subpaths currently marked safe:true. */
+    run('node', ['scripts/ci/gen-server-page.mjs'], ROOT);
+
+    /* 3. next build — hard gate: exit 0, no transpilePackages. Wall-time
+       delta is reported (beta): > 20 s logs a warning, does not yet fail. */
+    const secs = timed('npm', ['run', 'build'], dir);
+    console.log(`plat:integration:${canary} build OK in ${secs.toFixed(1)}s`);
+    if (secs > 20) console.log(`warning: ${canary} build exceeded the 20s beta delta (${secs.toFixed(1)}s)`);
 
     /* 4. Playwright legs — only when browsers are installed */
     if (process.env.AG_PLAYWRIGHT === '1') {

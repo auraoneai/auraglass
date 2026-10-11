@@ -25,12 +25,19 @@ test.describe('vite canary', () => {
     await page.emulateMedia({ forcedColors: 'active' });
     await page.goto('/plat/button');
     await page.waitForSelector('[data-ag-canary="plat-button"] button'); /* lazy route chunk */
-    /* under forced colors the a11y layer's high-contrast overrides apply */
-    const outline = await page.evaluate(() => {
-      const b = document.querySelector('button');
-      return b ? getComputedStyle(b).outlineStyle : 'none';
+    /* ag.a11y forced-colors block (floors.css) pins --_ag-mat-blur: 0px on
+       [data-ag-variant] — a specific a11y value, never the failure fallback. */
+    const blur = await page.evaluate(() => {
+      const el = document.querySelector('[data-ag-variant]');
+      return el ? getComputedStyle(el).getPropertyValue('--_ag-mat-blur').trim() : 'missing';
     });
-    expect(['auto', 'solid', 'none']).toContain(outline); /* presence asserted; strict value ships when CMP css lands */
+    expect(blur).toBe('0px');
+    /* and the Button still paints a real edge under forced colors */
+    const edge = await page.evaluate(() => {
+      const b = document.querySelector('[data-ag-canary="plat-button"] button');
+      return b ? getComputedStyle(b).borderTopStyle : 'missing';
+    });
+    expect(edge).toBe('solid');
   });
 
   test('gzip delta(button - empty) <= Button row + 2KB', async ({ browser, baseURL }) => {
