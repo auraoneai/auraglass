@@ -1,0 +1,15 @@
+{
+  "name": "@fixture/promoted-no-demand",
+  "version": "0.1.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./promo": "./src/promo/index.ts",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "aura-glass": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

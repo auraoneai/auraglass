@@ -1,0 +1,8 @@
+[
+  "icon category subpath 'aura-glass/icons/media' is gone in 5.0; import the glyph by name from 'aura-glass/icons'",
+  "icon category subpath 'aura-glass/icons/status' is gone in 5.0; import the glyph by name from 'aura-glass/icons'",
+  "unmapped token --glass-text-primary",
+  "unmapped token --glass-text-secondary",
+  "unmapped token --glass-theme-text",
+  "unmapped token --glass-theme-text-secondary"
+]
