@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root','image','fallback'],
   states: [],
   variants: { size: ['sm','md','lg'] },
-  migration: [{ from: 'GlassAvatar', automation: 'mostly', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 3,
+  migration: [{ from: 'GlassAvatar', props: {}, selectors: { '.glass-avatar': '.ag-avatar' },  automation: 'mostly', compat: true }],
 });

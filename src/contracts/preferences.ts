@@ -1,4 +1,4 @@
-/* AuraGlass 5.0 contract-v1.0. CONTRACT-owned. Implemented by MAT; runtime exported from src/theme/index.ts. */
+/* AuraGlass 5.0 contract-v1.2. CONTRACT-owned. Implemented by MAT; runtime exported from src/theme/index.ts. */
 import type * as React from 'react';
 import type { Transparency, DomTier } from './material';
 import type { MotionPreference } from './motion';
