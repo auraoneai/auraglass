@@ -1,0 +1,2 @@
+{"ref": {"dimension": {"r8": {"$type": "dimension", "$value": {"value": 8, "unit": "px"}, "$extensions": {"ag.tier": "ref"}}}},
+ "comp": {"button": {"radius": {"$type": "dimension", "$value": "{ref.dimension.r8}", "$extensions": {"ag.tier": "comp"}}}}}

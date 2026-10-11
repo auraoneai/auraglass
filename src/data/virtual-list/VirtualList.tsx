@@ -62,9 +62,9 @@ function VirtualListInner<T>(
     className,
     style,
     getScrollElement: externalScrollElement,
+    ref,
     ...rest
-  }: VirtualListProps<T>,
-  ref: React.ForwardedRef<VirtualListHandle>,
+  }: VirtualListProps<T> & { ref?: React.Ref<VirtualListHandle> },
 ) {
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const innerRef = React.useRef<HTMLDivElement | null>(null);
@@ -249,6 +249,6 @@ function VirtualListInner<T>(
   );
 }
 
-export const VirtualList = React.forwardRef(VirtualListInner) as <T>(
-  props: VirtualListProps<T> & { ref?: React.ForwardedRef<VirtualListHandle> },
+export const VirtualList = VirtualListInner as <T>(
+  props: VirtualListProps<T> & { ref?: React.Ref<VirtualListHandle> },
 ) => React.ReactElement;

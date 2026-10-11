@@ -1,6 +1,7 @@
 /* S-37 + REQ-PLAT-26. warnDeprecated: dev-only, once-per-id, no listeners or
-   timers at import. CP-PLAT-3 adds `setDeprecationMode` to the contract — until
-   that PR merges the mode is 'warn' and passing 'silent' is inert. */
+   timers at import. The outermost AuraGlassProvider calls
+   `setDeprecationMode(deprecations ?? 'warn')` in a layout effect (REQ-FIN-04),
+   so `<AuraGlassProvider deprecations="silent">` silences every warning. */
 import { DEPRECATIONS } from './deprecations.generated';
 
 export type DeprecationMode = 'warn' | 'silent';
@@ -24,7 +25,9 @@ export function warnDeprecated(id: string): void {
   const codemod = row.codemod
     ? ` Codemod: npx @auraglass/cli migrate 4to5 --transform ${row.codemod}.`
     : '';
+  // Rows already end in '.'; strip trailing periods so the sentence ends once.
+  const message = row.message.replace(/\.+$/, '');
   console.warn(
-    `[aura-glass] ${row.id} (since ${row.since}, removed in ${row.removeIn}): ${row.message}.${codemod} ${row.doc}`,
+    `[aura-glass] ${row.id} (since ${row.since}, removed in ${row.removeIn}): ${message}.${codemod} ${row.doc}`,
   );
 }

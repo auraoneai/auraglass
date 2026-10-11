@@ -34,6 +34,7 @@ export function GlassSegmentedControl({ value, defaultValue, onChange, items, se
   return (
     <SegmentedControl.Root
       aria-label={(rest as Record<string, unknown>)['aria-label'] as string ?? 'Options'}
+      name={(rest as Record<string, unknown>)['name'] as string ?? 'segmented'}
       {...rest}
       {...(value !== undefined ? { value } : {})}
       {...(defaultValue !== undefined ? { defaultValue } : {})}
