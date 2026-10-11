@@ -67,8 +67,8 @@
      column); the surface paint + stacking live here. The pinned-edge attr
      marks the last start-pinned / first end-pinned cell, which carries the
      private --_ag-table-pin-shadow derived from --ag-shadow-thin. */
-  .ag-table__th[data-ag-pinned],
-  .ag-table__td[data-ag-pinned] {
+  .ag-table__th[data-pinned],
+  .ag-table__td[data-pinned] {
     background: var(--_ag-surface-raised, Canvas);
     z-index: 1;
   }

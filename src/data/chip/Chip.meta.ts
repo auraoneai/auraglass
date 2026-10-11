@@ -12,8 +12,7 @@ export default defineMeta({
   apg: 'button',
   budgetKb: 3,
   migration: [
-    { from: 'GlassChip', props: { label: null, text: null, onSelect: 'onSelectedChange' }, automation: 'mostly', compat: true },
-    { from: 'GlassMetricChip', props: { label: null, text: null, onSelect: 'onSelectedChange' }, automation: 'mostly', compat: true },
+    { from: 'GlassChip', props: { label: null, text: null, onSelect: 'onSelectedChange' }, selectors: { '.glass-chip': '[data-ag-part="chip"]' }, automation: 'mostly', compat: true },
+    { from: 'GlassMetricChip', props: { label: null, text: null, onSelect: 'onSelectedChange' }, selectors: { '.glass-chip': '[data-ag-part="chip"]' }, automation: 'mostly', compat: true },
   ],
-  selectors: [{ from: '.glass-chip', to: '[data-ag-part="chip"]' }],
 });

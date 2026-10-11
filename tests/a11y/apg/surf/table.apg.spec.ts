@@ -16,7 +16,7 @@ const focused = (page: Page) =>
     const el = document.activeElement as HTMLElement | null;
     return {
       row: el?.closest('[data-row-id]')?.getAttribute('data-row-id') ?? null,
-      col: el?.getAttribute('data-ag-cell') ?? null,
+      col: el?.getAttribute('data-cell') ?? null,
       role: el?.getAttribute('role') ?? null,
     };
   });
