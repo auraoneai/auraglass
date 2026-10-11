@@ -17,7 +17,7 @@ describe('compat/cmp/core (REQ-CMP-127)', () => {
   it('compat ImageList warns + renders the 5.0 part tree', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const { container } = render(<CompatImageList items={[{ src: 'x.png', alt: 'x', title: 'T' }]} />);
-    expect(warned('DEP-C0231')).toBe(true);
+    expect(warned('DEP-C0259')).toBe(true);
     expect(container.querySelector('[data-ag-part="item-img"]')).not.toBeNull();
     expect(container.querySelector('[data-ag-part="item-bar"]')).not.toBeNull();
     warn.mockRestore();
@@ -30,8 +30,8 @@ describe('compat/cmp/core (REQ-CMP-127)', () => {
         <ImageListItem><ImageListItemBar title="b" /></ImageListItem>
       </ImageList>,
     );
-    expect(warned('DEP-C0232')).toBe(true);
-    expect(warned('DEP-C0233')).toBe(true);
+    expect(warned('DEP-C0260')).toBe(true);
+    expect(warned('DEP-C0261')).toBe(true);
     expect(container.querySelectorAll('[data-ag-part="item"]')).not.toHaveLength(0);
     warn.mockRestore();
   });
@@ -39,7 +39,7 @@ describe('compat/cmp/core (REQ-CMP-127)', () => {
   it('GlassGallery maps images to items + warns', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const { container } = render(<GlassGallery images={[{ src: 'a.png', caption: 'cap' }]} columns={2} />);
-    expect(warned('DEP-C0234')).toBe(true);
+    expect(warned('DEP-C0262')).toBe(true);
     expect(container.querySelector('[data-ag-variant]')!.getAttribute('data-ag-cols')).toBe('2');
     warn.mockRestore();
   });

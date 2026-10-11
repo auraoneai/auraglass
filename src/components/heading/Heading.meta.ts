@@ -9,5 +9,8 @@ export default defineMeta({
   parts: ['root'],
   states: [],
   variants: { size: ['display','title-1','title-2','title-3','sm','md','lg','xl'] },
-  migration: [{ from: 'DisplayText', automation: 'mostly', compat: true }, { from: 'GlassHeading', automation: 'full', compat: true }],
+  material: { layer: 'content' },
+  apg: 'none',
+  budgetKb: 1.5,
+  migration: [{ from: 'DisplayText', props: {}, selectors: { '.glass-display-text': '.ag-heading' },  automation: 'mostly', compat: true }, { from: 'GlassHeading', props: {}, selectors: { '.glass-heading': '.ag-heading' },  automation: 'full', compat: true }],
 });

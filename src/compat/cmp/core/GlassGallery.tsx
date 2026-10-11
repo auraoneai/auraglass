@@ -5,7 +5,7 @@ import { ImageList } from '../../../components/image-list';
 import type { ImageListItem } from '../../../components/image-list';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0234';
+const DEP = 'DEP-C0262';
 
 export interface GlassGalleryProps {
   images?: readonly { src: string; alt?: string; caption?: string }[];

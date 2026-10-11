@@ -4,7 +4,7 @@ import { warnDeprecated } from '../../../internal';
 import { ImageList as AgImageList } from '../../../components/image-list';
 import { __compatWrap as wrap } from './_shared';
 
-const DEP = 'DEP-C0233';
+const DEP = 'DEP-C0261';
 
 export function ImageListItemBar(props: React.ComponentProps<typeof AgImageList.ItemBar>) {
   warnDeprecated(DEP);
