@@ -6,12 +6,15 @@ import * as React from 'react';
 import { applyModel } from './filter-model-ops';
 import { DEFAULT_OPERATORS, emptyGroup, makeRule, type FilterField, type FilterGroup, type FilterModel, type FilterRule } from './filter-model';
 import { parse, serialize } from './filter-serialize';
+import type { toChangeDetails } from '../../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 export interface FilterBarProps {
   schema: readonly FilterField[];
   value?: FilterGroup | undefined;
   defaultValue?: FilterGroup | undefined;
-  onValueChange?: ((g: FilterGroup) => void) | undefined;
+  onValueChange?: ((g: FilterGroup, details: ChangeDetails) => void) | undefined;
   search?: { value: string; onValueChange: (v: string) => void; placeholder?: string | undefined } | undefined;
   quickFilters?: readonly { id: string; label: string; rule: FilterRule }[] | undefined;
   onClearAll?: (() => void) | undefined;
@@ -191,7 +194,7 @@ export function FilterBar({
 export interface FilterModelOptions {
   value?: FilterGroup | undefined;
   defaultValue?: FilterGroup | undefined;
-  onValueChange?: ((g: FilterGroup) => void) | undefined;
+  onValueChange?: ((g: FilterGroup, details: ChangeDetails) => void) | undefined;
 }
 
 /** REQ-SURF-85: FilterBar.useModel(schema, { value?, defaultValue?,
@@ -206,13 +209,14 @@ FilterBar.useModel = function useModel(schema: readonly FilterField[], opts: Fil
   const latest = React.useRef({ group, controlled, onValueChange: opts.onValueChange, schema });
   latest.current = { group, controlled, onValueChange: opts.onValueChange, schema };
   const actions = React.useMemo(() => {
-    const run = (fn: Parameters<typeof applyModel>[1]) => {
+    const run = (fn: Parameters<typeof applyModel>[1], reason: string) => {
       const l = latest.current;
       const next = applyModel(l.group, fn);
       if (next === l.group) return;
       l.group = next;
       if (!l.controlled) setInner(next);
-      l.onValueChange?.(next);
+      // Model ops are imperative (no DOM event); the op name is the reason (S-30).
+      l.onValueChange?.(next, { event: undefined, reason });
     };
     const checkRule = (r: FilterRule) => {
       if (process.env['NODE_ENV'] !== 'development') return;
@@ -227,13 +231,13 @@ FilterBar.useModel = function useModel(schema: readonly FilterField[], opts: Fil
       }
     };
     return {
-      addRule: (r: FilterRule, gid?: string) => { checkRule(r); run((m) => m.addRule(r, gid)); },
-      updateRule: (id: string, p: Partial<Omit<FilterRule, 'id' | 'kind'>>) => run((m) => m.updateRule(id, p)),
-      removeRule: (id: string) => run((m) => m.removeRule(id)),
-      addGroup: (g?: FilterGroup, pid?: string) => run((m) => m.addGroup(g, pid)),
-      removeGroup: (id: string) => run((m) => m.removeGroup(id)),
-      setCombinator: (id: string, c: 'and' | 'or') => run((m) => m.setCombinator(id, c)),
-      clear: () => run((m) => m.clear()),
+      addRule: (r: FilterRule, gid?: string) => { checkRule(r); run((m) => m.addRule(r, gid), 'add-rule'); },
+      updateRule: (id: string, p: Partial<Omit<FilterRule, 'id' | 'kind'>>) => run((m) => m.updateRule(id, p), 'update-rule'),
+      removeRule: (id: string) => run((m) => m.removeRule(id), 'remove-rule'),
+      addGroup: (g?: FilterGroup, pid?: string) => run((m) => m.addGroup(g, pid), 'add-group'),
+      removeGroup: (id: string) => run((m) => m.removeGroup(id), 'remove-group'),
+      setCombinator: (id: string, c: 'and' | 'or') => run((m) => m.setCombinator(id, c), 'set-combinator'),
+      clear: () => run((m) => m.clear(), 'clear'),
     };
   }, []);
   return React.useMemo(() => ({ value: group, ...actions }), [group, actions]);

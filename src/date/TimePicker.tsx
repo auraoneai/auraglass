@@ -27,6 +27,7 @@ import { DateProvider, useDateLocale } from './DateProvider';
 import { DatePopup } from './DatePopup';
 import { SHEET_BELOW_PX, useContainerWidth } from './useContainerWidth';
 import { useControllableValue } from './useControllableValue';
+import { raChangeDetails } from './shared';
 import type { DateFieldLikeProps, TimeValue } from './shared';
 
 export interface TimeFieldProps extends DateFieldLikeProps<TimeValue> {
@@ -62,7 +63,7 @@ function TimeInner({
       className={`ag-time-field${className ? ` ${className}` : ''}`}
       {...(value !== undefined ? { value: value as never } : {})}
       {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
-      {...(onValueChange !== undefined ? { onChange: (v) => onValueChange((v ?? null) as TimeValue | null) } : {})}
+      {...(onValueChange !== undefined ? { onChange: (v) => onValueChange((v ?? null) as TimeValue | null, raChangeDetails()) } : {})}
       {...(minValue !== undefined ? { minValue: minValue as never } : {})}
       {...(maxValue !== undefined ? { maxValue: maxValue as never } : {})}
       {...(granularity !== undefined ? { granularity: granularity === 'day' ? 'minute' : granularity } : {})}
@@ -167,18 +168,18 @@ function TimeColumns({ current, set, minuteStep, hourCycle, labels }: ColumnsPro
     if (k === undefined) return;
     const picked = Number(k);
     const hour = twelve ? (picked % 12) + ((period ?? 'am') === 'pm' ? 12 : 0) : picked;
-    set(withParts(current, hour, m ?? 0));
+    set(withParts(current, hour, m ?? 0), { event: undefined, reason: 'item-press' });
   };
   const onMinute = (keys: Selection) => {
     const k = firstKey(keys);
     if (k === undefined) return;
-    set(withParts(current, h24 ?? 0, Number(k)));
+    set(withParts(current, h24 ?? 0, Number(k)), { event: undefined, reason: 'item-press' });
   };
   const onPeriod = (keys: Selection) => {
     const k = firstKey(keys);
     if (k === undefined) return;
     const base = h24 ?? 0;
-    set(withParts(current, (base % 12) + (k === 'pm' ? 12 : 0), m ?? 0));
+    set(withParts(current, (base % 12) + (k === 'pm' ? 12 : 0), m ?? 0), { event: undefined, reason: 'item-press' });
   };
 
   const option = (item: { id: Key; label: string }) => (

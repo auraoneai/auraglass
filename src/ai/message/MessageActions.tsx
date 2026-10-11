@@ -12,7 +12,7 @@ export interface MessageActionsProps {
   labels?: { copied?: string; regenerate?: string; thumbsUp?: string; thumbsDown?: string } | undefined;
 }
 
-export function MessageAction(props: React.ButtonHTMLAttributes<HTMLButtonElement> & { icon?: keyof typeof import('../icons/index').AI_ICONS }) {
+export function MessageAction(props: Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'> & { icon?: keyof typeof import('../icons/index').AI_ICONS }) {
   const { icon, children, ...rest } = props;
   return (
     <button type="button" data-ag-part="action" {...rest}>

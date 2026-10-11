@@ -12,8 +12,12 @@ export interface BackdropBase {
   palette?: BackdropPalette | undefined;
   /** aurora/mesh only — declares data-ag-backdrop='light'|'dark'|'auto'. */
   scheme?: BackdropScheme | undefined;
-  /** Explicit tone when sampling cannot run (SSR, CORS-less, no idle). */
-  tone?: BackdropToneProp | undefined;
+  /**
+   * Explicit media tone when sampling cannot run (SSR, CORS-less, no idle);
+   * emitted as data-ag-media-tone. Named `mediaTone`, not `tone`: `tone` is in
+   * contract S-30 BANNED_PROPS (REQ-SURF-11; OD-17 / C-13 fallback rename).
+   */
+  mediaTone?: BackdropToneProp | undefined;
   /** Grain overlay on any preset. */
   grain?: boolean | undefined;
   /** 'drift' runs one keyframe under the continuous gate. Default 'static'. */

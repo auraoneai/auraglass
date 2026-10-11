@@ -1,6 +1,9 @@
 'use client';
 import * as React from 'react';
 import type { ImageViewerItem } from './types';
+import type { toChangeDetails } from '../../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 export interface ImageViewerContextValue {
   items: ImageViewerItem[];
@@ -8,9 +11,9 @@ export interface ImageViewerContextValue {
   current: ImageViewerItem | null;
   open: boolean;
   zoom: number;
-  setIndex(i: number): void;
-  next(): void; prev(): void;
-  setOpen(o: boolean): void;
+  setIndex(i: number, details: ChangeDetails): void;
+  next(details: ChangeDetails): void; prev(details: ChangeDetails): void;
+  setOpen(o: boolean, details: ChangeDetails): void;
   setZoom(z: number): void;
   loop: boolean;
   popupId: string;

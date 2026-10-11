@@ -12,6 +12,7 @@ import {
   Text as RACText,
 } from 'react-aria-components';
 import { DateProvider, useDateLocale } from './DateProvider';
+import { raChangeDetails } from './shared';
 import type { DateFieldLikeProps, DateValue } from './shared';
 
 export interface DateFieldProps extends DateFieldLikeProps<DateValue> {
@@ -20,7 +21,7 @@ export interface DateFieldProps extends DateFieldLikeProps<DateValue> {
 
 function Inner({ value, defaultValue, onValueChange, minValue, maxValue, isDateUnavailable, granularity, hourCycle, label, description, errorMessage, isInvalid, isRequired, isDisabled, isReadOnly, name, size = 'md', className }: DateFieldProps) {
   const { anchorRef, dir } = useDateLocale();
-  const onChange = useCallback((v: unknown) => onValueChange?.((v ?? null) as DateValue | null), [onValueChange]);
+  const onChange = useCallback((v: unknown) => onValueChange?.((v ?? null) as DateValue | null, raChangeDetails()), [onValueChange]);
   return (
     <RACDateField
       ref={anchorRef as React.Ref<HTMLDivElement>}

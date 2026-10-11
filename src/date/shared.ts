@@ -6,6 +6,10 @@
    components hand them to React Aria internally. Values the components emit
    are those same instances, so the methods below are always available. */
 
+import type { toChangeDetails } from '../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
+
 export interface DateCalendar {
   /** CLDR calendar identifier, e.g. 'gregory'. */
   readonly identifier: string;
@@ -113,10 +117,19 @@ export interface ZonedDateTime {
 export type DateValue = CalendarDate | CalendarDateTime | ZonedDateTime;
 export type TimeValue = Time | CalendarDateTime | ZonedDateTime;
 
+/**
+ * S-30 ChangeDetails for a React Aria `onChange`: RA passes the value only (no
+ * event), so `event` is undefined and the reason is 'change'. A fresh object
+ * per call (never a shared mutable instance).
+ */
+export function raChangeDetails(): ChangeDetails {
+  return { event: undefined, reason: 'change' };
+}
+
 export interface DateFieldLikeProps<V extends DateValue | TimeValue = DateValue> {
   value?: V | null | undefined;
   defaultValue?: V | null | undefined;
-  onValueChange?: ((v: V | null) => void) | undefined;
+  onValueChange?: ((v: V | null, details: ChangeDetails) => void) | undefined;
   minValue?: V | undefined;
   maxValue?: V | undefined;
   isDateUnavailable?: ((date: DateValue) => boolean) | undefined;

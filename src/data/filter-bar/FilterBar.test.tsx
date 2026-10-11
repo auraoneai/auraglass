@@ -22,7 +22,7 @@ describe('FilterBar (SURF-196, REQ-SURF-87)', () => {
     const chip = container.querySelector('[data-ag-part="filter-rule-chip"]')!;
     expect(chip.textContent).toContain('Name contains abc');
     fireEvent.click(chip.querySelector('.ag-filter-bar__chip-remove')!);
-    expect(on).toHaveBeenCalledWith(expect.objectContaining({ children: [] }));
+    expect(on).toHaveBeenCalledWith(expect.objectContaining({ children: [] }), { event: undefined, reason: 'remove-rule' });
   });
 
   it('clear all empties the group and calls onClearAll', () => {
@@ -31,7 +31,7 @@ describe('FilterBar (SURF-196, REQ-SURF-87)', () => {
     const { container } = render(<FilterBar schema={SCHEMA} defaultValue={base} onValueChange={on} onClearAll={onClear} />);
     fireEvent.click(container.querySelector('[data-ag-part="filter-clear"]')!);
     expect(onClear).toHaveBeenCalled();
-    expect(on).toHaveBeenCalledWith(expect.objectContaining({ children: [] }));
+    expect(on).toHaveBeenCalledWith(expect.objectContaining({ children: [] }), { event: undefined, reason: 'clear' });
   });
 
   it('quick filter toggle adds/removes its rule', () => {
@@ -42,7 +42,10 @@ describe('FilterBar (SURF-196, REQ-SURF-87)', () => {
     );
     const btn = container.querySelector('[data-ag-part="filter-quick-toggle"]')!;
     fireEvent.click(btn);
-    expect(on).toHaveBeenCalledWith(expect.objectContaining({ children: [expect.objectContaining({ fieldId: 'qty' })] }));
+    expect(on).toHaveBeenCalledWith(
+      expect.objectContaining({ children: [expect.objectContaining({ fieldId: 'qty' })] }),
+      { event: undefined, reason: 'add-rule' },
+    );
   });
 
   it('resultCount announces politely', () => {
@@ -58,6 +61,7 @@ describe('FilterBar (SURF-196, REQ-SURF-87)', () => {
     fireEvent.keyDown(input, { key: 'Enter', target: { value: 'xyz' } });
     expect(on).toHaveBeenCalledWith(
       expect.objectContaining({ children: [expect.objectContaining({ value: 'xyz' })] }),
+      { event: undefined, reason: 'update-rule' },
     );
   });
 

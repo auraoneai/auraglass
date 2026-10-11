@@ -12,13 +12,16 @@ import { viewTransitionParticipantAttributes } from '../../material/stateAttribu
 import { useTabBarPanel } from '../tab-bar/TabBar';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
+import { toChangeDetails } from '../../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 export type TabsValue = string;
 
 export type TabsRootProps = Omit<PartProps<'div'>, 'onChange' | 'defaultValue'> & {
   value?: TabsValue | undefined;
   defaultValue?: TabsValue | undefined;
-  onValueChange?: ((value: TabsValue, details?: unknown) => void) | undefined;
+  onValueChange?: ((value: TabsValue, details: ChangeDetails) => void) | undefined;
   orientation?: 'horizontal' | 'vertical' | undefined;
   /** Roving focus activates the focused tab (default false — manual activation). */
   activateOnFocus?: boolean | undefined;
@@ -50,8 +53,11 @@ function TabsRoot({
     (value ?? defaultValue ?? null) as TabsValue | null,
   );
   const change = React.useCallback(
-    (v: unknown) => {
+    (v: unknown, eventDetails?: unknown) => {
       const next = v as TabsValue;
+      // S-30/S-32: Base UI's event details are normalised onto the contract
+      // ChangeDetails (never the Base UI type itself).
+      const details: ChangeDetails = toChangeDetails(eventDetails);
       const apply = () => {
         setActive(next);
       };
@@ -63,7 +69,7 @@ function TabsRoot({
       } else {
         apply();
       }
-      onValueChange?.(next);
+      onValueChange?.(next, details);
     },
     [onValueChange],
   );

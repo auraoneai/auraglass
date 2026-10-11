@@ -34,6 +34,9 @@ import { CALENDAR_INITIAL_FOCUS, DatePopup } from './DatePopup';
 import { SHEET_BELOW_PX, TWO_MONTHS_FROM_PX, useContainerWidth } from './useContainerWidth';
 import { useControllableValue } from './useControllableValue';
 import type { DateFieldLikeProps, DateValue } from './shared';
+import type { toChangeDetails } from '../foundation';
+/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
+type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 export interface DateRangeValue {
   start: DateValue;
@@ -48,7 +51,7 @@ export interface DateRangePreset {
 export interface DateRangePickerProps extends Omit<DateFieldLikeProps<DateValue>, 'value' | 'defaultValue' | 'onValueChange'> {
   value?: DateRangeValue | null | undefined;
   defaultValue?: DateRangeValue | null | undefined;
-  onValueChange?: ((v: DateRangeValue | null) => void) | undefined;
+  onValueChange?: ((v: DateRangeValue | null, details: ChangeDetails) => void) | undefined;
   presets?: readonly DateRangePreset[] | undefined;
   /** Default: 2 at a >=768px container, 1 below. */
   visibleMonths?: 1 | 2 | undefined;
@@ -70,7 +73,7 @@ export interface DateRangePickerProps extends Omit<DateFieldLikeProps<DateValue>
 
 interface RangePopupProps {
   committed: DateRangeValue | null;
-  commit: (v: DateRangeValue | null) => void;
+  commit: (v: DateRangeValue | null, details?: ChangeDetails) => void;
   compact: boolean;
   visibleMonths: 1 | 2;
   presets: readonly DateRangePreset[] | undefined;
@@ -105,7 +108,7 @@ function RangePopup({
     state.setOpen(open);
   };
   const apply = () => {
-    commit(draft);
+    commit(draft, { event: undefined, reason: 'apply' });
     state.setOpen(false);
   };
 
