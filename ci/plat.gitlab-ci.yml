@@ -269,6 +269,9 @@ plat:test:registry:
     - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
     - cp registry/registry-report.json "$AURAGLASS_EVIDENCE_DIR/registry-report.json"
     - node scripts/registry/lint.mjs
+    # REQ-PLAT-97: pack aura-glass + @auraglass/{cli,registry} from this
+    # commit, scaffold Next 16 + Vite apps, init/add every item, build both.
+    - node scripts/registry/render-setup.mjs
     - |
       for s in tests/dx/registry-render.spec.ts tests/dx/registry-shadcn-interop.spec.ts; do
         test -f "$s" || { echo "PENDING: $s (lane 1f)"; exit 1; }
