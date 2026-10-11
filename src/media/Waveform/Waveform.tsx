@@ -1,13 +1,14 @@
-'use client';
-/* REQ-SURF-140 — Waveform (5.1, additive): one <svg role="img">, ≤2 paths
- * split by clipPath at progress; server-renderable with peaks. */
+/* REQ-SURF-140 — Waveform (5.1, additive; NOT in the ./media barrel until the
+ * contract-v1.2 5.1 PR): one <svg role="img">, ≤2 paths split by a clipPath at
+ * `progress`. Server module: no 'use client', no hooks — renders with `peaks`
+ * under renderToString. Live `level` mode lives in the client WaveformLevel. */
 import * as React from 'react';
 import { downsamplePeaks, waveformPath } from './downsample';
-import { useResolvedPreferences } from '../../theme';
+import { WaveformLevel } from './WaveformLevel';
 
 export interface WaveformProps {
   peaks?: Float32Array | number[] | undefined;
-  /** live single-bar mode (WaveformLevel) */
+  /** live single-bar mode — rendered by the client WaveformLevel */
   level?: number | undefined;
   progress?: number | undefined;
   /** columns; default 64, clamped 8–256 */
@@ -19,18 +20,21 @@ export interface WaveformProps {
   className?: string | undefined;
 }
 
-export const Waveform = React.forwardRef<SVGSVGElement, WaveformProps>(function Waveform(props, ref) {
-  const { peaks, level, progress = 0, bars = 64, label, width = 640, height = 48, className } = props;
-  const { motion } = useResolvedPreferences();
-  const isLevel = level !== undefined;
-  const data = isLevel ? [Math.min(1, Math.max(0, level))] : downsamplePeaks(peaks ?? [], bars);
-  const d = isLevel
-    ? `M0 0h${width}v${height}h${-width}z`
-    : waveformPath(data, data.length, width, height);
-  const p = Math.min(1, Math.max(0, progress));
-  const clipId = React.useId();
-  const levelScale = isLevel ? Math.max(0.02, Math.min(1, Math.max(0, level))) : 1;
-  const levelTransition = motion === 'calm' || motion === 'none' ? '0s' : 'var(--ag-duration-micro, 120ms)';
+/* Deterministic clip id (no useId: this is a server module). It encodes the
+ * only inputs of the clip geometry, so two equal ids always describe the same
+ * rectangle. */
+const clipIdOf = (width: number, height: number, p: number) =>
+  `ag-waveform-clip-${Math.round(width * 1000)}-${Math.round(height * 1000)}-${Math.round(p * 10000)}`;
+
+export const Waveform = function Waveform(props: WaveformProps & { ref?: React.Ref<SVGSVGElement> }) {
+  const { ref, peaks, level, progress = 0, bars = 64, label, width = 640, height = 48, className } = props;
+  if (level !== undefined) {
+    return <WaveformLevel ref={ref} level={level} label={label} width={width} height={height} className={className} />;
+  }
+  const cols = downsamplePeaks(peaks ?? [], bars);
+  const d = waveformPath(cols, cols.length, width, height);
+  const p = Number.isFinite(progress) ? Math.min(1, Math.max(0, progress)) : 0;
+  const clipId = clipIdOf(width, height, p);
   return (
     <svg
       ref={ref}
@@ -48,16 +52,8 @@ export const Waveform = React.forwardRef<SVGSVGElement, WaveformProps>(function 
           <rect x={0} y={0} width={width * p} height={height} />
         </clipPath>
       </defs>
-      <path d={d} fill="var(--ag-on-surface-muted, GrayText)" data-ag-part="waveform-remaining" />
-      <path
-        d={d}
-        fill="var(--ag-on-surface, CanvasText)"
-        data-ag-part="waveform-played"
-        clipPath={`url(#${clipId})`}
-        {...(isLevel
-          ? { style: { transform: `scaleY(${levelScale})`, transformOrigin: '50% 50%', transition: `transform ${levelTransition}` } as React.CSSProperties }
-          : {})}
-      />
+      <path d={d} fill="currentColor" data-ag-part="waveform-remaining" />
+      <path d={d} fill="currentColor" data-ag-part="waveform-played" clipPath={`url(#${clipId})`} />
     </svg>
   );
-});
+};

@@ -65,6 +65,11 @@ const SERVER_MODULE = [
   /^Message\.tsx?$/,
   /^MessageParts\.tsx?$/,
   // --- lane W3 end ---
+  // --- lane W4 begin ---
+  // REQ-SURF-140: Waveform (peaks) is server-renderable; live level mode is
+  // the client WaveformLevel.tsx.
+  /^Waveform\.tsx?$/,
+  // --- lane W4 end ---
 ];
 
 const CLIENT_ONLY = [/^StatusBar\.Live\.tsx?$/, /^Breadcrumbs\.Overflow\.tsx?$/, /^Pagination\.button\.tsx?$/i, /^ChartFrame\.Interactive\.tsx?$/, /^ActivityFeed\.Interactive\.tsx?$/];

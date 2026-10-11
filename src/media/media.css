@@ -54,7 +54,12 @@
   @media (pointer: coarse) { .ag-now-playing { block-size: 3.5rem; } }
   .ag-now-playing[data-ag-now-playing-fixed] { padding-block-end: env(safe-area-inset-bottom); }
   .ag-now-playing-artwork img { inline-size: 2.5rem; block-size: 2.5rem; object-fit: cover; border-radius: 0.25rem; }
-  .ag-now-playing-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ag-now-playing-title, .ag-now-playing-subtitle {
+    flex: 0 1 auto; min-inline-size: 0;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .ag-now-playing-artwork, .ag-now-playing-actions, .ag-now-playing-expand { flex: none; }
+  .ag-now-playing-actions { display: flex; align-items: center; gap: var(--ag-space-1, 0.25rem); }
   .ag-now-playing-progress {
     position: relative; flex: 1 1 auto; block-size: 2px;
     background: color-mix(in oklch, CanvasText 15%, transparent);
@@ -65,9 +70,30 @@
     transform: scaleX(var(--_ag-media-progress, 0));
     background: CanvasText;
   }
+  /* REQ-SURF-139: one row at ≥360 px; below it only Play remains, with a
+     truncated title (Actions keeps Play, drops Previous/Next). */
   @container ag-now-playing (max-width: 359.98px) {
     .ag-now-playing > :not([data-ag-part='now-playing-play']):not([data-ag-part='now-playing-title']):not([data-ag-part='now-playing-actions']) { display: none; }
     .ag-now-playing-subtitle { display: none; }
+    [data-ag-part='now-playing-prev'], [data-ag-part='now-playing-next'] { display: none; }
+    .ag-now-playing-title { flex: 1 1 auto; }
+  }
+  /* Waveform (REQ-SURF-140, 5.1) */
+  .ag-waveform { display: block; }
+  .ag-waveform [data-ag-part='waveform-remaining'] { fill: var(--ag-on-surface-muted); }
+  .ag-waveform [data-ag-part='waveform-played'],
+  .ag-waveform [data-ag-part='waveform-level'] { fill: var(--ag-on-surface); }
+  .ag-waveform [data-ag-part='waveform-level'] {
+    transform-box: fill-box; transform-origin: center;
+    transition: transform var(--ag-duration-micro) var(--ag-ease-standard);
+  }
+  [data-ag-motion='calm'] .ag-waveform [data-ag-part='waveform-level'],
+  [data-ag-motion='none'] .ag-waveform [data-ag-part='waveform-level'] { transition: none; }
+  @media (forced-colors: active) {
+    .ag-waveform { forced-color-adjust: none; }
+    .ag-waveform [data-ag-part='waveform-remaining'] { fill: GrayText; }
+    .ag-waveform [data-ag-part='waveform-played'],
+    .ag-waveform [data-ag-part='waveform-level'] { fill: CanvasText; }
   }
 }
 /* --- end lane W4 controls --- */

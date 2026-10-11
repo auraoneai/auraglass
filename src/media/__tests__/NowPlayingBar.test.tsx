@@ -57,3 +57,72 @@ describe('NowPlayingBar (REQ-SURF-139)', () => {
     expect(onPlaying).toHaveBeenCalledWith(true);
   });
 });
+
+describe('NowPlayingBar Root (REQ-SURF-139 remainder)', () => {
+  it('default render without expandedId does not throw and renders no Expand', () => {
+    const err = jest.spyOn(console, 'error').mockImplementation(() => {});
+    let container!: HTMLElement;
+    expect(() => { ({ container } = render(<NowPlayingBar.Root playing={false} />)); }).not.toThrow();
+    expect(err).not.toHaveBeenCalled();
+    err.mockRestore();
+    const root = container.querySelector('[data-ag-part="now-playing"]')!;
+    expect(root).not.toBeNull();
+    expect(root.querySelector('[data-ag-part="now-playing-expand"]')).toBeNull();
+    expect(root.querySelector('[data-ag-part="now-playing-play"]')).not.toBeNull();
+    expect(root.querySelector('[role="progressbar"]')).not.toBeNull();
+  });
+  it('default children render Expand when expandedId is set', () => {
+    const { container } = render(<NowPlayingBar.Root playing={false} expandedId="np-sheet" expanded={false} />);
+    const btn = container.querySelector('[data-ag-part="now-playing-expand"]')!;
+    expect(btn).not.toBeNull();
+    expect(btn.getAttribute('aria-controls')).toBe('np-sheet');
+  });
+  it('controlled progress 0.4 writes --_ag-media-progress = 0.4000 on the root (no inline width)', () => {
+    const { container, rerender } = render(<NowPlayingBar.Root playing={false} progress={0.4} />);
+    const root = container.querySelector('[data-ag-part="now-playing"]') as HTMLElement;
+    expect(root.style.getPropertyValue('--_ag-media-progress')).toBe('0.4000');
+    expect(container.querySelector('[role="progressbar"]')!.getAttribute('aria-valuenow')).toBe('40');
+    rerender(<NowPlayingBar.Root playing={false} progress={1 / 3} />);
+    expect(root.style.getPropertyValue('--_ag-media-progress')).toBe('0.3333');
+    rerender(<NowPlayingBar.Root playing={false} progress={1.7} />);
+    expect(root.style.getPropertyValue('--_ag-media-progress')).toBe('1.0000');
+    const fill = container.querySelector('[data-ag-part="now-playing-progress-fill"]') as HTMLElement;
+    expect(fill.style.width).toBe('');
+    rerender(<NowPlayingBar.Root playing={false} />);
+    expect(root.style.getPropertyValue('--_ag-media-progress')).toBe('');
+  });
+  it('media-driven progress writes the same var from the handle state', () => {
+    // media length in seconds (a media time, not a motion duration)
+    const state = { ...getServerSnapshot(), paused: false, currentTime: 30 };
+    state.duration = 120;
+    const handle = {
+      state,
+      toggle: () => {}, seek: () => {}, seekBy: () => {}, setVolume: () => {},
+      setMuted: () => {}, setRate: () => {}, play: async () => {}, pause: () => {},
+      requestPictureInPicture: () => {}, requestFullscreen: () => {},
+    } as MediaHandle;
+    const { container } = render(<NowPlayingBar.Root media={handle} />);
+    const root = container.querySelector('[data-ag-part="now-playing"]') as HTMLElement;
+    expect(root.style.getPropertyValue('--_ag-media-progress')).toBe('0.2500');
+  });
+  it('fixed → data-ag-now-playing-fixed; clear → data-ag-backdrop="media"; regular declares no backdrop', () => {
+    const { container, rerender } = render(<NowPlayingBar.Root playing={false} fixed variant="clear" />);
+    const root = container.querySelector('[data-ag-part="now-playing"]')!;
+    expect(root.hasAttribute('data-ag-now-playing-fixed')).toBe(true);
+    expect(root.getAttribute('data-ag-backdrop')).toBe('media');
+    expect(root.getAttribute('data-ag-variant')).toBe('clear');
+    rerender(<NowPlayingBar.Root playing={false} />);
+    expect(root.hasAttribute('data-ag-now-playing-fixed')).toBe(false);
+    expect(root.hasAttribute('data-ag-backdrop')).toBe(false);
+    expect(root.getAttribute('data-ag-variant')).toBe('regular');
+  });
+  it('Artwork is a decorative <img alt=""> without an extra aria-hidden', () => {
+    const { container } = render(
+      <NowPlayingBar.Root playing={false} artwork="https://example.test/a.png"><NowPlayingBar.Artwork /></NowPlayingBar.Root>,
+    );
+    const img = container.querySelector('img')!;
+    expect(img.getAttribute('alt')).toBe('');
+    expect(img.hasAttribute('aria-hidden')).toBe(false);
+    expect(img.hasAttribute('crossorigin')).toBe(false);
+  });
+});
