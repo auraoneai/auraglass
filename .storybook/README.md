@@ -11,36 +11,40 @@ npm run build-storybook
 
 Storybook runs at `http://localhost:6006`.
 
-## Preview Modes
+## Preview (5.0, REQ-QUAL-09..11)
 
-The global Storybook toolbar includes a `Preview` control:
+The toolbar exposes only the frozen globals: `scheme`, `contrast`, `transparency`, `motion`, `density`, `tier` and `scene`. `.storybook/preview.tsx` has exactly one decorator, which renders:
 
-- `Light`: neutral product documentation surface.
-- `Dark`: dark UI validation surface.
-- `Liquid Glass`: controlled liquid backdrop for glass-specific composition.
-- `High Contrast`: accessibility inspection surface with stronger contrast requirements.
+1. `AuraGlassProvider` with its props taken from the globals (no persistence; the provider applies the OS motion floor),
+2. `Environment` with `backdrop = SCENE_BACKDROP[scene]` and the scene image `/scenes/<file>` (scenes whose backdrop is not `media`, and stories of kind `scene`, are painted by the `<body>` background instead),
+3. `.storybook/contract/StoryRoot.tsx`: one `<div data-ag-story-content data-ag-story-kind>` that sets `data-ag-cert-ready` after `document.fonts.ready`, every image decode and two animation frames, and clears it on unmount.
 
-Stories are no longer forced into dark mode and no global decorative blob wrapper is injected around every component. Shared presentation is handled by `.storybook/StorySurface.tsx`, which gives each story a predictable `component`, `app`, `media`, or `plain` surface.
+Cert mode is `?ag-cert=1` on the iframe URL. It loads only the built `dist/styles.css` (build `dist/` first) and makes every ancestor of the story root transparent and unfiltered, so the scene is painted only by the environment. Lanes wait on `data-ag-cert-ready`, never on sleeps, and every lane spec imports `test` from `certification/lanes/_fixtures/determinism.ts` (frozen clock at 2026-03-02T09:30:00Z, seeded `Math.random`).
 
-## Navigation Model
+## Information architecture (5.0, REQ-QUAL-49..52)
 
-Storybook is organized by developer intent for the 3.0 release:
+`parameters.options.storySort` orders the sidebar as `Start Here`, `Material Lab`, `Scenes`, `Showcases`,
+`Flagships` (`Controls`, `Overlays`, `App Shell`, `Data`, `AI`, `Media`), `Core`, `Foundations`, `Migration`.
+Inside each Flagships group, components follow `ComponentMeta.flagship`. Storybook reads `storySort` statically from
+`preview.tsx`, so the block is generated: run `node scripts/storybook/lint-titles.mjs --write-story-sort` after a
+flagship number changes (`--check-story-sort` gates the build).
 
-- `Start Here`: the curated guide and component selection entry point.
-- `Foundations`: tokens, Liquid Glass primitives, accessibility, and motion.
-- `Controls`: buttons, inputs, selects, toggles, sliders, search, and compact actions.
-- `Navigation`: tabs, menus, toolbars, sidebars, breadcrumbs, and pagination.
-- `Surfaces`: cards, panels, sheets, modals, popovers, app shells, and layout.
-- `Data + Visualization`: tables, charts, metrics, badges, grids, and dense display UI.
-- `Media`: video, audio, playback controls, photo inspection, and media providers.
-- `Workflows`: wizards, dashboards, commerce, collaboration, CMS, chat, and builders.
-- `AI + Intelligence`: intelligent search, adaptive forms, personalization, and predictive systems.
-- `Effects + Advanced`: particles, WebGL, spatial, quantum, immersive, and experimental systems.
-- `Showcases`: high-signal product demos, including the Liquid Glass app experience and state matrix.
-- `Reference`: generated category galleries and legacy lookup pages for complete coverage.
-- `Certification`: audit and missing-inventory stories used for visual certification evidence.
+Titles are `Flagships/<Group>/<Name>` or `Core/<Name>` with the 5.0 export name. The gates, all attributed to the
+owner of the story file and run against the expiring baseline `certification/baselines-gates/story-contract.json`
+(PRD-F §4.3 rule 3; it only shrinks and is empty at RC-1):
 
-This split is intentional: everyday developer paths stay focused on the job to be done, while generated reference and certification stories preserve full coverage without overwhelming the first load.
+- `scripts/storybook/lint-titles.mjs`: version segments, lowercase leaves, `Glass` prefixes, one component in two
+  groups, leaf ≠ `ComponentMeta.name`, >12 non-matrix stories, oversize non-flagship titles, `{Default, Variants}`-only.
+- `scripts/storybook/story-contract.mjs` (and `tests/storybook/story-contract.test.ts`): `parameters.ag`, tags ⊆
+  `STORY_TAGS`, flagship `Playground` / `States` / `Keyboard` (tagged `apg`, referenced by `tests/a11y/apg/<owner>/`),
+  no `.storybook/**` imports, no `any`.
+- `scripts/storybook/lint-story-copy.mjs`: the REQ-QUAL-50 banned copy and the rendered text `Default`.
+
+Every CSF file gets a docs page (`tags: ['autodocs']`, `parameters.docs.page`): for a ComponentMeta subject it renders
+Usage (the `Playground` story), Anatomy, Material role, Keyboard (from `storybook-static/apg-index.json`, written by
+`scripts/storybook/write-apg-index.mjs`), Migration and Selectors. `stories/qual/StartHere.mdx` computes its counts
+and links from `index.json`, the meta inventory and the package version; `scripts/storybook/verify-start-here.mjs`
+fails the build on a link that does not resolve.
 
 ## Story Parameters
 
@@ -48,17 +52,11 @@ Use these parameters when adding or cleaning up stories:
 
 ```ts
 parameters: {
-  layout: "fullscreen",
-  previewSurface: "app",
+  ag: { subject: "Button", kind: "component" }, // StoryAgParameters (S-41)
 }
 ```
 
-Supported `previewSurface` values:
-
-- `component`: centered component inspection.
-- `app`: full application or showcase composition.
-- `media`: immersive media/control demos.
-- `plain`: no additional presentation styling.
+`kind` is one of `lab`, `component`, `matrix`, `scene`, `showcase`. Stories reach their captured state through args (`defaultOpen`, controlled `open`, a streaming `step`), never through timers.
 
 ## QA Gates
 
@@ -78,4 +76,4 @@ The presentation tests verify visual composition, preview-surface wiring, the ab
 - Use composed, realistic data in `Showcases`.
 - Place new component stories by intent, not source-folder name.
 - Avoid story-level decorative backgrounds unless the component itself is a background or media surface.
-- When a story needs a specific environment, opt into it with `previewSurface` instead of changing the global decorator.
+- When a story needs a specific environment, select it through the `scene` global instead of changing the global decorator.
