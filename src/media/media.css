@@ -106,9 +106,11 @@
     .ag-image-viewer-stage img { transition: opacity var(--ag-duration-micro, 120ms); }
   }
   /* CarouselRail */
-  .ag-carousel { position: relative; }
+  /* REQ-SURF-146: the rail is its own size container, so the 480 px rule applies */
+  .ag-carousel { position: relative; container: ag-carousel / inline-size; }
+  /* positioned so slide offsetLeft is measured in the viewport's scroll space (REQ-SURF-148) */
   .ag-carousel-viewport {
-    display: flex; overflow-x: auto;
+    position: relative; display: flex; overflow-x: auto;
     scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
     scrollbar-width: none;
   }
@@ -116,7 +118,7 @@
     scroll-snap-align: start; flex: 0 0 auto;
     inline-size: calc(100% / var(--_ag-slides-per-view, 1));
   }
-  @container (max-width: 479.98px) {
+  @container ag-carousel (max-width: 479.98px) {
     .ag-carousel-slide { inline-size: 100%; }
   }
   .ag-carousel-nav { position: absolute; inset-block: 0; margin-block: auto; }
