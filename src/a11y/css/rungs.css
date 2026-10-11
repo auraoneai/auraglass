@@ -1,50 +1,47 @@
-/* REQ-MAT-54 rungs (MAT-277/278/279) — @layer ag.a11y attribute rungs keyed on
-   [data-ag-transparency] / [data-ag-contrast] against [data-ag-surface], plus
-   the raise-only floors (reduced transparency, prefers-contrast more,
-   @supports not backdrop-filter, forced-colors) and the disabled row.
-   Zero !important. Floors never lower a caller's higher rung. */
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* REQ-MAT-54 rungs (MAT-277/278/279, REQ-FIN-05) — @layer ag.a11y attribute
+   rungs keyed on [data-ag-transparency] / [data-ag-contrast] against
+   [data-ag-surface], plus the raise-only floors (reduced transparency,
+   prefers-contrast more, @supports not backdrop-filter, forced-colors) and
+   the disabled row. Zero !important. Floors never lower a caller's higher
+   rung. Tint floors come from the compiler-emitted cells in
+   src/material/css/generated/floors.css only — no hand-written numbers. */
 @layer ag.a11y {
   /* ---- attribute rungs ---- */
   :where([data-ag-transparency="tinted"]) [data-ag-surface] {
-    --_ag-tint-floor: var(--_ag-tint-floor-tinted, 0.55);
     --_ag-refraction-scale: 0;
   }
   :where([data-ag-transparency="solid"]) [data-ag-surface],
   :where([data-ag-transparency="solid"]) [data-ag-surface]::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    --_ag-tint-floor: var(--_ag-tint-floor-solid, 1);
     --_ag-refraction-scale: 0;
   }
   :where([data-ag-transparency="solid"]) [data-ag-surface] {
-    background: var(--_ag-fallback-fill, var(--ag-color-canvas, Canvas));
+    background: var(--_ag-fallback-fill);
     background-image: none;
   }
   :where([data-ag-contrast="more"]) [data-ag-surface] {
-    --ag-on-surface: var(--_ag-color-on-surface-max, var(--ag-color-on-surface));
+    color: var(--_ag-on-surface-max);
     --ag-specular: 0;
     --_ag-grain-opacity: 0;
-    border: 1px solid var(--_ag-color-border-strong, var(--ag-color-border, CanvasText));
+    border: 1px solid var(--_ag-border-strong);
   }
 
   /* ---- raise-only floors (equal specificity, later in source) ---- */
   @media (prefers-reduced-transparency: reduce) {
     :where(:not([data-ag-transparency])) [data-ag-surface]:not(:where([data-ag-transparency] *)),
     :where([data-ag-transparency="glass"]) [data-ag-surface]:not(:where([data-ag-transparency="tinted"] *)):not(:where([data-ag-transparency="solid"] *)) {
-      --_ag-tint-floor: var(--_ag-tint-floor-tinted, 0.55);
       --_ag-refraction-scale: 0;
     }
   }
   @media (prefers-contrast: more) {
     :where(:not([data-ag-contrast])) [data-ag-surface]:not(:where([data-ag-contrast] *)) {
-      --ag-on-surface: var(--_ag-color-on-surface-max, var(--ag-color-on-surface));
+      color: var(--_ag-on-surface-max);
       --ag-specular: 0;
       --_ag-grain-opacity: 0;
-      border: 1px solid var(--_ag-color-border-strong, var(--ag-color-border, CanvasText));
-    }
-    :where(:not([data-ag-transparency])) [data-ag-surface]:not(:where([data-ag-transparency] *)) {
-      --_ag-tint-floor: var(--_ag-tint-floor-tinted, 0.55);
-      --_ag-refraction-scale: 0;
+      border: 1px solid var(--_ag-border-strong);
     }
   }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -64,9 +61,8 @@
     :where(:not([data-ag-transparency])) [data-ag-surface],
     :where([data-ag-transparency="glass"]) [data-ag-surface],
     :where([data-ag-transparency="tinted"]) [data-ag-surface] {
-      background: var(--_ag-fallback-fill, var(--ag-color-canvas, Canvas));
+      background: var(--_ag-fallback-fill);
       background-image: none;
-      --_ag-tint-floor: var(--_ag-tint-floor-solid, 1);
     }
   }
   @media (forced-colors: active) {
@@ -83,7 +79,6 @@
       background: Canvas;
       color: CanvasText;
       border: 1px solid CanvasText;
-      forced-color-adjust: none;
     }
     [data-ag-layer="scrim"] {
       background: transparent;
@@ -96,4 +91,5 @@
   [data-ag-surface]:is([aria-disabled="true"], [data-disabled]) {
     --ag-on-surface: var(--_ag-color-on-surface-disabled, GrayText);
   }
+
 }

@@ -1,0 +1,6 @@
+.plat-base: { extends: .ag-node }
+plat:build:dist: { extends: .plat-base, stage: build, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\" || $AG_SCOPE == \"main\"" }], script: [echo ok] }
+plat:gate:glass-quality: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:integration:next: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:integration:vite: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }
+plat:gate:change-class: { extends: .plat-base, stage: test, allow_failure: true, rules: [{ if: "$AG_SCOPE == \"pr\"" }], script: [echo ok] }

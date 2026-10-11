@@ -18,7 +18,7 @@
 plat:build:dist:
   extends: .plat-node
   stage: build
-  allow_failure: true
+  allow_failure: false # PLAT-015: activated on 5x, ci/plat/activation.json row (first green: pipeline 2934310753)
   rules:
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release"
   script:
@@ -208,7 +208,7 @@ plat:gate:removal:
 plat:gate:change-class:
   extends: .plat-node
   stage: test
-  allow_failure: true # PLAT-015
+  allow_failure: false # PLAT-015: activated on 5x, ci/plat/activation.json row (first green: pipeline 2934559777)
   variables: { GIT_DEPTH: "0" }
   rules:
     - if: $CI_COMMIT_TAG
@@ -326,8 +326,13 @@ plat:package:pack:
 
 plat:build:docs:
   extends: .plat-node
-  stage: build
+  # package stage: docs:build installs the aura-glass tarball that
+  # plat:package:pack writes to .artifacts/pack (REQ-PLAT-99); GitLab needs
+  # may not point at a later stage, so this job runs alongside pack.
+  stage: package
   allow_failure: true
+  needs:
+    - { job: "plat:package:pack", artifacts: true }
   rules:
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main"
   script:

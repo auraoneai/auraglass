@@ -30,8 +30,13 @@ describe('plat fragment job set', () => {
       for (const e of ex) expect(e).toMatch(/^\.(plat-|ag-)/);
     }
   });
-  it.each(REQUIRED)('%s starts allow_failure:true pending PLAT-015 activation', (n) => {
-    expect(job(n).allow_failure).toBe(true);
+  // PLAT-015 / REQ-FIN-24: a gate keeps allow_failure:true until ci/plat/activation.json
+  // records its first green pipeline; the activation PR flips it to false in the same diff.
+  const activated = new Set(
+    (JSON.parse(readFileSync('ci/plat/activation.json', 'utf8')).activations as Array<{ job: string }>).map((r) => r.job),
+  );
+  it.each(REQUIRED)('%s is allow_failure:false iff activation.json has its row (PLAT-015)', (n) => {
+    expect({ job: n, allow_failure: job(n).allow_failure }).toEqual({ job: n, allow_failure: !activated.has(n) });
   });
 });
 
@@ -131,6 +136,13 @@ describe('activation.json', () => {
     expect(a.version).toBe(1);
     expect(Array.isArray(a.activations)).toBe(true);
   });
+  it('every activated plat:* job has job-level allow_failure:false (B3-14 flip in the same PR)', () => {
+    const a = JSON.parse(readFileSync('ci/plat/activation.json', 'utf8'));
+    for (const row of a.activations as Array<{ job: string }>) {
+      if (!row.job.startsWith('plat:')) continue;
+      expect({ job: row.job, allow_failure: job(row.job)?.allow_failure }).toEqual({ job: row.job, allow_failure: false });
+    }
+  });
 });
 
 // REQ-PLAT-05 / REQ-PLAT-39 items fixed in #126 (REQ-FIN-22 ledger AC).
@@ -185,7 +197,7 @@ describe('root .gitlab-ci.yml (R1 workflow prefixes, stage order)', () => {
         const eq = a.match(/^\$CI_COMMIT_BRANCH == "([^"]+)"$/);
         if (eq) return branch === eq[1];
         const re = a.match(/^\$CI_COMMIT_BRANCH =~ \/(.+)\/$/);
-        if (re) return new RegExp(re[1].replace(/\\\//g, '/')).test(branch);
+        if (re) return new RegExp(re[1]!.replace(/\\\//g, '/')).test(branch);
         return false;
       });
       if (hit) return r.variables ?? {};
