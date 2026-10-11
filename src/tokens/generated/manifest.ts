@@ -324,7 +324,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 39
+     "count": 41
     }
    ],
    "value": "oklch(0.26 0.016 250)"
@@ -343,7 +343,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 13
+     "count": 15
     }
    ],
    "value": "oklch(0.34 0.019 250)"
@@ -413,7 +413,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 36
+     "count": 38
     }
    ],
    "value": "oklch(0.64 0.16 235)"
@@ -432,7 +432,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 29
+     "count": 31
     }
    ],
    "value": "oklch(0.54 0.022 250)"
@@ -451,7 +451,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 32
+     "count": 33
     }
    ],
    "value": "oklch(0.99 0.004 250)"
@@ -565,7 +565,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 54
+     "count": 58
     }
    ],
    "value": "oklch(0.26 0.016 250)"
@@ -584,7 +584,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 29
+     "count": 31
     }
    ],
    "value": "oklch(0.34 0.019 250)"
@@ -807,7 +807,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 0
+     "count": 1
     }
    ],
    "value": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", system-ui, sans-serif"
@@ -1415,7 +1415,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 111
+     "count": 119
     }
    ],
    "value": "calc(8px * var(--_ag-density))"
@@ -1431,7 +1431,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 36
+     "count": 40
     }
    ],
    "value": "calc(12px * var(--_ag-density))"
@@ -1447,7 +1447,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 45
+     "count": 47
     }
    ],
    "value": "calc(16px * var(--_ag-density))"
@@ -1479,7 +1479,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 10
+     "count": 12
     }
    ],
    "value": "calc(24px * var(--_ag-density))"
@@ -1533,7 +1533,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 0
+     "count": 1
     }
    ],
    "value": "2px"
@@ -1619,7 +1619,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 4
+     "count": 5
     }
    ],
    "value": "1.45"
@@ -1635,7 +1635,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 5
+     "count": 6
     }
    ],
    "value": "clamp(15px, 0.9rem + 0.2vw, 17px)"
@@ -1731,7 +1731,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 17
+     "count": 18
     }
    ],
    "value": "clamp(12px, calc(12px + (1) * ((100vw - 320px) / 1120)), 13px)"
@@ -1907,7 +1907,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 0
+     "count": 1
     }
    ],
    "value": "1.15"
@@ -1923,7 +1923,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 3
+     "count": 4
     }
    ],
    "value": "clamp(26px, calc(26px + (6) * ((100vw - 320px) / 1120)), 32px)"
@@ -1939,7 +1939,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 0
+     "count": 1
     }
    ],
    "value": "620"
@@ -2003,7 +2003,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 2
     }
    ],
    "value": "1.25"
@@ -2019,7 +2019,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 3
+     "count": 4
     }
    ],
    "value": "clamp(19px, calc(19px + (2) * ((100vw - 320px) / 1120)), 21px)"
@@ -2035,7 +2035,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 2
+     "count": 3
     }
    ],
    "value": "610"
@@ -2099,7 +2099,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 2
+     "count": 3
     }
    ],
    "value": "1200"
