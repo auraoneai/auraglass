@@ -3,6 +3,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { readFileSync, existsSync } from 'node:fs';
 import yaml from 'yaml';
+import { relPaths } from '../../scripts/release/lib/policy.mjs';
 
 const doc = yaml.parse(readFileSync('ci/plat.gitlab-ci.yml', 'utf8')) as Record<string, any>;
 const job = (n: string) => doc[n];
@@ -81,17 +82,26 @@ describe('plat:test:react19', () => {
 
 describe('plat:test:visual-4x', () => {
   const j = job('plat:test:visual-4x');
-  it('writes the VisualClassReport to .artifacts/plat/visual-4x/', () => {
-    expect(yaml.stringify(j.script)).toContain('.artifacts/plat/visual-4x/visual-class.json');
+  it('writes the VisualClassReport into its job dir, the REQ-FIN-10 4x reader path (B3-6)', () => {
+    const s = yaml.stringify(j.script, { lineWidth: 0 });
+    expect(s).toContain('--class-report ".artifacts/plat/$CI_JOB_NAME_SLUG/visual-class.json"');
+    expect(s).not.toContain('.artifacts/plat/visual-4x/');
     expect(yaml.stringify(j.rules)).toContain('$AG_LINE == "4x"');
   });
 });
 
 describe('plat:package:pack', () => {
   const j = job('plat:package:pack');
-  it('needs the four gates within the fragment', () => {
+  it('needs the three test-stage gates; change-class (certify stage) is re-run in-job on release scope (B3-6)', () => {
     const names = j.needs.map((n: any) => n.job ?? n);
-    for (const g of REQUIRED) expect(names).toContain(g);
+    expect(names).toEqual(['plat:gate:glass-quality', 'plat:integration:next', 'plat:integration:vite']);
+    const release = (j.script as string[]).find((l) => l.includes('dry-run.mjs --tag'))!;
+    expect(release).toContain('if [ "$AG_SCOPE" = "release" ]; then');
+    expect(release).toContain('git fetch --no-tags origin "+refs/tags/*:refs/tags/*"');
+    expect(release).toContain(
+      'node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --out "$AURAGLASS_EVIDENCE_DIR/change-class.json"',
+    );
+    expect(j.variables).toEqual({ GIT_DEPTH: '0' });
   });
   it('runs dry-run.mjs --tag on release scope and writes the AURAGLASS_TARBALL dotenv', () => {
     const s = yaml.stringify(j.script);
@@ -352,12 +362,11 @@ describe('REQ-PLAT-51 evidence under .artifacts/plat/<job-slug>/', () => {
   };
   const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 63).replace(/^-+|-+$/g, '');
 
-  // §4.13.2 producer paths (contract) and the policy.mjs paths kept until FIN-A REQ-FIN-10.
+  // §4.13.2 producer paths (contract) and the policy.mjs change-class writer path.
   const PRODUCER: Record<string, string[]> = {
     'plat:build:dist': ['dist/'],
     'plat:package:pack': ['.artifacts/pack/', '.artifacts/plat/pack.env'],
     'plat:build:docs': ['apps/docs/out/', 'apps/docs/public/', 'storybook-static/'],
-    'plat:test:visual-4x': ['.artifacts/plat/visual-4x/'],
     'plat:gate:change-class': ['.artifacts/plat/change-class/'],
     pages: ['public/'],
   };
@@ -431,7 +440,7 @@ describe('REQ-PLAT-51 evidence under .artifacts/plat/<job-slug>/', () => {
   });
 
   it('no PLAT script writes evidence to a flat .artifacts/plat/ path outside the job dir or producer paths', () => {
-    const allowed = /^\.artifacts\/plat\/(\$CI_JOB_NAME_SLUG(\/|$)|visual-4x\/|change-class\/|pack\.env$)/;
+    const allowed = /^\.artifacts\/plat\/(\$CI_JOB_NAME_SLUG(\/|$)|change-class\/|pack\.env$)/;
     for (const n of platJobs) {
       const text = yaml.stringify(doc[n].script ?? [], { lineWidth: 0 });
       for (const m of text.matchAll(/\.artifacts\/plat\/[^\s"']*/g)) expect([n, m[0]]).toEqual([n, expect.stringMatching(allowed)]);
@@ -461,5 +470,50 @@ describe('REQ-PLAT-51 evidence under .artifacts/plat/<job-slug>/', () => {
 
   it('root AURAGLASS_EVIDENCE_DIR stays the contract default; PLAT jobs override it per job', () => {
     expect(root.variables.AURAGLASS_EVIDENCE_DIR).toBe('.artifacts');
+  });
+});
+
+// B3-6 (§6.1 REQ-FIN-10 transfer; REQ-PLAT-05 item 8; REQ-PLAT-19; AC-FIN-10 CI half, AC-FIN-22).
+describe('plat:gate:change-class receives the VisualClassReport (B3-6)', () => {
+  const root = yaml.parse(readFileSync('.gitlab-ci.yml', 'utf8')) as Record<string, any>;
+  const STAGES: string[] = root.stages;
+  const j = job('plat:gate:change-class');
+  it('runs in stage certify, after the visual producers', () => {
+    expect(j.stage).toBe('certify');
+    expect(STAGES.indexOf('certify')).toBeGreaterThan(STAGES.indexOf(job('plat:test:visual-4x').stage));
+  });
+  it('needs qual:certify:l7 and plat:test:visual-4x with artifacts, both optional', () => {
+    expect(j.needs).toEqual([
+      { job: 'qual:certify:l7', artifacts: true, optional: true },
+      { job: 'plat:test:visual-4x', artifacts: true, optional: true },
+    ]);
+  });
+  it('the needed producers write the paths classify-change.mjs reads (lib/policy.mjs)', () => {
+    const p = relPaths('/r');
+    // qual:certify:l7 → .artifacts/qual/visual-class.json is the §4.13.2 producer path (QUAL).
+    expect(p.visualReport('5x')).toBe('/r/.artifacts/qual/visual-class.json');
+    // plat:test:visual-4x writes into its job dir; GitLab's $CI_JOB_NAME_SLUG of the name is plat-test-visual-4x.
+    expect(p.visualReport('4x')).toBe('/r/.artifacts/plat/plat-test-visual-4x/visual-class.json');
+    expect(yaml.stringify(job('plat:test:visual-4x').script, { lineWidth: 0 }))
+      .toContain('.artifacts/plat/$CI_JOB_NAME_SLUG/visual-class.json');
+    expect(job('plat:test:visual-4x').artifacts.paths).toEqual(['.artifacts/plat/$CI_JOB_NAME_SLUG/']);
+  });
+  it('no PLAT job needs a job in a later stage (GitLab rejects such pipelines)', () => {
+    const stageOf = (n: string): string | undefined => {
+      const d = doc[n] ?? root[n];
+      if (!d) return undefined;
+      if (d.stage) return d.stage;
+      for (const e of ([] as string[]).concat(d.extends ?? [])) { const s = stageOf(e); if (s) return s; }
+      return undefined;
+    };
+    for (const [n, d] of Object.entries(doc)) {
+      if (n.startsWith('.') || !d || typeof d !== 'object' || !(d as any).needs) continue;
+      for (const need of (d as any).needs) {
+        const target = need.job ?? need;
+        const ts = stageOf(target);
+        if (ts === undefined) continue; // job in another fragment: optional: true (verify-ci-fragments rule 4)
+        expect([n, target, STAGES.indexOf(ts) <= STAGES.indexOf(stageOf(n)!)]).toEqual([n, target, true]);
+      }
+    }
   });
 });
