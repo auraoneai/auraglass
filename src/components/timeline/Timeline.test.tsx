@@ -46,11 +46,11 @@ describe('Timeline (SURF-186, REQ-SURF-96)', () => {
   it('horizontal orientation sets the attr and sits inside a size container', () => {
     const { container } = render(<Timeline items={ITEMS} orientation="horizontal" />);
     const ol = container.querySelector('[data-ag-part="timeline"]')!;
-    expect(ol.getAttribute('data-ag-orientation')).toBe('horizontal');
+    expect(ol.getAttribute('data-orientation')).toBe('horizontal');
     expect(ol.parentElement!.classList.contains('ag-timeline__container')).toBe(true);
     const css = readFileSync(join(__dirname, 'timeline.css'), 'utf8');
     expect(css).toMatch(/\.ag-timeline__container\s*\{\s*container-type:\s*inline-size;/);
-    expect(css).toMatch(/@container \(max-width: 480px\)\s*\{\s*\.ag-timeline\[data-ag-orientation='horizontal'\]\s*\{\s*grid-auto-flow: row;/);
+    expect(css).toMatch(/@container \(max-width: 480px\)\s*\{\s*\.ag-timeline\[data-orientation='horizontal'\]\s*\{\s*grid-auto-flow: row;/);
   });
 
   it('absolute format uses timeZone (default UTC)', () => {

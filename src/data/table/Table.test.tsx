@@ -109,8 +109,8 @@ describe('Table (SURF-155)', () => {
       const { container, rerender } = render(
         <T ref={ref} columnPinning={{ left: ['qty'] }} onColumnPinningChange={on} />,
       );
-      const qtyCell = () => container.querySelector('tr[data-row-id="a"] [data-ag-cell="qty"]') as HTMLElement;
-      const nameCell = () => container.querySelector('tr[data-row-id="a"] [data-ag-cell="name"]') as HTMLElement;
+      const qtyCell = () => container.querySelector('tr[data-row-id="a"] [data-cell="qty"]') as HTMLElement;
+      const nameCell = () => container.querySelector('tr[data-row-id="a"] [data-cell="name"]') as HTMLElement;
       expect(qtyCell().getAttribute('data-ag-pinned')).toBe('start');
       act(() => ref.current!.getInstance().getColumn('name')!.pin('left'));
       expect(on).toHaveBeenCalledWith(expect.objectContaining({ left: ['qty', 'name'] }));
@@ -185,7 +185,7 @@ describe('Table (SURF-155)', () => {
 
   it('single selection: aria-selected rows, no checkbox column, one row at a time', () => {
     const { container } = render(<T selectionMode="single" />);
-    expect(container.querySelector('[data-ag-cell="__select"]')).toBeNull();
+    expect(container.querySelector('[data-cell="__select"]')).toBeNull();
     fireEvent.click(container.querySelector('tr[data-row-id="b"]')!);
     expect(selectedIds(container)).toEqual(['b']);
     fireEvent.click(container.querySelector('tr[data-row-id="c"]')!);
@@ -334,24 +334,24 @@ describe('Table (SURF-155)', () => {
 
     it('numeric: header + cells are text-align end with tabular-nums', () => {
       const { container } = render(<T />);
-      const td = container.querySelector('tr[data-row-id="a"] [data-ag-cell="qty"]') as HTMLElement;
+      const td = container.querySelector('tr[data-row-id="a"] [data-cell="qty"]') as HTMLElement;
       const th = container.querySelectorAll('thead th')[1] as HTMLElement;
       for (const el of [td, th]) {
         expect(el.style.textAlign).toBe('end');
         expect(el.style.fontVariantNumeric).toBe('tabular-nums');
       }
-      const nameTd = container.querySelector('tr[data-row-id="a"] [data-ag-cell="name"]') as HTMLElement;
+      const nameTd = container.querySelector('tr[data-row-id="a"] [data-cell="name"]') as HTMLElement;
       expect(nameTd.style.fontVariantNumeric).toBe('');
     });
   });
 
   // REQ-SURF-67
-  it('handle: focusCell moves activeElement to the [data-ag-cell] cell (grid mode)', () => {
+  it('handle: focusCell moves activeElement to the [data-cell] cell (grid mode)', () => {
     const ref = React.createRef<TableHandle<Row>>();
     const { container } = render(<T ref={ref} mode="grid" />);
     expect(ref.current!.getInstance().getRowModel().rows.length).toBe(3);
     act(() => ref.current!.focusCell('b', 'qty'));
-    const cell = container.querySelector('tr[data-row-id="b"] [data-ag-cell="qty"]');
+    const cell = container.querySelector('tr[data-row-id="b"] [data-cell="qty"]');
     expect(document.activeElement).toBe(cell);
     // the focused cell becomes the roving tab stop
     expect(cell!.getAttribute('tabindex')).toBe('0');
@@ -433,7 +433,7 @@ describe('Table pinning (SURF-072)', () => {
       <Table data={DATA} columns={COLS4} getRowId={(r) => r.id} caption="t"
         columnSizing={{ c3: 120, c4: 90 }} columnPinning={{ left: ['name'], right: ['c3', 'c4'] }} />,
     );
-    const cell = (id: string) => container.querySelector(`tr[data-row-id="a"] [data-ag-cell="${id}"]`) as HTMLElement;
+    const cell = (id: string) => container.querySelector(`tr[data-row-id="a"] [data-cell="${id}"]`) as HTMLElement;
     expect(cell('c4').style.position).toBe('sticky');
     expect(Number.parseFloat(cell('c4').style.insetInlineEnd)).toBe(0);
     expect(cell('c3').style.insetInlineEnd).toBe('90px');
@@ -466,7 +466,7 @@ describe('Table pinning (SURF-072)', () => {
     afterEach(() => { (window as unknown as { ResizeObserver: unknown }).ResizeObserver = RO; });
 
     const pinnedIds = (c: HTMLElement) =>
-      [...c.querySelectorAll('tr[data-row-id="a"] [data-ag-pinned]')].map((el) => el.getAttribute('data-ag-cell'));
+      [...c.querySelectorAll('tr[data-row-id="a"] [data-ag-pinned]')].map((el) => el.getAttribute('data-cell'));
 
     it('selection + first data column pin when narrow with >3 columns', () => {
       const { container } = render(
@@ -497,7 +497,7 @@ describe('Table pinning (SURF-072)', () => {
 describe('Table grid mode keyboard (SURF-073)', () => {
   const grid = (c: HTMLElement) => c.querySelector('[role="grid"]') as HTMLElement;
   const cell = (c: HTMLElement, r: string, col: string) =>
-    c.querySelector(`tr[data-row-id="${r}"] [data-ag-cell="${col}"]`) as HTMLElement;
+    c.querySelector(`tr[data-row-id="${r}"] [data-cell="${col}"]`) as HTMLElement;
 
   it('exactly one element inside role=grid has tabindex=0 and the scroller is not a tab stop', () => {
     const { container } = render(<T mode="grid" />);

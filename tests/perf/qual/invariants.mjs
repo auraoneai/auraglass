@@ -6,7 +6,7 @@
    Specs: mount-unmount-leak, backdrop-root, lens-defs, webgl-context, a11y-fallback (tests/perf/qual/*.spec.ts),
    all in qual:certify:l10 through tests/perf/qual/playwright.config.ts. */
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 
 export const REMOTE_ONLY_MESSAGE = 'remote-only: the L10 invariant specs (tests/perf/qual/{mount-unmount-leak,backdrop-root,lens-defs,'
   + 'webgl-context,a11y-fallback}.spec.ts) run only on the remote runner (AG_REMOTE_RUNNER=1). Run them in GitLab CI: qual:certify:l10.';
@@ -200,7 +200,7 @@ export async function settleAnimations() {
 export function probeSurfaceHosts() {
   const desc = (el) => {
     const parts = [el.tagName.toLowerCase()];
-    for (const a of ['data-ag-part', 'data-ag-layer', 'data-ag-fixture']) if (el.hasAttribute(a)) parts.push(`[${a}=${el.getAttribute(a)}]`);
+    for (const a of ['data-ag-part', 'data-ag-layer', 'data-fixture']) if (el.hasAttribute(a)) parts.push(`[${a}=${el.getAttribute(a)}]`);
     return `.ag-surface ${parts.join('')}`;
   };
   return [...document.querySelectorAll('.ag-surface')].map((el) => {
@@ -226,7 +226,7 @@ export function probeBlurred() {
     let s = el.tagName.toLowerCase();
     if (el.id) s += `#${el.id}`;
     if (el.classList && el.classList.length) s += `.${[...el.classList].slice(0, 3).join('.')}`;
-    for (const a of ['data-ag-part', 'data-ag-fixture']) if (el.hasAttribute(a)) s += `[${a}=${el.getAttribute(a)}]`;
+    for (const a of ['data-ag-part', 'data-fixture']) if (el.hasAttribute(a)) s += `[${a}=${el.getAttribute(a)}]`;
     return s;
   };
   for (const el of document.querySelectorAll('*')) {
@@ -251,7 +251,7 @@ export function probeLens() {
       for (const property of ['backdrop-filter', '-webkit-backdrop-filter']) {
         const value = cs.getPropertyValue(property);
         if (value && /url\(/.test(value)) {
-          urlBackdrops.push({ desc: `${el.tagName.toLowerCase()}${el.getAttribute('data-ag-fixture') ? `[data-ag-fixture=${el.getAttribute('data-ag-fixture')}]` : ''}${pseudo ?? ''}`, property, value });
+          urlBackdrops.push({ desc: `${el.tagName.toLowerCase()}${el.getAttribute('data-fixture') ? `[data-fixture=${el.getAttribute('data-fixture')}]` : ''}${pseudo ?? ''}`, property, value });
           break;
         }
       }
@@ -284,8 +284,14 @@ async function waitRender(page, storyId) {
 
 /** Loads the preview once with `globals` on `storyId` (default: the blank fixture). */
 export async function openPreview(page, { base = STORYBOOK_URL, storyId = BLANK_ID, globals = {} } = {}) {
-  await page.goto(previewUrl(base, storyId, globals), { waitUntil: 'load' });
-  await page.waitForSelector('[data-ag-cert-ready]', { timeout: 30_000, state: 'attached' });
+  const res = await page.goto(previewUrl(base, storyId, globals), { waitUntil: 'load' });
+  if (!res || !res.ok()) throw new Error(`${base}/iframe.html → HTTP ${res ? res.status() : 'no response'}: storybook-static is incomplete (qual:build:storybook)`);
+  try {
+    await page.waitForSelector('[data-ag-cert-ready]', { timeout: 30_000, state: 'attached' });
+  } catch (err) {
+    throw new Error(`the Storybook preview never became ready ([data-ag-cert-ready] absent after 30 s on ${storyId}); `
+      + `check that qual:build:storybook produced a complete storybook-static — ${String(err?.message ?? err).split('\n')[0]}`);
+  }
   const phase = await waitRender(page, storyId);
   if (phase !== 'completed') throw new Error(`story ${storyId} render phase ${phase}`);
 }
@@ -398,13 +404,13 @@ export async function whileHidden(page, fn) {
 export async function whileOffscreen(page, fn) {
   await page.evaluate(() => {
     const root = document.querySelector('#storybook-root') ?? document.body;
-    root.setAttribute('data-ag-offscreen-probe', root.style.transform);
+    root.setAttribute('data-offscreen-probe', root.style.transform);
     root.style.transform = 'translateY(400vh)';
   });
   try { return await fn(); } finally {
     await page.evaluate(() => {
-      const root = document.querySelector('[data-ag-offscreen-probe]');
-      if (root) { root.style.transform = root.getAttribute('data-ag-offscreen-probe') ?? ''; root.removeAttribute('data-ag-offscreen-probe'); }
+      const root = document.querySelector('[data-offscreen-probe]');
+      if (root) { root.style.transform = root.getAttribute('data-offscreen-probe') ?? ''; root.removeAttribute('data-offscreen-probe'); }
     });
   }
 }
@@ -415,9 +421,8 @@ export function evidenceDir() {
   return resolve(process.env.AURAGLASS_EVIDENCE_DIR ?? '.artifacts', 'qual', process.env.CI_JOB_NAME_SLUG ?? 'qual-certify-l10');
 }
 export function writeEvidence(name, doc) {
-  const dir = resolve(evidenceDir(), 'invariants');
-  mkdirSync(dir, { recursive: true });
-  const file = resolve(dir, name);
+  const file = resolve(evidenceDir(), 'invariants', name);
+  mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, `${JSON.stringify({ sha: process.env.CI_COMMIT_SHA ?? null, jobUrl: process.env.CI_JOB_URL ?? null,
     generatedAt: new Date().toISOString(), ...doc }, null, 2)}\n`);
   return file;

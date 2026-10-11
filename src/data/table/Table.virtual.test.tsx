@@ -113,12 +113,12 @@ describe('Table virtualization (SURF-158, REQ-SURF-70)', () => {
     const { container } = render(
       <Table data={DATA} columns={COLS} getRowId={(r) => r.id} caption="Big" virtualize maxHeight={600} mode="grid" />,
     );
-    const first = container.querySelector('[data-row-id="r0"] [data-ag-cell="name"]') as HTMLElement;
+    const first = container.querySelector('[data-row-id="r0"] [data-cell="name"]') as HTMLElement;
     act(() => first.focus());
     act(() => {
       fireEvent.keyDown(first, { key: 'End', ctrlKey: true });
     });
-    const last = container.querySelector('[data-row-id="r9999"] [data-ag-cell="name"]');
+    const last = container.querySelector('[data-row-id="r9999"] [data-cell="name"]');
     expect(last).not.toBeNull();
     expect(document.activeElement).toBe(last);
     expect(container.querySelectorAll('[role="grid"] [tabindex="0"]').length).toBe(1);

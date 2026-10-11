@@ -90,7 +90,7 @@ export function Timeline({
     <div className="ag-timeline__container">
       <ol
         data-ag-part="timeline"
-        data-ag-orientation={orientation}
+        data-orientation={orientation}
         className={`ag-timeline${className ? ` ${className}` : ''}`}
         aria-label={ariaLabel}
       >

@@ -7,7 +7,9 @@ const w1: CodemodMappingFragment = {
     { component: 'AppShell', from: 'header', to: null, todo: 'slot children: render TopBar/PageHeader inside AppShell.Root' },
     { component: 'AppShell', from: 'sidebar', to: null, todo: 'slot children: render Sidebar inside AppShell.Root' },
     { component: 'AppShell', from: 'footer', to: null, todo: 'slot children: render StatusBar inside AppShell.Root' },
-    { component: 'AppShell', from: 'sidebarWidth', to: 'sidebarWidth' },
+    { component: 'AppShell', from: 'sidebarWidth', to: null, todo: 'sidebar width is css on .ag-app-shell, not a prop' },
+    { component: 'AppShell', from: 'sidebarPlacement', to: 'sidebarSide', values: { left: 'start', right: 'end' } },
+    { component: 'AppShell', from: 'collapsed', to: 'defaultSidebar', values: { true: 'rail', false: 'expanded' }, todo: "collapsed={x} -> defaultSidebar={x ? 'rail' : 'expanded'}" },
     { component: 'AppShell', from: 'collapsible', to: null, todo: 'sidebar always collapsible via AppShell.SidebarToggle' },
     { component: 'AppShell', from: 'mobileOverlay', to: null, todo: 'mobile overlay is SidebarDrawer, shown by container query' },
     { component: 'AppShell', from: 'padding', to: null, todo: 'padding is css, --ag-space-* tokens' },
@@ -18,6 +20,9 @@ const w1: CodemodMappingFragment = {
     { component: 'Sidebar', from: 'badge', to: 'badge' },
     { component: 'Tabs', from: 'selectedTab', to: 'value' },
     { component: 'Tabs', from: 'onTabChange', to: 'onValueChange' },
+    { component: 'Tabs', from: 'activeTab', to: 'value' },
+    { component: 'Tabs', from: 'onTabClick', to: 'onValueChange' },
+    { component: 'Tabs', from: 'onChange', to: 'onValueChange', todo: 'an index handler onChange(event, index) must map the index to the tab value' },
     { component: 'TabBar', from: 'items', to: null, todo: 'item arrays become TabBar.Item children' },
     { component: 'TabBar', from: 'activeTab', to: 'value' },
     { component: 'Breadcrumbs', from: 'items', to: null, todo: 'item arrays become Breadcrumbs.Item children' },
@@ -60,15 +65,37 @@ const w1: CodemodMappingFragment = {
     { from: 'LiquidGlassTransitionProvider', fromEntry: 'aura-glass', to: 'SourceTransition', toEntry: 'aura-glass' },
     { from: 'LiquidGlassSource', fromEntry: 'aura-glass', to: 'SourceTransition', toEntry: 'aura-glass' },
     { from: 'LiquidGlassDestination', fromEntry: 'aura-glass', to: 'SourceTransition', toEntry: 'aura-glass' },
+    // DEP-S0027..S0037 (REQ-SURF-14: every absorbed name has a rename row).
+    { from: 'EnhancedGlassTabs', fromEntry: 'aura-glass', to: 'Tabs', toEntry: 'aura-glass' },
+    { from: 'GlassTabItem', fromEntry: 'aura-glass', to: 'Tabs', toEntry: 'aura-glass' },
+    { from: 'GlassSplitPane', fromEntry: 'aura-glass', to: 'GlassSplitPane', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassNavigationMenu', fromEntry: 'aura-glass', to: 'GlassNavigationMenu', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'LiquidGlassInsetSidebar', fromEntry: 'aura-glass', to: 'LiquidGlassInsetSidebar', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'LiquidGlassInspectorPanel', fromEntry: 'aura-glass', to: 'LiquidGlassInspectorPanel', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassSidebarRail', fromEntry: 'aura-glass/app-shell', to: 'Sidebar', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassSidebarPanel', fromEntry: 'aura-glass/app-shell', to: 'Sidebar', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassBreadcrumbs', fromEntry: 'aura-glass/app-shell', to: 'Breadcrumbs', toEntry: 'aura-glass' },
+    { from: 'GlassPage', fromEntry: 'aura-glass/app-shell', to: 'Container', toEntry: 'aura-glass' },
   ],
   areaTransforms: [
     {
       id: 'app-shell-slots',
       module: 'packages/cli/src/migrate/4to5/transforms/app-shell-slots.ts',
-      spec: 'GlassAppShell header/sidebar/footer props -> slot children; GlassSidebar/GlassSidebarRail item arrays -> Sidebar.Item/Rail.Item children; handler-only items (onClick/onSelect, no href) stay actions',
+      spec: [
+        'GlassAppShell header/sidebar/footer props -> slot children of AppShell.Root (TopBar.Root, Sidebar.Root, footer element); children -> AppShell.Main.',
+        'GlassSidebar/GlassSidebarRail item arrays -> <Sidebar.Nav aria-label="Main"> with Sidebar.Item children (label -> children, icon -> icon, href -> href); children arrays -> Sidebar.Collapsible label=<label>.',
+        'Handler-only items (onClick/onSelect/onNavigate, no href) -> render={<button type="button" onClick={handler} />}, no TODO and no fabricated href.',
+        'Imports come from aura-glass/app-shell (AppShell, Sidebar, TopBar); layout-only props (variant, collapsible, sidebarWidth, mobileOverlay, padding, maxWidth) drop.',
+      ].join(' '),
     },
   ],
-  fixtures: ['fragments/codemods/surf/fixtures/app-shell-slots'],
+  // <id>/<case>/{input,output}.<ext>; <id> is the engine transform the case runs.
+  // canonical-names holds one case per renames[].from of every lane.
+  fixtures: [
+    'fragments/codemods/surf/fixtures/app-shell-slots',
+    'fragments/codemods/surf/fixtures/canonical-names',
+    'fragments/codemods/surf/fixtures/prop-grammar',
+  ],
 };
 // --- lane W1 end ---
 
@@ -173,6 +200,8 @@ const w2: CodemodMappingFragment = {
     { symbol: 'GlassChartsDemo', entry: 'aura-glass', reason: 'demo-only export removed at 5.0', doc: 'docs/auraglass-5/migration/chart-adapter.md' },
     { symbol: 'GlassHeatmap', entry: 'aura-glass', reason: 'no 5.0 successor (5.x candidate)', doc: 'docs/auraglass-5/migration/chart-adapter.md' },
     { symbol: 'GlassGanttChart', entry: 'aura-glass', reason: 'moved to a registry item owned by PLAT', registryItem: 'gantt', doc: 'docs/auraglass-5/migration/chart-adapter.md' },
+    { symbol: 'GlassKanbanBoard', entry: 'aura-glass', reason: 'moved to a registry item (dnd-kit Kanban)', registryItem: 'kanban', doc: 'docs/auraglass-5/migration/kanban.md' },
+    { symbol: 'GlassKanban', entry: 'aura-glass', reason: 'moved to a registry item (dnd-kit Kanban)', registryItem: 'kanban', doc: 'docs/auraglass-5/migration/kanban.md' },
     { symbol: 'KpiChart', entry: 'aura-glass', reason: 'chart engines removed at 5.0', doc: 'docs/auraglass-5/migration/chart-adapter.md' },
     { symbol: 'GlassMetricsGrid', entry: 'aura-glass', reason: 'docs composition over StatCard grid', doc: 'docs/auraglass-5/migration/data-table.md' },
     { symbol: 'GlassVirtualGrid', entry: 'aura-glass', reason: 'replaced; no 5.0 successor', doc: 'docs/auraglass-5/migration/data-table.md' },
@@ -190,7 +219,9 @@ const w2: CodemodMappingFragment = {
     { pkg: 'react-chartjs-2', range: '-', when: 'consumer direct import — remove' },
     { pkg: 'date-fns', range: '-', when: 'consumer direct import — migrate to @internationalized/date' },
   ],
-  fixtures: ['fragments/codemods/surf/fixtures/data-grid-columns'],
+  // ColumnDefinition -> column def is folded into canonical-names
+  // (canonical-names/data-grid-column-definition); no separate transform id.
+  fixtures: ['fragments/codemods/surf/fixtures/removed', 'fragments/codemods/surf/fixtures/deps'],
 };
 // --- lane W2 end ---
 
@@ -229,6 +260,10 @@ const w3: CodemodMappingFragment = {
     { symbol: 'GlassMusicVisualizer', entry: 'aura-glass', reason: 'no successor until 5.1 (Waveform)', doc: 'apps/docs/content/surf/migration/ai.md' },
     { symbol: 'GlassVoiceWaveform', entry: 'aura-glass', reason: 'no successor until 5.1 (Waveform)', doc: 'apps/docs/content/surf/migration/ai.md' },
     { symbol: 'GlassLiveFilter', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'usePredictiveEngine', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'GlassPredictionIndicator', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'useInteractionRecorder', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'predictiveEnginePresets', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
   ],
   areaTransforms: [
     {
@@ -237,7 +272,7 @@ const w3: CodemodMappingFragment = {
       spec: "Rewrite the four chat imports (GlassChat, GlassChatInput, GlassMessageList, GlassTypingIndicator) from 'aura-glass' to 'aura-glass/compat' and insert '// TODO(aura-glass 5): migrate to aura-glass/ai Thread/Message/Composer, see <doc>' above the import without touching JSX structure.",
     },
   ],
-  fixtures: ['fragments/codemods/surf/fixtures/ai-chat-imports'],
+  fixtures: ['fragments/codemods/surf/fixtures/ai-chat'],
 };
 // --- lane W3 end ---
 
@@ -289,6 +324,10 @@ const w4: CodemodMappingFragment = {
     { symbol: 'GlassParticleField', entry: 'aura-glass', reason: 'particles move to the labs package', doc: 'apps/docs/content/surf/migration/media.md' },
     { symbol: 'LiquidGlassBackdropSampler', entry: 'aura-glass', reason: 'tone sampling is Backdrop/useMediaElement({sampleTone})', doc: 'apps/docs/content/surf/migration/media.md' },
     { symbol: 'useLiquidGlassBackdrop', entry: 'aura-glass', reason: 'tone sampling is Backdrop/useMediaElement({sampleTone})', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'AuroraPro', entry: 'aura-glass', reason: 'absorbed; Backdrop preset="aurora"', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'SeasonalParticles', entry: 'aura-glass', reason: 'Backdrop presets; particles move to the labs package', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassAuroraDisplay', entry: 'aura-glass', reason: 'absorbed; Backdrop preset="aurora"', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassNebulaClouds', entry: 'aura-glass', reason: 'absorbed; Backdrop presets aurora/mesh', doc: 'apps/docs/content/surf/migration/media.md' },
   ],
   areaTransforms: [
     {
@@ -303,12 +342,7 @@ const w4: CodemodMappingFragment = {
       ].join(' '),
     },
   ],
-  fixtures: [
-    'fragments/codemods/surf/fixtures/media-backdrops/media-controls',
-    'fragments/codemods/surf/fixtures/media-backdrops/image-viewer',
-    'fragments/codemods/surf/fixtures/media-backdrops/carousel-autoplay',
-    'fragments/codemods/surf/fixtures/media-backdrops/aurora-motion',
-  ],
+  fixtures: ['fragments/codemods/surf/fixtures/media-backdrops'],
 };
 // --- lane W4 end ---
 
@@ -344,9 +378,108 @@ const w5: CodemodMappingFragment = {
 };
 // --- lane W5 end ---
 
+// --- S-39 4.x-keyed rows begin ---
+// contract S-39: every meta MigrationRow.props entry has a props row keyed by the
+// 4.x source name (prop-grammar applies rows for both the 4.x export and its
+// mapped 5.x name, so these mirror the 5.x-keyed rows above for each source).
+const s39: CodemodMappingFragment = {
+  props: [
+    { component: 'GlassCarousel', from: 'infinite', to: 'loop' },
+    { component: 'GlassCarousel', from: 'slidesToShow', to: 'slidesPerView' },
+    { component: 'GlassCarousel', from: 'autoPlay', to: 'autoplay', todo: 'autoplay={{ interval }} only with an allowContinuous provider' },
+    { component: 'LiquidGlassCarouselRail', from: 'infinite', to: 'loop' },
+    { component: 'LiquidGlassCarouselRail', from: 'slidesToShow', to: 'slidesPerView' },
+    { component: 'GlassImageViewer', from: 'images', to: 'items', todo: 'items gain ids (img-<index>) and required alt' },
+    { component: 'GlassImageViewer', from: 'initialIndex', to: 'defaultValue' },
+    { component: 'LiquidGlassMediaControls', from: 'onPlayPause', to: 'onPlayingChange' },
+    { component: 'LiquidGlassMediaControls', from: 'compact', to: null, todo: 'compose MediaControls.PlayButton + MediaControls.Scrubber' },
+    { component: 'GlassMediaControls', from: 'onPlayPause', to: 'onPlayingChange' },
+    { component: 'GlassAppShell', from: 'header', to: null, todo: 'slot children: render TopBar/PageHeader inside AppShell.Root' },
+    { component: 'GlassAppShell', from: 'sidebar', to: null, todo: 'slot children: render Sidebar inside AppShell.Root' },
+    { component: 'GlassAppShell', from: 'footer', to: null, todo: 'slot children: render StatusBar inside AppShell.Root' },
+    { component: 'GlassAppShell', from: 'sidebarWidth', to: 'sidebarWidth' },
+    { component: 'GlassAppShell', from: 'collapsible', to: null, todo: 'sidebar always collapsible via AppShell.SidebarToggle' },
+    { component: 'GlassAppShell', from: 'mobileOverlay', to: null, todo: 'mobile overlay is SidebarDrawer, shown by container query' },
+    { component: 'GlassAppShell', from: 'padding', to: null, todo: 'padding is css, --ag-space-* tokens' },
+    { component: 'GlassAppShell', from: 'maxWidth', to: null, todo: 'main column sizing is css' },
+    { component: 'GlassSidebar', from: 'items', to: null, todo: 'item arrays become Sidebar.Item children (app-shell-slots)' },
+    { component: 'GlassSidebar', from: 'activeId', to: 'currentValue' },
+    { component: 'GlassSidebar', from: 'onClick', to: 'onSelect' },
+    { component: 'GlassSidebar', from: 'badge', to: 'badge' },
+    { component: 'GlassCalendar', from: 'onChange', to: 'onValueChange' },
+    { component: 'GlassCalendar', from: 'weekNumbers', to: 'showWeekNumbers' },
+    { component: 'GlassTimeField', from: 'onChange', to: 'onValueChange' },
+    { component: 'GlassDateField', from: 'onChange', to: 'onValueChange' },
+    { component: 'GlassDateField', from: 'minDate', to: 'minValue' },
+    { component: 'GlassDateField', from: 'maxDate', to: 'maxValue' },
+    { component: 'GlassDatePicker', from: 'onChange', to: 'onValueChange' },
+    { component: 'GlassDatePicker', from: 'minDate', to: 'minValue', todo: 'Date -> CalendarDate via fromDate(getLocalTimeZone()) client-side' },
+    { component: 'GlassDatePicker', from: 'maxDate', to: 'maxValue', todo: 'Date -> CalendarDate via fromDate(getLocalTimeZone()) client-side' },
+    { component: 'GlassDatePicker', from: 'disabledDates', to: 'isDateUnavailable', todo: 'Date param -> DateValue' },
+    { component: 'GlassDatePicker', from: 'disabled', to: 'isDisabled' },
+    { component: 'GlassDatePicker', from: 'required', to: 'isRequired' },
+    { component: 'GlassDatePicker', from: 'error', to: 'isInvalid' },
+    { component: 'GlassDatePicker', from: 'helperText', to: 'description' },
+    { component: 'GlassDatePicker', from: 'format', to: null, todo: 'display format is locale-driven at 5.0' },
+    { component: 'GlassDatePicker', from: 'mode', to: null, todo: 'mode="range" -> DateRangePicker' },
+    { component: 'GlassMeshGradient', from: 'colors', to: null, todo: 'mesh/aurora palettes come from S-03 colours' },
+    { component: 'GlassTabBar', from: 'items', to: null, todo: 'item arrays become TabBar.Item children' },
+    { component: 'GlassTabBar', from: 'activeTab', to: 'value' },
+    { component: 'GlassTabs', from: 'selectedTab', to: 'value' },
+    { component: 'GlassTabs', from: 'onTabChange', to: 'onValueChange' },
+    { component: 'GlassFilterBar', from: 'fields', to: 'schema' },
+    { component: 'GlassFilterBar', from: 'filters', to: 'value' },
+    { component: 'GlassFilterBar', from: 'onChange', to: 'onValueChange' },
+    { component: 'GlassPagination', from: 'totalPages', to: 'pageCount' },
+    { component: 'GlassPagination', from: 'currentPage', to: 'page' },
+    { component: 'GlassPagination', from: 'onChange', to: 'onPageChange' },
+    { component: 'GlassTimeline', from: 'events', to: 'items' },
+    { component: 'GlassActivityFeed', from: 'entries', to: 'items' },
+    { component: 'GlassTreeView', from: 'nodes', to: 'items' },
+    { component: 'GlassTreeView', from: 'selectedId', to: 'selectedKeys', todo: 'single key -> [key]' },
+    { component: 'GlassTreeView', from: 'onSelect', to: 'onSelectionChange', todo: 'id -> Set<React.Key>' },
+    { component: 'GlassDataTable', from: 'rows', to: 'data' },
+    { component: 'GlassDataTable', from: 'filterable', to: 'enableColumnFilter' },
+    { component: 'GlassDataTable', from: 'selectedRows', to: 'rowSelection', todo: 'array -> Record<id, true>' },
+    { component: 'GlassDataTable', from: 'onSelectionChange', to: 'onRowSelectionChange', todo: 'array -> Record<id, true>' },
+    { component: 'GlassDataTable', from: 'onRowClick', to: 'onRowAction' },
+    { component: 'GlassDataTable', from: 'emptyMessage', to: 'emptyState' },
+    { component: 'GlassDataTable', from: 'consciousness', to: null, todo: 'dropped 4.x simulated prop' },
+    { component: 'GlassCommandPalette', from: 'open', to: 'open' },
+    { component: 'GlassCommandPalette', from: 'hotkey', to: 'hotkey' },
+    { component: 'GlassStatCard', from: 'title', to: 'label' },
+    { component: 'GlassSparkline', from: 'values', to: 'data' },
+    { component: 'GlassSparkline', from: 'color', to: 'intent', todo: 'map hex/name to neutral|info|success|danger' },
+    { component: 'GlassChip', from: 'label', to: null, todo: 'children carry the label' },
+    { component: 'GlassChip', from: 'text', to: null, todo: 'children carry the label' },
+    { component: 'GlassChip', from: 'onSelect', to: 'onSelectedChange' },
+    { component: 'GlassMetricChip', from: 'label', to: null, todo: 'children carry the label' },
+    { component: 'GlassMetricChip', from: 'text', to: null, todo: 'children carry the label' },
+    { component: 'GlassMetricChip', from: 'onSelect', to: 'onSelectedChange' },
+    { component: 'GlassKeyValueEditor', from: 'entries', to: 'value', todo: 'Record -> [{key,value}] pairs' },
+    { component: 'GlassKeyValueEditor', from: 'pairs', to: 'value', todo: 'Record -> [{key,value}] pairs' },
+    { component: 'GlassKeyValueEditor', from: 'onChange', to: 'onValueChange' },
+    { component: 'GlassGallery', from: 'images', to: 'items' },
+    { component: 'LiquidGlassPhotoInspector', from: 'photo', to: 'items' },
+    { component: 'AtmosphericBackground', from: 'variant', to: null },
+    { component: 'AtmosphericBackground', from: 'weather', to: null },
+    { component: 'AtmosphericBackground', from: 'colorScheme', to: null },
+    { component: 'GlassDynamicAtmosphere', from: 'type', to: null },
+    { component: 'GlassDynamicAtmosphere', from: 'primaryColor', to: null },
+    { component: 'GlassDynamicAtmosphere', from: 'secondaryColor', to: null },
+    { component: 'GlassMeshGradient', from: 'animate', to: 'motion' },
+    { component: 'GlassBreadcrumbs', from: 'items', to: null, todo: 'item arrays become Breadcrumbs.Item children' },
+    { component: 'GlassBreadcrumbs', from: 'separator', to: 'separator' },
+    { component: 'AuroraBackground', from: 'motion', to: 'motion', values: { none: 'static', subtle: 'static', full: 'drift' } },
+    { component: 'GlassDataTable', from: 'compact', to: 'size', values: { true: 'sm' } },
+    { component: 'GlassStatCard', from: 'trend', to: 'trendDirection', values: { up: 'up-is-good', down: 'up-is-good', flat: 'neutral' } },
+  ],
+};
+// --- S-39 4.x-keyed rows end ---
+
 export default {
   renames: [...(w1.renames ?? []), ...(w2.renames ?? []), ...(w3.renames ?? []), ...(w4.renames ?? []), ...(w5.renames ?? [])],
-  props: [...(w1.props ?? []), ...(w2.props ?? []), ...(w3.props ?? []), ...(w4.props ?? []), ...(w5.props ?? [])],
+  props: [...(w1.props ?? []), ...(w2.props ?? []), ...(w3.props ?? []), ...(w4.props ?? []), ...(w5.props ?? []), ...(s39.props ?? [])],
   removed: [...(w1.removed ?? []), ...(w2.removed ?? []), ...(w3.removed ?? []), ...(w4.removed ?? []), ...(w5.removed ?? [])],
   deps: [...(w1.deps ?? []), ...(w2.deps ?? []), ...(w3.deps ?? []), ...(w4.deps ?? []), ...(w5.deps ?? [])],
   areaTransforms: [...(w1.areaTransforms ?? []), ...(w2.areaTransforms ?? []), ...(w3.areaTransforms ?? []), ...(w4.areaTransforms ?? []), ...(w5.areaTransforms ?? [])],

@@ -9,14 +9,14 @@ describe('Text', () => {
     const { container } = render(<Text>hello</Text>);
     const el = container.querySelector('[data-ag-part="root"]')!;
     expect(el.tagName).toBe('P');
-    expect(el.getAttribute('data-ag-type')).toBe('body');
+    expect(el.getAttribute('data-type')).toBe('body');
     expect(el.getAttribute('data-ag-size')).toBe('md');
     expect(el.getAttribute('data-ag-intent')).toBe('neutral');
   });
-  it('maps type roles callout|caption|label|mono onto data-ag-type', () => {
+  it('maps type roles callout|caption|label|mono onto data-type', () => {
     for (const t of ['callout', 'caption', 'label', 'mono'] as const) {
       const { container, unmount } = render(<Text type={t}>x</Text>);
-      expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-ag-type')).toBe(t);
+      expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-type')).toBe(t);
       unmount();
     }
   });
@@ -24,9 +24,9 @@ describe('Text', () => {
     const { container } = render(<Text size="xs" muted weight="bold" truncate>q</Text>);
     const el = container.querySelector('[data-ag-part="root"]')!;
     expect(el.getAttribute('data-ag-size')).toBe('xs');
-    expect(el.hasAttribute('data-ag-muted')).toBe(true);
-    expect(el.getAttribute('data-ag-weight')).toBe('bold');
-    expect(el.hasAttribute('data-ag-truncate')).toBe(true);
+    expect(el.hasAttribute('data-muted')).toBe(true);
+    expect(el.getAttribute('data-weight')).toBe('bold');
+    expect(el.hasAttribute('data-truncate')).toBe(true);
   });
   it('honours the render prop (span for inline)', () => {
     const { container } = render(<Text render={<span data-x="1" />}>i</Text>);

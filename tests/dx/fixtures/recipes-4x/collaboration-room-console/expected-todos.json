@@ -1,0 +1,4 @@
+[
+  "icon category subpath 'aura-glass/icons/collaboration' is gone in 5.0; import the glyph by name from 'aura-glass/icons'",
+  "removed in 5.0 (registry item 'presence-stack')"
+]

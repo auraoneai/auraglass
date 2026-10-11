@@ -1,3 +1,4 @@
+// Timeline.stories.tsx — SURF story contract (S-41).
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Timeline, type TimelineItem } from './Timeline';

@@ -177,7 +177,7 @@ function TableRowImpl<TData>({
   ctx,
 }: TableRowProps<TData>) {
   const c = () => ctx.current!;
-  const inSelectCell = (t: EventTarget) => (t as HTMLElement).closest?.('[data-ag-cell="__select"]') != null;
+  const inSelectCell = (t: EventTarget) => (t as HTMLElement).closest?.('[data-cell="__select"]') != null;
   return (
     <tr
       data-ag-part="table-row"
@@ -233,7 +233,7 @@ function TableRowImpl<TData>({
               }
             }}
             data-ag-part={isSelectCol ? 'table-selection-cell' : 'table-cell'}
-            data-ag-cell={cell.column.id}
+            data-cell={cell.column.id}
             {...pinAttrs(cell.column)}
             className={`ag-table__td${meta?.truncate ? ' ag-table__td--truncate' : ''}`}
             style={{
@@ -613,7 +613,7 @@ export function Table<TData>(props: TableProps<TData>) {
       focusCell: (rowId, columnId) => {
         (
           scrollerRef.current?.querySelector(
-            `[data-row-id="${CSS.escape(rowId)}"] [data-ag-cell="${CSS.escape(columnId)}"]`,
+            `[data-row-id="${CSS.escape(rowId)}"] [data-cell="${CSS.escape(columnId)}"]`,
           ) as HTMLElement | null
         )?.focus();
       },
@@ -678,7 +678,7 @@ export function Table<TData>(props: TableProps<TData>) {
   const focusWanted = React.useRef(false);
   const cellEl = (rowId: string, columnId: string) =>
     scrollerRef.current?.querySelector<HTMLElement>(
-      `[data-row-id="${CSS.escape(rowId)}"] [data-ag-cell="${CSS.escape(columnId)}"]`,
+      `[data-row-id="${CSS.escape(rowId)}"] [data-cell="${CSS.escape(columnId)}"]`,
     ) ?? null;
   React.useLayoutEffect(() => {
     if (!grid || !focusWanted.current || activeRowId === undefined || activeColId === undefined) return;
