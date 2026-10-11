@@ -16,6 +16,8 @@ Trust patch: documentation retractions, hosted-runtime hardening, and the Aeonik
 - Reduced-motion `animate={{}}` sites rewritten to `prefersReducedMotion ? FINAL : X`; the 35-component visible-under-reduced-motion suite is green.
 - reports/ is untracked; certification and audit evidence lives in CI artifacts (`.artifacts/`).
 - Hydration fallbacks: `useOptional*` readers avoid SSR/client mismatch.
+- Command palette fuzzy search escapes regex metacharacters per query
+  character — a query like `(` can no longer throw or widen the match.
 
 ### Docs
 

@@ -1,6 +1,12 @@
-# ci/mat.gitlab-ci.yml (MAT). cmp and surf seeds are the same with their own key and no job.
+# ci/mat.gitlab-ci.yml (MAT, release/4.x copy). Jobs are named mat:<stage>:<name>, extend .mat-base,
+# rule only on $AG_SCOPE/$AG_LINE, keep allow_failure: true until each job's first green on release/4.x
+# (the flip is a ci/plat/activation.json row), put evidence under .artifacts/mat/ with when: always +
+# expire_in, and never use merge_request_event or credentials (§4.13.4). Certify jobs live only in
+# ci/qual (rule 7). No `|| true` fail-opens. The 5x token jobs (tokens-interim, drift, token-gates,
+# literals) live in the next copy of this file; their scripts do not exist on this line.
 .mat-base:
   extends: .ag-node
+
 mat:build:tokens:
   extends: .mat-base
   stage: build
@@ -11,31 +17,35 @@ mat:build:tokens:
     - npm run tokens:build
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
     expire_in: 14 days
-    paths: [dist/tokens/, dist/tokens.css, dist/compat/tokens.css, .artifacts/]
+    paths: [dist/tokens/, dist/tokens.css, dist/compat/tokens.css, .artifacts/mat/]
 
-# mat:build:bridge (contract §2.4 job spec, verbatim script): replays the
-# bridge-4x token build and diffs the committed H cells — src/material
-# (compat sheet), src/styles/v5.css, src/styles/preview-v5.css.
+# mat:build:bridge (contract §2.4 job spec): replays the bridge-4x token build and
+# diffs the committed H cells — src/material (compat sheet), src/styles/v5.css,
+# src/styles/preview-v5.css. Its outputs (src/material/, src/styles/{v5,preview-v5}.css,
+# dist/tokens/4x/) are the Appendix C C-8 producer paths; until OD-16 approves C-8 they
+# are not artifact paths, so the job copies them into its own .artifacts/mat/<slug>/
+# right after the build (before the drift diff, so a drifting run still keeps its
+# evidence). A failed copy fails the job.
 mat:build:bridge:
   extends: .mat-base
   stage: build
+  allow_failure: true
   rules:
     - if: $AG_LINE == "4x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   script:
     - node scripts/tokens/build.mjs --platform bridge-4x
+    - mkdir -p ".artifacts/mat/$CI_JOB_NAME_SLUG/src/styles" ".artifacts/mat/$CI_JOB_NAME_SLUG/dist/tokens"
+    - cp -R src/material ".artifacts/mat/$CI_JOB_NAME_SLUG/src/"
+    - cp src/styles/v5.css src/styles/preview-v5.css ".artifacts/mat/$CI_JOB_NAME_SLUG/src/styles/"
+    - cp -R dist/tokens/4x ".artifacts/mat/$CI_JOB_NAME_SLUG/dist/tokens/"
     - git diff --exit-code src/material src/styles/v5.css src/styles/preview-v5.css
-  after_script:
-    # Evidence copy under .artifacts/mat/ (contract:ci-fragments: artifacts stay
-    # inside .artifacts/<stream>/ or the fixed producer paths); the script above is unchanged.
-    - mkdir -p .artifacts/mat/bridge/src/styles .artifacts/mat/bridge/dist/tokens
-    - if [ -d src/material ]; then cp -R src/material .artifacts/mat/bridge/src/; fi
-    - for f in src/styles/v5.css src/styles/preview-v5.css; do if [ -f "$f" ]; then cp "$f" .artifacts/mat/bridge/src/styles/; fi; done
-    - if [ -d dist/tokens/4x ]; then cp -R dist/tokens/4x .artifacts/mat/bridge/dist/tokens/; fi
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
     expire_in: 14 days
-    paths: [.artifacts/]
+    paths: [.artifacts/mat/]
 
 # mat:test:mot-4x (MAT-362): MOT checks with a 4.x face — MOT-006 cookie-consent
 # unit specs, codemod↔deprecation fragment coherence (MOT-002/L9/L12), T06
@@ -43,6 +53,7 @@ mat:build:bridge:
 mat:test:mot-4x:
   extends: .mat-base
   stage: test
+  allow_failure: true
   rules:
     - if: $AG_LINE == "4x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   script:
@@ -50,5 +61,6 @@ mat:test:mot-4x:
     - npx jest src/components/cookie-consent --runInBand --ci
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
     expire_in: 14 days
-    paths: [.artifacts/]
+    paths: [.artifacts/mat/]

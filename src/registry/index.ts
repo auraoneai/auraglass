@@ -1,4 +1,8 @@
 export { StyledComponentsRegistry } from "./StyledComponentsRegistry";
+import { warnDeprecated } from "../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0059");
 export {
   markStyledRegistryHealthy,
   ensureStyledComponentsRegistry,
