@@ -22,7 +22,7 @@ export const Default: Story = {
 export const WithFiles: Story = {
   parameters: { ag: { tier: 'standard', subject: 'FileUpload', id: 'core-file-upload--with-files' } },
   render: () => (
-    <FileUpload defaultItems={[{ file: new File(['x'], 'photo.png', { type: 'image/png' }), status: 'idle' }]} />
+    <FileUpload defaultItems={[{ file: new File(['x'], 'photo.png', { type: 'image/png' }), status: 'selected' }]} />
   ),
 };
 

@@ -92,6 +92,11 @@ export default [
   // after a remote build; the script enforces the ≤ 30 s gate budget.
   { lane: 'L1', kind: 'node-script', path: 'scripts/mat/token-gates-l1.mjs', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L1', kind: 'node-script', path: 'scripts/mat/token-gates-l1.mjs', scope: 'main', remote: false, failClosed: true },
+  // REQ-MAT-35/37 (REQ-FIN-56, AC-FIN-56): L1 Static — no WebGL/three/canvas or
+  // auto-downgrade machinery in src/material/** (cinematic boundary, see
+  // apps/docs/content/mat/cinematic-contract.md). Logs `[verify-material-runtime] OK`.
+  { lane: 'L1', kind: 'node-script', path: 'scripts/mat/verify-material-runtime.mjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/mat/verify-material-runtime.mjs', scope: 'main', remote: false, failClosed: true },
   // MAT-370 (L1 cell): a11y static rules auraglass/no-runtime-contrast +
   // auraglass/no-document-escape over src/** (verify-a11y-css.mjs and the APG
   // coverage check are registered by lane 2d-P's own rows).
@@ -111,6 +116,13 @@ export default [
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/mat/text-spacing.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/mat/axe.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/**/*.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+
+  // MAT-349 (D.3-02): the mat:material-{chromium,webkit,firefox} Playwright
+  // projects (fragments/playwright/mat.json, testDir tests/e2e/mat/material). Chromium is
+  // the L5 Behaviour cell; the WebKit/Gecko runs are the L8 Engine-specific cells
+  // (SC-29). Replaces the retired mat:certify:l5-material job (rule 7).
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/mat/material/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L8', kind: 'playwright', path: 'tests/e2e/mat/material/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
 
   // MAT-370/372 (L6 Environment visual cells): pixel-modes, focus-appearance,
   // color-vision; rungs re-run for the release screenshot evidence (photo,

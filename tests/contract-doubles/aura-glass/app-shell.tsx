@@ -1,0 +1,11 @@
+import { compound } from './_factory';
+export const AppShell = compound('AppShell');
+export const Sidebar = compound('Sidebar');
+export const TopBar = compound('TopBar');
+export const StatusBar = compound('StatusBar');
+export const Inspector = compound('Inspector');
+export const MobileShell = compound('MobileShell');
+export const ResizablePanels = compound('ResizablePanels');
+import { comp } from './_factory';
+export const AppShellSidebarToggle = comp('AppShellSidebarToggle');
+export const AppShellInspectorToggle = comp('AppShellInspectorToggle');
