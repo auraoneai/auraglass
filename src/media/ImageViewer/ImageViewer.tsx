@@ -1,8 +1,9 @@
 'use client';
-/* REQ-SURF-141..145 — ImageViewer: id-keyed items; Base UI Dialog popup via
- * useLayer({kind:'image-viewer',modal:true}) + overlay portal; ≤3 <img>;
- * zoom 1–8× step 1.25; wheel zoom only ctrl/meta-or-zoomed; pan pointer
- * capture; Counter announces once; Inspector side≥768/bottom below. */
+/* REQ-SURF-141..145 — ImageViewer: id-keyed items; the popup is CMP Dialog
+ * (one portal into the overlay layer root, one LayerStack entry, one Escape
+ * owner — REQ-FIN-07 transfer); ≤3 <img>; zoom 1–8× step 1.25; wheel zoom
+ * only ctrl/meta-or-zoomed; pan pointer capture; two-pointer pinch; Counter
+ * announces once; Inspector side ≥768 px / bottom below. */
 import * as React from 'react';
 import { ImageViewerContext, type ImageViewerContextValue } from './ivContext';
 import type { ImageViewerItem } from './types';
@@ -32,13 +33,17 @@ export interface ImageViewerRootProps {
   defaultOpen?: boolean | undefined;
   onOpenChange?: ((open: boolean) => void) | undefined;
   loop?: boolean | undefined;
+  /** Sample the current image's tone (after decode) into the Stage's
+   * data-ag-media-tone. Cross-origin images need `crossOrigin` on the item
+   * plus CORS headers; otherwise no tone is written. Default true. */
+  sampleTone?: boolean | undefined;
   children?: React.ReactNode;
 }
 
 const clampZoom = (z: number) => Math.min(8, Math.max(1, z));
 
 function Root(props: ImageViewerRootProps): React.ReactElement {
-  const { items, value, defaultValue, onValueChange, open, defaultOpen, onOpenChange, loop = false, children } = props;
+  const { items, value, defaultValue, onValueChange, open, defaultOpen, onOpenChange, loop = false, sampleTone = true, children } = props;
   const isControlledV = value !== undefined;
   const isControlledO = open !== undefined;
   const [innerId, setInnerId] = React.useState<string | undefined>(defaultValue ?? items[0]?.id);
@@ -49,6 +54,10 @@ function Root(props: ImageViewerRootProps): React.ReactElement {
   const index = Math.max(0, items.findIndex((i) => i.id === currentId));
   const current = items[index] ?? null;
   const popupId = React.useId();
+  const setZoomClamped = React.useCallback((z: number) => setZoom(clampZoom(z)), []);
+  const triggerRef = React.useRef<HTMLElement | null>(null);
+  const [captionId, setCaptionId] = React.useState<string | null>(null);
+  const [hasInspector, setHasInspector] = React.useState(false);
 
   const setIndex = (i: number) => {
     const item = items[i];
@@ -73,7 +82,8 @@ function Root(props: ImageViewerRootProps): React.ReactElement {
   const ctx: ImageViewerContextValue = {
     items, index, current, open: !!isOpen, zoom, loop, popupId,
     setIndex, next: () => step(1), prev: () => step(-1), setOpen,
-    setZoom: (z) => setZoom(clampZoom(z)),
+    setZoom: setZoomClamped,
+    triggerRef, captionId, setCaptionId, hasInspector, setHasInspector, sampleTone,
   };
   return <ImageViewerContext.Provider value={ctx}>{children}</ImageViewerContext.Provider>;
 }

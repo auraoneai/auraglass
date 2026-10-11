@@ -1,0 +1,9 @@
+{
+  "mode": "ratchet",
+  "recordedAt": "d681707e9",
+  "note": "REQ-MAT-51 / REQ-FIN-58 (D.3-31): OS preference media queries and 4.x reduced-motion hooks outside src/theme/{preferences,script}/** at the time the gate landed. Each row names the WP that removes it and expires at RC-1. verify-preference-source.mjs fails on any finding without a row, on a count above its row, on a row whose count is now lower or zero (lower or delete it: the baseline only shrinks), and on any row under --enforce-zero. Never add rows.",
+  "rows": [
+    { "file": "src/motion/ticker.ts", "kind": "matchMedia", "count": 1, "owner": "MAT", "wp": "FIN-D", "reqFin": "REQ-FIN-58", "req": "REQ-MAT-47", "transfer": "Removed by D.3-28 next-fin/d-ticker (PR #511): resolvedMotion() falls back to readOsSignal() from src/theme/preferences/media.ts. Delete this row when this branch is rebased onto #511.", "expires": "RC-1" },
+    { "file": "src/data/chart-frame/ChartFrame.Interactive.tsx", "kind": "matchMedia", "count": 1, "owner": "SURF", "wp": "FIN-F", "reqFin": "REQ-FIN-58", "req": "REQ-MAT-51", "transfer": "Read reduced motion via usePreference('motion') (src/theme/preferences) instead of matchMedia('(prefers-reduced-motion: reduce)').", "expires": "RC-1" }
+  ]
+}
