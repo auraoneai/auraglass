@@ -58,12 +58,11 @@
     min-inline-size: 0;
     min-block-size: 0;
     overflow: auto;
-    /* REQ-SURF-193: sticky chrome writes --ag-scroll-padding-<edge> (overlay
-       TopBar below); StatusBar and TabBar are their own grid rows, so they
-       never overlap main and the bottom edge is 0 unless a consumer's
-       sticky footer writes it. */
+    /* REQ-SURF-193: Main is a [data-ag-scroll-container], so MAT's
+       scroll-padding rung pads both block edges from the sticky-chrome vars
+       (overlay TopBar below writes the top; StatusBar and TabBar are their
+       own grid rows and never overlap main). */
     scroll-padding-block-start: var(--ag-scroll-padding-top, 0px);
-    scroll-padding-block-end: var(--ag-scroll-padding-bottom, 0px);
   }
   .ag-app-shell [data-ag-slot='inspector'] {
     grid-area: insp;

@@ -70,6 +70,10 @@ function Main({ id = 'ag-main', children, render, ...rest }: AppShellMainProps) 
     id,
     tabIndex: -1,
     'data-ag-slot': 'main',
+    // REQ-SURF-193: MAT's scroll-padding rung (src/a11y/css/scroll-padding.css)
+    // pads both block edges of this scroller from --ag-scroll-padding-top/bottom,
+    // and useStickyScrollPadding writes sticky chrome heights here.
+    'data-ag-scroll-container': '',
     ...rest,
     children,
   });

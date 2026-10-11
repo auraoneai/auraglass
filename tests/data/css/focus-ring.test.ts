@@ -6,8 +6,8 @@
 //     tokens (acceptance: `rg -n 'outline:\s*none' src/{date,charts,data,
 //     media,ai,app-shell}` hits only rules with a :focus-visible replacement).
 //  2. No SURF rule removes the outline on :focus-visible / focus attributes.
-//  3. The app-shell scroll region pads both block edges from the sticky
-//     chrome vars, and every SURF CSS file parses.
+//  3. Every SURF CSS file parses, and the MAT rung that pads AppShell.Main
+//     (a [data-ag-scroll-container]) covers both block edges.
 import { describe, expect, it } from '@jest/globals';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -84,16 +84,14 @@ describe('SURF focus CSS (REQ-SURF-193)', () => {
     expect(offenders).toEqual([]);
   });
 
-  it('the app-shell scroll region pads both block edges from the sticky-chrome vars', () => {
-    const root = parsed.get('src/app-shell/app-shell.css');
-    expect(root).toBeInstanceOf(postcss.Root);
-    const props = new Map<string, string>();
-    (root as Root).walkRules((rule) => {
-      if (rule.selectors.some((s) => s.replace(/\s+/g, ' ').trim() === ".ag-app-shell [data-ag-slot='main']")) {
-        rule.walkDecls((decl) => { props.set(decl.prop, decl.value); });
+  it('MAT scroll-padding rung pads both block edges of [data-ag-scroll-container] (AppShell.Main)', () => {
+    const root = postcss.parse(readFileSync(join(ROOT, 'src/a11y/css/scroll-padding.css'), 'utf8'));
+    let value: string | undefined;
+    root.walkRules((rule) => {
+      if (rule.selectors.includes('[data-ag-scroll-container]')) {
+        rule.walkDecls('scroll-padding-block', (decl) => { value = decl.value; });
       }
     });
-    expect(props.get('scroll-padding-block-start')).toBe('var(--ag-scroll-padding-top, 0px)');
-    expect(props.get('scroll-padding-block-end')).toBe('var(--ag-scroll-padding-bottom, 0px)');
+    expect(value).toBe('var(--ag-scroll-padding-top, 0px) var(--ag-scroll-padding-bottom, 0px)');
   });
 });
