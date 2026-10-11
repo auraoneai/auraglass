@@ -520,7 +520,8 @@ describe('REQ-PLAT-51 evidence under .artifacts/plat/<job-slug>/', () => {
 
   it('plat:package:pack keeps the contract tarball dir and dotenv path', () => {
     const s = yaml.stringify(job('plat:package:pack').script, { lineWidth: 0 });
-    expect(s).toContain('npm pack --pack-destination .artifacts/pack');
+    // B3-9 (REQ-PLAT-11) adds --json so pack-record.json comes from npm's own report.
+    expect(s).toContain('npm pack --json --pack-destination .artifacts/pack');
     expect(resolve('plat:package:pack', 'artifacts').reports).toEqual({ dotenv: '.artifacts/plat/pack.env' });
   });
 
@@ -857,10 +858,10 @@ describe('dist-maps.tgz release asset via the pack job artifact (REQ-PLAT-78)', 
     try {
       touch(dir, '.artifacts/pack/aura-glass-5.0.0.tgz');
       mkdirSync(join(dir, '.artifacts/plat'), { recursive: true });
-      const r = run(block, dir, { CI_JOB_ID: '4242' });
+      const r = run(block, dir, { CI_JOB_ID: '4242', CI_COMMIT_SHA: 'c0ffee' });
       expect([r.status, r.stderr]).toEqual([0, '']);
       expect(readFileSync(join(dir, '.artifacts/plat/pack.env'), 'utf8')).toBe(
-        'AURAGLASS_TARBALL=.artifacts/pack/aura-glass-5.0.0.tgz\nAG_PACK_JOB_ID=4242\n',
+        'AURAGLASS_TARBALL=.artifacts/pack/aura-glass-5.0.0.tgz\nAG_PACK_JOB_ID=4242\nTARBALL_MB=0.00\nPACK_SHA=c0ffee\n',
       );
     } finally {
       rmSync(dir, { recursive: true, force: true });
@@ -1204,6 +1205,182 @@ describe('docs / registry / pages wiring (B3-8)', () => {
       const n = job('pages').needs;
       expect(n).toContainEqual({ job: 'plat:build:docs', artifacts: true });
       expect(n).toContainEqual({ job: 'plat:test:registry', artifacts: true, optional: true });
+    });
+  });
+});
+
+// B3-9 next-fin/b-wire-pack (§6.1 REQ-FIN-31 / -38 → REQ-FIN-22; REQ-PLAT-11, REQ-PLAT-104):
+// plat:package:pack writes pack-record.json { name: { file, integrity } } from `npm pack --json`
+// into its job dir, and TARBALL_MB + PACK_SHA into pack.env. The pack blocks run under bash
+// against a stub `npm` on PATH that packs real bytes and reports their real sha512.
+describe('pack-record.json and TARBALL_MB (B3-9)', () => {
+  const { spawnSync } = require('node:child_process') as typeof import('node:child_process');
+  const { mkdtempSync, mkdirSync, writeFileSync, rmSync, copyFileSync, chmodSync } = require('node:fs') as typeof import('node:fs');
+  const { createHash } = require('node:crypto') as typeof import('node:crypto');
+  const { tmpdir } = require('node:os') as typeof import('node:os');
+  const { join } = require('node:path') as typeof import('node:path');
+  const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 63).replace(/^-+|-+$/g, '');
+  const PACK_DIR = `.artifacts/plat/${slug('plat:package:pack')}`;
+  const pack = job('plat:package:pack');
+  const lines: string[] = pack.script;
+  const at = (needle: string) => lines.findIndex((l) => l.includes(needle));
+  const sha512 = (b: Buffer | string) => 'sha512-' + createHash('sha512').update(b).digest('base64');
+
+  // Stub npm: `npm pack --json [-w packages/<w>] --pack-destination <d>` writes <d>/<file>
+  // and prints npm's --json array. STUB_NPM_MODE: bad-integrity | noise | dup-name.
+  const NPM_STUB = `#!/usr/bin/env node
+const fs = require('fs'), path = require('path'), crypto = require('crypto');
+const a = process.argv.slice(2);
+if (a[0] !== 'pack' || !a.includes('--json')) { console.error('stub npm: unexpected ' + a.join(' ')); process.exit(9); }
+const d = a[a.indexOf('--pack-destination') + 1];
+const w = a.includes('-w') ? path.basename(a[a.indexOf('-w') + 1]) : null;
+const mode = process.env.STUB_NPM_MODE || '';
+const name = w && mode !== 'dup-name' ? '@auraglass/' + w : 'aura-glass';
+const version = w ? '0.1.0' : '5.0.0';
+const filename = (w ? 'auraglass-' + w : 'aura-glass') + '-' + version + '.tgz';
+const head = 'tarball:' + filename + ':';
+const body = Buffer.from(head + 'x'.repeat(w ? 10 : 1234567 - head.length));
+fs.mkdirSync(d, { recursive: true });
+fs.writeFileSync(path.join(d, filename), body);
+let integrity = 'sha512-' + crypto.createHash('sha512').update(body).digest('base64');
+if (mode === 'bad-integrity' && !w) integrity = 'sha512-' + crypto.createHash('sha512').update('other').digest('base64');
+if (mode === 'noise') console.log('> aura-glass@5.0.0 prepack');
+console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename, integrity, size: body.length }], null, 2));
+`;
+  const PACK_BLOCKS = [
+    lines[at('mkdir -p .artifacts/pack .artifacts/plat')],
+    lines[at('npm pack --json --pack-destination .artifacts/pack')],
+    lines[at('for w in cli registry mcp labs')],
+    lines[at('ci/plat/pack-record.mjs')],
+  ];
+  const tmp = () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ag-b39-'));
+    mkdirSync(join(dir, 'bin'));
+    writeFileSync(join(dir, 'bin/npm'), NPM_STUB);
+    chmodSync(join(dir, 'bin/npm'), 0o755);
+    mkdirSync(join(dir, 'ci/plat'), { recursive: true });
+    copyFileSync('ci/plat/pack-record.mjs', join(dir, 'ci/plat/pack-record.mjs'));
+    // packages/mcp and packages/labs are absent: the 5x loop must skip them, not fail.
+    for (const w of ['cli', 'registry']) mkdirSync(join(dir, 'packages', w), { recursive: true });
+    return dir;
+  };
+  const run = (block: string, cwd: string, env: Record<string, string> = {}) =>
+    spawnSync('bash', ['-eo', 'pipefail', '-c', block], {
+      cwd,
+      encoding: 'utf8',
+      env: { ...process.env, PATH: `${join(cwd, 'bin')}:${process.env.PATH}`, AG_LINE: '5x', AURAGLASS_EVIDENCE_DIR: PACK_DIR, STUB_NPM_MODE: '', ...env },
+    });
+  const record = (dir: string) => JSON.parse(readFileSync(join(dir, PACK_DIR, 'pack-record.json'), 'utf8'));
+
+  it('require-activated.mjs stays the first script line', () => {
+    expect(lines[0]).toBe('node scripts/ci/require-activated.mjs --line "$AG_LINE"');
+  });
+
+  it('every npm pack call is --json into the job dir, and the record is built right after them, before pack.env', () => {
+    for (const b of PACK_BLOCKS) expect(b).toBeDefined();
+    const packCalls = lines.join('\n').match(/npm pack (?:--|-w)[^\n]*/g)!;
+    expect(packCalls).toHaveLength(2);
+    for (const c of packCalls) {
+      expect(c).toContain('--json');
+      expect(c).toMatch(/> "\$AURAGLASS_EVIDENCE_DIR\/npm-pack\/[^"]+\.json"$/);
+    }
+    expect(lines[at('ci/plat/pack-record.mjs')]).toBe(
+      'node ci/plat/pack-record.mjs --pack-dir .artifacts/pack --out "$AURAGLASS_EVIDENCE_DIR/pack-record.json" "$AURAGLASS_EVIDENCE_DIR"/npm-pack/*.json',
+    );
+    expect(at('ci/plat/pack-record.mjs')).toBeGreaterThan(at('for w in cli registry mcp labs'));
+    expect(at('ci/plat/pack-record.mjs')).toBeLessThan(at('AURAGLASS_TARBALL=$TARBALL'));
+  });
+
+  it('pack-record.json lands in the uploaded job dir that plat:publish:npm receives', () => {
+    expect(pack.artifacts.paths).toContain('.artifacts/plat/$CI_JOB_NAME_SLUG/');
+    expect(job('plat:publish:npm').needs).toContainEqual({ job: 'plat:package:pack', artifacts: true });
+  });
+
+  it('5x: records every packed tarball by package name with npm\'s sha512 (stub npm)', () => {
+    const dir = tmp();
+    try {
+      const r = run(PACK_BLOCKS.join('\n'), dir);
+      expect([r.status, r.stderr]).toEqual([0, '']);
+      expect(r.stdout).toContain(`pack-record: 3 tarball(s) -> ${PACK_DIR}/pack-record.json`);
+      const rec = record(dir);
+      expect(Object.keys(rec).sort()).toEqual(['@auraglass/cli', '@auraglass/registry', 'aura-glass']);
+      for (const [name, file] of [
+        ['aura-glass', '.artifacts/pack/aura-glass-5.0.0.tgz'],
+        ['@auraglass/cli', '.artifacts/pack/auraglass-cli-0.1.0.tgz'],
+        ['@auraglass/registry', '.artifacts/pack/auraglass-registry-0.1.0.tgz'],
+      ]) {
+        expect(rec[name]).toEqual({ file, integrity: sha512(readFileSync(join(dir, file))) });
+      }
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it('4x: only the root package is packed and recorded', () => {
+    const dir = tmp();
+    try {
+      const r = run(PACK_BLOCKS.join('\n'), dir, { AG_LINE: '4x' });
+      expect([r.status, r.stderr]).toEqual([0, '']);
+      expect(Object.keys(record(dir))).toEqual(['aura-glass']);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it.each([
+    ['npm reports an integrity the tarball does not have', { STUB_NPM_MODE: 'bad-integrity' }, 'sha512'],
+    ['stdout is not npm\'s JSON (lifecycle noise)', { STUB_NPM_MODE: 'noise' }, 'not npm pack --json output'],
+    ['two reports name the same package', { STUB_NPM_MODE: 'dup-name' }, 'aura-glass packed twice'],
+  ])('fails closed and writes no record when %s', (_n, env, msg) => {
+    const dir = tmp();
+    try {
+      const r = run(PACK_BLOCKS.join('\n'), dir, env);
+      expect(r.status).toBe(1);
+      expect(r.stderr).toContain(msg);
+      expect(existsSync(join(dir, PACK_DIR, 'pack-record.json'))).toBe(false);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it('fails closed when .artifacts/pack holds a tarball no npm pack report records', () => {
+    const dir = tmp();
+    try {
+      mkdirSync(join(dir, '.artifacts/pack'), { recursive: true });
+      writeFileSync(join(dir, '.artifacts/pack/stale-1.0.0.tgz'), 'old');
+      const r = run(PACK_BLOCKS.join('\n'), dir, { AG_LINE: '4x' });
+      expect(r.status).toBe(1);
+      expect(r.stderr).toContain('tarballs no npm pack report records: stale-1.0.0.tgz');
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  describe('pack.env TARBALL_MB / PACK_SHA (REQ-PLAT-104)', () => {
+    const block = lines.find((b) => b.includes('AURAGLASS_TARBALL=$TARBALL'))!;
+    it('writes TARBALL_MB from the packed aura-glass tarball size (bytes / 10^6, 2 dp) and PACK_SHA', () => {
+      const dir = tmp();
+      try {
+        const r = run(PACK_BLOCKS.join('\n') + '\n' + block, dir, { CI_JOB_ID: '7', CI_COMMIT_SHA: 'abc123' });
+        expect([r.status, r.stderr]).toEqual([0, '']);
+        // stub body is exactly 1,234,567 bytes → 1.23 MB
+        expect(readFileSync(join(dir, '.artifacts/pack/aura-glass-5.0.0.tgz')).length).toBe(1234567);
+        expect(readFileSync(join(dir, '.artifacts/plat/pack.env'), 'utf8')).toBe(
+          'AURAGLASS_TARBALL=.artifacts/pack/aura-glass-5.0.0.tgz\nAG_PACK_JOB_ID=7\nTARBALL_MB=1.23\nPACK_SHA=abc123\n',
+        );
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    });
+    it('exits 1 when CI_COMMIT_SHA is unset (no sha custody for gen-claims)', () => {
+      const dir = tmp();
+      try {
+        const r = run(PACK_BLOCKS.join('\n') + '\n' + block, dir, { CI_JOB_ID: '7', CI_COMMIT_SHA: '' });
+        expect(r.status).toBe(1);
+        expect(r.stdout).toContain('CI_COMMIT_SHA unset');
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
     });
   });
 });
