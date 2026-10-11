@@ -51,11 +51,11 @@ function Inner({
       data-ag-part="date-picker"
       data-ag-size={size}
       className={`ag-date-picker${className ? ` ${className}` : ''}`}
-      {...(value !== undefined ? { value } : {})}
-      {...(defaultValue !== undefined ? { defaultValue } : {})}
+      {...(value !== undefined ? { value: value as never } : {})}
+      {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
       {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v ?? null) } : {})}
-      {...(minValue !== undefined ? { minValue } : {})}
-      {...(maxValue !== undefined ? { maxValue } : {})}
+      {...(minValue !== undefined ? { minValue: minValue as never } : {})}
+      {...(maxValue !== undefined ? { maxValue: maxValue as never } : {})}
       {...(isDateUnavailable !== undefined ? { isDateUnavailable } : {})}
       {...(granularity !== undefined ? { granularity } : {})}
       {...(hourCycle !== undefined ? { hourCycle } : {})}
@@ -82,11 +82,11 @@ function Inner({
       <RACPopover data-ag-part="date-picker-popover" className="ag-date-picker__popover" placement="bottom start">
         <RACDialog className="ag-date-picker__dialog">
           <Calendar
-            {...(value !== undefined ? { value } : {})}
-            {...(defaultValue !== undefined ? { defaultValue } : {})}
+            {...(value !== undefined ? { value: value as never } : {})}
+            {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
             {...(onValueChange !== undefined ? { onValueChange: (v) => onValueChange(v) } : {})}
-            {...(minValue !== undefined ? { minValue } : {})}
-            {...(maxValue !== undefined ? { maxValue } : {})}
+            {...(minValue !== undefined ? { minValue: minValue as never } : {})}
+            {...(maxValue !== undefined ? { maxValue: maxValue as never } : {})}
             {...(isDateUnavailable !== undefined ? { isDateUnavailable } : {})}
             {...(firstDayOfWeek !== undefined ? { firstDayOfWeek } : {})}
             size={size}
