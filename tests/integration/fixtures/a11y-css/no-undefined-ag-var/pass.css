@@ -1,0 +1,4 @@
+@layer ag.a11y {
+  @property --_ag-fixture-registered { syntax: "<length>"; inherits: true; initial-value: 0px; }
+  [data-ag-surface] { --_ag-fixture-local: 1px; inline-size: calc(var(--_ag-fixture-local) + var(--_ag-fixture-registered)); }
+}

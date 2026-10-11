@@ -131,14 +131,66 @@ function runNodeScript(row, root) {
   return { state: r.status === 0 ? 'pass' : 'fail', reason: r.status === 0 ? undefined : `exit ${r.status}`, durationMs: r.durationMs };
 }
 
-function runPlaywright(row, root, evidenceDir, idx) {
+/** Playwright JSON report → counts. A failing test whose error starts with `pending:` is a producer that has not landed
+    (PRD-F §4.3 rule 2; lanes throw it only below release scope). */
+export function classifyPlaywrightReport(report) {
+  const tests = [];
+  const walk = (suite) => {
+    for (const spec of suite.specs ?? []) for (const t of spec.tests ?? []) tests.push({ title: spec.title, ...t });
+    for (const s of suite.suites ?? []) walk(s);
+  };
+  for (const s of report.suites ?? []) walk(s);
+  const failed = tests.filter((t) => t.status === 'unexpected');
+  const pendingRe = /(^|[\s:])pending: /;
+  const reasons = failed.map((t) => {
+    const last = (t.results ?? []).at(-1);
+    return String(last?.error?.message ?? last?.errors?.[0]?.message ?? '');
+  });
+  const pending = reasons.filter((m) => pendingRe.test(m));
+  return { total: tests.length, failed: failed.length, pendingOnly: failed.length > 0 && pending.length === failed.length,
+    pendingReasons: [...new Set(pending.map((m) => m.slice(m.search(pendingRe)).trim().split('\n')[0]))] };
+}
+
+/** Spec files the cert config cannot run: outside certification/lanes and outside every `<stream>:cert-*` fragment project
+    (REQ-QUAL-12: the cert config lists only those). Reported with the fix instead of Playwright's bare "No tests found". */
+export function uncoveredSpecs(files, root, certTestDirs) {
+  const dirs = [join(root, 'certification/lanes'), ...certTestDirs].map((d) => (d.endsWith('/') ? d : `${d}/`));
+  return files.filter((f) => !dirs.some((d) => join(root, f).startsWith(d)));
+}
+
+async function runPlaywright(row, root, evidenceDir, idx, scope) {
   const files = expand(row.path, root).filter((f) => /\.spec\.(ts|tsx|js|mjs)$/.test(f));
   if (!files.length) return { state: 'fail', reason: `registered path matches no spec: ${row.path}` };
+  const { loadCertProjects } = await loadTs(join(root, 'certification/lanes/_fixtures/fragments.ts'));
+  const uncovered = uncoveredSpecs(files, root, loadCertProjects(root).projects.map((p) => p.testDir));
+  if (uncovered.length) {
+    return { state: 'fail', reason: `${uncovered.length} spec(s) outside certification/lanes and every ${row.stream}:cert-* project — register a `
+      + `'${row.stream}:cert-<id>' project in fragments/playwright/${row.stream}.json covering: ${uncovered.slice(0, 5).join(', ')}${uncovered.length > 5 ? ', …' : ''}` };
+  }
   const outFile = join(evidenceDir, `playwright-${idx}.json`);
   const r = run(process.execPath, ['node_modules/@playwright/test/cli.js', 'test', '-c', 'certification/playwright.cert.config.ts', ...files],
-    { cwd: root, env: { PLAYWRIGHT_JSON_OUTPUT_NAME: outFile } });
+    { cwd: root, env: { PLAYWRIGHT_JSON_OUTPUT_NAME: outFile, AG_SCOPE: scope, AG_LANE_EVIDENCE_DIR: evidenceDir } });
   if (r.error || r.signal) return { state: 'fail', reason: `crashed: ${r.error ?? r.signal}`, durationMs: r.durationMs };
-  return { state: r.status === 0 ? 'pass' : 'fail', reason: r.status === 0 ? undefined : `exit ${r.status}`, durationMs: r.durationMs };
+  let report = null;
+  try { report = JSON.parse(readFileSync(outFile, 'utf8')); } catch { /* no report */ }
+  if (!report) return { state: 'fail', reason: `playwright wrote no report (exit ${r.status})`, durationMs: r.durationMs };
+  const c = classifyPlaywrightReport(report);
+  if (c.total === 0) return { state: 'fail', reason: '0 tests', tests: 0, durationMs: r.durationMs };
+  if (r.status === 0) return { state: 'pass', tests: c.total, durationMs: r.durationMs };
+  if (c.pendingOnly && scope !== 'release') return { state: 'pending', reason: c.pendingReasons.join(' | '), tests: c.total, durationMs: r.durationMs };
+  return { state: 'fail', reason: `exit ${r.status}: ${c.failed} failed test(s)`, tests: c.total, durationMs: r.durationMs };
+}
+
+/** L6 capture evidence written by certification/lanes/environment-visual.spec.ts (plan + per-worker capture rows). */
+export function readCaptureEvidence(evidenceDir) {
+  const dir = join(evidenceDir, 'environment-visual');
+  if (!existsSync(join(dir, 'plan.json'))) return null;
+  const plan = JSON.parse(readFileSync(join(dir, 'plan.json'), 'utf8'));
+  const rows = globSync('captures-*.jsonl', { cwd: dir })
+    .flatMap((f) => readFileSync(join(dir, f), 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)));
+  const captures = rows.reduce((n, r) => n + (r.captures ?? 0), 0);
+  const seconds = rows.reduce((n, r) => n + (r.durationMs ?? 0), 0) / 1000;
+  return { plan, captures, captureRate: captures && seconds ? captures / seconds : null };
 }
 
 function runManualRecord(row, root) {
@@ -153,7 +205,7 @@ export async function executeRow(row, ctx) {
   switch (row.kind) {
     case 'node-script': return runNodeScript(row, ctx.root);
     case 'jest': return runJest(row, ctx.root, ctx.evidenceDir, ctx.idx);
-    case 'playwright': return runPlaywright(row, ctx.root, ctx.evidenceDir, ctx.idx);
+    case 'playwright': return runPlaywright(row, ctx.root, ctx.evidenceDir, ctx.idx, ctx.scope ?? 'pr');
     case 'manual-record': return runManualRecord(row, ctx.root);
     case 'story-subjects': {
       if (!existsSync(join(ctx.root, 'storybook-static/cert-manifest.json'))) return { state: 'pending', reason: 'storybook-static/cert-manifest.json not built (G-01 write-cert-manifest)' };
@@ -215,7 +267,7 @@ export async function main(argv = process.argv.slice(2), env = process.env) {
   for (const [idx, row] of rows.entries()) {
     console.log(`\n=== [${row.lane}] ${row.stream} ${row.kind} ${row.path} (${row.source})`);
     let res;
-    try { res = await executeRow(row, { root, evidenceDir, idx }); } catch (e) { res = { state: 'fail', reason: `runner crash: ${e.message}` }; }
+    try { res = await executeRow(row, { root, evidenceDir, idx, scope: args.scope }); } catch (e) { res = { state: 'fail', reason: `runner crash: ${e.message}` }; }
     if (res.state === 'fail' && prStream && row.stream !== prStream) res = { ...res, state: 'pre-existing', blockingFor: row.stream };
     console.log(`=== [${row.lane}] ${res.state}${res.reason ? ` — ${res.reason}` : ''}`);
     const entry = { lane: row.lane, stream: row.stream, kind: row.kind, path: row.path, scope: row.scope, source: row.source, ...res };
@@ -232,15 +284,18 @@ export async function main(argv = process.argv.slice(2), env = process.env) {
       state: args.scope === 'release' ? 'fail' : 'pending', reason: '0 subjects registered for this lane at this scope' });
   }
   const tests = results.reduce((n, r) => n + (r.tests ?? 0), 0);
+  // L6 (REQ-QUAL-04/-12): planned cells, live subjects, the packed tarball's sha256 and the measured capture rate.
+  const capture = readCaptureEvidence(evidenceDir);
   const manifest = {
     version: 1, lane: args.lane, line: args.line, sha: gitSha(root), scope: args.scope,
     branch: env.CI_COMMIT_BRANCH || env.CI_COMMIT_REF_NAME || null, prStream,
     runnerTag: env.CI_RUNNER_TAGS || null, imageDigest: env.CI_JOB_IMAGE || null, browserVersions: {},
-    subjects: [...new Set(results.map((r) => r.path))], cells: [], results,
+    subjects: [...new Set([...results.map((r) => r.path), ...(capture?.plan.subjects ?? [])])], cells: capture?.plan.cells ?? [], results,
     thresholdsSha256: sha256(join(root, 'certification/thresholds.json')),
     scenesSha256: sha256(join(root, 'certification/scenes/scenes.manifest.json')),
     inventorySha256: sha256(join(root, 'storybook-static/cert-manifest.json')),
-    durationMs: Date.now() - t0, captureRate: null,
+    durationMs: Date.now() - t0, captureRate: capture?.captureRate ?? null,
+    ...(capture ? { tarballSha256: capture.plan.tarball?.sha256 ?? null, storybookIndexSha256: capture.plan.storybookIndexSha256 ?? null, captures: capture.captures } : {}),
     summary: Object.fromEntries(['pass', 'fail', 'pending', 'pre-existing', 'double-pass'].map((s) => [s, results.filter((r) => r.state === s).length])),
     tests,
   };

@@ -8,7 +8,12 @@ module.exports = {
   ...base,
   rootDir: '../..',
   displayName: 'data-doubles',
-  testMatch: [...(base.testMatch ?? []), '**/tests/data/**/*.test.{ts,tsx}'],
+  // Scoped to the W2 surface only: inheriting the root testMatch ran the
+  // whole repo suite under the doubles mapping (unrelated suites fail there).
+  testMatch: [
+    '<rootDir>/tests/data/**/*.test.{ts,tsx}',
+    '<rootDir>/src/{data,date,charts}/**/*.test.{ts,tsx}',
+  ],
   moduleNameMapper: {
     ...base.moduleNameMapper,
     '^aura-glass/data$': '<rootDir>/src/data/index.ts',
