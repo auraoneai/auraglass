@@ -16,6 +16,7 @@ import {
   DateInput as RACDateInput,
   DateSegment as RACDateSegment,
 } from 'react-aria-components';
+import type { TimeValue as RACTimeValue } from 'react-aria-components';
 import { Time } from '@internationalized/date';
 import { DateProvider } from './DateProvider';
 import type { DateFieldLikeProps, TimeValue } from './shared';
@@ -44,15 +45,15 @@ function TimeInner({
   className,
 }: TimeFieldProps) {
   return (
-    <RACTimeField<TimeValue>
+    <RACTimeField<RACTimeValue>
       data-ag-part="time-field"
       data-ag-size={size}
       className={`ag-time-field${className ? ` ${className}` : ''}`}
-      {...(value !== undefined ? { value } : {})}
-      {...(defaultValue !== undefined ? { defaultValue } : {})}
+      {...(value !== undefined ? { value: value as never } : {})}
+      {...(defaultValue !== undefined ? { defaultValue: defaultValue as never } : {})}
       {...(onValueChange !== undefined ? { onChange: (v) => onValueChange(v ?? null) } : {})}
-      {...(minValue !== undefined ? { minValue } : {})}
-      {...(maxValue !== undefined ? { maxValue } : {})}
+      {...(minValue !== undefined ? { minValue: minValue as never } : {})}
+      {...(maxValue !== undefined ? { maxValue: maxValue as never } : {})}
       {...(granularity !== undefined ? { granularity: granularity === 'day' ? 'minute' : granularity } : {})}
       {...(hourCycle !== undefined ? { hourCycle } : {})}
       {...(isInvalid !== undefined ? { isInvalid } : {})}
@@ -100,12 +101,12 @@ export function TimePicker({ minuteStep = 5, labels, ...props }: TimePickerProps
   };
   return (
     <DateProvider locale={props.locale}>
-      <RACTimeField<TimeValue>
+      <RACTimeField<RACTimeValue>
         data-ag-part="time-picker"
         data-ag-size={props.size ?? 'md'}
         className={`ag-time-picker${props.className ? ` ${props.className}` : ''}`}
-        {...(props.value !== undefined ? { value: props.value } : {})}
-        {...(props.defaultValue !== undefined ? { defaultValue: props.defaultValue } : {})}
+        {...(props.value !== undefined ? { value: props.value as never } : {})}
+        {...(props.defaultValue !== undefined ? { defaultValue: props.defaultValue as never } : {})}
         onChange={(v) => props.onValueChange?.(v ?? null)}
         granularity={props.granularity === 'day' ? 'minute' : (props.granularity ?? 'minute')}
         {...(props.hourCycle !== undefined ? { hourCycle: props.hourCycle } : {})}
