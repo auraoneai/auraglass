@@ -106,6 +106,6 @@ describe('provider mount (CMP-246)', () => {
     render(<BareToastHost />);
     fireEvent.click(screen.getByText('add'));
     await act(async () => {});
-    expect(document.querySelector('[data-ag-part="root"]')).not.toBeNull();
+    expect(document.querySelector('[data-ag-part="toast"]')).not.toBeNull();
   });
 });

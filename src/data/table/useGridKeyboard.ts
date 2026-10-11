@@ -23,14 +23,14 @@ export function useGridKeyboard(options: GridKeyboardOptions) {
   const opts = React.useRef(options);
   opts.current = options;
   const onKeyDown = React.useCallback((e: React.KeyboardEvent) => {
-    const cell = (e.target as HTMLElement).closest('[data-ag-cell]');
+    const cell = (e.target as HTMLElement).closest('[data-cell]');
     const rowEl = cell?.closest('[data-row-id]');
     if (!cell || !rowEl) return;
     const { rowIds, columnIds, pageRows, moveTo } = opts.current;
     const rows = rowIds();
     const cols = columnIds();
     const r = rows.indexOf(rowEl.getAttribute('data-row-id')!);
-    const c = cols.indexOf(cell.getAttribute('data-ag-cell')!);
+    const c = cols.indexOf(cell.getAttribute('data-cell')!);
     if (r < 0 || c < 0) return;
     const mod = e.ctrlKey || e.metaKey;
     let nr = r;

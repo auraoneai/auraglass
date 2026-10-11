@@ -11,6 +11,6 @@ export default defineMeta({
   variants: { layout: ['stacked','inline'] },
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 1.5,
+  budgetKb: 1500 / 1024,
   migration: [{ from: 'GlassDescriptionList', props: {}, selectors: { '.glass-description-list': '.ag-description-list' },  automation: 'full', compat: true }],
 });

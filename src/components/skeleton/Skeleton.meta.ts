@@ -11,6 +11,6 @@ export default defineMeta({
   variants: { shape: ['text','rect','circle'] },
   material: { layer: 'content' },
   apg: 'none',
-  budgetKb: 3,
+  budgetKb: 3000 / 1024,
   migration: [{ from: 'GlassSkeleton', props: {}, selectors: { '.glass-skeleton': '.ag-skeleton' },  automation: 'full', compat: true }, { from: 'GlassLoadingSkeleton', props: {}, selectors: { '.glass-loading-skeleton': '.ag-skeleton' },  automation: 'full', compat: true }],
 });

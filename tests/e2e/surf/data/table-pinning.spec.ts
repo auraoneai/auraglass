@@ -7,9 +7,9 @@ for (const [slug, dir] of [['pinned', 1], ['pinned-rtl', -1]] as const) {
   test(`pinned columns hold under a 2,000px horizontal scroll (${slug})`, async ({ page }) => {
     await gotoTableStory(page, slug);
     const scroller = page.locator('[data-ag-part="table-scroller"]').first();
-    const startPin = scroller.locator('tr[data-row-id="r0"] [data-ag-cell="name"]');
-    const endPin = scroller.locator('tr[data-row-id="r0"] [data-ag-cell="status"]');
-    const unpinned = scroller.locator('tr[data-row-id="r0"] [data-ag-cell="c3"]');
+    const startPin = scroller.locator('tr[data-row-id="r0"] [data-cell="name"]');
+    const endPin = scroller.locator('tr[data-row-id="r0"] [data-cell="status"]');
+    const unpinned = scroller.locator('tr[data-row-id="r0"] [data-cell="c3"]');
     await expect(startPin).toHaveAttribute('data-ag-pinned-edge', 'start');
     await expect(endPin).toHaveAttribute('data-ag-pinned-edge', 'end');
     const scrollable = await scroller.evaluate((el) => el.scrollWidth - el.clientWidth);
