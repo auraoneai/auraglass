@@ -24,6 +24,28 @@ import { fileURLToPath } from 'node:url';
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const SRC_EXTS = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.mts', '.cts']);
 
+// SURF-owned registry entries (PRD-F §6 row FIN-F). Other registry entries
+// belong to other streams (e.g. code-surface, rich-text, gantt: meta owner
+// PLAT) and are gated by their owners, not by this SURF gate.
+const SURF_REGISTRY_BLOCKS = [
+  'app-frame', 'ai-workspace', 'data-workspace', 'analytics-dashboard', 'media-viewer', 'support-inbox',
+  'mobile-settings', 'commerce-cart', 'commerce-checkout', 'pricing', 'audit-log', 'permissions-matrix',
+];
+const SURF_REGISTRY_ITEMS = [
+  /^ai-/, /^media-/, 'app-shell-workspace', 'backdrop-hero', 'comment-thread', 'faceted-search',
+  'presence-stack', 'query-builder', 'schema-viewer', 'tree-select',
+];
+const listDirs = (rel) => {
+  const abs = join(ROOT, rel);
+  return existsSync(abs) ? readdirSync(abs).filter((n) => statSync(join(abs, n)).isDirectory()).sort() : [];
+};
+const SURF_REGISTRY_ROOTS = [
+  ...SURF_REGISTRY_BLOCKS.map((b) => `registry/blocks/${b}`),
+  ...listDirs('registry/items')
+    .filter((n) => SURF_REGISTRY_ITEMS.some((m) => (typeof m === 'string' ? m === n : m.test(n))))
+    .map((n) => `registry/items/${n}`),
+];
+
 const SURF_ROOTS = [
   'src/app-shell',
   'src/data',
@@ -33,8 +55,7 @@ const SURF_ROOTS = [
   'src/backdrops',
   'src/charts',
   'src/three',
-  'registry/blocks',
-  'registry/items',
+  ...SURF_REGISTRY_ROOTS,
   'packages/labs/src',
 ];
 
@@ -128,8 +149,7 @@ const w3 = [
   ),
   rule('no-provider-sdk', NET_ENV_PATHS, importFrom(SDK_RE), 'provider SDK import; the library never talks to a model provider',
     { excludeFile: 'registry/items/ai-sdk-adapter' } /* the adapter item's purpose IS the @ai-sdk bridge — peer-installed by the consumer */),
-  rule('no-dangerously-set', NET_ENV_PATHS, (n) => n?.type === 'JSXAttribute' && n.name.name === 'dangerouslySetInnerHTML', 'no raw HTML injection in shipped surfaces',
-    { excludeFile: 'registry/items/rich-text' } /* the item's contract is rendering sanitized consumer HTML */),
+  rule('no-dangerously-set', NET_ENV_PATHS, (n) => n?.type === 'JSXAttribute' && n.name.name === 'dangerouslySetInnerHTML', 'no raw HTML injection in shipped surfaces'),
   rule('no-scroll-into-view', NET_ENV_PATHS, callOf(new Set(['scrollIntoView'])), 'scroll anchoring goes through the Thread viewport API'),
 ];
 // --- lane W3 end ---
