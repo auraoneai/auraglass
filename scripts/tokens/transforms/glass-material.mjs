@@ -150,6 +150,17 @@ export function buildFloors(records, resolved, matrix = null) {
       out.push('  }');
     }
   }
+  // Rung inputs read by src/a11y/css/rungs.css (REQ-FIN-03 / REQ-FIN-05):
+  // max-contrast text and boundary = the opposite end of the canvas ramp per
+  // scheme; opaque fill = the material tint (canvas) at fallbackFill.alpha.
+  const canvas = get(records, resolved, 'sys.color.canvas');
+  if (!canvas?.light || !canvas?.dark) throw new Error('floors: sys.color.canvas needs light and dark values');
+  const maxInk = `light-dark(${colorToCss(canvas.dark)}, ${colorToCss(canvas.light)})`;
+  out.push('  [data-ag-surface] {');
+  out.push(`    --_ag-on-surface-max: ${maxInk};`);
+  out.push(`    --_ag-border-strong: ${maxInk};`);
+  out.push(`    --_ag-fallback-fill: color-mix(in oklab, var(--ag-color-canvas) ${Math.round(fallback * 1000) / 10}%, transparent);`);
+  out.push('  }');
   out.push(
     '',
     '  /* Opaque fallback: forced-colors flattens the glass (blur contributes nothing);',
