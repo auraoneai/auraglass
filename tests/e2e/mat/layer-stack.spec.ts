@@ -15,7 +15,7 @@ async function story(): Promise<string> {
 async function openAll(page: import('@playwright/test').Page) {
   await page.goto(`/iframe.html?id=${await story()}&viewMode=story`);
   for (const kind of ['dialog', 'popover', 'tooltip', 'toast']) {
-    await page.click(`[data-ag-part="trigger"][data-ag-kind="${kind}"]`);
+    await page.click(`[data-ag-part="trigger"][data-kind="${kind}"]`);
   }
   await page.waitForSelector('[data-ag-part="dialog"]');
 }
@@ -47,7 +47,7 @@ test.describe('layer stack', () => {
 
   test('inert background', async ({ page }) => {
     await page.goto(`/iframe.html?id=${await story()}&viewMode=story`);
-    await page.click('[data-ag-part="trigger"][data-ag-kind="dialog"]');
+    await page.click('[data-ag-part="trigger"][data-kind="dialog"]');
     const panel = page.locator('[data-ag-part="dialog"]');
     await expect(panel).toHaveAttribute('role', 'dialog');
     await expect(panel).toHaveAttribute('aria-modal', 'true');

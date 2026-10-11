@@ -11,8 +11,14 @@
      - duplicate @keyframes names, keyframes not prefixed ag-
      - unregistered custom properties in transitions
      - time literals / cubic-bezier in transition*|animation* outside tokens.css
+     - REQ-FIN-12 `ungated-loop`: `infinite` or --ag-duration-ambient outside
+       [data-ag-continuous="on"] (expiring baseline:
+       scripts/integration/baselines/ungated-loops.json)
+     - `css-parse`: a stylesheet that does not parse (never baselinable)
    Modes: --count-literals prints the literal census; --write-baseline writes
-   reports/motion-css-baseline.json. Library: postcss (walk order stable). */
+   reports/motion-css-baseline.json; --gate ungated-loop reports only the
+   REQ-FIN-12 gate; --file <path> / --baseline <path> check one file.
+   Library: postcss (walk order stable). */
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import postcss from 'postcss';
@@ -44,6 +50,36 @@ const legs = (v) => {
   out.push(cur); return out.map((l) => l.trim()).filter(Boolean);
 };
 const propOf = (leg) => (leg.trim().split(/\s+/)[0] ?? '').toLowerCase();
+
+const GATE_RE = /\[\s*data-ag-continuous\s*=\s*(?:"on"|'on'|on)\s*\]/;
+/** Drop every :not(...) group (balanced parens) so a negated gate never counts. */
+const stripNot = (sel) => {
+  let out = ''; let i = 0;
+  while (i < sel.length) {
+    if (sel.startsWith(':not(', i)) {
+      let depth = 0; let j = i + 4;
+      for (; j < sel.length; j += 1) {
+        if (sel[j] === '(') depth += 1;
+        else if (sel[j] === ')') { depth -= 1; if (depth === 0) break; }
+      }
+      i = j + 1;
+    } else { out += sel[i]; i += 1; }
+  }
+  return out;
+};
+export const selectorGated = (sel) => GATE_RE.test(stripNot(String(sel)));
+const ruleGated = (rule) => {
+  for (let n = rule; n; n = n.parent) {
+    if (n.type === 'rule' && (n.selectors ?? [n.selector]).every(selectorGated)) return true;
+  }
+  return false;
+};
+const insideKeyframes = (node) => {
+  for (let n = node.parent; n; n = n.parent) {
+    if (n.type === 'atrule' && /keyframes$/i.test(n.name)) return true;
+  }
+  return false;
+};
 
 /** checkCss(cssSource, filename) → diagnostics[{file,line,col,rule,message}] */
 export function checkCss(source, filename = '<css>') {
@@ -116,6 +152,21 @@ export function checkCss(source, filename = '<css>') {
       }
     });
 
+  // REQ-FIN-12: any infinite animation or the ambient-duration token must live
+  // under a [data-ag-continuous="on"] gate. A rule is gated when every one of
+  // its selectors carries the gate outside :not(), or when a (nesting) ancestor
+  // rule is gated. Only the rule's own declarations are checked, so nested
+  // rules are reported once, against their own gate.
+  root.walkRules((r) => {
+    if (insideKeyframes(r) || ruleGated(r)) return;
+    for (const d of r.nodes ?? []) {
+      if (d.type !== 'decl') continue;
+      const v = String(d.value ?? '');
+      if (/\binfinite\b/i.test(v) || v.includes('--ag-duration-ambient'))
+        push(d, 'ungated-loop', `infinite animation / --ag-duration-ambient outside [data-ag-continuous="on"] (REQ-FIN-12); gate the loop or provide a static frame`);
+    }
+  });
+
   root.walkAtRules('keyframes', (at) => {
     const name = at.params.trim();
     if (!/^ag-/.test(name)) push(at, 'keyframes-prefix', `@keyframes '${name}' must be prefixed ag-`);
@@ -141,18 +192,93 @@ const walk = (dir, out = []) => {
   return out;
 };
 
+/* REQ-FIN-12 baseline (PRD-F §4.3 rule 3). Pre-existing ungated-loop offenders
+   live in scripts/integration/baselines/ungated-loops.json as
+   {file, owner, reqFin, expires: 'RC-1'} rows. Only `ungated-loop` findings are
+   baselinable; every other rule (and a CSS parse error) always fails. The gate
+   fails on a NEW offending file, a STALE row (its file no longer has an
+   ungated loop), a malformed row, and on every row once the package version
+   has reached RC-1 (5.x `-rc.N` or a final release). */
+export const DEFAULT_BASELINE = 'scripts/integration/baselines/ungated-loops.json';
+export const BASELINE_RULE = 'ungated-loop';
+export const rcReached = (version) => {
+  const m = /^(\d+)\.\d+\.\d+(?:-([0-9A-Za-z.-]+))?$/.exec(String(version ?? ''));
+  if (!m) return false;
+  if (Number(m[1]) < 5) return false;
+  return m[2] === undefined || /^rc\./.test(m[2]);
+};
+const rowOk = (r) => r && typeof r.file === 'string' && typeof r.owner === 'string'
+  && typeof r.reqFin === 'string' && r.expires === 'RC-1';
+
+/** applyBaseline(issues, baseline, {checkedFiles, version}) -> report lines (empty = pass) */
+export function applyBaseline(issues, baseline, { checkedFiles, version } = {}) {
+  const reported = [];
+  const rows = Array.isArray(baseline) ? baseline : [];
+  const loopFiles = new Set(issues.filter((i) => i.rule === BASELINE_RULE).map((i) => i.file));
+  const expired = rcReached(version);
+  const rowsByFile = new Map();
+  for (const r of rows) {
+    if (!rowOk(r)) { reported.push(`${r?.file ?? '<row>'}: baseline row is malformed (need {file, owner, reqFin, expires:'RC-1'})`); continue; }
+    rowsByFile.set(r.file, r);
+  }
+  for (const i of issues) {
+    const row = i.rule === BASELINE_RULE ? rowsByFile.get(i.file) : undefined;
+    if (row && !expired) continue;
+    const hint = i.rule !== BASELINE_RULE ? ''
+      : row ? ` [EXPIRED: baseline row (owner ${row.owner}, ${row.reqFin}) expired at RC-1 (version ${version}); fix the file]`
+      : ` [NEW: fix, or add a baseline row {file,owner,reqFin,expires:'RC-1'}]`;
+    reported.push(`${i.file}:${i.line}:${i.col}  ${i.rule}  ${i.message}${hint}`);
+  }
+  const checked = checkedFiles ? new Set(checkedFiles) : null;
+  for (const [file, r] of rowsByFile) {
+    if (checked && !checked.has(file)) {
+      if (!existsSync(file)) reported.push(`${file}: baseline row is STALE — file does not exist; delete the row (owner ${r.owner}, ${r.reqFin})`);
+      continue;
+    }
+    if (!loopFiles.has(file))
+      reported.push(`${file}: baseline row is STALE — file no longer offends; delete the row (owner ${r.owner}, ${r.reqFin})`);
+  }
+  return reported;
+}
+
+const argValue = (argv, flag) => {
+  const i = argv.indexOf(flag);
+  return i !== -1 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : undefined;
+};
+
 if (process.argv[1] && process.argv[1].endsWith('verify-motion-css.mjs')) {
-  const args = new Set(process.argv.slice(2));
+  const argv = process.argv.slice(2);
+  const args = new Set(argv);
   // contract scope: src/**/*.css, *.module.css, dist/styles.css (+ fragments).
   // Test fixtures under tests/lint/fixtures are intentionally violating — excluded.
-  const files = [...walk('src'), ...walk('fragments')];
-  if (existsSync('dist/styles.css')) files.push('dist/styles.css');
+  // --file <path>: check just that file; no baseline unless --baseline is given.
+  // --baseline <path>: baseline to apply (default: DEFAULT_BASELINE on a full run).
+  // --gate ungated-loop: report only the REQ-FIN-12 loop gate (plus CSS parse
+  // errors, which block every rule). Without it every REQ-MOT-67 rule reports.
+  const gate = argValue(argv, '--gate');
+  if (gate !== undefined && gate !== BASELINE_RULE) {
+    console.error(`verify-motion-css: unknown --gate '${gate}' (supported: ${BASELINE_RULE})`);
+    process.exit(2);
+  }
+  const fileArg = argValue(argv, '--file');
+  const files = fileArg ? [fileArg] : [...walk('src'), ...walk('fragments')];
+  if (!fileArg && existsSync('dist/styles.css')) files.push('dist/styles.css');
+  const baselinePath = argValue(argv, '--baseline') ?? (fileArg ? undefined : DEFAULT_BASELINE);
   const all = [];
   let census = { ms: 0, s: 0, 'cubic-bezier': 0, linear: 0 };
+  const checkedFiles = [];
   for (const f of files) {
-    const { issues, literals } = checkCss(readFileSync(f, 'utf8'), relative(process.cwd(), f));
-    all.push(...issues);
-    for (const k of Object.keys(census)) census[k] += literals[k];
+    const rel = relative(process.cwd(), f);
+    checkedFiles.push(rel);
+    try {
+      const { issues, literals } = checkCss(readFileSync(f, 'utf8'), rel);
+      all.push(...issues);
+      for (const k of Object.keys(census)) census[k] += literals[k];
+    } catch (e) {
+      if (e?.name !== 'CssSyntaxError') throw e;
+      // a stylesheet that does not parse cannot be verified: never baselinable
+      all.push({ file: rel, line: e.line ?? 0, col: e.column ?? 0, rule: 'css-parse', message: `CSS does not parse: ${e.reason ?? e.message}` });
+    }
   }
   if (args.has('--count-literals')) {
     console.log('motion-css literals:', JSON.stringify(census));
@@ -163,10 +289,17 @@ if (process.argv[1] && process.argv[1].endsWith('verify-motion-css.mjs')) {
       JSON.stringify({ generatedAt: new Date().toISOString(), literals: census, issues: all }, null, 1) + '\n');
     console.log(`motion-css baseline: reports/motion-css-baseline.json (${all.length} issues)`);
   }
-  if (all.length) {
-    for (const i of all) console.error(`${i.file}:${i.line}:${i.col}  ${i.rule}  ${i.message}`);
-    console.error(`verify-motion-css: ${all.length} issue(s)`);
+  const baseline = baselinePath ? JSON.parse(readFileSync(baselinePath, 'utf8')) : [];
+  const version = process.env.AG_VERSION
+    ?? (existsSync('package.json') ? JSON.parse(readFileSync('package.json', 'utf8')).version : undefined);
+  const scoped = gate ? all.filter((i) => i.rule === BASELINE_RULE || i.rule === 'css-parse') : all;
+  const reported = applyBaseline(scoped, baseline, { checkedFiles: fileArg ? checkedFiles : null, version });
+  const baselined = new Set(all.filter((i) => i.rule === BASELINE_RULE && baseline.some((r) => r?.file === i.file)).map((i) => i.file)).size;
+  if (reported.length) {
+    for (const line of reported) console.error(line);
+    console.error(`verify-motion-css: ${reported.length} issue(s) (${baselined} file(s) baselined until RC-1)`);
     process.exit(1);
   }
-  console.log(`verify-motion-css: clean (${files.length} files)`);
+  const note = baselined ? `, ${baselined} file(s) baselined until RC-1` : '';
+  console.log(`verify-motion-css${gate ? ` --gate ${gate}` : ''}: clean (${files.length} files${note})`);
 }
