@@ -139,6 +139,37 @@ plat:test:pack-matrix:
       fi
     - npm publish --dry-run --ignore-scripts
 
+# REQ-PLAT-68 (REQ-FIN-37 producer #169; wiring REQ-FIN-22, FIN-B.1b): the 5x
+# runtime floor. Each leg builds dist/ on its own Node (npm run build also runs
+# prebuild + postbuild/post.mjs), then tests/exports/node-esm-require.test.mjs
+# packs the tarball, installs it into a scratch app and resolves every subpath
+# through both ESM import and CJS require. Evidence per leg (the matrix gives
+# each leg its own $CI_JOB_NAME_SLUG): the node/npm versions, the spec output
+# and a JUnit report. Stays allow_failure: true until ci/plat/activation.json
+# records its first green pipeline (B3-14).
+plat:test:pack-matrix:5x:
+  extends: [.plat-node, .plat-evidence-pr]
+  stage: test
+  allow_failure: true
+  timeout: 45 minutes
+  image: "$AG_PACK_NODE_IMAGE"
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  parallel:
+    matrix:
+      - { AG_PACK_NODE_IMAGE: "node:20.19.0-bookworm", AG_PACK_NPM_VERSION: "10.9.4" }
+      - { AG_PACK_NODE_IMAGE: "node:22-bookworm", AG_PACK_NPM_VERSION: "11.21.0" }
+  script:
+    - npm install -g "npm@$AG_PACK_NPM_VERSION"
+    - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
+    - node -e "const npm=require('node:child_process').execSync('npm --version').toString().trim();console.log(JSON.stringify({node:process.version,npm,image:process.env.AG_PACK_NODE_IMAGE}))" > "$AURAGLASS_EVIDENCE_DIR/runtime.json"
+    - npm run build
+    - 'test -f tests/exports/node-esm-require.test.mjs || { echo "PENDING: tests/exports/node-esm-require.test.mjs (REQ-PLAT-68 producer #169)"; exit 1; }'
+    - node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=spec --test-reporter-destination="$AURAGLASS_EVIDENCE_DIR/node-esm-require.txt" --test-reporter=junit --test-reporter-destination="$AURAGLASS_EVIDENCE_DIR/node-esm-require.junit.xml" tests/exports/node-esm-require.test.mjs
+  artifacts:
+    paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/"]
+    reports: { junit: ".artifacts/plat/$CI_JOB_NAME_SLUG/node-esm-require.junit.xml" }
+
 plat:test:react19:
   extends: [.plat-node, .plat-evidence-pr]
   stage: test

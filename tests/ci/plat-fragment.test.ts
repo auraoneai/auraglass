@@ -20,6 +20,7 @@ const JOBS = [
   'plat:integration:vite', 'plat:test:canaries', 'plat:test:cli', 'plat:test:registry',
   'plat:test:docs', 'plat:gate:removal', 'plat:build:docs', 'pages', 'plat:release:notes',
   'plat:publish:npm', 'plat:release:verify-dist-tags', 'plat:audit:backdrop', 'plat:tag:release-ledger',
+  'plat:test:pack-matrix:5x',
 ];
 
 describe('plat fragment job set', () => {
@@ -420,6 +421,7 @@ describe('REQ-PLAT-51 evidence under .artifacts/plat/<job-slug>/', () => {
     'plat:build:dist': '.plat-evidence-release',
     'plat:gate:glass-quality': '.plat-evidence-release',
     'plat:test:pack-matrix': '.plat-evidence-pr',
+    'plat:test:pack-matrix:5x': '.plat-evidence-pr',
     'plat:test:react19': '.plat-evidence-pr',
     'plat:test:visual-4x': '.plat-evidence-pr',
     'plat:test:canaries': '.plat-evidence-pr',
@@ -720,5 +722,66 @@ describe('REQ-FIN-31 wiring: glass-quality, dist-maps producer, release ledger',
         rmSync(dir, { recursive: true, force: true });
       }
     });
+  });
+});
+
+// next-fin/b-wire-plat68 (FIN-B.1b row #169; REQ-PLAT-68, REQ-FIN-37 producer, REQ-FIN-22
+// wiring). The #169 block, moved here and extended with the evidence assertions.
+describe('plat:test:pack-matrix:5x (REQ-PLAT-68)', () => {
+  const { spawnSync } = require('node:child_process') as typeof import('node:child_process');
+  const { mkdtempSync, rmSync } = require('node:fs') as typeof import('node:fs');
+  const { tmpdir } = require('node:os') as typeof import('node:os');
+  const { join } = require('node:path') as typeof import('node:path');
+  const j = job('plat:test:pack-matrix:5x');
+  const lines: string[] = j.script;
+  const SUITE = 'tests/exports/node-esm-require.test.mjs';
+
+  it('is a 5x-only matrix on node:20.19.0 + node:22', () => {
+    const legs = j.parallel.matrix;
+    expect(legs).toHaveLength(2);
+    expect(legs.map((l: any) => l.AG_PACK_NODE_IMAGE)).toEqual(['node:20.19.0-bookworm', 'node:22-bookworm']);
+    expect(j.image).toBe('$AG_PACK_NODE_IMAGE');
+    expect(yaml.stringify(j.rules)).toContain('$AG_LINE == "5x"');
+    expect(yaml.stringify(j.rules)).not.toContain('"4x"');
+    expect(j.stage).toBe('test');
+  });
+  it('stays allow_failure:true until activation.json records its first green run (REQ-FIN-24)', () => {
+    const activated = (JSON.parse(readFileSync('ci/plat/activation.json', 'utf8')).activations as Array<{ job: string }>)
+      .some((r) => r.job === 'plat:test:pack-matrix:5x');
+    expect(j.allow_failure).toBe(!activated);
+  });
+  it('builds dist/ on the leg Node, then runs the node-esm-require resolution suite', () => {
+    const build = lines.indexOf('npm run build');
+    const run = lines.findIndex((l) => l.startsWith('node --test ') && l.endsWith(` ${SUITE}`));
+    expect(lines.indexOf('npm install -g "npm@$AG_PACK_NPM_VERSION"')).toBe(0);
+    expect(build).toBeGreaterThan(0);
+    expect(run).toBeGreaterThan(build);
+    expect(run).toBe(lines.length - 1);
+    // no fail-open anywhere in the job (REQ-PLAT-05)
+    expect(lines.join('\n')).not.toMatch(/\|\| *(echo|true)\b/);
+  });
+  it('writes spec + JUnit evidence under its own job dir and uploads it (REQ-PLAT-51)', () => {
+    const run = lines[lines.length - 1];
+    expect(run).toContain('--test-reporter=junit --test-reporter-destination="$AURAGLASS_EVIDENCE_DIR/node-esm-require.junit.xml"');
+    expect(run).toContain('--test-reporter-destination="$AURAGLASS_EVIDENCE_DIR/node-esm-require.txt"');
+    expect(run).toContain('--test-reporter=spec --test-reporter-destination=stdout');
+    expect(lines.some((l) => l.includes('> "$AURAGLASS_EVIDENCE_DIR/runtime.json"'))).toBe(true);
+    expect(j.extends).toEqual(['.plat-node', '.plat-evidence-pr']);
+    expect(job('.plat-evidence-pr').variables.AURAGLASS_EVIDENCE_DIR).toBe('.artifacts/plat/$CI_JOB_NAME_SLUG');
+    expect(j.artifacts.paths).toEqual(['.artifacts/plat/$CI_JOB_NAME_SLUG/']);
+    expect(j.artifacts.reports.junit).toBe('.artifacts/plat/$CI_JOB_NAME_SLUG/node-esm-require.junit.xml');
+  });
+  it('fails closed when the suite is not on the line', () => {
+    const guard = lines.find((l) => l.startsWith(`test -f ${SUITE}`))!;
+    expect(guard).toBeDefined();
+    const dir = mkdtempSync(join(tmpdir(), 'ag-plat68-'));
+    try {
+      const r = spawnSync('bash', ['-eo', 'pipefail', '-c', `${guard}\necho reached`], { cwd: dir, encoding: 'utf8' });
+      expect(r.status).toBe(1);
+      expect(r.stdout).toContain(`PENDING: ${SUITE}`);
+      expect(r.stdout).not.toContain('reached');
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });
