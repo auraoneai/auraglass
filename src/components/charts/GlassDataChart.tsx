@@ -38,7 +38,6 @@ import { Chart } from "../../vendor/react_chartjs_2";
 import { useAccessibilitySettings } from "../../hooks/useAccessibilitySettings";
 // import { glassGlow } from '../../core/mixins/glowEffects'; // unused
 // import { createThemeContext } from '../../core/themeContext'; // unused
-// import { useGalileoStateSpring, GalileoStateSpringOptions } from '../../hooks/useGalileoStateSpring'; // unused
 import { GlassTooltip } from "../modal/GlassTooltip";
 
 import {
