@@ -37,8 +37,6 @@ export const Sizes: Story = {
       <Heading level={2} size="title-1">title-1</Heading>
       <Heading level={2} size="title-2">title-2</Heading>
       <Heading level={2} size="title-3">title-3</Heading>
-      <Heading level={2} size="sm">sm</Heading>
-      <Heading level={2} size="xl">xl</Heading>
     </div>
   ),
 };
