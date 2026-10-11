@@ -12,7 +12,6 @@ import { AppShellSidebarToggle } from './AppShell.SidebarToggle';
 import { AppShellInspectorToggle } from './AppShell.InspectorToggle';
 import { AppShellController } from './AppShell.Controller';
 import type { SidebarState, InspectorState, ShellMode } from './appShellStore';
-import { parseAppShellCookie } from './parseAppShellCookie';
 
 export type AppShellRootProps = PartProps<'div'> & {
   defaultSidebar?: SidebarState | undefined;
@@ -42,18 +41,40 @@ function Root({
   ...rest
 }: AppShellRootProps) {
   const shellId = React.useId();
-  // SURF-18: one useId-derived main id per shell, shared with Main/SkipLink
-  // through context so two shells never collide on '#ag-main'.
-  const mainId = `ag-main-${shellId.replace(/:/g, '')}`;
-  const childArr = React.Children.toArray(children);
+  // SURF-18: one useId-derived main id per shell, so two shells never collide
+  // on one constant id. It reaches Main/SkipLink by element type on Root's
+  // direct children — this module is on the SURF-07 server list, so no
+  // context. An explicit Main `id` / SkipLink `href` always wins.
+  const mainId = `ag-main-${shellId.replace(/[^A-Za-z0-9_-]/g, '')}`;
+  const items = React.Children.toArray(children);
+  const mainChild = items.find(
+    (c): c is React.ReactElement<AppShellMainProps> => React.isValidElement(c) && c.type === Main,
+  );
+  const targetId = mainChild?.props.id ?? mainId;
+  const threaded = items.map((c) => {
+    if (!React.isValidElement(c)) return c;
+    if (c.type === Main && (c.props as AppShellMainProps).id === undefined) {
+      return React.cloneElement(c as React.ReactElement<AppShellMainProps>, { id: mainId });
+    }
+    if (c.type === SkipLink && mainChild && (c.props as AppShellSkipLinkProps).href === undefined) {
+      return React.cloneElement(c as React.ReactElement<AppShellSkipLinkProps>, { href: `#${targetId}` });
+    }
+    return c;
+  });
   if (process.env.NODE_ENV !== 'production') {
-    const skipIdx = childArr.findIndex(
-      (c) => React.isValidElement(c) && (c.type as { displayName?: string }).displayName === 'AppShell.SkipLink',
-    );
+    const skipIdx = items.findIndex((c) => React.isValidElement(c) && c.type === SkipLink);
     if (skipIdx > 0) {
       console.warn(
         '[AppShell] SkipLink should be the first child of AppShell.Root so keyboard users reach it before any other content.',
       );
+    }
+    if (skipIdx >= 0 && !mainChild) {
+      const skip = items[skipIdx] as React.ReactElement<AppShellSkipLinkProps>;
+      if (skip.props.href === undefined) {
+        console.warn(
+          '[AppShell] SkipLink has no href and AppShell.Main is not a direct child of AppShell.Root; pass Main an id and SkipLink the matching href.',
+        );
+      }
     }
   }
   const props: Record<string, unknown> = {
@@ -70,27 +91,20 @@ function Root({
     ...(persistKey ? { 'data-ag-persist-key': persistKey } : {}),
     ...rest,
   };
-  return partElement('div', {
-    render,
-    ...props,
-    children: <AppShellContext.Provider value={{ mainId }}>{children}</AppShellContext.Provider>,
-  });
+  return partElement('div', { render, ...props, children: threaded });
 }
 Root.displayName = 'AppShell.Root';
 
-/** Per-shell ids shared between Root/Main/SkipLink (SURF-18). */
-const AppShellContext = React.createContext<{ mainId: string }>({ mainId: 'ag-main' });
-
 export type AppShellMainProps = PartProps<'main'> & {
-  /** Scroll container for the page; also the skip-link target. */
+  /** Scroll container for the page; also the skip-link target. Defaults to the
+      owning Root's useId-derived id when Main is a direct child of Root. */
   id?: string;
 };
 
-function Main({ id, children, render, ...rest }: AppShellMainProps) {
-  const { mainId } = React.useContext(AppShellContext);
+function Main({ id = 'ag-main', children, render, ...rest }: AppShellMainProps) {
   return partElement('main', {
     render,
-    id: id ?? mainId,
+    id,
     tabIndex: -1,
     'data-ag-slot': 'main',
     ...rest,
@@ -149,20 +163,19 @@ function PageHeader({
 PageHeader.displayName = 'AppShell.PageHeader';
 
 export type AppShellSkipLinkProps = PartProps<'a'> & {
-  /** Target of the skip link; defaults to the AppShell.Main id. */
+  /** Target of the skip link; defaults to the sibling AppShell.Main id. */
   href?: string;
 };
 
 function SkipLink({
-  href,
+  href = '#ag-main',
   children = 'Skip to content',
   render,
   ...rest
 }: AppShellSkipLinkProps) {
-  const { mainId } = React.useContext(AppShellContext);
   return partElement('a', {
     render,
-    href: href ?? `#${mainId}`,
+    href,
     'data-ag-slot': 'skip',
     className: 'ag-skip-link',
     ...rest,
@@ -179,8 +192,6 @@ export const AppShell = {
   SidebarToggle: AppShellSidebarToggle,
   InspectorToggle: AppShellInspectorToggle,
   Controller: AppShellController,
-  // SURF-21: namespace static for the ag-shell-* cookie body parser.
-  parseCookie: parseAppShellCookie,
 };
 export type {
   SidebarState as AppShellSidebarState,

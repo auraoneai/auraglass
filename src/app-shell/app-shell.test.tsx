@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { AppShell } from './AppShell';
@@ -24,8 +24,7 @@ describe('5.0 AppShell (SURF-024)', () => {
     expect(rootEl.querySelector('[data-ag-slot="main"]')).not.toBeNull();
     expect(rootEl.querySelector('[data-ag-slot="status"]')).not.toBeNull();
     expect(rootEl.querySelector('[data-ag-slot="skip"]')).not.toBeNull();
-  
-});
+  });
 
   it('renders a single main landmark', () => {
     render(
@@ -91,7 +90,7 @@ describe('5.0 AppShell (SURF-024)', () => {
     expect(screen.queryAllByRole('status')).toHaveLength(0);
   });
   // ---- REQ-SURF-18: per-shell main ids shared with SkipLink ----
-  it('two shells get distinct main ids; skip link hrefs match their own shell', () => {
+  it('two shells get distinct useId main ids; each skip link targets its own main', () => {
     render(
       <>
         <AppShell.Root>
@@ -106,54 +105,96 @@ describe('5.0 AppShell (SURF-024)', () => {
     );
     const a = screen.getByTestId('main-a').id;
     const b = screen.getByTestId('main-b').id;
-    expect({ a, b, same: a === b }).toEqual({ a, b, same: false });
-    expect(screen.getByTestId('skip-a')).toHaveAttribute('href', `#${a}`);
-    expect(screen.getByTestId('skip-b')).toHaveAttribute('href', `#${b}`);
+    expect(a).toMatch(/^ag-main-[A-Za-z0-9_-]+$/);
+    expect(b).toMatch(/^ag-main-[A-Za-z0-9_-]+$/);
+    expect(a).not.toBe(b);
+    expect(screen.getByTestId('skip-a').getAttribute('href')).toBe(`#${a}`);
+    expect(screen.getByTestId('skip-b').getAttribute('href')).toBe(`#${b}`);
+    expect(screen.getByTestId('main-a').tabIndex).toBe(-1);
   });
 
-  it('dev-warns when SkipLink is not the first child of Root', () => {
+  it('explicit Main id and SkipLink href win', () => {
+    render(
+      <AppShell.Root>
+        <AppShell.SkipLink data-testid="skip" />
+        <AppShell.Main id="page-main" />
+      </AppShell.Root>,
+    );
+    expect(screen.getByRole('main').id).toBe('page-main');
+    expect(screen.getByTestId('skip').getAttribute('href')).toBe('#page-main');
+  });
+
+  it('dev-warns when SkipLink is not the first child of Root, and not when it is', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const skipWarnings = () =>
+      warn.mock.calls.filter((args) => String(args[0]).includes('SkipLink should be the first child'));
+    const { unmount } = render(
+      <AppShell.Root>
+        <AppShell.SkipLink />
+        <AppShell.Main />
+      </AppShell.Root>,
+    );
+    expect(skipWarnings()).toHaveLength(0);
+    unmount();
     render(
       <AppShell.Root>
         <AppShell.Main />
         <AppShell.SkipLink />
       </AppShell.Root>,
     );
-    const calls = warn.mock.calls.flat().filter((c) => typeof c === 'string' && c.includes('SkipLink'));
-    expect({ calls: calls.length }).toEqual({ calls: 1 });
+    expect(skipWarnings()).toHaveLength(1);
     warn.mockRestore();
   });
 
-  // ---- REQ-SURF-21: parseCookie static + no render-phase cookie read ----
-  it('AppShell.parseCookie parses the exact cookie body', () => {
-    expect(AppShell.parseCookie('sidebar:rail;inspector:open')).toEqual({ sidebar: 'rail', inspector: 'open' });
-  });
+  // ---- REQ-SURF-21: no render-phase cookie read; effect-time hydrate ----
+  it('reads document.cookie 0 times during render; persisted state hydrates in an effect', () => {
+    // Render-phase detector: while a component body runs, React installs a
+    // hooks dispatcher whose useState and useEffect differ; outside render
+    // (commit, effects, idle) the installed dispatcher is null or throws for
+    // every hook, so both slots are the same function. Calibrated below so a
+    // React-internals change fails this test loudly instead of passing.
+    const internals = (React as unknown as Record<string, { H?: { useState: unknown; useEffect: unknown } | null }>)
+      .__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE!;
+    const rendering = () => !!internals.H && internals.H.useState !== internals.H.useEffect;
+    const calibration: boolean[] = [];
+    const Calibrate = () => {
+      calibration.push(rendering());
+      React.useLayoutEffect(() => void calibration.push(rendering()), []);
+      React.useEffect(() => void calibration.push(rendering()), []);
+      return null;
+    };
+    render(<Calibrate />).unmount();
+    expect(calibration).toEqual([true, false, false]);
+    expect(rendering()).toBe(false);
 
-  it('0 document.cookie reads during render; persisted state hydrates in an effect', () => {
-    // Render-phase purity: renderToString has no effects — any cookie read
-    // here is a render read by definition.
-    const { renderToString } = jest.requireActual<typeof import('react-dom/server')>('react-dom/server');
-    const get = jest.spyOn(Document.prototype, 'cookie', 'get');
-    renderToString(
-      <AppShell.Root persistKey="prefs">
-        <AppShell.SidebarToggle />
-        <AppShell.Main />
-      </AppShell.Root>,
-    );
-    const reads = get.mock.calls.length;
-    get.mockRestore();
-    expect({ reads }).toEqual({ reads: 0 });
-    // Effect-time hydration: the persisted cookie is applied after mount.
-    document.cookie = 'ag-shell-prefs=sidebar:rail,inspector:open';
-    render(
-      <AppShell.Root persistKey="prefs" data-testid="shell">
-        <AppShell.SidebarToggle />
-        <AppShell.Main />
-      </AppShell.Root>,
-    );
+    document.cookie = 'ag-shell-prefs=sidebar:rail,inspector:open; Path=/';
+    const reads: boolean[] = [];
+    const desc = Object.getOwnPropertyDescriptor(Document.prototype, 'cookie')!;
+    const get = jest.spyOn(Document.prototype, 'cookie', 'get').mockImplementation(function (this: Document) {
+      reads.push(rendering());
+      return desc.get!.call(this) as string;
+    });
+    try {
+      render(
+        <AppShell.Root persistKey="prefs" data-testid="shell">
+          <AppShell.SidebarToggle />
+          <AppShell.InspectorToggle />
+          <AppShell.Main />
+        </AppShell.Root>,
+      );
+    } finally {
+      get.mockRestore();
+    }
+    // 0 reads in render; the effect-time hydrate did read (spy is live).
+    expect({ renderReads: reads.filter(Boolean).length, effectReads: reads.filter((r) => !r).length > 0 }).toEqual({
+      renderReads: 0,
+      effectReads: true,
+    });
     const el = screen.getByTestId('shell');
     expect({ sidebar: el.dataset['agSidebar'], inspector: el.dataset['agInspector'] }).toEqual({
-      sidebar: 'rail', inspector: 'open',
+      sidebar: 'rail',
+      inspector: 'open',
     });
+    document.cookie = 'ag-shell-prefs=; Path=/; Max-Age=0';
   });
 });

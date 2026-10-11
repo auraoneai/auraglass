@@ -38,7 +38,7 @@
     overflow: hidden;
     clip-path: inset(0 0 100% 0);
   }
-  .ag-app-shell [data-ag-slot='skip']:has(:focus-visible) {
+  .ag-app-shell [data-ag-slot='skip']:focus-visible {
     position: static;
     clip-path: none;
   }
