@@ -45,6 +45,9 @@ function Root({
       ref={ref}
       data-ag-part="root"
       data-ag-size={size}
+      /* REQ-CMP-115: initials-only avatars are meaningful — role='img' so the
+         aria-label is allowed (generic spans may not carry aria-label). */
+      role={name && !src ? 'img' : rest.role}
       aria-label={name && !src ? name : rest['aria-label']}
       className={cn('ag-avatar', className)}
     >

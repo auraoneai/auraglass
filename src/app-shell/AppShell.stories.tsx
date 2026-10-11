@@ -128,3 +128,21 @@ export const PageHeaderWrap: Story = {
     </AppShell.Root>
   ),
 };
+
+/* Page chrome: skip link and a full PageHeader inside Main. */
+export const Anatomy: Story = {
+  render: () => (
+    <AppShell.Root>
+      <AppShell.SkipLink />
+      <AppShell.Main>
+        <AppShell.PageHeader
+          eyebrow="Projects"
+          title="Atlas"
+          description="Release train for the 5.0 line."
+          actions={<span>Share</span>}
+          tabs={<span>Overview</span>}
+        />
+      </AppShell.Main>
+    </AppShell.Root>
+  ),
+};

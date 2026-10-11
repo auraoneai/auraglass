@@ -17,7 +17,8 @@ const meta: ControlMeta = defineMeta({
     'nested', 'nested-dialog-open', 'nested-open', 'animating',
   ],
   variants: {
-    size: ['sm', 'md', 'lg', 'xl', 'full'],
+    // REQ-CMP-89: DialogSize is sm|md|lg; wide/fullscreen are the appearance axis
+    size: ['sm', 'md', 'lg'],
     placement: ['center', 'top'],
     variant: ['regular', 'identity'],
     prominent: ['true', 'false'],
@@ -25,7 +26,7 @@ const meta: ControlMeta = defineMeta({
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'dialog-modal',
-  budgetKb: 20,
+  budgetKb: 20000 / 1024,
   migration: [
     {
       from: 'GlassModal',
@@ -35,7 +36,7 @@ const meta: ControlMeta = defineMeta({
         title: 'Dialog.Title',
         description: 'Dialog.Description',
         footer: 'Dialog.Footer',
-        role: null, // role=alertdialog → AlertDialog (manual check)
+        role: { to: 'component', values: { alertdialog: 'AlertDialog' } }, // role=alertdialog → AlertDialog
         size: { to: 'size', values: { small: 'sm', medium: 'md', large: 'lg', fullscreen: 'full' } },
         variant: { to: 'component', values: { drawer: 'Sheet', fullscreen: 'Dialog size=full' } },
         closeOnBackdropClick: 'dismissible',

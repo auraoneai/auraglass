@@ -15,8 +15,6 @@ module.exports = {
   moduleNameMapper: {
     ...root.moduleNameMapper,
     // CMP seams at every depth src/media imports them
-    '^\\.\\./\\.\\./components/slider$': cmp('slider'),
-    '^\\.\\./components/slider$': cmp('slider'),
     '^\\.\\./\\.\\./components/toolbar$': cmp('toolbar'),
     '^\\.\\./\\.\\./\\.\\./components/toolbar$': cmp('toolbar'),
     '^\\.\\./components/toolbar$': cmp('toolbar'),

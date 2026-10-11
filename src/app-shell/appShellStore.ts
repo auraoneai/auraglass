@@ -53,7 +53,7 @@ function deriveMode(width: number, layout: string | null): ShellMode {
 
 
 function writeCookie(root: HTMLElement, snapshot: ShellSnapshot): void {
-  const key = root.dataset['agPersistKey'];
+  const key = root.dataset['persistKey'];
   if (!key) return;
   // SURF-21: always write both keys so the cookie is a complete snapshot —
   // a missing key no longer means "default" against a stale write.
@@ -67,7 +67,7 @@ function writeCookie(root: HTMLElement, snapshot: ShellSnapshot): void {
 function applyState(root: HTMLElement, snapshot: ShellSnapshot): void {
   root.dataset['agSidebar'] = snapshot.sidebar;
   root.dataset['agInspector'] = snapshot.inspector;
-  root.dataset['agMode'] = snapshot.mode;
+  root.dataset['mode'] = snapshot.mode;
   const sidebarEl = root.querySelector<HTMLElement>('[data-ag-slot="sidebar"]');
   if (sidebarEl) {
     const inert = snapshot.sidebar === 'collapsed' || snapshot.mode === 'compact';
@@ -143,7 +143,7 @@ export function getSnapshot(root: HTMLElement): ShellSnapshot {
 export function getServerSnapshot(root: HTMLElement): ShellSnapshot {
   const sidebarAttr = root.dataset['agSidebar'];
   const inspectorAttr = root.dataset['agInspector'];
-  const modeAttr = root.dataset['agMode'];
+  const modeAttr = root.dataset['mode'];
   return {
     sidebar: VALID_SIDEBAR.includes(sidebarAttr ?? '') ? (sidebarAttr as SidebarState) : 'expanded',
     inspector: VALID_INSPECTOR.includes(inspectorAttr ?? '')
@@ -158,7 +158,7 @@ const VALID_MODES: readonly string[] = ['compact', 'medium', 'expanded', 'wide']
 
 /** Read the persisted cookie once and apply it (effect-time, never render). */
 function hydrateFromCookie(root: HTMLElement): void {
-  const key = root.dataset['agPersistKey'];
+  const key = root.dataset['persistKey'];
   if (!key || typeof document === 'undefined') return;
   const raw = document.cookie
     .split(';')

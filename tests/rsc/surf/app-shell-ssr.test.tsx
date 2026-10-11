@@ -69,10 +69,11 @@ describe('AppShell server render (REQ-SURF-20)', () => {
     expect(html).toContain('data-ag-part="root"');
     expect(html).toContain('data-ag-layout="auto"');
     expect(html).toContain('data-ag-sidebar="rail"');
-    expect(html).toContain('data-ag-persist-key="prefs"');
+    expect(html).toContain('data-persist-key="prefs"');
     // SURF-20: the removed props never reach markup.
     expect(html).not.toContain('data-ag-density');
     expect(html).not.toContain('data-ag-backdrop');
+    expect(html).not.toContain('data-collapse-to');
     expect(html).not.toContain('data-ag-collapse-to');
   });
 
