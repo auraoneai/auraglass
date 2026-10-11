@@ -127,8 +127,10 @@ function SliderThumb({ className, getAriaValueText, ...rest }: SliderThumbPartPr
 export const Slider = {
   Root: SliderRoot,
   Value: SliderValue,
-  Control: SliderControl,
   Track: SliderTrack,
   Range: SliderRange,
   Thumb: SliderThumb,
 };
+
+/** Internal part (not contract surface, REQ-CMP-06): in-repo composition only. */
+export { SliderControl };

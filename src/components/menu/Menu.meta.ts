@@ -37,7 +37,7 @@ const meta: ControlMeta = defineMeta({
         open: 'open',
         onClose: { to: 'onOpenChange' },
         items: 'Menu.Item children',
-        side: 'Positioner side',
+        side: 'Menu.Content side',
       },
       selectors: { '.glass-menu': '.ag-menu' }, automation: 'mostly',
       compat: true,

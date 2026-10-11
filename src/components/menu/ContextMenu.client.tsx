@@ -13,7 +13,7 @@ import type {
   ContextMenuRootProps, ContextMenuTriggerProps, MenuPortalProps,
   MenuPositionerProps, MenuPopupProps, MenuItemProps, MenuGroupProps,
   MenuGroupLabelProps, MenuSeparatorProps, MenuCheckboxItemProps,
-  MenuRadioGroupProps, MenuRadioItemProps,
+  MenuRadioGroupProps, MenuRadioItemProps, MenuContentProps,
 } from './Menu.types';
 
 interface Ctx { open: boolean }
@@ -106,6 +106,22 @@ const ContextMenuPopup = React.forwardRef<HTMLDivElement, MenuPopupProps>(
   },
 );
 
+/* REQ-CMP-06: the contract Content part is the whole overlay stack, so callers never
+   compose the internal Portal/Positioner/Popup themselves. */
+function ContextMenuContent({ side, align, sideOffset, keepMounted, ref, ...popupProps }: MenuContentProps) {
+  return (
+    <ContextMenuPortal {...(keepMounted !== undefined ? { keepMounted } : {})}>
+      <ContextMenuPositioner
+        {...(side !== undefined ? { side } : {})}
+        {...(align !== undefined ? { align } : {})}
+        {...(sideOffset !== undefined ? { sideOffset } : {})}
+      >
+        <ContextMenuPopup {...(ref !== undefined ? { ref } : {})} {...popupProps} />
+      </ContextMenuPositioner>
+    </ContextMenuPortal>
+  );
+}
+
 const ContextMenuItem = React.forwardRef<HTMLElement, MenuItemProps>(
   function ContextMenuItem({ className, children, shortcut, ...rest }, ref) {
     return (
@@ -183,15 +199,16 @@ const ContextMenuRadioItem = React.forwardRef<HTMLElement, MenuRadioItemProps>(
 export const ContextMenu = {
   Root: ContextMenuRoot,
   Trigger: ContextMenuTrigger,
-  Portal: ContextMenuPortal,
-  Positioner: ContextMenuPositioner,
-  Popup: ContextMenuPopup,
   Item: ContextMenuItem,
-  CheckboxItem: ContextMenuCheckboxItem,
-  RadioGroup: ContextMenuRadioGroup,
-  RadioItem: ContextMenuRadioItem,
   Group: ContextMenuGroup,
   GroupLabel: ContextMenuGroupLabel,
   Separator: ContextMenuSeparator,
-  Content: ContextMenuPopup,
+  /** Contract composite: Content = Portal>Positioner>Popup. */
+  Content: ContextMenuContent,
+};
+
+/** Internal overlay parts (not contract surface, REQ-CMP-06): in-repo composition only. */
+export {
+  ContextMenuPortal, ContextMenuPositioner, ContextMenuPopup,
+  ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem,
 };

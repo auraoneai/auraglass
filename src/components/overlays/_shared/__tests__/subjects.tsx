@@ -37,15 +37,12 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
     kind: 'dialog', name: 'Dialog', available: true, modal: true, layerRoot: 'overlay', popupSelector: '[data-ag-part="popup"]',
     mount: (p) => (
       <Dialog.Root defaultOpen onOpenChange={p?.onOpenChange}>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup aria-label="subject dialog">
-            <Dialog.Title>Subject dialog</Dialog.Title>
-            <Dialog.Description>Overlay-layer subject.</Dialog.Description>
-            <Dialog.Body><input data-testid="inside" /></Dialog.Body>
-            <Dialog.Close>Close</Dialog.Close>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content aria-label="subject dialog">
+          <Dialog.Title>Subject dialog</Dialog.Title>
+          <Dialog.Description>Overlay-layer subject.</Dialog.Description>
+          <Dialog.Body><input data-testid="inside" /></Dialog.Body>
+          <Dialog.Close>Close</Dialog.Close>
+        </Dialog.Content>
       </Dialog.Root>
     ),
   },
@@ -53,15 +50,12 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
     kind: 'alert-dialog', name: 'AlertDialog', available: true, modal: true, layerRoot: 'overlay', popupSelector: '[data-ag-part="popup"]',
     mount: (p) => (
       <AlertDialog.Root defaultOpen onOpenChange={p?.onOpenChange}>
-        <AlertDialog.Portal>
-          <AlertDialog.Backdrop />
-          <AlertDialog.Popup aria-label="subject alert">
-            <AlertDialog.Title>Subject alert</AlertDialog.Title>
-            <AlertDialog.Description>Overlay-layer subject.</AlertDialog.Description>
-            <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-            <AlertDialog.Action>Confirm</AlertDialog.Action>
-          </AlertDialog.Popup>
-        </AlertDialog.Portal>
+        <AlertDialog.Content aria-label="subject alert">
+          <AlertDialog.Title>Subject alert</AlertDialog.Title>
+          <AlertDialog.Description>Overlay-layer subject.</AlertDialog.Description>
+          <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+          <AlertDialog.Action>Confirm</AlertDialog.Action>
+        </AlertDialog.Content>
       </AlertDialog.Root>
     ),
   },
@@ -69,14 +63,11 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
     kind: 'sheet', name: 'Sheet', available: true, modal: true, layerRoot: 'overlay', popupSelector: '[data-ag-part="popup"]',
     mount: (p) => (
       <Sheet.Root defaultOpen onOpenChange={p?.onOpenChange}>
-        <Sheet.Portal>
-          <Sheet.Backdrop />
-          <Sheet.Popup aria-label="subject sheet">
-            <Sheet.Title>Subject sheet</Sheet.Title>
-            <Sheet.Body>Overlay-layer subject.</Sheet.Body>
-            <Sheet.Close>Cancel</Sheet.Close>
-          </Sheet.Popup>
-        </Sheet.Portal>
+        <Sheet.Content aria-label="subject sheet">
+          <Sheet.Title>Subject sheet</Sheet.Title>
+          <Sheet.Body>Overlay-layer subject.</Sheet.Body>
+          <Sheet.Close>Cancel</Sheet.Close>
+        </Sheet.Content>
       </Sheet.Root>
     ),
   },
@@ -85,14 +76,10 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
     mount: (p) => (
       <Popover.Root defaultOpen onOpenChange={p?.onOpenChange}>
         <Popover.Trigger>anchor</Popover.Trigger>
-        <Popover.Portal>
-          <Popover.Positioner>
-            <Popover.Popup>
-              <Popover.Title>Subject popover</Popover.Title>
-              <Popover.Description>Overlay-layer subject.</Popover.Description>
-            </Popover.Popup>
-          </Popover.Positioner>
-        </Popover.Portal>
+        <Popover.Content>
+          <Popover.Title>Subject popover</Popover.Title>
+          <Popover.Description>Overlay-layer subject.</Popover.Description>
+        </Popover.Content>
       </Popover.Root>
     ),
   },
@@ -102,11 +89,7 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
       <Tooltip.Provider>
         <Tooltip.Root defaultOpen>
           <Tooltip.Trigger>anchor</Tooltip.Trigger>
-          <Tooltip.Portal>
-            <Tooltip.Positioner>
-              <Tooltip.Popup>Overlay-layer subject.</Tooltip.Popup>
-            </Tooltip.Positioner>
-          </Tooltip.Portal>
+          <Tooltip.Content>Overlay-layer subject.</Tooltip.Content>
         </Tooltip.Root>
       </Tooltip.Provider>
     ),
@@ -116,13 +99,9 @@ export const OVERLAY_SUBJECTS: readonly OverlaySubject[] = [
     mount: (p) => (
       <Menu.Root defaultOpen onOpenChange={p?.onOpenChange}>
         <Menu.Trigger>anchor</Menu.Trigger>
-        <Menu.Portal>
-          <Menu.Positioner>
-            <Menu.Popup>
-              <Menu.Item>Overlay-layer subject.</Menu.Item>
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
+        <Menu.Content>
+          <Menu.Item>Overlay-layer subject.</Menu.Item>
+        </Menu.Content>
       </Menu.Root>
     ),
   },

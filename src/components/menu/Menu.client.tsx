@@ -19,7 +19,7 @@ import type {
   MenuCheckboxItemProps, MenuCheckboxItemIndicatorProps, MenuRadioGroupProps,
   MenuRadioItemProps, MenuRadioItemIndicatorProps, MenuGroupProps,
   MenuGroupLabelProps, MenuSeparatorProps, MenuSubmenuProps, MenuSubmenuTriggerProps,
-  MenubarProps,
+  MenubarProps, MenuContentProps,
 } from './Menu.types';
 
 interface MenuCtx { open: boolean }
@@ -290,7 +290,7 @@ const MenuSubmenuTrigger = React.forwardRef<HTMLElement, MenuSubmenuTriggerProps
   },
 );
 
-export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
+const MenubarRoot = React.forwardRef<HTMLDivElement, MenubarProps>(
   function Menubar({ className, orientation = 'horizontal', ...rest }, ref) {
     return (
       <MenubarCtx.Provider value={true}>
@@ -308,13 +308,21 @@ export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
   },
 );
 
-/* REQ-CMP-102: real Content composite = Portal>Positioner>Popup — mirrors the
-   Popover contract (REQ-CMP-97) so callers get the full overlay stack. */
-function MenuContent({ children }: { children: React.ReactNode }) {
+/* REQ-CMP-102 / REQ-CMP-06: real Content composite = Portal>Positioner>Popup — mirrors
+   the Popover contract (REQ-CMP-97) so callers get the full overlay stack and never
+   compose the internal parts themselves. */
+function MenuContent({ side, align, sideOffset, keepMounted, ref, ...props }: MenuContentProps) {
+  // The popup's part name is component-owned: a caller data-ag-part is not forwarded
+  // (Menu.Content has never forwarded it; consumers key on data-ag-part="popup").
+  const { 'data-ag-part': _part, ...popupProps } = props as MenuPopupProps & { 'data-ag-part'?: string };
   return (
-    <MenuPortal>
-      <MenuPositioner>
-        <MenuPopup>{children}</MenuPopup>
+    <MenuPortal {...(keepMounted !== undefined ? { keepMounted } : {})}>
+      <MenuPositioner
+        {...(side !== undefined ? { side } : {})}
+        {...(align !== undefined ? { align } : {})}
+        {...(sideOffset !== undefined ? { sideOffset } : {})}
+      >
+        <MenuPopup {...(ref !== undefined ? { ref } : {})} {...popupProps} />
       </MenuPositioner>
     </MenuPortal>
   );
@@ -323,17 +331,10 @@ function MenuContent({ children }: { children: React.ReactNode }) {
 export const Menu = {
   Root: MenuRoot,
   Trigger: MenuTrigger,
-  Portal: MenuPortal,
-  Positioner: MenuPositioner,
-  Popup: MenuPopup,
-  Arrow: MenuArrow,
   Item: MenuItem,
-  LinkItem: MenuLinkItem,
   CheckboxItem: MenuCheckboxItem,
-  CheckboxItemIndicator: MenuCheckboxItemIndicator,
   RadioGroup: MenuRadioGroup,
   RadioItem: MenuRadioItem,
-  RadioItemIndicator: MenuRadioItemIndicator,
   Group: MenuGroup,
   GroupLabel: MenuGroupLabel,
   Separator: MenuSeparator,
@@ -342,3 +343,11 @@ export const Menu = {
   /** Contract composite: Content = Portal>Positioner>Popup */
   Content: MenuContent,
 };
+
+/** Internal parts (not contract surface, REQ-CMP-06): in-repo composition only. */
+export { MenuPortal, MenuPositioner, MenuPopup, MenuArrow, MenuLinkItem, MenuCheckboxItemIndicator, MenuRadioItemIndicator };
+
+/** Menubar (REQ-CMP-06, contract C-3 `Menubar = {Root, Menu}`): the bar itself stays
+    renderable as `<Menubar>` (FLAT_CMP_COMPONENTS) and also carries the compound parts —
+    `Menubar.Root` is the bar and `Menubar.Menu` is a menu root nested in it. */
+export const Menubar = Object.assign(MenubarRoot, { Root: MenubarRoot, Menu: MenuRoot });

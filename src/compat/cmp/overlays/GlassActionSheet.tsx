@@ -5,6 +5,7 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Sheet } from '../../../components/sheet';
+import { SheetAction } from '../../../components/sheet/Sheet.client';
 import type { OverlayOpenChangeDetails } from '../../../components/overlays/_shared';
 import { __compatWrap as wrap } from './_shared';
 
@@ -39,9 +40,9 @@ export function GlassActionSheet({ open, onClose, actions, cancelText, title, ch
         {title}
         {children}
         {actions?.map((a, i) => (
-          <Sheet.Action key={i} {...(a.onClick !== undefined ? { onClick: a.onClick } : {})}>
+          <SheetAction key={i} {...(a.onClick !== undefined ? { onClick: a.onClick } : {})}>
             {a.label}
-          </Sheet.Action>
+          </SheetAction>
         ))}
         {cancelText !== undefined ? <Sheet.Close>{cancelText}</Sheet.Close> : null}
       </Sheet.Content>

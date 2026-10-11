@@ -42,16 +42,12 @@ describe('overlay-layer (CMP-201)', () => {
     render(
       <AuraGlassProvider>
         <Dialog.Root defaultOpen onOpenChange={outer}>
-          <Dialog.Portal>
-            <Dialog.Popup aria-label="outer">
-              <Dialog.Title>Outer</Dialog.Title>
-              <Dialog.Root defaultOpen onOpenChange={inner}>
-                <Dialog.Portal>
-                  <Dialog.Popup aria-label="inner"><Dialog.Title>Inner</Dialog.Title></Dialog.Popup>
-                </Dialog.Portal>
-              </Dialog.Root>
-            </Dialog.Popup>
-          </Dialog.Portal>
+          <Dialog.Content aria-label="outer" backdrop={false}>
+            <Dialog.Title>Outer</Dialog.Title>
+            <Dialog.Root defaultOpen onOpenChange={inner}>
+              <Dialog.Content aria-label="inner" backdrop={false}><Dialog.Title>Inner</Dialog.Title></Dialog.Content>
+            </Dialog.Root>
+          </Dialog.Content>
         </Dialog.Root>
       </AuraGlassProvider>,
     );

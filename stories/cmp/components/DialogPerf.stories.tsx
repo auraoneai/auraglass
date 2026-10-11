@@ -34,14 +34,11 @@ export const DialogOverDashboard: Story = {
           open_ms under 4x CPU throttle. */}
       <Dialog.Root>
         <Dialog.Trigger>Open dialog</Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup>
-            <Dialog.Header><Dialog.Title>Perf subject</Dialog.Title></Dialog.Header>
-            <Dialog.Body>Dialog over six content surfaces.</Dialog.Body>
-            <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content>
+          <Dialog.Header><Dialog.Title>Perf subject</Dialog.Title></Dialog.Header>
+          <Dialog.Body>Dialog over six content surfaces.</Dialog.Body>
+          <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+        </Dialog.Content>
       </Dialog.Root>
     </AuraGlassProvider>
   ),

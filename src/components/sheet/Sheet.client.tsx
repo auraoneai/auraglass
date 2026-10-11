@@ -298,15 +298,14 @@ export const Sheet = {
   Root: SheetRoot,
   Trigger: SheetTrigger,
   Content: SheetContent,
-  Portal: SheetPortal,
-  Backdrop: SheetBackdrop,
-  Popup: SheetPopup,
   Title: SheetTitle,
   Description: SheetDescription,
   Close: SheetClose,
-  Action: SheetAction,
   Handle: SheetHandle,
   Header: SheetHeader,
   Body: SheetBody,
   Footer: SheetFooter,
 };
+
+/** Internal overlay parts (not contract surface, REQ-CMP-06): in-repo composition only. */
+export { SheetPortal, SheetBackdrop, SheetPopup, SheetAction };

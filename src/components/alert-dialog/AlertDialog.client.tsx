@@ -216,9 +216,6 @@ export const AlertDialog = {
   Root: AlertDialogRoot,
   Trigger: AlertDialogTrigger,
   Content: AlertDialogContent,
-  Portal: AlertDialogPortal,
-  Backdrop: AlertDialogBackdrop,
-  Popup: AlertDialogPopup,
   Title: AlertDialogTitle,
   Description: AlertDialogDescription,
   Cancel: AlertDialogCancel,
@@ -227,3 +224,6 @@ export const AlertDialog = {
   Body: AlertDialogBody,
   Footer: AlertDialogFooter,
 };
+
+/** Internal overlay parts (not contract surface, REQ-CMP-06): in-repo composition only. */
+export { AlertDialogPortal, AlertDialogBackdrop, AlertDialogPopup };

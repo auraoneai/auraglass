@@ -215,7 +215,5 @@ export const Select = {
   ItemIndicator: SelectItemIndicator,
   Group: SelectGroup,
   GroupLabel: SelectGroupLabel,
-  /** Alias of GroupLabel (PRD Select.Label). */
-  Label: SelectGroupLabel,
   Separator: SelectSeparator,
 };

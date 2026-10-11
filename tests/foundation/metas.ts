@@ -76,7 +76,11 @@ export function storyElement(storyModule: LoadedStory, storyName: string): { ele
   // CSF render functions may call hooks, so they run as a component body, never as a plain call.
   if (typeof story.render === 'function') {
     const render = story.render;
-    const StoryRender = () => render(args);
+    // React 19 passes `ref` as a prop: hand it to the story's element so ref checks still see it.
+    const StoryRender = ({ ref }: { ref?: React.Ref<unknown> }) => {
+      const el = render(args);
+      return ref ? React.cloneElement(el, { ref } as Record<string, unknown>) : el;
+    };
     StoryRender.displayName = `Story(${storyName})`;
     return { element: React.createElement(StoryRender) };
   }

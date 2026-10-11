@@ -30,29 +30,26 @@ export const Form: Story = {
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup render={<form onSubmit={(e) => e.preventDefault()} />}>
-            <Dialog.Header><Dialog.Title>Invite teammate</Dialog.Title></Dialog.Header>
-            <Dialog.Body>
-              <TextField label="Email" placeholder="name@auraone.ai" />
-              {/* CMP-378: Select inside a Dialog — composite scene for the
-                  controls overlay-stack lane. */}
-              <Select.Root>
-                <Select.Trigger placeholder="Role" />
-                <Select.Content>
-                  <Select.Item value="admin" label="Admin" />
-                  <Select.Item value="member" label="Member" />
-                  <Select.Item value="viewer" label="Viewer" />
-                </Select.Content>
-              </Select.Root>
-            </Dialog.Body>
-            <Dialog.Footer>
-              <Dialog.Close>Cancel</Dialog.Close>
-              <button type="submit" data-ag-part="action">Send invite</button>
-            </Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content render={<form onSubmit={(e) => e.preventDefault()} />}>
+          <Dialog.Header><Dialog.Title>Invite teammate</Dialog.Title></Dialog.Header>
+          <Dialog.Body>
+            <TextField label="Email" placeholder="name@auraone.ai" />
+            {/* CMP-378: Select inside a Dialog — composite scene for the
+                controls overlay-stack lane. */}
+            <Select.Root>
+              <Select.Trigger placeholder="Role" />
+              <Select.Content>
+                <Select.Item value="admin" label="Admin" />
+                <Select.Item value="member" label="Member" />
+                <Select.Item value="viewer" label="Viewer" />
+              </Select.Content>
+            </Select.Root>
+          </Dialog.Body>
+          <Dialog.Footer>
+            <Dialog.Close>Cancel</Dialog.Close>
+            <button type="submit" data-ag-part="action">Send invite</button>
+          </Dialog.Footer>
+        </Dialog.Content>
       </Dialog.Root>
     </Shell>
   ),
@@ -66,26 +63,19 @@ export const WithPopover: Story = {
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup aria-label="composite dialog">
-            <Dialog.Header><Dialog.Title>Composite</Dialog.Title></Dialog.Header>
-            <Dialog.Body>
-              <p data-testid="dialog-outside-target">Press here — inside the dialog, outside the popover.</p>
-              <Popover.Root defaultOpen>
-                <Popover.Trigger>Details</Popover.Trigger>
-                <Popover.Portal>
-                  <Popover.Positioner>
-                    <Popover.Popup aria-label="composite popover">
-                      <Popover.Description>Anchored popover mounted inside the dialog.</Popover.Description>
-                    </Popover.Popup>
-                  </Popover.Positioner>
-                </Popover.Portal>
-              </Popover.Root>
-            </Dialog.Body>
-            <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content aria-label="composite dialog">
+          <Dialog.Header><Dialog.Title>Composite</Dialog.Title></Dialog.Header>
+          <Dialog.Body>
+            <p data-testid="dialog-outside-target">Press here — inside the dialog, outside the popover.</p>
+            <Popover.Root defaultOpen>
+              <Popover.Trigger>Details</Popover.Trigger>
+              <Popover.Content aria-label="composite popover">
+                <Popover.Description>Anchored popover mounted inside the dialog.</Popover.Description>
+              </Popover.Content>
+            </Popover.Root>
+          </Dialog.Body>
+          <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+        </Dialog.Content>
       </Dialog.Root>
     </Shell>
   ),
@@ -98,38 +88,27 @@ export const WithPopoverMenu: Story = {
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup aria-label="stack dialog">
-            <Dialog.Header><Dialog.Title>Stacked overlays</Dialog.Title></Dialog.Header>
-            <Dialog.Body>
-              <Popover.Root defaultOpen>
-                <Popover.Trigger>Row details</Popover.Trigger>
-                <Popover.Portal>
-                  <Popover.Positioner>
-                    <Popover.Popup aria-label="stack popover">
-                      <Popover.Description>Row actions live in the menu.</Popover.Description>
-                      <Menu.Root defaultOpen>
-                        <Menu.Trigger>Actions</Menu.Trigger>
-                        <Menu.Portal>
-                          <Menu.Positioner>
-                            <Menu.Popup aria-label="stack menu">
-                              <Menu.Item>Edit</Menu.Item>
-                              <Menu.Item>Duplicate</Menu.Item>
-                              <Menu.Separator />
-                              <Menu.Item>Delete</Menu.Item>
-                            </Menu.Popup>
-                          </Menu.Positioner>
-                        </Menu.Portal>
-                      </Menu.Root>
-                    </Popover.Popup>
-                  </Popover.Positioner>
-                </Popover.Portal>
-              </Popover.Root>
-            </Dialog.Body>
-            <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content aria-label="stack dialog">
+          <Dialog.Header><Dialog.Title>Stacked overlays</Dialog.Title></Dialog.Header>
+          <Dialog.Body>
+            <Popover.Root defaultOpen>
+              <Popover.Trigger>Row details</Popover.Trigger>
+              <Popover.Content aria-label="stack popover">
+                <Popover.Description>Row actions live in the menu.</Popover.Description>
+                <Menu.Root defaultOpen>
+                  <Menu.Trigger>Actions</Menu.Trigger>
+                  <Menu.Content aria-label="stack menu">
+                    <Menu.Item>Edit</Menu.Item>
+                    <Menu.Item>Duplicate</Menu.Item>
+                    <Menu.Separator />
+                    <Menu.Item>Delete</Menu.Item>
+                  </Menu.Content>
+                </Menu.Root>
+              </Popover.Content>
+            </Popover.Root>
+          </Dialog.Body>
+          <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+        </Dialog.Content>
       </Dialog.Root>
     </Shell>
   ),
@@ -145,14 +124,11 @@ export const WithToastViewport: Story = {
         <Toast.Viewport />
       </Toast.Provider>
       <Dialog.Root defaultOpen>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup>
-            <Dialog.Header><Dialog.Title>Dialog over the toast region</Dialog.Title></Dialog.Header>
-            <Dialog.Body>The toast viewport stays outside the inert set.</Dialog.Body>
-            <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
-          </Dialog.Popup>
-        </Dialog.Portal>
+        <Dialog.Content>
+          <Dialog.Header><Dialog.Title>Dialog over the toast region</Dialog.Title></Dialog.Header>
+          <Dialog.Body>The toast viewport stays outside the inert set.</Dialog.Body>
+          <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
+        </Dialog.Content>
       </Dialog.Root>
     </Shell>
   ),

@@ -2,5 +2,5 @@
 import { Popover } from 'aura-glass';
 
 export function X() {
-  return <Popover.Positioner side="bottom" align="start"><Menu/></Popover.Positioner>;
+  return <Popover.Content side="bottom" align="start"><Menu/></Popover.Content>;
 }

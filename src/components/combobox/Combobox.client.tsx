@@ -507,5 +507,7 @@ export const Combobox = {
   Chips: ComboboxChips,
   Chip: ComboboxChip,
   ChipRemove: ComboboxChipRemove,
-  Loading: ComboboxLoading,
 };
+
+/** Not contract surface (REQ-CMP-06): in-repo composition only. */
+export { ComboboxLoading };

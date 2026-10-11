@@ -19,17 +19,14 @@ export const Confirm: Story = {
   render: () => (
     <AuraGlassProvider>
       <AlertDialog.Root defaultOpen>
-        <AlertDialog.Portal>
-          <AlertDialog.Backdrop />
-          <AlertDialog.Popup>
-            <AlertDialog.Title>Discard draft?</AlertDialog.Title>
-            <AlertDialog.Description>Your unsaved changes will be lost.</AlertDialog.Description>
-            <AlertDialog.Footer>
-              <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-              <AlertDialog.Action>Discard</AlertDialog.Action>
-            </AlertDialog.Footer>
-          </AlertDialog.Popup>
-        </AlertDialog.Portal>
+        <AlertDialog.Content>
+          <AlertDialog.Title>Discard draft?</AlertDialog.Title>
+          <AlertDialog.Description>Your unsaved changes will be lost.</AlertDialog.Description>
+          <AlertDialog.Footer>
+            <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+            <AlertDialog.Action>Discard</AlertDialog.Action>
+          </AlertDialog.Footer>
+        </AlertDialog.Content>
       </AlertDialog.Root>
     </AuraGlassProvider>
   ),
@@ -40,17 +37,14 @@ export const Danger: Story = {
   render: () => (
     <AuraGlassProvider>
       <AlertDialog.Root defaultOpen intent="danger">
-        <AlertDialog.Portal>
-          <AlertDialog.Backdrop />
-          <AlertDialog.Popup>
-            <AlertDialog.Title>Delete workspace?</AlertDialog.Title>
-            <AlertDialog.Description>This permanently removes the workspace and its data.</AlertDialog.Description>
-            <AlertDialog.Footer>
-              <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-              <AlertDialog.Action>Delete workspace</AlertDialog.Action>
-            </AlertDialog.Footer>
-          </AlertDialog.Popup>
-        </AlertDialog.Portal>
+        <AlertDialog.Content>
+          <AlertDialog.Title>Delete workspace?</AlertDialog.Title>
+          <AlertDialog.Description>This permanently removes the workspace and its data.</AlertDialog.Description>
+          <AlertDialog.Footer>
+            <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+            <AlertDialog.Action>Delete workspace</AlertDialog.Action>
+          </AlertDialog.Footer>
+        </AlertDialog.Content>
       </AlertDialog.Root>
     </AuraGlassProvider>
   ),
@@ -63,21 +57,18 @@ export const Anatomy: Story = {
     <AuraGlassProvider>
       <AlertDialog.Root defaultOpen>
         <AlertDialog.Trigger>Remove member</AlertDialog.Trigger>
-        <AlertDialog.Portal>
-          <AlertDialog.Backdrop />
-          <AlertDialog.Popup>
-            <AlertDialog.Header>
-              <AlertDialog.Title>Remove member?</AlertDialog.Title>
-            </AlertDialog.Header>
-            <AlertDialog.Body>
-              <AlertDialog.Description>They lose access to every project in this workspace.</AlertDialog.Description>
-            </AlertDialog.Body>
-            <AlertDialog.Footer>
-              <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-              <AlertDialog.Action>Remove</AlertDialog.Action>
-            </AlertDialog.Footer>
-          </AlertDialog.Popup>
-        </AlertDialog.Portal>
+        <AlertDialog.Content>
+          <AlertDialog.Header>
+            <AlertDialog.Title>Remove member?</AlertDialog.Title>
+          </AlertDialog.Header>
+          <AlertDialog.Body>
+            <AlertDialog.Description>They lose access to every project in this workspace.</AlertDialog.Description>
+          </AlertDialog.Body>
+          <AlertDialog.Footer>
+            <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+            <AlertDialog.Action>Remove</AlertDialog.Action>
+          </AlertDialog.Footer>
+        </AlertDialog.Content>
       </AlertDialog.Root>
     </AuraGlassProvider>
   ),

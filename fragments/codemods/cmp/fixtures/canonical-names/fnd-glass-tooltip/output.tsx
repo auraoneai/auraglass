@@ -2,5 +2,5 @@
 import { Tooltip } from 'aura-glass';
 
 export function X() {
-  return <Tooltip.Root><Tooltip.Trigger><Btn/></Tooltip.Trigger><Tooltip.Portal><Tooltip.Positioner side="top"><Tooltip.Popup>Hint</Tooltip.Popup></Tooltip.Positioner></Tooltip.Portal></Tooltip.Root>;
+  return <Tooltip.Root><Tooltip.Trigger><Btn/></Tooltip.Trigger><Tooltip.Content side="top">Hint</Tooltip.Content></Tooltip.Root>;
 }

@@ -32,13 +32,9 @@ export function GlassTooltip({ open, onOpenChange, content, label, position, pla
       {...(onOpenChange !== undefined ? { onOpenChange: (o: boolean, _d: OverlayOpenChangeDetails) => onOpenChange(o) } : {})}
     >
       <Tooltip.Trigger>{children}</Tooltip.Trigger>
-      <Tooltip.Portal>
-        <Tooltip.Positioner {...pos}>
-          <Tooltip.Popup {...(className !== undefined ? { className } : {})}>
-            {content ?? label}
-          </Tooltip.Popup>
-        </Tooltip.Positioner>
-      </Tooltip.Portal>
+      <Tooltip.Content {...pos} {...(className !== undefined ? { className } : {})}>
+        {content ?? label}
+      </Tooltip.Content>
     </Tooltip.Root>
   ));
 }

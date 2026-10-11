@@ -37,11 +37,7 @@ export function GlassHoverCard({ open, onOpenChange, trigger, content, placement
       >
         {trigger}
       </Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner {...pos}>
-          <Popover.Popup {...(className !== undefined ? { className } : {})}>{content}</Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
+      <Popover.Content {...pos} {...(className !== undefined ? { className } : {})}>{content}</Popover.Content>
     </Popover.Root>
   ));
 }

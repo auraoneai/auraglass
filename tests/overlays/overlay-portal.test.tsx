@@ -24,13 +24,13 @@ beforeAll(() => {
 });
 
 const families: [string, (open: boolean) => React.ReactElement][] = [
-  ['Dialog', (open) => <Dialog.Root open={open}><Dialog.Portal><Dialog.Popup>body</Dialog.Popup></Dialog.Portal></Dialog.Root>],
-  ['AlertDialog', (open) => <AlertDialog.Root open={open}><AlertDialog.Portal><AlertDialog.Popup>body</AlertDialog.Popup></AlertDialog.Portal></AlertDialog.Root>],
-  ['Sheet', (open) => <Sheet.Root open={open}><Sheet.Portal><Sheet.Popup>body</Sheet.Popup></Sheet.Portal></Sheet.Root>],
-  ['Popover', (open) => <Popover.Root open={open}><Popover.Trigger>t</Popover.Trigger><Popover.Portal><Popover.Positioner><Popover.Popup>body</Popover.Popup></Popover.Positioner></Popover.Portal></Popover.Root>],
-  ['Tooltip', (open) => <Tooltip.Provider><Tooltip.Root open={open}><Tooltip.Trigger>t</Tooltip.Trigger><Tooltip.Portal><Tooltip.Positioner><Tooltip.Popup>body</Tooltip.Popup></Tooltip.Positioner></Tooltip.Portal></Tooltip.Root></Tooltip.Provider>],
-  ['Menu', (open) => <Menu.Root open={open}><Menu.Portal><Menu.Positioner><Menu.Popup><Menu.Item>body</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal></Menu.Root>],
-  ['ContextMenu', (open) => <ContextMenu.Root open={open}><ContextMenu.Trigger>t</ContextMenu.Trigger><ContextMenu.Portal><ContextMenu.Positioner><ContextMenu.Popup><ContextMenu.Item>body</ContextMenu.Item></ContextMenu.Popup></ContextMenu.Positioner></ContextMenu.Portal></ContextMenu.Root>],
+  ['Dialog', (open) => <Dialog.Root open={open}><Dialog.Content backdrop={false}>body</Dialog.Content></Dialog.Root>],
+  ['AlertDialog', (open) => <AlertDialog.Root open={open}><AlertDialog.Content backdrop={false}>body</AlertDialog.Content></AlertDialog.Root>],
+  ['Sheet', (open) => <Sheet.Root open={open}><Sheet.Content backdrop={false}>body</Sheet.Content></Sheet.Root>],
+  ['Popover', (open) => <Popover.Root open={open}><Popover.Trigger>t</Popover.Trigger><Popover.Content>body</Popover.Content></Popover.Root>],
+  ['Tooltip', (open) => <Tooltip.Provider><Tooltip.Root open={open}><Tooltip.Trigger>t</Tooltip.Trigger><Tooltip.Content>body</Tooltip.Content></Tooltip.Root></Tooltip.Provider>],
+  ['Menu', (open) => <Menu.Root open={open}><Menu.Content><Menu.Item>body</Menu.Item></Menu.Content></Menu.Root>],
+  ['ContextMenu', (open) => <ContextMenu.Root open={open}><ContextMenu.Trigger>t</ContextMenu.Trigger><ContextMenu.Content><ContextMenu.Item>body</ContextMenu.Item></ContextMenu.Content></ContextMenu.Root>],
   ['Select', (open) => <Select.Root open={open} defaultValue="a"><Select.Trigger placeholder="t" /><Select.Content><Select.Item value="a" label="Alpha" /></Select.Content></Select.Root>],
   ['Combobox', (open) => <Combobox.Root open={open} items={['alpha', 'beta']} defaultValue="alpha"><Combobox.Input placeholder="t" /><Combobox.Content><Combobox.Item value="alpha">Alpha</Combobox.Item></Combobox.Content></Combobox.Root>],
 ];
@@ -99,7 +99,7 @@ describe('overlay-portal (REQ-CMP-11)', () => {
 
   it('no provider: popup still renders (BU default container) + one-time warn', async () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    render(<Dialog.Root open><Dialog.Portal><Dialog.Popup>body</Dialog.Popup></Dialog.Portal></Dialog.Root>);
+    render(<Dialog.Root open><Dialog.Content backdrop={false}>body</Dialog.Content></Dialog.Root>);
     await act(async () => {});
     await act(async () => {});
     expect(document.querySelector('[data-ag-part="popup"], .ag-dialog')).not.toBeNull();

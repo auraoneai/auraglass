@@ -45,6 +45,14 @@ export interface TooltipPopupProps extends React.HTMLAttributes<HTMLDivElement> 
   children?: React.ReactNode;
 }
 
+/** Content = Portal > Positioner > Popup (REQ-CMP-06): the placement props go to the
+    positioner, `keepMounted` to the portal, everything else to the popup. */
+export interface TooltipContentProps extends TooltipPopupProps,
+  Pick<TooltipPositionerProps, 'side' | 'align' | 'sideOffset' | 'collisionPadding'> {
+  keepMounted?: boolean | undefined;
+  ref?: React.Ref<HTMLDivElement> | undefined;
+}
+
 export interface TooltipArrowProps extends React.HTMLAttributes<HTMLElement> {
   render?: RenderProp | undefined;
 }

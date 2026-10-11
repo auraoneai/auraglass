@@ -15,6 +15,7 @@ import { cn } from '../../internal';
 import type {
   TooltipProviderProps, TooltipRootProps, TooltipTriggerProps,
   TooltipPortalProps, TooltipPositionerProps, TooltipPopupProps, TooltipArrowProps,
+  TooltipContentProps,
 } from './Tooltip.types';
 
 interface TooltipCtx {
@@ -166,6 +167,23 @@ const TooltipPopup = React.forwardRef<HTMLDivElement, TooltipPopupProps>(
   },
 );
 
+/* REQ-CMP-06: the contract Content part is the whole overlay stack, so callers never
+   compose the internal Portal/Positioner/Popup themselves. */
+function TooltipContent({ side, align, sideOffset, collisionPadding, keepMounted, ref, ...popupProps }: TooltipContentProps) {
+  return (
+    <TooltipPortal {...(keepMounted !== undefined ? { keepMounted } : {})}>
+      <TooltipPositioner
+        {...(side !== undefined ? { side } : {})}
+        {...(align !== undefined ? { align } : {})}
+        {...(sideOffset !== undefined ? { sideOffset } : {})}
+        {...(collisionPadding !== undefined ? { collisionPadding } : {})}
+      >
+        <TooltipPopup {...(ref !== undefined ? { ref } : {})} {...popupProps} />
+      </TooltipPositioner>
+    </TooltipPortal>
+  );
+}
+
 const TooltipArrow = React.forwardRef<HTMLDivElement, TooltipArrowProps>(
   function TooltipArrow({ className, ...rest }, ref) {
     return <Base.Arrow ref={ref} data-ag-part="arrow" className={cn('ag-tooltip-arrow', className)} {...rest} />;
@@ -176,9 +194,10 @@ export const Tooltip = {
   Provider: TooltipProvider,
   Root: TooltipRoot,
   Trigger: TooltipTrigger,
-  Portal: TooltipPortal,
-  Positioner: TooltipPositioner,
-  Popup: TooltipPopup,
   Arrow: TooltipArrow,
-  Content: TooltipPopup,
+  /** Contract composite: Content = Portal>Positioner>Popup. */
+  Content: TooltipContent,
 };
+
+/** Internal overlay parts (not contract surface, REQ-CMP-06): in-repo composition only. */
+export { TooltipPortal, TooltipPositioner, TooltipPopup };

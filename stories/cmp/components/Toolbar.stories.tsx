@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Toolbar } from '../../../src/components/toolbar';
+import { IconButton } from '../../../src/components/icon-button';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
@@ -24,7 +25,7 @@ export const Default: Story = {
   render: (args) => (
     <Toolbar.Root {...args}>
       <Toolbar.Button>Bold</Toolbar.Button>
-      <Toolbar.IconButton label="Undo" icon={<I d="↩" />} />
+      <Toolbar.Button render={<IconButton label="Undo" icon={<I d="↩" />} />} />
       <Toolbar.Separator />
       <Toolbar.Link href="/docs">Docs</Toolbar.Link>
     </Toolbar.Root>
@@ -38,8 +39,8 @@ export const Overview: Story = {
       <Toolbar.Button>Italic</Toolbar.Button>
       <Toolbar.Separator />
       <Toolbar.Group>
-        <Toolbar.IconButton label="Undo" icon={<I d="↩" />} />
-        <Toolbar.IconButton label="Redo" icon={<I d="↪" />} />
+        <Toolbar.Button render={<IconButton label="Undo" icon={<I d="↩" />} />} />
+        <Toolbar.Button render={<IconButton label="Redo" icon={<I d="↪" />} />} />
       </Toolbar.Group>
       <Toolbar.Link href="/docs">Docs</Toolbar.Link>
     </Toolbar.Root>
@@ -50,8 +51,8 @@ export const Vertical: Story = {
   args: { 'aria-label': 'Tools' },
   render: () => (
     <Toolbar.Root aria-label="Tools" orientation="vertical">
-      <Toolbar.IconButton label="Select" icon={<I d="V" />} />
-      <Toolbar.IconButton label="Move" icon={<I d="M" />} />
+      <Toolbar.Button render={<IconButton label="Select" icon={<I d="V" />} />} />
+      <Toolbar.Button render={<IconButton label="Move" icon={<I d="M" />} />} />
     </Toolbar.Root>
   ),
 };
