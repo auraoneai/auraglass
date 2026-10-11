@@ -1,0 +1,24 @@
+{
+  "req": "REQ-PLAT-59",
+  "reqFin": "REQ-FIN-36",
+  "fix": "prefers-contrast: more honoured (fallback text/bg tokens)",
+  "selector": "@media (prefers-contrast: more)",
+  "source": "src/styles/glass.css",
+  "textRuns": [
+    {
+      "id": "fallback-text",
+      "foreground": "var(--glass-backdrop-fallback-text)",
+      "background": "var(--glass-backdrop-fallback-bg)",
+      "minRatio": 7
+    }
+  ],
+  "measurement": {
+    "status": "pending",
+    "tool": "plat:test:visual-4x",
+    "note": "Contrast is written only by the plat:test:visual-4x lane from rendered pixels, with its job artifact URL. No hand-entered ratios (PRD-F §4 prohibited shortcuts).",
+    "ratio": null,
+    "artifactUrl": null,
+    "jobUrl": null,
+    "sha": null
+  }
+}

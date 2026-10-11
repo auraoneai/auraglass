@@ -40,9 +40,10 @@
   --glass-text-disabled: rgba(
     var(--glass-color-white) / var(--glass-opacity-40)
   );
-  --glass-backdrop-fallback-text: rgba(
-    var(--glass-color-white) / var(--glass-opacity-100)
-  );
+  /* REQ-PLAT-59 — dark on-surface in OKLCH: L >= 0.92, C <= 0.02. */
+  --glass-on-surface: oklch(0.96 0.01 90);
+  --glass-on-surface-muted: oklch(0.92 0.015 90);
+  --glass-backdrop-fallback-text: var(--glass-on-surface);
 
   /* === FOCUS TOKENS === */
   --glass-focus-color: hsl(

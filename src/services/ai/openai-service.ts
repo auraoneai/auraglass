@@ -4,6 +4,10 @@ import { z } from "../../vendor/zod";
 import { AIConfig } from "./config";
 import { CacheService } from "./cache-service";
 import { ErrorHandler } from "./error-handler";
+import { warnDeprecated } from "../../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0047");
 
 export type OpenAIClientFactory = (options: {
   apiKey: string;

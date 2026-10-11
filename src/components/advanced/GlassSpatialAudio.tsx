@@ -942,7 +942,7 @@ export function GlassSpatialVisualizer({
                     }}
                     animate={
                       prefersReducedMotion
-                        ? {}
+                        ? undefined
                         : { scale: [1, 3, 1], opacity: [0.3, 0, 0.3] }
                     }
                     transition={
