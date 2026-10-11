@@ -32,7 +32,7 @@ describe('bare import drop (REQ-PLAT-70)', () => {
         bundle: true, write: false, minify: true, format: 'esm',
         external: EXTERNALS, treeShaking: true,
       });
-      rows.push({ subpath: e.subpath, gz: gzipSync(res.outputFiles[0].contents, { level: 9 }).length });
+      rows.push({ subpath: e.subpath, gz: gzipSync(res.outputFiles[0]!.contents, { level: 9 }).length });
     }
     expect(rows.filter(r => r.gz > BARE_IMPORT_BYTES)).toEqual([]);
   }, 120_000);

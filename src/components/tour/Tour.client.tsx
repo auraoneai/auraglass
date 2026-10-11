@@ -95,7 +95,10 @@ export const Tour = {
           <Popover.Portal>
             <Popover.Positioner anchor={anchor ?? undefined} sideOffset={8} collisionPadding={8} className="ag-tour-positioner">
               <Popover.Popup aria-labelledby={titleId}>
-                <FocusScope autoFocus={false} restoreFocus={false}>
+                {/* CMP-028: keyed per step so each step autofocuses its first control;
+                    Tab loops inside the card. Restore stays with the
+                    REQ-CMP-128 opener ref above. */}
+                <FocusScope key={index} loop autoFocus restoreFocus={false} className="ag-tour-focus-scope" style={{ display: 'contents' }}>
                 <TourStep
                   titleId={titleId}
                   title={current.title}
