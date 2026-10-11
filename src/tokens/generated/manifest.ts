@@ -241,6 +241,118 @@ export const manifest = {
      "count": 1
     }
    ],
+   "value": "28px"
+  },
+  {
+   "name": "comp.readout.sm-spacious",
+   "cssVar": "--ag-comp-control-height-sm-spacious",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "32px"
+  },
+  {
+   "name": "comp.switch.track-h-lg",
+   "cssVar": "--ag-switch-track-h-lg",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "30px"
+  },
+  {
+   "name": "comp.switch.track-h-md",
+   "cssVar": "--ag-switch-track-h-md",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "22px"
+  },
+  {
+   "name": "comp.switch.track-h-sm",
+   "cssVar": "--ag-switch-track-h-sm",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "18px"
+  },
+  {
+   "name": "comp.switch.track-w-lg",
+   "cssVar": "--ag-switch-track-w-lg",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "52px"
+  },
+  {
+   "name": "comp.switch.track-w-md",
+   "cssVar": "--ag-switch-track-w-md",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "40px"
+  },
+  {
+   "name": "comp.switch.track-w-sm",
+   "cssVar": "--ag-switch-track-w-sm",
+   "type": "dimension",
+   "tier": "comp",
+   "group": "comp",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "32px"
   },
   {
