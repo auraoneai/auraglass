@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "aura-glass": "4.9.0",
+    "react": "19.0.0",
+    "@radix-ui/react-dialog": "1.0.0",
+    "@mui/material": "6.0.0"
+  }
+}

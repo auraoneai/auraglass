@@ -1,0 +1,29 @@
+/* analytics layout only (REQ-QUAL-59 property allowlist). */
+.page {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  container-type: inline-size;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 1rem;
+}
+
+.filterChart,
+.pages {
+  display: grid;
+  gap: 0.75rem;
+  min-inline-size: 0;
+}
+
+.heading {
+  margin: 0;
+}
+
+.mark {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+}
