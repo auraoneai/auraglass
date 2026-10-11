@@ -162,6 +162,17 @@ describe('Table (SURF-155)', () => {
     expect(announceCalls).toEqual(['Sorted by Qty, ascending', 'Sorted by Qty, descending', 'Sorting cleared for Qty']);
   });
 
+  // REQ-SURF-68: the first activation of a sort header announces exactly one
+  // message through useAnnouncer (the keyboard path runs in the remote
+  // table.apg.spec.ts — jsdom does not synthesize Enter -> click).
+  it('first activation announces exactly "Sorted by Qty, ascending" via useAnnouncer', () => {
+    render(<T />);
+    const btn = screen.getByRole('button', { name: 'Sort by Qty' });
+    fireEvent.click(btn);
+    expect(announceCalls).toEqual(['Sorted by Qty, ascending']);
+    expect(btn.closest('th')!.getAttribute('aria-sort')).toBe('ascending');
+  });
+
   it('numeric column first activation sorts ascending', () => {
     const { container } = render(<T />);
     const qtyBtn = container.querySelectorAll('[data-ag-part="table-sort-trigger"]')[1]! as HTMLElement;
@@ -368,20 +379,70 @@ describe('Table (SURF-155)', () => {
     expect(spy).toHaveBeenCalledWith({ block: 'center' });
   });
 
-  it('toggle every boolean prop never throws', () => {
-    const flags = {
-      enableMultiSort: true,
-      enableColumnResizing: true,
-      enableColumnReordering: true,
-      manualPagination: true,
-      manualSorting: true,
-      stickyHeader: true,
-      loading: true,
-    } as const;
-    const { rerender, container } = render(<T {...flags} />);
-    rerender(<T />);
-    rerender(<T {...flags} />);
-    expect(bodyRows(container).length).toBe(3);
+  // REQ-SURF-77: rules-of-hooks at runtime — flipping any boolean prop of
+  // TableProps (one at a time and all at once, false -> true -> false) must
+  // keep the same hook order and keep rendering every row. virtualize needs a
+  // height-bearing scroller, so the layout reads are mocked for this case.
+  describe('toggle every boolean prop (REQ-SURF-77)', () => {
+    const BOOLEAN_PROPS = [
+      'enableMultiSort',
+      'enableColumnResizing',
+      'enableColumnReordering',
+      'manualPagination',
+      'manualSorting',
+      'virtualize',
+      'stickyHeader',
+      'loading',
+    ] as const;
+    const restore: (() => void)[] = [];
+    beforeEach(() => {
+      jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(
+        () => ({ x: 0, y: 0, top: 0, left: 0, right: 800, bottom: 400, width: 800, height: 400, toJSON: () => ({}) }) as DOMRect,
+      );
+      for (const [key, value] of [['clientHeight', 400], ['offsetHeight', 400], ['offsetWidth', 800]] as const) {
+        const prev = Object.getOwnPropertyDescriptor(HTMLElement.prototype, key);
+        Object.defineProperty(HTMLElement.prototype, key, { configurable: true, get: () => value });
+        restore.push(() => (prev ? Object.defineProperty(HTMLElement.prototype, key, prev) : undefined));
+      }
+    });
+    afterEach(() => {
+      while (restore.length) restore.pop()!();
+      jest.restoreAllMocks();
+    });
+
+    const ids = (c: HTMLElement) => [...bodyRows(c)].map((r) => r.getAttribute('data-row-id')).sort();
+
+    it('covers all 8 boolean props of TableProps', () => {
+      // Compile-time: every listed name is a boolean-accepting TableProps key.
+      const typed: readonly (keyof Parameters<typeof Table<Row>>[0])[] = BOOLEAN_PROPS;
+      expect(typed).toHaveLength(8);
+    });
+
+    it.each(BOOLEAN_PROPS)('%s: false -> true -> false keeps rendering all rows', (prop) => {
+      const errors = jest.spyOn(console, 'error').mockImplementation(() => undefined);
+      const { rerender, container } = render(<T {...{ [prop]: false }} />);
+      expect(ids(container)).toEqual(['a', 'b', 'c']);
+      rerender(<T {...{ [prop]: true }} />);
+      expect(ids(container)).toEqual(['a', 'b', 'c']);
+      rerender(<T {...{ [prop]: false }} />);
+      expect(ids(container)).toEqual(['a', 'b', 'c']);
+      // A hook-order change surfaces as a React console.error before throwing.
+      expect(errors).not.toHaveBeenCalled();
+    });
+
+    it('all 8 at once: false -> true -> false keeps rendering all rows', () => {
+      const errors = jest.spyOn(console, 'error').mockImplementation(() => undefined);
+      const all = (v: boolean) => Object.fromEntries(BOOLEAN_PROPS.map((p) => [p, v]));
+      const { rerender, container } = render(<T {...all(false)} selectionMode="multiple" />);
+      expect(ids(container)).toEqual(['a', 'b', 'c']);
+      rerender(<T {...all(true)} selectionMode="multiple" />);
+      expect(ids(container)).toEqual(['a', 'b', 'c']);
+      expect(container.querySelector('table')!.getAttribute('aria-rowcount')).toBe('4');
+      rerender(<T {...all(false)} selectionMode="multiple" />);
+      expect(ids(container)).toEqual(['a', 'b', 'c']);
+      expect(container.querySelector('table')!.hasAttribute('aria-rowcount')).toBe(false);
+      expect(errors).not.toHaveBeenCalled();
+    });
   });
 
   it('onRowAction fires with the row datum', () => {

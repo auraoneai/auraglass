@@ -80,6 +80,27 @@ surf:test:types:
     when: always
     paths:
       - .artifacts/surf/types/
+
+# REQ-SURF-77 (REQ-FIN-83): L1 lint over src/data — eslint (incl.
+# react-hooks/rules-of-hooks at error and the auraglass/* rules) with 0
+# warnings, plus the rules-of-hooks Linter test. Blocking: no allow_failure.
+surf:test:lint-data:
+  extends: .surf-base
+  stage: test
+  allow_failure: false
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
+  script:
+    - mkdir -p .artifacts/surf/lint-data
+    - 'npx eslint src/data --max-warnings 0 --format stylish -o .artifacts/surf/lint-data/eslint.txt || { cat .artifacts/surf/lint-data/eslint.txt; exit 1; }'
+    - 'echo "eslint src/data - 0 problems" | tee -a .artifacts/surf/lint-data/eslint.txt'
+    - npx jest --ci tests/lint/surf/rules-of-hooks.test.ts
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/lint-data/
 # --- lane W2 end ---
 
 # --- lane W3 begin ---

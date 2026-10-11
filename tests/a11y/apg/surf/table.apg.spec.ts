@@ -67,6 +67,30 @@ test.describe('table grid APG (REQ-SURF-73)', () => {
     expect(await page.evaluate(() => !!document.activeElement?.closest('[role="grid"]'))).toBe(false);
   });
 
+  // REQ-SURF-68: a sort header activated from the keyboard cycles aria-sort
+  // none -> ascending -> descending -> none (sortDescFirst false, removal on).
+  test('sort header via keyboard: aria-sort transitions', async ({ page }) => {
+    const subjects = await listSubjects({});
+    const story = subjects.find((s) => s.subject === 'Table' && s.id.endsWith('--basic'));
+    expect(story, 'Table Basic story must be registered').toBeDefined();
+    await gotoStory(page, story!.id);
+    const sortBtn = page.getByRole('button', { name: 'Sort by Quantity' });
+    const th = page.locator('th', { has: sortBtn });
+    await expect(th).toHaveAttribute('aria-sort', 'none');
+    await sortBtn.focus();
+    await page.keyboard.press('Enter');
+    await expect(th).toHaveAttribute('aria-sort', 'ascending');
+    await page.keyboard.press('Space');
+    await expect(th).toHaveAttribute('aria-sort', 'descending');
+    await page.keyboard.press('Enter');
+    await expect(th).toHaveAttribute('aria-sort', 'none');
+    // only one column is sorted at a time (enableMultiSort off)
+    await page.keyboard.press('Enter');
+    await expect(page.locator('th[aria-sort="ascending"], th[aria-sort="descending"]')).toHaveCount(1);
+    // focus stays on the sort button across re-sorts
+    await expect(sortBtn).toBeFocused();
+  });
+
   test('column resize separator via keyboard', async ({ page }) => {
     const subjects = await listSubjects({});
     const story = subjects.find((s) => s.subject === 'Table' && s.id.endsWith('--resize-reorder'));
