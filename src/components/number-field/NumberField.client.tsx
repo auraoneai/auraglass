@@ -5,6 +5,7 @@ import { NumberField as Base } from '@base-ui/react/number-field';
 import { Field as BaseField } from '@base-ui/react/field';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
+import { materialProps } from '../../material';
 import { sizeAttrs } from '../control-shared/size';
 import { CONTROL_MESSAGES } from '../control-shared/messages';
 import type { NumberFieldProps } from './NumberField.types';
@@ -55,7 +56,9 @@ export function NumberField({
         onValueChange={(v, details) => onValueChange?.(v, toChangeDetails(details))}
         disabled={disabled}
         {...(rest.defaultValue === null ? {} : { defaultValue: rest.defaultValue })}
-        {...(rest.value === null ? {} : { value: rest.value })}
+        /* REQ-CMP-75: null is a valid controlled-empty — only omit value when
+           it is undefined so a controlled empty actually clears. */
+        {...(rest.value !== undefined ? { value: rest.value } : {})}
         min={rest.min}
         max={rest.max}
         step={rest.step}
@@ -72,7 +75,11 @@ export function NumberField({
         ) : (
           labelEl
         )}
-        <Base.Group className="ag-nf-shell" data-ag-part="group">
+        <Base.Group
+          className="ag-nf-shell"
+          data-ag-part="group"
+          {...materialProps({ layer: 'content', content: 'content-sunken' })}
+        >
           <Base.Decrement data-ag-part="decrement" aria-label={labels?.decrease ?? CONTROL_MESSAGES.decrease} tabIndex={-1}>
             <span aria-hidden="true">−</span>
           </Base.Decrement>

@@ -3,7 +3,8 @@ import '@testing-library/jest-dom/jest-globals';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import { NumberField, parseNumber, clampValue, formatNumber, snapToStep } from './index';
+import { NumberField } from './index';
+import { parseNumber, clampValue, formatNumber, snapToStep } from './parse';
 
 describe('NumberField (CMP-156)', () => {
   it('renders a spinbutton wired to label and emits parts', () => {
@@ -77,4 +78,26 @@ describe('parse/clamp/snap utils (CMP-157)', () => {
     expect(dec).toHaveAttribute('aria-label', 'Less');
   });
 
+  it('REQ-CMP-75: controlled value={null} passes through and clears', () => {
+    const { container, rerender } = render(<NumberField label="qty" value={null} />);
+    const input = container.querySelector('input') as HTMLInputElement;
+    expect(input.value).toBe('');
+    rerender(<NumberField label="qty" value={5} />);
+    expect(input.value).toBe('5');
+    rerender(<NumberField label="qty" value={null} />);
+    expect(input.value).toBe('');
+  });
+
+  it('REQ-CMP-75: scrub renders the scrub-area part', () => {
+    const { container } = render(<NumberField label="qty" scrub defaultValue={2} />);
+    expect(container.querySelector('[data-ag-part="scrub-area"]')).toBeTruthy();
+    expect(container.querySelector('[data-ag-part="scrub-area"]')?.textContent).toBe('qty');
+  });
+
+  it('REQ-CMP-75: group shell carries the content-sunken material', () => {
+    const { container } = render(<NumberField label="qty" defaultValue={2} />);
+    const group = container.querySelector('[data-ag-part="group"]');
+    expect(group).toHaveAttribute('data-ag-layer', 'content');
+    expect(group).toHaveAttribute('data-ag-content', 'content-sunken');
+  });
 });
