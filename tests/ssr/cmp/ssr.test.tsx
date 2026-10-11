@@ -43,12 +43,17 @@ function pickStories(name: string): { file: string; name: string; element: React
 // BU composite registration resolves after hydration: data-index="-1" → real
 // index, generated ids land, tabindex/aria refs update. Compare markup modulo
 // those artifacts — anything else rewritten is a real SSR/hydration defect.
-const norm = (html: string) => html
-  // Base UI Avatar starts its image request after hydration. Only its loading
-  // marker may appear; keep the image/fallback content in the comparison.
-  .replace(/<span\b[^>]*>/g, (tag) => /\bclass="[^"]*\bag-avatar(?:\s|")/.test(tag)
-    ? tag.replace(/\sdata-loading(?:="")?/g, '')
-    : tag)
+function normalizeAvatarLoading(html: string): string {
+  const template = document.createElement('template');
+  template.innerHTML = html;
+  // The loading marker can live on Base UI's image part as well as its root.
+  // Restrict this exception to Avatar; retain image source and fallback content.
+  template.content.querySelectorAll('.ag-avatar[data-loading], .ag-avatar [data-ag-part="image"][data-loading]')
+    .forEach((element) => element.removeAttribute('data-loading'));
+  return template.innerHTML;
+}
+
+const norm = (html: string) => normalizeAvatarLoading(html)
   // Tabs measures scroll geometry after hydration; SSR cannot know overflow.
   .replace(/\sdata-overflow-(start|end)="(true|false)"/g, '')
   // BU focus-guard spans + popup-position/base-ui internal attrs — client-only
