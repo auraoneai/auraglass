@@ -327,7 +327,8 @@
     "storybook": "storybook dev -p 6006",
     "prebuild-storybook": "node scripts/ensure-component-inventory.js",
     "build-storybook": "storybook build",
-    "prepublishOnly": "node scripts/ci/require-ci-publish.js && npm run build && npm run verify:pack && npm run verify:css-vars && npm run test:integration:next -- --skip-build && npm run test:integration:vite -- --skip-build",
+    "prepublishOnly": "node scripts/ci/require-ci-publish.js && npm run prepublish:verify",
+    "prepublish:verify": "npm run build && npm run verify:pack && npm run verify:css-vars && npm run test:integration:next -- --skip-build && npm run test:integration:vite -- --skip-build",
     "verify:pack": "node scripts/ci/verify-pack.js",
     "verify:css-vars": "node scripts/ci/check-undefined-custom-props.mjs",
     "size-check": "bundlesize",
@@ -554,6 +555,7 @@
     "tailwind-merge": "^3.3.1"
   },
   "overrides": {
+    "brotli-size": "4.0.0",
     "@grpc/grpc-js": "^1.14.4",
     "@opentelemetry/core": "^2.9.0",
     "@opentelemetry/resources": "^2.9.0",
