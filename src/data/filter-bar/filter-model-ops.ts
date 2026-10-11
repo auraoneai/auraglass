@@ -3,10 +3,15 @@
 import type { FilterGroup, FilterModel, FilterNode, FilterRule } from './filter-model';
 import { isGroup } from './filter-model';
 
+/* SURF-085: identity-preserving updates — a subtree is only re-created when
+   a descendant actually changed; untouched branches keep their objects so
+   memoized consumers (React.memo on group refs) don't re-render. */
+
 function updateNode(node: FilterNode, fn: (g: FilterGroup) => FilterGroup, targetId: string): FilterNode {
   if (node.kind === 'rule') return node;
   if (node.id === targetId) return fn(node);
-  return { ...node, children: node.children.map((c) => updateNode(c, fn, targetId)) };
+  const children = node.children.map((c) => updateNode(c, fn, targetId));
+  return children.every((c, i) => c === node.children[i]) ? node : { ...node, children };
 }
 
 function withoutRule(node: FilterNode, ruleId: string): FilterNode | null {
@@ -14,22 +19,26 @@ function withoutRule(node: FilterNode, ruleId: string): FilterNode | null {
   const children = node.children
     .map((c) => withoutRule(c, ruleId))
     .filter((c): c is FilterNode => c !== null);
-  return { ...node, children };
+  return children.length === node.children.length && children.every((c, i) => c === node.children[i])
+    ? node
+    : { ...node, children };
 }
 
 function withoutGroup(node: FilterNode, groupId: string, rootId: string): FilterNode {
   if (node.kind === 'rule') return node;
-  return {
-    ...node,
-    children: node.children
-      .filter((c) => !(c.kind === 'group' && c.id === groupId && c.id !== rootId))
-      .map((c) => withoutGroup(c, groupId, rootId)),
-  };
+  const filtered = node.children.filter(
+    (c) => !(c.kind === 'group' && c.id === groupId && c.id !== rootId),
+  );
+  const children = filtered.map((c) => withoutGroup(c, groupId, rootId));
+  return children.length === node.children.length && children.every((c, i) => c === node.children[i])
+    ? node
+    : { ...node, children };
 }
 
 function withRulePatch(node: FilterNode, ruleId: string, patch: Partial<Omit<FilterRule, 'id' | 'kind'>>): FilterNode {
   if (node.kind === 'rule') return node.id === ruleId ? ({ ...node, ...patch } as FilterRule) : node;
-  return { ...node, children: node.children.map((c) => withRulePatch(c, ruleId, patch)) };
+  const children = node.children.map((c) => withRulePatch(c, ruleId, patch));
+  return children.every((c, i) => c === node.children[i]) ? node : { ...node, children };
 }
 
 /** applyModel(root, fn) — runs a model-shaped mutation set, returns the new root. */

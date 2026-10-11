@@ -6,6 +6,12 @@ import * as React from "react";
 import { Table } from "./Table";
 import type { TableColumnDef } from "./types";
 
+// jsdom lacks PointerEvent; BU Checkbox dispatches it on activation.
+if (typeof window.PointerEvent !== "function") {
+  (window as unknown as { PointerEvent: typeof MouseEvent }).PointerEvent =
+    MouseEvent;
+}
+
 type Row = { id: string; name: string; qty: number };
 const DATA: Row[] = [{ id: "a", name: "Atlas", qty: 3 }];
 const COLS: TableColumnDef<Row>[] = [
@@ -39,6 +45,9 @@ describe("Table DOM contract (SURF-159, REQ-SURF-75)", () => {
         "table-header",
         "table-header-cell",
         "table-selection-all",
+        "hit-area",
+        "indicator",
+        "icon",
         "table-header-cell",
         "table-sort-trigger",
         "table-resize-handle",
@@ -48,7 +57,10 @@ describe("Table DOM contract (SURF-159, REQ-SURF-75)", () => {
         "table-body",
         "table-row",
         "table-selection-cell",
-        "table-selection-cell",
+        "table-selection",
+        "hit-area",
+        "indicator",
+        "icon",
         "table-cell",
         "table-cell",
       ]

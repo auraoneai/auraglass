@@ -2,12 +2,12 @@
 
 @layer ag.components {
   .ag-sparkline { display: block; overflow: visible; }
-  .ag-sparkline__line { stroke: var(--_ag-sparkline-color, var(--ag-accent, Highlight)); stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
-  .ag-sparkline__area { fill: var(--_ag-sparkline-color, var(--ag-accent, Highlight)); fill-opacity: 0.15; }
-  .ag-sparkline__bar { fill: var(--_ag-sparkline-color, var(--ag-accent, Highlight)); }
-  .ag-sparkline__dot { fill: var(--_ag-sparkline-color, var(--ag-accent, Highlight)); }
-  .ag-sparkline[data-ag-intent="info"] { --_ag-sparkline-color: var(--ag-info, Highlight); }
-  .ag-sparkline[data-ag-intent="success"] { --_ag-sparkline-color: var(--ag-success, Green); }
-  .ag-sparkline[data-ag-intent="danger"] { --_ag-sparkline-color: var(--ag-danger, Red); }
-  .ag-sparkline[data-ag-intent="neutral"] { --_ag-sparkline-color: var(--ag-fg-muted, CanvasText); }
+  .ag-sparkline__line { stroke: var(--_ag-sparkline-color, var(--_ag-accent, Highlight)); stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
+  .ag-sparkline__area { fill: var(--_ag-sparkline-color, var(--_ag-accent, Highlight)); fill-opacity: 0.15; }
+  .ag-sparkline__bar { fill: var(--_ag-sparkline-color, var(--_ag-accent, Highlight)); }
+  .ag-sparkline__dot { fill: var(--_ag-sparkline-color, var(--_ag-accent, Highlight)); }
+  .ag-sparkline[data-ag-intent="info"] { --_ag-sparkline-color: var(--_ag-info, Highlight); }
+  .ag-sparkline[data-ag-intent="success"] { --_ag-sparkline-color: var(--_ag-success, Green); }
+  .ag-sparkline[data-ag-intent="danger"] { --_ag-sparkline-color: var(--_ag-danger, Red); }
+  .ag-sparkline[data-ag-intent="neutral"] { --_ag-sparkline-color: var(--_ag-fg-muted, CanvasText); }
 }

@@ -554,4 +554,62 @@ const w4 = [
 ] as const;
 // --- lane W4 end ---
 
-export default [...w4] satisfies DeprecationFragment;
+// --- lane SURF-34 begin ---
+// REQ-SURF-34: 4.x navigation/top-bar names -> 5.0 app-shell family. Same
+// contract as the app-shell block: adapters live in compat until 6.0.0.
+const surf34 = [
+  {
+    id: 'DEP-S0633',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'GlassNavigation',
+    since: '4.3.0',
+    removeIn: '6.0.0',
+    replacement: 'Sidebar + Sidebar.Nav from aura-glass/app-shell',
+    codemod: 'app-shell-slots',
+    automation: 'partial',
+    breaking: 'B4',
+    message:
+      'GlassNavigation is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to Sidebar + Sidebar.Nav from aura-glass/app-shell.',
+    doc: '#dep-s0633',
+    compat: 'GlassNavigation',
+  },
+  {
+    id: 'DEP-S0634',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'GlassTopBar',
+    since: '4.3.0',
+    removeIn: '6.0.0',
+    replacement: 'TopBar.Root from aura-glass/app-shell',
+    codemod: 'app-shell-slots',
+    automation: 'partial',
+    breaking: 'B4',
+    message:
+      'GlassTopBar is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to TopBar.Root from aura-glass/app-shell.',
+    doc: '#dep-s0634',
+    compat: 'GlassTopBar',
+  },
+  {
+    id: 'DEP-S0635',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'GlassHeader',
+    since: '4.3.0',
+    removeIn: '6.0.0',
+    replacement: 'TopBar.Root from aura-glass/app-shell',
+    codemod: 'app-shell-slots',
+    automation: 'partial',
+    breaking: 'B4',
+    message:
+      'GlassHeader is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to TopBar.Root from aura-glass/app-shell.',
+    doc: '#dep-s0635',
+    compat: 'GlassHeader',
+  },
+] as const;
+// --- lane SURF-34 end ---
+
+export default [...w4, ...surf34] satisfies DeprecationFragment;

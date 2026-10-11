@@ -4,17 +4,17 @@
    inset offset; nothing here uses element selectors or outline:none. */
 @layer ag.a11y {
   :where([data-ag-focusable], .ag-focusable):focus-visible {
-    outline: var(--ag-focus-width, 2px) solid var(--ag-focus-outer, var(--ag-color-focus-outer, Highlight));
-    outline-offset: var(--ag-focus-offset, var(--ag-focus-width, 2px));
-    box-shadow: 0 0 0 var(--ag-focus-width, 2px) var(--ag-focus-inner, var(--ag-color-focus-inner, transparent)), var(--_ag-shadow, 0 0 #0000);
+    outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus-outer, var(--ag-color-focus-outer, Highlight));
+    outline-offset: var(--_ag-focus-offset, var(--_ag-focus-width, 2px));
+    box-shadow: 0 0 0 var(--_ag-focus-width, 2px) var(--_ag-focus-inner, var(--ag-color-focus-inner, transparent)), var(--_ag-shadow, 0 0 #0000);
   }
   :where([data-ag-focus-inset]) {
-    --ag-focus-offset: -2px;
+    --_ag-focus-offset: -2px;
   }
   @media (forced-colors: active) {
     :where([data-ag-focusable], .ag-focusable):focus-visible {
       outline: 2px solid Highlight;
-      outline-offset: var(--ag-focus-width, 2px);
+      outline-offset: var(--_ag-focus-width, 2px);
       box-shadow: none;
     }
   }

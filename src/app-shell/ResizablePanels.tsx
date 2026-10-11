@@ -19,10 +19,17 @@ import {
 
 type Orientation = 'horizontal' | 'vertical';
 
-interface PanelSpec extends PanelConstraint {
+interface PanelSpec {
   id: string;
-  defaultSize?: number | undefined;
+  defaultSize?: number | `${number}px` | undefined;
+  min?: number | `${number}px` | undefined;
+  max?: number | `${number}px` | undefined;
+  collapsible?: boolean | undefined;
+  collapsedSize?: number | `${number}px` | undefined;
+  expandedSize?: number | `${number}px` | undefined;
   label?: string | undefined;
+  onCollapse?: (() => void) | undefined;
+  onExpand?: (() => void) | undefined;
 }
 
 interface PanelsCtx {
@@ -38,6 +45,9 @@ interface PanelsCtx {
   commit(next: number[]): void;
   constraintsOf(index: number): PanelConstraint | undefined;
   idOf(index: number): string | undefined;
+  labelOf(index: number): string | undefined;
+  seedFor(id: string): number | undefined;
+  labels?: { resize?: string | undefined } | undefined;
   handleIndexFor(el: HTMLElement): number;
   rootEl(): HTMLElement | null;
   panelEl(id: string): HTMLElement | null;
@@ -54,6 +64,8 @@ export type ResizablePanelsRootProps = Omit<PartProps<'div'>, 'onLayout'> & {
   keyboardStepLarge?: number | undefined;
   /** Container width below which horizontal panels stack vertically. */
   stackBelow?: number | undefined;
+  /** i18n label templates; '{panel}' is replaced by the panel label/id. */
+  labels?: { resize?: string | undefined } | undefined;
 };
 
 function ResizablePanelsRoot({
@@ -64,6 +76,7 @@ function ResizablePanelsRoot({
   keyboardStep = 2,
   keyboardStepLarge = 10,
   stackBelow,
+  labels,
   children,
   render,
   ...rest
@@ -72,14 +85,27 @@ function ResizablePanelsRoot({
   const specsRef = React.useRef<PanelSpec[]>([]);
   const layoutRef = React.useRef<number[]>([]);
 
+  // Convert a number|px-string spec into a percent against the root rect.
+  // No measurable rect (SSR/jsdom) → px strings behave like percents.
+  const toPct = (v: number | `${number}px` | undefined): number | undefined => {
+    if (v === undefined) return undefined;
+    if (typeof v === 'number') return v;
+    const px = parseFloat(v);
+    const el = rootRef.current;
+    const extent = el
+      ? orientation === 'horizontal' ? el.getBoundingClientRect().width : el.getBoundingClientRect().height
+      : 0;
+    return extent > 0 ? (px / extent) * 100 : px;
+  };
+
   const constraints = () =>
     specsRef.current.map(
       (s): PanelConstraint => ({
-        min: s.min,
-        max: s.max,
+        min: toPct(s.min),
+        max: toPct(s.max),
         collapsible: s.collapsible,
-        collapsedSize: s.collapsedSize,
-        expandedSize: s.expandedSize,
+        collapsedSize: toPct(s.collapsedSize) ?? 0,
+        expandedSize: toPct(s.expandedSize),
       }),
     );
 
@@ -104,7 +130,7 @@ function ResizablePanelsRoot({
       saved ??
       (defaultLayout && defaultLayout.length === n
         ? [...defaultLayout]
-        : specsRef.current.map((s) => s.defaultSize ?? 100 / n));
+        : specsRef.current.map((s) => toPct(s.defaultSize) ?? 100 / n));
     const cons = constraints();
     layoutRef.current = seed.map((v, i) => {
       const c = cons[i];
@@ -150,10 +176,13 @@ function ResizablePanelsRoot({
     if (!c?.collapsible || cur === undefined) return;
     const collapsedSize = c.collapsedSize ?? 0;
     // collapsePanel/expandPanel honor collapsedSize below the panel's min.
-    layoutRef.current =
-      cur <= collapsedSize + Number.EPSILON
-        ? expandPanel(layoutRef.current, cons, left)
-        : collapsePanel(layoutRef.current, cons, left);
+    const collapsing = cur > collapsedSize + Number.EPSILON;
+    layoutRef.current = collapsing
+      ? collapsePanel(layoutRef.current, cons, left)
+      : expandPanel(layoutRef.current, cons, left);
+    const spec = specsRef.current[left];
+    if (collapsing) spec?.onCollapse?.();
+    else spec?.onExpand?.();
     for (const [i, spec] of specsRef.current.entries()) {
       const v = layoutRef.current[i];
       if (v !== undefined) writeBasis(spec.id, v);
@@ -181,6 +210,12 @@ function ResizablePanelsRoot({
     commit,
     constraintsOf: (i) => constraints()[i],
     idOf: (i) => specsRef.current[i]?.id,
+    labelOf: (i) => specsRef.current[i]?.label,
+    seedFor: (id) => {
+      const i = specsRef.current.findIndex((sp) => sp.id === id);
+      return defaultLayout && i >= 0 ? defaultLayout[i] : undefined;
+    },
+    labels,
     handleIndexFor: (el) =>
       Array.from(
         rootRef.current?.querySelectorAll<HTMLElement>('[data-ag-part="resize-handle"]') ?? [],
@@ -189,6 +224,21 @@ function ResizablePanelsRoot({
     panelEl: (id) =>
       rootRef.current?.querySelector<HTMLElement>(`[data-ag-panel="${id}"]`) ?? null,
   };
+
+  // stackBelow (SURF-46): a @container query can't take a runtime px value,
+  // so a ResizeObserver flips data-ag-stacked; CSS stacks + hides handles.
+  React.useLayoutEffect(() => {
+    const el = rootRef.current;
+    if (!el || stackBelow === undefined || orientation !== 'horizontal') return;
+    const apply = () => {
+      el.dataset['agStacked'] = el.getBoundingClientRect().width < stackBelow ? 'true' : 'false';
+    };
+    apply();
+    if (typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(apply);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [stackBelow, orientation]);
 
   return (
     <Ctx.Provider value={ctx}>
@@ -210,13 +260,16 @@ ResizablePanelsRoot.displayName = 'ResizablePanels.Root';
 
 export type ResizablePanelProps = PartProps<'div'> & {
   id: string;
-  defaultSize?: number | undefined;
-  minSize?: number | undefined;
-  maxSize?: number | undefined;
+  /** Percent, or a pixel string like '240px' converted against the root rect. */
+  defaultSize?: number | `${number}px` | undefined;
+  minSize?: number | `${number}px` | undefined;
+  maxSize?: number | `${number}px` | undefined;
   collapsible?: boolean | undefined;
-  collapsedSize?: number | undefined;
-  expandedSize?: number | undefined;
+  collapsedSize?: number | `${number}px` | undefined;
+  expandedSize?: number | `${number}px` | undefined;
   label?: string | undefined;
+  onCollapse?: (() => void) | undefined;
+  onExpand?: (() => void) | undefined;
 };
 
 function ResizablePanel({
@@ -228,6 +281,8 @@ function ResizablePanel({
   collapsedSize,
   expandedSize,
   label,
+  onCollapse,
+  onExpand,
   children,
   render,
   style,
@@ -236,16 +291,27 @@ function ResizablePanel({
   const ctx = React.useContext(Ctx);
   // Register during render (idempotent upsert by id) so sibling handles can
   // read this panel's constraints at first paint; unmount cleanup runs in an
-  // effect.
+  // effect. Pixel strings stay raw — the ctx converts against the root rect.
   if (ctx) {
-    ctx.register({ id, defaultSize, label, min: minSize, max: maxSize, collapsible, collapsedSize, expandedSize });
+    ctx.register({
+      id, label, collapsible,
+      defaultSize,
+      min: minSize, max: maxSize,
+      collapsedSize, expandedSize,
+      onCollapse, onExpand,
+    });
   }
   React.useEffect(() => () => ctx?.unregister(id), [ctx, id]);
+  // SSR basis: explicit defaultSize, else the defaultLayout seed for this
+  // registration index (px strings defer to the layout effect).
+  const seed = defaultSize !== undefined ? defaultSize : ctx?.seedFor(id);
+  const basis = typeof seed === 'number' ? `${seed}%` : undefined;
   return partElement('div', {
     render,
+    id,
     'data-ag-panel': id,
     'data-ag-part': 'resizable-panel',
-    style: { ...style, flexBasis: defaultSize !== undefined ? `${defaultSize}%` : undefined },
+    style: { ...style, flexBasis: basis },
     ...rest,
     children,
   });
@@ -255,9 +321,13 @@ ResizablePanel.displayName = 'ResizablePanels.Panel';
 export type ResizableHandleProps = PartProps<'div'> & {
   /** Accessible label for the separator (defaults from the preceding panel). */
   label?: string | undefined;
+  /** Disabled: aria-disabled + no listeners. */
+  disabled?: boolean | undefined;
+  /** Render the grip affordance span. */
+  withGrip?: boolean | undefined;
 };
 
-function ResizableHandle({ label, render, ...rest }: ResizableHandleProps) {
+function ResizableHandle({ label, disabled = false, withGrip = false, render, ...rest }: ResizableHandleProps) {
   const ctx = React.useContext(Ctx);
   const ref = React.useRef<HTMLElement | null>(null);
   const raf = React.useRef<number | null>(null);
@@ -301,8 +371,8 @@ function ResizableHandle({ label, render, ...rest }: ResizableHandleProps) {
     if (raf.current === null) raf.current = requestAnimationFrame(flush);
   };
 
-  const onPointerUp = (e: React.PointerEvent<HTMLElement>) => {
-    if (!ctx || !drag.current || drag.current.pointerId !== e.pointerId) return;
+  const endDrag = (e: React.PointerEvent<HTMLElement> | React.BaseSyntheticEvent) => {
+    if (!ctx || !drag.current) return;
     drag.current = null;
     if (raf.current !== null) {
       cancelAnimationFrame(raf.current);
@@ -312,6 +382,9 @@ function ResizableHandle({ label, render, ...rest }: ResizableHandleProps) {
     ctx.commit([...ctx.layout]);
     setAriaNow(ctx.layout[handleIndex()]);
   };
+  const onPointerUp = endDrag;
+  const onPointerCancel = endDrag;
+  const onLostPointerCapture = endDrag;
 
   const applyKey = (h: number, delta: number) => {
     ctx!.resize(h, delta);
@@ -324,8 +397,13 @@ function ResizableHandle({ label, render, ...rest }: ResizableHandleProps) {
     const h = handleIndex();
     const step = e.shiftKey ? ctx.keyboardStepLarge : ctx.keyboardStep;
     const horiz = ctx.orientation === 'horizontal';
-    const fwd = horiz ? 'ArrowRight' : 'ArrowDown';
-    const back = horiz ? 'ArrowLeft' : 'ArrowUp';
+    // RTL flips the horizontal pair (SURF-44).
+    const rtl =
+      horiz &&
+      (ref.current?.closest('[dir]')?.getAttribute('dir') ??
+        document.documentElement.dir) === 'rtl';
+    const fwd = horiz ? (rtl ? 'ArrowLeft' : 'ArrowRight') : 'ArrowDown';
+    const back = horiz ? (rtl ? 'ArrowRight' : 'ArrowLeft') : 'ArrowUp';
     if (e.key === fwd) {
       e.preventDefault();
       applyKey(h, step);
@@ -357,25 +435,33 @@ function ResizableHandle({ label, render, ...rest }: ResizableHandleProps) {
   const idx = handleIndex();
   const panelId = ctx?.idOf(idx);
   const constraint = ctx?.constraintsOf(idx);
+  const panelLabel = ctx?.labelOf(idx) ?? panelId ?? 'panel';
+  const defaultLabel = (ctx?.labels?.resize ?? 'Resize {panel}').replace('{panel}', panelLabel);
 
   return partElement('div', {
     render,
     ref,
     role: 'separator',
-    'aria-orientation': ctx?.orientation === 'vertical' ? 'vertical' : 'horizontal',
+    // APG window-splitter: a separator between left/right panes is oriented
+    // vertically (SURF-44).
+    'aria-orientation': ctx?.orientation === 'horizontal' ? 'vertical' : 'horizontal',
     ...(ariaNow !== undefined ? { 'aria-valuenow': Math.round(ariaNow) } : {}),
     'aria-valuemin': Math.round(constraint?.min ?? 0),
     'aria-valuemax': Math.round(constraint?.max ?? 100),
     ...(panelId ? { 'aria-controls': panelId } : {}),
-    'aria-label': label ?? 'Resize panels',
+    'aria-label': label ?? defaultLabel,
     tabIndex: 0,
+    ...(disabled ? { 'aria-disabled': 'true' } : {}),
     'data-ag-part': 'resize-handle',
     className: 'ag-panels__handle',
-    onPointerDown,
-    onPointerMove,
-    onPointerUp,
-    onKeyDown,
+    ...(disabled ? {} : { onPointerDown, onPointerMove, onPointerUp, onPointerCancel, onLostPointerCapture, onKeyDown }),
     ...rest,
+    children: (
+      <>
+        {withGrip ? <span className="ag-panels__grip" aria-hidden="true" /> : null}
+        {(rest as { children?: React.ReactNode }).children}
+      </>
+    ),
   });
 }
 ResizableHandle.displayName = 'ResizablePanels.Handle';

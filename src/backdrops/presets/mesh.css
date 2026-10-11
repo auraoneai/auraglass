@@ -1,13 +1,13 @@
 /* mesh — 4 positioned radial blobs over a linear base. One element. */
 @layer backdrops {
   .ag-backdrop[data-ag-backdrop-preset='mesh'] .ag-backdrop-layer {
-    background-color: var(--ag-surface-page, Canvas);
+    background-color: var(--_ag-surface-page, Canvas);
     background-image:
-      radial-gradient(45% 45% at 15% 25%, color-mix(in oklch, var(--ag-color-1, oklch(0.72 0.19 275)) 55%, transparent), transparent 70%),
-      radial-gradient(40% 50% at 85% 20%, color-mix(in oklch, var(--ag-color-2, oklch(0.72 0.17 250)) 50%, transparent), transparent 70%),
-      radial-gradient(50% 40% at 25% 85%, color-mix(in oklch, var(--ag-color-4, oklch(0.72 0.15 160)) 45%, transparent), transparent 70%),
-      radial-gradient(45% 55% at 75% 80%, color-mix(in oklch, var(--ag-color-6, oklch(0.68 0.16 30)) 45%, transparent), transparent 72%),
-      linear-gradient(160deg, var(--ag-surface-page, Canvas), color-mix(in oklch, var(--ag-surface-page, Canvas) 92%, var(--ag-color-1, oklch(0.72 0.19 275))));
+      radial-gradient(45% 45% at 15% 25%, color-mix(in oklch, var(--_ag-color-1, oklch(0.72 0.19 275)) 55%, transparent), transparent 70%),
+      radial-gradient(40% 50% at 85% 20%, color-mix(in oklch, var(--_ag-color-2, oklch(0.72 0.17 250)) 50%, transparent), transparent 70%),
+      radial-gradient(50% 40% at 25% 85%, color-mix(in oklch, var(--_ag-color-4, oklch(0.72 0.15 160)) 45%, transparent), transparent 70%),
+      radial-gradient(45% 55% at 75% 80%, color-mix(in oklch, var(--_ag-color-6, oklch(0.68 0.16 30)) 45%, transparent), transparent 72%),
+      linear-gradient(160deg, var(--_ag-surface-page, Canvas), color-mix(in oklch, var(--_ag-surface-page, Canvas) 92%, var(--_ag-color-1, oklch(0.72 0.19 275))));
     background-repeat: no-repeat;
   }
 }

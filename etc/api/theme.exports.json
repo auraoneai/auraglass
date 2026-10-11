@@ -1,17 +1,20 @@
 {
- "entry": "./theme",
- "exports": [
-  "AuraGlassProvider",
-  "AuraGlassScript",
-  "GlassPreferencesPanel",
-  "auraGlassPrepaintScript",
-  "createBrandGlassTheme",
-  "createBrandTheme",
-  "createGlassTheme",
-  "createGlassThemeCssVars",
-  "presets",
-  "usePreference",
-  "usePreferenceActions",
-  "useResolvedPreferences"
- ]
+  "entry": "./theme",
+  "exports": [
+    "AuraGlassProvider",
+    "AuraGlassScript",
+    "GlassPreferencesPanel",
+    "auraGlassPrepaintScript",
+    "createBrandGlassTheme",
+    "createBrandTheme",
+    "createGlassTheme",
+    "createGlassThemeCssVars",
+    "presets",
+    "useAnnouncer",
+    "useLayer",
+    "usePortalContainer",
+    "usePreference",
+    "usePreferenceActions",
+    "useResolvedPreferences"
+  ]
 }
