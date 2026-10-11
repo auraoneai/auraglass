@@ -15,13 +15,18 @@ function* walk(dir: string): Generator<string> {
   }
 }
 
+// Match module specifiers (import/export-from/dynamic import/require), not prose
+// that names a peer in a comment.
+const importsPeer = (src: string, peer: string): boolean =>
+  new RegExp(`(?:\\bfrom\\s*|\\bimport\\s*\\(?\\s*|\\brequire\\s*\\(\\s*)['"]${peer.replace(/[/.]/g, '\\$&')}(?:/[^'"]*)?['"]`).test(src);
+
 describe('peer isolation (SURF-142)', () => {
   it('react-aria-components only in src/date + src/data/tree-view', () => {
     const bad: string[] = [];
     for (const f of walk(join(ROOT, 'src'))) {
       const rel = relative(ROOT, f).replace(/\\/g, '/');
       const src = readFileSync(f, 'utf8');
-      if (/react-aria-components/.test(src) && !(rel.startsWith('src/date/') || rel.startsWith('src/data/tree-view/'))) bad.push(rel);
+      if (importsPeer(src, 'react-aria-components') && !(rel.startsWith('src/date/') || rel.startsWith('src/data/tree-view/'))) bad.push(rel);
     }
     expect(bad).toEqual([]);
   });
@@ -49,7 +54,7 @@ describe('peer isolation (SURF-142)', () => {
     const bad: string[] = [];
     for (const f of walk(join(ROOT, 'src'))) {
       const rel = relative(ROOT, f).replace(/\\/g, '/');
-      if (/@internationalized\/date/.test(readFileSync(f, 'utf8')) && !(rel.startsWith('src/date/') || rel.startsWith('src/compat/surf/date/'))) bad.push(rel);
+      if (importsPeer(readFileSync(f, 'utf8'), '@internationalized/date') && !(rel.startsWith('src/date/') || rel.startsWith('src/compat/surf/date/'))) bad.push(rel);
     }
     expect(bad).toEqual([]);
   });
