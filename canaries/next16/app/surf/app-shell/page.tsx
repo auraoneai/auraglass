@@ -5,17 +5,17 @@
 // so a persisted 'sidebar:rail' paints as rail and hydrates without a
 // mismatch (tests/ssr/surf/hydration.spec.ts).
 import { cookies } from 'next/headers';
-import { AppShell, AppShellSidebarToggle, Sidebar, TopBar, StatusBar, parseAppShellCookie } from 'aura-glass/app-shell';
+import { AppShell, Sidebar, TopBar, StatusBar } from 'aura-glass/app-shell';
 
 const PERSIST_KEY = 'canary';
 
 export default async function AppShellCanaryPage() {
   const store = await cookies();
-  const shell = parseAppShellCookie(store.get(`ag-shell-${PERSIST_KEY}`)?.value);
+  const shell = AppShell.parseCookie(store.get(`ag-shell-${PERSIST_KEY}`)?.value);
   return (
     <AppShell.Root persistKey={PERSIST_KEY} defaultSidebar={shell.sidebar} defaultInspector={shell.inspector}>
       <TopBar.Root>
-        <AppShellSidebarToggle />
+        <AppShell.SidebarToggle />
         <strong>AuraGlass Next canary</strong>
       </TopBar.Root>
       <Sidebar.Root labels={{ navigation: 'Primary' }}>
