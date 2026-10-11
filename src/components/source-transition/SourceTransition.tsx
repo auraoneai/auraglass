@@ -15,7 +15,9 @@ type TransitionState = { active: string | null };
 const Ctx = React.createContext<{
   active: string | null;
   begin: (id: string) => void;
-}>({ active: null, begin: () => {} });
+  /** SURF-064: Root-level source registry (dev error on duplicate ids). */
+  registerSource: (id: string) => () => void;
+}>({ active: null, begin: () => {}, registerSource: () => () => {} });
 
 const sanitize = (id: string) => id.replace(/[^a-zA-Z0-9_-]/g, '-');
 
@@ -43,7 +45,26 @@ function SourceTransitionRoot({ onTransition, children, render, ...rest }: Sourc
     [onTransition],
   );
 
-  const ctx = React.useMemo(() => ({ active: state.active, begin }), [state.active, begin]);
+  const sources = React.useRef<Map<string, number>>(new Map());
+  const registerSource = React.useCallback((id: string) => {
+    const n = sources.current.get(id) ?? 0;
+    if (n > 0 && process.env['NODE_ENV'] !== 'production') {
+      console.error(
+        `[auraglass] SourceTransition: duplicate Source id "${id}" — view-transition names must be unique per Root.`,
+      );
+    }
+    sources.current.set(id, n + 1);
+    return () => {
+      const left = (sources.current.get(id) ?? 1) - 1;
+      if (left <= 0) sources.current.delete(id);
+      else sources.current.set(id, left);
+    };
+  }, []);
+
+  const ctx = React.useMemo(
+    () => ({ active: state.active, begin, registerSource }),
+    [state.active, begin, registerSource],
+  );
   return (
     <Ctx.Provider value={ctx}>
       {partElement('div', {
@@ -59,20 +80,24 @@ SourceTransitionRoot.displayName = 'SourceTransition.Root';
 
 export type TransitionSourceProps = PartProps<'div'> & { id: string };
 
-function Source({ id, children, render, style, ...rest }: TransitionSourceProps) {
-  const { active, begin } = React.useContext(Ctx);
-  const transitioning = active === id;
+function Source({ id, children, render, style, onClick, ...rest }: TransitionSourceProps) {
+  const { begin, registerSource } = React.useContext(Ctx);
+  React.useLayoutEffect(() => registerSource(id), [registerSource, id]);
+  // The view-transition-name is written imperatively by SourceTransitionStart
+  // (set for the old snapshot, removed inside the update) — never from render
+  // state, which would re-apply it after the update moved it.
   return partElement('div', {
     render: render as React.ReactElement | undefined,
     'data-ag-part': 'source',
     'data-ag-src': sanitize(id),
     'data-ag-vt-participant': '',
-    style: {
-      ...style,
-      viewTransitionName: transitioning ? `ag-src-${sanitize(id)}` : undefined,
-    },
-    onClick: () => begin(id),
+    style,
     ...rest,
+    // Compose the consumer's onClick (runs first; preventDefault opts out).
+    onClick: (e: React.MouseEvent<HTMLDivElement>) => {
+      onClick?.(e);
+      if (!e.defaultPrevented) begin(id);
+    },
     children,
   });
 }
@@ -116,6 +141,10 @@ export function SourceTransitionStart(id: string, update: () => void): Promise<v
       source.style.viewTransitionName = name;
     });
   }
+  const clear = () => {
+    if (source) source.style.viewTransitionName = '';
+    if (dest) dest.style.viewTransitionName = '';
+  };
   return startMorph(
     () =>
       flushSync(() => {
@@ -134,7 +163,7 @@ export function SourceTransitionStart(id: string, update: () => void): Promise<v
         }
       }),
     { surfaces: [source, dest].filter((e): e is HTMLElement => e !== null), name },
-  );
+  ).finally(clear);
 }
 
 export function startSourceTransition(root: HTMLElement, id: string, update: () => void): void {

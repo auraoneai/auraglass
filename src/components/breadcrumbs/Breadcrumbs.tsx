@@ -69,18 +69,36 @@ function BreadcrumbsRoot({
     ...rest,
     children: (
       <ol data-ag-part="list" className="ag-breadcrumbs__list">
-        {head}
-        {collapse ? (
-          <li data-ag-part="item">
-            <BreadcrumbsOverflow label={moreLabel} items={middle} />
-          </li>
-        ) : null}
-        {tail}
+        {withSeparators([
+          ...head,
+          ...(collapse
+            ? [
+                <BreadcrumbsItem key="ag-breadcrumbs-overflow">
+                  <BreadcrumbsOverflow label={moreLabel} items={middle} />
+                </BreadcrumbsItem>,
+              ]
+            : []),
+          ...tail,
+        ])}
       </ol>
     ),
   });
 }
 BreadcrumbsRoot.displayName = 'Breadcrumbs.Root';
+
+/* SURF-055: separators sit *between* items — every Item except the last gets
+   one (an explicit `separator` prop wins); the last/Current item has none. */
+function withSeparators(children: React.ReactNode): React.ReactNode[] {
+  const list = React.Children.toArray(children).filter(Boolean);
+  return list.map((child, i) => {
+    if (!React.isValidElement(child) || child.type !== BreadcrumbsItem) return child;
+    const props = child.props as BreadcrumbsItemProps;
+    if (props.separator !== undefined) return child;
+    return React.cloneElement(child as React.ReactElement<BreadcrumbsItemProps>, {
+      separator: i < list.length - 1,
+    });
+  });
+}
 
 export function BreadcrumbsList({ children, render, ...rest }: PartProps<'ol'>) {
   return partElement('ol', {
@@ -88,12 +106,17 @@ export function BreadcrumbsList({ children, render, ...rest }: PartProps<'ol'>) 
     'data-ag-part': 'list',
     className: 'ag-breadcrumbs__list',
     ...rest,
-    children,
+    children: withSeparators(children),
   });
 }
 BreadcrumbsList.displayName = 'Breadcrumbs.List';
 
-export function BreadcrumbsItem({ children, render, ...rest }: PartProps<'li'>) {
+export type BreadcrumbsItemProps = PartProps<'li'> & {
+  /** Trailing separator. Root/List set it on every item but the last. */
+  separator?: boolean | undefined;
+};
+
+export function BreadcrumbsItem({ separator = false, children, render, ...rest }: BreadcrumbsItemProps) {
   return partElement('li', {
     render: render as React.ReactElement | undefined,
     'data-ag-part': 'item',
@@ -101,7 +124,7 @@ export function BreadcrumbsItem({ children, render, ...rest }: PartProps<'li'>) 
     children: (
       <>
         {children}
-        <BreadcrumbsSeparator />
+        {separator ? <BreadcrumbsSeparator /> : null}
       </>
     ),
   });
@@ -111,11 +134,15 @@ BreadcrumbsItem.displayName = 'Breadcrumbs.Item';
 export type BreadcrumbsLinkProps = PartProps<'a'> & { href: string };
 
 function BreadcrumbsLink({ href, children, render, ...rest }: BreadcrumbsLinkProps) {
+  // SURF-057: links truncate at 16ch (CSS); a plain-text label stays the
+  // full accessible name and the hover title.
+  const fullText = typeof children === 'string' || typeof children === 'number' ? String(children) : undefined;
   return partElement('a', {
     render: render as React.ReactElement | undefined,
     href,
     'data-ag-part': 'link',
     className: 'ag-breadcrumbs__link',
+    ...(fullText !== undefined ? { title: fullText } : {}),
     ...rest,
     children,
   });
@@ -146,6 +173,20 @@ export function BreadcrumbsSeparator({ render, ...rest }: PartProps<'span'>) {
 }
 BreadcrumbsSeparator.displayName = 'Breadcrumbs.Separator';
 
+/** Static, server-safe ellipsis glyph (aria-hidden). The interactive
+    overflow menu is Breadcrumbs.Overflow (client island). */
+export function BreadcrumbsEllipsis({ render, ...rest }: PartProps<'span'>) {
+  return partElement('span', {
+    render: render as React.ReactElement | undefined,
+    'data-ag-part': 'ellipsis',
+    'aria-hidden': true,
+    className: 'ag-breadcrumbs__ellipsis',
+    ...rest,
+    children: '\u2026',
+  });
+}
+BreadcrumbsEllipsis.displayName = 'Breadcrumbs.Ellipsis';
+
 export const Breadcrumbs = {
   Root: BreadcrumbsRoot,
   List: BreadcrumbsList,
@@ -153,5 +194,6 @@ export const Breadcrumbs = {
   Link: BreadcrumbsLink,
   Current: BreadcrumbsCurrent,
   Separator: BreadcrumbsSeparator,
-  Ellipsis: BreadcrumbsOverflow,
+  Ellipsis: BreadcrumbsEllipsis,
+  Overflow: BreadcrumbsOverflow,
 };

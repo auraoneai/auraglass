@@ -1,0 +1,30 @@
+{
+  "licence": "CC0-1.0",
+  "source": "Original artwork drawn from deterministic SVG by scripts/qual/showcase/generate-assets.mjs (no third-party imagery).",
+  "files": [
+    {
+      "file": "still-harbor.avif",
+      "width": 1280,
+      "height": 720,
+      "format": "avif"
+    },
+    {
+      "file": "still-ridge.avif",
+      "width": 1280,
+      "height": 720,
+      "format": "avif"
+    },
+    {
+      "file": "still-dunes.avif",
+      "width": 1280,
+      "height": 720,
+      "format": "avif"
+    },
+    {
+      "file": "still-night.avif",
+      "width": 1280,
+      "height": 720,
+      "format": "avif"
+    }
+  ]
+}

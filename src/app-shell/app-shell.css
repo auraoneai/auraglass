@@ -25,7 +25,8 @@
       var(--_ag-app-shell-side) minmax(0, 1fr) var(--_ag-app-shell-insp);
     gap: var(--_ag-app-shell-gap);
     grid-template-rows: auto auto minmax(0, 1fr) auto;
-    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
     padding-block-end: env(safe-area-inset-bottom);
   }
 
@@ -129,9 +130,10 @@
     grid-template-rows: auto auto minmax(0, 1fr) auto;
     padding-block-start: env(safe-area-inset-top);
   }
-  /* SURF-054: the bottom tab bar only exists in compact — hide at >=600
-     under auto layout (the <600 container query below re-enables it). */
-  .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'] {
+  /* SURF-054: the bottom *bar* only exists in compact — hide it at >=600
+     under auto layout (the <600 container query below re-enables it); a
+     floating tab bar stays visible at every width. */
+  .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'][data-ag-appearance='bar'] {
     display: none;
   }
   .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='tabbar'] {

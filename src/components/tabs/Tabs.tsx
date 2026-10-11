@@ -9,15 +9,18 @@ import { flushSync } from 'react-dom';
 import { Tabs as BaseTabs } from '@base-ui/react/tabs';
 import { startMorph } from '../../motion';
 import { useTabBarPanel } from '../tab-bar/TabBar';
+import { PanelRegistryContext, useOwnOrOuterPanelRegistry } from '../tab-bar/panelRegistry';
+import { toChangeDetails } from '../../foundation';
 import { partElement } from '../../app-shell/_internal/partElement';
-import type { PartProps } from '../../contracts/components';
+import type { ChangeDetails, PartProps } from '../../contracts/components';
 
 export type TabsValue = string;
 
 export type TabsRootProps = Omit<PartProps<'div'>, 'onChange' | 'defaultValue'> & {
   value?: TabsValue | undefined;
   defaultValue?: TabsValue | undefined;
-  onValueChange?: ((value: TabsValue, details?: unknown) => void) | undefined;
+  /** (value, details) — details.reason comes from Base UI's event details (SURF-047). */
+  onValueChange?: ((value: TabsValue, details: ChangeDetails) => void) | undefined;
   orientation?: 'horizontal' | 'vertical' | undefined;
   /** Roving focus activates the focused tab (default false — manual activation). */
   activateOnFocus?: boolean | undefined;
@@ -49,7 +52,7 @@ function TabsRoot({
     (value ?? defaultValue ?? null) as TabsValue | null,
   );
   const change = React.useCallback(
-    (v: unknown) => {
+    (v: unknown, eventDetails?: unknown) => {
       const next = v as TabsValue;
       const apply = () => {
         setActive(next);
@@ -62,14 +65,18 @@ function TabsRoot({
       } else {
         apply();
       }
-      onValueChange?.(next);
+      onValueChange?.(next, toChangeDetails(eventDetails));
     },
     [onValueChange],
   );
   React.useEffect(() => {
     if (value !== undefined) setActive(value);
   }, [value]);
+  // SURF-051: share a panel registry with a TabBar(semantics='tabs') placed
+  // inside or around this root.
+  const registry = useOwnOrOuterPanelRegistry();
   return (
+    <PanelRegistryContext.Provider value={registry}>
     <TabsCtx.Provider value={{ idBase, active, activateOnFocus }}>
       <BaseTabs.Root
         value={(value ?? active) as never}
@@ -88,6 +95,7 @@ function TabsRoot({
         })}
       />
     </TabsCtx.Provider>
+    </PanelRegistryContext.Provider>
   );
 }
 TabsRoot.displayName = 'Tabs.Root';
@@ -148,7 +156,7 @@ export type TabsTabProps = Omit<PartProps<'button'>, 'value'> & {
   disabled?: boolean | undefined;
 };
 
-function TabsTab({ value, children, render, ...rest }: TabsTabProps) {
+function TabsTab({ value, disabled, children, render, ...rest }: TabsTabProps) {
   // BU owns the tab<->panel id pair (aria-controls/aria-labelledby resolve
   // natively both ways, SURF-048) — we only add the part contract.
   const el = partElement('button', {
@@ -160,6 +168,7 @@ function TabsTab({ value, children, render, ...rest }: TabsTabProps) {
   return (
     <BaseTabs.Tab
       value={value as never}
+      {...(disabled !== undefined ? { disabled } : {})}
       render={((props: object, state: object) =>
         React.cloneElement(el as React.ReactElement<Record<string, unknown>>, {
           ...(props as Record<string, unknown>),
@@ -185,17 +194,26 @@ function TabsPanel({ value, keepMounted, children, render, ...rest }: TabsPanelP
   // Register into an enclosing TabBar (semantics='tabs' dev-check) — noop
   // outside one (SURF-051).
   useTabBarPanel(value);
+  const el = partElement('div', {
+    render: render as React.ReactElement | undefined,
+    'data-ag-part': 'panel',
+    className: 'ag-tabs__panel',
+    ...rest,
+    children,
+  });
+  // SURF-050: data-state from the Base UI state render function (BU reports
+  // `hidden` for an inactive panel).
   return (
     <BaseTabs.Panel
       value={value as never}
       keepMounted={keepMounted}
-      render={partElement('div', {
-        render: render as React.ReactElement | undefined,
-        'data-ag-part': 'panel',
-        className: 'ag-tabs__panel',
-        ...rest,
-        children,
-      })}
+      render={((props: object, state: object) =>
+        React.cloneElement(el as React.ReactElement<Record<string, unknown>>, {
+          ...(props as Record<string, unknown>),
+          'data-state': (state as { hidden?: boolean }).hidden ? 'inactive' : 'active',
+          'data-ag-part': 'panel',
+          className: 'ag-tabs__panel',
+        })) as never}
     />
   );
 }
@@ -209,6 +227,7 @@ export function TabsIndicator({ render, ...rest }: PartProps<'div'>) {
         render,
         'data-ag-part': 'indicator',
         'data-ag-vt-participant': '',
+        'data-state': 'active',
         className: 'ag-tabs__indicator',
         style: { viewTransitionName: `ag-tabs-indicator-${vtName}` },
         'aria-hidden': true,
