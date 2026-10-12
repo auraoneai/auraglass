@@ -26,7 +26,7 @@ export interface GlassNotificationCenterProps {
   className?: string;
 }
 
-/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Popover}. */
+/** @deprecated since 4.2.0, removed in 6.0.0. Use {@link Popover}. */
 export function GlassNotificationCenter({ notifications, onMarkAllRead, trigger, className }: GlassNotificationCenterProps) {
   warnDeprecated(DEP);
   return wrap('GlassNotificationCenter', (
@@ -60,7 +60,7 @@ export interface UseNotificationsCompatReturn {
    default `false` leaves it null and the list empty) and holds toasts once
    they are dismissed or expire. addNotification still routes through
    useToast().add.
-   @deprecated since 4.3.0, removed in 6.0.0. Use {@link useToast}. */
+   @deprecated since 4.2.0, removed in 6.0.0. Use {@link useToast}. */
 export function useNotifications(): UseNotificationsCompatReturn {
   const api = useToast();
   const ref = React.useRef(api);
