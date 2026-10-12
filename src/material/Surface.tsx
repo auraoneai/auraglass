@@ -8,6 +8,8 @@ import type { SurfaceProps } from './types';
 import { materialProps } from './materialProps';
 import { warnSurface } from './dev/warnings';
 
+const noopRef = (_el: HTMLElement | null): void => undefined;
+
 const composeRef = (
   a: React.Ref<HTMLElement> | undefined,
   b: (el: HTMLElement | null) => void,
@@ -38,9 +40,11 @@ export function Surface({ render, className, style, ref, ...rest }: SurfaceProps
     ? (render.props as { ref?: React.Ref<HTMLElement> }).ref
     : undefined;
   // consumer ref -> dev warnings, then the render element's own ref last
+  // REQ-MAT-38: the NODE_ENV ternary folds in a production consumer build, so
+  // the dev warnings module is unreferenced there and drops out of the bundle
   const warnAndConsumerRef = composeRef(
     ref as React.Ref<HTMLElement> | undefined,
-    warnSurface,
+    process.env.NODE_ENV !== 'production' ? warnSurface : noopRef,
   ) as (el: HTMLElement | null) => void;
   const finalRef = composeRef(renderRef, warnAndConsumerRef);
 

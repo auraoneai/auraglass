@@ -15,8 +15,8 @@ export function warnOnce(el: Element | null, key: string, message: string): void
   console.warn(message);
 }
 
-/** Short selector for warning messages. */
-function describe(el: Element): string {
+/** Short selector for warning messages (`at <selector>`). */
+export function describeElement(el: Element): string {
   const parts: string[] = [];
   if (el.classList?.length) parts.push(`.${[...el.classList].join('.')}`);
   const layer = el.getAttribute('data-ag-layer');
@@ -65,7 +65,7 @@ export function warnSurface(element: HTMLElement | null): void {
     const depth = surfaceDepth(element);
     if (depth >= 2) {
       warnOnce(element, 'allowNested-depth',
-        `[aura-glass] allowNested at depth ${depth} at ${describe(element)}`);
+        `[aura-glass] allowNested at depth ${depth} at ${describeElement(element)}`);
     }
   }
 }

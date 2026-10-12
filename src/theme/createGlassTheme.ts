@@ -62,7 +62,7 @@ export interface GlassTheme {
   id: string;
   name: string;
   /** One `[data-ag-theme="<id>"] { ... }` rule — never :root. For mode
-   *  light/dark/high-contrast it also sets `color-scheme`, so every
+   *  light/dark it also sets `color-scheme`, so every
    *  `light-dark()` token under the theme resolves to that scheme. */
   cssText: string;
   /** Custom properties to inject; manifest --ag-* names only. */
@@ -214,9 +214,11 @@ export const createGlassTheme = (
 
   // The canvas always stays a light-dark() pair; a pinned mode sets
   // `color-scheme` on the theme scope instead, so canvas and on-surface (and
-  // every other light-dark() token) resolve to the same scheme.
+  // every other light-dark() token) resolve to the same scheme. REQ-MAT-15:
+  // "high-contrast" maps only to contrast "more"; it does not pin a scheme,
+  // so like "system" it follows prefers-color-scheme.
   const colorScheme: "light" | "dark" | null =
-    mode === "light" ? "light" : mode === "dark" || mode === "high-contrast" ? "dark" : null;
+    mode === "light" ? "light" : mode === "dark" ? "dark" : null;
 
   const vars: Record<string, string> = {
     "--ag-color-canvas": formatLightDark(formatOklch(canvasLight), formatOklch(canvasDark)),
