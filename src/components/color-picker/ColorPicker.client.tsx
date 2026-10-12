@@ -313,4 +313,8 @@ function Input({ className, ref, 'aria-label': ariaLabel, ...rest }: InputProps 
   );
 }
 
-export const ColorPicker = { Root, Trigger, Content, Area, Hue, Channel, Alpha, Input };
+/* S-30: the public compound is exactly the contract parts (COMPOUND_PARTS).
+   Channel/Alpha/Input are not contract parts yet, so they stay named exports
+   of this module until the contract promotes them. */
+export const ColorPicker = { Root, Trigger, Content, Area, Hue };
+export { Channel as ColorPickerChannel, Alpha as ColorPickerAlpha, Input as ColorPickerInput };

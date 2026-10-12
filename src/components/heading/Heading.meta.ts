@@ -12,5 +12,5 @@ export default defineMeta({
   material: { layer: 'content' },
   apg: 'none',
   budgetKb: 1500 / 1024,
-  migration: [{ from: 'DisplayText', props: {}, selectors: { '.glass-display-text': '.ag-heading' },  automation: 'mostly', compat: true }, { from: 'GlassHeading', props: {}, selectors: { '.glass-heading': '.ag-heading' },  automation: 'full', compat: true }],
+  migration: [{ from: 'DisplayText', props: {}, selectors: { '.glass-display-text': '.ag-heading' },  automation: 'mostly', compat: true }, { from: 'GlassHeading', props: {}, selectors: { '.glass-heading': '.ag-heading' },  automation: 'full', compat: false }],
 });

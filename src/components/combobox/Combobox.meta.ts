@@ -50,6 +50,8 @@ const meta: ControlMeta = defineMeta({
       selectors: { '.glass-multi-select': '.ag-combobox' }, automation: 'partial',
       compat: true,
     },
+    { from: 'GlassMentionList', props: {}, selectors: {}, automation: 'partial', compat: true },
+    { from: 'GlassTagInput', props: {}, selectors: {}, automation: 'full', compat: true },
   ],
 });
 

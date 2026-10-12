@@ -21,7 +21,10 @@ export default defineMeta({
       from: 'GlassToggleGroup',
       props: { value: 'value', onChange: 'onValueChange', multiple: 'multiple' },
       selectors: { '.glass-toggle-group': '.ag-toggle-group' }, automation: 'mostly',
-      compat: true,
+      compat: false,
     },
+    { from: 'GlassToggle', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'ToggleButton', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'ToggleButtonGroup', props: {}, selectors: {}, automation: 'full', compat: true },
   ],
 });

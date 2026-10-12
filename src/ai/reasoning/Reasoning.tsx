@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Collapsible } from '@base-ui/react/collapsible';
+import { Collapsible } from '../../foundation/base-ui/collapsible';
 
 export interface ReasoningLabels {
   thinking?: string;

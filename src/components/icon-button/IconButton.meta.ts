@@ -26,5 +26,6 @@ export default defineMeta({
       selectors: { '.glass-icon-button': '.ag-icon-button' }, automation: 'mostly',
       compat: true,
     },
+    { from: 'GlassFab', props: {}, selectors: {}, automation: 'full', compat: true },
   ],
 });

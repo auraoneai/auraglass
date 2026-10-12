@@ -325,10 +325,12 @@ function useToastInner(): UseToastReturn {
   };
 }
 
+/* S-30: the public compound is exactly the contract parts plus the pending
+   History part; ToastIcon is not a contract part, so it stays a named export. */
+export { ToastIcon };
 export const Toast = {
   History: ToastHistoryList,
   Provider: ToastProvider,
-  Icon: ToastIcon,
   Viewport: ToastViewport,
   Root: ToastRoot,
   Title: ToastTitle,

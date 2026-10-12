@@ -70,13 +70,20 @@ describe('dom-contract (REQ-CMP-14)', () => {
           // identical useId seed → identical markup modulo the generated-id
           // counter (Base UI useId is a module counter, not per-tree) — any
           // other difference is render nondeterminism (Date.now/Math.random).
+          // React useId tokens (`_r_<n>_`) also seed derived names such as a
+          // per-instance view-transition-name, so they are normalised too.
+          // The two renders mount one after the other: two live layers would
+          // legitimately differ (the lower one is data-ag-obscured).
           const norm = (html: string) => html
-            .replace(/\b(id|for|aria-labelledby|aria-describedby|aria-controls|aria-owns|aria-activedescendant)="[^"]*"/g, '$1="*"');
+            .replace(/\b(id|for|aria-labelledby|aria-describedby|aria-controls|aria-owns|aria-activedescendant)="[^"]*"/g, '$1="*"')
+            .replace(/_r_[0-9a-z]+_/g, '_r_*_');
           const b = render(<>{element}</>);
-          const c = render(<>{element}</>);
-          expect(norm(b.container.innerHTML)).toBe(norm(c.container.innerHTML));
+          const bHtml = norm(b.container.innerHTML);
           b.unmount();
+          const c = render(<>{element}</>);
+          const cHtml = norm(c.container.innerHTML);
           c.unmount();
+          expect(bHtml).toBe(cHtml);
           mounted += 1;
         } catch (e) {
           failures.push(`${mod.file}#${exportName}: ${String(e).slice(0, 200)}`);

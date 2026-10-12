@@ -12,5 +12,5 @@ export default defineMeta({
   material: { layer: 'content' },
   apg: 'none',
   budgetKb: 1500 / 1024,
-  migration: [{ from: 'GlassCard', props: {}, selectors: { '.glass-card': '.ag-card' },  automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassCard', props: {}, selectors: { '.glass-card': '.ag-card' },  automation: 'mostly', compat: true }, { from: 'GlowingCard', props: {}, selectors: {}, automation: 'full', compat: true }, { from: 'WidgetGlass', props: {}, selectors: {}, automation: 'full', compat: true }, { from: 'GlassWorkspacePanel', props: {}, selectors: {}, automation: 'full', compat: true }],
 });

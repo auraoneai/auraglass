@@ -12,5 +12,5 @@ export default defineMeta({
   material: { layer: 'content' },
   apg: 'none',
   budgetKb: 10000 / 1024,
-  migration: [{ from: 'GlassImageList', props: {}, selectors: { '.glass-image-list': '.ag-image-list' },  automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassImageList', props: {}, selectors: { '.glass-image-list': '.ag-image-list' },  automation: 'mostly', compat: false }, { from: 'ImageList', props: {}, selectors: {}, automation: 'full', compat: true }, { from: 'ImageListItem', props: {}, selectors: {}, automation: 'full', compat: true }, { from: 'ImageListItemBar', props: {}, selectors: {}, automation: 'full', compat: true }],
 });

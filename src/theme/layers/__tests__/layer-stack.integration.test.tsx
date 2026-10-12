@@ -11,7 +11,7 @@
 import { afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
-import { Dialog as BaseDialog } from '@base-ui/react/dialog';
+import { Dialog as BaseDialog } from '../../../foundation/base-ui/dialog';
 import { createLayerStack } from '../LayerStack';
 import type { LayerItemInput } from '../LayerStack';
 import { useLayer } from '../useLayer';

@@ -3,6 +3,7 @@ import { describe, expect, it } from '@jest/globals';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { ColorPicker } from './index';
+import { ColorPickerAlpha, ColorPickerChannel, ColorPickerInput } from './ColorPicker.client';
 import { hexToOklch, oklchToHex, hexToHsv, hsvToHex } from './colors';
 
 /* Conversion inputs are data under test, not design values: build the hex
@@ -84,7 +85,7 @@ describe('ColorPicker REQ-CMP-125', () => {
   it('Channel renders a slider wired to the channel', async () => {
     render(
       <ColorPicker.Root defaultOpen defaultValue="#3b82f6">
-        <ColorPicker.Content><ColorPicker.Channel channel="s" /></ColorPicker.Content>
+        <ColorPicker.Content><ColorPickerChannel channel="s" /></ColorPicker.Content>
       </ColorPicker.Root>,
     );
     await act(async () => {});
@@ -96,7 +97,7 @@ describe('ColorPicker REQ-CMP-125', () => {
   it('Alpha slider starts at 1', async () => {
     render(
       <ColorPicker.Root defaultOpen defaultValue="#3b82f6">
-        <ColorPicker.Content><ColorPicker.Alpha /></ColorPicker.Content>
+        <ColorPicker.Content><ColorPickerAlpha /></ColorPicker.Content>
       </ColorPicker.Root>,
     );
     await act(async () => {});
@@ -108,7 +109,7 @@ describe('ColorPicker REQ-CMP-125', () => {
     const seen: { space: string; value: string }[] = [];
     render(
       <ColorPicker.Root defaultOpen onValueChange={(v) => seen.push(v)}>
-        <ColorPicker.Content><ColorPicker.Input /></ColorPicker.Content>
+        <ColorPicker.Content><ColorPickerInput /></ColorPicker.Content>
       </ColorPicker.Root>,
     );
     await act(async () => {});

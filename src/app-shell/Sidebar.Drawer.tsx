@@ -13,7 +13,7 @@
    the toggle's aria-controls can point at it before mount. */
 
 import * as React from 'react';
-import { useDirection } from '@base-ui/react/direction-provider';
+import { useDirection } from '../foundation/base-ui/direction-provider';
 import { Sheet } from '../components/sheet';
 import type { FC, ReactNode } from 'react';
 

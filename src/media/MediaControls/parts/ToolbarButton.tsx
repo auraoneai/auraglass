@@ -5,7 +5,7 @@
  * composition is done here with the part name passed through. The CMP seam
  * request to let Toolbar.Button forward a part name is recorded in the PR. */
 import * as React from 'react';
-import { Toolbar as BaseToolbar } from '@base-ui/react/toolbar';
+import { Toolbar as BaseToolbar } from '../../../foundation/base-ui/toolbar';
 import { IconButton } from '../../../components/icon-button';
 
 export interface MediaToolbarButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'prefix' | 'onChange'> {

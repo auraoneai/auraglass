@@ -163,10 +163,13 @@ describe('compat core adapters (REQ-CMP-131)', () => {
       await act(async () => {});
       const popup = document.querySelector<HTMLElement>('[data-ag-overlay="sheet"]');
       expect(popup).not.toBeNull();
-      expect(popup).toHaveAttribute('data-ag-side', 'bottom');
+      expect(popup).toHaveAttribute('data-side', 'bottom'); // S-01: Sheet emits plain data-side
       expect(popup).toHaveTextContent('Sheet body');
-      // snap 0.5 of an 800px viewport -> a 400px detent
-      expect(popup!.style.getPropertyValue('--_ag-sheet-detent-h')).toBe('400px');
+      // snap 0.5 of an 800px viewport -> a 400px detent. The Sheet sizes to the
+      // tallest detent (--_ag-sheet-detent-max) and translates by the gap to
+      // the active one (--_ag-sheet-detent-offset); one detent -> no offset.
+      expect(popup!.style.getPropertyValue('--_ag-sheet-detent-max')).toBe('400px');
+      expect(popup!.style.getPropertyValue('--_ag-sheet-detent-offset')).toBe('0px');
     } finally {
       (globalThis as { ResizeObserver?: unknown }).ResizeObserver = RO;
     }

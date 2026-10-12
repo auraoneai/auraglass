@@ -53,6 +53,12 @@ const meta: ControlMeta = defineMeta({
       selectors: { '.glass-toast': '.ag-toast' }, automation: 'partial',
       compat: false,
     },
+    { from: 'GlassToastProvider', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'GlassToastViewport', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'useToast', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'useNotifications', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'GlassNotificationItem', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'GlassNotificationProvider', props: {}, selectors: {}, automation: 'full', compat: true },
   ],
 });
 export default meta;

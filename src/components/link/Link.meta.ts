@@ -12,5 +12,5 @@ export default defineMeta({
   material: { layer: 'content' },
   apg: 'link',
   budgetKb: 3000 / 1024,
-  migration: [{ from: 'GlassLink', props: {}, selectors: { '.glass-link': '.ag-link' },  automation: 'full', compat: true }],
+  migration: [{ from: 'GlassLink', props: {}, selectors: { '.glass-link': '.ag-link' },  automation: 'full', compat: false }],
 });

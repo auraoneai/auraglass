@@ -12,5 +12,5 @@ export default defineMeta({
   material: { layer: 'content' },
   apg: 'none',
   budgetKb: 1500 / 1024,
-  migration: [{ from: 'GlassDescriptionList', props: {}, selectors: { '.glass-description-list': '.ag-description-list' },  automation: 'full', compat: true }],
+  migration: [{ from: 'GlassDescriptionList', props: {}, selectors: { '.glass-description-list': '.ag-description-list' },  automation: 'full', compat: false }],
 });

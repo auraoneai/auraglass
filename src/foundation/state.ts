@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { mergeProps } from '@base-ui/react/merge-props';
 /* CMP foundation states (CMP-009): the 13 shared data-state values (S-33).
    Components emit these on data-state (space-joined when several hold). */
 export const AG_STATES = [
@@ -54,7 +55,14 @@ export function stateRender<S extends object>(
       typeof render === 'function'
         ? (render as (p: object, s: S) => React.ReactElement)(props, state)
         : React.isValidElement(render)
-          ? React.cloneElement(render, props)
+          ? /* same merge as Base UI's own element render: the render element's
+               props (children, data-ag-part, handlers) merge over the part's
+               props, and the part's ref wins — e.g. RadioGroup.Item
+               render={<Card>Label</Card>} keeps the Card's content. */
+            React.cloneElement(render, {
+              ...mergeProps(props as Record<string, unknown>, render.props as Record<string, unknown>),
+              ref: (props as { ref?: unknown }).ref,
+            } as Record<string, unknown>)
           : React.createElement(tag, props);
     return dataState
       ? React.cloneElement(el as React.ReactElement<Record<string, unknown>>, { 'data-state': dataState })

@@ -61,5 +61,10 @@ export default defineMeta({
       selectors: { '.glass-magnetic-button': '.ag-button' }, automation: 'partial',
       compat: true,
     },
+    { from: 'Button', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'GlassLinkButton', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'LiquidGlassButtonStyle', props: {}, selectors: {}, automation: 'partial', compat: true },
+    { from: 'MagneticButton', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'RippleButton', props: {}, selectors: {}, automation: 'full', compat: true },
   ],
 });
