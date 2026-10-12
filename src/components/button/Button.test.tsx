@@ -86,7 +86,7 @@ describe('Button', () => {
   /* REQ-CMP-34: every non-neutral S-30 intent is emitted (material attributes
      unchanged); neutral omits the attribute. */
   it.each(['info', 'success', 'warning', 'danger'] as const)('intent="%s" emits data-ag-intent and keeps the chrome material', (intent) => {
-    render(<Button intent={intent}>Act</Button>);
+    render(<Button intent={intent as never}>Act</Button>);
     const btn = screen.getByRole('button');
     expect(btn.getAttribute('data-ag-intent')).toBe(intent);
     expect(btn.getAttribute('data-ag-layer')).toBe('chrome');

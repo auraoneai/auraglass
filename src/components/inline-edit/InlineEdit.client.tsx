@@ -9,10 +9,15 @@ import { cn } from '../../internal/index';
 import { materialProps } from '../../material';
 
 export interface InlineEditProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+  /** Controlled value. Pair with `onValueChange`. */
   value?: string;
+  /** Initial value when uncontrolled. */
   defaultValue?: string;
+  /** Called with the new value whenever it changes. */
   onValueChange?: (value: string, details: { committed: boolean }) => void;
+  /** Placeholder text shown while the input is empty. */
   placeholder?: string;
+  /** Disables interaction. */
   disabled?: boolean;
   /** Force the editing state (stories, controlled editing). */
   editing?: boolean;
@@ -30,7 +35,9 @@ export function InlineEdit({
   ref,
   'aria-label': ariaLabel,
   ...rest
-}: InlineEditProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: InlineEditProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   const [uncontrolled, setUncontrolled] = React.useState(defaultValue);
   const current = value ?? uncontrolled;
   const [internalEditing, setEditing] = React.useState(false);

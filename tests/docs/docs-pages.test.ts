@@ -9,10 +9,10 @@
    gen-component-docs --check exits 1 after a meta edit; the packed d.ts and the
    source produce the same reference. */
 import { afterAll, describe, expect, it } from '@jest/globals';
-import { existsSync, readFileSync, readdirSync, rmSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, rmSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import {
-  buildReference, PUBLIC_DIR, renderPage, renderPublic, run, sectionNames,
+  buildReference, EXAMPLES_DIR, PUBLIC_DIR, renderPage, renderPublic, run, sectionNames,
 } from '../../scripts/docs/gen-component-docs.mjs';
 import { resolveTypesSource, serializeProps, unwrapParens } from '../../scripts/docs/gen-props.mjs';
 import { loadMetas } from '../../scripts/docs/load-metas.mjs';
@@ -68,6 +68,25 @@ describe('generated reference (repository)', () => {
       expect({ c: c.name, parts: sectionNames(pub, 'Parts') }).toEqual({ c: c.name, parts: [...c.meta.parts] });
       expect({ c: c.name, parts: sectionNames(page, 'Parts') }).toEqual({ c: c.name, parts: [...c.meta.parts] });
       expect(pub).toContain(`import { ${c.name} } from '${c.meta.entry === '.' ? 'aura-glass' : `aura-glass/${c.meta.entry.slice(2)}`}';`);
+    }
+  });
+
+  it('example ids match the documented components one to one, and every page shows a real example', () => {
+    const exDir = join(root, EXAMPLES_DIR);
+    const exampleIds = existsSync(exDir) ? readdirSync(exDir).filter((d) => statSync(join(exDir, d)).isDirectory()).sort() : [];
+    const slugs = ref.components.map((c) => c.slug).sort();
+    // No example without a documented component, and no documented component without an example.
+    expect({ orphanExamples: exampleIds.filter((id) => !slugs.includes(id)), missingExamples: slugs.filter((s) => !exampleIds.includes(s)) })
+      .toEqual({ orphanExamples: [], missingExamples: [] });
+    for (const c of ref.components) {
+      expect({ c: c.name, minimal: c.examples[0]?.name }).toEqual({ c: c.name, minimal: 'minimal' });
+      for (const e of c.examples) {
+        // A docs-app example is a module whose default export is the demo component.
+        expect({ e: e.path, defaultExport: /^export default function [A-Z]\w*\(/m.test(e.source) }).toEqual({ e: e.path, defaultExport: true });
+        expect({ e: e.path, importsEntry: e.source.includes(`from '${c.meta.entry === '.' ? 'aura-glass' : `aura-glass/${c.meta.entry.slice(2)}`}'`) })
+          .toEqual({ e: e.path, importsEntry: true });
+      }
+      expect(renderPublic(c)).not.toContain('_Example pending');
     }
   });
 

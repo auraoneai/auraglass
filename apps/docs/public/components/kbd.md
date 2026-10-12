@@ -13,7 +13,7 @@ Tier T0 · RSC server · APG none
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `keys?` | `readonly string[]` | — | Key sequence — each entry becomes its own nested <kbd>. |
-| `ref?` | `Ref<HTMLElement>` | — | — |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -29,4 +29,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/kbd/*.tsx` yet._
+```tsx
+import { Kbd } from 'aura-glass';
+
+export default function KbdMinimal() {
+  return <p>Press <Kbd keys={['⌘', 'K']} /> to open the command palette.</p>;
+}
+```

@@ -12,36 +12,36 @@ Tier T1 · RSC client · APG spinbutton
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `allowOutOfRange?` | `boolean` | — | — |
+| `allowOutOfRange?` | `boolean` | — | Keeps typed values outside min/max instead of clamping them. |
 | `allowWheelScrub?` | `boolean` | — | Wheel-scrubbing on the focused input (default false, REQ-CMP-75). |
-| `aria-label?` | `string` | — | — |
-| `className?` | `string` | — | — |
-| `defaultValue?` | `number \| null` | — | — |
-| `description?` | `ReactNode` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `error?` | `ReactNode` | — | — |
-| `format?` | `NumberFormatOptions` | — | — |
-| `id?` | `string` | — | — |
-| `label?` | `ReactNode` | — | — |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultValue?` | `number \| null` | — | Initial value when uncontrolled. |
+| `description?` | `ReactNode` | — | Helper text rendered under the label and linked with `aria-describedby`. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `error?` | `ReactNode` | — | Error message; marks the field invalid when set. |
+| `format?` | `NumberFormatOptions` | — | Intl.NumberFormat options used to format the displayed value. |
+| `id?` | `string` | — | Id of the input element; generated when omitted. |
+| `label?` | `ReactNode` | — | Visible label. |
 | `labels?` | `{ increase?: string \| undefined; decrease?: string \| undefined; }` | — | Accessible labels for the stepper buttons. |
 | `largeStep?` | `number` | — | Shift-modified increment (default 10). |
-| `locale?` | `LocalesArgument` | — | — |
-| `max?` | `number` | — | — |
-| `min?` | `number` | — | — |
-| `name?` | `string` | — | — |
-| `onValueChange?` | `(value: number \| null, details: ChangeDetails) => void` | — | — |
-| `placeholder?` | `string` | — | — |
-| `readOnly?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLInputElement>` | — | — |
-| `refraction?` | `boolean` | — | — |
-| `required?` | `boolean` | — | — |
+| `locale?` | `LocalesArgument` | — | BCP 47 locale used for formatting and parsing. |
+| `max?` | `number` | — | Maximum value. |
+| `min?` | `number` | — | Minimum value. |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `onValueChange?` | `(value: number \| null, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `placeholder?` | `string` | — | Placeholder text shown while the input is empty. |
+| `readOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
+| `ref?` | `Ref<HTMLInputElement>` | — | Ref to the rendered root element. |
+| `refraction?` | `boolean` | — | Opt-in refraction on refraction-eligible materials; ignored where unsupported. |
+| `required?` | `boolean` | — | Marks the field as required for form validation. |
 | `scrub?` | `boolean` | — | Renders the label inside a ScrubArea so dragging it nudges the value. |
-| `size?` | `ControlSize` | — | — |
+| `size?` | `ControlSize` | — | Control size. |
 | `smallStep?` | `number` | — | Alt-modified increment (default 0.1). |
-| `snapOnStep?` | `boolean` | — | — |
+| `snapOnStep?` | `boolean` | — | Rounds the value to the nearest step after stepping. |
 | `step?` | `number \| 'any'` | — | Increment per step (default 1); 'any' disables step snapping. |
-| `value?` | `number \| null` | — | — |
-| `variant?` | `'regular' \| 'clear' \| 'identity'` | — | — |
+| `value?` | `number \| null` | — | Controlled value. Pair with `onValueChange`. |
+| `variant?` | `'regular' \| 'clear' \| 'identity'` | — | Material variant of the field. |
 
 ## Parts
 
@@ -69,4 +69,10 @@ Tier T1 · RSC client · APG spinbutton
 
 ## Example
 
-_Example pending: no `apps/docs/examples/number-field/*.tsx` yet._
+```tsx
+import { NumberField } from 'aura-glass';
+
+export default function NumberFieldMinimal() {
+  return <NumberField label="Seats" defaultValue={5} min={1} max={50} description="Billed per seat each month." />;
+}
+```

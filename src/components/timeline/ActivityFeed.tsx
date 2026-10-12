@@ -15,13 +15,21 @@ export interface ActivityItem extends TimelineItem {
 }
 
 export interface ActivityFeedProps extends Omit<TimelineProps, 'items' | 'labels'> {
+  /** Activity items, newest first. */
   items: readonly ActivityItem[];
+  /** 'day' groups items under date headings. */
   groupBy?: 'day' | 'none' | undefined;
+  /** Heading level of the group headings. */
   headingLevel?: 2 | 3 | 4 | 5 | 6 | undefined;
+  /** Called to load older items. */
   onLoadMore?: (() => void) | undefined;
+  /** More items can be loaded. */
   hasMore?: boolean | undefined;
+  /** Older items are loading. */
   loading?: boolean | undefined;
+  /** Calls `onLoadMore` when the end of the feed scrolls into view. */
   autoLoad?: boolean | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: (TimelineProps['labels'] & {
     loadMore?: string | undefined;
     /** Announcement suffix for one prepended item ("1 new activity"). */

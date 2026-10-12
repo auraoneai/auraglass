@@ -17,12 +17,19 @@ export interface TourStepDef {
 }
 
 export interface TourProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Tour steps in order. */
   steps?: readonly TourStepDef[] | undefined;
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean;
+  /** Called with the next open state when it changes. */
   onOpenChange?: (open: boolean, details: unknown) => void;
+  /** Controlled current step index. Pair with `onStepChange`. */
   step?: number;
+  /** Initial step index when uncontrolled. */
   defaultStep?: number;
+  /** Called with the next step index. */
   onStepChange?: (index: number) => void;
   /** Labels for the nav buttons. */
   labels?: { next?: string; prev?: string; done?: string; skip?: string; dismiss?: string };
@@ -46,7 +53,9 @@ export const Tour = {
     className,
     ref,
     ...rest
-  }: TourProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+  }: TourProps & {
+    /** Ref to the rendered root element. */
+    ref?: React.Ref<HTMLDivElement> | undefined }) {
     const [uncontrolledStep, setUncontrolledStep] = React.useState(defaultStep);
     const index = Math.min(steps.length - 1, Math.max(0, step ?? uncontrolledStep));
     const current = steps[index];

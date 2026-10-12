@@ -12,8 +12,8 @@ Tier T2 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className?` | `string` | — | — |
-| `steps` | `readonly AgStep[]` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `steps` | `readonly AgStep[]` | — | Agent steps in execution order; each renders its status and label. |
 
 ## Parts
 
@@ -42,4 +42,18 @@ Tier T2 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/agent-steps/*.tsx` yet._
+```tsx
+import { AgentSteps } from 'aura-glass/ai';
+
+export default function AgentStepsMinimal() {
+  return (
+    <AgentSteps
+      steps={[
+        { id: '1', label: 'Parse request', state: 'succeeded' },
+        { id: '2', label: 'Query metrics', state: 'running' },
+        { id: '3', label: 'Compose reply', state: 'queued' },
+      ]}
+    />
+  );
+}
+```

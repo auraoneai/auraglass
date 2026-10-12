@@ -9,9 +9,11 @@ import { ScrollEdge, Surface } from '../material';
 import { TopBarEdgeRegistrar } from './TopBar.EdgeRegistrar';
 
 export type TopBarRootProps = PartProps<'header'> & {
+  /** 'inline' takes layout space; 'overlay' floats over scrolling content. */
   placement?: 'inline' | 'overlay';
   /** MAT seam: maps to ScrollEdge edgeStyle. 'none' renders no edge. */
   scrollEdge?: 'soft' | 'hard' | 'none';
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: { topBar?: string } | undefined;
 };
 

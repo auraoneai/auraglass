@@ -8,8 +8,8 @@ export interface ButtonProps
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'onChange' | 'prefix' | 'value'> {
   /** Material axis: 'regular' (default) | 'clear' | 'identity'. Never a `material` prop. */
   variant?: 'regular' | 'clear' | 'identity' | undefined;
-  /** Status tint. Only 'neutral' (default) and 'danger' are valid on controls. */
-  intent?: Intent | undefined;
+  /** Status tint: 'neutral' (default) or 'danger'. info, success and warning are status intents for Badge and Alert, not controls. */
+  intent?: Extract<Intent, 'neutral' | 'danger'> | undefined;
   /** Emitted as data-ag-size. */
   size?: 'sm' | 'md' | 'lg' | undefined;
   /** Decorative leading icon node. */
@@ -20,13 +20,17 @@ export interface ButtonProps
   loading?: boolean | undefined;
   /** Controlled pressed state — presence switches the base to a toggle. */
   pressed?: boolean | undefined;
+  /** Initial pressed state of an uncontrolled toggle button. */
   defaultPressed?: boolean | undefined;
+  /** Called with the next pressed state when a toggle button is pressed. */
   onPressedChange?: ((pressed: boolean, details: ChangeDetails) => void) | undefined;
   /** Pointer-light highlight opt-in (emitted data-ag-pointer-light; MAT engine installs). */
   pointerLight?: boolean | undefined;
   /** Keep focusable when disabled (Base UI focusableWhenDisabled). */
   focusableWhenDisabled?: boolean | undefined;
+  /** Replaces the rendered element; the component props and state are merged onto it. */
   render?: RenderProp | undefined;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLButtonElement> | undefined;
   /** Internal: omit inner part attrs (icon/hit-area/spinner/label) so the button can
       sit inside another component's DOM without leaking undeclared data-parts. */

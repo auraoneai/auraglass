@@ -12,12 +12,12 @@ Tier T2 · RSC server · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `count?` | `number` | — | — |
+| `count?` | `number` | — | Number shown in the badge. |
 | `dot?` | `boolean` | — | Render the standalone status dot instead of a pill. |
-| `intent?` | `'info' \| 'success' \| 'warning' \| 'danger' \| 'neutral'` | — | — |
+| `intent?` | `'info' \| 'success' \| 'warning' \| 'danger' \| 'neutral'` | — | Status tint. |
 | `label?` | `string` | — | Accessible label when content alone is insufficient (e.g. dot/count). |
 | `max?` | `number` | — | Maximum shown before clamping to "<max>+" (default 99). |
-| `ref?` | `Ref<HTMLSpanElement>` | — | — |
+| `ref?` | `Ref<HTMLSpanElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -32,4 +32,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/badge/*.tsx` yet._
+```tsx
+import { Badge } from 'aura-glass';
+
+export default function BadgeMinimal() {
+  return <Badge intent="info">New</Badge>;
+}
+```

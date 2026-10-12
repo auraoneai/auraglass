@@ -18,12 +18,19 @@ import { Radio } from '@base-ui/react/radio';
 import { cn } from '../../internal/index';
 
 export interface RatingProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+  /** Controlled value. Pair with `onValueChange`. */
   value?: number;
+  /** Initial value when uncontrolled. */
   defaultValue?: number;
+  /** Called with the new value whenever it changes. */
   onValueChange?: (value: number, details: { event: React.SyntheticEvent | KeyboardEvent }) => void;
+  /** Number of rating items. */
   max?: number;
+  /** Allows half-step values. */
   allowHalf?: boolean;
+  /** Makes the value read-only while keeping it focusable. */
   readOnly?: boolean;
+  /** Disables interaction. */
   disabled?: boolean;
   /** Item glyph; default renders the css star. */
   icon?: React.ReactNode;
@@ -48,7 +55,9 @@ export function Rating({
   ref,
   'aria-label': ariaLabel,
   ...rest
-}: RatingProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: RatingProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   const [uncontrolled, setUncontrolled] = React.useState(defaultValue);
   const current = value ?? uncontrolled;
   const step = allowHalf ? 0.5 : 1;

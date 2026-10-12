@@ -20,13 +20,17 @@ import { MediaSliderParts, SliderToolbarItem } from './MediaSliderParts';
 import type { ChangeDetails } from '../../contracts/components';
 
 export interface MediaScrubberProps {
+  /** Controlled value. Pair with `onValueChange`. */
   value: number;
+  /** Duration, in seconds. */
   max: number;
   /** Seeks while dragging/keying; called at most once per animation frame. */
   onValueChange?: ((value: number, details: ChangeDetails) => void) | undefined;
   /** Fires once when the drag or key interaction commits. */
   onValueCommit?: ((value: number) => void) | undefined;
+  /** Buffered ranges as [start, end] seconds. */
   buffered?: [number, number][] | undefined;
+  /** Chapter markers (start in seconds, title). */
   chapters?: { start: number; title: string }[] | undefined;
   /** Seconds per small arrow step. Default 1. */
   step?: number | undefined;
@@ -36,12 +40,17 @@ export interface MediaScrubberProps {
   frameRate?: number | undefined;
   /** Frame stepping applies only while paused. Default false. */
   paused?: boolean | undefined;
+  /** Formats the time shown in the hover preview. */
   formatHoverTime?: ((seconds: number) => string) | undefined;
+  /** Accessible name, required when there is no visible label. */
   'aria-label'?: string | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
+  /** Disables interaction. */
   disabled?: boolean | undefined;
   /** Set by MediaControls: the thumb joins the toolbar's roving focus. */
   toolbarItem?: boolean | undefined;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLDivElement> | undefined;
 }
 

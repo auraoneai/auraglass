@@ -12,9 +12,9 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `labels?` | `{ statusBar?: string \| undefined; }` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
+| `labels?` | `{ statusBar?: string \| undefined; }` | — | Overrides for the built-in, localizable UI strings. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
 
 ## Parts
 
@@ -30,4 +30,15 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/status-bar/*.tsx` yet._
+```tsx
+import { AppShell, StatusBar } from 'aura-glass/app-shell';
+
+export default function StatusBarMinimal() {
+  return (
+    <AppShell.Root>
+      <AppShell.Main>Editor</AppShell.Main>
+      <StatusBar.Root><StatusBar.Item>Saved</StatusBar.Item></StatusBar.Root>
+    </AppShell.Root>
+  );
+}
+```

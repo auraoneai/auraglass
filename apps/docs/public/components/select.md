@@ -12,22 +12,22 @@ Tier T1 · RSC client · APG select
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
-| `defaultOpen?` | `boolean` | — | — |
-| `defaultValue?` | `Value \| Value[] \| null` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `form?` | `string` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
+| `defaultValue?` | `Value \| Value[] \| null` | — | Initial value when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `form?` | `string` | — | Id of the form the hidden input belongs to, when it is outside that form. |
 | `items?` | `Record<string, ReactNode>` | — | Value -> label map; Select.Value renders the label of the selected item. |
-| `multiple?` | `boolean` | — | — |
-| `name?` | `string` | — | — |
-| `onOpenChange?` | `(open: boolean, details: ChangeDetails) => void` | — | — |
-| `onValueChange?` | `(value: Value \| Value[] \| null, details: ChangeDetails) => void` | — | — |
-| `open?` | `boolean` | — | — |
-| `readOnly?` | `boolean` | — | — |
+| `multiple?` | `boolean` | — | Allows more than one selected value. |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `onOpenChange?` | `(open: boolean, details: ChangeDetails) => void` | — | Called with the next open state when it changes. |
+| `onValueChange?` | `(value: Value \| Value[] \| null, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
+| `readOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
 | `ref?` | `Ref<HTMLElement>` | — | Ref to the popup DOM element. |
-| `required?` | `boolean` | — | — |
-| `size?` | `ControlSize` | — | — |
-| `value?` | `Value \| Value[] \| null` | — | — |
+| `required?` | `boolean` | — | Marks the field as required for form validation. |
+| `size?` | `ControlSize` | — | Control size. |
+| `value?` | `Value \| Value[] \| null` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -62,4 +62,18 @@ Tier T1 · RSC client · APG select
 
 ## Example
 
-_Example pending: no `apps/docs/examples/select/*.tsx` yet._
+```tsx
+import { Select } from 'aura-glass';
+
+export default function SelectMinimal() {
+  return (
+    <Select.Root name="region" aria-label="Region">
+      <Select.Trigger placeholder="Choose a region" />
+      <Select.Content>
+        <Select.Item value="eu" label="Europe" />
+        <Select.Item value="us" label="United States" />
+      </Select.Content>
+    </Select.Root>
+  );
+}
+```

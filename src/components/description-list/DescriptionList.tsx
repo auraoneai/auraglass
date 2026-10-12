@@ -11,6 +11,7 @@ export interface DescriptionListItem {
 }
 
 export interface DescriptionListProps extends Omit<React.HTMLAttributes<HTMLDListElement>, 'onChange'> {
+  /** 'stacked' puts each description under its term; 'inline' puts them side by side. */
   layout?: 'stacked' | 'inline';
   /** Orientation shorthand: 'horizontal' = inline, 'vertical' = stacked.
      Wins over `layout` when set. */
@@ -28,7 +29,9 @@ function Root({
   ref,
   children,
   ...rest
-}: DescriptionListProps & { ref?: React.Ref<HTMLDListElement> | undefined }) {
+}: DescriptionListProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDListElement> | undefined }) {
   const resolved = orientation === 'horizontal' ? 'inline' : orientation === 'vertical' ? 'stacked' : layout;
   return (
     <dl

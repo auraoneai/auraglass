@@ -12,13 +12,13 @@ Tier T2 · RSC server · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label` | `string` | — | — |
-| `aria-labelledby?` | `undefined` | — | — |
+| `aria-label` | `string` | — | Accessible name, required when there is no visible label. |
+| `aria-labelledby?` | `undefined` | — | Id of the element that provides the accessible name. |
 | `attached?` | `boolean` | — | Visually join children (default true). Concentric shape via CSS only — no roving focus. |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `orientation?` | `'vertical' \| 'horizontal'` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `orientation?` | `'vertical' \| 'horizontal'` | — | Direction in which the buttons are laid out. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -33,4 +33,16 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/button-group/*.tsx` yet._
+```tsx
+import { Button, ButtonGroup } from 'aura-glass';
+
+export default function ButtonGroupMinimal() {
+  return (
+    <ButtonGroup aria-label="Text alignment">
+      <Button>Left</Button>
+      <Button>Center</Button>
+      <Button>Right</Button>
+    </ButtonGroup>
+  );
+}
+```

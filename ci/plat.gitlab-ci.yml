@@ -99,7 +99,8 @@ plat:gate:glass-quality:
         node scripts/release/gen-deprecations.mjs --docs
         node scripts/release/verify-breaking-register.mjs
         node scripts/build/api-report.mjs --all --check
-        node scripts/release/verify-deprecations.mjs --line "$AG_LINE"
+        # REQ-PLAT-25: tag pipelines require an etc/snapshots/<since>.json for every export entry.
+        node scripts/release/verify-deprecations.mjs --line "$AG_LINE" ${CI_COMMIT_TAG:+--require-snapshots}
         for s in verify-size-budgets.mjs verify-deps.mjs verify-side-effects.mjs verify-tree-hygiene.js; do
           [ -f "scripts/ci/$s" ] || { echo "PENDING: scripts/ci/$s"; exit 1; }
           node "scripts/ci/$s"
@@ -253,9 +254,11 @@ plat:test:cli:
         done
         npm test -w packages/cli -w packages/registry -w packages/mcp -w packages/labs
         test -f tests/types/plat/tsconfig.json || { echo "PENDING: tests/types/plat/tsconfig.json over the packed d.ts (REQ-FIN-41)"; exit 1; }
-        npx tsc -p tests/types/plat
+        # REQ-PLAT-93: extract the packed d.ts, tsc the .test-d.ts files, run the language-service completions.
+        npm run -s plat:test:types:dx
         test -f tests/dx/codemod-canary.spec.ts || { echo "PENDING: tests/dx/codemod-canary.spec.ts (lane 1e)"; exit 1; }
-        npx playwright test tests/dx/codemod-canary.spec.ts
+        # REQ-PLAT-92: dx config = node project (packed CLI, app build, blocks, perf) + 3 browser smoke projects.
+        npx playwright test -c playwright.dx.config.ts tests/dx/codemod-canary.spec.ts
       fi
 
 # REQ-PLAT-94 / REQ-FIN-42 (B3-8). Also runs on 5x release scope: the

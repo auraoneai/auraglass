@@ -18,13 +18,21 @@ export interface MessageLabels {
 }
 
 export interface MessageRootProps {
+  /** The message to render (role, parts and metadata). */
   message: AgMessage;
+  /** Display name of the author. */
   author?: string | undefined;
+  /** BCP 47 locale used for the timestamp. */
   locale?: string | undefined;
+  /** IANA time zone used for the timestamp. */
   timeZone?: string | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: MessageLabels | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLElement>;
 }
 

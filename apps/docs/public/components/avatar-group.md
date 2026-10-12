@@ -12,10 +12,10 @@ Tier T2 · RSC server · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
 | `max?` | `number` | — | Maximum items rendered before the overflow '+N' item. |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `size?` | `'sm' \| 'md' \| 'lg'` | — | Size of every avatar in the group. |
 
 ## Parts
 
@@ -31,4 +31,16 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/avatar-group/*.tsx` yet._
+```tsx
+import { Avatar, AvatarGroup } from 'aura-glass';
+
+export default function AvatarGroupMinimal() {
+  return (
+    <AvatarGroup max={3}>
+      {['Ada Lovelace', 'Grace Hopper', 'Alan Turing', 'Katherine Johnson'].map((name) => (
+        <Avatar.Root key={name} name={name} />
+      ))}
+    </AvatarGroup>
+  );
+}
+```

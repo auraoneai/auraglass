@@ -12,12 +12,12 @@ Tier T2 · RSC server · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `cols?` | `number` | — | — |
-| `gap?` | `string \| number` | — | — |
+| `cols?` | `number` | — | Number of columns. |
+| `gap?` | `string \| number` | — | Gap between items (number in CSS pixels, or a CSS length). |
 | `items?` | `readonly ImageListItem[]` | — | Flat API — renders Item/ItemBar parts per row. |
 | `minItemWidth?` | `number` | — | Minimum item width used to reduce cols; default 160px. |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `variant?` | `'standard' \| 'masonry' \| 'quilted'` | — | — |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `variant?` | `'standard' \| 'masonry' \| 'quilted'` | — | Layout: uniform grid, quilted (items span cells) or masonry. |
 
 ## Parts
 
@@ -37,4 +37,20 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/image-list/*.tsx` yet._
+```tsx
+import { ImageList } from 'aura-glass';
+
+const PHOTOS = ['glacier', 'harbour', 'desert'];
+
+export default function ImageListMinimal() {
+  return (
+    <ImageList cols={3}>
+      {PHOTOS.map((p) => (
+        <ImageList.Item key={p}>
+          <img src={`https://picsum.photos/seed/${p}/300/200`} alt={p} />
+        </ImageList.Item>
+      ))}
+    </ImageList>
+  );
+}
+```

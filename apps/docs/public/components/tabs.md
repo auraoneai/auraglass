@@ -13,14 +13,14 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `activateOnFocus?` | `boolean` | — | Roving focus activates the focused tab (default false — manual activation). |
-| `appearance?` | `'pill' \| 'underline'` | — | — |
-| `defaultValue?` | `string` | — | — |
+| `appearance?` | `'pill' \| 'underline'` | — | Indicator style. |
+| `defaultValue?` | `string` | — | Initial value when uncontrolled. |
 | `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | (value, details) — details.reason comes from Base UI's event details (SURF-047). |
-| `orientation?` | `'vertical' \| 'horizontal'` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
-| `size?` | `'sm' \| 'md'` | — | — |
-| `value?` | `string` | — | — |
+| `orientation?` | `'vertical' \| 'horizontal'` | — | Tab list direction; also the arrow-key axis. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
+| `size?` | `'sm' \| 'md'` | — | Tab size. |
+| `value?` | `string` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -42,4 +42,20 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/tabs/*.tsx` yet._
+```tsx
+import { Tabs } from 'aura-glass';
+
+export default function TabsMinimal() {
+  return (
+    <Tabs.Root defaultValue="general">
+      <Tabs.List>
+        <Tabs.Tab value="general">General</Tabs.Tab>
+        <Tabs.Tab value="billing">Billing</Tabs.Tab>
+        <Tabs.Indicator />
+      </Tabs.List>
+      <Tabs.Panel value="general">General settings</Tabs.Panel>
+      <Tabs.Panel value="billing">Billing settings</Tabs.Panel>
+    </Tabs.Root>
+  );
+}
+```

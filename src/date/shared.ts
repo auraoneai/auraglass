@@ -127,25 +127,44 @@ export function raChangeDetails(): ChangeDetails {
 }
 
 export interface DateFieldLikeProps<V extends DateValue | TimeValue = DateValue> {
+  /** Controlled value. Pair with `onValueChange`. */
   value?: V | null | undefined;
+  /** Initial value when uncontrolled. */
   defaultValue?: V | null | undefined;
+  /** Called with the new value whenever it changes. */
   onValueChange?: ((v: V | null, details: ChangeDetails) => void) | undefined;
+  /** Earliest selectable date. */
   minValue?: V | undefined;
+  /** Latest selectable date. */
   maxValue?: V | undefined;
+  /** Marks a date unavailable (shown, not selectable). */
   isDateUnavailable?: ((date: DateValue) => boolean) | undefined;
+  /** Smallest unit the value is edited in. */
   granularity?: 'day' | 'hour' | 'minute' | 'second' | undefined;
+  /** 12- or 24-hour clock; the locale default when omitted. */
   hourCycle?: 12 | 24 | undefined;
+  /** First day of the week; the locale default when omitted. */
   firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | undefined;
+  /** BCP 47 locale used for formatting and parsing. */
   locale?: string | undefined;
   /** Text direction; defaults to the closest `[dir]` in the DOM (REQ-SURF-98). */
   dir?: 'ltr' | 'rtl' | undefined;
+  /** Visible label. */
   label?: React.ReactNode;
+  /** Helper text rendered under the label. */
   description?: React.ReactNode;
+  /** Error message shown when the field is invalid. */
   errorMessage?: React.ReactNode;
+  /** Marks the field invalid. */
   isInvalid?: boolean | undefined;
+  /** Marks the field as required for form validation. */
   isRequired?: boolean | undefined;
+  /** Disables interaction. */
   isDisabled?: boolean | undefined;
+  /** Makes the value read-only while keeping it focusable. */
   isReadOnly?: boolean | undefined;
+  /** Form field name submitted with the value. */
   name?: string | undefined;
+  /** Control size. */
   size?: 'sm' | 'md' | 'lg' | undefined;
 }

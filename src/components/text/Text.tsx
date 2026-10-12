@@ -12,9 +12,13 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   type?: 'body' | 'callout' | 'caption' | 'label' | 'mono';
   /** Optional override; unset = the type role's own size. */
   size?: 'xs' | 'sm' | 'md' | 'lg' | undefined;
+  /** Uses the secondary (muted) text colour. */
   muted?: boolean;
+  /** Status colour of the text. */
   intent?: 'neutral' | 'success' | 'warning' | 'danger';
+  /** Font weight. */
   weight?: 'light' | 'regular' | 'medium' | 'semibold' | 'bold';
+  /** Clips to one line with an ellipsis. */
   truncate?: boolean;
   /** Element or render function used instead of the default <p>. */
   render?: RenderProp<React.HTMLAttributes<HTMLElement>>;
@@ -31,7 +35,9 @@ export function Text({
   className,
   ref,
   ...rest
-}: TextProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+}: TextProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLElement> | undefined }) {
   const props: React.HTMLAttributes<HTMLElement> = {
     ...rest,
     'data-ag-part': 'root',

@@ -12,11 +12,11 @@ Tier T0 · RSC server · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `absoluteStrokeWidth?` | `boolean` | — | — |
-| `name` | `'warning' \| 'data' \| 'menu' \| 'search' \| 'filter' \| 'clear' \| (string & {}) \| 'activity' \| 'alert' \| 'archive' \| 'calendar' \| 'check' \| 'close' \| 'command' \| 'home' \| 'loading' \| 'notification' \| 'settings' \| 'spark' \| 'user' \| 'users'` | — | — |
+| `absoluteStrokeWidth?` | `boolean` | — | Keeps the stroke width constant when the icon is scaled. |
+| `name` | `'warning' \| 'data' \| 'menu' \| 'search' \| 'filter' \| 'clear' \| (string & {}) \| 'activity' \| 'alert' \| 'archive' \| 'calendar' \| 'check' \| 'close' \| 'command' \| 'home' \| 'loading' \| 'notification' \| 'settings' \| 'spark' \| 'user' \| 'users'` | — | Name of the icon in the registry. |
 | `ref?` | `Ref<SVGSVGElement>` | — | Allows getting a ref to the component instance. Once the component unmounts, React will set `ref.current` to `null` (or call the ref with `null` if you passed a callback ref). |
-| `size?` | `string \| number` | — | — |
-| `title?` | `string` | — | — |
+| `size?` | `string \| number` | — | Icon size (number in CSS pixels, or a CSS length). |
+| `title?` | `string` | — | Accessible name rendered as an SVG `<title>`; without it or `aria-label` the icon is decorative. |
 
 ## Parts
 
@@ -30,4 +30,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/icon/*.tsx` yet._
+```tsx
+import { Icon } from 'aura-glass/icons';
+
+export default function IconMinimal() {
+  return <Icon name="settings" size={24} title="Settings" />;
+}
+```

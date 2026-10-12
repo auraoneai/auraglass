@@ -6,17 +6,17 @@
 import { Accordion } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG accordion
+Tier T2 · RSC client · APG accordion
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultValue?` | `string[]` | — | — |
+| `defaultValue?` | `string[]` | — | Initial value when uncontrolled. |
 | `multiple?` | `boolean` | — | Allow several open items (value stays an array either way). |
-| `onValueChange?` | `(value: string[], details: ChangeDetails) => void` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `value?` | `string[]` | — | — |
+| `onValueChange?` | `(value: string[], details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `value?` | `string[]` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -38,4 +38,21 @@ Tier T1 · RSC client · APG accordion
 
 ## Example
 
-_Example pending: no `apps/docs/examples/accordion/*.tsx` yet._
+```tsx
+import { Accordion } from 'aura-glass';
+
+export default function AccordionMinimal() {
+  return (
+    <Accordion.Root defaultValue={['billing']}>
+      <Accordion.Item value="billing">
+        <Accordion.Header><Accordion.Trigger>When am I billed?</Accordion.Trigger></Accordion.Header>
+        <Accordion.Content>On the first day of each billing cycle.</Accordion.Content>
+      </Accordion.Item>
+      <Accordion.Item value="refunds">
+        <Accordion.Header><Accordion.Trigger>Can I get a refund?</Accordion.Trigger></Accordion.Header>
+        <Accordion.Content>Annual plans are refundable within 30 days.</Accordion.Content>
+      </Accordion.Item>
+    </Accordion.Root>
+  );
+}
+```

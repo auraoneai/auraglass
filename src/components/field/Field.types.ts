@@ -16,13 +16,21 @@ type FieldRootDomProps = Omit<ComponentProps<'div'>, 'ref' | 'className' | 'chil
 export interface FieldRootProps extends FieldRootDomProps {
   /** Whether the field is invalid (shows error, sets aria-invalid on control). */
   invalid?: boolean;
+  /** Disables interaction. */
   disabled?: boolean;
+  /** Form field name submitted with the value. */
   name?: string;
+  /** Custom validator; return an error message (or messages), or null when valid. */
   validate?: FieldValidate;
+  /** When validation runs. */
   validationMode?: FieldValidationMode;
+  /** Delay, in milliseconds, before validating in 'onChange' mode. */
   validationDebounceTime?: number;
+  /** Class name merged onto the root element. */
   className?: string;
+  /** Content rendered inside the component. */
   children?: ReactNode;
+  /** Ref to the rendered root element. */
   ref?: Ref<HTMLDivElement>;
 }
 
@@ -56,7 +64,10 @@ export interface FieldControlProps extends Omit<ComponentProps<'input'>, 'ref' |
 export interface FieldsetRootProps extends Omit<ComponentProps<'fieldset'>, 'ref' | 'children'> {
   /** Legend text or node; renders the `legend` part. */
   legend?: ReactNode;
+  /** Class name merged onto the root element. */
   className?: string;
+  /** Content rendered inside the component. */
   children?: ReactNode;
+  /** Ref to the rendered root element. */
   ref?: Ref<HTMLFieldSetElement>;
 }

@@ -13,16 +13,16 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children?` | `ReactNode` | — | Defaults to `<Thread.Viewport><Thread.Items/></Thread.Viewport>`. |
-| `className?` | `string` | — | — |
-| `label?` | `string` | — | — |
-| `labels?` | `ThreadLabels` | — | — |
-| `locale?` | `string` | — | — |
-| `messages` | `readonly AgMessage<AgMessageMetadata>[]` | — | — |
-| `onReachTop?` | `() => void` | — | — |
-| `pinThreshold?` | `number` | — | — |
-| `ref?` | `Ref<ThreadScrollApi>` | — | — |
-| `timeZone?` | `string` | — | — |
-| `virtualizeAfter?` | `number` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `label?` | `string` | — | Accessible name of the conversation log. |
+| `labels?` | `ThreadLabels` | — | Overrides for the built-in, localizable UI strings. |
+| `locale?` | `string` | — | BCP 47 locale used for message timestamps. |
+| `messages` | `readonly AgMessage<AgMessageMetadata>[]` | — | Messages in chronological order. |
+| `onReachTop?` | `() => void` | — | Called when the top of the log scrolls into view (load older messages). |
+| `pinThreshold?` | `number` | — | Distance from the bottom, in CSS pixels, within which the thread stays pinned to new messages. |
+| `ref?` | `Ref<ThreadScrollApi>` | — | Ref to the rendered root element. |
+| `timeZone?` | `string` | — | IANA time zone used for message timestamps. |
+| `virtualizeAfter?` | `number` | — | Message count above which the log is virtualized. |
 
 ## Parts
 
@@ -77,4 +77,17 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/thread/*.tsx` yet._
+```tsx
+import { Thread } from 'aura-glass/ai';
+
+export default function ThreadMinimal() {
+  return (
+    <Thread
+      messages={[
+        { id: 'm1', role: 'user', parts: [{ type: 'text', text: 'How long did the deploy take?' }] },
+        { id: 'm2', role: 'assistant', parts: [{ type: 'text', text: 'About 3 minutes.' }] },
+      ]}
+    />
+  );
+}
+```

@@ -14,14 +14,17 @@ export interface AlertAction {
 }
 
 export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+  /** Status of the alert; sets the tint and the default icon. */
   intent?: 'info' | 'success' | 'warning' | 'danger';
   /** Urgent alerts announce assertively via role='alert'. */
   urgent?: boolean;
   /** 'inline' (default) hugs content; 'banner' stretches inline-size:100%. */
   appearance?: 'inline' | 'banner';
+  /** Alert heading. */
   title?: React.ReactNode;
   /** Explicit description slot (children still render as description). */
   description?: React.ReactNode;
+  /** Overrides the default status icon (decorative). */
   icon?: React.ReactNode;
   /** Serializable actions (label+href/onPress) or arbitrary nodes. */
   actions?: readonly AlertAction[] | React.ReactNode;
@@ -54,7 +57,9 @@ export function Alert({
   className,
   ref,
   ...rest
-}: AlertProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: AlertProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   const mat = materialProps({ layer: 'content', content: 'content-raised' });
   const body = description ?? children;
   return (

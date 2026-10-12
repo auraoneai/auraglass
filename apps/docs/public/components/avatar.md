@@ -6,7 +6,7 @@
 import { Avatar } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG none
+Tier T2 · RSC client · APG none
 
 ## Props
 
@@ -15,9 +15,9 @@ Tier T1 · RSC client · APG none
 | `alt?` | `string` | — | Required whenever `src` is set (dev-warned otherwise). |
 | `delay?` | `number` | — | ms before the fallback appears while the image loads (BU). |
 | `name?` | `string` | — | Full name used to derive initials for the fallback. |
-| `ref?` | `Ref<HTMLSpanElement>` | — | — |
-| `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
-| `src?` | `string` | — | — |
+| `ref?` | `Ref<HTMLSpanElement>` | — | Ref to the rendered root element. |
+| `size?` | `'sm' \| 'md' \| 'lg'` | — | Avatar size. |
+| `src?` | `string` | — | Image URL; initials are shown until it loads or when it fails. |
 
 ## Parts
 
@@ -33,4 +33,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/avatar/*.tsx` yet._
+```tsx
+import { Avatar } from 'aura-glass';
+
+export default function AvatarMinimal() {
+  return <Avatar.Root name="Ada Lovelace" size="md" />;
+}
+```

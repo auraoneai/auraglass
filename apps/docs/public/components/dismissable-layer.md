@@ -13,14 +13,14 @@ Tier T0 · RSC client · APG none
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `disabled?` | `boolean` | — | Stops all dismissal behaviour (outside events and Escape). |
-| `disableOutsidePointerEvents?` | `boolean` | — | — |
+| `disableOutsidePointerEvents?` | `boolean` | — | Blocks pointer events outside the layer while it is mounted. |
 | `layerKind?` | `LayerKind` | — | S-25 layer kind — attribution for the stack (defaults to 'popover'). |
-| `onDismiss?` | `() => void` | — | — |
-| `onEscapeKeyDown?` | `(event: KeyboardEvent) => void` | — | — |
-| `onFocusOutside?` | `(event: FocusEvent) => void` | — | — |
-| `onInteractOutside?` | `(event: DismissableLayerOutsideEvent) => void` | — | — |
-| `onPointerDownOutside?` | `(event: DismissableLayerOutsideEvent) => void` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `onDismiss?` | `() => void` | — | Called when the layer should close. |
+| `onEscapeKeyDown?` | `(event: KeyboardEvent) => void` | — | Called on Escape; call `preventDefault()` to keep the layer open. |
+| `onFocusOutside?` | `(event: FocusEvent) => void` | — | Called when focus moves outside; call `preventDefault()` to keep the layer open. |
+| `onInteractOutside?` | `(event: DismissableLayerOutsideEvent) => void` | — | Called on any outside pointer down or focus; call `preventDefault()` to keep the layer open. |
+| `onPointerDownOutside?` | `(event: DismissableLayerOutsideEvent) => void` | — | Called on a pointer down outside; call `preventDefault()` to keep the layer open. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -34,4 +34,14 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/dismissable-layer/*.tsx` yet._
+```tsx
+import { DismissableLayer } from 'aura-glass/primitives';
+
+export default function DismissableLayerMinimal() {
+  return (
+    <DismissableLayer onDismiss={() => console.log('dismissed')}>
+      <div>Press Escape or click outside to dismiss.</div>
+    </DismissableLayer>
+  );
+}
+```

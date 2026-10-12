@@ -12,14 +12,14 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `author?` | `string` | — | — |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `labels?` | `MessageLabels` | — | — |
-| `locale?` | `string` | — | — |
-| `message` | `AgMessage<AgMessageMetadata>` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `timeZone?` | `string` | — | — |
+| `author?` | `string` | — | Display name of the author. |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `labels?` | `MessageLabels` | — | Overrides for the built-in, localizable UI strings. |
+| `locale?` | `string` | — | BCP 47 locale used for the timestamp. |
+| `message` | `AgMessage<AgMessageMetadata>` | — | The message to render (role, parts and metadata). |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `timeZone?` | `string` | — | IANA time zone used for the timestamp. |
 
 ## Parts
 
@@ -68,4 +68,15 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/message/*.tsx` yet._
+```tsx
+import { Message } from 'aura-glass/ai';
+
+export default function MessageMinimal() {
+  return (
+    <Message
+      author="Assistant"
+      message={{ id: 'm1', role: 'assistant', parts: [{ type: 'text', text: 'The deploy finished in 3 minutes.' }] }}
+    />
+  );
+}
+```

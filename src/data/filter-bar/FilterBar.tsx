@@ -60,16 +60,25 @@ export interface FilterBarLabels {
 }
 
 export interface FilterBarProps {
+  /** Filterable fields (key, label, type and operators). */
   schema: readonly FilterField[];
+  /** Controlled value. Pair with `onValueChange`. */
   value?: FilterGroup | undefined;
+  /** Initial value when uncontrolled. */
   defaultValue?: FilterGroup | undefined;
+  /** Called with the new value whenever it changes. */
   onValueChange?: ((g: FilterGroup, details: ChangeDetails) => void) | undefined;
+  /** Free-text search box: controlled value, change handler and placeholder. */
   search?: { value: string; onValueChange: (v: string) => void; placeholder?: string | undefined } | undefined;
+  /** One-click filters shown as chips. */
   quickFilters?: readonly { id: string; label: string; rule: FilterRule }[] | undefined;
+  /** Called when the user clears every filter. */
   onClearAll?: (() => void) | undefined;
   /** Shown next to the bar; each change is announced politely ("{n} results"). */
   resultCount?: number | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: FilterBarLabels | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 

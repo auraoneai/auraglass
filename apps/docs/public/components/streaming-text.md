@@ -6,17 +6,17 @@
 import { StreamingText } from 'aura-glass/ai';
 ```
 
-Tier T2 · RSC client
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `announce?` | `'complete' \| 'sentences' \| 'off'` | — | Live-annunciation policy; complete announcements go through the MAT announcer. |
-| `className?` | `string` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
 | `ref?` | `Ref<StreamingTextHandle>` | — | Imperative token sink: `setText`/`append` from a transport without re-rendering the parent. |
-| `streaming?` | `boolean` | — | — |
-| `text` | `string` | — | — |
+| `streaming?` | `boolean` | — | More text is still arriving; shows the streaming cursor. |
+| `text` | `string` | — | Text received so far. |
 
 ## Parts
 
@@ -35,4 +35,10 @@ Tier T2 · RSC client
 
 ## Example
 
-_Example pending: no `apps/docs/examples/streaming-text/*.tsx` yet._
+```tsx
+import { StreamingText } from 'aura-glass/ai';
+
+export default function StreamingTextMinimal() {
+  return <StreamingText text="Summarising the last three deploys" streaming />;
+}
+```

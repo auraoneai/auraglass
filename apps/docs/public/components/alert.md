@@ -15,10 +15,10 @@ Tier T2 · RSC server · APG none
 | `actions?` | `ReactNode \| readonly AlertAction[]` | — | Serializable actions (label+href/onPress) or arbitrary nodes. |
 | `appearance?` | `'inline' \| 'banner'` | — | 'inline' (default) hugs content; 'banner' stretches inline-size:100%. |
 | `description?` | `ReactNode` | — | Explicit description slot (children still render as description). |
-| `icon?` | `ReactNode` | — | — |
-| `intent?` | `'info' \| 'success' \| 'warning' \| 'danger'` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `title?` | `ReactNode` | — | — |
+| `icon?` | `ReactNode` | — | Overrides the default status icon (decorative). |
+| `intent?` | `'info' \| 'success' \| 'warning' \| 'danger'` | — | Status of the alert; sets the tint and the default icon. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `title?` | `ReactNode` | — | Alert heading. |
 | `urgent?` | `boolean` | — | Urgent alerts announce assertively via role='alert'. |
 
 ## Parts
@@ -38,4 +38,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/alert/*.tsx` yet._
+```tsx
+import { Alert } from 'aura-glass';
+
+export default function AlertMinimal() {
+  return <Alert intent="warning" title="Storage almost full">You have used 92% of your workspace storage.</Alert>;
+}
+```

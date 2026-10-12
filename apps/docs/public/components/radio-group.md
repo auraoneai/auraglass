@@ -12,20 +12,20 @@ Tier T1 · RSC client · APG radio
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label?` | `string` | — | — |
-| `aria-labelledby?` | `string` | — | — |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `defaultValue?` | `string` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `name?` | `string` | — | — |
-| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | — |
-| `orientation?` | `'vertical' \| 'horizontal'` | — | — |
-| `readOnly?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `required?` | `boolean` | — | — |
-| `size?` | `ControlSize` | — | — |
-| `value?` | `string` | — | — |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `aria-labelledby?` | `string` | — | Id of the element that provides the accessible name. |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultValue?` | `string` | — | Initial value when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `orientation?` | `'vertical' \| 'horizontal'` | — | Layout direction; also the arrow-key axis. |
+| `readOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `required?` | `boolean` | — | Marks the field as required for form validation. |
+| `size?` | `ControlSize` | — | Control size. |
+| `value?` | `string` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -49,4 +49,15 @@ Tier T1 · RSC client · APG radio
 
 ## Example
 
-_Example pending: no `apps/docs/examples/radio-group/*.tsx` yet._
+```tsx
+import { RadioGroup } from 'aura-glass';
+
+export default function RadioGroupMinimal() {
+  return (
+    <RadioGroup.Root defaultValue="standard" aria-label="Delivery speed">
+      <RadioGroup.Item value="standard">Standard (3–5 days)</RadioGroup.Item>
+      <RadioGroup.Item value="express">Express (next day)</RadioGroup.Item>
+    </RadioGroup.Root>
+  );
+}
+```

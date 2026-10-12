@@ -171,6 +171,22 @@ describe('main() on a hermetic repo', () => {
       'reduced-motion-initial', 'removed']);
   });
 
+  it('5x: a since with no committed snapshot is pending (reported, exit 0); --require-snapshots fails it', () => {
+    const t = fixtureRepo(computed(['GlassOld']));
+    expect(mainIn(t, ['--line', '5x'])).toBe(0);
+    const pending = esm(`const p = []; const errs = m.checkEntries(${JSON.stringify([OK])}, { exportsAt: () => null, pendingSnapshots: p });
+      console.log(JSON.stringify({ errs, p }))`);
+    expect(pending).toEqual({ errs: [], p: ['DEP-P0101 4.2.0'] });
+    expect(mainIn(t, ['--line', '5x', '--require-snapshots'])).toBe(1);
+    // A committed snapshot for the since makes the rule bite on 5x without the flag.
+    mkdirSync(join(t, 'etc/snapshots'), { recursive: true });
+    writeFileSync(join(t, 'etc/snapshots/4.2.0.json'), JSON.stringify({ version: 1, entries: { '.': { runtime: ['Other'], types: [] } } }));
+    expect(mainIn(t, ['--line', '5x'])).toBe(1);
+    writeFileSync(join(t, 'etc/snapshots/4.2.0.json'), JSON.stringify({ version: 1, entries: { '.': { runtime: ['GlassOld'], types: [] } } }));
+    expect(mainIn(t, ['--line', '5x'])).toBe(0);
+    expect(mainIn(t, ['--line', '5x', '--require-snapshots'])).toBe(0);
+  });
+
   it('snapshot resolver: published snapshot wins, current api report for unpublished since, null otherwise', () => {
     const t = fixtureRepo(computed(['GlassOld']));
     mkdirSync(join(t, 'etc/snapshots'), { recursive: true });

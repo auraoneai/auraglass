@@ -8,11 +8,17 @@ export interface ReasoningLabels {
 }
 
 export interface ReasoningProps {
+  /** Reasoning text. */
   text: string;
+  /** 'streaming' while reasoning is in progress, 'done' when finished. */
   state: 'streaming' | 'done';
+  /** How long the model reasoned, shown in the summary once done. */
   durationMs?: number | undefined;
+  /** Initial expanded state of the reasoning panel. */
   defaultOpen?: boolean | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: ReasoningLabels | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 

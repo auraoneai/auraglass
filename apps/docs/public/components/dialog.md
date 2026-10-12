@@ -12,14 +12,14 @@ Tier T1 · RSC client · APG dialog-modal
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
-| `defaultOpen?` | `boolean` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
 | `dismissible?` | `boolean` | — | Outside press closes; `false` maps to BU disablePointerDismissal. |
 | `labels?` | `{ close?: string \| undefined; }` | — | Localisable strings. |
 | `modal?` | `boolean` | — | Modal (default true) traps focus, inerts the page and registers the LayerStack scroll lock; false is a non-modal dialog. |
-| `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |
-| `open?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
+| `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | Called with the next open state when it changes. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -53,4 +53,22 @@ Tier T1 · RSC client · APG dialog-modal
 
 ## Example
 
-_Example pending: no `apps/docs/examples/dialog/*.tsx` yet._
+```tsx
+import { Button, Dialog } from 'aura-glass';
+
+export default function DialogMinimal() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger>Rename project</Dialog.Trigger>
+      <Dialog.Content>
+        <Dialog.Header><Dialog.Title>Rename project</Dialog.Title></Dialog.Header>
+        <Dialog.Body><Dialog.Description>The new name is shown to everyone in the workspace.</Dialog.Description></Dialog.Body>
+        <Dialog.Footer>
+          <Dialog.Close>Cancel</Dialog.Close>
+          <Button prominent>Save</Button>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
+  );
+}
+```

@@ -16,12 +16,19 @@ export interface DismissableLayerProps extends React.HTMLAttributes<HTMLDivEleme
   layerKind?: LayerKind;
   /** Stops all dismissal behaviour (outside events and Escape). */
   disabled?: boolean;
+  /** Blocks pointer events outside the layer while it is mounted. */
   disableOutsidePointerEvents?: boolean;
+  /** Called on Escape; call `preventDefault()` to keep the layer open. */
   onEscapeKeyDown?: (event: KeyboardEvent) => void;
+  /** Called on a pointer down outside; call `preventDefault()` to keep the layer open. */
   onPointerDownOutside?: (event: DismissableLayerOutsideEvent) => void;
+  /** Called when focus moves outside; call `preventDefault()` to keep the layer open. */
   onFocusOutside?: (event: FocusEvent) => void;
+  /** Called on any outside pointer down or focus; call `preventDefault()` to keep the layer open. */
   onInteractOutside?: (event: DismissableLayerOutsideEvent) => void;
+  /** Called when the layer should close. */
   onDismiss?: () => void;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLDivElement>;
 }
 

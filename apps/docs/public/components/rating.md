@@ -6,22 +6,22 @@
 import { Rating } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG radio
+Tier T2 · RSC client · APG radio
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `allowHalf?` | `boolean` | — | — |
+| `allowHalf?` | `boolean` | — | Allows half-step values. |
 | `aria-label?` | `string` | — | Defines a string value that labels the current element. |
-| `defaultValue?` | `number` | — | — |
-| `disabled?` | `boolean` | — | — |
+| `defaultValue?` | `number` | — | Initial value when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
 | `icon?` | `ReactNode` | — | Item glyph; default renders the css star. |
-| `max?` | `number` | — | — |
-| `onValueChange?` | `(value: number, details: { event: KeyboardEvent \| SyntheticEvent<Element, Event>; }) => void` | — | — |
-| `readOnly?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `value?` | `number` | — | — |
+| `max?` | `number` | — | Number of rating items. |
+| `onValueChange?` | `(value: number, details: { event: KeyboardEvent \| SyntheticEvent<Element, Event>; }) => void` | — | Called with the new value whenever it changes. |
+| `readOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `value?` | `number` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -39,4 +39,10 @@ Tier T1 · RSC client · APG radio
 
 ## Example
 
-_Example pending: no `apps/docs/examples/rating/*.tsx` yet._
+```tsx
+import { Rating } from 'aura-glass';
+
+export default function RatingMinimal() {
+  return <Rating defaultValue={3} aria-label="Rating" />;
+}
+```

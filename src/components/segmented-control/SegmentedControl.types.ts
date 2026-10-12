@@ -3,9 +3,13 @@ import type { ChangeDetails, MaterialBearingProps } from '../../contracts/compon
 
 /** @tier Certified. Radio semantics (REQ-CTL-40): single value. */
 export interface SegmentedControlRootProps extends MaterialBearingProps {
+  /** Controlled value. Pair with `onValueChange`. */
   value?: string | undefined;
+  /** Initial value when uncontrolled. */
   defaultValue?: string | undefined;
+  /** Called with the new value whenever it changes. */
   onValueChange?: ((value: string, details: ChangeDetails) => void) | undefined;
+  /** Control size. */
   size?: 'sm' | 'md' | 'lg' | undefined;
   /** Layout orientation (default 'horizontal'); roving focus follows it. */
   orientation?: 'horizontal' | 'vertical' | undefined;
@@ -13,9 +17,13 @@ export interface SegmentedControlRootProps extends MaterialBearingProps {
   'aria-label': string;
   /** Required form name (REQ-CMP-41). */
   name: string;
+  /** Disables interaction. */
   disabled?: boolean | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLDivElement> | undefined;
 }
 

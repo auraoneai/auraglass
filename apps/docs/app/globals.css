@@ -43,3 +43,21 @@ footer { padding: 1rem; }
 .docs-example-preview > [data-ag-backdrop] { position: relative; min-block-size: 12rem; padding: 1rem; }
 .docs-example-preview [data-ag-part="backdrop-media"] { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; z-index: 0; }
 .docs-example-preview > [data-ag-backdrop] > :not([data-ag-part="backdrop-media"]) { position: relative; z-index: 1; }
+
+/* REQ-PLAT-102: the docs chrome honours the user's motion and transparency
+   preferences (asserted by tests/dx/docs-a11y.spec.ts). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  *, *::before, *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  [data-ag-surface] { background-color: var(--ag-color-surface, var(--ag-color-canvas, Canvas)); }
+}

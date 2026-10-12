@@ -16,7 +16,9 @@ const PRESET_DECLARATION: Record<BackdropPreset, 'media' | null> = {
   photo: 'media', video: 'media', aurora: null, mesh: null, grain: null,
 };
 
-export const Backdrop = function Backdrop(props: BackdropProps & { ref?: React.Ref<HTMLDivElement> }) {
+export const Backdrop = function Backdrop(props: BackdropProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> }) {
   const { ref } = props;
   const {
     preset, palette = 'aurora', scheme = 'auto', mediaTone, grain = false,

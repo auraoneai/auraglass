@@ -34,13 +34,17 @@ import type { ChangeDetails } from '../../contracts/components';
 const DialogRoot = BaseDialog.Root;
 
 export type CommandPaletteProps = {
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean | undefined;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean | undefined;
+  /** Called with the next open state when it changes. */
   onOpenChange?: ((open: boolean, details: ChangeDetails) => void) | undefined;
   /** Global hotkey — 'mod+k' by default; pass false to disable. */
   hotkey?: string | false | undefined;
   /** Accessible name of the dialog (default 'Command palette'). */
   'aria-label'?: string | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
   /** REQ-CMP-03: resolves to the root part — the [data-ag-part=command-palette] popup while open. */
   ref?: React.Ref<HTMLDivElement> | undefined;

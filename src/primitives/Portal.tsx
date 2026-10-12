@@ -9,6 +9,7 @@ import { usePortalContainer } from '../theme/portal';
 import type { PortalLayerRoot } from '../contracts/preferences';
 
 export interface PortalProps {
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
   /** Explicit container; when omitted the provider's `layer` root is used. */
   container?: HTMLElement | null;

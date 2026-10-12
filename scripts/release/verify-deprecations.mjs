@@ -5,7 +5,7 @@
    release/4.1.x and next.
 
      node scripts/release/verify-deprecations.mjs [--line 4x|5x]
-       [--compare-branch <ref>] [--entries-manifest <json>]
+       [--compare-branch <ref>] [--entries-manifest <json>] [--require-snapshots]
 
    Rules (each has a fixture in tests/deprecations/verify.test.ts):
      shape     id/kind/status/automation/doc/breaking/message/exception fields
@@ -22,7 +22,10 @@
      snapshot  kind 'export': symbol present in the `since` version's export
                snapshot (etc/snapshots/<since>.json once published; the
                current tree's etc/api/<entry>.exports.json while `since` is
-               the line's own or a later, unpublished version)
+               the line's own or a later, unpublished version). On next
+               (5x) a 4.x `since` with no committed snapshot has not been
+               published yet: the entry is reported as pending, not failed,
+               unless --require-snapshots (tag pipelines), where it fails.
      compare   --compare-branch <ref>: on 5x, every id of <ref> (release/4.x)
                must still exist on this tree with identical fields
                (append-only); on 4x, every id of this tree must exist on <ref>
@@ -72,10 +75,13 @@ export function cmpVersion(a, b) {
  * @param {Set<string>|null} ctx.codemodFixtures codemod ids with a fixture directory
  * @param {(since: string, entry: string) => Set<string>|null} ctx.exportsAt
  *        export names of `entry` in the `since` version's snapshot (null = no snapshot)
+ * @param {string[]|null} ctx.pendingSnapshots when an array, an entry whose `since`
+ *        has no snapshot is pushed here ("<id> <since>") instead of failing
+ *        (next before that 4.x minor is published); null = missing snapshot fails
  */
 export function checkEntries(entries, {
   entriesManifest = null, breakingIds = null, version = null,
-  codemods = null, codemodFixtures = null, exportsAt = null,
+  codemods = null, codemodFixtures = null, exportsAt = null, pendingSnapshots = null,
 } = {}) {
   const errors = []; const seen = new Set();
   for (const e of entries) {
@@ -133,7 +139,8 @@ export function checkEntries(entries, {
     if (e.exception != null && !e.evidence) fail('exception entries require evidence');
     if (e.kind === 'export' && exportsAt && semver(e.since)) {
       const names = exportsAt(e.since, e.entry);
-      if (names == null) fail(`no export snapshot for ${e.since} '${e.entry}' (etc/snapshots/${e.since}.json)`);
+      if (names == null && pendingSnapshots) pendingSnapshots.push(`${e.id} ${e.since}`);
+      else if (names == null) fail(`no export snapshot for ${e.since} '${e.entry}' (etc/snapshots/${e.since}.json)`);
       else if (!names.has(e.symbol)) fail(`export '${e.symbol}' is not in the ${e.since} export snapshot of '${e.entry}'`);
     }
   }
@@ -243,8 +250,11 @@ export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
   const register = existsSync(paths.breakingRegister) ? JSON.parse(readFileSync(paths.breakingRegister, 'utf8')) : null;
   const breakingIds = register ? new Set((register.items ?? register.changes ?? []).map((c) => c.id)) : null;
 
+  // next: a 4.x `since` without a committed snapshot is unpublished (pending);
+  // tag pipelines pass --require-snapshots so a GA build cannot skip the rule.
+  const pendingSnapshots = line === '5x' && !argv.includes('--require-snapshots') ? [] : null;
   const errors = checkEntries(entries, {
-    entriesManifest, breakingIds,
+    entriesManifest, breakingIds, pendingSnapshots,
     // On next (5.x versions) the 4.x since/active rule has no line version to compare to.
     version: line === '4x' ? pkg.version ?? null : null,
     codemods: await contractCodemods(root),
@@ -263,6 +273,12 @@ export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
         errors.push(`${e.id}: active runtime-kind entry missing from src/internal/deprecations.generated.ts`);
       }
     }
+  }
+  if (pendingSnapshots?.length) {
+    const bySince = new Map();
+    for (const p of pendingSnapshots) { const v = p.split(' ')[1]; bySince.set(v, (bySince.get(v) ?? 0) + 1); }
+    const list = [...bySince].sort(([a], [b]) => cmpVersion(a, b)).map(([v, n]) => `${v}: ${n}`).join(', ');
+    console.log(`verify-deprecations: snapshot rule pending (unpublished since, no etc/snapshots/<since>.json) for ${pendingSnapshots.length} export entries (${list})`);
   }
   if (errors.length) { for (const e of errors) console.error(`FAIL ${e}`); console.error(`verify-deprecations: ${errors.length} error(s)`); return 1; }
   console.log(`verify-deprecations: ${entries.length} entries OK${ref ? ` (${line === '4x' ? `every id present on ${ref}` : `append-only vs ${ref}`})` : ''}`);

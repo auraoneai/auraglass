@@ -12,15 +12,19 @@ Tier T2 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/meter/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className?` | `string` | — | — |
-| `format?` | `'full' \| 'compact'` | — | — |
-| `locale?` | `string` | — | — |
-| `usage` | `AgUsage` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `format?` | `'full' \| 'compact'` | — | 'compact' hides zero token counts; 'full' lists every count. |
+| `locale?` | `string` | — | BCP 47 locale used for formatting and parsing. |
+| `usage` | `AgUsage` | — | Token usage to display. |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
+| `indicator` | `[data-ag-part="indicator"]` |
+| `label` | `[data-ag-part="label"]` |
+| `root` | `[data-ag-part="root"]` |
+| `track` | `[data-ag-part="track"]` |
 | `usage` | `[data-ag-part="usage"]` |
 | `usage-meter` | `[data-ag-part="usage-meter"]` |
 | `usage-window` | `[data-ag-part="usage-window"]` |
@@ -36,4 +40,10 @@ Tier T2 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/meter/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/usage-meter/*.tsx` yet._
+```tsx
+import { UsageMeter } from 'aura-glass/ai';
+
+export default function UsageMeterMinimal() {
+  return <UsageMeter usage={{ inputTokens: 1200, outputTokens: 400, contextWindow: 128000 }} />;
+}
+```

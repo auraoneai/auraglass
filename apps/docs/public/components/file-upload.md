@@ -6,25 +6,25 @@
 import { FileUpload } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG button
+Tier T2 · RSC client · APG button
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `accept?` | `string` | — | — |
-| `children?` | `ReactNode` | — | — |
+| `accept?` | `string` | — | Accepted file types, in the native `accept` attribute format. |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
 | `defaultItems?` | `readonly FileUploadItem[]` | — | Pre-populated file list (stories, controlled seeding). |
-| `disabled?` | `boolean` | — | — |
-| `maxCount?` | `number` | — | **Deprecated.** use maxFiles |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `maxCount?` | `number` | — | Maximum number of files. |
 | `maxFiles?` | `number` | — | Maximum admitted files. |
-| `maxSize?` | `number` | — | — |
-| `multiple?` | `boolean` | — | — |
-| `onFilesAccepted?` | `(items: FileUploadItem[]) => void` | — | — |
-| `onFilesRejected?` | `(rejections: FileUploadRejection[]) => void` | — | — |
+| `maxSize?` | `number` | — | Maximum size of one file, in bytes. |
+| `multiple?` | `boolean` | — | Allows selecting more than one file. |
+| `onFilesAccepted?` | `(items: FileUploadItem[]) => void` | — | Called with the files that passed the type, size and count checks. |
+| `onFilesRejected?` | `(rejections: FileUploadRejection[]) => void` | — | Called with the files that failed a check, each with its reason. |
 | `onUpload?` | `(file: File, ctx: { signal: AbortSignal; onProgress: (progress: number) => void; }) => Promise<unknown>` | — | Optional async upload; aborts via signal, drives item.progress via onProgress. |
 | `onValueChange?` | `(items: FileUploadItem[], details: FileUploadChangeDetails) => void` | — | Called on every list mutation with the reason + rejections. |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -48,4 +48,10 @@ Tier T1 · RSC client · APG button
 
 ## Example
 
-_Example pending: no `apps/docs/examples/file-upload/*.tsx` yet._
+```tsx
+import { FileUpload } from 'aura-glass';
+
+export default function FileUploadMinimal() {
+  return <FileUpload accept="image/*" multiple maxCount={5} />;
+}
+```

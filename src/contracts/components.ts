@@ -5,13 +5,23 @@ import type { MaterialVariant, Thickness } from './material';
 // ---- S-30 prop grammar (was SC-24) ----
 export type Intent = 'neutral' | 'info' | 'success' | 'warning' | 'danger';
 export type Size = 'sm' | 'md' | 'lg';                   // components may accept a subset; emitted as data-ag-size
-export interface MaterialBearingProps { variant?: MaterialVariant; thickness?: Thickness; prominent?: boolean; refraction?: boolean }
+export interface MaterialBearingProps {
+  /** Material variant. */
+  variant?: MaterialVariant;
+  /** Material thickness (blur and opacity step). */
+  thickness?: Thickness;
+  /** Prominent (filled, higher-emphasis) appearance. */
+  prominent?: boolean;
+  /** Opt-in refraction on refraction-eligible materials; ignored where unsupported. */
+  refraction?: boolean }
 export interface IntentProps<I extends Intent = Intent> { intent?: I }       // tints text/rim/specular; never selects material
 export interface SizeProps<S extends Size = Size> { size?: S }
 export interface ChangeDetails { event: Event | undefined; reason: string }  // never a Base UI or RA type
 export type RenderProp<P = Record<string, unknown>, S = Record<string, unknown>> =
   React.ReactElement | ((props: P, state: S) => React.ReactElement);
-export interface RenderProps<P = Record<string, unknown>, S = Record<string, unknown>> { render?: RenderProp<P, S> }
+export interface RenderProps<P = Record<string, unknown>, S = Record<string, unknown>> {
+  /** Replaces the rendered element; the component props and state are merged onto it. */
+  render?: RenderProp<P, S> }
 export interface ValueProps<T> { value?: T; defaultValue?: T; onValueChange?: (value: T, details: ChangeDetails) => void }
 export interface CheckedProps { checked?: boolean; defaultChecked?: boolean; onCheckedChange?: (checked: boolean, details: ChangeDetails) => void }
 export interface OpenProps { open?: boolean; defaultOpen?: boolean; onOpenChange?: (open: boolean, details: ChangeDetails) => void }
@@ -19,7 +29,9 @@ export interface OpenProps { open?: boolean; defaultOpen?: boolean; onOpenChange
 export const BANNED_PROPS = ['material', 'elevation', 'as', 'tone', 'asChild', 'onChange' /* value callbacks */] as const;
 /** Non-material visual choice uses `appearance` (emitted as data-ag-appearance), never `variant`. */
 export type PartProps<E extends keyof React.JSX.IntrinsicElements = 'div'> =
-  Omit<React.ComponentPropsWithoutRef<E>, 'onChange'> & RenderProps & { ref?: React.Ref<HTMLElement> };
+  Omit<React.ComponentPropsWithoutRef<E>, 'onChange'> & RenderProps & {
+    /** Ref to the rendered root element. */
+    ref?: React.Ref<HTMLElement> };
 
 // 4.x Button mapping used by compat and the prop-grammar codemod
 export const BUTTON_VARIANT_MAP = {

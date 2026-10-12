@@ -618,20 +618,20 @@ When components render over gradients or dynamic backgrounds, avoid hardcoded wh
 </section>
 ```
 
-- Auto-detect for dynamic backgrounds:
+- Dynamic backgrounds: render the text on a `Surface`. The material keeps
+  its own legibility over any backdrop (vibrancy and the contrast-safe
+  `--ag-on-surface` tokens), so no luminance-detection hook is needed:
 ```tsx
-import useAutoTextContrast from '@/hooks/useAutoTextContrast';
+import { Surface } from 'aura-glass';
 
 export function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  useAutoTextContrast(ref, { threshold: 0.55, observe: true });
   return (
-    <div ref={ref}>
-      <h2 className="glass-text-primary">Always readable</h2>
-      <p className="glass-text-secondary">Tokens flip to match background luminance.</p>
-    </div>
+    <Surface layer="chrome">
+      <h2>Always readable</h2>
+      <p>Text tokens follow the material, not the pixels behind it.</p>
+    </Surface>
   );
 }
 ```
 
-This flips `--glass-text-*` tokens to white-on-dark or black-on-light without inline styles, preserving full lint/token compliance.
+This keeps text readable without inline styles, preserving full lint/token compliance.

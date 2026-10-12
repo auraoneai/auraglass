@@ -12,14 +12,15 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label?` | `string` | — | — |
-| `className?` | `string` | — | — |
-| `items` | `readonly TimelineItem[]` | — | — |
-| `labels?` | `TimelineLabels` | — | — |
-| `locale?` | `string` | — | — |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `items` | `readonly TimelineItem[]` | — | Timeline items in order. |
+| `labels?` | `TimelineLabels` | — | Overrides for the built-in, localizable UI strings. |
+| `locale?` | `string` | — | BCP 47 locale used for formatting and parsing. |
 | `now?` | `number \| Date` | — | Required when timeFormat='relative' on the server (else dev error). |
-| `orientation?` | `'vertical' \| 'horizontal'` | — | — |
-| `timeFormat?` | `'relative' \| 'absolute' \| DateTimeFormatOptions` | — | — |
+| `orientation?` | `'vertical' \| 'horizontal'` | — | Direction of the timeline. |
+| `ref?` | `Ref<HTMLElement>` | — | REQ-CMP-03: resolves to the root part ([data-ag-part=timeline-container]). |
+| `timeFormat?` | `'relative' \| 'absolute' \| DateTimeFormatOptions` | — | Timestamp format: relative ('3 h ago'), absolute, or Intl.DateTimeFormat options. |
 | `timeZone?` | `string` | — | IANA zone for absolute and option formats. Default 'UTC', so server and client render the same text whatever their host zone is. |
 
 ## Parts
@@ -41,4 +42,19 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/timeline/*.tsx` yet._
+```tsx
+import { Timeline } from 'aura-glass';
+
+export default function TimelineMinimal() {
+  return (
+    <Timeline
+      aria-label="Deploys"
+      timeZone="UTC"
+      items={[
+        { id: '1', title: 'web@4.2.1 deployed', timestamp: '2026-10-01T09:30:00Z' },
+        { id: '2', title: 'web@4.2.0 deployed', timestamp: '2026-09-28T16:00:00Z' },
+      ]}
+    />
+  );
+}
+```

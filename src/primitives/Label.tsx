@@ -8,7 +8,9 @@ import { cn } from '../internal/index';
 export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   /** Marks the control required: visual asterisk + screen-reader ' (required)'. */
   required?: boolean;
+  /** Disables interaction. */
   disabled?: boolean;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLLabelElement>;
 }
 

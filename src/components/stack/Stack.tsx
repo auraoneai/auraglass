@@ -18,11 +18,15 @@ export function spaceGap(gap: SpaceTokenLike): string {
 }
 
 export interface StackProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /** Main axis. */
   direction?: 'row' | 'column';
   /** SpaceToken index, a number (→ var(--ag-space-N)), or a raw CSS length. */
   gap?: SpaceTokenLike;
+  /** Cross-axis alignment of the children. */
   align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
+  /** Main-axis distribution of the children. */
   justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+  /** Lets children wrap onto new lines. */
   wrap?: boolean;
   /** Node rendered between each pair of children. */
   separator?: React.ReactNode;
@@ -52,7 +56,9 @@ export function Stack({
   style,
   ref,
   ...rest
-}: StackProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: StackProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   const cssStyle: React.CSSProperties = {
     flexDirection: direction === 'row' ? 'row' : 'column',
     gap: gap === undefined ? undefined : spaceGap(gap),

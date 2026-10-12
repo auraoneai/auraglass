@@ -6,22 +6,22 @@
 import { Meter } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG none
+Tier T2 · RSC client · APG none
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `format?` | `NumberFormatOptions` | — | — |
-| `high?` | `number` | — | — |
+| `format?` | `NumberFormatOptions` | — | Intl.NumberFormat options used to format the displayed value. |
+| `high?` | `number` | — | Lower bound of the high region (native meter semantics). |
 | `label` | `string` | — | Required accessible name. |
-| `low?` | `number` | — | — |
-| `max?` | `number` | — | — |
-| `min?` | `number` | — | — |
-| `optimum?` | `number` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `showValue?` | `boolean` | — | — |
-| `value` | `number` | — | — |
+| `low?` | `number` | — | Upper bound of the low region (native meter semantics). |
+| `max?` | `number` | — | Upper bound of the range. |
+| `min?` | `number` | — | Lower bound of the range. |
+| `optimum?` | `number` | — | Optimal value; decides which region reads as good (native meter semantics). |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `showValue?` | `boolean` | — | Shows the formatted value next to the bar. |
+| `value` | `number` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -39,4 +39,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/meter/*.tsx` yet._
+```tsx
+import { Meter } from 'aura-glass';
+
+export default function MeterMinimal() {
+  return <Meter label="Storage" value={72} low={20} high={80} optimum={10} showValue />;
+}
+```

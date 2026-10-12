@@ -7,6 +7,7 @@ import * as React from 'react';
 import { cn } from '../../internal/index';
 
 export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Maximum inline size step; 'full' removes the limit. */
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
   /** Space-token padding on the inline axis (block padding follows size). */
   padding?: number | string;
@@ -27,7 +28,9 @@ export function Container({
   style,
   ref,
   ...rest
-}: ContainerProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: ContainerProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   return (
     <div
       {...rest}
