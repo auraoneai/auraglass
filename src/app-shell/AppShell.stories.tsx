@@ -100,7 +100,7 @@ const BrandScope = ({ brand, children }: { brand: Oklch; children: React.ReactNo
   const theme = React.useMemo(() => createBrandTheme(brand), [brand]);
   return (
     <>
-      <style data-ag-brand-story="">{theme.cssText}</style>
+      <style data-brand-story="">{theme.cssText}</style>
       <div data-ag-theme={theme.id} data-testid="brand-scope">{children}</div>
     </>
   );

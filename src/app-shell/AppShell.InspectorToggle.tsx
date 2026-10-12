@@ -2,7 +2,7 @@
 /* Inspector open/close toggle (SURF-017): toggles data-ag-inspector through
    the per-root store; aria-controls/aria-expanded reflect the snapshot.
    In compact mode the same toggle is the only opener of Inspector.Sheet,
-   which returns focus here (data-ag-toggle="inspector") on close. */
+   which returns focus here (data-toggle="inspector") on close. */
 
 import * as React from 'react';
 import { IconButton } from '../components/icon-button';
@@ -63,7 +63,7 @@ export function AppShellInspectorToggle({ labels, icon, ...rest }: AppShellInspe
       label={label}
       aria-label={label}
       aria-expanded={open}
-      data-ag-toggle="inspector"
+      data-toggle="inspector"
       {...(controls ? { 'aria-controls': controls } : {})}
       onClick={() => rootEl && setInspector(rootEl, open ? 'closed' : 'open')}
       icon={icon}

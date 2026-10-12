@@ -8,7 +8,7 @@ export default defineMeta({
   budgetKb: 6,
   tier: 'T1',
   rsc: 'client',
-  parts: ['backdrop', 'detent-live', 'root', 'sidebar-drawer', 'sidebar-item', 'sidebar-item-li', 'sidebar-nav'],
+  parts: ['backdrop', 'detent-live', 'hit-area', 'main', 'root', 'sidebar', 'sidebar-drawer', 'sidebar-item', 'sidebar-item-li', 'sidebar-nav', 'sidebar-toggle', 'trigger'],
   states: ['open', 'closed'],
   variants: {},
   migration: [{ from: 'GlassSidebarDrawer', props: {}, automation: 'mostly', compat: true }],

@@ -42,5 +42,5 @@ export function TopBarEdgeRegistrar({ edge = 'top' }: { edge?: ScrollEdgeSide } 
     };
   }, [edge]);
 
-  return <span hidden ref={marker} data-ag-part="edge-registrar" data-ag-edge-registrar={edge} />;
+  return <span hidden ref={marker} data-ag-part="edge-registrar" data-edge-registrar={edge} />;
 }

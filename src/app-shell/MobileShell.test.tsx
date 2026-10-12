@@ -58,8 +58,8 @@ describe('MobileShell (SURF-030)', () => {
       expect(container.querySelectorAll('[data-ag-edge="top"]')).toHaveLength(1);
       expect(container.querySelectorAll('[data-ag-edge="bottom"]')).toHaveLength(1);
       // TabBar registers the bottom edge on the same shell as the TopBar's top.
-      expect(container.querySelectorAll('[data-ag-edge-registrar="bottom"]')).toHaveLength(1);
-      expect(container.querySelectorAll('[data-ag-edge-registrar="top"]')).toHaveLength(1);
+      expect(container.querySelectorAll('[data-edge-registrar="bottom"]')).toHaveLength(1);
+      expect(container.querySelectorAll('[data-edge-registrar="top"]')).toHaveLength(1);
       const edgeWarns = warn.mock.calls.filter((c) => String(c[0]).includes('ScrollEdge'));
       expect(edgeWarns).toEqual([]);
     } finally {
