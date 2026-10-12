@@ -14,7 +14,7 @@ test.describe('date picker e2e (REQ-SURF-101)', () => {
     await trigger.click();
     const dialog = page.getByRole('dialog', { name: 'Due date' });
     await expect(dialog).toBeVisible();
-    await expect(dialog).toHaveAttribute('data-ag-presentation', 'popover');
+    await expect(dialog).toHaveAttribute('data-presentation', 'popover');
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
     await expect(trigger).toBeFocused();

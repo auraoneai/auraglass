@@ -118,11 +118,11 @@ describe('DatePicker (REQ-SURF-98/101)', () => {
       renderAg(<DatePicker label="Due" defaultValue={new CalendarDate(2026, 10, 15)} />);
       await user.click(screen.getByRole('button', { name: 'Choose date' }));
       const dialog = await screen.findByRole('dialog');
-      expect(dialog.getAttribute('data-ag-presentation')).toBe('sheet');
-      expect(dialog.getAttribute('data-ag-side')).toBe('bottom');
+      expect(dialog.getAttribute('data-presentation')).toBe('sheet');
+      expect(dialog.getAttribute('data-sheet-side')).toBe('bottom');
       expect(dialog.getAttribute('data-ag-overlay')).toBe('popover');
       const positioner = dialog.closest('[data-ag-part="positioner"]') as HTMLElement;
-      expect(positioner.getAttribute('data-ag-presentation')).toBe('sheet');
+      expect(positioner.getAttribute('data-presentation')).toBe('sheet');
       expect(positioner.style.position).toBe('fixed');
       // Popup sits on top of the viewport-bottom anchor.
       expect(positioner.getAttribute('data-side')).toBe('top');

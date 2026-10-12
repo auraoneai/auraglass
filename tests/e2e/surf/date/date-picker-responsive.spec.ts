@@ -14,8 +14,8 @@ test.describe('date picker responsive (REQ-SURF-101)', () => {
       await page.getByRole('button', { name: 'Choose date' }).click();
       const dialog = page.getByRole('dialog', { name: 'Due date' });
       await expect(dialog).toBeVisible();
-      await expect(dialog).toHaveAttribute('data-ag-presentation', 'sheet');
-      await expect(dialog).toHaveAttribute('data-ag-side', 'bottom');
+      await expect(dialog).toHaveAttribute('data-presentation', 'sheet');
+      await expect(dialog).toHaveAttribute('data-sheet-side', 'bottom');
       // Let the sheet's enter transition settle before measuring.
       await expect(dialog).not.toHaveAttribute('data-ag-animating');
       const box = await dialog.boundingBox();
@@ -33,7 +33,7 @@ test.describe('date picker responsive (REQ-SURF-101)', () => {
       const trigger = page.getByRole('button', { name: 'Choose date' });
       await trigger.click();
       const dialog = page.getByRole('dialog', { name: 'Due date' });
-      await expect(dialog).toHaveAttribute('data-ag-presentation', 'popover');
+      await expect(dialog).toHaveAttribute('data-presentation', 'popover');
       const t = (await trigger.boundingBox())!;
       const d = (await dialog.boundingBox())!;
       expect(d.y).toBeGreaterThanOrEqual(t.y + t.height - 1);
