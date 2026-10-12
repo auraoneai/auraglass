@@ -107,6 +107,8 @@ describe('plat:package:pack', () => {
     const rerunAt = lines.findIndex((l) => l.includes('classify-change.mjs'));
     const tarballAt = lines.findIndex((l) => l.includes('AURAGLASS_TARBALL=$TARBALL'));
     expect(rerunAt).toBeGreaterThan(tarballAt);
+    expect(lines.filter((l) => l.includes('classify-change.mjs'))).toHaveLength(1);
+    expect(lines[rerunAt]).toContain('if [ -n "$PREV" ]; then');
     expect(tarballAt).toBeGreaterThan(lines.indexOf(release));
     expect(lines[rerunAt]).toContain('if [ "$AG_SCOPE" = "release" ]; then');
     expect(lines[rerunAt]).toContain(
@@ -170,14 +172,20 @@ describe('plat:test:cli and plat:audit:backdrop wiring (B3-7)', () => {
     expect(cliText).toContain('for w in cli registry mcp labs; do');
     expect(cliText).toMatch(/PENDING: npm test -w packages\/\$w has no test script[^"]*"; exit 1; }/);
   });
-  it('type-checks the packed d.ts with tsc -p tests/types/plat after the workspace suites (REQ-FIN-41)', () => {
+  it('checks packed declarations and completions after the workspace suites (REQ-FIN-41)', () => {
     const ws = cliRows.indexOf('npm test -w packages/cli -w packages/registry -w packages/mcp -w packages/labs');
-    const tsc = cliRows.indexOf('npx tsc -p tests/types/plat');
+    const tsc = cliRows.indexOf('npm run -s plat:test:types:dx');
     expect(tsc).toBeGreaterThan(ws);
-    expect(cliRows[tsc - 1]).toMatch(/^test -f tests\/types\/plat\/tsconfig\.json \|\| \{ echo "PENDING: [^"]*"; exit 1; \}$/);
+    const guard = cliRows.findIndex((line) => /^test -f tests\/types\/plat\/tsconfig\.json \|\| \{ echo "PENDING: [^"]*"; exit 1; \}$/.test(line));
+    expect(guard).toBeGreaterThan(ws);
+    expect(guard).toBeLessThan(tsc);
+    const command = JSON.parse(readFileSync('package.json', 'utf8')).scripts['plat:test:types:dx'];
+    expect(command).toContain('node tests/types/plat/setup-extract.mjs &&');
+    expect(command).toContain('node_modules/.bin/tsc -p tests/types/plat/tsconfig.json');
+    expect(command).toContain('tests/types/plat/completions.test.ts');
   });
   it('keeps the codemod canary step on 5x (REQ-PLAT-92)', () => {
-    expect(cliRows).toContain('npx playwright test tests/dx/codemod-canary.spec.ts');
+    expect(cliRows).toContain('npx playwright test -c playwright.dx.config.ts tests/dx/codemod-canary.spec.ts');
   });
 
   it('plat:audit:backdrop is a manual job on the Playwright image', () => {
@@ -643,7 +651,7 @@ describe('REQ-FIN-31 wiring: glass-quality, dist-maps producer, release ledger',
       'node scripts/release/gen-deprecations.mjs --docs', // PLAT-29 (guide first)
       'node scripts/release/verify-breaking-register.mjs', // PLAT-29
       'node scripts/build/api-report.mjs --all --check', // PLAT-22
-      'node scripts/release/verify-deprecations.mjs --line "$AG_LINE"', // PLAT-25
+      'node scripts/release/verify-deprecations.mjs --line "$AG_LINE" ${CI_COMMIT_TAG:+--require-snapshots}', // PLAT-25
     ];
     it('runs every change-control/deprecation check, in order, inside the 5x branch', () => {
       const at = CMDS.map((c) => rows.indexOf(c));

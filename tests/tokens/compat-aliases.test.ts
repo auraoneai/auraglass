@@ -77,7 +77,9 @@ describe('compat aliases (MAT-076)', () => {
     postcss.parse(CSS).walkRules((r) => { if (r.selector === COMPAT_DARK_SELECTOR) rules.push(r); });
     expect(rules).toHaveLength(1);
     const got = new Map<string, string>();
-    rules[0].walkDecls((d) => { got.set(d.prop, d.value); });
+    const rule = rules[0];
+    if (!rule) throw new Error('Missing compatibility dark-selector rule');
+    rule.walkDecls((d) => { got.set(d.prop, d.value); });
     expect(got.get('color-scheme')).toBe('dark');
     got.delete('color-scheme');
     expect(Object.fromEntries(got)).toEqual(Object.fromEntries(expected));

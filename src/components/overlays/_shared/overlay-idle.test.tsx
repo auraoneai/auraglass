@@ -49,7 +49,7 @@ describe('overlay idle (CMP-203)', () => {
     // Fake timers go in BEFORE the toasts are added so the manager's dismiss
     // timers are counted (timers created under real timers are invisible to
     // jest.getTimerCount()). Each add() with a finite timeout must schedule
-    // exactly one timeout and nothing else.
+    // exactly one persistent timeout once its enter-frame work has settled.
     jest.useFakeTimers();
     let api: ReturnType<typeof useToast> | null = null;
     function Probe() {
@@ -80,8 +80,16 @@ describe('overlay idle (CMP-203)', () => {
       ids.push(api!.add({ title: 'Idle toast A', timeout: 4000 }));
       ids.push(api!.add({ title: 'Idle toast B', timeout: 4000 }));
     });
+    // Mounting a toast schedules the shared overlay enter-frame observer.
+    // This idle contract starts after that frame work, as the other subjects
+    // above do; retain the exact one-dismiss-timer-per-toast assertion.
+    await act(async () => { jest.advanceTimersByTime(50); });
+    await act(async () => { jest.advanceTimersByTime(50); });
     const live = api!.toasts.filter((t) => ids.includes(t.id)).length;
     expect(live).toBe(ids.length);
+    expect(jest.getTimerCount() - before).toBe(live);
+    await act(async () => { jest.advanceTimersByTime(2000); });
+    expect(api!.toasts.filter((t) => ids.includes(t.id))).toHaveLength(live);
     expect(jest.getTimerCount() - before).toBe(live);
 
     act(() => { ids.forEach((id) => api!.close(id)); });

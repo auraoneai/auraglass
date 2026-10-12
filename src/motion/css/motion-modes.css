@@ -62,9 +62,9 @@
       --_ag-pointer: 50% 50%;
     }
     /* infinite (continuous-gated) animations stop; finite cross-fades keep running */
-    :root:not([data-ag-motion]) :where([data-ag-continuous=on] :is([data-ag-part], [data-ag-surface], [data-loading], [aria-busy=true], [class^=ag-], [class*=" ag-"])),
-    :root:not([data-ag-motion]) :where([data-ag-continuous=on] :is([data-ag-part], [data-ag-surface], [data-loading], [aria-busy=true], [class^=ag-], [class*=" ag-"]))::before,
-    :root:not([data-ag-motion]) :where([data-ag-continuous=on] :is([data-ag-part], [data-ag-surface], [data-loading], [aria-busy=true], [class^=ag-], [class*=" ag-"]))::after {
+    :where([data-ag-continuous=on] :is([data-ag-part], [data-ag-surface], [data-loading], [aria-busy=true], [class^=ag-], [class*=" ag-"])):not(:where([data-ag-motion], [data-ag-motion] *)),
+    :where([data-ag-continuous=on] :is([data-ag-part], [data-ag-surface], [data-loading], [aria-busy=true], [class^=ag-], [class*=" ag-"])):not(:where([data-ag-motion], [data-ag-motion] *))::before,
+    :where([data-ag-continuous=on] :is([data-ag-part], [data-ag-surface], [data-loading], [aria-busy=true], [class^=ag-], [class*=" ag-"])):not(:where([data-ag-motion], [data-ag-motion] *))::after {
       animation: none;
     }
     :where([data-starting-style], [data-ending-style]):not(:where([data-ag-motion], [data-ag-motion] *)) {

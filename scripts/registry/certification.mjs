@@ -13,7 +13,7 @@
 
    Usage: node scripts/registry/certification.mjs --records <dir> --index registry/registry.json
             --out <file> [--sha <sha>] [--projects registry-chromium,registry-webkit]
-   sha defaults to CI_COMMIT_SHA (never GITHUB_SHA). Exit 0 when written (even
+   sha defaults to CI_COMMIT_SHA (never the GitHub SHA variable). Exit 0 when written (even
    if items fail: an uncertified item is omitted from the published registry,
    the build still succeeds), 64 on usage error. */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';

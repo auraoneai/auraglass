@@ -120,6 +120,6 @@ describe('NumberField stepper labels', () => {
     const hostRule = /\[data-ag-part='decrement'\]\[data-disabled\]\s*\{([^}]*)\}/.exec(css);
     expect(hostRule).not.toBeNull();
     expect(hostRule![1]).not.toMatch(/opacity/);
-    expect(css).toMatch(/\[data-ag-part='decrement'\]\[data-disabled\] > :where\(\*\)\s*\{\s*opacity: var\(--ag-state-disabled-alpha\)/);
+    expect(css).toMatch(/\[data-ag-part='decrement'\]\[data-disabled\] > :where\(:not\(\[data-ag-part='hit-area'\]\)\)\s*\{\s*opacity: var\(--ag-state-disabled-alpha\)/);
   });
 });

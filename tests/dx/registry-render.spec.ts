@@ -23,7 +23,7 @@
 
    The pass flag is the conjunction of every assertion: afterEach writes one
    record per (item, project) with Playwright's final status for CI_COMMIT_SHA
-   (never GITHUB_SHA); scripts/registry/certification.mjs aggregates them and
+   (never the GitHub SHA variable); scripts/registry/certification.mjs aggregates them and
    scripts/registry/build.mjs --certification sets meta.auraglass.certified.
    Runs only on the remote Playwright runner — never on dev machines. */
 import { test, expect, type Page, type BrowserContext } from '@playwright/test';

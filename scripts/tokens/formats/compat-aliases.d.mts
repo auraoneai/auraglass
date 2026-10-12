@@ -1,5 +1,6 @@
 // Declarations for formats/compat-aliases.mjs.
 export const COMPAT_ROOT: string;
+export const COMPAT_DARK_SELECTOR: string;
 export const LEGACY_COMMIT: string;
 export const LEGACY_CSS_PATH: string;
 export interface LegacyDecl { name: string; value: string }

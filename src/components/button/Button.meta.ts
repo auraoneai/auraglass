@@ -12,7 +12,7 @@ export default defineMeta({
   variants: {
     variant: ['regular', 'clear', 'identity'],
     prominent: ['true', 'false'],
-    intent: ['neutral', 'danger'],
+    intent: ['neutral', 'info', 'success', 'warning', 'danger'],
     size: ['sm', 'md', 'lg'],
   },
   material: { layer: 'chrome', refractionEligible: true },

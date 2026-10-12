@@ -511,9 +511,6 @@ plat:package:pack:
         # REQ-PLAT-13: same-line previous tag (dry-run.mjs previousTag()), not the
         # newest tag of any major.
         PREV=$(node scripts/release/dry-run.mjs --print-previous --tag "$CI_COMMIT_TAG" --line "$AG_LINE")
-        if [ -n "$PREV" ]; then
-          node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --out "$AURAGLASS_EVIDENCE_DIR/change-class.json"
-        fi
       fi
     - |
       if [ "$AG_LINE" = "4x" ]; then
@@ -568,9 +565,12 @@ plat:package:pack:
     # tarball) is real and required; a disallowed class blocks plat:publish:npm.
     - |
       if [ "$AG_SCOPE" = "release" ]; then
-        TARBALL=$(ls .artifacts/pack/aura-glass-*.tgz | head -1)
-        # $PREV is the previous tag computed in the dry-run step above (same job shell).
-        node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --head-tarball "$TARBALL" --require-snapshots --out "$AURAGLASS_EVIDENCE_DIR/change-class.json"
+        # PREV and the root-package TARBALL were resolved above in this job shell.
+        if [ -n "$PREV" ]; then
+          node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --head-tarball "$TARBALL" --require-snapshots --out "$AURAGLASS_EVIDENCE_DIR/change-class.json"
+        else
+          echo "plat:package:pack: $CI_COMMIT_TAG is the first release tag of its major, no previous tag to classify against"
+        fi
       fi
     # REQ-PLAT-16: dist-maps.tgz, the sourcemap release asset plat:release:notes
     # links, is produced here and only here (canonical, fail-closed; #179's

@@ -3,7 +3,7 @@
  * tests/types/plat). Consumes CMP and MAT types only through public entries.
  *   - material role types are exact literal unions, never `string`;
  *   - Button `variant` is exactly 'regular' | 'clear' | 'identity' | undefined,
- *     `intent` exactly Button meta.variants.intent ('neutral' | 'danger'),
+ *     `intent` exactly Button meta.variants.intent (the full S-30 union),
  *     `prominent` boolean | undefined; no material/elevation/as key;
  *   - Surface material props use the same unions;
  *   - 4.x grammar in JSX is a type error.
@@ -41,7 +41,7 @@ export type _L8 = Assert<IsLiteralUnion<Backdrop>>;
 /* Button */
 type ButtonProps = ComponentProps<typeof Button>;
 export type _BV = Assert<IsExact<ButtonProps['variant'], 'regular' | 'clear' | 'identity' | undefined>>;
-export type _BI = Assert<IsExact<ButtonProps['intent'], 'neutral' | 'danger' | undefined>>;
+export type _BI = Assert<IsExact<ButtonProps['intent'], 'neutral' | 'info' | 'success' | 'warning' | 'danger' | undefined>>;
 export type _BP = Assert<IsExact<ButtonProps['prominent'], boolean | undefined>>;
 export type _BT = Assert<IsExact<NonNullable<ButtonProps['thickness']>, Thickness>>;
 export type _BNoMaterial = Assert<IsExact<'material' extends keyof ButtonProps ? true : false, false>>;
@@ -67,5 +67,5 @@ export const bad1 = createElement(Button, { variant: 'primary' }, 'x');
 export const bad2 = createElement(Button, { variant: 'solid' }, 'x');
 // @ts-expect-error Surface has no solid variant
 export const bad3 = createElement(Surface, { variant: 'solid' });
-// @ts-expect-error info is a status-surface intent, not a control intent
-export const bad4 = createElement(Button, { intent: 'info' }, 'x');
+// @ts-expect-error destructive is a legacy spelling; the current intent is danger
+export const bad4 = createElement(Button, { intent: 'destructive' }, 'x');

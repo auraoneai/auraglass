@@ -51,7 +51,13 @@ function rg(root, pattern, timeoutMs) {
     const out = execFileSync('rg', [...args, pattern, root],
       { encoding: 'utf8', timeout: timeoutMs, maxBuffer: 4 * 1024 * 1024 });
     return out.split('\n').filter(Boolean);
-  } catch (e) { return e.killed || e.signal === 'SIGTERM' ? ['__TIMEOUT__'] : []; }
+  } catch (e) {
+    if (e.killed || e.signal === 'SIGTERM') return ['__TIMEOUT__'];
+    // ripgrep exits 1 for no matches. Missing executables, unreadable roots,
+    // invalid patterns and other failures must never become a clean report.
+    if (e.status === 1) return [];
+    throw new Error(`downstream-grep: rg failed for ${root}: ${e.message}`, { cause: e });
+  }
 }
 
 // 'rg -n' emits '<file>:<line>:<text>' — parse into structured hits.

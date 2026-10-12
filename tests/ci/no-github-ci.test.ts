@@ -66,6 +66,8 @@ const MIGRATION_DOCS = new Set([
   'docs/auraglass-5/tasks/FIN.json',
   // REQ-FIN-23 decision record: cites the mirror-to-gitlab run as evidence.
   'docs/release/decisions/gitlab-ci-verification.md',
+  // Historical re-audit describes this gate's forbidden-token set.
+  'docs/auraglass-5/handover/2026-10-12/data/reaudit-572-rows.json',
 ]);
 
 const EXCLUDE_PATH = [
@@ -74,6 +76,8 @@ const EXCLUDE_PATH = [
   /^reports\//, // generated audit output (fixture names like "--with-actions/")
   /^\.github\/workflows\/mirror-to-gitlab\.yml$/,
   /^tests\/ci\/no-github-ci\.test\.ts$/,
+  // Negative fixture proves registry certification rejects GitHub SHA input.
+  /^tests\/registry\/certification\.test\.ts$/,
   /^tests\/ci\/fixtures\//,
   /^scripts\/ci\/verify-ci-fragments\.mjs$/,
 ];

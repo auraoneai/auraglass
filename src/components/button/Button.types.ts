@@ -8,8 +8,8 @@ export interface ButtonProps
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'onChange' | 'prefix' | 'value'> {
   /** Material axis: 'regular' (default) | 'clear' | 'identity'. Never a `material` prop. */
   variant?: 'regular' | 'clear' | 'identity' | undefined;
-  /** Status tint: 'neutral' (default) or 'danger'. info, success and warning are status intents for Badge and Alert, not controls. */
-  intent?: Extract<Intent, 'neutral' | 'danger'> | undefined;
+  /** Status tint from the full S-30 intent union (REQ-CMP-34); neutral omits the attribute. */
+  intent?: Intent | undefined;
   /** Emitted as data-ag-size. */
   size?: 'sm' | 'md' | 'lg' | undefined;
   /** Decorative leading icon node. */

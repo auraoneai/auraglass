@@ -44,6 +44,16 @@ describe('downstream-grep (REQ-PLAT-35)', () => {
       console.log(r.status)`);
     expect(out.trim()).toBe('missing');
   });
+  it('a missing ripgrep executable fails instead of reporting a clean scan', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'dg-no-rg-'));
+    try {
+      const out = EVAL(`process.env.PATH = ${JSON.stringify(dir)};
+        try { await m.scanRoot(${JSON.stringify(dir)}); console.log('unexpected success'); }
+        catch (error) { console.log(error.message); }`);
+      expect(out).toContain('downstream-grep: rg failed');
+      expect(out).toContain('ENOENT');
+    } finally { rmSync(dir, { recursive: true, force: true }); }
+  });
   it('hits are structured {file,line,spec} and excluded dirs are skipped', () => {
     const dir = mkdtempSync(join(tmpdir(), 'dg-'));
     try {

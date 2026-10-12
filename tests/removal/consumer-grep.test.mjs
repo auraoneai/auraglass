@@ -204,10 +204,10 @@ describe('consumer-grep fixture tree', () => {
       const scan = git('rev-parse', '--short=9', 'HEAD');
       writeFileSync(join(root, 'later.txt'), 'x'); git('add', '-A'); git('commit', '-qm', 'base');
       const base = git('rev-parse', 'HEAD');
-      writeFileSync(recPath, JSON.stringify({ ...rec, scanSha: scan, signoff: 'gh run separately' }));
+      writeFileSync(recPath, JSON.stringify({ ...rec, scanSha: scan, signoff: 'downstream scan separately' }));
       git('add', '-A'); git('commit', '-qm', 'pr');
       expect(() => run(root, ['--verify', '--family', 'RM-11', '--base', base])).toThrow(/older than the PR base/);
-      writeFileSync(recPath, JSON.stringify({ ...rec, scanSha: git('rev-parse', '--short=9', 'HEAD'), signoff: 'gh run separately' }));
+      writeFileSync(recPath, JSON.stringify({ ...rec, scanSha: git('rev-parse', '--short=9', 'HEAD'), signoff: 'downstream scan separately' }));
       expect(run(root, ['--verify', '--family', 'RM-11', '--base', base])).toContain('scanned at/after');
     } finally { rmSync(root, { recursive: true, force: true }); rmSync(consumer, { recursive: true, force: true }); }
   });

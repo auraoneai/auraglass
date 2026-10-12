@@ -113,7 +113,12 @@ describe('prefers-reduced-motion media mirror', () => {
     expect(src).toContain('translate: none');
     // same rule as calm: animation: none only for continuous-gated (infinite) loops
     mirror!.walkDecls(/^animation$/, (d) => {
-      for (const sel of (d.parent as postcss.Rule).selectors) expect({ sel, gated: sel.includes('[data-ag-continuous=on]') }).toEqual({ sel, gated: true });
+      for (const sel of (d.parent as postcss.Rule).selectors) {
+        expect({ sel, gated: sel.includes('[data-ag-continuous=on]') }).toEqual({ sel, gated: true });
+        // An explicit preference anywhere above the animated subject wins over
+        // the OS mirror, including preferences below a continuous-motion gate.
+        expect(sel).toContain(':not(:where([data-ag-motion], [data-ag-motion] *))');
+      }
     });
   });
 });

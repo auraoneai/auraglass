@@ -111,7 +111,7 @@ function fixture() {
         ...env,
       },
     });
-    const log = existsSync(join(dir, 'npm.log'))
+    const log: string[][] = existsSync(join(dir, 'npm.log'))
       ? readFileSync(join(dir, 'npm.log'), 'utf8').trim().split('\n').filter(Boolean).map((l) => JSON.parse(l))
       : [];
     return { code: r.status, out: `${r.stdout}${r.stderr}`, publishes: log.filter((x: string[]) => x[0] === 'publish') };
@@ -271,8 +271,10 @@ describe('plat:package:pack -> plat:publish:npm handoff (REQ-PLAT-11)', () => {
       // fixture's own record is removed: only the pack job's output may satisfy publish.mjs
       rmSync(join(f.dir, EVIDENCE, 'pack-record.json'), { force: true });
       mkdirSync(join(f.dir, EVIDENCE, 'npm-pack'), { recursive: true });
-      for (const [w, file] of [['aura-glass', root], ['cli', cli]]) {
-        const { name, version } = f.state.files[file];
+      for (const [w, file] of [['aura-glass', root], ['cli', cli]] as const) {
+        const info = f.state.files[file];
+        if (!info) throw new Error(`Missing tarball fixture metadata for ${file}`);
+        const { name, version } = info;
         const integrity = sha512(join(f.dir, '.artifacts/pack', file));
         writeFileSync(join(f.dir, EVIDENCE, 'npm-pack', `${w}.json`), JSON.stringify([{ name, version, filename: file, integrity }]));
       }
