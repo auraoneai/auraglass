@@ -107,7 +107,7 @@ export const resolveTransparency = (
   user?: TransparencySetting,
   glassOpacity = 0,
 ): Transparency => resolvePaint(
-  os, { ...ANY_CAP, backdropFilter }, level({ transparency: app, glassOpacity }), level({ transparency: user }),
+  os, backdropFilter ? ANY_CAP : { ...ANY_CAP, backdropFilter: false }, level({ transparency: app, glassOpacity }), level({ transparency: user }),
 ).transparency;
 
 export const resolveContrast = (

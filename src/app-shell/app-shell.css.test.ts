@@ -209,6 +209,7 @@ describe('app-shell.css structure (SURF-011)', () => {
       });
       /* no blur: the docked column drops MAT's decorative ::before layer
          (REQ-SURF-03: SURF css declares no backdrop-filter) */
+      // eslint-disable-next-line auraglass/no-optics-outside-material -- negative control: asserts the declaration is absent (REQ-SURF-03); reads a declarations map, emits nothing
       expect(wide?.declarations.has('backdrop-filter')).toBe(false);
       const wideBefore = inCondition(CONDITIONS[2]!).find((r) => selectorsOf(r).includes(`${auto}::before`));
       expect(wideBefore?.declarations.get('content')).toBe('none');
