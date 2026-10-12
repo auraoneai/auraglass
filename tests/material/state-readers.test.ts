@@ -141,8 +141,16 @@ describe('REQ-FIN-02 floor rows (REQ-MAT-31)', () => {
   });
 
   it('the scrim blur is capped at 12px', () => {
+    // the scrim owns its blur scalar (12px on the scrim itself, so no ancestor
+    // can raise it); the filter reads only that scalar; every other rule that
+    // sets it only lowers it (deeper scrims: 0px)
     const [scrim] = rulesMatching(ast, /^\[data-ag-layer="scrim"\]$/);
-    expect(declsOf(scrim!, 'backdrop-filter')[0]!.value).toMatch(/min\([^)]*\), 12px\)/);
+    expect(declsOf(scrim!, '--_ag-scrim-blur').map((d) => d.value)).toEqual(['12px']);
+    expect(declsOf(scrim!, 'backdrop-filter')[0]!.value).toBe('blur(var(--_ag-scrim-blur))');
+    expect(declsOf(scrim!, '-webkit-backdrop-filter')[0]!.value).toBe('blur(var(--_ag-scrim-blur))');
+    const writes: string[] = [];
+    ast.walkDecls('--_ag-scrim-blur', (d) => { writes.push(d.value); });
+    for (const v of writes) expect(parseFloat(v)).toBeLessThanOrEqual(12);
   });
 });
 

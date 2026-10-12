@@ -161,8 +161,9 @@ describe('css-contract: material.css structure', () => {
     const canonical = vals.filter((v) => v.includes('var(--_ag-blur)'));
     expect(canonical.length).toBeGreaterThan(0);
     for (const v of canonical) {
-      // MAT-053: brightness may be scaled by the backdrop env multiplier; order stays fixed.
-      expect(v).toMatch(/blur\(var\(--_ag-blur\)\)\s+saturate\(var\(--_ag-saturation\)\)\s+brightness\((var\(--_ag-brightness\)|calc\(var\(--_ag-brightness\) \* var\(--_ag-env-brightness, 1\)\))\)/);
+      // MAT-053: brightness may be scaled by the backdrop env multiplier (declared 1 on
+      // the root, so it carries no literal fallback); order stays fixed.
+      expect(v).toMatch(/blur\(var\(--_ag-blur\)\)\s+saturate\(var\(--_ag-saturation\)\)\s+brightness\((var\(--_ag-brightness\)|calc\(var\(--_ag-brightness\) \* var\(--_ag-env-brightness\)\))\)/);
     }
     // blur is never a transition target
     let bad = 0;

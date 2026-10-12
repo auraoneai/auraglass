@@ -209,17 +209,9 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
 
   // MAT-14: presets ship as scoped cssText, never data-ag-theme selectors.
 
-  const parts = [HEADER_CSS, '', LAYER_ORDER, '', '@layer ag.tokens {', '  :root {', '    color-scheme: light dark;', '    --_ag-target: var(--ag-target-min);', ...base, '  }'];
-
-  // --_ag-target = max(min, coarse) under coarse pointers (MAT-015)
-  parts.push(
-    '',
-    '  @media (pointer: coarse) {',
-    '    :root {',
-    '      --_ag-target: var(--ag-target-coarse);',
-    '    }',
-    '  }',
-  );
+  // --_ag-target (MAT-015: --ag-target-min, --ag-target-coarse under coarse
+  // pointers) is declared next to its reader in src/a11y/css/targets.css.
+  const parts = [HEADER_CSS, '', LAYER_ORDER, '', '@layer ag.tokens {', '  :root {', '    color-scheme: light dark;', ...base, '  }'];
 
   // axis blocks: attribute selectors + media mirrors on :root:not([data-ag-<axis>])
   // MAT-12 (REQ-MAT-12/54): a non-default axis value that declares selectors

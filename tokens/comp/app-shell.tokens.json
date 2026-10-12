@@ -6,7 +6,7 @@
       "ag.since": "5.0.0"
     },
     "app-shell": {
-      "$description": "App-shell metrics (OD-19: moved from sys; private --_ag-app-shell-* per contract §4.2).",
+      "$description": "App-shell metrics (OD-19: moved from sys; private --_ag-app-shell-* per contract §4.2). The compact/expanded/wide breakpoints (600/1024/1440px, MAT-083: read-only, non-functional) are not tokens: a custom property cannot drive a @container query, so they live only as the literal conditions in src/app-shell/app-shell.css.",
       "sidebar-width": {
         "$type": "dimension",
         "$value": {
@@ -92,45 +92,6 @@
           "ag.public": false,
           "ag.cssVar": "--_ag-app-shell-gap",
           "ag.valueType": "dimension"
-        }
-      },
-      "bp-compact": {
-        "$type": "dimension",
-        "$value": {
-          "value": 600,
-          "unit": "px"
-        },
-        "$extensions": {
-          "ag.tier": "comp",
-          "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-bp-compact"
-        }
-      },
-      "bp-expanded": {
-        "$type": "dimension",
-        "$value": {
-          "value": 1024,
-          "unit": "px"
-        },
-        "$extensions": {
-          "ag.tier": "comp",
-          "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-bp-expanded"
-        }
-      },
-      "bp-wide": {
-        "$type": "dimension",
-        "$value": {
-          "value": 1440,
-          "unit": "px"
-        },
-        "$extensions": {
-          "ag.tier": "comp",
-          "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-bp-wide"
         }
       }
     }

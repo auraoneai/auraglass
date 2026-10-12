@@ -168,7 +168,7 @@ describe('REQ-FIN-11 comp tokens and OD-19 app-shell move (fresh token build)', 
     expect(src).not.toMatch(/"--ag-app-shell/);
     expect(JSON.parse(src).comp['app-shell']).toBeDefined();
     expect([...decls.keys()].filter((k) => k.startsWith('--_ag-app-shell-')).sort()).toEqual([
-      '--_ag-app-shell-bp-compact', '--_ag-app-shell-bp-expanded', '--_ag-app-shell-bp-wide', '--_ag-app-shell-gap',
+      '--_ag-app-shell-gap',
       '--_ag-app-shell-inspector-width', '--_ag-app-shell-rail-width', '--_ag-app-shell-sidebar-width',
       '--_ag-app-shell-tabbar-height', '--_ag-app-shell-topbar-height',
     ]);
