@@ -63,7 +63,9 @@ const plan = existsSync(join(ROOT, preset))
   ? { area, mode: 'preset', config: preset, command: ['npx', 'jest', '-c', preset, '--ci'] }
   : { area, mode: 'root', config: 'jest.config.js', paths: AREAS[area], command: ['npm', 'test', '--', '--ci', ...AREAS[area]] };
 
-plan.command.push('--testPathIgnorePatterns', '/node_modules/', '/legacy/', '/dist/', '/packages/', '/apps/', 'tests/capability/registry-only\\.test\\.ts$');
+// Packed-entry suites assert the built tarball only (surf:package:packed-entries);
+// CLI ignore patterns override preset config, so they are repeated here.
+plan.command.push('--testPathIgnorePatterns', '/node_modules/', '/legacy/', '/dist/', '/packages/', '/apps/', 'tests/capability/registry-only\\.test\\.ts$', 'tests/data/exports/surf-entries\\.test\\.ts$', 'tests/data/exports/data-date-entries\\.test\\.ts$', 'tests/data/exports/surf-statics\\.test\\.ts$');
 
 if (dryRun) {
   console.log(JSON.stringify(plan));
