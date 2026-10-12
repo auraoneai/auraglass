@@ -15,7 +15,9 @@ type Story = StoryObj<typeof sbMeta>;
 
 const column: React.CSSProperties = { display: 'grid', gap: 'var(--ag-space-3)' };
 
-function EmailPreferences() {
+/* An element builder, not a component: stories call it so Checkbox stays in the
+   story's static element tree (the ref-forwarding check attaches `ref` there). */
+function emailPreferences() {
   return (
     <Stage>
       <Section title="Checkbox" note="Sunken box with a hairline rim; checked fills with the accent.">
@@ -69,7 +71,7 @@ export const States: Story = {
   ),
 };
 
-export const Default: Story = { render: () => <EmailPreferences /> };
+export const Default: Story = { render: () => emailPreferences() };
 
 export const Indeterminate: Story = {
   render: () => (
@@ -92,4 +94,4 @@ export const Indeterminate: Story = {
 };
 
 /* The story tests/a11y/apg/cmp/checkbox.apg.spec.ts drives (each box a tab stop; Space flips aria-checked). */
-export const Keyboard: Story = { tags: ['apg'], render: () => <EmailPreferences /> };
+export const Keyboard: Story = { tags: ['apg'], render: () => emailPreferences() };

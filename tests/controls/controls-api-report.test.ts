@@ -7,7 +7,16 @@ import { join } from 'node:path';
 
 const REPORT = join(__dirname, '..', '..', 'etc', 'api', 'root.api.md');
 
-const BANNED_PROPS = ['intent', 'elevation', 'tier', 'glassVariant', 'glow', 'shimmer', 'blurAmount'];
+/* REQ-CMP-05 banned names plus 4.x-era props. `intent` is NOT banned: REQ-CMP-05
+   makes it the only status prop (Button REQ-CMP-34, Badge -114, Alert -116,
+   AlertDialog.Action), so it must appear in the public report. `glow\w*`
+   covers glow* (REQ-CMP-05). */
+const BANNED_PROPS = [
+  'material', 'elevation', 'as', 'tone', 'asChild', 'tier', 'intensity', 'depth', 'tint', 'blur',
+  'glow\\w*', 'caustics', 'chromatic', 'ior', 'lighting', 'animation', 'respectMotionPreference',
+  'consciousness', 'predictive', 'eyeTracking', 'adaptive', 'spatialAudio', 'trackAchievements',
+  'backdropBlur', 'glassVariant', 'shimmer', 'blurAmount',
+];
 
 describe('controls api report surface', () => {
   const text = existsSync(REPORT) ? readFileSync(REPORT, 'utf8') : null;
