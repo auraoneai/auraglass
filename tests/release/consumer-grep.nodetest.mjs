@@ -43,30 +43,24 @@ test('word-boundary rg finds only aura-glass import lines', () => {
     assert.ok(hits[0].includes('a.ts'));
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
-test('--verify fails on missing, stale and unacknowledged records', () => {
+test('--verify fails on missing, stale, old-shape and unacknowledged records', () => {
+  const rec = (x) => ({ family: 'RM-02', names: ['A'], status: 'ok', gh: { status: 'ok' }, hits: [], acknowledged: [], ...x });
   assert.ok(verifyRecord('RM-02', null, ['A']).join().includes('no consumer-grep record'));
-  assert.ok(verifyRecord('RM-02', { family: 'RM-02', names: [], gh: { status: 'missing' }, acknowledged: false },
-    ['NewName']).join().includes('stale'));
-  assert.ok(verifyRecord('RM-02', { family: 'RM-02', names: ['A'], gh: { status: 'missing' }, acknowledged: false },
-    ['A']).join().includes('not acknowledged'));
-  assert.deepEqual(verifyRecord('RM-02',
-    { family: 'RM-02', names: ['A'], gh: { status: 'missing' }, acknowledged: true, status: 'ok' }, ['A']), []);
+  assert.ok(verifyRecord('RM-02', rec({ names: [] }), ['NewName']).join().includes('stale'));
+  assert.ok(verifyRecord('RM-02', { family: 'RM-02', names: ['A'], gh: { status: 'ok' }, scans: [], acknowledged: false }, ['A']).join().includes('predates'));
+  assert.ok(verifyRecord('RM-02', rec({ gh: { status: 'missing' } }), ['A']).join().includes('no operator signoff'));
+  assert.ok(verifyRecord('RM-02', rec({ hits: [{ path: '/c/a.ts', count: 1 }] }), ['A']).join().includes('without an owner acknowledgement'));
+  assert.deepEqual(verifyRecord('RM-02', rec({ hits: [{ path: '/c/a.ts', count: 1 }], acknowledged: [{ path: '/c/a.ts', via: 'codemod' }] }), ['A']), []);
+  assert.deepEqual(verifyRecord('RM-02', rec({ gh: { status: 'missing' }, signoff: 'operator: gh unavailable' }), ['A']), []);
 });
-test('gh stubbed via PATH is invoked and parsed', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'gh-'));
-  try {
-    writeFileSync(join(dir, 'gh'), '#!/bin/sh\necho \'[{"repository":{"name":"x"},"path":"a.ts"}]\'');
-    execFileSync('chmod', ['+x', join(dir, 'gh')]);
-    const old = process.env.PATH;
-    process.env.PATH = `${dir}:${old}`;
-    try {
-      const r = ghSearch(['GlassChat']);
-      assert.equal(r.status, 'ok');
-      assert.equal(r.hits.length, 1);
-    } finally { process.env.PATH = old; }
-  } finally { rmSync(dir, { recursive: true, force: true }); }
+test('gh search results are fetched and grepped per file', () => {
+  const gh = (args) => (args[0] === 'search'
+    ? JSON.stringify([{ repository: { nameWithOwner: 'o/x' }, path: 'a.ts' }])
+    : "import { GlassChat } from 'aura-glass';");
+  const r = ghSearch(['GlassChat'], { gh });
+  assert.equal(r.status, 'ok');
+  assert.deepEqual(r.hits, [{ path: 'gh:o/x/a.ts', count: 1 }]);
 });
-
 
 test('bare --verify rejects a missing known-family record', () => {
   const root = mkdtempSync(join(tmpdir(), 'consumer-grep-verify-'));
@@ -79,7 +73,7 @@ test('bare --verify rejects a missing known-family record', () => {
     writeFileSync(join(root, 'docs/inventory/component-dispositions.md'), TABLE);
     for (const family of Object.keys(FAMILY_PATHS)) {
       writeFileSync(join(root, `docs/release/decisions/removals/${family}.json`), JSON.stringify({
-        family, names: [], status: 'missing', acknowledged: true, gh: { status: 'missing' }, scans: [],
+        family, names: [], status: 'missing', signoff: 'fixture', gh: { status: 'missing' }, hits: [], acknowledged: [],
       }));
     }
     const args = ['scripts/removal/consumer-grep.mjs', '--verify'];
