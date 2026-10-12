@@ -151,6 +151,11 @@
     outline: none;
     transform-origin: var(--transform-origin);
     z-index: var(--ag-z-overlay, auto);
+    /* REQ-CMP-83: the transition lives on the resting rule so the enter
+       (starting-style -> open) animates, not only the exit */
+    transition:
+      opacity var(--ag-duration-small) var(--ag-ease-standard),
+      transform var(--ag-duration-small) var(--ag-ease-standard);
   }
   /* REQ-CMP-72: in virtual mode the windowed list is the scroller (its
      onScroll drives the render window), so it is capped to the popup's
@@ -164,9 +169,6 @@
   .ag-combobox-popup[data-ending-style] {
     opacity: 0;
     transform: scale(0.96);
-    transition:
-      opacity var(--ag-duration-small) var(--ag-ease-standard),
-      transform var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-combobox-popup[data-ending-style] {
     transition-duration: var(--ag-duration-small-exit);

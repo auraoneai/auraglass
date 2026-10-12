@@ -51,7 +51,7 @@ export const BottomDetents: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Sheet', id: 'overlays-sheet--bottom-detents' } },
   render: () => (
     <React.Profiler id="sheet-bottom-detents" onRender={countCommit}>
-      <Demo root={{ side: 'bottom', detents: [0.5, 'full'] }}>Drag the handle: half → full.</Demo>
+      <Demo root={{ side: 'bottom', detents: [0.5, 1] }}>Drag the handle: half → full.</Demo>
     </React.Profiler>
   ),
 };
@@ -89,7 +89,7 @@ export const NonModalInspector: Story = {
 };
 export const FullHeight: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Sheet', id: 'overlays-sheet--full-height' } },
-  render: () => <Demo root={{ side: 'bottom', detents: ['full'] }}>At the full detent: data-ag-appearance="full-height".</Demo>,
+  render: () => <Demo root={{ side: 'bottom', detents: [1] }}>At the full detent: data-ag-appearance="full-height".</Demo>,
 };
 
 /* Every Sheet part: Trigger and Description alongside the default layout. */

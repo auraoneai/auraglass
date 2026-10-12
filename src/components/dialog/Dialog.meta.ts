@@ -22,7 +22,7 @@ const meta: ControlMeta = defineMeta({
     placement: ['center', 'top'],
     variant: ['regular', 'identity'],
     prominent: ['true', 'false'],
-    modal: ['true', 'false', 'trap-focus'],
+    modal: ['true', 'false'],
   },
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'dialog-modal',

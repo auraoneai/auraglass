@@ -47,7 +47,9 @@
       opacity var(--ag-duration-medium) var(--ag-spring-snappy),
       transform var(--ag-duration-medium) var(--ag-spring-snappy);
   }
+  /* REQ-CMP-18: exits use the -exit duration with the accelerate ease */
   .ag-alert-dialog-popup[data-ending-style] {
+    transition-duration: var(--ag-duration-medium-exit), var(--ag-duration-medium-exit);
     transition-timing-function: var(--ag-ease-accelerate), var(--ag-ease-accelerate);
   }
   .ag-alert-dialog-popup[data-ag-nested-open] {

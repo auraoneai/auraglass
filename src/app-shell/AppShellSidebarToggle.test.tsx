@@ -7,6 +7,7 @@ import { AppShellSidebarToggle } from './AppShell.SidebarToggle';
 import { AppShellInspectorToggle } from './AppShell.InspectorToggle';
 import { Sidebar } from './Sidebar';
 import { DirectionProvider } from '../foundation/base-ui/direction-provider';
+import { layerStackFor } from '../theme/layers/LayerStack';
 
 const rootAttrs = (el: HTMLElement | null) => ({
   sidebar: el?.getAttribute('data-ag-sidebar'),
@@ -290,6 +291,40 @@ describe('shell toggles (SURF-027)', () => {
       expect(document.querySelector('[data-ag-part="sidebar-drawer"]')).toBeNull();
     });
     await waitFor(() => expect(document.activeElement).toBe(toggle));
+  });
+
+  it("drawer registers a modal 'drawer' layer; a scrim click closes it and focus returns (SURF-31)", async () => {
+    render(
+      <AppShell.Root data-testid="shell-scrim" layout="mobile">
+        <AppShellSidebarToggle />
+        <Sidebar.Root>
+          <Sidebar.Nav aria-label="N">
+            <Sidebar.Item href="#a">A</Sidebar.Item>
+          </Sidebar.Nav>
+        </Sidebar.Root>
+        <AppShell.Main />
+      </AppShell.Root>,
+    );
+    const shell = screen.getByTestId('shell-scrim');
+    const toggle = document.querySelector<HTMLButtonElement>('[data-ag-part="sidebar-toggle"]')!;
+    toggle.focus();
+    fireEvent.click(toggle);
+    await waitFor(() => expect(document.querySelector('[data-ag-part="sidebar-drawer"]')).not.toBeNull());
+    expect(layerStackFor(document).top()).toEqual(expect.objectContaining({ kind: 'drawer', modal: true, open: true }));
+    const scrim = await waitFor(() => {
+      const el = document.querySelector<HTMLElement>('[data-ag-part="backdrop"]');
+      expect(el).not.toBeNull();
+      return el!;
+    });
+    fireEvent.pointerDown(scrim);
+    fireEvent.mouseDown(scrim);
+    fireEvent.pointerUp(scrim);
+    fireEvent.mouseUp(scrim);
+    fireEvent.click(scrim);
+    await waitFor(() => expect(shell.getAttribute('data-drawer')).toBe('closed'));
+    await waitFor(() => expect(document.querySelector('[data-ag-part="sidebar-drawer"]')).toBeNull());
+    await waitFor(() => expect(document.activeElement).toBe(toggle));
+    expect(layerStackFor(document).top()?.kind).not.toBe('drawer');
   });
 
   it('drawer side start resolves to the right edge under RTL (SURF-31)', async () => {

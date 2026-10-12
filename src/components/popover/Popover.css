@@ -1,8 +1,8 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 /* CMP-263 (REQ-CMP-98): Popover — overlayMaterial('popover') regular. Arrow is a
-   clipped child painted with --_ag-surface-fill + rim (no second backdrop-filter).
-   Enter/exit: opacity + small translate from data-side; reduced-motion fades only. */
+   notch painted with the popup's --ag-surface-fill + rim (no second backdrop-filter).
+   Enter/exit: opacity + scale(0.96) from --transform-origin; reduced-motion fades only. */
 @layer ag.components {
   .ag-popover-positioner {
     /* BU sets left/top; keep it an inert positioning shell */
@@ -33,33 +33,52 @@
       opacity var(--ag-duration-small) var(--ag-ease-standard),
       transform var(--ag-duration-small) var(--ag-ease-standard);
   }
-  .ag-popover-popup[data-starting-style],
-  .ag-popover-popup[data-ending-style] { --_ag-optics: 0; }
+  /* REQ-CMP-83: enter is opacity 0->1 + scale(0.96->1) from the anchor
+     (BU's --transform-origin); REQ-CMP-18 exits on the -exit duration with
+     the accelerate ease. */
+  .ag-popover-popup {
+    transform-origin: var(--transform-origin);
+  }
   .ag-popover-popup[data-starting-style],
   .ag-popover-popup[data-ending-style] {
+    --_ag-optics: 0;
     opacity: 0;
+    transform: scale(0.96);
   }
-  .ag-popover-popup[data-starting-style][data-side='top'],
-  .ag-popover-popup[data-ending-style][data-side='top'] { transform: translateY(4px); }
-  .ag-popover-popup[data-starting-style][data-side='bottom'],
-  .ag-popover-popup[data-ending-style][data-side='bottom'] { transform: translateY(-4px); }
-  .ag-popover-popup[data-starting-style][data-side='left'],
-  .ag-popover-popup[data-ending-style][data-side='left'] { transform: translateX(4px); }
-  .ag-popover-popup[data-starting-style][data-side='right'],
-  .ag-popover-popup[data-ending-style][data-side='right'] { transform: translateX(-4px); }
-  .ag-popover-popup[data-starting-style][data-side='inline-start'],
-  .ag-popover-popup[data-ending-style][data-side='inline-start'] { transform: translateX(4px); }
-  .ag-popover-popup[data-starting-style][data-side='inline-end'],
-  .ag-popover-popup[data-ending-style][data-side='inline-end'] { transform: translateX(-4px); }
+  .ag-popover-popup[data-ending-style] {
+    transition-duration: var(--ag-duration-small-exit), var(--ag-duration-small-exit);
+    transition-timing-function: var(--ag-ease-accelerate), var(--ag-ease-accelerate);
+  }
 
-  /* small solid notch in the canvas tint — no second backdrop-filter. Base UI
-     positions it along the cross axis; the main-axis edge and the point
-     direction follow data-side (the old fixed triangle always pointed down). */
+  /* REQ-CMP-98: the notch paints the popup's own material read-outs — the
+     fill (--ag-surface-fill) inside a rim-coloured edge (--ag-surface-rim),
+     both inherited from the popup surface — and never a second
+     backdrop-filter. Base UI positions it along the cross axis; the main-axis
+     edge and the point direction follow data-side. */
   .ag-popover-arrow {
+    --_ag-arrow-rim: calc(var(--ag-focus-width) / 2);
     inline-size: 14px;
     block-size: 7px;
-    background: color-mix(in oklab, var(--ag-color-canvas) 86%, transparent);
+    background: none;
+    pointer-events: none;
+  }
+  .ag-popover-arrow::before,
+  .ag-popover-arrow::after {
+    content: '';
+    position: absolute;
     clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+  /* rim: the full triangle in the rim colour */
+  .ag-popover-arrow::before {
+    inset: 0;
+    background: var(--ag-surface-rim);
+  }
+  /* fill: the same triangle inset by the rim on the two slanted edges; its
+     base overlaps the popup edge so the notch reads as part of the popup */
+  .ag-popover-arrow::after {
+    inset-block: calc(-1 * var(--_ag-arrow-rim)) calc(2 * var(--_ag-arrow-rim));
+    inset-inline: calc(2 * var(--_ag-arrow-rim));
+    background: var(--ag-surface-fill);
   }
   .ag-popover-arrow[data-side='top'] { bottom: -7px; }
   .ag-popover-arrow[data-side='bottom'] { top: -7px; rotate: 180deg; }
@@ -89,6 +108,7 @@
   }
   @media (forced-colors: active) {
     .ag-popover-popup { border: 1px solid CanvasText; }
-    .ag-popover-arrow { background: CanvasText; }
+    .ag-popover-arrow::before { background: CanvasText; }
+    .ag-popover-arrow::after { background: Canvas; }
   }
 }

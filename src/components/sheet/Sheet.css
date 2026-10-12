@@ -124,15 +124,21 @@
   .ag-sheet-popup[data-ag-appearance="full-height"][data-ending-style] {
     transition-duration: var(--ag-duration-large);
   }
-  /* snap back after a detent drag — linear() spring */
+  /* snap back after a detent drag — REQ-CMP-94: the --ag-spring-smooth
+     linear() spring */
   .ag-sheet-popup:not([data-dragging]) {
     transition:
-      transform var(--ag-duration-medium) var(--ag-spring-snappy),
+      transform var(--ag-duration-medium) var(--ag-spring-smooth),
       opacity var(--ag-duration-medium) var(--ag-ease-standard);
   }
+  /* REQ-CMP-18: exits use the -exit duration with the accelerate ease;
+     full-height sheets use the large row */
   .ag-sheet-popup[data-ending-style]:not([data-dragging]) {
     transition-timing-function: var(--ag-ease-accelerate), var(--ag-ease-accelerate);
-    transition-duration: var(--ag-duration-medium);
+    transition-duration: var(--ag-duration-medium-exit);
+  }
+  .ag-sheet-popup[data-ag-appearance="full-height"][data-ending-style]:not([data-dragging]) {
+    transition-duration: var(--ag-duration-large-exit);
   }
 
   .ag-sheet-header,

@@ -1,7 +1,11 @@
 
 /* CMP-360 (lane 3i-Q). Disabled surfaces never dim: for every Core/ and
    Foundation/ story from index.json plus Button and Dialog, every
-   [data-ag-surface][data-disabled] has computed opacity "1". */
+   [data-ag-surface][data-disabled] has computed opacity "1".
+   REQ-CMP-13: the flagship control stories (Switch thumb, TextField /
+   SearchField shell, NumberField group, Select trigger) are covered too, and
+   every surface inside a disabled host must also stay at opacity 1 — the
+   dimming applies to inner content only. */
 import { test, expect } from '@playwright/test';
 import { gotoStory, listSubjects } from '../../../helpers/index';
 
@@ -10,13 +14,13 @@ test.describe('disabled-no-opacity (CMP-360)', () => {
     const subjects = await listSubjects({ owner: 'CMP' });
     const ids = subjects
       .map((s) => s.id)
-      .filter((id) => /^(core-|foundation-|flagships-controls-(button|dialog))/.test(id));
+      .filter((id) => /^(core-|foundation-|flagships-controls-)/.test(id));
     expect(ids.length).toBeGreaterThan(0);
     const offenders: string[] = [];
-    for (const id of ids.slice(0, 40)) {
+    for (const id of ids) {
       await gotoStory(page, id).catch(() => null);
       const bad = await page.evaluate(() =>
-        [...document.querySelectorAll<HTMLElement>('[data-ag-surface][data-disabled], [data-disabled]')]
+        [...document.querySelectorAll<HTMLElement>('[data-ag-surface][data-disabled], [data-disabled], [data-disabled] [data-ag-surface]')]
           .filter((el) => getComputedStyle(el).opacity !== '1')
           .map((el) => el.outerHTML.slice(0, 80)),
       );

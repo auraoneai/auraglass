@@ -13,13 +13,17 @@
    - otherwise the fling snaps to the next detent in the direction of travel;
      a slow drag always snaps to the nearest detent.
 
-   The hook resolves detents?: Array<number | 'content' | 'full'> —
-   numbers are fractions of the viewport (0..1 of 100dvh), 'content' = the
-   popup's measured content block size, 'full' = the whole viewport — into
-   pixel offsets and exposes the controlled/uncontrolled active index. */
+   REQ-CMP-94: the public detent is a number — a fraction of the viewport
+   (0..1 of 100dvh, 1 = full height). The hook also takes the internal
+   'content' detent (the popup's measured content block size), which
+   Sheet.Root uses when `detents` is omitted, resolves them into pixel
+   offsets and exposes the controlled/uncontrolled active index. */
 import * as React from 'react';
 
-export type SheetDetent = number | 'content' | 'full';
+/** Public detent: a fraction of 100dvh; 1 = full height. */
+export type SheetDetent = number;
+/** Internal detent: a fraction, or the measured content height. */
+export type InternalDetent = SheetDetent | 'content';
 
 export interface ResolveDetentArgs {
   positionPx: number;
@@ -63,11 +67,11 @@ export function resolveDetent({ positionPx, velocityPxMs, detentsPx }: ResolveDe
 }
 
 export interface UseSheetDetentsArgs {
-  detents?: SheetDetent[] | undefined;
+  detents?: InternalDetent[] | undefined;
   detent?: number | undefined;
   defaultDetent?: number | undefined;
   onDetentChange?: ((index: number) => void) | undefined;
-  /** Live viewport block size for resolving 'full'/fractions. */
+  /** Live viewport block size for resolving fractions. */
   viewportPx?: number | undefined;
   /** Measured content block size for the 'content' detent. */
   contentPx?: number | undefined;
@@ -80,7 +84,7 @@ export interface SheetDetentsHandle {
   heightsPx: number[];
   /** Top-edge offsets of each detent for resolveDetent (viewport - height). */
   topsPx: number[];
-  /** True when the active detent resolves to 'full'. */
+  /** True when the active detent is 1 (full height). */
   isFull: boolean;
 }
 
@@ -100,7 +104,6 @@ export function useSheetDetents({
   }, [onDetentChange]);
 
   const heightsPx = React.useMemo(() => detents.map((d) => {
-    if (d === 'full') return viewportPx;
     if (d === 'content') return contentPx || viewportPx * 0.5;
     return Math.max(0, Math.min(1, d)) * viewportPx;
   }), [detents, viewportPx, contentPx]);
@@ -111,5 +114,5 @@ export function useSheetDetents({
   );
 
   const cur = detents[index];
-  return { index, setIndex, heightsPx, topsPx, isFull: cur === 'full' || cur === 1 };
+  return { index, setIndex, heightsPx, topsPx, isFull: cur === 1 };
 }

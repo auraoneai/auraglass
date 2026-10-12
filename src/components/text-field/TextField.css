@@ -131,7 +131,10 @@
     justify-self: end;
   }
 
-  .ag-text-field[data-disabled] > :where([data-ag-part]) {
+  /* REQ-CMP-13: dim inner content only; a [data-ag-surface] part (shell,
+     group, trigger, thumb) never takes opacity, its own parts dim instead. */
+  .ag-text-field[data-disabled] > :where([data-ag-part]:not([data-ag-surface])),
+  .ag-text-field[data-disabled] > :where([data-ag-surface]) > :where([data-ag-part]:not([data-ag-surface])) {
     opacity: var(--ag-state-disabled-alpha);
   }
 

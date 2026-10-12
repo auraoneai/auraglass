@@ -11,6 +11,8 @@ import { Popover as Base } from '@base-ui/react/popover';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
 import { toOverlayReason, type OverlayKind } from '../overlays/_shared/overlayTypes';
+import { useRoutedRootActions } from '../overlays/_shared/useOverlayLayer';
+import type { OverlayRootActions } from '../overlays/_shared/useOverlayLayer';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import type { OverlayMaterialOptions } from '../overlays/_shared/overlaySurface';
 import { cn } from '../../internal';
@@ -23,6 +25,10 @@ import type {
 
 interface PopoverCtx {
   rootRef?: React.Ref<HTMLElement> | undefined;
+  /** The hover-mode trigger element (null when the trigger is click-mode). */
+  hoverTrigger: React.MutableRefObject<HTMLElement | null>;
+  /** REQ-CMP-12: the root's close path for the popup's LayerStack Escape. */
+  actions?: React.RefObject<OverlayRootActions | null>;
   open: boolean;
   hover: { openOnHover: boolean; delay: number; closeDelay: number };
   material: OverlayMaterialOptions;
@@ -32,6 +38,7 @@ const HOVER_DELAY_MS = 300, HOVER_CLOSE_DELAY_MS = 150;
 
 const PopoverCtx = React.createContext<PopoverCtx>({
   open: false,
+  hoverTrigger: { current: null },
   /* REQ-CMP-97: root-level hover + material config consumed by Trigger/Popup. */
   hover: { openOnHover: false, delay: HOVER_DELAY_MS, closeDelay: HOVER_CLOSE_DELAY_MS },
   material: {},
@@ -59,9 +66,14 @@ function PopoverRoot({ open, defaultOpen, onOpenChange, modal, openOnHover = fal
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;
   const current = controlled ? open : internal;
+  const hoverTrigger = React.useRef<HTMLElement | null>(null);
+  const buActions = React.useRef<{ close: () => void; unmount: () => void } | null>(null);
+  const routed = useRoutedRootActions(() => buActions.current?.close());
   const ctxValue = React.useMemo<PopoverCtx>(() => ({
     open: current,
     rootRef: ref,
+    hoverTrigger,
+    actions: routed.actions,
     hover: { openOnHover, delay, closeDelay },
     /* REQ-CMP-78: per-instance overlay variant is 'regular' | 'identity' only;
        'clear' is not an overlay material and falls back to the kind default. */
@@ -70,15 +82,17 @@ function PopoverRoot({ open, defaultOpen, onOpenChange, modal, openOnHover = fal
       thickness,
       prominent,
     },
-  }), [current, openOnHover, delay, closeDelay, variant, thickness, prominent, ref]);
+  }), [current, openOnHover, delay, closeDelay, variant, thickness, prominent, ref, routed.actions]);
   return (
     <PopoverCtx.Provider value={ctxValue}>
       <Base.Root
         open={controlled ? open : undefined}
         defaultOpen={defaultOpen}
+        actionsRef={buActions as React.RefObject<{ close: () => void; unmount: () => void } | null>}
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
-          onOpenChange?.(o, { ...details, reason: toOverlayReason(details?.reason) } as OverlayOpenChangeDetails);
+          const reason = !o && routed.takeEscape() ? 'escape-key' : toOverlayReason(details?.reason);
+          onOpenChange?.(o, { ...details, reason } as OverlayOpenChangeDetails);
         }}
         {...(modal !== undefined ? { modal } : {})}
       >
@@ -100,40 +114,15 @@ function PopoverTrigger({ openOnHover, delay, closeDelay, className, children, o
        aria-describedby the popup id (not aria-haspopup=dialog) — the content is
        a tooltip-class affordance, not a dialog. BU sets aria-controls when the
        popup mounts; we copy it into describedby. */
-    const bindAria = React.useCallback((node: HTMLElement | null) => {
-      if (!node || !hoverOn) return;
-      const apply = () => {
-        const id = node.getAttribute('aria-controls');
-        const popup = id ? document.getElementById(id) : null;
-        const interactive = popup?.querySelector('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"]),[role="button"],[role="link"]');
-        if (popup && !interactive) {
-          node.setAttribute('aria-describedby', popup.id);
-          node.removeAttribute('aria-haspopup');
-        } else {
-          node.removeAttribute('aria-describedby');
-        }
-      };
-      if (typeof MutationObserver === 'undefined') return undefined;
-      const mo = new MutationObserver(apply);
-      mo.observe(node, { attributes: true, attributeFilter: ['aria-controls'] });
-      apply();
-      return () => {
-        // Trigger now re-renders on root context changes (REQ-CMP-97); flush
-        // any queued aria-controls record before disconnecting so a rebind
-        // never drops the mutation that mounted the popup.
-        if (mo.takeRecords().length > 0) apply();
-        mo.disconnect();
-      };
-    }, [hoverOn]);
-    const ariaCleanup = React.useRef<(() => void) | undefined>(undefined);
-    // Stable ref callback: rebinding (and so re-observing) only when the hover
-    // mode or the forwarded ref changes, not on every render.
+    /* REQ-CMP-16: no observer at rest — the trigger only publishes itself to
+       the root; the popup applies the hover-mode aria wiring when it mounts
+       (open) and removes it when it closes (PopoverPopup below). */
+    const { hoverTrigger } = React.useContext(PopoverCtx);
     const setRefs = React.useCallback((node: HTMLElement | null) => {
-      ariaCleanup.current?.();
-      ariaCleanup.current = node ? bindAria(node) : undefined;
+      hoverTrigger.current = node && hoverOn ? node : null;
       if (typeof ref === 'function') ref(node);
       else if (ref) ref.current = node;
-    }, [bindAria, ref]);
+    }, [hoverOn, hoverTrigger, ref]);
     return (
       <Base.Trigger
         ref={setRefs as React.Ref<HTMLButtonElement>}
@@ -193,7 +182,28 @@ function PopoverPopup({ className, children, initialFocus, finalFocus, variant, 
     const ctx = React.useContext(PopoverCtx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
-    const { depth } = useOverlayLayer({ kind: KIND, modal: false, open: ctx.open, element: el });
+    const { depth } = useOverlayLayer({ kind: KIND, modal: false, open: ctx.open, element: el, actions: ctx.actions });
+    /* REQ-CMP-98 (WCAG popover-in-hover-mode): a hover-opened popup with no
+       interactive descendants describes its trigger (aria-describedby = the
+       popup id) instead of being announced as a dialog (aria-haspopup is
+       dropped). Applied while the popup is mounted and open, reverted when it
+       closes — REQ-CMP-16: no observer is held while closed. */
+    React.useLayoutEffect(() => {
+      const trigger = ctx.hoverTrigger.current;
+      if (!el || !ctx.open || !trigger || !el.id) return undefined;
+      const interactive = el.querySelector('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"]),[role="button"],[role="link"]');
+      if (interactive) {
+        trigger.removeAttribute('aria-describedby');
+        return undefined;
+      }
+      const hadHaspopup = trigger.getAttribute('aria-haspopup');
+      trigger.setAttribute('aria-describedby', el.id);
+      trigger.removeAttribute('aria-haspopup');
+      return () => {
+        if (trigger.getAttribute('aria-describedby') === el.id) trigger.removeAttribute('aria-describedby');
+        if (hadHaspopup !== null && !trigger.hasAttribute('aria-haspopup')) trigger.setAttribute('aria-haspopup', hadHaspopup);
+      };
+    }, [el, ctx.open, ctx.hoverTrigger]);
     const setRefs: React.RefCallback<HTMLDivElement> = (node) => {
       setEl(node);
       animatingRef(node);

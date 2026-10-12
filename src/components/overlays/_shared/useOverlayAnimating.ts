@@ -5,7 +5,9 @@
    transitioncancel of the last transitioned property. No per-frame setState —
    the attribute flips on the DOM element directly; a MutationObserver watches
    transitionstart/run events mark the start and a one-shot frame poll watches
-   the starting/ending-style flip — no MutationObserver is held on the popup. */
+   the starting/ending-style flip — no MutationObserver is held on the popup.
+   Keyframe-driven overlays (Toast enter/exit) are covered the same way:
+   animationstart marks, animationend/animationcancel clears. */
 import * as React from 'react';
 import { subscribeFrame } from '../../../motion/ticker';
 import { setAnimating as markAnimating } from '../../../material/stateAttributes';
@@ -30,6 +32,17 @@ export function useOverlayAnimating(): React.RefCallback<HTMLElement> {
       markAnimating(popup, false);
       popup.removeEventListener('transitionend', onDone);
       popup.removeEventListener('transitioncancel', onDone);
+    };
+
+    /* keyframe animations on the popup itself (not on descendants) */
+    const onAnimStart = (e: AnimationEvent) => {
+      if (e.target !== popup) return;
+      markAnimating(popup, true);
+    };
+    const onAnimDone = (e: AnimationEvent) => {
+      if (e.target !== popup) return;
+      if (pendingProps && pendingProps.size > 0) return; // a transition is still running
+      clearAnimating();
     };
 
     const onDone = (e: TransitionEvent) => {
@@ -80,11 +93,17 @@ export function useOverlayAnimating(): React.RefCallback<HTMLElement> {
 
     popup.addEventListener('transitionstart', onStart);
     popup.addEventListener('transitionrun', onStart);
+    popup.addEventListener('animationstart', onAnimStart);
+    popup.addEventListener('animationend', onAnimDone);
+    popup.addEventListener('animationcancel', onAnimDone);
     if (popup.hasAttribute('data-starting-style') || popup.hasAttribute('data-ending-style')) onStart();
 
     return () => {
       popup.removeEventListener('transitionstart', onStart);
       popup.removeEventListener('transitionrun', onStart);
+      popup.removeEventListener('animationstart', onAnimStart);
+      popup.removeEventListener('animationend', onAnimDone);
+      popup.removeEventListener('animationcancel', onAnimDone);
       clearAnimating();
     };
   }, []);

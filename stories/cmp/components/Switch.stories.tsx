@@ -82,6 +82,30 @@ export const States: Story = {
   ),
 };
 
+/* REQ-CMP-45: the three track sizes (32x18 / 40x22 / 52x30) side by side;
+   tests/visual/cmp/controls/switch-sizes.spec.ts measures them. */
+export const Sizes: Story = {
+  render: () => (
+    <Stage>
+      <Section title="Sizes" note="Small, medium and large tracks share a 2px thumb inset.">
+        <Scene>
+          <Panel title="Track sizes" width={400}>
+            <SettingRow label="Small" hint="Dense lists.">
+              <Switch aria-label="Small" size="sm" />
+            </SettingRow>
+            <SettingRow label="Medium" hint="The default size.">
+              <Switch aria-label="Medium" size="md" defaultChecked />
+            </SettingRow>
+            <SettingRow label="Large" hint="Touch-first settings.">
+              <Switch aria-label="Large" size="lg" />
+            </SettingRow>
+          </Panel>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};
+
 export const Default: Story = { render: () => notificationSettings() };
 
 /* The story tests/a11y/apg/cmp/switch.apg.spec.ts drives (Space / Enter per SWITCH_KEYS). */

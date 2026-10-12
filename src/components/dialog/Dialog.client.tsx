@@ -29,7 +29,7 @@ import type {
 interface DialogCtx {
   depth: number;
   open: boolean;
-  modal: boolean | 'trap-focus';
+  modal: boolean;
   labels: { close?: string } | undefined;
   setPopupElement: (el: HTMLElement | null) => void;
   rootRef?: React.Ref<HTMLElement> | undefined;
@@ -50,9 +50,9 @@ function DialogRoot({
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen === true);
   const effectiveOpen = open ?? internalOpen;
   const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
-  const { emit, depth } = useOverlayLayer({
+  const { emit, depth, actionsRef } = useOverlayLayer({
     kind: 'dialog',
-    modal: modal === true || modal === 'trap-focus',
+    modal,
     open: effectiveOpen,
     onOpenChange,
     element: popupElement,
@@ -70,7 +70,11 @@ function DialogRoot({
       <Base.Root
         open={open}
         defaultOpen={defaultOpen}
-        modal={modal === true ? 'trap-focus' : modal}
+        /* the LayerStack owns scroll lock + inert (REQ-CMP-12/88), so a
+           modal dialog asks Base UI for the focus trap only */
+        modal={modal ? 'trap-focus' : false}
+        /* REQ-CMP-12: the LayerStack closes the dialog on Escape */
+        actionsRef={actionsRef as React.RefObject<{ close: () => void; unmount: () => void } | null>}
         disablePointerDismissal={!dismissible}
         onOpenChange={(o, d) => handleOpenChange(o, { event: d?.event, reason: d?.reason })}
       >
@@ -125,7 +129,7 @@ function DialogBackdrop({ className, ref }: DialogBackdropProps) {
   const { depth, open, modal } = React.useContext(DialogContext);
   const animatingRef = useOverlayAnimating();
   const isTop = useScrimTop(depth, open && modal === true);
-  if (modal !== true) return null; // CMP-211: no scrim for non-modal/trap-focus
+  if (modal !== true) return null; // CMP-211: no scrim for non-modal
   return (
     <Base.Backdrop
       /* REQ-CMP-79: one scrim per modal — BU skips nested backdrops unless forced */

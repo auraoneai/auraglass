@@ -1,8 +1,9 @@
 'use client';
 /* CMP-230/231/235/237 (REQ-CMP-92/-93/-95): Sheet over Base UI Dialog.
-   - side start|end|top|bottom|left|right; start/end flip under dir=rtl
-     (BU useDirection), left/right never flip; preset 'action' forces bottom.
-   - detents via useSheetDetents (fractions of 100dvh | 'content' | 'full');
+   - side start|end|top|bottom (logical); start/end resolve to the physical
+     left/right edge under the BU useDirection; preset 'action' forces bottom.
+   - detents via useSheetDetents (fractions of 100dvh, 1 = full; omitted =
+     content height);
      height and translate use --_ag-sheet-detent-max/offset; data-ag-appearance="full-height" when the
      active detent is 'full' or a side sheet's block size reaches 90% of the
      viewport (ResizeObserver).
@@ -27,7 +28,7 @@ import type {
   SheetRootProps, SheetTriggerProps, SheetPopupProps, SheetContentProps,
   SheetButtonishProps, SheetActionProps,
 } from './Sheet.types';
-import type { SheetDetentsHandle } from './useSheetDetents';
+import type { InternalDetent, SheetDetentsHandle } from './useSheetDetents';
 import type { SheetSide } from './Sheet.types';
 import { useControllableWarning } from '../../foundation/controllable';
 import { scrimLayerAttributes } from '../../material/stateAttributes';
@@ -57,7 +58,14 @@ function resolveSide(side: SheetSide, rtl: boolean): 'left' | 'right' | 'top' | 
   switch (side) {
     case 'start': return rtl ? 'right' : 'left';
     case 'end': return rtl ? 'left' : 'right';
-    default: return side;
+    case 'top': return 'top';
+    case 'bottom': return 'bottom';
+    default: {
+      /* JS callers / 4.x code may still pass a physical edge; honour it
+         without flipping (the public type is logical only). */
+      const physical = side as string;
+      return physical === 'left' || physical === 'right' ? physical : 'right';
+    }
   }
 }
 
@@ -69,7 +77,8 @@ function SheetRoot({
   preset = 'panel',
   modal = true,
   dismissible = true,
-  detents = ['content'],
+  layerKind = 'sheet',
+  detents,
   detent,
   defaultDetent,
   onDetentChange,
@@ -81,6 +90,12 @@ function SheetRoot({
   const dir = useDirection();
   const rtl = dir === 'rtl';
   const resolved = preset === 'action' ? 'bottom' : resolveSide(side, rtl);
+  /* REQ-CMP-94: public detents are fractions (1 = full); omitted = the
+     content height, the internal 'content' detent. */
+  const detentDefs = React.useMemo<InternalDetent[]>(
+    () => (resolved === 'bottom' && detents !== undefined && detents.length > 0 ? detents : ['content']),
+    [resolved, detents],
+  );
   const axis: 'x' | 'y' = resolved === 'left' || resolved === 'right' ? 'x' : 'y';
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen === true);
   const effectiveOpen = open ?? internalOpen;
@@ -90,7 +105,7 @@ function SheetRoot({
 
   const detentState = useSheetDetents({
     /* REQ-CMP-94: detents apply only to the bottom side — other sides ignore them. */
-    detents: resolved === 'bottom' ? detents : ['content'],
+    detents: detentDefs,
     detent, defaultDetent, onDetentChange,
     viewportPx,
     contentPx,
@@ -106,7 +121,7 @@ function SheetRoot({
          viewport height. */
       const full =
         detentState.isFull ||
-        (resolved === 'bottom' && (detents[detentState.index] === 'full' || detents[detentState.index] === 1)) ||
+        (resolved === 'bottom' && detentDefs[detentState.index] === 1) ||
         popupElement.offsetHeight >= window.innerHeight * 0.9;
       /* REQ-CMP-95: CC-CMP-03 keys the floor row on data-ag-appearance. */
       if (full) popupElement.setAttribute('data-ag-appearance', 'full-height');
@@ -121,10 +136,10 @@ function SheetRoot({
     const ro = new ResizeObserver(measure);
     ro.observe(popupElement);
     return () => ro.disconnect();
-  }, [popupElement, axis, resolved, detentState.isFull, detentState.index, detentState.heightsPx, detents]);
+  }, [popupElement, axis, resolved, detentState.isFull, detentState.index, detentState.heightsPx, detentDefs]);
 
-  const { emit, depth } = useOverlayLayer({
-    kind: 'sheet',
+  const { emit, depth, actionsRef } = useOverlayLayer({
+    kind: layerKind,
     modal,
     open: effectiveOpen,
     onOpenChange,
@@ -148,14 +163,14 @@ function SheetRoot({
     side,
     detents: detentState,
     /* REQ-CMP-95: raw detent defs so the handle can announce by VALUE
-       (1/'full' → 'Full height', 0.5 → 'Half height'). */
-    detentDefs: resolved === 'bottom' ? detents : ['content' as const],
+       (1 → 'Full height', 0.5 → 'Half height'). */
+    detentDefs,
     viewportPx,
     getPopup: () => popupElement,
     onRequestClose: () => handleOpenChange(false, { reason: 'imperative' }),
     labels,
     announce,
-  }), [axis, resolved, side, detentState, detents, viewportPx, popupElement, labels, handleOpenChange, announce]);
+  }), [axis, resolved, side, detentState, detentDefs, viewportPx, popupElement, labels, handleOpenChange, announce]);
 
   const ctx = React.useMemo<SheetCtx>(() => ({
     depth, open: effectiveOpen, modal, side, resolved, preset, labels, detents: detentState,
@@ -169,6 +184,8 @@ function SheetRoot({
           open={open}
           defaultOpen={defaultOpen}
           modal={modal === true ? 'trap-focus' : modal}
+          /* REQ-CMP-12: the LayerStack closes the sheet on Escape */
+          actionsRef={actionsRef as React.RefObject<{ close: () => void; unmount: () => void } | null>}
           disablePointerDismissal={!dismissible}
           onOpenChange={(o, d) => handleOpenChange(o, { event: d?.event, reason: d?.reason })}
         >

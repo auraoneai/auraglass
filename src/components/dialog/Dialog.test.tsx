@@ -7,6 +7,8 @@ import * as React from 'react';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Dialog } from './index';
+import type { DialogRootProps } from './Dialog.types';
+import meta from './Dialog.meta';
 
 function Demo({ root = {}, popup = {}, withTitle = true, children }: {
   root?: Record<string, unknown>;
@@ -248,5 +250,30 @@ describe('Dialog (CMP-209..216, 220)', () => {
     const resting = css.match(/\.ag-dialog-popup \{[^}]*\}/u)?.[0] ?? '';
     expect(resting).not.toBe('');
     expect(resting).not.toContain('--_ag-optics');
+  });
+});
+
+/* REQ-CMP-86: the root takes modal: boolean (default true); there is no
+   'trap-focus' value on the public API. */
+describe('REQ-CMP-86 Dialog modal prop', () => {
+  it("modal is boolean only — 'trap-focus' is not a public value", () => {
+    const ok: DialogRootProps['modal'][] = [true, false, undefined];
+    // @ts-expect-error 'trap-focus' was removed from DialogRootProps.modal
+    const bad: DialogRootProps['modal'] = 'trap-focus';
+    expect(ok).toHaveLength(3);
+    expect(bad).toBe('trap-focus');
+    expect(meta.variants?.['modal']).toEqual(['true', 'false']);
+  });
+
+  it('default (modal) gives aria-modal + the scrim; modal=false gives neither', async () => {
+    const { unmount } = render(<Demo root={{ defaultOpen: true }} />);
+    await act(async () => {});
+    expect(document.querySelector('[role="dialog"]')!.getAttribute('aria-modal')).toBe('true');
+    expect(document.querySelector('.ag-scrim')).not.toBeNull();
+    unmount();
+    render(<Demo root={{ defaultOpen: true, modal: false }} />);
+    await act(async () => {});
+    expect(document.querySelector('[role="dialog"]')!.getAttribute('aria-modal')).toBeNull();
+    expect(document.querySelector('.ag-scrim')).toBeNull();
   });
 });

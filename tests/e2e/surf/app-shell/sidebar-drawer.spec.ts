@@ -63,6 +63,20 @@ test.describe('sidebar drawer (REQ-SURF-31/32)', () => {
     await expect(shell(page)).toHaveAttribute('data-ag-sidebar', 'expanded');
   });
 
+  test('375: a scrim click closes the drawer and focus returns to the toggle', async ({ page }) => {
+    await openAt(page, 375, 812);
+    await toggle(page).focus();
+    await page.keyboard.press('Enter');
+    await expect(drawer(page)).toBeVisible();
+    const scrim = page.locator('[data-ag-part="backdrop"]');
+    await expect(scrim).toHaveCount(1);
+    // click the scrim outside the drawer (the drawer is at most 85% wide, from x=0)
+    await scrim.click({ position: { x: 370, y: 400 } });
+    await expect(drawer(page)).toHaveCount(0);
+    await expect(toggle(page)).toBeFocused();
+    await expect(shell(page)).toHaveAttribute('data-drawer', 'closed');
+  });
+
   test('375: item activation closes the drawer', async ({ page }) => {
     await openAt(page, 375, 812);
     await toggle(page).click();

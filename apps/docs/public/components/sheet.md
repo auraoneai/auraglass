@@ -16,9 +16,10 @@ Tier T1 · RSC client · APG dialog-modal
 | `defaultDetent?` | `number` | — | — |
 | `defaultOpen?` | `boolean` | — | — |
 | `detent?` | `number` | — | — |
-| `detents?` | `SheetDetent[]` | — | Detents as fractions of 100dvh plus 'content' and 'full'. |
+| `detents?` | `number[]` | — | Detents as fractions of 100dvh (1 = full height); omitted = the content height. side="bottom" only. |
 | `dismissible?` | `boolean` | — | — |
 | `labels?` | `{ close?: string \| undefined; handle?: string \| undefined; detents?: string[] \| undefined; }` | — | — |
+| `layerKind?` | `'sheet' \| 'drawer'` | — | LayerStack kind the sheet registers as (S-25); a navigation drawer built on Sheet (SURF Sidebar.Drawer) registers as 'drawer'. Default 'sheet'. |
 | `modal?` | `boolean` | — | — |
 | `onDetentChange?` | `(index: number) => void` | — | — |
 | `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |

@@ -4,8 +4,9 @@ import type { SheetDetent } from './useSheetDetents';
 
 export type RenderProp = import('react').ReactElement | ((props: any, state?: any) => import('react').ReactElement);
 
-/** start/end flip under dir=rtl; left/right never flip. */
-export type SheetSide = 'start' | 'end' | 'top' | 'bottom' | 'left' | 'right';
+/** Logical edge: start/end flip under dir=rtl. Physical
+    left/right are resolved internally only (data-side on the popup). */
+export type SheetSide = 'start' | 'end' | 'top' | 'bottom';
 export type SheetPreset = 'panel' | 'action';
 
 export interface SheetRootProps {
@@ -18,7 +19,11 @@ export interface SheetRootProps {
   preset?: SheetPreset;
   modal?: boolean;
   dismissible?: boolean;
-  /** Detents as fractions of 100dvh plus 'content' and 'full'. */
+  /** LayerStack kind the sheet registers as (S-25); a navigation drawer built
+      on Sheet (SURF Sidebar.Drawer) registers as 'drawer'. Default 'sheet'. */
+  layerKind?: 'sheet' | 'drawer';
+  /** Detents as fractions of 100dvh (1 = full height); omitted =
+      the content height. side="bottom" only. */
   detents?: SheetDetent[];
   detent?: number;
   defaultDetent?: number;

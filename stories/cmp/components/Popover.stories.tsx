@@ -53,3 +53,10 @@ export const SideAlign: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Popover', id: 'overlays-popover--side-align' } },
   render: () => <Demo positioner={{ side: 'right', align: 'start' }}>side=right align=start.</Demo>,
 };
+/* REQ-CMP-98: closed at load, so the APG spec can click-open it and check
+   that focus moves into the popup and returns to the trigger. */
+export const ClickToOpen: Story = {
+  tags: ['apg'],
+  parameters: { ag: { tier: 'standard', subject: 'Popover', id: 'overlays-popover--click-to-open' } },
+  render: () => <Demo root={{ defaultOpen: false }}>Opened by a click on the trigger.</Demo>,
+};

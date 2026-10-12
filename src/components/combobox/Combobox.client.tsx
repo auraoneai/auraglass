@@ -8,7 +8,8 @@ import { defaultPositionerProps } from '../overlays/_shared/positioning';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { materialProps } from '../../material';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
-import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
+import { useOverlayLayer, useRoutedRootActions } from '../overlays/_shared/useOverlayLayer';
+import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { useAnnouncer } from '../../theme';
 import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
@@ -180,16 +181,25 @@ function ComboboxRoot<Value = string>({
   const effectiveItems = (asyncItems ?? items) as Value[] | undefined;
 
   const restRec = rest as Record<string, unknown>;
-  const [internalOpen, setInternalOpen] = React.useState(false);
+  const [internalOpen, setInternalOpen] = React.useState(restRec.defaultOpen === true);
   const effectiveOpen = restRec.open !== undefined ? restRec.open === true : internalOpen;
   const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
+  /* REQ-CMP-12: Base UI Combobox has no imperative close, so the root drives
+     BU's open state and the LayerStack's Escape closes through it. */
+  const routed = useRoutedRootActions(() => {
+    setHighlightSuppressed(false);
+    setInternalOpen(false);
+    emit(false, { reason: 'escape-key' });
+  });
   const { emit } = useOverlayLayer({
     kind: 'combobox',
     modal: false,
     open: effectiveOpen,
     onOpenChange,
     element: popupElement,
+    actions: routed.actions,
   });
+  const { open: _open, defaultOpen: _defaultOpen, ...baseRest } = restRec;
   const layerCtx = React.useMemo(() => ({ setPopupElement }), []);
 
   /* Announce loading at most once per ANNOUNCE_MIN_MS (polite). */
@@ -355,7 +365,8 @@ function ComboboxRoot<Value = string>({
       <ComboboxLayerContext.Provider value={layerCtx}>
       {mode === 'autocomplete' ? (
       <Autocomplete.Root
-        {...(rest as Record<string, unknown>)}
+        {...baseRest}
+        open={effectiveOpen}
         {...(isItemEqualToValue ? { isItemEqualToValue } : {})}
         {...(effectiveItems !== undefined ? { items: effectiveItems } : {})}
         {...(loadOptions ? { filter: null } : filterProp !== undefined ? { filter: filterProp } : {})}
@@ -380,7 +391,8 @@ function ComboboxRoot<Value = string>({
       </Autocomplete.Root>
       ) : (
       <Base.Root
-        {...(rest as Record<string, unknown>)}
+        {...baseRest}
+        open={effectiveOpen}
         {...({ value: currentValue } as Record<string, unknown>)}
         {...(baseIsItemEqualToValue ? { isItemEqualToValue: baseIsItemEqualToValue } : {})}
         {...(baseItems !== undefined ? { items: baseItems } : {})}
@@ -530,6 +542,7 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
 
 function ComboboxContent({ children, className }: ComboboxContentProps) {
   const container = usePortalContainer('overlay');
+  const animatingRef = useOverlayAnimating();
   const { setPopupElement } = React.useContext(ComboboxLayerContext);
   const { size, loading, creatable, messages, virtual, highlightIndex, createValue, createQuery } = useInternal();
   /* REQ-CMP-72: virtual mode windows Base UI's filtered items, so typing
@@ -555,6 +568,8 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
         {...sizeAttrs(size)}
       >
         <Base.Popup
+          /* REQ-CMP-83: data-ag-animating only across the starting/ending-style transition */
+          ref={animatingRef}
           data-ag-part="popup"
           {...overlayMaterial('combobox')}
           className={cn('ag-combobox-popup', className)}

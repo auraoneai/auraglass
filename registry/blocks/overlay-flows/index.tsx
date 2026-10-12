@@ -157,9 +157,9 @@ export function OverlayFlows() {
           </Dialog.Root>
 
           {/* bottom Sheet with detents */}
-          <Sheet.Root detents={[240, 0.5, 'full']}>
+          <Sheet.Root side="bottom" detents={[0.3, 0.5, 1]}>
             <Sheet.Trigger>Open details sheet</Sheet.Trigger>
-            <Sheet.Content side="bottom">
+            <Sheet.Content>
               <Sheet.Handle />
               <Sheet.Header><Sheet.Title>Details</Sheet.Title></Sheet.Header>
               <Sheet.Body>

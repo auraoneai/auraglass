@@ -2,7 +2,7 @@
 
 /* CMP-281 (REQ-CMP-103/105): Menu/ContextMenu/Menubar styles — regular
    overlay surface, item grid (indicator | label | shortcut/submenu arrow),
-   highlighted/disabled/checked states, 120ms scale+fade enter. */
+   highlighted/disabled/checked states, scale(0.96)+fade enter. */
 @layer ag.components {
   .ag-menu-positioner { z-index: var(--ag-z-overlay, 40); }
 
@@ -22,21 +22,29 @@
     outline: none;
   }
 
-  .ag-menu-popup[data-state='open'],
-  .ag-contextmenu-popup[data-state='open'] {
-    animation: ag-menu-enter var(--ag-duration-small) var(--ag-ease-emphasized-decelerate);
+  /* REQ-CMP-83: enter is opacity 0->1 + scale(0.96->1) from the anchor
+     (BU's --transform-origin) through BU's starting/ending-style, so
+     useOverlayAnimating scopes data-ag-animating to the transition;
+     REQ-CMP-18: small row, exit on small-exit with the accelerate ease. */
+  .ag-menu-popup,
+  .ag-contextmenu-popup {
+    transform-origin: var(--transform-origin);
+    transition:
+      opacity var(--ag-duration-small) var(--ag-ease-standard),
+      transform var(--ag-duration-small) var(--ag-ease-standard);
   }
-  .ag-menu-popup[data-state='closed'],
-  .ag-contextmenu-popup[data-state='closed'] {
-    animation: ag-menu-exit var(--ag-duration-small-exit) var(--ag-ease-accelerate);
+  .ag-menu-popup[data-starting-style],
+  .ag-menu-popup[data-ending-style],
+  .ag-contextmenu-popup[data-starting-style],
+  .ag-contextmenu-popup[data-ending-style] {
+    --_ag-optics: 0;
+    opacity: 0;
+    transform: scale(0.96);
   }
-  @keyframes ag-menu-enter {
-    from { opacity: 0; transform: scale(0.97); }
-    to { opacity: 1; transform: scale(1); }
-  }
-  @keyframes ag-menu-exit {
-    from { opacity: 1; }
-    to { opacity: 0; }
+  .ag-menu-popup[data-ending-style],
+  .ag-contextmenu-popup[data-ending-style] {
+    transition-duration: var(--ag-duration-small-exit), var(--ag-duration-small-exit);
+    transition-timing-function: var(--ag-ease-accelerate), var(--ag-ease-accelerate);
   }
 
   .ag-menu-item,

@@ -9,6 +9,7 @@ import * as React from 'react';
 import { Toast as Base } from '@base-ui/react/toast';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
+import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { overlayMaterial } from '../overlays/_shared';
 import { cn } from '../../internal';
 import { SurfaceGroup } from '../../material';
@@ -228,11 +229,17 @@ function ToastRoot({ toast, limit, className, children, ref, ...rest }: ToastRoo
     const mgr = Base.useToastManager();
     const toastId = (toast as { id?: string } | undefined)?.id;
     const [rootEl, setRootEl] = React.useState<HTMLElement | null>(null);
+    /* REQ-CMP-83: data-ag-animating only while the enter/exit keyframes run */
+    const animatingRef = useOverlayAnimating();
+    const animatingCleanup = React.useRef<(() => void) | undefined>(undefined);
     const refCb = React.useCallback((node: HTMLDivElement | null) => {
       setRootEl(node);
+      animatingCleanup.current?.();
+      const cleanup = animatingRef(node);
+      animatingCleanup.current = typeof cleanup === 'function' ? cleanup : undefined;
       if (typeof ref === 'function') ref(node);
       else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
-    }, [ref]);
+    }, [ref, animatingRef]);
     useOverlayLayer({
       kind: 'toast',
       modal: false,

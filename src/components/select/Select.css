@@ -63,7 +63,10 @@
     transform: rotate(180deg);
   }
 
-  .ag-select[data-disabled] > :where([data-ag-part]) {
+  /* REQ-CMP-13: dim inner content only; a [data-ag-surface] part (shell,
+     group, trigger, thumb) never takes opacity, its own parts dim instead. */
+  .ag-select[data-disabled] > :where([data-ag-part]:not([data-ag-surface])),
+  .ag-select[data-disabled] > :where([data-ag-surface]) > :where([data-ag-part]:not([data-ag-surface])) {
     opacity: var(--ag-state-disabled-alpha);
   }
   /* Trigger focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
@@ -87,14 +90,16 @@
     outline: none;
     transform-origin: var(--transform-origin);
     z-index: var(--ag-z-overlay, auto);
+    /* REQ-CMP-83: the transition lives on the resting rule so the enter
+       (starting-style -> open) animates, not only the exit */
+    transition:
+      opacity var(--ag-duration-small) var(--ag-ease-standard),
+      scale var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-select-popup[data-starting-style],
   .ag-select-popup[data-ending-style] {
     opacity: 0;
     scale: 0.96;
-    transition:
-      opacity var(--ag-duration-small) var(--ag-ease-standard),
-      scale var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-select-popup[data-ending-style] {
     transition-duration: var(--ag-duration-small-exit);

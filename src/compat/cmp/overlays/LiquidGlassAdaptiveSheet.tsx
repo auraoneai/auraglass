@@ -5,9 +5,9 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Sheet } from '../../../components/sheet';
-import type { SheetDetent } from '../../../components/sheet';
 import type { OverlayOpenChangeDetails } from '../../../components/overlays/_shared';
-import { __compatWrap as wrap } from './_shared';
+import { __compatWrap as wrap, __compatDetents as toDetents } from './_shared';
+import type { CompatSheetDetent } from './_shared';
 
 const DEP = 'DEP-C0106';
 
@@ -15,7 +15,7 @@ export interface LiquidGlassAdaptiveSheetProps {
   open?: boolean;
   onClose?: () => void;
   snap?: number | readonly number[];
-  detents?: readonly SheetDetent[];
+  detents?: readonly CompatSheetDetent[];
   children?: React.ReactNode;
   className?: string;
 }
@@ -23,12 +23,13 @@ export interface LiquidGlassAdaptiveSheetProps {
 export function LiquidGlassAdaptiveSheet({ open, onClose, snap, detents, children, className }: LiquidGlassAdaptiveSheetProps) {
   warnDeprecated(DEP);
   const d = detents ?? (snap !== undefined ? (Array.isArray(snap) ? [...snap] : [snap]) : undefined);
+  const dets = toDetents(d);
   return wrap('LiquidGlassAdaptiveSheet', (
     <Sheet.Root
       side="bottom"
       {...(open !== undefined ? { open } : {})}
       onOpenChange={(o: boolean, _d: OverlayOpenChangeDetails) => { if (!o) onClose?.(); }}
-      {...(d !== undefined ? { detents: [...d] as SheetDetent[] } : {})}
+      {...(dets !== undefined ? { detents: dets } : {})}
     >
       <Sheet.Content {...(className !== undefined ? { className } : {})}>{children}</Sheet.Content>
     </Sheet.Root>

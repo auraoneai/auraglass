@@ -102,12 +102,12 @@
     z-index: 0;
   }
   /* fallback transition when startViewTransition is absent — snappy spring
-     over duration-small while animating */
+     over duration-small while animating. REQ-CMP-18: only the transform
+     travels (ANIMATABLE); the width follows the measured segment at once and
+     the View Transition / FLIP morph covers width changes when available. */
   .ag-segmented-control[data-ag-animating] [data-ag-part='indicator'] {
-    will-change: transform, inline-size;
-    transition:
-      transform var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-emphasized)),
-      inline-size var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-emphasized));
+    will-change: transform;
+    transition: transform var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-emphasized));
   }
   /* calm/none: jump — zero transition duration */
   [data-ag-motion='calm'] .ag-segmented-control[data-ag-animating] [data-ag-part='indicator'],

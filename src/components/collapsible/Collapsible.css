@@ -3,21 +3,37 @@
 /* CMP-314 Collapsible */
 @layer ag.components {
   .ag-collapsible-trigger { cursor: pointer; }
-  /* REQ-CMP-120: height transition driven by BU's --collapsible-panel-height
-     measurement; calm motion collapses via opacity only. */
+  /* REQ-CMP-120 / REQ-CMP-18: the panel takes BU's measured
+     --collapsible-panel-height; the motion is transform + opacity only
+     (block-size is not ANIMATABLE): the content slides from a scaled-down
+     block (origin block-start) and fades in, and reverses on close while the
+     panel keeps its height until BU sets hidden at transitionend. Calm is the
+     opacity cross-fade only; none jumps. */
   .ag-collapsible-content {
     overflow: hidden;
     block-size: var(--collapsible-panel-height, auto);
-    transition: block-size var(--ag-duration-medium) var(--ag-ease-standard);
+    transform-origin: top;
+    transition:
+      opacity var(--ag-duration-medium) var(--ag-ease-standard),
+      transform var(--ag-duration-medium) var(--ag-ease-standard);
   }
   .ag-collapsible-content[data-starting-style],
-  .ag-collapsible-content[data-ending-style] { block-size: 0; }
+  .ag-collapsible-content[data-ending-style] {
+    opacity: 0;
+    transform: scaleY(0.96);
+  }
+  .ag-collapsible-content[data-ending-style] {
+    transition-duration: var(--ag-duration-medium-exit), var(--ag-duration-medium-exit);
+    transition-timing-function: var(--ag-ease-accelerate), var(--ag-ease-accelerate);
+  }
   [data-ag-motion='calm'] .ag-collapsible-content {
     transition: opacity var(--ag-duration-medium) var(--ag-ease-standard);
   }
   [data-ag-motion='calm'] .ag-collapsible-content[data-starting-style],
   [data-ag-motion='calm'] .ag-collapsible-content[data-ending-style] {
-    block-size: var(--collapsible-panel-height, auto);
-    opacity: 0;
+    transform: none;
+  }
+  [data-ag-motion='none'] .ag-collapsible-content {
+    transition: none;
   }
 }

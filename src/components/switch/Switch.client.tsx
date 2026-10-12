@@ -10,17 +10,6 @@ import { materialProps } from '../../material';
 import { setAnimating } from '../../material/stateAttributes';
 import { sizeAttrs } from '../control-shared/size';
 
-/* REQ-CMP-46: data-ag-animating on the thumb while the toggle animates
-   (drag uses BU's data-dragging). Clears on transitionend. */
-function flagAnimating(root: HTMLElement | null) {
-  const thumb = root?.querySelector<HTMLElement>("[data-ag-part='thumb']");
-  if (!thumb) return;
-  setAnimating(thumb, true);
-  const off = () => setAnimating(thumb, false);
-  thumb.addEventListener('transitionend', off, { once: true });
-  /* transitionend may not fire under calm/none (0 duration) — bound it */
-  setTimeout(off, 400);
-}
 import type { SwitchProps } from './Switch.types';
 
 /** Switch — 'use client' leaf on BU Switch.Root + Thumb (REQ-CMP-45..47).
@@ -28,6 +17,28 @@ import type { SwitchProps } from './Switch.types';
 export function Switch({ size, onCheckedChange, children, className, ref, ...rest }: SwitchProps) {
   useControllableWarning('Switch', 'checked', rest.checked);
   const rootRef = React.useRef<HTMLDivElement | null>(null);
+  /* REQ-CMP-46: while the thumb moves it is glass (allowNested keeps its MAT
+     optics inside the track surface) and carries data-ag-animating; at rest
+     it returns to the nested inner fill. Clears on transitionend, bounded
+     because transitionend does not fire under calm/none (0 duration). */
+  const [moving, setMoving] = React.useState(false);
+  React.useEffect(() => {
+    if (!moving) return undefined;
+    const thumb = rootRef.current?.querySelector<HTMLElement>("[data-ag-part='thumb']");
+    if (!thumb) {
+      setMoving(false);
+      return undefined;
+    }
+    setAnimating(thumb, true);
+    const off = () => setMoving(false);
+    thumb.addEventListener('transitionend', off);
+    const timer = setTimeout(off, 400);
+    return () => {
+      thumb.removeEventListener('transitionend', off);
+      clearTimeout(timer);
+      setAnimating(thumb, false);
+    };
+  }, [moving]);
   const setRefs = (el: HTMLDivElement | null) => {
     rootRef.current = el;
     if (typeof ref === 'function') ref(el);
@@ -41,7 +52,7 @@ export function Switch({ size, onCheckedChange, children, className, ref, ...res
       {...materialProps({ layer: 'content', content: 'content-sunken' })}
       className={cn('ag-switch', className)}
       onCheckedChange={(c, details) => {
-        flagAnimating(rootRef.current);
+        setMoving(true);
         onCheckedChange?.(c, toChangeDetails(details));
       }}
       ref={setRefs}
@@ -53,7 +64,7 @@ export function Switch({ size, onCheckedChange, children, className, ref, ...res
       <Base.Thumb
         render={stateRender<{ checked: boolean }>((s) => toDataState({ checked: s.checked }), undefined, 'span')}
         data-ag-part="thumb"
-        {...materialProps({ layer: 'transient', thickness: 'thin' })}
+        {...materialProps({ layer: 'transient', thickness: 'thin', allowNested: moving })}
       />
       {children}
     </Base.Root>

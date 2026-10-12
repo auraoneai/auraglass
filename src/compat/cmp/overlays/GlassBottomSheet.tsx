@@ -5,9 +5,9 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Sheet } from '../../../components/sheet';
-import type { SheetDetent } from '../../../components/sheet';
 import type { OverlayOpenChangeDetails } from '../../../components/overlays/_shared';
-import { __compatWrap as wrap } from './_shared';
+import { __compatWrap as wrap, __compatDetents as toDetents } from './_shared';
+import type { CompatSheetDetent } from './_shared';
 
 const DEP = 'DEP-C0104';
 
@@ -17,7 +17,7 @@ export interface GlassBottomSheetProps {
   onOpenChange?: (open: boolean) => void;
   snap?: number | readonly number[];
   height?: number | string;
-  detents?: readonly SheetDetent[];
+  detents?: readonly CompatSheetDetent[];
   children?: React.ReactNode;
   className?: string;
 }
@@ -27,12 +27,13 @@ export function GlassBottomSheet({ open, onClose, onOpenChange, snap, height, de
   const d = detents ?? (snap !== undefined ? (Array.isArray(snap) ? [...snap] : [snap]) :
     typeof height === 'number' ? [height] : undefined);
   if (typeof height === 'string') warnDeprecated(`${DEP}.prop.height-string`);
+  const dets = toDetents(d);
   return wrap('GlassBottomSheet', (
     <Sheet.Root
       side="bottom"
       {...(open !== undefined ? { open } : {})}
       onOpenChange={(o: boolean, _d: OverlayOpenChangeDetails) => { onOpenChange?.(o); if (!o) onClose?.(); }}
-      {...(d !== undefined ? { detents: [...d] as SheetDetent[] } : {})}
+      {...(dets !== undefined ? { detents: dets } : {})}
     >
       <Sheet.Content {...(className !== undefined ? { className } : {})}>{children}</Sheet.Content>
     </Sheet.Root>
