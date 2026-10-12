@@ -43,6 +43,7 @@ export function ActivityFeed({
   labels,
   locale = 'en-US',
   timeZone = 'UTC',
+  ref,
   ...rest
 }: ActivityFeedProps) {
   const Heading = `h${headingLevel}` as 'h3';
@@ -91,7 +92,8 @@ export function ActivityFeed({
     ))
   );
   return (
-    <section data-ag-part="activity-feed" className="ag-activity-feed">
+    // REQ-CMP-03: the feed's ref resolves to its root part (the section), never the inner timelines.
+    <section ref={ref} data-ag-part="activity-feed" className="ag-activity-feed">
       <ActivityFeedInteractive
         itemIds={items.map((it) => it.id)}
         newItemLabel={labels?.newItem}

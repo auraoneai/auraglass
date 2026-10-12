@@ -35,6 +35,8 @@ export interface TimelineProps {
   labels?: TimelineLabels | undefined;
   'aria-label'?: string | undefined;
   className?: string | undefined;
+  /** REQ-CMP-03: resolves to the root part ([data-ag-part=timeline-container]). */
+  ref?: React.Ref<HTMLElement> | undefined;
 }
 
 export const DEFAULT_INTENT_LABELS: Record<TimelineIntent, string> = {
@@ -88,10 +90,11 @@ export function Timeline({
   labels,
   'aria-label': ariaLabel,
   className,
+  ref,
 }: TimelineProps) {
   const intentLabels = { ...DEFAULT_INTENT_LABELS, ...labels?.intent };
   return (
-    <div data-ag-part="timeline-container" className="ag-timeline__container">
+    <div ref={ref as React.Ref<HTMLDivElement> | undefined} data-ag-part="timeline-container" className="ag-timeline__container">
       <ol
         data-ag-part="timeline"
         data-orientation={orientation}

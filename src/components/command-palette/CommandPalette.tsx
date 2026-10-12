@@ -24,6 +24,7 @@ import { useLayer, usePortalContainer } from '../../theme';
 import { materialProps } from '../../material/materialProps';
 import { Command } from './Command';
 import { toChangeDetails } from '../../foundation';
+import { composeRefs } from '../../primitives/Slot';
 /* S-30 ChangeDetails from the public contract module, so the emitted d.ts never
    names the private foundation seam (REQ-CMP-01). */
 import type { ChangeDetails } from '../../contracts/components';
@@ -41,6 +42,8 @@ export type CommandPaletteProps = {
   /** Accessible name of the dialog (default 'Command palette'). */
   'aria-label'?: string | undefined;
   children?: React.ReactNode;
+  /** REQ-CMP-03: resolves to the root part — the [data-ag-part=command-palette] popup while open. */
+  ref?: React.Ref<HTMLDivElement> | undefined;
 };
 
 function hotkeyMatches(e: KeyboardEvent, hotkey: string): boolean {
@@ -56,6 +59,7 @@ export function CommandPalette({
   hotkey = 'mod+k',
   'aria-label': ariaLabel = 'Command palette',
   children,
+  ref,
 }: CommandPaletteProps) {
   const [internal, setInternal] = React.useState(defaultOpen ?? false);
   const isOpen = open ?? internal;
@@ -84,6 +88,11 @@ export function CommandPalette({
 
   const container = usePortalContainer('overlay');
   const [popup, setPopup] = React.useState<HTMLElement | null>(null);
+  // Stable composed ref: the consumer's ref and the internal popup state.
+  const popupRef = React.useMemo(
+    () => composeRefs<HTMLDivElement>(setPopup as React.RefCallback<HTMLDivElement>, ref),
+    [ref],
+  );
   const layer = useLayer({
     kind: 'command-palette',
     modal: true,
@@ -128,7 +137,7 @@ export function CommandPalette({
       >
         <BaseDialog.Backdrop data-ag-part="scrim" data-scrim="" className="ag-command-palette__scrim" />
         <BaseDialog.Popup
-          ref={setPopup}
+          ref={popupRef}
           aria-label={ariaLabel}
           initialFocus={initialFocus}
           data-ag-part="command-palette"
