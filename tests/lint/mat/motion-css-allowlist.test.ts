@@ -19,9 +19,9 @@ import {
 
 const ROOT = join(__dirname, '../../..');
 const SCRIPT = join(ROOT, 'scripts/mat/verify-motion-css.mjs');
-type Issue = { file: string; line: number; col: number; rule: string; message: string };
+import type { MotionCssIssue as Issue } from '../../../scripts/mat/verify-motion-css.mjs';
 const rulesOf = (css: string, opts?: { registered?: Set<string> }) =>
-  (checkCss(css, 'x.css', opts).issues as Issue[]).map((i) => i.rule);
+  checkCss(css, 'x.css', opts).issues.map((i) => i.rule);
 
 describe('ANIMATABLE allow-list (REQ-MAT-42)', () => {
   it('ALLOWED_PROPS is exactly the contract ANIMATABLE', () => {
@@ -40,7 +40,7 @@ describe('ANIMATABLE allow-list (REQ-MAT-42)', () => {
 
 describe('registered custom properties (REQ-MAT-51)', () => {
   it('the registry is the real @property set (includes the MAT scalars)', () => {
-    const reg = registeredCustomProps() as Set<string>;
+    const reg = registeredCustomProps();
     for (const p of ['--ag-specular', '--_ag-optics', '--_ag-press', '--_ag-refraction-scale']) expect(reg.has(p)).toBe(true);
     // --_ag-pointer stays an unregistered string (REQ-MAT-49); --_ag-hover folds into --ag-specular
     expect(reg.has('--_ag-pointer')).toBe(false);
@@ -70,24 +70,24 @@ describe('REQ-MAT-51 expiring rule rows', () => {
   });
 
   it('a row for one rule does not cover another rule in the same file', () => {
-    const out = applyBaseline([issue('a.css', 'literal-outside-tokens')], [row('a.css', 'not-allowed')], { version: '5.0.0-alpha.1' }) as string[];
+    const out = applyBaseline([issue('a.css', 'literal-outside-tokens')], [row('a.css', 'not-allowed')], { version: '5.0.0-alpha.1' });
     expect(out.some((l) => l.includes('literal-outside-tokens') && l.includes('[NEW'))).toBe(true);
     expect(out.some((l) => l.includes('baseline row of not-allowed is STALE'))).toBe(true);
   });
 
   it('every row fails at RC-1', () => {
-    const out = applyBaseline([issue('a.css', 'not-allowed')], [row('a.css', 'not-allowed')], { version: '5.0.0-rc.1' }) as string[];
+    const out = applyBaseline([issue('a.css', 'not-allowed')], [row('a.css', 'not-allowed')], { version: '5.0.0-rc.1' });
     expect(out.join('\n')).toContain('[EXPIRED: baseline row (owner CMP, REQ-FIN-76) expired at RC-1');
   });
 
   it('a non-baselinable rule row is malformed and does not cover', () => {
-    const out = applyBaseline([issue('a.css', 'bezier-range')], [row('a.css', 'bezier-range')], { version: '5.0.0-alpha.1' }) as string[];
+    const out = applyBaseline([issue('a.css', 'bezier-range')], [row('a.css', 'bezier-range')], { version: '5.0.0-alpha.1' });
     expect(out.some((l) => l.includes('baseline row is malformed'))).toBe(true);
     expect(out.some((l) => l.includes('bezier-range'))).toBe(true);
   });
 
   it('committed rows are well-formed, unique per (file, rule) and owned by another stream', () => {
-    const { rows } = JSON.parse(readFileSync(join(ROOT, MOTION_CSS_BASELINE), 'utf8')) as { rows: Array<Record<string, string>> };
+    const { rows } = JSON.parse(readFileSync(join(ROOT, MOTION_CSS_BASELINE), 'utf8')) as { rows: Array<{ file: string; rule: string; owner: string; req: string; expires: string }> };
     const keys = rows.map((r) => `${r.file}|${r.rule}`);
     expect(new Set(keys).size).toBe(keys.length);
     for (const r of rows) {

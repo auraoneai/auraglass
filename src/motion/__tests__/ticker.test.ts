@@ -2,7 +2,7 @@
    rAF and IntersectionObserver are stubbed for deterministic frame stepping. */
 import { describe, expect, it, jest, beforeEach, afterEach } from '@jest/globals';
 import {
-  subscribeFrame, observeOffscreen, tween, announceFinal, onMotionChange, resolvedMotion,
+  subscribeFrame, scheduleFrame, observeOffscreen, tween, announceFinal, onMotionChange, resolvedMotion,
 } from '../ticker';
 import * as media from '../../theme/preferences/media';
 
@@ -270,5 +270,57 @@ describe('announceFinal (REQ-MOT-116)', () => {
     expect(region.getAttribute('aria-live')).toBe('polite');
     expect(region.getAttribute('aria-atomic')).toBe('true');
     expect(region.textContent).toBe('Settled at 100');
+  });
+});
+
+describe('scheduleFrame (REQ-MAT-51 one-shot frame on the shared ticker)', () => {
+  it('runs once on the next frame and releases the loop', () => {
+    const cb = jest.fn();
+    scheduleFrame(cb);
+    expect(scheduled()).toBe(1);
+    step(16);
+    expect(cb).toHaveBeenCalledTimes(1);
+    expect(scheduled()).toBe(0);
+    step(32);
+    expect(cb).toHaveBeenCalledTimes(1);
+  });
+  it('cancel before the frame: never runs, no frame left scheduled', () => {
+    const cb = jest.fn();
+    const cancel = scheduleFrame(cb);
+    cancel();
+    cancel();
+    expect(scheduled()).toBe(0);
+    step(16);
+    expect(cb).not.toHaveBeenCalled();
+  });
+  it('N one-shots share one rAF', () => {
+    const a = jest.fn(); const b = jest.fn(); const c = jest.fn();
+    scheduleFrame(a); scheduleFrame(b); scheduleFrame(c);
+    expect(scheduled()).toBe(1);
+    step(16);
+    expect([a, b, c].map((f) => f.mock.calls.length)).toEqual([1, 1, 1]);
+    expect(scheduled()).toBe(0);
+  });
+  it('re-scheduling from inside a frame requests exactly one next frame', () => {
+    let n = 0;
+    const again = () => { n += 1; if (n < 3) scheduleFrame(again); };
+    scheduleFrame(again);
+    step(16);
+    expect(scheduled()).toBe(1);
+    step(32);
+    expect(scheduled()).toBe(1);
+    step(48);
+    expect(n).toBe(3);
+    expect(scheduled()).toBe(0);
+  });
+  it('a continuous subscriber and a one-shot together keep one rAF per frame', () => {
+    const un = subscribeFrame(() => {});
+    scheduleFrame(() => { scheduleFrame(() => {}); });
+    step(16);
+    expect(scheduled()).toBe(1);
+    step(32);
+    expect(scheduled()).toBe(1);
+    un();
+    expect(scheduled()).toBe(0);
   });
 });

@@ -19,7 +19,7 @@ const GUARDED_DIRS = new RegExp(`src/(${GUARDED.join('|')})/`);
 const GUARDED_GLOBS = GUARDED.map((d) => `src/${d}/**/*.{ts,tsx,js,jsx}`);
 const RATCHETED = BASELINE.rows.filter((r) => r.rule === 'motion-raf-via-ticker').map((r) => r.file);
 const LOOP_CALLS = new Set(['requestAnimationFrame', 'setInterval']);
-const SINKS = new Set(['requestAnimationFrame', 'subscribe', 'subscribeFrame']);
+const SINKS = new Set(['requestAnimationFrame', 'subscribe', 'subscribeFrame', 'scheduleFrame']);
 const SETTER = /^set[A-Z]|^dispatch$|^forceUpdate$/;
 
 module.exports = {

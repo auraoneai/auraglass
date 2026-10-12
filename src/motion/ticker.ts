@@ -81,14 +81,25 @@ export function observeOffscreen(el: Element): () => void {
 }
 
 /* ---------- shared rAF ---------- */
+let inTick = false;
 function tick(now: number) {
+  // The frame that is running is no longer pending: a subscribe/unsubscribe
+  // from inside a callback sees rafId === null, so exactly one next frame is
+  // requested (by the subscriber or below), never two.
+  rafId = null;
   const dt = Math.min(now - lastNow, MAX_DT_MS);
   lastNow = now;
-  for (const s of [...subs]) {
-    if (s.el && offscreen.has(s.el)) continue;
-    s.cb(dt, now);
+  inTick = true;
+  try {
+    for (const s of [...subs]) {
+      if (s.el && offscreen.has(s.el)) continue;
+      s.cb(dt, now);
+    }
+  } finally {
+    inTick = false;
   }
-  rafId = subs.size ? requestAnimationFrame(tick) : null;
+  const d = doc();
+  if (subs.size && rafId === null && !d?.hidden) rafId = requestAnimationFrame(tick);
 }
 
 function onVisibility() {
@@ -118,7 +129,8 @@ export function subscribeFrame(cb: FrameCallback, opts?: { element?: Element }):
     visibilityHooked = true;
   }
   if (typeof requestAnimationFrame !== 'undefined' && rafId === null && !d?.hidden) {
-    lastNow = 0;
+    // a subscribe from inside a running frame continues the loop (keeps dt)
+    if (!inTick) lastNow = 0;
     rafId = requestAnimationFrame(tick);
   }
   let released = false;
@@ -131,6 +143,26 @@ export function subscribeFrame(cb: FrameCallback, opts?: { element?: Element }):
       cancelAnimationFrame(rafId);
       rafId = null;
     }
+  };
+}
+
+/** One-shot frame on the shared ticker (REQ-MAT-51): runs `cb` once on the
+    next ticker frame and releases its subscription, so product code never
+    calls requestAnimationFrame itself. Returns an idempotent cancel. Honours
+    the ticker's hidden-document pause. */
+export function scheduleFrame(cb: (nowMs: number) => void): () => void {
+  let done = false;
+  let unsubscribe: (() => void) | null = null;
+  unsubscribe = subscribeFrame((_dt, now) => {
+    if (done) return;
+    done = true;
+    unsubscribe?.();
+    cb(now);
+  });
+  return () => {
+    if (done) return;
+    done = true;
+    unsubscribe?.();
   };
 }
 
