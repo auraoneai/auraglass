@@ -68,7 +68,7 @@ export interface PlaywrightProjectFragment { name: `${StreamKey}:${string}`; tes
 export interface CssFragment { file: string; layer: 'ag.compat' | 'ag.reset' | 'ag.tokens' | 'ag.material' | 'ag.components' | 'ag.a11y'; bundle: 'styles.css' | 'tokens.css' | 'material.css' | 'data.css' | 'date.css' | 'ai.css' | 'media.css' | 'app-shell.css' | 'backdrops.css' | 'charts.css' | 'compat/tokens.css' | 'compat/globals.css'; order?: number
   /* REQ-PLAT-74: explicit "no ag.a11y rules for this fragment's component prefixes" (else they must be paired in the bundle) */
   a11y?: 'none' }
-export interface SideEffectException { module: string; reason: string; expires: string /* version */ }
+export interface SideEffectException { module: string; api?: string /* REQ-PLAT-70: {module, api} pair; verifier rejects module-only rows */; reason: string; expires: string /* version */ }
 export interface ReviewItem { id: string; subject: string; criterion: 'specular-quality' | 'optical-hierarchy' | 'radius-rhythm' | 'one-hand' | 'other'; note?: string }
 export interface LiteralsBaseline { version: 1; files: Record<string, Partial<Record<'color' | 'blur' | 'radius' | 'shadow' | 'duration' | 'easing' | 'spring', number>>> }
 export interface A11yBaseline { version: 1; violations: Array<{ subject: string; rule: string; count: number; issue: string }> }
