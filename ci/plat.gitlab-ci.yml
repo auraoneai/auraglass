@@ -162,13 +162,15 @@ plat:test:pack-matrix:5x:
     - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
     - node -e "const npm=require('node:child_process').execSync('npm --version').toString().trim();console.log(JSON.stringify({node:process.version,npm,image:process.env.AG_PACK_NODE_IMAGE}))" > "$AURAGLASS_EVIDENCE_DIR/runtime.json"
     - npm run build
-    - 'test -f tests/exports/node-esm-require.test.mjs || { echo "PENDING: tests/exports/node-esm-require.test.mjs (REQ-PLAT-68 producer #169)"; exit 1; }'
-    - node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=spec --test-reporter-destination="$AURAGLASS_EVIDENCE_DIR/node-esm-require.txt" --test-reporter=junit --test-reporter-destination="$AURAGLASS_EVIDENCE_DIR/node-esm-require.junit.xml" tests/exports/node-esm-require.test.mjs
     # REQ-PLAT-70: cold root import median of 11 fresh processes <=150 ms on
     # Node 20.19 and 22 (this matrix), enforced — page cache dropped first
-    # where the runner permits, best-effort.
-    - 'sync; (echo 3 > /proc/sys/vm/drop_caches) 2>/dev/null || sudo sh -c "echo 3 > /proc/sys/vm/drop_caches" 2>/dev/null || echo "page-cache drop unavailable on this runner"'
+    # where the runner permits; the fallback is logged, never fail-open
+    # (REQ-PLAT-05). Runs before the REQ-PLAT-68 suite so the measurement
+    # stays cold and the evidence-writing test run closes the job.
+    - 'sync; if echo 3 > /proc/sys/vm/drop_caches; then echo "page cache dropped"; elif sudo -n sh -c "echo 3 > /proc/sys/vm/drop_caches"; then echo "page cache dropped (sudo)"; else echo "page-cache drop unavailable on this runner"; fi'
     - node scripts/ci/measure-node-import.mjs --samples 11
+    - 'test -f tests/exports/node-esm-require.test.mjs || { echo "PENDING: tests/exports/node-esm-require.test.mjs (REQ-PLAT-68 producer #169)"; exit 1; }'
+    - node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=spec --test-reporter-destination="$AURAGLASS_EVIDENCE_DIR/node-esm-require.txt" --test-reporter=junit --test-reporter-destination="$AURAGLASS_EVIDENCE_DIR/node-esm-require.junit.xml" tests/exports/node-esm-require.test.mjs
   artifacts:
     paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/"]
     reports: { junit: ".artifacts/plat/$CI_JOB_NAME_SLUG/node-esm-require.junit.xml" }

@@ -6,30 +6,7 @@
     "src/ai/icons/index.ts",
     "src/ai/message/Message.tsx",
     "src/ai/usage/UsageMeter.tsx",
-    "src/app-shell/Inspector.tsx",
-    "src/app-shell/MobileShell.tsx",
-    "src/app-shell/Sidebar.tsx",
-    "src/app-shell/StatusBar.tsx",
-    "src/app-shell/TopBar.tsx",
     "src/backdrops/Backdrop.tsx",
-    "src/components/alert/Alert.tsx",
-    "src/components/avatar/AvatarGroup.tsx",
-    "src/components/badge/Badge.tsx",
-    "src/components/button-group/ButtonGroup.tsx",
-    "src/components/card/Card.tsx",
-    "src/components/container/Container.tsx",
-    "src/components/description-list/DescriptionList.tsx",
-    "src/components/grid/Grid.tsx",
-    "src/components/heading/Heading.tsx",
-    "src/components/image-list/ImageList.tsx",
-    "src/components/kbd/Kbd.tsx",
-    "src/components/link/Link.tsx",
-    "src/components/separator/Separator.tsx",
-    "src/components/skeleton/Skeleton.tsx",
-    "src/components/stack/Stack.tsx",
-    "src/components/state-view/index.ts",
-    "src/components/steps/Steps.tsx",
-    "src/components/text/Text.tsx",
     "src/components/timeline/Timeline.tsx",
     "src/data/chart-frame/ChartFrame.tsx",
     "src/data/sparkline/Sparkline.tsx",
@@ -205,8 +182,6 @@
     "src/icons/status/info.tsx",
     "src/icons/types.ts",
     "src/internal/cn.ts",
-    "src/primitives/Label.tsx",
-    "src/primitives/Slot.tsx",
     "src/primitives/VisuallyHidden.tsx",
     "src/tokens/generated/manifest.ts",
     "src/tokens/generated/material-spec.ts",
@@ -708,31 +683,36 @@
       "module": "src/app-shell/Inspector.tsx",
       "from": "meta",
       "meta": "Inspector",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/app-shell/MobileShell.tsx",
       "from": "meta",
       "meta": "MobileShell",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/app-shell/Sidebar.tsx",
       "from": "meta",
       "meta": "Sidebar",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/app-shell/StatusBar.tsx",
       "from": "meta",
       "meta": "StatusBar",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/app-shell/TopBar.tsx",
       "from": "meta",
       "meta": "TopBar",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/backdrops/Backdrop.tsx",
@@ -744,121 +724,141 @@
       "module": "src/components/alert/Alert.tsx",
       "from": "meta",
       "meta": "Alert",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/avatar/AvatarGroup.tsx",
       "from": "meta",
       "meta": "AvatarGroup",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/badge/Badge.tsx",
       "from": "meta",
       "meta": "Badge",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/button-group/ButtonGroup.tsx",
       "from": "meta",
       "meta": "ButtonGroup",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/card/Card.tsx",
       "from": "meta",
       "meta": "Card",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/container/Container.tsx",
       "from": "meta",
       "meta": "Container",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/description-list/DescriptionList.tsx",
       "from": "meta",
       "meta": "DescriptionList",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/grid/Grid.tsx",
       "from": "meta",
       "meta": "Grid",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/heading/Heading.tsx",
       "from": "meta",
       "meta": "Heading",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/image-list/ImageList.tsx",
       "from": "meta",
       "meta": "ImageList",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/kbd/Kbd.tsx",
       "from": "meta",
       "meta": "Kbd",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/link/Link.tsx",
       "from": "meta",
       "meta": "Link",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/separator/Separator.tsx",
       "from": "meta",
       "meta": "Separator",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/skeleton/Skeleton.tsx",
       "from": "meta",
       "meta": "Skeleton",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/stack/Stack.tsx",
       "from": "meta",
       "meta": "Stack",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/state-view/index.ts",
       "from": "meta",
       "meta": "EmptyState",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/state-view/index.ts",
       "from": "meta",
       "meta": "ErrorState",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/state-view/index.ts",
       "from": "meta",
       "meta": "LoadingState",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/steps/Steps.tsx",
       "from": "meta",
       "meta": "Steps",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/text/Text.tsx",
       "from": "meta",
       "meta": "Text",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/components/timeline/Timeline.tsx",
@@ -1749,13 +1749,15 @@
       "module": "src/primitives/Label.tsx",
       "from": "meta",
       "meta": "Label",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/primitives/Slot.tsx",
       "from": "meta",
       "meta": "Slot",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "module": "src/primitives/VisuallyHidden.tsx",
@@ -1792,15 +1794,18 @@
   "entries": [
     {
       "subpath": ".",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "subpath": "./material",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "subpath": "./theme",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "subpath": "./tokens",
@@ -1812,7 +1817,8 @@
     },
     {
       "subpath": "./primitives",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "subpath": "./icons",
@@ -1824,7 +1830,8 @@
     },
     {
       "subpath": "./app-shell",
-      "safe": true
+      "safe": false,
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     },
     {
       "subpath": "./data",
@@ -1857,7 +1864,7 @@
     {
       "subpath": "./compat",
       "safe": false,
-      "reason": "client signal (call to useRef()) in src/compat/surf/data/TreeView4x.tsx"
+      "reason": "SSR shim reachable: src/internal/deprecations.generated.ts"
     }
   ]
 }
