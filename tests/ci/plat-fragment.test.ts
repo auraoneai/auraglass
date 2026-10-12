@@ -1402,9 +1402,10 @@ console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename,
       for (const d of ws) mkdirSync(join(dir, d), { recursive: true });
       const r = run(PACK_BLOCKS.join('\n'), dir);
       expect([r.status, r.stderr]).toEqual([0, '']);
-      const names = ws.map((d) => `@auraglass/${d.split('/').pop()}`);
+      const names = Object.entries(contract.packages as Record<string, any>)
+        .filter(([, p]) => p.published === true && p.dir !== '.').map(([name]) => name);
       expect(Object.keys(record(dir)).sort()).toEqual([...names, 'aura-glass'].sort());
-      expect(names).not.toContain('@auraglass/qa');
+      expect(names).not.toContain('aura-glass-qa');
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
