@@ -134,8 +134,9 @@ export function Roadmap({ initial = ALL, tab = 'roadmap' }: { initial?: Partial<
   );
 }
 
+// No parameters.ag: the roadmap viewer is not a certification subject (S-41
+// subjects are ComponentMeta names, showcase ids and registry items).
 const meta: Meta<typeof Roadmap> = {
-  parameters: { ag: { subject: 'CapabilityRoadmap', kind: 'showcase' } },
   title: 'surf/capability/CapabilityRoadmap',
   component: Roadmap,
   // Roadmap is also imported by tests/capability/roadmap-story.test.tsx.
