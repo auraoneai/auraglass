@@ -1,13 +1,18 @@
 ---
 id: OD-2
 title: npm scope @auraglass ownership; create the org
-status: awaiting-owner
+status: decided
 default: "Unscoped `aura-glass-cli`, `aura-glass-labs`"
 blocks: [REQ-FIN-31, REQ-FIN-87]
-decidedBy:
-decidedAt:
-evidence:
+decidedBy: Gurbaksh Chahal (owner, live session; recorded by the agent)
+decidedAt: 2026-10-12
+evidence: "owner answer 2026-10-12: \"Create @auraglass org\""
 ---
+
+## Decision (2026-10-12)
+
+Create the `@auraglass` npm org (owner, npmjs.com, web only: https://www.npmjs.com/org/create). `@auraglass/cli`, `@auraglass/registry`, `@auraglass/mcp` and `@auraglass/labs` ship under the scope; the unscoped fallbacks are not used. Status at decision time: `npm org ls auraglass` → E404 Scope not found (org not yet created).
+
 
 # OD-2 — npm scope `@auraglass`
 
