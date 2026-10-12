@@ -34,6 +34,7 @@ rows only decrease.
 | 2026-10-12 | Perf-Budget-Raise: ImageViewer | 10240 → 13312 | CI pass-1 12583 B, now 12599 B: Dialog + zoom/pan + tone sampling; inherent | fix/r2-4 |
 | 2026-10-12 | Perf-Budget-Raise: Backdrop | 3072 → 7168 | CI pass-1 6267 B, now 6262 B: allowContinuous via the preference store + tone sampling; inherent | fix/r2-4 |
 | 2026-10-12 | Perf-Budget-Raise: DateRangePicker | 8192 → 12288 | CI pass-1 10935 B, now 10940 B: Popover + RangeCalendar + presets; inherent | fix/r2-4 |
+| 2026-10-12 | Perf-Budget-Raise: Table | 14336 → 19456 | measured 13286 B → 17792 B (local esbuild over src with the verifier's settings: bundle+minify, browser, same externals, gzip 9; the dist CI number replaces it on the first pipeline). REQ-SURF-79 inline edit: TableCellEditor (CMP TextField + NumberField + Select) behind React.lazy — a split consumer fetches it only for editable grids, the unsplit measurement inlines it; inherent | impl/10 |
 
 Raises above: limit = measured × 1.05 rounded up to 64 B (KiB for SURF
 rows, whose limit is the meta `budgetKb` × 1024 per S-44). "now" = the
