@@ -14,6 +14,7 @@ import type {
   ToastProviderProps, ToastViewportProps, ToastRootProps, ToastTitleProps,
   ToastDescriptionProps, ToastActionProps, ToastCloseProps, ToastProgressProps,
   ToastData, ToastRecord, UseToastReturn, ToastIntent, ToastHistory, ToastPosition, ToastLogicalPosition, ToastOptions,
+  ToastPartAttributes,
 } from './Toast.types';
 
 const DEFAULT_HISTORY_CAP = 50;
@@ -84,7 +85,7 @@ function ToastProvider({ limit = 3, timeout = 5000, history = true, position = '
 }
 
 /* REQ-CMP-110: rendered history list — ul/li with title/description/time. */
-function ToastHistoryList({ className, children, ...rest }: React.HTMLAttributes<HTMLUListElement>) {
+function ToastHistoryList({ className, children, ...rest }: ToastPartAttributes<React.HTMLAttributes<HTMLUListElement>>) {
   const store = React.useContext(ToastHistoryCtx);
   const items = store?.api.items ?? [];
   return (
@@ -130,7 +131,7 @@ function ToastViewport({ position, className, children, ref, ...rest }: ToastVie
     );
   }
 
-function ToastRoot({ toast, className, children, ref, ...rest }: ToastRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+function ToastRoot({ toast, limit, className, children, ref, ...rest }: ToastRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
     const intent = (toast?.type as ToastIntent | undefined) ?? 'info';
     const priority = toast?.priority === 'high' && intent === 'danger' ? 'alert' : 'status';
     // dom-contract (CMP-202) requires data-state open|closed on the surface
@@ -162,8 +163,11 @@ function ToastRoot({ toast, className, children, ref, ...rest }: ToastRootProps 
     React.useLayoutEffect(() => {
       if (!rootEl?.parentElement) return;
       const siblings = Array.from(rootEl.parentElement.children).filter((n) => n.classList.contains('ag-toast'));
-      rootEl.style.setProperty('--toast-index', String(Math.max(0, siblings.indexOf(rootEl))));
-    }, [rootEl, mgr.toasts]);
+      const index = Math.max(0, siblings.indexOf(rootEl));
+      rootEl.style.setProperty('--toast-index', String(index));
+      // S-30 root prop `limit`: hide this toast past the given stack depth (Base UI owns data-limited otherwise).
+      if (limit !== undefined && index >= limit) rootEl.setAttribute('data-limited', '');
+    }, [rootEl, mgr.toasts, limit]);
     return (
       <Base.Root
         ref={refCb}
@@ -206,7 +210,7 @@ function ToastClose({ className, children, ref, ...rest }: ToastCloseProps & { r
   }
 
 /* REQ-CMP-109: decorative intent icon — tinted by --_ag-toast-accent in css. */
-function ToastIcon({ className, children, ...rest }: React.HTMLAttributes<HTMLSpanElement>) {
+function ToastIcon({ className, children, ...rest }: ToastPartAttributes<React.HTMLAttributes<HTMLSpanElement>>) {
   return (
     <span data-ag-part="icon" aria-hidden="true" className={cn('ag-toast-icon', className)} {...rest}>
       {children}
