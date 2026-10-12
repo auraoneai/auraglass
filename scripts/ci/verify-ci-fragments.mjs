@@ -36,7 +36,7 @@
 */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import yaml from 'yaml';
 
 const args = process.argv.slice(2);
@@ -560,8 +560,14 @@ const tasksChanged = (changed ?? []).some((f) => /^docs\/auraglass-5\/tasks\/.*\
 const tgTool = rel('docs/auraglass-5/tools/verify-task-graph.mjs');
 if (tasksChanged) {
   if (existsSync(tgTool)) {
-    const r = execFileSync('node', [tgTool], { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
-    void r;
+    // The verifier resolves the repo from its own location, so pass an absolute path
+    // (tgTool is relative to the caller's cwd, not to ROOT) and surface its findings.
+    try {
+      execFileSync(process.execPath, [resolve(tgTool)], { cwd: ROOT, encoding: 'utf8', stdio: 'pipe', maxBuffer: 64 * 1024 * 1024 });
+    } catch (e) {
+      const out = String(e.stderr || e.stdout || e.message).trim();
+      fail.push(`task-graph verifier failed (G-15 hook, REQ-FIN-21, contract §7.2):\n${out}`);
+    }
   } else {
     fail.push('task-graph verifier docs/auraglass-5/tools/verify-task-graph.mjs absent (G-15 hook, REQ-FIN-21)');
   }
