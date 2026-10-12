@@ -99,7 +99,8 @@ plat:gate:glass-quality:
         node scripts/release/gen-deprecations.mjs --docs
         node scripts/release/verify-breaking-register.mjs
         node scripts/build/api-report.mjs --all --check
-        node scripts/release/verify-deprecations.mjs --line "$AG_LINE"
+        # REQ-PLAT-25: tag pipelines require an etc/snapshots/<since>.json for every export entry.
+        node scripts/release/verify-deprecations.mjs --line "$AG_LINE" ${CI_COMMIT_TAG:+--require-snapshots}
         for s in verify-size-budgets.mjs verify-deps.mjs verify-side-effects.mjs; do
           [ -f "scripts/ci/$s" ] || { echo "PENDING: scripts/ci/$s"; exit 1; }
           node "scripts/ci/$s"
