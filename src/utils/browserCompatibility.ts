@@ -1,4 +1,3 @@
-/* eslint-disable no-new-func -- legitimate feature-detection probes (PLAT-075 scoped exception) */
 import React from "react";
 import { createGlassStyle } from "../core/mixins/glassMixins";
 // Browser compatibility detection and fallbacks
