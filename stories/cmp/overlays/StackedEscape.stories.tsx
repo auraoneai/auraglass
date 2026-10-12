@@ -25,7 +25,7 @@ export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
 export const DialogPopoverMenu: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'StackedEscape', id: 'overlays-stacked-escape--dialog-popover-menu' } },
+  parameters: { ag: { tier: 'standard', subject: 'StackedEscape' } },
   render: () => (
     <AuraGlassProvider>
       <Dialog.Root>

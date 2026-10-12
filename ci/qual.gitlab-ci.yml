@@ -60,8 +60,9 @@ qual:build:storybook:
   rules:
     - if: $AG_LINE == "5x"
   script:
-    # REQ-QUAL-09..11 / REQ-FIN-106: preview, StoryRoot readiness and determinism unit tests gate the build
-    - npx jest --ci tests/storybook
+    # REQ-QUAL-09..11 / REQ-FIN-106: preview, StoryRoot readiness and determinism unit tests gate the build.
+    # scene-bands.test.mjs needs tesseract 5 and runs in qual:test:scene-bands (AG_PLAYWRIGHT_IMAGE + tesseract), not on AG_NODE_IMAGE.
+    - npx jest --ci 'tests/storybook/(?!scene-bands\.test)'
     # REQ-QUAL-56: story typecheck gates the build
     - node_modules/.bin/tsc --noEmit -p tsconfig.storybook.json
     # REQ-QUAL-56: dist from plat:build:dist (else npm run build), then AG_STORYBOOK_DIST=1 storybook build

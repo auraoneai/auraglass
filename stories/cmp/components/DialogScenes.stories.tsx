@@ -29,7 +29,7 @@ const Shell = ({ children }: { children: React.ReactNode }) => (
 );
 
 export const Form: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'Dialog', id: 'overlays-dialog--form' } },
+  parameters: { ag: { tier: 'standard', subject: 'Dialog' } },
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
@@ -62,7 +62,7 @@ export const Form: Story = {
    outside-press targeting can be verified (press inside the Dialog, outside the
    Popover → only the Popover closes). */
 export const WithPopover: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'Dialog', id: 'overlays-dialog--with-popover' } },
+  parameters: { ag: { tier: 'standard', subject: 'Dialog' } },
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
@@ -91,7 +91,7 @@ export const WithPopover: Story = {
 /* CMP-394: composite scene — Dialog → Popover → Menu, three layers mounted open
    so the e2e lane can assert exactly one layer closes per Escape. */
 export const WithPopoverMenu: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'Dialog', id: 'overlays-dialog--with-popover-menu' } },
+  parameters: { ag: { tier: 'standard', subject: 'Dialog' } },
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
@@ -128,7 +128,7 @@ export const WithPopoverMenu: Story = {
 /* CMP-404: toast viewport mounted alongside a modal dialog so the e2e
    overlay-stack lane can assert it never sits under an inert ancestor. */
 export const WithToastViewport: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'Dialog', id: 'overlays-dialog--with-toast-viewport' } },
+  parameters: { ag: { tier: 'standard', subject: 'Dialog' } },
   render: () => (
     <Shell>
       <Toast.Provider>
@@ -174,7 +174,7 @@ function StackToast() {
 }
 
 export const WithToast: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'Dialog', id: 'overlays-dialog--with-toast' } },
+  parameters: { ag: { tier: 'standard', subject: 'Dialog' } },
   render: () => (
     <Shell>
       <Toast.Provider>

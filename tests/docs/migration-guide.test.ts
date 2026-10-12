@@ -194,8 +194,10 @@ describe('generated Storybook migration pages', () => {
       expect(src).toMatch(/import \{ MigrationTable, SelectorTable \} from/);
       expect(src).toContain('<MigrationTable of={meta} />');
       expect(src).toContain('<SelectorTable of={meta} />');
-      const metaImport = src.match(/import meta from '([^']+)'/)![1]!;
-      expect(existsSync(join(root, STORIES_DIR, `${metaImport}.ts`))).toBe(true);
+      const [, named, metaImport] = src.match(/import (?:meta|\{ (\w+) as meta \}) from '([^']+)'/)!;
+      const metaSrc = readFileSync(join(root, STORIES_DIR, `${metaImport}.ts`), 'utf8');
+      /* The imported binding must exist: a default import of a named-only meta breaks the Storybook build. */
+      expect(metaSrc).toMatch(named ? new RegExp(`export const ${named}\\b`) : /export default /);
     }
   }, 60000);
 });
