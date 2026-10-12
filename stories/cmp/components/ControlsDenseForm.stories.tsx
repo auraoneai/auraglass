@@ -10,10 +10,11 @@ import { Switch } from '../../../src/components/switch';
 import { Field, Fieldset } from '../../../src/components/field';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
+/* A composition of several controls, so it has no single ComponentMeta subject: a CMP fixture (no parameters.ag,
+   tagged no-cert), not a Flagships title — Flagships titles are the flagship components themselves (REQ-QUAL-49). */
 const sbMeta = {
-  title: 'Flagships/Controls/DenseForm',
-  tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'ControlsDenseForm', kind: 'scene' } },
+  title: 'CMP/Fixtures/Dense Form',
+  tags: ['no-cert'],
 } satisfies Meta;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

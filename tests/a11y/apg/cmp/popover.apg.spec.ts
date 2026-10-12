@@ -8,7 +8,7 @@ import { apg } from '../harness';
 
 test.describe('popover APG (CMP-397)', () => {
   test('focus moves in; Escape and outside-press close with focus return', async ({ page }) => {
-    await gotoStory(page, 'overlays-popover--playground');
+    await gotoStory(page, 'flagships-overlays-popover--playground');
     const popup = page.locator('[data-ag-part="popup"]').first();
     await expect(popup).toBeVisible();
 
@@ -26,7 +26,7 @@ test.describe('popover APG (CMP-397)', () => {
   });
 
   test('outside press closes the popover', async ({ page }) => {
-    await gotoStory(page, 'overlays-popover--playground');
+    await gotoStory(page, 'flagships-overlays-popover--playground');
     const popup = page.locator('[data-ag-part="popup"]').first();
     await expect(popup).toBeVisible();
     await page.mouse.click(4, 4);

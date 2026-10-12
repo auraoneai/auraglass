@@ -31,7 +31,7 @@ const WIDGETS: Record<string, Widget> = {
     },
   },
   Menubar: {
-    story: 'flagships-overlays-menubar--menubar-scene',
+    story: 'flagships-overlays-menu--menubar-scene',
     surface: '[data-ag-part="popup"]',
     open: async (page) => {
       await page.getByRole('menuitem', { name: 'File', exact: true }).click();

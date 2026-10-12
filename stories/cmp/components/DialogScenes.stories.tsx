@@ -16,7 +16,8 @@ import { AuraGlassProvider } from '../../../src/theme';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
-  title: 'Flagships/Overlays/Dialog Scenes',
+  /* Dialog stories in their own file (S-33) under the Dialog flagship title; ids flagships-overlays-dialog--*. */
+  title: 'Flagships/Overlays/Dialog',
   component: Dialog.Root,
   tags: ['flagship'],
   parameters: { layout: 'fullscreen', ag: { tier: 'standard', subject: 'Dialog', kind: 'scene' } },

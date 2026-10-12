@@ -9,7 +9,7 @@ import { apg } from '../harness';
 
 test.describe('sheet APG (CMP-405)', () => {
   test('handle keys cycle detents; body stays reachable; escape restores', async ({ page }) => {
-    await gotoStory(page, 'overlays-sheet--bottom-detents');
+    await gotoStory(page, 'flagships-overlays-sheet--bottom-detents');
     const popup = page.locator('[data-ag-part="popup"]').first();
     await expect(popup).toBeVisible();
     /* REQ-CMP-95: the handle is a plain button named 'Resize sheet'

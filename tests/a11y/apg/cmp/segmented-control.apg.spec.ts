@@ -14,8 +14,7 @@ async function checkedIndex(page: import('@playwright/test').Page) {
 
 test.describe('segmented-control APG (CMP-368 + REQ-CMP-43)', () => {
   test('aria-checked moves with arrows, wraps, Home/End bound, Space never deselects', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-segmented-control--default')
-      .catch(() => gotoStory(page, 'flagships-controls-segmentedcontrol--default'));
+    await gotoStory(page, 'flagships-controls-segmentedcontrol--default');
     const items = page.locator('[role="radio"], [data-ag-part="item"]');
     const n = await items.count();
     expect(n).toBeGreaterThanOrEqual(2);
@@ -69,8 +68,7 @@ test.describe('segmented-control APG (CMP-368 + REQ-CMP-43)', () => {
 /* REQ-CMP-42: indicator tracks the checked item within 1px; animating flag
    appears and clears; under calm the transition-duration is 0. */
 test('REQ-CMP-42: indicator measures item 3 within 1px; calm jumps', async ({ page }) => {
-  await gotoStory(page, 'flagships-controls-segmented-control--default')
-    .catch(() => gotoStory(page, 'flagships-controls-segmentedcontrol--default'));
+  await gotoStory(page, 'flagships-controls-segmentedcontrol--default');
   const root = page.locator('[data-ag-part="root"]').first();
   const items = page.locator('[role="radio"]');
   const n = await items.count();

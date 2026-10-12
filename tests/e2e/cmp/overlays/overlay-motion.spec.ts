@@ -12,13 +12,13 @@ const KIND_MS: Record<string, number[]> = {
   large: [450, 320],
 };
 const SUBJECTS: Record<string, { story: string; kind: keyof typeof KIND_MS }> = {
-  Tooltip: { story: 'overlays-tooltip--playground', kind: 'small' },
-  Popover: { story: 'overlays-popover--playground', kind: 'small' },
-  Menu: { story: 'overlays-menu--playground', kind: 'small' },
-  Dialog: { story: 'overlays-dialog--default', kind: 'medium' },
-  AlertDialog: { story: 'overlays-alert-dialog--confirm', kind: 'medium' },
-  Sheet: { story: 'overlays-sheet--bottom-detents', kind: 'medium' },
-  Toast: { story: 'overlays-toast--playground', kind: 'medium' },
+  Tooltip: { story: 'flagships-overlays-tooltip--playground', kind: 'small' },
+  Popover: { story: 'flagships-overlays-popover--playground', kind: 'small' },
+  Menu: { story: 'flagships-overlays-menu--playground', kind: 'small' },
+  Dialog: { story: 'flagships-overlays-dialog--playground', kind: 'medium' },
+  AlertDialog: { story: 'flagships-overlays-alertdialog--confirm', kind: 'medium' },
+  Sheet: { story: 'flagships-overlays-sheet--bottom-detents', kind: 'medium' },
+  Toast: { story: 'flagships-overlays-toast--playground', kind: 'medium' },
 };
 
 function durationsMs(v: string): number[] {

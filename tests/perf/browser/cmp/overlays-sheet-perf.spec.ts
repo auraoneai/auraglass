@@ -20,7 +20,7 @@ test.describe('sheet perf (CMP-406 / REQ-CMP-96)', () => {
         const session = await context.newCDPSession(page).catch(() => null);
         await session?.send('Emulation.setCPUThrottlingRate', { rate: profile.cpuRate }).catch(() => undefined);
       }
-      await gotoStory(page, 'overlays-sheet--bottom-detents');
+      await gotoStory(page, 'flagships-overlays-sheet--bottom-detents');
       const handle = page.locator('[data-ag-part="handle"]').first();
       await expect(handle).toBeVisible();
       const box = (await handle.boundingBox())!;

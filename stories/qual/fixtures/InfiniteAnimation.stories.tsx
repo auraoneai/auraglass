@@ -4,12 +4,11 @@
    animation on a property other than transform/opacity is never allowed,
    and the subject is not indeterminate progress. Tagged no-cert. */
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const meta = {
   title: 'QUAL/Fixtures/Infinite Animation',
   tags: ['no-cert'],
-  parameters: { ag: { subject: 'fixture:infinite-animation', kind: 'component' } satisfies StoryAgParameters },
+  // No parameters.ag: a no-cert fixture has no ComponentMeta or showcase subject (S-41), so it declares none.
 } satisfies Meta;
 export default meta;
 

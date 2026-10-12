@@ -8,7 +8,7 @@ import { apg } from '../harness';
 
 test.describe('dialog APG (CMP-391)', () => {
   test('focus moves in; Tab cycles; Escape restores to trigger; width ±0', async ({ page }) => {
-    await gotoStory(page, 'overlays-dialog--default');
+    await gotoStory(page, 'flagships-overlays-dialog--playground');
     const popup = page.locator('[data-ag-part="popup"]').first();
     await expect(popup).toBeVisible();
 
@@ -52,7 +52,7 @@ test.describe('dialog APG (CMP-391)', () => {
   });
 
   test('modal={false}: no inert, no scroll-locked, no backdrop', async ({ page }) => {
-    await gotoStory(page, 'overlays-dialog--non-modal');
+    await gotoStory(page, 'flagships-overlays-dialog--non-modal');
     const popup = page.locator('[data-ag-part="popup"]').first();
     await expect(popup).toBeVisible();
 

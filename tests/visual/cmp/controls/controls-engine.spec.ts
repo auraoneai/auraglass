@@ -9,8 +9,7 @@ import { gotoStory } from '../../../helpers/index';
 test.describe('controls engine material (CMP-381)', () => {
   test('webkit: shell blur present and backdrop variance drops', async ({ page, browserName }) => {
     test.skip(browserName !== 'webkit', 'webkit-only case');
-    await gotoStory(page, 'flagships-controls-search-field--default')
-      .catch(() => gotoStory(page, 'flagships-controls-searchfield--default'));
+    await gotoStory(page, 'flagships-controls-searchfield--default');
     const shell = page.locator('[data-ag-part="root"], [data-ag-part="control"]').first();
     const bf = await shell.evaluate(
       (el) => getComputedStyle(el, '::before').backdropFilter || getComputedStyle(el).backdropFilter,

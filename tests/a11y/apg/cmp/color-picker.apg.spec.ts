@@ -8,7 +8,7 @@ import { apg } from '../harness';
 
 test.describe('color-picker APG (CMP-358)', () => {
   test('sliders respond to arrows; hex input round-trips', async ({ page }) => {
-    await gotoStory(page, 'core-color-picker--default');
+    await gotoStory(page, 'core-colorpicker--default');
     const trigger = page.locator('[data-ag-part="trigger"], button').first();
     await trigger.focus();
     await page.keyboard.press('Enter');

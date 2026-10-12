@@ -23,11 +23,14 @@ import { Sheet } from '../../../src/components/sheet';
 import { Popover } from '../../../src/components/popover';
 import { ImageViewer } from '../../../src/media';
 import { Calendar } from '../../../src/date';
-import type { StoryAgParameters } from '../../../src/contracts/testing';
 
+/* A focus-restore e2e fixture composing several components (AppShell overlays, a Calendar), so it has no single
+   ComponentMeta subject and no parameters.ag (S-41); tagged no-cert: never a certification subject. The meta id keeps
+   the story ids the spec addresses (surf-focus-restore--*). */
 const meta = {
-  title: 'surf/focus-restore',
-  parameters: { ag: { subject: 'AppShell', kind: 'component' } satisfies StoryAgParameters },
+  title: 'SURF/Fixtures/Focus Restore',
+  id: 'surf-focus-restore',
+  tags: ['no-cert'],
 } satisfies Meta;
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -149,7 +152,6 @@ function OverlaysHarness() {
 export const Overlays: Story = { render: () => <OverlaysHarness /> };
 
 export const UnavailableCells: Story = {
-  parameters: { ag: { subject: 'Calendar', kind: 'component' } satisfies StoryAgParameters },
   render: () => (
     <Calendar
       aria-label="Unavailable cells"

@@ -7,15 +7,15 @@ import { gotoStory } from '../../../helpers/index';
 
 const ANIMATING = '[data-ag-animating]';
 const REST_STORIES: Record<string, string> = {
-  dialog: 'overlays-dialog--default',
-  'alert-dialog': 'overlays-alert-dialog--confirm',
-  sheet: 'overlays-sheet--right-panel',
-  popover: 'overlays-popover--playground',
-  menu: 'overlays-menu--playground',
-  tooltip: 'overlays-tooltip--playground',
-  toast: 'overlays-toast--playground',
-  select: 'overlays-select--playground',
-  combobox: 'overlays-combobox--playground',
+  dialog: 'flagships-overlays-dialog--playground',
+  'alert-dialog': 'flagships-overlays-alertdialog--confirm',
+  sheet: 'flagships-overlays-sheet--right-panel',
+  popover: 'flagships-overlays-popover--playground',
+  menu: 'flagships-overlays-menu--playground',
+  tooltip: 'flagships-overlays-tooltip--playground',
+  toast: 'flagships-overlays-toast--playground',
+  select: 'flagships-controls-select--default',
+  combobox: 'flagships-controls-combobox--default',
 };
 
 test.describe('overlay animating contract (REQ-CMP-83)', () => {
@@ -33,13 +33,13 @@ test.describe('overlay animating contract (REQ-CMP-83)', () => {
   }
 
   test('dialog: animating attr spans starting-style → transitionend only', async ({ page }) => {
-    await gotoStory(page, 'overlays-dialog--default');
+    await gotoStory(page, 'flagships-overlays-dialog--playground');
     // The story opens defaultOpen — re-render captures enter; at rest, none.
     await expect(page.locator(ANIMATING)).toHaveCount(0);
   });
 
   test('anchored popup enter transform is scale(0.96); scrim animates opacity only', async ({ page }) => {
-    await gotoStory(page, 'overlays-popover--playground');
+    await gotoStory(page, 'flagships-overlays-popover--playground');
     const popup = page.locator('[data-ag-overlay="popover"]').first();
     await expect(popup).toBeVisible();
     const entry = await popup.evaluate((el) => {
@@ -55,7 +55,7 @@ test.describe('overlay animating contract (REQ-CMP-83)', () => {
   });
 
   test('sheet enter uses translate, not scale', async ({ page }) => {
-    await gotoStory(page, 'overlays-sheet--bottom-detents');
+    await gotoStory(page, 'flagships-overlays-sheet--bottom-detents');
     const sheet = page.locator('[data-ag-overlay="sheet"]').first();
     await expect(sheet).toBeVisible();
     const transform = await sheet.evaluate((el) => getComputedStyle(el).transform);

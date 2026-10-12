@@ -8,12 +8,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { Surface } from '../../../../src/material/index';
-import type { StoryAgParameters } from '../../../../src/contracts/testing';
 
 const meta = {
   title: 'QUAL/Fixtures/Perf/Backdrop Root',
   tags: ['no-cert'],
-  parameters: { layout: 'fullscreen', ag: { subject: 'fixture:perf-backdrop-root', kind: 'lab', scenes: ['photo'] } satisfies StoryAgParameters },
+  // No parameters.ag: a no-cert fixture has no ComponentMeta or showcase subject (S-41), and kind `lab` is reserved
+  // for .storybook/lab/** (REQ-QUAL-53). The photo scene is the default `scene` global.
+  parameters: { layout: 'fullscreen' },
 } satisfies Meta;
 export default meta;
 type Story = StoryObj<typeof meta>;

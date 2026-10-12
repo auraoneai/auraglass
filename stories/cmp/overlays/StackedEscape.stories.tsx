@@ -14,18 +14,18 @@ import { Dialog } from '../../../src/components/dialog/index';
 import { Popover } from '../../../src/components/popover/index';
 import { Menu } from '../../../src/components/menu/index';
 import { AuraGlassProvider } from '../../../src/theme';
-import type { StoryAgParameters } from '../../../src/contracts/testing';
 
+/* Three overlays at once, so no single ComponentMeta subject: a CMP fixture for the APG lane (no parameters.ag,
+   tagged no-cert). The meta id keeps the story id the spec addresses. */
 const sbMeta = {
-  title: 'Flagships/Overlays/StackedEscape',
+  title: 'CMP/Fixtures/Stacked Escape',
   id: 'overlays-stacked-escape',
-  parameters: { ag: { tier: 'standard', subject: 'StackedEscape', kind: 'component' } satisfies StoryAgParameters },
+  tags: ['no-cert'],
 } satisfies Meta;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
 export const DialogPopoverMenu: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'StackedEscape' } },
   render: () => (
     <AuraGlassProvider>
       <Dialog.Root>

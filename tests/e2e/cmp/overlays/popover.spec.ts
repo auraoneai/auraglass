@@ -4,11 +4,11 @@ import { test, expect } from '@playwright/test';
 import { gotoStory } from '../../../helpers/index';
 
 const POPUP_KINDS: Record<string, string> = {
-  Popover: 'overlays-popover--side-align',
-  Menu: 'overlays-menu--playground',
-  Tooltip: 'overlays-tooltip--playground',
-  Select: 'overlays-select--playground',
-  Combobox: 'overlays-combobox--playground',
+  Popover: 'flagships-overlays-popover--side-align',
+  Menu: 'flagships-overlays-menu--playground',
+  Tooltip: 'flagships-overlays-tooltip--playground',
+  Select: 'flagships-controls-select--default',
+  Combobox: 'flagships-controls-combobox--default',
 };
 
 test.describe('anchored popup collision at 390 (CMP-397)', () => {

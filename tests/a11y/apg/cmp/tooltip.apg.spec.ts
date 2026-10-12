@@ -8,7 +8,7 @@ import { apg } from '../harness';
 
 test.describe('tooltip APG (CMP-398)', () => {
   test('focus opens; describedby resolves; Escape closes', async ({ page }) => {
-    await gotoStory(page, 'overlays-tooltip--playground');
+    await gotoStory(page, 'flagships-overlays-tooltip--keyboard');
     const trigger = page.locator('[data-ag-part="trigger"], button').first();
     await trigger.focus();
     const popup = page.locator('[data-ag-part="popup"], [role="tooltip"]').first();
@@ -27,7 +27,7 @@ test.describe('tooltip APG (CMP-398)', () => {
   });
 
   test('hoverable: pointer path trigger→popup keeps it open', async ({ page }) => {
-    await gotoStory(page, 'overlays-tooltip--playground');
+    await gotoStory(page, 'flagships-overlays-tooltip--playground');
     const trigger = page.locator('[data-ag-part="trigger"], button').first();
     const popup = page.locator('[data-ag-part="popup"], [role="tooltip"]').first();
     await trigger.hover();

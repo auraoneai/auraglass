@@ -12,12 +12,11 @@
      property; the probe must pass in every engine.
    Tagged no-cert: never certification subjects. */
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const meta = {
   title: 'QUAL/Fixtures/Webkit Backdrop',
   tags: ['no-cert'],
-  parameters: { ag: { subject: 'fixture:webkit-backdrop', kind: 'component' } satisfies StoryAgParameters },
+  // No parameters.ag: a no-cert fixture has no ComponentMeta or showcase subject (S-41), so it declares none.
 } satisfies Meta;
 export default meta;
 

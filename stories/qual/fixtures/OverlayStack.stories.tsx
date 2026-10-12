@@ -14,12 +14,11 @@ import { Dialog } from '../../../src/components/dialog';
 import { Menu } from '../../../src/components/menu';
 import { Tooltip } from '../../../src/components/tooltip';
 import { AuraGlassProvider } from '../../../src/theme';
-import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const meta = {
   title: 'QUAL/Fixtures/Overlay Stack',
   tags: ['no-cert'],
-  parameters: { ag: { subject: 'fixture:overlay-stack', kind: 'component' } satisfies StoryAgParameters },
+  // No parameters.ag: a no-cert fixture has no ComponentMeta or showcase subject (S-41), so it declares none.
 } satisfies Meta;
 export default meta;
 

@@ -8,7 +8,7 @@ import { gotoStory } from '../../../helpers/index';
 test.describe('dialog responsive sizes at 390 (REQ-CMP-89)', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await gotoStory(page, 'overlays-dialog--sizes');
+    await gotoStory(page, 'flagships-overlays-dialog--sizes');
   });
 
   for (const size of ['sm', 'md'] as const) test(`${size} popup is 358px wide`, async ({ page }) => {

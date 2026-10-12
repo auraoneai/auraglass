@@ -8,7 +8,7 @@ import { apg } from '../harness';
 
 test.describe('alert-dialog APG (CMP-392)', () => {
   test('role, initial cancel focus, escape + description wiring', async ({ page }) => {
-    await gotoStory(page, 'overlays-alert-dialog--confirm');
+    await gotoStory(page, 'flagships-overlays-alertdialog--keyboard');
     const popup = page.locator('[data-ag-part="popup"]').first();
     await expect(popup).toBeVisible();
     await expect(popup).toHaveAttribute('role', 'alertdialog');

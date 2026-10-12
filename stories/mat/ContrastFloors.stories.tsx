@@ -6,7 +6,6 @@
    floors file — no hand-typed values. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import type { StoryAgParameters } from '../../src/contracts/testing';
 import { PendingCallout, globJson } from './_shared';
 
 interface FloorRow {
@@ -72,7 +71,6 @@ const meta: Meta = {
   title: 'MAT/Contrast Floors',
   parameters: {
     layout: 'padded',
-    ag: { subject: 'MatContrastFloors', kind: 'lab' } satisfies StoryAgParameters,
   },
 };
 export default meta;

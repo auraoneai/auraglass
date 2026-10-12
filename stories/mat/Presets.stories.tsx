@@ -14,7 +14,6 @@ import { Surface } from '../../src/material/index';
 import { AuraGlassProvider } from '../../src/theme/AuraGlassProvider';
 import { presets, type PresetId } from '../../src/theme/presets';
 import { createBrandTheme } from '../../src/theme/createBrandTheme';
-import type { StoryAgParameters } from '../../src/contracts/testing';
 import { CONTRAST_FLOOR } from './_shared';
 
 type Scheme = 'light' | 'dark';
@@ -137,7 +136,6 @@ const meta: Meta = {
   title: 'MAT/Presets',
   parameters: {
     layout: 'padded',
-    ag: { subject: 'MatPresets', kind: 'lab' } satisfies StoryAgParameters,
   },
 };
 export default meta;

@@ -9,7 +9,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { flushSync } from 'react-dom';
-import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { Surface } from '../../../src/material/index';
 import { startMorph, useMorphName } from '../../../src/motion/index';
 
@@ -80,7 +79,6 @@ const meta: Meta = {
   title: 'MAT/Motion/View Transitions',
   parameters: {
     layout: 'padded',
-    ag: { subject: 'MatMotionViewTransitions', kind: 'lab' } satisfies StoryAgParameters,
   },
 };
 export default meta;

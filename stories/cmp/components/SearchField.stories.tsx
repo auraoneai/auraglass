@@ -64,3 +64,52 @@ export const WithMessages: Story = {
     </Stage>
   ),
 };
+
+/* Usage: an empty search capsule with its placeholder. */
+export const Playground: Story = {
+  render: () => (
+    <Stage>
+      <Section title="Search field" note="Type to filter; Escape clears a non-empty field.">
+        <Scene align="flex-start">
+          <div style={bar}>
+            <SearchField aria-label="Search" placeholder="Search invoices" />
+          </div>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};
+
+/* Empty, filled (clear button), loading and disabled. */
+export const States: Story = {
+  render: () => (
+    <Stage>
+      <Section title="States" note="Empty, filled with its clear button, loading, and disabled.">
+        <Scene align="flex-start">
+          <div style={{ ...bar, display: 'grid', gap: 'var(--ag-space-4)' }}>
+            <SearchField aria-label="Search orders" placeholder="Search orders" />
+            <SearchField aria-label="Search customers" defaultValue="Northwind" />
+            <SearchField aria-label="Search products" defaultValue="lamp" loading />
+            <SearchField aria-label="Search archive" placeholder="Archive search is offline" disabled />
+          </div>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};
+
+/* The story tests/a11y/apg/cmp/search-field.apg.spec.ts drives: Escape clears the value, then propagates when empty. */
+export const Keyboard: Story = {
+  tags: ['apg'],
+  render: () => (
+    <Stage>
+      <Section title="Keyboard" note="Escape clears the value; a second Escape on the empty field is not consumed.">
+        <Scene align="flex-start">
+          <div style={bar}>
+            <SearchField aria-label="Search" defaultValue="glacier" />
+          </div>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};

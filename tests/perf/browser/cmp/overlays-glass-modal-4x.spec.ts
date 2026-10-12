@@ -44,7 +44,7 @@ test.describe('glass modal 4.x pixel parity (CMP-385/387)', () => {
      rects, not offsetParent (null for position:fixed scrims and popups). */
   test('modal perf story forced-colors: 0 visible backdrop-filters (4.x: 10)', async ({ page }) => {
     await page.emulateMedia({ forcedColors: 'active' });
-    await gotoStory(page, 'flagships-overlays-dialogperf--dialog-over-dashboard', { forcedColors: true });
+    await gotoStory(page, 'cmp-fixtures-dialog-perf--dialog-over-dashboard', { forcedColors: true });
     await expect(page.locator('[data-ag-part="popup"]').first()).toBeVisible();
     const blurred = await page.evaluate(() =>
       [...document.querySelectorAll<HTMLElement>('*')].filter((el) => {

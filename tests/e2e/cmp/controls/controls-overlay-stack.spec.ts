@@ -7,7 +7,7 @@ import { gotoStory } from '../../../helpers/index';
 
 test.describe('controls overlay stack (CMP-378)', () => {
   test('select popup closes first, dialog second; portal + z-order', async ({ page }) => {
-    await gotoStory(page, 'overlays-dialog--form');
+    await gotoStory(page, 'flagships-overlays-dialog--form');
     const dialogPopup = page.locator('[data-ag-part="popup"]').first();
     await expect(dialogPopup).toBeVisible();
 

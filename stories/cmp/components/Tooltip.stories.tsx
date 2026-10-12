@@ -1,5 +1,5 @@
 /* CMP-272 (REQ-CMP-01/22): Tooltip scenes — Playground, ProviderDelays,
-   CoarseLongPress — ids overlays-tooltip--*. */
+   CoarseLongPress, States, Keyboard — ids flagships-overlays-tooltip--*. */
 import { OverlayStage } from '../overlays/OverlayStage';
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
@@ -28,14 +28,37 @@ const Demo = ({ label = 'Hint text' }: { label?: string }) => (
 );
 
 export const Playground: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'Tooltip', id: 'overlays-tooltip--playground' } },
   render: () => <Demo />,
 };
 export const ProviderDelays: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'Tooltip', id: 'overlays-tooltip--provider-delays' } },
   render: () => <Demo label="600ms delay · 0 closeDelay · 400ms skip-delay window" />,
 };
 export const CoarseLongPress: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'Tooltip', id: 'overlays-tooltip--coarse-long-press' } },
   render: () => <Demo label="On coarse pointers: press and hold 500ms to open" />,
+};
+
+/* Open with its arrow next to a closed trigger, in one provider (shared delay group). */
+export const States: Story = {
+  render: () => (
+    <AuraGlassProvider><OverlayStage>
+      <Tooltip.Provider>
+        <div style={{ display: 'flex', gap: 'var(--ag-space-8)' }}>
+          <Tooltip.Root defaultOpen>
+            <Tooltip.Trigger>Open</Tooltip.Trigger>
+            <Tooltip.Content><Tooltip.Arrow />Copied to clipboard</Tooltip.Content>
+          </Tooltip.Root>
+          <Tooltip.Root>
+            <Tooltip.Trigger>Closed</Tooltip.Trigger>
+            <Tooltip.Content><Tooltip.Arrow />Opens on hover or focus</Tooltip.Content>
+          </Tooltip.Root>
+        </div>
+      </Tooltip.Provider>
+    </OverlayStage></AuraGlassProvider>
+  ),
+};
+
+/* The story tests/a11y/apg/cmp/tooltip.apg.spec.ts drives: focus opens, aria-describedby resolves, Escape closes. */
+export const Keyboard: Story = {
+  tags: ['apg'],
+  render: () => <Demo label="Focus opens it; Escape closes it" />,
 };

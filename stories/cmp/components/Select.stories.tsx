@@ -182,6 +182,7 @@ export const InContext: Story = {
 };
 
 export const Keyboard: Story = {
+  tags: ['apg'],
   render: () => (
     <Stage>
       <Scene>

@@ -8,7 +8,7 @@ import { apg } from '../harness';
 
 test.describe('checkbox APG (CMP-361)', () => {
   test('each checkbox is its own tab stop; Space flips aria-checked', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-checkbox--default');
+    await gotoStory(page, 'flagships-controls-checkbox--keyboard');
     const box = page.getByRole('checkbox').first();
     await box.focus();
     const before = await box.getAttribute('aria-checked');
@@ -19,8 +19,7 @@ test.describe('checkbox APG (CMP-361)', () => {
   /* REQ-CMP-53: parent checkbox in CheckboxGroup cycles exact
      mixed -> true -> false via aria-checked. */
   test('indeterminate: parent cycles mixed -> true -> false', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-checkbox-group--default')
-      .catch(() => gotoStory(page, 'flagships-controls-checkboxgroup--default'));
+    await gotoStory(page, 'flagships-controls-checkboxgroup--keyboard');
     const boxes = page.getByRole('checkbox');
     const n = await boxes.count();
     if (n < 2) test.skip();
@@ -34,8 +33,7 @@ test.describe('checkbox APG (CMP-361)', () => {
   });
 
   test('group: every checkbox remains a tab stop', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-checkbox-group--default')
-      .catch(() => gotoStory(page, 'flagships-controls-checkboxgroup--default'));
+    await gotoStory(page, 'flagships-controls-checkboxgroup--keyboard');
     const boxes = page.getByRole('checkbox');
     expect(await boxes.count()).toBeGreaterThanOrEqual(2);
     for (const b of await boxes.all()) {

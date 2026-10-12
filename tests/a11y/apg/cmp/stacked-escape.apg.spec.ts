@@ -10,7 +10,7 @@ import { apg } from '../harness';
 
 test.describe('stacked-escape APG (CMP-347)', () => {
   test('Escape order is topmost-first; focus returns per layer', async ({ page }) => {
-    await gotoStory(page, 'foundation-dismissable-layer--stacked');
+    await gotoStory(page, 'foundation-dismissablelayer--stacked');
 
     // Open the two layers; each layer's previous focus is the button that
     // opened it, so closing restores focus into the parent layer's context.

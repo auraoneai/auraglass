@@ -7,7 +7,7 @@ import { apg } from '../harness';
 
 test.describe('toolbar APG (CMP-366)', () => {
   test('roving tabindex: one tab stop; arrows loop, disabled skipped', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-toolbar--default');
+    await gotoStory(page, 'flagships-controls-toolbar--keyboard');
     const toolbar = page.locator('[role="toolbar"]').first();
     await expect(toolbar).toBeVisible();
     const items = toolbar.locator('button, [data-ag-part]');

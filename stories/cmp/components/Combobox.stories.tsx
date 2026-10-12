@@ -152,6 +152,7 @@ export const Density: Story = {
 };
 
 export const Keyboard: Story = {
+  tags: ['apg'],
   render: () => (
     <Stage>
       <Scene>

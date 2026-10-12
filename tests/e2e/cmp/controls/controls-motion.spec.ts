@@ -18,8 +18,7 @@ async function frameStrip(page: import('@playwright/test').Page, during: () => P
 
 test.describe('controls motion (CMP-379)', () => {
   test('segmented-control indicator animates between items', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-segmented-control--default')
-      .catch(() => gotoStory(page, 'flagships-controls-segmentedcontrol--default'));
+    await gotoStory(page, 'flagships-controls-segmentedcontrol--default');
     const indicator = page.locator('[data-ag-part="indicator"]').first();
     test.skip((await indicator.count()) === 0, 'indicator part absent');
     const frames = await frameStrip(page, async () => {

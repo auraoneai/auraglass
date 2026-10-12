@@ -4,12 +4,11 @@
    violation for it in every engine. Tagged no-cert: never a certification
    subject; addressed by id as a negative control only. */
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const meta = {
   title: 'QUAL/Fixtures/Hydration Mismatch',
   tags: ['no-cert'],
-  parameters: { ag: { subject: 'fixture:hydration-mismatch', kind: 'component' } satisfies StoryAgParameters },
+  // No parameters.ag: a no-cert fixture has no ComponentMeta or showcase subject (S-41), so it declares none.
 } satisfies Meta;
 export default meta;
 

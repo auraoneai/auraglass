@@ -8,7 +8,7 @@ import { apg } from '../harness';
 
 test.describe('context-menu APG (CMP-402)', () => {
   test('contextmenu and Shift+F10 open; focus first item; restore', async ({ page }) => {
-    await gotoStory(page, 'overlays-menu--context-menu');
+    await gotoStory(page, 'flagships-overlays-menu--context-menu-scene');
     const area = page.locator('[data-ag-part="trigger"], [data-context-area], main, body').first();
     await area.click({ button: 'right' });
     const menu = page.locator('[role="menu"], [data-ag-part="popup"]').first();

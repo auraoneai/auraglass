@@ -7,7 +7,7 @@ import { apg } from '../harness';
 
 test.describe('slider APG (CMP-370)', () => {
   test('arrow/page keys respect step and largeStep; Home/End bound', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-slider--default');
+    await gotoStory(page, 'flagships-controls-slider--keyboard');
     const thumb = page.getByRole('slider').first();
     await thumb.focus();
 
@@ -35,7 +35,7 @@ test.describe('slider APG (CMP-370)', () => {
 
 /* REQ-CMP-50: exact value assertions incl. RTL key mirroring. */
 test('REQ-CMP-50: exact step/largeStep values; RTL mirrors arrows', async ({ page }) => {
-  await gotoStory(page, 'flagships-controls-slider--default');
+  await gotoStory(page, 'flagships-controls-slider--keyboard');
   const thumb = page.getByRole('slider').first();
   await thumb.focus();
   const step = Number(await thumb.getAttribute('data-step')) || 1;

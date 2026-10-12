@@ -8,7 +8,7 @@ import { apg } from '../harness';
 
 test.describe('toast APG (CMP-408)', () => {
   test('F6 reaches the region; toasts announce without stealing focus', async ({ page }) => {
-    await gotoStory(page, 'overlays-toast--intents');
+    await gotoStory(page, 'flagships-overlays-toast--intents');
     const region = page.locator('[data-ag-part="viewport"], [data-ag-part="region"], [role="region"], [role="status"]').first();
     await expect(region).toBeVisible();
 

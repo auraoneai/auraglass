@@ -13,7 +13,7 @@ const ITEM0 = `${MENU} [role^="menuitem"]`;
 
 test.describe('menu APG (CMP-401 / REQ-CMP-103)', () => {
   test('menu-button script: open keys, wrap, Home/End, typeahead, submenu, Escape, Tab', async ({ page }) => {
-    await gotoStory(page, 'overlays-menu--menu-button');
+    await gotoStory(page, 'flagships-overlays-menu--menu-button');
     const trigger = page.locator(TRIGGER).first();
     const item = (name: string) => page.locator(`${MENU} [role^="menuitem"]`, { hasText: name }).first();
 
