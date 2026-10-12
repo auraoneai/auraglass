@@ -34,7 +34,9 @@ const w1 = [
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/command-5000.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L11', kind: 'node-script', path: 'canaries/next16/app/surf/app-shell/page.tsx', scope: 'main', remote: true, failClosed: true },
   { lane: 'L11', kind: 'node-script', path: 'canaries/vite/src/surf/AppShell.page.tsx', scope: 'main', remote: true, failClosed: true },
-  { lane: 'L11', kind: 'playwright', path: 'tests/rsc/surf/breadcrumbs-server.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // REQ-SURF-57: needs the built next16 canary (AG_CANARY_BASE_URL), served by
+  // surf:test:canary-hydration on main — same scope as tests/ssr/surf/hydration.spec.ts.
+  { lane: 'L11', kind: 'playwright', path: 'tests/rsc/surf/breadcrumbs-server.spec.ts', scope: 'main', remote: true, failClosed: true },
 ] as const;
 // --- lane W1 end ---
 
