@@ -36,7 +36,9 @@ const ENTRIES = [...cmpDeps, ...matDeps, ...surfDeps] as readonly DeprecationEnt
 /** The entry's replacement targets: 'Menu.Item' -> ['Menu']; a composite
  *  'Thread + Message + Composer from aura-glass/ai' names all three — the
  *  adapter composes them, so its ceiling is the sum of their rows (an upper
- *  bound on their union; shared code is counted in each row already). */
+ *  bound on their union; shared code is counted in each row already). A
+ *  composite part with no row yet contributes nothing (its owner adds the
+ *  row first, as for single targets); the primary target must have a row. */
 const targetsOf = (replacement: string | null): string[] => {
   const head = (replacement ?? '').split(/\s+from\s+/)[0];
   return head.split('+').map((part) => /^[A-Z]\w*/.exec(part.trim())?.[0]).filter((n): n is string => !!n);
@@ -48,8 +50,8 @@ const compatRows: SizeBudgetRow[] = [...new Set([...compatCmp.exports, ...compat
     const entry = ENTRIES.find((e) => e.symbol === name && e.compat != null);
     /* dedupe: 'Sidebar + Sidebar.Nav' names one row twice */
     const targets = entry ? [...new Set(targetsOf(entry.replacement))].map((t) => TARGET_ROWS.get(t)) : [];
-    if (!targets.length || targets.some((t) => !t)) return [];
-    const limitBytes = targets.reduce((sum, t) => sum + (t as SizeBudgetRow).limitBytes, 0) + COMPAT_HEADROOM_BYTES;
+    if (!targets.length || !targets[0]) return [];
+    const limitBytes = targets.reduce((sum, t) => sum + (t?.limitBytes ?? 0), 0) + COMPAT_HEADROOM_BYTES;
     return [{ id: `plat:compat:${name}`, import: `{ ${name} } from 'aura-glass/compat'`, limitBytes, kind: 'js' as const }];
   });
 
