@@ -17,9 +17,13 @@
 import { test, expect, devices, type Page, type CDPSession } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { listSubjects, gotoStory } from '../../../helpers';
 
-const ROOT = join(__dirname, '../../../..');
+// package.json is "type": "module": Playwright loads specs as ESM, where __dirname is undefined.
+const HERE = fileURLToPath(new URL('.', import.meta.url));
+
+const ROOT = join(HERE, '../../../..');
 const BUDGET = { p95MainMsPerFrame: 4, layerDelta: 1, rafAfterHidden: 0, rafAfterScrollOut: 0, windowMs: 500 } as const;
 const CPU_THROTTLE = 4;
 const FRAME_MS = 1000 / 60;

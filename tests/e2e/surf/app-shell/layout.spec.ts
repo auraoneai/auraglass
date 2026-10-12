@@ -5,9 +5,13 @@
 import { test, expect, type Page } from '@playwright/test';
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { listSubjects, gotoStory } from '../../../helpers';
 
-const SHELL_CSS = join(__dirname, '../../../../src/app-shell/app-shell.css');
+// package.json is "type": "module": Playwright loads specs as ESM, where __dirname is undefined.
+const HERE = fileURLToPath(new URL('.', import.meta.url));
+
+const SHELL_CSS = join(HERE, '../../../../src/app-shell/app-shell.css');
 const SHELL_STORIES = ['default', 'rtl', 'reduced-transparency', 'forced-colors', 'skip-link', 'scroll-ownership'];
 
 /** Geometry + resolved layout of the first shell on the page (REQ-SURF-17). */

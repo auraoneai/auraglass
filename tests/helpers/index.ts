@@ -3,9 +3,11 @@
    listSubjects, apg, perf, scenes. */
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import { expect } from '@jest/globals';
+import type { expect as JestExpect } from '@jest/globals';
 import { existsSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { createRequire } from 'node:module';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { BANNED_ATTRIBUTES } from '../../src/contracts/material';
 import { SCENES } from '../../src/contracts/testing';
 import { REPORTS } from '../../src/contracts/testing';
@@ -18,6 +20,24 @@ import { apg } from '../a11y/apg/harness';
 
 export { apg };
 export const scenes = SCENES;
+
+/* This module is shared by jest (CJS via babel-jest-import-meta, which rewrites
+   import.meta.url) and Playwright (native ESM: package.json "type": "module"),
+   so module scope must not use CJS-only bindings (__dirname, require) nor
+   import @jest/globals — under Playwright @jest/globals has no `expect` export
+   and the link error aborts every spec that imports gotoStory/listSubjects. */
+const HERE = dirname(fileURLToPath(import.meta.url));
+// node's require for plain CJS packages (picomatch) in both runtimes; not for
+// react/react-dom, which under jest must come from jest's module registry.
+const nodeRequire = createRequire(import.meta.url);
+
+/** jest's `expect` (injected global), resolved at call time: expectParts and
+    expectNoBannedAttributes are jsdom/jest helpers; calling them outside jest throws. */
+const jestExpect = (): typeof JestExpect => {
+  const e = (globalThis as { expect?: typeof JestExpect }).expect;
+  if (typeof e !== 'function') throw new Error('tests/helpers: expectParts/expectNoBannedAttributes need the jest `expect` global (jest-only helpers)');
+  return e;
+};
 
 const envAttrs = (env: AgEnvironment): Record<string, string> => {
   const out: Record<string, string> = {};
@@ -98,7 +118,7 @@ export const expectParts: ExpectParts = (container, meta) => {
   const found = [...container.querySelectorAll('[data-ag-part]')]
     .map((el) => el.getAttribute('data-ag-part'))
     .sort();
-  expect(found).toEqual([...meta.parts].map(String).sort());
+  jestExpect()(found).toEqual([...meta.parts].map(String).sort());
 };
 
 /** Final: no BANNED_ATTRIBUTES, no data-ag-seed anywhere under container. */
@@ -113,13 +133,13 @@ export const expectNoBannedAttributes: ExpectNoBannedAttributes = (container) =>
   };
   scan(container);
   container.querySelectorAll('*').forEach(scan);
-  expect(offenders).toEqual([]);
+  jestExpect()(offenders).toEqual([]);
 };
 
 /** Navigates to iframe.html?id=<id>&globals=<k>:<v>;… and waits for data-ag-cert-ready.
     stub: 'reference' injects contracts/stubs/reference.css until src/material/css/material.css exists. */
-const STUB_PATH = join(__dirname, '..', '..', 'contracts', 'stubs', 'reference.css');
-const MATERIAL_CSS = join(__dirname, '..', '..', 'src', 'material', 'css', 'material.css');
+const STUB_PATH = join(HERE, '..', '..', 'contracts', 'stubs', 'reference.css');
+const MATERIAL_CSS = join(HERE, '..', '..', 'src', 'material', 'css', 'material.css');
 export const gotoStory: GotoStory = async (page, storyId, env = {}) => {
   const { stub, scene, ...attrs } = env;
   const globals: Record<string, string> = { ...envAttrs(attrs), ...(scene ? { scene } : {}) };
@@ -141,7 +161,7 @@ export const gotoStory: GotoStory = async (page, storyId, env = {}) => {
 
 /** Reads REPORTS.subjects (storybook-static/cert-manifest.json) from AG_STORYBOOK_URL,
     falling back to index.json. Never hard-codes another stream's story ids. */
-const OWNERSHIP_JSON = join(__dirname, '..', '..', 'contracts', 'ownership.json');
+const OWNERSHIP_JSON = join(HERE, '..', '..', 'contracts', 'ownership.json');
 
 type StoryOwner = SubjectIndex['stories'][number]['owner'];
 type OwnershipRow = { id: string; glob: string; owner: string; lines?: string[] };
@@ -155,8 +175,7 @@ const ownershipOwner = (() => {
   let rows: Array<OwnershipRow & { test: (p: string) => boolean }> | null = null;
   return (storyPath: string): StoryOwner => {
     if (rows === null) {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const picomatch = require('picomatch') as (glob: string, opts: { dot: boolean }) => (p: string) => boolean;
+      const picomatch = nodeRequire('picomatch') as (glob: string, opts: { dot: boolean }) => (p: string) => boolean;
       const doc = JSON.parse(readFileSync(OWNERSHIP_JSON, 'utf8')) as { rows?: OwnershipRow[] };
       rows = (doc.rows ?? [])
         .filter((r) => !r.lines || r.lines.includes('5x'))
@@ -212,7 +231,7 @@ export const listSubjects: ListSubjects = async (filter = {}) => {
     producer is a pending state, raised as an error named `AgPendingProducer`
     with a `pending:` message the lane runner classifies; any other failure
     (the module throws, or has no `bci` export) propagates unchanged. */
-const QA_BCI = join(__dirname, '..', '..', 'packages', 'qa', 'src', 'perf', 'bci.ts');
+const QA_BCI = join(HERE, '..', '..', 'packages', 'qa', 'src', 'perf', 'bci.ts');
 const loadQaBci = async (): Promise<PerfProbe['bci']> => {
   if (!existsSync(QA_BCI)) {
     const err = new Error('pending: perf.bci needs packages/qa/src/perf/bci.ts (FIN-G, REQ-QUAL-36), not on this line yet');

@@ -10,9 +10,12 @@ import { execFileSync } from 'node:child_process';
 import { cpSync, existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 
-const FIXTURE = resolve(__dirname, 'fixtures/no-peer');
+// package.json is "type": "module": Playwright loads specs as ESM, where __dirname is undefined.
+const HERE = fileURLToPath(new URL('.', import.meta.url));
+
+const FIXTURE = resolve(HERE, 'fixtures/no-peer');
 const PEER_MESSAGE =
   'aura-glass/motion requires the optional peer "motion@^12". Install it with: npm i motion@^12';
 const PREVIEW_URL = 'http://127.0.0.1:4419';
