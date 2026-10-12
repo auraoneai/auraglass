@@ -108,8 +108,8 @@ export function validateVariant(blocks, variant, framework) {
     const extra = pkgs.filter((p) => p.replace(/@[^@/]*$/, '') !== 'aura-glass');
     if (extra.length) errors.push(`${variant}: install step adds ${extra.join(', ')} (only aura-glass; init never needs optional peers)`);
   }
-  if (!own.some((b) => b.phase === 'init' && /@auraglass\/cli(@\S+)? init\b.*--yes/.test(b.body))) errors.push(`${variant}: missing \`@auraglass/cli init --yes\` step`);
-  if (!own.some((b) => b.phase === 'add' && /@auraglass\/cli(@\S+)? add app-frame\b.*--yes/.test(b.body))) errors.push(`${variant}: missing \`@auraglass/cli add app-frame --yes\` step`);
+  if (!own.some((b) => b.phase === 'init' && /aura-glass-cli(@\S+)? init\b.*--yes/.test(b.body))) errors.push(`${variant}: missing \`aura-glass-cli init --yes\` step`);
+  if (!own.some((b) => b.phase === 'add' && /aura-glass-cli(@\S+)? add app-frame\b.*--yes/.test(b.body))) errors.push(`${variant}: missing \`aura-glass-cli add app-frame --yes\` step`);
   if (!own.some((b) => b.phase === 'run' && isShell(b))) errors.push(`${variant}: missing run step`);
   return errors;
 }

@@ -106,7 +106,7 @@ describe('add', () => {
     const p = path.join(dir, 'custom/dir/x.tsx');
     expect(fs.existsSync(p)).toBe(true);
     const body = fs.readFileSync(p, 'utf8');
-    expect(body.startsWith('// @auraglass/registry t@')).toBe(true);
+    expect(body.startsWith('// aura-glass-registry t@')).toBe(true);
     expect(body).toMatch(/sha256:[0-9a-f]{64}/);
   });
 

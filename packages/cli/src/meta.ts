@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 
-export const PACKAGE_NAME = '@auraglass/cli';
+export const PACKAGE_NAME = 'aura-glass-cli';
 export const FALLBACK_PACKAGE_NAME = 'aura-glass-cli';
 
 /** Module-relative package root (src/meta.ts -> ../package.json; bundled into
@@ -17,7 +17,7 @@ const HERE = typeof __dirname === 'undefined' ? moduleDir() : __dirname;
 function moduleDir(): string {
   try {
     const req = createRequire(process.argv[1] ?? path.join(process.cwd(), 'x.js'));
-    return path.dirname(req.resolve('@auraglass/cli/package.json'));
+    return path.dirname(req.resolve('aura-glass-cli/package.json'));
   } catch {
     return process.argv[1] ? path.dirname(process.argv[1]) : process.cwd();
   }
@@ -51,7 +51,7 @@ export const PACKAGE_VERSION: string = (() => {
 })();
 
 /** Printed by the retired 4.x bin (`bin/aura-glass.cjs`) when invoked on 5.x. */
-export const MOVED_NOTICE = 'aura-glass CLI moved: use npx @auraglass/cli <command>';
+export const MOVED_NOTICE = 'aura-glass CLI moved: use npx aura-glass-cli <command>';
 
 /** Docs host. $CI_PAGES_URL until OD-12 (auraglass.dev) clears. */
 export const DOCS_BASE_URL =

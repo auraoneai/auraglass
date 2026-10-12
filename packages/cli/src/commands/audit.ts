@@ -8,9 +8,9 @@ import { buildRequest, formatSurface, runBackdropAudit } from '../audit/backdrop
 
 const BACKDROP_SETUP = [
   'AURAGLASS_AUDIT_ENDPOINT is not set — audit backdrop is remote-only and never launches a browser locally',
-  'run the reference endpoint where Playwright is installed: node node_modules/@auraglass/cli/audit/reference-server.mjs --port 4791',
+  'run the reference endpoint where Playwright is installed: node node_modules/aura-glass-cli/audit/reference-server.mjs --port 4791',
   'then: AURAGLASS_AUDIT_ENDPOINT=http://<host>:4791 auraglass audit backdrop --url <url> [--selector <css>]',
-  'contract: node_modules/@auraglass/cli/schema/audit-backdrop.json',
+  'contract: node_modules/aura-glass-cli/schema/audit-backdrop.json',
 ];
 
 const FORBIDDEN = ['@mui/', 'react-bootstrap', 'antd', '@chakra-ui/', 'primereact', 'react-datepicker'];

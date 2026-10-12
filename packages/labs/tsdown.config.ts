@@ -1,4 +1,4 @@
-/* @auraglass/labs build (REQ-SURF-166). tsdown, ESM + .d.ts, one entry per
+/* aura-glass-labs build (REQ-SURF-166). tsdown, ESM + .d.ts, one entry per
    resident: package.json exports `./<kebab>` -> src/<kebab>/index.ts(x) ->
    dist/<kebab>/index.js. src/index.ts (the package barrel) always builds, so the
    packed dist/ is never empty. Peers (react, react-dom, aura-glass) stay
@@ -17,7 +17,7 @@ for (const key of Object.keys(pkg.exports ?? {})) {
   if (key === './package.json') continue;
   const resident = key.replace(/^\.\//, '');
   const src = ['ts', 'tsx'].map((ext) => `src/${resident}/index.${ext}`).find((p) => existsSync(join(here, p)));
-  if (!src) throw new Error(`@auraglass/labs build: exports ${key} has no src/${resident}/index.ts(x)`);
+  if (!src) throw new Error(`aura-glass-labs build: exports ${key} has no src/${resident}/index.ts(x)`);
   entry[`${resident}/index`] = src;
 }
 

@@ -8,7 +8,7 @@ import { diffCommand } from '../../src/commands/diff.js';
 
 const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'agdiff-'));
 const sha = (s: string) => createHash('sha256').update(s, 'utf8').digest('hex');
-const stamp = (name: string, version: string, h: string) => `// @auraglass/registry ${name}@${version} sha256:${h}\n`;
+const stamp = (name: string, version: string, h: string) => `// aura-glass-registry ${name}@${version} sha256:${h}\n`;
 const capture = () => {
   const buf: string[] = [];
   const spy = jest.spyOn(process.stdout, 'write').mockImplementation(((s: unknown) => { buf.push(String(s)); return true; }) as never);

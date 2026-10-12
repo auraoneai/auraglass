@@ -1,4 +1,4 @@
-/* @auraglass/qa (private, QUAL). Certification internals; consumed by certification/**, scripts/{qual,storybook}/**
+/* aura-glass-qa (private, QUAL). Certification internals; consumed by certification/**, scripts/{qual,storybook}/**
    and, through REQ-FIN-08, by tests/helpers/index.ts. */
 export {
   resolveSubject, resolveSubjectName, filterSubjects, fetchSubjectIndex, parseSubjectIndex, loadSubjectUniverse,

@@ -8,7 +8,7 @@
      registry/registry-report.json               certified/omitted/pending
      apps/docs/public/r/<name>.json              published items only
      apps/docs/public/r/v/<version>/<name>.json  immutable versioned copies
-     packages/registry/r/*.json + index.json     @auraglass/registry data
+     packages/registry/r/*.json + index.json     aura-glass-registry data
 
    Usage: node scripts/registry/build.mjs [--sha <sha>] [--version <v>]
           [--ga-tag v5.x.y] [--root <dir>] [--manifest <path>]

@@ -72,7 +72,7 @@ describe('gen-mcp-data', () => {
   });
 });
 
-describe('@auraglass/mcp manifest', () => {
+describe('aura-glass-mcp manifest', () => {
   it('pins the SDK and zod exactly and has a runnable permission-scoped start script', () => {
     expect(mcpPkg.dependencies['@modelcontextprotocol/sdk']).toMatch(/^\d+\.\d+\.\d+$/);
     expect(mcpPkg.dependencies.zod).toMatch(/^\d+\.\d+\.\d+$/);

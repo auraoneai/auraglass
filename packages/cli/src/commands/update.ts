@@ -10,7 +10,7 @@ import { unifiedDiff } from '../migrate/4to5/index.js';
 import { assertClean } from '../core/git-guard.js';
 import { ensureInsideCwd, atomicWrite } from '../core/fs-safety.js';
 
-const STAMP = /(\/\/|\/\*+)\s*@auraglass\/registry\s+(\S+?)@(\S+)\s+sha256:([0-9a-f]{64})/;
+const STAMP = /(\/\/|\/\*+)\s*aura-glass-registry\s+(\S+?)@(\S+)\s+sha256:([0-9a-f]{64})/;
 
 export async function updateCommand(args: string[], flags: Record<string, string | boolean>): Promise<number> {
   const out = makeOut(flags);
@@ -49,7 +49,7 @@ export async function updateCommand(args: string[], flags: Record<string, string
               (p.includes(`/${item.name}/`) && p.endsWith(`/${path.basename(f.path!)}`)))) {
             localPath = p;
             localSha = m[4]!;
-            localBody = raw.replace(/^(\/\/|\/\*+)\s*@auraglass\/registry[^\n]*\n/, '');
+            localBody = raw.replace(/^(\/\/|\/\*+)\s*aura-glass-registry[^\n]*\n/, '');
             return;
           }
         } catch { /* skip */ }
@@ -73,12 +73,12 @@ export async function updateCommand(args: string[], flags: Record<string, string
       continue;
     }
     if (locallyModified && force) {
-      const stamp = `// @auraglass/registry ${item.name}@${version} sha256:${upstreamHash}\n`;
+      const stamp = `// aura-glass-registry ${item.name}@${version} sha256:${upstreamHash}\n`;
       plannedWrites.push({ path: `${localPath}.auraglass-upstream`, content: stamp + rewriteAliases(f.content, '@', '') });
       results.push({ file: f.path, action: 'wrote .auraglass-upstream' });
       continue;
     }
-    const stamp = `// @auraglass/registry ${item.name}@${version} sha256:${upstreamHash}\n`;
+    const stamp = `// aura-glass-registry ${item.name}@${version} sha256:${upstreamHash}\n`;
     plannedWrites.push({ path: localPath, content: stamp + rewriteAliases(f.content, '@', '') });
     results.push({ file: f.path, action: 'updated' });
   }

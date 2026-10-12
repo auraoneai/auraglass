@@ -1,6 +1,6 @@
 ---
 "aura-glass": patch
-"@auraglass/labs": patch
+"aura-glass-labs": patch
 ---
 
 SURF day-0 platform glue: capability ledger + gate, labs package shell with

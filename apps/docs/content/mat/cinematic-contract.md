@@ -1,8 +1,8 @@
-# Cinematic contract — the boundary between core and `@auraglass/labs`
+# Cinematic contract — the boundary between core and `aura-glass-labs`
 
 `cinematic` is the fourth material tier (`lightweight | standard | enhanced |
 cinematic`). It renders WebGL over library-owned pixels, and it exists **only
-in `@auraglass/labs`** (SURF-owned package `packages/labs/**`). Core never
+in `aura-glass-labs`** (SURF-owned package `packages/labs/**`). Core never
 renders it (REQ-MAT-37, PRD-2 §4.4).
 
 ## What core guarantees

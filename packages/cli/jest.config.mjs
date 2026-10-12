@@ -1,4 +1,4 @@
-/** @auraglass/cli jest config — root config ignores <rootDir>/packages/**. */
+/** aura-glass-cli jest config — root config ignores <rootDir>/packages/**. */
 export default {
   displayName: 'cli',
   rootDir: '.',

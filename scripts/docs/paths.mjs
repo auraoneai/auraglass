@@ -17,7 +17,7 @@ export const DOCS_BASE_URL =
   (CUSTOM_DOMAIN_LIVE ? CUSTOM_DOMAIN : process.env.CI_PAGES_URL ?? PAGES_URL);
 
 /** Environment-independent public docs URL for tracked, shipped files
-    (llms.txt, @auraglass/mcp data): identical locally and in every pipeline. */
+    (llms.txt, aura-glass-mcp data): identical locally and in every pipeline. */
 export const PUBLIC_DOCS_URL = CUSTOM_DOMAIN_LIVE ? CUSTOM_DOMAIN : PAGES_URL;
 
 /** Root deprecations.json aggregate (git-ignored build output of fragments/deprecations/*). */
@@ -29,7 +29,7 @@ export const REGISTRY_INDEX = 'registry/registry.json';
 /** Claims file written by scripts/docs/gen-claims.mjs (git-ignored generated dir). */
 export const CLAIMS_PATH = 'apps/docs/generated/claims.json';
 
-/** Registry item JSONs served by the docs site and @auraglass/registry. */
+/** Registry item JSONs served by the docs site and aura-glass-registry. */
 export const GENERATED_DIR = 'apps/docs/generated';
 export const REGISTRY_PUBLIC_DIR = 'apps/docs/public/r';
 export const REGISTRY_PACKAGE_DIR = 'packages/registry';

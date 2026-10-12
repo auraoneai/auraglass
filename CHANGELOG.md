@@ -31,7 +31,7 @@ the breaking-change register `docs/release/breaking-changes.json`:
 - B12: Content layer is no longer glass by default
 - B13: OS signals are floors; reduced motion cannot be overridden
 - B14: Server, services and simulated AI removed
-- B15: CLI moved to `@auraglass/cli`
+- B15: CLI moved to `aura-glass-cli`
 - B16: ssr/server shims removed
 - B17: Asset subpath renames (icons/env/json/manifest namespaces)
 - B18: Primitives collapse (4.x primitive set folds into the 5.0 primitives entry)
@@ -41,7 +41,7 @@ the breaking-change register `docs/release/breaking-changes.json`:
 
 ### Migration
 
-- `npx @auraglass/cli migrate 4to5` runs the codemods; `--dry-run` reports the
+- `npx aura-glass-cli migrate 4to5` runs the codemods; `--dry-run` reports the
   changes without writing.
 - `aura-glass/compat` keeps the deprecated 4.x component exports working, with a
   development warning per symbol.

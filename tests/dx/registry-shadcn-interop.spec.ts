@@ -1,6 +1,6 @@
 /* tests/dx/registry-shadcn-interop.spec.ts — REQ-PLAT-97 (replaces
-   PLAT-355 double-pass). globalSetup packs aura-glass, @auraglass/cli and
-   @auraglass/registry; this spec scaffolds a real create-next-app AND a
+   PLAT-355 double-pass). globalSetup packs aura-glass, aura-glass-cli and
+   aura-glass-registry; this spec scaffolds a real create-next-app AND a
    real Vite react-ts app, installs the packed tarballs, runs the PACKED
    `init --yes` + `add <block> --yes`, mounts the block on a page, does a
    production build + serve, then runs the full capture battery:
@@ -91,14 +91,14 @@ function scaffold(kind: 'next' | 'vite', dir: string, tarballs: Record<string, s
   pkg.dependencies = {
     ...pkg.dependencies,
     'aura-glass': `file:${tarballs['aura-glass']}`,
-    '@auraglass/cli': `file:${tarballs['@auraglass/cli']}`,
-    '@auraglass/registry': `file:${tarballs['@auraglass/registry']}`,
+    'aura-glass-cli': `file:${tarballs['aura-glass-cli']}`,
+    'aura-glass-registry': `file:${tarballs['aura-glass-registry']}`,
   };
   writeFileSync(join(dir, 'package.json'), JSON.stringify(pkg, null, 2));
   run('npm', ['install', '--no-audit', '--no-fund', '--legacy-peer-deps'], dir, 600_000);
 }
 
-const cliBin = (dir: string) => join(dir, 'node_modules', '@auraglass', 'cli', 'dist', 'bin.js');
+const cliBin = (dir: string) => join(dir, 'node_modules', 'aura-glass-cli', 'dist', 'bin.js');
 
 for (const block of BLOCKS) {
   test.describe(`e2e: ${block}`, () => {

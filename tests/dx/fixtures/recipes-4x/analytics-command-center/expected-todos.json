@@ -1,5 +1,5 @@
 [
   "icon category subpath 'aura-glass/icons/data' is gone in 5.0; import the glyph by name from 'aura-glass/icons'",
-  "removed in 5.0 (npx @auraglass/cli add chart-adapter)",
+  "removed in 5.0 (npx aura-glass-cli add chart-adapter)",
   "removed in 5.0 (docs/auraglass-5/migration/chart-adapter.md)"
 ]

@@ -79,7 +79,7 @@ class StdioClient {
 
 const textOf = (res: RpcResponse) => res.result.content[0].text as string;
 
-describe('@auraglass/mcp over stdio under the permission model', () => {
+describe('aura-glass-mcp over stdio under the permission model', () => {
   let client: StdioClient;
   let initMs = Number.POSITIVE_INFINITY;
   let init: RpcResponse;

@@ -133,7 +133,7 @@ function findTarball(env = process.env) {
   if (env.AURAGLASS_TARBALL) return resolve(env.AURAGLASS_TARBALL);
   const dir = join(ROOT, '.artifacts', 'pack');
   if (!existsSync(dir)) return null;
-  const f = readdirSync(dir).filter((x) => /^aura-glass-.*\.tgz$/.test(x)).sort().pop();
+  const f = readdirSync(dir).filter((x) => /^aura-glass-\d.*\.tgz$/.test(x)).sort().pop();
   return f ? join(dir, f) : null;
 }
 

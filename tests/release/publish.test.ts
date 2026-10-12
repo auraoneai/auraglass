@@ -69,8 +69,8 @@ function fixture() {
       version: 1,
       packages: {
         'aura-glass': { dir: '.', published: true, fallback: 'aura-glass' },
-        '@auraglass/cli': { dir: 'packages/cli', published: true, fallback: 'aura-glass-cli' },
-        '@auraglass/qa': { dir: 'packages/qa', published: false },
+        'aura-glass-cli': { dir: 'packages/cli', published: true, fallback: 'aura-glass-cli' },
+        'aura-glass-qa': { dir: 'packages/qa', published: false },
       },
     }),
   );
@@ -138,10 +138,10 @@ describe('publish.mjs (REQ-PLAT-11)', () => {
   it('fails when a tarball has no pack-record entry', () => {
     const f = fixture();
     f.addTarball('aura-glass', '5.0.0-alpha.1');
-    f.addTarball('@auraglass/cli', '0.1.0', { record: false });
+    f.addTarball('aura-glass-cli', '0.1.0', { record: false });
     const r = f.run('v5.0.0-alpha.1');
     expect(r.code).toBe(1);
-    expect(r.out).toContain('@auraglass/cli');
+    expect(r.out).toContain('aura-glass-cli');
     expect(r.out).toContain('no entry');
     expect(r.publishes).toEqual([]);
   });
@@ -149,10 +149,10 @@ describe('publish.mjs (REQ-PLAT-11)', () => {
   it('refuses a tarball for a package contracts/packages.json does not publish', () => {
     const f = fixture();
     f.addTarball('aura-glass', '5.0.0-alpha.1');
-    f.addTarball('@auraglass/qa', '0.1.0');
+    f.addTarball('aura-glass-qa', '0.1.0');
     const r = f.run('v5.0.0-alpha.1');
     expect(r.code).toBe(1);
-    expect(r.out).toContain('@auraglass/qa');
+    expect(r.out).toContain('aura-glass-qa');
     expect(r.out).toContain('contracts/packages.json');
     expect(r.publishes).toEqual([]);
   });
@@ -168,7 +168,7 @@ describe('publish.mjs (REQ-PLAT-11)', () => {
   it('publishes each tarball with --provenance --access public and the derived tag', () => {
     const f = fixture();
     const root = f.addTarball('aura-glass', '5.0.0-alpha.1');
-    const cli = f.addTarball('@auraglass/cli', '0.1.0');
+    const cli = f.addTarball('aura-glass-cli', '0.1.0');
     f.state.distTags['aura-glass'] = { latest: '4.1.0', next: '5.0.0-alpha.0' };
     const r = f.run('v5.0.0-alpha.1');
     expect(r.code).toBe(0);

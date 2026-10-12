@@ -132,7 +132,7 @@ export default async function DocsPage({ params }: { params: Promise<Params> }) 
       <article data-ag-doc={`registry/blocks/${s.name}`}>
         <h1>{s.title}</h1>
         {s.description ? <p>{s.description}</p> : null}
-        <Code label={`Install ${s.name}`}>{`npx @auraglass/cli add ${s.name}`}</Code>
+        <Code label={`Install ${s.name}`}>{`npx aura-glass-cli add ${s.name}`}</Code>
         <h2 id="files">Files</h2>
         <ul>{s.files.map((f) => <li key={f}><code>{f}</code></li>)}</ul>
       </article>

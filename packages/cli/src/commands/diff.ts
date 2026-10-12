@@ -10,7 +10,7 @@ import { rewriteAliases } from './add.js';
 
 type State = 'unchanged' | 'locally-modified' | 'upstream-changed' | 'both' | 'not-installed' | 'missing-local';
 
-const STAMP = /[@/*\s]*@auraglass\/registry\s+(\S+?)@(\S+)\s+sha256:([0-9a-f]{64})/;
+const STAMP = /[@/*\s]*aura-glass-registry\s+(\S+?)@(\S+)\s+sha256:([0-9a-f]{64})/;
 
 function findStamped(cwd: string, name: string): Array<{ path: string; upstream: string; sha: string }> {
   const hits: Array<{ path: string; upstream: string; sha: string }> = [];
@@ -55,7 +55,7 @@ export async function diffCommand(args: string[], flags: Record<string, string |
       continue;
     }
     const raw = fs.readFileSync(local.path, 'utf8');
-    const body = raw.replace(/^(\/\/|\/\*+)\s*@auraglass\/registry[^\n]*\n/, '');
+    const body = raw.replace(/^(\/\/|\/\*+)\s*aura-glass-registry[^\n]*\n/, '');
     const localHash = createHash('sha256').update(body, 'utf8').digest('hex');
     /* stamp sha = what upstream looked like at install time */
     const locallyModified = localHash !== local.sha;

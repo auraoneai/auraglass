@@ -1,6 +1,6 @@
 /* tests/dx/registry-render.spec.ts — PLAT-370 / REQ-PLAT-97. Remote L11 subject
    (plat:test:registry): every discovered registry block + item is added with
-   the packed `@auraglass/cli` (init --yes / add <item> --yes) into fresh
+   the packed `aura-glass-cli` (init --yes / add <item> --yes) into fresh
    Next 16 and Vite apps built against the packed `aura-glass`, served from
    the production build, and captured at 1440×900 and 390×844 (plus 360×740
    for mobile-settings) in light/dark × glass/solid.

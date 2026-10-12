@@ -7,7 +7,7 @@
    - rsc.md is exactly what scripts/docs/gen-rsc-guide.mjs renders from
      build/server-safe-exports.json (REQ-PLAT-69) and the exports manifest;
    - the MCP snippets for Claude Code, Cursor and VS Code are valid JSON in
-     each client's config shape and launch the real @auraglass/mcp bin;
+     each client's config shape and launch the real aura-glass-mcp bin;
    - the registry URL, shadcn interchange variables, layer statements,
      Tailwind utilities/variants, partial sheets and the Jest
      transformIgnorePatterns are the ones the build actually produces. */

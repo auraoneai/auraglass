@@ -93,7 +93,7 @@
         },
         {
           "id": "TR-4.3.0-4",
-          "gate": "`@auraglass/cli@0.x` published from the tag pipeline.",
+          "gate": "`aura-glass-cli@0.x` published from the tag pipeline.",
           "status": "open",
           "evidence": null
         },

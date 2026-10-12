@@ -1,4 +1,4 @@
-/* QUAL (REQ-QUAL-01/-60). Jest config for the private @auraglass/qa package. The root jest.config.js
+/* QUAL (REQ-QUAL-01/-60). Jest config for the private aura-glass-qa package. The root jest.config.js
    ignores <rootDir>/packages/, so packages/qa/test/** runs only here:
      node node_modules/jest/bin/jest.js -c jest.qual.config.js
    (no --experimental-vm-modules: babel turns the graph, incl. ESM-only pixelmatch, into CJS).

@@ -14,7 +14,7 @@
                    cases, leading `// @ts-nocheck` lines stripped.
      3. tsc-4.1.0  the frozen cases type-check against the published 4.1.0.
      4. migrate    `auraglass migrate 4to5 --json --allow-todo --report` with the
-                   packed CLI (AURAGLASS_CLI_TARBALL / .artifacts/pack/auraglass-cli-*.tgz),
+                   packed CLI (AURAGLASS_CLI_TARBALL / .artifacts/pack/aura-glass-cli-*.tgz),
                    else the CLI built from this commit (`npm run build -w packages/cli`).
      5. todos      flagship subset: 0 TODOs; chart pages: exactly 1 'removed' TODO;
                    handler-only items: render={<button type="button" onClick={…} />}.
@@ -157,14 +157,14 @@ function resolveCli() {
   const packDir = join(ROOT, '.artifacts/pack');
   const packed = explicit
     ? resolve(ROOT, explicit)
-    : existsSync(packDir) ? readdirSync(packDir).filter((f) => /^auraglass-cli-.*\.tgz$/.test(f)).map((f) => join(packDir, f))[0] : undefined;
+    : existsSync(packDir) ? readdirSync(packDir).filter((f) => /^aura-glass-cli-.*\.tgz$/.test(f)).map((f) => join(packDir, f))[0] : undefined;
   if (packed && packed.endsWith('.js')) return { bin: packed, source: `explicit ${packed}` };
   if (packed && existsSync(packed)) {
     const dir = mkdtempSync(join(tmpdir(), 'surf-canary-cli-'));
     writeFileSync(join(dir, 'package.json'), '{"name":"cli-host","version":"0.0.0","private":true}\n');
     const r = run('npm', ['install', '--no-audit', '--no-fund', '--loglevel=error', packed], { cwd: dir });
     log('npm-install-cli.log', r);
-    const bin = join(dir, 'node_modules/@auraglass/cli/dist/bin.js');
+    const bin = join(dir, 'node_modules/aura-glass-cli/dist/bin.js');
     if (r.status === 0 && existsSync(bin)) return { bin, source: `packed ${packed}` };
     report.cliPackNote = `packed CLI ${packed} has no dist/bin.js (install exit ${r.status}); built from this commit instead`;
   }

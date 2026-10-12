@@ -1,4 +1,4 @@
-# Publishing @auraglass/mcp
+# Publishing aura-glass-mcp
 
 CI only. `prepublishOnly` runs `scripts/ci/require-ci-publish.js`, which
 refuses outside `plat:publish:npm` (GitLab project 87152036, release tag
@@ -9,7 +9,7 @@ are stored in this repo; publishing uses OIDC provenance.
 
 - Provider GitLab CI/CD; namespace `chahal-foundation-group/github-auraoneai`;
   project `auraglass`; file `.gitlab-ci.yml`; environment `npm-publish`.
-- Status and date: the `@auraglass/mcp` row of
+- Status and date: the `aura-glass-mcp` row of
   `docs/release/trusted-publishers.md` (owner-filled). Until it is
   `configured` the publish fails closed.
 - First publish: the name does not exist on npm yet; the owner's choice in

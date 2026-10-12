@@ -7,7 +7,7 @@
    moves the working directory, `file=` blocks replace that file — in four
    cells: next-tailwind, next-plain, vite-plain, vite-tailwind. Each cell is a
    fresh directory and HOME against a `verdaccio` registry seeded with the
-   packed aura-glass, @auraglass/cli and @auraglass/registry (third-party
+   packed aura-glass, aura-glass-cli and aura-glass-registry (third-party
    packages proxied from npmjs, cache warmed before the first cell).
 
    Per cell it asserts:
@@ -140,7 +140,7 @@ async function waitFor<T>(what: string, timeoutMs: number, probe: () => Promise<
 
 /* ------------------------------------------------------------ registry */
 
-function tarballs(): Record<'aura-glass' | '@auraglass/cli' | '@auraglass/registry', string> {
+function tarballs(): Record<'aura-glass' | 'aura-glass-cli' | 'aura-glass-registry', string> {
   const dir = resolve(ROOT, process.env.AG_QUICKSTART_TARBALLS ?? '.artifacts/pack');
   if (!existsSync(dir)) throw new Error(`${dir} missing: plat:test:docs needs the plat:package:pack artifacts (.artifacts/pack/*.tgz)`);
   const found: Record<string, string> = {};
@@ -148,7 +148,7 @@ function tarballs(): Record<'aura-glass' | '@auraglass/cli' | '@auraglass/regist
     const r = spawnSync('tar', ['-xOzf', join(dir, f), 'package/package.json'], { encoding: 'utf8' });
     if (r.status === 0) found[(JSON.parse(r.stdout) as { name: string }).name] = join(dir, f);
   }
-  const want = ['aura-glass', '@auraglass/cli', '@auraglass/registry'] as const;
+  const want = ['aura-glass', 'aura-glass-cli', 'aura-glass-registry'] as const;
   const missing = want.filter((n) => !found[n]);
   if (missing.length) throw new Error(`packed tarball(s) missing in ${dir}: ${missing.join(', ')}`);
   return found as Record<(typeof want)[number], string>;
@@ -172,7 +172,7 @@ function verdaccioConfig(storage: string, htpasswd: string): string {
     "  'aura-glass':",
     '    access: $all',
     '    publish: $authenticated',
-    "  '@auraglass/*':",
+    "  'aura-glass-*':",
     '    access: $all',
     '    publish: $authenticated',
     "  '**':",
@@ -316,7 +316,7 @@ test.describe('quickstart: install to beautiful (REQ-PLAT-103, remote)', () => {
        packages; the AuraGlass packages are always the run's tarballs. */
     const storage = resolve(ROOT, process.env.AG_QUICKSTART_VERDACCIO_STORAGE ?? '.artifacts/plat/verdaccio-storage');
     mkdirSync(storage, { recursive: true });
-    for (const p of ['aura-glass', '@auraglass', '.verdaccio-db.json']) rmSync(join(storage, p), { recursive: true, force: true });
+    for (const p of ['aura-glass', 'aura-glass-cli', 'aura-glass-registry', 'aura-glass-mcp', 'aura-glass-labs', '.verdaccio-db.json']) rmSync(join(storage, p), { recursive: true, force: true });
     const vHome = mkdtempSync(join(tmpdir(), 'qs-verdaccio-'));
     const cfg = join(vHome, 'config.yaml');
     writeFileSync(cfg, verdaccioConfig(storage, join(vHome, 'htpasswd')));
@@ -344,8 +344,8 @@ test.describe('quickstart: install to beautiful (REQ-PLAT-103, remote)', () => {
     const env = baseEnv({ HOME: home });
     const publish = (tgz: string) => run(`npm publish ${JSON.stringify(tgz)} --registry ${ctx.registryUrl} --tag latest --access public --no-provenance --ignore-scripts`, work, env);
     publish(packs['aura-glass']);
-    publish(packs['@auraglass/cli']);
-    publish(packs['@auraglass/registry']);
+    publish(packs['aura-glass-cli']);
+    publish(packs['aura-glass-registry']);
     const agVersion = (JSON.parse(spawnSync('tar', ['-xOzf', packs['aura-glass'], 'package/package.json'], { encoding: 'utf8' }).stdout) as { version: string }).version;
     /* The quickstarts install `aura-glass@next` (the 5.0 pre-release train). */
     run(`npm dist-tag add aura-glass@${agVersion} next --registry ${ctx.registryUrl}`, work, env);
@@ -354,7 +354,7 @@ test.describe('quickstart: install to beautiful (REQ-PLAT-103, remote)', () => {
     const warm = join(work, 'warm');
     mkdirSync(warm);
     writeFileSync(join(warm, 'package.json'), '{ "name": "qs-warm", "private": true }\n');
-    run('npm install aura-glass@next @auraglass/cli@latest --no-save --no-package-lock --ignore-scripts', warm, env);
+    run('npm install aura-glass@next aura-glass-cli@latest --no-save --no-package-lock --ignore-scripts', warm, env);
   });
 
   test.afterAll(async () => {

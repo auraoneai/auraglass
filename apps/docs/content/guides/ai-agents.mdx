@@ -4,7 +4,7 @@ AuraGlass gives coding agents two sources of truth so they generate current 5.x 
 
 ## MCP server
 
-The server is the `@auraglass/mcp` npm package. It speaks MCP over stdio and answers only from the docs, registry and migration data bundled with the package, so its answers match the release it came with. Add it to your agent with one of the configurations below; each file goes in your project root and can be committed so the whole team gets it.
+The server is the `aura-glass-mcp` npm package. It speaks MCP over stdio and answers only from the docs, registry and migration data bundled with the package, so its answers match the release it came with. Add it to your agent with one of the configurations below; each file goes in your project root and can be committed so the whole team gets it.
 
 ### Claude Code
 
@@ -15,13 +15,13 @@ The server is the `@auraglass/mcp` npm package. It speaks MCP over stdio and ans
   "mcpServers": {
     "auraglass": {
       "command": "npx",
-      "args": ["-y", "@auraglass/mcp"]
+      "args": ["-y", "aura-glass-mcp"]
     }
   }
 }
 ```
 
-Or from the terminal: `claude mcp add auraglass -- npx -y @auraglass/mcp`
+Or from the terminal: `claude mcp add auraglass -- npx -y aura-glass-mcp`
 
 ### Cursor
 
@@ -32,7 +32,7 @@ Or from the terminal: `claude mcp add auraglass -- npx -y @auraglass/mcp`
   "mcpServers": {
     "auraglass": {
       "command": "npx",
-      "args": ["-y", "@auraglass/mcp"]
+      "args": ["-y", "aura-glass-mcp"]
     }
   }
 }
@@ -48,7 +48,7 @@ Or from the terminal: `claude mcp add auraglass -- npx -y @auraglass/mcp`
     "auraglass": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@auraglass/mcp"]
+      "args": ["-y", "aura-glass-mcp"]
     }
   }
 }
@@ -68,7 +68,7 @@ https://auraglass-48859d.gitlab.io/r/
 - `r/v/<version>/<name>.json` — an immutable copy pinned to a release;
 - `r/auraglass.json` — the base item every block depends on.
 
-Agents can install any of them with `npx shadcn@latest add <url>` or `npx @auraglass/cli add <name>` (see the shadcn guide).
+Agents can install any of them with `npx shadcn@latest add <url>` or `npx aura-glass-cli add <name>` (see the shadcn guide).
 
 ## `llms.txt`
 

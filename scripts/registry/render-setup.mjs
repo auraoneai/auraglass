@@ -3,7 +3,7 @@
    remote render gate (tests/dx/registry-render.spec.ts, plat:test:registry).
 
    Builds and packs the three workspace artifacts (aura-glass,
-   @auraglass/cli, @auraglass/registry) — the CLI is never fetched from the
+   aura-glass-cli, aura-glass-registry) — the CLI is never fetched from the
    public npm registry, since the gate certifies THIS commit — then scaffolds
    one fresh Next 16 app and one fresh Vite app outside the repository tree,
    installs the packed tarballs, runs the packed `auraglass init --yes` and
@@ -98,7 +98,7 @@ function scaffold(fw) {
   mkdirSync(app, { recursive: true });
   const w = (p, c) => { mkdirSync(dirname(join(app, p)), { recursive: true }); writeFileSync(join(app, p), c); };
   const deps = { 'aura-glass': `file:${tarballs['aura-glass']}`, react: VERSIONS.react, 'react-dom': VERSIONS['react-dom'] };
-  const dev = { '@auraglass/cli': `file:${tarballs['@auraglass/cli']}`, '@auraglass/registry': `file:${tarballs['@auraglass/registry']}`, typescript: VERSIONS.typescript, '@types/react': VERSIONS['@types/react'], '@types/react-dom': VERSIONS['@types/react-dom'], '@types/node': VERSIONS['@types/node'] };
+  const dev = { 'aura-glass-cli': `file:${tarballs['aura-glass-cli']}`, 'aura-glass-registry': `file:${tarballs['aura-glass-registry']}`, typescript: VERSIONS.typescript, '@types/react': VERSIONS['@types/react'], '@types/react-dom': VERSIONS['@types/react-dom'], '@types/node': VERSIONS['@types/node'] };
   if (fw === 'next') {
     deps.next = VERSIONS.next;
     w('package.json', JSON.stringify({ name: 'ag-render-next', private: true, scripts: { build: 'next build' }, dependencies: deps, devDependencies: dev }, null, 2) + '\n');
@@ -139,11 +139,11 @@ function main() {
   rmSync(DIR, { recursive: true, force: true });
   mkdirSync(join(DIR, 'pack'), { recursive: true });
   if (!existsSync(join(ROOT, 'dist'))) run('npm', ['run', 'build'], ROOT, { stdio: 'inherit' });
-  run('npm', ['run', 'build', '--workspace=@auraglass/cli'], ROOT, { stdio: 'inherit' });
+  run('npm', ['run', 'build', '--workspace=aura-glass-cli'], ROOT, { stdio: 'inherit' });
   tarballs = {
     'aura-glass': pack([]),
-    '@auraglass/cli': pack(['--workspace=@auraglass/cli']),
-    '@auraglass/registry': pack(['--workspace=@auraglass/registry']),
+    'aura-glass-cli': pack(['--workspace=aura-glass-cli']),
+    'aura-glass-registry': pack(['--workspace=aura-glass-registry']),
   };
 
   /* --------------------------------------------------- candidate registry */

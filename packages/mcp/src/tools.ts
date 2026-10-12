@@ -1,5 +1,5 @@
 /* packages/mcp/src/tools.ts — REQ-PLAT-106 (REQ-FIN-44). The five read-only
-   @auraglass/mcp tools as pure functions over the bundled data/mcp-data.json
+   aura-glass-mcp tools as pure functions over the bundled data/mcp-data.json
    (written by scripts/docs/gen-mcp-data.mjs). No I/O happens here. */
 import { z } from 'zod';
 

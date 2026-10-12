@@ -39,7 +39,7 @@ describe('ban rules', () => {
   ])('bans %s', (spec, reason) => {
     expect(banReason(spec, exported, pkg.name)).toMatch(reason);
   });
-  it.each(['aura-glass', 'aura-glass/theme', 'aura-glass/styles.css', 'react', '@auraglass/registry', './Button', '../example/data'])('allows %s', (spec) => {
+  it.each(['aura-glass', 'aura-glass/theme', 'aura-glass/styles.css', 'react', 'aura-glass-registry', './Button', '../example/data'])('allows %s', (spec) => {
     expect(banReason(spec, exported, pkg.name)).toBeNull();
   });
   it('honours export-map patterns', () => {

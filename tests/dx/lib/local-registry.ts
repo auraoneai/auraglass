@@ -1,9 +1,9 @@
 /* tests/dx/lib/local-registry.ts — PLAT-103 (REQ-FIN-43). Verdaccio-seeded npm
    registry for the quickstart replay: the packed `aura-glass` and
-   `@auraglass/cli` tarballs (plat:package:pack / plat:test:docs) are published
+   `aura-glass-cli` tarballs (plat:package:pack / plat:test:docs) are published
    into a throwaway verdaccio so the doc commands (`npm install aura-glass@^5`,
-   `npx @auraglass/cli ...`) resolve to the commit under test instead of the
-   public registry (where @auraglass/cli does not exist and aura-glass is 4.x).
+   `npx aura-glass-cli ...`) resolve to the commit under test instead of the
+   public registry (where aura-glass-cli does not exist and aura-glass is 4.x).
    Everything else proxies to registry.npmjs.org. Remote-only (CI). */
 import { spawn, execFileSync, type ChildProcess } from 'node:child_process';
 import { mkdtempSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
@@ -14,7 +14,7 @@ import { createServer } from 'node:net';
 /** Pinned verdaccio (exact version per machine policy). */
 export const VERDACCIO = 'verdaccio@6.10.5';
 /** Packages that must come only from the seeded tarballs (never the uplink). */
-const LOCAL_ONLY = ['aura-glass', '@auraglass/*'];
+const LOCAL_ONLY = ['aura-glass', 'aura-glass-*'];
 
 export interface LocalRegistry {
   url: string;

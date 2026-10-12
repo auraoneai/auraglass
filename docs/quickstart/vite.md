@@ -66,14 +66,14 @@ the CLI to write without its dirty-tree guard.
 
 {step init}
 ```bash
-npx @auraglass/cli@latest init --yes --allow-no-git
+npx aura-glass-cli@latest init --yes --allow-no-git
 ```
 
 ## 4. Add the app-frame block
 
 {step add}
 ```bash
-npx @auraglass/cli@latest add app-frame --yes --allow-no-git
+npx aura-glass-cli@latest add app-frame --yes --allow-no-git
 ```
 
 The block's source lands in `components/aura/app-frame/`; it is your code to

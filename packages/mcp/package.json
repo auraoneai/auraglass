@@ -1,5 +1,5 @@
 {
-  "name": "@auraglass/mcp",
+  "name": "aura-glass-mcp",
   "version": "0.1.0",
   "description": "AuraGlass MCP server: five read-only tools over bundled component, registry and migration data (stdio).",
   "type": "module",

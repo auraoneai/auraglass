@@ -2,7 +2,7 @@
 
 ## Decision wanted
 
-Configure npm **trusted publishing** (OIDC) for `aura-glass` and `@auraglass/*`
+Configure npm **trusted publishing** (OIDC) for `aura-glass` and `aura-glass-{cli,registry,mcp,labs}` (unscoped, OD-2)
 so `plat:publish:npm` publishes with `npm publish --provenance` and **no**
 npm access-token environment variable (`NPM_*` / `NODE_AUTH_*`) anywhere.
 

@@ -42,7 +42,7 @@ export interface MaterialAttributes {
   'data-ag-allow-nested'?: '';
 }
 export type MaterialPropsFn = (role: MaterialRole) => MaterialAttributes;
-export type UseMaterialTier = () => Tier;   // reads <html data-ag-tier> via useSyncExternalStore; 'cinematic' only inside @auraglass/labs
+export type UseMaterialTier = () => Tier;   // reads <html data-ag-tier> via useSyncExternalStore; 'cinematic' only inside aura-glass-labs
 
 export interface SurfaceProps extends MaterialRole, Omit<React.HTMLAttributes<HTMLElement>, 'content'> {
   render?: React.ReactElement;
