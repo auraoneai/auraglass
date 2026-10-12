@@ -20,6 +20,8 @@ const BASE = {
   '--ag-color-border': 'oklch(0.85 0 0)',
   '--ag-color-focus-inner': 'oklch(0.55 0.2 250)',
   '--ag-radius-md': '12px',
+  // The emitter's structural mapping (REQ-MAT-26) requires a space scale.
+  '--ag-space-2': '8px',
 };
 
 const CASES = {

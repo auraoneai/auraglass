@@ -16,11 +16,13 @@ describe('compat createGlassTheme motionPolicy (DEP-M0902)', () => {
 
   it('warns DEP-M0902 exactly once at call time, never at import', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    expect(warn).not.toHaveBeenCalled();
+    const depCalls = () => warn.mock.calls.filter((c) => String(c[0]).includes('DEP-M0902'));
+    expect(depCalls()).toHaveLength(0);
     createGlassTheme({ motionPolicy: 'reduced' });
     createGlassTheme({ motionPolicy: 'none' });
-    expect(warn).toHaveBeenCalledTimes(1);
-    expect(String(warn.mock.calls[0]![0])).toContain('DEP-M0902');
+    // Only DEP-M0902 is under test: the default brand also emits the unrelated
+    // one-time theme.contrast.adjusted notice (onAccent floor) through console.warn.
+    expect(depCalls()).toHaveLength(1);
   });
 
   it.each([

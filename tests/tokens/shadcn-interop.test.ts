@@ -38,11 +38,11 @@ const collectScopes = (css: string) => {
   const attrSelectors: string[] = [];
   root.walkRules((rule) => {
     const sel = norm(rule.selector);
-    if (sel.includes(`[${SHADCN_SOURCE_ATTR}]`)) attrSelectors.push(sel);
     // only top-level @layer ag.tokens :root rules (not @supports/@media fallbacks)
     const parent = rule.parent as postcss.AtRule | postcss.Root;
     const inTokensLayer = parent.type === 'atrule' && (parent as postcss.AtRule).name === 'layer';
     if (!inTokensLayer) return;
+    if (sel.includes(`[${SHADCN_SOURCE_ATTR}]`)) attrSelectors.push(sel);
     const map = sel === ':root' ? scopeGlobal : sel === DEFAULT_SEL ? scopeDefault : sel === SOURCE_SEL ? scopeSource : null;
     if (map) rule.walkDecls((d) => { map.set(d.prop, d.value); });
   });

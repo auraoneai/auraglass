@@ -122,13 +122,15 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
     if (m && cell.cssVar.startsWith('--ag-')) readouts.set(m[1], cell.cssVar);
   }
   const densityVar = readouts.get('--_ag-density');
-  if (!densityVar) die('density: no public readout token for --_ag-density (sys.density.readout)');
 
   for (const cell of cells) {
     if (!cell.cssVar) continue;
     let css = renderValue(cell);
     if (cell.renderType === 'dimension' && cell.ext?.['ag.calc'] === 'density') {
       if (cell.axis) die(`${cell.name}: density-scaled dimension cannot also be an axis cell`);
+      // Only a density-scaled cell needs the public readout; token sets without
+      // density scaling (fixtures, partial builds) emit without it.
+      if (!densityVar) die('density: no public readout token for --_ag-density (sys.density.readout)');
       css = `calc(${dim(cell.value)} * var(${densityVar}))`;
       densityScaled.push([cell.cssVar, css]);
     }
@@ -151,24 +153,30 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
   }
 
   // MAT-06: density factor cells per axis value, re-emitted as the public readout
-  // and followed by the scaled spaces in that block.
+  // and followed by the scaled spaces in that block. A token set without the
+  // density axis and without density-scaled cells (synthetic fixtures) skips it;
+  // the real set always has both, and a half-configured set still dies.
   const densityDef = axisDefs.density;
-  if (!densityDef) die('density: axis definition missing (tokens/modes/density.tokens.json)');
+  const usesDensity = Boolean(densityDef) || densityScaled.length > 0 || cells.some((c) => c.cssVar === '--_ag-density');
   const densityFactor = new Map();       // axisValue -> rendered factor
+  const densityDecls = (value) => [
+    `    ${densityVar}: ${densityFactor.get(value)};`,
+    ...densityScaled.map(([v, css]) => `    ${v}: ${css};`),
+  ];
+  if (usesDensity) {
+  if (!densityDef) die('density: axis definition missing (tokens/modes/density.tokens.json)');
+  if (!densityVar) die('density: no public readout token for --_ag-density (sys.density.readout)');
   for (const cell of cells) {
     if (cell.cssVar !== '--_ag-density') continue;
     densityFactor.set(cell.axis === 'density' ? cell.axisValue : densityDef.default, renderValue(cell));
   }
   for (const value of densityDef.values)
     if (!densityFactor.has(value)) die(`density: --_ag-density has no cell for '${value}'`);
-  const densityDecls = (value) => [
-    `    ${densityVar}: ${densityFactor.get(value)};`,
-    ...densityScaled.map(([v, css]) => `    ${v}: ${css};`),
-  ];
   for (const value of densityDef.values) {
     if (value === densityDef.default) continue;
     if (!axisBlocks.has(`density=${value}`)) axisBlocks.set(`density=${value}`, []);
     axisBlocks.get(`density=${value}`).push(...densityDecls(value));
+  }
   }
 
   // shadcn bridge (MAT-070, deviation D-B): bidirectional. Default direction
