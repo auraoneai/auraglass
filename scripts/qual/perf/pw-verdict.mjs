@@ -8,7 +8,7 @@
    Usage: node scripts/qual/perf/pw-verdict.mjs <playwright-report.json> [--scope <scope>] [--exit <code>] */
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { classifyPlaywrightReport } from '../../../certification/run.mjs';
+import { classifyPlaywrightReport } from '../../../packages/qa/src/evidence/playwrightReport.mjs';
 
 export function verdict(report, scope, exitCode = 0) {
   const c = classifyPlaywrightReport(report);

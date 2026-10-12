@@ -13,6 +13,7 @@
    the PR (CODEOWNERS design-reviewer approval on certification/baselines/** + an L14 record per changed subject-state).
    Exit: 0 candidates written and within budget · 1 lane crash, 0 candidates, or budget violations · 2 not on CI /
    the gated remote runner · 64 usage. */
+import { checkRemote } from './remote-guard.mjs';
 import { spawnSync } from 'node:child_process';
 import { existsSync, globSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
@@ -105,10 +106,8 @@ export async function main(argv = process.argv.slice(2), env = process.env) {
     else { console.error(`baseline-refresh: unknown argument ${argv[i]}`); return 64; }
   }
   out = resolve(ROOT, out ?? join(env.AURAGLASS_EVIDENCE_DIR || '.artifacts', 'qual', env.CI_JOB_NAME_SLUG || 'qual-certify-baseline-refresh'));
-  if (!(env.CI === 'true' || env.AG_REMOTE_RUNNER === '1')) {
-    console.error(`baseline-refresh: runs only in AG_PLAYWRIGHT_IMAGE on GitLab CI or the gated remote runner.\nRemote command: node scripts/qual/baseline-refresh.mjs ${argv.join(' ')}`);
-    return 2;
-  }
+  const refusal = checkRemote({ command: `node scripts/qual/baseline-refresh.mjs ${argv.join(' ')}`, env, what: 'baseline refresh' });
+  if (refusal) { console.error(refusal.message); return refusal.code; }
   const deps = await loadDeps(ROOT);
   const candidates = join(out, 'candidates');
   rmSync(candidates, { recursive: true, force: true });

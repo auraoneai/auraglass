@@ -334,23 +334,7 @@ export function playwrightConfigFor(files: readonly string[]): string | null {
 
 /** Playwright JSON report → counts. A failing test whose error starts with `pending:` is a producer that has not
     landed (PRD-F §4.3 rule 2; lanes throw it only below release scope). */
-export function classifyPlaywrightReport(report: PwReport): { total: number; failed: number; pendingOnly: boolean; pendingReasons: string[] } {
-  const tests: Array<{ status?: string; results?: Array<{ error?: { message?: string }; errors?: Array<{ message?: string }> }> }> = [];
-  const walk = (suite: PwSuite) => {
-    for (const spec of suite.specs ?? []) for (const t of spec.tests ?? []) tests.push(t);
-    for (const s of suite.suites ?? []) walk(s);
-  };
-  for (const s of report.suites ?? []) walk(s);
-  const failed = tests.filter((t) => t.status === 'unexpected');
-  const pendingRe = /(^|[\s:])pending: /;
-  const reasons = failed.map((t) => {
-    const last = (t.results ?? []).at(-1);
-    return String(last?.error?.message ?? last?.errors?.[0]?.message ?? '');
-  });
-  const pending = reasons.filter((m) => pendingRe.test(m));
-  return { total: tests.length, failed: failed.length, pendingOnly: failed.length > 0 && pending.length === failed.length,
-    pendingReasons: [...new Set(pending.map((m) => m.slice(m.search(pendingRe)).trim().split('\n')[0]!))] };
-}
+export { classifyPlaywrightReport } from './playwrightReport.mjs';
 
 /** Spec files the cert config cannot run: outside certification/lanes and outside every `<stream>:cert-*` fragment
     project (REQ-QUAL-12: the cert config lists only those). Reported with the fix instead of Playwright's bare
@@ -769,7 +753,7 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
     // REQ-QUAL-06: 0 subjects → pending at pr/main/nightly, fail at release.
     if (!results.some((r) => r.lane === l)) push({ lane: l, stream: 'qual', kind: 'node-script', path: '(no registrations)', scope: args.scope, source: null, state: 'pending', reason: '0 subjects registered for this lane at this scope' });
   }
-  if (lanes.includes('L7')) {
+  if (rows.some((row) => row.lane === 'L7' && row.path === 'certification/lanes/regression.spec.ts')) {
     try { push(await writeVisualClass({ root, evidenceDir, scope: args.scope, sha: gitSha(root, env) ?? '' })); }
     catch (e) { push({ lane: 'L7', stream: 'qual', kind: 'node-script', path: '.artifacts/qual/visual-class.json', scope: args.scope, source: 'packages/qa/src/evidence/l7Runner.mjs', state: 'fail', reason: String(e) }); }
   }
