@@ -50,15 +50,20 @@ interface ComboboxInternal {
   setQuery: (q: string) => void;
   creatable?: ComboboxCreatable | undefined;
   onCreate?: ((query: string) => void) | undefined;
-  /** Exact-match check for creatable (case-insensitive via itemToString). */
-  hasExactMatch: (query: string) => boolean;
-  /** Current create-candidate marker value sentinel (per-query unique object). */
+  /** REQ-CMP-74: the create-item's option value when the query is creatable
+      (no case-insensitive exact match, not blank), else null. It is appended
+      to Base UI's items, so the create-item is keyboard-navigable. */
+  createValue: string | null;
+  createQuery: string;
   messages?: ControlMessages | undefined;
   highlightSuppressed: boolean;
   setHighlightSuppressed: (v: boolean) => void;
   /** This instance's Combobox.Chips element: chip roving stays inside it
       (Combobox.Root renders no DOM element of its own to scope by). */
   chipsRef: React.RefObject<HTMLDivElement | null>;
+  /** Index (into BU's filtered items) of the highlighted option, -1 for none;
+      the virtual list keeps it inside its render window (REQ-CMP-72). */
+  highlightIndex: number;
 }
 
 const InternalCtx = React.createContext<ComboboxInternal | null>(null);
@@ -72,8 +77,9 @@ const useInternal = () => {
 };
 
 const CREATE_PREFIX = '__ag-create__:';
+const isCreateValue = (v: unknown): v is string => typeof v === 'string' && v.startsWith(CREATE_PREFIX);
 
-/** Lazy so @tanstack/react-virtual stays out of the base chunk (CMP-185). */
+/** Lazy so the owned windowed list stays out of the base chunk (CMP-185). */
 const LazyVirtualList = React.lazy(async () => {
   const m = await import('./ComboboxVirtualList.client');
   return { default: m.ComboboxVirtualList };
@@ -130,10 +136,30 @@ function ComboboxRoot<Value = string>({
   onCreate,
   messages,
   children,
+  filter: filterProp,
+  isItemEqualToValue,
+  value: valueProp,
+  defaultValue,
   ...rest
 }: ComboboxRootProps<Value>) {
-  useControllableWarning('Combobox', 'value', rest.value);
+  useControllableWarning('Combobox', 'value', valueProp);
+  /* The selection is always controlled toward Base UI: the create-item's
+     sentinel value must never land in BU's own (uncontrolled) state. */
+  const isValueControlled = valueProp !== undefined;
+  const [uncontrolledValue, setUncontrolledValue] = React.useState<Value | Value[] | null>(
+    () => defaultValue ?? (rest.multiple ? [] : null),
+  );
+  const currentValue = isValueControlled ? valueProp : uncontrolledValue;
   const [highlightSuppressed, setHighlightSuppressed] = React.useState(false);
+  const [highlightIndex, setHighlightIndex] = React.useState(-1);
+  const restOnItemHighlighted = (rest as { onItemHighlighted?: (v: unknown, d: unknown) => void }).onItemHighlighted;
+  const handleItemHighlighted = React.useCallback(
+    (v: unknown, d: { index: number }) => {
+      setHighlightIndex(d.index);
+      restOnItemHighlighted?.(v, d);
+    },
+    [restOnItemHighlighted],
+  );
   const chipsRef = React.useRef<HTMLDivElement | null>(null);
   /* The create-item / filter query starts from the input's initial text
      (controlled inputValue or defaultInputValue), not always ''. */
@@ -224,6 +250,7 @@ function ComboboxRoot<Value = string>({
 
   const toStringLabel = React.useCallback(
     (v: unknown) => {
+      if (isCreateValue(v)) return v.slice(CREATE_PREFIX.length);
       if (itemToString) return itemToString(v as Value);
       if (v != null && typeof v === 'object' && 'label' in (v as Record<string, unknown>)) {
         return String((v as { label: unknown }).label);
@@ -242,26 +269,61 @@ function ComboboxRoot<Value = string>({
     [effectiveItems, toStringLabel],
   );
 
+  const commitValue = React.useCallback(
+    (next: Value | Value[] | null, d: unknown) => {
+      if (!isValueControlled) setUncontrolledValue(next);
+      onValueChange?.(next, toChangeDetails(d));
+    },
+    [isValueControlled, onValueChange],
+  );
+
   const handleValueChange = React.useCallback(
     (v: unknown, d: unknown) => {
-      if (typeof v === 'string' && v.startsWith(CREATE_PREFIX)) {
-        const q = v.slice(CREATE_PREFIX.length);
+      /* single: v is the sentinel; multiple: BU appended it to the array */
+      const created = Array.isArray(v) ? v.find(isCreateValue) : isCreateValue(v) ? v : undefined;
+      if (created !== undefined) {
+        const q = created.slice(CREATE_PREFIX.length);
         if (onCreate) {
           onCreate(q);
           return;
         }
-        const details = toChangeDetails(d);
-        if (rest.multiple) {
-          const prev = (rest.value ?? []) as unknown[];
-          onValueChange?.([...prev, q as unknown as Value] as Value | Value[] | null, details);
+        if (Array.isArray(v)) {
+          const kept = v.filter((x) => !isCreateValue(x)) as Value[];
+          commitValue([...kept, q as unknown as Value], d);
         } else {
-          onValueChange?.(q as unknown as Value | Value[] | null, details);
+          commitValue(q as unknown as Value, d);
         }
         return;
       }
-      onValueChange?.(v as Value | Value[] | null, toChangeDetails(d));
+      commitValue(v as Value | Value[] | null, d);
     },
-    [onCreate, onValueChange, rest.multiple, rest.value],
+    [onCreate, commitValue],
+  );
+
+  /* REQ-CMP-74: creatable when the trimmed query matches no item exactly
+     (case-insensitive, after itemToString) and is not blank. */
+  const createQuery = query.trim();
+  const createValue =
+    mode === 'select' && creatable !== undefined && creatable !== false && createQuery.length > 0 && !hasExactMatch(createQuery)
+      ? `${CREATE_PREFIX}${createQuery}`
+      : null;
+  const baseItems = React.useMemo(
+    () => (effectiveItems !== undefined && createValue !== null ? [...effectiveItems, createValue] : effectiveItems),
+    [effectiveItems, createValue],
+  );
+  /* The sentinel always survives filtering (its label is the query itself,
+     so BU's default contains-filter keeps it; custom filters are wrapped). */
+  const baseFilter = React.useMemo(() => {
+    if (loadOptions) return null;
+    if (filterProp === undefined || filterProp === null) return filterProp;
+    return (item: unknown, q: string) => isCreateValue(item) || filterProp(item as Value, q);
+  }, [loadOptions, filterProp]);
+  const baseIsItemEqualToValue = React.useMemo(
+    () =>
+      isItemEqualToValue
+        ? (a: unknown, b: unknown) => (isCreateValue(a) || isCreateValue(b) ? a === b : isItemEqualToValue(a as Value, b as Value))
+        : undefined,
+    [isItemEqualToValue],
   );
 
   const virtual = (effectiveItems?.length ?? 0) > VIRTUAL_THRESHOLD;
@@ -277,13 +339,15 @@ function ComboboxRoot<Value = string>({
       setQuery,
       creatable,
       onCreate,
-      hasExactMatch,
       messages,
       highlightSuppressed,
       setHighlightSuppressed,
       chipsRef,
+      highlightIndex,
+      createValue,
+      createQuery,
     }),
-    [size, effectiveItems, virtual, mode, loading, loadError, query, creatable, onCreate, hasExactMatch, messages, highlightSuppressed],
+    [size, effectiveItems, virtual, mode, loading, loadError, query, creatable, onCreate, messages, highlightSuppressed, highlightIndex, createValue, createQuery],
   );
 
   return (
@@ -292,12 +356,14 @@ function ComboboxRoot<Value = string>({
       {mode === 'autocomplete' ? (
       <Autocomplete.Root
         {...(rest as Record<string, unknown>)}
+        {...(isItemEqualToValue ? { isItemEqualToValue } : {})}
         {...(effectiveItems !== undefined ? { items: effectiveItems } : {})}
-        {...(loadOptions ? { filter: null } : rest.filter !== undefined ? { filter: rest.filter } : {})}
+        {...(loadOptions ? { filter: null } : filterProp !== undefined ? { filter: filterProp } : {})}
         {...(itemToString ? { itemToStringLabel: toStringLabel } : {})}
         {...(itemToValue ? { itemToStringValue: itemToValue as (v: unknown) => string } : {})}
         autoHighlight={rest.autoHighlight ?? true}
         {...(virtual ? { virtualized: true } : {})}
+        onItemHighlighted={handleItemHighlighted}
         value={query}
         onValueChange={(v, d) => {
           handleInputValueChange(v, d);
@@ -315,12 +381,15 @@ function ComboboxRoot<Value = string>({
       ) : (
       <Base.Root
         {...(rest as Record<string, unknown>)}
-        {...(effectiveItems !== undefined ? { items: effectiveItems } : {})}
-        {...(loadOptions ? { filter: null } : rest.filter !== undefined ? { filter: rest.filter } : {})}
+        {...({ value: currentValue } as Record<string, unknown>)}
+        {...(baseIsItemEqualToValue ? { isItemEqualToValue: baseIsItemEqualToValue } : {})}
+        {...(baseItems !== undefined ? { items: baseItems } : {})}
+        {...(baseFilter !== undefined ? { filter: baseFilter } : {})}
         {...(itemToString ? { itemToStringLabel: toStringLabel } : {})}
-        {...(itemToValue ? { itemToStringValue: itemToValue as (v: unknown) => string } : {})}
+        {...(itemToValue ? { itemToStringValue: (v: unknown) => (isCreateValue(v) ? v : itemToValue(v as Value)) } : {})}
         autoHighlight={rest.autoHighlight ?? true}
         {...(virtual ? { virtualized: true } : {})}
+        onItemHighlighted={handleItemHighlighted}
         onValueChange={handleValueChange}
         onInputValueChange={handleInputValueChange}
         onOpenChange={(o, d) => {
@@ -462,14 +531,18 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
 function ComboboxContent({ children, className }: ComboboxContentProps) {
   const container = usePortalContainer('overlay');
   const { setPopupElement } = React.useContext(ComboboxLayerContext);
-  const { size, loading, query, creatable, onCreate, hasExactMatch, messages, items, virtual } = useInternal();
-  const trimmed = query.trim();
-  const offerCreate =
-    creatable !== undefined && creatable !== false && trimmed.length > 0 && !hasExactMatch(trimmed);
+  const { size, loading, creatable, messages, virtual, highlightIndex, createValue, createQuery } = useInternal();
+  /* REQ-CMP-72: virtual mode windows Base UI's filtered items, so typing
+     filters the rows and aria-setsize is the filtered count. */
+  const filtered = Base.useFilteredItems<unknown>();
+  /* the create sentinel is BU's last filtered item; it renders as the
+     create-item below, never through the caller's item renderer */
+  const createIndex = createValue !== null ? filtered.indexOf(createValue) : -1;
+  const rowItems = createIndex >= 0 ? filtered.filter((_, i) => i !== createIndex) : filtered;
   const createLabel =
     typeof creatable === 'object' && creatable?.label
-      ? creatable.label(trimmed)
-      : controlMessage('createItem', messages, { query: trimmed });
+      ? creatable.label(createQuery)
+      : controlMessage('createItem', messages, { query: createQuery });
   return (
     <Base.Portal container={container}>
       <Base.Positioner
@@ -491,7 +564,7 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
           <Base.List data-ag-part="list" aria-busy={loading || undefined}>
             {virtual ? (
               <React.Suspense fallback={null}>
-                <LazyVirtualList items={items ?? []}>
+                <LazyVirtualList items={rowItems as readonly unknown[]} activeIndex={highlightIndex}>
                   {(item: unknown, index: number) =>
                     typeof children === 'function'
                       ? (children as (i: unknown, ix: number) => React.ReactNode)(item, index)
@@ -499,13 +572,22 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
                   }
                 </LazyVirtualList>
               </React.Suspense>
+            ) : typeof children === 'function' ? (
+              /* render-fn children map Base UI's filtered items (minus the
+                 create sentinel), so DOM order matches BU's option indices */
+              rowItems.map((item, index) => (
+                <React.Fragment key={index}>
+                  {(children as (i: unknown, ix: number) => React.ReactNode)(item, index)}
+                </React.Fragment>
+              ))
             ) : (
               children as React.ReactNode
             )}
-            {offerCreate ? (
+            {createValue !== null ? (
               <Base.Item
                 data-ag-part="create-item"
-                value={`${CREATE_PREFIX}${trimmed}`}
+                value={createValue}
+                {...(virtual && createIndex >= 0 ? { index: createIndex } : {})}
                 className="ag-combobox-item ag-combobox-create"
               >
                 {createLabel}
@@ -519,11 +601,26 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
 }
 
 /* ------------------------------------------------------------------ */
-function chipLabel(children: React.ReactNode, label?: string): string {
-  if (label !== undefined && label !== null && label !== '') return label;
-  if (typeof children === 'string') return children;
+/** Plain text of a React subtree (strings and numbers, recursively). */
+function textOf(node: React.ReactNode): string {
+  if (node === null || node === undefined || typeof node === 'boolean') return '';
+  if (typeof node === 'string' || typeof node === 'number') return String(node);
+  if (Array.isArray(node)) return node.map(textOf).join('');
+  if (React.isValidElement(node)) {
+    if (node.type === ComboboxChipRemove) return ''; // the remove control is not part of the label
+    return textOf((node.props as { children?: React.ReactNode }).children);
+  }
   return '';
 }
+
+function chipLabel(children: React.ReactNode, label?: string): string {
+  if (label !== undefined && label !== null && label !== '') return label;
+  return textOf(children).trim();
+}
+
+/* REQ-CMP-69/74: the enclosing chip's label, so a standalone
+   <Combobox.ChipRemove/> composed inside a Chip reads "Remove <label>". */
+const ChipLabelContext = React.createContext<string>('');
 
 /* Item / Empty / Group / Chips / Chip / Loading                       */
 /* ------------------------------------------------------------------ */
@@ -585,9 +682,9 @@ function ComboboxGroupLabel({ children, className }: ComboboxGroupLabelProps) {
 }
 
 function ComboboxChips({ children, className }: ComboboxChipsProps) {
-  const { chipsRef } = useInternal();
+  const { chipsRef, size } = useInternal();
   return (
-    <Base.Chips ref={chipsRef} data-ag-part="chips" className={cn('ag-combobox-chips', className)} onKeyDown={comboboxChipsKeyDown}>
+    <Base.Chips ref={chipsRef} data-ag-part="chips" {...sizeAttrs(size)} className={cn('ag-combobox-chips', className)} onKeyDown={comboboxChipsKeyDown}>
       {children}
     </Base.Chips>
   );
@@ -595,14 +692,23 @@ function ComboboxChips({ children, className }: ComboboxChipsProps) {
 
 function ComboboxChip({ children, className, label }: ComboboxChipProps) {
   const { messages } = useInternal();
+  const resolved = chipLabel(children, label);
+  /* A composed <Combobox.ChipRemove/> child replaces the built-in one. */
+  const composedRemove = React.Children.toArray(children).some(
+    (c) => React.isValidElement(c) && c.type === ComboboxChipRemove,
+  );
   return (
-    <Base.Chip data-ag-part="chip" {...materialProps({ layer: 'content', content: 'content-raised', shape: 'capsule' })} className={cn('ag-combobox-chip', className)}>
-      {children}
-      <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: chipLabel(children, label) })}>
-        <span data-ag-part="hit-area" aria-hidden="true" />
-        <XGlyph />
-      </Base.ChipRemove>
-    </Base.Chip>
+    <ChipLabelContext.Provider value={resolved}>
+      <Base.Chip data-ag-part="chip" {...materialProps({ layer: 'content', content: 'content-raised', shape: 'capsule' })} className={cn('ag-combobox-chip', className)}>
+        {children}
+        {composedRemove ? null : (
+          <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: resolved })}>
+            <span data-ag-part="hit-area" aria-hidden="true" />
+            <XGlyph />
+          </Base.ChipRemove>
+        )}
+      </Base.Chip>
+    </ChipLabelContext.Provider>
   );
 }
 
@@ -639,8 +745,10 @@ function ComboboxClear({ children, className }: { children?: React.ReactNode; cl
 
 function ComboboxChipRemove({ children, className, label }: ComboboxChipRemoveProps) {
   const { messages } = useInternal();
+  const chipText = React.useContext(ChipLabelContext);
+  const resolved = label !== undefined && label !== '' ? label : chipText;
   return (
-    <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: label ?? '' })} className={className}>
+    <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: resolved })} className={className}>
       <span data-ag-part="hit-area" aria-hidden="true" />
       {children ?? <XGlyph />}
     </Base.ChipRemove>

@@ -128,13 +128,13 @@
     inset-block-start: -2px;
     inset-inline-end: -2px;
     inline-size: 6px; block-size: 6px;
-    border-radius: 50%;
+    border-radius: var(--ag-radius-full);
     background: currentColor;
   }
   [data-ag-part="typing-indicator"] [data-ag-part="typing-dot"] {
     display: inline-block;
     inline-size: 4px; block-size: 4px;
-    border-radius: 50%;
+    border-radius: var(--ag-radius-full);
     background: currentColor;
     margin-inline-end: 3px;
   }
@@ -171,4 +171,18 @@
     [data-ag-part="step"][data-state="running"] [data-ag-part="step-icon"]::after { animation: none; }
   }
   @keyframes ag-ai-caret-blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+  /* REQ-SURF-189: forced colours — the caret and the running/typing atoms
+     paint in CanvasText (a currentColor fill would be forced to the canvas)
+     and focus is the system ring. */
+  @media (forced-colors: active) {
+    [data-ag-part="streaming-text"] [data-ag-part="caret"],
+    [data-ag-part="step"][data-state="running"] [data-ag-part="step-icon"]::after,
+    [data-ag-part="typing-indicator"] [data-ag-part="typing-dot"] {
+      background: CanvasText;
+    }
+    [data-ag-part="message"]:focus-visible,
+    [data-ag-part="step"]:focus-visible {
+      outline: 2px solid Highlight;
+    }
+  }
 }

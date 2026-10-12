@@ -36,6 +36,29 @@ describe('slider css grid (REQ-CMP-49)', () => {
     const drag = CSS.match(/\.ag-slider\[data-dragging\][^{]*\{[^}]*\}/s)?.[0] ?? '';
     expect(drag).toContain('--ag-specular: 1');
   });
+
+  it('track paints the content-sunken material fill (REQ-CMP-49)', () => {
+    const track = CSS.match(/\.ag-slider \[data-ag-part='track'\] \{[^}]*\}/)?.[0] ?? '';
+    expect(track).toMatch(/background:[^;]*var\(--ag-surface-fill\)/);
+  });
+
+  it('thumb is opaque at rest; glass fill only under [data-dragging] (REQ-CMP-49)', () => {
+    const rest = CSS.split(".ag-slider [data-ag-part='thumb'] {")[1]?.split('}')[0] ?? '';
+    expect(rest).toMatch(/background:\s*var\(--ag-color-canvas\)/);
+    const noComments = CSS.replace(/\/\*[\s\S]*?\*\//g, '');
+    /* every rule that addresses the glass (allow-nested) thumb or paints the
+       translucent surface fill on the thumb is scoped to [data-dragging] */
+    const rules = noComments.match(/[^{}]+\{[^{}]*\}/g) ?? [];
+    const glassRules = rules.filter((r) => /thumb/.test(r.split('{')[0]!) && /--ag-surface-fill/.test(r.split('{')[1]!));
+    expect(glassRules.length).toBeGreaterThan(0);
+    for (const r of glassRules) {
+      for (const sel of r.split('{')[0]!.split(',')) expect(sel).toMatch(/\[data-dragging\][^,]*\[data-ag-allow-nested\]/);
+    }
+    /* no selector addresses the glass thumb outside a drag */
+    const nestedSelectors = rules.flatMap((r) => r.split('{')[0]!.split(',')).filter((sel) => /allow-nested/.test(sel));
+    expect(nestedSelectors.length).toBeGreaterThan(0);
+    for (const sel of nestedSelectors) expect(sel).toContain('[data-dragging]');
+  });
 });
 
 /* REQ-CMP-52: checkbox/radio indicator size grid 14/16/20. */

@@ -1,8 +1,9 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 /* Slider (CMP-150/414/415): sunken track, accent range, transient thumb.
-   Pointer capture + track-click jump + touch-action are BU Control behaviour;
-   drag forwarding is throttled by BU internally (S-13 subscribeFrame pending MAT). */
+   Pointer capture + track-click jump are BU Control behaviour; touch-action
+   is set on the control below. REQ-CMP-51: drag changes are coalesced to one
+   onValueChange per frame through S-13 subscribeFrame (Slider.client.tsx). */
 @layer ag.components {
   .ag-slider {
     position: relative;
@@ -30,7 +31,11 @@
     position: relative;
     flex: 1;
     border-radius: var(--ag-radius-full);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-slider-track-alpha, 16%), transparent);
+    /* REQ-CMP-49: content-sunken well (materialProps on the track) under the
+       on-surface tint that keeps the track legible on canvas. */
+    background:
+      linear-gradient(color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-slider-track-alpha, 16%), transparent) 0 0),
+      var(--ag-surface-fill);
     box-shadow: none;
   }
   /* REQ-CMP-49: track block-size sm/md/lg = 4/6/8px */
@@ -76,6 +81,13 @@
     --ag-specular: 1;
     box-shadow: var(--ag-shadow-regular), inset 0 0 0 calc(var(--ag-focus-width) / 2) color-mix(in oklab, var(--ag-color-border) 50%, transparent);
   }
+  /* REQ-CMP-49: glass under [data-dragging] only. At rest the thumb is an
+     opaque canvas disc (and, nested in the track surface, has no backdrop).
+     While dragging it carries data-ag-allow-nested, so its transient
+     ::before optics return, and it paints the translucent material fill. */
+  .ag-slider[data-dragging] [data-ag-part='thumb'][data-ag-allow-nested] {
+    background: var(--ag-surface-fill);
+  }
 
   /* Marks: ticks under the track, labels under the ticks. The root
      reserves the label row (padding-block-end) so labels no longer spill
@@ -116,14 +128,22 @@
     opacity: var(--ag-state-disabled-alpha);
   }
 
+  /* Forced colours (REQ-SURF-189 slider row): CanvasText track outline,
+     Highlight range and thumb — the accent range would otherwise be forced
+     to the canvas and vanish. */
   @media (forced-colors: active) {
     .ag-slider [data-ag-part='track'] {
-      border: var(--ag-focus-width) solid ButtonText;
-      background: ButtonFace;
+      border: calc(var(--ag-focus-width) / 2) solid CanvasText;
+      background: Canvas;
       box-shadow: none;
     }
-    .ag-slider [data-ag-part='thumb'] {
-      background: ButtonText;
+    .ag-slider [data-ag-part='range'] {
+      background: Highlight;
+    }
+    .ag-slider [data-ag-part='thumb'],
+    .ag-slider[data-dragging] [data-ag-part='thumb'][data-ag-allow-nested] {
+      background: Highlight;
+      border: calc(var(--ag-focus-width) / 2) solid CanvasText;
       box-shadow: none;
     }
   }

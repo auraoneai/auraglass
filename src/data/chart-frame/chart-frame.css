@@ -117,4 +117,21 @@
       }
     }
   }
+  /* REQ-SURF-189: forced colours — legend swatches keep their series fill
+     (it is the only key to the marks) and gain a CanvasText border; a
+     hidden series is struck through, not only dimmed; focus is the system
+     ring. */
+  @media (forced-colors: active) {
+    .ag-chart-frame__swatch {
+      forced-color-adjust: none;
+      border: 1px solid CanvasText;
+    }
+    .ag-chart-frame__legend-item[aria-pressed='false'] {
+      text-decoration-line: line-through;
+    }
+    .ag-chart-frame__legend-item:focus-visible,
+    .ag-chart-frame__toggle:focus-visible {
+      outline: 2px solid Highlight;
+    }
+  }
 }

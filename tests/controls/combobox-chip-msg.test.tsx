@@ -30,4 +30,37 @@ describe('combobox messages (REQ-CMP-69)', () => {
     );
     expect(container.querySelector("[data-ag-part='clear']")?.getAttribute('aria-label')).toBe('Clear search');
   });
+
+  it('standalone Combobox.ChipRemove inside a Chip reads the chip label (REQ-CMP-69/74)', () => {
+    const { container } = render(
+      <Combobox.Root defaultValue={['Banana', 'Cherry']} items={['Banana', 'Cherry']} multiple>
+        <Combobox.Chips>
+          <Combobox.Chip>
+            Banana
+            <Combobox.ChipRemove />
+          </Combobox.Chip>
+          <Combobox.Chip>
+            <span>Cherry</span>
+            <Combobox.ChipRemove label="Drop cherry" />
+          </Combobox.Chip>
+        </Combobox.Chips>
+      </Combobox.Root>,
+    );
+    const chips = [...container.querySelectorAll("[data-ag-part='chip']")];
+    /* the composed remove replaces the built-in one: exactly one per chip */
+    expect(chips.map((c) => c.querySelectorAll("[data-ag-part='chip-remove']").length)).toEqual([1, 1]);
+    const labels = chips.map((c) => c.querySelector("[data-ag-part='chip-remove']")?.getAttribute('aria-label'));
+    expect(labels).toEqual(['Remove Banana', 'Remove Drop cherry']);
+  });
+
+  it('chip label falls back to nested element text', () => {
+    const { container } = render(
+      <Combobox.Root defaultValue={['a']} items={['a']} multiple>
+        <Combobox.Chips>
+          <Combobox.Chip><strong>Alpha</strong> team</Combobox.Chip>
+        </Combobox.Chips>
+      </Combobox.Root>,
+    );
+    expect(container.querySelector("[data-ag-part='chip-remove']")?.getAttribute('aria-label')).toBe('Remove Alpha team');
+  });
 });
