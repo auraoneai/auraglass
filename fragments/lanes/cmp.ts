@@ -153,7 +153,7 @@ export default [
     remote: true,
     failClosed: true,
   },
-  // L5 — REQ-CMP-20/104: target sizes via elementFromPoint (24px fine, 44px coarse hit-area)
+  // L5 — REQ-CMP-20/21/104: target sizes via elementFromPoint (24px fine, 44px coarse hit-area) + §4.4 control block sizes (±0.5 px)
   {
     lane: "L5",
     kind: "playwright",
@@ -178,6 +178,24 @@ export default [
     path: "tests/e2e/cmp/overlays/**",
     scope: "pr",
     remote: true,
+    failClosed: true,
+  },
+  // L9 — REQ-CMP-42: indicator/thumb/popup motion frame strips
+  {
+    lane: "L9",
+    kind: "playwright",
+    path: "tests/e2e/cmp/controls/controls-motion.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
+  // L12 — REQ-CMP-17: renderAgServer → hydrate for every meta's default and defaultOpen stories
+  {
+    lane: "L12",
+    kind: "jest",
+    path: "tests/ssr/cmp/**",
+    scope: "pr",
+    remote: false,
     failClosed: true,
   },
 ] satisfies LaneRegistration[];

@@ -151,11 +151,12 @@
     outline: none;
     transform-origin: var(--transform-origin);
     z-index: var(--ag-z-overlay, auto);
-    /* REQ-CMP-83: the transition lives on the resting rule so the enter
-       (starting-style -> open) animates, not only the exit */
+    /* REQ-CMP-83 / REQ-CMP-67: the transition lives on the resting rule so the
+       enter (starting-style -> open) animates, not only the exit; opacity +
+       individual scale only, backdrop-filter never transitions. */
     transition:
       opacity var(--ag-duration-small) var(--ag-ease-standard),
-      transform var(--ag-duration-small) var(--ag-ease-standard);
+      scale var(--ag-duration-small) var(--ag-ease-standard);
   }
   /* REQ-CMP-72: in virtual mode the windowed list is the scroller (its
      onScroll drives the render window), so it is capped to the popup's
@@ -168,7 +169,7 @@
   .ag-combobox-popup[data-starting-style],
   .ag-combobox-popup[data-ending-style] {
     opacity: 0;
-    transform: scale(0.96);
+    scale: 0.96;
   }
   .ag-combobox-popup[data-ending-style] {
     transition-duration: var(--ag-duration-small-exit);
@@ -177,7 +178,19 @@
   .ag-combobox-popup[data-open],
   .ag-combobox-popup[data-instant] {
     opacity: 1;
-    transform: none;
+    scale: 1;
+  }
+
+  /* calm: opacity only; none: no transition at all */
+  [data-ag-motion='calm'] .ag-combobox-popup,
+  [data-ag-motion='calm'] .ag-combobox-popup[data-starting-style],
+  [data-ag-motion='calm'] .ag-combobox-popup[data-ending-style],
+  [data-ag-motion='none'] .ag-combobox-popup[data-starting-style],
+  [data-ag-motion='none'] .ag-combobox-popup[data-ending-style] {
+    scale: 1;
+  }
+  [data-ag-motion='none'] .ag-combobox-popup {
+    transition: none;
   }
 
   .ag-combobox-item {
@@ -244,10 +257,11 @@
     }
   }
   @media (prefers-reduced-motion: reduce) {
+    .ag-combobox-popup,
     .ag-combobox-popup[data-starting-style],
     .ag-combobox-popup[data-ending-style] {
-      transform: none;
-      transition: opacity var(--ag-duration-small) var(--ag-ease-standard);
+      scale: 1;
+      transition-property: opacity;
     }
     .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
       animation: none;

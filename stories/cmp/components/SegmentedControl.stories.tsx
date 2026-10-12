@@ -15,16 +15,19 @@ export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
 /* SegmentedControl is chrome: a glass capsule track over the scene with an
-   opaque raised thumb on the selected segment. */
+   opaque raised indicator under the selected segment (glass while it moves).
+   tests/a11y/apg/cmp/segmented-control.apg.spec.ts drives it (three items,
+   the first selected). */
 export const Default: Story = {
   args: { 'aria-label': 'View mode', name: 'view' },
   render: (args) => (
     <Stage>
-      <Section title="Segmented control" note="Glass capsule track; the selected segment is an opaque raised thumb.">
+      <Section title="Segmented control" note="Glass capsule track; the selected segment sits on an opaque raised indicator.">
         <Scene align="flex-start">
-          <SegmentedControl.Root {...args} defaultValue="grid">
+          <SegmentedControl.Root {...args} defaultValue="list">
             <SegmentedControl.Item value="list">List</SegmentedControl.Item>
             <SegmentedControl.Item value="grid">Grid</SegmentedControl.Item>
+            <SegmentedControl.Item value="map">Map</SegmentedControl.Item>
           </SegmentedControl.Root>
         </Scene>
       </Section>

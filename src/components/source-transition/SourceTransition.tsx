@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 import { flushSync } from 'react-dom';
-import { startMorph } from '../../motion';
+import { startMorph, useMorphName } from '../../motion';
 import { viewTransitionParticipantAttributes } from '../../material/stateAttributes';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
@@ -27,6 +27,10 @@ export type SourceTransitionRootProps = PartProps<'div'> & {
 };
 
 function SourceTransitionRoot({ onTransition, children, render, ...rest }: SourceTransitionRootProps) {
+  /* REQ-MAT-48: per-Root morph scope from useId(), sanitised to [a-z0-9-];
+     each pair's view-transition-name is `<scope>-<id>`. */
+  const scope = useMorphName('src');
+  const rootRef = React.useRef<HTMLElement | null>(null);
   const [state, setState] = React.useState<TransitionState>({ active: null });
   const activeIds = React.useRef<Set<string>>(new Set());
 
@@ -37,13 +41,13 @@ function SourceTransitionRoot({ onTransition, children, render, ...rest }: Sourc
       }
       activeIds.current.add(id);
       flushSync(() => setState({ active: id }));
-      void SourceTransitionStart(id, () => {
+      void startScoped(id, () => {
         setState({ active: null });
         activeIds.current.delete(id);
         onTransition?.(id);
-      });
+      }, scope, rootRef.current);
     },
-    [onTransition],
+    [onTransition, scope],
   );
 
   const sources = React.useRef<Map<string, number>>(new Map());
@@ -71,6 +75,7 @@ function SourceTransitionRoot({ onTransition, children, render, ...rest }: Sourc
       {partElement('div', {
         render: render as React.ReactElement | undefined,
         'data-ag-part': 'source-transition',
+        ref: rootRef,
         ...rest,
         children,
       })}
@@ -132,10 +137,17 @@ Destination.displayName = 'SourceTransition.Destination';
     (source->destination migration). Focus moves only when the source
     contained document.activeElement at begin time. */
 export function SourceTransitionStart(id: string, update: () => void): Promise<void> {
+  return startScoped(id, update, undefined, null);
+}
+
+/* REQ-MAT-48: names stay within [a-z0-9-]; a Root passes its useMorphName
+   scope and its element, so two Roots reusing an id never collide. */
+function startScoped(id: string, update: () => void, scope: string | undefined, root: ParentNode | null): Promise<void> {
   const sid = sanitize(id);
-  const name = `ag-src-${sid}`;
-  const source = document.querySelector<HTMLElement>(`[data-src="${sid}"]`);
-  const dest = document.querySelector<HTMLElement>(`[data-src-dest="${sid}"]`);
+  const name = `${scope ?? 'ag-src'}-${sid.toLowerCase().replace(/[^a-z0-9-]/g, '-')}`.replace(/-+/g, '-');
+  const within: ParentNode = root ?? document;
+  const source = within.querySelector<HTMLElement>(`[data-src="${sid}"]`);
+  const dest = within.querySelector<HTMLElement>(`[data-src-dest="${sid}"]`);
   const hadFocus = source ? source.contains(document.activeElement) : false;
   if (source) {
     flushSync(() => {

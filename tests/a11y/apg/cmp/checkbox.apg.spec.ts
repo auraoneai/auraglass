@@ -16,19 +16,24 @@ test.describe('checkbox APG (CMP-361)', () => {
     await expect(box).toHaveAttribute('aria-checked', before === 'true' ? 'false' : 'true');
   });
 
-  /* REQ-CMP-53: parent checkbox in CheckboxGroup cycles exact
-     mixed -> true -> false via aria-checked. */
+  /* REQ-CMP-53: a parent checkbox over a partly selected group starts at
+     aria-checked="mixed" and Space cycles it exactly mixed -> true -> false,
+     selecting and then clearing every child. */
   test('indeterminate: parent cycles mixed -> true -> false', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-checkboxgroup--keyboard');
-    const boxes = page.getByRole('checkbox');
-    const n = await boxes.count();
-    expect(n, 'checkbox-group story renders fewer than 2 checkboxes').toBeGreaterThanOrEqual(2);
-    const parent = boxes.first();
+    await gotoStory(page, 'flagships-controls-checkbox--parent-keyboard');
+    const parent = page.getByRole('checkbox', { name: 'All workspaces' });
+    const children = [
+      page.getByRole('checkbox', { name: 'Design' }),
+      page.getByRole('checkbox', { name: 'Research' }),
+    ];
+    await expect(parent).toHaveAttribute('aria-checked', 'mixed');
     await parent.focus();
     await page.keyboard.press('Space');
-    expect(await parent.getAttribute('aria-checked')).toBe('true');
+    await expect(parent).toHaveAttribute('aria-checked', 'true');
+    for (const c of children) await expect(c).toHaveAttribute('aria-checked', 'true');
     await page.keyboard.press('Space');
-    expect(await parent.getAttribute('aria-checked')).toBe('false');
+    await expect(parent).toHaveAttribute('aria-checked', 'false');
+    for (const c of children) await expect(c).toHaveAttribute('aria-checked', 'false');
     await apg.axe(page);
   });
 

@@ -121,8 +121,10 @@ describe('SourceTransition SURF-64: name allocation and cleanup (mocked startVie
       expect(vt.start).toHaveBeenCalledTimes(1);
       const old = vt.seen.find((s) => s.phase === 'old')!;
       const upd = vt.seen.find((s) => s.phase === 'update')!;
-      expect(old).toEqual({ phase: 'old', source: 'ag-src-s1', dest: '' });
-      expect(upd).toEqual({ phase: 'update', source: '', dest: 'ag-src-s1' });
+      /* REQ-MAT-48: `<useMorphName('src') scope>-<id>`, all [a-z0-9-] */
+      expect(old.source).toMatch(/^ag-src-[a-z0-9-]+-s1$/);
+      expect(old).toEqual({ phase: 'old', source: old.source, dest: '' });
+      expect(upd).toEqual({ phase: 'update', source: '', dest: old.source });
       const source = document.querySelector<HTMLElement>('[data-ag-part="source"]')!;
       const dest = document.querySelector<HTMLElement>('[data-ag-part="destination"]')!;
       expect(source.style.viewTransitionName).toBe('');
@@ -200,7 +202,31 @@ describe('SourceTransition SURF-65: surfaces + focus', () => {
       document.querySelector('[data-ag-part="source"]'),
       document.querySelector('[data-ag-part="destination"]'),
     ]);
-    expect(opts.name).toBe('ag-src-s1');
+    expect(opts.name).toMatch(/^ag-src-[a-z0-9-]+-s1$/);
+    expect(opts.name).not.toBe('ag-src-s1');
+  });
+
+  it('two Roots reusing a Source id get distinct morph names (REQ-MAT-48)', async () => {
+    const spy = motion.startMorph as unknown as jest.Mock;
+    render(
+      <>
+        <Pair id="Card_1" />
+        <Pair id="Card_1" />
+      </>,
+    );
+    spy.mockClear();
+    const sources = document.querySelectorAll<HTMLElement>('[data-ag-part="source"]');
+    await act(async () => { fireEvent.click(sources[0]!); });
+    await act(async () => { fireEvent.click(sources[1]!); });
+    const calls = spy.mock.calls.map((c) => c[1] as { name: string; surfaces: Element[] });
+    const names = calls.map((c) => c.name);
+    expect(names).toHaveLength(2);
+    /* each Root morphs its own pair */
+    const roots = document.querySelectorAll('[data-ag-part="source-transition"]');
+    expect(calls[0]!.surfaces.every((el) => roots[0]!.contains(el))).toBe(true);
+    expect(calls[1]!.surfaces.every((el) => roots[1]!.contains(el))).toBe(true);
+    for (const n of names) expect(n).toMatch(/^[a-z0-9-]+$/);
+    expect(new Set(names).size).toBe(2);
   });
 
   it('focus follows morph only when the source had focus', async () => {

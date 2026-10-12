@@ -3,8 +3,9 @@
    component sheets. The browser proof is tests/e2e/cmp/motion.spec.ts (L9);
    this pins the source so a regression fails in L12 without a browser.
    - every transition leg names an ANIMATABLE property (src/contracts/motion.ts);
-     the one documented exception is the REQ-CMP-53 checkbox check path,
-     which draws in via stroke-dashoffset on a non-part SVG <path>;
+     the documented exceptions are the REQ-CMP-53 checkbox check path,
+     which draws in via stroke-dashoffset on a non-part SVG <path>, and the
+     REQ-CMP-42 segmented indicator width leg;
    - backdrop-filter / filter are never transitioned;
    - dialogs, alert dialogs and sheets exit on --ag-duration-medium-exit
      (full-height sheets --ag-duration-large-exit) with --ag-ease-accelerate;
@@ -48,7 +49,12 @@ function declsOf(ast: Root, selector: string, prop: string): string[] {
   return out;
 }
 
-const EXCEPTIONS = new Set(["checkbox/Checkbox.css .ag-checkbox[data-checked] [data-ag-part='icon'] path stroke-dashoffset"]);
+const EXCEPTIONS = new Set([
+  "checkbox/Checkbox.css .ag-checkbox[data-checked] [data-ag-part='icon'] path stroke-dashoffset",
+  /* REQ-CMP-42: the segmented indicator moves by transform plus width on the
+     CSS-transition path (no View Transition engine). */
+  "segmented-control/SegmentedControl.css .ag-segmented-control [data-ag-part='indicator'][data-ag-animating]:not([data-ag-vt]) inline-size",
+]);
 
 describe('REQ-CMP-18 transitions list only ANIMATABLE properties', () => {
   const sheets = componentSheets();

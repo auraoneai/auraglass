@@ -1,7 +1,7 @@
 /* REQ-CMP-17: SSR contract — every meta's first story server-renders and
    hydrates with zero console.error/warn and identical container HTML.
-   Overlay-kind metas additionally hydrate their *open* story (portal content
-   rendered during hydration). */
+   Overlay-kind metas additionally hydrate their `defaultOpen` story (portal
+   content rendered during hydration). */
 import { describe, expect, it } from '@jest/globals';
 import { act } from '@testing-library/react';
 import * as React from 'react';
@@ -22,21 +22,46 @@ function elementFor(mod: { file: string; exports: Record<string, unknown> }, exp
   return null;
 }
 
-function pickStories(name: string): { file: string; name: string; element: React.ReactElement }[] {
-  const picks: { file: string; name: string; element: React.ReactElement }[] = [];
-  let openPick: { file: string; name: string; element: React.ReactElement } | null = null;
-  for (const mod of loadStories(name)) {
+type Pick = { file: string; name: string; element: React.ReactElement };
+
+/** A story renders its popup open: `args.defaultOpen === true`, or its render
+    passes the `defaultOpen` prop (compiled JSX keeps the prop name). */
+const hasDefaultOpen = (story: unknown): boolean => {
+  const s = story as { args?: Record<string, unknown>; render?: unknown } | undefined;
+  if (s?.args?.defaultOpen === true) return true;
+  return typeof s?.render === 'function' && /\bdefaultOpen\b/.test(String(s.render));
+};
+
+/* REQ-CMP-17: the component's default story (the `Default` export, else its
+   first renderable story) and, for popups, the story whose args carry
+   `defaultOpen: true` (else the first story named *open*, else Playground). */
+function pickStories(name: string): Pick[] {
+  const mods = loadStories(name);
+  const all: { file: string; name: string; story: unknown; mod: (typeof mods)[number] }[] = [];
+  for (const mod of mods) {
     for (const exportName of Object.keys(mod.exports)) {
       if (exportName === 'default' || exportName.startsWith('__')) continue;
-      const el = elementFor(mod, exportName);
-      if (!el) continue;
-      if (!picks.length) picks.push({ file: mod.file, name: exportName, element: el });
-      else if (!openPick && /open|playground|default/i.test(exportName)) openPick = { file: mod.file, name: exportName, element: el };
-      if (picks.length && (openPick || !OVERLAY_KINDS.has(name))) break;
+      all.push({ file: mod.file, name: exportName, story: mod.exports[exportName], mod });
     }
-    if (picks.length && (openPick || !OVERLAY_KINDS.has(name))) break;
   }
-  if (OVERLAY_KINDS.has(name) && openPick && openPick.name !== picks[0]?.name) picks.push(openPick);
+  const resolve = (c: (typeof all)[number] | undefined): Pick | null => {
+    if (!c) return null;
+    const element = elementFor(c.mod, c.name);
+    return element ? { file: c.file, name: c.name, element } : null;
+  };
+  const firstOf = (cands: (typeof all)): Pick | null => {
+    for (const c of cands) { const p = resolve(c); if (p) return p; }
+    return null;
+  };
+  const primary = firstOf(all.filter((c) => c.name === 'Default')) ?? firstOf(all);
+  if (!primary) return [];
+  const picks: Pick[] = [primary];
+  if (OVERLAY_KINDS.has(name)) {
+    const open = firstOf(all.filter((c) => hasDefaultOpen(c.story)))
+      ?? firstOf(all.filter((c) => /open/i.test(c.name)))
+      ?? firstOf(all.filter((c) => /playground|default/i.test(c.name) && c.name !== primary.name));
+    if (open && open.name !== primary.name && !hasDefaultOpen(all.find((c) => c.name === primary.name)?.story)) picks.push(open);
+  }
   return picks;
 }
 

@@ -54,17 +54,9 @@
       background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-segmented-hover-tint, 6%), transparent);
     }
   }
-  /* Selected segment = the thumb: an opaque raised platter on the glass
-     track (canvas lifted toward specular + thin shadow). The old cue was an
-     inset ring with an undefined width and a numeric "colour"
-     (--ag-state-press-glow), so the selected segment was invisible; the
-     measured indicator below retains the existing motion behavior. */
-  .ag-segmented-item[data-checked],
-  .ag-segmented-item[aria-checked='true'] {
-    background: color-mix(in oklab, var(--ag-color-canvas), var(--ag-color-specular) 20%);
-    box-shadow: var(--ag-shadow-thin);
-
-  }
+  /* REQ-CMP-42: the measured indicator is the only selected cue; the
+     checked item paints no platter of its own (it used to duplicate the
+     indicator underneath it). */
   /* Focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
   .ag-segmented-item:disabled,
   .ag-segmented-item[data-disabled] {
@@ -73,27 +65,22 @@
   .ag-segmented-item[data-disabled] > :where(*) {
     opacity: var(--ag-state-disabled-alpha);
   }
-  @media (forced-colors: active) {
-    .ag-segmented-item[data-checked],
-    .ag-segmented-item[aria-checked='true'] {
-      background: Highlight;
-      color: HighlightText;
-      box-shadow: none;
-    }
-  }
-
   .ag-segmented-control {
     position: relative;
   }
   /* REQ-CMP-42: transient/thin indicator, concentric to the root capsule
-     (root radius - item inset), inner fill at rest. Positioned by the
-     measured --_ag-seg-* vars. */
+     (root radius - item inset). At rest it is an opaque inner fill (MAT drops
+     a nested surface's optics) lifted toward the specular colour; while it
+     moves it carries data-ag-animating + data-ag-allow-nested and shows the
+     engine's own glass fill and backdrop. Positioned by the measured
+     --_ag-seg-* vars. */
   .ag-segmented-control [data-ag-part='indicator'] {
     position: absolute;
     inset-block-start: 0;
     inset-inline-start: 0;
     border-radius: calc(var(--ag-radius-full) - var(--ag-space-1));
-    background: var(--ag-color-specular, var(--ag-color-border));
+    background: color-mix(in oklab, var(--ag-color-canvas), var(--ag-color-specular) 20%);
+    box-shadow: var(--ag-shadow-thin);
     inline-size: var(--_ag-seg-w, 0px);
     block-size: var(--_ag-seg-h, 0px);
     transform: translate3d(var(--_ag-seg-x, 0px), var(--_ag-seg-y, 0px), 0);
@@ -101,18 +88,41 @@
     pointer-events: none;
     z-index: 0;
   }
-  /* fallback transition when startViewTransition is absent — snappy spring
-     over duration-small while animating. REQ-CMP-18: only the transform
-     travels (ANIMATABLE); the width follows the measured segment at once and
-     the View Transition / FLIP morph covers width changes when available. */
-  .ag-segmented-control[data-ag-animating] [data-ag-part='indicator'] {
+  /* moving: glass, and the CSS transition (snappy spring over duration-small)
+     unless a View Transition owns the move ([data-ag-vt], set by startMorph).
+     REQ-CMP-42 moves it by transform plus width; the inline-size leg is the
+     one documented REQ-CMP-18 exception (tests/foundation/cmp/motion-css.test.ts). */
+  .ag-segmented-control [data-ag-part='indicator'][data-ag-animating] {
+    background: var(--_ag-surface-fill, transparent);
     will-change: transform;
-    transition: transform var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-emphasized));
   }
-  /* calm/none: jump — zero transition duration */
-  [data-ag-motion='calm'] .ag-segmented-control[data-ag-animating] [data-ag-part='indicator'],
-  [data-ag-motion='none'] .ag-segmented-control[data-ag-animating] [data-ag-part='indicator'] {
+  .ag-segmented-control [data-ag-part='indicator'][data-ag-animating]:not([data-ag-vt]) {
+    transition:
+      transform var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-emphasized)),
+      inline-size var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-emphasized));
+  }
+  /* calm/none: jump — no transition */
+  [data-ag-motion='calm'] .ag-segmented-control [data-ag-part='indicator'],
+  [data-ag-motion='none'] .ag-segmented-control [data-ag-part='indicator'],
+  [data-ag-motion='calm'] .ag-segmented-control [data-ag-part='indicator'][data-ag-animating]:not([data-ag-vt]),
+  [data-ag-motion='none'] .ag-segmented-control [data-ag-part='indicator'][data-ag-animating]:not([data-ag-vt]) {
     transition: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ag-segmented-control [data-ag-part='indicator'],
+    .ag-segmented-control [data-ag-part='indicator'][data-ag-animating]:not([data-ag-vt]) {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .ag-segmented-control [data-ag-part='indicator'] {
+      background: Highlight;
+      box-shadow: none;
+    }
+    .ag-segmented-item[data-checked],
+    .ag-segmented-item[aria-checked='true'] {
+      color: HighlightText;
+    }
   }
 
   /* REQ-CMP-41 */

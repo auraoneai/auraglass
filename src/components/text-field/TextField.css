@@ -7,6 +7,9 @@
   .ag-text-field {
     display: grid;
     gap: var(--ag-space-1);
+    /* REQ-CMP-21: inputs fill their container and may shrink below content */
+    inline-size: 100%;
+    min-inline-size: 0;
   }
 
   .ag-text-field [data-ag-part='label'] {
@@ -138,12 +141,14 @@
     opacity: var(--ag-state-disabled-alpha);
   }
 
-  /* REQ-CMP-62: autofill keeps shell fill + text color; coarse pointer >= 16px
-     handled by --ag-type-body-size floor on touch platforms via token ladder. */
+  /* REQ-CMP-62: autofill keeps the shell's own fill (the engine's --_ag-fill,
+     inherited from the control-shell surface) as an inset shadow, and the
+     canvas ink the sunken shell is solved against. */
+  .ag-text-field [data-ag-part='control']:autofill,
   .ag-text-field [data-ag-part='control']:-webkit-autofill {
     -webkit-text-fill-color: var(--ag-color-on-surface);
     caret-color: var(--ag-color-on-surface);
-    box-shadow: inset 0 0 0 var(--ag-target-min) color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 8%), transparent);
+    box-shadow: inset 0 0 0 var(--ag-target-min) var(--_ag-fill, var(--ag-color-canvas));
   }
 
   @media (forced-colors: active) {
@@ -158,9 +163,12 @@
     }
   }
 
-/* REQ-CMP-62: avoid iOS input zoom on coarse pointers. */
+/* REQ-CMP-62: avoid iOS input zoom on coarse pointers. The sized selector
+   (0,3,0) comes after the sm text rule of equal specificity, so it wins for
+   every size; the bare selector covers controls without data-ag-size. */
 @media (pointer: coarse) {
-  .ag-text-field [data-ag-part='control'] { font-size: max(16px, 1em); }
+  .ag-text-field [data-ag-part='control'],
+  .ag-text-field [data-ag-part='control'][data-ag-size] { font-size: max(16px, 1em); }
 }
 
 }

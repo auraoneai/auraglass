@@ -114,3 +114,187 @@ describe('controls css gate', () => {
     }
   });
 });
+
+/* ---- parsed-CSS helpers for the REQ-CMP-42/53/62/67 rules below ---- */
+const postcss = require('postcss') as typeof import('postcss');
+type PRule = import('postcss').Rule;
+type PAtRule = import('postcss').AtRule;
+const parseCss = (rel: string) => postcss.parse(readFileSync(join(process.cwd(), rel), 'utf8'));
+const atOf = (r: PRule): PAtRule | undefined => {
+  const p = r.parent as PAtRule | undefined;
+  return p?.type === 'atrule' && p.name !== 'layer' ? p : undefined;
+};
+/** rules whose selector list contains `sel`, optionally only under a matching at-rule */
+function rulesWith(root: import('postcss').Root, sel: string, at?: (a: PAtRule) => boolean): PRule[] {
+  const out: PRule[] = [];
+  root.walkRules((r) => {
+    if (!r.selectors.map((s) => s.replace(/\s+/g, ' ').trim()).includes(sel)) return;
+    const a = atOf(r);
+    if (at ? a && at(a) : !a) out.push(r);
+  });
+  return out;
+}
+const declOf = (rules: PRule[], prop: string): string | undefined => {
+  let v: string | undefined;
+  for (const r of rules) r.walkDecls(prop, (d) => { v = d.value; });
+  return v;
+};
+const reducedMotion = (a: PAtRule) => a.name === 'media' && a.params.includes('prefers-reduced-motion: reduce');
+const coarsePointer = (a: PAtRule) => a.name === 'media' && a.params.includes('pointer: coarse');
+
+/* REQ-CMP-53: the check path draws with stroke-dashoffset 1 -> 0 over
+   --ag-duration-micro on [data-checked]; instant under reduced motion and
+   under calm/none. */
+describe('checkbox check draw (REQ-CMP-53)', () => {
+  const cb = parseCss('src/components/checkbox/Checkbox.css');
+  const PATH = ".ag-checkbox [data-ag-part='icon'] path";
+  const CHECKED = ".ag-checkbox[data-checked] [data-ag-part='icon'] path";
+  it('pathLength=1 dash: offset 1 at rest, 0 when checked', () => {
+    expect(declOf(rulesWith(cb, PATH), 'stroke-dasharray')).toBe('1');
+    expect(declOf(rulesWith(cb, PATH), 'stroke-dashoffset')).toBe('1');
+    expect(declOf(rulesWith(cb, CHECKED), 'stroke-dashoffset')).toBe('0');
+  });
+  it('transitions stroke-dashoffset only, over --ag-duration-micro', () => {
+    expect(declOf(rulesWith(cb, CHECKED), 'transition')).toMatch(/^stroke-dashoffset var\(--ag-duration-micro\) /);
+  });
+  it('instant under prefers-reduced-motion and under calm/none', () => {
+    expect(declOf(rulesWith(cb, CHECKED, reducedMotion), 'transition')).toBe('none');
+    expect(declOf(rulesWith(cb, `[data-ag-motion='calm'] ${CHECKED}`), 'transition')).toBe('none');
+    expect(declOf(rulesWith(cb, `[data-ag-motion='none'] ${CHECKED}`), 'transition')).toBe('none');
+  });
+});
+
+/* REQ-CMP-62: autofill keeps the shell fill (inset shadow of --_ag-fill) and
+   the on-surface ink; under (pointer: coarse) every control size is >= 16px. */
+describe('text input autofill + coarse font size (REQ-CMP-62)', () => {
+  const specificity = (sel: string) => {
+    const s = sel.replace(/::?[a-z-]+(\([^)]*\))?/g, (m) => (m.startsWith('::') ? '' : m));
+    const ids = (s.match(/#[\w-]+/g) ?? []).length;
+    const cls = (s.match(/\.[\w-]+|\[[^\]]+\]|:(?!:)[\w-]+/g) ?? []).length;
+    return ids * 100 + cls;
+  };
+  for (const [family, root] of [['text-field/TextField.css', '.ag-text-field'], ['search-field/SearchField.css', '.ag-search-field']] as const) {
+    const css = parseCss(`src/components/${family}`);
+    const CONTROL = `${root} [data-ag-part='control']`;
+    it(`${root}: :autofill / :-webkit-autofill paint the shell fill and on-surface ink`, () => {
+      for (const sel of [`${CONTROL}:autofill`, `${CONTROL}:-webkit-autofill`]) {
+        const r = rulesWith(css, sel);
+        expect(declOf(r, 'box-shadow')).toBe('inset 0 0 0 var(--ag-target-min) var(--_ag-fill, var(--ag-color-canvas))');
+        expect(declOf(r, '-webkit-text-fill-color')).toBe('var(--ag-color-on-surface)');
+      }
+    });
+    it(`${root}: the coarse rule sets >= 16px and out-ranks every sized text rule`, () => {
+      const coarse = [...rulesWith(css, CONTROL, coarsePointer), ...rulesWith(css, `${CONTROL}[data-ag-size]`, coarsePointer)];
+      expect(coarse).toHaveLength(2);
+      for (const r of coarse) expect(declOf([r], 'font-size')).toBe('max(16px, 1em)');
+      const sized = rulesWith(css, `${CONTROL}[data-ag-size]`, coarsePointer)[0]!;
+      /* every non-coarse font-size rule on a sized control loses to the coarse one:
+         lower specificity, or equal specificity earlier in the file */
+      css.walkRules((r) => {
+        if (atOf(r) || !r.some((n) => n.type === 'decl' && n.prop === 'font-size')) return;
+        for (const sel of r.selectors) {
+          if (!sel.includes("[data-ag-part='control']")) continue;
+          const a = specificity(sel), b = specificity(`${CONTROL}[data-ag-size]`);
+          const earlier = (r.source?.start?.offset ?? 0) < (sized.source?.start?.offset ?? 0);
+          expect(a < b || (a === b && earlier)).toBe(true);
+        }
+      });
+    });
+  }
+  it('the shared sm control rule ([data-size-class][data-ag-size]) is out-ranked by the coarse rule', () => {
+    /* (0,2,0) shared rule vs (0,3,0) `.ag-text-field [data-ag-part='control'][data-ag-size]` */
+    const shared = parseCss('src/components/control-shared/controls.css');
+    expect(declOf(rulesWith(shared, "[data-size-class='control'][data-ag-size='sm']"), 'font-size')).toBe('var(--ag-type-label-size)');
+    expect(specificity("[data-size-class='control'][data-ag-size='sm']")).toBeLessThan(specificity(".ag-text-field [data-ag-part='control'][data-ag-size]"));
+  });
+});
+
+/* REQ-CMP-67 (Select; Combobox shares the entrance): the popup materialises
+   from var(--transform-origin) with opacity + scale 0.96 -> 1 over
+   --ag-duration-small (exit --ag-duration-small-exit); opacity only under calm
+   and reduced motion; no transition under none; backdrop-filter never moves. */
+describe('select / combobox popup motion (REQ-CMP-67)', () => {
+  for (const [file, popup] of [['select/Select.css', '.ag-select-popup'], ['combobox/Combobox.css', '.ag-combobox-popup']] as const) {
+    const css = parseCss(`src/components/${file}`);
+    it(`${popup}: transition on the popup itself (enter + exit), opacity + scale over duration-small`, () => {
+      const base = rulesWith(css, popup);
+      expect(declOf(base, 'transform-origin')).toBe('var(--transform-origin)');
+      expect(declOf(base, 'transition')?.replace(/\s+/g, ' ')).toBe(
+        'opacity var(--ag-duration-small) var(--ag-ease-standard), scale var(--ag-duration-small) var(--ag-ease-standard)');
+      for (const st of ['data-starting-style', 'data-ending-style']) {
+        const r = rulesWith(css, `${popup}[${st}]`);
+        expect(declOf(r, 'opacity')).toBe('0');
+        expect(declOf(r, 'scale')).toBe('0.96');
+        expect(declOf(r, 'transform')).toBeUndefined();
+      }
+      expect(declOf(rulesWith(css, `${popup}[data-ending-style]`), 'transition-duration')).toBe('var(--ag-duration-small-exit)');
+    });
+    it(`${popup}: calm keeps opacity only (scale 1, no transform); none has no transition`, () => {
+      for (const sel of [popup, `${popup}[data-starting-style]`, `${popup}[data-ending-style]`]) {
+        expect(declOf(rulesWith(css, `[data-ag-motion='calm'] ${sel}`), 'scale')).toBe('1');
+      }
+      expect(declOf(rulesWith(css, `[data-ag-motion='none'] ${popup}`), 'transition')).toBe('none');
+      const rm = rulesWith(css, `${popup}[data-starting-style]`, reducedMotion);
+      expect(declOf(rm, 'scale')).toBe('1');
+      expect(declOf(rm, 'transition-property')).toBe('opacity');
+    });
+    it(`${popup}: no transition list names backdrop-filter or transform`, () => {
+      css.walkDecls(/^transition/, (d) => {
+        expect(d.value).not.toMatch(/backdrop-filter|\bfilter\b/);
+        if ((d.parent as PRule).selector?.includes(popup)) expect(d.value).not.toMatch(/\btransform\b/);
+      });
+    });
+  }
+});
+
+/* REQ-CMP-42: the indicator is the only selected cue; it moves by transform +
+   inline-size with --ag-spring-snappy over --ag-duration-small only while
+   [data-ag-animating] and not during a View Transition; calm/none and reduced
+   motion jump. */
+describe('segmented-control indicator (REQ-CMP-42)', () => {
+  const css = parseCss('src/components/segmented-control/SegmentedControl.css');
+  const IND = ".ag-segmented-control [data-ag-part='indicator']";
+  const MOVING = `${IND}[data-ag-animating]:not([data-ag-vt])`;
+  it('checked items paint no platter of their own', () => {
+    for (const sel of ['.ag-segmented-item[data-checked]', ".ag-segmented-item[aria-checked='true']"]) {
+      for (const r of rulesWith(css, sel)) {
+        r.walkDecls((d) => { expect(['background', 'background-color', 'box-shadow']).not.toContain(d.prop); });
+      }
+    }
+  });
+  it('rest: opaque inner fill, no transition; moving: engine fill + will-change transform', () => {
+    expect(declOf(rulesWith(css, IND), 'transition')).toBeUndefined();
+    expect(declOf(rulesWith(css, IND), 'transform')).toBe('translate3d(var(--_ag-seg-x, 0px), var(--_ag-seg-y, 0px), 0)');
+    expect(declOf(rulesWith(css, `${IND}[data-ag-animating]`), 'background')).toBe('var(--_ag-surface-fill, transparent)');
+    expect(declOf(rulesWith(css, `${IND}[data-ag-animating]`), 'will-change')).toBe('transform');
+  });
+  it('moves by transform + inline-size with the snappy spring over duration-small', () => {
+    const t = declOf(rulesWith(css, MOVING), 'transition')?.replace(/\s+/g, ' ');
+    expect(t).toMatch(/^transform var\(--ag-duration-small\) var\(--ag-spring-snappy/);
+    expect(t).toMatch(/inline-size var\(--ag-duration-small\) var\(--ag-spring-snappy/);
+  });
+  it('calm, none and reduced motion jump', () => {
+    expect(declOf(rulesWith(css, `[data-ag-motion='calm'] ${MOVING}`), 'transition')).toBe('none');
+    expect(declOf(rulesWith(css, `[data-ag-motion='none'] ${MOVING}`), 'transition')).toBe('none');
+    expect(declOf(rulesWith(css, MOVING, reducedMotion), 'transition')).toBe('none');
+  });
+});
+
+/* REQ-CMP-40: items in a capsule toolbar are concentric; no viewport query and
+   no self-referencing inline-size container on the bar. */
+describe('toolbar concentric items + overflow CSS (REQ-CMP-40)', () => {
+  const css = parseCss('src/components/toolbar/Toolbar.css');
+  it('item radius = max(0, root radius - root inset)', () => {
+    expect(declOf(rulesWith(css, ".ag-toolbar[data-ag-shape='capsule']"), 'border-radius')).toBe('var(--ag-radius-full)');
+    expect(declOf(rulesWith(css, '.ag-toolbar'), 'padding')).toBe('var(--ag-space-1)');
+    for (const item of ['.ag-button', '.ag-toolbar-link']) {
+      expect(declOf(rulesWith(css, `.ag-toolbar[data-ag-shape='capsule'] ${item}`), 'border-radius'))
+        .toBe('max(var(--ag-space-0), calc(var(--ag-radius-full) - var(--ag-space-1)))');
+    }
+  });
+  it('the bar is not a size container (its width would stop following its items) and never exceeds its parent', () => {
+    expect(declOf(rulesWith(css, '.ag-toolbar'), 'container-type')).toBeUndefined();
+    expect(declOf(rulesWith(css, '.ag-toolbar'), 'max-inline-size')).toBe('100%');
+    css.walkAtRules('media', (a) => { expect(a.params).not.toMatch(/width/); });
+  });
+});

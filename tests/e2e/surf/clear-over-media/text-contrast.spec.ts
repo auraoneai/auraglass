@@ -262,3 +262,55 @@ test.describe('SURF clear-over-media text contrast (REQ-SURF-188, L6)', () => {
     }
   }
 });
+
+/* REQ-SURF-154: tone never lowers legibility. Every scene is measured with the
+   sampled media tone forced on (data-ag-media-tone=light, then =dark, on every
+   [data-ag-backdrop=media] element) and off (attribute removed); the worst-case
+   contrast of the scene's text runs with the tone on is never below the
+   tone-off run. Measured on every SURF story that renders a media backdrop. */
+test.describe('SURF media tone on vs off (REQ-SURF-154, L6)', () => {
+  const forceTone = (page: Page, tone: 'light' | 'dark' | null) =>
+    page.evaluate((t) => {
+      for (const el of document.querySelectorAll('[data-ag-backdrop="media"]')) {
+        if (t) el.setAttribute('data-ag-media-tone', t);
+        else el.removeAttribute('data-ag-media-tone');
+      }
+    }, tone);
+
+  async function worstRatio(page: Page): Promise<number> {
+    await settle(page);
+    const runs = await collectRuns(page);
+    if (runs.length === 0) return Number.POSITIVE_INFINITY;
+    const backdrops = await sampleBackdrops(page, runs);
+    return Math.min(...runs.map((run, i) => gradeRun({ ...run, backdrop: backdrops[i]! }).worstRatio));
+  }
+
+  for (const scene of SCENES) {
+    for (const scheme of SCHEMES) {
+      test(`${scene} · ${scheme}: worst contrast(tone on) >= worst contrast(tone off)`, async ({ page }) => {
+        const all = await listSubjects({ owner: 'SURF' });
+        expect(all.length, 'QUAL subject index lists 0 SURF subjects').toBeGreaterThan(0);
+        test.setTimeout(all.length * 30_000);
+        await page.setViewportSize({ width: WIDTHS[0]!, height: HEIGHT[WIDTHS[0]!] ?? 900 });
+        const measured: string[] = [];
+        const regressions: string[] = [];
+        for (const story of all) {
+          await gotoStory(page, story.id, { scene, scheme, transparency: RUNGS[0]! });
+          await page.evaluate(() => window.scrollTo(0, 0));
+          const media = await page.locator('[data-ag-backdrop="media"]').count();
+          if (media === 0) continue;
+          measured.push(story.id);
+          await forceTone(page, null);
+          const off = await worstRatio(page);
+          for (const tone of ['light', 'dark'] as const) {
+            await forceTone(page, tone);
+            const on = await worstRatio(page);
+            if (on < off) regressions.push(`${story.id} tone=${tone}: ${on} < ${off}`);
+          }
+        }
+        expect(measured.length, 'no SURF story renders a [data-ag-backdrop=media] element').toBeGreaterThan(0);
+        expect(regressions).toEqual([]);
+      });
+    }
+  }
+});
