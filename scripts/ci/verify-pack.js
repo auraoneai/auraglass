@@ -9,6 +9,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { cssUrls } from './lib/css-urls.mjs';
 
 const require2 = createRequire(import.meta.url);
 const { parsePackJson } = require2('./lib/npm-pack.cjs');
@@ -80,8 +81,7 @@ export function run() {
          file inside the tarball (e.g. dist/backdrops.css → the packed
          grain-112.avif/png tiles). */
       if (rel.endsWith('.css')) {
-        for (const m of text.toString('utf8').matchAll(/url\(\s*(['"]?)([^'")\s]+)\1\s*\)/g)) {
-          const ref = m[2];
+        for (const ref of cssUrls(text.toString('utf8'))) {
           if (/^(?:[a-z][a-z0-9+.-]*:|\/|#)/i.test(ref) || ref.includes('var(')) continue;
           const target = path.resolve(path.dirname(f), ref.replace(/[?#].*$/, ''));
           const inside = target.startsWith(path.join(exdir, 'package') + path.sep);
