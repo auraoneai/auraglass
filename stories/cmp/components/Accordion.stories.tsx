@@ -88,4 +88,16 @@ export const HeadingLevel: Story = {
 };
 
 /* The story tests/a11y/apg/cmp/accordion.apg.spec.ts drives: Tab to triggers, Enter/Space toggle, Arrow/Home/End move. */
-export const Keyboard: Story = { tags: ['apg'], render: () => <TwoSections /> };
+/* Three sections so the APG spec can prove roving movement between headers
+   (ArrowDown → 2nd → 3rd, ArrowUp → 2nd, End → last, Home → first) without a
+   wrap making a no-op key indistinguishable (REQ-CMP-121). */
+function ThreeSections() {
+  return (
+    <Accordion.Root multiple>
+      <Accordion.Item value="shipping"><Accordion.Header><Accordion.Trigger>Shipping</Accordion.Trigger></Accordion.Header><Accordion.Content>Ships in two days.</Accordion.Content></Accordion.Item>
+      <Accordion.Item value="returns"><Accordion.Header><Accordion.Trigger>Returns</Accordion.Trigger></Accordion.Header><Accordion.Content>Thirty-day returns.</Accordion.Content></Accordion.Item>
+      <Accordion.Item value="warranty"><Accordion.Header><Accordion.Trigger>Warranty</Accordion.Trigger></Accordion.Header><Accordion.Content>One-year warranty.</Accordion.Content></Accordion.Item>
+    </Accordion.Root>
+  );
+}
+export const Keyboard: Story = { tags: ['apg'], render: () => <ThreeSections /> };

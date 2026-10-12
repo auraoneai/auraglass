@@ -9,19 +9,25 @@ test.describe('accordion APG (CMP-351)', () => {
   test('keyboard contract: triggers are buttons inside headings', async ({ page }) => {
     await gotoStory(page, 'flagships-overlays-accordion--keyboard');
     await apg.keyboard(page, [
-      { press: 'Tab', expectFocus: 'trigger' },
+      { press: 'Tab', expectFocus: 'role=button[name=Shipping]' },
       { press: 'Enter', expectState: { 'aria-expanded': 'true' } },
       { press: 'Space', expectState: { 'aria-expanded': 'false' } },
-      // roving arrow navigation across triggers (REQ-CMP-121)
-      { press: 'ArrowDown', expectFocus: 'trigger' },
-      { press: 'ArrowDown', expectFocus: 'trigger' },
-      { press: 'ArrowUp', expectFocus: 'trigger' },
-      { press: 'End', expectFocus: 'trigger' },
-      { press: 'Home', expectFocus: 'trigger' },
-      { press: 'Tab', expectFocus: 'trigger' },
+      /* roving arrow navigation across headers (REQ-CMP-121): each step names
+         the trigger that must hold focus, so a no-op key fails. */
+      { press: 'ArrowDown', expectFocus: 'role=button[name=Returns]' },
+      { press: 'ArrowDown', expectFocus: 'role=button[name=Warranty]' },
+      { press: 'ArrowUp', expectFocus: 'role=button[name=Returns]' },
+      { press: 'End', expectFocus: 'role=button[name=Warranty]' },
+      { press: 'Home', expectFocus: 'role=button[name=Shipping]' },
+      // triggers stay in the Tab order: Tab moves to the next header
+      { press: 'Tab', expectFocus: 'role=button[name=Returns]' },
     ]);
+    // the arrow keys only moved focus: no section was toggled on the way
+    for (const t of await page.locator('[data-ag-part="trigger"]').all()) {
+      expect(await t.getAttribute('aria-expanded')).toBe('false');
+    }
     const triggers = page.locator('[data-ag-part="trigger"]');
-    expect(await triggers.count()).toBeGreaterThanOrEqual(2);
+    expect(await triggers.count()).toBe(3);
     for (const t of await triggers.all()) {
       const inHeading = await t.evaluate((el) => !!el.closest('h3'));
       expect(inHeading).toBe(true);

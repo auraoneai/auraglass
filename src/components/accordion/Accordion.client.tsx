@@ -19,11 +19,48 @@ export interface AccordionRootProps extends React.HTMLAttributes<HTMLDivElement>
   multiple?: boolean;
 }
 
-function Root({ className, ref, onValueChange, ...rest }: AccordionRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+/* REQ-CMP-121: Arrow, Home and End move focus between this accordion's
+   headers. Base UI's Accordion (1.8) only registers items in a CompositeList
+   and handles no navigation keys, so the root owns the APG accordion
+   keyboard: ArrowDown/ArrowUp (ArrowRight/ArrowLeft when
+   data-orientation="horizontal", mirrored under RTL) move to the next/previous
+   enabled trigger and wrap; Home/End move to the first/last. Triggers of a
+   nested accordion belong to that accordion only. */
+function onRootKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+  if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+  const root = e.currentTarget;
+  const target = e.target as HTMLElement;
+  if (target.getAttribute('data-ag-part') !== 'trigger' || target.closest('.ag-accordion') !== root) return;
+  const horizontal = root.getAttribute('data-orientation') === 'horizontal';
+  const rtl = horizontal && target.closest('[dir]')?.getAttribute('dir') === 'rtl';
+  const nextKey = horizontal ? (rtl ? 'ArrowLeft' : 'ArrowRight') : 'ArrowDown';
+  const prevKey = horizontal ? (rtl ? 'ArrowRight' : 'ArrowLeft') : 'ArrowUp';
+  if (![nextKey, prevKey, 'Home', 'End'].includes(e.key)) return;
+  const triggers = Array.from(root.querySelectorAll<HTMLElement>('[data-ag-part="trigger"]')).filter(
+    (t) => t.closest('.ag-accordion') === root
+      && !(t as HTMLButtonElement).disabled
+      && t.getAttribute('aria-disabled') !== 'true',
+  );
+  if (triggers.length === 0) return;
+  const at = triggers.indexOf(target);
+  let next: number;
+  if (e.key === 'Home') next = 0;
+  else if (e.key === 'End') next = triggers.length - 1;
+  else if (e.key === nextKey) next = at < 0 ? 0 : (at + 1) % triggers.length;
+  else next = at < 0 ? triggers.length - 1 : (at - 1 + triggers.length) % triggers.length;
+  e.preventDefault();
+  triggers[next]!.focus();
+}
+
+function Root({ className, ref, onValueChange, onKeyDown, ...rest }: AccordionRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
   useControllableWarning('Accordion', 'value', rest.value);
   return (
     <BaseAccordion.Root
       {...rest}
+      onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+        onKeyDown?.(e);
+        onRootKeyDown(e);
+      }}
       {...(onValueChange
         ? { onValueChange: (v: unknown[], eventDetails: unknown) => onValueChange(v as string[], toChangeDetails(eventDetails)) }
         : {})}
