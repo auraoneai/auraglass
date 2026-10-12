@@ -12,7 +12,11 @@ describe('d.ts hygiene (PLAT-253)', () => {
     ensureBuilt();
     const bad: string[] = [];
     for (const f of walk(DIST, p => p.endsWith('.d.ts'))) {
-      for (const m of readFileSync(f, 'utf8').matchAll(/['"]([^'"]+)['"]/g)) {
+      // module specifiers only (import/export from, import(), side-effect import, declare
+      // module, triple-slash path) — string-literal values such as peer-guard's install
+      // message are not references.
+      const SPEC = /(?:\bfrom\s*|\bimport\s*\(\s*|\bimport\s+|\bdeclare\s+module\s+|<reference\s+(?:path|types)=)['"]([^'"]+)['"]/g;
+      for (const m of readFileSync(f, 'utf8').matchAll(SPEC)) {
         const spec = m[1]!;
         if (spec.startsWith('@/') || spec === 'aura-glass' || spec.startsWith('aura-glass/')) bad.push(`${f}: ${spec}`);
       }

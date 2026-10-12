@@ -73,7 +73,8 @@ describe('api-report --all', () => {
     write('etc/api/a.exports.json', '{}');
     expect(await main(['--all'], { root })).toBe(0);
     const rootReport = JSON.parse(readFileSync(join(root, 'etc/api/root.exports.json'), 'utf8'));
-    expect(rootReport.entry).toBe('root');
+    // 6cfa47cad: reports use subpath spelling; the `root` stem is the '.' entry.
+    expect(rootReport.entry).toBe('.');
     expect(rootReport.exports).toEqual(['Root1', 'Root2']);
     expect(JSON.parse(readFileSync(join(root, 'etc/api/a.exports.json'), 'utf8')).exports).toEqual(['A1', 'A2']);
     expect(existsSync(join(root, 'etc/api/a.api.md'))).toBe(true);

@@ -21,7 +21,7 @@ export function useCmpPortalContainer(root: PortalLayerRoot = 'overlay'): HTMLEl
     warnedNoProvider = true;
     if (process.env.NODE_ENV !== 'production') {
       console.warn(
-        'aura-glass: no AuraGlassProvider mounted — portals fall back to the default container. ' +
+        '[aura-glass] no AuraGlassProvider mounted — portals fall back to the default container. ' +
         'Mount <AuraGlassProvider> at the app root for layered portal roots (S-23).',
       );
     }

@@ -37,8 +37,10 @@ const meta: ControlMeta = defineMeta({
         description: 'Dialog.Description',
         footer: 'Dialog.Footer',
         role: { to: 'component', values: { alertdialog: 'AlertDialog' } }, // role=alertdialog → AlertDialog
-        size: { to: 'size', values: { small: 'sm', medium: 'md', large: 'lg', fullscreen: 'full' } },
-        variant: { to: 'component', values: { drawer: 'Sheet', fullscreen: 'Dialog size=full' } },
+        // REQ-CMP-86/89: DialogSize is sm|md|lg; 4.x fullscreen moves to the appearance axis
+        size: { to: 'size', values: { small: 'sm', medium: 'md', large: 'lg' } },
+        'size:fullscreen': 'appearance:fullscreen',
+        variant: { to: 'component', values: { drawer: 'Sheet', fullscreen: 'Dialog appearance=fullscreen' } },
         closeOnBackdropClick: 'dismissible',
         closeOnOverlayClick: 'dismissible',
         closeOnEscape: null,

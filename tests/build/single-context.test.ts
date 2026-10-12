@@ -11,7 +11,14 @@ const CTX = /createContext\s*(?:<[^>]*>)?\s*\(/;
 
 describe('single context (PLAT-267)', () => {
   it('src: createContext only inside *.context.ts(x)', () => {
+    /* Files tsconfig.build.json excludes by explicit path (contract seed helpers) never
+       ship in the package, so they are outside the single-context rule. */
+    const buildExcluded = new Set<string>(
+      (JSON.parse(readFileSync(join(ROOT, 'tsconfig.build.json'), 'utf8')).exclude as string[])
+        .filter(e => e.startsWith('src/') && !e.includes('*')),
+    );
     const offenders = walk(SRC, p => /\.tsx?$/.test(p) && !/\.context\.tsx?$/.test(p) && !/\.test\.|\.stories\./.test(p))
+      .filter(f => !buildExcluded.has(f.replace(`${ROOT}/`, '')))
       .filter(f => CTX.test(readFileSync(f, 'utf8')))
       .map(f => f.replace(`${ROOT}/`, ''));
     /* PLAT-owned paths in this lane: src/internal, src/compat/css, src/contracts,

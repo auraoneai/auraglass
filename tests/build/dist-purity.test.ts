@@ -27,11 +27,18 @@ describe('seed-skipped entries are reported (REQ-PLAT-65)', () => {
     const out = execFileSync('node', ['scripts/build/generate-exports.mjs', '--list-entries'], {
       cwd: ROOT, encoding: 'utf8',
     });
-    const pendingSection = out.split('pending (seed graph / missing):')[1] ?? '';
-    // every pending line is "<subpath>  <reason>" — never a silent drop
-    const lines = pendingSection.split('\n').filter((l) => l.trim().startsWith('./') || l.trim() === '.');
-    expect(lines.length).toBeGreaterThan(0);
-    const noReason = lines.filter((l) => !/import graph contains|missing source|pending:/.test(l));
+    /* REQ-FIN-06 (cc300eb93/7d133756e): the report is the "excluded entries:" section
+       (seed closure, missing source or ga gate); one "<subpath>  <reason>" row per entry. */
+    const section = out.split('excluded entries:')[1] ?? '';
+    expect(section).not.toBe('');
+    const lines = section.split('\n').filter((l) => /^ {2}\.(\/|\s|$)/.test(l));
+    const json = JSON.parse(execFileSync('node', ['scripts/build/generate-exports.mjs', '--list-entries', '--json'], {
+      cwd: ROOT, encoding: 'utf8',
+    })) as { excluded: { subpath: string }[] };
+    // every excluded entry is printed — never a silent drop
+    expect(lines.map((l) => l.trim().split(/\s+/)[0])).toEqual(json.excluded.map((x) => x.subpath));
+    const noReason = lines.filter((l) => !/import graph contains|missing source|ga:'[^']+' > /.test(l));
     expect(noReason).toEqual([]);
+    expect(lines.filter((l) => l.includes('[STALE'))).toEqual([]);
   });
 });

@@ -34,6 +34,16 @@ const evalExpr = (node: ts.Expression): unknown => {
     }
     return out;
   }
+  /* numeric arithmetic on literals (S-44 metas: budgetKb: 10000 / 1024) */
+  if (ts.isBinaryExpression(node)) {
+    const ops = {
+      [ts.SyntaxKind.PlusToken]: (a, b) => a + b, [ts.SyntaxKind.MinusToken]: (a, b) => a - b,
+      [ts.SyntaxKind.AsteriskToken]: (a, b) => a * b, [ts.SyntaxKind.SlashToken]: (a, b) => a / b,
+    } as Record<number, (a: number, b: number) => number>;
+    const op = ops[node.operatorToken.kind];
+    const a = evalExpr(node.left), b = evalExpr(node.right);
+    if (op && typeof a === 'number' && typeof b === 'number') return op(a, b);
+  }
   if (ts.isIdentifier(node) && node.text === 'undefined') return undefined;
   throw new Error(`non-literal expression: ${node.getText().slice(0, 80)}`);
 };
