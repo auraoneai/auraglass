@@ -3,6 +3,9 @@
 - `CheckIcon`
 - `DashboardIcon`
 - `ErrorIcon`
+- `GlassIcon`
+- `GlassIconNode`
+- `GlassIconProps`
 - `PlusIcon`
 - `SuccessIcon`
 - `WarningIcon`

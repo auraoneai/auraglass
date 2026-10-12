@@ -2,6 +2,9 @@
  "entry": "./icons/ai",
  "exports": [
   "CommandIcon",
+  "GlassIcon",
+  "GlassIconNode",
+  "GlassIconProps",
   "LoaderIcon",
   "SearchIcon",
   "SendIcon",

@@ -1,9 +1,12 @@
 ## API Report — aura-glass ./core/mixins/glassMixins
 
 - `BlurIntensity`
+- `GlassElevation`
+- `GlassIntent`
 - `GlassOptions`
 - `GlassVariant`
 - `LegacyGlassMixinOptions`
+- `QualityTier`
 - `canUseHighQualityGlass`
 - `createGlassDisabledMixin`
 - `createGlassFocusMixin`

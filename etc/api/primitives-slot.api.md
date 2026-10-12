@@ -4,3 +4,4 @@
 - `Slot`
 - `SlotProps`
 - `default`
+- `pickChildRef`

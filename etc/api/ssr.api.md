@@ -1,11 +1,16 @@
 ## API Report — aura-glass ./ssr
 
+- `AuraGlassSSRProvider`
+- `StyleSheet`
 - `addBrowserEventListener`
 - `canUseDOM`
+- `collectStyles`
 - `createBrowserRefCallback`
+- `createStyleSheet`
 - `getBrowserValue`
 - `getConnectionInfo`
 - `getDevicePixelRatio`
+- `getStyledComponentsVersion`
 - `getUserAgent`
 - `getViewportSize`
 - `isBrowser`
@@ -13,6 +18,7 @@
 - `isLocalStorageAvailable`
 - `isProduction`
 - `isServer`
+- `isStyledComponentsSSRReady`
 - `isTouchDevice`
 - `isWebGLSupported`
 - `safeBrowserExec`

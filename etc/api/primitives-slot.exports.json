@@ -4,7 +4,8 @@
   "GlassSlot",
   "Slot",
   "SlotProps",
-  "default"
+  "default",
+  "pickChildRef"
  ],
  "unanalysable": []
 }

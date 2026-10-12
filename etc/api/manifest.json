@@ -51,10 +51,7 @@
     "./workspace"
   ],
   "unanalysable": [
-    "./styles",
-    "./tokens/css",
     "./tokens/json",
-    "./tokens/keyframes",
     "./tokens/manifest",
     "./tokens/tailwind"
   ]

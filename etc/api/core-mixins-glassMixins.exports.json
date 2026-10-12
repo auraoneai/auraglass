@@ -2,9 +2,12 @@
  "entry": "./core/mixins/glassMixins",
  "exports": [
   "BlurIntensity",
+  "GlassElevation",
+  "GlassIntent",
   "GlassOptions",
   "GlassVariant",
   "LegacyGlassMixinOptions",
+  "QualityTier",
   "canUseHighQualityGlass",
   "createGlassDisabledMixin",
   "createGlassFocusMixin",

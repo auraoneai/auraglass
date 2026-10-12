@@ -5,6 +5,9 @@
 - `DatabaseIcon`
 - `FileIcon`
 - `FilterIcon`
+- `GlassIcon`
+- `GlassIconNode`
+- `GlassIconProps`
 - `GridIcon`
 - `ListIcon`
 - `SearchIcon`

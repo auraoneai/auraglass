@@ -1,6 +1,9 @@
 {
  "entry": "./icons/media",
  "exports": [
+  "GlassIcon",
+  "GlassIconNode",
+  "GlassIconProps",
   "ImageIcon",
   "MediaIcon",
   "MicIcon",
