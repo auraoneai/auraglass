@@ -313,15 +313,29 @@ plat:package:pack:
           || { echo "PENDING: npm script pack:verify (lane 1d)"; exit 1; }
         npm run pack:verify
       fi
-    - mkdir -p .artifacts/pack .artifacts/plat
-    - npm pack --pack-destination .artifacts/pack
+    # REQ-PLAT-11: every npm pack call keeps its --json report in the job dir
+    # (.artifacts/plat/$CI_JOB_NAME_SLUG; AURAGLASS_EVIDENCE_DIR is flat on 4.x);
+    # pack-record.json is built from those reports below.
+    - mkdir -p .artifacts/pack .artifacts/plat ".artifacts/plat/$CI_JOB_NAME_SLUG/npm-pack"
+    - npm pack --json --pack-destination .artifacts/pack > ".artifacts/plat/$CI_JOB_NAME_SLUG/npm-pack/aura-glass.json"
+    # REQ-PLAT-11: the 5x workspace set is every published non-root package in
+    # contracts/packages.json (not a hard-coded list).
     - |
       if [ "$AG_LINE" = "5x" ]; then
-        for w in cli registry mcp labs; do
-          [ -d "packages/$w" ] && npm pack -w "packages/$w" --pack-destination .artifacts/pack
+        WS=$(node -p "Object.values(require('./contracts/packages.json').packages).filter((p) => p.published === true && p.dir !== '.').map((p) => p.dir).join(' ')")
+        for d in $WS; do
+          w=$(basename "$d")
+          if [ -d "$d" ]; then
+            npm pack --json -w "$d" --pack-destination .artifacts/pack > ".artifacts/plat/$CI_JOB_NAME_SLUG/npm-pack/$w.json"
+          fi
         done
       fi
-    - echo "AURAGLASS_TARBALL=$(ls .artifacts/pack/*.tgz 2>/dev/null | head -1)" > .artifacts/plat/pack.env
+    # REQ-PLAT-11: { packages: { name: { file, version, integrity } } } for every
+    # tarball in .artifacts/pack, from npm's sha512 (re-hashed; fails closed),
+    # into this job's evidence dir (.artifacts/plat/plat-package-pack/), which is
+    # the path plat:publish:npm's publish.mjs reads by default.
+    - node ci/plat/pack-record.mjs --pack-dir .artifacts/pack --out ".artifacts/plat/$CI_JOB_NAME_SLUG/pack-record.json" ".artifacts/plat/$CI_JOB_NAME_SLUG"/npm-pack/*.json
+    - echo "AURAGLASS_TARBALL=$(ls .artifacts/pack/aura-glass-*.tgz 2>/dev/null | head -1)" > .artifacts/plat/pack.env
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     when: always
