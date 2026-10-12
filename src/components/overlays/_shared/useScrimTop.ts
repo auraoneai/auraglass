@@ -1,3 +1,4 @@
+'use client';
 /* REQ-CMP-79 (CMP-194): which modal scrim is on top. Every open modal
    Backdrop (Dialog, AlertDialog, Sheet) reports its LayerStack depth here; the
    scrim with the greatest depth is the top one and carries

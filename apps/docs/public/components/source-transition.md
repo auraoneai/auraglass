@@ -6,7 +6,7 @@
 import { SourceTransition } from 'aura-glass';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/
 
 ## Props
 

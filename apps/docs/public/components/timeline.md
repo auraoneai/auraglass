@@ -6,7 +6,7 @@
 import { Timeline } from 'aura-glass';
 ```
 
-Tier T1 · RSC server · APG feed
+Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 ## Props
 
@@ -27,6 +27,7 @@ Tier T1 · RSC server · APG feed
 | Part | Selector |
 | --- | --- |
 | `timeline` | `[data-ag-part="timeline"]` |
+| `timeline-container` | `[data-ag-part="timeline-container"]` |
 | `timeline-description` | `[data-ag-part="timeline-description"]` |
 | `timeline-item` | `[data-ag-part="timeline-item"]` |
 | `timeline-marker` | `[data-ag-part="timeline-marker"]` |

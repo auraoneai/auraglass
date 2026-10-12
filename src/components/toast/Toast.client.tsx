@@ -26,7 +26,9 @@ const intentPriority = (intent: ToastIntent): 'low' | 'high' => (intent === 'dan
    useToast returns history: null. The toast manager is also per-provider:
    creating it at module scope ran BU work on import (import-gate). */
 interface HistoryStore {
-  recordOpen: (entry: ToastRecord) => void;
+  /** Stamps `at`/`createdAt` itself when the open is recorded (event time),
+      so no clock is read on the useToast() render path (REQ-PLAT-69). */
+  recordOpen: (entry: Omit<ToastRecord, 'at' | 'createdAt'>) => void;
   recordClosed: (id: string) => void;
   api: ToastHistory;
 }
@@ -77,7 +79,10 @@ function ToastProvider({ limit = 3, timeout = 5000, history = true, position = '
     if (!historyEnabled) return null;
     const unread = items.filter((i) => !i.read).length;
     return {
-      recordOpen: (entry) => setItemsCapped(entry),
+      recordOpen: (entry) => {
+        const now = Date.now();
+        setItemsCapped({ ...entry, createdAt: now, at: now });
+      },
       recordClosed: (id) => setItems(previous => previous.map((e) => (e.id === id && e.status === 'open' ? { ...e, status: 'closed' as const } : e))),
       api: {
         items,
@@ -288,7 +293,7 @@ function toastApi(mgr: BaseToastManager, hist: React.ContextType<typeof ToastHis
       ...(t.actionLabel !== undefined ? { actionLabel: t.actionLabel } : {}),
       ...(t.onAction !== undefined ? { onAction: t.onAction } : {}),
     } as Parameters<typeof mgr.add>[0]);
-    hist?.recordOpen({ id, intent: intent === 'error' ? 'danger' : intent, title: t.title ?? null, description: t.description, createdAt: Date.now(), at: Date.now(), status: 'open', read: false });
+    hist?.recordOpen({ id, intent: intent === 'error' ? 'danger' : intent, title: t.title ?? null, description: t.description, status: 'open', read: false });
     return id;
   };
   const close = (id: string) => { mgr.close(id); hist?.recordClosed(id); };

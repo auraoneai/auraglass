@@ -91,7 +91,7 @@ export function Timeline({
 }: TimelineProps) {
   const intentLabels = { ...DEFAULT_INTENT_LABELS, ...labels?.intent };
   return (
-    <div className="ag-timeline__container">
+    <div data-ag-part="timeline-container" className="ag-timeline__container">
       <ol
         data-ag-part="timeline"
         data-orientation={orientation}

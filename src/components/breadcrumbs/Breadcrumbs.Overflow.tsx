@@ -1,4 +1,4 @@
-'use client';
+'use client'; // eslint-disable-line auraglass/use-client-needless -- island dots into the client Menu (Menu.Root/Trigger/Content/Item), which a server module cannot do; tests/rsc/surf/directives.test.ts CLIENT_ONLY requires the directive
 /* Breadcrumbs overflow island (SURF-077): IconButton-labelled trigger
    (labels.showMore(n) ?? 'Show N more', computed on the server and passed as
    `label`) opening a CMP Menu of the collapsed link items. Serializable props

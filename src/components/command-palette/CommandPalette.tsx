@@ -120,8 +120,11 @@ export function CommandPalette({
         setOpen(next, toChangeDetails(details));
       }}
     >
-      {/* null = no provider: Base UI's default container (S-23 fallback). */}
-      <BaseDialog.Portal data-ag-part="portal" {...(container ? { container } : {})}>
+      <BaseDialog.Portal
+        data-ag-part="portal"
+        /* null = no provider: Base UI's default container (S-23 fallback). */
+        {...(container ? { container } : {})}
+      >
         <BaseDialog.Backdrop data-ag-part="scrim" data-scrim="" className="ag-command-palette__scrim" />
         <BaseDialog.Popup
           ref={setPopup}

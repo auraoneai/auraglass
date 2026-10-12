@@ -21,7 +21,9 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 
 | Part | Selector |
 | --- | --- |
+| `backdrop` | `[data-ag-part="backdrop"]` |
 | `content` | `[data-ag-part="content"]` |
+| `detent-live` | `[data-ag-part="detent-live"]` |
 | `edge-registrar` | `[data-ag-part="edge-registrar"]` |
 | `hit-area` | `[data-ag-part="hit-area"]` |
 | `icon` | `[data-ag-part="icon"]` |
@@ -32,6 +34,7 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 | `inspector-field-value` | `[data-ag-part="inspector-field-value"]` |
 | `inspector-header` | `[data-ag-part="inspector-header"]` |
 | `inspector-section` | `[data-ag-part="inspector-section"]` |
+| `inspector-sheet` | `[data-ag-part="inspector-sheet"]` |
 | `inspector-title` | `[data-ag-part="inspector-title"]` |
 | `main` | `[data-ag-part="main"]` |
 | `root` | `[data-ag-part="root"]` |

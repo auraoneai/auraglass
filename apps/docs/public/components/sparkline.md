@@ -6,7 +6,7 @@
 import { Sparkline } from 'aura-glass/data';
 ```
 
-Tier T2 · RSC server · APG img
+Tier T2 · RSC server
 
 ## Props
 

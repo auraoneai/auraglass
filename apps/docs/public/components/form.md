@@ -24,11 +24,11 @@ Tier T1 · RSC client · APG none
 
 | Part | Selector |
 | --- | --- |
+| `root` | `[data-ag-part="root"]` |
 | `control-shell` | `[data-ag-part="control-shell"]` |
 | `error` | `[data-ag-part="error"]` |
 | `hit-area` | `[data-ag-part="hit-area"]` |
 | `label` | `[data-ag-part="label"]` |
-| `root` | `[data-ag-part="root"]` |
 
 ## States
 

@@ -6,7 +6,7 @@
 import { Grid } from 'aura-glass';
 ```
 
-Tier T0 · RSC server
+Tier T0 · RSC server · APG none
 
 ## Props
 
