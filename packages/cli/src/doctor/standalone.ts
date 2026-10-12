@@ -1,7 +1,7 @@
 /**
  * Bundle entry for the 4.x `aura-glass` bin's `doctor --v5` (REQ-PLAT-61): the
  * @auraglass/cli checks and v5 scan, unchanged, with no migrate/transform
- * imports. scripts/cli/gen-doctor-v5.mjs bundles this file to
+ * imports. scripts/ci/gen-doctor-v5.mjs bundles this file to
  * bin/doctor-v5.generated.cjs; never edit the generated file by hand.
  */
 export { runChecks, type CheckResult } from './checks.js';

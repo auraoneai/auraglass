@@ -146,6 +146,20 @@ describe("4.x doctor --v5 parity with @auraglass/cli", () => {
     for (const sym of picks) expect(bin.findings.some((f: any) => f.symbol === sym)).toBe(true);
   });
 
+  it("finds textual CSS and subpath deprecations without requiring the entry import", () => {
+    const dir = path.join(work, "textual-deprecations");
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, "theme.css"), ".card { color: var(--glass-old); }\n");
+    fs.writeFileSync(path.join(dir, "app.ts"), 'import "aura-glass/old-entry";\nconst LocalOnly = 1;\n');
+    const { runV5WithEntries } = require(path.join(ROOT, "bin/doctor-v5.generated.cjs"));
+    const { findings } = runV5WithEntries(dir, [
+      { kind: "css-var", symbol: "--glass-old", entry: "./styles", removeIn: "5.0.0" },
+      { kind: "subpath", symbol: "aura-glass/old-entry", entry: "./old-entry", removeIn: "5.0.0" },
+      { kind: "component", symbol: "LocalOnly", entry: "./widgets", removeIn: "5.0.0" },
+    ]);
+    expect(findings.map((f: any) => f.symbol).sort()).toEqual(["--glass-old", "aura-glass/old-entry"]);
+  });
+
   it("bin/doctor-v5.generated.cjs is the current bundle of the @auraglass/cli sources", () => {
     const res = spawnSync("node", [path.join(ROOT, "scripts/ci/gen-doctor-v5.mjs"), "--check"], { encoding: "utf8" });
     expect(res.stderr).toBe("");
