@@ -273,9 +273,12 @@ describe('ci/qual.gitlab-ci.yml wiring (REQ-QUAL-65)', () => {
     expect(jobNameSlug('qual:certify:release-plan')).toBe('qual-certify-release-plan');
   });
 
-  it('the release matrix fails closed at release scope until its child trigger can land', () => {
+  it('the release matrix triggers the planned child pipeline with strategy: depend and never allows failure', () => {
     expect(resolveJob('qual:certify:release-matrix', docs).allow_failure).toBeUndefined();
-    expect(script('qual:certify:release-matrix')).toMatch(/exit 1/);
+    expect(q['qual:certify:release-matrix']!.trigger).toEqual({
+      include: [{ artifact: '.artifacts/qual/qual-certify-release-plan/shards.gitlab-ci.yml', job: 'qual:certify:release-plan' }], strategy: 'depend' });
+    expect(q['qual:certify:release-matrix']!.variables).toEqual({ PARENT_PIPELINE_ID: '$CI_PIPELINE_ID' });
+    expect(q['qual:certify:release-matrix']!).not.toHaveProperty('script');
   });
 
   it('budgets are reported after the heaviest PR/main lane and the release job', () => {

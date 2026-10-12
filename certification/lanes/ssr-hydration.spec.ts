@@ -12,7 +12,7 @@
    Negative control: the QUAL Date.now() fixture must be rejected.
    Browser lane: runs only in GitLab CI / the gated remote runner, in the
    chromium, webkit and firefox projects of certification/playwright.cert.config.ts. */
-import { test, expect } from '@playwright/test';
+import { test, expect } from './_fixtures/determinism';
 import { fixtureStory, laneSubjects, onePerSubject, type SubjectStory } from './_fixtures/subjects';
 import { buildSsrBundles, hydrateInPage, hydrationViolations, renderOnServer } from './_fixtures/ssr';
 

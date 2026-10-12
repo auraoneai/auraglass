@@ -15,6 +15,8 @@
      bundle/bundle.manifest.json         { gitSha, imageDigest, files: [{ path, sha256, bytes }], links }
      bundle/bundle.sha256                the same hashes in sha256sum format (worker-entry.sh verifies with sha256sum -c)
    and packs it as <out>/auraglass-cert-bundle-<sha12>.tar.gz. Every input is required; a missing one exits 1 naming it.
+   The Storybook build must pass verify-fresh (REQ-QUAL-56: ag-build.json sha = the bundle SHA, indexSha256 = index.json,
+   dirty false in CI) or the bundle is refused.
 
    node scripts/qual/remote/build-bundle.mjs --out <dir> [--storybook <dir>] [--tarball <tgz>] [--browsers <dir>]
      [--tesseract <bin>] [--tessdata <dir>] [--image-digest sha256:<hex>] [--sha <git sha>] [--root <repo>] [--no-tar]
@@ -28,6 +30,7 @@ import {
 } from 'node:fs';
 import { basename, delimiter, dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { isCi, verifyFreshDir } from '../../storybook/lib/storybook-build.mjs';
 
 export const REPO_PATHS = Object.freeze({
   required: ['certification', 'packages/qa', 'scripts/qual', 'src/contracts', 'package.json'],
@@ -150,6 +153,10 @@ export async function buildBundle(o, env = process.env) {
   if (!o.imageDigest || !/^sha256:[0-9a-f]{64}$/.test(o.imageDigest)) problems.push('image digest sha256:<64 hex> (--image-digest, CI_JOB_IMAGE pinned by digest, or AG_IMAGE_DIGEST)');
   const storybook = at(o.storybook);
   if (!existsSync(join(storybook, 'index.json'))) problems.push(`Storybook build ${o.storybook}/index.json`);
+  // REQ-QUAL-56: a consumer of a built Storybook runs verify-fresh first — the bundle carries only a fresh build of `sha`.
+  else if (sha && /^[0-9a-f]{7,40}$/.test(sha)) {
+    for (const p of verifyFreshDir({ dir: storybook, sha, requireClean: isCi(env) })) problems.push(`fresh Storybook build (verify-fresh): ${p}`);
+  }
   const tarball = o.tarball ? at(o.tarball) : null;
   if (!tarball || !existsSync(tarball) || !tarball.endsWith('.tgz')) problems.push(`package tarball (--tarball / AURAGLASS_TARBALL)${o.tarball ? `: ${o.tarball}` : ''}`);
   for (const p of REPO_PATHS.required) if (!existsSync(at(p))) problems.push(`repository path ${p}`);

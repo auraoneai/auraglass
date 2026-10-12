@@ -75,8 +75,14 @@ describe('ci/qual.gitlab-ci.yml', () => {
     for (const j of QUAL_ONLY) expect(jobs).toContain(j);
     expect(parents('qual:certify:l10-gpu')).toContain('.ag-gpu');
     expect(parents('qual:certify:devices')).toContain('.ag-aws-remote');
-    // dynamic child trigger is G-04's + a FIN-B bridge-job exemption; until then the job fails closed at release
-    expect(eff('qual:certify:release-matrix', 'script')).toEqual(expect.arrayContaining([expect.stringContaining('scripts/qual/shard-plan.mjs')]));
+    // REQ-QUAL-65: the dynamic child pipeline from the release plan's artifact; strategy: depend mirrors the child's status
+    expect(doc['qual:certify:release-matrix']).toMatchObject({
+      stage: 'certify',
+      needs: [{ job: 'qual:certify:release-plan', artifacts: true }],
+      variables: { PARENT_PIPELINE_ID: '$CI_PIPELINE_ID' },
+      trigger: { include: [{ artifact: '.artifacts/qual/qual-certify-release-plan/shards.gitlab-ci.yml', job: 'qual:certify:release-plan' }], strategy: 'depend' },
+    });
+    expect(Object.keys(doc['qual:certify:release-matrix']!).sort()).toEqual(['needs', 'rules', 'stage', 'trigger', 'variables']);
     expect(eff('qual:certify:release-matrix', 'allow_failure')).toBeUndefined();
     expect(eff('qual:test:selftest', 'script')).toEqual(expect.arrayContaining(['node node_modules/jest/bin/jest.js -c jest.qual.config.js --ci']));
     expect(doc['qual:certify:review-record']!.rules!.every((r) => r.when === 'manual')).toBe(true);
@@ -86,9 +92,9 @@ describe('ci/qual.gitlab-ci.yml', () => {
     expect(JSON.stringify(eff('qual:certify:known-failures', 'rules'))).toContain('$AG_SCOPE == \\"nightly\\"');
   });
 
-  it('every job extends a root template, has rules on $AG_SCOPE and $AG_LINE == "5x"', () => {
+  it('every job extends a root template (the trigger job: none, see contract:ci-fragments bridge exemption), has rules on $AG_SCOPE and $AG_LINE == "5x"', () => {
     for (const j of jobs) {
-      expect([j, parents(j).some((p) => ROOT_TEMPLATES.includes(p))]).toEqual([j, true]);
+      expect([j, parents(j).some((p) => ROOT_TEMPLATES.includes(p))]).toEqual([j, !('trigger' in doc[j]!)]);
       const rules = JSON.stringify(eff(j, 'rules') ?? []);
       expect([j, /\$AG_SCOPE/.test(rules), /\$AG_LINE == \\"5x\\"/.test(rules)]).toEqual([j, j === 'qual:build:storybook' ? false : true, true]);
     }
@@ -110,6 +116,18 @@ describe('ci/qual.gitlab-ci.yml', () => {
   it('starts every job allow_failure: true (activation rule) except qual:certify:release, which never allows failure', () => {
     for (const j of [...CERT_JOBS, 'qual:build:storybook', 'qual:certify:nightly', 'qual:test:selftest', 'qual:certify:known-failures']) {
       expect([j, eff(j, 'allow_failure')]).toEqual([j, true]);
+    }
+    // REQ-QUAL-64: every other job too — by allow_failure: true on the job (or a template), on every rule, or by every
+    // rule being `when: manual` (GitLab's manual default); only the three release-gating jobs never allow failure.
+    const RELEASE_GATING = ['qual:certify:release-plan', 'qual:certify:release-matrix', 'qual:certify:release'];
+    for (const j of jobs.filter((x) => !RELEASE_GATING.includes(x))) {
+      const rules = (eff(j, 'rules') ?? []) as Array<Record<string, unknown>>;
+      const starts = eff(j, 'allow_failure') === true || (rules.length > 0 && rules.every((r) => r.allow_failure === true || (r.when === 'manual' && r.allow_failure !== false)));
+      expect([j, starts]).toEqual([j, true]);
+    }
+    for (const j of RELEASE_GATING) {
+      expect([j, eff(j, 'allow_failure')]).toEqual([j, undefined]);
+      expect(JSON.stringify(eff(j, 'rules'))).not.toContain('allow_failure');
     }
     expect(eff('qual:certify:release', 'allow_failure')).toBeUndefined();
     expect(parents('qual:certify:release').some((p) => 'allow_failure' in (doc[p] ?? root[p] ?? {}))).toBe(false);

@@ -15,7 +15,8 @@
    Browser lane: GitLab CI / gated remote runner only. */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { test, expect, type Page, type BrowserContext } from '@playwright/test';
+import type { Page, BrowserContext } from '@playwright/test';
+import { test, expect } from './_fixtures/determinism';
 import { gotoStory } from '../../tests/helpers';
 import { decodePng, diffRatio, luminanceSigma, notUniform } from './_fixtures/pixels';
 import { pendingOrFail } from './_fixtures/pending';

@@ -40,6 +40,9 @@ import { loadOwnerOf } from './ownership.ts';
 import { l7RowResult, writeVisualClass } from './l7Runner.mjs';
 import { runReleaseVerdict } from './verdict.ts';
 import { baselinesSha256 } from './verify.ts';
+import { distinctnessResult, inventoryClassOf, writeL6ReviewInputs, writeL7ReviewInputs } from './laneVisualEvidence.ts';
+import { sourceInventory } from '../inventory/inventoryGate.ts';
+import type { InventoryItem } from '../inventory/buildInventory.ts';
 import { checkRemote } from '../../../../scripts/qual/remote-guard.mjs';
 import {
   DETERMINISM_MIN_AGREEMENT, QUARANTINE_FILE, agreementOf, partitionQuarantined, playwrightOutcomes, validateQuarantine,
@@ -101,6 +104,8 @@ export interface RowResult {
   doublePass?: number;
   /** REQ-QUAL-66: nightly L7 double-run agreement */
   determinism?: Omit<Agreement, 'disagreements'> & { disagreements: Agreement['disagreements']; runs: 2 };
+  /** REQ-QUAL-46: min+gzip-9 bytes per root export, from the dist-perf gate's dist-perf.json (L1/L2) */
+  bytes?: Record<string, number>;
 }
 export interface ManifestResult extends RowResult { lane: string; stream: Stream; kind: string; path: string; scope: Scope; source: string | null; blockingFor?: string; line?: '4x'; tarballSource?: V4Source; blocking?: false }
 
@@ -234,13 +239,41 @@ function rowEnv(row: Registration, ctx: RowContext): NodeJS.ProcessEnv {
 /** Node needs --experimental-strip-types for .ts gates before 22.18; harmless where types are stripped natively. */
 const NODE_TS_FLAGS = (process as { features?: { typescript?: unknown } }).features?.typescript ? [] : ['--experimental-strip-types'];
 
+/** REQ-QUAL-46: node-script gates whose measurement file is folded into their lane-manifest result row.
+    `file` is where the gate writes it: $AURAGLASS_EVIDENCE_DIR (default .artifacts)/qual/<CI_JOB_NAME_SLUG|local>/. */
+const ROW_MEASUREMENTS: Record<string, { file: string; key: 'bytes' }> = {
+  'scripts/qual/verify-dist-perf.mjs': { file: 'dist-perf.json', key: 'bytes' },
+};
+
+export function measurementPath(script: string, root: string, env: NodeJS.ProcessEnv): string | null {
+  const m = ROW_MEASUREMENTS[script];
+  if (!m) return null;
+  return resolve(root, env.AURAGLASS_EVIDENCE_DIR ?? '.artifacts', 'qual', env.CI_JOB_NAME_SLUG || 'local', m.file);
+}
+
+/** `{ bytes }` read from the gate's measurement file; an absent file or a non-numeric map adds nothing. */
+function readMeasurement(script: string, file: string | null): Pick<RowResult, 'bytes'> {
+  const m = ROW_MEASUREMENTS[script];
+  if (!m || !file || !existsSync(file)) return {};
+  let doc: Record<string, unknown>;
+  try { doc = JSON.parse(readFileSync(file, 'utf8')); } catch { return {}; }
+  const v = doc[m.key];
+  if (!v || typeof v !== 'object' || Array.isArray(v)) return {};
+  const entries = Object.entries(v as Record<string, unknown>).filter(([, n]) => Number.isInteger(n)) as Array<[string, number]>;
+  return entries.length ? { [m.key]: Object.fromEntries(entries.sort(([a], [b]) => a.localeCompare(b))) } : {};
+}
+
 function runNodeScript(row: Registration, ctx: RowContext): RowResult {
   const [script, ...args] = row.path.trim().split(/\s+/);
   if (!existsSync(join(ctx.root, script!))) return { state: 'fail', reason: `registered path missing: ${script}` };
-  const r = run(ctx.tools.node, [...NODE_TS_FLAGS, script!, ...args], ctx.root, rowEnv(row, ctx));
+  const env = rowEnv(row, ctx);
+  // a measurement on the manifest must come from this run, never a previous one in the same evidence directory
+  const measured = args.includes('--out') ? null : measurementPath(script!, ctx.root, env);
+  if (measured) rmSync(measured, { force: true });
+  const r = run(ctx.tools.node, [...NODE_TS_FLAGS, script!, ...args], ctx.root, env);
   if (r.error || r.signal) return { state: 'fail', reason: `crashed: ${r.error ?? r.signal}`, durationMs: r.durationMs };
   if (r.status === PENDING_EXIT) return { state: 'pending', reason: `${script} reported pending (exit ${PENDING_EXIT})`, durationMs: r.durationMs };
-  return { state: r.status === 0 ? 'pass' : 'fail', ...(r.status === 0 ? {} : { reason: `exit ${r.status}` }), durationMs: r.durationMs };
+  return { state: r.status === 0 ? 'pass' : 'fail', ...(r.status === 0 ? {} : { reason: `exit ${r.status}` }), durationMs: r.durationMs, ...readMeasurement(script!, measured) };
 }
 
 interface JestReport {
@@ -360,6 +393,29 @@ export function readCaptureEvidence(evidenceDir: string): { plan: { cells?: stri
   const captures = rows.reduce((n, r) => n + (r.captures ?? 0), 0);
   const seconds = rows.reduce((n, r) => n + (r.durationMs ?? 0), 0) / 1000;
   return { plan, captures, captureRate: captures && seconds ? captures / seconds : null };
+}
+
+/** REQ-QUAL-29: the consumer-4x record certification/lanes/canaries.spec.ts writes (TODO count after migrate 4to5). */
+export function readConsumer4x(evidenceDir: string): Record<string, unknown> | null {
+  const f = join(evidenceDir, 'canaries', 'consumer-4x.json');
+  if (!existsSync(f)) return null;
+  try { return JSON.parse(readFileSync(f, 'utf8')) as Record<string, unknown>; } catch { return { invalid: f }; }
+}
+
+/** REQ-QUAL-05: `{ <engine>: <version> }` from the per-worker files the shared lane fixture
+    (certification/lanes/_fixtures/determinism.ts) writes under <evidenceDir>/browser-versions/. One engine seen at two
+    versions in one run (REQ-QUAL-66 forbids it) is reported with both, comma-separated, so the manifest shows it. */
+export function readBrowserVersions(evidenceDir: string): Record<string, string> {
+  const dir = join(evidenceDir, 'browser-versions');
+  if (!existsSync(dir)) return {};
+  const seen = new Map<string, Set<string>>();
+  for (const f of globSync('*.json', { cwd: dir }).sort()) {
+    let rec: { name?: unknown; version?: unknown };
+    try { rec = JSON.parse(readFileSync(join(dir, f), 'utf8')); } catch { continue; }
+    if (typeof rec.name !== 'string' || !rec.name || typeof rec.version !== 'string' || !rec.version) continue;
+    seen.set(rec.name, (seen.get(rec.name) ?? new Set()).add(rec.version));
+  }
+  return Object.fromEntries([...seen.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([name, v]) => [name, [...v].sort().join(',')]));
 }
 
 async function runPlaywright(row: Registration, ctx: RowContext): Promise<RowResult> {
@@ -620,7 +676,11 @@ export function validateManifest(manifest: unknown, schema: Schema): string[] {
   return errors;
 }
 
-export interface MainOptions { root: string; env?: NodeJS.ProcessEnv; tools?: Partial<Tools>; now?: () => Date }
+export interface MainOptions {
+  root: string; env?: NodeJS.ProcessEnv; tools?: Partial<Tools>; now?: () => Date;
+  /** REQ-QUAL-03: the export inventory the L6 distinctness check classifies subjects with (default: the source inventory). */
+  inventory?: (root: string) => ReadonlyArray<Pick<InventoryItem, 'entry' | 'name' | 'class'>>;
+}
 
 // ---------------------------------------------------------------- REQ-QUAL-65/-66 helpers
 
@@ -775,6 +835,25 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
     // REQ-QUAL-06: 0 subjects → pending at pr/main/nightly, fail at release.
     if (!results.some((r) => r.lane === l)) push({ lane: l, stream: 'qual', kind: 'node-script', path: '(no registrations)', scope: args.scope, source: null, state: 'pending', reason: '0 subjects registered for this lane at this scope' });
   }
+  // REQ-QUAL-03: distinctness over this run's L6 captures; REQ-QUAL-73: the L6/L7 parts of review-inputs.json.
+  // (A sharded release L6 is captured in the child pipeline; its shards carry their own captures.)
+  if (rows.some((row) => row.lane === 'L6') && !shardsFile) {
+    const dRow = { lane: 'L6', stream: 'qual' as const, kind: 'node-script', path: 'packages/qa/src/pixel/duplicates.ts', scope: args.scope, source: 'packages/qa/src/evidence/laneVisualEvidence.ts' };
+    try {
+      const d = distinctnessResult(evidenceDir, () => inventoryClassOf((opts.inventory ?? ((r: string) => sourceInventory(r).items))(root)));
+      if (d) push({ ...dRow, ...d });
+    } catch (e) { push({ ...dRow, state: 'fail', reason: `distinctness crashed: ${(e as Error).message}` }); }
+    try {
+      const r = writeL6ReviewInputs(evidenceDir, gitSha(root, env));
+      if (r) console.log(`review-inputs (L6): ${r.items} item(s), ${r.incomplete.length} incomplete`);
+    } catch (e) { push({ ...dRow, path: 'environment-visual/review-inputs.json', state: 'fail', reason: `review inputs: ${(e as Error).message}` }); }
+  }
+  if (rows.some((row) => row.lane === 'L7' && row.path === 'certification/lanes/regression.spec.ts')) {
+    try {
+      const r = writeL7ReviewInputs(evidenceDir, gitSha(root, env));
+      if (r) console.log(`review-inputs (L7): ${r.items} item(s)`);
+    } catch (e) { push({ lane: 'L7', stream: 'qual', kind: 'node-script', path: 'regression/review-inputs.json', scope: args.scope, source: 'packages/qa/src/evidence/laneVisualEvidence.ts', state: 'fail', reason: `review inputs: ${(e as Error).message}` }); }
+  }
   if (rows.some((row) => row.lane === 'L7' && row.path === 'certification/lanes/regression.spec.ts')) {
     try { push(await writeVisualClass({ root, evidenceDir, scope: args.scope, sha: gitSha(root, env) ?? '' })); }
     catch (e) { push({ lane: 'L7', stream: 'qual', kind: 'node-script', path: '.artifacts/qual/visual-class.json', scope: args.scope, source: 'packages/qa/src/evidence/l7Runner.mjs', state: 'fail', reason: String(e) }); }
@@ -789,9 +868,10 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
   const manifest: Record<string, unknown> = {
     version: 1, lane: args.lane, line: args.line, sha: gitSha(root, env), scope: args.scope,
     branch: env.CI_COMMIT_BRANCH || env.CI_COMMIT_REF_NAME || null, prStream,
-    runnerTag: env.CI_RUNNER_TAGS || null, image: env.CI_JOB_IMAGE || null, imageDigest: imageDigestOf(env.CI_JOB_IMAGE), browserVersions: {},
+    runnerTag: env.CI_RUNNER_TAGS || null, image: env.CI_JOB_IMAGE || null, imageDigest: imageDigestOf(env.CI_JOB_IMAGE), browserVersions: readBrowserVersions(evidenceDir),
     // REQ-QUAL-66: one Playwright version/image digest per run, fonts listed, quarantine and the nightly L7 agreement.
     fonts: listFonts(env),
+    ...(readConsumer4x(evidenceDir) ? { consumer4x: readConsumer4x(evidenceDir) } : {}),
     quarantine: { file: QUARANTINE_FILE, entries: quarantine.entries.length, cells: quarantine.entries.map((e) => e.cell), quarantined: [...new Set(results.flatMap((r) => r.quarantined ?? []))] },
     ...(determinism.length ? { determinism } : {}),
     ...(shardsFile ? { shards: shards ? { file: env.AG_RELEASE_SHARDS, parallel: shards.parallel ?? null, cells: shards.cells ?? null, ok: shards.ok === true } : { file: env.AG_RELEASE_SHARDS, missing: true } } : {}),
@@ -881,7 +961,8 @@ async function runLine4x(args: Args, regs: Registrations, c: Line4xContext): Pro
   const manifest: Record<string, unknown> = {
     version: 1, lane: args.lane, line: '4x', sha: gitSha(root, env), scope: args.scope,
     branch: env.CI_COMMIT_BRANCH || env.CI_COMMIT_REF_NAME || null, prStream: null,
-    runnerTag: env.CI_RUNNER_TAGS || null, imageDigest: env.CI_JOB_IMAGE || null, browserVersions: {},
+    runnerTag: env.CI_RUNNER_TAGS || null, image: env.CI_JOB_IMAGE || null, imageDigest: imageDigestOf(env.CI_JOB_IMAGE), browserVersions: readBrowserVersions(evidenceDir),
+    ...(readConsumer4x(evidenceDir) ? { consumer4x: readConsumer4x(evidenceDir) } : {}),
     subjects: [...new Set(results.flatMap((r) => r.subjects ?? [r.path]))], cells: [], results,
     tarball: null,
     tarballs: tarballs.map((t) => Object.fromEntries(Object.entries({

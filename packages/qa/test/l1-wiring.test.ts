@@ -1,8 +1,8 @@
 /* REQ-QUAL-27 L1 Static: every gate is registered on L1 (or reported pending with its producing work item), every
    stream's L1 node-script row is selected, the zero-`!important` gate and the showcase stylelint gate behave. */
-import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
+import { afterAll, beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { PENDING_EXIT, loadRegistrations, selectRows } from '../src/evidence/laneRunner.ts';
 import { REPO, cleanupRepos, makeRepo } from './helpers/laneFixture.ts';
@@ -19,6 +19,7 @@ const L1_GATES: Record<string, string> = {
   'scripts/qual/verify-css-perf.mjs': 'REQ-QUAL-44 (G-23)',
   'scripts/qual/verify-dist-perf.mjs': 'REQ-QUAL-46 (G-24)',
   'scripts/qual/lint-stories.mjs': 'REQ-QUAL-55 (G-10)',
+  'certification/gates/tsc-storybook.mjs': 'REQ-QUAL-56 tsc --noEmit -p tsconfig.storybook.json',
 };
 
 describe('L1 registry on this repository', () => {
@@ -108,5 +109,30 @@ describe('showcase stylelint (stylelint.showcase.config.mjs)', () => {
     const r = lint(`${css}\n`);
     expect(r.status).not.toBe(0);
     expect(`${r.stdout}${r.stderr}`).toContain(rule);
+  });
+});
+
+describe('story typecheck gate (REQ-QUAL-56)', () => {
+  // the real compiler is replaced by a stub that records its argv and exits with the given code
+  const repoWith = (code: number | null, tsconfig = true) => makeRepo({ files: {
+    ...(tsconfig ? { 'tsconfig.storybook.json': '{}' } : {}),
+    ...(code === null ? {} : { 'node_modules/typescript/bin/tsc': `require('node:fs').writeFileSync(__dirname + '/argv.json', JSON.stringify(process.argv.slice(2)));\nprocess.exit(${code});\n` }),
+  } });
+
+  it('runs `tsc --noEmit -p tsconfig.storybook.json` with the repository compiler; passes on exit 0', async () => {
+    const { main } = await import('../../../certification/gates/tsc-storybook.mjs');
+    const root = repoWith(0);
+    expect(main(root)).toBe(0);
+    expect(JSON.parse(readFileSync(join(root, 'node_modules/typescript/bin/argv.json'), 'utf8'))).toEqual(['--noEmit', '-p', join(root, 'tsconfig.storybook.json')]);
+  });
+
+  it('fails on a type error, a missing tsconfig.storybook.json and a missing compiler', async () => {
+    const { main } = await import('../../../certification/gates/tsc-storybook.mjs');
+    const err = jest.spyOn(console, 'error').mockImplementation(() => {});
+    expect(main(repoWith(2))).toBe(1);
+    expect(main(repoWith(0, false))).toBe(1);
+    expect(main(repoWith(null))).toBe(1);
+    expect(err.mock.calls.flat().join('\n')).toMatch(/exited 2[\s\S]*tsconfig\.storybook\.json is missing[\s\S]*typescript\/bin\/tsc is missing/);
+    err.mockRestore();
   });
 });

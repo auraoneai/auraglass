@@ -47,7 +47,11 @@ is 1.
 ## Process
 
 1. Records are committed by the reviewer in one PR on
-   `next-fin/h-review-records-<rc>`, targeting `next`.
+   `next-fin/h-review-records-<rc>`, targeting `next`. (REQ-FIN-111 places the
+   records under `certification/review/records/**`; it supersedes REQ-QUAL-73's
+   "kept as release artifacts, never committed". The composites they bind to are
+   release artifacts: `qual:certify:review-record` rebuilds them from the L6/L7
+   `review-inputs.json` parts, and each record's `compositeSha256` must match.)
 2. Run `qual:certify:review-record` on that RC pipeline and link the job in
    the PR.
 3. A score below 3 is filed as a bug against the WP that owns the subject.

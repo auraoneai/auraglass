@@ -46,23 +46,39 @@ export function comparePair(a: Capture, b: Capture, hashes = new Map<Capture, bi
 /** `classOf` is the inventory classification of a subject (REQ-QUAL-02). */
 export function checkDistinctness(captures: readonly Capture[], classOf: (subject: string) => ExportClass | undefined): DistinctnessReport {
   const byCell = new Map<string, Capture[]>();
-  const seen = new Set<string>();
   for (const c of captures) {
-    const k = `${c.cell}\u0000${c.subject}`;
-    if (seen.has(k)) throw new Error(`distinctness: subject '${c.subject}' captured twice in cell '${c.cell}'`);
-    seen.add(k);
     const list = byCell.get(c.cell);
     if (list) list.push(c); else byCell.set(c.cell, [c]);
   }
-  const hashes = new Map<Capture, bigint>(captures.map((c) => [c, dhash(c.image)]));
+  return checkDistinctnessByCell(byCell.values(), classOf);
+}
+
+/** Same rule over captures supplied one cell at a time (each element: every subject's capture of one cell), so a
+    lane's full matrix never has to be decoded into memory at once (REQ-QUAL-03 at L6 scale). */
+export function checkDistinctnessByCell(cells: Iterable<readonly Capture[]>, classOf: (subject: string) => ExportClass | undefined): DistinctnessReport {
+  const seenCells = new Set<string>();
   const pairs: PairResult[] = [];
   const dupCells = new Map<string, Set<string>>();
   const dupWith = new Map<string, Set<string>>();
+  const cellsOf = new Map<string, number>();
   const mark = (s: string, cell: string, other: string) => {
     (dupCells.get(s) ?? dupCells.set(s, new Set()).get(s)!).add(cell);
     (dupWith.get(s) ?? dupWith.set(s, new Set()).get(s)!).add(other);
   };
-  for (const [cell, list] of byCell) {
+  for (const list of cells) {
+    if (!list.length) continue;
+    const cell = list[0]!.cell;
+    if (seenCells.has(cell)) throw new Error(`distinctness: cell '${cell}' supplied twice`);
+    seenCells.add(cell);
+    const subjects = new Set<string>();
+    for (const c of list) {
+      if (c.cell !== cell) throw new Error(`distinctness: capture of '${c.subject}' in cell '${c.cell}' supplied with cell '${cell}'`);
+      if (subjects.has(c.subject)) throw new Error(`distinctness: subject '${c.subject}' captured twice in cell '${cell}'`);
+      subjects.add(c.subject);
+      cellsOf.set(c.subject, (cellsOf.get(c.subject) ?? 0) + 1);
+    }
+    if (list.length < 2) continue; // a lone subject in a cell has nothing to duplicate; its image is never read
+    const hashes = new Map<Capture, bigint>(list.map((c) => [c, dhash(c.image)]));
     for (let i = 0; i < list.length; i++) {
       for (let j = i + 1; j < list.length; j++) {
         const r = comparePair(list[i]!, list[j]!, hashes);
@@ -71,8 +87,6 @@ export function checkDistinctness(captures: readonly Capture[], classOf: (subjec
       }
     }
   }
-  const cellsOf = new Map<string, number>();
-  for (const c of captures) cellsOf.set(c.subject, (cellsOf.get(c.subject) ?? 0) + 1);
   const subjects: SubjectDistinctness[] = [];
   const failures: string[] = [];
   for (const [subject, cells] of [...cellsOf].sort((a, b) => a[0].localeCompare(b[0]))) {

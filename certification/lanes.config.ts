@@ -59,6 +59,11 @@ export const BUILTINS: BuiltinRegistration[] = [
   { lane: 'L5', kind: 'playwright', path: 'tests/a11y/browser/__selftest__/harness.selftest.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L7', kind: 'playwright', path: 'certification/lanes/regression.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L1', kind: 'jest', path: 'tests/contract/**/*.test.ts*', scope: 'release', remote: false, failClosed: true },
+  // REQ-QUAL-56: the story typecheck `tsc --noEmit -p tsconfig.storybook.json` is part of L1.
+  { lane: 'L1', kind: 'node-script', path: 'certification/gates/tsc-storybook.mjs', scope: 'pr', remote: false, failClosed: true },
+  // REQ-QUAL-29: L11 consumer canaries — every canaries/<app> from the packed tarball, the next16 production server's
+  // routes in chromium/webkit/firefox, consumer-4x unchanged (4.x) and after migrate 4to5 (5.x, 0 flagship TODOs).
+  { lane: 'L11', kind: 'playwright', path: 'certification/lanes/canaries.spec.ts', scope: 'pr', remote: true, failClosed: true },
 ];
 
 /** Built-in L1 gates whose producer has not merged yet: reported `pending` with the producing work item. */

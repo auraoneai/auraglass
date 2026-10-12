@@ -203,6 +203,14 @@ function recordCapture(row: Record<string, unknown>): void {
   appendFileSync(join(EVIDENCE_DIR, `captures-${process.pid}.jsonl`), `${JSON.stringify(row)}\n`);
 }
 
+/** Writes a cell's subject capture to <evidence>/png/<sha1(cell id)>.png; returns that path relative to EVIDENCE_DIR. */
+function savePng(cellId: string, png: Buffer): string {
+  const rel = `png/${createHash('sha1').update(cellId).digest('hex')}.png`;
+  mkdirSync(join(EVIDENCE_DIR, 'png'), { recursive: true });
+  writeFileSync(join(EVIDENCE_DIR, rel), png);
+  return rel;
+}
+
 // ---- page helpers ---------------------------------------------------------------------------------------------------
 async function settle(page: Page): Promise<void> {
   await page.evaluate(async () => {
@@ -311,8 +319,9 @@ async function decodePng(context: BrowserContext, png: Buffer): Promise<Rgba> {
   }
 }
 
-/** Ratio of frame pixels outside the subject rects that differ between the capture and the scene-only capture. */
-async function outsideDiffRatio(page: Page, context: BrowserContext): Promise<{ ratio: number; frame: number }> {
+/** Ratio of frame pixels outside the subject rects that differ between the capture and the scene-only capture; also
+    returns the subject capture itself (REQ-QUAL-03 distinctness / REQ-QUAL-73 review inputs keep it as evidence). */
+async function outsideDiffRatio(page: Page, context: BrowserContext): Promise<{ ratio: number; frame: number; png: Buffer }> {
   const { rects, dpr } = await page.evaluate((sel) => ({
     dpr: window.devicePixelRatio,
     rects: [...document.querySelectorAll(sel)].map((el) => el.getBoundingClientRect())
@@ -340,7 +349,7 @@ async function outsideDiffRatio(page: Page, context: BrowserContext): Promise<{ 
   const { VISUAL_TOLERANCE } = await import('../../src/contracts/testing');
   const diff = pixelmatch(a.data, b.data, undefined, a.width, a.height,
     { threshold: VISUAL_TOLERANCE.pixelmatchThreshold, includeAA: VISUAL_TOLERANCE.includeAA });
-  return { ratio: diff / (a.width * a.height), frame: a.width * a.height };
+  return { ratio: diff / (a.width * a.height), frame: a.width * a.height, png: withSubject };
 }
 
 // ---- test generation ------------------------------------------------------------------------------------------------
@@ -434,6 +443,8 @@ test.describe('L6 environment-visual', () => {
 
         expect(await paintingAncestors(page), 'REQ-QUAL-09: painting ancestors between <body> and [data-ag-story-content]').toEqual([]);
         const outside = await outsideDiffRatio(page, context);
+        // REQ-QUAL-03 / -73: the cell's subject capture, read by the lane runner's distinctness check and review inputs
+        const png = savePng(entry.id, outside.png);
         expect(outside.ratio, `REQ-QUAL-09: outside-subject pixels differing from the scene (${(outside.ratio * 100).toFixed(3)} % of ${outside.frame})`)
           .toBeLessThanOrEqual(OUTSIDE_PIXEL_MAX);
 
@@ -446,6 +457,7 @@ test.describe('L6 environment-visual', () => {
 
         recordCapture({
           id: entry.id, sourceStoryId: entry.sourceStoryId, renderedStoryId: rendered.id, subject: entry.subject, owner: entry.owner,
+          kind: entry.kind, png,
           set: entry.set, matrix: entry.matrix, state: entry.state, cell: entry.cell, labels: gates.labels, captures: 2,
           outsideDiffRatio: outside.ratio, gates: gates.results, ocr: gates.ocr && { status: gates.ocr.status, worst: gates.ocr.worst, words: gates.ocr.subjectWords, textRuns: gates.ocr.visibleTextRuns },
           tesseract: gates.tesseract, console: consoleEvents, durationMs: Date.now() - t0,

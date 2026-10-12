@@ -427,6 +427,10 @@
           },
           "report": {
             "type": "object"
+          },
+          "bytes": {
+            "type": "object",
+            "description": "REQ-QUAL-46: min+gzip-9 bytes per root export (from the row's dist-perf.json)"
           }
         }
       }
