@@ -1,12 +1,16 @@
 /* MAT-273/REQ-MAT-59: the pre-paint routine. Bundled + minified by
    scripts/mat/build-prepaint-script.mjs into src/theme/generated/prepaint-script.ts
    and inlined by <AuraGlassScript/>; REQ-MAT-59 budgets the emitted body at
-   1 536 B (the build enforces its ceiling, see build-prepaint-script.mjs), so
-   this file is kept at the semantic minimum. Reads the persisted record, the
-   six OS media queries and CSS.supports, resolves every axis through
-   resolve.ts (resolvePaint, the same source the store uses), detects the
-   engine through engine.ts (the store's detector), and stamps data-ag-* +
-   --ag-glass-opacity on <html> before first paint.
+   1 536 B (the build enforces its ceiling, see build-prepaint-script.mjs) and
+   its execution at <= 1 ms on the mid-tier mobile profile, so this file is kept
+   at the semantic minimum. Reads the persisted record, the six OS media
+   queries and CSS.supports, resolves every axis through resolve.ts
+   (resolvePaint, the same source the store uses), detects the engine through
+   engine.ts (the store's detector), and stamps data-ag-* + --ag-glass-opacity
+   on <html> before first paint.
+   Execution cost on a cold page load is dominated by V8 lazily compiling each
+   function the body reaches, so the routine uses loops instead of helper
+   closures and callbacks (resolvePaint and detectEngine follow the same rule).
    Tier: written when it resolves to 'lightweight' (saveData, deviceMemory <= 2
    with a coarse pointer, or a persisted/app value) or when a persisted/app
    value names 'standard'/'enhanced'; otherwise left unset. An 'unknown'
@@ -30,19 +34,24 @@ type W = Window & {
   };
 };
 
+/* The six OS queries in OsSignals order; the middle four take the shared
+   `prefers-` prefix at the call (keeps the REQ-MAT-59 body small). */
+const QUERIES = [
+  'forced-colors: active', 'contrast: more', 'reduced-transparency: reduce',
+  'reduced-motion: reduce', 'color-scheme: dark', 'pointer: coarse',
+];
 const AXES = ['transparency', 'contrast', 'motion', 'scheme', 'density'] as const;
 
 export const auraGlassPrepaint = (w: W, d: Document, a: PrepaintArgs = {}): void => {
   try {
     // matchMedia/CSS.supports do not throw for these well-formed queries; a
     // missing API reads as false (no OS signal, no backdrop-filter => solid).
-    const mq = (q: string): boolean => !!w.matchMedia?.(`(${q})`)?.matches;
-    // prefers-* queries share the prefix (keeps the REQ-MAT-59 body small).
-    const pq = (q: string): boolean => mq(`prefers-${q}`);
+    const m: boolean[] = [];
+    for (const q of QUERIES) m.push(!!w.matchMedia?.(`(${m.length % 5 ? 'prefers-' : ''}${q})`)?.matches);
     // Property-support probe (REQ-MAT-18): the two-argument form with the
     // keyword value carries no design literal.
-    const sup = (p: string): boolean => !!w.CSS?.supports?.(p, 'none');
-    const bf = 'backdrop-filter';
+    let bf = false;
+    for (const p of ['', '-webkit-']) bf ||= !!w.CSS?.supports?.(`${p}backdrop-filter`, 'none');
     const nav = (w.navigator ?? {}) as NonNullable<W['navigator']>;
     const def = a.defaults ?? {};
     let rec: PreferenceInput = {};
@@ -51,28 +60,28 @@ export const auraGlassPrepaint = (w: W, d: Document, a: PrepaintArgs = {}): void
     } catch { /* unreadable storage */ }
 
     const r = resolvePaint({
-      forcedColors: mq('forced-colors: active'),
-      contrastMore: pq('contrast: more'),
-      reducedTransparency: pq('reduced-transparency: reduce'),
-      reducedMotion: pq('reduced-motion: reduce'),
-      schemeDark: pq('color-scheme: dark'),
-      coarsePointer: mq('pointer: coarse'),
+      forcedColors: m[0]!,
+      contrastMore: m[1]!,
+      reducedTransparency: m[2]!,
+      reducedMotion: m[3]!,
+      schemeDark: m[4]!,
+      coarsePointer: m[5]!,
     }, {
-      backdropFilter: sup(bf) || sup(`-webkit-${bf}`),
+      backdropFilter: bf,
       saveData: !!nav.connection?.saveData,
       deviceMemory: nav.deviceMemory ?? null,
     }, def, rec);
     const engine = detectEngine(nav);
 
-    const el = d.documentElement;
-    const at = (k: string, v: string): void => el.setAttribute(`data-ag-${k}`, v);
-    for (const k of AXES) at(k, r[k]);
-    if (r.allowContinuous && r.motion === 'full') at('continuous', 'on');
-    at('engine', engine);
+    const out: Record<string, string> = { engine };
+    for (const k of AXES) out[k] = r[k];
+    if (r.allowContinuous && r.motion === 'full') out.continuous = 'on';
     const tier = r.tier;
-    if (tier !== 'standard' || [rec.tier, def.tier].includes('standard')) {
-      at('tier', engine === 'unknown' && tier === 'enhanced' ? 'standard' : tier);
+    if (tier !== 'standard' || rec.tier === 'standard' || def.tier === 'standard') {
+      out.tier = engine === 'unknown' && tier === 'enhanced' ? 'standard' : tier;
     }
+    const el = d.documentElement;
+    for (const k in out) el.setAttribute(`data-ag-${k}`, out[k]!);
     el.style.setProperty('--ag-glass-opacity', '' + r.glassOpacity);
   } catch {
     /* pre-paint must never throw: without attributes every rung still works */

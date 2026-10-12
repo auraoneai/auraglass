@@ -10,8 +10,9 @@
  *  - The dynamic `import('motion/react')` is wrapped so a failed load rejects
  *    with the install message instead of ERR_MODULE_NOT_FOUND / "Failed to fetch
  *    dynamically imported module"; adapter renders rethrow it (adapter/peer.ts).
- *    Bundlers fail the build when the peer is absent, so browsers reach this
- *    path only with the peer installed. */
+ *    Bundlers either fail the build when the peer is absent or, like Vite for
+ *    an optional peer, substitute a module that throws when loaded; either way
+ *    the browser load rejects here and surfaces as the install message. */
 import { setMotionPeer, setPendingMotionPeer } from './adapter/peer';
 import type { MotionPeer } from './adapter/peer';
 

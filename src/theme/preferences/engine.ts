@@ -15,13 +15,17 @@ interface NavigatorLike {
   connection?: { saveData?: boolean } | null;
 }
 
+// A loop rather than brands.some(callback): the pre-paint script runs this on
+// every page load, and each callback is one more lazy compile (REQ-MAT-59 1 ms).
 export const detectEngine = (nav: NavigatorLike): AgEngine => {
   const brands = nav.userAgentData?.brands;
   const ua = nav.userAgent ?? '';
-  return brands?.length
-    ? brands.some((b) => /chrom|edg|opera|brave|vivaldi|arc|samsung/i.test(b.brand)) ? 'chromium' : 'unknown'
-    : /^(?!.*(Chrom|Edg)).*AppleWebKit/i.test(ua) ? 'webkit'
-      : /Gecko\/.*Firefox\//i.test(ua) ? 'gecko' : 'unknown';
+  if (brands?.length) {
+    for (const b of brands) if (/chrom|edg|opera|brave|vivaldi|arc|samsung/i.test(b.brand)) return 'chromium';
+    return 'unknown';
+  }
+  return /^(?!.*(Chrom|Edg)).*AppleWebKit/i.test(ua) ? 'webkit'
+    : /Gecko\/.*Firefox\//i.test(ua) ? 'gecko' : 'unknown';
 };
 
 export interface CapabilityInput {

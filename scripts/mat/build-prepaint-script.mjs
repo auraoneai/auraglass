@@ -23,6 +23,7 @@ import { buildSync } from 'esbuild';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import ts from 'typescript';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const out = join(root, 'src/theme/generated/prepaint-script.ts');
@@ -37,6 +38,31 @@ export const LIMIT = 2304;
    and navigator fields (saveData, deviceMemory) are read from outside and are
    never mangled. */
 const MANGLE = /^(forcedColors|contrastMore|reducedTransparency|reducedMotion|schemeDark|coarsePointer|backdropFilter)$/;
+
+/* Execution budget (REQ-MAT-59: <= 1 ms p95 at 4x CPU). The body runs once
+   per page load with no code cache, so its cost is mostly compilation: V8
+   pre-parses every function that is not obviously invoked immediately and
+   fully re-parses it on the first call. Every function in this body runs on
+   that one call, so each function expression is wrapped in parentheses, V8's
+   eager-compile hint (the PIFE heuristic, also used by Chromium and
+   Node), which parses the whole body once. Semantics are unchanged; the
+   insertion uses the TypeScript parser (a pinned devDependency) so it only
+   touches real function-expression nodes, never strings or regexes. */
+const eagerCompile = (body) => {
+  const sf = ts.createSourceFile('prepaint.js', body, ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
+  const at = [];
+  const visit = (node) => {
+    if ((ts.isArrowFunction(node) || ts.isFunctionExpression(node)) && !ts.isParenthesizedExpression(node.parent)) {
+      at.push([node.getStart(sf), '('], [node.end, ')']);
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
+  at.sort((a, b) => b[0] - a[0]);
+  let out = body;
+  for (const [pos, s] of at) out = out.slice(0, pos) + s + out.slice(pos);
+  return out;
+};
 
 export const buildPrepaintBody = () => {
   const res = buildSync({
@@ -55,7 +81,7 @@ export const buildPrepaintBody = () => {
     write: false,
     logLevel: 'error',
   });
-  const body = res.outputFiles[0].text.trim();
+  const body = eagerCompile(res.outputFiles[0].text.trim());
   if (!/__agP\s*=\s*\w+\s*;?\s*\}\)\(\)\s*;?$/.test(body)) {
     throw new Error('[prepaint] unexpected esbuild output shape: expected a self-executing body that registers globalThis.__agP');
   }

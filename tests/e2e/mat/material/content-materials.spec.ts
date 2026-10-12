@@ -16,9 +16,11 @@ test.describe('content materials', () => {
   }
 
   test('sunken carries inset top shade', async ({ page }) => {
+    // the inset depth layer is ::after (layer model, REQ-MAT-30/-32: host
+    // box-shadow + ::after inset); ::before holds only the backdrop optics
     await gotoMaterialStory(page, 'material-lab-examples--content-sunken');
     const shadow = await computedPseudoVar(
-      page, '.ag-surface[data-ag-content="content-sunken"]', '::before', 'box-shadow');
+      page, '.ag-surface[data-ag-content="content-sunken"]', '::after', 'box-shadow');
     expect(shadow).toContain('inset');
   });
 

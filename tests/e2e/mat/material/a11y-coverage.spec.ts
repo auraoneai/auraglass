@@ -27,7 +27,21 @@ test.describe('material a11y coverage', () => {
     expect(d.liveBackdropFilters).toBe(0);
   });
 
-  test('reduced-transparency: surfaces render on the opaque rung', async ({ page }) => {
+  test('reduced-transparency: surfaces render on the tinted rung', async ({ page }) => {
+    // REQ-MAT-05/-54, AC-MAT-14: reduced transparency is an OS floor of
+    // `tinted` (osFloor 1): the resolved rung is tinted, the tint floor is at
+    // least the surface's own tinted row (generated/floors.css), and the
+    // tinted rung keeps the blur (it is not the solid rung).
+    const read = () => page.locator('.ag-surface').first().evaluate((el) => {
+      const s = getComputedStyle(el);
+      return {
+        floor: parseFloat(s.getPropertyValue('--_ag-tint-floor')),
+        tintedRow: parseFloat(s.getPropertyValue('--_ag-tint-floor-tinted')),
+        bf: getComputedStyle(el, '::before').backdropFilter,
+      };
+    });
+    await gotoMaterialStory(page, 'material-lab-examples--overview');
+    const glass = await read();
     // no playwright emulate flag; stub matchMedia before the page loads
     await page.addInitScript(() => {
       const orig = window.matchMedia.bind(window);
@@ -39,9 +53,13 @@ test.describe('material a11y coverage', () => {
           : orig(q);
     });
     await gotoMaterialStory(page, 'material-lab-examples--overview');
-    const bf = await page.locator('.ag-surface').first()
-      .evaluate((el) => getComputedStyle(el, '::before').backdropFilter);
-    expect(bf).toBe('none');
+    expect(await page.evaluate(() => document.documentElement.getAttribute('data-ag-transparency')))
+      .toBe('tinted');
+    const tinted = await read();
+    expect(tinted.tintedRow).toBeGreaterThanOrEqual(0.55);
+    expect(tinted.floor).toBeGreaterThanOrEqual(tinted.tintedRow);
+    expect(tinted.floor).toBeGreaterThanOrEqual(glass.floor);
+    expect(tinted.bf).toContain('blur(');
   });
 
   test('media + scroll-edge are aria-hidden; no material element focusable', async ({ page }) => {

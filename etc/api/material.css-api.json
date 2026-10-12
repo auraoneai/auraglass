@@ -140,6 +140,7 @@
   "--ring"
  ],
  "private": [
+  "--_ag-accent-mix",
   "--_ag-alpha",
   "--_ag-blur",
   "--_ag-border-strong",

@@ -247,9 +247,11 @@
   [data-ag-surface][data-ag-variant="identity"]::after { content: none; }
 
   /* prominent: accent mixes into the canvas fill at exactly 0.18 (<= 0.18
-     alpha, one per view) */
+     alpha, one per view, REQ-MAT-32). The mix amount is one private scalar,
+     so the painted mix and its measured cap are the same value. */
   [data-ag-surface][data-ag-prominent] {
-    --_ag-fill: color-mix(in oklch, var(--_ag-canvas-fill), var(--ag-color-accent) 18%);
+    --_ag-accent-mix: 0.18;
+    --_ag-fill: color-mix(in oklch, var(--_ag-canvas-fill), var(--ag-color-accent) calc(var(--_ag-accent-mix) * 100%));
     --_ag-rim-light: oklch(from var(--ag-color-accent) l c h / 0.6);
   }
 
