@@ -13,13 +13,13 @@ export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
 export const Default: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'Icon', id: 'core-icon--default' } },
+  parameters: { ag: { tier: 'standard', subject: 'Icon' } },
   args: { name: 'spark' },
   render: (args) => <Icon {...args} />,
 };
 
 export const Sizes: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'Icon', id: 'core-icon--sizes' } },
+  parameters: { ag: { tier: 'standard', subject: 'Icon' } },
   args: { name: 'user' },
   render: () => (
     <span style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>

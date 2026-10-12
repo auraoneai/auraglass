@@ -102,7 +102,7 @@ export const Overview: Story = {
 };
 
 export const Default: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'Select', id: 'overlays-select--playground' } },
+  parameters: { ag: { tier: 'standard', subject: 'Select' } },
   render: () => (
     <AuraGlassProvider>
       <Stage>

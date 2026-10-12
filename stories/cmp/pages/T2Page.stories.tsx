@@ -55,6 +55,6 @@ export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
 export const Default: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'T2Page', id: 'pages-t2--default' } },
+  parameters: { ag: { tier: 'standard', subject: 'T2Page' } },
   render: () => <T2Page />,
 };

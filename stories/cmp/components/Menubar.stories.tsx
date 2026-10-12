@@ -17,7 +17,7 @@ type Story = StoryObj<typeof sbMeta>;
 
 export const MenubarScene: Story = {
   name: 'Menubar',
-  parameters: { ag: { tier: 'standard', subject: 'Menu', id: 'overlays-menu--menubar' } },
+  parameters: { ag: { tier: 'standard', subject: 'Menu' } },
   render: () => (
     <AuraGlassProvider><OverlayStage>
       <Menubar>
