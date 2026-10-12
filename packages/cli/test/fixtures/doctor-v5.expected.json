@@ -56,20 +56,20 @@
       {
         "path": "src/App.tsx",
         "line": 1,
-        "symbol": "GlassButton",
+        "symbol": "GlassDataGrid",
         "entry": ".",
-        "automation": "automatic",
+        "automation": "needsReview",
         "codemod": "canonical-names",
-        "message": "'GlassButton' is renamed to 'Button' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
+        "message": "GlassDataGrid is removed in 5.0; use Table from aura-glass/data."
       },
       {
         "path": "src/App.tsx",
         "line": 3,
-        "symbol": "GlassButton",
+        "symbol": "GlassDataGrid",
         "entry": ".",
-        "automation": "automatic",
+        "automation": "needsReview",
         "codemod": "canonical-names",
-        "message": "'GlassButton' is renamed to 'Button' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
+        "message": "GlassDataGrid is removed in 5.0; use Table from aura-glass/data."
       }
     ],
     "byCodemod": {
@@ -77,20 +77,20 @@
         {
           "path": "src/App.tsx",
           "line": 1,
-          "symbol": "GlassButton",
+          "symbol": "GlassDataGrid",
           "entry": ".",
-          "automation": "automatic",
+          "automation": "needsReview",
           "codemod": "canonical-names",
-          "message": "'GlassButton' is renamed to 'Button' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
+          "message": "GlassDataGrid is removed in 5.0; use Table from aura-glass/data."
         },
         {
           "path": "src/App.tsx",
           "line": 3,
-          "symbol": "GlassButton",
+          "symbol": "GlassDataGrid",
           "entry": ".",
-          "automation": "automatic",
+          "automation": "needsReview",
           "codemod": "canonical-names",
-          "message": "'GlassButton' is renamed to 'Button' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
+          "message": "GlassDataGrid is removed in 5.0; use Table from aura-glass/data."
         }
       ]
     }

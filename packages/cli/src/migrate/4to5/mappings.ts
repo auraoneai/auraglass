@@ -106,7 +106,16 @@ export function loadCompiledMappings(dir: string = MAPPINGS_DIR): CompiledMappin
         continue;
       }
       const c = out.components[r.from] ?? (out.components[r.from] = { compatOnly: false } as CompiledMappings['components'][string]);
-      if (c.to === undefined || c.to === r.from) {
+      if (r.compatOnly === true && !c.compatOnly) {
+        // A compat-only disposition wins over another stream's plain rename:
+        // the compat adapter is the conservative migration (e.g. SURF keeps
+        // GlassMobileNav compat-only per DEP-S0018 while CMP maps it to Sheet).
+        c.to = r.to;
+        c.toEntry = normEntry(r.toEntry);
+        c.compatOnly = true;
+      } else if (c.compatOnly && r.compatOnly !== true) {
+        // Already compat-only: a later plain rename never overrides it.
+      } else if (c.to === undefined || c.to === r.from) {
         c.to = r.to;
         c.toEntry = normEntry(r.toEntry);
         c.compatOnly = c.compatOnly || r.compatOnly === true;

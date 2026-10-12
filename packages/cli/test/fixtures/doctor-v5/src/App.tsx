@@ -1,3 +1,3 @@
-import { GlassButton } from 'aura-glass';
+import { GlassDataGrid } from 'aura-glass';
 import { GlassCard } from 'aura-glass/compat';
-export const App = () => <GlassButton/>;
+export const App = () => <GlassDataGrid/>;
