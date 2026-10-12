@@ -158,7 +158,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 4
     }
    ],
    "value": "30px"
@@ -174,7 +174,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 4
     }
    ],
    "value": "22px"
@@ -190,7 +190,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 4
     }
    ],
    "value": "18px"
@@ -206,7 +206,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 2
     }
    ],
    "value": "52px"
@@ -222,7 +222,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 2
     }
    ],
    "value": "40px"
@@ -238,7 +238,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 2
     }
    ],
    "value": "32px"
@@ -257,7 +257,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 15
+     "count": 16
     }
    ],
    "value": "0px 4px 16px 0px oklch(0 0 0 / 0.14), 0px 2px 6px 0px oklch(0 0 0 / 0.12)"
@@ -314,7 +314,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 2
+     "count": 5
     }
    ],
    "value": "oklch(0.99 0.004 250)"
@@ -333,7 +333,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 38
+     "count": 40
     }
    ],
    "value": "oklch(0.26 0.016 250)"
@@ -352,7 +352,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 20
+     "count": 21
     }
    ],
    "value": "oklch(0.34 0.019 250)"
@@ -387,7 +387,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 2
     }
    ],
    "value": "oklch(1 0 0)"
@@ -422,7 +422,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 63
+     "count": 64
     }
    ],
    "value": "oklch(0.64 0.16 235)"
@@ -460,7 +460,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 32
+     "count": 34
     }
    ],
    "value": "oklch(0.99 0.004 250)"
@@ -479,7 +479,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 25
+     "count": 29
     }
    ],
    "value": "oklch(0.43 0.17 27)"
@@ -498,7 +498,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 6
+     "count": 3
     }
    ],
    "value": "oklch(0.35 0.13 235)"
@@ -517,7 +517,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 12
+     "count": 2
     }
    ],
    "value": "oklch(1 0 0)"
@@ -536,7 +536,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 15
+     "count": 20
     }
    ],
    "value": "oklch(0.62 0.15 215)"
@@ -574,7 +574,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 97
+     "count": 111
     }
    ],
    "value": "oklch(0.26 0.016 250)"
@@ -593,7 +593,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 49
+     "count": 52
     }
    ],
    "value": "oklch(0.34 0.019 250)"
@@ -631,7 +631,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 18
+     "count": 22
     }
    ],
    "value": "oklch(0.6 0.15 150)"
@@ -650,7 +650,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 13
+     "count": 17
     }
    ],
    "value": "oklch(0.74 0.16 90)"
@@ -730,7 +730,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 4
+     "count": 3
     }
    ],
    "value": "0.35"
@@ -746,7 +746,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 8
+     "count": 9
     }
    ],
    "value": "oklch(0 0 0 / 0.72)"
@@ -912,7 +912,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 8
+     "count": 9
     }
    ],
    "value": "450ms"
@@ -928,7 +928,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 1
+     "count": 2
     }
    ],
    "value": "320ms"
@@ -944,7 +944,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 30
+     "count": 42
     }
    ],
    "value": "320ms"
@@ -960,7 +960,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 6
+     "count": 14
     }
    ],
    "value": "220ms"
@@ -1024,7 +1024,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 9
+     "count": 11
     }
    ],
    "value": "140ms"
@@ -1040,7 +1040,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 21
+     "count": 26
     }
    ],
    "value": "cubic-bezier(0.3, 0, 1, 1)"
@@ -1056,7 +1056,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 14
+     "count": 13
     }
    ],
    "value": "cubic-bezier(0.2, 0, 0, 1)"
@@ -1072,7 +1072,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 5
+     "count": 4
     }
    ],
    "value": "cubic-bezier(0.05, 0.7, 0.1, 1)"
@@ -1088,7 +1088,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 103
+     "count": 105
     }
    ],
    "value": "cubic-bezier(0.2, 0, 0, 1)"
@@ -1136,7 +1136,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 5
+     "count": 6
     }
    ],
    "value": "linear(0, 0.0054 1.2766%, 0.0237 2.766%, 0.052 4.2553%, 0.0935 5.9574%, 0.1815 8.9362%, 0.3909 15.3191%, 0.4903 18.5106%, 0.5862 21.9149%, 0.665 25.1064%, 0.7326 28.2979%, 0.7928 31.7021%, 0.842 35.1064%, 0.8835 38.7234%, 0.9205 42.9787%, 0.9484 47.4468%, 0.9699 52.5532%, 0.9848 58.2979%, 0.9938 64.6809%, 0.9987 72.3404%, 1 100%)"
@@ -1168,7 +1168,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 22
+     "count": 21
     }
    ],
    "value": "linear(0, 0.0042 1%, 0.0209 2.3333%, 0.0476 3.6667%, 0.0817 5%, 0.1638 7.6667%, 0.3693 13.6667%, 0.466 16.6667%, 0.5625 20%, 0.6381 23%, 0.7097 26.3333%, 0.769 29.6667%, 0.8175 33%, 0.8602 36.6667%, 0.8988 41%, 0.9311 46%, 0.9547 51.3333%, 0.9721 57.3333%, 0.9845 64.3333%, 0.9927 72.6667%, 1 100%)"
@@ -1200,7 +1200,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 57
+     "count": 59
     }
    ],
    "value": "9999px"
@@ -1344,7 +1344,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 8
+     "count": 9
     }
    ],
    "value": "calc(0px * var(--_ag-density))"
@@ -1360,7 +1360,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 134
+     "count": 144
     }
    ],
    "value": "calc(4px * var(--_ag-density))"
@@ -1376,7 +1376,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 10
+     "count": 9
     }
    ],
    "value": "calc(40px * var(--_ag-density))"
@@ -1408,7 +1408,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 15
+     "count": 14
     }
    ],
    "value": "calc(64px * var(--_ag-density))"
@@ -1424,7 +1424,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 177
+     "count": 172
     }
    ],
    "value": "calc(8px * var(--_ag-density))"
@@ -1440,7 +1440,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 73
+     "count": 74
     }
    ],
    "value": "calc(12px * var(--_ag-density))"
@@ -1456,7 +1456,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 85
+     "count": 87
     }
    ],
    "value": "calc(16px * var(--_ag-density))"
@@ -1472,7 +1472,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 37
+     "count": 35
     }
    ],
    "value": "calc(20px * var(--_ag-density))"
@@ -1488,7 +1488,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 26
+     "count": 25
     }
    ],
    "value": "calc(24px * var(--_ag-density))"
@@ -1504,7 +1504,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 19
+     "count": 18
     }
    ],
    "value": "calc(32px * var(--_ag-density))"
@@ -1523,7 +1523,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 29
+     "count": 28
     }
    ],
    "value": "0.45"
@@ -1542,7 +1542,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 63
+     "count": 74
     }
    ],
    "value": "2px"
@@ -1596,7 +1596,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 13
+     "count": 14
     }
    ],
    "value": "44px"
@@ -1612,7 +1612,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 35
+     "count": 36
     }
    ],
    "value": "24px"
@@ -2092,7 +2092,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 10
+     "count": 12
     }
    ],
    "value": "1000"
