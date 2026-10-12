@@ -46,6 +46,19 @@ const SURF_REGISTRY_ROOTS = [
     .map((n) => `registry/items/${n}`),
 ];
 
+// REQ-SURF-05: the seven SURF-owned src/components dirs are scanned by
+// default too — otherwise the src/components rows of NET_ENV_PATHS /
+// KEYDOWN_PATHS and the timer + harness-import rules never apply on L1.
+const SURF_COMPONENT_ROOTS = [
+  'src/components/tabs',
+  'src/components/tab-bar',
+  'src/components/breadcrumbs',
+  'src/components/pagination',
+  'src/components/command-palette',
+  'src/components/source-transition',
+  'src/components/timeline',
+];
+
 const SURF_ROOTS = [
   'src/app-shell',
   'src/data',
@@ -55,6 +68,7 @@ const SURF_ROOTS = [
   'src/backdrops',
   'src/charts',
   'src/three',
+  ...SURF_COMPONENT_ROOTS,
   ...SURF_REGISTRY_ROOTS,
   'packages/labs/src',
 ];
@@ -208,6 +222,7 @@ const TIMER_ALLOW = [
   'src/charts/ChartPlot.tsx:ChartPlot', // REQ-SURF-163 announcement debounce
   'src/media/mediaStore.ts:publish', // REQ-SURF-131 trailing snapshotHz publish (cleared in destroyStore)
   'registry/blocks/ai-workspace/replay-transport.ts:createReplayTransport', // REQ-SURF-172 recorded-session replay pacing (consumer block)
+  'src/components/timeline/ActivityFeed.Interactive.tsx:ActivityFeedInteractive', // REQ-SURF-97 prepend announcement window (cleared on unmount)
 ];
 const w5 = [
   {
@@ -322,6 +337,39 @@ function scanFile(absPath) {
   return findings;
 }
 
+/* REQ-SURF-05: every allowlisted timer must be cleared (on unmount, in a
+   destroy/dispose path, or on abort). An allowlisted file that calls
+   setTimeout/setInterval with no clearTimeout/clearInterval call anywhere
+   in the same file fails, naming the pair. */
+function timerClearFindings() {
+  const findings = [];
+  const seen = new Set();
+  for (const pair of TIMER_ALLOW) {
+    const file = pair.split(':')[0];
+    if (!file || seen.has(file)) continue;
+    seen.add(file);
+    const abs = join(ROOT, file);
+    if (!existsSync(abs)) continue;
+    let ast;
+    try {
+      ast = parse(readFileSync(abs, 'utf8'), {
+        sourceType: 'unambiguous', allowImportExportEverywhere: true, plugins: ['typescript', 'jsx'], errorRecovery: true,
+      });
+    } catch { continue; }
+    let sets = 0;
+    let clears = 0;
+    for (const { node } of visit(ast.program, [])) {
+      const name = calleeName(node);
+      if (name === 'setTimeout' || name === 'setInterval') sets++;
+      if (name === 'clearTimeout' || name === 'clearInterval') clears++;
+    }
+    if (sets > 0 && clears === 0) {
+      findings.push(`${file}:0: timer-not-cleared allowlisted timer (${pair}) is never cleared in its file`);
+    }
+  }
+  return findings;
+}
+
 const args = process.argv.slice(2);
 const targets = args.length ? args.map((t) => join(ROOT, t)) : SURF_ROOTS.map((p) => join(ROOT, p)).filter(existsSync);
 const all = [];
@@ -333,6 +381,7 @@ for (const abs of targets) {
     all.push(...scanFile(f));
   }
 }
+if (!args.length) all.push(...timerClearFindings());
 if (all.length) {
   console.log(`surf purity gate: ${all.length} finding(s) across ${scanned} file(s)`);
   for (const f of all) console.log('  ' + f);

@@ -94,6 +94,19 @@ describe('surf:test:ai-sdk and surf:test:ledger', () => {
     expect(comment).not.toMatch(/v6 devDeps/);
   });
 
+  it('canary-rsc runs the RSC-leak gate on the built canary (REQ-SURF-07)', () => {
+    const body = jobBody('surf:test:canary-rsc');
+    expect(body).toContain('plat:build:dist');
+    expect(body).toContain('node scripts/surf/verify-canary-rsc.mjs');
+    expect(body).toContain('.artifacts/surf/canary-rsc/');
+  });
+
+  it('migrate-canary runs the L11 codemod canary on the packed tarball (REQ-SURF-15)', () => {
+    const body = jobBody('surf:package:migrate-canary');
+    expect(body).toContain('plat:package:pack');
+    expect(body).toContain('node scripts/surf/migrate-canary.mjs --out .artifacts/surf/migrate-canary');
+  });
+
   it('ledger tees both verifier runs into .artifacts/surf/ledger/ under pipefail', () => {
     const body = jobBody('surf:test:ledger');
     expect(body).toContain('set -o pipefail');

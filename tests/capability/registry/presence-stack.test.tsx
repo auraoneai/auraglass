@@ -46,6 +46,21 @@ describe('presence-stack item', () => {
     expect(again.container.querySelector<HTMLElement>('.ag-presence-stack__avatar')!.style.background).toBe(presenceColor('u-amara'));
   });
 
+  it('composes CMP AvatarGroup for the visible stack (REQ-SURF-176)', () => {
+    const { container } = render(<PresenceStack {...presenceProps} />);
+    const group = container.querySelector('.ag-avatar-group.ag-presence-stack__group');
+    expect(group).not.toBeNull();
+    expect(group!.getAttribute('data-ag-part')).toBe('root');
+    const items = group!.querySelectorAll('.ag-avatar-group-item');
+    expect(items).toHaveLength(presenceProps.max);
+    // No AvatarGroup-native overflow item: PresenceStack's own
+    // "N more collaborators" button is the only overflow affordance.
+    expect(group!.querySelector('.ag-avatar-group-value')).toBeNull();
+    expect(group!.querySelectorAll('.ag-presence-stack__avatar')).toHaveLength(presenceProps.max);
+    const css = fs.readFileSync('registry/items/presence-stack/presence-stack.css', 'utf8');
+    expect(css).toMatch(/\.ag-presence-stack__group \.ag-avatar-group-item:nth-child\(n \+ 4\)/);
+  });
+
   it('renders a <ul> of <li> with every shown name as text', () => {
     render(<PresenceStack {...presenceProps} />);
     const list = screen.getByRole('list', { name: 'Collaborators' });

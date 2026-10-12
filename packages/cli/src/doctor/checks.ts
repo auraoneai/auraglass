@@ -170,6 +170,20 @@ export function runChecks(cwd: string): CheckResult[] {
       : { id: 'date-peers', status: 'pass', message: 'aura-glass/date peers react-aria-components and @internationalized/date resolve' });
   }
 
+  // charts-peers (REQ-SURF-162): ./charts imports the optional peers
+  // d3-scale/d3-shape; without them the entry fails at module resolution.
+  if (grepImports(cwd, /['"]aura-glass\/charts['"]/)) {
+    const missing = CHARTS_PEERS.filter((p) => !resolvesFrom(cwd, p.name));
+    results.push(missing.length
+      ? {
+          id: 'charts-peers',
+          status: 'fail',
+          message: `aura-glass/charts needs the optional peers d3-scale and d3-shape; missing: ${missing.map((p) => p.name).join(', ')} — run \`npx aura-glass doctor\` after installing`,
+          detail: `npm install ${CHARTS_PEERS.map((p) => `${p.name}@${p.range}`).join(' ')}`,
+        }
+      : { id: 'charts-peers', status: 'pass', message: 'aura-glass/charts peers d3-scale and d3-shape resolve' });
+  }
+
   // lucide: warn only beside aura-glass/icons
   const lucideImports = grepImports(cwd, 'lucide-react');
   const usesAuraIcons = grepImports(cwd, 'aura-glass/icons');
@@ -179,6 +193,12 @@ export function runChecks(cwd: string): CheckResult[] {
 
   return results;
 }
+
+/** aura-glass/charts optional peers (package.json peerDependencies ranges, REQ-SURF-162). */
+const CHARTS_PEERS = [
+  { name: 'd3-scale', range: '^4.0.2' },
+  { name: 'd3-shape', range: '^3.2.0' },
+] as const;
 
 /** aura-glass/date optional peers (package.json peerDependencies ranges). */
 const DATE_PEERS = [

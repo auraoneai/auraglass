@@ -31,6 +31,68 @@ test.describe('ai visual matrix (SURF-356)', () => {
   });
 });
 
+// REQ-SURF-128: the Thread/Composer layout cases — 1440 desktop, 200% zoom
+// (real device-pixel zoom: 1280x800 at dsf 2 = 640x400 CSS px, never
+// style.zoom), a 32px root font, and rtl. Every case keeps controls operable
+// (non-zero, unclipped boxes) with no horizontal page scroll.
+test.describe('ai layout (REQ-SURF-128)', () => {
+  const threadId = async () => {
+    const subjects = await listSubjects({ owner: 'SURF' });
+    const subject = subjects.find((s) => s.subject === 'Thread') ?? subjects[0];
+    if (!subject) throw new Error('AI subject not registered');
+    return subject.id;
+  };
+  const noHOverflow = (page: import('@playwright/test').Page) =>
+    page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  const operableControls = (page: import('@playwright/test').Page) =>
+    page.evaluate(() => [...document.querySelectorAll<HTMLElement>('button, textarea, input, [contenteditable="true"]')]
+      .filter((el) => el.offsetParent !== null)
+      .every((el) => {
+        const r = el.getBoundingClientRect();
+        return r.width > 0 && r.height > 0;
+      }));
+
+  test('1440px: no horizontal page scroll', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await gotoStory(page, await threadId());
+    expect(await noHOverflow(page)).toBeLessThanOrEqual(0);
+    expect(await operableControls(page)).toBe(true);
+  });
+
+  test('zoom200 (640x400 @ dsf 2): no horizontal page scroll, controls operable', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 640, height: 400 }, deviceScaleFactor: 2 });
+    try {
+      const page = await context.newPage();
+      await gotoStory(page, await threadId());
+      expect(await noHOverflow(page)).toBeLessThanOrEqual(0);
+      expect(await operableControls(page)).toBe(true);
+    } finally {
+      await context.close();
+    }
+  });
+
+  test('32px root font: no horizontal page scroll, controls operable', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoStory(page, await threadId());
+    await page.evaluate(() => { document.documentElement.style.fontSize = '32px'; });
+    expect(await page.evaluate(() => getComputedStyle(document.documentElement).fontSize)).toBe('32px');
+    expect(await noHOverflow(page)).toBeLessThanOrEqual(0);
+    expect(await operableControls(page)).toBe(true);
+  });
+
+  test('rtl: mirrors without horizontal page scroll', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoStory(page, await threadId());
+    const doc = await page.evaluate(() => {
+      document.documentElement.setAttribute('dir', 'rtl');
+      return document.documentElement.getAttribute('dir');
+    });
+    expect(doc).toBe('rtl');
+    expect(await noHOverflow(page)).toBeLessThanOrEqual(0);
+    expect(await operableControls(page)).toBe(true);
+  });
+});
+
 test.describe('ai reduced motion (SURF-357)', () => {
   test('500ms after settle: 0 running CSS animations, 0 rAF callbacks', async ({ page }) => {
     const subjects = await listSubjects({ owner: 'SURF' });

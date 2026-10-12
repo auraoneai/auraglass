@@ -66,6 +66,24 @@ describe('charts peer isolation (SURF-249, REQ-SURF-162)', () => {
     expect(hits).toEqual([]);
   });
 
+  it('package.json carries d3-scale/d3-shape as optional peers with exact dev pins (REQ-SURF-162)', () => {
+    const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
+    expect(pkg.peerDependencies['d3-scale']).toBe('^4.0.2');
+    expect(pkg.peerDependencies['d3-shape']).toBe('^3.2.0');
+    expect(pkg.peerDependenciesMeta['d3-scale']).toEqual({ optional: true });
+    expect(pkg.peerDependenciesMeta['d3-shape']).toEqual({ optional: true });
+    expect(pkg.devDependencies['d3-scale']).toBe('4.0.2');
+    expect(pkg.devDependencies['d3-shape']).toBe('3.2.0');
+    expect(pkg.dependencies?.['d3-scale']).toBeUndefined();
+    expect(pkg.dependencies?.['d3-shape']).toBeUndefined();
+  });
+
+  it('src/charts/scale.ts actually imports d3-scale and d3-shape (REQ-SURF-162)', () => {
+    const specs = imports(join(ROOT, 'src', 'charts', 'scale.ts'));
+    expect(specs).toContain('d3-scale');
+    expect(specs).toContain('d3-shape');
+  });
+
   it('src/charts is self-contained (no src/data import beyond ChartFrame seam)', () => {
     const leaks: string[] = [];
     for (const f of walk(join(ROOT, 'src', 'charts'))) {
