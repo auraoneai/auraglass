@@ -13,10 +13,14 @@
    byte-for-byte. The PRD-documented --glass-motion-default -> --ag-duration-small
    is applied when the source name exists.
 
-   Also emits dist/compat/tokens.css (@layer ag.compat) so the bridge job and
-   codemod cssVars field consume the same map. */
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, existsSync } from 'node:fs';
+   A name no 4.x stylesheet declares freezes at `initial` (the guaranteed-
+   invalid value the 4.x render used), tagged runtime-set-in-4x (with the files
+   that write it) or undeclared-in-4x; nothing is left uncovered.
+   dist/compat/tokens.css is written by the token build (emitCompat) only. */
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
 import { join, extname } from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { LEGACY_COMMIT } from '../tokens/formats/compat-aliases.mjs';
 
 const DOCUMENTED = { '--glass-motion-default': '--ag-duration-small' };
 
@@ -106,7 +110,15 @@ if (process.argv.includes('--codemod')) {
 }
 
 const GLASS_RE = /--glass-[a-zA-Z0-9-]+/g;
-const SCAN_DIRS = ['legacy/src', 'tests/fixtures/consumer-4x/cases/mat'];
+/* A name ending in '-' is a template prefix (`--glass-color-${k}`), not a
+   custom property: it has no reader of its own and is never mapped. */
+const isTemplatePrefix = (name) => name.endsWith('-');
+/* The 4.x snapshot is the 4.1.0 source at LEGACY_COMMIT (the same commit
+   tokens/legacy/4x-primitives.css and 4x-reader-set.json are vendored from),
+   read straight from git so the map regenerates byte-for-byte on any checkout.
+   A full legacy/src checkout on disk is used only when the commit is absent. */
+const LEGACY_SRC = 'legacy/src';
+const FIXTURE_DIR = 'tests/fixtures/consumer-4x/cases/mat';
 const SCAN_EXT = new Set(['.ts', '.tsx', '.css', '.scss', '.js', '.jsx', '.mdx']);
 
 function* walk(dir) {
@@ -118,17 +130,39 @@ function* walk(dir) {
   }
 }
 
-const readers = new Map(); // var -> file count
-for (const dir of SCAN_DIRS) {
-  for (const file of walk(dir)) {
-    const text = readFileSync(file, 'utf8');
-    const seen = new Set(text.match(GLASS_RE) ?? []);
-    for (const v of seen) readers.set(v, (readers.get(v) ?? 0) + 1);
+/** [{ path, text }] of the 4.x source (src/** at LEGACY_COMMIT). */
+function legacySources() {
+  let names = null;
+  try {
+    names = execFileSync('git', ['ls-tree', '-r', LEGACY_COMMIT, '--name-only', '--', 'src'], { encoding: 'utf8', maxBuffer: 1 << 26 })
+      .split('\n').filter((f) => SCAN_EXT.has(extname(f)));
+  } catch { names = null; }
+  if (!names) return [...walk(LEGACY_SRC)].map((path) => ({ path, text: readFileSync(path, 'utf8') }));
+  const out = execFileSync('git', ['cat-file', '--batch'], { input: names.map((f) => `${LEGACY_COMMIT}:${f}`).join('\n') + '\n', maxBuffer: 1 << 28 });
+  const files = [];
+  for (let i = 0, n = 0; i < out.length; n++) {
+    const nl = out.indexOf(10, i);
+    const size = Number(out.subarray(i, nl).toString().split(' ')[2]);
+    files.push({ path: `${LEGACY_SRC}/${names[n].replace(/^src\//, '')}`, text: out.subarray(nl + 1, nl + 1 + size).toString('utf8') });
+    i = nl + 1 + size + 1;
   }
+  return files;
+}
+
+const LEGACY = legacySources();
+const SOURCES = [...LEGACY, ...[...walk(FIXTURE_DIR)].map((path) => ({ path, text: readFileSync(path, 'utf8') }))];
+const readers = new Map(); // var -> file count
+for (const { text } of SOURCES) {
+  const seen = new Set((text.match(GLASS_RE) ?? []).filter((v) => !isTemplatePrefix(v)));
+  for (const v of seen) readers.set(v, (readers.get(v) ?? 0) + 1);
 }
 
 const rendered = JSON.parse(readFileSync('tokens/legacy/4x-rendered.tokens.json', 'utf8'));
-const primitives = rendered['legacy']['4x-rendered'].primitive;
+/* name -> { $value } from the frozen records (legacy.<name> with
+   $extensions['ag.legacyVar'] = the 4.x property name). */
+const primitives = Object.fromEntries(Object.values(rendered.legacy ?? {})
+  .filter((r) => r && typeof r === 'object' && r.$extensions?.['ag.legacyVar'])
+  .map((r) => [r.$extensions['ag.legacyVar'], { $value: r.$value }]));
 
 /* Declarations harvested from every 4.x stylesheet (tokens.css primitives
    already covered; themes/*.css, component sheets etc. fill the rest).
@@ -139,11 +173,11 @@ const primitives = rendered['legacy']['4x-rendered'].primitive;
    (e.g. hsl(\n 217 91% 60%\n)) — capture up to ';' or a closing '}'. */
 const DECL_RE = /(--glass-[a-zA-Z0-9-]+)\s*:\s*([^;}]+?)\s*(?:;|(?=\s*}))/g;
 const decls = new Map(); // name -> { light?: string, dark?: string }
-for (const file of walk('legacy/src')) {
+for (const { path: file, text } of LEGACY) {
   if (extname(file) !== '.css') continue;
   const dark = /dark/.test(file);
   const light = !dark;
-  for (const m of readFileSync(file, 'utf8').matchAll(DECL_RE)) {
+  for (const m of text.matchAll(DECL_RE)) {
     const rec = decls.get(m[1]) ?? {};
     if (light && rec.light === undefined) rec.light = m[2].trim();
     if (dark && rec.dark === undefined) rec.dark = m[2].trim();
@@ -186,49 +220,64 @@ function successor(name, legacyValue) {
   return null;
 }
 
+/** 4.x files that write `name` at runtime (style object key, setProperty, or a
+    `name: value` declaration inside TS/TSX css text). */
+function runtimeSetters(name) {
+  const esc = name.replace(/[-]/g, '\\-');
+  const re = new RegExp(`['"\`]${esc}['"\`]\\s*[:,]|setProperty\\(\\s*['"\`]${esc}['"\`]|(^|[\\s;{])${esc}\\s*:\\s*[^;)]`, 'm');
+  return LEGACY.filter((f) => /\.(tsx?|jsx?)$/.test(f.path) && re.test(f.text)).map((f) => f.path).sort();
+}
+
 const entries = {};
-let mapped = 0, frozen = 0, uncovered = 0;
+let mapped = 0, frozen = 0, uncovered = 0, runtimeSet = 0, undeclared = 0;
 for (const name of [...readers.keys()].sort()) {
   const prim = primitives[name]?.$value;
   const succ = successor(name, typeof prim === 'string' ? prim : undefined);
   const fv = frozenValue(name);
   if (succ) { entries[name] = { successor: succ, readers: readers.get(name) }; mapped += 1; }
   else if (fv !== null) { entries[name] = { frozenValue: fv, readers: readers.get(name) }; frozen += 1; }
-  else { entries[name] = { frozenValue: null, readers: readers.get(name), note: 'no rendered 4.x value found — review' }; uncovered += 1; }
+  else {
+    /* Declared nowhere in 4.x CSS: the 4.x render is the guaranteed-invalid
+       value — readers fall back to their var() fallback, or the component sets
+       the name at runtime on its own element (style key / setProperty /
+       CSS-in-JS). Freezing it as `initial` (the guaranteed-invalid value)
+       reproduces both byte-for-byte; dist/compat/tokens.css declares nothing
+       for it (undeclared === initial), so 4.x rendering is unchanged. */
+    const runtime = runtimeSetters(name);
+    entries[name] = {
+      frozenValue: 'initial',
+      frozenAs: runtime.length ? 'runtime-set-in-4x' : 'undeclared-in-4x',
+      readers: readers.get(name),
+      ...(runtime.length ? { setBy: runtime } : {}),
+    };
+    frozen += 1;
+    if (runtime.length) runtimeSet += 1; else undeclared += 1;
+  }
 }
 
 const map = {
   $schema: 'auraglass/compat-alias-map/v1',
   description: 'H03 (D-18): every --glass-* name with a 4.x reader -> --ag-* successor or frozen value. Generated by scripts/mat/compat-alias-map.mjs; do not hand-edit.',
-  generatedFrom: { readers: SCAN_DIRS, values: 'tokens/legacy/4x-rendered.tokens.json' },
-  counts: { total: readers.size, mapped, frozen, uncovered },
+  generatedFrom: { readers: [`${LEGACY_SRC} (git ${LEGACY_COMMIT}:src)`, FIXTURE_DIR], values: 'tokens/legacy/4x-rendered.tokens.json' },
+  counts: { total: readers.size, mapped, frozen, uncovered, runtimeSet, undeclared },
   entries,
 };
-mkdirSync('tokens', { recursive: true });
-writeFileSync('tokens/compat-alias-map.json', JSON.stringify(map, null, 1) + '\n');
-
-const lightLines = [], darkLines = [];
-for (const [name, e] of Object.entries(entries)) {
-  if (e.successor) { lightLines.push(`${name}: var(${e.successor});`); continue; }
-  const fv = e.frozenValue;
-  if (fv === null) { lightLines.push(`/* ${name}: no rendered value — review */`); continue; }
-  if (typeof fv === 'object') {
-    lightLines.push(`${name}: ${fv.light};`);
-    if (fv.dark !== undefined && fv.dark !== fv.light) darkLines.push(`${name}: ${fv.dark};`);
-  } else {
-    lightLines.push(`${name}: ${fv};`);
+const MAP_OUT = 'tokens/compat-alias-map.json';
+const mapText = JSON.stringify(map, null, 1) + '\n';
+if (process.argv.includes('--check')) {
+  // fail when the committed map differs from a fresh generation, or anything is uncovered
+  const current = existsSync(MAP_OUT) ? readFileSync(MAP_OUT, 'utf8') : null;
+  if (current !== mapText) {
+    console.error(`compat-alias-map --check: ${MAP_OUT} is stale; run node scripts/mat/compat-alias-map.mjs`);
+    process.exit(1);
   }
+  if (uncovered) { console.error(`compat-alias-map --check: ${uncovered} names uncovered`); process.exit(1); }
+  console.log(`compat-alias-map --check: ${MAP_OUT} current (${readers.size} names, 0 uncovered)`);
+  process.exit(0);
 }
-const css = [
-  '/* generated by scripts/mat/compat-alias-map.mjs — do not edit */',
-  '@layer ag.compat {',
-  ':where(:root) {',
-  ...lightLines,
-  '}',
-  ...(darkLines.length ? [':where(:root[data-ag-scheme="dark"]) {', ...darkLines, '}'] : []),
-  '}',
-  '',
-].join('\n');
-mkdirSync('dist/compat', { recursive: true });
-writeFileSync('dist/compat/tokens.css', css);
-console.log(`compat-alias-map: ${readers.size} names (${mapped} successors, ${frozen} frozen, ${uncovered} uncovered); css ${css.length} B`);
+mkdirSync('tokens', { recursive: true });
+writeFileSync(MAP_OUT, mapText);
+
+/* dist/compat/tokens.css has one writer: the token build's emitCompat
+   (scripts/tokens/formats/compat-aliases.mjs, REQ-MAT-21). */
+console.log(`compat-alias-map: ${readers.size} names (${mapped} successors, ${frozen} frozen [${runtimeSet} runtime-set, ${undeclared} undeclared in 4.x], ${uncovered} uncovered)`);
