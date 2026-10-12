@@ -22,6 +22,6 @@ export function guardColorMix(css: string): string;
 export function containerCount(css: string): number;
 export function assembleBundle(bundle: string, fragments: CssFragmentEntry[], root?: string): Promise<string>;
 export function lowerCss(css: string, targets?: string): Promise<string>;
-export function computeOwnership(fragments: CssFragmentEntry[]): unknown;
+export function computeOwnership(fragments: CssFragmentEntry[], opts?: { a11yBaseline?: Map<string, unknown> | null }): unknown;
 export function checkOwnership(bundle: string, css: string, ownership: unknown): unknown;
 export function assembleAllCss(root?: string, opts?: { lower?: boolean }): Promise<unknown>;

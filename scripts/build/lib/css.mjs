@@ -16,7 +16,12 @@
        reassembled; dist/material.css falls back to MAT's fragments/css/mat.ts
        rows, reported pending, until MAT's tokens:build emits it.
      - build/css-ownership.json: {selectors: {prefix: bundle}, a11y: {prefix}} —
-       a selector emitted into a bundle it does not own fails the build. */
+       a selector emitted into a bundle it does not own fails the build.
+     - a11y pairing: each component prefix with ag.components rules has
+       ag.a11y rules in the same bundle ('paired') or its fragment declares
+       `a11y: 'none'` ('none'); anything else fails the build unless the
+       fragment file holds a row in the expiring baseline
+       scripts/integration/baselines/css-a11y-pairing.json ('baselined'). */
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -147,18 +152,20 @@ export function selectorPrefix(selector) {
     the assembly honours the same rows instead of keeping a second list:
     offenders in other WPs' files are fixed by their owners, never here. */
 export const CSS_FILES_BASELINE = 'scripts/integration/baselines/css-files.json';
+/** REQ-PLAT-74 a11y-pairing expiring baseline (REQ-FIN-38, PRD-F §4.3 rule 3). */
+export const CSS_A11Y_PAIRING_BASELINE = 'scripts/integration/baselines/css-a11y-pairing.json';
 const BASELINE_EXPIRY_LIB = 'scripts/integration/lib/baseline-expiry.mjs';
 
 /** Map file → {file, owner, reqFin, expires} from the REQ-FIN-14 baseline; an
     empty map when the baseline is absent (strict: every offender fails). A
     malformed or expired row fails the build (same rule as the baseline's gate). */
-export async function loadCssFilesBaseline(root = ROOT) {
-  const p = join(root, CSS_FILES_BASELINE);
+export async function loadCssFilesBaseline(root = ROOT, file = CSS_FILES_BASELINE) {
+  const p = join(root, file);
   const rows = new Map();
   if (!existsSync(p)) return rows;
   const parsed = JSON.parse(readFileSync(p, 'utf8'));
   const lib = join(root, BASELINE_EXPIRY_LIB);
-  if (!existsSync(lib)) throw new Error(`${CSS_FILES_BASELINE} exists but ${BASELINE_EXPIRY_LIB} (its expiry rule) is missing`);
+  if (!existsSync(lib)) throw new Error(`${file} exists but ${BASELINE_EXPIRY_LIB} (its expiry rule) is missing`);
   const { rowProblems } = await import(pathToFileURL(lib).href);
   const problems = rowProblems(parsed, { gate: 'css assembly (REQ-PLAT-74)' });
   if (problems.length) throw new Error(problems.join('\n'));
@@ -179,7 +186,8 @@ export async function collectCssFragments(root = ROOT, { validate = true } = {})
       const abs = join(root, f.file);
       if (!existsSync(abs)) throw new Error(`css fragment file missing: ${f.file} (stream ${stream}, ${file})`);
       if (!CSS_LAYERS.includes(f.layer)) throw new Error(`css fragment ${f.file}: unknown layer ${f.layer}`);
-      const entry = { stream, layer: f.layer, bundle: f.bundle, order: f.order ?? 0, file: f.file, content: readFileSync(abs, 'utf8') };
+      if (f.a11y !== undefined && f.a11y !== 'none') throw new Error(`css fragment ${f.file}: a11y must be 'none' when set (got ${JSON.stringify(f.a11y)})`);
+      const entry = { stream, layer: f.layer, bundle: f.bundle, order: f.order ?? 0, file: f.file, content: readFileSync(abs, 'utf8'), ...(f.a11y ? { a11y: f.a11y } : {}) };
       // MAT-bundle fragments are MAT's output inputs (MAT emits material.css);
       // assembly-side validation applies to everything PLAT emits.
       if (validate && !MAT_BUNDLES.has(f.bundle)) {
@@ -310,26 +318,47 @@ export async function lowerCss(css, targets = CSS_TARGETS) {
     A prefix may be declared for more than one bundle (e.g. a chip class used
     by both the core and the data stream) — it is wrong only when it lands in
     a bundle no fragment declares. */
-export function computeOwnership(fragments) {
+export function computeOwnership(fragments, { a11yBaseline = null } = {}) {
   const selectors = {};
-  const a11yPrefixes = new Set();
-  const componentPrefixes = new Set();
+  const a11yByBundle = new Map();      // bundle -> Set(prefix) with ag.a11y rules
+  const componentDecl = new Map();     // prefix -> [{file, bundle, none}]
   const ownedPrefix = (p) => /^\.(?:ag|glass)-[\w-]+/.test(p) || /^\[data-ag-part/.test(p);
   for (const f of fragments) {
     const rules = styleRules(stripComments(f.content));
     const prefixes = new Set();
     for (const r of rules) for (const sel of splitSelectors(r.selector)) prefixes.add(selectorPrefix(sel));
     for (const p of prefixes) {
-      if (f.layer === 'ag.a11y') a11yPrefixes.add(p);
-      if (f.layer === 'ag.components') componentPrefixes.add(p);
+      if (f.layer === 'ag.a11y') {
+        if (!a11yByBundle.has(f.bundle)) a11yByBundle.set(f.bundle, new Set());
+        a11yByBundle.get(f.bundle).add(p);
+      }
+      if (f.layer === 'ag.components') {
+        if (!componentDecl.has(p)) componentDecl.set(p, []);
+        componentDecl.get(p).push({ file: f.file, bundle: f.bundle, none: f.a11y === 'none' });
+      }
       if (!ownedPrefix(p)) continue;
       (selectors[p] ??= new Set()).add(f.bundle);
     }
   }
   const out = {};
   for (const [p, bs] of Object.entries(selectors)) out[p] = [...bs].sort();
+  // REQ-PLAT-74: ag.a11y rules in the SAME bundle, or an explicit 'none' in the
+  // declaring fragment; a fragment that has neither fails unless baselined.
   const a11y = {};
-  for (const p of componentPrefixes) a11y[p] = a11yPrefixes.has(p) ? 'paired' : 'none';
+  const unpaired = [];
+  for (const [p, decls] of [...componentDecl].sort(([a], [b]) => a.localeCompare(b))) {
+    let state = 'paired';
+    for (const d of decls) {
+      if (a11yByBundle.get(d.bundle)?.has(p)) continue;
+      if (d.none) { if (state === 'paired') state = 'none'; continue; }
+      if (a11yBaseline?.has(d.file)) { state = 'baselined'; continue; }
+      unpaired.push(`'${p}' (${d.file} → dist/${d.bundle})`);
+    }
+    a11y[p] = state;
+  }
+  if (unpaired.length) {
+    throw new Error(`css a11y pairing (REQ-PLAT-74): ${unpaired.length} ag.components prefix(es) have no ag.a11y rules in their bundle and no explicit \`a11y: 'none'\` in their fragment:\n  ${unpaired.slice(0, 20).join('\n  ')}${unpaired.length > 20 ? `\n  … ${unpaired.length - 20} more` : ''}`);
+  }
   return { selectors: out, a11y };
 }
 
@@ -354,7 +383,7 @@ const MATERIAL_FALLBACK_MARKER = 'build/.material-css.from-fragments';
 /** Write every bundle the fragments + supplements produce. Returns {written, pending, baselined, ownership}. */
 export async function assembleAllCss(root = ROOT, { lower = false } = {}) {
   const fragments = await collectCssFragments(root);
-  const ownership = computeOwnership(fragments);
+  const ownership = computeOwnership(fragments, { a11yBaseline: await loadCssFilesBaseline(root, CSS_A11Y_PAIRING_BASELINE) });
   const bundles = new Set(['styles.css', 'compat/globals.css']);
   for (const f of fragments) if (!MAT_BUNDLES.has(f.bundle)) bundles.add(f.bundle);
   const written = [];
