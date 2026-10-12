@@ -10,7 +10,9 @@ export type AgValue = { [k: string]: StaticValue };
 export interface CsfParameters {
   file: string;
   meta: { title?: string; id?: string; ag?: AgValue };
-  stories: Map<string, { ag?: AgValue }>;
+  /** per export: merged-later ag plus the story's pinned `parameters.__id` when it is a static string
+      (Storybook's indexer honours `__id`, so the id in index.json need not derive from title + export). */
+  stories: Map<string, { ag?: AgValue; id?: string }>;
 }
 
 function isObj(v: StaticValue): v is AgValue {
@@ -62,6 +64,60 @@ function literalOf(e: ts.Expression, consts: Map<string, ts.Expression>): ts.Obj
   return ts.isObjectLiteralExpression(n) ? n : null;
 }
 
+/** The object literal a same-file factory returns: `const scene = (id) => ({...})` called as
+    `scene('photo')`. Returns the literal plus consts extended with parameter → argument bindings,
+    so `parameters.ag` templates over the parameters evaluate statically. Null when the callee is
+    not a same-file function returning an object literal. */
+function factoryLiteral(call: ts.CallExpression, sf: ts.SourceFile, consts: Map<string, ts.Expression>):
+  { lit: ts.ObjectLiteralExpression; consts: Map<string, ts.Expression> } | null {
+  if (!ts.isIdentifier(call.expression)) return null;
+  let fn: ts.ArrowFunction | ts.FunctionExpression | ts.FunctionDeclaration | undefined;
+  const init = consts.get(call.expression.text);
+  if (init) {
+    const u = unwrap(init);
+    if (ts.isArrowFunction(u) || ts.isFunctionExpression(u)) fn = u;
+  }
+  if (!fn) {
+    for (const st of sf.statements) {
+      if (ts.isFunctionDeclaration(st) && st.name?.text === call.expression.text) { fn = st; break; }
+    }
+  }
+  if (!fn?.body) return null;
+  let lit: ts.ObjectLiteralExpression | null = null;
+  if (ts.isBlock(fn.body)) {
+    for (const st of fn.body.statements) {
+      if (ts.isReturnStatement(st) && st.expression) {
+        const u = unwrap(st.expression);
+        if (ts.isObjectLiteralExpression(u)) { lit = u; break; }
+      }
+    }
+  } else {
+    const u = unwrap(fn.body);
+    if (ts.isObjectLiteralExpression(u)) lit = u;
+  }
+  if (!lit) return null;
+  const bound = new Map(consts);
+  fn.parameters.forEach((p, i) => {
+    if (ts.isIdentifier(p.name) && call.arguments[i]) bound.set(p.name.text, call.arguments[i]!);
+  });
+  return { lit, consts: bound };
+}
+
+/** A story's static `parameters.__id`, when the parameters object is a readable literal. */
+function pinnedIdOf(lit: ts.ObjectLiteralExpression, sf: ts.SourceFile, consts: Map<string, ts.Expression>): string | undefined {
+  const params = objectProperty(lit, 'parameters');
+  if (!params) return undefined;
+  let p = unwrap(params);
+  if (ts.isIdentifier(p) && consts.has(p.text)) p = unwrap(consts.get(p.text)!);
+  if (!ts.isObjectLiteralExpression(p)) return undefined;
+  const id = objectProperty(p, '__id');
+  if (!id) return undefined;
+  try {
+    const v = evaluate(id, sf, consts);
+    return typeof v === 'string' && v ? v : undefined;
+  } catch { return undefined; }
+}
+
 function stringField(obj: ts.ObjectLiteralExpression, key: string, sf: ts.SourceFile, consts: Map<string, ts.Expression>): string | undefined {
   const e = objectProperty(obj, key);
   if (!e) return undefined;
@@ -90,9 +146,18 @@ export function readCsfParameters(file: string, text: string): CsfParameters {
     } else if (ts.isVariableStatement(st) && st.modifiers?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword)) {
       for (const d of st.declarationList.declarations) {
         if (!ts.isIdentifier(d.name)) continue;
-        const lit = d.initializer ? literalOf(d.initializer, consts) : null;
-        const ag = lit ? agOf(objectProperty(lit, 'parameters'), sf, consts) : undefined;
-        out.stories.set(d.name.text, ag ? { ag } : {});
+        let lit = d.initializer ? literalOf(d.initializer, consts) : null;
+        let effConsts = consts;
+        if (!lit && d.initializer) {
+          const init = unwrap(d.initializer);
+          if (ts.isCallExpression(init)) {
+            const f = factoryLiteral(init, sf, consts);
+            if (f) { lit = f.lit; effConsts = f.consts; }
+          }
+        }
+        const ag = lit ? agOf(objectProperty(lit, 'parameters'), sf, effConsts) : undefined;
+        const id = lit ? pinnedIdOf(lit, sf, effConsts) : undefined;
+        out.stories.set(d.name.text, { ...(ag ? { ag } : {}), ...(id ? { id } : {}) });
       }
     } else if (ts.isFunctionDeclaration(st) && st.name && st.modifiers?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword)
       && !st.modifiers.some((m) => m.kind === ts.SyntaxKind.DefaultKeyword)) {
