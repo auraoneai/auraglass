@@ -1,5 +1,5 @@
 /* MAT-308: A11y/Targets — fine vs coarse hit targets rendered with HitArea and
-   data-debug-targets so the remote target-size spec can measure rects and
+   a data-ag-part="debug-targets" wrapper (C-2: no unregistered hook) so the remote target-size spec can measure rects and
    detect hit-area overlap / host-layout drift. */
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -24,7 +24,7 @@ function IconButton({ label, small }: { label: string; small?: boolean }) {
 
 function Targets() {
   return (
-    <div data-debug-targets="" style={{ padding: 16 }}>
+    <div data-ag-part="debug-targets" style={{ padding: 16 }}>
       <p>Fine pointer: 24×24. Coarse: ≥44×44 (HitArea inflates in coarse media).</p>
       <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
         <IconButton label="←" />
