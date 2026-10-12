@@ -37,6 +37,7 @@ function DiscardDraft() {
 
 /* Usage: a trigger that opens a confirmation. */
 export const Playground: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'AlertDialog', id: 'overlays-alert-dialog--playground' } },
   render: () => (
     <AuraGlassProvider><OverlayStage>
       <AlertDialog.Root defaultOpen>
@@ -56,6 +57,7 @@ export const Playground: Story = {
 
 /* The action while a request is in flight: disabled until the server answers. */
 export const States: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'AlertDialog', id: 'overlays-alert-dialog--states' } },
   render: () => (
     <AuraGlassProvider><OverlayStage>
       <AlertDialog.Root defaultOpen>
@@ -72,13 +74,14 @@ export const States: Story = {
   ),
 };
 
-export const Confirm: Story = { render: () => <DiscardDraft /> };
+export const Confirm: Story = { parameters: { ag: { tier: 'standard', subject: 'AlertDialog', id: 'overlays-alert-dialog--confirm' } }, render: () => <DiscardDraft /> };
 
 /* The story tests/a11y/apg/cmp/alert-dialog.apg.spec.ts drives: initial focus on Cancel, outside press ignored,
    Escape closes with reason 'escape-key' and returns focus. */
-export const Keyboard: Story = { tags: ['apg'], render: () => <DiscardDraft /> };
+export const Keyboard: Story = { tags: ['apg'], parameters: { ag: { tier: 'standard', subject: 'AlertDialog', id: 'overlays-alert-dialog--keyboard' } }, render: () => <DiscardDraft /> };
 
 export const Danger: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'AlertDialog', id: 'overlays-alert-dialog--danger' } },
   render: () => (
     <AuraGlassProvider><OverlayStage>
       <AlertDialog.Root defaultOpen>
@@ -97,6 +100,7 @@ export const Danger: Story = {
 
 /* Every AlertDialog part: Trigger plus the Header / Body / Footer layout. */
 export const Anatomy: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'AlertDialog', id: 'overlays-alert-dialog--anatomy' } },
   render: () => (
     <AuraGlassProvider><OverlayStage>
       <AlertDialog.Root defaultOpen>

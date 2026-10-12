@@ -118,6 +118,16 @@ export default [
     remote: true,
     failClosed: true,
   },
+  // L6 — REQ-CMP-36: controls e2e (IconButton 28/36/44 box sizes, sizing, focus,
+  // axe, motion, overlay stack); was unregistered so icon-button-sizes never ran
+  {
+    lane: "L6",
+    kind: "playwright",
+    path: "tests/e2e/cmp/controls/**",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
   // L10 — browser perf
   {
     lane: "L10",
@@ -168,7 +178,7 @@ export default [
   {
     lane: "L12",
     kind: "jest",
-    path: "tests/{controls,foundation,overlays}/**/*.test.{ts,tsx,mjs}",
+    path: "tests/{controls,foundation,overlays,compiler}/**/*.test.{ts,tsx,mjs}",
     scope: "pr",
     remote: false,
     failClosed: true,

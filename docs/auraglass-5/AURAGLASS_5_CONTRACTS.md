@@ -991,8 +991,8 @@ export const COMPOUND_PARTS = {
   Combobox: ['Root', 'Input', 'Trigger', 'Content', 'Item', 'Empty', 'Chips', 'Chip', 'ChipRemove', 'Clear', 'Group', 'GroupLabel'],
   Toolbar: ['Root', 'Button', 'Group', 'Separator', 'Link'],
   ToggleGroup: ['Root', 'Item'],
-  SegmentedControl: ['Root', 'Item'],
-  Slider: ['Root', 'Value'],
+  SegmentedControl: ['Root', 'Item', 'Indicator'],
+  Slider: ['Root', 'Value', 'Track', 'Range', 'Thumb'],
   RadioGroup: ['Root', 'Item'],
   Field: ['Root', 'Label', 'Control', 'Description', 'Error'],
   Collapsible: ['Root', 'Trigger', 'Content'],
@@ -1001,14 +1001,13 @@ export const COMPOUND_PARTS = {
   Avatar: ['Root', 'Image', 'Fallback'],
   Card: ['Root', 'Header', 'Title', 'Description', 'Body', 'Footer'],
   Tour: ['Root', 'Step'],
+  Menubar: ['Root', 'Menu'],
 } as const;
 /** C-3b (v1.2): parts the contract requires (REQ-CMP-06, -105, -110) that are not implemented on next yet. Each moves into
     COMPOUND_PARTS (Menubar from FLAT_CMP_COMPONENTS) in the contract commit that follows its CMP implementation, so the
-    conformance suite never asserts a part that does not exist. Consumers must not rely on them before that. */
+    conformance suite never asserts a part that does not exist. Consumers must not rely on them before that.
+    REQ-CMP-06 promoted SegmentedControl.Indicator, Slider.Track/Range/Thumb and Menubar {Root, Menu}. */
 export const COMPOUND_PARTS_PENDING = {
-  SegmentedControl: ['Indicator'],
-  Slider: ['Track', 'Range', 'Thumb'],
-  Menubar: ['Root', 'Menu'],
   Toast: ['History', 'HistoryItem'],
 } as const;
 export interface CmpRootProps {
@@ -1029,7 +1028,7 @@ export interface CmpRootProps {
 /** Flat CMP components other streams compose (props = PartProps of the root element + the grammar types they list in meta): */
 export const FLAT_CMP_COMPONENTS = ['Button', 'IconButton', 'ButtonGroup', 'Switch', 'Checkbox', 'CheckboxGroup', 'TextField',
   'SearchField', 'NumberField', 'Fieldset', 'Form', 'Badge', 'AvatarGroup', 'Alert', 'Progress', 'Meter', 'Skeleton', 'Separator', 'Kbd',
-  'Link', 'Rating', 'InlineEdit', 'Menubar', 'FileUpload', 'DescriptionList', 'ImageList', 'EmptyState', 'ErrorState',
+  'Link', 'Rating', 'InlineEdit', 'FileUpload', 'DescriptionList', 'ImageList', 'EmptyState', 'ErrorState',
   'LoadingState', 'Text', 'Heading', 'Stack', 'Grid', 'Container', 'Icon'] as const;
 /** Typed compound contracts, one per COMPOUND_PARTS key (what seeds, doubles and real components all satisfy). */
 export type CmpCompounds = { [K in keyof typeof COMPOUND_PARTS]: CompoundContract<(typeof COMPOUND_PARTS)[K][number], CmpRootProps[K]> };

@@ -56,7 +56,7 @@ function MenuRoot({ open, defaultOpen, onOpenChange, loop = true, orientation, c
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
           const reason = !o && routed.takeEscape() ? 'escape-key' : toOverlayReason(details?.reason);
-          onOpenChange?.(o, { ...details, reason } as OverlayOpenChangeDetails);
+          onOpenChange?.(o, { event: details?.event, reason } satisfies OverlayOpenChangeDetails);
         }}
       >
         {children}
@@ -273,7 +273,7 @@ function MenuSubmenu(props: MenuSubmenuProps) {
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
           const reason = !o && routed.takeEscape() ? 'escape-key' : toOverlayReason(details?.reason);
-          onOpenChange?.(o, { ...details, reason } as OverlayOpenChangeDetails);
+          onOpenChange?.(o, { event: details?.event, reason } satisfies OverlayOpenChangeDetails);
         }}
         {...rest}
         actionsRef={buActions as React.RefObject<{ close: () => void; unmount: () => void } | null>}
