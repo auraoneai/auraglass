@@ -41,7 +41,7 @@ afterEach(() => {
   Object.defineProperty(window, 'matchMedia', { configurable: true, writable: true, value: originalMatchMedia });
 });
 
-const bodyRowIds = () => [...document.querySelectorAll('tbody tr td[data-ag-cell="at"]')].map((td) => td.closest('tr')!.querySelector('td[data-ag-cell="ip"]')!.textContent);
+const bodyRowIds = () => [...document.querySelectorAll('tbody tr td[data-cell="at"]')].map((td) => td.closest('tr')!.querySelector('td[data-cell="ip"]')!.textContent);
 
 describe('audit-log block', () => {
   it('pages server-side: the Table receives only the first PAGE_SIZE events', () => {
@@ -49,7 +49,9 @@ describe('audit-log block', () => {
     wrap(<AuditLog />);
     expect(EVENTS).toHaveLength(TOTAL_EVENTS);
     expect(bodyRowIds()).toEqual(EVENTS.slice(0, PAGE_SIZE).map((e) => e.ip));
-    expect(screen.getByRole('status').textContent).toBe(`${TOTAL_EVENTS} results`);
+    // The visible count is the FilterBar's filter-count part; changes are
+    // announced through the MAT announcer seam, not a role="status" span.
+    expect(document.querySelector('[data-ag-part="filter-count"]')!.textContent).toBe(`${TOTAL_EVENTS} results`);
   });
 
   it('next page calls onPaginationChange with pageIndex 1 and renders that slice', async () => {

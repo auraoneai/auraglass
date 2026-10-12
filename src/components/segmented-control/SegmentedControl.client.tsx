@@ -93,11 +93,12 @@ function SegmentedControlRoot({
       }
     });
     ro?.observe(el);
+    /* Measure synchronously at attach; ResizeObserver's initial observation
+       re-measures at the next rendering opportunity, so mount schedules no
+       frame of its own (0 rAF/timers at idle, REQ-SURF perf table). */
     measureIntoRoot(el);
-    const off = nextFrame(() => measureIntoRoot(el));
     return () => {
       ro?.disconnect();
-      off();
       measureRef.current = null;
       if (typeof refCleanup === 'function') refCleanup();
       else if (typeof ref === 'function') ref(null);

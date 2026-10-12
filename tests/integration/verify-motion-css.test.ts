@@ -101,6 +101,9 @@ describe('verify-motion-css ungated-loop gate (REQ-FIN-12)', () => {
     const r = run(['--gate', 'ungated-loop'], { AG_VERSION: '5.0.0-alpha.0' });
     expect(r.err).toBe('');
     expect(r.code).toBe(0);
-    expect(r.out).toContain('baselined until RC-1');
+    // Rows only ever go down: once every row is retired the gate is clean;
+    // until then it reports the rows it is still carrying.
+    const rows = JSON.parse(readFileSync(join(ROOT, 'scripts/integration/baselines/ungated-loops.json'), 'utf8')) as unknown[];
+    expect(r.out).toContain(rows.length > 0 ? `${rows.length} file(s) baselined until RC-1` : 'clean');
   });
 });

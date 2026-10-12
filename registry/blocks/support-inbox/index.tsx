@@ -93,15 +93,19 @@ export function SupportInbox({ defaultFilter = EMPTY_FILTER }: SupportInboxProps
           <>
             <h3>{selected.subject}</h3>
             <Thread.Root messages={agMessages} label={`Conversation: ${selected.subject}`}>
-              <Thread.Items
-                render={(m) => (
-                  <Message message={m} author={authorOf.get(m.id)}>
-                    <Message.Content>
-                      <Message.Parts message={m} />
-                    </Message.Content>
-                  </Message>
-                )}
-              />
+              {/* Composed children replace the default Viewport, so the
+                  role="log" container is rendered explicitly (REQ-SURF-107). */}
+              <Thread.Viewport>
+                <Thread.Items
+                  render={(m) => (
+                    <Message message={m} author={authorOf.get(m.id)}>
+                      <Message.Content>
+                        <Message.Parts message={m} />
+                      </Message.Content>
+                    </Message>
+                  )}
+                />
+              </Thread.Viewport>
             </Thread.Root>
             <form onSubmit={send}>
               <label>

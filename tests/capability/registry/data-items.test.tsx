@@ -40,7 +40,9 @@ afterEach(cleanup);
 type AxeResult = { violations: Array<{ id: string; nodes: Array<{ target: unknown }> }> };
 
 const resultsList = () => screen.getByRole('list', { name: 'Results' });
-const countText = () => screen.getByRole('status').textContent;
+/* FilterBar's visible "{n} results" part; changes are announced through the
+   MAT announcer seam (useAnnouncer), not a role="status" span. */
+const countText = () => document.querySelector('[data-ag-part="filter-count"]')!.textContent;
 
 describe('data items', () => {
   it('query-builder renders the root group and actions', () => {
