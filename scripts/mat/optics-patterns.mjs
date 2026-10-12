@@ -17,6 +17,12 @@ export const EMITTER_PATTERNS = [
   /\b(?:backdropFilter|WebkitBackdropFilter)\s*:/,
 ];
 
+/** An optics reset (`backdrop-filter: none`, e.g. the solid/forced-colours rungs) removes
+    optics rather than emitting them; the lint rule skips the same declarations. */
+export const isOpticsReset = (prop, value) =>
+  /^(?:-webkit-)?backdrop-filter$/i.test(String(prop).trim())
+  && /^none(?:\s*!important)?$/i.test(String(value).trim());
+
 export const matchPatterns = (text) =>
   OPTICS_PATTERNS.filter((p) => p.re.test(text)).map((p) => p.id);
 

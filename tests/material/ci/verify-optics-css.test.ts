@@ -33,6 +33,13 @@ describe('verify-optics-css', () => {
     expect(r.out).toMatch(/white-rgba/);
   });
 
+  it('backdrop-filter: none resets are not optics; a real filter beside them still is', () => {
+    const r = run('reset');
+    expect(r.code).toBe(1);
+    expect(r.out).not.toMatch(/r\.css:1\s/);
+    expect(r.out).toMatch(/src\/components\/r\.css:2\s+backdrop-filter\s+-webkit-backdrop-filter: blur\(6px\)/);
+  });
+
   it('src/material/css files are exempt', () => {
     const r = run('exempt');
     expect(r.code).toBe(0);

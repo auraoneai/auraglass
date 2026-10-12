@@ -21,6 +21,7 @@ const inlineStyle = (page: Page) =>
     const el = document.querySelector<HTMLElement>('.ag-app-shell [data-ag-slot="inspector"]');
     if (!el) throw new Error('inline inspector missing');
     const cs = getComputedStyle(el);
+    // eslint-disable-next-line auraglass/no-optics-outside-material -- computed-style record read back for assertions, not a style object
     return { display: cs.display, position: cs.position, backdropFilter: cs.backdropFilter };
   });
 
