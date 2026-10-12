@@ -969,7 +969,7 @@ describe('docs / registry / pages wiring (B3-8)', () => {
     });
     it('copies registry/registry-report.json into the job dir right after the build, before lint', () => {
       const l = lines('plat:test:registry');
-      const build = l.indexOf('node scripts/registry/build.mjs');
+      const build = l.indexOf('node scripts/registry/build.mjs --candidate');
       const cp = l.indexOf('cp registry/registry-report.json "$AURAGLASS_EVIDENCE_DIR/registry-report.json"');
       expect(build).toBeGreaterThan(-1);
       expect(cp).toBeGreaterThan(build);
@@ -982,10 +982,61 @@ describe('docs / registry / pages wiring (B3-8)', () => {
         const r = run(l.slice(0, l.indexOf('node scripts/registry/lint.mjs') + 1).join('\n'), dir, { AURAGLASS_EVIDENCE_DIR: dirEnv });
         expect([r.status, r.stderr]).toEqual([0, '']);
         expect(readFileSync(join(dir, dirEnv, 'registry-report.json'), 'utf8')).toBe('{"sha":"abc"}');
-        expect(calls(dir)).toEqual(['build', 'lint']);
+        expect(calls(dir)).toEqual(['build --candidate', 'lint']);
       } finally {
         rmSync(dir, { recursive: true, force: true });
       }
+    });
+    describe('REQ-PLAT-97 render gate -> certification -> certified build -> interop', () => {
+      const block = lines('plat:test:registry').find((b) => b.includes('tests/dx/registry.playwright.config.ts'))!;
+      const EV = 'ev';
+      const setup = (npxExit: Record<string, number> = {}) => {
+        const dir = tmp();
+        stub(dir, 'scripts/registry/certification.mjs');
+        stub(dir, 'scripts/registry/build.mjs', "fs.mkdirSync('registry',{recursive:true});fs.writeFileSync('registry/registry-report.json','{\"sha\":\"certified\"}');");
+        // npx stub: logs "npx <args>" and exits with the code given for its -c config
+        put(dir, 'bin/npx', `#!/bin/sh\nprintf 'npx %s\\n' "$*" >> calls.log\ncase "$*" in\n  *registry.playwright.config.ts*) exit ${npxExit.render ?? 0};;\n  *dx-e2e*) exit ${npxExit.interop ?? 0};;\nesac\n`);
+        require('node:fs').chmodSync(join(dir, 'bin/npx'), 0o755);
+        mkdirSync(join(dir, EV), { recursive: true });
+        return dir;
+      };
+      const exec = (dir: string) => run(block, dir, { AURAGLASS_EVIDENCE_DIR: EV, PATH: `${join(dir, 'bin')}:${process.env.PATH}` });
+      it('runs the gate under its own config, aggregates for this sha, rebuilds certified, then interop', () => {
+        const dir = setup();
+        try {
+          const r = exec(dir);
+          expect([r.status, r.stderr]).toEqual([0, '']);
+          expect(calls(dir)).toEqual([
+            'npx playwright test -c tests/dx/registry.playwright.config.ts',
+            `certification --records ${EV}/registry-render-records --index registry/registry.json --out ${EV}/registry-certification.json`,
+            `build --certification ${EV}/registry-certification.json`,
+            'npx playwright test -c playwright.dx-e2e.config.ts',
+          ]);
+          expect(readFileSync(join(dir, EV, 'registry-report.json'), 'utf8')).toBe('{"sha":"certified"}');
+        } finally {
+          rmSync(dir, { recursive: true, force: true });
+        }
+      });
+      it('a failing render gate still certifies the passing items and publishes them, but fails the job', () => {
+        const dir = setup({ render: 1 });
+        try {
+          const r = exec(dir);
+          expect(r.status).toBe(1);
+          expect(calls(dir).map((c) => c.split(' ')[0] + (c.startsWith('npx') ? ` ${c.split(' ').pop()}` : ''))).toEqual([
+            'npx tests/dx/registry.playwright.config.ts', 'certification', 'build', 'npx playwright.dx-e2e.config.ts',
+          ]);
+        } finally {
+          rmSync(dir, { recursive: true, force: true });
+        }
+      });
+      it('a failing interop spec fails the job', () => {
+        const dir = setup({ interop: 1 });
+        try {
+          expect(exec(dir).status).toBe(1);
+        } finally {
+          rmSync(dir, { recursive: true, force: true });
+        }
+      });
     });
     it('a build that writes no report fails the job before lint', () => {
       const l = lines('plat:test:registry');
@@ -995,7 +1046,7 @@ describe('docs / registry / pages wiring (B3-8)', () => {
         stub(dir, 'scripts/registry/lint.mjs');
         const r = run(l.slice(0, l.indexOf('node scripts/registry/lint.mjs') + 1).join('\n'), dir, { AURAGLASS_EVIDENCE_DIR: 'ev' });
         expect(r.status).not.toBe(0);
-        expect(calls(dir)).toEqual(['build']);
+        expect(calls(dir)).toEqual(['build --candidate']);
       } finally {
         rmSync(dir, { recursive: true, force: true });
       }

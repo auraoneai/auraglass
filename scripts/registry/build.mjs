@@ -12,11 +12,21 @@
 
    Usage: node scripts/registry/build.mjs [--sha <sha>] [--version <v>]
           [--ga-tag v5.x.y] [--root <dir>] [--manifest <path>]
-   GA (v5.x.y release tag): an omitted GA item fails the build. */
+          [--candidate] [--certification <file>]
+   GA (v5.x.y release tag): an omitted GA item fails the build.
+
+   REQ-PLAT-97 certification write-back: --certification reads the artifact of
+   scripts/registry/certification.mjs (the render gate's per-item pass flags);
+   every item that passed for THIS sha gets meta.auraglass.certified = sha and
+   is published. An artifact for another sha is an error. --candidate is the
+   discovery build that runs before the render gate (the gate's input): it
+   writes the same outputs but never applies the GA omission rule, since no
+   item can be certified before the gate has run. */
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { basename, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { certifiedNames } from './certification.mjs';
 import { DOCS_BASE_URL, REGISTRY_INDEX, REGISTRY_PUBLIC_DIR, REGISTRY_PACKAGE_DIR, REGISTRY_REPORT, SHADCN_SCHEMA } from '../docs/paths.mjs';
 
 const ROOT_DEFAULT = join(fileURLToPath(import.meta.url), '../../..');
@@ -101,7 +111,7 @@ export function generateBaseTheme(manifestPath, { tailwind4 = false } = {}) {
   return { cssVars, css: tailwind4 ? `${BASE_CSS}\n${BASE_CSS_TAILWIND}` : BASE_CSS, missingCssVars: missing };
 }
 
-export function build({ root = ROOT_DEFAULT, sha = null, version = null, gaTag = null, manifest = null, write = true, tailwind4 = false } = {}) {
+export function build({ root = ROOT_DEFAULT, sha = null, version = null, gaTag = null, manifest = null, write = true, tailwind4 = false, candidate = false, certification = null } = {}) {
   const errors = [];
   const schemaPath = join(root, 'registry/schema/registry-item.json');
   const schema = existsSync(schemaPath) ? JSON.parse(readFileSync(schemaPath, 'utf8')) : null;
@@ -155,7 +165,21 @@ export function build({ root = ROOT_DEFAULT, sha = null, version = null, gaTag =
     }
   }
 
+  /* REQ-PLAT-97: render-gate pass flags for this sha → meta.auraglass.certified. */
+  let gateCertified = new Set();
+  if (certification) {
+    try {
+      const cert = typeof certification === 'string' ? JSON.parse(readFileSync(certification, 'utf8')) : certification;
+      gateCertified = certifiedNames(cert, sha);
+      report.certification = { file: typeof certification === 'string' ? relative(root, certification) : null, certified: [...gateCertified].sort() };
+    } catch (e) {
+      errors.push(`certification: ${e.message}`);
+    }
+  }
+  if (candidate) report.candidate = true;
+
   for (const { kind, item, file } of all) {
+    if (kind !== 'base' && gateCertified.has(item.name) && item.meta?.auraglass) item.meta.auraglass.certified = sha;
     const meta = item.meta?.auraglass ?? null;
     const row = { name: item.name, kind, file, owner: meta?.owner ?? null, status: 'pending' };
     const errs = [];
@@ -176,7 +200,7 @@ export function build({ root = ROOT_DEFAULT, sha = null, version = null, gaTag =
     report.items.push(row);
     index.items.push(item);
     if (row.status === 'certified') published.push(item);
-    else if (ga && meta?.ga === true) errors.push(`GA build omits ${item.name} (${row.reason})`);
+    else if (ga && !candidate && meta?.ga === true) errors.push(`GA build omits ${item.name} (${row.reason})`);
   }
 
   const indexOut = emit(index);
@@ -202,6 +226,7 @@ export function main(argv = process.argv.slice(2)) {
   const arg = (n) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : null; };
   const { errors, published, report } = build({
     sha: arg('--sha'), version: arg('--version'), gaTag: arg('--ga-tag'), root: arg('--root') ?? undefined, manifest: arg('--manifest'), tailwind4: argv.includes('--tailwind4'),
+    candidate: argv.includes('--candidate'), certification: arg('--certification'),
   });
   console.log(`registry build: ${report.items.length} discovered, ${published.length} published (${published.join(', ') || 'none'}), ${report.items.filter((i) => i.status === 'omitted').length} omitted pending certification`);
   if (errors.length) { for (const e of errors) console.error(`FAIL ${e}`); return 1; }

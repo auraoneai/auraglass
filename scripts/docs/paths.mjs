@@ -43,7 +43,9 @@ export const REGISTRY_REPORT = 'registry/registry-report.json';
       packEnv            plat:package:pack (dotenv: TARBALL_MB, PACK_SHA)
       quickstartTiming   tests/dx/quickstart.spec.ts
       sizeBudgets        scripts/ci/verify-size-budgets.mjs (sha-stamped copy of docs/size-budgets.json)
-      registryReport     scripts/registry/build.mjs (REGISTRY_REPORT)
+      registryReport     plat:test:registry's job-dir copy of the certified build's
+                         REGISTRY_REPORT (delivered through needs; registry/registry-report.json
+                         itself is git-ignored and never read from the tree)
       matContrast        scripts/mat/token-drift-l4.mjs (S-48 lane evidence)
       matRecipes         scripts/mat/count-glass-recipes.mjs */
 export const ARTIFACTS = {
@@ -54,7 +56,7 @@ export const ARTIFACTS = {
   packEnv: '.artifacts/plat/pack.env',
   quickstartTiming: '.artifacts/plat/quickstart-timing.json',
   sizeBudgets: '.artifacts/plat/size-budgets/size-budgets.json',
-  registryReport: REGISTRY_REPORT,
+  registryReport: '.artifacts/plat/plat-test-registry/registry-report.json',
   matContrast: '.artifacts/mat/l4-token-contrast/contrast-matrix.json',
   matRecipes: '.artifacts/mat/count-glass-recipes/recipes.json',
 };

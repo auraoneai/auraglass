@@ -1,0 +1,15 @@
+{
+  "subject": "app-frame",
+  "overflow": { "horizontal": false },
+  "touchTargets": { "default": 24, "mobilePrimary": 44 },
+  "breakpoints": [390, 1440],
+  "landmarks": ["banner", "navigation", "main"],
+  "boxes": {
+    "sidebar": "[data-ag-part='sidebar']",
+    "main": "[data-ag-part='main']"
+  },
+  "predicates": [
+    { "minWidth": 1440, "assert": "sidebar.x + sidebar.width <= main.x" },
+    { "minWidth": 1440, "assert": "abs(sidebar.y - main.y) <= 1" }
+  ]
+}

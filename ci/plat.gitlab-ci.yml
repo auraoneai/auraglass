@@ -267,18 +267,31 @@ plat:test:registry:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
   script:
     - 'test -f scripts/registry/build.mjs || { echo "PENDING: scripts/registry/build.mjs (lane 1f)"; exit 1; }'
-    - node scripts/registry/build.mjs
+    # Candidate (discovery) build: the render gate's input, so the GA omission
+    # rule waits for the certified build below.
+    - node scripts/registry/build.mjs --candidate
     - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
     - cp registry/registry-report.json "$AURAGLASS_EVIDENCE_DIR/registry-report.json"
     - node scripts/registry/lint.mjs
     # REQ-PLAT-97: pack aura-glass + @auraglass/{cli,registry} from this
     # commit, scaffold Next 16 + Vite apps, init/add every item, build both.
     - node scripts/registry/render-setup.mjs
+    # REQ-PLAT-97 render gate (Chromium + WebKit; its own config, the root one
+    # does not match tests/dx) -> per-item certification for CI_COMMIT_SHA ->
+    # certified build (REQ-PLAT-94: only items that passed every assertion are
+    # published; the report copy in the job dir is the certified one) -> the
+    # shadcn interop spec over the published items. Every step runs; the job
+    # fails if any failed.
     - |
-      for s in tests/dx/registry-render.spec.ts tests/dx/registry-shadcn-interop.spec.ts; do
-        test -f "$s" || { echo "PENDING: $s (lane 1f)"; exit 1; }
-        npx playwright test "$s"
-      done
+      export AG_REGISTRY_CERT_DIR="$AURAGLASS_EVIDENCE_DIR/registry-render-records"
+      export AG_REGISTRY_CERTIFICATION="$AURAGLASS_EVIDENCE_DIR/registry-certification.json"
+      rc=0
+      npx playwright test -c tests/dx/registry.playwright.config.ts || rc=1
+      node scripts/registry/certification.mjs --records "$AG_REGISTRY_CERT_DIR" --index registry/registry.json --out "$AG_REGISTRY_CERTIFICATION" || rc=1
+      node scripts/registry/build.mjs --certification "$AG_REGISTRY_CERTIFICATION" || rc=1
+      cp registry/registry-report.json "$AURAGLASS_EVIDENCE_DIR/registry-report.json"
+      npx playwright test -c playwright.dx-e2e.config.ts || rc=1
+      exit "$rc"
   artifacts:
     paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/", apps/docs/public/r/]
 
