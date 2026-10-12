@@ -17,14 +17,21 @@ const RULES = [
   { category: 'blur', re: new RegExp(String.raw`\bblur\(\s*${NUM}px`, 'g') },
   // MAT-062: the legacy gates flag every backdrop-filter declaration regardless
   // of value — a backdrop-filter (or its -webkit- form) counts as a blur-class
-  // finding even when it only reads vars.
-  { category: 'blur', re: /\b(?:-webkit-)?backdrop-filter\s*:[^;}]+|\b(?:webkit)?backdropFilter\s*:\s*['"][^'"]+['"]/g },
+  // finding even when it only reads vars. Exception (`opticsOwner`): inside the
+  // MAT optics owner (OPTICS_OWNER_GLOBS — the single sanctioned glass recipe of
+  // REQ-MAT-39 and its a11y rungs) a declaration whose value carries no literal
+  // (`none`, or only fallback-free var() / url(#id) references) is the recipe
+  // itself, not a raw design value; a literal there still counts here and
+  // through the blur(<n>px) matcher above.
+  { category: 'blur', re: /\b(?:-webkit-)?backdrop-filter\s*:[^;}]+|\b(?:webkit)?backdropFilter\s*:\s*['"][^'"]+['"]/g, opticsOwner: true },
   // radius: border-radius/borderRadius with a px literal
   { category: 'radius', re: new RegExp(String.raw`\bborder-radius\s*:[^;}]*${NUM}px|\bborderRadius\s*:\s*['"]?[^,'"}]*${NUM}px`, 'g') },
   // shadow: literal box-shadow/boxShadow value (not var()/none/inherit)
   { category: 'shadow', re: /\bbox-shadow\s*:[^;}]+|\bboxShadow\s*:\s*['"][^'"]+['"]/g, test: (m) => /\d\s*(?:px|em|rem)/.test(m[0]) && !/^\s*box-shadow\s*:\s*(?:none|inherit)/.test(m[0]) },
   // duration: ms/s inside transition*/animation* contexts
-  { category: 'duration', re: new RegExp(String.raw`\b(?:transition|transition-[a-z]+|animation|animation-[a-z]+)\s*:[^;}]*\b${NUM}m?s\b`, 'g'), test: (m) => new RegExp(String.raw`${NUM}m?s`).test(m[0]) && !/\d+(?:\.\d+)?\s*(?:px|rem|em|%)/.test(m[0].replace(/\d+(?:\.\d+)?m?s/g, '')) },
+  // A value whose every time is zero (`0s`, `0ms`: the calm/none/reduced-motion
+  // resets) is not a design value — no duration token can own "no time".
+  { category: 'duration', re: new RegExp(String.raw`\b(?:transition|transition-[a-z]+|animation|animation-[a-z]+)\s*:[^;}]*\b${NUM}m?s\b`, 'g'), test: (m) => new RegExp(String.raw`${NUM}m?s`).test(m[0]) && !/\d+(?:\.\d+)?\s*(?:px|rem|em|%)/.test(m[0].replace(/\d+(?:\.\d+)?m?s/g, '')) && !(m[0].match(new RegExp(String.raw`\b${NUM}m?s\b`, 'g')) ?? []).every((t) => parseFloat(t) === 0) },
   // duration: numeric motion keys (MAT-089) — outside src/motion/** only: the
   // motion adapter is where token-derived spring/tween objects are assembled.
   { category: 'duration', re: new RegExp(String.raw`\b(?:duration|delay|stiffness|damping|mass|bounce|visualDuration)\s*:\s*${NUM}\b`, 'g'), motionOnly: true },
@@ -60,12 +67,41 @@ const globToRe = (glob) =>
 
 const EXEMPT_RES = EXEMPT_GLOBS.map(globToRe);
 
+/** MAT optics owner (REQ-MAT-39: the material engine is the one glass recipe;
+    src/a11y/css holds the rungs that switch it off). */
+const OPTICS_OWNER_GLOBS = ['src/material/**', 'src/a11y/css/**'];
+const OPTICS_OWNER_RES = OPTICS_OWNER_GLOBS.map(globToRe);
+
 const normPath = (file) => file.replace(/\\/g, '/').replace(/^.*?(?=(?:tokens|src|tests|fragments|lint|dist|scripts)\/)/, '');
 
 function isExempt(file) {
   const p = normPath(file);
   return EXEMPT_RES.some((re) => re.test(p));
 }
+
+const isOpticsOwner = (file) => OPTICS_OWNER_RES.some((re) => re.test(normPath(file)));
+
+/** A backdrop-filter match whose value carries no literal: `none`, or only
+    fallback-free var() / url(#id) references (the same test scanDecl applies). */
+const literalFreeFilter = (match) => {
+  const value = match.replace(/^[^:]*:\s*/, '').replace(/^['"]|['"]$/g, '').trim();
+  return /^none$/i.test(value) || !/\d/.test(stripVarRefsText(value));
+};
+function stripVarRefsText(value) {
+  let out = value;
+  for (let prev = ''; prev !== out;) {
+    prev = out;
+    out = out.replace(/var\(\s*--[a-zA-Z0-9_-]+\s*\)/g, 'V');
+  }
+  return out.replace(/url\(\s*['"]?#[^)'"]*['"]?\s*\)/g, 'U');
+}
+
+/* Feature probes are capability tests, not design values: a CSS `@supports`
+   prelude and the argument list of a `CSS.supports(…)` call (the PRD §4.5
+   capFloor probe `(backdrop-filter: blur(1px))`) are blanked before matching,
+   like comments. The rules of the block an @supports guards are still scanned. */
+const PROBE_RE = /@supports\b[^{;]*|\bCSS\.supports\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)|\bcss\.supports\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)/g;
+const blankProbes = (text) => text.replace(PROBE_RE, (m) => m.replace(/[^\n]/g, ' '));
 
 /* Per-line allowance markers `// @ag-literal-allowed: <reason>` (MAT-056; the
    named-reason form is the clause FIN-E #308 / REQ-CMP-139 requested). Only the
@@ -111,7 +147,8 @@ function stripComments(text, file = '') {
  */
 function scanText(text, file = '') {
   const inMotion = /(^|\/)src\/motion\//.test(normPath(file));
-  const src = stripComments(text, file);
+  const owner = isOpticsOwner(file);
+  const src = blankProbes(stripComments(text, file));
   const rawLines = text.split('\n');   // allowance markers live in comments — check the original
   const lines = src.split('\n');
   const lineOffsets = [];
@@ -123,6 +160,7 @@ function scanText(text, file = '') {
     if ((rule.tailwind || rule.motionOnly) && inMotion) continue;
     for (const m of src.matchAll(rule.re)) {
       if (rule.test && !rule.test(m)) continue;
+      if (rule.opticsOwner && owner && literalFreeFilter(m[0])) continue;
       const line = lineOf(m.index);
       if (lineIsAllowed(file, rawLines[line] ?? '')) continue;
       hits.push({ category: rule.category, literal: m[0].trim().slice(0, 80), index: m.index, line: line + 1 });
@@ -191,4 +229,4 @@ function countByCategory(hits) {
   return out;
 }
 
-module.exports = { CATEGORIES, EXEMPT_GLOBS, ALLOWANCES, isExempt, scanText, scanDecl, countByCategory };
+module.exports = { CATEGORIES, EXEMPT_GLOBS, ALLOWANCES, OPTICS_OWNER_GLOBS, isExempt, isOpticsOwner, lineIsAllowed, scanText, scanDecl, countByCategory };

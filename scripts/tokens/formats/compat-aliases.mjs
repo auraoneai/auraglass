@@ -45,8 +45,12 @@ export function legacyReaderSet() {
   const doc = JSON.parse(readFileSync(VENDORED_READERS, 'utf8'));
   if (doc.commit !== LEGACY_COMMIT)
     throw new Error(`tokens/legacy/4x-reader-set.json was generated from ${doc.commit}; expected ${LEGACY_COMMIT} — run compat-aliases.mjs --refresh`);
-  return doc.names;
+  return doc.names.filter((n) => !isTemplatePrefix(n));
 }
+
+/** `--glass-` / `--glass-color-` are template-literal prefixes the scanner sees
+    (`--glass-color-${k}`), never a custom property (REQ-MAT-21). */
+export const isTemplatePrefix = (name) => name.endsWith('-');
 
 /** Git-backed scanner used only by --refresh to regenerate VENDORED_READERS. */
 export function scanLegacyReaderSet() {
@@ -59,7 +63,7 @@ export function scanLegacyReaderSet() {
     let src;
     try { src = execSync(`git show ${LEGACY_COMMIT}:${f}`, { cwd: COMPAT_ROOT, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }); }
     catch { continue; }
-    for (const m of src.matchAll(/--(?:glass|aura|persona|glass-theme)[a-zA-Z0-9-]*/g)) names.add(m[0]);
+    for (const m of src.matchAll(/--(?:glass|aura|persona|glass-theme)[a-zA-Z0-9-]*/g)) if (!isTemplatePrefix(m[0])) names.add(m[0]);
   }
   return [...names].sort();
 }

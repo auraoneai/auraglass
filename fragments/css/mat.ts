@@ -26,5 +26,6 @@ export default [
   { file: 'src/a11y/css/scroll-padding.css', layer: 'ag.a11y', bundle: 'styles.css', order: 40 },
   { file: 'src/a11y/css/layers.css', layer: 'ag.a11y', bundle: 'styles.css', order: 50 },
   // REQ-MAT-60 transfer: preferences panel sheet (ag.components, logical props only)
-  { file: 'src/theme/preferences-panel/GlassPreferencesPanel.css', layer: 'ag.components', bundle: 'styles.css', order: 70 },
+  // a11y 'none': the panel's a11y comes from the attribute-keyed ag.a11y rungs/focus/targets (REQ-PLAT-74)
+  { file: 'src/theme/preferences-panel/GlassPreferencesPanel.css', layer: 'ag.components', bundle: 'styles.css', order: 70, a11y: 'none' },
 ] satisfies CssFragment[];

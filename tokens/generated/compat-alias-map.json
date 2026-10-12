@@ -1,9 +1,4 @@
 {
-  "--aura-": {
-    "successor": null,
-    "frozen": null,
-    "defined": false
-  },
   "--aura-accent-color": {
     "successor": "--ag-color-accent",
     "frozen": null,
@@ -3059,11 +3054,6 @@
     "frozen": null,
     "defined": false
   },
-  "--aura-shadow-elevation-": {
-    "successor": null,
-    "frozen": null,
-    "defined": false
-  },
   "--aura-shadow-elevation-1": {
     "successor": "--ag-shadow-thin",
     "frozen": "var(--glass-elev-1)",
@@ -3285,11 +3275,6 @@
     "defined": false
   },
   "--auraglass-text-muted": {
-    "successor": null,
-    "frozen": null,
-    "defined": false
-  },
-  "--glass-": {
     "successor": null,
     "frozen": null,
     "defined": false
@@ -3705,11 +3690,6 @@
     "defined": false
   },
   "--glass-chart-tooltip-arrow-fill": {
-    "successor": null,
-    "frozen": null,
-    "defined": false
-  },
-  "--glass-color-": {
     "successor": null,
     "frozen": null,
     "defined": false
@@ -6615,11 +6595,6 @@
     "defined": false
   },
   "--glass-text": {
-    "successor": null,
-    "frozen": null,
-    "defined": false
-  },
-  "--glass-text-": {
     "successor": null,
     "frozen": null,
     "defined": false

@@ -92,7 +92,7 @@ const srcFiles = walkFiles(join(ROOT, 'src'), ['.ts', '.tsx', '.css'])
   .filter((f: string) => !f.includes('/generated/'));
 
 const legacyLiteralFindings = () => {
-  const findings: Array<{ file: string; kind: string; category: string | null }> = [];
+  const findings: Array<{ file: string; kind: string; category: string | null; allowed: boolean }> = [];
   for (const f of srcFiles) {
     const content = readFileSync(f, 'utf8');
     if (content.includes('token-lint-ignore-file')) continue;
@@ -105,11 +105,12 @@ const legacyLiteralFindings = () => {
         const lineEnd = content.indexOf('\n', m.index);
         const line = content.slice(lineStart + 1, lineEnd === -1 ? undefined : lineEnd);
         if (line.includes('token-lint-ignore')) continue;
+        const allowed = literals.lineIsAllowed(f.replace(`${ROOT}/`, ''), line);
         if (kind === 'hexColor' && (line.includes('--') || line.includes('//') || line.includes('/*'))) continue;
         // ...and on the continuation lines of a block comment ("#313" PR/issue
         // references in prose), which the single-line check above cannot see
         if (kind === 'hexColor' && content.lastIndexOf('/*', m.index) > content.lastIndexOf('*/', m.index)) continue;
-        findings.push({ file: f.replace(`${ROOT}/`, ''), kind, category: LEGACY_TO_LITERAL[kind]! });
+        findings.push({ file: f.replace(`${ROOT}/`, ''), kind, category: LEGACY_TO_LITERAL[kind]!, allowed });
       }
     }
   }
@@ -140,16 +141,31 @@ describe('legacy gate superset (MAT-062)', () => {
     if (bare.length === 0) expect(gate.code).toBe(0);
   });
 
-  test('literal findings: every in-category legacy hit is flagged by _literals', () => {
+  test('literal findings: every in-category legacy hit is flagged by _literals', async () => {
     const legacy = legacyLiteralFindings();
     const scoped = legacy.filter((f) => f.category !== null);
     const skipped = legacy.filter((f) => f.category === null);
+    // The 4.x "inline backdrop-filter — use the glass recipe" finding has two new
+    // gates: the literal ratchet (blur category) and the REQ-MAT-39 recipe metric
+    // (scripts/mat/count-glass-recipes.mjs), which reports every src file that
+    // declares a backdrop filter. Inside the MAT optics owner the literal-free
+    // recipe declarations are the recipe itself, so there the metric is the gate.
+    // @ts-ignore mjs module
+    const { count } = await import('../../scripts/mat/count-glass-recipes.mjs');
+    const recipes = count(ROOT) as { inside: string[]; outside: string[] };
+    const recipeFiles = new Set([...recipes.inside, ...recipes.outside]);
+    const BACKDROP_KINDS = new Set(['backdropFilter', 'webkitBackdropFilter']);
     const uncovered: string[] = [];
     for (const f of scoped) {
       const abs = join(ROOT, f.file);
       if (literals.isExempt(f.file)) continue; // exempt paths are allowed literals
       const hits: Array<{ category: string }> = literals.scanText(readFileSync(abs, 'utf8'), f.file);
-      if (!hits.some((h) => h.category === f.category)) uncovered.push(`${f.file}: ${f.kind}`);
+      if (hits.some((h) => h.category === f.category)) continue;
+      if (BACKDROP_KINDS.has(f.kind) && recipeFiles.has(f.file)) continue;
+      // a line carrying a scoped `// @ag-literal-allowed: <reason>` marker is a
+      // reviewed allowance of the new gate (the 4.x gate's token-lint-ignore)
+      if (f.allowed) continue;
+      uncovered.push(`${f.file}: ${f.kind}`);
     }
     console.log(`legacy literal findings: ${scoped.length} scoped (${JSON.stringify(
       scoped.reduce((acc: any, f) => ({ ...acc, [f.kind]: (acc[f.kind] ?? 0) + 1 }), {}))}), skipped-out-of-category: ${skipped.length}`);

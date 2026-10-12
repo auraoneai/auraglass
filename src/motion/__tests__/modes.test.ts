@@ -100,12 +100,13 @@ describe('calm mode', () => {
 });
 
 describe('prefers-reduced-motion media mirror', () => {
-  it('mirrors calm under :root:not([data-ag-motion])', () => {
+  it('mirrors calm where no [data-ag-motion] is declared on the element or an ancestor (no :root, REQ-MAT-19)', () => {
     let mirror: postcss.AtRule | undefined;
     root.walkAtRules('media', (r) => { if (r.params.includes('prefers-reduced-motion')) mirror = r; });
     expect(mirror).toBeTruthy();
     const src = mirror!.toString();
-    expect(src).toContain(':root:not([data-ag-motion])');
+    expect(src).toContain(':not(:where([data-ag-motion], [data-ag-motion] *))');
+    expect(src).not.toContain(':root');
     expect(src).toContain('--ag-spring-snappy: var(--ag-ease-standard)');
     expect(src).toContain('animation: none');
     expect(src).toContain('scale: none');

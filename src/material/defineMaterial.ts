@@ -42,18 +42,27 @@ export const DEFAULT_MATERIAL_SPEC: MaterialSpec = {
   brightness: 1.0,
   tint: { light: 0.6, dark: 0.72, media: 0.55 },
   opacityFloor: initialFloor(0.6),
+  /* Colours derive from the sys tokens through relative colour syntax (REQ-MAT-18:
+     no literal colour in src; REQ-MAT-01: design values live in tokens/**). The
+     offsets match the material engine (src/material/css/material.css). */
   innerFill: {
-    light: 'oklch(96% 0.005 260 / 0.85)',
-    dark: 'oklch(24% 0.02 260 / 0.85)',
+    light: 'oklch(from var(--ag-color-canvas) calc(l - 0.02) c h / 0.85)',
+    dark: 'oklch(from var(--ag-color-canvas) calc(l - 0.02) c h / 0.85)',
   },
   content: {
-    'content-raised': { light: 'oklch(98% 0.004 260)', dark: 'oklch(22% 0.02 260)' },
-    'content-sunken': { light: 'oklch(94% 0.006 260)', dark: 'oklch(18% 0.02 260)' },
+    'content-raised': {
+      light: 'oklch(from var(--ag-color-canvas) calc(l + 0.015) c h)',
+      dark: 'oklch(from var(--ag-color-canvas) calc(l + 0.015) c h)',
+    },
+    'content-sunken': {
+      light: 'oklch(from var(--ag-color-canvas) calc(l - 0.03) c h)',
+      dark: 'oklch(from var(--ag-color-canvas) calc(l - 0.03) c h)',
+    },
   },
   rim: {
     width: { thin: '1px', regular: '1px', thick: '1.5px' },
-    light: 'oklch(100% 0 0 / 0.45)',
-    shade: 'oklch(0% 0 0 / 0.08)',
+    light: 'oklch(from var(--ag-color-specular) l c h / 0.45)',
+    shade: 'oklch(from var(--ag-scrim-media) l c h / 0.08)',
   },
   specular: { intensity: 0.5, spread: '40deg' },
   refraction: {
@@ -61,24 +70,25 @@ export const DEFAULT_MATERIAL_SPEC: MaterialSpec = {
     scale: { thin: 8, regular: 12, thick: 18 },
   },
   grain: { opacity: 0.03, asset: 'ag-grain-128.avif' },
+  /* shadow key ink = the environment scrim ink (--ag-scrim-media) at the key alpha */
   shadow: {
     thin: {
-      light: { ambient: '0 0 0 0 transparent', key: '0 1px 2px 0 rgb(0 0 0 / 0.06)' },
-      dark: { ambient: '0 0 0 0 transparent', key: '0 1px 2px 0 rgb(0 0 0 / 0.4)' },
+      light: { ambient: '0 0 0 0 transparent', key: '0 1px 2px 0 oklch(from var(--ag-scrim-media) l c h / 0.06)' },
+      dark: { ambient: '0 0 0 0 transparent', key: '0 1px 2px 0 oklch(from var(--ag-scrim-media) l c h / 0.4)' },
     },
     regular: {
-      light: { ambient: '0 0 0 0 transparent', key: '0 4px 12px -2px rgb(0 0 0 / 0.1)' },
-      dark: { ambient: '0 0 0 0 transparent', key: '0 4px 12px -2px rgb(0 0 0 / 0.5)' },
+      light: { ambient: '0 0 0 0 transparent', key: '0 4px 12px -2px oklch(from var(--ag-scrim-media) l c h / 0.1)' },
+      dark: { ambient: '0 0 0 0 transparent', key: '0 4px 12px -2px oklch(from var(--ag-scrim-media) l c h / 0.5)' },
     },
     thick: {
-      light: { ambient: '0 0 0 0 transparent', key: '0 12px 32px -8px rgb(0 0 0 / 0.18)' },
-      dark: { ambient: '0 0 0 0 transparent', key: '0 12px 32px -8px rgb(0 0 0 / 0.6)' },
+      light: { ambient: '0 0 0 0 transparent', key: '0 12px 32px -8px oklch(from var(--ag-scrim-media) l c h / 0.18)' },
+      dark: { ambient: '0 0 0 0 transparent', key: '0 12px 32px -8px oklch(from var(--ag-scrim-media) l c h / 0.6)' },
     },
   },
   scrim: { clearOverBright: 0.35, modal: 0.5, blur: '12px' },
   fallbackFill: {
-    light: 'oklch(97% 0.004 260 / 0.9)',
-    dark: 'oklch(26% 0.02 260 / 0.92)',
+    light: 'oklch(from var(--ag-color-canvas) l c h / 0.9)',
+    dark: 'oklch(from var(--ag-color-canvas) l c h / 0.92)',
   },
   state: DEFAULT_STATE,
 };

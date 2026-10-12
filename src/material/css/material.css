@@ -33,7 +33,9 @@
        property cannot read itself, so states add a lift instead of
        rewriting --_ag-tint-floor in terms of --_ag-tint-floor. */
     --_ag-floor-lift: 0;
-    --_ag-tint-floor: calc(var(--_ag-floor-alpha, 1) + var(--_ag-floor-lift));
+    /* baseline only: every generated floor row (generated/floors.css) replaces
+       it with the solved row + var(--_ag-floor-lift) */
+    --_ag-tint-floor: calc(var(--_ag-floor-alpha) + var(--_ag-floor-lift));
     /* hover specular lift, added where --ag-specular is consumed (pseudo
        layers) for the same reason: `--ag-specular: calc(var(--ag-specular)
        + …)` would be a cycle and resolve to the registered initial value. */
@@ -94,6 +96,10 @@
     --_ag-grain-opacity: inherit;
     --_ag-optics: inherit;
     --_ag-press: inherit;
+    /* reserved scalar (REQ-MAT-28): inherited like every private scalar; the
+       enhanced lens scale is static per filter id (REQ-MAT-36), so no rule
+       writes it in core */
+    --_ag-refraction-scale: inherit;
     --ag-specular: inherit;
   }
   /* Layer 1 + 2 (MAT §4.3): backdrop optics, dim, grain, Fresnel band and
@@ -173,12 +179,11 @@
   }
 
   /* ---- environment: declared backdrops (REQ-MAT-31 environment css) ----
-     Inherited env scalars + backdrop-resolved on-surface (glyph flip). The
-     document root carries the neutral env multiplier, so a surface with no
-     declared backdrop ancestor reads 1 without a literal fallback. */
-  :where(:root) {
-    --_ag-env-brightness: 1;
-  }
+     Inherited env scalars + backdrop-resolved on-surface (REQ-MAT-29). The
+     neutral env multiplier (1) is a token default emitted by dist/tokens.css
+     in ag.tokens (sys.environment.env-brightness), so a surface with no
+     declared backdrop ancestor reads 1 without a literal fallback and no
+     :root selector sits in ag.material (REQ-MAT-19). */
   /* Glyphs follow the fill, not the backdrop: every surface paints the
      canvas tint at >= its solved floor (0.5-0.88, generated/floors.css), and
      the floors are solved for the scheme's on-surface ink over each backdrop.
@@ -318,23 +323,25 @@
     --_ag-fill: var(--_ag-canvas-fill);
   }
 
-  /* ---- overlay / expanded / full-height floor rows (REQ-MAT-31, REQ-FIN-02) ----
-     The generated cells key on [data-ag-thickness][data-ag-backdrop]; overlay
-     popups carry no backdrop attr, so they select the emitted floor row
-     (--_ag-floor-alpha, the variant × thickness readability floor) directly. */
-  [data-ag-surface][data-ag-layer="overlay"][data-open] {
-    --_ag-tint-floor: calc(var(--_ag-floor-alpha) + var(--_ag-floor-lift));
+  /* ---- overlay / expanded / full-height floor rows (REQ-MAT-31, REQ-MAT-10) ----
+     Every generated floor row (generated/floors.css) also writes the solved
+     companion rows these states read, for the surface's own thickness,
+     backdrop, transparency and contrast condition — no floor here is
+     hand-written. The :is(…, *) argument adds (0,4,0) without narrowing the
+     match, so each state row out-specifies every generated floor row (max
+     (0,5,0)) in this layer; the interaction lift still applies. */
+  [data-ag-surface][data-ag-layer="overlay"][data-open]:is([data-ag-variant][data-ag-thickness][data-ag-tier][data-disabled], *) {
+    /* the overlay row: worst declared backdrop of the row */
+    --_ag-tint-floor: calc(var(--_ag-tint-floor-overlay) + var(--_ag-floor-lift, 0));
   }
-  [data-ag-surface][data-expanded] {
-    /* raises the floor one thickness row. The raised row value is a floor
-       cell output (REQ-FIN-03 emitter, --_ag-floor-alpha-expanded); until it
-       is emitted the surface keeps its own row — never below it. */
-    --_ag-tint-floor: max(var(--_ag-floor-alpha, 1), var(--_ag-floor-alpha-expanded, var(--_ag-floor-alpha, 1)));
+  [data-ag-surface][data-expanded]:is([data-ag-variant][data-ag-thickness][data-ag-tier][data-disabled], *) {
+    /* one thickness row up (the next higher solved floor) */
+    --_ag-tint-floor: calc(var(--_ag-tint-floor-expanded) + var(--_ag-floor-lift, 0));
   }
-  [data-ag-surface][data-ag-full-height],
-  [data-ag-surface][data-ag-appearance="full-height"] {
-    /* full-height sheets resolve to the tinted rung (CC-CMP-03) */
-    --_ag-tint-floor: var(--_ag-tinted-floor, 0.85);
+  [data-ag-surface][data-ag-full-height]:is([data-ag-variant][data-ag-thickness][data-ag-tier][data-disabled], *),
+  [data-ag-surface][data-ag-appearance="full-height"]:is([data-ag-variant][data-ag-thickness][data-ag-tier][data-disabled], *) {
+    /* full-height sheets resolve to (at least) the tinted rung (CC-CMP-03) */
+    --_ag-tint-floor: calc(var(--_ag-tint-floor-full-height) + var(--_ag-floor-lift, 0));
   }
   /* nested-open dialog (REQ-CMP-89, hand-off from #257): the parent popup
      dims its MATERIAL alpha while a child dialog is open */
@@ -345,7 +352,8 @@
 
   /* ---- modal scrim (REQ-MAT-31, REQ-CMP-79 hand-off from #248) ----
      The overlay owner renders a [data-ag-layer="scrim"] sibling. Colour is the
-     environment scrim token; blur is capped at 12 px. No pointer-events:none:
+     environment scrim ink at the scrim.modal alpha (--_ag-scrim-modal,
+     tokens/sys/environment.tokens.json); blur is capped at 12 px. No pointer-events:none:
      it would swallow outside-press on the Base UI backdrop. Only the top scrim
      keeps its blur; deeper scrims zero the private blur scalar via the depth
      marker (the single backdrop-filter declaration above stays the only one).
@@ -354,7 +362,8 @@
   [data-ag-layer="scrim"] {
     position: fixed;
     inset: 0;
-    background: var(--ag-scrim-media);
+    /* environment scrim ink at the scrim.modal alpha (REQ-MAT-31) */
+    background: oklch(from var(--ag-scrim-media) l c h / var(--_ag-scrim-modal));
     --_ag-scrim-blur: 12px;
     backdrop-filter: blur(var(--_ag-scrim-blur));
     -webkit-backdrop-filter: blur(var(--_ag-scrim-blur));
@@ -409,6 +418,8 @@
   [data-ag-surface][data-ag-contrast="more"] {
     --_ag-grain-opacity: 0;
     --_ag-specular-lift: 0;
+    /* REQ-MAT-32: contrast=more => saturation 1 */
+    --_ag-saturation: 1;
   }
   :where([data-ag-contrast="more"]) [data-ag-surface]::before,
   [data-ag-surface][data-ag-contrast="more"]::before {
@@ -432,8 +443,30 @@
     outline: 1px solid var(--_ag-border-strong, currentColor);
     outline-offset: -1px;
   }
+  /* press / loading / dragging under contrast=more: outline weight forms, no
+     specular and no press glow (REQ-MAT-09: every state has a contrast=more value) */
+  [data-ag-contrast="more"] :where([data-ag-surface][data-pressed],
+    [data-ag-surface][data-ag-interactive]:active),
+  :where([data-ag-surface][data-ag-contrast="more"]):where([data-pressed], [data-ag-interactive]:active) {
+    --_ag-press: 0;
+    --_ag-specular-lift: 0;
+    outline: 2px solid var(--_ag-border-strong, currentColor);
+    outline-offset: -2px;
+  }
+  [data-ag-contrast="more"] :where([data-ag-surface][data-loading], [data-ag-surface][aria-busy="true"]),
+  :where([data-ag-surface][data-ag-contrast="more"]):where([data-loading], [aria-busy="true"]) {
+    outline: 1px dashed var(--_ag-border-strong, currentColor);
+    outline-offset: -1px;
+  }
+  [data-ag-contrast="more"] :where([data-ag-surface][data-dragging]),
+  :where([data-ag-surface][data-ag-contrast="more"]):where([data-dragging]) {
+    --ag-specular: 0;
+    outline: 2px solid var(--_ag-border-strong, currentColor);
+    outline-offset: -2px;
+  }
 
-  /* forced colours: selected/press -> Highlight, disabled -> GrayText */
+  /* forced colours: selected/press/hover/dragging -> Highlight (HighlightText
+     ink where the fill is Highlight), disabled/loading -> GrayText */
   @media (forced-colors: active) {
     [data-ag-surface][data-selected],
     [data-ag-surface][aria-selected="true"],
@@ -458,6 +491,20 @@
     }
     [data-ag-surface][data-drop-target] {
       outline: 2px dashed Highlight;
+      outline-offset: -2px;
+    }
+    [data-ag-surface][data-ag-interactive]:where(:hover) {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
+    [data-ag-surface][data-loading],
+    [data-ag-surface][aria-busy="true"] {
+      color: GrayText;
+      outline: 1px dashed GrayText;
+      outline-offset: -1px;
+    }
+    [data-ag-surface][data-dragging] {
+      outline: 2px solid Highlight;
       outline-offset: -2px;
     }
   }
@@ -501,25 +548,21 @@
   }
 
   /* ---- tiers (REQ-MAT-35). Standard is the default; lightweight rungs below.
-     Subtree attributes override <html>: :root-level selectors use :where() so
-     a nearer [data-ag-tier]/[data-ag-transparency] ancestor wins on specificity. */
-  :where(:root[data-ag-tier="lightweight"]) [data-ag-surface],
+     The attribute may sit on <html> or any subtree ancestor; the descendant
+     selectors cover both, with no :root selector in ag.material (REQ-MAT-19). */
   [data-ag-tier="lightweight"] [data-ag-surface],
   [data-ag-surface][data-ag-tier="lightweight"],
   [data-ag-surface][data-ag-transparency="solid"],
-  [data-ag-transparency="solid"] [data-ag-surface],
-  :where(:root[data-ag-transparency="solid"]) [data-ag-surface] {
+  [data-ag-transparency="solid"] [data-ag-surface] {
     /* fallbackFill: >=0.85 alpha, following the scheme — never a black slab */
     --_ag-fill: oklch(from var(--ag-color-canvas) l c h / 0.9);
     --_ag-alpha: 1;
     --_ag-grain-opacity: 0;
   }
-  :where(:root[data-ag-tier="lightweight"]) [data-ag-surface]::before,
   [data-ag-tier="lightweight"] [data-ag-surface]::before,
   [data-ag-surface][data-ag-tier="lightweight"]::before,
   [data-ag-surface][data-ag-transparency="solid"]::before,
-  [data-ag-transparency="solid"] [data-ag-surface]::before,
-  :where(:root[data-ag-transparency="solid"]) [data-ag-surface]::before {
+  [data-ag-transparency="solid"] [data-ag-surface]::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     /* grain layer removed; Fresnel band and sheen kept */
@@ -559,21 +602,19 @@
     }
     [data-ag-surface]::after { content: none; }
   }
-  /* tinted rung: blur kept, floor raised to the tinted row; refraction is
-     off through lens.css's tinted exclusions (the lens scale is static per
-     filter id, REQ-MAT-36 — no CSS scalar drives it) */
-  [data-ag-transparency="tinted"] [data-ag-surface],
-  [data-ag-surface][data-ag-transparency="tinted"],
-  :where(:root[data-ag-transparency="tinted"]) [data-ag-surface] {
-    --_ag-tint-floor: var(--_ag-tinted-floor, 0.85);
-  }
+  /* tinted rung: blur kept, floor raised to the solved tinted row by the
+     generated transparency rows (generated/floors.css) and the ag.a11y rung
+     (src/a11y/css/rungs.css) — no floor is written here; refraction is off
+     through lens.css's tinted exclusions (REQ-MAT-36) */
 
+  /* OS reduced transparency applies only where no transparency attribute is
+     declared on the surface or any ancestor (<html> included) */
   @media (prefers-reduced-transparency: reduce) {
-    :root:not([data-ag-transparency]) [data-ag-surface] {
+    [data-ag-surface]:not([data-ag-transparency]):not([data-ag-transparency] *) {
       --_ag-fill: oklch(from var(--ag-color-canvas) l c h / 0.9);
       --_ag-alpha: 1;
     }
-    :root:not([data-ag-transparency]) [data-ag-surface]::before {
+    [data-ag-surface]:not([data-ag-transparency]):not([data-ag-transparency] *)::before {
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }

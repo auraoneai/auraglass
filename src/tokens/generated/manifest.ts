@@ -422,7 +422,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 64
+     "count": 66
     }
    ],
    "value": "oklch(0.64 0.16 235)"
@@ -460,7 +460,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 34
+     "count": 44
     }
    ],
    "value": "oklch(0.99 0.004 250)"
@@ -479,7 +479,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 29
+     "count": 31
     }
    ],
    "value": "oklch(0.43 0.17 27)"
@@ -536,7 +536,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 20
+     "count": 21
     }
    ],
    "value": "oklch(0.62 0.15 215)"
@@ -612,7 +612,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 11
+     "count": 12
     }
    ],
    "value": "oklch(1 0 0)"
@@ -631,7 +631,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 22
+     "count": 23
     }
    ],
    "value": "oklch(0.6 0.15 150)"
@@ -650,7 +650,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 17
+     "count": 18
     }
    ],
    "value": "oklch(0.74 0.16 90)"
@@ -746,7 +746,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 9
+     "count": 16
     }
    ],
    "value": "oklch(0 0 0 / 0.72)"

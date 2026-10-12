@@ -220,10 +220,11 @@ describe('REQ-FIN-02 optics clauses (REQ-MAT-26, -32, -42, -43, -49)', () => {
 });
 
 describe('REQ-FIN-02 lens eligibility (REQ-MAT-36 lens.css clause)', () => {
-  it('every lens rule is prefixed with :root[data-ag-tier="enhanced"]', () => {
+  it('every lens rule is prefixed with the enhanced preference root [data-ag-tier="enhanced"][data-ag-engine="chromium"] (no :root, REQ-MAT-19)', () => {
     const sels: string[] = [];
     lensAst.walkRules((r) => { for (const s of r.selectors) sels.push(s.trim()); });
     expect(sels.length).toBeGreaterThanOrEqual(9);
-    for (const s of sels) expect(s.startsWith(':root[data-ag-tier="enhanced"]')).toBe(true);
+    for (const s of sels) expect(s.startsWith('[data-ag-tier="enhanced"][data-ag-engine="chromium"]')).toBe(true);
+    for (const s of sels) expect(s).not.toContain(':root');
   });
 });

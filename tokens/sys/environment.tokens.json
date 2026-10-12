@@ -123,6 +123,28 @@
             "ag.public": true,
             "ag.cssVar": "--ag-scrim-media"
           }
+        },
+        "modal": {
+          "$type": "number",
+          "$value": 0.4,
+          "$description": "scrim.modal alpha (REQ-MAT-31): modal scrims paint the media scrim ink at this alpha. Equals material.material.scrim.modal.",
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-scrim-modal"
+          }
+        }
+      },
+      "env-brightness": {
+        "$type": "number",
+        "$value": 1,
+        "$description": "Neutral environment brightness multiplier (REQ-MAT-31): the document default every [data-ag-backdrop] subtree overrides; read by the ::before brightness() term.",
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-env-brightness"
         }
       }
     }

@@ -144,7 +144,7 @@ describe('startMorph — FLIP fallback (REQ-MOT-39)', () => {
     let i = 0;
     jest.spyOn(el, 'getBoundingClientRect').mockImplementation(() => rects[i++] as DOMRect);
     // jsdom resolves custom properties only when set on the element itself
-    el.style.setProperty('--ag-spring-fluid', 'linear(0,1)');
+    el.style.setProperty('--ag-spring-fluid', 'linear(0,1)'); // @ag-literal-allowed: test-vector
     el.style.setProperty('--ag-spring-fluid-duration', '450');
     let ran = 0;
     await startMorph(() => { ran += 1; }, { surfaces: [el], motion: 'full' });
@@ -156,7 +156,7 @@ describe('startMorph — FLIP fallback (REQ-MOT-39)', () => {
       expect(keys.every((k) => k === 'transform' || k === 'transformOrigin')).toBe(true);
     }
     expect(frames[0]!.transform).toBe('translate(-30px, 0px) scale(0.5, 1)');
-    expect(opts?.easing).toBe('linear(0,1)');
+    expect(opts?.easing).toBe('linear(0,1)'); // @ag-literal-allowed: test-vector
     expect(opts?.duration).toBe(450);
   });
   it('no-ops the animation when geometry is unchanged but still runs update once', async () => {

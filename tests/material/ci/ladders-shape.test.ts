@@ -270,7 +270,9 @@ describe('REQ-FIN-03 ladders.css shape', () => {
         const rule = cellRule(v, t);
         expect(rule).toBeDefined();
         for (const s of SCALARS) expect(rule!.decls).toHaveProperty(s);
-        expect(rule!.decls['--_ag-brightness']).toMatch(/^light-dark\(/);
+        // a registered <number>: a plain number on the cell row, never light-dark()
+        // (colours only — it would leave the property invalid at computed time, REQ-MAT-32)
+        expect(rule!.decls['--_ag-brightness']).toMatch(/^\d+(\.\d+)?$/);
         expect(rule!.decls['--_ag-rim-width']).toBe(RIM[t]);
         expect(rule!.decls['--_ag-shadow']).toContain(`var(--ag-shadow-${t})`);
         if ((BLURRED as readonly string[]).includes(v)) expect(rule!.decls['--_ag-blur']).toBe(BLUR[t]);
@@ -357,6 +359,30 @@ describe('REQ-FIN-03 ladders.css cascade', () => {
             expect(grain).toBeDefined();
             expect(numeric(grain!)).toBeLessThanOrEqual(0.02);
           }
+  });
+
+  it('overlays read the thick elevation key at every thickness, incl. disabled/lightweight rows (REQ-MAT-32)', () => {
+    for (const v of VARIANTS)
+      for (const t of [...THICKNESSES, null])
+        for (const extra of [{}, { 'data-disabled': '' }, { 'data-ag-tier': 'lightweight' }]) {
+          const attrs: Record<string, string> = { 'data-ag-variant': v, 'data-ag-layer': 'overlay', ...extra };
+          if (t) attrs['data-ag-thickness'] = t;
+          const el = surface(attrs);
+          expect([v, t, extra, winning(el, '--_ag-shadow')?.value]).toEqual([v, t, extra, 'var(--_ag-shadow-overlay-thick)']);
+        }
+  });
+
+  it('contrast=more: the WebKit literal carries saturate(1) wherever the attribute is declared (REQ-MAT-32)', () => {
+    for (const anc of [[], [{ 'data-ag-contrast': 'more' }]] as Record<string, string>[][])
+      for (const v of BLURRED)
+        for (const t of THICKNESSES) {
+          const own = anc.length ? {} : { 'data-ag-contrast': 'more' };
+          const el = surface({ ...own, 'data-ag-variant': v, 'data-ag-thickness': t }, anc);
+          const lit = winning(el, '-webkit-backdrop-filter', { pseudo: 'before' })?.value ?? '';
+          expect([v, t, lit]).toEqual([v, t, `blur(${BLUR[t]}) saturate(1) brightness(1)`]);
+          const coarse = winning(el, '-webkit-backdrop-filter', { pseudo: 'before', coarse: true })?.value ?? '';
+          expect([v, t, coarse]).toEqual([v, t, `blur(${t === 'thick' ? '20px' : BLUR[t]}) saturate(1) brightness(1)`]);
+        }
   });
 
   it('clear fail-safe: outside a declared backdrop a clear cell resolves to the regular row', () => {

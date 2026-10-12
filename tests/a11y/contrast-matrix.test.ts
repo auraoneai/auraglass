@@ -205,6 +205,14 @@ const EXPECTED_ROWS = [
   ...THICKNESSES.flatMap((th) => BACKDROPS.map((bd) => rowKey('more', th, bd))),
 ];
 
+/** A generated floor value: `calc(<n> + var(--_ag-floor-lift, 0))` (the solved row plus
+ *  the REQ-MAT-09 interaction-state lift, 0 at rest). Anything else is not a floor row. */
+const FLOOR_RE = /^calc\(\s*(\d+(?:\.\d+)?)\s*\+\s*var\(--_ag-floor-lift,\s*0\)\s*\)$/;
+const floorValue = (v: string): number => {
+  const m = FLOOR_RE.exec(v.replace(/\s+/g, ' ').trim());
+  return m ? Number(m[1]) : Number.NaN;
+};
+
 /**
  * Parse every `--_ag-tint-floor` row of floors.css (top level of
  * `@layer ag.material`, outside @media/@supports). Each selector in a rule
@@ -236,7 +244,7 @@ const parseFloorRows = (css: string): Map<string, number> => {
     if (keys.has(null) || keys.size !== 1) throw new Error(`floors.css: rule mixes rows ${[...keys].join(', ')}`);
     const key = [...keys][0]!;
     if (rows.has(key)) throw new Error(`floors.css: row ${key} declared twice`);
-    const v = Number(d.value);
+    const v = floorValue(d.value);
     if (!Number.isFinite(v)) throw new Error(`floors.css: row ${key} has non-numeric floor '${d.value}'`);
     rows.set(key, v);
   });
@@ -343,7 +351,7 @@ const mutateRow = (css: string, key: string, delta: number): string => {
     if (!th || !bd || sel.includes(':not([data-ag-thickness])') || (tr && more)) return;
     const head = more ? 'more' : tr ?? (sel.includes('[data-ag-surface]') ? 'glass' : 'more');
     if (rowKey(head, th, bd) !== key) return;
-    d.value = String(Math.round((Number(d.value) + delta) * 1000) / 1000);
+    d.value = `calc(${Math.round((floorValue(d.value) + delta) * 1000) / 1000} + var(--_ag-floor-lift, 0))`;
     hit++;
   });
   if (hit !== 1) throw new Error(`mutateRow: row ${key} matched ${hit} declarations`);

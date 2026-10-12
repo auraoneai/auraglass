@@ -1,10 +1,13 @@
 /* Material ladder emitters (MAT-038/040/048; REQ-FIN-03): MaterialSpec -> ladders.css +
    floors.css. Surface cells key on [data-ag-surface][data-ag-variant][data-ag-thickness]
    (the 4.x material attribute is banned — material.ts S-01 BANNED_ATTRIBUTES). Engine scalars: --_ag-blur, --_ag-
-   saturation, --_ag-brightness (light-dark), --_ag-shadow (two-layer ambient+key,
-   overlay reads thick), --_ag-rim-width, --_ag-grain-opacity, --_ag-tint-alpha.
+   saturation, --_ag-brightness (a <number>: the light value on the cell row, the dark
+   value on scheme-keyed rows when it differs — never light-dark(), which only takes
+   colours and would leave the registered <number> invalid), --_ag-shadow (two-layer
+   ambient+key, overlay reads thick), --_ag-rim-width, --_ag-grain-opacity, --_ag-tint-alpha.
    WebKit literals are emitted on ::before only for tiers standard/enhanced and the
-   no-tier default — never for lightweight, never unprefixed, never var(). */
+   no-tier default — never for lightweight, never unprefixed, never var(); under
+   contrast=more they carry saturate(1) (REQ-MAT-32). */
 
 import { colorToCss } from '../color.mjs';
 
@@ -46,7 +49,7 @@ export const cellScalars = (spec, v, t) => {
   return [
     `    --_ag-blur: ${dim(c.blur)};`,
     `    --_ag-saturation: ${c.saturation};`,
-    `    --_ag-brightness: light-dark(${br.light}, ${br.dark});`,
+    `    --_ag-brightness: ${br.light};`,
     `    --_ag-grain-opacity: ${c.grain};`,
     `    --_ag-rim-width: ${dim(c.rim)};`,
     `    --_ag-shadow: var(--ag-shadow-${t});`,  // two layers (ambient, key) per scheme
@@ -54,9 +57,15 @@ export const cellScalars = (spec, v, t) => {
   ];
 };
 
-/** WebKit literal filter for a cell (constants only — MAT-034 bars var() here). */
-const filterLiteral = (spec, v, t, blurPx) =>
-  `blur(${blurPx}px) saturate(${spec.variants[v][t].saturation}) brightness(${spec.variants[v][t].brightness?.light ?? 1})`;
+/** WebKit literal filter for a cell (constants only — MAT-034 bars var() here).
+ *  `saturation` overrides the cell value (contrast=more forces 1, REQ-MAT-32). */
+const filterLiteral = (spec, v, t, blurPx, saturation = spec.variants[v][t].saturation) =>
+  `blur(${blurPx}px) saturate(${saturation}) brightness(${spec.variants[v][t].brightness?.light ?? 1})`;
+
+/** contrast=more resolved on the surface or an ancestor (attribute rung), and its OS
+ *  mirror where no [data-ag-contrast] is declared (rungs.css uses the same split). */
+const MORE_ATTR = ':is([data-ag-contrast="more"], [data-ag-contrast="more"] *)';
+const NO_CONTRAST_ATTR = ':not([data-ag-contrast], [data-ag-contrast] *)';
 
 /** ladders.css — engine scalars + ::before WebKit literals + lightweight/coarse blocks. */
 export function buildLadders(records, resolved) {
@@ -167,6 +176,43 @@ export function buildLadders(records, resolved) {
     out.push(`    -webkit-backdrop-filter: ${filterLiteral(spec, 'regular', th, cell('regular', th).blur.value)};`);
     out.push('  }');
   }
+  // contrast=more (REQ-MAT-32): saturation 1 in the WebKit literal too. One extra
+  // condition over the rows above, so these win on specificity wherever the rung
+  // is declared; the OS mirror applies only where no [data-ag-contrast] is set.
+  for (const variant of BLURRED) {
+    for (const [sel, th] of cellKeys(variant)) {
+      out.push(`  ${sel}${NOT_LIGHTWEIGHT}${MORE_ATTR}::before {`);
+      out.push(`    -webkit-backdrop-filter: ${filterLiteral(spec, variant, th, cell(variant, th).blur.value, 1)};`);
+      out.push('  }');
+    }
+  }
+  out.push('  @media (prefers-contrast: more) {');
+  for (const variant of BLURRED) {
+    for (const [sel, th] of cellKeys(variant)) {
+      out.push(`    ${sel}${NOT_LIGHTWEIGHT}${NO_CONTRAST_ATTR}::before {`);
+      out.push(`      -webkit-backdrop-filter: ${filterLiteral(spec, variant, th, cell(variant, th).blur.value, 1)};`);
+      out.push('    }');
+    }
+  }
+  out.push('  }');
+  // scheme-resolved brightness (REQ-MAT-32): a cell whose dark brightness differs
+  // gets a dark row (attribute on the surface or an ancestor, and the OS mirror
+  // where no scheme attribute is declared). Nothing is emitted when they agree.
+  const DARK_ATTR = ':is([data-ag-scheme="dark"], [data-ag-scheme="dark"] *)';
+  const NO_SCHEME_ATTR = ':not([data-ag-scheme], [data-ag-scheme] *)';
+  const darkRows = [];
+  for (const variant of VARIANTS) {
+    for (const [sel, th] of cellKeys(variant)) {
+      const br = cell(variant, th).brightness ?? { light: 1, dark: 1 };
+      if (br.dark !== undefined && br.dark !== br.light) darkRows.push([sel, br.dark]);
+    }
+  }
+  for (const [sel, v] of darkRows) out.push(`  ${sel}${DARK_ATTR} {`, `    --_ag-brightness: ${v};`, '  }');
+  if (darkRows.length) {
+    out.push('  @media (prefers-color-scheme: dark) {');
+    for (const [sel, v] of darkRows) out.push(`    ${sel}${NO_SCHEME_ATTR} {`, `      --_ag-brightness: ${v};`, '    }');
+    out.push('  }');
+  }
   out.push('  /* identity has no backdrop filter (MAT-038); nothing emitted for the lightweight tier */');
   out.push('');
   // coarse pointers: thick surfaces cap blur at 20px, every cell pins grain <= 0.02.
@@ -190,6 +236,22 @@ export function buildLadders(records, resolved) {
   out.push(`    [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thick"]${FAIL_SAFE}${NOT_LIGHTWEIGHT}::before {`);
   out.push(`      -webkit-backdrop-filter: ${filterLiteral(spec, 'regular', 'thick', 20)};`);
   out.push('    }');
+  // contrast=more thick rows keep the coarse 20px cap (same selectors as the
+  // contrast=more rows above, later in source)
+  for (const variant of BLURRED) {
+    const sel = `[data-ag-surface][data-ag-variant="${variant}"][data-ag-thickness="thick"]`;
+    out.push(`    ${sel}${NOT_LIGHTWEIGHT}${MORE_ATTR}::before {`);
+    out.push(`      -webkit-backdrop-filter: ${filterLiteral(spec, variant, 'thick', 20, 1)};`);
+    out.push('    }');
+  }
+  out.push('  }');
+  out.push('  @media (pointer: coarse) and (prefers-contrast: more) {');
+  for (const variant of BLURRED) {
+    const sel = `[data-ag-surface][data-ag-variant="${variant}"][data-ag-thickness="thick"]`;
+    out.push(`    ${sel}${NOT_LIGHTWEIGHT}${NO_CONTRAST_ATTR}::before {`);
+    out.push(`      -webkit-backdrop-filter: ${filterLiteral(spec, variant, 'thick', 20, 1)};`);
+    out.push('    }');
+  }
   out.push('  }');
   out.push('');
   // content materials: [data-ag-content] on layer=content surfaces (AG_ATTRIBUTES)
@@ -252,7 +314,34 @@ export function buildFloors(records, resolved, matrix = null) {
     for (const [k, v] of decls) out.push(`    ${k}: ${v};`);
     out.push('  }');
   };
-  const rows = (cond, decls) => {
+  // Every row writes the resolved floor plus the solved companion rows material.css
+  // reads for the surface states that move the floor (REQ-MAT-31, REQ-MAT-10):
+  //   --_ag-tint-floor              the row value + the interaction-state lift
+  //                                 (--_ag-floor-lift, REQ-MAT-09: hover/press
+  //                                 +0.02/+0.04 reach rendering through this term)
+  //   --_ag-tint-floor-expanded     [data-expanded]: one thickness row up — the
+  //                                 adjacent row with the next higher solved floor
+  //                                 (floors fall as thickness rises); the highest
+  //                                 row keeps its own value
+  //   --_ag-tint-floor-overlay      open overlays: the worst declared backdrop of the
+  //                                 row (a portaled popup floats over undeclared content)
+  //   --_ag-tint-floor-full-height  full-height sheets: at least the tinted row
+  // All companions follow the row's own transparency/contrast condition, so a
+  // state never lowers a tinted, solid or contrast=more floor.
+  const rowUp = (f, th, bd) => {
+    const v = f(th, bd);
+    const higher = THICKNESS.map((t) => f(t, bd)).filter((x) => x > v);
+    return higher.length ? Math.min(...higher) : v;
+  };
+  const lifted = (v) => `calc(${r3(v)} + var(--_ag-floor-lift, 0))`;
+  const rows = (cond, f, extra = () => []) => {
+    const decls = (th, bd) => [
+      ['--_ag-tint-floor', lifted(f(th, bd))],
+      ['--_ag-tint-floor-expanded', r3(rowUp(f, th, bd))],
+      ['--_ag-tint-floor-overlay', r3(f(th, null))],
+      ['--_ag-tint-floor-full-height', r3(Math.max(f(th, bd), tinted(th, bd)))],
+      ...extra(th, bd),
+    ];
     for (const [th, surf] of KEYS) {
       row(`${surf}${cond}`, decls(th, null));
       for (const bd of BACKDROPS) row(`${surf}${cond}${on('backdrop', bd)}`, decls(th, bd));
@@ -260,23 +349,17 @@ export function buildFloors(records, resolved, matrix = null) {
   };
   // Resolved floor plus the companions rungs.css reads in @layer ag.a11y (OS mirrors
   // and attribute rungs), so no rung hand-writes a floor (REQ-FIN-03).
-  rows('', (th, bd) => [
-    ['--_ag-tint-floor', r3(glass(th, bd))],
+  rows('', glass, (th, bd) => [
     ['--_ag-tint-floor-tinted', r3(tinted(th, bd))],
     ['--_ag-tint-floor-solid', r3(solid(th, bd))],
     ['--_ag-tint-floor-more', r3(more(th, bd))],
   ]);
-  rows(on('transparency', 'tinted'), (th, bd) => [['--_ag-tint-floor', r3(tinted(th, bd))]]);
-  rows(on('transparency', 'solid'), (th, bd) => [['--_ag-tint-floor', r3(solid(th, bd))]]);
+  rows(on('transparency', 'tinted'), tinted);
+  rows(on('transparency', 'solid'), solid);
   // contrast=more: every transparency at least the more row; the tinted companion
   // follows so the tinted rung never lowers a contrast=more surface
-  rows(on('contrast', 'more'), (th, bd) => [
-    ['--_ag-tint-floor', r3(more(th, bd))],
-    ['--_ag-tint-floor-tinted', r3(more(th, bd))],
-  ]);
-  rows(`${on('contrast', 'more')}${on('transparency', 'solid')}`, (th, bd) => [
-    ['--_ag-tint-floor', r3(Math.max(more(th, bd), solid(th, bd)))],
-  ]);
+  rows(on('contrast', 'more'), more, (th, bd) => [['--_ag-tint-floor-tinted', r3(more(th, bd))]]);
+  rows(`${on('contrast', 'more')}${on('transparency', 'solid')}`, (th, bd) => Math.max(more(th, bd), solid(th, bd)));
 
   // Rung inputs read by src/a11y/css/rungs.css (REQ-FIN-03 / REQ-FIN-05):
   // max-contrast text and boundary = the opposite end of the canvas ramp per

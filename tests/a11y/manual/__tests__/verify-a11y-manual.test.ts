@@ -80,6 +80,22 @@ describe('verify-a11y-manual.mjs', () => {
     expect(r2.code).toBe(1);
   });
 
+  it('the verifier and the aggregator read the contract schema (C-16)', async () => {
+    // @ts-ignore mjs module
+    const v = await import('../../../../scripts/mat/verify-a11y-manual.mjs');
+    expect(v.SCHEMA_PATH.replace(/\\/g, '/')).toMatch(/\/contracts\/schemas\/sr-record\.schema\.json$/);
+    const agg = readFileSync('tests/a11y/manual/aggregate.mjs', 'utf8');
+    expect(agg).toContain("import { SCHEMA_PATH, expectedName, validateRecord } from '../../../scripts/mat/verify-a11y-manual.mjs'");
+  });
+
+  it('qual:certify:release writes the L13 aggregate before the verdict reads it', () => {
+    const ci = readFileSync('ci/qual.gitlab-ci.yml', 'utf8');
+    const job = ci.slice(ci.indexOf('\nqual:certify:release:'), ci.indexOf('\n# ----', ci.indexOf('\nqual:certify:release:')));
+    const agg = job.indexOf('node tests/a11y/manual/aggregate.mjs --sha "$CI_COMMIT_SHA" --out ".artifacts/qual/a11y-manual-$CI_COMMIT_SHA.json"');
+    expect(agg).toBeGreaterThan(0);
+    expect(agg).toBeLessThan(job.indexOf('certification/run.mjs --lane all --scope release --verdict'));
+  });
+
   it('exactly one sr-record.schema.json is tracked in the repo', () => {
     const tracked = execFileSync('git', ['ls-files'], { encoding: 'utf8' })
       .split('\n')

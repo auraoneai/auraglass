@@ -20,7 +20,11 @@
       "announced": "",
       "gesture": "horizontal swipe",
       "nonDragAlternative": "tap the Frost segment",
-      "pass": true
+      "pass": true,
+      "nameRoleValue": "n/a",
+      "stateChange": "n/a",
+      "openClose": "n/a",
+      "liveRegion": "n/a"
     }
   ],
   "storybookArtifactUrl": "https://gitlab.com/example/-/jobs/1/artifacts/storybook-static/index.html",

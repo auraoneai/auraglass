@@ -7,14 +7,16 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { feColorMatrix } from '../internal/machado';
 import type { StoryAgParameters } from '../../contracts/testing';
 
+/* Intent inks are the library's sys colour tokens (REQ-MAT-18: no literal
+   colour in src), so the matrix shows the cues components actually render. */
 const INTENTS = [
-  ['danger', '#d92d20', 'Error / destructive'],
-  ['warning', '#b54708', 'Warning'],
-  ['success', '#067647', 'Success'],
-  ['info', '#175cd3', 'Information'],
-  ['selected', '#4f39f6', 'Selected'],
-  ['current', '#5925dc', 'Current item'],
-  ['invalid', '#d92d20', 'Invalid input'],
+  ['danger', 'var(--ag-color-danger)', 'Error / destructive'],
+  ['warning', 'var(--ag-color-warning)', 'Warning'],
+  ['success', 'var(--ag-color-success)', 'Success'],
+  ['info', 'var(--ag-color-info)', 'Information'],
+  ['selected', 'var(--ag-color-accent)', 'Selected'],
+  ['current', 'oklch(from var(--ag-color-accent) calc(l - 0.08) c calc(h + 15))', 'Current item'],
+  ['invalid', 'var(--ag-color-danger)', 'Invalid input'],
 ] as const;
 
 function IntentMatrix() {

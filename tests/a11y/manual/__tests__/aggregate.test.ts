@@ -67,6 +67,7 @@ function recordFor(row: Row, over: Record<string, unknown> = {}) {
     tester: 'fixture-tester', date: '2026-10-10', result: 'pass',
     steps: [{
       action: 'Tab to the control', expected: 'Name, role and state announced', announced: 'Name, button', pass: true,
+      nameRoleValue: 'Name, button', stateChange: 'n/a', openClose: 'n/a', liveRegion: 'n/a',
       ...(touch ? { gesture: 'single tap', nonDragAlternative: 'tap the control' } : {}),
     }],
     storybookArtifactUrl: 'https://gitlab.com/example/-/jobs/1/artifacts/storybook-static/index.html',
@@ -139,8 +140,10 @@ describe('aggregate.mjs', () => {
         [rel]: {
           result: 'fail', notes: 'aria-busy announced twice',
           steps: [
-            { action: 'Tab to the log', expected: 'Conversation, log', announced: 'Conversation, log', pass: true },
-            { action: 'Send a message', expected: 'Reply announced once', announced: 'Reply announced twice', pass: false },
+            { action: 'Tab to the log', expected: 'Conversation, log', announced: 'Conversation, log', pass: true,
+              nameRoleValue: 'Conversation, log', stateChange: 'n/a', openClose: 'n/a', liveRegion: 'n/a' },
+            { action: 'Send a message', expected: 'Reply announced once', announced: 'Reply announced twice', pass: false,
+              nameRoleValue: 'n/a', stateChange: 'n/a', openClose: 'n/a', liveRegion: 'reply announced twice' },
           ],
         },
       },
