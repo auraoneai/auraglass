@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0240';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link AvatarGroup}. */
 export function GlassAvatarGroup(props: React.ComponentProps<typeof AvatarGroup>) {
   warnDeprecated(DEP);
   return wrap('GlassAvatarGroup', <AvatarGroup {...props} />);

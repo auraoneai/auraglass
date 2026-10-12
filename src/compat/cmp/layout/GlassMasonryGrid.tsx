@@ -69,6 +69,7 @@ const DROPPED = [
 ] as const;
 const DROPPED_CONFIG = ['maxItemWidth', 'itemPadding', 'autoResize', 'animationDelay', 'breakpoints'] as const;
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Grid}. */
 export function GlassMasonryGrid(props: GlassMasonryGridProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
   const { items, config = {}, maxHeight, className, ref } = props;
   warnDeprecated(DEP);

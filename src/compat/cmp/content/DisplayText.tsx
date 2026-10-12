@@ -14,6 +14,7 @@ export interface DisplayTextProps extends Omit<HeadingProps, 'size' | 'level'> {
   level?: HeadingProps['level'];
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Heading}. */
 export function DisplayText({ level = 1, ...rest }: DisplayTextProps) {
   warnDeprecated(DEP);
   return <Heading level={level} size="display" {...rest} />;

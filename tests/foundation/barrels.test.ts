@@ -27,13 +27,13 @@ describe('REQ-CMP-23 barrels', () => {
   it('forms exports [FormField, useFormField]', () => {
     expect(exportedNames(forms)).toEqual(['FormField', 'useFormField']);
   });
-  it("package.json exports has '.', './primitives', './forms', './icons/*' + main/types", () => {
+  it("package.json exports has '.', './primitives', './forms', './icons/*' + types (no main, REQ-PLAT-67)", () => {
     const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
     for (const p of ['.', './primitives', './forms', './icons', './icons/*']) {
       expect(pkg.exports[p]).toBeDefined();
       expect(pkg.exports[p].default).toMatch(/^\.\/dist\//);
     }
-    expect(pkg.main).toBe('./dist/index.js');
+    expect(pkg.main).toBeUndefined();
     expect(pkg.types).toBe('./dist/index.d.ts');
   });
 });

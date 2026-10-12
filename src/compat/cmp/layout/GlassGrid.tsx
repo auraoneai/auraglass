@@ -35,6 +35,7 @@ export interface GlassGridProps extends React.HTMLAttributes<HTMLDivElement> {
 const FLOW = { row: 'row', col: 'column', 'row-dense': 'row dense', 'col-dense': 'column dense' } as const;
 const JUSTIFY = { start: 'start', end: 'end', center: 'center', between: 'space-between', around: 'space-around', evenly: 'space-evenly' } as const;
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Grid}. */
 export function GlassGrid({
   cols = 12,
   responsive,

@@ -1,6 +1,8 @@
 /* REQ-PLAT-69: a 'use client' directive on a module that reads no client
    signal is needless cost — it pulls the module (and its importers' graph)
    into the client bundle. */
+// REQ-PLAT-69 rollout: warn outside PLAT globs until RC-1 (PLAT globs: _strict.cjs).
+const { rolloutSeverity } = require('./_rollout.cjs');
 const CLIENT_HOOKS = /^(use(State|Effect|LayoutEffect|Ref|Reducer|Context|Memo|Callback|Id|ImperativeHandle|SyncExternalStore|Transition|ActionState|Optimistic|FormStatus)|use[A-Z][A-Za-z]*Effect)$/;
 const DOM_GLOBALS = new Set(['window', 'document', 'navigator', 'localStorage', 'sessionStorage', 'customElements', 'HTMLElement', 'matchMedia']);
 
@@ -61,5 +63,5 @@ module.exports = {
       },
     };
   },
-  agConfig: [{ files: ['src/**/*.{ts,tsx}'], ignores: ['**/__tests__/**', '**/*.test.*'], severity: 'error' }],
+  agConfig: [{ files: ['src/**/*.{ts,tsx}'], ignores: ['**/__tests__/**', '**/*.test.*'], severity: rolloutSeverity() }],
 };

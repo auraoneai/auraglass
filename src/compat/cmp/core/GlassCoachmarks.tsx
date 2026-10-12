@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0263';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Tour}. */
 export function GlassCoachmarks(props: React.ComponentProps<typeof Tour.Root>) {
   warnDeprecated(DEP);
   return wrap('GlassCoachmarks', <Tour.Root {...props} />);

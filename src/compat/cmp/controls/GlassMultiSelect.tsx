@@ -20,6 +20,7 @@ export interface GlassMultiSelectProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Combobox}. */
 export function GlassMultiSelect({ selected, value, onSelectionChange, onChange, options, placeholder, ...rest }: GlassMultiSelectProps) {
   warnDeprecated(DEP);
   const items = options?.map((o) => (typeof o === 'string' ? o : o.value));

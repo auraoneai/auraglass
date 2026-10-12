@@ -44,6 +44,7 @@ const ALIGN_CONTENT = {
   stretch: 'stretch',
 } as const;
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Stack}. */
 export function GlassFlex({
   direction = 'row',
   responsive,

@@ -14,6 +14,7 @@ export interface GlassStepperProps extends React.OlHTMLAttributes<HTMLOListEleme
   current?: number;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link GlassStepper}. */
 export function GlassStepper({ steps, current = 0, children, className, ...rest }: GlassStepperProps) {
   warnDeprecated(DEP);
   const items = steps ?? React.Children.toArray(children);

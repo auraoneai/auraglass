@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0251';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Accordion}. */
 export function GlassAccordion(props: React.ComponentProps<typeof Accordion.Root>) {
   warnDeprecated(DEP);
   return wrap('GlassAccordion', <Accordion.Root {...props} />);

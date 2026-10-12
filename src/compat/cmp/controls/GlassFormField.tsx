@@ -20,6 +20,7 @@ export interface GlassFormFieldProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Field}. */
 export function GlassFormField({ label, description, hint, error, required, invalid, children, ...rest }: GlassFormFieldProps) {
   warnDeprecated(DEP);
   return (

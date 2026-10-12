@@ -30,13 +30,11 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/index.js",
-      "css": "./dist/styles.css"
+      "default": "./dist/index.js"
     },
     "./material": {
       "types": "./dist/material/index.d.ts",
-      "default": "./dist/material/index.js",
-      "css": "./dist/material.css"
+      "default": "./dist/material/index.js"
     },
     "./theme": {
       "types": "./dist/theme/public.d.ts",
@@ -44,8 +42,7 @@
     },
     "./tokens": {
       "types": "./dist/tokens/index.d.ts",
-      "default": "./dist/tokens/index.js",
-      "css": "./dist/tokens.css"
+      "default": "./dist/tokens/index.js"
     },
     "./motion": {
       "types": "./dist/motion/public.d.ts",
@@ -69,34 +66,34 @@
     },
     "./app-shell": {
       "types": "./dist/app-shell/index.d.ts",
-      "default": "./dist/app-shell/index.js",
-      "css": "./dist/app-shell.css"
+      "default": "./dist/app-shell/index.js"
     },
+    "./app-shell.css": "./dist/app-shell.css",
     "./data": {
       "types": "./dist/data/index.d.ts",
-      "default": "./dist/data/index.js",
-      "css": "./dist/data.css"
+      "default": "./dist/data/index.js"
     },
+    "./data.css": "./dist/data.css",
     "./date": {
       "types": "./dist/date/index.d.ts",
-      "default": "./dist/date/index.js",
-      "css": "./dist/date.css"
+      "default": "./dist/date/index.js"
     },
+    "./date.css": "./dist/date.css",
     "./ai": {
       "types": "./dist/ai/index.d.ts",
-      "default": "./dist/ai/index.js",
-      "css": "./dist/ai.css"
+      "default": "./dist/ai/index.js"
     },
+    "./ai.css": "./dist/ai.css",
     "./media": {
       "types": "./dist/media/index.d.ts",
-      "default": "./dist/media/index.js",
-      "css": "./dist/media.css"
+      "default": "./dist/media/index.js"
     },
+    "./media.css": "./dist/media.css",
     "./backdrops": {
       "types": "./dist/backdrops/index.d.ts",
-      "default": "./dist/backdrops/index.js",
-      "css": "./dist/backdrops.css"
+      "default": "./dist/backdrops/index.js"
     },
+    "./backdrops.css": "./dist/backdrops.css",
     "./three": {
       "types": "./dist/three/index.d.ts",
       "default": "./dist/three/index.js"
@@ -114,7 +111,6 @@
     "./deprecations.json": "./deprecations.json",
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "sideEffects": [
     "**/*.css"

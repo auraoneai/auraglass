@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0242';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Progress}. */
 export function GlassProgress(props: React.ComponentProps<typeof Progress>) {
   warnDeprecated(DEP);
   return wrap('GlassProgress', <Progress {...props} />);

@@ -17,6 +17,7 @@ export interface GlassMentionListProps {
 }
 
 /* Trigger-character detection is consumer code in 5.0 — warns once. */
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Combobox}. */
 export function GlassMentionList({ items, trigger, onSelect, ...rest }: GlassMentionListProps) {
   warnDeprecated(DEP);
   if (trigger !== undefined) drop('trigger:consumer-code');

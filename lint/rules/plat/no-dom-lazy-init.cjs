@@ -1,6 +1,8 @@
 /* REQ-PLAT-69: useState(() => <dom read>) runs the initialiser during the
    server render too — reading window/document/matchMedia there is a hydration
    mismatch. Lazy initialisers must be DOM-free. */
+// REQ-PLAT-69 rollout: warn outside PLAT globs until RC-1 (PLAT globs: _strict.cjs).
+const { rolloutSeverity } = require('./_rollout.cjs');
 const DOM_GLOBALS = new Set(['window', 'document', 'navigator', 'localStorage', 'sessionStorage', 'matchMedia', 'customElements', 'HTMLElement']);
 
 module.exports = {
@@ -25,5 +27,5 @@ module.exports = {
       },
     };
   },
-  agConfig: [{ files: ['src/**/*.{ts,tsx}'], ignores: ['**/__tests__/**', '**/*.test.*'], severity: 'error' }],
+  agConfig: [{ files: ['src/**/*.{ts,tsx}'], ignores: ['**/__tests__/**', '**/*.test.*'], severity: rolloutSeverity() }],
 };

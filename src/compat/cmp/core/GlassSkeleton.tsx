@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0244';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Skeleton}. */
 export function GlassSkeleton(props: React.ComponentProps<typeof Skeleton>) {
   warnDeprecated(DEP);
   return wrap('GlassSkeleton', <Skeleton {...props} />);

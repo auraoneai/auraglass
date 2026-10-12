@@ -24,6 +24,7 @@ export interface GlassSwitchProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Switch}. */
 export function GlassSwitch({ onChange, label, size, glassVariant, ...rest }: GlassSwitchProps) {
   warnDeprecated(DEP);
   if (glassVariant !== undefined) drop('glassVariant');

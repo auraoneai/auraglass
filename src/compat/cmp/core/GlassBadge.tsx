@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0235';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Badge}. */
 export function GlassBadge(props: React.ComponentProps<typeof Badge>) {
   warnDeprecated(DEP);
   return wrap('GlassBadge', <Badge {...props} />);

@@ -28,6 +28,7 @@ export interface LiquidGlassSegmentedControlProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link SegmentedControl}. */
 export function LiquidGlassSegmentedControl({ value, defaultValue, onChange, items, segments, children, ...rest }: LiquidGlassSegmentedControlProps) {
   warnDeprecated(DEP);
   const list = items ?? segments;

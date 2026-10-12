@@ -38,6 +38,7 @@ const toData = (o: GlassToastOptions | string): ToastData => {
   };
 };
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link useToast}. */
 export function useToast(): UseToastCompatReturn {
   const api = useToast5();
   const ref = React.useRef(api);

@@ -17,6 +17,7 @@ export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
   respectMotionPreference?: boolean;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Stack}. */
 export function Box({
   as,
   respectMotionPreference,

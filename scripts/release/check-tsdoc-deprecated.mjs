@@ -94,6 +94,9 @@ export function parseTag(tag) {
 const matches = (entry, d) => {
   if (entry.kind === 'export') return d.kind === 'export' && d.name === entry.symbol;
   const [component, prop] = String(entry.symbol).split('.');
+  // A bare prop symbol ('motionPolicy', no <Component>. qualifier) names the
+  // prop on whichever options/props type declares it.
+  if (prop === undefined) return d.kind === 'prop' && d.name === component;
   return d.kind === 'prop' && d.name === prop && d.owner != null && d.owner.startsWith(component);
 };
 

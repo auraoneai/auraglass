@@ -10,6 +10,7 @@ import { Label } from '../../../primitives';
 
 const DEP = 'DEP-C0281';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Label}. */
 export function LabelRoot(props: React.ComponentProps<typeof Label>) {
   warnDeprecated(DEP);
   return <Label {...props} />;
