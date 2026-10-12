@@ -14,15 +14,11 @@ import { ANIMATION } from "../../tokens/designConstants";
 interface CanvasProps {
   className?: string;
   /**
-   * Host-provided handler for component interactions. Page-level CMS props
-   * (e.g. a button's `onClick` string) are exposed here as data — they are
-   * never executed as code inside the package.
+   * Host-provided handler for component interactions: called with the
+   * component id and the action when a canvas button is clicked. String
+   * `onClick` props from page data are never executed (security, DEP-P0013).
    */
-  onComponentAction?: (action: {
-    componentId: string;
-    event: "click";
-    payload?: unknown;
-  }) => void;
+  onComponentAction?: (componentId: string, action: "click") => void;
 }
 
 interface DropZoneProps {
@@ -32,20 +28,22 @@ interface DropZoneProps {
   onDrop: (targetId?: string, position?: "before" | "after" | "inside") => void;
 }
 
-let glassCanvasStringActionWarned = false;
-const warnStringActionOnce = () => {
-  if (glassCanvasStringActionWarned) return;
-  glassCanvasStringActionWarned = true;
+const GLASS_CANVAS_STRING_ACTION_WARNING =
+  "[aura-glass] GlassCanvas no longer executes string onClick scripts (security). Pass a function via onComponentAction instead.";
+
+/* Component ids already warned about (dev only, once per id). */
+const stringActionWarnedIds = new Set<string>();
+const warnStringActionOnce = (componentId: string) => {
+  if (stringActionWarnedIds.has(componentId)) return;
   if (
     typeof process !== "undefined" &&
-    process.env?.NODE_ENV !== "production"
+    process.env?.NODE_ENV === "production"
   ) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      "[aura-glass] GlassCanvas: string `onClick` props are not executed " +
-        "(DEP-P0013) — pass `onComponentAction` to receive the action descriptor."
-    );
+    return;
   }
+  stringActionWarnedIds.add(componentId);
+  // eslint-disable-next-line no-console
+  console.warn(GLASS_CANVAS_STRING_ACTION_WARNING);
 };
 
 const toStringProp = (value: ComponentPropValue): string | undefined => {
@@ -103,11 +101,7 @@ const ComponentRenderer: React.FC<{
   component: PageComponent;
   isSelected?: boolean;
   onSelect?: (id: string) => void;
-  onComponentAction?: (action: {
-    componentId: string;
-    event: "click";
-    payload?: unknown;
-  }) => void;
+  onComponentAction?: CanvasProps["onComponentAction"];
 }> = ({ component, isSelected, onSelect, onComponentAction }) => {
   const { updateComponent, dragDropState, onDragStart } = useDragDrop();
   const [isEditing, setIsEditing] = useState<string | null>(null);
@@ -333,25 +327,18 @@ const ComponentRenderer: React.FC<{
       case "button":
         const href = toStringProp(component.props.href);
         const disabled = toBooleanProp(component.props.disabled);
+        // A string onClick is page data, never code: it renders no handler.
         const onClickScript = toStringProp(component.props.onClick);
-        if (onClickScript) warnStringActionOnce();
+        if (onClickScript) warnStringActionOnce(component.id);
         const ButtonTag = href ? "a" : "button";
         return (
           <ButtonTag
             href={href || undefined}
             disabled={disabled}
             onClick={
-              href
+              href || !onComponentAction
                 ? undefined
-                : () => {
-                    if (onClickScript || onComponentAction) {
-                      onComponentAction?.({
-                        componentId: component.id,
-                        event: "click",
-                        payload: onClickScript || undefined,
-                      });
-                    }
-                  }
+                : () => onComponentAction(component.id, "click")
             }
             className={cn(
               "glass-inline-flex glass-items-center glass-justify-center glass-font-medium glass-radius-lg",

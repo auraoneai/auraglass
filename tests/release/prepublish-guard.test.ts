@@ -34,3 +34,24 @@ describe('require-ci-publish guard', () => {
       CI_COMMIT_TAG: 'v4.1.1', NPM_ID_TOKEN: 'token' })).toBe(0);
   });
 });
+
+describe('REQ-PLAT-12 hardening (ported from next)', () => {
+  it('fails inside GitHub Actions even when the GitLab names match', () => {
+    expect(run({ GITHUB_ACTIONS: 'true', GITLAB_CI: 'true', CI_PROJECT_ID: '87152036',
+      CI_JOB_NAME: 'plat:publish:npm', CI_COMMIT_TAG: 'v4.1.1', NPM_ID_TOKEN: 'x' })).toBe(1);
+  });
+  it('fails on a branch pipeline (no tag)', () => {
+    expect(run({ GITLAB_CI: 'true', CI_PROJECT_ID: '87152036', CI_JOB_NAME: 'plat:publish:npm',
+      CI_COMMIT_TAG: undefined as any, NPM_ID_TOKEN: 'x' })).toBe(1);
+  });
+  it('prints the PRD literal `publishing is CI-only` on stderr and exits 1', () => {
+    let out: { status: number; stderr: string } = { status: 0, stderr: '' };
+    try {
+      execFileSync('node', [S], { env: { ...process.env, GITLAB_CI: '' }, encoding: 'utf8', stdio: 'pipe' });
+    } catch (e: any) {
+      out = { status: e.status, stderr: String(e.stderr) };
+    }
+    expect(out.status).toBe(1);
+    expect(out.stderr).toContain('publishing is CI-only');
+  });
+});
