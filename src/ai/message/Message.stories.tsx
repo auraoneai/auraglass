@@ -15,7 +15,6 @@ type Story = StoryObj<typeof meta>;
 const m = (over: Partial<AgMessage>): AgMessage => ({ id: 'm1', role: 'assistant', parts: [{ type: 'text', text: 'Here is the rollout plan.' }], ...over });
 
 export const User: Story = { render: () => <Message message={m({ role: 'user' })} /> };
-export const Assistant: Story = { render: () => <Message message={m({})} /> };
 export const System: Story = { render: () => <Message message={m({ role: 'system' as never })} /> };
 export const Tool: Story = {
   render: () => (
@@ -32,11 +31,6 @@ export const WithImage: Story = {
     <Message message={m({ parts: [{ type: 'file', url: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>', mediaType: 'image/svg+xml', filename: 'chart.svg' } as never] })} />
   ),
 };
-export const Streaming: Story = {
-  render: () => (
-    <Message message={m({ metadata: { status: 'streaming' }, parts: [{ type: 'text', text: 'Drafting the rollout', state: 'streaming' } as never] })} />
-  ),
-};
 /* Composed anatomy: avatar, content with step separators, footer. */
 const stepped = m({ parts: [{ type: 'step-start' } as never, { type: 'text', text: 'Checked the deploy log.' }, { type: 'step-start' } as never, { type: 'text', text: 'Rollout is safe.' }] });
 export const Anatomy: Story = {
@@ -48,8 +42,17 @@ export const Anatomy: Story = {
     </Message>
   ),
 };
-export const Error: Story = { render: () => <Message message={m({ metadata: { status: 'error' } })} /> };
-export const Aborted: Story = { render: () => <Message message={m({ metadata: { status: 'aborted' } })} /> };
+/* meta.states: complete, streaming, error and aborted assistant messages in one list (distinct ids). */
+export const States: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: 'var(--ag-space-4)' }}>
+      <Message message={m({ id: 'st-complete' })} />
+      <Message message={m({ id: 'st-streaming', metadata: { status: 'streaming' }, parts: [{ type: 'text', text: 'Drafting the rollout', state: 'streaming' } as never] })} />
+      <Message message={m({ id: 'st-error', metadata: { status: 'error' } })} />
+      <Message message={m({ id: 'st-aborted', metadata: { status: 'aborted' } })} />
+    </div>
+  ),
+};
 export const ActionsFocused: Story = {
   render: () => (
     <Message message={m({ metadata: { createdAt: '2026-05-12T09:14:03Z' } })} timeZone="UTC">

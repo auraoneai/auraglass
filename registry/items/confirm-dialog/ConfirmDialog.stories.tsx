@@ -5,7 +5,9 @@ import { ConfirmDialog } from "./index";
 import { confirmNeutralProps, confirmDestructiveProps } from "./fixtures";
 
 const meta: Meta<typeof ConfirmDialog> = {
-  title: "Registry/Confirm Dialog",
+  title: "Showcases/Registry/ConfirmDialog",
+  // keeps the published story ids (cmp-items-confirm-dialog--*)
+  id: "cmp-items-confirm-dialog",
   component: ConfirmDialog,
   args: { ...confirmNeutralProps, defaultOpen: true },
   parameters: { ag: { subject: "confirm-dialog", kind: "showcase" } },

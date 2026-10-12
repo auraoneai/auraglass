@@ -1,4 +1,6 @@
-// SidebarDrawer.stories.tsx — SURF story contract (S-41).
+// SidebarDrawer.stories.tsx — SURF story contract (S-41). Sidebar.Drawer is the compact
+// mode of the Sidebar flagship (#23), so it sits with it under Flagships/App Shell.
+// `id` keeps the published story ids (surf-sidebar-drawer--*).
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { AppShell } from './AppShell';
@@ -8,7 +10,8 @@ import { MenuPortal, MenuPositioner, MenuPopup } from '../components/menu/Menu.c
 import { appShellRoot, setDrawer } from './appShellStore';
 
 const meta: Meta = {
-  title: 'surf/sidebar-drawer',
+  title: 'Flagships/App Shell/SidebarDrawer',
+  id: 'surf-sidebar-drawer',
   component: Sidebar.Drawer,
   parameters: { ag: { subject: 'SidebarDrawer', kind: 'component' } },
 };

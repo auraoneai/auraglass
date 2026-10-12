@@ -1,11 +1,13 @@
 // APG date range picker (SURF L5 apg lane, REQ-SURF-102): two labelled
 // segment groups, a labelled dialog with one grid per visible month, presets
 // through the draft, Apply commits, Escape discards and restores focus.
-// Subject: src/date/DateRangePicker.stories.tsx Default ("Report window",
+// Subject: src/date/DateRangePicker.stories.tsx Default and Keyboard ("Report window",
 // 2026-10-01 – 2026-10-07, presets "Launch week" / "First half of October").
 import { test, expect, type Page } from '@playwright/test';
 import { gotoStory } from '../../../helpers';
 import { requireStory } from '../../../e2e/surf/date/subjects';
+
+const KEYBOARD_STORY = 'surf-date-range-picker--keyboard';
 
 const day = (page: Page, which: 'start' | 'end') =>
   page.locator(`[data-ag-part="date-input-${which}"] [role="spinbutton"][data-type="day"]`);
@@ -32,7 +34,8 @@ test.describe('date range picker APG (REQ-SURF-102)', () => {
   });
 
   test('Escape discards the draft and returns focus to the trigger', async ({ page }) => {
-    await gotoStory(page, await requireStory('DateRangePicker', 'default'));
+    expect(await requireStory('DateRangePicker', 'keyboard')).toBe(KEYBOARD_STORY);
+    await gotoStory(page, KEYBOARD_STORY);
     const trigger = page.getByRole('button', { name: 'Choose dates' });
     await trigger.click();
     const dialog = page.getByRole('dialog', { name: 'Report window' });

@@ -1,15 +1,18 @@
 // time-picker APG (SURF L5 apg lane, REQ-SURF-104): spinbutton segments, a
 // labelled dialog with Hour / Minute listboxes whose selected options mirror
 // the value, keyboard selection updating the segments, Escape focus return.
-// Subject: src/date/TimePicker.stories.tsx Default ("Start time", 09:30, 24h,
+// Subject: src/date/TimePicker.stories.tsx Keyboard ("Start time", 09:30, 24h,
 // minuteStep 15).
 import { test, expect } from '@playwright/test';
 import { gotoStory } from '../../../helpers';
 import { requireStory } from '../../../e2e/surf/date/subjects';
 
+const KEYBOARD_STORY = 'surf-time-picker--keyboard';
+
 test.describe('time-picker APG (REQ-SURF-104)', () => {
   test('dialog/listbox roles, selected options, keyboard pick, Escape', async ({ page }) => {
-    await gotoStory(page, await requireStory('TimePicker', 'default'));
+    expect(await requireStory('TimePicker', 'keyboard')).toBe(KEYBOARD_STORY);
+    await gotoStory(page, KEYBOARD_STORY);
     const hourSeg = page.locator('[data-ag-part="time-input"] [role="spinbutton"][data-type="hour"]');
     await expect(hourSeg).toHaveAttribute('aria-valuenow', '9');
     await expect(page.locator('[data-ag-part="time-input"] [role="spinbutton"][data-type="minute"]')).toHaveAttribute('aria-valuenow', '30');

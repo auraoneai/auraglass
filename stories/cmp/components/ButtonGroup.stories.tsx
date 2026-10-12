@@ -36,7 +36,9 @@ export const Default: Story = {
   ),
 };
 
-export const Detached: Story = {
+/* Detached and vertical layouts share one story (Core titles stay within the
+   smallest flagship title's story count, story-titles/oversize-title). */
+export const Layouts: Story = {
   args: { 'aria-label': 'Actions' },
   render: (args) => (
     <Stage>
@@ -48,17 +50,9 @@ export const Detached: Story = {
           </ButtonGroup>
         </Scene>
       </Section>
-    </Stage>
-  ),
-};
-
-export const Vertical: Story = {
-  args: { 'aria-label': 'Actions' },
-  render: (args) => (
-    <Stage>
       <Section title="Vertical">
         <Scene>
-          <ButtonGroup {...args} orientation="vertical">
+          <ButtonGroup {...args} aria-label="Reorder" orientation="vertical">
             <B>Move to top</B>
             <B>Move to bottom</B>
           </ButtonGroup>

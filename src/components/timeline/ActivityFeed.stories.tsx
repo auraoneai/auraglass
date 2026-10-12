@@ -1,10 +1,12 @@
-// ActivityFeed.stories.tsx — SURF story contract (S-41).
+// ActivityFeed.stories.tsx — SURF story contract (S-41). Flagship #37 (Data).
+// `id` keeps the published story ids (surf-activity-feed--*).
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { ActivityFeed, type ActivityItem } from './ActivityFeed';
 
 const meta = {
-  title: 'surf/activity-feed',
+  title: 'Flagships/Data/ActivityFeed',
+  id: 'surf-activity-feed',
   parameters: { ag: { subject: 'ActivityFeed', kind: 'component' } },
 } satisfies Meta;
 export default meta;
@@ -66,3 +68,26 @@ export const LoadMore: Story = { render: () => <LiveFeed groupBy="none" /> };
 export const AutoLoad: Story = {
   render: () => <ActivityFeed items={BASE} hasMore autoLoad onLoadMore={() => undefined} labels={{ loadMore: 'Load older' }} />,
 };
+
+export const Playground: StoryObj<typeof ActivityFeed> = {
+  args: { items: [...BASE, ...OLDER], groupBy: 'day', headingLevel: 3, hasMore: false, loading: false, timeZone: 'UTC' },
+  argTypes: {
+    groupBy: { control: 'inline-radio', options: ['day', 'none'] },
+    headingLevel: { control: 'select', options: [2, 3, 4, 5, 6] },
+  },
+  render: (args) => <ActivityFeed {...args} onLoadMore={() => undefined} />,
+};
+
+/* Ungrouped with more pages, a page loading, and the end of the feed. */
+export const States: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: 'var(--ag-space-6)' }}>
+      <ActivityFeed items={BASE.slice(0, 2)} hasMore onLoadMore={() => undefined} />
+      <ActivityFeed items={BASE.slice(0, 2)} hasMore loading onLoadMore={() => undefined} />
+      <ActivityFeed items={OLDER} groupBy="day" />
+    </div>
+  ),
+};
+
+/* tests/a11y/apg/surf/activity-feed.apg.spec.ts: Tab reaches Load more, Enter appends the older page. */
+export const Keyboard: Story = { tags: ['apg'], render: () => <LiveFeed groupBy="none" /> };

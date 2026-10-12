@@ -4,7 +4,9 @@ import { AccountMenu } from "./index";
 import { accountMenuProps } from "./fixtures";
 
 const meta: Meta<typeof AccountMenu> = {
-  title: "Registry/Account Menu",
+  title: "Showcases/Registry/AccountMenu",
+  // keeps the published story ids (cmp-items-account-menu--*)
+  id: "cmp-items-account-menu",
   component: AccountMenu,
   args: accountMenuProps,
   parameters: { ag: { subject: "account-menu", kind: "showcase" } },
