@@ -40,7 +40,9 @@ export default [
   { id: 'FileUpload', import: "{ FileUpload } from 'aura-glass'", limitBytes: 15000, kind: 'js' },
   { id: 'ColorPicker', import: "{ ColorPicker } from 'aura-glass'", limitBytes: 20000, kind: 'js' },
   { id: 'icon-glyph-each', import: "{ CheckIcon } from 'aura-glass/icons'", limitBytes: 1000, kind: 'js' },
-  { id: 'aura-glass/primitives', import: "'aura-glass/primitives'", limitBytes: 4352, kind: 'js' },
+  // REQ-CMP-136: §16 "aura-glass/primitives (all six) ≤4 KB" — ratcheted back
+  // down from the 4352 calibration (CI pass-1 measured 4095 B; source bundle 4070 B).
+  { id: 'aura-glass/primitives', import: "'aura-glass/primitives'", limitBytes: 4096, kind: 'js' },
   // ≤1.2 KB CSS each; T2 CSS total ≤12 KB
   { id: 'VisuallyHidden.css', import: "src/primitives/VisuallyHidden.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
   { id: 'StateView.css', import: "src/components/state-view/StateView.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
@@ -103,4 +105,10 @@ export default [
   { id: 'AlertDialog.css', import: "src/components/alert-dialog/AlertDialog.css | aura-glass/styles.css", limitBytes: 4000, kind: 'css' },
   { id: 'Sheet.css', import: "src/components/sheet/Sheet.css | aura-glass/styles.css", limitBytes: 5000, kind: 'css' },
   { id: 'overlays.css', import: "src/components/overlays/_shared/overlays.css | aura-glass/styles.css", limitBytes: 3000, kind: 'css' },
+  // REQ-CMP-136: §16 "CMP CSS in styles.css ≤19 KB gz (controls ≤7, overlays ≤6,
+  // core ≤6)". controls is controls-css-total above. Minified+gz of the CMP CSS
+  // sources at this change: all 14822 B, overlays 5103 B, controls 6625 B, core 4276 B.
+  { id: 'cmp-css-total', import: "aura-glass/styles.css | cmp", limitBytes: 19000, kind: 'css' },
+  { id: 'overlays-css-total', import: "aura-glass/styles.css | cmp-overlays", limitBytes: 6000, kind: 'css' },
+  { id: 'core-css-total', import: "aura-glass/styles.css | cmp-core", limitBytes: 6000, kind: 'css' },
 ] satisfies SizeBudgetRow[];

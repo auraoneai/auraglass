@@ -71,7 +71,7 @@ export function MediaWorkspaceInspectorSheet({ defaultOpen = true }: { defaultOp
                   </DescriptionList.Item>
                 ))}
               </DescriptionList>
-              <Heading level={3} size="sm">{COPY.notesTitle}</Heading>
+              <Heading level={3} size="title-3">{COPY.notesTitle}</Heading>
               <Text type="callout">{COPY.notesBody}</Text>
             </div>
           </Sheet.Body>
@@ -140,7 +140,7 @@ export function MediaWorkspace({ now = SHOWCASE_EPOCH }: MediaWorkspaceProps) {
           <div className={styles.rail}>
             <Surface layer="content" shape="concentric" fallbackRadius="lg" className={styles.panel} render={<section aria-labelledby="mw-stills-heading" />}>
               <div className={styles.panelHeader}>
-                <Heading level={2} size="sm" id="mw-stills-heading">{COPY.stillsLabel}</Heading>
+                <Heading level={2} size="title-3" id="mw-stills-heading">{COPY.stillsLabel}</Heading>
                 <Text type="caption" muted>{STILLS.length} frames · tap to compare</Text>
               </div>
               <ImageViewer.Root items={STILLS}>
@@ -166,7 +166,7 @@ export function MediaWorkspace({ now = SHOWCASE_EPOCH }: MediaWorkspaceProps) {
             </Surface>
             <Surface layer="content" shape="concentric" fallbackRadius="lg" className={styles.panel} render={<section aria-labelledby="mw-rail-heading" />}>
               <div className={styles.panelHeader}>
-                <Heading level={2} size="sm" id="mw-rail-heading">{COPY.carouselLabel}</Heading>
+                <Heading level={2} size="title-3" id="mw-rail-heading">{COPY.carouselLabel}</Heading>
                 <Text type="caption" muted>Circle takes for the editor</Text>
               </div>
               <CarouselRail.Root label={COPY.carouselRailLabel} slides={slides} slidesPerView={2} />

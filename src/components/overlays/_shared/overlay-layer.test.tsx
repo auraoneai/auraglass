@@ -160,9 +160,12 @@ describe('overlay-layer (CMP-201)', () => {
     pr.remove();
   });
 
-  it('PENDING: seam subjects (3f/3i) are covered once their components land', () => {
-    if (SEAM_SUBJECTS.length > 0) {
-      throw new Error(`PENDING: overlay-layer rows for ${SEAM_SUBJECTS.map((s) => s.name).join(', ')} — components land in lanes 3f/3i`);
-    }
+  /* REQ-CMP-80: every overlay subject is a real mounted component (the 3f/3i
+     seams have landed), so the layer rows above cover all of them. */
+  it('every overlay subject mounts for real — no seam rows remain', () => {
+    expect(SEAM_SUBJECTS.map((s) => s.name)).toEqual([]);
+    expect(MOUNTED_SUBJECTS.map((s) => s.kind).sort()).toEqual(
+      ['alert-dialog', 'combobox', 'dialog', 'menu', 'popover', 'select', 'sheet', 'toast', 'tooltip'],
+    );
   });
 });

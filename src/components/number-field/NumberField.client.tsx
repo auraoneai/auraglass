@@ -12,6 +12,13 @@ import type { NumberFieldProps } from './NumberField.types';
 import { useControllableWarning } from '../../foundation/controllable';
 
 /** NumberField — BU NumberField inside a Field shell (REQ-CMP-75..77). */
+
+/* REQ-CMP-77: the steppers are inner `identity` controls inside the
+   content-sunken group — optically inert surfaces (no fill, rim, blur or
+   specular) that still carry data-ag-surface for the a11y rungs
+   (forced-colors / contrast-more borders). Module-level: the role is static. */
+const STEPPER_MATERIAL = materialProps({ layer: 'chrome', variant: 'identity', interactive: true });
+
 export function NumberField({
   onValueChange,
   label,
@@ -85,7 +92,7 @@ export function NumberField({
             ...(refraction === true ? { refraction: true } : {}),
           })}
         >
-          <Base.Decrement data-ag-part="decrement" aria-label={labels?.decrease ?? CONTROL_MESSAGES.decrease} tabIndex={-1}>
+          <Base.Decrement {...STEPPER_MATERIAL} data-ag-part="decrement" aria-label={labels?.decrease ?? CONTROL_MESSAGES.decrease} tabIndex={-1}>
             <span data-ag-part="hit-area" aria-hidden="true" />
             <span aria-hidden="true">−</span>
           </Base.Decrement>
@@ -99,7 +106,7 @@ export function NumberField({
             ref={ref}
             aria-label={rest['aria-label'] as string | undefined}
           />
-          <Base.Increment data-ag-part="increment" aria-label={labels?.increase ?? CONTROL_MESSAGES.increase} tabIndex={-1}>
+          <Base.Increment {...STEPPER_MATERIAL} data-ag-part="increment" aria-label={labels?.increase ?? CONTROL_MESSAGES.increase} tabIndex={-1}>
             <span data-ag-part="hit-area" aria-hidden="true" />
             <span aria-hidden="true">+</span>
           </Base.Increment>

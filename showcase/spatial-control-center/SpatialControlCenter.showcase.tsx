@@ -32,7 +32,7 @@ function Tile({ title, value, children }: { title: string; value?: string; child
   return (
     <Surface layer="content" content="content-sunken" shape="concentric" fallbackRadius="lg" className={styles.tile}>
       <div className={styles.tileHeader}>
-        <Heading level={3} size="sm">{title}</Heading>
+        <Heading level={3} size="title-3">{title}</Heading>
         {value ? <Text type="mono" size="sm" muted>{value}</Text> : null}
       </div>
       {children}
@@ -47,7 +47,7 @@ export function SpatialControlGrid() {
     <section className={styles.controls} aria-labelledby="scc-controls">
       <SurfaceGroup spacing="3" className={String(styles.platter)}>
         <div className={styles.platterHeader}>
-          <Heading level={2} size="lg" id="scc-controls">{COPY.controlsHeading}</Heading>
+          <Heading level={2} size="title-3" id="scc-controls">{COPY.controlsHeading}</Heading>
           <Text type="caption" muted>{COPY.controlsSummary}</Text>
         </div>
         <div className={styles.grid}>
@@ -119,7 +119,7 @@ export function SpatialControlCenter({ now = SHOWCASE_EPOCH }: SpatialControlCen
         <section className={styles.rooms} aria-labelledby="scc-rooms">
           <SurfaceGroup spacing="3" className={String(styles.platter)}>
             <div className={styles.platterHeader}>
-              <Heading level={2} size="lg" id="scc-rooms">{COPY.roomsHeading}</Heading>
+              <Heading level={2} size="title-3" id="scc-rooms">{COPY.roomsHeading}</Heading>
               <Text type="caption" muted>{COPY.roomsSummary}</Text>
             </div>
             <ul className={styles.roomList}>
@@ -131,7 +131,7 @@ export function SpatialControlCenter({ now = SHOWCASE_EPOCH }: SpatialControlCen
                         <img className={styles.roomImage} src={r.image} alt="" width={960} height={600} />
                       </div>
                       <div className={styles.roomText}>
-                        <Heading level={3} size="sm">{r.name}</Heading>
+                        <Heading level={3} size="title-3">{r.name}</Heading>
                         <Text type="caption" muted>{r.status}</Text>
                       </div>
                     </Surface>

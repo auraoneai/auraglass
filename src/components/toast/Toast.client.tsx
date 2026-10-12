@@ -188,14 +188,35 @@ function ToastViewport({ position, className, children, ref, ...rest }: ToastVie
     const cfg = React.useContext(ToastProviderCtx);
     const resolved = position ?? cfg?.position ?? 'bottom-right';
     const container = usePortalContainer('toast');
-    /* REQ-CMP-108: mirrors BU's hidden-page timer pause for the CSS layer. */
+    /* REQ-CMP-108: the timers pause while document.visibilityState is
+       'hidden'. Base UI pauses on window blur (and resumes on window focus)
+       but never reads visibility, and a page can be hidden while the window
+       still reports focus (minimised, occluded, OS-level switches). When that
+       happens, signal the blur Base UI listens for, and undo it — only if we
+       sent it — once the page is visible again. data-paused mirrors the state
+       for the CSS progress animation. */
     const [paused, setPaused] = React.useState(false);
+    /* Base UI attaches its window listeners only once toasts exist (in its
+       Viewport's effect, which runs before this parent effect), so re-check
+       when the stack goes from empty to non-empty. */
+    const hasToasts = Base.useToastManager().toasts.length > 0;
+    const signalledRef = React.useRef(false);
     React.useEffect(() => {
-      const onVis = () => setPaused(document.hidden);
+      const onVis = () => {
+        const hidden = document.hidden;
+        setPaused(hidden);
+        if (hidden && hasToasts && !signalledRef.current && document.hasFocus()) {
+          signalledRef.current = true;
+          window.dispatchEvent(new FocusEvent('blur'));
+        } else if (!hidden && signalledRef.current) {
+          signalledRef.current = false;
+          if (document.hasFocus()) window.dispatchEvent(new FocusEvent('focus'));
+        }
+      };
       onVis();
       document.addEventListener('visibilitychange', onVis);
       return () => document.removeEventListener('visibilitychange', onVis);
-    }, []);
+    }, [hasToasts]);
     return (
       <Base.Portal container={container}>
         <Base.Viewport

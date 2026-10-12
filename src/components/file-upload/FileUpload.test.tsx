@@ -1,8 +1,10 @@
 /* CMP-318: FileUpload — generated for lane 3g (T0/T2 components). */
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, screen, act } from '@testing-library/react';
 import * as React from 'react';
 import { FileUpload } from './index';
+import type { FileUploadChangeDetails, FileUploadItem } from './FileUpload.client';
+import { AuraGlassProvider } from '../../theme';
 
 const file = (name: string, size: number, type: string) => new File([new Uint8Array(size)], name, { type });
 
@@ -91,5 +93,64 @@ describe('FileUpload REQ-CMP-126', () => {
     await act(async () => { report!(1); });
     const item = container.querySelector('[data-ag-part="item"]')!;
     expect(item.getAttribute('data-status')).toBe('complete');
+  });
+
+  it('no onUpload → never complete', async () => {
+    jest.useFakeTimers();
+    try {
+      const { container } = render(<FileUpload />);
+      fireEvent.change(container.querySelector('[data-ag-part="input"]')!, {
+        target: { files: [file('chosen.png', 1, 'image/png')] },
+      });
+      await act(async () => { jest.advanceTimersByTime(60_000); });
+      const items = container.querySelectorAll('[data-ag-part="item"]');
+      expect(items).toHaveLength(1);
+      expect(items[0]!.getAttribute('data-status')).toBe('selected');
+      expect(items[0]!.hasAttribute('data-progress')).toBe(false);
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  it('dropped and chosen files fire the same onValueChange(items, details) shape', () => {
+    const calls: Array<{ via: string; items: FileUploadItem[]; details: FileUploadChangeDetails }> = [];
+    let via = '';
+    const { container } = render(
+      <FileUpload multiple onValueChange={(items, details) => calls.push({ via, items, details })} />,
+    );
+    const chosen = file('chosen.png', 3, 'image/png');
+    const dropped = file('dropped.png', 4, 'image/png');
+    via = 'input';
+    fireEvent.change(container.querySelector('[data-ag-part="input"]')!, { target: { files: [chosen] } });
+    via = 'drop';
+    fireEvent.drop(container.querySelector('[data-ag-part="root"]')!, { dataTransfer: { files: [dropped] } });
+    const byInput = calls.find((c) => c.via === 'input')!;
+    const byDrop = calls.find((c) => c.via === 'drop')!;
+    expect(byInput.details).toEqual({ reason: 'accept' });
+    expect(byDrop.details).toEqual({ reason: 'accept' });
+    expect(byInput.items.map((i) => [i.file.name, i.status])).toEqual([['chosen.png', 'selected']]);
+    expect(byDrop.items.map((i) => [i.file.name, i.status])).toEqual([['chosen.png', 'selected'], ['dropped.png', 'selected']]);
+    // Same keys on every item regardless of the path that admitted it.
+    expect(Object.keys(byDrop.items[1]!).sort()).toEqual(Object.keys(byInput.items[0]!).sort());
+  });
+
+  it('a rejection is announced through the S-26 announcer', async () => {
+    render(
+      <AuraGlassProvider>
+        <FileUpload accept="image/*" />
+      </AuraGlassProvider>,
+    );
+    await act(async () => {});
+    fireEvent.change(document.querySelector('[data-ag-part="input"]')!, {
+      target: { files: [file('notes.txt', 10, 'text/plain')] },
+    });
+    await act(async () => {});
+    const polite = document.querySelector('[data-ag-announcer] [aria-live="polite"]');
+    expect(polite).not.toBeNull();
+    expect(polite!.textContent).toBe('1 file rejected: notes.txt (type)');
+    // The visible error is the dropzone's description.
+    const dropzone = document.querySelector('[data-ag-part="dropzone"]')!;
+    const err = document.getElementById(dropzone.getAttribute('aria-describedby')!);
+    expect(err?.textContent).toBe('notes.txt: type');
   });
 });

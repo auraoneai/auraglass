@@ -90,12 +90,14 @@ export const WithPopover: Story = {
 };
 
 /* CMP-394: composite scene — Dialog → Popover → Menu, three layers mounted open
-   so the e2e lane can assert exactly one layer closes per Escape. */
+   so the e2e lane can assert exactly one layer closes per Escape. Every layer
+   has a trigger so REQ-CMP-80 can assert focus returns to it on close. */
 export const WithPopoverMenu: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Dialog' } },
   render: () => (
     <Shell>
       <Dialog.Root defaultOpen>
+          <Dialog.Trigger render={<Button />}>Manage members</Dialog.Trigger>
           <Dialog.Content aria-label="stack dialog">
             <Dialog.Header>
               <Dialog.Title>Members</Dialog.Title>

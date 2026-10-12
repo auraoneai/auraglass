@@ -87,6 +87,37 @@ test.describe('overlay a11y modes (CMP-390/410, REQ-CMP-84)', () => {
     });
   }
 
+  /* REQ-CMP-84: transparency solid — glass off everywhere, the popup keeps a
+     1px solid edge so it still separates from the page. */
+  for (const name of ['Dialog', 'Popover', 'Menu', 'Select'] as const) {
+    const widget = WIDGETS[name]!;
+    test(`${name}: data-ag-transparency=solid → 0 backdrop-filters + 1px popup border`, async ({ page }) => {
+      await gotoStory(page, widget.story, { transparency: 'solid' });
+      // Same forcing as QUAL's L5 transparency-solid preference cell: the
+      // attribute on <html> (the global may be overridden by a story provider).
+      await page.evaluate(() => document.documentElement.setAttribute('data-ag-transparency', 'solid'));
+      await expect(page.locator('html')).toHaveAttribute('data-ag-transparency', 'solid');
+      if (widget.open) await widget.open(page);
+      const surface = page.locator(widget.surface).first();
+      await expect(surface).toBeVisible();
+
+      expect(await countVisibleBackdropFilters(page)).toBe(0);
+
+      const edges = await surface.evaluate((el) => {
+        const cs = getComputedStyle(el);
+        return (['top', 'right', 'bottom', 'left'] as const).map((side) => ({
+          width: parseFloat(cs.getPropertyValue(`border-${side}-width`)),
+          style: cs.getPropertyValue(`border-${side}-style`),
+        }));
+      });
+      expect(edges).toHaveLength(4);
+      for (const e of edges) {
+        expect(e.width).toBeGreaterThanOrEqual(1);
+        expect(e.style).toBe('solid');
+      }
+    });
+  }
+
   test('prefers-contrast more → contrasting popup border', async ({ page }) => {
     await gotoStory(page, 'flagships-overlays-dialog--playground', { contrast: 'more' });
     const popup = page.locator('[data-ag-part="popup"]').first();

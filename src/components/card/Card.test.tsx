@@ -47,6 +47,9 @@ describe('Card', () => {
     const { container, unmount } = render(<Card>x</Card>);
     const el = container.querySelector('[data-ag-part="root"]')!;
     expect(el.getAttribute('data-ag-layer')).toBe('content');
+    // REQ-CMP-113 / D-08: default is opaque content-raised with no glass variant.
+    expect(el.getAttribute('data-ag-content')).toBe('content-raised');
+    expect(el.hasAttribute('data-ag-variant')).toBe(false);
     unmount();
     const { container: c2 } = render(<Card variant="clear" thickness="thin" prominent>x</Card>);
     const el2 = c2.querySelector('[data-ag-part="root"]')!;

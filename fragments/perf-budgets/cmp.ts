@@ -126,11 +126,11 @@ export default [
   { subject: 'Alert', profile: 'desktop-120hz', metric: 'grade', max: 'C', provisional: true },
   { subject: 'AlertDialog', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
   { subject: 'AlertDialog', profile: 'mid-mobile', metric: 'long-tasks', max: 0, provisional: true },
-  { subject: 'AlertDialog', profile: 'mid-mobile', metric: 'blurred-surfaces', max: 1, provisional: true },
+  { subject: 'AlertDialog', profile: 'mid-mobile', metric: 'blurred-surfaces', max: 2, provisional: true }, // §16: scrim + popup
   { subject: 'AlertDialog', profile: 'mid-mobile', metric: 'grade', max: 'C', provisional: true },
   { subject: 'AlertDialog', profile: 'desktop-120hz', metric: 'frame-p95-ms', max: 16.7, provisional: true },
   { subject: 'AlertDialog', profile: 'desktop-120hz', metric: 'long-tasks', max: 0, provisional: true },
-  { subject: 'AlertDialog', profile: 'desktop-120hz', metric: 'blurred-surfaces', max: 1, provisional: true },
+  { subject: 'AlertDialog', profile: 'desktop-120hz', metric: 'blurred-surfaces', max: 2, provisional: true }, // §16: scrim + popup
   { subject: 'AlertDialog', profile: 'desktop-120hz', metric: 'grade', max: 'C', provisional: true },
   { subject: 'Avatar', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
   { subject: 'Avatar', profile: 'mid-mobile', metric: 'long-tasks', max: 0, provisional: true },
@@ -230,11 +230,11 @@ export default [
   { subject: 'DescriptionList', profile: 'desktop-120hz', metric: 'grade', max: 'C', provisional: true },
   { subject: 'Dialog', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
   { subject: 'Dialog', profile: 'mid-mobile', metric: 'long-tasks', max: 0, provisional: true },
-  { subject: 'Dialog', profile: 'mid-mobile', metric: 'blurred-surfaces', max: 1, provisional: true },
+  { subject: 'Dialog', profile: 'mid-mobile', metric: 'blurred-surfaces', max: 2, provisional: true }, // §16: scrim + popup
   { subject: 'Dialog', profile: 'mid-mobile', metric: 'grade', max: 'B', provisional: true },
   { subject: 'Dialog', profile: 'desktop-120hz', metric: 'frame-p95-ms', max: 16.7, provisional: true },
   { subject: 'Dialog', profile: 'desktop-120hz', metric: 'long-tasks', max: 0, provisional: true },
-  { subject: 'Dialog', profile: 'desktop-120hz', metric: 'blurred-surfaces', max: 1, provisional: true },
+  { subject: 'Dialog', profile: 'desktop-120hz', metric: 'blurred-surfaces', max: 2, provisional: true }, // §16: scrim + popup
   { subject: 'Dialog', profile: 'desktop-120hz', metric: 'grade', max: 'B', provisional: true },
   { subject: 'Field', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
   { subject: 'Field', profile: 'mid-mobile', metric: 'long-tasks', max: 0, provisional: true },
@@ -430,11 +430,11 @@ export default [
   { subject: 'Separator', profile: 'desktop-120hz', metric: 'grade', max: 'C', provisional: true },
   { subject: 'Sheet', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
   { subject: 'Sheet', profile: 'mid-mobile', metric: 'long-tasks', max: 0, provisional: true },
-  { subject: 'Sheet', profile: 'mid-mobile', metric: 'blurred-surfaces', max: 1, provisional: true },
+  { subject: 'Sheet', profile: 'mid-mobile', metric: 'blurred-surfaces', max: 2, provisional: true }, // §16: scrim + popup
   { subject: 'Sheet', profile: 'mid-mobile', metric: 'grade', max: 'C', provisional: true },
   { subject: 'Sheet', profile: 'desktop-120hz', metric: 'frame-p95-ms', max: 16.7, provisional: true },
   { subject: 'Sheet', profile: 'desktop-120hz', metric: 'long-tasks', max: 0, provisional: true },
-  { subject: 'Sheet', profile: 'desktop-120hz', metric: 'blurred-surfaces', max: 1, provisional: true },
+  { subject: 'Sheet', profile: 'desktop-120hz', metric: 'blurred-surfaces', max: 2, provisional: true }, // §16: scrim + popup
   { subject: 'Sheet', profile: 'desktop-120hz', metric: 'grade', max: 'C', provisional: true },
   { subject: 'Skeleton', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
   { subject: 'Skeleton', profile: 'mid-mobile', metric: 'long-tasks', max: 0, provisional: true },
