@@ -116,27 +116,6 @@
       "expires": "RC-1"
     },
     {
-      "script": "tests/a11y/manual/scripts/mat/glass-preferences-panel.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/mat/reduced-motion-pass.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/mat/surface-material-lab.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
       "script": "tests/a11y/manual/scripts/surf/activity-feed.md",
       "owner": "FIN-H",
       "task": "H3-3",

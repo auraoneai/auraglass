@@ -4,7 +4,7 @@
 // SrRecords only).
 import { describe, expect, it } from '@jest/globals';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -85,5 +85,45 @@ describe('verify-a11y-manual.mjs', () => {
       .split('\n')
       .filter((f) => f.endsWith('sr-record.schema.json'));
     expect(tracked).toHaveLength(1);
+  });
+
+  it('the verifier reads the contract schema, the only SrRecord schema', async () => {
+    const { SCHEMA_PATH } = await import('../../../../scripts/mat/verify-a11y-manual.mjs');
+    expect(SCHEMA_PATH.replace(/\\/g, '/')).toMatch(/\/contracts\/schemas\/sr-record\.schema\.json$/);
+  });
+});
+
+// REQ-MAT-66: MAT's scripts cover every required AT and name each subject's story id
+// and record path; subjects are reached through listSubjects.
+describe('MAT manual scripts (REQ-MAT-66)', () => {
+  const template = JSON.parse(readFileSync('tests/a11y/manual/sr-matrix.template.json', 'utf8')) as {
+    rows: Array<{ subject: string; stream: string; pass: string; at: string; storyId: string | null; script: string; record: string }>;
+  };
+  const matRows = template.rows.filter((r) => r.stream === 'mat');
+
+  it('MAT rows cover Surface (Material Lab), GlassPreferencesPanel and the 5-subject motion pass', () => {
+    const subjects = (pass: string) => [...new Set(matRows.filter((r) => r.pass === pass).map((r) => r.subject))].sort();
+    expect(subjects('sr')).toEqual(['glass-preferences-panel', 'surface-material-lab']);
+    expect(subjects('touch')).toEqual(['glass-preferences-panel', 'surface-material-lab']);
+    expect(subjects('motion')).toEqual(['button', 'dialog', 'menu', 'sheet', 'tabs']);
+    // >= 10 SR/touch records plus 20 motion records are required in records/mat/
+    expect(matRows.filter((r) => r.pass !== 'motion').length).toBeGreaterThanOrEqual(10);
+    expect(matRows.filter((r) => r.pass === 'motion').length).toBe(20);
+  });
+
+  it.each(['surface-material-lab', 'glass-preferences-panel', 'reduced-motion-pass'])('%s.md names every AT, story id and record path of its rows', (name) => {
+    const path = `tests/a11y/manual/scripts/mat/${name}.md`;
+    const text = readFileSync(path, 'utf8');
+    const rows = matRows.filter((r) => r.script === path);
+    expect(rows.length).toBeGreaterThan(0);
+    expect(text).toContain('listSubjects');
+    expect(text).toContain('contracts/schemas/sr-record.schema.json');
+    for (const r of rows) {
+      expect({ at: r.at, ok: text.includes(`\`${r.at}\``) }).toEqual({ at: r.at, ok: true });
+      expect({ storyId: r.storyId, ok: !!r.storyId && text.includes(r.storyId) }).toEqual({ storyId: r.storyId, ok: true });
+      // motion records are listed by pattern (<subject>-<at>-motion.json); SR/touch by full path
+      const named = text.includes(r.record) || (r.pass === 'motion' && text.includes('<subject>-<at>-motion.json') && text.includes(`\`${r.subject}\``));
+      expect({ record: r.record, named }).toEqual({ record: r.record, named: true });
+    }
   });
 });

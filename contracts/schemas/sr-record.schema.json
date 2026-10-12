@@ -1,48 +1,71 @@
 {
  "$schema": "https://json-schema.org/draft/2020-12/schema",
  "$id": "sr-record.schema.json",
- "$comment": "contract-v1.2 C-16: the single SrRecord schema (src/contracts/fragments.ts SrRecord). MAT verify-a11y-manual.mjs and the QUAL aggregator both read this file.",
+ "$comment": "contract-v1.2 C-16: the single SrRecord schema (REQ-FIN-110 unified field set). scripts/mat/verify-a11y-manual.mjs and the QUAL aggregator (tests/a11y/manual/aggregate.mjs) both read this file.",
  "title": "SrRecord",
+ "description": "REQ-FIN-110 / Appendix C C-16 unified field set. One manual screen-reader, touch or reduced-motion pass of one subject on one AT, bound to the SHA whose CI-built Storybook artifact was tested. Written by human testers only (issue #16).",
  "type": "object",
  "additionalProperties": false,
  "required": [
+  "sha",
+  "subject",
   "flagship",
+  "stream",
+  "pass",
   "at",
-  "result",
-  "date",
+  "atVersion",
+  "browser",
+  "browserVersion",
+  "os",
+  "osVersion",
   "tester",
-  "sha"
+  "date",
+  "result",
+  "steps",
+  "storybookArtifactUrl"
  ],
  "properties": {
+  "sha": {
+   "type": "string",
+   "pattern": "^[0-9a-f]{7,40}$"
+  },
+  "subject": {
+   "type": "string",
+   "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+  },
   "flagship": {
-   "type": "string"
+   "type": [
+    "integer",
+    "null"
+   ],
+   "minimum": 1
+  },
+  "stream": {
+   "type": "string",
+   "enum": [
+    "mat",
+    "cmp",
+    "surf"
+   ]
+  },
+  "pass": {
+   "type": "string",
+   "enum": [
+    "sr",
+    "touch",
+    "motion"
+   ]
   },
   "at": {
+   "type": "string",
    "enum": [
     "voiceover-macos",
     "voiceover-ios",
     "nvda-chrome",
     "talkback-chrome",
-    "touch"
+    "touch-ios",
+    "touch-android"
    ]
-  },
-  "result": {
-   "enum": [
-    "pass",
-    "fail"
-   ]
-  },
-  "date": {
-   "type": "string"
-  },
-  "tester": {
-   "type": "string"
-  },
-  "notes": {
-   "type": "string"
-  },
-  "sha": {
-   "type": "string"
   },
   "atVersion": {
    "type": "string",
@@ -68,9 +91,20 @@
    "type": "string",
    "minLength": 1
   },
-  "subject": {
+  "tester": {
    "type": "string",
    "minLength": 1
+  },
+  "date": {
+   "type": "string",
+   "format": "date"
+  },
+  "result": {
+   "type": "string",
+   "enum": [
+    "pass",
+    "fail"
+   ]
   },
   "steps": {
    "type": "array",
@@ -79,13 +113,23 @@
     "type": "object",
     "additionalProperties": false,
     "required": [
-     "nameRoleValue",
-     "stateChange",
-     "openClose",
-     "liveRegion",
+     "action",
+     "expected",
+     "announced",
      "pass"
     ],
     "properties": {
+     "action": {
+      "type": "string",
+      "minLength": 1
+     },
+     "expected": {
+      "type": "string",
+      "minLength": 1
+     },
+     "announced": {
+      "type": "string"
+     },
      "nameRoleValue": {
       "type": "string"
      },
@@ -99,19 +143,115 @@
       "type": "string"
      },
      "gesture": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
      },
      "nonDragAlternative": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
      },
      "pass": {
       "type": "boolean"
+     }
+    }
+   }
+  },
+  "storybookArtifactUrl": {
+   "type": "string",
+   "pattern": "^https://"
+  },
+  "notes": {
+   "type": "string"
+  }
+ },
+ "allOf": [
+  {
+   "if": {
+    "anyOf": [
+     {
+      "required": [
+       "pass"
+      ],
+      "properties": {
+       "pass": {
+        "const": "touch"
+       }
+      }
      },
-     "notes": {
-      "type": "string"
+     {
+      "required": [
+       "at"
+      ],
+      "properties": {
+       "at": {
+        "enum": [
+         "voiceover-ios",
+         "talkback-chrome",
+         "touch-ios",
+         "touch-android"
+        ]
+       }
+      }
+     }
+    ]
+   },
+   "then": {
+    "required": [
+     "device"
+    ]
+   }
+  },
+  {
+   "if": {
+    "required": [
+     "pass"
+    ],
+    "properties": {
+     "pass": {
+      "const": "touch"
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "at": {
+      "enum": [
+       "touch-ios",
+       "touch-android"
+      ]
+     },
+     "steps": {
+      "items": {
+       "required": [
+        "gesture",
+        "nonDragAlternative"
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "if": {
+    "required": [
+     "at"
+    ],
+    "properties": {
+     "at": {
+      "enum": [
+       "touch-ios",
+       "touch-android"
+      ]
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "pass": {
+      "const": "touch"
      }
     }
    }
   }
- }
+ ]
 }
