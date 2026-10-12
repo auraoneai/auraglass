@@ -1,136 +1,121 @@
 # Focus Management Implementation Guide
 
-This guide shows how to implement focus management in AuraGlass components.
+This guide shows how focus works in AuraGlass 5 and what to do when you build
+your own interactive pieces on top of it.
 
 ## Quick Start
 
-**Good News:** Most components get focus management automatically through our global CSS!
-
-For standard interactive elements (buttons, inputs, links), you don't need to do anything - they automatically receive visible focus indicators.
-
----
-
-## Global Focus Indicators (Automatic)
-
-All these elements automatically receive focus indicators:
+Most of the time you do nothing. Every AuraGlass component ships its keyboard
+model (Tab order, arrow keys, Escape, focus trap and focus restore) and a
+visible `:focus-visible` ring drawn from the `--ag-focus-*` tokens.
 
 ```tsx
-// ✅ Automatic focus management - no extra code needed
-<button>Click me</button>
-<a href="/page">Link</a>
-<input type="text" />
-<select>...</select>
-<textarea>...</textarea>
-<div role="button" tabIndex={0}>Custom button</div>
+import { Button, TextField } from 'aura-glass';
+
+export function SignIn() {
+  return (
+    <form>
+      <TextField label="Email" type="email" />
+      <Button type="submit">Sign in</Button>
+    </form>
+  );
+}
 ```
 
-The global styles apply:
-- 2px solid outline with primary color (#3b82f6)
-- 2px offset from element
-- 4px blur ring with 20% opacity
-- Only visible on keyboard focus (not mouse clicks)
+Native elements (`button`, `a[href]`, `input`, `select`, `textarea`) receive the
+same ring through the global stylesheet, on keyboard focus only.
 
 ---
 
 ## When You Need Custom Implementation
 
-### 1. Modal/Dialog Components (Need Focus Trap)
+### 1. Modal and dialog content (focus trap)
 
-Use the `trapFocus()` utility for modal dialogs:
+Use `Dialog` (or `AlertDialog`, `Sheet`). It traps focus while open, closes on
+Escape and returns focus to the trigger:
 
 ```tsx
-import { trapFocus } from '@/utils/focus';
-import { useRef, useEffect } from 'react';
+import { Button, Dialog } from 'aura-glass';
 
-function MyModal({ isOpen, onClose }) {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (!isOpen || !modalRef.current) return;
-
-    // Store previously focused element
-    previouslyFocusedRef.current = document.activeElement as HTMLElement;
-
-    // Set up focus trap
-    const releaseFocus = trapFocus(modalRef.current, {
-      returnFocus: false, // We handle this manually
-      escapeDeactivates: false,
-      allowOutsideClick: true,
-    });
-
-    return () => {
-      releaseFocus();
-      // Restore focus
-      if (previouslyFocusedRef.current) {
-        setTimeout(() => previouslyFocusedRef.current?.focus(), 0);
-      }
-    };
-  }, [isOpen]);
-
+export function ConfirmDelete() {
   return (
-    <div ref={modalRef} role="dialog" aria-modal="true">
-      {/* Modal content */}
-    </div>
+    <Dialog.Root>
+      <Dialog.Trigger>Delete project</Dialog.Trigger>
+      <Dialog.Content>
+        <Dialog.Title>Delete project?</Dialog.Title>
+        <Dialog.Body>This cannot be undone.</Dialog.Body>
+        <Dialog.Footer>
+          <Dialog.Close>Cancel</Dialog.Close>
+          <Button intent="danger">Delete</Button>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 }
 ```
 
-### 2. Complex Navigation (Menus, Lists, Tabs)
-
-Use the `RovingTabIndex` class for arrow key navigation:
+For a custom overlay that is not a dialog, wrap it in `FocusScope` from
+`aura-glass/primitives`. `trapped` keeps Tab inside, `loop` wraps from the last
+stop to the first, `restoreFocus` (default `true`) returns focus on unmount:
 
 ```tsx
-import { RovingTabIndex } from '@/utils/focus';
-import { useEffect, useRef } from 'react';
+import { FocusScope } from 'aura-glass/primitives';
 
-function MyMenu() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const rovingTabIndexRef = useRef<RovingTabIndex | null>(null);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    rovingTabIndexRef.current = new RovingTabIndex(
-      containerRef.current,
-      '[role="menuitem"]'
-    );
-
-    return () => rovingTabIndexRef.current?.destroy();
-  }, []);
-
+export function InlineEditor({ onDone }: { onDone: () => void }) {
   return (
-    <div ref={containerRef} role="menu">
-      <div role="menuitem" tabIndex={0}>Item 1</div>
-      <div role="menuitem" tabIndex={-1}>Item 2</div>
-      <div role="menuitem" tabIndex={-1}>Item 3</div>
-    </div>
+    <FocusScope trapped loop autoFocus onKeyDown={(e) => e.key === 'Escape' && onDone()}>
+      <input aria-label="Title" />
+      <button type="button" onClick={onDone}>Done</button>
+    </FocusScope>
   );
 }
 ```
 
-### 3. Custom Interactive Components
+### 2. Menus, lists and tabs (arrow keys)
 
-Use the `useGlassFocus()` hook for comprehensive focus management:
+`Menu`, `Tabs`, `ToggleGroup`, `RadioGroup`, `Toolbar` and `SegmentedControl`
+implement roving tab index: one Tab stop for the group, arrow keys move inside.
 
 ```tsx
-import { useGlassFocus } from '@/hooks/extended/useGlassFocus';
+import { Menu } from 'aura-glass';
 
-function MyCustomButton({ onClick, children }) {
-  const { ref, focusState, focus, blur } = useGlassFocus({
-    enabled: true,
-    autoFocus: false,
-    keyboardNavigation: true,
-  });
-
+export function RowActions() {
   return (
-    <button
-      ref={ref}
-      onClick={onClick}
-      className={focusState.isKeyboardFocused ? 'keyboard-focus' : ''}
+    <Menu.Root>
+      <Menu.Trigger>Actions</Menu.Trigger>
+      <Menu.Content>
+        <Menu.Item>Edit</Menu.Item>
+        <Menu.Item>Duplicate</Menu.Item>
+        <Menu.Separator />
+        <Menu.Item>Delete</Menu.Item>
+      </Menu.Content>
+    </Menu.Root>
+  );
+}
+```
+
+### 3. Custom interactive elements
+
+Prefer a native `<button>`. When an element must carry `role="button"`, give it
+`tabIndex={0}` and handle Enter and Space; the global `:focus-visible` ring
+applies automatically:
+
+```tsx
+export function Tile({ title, onOpen }: { title: string; onOpen: () => void }) {
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onOpen();
+        }
+      }}
     >
-      {children}
-    </button>
+      <h3>{title}</h3>
+    </div>
   );
 }
 ```
@@ -139,95 +124,41 @@ function MyCustomButton({ onClick, children }) {
 
 ## CSS Customization
 
-### Using Focus Variables
+The ring is drawn from tokens; override them on a scope instead of writing
+`outline` rules:
 
-Customize focus indicators using CSS variables:
-
-```tsx
-<button
-  style={{
-    '--glass-focus-ring-color': '#10b981', // Green
-    '--glass-focus-ring-width': '3px',
-    '--glass-focus-ring-offset': '4px',
-  } as React.CSSProperties}
->
-  Custom Focus
-</button>
+```css
+.brand-scope {
+  --ag-focus-outer: #10b981;
+}
 ```
 
-### Custom Focus Classes
-
-Use predefined focus classes:
-
-```tsx
-// Glass-specific focus
-<div className="glass-focus-visible">
-  Custom component
-</div>
-
-// Keyboard-only focus
-<div className="glass-focus-keyboard">
-  Shows focus only on keyboard navigation
-</div>
-```
+Never remove the ring (`outline: none`) without an equivalent replacement.
 
 ---
 
 ## Common Patterns
 
-### Pattern 1: Button with Loading State
+### Restoring focus after a custom popup closes
 
 ```tsx
-<button
-  disabled={loading}
-  aria-busy={loading}
-  aria-label={loading ? 'Loading...' : 'Submit'}
->
-  {loading ? 'Loading...' : 'Submit'}
-</button>
-```
+import { useRef, useState } from 'react';
 
-Focus indicators are automatically hidden on disabled elements.
-
-### Pattern 2: Custom Dropdown
-
-```tsx
-function Dropdown({ options }) {
-  const [isOpen, setIsOpen] = useState(false);
+export function Disclosure() {
+  const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
-
-  const handleClose = () => {
-    setIsOpen(false);
-    // Restore focus to trigger
-    setTimeout(() => triggerRef.current?.focus(), 0);
+  const close = () => {
+    setOpen(false);
+    triggerRef.current?.focus();
   };
-
   return (
     <>
-      <button
-        ref={triggerRef}
-        onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
-        aria-haspopup="true"
-      >
-        Select option
+      <button ref={triggerRef} aria-expanded={open} onClick={() => setOpen(!open)}>
+        Details
       </button>
-
-      {isOpen && (
-        <div role="listbox">
-          {options.map(opt => (
-            <div
-              key={opt.id}
-              role="option"
-              tabIndex={0}
-              onClick={() => {
-                // Handle selection
-                handleClose();
-              }}
-            >
-              {opt.label}
-            </div>
-          ))}
+      {open && (
+        <div role="region" aria-label="Details">
+          <button onClick={close}>Close</button>
         </div>
       )}
     </>
@@ -235,56 +166,18 @@ function Dropdown({ options }) {
 }
 ```
 
-### Pattern 3: Focusable Card
+### Skip links
+
+A skip link is a plain anchor as the first focusable element, pointing at the
+main landmark (`tabIndex={-1}` lets it take focus):
 
 ```tsx
-function Card({ title, onClick }) {
-  return (
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={onClick}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClick();
-        }
-      }}
-      className="cursor-pointer"
-    >
-      <h3>{title}</h3>
-      {/* Card content */}
-    </div>
-  );
-}
-```
-
-### Pattern 4: Skip Links
-
-```tsx
-import { useSkipLinks } from '@/hooks/extended/useGlassFocus';
-
-function Layout() {
-  const { skipTo } = useSkipLinks([
-    { id: 'skip-nav', label: 'Skip to navigation', targetId: 'main-nav' },
-    { id: 'skip-content', label: 'Skip to content', targetId: 'main-content' },
-  ]);
-
+export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <a
-        href="#main-content"
-        className="skip-link"
-        onClick={(e) => {
-          e.preventDefault();
-          skipTo('main-content');
-        }}
-      >
-        Skip to main content
-      </a>
-
-      <nav id="main-nav">{/* Navigation */}</nav>
-      <main id="main-content">{/* Content */}</main>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
+      <nav aria-label="Primary">{/* navigation */}</nav>
+      <main id="main-content" tabIndex={-1}>{children}</main>
     </>
   );
 }
@@ -292,104 +185,28 @@ function Layout() {
 
 ---
 
-## Utilities Reference
-
-### `trapFocus(container, options)`
-
-Traps focus within a container (modals, dialogs).
-
-**Options:**
-```ts
-{
-  initialFocus?: RefObject<HTMLElement>;
-  returnFocus?: boolean;
-  allowOutsideClick?: boolean;
-  escapeDeactivates?: boolean;
-}
-```
-
-### `getFocusableElements(container)`
-
-Returns all focusable elements within a container.
-
-```tsx
-const focusables = getFocusableElements(containerRef.current);
-console.log(focusables); // [button, input, select, ...]
-```
-
-### `RovingTabIndex`
-
-Manages arrow key navigation for lists/menus.
-
-```tsx
-const roving = new RovingTabIndex(container, '[role="menuitem"]');
-// Cleanup
-roving.destroy();
-```
-
-### `useGlassFocus(options)`
-
-Comprehensive focus management hook.
-
-**Options:**
-```ts
-{
-  enabled?: boolean;
-  autoFocus?: boolean;
-  focusTrap?: boolean;
-  restoreFocus?: boolean;
-  keyboardNavigation?: boolean;
-}
-```
-
-**Returns:**
-```ts
-{
-  ref: RefObject<HTMLElement>;
-  focusState: {
-    isFocused: boolean;
-    isKeyboardFocused: boolean;
-    focusOrigin: 'mouse' | 'keyboard' | 'programmatic' | null;
-  };
-  focus: () => void;
-  blur: () => void;
-}
-```
-
----
-
 ## Testing Focus Management
 
-### Manual Testing
+### Manual testing
 
-```bash
-# Test keyboard navigation
-1. Tab through the page
-2. Verify focus indicators are visible
-3. Test Shift+Tab (reverse navigation)
-4. Test Escape key in modals
-5. Test Arrow keys in menus
-```
+1. Tab through the page; every stop shows a ring.
+2. Shift+Tab reverses the order.
+3. Escape closes overlays and focus returns to the trigger.
+4. Arrow keys move inside menus, tabs and groups.
 
-### Automated Testing (Jest + Testing Library)
+### Automated testing (Jest + Testing Library)
 
 ```tsx
+import { expect, test } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Button } from 'aura-glass';
 
 test('button is keyboard accessible', async () => {
   const user = userEvent.setup();
-  render(<MyButton>Click me</MyButton>);
-
-  const button = screen.getByRole('button');
-
-  // Tab to button
+  render(<Button>Save</Button>);
   await user.tab();
-  expect(button).toHaveFocus();
-
-  // Activate with Enter
-  await user.keyboard('{Enter}');
-  // Assert action occurred
+  expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Save' }));
 });
 ```
 
@@ -397,66 +214,20 @@ test('button is keyboard accessible', async () => {
 
 ## WCAG Compliance Checklist
 
-When implementing focus management:
-
 - [ ] All interactive elements are keyboard accessible
 - [ ] Focus indicators are visible with 3:1 contrast
 - [ ] Tab order is logical
 - [ ] Focus is not trapped unintentionally
-- [ ] Focus is restored when closing modals
+- [ ] Focus is restored when closing overlays
 - [ ] No context changes on focus alone
-- [ ] ARIA attributes properly set (role, aria-label, etc.)
 - [ ] Disabled elements are not focusable
-
----
-
-## Common Issues & Solutions
-
-### Issue: Focus indicator not showing
-**Solution:** Ensure you're using `:focus-visible` not `:focus`, and the element is being focused via keyboard.
-
-### Issue: Focus trapped in wrong place
-**Solution:** Check tab order with `tabIndex`. Use `-1` for programmatic focus only, `0` for tab order.
-
-### Issue: Focus not restored after modal
-**Solution:** Store `document.activeElement` before opening modal, restore on close.
-
-### Issue: Focus skipping elements
-**Solution:** Ensure elements are not `display: none` or `visibility: hidden` when they should be focusable.
-
----
-
-## Best Practices
-
-1. **Use Native Elements**
-   - Prefer `<button>` over `<div role="button">`
-   - Native elements have built-in keyboard support
-
-2. **Don't Suppress Focus Indicators**
-   - Never use `outline: none` without replacement
-   - Users need to see where focus is
-
-3. **Logical Tab Order**
-   - Follow DOM order
-   - Use `tabIndex={0}` for custom elements in flow
-   - Use `tabIndex={-1}` for programmatic focus only
-
-4. **Focus Management in SPA Navigation**
-   - Focus main heading on page change
-   - Announce page changes to screen readers
-
-5. **Test with Keyboard Only**
-   - Unplug your mouse
-   - Try to complete all tasks via keyboard
 
 ---
 
 ## Resources
 
-- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
-- [Keyboard Accessibility](https://webaim.org/techniques/keyboard/)
-- [Focus Management](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/)
+- [WCAG 2.2 quick reference](https://www.w3.org/WAI/WCAG22/quickref/)
+- [Keyboard accessibility](https://webaim.org/techniques/keyboard/)
+- [APG keyboard interface](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/)
 
----
-
-**Questions?** Check the [Focus Management Quick Reference](./focus-management-quick-reference.md) for implementation details.
+See the [Focus Management Quick Reference](./focus-management-quick-reference.md) for a one-page summary.
