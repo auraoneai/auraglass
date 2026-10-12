@@ -30,10 +30,11 @@ describe('component dispositions (PLAT-219..222)', () => {
   it('destination totals match the PRD table', () => {
     const count = (d) => rows.filter((r) => r.dest === d).length;
     expect(count('removed')).toBe(236);
-    expect(count('compat')).toBe(151);
+    // REQ-CMP-127: GlassGallery moved compat -> registry (media-gallery; DEP-S0605, no adapter)
+    expect(count('compat')).toBe(150);
     expect(count('flagship')).toBe(47);
     expect(count('core')).toBe(40);
-    expect(count('registry')).toBe(13);
+    expect(count('registry')).toBe(14);
     expect(count('labs')).toBe(9);
   });
   it('SC-34 corrections: GlassHoverCard compat over Popover openOnHover; GlassTimelineRail, GlassAdvancedDataViz removed', () => {

@@ -314,7 +314,8 @@ const MAP = {
   ImageList: C('ImageList', 'PRD-14'),
   ImageListItem: C('ImageList.Item', 'PRD-14'),
   ImageListItemBar: C('ImageList.ItemBar', 'PRD-14'),
-  GlassGallery: A('ImageList', 'PRD-14'),
+  // REQ-CMP-127 / FIN SURF-13: removed with no compat adapter (DEP-S0605); the lightbox is ImageViewer.
+  GlassGallery: G('media-gallery', 'removed (DEP-S0605); lightbox is ImageViewer'),
   GlassLazyImage: R('native loading="lazy" in ImageList/Avatar', 'PRD-14'),
   GlassScrollArea: C('ScrollArea', 'PRD-14'),
   GlassStack: C('Stack', 'PRD-14', 'T0'),

@@ -130,7 +130,6 @@ export const DEPRECATIONS: Readonly<Record<string, DeprecationRow>> = {
   "DEP-C0259": { id: "DEP-C0259", message: "'ImageList' is renamed to 'ImageList' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "6.0.0", doc: "#dep-dep-c0259" },
   "DEP-C0260": { id: "DEP-C0260", message: "'ImageListItem' is renamed to 'ImageList.Item' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "6.0.0", doc: "#dep-dep-c0260" },
   "DEP-C0261": { id: "DEP-C0261", message: "'ImageListItemBar' is renamed to 'ImageList.ItemBar' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "6.0.0", doc: "#dep-dep-c0261" },
-  "DEP-C0262": { id: "DEP-C0262", message: "'GlassGallery' is renamed to 'ImageList' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "6.0.0", doc: "#dep-dep-c0262" },
   "DEP-C0263": { id: "DEP-C0263", message: "'GlassCoachmarks' is renamed to 'Tour' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "6.0.0", doc: "#dep-dep-c0263" },
   "DEP-C0264": { id: "DEP-C0264", message: "'GlassSpotlight' is renamed to 'Tour' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "6.0.0", doc: "#dep-dep-c0264" },
   "DEP-C0265": { id: "DEP-C0265", message: "'Typography' is renamed to 'Text' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).", codemod: "canonical-names", since: "4.3.0", removeIn: "6.0.0", doc: "#dep-dep-c0265" },
@@ -2039,21 +2038,6 @@ export const deprecations: readonly DeprecationEntry[] = [
     "breaking": "B5",
     "message": "'ImageListItemBar' is renamed to 'ImageList.ItemBar' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
     "doc": "#dep-dep-c0261"
-  },
-  {
-    "id": "DEP-C0262",
-    "kind": "export",
-    "status": "active",
-    "entry": ".",
-    "symbol": "GlassGallery",
-    "since": "4.3.0",
-    "removeIn": "6.0.0",
-    "replacement": "ImageList",
-    "codemod": "canonical-names",
-    "automation": "full",
-    "breaking": "B5",
-    "message": "'GlassGallery' is renamed to 'ImageList' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0262"
   },
   {
     "id": "DEP-C0263",

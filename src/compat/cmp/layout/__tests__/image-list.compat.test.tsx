@@ -1,13 +1,12 @@
-/* REQ-CMP-127 compat: ImageList, ImageListItem, ImageListItemBar and GlassGallery
-   (4.x) map onto the 5.0 ImageList and warn once with their #313 DEP-C ids
-   (DEP-C0259..0262). */
+/* REQ-CMP-127 compat: ImageList, ImageListItem and ImageListItemBar (4.x) map onto the 5.0 ImageList and warn
+   once with their #313 DEP-C ids (DEP-C0259..0261). GlassGallery is not absorbed here: it is removed with no
+   adapter (DEP-S0605, media-gallery registry item; FIN SURF-13). */
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
 import * as React from 'react';
 import { ImageList as CompatImageList } from '../ImageList';
 import { ImageListItem } from '../ImageListItem';
 import { ImageListItemBar } from '../ImageListItemBar';
-import { GlassGallery } from '../GlassGallery';
 import { ImageList } from '../../../../components/image-list';
 
 describe('compat/cmp/layout (REQ-CMP-127)', () => {
@@ -42,15 +41,12 @@ describe('compat/cmp/layout (REQ-CMP-127)', () => {
     expect(container.querySelector('[data-ag-part="item-bar-title"]')!.textContent).toBe('b');
   });
 
-  it('GlassGallery (DEP-C0262) maps images to items and columns to cols', () => {
-    const { container } = render(<GlassGallery images={[{ src: 'a.png', caption: 'cap' }]} columns={2} />);
-    expect(warnings('DEP-C0262')).toBe(1);
-    const root = container.querySelector('[data-ag-part="root"]')!;
-    expect(root.getAttribute('data-ag-appearance')).toBe('standard');
-    expect(root.getAttribute('data-cols')).toBe('2');
-    const img = container.querySelector('[data-ag-part="item-img"]')!;
-    expect(img.getAttribute('src')).toBe('a.png');
-    expect(img.getAttribute('alt')).toBe('');
-    expect(container.querySelector('[data-ag-part="item-bar-title"]')!.textContent).toBe('cap');
+  it('GlassGallery has no CMP adapter: it is the SURF removed name DEP-S0605 (one deprecation row per symbol)', async () => {
+    const compat = (await import('../../index')) as Record<string, unknown>;
+    expect('GlassGallery' in compat).toBe(false);
+    const { default: cmpRows } = await import('../../../../../fragments/deprecations/cmp');
+    const { default: surfRows } = await import('../../../../../fragments/deprecations/surf');
+    const rows = [...cmpRows, ...surfRows].filter((r) => r.symbol === 'GlassGallery');
+    expect(rows.map((r) => [r.id, r.compat ?? null])).toEqual([['DEP-S0605', null]]);
   });
 });
