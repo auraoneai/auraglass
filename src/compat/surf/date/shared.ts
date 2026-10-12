@@ -1,4 +1,3 @@
-'use client';
 /* 4.x Date/string ↔ 5.0 date-value bridge for the date compat adapters
    (REQ-SURF-13). 4.x `Date` values convert client-side with
    fromDate(date, getLocalTimeZone()) (PRD-4 REQ-SURF-13); on the server the
@@ -8,57 +7,12 @@
    Date-only adapters use CalendarDate so the 5.0 field shows day
    granularity. Public signatures use the AuraGlass-owned date value types
    (REQ-CMP-01: no date-foundation types in the emitted d.ts). */
-import {
-  fromDate as intlFromDate,
-  getLocalTimeZone as intlGetLocalTimeZone,
-  parseDate,
-  parseTime,
-  toCalendarDate as intlToCalendarDate,
-  toTime,
-} from '@internationalized/date';
 import type * as React from 'react';
-import type { CalendarDate, DateValue, TimeValue, ZonedDateTime } from '../../../date/shared';
 
-/** Client-side `Date` -> zoned date value in `timeZone`. */
-export function fromDate(date: Date, timeZone: string): ZonedDateTime {
-  return intlFromDate(date, timeZone);
-}
-
-/** The runtime's local IANA time zone. */
-export function getLocalTimeZone(): string {
-  return intlGetLocalTimeZone();
-}
-
-function zone(timeZone: string | undefined): string {
-  if (timeZone === undefined && typeof window === 'undefined') {
-    throw new Error('4.x Date -> CalendarDate conversion is client-only; pass `timeZone` on the server');
-  }
-  return timeZone ?? getLocalTimeZone();
-}
-
-export function toDateValue(d: Date, timeZone?: string): DateValue {
-  return fromDate(d, zone(timeZone));
-}
-
-/** 4.x Date | 'YYYY-MM-DD' -> CalendarDate (day granularity). */
-export function toCalendarDate(d: Date | string | null | undefined, timeZone?: string): CalendarDate | undefined {
-  if (d == null || d === '') return undefined;
-  if (typeof d === 'string') return parseDate(d.slice(0, 10)) as unknown as CalendarDate;
-  return intlToCalendarDate(intlFromDate(d, zone(timeZone))) as unknown as CalendarDate;
-}
-
-/** 4.x Date | 'HH:mm[:ss]' -> Time. */
-export function toTimeValue(d: Date | string | null | undefined, timeZone?: string): TimeValue | undefined {
-  if (d == null || d === '') return undefined;
-  if (typeof d === 'string') return parseTime(d) as unknown as TimeValue;
-  return toTime(intlFromDate(d, zone(timeZone))) as unknown as TimeValue;
-}
-
-/** 5.0 date value -> 4.x Date at local midnight (or the zoned instant). */
-export function toJsDate(v: DateValue | null | undefined, timeZone?: string): Date | null {
-  if (!v) return null;
-  return (v as unknown as { toDate: (tz: string) => Date }).toDate(zone(timeZone));
-}
+/* REQ-SURF-04: the value conversions live in src/date (the only allowlisted
+   importer of `@internationalized/date`). Only the lazily loaded *.impl.tsx
+   adapters value-import them; the adapter shells import types only. */
+export { fromDate, getLocalTimeZone, toCalendarDate, toDateValue, toJsDate, toTimeValue } from '../../../date/legacy-bridge';
 
 export type FirstDay = 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat';
 const DAYS: FirstDay[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];

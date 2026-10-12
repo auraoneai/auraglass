@@ -54,7 +54,9 @@ describe('peer isolation (SURF-142)', () => {
     const bad: string[] = [];
     for (const f of walk(join(ROOT, 'src'))) {
       const rel = relative(ROOT, f).replace(/\\/g, '/');
-      if (importsPeer(readFileSync(f, 'utf8'), '@internationalized/date') && !(rel.startsWith('src/date/') || rel.startsWith('src/compat/surf/date/'))) bad.push(rel);
+      // REQ-SURF-04: src/date/** only (docs/dependency-allowlist.json) — the
+      // compat date adapters reach the peer through src/date/legacy-bridge.ts.
+      if (importsPeer(readFileSync(f, 'utf8'), '@internationalized/date') && !rel.startsWith('src/date/')) bad.push(rel);
     }
     expect(bad).toEqual([]);
   });

@@ -20,7 +20,7 @@ const toDistDirs = (globs) => (globs ?? []).map(g => g.replace(/^src\//, '').rep
 const PEER_DIRS = {
   motion: ['motion/', 'motion/public.js'],
   'react-aria-components': ['date/', 'data/tree-view/'],
-  '@internationalized/date': ['date/', 'compat/surf/date/'],
+  '@internationalized/date': ['date/'], // REQ-SURF-04: compat adapters go through date/legacy-bridge.js
   'react-hook-form': ['forms/'],
   three: ['three/'],
   tailwindcss: [],
