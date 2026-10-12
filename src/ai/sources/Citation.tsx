@@ -25,15 +25,16 @@ function hostname(url: string): string {
 
 /**
  * Registers the open card with the LayerStack. Mounted only while the card is
- * open, so closed citations never sit on the stack. `onEscape` is a no-op by
- * design: Base UI's dismiss closes the card (see useOverlayLayer.ts), and a
- * second close path would close two layers on one keypress.
+ * open, so closed citations never sit on the stack. `onEscape` returns
+ * `false`: the stack then passes the native Escape through untouched and Base
+ * UI's dismiss performs the single close (see useOverlayLayer.ts); any other
+ * return value makes the stack consume the key, so the card would never close.
  */
 function PreviewLayer() {
-  useLayer({ kind: 'preview-card', modal: false, open: true, onEscape: noop, element: null, restoreFocusTo: false });
+  useLayer({ kind: 'preview-card', modal: false, open: true, onEscape: passEscapeToBaseUi, element: null, restoreFocusTo: false });
   return null;
 }
-const noop = () => {};
+const passEscapeToBaseUi = () => false as const;
 
 /** Hover-open delay (ms) — REQ-SURF-125. */
 export const CITATION_PREVIEW_DELAY = 300;
