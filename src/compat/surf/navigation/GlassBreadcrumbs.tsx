@@ -2,7 +2,7 @@
    (REQ-SURF-13 / REQ-SURF-55, DEP-S0036) → Breadcrumbs. items[{label, href}]
    → Breadcrumbs.Item > Link; the last item → Breadcrumbs.Current
    (aria-current="page"). Breadcrumbs.Item owns the aria-hidden separator.
-   Moved here from #302 (FIN-E.1 row 30: SURF names live in src/compat/surf). */
+   Moved here from PR 302 (FIN-E.1 row 30: SURF names live in src/compat/surf). */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Breadcrumbs } from '../../../components/breadcrumbs/Breadcrumbs';

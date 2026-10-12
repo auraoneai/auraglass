@@ -1,11 +1,11 @@
 /** REQ-PLAT-92 codemod canaries (@playwright/test, remote dx lane only —
  *  playwright.dx.config.ts exits 2 outside CI; job plat:test:cli after
  *  plat:package:pack). Inputs are the PACKED tarballs in .artifacts/pack/
- *  (`auraglass-cli-*.tgz`, `aura-glass-5*.tgz`); a missing tarball fails.
+ *  (`aura-glass-cli-*.tgz`, `aura-glass-5*.tgz`); a missing tarball fails.
  *
  *  `@node` tests run once in the `node` project, which the browser projects
  *  depend on:
- *   - the packed @auraglass/cli is installed into .artifacts/plat/codemod-canary/cli;
+ *   - the packed aura-glass-cli is installed into .artifacts/plat/codemod-canary/cli;
  *   - frozen 4.x app (tests/dx/fixtures/app-4x + the flagship recipes): packed
  *     CLI `migrate 4to5` within 15 s, 0 TODOs in the flagship-subset files,
  *     second run 0 changes within 15 s, then the packed aura-glass 5 tarball
@@ -50,7 +50,7 @@ function packed(re: RegExp): string {
   if (!hits.length) throw new Error(`no ${re} in ${PACK}: run plat:package:pack first (REQ-PLAT-92 runs the packed artifacts only)`);
   return path.join(PACK, hits[hits.length - 1]!);
 }
-const cliBin = () => path.join(CLI_PREFIX, 'node_modules', '@auraglass', 'cli', 'dist', 'bin.js');
+const cliBin = () => path.join(CLI_PREFIX, 'node_modules', 'aura-glass-cli', 'dist', 'bin.js');
 
 function npm(args: string[], cwd: string, timeout = 10 * 60_000): void {
   execFileSync('npm', [...args, '--no-audit', '--no-fund', '--loglevel=error'], { cwd, stdio: 'inherit', timeout });
@@ -119,7 +119,7 @@ test.describe('@node codemod canary (packed CLI)', () => {
     test.setTimeout(10 * 60_000);
     fs.mkdirSync(CLI_PREFIX, { recursive: true });
     fs.writeFileSync(path.join(CLI_PREFIX, 'package.json'), JSON.stringify({ name: 'canary-cli', private: true }));
-    npm(['install', packed(/^auraglass-cli-.*\.tgz$/)], CLI_PREFIX);
+    npm(['install', packed(/^aura-glass-cli-.*\.tgz$/)], CLI_PREFIX);
     expect(fs.existsSync(cliBin())).toBe(true);
   });
 

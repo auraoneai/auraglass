@@ -1,5 +1,5 @@
 /* REQ-CMP-111 compat legs: the Typography/DisplayText adapters warn their
-   #313 deprecation ids (DEP-C0265 / DEP-C0266, fragments/deprecations/cmp.ts
+   PR 313 deprecation ids (DEP-C0265 / DEP-C0266, fragments/deprecations/cmp.ts
    on release/4.x, synced to next by REQ-FIN-13) and render 5.0 Text/Heading
    output. The computed-style legs live in tests/e2e/cmp/content/type-roles.spec.ts. */
 import { describe, expect, it, jest } from '@jest/globals';

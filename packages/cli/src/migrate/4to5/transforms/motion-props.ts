@@ -20,17 +20,19 @@ const REMOVED_PROPS = new Set([
 ]);
 
 /** local name -> imported name, for every binding of an aura-glass import. */
-function auraBindings(root: ReturnType<typeof j>): Map<string, string> {
-  const out = new Map<string, string>();
+function auraBindings(root: ReturnType<typeof j>): Map<string, { imported: string; namespace: boolean }> {
+  const out = new Map<string, { imported: string; namespace: boolean }>();
   root.find(j.ImportDeclaration).forEach((p: any) => {
     const src = String((p.node.source as { value?: unknown }).value ?? '');
-    if (!/^(aura-glass|@auraglass\/)/.test(src)) return;
+    if (!/^(?:aura-glass(?:\/|$)|@auraglass\/)/.test(src)) return;
     for (const s of p.node.specifiers ?? []) {
       const sAny = s as { type?: string; imported?: { name?: string; value?: unknown }; local?: { name?: string } };
       if (sAny.type === 'ImportSpecifier') {
         const imp = String(sAny.imported?.name ?? sAny.imported?.value ?? '');
-        out.set(sAny.local?.name ?? imp, imp);
-      } else if (sAny.local?.name) out.set(sAny.local.name, sAny.local.name);
+        out.set(sAny.local?.name ?? imp, { imported: imp, namespace: false });
+      } else if (sAny.type === 'ImportNamespaceSpecifier' && sAny.local?.name) {
+        out.set(sAny.local.name, { imported: '', namespace: true });
+      }
     }
   });
   return out;
@@ -42,21 +44,36 @@ function applyCode(source: string, ctx: TransformCtx | undefined): TransformResu
   const changes: TransformResult['changes'] = [];
   const todos: TransformResult['todos'] = [];
   const bound = auraBindings(root);
-  const fiveNames = new Set(Object.values(ctx?.mappings.components ?? {}).map((c) => c.to).filter((n): n is string => typeof n === 'string'));
-  const isLegacyElement = (nameNode: { type?: string; name?: string; object?: { name?: string } }): boolean => {
-    const head = nameNode.type === 'JSXIdentifier' ? nameNode.name : nameNode.type === 'JSXMemberExpression' ? nameNode.object?.name : undefined;
-    if (!head || !bound.has(head)) return false;
-    if (ctx?.renamedFrom?.get(head)?.size) return true;
-    return !fiveNames.has(bound.get(head)!);
+  const fiveNames = new Set(Object.values(ctx?.mappings.components ?? {})
+    .map((c) => c.to?.split('.')[0]).filter((n): n is string => typeof n === 'string'));
+  type JsxName = { type?: string; name?: string; object?: JsxName; property?: JsxName };
+  const partsOf = (node: JsxName): string[] => node.type === 'JSXIdentifier'
+    ? [node.name ?? '']
+    : node.type === 'JSXMemberExpression' && node.object && node.property
+      ? [...partsOf(node.object), ...partsOf(node.property)] : [];
+  const elementInfo = (node: JsxName): { imported: string; legacy: boolean } | undefined => {
+    const parts = partsOf(node);
+    const binding = bound.get(parts[0] ?? '');
+    if (!binding) return undefined;
+    const imported = binding.namespace ? parts[1] : binding.imported;
+    if (!imported) return undefined;
+    const renamed = ctx?.renamedFrom?.get(parts.join('.'))?.size
+      || ctx?.renamedFrom?.get(parts[0]!)?.size;
+    return { imported, legacy: Boolean(renamed) || !fiveNames.has(imported) };
   };
+  // These are current component props, including props produced earlier in
+  // this migration (for example GlassActionSheet.actions -> Sheet.preset).
+  const presetOwners = new Set(['TreeView', 'Backdrop', 'Sheet']);
 
   // 1. Delete removed motion props by text span (keeps the open-tag layout).
   const cuts: Span[] = [];
   root.find(j.JSXOpeningElement).forEach((p: any) => {
-    if (!isLegacyElement(p.node.name)) return;
+    const element = elementInfo(p.node.name);
+    if (!element?.legacy) return;
     for (const a of p.node.attributes ?? []) {
       const at = a as { type?: string; name?: { name?: string }; start?: number; end?: number };
       if (at.type !== 'JSXAttribute' || !at.name?.name || at.start === undefined || at.end === undefined) continue;
+      if (at.name.name === 'preset' && presetOwners.has(element.imported)) continue;
       if (REMOVED_PROPS.has(at.name.name)) {
         changes.push({ transform: 'motion-props', description: `remove ${at.name.name}` });
         cuts.push(cutAttr(unit_source_placeholder, { start: at.start, end: at.end }));
