@@ -39,12 +39,18 @@ const expectClosed = (trigger: HTMLElement) => {
   expect(document.querySelector('[data-ag-part="popup"][data-state="open"]')).toBeNull();
 };
 
+// one user-event instance per test: keyboard state never leaks across tests
+let user: ReturnType<typeof userEvent.setup>;
+
 async function openWithArrowDown() {
+  user = userEvent.setup();
   render(<Demo />);
   const trigger = screen.getByRole('combobox');
   trigger.focus();
-  await userEvent.keyboard('{ArrowDown}');
-  await act(async () => {});
+  await user.keyboard('{ArrowDown}');
+  // Base UI moves focus into the listbox (onto an option) after the popup
+  // mounts; the list keys act on the focused option, so wait for it.
+  await waitFor(() => expect(document.activeElement?.getAttribute('role')).toBe('option'));
   expect(listbox()).toBeTruthy();
   return trigger;
 }
@@ -57,21 +63,22 @@ describe('Select keys (REQ-CMP-66)', () => {
   });
 
   it('End highlights the last option, Home the first', async () => {
-    await openWithArrowDown();
-    await userEvent.keyboard('{End}');
-    await act(async () => {});
-    expect(option('Gamma')).toHaveAttribute('data-highlighted');
-    await userEvent.keyboard('{Home}');
-    await act(async () => {});
-    expect(option('Alpha')).toHaveAttribute('data-highlighted');
+    const trigger = await openWithArrowDown();
+    await user.keyboard('{End}');
+    await waitFor(() => expect(option('Gamma')).toHaveAttribute('data-highlighted'));
+    await user.keyboard('{Home}');
+    await waitFor(() => expect(option('Alpha')).toHaveAttribute('data-highlighted'));
     expect(option('Gamma')).not.toHaveAttribute('data-highlighted');
+    // close before unmount so Base UI releases its outside-inert markers
+    await user.keyboard('{Escape}');
+    await waitFor(() => expectClosed(trigger));
   });
 
   it('Space selects the highlighted option and closes', async () => {
     const trigger = await openWithArrowDown();
-    await userEvent.keyboard('{End}');
-    await act(async () => {});
-    await userEvent.keyboard('{ }');
+    await user.keyboard('{End}');
+    await waitFor(() => expect(option('Gamma')).toHaveAttribute('data-highlighted'));
+    await user.keyboard('{ }');
     await waitFor(() => expectClosed(trigger));
     expect(trigger).toHaveTextContent('Gamma');
   });
@@ -79,7 +86,7 @@ describe('Select keys (REQ-CMP-66)', () => {
   it('Tab while open closes the listbox and moves focus to the next control', async () => {
     const trigger = await openWithArrowDown();
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    await userEvent.tab();
+    await user.tab();
     await waitFor(() => expectClosed(trigger));
     expect(document.activeElement).toBe(screen.getByText('next'));
   });

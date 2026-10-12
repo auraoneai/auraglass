@@ -80,6 +80,8 @@ test.describe('select opening keys, typeahead and Tab-while-open (REQ-CMP-66)', 
     await trigger.focus();
     await page.keyboard.press('ArrowDown');
     await expect(page.locator('[role="listbox"]').first()).toBeVisible();
+    // Base UI moves focus onto an option once the popup mounts
+    await expect(page.locator('[role="option"]:focus')).toHaveCount(1);
     await page.keyboard.press('f');
     await expect(page.getByRole('option', { name: 'Finland' })).toHaveAttribute('data-highlighted', '');
     await page.keyboard.press('i');
@@ -96,6 +98,8 @@ test.describe('select opening keys, typeahead and Tab-while-open (REQ-CMP-66)', 
     await page.keyboard.press('ArrowDown');
     const listbox = page.locator('[role="listbox"]').first();
     await expect(listbox).toBeVisible();
+    // Tab is pressed from inside the open listbox (focus is on an option)
+    await expect(page.locator('[role="option"]:focus')).toHaveCount(1);
     await page.keyboard.press('Tab');
     await expect(page.locator('[role="listbox"]')).toHaveCount(0);
     await expect(page.getByRole('button', { name: 'Continue' })).toBeFocused();
