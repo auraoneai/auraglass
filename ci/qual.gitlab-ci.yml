@@ -25,7 +25,8 @@
     expire_in: 14 days
     paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
 
-# L2/L3/L4 consume the tarball: AURAGLASS_TARBALL from plat:package:pack's dotenv, else `npm pack` of the built dist/.
+# L1/L2/L3/L4 consume the tarball: AURAGLASS_TARBALL from plat:package:pack's dotenv, else `npm pack` of the built dist/
+# (L1: verify-lab-not-shipped.mjs scans the shipped tarball for Storybook-only paths and fails closed without it).
 # REQ-QUAL-33 (4.x coverage today): main-scope l2/l3/l11 and the nightly first run `--line 4x`, which packs
 # aura-glass@$AG_V4_DIST_TAG from the public registry and the release/4.x head (`git fetch origin release/4.x` with the
 # job's own access, npm ci + build + pack in a scratch worktree) and runs L2/L3/L11 against both; rows are `line: 4x`
@@ -105,7 +106,7 @@ qual:test:storybook-flows:
 
 # ---------------------------------------------------------------- the twelve lanes (CERT_JOBS)
 qual:certify:l1:
-  extends: .qual-node-lane
+  extends: .qual-tarball-lane
   allow_failure: true
   script:
     - node certification/run.mjs --lane L1 --scope $AG_SCOPE
