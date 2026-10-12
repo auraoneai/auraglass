@@ -1,5 +1,9 @@
 /** @jest-environment jsdom */
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import * as React from 'react';
+import { renderToString } from 'react-dom/server';
+import { AppShell } from './AppShell';
+import { AppShellSidebarToggle } from './AppShell.SidebarToggle';
 import {
   getServerSnapshot,
   getSnapshot,
@@ -213,5 +217,54 @@ describe('appShellStore mode is CSS-resolved (REQ-SURF-17)', () => {
     cssWrites('huge');
     const root = makeRoot({ layout: 'mobile' });
     expect(store.getSnapshot(root).mode).toBe('compact');
+  });
+});
+
+/* REQ-SURF-21: no storage is read during render. The persisted cookie is
+   read exactly once at subscribe (effect) time by hydrateFromCookie; the
+   render path — a server render of a persisted shell and the store's
+   snapshot reads — must not touch the document.cookie getter at all. */
+describe('appShellStore cookie reads (REQ-SURF-21)', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    document.cookie = 'ag-shell-demo=sidebar:rail,inspector:open; Path=/';
+  });
+  afterEach(() => {
+    document.cookie = 'ag-shell-demo=; Path=/; Max-Age=0';
+  });
+
+  it('render reads document.cookie 0 times; the first subscribe reads it', () => {
+    const desc = Object.getOwnPropertyDescriptor(Document.prototype, 'cookie')!;
+    let reads = 0;
+    const get = jest.spyOn(Document.prototype, 'cookie', 'get').mockImplementation(function (this: Document) {
+      reads += 1;
+      return desc.get!.call(this) as string;
+    });
+    try {
+      // Render path: server-render a persisted shell (render functions run,
+      // effects/subscribe do not) and read both store snapshots.
+      const html = renderToString(
+        React.createElement(
+          AppShell.Root as never,
+          { persistKey: 'demo' },
+          React.createElement(AppShellSidebarToggle as never),
+          React.createElement(AppShell.Main as never, {}, 'body'),
+        ),
+      );
+      expect(html).toContain('ag-app-shell');
+      const root = makeRoot({ persistKey: 'demo' });
+      expect(getSnapshot(root).sidebar).toBe('expanded');
+      expect(getServerSnapshot(root).sidebar).toBe('expanded');
+      expect(reads).toBe(0);
+
+      // Effect time: the first subscriber hydrates from the cookie, which
+      // proves the getter spy is live and the read is deferred to subscribe.
+      const off = subscribe(root, () => {});
+      expect(reads).toBeGreaterThan(0);
+      expect(getSnapshot(root)).toMatchObject({ sidebar: 'rail', inspector: 'open' });
+      off();
+    } finally {
+      get.mockRestore();
+    }
   });
 });
