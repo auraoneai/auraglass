@@ -60,7 +60,7 @@ const sha512 = (f: string) => 'sha512-' + createHash('sha512').update(readFileSy
 
 function fixture() {
   const dir = mkdtempSync(join(tmpdir(), 'ag-publish-'));
-  for (const d of ['bin', '.artifacts/pack', '.artifacts/plat', 'contracts', 'src']) mkdirSync(join(dir, d), { recursive: true });
+  for (const d of ['bin', '.artifacts/pack', '.artifacts/plat/plat-package-pack', 'contracts', 'src']) mkdirSync(join(dir, d), { recursive: true });
   writeFileSync(join(dir, 'bin/npm'), STUB);
   chmodSync(join(dir, 'bin/npm'), 0o755);
   writeFileSync(
@@ -78,7 +78,7 @@ function fixture() {
   const record: any = { version: 1, line: '5x', sha: 'abc', packages: {} };
   const save = () => {
     writeFileSync(join(dir, 'state.json'), JSON.stringify(state));
-    writeFileSync(join(dir, '.artifacts/plat/pack-record.json'), JSON.stringify(record));
+    writeFileSync(join(dir, '.artifacts/plat/plat-package-pack/pack-record.json'), JSON.stringify(record));
   };
   const addTarball = (name: string, version: string, { record: rec = true } = {}) => {
     const src = mkdtempSync(join(tmpdir(), 'ag-pkg-'));
@@ -91,9 +91,14 @@ function fixture() {
     save();
     return file;
   };
-  const run = (tag: string, env: Record<string, string> = {}, { noRecord = false } = {}) => {
+  const run = (
+    tag: string,
+    env: Record<string, string> = {},
+    { noRecord = false, before }: { noRecord?: boolean; before?: () => void } = {},
+  ) => {
     save();
-    if (noRecord) rmSync(join(dir, '.artifacts/plat/pack-record.json'));
+    if (noRecord) rmSync(join(dir, '.artifacts/plat/plat-package-pack/pack-record.json'));
+    before?.();
     const r = spawnSync('node', [PUBLISH, '--tag', tag, '--line', '5x', '--v4-dist-tag', 'v4-lts'], {
       cwd: dir,
       encoding: 'utf8',
@@ -239,6 +244,48 @@ describe('publish.mjs (REQ-PLAT-11)', () => {
     expect(r.code).toBe(1);
     expect(r.out).toContain('ECONNRESET');
     expect(r.publishes).toEqual([]);
+  });
+});
+
+// REQ-PLAT-11 pack→publish handoff: the record plat:package:pack writes (its
+// exact ci/plat.gitlab-ci.yml line, ci/plat/pack-record.mjs, the job's
+// AURAGLASS_EVIDENCE_DIR) is the path and shape publish.mjs reads with the
+// contract job's arguments (no --record).
+describe('plat:package:pack -> plat:publish:npm handoff (REQ-PLAT-11)', () => {
+  const yaml = require('yaml');
+  const ci = yaml.parse(readFileSync(join(ROOT, 'ci/plat.gitlab-ci.yml'), 'utf8'));
+  const packLine: string = ci['plat:package:pack'].script.find((l: string) => l.includes('ci/plat/pack-record.mjs'));
+  const publishLine: string = ci['plat:publish:npm'].script.find((l: string) => l.includes('publish.mjs'));
+  const EVIDENCE = '.artifacts/plat/plat-package-pack'; // $CI_JOB_NAME_SLUG of plat:package:pack
+
+  it('the contract publish job passes no --record', () => {
+    expect(publishLine).toBe('node scripts/release/publish.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE" --v4-dist-tag "$AG_V4_DIST_TAG"');
+  });
+
+  it('publish.mjs accepts the record the pack job writes', () => {
+    const f = fixture();
+    const root = f.addTarball('aura-glass', '5.0.0-alpha.1', { record: false });
+    const cli = f.addTarball('@auraglass/cli', '0.1.0', { record: false });
+    f.state.distTags['aura-glass'] = { latest: '4.1.0', next: '5.0.0-alpha.0' };
+    const packJob = () => {
+      // fixture's own record is removed: only the pack job's output may satisfy publish.mjs
+      rmSync(join(f.dir, EVIDENCE, 'pack-record.json'), { force: true });
+      mkdirSync(join(f.dir, EVIDENCE, 'npm-pack'), { recursive: true });
+      for (const [w, file] of [['aura-glass', root], ['cli', cli]]) {
+        const { name, version } = f.state.files[file];
+        const integrity = sha512(join(f.dir, '.artifacts/pack', file));
+        writeFileSync(join(f.dir, EVIDENCE, 'npm-pack', `${w}.json`), JSON.stringify([{ name, version, filename: file, integrity }]));
+      }
+      mkdirSync(join(f.dir, 'ci/plat'), { recursive: true });
+      writeFileSync(join(f.dir, 'ci/plat/pack-record.mjs'), readFileSync(join(ROOT, 'ci/plat/pack-record.mjs')));
+      const r = spawnSync('bash', ['-eo', 'pipefail', '-c', packLine], {
+        cwd: f.dir, encoding: 'utf8', env: { ...process.env, AURAGLASS_EVIDENCE_DIR: EVIDENCE },
+      });
+      expect([r.status, r.stderr]).toEqual([0, '']);
+    };
+    const r = f.run('v5.0.0-alpha.1', {}, { noRecord: true, before: packJob });
+    expect([r.code, r.out]).toEqual([0, expect.stringContaining('2 tarball(s) verified against .artifacts/plat/plat-package-pack/pack-record.json')]);
+    expect(r.publishes.map((p: string[]) => p[1])).toEqual([join('.artifacts/pack', root), join('.artifacts/pack', cli)]);
   });
 });
 
