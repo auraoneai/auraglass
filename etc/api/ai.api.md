@@ -14,9 +14,7 @@ export function AgentSteps(input: AgentStepsProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface AgentStepsProps {
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     steps: readonly AgStep[];
 }
 
@@ -187,16 +185,11 @@ export function Citation(input: CitationProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface CitationProps {
-    // (undocumented)
     className?: string | undefined;
     defaultOpen?: boolean | undefined;
-    // (undocumented)
     index: number;
-    // (undocumented)
     messageId: string;
     // Warning: (ae-forgotten-export) The symbol "AgCitationSource" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     source: AgCitationSource;
 }
 
@@ -224,51 +217,30 @@ export interface ComposerLabels {
 
 // @public (undocumented)
 export interface ComposerRootProps {
-    // (undocumented)
     accept?: string | undefined;
-    // (undocumented)
     children?: React_2.ReactNode;
-    // (undocumented)
     className?: string | undefined;
     defaultFiles?: readonly File[] | undefined;
-    // (undocumented)
     defaultValue?: string | undefined;
-    // (undocumented)
     disabled?: boolean | undefined;
-    // (undocumented)
     labels?: ComposerLabels | undefined;
-    // (undocumented)
     maxFiles?: number | undefined;
-    // (undocumented)
     maxFileSize?: number | undefined;
-    // (undocumented)
     maxLength?: number | undefined;
-    // (undocumented)
     maxRows?: number | undefined;
     // Warning: (ae-forgotten-export) The symbol "AttachmentReject" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     onAttachmentReject?: ((rej: AttachmentReject) => void) | undefined;
-    // (undocumented)
     onStop?: (() => void) | undefined;
-    // (undocumented)
     onSubmit?: ((detail: {
         text: string;
         files: File[];
     }) => void) | undefined;
     // Warning: (ae-forgotten-export) The symbol "ChangeDetails" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     onValueChange?: ((value: string, details: ChangeDetails) => void) | undefined;
-    // (undocumented)
     ref?: React_2.Ref<HTMLFormElement>;
-    // (undocumented)
     status?: AgChatStatus | undefined;
-    // (undocumented)
     stopOnEscape?: boolean | undefined;
-    // (undocumented)
     submitOnEnter?: boolean | undefined;
-    // (undocumented)
     value?: string | undefined;
 }
 
@@ -327,21 +299,13 @@ export interface MessagePartsProps {
 
 // @public (undocumented)
 export interface MessageRootProps {
-    // (undocumented)
     author?: string | undefined;
-    // (undocumented)
     children?: React_2.ReactNode;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     labels?: MessageLabels | undefined;
-    // (undocumented)
     locale?: string | undefined;
-    // (undocumented)
     message: AgMessage;
-    // (undocumented)
     ref?: React_2.Ref<HTMLElement>;
-    // (undocumented)
     timeZone?: string | undefined;
 }
 
@@ -351,17 +315,11 @@ export function ProviderErrorState(input: ProviderErrorStateProps): React_2.JSX.
 // @public (undocumented)
 export interface ProviderErrorStateProps {
     appearance?: 'compact' | 'panel' | undefined;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     detail?: string | undefined;
-    // (undocumented)
     kind: AgErrorKind;
-    // (undocumented)
     onRetry?: (() => void) | undefined;
-    // (undocumented)
     retryAfterMs?: number | undefined;
-    // (undocumented)
     title?: string | undefined;
 }
 
@@ -378,17 +336,11 @@ export interface ReasoningLabels {
 
 // @public (undocumented)
 export interface ReasoningProps {
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     defaultOpen?: boolean | undefined;
-    // (undocumented)
     durationMs?: number | undefined;
-    // (undocumented)
     labels?: ReasoningLabels | undefined;
-    // (undocumented)
     state: 'streaming' | 'done';
-    // (undocumented)
     text: string;
 }
 
@@ -397,13 +349,9 @@ export function SourceList(input: SourceListProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface SourceListProps {
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     defaultOpen?: boolean | undefined;
-    // (undocumented)
     messageId: string;
-    // (undocumented)
     sources: readonly AgSourcePart[];
 }
 
@@ -419,12 +367,9 @@ export interface StreamingTextHandle {
 // @public (undocumented)
 export interface StreamingTextProps {
     announce?: 'complete' | 'sentences' | 'off' | undefined;
-    // (undocumented)
     className?: string | undefined;
     ref?: React_2.Ref<StreamingTextHandle> | undefined;
-    // (undocumented)
     streaming?: boolean | undefined;
-    // (undocumented)
     text: string;
 }
 
@@ -458,25 +403,15 @@ export interface ThreadLabels {
 // @public (undocumented)
 export interface ThreadRootProps {
     children?: React_2.ReactNode;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     label?: string | undefined;
-    // (undocumented)
     labels?: ThreadLabels | undefined;
-    // (undocumented)
     locale?: string | undefined;
-    // (undocumented)
     messages: readonly AgMessage[];
-    // (undocumented)
     onReachTop?: (() => void) | undefined;
-    // (undocumented)
     pinThreshold?: number | undefined;
-    // (undocumented)
     ref?: React_2.Ref<ThreadHandle>;
-    // (undocumented)
     timeZone?: string | undefined;
-    // (undocumented)
     virtualizeAfter?: number | undefined;
 }
 
@@ -516,27 +451,16 @@ export interface ToolCallLabels {
 
 // @public (undocumented)
 export interface ToolCallProps {
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     defaultOpen?: boolean | undefined;
-    // (undocumented)
     labels?: ToolCallLabels | undefined;
-    // (undocumented)
     maxPreviewChars?: number | undefined;
-    // (undocumented)
     onApprovalResponse?: ((detail: ApprovalResponseDetail) => void) | undefined;
     // Warning: (ae-forgotten-export) The symbol "AnyToolPart" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     part: AnyToolPart;
-    // (undocumented)
     ref?: React_2.Ref<HTMLDivElement>;
-    // (undocumented)
     renderInput?: ((input: unknown) => React_2.ReactNode) | undefined;
-    // (undocumented)
     renderOutput?: ((output: unknown) => React_2.ReactNode) | undefined;
-    // (undocumented)
     title?: string | undefined;
 }
 
@@ -545,21 +469,17 @@ export function UsageMeter(input: UsageMeterProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface UsageMeterProps {
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     format?: 'compact' | 'full' | undefined;
-    // (undocumented)
     locale?: string | undefined;
-    // (undocumented)
     usage: AgUsage;
 }
 
 // Warnings were encountered during analysis:
 //
-// dist/ai/message/Message.d.ts:48:5 - (ae-forgotten-export) The symbol "MessageParts" needs to be exported by the entry point index.d.ts
-// dist/ai/message/Message.d.ts:49:5 - (ae-forgotten-export) The symbol "MessageActions" needs to be exported by the entry point index.d.ts
-// dist/ai/message/Message.d.ts:50:5 - (ae-forgotten-export) The symbol "MessageAction" needs to be exported by the entry point index.d.ts
+// dist/ai/message/Message.d.ts:56:5 - (ae-forgotten-export) The symbol "MessageParts" needs to be exported by the entry point index.d.ts
+// dist/ai/message/Message.d.ts:57:5 - (ae-forgotten-export) The symbol "MessageActions" needs to be exported by the entry point index.d.ts
+// dist/ai/message/Message.d.ts:58:5 - (ae-forgotten-export) The symbol "MessageAction" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

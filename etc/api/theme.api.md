@@ -109,11 +109,8 @@ export function GlassPreferencesPanel(input: GlassPreferencesPanelProps): React_
 
 // @public
 export interface GlassPreferencesPanelProps {
-    // (undocumented)
     className?: string;
-    // (undocumented)
     keys?: readonly UserSettableKey[];
-    // (undocumented)
     onChange?: (key: UserSettableKey, value: unknown) => void;
 }
 

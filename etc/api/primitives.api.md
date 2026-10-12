@@ -21,21 +21,14 @@ export type DismissableLayerOutsideEvent = PointerEvent | MouseEvent | TouchEven
 // @public (undocumented)
 export interface DismissableLayerProps extends React_2.HTMLAttributes<HTMLDivElement> {
     disabled?: boolean;
-    // (undocumented)
     disableOutsidePointerEvents?: boolean;
     // Warning: (ae-forgotten-export) The symbol "LayerKind" needs to be exported by the entry point index.d.ts
     layerKind?: LayerKind;
-    // (undocumented)
     onDismiss?: () => void;
-    // (undocumented)
     onEscapeKeyDown?: (event: KeyboardEvent) => void;
-    // (undocumented)
     onFocusOutside?: (event: FocusEvent) => void;
-    // (undocumented)
     onInteractOutside?: (event: DismissableLayerOutsideEvent) => void;
-    // (undocumented)
     onPointerDownOutside?: (event: DismissableLayerOutsideEvent) => void;
-    // (undocumented)
     ref?: React_2.Ref<HTMLDivElement>;
 }
 
@@ -50,19 +43,12 @@ export namespace FocusScope {
 
 // @public (undocumented)
 export interface FocusScopeProps extends React_2.HTMLAttributes<HTMLDivElement> {
-    // (undocumented)
     autoFocus?: boolean;
-    // (undocumented)
     loop?: boolean;
-    // (undocumented)
     onMountAutoFocus?: (event: Event) => void;
-    // (undocumented)
     onUnmountAutoFocus?: (event: Event) => void;
-    // (undocumented)
     ref?: React_2.Ref<HTMLDivElement>;
-    // (undocumented)
     restoreFocus?: boolean;
-    // (undocumented)
     trapped?: boolean;
 }
 
@@ -77,9 +63,7 @@ export namespace Label {
 
 // @public (undocumented)
 export interface LabelProps extends React_2.LabelHTMLAttributes<HTMLLabelElement> {
-    // (undocumented)
     disabled?: boolean;
-    // (undocumented)
     ref?: React_2.Ref<HTMLLabelElement>;
     required?: boolean;
 }
@@ -95,7 +79,6 @@ export namespace Portal {
 
 // @public (undocumented)
 export interface PortalProps {
-    // (undocumented)
     children?: React_2.ReactNode;
     container?: HTMLElement | null;
     // Warning: (ae-forgotten-export) The symbol "PortalLayerRoot" needs to be exported by the entry point index.d.ts
@@ -113,9 +96,7 @@ export namespace Slot {
 
 // @public (undocumented)
 export interface SlotProps extends React_2.HTMLAttributes<HTMLElement> {
-    // (undocumented)
     children?: React_2.ReactNode;
-    // (undocumented)
     ref?: React_2.Ref<HTMLElement>;
 }
 
@@ -131,11 +112,8 @@ export namespace VisuallyHidden {
 // @public (undocumented)
 export interface VisuallyHiddenProps extends React_2.HTMLAttributes<HTMLSpanElement> {
     focusable?: boolean;
-    // (undocumented)
     ref?: React_2.Ref<HTMLSpanElement>;
     // Warning: (ae-forgotten-export) The symbol "RenderProp" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     render?: RenderProp<React_2.HTMLAttributes<HTMLSpanElement>>;
 }
 

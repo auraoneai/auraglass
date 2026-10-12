@@ -73,7 +73,6 @@ export function MobileShell(input: MobileShellProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface MobileShellProps extends Omit<PartProps<'div'>, 'title'> {
-    // (undocumented)
     persistKey?: string | undefined;
     tabBar?: React_2.ReactNode;
     topBar?: React_2.ReactNode;
@@ -142,44 +141,44 @@ export type TopBarRootProps = PartProps<'header'> & {
 
 // Warnings were encountered during analysis:
 //
-// dist/app-shell/AppShell.d.ts:55:5 - (ae-forgotten-export) The symbol "Root" needs to be exported by the entry point index.d.ts
-// dist/app-shell/AppShell.d.ts:56:5 - (ae-forgotten-export) The symbol "Main" needs to be exported by the entry point index.d.ts
-// dist/app-shell/AppShell.d.ts:57:5 - (ae-forgotten-export) The symbol "PageHeader" needs to be exported by the entry point index.d.ts
-// dist/app-shell/AppShell.d.ts:58:5 - (ae-forgotten-export) The symbol "SkipLink" needs to be exported by the entry point index.d.ts
-// dist/app-shell/AppShell.d.ts:59:5 - (ae-forgotten-export) The symbol "AppShellSidebarToggle" needs to be exported by the entry point index.d.ts
-// dist/app-shell/AppShell.d.ts:60:5 - (ae-forgotten-export) The symbol "AppShellInspectorToggle" needs to be exported by the entry point index.d.ts
-// dist/app-shell/AppShell.d.ts:61:5 - (ae-forgotten-export) The symbol "AppShellController" needs to be exported by the entry point index.d.ts
-// dist/app-shell/AppShell.d.ts:62:5 - (ae-forgotten-export) The symbol "parseAppShellCookie" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Inspector.d.ts:36:5 - (ae-forgotten-export) The symbol "InspectorRoot" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Inspector.d.ts:37:5 - (ae-forgotten-export) The symbol "InspectorHeader" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Inspector.d.ts:38:5 - (ae-forgotten-export) The symbol "InspectorContent" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Inspector.d.ts:39:5 - (ae-forgotten-export) The symbol "InspectorField" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Inspector.d.ts:40:5 - (ae-forgotten-export) The symbol "InspectorSection" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Inspector.d.ts:41:5 - (ae-forgotten-export) The symbol "InspectorSheet" needs to be exported by the entry point index.d.ts
-// dist/app-shell/ResizablePanels.d.ts:52:5 - (ae-forgotten-export) The symbol "ResizablePanelsRoot" needs to be exported by the entry point index.d.ts
-// dist/app-shell/ResizablePanels.d.ts:53:5 - (ae-forgotten-export) The symbol "ResizablePanel" needs to be exported by the entry point index.d.ts
-// dist/app-shell/ResizablePanels.d.ts:54:5 - (ae-forgotten-export) The symbol "ResizableHandle" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:49:5 - (ae-forgotten-export) The symbol "SidebarRoot" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:50:5 - (ae-forgotten-export) The symbol "SidebarHeader" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:51:5 - (ae-forgotten-export) The symbol "SidebarContent" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:52:5 - (ae-forgotten-export) The symbol "SidebarFooter" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:53:5 - (ae-forgotten-export) The symbol "SidebarGroup" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:54:5 - (ae-forgotten-export) The symbol "SidebarGroupLabel" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:55:5 - (ae-forgotten-export) The symbol "SidebarSeparator" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:56:5 - (ae-forgotten-export) The symbol "SidebarNav" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:57:5 - (ae-forgotten-export) The symbol "SidebarItem" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:58:5 - (ae-forgotten-export) The symbol "SidebarItemIcon" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:59:5 - (ae-forgotten-export) The symbol "SidebarItemBadge" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:60:5 - (ae-forgotten-export) The symbol "SidebarCollapsible" needs to be exported by the entry point index.d.ts
-// dist/app-shell/Sidebar.d.ts:61:5 - (ae-forgotten-export) The symbol "SidebarDrawer" needs to be exported by the entry point index.d.ts
-// dist/app-shell/StatusBar.d.ts:12:5 - (ae-forgotten-export) The symbol "StatusBarRoot" needs to be exported by the entry point index.d.ts
-// dist/app-shell/StatusBar.d.ts:13:5 - (ae-forgotten-export) The symbol "StatusBarItem" needs to be exported by the entry point index.d.ts
-// dist/app-shell/StatusBar.d.ts:14:5 - (ae-forgotten-export) The symbol "StatusBarLive" needs to be exported by the entry point index.d.ts
-// dist/app-shell/TopBar.d.ts:36:5 - (ae-forgotten-export) The symbol "TopBarRoot" needs to be exported by the entry point index.d.ts
-// dist/app-shell/TopBar.d.ts:37:5 - (ae-forgotten-export) The symbol "TopBarLeading" needs to be exported by the entry point index.d.ts
-// dist/app-shell/TopBar.d.ts:38:5 - (ae-forgotten-export) The symbol "TopBarTitle" needs to be exported by the entry point index.d.ts
-// dist/app-shell/TopBar.d.ts:39:5 - (ae-forgotten-export) The symbol "TopBarCenter" needs to be exported by the entry point index.d.ts
-// dist/app-shell/TopBar.d.ts:40:5 - (ae-forgotten-export) The symbol "TopBarTrailing" needs to be exported by the entry point index.d.ts
+// dist/app-shell/AppShell.d.ts:58:5 - (ae-forgotten-export) The symbol "Root" needs to be exported by the entry point index.d.ts
+// dist/app-shell/AppShell.d.ts:59:5 - (ae-forgotten-export) The symbol "Main" needs to be exported by the entry point index.d.ts
+// dist/app-shell/AppShell.d.ts:60:5 - (ae-forgotten-export) The symbol "PageHeader" needs to be exported by the entry point index.d.ts
+// dist/app-shell/AppShell.d.ts:61:5 - (ae-forgotten-export) The symbol "SkipLink" needs to be exported by the entry point index.d.ts
+// dist/app-shell/AppShell.d.ts:62:5 - (ae-forgotten-export) The symbol "AppShellSidebarToggle" needs to be exported by the entry point index.d.ts
+// dist/app-shell/AppShell.d.ts:63:5 - (ae-forgotten-export) The symbol "AppShellInspectorToggle" needs to be exported by the entry point index.d.ts
+// dist/app-shell/AppShell.d.ts:64:5 - (ae-forgotten-export) The symbol "AppShellController" needs to be exported by the entry point index.d.ts
+// dist/app-shell/AppShell.d.ts:65:5 - (ae-forgotten-export) The symbol "parseAppShellCookie" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Inspector.d.ts:37:5 - (ae-forgotten-export) The symbol "InspectorRoot" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Inspector.d.ts:38:5 - (ae-forgotten-export) The symbol "InspectorHeader" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Inspector.d.ts:39:5 - (ae-forgotten-export) The symbol "InspectorContent" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Inspector.d.ts:40:5 - (ae-forgotten-export) The symbol "InspectorField" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Inspector.d.ts:41:5 - (ae-forgotten-export) The symbol "InspectorSection" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Inspector.d.ts:42:5 - (ae-forgotten-export) The symbol "InspectorSheet" needs to be exported by the entry point index.d.ts
+// dist/app-shell/ResizablePanels.d.ts:58:5 - (ae-forgotten-export) The symbol "ResizablePanelsRoot" needs to be exported by the entry point index.d.ts
+// dist/app-shell/ResizablePanels.d.ts:59:5 - (ae-forgotten-export) The symbol "ResizablePanel" needs to be exported by the entry point index.d.ts
+// dist/app-shell/ResizablePanels.d.ts:60:5 - (ae-forgotten-export) The symbol "ResizableHandle" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:51:5 - (ae-forgotten-export) The symbol "SidebarRoot" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:52:5 - (ae-forgotten-export) The symbol "SidebarHeader" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:53:5 - (ae-forgotten-export) The symbol "SidebarContent" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:54:5 - (ae-forgotten-export) The symbol "SidebarFooter" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:55:5 - (ae-forgotten-export) The symbol "SidebarGroup" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:56:5 - (ae-forgotten-export) The symbol "SidebarGroupLabel" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:57:5 - (ae-forgotten-export) The symbol "SidebarSeparator" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:58:5 - (ae-forgotten-export) The symbol "SidebarNav" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:59:5 - (ae-forgotten-export) The symbol "SidebarItem" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:60:5 - (ae-forgotten-export) The symbol "SidebarItemIcon" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:61:5 - (ae-forgotten-export) The symbol "SidebarItemBadge" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:62:5 - (ae-forgotten-export) The symbol "SidebarCollapsible" needs to be exported by the entry point index.d.ts
+// dist/app-shell/Sidebar.d.ts:63:5 - (ae-forgotten-export) The symbol "SidebarDrawer" needs to be exported by the entry point index.d.ts
+// dist/app-shell/StatusBar.d.ts:13:5 - (ae-forgotten-export) The symbol "StatusBarRoot" needs to be exported by the entry point index.d.ts
+// dist/app-shell/StatusBar.d.ts:14:5 - (ae-forgotten-export) The symbol "StatusBarItem" needs to be exported by the entry point index.d.ts
+// dist/app-shell/StatusBar.d.ts:15:5 - (ae-forgotten-export) The symbol "StatusBarLive" needs to be exported by the entry point index.d.ts
+// dist/app-shell/TopBar.d.ts:38:5 - (ae-forgotten-export) The symbol "TopBarRoot" needs to be exported by the entry point index.d.ts
+// dist/app-shell/TopBar.d.ts:39:5 - (ae-forgotten-export) The symbol "TopBarLeading" needs to be exported by the entry point index.d.ts
+// dist/app-shell/TopBar.d.ts:40:5 - (ae-forgotten-export) The symbol "TopBarTitle" needs to be exported by the entry point index.d.ts
+// dist/app-shell/TopBar.d.ts:41:5 - (ae-forgotten-export) The symbol "TopBarCenter" needs to be exported by the entry point index.d.ts
+// dist/app-shell/TopBar.d.ts:42:5 - (ae-forgotten-export) The symbol "TopBarTrailing" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

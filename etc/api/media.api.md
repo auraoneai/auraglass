@@ -28,25 +28,16 @@ export interface CarouselRailRootProps {
         interval: number;
     } | false | undefined;
     children?: React_2.ReactNode;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     defaultIndex?: number | undefined;
-    // (undocumented)
     index?: number | undefined;
     // Warning: (ae-forgotten-export) The symbol "CarouselRailIndicatorsAs" needs to be exported by the entry point index.d.ts
     indicatorsAs?: CarouselRailIndicatorsAs | undefined;
-    // (undocumented)
     label: string;
-    // (undocumented)
     loop?: boolean | undefined;
-    // (undocumented)
     onIndexChange?: ((index: number) => void) | undefined;
-    // (undocumented)
     overMedia?: boolean | undefined;
-    // (undocumented)
     slides: CarouselRailSlide[];
-    // (undocumented)
     slidesPerView?: number | 'auto' | undefined;
 }
 
@@ -125,26 +116,16 @@ export interface ImageViewerPopupProps {
 
 // @public (undocumented)
 export interface ImageViewerRootProps {
-    // (undocumented)
     children?: React_2.ReactNode;
-    // (undocumented)
     defaultOpen?: boolean | undefined;
-    // (undocumented)
     defaultValue?: string | undefined;
-    // (undocumented)
     items: ImageViewerItem[];
-    // (undocumented)
     loop?: boolean | undefined;
-    // (undocumented)
     onOpenChange?: ((open: boolean, details: ChangeDetails) => void) | undefined;
     // Warning: (ae-forgotten-export) The symbol "ChangeDetails" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     onValueChange?: ((id: string, details: ChangeDetails) => void) | undefined;
-    // (undocumented)
     open?: boolean | undefined;
     sampleTone?: boolean | undefined;
-    // (undocumented)
     value?: string | undefined;
 }
 
@@ -168,45 +149,27 @@ export type MediaControls = typeof MediaControls;
 
 // @public (undocumented)
 export interface MediaControlsRootProps {
-    // (undocumented)
     buffered?: [number, number][] | undefined;
-    // (undocumented)
     children?: React_2.ReactNode | undefined;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     currentTime?: number | undefined;
-    // (undocumented)
     duration?: number | undefined;
-    // (undocumented)
     label?: string | undefined;
-    // (undocumented)
     media?: MediaHandle | undefined;
-    // (undocumented)
     muted?: boolean | undefined;
     onCaptionsChange?: ((trackId: string | null) => void) | undefined;
-    // (undocumented)
     onMutedChange?: ((muted: boolean) => void) | undefined;
-    // (undocumented)
     onPlayingChange?: ((playing: boolean) => void) | undefined;
-    // (undocumented)
     onRateChange?: ((rate: number) => void) | undefined;
-    // (undocumented)
     onSeek?: ((seconds: number) => void) | undefined;
-    // (undocumented)
     onVolumeChange?: ((volume: number) => void) | undefined;
-    // (undocumented)
     playbackRate?: number | undefined;
-    // (undocumented)
     playing?: boolean | undefined;
     refraction?: boolean | undefined;
     shortcuts?: boolean | undefined;
-    // (undocumented)
     shortcutTarget?: HTMLElement | null | undefined;
     textTracks?: MediaTextTrack[] | undefined;
-    // (undocumented)
     variant?: 'regular' | 'clear' | undefined;
-    // (undocumented)
     volume?: number | undefined;
 }
 
@@ -251,33 +214,24 @@ export function MediaScrubber(props: MediaScrubberProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface MediaScrubberProps {
-    // (undocumented)
     'aria-label'?: string | undefined;
-    // (undocumented)
     buffered?: [number, number][] | undefined;
-    // (undocumented)
     chapters?: {
         start: number;
         title: string;
     }[] | undefined;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     disabled?: boolean | undefined;
-    // (undocumented)
     formatHoverTime?: ((seconds: number) => string) | undefined;
     frameRate?: number | undefined;
     largeStep?: number | undefined;
-    // (undocumented)
     max: number;
     onValueChange?: ((value: number, details: ChangeDetails) => void) | undefined;
     onValueCommit?: ((value: number) => void) | undefined;
     paused?: boolean | undefined;
-    // (undocumented)
     ref?: React_2.Ref<HTMLDivElement> | undefined;
     step?: number | undefined;
     toolbarItem?: boolean | undefined;
-    // (undocumented)
     value: number;
 }
 
@@ -379,31 +333,20 @@ export type NowPlayingBar = typeof NowPlayingBar;
 
 // @public (undocumented)
 export interface NowPlayingBarRootProps {
-    // (undocumented)
     artwork?: string | undefined;
-    // (undocumented)
     children?: React_2.ReactNode;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     expanded?: boolean | undefined;
     expandedId?: string | undefined;
     fixed?: boolean | undefined;
-    // (undocumented)
     media?: MediaHandle | undefined;
-    // (undocumented)
     onExpandedChange?: ((expanded: boolean) => void) | undefined;
-    // (undocumented)
     onNext?: (() => void) | undefined;
-    // (undocumented)
     onPlayingChange?: ((playing: boolean) => void) | undefined;
-    // (undocumented)
     onPrevious?: (() => void) | undefined;
-    // (undocumented)
     playing?: boolean | undefined;
     progress?: number | undefined;
     sampleTone?: boolean | undefined;
-    // (undocumented)
     variant?: 'regular' | 'clear' | undefined;
 }
 
@@ -419,39 +362,39 @@ export interface UseMediaElementOptions {
 
 // Warnings were encountered during analysis:
 //
-// dist/media/CarouselRail/CarouselRail.d.ts:34:5 - (ae-forgotten-export) The symbol "Root_4" needs to be exported by the entry point index.d.ts
-// dist/media/CarouselRail/CarouselRail.d.ts:35:5 - (ae-forgotten-export) The symbol "Viewport" needs to be exported by the entry point index.d.ts
-// dist/media/CarouselRail/CarouselRail.d.ts:36:5 - (ae-forgotten-export) The symbol "Slide" needs to be exported by the entry point index.d.ts
-// dist/media/CarouselRail/CarouselRail.d.ts:37:5 - (ae-forgotten-export) The symbol "Prev_2" needs to be exported by the entry point index.d.ts
-// dist/media/CarouselRail/CarouselRail.d.ts:38:5 - (ae-forgotten-export) The symbol "Next_2" needs to be exported by the entry point index.d.ts
-// dist/media/CarouselRail/CarouselRail.d.ts:39:5 - (ae-forgotten-export) The symbol "Indicators" needs to be exported by the entry point index.d.ts
-// dist/media/CarouselRail/CarouselRail.d.ts:40:5 - (ae-forgotten-export) The symbol "AutoplayToggle" needs to be exported by the entry point index.d.ts
-// dist/media/ImageViewer/ImageViewer.d.ts:34:5 - (ae-forgotten-export) The symbol "Root_3" needs to be exported by the entry point index.d.ts
-// dist/media/ImageViewer/ImageViewer.d.ts:42:5 - (ae-forgotten-export) The symbol "Popup" needs to be exported by the entry point index.d.ts
-// dist/media/ImageViewer/ImageViewer.d.ts:43:5 - (ae-forgotten-export) The symbol "Stage" needs to be exported by the entry point index.d.ts
-// dist/media/ImageViewer/ImageViewer.d.ts:44:5 - (ae-forgotten-export) The symbol "Toolbar" needs to be exported by the entry point index.d.ts
-// dist/media/ImageViewer/ImageViewer.d.ts:45:5 - (ae-forgotten-export) The symbol "Caption" needs to be exported by the entry point index.d.ts
-// dist/media/ImageViewer/ImageViewer.d.ts:46:5 - (ae-forgotten-export) The symbol "Inspector" needs to be exported by the entry point index.d.ts
-// dist/media/ImageViewer/ImageViewer.d.ts:47:5 - (ae-forgotten-export) The symbol "Prev" needs to be exported by the entry point index.d.ts
-// dist/media/ImageViewer/ImageViewer.d.ts:48:5 - (ae-forgotten-export) The symbol "Next" needs to be exported by the entry point index.d.ts
-// dist/media/ImageViewer/ImageViewer.d.ts:49:5 - (ae-forgotten-export) The symbol "Counter" needs to be exported by the entry point index.d.ts
-// dist/media/ImageViewer/ImageViewer.d.ts:50:5 - (ae-forgotten-export) The symbol "ZoomIn" needs to be exported by the entry point index.d.ts
-// dist/media/ImageViewer/ImageViewer.d.ts:51:5 - (ae-forgotten-export) The symbol "ZoomOut" needs to be exported by the entry point index.d.ts
-// dist/media/ImageViewer/ImageViewer.d.ts:52:5 - (ae-forgotten-export) The symbol "ZoomReset" needs to be exported by the entry point index.d.ts
-// dist/media/MediaControls/MediaControls.d.ts:46:5 - (ae-forgotten-export) The symbol "Root" needs to be exported by the entry point index.d.ts
-// dist/media/MediaControls/MediaControls.d.ts:47:5 - (ae-forgotten-export) The symbol "PlayButton" needs to be exported by the entry point index.d.ts
-// dist/media/MediaControls/MediaControls.d.ts:48:5 - (ae-forgotten-export) The symbol "Scrubber" needs to be exported by the entry point index.d.ts
-// dist/media/MediaControls/MediaControls.d.ts:49:5 - (ae-forgotten-export) The symbol "Time" needs to be exported by the entry point index.d.ts
-// dist/media/MediaControls/MediaControls.d.ts:50:5 - (ae-forgotten-export) The symbol "Volume" needs to be exported by the entry point index.d.ts
-// dist/media/MediaControls/MediaControls.d.ts:51:5 - (ae-forgotten-export) The symbol "Mute" needs to be exported by the entry point index.d.ts
-// dist/media/MediaControls/MediaControls.d.ts:52:5 - (ae-forgotten-export) The symbol "Rate" needs to be exported by the entry point index.d.ts
-// dist/media/MediaControls/MediaControls.d.ts:53:5 - (ae-forgotten-export) The symbol "Captions" needs to be exported by the entry point index.d.ts
-// dist/media/MediaControls/MediaControls.d.ts:54:5 - (ae-forgotten-export) The symbol "PictureInPicture" needs to be exported by the entry point index.d.ts
-// dist/media/MediaControls/MediaControls.d.ts:55:5 - (ae-forgotten-export) The symbol "Fullscreen" needs to be exported by the entry point index.d.ts
-// dist/media/MediaControls/MediaControls.d.ts:56:5 - (ae-forgotten-export) The symbol "Spacer" needs to be exported by the entry point index.d.ts
-// dist/media/NowPlayingBar/NowPlayingBar.d.ts:28:5 - (ae-forgotten-export) The symbol "Root_2" needs to be exported by the entry point index.d.ts
-// dist/media/NowPlayingBar/NowPlayingBar.d.ts:52:5 - (ae-forgotten-export) The symbol "Actions" needs to be exported by the entry point index.d.ts
-// dist/media/NowPlayingBar/NowPlayingBar.d.ts:53:5 - (ae-forgotten-export) The symbol "Expand" needs to be exported by the entry point index.d.ts
+// dist/media/CarouselRail/CarouselRail.d.ts:43:5 - (ae-forgotten-export) The symbol "Root_4" needs to be exported by the entry point index.d.ts
+// dist/media/CarouselRail/CarouselRail.d.ts:44:5 - (ae-forgotten-export) The symbol "Viewport" needs to be exported by the entry point index.d.ts
+// dist/media/CarouselRail/CarouselRail.d.ts:45:5 - (ae-forgotten-export) The symbol "Slide" needs to be exported by the entry point index.d.ts
+// dist/media/CarouselRail/CarouselRail.d.ts:46:5 - (ae-forgotten-export) The symbol "Prev_2" needs to be exported by the entry point index.d.ts
+// dist/media/CarouselRail/CarouselRail.d.ts:47:5 - (ae-forgotten-export) The symbol "Next_2" needs to be exported by the entry point index.d.ts
+// dist/media/CarouselRail/CarouselRail.d.ts:48:5 - (ae-forgotten-export) The symbol "Indicators" needs to be exported by the entry point index.d.ts
+// dist/media/CarouselRail/CarouselRail.d.ts:49:5 - (ae-forgotten-export) The symbol "AutoplayToggle" needs to be exported by the entry point index.d.ts
+// dist/media/ImageViewer/ImageViewer.d.ts:43:5 - (ae-forgotten-export) The symbol "Root_3" needs to be exported by the entry point index.d.ts
+// dist/media/ImageViewer/ImageViewer.d.ts:51:5 - (ae-forgotten-export) The symbol "Popup" needs to be exported by the entry point index.d.ts
+// dist/media/ImageViewer/ImageViewer.d.ts:52:5 - (ae-forgotten-export) The symbol "Stage" needs to be exported by the entry point index.d.ts
+// dist/media/ImageViewer/ImageViewer.d.ts:53:5 - (ae-forgotten-export) The symbol "Toolbar" needs to be exported by the entry point index.d.ts
+// dist/media/ImageViewer/ImageViewer.d.ts:54:5 - (ae-forgotten-export) The symbol "Caption" needs to be exported by the entry point index.d.ts
+// dist/media/ImageViewer/ImageViewer.d.ts:55:5 - (ae-forgotten-export) The symbol "Inspector" needs to be exported by the entry point index.d.ts
+// dist/media/ImageViewer/ImageViewer.d.ts:56:5 - (ae-forgotten-export) The symbol "Prev" needs to be exported by the entry point index.d.ts
+// dist/media/ImageViewer/ImageViewer.d.ts:57:5 - (ae-forgotten-export) The symbol "Next" needs to be exported by the entry point index.d.ts
+// dist/media/ImageViewer/ImageViewer.d.ts:58:5 - (ae-forgotten-export) The symbol "Counter" needs to be exported by the entry point index.d.ts
+// dist/media/ImageViewer/ImageViewer.d.ts:59:5 - (ae-forgotten-export) The symbol "ZoomIn" needs to be exported by the entry point index.d.ts
+// dist/media/ImageViewer/ImageViewer.d.ts:60:5 - (ae-forgotten-export) The symbol "ZoomOut" needs to be exported by the entry point index.d.ts
+// dist/media/ImageViewer/ImageViewer.d.ts:61:5 - (ae-forgotten-export) The symbol "ZoomReset" needs to be exported by the entry point index.d.ts
+// dist/media/MediaControls/MediaControls.d.ts:64:5 - (ae-forgotten-export) The symbol "Root" needs to be exported by the entry point index.d.ts
+// dist/media/MediaControls/MediaControls.d.ts:65:5 - (ae-forgotten-export) The symbol "PlayButton" needs to be exported by the entry point index.d.ts
+// dist/media/MediaControls/MediaControls.d.ts:66:5 - (ae-forgotten-export) The symbol "Scrubber" needs to be exported by the entry point index.d.ts
+// dist/media/MediaControls/MediaControls.d.ts:67:5 - (ae-forgotten-export) The symbol "Time" needs to be exported by the entry point index.d.ts
+// dist/media/MediaControls/MediaControls.d.ts:68:5 - (ae-forgotten-export) The symbol "Volume" needs to be exported by the entry point index.d.ts
+// dist/media/MediaControls/MediaControls.d.ts:69:5 - (ae-forgotten-export) The symbol "Mute" needs to be exported by the entry point index.d.ts
+// dist/media/MediaControls/MediaControls.d.ts:70:5 - (ae-forgotten-export) The symbol "Rate" needs to be exported by the entry point index.d.ts
+// dist/media/MediaControls/MediaControls.d.ts:71:5 - (ae-forgotten-export) The symbol "Captions" needs to be exported by the entry point index.d.ts
+// dist/media/MediaControls/MediaControls.d.ts:72:5 - (ae-forgotten-export) The symbol "PictureInPicture" needs to be exported by the entry point index.d.ts
+// dist/media/MediaControls/MediaControls.d.ts:73:5 - (ae-forgotten-export) The symbol "Fullscreen" needs to be exported by the entry point index.d.ts
+// dist/media/MediaControls/MediaControls.d.ts:74:5 - (ae-forgotten-export) The symbol "Spacer" needs to be exported by the entry point index.d.ts
+// dist/media/NowPlayingBar/NowPlayingBar.d.ts:39:5 - (ae-forgotten-export) The symbol "Root_2" needs to be exported by the entry point index.d.ts
+// dist/media/NowPlayingBar/NowPlayingBar.d.ts:63:5 - (ae-forgotten-export) The symbol "Actions" needs to be exported by the entry point index.d.ts
+// dist/media/NowPlayingBar/NowPlayingBar.d.ts:64:5 - (ae-forgotten-export) The symbol "Expand" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

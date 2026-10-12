@@ -16,13 +16,9 @@ export function Calendar(props: CalendarProps & {
 //
 // @public (undocumented)
 export interface CalendarProps extends DateFieldLikeProps<DateValue> {
-    // (undocumented)
     className?: string | undefined;
     // Warning: (ae-forgotten-export) The symbol "CalendarLabels" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     labels?: CalendarLabels | undefined;
-    // (undocumented)
     showWeekNumbers?: boolean | undefined;
 }
 
@@ -31,7 +27,6 @@ export function DateField(props: DateFieldProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface DateFieldProps extends DateFieldLikeProps<DateValue> {
-    // (undocumented)
     className?: string | undefined;
 }
 
@@ -40,10 +35,8 @@ export function DatePicker(props: DatePickerProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface DatePickerProps extends DateFieldLikeProps<DateValue> {
-    // (undocumented)
     className?: string | undefined;
     defaultOpen?: boolean | undefined;
-    // (undocumented)
     labels?: {
         choose?: string | undefined;
         dialog?: string | undefined;
@@ -55,12 +48,9 @@ export function DateRangePicker(props: DateRangePickerProps): React_2.JSX.Elemen
 
 // @public (undocumented)
 export interface DateRangePickerProps extends Omit<DateFieldLikeProps<DateValue>, 'value' | 'defaultValue' | 'onValueChange'> {
-    // (undocumented)
     className?: string | undefined;
     defaultOpen?: boolean | undefined;
-    // (undocumented)
     defaultValue?: DateRangeValue | null | undefined;
-    // (undocumented)
     labels?: {
         choose?: string | undefined;
         start?: string | undefined;
@@ -71,12 +61,8 @@ export interface DateRangePickerProps extends Omit<DateFieldLikeProps<DateValue>
         dialog?: string | undefined;
     } | undefined;
     // Warning: (ae-forgotten-export) The symbol "ChangeDetails" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     onValueChange?: ((v: DateRangeValue | null, details: ChangeDetails) => void) | undefined;
-    // (undocumented)
     presets?: readonly DateRangePreset[] | undefined;
-    // (undocumented)
     value?: DateRangeValue | null | undefined;
     visibleMonths?: 1 | 2 | undefined;
 }
@@ -104,22 +90,18 @@ export function RangeCalendar(props: RangeCalendarProps & {
 
 // @public (undocumented)
 export interface RangeCalendarProps extends Omit<CalendarProps, 'value' | 'defaultValue' | 'onValueChange'> {
-    // (undocumented)
     defaultValue?: {
         start: DateValue;
         end: DateValue;
     } | undefined;
-    // (undocumented)
     onValueChange?: ((v: {
         start: DateValue;
         end: DateValue;
     } | null, details: ChangeDetails) => void) | undefined;
-    // (undocumented)
     value?: {
         start: DateValue;
         end: DateValue;
     } | null | undefined;
-    // (undocumented)
     visibleMonths?: 1 | 2 | undefined;
 }
 
@@ -130,7 +112,6 @@ export function TimeField(props: TimeFieldProps): React_2.JSX.Element;
 //
 // @public (undocumented)
 export interface TimeFieldProps extends DateFieldLikeProps<TimeValue> {
-    // (undocumented)
     className?: string | undefined;
 }
 
@@ -140,7 +121,6 @@ export function TimePicker(props: TimePickerProps): React_2.JSX.Element;
 // @public (undocumented)
 export interface TimePickerProps extends TimeFieldProps {
     defaultOpen?: boolean | undefined;
-    // (undocumented)
     labels?: {
         choose?: string | undefined;
         hour?: string | undefined;
@@ -150,7 +130,6 @@ export interface TimePickerProps extends TimeFieldProps {
         pm?: string | undefined;
         dialog?: string | undefined;
     } | undefined;
-    // (undocumented)
     minuteStep?: 1 | 5 | 10 | 15 | 30 | undefined;
 }
 

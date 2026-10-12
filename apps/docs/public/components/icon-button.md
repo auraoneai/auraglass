@@ -15,7 +15,7 @@ Tier T1 · RSC client · APG button
 | `defaultPressed?` | `boolean` | — | Initial pressed state of an uncontrolled toggle button. |
 | `focusableWhenDisabled?` | `boolean` | — | Keep focusable when disabled (Base UI focusableWhenDisabled). |
 | `icon` | `ReactNode` | — | The icon node. |
-| `intent?` | `'danger' \| 'neutral'` | — | Status tint: 'neutral' (default) or 'danger'. info, success and warning are status intents for Badge and Alert, not controls. |
+| `intent?` | `Intent` | — | Status tint from the full S-30 intent union (REQ-CMP-34); neutral omits the attribute. |
 | `label` | `string` | — | Required accessible name (emitted as aria-label; dev console.error when empty). |
 | `onPressedChange?` | `(pressed: boolean, details: ChangeDetails) => void` | — | Called with the next pressed state when a toggle button is pressed. |
 | `pointerLight?` | `boolean` | — | Pointer-light highlight opt-in (emitted data-ag-pointer-light; MAT engine installs). |

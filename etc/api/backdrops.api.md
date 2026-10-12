@@ -27,15 +27,10 @@ export type BackdropPalette = 'aurora' | 'prism' | 'ocean' | 'ember' | 'mono';
 
 // @public (undocumented)
 export interface BackdropPhotoProps extends BackdropBase {
-    // (undocumented)
     crossOrigin?: 'anonymous' | 'use-credentials' | '' | undefined;
-    // (undocumented)
     preset: 'photo';
-    // (undocumented)
     sizes?: string | undefined;
-    // (undocumented)
     src: string;
-    // (undocumented)
     srcSet?: string | undefined;
 }
 
@@ -55,7 +50,6 @@ export type BackdropToneProp = 'light' | 'dark';
 export interface BackdropVideoProps extends BackdropBase {
     // (undocumented)
     crossOrigin?: 'anonymous' | 'use-credentials' | '' | undefined;
-    // (undocumented)
     poster?: string | undefined;
     // (undocumented)
     preset: 'video';

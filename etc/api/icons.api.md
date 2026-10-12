@@ -248,7 +248,6 @@ export type IconComponent = (props: IconProps) => React_2.ReactElement;
 
 // @public (undocumented)
 export interface IconComponentProps extends IconProps {
-    // (undocumented)
     name: keyof iconRegistry | (string & {});
 }
 
@@ -260,13 +259,10 @@ attrs: Record<string, string | number | boolean | undefined>
 
 // @public (undocumented)
 export interface IconProps extends Omit<React_2.SVGProps<SVGSVGElement>, 'elevation'> {
-    // (undocumented)
     absoluteStrokeWidth?: boolean;
     // (undocumented)
     ref?: React_2.Ref<SVGSVGElement>;
-    // (undocumented)
     size?: string | number;
-    // (undocumented)
     title?: string;
 }
 

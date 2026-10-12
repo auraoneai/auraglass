@@ -31,12 +31,9 @@ export interface AccordionHeaderProps extends Omit<React_2.HTMLAttributes<HTMLHe
 
 // @public (undocumented)
 export interface AccordionRootProps extends React_2.HTMLAttributes<HTMLDivElement> {
-    // (undocumented)
     defaultValue?: string[];
     multiple?: boolean;
-    // (undocumented)
     onValueChange?: (value: string[], details: ChangeDetails) => void;
-    // (undocumented)
     value?: string[];
 }
 
@@ -45,26 +42,18 @@ export function ActivityFeed(input: ActivityFeedProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface ActivityFeedProps extends Omit<TimelineProps, 'items' | 'labels'> {
-    // (undocumented)
     autoLoad?: boolean | undefined;
-    // (undocumented)
     groupBy?: 'day' | 'none' | undefined;
-    // (undocumented)
     hasMore?: boolean | undefined;
-    // (undocumented)
     headingLevel?: 2 | 3 | 4 | 5 | 6 | undefined;
-    // (undocumented)
     items: readonly ActivityItem[];
-    // (undocumented)
     labels?: (TimelineProps['labels'] & {
         loadMore?: string | undefined;
         newItem?: string | undefined;
         newItems?: string | undefined;
         loading?: string | undefined;
     }) | undefined;
-    // (undocumented)
     loading?: boolean | undefined;
-    // (undocumented)
     onLoadMore?: (() => void) | undefined;
 }
 
@@ -159,22 +148,15 @@ export interface AlertDialogPopupProps {
 
 // @public (undocumented)
 export interface AlertDialogRootProps {
-    // (undocumented)
     children?: ReactNode;
-    // (undocumented)
     defaultOpen?: boolean;
-    // @deprecated (undocumented)
     intent?: 'neutral' | 'danger';
-    // (undocumented)
     labels?: {
         cancel?: string;
         action?: string;
     };
     // Warning: (ae-forgotten-export) The symbol "OverlayOpenChangeDetails" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
-    // (undocumented)
     open?: boolean;
 }
 
@@ -195,11 +177,8 @@ export interface AlertProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>,
     actions?: readonly AlertAction[] | React_2.ReactNode;
     appearance?: 'inline' | 'banner';
     description?: React_2.ReactNode;
-    // (undocumented)
     icon?: React_2.ReactNode;
-    // (undocumented)
     intent?: 'info' | 'success' | 'warning' | 'danger';
-    // (undocumented)
     title?: React_2.ReactNode;
     urgent?: boolean;
 }
@@ -234,10 +213,8 @@ export function AvatarGroup(input: AvatarGroupProps & {
 
 // @public (undocumented)
 export interface AvatarGroupProps extends React_2.HTMLAttributes<HTMLDivElement> {
-    // (undocumented)
     children?: React_2.ReactNode;
     max?: number;
-    // (undocumented)
     size?: 'sm' | 'md' | 'lg';
 }
 
@@ -246,9 +223,7 @@ export interface AvatarRootProps extends Omit<React_2.HTMLAttributes<HTMLSpanEle
     alt?: string;
     delay?: number;
     name?: string;
-    // (undocumented)
     size?: 'sm' | 'md' | 'lg';
-    // (undocumented)
     src?: string;
 }
 
@@ -259,10 +234,8 @@ export function Badge(input: BadgeProps & {
 
 // @public (undocumented)
 export interface BadgeProps extends React_2.HTMLAttributes<HTMLSpanElement> {
-    // (undocumented)
     count?: number;
     dot?: boolean;
-    // (undocumented)
     intent?: 'neutral' | 'info' | 'success' | 'warning' | 'danger';
     label?: string;
     max?: number;
@@ -301,22 +274,17 @@ export type ButtonGroupProps = Labeled & {
 //
 // @public
 export interface ButtonProps extends Omit<MaterialBearingProps, 'variant'>, Omit<React_2.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'onChange' | 'prefix' | 'value'> {
-    // (undocumented)
     defaultPressed?: boolean | undefined;
     endIcon?: React_2.ReactNode;
     focusableWhenDisabled?: boolean | undefined;
     // Warning: (ae-forgotten-export) The symbol "Intent" needs to be exported by the entry point index.d.ts
     intent?: Intent | undefined;
     loading?: boolean | undefined;
-    // (undocumented)
     onPressedChange?: ((pressed: boolean, details: ChangeDetails) => void) | undefined;
     pointerLight?: boolean | undefined;
     pressed?: boolean | undefined;
-    // (undocumented)
     ref?: React_2.Ref<HTMLButtonElement> | undefined;
     // Warning: (ae-forgotten-export) The symbol "RenderProp" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     render?: RenderProp | undefined;
     size?: 'sm' | 'md' | 'lg' | undefined;
     startIcon?: React_2.ReactNode;
@@ -339,7 +307,6 @@ export const Card: typeof Root & {
 // @public (undocumented)
 export interface CardRootProps extends MaterialBearingProps, Omit<React_2.HTMLAttributes<HTMLDivElement>, 'content'> {
     interactive?: boolean;
-    // (undocumented)
     render?: RenderProp<React_2.HTMLAttributes<HTMLElement>>;
 }
 
@@ -360,64 +327,37 @@ export function CheckboxGroup(input: CheckboxGroupProps): React_2.JSX.Element;
 // @public (undocumented)
 export interface CheckboxGroupProps {
     allValues?: string[];
-    // (undocumented)
     children?: ReactNode;
-    // (undocumented)
     className?: string;
-    // (undocumented)
     defaultValue?: string[];
-    // (undocumented)
     disabled?: boolean;
-    // (undocumented)
     name?: string;
-    // (undocumented)
     onValueChange?: (value: string[], details: ChangeDetails) => void;
-    // (undocumented)
     ref?: Ref<HTMLDivElement>;
-    // (undocumented)
     value?: string[];
 }
 
 // @public (undocumented)
 export interface CheckboxProps {
-    // (undocumented)
     'aria-describedby'?: string;
-    // (undocumented)
     'aria-label'?: string;
-    // (undocumented)
     'aria-labelledby'?: string;
-    // (undocumented)
     checked?: boolean;
     children?: ReactNode;
-    // (undocumented)
     className?: string;
-    // (undocumented)
     defaultChecked?: boolean;
-    // (undocumented)
     disabled?: boolean;
-    // (undocumented)
     id?: string;
-    // (undocumented)
     indeterminate?: boolean;
-    // (undocumented)
     name?: string;
-    // (undocumented)
     onCheckedChange?: (checked: boolean, details: ChangeDetails) => void;
-    // (undocumented)
     parent?: boolean;
-    // (undocumented)
     readOnly?: boolean;
-    // (undocumented)
     ref?: Ref<HTMLElement>;
-    // (undocumented)
     required?: boolean;
     // Warning: (ae-forgotten-export) The symbol "ControlSize" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     size?: ControlSize;
-    // (undocumented)
     uncheckedValue?: string;
-    // (undocumented)
     value?: string;
 }
 
@@ -430,13 +370,9 @@ export const Collapsible: {
 
 // @public (undocumented)
 export interface CollapsibleRootProps extends React_2.HTMLAttributes<HTMLDivElement> {
-    // (undocumented)
     defaultOpen?: boolean;
-    // (undocumented)
     disabled?: boolean;
-    // (undocumented)
     onOpenChange?: (open: boolean, details: unknown) => void;
-    // (undocumented)
     open?: boolean;
 }
 
@@ -447,23 +383,20 @@ export const ColorPicker: {
     Content: typeof Content_3;
     Area: typeof Area;
     Hue: typeof Hue;
+    Channel: typeof Channel;
+    Alpha: typeof Alpha;
+    Input: typeof Input;
 };
 
 // @public (undocumented)
 export interface ColorPickerRootProps extends Omit<React_2.HTMLAttributes<HTMLSpanElement>, 'defaultValue' | 'onChange'> {
-    // (undocumented)
     defaultOpen?: boolean;
-    // (undocumented)
     defaultValue?: PickerValueLike;
-    // (undocumented)
     onOpenChange?: (open: boolean, details: unknown) => void;
     // Warning: (ae-forgotten-export) The symbol "ColorPickerValue" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     onValueChange?: (value: ColorPickerValue, details: {
         committed: boolean;
     }) => void;
-    // (undocumented)
     open?: boolean;
     // Warning: (ae-forgotten-export) The symbol "PickerValueLike" needs to be exported by the entry point index.d.ts
     value?: PickerValueLike;
@@ -564,59 +497,35 @@ export type ComboboxMode = 'select' | 'autocomplete';
 
 // @public (undocumented)
 export interface ComboboxRootProps<Value = string> {
-    // (undocumented)
     autoHighlight?: boolean;
-    // (undocumented)
     children?: ReactNode;
     creatable?: ComboboxCreatable;
-    // (undocumented)
     defaultInputValue?: string;
-    // (undocumented)
     defaultOpen?: boolean;
-    // (undocumented)
     defaultValue?: Value | Value[] | null;
-    // (undocumented)
     disabled?: boolean;
     filter?: null | ((item: Value, query: string) => boolean);
-    // (undocumented)
     inputValue?: string;
-    // (undocumented)
     isItemEqualToValue?: (itemValue: Value, value: Value) => boolean;
     items?: Value[];
-    // (undocumented)
     itemToString?: (item: Value) => string;
-    // (undocumented)
     itemToValue?: (item: Value) => string;
-    // (undocumented)
     loadDebounceMs?: number;
     loading?: boolean;
     loadOptions?: (query: string, ctx: ComboboxLoadContext) => Promise<Value[]>;
     // Warning: (ae-forgotten-export) The symbol "ControlMessages" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     messages?: ControlMessages;
     mode?: ComboboxMode;
-    // (undocumented)
     multiple?: boolean;
-    // (undocumented)
     name?: string;
-    // (undocumented)
     onCreate?: (query: string) => void;
-    // (undocumented)
     onInputValueChange?: (inputValue: string, details: ChangeDetails) => void;
-    // (undocumented)
     onOpenChange?: (open: boolean, details: ChangeDetails) => void;
-    // (undocumented)
     onValueChange?: (value: Value | Value[] | null, details: ChangeDetails) => void;
-    // (undocumented)
     open?: boolean;
-    // (undocumented)
     readOnly?: boolean;
-    // (undocumented)
     required?: boolean;
-    // (undocumented)
     size?: ControlSize;
-    // (undocumented)
     value?: Value | Value[] | null;
 }
 
@@ -655,7 +564,6 @@ export function Container(input: ContainerProps & {
 // @public (undocumented)
 export interface ContainerProps extends React_2.HTMLAttributes<HTMLDivElement> {
     padding?: number | string;
-    // (undocumented)
     size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
 
@@ -683,7 +591,6 @@ export const DescriptionList: typeof Root_2 & {
 export interface DescriptionListProps extends Omit<React_2.HTMLAttributes<HTMLDListElement>, 'onChange'> {
     // Warning: (ae-forgotten-export) The symbol "DescriptionListItem" needs to be exported by the entry point index.d.ts
     items?: readonly DescriptionListItem[];
-    // (undocumented)
     layout?: 'stacked' | 'inline';
     orientation?: 'horizontal' | 'vertical';
 }
@@ -790,18 +697,14 @@ export interface DialogPortalProps {
 
 // @public (undocumented)
 export interface DialogRootProps {
-    // (undocumented)
     children?: ReactNode;
-    // (undocumented)
     defaultOpen?: boolean;
     dismissible?: boolean;
     labels?: {
         close?: string;
     };
-    modal?: boolean | 'trap-focus';
-    // (undocumented)
+    modal?: boolean;
     onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
-    // (undocumented)
     open?: boolean;
 }
 
@@ -843,11 +746,8 @@ export function EmptyState(input: EmptyStateProps & {
 // @public (undocumented)
 export interface EmptyStateProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'onChange'> {
     actions?: React_2.ReactNode;
-    // (undocumented)
     description?: string;
-    // (undocumented)
     icon?: React_2.ReactNode;
-    // (undocumented)
     title: string;
 }
 
@@ -867,11 +767,8 @@ export function ErrorState(input: ErrorStateProps & {
 // @public (undocumented)
 export interface ErrorStateProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'onChange'> {
     actions?: React_2.ReactNode;
-    // (undocumented)
     description?: string;
-    // (undocumented)
     icon?: React_2.ReactNode;
-    // (undocumented)
     title: string;
     urgent?: boolean;
 }
@@ -930,26 +827,16 @@ export interface FieldLabelProps extends Omit<ComponentProps<'label'>, 'ref'> {
 //
 // @public (undocumented)
 export interface FieldRootProps extends FieldRootDomProps {
-    // (undocumented)
     children?: ReactNode;
-    // (undocumented)
     className?: string;
-    // (undocumented)
     disabled?: boolean;
     invalid?: boolean;
-    // (undocumented)
     name?: string;
-    // (undocumented)
     ref?: Ref<HTMLDivElement>;
     // Warning: (ae-forgotten-export) The symbol "FieldValidate" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     validate?: FieldValidate;
-    // (undocumented)
     validationDebounceTime?: number;
     // Warning: (ae-forgotten-export) The symbol "FieldValidationMode" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     validationMode?: FieldValidationMode;
 }
 
@@ -962,12 +849,9 @@ export const Fieldset: typeof FieldsetRoot & {
 
 // @public (undocumented)
 export interface FieldsetRootProps extends Omit<ComponentProps<'fieldset'>, 'ref' | 'children'> {
-    // (undocumented)
     children?: ReactNode;
-    // (undocumented)
     className?: string;
     legend?: ReactNode;
-    // (undocumented)
     ref?: Ref<HTMLFieldSetElement>;
 }
 
@@ -989,25 +873,16 @@ export interface FileUploadItem {
 
 // @public (undocumented)
 export interface FileUploadProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'onError'> {
-    // (undocumented)
     accept?: string;
-    // (undocumented)
     children?: React_2.ReactNode;
     defaultItems?: readonly FileUploadItem[];
-    // (undocumented)
     disabled?: boolean;
-    // @deprecated (undocumented)
     maxCount?: number;
     maxFiles?: number;
-    // (undocumented)
     maxSize?: number;
-    // (undocumented)
     multiple?: boolean;
-    // (undocumented)
     onFilesAccepted?: (items: FileUploadItem[]) => void;
     // Warning: (ae-forgotten-export) The symbol "FileUploadRejection" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     onFilesRejected?: (rejections: FileUploadRejection[]) => void;
     onUpload?: (file: File, ctx: {
         signal: AbortSignal;
@@ -1024,14 +899,11 @@ export function Form<FormValues extends Record<string, any> = Record<string, any
 export interface FormProps<FormValues extends Record<string, unknown> = Record<string, unknown>> extends Omit<React_2.ComponentPropsWithoutRef<'form'>, 'onSubmit' | 'noValidate' | 'ref' | 'defaultValue' | 'onChange'> {
     // Warning: (ae-forgotten-export) The symbol "FormActions" needs to be exported by the entry point index.d.ts
     actionsRef?: React_2.RefObject<FormActions | null>;
-    // (undocumented)
     children?: React_2.ReactNode;
-    // (undocumented)
     className?: string;
     errors?: Record<string, string | string[]>;
     // Warning: (ae-forgotten-export) The symbol "FormSubmitEventDetails" needs to be exported by the entry point index.d.ts
     onSubmit?: (values: FormValues, eventDetails: FormSubmitEventDetails) => void;
-    // (undocumented)
     ref?: React_2.Ref<HTMLFormElement>;
     validationMode?: 'onSubmit' | 'onBlur' | 'onChange';
 }
@@ -1044,8 +916,6 @@ export function Grid(input: GridProps & {
 // @public (undocumented)
 export interface GridProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'onChange'> {
     // Warning: (ae-forgotten-export) The symbol "GridColumns" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     columns?: GridColumns;
     // Warning: (ae-forgotten-export) The symbol "SpaceTokenLike" needs to be exported by the entry point index.d.ts
     gap?: SpaceTokenLike;
@@ -1062,9 +932,8 @@ export function Heading(input: HeadingProps & {
 // @public (undocumented)
 export interface HeadingProps extends React_2.HTMLAttributes<HTMLHeadingElement> {
     level: 1 | 2 | 3 | 4 | 5 | 6;
-    // (undocumented)
     render?: RenderProp<React_2.HTMLAttributes<HTMLHeadingElement>>;
-    size?: 'display' | 'title-1' | 'title-2' | 'title-3' | 'sm' | 'md' | 'lg' | 'xl' | undefined;
+    size?: 'display' | 'title-1' | 'title-2' | 'title-3' | undefined;
 }
 
 // @public (undocumented)
@@ -1085,8 +954,6 @@ export interface IconButtonProps extends Omit<ButtonProps, 'startIcon' | 'endIco
 // @public (undocumented)
 export interface IconProps extends IconProps_2 {
     // Warning: (ae-forgotten-export) The symbol "iconRegistry" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     name: keyof iconRegistry | (string & {});
 }
 
@@ -1100,14 +967,11 @@ export const ImageList: typeof Root_3 & {
 
 // @public (undocumented)
 export interface ImageListProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'onChange'> {
-    // (undocumented)
     cols?: number;
-    // (undocumented)
     gap?: number | string;
     // Warning: (ae-forgotten-export) The symbol "ImageListItem" needs to be exported by the entry point index.d.ts
     items?: readonly ImageListItem[];
     minItemWidth?: number;
-    // (undocumented)
     variant?: 'standard' | 'quilted' | 'masonry';
 }
 
@@ -1120,18 +984,13 @@ export function InlineEdit(input: InlineEditProps & {
 export interface InlineEditProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
     // (undocumented)
     'aria-label'?: string;
-    // (undocumented)
     defaultValue?: string;
-    // (undocumented)
     disabled?: boolean;
     editing?: boolean;
-    // (undocumented)
     onValueChange?: (value: string, details: {
         committed: boolean;
     }) => void;
-    // (undocumented)
     placeholder?: string;
-    // (undocumented)
     value?: string;
 }
 
@@ -1164,11 +1023,8 @@ export function Link(input: LinkProps & {
 
 // @public (undocumented)
 export interface LinkProps extends React_2.AnchorHTMLAttributes<HTMLAnchorElement> {
-    // (undocumented)
     intent?: 'neutral' | 'danger';
-    // (undocumented)
     render?: RenderProp<React_2.AnchorHTMLAttributes<HTMLAnchorElement>>;
-    // (undocumented)
     underline?: 'always' | 'hover' | 'none';
 }
 
@@ -1180,10 +1036,8 @@ export function LoadingState(input: LoadingStateProps & {
 // @public (undocumented)
 export interface LoadingStateProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'onChange'> {
     description?: string;
-    // (undocumented)
     icon?: React_2.ReactNode;
     label?: string;
-    // (undocumented)
     variant?: 'skeleton' | 'progress';
 }
 
@@ -1218,86 +1072,54 @@ export function Meter(input: MeterProps & {
 
 // @public (undocumented)
 export interface MeterProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'prefix'> {
-    // (undocumented)
     format?: Intl.NumberFormatOptions;
-    // (undocumented)
     high?: number;
     label: string;
-    // (undocumented)
     low?: number;
-    // (undocumented)
     max?: number;
-    // (undocumented)
     min?: number;
-    // (undocumented)
     optimum?: number;
-    // (undocumented)
     showValue?: boolean;
-    // (undocumented)
     value: number;
 }
 
-// @public
+// @public (undocumented)
 export function NumberField(input: NumberFieldProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface NumberFieldProps {
-    // (undocumented)
     'aria-label'?: string;
-    // (undocumented)
     allowOutOfRange?: boolean;
     allowWheelScrub?: boolean;
-    // (undocumented)
     className?: string;
-    // (undocumented)
     defaultValue?: number | null;
-    // (undocumented)
     description?: ReactNode;
-    // (undocumented)
     disabled?: boolean;
-    // (undocumented)
     error?: ReactNode;
-    // (undocumented)
     format?: Intl.NumberFormatOptions;
-    // (undocumented)
     id?: string;
-    // (undocumented)
     label?: ReactNode;
     labels?: {
         increase?: string;
         decrease?: string;
     };
     largeStep?: number;
-    // (undocumented)
     locale?: Intl.LocalesArgument;
-    // (undocumented)
     max?: number;
-    // (undocumented)
     min?: number;
-    // (undocumented)
     name?: string;
-    // (undocumented)
     onValueChange?: (value: number | null, details: ChangeDetails) => void;
-    // (undocumented)
     placeholder?: string;
-    // (undocumented)
     readOnly?: boolean;
-    // (undocumented)
     ref?: Ref<HTMLInputElement>;
-    // (undocumented)
     refraction?: boolean;
-    // (undocumented)
     required?: boolean;
     scrub?: boolean;
-    // (undocumented)
     size?: ControlSize;
     smallStep?: number;
-    // (undocumented)
     snapOnStep?: boolean;
     step?: number | 'any';
-    // (undocumented)
     value?: number | null;
-    // (undocumented)
     variant?: 'regular' | 'clear' | 'identity';
 }
 
@@ -1330,13 +1152,9 @@ export function Progress(input: ProgressProps & {
 // @public (undocumented)
 export interface ProgressProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'prefix' | 'onChange'> {
     appearance?: 'linear' | 'bar' | 'ring';
-    // (undocumented)
     format?: Intl.NumberFormatOptions;
-    // (undocumented)
     label?: string;
-    // (undocumented)
     max?: number;
-    // (undocumented)
     min?: number;
     showValue?: boolean;
     size?: number;
@@ -1352,33 +1170,19 @@ export const RadioGroup: {
 
 // @public (undocumented)
 export interface RadioGroupProps {
-    // (undocumented)
     'aria-label'?: string;
-    // (undocumented)
     'aria-labelledby'?: string;
-    // (undocumented)
     children?: ReactNode;
-    // (undocumented)
     className?: string;
-    // (undocumented)
     defaultValue?: string;
-    // (undocumented)
     disabled?: boolean;
-    // (undocumented)
     name?: string;
-    // (undocumented)
     onValueChange?: (value: string, details: ChangeDetails) => void;
-    // (undocumented)
     orientation?: 'horizontal' | 'vertical';
-    // (undocumented)
     readOnly?: boolean;
-    // (undocumented)
     ref?: Ref<HTMLDivElement>;
-    // (undocumented)
     required?: boolean;
-    // (undocumented)
     size?: ControlSize;
-    // (undocumented)
     value?: string;
 }
 
@@ -1413,22 +1217,15 @@ export function Rating(input: RatingProps & {
 export interface RatingProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
     // (undocumented)
     'aria-label'?: string;
-    // (undocumented)
     allowHalf?: boolean;
-    // (undocumented)
     defaultValue?: number;
-    // (undocumented)
     disabled?: boolean;
     icon?: React_2.ReactNode;
-    // (undocumented)
     max?: number;
-    // (undocumented)
     onValueChange?: (value: number, details: {
         event: React_2.SyntheticEvent | KeyboardEvent;
     }) => void;
-    // (undocumented)
     readOnly?: boolean;
-    // (undocumented)
     value?: number;
 }
 
@@ -1455,51 +1252,39 @@ export function SearchField(input: SearchFieldProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface SearchFieldProps {
-    // (undocumented)
     'aria-describedby'?: string;
-    // (undocumented)
     'aria-label'?: string;
-    // (undocumented)
     'aria-labelledby'?: string;
-    // (undocumented)
     autoComplete?: string;
-    // (undocumented)
     className?: string;
     clearLabel?: string;
-    // (undocumented)
     defaultValue?: string;
-    // (undocumented)
     description?: ReactNode;
-    // (undocumented)
     disabled?: boolean;
-    // (undocumented)
+    endAdornment?: ReactNode;
     error?: ReactNode;
-    // (undocumented)
     id?: string;
-    // (undocumented)
     label?: ReactNode;
     loading?: boolean;
     // (undocumented)
+    maxLength?: number;
     name?: string;
     onClear?: (details: ChangeDetails) => void;
-    // (undocumented)
     onValueChange?: (value: string, details: ChangeDetails) => void;
-    // (undocumented)
     placeholder?: string;
-    // (undocumented)
     readOnly?: boolean;
-    // (undocumented)
     ref?: Ref<HTMLInputElement>;
-    // (undocumented)
     refraction?: boolean;
-    // (undocumented)
     required?: boolean;
     shortcut?: string;
-    // (undocumented)
+    showCount?: boolean;
     size?: ControlSize;
+    startAdornment?: ReactNode;
     // (undocumented)
+    validate?: FieldValidate;
+    // (undocumented)
+    validationMode?: FieldValidationMode;
     value?: string;
-    // (undocumented)
     variant?: 'regular' | 'clear' | 'identity';
 }
 
@@ -1528,23 +1313,15 @@ export interface SegmentedControlItemProps {
 // @public
 export interface SegmentedControlRootProps extends MaterialBearingProps {
     'aria-label': string;
-    // (undocumented)
     children?: React_2.ReactNode;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     defaultValue?: string | undefined;
-    // (undocumented)
     disabled?: boolean | undefined;
     name: string;
-    // (undocumented)
     onValueChange?: ((value: string, details: ChangeDetails) => void) | undefined;
     orientation?: 'horizontal' | 'vertical' | undefined;
-    // (undocumented)
     ref?: React_2.Ref<HTMLDivElement> | undefined;
-    // (undocumented)
     size?: 'sm' | 'md' | 'lg' | undefined;
-    // (undocumented)
     value?: string | undefined;
 }
 
@@ -1586,35 +1363,21 @@ export interface SelectItemProps<Value = string> {
 
 // @public (undocumented)
 export interface SelectRootProps<Value = string> {
-    // (undocumented)
     children?: ReactNode;
-    // (undocumented)
     defaultOpen?: boolean;
-    // (undocumented)
     defaultValue?: Value | Value[] | null;
-    // (undocumented)
     disabled?: boolean;
-    // (undocumented)
     form?: string;
     items?: Record<string, ReactNode>;
-    // (undocumented)
     multiple?: boolean;
-    // (undocumented)
     name?: string;
-    // (undocumented)
     onOpenChange?: (open: boolean, details: ChangeDetails) => void;
-    // (undocumented)
     onValueChange?: (value: Value | Value[] | null, details: ChangeDetails) => void;
-    // (undocumented)
     open?: boolean;
-    // (undocumented)
     readOnly?: boolean;
     ref?: Ref<HTMLElement> | undefined;
-    // (undocumented)
     required?: boolean;
-    // (undocumented)
     size?: ControlSize;
-    // (undocumented)
     value?: Value | Value[] | null;
 }
 
@@ -1639,7 +1402,6 @@ export function Separator(input: SeparatorProps & {
 // @public (undocumented)
 export interface SeparatorProps extends React_2.HTMLAttributes<HTMLDivElement> {
     decorative?: boolean;
-    // (undocumented)
     orientation?: 'horizontal' | 'vertical';
 }
 
@@ -1682,8 +1444,8 @@ export interface SheetContentProps extends SheetPopupProps {
     keepMounted?: boolean;
 }
 
-// @public (undocumented)
-export type SheetDetent = number | 'content' | 'full';
+// @public
+export type SheetDetent = number;
 
 // @public (undocumented)
 export interface SheetLayoutProps {
@@ -1717,37 +1479,28 @@ export type SheetPreset = 'panel' | 'action';
 
 // @public (undocumented)
 export interface SheetRootProps {
-    // (undocumented)
     children?: ReactNode;
-    // (undocumented)
     defaultDetent?: number;
-    // (undocumented)
     defaultOpen?: boolean;
-    // (undocumented)
     detent?: number;
     detents?: SheetDetent[];
-    // (undocumented)
     dismissible?: boolean;
-    // (undocumented)
     labels?: {
         close?: string;
         handle?: string;
         detents?: string[];
     };
-    // (undocumented)
+    layerKind?: 'sheet' | 'drawer';
     modal?: boolean;
-    // (undocumented)
     onDetentChange?: (index: number) => void;
-    // (undocumented)
     onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
-    // (undocumented)
     open?: boolean;
     preset?: SheetPreset;
     side?: SheetSide;
 }
 
 // @public
-export type SheetSide = 'start' | 'end' | 'top' | 'bottom' | 'left' | 'right';
+export type SheetSide = 'start' | 'end' | 'top' | 'bottom';
 
 // @public (undocumented)
 export interface SheetTriggerProps {
@@ -1769,7 +1522,6 @@ export function Skeleton(input: SkeletonProps & {
 // @public (undocumented)
 export interface SkeletonProps extends React_2.HTMLAttributes<HTMLDivElement> {
     lines?: number;
-    // (undocumented)
     shape?: 'text' | 'rect' | 'circle';
 }
 
@@ -1792,51 +1544,29 @@ export interface SliderMark {
 
 // @public (undocumented)
 export interface SliderRootProps<V extends number | number[] = number | number[]> {
-    // (undocumented)
     'aria-label'?: string;
-    // (undocumented)
     'aria-labelledby'?: string;
-    // (undocumented)
     children?: ReactNode;
-    // (undocumented)
     className?: string;
-    // (undocumented)
     defaultValue?: V;
-    // (undocumented)
     disabled?: boolean;
-    // (undocumented)
     format?: Intl.NumberFormatOptions;
-    // (undocumented)
     getAriaValueText?: (value: number, index: number) => string;
     largeStep?: number;
-    // (undocumented)
     locale?: Intl.LocalesArgument;
     marks?: SliderMark[];
-    // (undocumented)
     max?: number;
-    // (undocumented)
     min?: number;
-    // (undocumented)
     minStepsBetweenValues?: number;
-    // (undocumented)
     name?: string;
-    // (undocumented)
     onValueChange?: (value: V, details: ChangeDetails) => void;
-    // (undocumented)
     onValueCommitted?: (value: V, details: ChangeDetails) => void;
-    // (undocumented)
     orientation?: 'horizontal' | 'vertical';
-    // (undocumented)
     readOnly?: boolean;
-    // (undocumented)
     ref?: Ref<HTMLDivElement>;
-    // (undocumented)
     required?: boolean;
-    // (undocumented)
     size?: ControlSize;
-    // (undocumented)
     step?: number;
-    // (undocumented)
     value?: V;
 }
 
@@ -1863,16 +1593,12 @@ export function Stack(input: StackProps & {
 
 // @public (undocumented)
 export interface StackProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'onChange'> {
-    // (undocumented)
     align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
-    // (undocumented)
     direction?: 'row' | 'column';
     gap?: SpaceTokenLike;
-    // (undocumented)
     justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
     separator?: React_2.ReactNode;
     separatorDecorative?: boolean;
-    // (undocumented)
     wrap?: boolean;
 }
 
@@ -1905,37 +1631,21 @@ export function Switch(input: SwitchProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface SwitchProps {
-    // (undocumented)
     'aria-describedby'?: string;
-    // (undocumented)
     'aria-label'?: string;
-    // (undocumented)
     'aria-labelledby'?: string;
-    // (undocumented)
     checked?: boolean;
-    // (undocumented)
     children?: ReactNode;
-    // (undocumented)
     className?: string;
-    // (undocumented)
     defaultChecked?: boolean;
-    // (undocumented)
     disabled?: boolean;
-    // (undocumented)
     id?: string;
-    // (undocumented)
     name?: string;
-    // (undocumented)
     onCheckedChange?: (checked: boolean, details: ChangeDetails) => void;
-    // (undocumented)
     readOnly?: boolean;
-    // (undocumented)
     ref?: Ref<HTMLElement>;
-    // (undocumented)
     required?: boolean;
-    // (undocumented)
     size?: ControlSize;
-    // (undocumented)
     uncheckedValue?: string;
     value?: string;
 }
@@ -1971,74 +1681,46 @@ export function TextField(input: TextFieldProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface TextFieldProps {
-    // (undocumented)
     'aria-describedby'?: string;
-    // (undocumented)
     'aria-label'?: string;
-    // (undocumented)
     'aria-labelledby'?: string;
-    // (undocumented)
     autoComplete?: string;
     autoResize?: boolean;
-    // (undocumented)
     className?: string;
-    // (undocumented)
     defaultValue?: string;
-    // (undocumented)
     description?: ReactNode;
-    // (undocumented)
     disabled?: boolean;
-    // (undocumented)
     endAdornment?: ReactNode;
     error?: ReactNode;
-    // (undocumented)
     id?: string;
-    // (undocumented)
     label?: ReactNode;
-    // (undocumented)
     maxLength?: number;
     maxRows?: number;
-    // (undocumented)
     multiline?: boolean;
-    // (undocumented)
     name?: string;
-    // (undocumented)
     onValueChange?: (value: string, details: ChangeDetails) => void;
-    // (undocumented)
     placeholder?: string;
-    // (undocumented)
     readOnly?: boolean;
     ref?: Ref<HTMLInputElement | HTMLTextAreaElement>;
-    // (undocumented)
     required?: boolean;
     rows?: number;
     showCount?: boolean;
-    // (undocumented)
     size?: ControlSize;
-    // (undocumented)
     startAdornment?: ReactNode;
-    // (undocumented)
     type?: 'text' | 'email' | 'password' | 'url' | 'tel' | 'search';
-    // (undocumented)
     validate?: FieldValidate;
-    // (undocumented)
     validationMode?: FieldValidationMode;
-    // (undocumented)
     value?: string;
 }
 
 // @public (undocumented)
 export interface TextProps extends React_2.HTMLAttributes<HTMLElement> {
-    // (undocumented)
     intent?: 'neutral' | 'success' | 'warning' | 'danger';
-    // (undocumented)
     muted?: boolean;
     render?: RenderProp<React_2.HTMLAttributes<HTMLElement>>;
     size?: 'xs' | 'sm' | 'md' | 'lg' | undefined;
-    // (undocumented)
     truncate?: boolean;
     type?: 'body' | 'callout' | 'caption' | 'label' | 'mono';
-    // (undocumented)
     weight?: 'light' | 'regular' | 'medium' | 'semibold' | 'bold';
 }
 
@@ -2075,22 +1757,15 @@ export interface TimelineItem {
 
 // @public (undocumented)
 export interface TimelineProps {
-    // (undocumented)
     'aria-label'?: string | undefined;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     items: readonly TimelineItem[];
     // Warning: (ae-forgotten-export) The symbol "TimelineLabels" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     labels?: TimelineLabels | undefined;
-    // (undocumented)
     locale?: string | undefined;
     now?: Date | number | undefined;
-    // (undocumented)
     orientation?: 'vertical' | 'horizontal' | undefined;
-    // (undocumented)
+    ref?: React_2.Ref<HTMLElement> | undefined;
     timeFormat?: 'relative' | 'absolute' | Intl.DateTimeFormatOptions | undefined;
     timeZone?: string | undefined;
 }
@@ -2131,23 +1806,15 @@ export interface ToggleGroupItemProps {
 
 // @public (undocumented)
 export interface ToggleGroupRootProps {
-    // (undocumented)
     children?: React_2.ReactNode;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     defaultValue?: string[] | undefined;
-    // (undocumented)
     disabled?: boolean | undefined;
     loop?: boolean | undefined;
     multiple?: boolean | undefined;
-    // (undocumented)
     onValueChange?: ((value: string[], details: ChangeDetails) => void) | undefined;
-    // (undocumented)
     orientation?: 'horizontal' | 'vertical' | undefined;
-    // (undocumented)
     ref?: React_2.Ref<HTMLDivElement> | undefined;
-    // (undocumented)
     value?: string[] | undefined;
 }
 
@@ -2197,16 +1864,11 @@ export interface ToolbarLinkProps extends Omit<React_2.AnchorHTMLAttributes<HTML
 // @public
 export interface ToolbarRootProps extends MaterialBearingProps {
     'aria-label': string;
-    // (undocumented)
     children?: React_2.ReactNode;
-    // (undocumented)
     className?: string | undefined;
     loop?: boolean | undefined;
-    // (undocumented)
     orientation?: 'horizontal' | 'vertical' | undefined;
-    // (undocumented)
     ref?: React_2.Ref<HTMLDivElement> | undefined;
-    // (undocumented)
     render?: RenderProp | undefined;
     spacing?: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16' | undefined;
 }
@@ -2242,9 +1904,7 @@ export const Tour: {
 
 // @public (undocumented)
 export interface TourProps extends React_2.HTMLAttributes<HTMLDivElement> {
-    // (undocumented)
     defaultOpen?: boolean;
-    // (undocumented)
     defaultStep?: number;
     labels?: {
         next?: string;
@@ -2253,15 +1913,10 @@ export interface TourProps extends React_2.HTMLAttributes<HTMLDivElement> {
         skip?: string;
         dismiss?: string;
     };
-    // (undocumented)
     onOpenChange?: (open: boolean, details: unknown) => void;
-    // (undocumented)
     onStepChange?: (index: number) => void;
-    // (undocumented)
     open?: boolean;
-    // (undocumented)
     step?: number;
-    // (undocumented)
     steps?: readonly TourStepDef[] | undefined;
 }
 
@@ -2301,53 +1956,54 @@ export namespace VisuallyHidden {
 // @public (undocumented)
 export interface VisuallyHiddenProps extends React_2.HTMLAttributes<HTMLSpanElement> {
     focusable?: boolean;
-    // (undocumented)
     ref?: React_2.Ref<HTMLSpanElement>;
-    // (undocumented)
     render?: RenderProp<React_2.HTMLAttributes<HTMLSpanElement>>;
 }
 
 // Warnings were encountered during analysis:
 //
-// dist/components/accordion/Accordion.client.d.ts:44:5 - (ae-forgotten-export) The symbol "Root_5" needs to be exported by the entry point index.d.ts
-// dist/components/accordion/Accordion.client.d.ts:45:5 - (ae-forgotten-export) The symbol "Item_3" needs to be exported by the entry point index.d.ts
-// dist/components/accordion/Accordion.client.d.ts:46:5 - (ae-forgotten-export) The symbol "Header_2" needs to be exported by the entry point index.d.ts
-// dist/components/accordion/Accordion.client.d.ts:47:5 - (ae-forgotten-export) The symbol "Trigger" needs to be exported by the entry point index.d.ts
-// dist/components/accordion/Accordion.client.d.ts:48:5 - (ae-forgotten-export) The symbol "Content" needs to be exported by the entry point index.d.ts
-// dist/components/alert-dialog/AlertDialog.client.d.ts:22:5 - (ae-forgotten-export) The symbol "AlertDialogRoot" needs to be exported by the entry point index.d.ts
-// dist/components/alert-dialog/AlertDialog.client.d.ts:23:5 - (ae-forgotten-export) The symbol "AlertDialogTrigger" needs to be exported by the entry point index.d.ts
-// dist/components/alert-dialog/AlertDialog.client.d.ts:24:5 - (ae-forgotten-export) The symbol "AlertDialogContent" needs to be exported by the entry point index.d.ts
-// dist/components/alert-dialog/AlertDialog.client.d.ts:25:5 - (ae-forgotten-export) The symbol "AlertDialogTitle" needs to be exported by the entry point index.d.ts
-// dist/components/alert-dialog/AlertDialog.client.d.ts:26:5 - (ae-forgotten-export) The symbol "AlertDialogDescription" needs to be exported by the entry point index.d.ts
-// dist/components/alert-dialog/AlertDialog.client.d.ts:27:5 - (ae-forgotten-export) The symbol "AlertDialogCancel" needs to be exported by the entry point index.d.ts
-// dist/components/alert-dialog/AlertDialog.client.d.ts:28:5 - (ae-forgotten-export) The symbol "AlertDialogAction" needs to be exported by the entry point index.d.ts
-// dist/components/alert-dialog/AlertDialog.client.d.ts:29:5 - (ae-forgotten-export) The symbol "AlertDialogHeader" needs to be exported by the entry point index.d.ts
-// dist/components/alert-dialog/AlertDialog.client.d.ts:30:5 - (ae-forgotten-export) The symbol "AlertDialogBody" needs to be exported by the entry point index.d.ts
-// dist/components/alert-dialog/AlertDialog.client.d.ts:31:5 - (ae-forgotten-export) The symbol "AlertDialogFooter" needs to be exported by the entry point index.d.ts
-// dist/components/avatar/Avatar.client.d.ts:31:5 - (ae-forgotten-export) The symbol "Root_4" needs to be exported by the entry point index.d.ts
-// dist/components/avatar/Avatar.client.d.ts:32:5 - (ae-forgotten-export) The symbol "Image_2" needs to be exported by the entry point index.d.ts
-// dist/components/avatar/Avatar.client.d.ts:33:5 - (ae-forgotten-export) The symbol "Fallback" needs to be exported by the entry point index.d.ts
-// dist/components/breadcrumbs/Breadcrumbs.d.ts:55:5 - (ae-forgotten-export) The symbol "BreadcrumbsRoot" needs to be exported by the entry point index.d.ts
-// dist/components/breadcrumbs/Breadcrumbs.d.ts:56:5 - (ae-forgotten-export) The symbol "BreadcrumbsList" needs to be exported by the entry point index.d.ts
-// dist/components/breadcrumbs/Breadcrumbs.d.ts:57:5 - (ae-forgotten-export) The symbol "BreadcrumbsItem" needs to be exported by the entry point index.d.ts
-// dist/components/breadcrumbs/Breadcrumbs.d.ts:58:5 - (ae-forgotten-export) The symbol "BreadcrumbsLink" needs to be exported by the entry point index.d.ts
-// dist/components/breadcrumbs/Breadcrumbs.d.ts:59:5 - (ae-forgotten-export) The symbol "BreadcrumbsCurrent" needs to be exported by the entry point index.d.ts
-// dist/components/breadcrumbs/Breadcrumbs.d.ts:60:5 - (ae-forgotten-export) The symbol "BreadcrumbsSeparator" needs to be exported by the entry point index.d.ts
-// dist/components/breadcrumbs/Breadcrumbs.d.ts:61:5 - (ae-forgotten-export) The symbol "BreadcrumbsEllipsis" needs to be exported by the entry point index.d.ts
-// dist/components/breadcrumbs/Breadcrumbs.d.ts:62:5 - (ae-forgotten-export) The symbol "BreadcrumbsOverflow" needs to be exported by the entry point index.d.ts
-// dist/components/card/Card.d.ts:28:5 - (ae-forgotten-export) The symbol "Header" needs to be exported by the entry point index.d.ts
-// dist/components/card/Card.d.ts:29:5 - (ae-forgotten-export) The symbol "Title" needs to be exported by the entry point index.d.ts
-// dist/components/card/Card.d.ts:30:5 - (ae-forgotten-export) The symbol "Description" needs to be exported by the entry point index.d.ts
-// dist/components/card/Card.d.ts:31:5 - (ae-forgotten-export) The symbol "Body_2" needs to be exported by the entry point index.d.ts
-// dist/components/card/Card.d.ts:32:5 - (ae-forgotten-export) The symbol "Footer" needs to be exported by the entry point index.d.ts
-// dist/components/collapsible/Collapsible.client.d.ts:24:5 - (ae-forgotten-export) The symbol "Root_6" needs to be exported by the entry point index.d.ts
-// dist/components/collapsible/Collapsible.client.d.ts:25:5 - (ae-forgotten-export) The symbol "Trigger_2" needs to be exported by the entry point index.d.ts
-// dist/components/collapsible/Collapsible.client.d.ts:26:5 - (ae-forgotten-export) The symbol "Content_2" needs to be exported by the entry point index.d.ts
-// dist/components/color-picker/ColorPicker.client.d.ts:55:5 - (ae-forgotten-export) The symbol "Root_8" needs to be exported by the entry point index.d.ts
-// dist/components/color-picker/ColorPicker.client.d.ts:56:5 - (ae-forgotten-export) The symbol "Trigger_3" needs to be exported by the entry point index.d.ts
-// dist/components/color-picker/ColorPicker.client.d.ts:57:5 - (ae-forgotten-export) The symbol "Content_3" needs to be exported by the entry point index.d.ts
-// dist/components/color-picker/ColorPicker.client.d.ts:58:5 - (ae-forgotten-export) The symbol "Area" needs to be exported by the entry point index.d.ts
-// dist/components/color-picker/ColorPicker.client.d.ts:59:5 - (ae-forgotten-export) The symbol "Hue" needs to be exported by the entry point index.d.ts
+// dist/components/accordion/Accordion.client.d.ts:48:5 - (ae-forgotten-export) The symbol "Root_5" needs to be exported by the entry point index.d.ts
+// dist/components/accordion/Accordion.client.d.ts:49:5 - (ae-forgotten-export) The symbol "Item_3" needs to be exported by the entry point index.d.ts
+// dist/components/accordion/Accordion.client.d.ts:50:5 - (ae-forgotten-export) The symbol "Header_2" needs to be exported by the entry point index.d.ts
+// dist/components/accordion/Accordion.client.d.ts:51:5 - (ae-forgotten-export) The symbol "Trigger" needs to be exported by the entry point index.d.ts
+// dist/components/accordion/Accordion.client.d.ts:52:5 - (ae-forgotten-export) The symbol "Content" needs to be exported by the entry point index.d.ts
+// dist/components/alert-dialog/AlertDialog.client.d.ts:23:5 - (ae-forgotten-export) The symbol "AlertDialogRoot" needs to be exported by the entry point index.d.ts
+// dist/components/alert-dialog/AlertDialog.client.d.ts:24:5 - (ae-forgotten-export) The symbol "AlertDialogTrigger" needs to be exported by the entry point index.d.ts
+// dist/components/alert-dialog/AlertDialog.client.d.ts:25:5 - (ae-forgotten-export) The symbol "AlertDialogContent" needs to be exported by the entry point index.d.ts
+// dist/components/alert-dialog/AlertDialog.client.d.ts:26:5 - (ae-forgotten-export) The symbol "AlertDialogTitle" needs to be exported by the entry point index.d.ts
+// dist/components/alert-dialog/AlertDialog.client.d.ts:27:5 - (ae-forgotten-export) The symbol "AlertDialogDescription" needs to be exported by the entry point index.d.ts
+// dist/components/alert-dialog/AlertDialog.client.d.ts:28:5 - (ae-forgotten-export) The symbol "AlertDialogCancel" needs to be exported by the entry point index.d.ts
+// dist/components/alert-dialog/AlertDialog.client.d.ts:29:5 - (ae-forgotten-export) The symbol "AlertDialogAction" needs to be exported by the entry point index.d.ts
+// dist/components/alert-dialog/AlertDialog.client.d.ts:30:5 - (ae-forgotten-export) The symbol "AlertDialogHeader" needs to be exported by the entry point index.d.ts
+// dist/components/alert-dialog/AlertDialog.client.d.ts:31:5 - (ae-forgotten-export) The symbol "AlertDialogBody" needs to be exported by the entry point index.d.ts
+// dist/components/alert-dialog/AlertDialog.client.d.ts:32:5 - (ae-forgotten-export) The symbol "AlertDialogFooter" needs to be exported by the entry point index.d.ts
+// dist/components/avatar/Avatar.client.d.ts:34:5 - (ae-forgotten-export) The symbol "Root_4" needs to be exported by the entry point index.d.ts
+// dist/components/avatar/Avatar.client.d.ts:35:5 - (ae-forgotten-export) The symbol "Image_2" needs to be exported by the entry point index.d.ts
+// dist/components/avatar/Avatar.client.d.ts:36:5 - (ae-forgotten-export) The symbol "Fallback" needs to be exported by the entry point index.d.ts
+// dist/components/breadcrumbs/Breadcrumbs.d.ts:57:5 - (ae-forgotten-export) The symbol "BreadcrumbsRoot" needs to be exported by the entry point index.d.ts
+// dist/components/breadcrumbs/Breadcrumbs.d.ts:58:5 - (ae-forgotten-export) The symbol "BreadcrumbsList" needs to be exported by the entry point index.d.ts
+// dist/components/breadcrumbs/Breadcrumbs.d.ts:59:5 - (ae-forgotten-export) The symbol "BreadcrumbsItem" needs to be exported by the entry point index.d.ts
+// dist/components/breadcrumbs/Breadcrumbs.d.ts:60:5 - (ae-forgotten-export) The symbol "BreadcrumbsLink" needs to be exported by the entry point index.d.ts
+// dist/components/breadcrumbs/Breadcrumbs.d.ts:61:5 - (ae-forgotten-export) The symbol "BreadcrumbsCurrent" needs to be exported by the entry point index.d.ts
+// dist/components/breadcrumbs/Breadcrumbs.d.ts:62:5 - (ae-forgotten-export) The symbol "BreadcrumbsSeparator" needs to be exported by the entry point index.d.ts
+// dist/components/breadcrumbs/Breadcrumbs.d.ts:63:5 - (ae-forgotten-export) The symbol "BreadcrumbsEllipsis" needs to be exported by the entry point index.d.ts
+// dist/components/breadcrumbs/Breadcrumbs.d.ts:64:5 - (ae-forgotten-export) The symbol "BreadcrumbsOverflow" needs to be exported by the entry point index.d.ts
+// dist/components/card/Card.d.ts:30:5 - (ae-forgotten-export) The symbol "Header" needs to be exported by the entry point index.d.ts
+// dist/components/card/Card.d.ts:31:5 - (ae-forgotten-export) The symbol "Title" needs to be exported by the entry point index.d.ts
+// dist/components/card/Card.d.ts:32:5 - (ae-forgotten-export) The symbol "Description" needs to be exported by the entry point index.d.ts
+// dist/components/card/Card.d.ts:33:5 - (ae-forgotten-export) The symbol "Body_2" needs to be exported by the entry point index.d.ts
+// dist/components/card/Card.d.ts:34:5 - (ae-forgotten-export) The symbol "Footer" needs to be exported by the entry point index.d.ts
+// dist/components/collapsible/Collapsible.client.d.ts:29:5 - (ae-forgotten-export) The symbol "Root_6" needs to be exported by the entry point index.d.ts
+// dist/components/collapsible/Collapsible.client.d.ts:30:5 - (ae-forgotten-export) The symbol "Trigger_2" needs to be exported by the entry point index.d.ts
+// dist/components/collapsible/Collapsible.client.d.ts:31:5 - (ae-forgotten-export) The symbol "Content_2" needs to be exported by the entry point index.d.ts
+// dist/components/color-picker/ColorPicker.client.d.ts:61:5 - (ae-forgotten-export) The symbol "Root_8" needs to be exported by the entry point index.d.ts
+// dist/components/color-picker/ColorPicker.client.d.ts:62:5 - (ae-forgotten-export) The symbol "Trigger_3" needs to be exported by the entry point index.d.ts
+// dist/components/color-picker/ColorPicker.client.d.ts:63:5 - (ae-forgotten-export) The symbol "Content_3" needs to be exported by the entry point index.d.ts
+// dist/components/color-picker/ColorPicker.client.d.ts:64:5 - (ae-forgotten-export) The symbol "Area" needs to be exported by the entry point index.d.ts
+// dist/components/color-picker/ColorPicker.client.d.ts:65:5 - (ae-forgotten-export) The symbol "Hue" needs to be exported by the entry point index.d.ts
+// dist/components/color-picker/ColorPicker.client.d.ts:66:5 - (ae-forgotten-export) The symbol "Channel" needs to be exported by the entry point index.d.ts
+// dist/components/color-picker/ColorPicker.client.d.ts:67:5 - (ae-forgotten-export) The symbol "Alpha" needs to be exported by the entry point index.d.ts
+// dist/components/color-picker/ColorPicker.client.d.ts:68:5 - (ae-forgotten-export) The symbol "Input" needs to be exported by the entry point index.d.ts
 // dist/components/combobox/Combobox.client.d.ts:26:5 - (ae-forgotten-export) The symbol "ComboboxRoot" needs to be exported by the entry point index.d.ts
 // dist/components/combobox/Combobox.client.d.ts:27:5 - (ae-forgotten-export) The symbol "ComboboxInput" needs to be exported by the entry point index.d.ts
 // dist/components/combobox/Combobox.client.d.ts:28:5 - (ae-forgotten-export) The symbol "ComboboxTrigger" needs to be exported by the entry point index.d.ts
@@ -2360,34 +2016,34 @@ export interface VisuallyHiddenProps extends React_2.HTMLAttributes<HTMLSpanElem
 // dist/components/combobox/Combobox.client.d.ts:35:5 - (ae-forgotten-export) The symbol "ComboboxChips" needs to be exported by the entry point index.d.ts
 // dist/components/combobox/Combobox.client.d.ts:36:5 - (ae-forgotten-export) The symbol "ComboboxChip" needs to be exported by the entry point index.d.ts
 // dist/components/combobox/Combobox.client.d.ts:37:5 - (ae-forgotten-export) The symbol "ComboboxChipRemove" needs to be exported by the entry point index.d.ts
-// dist/components/command-palette/Command.d.ts:60:5 - (ae-forgotten-export) The symbol "commandScore" needs to be exported by the entry point index.d.ts
-// dist/components/command-palette/Command.d.ts:61:5 - (ae-forgotten-export) The symbol "CommandRoot" needs to be exported by the entry point index.d.ts
-// dist/components/command-palette/Command.d.ts:62:5 - (ae-forgotten-export) The symbol "CommandInput" needs to be exported by the entry point index.d.ts
-// dist/components/command-palette/Command.d.ts:63:5 - (ae-forgotten-export) The symbol "CommandList" needs to be exported by the entry point index.d.ts
-// dist/components/command-palette/Command.d.ts:64:5 - (ae-forgotten-export) The symbol "CommandGroup" needs to be exported by the entry point index.d.ts
-// dist/components/command-palette/Command.d.ts:65:5 - (ae-forgotten-export) The symbol "CommandItem" needs to be exported by the entry point index.d.ts
-// dist/components/command-palette/Command.d.ts:66:5 - (ae-forgotten-export) The symbol "CommandEmpty" needs to be exported by the entry point index.d.ts
-// dist/components/command-palette/Command.d.ts:67:5 - (ae-forgotten-export) The symbol "CommandLoading" needs to be exported by the entry point index.d.ts
-// dist/components/command-palette/Command.d.ts:68:5 - (ae-forgotten-export) The symbol "CommandSeparator" needs to be exported by the entry point index.d.ts
-// dist/components/description-list/DescriptionList.d.ts:28:5 - (ae-forgotten-export) The symbol "Item" needs to be exported by the entry point index.d.ts
-// dist/components/description-list/DescriptionList.d.ts:29:5 - (ae-forgotten-export) The symbol "Term" needs to be exported by the entry point index.d.ts
-// dist/components/description-list/DescriptionList.d.ts:30:5 - (ae-forgotten-export) The symbol "Details" needs to be exported by the entry point index.d.ts
-// dist/components/dialog/Dialog.client.d.ts:16:5 - (ae-forgotten-export) The symbol "DialogRoot" needs to be exported by the entry point index.d.ts
-// dist/components/dialog/Dialog.client.d.ts:17:5 - (ae-forgotten-export) The symbol "DialogTrigger" needs to be exported by the entry point index.d.ts
-// dist/components/dialog/Dialog.client.d.ts:18:5 - (ae-forgotten-export) The symbol "DialogClose" needs to be exported by the entry point index.d.ts
-// dist/components/dialog/Dialog.client.d.ts:19:5 - (ae-forgotten-export) The symbol "DialogContent" needs to be exported by the entry point index.d.ts
-// dist/components/dialog/Dialog.client.d.ts:20:5 - (ae-forgotten-export) The symbol "DialogTitle" needs to be exported by the entry point index.d.ts
-// dist/components/dialog/Dialog.client.d.ts:21:5 - (ae-forgotten-export) The symbol "DialogDescription" needs to be exported by the entry point index.d.ts
-// dist/components/dialog/Dialog.client.d.ts:22:5 - (ae-forgotten-export) The symbol "DialogHeader" needs to be exported by the entry point index.d.ts
-// dist/components/dialog/Dialog.client.d.ts:23:5 - (ae-forgotten-export) The symbol "DialogBody" needs to be exported by the entry point index.d.ts
-// dist/components/dialog/Dialog.client.d.ts:24:5 - (ae-forgotten-export) The symbol "DialogFooter" needs to be exported by the entry point index.d.ts
+// dist/components/command-palette/Command.d.ts:67:5 - (ae-forgotten-export) The symbol "commandScore" needs to be exported by the entry point index.d.ts
+// dist/components/command-palette/Command.d.ts:68:5 - (ae-forgotten-export) The symbol "CommandRoot" needs to be exported by the entry point index.d.ts
+// dist/components/command-palette/Command.d.ts:69:5 - (ae-forgotten-export) The symbol "CommandInput" needs to be exported by the entry point index.d.ts
+// dist/components/command-palette/Command.d.ts:70:5 - (ae-forgotten-export) The symbol "CommandList" needs to be exported by the entry point index.d.ts
+// dist/components/command-palette/Command.d.ts:71:5 - (ae-forgotten-export) The symbol "CommandGroup" needs to be exported by the entry point index.d.ts
+// dist/components/command-palette/Command.d.ts:72:5 - (ae-forgotten-export) The symbol "CommandItem" needs to be exported by the entry point index.d.ts
+// dist/components/command-palette/Command.d.ts:73:5 - (ae-forgotten-export) The symbol "CommandEmpty" needs to be exported by the entry point index.d.ts
+// dist/components/command-palette/Command.d.ts:74:5 - (ae-forgotten-export) The symbol "CommandLoading" needs to be exported by the entry point index.d.ts
+// dist/components/command-palette/Command.d.ts:75:5 - (ae-forgotten-export) The symbol "CommandSeparator" needs to be exported by the entry point index.d.ts
+// dist/components/description-list/DescriptionList.d.ts:30:5 - (ae-forgotten-export) The symbol "Item" needs to be exported by the entry point index.d.ts
+// dist/components/description-list/DescriptionList.d.ts:31:5 - (ae-forgotten-export) The symbol "Term" needs to be exported by the entry point index.d.ts
+// dist/components/description-list/DescriptionList.d.ts:32:5 - (ae-forgotten-export) The symbol "Details" needs to be exported by the entry point index.d.ts
+// dist/components/dialog/Dialog.client.d.ts:17:5 - (ae-forgotten-export) The symbol "DialogRoot" needs to be exported by the entry point index.d.ts
+// dist/components/dialog/Dialog.client.d.ts:18:5 - (ae-forgotten-export) The symbol "DialogTrigger" needs to be exported by the entry point index.d.ts
+// dist/components/dialog/Dialog.client.d.ts:19:5 - (ae-forgotten-export) The symbol "DialogClose" needs to be exported by the entry point index.d.ts
+// dist/components/dialog/Dialog.client.d.ts:20:5 - (ae-forgotten-export) The symbol "DialogContent" needs to be exported by the entry point index.d.ts
+// dist/components/dialog/Dialog.client.d.ts:21:5 - (ae-forgotten-export) The symbol "DialogTitle" needs to be exported by the entry point index.d.ts
+// dist/components/dialog/Dialog.client.d.ts:22:5 - (ae-forgotten-export) The symbol "DialogDescription" needs to be exported by the entry point index.d.ts
+// dist/components/dialog/Dialog.client.d.ts:23:5 - (ae-forgotten-export) The symbol "DialogHeader" needs to be exported by the entry point index.d.ts
+// dist/components/dialog/Dialog.client.d.ts:24:5 - (ae-forgotten-export) The symbol "DialogBody" needs to be exported by the entry point index.d.ts
+// dist/components/dialog/Dialog.client.d.ts:25:5 - (ae-forgotten-export) The symbol "DialogFooter" needs to be exported by the entry point index.d.ts
 // dist/components/field/Field.client.d.ts:9:5 - (ae-forgotten-export) The symbol "FieldRoot" needs to be exported by the entry point index.d.ts
 // dist/components/field/Field.client.d.ts:10:5 - (ae-forgotten-export) The symbol "FieldLabel" needs to be exported by the entry point index.d.ts
 // dist/components/field/Field.client.d.ts:11:5 - (ae-forgotten-export) The symbol "FieldDescription" needs to be exported by the entry point index.d.ts
 // dist/components/field/Field.client.d.ts:12:5 - (ae-forgotten-export) The symbol "FieldError" needs to be exported by the entry point index.d.ts
 // dist/components/field/Field.client.d.ts:13:5 - (ae-forgotten-export) The symbol "FieldControl" needs to be exported by the entry point index.d.ts
-// dist/components/image-list/ImageList.d.ts:34:5 - (ae-forgotten-export) The symbol "Item_2" needs to be exported by the entry point index.d.ts
-// dist/components/image-list/ImageList.d.ts:35:5 - (ae-forgotten-export) The symbol "ItemBar" needs to be exported by the entry point index.d.ts
+// dist/components/image-list/ImageList.d.ts:38:5 - (ae-forgotten-export) The symbol "Item_2" needs to be exported by the entry point index.d.ts
+// dist/components/image-list/ImageList.d.ts:39:5 - (ae-forgotten-export) The symbol "ItemBar" needs to be exported by the entry point index.d.ts
 // dist/components/menu/ContextMenu.client.d.ts:35:5 - (ae-forgotten-export) The symbol "ContextMenuRoot" needs to be exported by the entry point index.d.ts
 // dist/components/menu/ContextMenu.client.d.ts:36:5 - (ae-forgotten-export) The symbol "ContextMenuTrigger" needs to be exported by the entry point index.d.ts
 // dist/components/menu/ContextMenu.client.d.ts:37:5 - (ae-forgotten-export) The symbol "ContextMenuItem" needs to be exported by the entry point index.d.ts
@@ -2407,25 +2063,25 @@ export interface VisuallyHiddenProps extends React_2.HTMLAttributes<HTMLSpanElem
 // dist/components/menu/Menu.client.d.ts:63:5 - (ae-forgotten-export) The symbol "MenuSubmenu" needs to be exported by the entry point index.d.ts
 // dist/components/menu/Menu.client.d.ts:64:5 - (ae-forgotten-export) The symbol "MenuSubmenuTrigger" needs to be exported by the entry point index.d.ts
 // dist/components/menu/Menu.client.d.ts:66:5 - (ae-forgotten-export) The symbol "MenuContent" needs to be exported by the entry point index.d.ts
-// dist/components/pagination/Pagination.d.ts:53:5 - (ae-forgotten-export) The symbol "PaginationRoot" needs to be exported by the entry point index.d.ts
-// dist/components/pagination/Pagination.d.ts:54:5 - (ae-forgotten-export) The symbol "PaginationPrevious" needs to be exported by the entry point index.d.ts
-// dist/components/pagination/Pagination.d.ts:55:5 - (ae-forgotten-export) The symbol "PaginationNext" needs to be exported by the entry point index.d.ts
-// dist/components/pagination/Pagination.d.ts:56:5 - (ae-forgotten-export) The symbol "PaginationItem" needs to be exported by the entry point index.d.ts
-// dist/components/pagination/Pagination.d.ts:57:5 - (ae-forgotten-export) The symbol "PaginationEllipsis" needs to be exported by the entry point index.d.ts
-// dist/components/pagination/Pagination.d.ts:58:5 - (ae-forgotten-export) The symbol "getPaginationRange" needs to be exported by the entry point index.d.ts
-// dist/components/popover/Popover.client.d.ts:32:5 - (ae-forgotten-export) The symbol "PopoverRoot" needs to be exported by the entry point index.d.ts
-// dist/components/popover/Popover.client.d.ts:33:5 - (ae-forgotten-export) The symbol "PopoverTrigger" needs to be exported by the entry point index.d.ts
-// dist/components/popover/Popover.client.d.ts:34:5 - (ae-forgotten-export) The symbol "PopoverArrow" needs to be exported by the entry point index.d.ts
-// dist/components/popover/Popover.client.d.ts:35:5 - (ae-forgotten-export) The symbol "PopoverTitle" needs to be exported by the entry point index.d.ts
-// dist/components/popover/Popover.client.d.ts:36:5 - (ae-forgotten-export) The symbol "PopoverDescription" needs to be exported by the entry point index.d.ts
-// dist/components/popover/Popover.client.d.ts:37:5 - (ae-forgotten-export) The symbol "PopoverClose" needs to be exported by the entry point index.d.ts
-// dist/components/popover/Popover.client.d.ts:39:5 - (ae-forgotten-export) The symbol "PopoverContent" needs to be exported by the entry point index.d.ts
+// dist/components/pagination/Pagination.d.ts:61:5 - (ae-forgotten-export) The symbol "PaginationRoot" needs to be exported by the entry point index.d.ts
+// dist/components/pagination/Pagination.d.ts:62:5 - (ae-forgotten-export) The symbol "PaginationPrevious" needs to be exported by the entry point index.d.ts
+// dist/components/pagination/Pagination.d.ts:63:5 - (ae-forgotten-export) The symbol "PaginationNext" needs to be exported by the entry point index.d.ts
+// dist/components/pagination/Pagination.d.ts:64:5 - (ae-forgotten-export) The symbol "PaginationItem" needs to be exported by the entry point index.d.ts
+// dist/components/pagination/Pagination.d.ts:65:5 - (ae-forgotten-export) The symbol "PaginationEllipsis" needs to be exported by the entry point index.d.ts
+// dist/components/pagination/Pagination.d.ts:66:5 - (ae-forgotten-export) The symbol "getPaginationRange" needs to be exported by the entry point index.d.ts
+// dist/components/popover/Popover.client.d.ts:33:5 - (ae-forgotten-export) The symbol "PopoverRoot" needs to be exported by the entry point index.d.ts
+// dist/components/popover/Popover.client.d.ts:34:5 - (ae-forgotten-export) The symbol "PopoverTrigger" needs to be exported by the entry point index.d.ts
+// dist/components/popover/Popover.client.d.ts:35:5 - (ae-forgotten-export) The symbol "PopoverArrow" needs to be exported by the entry point index.d.ts
+// dist/components/popover/Popover.client.d.ts:36:5 - (ae-forgotten-export) The symbol "PopoverTitle" needs to be exported by the entry point index.d.ts
+// dist/components/popover/Popover.client.d.ts:37:5 - (ae-forgotten-export) The symbol "PopoverDescription" needs to be exported by the entry point index.d.ts
+// dist/components/popover/Popover.client.d.ts:38:5 - (ae-forgotten-export) The symbol "PopoverClose" needs to be exported by the entry point index.d.ts
+// dist/components/popover/Popover.client.d.ts:40:5 - (ae-forgotten-export) The symbol "PopoverContent" needs to be exported by the entry point index.d.ts
 // dist/components/radio-group/RadioGroup.client.d.ts:6:5 - (ae-forgotten-export) The symbol "RadioGroupRoot" needs to be exported by the entry point index.d.ts
 // dist/components/radio-group/RadioGroup.client.d.ts:7:5 - (ae-forgotten-export) The symbol "RadioItem" needs to be exported by the entry point index.d.ts
-// dist/components/scroll-area/ScrollArea.client.d.ts:19:5 - (ae-forgotten-export) The symbol "Root_7" needs to be exported by the entry point index.d.ts
-// dist/components/scroll-area/ScrollArea.client.d.ts:20:5 - (ae-forgotten-export) The symbol "Viewport" needs to be exported by the entry point index.d.ts
-// dist/components/scroll-area/ScrollArea.client.d.ts:21:5 - (ae-forgotten-export) The symbol "Scrollbar" needs to be exported by the entry point index.d.ts
-// dist/components/scroll-area/ScrollArea.client.d.ts:22:5 - (ae-forgotten-export) The symbol "Thumb" needs to be exported by the entry point index.d.ts
+// dist/components/scroll-area/ScrollArea.client.d.ts:21:5 - (ae-forgotten-export) The symbol "Root_7" needs to be exported by the entry point index.d.ts
+// dist/components/scroll-area/ScrollArea.client.d.ts:22:5 - (ae-forgotten-export) The symbol "Viewport" needs to be exported by the entry point index.d.ts
+// dist/components/scroll-area/ScrollArea.client.d.ts:23:5 - (ae-forgotten-export) The symbol "Scrollbar" needs to be exported by the entry point index.d.ts
+// dist/components/scroll-area/ScrollArea.client.d.ts:24:5 - (ae-forgotten-export) The symbol "Thumb" needs to be exported by the entry point index.d.ts
 // dist/components/segmented-control/SegmentedControl.client.d.ts:10:5 - (ae-forgotten-export) The symbol "SegmentedControlRoot" needs to be exported by the entry point index.d.ts
 // dist/components/segmented-control/SegmentedControl.client.d.ts:11:5 - (ae-forgotten-export) The symbol "SegmentedControlItem" needs to be exported by the entry point index.d.ts
 // dist/components/segmented-control/SegmentedControl.client.d.ts:12:5 - (ae-forgotten-export) The symbol "SegmentedControlIndicator" needs to be exported by the entry point index.d.ts
@@ -2438,25 +2094,25 @@ export interface VisuallyHiddenProps extends React_2.HTMLAttributes<HTMLSpanElem
 // dist/components/select/Select.client.d.ts:25:5 - (ae-forgotten-export) The symbol "SelectGroup" needs to be exported by the entry point index.d.ts
 // dist/components/select/Select.client.d.ts:26:5 - (ae-forgotten-export) The symbol "SelectGroupLabel" needs to be exported by the entry point index.d.ts
 // dist/components/select/Select.client.d.ts:27:5 - (ae-forgotten-export) The symbol "SelectSeparator" needs to be exported by the entry point index.d.ts
-// dist/components/sheet/Sheet.client.d.ts:23:5 - (ae-forgotten-export) The symbol "SheetRoot" needs to be exported by the entry point index.d.ts
-// dist/components/sheet/Sheet.client.d.ts:24:5 - (ae-forgotten-export) The symbol "SheetTrigger" needs to be exported by the entry point index.d.ts
-// dist/components/sheet/Sheet.client.d.ts:25:5 - (ae-forgotten-export) The symbol "SheetContent" needs to be exported by the entry point index.d.ts
-// dist/components/sheet/Sheet.client.d.ts:26:5 - (ae-forgotten-export) The symbol "SheetTitle" needs to be exported by the entry point index.d.ts
-// dist/components/sheet/Sheet.client.d.ts:27:5 - (ae-forgotten-export) The symbol "SheetDescription" needs to be exported by the entry point index.d.ts
-// dist/components/sheet/Sheet.client.d.ts:28:5 - (ae-forgotten-export) The symbol "SheetClose" needs to be exported by the entry point index.d.ts
-// dist/components/sheet/Sheet.client.d.ts:29:5 - (ae-forgotten-export) The symbol "SheetHandle" needs to be exported by the entry point index.d.ts
-// dist/components/sheet/Sheet.client.d.ts:30:5 - (ae-forgotten-export) The symbol "SheetHeader" needs to be exported by the entry point index.d.ts
-// dist/components/sheet/Sheet.client.d.ts:31:5 - (ae-forgotten-export) The symbol "SheetBody" needs to be exported by the entry point index.d.ts
-// dist/components/sheet/Sheet.client.d.ts:32:5 - (ae-forgotten-export) The symbol "SheetFooter" needs to be exported by the entry point index.d.ts
+// dist/components/sheet/Sheet.client.d.ts:24:5 - (ae-forgotten-export) The symbol "SheetRoot" needs to be exported by the entry point index.d.ts
+// dist/components/sheet/Sheet.client.d.ts:25:5 - (ae-forgotten-export) The symbol "SheetTrigger" needs to be exported by the entry point index.d.ts
+// dist/components/sheet/Sheet.client.d.ts:26:5 - (ae-forgotten-export) The symbol "SheetContent" needs to be exported by the entry point index.d.ts
+// dist/components/sheet/Sheet.client.d.ts:27:5 - (ae-forgotten-export) The symbol "SheetTitle" needs to be exported by the entry point index.d.ts
+// dist/components/sheet/Sheet.client.d.ts:28:5 - (ae-forgotten-export) The symbol "SheetDescription" needs to be exported by the entry point index.d.ts
+// dist/components/sheet/Sheet.client.d.ts:29:5 - (ae-forgotten-export) The symbol "SheetClose" needs to be exported by the entry point index.d.ts
+// dist/components/sheet/Sheet.client.d.ts:30:5 - (ae-forgotten-export) The symbol "SheetHandle" needs to be exported by the entry point index.d.ts
+// dist/components/sheet/Sheet.client.d.ts:31:5 - (ae-forgotten-export) The symbol "SheetHeader" needs to be exported by the entry point index.d.ts
+// dist/components/sheet/Sheet.client.d.ts:32:5 - (ae-forgotten-export) The symbol "SheetBody" needs to be exported by the entry point index.d.ts
+// dist/components/sheet/Sheet.client.d.ts:33:5 - (ae-forgotten-export) The symbol "SheetFooter" needs to be exported by the entry point index.d.ts
 // dist/components/slider/Slider.client.d.ts:27:5 - (ae-forgotten-export) The symbol "SliderRoot" needs to be exported by the entry point index.d.ts
 // dist/components/slider/Slider.client.d.ts:28:5 - (ae-forgotten-export) The symbol "SliderValue" needs to be exported by the entry point index.d.ts
 // dist/components/slider/Slider.client.d.ts:29:5 - (ae-forgotten-export) The symbol "SliderTrack" needs to be exported by the entry point index.d.ts
 // dist/components/slider/Slider.client.d.ts:30:5 - (ae-forgotten-export) The symbol "SliderRange" needs to be exported by the entry point index.d.ts
 // dist/components/slider/Slider.client.d.ts:31:5 - (ae-forgotten-export) The symbol "SliderThumb" needs to be exported by the entry point index.d.ts
-// dist/components/source-transition/SourceTransition.d.ts:33:5 - (ae-forgotten-export) The symbol "SourceTransitionRoot" needs to be exported by the entry point index.d.ts
-// dist/components/source-transition/SourceTransition.d.ts:34:5 - (ae-forgotten-export) The symbol "Source" needs to be exported by the entry point index.d.ts
-// dist/components/source-transition/SourceTransition.d.ts:35:5 - (ae-forgotten-export) The symbol "Destination" needs to be exported by the entry point index.d.ts
-// dist/components/source-transition/SourceTransition.d.ts:36:5 - (ae-forgotten-export) The symbol "SourceTransitionStart" needs to be exported by the entry point index.d.ts
+// dist/components/source-transition/SourceTransition.d.ts:38:5 - (ae-forgotten-export) The symbol "SourceTransitionRoot" needs to be exported by the entry point index.d.ts
+// dist/components/source-transition/SourceTransition.d.ts:39:5 - (ae-forgotten-export) The symbol "Source" needs to be exported by the entry point index.d.ts
+// dist/components/source-transition/SourceTransition.d.ts:40:5 - (ae-forgotten-export) The symbol "Destination" needs to be exported by the entry point index.d.ts
+// dist/components/source-transition/SourceTransition.d.ts:41:5 - (ae-forgotten-export) The symbol "SourceTransitionStart" needs to be exported by the entry point index.d.ts
 // dist/components/tab-bar/TabBar.d.ts:56:5 - (ae-forgotten-export) The symbol "TabBarRoot" needs to be exported by the entry point index.d.ts
 // dist/components/tab-bar/TabBar.d.ts:57:5 - (ae-forgotten-export) The symbol "TabBarItem" needs to be exported by the entry point index.d.ts
 // dist/components/tab-bar/TabBar.d.ts:58:5 - (ae-forgotten-export) The symbol "TabBarItemIcon" needs to be exported by the entry point index.d.ts
@@ -2464,32 +2120,32 @@ export interface VisuallyHiddenProps extends React_2.HTMLAttributes<HTMLSpanElem
 // dist/components/tab-bar/TabBar.d.ts:60:5 - (ae-forgotten-export) The symbol "TabBarItemBadge" needs to be exported by the entry point index.d.ts
 // dist/components/tab-bar/TabBar.d.ts:61:5 - (ae-forgotten-export) The symbol "TabBarAccessory" needs to be exported by the entry point index.d.ts
 // dist/components/tab-bar/TabBar.d.ts:62:5 - (ae-forgotten-export) The symbol "TabBarSearch" needs to be exported by the entry point index.d.ts
-// dist/components/tabs/Tabs.d.ts:51:5 - (ae-forgotten-export) The symbol "TabsRoot" needs to be exported by the entry point index.d.ts
-// dist/components/tabs/Tabs.d.ts:52:5 - (ae-forgotten-export) The symbol "TabsList" needs to be exported by the entry point index.d.ts
-// dist/components/tabs/Tabs.d.ts:53:5 - (ae-forgotten-export) The symbol "TabsTab" needs to be exported by the entry point index.d.ts
-// dist/components/tabs/Tabs.d.ts:54:5 - (ae-forgotten-export) The symbol "TabsPanel" needs to be exported by the entry point index.d.ts
-// dist/components/tabs/Tabs.d.ts:55:5 - (ae-forgotten-export) The symbol "TabsIndicator" needs to be exported by the entry point index.d.ts
-// dist/components/toast/Toast.client.d.ts:30:5 - (ae-forgotten-export) The symbol "ToastHistoryList" needs to be exported by the entry point index.d.ts
-// dist/components/toast/Toast.client.d.ts:31:5 - (ae-forgotten-export) The symbol "ToastProvider" needs to be exported by the entry point index.d.ts
-// dist/components/toast/Toast.client.d.ts:32:5 - (ae-forgotten-export) The symbol "ToastViewport" needs to be exported by the entry point index.d.ts
-// dist/components/toast/Toast.client.d.ts:33:5 - (ae-forgotten-export) The symbol "ToastRoot" needs to be exported by the entry point index.d.ts
-// dist/components/toast/Toast.client.d.ts:34:5 - (ae-forgotten-export) The symbol "ToastTitle" needs to be exported by the entry point index.d.ts
-// dist/components/toast/Toast.client.d.ts:35:5 - (ae-forgotten-export) The symbol "ToastDescription" needs to be exported by the entry point index.d.ts
-// dist/components/toast/Toast.client.d.ts:36:5 - (ae-forgotten-export) The symbol "ToastAction" needs to be exported by the entry point index.d.ts
-// dist/components/toast/Toast.client.d.ts:37:5 - (ae-forgotten-export) The symbol "ToastClose" needs to be exported by the entry point index.d.ts
-// dist/components/toast/Toast.client.d.ts:38:5 - (ae-forgotten-export) The symbol "ToastProgress" needs to be exported by the entry point index.d.ts
-// dist/components/toggle-group/ToggleGroup.client.d.ts:29:5 - (ae-forgotten-export) The symbol "ToggleGroupRoot" needs to be exported by the entry point index.d.ts
-// dist/components/toggle-group/ToggleGroup.client.d.ts:30:5 - (ae-forgotten-export) The symbol "ToggleGroupItem" needs to be exported by the entry point index.d.ts
+// dist/components/tabs/Tabs.d.ts:56:5 - (ae-forgotten-export) The symbol "TabsRoot" needs to be exported by the entry point index.d.ts
+// dist/components/tabs/Tabs.d.ts:57:5 - (ae-forgotten-export) The symbol "TabsList" needs to be exported by the entry point index.d.ts
+// dist/components/tabs/Tabs.d.ts:58:5 - (ae-forgotten-export) The symbol "TabsTab" needs to be exported by the entry point index.d.ts
+// dist/components/tabs/Tabs.d.ts:59:5 - (ae-forgotten-export) The symbol "TabsPanel" needs to be exported by the entry point index.d.ts
+// dist/components/tabs/Tabs.d.ts:60:5 - (ae-forgotten-export) The symbol "TabsIndicator" needs to be exported by the entry point index.d.ts
+// dist/components/toast/Toast.client.d.ts:31:5 - (ae-forgotten-export) The symbol "ToastHistoryList" needs to be exported by the entry point index.d.ts
+// dist/components/toast/Toast.client.d.ts:32:5 - (ae-forgotten-export) The symbol "ToastProvider" needs to be exported by the entry point index.d.ts
+// dist/components/toast/Toast.client.d.ts:33:5 - (ae-forgotten-export) The symbol "ToastViewport" needs to be exported by the entry point index.d.ts
+// dist/components/toast/Toast.client.d.ts:34:5 - (ae-forgotten-export) The symbol "ToastRoot" needs to be exported by the entry point index.d.ts
+// dist/components/toast/Toast.client.d.ts:35:5 - (ae-forgotten-export) The symbol "ToastTitle" needs to be exported by the entry point index.d.ts
+// dist/components/toast/Toast.client.d.ts:36:5 - (ae-forgotten-export) The symbol "ToastDescription" needs to be exported by the entry point index.d.ts
+// dist/components/toast/Toast.client.d.ts:37:5 - (ae-forgotten-export) The symbol "ToastAction" needs to be exported by the entry point index.d.ts
+// dist/components/toast/Toast.client.d.ts:38:5 - (ae-forgotten-export) The symbol "ToastClose" needs to be exported by the entry point index.d.ts
+// dist/components/toast/Toast.client.d.ts:39:5 - (ae-forgotten-export) The symbol "ToastProgress" needs to be exported by the entry point index.d.ts
+// dist/components/toggle-group/ToggleGroup.client.d.ts:37:5 - (ae-forgotten-export) The symbol "ToggleGroupRoot" needs to be exported by the entry point index.d.ts
+// dist/components/toggle-group/ToggleGroup.client.d.ts:38:5 - (ae-forgotten-export) The symbol "ToggleGroupItem" needs to be exported by the entry point index.d.ts
 // dist/components/toolbar/Toolbar.client.d.ts:10:5 - (ae-forgotten-export) The symbol "ToolbarRoot" needs to be exported by the entry point index.d.ts
 // dist/components/toolbar/Toolbar.client.d.ts:11:5 - (ae-forgotten-export) The symbol "ToolbarButton" needs to be exported by the entry point index.d.ts
 // dist/components/toolbar/Toolbar.client.d.ts:12:5 - (ae-forgotten-export) The symbol "ToolbarGroup" needs to be exported by the entry point index.d.ts
 // dist/components/toolbar/Toolbar.client.d.ts:13:5 - (ae-forgotten-export) The symbol "ToolbarSeparator" needs to be exported by the entry point index.d.ts
 // dist/components/toolbar/Toolbar.client.d.ts:14:5 - (ae-forgotten-export) The symbol "ToolbarLink" needs to be exported by the entry point index.d.ts
-// dist/components/tooltip/Tooltip.client.d.ts:22:5 - (ae-forgotten-export) The symbol "TooltipProvider" needs to be exported by the entry point index.d.ts
-// dist/components/tooltip/Tooltip.client.d.ts:23:5 - (ae-forgotten-export) The symbol "TooltipRoot" needs to be exported by the entry point index.d.ts
-// dist/components/tooltip/Tooltip.client.d.ts:24:5 - (ae-forgotten-export) The symbol "TooltipTrigger" needs to be exported by the entry point index.d.ts
-// dist/components/tooltip/Tooltip.client.d.ts:25:5 - (ae-forgotten-export) The symbol "TooltipArrow" needs to be exported by the entry point index.d.ts
-// dist/components/tooltip/Tooltip.client.d.ts:26:5 - (ae-forgotten-export) The symbol "TooltipContent" needs to be exported by the entry point index.d.ts
+// dist/components/tooltip/Tooltip.client.d.ts:23:5 - (ae-forgotten-export) The symbol "TooltipProvider" needs to be exported by the entry point index.d.ts
+// dist/components/tooltip/Tooltip.client.d.ts:24:5 - (ae-forgotten-export) The symbol "TooltipRoot" needs to be exported by the entry point index.d.ts
+// dist/components/tooltip/Tooltip.client.d.ts:25:5 - (ae-forgotten-export) The symbol "TooltipTrigger" needs to be exported by the entry point index.d.ts
+// dist/components/tooltip/Tooltip.client.d.ts:26:5 - (ae-forgotten-export) The symbol "TooltipArrow" needs to be exported by the entry point index.d.ts
+// dist/components/tooltip/Tooltip.client.d.ts:27:5 - (ae-forgotten-export) The symbol "TooltipContent" needs to be exported by the entry point index.d.ts
 // dist/material/ConcentricFrame.d.ts:5:5 - (ae-forgotten-export) The symbol "RadiusToken" needs to be exported by the entry point index.d.ts
 // dist/material/ConcentricFrame.d.ts:6:5 - (ae-forgotten-export) The symbol "SpaceToken" needs to be exported by the entry point index.d.ts
 // dist/material/Environment.d.ts:4:5 - (ae-forgotten-export) The symbol "Backdrop" needs to be exported by the entry point index.d.ts

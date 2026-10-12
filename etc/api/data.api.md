@@ -54,41 +54,25 @@ export namespace ChartFrame {
 // @public (undocumented)
 export interface ChartFrameProps<TRow> {
     children: React_2.ReactNode | ((ctx: ChartContext<TRow>) => React_2.ReactNode);
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     data: readonly TRow[];
-    // (undocumented)
     defaultHiddenSeries?: readonly string[] | undefined;
-    // (undocumented)
     description?: React_2.ReactNode;
-    // (undocumented)
     height?: number | undefined;
-    // (undocumented)
     hiddenSeries?: readonly string[] | undefined;
     // Warning: (ae-forgotten-export) The symbol "ChartFrameLabels" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     labels?: ChartFrameLabels | undefined;
-    // (undocumented)
     legend?: 'top' | 'bottom' | 'none' | undefined;
-    // (undocumented)
     locale?: string | undefined;
-    // (undocumented)
     onHiddenSeriesChange?: ((keys: string[]) => void) | undefined;
-    // (undocumented)
     series: readonly ChartSeries[];
-    // (undocumented)
     table?: 'toggle' | 'visually-hidden' | 'always' | undefined;
-    // (undocumented)
     title: string;
-    // (undocumented)
     x: {
         key: string;
         label: string;
         format?: Intl.DateTimeFormatOptions | Intl.NumberFormatOptions | undefined;
     };
-    // (undocumented)
     yLabel?: string | undefined;
 }
 
@@ -109,30 +93,19 @@ export function Chip(input: ChipProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface ChipProps {
-    // (undocumented)
     children: React_2.ReactNode;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     defaultSelected?: boolean | undefined;
-    // (undocumented)
     disabled?: boolean | undefined;
-    // (undocumented)
     intent?: 'neutral' | 'info' | 'success' | 'warning' | 'danger' | undefined;
     label?: string | undefined;
-    // (undocumented)
     labels?: {
         remove?: string | undefined;
     } | undefined;
-    // (undocumented)
     onRemove?: (() => void) | undefined;
-    // (undocumented)
     onSelectedChange?: ((selected: boolean) => void) | undefined;
-    // (undocumented)
     selectable?: boolean | undefined;
-    // (undocumented)
     selected?: boolean | undefined;
-    // (undocumented)
     size?: 'sm' | 'md' | 'lg' | undefined;
 }
 
@@ -157,36 +130,25 @@ export namespace FilterBar {
 
 // @public (undocumented)
 export interface FilterBarProps {
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     defaultValue?: FilterGroup | undefined;
     // Warning: (ae-forgotten-export) The symbol "FilterBarLabels" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     labels?: FilterBarLabels | undefined;
-    // (undocumented)
     onClearAll?: (() => void) | undefined;
     // Warning: (ae-forgotten-export) The symbol "ChangeDetails" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     onValueChange?: ((g: FilterGroup, details: ChangeDetails) => void) | undefined;
-    // (undocumented)
     quickFilters?: readonly {
         id: string;
         label: string;
         rule: FilterRule;
     }[] | undefined;
     resultCount?: number | undefined;
-    // (undocumented)
     schema: readonly FilterField[];
-    // (undocumented)
     search?: {
         value: string;
         onValueChange: (v: string) => void;
         placeholder?: string | undefined;
     } | undefined;
-    // (undocumented)
     value?: FilterGroup | undefined;
 }
 
@@ -267,15 +229,10 @@ export function KeyValueEditor(input: KeyValueEditorProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface KeyValueEditorProps {
-    // (undocumented)
     addLabel?: string | undefined;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     defaultValue?: readonly KeyValuePair[] | undefined;
-    // (undocumented)
     disabled?: boolean | undefined;
-    // (undocumented)
     labels?: {
         key?: string | undefined;
         value?: string | undefined;
@@ -283,9 +240,7 @@ export interface KeyValueEditorProps {
         add?: string | undefined;
         duplicate?: string | undefined;
     } | undefined;
-    // (undocumented)
     onValueChange?: ((pairs: KeyValuePair[], details: ChangeDetails) => void) | undefined;
-    // (undocumented)
     value?: readonly KeyValuePair[] | undefined;
 }
 
@@ -320,38 +275,24 @@ export function StatCard(input: StatCardProps): React_2.JSX.Element;
 
 // @public (undocumented)
 export interface StatCardProps {
-    // (undocumented)
     children?: React_2.ReactNode;
-    // (undocumented)
     delta?: number | undefined;
-    // (undocumented)
     deltaFormat?: Intl.NumberFormatOptions | undefined;
-    // (undocumented)
     deltaLabel?: string | undefined;
-    // (undocumented)
     description?: React_2.ReactNode;
-    // (undocumented)
     format?: Intl.NumberFormatOptions | undefined;
-    // (undocumented)
     href?: string | undefined;
     id?: string | undefined;
-    // (undocumented)
     label: string;
-    // (undocumented)
     labels?: {
         up?: string | undefined;
         down?: string | undefined;
         unchanged?: string | undefined;
     } | undefined;
-    // (undocumented)
     loading?: boolean | undefined;
-    // (undocumented)
     locale?: string | undefined;
-    // (undocumented)
     sparkline?: readonly number[] | undefined;
-    // (undocumented)
     trendDirection?: 'up-is-good' | 'down-is-good' | 'neutral' | undefined;
-    // (undocumented)
     value: number | React_2.ReactNode;
 }
 
@@ -413,95 +354,53 @@ export type TableMode = 'table' | 'grid';
 
 // @public (undocumented)
 export interface TableProps<TData> {
-    // (undocumented)
     'aria-label'?: string | undefined;
-    // (undocumented)
     'aria-labelledby'?: string | undefined;
-    // (undocumented)
     caption?: React_2.ReactNode;
-    // (undocumented)
     className?: string | undefined;
-    // (undocumented)
     columnOrder?: ColumnOrderState | undefined;
-    // (undocumented)
     columnPinning?: ColumnPinningState | undefined;
-    // (undocumented)
     columns: readonly TableColumnDef<TData>[];
-    // (undocumented)
     columnSizing?: ColumnSizingState | undefined;
-    // (undocumented)
     columnVisibility?: VisibilityState | undefined;
-    // (undocumented)
     data: readonly TData[];
-    // (undocumented)
     defaultColumnOrder?: ColumnOrderState | undefined;
-    // (undocumented)
     defaultColumnPinning?: ColumnPinningState | undefined;
-    // (undocumented)
     defaultColumnSizing?: ColumnSizingState | undefined;
-    // (undocumented)
     defaultColumnVisibility?: VisibilityState | undefined;
-    // (undocumented)
     defaultPagination?: PaginationState | undefined;
-    // (undocumented)
     defaultRowSelection?: RowSelectionState | undefined;
-    // (undocumented)
     defaultSorting?: SortingState | undefined;
-    // (undocumented)
     emptyState?: React_2.ReactNode;
-    // (undocumented)
     enableColumnReordering?: boolean | undefined;
-    // (undocumented)
     enableColumnResizing?: boolean | undefined;
-    // (undocumented)
     enableMultiSort?: boolean | undefined;
     getRowId?: ((row: TData, index: number) => string) | undefined;
-    // (undocumented)
     loading?: boolean | undefined;
     manualPagination?: boolean | undefined;
-    // (undocumented)
     manualSorting?: boolean | undefined;
-    // (undocumented)
     maxHeight?: number | string | undefined;
-    // (undocumented)
     messages?: TableMessages | undefined;
-    // (undocumented)
     mode?: TableMode | undefined;
-    // (undocumented)
+    // Warning: (ae-forgotten-export) The symbol "TableEditValue" needs to be exported by the entry point index.d.ts
+    onCellEditCommit?: ((rowId: string, columnId: string, value: TableEditValue) => void) | undefined;
     onColumnOrderChange?: ((s: ColumnOrderState) => void) | undefined;
-    // (undocumented)
     onColumnPinningChange?: ((s: ColumnPinningState) => void) | undefined;
-    // (undocumented)
     onColumnSizingChange?: ((s: ColumnSizingState) => void) | undefined;
-    // (undocumented)
     onColumnVisibilityChange?: ((s: VisibilityState) => void) | undefined;
-    // (undocumented)
     onPaginationChange?: ((s: PaginationState) => void) | undefined;
-    // (undocumented)
     onRowAction?: ((row: TData) => void) | undefined;
-    // (undocumented)
     onRowSelectionChange?: ((s: RowSelectionState) => void) | undefined;
-    // (undocumented)
     onSortingChange?: ((s: SortingState) => void) | undefined;
-    // (undocumented)
     pageCount?: number | undefined;
-    // (undocumented)
     pagination?: PaginationState | undefined;
-    // (undocumented)
     ref?: React_2.Ref<TableHandle<TData>> | undefined;
-    // (undocumented)
     rowCount?: number | undefined;
-    // (undocumented)
     rowSelection?: RowSelectionState | undefined;
-    // (undocumented)
     selectionMode?: SelectionMode_2 | undefined;
-    // (undocumented)
     size?: TableDensity | undefined;
-    // (undocumented)
     sorting?: SortingState | undefined;
-    // (undocumented)
     stickyHeader?: boolean | undefined;
-    // (undocumented)
     virtualize?: boolean | {
         estimateRowHeight?: number;
         overscan?: number;

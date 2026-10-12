@@ -108,7 +108,6 @@ export interface MaterialRole {
     layer?: Layer;
     // (undocumented)
     prominent?: boolean;
-    // (undocumented)
     refraction?: boolean;
     // (undocumented)
     shape?: Shape;
@@ -240,7 +239,6 @@ export interface SurfaceGroupProps {
     children: React_2.ReactNode;
     // (undocumented)
     className?: string;
-    // (undocumented)
     refraction?: boolean;
     // (undocumented)
     spacing?: SpaceToken;
@@ -282,6 +280,7 @@ export interface SurfaceProps extends SurfaceProps_2 {
     optimization?: never;
     // (undocumented)
     parallax?: never;
+    refraction?: boolean;
     tier?: never;
     // (undocumented)
     tint?: never;
@@ -303,7 +302,7 @@ export function useMaterialTier(): Tier;
 //
 // dist/material/ConcentricFrame.d.ts:5:5 - (ae-forgotten-export) The symbol "RadiusToken" needs to be exported by the entry point index.d.ts
 // dist/material/ConcentricFrame.d.ts:6:5 - (ae-forgotten-export) The symbol "SpaceToken" needs to be exported by the entry point index.d.ts
-// dist/material/types.d.ts:72:9 - (ae-forgotten-export) The symbol "CssAngle" needs to be exported by the entry point index.d.ts
+// dist/material/types.d.ts:75:9 - (ae-forgotten-export) The symbol "CssAngle" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

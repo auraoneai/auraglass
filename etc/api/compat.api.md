@@ -1,237 +1,2715 @@
-## API Report — aura-glass ./compat
+## API Report File for "aura-glass"
 
-- `AtmosphericBackground`
-- `AuroraBackground`
-- `AuroraOrb`
-- `Box`
-- `Button`
-- `CircularProgress`
-- `DisplayText`
-- `DynamicAtmosphere`
-- `EnhancedGlassButton`
-- `GlassAccordion`
-- `GlassActionBar`
-- `GlassActionSheet`
-- `GlassActivityFeed`
-- `GlassAdvanced`
-- `GlassAlert`
-- `GlassAnimatedNumber`
-- `GlassAppShell`
-- `GlassAvatar`
-- `GlassAvatarGroup`
-- `GlassBadge`
-- `GlassBottomNav`
-- `GlassBottomSheet`
-- `GlassBreadcrumb`
-- `GlassBreadcrumbs`
-- `GlassButton`
-- `GlassCalendar`
-- `GlassCard`
-- `GlassCarousel`
-- `GlassChat`
-- `GlassChatInput`
-- `GlassCheckbox`
-- `GlassCheckboxGroup`
-- `GlassChip`
-- `GlassCoachmarks`
-- `GlassColorPicker`
-- `GlassColorWheel`
-- `GlassCombobox`
-- `GlassCommand`
-- `GlassCommandBar`
-- `GlassCommandPalette`
-- `GlassConnectionStatus`
-- `GlassContainer`
-- `GlassContextMenu`
-- `GlassCore`
-- `GlassDataGrid`
-- `GlassDataTable`
-- `GlassDateField`
-- `GlassDatePicker`
-- `GlassDateRangePicker`
-- `GlassDialog`
-- `GlassDismissableLayer`
-- `GlassDivider`
-- `GlassDrawer`
-- `GlassDropdownMenu`
-- `GlassDropdownMenuArrow`
-- `GlassDropdownMenuCheckboxItem`
-- `GlassDropdownMenuContent`
-- `GlassDropdownMenuGroup`
-- `GlassDropdownMenuItem`
-- `GlassDropdownMenuLabel`
-- `GlassDropdownMenuPortal`
-- `GlassDropdownMenuRadioGroup`
-- `GlassDropdownMenuRadioItem`
-- `GlassDropdownMenuRoot`
-- `GlassDropdownMenuSeparator`
-- `GlassDropdownMenuSub`
-- `GlassDropdownMenuSubTrigger`
-- `GlassDropdownMenuTrigger`
-- `GlassDynamicAtmosphere`
-- `GlassEmptyState`
-- `GlassErrorState`
-- `GlassFab`
-- `GlassFieldGroup`
-- `GlassFileExplorer`
-- `GlassFileTree`
-- `GlassFileUpload`
-- `GlassFilterBar`
-- `GlassFlex`
-- `GlassFocusScope`
-- `GlassForm`
-- `GlassFormField`
-- `GlassGradientPicker`
-- `GlassGrid`
-- `GlassHeader`
-- `GlassHoverCard`
-- `GlassIconButton`
-- `GlassImageViewer`
-- `GlassInlineEdit`
-- `GlassInput`
-- `GlassInspector`
-- `GlassIntelligentSearch`
-- `GlassKPICard`
-- `GlassKeyValueEditor`
-- `GlassLabel`
-- `GlassLabelPrimitive`
-- `GlassLinkButton`
-- `GlassLoadingSkeleton`
-- `GlassLoadingState`
-- `GlassMagneticButton`
-- `GlassMain`
-- `GlassMasonry`
-- `GlassMasonryGrid`
-- `GlassMediaControls`
-- `GlassMentionList`
-- `GlassMenubar`
-- `GlassMeshGradient`
-- `GlassMessageList`
-- `GlassMetricCard`
-- `GlassMetricChip`
-- `GlassMobileNav`
-- `GlassMobileShell`
-- `GlassModal`
-- `GlassMultiSelect`
-- `GlassNavigationMenu`
-- `GlassNotificationCenter`
-- `GlassNotificationItem`
-- `GlassNotificationProvider`
-- `GlassPage`
-- `GlassPageHeader`
-- `GlassPageTabs`
-- `GlassPagination`
-- `GlassPopover`
-- `GlassPortal`
-- `GlassPositioner`
-- `GlassPrimitive`
-- `GlassProgress`
-- `GlassRadioGroup`
-- `GlassRating`
-- `GlassScrollArea`
-- `GlassSearchField`
-- `GlassSearchInterface`
-- `GlassSegmentedControl`
-- `GlassSelect`
-- `GlassSelectCompound`
-- `GlassSelectContent`
-- `GlassSelectGroup`
-- `GlassSelectItem`
-- `GlassSelectLabel`
-- `GlassSelectRoot`
-- `GlassSelectScrollDown`
-- `GlassSelectScrollUp`
-- `GlassSelectSeparator`
-- `GlassSelectTrigger`
-- `GlassSelectValue`
-- `GlassSeparator`
-- `GlassSidebar`
-- `GlassSidebarPanel`
-- `GlassSidebarRail`
-- `GlassSkeleton`
-- `GlassSlider`
-- `GlassSlot`
-- `GlassSparkline`
-- `GlassSplitPane`
-- `GlassSpotlight`
-- `GlassStack`
-- `GlassStatCard`
-- `GlassStatusBar`
-- `GlassStatusDot`
-- `GlassStepper`
-- `GlassSwitch`
-- `GlassTabBar`
-- `GlassTabs`
-- `GlassTagInput`
-- `GlassTextarea`
-- `GlassTimeField`
-- `GlassTimeline`
-- `GlassToast`
-- `GlassToastProvider`
-- `GlassToastViewport`
-- `GlassToggle`
-- `GlassToolbar`
-- `GlassTooltip`
-- `GlassTopBar`
-- `GlassTreeView`
-- `GlassTypingIndicator`
-- `GlassValidationMessage`
-- `GlassVirtualList`
-- `GlassVirtualTable`
-- `GlassWorkspacePanel`
-- `GlassWorkspaceTabs`
-- `GlowingCard`
-- `ImageList`
-- `ImageListItem`
-- `ImageListItemBar`
-- `LabelRoot`
-- `LiquidGlassAdaptiveSheet`
-- `LiquidGlassBadgeCluster`
-- `LiquidGlassBottomAccessory`
-- `LiquidGlassButtonStyle`
-- `LiquidGlassCarouselRail`
-- `LiquidGlassCommandSurface`
-- `LiquidGlassConcentricFrame`
-- `LiquidGlassControlGroup`
-- `LiquidGlassDestination`
-- `LiquidGlassEffectGroup`
-- `LiquidGlassInsetSidebar`
-- `LiquidGlassInspectorPanel`
-- `LiquidGlassLayerProvider`
-- `LiquidGlassMapControls`
-- `LiquidGlassMaterial`
-- `LiquidGlassMediaControls`
-- `LiquidGlassNowPlayingBar`
-- `LiquidGlassPhotoInspector`
-- `LiquidGlassPopoverMenu`
-- `LiquidGlassScrollEdge`
-- `LiquidGlassSearchField`
-- `LiquidGlassSegmentedControl`
-- `LiquidGlassSource`
-- `LiquidGlassTabBar`
-- `LiquidGlassToolbar`
-- `LiquidGlassTransitionProvider`
-- `MagneticButton`
-- `MobileGlassBottomSheet`
-- `OptimizedGlass`
-- `OptimizedGlassAdvanced`
-- `Positioner`
-- `RippleButton`
-- `SURF_COMPAT_ADAPTERS`
-- `ToggleButton`
-- `ToggleButtonGroup`
-- `TreeView`
-- `Typography`
-- `WidgetGlass`
-- `ZSpaceAppLayout`
-- `createBrandGlassTheme`
-- `createGlassTheme`
-- `createGlassThemeCssVars`
-- `renderToolbarItems`
-- `splitPlacement`
-- `toSide`
-- `toastPosition`
-- `toastType`
-- `useGlassModalMapping`
-- `useNotifications`
-- `useToast`
+> Do not edit this file. It is a report generated by [API Extractor](https://api-extractor.com/).
+
+```ts
+
+import { JSXElementConstructor } from 'react';
+import * as React_2 from 'react';
+import { ReactElement } from 'react';
+import type { ReactNode } from 'react';
+import type { Ref } from 'react';
+
+// Warning: (ae-forgotten-export) The symbol "AtmosphericBackgroundProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function AtmosphericBackground(props: AtmosphericBackgroundProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "AuroraBackgroundProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function AuroraBackground(props: AuroraBackgroundProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "AuroraOrbProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function AuroraOrb(props: AuroraOrbProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function Box(input: BoxProps & {
+    ref?: React_2.Ref<HTMLDivElement> | undefined;
+}): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface BoxProps extends React_2.HTMLAttributes<HTMLDivElement> {
+    // (undocumented)
+    as?: keyof React_2.JSX.IntrinsicElements;
+    // (undocumented)
+    respectMotionPreference?: boolean;
+}
+
+// @public @deprecated (undocumented)
+export function CircularProgress(input: CircularProgressProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "ProgressProps" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface CircularProgressProps extends Omit<ProgressProps, 'appearance' | 'size' | 'thickness' | 'value'> {
+    // (undocumented)
+    indeterminate?: boolean | undefined;
+    // (undocumented)
+    ref?: React_2.Ref<HTMLDivElement> | undefined;
+    // (undocumented)
+    size?: CircularProgressSize | undefined;
+    // (undocumented)
+    strokeWidth?: number | undefined;
+    value?: number | undefined;
+    variant?: 'default' | 'success' | 'warning' | 'error' | undefined;
+}
+
+// @public (undocumented)
+export type CircularProgressSize = 'sm' | 'md' | 'lg' | 'xl';
+
+// Warning: (ae-forgotten-export) The symbol "CreateGlassThemeOptions" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface CompatCreateGlassThemeOptions extends CreateGlassThemeOptions {
+    // @deprecated
+    motionPolicy?: GlassMotionPolicy;
+}
+
+// Warning: (ae-forgotten-export) The symbol "Oklch" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "GlassTheme" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export const createBrandGlassTheme: (brandColor: string | Oklch, options?: CreateBrandGlassThemeOptions) => GlassTheme;
+
+// Warning: (ae-forgotten-export) The symbol "CreateBrandThemeOptions" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface CreateBrandGlassThemeOptions extends CreateBrandThemeOptions {
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    name?: string;
+}
+
+// @public
+export const createGlassTheme: (options?: CompatCreateGlassThemeOptions) => GlassTheme;
+
+// @public @deprecated (undocumented)
+export const createGlassThemeCssVars: (theme: GlassThemeCssVarsInput) => Record<string, string>;
+
+// @public @deprecated (undocumented)
+export function DisplayText(input: DisplayTextProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "HeadingProps" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface DisplayTextProps extends Omit<HeadingProps, 'size' | 'level'> {
+    level?: HeadingProps['level'];
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassDynamicAtmosphereProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function DynamicAtmosphere(props: GlassDynamicAtmosphereProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function EnhancedGlassButton(input: EnhancedGlassButtonProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface EnhancedGlassButtonProps extends GlassButtonProps {
+    // (undocumented)
+    animation?: string;
+    // (undocumented)
+    enhanced?: unknown;
+    // (undocumented)
+    glowIntensity?: unknown;
+}
+
+// Warning: (ae-forgotten-export) The symbol "Accordion" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassAccordion(props: React_2.ComponentProps<typeof Accordion.Root>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassActionBar(input: GlassActionBarProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassActionBarProps {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    actions?: readonly GlassToolbarItem[];
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+}
+
+// @public @deprecated (undocumented)
+export function GlassActionSheet(input: GlassActionSheetProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassActionSheetAction {
+    // (undocumented)
+    destructive?: boolean;
+    // (undocumented)
+    label: React_2.ReactNode;
+    // (undocumented)
+    onClick?: (e: unknown) => void;
+}
+
+// @public (undocumented)
+export interface GlassActionSheetProps {
+    // (undocumented)
+    actions?: readonly GlassActionSheetAction[];
+    // (undocumented)
+    cancelText?: React_2.ReactNode;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    onClose?: () => void;
+    // (undocumented)
+    open?: boolean;
+    // (undocumented)
+    title?: React_2.ReactNode;
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassActivityFeedProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassActivityFeed(props: GlassActivityFeedProps): React_2.JSX.Element;
+
+// @public
+export function GlassAdvanced(props: OptimizedGlassCompatProps): React_2.ReactElement;
+
+// Warning: (ae-forgotten-export) The symbol "Alert" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassAlert(props: React_2.ComponentProps<typeof Alert>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassAnimatedNumberProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassAnimatedNumber(props: GlassAnimatedNumberProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassAppShellProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassAppShell(props: GlassAppShellProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Avatar" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassAvatar(props: React_2.ComponentProps<typeof Avatar.Root>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "AvatarGroup" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassAvatarGroup(props: React_2.ComponentProps<typeof AvatarGroup>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Badge" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassBadge(props: React_2.ComponentProps<typeof Badge>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassBottomNavProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassBottomNav(props: GlassBottomNavProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassBottomSheet(input: GlassBottomSheetProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassBottomSheetProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // Warning: (ae-forgotten-export) The symbol "CompatSheetDetent" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    detents?: readonly CompatSheetDetent[];
+    // (undocumented)
+    height?: number | string;
+    // (undocumented)
+    onClose?: () => void;
+    // (undocumented)
+    onOpenChange?: (open: boolean) => void;
+    // (undocumented)
+    open?: boolean;
+    // (undocumented)
+    snap?: number | readonly number[];
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassBreadcrumbProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassBreadcrumb(props: GlassBreadcrumbProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassBreadcrumbsProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassBreadcrumbs(props: GlassBreadcrumbsProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+function GlassButton(props: GlassButtonProps): React_2.JSX.Element;
+export { GlassButton as Button }
+export { GlassButton }
+
+// @public (undocumented)
+interface GlassButtonProps extends Omit<React_2.ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'title' | 'color'> {
+    // @deprecated (undocumented)
+    adaptive?: unknown;
+    // (undocumented)
+    asChild?: boolean;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // @deprecated (undocumented)
+    eyeTracking?: unknown;
+    // @deprecated (undocumented)
+    glassVariant?: string;
+    // (undocumented)
+    leftIcon?: React_2.ReactNode;
+    // (undocumented)
+    loading?: boolean;
+    // @deprecated (undocumented)
+    material?: string;
+    // @deprecated (undocumented)
+    materialProps?: Record<string, unknown>;
+    // @deprecated
+    predictive?: unknown;
+    // (undocumented)
+    rightIcon?: React_2.ReactNode;
+    // (undocumented)
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+    // @deprecated (undocumented)
+    spatialAudio?: unknown;
+    // @deprecated (undocumented)
+    trackAchievements?: unknown;
+    // @deprecated (undocumented)
+    usageContext?: unknown;
+    // (undocumented)
+    variant?: 'primary' | 'secondary' | 'default' | 'outline' | 'ghost' | 'tertiary' | 'link' | 'gradient' | 'aurora' | 'success' | 'warning' | 'danger' | 'destructive' | 'error';
+}
+export { GlassButtonProps as ButtonProps }
+export { GlassButtonProps }
+
+// Warning: (ae-forgotten-export) The symbol "GlassCalendarProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassCalendar(props: GlassCalendarProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Card" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassCard(props: React_2.ComponentProps<typeof Card>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassCarouselProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassCarousel(props: GlassCarouselProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassChatProps" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export function GlassChat(props: GlassChatProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassChatInputProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassChatInput(props: GlassChatInputProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassCheckbox(input: GlassCheckboxProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassCheckboxGroup(input: GlassCheckboxGroupProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassCheckboxGroupOption {
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    value: string;
+}
+
+// @public (undocumented)
+export interface GlassCheckboxGroupProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string[];
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    onChange?: (value: string[]) => void;
+    // (undocumented)
+    options?: readonly GlassCheckboxGroupOption[];
+    // (undocumented)
+    value?: string[];
+}
+
+// @public (undocumented)
+export interface GlassCheckboxProps {
+    // (undocumented)
+    checked?: boolean;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultChecked?: boolean;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    glassVariant?: string;
+    // (undocumented)
+    indeterminate?: boolean;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    onChange?: (event: {
+        target: {
+            checked: boolean;
+        };
+    }) => void;
+    onCheckedChange?: (checked: boolean) => void;
+    // (undocumented)
+    size?: 'sm' | 'md' | 'lg' | 'xl';
+    // (undocumented)
+    value?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassChipProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassChip(props: GlassChipProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Tour" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassCoachmarks(props: React_2.ComponentProps<typeof Tour.Root>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "ColorPicker" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassColorPicker(props: React_2.ComponentProps<typeof ColorPicker.Root>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassColorWheel(props: React_2.ComponentProps<typeof ColorPicker.Root>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassCombobox(input: GlassComboboxProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassComboboxProps {
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string | null;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    glassVariant?: string;
+    // (undocumented)
+    onChange?: (value: string | null) => void;
+    // (undocumented)
+    onInputChange?: (value: string) => void;
+    // (undocumented)
+    options?: readonly (string | {
+        value: string;
+        label: string;
+    })[];
+    // (undocumented)
+    placeholder?: string;
+    // (undocumented)
+    value?: string | null;
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassCommandProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassCommand(props: GlassCommandProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassCommandBar(input: GlassCommandBarProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassCommandBarProps {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    commands?: readonly GlassToolbarItem[];
+    // (undocumented)
+    items?: readonly GlassToolbarItem[];
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassCommandPaletteProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassCommandPalette(props: GlassCommandPaletteProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export type GlassConnectionState = 'online' | 'offline' | 'slow';
+
+// @public @deprecated (undocumented)
+export function GlassConnectionStatus(input: GlassConnectionStatusProps & {
+    ref?: React_2.Ref<HTMLSpanElement> | undefined;
+}): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassConnectionStatusProps extends Omit<React_2.HTMLAttributes<HTMLSpanElement>, 'children'> {
+    // (undocumented)
+    animate?: boolean | undefined;
+    // (undocumented)
+    autoHideDelay?: number | undefined;
+    // (undocumented)
+    elevation?: 'level1' | 'level2' | 'level3' | 'level4' | 'level5' | undefined;
+    // (undocumented)
+    labels?: Partial<Record<GlassConnectionState, string>> | undefined;
+    // (undocumented)
+    onStatusChange?: ((status: GlassConnectionState) => void) | undefined;
+    // (undocumented)
+    position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'inline' | undefined;
+    // (undocumented)
+    showQuality?: boolean | undefined;
+    // (undocumented)
+    showText?: boolean | undefined;
+    // (undocumented)
+    size?: 'sm' | 'md' | 'lg' | undefined;
+    // (undocumented)
+    status?: GlassConnectionState | 'auto' | undefined;
+}
+
+// Warning: (ae-forgotten-export) The symbol "Container" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassContainer(props: React_2.ComponentProps<typeof Container>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassContextMenu(input: GlassContextMenuProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassContextMenuProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    items?: readonly {
+        label?: React_2.ReactNode;
+        onSelect?: () => void;
+        disabled?: boolean;
+    }[];
+    // (undocumented)
+    onClose?: () => void;
+    // (undocumented)
+    onOpenChange?: (open: boolean) => void;
+}
+
+// @public
+export function GlassCore(props: OptimizedGlassCompatProps): React_2.ReactElement;
+
+// Warning: (ae-forgotten-export) The symbol "Row_3" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "GlassDataGridProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassDataGrid<T extends Row_3 = Row_3>(props: GlassDataGridProps<T>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Row" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "GlassDataTableProps" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export function GlassDataTable<T extends Row = Row>(props: GlassDataTableProps<T>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassDateFieldProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassDateField(props: GlassDateFieldProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassDatePickerProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassDatePicker(props: GlassDatePickerProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassDateRangePickerProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassDateRangePicker(props: GlassDateRangePickerProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDialog(props: GlassDialogProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassDialogProps extends GlassModalProps {
+    // (undocumented)
+    cancelText?: React_2.ReactNode;
+    // (undocumented)
+    confirmText?: React_2.ReactNode;
+    // (undocumented)
+    destructive?: boolean;
+}
+
+// Warning: (ae-forgotten-export) The symbol "DismissableLayer" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassDismissableLayer(props: React_2.ComponentProps<typeof DismissableLayer>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Separator" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassDivider(props: React_2.ComponentProps<typeof Separator>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDrawer(input: GlassDrawerProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassDrawerProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    closeOnOverlayClick?: boolean;
+    // (undocumented)
+    detents?: readonly CompatSheetDetent[];
+    // (undocumented)
+    modal?: boolean;
+    // (undocumented)
+    onClose?: () => void;
+    // (undocumented)
+    onOpenChange?: (open: boolean) => void;
+    // (undocumented)
+    open?: boolean;
+    // (undocumented)
+    placement?: 'left' | 'right' | 'top' | 'bottom' | 'start' | 'end';
+    // (undocumented)
+    position?: 'left' | 'right' | 'top' | 'bottom' | 'start' | 'end';
+    // (undocumented)
+    snap?: number | readonly number[];
+    title?: React_2.ReactNode;
+}
+
+// @public @deprecated (undocumented)
+export const GlassDropdownMenu: {
+    Root: typeof GlassDropdownMenuRoot;
+    Trigger: typeof GlassDropdownMenuTrigger;
+    Portal: typeof GlassDropdownMenuPortal;
+    Content: typeof GlassDropdownMenuContent;
+    Item: typeof GlassDropdownMenuItem;
+    CheckboxItem: typeof GlassDropdownMenuCheckboxItem;
+    RadioGroup: typeof GlassDropdownMenuRadioGroup;
+    RadioItem: typeof GlassDropdownMenuRadioItem;
+    Group: typeof GlassDropdownMenuGroup;
+    Label: typeof GlassDropdownMenuLabel;
+    Separator: typeof GlassDropdownMenuSeparator;
+    Sub: typeof GlassDropdownMenuSub;
+    SubTrigger: typeof GlassDropdownMenuSubTrigger;
+    Arrow: typeof GlassDropdownMenuArrow;
+};
+
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuArrow(props: Record<string, unknown>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuCheckboxItem(input: Record<string, unknown> & {
+    checked?: boolean;
+    onCheckedChange?: (c: boolean) => void;
+    onSelect?: (e: unknown) => void;
+    children?: React_2.ReactNode;
+}): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuContent(input: Record<string, unknown> & {
+    placement?: string;
+    side?: 'top' | 'bottom' | 'left' | 'right';
+    align?: 'start' | 'center' | 'end';
+    sideOffset?: number;
+    children?: React_2.ReactNode;
+}): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuGroup(props: Record<string, unknown> & {
+    children?: React_2.ReactNode;
+}): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuItem(input: Record<string, unknown> & {
+    asChild?: boolean;
+    onSelect?: (e: unknown) => void;
+    children?: React_2.ReactNode;
+}): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuLabel(props: Record<string, unknown> & {
+    children?: React_2.ReactNode;
+}): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "MenuPortal" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuPortal(props: React_2.ComponentProps<typeof MenuPortal>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuRadioGroup(props: Record<string, unknown> & {
+    children?: React_2.ReactNode;
+}): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuRadioItem(input: Record<string, unknown> & {
+    value?: string;
+    children?: React_2.ReactNode;
+}): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuSeparator(props: Record<string, unknown>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuSub(props: Record<string, unknown> & {
+    children?: React_2.ReactNode;
+}): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuSubTrigger(input: Record<string, unknown> & {
+    asChild?: boolean;
+    children?: React_2.ReactNode;
+}): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassDropdownMenuTrigger(input: Record<string, unknown> & {
+    asChild?: boolean;
+    children?: React_2.ReactNode;
+}): React_2.JSX.Element;
+
+// @public @deprecated
+export function GlassDynamicAtmosphere(props: GlassDynamicAtmosphereProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "EmptyState" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassEmptyState(props: React_2.ComponentProps<typeof EmptyState>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "ErrorState" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassErrorState(props: React_2.ComponentProps<typeof ErrorState>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassFab(input: GlassFabProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassFabProps {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    icon?: React_2.ReactNode;
+    // (undocumented)
+    label?: string;
+    // (undocumented)
+    offset?: number | string;
+    // (undocumented)
+    onClick?: React_2.MouseEventHandler<HTMLButtonElement>;
+    // (undocumented)
+    position?: string;
+}
+
+// @public @deprecated (undocumented)
+export function GlassFieldGroup(input: GlassFieldGroupProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassFieldGroupProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    description?: React_2.ReactNode;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    legend?: React_2.ReactNode;
+    // (undocumented)
+    title?: React_2.ReactNode;
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassFileExplorerProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassFileExplorer(props: GlassFileExplorerProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassFileTreeProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassFileTree(props: GlassFileTreeProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "FileUpload" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassFileUpload(props: React_2.ComponentProps<typeof FileUpload>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassFilterBarProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassFilterBar(props: GlassFilterBarProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassFlex(input: GlassFlexProps & {
+    ref?: React_2.Ref<HTMLDivElement> | undefined;
+}): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassFlexProps extends React_2.HTMLAttributes<HTMLDivElement> {
+    // (undocumented)
+    align?: 'start' | 'end' | 'center' | 'baseline' | 'stretch';
+    // (undocumented)
+    alignContent?: 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly' | 'stretch';
+    // Warning: (ae-forgotten-export) The symbol "Dir" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    direction?: Dir;
+    // (undocumented)
+    fullHeight?: boolean;
+    // (undocumented)
+    fullWidth?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "LegacyGap" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    gap?: LegacyGap;
+    // (undocumented)
+    gapX?: LegacyGap;
+    // (undocumented)
+    gapY?: LegacyGap;
+    // (undocumented)
+    justify?: 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly';
+    // (undocumented)
+    respectMotionPreference?: boolean;
+    // (undocumented)
+    responsive?: {
+        sm?: Dir;
+        md?: Dir;
+        lg?: Dir;
+        xl?: Dir;
+        '2xl'?: Dir;
+    };
+    // (undocumented)
+    wrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
+}
+
+// Warning: (ae-forgotten-export) The symbol "FocusScope" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassFocusScope(props: React_2.ComponentProps<typeof FocusScope>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Form" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassForm(props: React_2.ComponentProps<typeof Form>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassFormField(input: GlassFormFieldProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassFormFieldProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    description?: React_2.ReactNode;
+    // (undocumented)
+    error?: React_2.ReactNode;
+    // (undocumented)
+    hint?: React_2.ReactNode;
+    // (undocumented)
+    invalid?: boolean;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    required?: boolean;
+}
+
+// @public @deprecated (undocumented)
+export function GlassGradientPicker(props: React_2.ComponentProps<typeof ColorPicker.Root>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassGrid(input: GlassGridProps & {
+    ref?: React_2.Ref<HTMLDivElement> | undefined;
+}): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassGridProps extends React_2.HTMLAttributes<HTMLDivElement> {
+    // (undocumented)
+    align?: 'start' | 'end' | 'center' | 'stretch';
+    // (undocumented)
+    autoFit?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "Cols" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    cols?: Cols;
+    // (undocumented)
+    flow?: 'row' | 'col' | 'row-dense' | 'col-dense';
+    // (undocumented)
+    gap?: LegacyGap;
+    // (undocumented)
+    gapX?: LegacyGap;
+    // (undocumented)
+    gapY?: LegacyGap;
+    // (undocumented)
+    justify?: 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly';
+    // (undocumented)
+    minColWidth?: string;
+    // (undocumented)
+    respectMotionPreference?: boolean;
+    // (undocumented)
+    responsive?: {
+        sm?: Cols;
+        md?: Cols;
+        lg?: Cols;
+        xl?: Cols;
+    };
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassHeaderProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassHeader(props: GlassHeaderProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassHoverCard(input: GlassHoverCardProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassHoverCardProps {
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    closeDelay?: number;
+    // (undocumented)
+    content?: React_2.ReactNode;
+    // (undocumented)
+    onOpenChange?: (open: boolean) => void;
+    // (undocumented)
+    open?: boolean;
+    // (undocumented)
+    openDelay?: number;
+    // (undocumented)
+    placement?: string;
+    // (undocumented)
+    trigger?: React_2.ReactNode;
+}
+
+// @public @deprecated (undocumented)
+export function GlassIconButton(input: GlassIconButtonProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassIconButtonProps extends Omit<React_2.ButtonHTMLAttributes<HTMLButtonElement>, 'title' | 'color'> {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    icon?: React_2.ReactNode;
+    // (undocumented)
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+    // (undocumented)
+    title?: string;
+    // (undocumented)
+    variant?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassImageViewerProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassImageViewer(props: GlassImageViewerProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "InlineEdit" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassInlineEdit(props: React_2.ComponentProps<typeof InlineEdit>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassInput(input: GlassInputProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassInputProps {
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    errorMessage?: React_2.ReactNode;
+    // (undocumented)
+    errorText?: React_2.ReactNode;
+    // (undocumented)
+    fullWidth?: boolean;
+    // (undocumented)
+    glassVariant?: string;
+    // (undocumented)
+    helperText?: React_2.ReactNode;
+    // (undocumented)
+    icon?: React_2.ReactNode;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    isInvalid?: boolean;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    leftIcon?: React_2.ReactNode;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    onChange?: (event: {
+        target: {
+            value: string;
+        };
+    }) => void;
+    // (undocumented)
+    placeholder?: string;
+    // (undocumented)
+    readOnly?: boolean;
+    // (undocumented)
+    required?: boolean;
+    // (undocumented)
+    rightIcon?: React_2.ReactNode;
+    state?: string;
+    // (undocumented)
+    type?: 'text' | 'email' | 'password' | 'url' | 'tel' | 'search';
+    // (undocumented)
+    value?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassInspectorProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassInspector(props: GlassInspectorProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassIntelligentSearch(input: GlassIntelligentSearchProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassIntelligentSearchProps {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    aiPowered?: unknown;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    facets?: unknown;
+    // (undocumented)
+    loading?: boolean;
+    // (undocumented)
+    onChange?: (value: string) => void;
+    // (undocumented)
+    onSearch?: (value: string) => void;
+    // (undocumented)
+    placeholder?: string;
+    // (undocumented)
+    results?: unknown;
+    // (undocumented)
+    suggestions?: unknown;
+    // (undocumented)
+    value?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassKeyValueEditorProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassKeyValueEditor(props: GlassKeyValueEditorProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassKPICardProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassKPICard(props: GlassKPICardProps): ReactElement<unknown, string | JSXElementConstructor<any>>;
+
+// @public @deprecated (undocumented)
+export function GlassLabel(props: GlassLabelProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Label" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassLabelPrimitive(props: React_2.ComponentProps<typeof Label>): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassLabelProps extends React_2.LabelHTMLAttributes<HTMLLabelElement> {
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    required?: boolean;
+}
+
+// @public @deprecated (undocumented)
+export function GlassLinkButton(input: GlassLinkButtonProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassLinkButtonProps extends Omit<GlassButtonProps, 'asChild'> {
+    // (undocumented)
+    href?: string;
+    // (undocumented)
+    rel?: string;
+    // (undocumented)
+    target?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "Skeleton" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassLoadingSkeleton(props: React_2.ComponentProps<typeof Skeleton>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "LoadingState" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassLoadingState(props: React_2.ComponentProps<typeof LoadingState>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassMagneticButton(props: MagneticButtonProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassMainProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassMain(props: GlassMainProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassMasonry(input: GlassMasonryProps & {
+    ref?: React_2.Ref<HTMLDivElement> | undefined;
+}): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassMasonryGrid(props: GlassMasonryGridProps & {
+    ref?: React_2.Ref<HTMLDivElement> | undefined;
+}): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassMasonryGridProps {
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    compact?: boolean;
+    // (undocumented)
+    config?: Partial<MasonryConfig>;
+    // (undocumented)
+    contained?: boolean;
+    // (undocumented)
+    enableDragReorder?: boolean;
+    // (undocumented)
+    enableInfiniteScroll?: boolean;
+    // (undocumented)
+    enableSearch?: boolean;
+    // (undocumented)
+    enableVirtualization?: boolean;
+    // (undocumented)
+    filterBy?: string;
+    // (undocumented)
+    items: MasonryItem[];
+    // (undocumented)
+    loadingItems?: number;
+    // (undocumented)
+    maxHeight?: number | string;
+    // (undocumented)
+    onFilterChange?: (filter: string) => void;
+    // (undocumented)
+    onItemClick?: (item: MasonryItem, index: number) => void;
+    // (undocumented)
+    onItemsReorder?: (items: MasonryItem[]) => void;
+    // (undocumented)
+    onLoadMore?: () => void;
+    // (undocumented)
+    showControls?: boolean;
+    // (undocumented)
+    showFilters?: boolean;
+    // (undocumented)
+    showStats?: boolean;
+    // (undocumented)
+    sortBy?: 'id' | 'height' | 'priority' | 'category';
+    // (undocumented)
+    sortOrder?: 'asc' | 'desc';
+}
+
+// @public (undocumented)
+export interface GlassMasonryProps extends React_2.HTMLAttributes<HTMLDivElement> {
+    // (undocumented)
+    columns?: number;
+    gap?: number;
+    // (undocumented)
+    respectMotionPreference?: boolean;
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassMediaControlsProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassMediaControls(props: GlassMediaControlsProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassMentionList(input: GlassMentionListProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassMentionListProps {
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    items?: readonly (string | {
+        id: string;
+        label: string;
+    })[];
+    // (undocumented)
+    onSelect?: (item: string) => void;
+    // (undocumented)
+    trigger?: string;
+}
+
+// @public @deprecated (undocumented)
+export function GlassMenubar(input: GlassMenubarProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassMenubarMenu {
+    // (undocumented)
+    content?: React_2.ReactNode;
+    // (undocumented)
+    items?: readonly GlassMenubarMenuItem[];
+    // (undocumented)
+    label?: React_2.ReactNode;
+}
+
+// @public (undocumented)
+export interface GlassMenubarMenuItem {
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    onSelect?: () => void;
+}
+
+// @public (undocumented)
+export interface GlassMenubarProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    createEditMenu?: unknown;
+    // (undocumented)
+    createFileMenu?: unknown;
+    // (undocumented)
+    menus?: readonly GlassMenubarMenu[];
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassMeshGradientProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassMeshGradient(props: GlassMeshGradientProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassMessageListProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassMessageList(props: GlassMessageListProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassMetricCardProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassMetricCard(props: GlassMetricCardProps): ReactElement<unknown, string | JSXElementConstructor<any>>;
+
+// Warning: (ae-forgotten-export) The symbol "GlassMetricChipProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassMetricChip(input: GlassMetricChipProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassMobileNavProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassMobileNav(props: GlassMobileNavProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassMobileShellProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassMobileShell(props: GlassMobileShellProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassModal(props: GlassModalProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassModalAction {
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    onClick?: (e: unknown) => void;
+}
+
+// @public (undocumented)
+export interface GlassModalProps {
+    // @deprecated (undocumented)
+    adaptive?: unknown;
+    // @deprecated (undocumented)
+    animation?: unknown;
+    // @deprecated (undocumented)
+    backdropBlur?: unknown;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    closeOnBackdropClick?: boolean;
+    // (undocumented)
+    closeOnEscape?: boolean;
+    // (undocumented)
+    closeOnOverlayClick?: boolean;
+    // @deprecated (undocumented)
+    compact?: unknown;
+    // @deprecated (undocumented)
+    consciousness?: unknown;
+    // (undocumented)
+    description?: React_2.ReactNode;
+    // @deprecated (undocumented)
+    eyeTracking?: unknown;
+    // (undocumented)
+    footer?: React_2.ReactNode;
+    // @deprecated (undocumented)
+    isContained?: boolean;
+    // @deprecated (undocumented)
+    material?: unknown;
+    // @deprecated (undocumented)
+    materialProps?: unknown;
+    // (undocumented)
+    onClose?: () => void;
+    // (undocumented)
+    onOpenChange?: (open: boolean) => void;
+    // (undocumented)
+    open?: boolean;
+    // @deprecated (undocumented)
+    predictive?: unknown;
+    // (undocumented)
+    role?: string;
+    // (undocumented)
+    size?: 'small' | 'medium' | 'large' | 'fullscreen' | 'sm' | 'md' | 'lg' | 'full' | 'xl' | 'wide';
+    // (undocumented)
+    title?: React_2.ReactNode;
+    // @deprecated (undocumented)
+    trackAchievements?: unknown;
+    // (undocumented)
+    trigger?: React_2.ReactNode;
+    // (undocumented)
+    variant?: string;
+}
+
+// @public (undocumented)
+export type GlassMotionPolicy = 'system' | 'reduced' | 'expressive' | 'none';
+
+// @public @deprecated (undocumented)
+export function GlassMultiSelect(input: GlassMultiSelectProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassMultiSelectProps {
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    onChange?: (values: string[]) => void;
+    // (undocumented)
+    onSelectionChange?: (values: string[]) => void;
+    // (undocumented)
+    options?: readonly (string | {
+        value: string;
+        label: string;
+    })[];
+    // (undocumented)
+    placeholder?: string;
+    // (undocumented)
+    selected?: string[];
+    // (undocumented)
+    value?: string[];
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassNavigationMenuProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassNavigationMenu(props: GlassNavigationMenuProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassNotification {
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    message?: React_2.ReactNode;
+    // (undocumented)
+    read?: boolean;
+    // (undocumented)
+    title?: React_2.ReactNode;
+    // (undocumented)
+    type?: 'info' | 'success' | 'warning' | 'error';
+}
+
+// @public @deprecated (undocumented)
+export function GlassNotificationCenter(input: GlassNotificationCenterProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassNotificationCenterProps {
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    notifications?: readonly GlassNotification[];
+    // (undocumented)
+    onMarkAllRead?: () => void;
+    // (undocumented)
+    trigger?: React_2.ReactNode;
+}
+
+// @public @deprecated (undocumented)
+export function GlassNotificationItem(input: GlassNotificationItemProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassNotificationItemProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'title'> {
+    // (undocumented)
+    description?: React_2.ReactNode;
+    // (undocumented)
+    intent?: 'info' | 'success' | 'warning' | 'danger';
+    // (undocumented)
+    message?: React_2.ReactNode;
+    // (undocumented)
+    title?: React_2.ReactNode;
+    type?: 'info' | 'success' | 'warning' | 'error';
+}
+
+// Warning: (ae-forgotten-export) The symbol "Toast" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassNotificationProvider(props: React_2.ComponentProps<typeof Toast.Provider>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassPageProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassPage(props: GlassPageProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassPageHeaderProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassPageHeader(props: GlassPageHeaderProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassPageTabsProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassPageTabs(props: GlassPageTabsProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassPaginationProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassPagination(props: GlassPaginationProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassPopover(input: GlassPopoverProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassPopoverProps {
+    // Warning: (ae-forgotten-export) The symbol "Align" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    align?: Align;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    content?: React_2.ReactNode;
+    // (undocumented)
+    onClose?: () => void;
+    // (undocumented)
+    onOpenChange?: (open: boolean) => void;
+    // (undocumented)
+    open?: boolean;
+    // (undocumented)
+    placement?: string;
+    // Warning: (ae-forgotten-export) The symbol "Side" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    side?: Side;
+    // (undocumented)
+    title?: React_2.ReactNode;
+    // (undocumented)
+    trigger?: 'click' | 'hover' | React_2.ReactNode;
+}
+
+// Warning: (ae-forgotten-export) The symbol "Portal" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassPortal(props: React_2.ComponentProps<typeof Portal>): React_2.JSX.Element;
+
+// @public @deprecated
+export function GlassPositioner(props: PositionerProps): React_2.JSX.Element;
+
+// @public
+export function GlassPrimitive(props: OptimizedGlassCompatProps): React_2.ReactElement;
+
+// Warning: (ae-forgotten-export) The symbol "Progress" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassProgress(props: React_2.ComponentProps<typeof Progress>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassRadioGroup(input: GlassRadioGroupProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassRadioGroupOption {
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    value: string;
+}
+
+// @public (undocumented)
+export interface GlassRadioGroupProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string;
+    // (undocumented)
+    direction?: 'horizontal' | 'vertical';
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    glassVariant?: string;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    onChange?: (value: string) => void;
+    // (undocumented)
+    options?: readonly GlassRadioGroupOption[];
+    // (undocumented)
+    value?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "Rating" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassRating(props: React_2.ComponentProps<typeof Rating>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "ScrollArea" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassScrollArea(props: React_2.ComponentProps<typeof ScrollArea.Root>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassSearchField(input: GlassSearchFieldProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassSearchFieldProps {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    aiPowered?: unknown;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    facets?: unknown;
+    // (undocumented)
+    loading?: boolean;
+    // (undocumented)
+    onChange?: (value: string) => void;
+    // (undocumented)
+    onSearch?: (value: string) => void;
+    // (undocumented)
+    placeholder?: string;
+    // (undocumented)
+    results?: unknown;
+    // (undocumented)
+    suggestions?: unknown;
+    // (undocumented)
+    value?: string;
+}
+
+// @public @deprecated (undocumented)
+export function GlassSearchInterface(input: GlassSearchInterfaceProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassSearchInterfaceProps {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    aiPowered?: unknown;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    facets?: unknown;
+    // (undocumented)
+    loading?: boolean;
+    // (undocumented)
+    onChange?: (value: string) => void;
+    // (undocumented)
+    onSearch?: (value: string) => void;
+    // (undocumented)
+    placeholder?: string;
+    // (undocumented)
+    results?: unknown;
+    // (undocumented)
+    suggestions?: unknown;
+    // (undocumented)
+    value?: string;
+}
+
+// @public @deprecated (undocumented)
+export function GlassSegmentedControl(input: GlassSegmentedControlProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassSegmentedControlItem {
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    icon?: React_2.ReactNode;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    value?: string;
+}
+
+// @public (undocumented)
+export interface GlassSegmentedControlProps {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string;
+    // (undocumented)
+    items?: readonly GlassSegmentedControlItem[];
+    // (undocumented)
+    onChange?: (value: string) => void;
+    // (undocumented)
+    segments?: readonly GlassSegmentedControlItem[];
+    // (undocumented)
+    value?: string;
+}
+
+// @public @deprecated (undocumented)
+export function GlassSelect(input: GlassSelectProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassSelectCompoundRoot" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export const GlassSelectCompound: typeof GlassSelectCompoundRoot & {
+    Root: typeof GlassSelectRoot;
+    Trigger: typeof GlassSelectTrigger;
+    Content: typeof GlassSelectContent;
+    Item: typeof GlassSelectItem;
+    Value: typeof GlassSelectValue;
+    Label: typeof GlassSelectLabel;
+    Group: typeof GlassSelectGroup;
+    Separator: typeof GlassSelectSeparator;
+    ScrollUp: typeof GlassSelectScrollUp;
+    ScrollDown: typeof GlassSelectScrollDown;
+};
+
+// Warning: (ae-forgotten-export) The symbol "Select" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassSelectContent(props: Parameters<typeof Select.Content>[0]): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassSelectGroup(props: Parameters<typeof Select.Group>[0]): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassSelectItem(props: Parameters<typeof Select.Item>[0]): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassSelectLabel(props: {
+    children?: React_2.ReactNode;
+}): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassSelectOption {
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    value: string;
+}
+
+// @public (undocumented)
+export interface GlassSelectProps {
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    glassVariant?: string;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    onChange?: (value: string | null) => void;
+    // @deprecated (undocumented)
+    options?: readonly GlassSelectOption[];
+    // (undocumented)
+    placeholder?: React_2.ReactNode;
+    // (undocumented)
+    searchable?: boolean;
+    // (undocumented)
+    size?: 'sm' | 'md' | 'lg' | 'xl';
+    // (undocumented)
+    value?: string;
+}
+
+// @public (undocumented)
+export function GlassSelectRoot(props: Parameters<typeof Select.Root>[0]): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassSelectSeparator(props: Parameters<typeof Select.Separator>[0]): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassSelectTrigger(props: Parameters<typeof Select.Trigger>[0]): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassSelectValue(input: Parameters<typeof Select.Value>[0] & {
+    placeholder?: React_2.ReactNode;
+}): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassSeparator(props: React_2.ComponentProps<typeof Separator>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassSidebarProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassSidebar(props: GlassSidebarProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassSidebarPanelProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassSidebarPanel(props: GlassSidebarPanelProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassSidebarRailProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassSidebarRail(props: GlassSidebarRailProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassSkeleton(props: React_2.ComponentProps<typeof Skeleton>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassSlider(input: GlassSliderProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassSliderProps {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    animation?: string;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: number | number[];
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    glassVariant?: string;
+    // (undocumented)
+    max?: number;
+    // (undocumented)
+    min?: number;
+    // (undocumented)
+    onAfterChange?: (value: number | number[]) => void;
+    // (undocumented)
+    onChange?: (value: number | number[]) => void;
+    // (undocumented)
+    range?: boolean;
+    // (undocumented)
+    step?: number;
+    // (undocumented)
+    value?: number | number[];
+}
+
+// Warning: (ae-forgotten-export) The symbol "Slot" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassSlot(props: React_2.ComponentProps<typeof Slot>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassSparklineProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassSparkline(props: GlassSparklineProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassSplitPaneProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassSplitPane(props: GlassSplitPaneProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassSpotlight(props: React_2.ComponentProps<typeof Tour.Root>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Stack" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function GlassStack(props: React_2.ComponentProps<typeof Stack>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassStatCardProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassStatCard(props: GlassStatCardProps): ReactElement<unknown, string | JSXElementConstructor<any>>;
+
+// Warning: (ae-forgotten-export) The symbol "GlassStatusBarProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassStatusBar(props: GlassStatusBarProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassStatusDot(input: GlassStatusDotProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassStatusDotProps {
+    // (undocumented)
+    className?: string | undefined;
+    // (undocumented)
+    label?: string | undefined;
+    size?: number | undefined;
+    // (undocumented)
+    status?: GlassStatusDotStatus | undefined;
+}
+
+// @public (undocumented)
+export type GlassStatusDotStatus = 'ok' | 'warn' | 'error' | 'busy' | 'offline';
+
+// @public @deprecated (undocumented)
+export function GlassStepper(input: GlassStepperProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassStepperProps extends React_2.OlHTMLAttributes<HTMLOListElement> {
+    current?: number;
+    // (undocumented)
+    steps?: readonly React_2.ReactNode[];
+}
+
+// @public @deprecated (undocumented)
+export function GlassSwitch(input: GlassSwitchProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassSwitchProps {
+    // (undocumented)
+    checked?: boolean;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultChecked?: boolean;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    glassVariant?: string;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    onChange?: (checked: boolean) => void;
+    // (undocumented)
+    size?: 'sm' | 'md' | 'lg' | 'xl';
+    // (undocumented)
+    value?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassTabBarProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassTabBar(props: GlassTabBarProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassTabsProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassTabs(props: GlassTabsProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassTagInput(input: GlassTagInputProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassTagInputProps {
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string[];
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    onChange?: (values: string[]) => void;
+    // (undocumented)
+    onTagsChange?: (values: string[]) => void;
+    // (undocumented)
+    placeholder?: string;
+    // (undocumented)
+    suggestions?: readonly string[];
+    // (undocumented)
+    value?: string[];
+}
+
+// @public @deprecated (undocumented)
+export function GlassTextarea(input: GlassTextareaProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassTextareaProps {
+    // (undocumented)
+    autoResize?: boolean;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    errorMessage?: React_2.ReactNode;
+    // (undocumented)
+    errorText?: React_2.ReactNode;
+    // (undocumented)
+    glassVariant?: string;
+    // (undocumented)
+    helperText?: React_2.ReactNode;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    onChange?: (event: {
+        target: {
+            value: string;
+        };
+    }) => void;
+    // (undocumented)
+    placeholder?: string;
+    // (undocumented)
+    required?: boolean;
+    // (undocumented)
+    rows?: number;
+    // (undocumented)
+    value?: string;
+}
+
+// @public
+export interface GlassThemeCssVarsInput {
+    // (undocumented)
+    tokens: {
+        color: {
+            canvas: {
+                light: string;
+                dark: string;
+            };
+            accent: string;
+            onAccent: string;
+        };
+        density: {
+            scale: number;
+        };
+    };
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassTimeFieldProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassTimeField(props: GlassTimeFieldProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassTimelineProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassTimeline(props: GlassTimelineProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassToast(input: GlassToastProps): null;
+
+// @public (undocumented)
+export interface GlassToastOptions {
+    description?: React_2.ReactNode;
+    // (undocumented)
+    duration?: number;
+    // (undocumented)
+    message?: React_2.ReactNode;
+    // (undocumented)
+    title?: React_2.ReactNode;
+    // (undocumented)
+    type?: string;
+}
+
+// @public (undocumented)
+export interface GlassToastProps {
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    duration?: number;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    message?: React_2.ReactNode;
+    // (undocumented)
+    onClose?: () => void;
+    // (undocumented)
+    title?: React_2.ReactNode;
+    // (undocumented)
+    type?: 'info' | 'success' | 'warning' | 'error' | 'danger';
+}
+
+// @public @deprecated (undocumented)
+export function GlassToastProvider(input: GlassToastProviderProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassToastProviderProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    duration?: number;
+    // (undocumented)
+    limit?: number;
+    // (undocumented)
+    position?: string;
+}
+
+// @public @deprecated (undocumented)
+export function GlassToastViewport(input: GlassToastViewportProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassToastViewportProps {
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    position?: string;
+}
+
+// @public @deprecated (undocumented)
+export function GlassToggle(input: GlassToggleProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassToggleProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    onChange?: (pressed: boolean) => void;
+    // (undocumented)
+    value?: boolean;
+}
+
+// @public @deprecated (undocumented)
+export function GlassToolbar(input: GlassToolbarProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassToolbarItem {
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    href?: string;
+    // (undocumented)
+    icon?: React_2.ReactNode;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    onClick?: (e: unknown) => void;
+    // (undocumented)
+    type?: 'button' | 'separator' | 'link';
+}
+
+// @public (undocumented)
+export interface GlassToolbarProps {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    items?: readonly GlassToolbarItem[];
+    // (undocumented)
+    orientation?: 'horizontal' | 'vertical';
+}
+
+// @public @deprecated (undocumented)
+export function GlassTooltip(input: GlassTooltipProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassTooltipProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    content?: React_2.ReactNode;
+    // (undocumented)
+    delay?: number;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    onOpenChange?: (open: boolean) => void;
+    // (undocumented)
+    open?: boolean;
+    // (undocumented)
+    placement?: string;
+    // (undocumented)
+    position?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassTopBarProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassTopBar(props: GlassTopBarProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassTreeViewProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassTreeView(props: GlassTreeViewProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassTypingIndicatorProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassTypingIndicator(props: GlassTypingIndicatorProps): React_2.JSX.Element | null;
+
+// @public @deprecated (undocumented)
+export function GlassValidationMessage(input: GlassValidationMessageProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface GlassValidationMessageProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    message?: React_2.ReactNode;
+    // (undocumented)
+    type?: 'error' | 'warning' | 'success';
+}
+
+// Warning: (ae-forgotten-export) The symbol "GlassVirtualListProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassVirtualList(props: GlassVirtualListProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Row_4" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "GlassVirtualTableProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassVirtualTable<T extends Row_4 = Row_4>(props: GlassVirtualTableProps<T>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlassWorkspacePanel(props: React_2.ComponentProps<typeof Card>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "GlassWorkspaceTabsProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function GlassWorkspaceTabs(props: GlassWorkspaceTabsProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function GlowingCard(props: React_2.ComponentProps<typeof Card>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "ImageList_2" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated (undocumented)
+export function ImageList(props: React_2.ComponentProps<typeof ImageList_2>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function ImageListItem(props: React_2.ComponentProps<typeof ImageList_2.Item>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function ImageListItemBar(props: React_2.ComponentProps<typeof ImageList_2.ItemBar>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function LabelRoot(props: React_2.ComponentProps<typeof Label>): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function LiquidGlassAdaptiveSheet(input: LiquidGlassAdaptiveSheetProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface LiquidGlassAdaptiveSheetProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    detents?: readonly CompatSheetDetent[];
+    // (undocumented)
+    onClose?: () => void;
+    // (undocumented)
+    open?: boolean;
+    // (undocumented)
+    snap?: number | readonly number[];
+}
+
+// @public @deprecated (undocumented)
+export function LiquidGlassBadgeCluster(input: LiquidGlassBadgeClusterProps & {
+    ref?: React_2.Ref<HTMLDivElement> | undefined;
+}): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface LiquidGlassBadgeClusterItem {
+    // (undocumented)
+    disabled?: boolean | undefined;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    selected?: boolean | undefined;
+}
+
+// @public (undocumented)
+export interface LiquidGlassBadgeClusterProps extends React_2.HTMLAttributes<HTMLDivElement> {
+    // (undocumented)
+    expanded?: boolean | undefined;
+    // (undocumented)
+    items: readonly LiquidGlassBadgeClusterItem[];
+    // (undocumented)
+    materialVariant?: 'regular' | 'clear' | undefined;
+    // (undocumented)
+    maxCollapsed?: number | undefined;
+    // (undocumented)
+    onExpandedChange?: ((expanded: boolean) => void) | undefined;
+    // (undocumented)
+    selectionMode?: 'none' | 'single' | 'multiple' | undefined;
+}
+
+// Warning: (ae-forgotten-export) The symbol "LiquidGlassBottomAccessoryProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function LiquidGlassBottomAccessory(props: LiquidGlassBottomAccessoryProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export const LiquidGlassButtonStyle: Record<string, unknown>;
+
+// Warning: (ae-forgotten-export) The symbol "LiquidGlassCarouselRailProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function LiquidGlassCarouselRail(props: LiquidGlassCarouselRailProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "LiquidGlassCommandSurfaceProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function LiquidGlassCommandSurface(props: LiquidGlassCommandSurfaceProps): React_2.JSX.Element;
+
+// @public
+export function LiquidGlassConcentricFrame(props: LiquidGlassConcentricFrameCompatProps): React_2.ReactElement;
+
+// @public (undocumented)
+export interface LiquidGlassConcentricFrameCompatProps extends React_2.HTMLAttributes<HTMLDivElement> {
+    // (undocumented)
+    [key: string]: unknown;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    fallbackRadius?: number;
+    // (undocumented)
+    inset?: number;
+    // (undocumented)
+    radius?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full' | number;
+    // (undocumented)
+    shape?: 'concentric' | 'capsule' | 'fixed';
+}
+
+// @public @deprecated (undocumented)
+export function LiquidGlassControlGroup(input: LiquidGlassControlGroupProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface LiquidGlassControlGroupProps {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    attached?: boolean;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    orientation?: 'horizontal' | 'vertical';
+    // (undocumented)
+    spacing?: number | string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "LiquidGlassDestinationProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function LiquidGlassDestination(props: LiquidGlassDestinationProps): React_2.JSX.Element | null;
+
+// @public
+export function LiquidGlassEffectGroup(props: LiquidGlassEffectGroupCompatProps): React_2.ReactElement;
+
+// @public (undocumented)
+export interface LiquidGlassEffectGroupCompatProps extends React_2.HTMLAttributes<HTMLDivElement> {
+    // (undocumented)
+    [key: string]: unknown;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    morph?: boolean;
+    // (undocumented)
+    spacing?: number | string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "LiquidGlassInsetSidebarProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function LiquidGlassInsetSidebar(props: LiquidGlassInsetSidebarProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "LiquidGlassInspectorPanelProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function LiquidGlassInspectorPanel(props: LiquidGlassInspectorPanelProps): React_2.JSX.Element | null;
+
+// @public
+export function LiquidGlassLayerProvider(input: {
+    children?: React_2.ReactNode;
+    [key: string]: unknown;
+}): React_2.ReactElement;
+
+// @public @deprecated (undocumented)
+export function LiquidGlassMapControls(input: LiquidGlassMapControlsProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface LiquidGlassMapControlsProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    onLocate?: () => void;
+    // (undocumented)
+    onZoomIn?: () => void;
+    // (undocumented)
+    onZoomOut?: () => void;
+}
+
+// @public
+export function LiquidGlassMaterial(props: LiquidGlassMaterialCompatProps): React_2.ReactElement;
+
+// @public (undocumented)
+export interface LiquidGlassMaterialCompatProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'children'> {
+    // (undocumented)
+    [key: string]: unknown;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    elevation?: 'level1' | 'level2' | 'level3' | 'level4' | 'level5' | number;
+    // (undocumented)
+    intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+    // (undocumented)
+    interactive?: boolean;
+    // (undocumented)
+    material?: 'standard' | 'liquid';
+    // (undocumented)
+    ref?: React_2.Ref<HTMLElement>;
+    // (undocumented)
+    size?: 'sm' | 'md' | 'lg' | 'xl';
+    // (undocumented)
+    thickness?: number;
+    // (undocumented)
+    variant?: 'regular' | 'clear';
+}
+
+// Warning: (ae-forgotten-export) The symbol "LiquidGlassMediaControlsProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function LiquidGlassMediaControls(props: LiquidGlassMediaControlsProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "LiquidGlassNowPlayingBarProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function LiquidGlassNowPlayingBar(props: LiquidGlassNowPlayingBarProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "LiquidGlassPhotoInspectorProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function LiquidGlassPhotoInspector(props: LiquidGlassPhotoInspectorProps): React_2.JSX.Element | null;
+
+// @public @deprecated (undocumented)
+export function LiquidGlassPopoverMenu(input: LiquidGlassPopoverMenuProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface LiquidGlassPopoverMenuProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    onOpenChange?: (open: boolean) => void;
+    // (undocumented)
+    open?: boolean;
+    // (undocumented)
+    trigger?: React_2.ReactNode;
+}
+
+// @public
+export function LiquidGlassScrollEdge(props: LiquidGlassScrollEdgeCompatProps): React_2.ReactElement;
+
+// @public (undocumented)
+export interface LiquidGlassScrollEdgeCompatProps extends React_2.HTMLAttributes<HTMLDivElement> {
+    // (undocumented)
+    [key: string]: unknown;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    edge?: 'top' | 'bottom' | 'left' | 'right';
+    // (undocumented)
+    styleMode?: 'soft' | 'hard';
+}
+
+// @public @deprecated (undocumented)
+export function LiquidGlassSearchField(input: LiquidGlassSearchFieldProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface LiquidGlassSearchFieldProps {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    aiPowered?: unknown;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    facets?: unknown;
+    // (undocumented)
+    loading?: boolean;
+    // (undocumented)
+    onChange?: (value: string) => void;
+    // (undocumented)
+    onSearch?: (value: string) => void;
+    // (undocumented)
+    placeholder?: string;
+    // (undocumented)
+    results?: unknown;
+    // (undocumented)
+    suggestions?: unknown;
+    // (undocumented)
+    value?: string;
+}
+
+// @public @deprecated (undocumented)
+export function LiquidGlassSegmentedControl(input: LiquidGlassSegmentedControlProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface LiquidGlassSegmentedControlItem {
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    icon?: React_2.ReactNode;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    label?: React_2.ReactNode;
+    // (undocumented)
+    value?: string;
+}
+
+// @public (undocumented)
+export interface LiquidGlassSegmentedControlProps {
+    // (undocumented)
+    'aria-label'?: string;
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string;
+    // (undocumented)
+    items?: readonly LiquidGlassSegmentedControlItem[];
+    // (undocumented)
+    onChange?: (value: string) => void;
+    // (undocumented)
+    segments?: readonly LiquidGlassSegmentedControlItem[];
+    // (undocumented)
+    value?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "LiquidGlassSourceProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function LiquidGlassSource(props: LiquidGlassSourceProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "LiquidGlassTabBarProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function LiquidGlassTabBar(props: LiquidGlassTabBarProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function LiquidGlassToolbar(input: LiquidGlassToolbarProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface LiquidGlassToolbarProps extends GlassToolbarProps {
+    // (undocumented)
+    floating?: boolean;
+}
+
+// Warning: (ae-forgotten-export) The symbol "LiquidGlassTransitionProviderProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function LiquidGlassTransitionProvider(props: LiquidGlassTransitionProviderProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function MagneticButton(props: MagneticButtonProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface MagneticButtonProps extends GlassButtonProps {
+    // (undocumented)
+    magnetic?: unknown;
+    // (undocumented)
+    magneticRadius?: number;
+    // (undocumented)
+    magneticStrength?: number;
+    // (undocumented)
+    ref?: React_2.Ref<HTMLButtonElement>;
+}
+
+// @public (undocumented)
+export interface MasonryConfig {
+    // (undocumented)
+    animationDelay: number;
+    // (undocumented)
+    autoResize: boolean;
+    // (undocumented)
+    breakpoints: {
+        [key: number]: number;
+    };
+    // (undocumented)
+    columns: number | 'auto';
+    // (undocumented)
+    gap: number;
+    // (undocumented)
+    itemPadding: number;
+    // (undocumented)
+    maxItemWidth?: number;
+    // (undocumented)
+    minItemWidth: number;
+}
+
+// @public (undocumented)
+export interface MasonryItem {
+    // (undocumented)
+    aspectRatio?: number;
+    // (undocumented)
+    category?: string;
+    // (undocumented)
+    content: React_2.ReactNode;
+    // (undocumented)
+    height?: number;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    metadata?: Record<string, unknown>;
+    // (undocumented)
+    priority?: number;
+}
+
+// @public @deprecated (undocumented)
+export function MobileGlassBottomSheet(input: MobileGlassBottomSheetProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface MobileGlassBottomSheetProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    detents?: readonly CompatSheetDetent[];
+    // (undocumented)
+    onClose?: () => void;
+    // (undocumented)
+    onOpenChange?: (open: boolean) => void;
+    // (undocumented)
+    open?: boolean;
+    snap?: number | readonly number[];
+}
+
+// @public
+export function OptimizedGlass(props: OptimizedGlassCompatProps): React_2.ReactElement;
+
+// @public
+export function OptimizedGlassAdvanced(props: OptimizedGlassCompatProps): React_2.ReactElement;
+
+// Warning: (ae-forgotten-export) The symbol "SurfaceProps" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface OptimizedGlassCompatProps extends Omit<SurfaceProps, 'variant' | 'thickness'> {
+    // (undocumented)
+    adaptive?: boolean;
+    // (undocumented)
+    as?: React_2.ElementType;
+    // (undocumented)
+    elevation?: 'level1' | 'level2' | 'level3' | 'level4' | 'level5' | number;
+    // (undocumented)
+    intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+    // (undocumented)
+    interactive?: boolean;
+    // (undocumented)
+    variant?: 'clear' | 'frosted' | 'tinted' | 'luminous' | 'dynamic' | 'crystal' | 'solid' | 'regular';
+}
+
+// @public @deprecated (undocumented)
+export function Positioner(props: PositionerProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface PositionerProps {
+    // (undocumented)
+    align?: 'start' | 'center' | 'end';
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    placement?: string;
+    // (undocumented)
+    side?: 'top' | 'bottom' | 'left' | 'right';
+    // (undocumented)
+    sideOffset?: number;
+}
+
+// @public @deprecated (undocumented)
+export function RippleButton(input: RippleButtonProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface RippleButtonProps extends GlassButtonProps {
+    // (undocumented)
+    ripple?: unknown;
+    // (undocumented)
+    rippleColor?: string;
+}
+
+// @public (undocumented)
+export interface SurfCompatAdapter {
+    entry: string;
+    flag?: string;
+    map: Record<string, string>;
+    provide?: string;
+    retireAt?: string;
+}
+
+// @public @deprecated (undocumented)
+export function ToggleButton(input: ToggleButtonProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function ToggleButtonGroup(input: ToggleButtonGroupProps): React_2.JSX.Element;
+
+// @public (undocumented)
+export interface ToggleButtonGroupProps {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    defaultValue?: string[];
+    // (undocumented)
+    multiple?: boolean;
+    // (undocumented)
+    onChange?: (value: string | string[]) => void;
+    // (undocumented)
+    value?: string | string[];
+}
+
+// @public (undocumented)
+export interface ToggleButtonProps extends Omit<React_2.ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'title' | 'color'> {
+    // (undocumented)
+    children?: React_2.ReactNode;
+    // (undocumented)
+    defaultSelected?: boolean;
+    // (undocumented)
+    onChange?: (event: unknown, value: boolean) => void;
+    // (undocumented)
+    selected?: boolean;
+}
+
+// Warning: (ae-forgotten-export) The symbol "TreeViewProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function TreeView(props: TreeViewProps): React_2.JSX.Element;
+
+// @public @deprecated (undocumented)
+export function Typography(input: TypographyProps): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "TextProps" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface TypographyProps extends Omit<TextProps, 'type'> {
+    // (undocumented)
+    variant?: string | undefined;
+}
+
+// @public @deprecated
+export function useNotifications(): UseNotificationsCompatReturn;
+
+// @public (undocumented)
+export interface UseNotificationsCompatReturn {
+    // (undocumented)
+    addNotification: (n: GlassNotification) => string;
+    // (undocumented)
+    notifications: readonly GlassNotification[];
+}
+
+// @public @deprecated (undocumented)
+export function useToast(): UseToastCompatReturn;
+
+// @public (undocumented)
+export interface UseToastCompatReturn {
+    // (undocumented)
+    addToast: (opts: GlassToastOptions) => string;
+    // (undocumented)
+    dismiss: (id: string) => void;
+    // (undocumented)
+    error: (t: Omit<ToastData, 'intent'>) => string;
+    // (undocumented)
+    removeToast: (id: string) => void;
+    // Warning: (ae-forgotten-export) The symbol "ToastData" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    success: (t: Omit<ToastData, 'intent'>) => string;
+    // (undocumented)
+    toast: (opts: GlassToastOptions | string) => string;
+}
+
+// @public @deprecated (undocumented)
+export function WidgetGlass(props: React_2.ComponentProps<typeof Card>): React_2.JSX.Element;
+
+// Warning: (ae-forgotten-export) The symbol "ZSpaceAppLayoutProps" needs to be exported by the entry point index.d.ts
+//
+// @public @deprecated
+export function ZSpaceAppLayout(props: ZSpaceAppLayoutProps): React_2.JSX.Element;
+
+// Warnings were encountered during analysis:
+//
+// dist/compat/cmp/controls/GlassSelectCompound.d.ts:35:5 - (ae-forgotten-export) The symbol "GlassSelectScrollUp" needs to be exported by the entry point index.d.ts
+// dist/compat/cmp/controls/GlassSelectCompound.d.ts:36:5 - (ae-forgotten-export) The symbol "GlassSelectScrollDown" needs to be exported by the entry point index.d.ts
+// dist/compat/cmp/overlays/GlassDropdownMenu.d.ts:66:5 - (ae-forgotten-export) The symbol "GlassDropdownMenuRoot" needs to be exported by the entry point index.d.ts
+
+// (No @packageDocumentation comment for this package)
+
+```
