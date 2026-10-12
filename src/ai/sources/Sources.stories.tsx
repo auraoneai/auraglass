@@ -3,7 +3,9 @@
 // the list starts collapsed) and inline citations. Activating a citation (Enter,
 // click or tap) expands the list and focuses `#ag-src-cite-msg-s{n}`.
 // Story id: ai-sources--citation-in-message. A usage composition of two
-// components, not a component page: kind 'showcase', subject 'ai-sources'.
+// components, not a component page: it declares no parameters.ag subject (S-41
+// subjects are the Citation and SourceList ComponentMetas, whose own stories
+// live beside this file); the citation APG spec drives it by story id.
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { SourceList, SourceScope } from './SourceList';
@@ -11,7 +13,6 @@ import { Citation, type AgCitationSource } from './Citation';
 
 const meta = {
   title: 'AI/Sources',
-  parameters: { ag: { subject: 'ai-sources', kind: 'showcase' } },
 } satisfies Meta;
 export default meta;
 type Story = StoryObj<typeof meta>;

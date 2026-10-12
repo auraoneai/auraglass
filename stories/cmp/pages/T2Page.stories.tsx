@@ -1,6 +1,8 @@
 /* REQ-CMP-130 — T2 composite page: ~20 server/core components on one surface.
    Used by tests/perf/browser/cmp/t2-page.spec.ts to prove the page stays quiet
-   (computed backdrop-filter !== 'none' on at most 1 element). */
+   (computed backdrop-filter !== 'none' on at most 1 element). A perf fixture,
+   not a certification subject: parameters.ag carries only the forced tier the
+   preview decorator applies, no subject/kind (S-41). */
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
@@ -49,12 +51,12 @@ const sbMeta = {
   title: 'Pages/T2',
   component: T2Page,
   tags: ['certified'],
-  parameters: { ag: { tier: 'standard', subject: 'T2Page', kind: 'showcase' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard' } satisfies Pick<StoryAgParameters, 'tier'> },
 } satisfies Meta<typeof T2Page>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
 export const Default: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'T2Page' } },
+  parameters: { ag: { tier: 'standard' } },
   render: () => <T2Page />,
 };

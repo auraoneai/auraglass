@@ -47,6 +47,13 @@ export const baselineKey = (r: { file: string; code: string; subject: string }):
 
 function exportNameOf(entry: StorybookIndexEntry, csf: CsfParameters): string {
   if (entry.exportName) return entry.exportName;
+  // A story may pin its Storybook id with `parameters.__id` (the indexer honours it); that id
+  // does not derive from title + export, so it is matched first.
+  const pinned = [...csf.stories.entries()].filter(([, s]) => s.id === entry.id).map(([name]) => name);
+  if (pinned.length === 1) return pinned[0]!;
+  if (pinned.length > 1) {
+    throw new Error(`story-export-not-found: ${entry.id} matches ${pinned.length} exports of ${entry.importPath}`);
+  }
   const prefix = csf.meta.id ?? entry.title;
   const hits = [...csf.stories.keys()].filter((name) => toId(prefix, storyNameFromExport(name)) === entry.id);
   if (hits.length !== 1) {
@@ -82,7 +89,10 @@ export function buildCertManifest(sbIndex: StorybookIndex, universe: SubjectUniv
         cache.set(e.importPath, csf);
       }
       const ag = storyAg(csf, exportNameOf(e, csf));
-      if (!ag) { unannotated.push(e.id); continue; }
+      // An ag carrying neither subject nor kind declares no certification subject (auxiliary
+      // data only, e.g. state-drive steps a perf harness reads); declaring exactly one of the
+      // two is a malformed declaration and fails below.
+      if (!ag || (ag.subject === undefined && ag.kind === undefined)) { unannotated.push(e.id); continue; }
       const { subject, kind } = ag;
       if (typeof subject !== 'string' || !subject) {
         throw new SubjectResolutionError('invalid-ag', `parameters.ag.subject must be a non-empty string`);
