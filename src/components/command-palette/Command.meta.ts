@@ -14,5 +14,5 @@ export default defineMeta({
   parts: ['command', 'empty', 'group', 'group-heading', 'input', 'item', 'list', 'loading', 'separator', 'shortcut'],
   states: ['active'],
   variants: {},
-  migration: [{ from: 'GlassCommand', props: {}, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassCommand', props: {}, selectors: { '.glass-command': '[data-ag-part="command"]' }, automation: 'mostly', compat: true }],
 });

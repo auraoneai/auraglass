@@ -9,6 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['time-field', 'time-input'],
   states: ['invalid', 'disabled', 'required', 'readonly'],
+  material: { layer: 'content', refractionEligible: false },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/',
   variants: { size: ['sm', 'md', 'lg'] },
   budgetKb: 6,

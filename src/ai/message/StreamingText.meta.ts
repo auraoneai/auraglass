@@ -8,6 +8,8 @@ export default defineMeta({
   rsc: 'client',
   parts: ['caret', 'streaming-text', 'text'],
   states: ['streaming', 'done'],
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
+  material: { layer: 'content', refractionEligible: false },
   variants: {},
   budgetKb: 6,
   migration: [],
