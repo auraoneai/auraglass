@@ -44,17 +44,39 @@ describe('shell toggles (SURF-027)', () => {
     expect(rootAttrs(shell).sidebar).toBe('expanded');
   });
 
-  it('toggle collapses to rail (collapseTo removed, SURF-20)', () => {
+  it('collapseTo (SURF-32)', () => {
     render(
       <AppShell.Root data-testid="shell">
-        <AppShellSidebarToggle />
+        <AppShellSidebarToggle collapseTo="collapsed" />
         <AppShell.Main />
       </AppShell.Root>,
     );
     const shell = screen.getByTestId('shell');
-    fireEvent.click(screen.getByRole('button'));
-    expect(rootAttrs(shell).sidebar).toBe('rail');
-    fireEvent.click(screen.getByRole('button'));
+    const btn = screen.getByRole('button');
+    expect(btn).toHaveAttribute('aria-label', 'Collapse sidebar');
+    expect(btn.hasAttribute('aria-expanded')).toBe(false);
+    expect(btn.hasAttribute('aria-pressed')).toBe(false);
+    fireEvent.click(btn);
+    expect(rootAttrs(shell).sidebar).toBe('collapsed');
+    expect(btn).toHaveAttribute('aria-label', 'Expand sidebar');
+    fireEvent.click(btn);
+    expect(rootAttrs(shell).sidebar).toBe('expanded');
+    // the shell root never carries the target (SURF-20): the prop is the API.
+    expect(shell.hasAttribute('data-collapse-to')).toBe(false);
+  });
+
+  it('collapseTo="collapsed" also drives Mod+B (SURF-32)', () => {
+    render(
+      <AppShell.Root data-testid="shell" layout="desktop">
+        <AppShellSidebarToggle collapseTo="collapsed" shortcut />
+        <AppShell.Main data-testid="main" />
+      </AppShell.Root>,
+    );
+    const shell = screen.getByTestId('shell');
+    const main = screen.getByTestId('main');
+    fireEvent.keyDown(main, { key: 'b', ctrlKey: true });
+    expect(rootAttrs(shell).sidebar).toBe('collapsed');
+    fireEvent.keyDown(main, { key: 'b', metaKey: true });
     expect(rootAttrs(shell).sidebar).toBe('expanded');
   });
 
