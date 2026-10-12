@@ -2,7 +2,8 @@
  * REQ-PLAT-47 react19-smoke leg — runs under whichever React the job
  * installed (`npm i --no-save react@19 react-dom@19` in plat:test:react19).
  * Asserts the runtime major, a basic client render, and that SSR markup for
- * the REQ-PLAT-46 surfaces (ClientBoundary, Slot) hydrates with 0
+ * the REQ-PLAT-46 surfaces (ClientBoundary, Slot, useEnhancedReducedMotion,
+ * useDeviceCapabilities) hydrates with 0
  * recoverable errors and 0 mismatch messages on this runtime.
  */
 import './jsdom-ssr-env';
@@ -12,6 +13,9 @@ import { hydrateRoot, type Root } from 'react-dom/client';
 import { act, render, screen } from '@testing-library/react';
 import AuraGlassClientBoundary from '../../src/components/ssr/AuraGlassClientBoundary';
 import { Slot } from '../../src/primitives/Slot';
+import { useEnhancedReducedMotion } from '../../src/hooks/useEnhancedReducedMotion';
+import { useDeviceCapabilities } from '../../src/hooks/useDeviceCapabilities';
+import { DEFAULT_DEVICE_INFO } from '../../src/utils/deviceCapabilities';
 import './element-ref-spy';
 import { expectedReactMajor } from './runtime';
 
@@ -108,6 +112,38 @@ describe('react19-smoke leg', () => {
       expect(node.className).toContain('from-child');
       expect(forwarded).toHaveBeenCalledWith(node);
       expect(childRef).toHaveBeenCalledWith(node);
+    } finally {
+      h.cleanup();
+    }
+  });
+  /* REQ-PLAT-46: both hooks start from a constant first value, so the server
+     markup and the first client render agree on this runtime. */
+  function ReducedProbe() {
+    const reduced = useEnhancedReducedMotion();
+    return <span data-testid="reduced">{`reduced:${String(reduced)}`}</span>;
+  }
+  function DeviceProbe() {
+    const { deviceInfo } = useDeviceCapabilities();
+    return <span data-testid="device">{`device:${deviceInfo.type}`}</span>;
+  }
+
+  it('useEnhancedReducedMotion: server markup is the constant reduced branch and hydrates cleanly', async () => {
+    const h = await hydrateTree(<ReducedProbe />);
+    try {
+      expect(h.html).toContain('reduced:true');
+      expect(h.recoverable).toEqual([]);
+      expect(h.mismatch).toEqual([]);
+    } finally {
+      h.cleanup();
+    }
+  });
+
+  it('useDeviceCapabilities: server markup is DEFAULT_DEVICE_INFO and hydrates cleanly', async () => {
+    const h = await hydrateTree(<DeviceProbe />);
+    try {
+      expect(h.html).toContain(`device:${DEFAULT_DEVICE_INFO.type}`);
+      expect(h.recoverable).toEqual([]);
+      expect(h.mismatch).toEqual([]);
     } finally {
       h.cleanup();
     }
