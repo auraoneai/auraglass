@@ -84,6 +84,10 @@ const w3 = [
   { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/ai-streaming.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L11', kind: 'node-script', path: 'canaries/next16/app/surf/ai-rsc/page.tsx', scope: 'main', remote: true, failClosed: true },
   { lane: 'L12', kind: 'jest', path: 'tests/ai/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
+  // REQ-SURF-128: AI workspace layout at 320/390/1440, 200% zoom, 32px root
+  // font and rtl (tests/visual/surf/ai) on the remote L6 visual lane.
+  { lane: 'L6', kind: 'playwright', path: 'tests/visual/surf/ai/ai-workspace.visual.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L6', kind: 'playwright', path: 'tests/visual/surf/ai/ai-workspace.visual.spec.ts', scope: 'main', remote: true, failClosed: true },
 ] as const;
 // --- lane W3 end ---
 
@@ -100,7 +104,9 @@ const w4 = [
   { lane: 'L1', kind: 'jest', path: 'tests/media/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L1', kind: 'jest', path: 'tests/backdrops/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L12', kind: 'jest', path: 'tests/media/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
-  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{media-controls,now-playing,image-viewer}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  // REQ-SURF-147/-148: carousel-rail APG (both indicator variants, swipe →
+  // onIndexChange) runs on L5 with the other media APG specs.
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{media-controls,now-playing,image-viewer,carousel-rail}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{media,backdrops}/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{media,backdrops}/**/*.spec.ts', scope: 'main', remote: true, failClosed: true },
   // REQ-SURF-188 (REQ-FIN-90): SURF clear-over-media text-contrast spec lives under tests/e2e/surf
@@ -269,6 +275,44 @@ const w5 = [
     path: 'tests/capability/registry/blocks-lint.test.ts',
     scope: 'pr',
     remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-05: L2 dist/ai purity (the emitted-code counterpart of the L1
+  // AST gate). Needs dist/, so main + release scopes only — never pr.
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-dist-ai.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L2',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-dist-ai.mjs',
+    scope: 'release',
+    remote: false,
+    failClosed: true,
+  },
+  // REQ-SURF-07: L11 RSC-leak gate — runs next build in canaries/next16 and
+  // asserts no REQ-SURF-07 server module appears in a client manifest.
+  {
+    lane: 'L11',
+    kind: 'node-script',
+    path: 'scripts/surf/verify-canary-rsc.mjs',
+    scope: 'main',
+    remote: true,
+    failClosed: true,
+  },
+  // REQ-SURF-15: L11 migrate-4to5 canary over the frozen consumer-4x SURF
+  // cases (remote only; job surf:package:migrate-canary).
+  {
+    lane: 'L11',
+    kind: 'node-script',
+    path: 'scripts/surf/migrate-canary.mjs',
+    scope: 'main',
+    remote: true,
     failClosed: true,
   },
 ] as const;

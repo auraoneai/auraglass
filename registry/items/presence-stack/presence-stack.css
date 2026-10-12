@@ -31,6 +31,7 @@
 
 @container ag-presence-stack (max-width: 389.98px) {
   .ag-presence-stack__item[data-beyond-narrow],
+  .ag-presence-stack__group .ag-avatar-group-item:nth-child(n + 4),
   .ag-presence-stack__overflow[data-layout='wide'] {
     display: none;
   }
@@ -40,6 +41,7 @@
 }
 
 .ag-presence-stack[data-narrow] .ag-presence-stack__item[data-beyond-narrow],
+.ag-presence-stack[data-narrow] .ag-presence-stack__group .ag-avatar-group-item:nth-child(n + 4),
 .ag-presence-stack[data-narrow] .ag-presence-stack__overflow[data-layout='wide'] {
   display: none;
 }

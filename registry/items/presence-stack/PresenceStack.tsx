@@ -6,7 +6,7 @@
 // Below 390 px of CONTAINER width the stack clamps to 3 (container query in
 // presence-stack.css; `narrow` sets the data-narrow fallback for engines
 // without container queries). No timers, no simulated presence — data by props.
-import { Avatar, VisuallyHidden } from 'aura-glass';
+import { Avatar, AvatarGroup, VisuallyHidden } from 'aura-glass';
 import './presence-stack.css';
 
 export interface PresenceUser {
@@ -60,15 +60,22 @@ export function PresenceStack({ users, max = 4, narrow, onOverflowClick, label =
   const shown = users.slice(0, wideMax);
   return (
     <div data-ag-part="root" className="ag-presence-stack" data-narrow={narrow ? '' : undefined}>
+      {/* REQ-SURF-176: the visible stack IS CMP AvatarGroup (its own +N
+          overflow stays off — no `max`, so it renders exactly `shown`);
+          the <ul> below carries the names as text for assistive tech. */}
+      <AvatarGroup aria-hidden="true" className="ag-presence-stack__group">
+        {shown.map((u) => (
+          <Avatar.Root key={u.id} aria-hidden="true" className="ag-presence-stack__avatar"
+            style={{ background: u.color ?? presenceColor(u.id) }}>
+            {u.avatarUrl ? <Avatar.Image src={u.avatarUrl} alt="" /> : null}
+            <Avatar.Fallback>{initials(u.name)}</Avatar.Fallback>
+          </Avatar.Root>
+        ))}
+      </AvatarGroup>
       <ul data-ag-part="avatars" className="ag-presence-stack__list" aria-label={label}>
         {shown.map((u, i) => (
           <li key={u.id} data-ag-part="avatar" data-status={u.status}
             className="ag-presence-stack__item" data-beyond-narrow={i >= narrowMax ? '' : undefined}>
-            <Avatar.Root aria-hidden="true" className="ag-presence-stack__avatar"
-              style={{ background: u.color ?? presenceColor(u.id) }}>
-              {u.avatarUrl ? <Avatar.Image src={u.avatarUrl} alt="" /> : null}
-              <Avatar.Fallback>{initials(u.name)}</Avatar.Fallback>
-            </Avatar.Root>
             <VisuallyHidden>{u.status === 'idle' ? `${u.name} (idle)` : u.name}</VisuallyHidden>
           </li>
         ))}

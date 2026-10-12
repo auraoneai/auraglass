@@ -314,7 +314,7 @@
         "CommandPalette"
       ],
       "subpath": ".",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:89"
       ],
@@ -339,7 +339,7 @@
         "subpath": 0
       },
       "budgetKb": 6,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -581,7 +581,7 @@
         "DateRangePicker"
       ],
       "subpath": "./date",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:105"
       ],
@@ -606,7 +606,7 @@
         "subpath": 3
       },
       "budgetKb": 8,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -625,7 +625,7 @@
         "TimePicker"
       ],
       "subpath": "./date",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:105",
         "research/competitors.md:130"
@@ -649,7 +649,7 @@
         "subpath": 1
       },
       "budgetKb": 6,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -997,7 +997,7 @@
         "virtualize"
       ],
       "subpath": null,
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:130"
       ],
@@ -1021,7 +1021,7 @@
         "subpath": 0
       },
       "budgetKb": null,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": [
@@ -1046,7 +1046,7 @@
         "enableColumnReordering"
       ],
       "subpath": null,
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:130"
       ],
@@ -1070,7 +1070,7 @@
         "subpath": 0
       },
       "budgetKb": null,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": [
@@ -1096,7 +1096,7 @@
         "onCellEditCommit"
       ],
       "subpath": null,
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:130"
       ],
@@ -1118,7 +1118,7 @@
         "subpath": 0
       },
       "budgetKb": null,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": [
@@ -1139,7 +1139,7 @@
         "ChartFrame"
       ],
       "subpath": "./data",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "exception:D-21"
       ],
@@ -1162,7 +1162,7 @@
         "subpath": 1
       },
       "budgetKb": 5,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -1254,7 +1254,10 @@
       "status": "planned",
       "artifacts": [],
       "demand": [],
-      "stories": []
+      "stories": [
+        "surf-filter-bar--query-builder",
+        "registry-query-builder--default"
+      ]
     },
     {
       "id": "X-30",
@@ -1316,7 +1319,7 @@
         "StreamingText"
       ],
       "subpath": "./ai",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:23"
       ],
@@ -1341,7 +1344,7 @@
         "subpath": 3
       },
       "budgetKb": 18,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -1362,7 +1365,7 @@
         "ai-voice-input"
       ],
       "subpath": "./ai",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:23",
         "research/competitors.md:25"
@@ -1388,7 +1391,7 @@
         "subpath": 1
       },
       "budgetKb": 12,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -1409,7 +1412,7 @@
         "AgentSteps"
       ],
       "subpath": "./ai",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:24",
         "research/competitors.md:25"
@@ -1435,7 +1438,7 @@
         "subpath": 3
       },
       "budgetKb": 8,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -1455,7 +1458,7 @@
         "SourceList"
       ],
       "subpath": "./ai",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:25"
       ],
@@ -1477,7 +1480,7 @@
         "subpath": 2
       },
       "budgetKb": 9,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -1496,7 +1499,7 @@
         "ai-model-picker"
       ],
       "subpath": null,
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:25"
       ],
@@ -1517,7 +1520,7 @@
         "subpath": 0
       },
       "budgetKb": null,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -1581,7 +1584,7 @@
         "useMediaElement"
       ],
       "subpath": "./media",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "exception:architecture §3.2 `./media` entry"
       ],
@@ -1602,7 +1605,7 @@
         "subpath": 1
       },
       "budgetKb": 3,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -1668,7 +1671,7 @@
         "ImageViewer"
       ],
       "subpath": "./media",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "exception:rubric R3"
       ],
@@ -1693,7 +1696,7 @@
         "subpath": 1
       },
       "budgetKb": 10,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": [
@@ -1714,7 +1717,7 @@
         "CarouselRail"
       ],
       "subpath": "./media",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "exception:APG carousel pattern"
       ],
@@ -1736,7 +1739,7 @@
         "subpath": 1
       },
       "budgetKb": 10,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -1755,7 +1758,7 @@
         "Captions"
       ],
       "subpath": null,
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "exception:WCAG 1.2.2"
       ],
@@ -1777,10 +1780,12 @@
         "subpath": 0
       },
       "budgetKb": null,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
-      "stories": []
+      "stories": [
+        "media-mediacontrols--captions"
+      ]
     },
     {
       "id": "X-42",
@@ -1878,7 +1883,7 @@
         "ResizablePanels"
       ],
       "subpath": "./app-shell",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:89"
       ],
@@ -1901,7 +1906,7 @@
         "subpath": 1
       },
       "budgetKb": null,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -1920,7 +1925,7 @@
         "Inspector"
       ],
       "subpath": "./app-shell",
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:89"
       ],
@@ -1944,7 +1949,7 @@
         "subpath": 1
       },
       "budgetKb": null,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []
@@ -2347,7 +2352,7 @@
         "permissions-matrix"
       ],
       "subpath": null,
-      "release": "5.0",
+      "release": "5.1",
       "evidence": [
         "research/competitors.md:130",
         "research/competitors.md:89"
@@ -2369,7 +2374,7 @@
         "subpath": 0
       },
       "budgetKb": null,
-      "status": "planned",
+      "status": "deferred",
       "artifacts": [],
       "demand": [],
       "stories": []

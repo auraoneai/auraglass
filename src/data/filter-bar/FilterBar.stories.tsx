@@ -78,3 +78,18 @@ function EditingRule() {
   );
 }
 export const EditingRuleOpen: Story = { render: () => <EditingRule /> };
+
+/* REQ-SURF-187 (X-29): the filter model as a query builder — a controlled
+   FilterBar whose model is built with makeRule/applyModel (the
+   useFilterModel surface) and echoed as the serialized query + JSON model. */
+function QueryBuilderBar() {
+  const [value, setValue] = React.useState<FilterGroup>(seed);
+  return (
+    <div>
+      <FilterBar schema={SCHEMA} value={value} onValueChange={setValue} resultCount={128} quickFilters={QUICK} />
+      <output data-testid="filter-query">{FilterBar.serialize(value).toString()}</output>
+      <pre data-testid="filter-model">{JSON.stringify(value, null, 2)}</pre>
+    </div>
+  );
+}
+export const QueryBuilder: Story = { render: () => <QueryBuilderBar /> };

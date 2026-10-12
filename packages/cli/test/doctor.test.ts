@@ -56,3 +56,30 @@ describe('doctor date-peers (REQ-SURF-98)', () => {
     expect(datePeers(app({ 'src/App.tsx': "import 'aura-glass/date.css';\nimport { Button } from 'aura-glass';\n" }))).toEqual([]);
   });
 });
+
+const chartsPeers = (dir: string) => runChecks(dir).filter((r) => r.id === 'charts-peers');
+const CHART = "import { Chart } from 'aura-glass/charts';\nexport const C = Chart;\n";
+
+describe('doctor charts-peers (REQ-SURF-162)', () => {
+  it('fails with the doctor hint and install detail when neither d3 peer resolves', () => {
+    const [r] = chartsPeers(app({ 'src/Chart.tsx': CHART }));
+    expect(r).toBeDefined();
+    expect(r!.status).toBe('fail');
+    expect(r!.message).toContain('d3-scale and d3-shape');
+    expect(r!.message).toContain('missing: d3-scale, d3-shape');
+    expect(r!.message).toContain('npx aura-glass doctor');
+    expect(r!.detail).toBe('npm install d3-scale@^4.0.2 d3-shape@^3.2.0');
+  });
+
+  it('fails naming the missing peer when only one resolves', () => {
+    const [r] = chartsPeers(app({ 'src/Chart.tsx': CHART }, ['d3-scale']));
+    expect(r!.status).toBe('fail');
+    expect(r!.message).toContain('missing: d3-shape');
+  });
+
+  it('passes when both peers resolve, and is silent without a charts import', () => {
+    const [r] = chartsPeers(app({ 'src/Chart.tsx': CHART }, ['d3-scale', 'd3-shape']));
+    expect(r!.status).toBe('pass');
+    expect(chartsPeers(app({ 'src/App.tsx': "import { Button } from 'aura-glass';\n" }))).toEqual([]);
+  });
+});

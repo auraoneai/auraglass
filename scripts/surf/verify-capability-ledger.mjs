@@ -273,6 +273,12 @@ function semanticChecks(ledger, { prdDir, eIds, compLines, isDefaultLedger }) {
     if (row.status === 'delivered' && (row.form ?? []).some((f) => f === 'part' || f === 'prop') && !(row.stories ?? []).length) {
       fail(`${tag}: delivered part/prop row cites no story id`);
     }
+    // REQ-SURF-187: SURF-owned part/prop rows cite a story at every status
+    // (the delivered-only rule above still covers the other streams until
+    // their owners add theirs).
+    if (row.owner === 'SURF' && row.status !== 'rejected' && (row.form ?? []).some((f) => f === 'part' || f === 'prop') && !(row.stories ?? []).length) {
+      fail(`${tag}: SURF part/prop row cites no story id (REQ-SURF-187)`);
+    }
     exportRoot += row.exportDelta?.root ?? 0;
     exportSub += row.exportDelta?.subpath ?? 0;
   }
