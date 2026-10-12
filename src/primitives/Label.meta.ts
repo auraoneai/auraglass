@@ -16,6 +16,6 @@ export const LabelMeta = defineMeta({
   migration: [
     { from: 'GlassLabel', props: {}, selectors: { '.glass-label': '.ag-label' },  automation: 'full', compat: true },
     { from: 'GlassLabelPrimitive', props: {}, selectors: { '.glass-label-primitive': '.ag-label' },  automation: 'full', compat: true },
-    { from: 'LabelRoot', props: {}, selectors: { '.glass-label-root': '.ag-label' },  automation: 'full', compat: false },
+    { from: 'LabelRoot', props: {}, selectors: { '.glass-label-root': '.ag-label' },  automation: 'full', compat: true },
   ],
 });

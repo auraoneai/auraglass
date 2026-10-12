@@ -27,8 +27,12 @@ const meta: ControlMeta = defineMeta({
         clearable: null,
       },
       selectors: { '.glass-search-input': '.ag-search-field' }, automation: 'mostly',
-      compat: true,
+      compat: false,
     },
+    { from: 'GlassIntelligentSearch', props: {}, selectors: {}, automation: 'partial', compat: true },
+    { from: 'GlassSearchField', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'GlassSearchInterface', props: {}, selectors: {}, automation: 'partial', compat: true },
+    { from: 'LiquidGlassSearchField', props: {}, selectors: {}, automation: 'full', compat: true },
   ],
 });
 

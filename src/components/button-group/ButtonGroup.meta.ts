@@ -20,7 +20,8 @@ export default defineMeta({
       from: 'GlassButtonGroup',
       props: { orientation: 'orientation', attached: 'attached' },
       selectors: { '.glass-button-group': '.ag-button-group' }, automation: 'full',
-      compat: true,
+      compat: false,
     },
+    { from: 'LiquidGlassControlGroup', props: {}, selectors: {}, automation: 'full', compat: true },
   ],
 });

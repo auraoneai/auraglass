@@ -13,6 +13,7 @@ export * from './controls/GlassFormField';
 export * from './controls/GlassIconButton';
 export * from './controls/GlassInput';
 export * from './controls/GlassIntelligentSearch';
+export * from './controls/GlassLabel';
 export * from './controls/GlassLinkButton';
 export * from './controls/GlassMentionList';
 export * from './controls/GlassMultiSelect';
@@ -59,9 +60,9 @@ export * from './overlays/LiquidGlassPopoverMenu';
 export * from './overlays/Positioner';
 export * from './overlays/useToast';
 
-export * from './core/ImageList';
-export * from './core/ImageListItem';
-export * from './core/ImageListItemBar';
+export * from './layout/ImageList';
+export * from './layout/ImageListItem';
+export * from './layout/ImageListItemBar';
 
 export * from './core/GlassAccordion';
 export * from './core/GlassAlert';

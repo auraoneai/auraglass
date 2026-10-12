@@ -12,5 +12,5 @@ export default defineMeta({
   material: { layer: 'content' },
   apg: 'none',
   budgetKb: 1500 / 1024,
-  migration: [{ from: 'GlassBadge', props: {}, selectors: { '.glass-badge': '.ag-badge' },  automation: 'mostly', compat: true }, { from: 'LiquidGlassBadgeCluster', props: {}, selectors: { '.glass-liquid-glass-badge-cluster': '.ag-badge' },  automation: 'partial', compat: true }],
+  migration: [{ from: 'GlassBadge', props: {}, selectors: { '.glass-badge': '.ag-badge' },  automation: 'mostly', compat: true }, { from: 'LiquidGlassBadgeCluster', props: {}, selectors: { '.glass-liquid-glass-badge-cluster': '.ag-badge' },  automation: 'partial', compat: true }, { from: 'GlassStatusDot', props: {}, selectors: {}, automation: 'mostly', compat: true }, { from: 'GlassConnectionStatus', props: {}, selectors: {}, automation: 'partial', compat: true }],
 });

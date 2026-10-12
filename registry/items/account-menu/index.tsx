@@ -23,7 +23,10 @@ export interface AccountMenuProps {
 export function AccountMenu({ name, email, avatarSrc, items, onSignOut }: AccountMenuProps) {
   return (
     <Menu.Root>
-      <Menu.Trigger aria-label={`Account menu for ${name}`}>
+      {/* A real <button> is the trigger: a lone component child would become
+          the trigger element itself (REQ-CMP-17 child-as-render), turning the
+          Avatar (role=img, its own aria-label) into the menu button. */}
+      <Menu.Trigger render={<button type="button" />} aria-label={`Account menu for ${name}`}>
         <Avatar.Root {...(avatarSrc !== undefined ? { src: avatarSrc } : {})} alt={name} name={name} size="sm" />
       </Menu.Trigger>
       <Menu.Content side="bottom" align="end">

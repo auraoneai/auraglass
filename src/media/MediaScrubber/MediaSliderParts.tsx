@@ -7,8 +7,8 @@
  * MediaControls toolbar as a roving item that keeps its own arrow keys, and
  * (c) carry the media aria-valuetext on its thumb input (REQ-SURF-135/136). */
 import * as React from 'react';
-import { Slider as BaseSlider } from '@base-ui/react/slider';
-import { CompositeItem } from '@base-ui/react/internals/composite';
+import { Slider as BaseSlider } from '../../foundation/base-ui/slider';
+import { CompositeItem } from '../../foundation/base-ui/composite';
 import { materialProps } from '../../material';
 
 /** Keys the slider owns while its thumb is focused; they must not bubble to

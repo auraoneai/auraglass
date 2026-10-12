@@ -23,5 +23,9 @@ export default defineMeta({
       selectors: { '.glass-toolbar': '.ag-toolbar' }, automation: 'partial',
       compat: true,
     },
+    { from: 'GlassActionBar', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'GlassCommandBar', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'LiquidGlassMapControls', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'LiquidGlassToolbar', props: {}, selectors: {}, automation: 'full', compat: true },
   ],
 });

@@ -11,7 +11,7 @@
    class), not removed. */
 
 import * as React from 'react';
-import { mergeProps } from '@base-ui/react/merge-props';
+import { mergeProps } from '../foundation/base-ui/merge-props';
 import { LandmarkBeacon } from './_internal/LandmarkBeacon';
 import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';

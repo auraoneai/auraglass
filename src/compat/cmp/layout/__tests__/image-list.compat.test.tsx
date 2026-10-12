@@ -10,7 +10,7 @@ import { ImageListItemBar } from '../ImageListItemBar';
 import { GlassGallery } from '../GlassGallery';
 import { ImageList } from '../../../../components/image-list';
 
-describe('compat/cmp/core (REQ-CMP-127)', () => {
+describe('compat/cmp/layout (REQ-CMP-127)', () => {
   let warn: jest.SpiedFunction<typeof console.warn>;
   beforeEach(() => {
     warn = jest.spyOn(console, 'warn').mockImplementation(() => {});

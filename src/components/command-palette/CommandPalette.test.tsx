@@ -141,6 +141,7 @@ describe('CommandPalette layer registration (REQ-FIN-07 transfer)', () => {
       fireEvent.keyDown(input, { key: 'Escape' });
     });
     expect(onOpenChange).toHaveBeenCalledTimes(1);
-    expect(onOpenChange).toHaveBeenCalledWith(false);
+    // S-30/S-32: onOpenChange(open, details) carries ChangeDetails
+    expect(onOpenChange).toHaveBeenCalledWith(false, expect.objectContaining({ reason: 'escape-key' }));
   });
 });

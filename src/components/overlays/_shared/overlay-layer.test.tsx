@@ -113,7 +113,9 @@ describe('overlay-layer (CMP-201)', () => {
             <Popover.Trigger>p</Popover.Trigger>
             <PopoverPortal><PopoverPositioner><PopoverPopup aria-label="p" /></PopoverPositioner></PopoverPortal>
           </Popover.Root>
-          <Dialog.Root defaultOpen>
+          {/* dismissible={false}: the click that opens the popover is an outside
+              press for the modal dialog, which would otherwise close it. */}
+          <Dialog.Root defaultOpen dismissible={false}>
             <DialogPortal><DialogPopup aria-label="d" /></DialogPortal>
           </Dialog.Root>
         </>

@@ -100,12 +100,10 @@ describe('Base UI import confinement (REQ-CMP-01)', () => {
       else if (/\.(ts|tsx)$/.test(entry)) yield p;
     }
   }
-  /* Expiring baseline: SURF Chip still imports Base UI Toggle directly until
-     REQ-FIN-83 (FIN-F) switches it to src/components/chip/ChipToggle. The
-     stale-row check below forces this row out in the PR that fixes it. */
-  const BASELINE: Array<{ file: string; owner: string; reqFin: string; expires: string }> = [
-    { file: 'src/data/chip/Chip.tsx', owner: 'SURF', reqFin: 'REQ-FIN-83', expires: 'RC-1' },
-  ];
+  /* Expiring baseline (empty): the SURF Chip row (REQ-FIN-83) expired when
+     src/data/chip/Chip.tsx switched to src/components/chip/ChipToggle. Other
+     non-CMP consumers import Base UI through src/foundation/base-ui/*. */
+  const BASELINE: Array<{ file: string; owner: string; reqFin: string; expires: string }> = [];
   function scan(): string[] {
     const offenders: string[] = [];
     for (const f of walk(join(root, 'src'))) {

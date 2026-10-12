@@ -12,5 +12,7 @@ export const StepsMeta = defineMeta({
   material: { layer: 'content' },
   apg: 'none',
   budgetKb: 1500 / 1024,
-  migration: [],
+  migration: [
+    { from: 'GlassStepper', props: {}, selectors: {}, automation: 'full', compat: true },
+  ],
 });

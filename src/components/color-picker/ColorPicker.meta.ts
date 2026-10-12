@@ -12,5 +12,5 @@ export default defineMeta({
   material: { layer: 'content' },
   apg: 'slider',
   budgetKb: 20000 / 1024,
-  migration: [{ from: 'GlassColorPicker', props: {}, selectors: { '.glass-color-picker': '.ag-color-picker' },  automation: 'partial', compat: true }],
+  migration: [{ from: 'GlassColorPicker', props: {}, selectors: { '.glass-color-picker': '.ag-color-picker' },  automation: 'partial', compat: true }, { from: 'GlassColorWheel', props: {}, selectors: {}, automation: 'full', compat: true }, { from: 'GlassGradientPicker', props: {}, selectors: {}, automation: 'full', compat: true }],
 });

@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { PreviewCard } from '@base-ui/react/preview-card';
+import { PreviewCard } from '../../foundation/base-ui/preview-card';
 import type { AgPart } from '../types';
 import { usePortalContainer, useLayer } from '../../theme';
 import { sourceUrlLabel, useOpenSource } from './SourceList';

@@ -34,6 +34,19 @@ const evalExpr = (node: ts.Expression): unknown => {
     }
     return out;
   }
+  /* S-44: metas spell budgetKb as limitBytes / 1024 (e.g. `10000 / 1024`);
+     fold numeric arithmetic over literal operands only. */
+  if (ts.isBinaryExpression(node)) {
+    const l = evalExpr(node.left), r = evalExpr(node.right);
+    if (typeof l === 'number' && typeof r === 'number') {
+      switch (node.operatorToken.kind) {
+        case ts.SyntaxKind.SlashToken: return l / r;
+        case ts.SyntaxKind.AsteriskToken: return l * r;
+        case ts.SyntaxKind.PlusToken: return l + r;
+        case ts.SyntaxKind.MinusToken: return l - r;
+      }
+    }
+  }
   if (ts.isIdentifier(node) && node.text === 'undefined') return undefined;
   throw new Error(`non-literal expression: ${node.getText().slice(0, 80)}`);
 };

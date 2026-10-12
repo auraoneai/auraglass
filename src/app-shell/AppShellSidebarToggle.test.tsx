@@ -6,7 +6,7 @@ import { AppShell } from './AppShell';
 import { AppShellSidebarToggle } from './AppShell.SidebarToggle';
 import { AppShellInspectorToggle } from './AppShell.InspectorToggle';
 import { Sidebar } from './Sidebar';
-import { DirectionProvider } from '@base-ui/react/direction-provider';
+import { DirectionProvider } from '../foundation/base-ui/direction-provider';
 
 const rootAttrs = (el: HTMLElement | null) => ({
   sidebar: el?.getAttribute('data-ag-sidebar'),

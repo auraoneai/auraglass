@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Field } from '@base-ui/react/field';
+import { Field } from '../../foundation/base-ui/field';
 import type { AgChatStatus } from '../types';
 import type { toChangeDetails } from '../../foundation';
 import { useAttachments } from './useAttachments';

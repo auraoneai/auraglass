@@ -61,7 +61,8 @@ describe('Toast + useToast', () => {
     await act(async () => {});
     const toast = document.querySelector('[data-ag-part="toast"]') as HTMLElement;
     expect(toast).toHaveAttribute('role', 'alert');
-    expect(toast).toHaveAttribute('data-ag-intent', 'error');
+    // contract Intent has no 'error': toast.error() emits the danger intent
+    expect(toast).toHaveAttribute('data-ag-intent', 'danger');
   });
 
   it('viewport mounts in the toast layer with a position attr', async () => {

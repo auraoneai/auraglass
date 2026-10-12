@@ -27,7 +27,7 @@ const meta: ControlMeta = defineMeta({
         parser: { to: 'locale/format' },
       },
       selectors: { '.glass-number-input': '.ag-number-field' }, automation: 'partial',
-      compat: true,
+      compat: false,
     },
   ],
 });

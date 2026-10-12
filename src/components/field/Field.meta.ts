@@ -28,8 +28,10 @@ const meta: ControlMeta = defineMeta({
         required: 'aria-required on the inner control',
       },
       selectors: { '.glass-field': '.ag-field' }, automation: 'mostly',
-      compat: true,
+      compat: false,
     },
+    { from: 'GlassFormField', props: {}, selectors: {}, automation: 'full', compat: true },
+    { from: 'GlassValidationMessage', props: {}, selectors: {}, automation: 'full', compat: true },
   ],
 });
 
