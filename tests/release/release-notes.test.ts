@@ -252,6 +252,39 @@ describe('release notes --tag/--line (REQ-PLAT-16)', () => {
   });
 });
 
+/* REQ-PLAT-32 / REQ-PLAT-52 (4x): the 4.x notes carry a Security and privacy
+   section sourced from exception-carrying deprecation entries of the version
+   and the advisories patched in it. */
+describe('release notes 4x security section (REQ-PLAT-32)', () => {
+  const CL = '# Changelog\n\n## [4.1.1] - Unreleased\n\n- trust patch.\n';
+  const DEPS = [
+    { id: 'DEP-P0012', kind: 'export', entry: '.', symbol: 'adaptiveAI', since: '4.1.1', removeIn: '5.0.0', exception: 'privacy', message: 'opt-in now' },
+    { id: 'DEP-P0015', kind: 'css-global', entry: '.', symbol: '--aura-font-sans (Aeonik)', since: '4.1.1', removeIn: '5.0.0', exception: 'legal', message: 'system stack' },
+    { id: 'DEP-P0099', kind: 'export', entry: '.', symbol: 'plain', since: '4.1.1', removeIn: '5.0.0', message: 'no exception' },
+    { id: 'DEP-P0100', kind: 'export', entry: '.', symbol: 'later', since: '4.2.0', removeIn: '5.0.0', exception: 'security', message: 'other version' },
+  ];
+  it('lists the advisory patched in the version and every exception entry of the version', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'adv-'));
+    writeFileSync(join(dir, '2026-10-hosted-runtime.md'),
+      '# GHSA draft\n\n**Title:** Hosted example runtime: default JWT secret\n\n**Package:** `aura-glass` (npm). **Patched in:** 4.1.1. **Proposed severity:** High.\n');
+    writeFileSync(join(dir, 'other.md'), '# Other\n\n**Patched in:** 4.2.0\n');
+    const out = EVAL(`console.log(m.renderNotes4x({ version: '4.1.1', changelog: ${JSON.stringify(CL)},
+      deprecations: ${JSON.stringify(DEPS)}, advisories: m.loadAdvisories('${dir}') }))`);
+    const sec = out.slice(out.indexOf('## Security and privacy'), out.indexOf('## Commits'));
+    expect(sec).toContain('- Advisory: Hosted example runtime: default JWT secret (`docs/security/advisories/2026-10-hosted-runtime.md`)');
+    expect(sec).toContain('- `DEP-P0012` (privacy; export . adaptiveAI): opt-in now');
+    expect(sec).toContain('- `DEP-P0015` (legal; css-global . --aura-font-sans (Aeonik)): system stack');
+    expect(sec).not.toContain('DEP-P0099');
+    expect(sec).not.toContain('DEP-P0100');
+    expect(sec).not.toContain('Other');
+    expect(out.indexOf('## Security and privacy')).toBeGreaterThan(out.indexOf('## Deprecations added'));
+  });
+  it('states an empty section instead of omitting it', () => {
+    const out = EVAL(`console.log(m.renderNotes4x({ version: '4.1.1', changelog: ${JSON.stringify(CL)} }))`);
+    expect(out).toContain('No advisory is patched in 4.1.1 and no deprecation entry of 4.1.1 carries an exception.');
+  });
+});
+
 /* REQ-PLAT-56 / REQ-FIN-45: 4.2.0 notes open with the dependencies that moved
    to peers, computed from package.json at the previous tag vs HEAD and tied to
    their kind:'dependency' DEP entries. */

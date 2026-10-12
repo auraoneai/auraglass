@@ -345,8 +345,39 @@ export function downstreamSection({ version, record }) {
   return lines;
 }
 
+/** docs/security/advisories/*.md drafts: title (first heading or **Title:**)
+ *  and the `**Patched in:** X` version, sorted by file name. */
+export function loadAdvisories(dir) {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir).filter((f) => f.endsWith('.md')).sort().map((f) => {
+    const text = readFileSync(join(dir, f), 'utf8');
+    const title = (text.match(/^\*\*Title:\*\*\s*(.+)$/m) ?? text.match(/^#\s+(.+)$/m))?.[1]?.trim() ?? f;
+    const patched = text.match(/\*\*Patched in:\*\*\s*v?([0-9][\w.-]*)/)?.[1]?.replace(/\.$/, '') ?? null;
+    return { file: `docs/security/advisories/${f}`, title, patched };
+  });
+}
+
+/** REQ-PLAT-32 / REQ-PLAT-52 (4x): every deprecation entry of this version that
+ *  carries an `exception` (security, privacy, crash, legal, honesty) plus the
+ *  advisories patched in this version. */
+export function securitySection4x({ version, deprecations = [], advisories = [] }) {
+  const lines = ['## Security and privacy', ''];
+  const adv = advisories.filter((a) => a.patched === version);
+  for (const a of adv) lines.push(`- Advisory: ${a.title} (\`${a.file}\`)`);
+  const exc = deprecations.filter((d) => d.since === version && d.exception)
+    .sort((a, b) => String(a.id).localeCompare(String(b.id)));
+  for (const d of exc) {
+    lines.push(`- \`${d.id}\` (${d.exception}; ${depSubject(d)}): ${d.message ?? ''}`.trimEnd());
+  }
+  if (!adv.length && !exc.length) {
+    lines.push(`No advisory is patched in ${version} and no deprecation entry of ${version} carries an exception.`);
+  }
+  lines.push('');
+  return lines;
+}
+
 export function renderNotes4x({ version, changelog, deprecations = [], commitSubjects = [],
-  previous = null, rangeError = null, moved = undefined, downstream = undefined } = {}) {
+  previous = null, rangeError = null, moved = undefined, downstream = undefined, advisories = [] } = {}) {
   const v = parseSemver(version);
   if (!v || v.major !== 4) throw new Error(`release-notes: --line 4x needs a 4.x version, got '${version}'`);
   const section = changelogSection(changelog ?? '', version);
@@ -379,6 +410,7 @@ export function renderNotes4x({ version, changelog, deprecations = [], commitSub
     lines.push(`No deprecation entry has \`since: '${version}'\`.`);
   }
   lines.push('');
+  lines.push(...securitySection4x({ version, deprecations, advisories }));
   lines.push(`## Commits${previous ? ` since ${previous}` : ''}`, '');
   if (rangeError) {
     lines.push(`_Commit range unavailable: ${rangeError}._`);
@@ -467,7 +499,8 @@ export async function main(argv = process.argv.slice(2), { root = ROOT, env = pr
       }
     }
     text = renderNotes4x({ version, changelog, deprecations: await loadEntries(root),
-      commitSubjects, previous, rangeError, moved, downstream });
+      commitSubjects, previous, rangeError, moved, downstream,
+      advisories: loadAdvisories(join(root, 'docs/security/advisories')) });
   } else {
     const { breakingRegister: brPath } = relPaths(root);
     const breakingRegister = existsSync(brPath) ? JSON.parse(readFileSync(brPath, 'utf8')) : null;
