@@ -65,7 +65,7 @@ describe('auraglass lint rules (MAT)', () => {
       invalid: [
         { code: `const el = <div animate={{}} />;`, filename: SRC, errors: 1 },
         { code: `const el = <div initial={{ opacity: 0 }} animate={cond && { opacity: 1 }} />;`, filename: SRC, errors: 1 },
-        { code: `const el = <div initial={{ opacity: 0 }} animate={cond ? { opacity: 1 } : undefined} />;`, filename: SRC, errors: 1 },
+        { code: `const el = <div initial={{ opacity: 0 }} animate={cond ? { opacity: 1 } : undefined} />;`, filename: SRC, errors: [{ messageId: 'fadedConditional' }, { messageId: 'undefinedConditional' }] },
       ],
     } as never);
 

@@ -1,0 +1,109 @@
+/* @jest-environment node */
+// REQ-PLAT-48: preserve the release-line reduced-motion regression cases.
+import { describe } from '@jest/globals';
+import { RuleTester } from 'eslint';
+import tsParser from '@typescript-eslint/parser';
+import { join } from 'node:path';
+
+const rule = require(join(process.cwd(), 'lint/rules/mat/motion-no-empty-animate.cjs'));
+const ruleTester = new RuleTester({
+  languageOptions: { parser: tsParser, ecmaVersion: 2023, sourceType: 'module', parserOptions: { ecmaFeatures: { jsx: true } } },
+});
+describe('motion-no-empty-animate release regressions', () => {
+  ruleTester.run('motion-no-empty-animate', rule, {
+      valid: [
+        // unconditional animate, zero-opacity initial: fine
+        `<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} />`,
+        // conditional initial(false) + conditional animate, no empty branch:
+        // reduced branch renders the element directly (safe)
+        `<motion.div initial={cond ? false : { opacity: 0 }} animate={cond ? { opacity: 1 } : { opacity: 1 }} />`,
+        // ? undefined : — the REQ-PLAT-48 conversion spelling (no empty object)
+        `<motion.div animate={prefersReducedMotion ? undefined : { scale: 1 }} />`,
+        `<motion.div whileHover={shouldAnimate ? { scale: 1.02 } : undefined} />`,
+        // cookie-consent exception: motion gated via its disableAnimation prop
+        {
+          code: `<motion.div animate={prefersReducedMotion ? {} : { scale: 1 }} />`,
+          filename: 'src/components/cookie-consent/CookieConsent.tsx',
+        },
+        // non-conditional, non-empty animate
+        `<motion.div animate={{ opacity: 1 }} />`,
+        // no animate at all
+        `<motion.div initial={{ opacity: 0 }} />`,
+        // string-variant animate (not a conditional expression)
+        `<motion.div initial="hidden" animate="visible" />`,
+        // REQ-PLAT-48 FINAL pattern: the entrance is skipped under reduced motion
+        `<motion.div initial={r ? false : { scale: 0 }} animate={r ? undefined : { scale: 1 }} />`,
+        `<motion.div initial={r ? false : { opacity: 0, y: 8 }} animate={r ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }} transition={r ? { duration: 0 } : { duration: 0.2 }} />`,
+        // an initial already at identity is the settled state
+        `<motion.div initial={{ opacity: 1, scale: 1, x: 0 }} animate={r ? undefined : { scale: 1.1 }} />`,
+        `<motion.div initial={false} animate={r ? undefined : { y: [0, -8, 0] }} />`,
+        // a looping animate with no initial never strands the element
+        `<motion.div animate={r ? undefined : { y: [0, -8, 0] }} />`,
+      ],
+      invalid: [
+        // canonical spelling: cond ? {} : target
+        {
+          code: `<motion.div initial={{ opacity: 0 }} animate={prefersReducedMotion ? {} : { opacity: 1 }} />`,
+          errors: [{ messageId: "fadedConditional" }, { messageId: "emptyConditional" }],
+        },
+        // empty object in the other branch
+        {
+          code: `<motion.div initial={{ opacity: 0 }} animate={prefersReducedMotion ? { opacity: 1 } : {}} />`,
+          errors: [{ messageId: "fadedConditional" }, { messageId: "emptyConditional" }],
+        },
+        // REQ-PLAT-48: empty-object conditional branches on motion props
+        {
+          code: `<motion.div animate={cond ? {} : { scale: 1 }} />`,
+          errors: [{ messageId: "emptyConditional" }],
+        },
+        {
+          code: `<motion.div animate={cond ? { scale: 1 } : {}} />`,
+          errors: [{ messageId: "emptyConditional" }],
+        },
+        {
+          code: `<motion.div whileHover={shouldAnimate ? {} : { scale: 1.02 }} />`,
+          errors: [{ messageId: "emptyConditional" }],
+        },
+        {
+          code: `<motion.div whileTap={shouldAnimate ? { scale: 0.98 } : {}} />`,
+          errors: [{ messageId: "emptyConditional" }],
+        },
+        // logical spellings
+        {
+          code: `<motion.div initial={{ opacity: 0 }} animate={shouldAnimate && { opacity: 1 }} />`,
+          errors: [{ messageId: "fadedConditional" }],
+        },
+        {
+          code: `<motion.div initial={{ opacity: 0 }} animate={target ?? { opacity: 1 }} />`,
+          errors: [{ messageId: "fadedConditional" }],
+        },
+        // nested ternary still counts as conditional
+        {
+          code: `<motion.div initial={{ opacity: 0 }} animate={a ? (b ? {} : { opacity: 1 }) : { opacity: 0.5 }} />`,
+          errors: [{ messageId: "fadedConditional" }, { messageId: "emptyConditional" }],
+        },
+        // bare empty animate
+        {
+          code: `<motion.div animate={{}} />`,
+          errors: [{ messageId: "emptyAnimate" }],
+        },
+        // REQ-PLAT-48: an `undefined` branch leaves the element at a non-settled initial
+        {
+          code: `<motion.div initial={{ scale: 0 }} animate={prefersReducedMotion ? undefined : { scale: 1 }} />`,
+          errors: [{ messageId: "undefinedConditional" }],
+        },
+        {
+          code: `<motion.div initial={{ scale: 0, opacity: 1 }} animate={r ? { scale: 2, opacity: 0 } : undefined} />`,
+          errors: [{ messageId: "undefinedConditional" }],
+        },
+        {
+          code: `<motion.div initial="hidden" animate={r ? void 0 : "visible"} />`,
+          errors: [{ messageId: "fadedConditional" }, { messageId: "undefinedConditional" }],
+        },
+        {
+          code: `<motion.div initial={{ x: -20 }} animate={r ? undefined : { x: 0 }} />`,
+          errors: [{ messageId: "undefinedConditional" }],
+        },
+      ],
+  });
+});
