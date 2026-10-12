@@ -139,18 +139,25 @@ plat:test:pack-matrix:
     - npm publish --dry-run --ignore-scripts
 
 # REQ-PLAT-68 (REQ-FIN-37 producer #169; wiring REQ-FIN-22, FIN-B.1b): the 5x
-# runtime floor. Each leg builds dist/ on its own Node (npm run build also runs
-# prebuild + postbuild/post.mjs), then tests/exports/node-esm-require.test.mjs
-# packs the tarball, installs it into a scratch app and resolves every subpath
-# through both ESM import and CJS require. Evidence per leg (the matrix gives
-# each leg its own $CI_JOB_NAME_SLUG): the node/npm versions, the spec output
-# and a JUnit report. Stays allow_failure: true until ci/plat/activation.json
+# runtime floor. Node >=20.19 (package.json engines, REQ-PKG-15) is a RUNTIME
+# floor for the packed tarball — import/require from the tarball on Node
+# 20.19.0 and 22 — not a build floor: the tsdown 0.23 toolchain itself
+# requires Node ^22.18 || ^24.11, so no leg builds here. Both legs consume
+# the dist/ artifact built once by plat:build:dist on the pinned Node 22
+# image ($AG_NODE_IMAGE, target es2022), then
+# tests/exports/node-esm-require.test.mjs packs the tarball, installs it into
+# a scratch app and resolves every subpath through both ESM import and CJS
+# require on the leg's own Node. Evidence per leg (the matrix gives each leg
+# its own $CI_JOB_NAME_SLUG): the node/npm versions, the spec output and a
+# JUnit report. Stays allow_failure: true until ci/plat/activation.json
 # records its first green pipeline (B3-14).
 plat:test:pack-matrix:5x:
   extends: [.plat-node, .plat-evidence-pr]
   stage: test
   allow_failure: true
   timeout: 45 minutes
+  needs:
+    - { job: "plat:build:dist", artifacts: true }
   image: "$AG_PACK_NODE_IMAGE"
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
@@ -162,7 +169,11 @@ plat:test:pack-matrix:5x:
     - npm install -g "npm@$AG_PACK_NPM_VERSION"
     - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
     - node -e "const npm=require('node:child_process').execSync('npm --version').toString().trim();console.log(JSON.stringify({node:process.version,npm,image:process.env.AG_PACK_NODE_IMAGE}))" > "$AURAGLASS_EVIDENCE_DIR/runtime.json"
-    - npm run build
+    # Build-on-22 / test-on-the-leg's-Node: dist/ comes from plat:build:dist
+    # (needs artifacts above); building here would require the tsdown
+    # toolchain's own Node ^22.18 floor on the 20.19 leg. Fail closed if the
+    # artifact did not arrive.
+    - 'test -f dist/index.js || { echo "PENDING: dist/ artifact from plat:build:dist (build on Node 22, test the tarball on this leg)"; exit 1; }'
     # REQ-PLAT-70: cold root import median of 11 fresh processes <=150 ms on
     # Node 20.19 and 22 (this matrix), enforced — page cache dropped first
     # where the runner permits; the fallback is logged, never fail-open

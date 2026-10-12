@@ -44,6 +44,25 @@ describe('init (install)', () => {
     expect(fs.existsSync(path.join(dir, 'node_modules'))).toBe(false);
   });
 
+  /* The registry render gate installs the packed tarball (file: spec) before
+     running `auraglass init --yes`; init must not reinstall from the public
+     registry (aura-glass@^5.0.0 is unpublished → ETARGET) when the package
+     is already declared. */
+  it('skips install when aura-glass is already declared (file: tarball spec)', async () => {
+    const dir = tmp();
+    fs.writeFileSync(path.join(dir, 'package.json'), JSON.stringify({
+      dependencies: { next: '15.0.0', react: '19.0.0', 'aura-glass': 'file:./aura-glass.tgz' },
+    }));
+    fs.mkdirSync(path.join(dir, 'app'), { recursive: true });
+    const pkgBefore = fs.readFileSync(path.join(dir, 'package.json'), 'utf8');
+    const code = await initCommand([], { cwd: dir, 'allow-no-git': true, silent: true });
+    expect(code).toBe(0);
+    expect(fs.readFileSync(path.join(dir, 'package.json'), 'utf8')).toBe(pkgBefore);
+    expect(fs.existsSync(path.join(dir, 'node_modules'))).toBe(false);
+    /* the scaffold still ran */
+    expect(fs.existsSync(path.join(dir, 'auraglass.json'))).toBe(true);
+  });
+
   it('install list contains only aura-glass — never optional peers', () => {
     const install = installCommand('npm', ['aura-glass@^5.0.0']);
     expect(install).toBe('npm install aura-glass@^5.0.0');

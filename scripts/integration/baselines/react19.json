@@ -1,0 +1,370 @@
+[
+  {
+    "rule": "compiler",
+    "file": "src/ai/composer/Composer.tsx",
+    "count": 4,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/ai/composer/useAttachments.ts",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/ai/message/StreamingText.tsx",
+    "count": 9,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/ai/thread/Thread.tsx",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/ai/thread/useThreadScroll.ts",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/ai/tool/ToolCall.tsx",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/app-shell/ResizablePanels.tsx",
+    "count": 4,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/app-shell/StatusBar.Live.tsx",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/backdrops/BackdropTone.tsx",
+    "count": 2,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/compat/cmp/content/GlassConnectionStatus.tsx",
+    "count": 1,
+    "owner": "FIN-E",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/compat/cmp/controls/MagneticButton.tsx",
+    "count": 2,
+    "owner": "FIN-E",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/compat/cmp/overlays/GlassNotificationCenter.tsx",
+    "count": 1,
+    "owner": "FIN-E",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/compat/cmp/overlays/GlassToast.tsx",
+    "count": 1,
+    "owner": "FIN-E",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/compat/cmp/overlays/useToast.tsx",
+    "count": 1,
+    "owner": "FIN-E",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/compat/surf/data/_table.tsx",
+    "count": 3,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/compat/surf/navigation/_commandItems.tsx",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/components/combobox/Combobox.client.tsx",
+    "count": 1,
+    "owner": "FIN-E",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/components/command-palette/Command.tsx",
+    "count": 11,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/components/command-palette/CommandPalette.tsx",
+    "count": 2,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/components/menu/ContextMenu.client.tsx",
+    "count": 1,
+    "owner": "FIN-E",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/components/overlays/_shared/useOverlayLayer.ts",
+    "count": 2,
+    "owner": "FIN-A",
+    "reqFin": "REQ-FIN-07",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/components/popover/Popover.client.tsx",
+    "count": 1,
+    "owner": "FIN-E",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/components/select/Select.client.tsx",
+    "count": 2,
+    "owner": "FIN-E",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/components/tab-bar/panelRegistry.ts",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/components/tab-bar/TabBar.tsx",
+    "count": 2,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/components/tabs/Tabs.tsx",
+    "count": 2,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/components/toolbar/Toolbar.client.tsx",
+    "count": 1,
+    "owner": "FIN-E",
+    "reqFin": "REQ-FIN-70",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/data/chart-frame/ChartFrame.Interactive.tsx",
+    "count": 2,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/data/key-value-editor/KeyValueEditor.tsx",
+    "count": 10,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/data/table/Table.tsx",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/data/table/useGridKeyboard.ts",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/data/virtual-list/VirtualList.tsx",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/date/Calendar.tsx",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/media/CarouselRail/parts/Viewport.tsx",
+    "count": 5,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/media/ImageViewer/parts/Popup.tsx",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/media/ImageViewer/parts/Trigger.tsx",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/media/ImageViewer/useZoomPan.ts",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/media/MediaControls/MediaControls.tsx",
+    "count": 5,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/media/useMediaElement.ts",
+    "count": 1,
+    "owner": "FIN-F",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/motion/adapter/magnetic.ts",
+    "count": 4,
+    "owner": "FIN-D",
+    "reqFin": "REQ-FIN-55",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/motion/adapter/SharedLayout.tsx",
+    "count": 1,
+    "owner": "FIN-D",
+    "reqFin": "REQ-FIN-55",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/motion/adapter/useDragDetents.ts",
+    "count": 1,
+    "owner": "FIN-D",
+    "reqFin": "REQ-FIN-55",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/motion/adapter/useMomentum.ts",
+    "count": 1,
+    "owner": "FIN-D",
+    "reqFin": "REQ-FIN-55",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/theme/AuraGlassProvider.tsx",
+    "count": 1,
+    "owner": "FIN-A",
+    "reqFin": "REQ-FIN-04",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/theme/layers/useLayer.ts",
+    "count": 4,
+    "owner": "FIN-A",
+    "reqFin": "REQ-FIN-07",
+    "expires": "RC-1"
+  },
+  {
+    "rule": "compiler",
+    "file": "src/theme/preferences-panel/GlassPreferencesPanel.tsx",
+    "count": 2,
+    "owner": "FIN-D",
+    "reqFin": "REQ-FIN-55",
+    "expires": "RC-1"
+  }
+]
