@@ -13,6 +13,7 @@ export const COPY = {
   subtitle: '3 rooms · 14 devices online · Evening scene active',
   scenesLabel: 'Scene',
   roomsHeading: 'Rooms',
+  roomsSummary: 'Average 21.2 °C · 2 rooms lit',
   controlsHeading: 'Living room',
   controlsSummary: 'Lights 70% · heating to 21.5 °C · speaker on',
   nowPlaying: 'Low Tide Signals',

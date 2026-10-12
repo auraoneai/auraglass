@@ -2,6 +2,8 @@
 import { describe, expect, it } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { Command } from './Command';
 import type { toChangeDetails } from '../../foundation';
 /** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
@@ -156,8 +158,7 @@ describe('Command (SURF-086)', () => {
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
     const active = document.querySelector('[data-ag-part="item"][aria-selected="true"]');
     expect(active?.getAttribute('data-state')).toBe('active');
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const css: string = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'Command.css'), 'utf8');
+    const css = readFileSync(resolve(__dirname, 'Command.css'), 'utf8');
     expect(css).toContain(".ag-command__item[data-state='active']");
   });
 });

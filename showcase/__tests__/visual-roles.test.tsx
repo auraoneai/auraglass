@@ -130,6 +130,18 @@ describe('showcase visual roles (collaborative-workspace, mobile-productivity, e
     expect(trigger?.textContent).toBe('Fog grey');
   });
 
+  it.each([
+    ['ecommerce', <Ecommerce key="ec" />, 2],
+    ['ecommerce cart sheet', <EcommerceCartSheet key="cs" />, 1],
+    ['mobile-productivity', <MobileProductivity key="mp" />, 1],
+  ] as const)('%s: layout lists opt out of bullets (role="list", reset clears the marker)', (_name, el, min) => {
+    mount(el);
+    /* identity-obj-proxy: CSS-module class names are the module keys. */
+    const lists = Array.from(document.querySelectorAll('ul.relatedList, ul.reviewList, ul.cartList, ul.tasks'));
+    expect(lists.length).toBeGreaterThanOrEqual(min);
+    expect(lists.filter((l) => l.getAttribute('role') !== 'list').map((l) => l.className)).toEqual([]);
+  });
+
   it('collaborative-workspace: comments are attributed to people', () => {
     mount(<CollaborativeDocumentComments />);
     const headings = Array.from(document.querySelectorAll('[data-ag-part="message"] [data-ag-part="heading"]')).map((h) => h.textContent);

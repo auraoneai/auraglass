@@ -52,7 +52,9 @@ export function MusicPlayer({ now = SHOWCASE_EPOCH }: MusicPlayerProps) {
     label: `${a.title} by ${a.artist}`,
     children: (
       <figure className={styles.album}>
-        <img className={styles.cover} src={a.cover} alt={`${a.title} cover art`} width={512} height={512} />
+        <div className={styles.coverFrame} data-ag-radius="md">
+          <img className={styles.cover} src={a.cover} alt={`${a.title} cover art`} width={512} height={512} />
+        </div>
         <figcaption className={styles.albumCaption}>
           <Text type="label" weight="semibold" truncate>{a.title}</Text>
           <Text type="caption" muted truncate>{a.artist}</Text>
