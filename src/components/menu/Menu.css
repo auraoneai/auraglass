@@ -19,7 +19,6 @@
     border-radius: var(--ag-radius-md);
     color: var(--ag-on-surface);
     font-family: var(--ag-font-sans);
-    outline: none;
   }
 
   /* REQ-CMP-83: enter is opacity 0->1 + scale(0.96->1) from the anchor
@@ -63,7 +62,6 @@
     color: var(--ag-on-surface);
     cursor: default;
     user-select: none;
-    outline: none;
   }
   @media (pointer: coarse) {
     .ag-menu-item, .ag-menu-submenu-trigger { min-block-size: 44px; }
@@ -184,16 +182,6 @@
   .ag-menubar .ag-menu-trigger[data-popup-open],
   .ag-menubar .ag-menu-trigger[data-highlighted] {
     background: color-mix(in oklab, currentColor 12%, transparent);
-  }
-  /* REQ-CMP-19: the shared two-tone ring, drawn inside the trigger so the
-     bar's tight padding never clips it (same shape as [data-ag-focus-inset]). */
-  .ag-menubar .ag-menu-trigger:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-focus-outer, Highlight);
-    outline-offset: calc(var(--ag-focus-width) * -1);
-    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) * 2) var(--ag-focus-inner, Canvas);
-  }
-  @media (forced-colors: active) {
-    .ag-menubar .ag-menu-trigger:focus-visible { outline: 2px solid Highlight; box-shadow: none; }
   }
 
   .ag-contextmenu-trigger {

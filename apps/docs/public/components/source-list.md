@@ -21,6 +21,7 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/disclosure
 
 | Part | Selector |
 | --- | --- |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 | `icon` | `[data-ag-part="icon"]` |
 | `source` | `[data-ag-part="source"]` |
 | `source-file` | `[data-ag-part="source-file"]` |

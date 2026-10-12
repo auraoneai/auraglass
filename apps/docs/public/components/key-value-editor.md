@@ -27,6 +27,7 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 | `control` | `[data-ag-part="control"]` |
 | `control-shell` | `[data-ag-part="control-shell"]` |
 | `error` | `[data-ag-part="error"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 | `key-input` | `[data-ag-part="key-input"]` |
 | `key-value-add` | `[data-ag-part="key-value-add"]` |
 | `key-value-editor` | `[data-ag-part="key-value-editor"]` |

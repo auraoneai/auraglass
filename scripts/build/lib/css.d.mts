@@ -20,7 +20,8 @@ export function collectCssFragments(root?: string, opts?: { validate?: boolean }
 export function validateFragment(f: { file: string; content: string }): void;
 export function guardColorMix(css: string): string;
 export function containerCount(css: string): number;
-export function assembleBundle(bundle: string, fragments: CssFragmentEntry[], root?: string): Promise<string>;
+export function rebaseCssUrls(css: string, srcFile: string, bundle: string, root?: string): { css: string; assets: Array<{ from: string; to: string }> };
+export function assembleBundle(bundle: string, fragments: CssFragmentEntry[], root?: string, assets?: Array<{ from: string; to: string }> | null): Promise<string>;
 export function lowerCss(css: string, targets?: string): Promise<string>;
 export function computeOwnership(fragments: CssFragmentEntry[]): unknown;
 export function checkOwnership(bundle: string, css: string, ownership: unknown): unknown;

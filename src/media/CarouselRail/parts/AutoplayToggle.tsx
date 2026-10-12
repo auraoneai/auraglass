@@ -19,6 +19,6 @@ export function AutoplayToggle(): React.ReactElement {
       aria-label={enabled ? 'Stop automatic slide show' : 'Start automatic slide show'}
       aria-controls={c.viewportId}
       onClick={() => { if (c.autoplayGate) c.setAutoplayStopped(enabled); }}
-    ><span aria-hidden="true">{enabled ? '❚❚' : '▶'}</span></button>
+    ><span aria-hidden="true">{enabled ? '❚❚' : '▶'}</span><span data-ag-part="hit-area" aria-hidden="true" /></button>
   );
 }

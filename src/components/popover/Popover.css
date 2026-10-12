@@ -28,7 +28,6 @@
     padding: var(--ag-space-4);
     inline-size: max-content;
     max-inline-size: min(320px, calc(100vw - 32px));
-    outline: none;
     transition:
       opacity var(--ag-duration-small) var(--ag-ease-standard),
       transform var(--ag-duration-small) var(--ag-ease-standard);

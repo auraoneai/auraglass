@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T2',
   rsc: 'client',
   // No Dialog 'backdrop' part: the popup renders with backdrop={false}; image-viewer-scrim is the scrim.
-  parts: ['image-viewer-caption', 'image-viewer-close', 'image-viewer-counter', 'image-viewer-inspector', 'image-viewer-next', 'image-viewer-popup', 'image-viewer-prev', 'image-viewer-scrim', 'image-viewer-stage', 'image-viewer-toolbar', 'image-viewer-trigger', 'image-viewer-zoom-in', 'image-viewer-zoom-out', 'image-viewer-zoom-reset', 'media-glyph'],
+  parts: ['hit-area', 'image-viewer-caption', 'image-viewer-close', 'image-viewer-counter', 'image-viewer-inspector', 'image-viewer-next', 'image-viewer-popup', 'image-viewer-prev', 'image-viewer-scrim', 'image-viewer-stage', 'image-viewer-toolbar', 'image-viewer-trigger', 'image-viewer-zoom-in', 'image-viewer-zoom-out', 'image-viewer-zoom-reset', 'media-glyph'],
   states: ['closed', 'open', 'zoomed'],
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/',
   variants: {},

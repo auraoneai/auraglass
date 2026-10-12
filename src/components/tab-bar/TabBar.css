@@ -38,10 +38,7 @@
     color: var(--_ag-fg, currentColor);
     background: var(--_ag-bg-active, transparent);
   }
-  .ag-tab-bar__item:focus-visible {
-    outline: var(--_ag-focus-ring-width, 2px) solid var(--_ag-focus-ring, currentColor);
-    outline-offset: calc(-1 * var(--_ag-focus-ring-width, 2px));
-  }
+  /* focus ring: src/a11y/css/focus.css, drawn inside ([data-ag-focus-inset]) */
   .ag-tab-bar__item[aria-disabled='true'] {
     color: var(--_ag-fg-disabled, currentColor);
     pointer-events: none;
@@ -49,7 +46,7 @@
   .ag-tab-bar__item-badge {
     font-size: var(--_ag-text-xs, 0.75rem);
     padding-inline: var(--ag-space-1, 0.25rem);
-    border-radius: var(--ag-radius-full, 999px);
+    border-radius: var(--ag-radius-full);
     background: var(--_ag-bg-badge, transparent);
     color: var(--_ag-fg-badge, currentColor);
   }
@@ -118,9 +115,6 @@
       text-decoration-line: underline;
       text-decoration-thickness: var(--ag-focus-width, 2px);
       text-underline-offset: var(--ag-space-1, 0.25rem);
-    }
-    .ag-tab-bar__item:focus-visible {
-      outline: 2px solid Highlight;
     }
     .ag-tab-bar__item-badge {
       border: 1px solid CanvasText;

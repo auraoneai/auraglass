@@ -194,6 +194,8 @@ export function TreeView<T extends TreeItemData>({
                     size="1em"
                     className={`ag-tree__chevron-glyph${isExpanded ? ' ag-tree__chevron-glyph--open' : ''}`}
                   />
+                  {/* REQ-SURF-192: MAT hit area */}
+                  <span data-ag-part="hit-area" aria-hidden="true" />
                 </RACButton>
               ) : null}
               {preset === 'files' ? (

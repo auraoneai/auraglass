@@ -73,6 +73,40 @@ describe('checkbox indicator grid (REQ-CMP-52)', () => {
   });
 });
 
+/* REQ-CMP-54: checked = opaque accent fill + contrast-color() icon inside
+   @supports, with the --ag-color-on-accent fallback outside it; the unchecked
+   edge is the border-token rim (see the REQ text for why not --ag-surface-rim). */
+describe('checkbox/radio box fill + icon colour (REQ-CMP-54)', () => {
+  const CB = readFileSync(join(process.cwd(), 'src/components/checkbox/Checkbox.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const CHECKED = /\.ag-checkbox\[data-checked\] \[data-ag-part='indicator'\],\s*\.ag-checkbox\[data-indeterminate\] \[data-ag-part='indicator'\],\s*\.ag-radio-group \[data-checked\] \[data-ag-part='indicator'\]\s*\{([^}]*)\}/g;
+  const supportsAt = CB.indexOf('@supports (color: contrast-color(red))');
+  const blocks = [...CB.matchAll(CHECKED)].map((m) => ({ at: m.index!, body: m[1]! }));
+
+  it('fallback rule (outside @supports): accent fill, --ag-color-on-accent icon', () => {
+    const fallback = blocks.filter((b) => b.at < supportsAt);
+    expect(fallback).toHaveLength(1);
+    expect(fallback[0]!.body).toMatch(/background:\s*var\(--ag-color-accent\);/);
+    expect(fallback[0]!.body).toMatch(/color:\s*var\(--_ag-on-accent, var\(--ag-color-on-accent\)\);/);
+  });
+
+  it('@supports (color: contrast-color(red)) sets color: contrast-color(var(--ag-color-accent))', () => {
+    expect(supportsAt).toBeGreaterThan(-1);
+    const inside = blocks.filter((b) => b.at > supportsAt);
+    expect(inside).toHaveLength(1);
+    // the rule really sits inside the @supports block
+    const supportsBody = CB.slice(supportsAt, CB.indexOf('}\n  }', supportsAt) + 1);
+    expect(supportsBody).toContain(inside[0]!.body);
+    expect(inside[0]!.body.trim()).toBe('color: contrast-color(var(--ag-color-accent));');
+  });
+
+  it('unchecked box: content-sunken fill and a border-token rim scaled from --ag-focus-width', () => {
+    const base = CB.match(/\.ag-checkbox \[data-ag-part='indicator'\],\s*\.ag-radio-group \[data-ag-part='indicator'\]\s*\{([^}]*)\}/)![1]!;
+    expect(base).toMatch(/background:\s*color-mix\(in oklab, var\(--ag-color-canvas\), var\(--ag-color-on-surface\) var\(--_ag-content-sunken-alpha, 4%\)\);/);
+    expect(base).toMatch(/box-shadow:\s*inset 0 0 0 calc\(var\(--ag-focus-width\) \* 0\.75\) var\(--ag-color-border\);/);
+    expect(base).not.toMatch(/backdrop-filter/);
+  });
+});
+
 /* REQ-CMP-61 (TextField chrome grid) is covered by
    tests/controls/text-field-chrome.test.tsx: it resolves the shell's padding
    and height through the MAT comp tokens instead of matching source text. */

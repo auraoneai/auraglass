@@ -39,6 +39,7 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/carousel/
 | `carousel-prev` | `[data-ag-part="carousel-prev"]` |
 | `carousel-slide` | `[data-ag-part="carousel-slide"]` |
 | `carousel-viewport` | `[data-ag-part="carousel-viewport"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

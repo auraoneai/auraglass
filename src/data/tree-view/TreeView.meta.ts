@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 33,
   rsc: 'client',
-  parts: ['root', 'tree-item', 'tree-view'],
+  parts: ['hit-area', 'root', 'tree-item', 'tree-view'],
   states: ['expanded', 'collapsed', 'selected', 'focused'],
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/treeview/',

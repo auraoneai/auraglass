@@ -46,7 +46,6 @@
     color: inherit;
     font: inherit;
     font-size: var(--ag-type-body-size);
-    outline: none;
   }
   .ag-command__input::placeholder {
     color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));

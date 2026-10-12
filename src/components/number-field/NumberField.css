@@ -49,7 +49,6 @@
     font-variant-numeric: tabular-nums;
     background: transparent;
     border: 0;
-    outline: none;
     color: inherit;
     font: inherit;
     padding-block: var(--ag-space-2);

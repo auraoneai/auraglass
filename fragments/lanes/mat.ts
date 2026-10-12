@@ -46,6 +46,24 @@ export default [
     remote: false,
     failClosed: true,
   },
+  // REQ-MAT-61: src/a11y/css/focus.css is the only focus implementation —
+  // no focus-indicator rule or outline removal anywhere else in src/**.
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/mat/verify-focus-single-owner.mjs',
+    scope: 'pr',
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: 'L1',
+    kind: 'node-script',
+    path: 'scripts/mat/verify-focus-single-owner.mjs',
+    scope: 'main',
+    remote: false,
+    failClosed: true,
+  },
   // MAT-323: beta gate — §9 removals + css enforce-zero + apg enforce.
   {
     lane: 'L1',

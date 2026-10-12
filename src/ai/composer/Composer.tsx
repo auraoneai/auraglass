@@ -399,6 +399,7 @@ export function ComposerAttachments() {
             onClick={() => c.removeFile(a.id)}
           >
             <AiIcon name="stop" size={10} />
+            <span data-ag-part="hit-area" aria-hidden="true" />
           </button>
         </li>
       ))}
@@ -446,6 +447,7 @@ export function ComposerAction({
     >
       {icon ? <AiIcon name={icon} /> : null}
       {rest.children}
+      <span data-ag-part="hit-area" aria-hidden="true" />
     </button>
   );
 }
@@ -503,6 +505,7 @@ export function ComposerSubmit(props: Omit<React.ButtonHTMLAttributes<HTMLButton
     return (
       <button type="button" data-ag-part="stop" aria-label={c.labels.stop ?? 'Stop generating'} onClick={c.stop} {...props}>
         <AiIcon name="stop" />
+        <span data-ag-part="hit-area" aria-hidden="true" />
       </button>
     );
   }
@@ -515,6 +518,7 @@ export function ComposerSubmit(props: Omit<React.ButtonHTMLAttributes<HTMLButton
       {...props}
     >
       <AiIcon name="send" />
+      <span data-ag-part="hit-area" aria-hidden="true" />
     </button>
   );
 }

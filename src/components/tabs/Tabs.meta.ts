@@ -9,7 +9,7 @@ export default defineMeta({
   flagship: 25,
   tier: 'T1',
   rsc: 'client',
-  parts: ['indicator', 'list', 'panel', 'tab', 'tabs'],
+  parts: ['hit-area', 'indicator', 'list', 'panel', 'tab', 'tabs'],
   states: ['active', 'inactive'],
   variants: {},
   migration: [{ from: 'GlassTabs', props: { selectedTab: 'value', onTabChange: 'onValueChange', activeTab: 'value', onTabClick: 'onValueChange', onChange: 'onValueChange' }, automation: 'mostly', compat: true }],

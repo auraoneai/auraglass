@@ -762,6 +762,7 @@ export function Table<TData>(props: TableProps<TData>) {
             onClick={() => onSortClick(header.column.id)}
           >
             {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+            <span data-ag-part="hit-area" aria-hidden="true" />
           </button>
         ) : (
           flexRender(header.column.columnDef.header, header.getContext())

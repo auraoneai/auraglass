@@ -198,4 +198,13 @@ export default [
     remote: false,
     failClosed: true,
   },
+  // L6 — REQ-CMP-68: Select popup width/height at 390 px (fine + coarse)
+  {
+    lane: "L6",
+    kind: "playwright",
+    path: "tests/e2e/cmp/controls/select-390.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
 ] satisfies LaneRegistration[];

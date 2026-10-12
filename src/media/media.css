@@ -10,6 +10,11 @@
 /* --- lane W4 begin --- */
 
 @layer ag.components {
+  /* REQ-SURF-192: containing block for the MAT hit area ([data-ag-part=hit-area],
+     src/a11y/css/targets.css) these targets render. :where() keeps it at zero
+     specificity, so a part's own position (absolute, sticky) still wins. */
+  :where([data-ag-part='now-playing-expand'], .ag-media-btn, [data-ag-part='image-viewer-trigger'], [data-ag-part='image-viewer-prev'], [data-ag-part='image-viewer-next'], [data-ag-part='image-viewer-zoom-in'], [data-ag-part='image-viewer-zoom-out'], [data-ag-part='image-viewer-zoom-reset'], [data-ag-part='image-viewer-close'], [data-ag-part='carousel-indicator']) { position: relative; }
+
   /* [data-ag-media-root] progress var is written by useMediaElement frames
      (or by NowPlayingBar from a controlled `progress`). */
 /* --- lane W4 end --- */
@@ -53,11 +58,7 @@
     background-color: color-mix(in oklch, currentColor 12%, transparent);
   }
   .ag-media-btn:not([data-ag-surface]):active { background-color: color-mix(in oklch, currentColor 18%, transparent); }
-  .ag-media-btn:focus-visible,
-  [data-ag-part='now-playing-expand']:focus-visible {
-    outline: var(--_ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
-    outline-offset: var(--_ag-focus-width, 2px);
-  }
+  /* focus ring: src/a11y/css/focus.css (REQ-MAT-61) */
   .ag-media-btn[aria-disabled='true'] { cursor: default; }
   @media (pointer: coarse) {
     .ag-media-btn { min-inline-size: var(--ag-target-coarse, 2.75rem); min-block-size: var(--ag-target-coarse, 2.75rem); }
@@ -268,8 +269,6 @@
     .ag-media-scrubber .ag-slider [data-ag-part='thumb'] { background: Highlight; border: 1px solid CanvasText; }
     [data-ag-part='media-scrubber-buffered'],
     [data-ag-part='media-scrubber-chapter'] { background: CanvasText; }
-    .ag-media-btn:focus-visible,
-    [data-ag-part='now-playing-expand']:focus-visible { outline: 2px solid Highlight; }
   }
 /* --- end lane W4 controls --- */
 
@@ -364,10 +363,6 @@
     cursor: zoom-in;
   }
   [data-ag-part='image-viewer-trigger'] > img { display: block; }
-  [data-ag-part='image-viewer-trigger']:focus-visible {
-    outline: var(--_ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
-    outline-offset: var(--_ag-focus-width, 2px);
-  }
 
   /* CarouselRail */
   /* REQ-SURF-146: the carousel is its own inline-size container, so a numeric
@@ -397,10 +392,6 @@
   }
   .ag-carousel-nav[aria-disabled='true'] { cursor: default; }
   .ag-carousel-nav > svg { display: block; }
-  .ag-carousel-nav:focus-visible {
-    outline: var(--_ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
-    outline-offset: var(--_ag-focus-width, 2px);
-  }
   [data-ag-part='carousel-prev'] { inset-inline-start: var(--ag-space-2, 0.5rem); }
   [data-ag-part='carousel-next'] { inset-inline-end: var(--ag-space-2, 0.5rem); }
   @media (pointer: coarse) { .ag-carousel-nav { display: none; } }
@@ -415,9 +406,10 @@
   }
   [data-ag-part='carousel-indicator'][aria-selected='true'],
   [data-ag-part='carousel-indicator'][aria-current='true'] { background-color: currentColor; }
-  [data-ag-part='carousel-indicator']:focus-visible {
-    outline: var(--_ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
-    outline-offset: var(--_ag-focus-width, 2px);
+  /* REQ-SURF-192: under a coarse pointer each 8px dot's 44px hit area needs a
+     44px pitch so neighbouring areas never overlap; the dots keep their size. */
+  @media (pointer: coarse) {
+    .ag-carousel-indicators { gap: calc(var(--ag-target-coarse) - var(--ag-space-2, 0.5rem)); }
   }
   [data-ag-part='carousel-autoplay-toggle'] { position: absolute; inset-inline-start: var(--ag-space-2, 0.5rem); inset-block-start: var(--ag-space-2, 0.5rem); z-index: 1; }
 /* --- end lane W4 iv/carousel --- */

@@ -1,6 +1,11 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 @layer ag.components {
+  /* REQ-SURF-192: containing block for the MAT hit area ([data-ag-part=hit-area],
+     src/a11y/css/targets.css) these targets render. :where() keeps it at zero
+     specificity, so a part's own position (absolute, sticky) still wins. */
+  :where([data-ag-part='chart-legend-item'], [data-ag-part='chart-table-toggle']) { position: relative; }
+
   .ag-chart-frame {
     margin: 0;
     display: grid;
@@ -128,10 +133,6 @@
     }
     .ag-chart-frame__legend-item[aria-pressed='false'] {
       text-decoration-line: line-through;
-    }
-    .ag-chart-frame__legend-item:focus-visible,
-    .ag-chart-frame__toggle:focus-visible {
-      outline: 2px solid Highlight;
     }
   }
 }

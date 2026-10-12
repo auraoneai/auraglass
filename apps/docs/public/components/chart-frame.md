@@ -41,6 +41,7 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/grid-and-
 | `chart-table` | `[data-ag-part="chart-table"]` |
 | `chart-table-toggle` | `[data-ag-part="chart-table-toggle"]` |
 | `chart-title` | `[data-ag-part="chart-title"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

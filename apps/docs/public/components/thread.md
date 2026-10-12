@@ -37,6 +37,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 | `empty` | `[data-ag-part="empty"]` |
 | `error-text` | `[data-ag-part="error-text"]` |
 | `heading` | `[data-ag-part="heading"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 | `icon` | `[data-ag-part="icon"]` |
 | `io` | `[data-ag-part="io"]` |
 | `io-pre` | `[data-ag-part="io-pre"]` |

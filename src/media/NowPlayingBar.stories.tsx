@@ -58,4 +58,4 @@ function ResponsiveBar() {
 }
 export const Responsive: Story = { render: () => <ResponsiveBar /> };
 
-export const ClearOverMedia: Story = { render: () => <div style={{ background: 'linear-gradient(120deg,#204060,#80a0c0)', padding: 8 }}><NowPlayingBar.Root playing variant="clear"><NowPlayingBar.Title>Clear variant</NowPlayingBar.Title><NowPlayingBar.Progress /></NowPlayingBar.Root></div> };
+export const ClearOverMedia: Story = { render: () => <div style={{ background: 'linear-gradient(120deg, var(--ag-color-accent), var(--ag-color-info))', padding: 8 }}><NowPlayingBar.Root playing variant="clear"><NowPlayingBar.Title>Clear variant</NowPlayingBar.Title><NowPlayingBar.Progress /></NowPlayingBar.Root></div> };

@@ -19,6 +19,6 @@ export function Next({ className }: { className?: string | undefined } = {}): Re
       aria-controls={c.viewportId}
       aria-disabled={atEnd}
       onClick={() => { if (!atEnd) c.step(1); }}
-    ><span aria-hidden="true">›</span></button>
+    ><span aria-hidden="true">›</span><span data-ag-part="hit-area" aria-hidden="true" /></button>
   );
 }

@@ -76,6 +76,8 @@ function MenuTrigger({ openOnHover, delay, className, children, ref, ...rest }: 
       <Base.Trigger
         ref={ref as React.Ref<HTMLButtonElement>}
         data-ag-part="trigger"
+        // REQ-MAT-61: inside a Menubar the MAT ring is drawn inside the bar
+        {...(inMenubar ? { 'data-ag-focus-inset': '' } : {})}
         className={cn('ag-menu-trigger', className)}
         {...(openOnHover !== undefined ? { openOnHover } : {})}
         {...(delay !== undefined ? { delay } : {})}

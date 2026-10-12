@@ -1,11 +1,5 @@
 [
   {
-    "file": "src/a11y/css/focus.css",
-    "owner": "MAT",
-    "reqFin": "REQ-FIN-50",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/a11y/css/rungs.css",
     "owner": "MAT",
     "reqFin": "REQ-FIN-03",

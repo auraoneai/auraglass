@@ -52,6 +52,7 @@ Tier preview · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/practices/grid-
 | `chart-table` | `[data-ag-part="chart-table"]` |
 | `chart-table-toggle` | `[data-ag-part="chart-table-toggle"]` |
 | `chart-title` | `[data-ag-part="chart-title"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

@@ -24,4 +24,28 @@ describe('Backdrop SSR (REQ-SURF-158/08)', () => {
   it('explicit mediaTone sets data-ag-media-tone', () => {
     expect(renderToString(<Backdrop preset="photo" src="/x.jpg" mediaTone="dark" />)).toContain('data-ag-media-tone="dark"');
   });
+  it('src/srcSet/sizes/poster/crossOrigin never leak onto the root <div> (REQ-SURF-155)', () => {
+    const photo = renderToString(
+      <Backdrop preset="photo" src="/x.jpg" srcSet="/x-2.jpg 2x" sizes="100vw" crossOrigin="anonymous" />,
+    );
+    expect(photo).not.toMatch(/<div[^>]* (?:src|srcSet|srcset|sizes|poster|crossOrigin|crossorigin)=/);
+    expect(photo).toMatch(/<img[^>]* src="\/x.jpg"/);
+    const video = renderToString(<Backdrop preset="video" src="/v.mp4" poster="/p.jpg" crossOrigin="anonymous" />);
+    expect(video).not.toMatch(/<div[^>]* (?:src|poster|crossOrigin|crossorigin)=/);
+    expect(video).toMatch(/<video[^>]* poster="\/p.jpg"/);
+  });
+  it('every palette id is emitted as data-ag-palette (default aurora)', () => {
+    expect(renderToString(<Backdrop preset="mesh" />)).toContain('data-ag-palette="aurora"');
+    for (const palette of ['aurora', 'prism', 'ocean', 'ember', 'mono'] as const) {
+      expect(renderToString(<Backdrop preset="aurora" palette={palette} />)).toContain(`data-ag-palette="${palette}"`);
+    }
+  });
+  it('preset="grain" turns the grain overlay on by itself; grain={true} adds it to any preset (REQ-SURF-160)', () => {
+    expect(renderToString(<Backdrop preset="grain" />)).toContain('data-backdrop-grain=""');
+    expect(renderToString(<Backdrop preset="aurora" />)).not.toContain('data-backdrop-grain');
+    expect(renderToString(<Backdrop preset="aurora" grain />)).toContain('data-backdrop-grain=""');
+  });
+  it('video renders the pause control hidden server-side (nothing plays before hydration, REQ-SURF-157)', () => {
+    expect(renderToString(<Backdrop preset="video" src="/v.mp4" />)).toMatch(/<button[^>]*data-ag-part="backdrop-pause"[^>]* hidden=""/);
+  });
 });

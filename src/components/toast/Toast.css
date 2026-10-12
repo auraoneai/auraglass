@@ -16,7 +16,6 @@
     padding: var(--ag-space-4);
     z-index: var(--ag-z-toast, 60);
     pointer-events: none; /* children re-enable */
-    outline: none;
   }
   .ag-toast-viewport[data-position^='top'] { top: 0; flex-direction: column; }
   .ag-toast-viewport[data-position^='bottom'] { bottom: 0; flex-direction: column-reverse; }
@@ -55,9 +54,8 @@
     font-family: var(--ag-font-sans);
     font-size: var(--ag-type-callout-size);
     line-height: var(--ag-type-callout-leading);
-    outline: none;
     /* REQ-CMP-109: intent tints only the leading icon and a 3px inline-start
-       rim (--_ag-toast-accent, set per intent below). */
+       rim (--_ag-toast-accent, set per intent below). Focus ring: src/a11y/css/focus.css (REQ-MAT-61). */
     border-inline-start: 3px solid var(--_ag-toast-accent);
     --_ag-toast-accent: var(--ag-color-info);
   }
@@ -133,7 +131,7 @@
     color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
   }
   .ag-toast-action {
-    position: relative;
+    position: relative; /* REQ-MAT-62: containing block of the hit area */
     align-self: flex-start;
     padding: var(--ag-space-1) var(--ag-space-3);
     border: 0;
@@ -166,11 +164,6 @@
   }
   @media (hover: hover) {
     .ag-toast-close:hover { background: color-mix(in oklab, currentColor 12%, transparent); }
-  }
-  .ag-toast-action:focus-visible,
-  .ag-toast-close:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-focus-outer);
-    outline-offset: 1px;
   }
 
   .ag-toast-progress {

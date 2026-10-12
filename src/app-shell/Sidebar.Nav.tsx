@@ -61,6 +61,8 @@ export function SidebarItem({ href, current, icon, badge, children, render, ...r
         {icon !== undefined ? <SidebarItemIcon>{icon}</SidebarItemIcon> : null}
         <span className="ag-sidebar__item-label">{children}</span>
         {badge !== undefined ? <SidebarItemBadge>{badge}</SidebarItemBadge> : null}
+        {/* REQ-SURF-192: MAT hit area */}
+        <span data-ag-part="hit-area" aria-hidden="true" />
       </>
     ),
   });

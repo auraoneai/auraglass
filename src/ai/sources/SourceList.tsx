@@ -120,6 +120,7 @@ export function SourceList({ messageId, sources, defaultOpen, className }: Sourc
                   <a href={s.url} rel="noopener noreferrer" target="_blank" data-ag-part="source-link">
                     {label}
                     <span className="ag-visually-hidden"> (opens in new tab)</span>
+                    <span data-ag-part="hit-area" aria-hidden="true" />
                   </a>
                 ) : (
                   <span data-ag-part="source-text">{label}</span>

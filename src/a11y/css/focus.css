@@ -1,24 +1,74 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
-/* REQ-MAT-61 focus ring (MAT-297) — the only focus implementation, verbatim
-   PRD §4.6 keyed on [data-ag-focusable] / .ag-focusable. WCAG 2.4.13.
-   Clipping containers use overflow:clip + overflow-clip-margin or the private
-   inset offset; nothing here uses element selectors or outline:none. */
+/* REQ-MAT-61 focus ring (MAT-297) — the only focus implementation in the
+   library, PRD §4.6 values. WCAG 2.4.13.
+   Coverage: [data-ag-focusable] / .ag-focusable (any owner's opt-in) and every
+   focusable component part ([data-ag-part], the S-33 part attribute every CMP
+   and SURF part carries) — this folds in the former REQ-CMP-19 ring from
+   control-shared/controls.css, so no component sheet draws a ring of its own
+   (scripts/mat/verify-focus-single-owner.mjs, L1). :focus-visible never
+   matches an unfocusable element, so keying on the part attribute adds no
+   ring anywhere focus cannot go.
+   Text shells ([data-ag-part=control-shell|input-shell]) draw the ring on
+   :focus-within; the text control inside a shell paints a transparent outline
+   instead (a replacement, not a removal: forced colours turn it visible).
+   It lives in ag.a11y, the last layer, so no component rule can override or
+   animate it away. [data-ag-focus-inset] draws the ring inside the box for
+   parts in clipping containers. Nothing here uses element selectors or
+   outline: none. */
 @layer ag.a11y {
-  :where([data-ag-focusable], .ag-focusable):focus-visible {
-    outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus-outer, var(--ag-color-focus-outer, Highlight));
-    outline-offset: var(--_ag-focus-offset, var(--_ag-focus-width, 2px));
-    /* ring width from the --ag-focus-width token (declared by dist/tokens.css
-       in every mode); `0 0 transparent` is the PRD's empty-shadow `0 0 #0000` */
-    box-shadow: 0 0 0 var(--_ag-focus-width, var(--ag-focus-width)) var(--_ag-focus-inner, var(--ag-color-focus-inner, transparent)), var(--_ag-shadow, 0 0 transparent);
+  :where(
+    [data-ag-focusable],
+    .ag-focusable,
+    [data-ag-part]:not(:is([data-ag-part='control-shell'], [data-ag-part='input-shell']) :is([data-ag-part='control'], [data-ag-part='input']))
+  ):focus-visible,
+  :where([data-ag-part='control-shell'], [data-ag-part='input-shell']):focus-within {
+    outline: var(--ag-focus-width) solid var(--ag-focus-outer);
+    outline-offset: var(--ag-focus-width);
+    /* `0 0 transparent` is the PRD's empty-shadow `0 0 #0000` */
+    box-shadow: 0 0 0 var(--ag-focus-width) var(--ag-focus-inner), var(--_ag-shadow, 0 0 transparent);
   }
-  :where([data-ag-focus-inset]) {
-    --_ag-focus-offset: -2px;
+  :where([data-ag-focus-inset]):focus-visible {
+    outline-offset: calc(var(--ag-focus-width) * -1);
+    box-shadow: inset 0 0 0 calc(var(--ag-focus-width) * 2) var(--ag-focus-inner), var(--_ag-shadow, 0 0 transparent);
+  }
+  :where([data-ag-part='control-shell'], [data-ag-part='input-shell']) :where([data-ag-part='control'], [data-ag-part='input']):focus-visible {
+    outline: var(--ag-focus-width) solid transparent;
+    outline-offset: 0;
   }
   @media (forced-colors: active) {
-    :where([data-ag-focusable], .ag-focusable):focus-visible {
+    :where(
+      [data-ag-focusable],
+      .ag-focusable,
+      [data-ag-part]:not(:is([data-ag-part='control-shell'], [data-ag-part='input-shell']) :is([data-ag-part='control'], [data-ag-part='input']))
+    ):focus-visible,
+    :where([data-ag-part='control-shell'], [data-ag-part='input-shell']):focus-within {
       outline: 2px solid Highlight;
-      outline-offset: var(--_ag-focus-width, 2px);
+      outline-offset: var(--ag-focus-width);
+      box-shadow: none;
+    }
+    :where([data-ag-focus-inset]):focus-visible {
+      outline-offset: calc(var(--ag-focus-width) * -1);
+    }
+    /* REQ-SURF-189: the SURF chrome's system focus ring under forced colours,
+       including items that carry no part attribute (the ring stays here, its
+       single owner). */
+    .ag-app-shell :is(a, button, [tabindex]):not([data-ag-focusable], .ag-focusable):focus-visible,
+    .ag-sidebar__item:focus-visible,
+    .ag-panels__handle:focus-visible,
+    .ag-skip-link:focus-visible,
+    .ag-tab-bar__item:focus-visible,
+    .ag-tabs__tab:focus-visible,
+    .ag-breadcrumbs__link:focus-visible,
+    .ag-breadcrumbs__ellipsis:focus-visible,
+    .ag-pagination__link:focus-visible,
+    .ag-media-btn:focus-visible,
+    [data-ag-part='now-playing-expand']:focus-visible,
+    .ag-chart-frame__legend-item:focus-visible,
+    .ag-chart-frame__toggle:focus-visible,
+    [data-ag-part='message']:focus-visible,
+    [data-ag-part='step']:focus-visible {
+      outline: 2px solid Highlight;
       box-shadow: none;
     }
   }

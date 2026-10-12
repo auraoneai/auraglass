@@ -76,6 +76,7 @@ function JsonBlock({ label, value, maxChars, showAll }: { label: string; value: 
       {capped ? (
         <button type="button" data-ag-part="io-expand" onClick={() => setExpanded(true)}>
           {showAll}
+          <span data-ag-part="hit-area" aria-hidden="true" />
         </button>
       ) : null}
     </div>

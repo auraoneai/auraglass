@@ -15,7 +15,6 @@
     font-family: var(--ag-font-sans);
     font-size: var(--ag-type-body-size);
     line-height: var(--ag-type-body-leading);
-    outline: none;
     z-index: var(--ag-z-overlay, 300);
     /* depth is the material shadow for this thickness (MAT ladder,
        --_ag-mat-shadow); the old --_ag-shadow-overlay/-transient were never
@@ -165,11 +164,7 @@
     overflow-y: auto;
     overscroll-behavior: contain;
     padding: var(--ag-space-2) var(--ag-space-5);
-    outline: none;
-  }
-  .ag-sheet-body:focus-visible {
-    outline: var(--ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
-    outline-offset: calc(-1 * var(--ag-focus-width, 2px));
+    /* focus ring: src/a11y/css/focus.css, drawn inside ([data-ag-focus-inset]) */
   }
   .ag-sheet-body > * + * { margin-block-start: var(--ag-space-3); }
   .ag-sheet-body[data-padding='none'] { padding: 0; }

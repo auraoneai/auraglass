@@ -31,3 +31,31 @@ export function diffRatioInBox(a: Buffer, b: Buffer, box: Box): number {
   const n = pixelmatch(sa.data, sb.data, diff.data, w, h, { threshold: 0.1, includeAA: false });
   return n / (w * h);
 }
+
+/** WCAG relative luminance of an sRGB byte triple. */
+function luminance(r: number, g: number, b: number): number {
+  const f = (v: number) => {
+    const x = v / 255;
+    return x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+  };
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+}
+
+/** REQ-MAT-61 (WCAG 2.4.13): per-pixel contrast ratio between the unfocused
+ *  and focused renders of the same clip, for every pixel that changed,
+ *  sorted high → low. Both PNGs are opaque page screenshots of equal size. */
+export function changedPixelRatios(unfocused: Buffer, focused: Buffer): number[] {
+  const a = PNG.sync.read(unfocused);
+  const b = PNG.sync.read(focused);
+  if (a.width !== b.width || a.height !== b.height) {
+    throw new Error(`png size mismatch ${a.width}x${a.height} vs ${b.width}x${b.height}`);
+  }
+  const out: number[] = [];
+  for (let i = 0; i < a.data.length; i += 4) {
+    if (a.data[i] === b.data[i] && a.data[i + 1] === b.data[i + 1] && a.data[i + 2] === b.data[i + 2]) continue;
+    const la = luminance(a.data[i]!, a.data[i + 1]!, a.data[i + 2]!);
+    const lb = luminance(b.data[i]!, b.data[i + 1]!, b.data[i + 2]!);
+    out.push((Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05));
+  }
+  return out.sort((x, y) => y - x);
+}

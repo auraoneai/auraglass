@@ -29,6 +29,7 @@ Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-r
 | Part | Selector |
 | --- | --- |
 | `ellipsis` | `[data-ag-part="ellipsis"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 | `item` | `[data-ag-part="item"]` |
 | `next` | `[data-ag-part="next"]` |
 | `page` | `[data-ag-part="page"]` |

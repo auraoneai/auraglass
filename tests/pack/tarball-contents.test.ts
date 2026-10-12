@@ -94,4 +94,27 @@ describe('tarball contents (PLAT-297)', () => {
   it('an unexpected top-level entry exits 1', () => {
     expectFails({ 'package.json': manifest(['stray']), 'stray/index.js': 'export {};\n' }, /unexpected top-level entries: stray\/index\.js/);
   });
+
+  // REQ-SURF-160 (L2): shipped css url()s resolve inside the tarball.
+  it('a dist css url() to a file missing from the tarball exits 1', () => {
+    expectFails(
+      { 'dist/backdrops.css': ".g::after { background-image: url('../assets/grain-112.avif'); }\n" },
+      /unresolved url\(\.\.\/assets\/grain-112\.avif\) in dist\/backdrops\.css/,
+    );
+  });
+
+  it('a dist css url() to a packed asset passes; data: and #id urls are ignored', () => {
+    const dir = PKG({
+      ...BASE_FILES,
+      'dist/backdrops.css': ".g::after { background-image: image-set(url('./backdrops/assets/grain-112.avif') type('image/avif'), url(\"./backdrops/assets/grain-112.png\") type('image/png')); }\n"
+        + ".h { mask: url(#m); background: url(data:image/png;base64,AAAA); }\n",
+      'dist/backdrops/assets/grain-112.avif': 'x',
+      'dist/backdrops/assets/grain-112.png': 'x',
+    });
+    try {
+      const r = runVerify(dir);
+      expect(r.out).not.toMatch(/unresolved url/);
+      expect(r.status).toBe(0);
+    } finally { rmSync(dir, { recursive: true, force: true }); }
+  });
 });

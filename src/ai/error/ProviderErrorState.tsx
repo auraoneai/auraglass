@@ -72,6 +72,7 @@ export function ProviderErrorState({ kind, title, detail, retryAfterMs, onRetry,
             onClick={onRetry}
           >
             {remaining > 0 ? `Retry in ${seconds}…` : 'Retry'}
+            <span data-ag-part="hit-area" aria-hidden="true" />
           </button>
         ) : null}
       </div>

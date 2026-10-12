@@ -27,6 +27,7 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 
 | Part | Selector |
 | --- | --- |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 | `image-viewer-caption` | `[data-ag-part="image-viewer-caption"]` |
 | `image-viewer-close` | `[data-ag-part="image-viewer-close"]` |
 | `image-viewer-counter` | `[data-ag-part="image-viewer-counter"]` |

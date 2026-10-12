@@ -305,6 +305,7 @@ function ToastAction({ className, ref, ...rest }: ToastActionProps & { ref?: Rea
 function ToastClose({ className, children, ref, ...rest }: ToastCloseProps & { ref?: React.Ref<HTMLButtonElement> | undefined }) {
     return (
       <Base.Close ref={ref} data-ag-part="close" aria-label={rest['aria-label'] ?? 'Dismiss'} className={cn('ag-toast-close', className)} {...rest}>
+        {/* REQ-CMP-20 / REQ-MAT-62: MAT hit area — >= 24px fine / 44px coarse, no layout change */}
         <span data-ag-part="hit-area" aria-hidden="true" />
         {children}
       </Base.Close>

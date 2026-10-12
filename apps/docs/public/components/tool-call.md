@@ -35,6 +35,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/disclosure
 | `deny` | `[data-ag-part="deny"]` |
 | `deny-reason` | `[data-ag-part="deny-reason"]` |
 | `error-text` | `[data-ag-part="error-text"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 | `icon` | `[data-ag-part="icon"]` |
 | `io` | `[data-ag-part="io"]` |
 | `io-expand` | `[data-ag-part="io-expand"]` |

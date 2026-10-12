@@ -31,6 +31,7 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 | --- | --- |
 | `chip` | `[data-ag-part="chip"]` |
 | `chip-remove` | `[data-ag-part="chip-remove"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

@@ -18,11 +18,23 @@
   .ag-backdrop-layer > img, .ag-backdrop-layer > video {
     inline-size: 100%; block-size: 100%; object-fit: cover;
   }
-  /* One keyframe only under the continuous gate; paused offscreen/hidden. */
+  /* One keyframe only under the continuous gate; paused offscreen/hidden.
+     Longhands, never the `animation` shorthand: the shorthand resets
+     animation-play-state, so the higher-specificity gate rule would undo the
+     pause below. data-ag-offscreen is written by MAT observeOffscreen() and
+     data-backdrop-hidden by the BackdropDriftLayer island (REQ-SURF-159).
+     L10 paint decision: the drift animates `transform: translate3d()` on the
+     120% layer (compositor-only, no paint per frame); background-position
+     is not used, so the L10 <=2 ms paint/frame alternative is never needed. */
   [data-ag-continuous='on'] .ag-backdrop.ag-backdrop--drift .ag-backdrop-layer {
-    animation: ag-backdrop-drift var(--ag-duration-ambient, 40s) ease-in-out infinite alternate;
+    animation-name: ag-backdrop-drift;
+    animation-duration: var(--ag-duration-ambient);
+    animation-timing-function: var(--ag-ease-standard);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
   }
-  .ag-backdrop[data-ag-offscreen] .ag-backdrop-layer { animation-play-state: paused; }
+  .ag-backdrop[data-ag-offscreen] .ag-backdrop-layer,
+  .ag-backdrop[data-backdrop-hidden] .ag-backdrop-layer { animation-play-state: paused; }
   @media (prefers-reduced-motion: reduce) {
     .ag-backdrop .ag-backdrop-layer { animation: none; }
   }
@@ -30,17 +42,19 @@
     from { transform: translate3d(0, 0, 0); }
     to { transform: translate3d(-2%, 1.5%, 0); }
   }
-  /* Pause toggle: chrome thin; visible on focus and while playing. */
+  /* Pause toggle: chrome thin. Rendered only while the video plays or the
+     user paused it (REQ-SURF-157); visible on focus and hover. */
   [data-ag-part='backdrop-pause'] {
     position: absolute; z-index: 2; inset-block-end: var(--ag-space-2, 0.5rem); inset-inline-end: var(--ag-space-2, 0.5rem);
     font: inherit; font-size: var(--_ag-text-xs, 0.75rem); padding: var(--ag-space-1, 0.25rem) var(--ag-space-2, 0.5rem);
-    background: var(--ag-scrim-clear, rgba(0,0,0,0.4)); color: CanvasText;
+    background: var(--ag-scrim-media); color: CanvasText;
     border: 1px solid color-mix(in oklch, CanvasText 30%, transparent);
-    border-radius: var(--ag-radius-sm, 0.375rem); opacity: 0; transition: opacity var(--ag-duration-micro, 120ms);
+    border-radius: var(--ag-radius-sm); opacity: 0; transition: opacity var(--ag-duration-micro);
   }
+  [data-ag-part='backdrop-pause'][hidden] { display: none; }
   [data-ag-part='backdrop-pause']:focus-visible,
   [data-ag-part='backdrop-pause']:hover,
-  [data-ag-part='backdrop-pause'][data-backdrop-pause-visible] { opacity: 1; }
+  .ag-backdrop:hover > [data-ag-part='backdrop-pause'] { opacity: 1; }
   /* Forced colors: decorative layers off; root falls back to Canvas. */
   @media (forced-colors: active) {
     .ag-backdrop { background: Canvas; }

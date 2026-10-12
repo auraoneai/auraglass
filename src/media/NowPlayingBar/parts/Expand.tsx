@@ -23,6 +23,7 @@ export function Expand({ expandedId, expanded, onExpandedChange }: {
       onClick={() => onExpandedChange?.(!expanded)}
     >
       <MediaGlyph name={expanded ? 'chevron-down' : 'chevron-up'} />
+      <span data-ag-part="hit-area" aria-hidden="true" />
     </button>
   );
 }

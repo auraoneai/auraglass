@@ -1,6 +1,11 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 @layer ag.components {
+  /* REQ-SURF-192: containing block for the MAT hit area ([data-ag-part=hit-area],
+     src/a11y/css/targets.css) these targets render. :where() keeps it at zero
+     specificity, so a part's own position (absolute, sticky) still wins. */
+  :where([data-ag-part='sidebar-item']) { position: relative; }
+
   /* Private shell geometry (contract §4.2): --_ag-app-shell-* vars are component
      internals derived from the S-03 public scale only — never public API.
      Grid columns never transition: layout changes are instant; motion presets
@@ -289,25 +294,21 @@
      animating flag and its timer are gone and nothing here promotes a layer
      (no transform, will-change or contain:paint at rest or in motion). */
 
-  /* SURF-25: chrome reads public vars only. The active nav indicator, the
-     shell focus ring and the Tabs/TabBar indicators all key on
-     --ag-color-accent (the var createBrandTheme rewrites), so a brand theme
-     recolours the chrome with zero prop changes. The focus ring keeps the
-     two-band contrast: accent outline plus a --ag-color-focus-outer halo.
-     Elements opted into the REQ-MAT-61 ring ([data-ag-focusable]) keep it. */
+  /* SURF-25: chrome reads public vars only. The active nav indicator and
+     the Tabs/TabBar indicators key on --ag-color-accent (the var
+     createBrandTheme rewrites), so a brand theme recolours the chrome with
+     zero prop changes. Indicator thickness derives from --ag-focus-width
+     (1.5x = 3px, 1x = 2px at the default width; thicker under contrast=more).
+     The focus ring is MAT's single implementation (src/a11y/css/focus.css,
+     REQ-MAT-61): every shell part is a [data-ag-part]. */
   .ag-app-shell [data-ag-part='sidebar-item'][aria-current='page'] {
-    box-shadow: inset 3px 0 0 var(--ag-color-accent);
-  }
-  .ag-app-shell :is(a, button, [tabindex]):not([data-ag-focusable], .ag-focusable):focus-visible {
-    outline: var(--ag-focus-width, 2px) solid var(--ag-color-accent);
-    outline-offset: 2px;
-    box-shadow: 0 0 0 calc(var(--ag-focus-width, 2px) + 2px) var(--ag-color-focus-outer);
+    box-shadow: inset calc(var(--ag-focus-width) * 1.5) 0 0 var(--ag-color-accent);
   }
   .ag-app-shell .ag-tabs__indicator {
     background: var(--ag-color-accent);
   }
   .ag-app-shell .ag-tab-bar__item[aria-current='page'] {
-    box-shadow: inset 0 -2px 0 var(--ag-color-accent);
+    box-shadow: inset 0 calc(var(--ag-focus-width) * -1) 0 var(--ag-color-accent);
   }
 
   /* SURF-27: sidebar geometry. Content scroll ownership is the SURF-19 rule
@@ -446,6 +447,14 @@
     --ag-glass-opacity: 1;
     background: var(--ag-color-canvas);
   }
+  /* The surface's blur, grain and sheen live on MAT's ::before layer, so a
+     backdrop-filter: none on the host never removed them. A docked
+     inspector drops that decorative layer instead: the opaque canvas
+     background above is its whole fill (no backdrop-filter anywhere). */
+  [data-inspector-mode='docked']::before,
+  .ag-app-shell:is([data-ag-layout='desktop'], [data-ag-layout='wide']) [data-inspector-mode='auto']::before {
+    content: none;
+  }
   [data-inspector-mode='floating'],
   .ag-app-shell[data-ag-layout='auto'] [data-inspector-mode='auto'] {
     position: absolute;
@@ -480,10 +489,6 @@
   /* Coarse: 1px + 2 x 24px = 49px >= 44px (space-5 = 20px gave only 41px). */
   @media (pointer: coarse) {
     .ag-panels__handle::before { inset: calc(var(--ag-space-6, 24px) * -1); }
-  }
-  .ag-panels__handle:focus-visible {
-    outline: var(--ag-focus-width, 2px) solid var(--ag-color-accent);
-    outline-offset: 2px;
   }
   .ag-panels__grip {
     position: absolute;
@@ -610,14 +615,14 @@
     padding-inline: var(--ag-space-3);
     background: var(--ag-color-canvas);
     color: var(--ag-color-on-surface);
-    outline: var(--ag-focus-width, 2px) solid var(--ag-color-accent);
+    /* ring: src/a11y/css/focus.css (REQ-MAT-61) */
   }
 
   /* REQ-SURF-189: forced colours. MAT drops every backdrop and paints each
      [data-ag-surface] in Canvas/CanvasText (material.css); the shell puts
      its own chrome on system colours, gives the current nav item a
-     non-colour cue (the box-shadow indicators above are forced to none) and
-     draws the system focus ring. */
+     non-colour cue (the box-shadow indicators above are forced to none); the
+     system focus ring is src/a11y/css/focus.css (REQ-MAT-61). */
   @media (forced-colors: active) {
     .ag-app-shell,
     .ag-app-shell :is(.ag-top-bar, .ag-sidebar, .ag-inspector, .ag-status-bar) {
@@ -632,13 +637,6 @@
       text-decoration-line: underline;
       text-decoration-thickness: var(--ag-focus-width, 2px);
       text-underline-offset: var(--ag-space-1, 0.25rem);
-    }
-    .ag-app-shell :is(a, button, [tabindex]):not([data-ag-focusable], .ag-focusable):focus-visible,
-    .ag-sidebar__item:focus-visible,
-    .ag-panels__handle:focus-visible,
-    .ag-skip-link:focus-visible {
-      outline: 2px solid Highlight;
-      box-shadow: none;
     }
     .ag-app-shell .ag-tabs__indicator {
       background-color: Highlight;
@@ -786,6 +784,9 @@
       border-radius: 0;
       --ag-glass-opacity: 1;
       background: var(--ag-color-canvas);
+    }
+    .ag-app-shell[data-ag-layout='auto'] [data-inspector-mode='auto']::before {
+      content: none;
     }
   }
 }

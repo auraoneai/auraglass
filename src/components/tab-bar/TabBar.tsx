@@ -154,6 +154,8 @@ function TabBarItem({ value, current, icon, badge, href, children, render, ...re
     render: render as React.ReactElement | undefined,
     href,
     'data-ag-part': 'tab-bar-item',
+    // REQ-MAT-61: the MAT ring is drawn inside the bar's clipped edge
+    'data-ag-focus-inset': '',
     className: 'ag-tab-bar__item',
     ...(current ? { 'aria-current': 'page' as const } : {}),
     ...(semantics === 'tabs' && value !== undefined ? { role: 'tab', 'data-value': value } : {}),
@@ -173,6 +175,8 @@ function TabBarItem({ value, current, icon, badge, href, children, render, ...re
             {badge}
           </span>
         ) : null}
+        {/* REQ-MAT-62: MAT hit area — >= 24px fine / 44px coarse, no layout change */}
+        <span data-ag-part="hit-area" aria-hidden="true" />
       </>
     ),
   });

@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T2',
   flagship: 43,
   rsc: 'client',
-  parts: ['media-glyph', 'now-playing', 'now-playing-actions', 'now-playing-artwork', 'now-playing-expand', 'now-playing-next', 'now-playing-play', 'now-playing-prev', 'now-playing-progress', 'now-playing-progress-fill', 'now-playing-subtitle', 'now-playing-title'],
+  parts: ['hit-area', 'media-glyph', 'now-playing', 'now-playing-actions', 'now-playing-artwork', 'now-playing-expand', 'now-playing-next', 'now-playing-play', 'now-playing-prev', 'now-playing-progress', 'now-playing-progress-fill', 'now-playing-subtitle', 'now-playing-title'],
   states: ['playing', 'paused', 'waiting', 'ended', 'error'],
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
   variants: {},

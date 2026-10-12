@@ -29,6 +29,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 | `control` | `[data-ag-part="control"]` |
 | `control-shell` | `[data-ag-part="control-shell"]` |
 | `edge-registrar` | `[data-ag-part="edge-registrar"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 | `icon` | `[data-ag-part="icon"]` |
 | `main` | `[data-ag-part="main"]` |
 | `root` | `[data-ag-part="root"]` |

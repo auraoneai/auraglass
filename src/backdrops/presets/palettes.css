@@ -1,0 +1,39 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+/* palettes — REQ-SURF-155: the five data-ag-palette ids. Each sets the four
+ * backdrop hues --_ag-backdrop-c1..c4 from S-03 public colours only (no
+ * literals), read by presets/aurora.css (c1..c3) and presets/mesh.css
+ * (c1..c4). The S-03 colours are light-dark() tokens, so each hue resolves
+ * against the decorative layer's color-scheme (REQ-SURF-158). mono forces a
+ * neutral set regardless of preset. */
+@layer ag.components {
+  .ag-backdrop[data-ag-palette='aurora'] {
+    --_ag-backdrop-c1: var(--ag-color-accent);
+    --_ag-backdrop-c2: var(--ag-color-info);
+    --_ag-backdrop-c3: color-mix(in oklch, var(--ag-color-accent), var(--ag-color-danger));
+    --_ag-backdrop-c4: var(--ag-color-success);
+  }
+  .ag-backdrop[data-ag-palette='prism'] {
+    --_ag-backdrop-c1: var(--ag-color-danger);
+    --_ag-backdrop-c2: var(--ag-color-warning);
+    --_ag-backdrop-c3: var(--ag-color-success);
+    --_ag-backdrop-c4: var(--ag-color-info);
+  }
+  .ag-backdrop[data-ag-palette='ocean'] {
+    --_ag-backdrop-c1: var(--ag-color-info);
+    --_ag-backdrop-c2: var(--ag-color-accent);
+    --_ag-backdrop-c3: color-mix(in oklch, var(--ag-color-info), var(--ag-color-success));
+    --_ag-backdrop-c4: var(--ag-color-success);
+  }
+  .ag-backdrop[data-ag-palette='ember'] {
+    --_ag-backdrop-c1: var(--ag-color-danger);
+    --_ag-backdrop-c2: var(--ag-color-warning);
+    --_ag-backdrop-c3: color-mix(in oklch, var(--ag-color-danger), var(--ag-color-warning));
+    --_ag-backdrop-c4: color-mix(in oklch, var(--ag-color-warning) 70%, var(--ag-color-specular));
+  }
+  .ag-backdrop[data-ag-palette='mono'] {
+    --_ag-backdrop-c1: var(--ag-color-on-surface);
+    --_ag-backdrop-c2: var(--ag-color-on-surface-muted);
+    --_ag-backdrop-c3: var(--ag-color-border);
+    --_ag-backdrop-c4: var(--ag-color-on-surface-muted);
+  }
+}

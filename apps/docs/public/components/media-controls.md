@@ -41,6 +41,8 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 | --- | --- |
 | `control` | `[data-ag-part="control"]` |
 | `hit-area` | `[data-ag-part="hit-area"]` |
+| `icon` | `[data-ag-part="icon"]` |
+| `label` | `[data-ag-part="label"]` |
 | `media-captions` | `[data-ag-part="media-captions"]` |
 | `media-controls` | `[data-ag-part="media-controls"]` |
 | `media-fullscreen` | `[data-ag-part="media-fullscreen"]` |

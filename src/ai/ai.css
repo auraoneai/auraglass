@@ -2,6 +2,11 @@
 
 /* src/ai/ai.css — ./ai components, @layer ag.components (SURF-339). */
 @layer ag.components {
+  /* REQ-SURF-192: containing block for the MAT hit area ([data-ag-part=hit-area],
+     src/a11y/css/targets.css) these targets render. :where() keeps it at zero
+     specificity, so a part's own position (absolute, sticky) still wins. */
+  :where([data-ag-part='approve'], [data-ag-part='deny'], [data-ag-part='io-expand'], [data-ag-part='retry'], [data-ag-part='attachment-remove'], [data-ag-part='composer'] [data-ag-part='action'], [data-ag-part='actions'] > [data-ag-part='action'], [data-ag-part='stop'], [data-ag-part='submit'], [data-ag-part='source-link'], [data-ag-part='attachment-link']) { position: relative; }
+
   /* sr-only fallback for ./ai consumers that do not load styles.css */
   .ag-visually-hidden {
     position: absolute;
@@ -147,14 +152,14 @@
    * data-motion or any data-ag-motion ancestor) still win for a nested
    * provider or subtree that lowers motion inside a continuous root. */
   [data-ag-continuous="on"] [data-ag-part="streaming-text"] [data-ag-part="caret"] {
-    animation: ag-ai-caret-blink var(--_ag-duration-normal, 1s) steps(1) infinite;
+    animation: ag-ai-caret-blink calc(var(--ag-duration-medium) * 3) steps(1) infinite;
   }
   [data-ag-continuous="on"] [data-ag-part="tool-call"][data-state="running"] [data-ag-part="running-dots"]::after,
   [data-ag-continuous="on"] [data-ag-part="step"][data-state="running"] [data-ag-part="step-icon"]::after {
-    animation: ag-ai-caret-blink var(--_ag-duration-slow, 1s) steps(1) infinite;
+    animation: ag-ai-caret-blink calc(var(--ag-duration-medium) * 3) steps(1) infinite;
   }
   [data-ag-continuous="on"] [data-ag-part="typing-indicator"] [data-ag-part="typing-dot"] {
-    animation: ag-ai-caret-blink var(--_ag-duration-slower, 1.2s) steps(1) infinite;
+    animation: ag-ai-caret-blink calc(var(--ag-duration-medium) * 3.75) steps(1) infinite;
   }
   [data-ag-part="streaming-text"] [data-ag-part="caret"][data-motion="none"],
   [data-ag-part="streaming-text"] [data-ag-part="caret"][data-motion="calm"],
@@ -179,10 +184,6 @@
     [data-ag-part="step"][data-state="running"] [data-ag-part="step-icon"]::after,
     [data-ag-part="typing-indicator"] [data-ag-part="typing-dot"] {
       background: CanvasText;
-    }
-    [data-ag-part="message"]:focus-visible,
-    [data-ag-part="step"]:focus-visible {
-      outline: 2px solid Highlight;
     }
   }
 }

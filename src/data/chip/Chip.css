@@ -1,13 +1,18 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 @layer ag.components {
+  /* REQ-SURF-192: containing block for the MAT hit area ([data-ag-part=hit-area],
+     src/a11y/css/targets.css) these targets render. :where() keeps it at zero
+     specificity, so a part's own position (absolute, sticky) still wins. */
+  :where([data-ag-part='chip-remove']) { position: relative; }
+
   .ag-chip {
     display: inline-flex;
     align-items: center;
     gap: var(--ag-space-1, 0.25rem);
     padding-block: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
     padding-inline: var(--ag-space-3, 0.75rem);
-    border-radius: var(--ag-radius-full, 999px);
+    border-radius: var(--ag-radius-full);
     font-size: var(--_ag-text-sm, 0.875rem);
     /* Fill comes from the MAT content-raised material (.ag-surface
        [data-ag-layer="content"]); the chip only sets shape and rim. */
@@ -29,7 +34,7 @@
     min-inline-size: var(--_ag-touch-target, 44px);
     min-block-size: var(--_ag-touch-target, 44px);
     margin-inline-start: calc(var(--ag-space-1, 0.25rem) * -1);
-    border-radius: var(--ag-radius-full, 999px);
+    border-radius: var(--ag-radius-full);
   }
   @media (pointer: fine) {
     .ag-chip__remove {

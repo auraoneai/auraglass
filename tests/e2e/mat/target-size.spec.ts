@@ -1,17 +1,18 @@
 /* MAT-303 (REQ-A11Y-30, REQ-MAT-62/65): target size, fine pointer — at
-   1440x900 every data-ag-part on every subject from listSubjects() (S-40;
-   flagship + MAT at MAT_A11Y_SCOPE=pr, the whole index at full) owns a >=24x24
-   region (elementsFromPoint on a 24px grid) or meets the 24px-circle spacing
-   exception. The coarse-pointer half lives in target-size-coarse.spec.ts
+   1440x900 every interactive element on every subject from listSubjects()
+   (S-40; flagship + MAT at MAT_A11Y_SCOPE=pr, the whole index at full) owns a
+   24x24 box centred on itself (elementFromPoint at the centre and ±11.5 px,
+   helpers/targets.ts) or meets the 24px-circle spacing exception. The coarse-pointer half lives in target-size-coarse.spec.ts
    (Chromium + WebKit projects; Firefox has no isMobile emulation). Failures
    are attributed to the subject's owner. */
 import { test, expect } from '@playwright/test';
 import { listSubjects } from '../../helpers';
 import { sweepSubjects, tag, byOwner, type Owner } from './helpers/subjects';
+import { probeTargets } from './helpers/targets';
 import fs from 'node:fs';
 
 test.describe('target size', () => {
-  test('fine pointer: 24px grid ownership on every subject', async ({ browser, baseURL, browserName }) => {
+  test('fine pointer: centred 24x24 ownership or spacing exception on every subject', async ({ browser, baseURL, browserName }) => {
     test.setTimeout(30 * 60 * 1000);
     const subjects = await sweepSubjects(listSubjects);
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
@@ -21,30 +22,14 @@ test.describe('target size', () => {
     for (const s of subjects) {
       await page.goto(`${baseURL ?? ''}/iframe.html?id=${s.id}&viewMode=story`);
       await page.waitForSelector('[data-ag-cert-ready]', { state: 'attached', timeout: 30_000 });
-      const rows = await page.evaluate(() => {
-        const out: Array<{ part: string; ok: boolean; w: number; h: number }> = [];
-        document.querySelectorAll<HTMLElement>('[data-ag-part]').forEach((el) => {
-          const r = el.getBoundingClientRect();
-          if (r.width === 0 || r.height === 0) return;
-          const part = el.getAttribute('data-ag-part') ?? '';
-          const step = 24;
-          let owned = 0;
-          const cx0 = r.left + Math.min(step / 2, r.width / 2);
-          const cy0 = r.top + Math.min(step / 2, r.height / 2);
-          for (let y = cy0; y < r.bottom; y += step) {
-            for (let x = cx0; x < r.right; x += step) {
-              const top = document.elementFromPoint(x, y);
-              if (top === el || el.contains(top) || (top && top.contains(el))) owned += 1;
-            }
-          }
-          const ok = (r.width >= 24 && r.height >= 24) || owned > 0;
-          out.push({ part, ok, w: r.width, h: r.height });
-        });
-        return out;
-      });
+      // every interactive element: a 24x24 box centred on it resolves to it
+      // (elementFromPoint at the centre and centre ± 11.5 px on both axes),
+      // or the 24px-circle spacing exception holds. An element merely
+      // hit-testing inside its own rect is not enough (that passed any size).
+      const rows = (await probeTargets(page, 11.5)).map((p) => ({ ...p, ok: p.owned || p.spaced }));
       measured += rows.length;
       for (const r of rows) {
-        if (!r.ok) fails.push({ owner: s.owner, msg: `${tag(s)} ${r.part} ${r.w}x${r.h} owns no 24px grid cell and misses the spacing exception` });
+        if (!r.ok) fails.push({ owner: s.owner, msg: `${tag(s)} ${r.part || r.tag} ${r.w}x${r.h} does not own a centred 24x24 box (missed ${r.missed.join(',')}) and misses the 24px spacing exception` });
       }
     }
     await context.close();

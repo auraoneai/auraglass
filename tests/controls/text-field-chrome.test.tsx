@@ -55,6 +55,8 @@ const TF_FILE = 'src/components/text-field/TextField.css';
 const SHARED_FILE = 'src/components/control-shared/controls.css';
 const TF_RULES = collect(TF_FILE);
 const SHARED_RULES = collect(SHARED_FILE);
+const FOCUS_FILE = 'src/a11y/css/focus.css';
+const FOCUS_RULES = collect(FOCUS_FILE);
 
 /* Selector specificity (a, b, c); :where() is 0, :is/:not/:has take their argument. */
 const specificity = (sel: string): [number, number, number] => {
@@ -161,21 +163,28 @@ describe('TextField chrome grid (REQ-CMP-61)', () => {
     }
   });
 
-  it('no local focus ring: the shell ring comes only from the shared REQ-CMP-19 rule', () => {
+  it('no local focus ring: the shell ring comes only from the MAT focus owner (REQ-CMP-19 folded into REQ-MAT-61)', () => {
     const local = TF_RULES.filter((r) => /:focus(-visible|-within)?\b/.test(r.selector)).map((r) => r.selector);
     expect(local).toEqual([]);
+    expect(SHARED_RULES.filter((r) => /:focus(-visible|-within)?\b/.test(r.selector))).toEqual([]);
 
     const { shell } = mount('md');
-    const ring = SHARED_RULES.filter(
+    const ring = FOCUS_RULES.filter(
       (r) => /:focus-within\b/.test(r.selector) && shell.matches(r.selector.replace(/:focus-within\b/g, '')),
     );
     expect(ring.length).toBeGreaterThan(0);
     const outline = ring[0]!.decls.find((d) => d.prop === 'outline')?.value ?? '';
     expect(outline).toMatch(/^var\(--ag-focus-width\) solid var\(--ag-focus-outer\b/);
 
-    /* the TextField rest rim must lose to the shared ring (so it actually shows) */
-    const rim = TF_RULES.find((r) => r.decls.some((d) => d.prop === 'box-shadow') && shell.matches(r.selector) && !/data-invalid/.test(r.selector))!;
-    expect(cmp(specificity(rim.selector), specificity(ring[0]!.selector))).toBeLessThan(0);
+    /* the TextField rest rim must lose to the ring (so it actually shows):
+       the ring sits in @layer ag.a11y, which follows ag.components in the
+       frozen layer order, so it wins at any specificity */
+    const focusCss = read(FOCUS_FILE);
+    const ringAt = focusCss.indexOf(ring[0]!.selector.split(',')[0]!.trim().slice(0, 20));
+    expect(focusCss.lastIndexOf('@layer ag.a11y {', ringAt)).toBeGreaterThan(-1);
+    expect(read(TF_FILE)).toMatch(/@layer ag\.components \{/);
+    const order = focusCss.split('\n')[0]!;
+    expect(order.indexOf('ag.a11y')).toBeGreaterThan(order.indexOf('ag.components'));
   });
 
   it('invalid rim takes --ag-color-danger', () => {

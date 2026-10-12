@@ -535,6 +535,7 @@ export function FilterBar({
           }}
         >
           {expanded ? msgs.fewer : fill(msgs.more, { n: String(hiddenCount) })}
+          <span data-ag-part="hit-area" aria-hidden="true" />
         </button>
         <AddFilter schema={schema} label={msgs.addFilter} onAdd={(f) => addField(f, 'inline')} />
       </div>
@@ -580,6 +581,7 @@ export function FilterBar({
           }}
         >
           {msgs.clearAll}
+          <span data-ag-part="hit-area" aria-hidden="true" />
         </button>
       ) : null}
       {resultCount !== undefined ? (

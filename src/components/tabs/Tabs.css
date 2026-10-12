@@ -46,10 +46,7 @@
   .ag-tabs__tab[data-state='active'] {
     color: var(--_ag-fg, currentColor);
   }
-  .ag-tabs__tab:focus-visible {
-    outline: var(--_ag-focus-ring-width, 2px) solid var(--_ag-focus-ring, currentColor);
-    outline-offset: calc(-1 * var(--_ag-focus-ring-width, 2px));
-  }
+  /* focus ring: src/a11y/css/focus.css, drawn inside ([data-ag-focus-inset]) */
   .ag-tabs__tab[data-disabled] {
     color: var(--_ag-fg-disabled, currentColor);
     cursor: default;
@@ -64,10 +61,10 @@
     inline-size: var(--active-tab-width);
     translate: var(--active-tab-left) 0;
     background: var(--_ag-accent, currentColor);
-    border-radius: var(--ag-radius-full, 999px);
+    border-radius: var(--ag-radius-full);
     pointer-events: none;
     transition-property: translate, scale;
-    transition-duration: var(--ag-duration-small, 200ms);
+    transition-duration: var(--ag-duration-small);
     transition-timing-function: var(--ag-ease-standard, ease);
   }
   .ag-tabs__indicator:dir(rtl) {
@@ -120,7 +117,6 @@
   .ag-tabs__panel {
     padding-block: var(--ag-space-4, 1rem);
     padding-inline: var(--ag-space-1, 0.25rem);
-    outline: none;
   }
   .ag-tabs__panel[hidden] {
     display: none;
@@ -143,9 +139,6 @@
     .ag-tabs[data-ag-appearance='pill'] .ag-tabs__tab[data-state='active'] {
       color: HighlightText;
       forced-color-adjust: none;
-    }
-    .ag-tabs__tab:focus-visible {
-      outline: 2px solid Highlight;
     }
   }
 }

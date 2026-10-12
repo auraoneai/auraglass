@@ -75,16 +75,18 @@ describe('REQ-SURF-189 forced colours (static)', () => {
     expect(nonColourCue(r)).toBe(true);
   });
 
+  /* REQ-MAT-61: the ring's single owner is src/a11y/css/focus.css, so the
+     forced-colours focus rows live there, keyed on the SURF selectors. */
   it.each([
-    ['src/app-shell/app-shell.css', '.ag-app-shell :is(a, button, [tabindex]):not([data-ag-focusable], .ag-focusable):focus-visible'],
-    ['src/app-shell/app-shell.css', '.ag-sidebar__item:focus-visible'],
-    ['src/components/tab-bar/TabBar.css', '.ag-tab-bar__item:focus-visible'],
-    ['src/components/tabs/Tabs.css', '.ag-tabs__tab:focus-visible'],
-    ['src/components/breadcrumbs/Breadcrumbs.css', '.ag-breadcrumbs__link:focus-visible'],
-    ['src/components/pagination/Pagination.css', '.ag-pagination__link:focus-visible'],
-    ['src/media/media.css', '.ag-media-btn:focus-visible'],
-  ])('%s: focus (%s) is outline 2px solid Highlight', (file, selector) => {
-    expect(forcedRule(file, selector)?.decls.get('outline')).toBe('2px solid Highlight');
+    '.ag-app-shell :is(a, button, [tabindex]):not([data-ag-focusable], .ag-focusable):focus-visible',
+    '.ag-sidebar__item:focus-visible',
+    '.ag-tab-bar__item:focus-visible',
+    '.ag-tabs__tab:focus-visible',
+    '.ag-breadcrumbs__link:focus-visible',
+    '.ag-pagination__link:focus-visible',
+    '.ag-media-btn:focus-visible',
+  ])('src/a11y/css/focus.css: forced-colours focus (%s) is outline 2px solid Highlight', (selector) => {
+    expect(forcedRule('src/a11y/css/focus.css', selector)?.decls.get('outline')).toBe('2px solid Highlight');
   });
 
   it('shell chrome paints on system colours', () => {

@@ -11,6 +11,7 @@
     padding: 0;
   }
   .ag-pagination__link {
+    position: relative; /* REQ-MAT-62: containing block of the hit area */
     min-inline-size: var(--_ag-touch-target, 2.75rem);
     min-block-size: var(--_ag-touch-target, 2.75rem);
     display: inline-flex;
@@ -53,9 +54,6 @@
       color: Highlight;
       outline: 1px solid Highlight;
       text-decoration-line: underline;
-    }
-    .ag-pagination__link:focus-visible {
-      outline: 2px solid Highlight;
     }
   }
 }

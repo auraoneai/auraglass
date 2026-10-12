@@ -3,6 +3,11 @@
 /* Table (SURF-156): @layer ag.components; data-ag-part selectors only;
    density from --ag-density; logical properties only; tokens, no hex. */
 @layer ag.components {
+  /* REQ-SURF-192: containing block for the MAT hit area ([data-ag-part=hit-area],
+     src/a11y/css/targets.css) these targets render. :where() keeps it at zero
+     specificity, so a part's own position (absolute, sticky) still wins. */
+  :where([data-ag-part='table-sort-trigger']) { position: relative; }
+
   .ag-table {
     /* SURF-076: per-size pad-inline + row-height (px * density). */
     --_ag-table-pad-inline: var(--_ag-table-pad-md, 12px);

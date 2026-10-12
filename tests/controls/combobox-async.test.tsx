@@ -148,6 +148,63 @@ describe('Combobox async (CMP-181/186)', () => {
     expect(document.getElementById(adEnd!)).toBeTruthy();
     if (origH) Object.defineProperty(HTMLElement.prototype, 'offsetHeight', origH);
   });
+
+  // REQ-CMP-73: autocomplete mode — the free text is the value.
+  it('autocomplete mode: typing calls onValueChange with the typed string and selects no item', async () => {
+    const onValueChange = jest.fn();
+    render(<Demo mode="autocomplete" onValueChange={onValueChange} />);
+    const input = screen.getByRole('combobox') as HTMLInputElement;
+    expect(input).toHaveAttribute('aria-autocomplete', 'list');
+    input.focus();
+    await userEvent.type(input, 'foo');
+    await act(async () => {});
+    expect(onValueChange).toHaveBeenCalled();
+    expect(onValueChange.mock.calls.map((c) => c[0])).toEqual(['f', 'fo', 'foo']);
+    expect(input.value).toBe('foo');
+    // no option is selected by free text
+    expect(document.querySelectorAll('[data-ag-part="item"][aria-selected="true"]').length).toBe(0);
+  });
+
+  it('loadOptions waits the default 250 ms of quiet: not called at 249 ms, called at 250 ms', async () => {
+    jest.useFakeTimers();
+    try {
+      const loadOptions = jest.fn((_q: string, _ctx: { signal: AbortSignal }) => Promise.resolve(['A1']));
+      render(<Demo loadOptions={loadOptions} />);
+      const input = screen.getByRole('combobox') as HTMLInputElement;
+      input.focus();
+      fireEvent.change(input, { target: { value: 'q' } });
+      act(() => { jest.advanceTimersByTime(249); });
+      expect(loadOptions).not.toHaveBeenCalled();
+      act(() => { jest.advanceTimersByTime(1); });
+      expect(loadOptions).toHaveBeenCalledTimes(1);
+      expect(loadOptions.mock.calls[0]![0]).toBe('q');
+      // more typing restarts the quiet window
+      fireEvent.change(input, { target: { value: 'qr' } });
+      act(() => { jest.advanceTimersByTime(200); });
+      fireEvent.change(input, { target: { value: 'qrs' } });
+      act(() => { jest.advanceTimersByTime(249); });
+      expect(loadOptions).toHaveBeenCalledTimes(1);
+      act(() => { jest.advanceTimersByTime(1); });
+      expect(loadOptions).toHaveBeenCalledTimes(2);
+      expect(loadOptions.mock.calls[1]![0]).toBe('qrs');
+      await act(async () => {});
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  it('messages.loadError overrides the rejection text (legacy loadFailed still honoured)', async () => {
+    const loadOptions = jest.fn(() => Promise.reject(new Error('boom')));
+    const { unmount } = render(<Demo loadOptions={loadOptions} loadDebounceMs={10} messages={{ loadError: 'Fetch failed' }} />);
+    let input = await openList();
+    fireEvent.change(input, { target: { value: 'a' } });
+    await waitFor(() => expect(document.querySelector('[data-ag-part="empty"]')?.textContent ?? '').toContain('Fetch failed'));
+    unmount();
+    render(<Demo loadOptions={loadOptions} loadDebounceMs={10} messages={{ loadFailed: 'Old key' }} />);
+    input = await openList();
+    fireEvent.change(input, { target: { value: 'b' } });
+    await waitFor(() => expect(document.querySelector('[data-ag-part="empty"]')?.textContent ?? '').toContain('Old key'));
+  });
 });
 
 /* REQ-CMP-72: owned virtualisation over Base UI's FILTERED items. */

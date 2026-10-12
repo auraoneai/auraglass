@@ -26,6 +26,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 
 | Part | Selector |
 | --- | --- |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 | `indicator` | `[data-ag-part="indicator"]` |
 | `list` | `[data-ag-part="list"]` |
 | `panel` | `[data-ag-part="panel"]` |
