@@ -124,7 +124,12 @@ export function extractTarball(tgz, tmp, { cwd = ROOT } = {}) {
 export function installTarball(tgz, tmp) {
   mkdirSync(tmp, { recursive: true });
   writeFileSync(join(tmp, 'package.json'), `${JSON.stringify({ name: 'ag-export-snapshot', private: true, version: '0.0.0' })}\n`);
-  execFileSync('npm', ['install', '--no-save', '--ignore-scripts', '--no-audit', '--no-fund', '--legacy-peer-deps', tgz], { cwd: tmp, stdio: 'pipe' });
+  // npm installs peers too (react, react-dom …) so `import(spec)` resolves like
+  // a consumer's; an unsatisfiable peer set falls back to --legacy-peer-deps,
+  // and any entry that then fails to import records its error in the snapshot.
+  const args = ['install', '--no-save', '--ignore-scripts', '--no-audit', '--no-fund', tgz];
+  try { execFileSync('npm', args, { cwd: tmp, stdio: 'pipe' }); }
+  catch { execFileSync('npm', [...args.slice(0, -1), '--legacy-peer-deps', tgz], { cwd: tmp, stdio: 'pipe' }); }
   const name = JSON.parse(execFileSync('tar', ['-xzOf', tgz, 'package/package.json'], { encoding: 'utf8' })).name;
   const dir = join(tmp, 'node_modules', name);
   return { dir, pkg: JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8')) };

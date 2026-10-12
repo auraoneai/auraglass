@@ -93,6 +93,14 @@ describe('export-snapshot over a real tarball', () => {
     expect(e.mismatch).toEqual([]);
   });
 
+  it('--install (npm install into an isolated temp project) gives the same snapshot', () => {
+    const okTgz = pack({
+      'dist/a.mjs': 'export const A = 1;\n',
+      'dist/a.d.ts': 'export declare const A: number;\n',
+    }, { name: 'snap-install', exports: { '.': { types: './dist/a.d.ts', import: './dist/a.mjs' } } });
+    expect(snapshotTarball(okTgz, { install: true }).json).toBe(snapshotTarball(okTgz).json);
+  });
+
   it('CSS and JSON keys are assets with the resolved file', () => {
     expect(entries['./styles.css']).toEqual({ kind: 'asset', file: './dist/styles.css' });
     expect(JSON.parse(json).entries['./package.json']).toEqual({ kind: 'asset', file: './package.json' });
