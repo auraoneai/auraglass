@@ -16,7 +16,7 @@ import { presets, presetCssText, PRESET_SCOPE } from '../../src/tokens/generated
 import type { PresetId } from '../../src/tokens/generated/presets';
 import { parseColor, wcagContrast } from '../../src/theme/color';
 
-const DIST_CSS = ['dist/tokens.css', 'dist/css/tokens.css'].map((f) => [f, readFileSync(join(ROOT, f), 'utf8')] as const);
+const DIST_CSS = ['dist/tokens.css'].map((f) => [f, readFileSync(join(ROOT, f), 'utf8')] as const);
 const IDS = Object.keys(presets) as PresetId[];
 const COLOR_VARS = ['--ag-color-canvas', '--ag-color-accent', '--ag-color-on-accent', '--ag-color-border'];
 const RADIUS_VARS = ['xs', 'sm', 'md', 'lg', 'xl'].map((s) => `--ag-radius-${s}`);

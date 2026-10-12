@@ -105,6 +105,8 @@ describe('material transform (MAT-041)', () => {
     } catch (e: any) {
       stderr = `${e.stderr ?? ''}${e.stdout ?? ''}`;
     }
-    expect(stderr).toMatch(/blur > 32px/);
+    // REQ-MAT-02: build.mjs runs guards.mjs's blur-cap guard right after alias resolution,
+    // naming the offending token path, before the material transform runs.
+    expect(stderr).toMatch(/guard blur-cap: material\.material\.variants\.regular\.regular\.blur: blur 40px exceeds the 32px cap/);
   });
 });

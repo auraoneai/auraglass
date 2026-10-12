@@ -1,4 +1,4 @@
-// MAT-026/MAT-070: dist/css/tokens.css emitter — layered :root + axis blocks,
+// MAT-026/MAT-070: dist/tokens.css emitter — layered :root + axis blocks,
 // scheme-paired light-dark(), shadcn bridge, @supports fallbacks.
 import { colorToCss, gamutMapOklch, oklchToSrgb, clampSrgb, srgbToHex } from '../color.mjs';
 import { compileSpring } from '../transforms/motion-spring.mjs';

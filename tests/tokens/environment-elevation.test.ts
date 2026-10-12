@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import postcss from 'postcss';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
 
-const css = readFileSync(join(ROOT, 'dist/css/tokens.css'), 'utf8');
+const css = readFileSync(join(ROOT, 'dist/tokens.css'), 'utf8');
 // REQ-MAT-28: the @property registry is hand-authored (not compiler output).
 const propsCss = readFileSync(join(ROOT, 'src/material/css/properties.css'), 'utf8');
 const root = postcss.parse(propsCss);

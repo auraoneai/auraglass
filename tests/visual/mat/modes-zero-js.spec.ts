@@ -14,7 +14,7 @@
  *                (src/theme/preferences/resolve.ts resolvePaint).
  * The two captures must differ by <= VISUAL_TOLERANCE.changedRatio of pixels.
  *
- * Stylesheets are the MAT outputs exactly as shipped: dist/css/tokens.css
+ * Stylesheets are the MAT outputs exactly as shipped: dist/tokens.css
  * (npm run tokens:build) plus every row of fragments/css/mat.ts in bundle
  * order, served from the checkout through page.route (no dev server).
  *
@@ -50,7 +50,7 @@ const EVIDENCE_DIR = join(
 
 const BUNDLE_ORDER = ['material.css', 'styles.css'];
 const STYLESHEETS = [
-  'dist/css/tokens.css',
+  'dist/tokens.css',
   ...[...cssFragments]
     .sort((a, b) => BUNDLE_ORDER.indexOf(a.bundle) - BUNDLE_ORDER.indexOf(b.bundle) || a.order - b.order)
     .map((row) => row.file),

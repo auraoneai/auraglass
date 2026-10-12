@@ -576,7 +576,7 @@
   /* a concentric surface outside any ConcentricFrame has no outer radius to
      subtract from: it takes its fallbackRadius, which the token layer maps
      from its data-ag-radius onto --_ag-fallback-radius (default md, MAT-128;
-     dist/css/tokens.css) */
+     dist/tokens.css) */
   [data-ag-surface][data-ag-shape="concentric"]:not(:where([data-ag-part="concentric-frame"] *, [data-ag-radius]:not([data-ag-surface]) *)) {
     --ag-surface-radius: var(--_ag-fallback-radius, var(--ag-radius-md));
   }

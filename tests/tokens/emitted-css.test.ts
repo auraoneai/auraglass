@@ -11,8 +11,8 @@ import { ROOT } from '../../scripts/tokens/validate.mjs';
 import { COMPAT_DARK_SELECTOR } from '../../scripts/tokens/formats/compat-aliases.mjs';
 
 const FILES = [
-  'dist/css/tokens.css',
-  'dist/css/tailwind.css',
+  'dist/tokens.css',
+  'dist/tailwind.css',
   'dist/compat/tokens.css',
   'src/material/css/generated/ladders.css',
   'src/material/css/generated/floors.css',

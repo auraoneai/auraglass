@@ -9,7 +9,7 @@ import { join } from 'node:path';
 import postcss from 'postcss';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
 
-const css = readFileSync(join(ROOT, 'dist/css/tokens.css'), 'utf8');
+const css = readFileSync(join(ROOT, 'dist/tokens.css'), 'utf8');
 const floors = readFileSync(join(ROOT, 'src/material/css/generated/floors.css'), 'utf8');
 const root = postcss.parse(css);
 

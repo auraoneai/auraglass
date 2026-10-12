@@ -11,7 +11,7 @@ import { ROOT } from '../../scripts/tokens/validate.mjs';
 import { compileSpring } from '../../scripts/tokens/transforms/motion-spring.mjs';
 import { validateTokenFile, loadSchema } from '../../scripts/tokens/validate.mjs';
 
-const CSS = readFileSync(join(ROOT, 'dist/css/tokens.css'), 'utf8');
+const CSS = readFileSync(join(ROOT, 'dist/tokens.css'), 'utf8');
 const SPRINGS = ['snappy', 'smooth', 'fluid'];
 const REF = JSON.parse(readFileSync(join(ROOT, 'tokens/ref/time.tokens.json'), 'utf8'));
 

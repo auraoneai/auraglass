@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
 
-const css = readFileSync(join(ROOT, 'dist/css/tokens.css'), 'utf8');
+const css = readFileSync(join(ROOT, 'dist/tokens.css'), 'utf8');
 
 const block = (sel: string) => {
   const i = css.indexOf(sel);

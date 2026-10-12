@@ -8,14 +8,14 @@ import { describe, test, expect } from '@jest/globals';
 //  - emits a forced-colours token block in @layer ag.tokens mapping every
 //    ag.forcedColor token to its CSS system colour, last in the layer, whose
 //    selector list covers every rule that re-declares one of those variables.
-// Parses the built dist/css/tokens.css (npm run tokens:build runs first in
+// Parses the built dist/tokens.css (npm run tokens:build runs first in
 // mat:test:tokens-interim) and the token sources it is compiled from.
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import postcss, { type AtRule, type Rule, type Root } from 'postcss';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
 
-const css = readFileSync(join(ROOT, 'dist/css/tokens.css'), 'utf8');
+const css = readFileSync(join(ROOT, 'dist/tokens.css'), 'utf8');
 const root: Root = postcss.parse(css);
 
 const tokensLayer = (): AtRule => {

@@ -6,17 +6,16 @@ import { describe, test, expect, beforeAll } from '@jest/globals';
 // - the build writes dist/compat/tokens.css once and never rewrites
 //   tokens/contrast/busy-reference.json
 // - the 4.x leftovers tokens/{schema,index}.json and tokens/personas/ stay deleted
-import { existsSync, mkdtempSync, readFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import postcss from 'postcss';
-import { LAYER_ORDER_STATEMENT } from '../../src/contracts/tokens';
+import { LAYER_ORDER_STATEMENT, TOKEN_OUTPUTS } from '../../src/contracts/tokens';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
 import { layerFirst, loadPrettier, prettierFormat, LAYER_ORDER } from '../../scripts/tokens/formats/_shared.mjs';
 
 const LAYERED_OUTPUTS = [
   'dist/tokens.css',
-  'dist/css/tokens.css',
   'src/material/css/generated/ladders.css',
   'src/material/css/generated/floors.css',
   'src/material/css/generated/properties.css',
@@ -87,6 +86,23 @@ describe('token build outputs (REQ-FIN-01)', () => {
 
   test('the build never writes tokens/contrast/busy-reference.json', () => {
     expect(existsSync(join(out, 'tokens/contrast/busy-reference.json'))).toBe(false);
+  });
+
+  test('the build writes exactly TOKEN_OUTPUTS (REQ-MAT-03)', () => {
+    const written: string[] = [];
+    const walk = (d: string, base = '') => {
+      for (const n of readdirSync(d)) {
+        const p = join(d, n);
+        if (statSync(p).isDirectory()) walk(p, `${base}${n}/`);
+        else written.push(`${base}${n}`);
+      }
+    };
+    walk(out);
+    const expected = Object.values(TOKEN_OUTPUTS).flat() as string[];
+    expect(written.sort()).toEqual([...new Set(expected)].sort());
+    // no dist/css/* copies; the compat entry imports the published tokens.css
+    expect(written.some((f) => f.startsWith('dist/css/'))).toBe(false);
+    expect(readFileSync(join(out, 'dist/compat/tokens.css'), 'utf8')).toContain("@import '../tokens.css';");
   });
 
   test('dist/compat/tokens.css comes from the single compat writer', () => {

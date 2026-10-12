@@ -11,7 +11,7 @@
 //   - a read inside another private's declaration counts only while that
 //     private is itself live (least fixpoint, so a chain or cycle of privates
 //     that nothing outside reads is dead as a whole);
-//   - `initial` reservations (the MAT-003 privates registry in dist/css/tokens.css)
+//   - `initial` reservations (the MAT-003 privates registry in dist/tokens.css)
 //     neither define nor read anything;
 //   - @property registration is not a reader (no channel exemption).
 // Each dead var is attributed to the stream(s) owning its defining file(s)
@@ -39,7 +39,7 @@ if (!existsSync(manifestPath)) {
 }
 const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
 
-const DIST_TOKEN_CSS = ['dist/tokens.css', 'dist/tailwind.css', 'dist/css/tokens.css', 'dist/css/tailwind.css', 'dist/compat/tokens.css'];
+const DIST_TOKEN_CSS = ['dist/tokens.css', 'dist/tailwind.css', 'dist/compat/tokens.css'];
 const distFiles = distArg
   ? walkFiles(resolve(ROOT, distArg), ['.css'])
   : DIST_TOKEN_CSS.map((p) => join(BASE, p)).filter((p) => existsSync(p));

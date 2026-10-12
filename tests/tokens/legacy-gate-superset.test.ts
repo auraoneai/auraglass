@@ -25,12 +25,9 @@ const REF_RE = /var\(\s*(--[A-Za-z0-9_-]+)\s*(,|\))/g;
 const EXTERNALLY_DEFINED = new Set(['--tw-gradient-stops']);
 
 const SHIPPED_CSS = [
-  'dist/css/tokens.css',
-  'dist/css/tailwind.css',
   'dist/tokens.css',
   'dist/tailwind.css',
   'dist/compat/tokens.css',
-  'dist/css/compat/legacy-primitives.css',
 ].map((f: string) => join(ROOT, f)).filter(existsSync);
 
 // The legacy checks scoped "defined" to the importable entry — on next that is

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // MAT-050 gate undefined-vars (REQ-MAT-17, REQ-FIN-53).
 // Entries:
-//   1. the dist token css entries (dist/tokens.css, dist/css/tokens.css, the
-//      tailwind bridges, dist/compat/tokens.css, the frozen legacy-primitives.css),
+//   1. the dist token css entries (dist/tokens.css, dist/tailwind.css,
+//      dist/compat/tokens.css),
 //      each resolved through its relative @import closure;
 //   2. every css bundle that carries a MAT row in fragments/css (loadFragments('css')):
 //      the bundle's closure is every fragment row of that bundle (all streams, as
@@ -32,12 +32,9 @@ import {
 } from './_util.mjs';
 
 const TOKEN_ENTRIES_REL = [
-  'dist/css/tailwind.css',
-  'dist/css/tokens.css',
   'dist/tokens.css',
   'dist/tailwind.css',
   'dist/compat/tokens.css',
-  'dist/css/compat/legacy-primitives.css',
 ];
 const VAR_RE = /^--(?:_?ag|aura|glass)-/;
 

@@ -218,8 +218,8 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   // contract outputs (src/contracts/tokens.ts TOKEN_OUTPUTS)
   // Every layered token CSS output starts with LAYER_ORDER_STATEMENT on line 1,
   // header comment after (REQ-MAT-19 item 1, REQ-FIN-01).
+  // dist/tokens.css is written once, below, after the MAT-003 privates registry is appended.
   let tokensCss = layerFirst(await emitTokensCss(cells, axisDefs, records, resolved));
-  write('dist/tokens.css', tokensCss);
   const { tokensTs, indexTs } = await emitTokensTs(cells);
   write('src/tokens/generated/tokens.ts', tokensTs);
   write('src/tokens/generated/tokens.d.ts', tokensTs.replace("export function token", "export declare function token").replace('{\n  return tokens[path];\n}', ';'));
@@ -257,7 +257,7 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   write('src/material/css/generated/floors.css', floorsCss);
   write('src/material/css/generated/properties.css', propertiesCss);
 
-  // tailwind bridge + registry + css/ tokens copy (MAT-068/072; @import "./tokens.css" resolves in dist/css)
+  // tailwind bridge + registry (MAT-068/072; the bridge's @import "./tokens.css" resolves in dist/)
   const tailwindCss = await emitTailwind(cells, records, resolved);
   // MAT-003: every --_ag-* private referenced under src/** must be registered in
   // generated css. Emit a privates registry block inside @layer ag.tokens —
@@ -283,8 +283,9 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
     // append inside the final @layer ag.tokens :root block
     tokensCss = tokensCss.replace(/(  }\n}\n?)$/, `${lines.join('\n')}\n$1`);
   }
-  write('dist/css/tokens.css', tokensCss);
-  write('dist/css/tailwind.css', tailwindCss);
+  // REQ-MAT-03: the build writes exactly TOKEN_OUTPUTS (src/contracts/tokens.ts) — no
+  // dist/css/* copies; dist/compat/tokens.css @imports ../tokens.css.
+  write('dist/tokens.css', tokensCss);
   write('dist/tailwind.css', tailwindCss); // ./tailwind.css subpath in package exports
   write('dist/tokens/registry-cssvars.json', emitRegistry(cells));
 

@@ -1,13 +1,13 @@
 /* MAT-06 (REQ-MAT-06, REQ-FIN-50): nested density. --ag-space-* must rescale
    inside any [data-ag-density] element, not only on <html>. Loads the compiled
-   dist/css/tokens.css (produced by `npm run tokens:build` in the job) into a
+   dist/tokens.css (produced by `npm run tokens:build` in the job) into a
    blank page and reads computed values in the real engine. Remote L5 lane
    only (tests/e2e/mat row in fragments/lanes/mat.ts); never run on a dev Mac. */
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const TOKENS_CSS = readFileSync(join(process.cwd(), 'dist/css/tokens.css'), 'utf8');
+const TOKENS_CSS = readFileSync(join(process.cwd(), 'dist/tokens.css'), 'utf8');
 
 const HTML = `<!doctype html>
 <html lang="en">

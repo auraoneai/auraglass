@@ -40,7 +40,7 @@ const BUSY: string[] = BUSY_REF.busy;
 const MATRIX = load(P('dist/contrast-matrix.json'));
 const CM_TOKENS = load(P('tokens/contrast/contrast-matrix.tokens.json'));
 const MAT_TOKENS = load(P('tokens/material/material.tokens.json'));
-const TOKENS_CSS = readFileSync(P('dist/css/tokens.css'), 'utf8');
+const TOKENS_CSS = readFileSync(P('dist/tokens.css'), 'utf8');
 
 const FLOORS: Record<string, number> = Object.fromEntries(
   Object.entries(CM_TOKENS.contrast.matrix.floors).map(([k, v]: [string, any]) => [k, v.$value]),
