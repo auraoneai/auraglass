@@ -1,5 +1,5 @@
 // @ts-nocheck — codemod fixture: intentionally unbound identifiers/imports
-import { DismissableLayer } from 'aura-glass';
+import { DismissableLayer } from 'aura-glass/primitives';
 
 export function X() {
   return <DismissableLayer>x</DismissableLayer>;

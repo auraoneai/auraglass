@@ -13,6 +13,7 @@ export const StepsMeta = defineMeta({
   apg: 'none',
   budgetKb: 1500 / 1024,
   migration: [
-    { from: 'GlassStepper', props: {}, selectors: {}, automation: 'full', compat: true },
+    /* REQ-CMP-133: ambiguous root name — the codemod routes it to compat and writes a TODO (Steps vs NumberField). */
+    { from: 'GlassStepper', props: {}, selectors: {}, automation: 'partial', compat: true },
   ],
 });
