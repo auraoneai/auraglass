@@ -105,7 +105,10 @@ function buildPlan(cwd: string, project: ProjectInfo): Plan {
     if (css) {
       const abs = path.join(cwd, css);
       const existing = fs.existsSync(abs) ? fs.readFileSync(abs, 'utf8') : null;
-      const merged = mergeGlobalsCss(existing);
+      /* REQ-PLAT-86: Vite imports aura-glass/styles.css exactly ONCE, from
+         src/main.tsx — the CSS merge adds only the layer statement (and the
+         tailwind.css import after an existing tailwindcss import). */
+      const merged = mergeGlobalsCss(existing, { stylesImport: false });
       if (merged !== existing) writes.push({ path: css, content: merged });
     }
   } else if (project.framework === 'next-pages') {

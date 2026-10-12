@@ -32,9 +32,9 @@ const registryDir = (root: string) => {
   const dir = path.join(root, 'reg');
   fs.mkdirSync(dir, { recursive: true });
   const item = {
-    name: 'button', type: 'components', title: 'Button', description: 'Glass button',
+    name: 'button', type: 'registry:component', title: 'Button', description: 'Glass button',
     dependencies: [], registryDependencies: [],
-    files: [{ path: 'button.tsx', content: "export const B = 1;\n" }],
+    files: [{ path: 'button.tsx', type: 'registry:component', content: "export const B = 1;\n" }],
     cssVars: { ':root': { '--ag-btn-radius': '8px' } },
     meta: { auraglass: { certified: true, client: false } },
   };

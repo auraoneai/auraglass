@@ -40,6 +40,31 @@ describe('init (vite)', () => {
     expect(html.indexOf('__agP')).toBeLessThan(html.indexOf('</head>'));
   });
 
+  it('imports aura-glass/styles.css exactly once — main.tsx only, never index.css (REQ-PLAT-86)', async () => {
+    const dir = viteFixture();
+    const code = await initCommand([], { cwd: dir, 'allow-no-git': true, 'no-install': true, silent: true });
+    expect(code).toBe(0);
+    const main = fs.readFileSync(path.join(dir, 'src/main.tsx'), 'utf8');
+    const css = fs.readFileSync(path.join(dir, 'src/index.css'), 'utf8');
+    expect(main.split('aura-glass/styles.css').length - 1).toBe(1);
+    expect(css).not.toContain('aura-glass/styles.css');
+    expect(css).toContain('@layer theme, base, ag, components, utilities;');
+    expect(css).toContain('@tailwind base;');
+  });
+
+  it('vendored prepaint equals the MAT auraGlassPrepaintScript (no drift, REQ-PLAT-86)', async () => {
+    const { PREPAINT_IMPL, auraGlassPrepaintScript } = await import('../src/init/prepaint.js');
+    const gen = fs.readFileSync(path.join(process.cwd(), '..', '..', 'src/theme/generated/prepaint-script.ts'), 'utf8');
+    const m = /export const PREPAINT_IMPL = ("(?:[^"\\]|\\.)*");/.exec(gen);
+    expect(m).toBeTruthy();
+    expect(PREPAINT_IMPL).toBe(JSON.parse(m![1]!));
+    expect(auraGlassPrepaintScript).toBe(`${PREPAINT_IMPL}__agP(window,document,{});`);
+    const dir = viteFixture();
+    await initCommand([], { cwd: dir, 'allow-no-git': true, 'no-install': true, silent: true });
+    const html = fs.readFileSync(path.join(dir, 'index.html'), 'utf8');
+    expect(html).toContain(auraGlassPrepaintScript.replace(/</g, '\\u003c'));
+  });
+
   it('second run writes nothing (idempotent)', async () => {
     const dir = viteFixture();
     await initCommand([], { cwd: dir, 'allow-no-git': true, 'no-install': true, silent: true });

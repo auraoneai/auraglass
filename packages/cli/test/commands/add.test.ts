@@ -22,7 +22,7 @@ function reg(items: Record<string, object>): string {
 }
 const cmp = (name: string, extra: object = {}) => ({
   name, type: 'registry:component',
-  files: [{ path: `${name}.tsx`, content: `export const ${name.replace(/[^a-z0-9]/gi, '')}=1;\n` }],
+  files: [{ path: `${name}.tsx`, type: 'registry:component', content: `export const ${name.replace(/[^a-z0-9]/gi, '')}=1;\n` }],
   ...extra,
 });
 
@@ -101,13 +101,45 @@ describe('add', () => {
 
   it('honors target and writes the provenance stamp', async () => {
     const dir = tmp();
-    const regDir = reg({ t: cmp('t', { files: [{ path: 'x.tsx', content: 'export const t=1;\n', target: 'custom/dir/x.tsx' }] }) });
+    const regDir = reg({ t: cmp('t', { files: [{ path: 'x.tsx', type: 'registry:component', content: 'export const t=1;\n', target: 'custom/dir/x.tsx' }] }) });
     await addCommand(['t'], { cwd: dir, registry: regDir, 'allow-no-git': true, json: true, silent: true });
     const p = path.join(dir, 'custom/dir/x.tsx');
     expect(fs.existsSync(p)).toBe(true);
     const body = fs.readFileSync(p, 'utf8');
     expect(body.startsWith('// aura-glass-registry t@')).toBe(true);
     expect(body).toMatch(/sha256:[0-9a-f]{64}/);
+  });
+
+  it('resolves the components alias through tsconfig paths for writes and imports (REQ-PLAT-87)', async () => {
+    const dir = tmp();
+    fs.writeFileSync(path.join(dir, 'package.json'), JSON.stringify({ dependencies: { react: '19.0.0' } }));
+    fs.writeFileSync(path.join(dir, 'tsconfig.json'), JSON.stringify({
+      compilerOptions: { baseUrl: '.', paths: { '@/*': ['./src/*'] } },
+    }));
+    fs.writeFileSync(path.join(dir, 'auraglass.json'), JSON.stringify({ aliases: { components: '@/components' } }));
+    const regDir = reg({
+      widget: cmp('widget', {
+        files: [{ path: 'widget.tsx', type: 'registry:component', content: "import { x } from '@/components/ui/lib';\nimport { y } from '@/lib/util';\nexport const widget = 1;\n" }],
+      }),
+    });
+    await addCommand(['widget'], { cwd: dir, registry: regDir, 'allow-no-git': true, json: true, silent: true });
+    const written = path.join(dir, 'src', 'components', 'widget', 'widget.tsx');
+    expect(fs.existsSync(written)).toBe(true);
+    expect(fs.existsSync(path.join(dir, 'components', 'widget', 'widget.tsx'))).toBe(false);
+    const body = fs.readFileSync(written, 'utf8');
+    expect(body).toContain("from '@/components/lib'");
+    expect(body).toContain("from '@/lib/util'");
+  });
+
+  it('rejects an item that fails the vendored registry-item schema (REQ-PLAT-87)', async () => {
+    const dir = tmp();
+    const regDir = reg({
+      bogus: { name: 'bogus', type: 'not-a-registry-type', files: [{ path: 'b.tsx', content: 'x' }] },
+    });
+    const code = await addCommand(['bogus'], { cwd: dir, registry: regDir, 'allow-no-git': true, json: true, silent: true })
+      .catch((e) => (e as CliError).code);
+    expect(code).not.toBe(0);
+    expect(fs.existsSync(path.join(dir, 'components'))).toBe(false);
   });
 
   it('add app-frame (fixture) completes under 3s', async () => {

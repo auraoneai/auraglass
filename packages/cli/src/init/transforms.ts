@@ -16,13 +16,16 @@ const escapeInline = (s: string): string => s.replace(/</g, '\\u003c');
 /** Merge AuraGlass lines into an existing globals.css (or return the canonical
  *  content for a fresh file): layer statement + styles import inside layer(ag)
  *  + tailwind.css import after an existing `@import "tailwindcss";`. */
-export function mergeGlobalsCss(existing: string | null): string {
-  if (existing === null || existing.trim() === '') return NEXT_GLOBALS_CSS;
+export function mergeGlobalsCss(existing: string | null, opts: { stylesImport?: boolean } = {}): string {
+  const stylesImport = opts.stylesImport !== false;
+  if (existing === null || existing.trim() === '') {
+    return stylesImport ? NEXT_GLOBALS_CSS : '@layer theme, base, ag, components, utilities;\n';
+  }
   let out = existing;
   if (!out.includes('@layer')) {
     out = '@layer theme, base, ag, components, utilities;\n' + out;
   }
-  if (!out.includes('aura-glass/styles.css')) {
+  if (stylesImport && !out.includes('aura-glass/styles.css')) {
     const importRe = /^@import .*$/m;
     if (importRe.test(out)) {
       /* put the layer()d import ahead of the first existing @import */

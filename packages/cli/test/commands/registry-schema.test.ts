@@ -3,7 +3,7 @@ import { describe, expect, it } from '@jest/globals';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
-import { registryItemSchema } from '../../src/registry/schema.js';
+import { registryItemSchema, validateVendoredRegistryItem } from '../../src/registry/schema.js';
 
 const schemaPath = path.join(process.cwd(), 'schema', 'registry-item.json');
 
@@ -32,6 +32,32 @@ describe('vendored registry-item schema', () => {
       meta: { auraglass: { certified: true, client: false, minVersion: '5.0.0', components: ['button'] } },
     });
     expect(ok.success).toBe(true);
+  });
+
+  it('vendored schema validator runs at runtime (REQ-PLAT-87)', () => {
+    expect(validateVendoredRegistryItem({
+      name: 'button', type: 'registry:ui',
+      files: [{ path: 'button.tsx', type: 'registry:ui', content: 'x' }],
+      meta: { auraglass: { certified: true } },
+    })).toEqual([]);
+    /* item type outside the vendored enum */
+    expect(validateVendoredRegistryItem({ name: 'x', type: 'components', files: [] }).length).toBeGreaterThan(0);
+    /* missing required name/type */
+    expect(validateVendoredRegistryItem({ type: 'registry:ui' }).length).toBeGreaterThan(0);
+    /* file entries require a type (and a target for registry:file/page) */
+    expect(validateVendoredRegistryItem({
+      name: 'x', type: 'registry:ui', files: [{ path: 'x.tsx', content: 'x' }],
+    }).length).toBeGreaterThan(0);
+    expect(validateVendoredRegistryItem({
+      name: 'x', type: 'registry:ui',
+      files: [{ path: 'x.md', type: 'registry:file', content: 'x' }],
+    }).length).toBeGreaterThan(0);
+    /* a font item must carry the font block (allOf conditional) */
+    expect(validateVendoredRegistryItem({ name: 'f', type: 'registry:font' }).length).toBeGreaterThan(0);
+    /* cssVars values must be strings under light/dark/theme */
+    expect(validateVendoredRegistryItem({
+      name: 'x', type: 'registry:ui', cssVars: { light: { '--a': 3 } },
+    }).length).toBeGreaterThan(0);
   });
 
   it('zod validator rejects items missing required fields', () => {
