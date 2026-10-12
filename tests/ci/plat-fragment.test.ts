@@ -47,7 +47,9 @@ describe('plat:test:pack-matrix', () => {
   });
   it('runs prepublishOnly equivalent + npm publish --dry-run', () => {
     const s = yaml.stringify(j.script);
-    expect(s).toContain('prepublishOnly');
+    const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+    expect(pkg.scripts.prepublishOnly).toBe('node scripts/ci/require-ci-publish.js && npm run prepublish:verify');
+    expect(s).toContain('npm run prepublish:verify');
     expect(s).toContain('npm publish --dry-run');
   });
 });
