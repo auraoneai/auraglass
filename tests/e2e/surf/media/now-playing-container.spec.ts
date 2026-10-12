@@ -29,10 +29,16 @@ async function atWidth(page: Page, width: number) {
       return r.width > 0 && r.height > 0 && getComputedStyle(el).display !== 'none' ? [{ p, top: r.top, bottom: r.bottom }] : [];
     });
     const title = bar.querySelector('[data-ag-part="now-playing-title"]') as HTMLElement;
+    const barBox = bar.getBoundingClientRect();
+    // the progress hairline is drawn over the bar's bottom edge, not in the row
+    const row = boxes.filter((b) => b.p !== 'now-playing-progress');
+    const progress = boxes.find((b) => b.p === 'now-playing-progress');
     return {
       visible: boxes.map((b) => b.p),
       // one row: every visible part shares a horizontal band
-      oneRow: boxes.length > 0 && Math.max(...boxes.map((b) => b.top)) < Math.min(...boxes.map((b) => b.bottom)),
+      oneRow: row.length > 0 && Math.max(...row.map((b) => b.top)) < Math.min(...row.map((b) => b.bottom)),
+      progressOnBottomEdge: !!progress && Math.abs(progress.bottom - barBox.bottom) <= 0.5,
+      height: barBox.height,
       overflow: bar.scrollWidth - bar.clientWidth,
       titleTruncated: title.scrollWidth > title.clientWidth && getComputedStyle(title).textOverflow === 'ellipsis',
     };
@@ -45,7 +51,10 @@ test.describe('now-playing container (SURF-461, REQ-SURF-139)', () => {
     const r = await atWidth(page, 600);
     expect(r.visible).toEqual(PARTS);
     expect(r.oneRow).toBe(true);
+    expect(r.progressOnBottomEdge).toBe(true);
     expect(r.overflow).toBeLessThanOrEqual(0);
+    /* REQ-SURF-139: 48 px at a fine pointer */
+    expect(Math.abs(r.height - 48), `bar height ${r.height}px`).toBeLessThanOrEqual(0.5);
   });
 
   test('360 px: still the single full row', async ({ page }) => {
@@ -59,8 +68,9 @@ test.describe('now-playing container (SURF-461, REQ-SURF-139)', () => {
   test('320 px: Play + truncated title only', async ({ page }) => {
     await open(page, 'responsive');
     const r = await atWidth(page, 320);
-    expect(r.visible).toEqual(['now-playing-title', 'now-playing-play']);
+    expect(r.visible).toEqual(['now-playing-title', 'now-playing-play', 'now-playing-progress']);
     expect(r.oneRow).toBe(true);
+    expect(Math.abs(r.height - 48), `bar height ${r.height}px`).toBeLessThanOrEqual(0.5);
     expect(r.overflow).toBeLessThanOrEqual(0);
     expect(r.titleTruncated).toBe(true);
   });
@@ -74,5 +84,18 @@ test.describe('now-playing container (SURF-461, REQ-SURF-139)', () => {
     await expand.click();
     await expect(expand).toHaveAttribute('aria-expanded', 'true');
     await expect(page.locator('#np-expanded')).toBeVisible();
+  });
+});
+
+test.describe('now-playing height at a coarse pointer (REQ-SURF-139)', () => {
+  /* touch + mobile emulation makes Chromium match (pointer: coarse) */
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+  test('56 px tall at 360 px', async ({ page }) => {
+    await open(page, 'responsive');
+    expect(await page.evaluate(() => matchMedia('(pointer: coarse)').matches), 'coarse pointer emulated').toBe(true);
+    const r = await atWidth(page, 360);
+    expect(r.oneRow).toBe(true);
+    expect(Math.abs(r.height - 56), `bar height ${r.height}px`).toBeLessThanOrEqual(0.5);
   });
 });

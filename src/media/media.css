@@ -139,25 +139,42 @@
 
   /* NowPlayingBar — chrome bar: artwork | title over subtitle | transport,
      progress hairline along the bottom edge. */
+  /* REQ-SURF-139: the bar is 48 px tall at a fine pointer and 56 px at a
+     coarse one (plus the bottom safe area when fixed); the progress hairline
+     is drawn over the bottom edge, so it adds no row. */
   .ag-now-playing {
     container-name: ag-now-playing; container-type: inline-size;
+    --_ag-now-playing-h: var(--ag-space-12, 3rem);
+    --_ag-now-playing-art: var(--ag-space-10, 2.5rem);
+    position: relative;
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto;
+    align-content: center;
     column-gap: var(--ag-space-3, 0.75rem);
     align-items: center;
-    min-block-size: var(--ag-space-16, 4rem);
-    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
+    block-size: var(--_ag-now-playing-h);
+    padding: var(--ag-space-1, 0.25rem) var(--ag-space-3, 0.75rem);
   }
   .ag-now-playing:has(> [data-ag-part='now-playing-expand']) {
     grid-template-columns: auto minmax(0, 1fr) auto auto;
   }
-  @media (pointer: coarse) { .ag-now-playing { min-block-size: calc(var(--ag-space-16, 4rem) + var(--ag-space-2, 0.5rem)); } }
-  .ag-now-playing[data-now-playing-fixed] { padding-block-end: max(var(--ag-space-2, 0.5rem), env(safe-area-inset-bottom)); }
+  @media (pointer: coarse) {
+    .ag-now-playing {
+      --_ag-now-playing-h: calc(var(--ag-space-12, 3rem) + var(--ag-space-2, 0.5rem));
+      --_ag-now-playing-art: var(--ag-target-coarse, 2.75rem);
+    }
+  }
+  .ag-now-playing[data-now-playing-fixed] {
+    block-size: calc(var(--_ag-now-playing-h) + env(safe-area-inset-bottom, 0px));
+    padding-block-end: calc(var(--ag-space-1, 0.25rem) + env(safe-area-inset-bottom, 0px));
+  }
+  .ag-now-playing[data-now-playing-fixed] > .ag-now-playing-progress { inset-block-end: env(safe-area-inset-bottom, 0px); }
   .ag-now-playing-artwork { grid-column: 1; grid-row: 1 / span 2; }
   .ag-now-playing-artwork img {
     display: block;
-    inline-size: var(--ag-target-coarse, 2.75rem); block-size: var(--ag-target-coarse, 2.75rem); object-fit: cover;
+    inline-size: var(--_ag-now-playing-art); block-size: var(--_ag-now-playing-art); object-fit: cover;
     border-radius: var(--ag-radius-sm, 0.375rem);
   }
   .ag-now-playing-title {
@@ -186,9 +203,10 @@
   [data-ag-part='now-playing-expand'] { grid-column: 4; grid-row: 1 / span 2; }
   .ag-now-playing-title, .ag-now-playing-subtitle { min-inline-size: 0; }
   .ag-now-playing-progress {
-    grid-column: 1 / -1; grid-row: 3;
-    position: relative; block-size: 3px;
-    margin-block-start: var(--ag-space-2, 0.5rem);
+    position: absolute;
+    inset-inline: var(--ag-space-3, 0.75rem);
+    inset-block-end: 0;
+    block-size: 3px;
     border-radius: var(--ag-radius-full);
     overflow: hidden;
     background: color-mix(in oklch, currentColor 16%, transparent);
@@ -208,6 +226,24 @@
     .ag-now-playing-title { grid-column: 1; grid-row: 1 / span 2; align-self: center; }
     .ag-now-playing-actions { grid-column: 2; }
     [data-ag-part='now-playing-prev'], [data-ag-part='now-playing-next'] { display: none; }
+  }
+  /* REQ-SURF-154: tone never lowers legibility. data-ag-media-tone (written
+     by sampleTone) is read here only to pick the glyph polarity of SURF's
+     small chrome; MAT's media floors are untouched. Every small-chrome glyph
+     sits on a material fill painted at MAT's media tint floor (>= 0.78 canvas
+     over media, generated/floors.css), so the fill, not the sampled media,
+     dominates what is behind the glyph: for both tones the polarity with the
+     higher contrast is the scheme's on-surface ink the floor was solved for.
+     The tone therefore pins that ink (no inherited consumer colour, no
+     flip toward the media's own polarity), and forcing the attribute on or
+     off cannot lower the worst-case contrast of any scene. */
+  :is([data-ag-backdrop='media'][data-ag-media-tone='light'], [data-ag-backdrop='media'][data-ag-media-tone='dark'])
+    :is(.ag-media-btn, [data-ag-part='now-playing-expand'], .ag-now-playing-title, .ag-carousel-nav, .ag-now-playing-progress) {
+    color: var(--ag-on-surface, var(--ag-color-on-surface));
+  }
+  :is([data-ag-backdrop='media'][data-ag-media-tone='light'], [data-ag-backdrop='media'][data-ag-media-tone='dark'])
+    .ag-now-playing-subtitle {
+    color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
   }
   /* Waveform (REQ-SURF-140, 5.1) */
   .ag-waveform { display: block; }
@@ -325,7 +361,9 @@
   }
 
   /* CarouselRail */
-  .ag-carousel { position: relative; --_ag-carousel-gap: var(--ag-space-3, 0.75rem); }
+  /* REQ-SURF-146: the carousel is its own inline-size container, so a numeric
+     slidesPerView becomes 1 below 480 px of carousel width */
+  .ag-carousel { position: relative; container: ag-carousel / inline-size; --_ag-carousel-gap: var(--ag-space-3, 0.75rem); }
   .ag-carousel-viewport {
     display: flex; gap: var(--_ag-carousel-gap); overflow-x: auto;
     scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
@@ -338,7 +376,7 @@
     overflow: hidden;
   }
   .ag-carousel[data-ag-per-view='auto'] .ag-carousel-slide { inline-size: auto; }
-  @container (max-width: 479.98px) {
+  @container ag-carousel (max-width: 479.98px) {
     .ag-carousel:not([data-ag-per-view='auto']) .ag-carousel-slide { inline-size: 100%; }
   }
   .ag-carousel-nav {
