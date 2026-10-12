@@ -23,6 +23,13 @@
    Scroll lock: modal overlays pass `lockScroll: modal`, so the stack's
    `<html data-ag-scroll-locked>` is the scroll-lock owner.
 
+   Focus (REQ-CMP-88): Base UI is the only focus manager for these overlays —
+   it moves focus in (initialFocus), traps it, and returns it on close
+   (finalFocus, default the trigger). The entry therefore registers with
+   `restoreFocusTo: false`, so the stack does not also restore the
+   activeElement it captured at push time on pop (a second restore would
+   override a caller's finalFocus target).
+
    `emit` dedupes identical (open, reason) emissions inside the same task —
    a belt for any path that can fire twice in one dispatch. */
 import * as React from 'react';
@@ -97,6 +104,7 @@ export function useOverlayLayer({ kind, modal, open, onOpenChange, element }: Ov
     element: element ?? null,
     lockScroll: modal,
     onEscape,
+    restoreFocusTo: false,
   });
 
   /* S-01: data-ag-overlay-depth is CMP's marker (setter CMP); the stack

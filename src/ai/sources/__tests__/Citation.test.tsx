@@ -117,4 +117,20 @@ describe('Citation', () => {
     render(<Citation messageId="none" source={source} index={1} />);
     expect(fireEvent.click(screen.getByRole('link'))).toBe(true);
   });
+  /* REQ-CMP-85 (S-30): the preview card takes the shared anchored-popup
+     positioner contract — Base UI applies the 8 px side offset as the
+     main-axis translate and flags data-side/data-align on the card. */
+  it('preview positioner applies the shared 8 px sideOffset with data-side/data-align', async () => {
+    render(<Citation messageId="m1" source={source} index={1} defaultOpen />);
+    await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
+    const positioner = document.querySelector<HTMLElement>('[data-ag-part="citation-preview-positioner"]')!;
+    expect(positioner).not.toBeNull();
+    const side = positioner.getAttribute('data-side');
+    const match = /translate\((-?[\d.]+)px, (-?[\d.]+)px\)/u.exec(positioner.style.transform);
+    expect(match).not.toBeNull();
+    const mainAxis = Math.abs(Number(side === 'left' || side === 'right' ? match![1] : match![2]));
+    expect(mainAxis).toBe(8);
+    expect(preview()!.getAttribute('data-side')).toBeTruthy();
+    expect(preview()!.getAttribute('data-align')).toBeTruthy();
+  });
 });

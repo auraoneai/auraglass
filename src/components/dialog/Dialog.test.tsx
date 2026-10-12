@@ -7,6 +7,7 @@ import * as React from 'react';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Dialog } from './index';
+import { layerStackFor } from '../../theme/layers/LayerStack';
 
 function Demo({ root = {}, popup = {}, withTitle = true, children }: {
   root?: Record<string, unknown>;
@@ -204,6 +205,58 @@ describe('Dialog (CMP-209..216, 220)', () => {
     expect(popup.getAttribute('data-placement')).toBe('top');
     await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
     expect(document.activeElement).toBe(inputRef.current ?? openPopup());
+  });
+
+  /* REQ-CMP-88: Base UI is the only focus manager. An explicit initialFocus
+     target receives focus on open, and an explicit finalFocus target (not
+     the trigger) receives it on close — the LayerStack registers with
+     restoreFocusTo:false so it never re-restores the trigger over it. */
+  it('explicit initialFocus and finalFocus targets receive focus', async () => {
+    const inside = React.createRef<HTMLButtonElement>();
+    const after = React.createRef<HTMLButtonElement>();
+    render(
+      <>
+        <Dialog.Root>
+          <Dialog.Trigger>Open</Dialog.Trigger>
+          <Dialog.Content initialFocus={inside} finalFocus={after}>
+            <Dialog.Title>Focus targets</Dialog.Title>
+            <Dialog.Body>
+              <button type="button">First</button>
+              <button type="button" ref={inside}>Second</button>
+            </Dialog.Body>
+            <Dialog.Close>Done</Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Root>
+        <button type="button" ref={after}>Elsewhere</button>
+      </>,
+    );
+    await userEvent.click(screen.getByText('Open'));
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(inside.current).not.toBeNull();
+    expect(document.activeElement).toBe(inside.current);
+    await userEvent.keyboard('{Escape}');
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(openPopup()).toBeNull();
+    expect(document.activeElement).toBe(after.current);
+  });
+
+  it('the LayerStack entry never restores focus itself (restoreFocusTo: false)', async () => {
+    render(<Demo root={{ defaultOpen: true }} />);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    const top = layerStackFor(document).top();
+    expect(top?.kind).toBe('dialog');
+    expect(top?.restoreFocusTo).toBe(false);
+  });
+
+  it('default close returns focus to the trigger exactly once (Base UI only)', async () => {
+    render(<Demo />);
+    const trigger = screen.getByText('Open');
+    await userEvent.click(trigger);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(openPopup()!.contains(document.activeElement)).toBe(true);
+    await userEvent.keyboard('{Escape}');
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(document.activeElement).toBe(trigger);
   });
 
   it('nested: parent popup gets data-ag-nested-open while child is open', async () => {

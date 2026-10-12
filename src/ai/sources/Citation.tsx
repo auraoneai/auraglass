@@ -4,6 +4,7 @@ import { PreviewCard } from '../../foundation/base-ui/preview-card';
 import type { AgPart } from '../types';
 import { usePortalContainer, useLayer } from '../../theme';
 import { sourceUrlLabel, useOpenSource } from './SourceList';
+import { defaultPositionerProps } from '../../components/overlays/_shared/positioning';
 
 /** A citable source; `snippet` (optional) is the quoted passage shown in the preview. */
 export type AgCitationSource = Extract<AgPart, { type: 'source-url' | 'source-document' }> & {
@@ -43,7 +44,8 @@ export const CITATION_PREVIEW_DELAY = 300;
  * REQ-SURF-125: `[n]` anchor to #ag-src-{messageId}-{sourceId}, named
  * "Source {index}: {title}". A Base UI PreviewCard (title, snippet, hostname)
  * opens after a 300 ms hover and on focus, is portalled into
- * `usePortalContainer('overlay')`, keeps 8 px collision padding, carries no
+ * `usePortalContainer('overlay')`, uses the shared CMP positioner config
+ * (`defaultPositionerProps`: 8 px offset, 8 px collision padding, flip → shift), carries no
  * popup role (no dialog/tooltip), and closes on blur and on Escape. Escape
  * follows the repo's Base-UI-overlay rule (src/components/overlays/_shared/
  * useOverlayLayer.ts): the open card is registered with the LayerStack via
@@ -90,7 +92,11 @@ export function Citation({ messageId, source, index, defaultOpen = false, classN
         <span aria-hidden="true">{`[${index}]`}</span>
       </PreviewCard.Trigger>
       <PreviewCard.Portal container={portal ?? undefined}>
-        <PreviewCard.Positioner collisionPadding={8} sideOffset={4} data-ag-part="citation-preview-positioner">
+        {/* REQ-CMP-85 (S-30): the shared anchored-popup contract — sideOffset 8,
+            collisionPadding 8, flip → shift; transform-origin and
+            max-block-size come from the [data-ag-part=citation-preview] rule
+            in ai.css. */}
+        <PreviewCard.Positioner {...defaultPositionerProps} data-ag-part="citation-preview-positioner">
           <PreviewCard.Popup id={cardId} data-ag-part="citation-preview">
             {open ? <PreviewLayer /> : null}
             <span data-ag-part="citation-preview-title">{title}</span>
