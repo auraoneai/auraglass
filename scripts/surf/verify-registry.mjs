@@ -69,7 +69,10 @@ const SOURCE_FILE = /\.(?:ts|tsx|js|jsx|mjs|cjs|css|json)$/;
 const isTest = (rel) => /(^|\/)__tests__\//.test(rel) || /\.(?:test|spec)\.[jt]sx?$/.test(rel);
 const isStory = (rel) => /\.stories\.[jt]sx?$/.test(rel);
 const isFixture = (rel) => /(^|\/)fixtures(?:\.[jt]sx?|\/)/.test(rel);
-const isDev = (rel) => isTest(rel) || isStory(rel);
+/* Render-gate harness data (REQ-PLAT-97: tests/dx/registry-render.spec.ts
+   reads layout.assert.json); like stories/tests it never ships in files[]. */
+const isAssert = (rel) => rel.endsWith('.assert.json');
+const isDev = (rel) => isTest(rel) || isStory(rel) || isAssert(rel);
 /* Harness toolchain available to stories/tests only (never shipped). */
 const DEV_PKG = /^(?:node:|@storybook\/|@jest\/|@testing-library\/|jest-axe$)/;
 /* Repo harness contract (StoryAgParameters, REQ-PLAT-96): stories/tests may import its

@@ -92,7 +92,7 @@ function TabsRoot({
   React.useLayoutEffect(() => {
     const d = rootRef.current?.closest('[dir]')?.getAttribute('dir');
     setDir(d?.toLowerCase() === 'rtl' ? 'rtl' : 'ltr');
-  });
+  }, []);
   // SURF-051: share a panel registry with a TabBar(semantics='tabs') placed
   // inside or around this root.
   const registry = useOwnOrOuterPanelRegistry();
