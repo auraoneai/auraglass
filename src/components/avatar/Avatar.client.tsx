@@ -39,6 +39,12 @@ function Root({
   if (process.env.NODE_ENV !== 'production' && src && alt === undefined) {
     console.error('[aura-glass] Avatar: `alt` is required whenever `src` is provided.');
   }
+  /* REQ-CMP-115: the auto-composed image reports its loading status so the
+     root keeps the name whenever the initials fallback stands in for the
+     image (no src, still loading, or the image failed). Once the image has
+     loaded its own `alt` names the avatar. */
+  const [status, setStatus] = React.useState<AvatarImageLoadingStatus>('idle');
+  const labelled = Boolean(name) && (!src || status !== 'loaded');
   return (
     <BaseAvatar.Root
       {...rest}
@@ -47,13 +53,13 @@ function Root({
       data-ag-size={size}
       /* REQ-CMP-115: initials-only avatars are meaningful — role='img' so the
          aria-label is allowed (generic spans may not carry aria-label). */
-      role={name && !src ? 'img' : rest.role}
-      aria-label={name && !src ? name : rest['aria-label']}
+      role={labelled ? 'img' : rest.role}
+      aria-label={labelled ? name : rest['aria-label']}
       className={cn('ag-avatar', className)}
     >
       {children ?? (
         <>
-          {src ? <Image src={src} alt={alt ?? ''} /> : null}
+          {src ? <Image src={src} alt={alt ?? ''} onLoadingStatusChange={setStatus} /> : null}
           <Fallback delay={delay}>{name ? initials(name) : null}</Fallback>
         </>
       )}

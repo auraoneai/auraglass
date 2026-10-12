@@ -8,7 +8,7 @@ export default defineMeta({
   rsc: 'server',
   parts: ['root'],
   states: [],
-  variants: { size: ['display','title-1','title-2','title-3','sm','md','lg','xl'] },
+  variants: { size: ['display','title-1','title-2','title-3'] },
   material: { layer: 'content' },
   apg: 'none',
   budgetKb: 1500 / 1024,

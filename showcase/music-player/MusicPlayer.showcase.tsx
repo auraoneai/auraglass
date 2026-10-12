@@ -71,7 +71,7 @@ export function MusicPlayer({ now = SHOWCASE_EPOCH }: MusicPlayerProps) {
         </div>
         <Surface layer="content" shape="concentric" fallbackRadius="lg" className={styles.library} render={<aside aria-label="Library" />}>
           <div className={styles.libraryHeader}>
-            <Heading level={2} size="md">{COPY.albumsHeading}</Heading>
+            <Heading level={2} size="title-3">{COPY.albumsHeading}</Heading>
             <SegmentedControl.Root name="library-view" aria-label={COPY.viewLabel} value={view} onValueChange={(v: string) => setView(v)}>
               <SegmentedControl.Item value="albums">Albums</SegmentedControl.Item>
               <SegmentedControl.Item value="artists">Artists</SegmentedControl.Item>
@@ -80,7 +80,7 @@ export function MusicPlayer({ now = SHOWCASE_EPOCH }: MusicPlayerProps) {
           </div>
           <CarouselRail.Root label={COPY.albumsHeading} slides={slides} slidesPerView="auto" />
           <div className={styles.queueHeader}>
-            <Heading level={2} size="md">{COPY.queueHeading}</Heading>
+            <Heading level={2} size="title-3">{COPY.queueHeading}</Heading>
             <div className={styles.actions}>
               <IconButton label={COPY.shuffle} icon={<ShuffleIcon />} variant="identity" />
               <IconButton label={COPY.repeat} icon={<RefreshCwIcon />} variant="identity" />

@@ -1,6 +1,6 @@
 /* CMP-296/CMP-420 + REQ-CMP-111: Heading — T0 server leaf. Required `level`
-   1–6 renders h1..h6; `size` is display|title-1|title-2|title-3 (plus the granular sm|md|lg|xl
-   axis) with a
+   1–6 renders h1..h6; `size` is exactly display|title-1|title-2|title-3
+   (the PRD union — the pre-release sm|md|lg|xl axis is gone) with a
    level-derived default (1→title-1, 2→title-2, 3+→title-3; DisplayText
    absorbed). parts [root]. */
 import * as React from 'react';
@@ -12,7 +12,7 @@ export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
   /** Semantic level 1..6 — controls the rendered element only. */
   level: 1 | 2 | 3 | 4 | 5 | 6;
   /** Visual role; defaults by level — 1→'title-1', 2→'title-2', 3+→'title-3'. */
-  size?: 'display' | 'title-1' | 'title-2' | 'title-3' | 'sm' | 'md' | 'lg' | 'xl' | undefined;
+  size?: 'display' | 'title-1' | 'title-2' | 'title-3' | undefined;
   render?: RenderProp<React.HTMLAttributes<HTMLHeadingElement>>;
 }
 
