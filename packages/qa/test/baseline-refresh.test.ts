@@ -8,6 +8,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parse } from 'yaml';
+import { LANE_COMMAND } from '../../../src/contracts/testing.ts';
 import { blockingExit, l7RowResult } from '../src/evidence/l7Runner.mjs';
 import { diffBaselineTrees, renderDiffReport } from '../../../scripts/qual/baseline-refresh.mjs';
 import { baseRevArgs } from '../../../scripts/qual/l7-base.mjs';
@@ -207,10 +208,10 @@ describe('ci/qual.gitlab-ci.yml', () => {
 
   test('qual:certify:l7 runs the L7 lane with a merge-base Storybook at pr, main and nightly', () => {
     const job = ci['qual:certify:l7']!;
-    expect(job.extends).toBe('.qual-lane');
-    expect((job.variables as Record<string, string>).LANE).toBe('L7');
+    // G-03 lane runner: browser lanes extend .qual-browser-lane and run exactly LANE_COMMAND (S-43, REQ-QUAL-64).
+    expect(job.extends).toBe('.qual-browser-lane');
     expect(job.script).toEqual(expect.arrayContaining([
-      expect.stringMatching(/^node scripts\/qual\/l7-base\.mjs --scope "\$AG_SCOPE"/), 'node certification/run.mjs --lane L7 --scope "$AG_SCOPE"']));
+      expect.stringMatching(/^node scripts\/qual\/l7-base\.mjs --scope "\$AG_SCOPE"/), LANE_COMMAND.replace('<id>', 'L7')]));
     expect((job.rules as Array<{ if: string }>)[0]!.if).toMatch(/nightly/);
     expect(JSON.stringify(job)).not.toMatch(/\|\| true|GITHUB_|merge_request_event/);
   });

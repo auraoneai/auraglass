@@ -62,6 +62,12 @@ describe('static readers', () => {
     const c = readMetaSource(`const meta: M = defineMeta({ name: 'C', owner: 'SURF', flagship: 30, parts: PARTS, migration: [] }); export default meta;`, 'src/c/C.meta.ts');
     expect(c.map((m) => [m.name, m.flagship, m.literal])).toEqual([['C', 30, false]]);
   });
+  it('folds S-44 `limitBytes / 1024` budgetKb arithmetic over literals only', () => {
+    const d = readMetaSource(`export default defineMeta({ name: 'D', owner: 'CMP', flagship: 1, budgetKb: 10000 / 1024, parts: ['root'], migration: [] });`, 'src/d/D.meta.ts');
+    expect(d.map((m) => [m.name, m.literal])).toEqual([['D', true]]);
+    const e = readMetaSource(`export default defineMeta({ name: 'E', owner: 'CMP', flagship: 1, budgetKb: LIMIT / 1024, parts: ['root'], migration: [] });`, 'src/e/E.meta.ts');
+    expect(e.map((m) => [m.name, m.literal])).toEqual([['E', false]]);
+  });
   it('reads size-budget rows through const spreads, and refuses a non-static fragment', () => {
     const rows = readSizeBudgetSource(`const w1 = [{ id: 'X', import: "{ X } from 'aura-glass'", limitBytes: 1, kind: 'js' }] as const;
       const w2 = [] as const;
