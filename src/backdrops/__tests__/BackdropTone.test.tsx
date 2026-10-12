@@ -7,6 +7,7 @@ import * as React from 'react';
 import { BackdropTone } from '../BackdropTone';
 import { Backdrop } from '../Backdrop';
 import { clearToneCache } from '../sampling/toneCache';
+import { subscribeFrame } from '../../motion';
 
 function makeVideo() {
   const video = document.createElement('video');
@@ -75,7 +76,8 @@ describe('BackdropMediaLayer tone sampling (REQ-SURF-153)', () => {
     delete (HTMLImageElement.prototype as { decode?: unknown }).decode;
   });
   const settle = async () => {
-    await act(async () => { await new Promise((r) => requestAnimationFrame(() => r(undefined))); });
+    // one frame of the shared motion ticker (REQ-MOT-65: no direct rAF under src/backdrops)
+    await act(async () => { await new Promise<void>((r) => { const off = subscribeFrame(() => { off(); r(); }); }); });
   };
 
   it('photo with a mocked decode sets data-ag-media-tone on .ag-backdrop', async () => {

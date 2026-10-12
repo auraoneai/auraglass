@@ -11,6 +11,7 @@
 import * as React from 'react';
 import { Slider } from '../../components/slider';
 import { formatMediaTime } from '../formatMediaTime';
+import { subscribeFrame } from '../../motion';
 import { BufferedLayer } from './BufferedLayer';
 import { ChapterMarkers } from './ChapterMarkers';
 import { MediaSliderParts, SliderToolbarItem } from './MediaSliderParts';
@@ -56,9 +57,10 @@ export function useFrameCoalesced(cb: ((v: number, details: ChangeDetails) => vo
   const cbRef = React.useRef(cb);
   cbRef.current = cb;
   const pending = React.useRef<{ v: number; d: ChangeDetails } | null>(null);
-  const raf = React.useRef<number | null>(null);
+  // one-shot subscription to the shared motion ticker (REQ-MOT-65)
+  const raf = React.useRef<(() => void) | null>(null);
   const cancel = React.useCallback(() => {
-    if (raf.current !== null) { cancelAnimationFrame(raf.current); raf.current = null; }
+    if (raf.current !== null) { raf.current(); raf.current = null; }
   }, []);
   const flush = React.useCallback(() => {
     cancel();
@@ -69,7 +71,8 @@ export function useFrameCoalesced(cb: ((v: number, details: ChangeDetails) => vo
   const push = React.useCallback((v: number, d: ChangeDetails) => {
     pending.current = { v, d };
     if (raf.current === null) {
-      raf.current = requestAnimationFrame(() => {
+      raf.current = subscribeFrame(() => {
+        raf.current?.();
         raf.current = null;
         const p = pending.current;
         pending.current = null;

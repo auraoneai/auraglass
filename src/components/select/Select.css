@@ -73,7 +73,7 @@
     min-inline-size: var(--anchor-width);
     max-inline-size: calc(100vw - 16px);
     max-inline-size: calc(100cqi - 16px);
-    max-block-size: var(--available-height, var(--_ag-select-popup-max-h, var(--_ag-space-72)));
+    max-block-size: var(--available-height, var(--_ag-select-popup-max-h, calc(var(--ag-space-12) * 6)));
     overflow-y: auto;
     overscroll-behavior: contain;
     border-radius: var(--ag-radius-lg);

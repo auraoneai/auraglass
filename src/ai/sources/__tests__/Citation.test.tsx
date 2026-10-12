@@ -4,10 +4,12 @@ import { act, render, screen, fireEvent } from '@testing-library/react';
 import { Citation } from '../Citation';
 import { SourceList, SourceScope } from '../SourceList';
 import { layerStackFor } from '../../../theme/layers/LayerStack';
+import { subscribeFrame } from '../../../motion';
 
 const source = { type: 'source-url' as const, sourceId: 's-1', url: 'https://docs.x/keys', title: 'Key policy', snippet: 'Rotate keys every 90 days.' };
 const preview = () => document.querySelector('[data-ag-part="citation-preview"]');
-const nextFrame = () => act(async () => { await new Promise<void>((r) => requestAnimationFrame(() => r())); });
+// one frame of the shared motion ticker (REQ-MOT-65: no direct rAF under src/ai)
+const nextFrame = () => act(async () => { await new Promise<void>((r) => { const off = subscribeFrame(() => { off(); r(); }); }); });
 
 afterEach(() => { jest.useRealTimers(); });
 
