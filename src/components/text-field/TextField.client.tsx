@@ -39,7 +39,8 @@ export function TextField({
   maxLength,
   showCount,
   validate,
-  validationMode,
+  /* REQ-CMP-60: `onBlur` is the spec default (Base UI's own is 'onSubmit'). */
+  validationMode = 'onBlur',
   className,
   ref,
   ...rest

@@ -98,16 +98,37 @@ export const States: Story = {
   ),
 };
 
-/* The story tests/a11y/apg/cmp/search-field.apg.spec.ts drives: Escape clears the value, then propagates when empty. */
+/* The story tests/a11y/apg/cmp/search-field.apg.spec.ts drives: Escape clears
+   the value, then propagates when empty; Enter submits the form (implicit
+   submission, the submitted query is echoed in the status line); Tab from the
+   input reaches the clear button only while there is a value, then the next
+   control. */
+function KeyboardForm() {
+  const [submitted, setSubmitted] = React.useState<string | null>(null);
+  return (
+    <form
+      role="search"
+      onSubmit={(e) => {
+        e.preventDefault();
+        setSubmitted(String(new FormData(e.currentTarget).get('q') ?? ''));
+      }}
+      style={{ display: 'grid', gap: 8 }}
+    >
+      <div style={bar}>
+        <SearchField aria-label="Search" name="q" defaultValue="glacier" />
+      </div>
+      <button type="submit">Search</button>
+      <p role="status" data-testid="submitted">{submitted === null ? '' : `Submitted: ${submitted}`}</p>
+    </form>
+  );
+}
 export const Keyboard: Story = {
   tags: ['apg'],
   render: () => (
     <Stage>
-      <Section title="Keyboard" note="Escape clears the value; a second Escape on the empty field is not consumed.">
+      <Section title="Keyboard" note="Escape clears the value; a second Escape on the empty field is not consumed. Enter submits.">
         <Scene align="flex-start">
-          <div style={bar}>
-            <SearchField aria-label="Search" defaultValue="glacier" />
-          </div>
+          <KeyboardForm />
         </Scene>
       </Section>
     </Stage>
