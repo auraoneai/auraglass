@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /* REQ-FIN-110 (C-16) / REQ-MAT-66 / REQ-QUAL-72 (was MAT-316/318/324):
    validates every SrRecord JSON under tests/a11y/manual/records (or [dir])
-   against the single SrRecord schema.
+   against the single SrRecord schema (contracts/schemas/sr-record.schema.json)
+   plus the L13 binding profile below.
 
    Usage: node scripts/mat/verify-a11y-manual.mjs [--sha <sha>] [dir]
 
@@ -21,13 +22,75 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-// The one SrRecord schema. C-16 (contract/v1.2-final, FIN-463) moves it to
-// contracts/schemas/sr-record.schema.json; this constant and the deleted
-// tests/ copy are the only change needed once that merges.
-export const SCHEMA_PATH = path.join(REPO, 'tests/a11y/manual/sr-record.schema.json');
+// The one SrRecord schema (C-16, REQ-FIN-110): contracts/schemas/sr-record.schema.json.
+export const SCHEMA_PATH = path.join(REPO, 'contracts/schemas/sr-record.schema.json');
+
+/* REQ-FIN-110 L13 binding profile: what a record committed under
+   tests/a11y/manual/records/ must carry on top of the SrRecord shape — the
+   SHA-bound evidence fields, the stream/pass the path rule and the aggregator
+   key on, and the touch/mobile conditions. Checked with the same validator. */
+export const L13_PROFILE = {
+  type: 'object',
+  required: [
+    'sha', 'subject', 'flagship', 'stream', 'pass', 'at',
+    'atVersion', 'browser', 'browserVersion', 'os', 'osVersion',
+    'tester', 'date', 'result', 'steps', 'storybookArtifactUrl',
+  ],
+  properties: {
+    sha: { type: 'string', pattern: '^[0-9a-f]{7,40}$' },
+    subject: { type: 'string', pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$' },
+    flagship: { type: ['integer', 'null'], minimum: 1 },
+    at: { enum: ['voiceover-macos', 'voiceover-ios', 'nvda-chrome', 'talkback-chrome', 'touch-ios', 'touch-android'] },
+    tester: { type: 'string', minLength: 1 },
+    date: { type: 'string', format: 'date' },
+    steps: {
+      type: 'array',
+      minItems: 1,
+      items: {
+        type: 'object',
+        required: ['action', 'expected', 'announced', 'pass'],
+        properties: {
+          action: { type: 'string', minLength: 1 },
+          expected: { type: 'string', minLength: 1 },
+          gesture: { type: 'string', minLength: 1 },
+          nonDragAlternative: { type: 'string', minLength: 1 },
+        },
+      },
+    },
+  },
+  allOf: [
+    {
+      if: {
+        anyOf: [
+          { required: ['pass'], properties: { pass: { const: 'touch' } } },
+          { required: ['at'], properties: { at: { enum: ['voiceover-ios', 'talkback-chrome', 'touch-ios', 'touch-android'] } } },
+        ],
+      },
+      then: { required: ['device'] },
+    },
+    {
+      if: { required: ['pass'], properties: { pass: { const: 'touch' } } },
+      then: {
+        properties: {
+          at: { enum: ['touch-ios', 'touch-android'] },
+          steps: { items: { required: ['gesture', 'nonDragAlternative'] } },
+        },
+      },
+    },
+    {
+      if: { required: ['at'], properties: { at: { enum: ['touch-ios', 'touch-android'] } } },
+      then: { properties: { pass: { const: 'touch' } } },
+    },
+  ],
+};
+
+/** Schema + L13 profile errors for one record. */
+export function validateRecord(schema, rec) {
+  return [...validate(schema, rec), ...validate(L13_PROFILE, rec)];
+}
 const DEFAULT_DIR = 'tests/a11y/manual/records';
 
-const ANNOTATIONS = new Set(['$schema', '$id', 'title', 'description']);
+const ANNOTATIONS = new Set(['$schema', '$id', '$comment', 'title', 'description']);
 const KEYWORDS = new Set([
   'type', 'enum', 'const', 'pattern', 'minLength', 'minimum', 'minItems', 'format',
   'required', 'properties', 'additionalProperties', 'items', 'allOf', 'anyOf', 'if', 'then',
@@ -148,7 +211,7 @@ function main(argv) {
     let rec;
     try { rec = JSON.parse(fs.readFileSync(f, 'utf8')); }
     catch (e) { failures.push(`${f}: invalid JSON: ${e.message}`); continue; }
-    const errs = validate(schema, rec);
+    const errs = validateRecord(schema, rec);
     for (const e of errs) failures.push(`${f}: ${e}`);
     if (typeOf(rec) !== 'object') continue;
     if (wantSha && rec.sha !== wantSha) failures.push(`${f}: sha ${rec.sha} != ${wantSha}`);

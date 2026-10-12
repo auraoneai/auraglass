@@ -43,7 +43,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SCHEMA_PATH, expectedName, validate } from '../../../scripts/mat/verify-a11y-manual.mjs';
+import { SCHEMA_PATH, expectedName, validateRecord } from '../../../scripts/mat/verify-a11y-manual.mjs';
 import { FLAGSHIP_RANGE, SR_AT, TEMPLATE_PATH, TOUCH_AT, kebab, loadMetas } from './gen-matrix.mjs';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
@@ -88,7 +88,7 @@ export function aggregate({ sha, rows, records, schema, ai, generatedAt = new Da
       continue;
     }
     if (rec.sha !== sha) { excluded.push({ record: rel, reason: `sha ${rec.sha} != ${sha}` }); continue; }
-    const errors = validate(schema, rec);
+    const errors = validateRecord(schema, rec);
     const parts = rel.split('/');
     if (parts.length !== 2 || parts[0] !== rec.stream || parts[1] !== expectedName(rec)) {
       errors.push(`must be at <records>/${rec.stream}/${expectedName(rec)}`);

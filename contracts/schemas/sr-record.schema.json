@@ -1,7 +1,7 @@
 {
  "$schema": "https://json-schema.org/draft/2020-12/schema",
  "$id": "sr-record.schema.json",
- "$comment": "contract-v1.2 C-16: the single SrRecord schema (src/contracts/fragments.ts SrRecord). MAT verify-a11y-manual.mjs and the QUAL aggregator both read this file.",
+ "$comment": "contract-v1.2 C-16: the single SrRecord schema (src/contracts/fragments.ts SrRecord). MAT verify-a11y-manual.mjs and the QUAL aggregator both read this file. REQ-FIN-110 (additive): the optional L13 binding fields stream, pass and storybookArtifactUrl, the step narrative fields action/expected/announced, the device touch ATs and a numeric (or null) flagship; the verifier's L13 profile makes them required for records under tests/a11y/manual/records/.",
  "title": "SrRecord",
  "type": "object",
  "additionalProperties": false,
@@ -15,7 +15,11 @@
  ],
  "properties": {
   "flagship": {
-   "type": "string"
+   "type": [
+    "string",
+    "integer",
+    "null"
+   ]
   },
   "at": {
    "enum": [
@@ -23,7 +27,9 @@
     "voiceover-ios",
     "nvda-chrome",
     "talkback-chrome",
-    "touch"
+    "touch",
+    "touch-ios",
+    "touch-android"
    ]
   },
   "result": {
@@ -109,9 +115,36 @@
      },
      "notes": {
       "type": "string"
+     },
+     "action": {
+      "type": "string"
+     },
+     "expected": {
+      "type": "string"
+     },
+     "announced": {
+      "type": "string"
      }
     }
    }
+  },
+  "stream": {
+   "enum": [
+    "mat",
+    "cmp",
+    "surf"
+   ]
+  },
+  "pass": {
+   "enum": [
+    "sr",
+    "touch",
+    "motion"
+   ]
+  },
+  "storybookArtifactUrl": {
+   "type": "string",
+   "pattern": "^https://"
   }
  }
 }

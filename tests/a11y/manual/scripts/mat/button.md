@@ -33,6 +33,6 @@ Cell: SR-1 (desktop SR) / SR-3 (mobile SR) · Component: Button · Story: `cmp-b
 | 3 | Swipe to disabled button | "Disabled" announced | swipe right | — | ☐ | |
 
 Record to `tests/a11y/manual/records/mat/button-<cell>-<sha>.json` per
-`tests/a11y/manual/sr-record.schema.json`; the record is validated by
+`contracts/schemas/sr-record.schema.json` (the single SrRecord schema); the record is validated by
 `scripts/mat/verify-a11y-manual.mjs` and uploaded as `a11y-manual-<sha>.json`
 via the manual GitLab job. Agents never author records (MAT-318/324).
