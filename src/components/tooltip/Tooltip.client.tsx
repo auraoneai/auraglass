@@ -73,7 +73,7 @@ function TooltipRoot({ open, defaultOpen, onOpenChange, delay, closeDelay, child
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
           const reason = !o && routed.takeEscape() ? 'escape-key' : toOverlayReason(details?.reason);
-          onOpenChange?.(o, { ...details, reason } as OverlayOpenChangeDetails);
+          onOpenChange?.(o, { event: details?.event, reason } satisfies OverlayOpenChangeDetails);
         }}
       >
         {children}

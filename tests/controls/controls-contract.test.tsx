@@ -7,6 +7,8 @@ import '@testing-library/jest-dom/jest-globals';
 import { render, cleanup } from '@testing-library/react';
 import * as React from 'react';
 import { CONTROL_FAMILIES } from './families';
+import { AG_ATTRIBUTES, BANNED_ATTRIBUTES } from '../../src/contracts/material';
+import { PART_NAME_RE } from '../../src/contracts/components';
 
 const STATE_ATTR_RE = /^data-(checked|unchecked|disabled|readonly|dragging|invalid|required|open|closed|filled|pressed)$/;
 
@@ -30,16 +32,38 @@ describe('controls contract (families)', () => {
     }
   });
 
-  it.each(CONTROL_FAMILIES.map((f) => [f.name, f] as const))('%s: data-* state attrs are contract-shaped', (_name, { fixture: Fixture }) => {
-    const { container } = render(<Fixture />);
-    for (const el of Array.from(container.querySelectorAll('*'))) {
-      for (const attr of Array.from(el.attributes)) {
-        if (attr.name.startsWith('data-') && !attr.name.startsWith('data-ag-') && !STATE_ATTR_RE.test(attr.name) && attr.name !== 'data-testid') {
-          // data-orientation/data-index etc are BU layout attrs — allow data-* generally but flag data-state noise
-          expect(attr.name).not.toBe('data-state-invalid');
+  /* REQ-CMP-04/-06 (S-01/S-02): every data-* attribute the fixture renders, in the
+     container and any portal, is contract-shaped. data-ag-* names are S-01
+     AG_ATTRIBUTES keys a CMP component may emit (setter CMP, ANY, or MAT via
+     materialProps — never SURF/QUAL/CONTRACT-only), enumerated values are in the
+     registry, data-ag-part is a declared meta part, nothing banned is emitted;
+     Base UI boolean state attributes are valueless and data-state is a kebab token. */
+  it.each(CONTROL_FAMILIES.map((f) => [f.name, f] as const))('%s: data-* state attrs are contract-shaped', (name, { fixture: Fixture, meta }) => {
+    const { baseElement } = render(<Fixture />);
+    const problems: string[] = [];
+    let agAttrs = 0;
+    for (const el of Array.from(baseElement.querySelectorAll('*'))) {
+      for (const { name: attr, value } of Array.from(el.attributes)) {
+        if (!attr.startsWith('data-')) continue;
+        if ((BANNED_ATTRIBUTES as readonly string[]).includes(attr)) { problems.push(`banned ${attr}`); continue; }
+        if (attr.startsWith('data-ag-')) {
+          agAttrs++;
+          const reg = (AG_ATTRIBUTES as Record<string, { setter: string; values: readonly string[] | string }>)[attr];
+          if (!reg) { problems.push(`${attr} is not an S-01 AG_ATTRIBUTES entry`); continue; }
+          if (!/\b(CMP|ANY|MAT)\b/.test(reg.setter)) problems.push(`${attr} has setter ${reg.setter}; a CMP control may not emit it`);
+          if (Array.isArray(reg.values) && !reg.values.includes(value)) problems.push(`${attr}="${value}" not in ${JSON.stringify(reg.values)}`);
+          if (attr === 'data-ag-part' && (!PART_NAME_RE.test(value) || !meta.parts.includes(value as never))) problems.push(`data-ag-part="${value}" not a declared part`);
+          continue;
+        }
+        if (attr === 'data-state') {
+          if (!/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(value)) problems.push(`data-state="${value}" is not a kebab token`);
+        } else if (STATE_ATTR_RE.test(attr) && value !== '') {
+          problems.push(`${attr}="${value}" — boolean state attributes are valueless`);
         }
       }
     }
+    expect(agAttrs).toBeGreaterThan(0);
+    expect({ name, problems }).toEqual({ name, problems: [] });
   });
 });
 

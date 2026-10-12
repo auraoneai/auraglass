@@ -61,7 +61,7 @@ function ContextMenuRoot({ open, defaultOpen, onOpenChange, loop = true, childre
           if (!controlled) setInternal(o);
           if (!o) restoreFocusAfterClose(opener.current);
           const reason = !o && routed.takeEscape() ? 'escape-key' : toOverlayReason(details?.reason);
-          onOpenChange?.(o, { ...details, reason } as OverlayOpenChangeDetails);
+          onOpenChange?.(o, { event: details?.event, reason } satisfies OverlayOpenChangeDetails);
         }}
       >
         {children}

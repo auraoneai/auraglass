@@ -118,6 +118,16 @@ export default [
     remote: true,
     failClosed: true,
   },
+  // L6 — REQ-CMP-36: controls e2e (IconButton 28/36/44 box sizes, sizing, focus,
+  // axe, motion, overlay stack); was unregistered so icon-button-sizes never ran
+  {
+    lane: "L6",
+    kind: "playwright",
+    path: "tests/e2e/cmp/controls/**",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
   // L10 — browser perf
   {
     lane: "L10",
@@ -153,6 +163,16 @@ export default [
     lane: "L12",
     kind: "jest",
     path: "src/components/!(breadcrumbs|command-palette|pagination|source-transition|tab-bar|tabs|timeline)/**/*.test.{ts,tsx}",
+    scope: "pr",
+    remote: false,
+    failClosed: true,
+  },
+  // L12 — Jest CMP dirs (REQ-CMP-04/-11/-24: the old '<dir>/cmp/**' glob matched
+  // no files; these are the CMP jest dirs as they exist, incl. the compiler fixture)
+  {
+    lane: "L12",
+    kind: "jest",
+    path: "tests/{foundation,controls,overlays,compiler}/**",
     scope: "pr",
     remote: false,
     failClosed: true,
