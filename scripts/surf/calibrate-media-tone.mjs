@@ -53,6 +53,7 @@ function anchorsOk(c, scenes, anchors) {
 
 function deriveConstants(current, scenes, anchors) {
   const out = {};
+  const satisfied = anchorsOk(current, scenes, anchors);
   for (const k of CONSTANTS) {
     const ok = [];
     for (let i = 0; i <= 1000; i++) {
@@ -60,12 +61,21 @@ function deriveConstants(current, scenes, anchors) {
       if (anchorsOk({ ...current, [k]: v }, scenes, anchors)) ok.push(v);
     }
     const feasible = ok.length ? [ok[0], ok[ok.length - 1]] : null;
-    const satisfied = anchorsOk(current, scenes, anchors);
     out[k] = {
       current: current[k],
       feasible,
       derived: satisfied ? current[k] : feasible ? round((feasible[0] + feasible[1]) / 2) : null,
     };
+  }
+  // A constant whose own axis cannot fix the anchors (feasible null, e.g. a
+  // light bound when a scene is wrongly 'dark') keeps its current value in
+  // the derived set when the set as a whole satisfies every anchor, so the
+  // artifact always names one actionable TONE_* set or none.
+  if (!satisfied) {
+    const candidate = Object.fromEntries(CONSTANTS.map((k) => [k, out[k].derived ?? current[k]]));
+    if (anchorsOk(candidate, scenes, anchors)) {
+      for (const k of CONSTANTS) if (out[k].derived === null) out[k].derived = current[k];
+    }
   }
   return out;
 }

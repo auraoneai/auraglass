@@ -12,6 +12,7 @@ import { dirname, join } from 'node:path';
 
 const gate = require('../../scripts/surf/verify-side-effects.mjs') as {
   SURF_ENTRIES: string[];
+  surfEntries: (root?: string) => string[];
   isSurfModule: (m: string) => boolean;
   evaluate: (i: { observed: Array<{ api: string; module: string }>; surfExceptions: unknown[]; distFiles: Set<string> }) => {
     ok: boolean;
@@ -25,6 +26,31 @@ const gate = require('../../scripts/surf/verify-side-effects.mjs') as {
 
 const ROOT = join(__dirname, '..', '..');
 const allEntries = () => new Set(gate.SURF_ENTRIES.map((e) => `dist/${e}/index.js`));
+
+describe('SURF side-effect gate: entries respect EntrySpec.ga (C16)', () => {
+  it('excludes ./charts (ga 5.1) from the 5.0.x package entries', () => {
+    expect(gate.SURF_ENTRIES).not.toContain('charts');
+    expect(gate.SURF_ENTRIES).toContain('media');
+  });
+
+  it('surfEntries(root) derives owner/ga from src/contracts/entries.ts', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ag-se-entries-'));
+    try {
+      mkdirSync(join(dir, 'src/contracts'), { recursive: true });
+      writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'aura-glass', version: '5.1.0' }));
+      writeFileSync(join(dir, 'src/contracts/entries.ts'), [
+        'export const ENTRIES = [',
+        "  { subpath: './media', source: 'src/media/index.ts', owner: 'SURF', ga: '5.0', exports: [] },",
+        "  { subpath: './charts', source: 'src/charts/index.ts', owner: 'SURF', ga: '5.1', exports: [] },",
+        "  { subpath: './compat', source: 'src/compat/index.ts', owner: 'PLAT', ga: '5.0', exports: [] },",
+        '];',
+      ].join('\n'));
+      expect(gate.surfEntries(dir)).toEqual(['media', 'charts']);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+});
 
 describe('SURF side-effect gate: evaluate()', () => {
   it('passes with every SURF entry present, no SURF calls and an empty surf fragment', () => {

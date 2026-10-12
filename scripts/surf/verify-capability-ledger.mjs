@@ -478,7 +478,12 @@ function diffGate(ledger, baseSha) {
 }
 
 /* Value exports added between two snapshots must be a name in some ledger row
- * (REQ-SURF-183). Snapshot shape: { "<subpath>": ["<name>", ...] }. */
+ * (REQ-SURF-183). Snapshot shape: { "<subpath>": ["<name>", ...] }. The
+ * './compat' subpath is out of scope: its exports are deprecated 4.x adapters
+ * (entries.ts owner PLAT, exports '@union of src/compat/<stream>/index.ts'),
+ * governed by REQ-PLAT-30 compat coverage and deprecations.json, not by the
+ * capability ledger, whose archived rows (REQ-SURF-179) record new
+ * capabilities only and carry no './compat' row. */
 function exportsDiffCheck(ledger, before, after) {
   const allNames = new Set();
   for (const r of ledger.rows) {
@@ -486,6 +491,7 @@ function exportsDiffCheck(ledger, before, after) {
   }
   const added = [];
   for (const [sub, names] of Object.entries(after)) {
+    if (sub === './compat') continue;
     const beforeSet = new Set((before[sub] ?? []).map((n) => n.toLowerCase()));
     for (const n of names) {
       if (beforeSet.has(n.toLowerCase())) continue;
