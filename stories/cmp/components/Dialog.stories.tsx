@@ -122,20 +122,22 @@ export const NonModal: Story = {
   ),
 };
 
+function PaletteShellDemo() {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  return (
+    <Shell>
+      <Dialog.Root defaultOpen>
+        <Dialog.Content placement="top" size="lg" initialFocus={inputRef}>
+          <Dialog.Body padding="none">
+            <input ref={inputRef} placeholder="Type a command…" style={{ width: '100%', padding: 12, font: 'inherit' }} />
+          </Dialog.Body>
+        </Dialog.Content>
+      </Dialog.Root>
+    </Shell>
+  );
+}
+
 export const PaletteShell: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Dialog', id: 'overlays-dialog--palette-shell' } },
-  render: () => {
-    const inputRef = React.useRef<HTMLInputElement>(null);
-    return (
-      <Shell>
-        <Dialog.Root defaultOpen>
-          <Dialog.Content placement="top" size="lg" initialFocus={inputRef}>
-            <Dialog.Body padding="none">
-              <input ref={inputRef} placeholder="Type a command…" style={{ width: '100%', padding: 12, font: 'inherit' }} />
-            </Dialog.Body>
-          </Dialog.Content>
-        </Dialog.Root>
-      </Shell>
-    );
-  },
+  render: () => <PaletteShellDemo />,
 };

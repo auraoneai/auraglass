@@ -1,7 +1,6 @@
 /* CMP-323 compat: shared GlassButton (4.x) -> Button (5.0) mapping. Not
    re-exported by src/compat/cmp/index.ts (module-private to the button
    adapters). */
-'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Button } from '../../../components/button';

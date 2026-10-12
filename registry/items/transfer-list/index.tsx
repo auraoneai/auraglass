@@ -9,11 +9,11 @@ export interface TransferRow { id: string; label: string; hint?: string }
 export interface TransferListProps {
   source: { title: string; rows: TransferRow[] };
   target: { title: string; rows: TransferRow[] };
-  onChange?: (targetIds: string[]) => void;
+  onValueChange?: (targetIds: string[]) => void;
   onMove?: (moved: { ids: string[]; direction: 'to-target' | 'to-source' }) => void;
 }
 
-export function TransferList({ source, target, onChange, onMove }: TransferListProps) {
+export function TransferList({ source, target, onValueChange, onMove }: TransferListProps) {
   const [picked, setPicked] = useState<{ source: string[]; target: string[] }>({ source: [], target: [] });
   const [internalTarget, setInternalTarget] = useState<string[] | null>(null);
   const targetIds = internalTarget ?? target.rows.map((r) => r.id);
@@ -35,7 +35,7 @@ export function TransferList({ source, target, onChange, onMove }: TransferListP
     const next = direction === 'to-target' ? [...targetIds, ...ids] : targetIds.filter((x) => !ids.includes(x));
     setInternalTarget(next);
     setPicked({ source: [], target: [] });
-    onChange?.(next);
+    onValueChange?.(next);
     onMove?.({ ids, direction });
   };
 

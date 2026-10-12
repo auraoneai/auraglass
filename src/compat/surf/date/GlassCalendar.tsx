@@ -6,7 +6,6 @@
    value/defaultValue/onChange spellings are also accepted. The mapping lives
    in ./GlassCalendar.impl, loaded on first render (../lazyAdapter) so importing
    aura-glass/compat never evaluates the optional date peers. */
-'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { lazyAdapter } from '../lazyAdapter';

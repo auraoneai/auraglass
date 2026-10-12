@@ -5,12 +5,16 @@
 import { describe, it, beforeAll, afterAll } from '@jest/globals';
 import { RuleTester } from 'eslint';
 import tsParser from '@typescript-eslint/parser';
-import { mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import rule from '../../../lint/rules/cmp/require-data-ag-part.cjs';
 
 // Jest runs .test.ts files as CJS (babel transform), so __dirname is the module's own dir.
-const FIX = join(__dirname, 'fixtures', 'require-data-ag-part');
+// The fixture dir is unique per process: the lane runner can schedule this suite in two
+// workers at once, and a shared dir lets one worker's afterAll delete the sibling
+// *.meta.ts files mid-run, silently disarming the rule in the other worker.
+mkdirSync(join(__dirname, 'fixtures'), { recursive: true });
+const FIX = mkdtempSync(join(__dirname, 'fixtures', 'require-data-ag-part-'));
 const FILE = (n: string) => join(FIX, n);
 
 beforeAll(() => {

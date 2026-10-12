@@ -44,8 +44,11 @@ export const BASELINE_PATH = 'certification/baselines-gates/story-glass.json';
     is not shipped, is excluded by every 5.x test runner and is deleted by FIN-C (`legacy/**` deletion row). */
 export const LEGACY_DECISION = 'legacy/** excluded: not a .storybook/main.ts story root, not shipped, deleted by FIN-C';
 /** `apps/docs/**` MDX is the Next.js docs site (PLAT, remark heading-id syntax such as `## B1 {#b-1}`), not Storybook
-    content; it renders no library story and is covered by PLAT's docs gates. */
-export const EXCLUDED = [/^legacy\//, /^apps\/docs\//, /\/node_modules\//];
+    content; it renders no library story and is covered by PLAT's docs gates.
+    `stories/qual/fixtures/**` are `no-cert` probe subjects (REQ-QUAL-22/-43): negative controls such as
+    BespokeBlur exist precisely to supply hand-rolled optics so the L10/engine probes can catch them; they
+    present no library component and are never certification subjects. */
+export const EXCLUDED = [/^legacy\//, /^apps\/docs\//, /^stories\/qual\/fixtures\//, /\/node_modules\//];
 /** REQ-FIN that removes an offender (PRD-F §5): MAT stories → REQ-FIN-59; CMP primitives → 71, other CMP → 70;
     SURF by area (app shell 81, data 83, date 84, AI 85, media 86), other SURF → 80; PLAT → REQ-FIN-43. */
 const REQ_FIN_BY_PATH = [[/^stories\/cmp\/primitives\//, 'REQ-FIN-71'], [/^src\/app-shell\//, 'REQ-FIN-81'], [/^src\/data\//, 'REQ-FIN-83'],

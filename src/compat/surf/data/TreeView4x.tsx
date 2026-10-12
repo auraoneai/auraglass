@@ -4,6 +4,7 @@
    'single'), onSelectionChange(ids) / onExpansionChange(ids) map onto the
    5.0 TreeView through the shared LegacyTree mapping. Static <TreeItem>
    children are a 4.x sub-part with no adapter; pass `items`. */
+'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { LegacyTree, type GlassTreeNode } from './GlassTreeView';

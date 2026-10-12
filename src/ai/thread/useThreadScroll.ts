@@ -164,8 +164,10 @@ export function useThreadScroll(
   }, [messages, viewportRef, scrollToBottom]);
 
   // Content growth (streaming tokens inside the last message, images, late
-  // measurement): ResizeObserver on the content wrapper plus a
-  // MutationObserver for text/child changes; both collapse into one rAF.
+  // measurement): a ResizeObserver on the content wrapper is the only signal
+  // scroll needs — a mutation that changes no box moves neither scrollHeight
+  // nor any anchor offset, and appends/prepends are handled by the layout
+  // effect above (REQ-QUAL-46: no MutationObserver in shipped code).
   React.useEffect(() => {
     const content = contentRef.current;
     const el = viewportRef.current;
@@ -176,9 +178,7 @@ export function useThreadScroll(
     };
     const ro = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(onGrow);
     ro?.observe(content);
-    const mo = typeof MutationObserver === 'undefined' ? null : new MutationObserver(onGrow);
-    mo?.observe(content, { childList: true, subtree: true, characterData: true });
-    return () => { ro?.disconnect(); mo?.disconnect(); };
+    return () => { ro?.disconnect(); };
   }, [contentRef, viewportRef, scrollToBottom]);
 
   React.useEffect(() => () => { raf.current?.(); raf.current = null; }, []);

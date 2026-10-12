@@ -4,5 +4,5 @@ export { MotionPreferenceContext } from '../contexts/MotionPreferenceContext';
 export { Gate } from '../primitives/motion/ReducedMotionProvider';
 
 export const load = () => import('../hooks/useEnhancedReducedMotion');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+// violating fixture: legacy require() load path (REQ-MAT-51)
 export const legacy = require('../hooks/useMotionPreference');

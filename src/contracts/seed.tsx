@@ -1,5 +1,6 @@
 /* @ag-contract-seed: S-30 seed helper. CONTRACT-owned. Excluded from the package build (tsconfig.build.json
    exclude). Used only by C0 seeds; seeds use React + this module only. */
+'use client';
 import * as React from 'react';
 
 const kebab = (name: string) => name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();

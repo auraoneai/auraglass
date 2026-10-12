@@ -4,8 +4,10 @@
 import type { LaneRegistration } from '../../src/contracts/fragments';
 
 export default [
-  // L1 — lint rules and their tests
-  { lane: 'L1', kind: 'jest', path: 'lint/rules/plat/*.cjs', scope: 'pr', remote: false, failClosed: true },
+  // L1 — lint rule tests (each suite requires its lint/rules/plat/*.cjs rule
+  // module directly; a jest row on the .cjs sources themselves can only run
+  // --findRelatedTests, which finds nothing because jest.config.js
+  // moduleFileExtensions has no 'cjs' for the haste map to index)
   { lane: 'L1', kind: 'jest', path: 'tests/lint/plat/**', scope: 'pr', remote: false, failClosed: true },
   // L2 — artifact/pack gates
   { lane: 'L2', kind: 'jest', path: 'tests/{pack,build,exports,deps,side-effects,css}/**', scope: 'pr', remote: false, failClosed: true },

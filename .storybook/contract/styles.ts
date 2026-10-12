@@ -26,23 +26,31 @@ export function selectSheets(cert: boolean, built: SheetLoaders, source: SheetLo
   return Object.entries(source).sort(([a], [b]) => a.localeCompare(b));
 }
 
-/** Ancestor rules for cert mode (REQ-QUAL-09): transparent, unfiltered, opacity 1, scene-sized environment. */
+/** Ancestor rules for cert mode (REQ-QUAL-09): transparent, unfiltered, opacity 1, scene-sized environment.
+    No priority flags: the sheet is unlayered author CSS, which outranks every layered `ag.*` rule in the
+    built sheet, and installCertStyle re-appends it last in <head> after the sheets load so it also wins
+    source order against unlayered harness CSS. `:root` / `#storybook-root` outrank the element and class
+    selectors the Storybook shell paints the preview ancestors with. */
 export const CERT_CSS = [
-  'html { background: transparent !important; }',
-  'body { margin: 0 !important; padding: 0 !important; }',
+  ':root { background: transparent; }',
+  ':root > body { margin: 0; padding: 0; }',
   '#storybook-root, [data-ag-backdrop]:has(> [data-ag-story-content]) {',
-  '  background-color: transparent !important; background-image: none !important;',
-  '  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;',
-  '  filter: none !important; opacity: 1 !important;',
+  '  background-color: transparent; background-image: none;',
+  '  backdrop-filter: none; -webkit-backdrop-filter: none;',
+  '  filter: none; opacity: 1;',
   '}',
   '[data-ag-backdrop]:has(> [data-ag-story-content]) { min-height: 100vh; width: 100%; box-sizing: border-box; }',
 ].join('\n');
 
 function installCertStyle(doc: Document): void {
-  if (doc.head.querySelector(`style[${CERT_STYLE_ATTR}]`)) return;
-  const style = doc.createElement('style');
-  style.setAttribute(CERT_STYLE_ATTR, '');
-  style.textContent = CERT_CSS;
+  let style = doc.head.querySelector<HTMLStyleElement>(`style[${CERT_STYLE_ATTR}]`);
+  if (!style) {
+    style = doc.createElement('style');
+    style.setAttribute(CERT_STYLE_ATTR, '');
+    style.textContent = CERT_CSS;
+  }
+  // Appending an attached node moves it: after the sheets load this keeps the
+  // cert sheet last in <head> (see CERT_CSS).
   doc.head.appendChild(style);
 }
 
@@ -54,7 +62,9 @@ export function loadStoryStyles(cert: boolean = isCertMode(), distBuild: boolean
   if (!loaded) {
     const sheets = selectSheets(cert || distBuild, BUILT_SHEETS, SOURCE_SHEETS);
     if (cert && typeof document !== 'undefined') installCertStyle(document);
-    loaded = Promise.all(sheets.map(([, load]) => load())).then(() => undefined);
+    loaded = Promise.all(sheets.map(([, load]) => load())).then(() => {
+      if (cert && typeof document !== 'undefined') installCertStyle(document);
+    });
   }
   return loaded;
 }

@@ -8,7 +8,6 @@
    error/errorMessage, required, disabled, size via ./shared fieldProps.
    placeholder becomes the label when no label is given (the 5.0 field needs
    an accessible name). */
-'use client';
 import * as React from 'react';
 import { DatePicker } from '../../../date/DatePicker';
 import type { DateValue } from '../../../date/shared';

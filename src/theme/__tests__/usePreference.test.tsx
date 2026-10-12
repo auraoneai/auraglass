@@ -56,11 +56,13 @@ describe('usePreference', () => {
   it('renderToString uses SERVER_SNAPSHOT for every key', () => {
     const { usePreference } = require('../preferences/usePreference') as typeof import('../preferences/usePreference');
     const seen: Record<string, unknown> = {};
-    function Probe() {
-      for (const k of PREF_KEYS) seen[k] = usePreference(k);
+    function Probe({ prefKey }: { prefKey: keyof PreferenceValues }) {
+      seen[prefKey] = usePreference(prefKey);
       return null;
     }
-    const html = renderToString(React.createElement(Probe));
+    const html = renderToString(
+      React.createElement(React.Fragment, null, ...PREF_KEYS.map((k) => React.createElement(Probe, { key: k, prefKey: k }))),
+    );
     expect(html).toBe('');
     for (const k of PREF_KEYS) expect(seen[k]).toEqual(SERVER_SNAPSHOT[k]);
   });

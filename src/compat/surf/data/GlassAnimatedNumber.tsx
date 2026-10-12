@@ -6,7 +6,6 @@
    4.x aria-label. The fallback format pins 'en-US' (StatCard's default
    locale) so server and client text match across host locales
    (REQ-SURF-08). */
-'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 

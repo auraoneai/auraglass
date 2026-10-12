@@ -1,5 +1,4 @@
 /* Types for scripts/release/verify-breaking-register.mjs (REQ-PLAT-29/62). */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 type Row = Record<string, any>;
 export declare const NOTICE_KINDS: Set<string>;
 export declare function anchorsOf(guideText: string): Set<string>;

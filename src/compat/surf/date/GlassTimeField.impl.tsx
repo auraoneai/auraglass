@@ -6,7 +6,6 @@
    object whose target.value is 'HH:mm' ('' when cleared). label (4.x
    default "Time"), helperText, error, required, disabled map through
    ./shared fieldProps. */
-'use client';
 import * as React from 'react';
 import { TimeField } from '../../../date/TimePicker';
 import type { TimeValue } from '../../../date/shared';

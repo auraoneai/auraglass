@@ -1,7 +1,6 @@
 /* CMP-327 compat: GlassRadioGroup (4.x) -> RadioGroup (5.0).
    warnDeprecated fires at call time, once per page load per symbol; unmappable
    props drop with a single warning; never throws. Mapping per the target meta. */
-'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { RadioGroup } from '../../../components/radio-group';

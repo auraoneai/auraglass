@@ -10,7 +10,7 @@ export interface CodeSurfaceProps {
   language?: string;
   code: string;
   readOnly?: boolean;
-  onChange?: (code: string) => void;
+  onValueChange?: (code: string) => void;
   /** Pre-loaded modules for tests/doubles; lazy import otherwise. */
   modules?: { cm: unknown; shiki: unknown };
 }
@@ -18,7 +18,7 @@ export interface CodeSurfaceProps {
 const CM_SPECIFIER = '@codemirror/view';
 const SHIKI_SPECIFIER = 'shiki';
 
-export function CodeSurface({ name, language = 'ts', code, readOnly = true, onChange, modules: injected }: CodeSurfaceProps) {
+export function CodeSurface({ name, language = 'ts', code, readOnly = true, onValueChange, modules: injected }: CodeSurfaceProps) {
   const host = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   const [copied, setCopied] = useState(false);

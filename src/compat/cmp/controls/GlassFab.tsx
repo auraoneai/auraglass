@@ -1,7 +1,6 @@
 /* CMP-323 compat: GlassFab (4.x) -> IconButton prominent (5.0).
    warnDeprecated fires at call time, once per page load per symbol; unmappable
    props drop with a single warning; never throws. Mapping per the target meta. */
-'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { IconButton } from '../../../components/icon-button';

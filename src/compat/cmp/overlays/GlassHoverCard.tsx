@@ -1,7 +1,6 @@
 /* CMP-339 compat: GlassHoverCard (4.x) -> Popover openOnHover (5.0).
    warnDeprecated fires at call time, once per page load per symbol; unmappable
    props drop with a single warning; never throws. Mapping per §10.2/metas. */
-'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Popover } from '../../../components/popover';

@@ -6,7 +6,6 @@
    event-shaped object whose target.value is the ISO date string ('' when
    cleared). label (4.x default "Date"), helperText, error, required,
    disabled map through ./shared fieldProps. */
-'use client';
 import * as React from 'react';
 import { DateField } from '../../../date/DateField';
 import type { DateValue } from '../../../date/shared';
