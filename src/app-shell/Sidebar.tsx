@@ -1,7 +1,8 @@
 /* Server Sidebar (SURF-034): chrome thick material column; Root carries
    data-ag-appearance sidebar|inset|floating (inset wraps in ConcentricFrame);
-   data-ag-variant is emitted ONLY when a material variant is explicitly
-   requested — appearance is never a variant. Content is the only scroll
+   appearance is never a variant: data-ag-variant comes from contract S-05
+   materialProps for the chrome layer ('regular' unless a material variant is
+   passed via `variant`). Content is the only scroll
    area. Nav/item parts live in SidebarNav (server) and SidebarCollapsible
    (client). */
 
@@ -19,7 +20,8 @@ export type SidebarRootProps = PartProps<'aside'> & {
   /** 'sidebar' = flush column; 'inset' = framed inside main padding;
       'floating' = detached chrome panel. Never maps to data-ag-variant. */
   appearance?: 'sidebar' | 'inset' | 'floating' | undefined;
-  /** Material variant override — the ONLY source of data-ag-variant. */
+  /** Material variant override — the only input to data-ag-variant
+      (default 'regular' for the chrome layer, contract S-05). */
   variant?: MaterialVariant | undefined;
 };
 
