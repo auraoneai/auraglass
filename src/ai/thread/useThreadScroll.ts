@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import { useAnnouncer } from '../../theme';
+import { scheduleFrame } from '../../motion/ticker';
 import type { AgMessage } from '../types';
 
 export interface ThreadScrollApi {
@@ -17,6 +18,14 @@ interface Anchor {
   scrollTop: number;
   scrollHeight: number;
 }
+
+/** REQ-SURF-110: true while any message streams (message status, a text or
+    reasoning part still streaming, or a tool input still streaming). */
+export const isStreaming = (messages: readonly AgMessage[]): boolean =>
+  messages.some((m) => m.metadata?.status === 'streaming' || m.parts.some((p) =>
+    ((p.type === 'text' || p.type === 'reasoning') && p.state === 'streaming')
+    || (typeof p.type === 'string' && (p.type.startsWith('tool-') || p.type === 'dynamic-tool')
+      && (p as { state?: string }).state === 'input-streaming')));
 
 const messageEl = (log: HTMLElement, id: string): HTMLElement | null => {
   const el = log.ownerDocument.getElementById(`ag-msg-${id}`);
@@ -42,7 +51,9 @@ const readAnchor = (log: HTMLElement): Anchor | null => {
  * `scrollTop = scrollHeight` at most once per animation frame. A user
  * scroll-up unpins; a new `user` message re-pins. Prepending history while
  * unpinned keeps the first visible message at the same offset. Never
- * `scrollIntoView`; smooth scrolling only for the explicit jump at motion full.
+ * `scrollIntoView`; smooth scrolling only for the explicit jump at motion full,
+ * and never while any message streams (every scroll is then `auto`). Frames
+ * go through the shared motion ticker (REQ-MAT-51), not requestAnimationFrame.
  */
 export function useThreadScroll(
   viewportRef: React.RefObject<HTMLElement | null>,
@@ -60,7 +71,10 @@ export function useThreadScroll(
   const { messages, pinThreshold, scrollToKey, smoothJump, newMessagesText } = opts;
   const pinned = React.useRef(true);
   const [unpinnedCount, setUnpinnedCount] = React.useState(0);
-  const raf = React.useRef(0);
+  /** Cancel for the scheduled scroll frame; null when none is pending. */
+  const raf = React.useRef<(() => void) | null>(null);
+  const streaming = React.useRef(false);
+  streaming.current = isStreaming(messages);
   /** A smooth jump is in flight: intermediate scroll events must not unpin. */
   const jumping = React.useRef(false);
   const anchor = React.useRef<Anchor | null>(null);
@@ -70,12 +84,13 @@ export function useThreadScroll(
 
   const scrollToBottom = React.useCallback((options?: { behavior?: ScrollBehavior | undefined }) => {
     if (!viewportRef.current) return;
-    const smooth = options?.behavior === 'smooth';
+    // REQ-SURF-110: no smooth scrolling while any message streams.
+    const smooth = options?.behavior === 'smooth' && !streaming.current;
     // One assignment per frame: a frame already scheduled covers this growth.
     if (raf.current && !smooth) return;
-    if (raf.current) cancelAnimationFrame(raf.current);
-    raf.current = requestAnimationFrame(() => {
-      raf.current = 0;
+    raf.current?.();
+    raf.current = scheduleFrame(() => {
+      raf.current = null;
       const node = viewportRef.current;
       if (!node) return;
       if (smooth && typeof node.scrollTo === 'function') {
@@ -166,7 +181,7 @@ export function useThreadScroll(
     return () => { ro?.disconnect(); mo?.disconnect(); };
   }, [contentRef, viewportRef, scrollToBottom]);
 
-  React.useEffect(() => () => { if (raf.current) cancelAnimationFrame(raf.current); }, []);
+  React.useEffect(() => () => { raf.current?.(); raf.current = null; }, []);
 
   const api = React.useMemo<ThreadScrollApi>(() => ({
     scrollToBottom,
@@ -195,10 +210,11 @@ export function useThreadScroll(
 
   const jumpToLatest = React.useCallback(() => {
     const n = unpinnedCount;
+    const smooth = smoothJump && !streaming.current;
     pinned.current = true;
-    jumping.current = smoothJump;
+    jumping.current = smooth;
     setUnpinnedCount(0);
-    scrollToBottom({ behavior: smoothJump ? 'smooth' : 'auto' });
+    scrollToBottom({ behavior: smooth ? 'smooth' : 'auto' });
     if (n > 0) announce(newMessagesText(n));
     viewportRef.current?.focus({ preventScroll: true });
   }, [unpinnedCount, smoothJump, scrollToBottom, announce, newMessagesText, viewportRef]);

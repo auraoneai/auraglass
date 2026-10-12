@@ -31,11 +31,16 @@ describe('motion-raf-via-ticker guarded dirs (REQ-MAT-51)', () => {
       { code: `requestAnimationFrame(() => {});`, filename: 'src/motion/ticker.ts' },
       { code: `setInterval(() => {}, 16);`, filename: 'src/theme/preferences/store.ts' },
       { code: `subscribeFrame(() => {});`, filename: 'src/ai/thread/x.ts' },
+      { code: `scheduleFrame(() => { el.focus(); });`, filename: 'src/ai/sources/x.tsx' },
     ],
-    invalid: GUARDED.flatMap((d) => [
-      { code: `requestAnimationFrame(() => {});`, filename: `src/${d}/x.tsx`, errors: [{ messageId: 'raf' }] },
-      { code: `const t = setInterval(() => {}, 1000);`, filename: `src/${d}/nested/y.ts`, errors: [{ messageId: 'raf' }] },
-    ]),
+    invalid: [
+      ...GUARDED.flatMap((d) => [
+        { code: `requestAnimationFrame(() => {});`, filename: `src/${d}/x.tsx`, errors: [{ messageId: 'raf' }] },
+        { code: `const t = setInterval(() => {}, 1000);`, filename: `src/${d}/nested/y.ts`, errors: [{ messageId: 'raf' }] },
+      ]),
+      // the one-shot ticker frame is a frame sink too: no React state from it
+      { code: `scheduleFrame(() => { setOpen(true); });`, filename: 'src/ai/sources/x.tsx', errors: [{ messageId: 'stateInLoop' }] },
+    ],
   } as never);
 });
 
@@ -55,9 +60,16 @@ describe('motion-raf-via-ticker severity through eslint.config.js', () => {
     expect(await severity(`src/${d}/__probe__/probe.tsx`)).toBe(2);
   });
 
-  it('ratcheted files stay warn until their owner removes the loop', async () => {
-    expect(ratcheted.length).toBeGreaterThan(0);
-    for (const f of ratcheted) expect(await severity(f)).toBe(1);
+  it('the ratchet is empty: the four formerly baselined SURF files are back at error (REQ-MAT-51)', async () => {
+    // the rows were deleted when their loops moved to the shared ticker
+    // (scheduleFrame) and the retry countdown to a timeout chain
+    expect(ratcheted).toEqual([]);
+    for (const f of [
+      'src/ai/error/ProviderErrorState.tsx',
+      'src/ai/thread/useThreadScroll.ts',
+      'src/ai/sources/SourceList.tsx',
+      'src/app-shell/ResizablePanels.tsx',
+    ]) expect(await severity(f)).toBe(2);
   });
 
   it('outside the guarded dirs the rule is warn (setter-in-frame check only)', async () => {

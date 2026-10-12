@@ -17,18 +17,30 @@
      - `css-parse`: a stylesheet that does not parse (never baselinable)
    Modes: --count-literals prints the literal census; --write-baseline writes
    reports/motion-css-baseline.json; --gate ungated-loop reports only the
-   REQ-FIN-12 gate; --file <path> / --baseline <path> check one file.
+   REQ-FIN-12 gate; --file <path> / --baseline <path> check one file;
+   --no-dist skips dist/styles.css.
+   REQ-MAT-42/-51: the transition allow-list is ANIMATABLE read from
+   src/contracts/motion.ts, and a transitioned custom property must be one of
+   the @property registrations in src/**\/*.css. A full run also applies the
+   expiring scripts/mat/motion-css-baseline.json rows.
    Library: postcss (walk order stable). */
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import postcss from 'postcss';
 
-export const ALLOWED_PROPS = new Set([
-  'transform', 'opacity', 'translate', 'scale', 'rotate',
-  '--ag-specular', '--_ag-optics', '--_ag-press', '--_ag-refraction-scale', '--_ag-hover',
-  '--_ag-pointer', 'color', 'background-color', 'border-color', 'outline-color',
-  'display', 'overlay',
-]);
+const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
+
+/* REQ-MAT-42/-51: the transition allow-list IS the S-12 contract's ANIMATABLE
+   (src/contracts/motion.ts), read from source so the two can never drift. */
+export const readAnimatable = (file = join(REPO_ROOT, 'src/contracts/motion.ts')) => {
+  const m = /export const ANIMATABLE\s*=\s*\[([^\]]*)\]/.exec(readFileSync(file, 'utf8'));
+  if (!m) throw new Error(`verify-motion-css: cannot find ANIMATABLE in ${file}`);
+  const props = [...m[1].matchAll(/'([^']+)'|"([^"]+)"/g)].map((x) => x[1] ?? x[2]);
+  if (props.length === 0) throw new Error(`verify-motion-css: ANIMATABLE in ${file} is empty`);
+  return props;
+};
+export const ALLOWED_PROPS = new Set(readAnimatable());
 export const BANNED_IN_MOTION = new Set([
   'backdrop-filter', '-webkit-backdrop-filter', 'filter', 'box-shadow',
   'width', 'height', 'top', 'left', 'right', 'bottom', 'inset', 'inset-inline',
@@ -37,7 +49,23 @@ export const BANNED_IN_MOTION = new Set([
   'border-radius', 'border-top-left-radius', 'border-top-right-radius',
   'border-bottom-left-radius', 'border-bottom-right-radius', 'clip-path',
 ]);
-const REGISTERED_CUSTOM = /^--(ag|_ag)-/;
+/* A transitioned custom property interpolates only when it is registered with
+   @property; the registry is every @property in src/**\/*.css (REQ-MAT-28:
+   src/material/css/properties.css plus src/a11y/css/targets.css). */
+export const collectRegistered = (sources) => {
+  const out = new Set();
+  for (const src of sources) {
+    for (const m of String(src).matchAll(/@property\s+(--[\w-]+)/g)) out.add(m[1]);
+  }
+  return out;
+};
+let registryCache;
+export const registeredCustomProps = () => {
+  if (!registryCache) {
+    registryCache = collectRegistered(walk(join(REPO_ROOT, 'src')).map((f) => readFileSync(f, 'utf8')));
+  }
+  return registryCache;
+};
 const MOTION_PROP_RE = /^(transition|transition-property|animation|animation-name|animation-duration|animation-timing-function)$/;
 
 const legs = (v) => {
@@ -82,8 +110,9 @@ const insideKeyframes = (node) => {
 };
 
 /** checkCss(cssSource, filename) → diagnostics[{file,line,col,rule,message}] */
-export function checkCss(source, filename = '<css>') {
+export function checkCss(source, filename = '<css>', { registered } = {}) {
   const issues = [];
+  const registry = new Set([...(registered ?? registeredCustomProps()), ...collectRegistered([source])]);
   const literals = { ms: 0, s: 0, 'cubic-bezier': 0, linear: 0 };
   const isTokens = /tokens\.css$|tokens\.generated/.test(filename);
   const root = postcss.parse(source, { from: filename });
@@ -117,7 +146,10 @@ export function checkCss(source, filename = '<css>') {
           } else {
             if (p === 'all') { push(d, 'no-transition-all', `transition 'all' is banned`); continue; }
             if (p && !ALLOWED_PROPS.has(p) && !/^none$|^inherit$|^initial$|^revert$/.test(p)) {
-              push(d, 'not-allowed', `'${p}' is not on the REQ-MOT-12 transition allow-list`);
+              push(d, 'not-allowed', `'${p}' is not in ANIMATABLE (S-12, REQ-MAT-42)`);
+            }
+            if (p.startsWith('--') && !registry.has(p)) {
+              push(d, 'unregistered-custom', `custom property '${p}' is transitioned but not registered with @property`);
             }
           }
         }
@@ -141,13 +173,6 @@ export function checkCss(source, filename = '<css>') {
         const stripped = String(value).replace(/\b0(?:\.0+)?(?:ms|s)\b/g, '');
         if (/\d+(?:\.\d+)?ms|(?<![\d.])\d+(?:\.\d+)?s\b|cubic-bezier\(/.test(stripped)) {
           push(d, 'literal-outside-tokens', `time/bezier literal in ${prop} outside tokens.css — use var(--ag-*) tokens`);
-        }
-      }
-      if (motionRule) {
-        for (const m of String(value).matchAll(/(--[\w-]+)/g)) {
-          if (!REGISTERED_CUSTOM.test(m[1])) {
-            push(d, 'unregistered-custom', `unregistered custom property '${m[1]}' in ${prop} (must be --ag-*/--_ag-*)`);
-          }
         }
       }
     });
@@ -194,49 +219,61 @@ const walk = (dir, out = []) => {
 
 /* REQ-FIN-12 baseline (PRD-F §4.3 rule 3). Pre-existing ungated-loop offenders
    live in scripts/integration/baselines/ungated-loops.json as
-   {file, owner, reqFin, expires: 'RC-1'} rows. Only `ungated-loop` findings are
-   baselinable; every other rule (and a CSS parse error) always fails. The gate
-   fails on a NEW offending file, a STALE row (its file no longer has an
-   ungated loop), a malformed row, and on every row once the package version
-   has reached RC-1 (5.x `-rc.N` or a final release). */
+   {file, owner, reqFin, expires: 'RC-1'} rows. REQ-MAT-51: pre-existing
+   ANIMATABLE (`not-allowed`) and `literal-outside-tokens` offenders in other
+   streams' files live in scripts/mat/motion-css-baseline.json as
+   {file, rule, owner, req, expires: 'RC-1'} rows (a row without `rule` is an
+   ungated-loop row). Only BASELINABLE rules can be carried; every other rule
+   (and a CSS parse error) always fails. The gate fails on a NEW offending
+   (file, rule), a STALE row (its file no longer has that finding), a
+   malformed row, and on every row once the package version has reached RC-1
+   (5.x `-rc.N` or a final release). */
 export const DEFAULT_BASELINE = 'scripts/integration/baselines/ungated-loops.json';
+export const MOTION_CSS_BASELINE = 'scripts/mat/motion-css-baseline.json';
 export const BASELINE_RULE = 'ungated-loop';
+export const BASELINABLE = new Set([BASELINE_RULE, 'not-allowed', 'literal-outside-tokens']);
 export const rcReached = (version) => {
   const m = /^(\d+)\.\d+\.\d+(?:-([0-9A-Za-z.-]+))?$/.exec(String(version ?? ''));
   if (!m) return false;
   if (Number(m[1]) < 5) return false;
   return m[2] === undefined || /^rc\./.test(m[2]);
 };
+const rowRule = (r) => r?.rule ?? BASELINE_RULE;
+const rowReq = (r) => r?.reqFin ?? r?.req;
 const rowOk = (r) => r && typeof r.file === 'string' && typeof r.owner === 'string'
-  && typeof r.reqFin === 'string' && r.expires === 'RC-1';
+  && typeof rowReq(r) === 'string' && r.expires === 'RC-1' && BASELINABLE.has(rowRule(r));
+const keyOf = (file, rule) => `${file}\u0000${rule}`;
 
 /** applyBaseline(issues, baseline, {checkedFiles, version}) -> report lines (empty = pass) */
 export function applyBaseline(issues, baseline, { checkedFiles, version } = {}) {
   const reported = [];
   const rows = Array.isArray(baseline) ? baseline : [];
-  const loopFiles = new Set(issues.filter((i) => i.rule === BASELINE_RULE).map((i) => i.file));
+  const found = new Set(issues.filter((i) => BASELINABLE.has(i.rule)).map((i) => keyOf(i.file, i.rule)));
   const expired = rcReached(version);
-  const rowsByFile = new Map();
+  const rowsByKey = new Map();
   for (const r of rows) {
-    if (!rowOk(r)) { reported.push(`${r?.file ?? '<row>'}: baseline row is malformed (need {file, owner, reqFin, expires:'RC-1'})`); continue; }
-    rowsByFile.set(r.file, r);
+    if (!rowOk(r)) { reported.push(`${r?.file ?? '<row>'}: baseline row is malformed (need {file, owner, reqFin|req, expires:'RC-1'} and a baselinable rule: ${[...BASELINABLE].join(', ')})`); continue; }
+    rowsByKey.set(keyOf(r.file, rowRule(r)), r);
   }
   for (const i of issues) {
-    const row = i.rule === BASELINE_RULE ? rowsByFile.get(i.file) : undefined;
+    const row = BASELINABLE.has(i.rule) ? rowsByKey.get(keyOf(i.file, i.rule)) : undefined;
     if (row && !expired) continue;
-    const hint = i.rule !== BASELINE_RULE ? ''
-      : row ? ` [EXPIRED: baseline row (owner ${row.owner}, ${row.reqFin}) expired at RC-1 (version ${version}); fix the file]`
-      : ` [NEW: fix, or add a baseline row {file,owner,reqFin,expires:'RC-1'}]`;
+    const hint = !BASELINABLE.has(i.rule) ? ''
+      : row ? ` [EXPIRED: baseline row (owner ${row.owner}, ${rowReq(row)}) expired at RC-1 (version ${version}); fix the file]`
+      : i.rule === BASELINE_RULE ? ` [NEW: fix, or add a baseline row {file,owner,reqFin,expires:'RC-1'}]`
+      : ` [NEW: fix the file — transition only ANIMATABLE properties and use var(--ag-*) motion tokens]`;
     reported.push(`${i.file}:${i.line}:${i.col}  ${i.rule}  ${i.message}${hint}`);
   }
   const checked = checkedFiles ? new Set(checkedFiles) : null;
-  for (const [file, r] of rowsByFile) {
+  for (const [key, r] of rowsByKey) {
+    const { file } = r;
+    const what = rowRule(r) === BASELINE_RULE ? '' : ` of ${rowRule(r)}`;
     if (checked && !checked.has(file)) {
-      if (!existsSync(file)) reported.push(`${file}: baseline row is STALE — file does not exist; delete the row (owner ${r.owner}, ${r.reqFin})`);
+      if (!existsSync(file)) reported.push(`${file}: baseline row${what} is STALE — file does not exist; delete the row (owner ${r.owner}, ${rowReq(r)})`);
       continue;
     }
-    if (!loopFiles.has(file))
-      reported.push(`${file}: baseline row is STALE — file no longer offends; delete the row (owner ${r.owner}, ${r.reqFin})`);
+    if (!found.has(key))
+      reported.push(`${file}: baseline row${what} is STALE — file no longer offends; delete the row (owner ${r.owner}, ${rowReq(r)})`);
   }
   return reported;
 }
@@ -262,7 +299,8 @@ if (process.argv[1] && process.argv[1].endsWith('verify-motion-css.mjs')) {
   }
   const fileArg = argValue(argv, '--file');
   const files = fileArg ? [fileArg] : [...walk('src'), ...walk('fragments')];
-  if (!fileArg && existsSync('dist/styles.css')) files.push('dist/styles.css');
+  // --no-dist: source-only run (the L1 cell; dist/styles.css is checked by the dist lanes).
+  if (!fileArg && !args.has('--no-dist') && existsSync('dist/styles.css')) files.push('dist/styles.css');
   const baselinePath = argValue(argv, '--baseline') ?? (fileArg ? undefined : DEFAULT_BASELINE);
   const all = [];
   let census = { ms: 0, s: 0, 'cubic-bezier': 0, linear: 0 };
@@ -289,12 +327,18 @@ if (process.argv[1] && process.argv[1].endsWith('verify-motion-css.mjs')) {
       JSON.stringify({ generatedAt: new Date().toISOString(), literals: census, issues: all }, null, 1) + '\n');
     console.log(`motion-css baseline: reports/motion-css-baseline.json (${all.length} issues)`);
   }
-  const baseline = baselinePath ? JSON.parse(readFileSync(baselinePath, 'utf8')) : [];
+  const readRows = (p) => JSON.parse(readFileSync(p, 'utf8'));
+  // A full (non --file, non --gate) run also carries the REQ-MAT-51 rows.
+  const baseline = [
+    ...(baselinePath ? readRows(baselinePath) : []),
+    ...(!fileArg && !gate && !argValue(argv, '--baseline') && existsSync(MOTION_CSS_BASELINE) ? readRows(MOTION_CSS_BASELINE).rows ?? [] : []),
+  ];
   const version = process.env.AG_VERSION
     ?? (existsSync('package.json') ? JSON.parse(readFileSync('package.json', 'utf8')).version : undefined);
   const scoped = gate ? all.filter((i) => i.rule === BASELINE_RULE || i.rule === 'css-parse') : all;
   const reported = applyBaseline(scoped, baseline, { checkedFiles: fileArg ? checkedFiles : null, version });
-  const baselined = new Set(all.filter((i) => i.rule === BASELINE_RULE && baseline.some((r) => r?.file === i.file)).map((i) => i.file)).size;
+  const baselined = new Set(scoped.filter((i) => BASELINABLE.has(i.rule)
+    && baseline.some((r) => r?.file === i.file && rowRule(r) === i.rule)).map((i) => i.file)).size;
   if (reported.length) {
     for (const line of reported) console.error(line);
     console.error(`verify-motion-css: ${reported.length} issue(s) (${baselined} file(s) baselined until RC-1)`);

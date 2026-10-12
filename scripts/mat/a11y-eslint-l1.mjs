@@ -40,9 +40,9 @@ if (missing.length > 0) {
 const failures = [];
 
 if (RULES.includes('no-runtime-contrast')) {
-  const { loadExemptions, EXEMPTIONS_FILE } = require(resolve(repoRoot, 'lint/rules/mat/no-runtime-contrast.cjs'));
+  const { loadExemptions, exemptionsFile } = require(resolve(repoRoot, 'lint/rules/mat/no-runtime-contrast.cjs'));
   for (const row of loadExemptions()) {
-    const where = relative(repoRoot, EXEMPTIONS_FILE);
+    const where = relative(repoRoot, exemptionsFile());
     if (row.expired) failures.push(`${where}: exemption ${row.path} expired at ${row.expires} (${row.until})`);
     if (!existsSync(resolve(root, row.path))) failures.push(`${where}: exemption ${row.path} is stale (path does not exist) — delete the row`);
   }

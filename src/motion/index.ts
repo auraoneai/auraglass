@@ -5,6 +5,7 @@
    (tween/onMotionChange/announceFinal, pointer light, morph names). */
 export {
   subscribeFrame,
+  scheduleFrame,
   observeOffscreen,
   tween,
   onMotionChange,

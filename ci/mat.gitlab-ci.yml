@@ -456,6 +456,21 @@ mat:test:motion-ban:
     expire_in: 14 days
     paths: [.artifacts/mat/]
 
+# REQ-MAT-42/-46/-51: motion CSS checker (ANIMATABLE allow-list, @property
+# registry, ungated loops) plus its fixtures and the cascade proof. Registered
+# as L1 rows in fragments/lanes/mat.ts; this transitional job runs the same
+# commands until qual:certify:l1 reports them, and stays allow_failure until
+# its ci/plat/activation.json row lands.
+mat:test:motion-css:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x"
+  script:
+    - node scripts/mat/verify-motion-css.mjs --no-dist
+    - npx jest tests/lint/mat/motion-css-allowlist.test.ts tests/integration/verify-motion-css.test.ts tests/motion/cascade.test.ts
+
 mat:test:motion-l9:
   extends: [.mat-base, .mat-browser]
   stage: test

@@ -57,16 +57,11 @@ const transitionProps = (node: postcss.Container): string[] => {
   });
   return props;
 };
-/* REQ-MAT-42: every transition list in the MAT-owned motion files
-   (motion.css, view-transition.css) is a subset of ANIMATABLE (S-12) — no
-   --_ag-hover, display/overlay, rotate or paint colours. motion-modes.css's
-   calm paint-property list (color/background-color/border-color/outline-color)
-   is REQ-FIN-12's file (FIN-A) and is checked against this wider set until
-   that change lands. */
+/* REQ-MAT-42: every transition list in the MAT motion files (motion.css,
+   view-transition.css, loading.css, motion-modes.css) is a subset of
+   ANIMATABLE (S-12) — no --_ag-hover, display/overlay, rotate or paint
+   colours (the forced-colors block uses transition-property: none). */
 const MAT_TRANSITION_FILES = ['motion', 'vt'] as const;
-const FOREIGN_MODES_ALLOWED = new Set([
-  ...ANIMATABLE, 'color', 'background-color', 'border-color', 'outline-color',
-]);
 
 describe('REQ-MOT-10 / REQ-MAT-28: motion css registers no @property', () => {
   /* --_ag-optics/--_ag-press are registered once in
@@ -204,8 +199,8 @@ describe('REQ-MOT-12/-18, REQ-MAT-42: transition allow-list', () => {
   it('loading.css transitions only ANIMATABLE properties', () => {
     expect(offenders(parse(FILES.loading), animatable)).toEqual([]);
   });
-  it('motion-modes.css stays within ANIMATABLE plus its calm paint list (REQ-FIN-12 file)', () => {
-    expect(offenders(parse(FILES.modes), FOREIGN_MODES_ALLOWED)).toEqual([]);
+  it('motion-modes.css transitions only ANIMATABLE properties', () => {
+    expect(offenders(parse(FILES.modes), animatable)).toEqual([]);
   });
 });
 
@@ -220,23 +215,31 @@ describe('REQ-MOT-14/-16/-17: popup materialize', () => {
       expect(text).toContain(`data-ag-overlay=${f}`);
     }
   });
-  it('starting/ending styles set --_ag-optics:0 and carry will-change', () => {
+  it('starting/ending styles set --_ag-optics:0 and the anchor origin, without will-change (REQ-MAT-30)', () => {
     const start = motionRules.find((r) => r.selector === '[data-starting-style]');
     const end = motionRules.find((r) => r.selector === '[data-ending-style]');
     expect(start).toBeTruthy();
     expect(end).toBeTruthy();
     expect(start!.toString()).toContain('--_ag-optics: 0');
-    expect(start!.toString()).toContain('will-change: transform, opacity');
-    expect(start!.toString()).toContain('transform-origin: var(--transform-origin)');
+    expect(start!.toString()).toContain('transform-origin: var(--transform-origin, 50% 50%)');
     expect(end!.toString()).toContain('--_ag-optics: 0');
-    expect(end!.toString()).toContain('will-change: transform, opacity');
+    expect(end!.toString()).toContain('transform-origin: var(--transform-origin, 50% 50%)');
+    expect(start!.toString()).not.toContain('will-change');
+    expect(end!.toString()).not.toContain('will-change');
   });
-  it('will-change appears only under starting/ending/animating selectors', () => {
+  it('REQ-MAT-43: the resting overlay rule carries transform-origin so exits scale from the anchor', () => {
+    const resting = motionRules.find((r) => (r.selectors ?? []).includes('[data-ag-overlay]'));
+    expect(resting).toBeTruthy();
+    const decl = resting!.nodes.find((n) => n.type === 'decl' && (n as postcss.Declaration).prop === 'transform-origin') as postcss.Declaration | undefined;
+    expect(decl?.value).toBe('var(--transform-origin, 50% 50%)');
+    expect(resting!.selectors).toEqual(expect.arrayContaining(['[data-ag-surface][data-ending-style]']));
+  });
+  it('REQ-MAT-30: will-change appears only under [data-ag-animating]', () => {
     const offenders: string[] = [];
     parse(FILES.motion).walkDecls('will-change', (d) => {
       const rule = d.parent as postcss.Rule;
       for (const s of rule.selectors ?? [rule.selector]) {
-        if (!/\[(data-starting-style|data-ending-style|data-ag-animating)\]/.test(s)) offenders.push(s);
+        if (!/\[data-ag-animating\]/.test(s)) offenders.push(s);
       }
     });
     expect(offenders).toEqual([]);

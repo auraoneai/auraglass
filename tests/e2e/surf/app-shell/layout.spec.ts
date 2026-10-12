@@ -303,3 +303,34 @@ test.describe('app-shell layout (SURF-013/017/033/044)', () => {
     expect(actions!.y).toBeGreaterThanOrEqual(title!.y + title!.height);
   });
 });
+
+// REQ-SURF-46: stackBelow stacks a horizontal ResizablePanels group (column,
+// separators hidden) below its container threshold and restores the row above it.
+test.describe('ResizablePanels stackBelow (REQ-SURF-46)', () => {
+  test('stacks below threshold', async ({ page }) => {
+    const subjects = await listSubjects({ owner: 'SURF' });
+    const story = subjects.find((s) => /^resizable-?panels$/i.test(s.subject) && /--stack-below$/.test(s.id));
+    expect(story, 'ResizablePanels StackBelow story must be registered').toBeDefined();
+    const probe = () => page.evaluate(() => {
+      const root = document.querySelector<HTMLElement>('.ag-panels')!;
+      const [a, b] = Array.from(root.querySelectorAll<HTMLElement>(':scope > [data-ag-part="resizable-panel"]'));
+      const ra = a!.getBoundingClientRect();
+      const rb = b!.getBoundingClientRect();
+      return {
+        stacked: root.dataset['stacked'],
+        direction: getComputedStyle(root).flexDirection,
+        separatorsVisible: Array.from(root.querySelectorAll<HTMLElement>(':scope > [role="separator"]'))
+          .filter((h) => h.checkVisibility()).length,
+        bBelowA: rb.top >= ra.bottom - 1,
+        bBesideA: rb.left >= ra.right - 1 && Math.abs(rb.top - ra.top) <= 1,
+      };
+    });
+    await page.setViewportSize({ width: 480, height: 800 });
+    await gotoStory(page, story!.id);
+    await expect(page.locator('.ag-panels')).toHaveAttribute('data-stacked', 'true');
+    expect(await probe()).toEqual({ stacked: 'true', direction: 'column', separatorsVisible: 0, bBelowA: true, bBesideA: false });
+    await page.setViewportSize({ width: 1000, height: 800 });
+    await expect(page.locator('.ag-panels')).toHaveAttribute('data-stacked', 'false');
+    expect(await probe()).toEqual({ stacked: 'false', direction: 'row', separatorsVisible: 1, bBelowA: false, bBesideA: true });
+  });
+});

@@ -179,9 +179,109 @@ describe('installPointerLight (REQ-MOT-40/-42)', () => {
       { left: 0, top: 0, width: 100, height: 50 } as DOMRect);
     move(el, 10, 10); step(16);
     expect(el.style.getPropertyValue('--_ag-pointer')).not.toBe('');
-    el.dispatchEvent(new Event('pointerleave', { bubbles: true }));
+    // real pointerleave does not bubble: the document's capture listener sees it
+    el.dispatchEvent(new Event('pointerleave', { bubbles: false }));
     expect(el.style.getPropertyValue('--_ag-pointer')).toBe('');
     un();
+  });
+  it('the pointerleave listener is a capture listener on the document (REQ-MAT-49)', () => {
+    const add = jest.spyOn(document, 'addEventListener');
+    const un = installPointerLight(document);
+    const leave = add.mock.calls.find(([t]) => t === 'pointerleave');
+    expect(leave?.[2]).toMatchObject({ capture: true, passive: true });
+    un();
+  });
+  it('leaving a child inside the target keeps the light; leaving the target clears it', () => {
+    const el = host();
+    const child = document.createElement('span');
+    el.appendChild(child);
+    const un = installPointerLight(document);
+    jest.spyOn(el, 'getBoundingClientRect').mockReturnValue(
+      { left: 0, top: 0, width: 100, height: 50 } as DOMRect);
+    move(child, 50, 25); step(16);
+    expect(el.style.getPropertyValue('--_ag-pointer')).toBe('50% 50%');
+    child.dispatchEvent(new Event('pointerleave', { bubbles: false }));
+    expect(el.style.getPropertyValue('--_ag-pointer')).toBe('50% 50%');
+    el.dispatchEvent(new Event('pointerleave', { bubbles: false }));
+    expect(el.style.getPropertyValue('--_ag-pointer')).toBe('');
+    un();
+  });
+  it('leaving one of two targets clears only that one', () => {
+    const a = host();
+    const b = host();
+    const un = installPointerLight(document);
+    for (const el of [a, b]) jest.spyOn(el, 'getBoundingClientRect').mockReturnValue(
+      { left: 0, top: 0, width: 100, height: 50 } as DOMRect);
+    move(a, 10, 10); step(16);
+    move(b, 20, 10); step(32);
+    a.dispatchEvent(new Event('pointerleave', { bubbles: false }));
+    expect(a.style.getPropertyValue('--_ag-pointer')).toBe('');
+    expect(b.style.getPropertyValue('--_ag-pointer')).toBe('20% 20%');
+    un();
+  });
+  it('[data-ag-highlights] on an ancestor (not the root) disables the light', () => {
+    const wrap = document.createElement('section');
+    wrap.setAttribute('data-ag-highlights', '');
+    document.body.appendChild(wrap);
+    const el = document.createElement('div');
+    el.setAttribute('data-ag-pointer-light', '');
+    wrap.appendChild(el);
+    const un = installPointerLight(document);
+    const setProp = jest.spyOn(el.style, 'setProperty');
+    jest.spyOn(el, 'getBoundingClientRect').mockReturnValue(
+      { left: 0, top: 0, width: 100, height: 50 } as DOMRect);
+    move(el, 10, 10); step(16);
+    expect(setProp).toHaveBeenCalledTimes(0);
+    expect(rafQ.length).toBe(0);
+    un();
+  });
+  it('[data-ag-highlights] added on an ancestor after hover drops the light', () => {
+    const wrap = document.createElement('section');
+    document.body.appendChild(wrap);
+    const el = document.createElement('div');
+    el.setAttribute('data-ag-pointer-light', '');
+    wrap.appendChild(el);
+    const un = installPointerLight(document);
+    jest.spyOn(el, 'getBoundingClientRect').mockReturnValue(
+      { left: 0, top: 0, width: 100, height: 50 } as DOMRect);
+    move(el, 10, 10); step(16);
+    expect(el.style.getPropertyValue('--_ag-pointer')).not.toBe('');
+    wrap.setAttribute('data-ag-highlights', '');
+    move(el, 20, 10); step(32);
+    expect(el.style.getPropertyValue('--_ag-pointer')).toBe('');
+    un();
+  });
+  it('no frame callback is scheduled while installed with no target hovered (REQ-MAT-46)', () => {
+    host();
+    const un = installPointerLight(document);
+    expect(rafQ.length).toBe(0);
+    // a move outside any target schedules nothing either
+    move(document.body, 5, 5);
+    expect(rafQ.length).toBe(0);
+    un();
+  });
+  it('the frame subscription is released one frame after the pointer stops', () => {
+    const el = host();
+    const un = installPointerLight(document);
+    jest.spyOn(el, 'getBoundingClientRect').mockReturnValue(
+      { left: 0, top: 0, width: 100, height: 50 } as DOMRect);
+    move(el, 10, 10);
+    expect(rafQ.length).toBe(1);
+    step(16); // writes the light, stays subscribed for the next move
+    move(el, 20, 10);
+    step(32);
+    step(48); // nothing pending: releases the subscription
+    expect(rafQ.length).toBe(0);
+    for (let i = 0; i < 5; i++) step(64 + i * 16);
+    expect(rafQ.length).toBe(0);
+    expect(el.style.getPropertyValue('--_ag-pointer')).toBe('20% 20%');
+    // hovering again resubscribes
+    move(el, 30, 10);
+    expect(rafQ.length).toBe(1);
+    step(200);
+    expect(el.style.getPropertyValue('--_ag-pointer')).toBe('30% 20%');
+    un();
+    expect(rafQ.length).toBe(0);
   });
   it('uninstall removes the listeners and the frame subscription', () => {
     const rm = jest.spyOn(document, 'removeEventListener');

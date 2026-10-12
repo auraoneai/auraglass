@@ -127,4 +127,48 @@ describe('Thread handle and motion', () => {
     fireEvent.scroll(log);
     expect(ref.current!.isPinned()).toBe(false);
   });
+
+  const streamingLast = (n: number, how: 'status' | 'part'): AgMessage[] => {
+    const list = msgs(n);
+    const last = list[n - 1]!;
+    list[n - 1] = how === 'status'
+      ? { ...last, role: 'assistant', metadata: { status: 'streaming' } }
+      : { ...last, role: 'assistant', parts: [{ type: 'text', text: 'partial', state: 'streaming' }] };
+    return list;
+  };
+
+  it.each(['status', 'part'] as const)('REQ-SURF-110: motion full + a streaming message (%s) → the jump pill never scrolls smoothly', async (how) => {
+    mockMotion = 'full';
+    const { rerender } = render(<Thread messages={msgs(7)} />);
+    const log = screen.getByRole('log');
+    const scrollTo = scrollModel(log);
+    log.scrollTop = 0;
+    fireEvent.scroll(log);
+    rerender(<Thread messages={streamingLast(8, how)} />);
+    fireEvent.click(screen.getByRole('button', { name: '1 new message' }));
+    await act(async () => { jest.advanceTimersByTime(17); });
+    expect(scrollTo.mock.calls.filter((c) => (c[0] as ScrollToOptions).behavior === 'smooth')).toEqual([]);
+    expect(log.scrollTop).toBe(4000);
+  });
+
+  it('REQ-SURF-110: handle scrollToBottom({ behavior: smooth }) is forced to auto while a message streams', async () => {
+    mockMotion = 'full';
+    const ref = React.createRef<ThreadHandle>();
+    const { rerender } = render(<Thread ref={ref} messages={streamingLast(5, 'part')} />);
+    const log = screen.getByRole('log');
+    const scrollTo = scrollModel(log);
+    log.scrollTop = 0;
+    act(() => { ref.current!.scrollToBottom({ behavior: 'smooth' }); });
+    await act(async () => { jest.advanceTimersByTime(17); });
+    expect(scrollTo).not.toHaveBeenCalled();
+    expect(log.scrollTop).toBe(4000);
+    // once the stream completes, an explicit smooth request is honoured again
+    const done = msgs(5);
+    rerender(<Thread ref={ref} messages={done} />);
+    await act(async () => { jest.advanceTimersByTime(17); });
+    log.scrollTop = 0;
+    act(() => { ref.current!.scrollToBottom({ behavior: 'smooth' }); });
+    await act(async () => { jest.advanceTimersByTime(17); });
+    expect(scrollTo).toHaveBeenCalledWith({ top: 4000, behavior: 'smooth' });
+  });
 });

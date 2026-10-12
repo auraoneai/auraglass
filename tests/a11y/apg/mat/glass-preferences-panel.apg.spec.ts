@@ -111,3 +111,62 @@ test.describe('GlassPreferencesPanel APG', () => {
     await apg.axe(page);
   });
 });
+
+/* REQ-MAT-60: at coarse pointer the panel is one column and every control is
+   full width. The shipped sheet must carry the (pointer: coarse) rule on every
+   engine; where the engine reports (pointer: coarse) under touch emulation
+   (Chromium/WebKit with isMobile) the rendered layout is measured too. */
+test.describe('GlassPreferencesPanel coarse pointer (REQ-MAT-60)', () => {
+  test.use({
+    viewport: { width: 390, height: 844 },
+    isMobile: async ({ browserName }, provide) => { await provide(browserName !== 'firefox'); },
+    hasTouch: true,
+  });
+
+  test('single column, full-width option rows and slider', async ({ page }) => {
+    await goto_(page);
+    const rule = await page.evaluate(() => {
+      const found: string[] = [];
+      const visit = (rules: CSSRuleList) => {
+        for (const r of Array.from(rules)) {
+          if (r instanceof CSSMediaRule && /pointer:\s*coarse/.test(r.conditionText)) {
+            for (const inner of Array.from(r.cssRules)) {
+              if (inner instanceof CSSStyleRule && inner.selectorText.includes('.ag-preferences-panel')) found.push(inner.cssText);
+            }
+          }
+          if ('cssRules' in r && (r as CSSGroupingRule).cssRules) visit((r as CSSGroupingRule).cssRules);
+        }
+      };
+      for (const sheet of Array.from(document.styleSheets)) {
+        try { visit(sheet.cssRules); } catch { /* cross-origin sheet */ }
+      }
+      return found.join('\n');
+    });
+    expect(rule, 'shipped sheet has the coarse-pointer panel rules').toMatch(/grid-template-columns:\s*1fr/);
+    expect(rule).toMatch(/\[data-ag-part="option"\][^}]*inline-size:\s*100%/);
+    expect(rule).toMatch(/\[data-ag-part="options"\][^}]*flex-direction:\s*column/);
+
+    const coarse = await page.evaluate(() => matchMedia('(pointer: coarse)').matches);
+    if (!coarse) return; // Firefox has no touch-pointer emulation; the rule check above is its proof
+    const layout = await page.evaluate(() => {
+      const panel = document.querySelector('.ag-preferences-panel')!;
+      const groups = Array.from(panel.querySelectorAll('[data-ag-part="group"]'));
+      const cols = getComputedStyle(panel).gridTemplateColumns.trim().split(/\s+/).length;
+      const rows = groups.map((g) => {
+        const content = g.getBoundingClientRect();
+        const cs = getComputedStyle(g);
+        const inner = content.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)
+          - parseFloat(cs.borderLeftWidth) - parseFloat(cs.borderRightWidth);
+        const controls = Array.from(g.querySelectorAll('[data-ag-part="option"], [data-ag-part="slider"]'))
+          .map((c) => c.getBoundingClientRect().width);
+        return { inner, controls };
+      });
+      return { cols, rows };
+    });
+    expect(layout.cols, 'one grid column at coarse pointer').toBe(1);
+    for (const r of layout.rows) {
+      expect(r.controls.length).toBeGreaterThan(0);
+      for (const w of r.controls) expect(w, 'control spans the group').toBeGreaterThanOrEqual(r.inner - 1);
+    }
+  });
+});

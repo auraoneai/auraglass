@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import { AiIcon } from '../icons/AiIcon';
+import { Button } from '../../components/button';
 
 export type AgErrorKind =
   | 'rate-limit'
@@ -22,7 +23,7 @@ export interface ProviderErrorStateProps {
   className?: string | undefined;
 }
 
-const DEFAULT_COPY: Record<AgErrorKind, { title: string; detail: string }> = {
+export const DEFAULT_COPY: Record<AgErrorKind, { title: string; detail: string }> = {
   'rate-limit': { title: 'Rate limit reached', detail: 'The provider throttled this request. Wait a moment, then retry.' },
   auth: { title: 'Authentication failed', detail: 'The provider rejected the credentials. Check the API key configuration.' },
   network: { title: 'Network error', detail: 'The request could not reach the provider. Check connectivity and retry.' },
@@ -33,8 +34,8 @@ const DEFAULT_COPY: Record<AgErrorKind, { title: string; detail: string }> = {
 };
 
 /**
- * REQ-SURF-127: per-kind copy; `role="alert"` on the `panel` appearance only; Retry button
- * disabled with a live countdown while `retryAfterMs` elapses.
+ * REQ-SURF-127: per-kind copy; `role="alert"` on the `panel` appearance only; Retry is the
+ * CMP `Button`, disabled with a live countdown while `retryAfterMs` elapses.
  */
 export function ProviderErrorState({ kind, title, detail, retryAfterMs, onRetry, appearance = 'panel', className }: ProviderErrorStateProps) {
   const copy = DEFAULT_COPY[kind];
@@ -42,14 +43,14 @@ export function ProviderErrorState({ kind, title, detail, retryAfterMs, onRetry,
   React.useEffect(() => {
     setRemaining(retryAfterMs ?? 0);
   }, [retryAfterMs]);
-  // REQ-SURF-190: the countdown timer lives only while there is time left, so
-  // a settled error state (Retry enabled) keeps no interval running.
-  const counting = remaining > 0;
+  // REQ-SURF-190 / REQ-MAT-51: one 1 s timeout per remaining second (no
+  // component-owned interval loop); a settled error state (Retry enabled)
+  // keeps no timer pending.
   React.useEffect(() => {
-    if (!counting) return;
-    const t = setInterval(() => setRemaining((r) => Math.max(0, r - 1000)), 1000);
-    return () => clearInterval(t);
-  }, [counting]);
+    if (remaining <= 0) return;
+    const t = setTimeout(() => setRemaining((r) => Math.max(0, r - 1000)), 1000);
+    return () => clearTimeout(t);
+  }, [remaining]);
 
   const seconds = Math.ceil(remaining / 1000);
   return (
@@ -65,15 +66,18 @@ export function ProviderErrorState({ kind, title, detail, retryAfterMs, onRetry,
         <p data-ag-part="error-title">{title ?? copy.title}</p>
         <p data-ag-part="error-detail">{detail ?? copy.detail}</p>
         {onRetry ? (
-          <button
-            type="button"
+          <Button
             data-ag-part="retry"
+            type="button"
+            size="sm"
+            suppressInnerParts
             disabled={remaining > 0}
-            onClick={onRetry}
+            onClick={() => { if (remaining <= 0) onRetry(); }}
           >
             {remaining > 0 ? `Retry in ${seconds}…` : 'Retry'}
+            {/* REQ-SURF-192: MAT hit area on the SURF retry part (suppressInnerParts drops the Button's own part attrs) */}
             <span data-ag-part="hit-area" aria-hidden="true" />
-          </button>
+          </Button>
         ) : null}
       </div>
     </div>

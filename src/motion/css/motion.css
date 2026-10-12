@@ -55,11 +55,16 @@
      Every transition lists properties from ANIMATABLE (S-12) only. Base UI
      keeps the popup mounted until element.getAnimations() settle, so the
      opacity/scale/translate transitions alone hold the exit; display/overlay
-     are not transitioned (no library popup uses the native top layer). ---- */
+     are not transitioned (no library popup uses the native top layer).
+     REQ-MAT-43: the anchor origin sits on the resting rule, so the exit and
+     the post-removal scale run from the same --transform-origin as the entry.
+     REQ-MAT-30: will-change is set only under [data-ag-animating], never by
+     the starting/ending selectors (a mid-transition surface keeps auto). ---- */
   [data-ag-overlay],
   [data-ag-surface][data-starting-style],
   [data-ag-surface][data-ending-style] {
     --_ag-side-sign: 0;
+    transform-origin: var(--transform-origin, 50% 50%);
     transition:
       opacity var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-standard)),
       scale var(--ag-spring-snappy-duration, var(--ag-duration-small)) var(--ag-spring-snappy, var(--ag-ease-standard)),
@@ -95,8 +100,7 @@
     scale: 0.96;
     translate: 0 calc(var(--_ag-side-sign, 0) * 4px);
     --_ag-optics: 0;
-    transform-origin: var(--transform-origin);
-    will-change: transform, opacity;
+    transform-origin: var(--transform-origin, 50% 50%);
   }
 
   [data-ending-style] {
@@ -104,7 +108,7 @@
     scale: 0.96;
     translate: 0 calc(var(--_ag-side-sign, 0) * 4px);
     --_ag-optics: 0;
-    will-change: transform, opacity;
+    transform-origin: var(--transform-origin, 50% 50%);
     /* exit: accelerate + the exit-duration variant */
     transition:
       opacity var(--ag-duration-small-exit) var(--ag-ease-accelerate),
@@ -147,7 +151,6 @@
   [data-ag-layer=scrim][data-ending-style] {
     scale: none;
     translate: none;
-    will-change: opacity;
     transition: opacity var(--ag-duration-medium-exit) var(--ag-ease-accelerate);
   }
 

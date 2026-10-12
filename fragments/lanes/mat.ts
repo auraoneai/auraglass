@@ -133,6 +133,16 @@ export default [
   { lane: 'L1', kind: 'node-script', path: 'scripts/mat/verify-preference-source.mjs --enforce-zero', scope: 'release', remote: false, failClosed: true },
   { lane: 'L1', kind: 'jest', path: 'tests/material/ci/verify-preference-source.test.ts', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L1', kind: 'jest', path: 'tests/lint/mat/motion-lint-l1.test.ts', scope: 'pr', remote: false, failClosed: true },
+  // REQ-MAT-42/-46/-51: the motion CSS checker (ANIMATABLE allow-list,
+  // @property registry, overshoot beziers, !important, ag- keyframes, ungated
+  // loops) over src/** with the expiring scripts/mat/motion-css-baseline.json
+  // rows (every row fails at RC-1 by version). Jest rows: its fixtures and the
+  // zero-specificity :where([data-ag-layer]) cascade proof.
+  { lane: 'L1', kind: 'node-script', path: 'scripts/mat/verify-motion-css.mjs --no-dist', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/mat/verify-motion-css.mjs --no-dist', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'node-script', path: 'scripts/mat/verify-motion-css.mjs --no-dist', scope: 'release', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/lint/mat/motion-css-allowlist.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/motion/cascade.test.ts', scope: 'pr', remote: false, failClosed: true },
 
   // MAT-370 (L5 Behaviour cells): floors, rungs, forced-colors, layer-stack,
   // prepaint, target-size, focus-not-obscured, zoom-reflow, text-spacing,

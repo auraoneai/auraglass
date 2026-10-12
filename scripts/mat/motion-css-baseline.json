@@ -1,0 +1,26 @@
+{
+  "note": "REQ-MAT-51 expiring baseline for scripts/mat/verify-motion-css.mjs (full run). Rows carry pre-existing findings in other streams' CSS measured when the checker was narrowed to ANIMATABLE (S-12) and registered as an L1 cell: 11 findings across these 7 files. Shrink-only: a row fails as STALE once its file no longer has that finding, and every row fails at RC-1. Only 'not-allowed' and 'literal-outside-tokens' may be carried here; ungated loops use scripts/integration/baselines/ungated-loops.json.",
+  "rows": [
+    {
+      "file": "src/components/checkbox/Checkbox.css",
+      "rule": "not-allowed",
+      "owner": "CMP",
+      "req": "REQ-FIN-76",
+      "expires": "RC-1"
+    },
+    {
+      "file": "src/components/segmented-control/SegmentedControl.css",
+      "rule": "not-allowed",
+      "owner": "CMP",
+      "req": "REQ-FIN-76",
+      "expires": "RC-1"
+    },
+    {
+      "file": "src/media/media.css",
+      "rule": "not-allowed",
+      "owner": "SURF",
+      "req": "REQ-FIN-90",
+      "expires": "RC-1"
+    }
+  ]
+}

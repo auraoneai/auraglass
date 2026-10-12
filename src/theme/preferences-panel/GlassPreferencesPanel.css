@@ -58,12 +58,24 @@
     font-size: var(--ag-type-caption-size);
     color: var(--ag-color-on-surface-muted);
   }
-  /* coarse pointers: single column, thumb-friendly spacing */
+  /* coarse pointers (REQ-MAT-60): single column and full-width controls —
+     every option row (radio or switch) and the slider span the group's inline
+     size, options stack one per row, thumb-friendly block size. */
   @media (pointer: coarse) {
     .ag-preferences-panel {
       grid-template-columns: 1fr;
     }
+    .ag-preferences-panel [data-ag-part="options"] {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      inline-size: 100%;
+    }
     .ag-preferences-panel [data-ag-part="option"] {
+      inline-size: 100%;
+      box-sizing: border-box;
+      min-block-size: var(--ag-target-coarse);
+    }
+    .ag-preferences-panel [data-ag-part="slider"] {
       min-block-size: var(--ag-target-coarse);
     }
   }

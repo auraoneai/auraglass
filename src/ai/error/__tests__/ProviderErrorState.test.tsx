@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import * as React from 'react';
-import { render, screen, act } from '@testing-library/react';
-import { ProviderErrorState } from '../ProviderErrorState';
+import { render, screen, act, fireEvent } from '@testing-library/react';
+import { DEFAULT_COPY, ProviderErrorState } from '../ProviderErrorState';
 import type { AgErrorKind } from '../ProviderErrorState';
 
 const KINDS = ['rate-limit', 'auth', 'network', 'content-filter', 'context-length', 'aborted', 'unknown'] as const;
@@ -35,7 +35,14 @@ describe('ProviderErrorState', () => {
     const btn = screen.getByRole('button');
     expect((btn as HTMLButtonElement).disabled).toBe(true);
     expect(btn.textContent).toContain('3');
-    act(() => { jest.advanceTimersByTime(3100); });
+    // one timeout per second (REQ-MAT-51: no interval loop): each tick commits
+    // before the next timeout is armed
+    for (const left of ['2', '1']) {
+      act(() => { jest.advanceTimersByTime(1000); });
+      expect(btn.textContent).toContain(left);
+      expect(jest.getTimerCount()).toBe(1);
+    }
+    act(() => { jest.advanceTimersByTime(1000); });
     expect((btn as HTMLButtonElement).disabled).toBe(false);
     jest.useRealTimers();
   });
@@ -43,7 +50,8 @@ describe('ProviderErrorState', () => {
     jest.useFakeTimers();
     render(<ProviderErrorState kind="rate-limit" retryAfterMs={2000} onRetry={() => {}} />);
     expect(jest.getTimerCount()).toBe(1);
-    act(() => { jest.advanceTimersByTime(2000); });
+    act(() => { jest.advanceTimersByTime(1000); });
+    act(() => { jest.advanceTimersByTime(1000); });
     expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(false);
     expect(jest.getTimerCount()).toBe(0);
     jest.useRealTimers();
@@ -53,5 +61,53 @@ describe('ProviderErrorState', () => {
     render(<ProviderErrorState kind="network" onRetry={() => {}} />);
     expect(jest.getTimerCount()).toBe(0);
     jest.useRealTimers();
+  });
+
+  it.each(KINDS)('REQ-SURF-127: %s renders its exact default title and detail', (kind: AgErrorKind) => {
+    const { container } = render(<ProviderErrorState kind={kind} />);
+    expect(container.querySelector('[data-ag-part="error-title"]')!.textContent).toBe(DEFAULT_COPY[kind].title);
+    expect(container.querySelector('[data-ag-part="error-detail"]')!.textContent).toBe(DEFAULT_COPY[kind].detail);
+  });
+  it('REQ-SURF-127: default copy is distinct per kind', () => {
+    const titles = KINDS.map((k) => DEFAULT_COPY[k].title);
+    expect(new Set(titles).size).toBe(KINDS.length);
+  });
+  it('title/detail props override the default copy', () => {
+    const { container } = render(<ProviderErrorState kind="auth" title="T" detail="D" />);
+    expect(container.querySelector('[data-ag-part="error-title"]')!.textContent).toBe('T');
+    expect(container.querySelector('[data-ag-part="error-detail"]')!.textContent).toBe('D');
+  });
+  it('REQ-SURF-127: Retry is the CMP Button (part retry, no leaked inner parts)', () => {
+    const { container } = render(<ProviderErrorState kind="network" onRetry={() => {}} />);
+    const btn = screen.getByRole('button', { name: 'Retry' });
+    expect(btn.getAttribute('data-ag-part')).toBe('retry');
+    expect(btn.classList.contains('ag-button')).toBe(true);
+    expect(btn.getAttribute('data-ag-size')).toBe('sm');
+    const parts = [...container.querySelectorAll('[data-ag-part]')].map((e) => e.getAttribute('data-ag-part'));
+    expect(parts.filter((p) => ['label', 'spinner', 'root'].includes(p!))).toEqual([]);
+    /* REQ-SURF-192: the only hit area is ProviderErrorState's own meta part
+       (the Button's inner one is suppressed), inside retry. */
+    expect(parts.filter((p) => p === 'hit-area')).toHaveLength(1);
+    expect(btn.querySelector('[data-ag-part="hit-area"]')).not.toBeNull();
+  });
+  it('REQ-SURF-127: onRetry is not called while the countdown disables Retry, and is once enabled', () => {
+    jest.useFakeTimers();
+    const onRetry = jest.fn();
+    render(<ProviderErrorState kind="rate-limit" retryAfterMs={2000} onRetry={onRetry} />);
+    const btn = screen.getByRole('button');
+    fireEvent.click(btn);
+    act(() => { jest.advanceTimersByTime(1000); });
+    expect(btn.textContent).toContain('1');
+    fireEvent.click(btn);
+    expect(onRetry).not.toHaveBeenCalled();
+    act(() => { jest.advanceTimersByTime(1000); });
+    expect((btn as HTMLButtonElement).disabled).toBe(false);
+    fireEvent.click(btn);
+    expect(onRetry).toHaveBeenCalledTimes(1);
+    jest.useRealTimers();
+  });
+  it('no Retry button without onRetry', () => {
+    render(<ProviderErrorState kind="network" />);
+    expect(screen.queryByRole('button')).toBeNull();
   });
 });

@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Collapsible } from '../../foundation/base-ui/collapsible';
 import type { AgPart } from '../types';
 import { AiIcon } from '../icons/AiIcon';
+import { scheduleFrame } from '../../motion/ticker';
 
 export type AgSourcePart = Extract<AgPart, { type: 'source-url' | 'source-document' }>;
 
@@ -78,8 +79,9 @@ export function SourceList({ messageId, sources, defaultOpen, className }: Sourc
     const api: SourceListApi = {
       openAndFocus(sourceId) {
         setOpen(true);
-        // The panel un-hides on the next commit; focus after it paints.
-        requestAnimationFrame(() => {
+        // The panel un-hides on the next commit; focus after it paints (one
+        // frame on the shared motion ticker, REQ-MAT-51).
+        scheduleFrame(() => {
           rootRef.current?.ownerDocument.getElementById(`ag-src-${messageId}-${sourceId}`)?.focus();
         });
       },
