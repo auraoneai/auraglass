@@ -10,9 +10,11 @@ import { afterAll, describe, expect, it } from '@jest/globals';
 import { spawnSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = resolve(__dirname, '../../..');
+// jest loads .mjs as native ESM under --experimental-vm-modules: no __dirname there.
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 const GEN = join(ROOT, 'scripts/surf/gen-ai-fixtures.mjs');
 const SOURCE = join(ROOT, 'src/ai/__fixtures__/ui-messages.source.ts');
 const FIXTURE = join(ROOT, 'src/ai/__fixtures__/ui-messages.ai-sdk.json');

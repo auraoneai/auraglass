@@ -42,9 +42,18 @@ describe('icon accessibility', () => {
       for (const f of readdirSync(dir)) {
         if (!f.endsWith('.tsx')) continue;
         glyphCount++;
-        const text = readFileSync(join(dir, f), 'utf8');
-        if (/export const \w+ = (?!\/\*#__PURE__\*\/)/.test(text.replace(/\n/g, ' '))) {
-          bad.push(`${cat}/${f}`);
+        const text = readFileSync(join(dir, f), 'utf8').replace(/\n/g, ' ');
+        // Call exports must carry the annotation. Bare-identifier aliases of a PURE glyph in the
+        // same module (export const CloseIcon = XIcon;) or imported from a sibling glyph module
+        // (itself checked here) must not: a #__PURE__ on a non-call is an INVALID_ANNOTATION
+        // (REQ-PLAT-65, see tests/build displayname-pure).
+        const pureExports = new Set([...text.matchAll(/export const (\w+) = \/\*#__PURE__\*\/ /g)].map((m) => m[1]));
+        for (const m of text.matchAll(/import \{([^}]*)\} from '\.\/[\w-]+';/g)) {
+          for (const name of m[1]!.split(',')) if (name.trim()) pureExports.add(name.trim());
+        }
+        for (const m of text.matchAll(/export const (\w+) = (?!\/\*#__PURE__\*\/)([^;]*);/g)) {
+          const rhs = m[2]!.trim();
+          if (!(/^[A-Za-z_$][\w$]*$/.test(rhs) && pureExports.has(rhs))) bad.push(`${cat}/${f}`);
         }
       }
     }

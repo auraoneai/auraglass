@@ -68,7 +68,10 @@ export function DismissableLayer({
   // while it is the topmost open entry, through the stack's single
   // per-document dispatcher. No document listener here (REQ-FIN-07).
   const handlersRef = React.useRef({ onEscapeKeyDown, onPointerDownOutside, onFocusOutside, onInteractOutside, onDismiss });
-  handlersRef.current = { onEscapeKeyDown, onPointerDownOutside, onFocusOutside, onInteractOutside, onDismiss };
+  // Synced after commit (never during render, REQ-CMP-24); dismissal events only fire post-commit.
+  React.useLayoutEffect(() => {
+    handlersRef.current = { onEscapeKeyDown, onPointerDownOutside, onFocusOutside, onInteractOutside, onDismiss };
+  });
 
   const handleEscape = React.useCallback(() => {
     const h = handlersRef.current;

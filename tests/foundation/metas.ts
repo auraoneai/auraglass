@@ -65,6 +65,24 @@ export function loadStories(name: string): LoadedStory[] {
   }));
 }
 
+/** Depth-first: clones the first element of type `subject` in the static element tree
+    with `ref`, rebuilding its ancestors. Returns null when the subject is not present. */
+function attachRefToSubject(node: React.ReactNode, subject: unknown, ref: React.Ref<unknown>): React.ReactElement | null {
+  if (!React.isValidElement(node)) return null;
+  const el = node as React.ReactElement<{ children?: React.ReactNode }>;
+  if (el.type === subject) return React.cloneElement(el, { ref } as Record<string, unknown>);
+  const kids = React.Children.toArray(el.props.children);
+  for (let i = 0; i < kids.length; i += 1) {
+    const hit = attachRefToSubject(kids[i], subject, ref);
+    if (hit) {
+      const next = [...kids];
+      next[i] = hit;
+      return React.cloneElement(el, undefined, ...next);
+    }
+  }
+  return null;
+}
+
 /** Renders a story export: honours a custom `render` fn, else mounts `component`
     with the story's args. */
 export function storyElement(storyModule: LoadedStory, storyName: string): { element: React.ReactElement | null; reason?: string } {
@@ -74,12 +92,16 @@ export function storyElement(storyModule: LoadedStory, storyName: string): { ele
   if (!story || typeof story !== 'object') return { element: null, reason: `no export ${storyName}` };
   const args = story.args ?? {};
   // CSF render functions may call hooks, so they run as a component body, never as a plain call.
+  const subject = (storyModule.exports.default as { component?: unknown } | undefined)?.component;
   if (typeof story.render === 'function') {
     const render = story.render;
-    // React 19 passes `ref` as a prop: hand it to the story's element so ref checks still see it.
+    // React 19 passes `ref` as a prop: hand it to the story's subject component so ref
+    // checks still see it even when flagship stories wrap it in Stage/Section/Scene chrome.
     const StoryRender = ({ ref }: { ref?: React.Ref<unknown> }) => {
       const el = render(args);
-      return ref ? React.cloneElement(el, { ref } as Record<string, unknown>) : el;
+      if (!ref) return el;
+      const attached = subject ? attachRefToSubject(el, subject, ref) : null;
+      return attached ?? React.cloneElement(el, { ref } as Record<string, unknown>);
     };
     StoryRender.displayName = `Story(${storyName})`;
     return { element: React.createElement(StoryRender) };

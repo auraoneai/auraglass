@@ -50,7 +50,8 @@ function SliderRoot<V extends number | number[]>({
     const details = toChangeDetails(eventDetails);
     if (details.reason === 'pointer') {
       latest.current = { value, details };
-      frameOff.current ??= subscribeFrame(flush);
+      // no `??=`: React Compiler cannot lower logical assignment (REQ-CMP-24).
+      if (frameOff.current === null) frameOff.current = subscribeFrame(flush);
     } else {
       flush();
       onValueChange?.(value, details);

@@ -21,8 +21,12 @@ const matches = (spec: string, names: readonly string[]) =>
 const rel = (f: string) => relative(ROOT, f).split(sep).join('/');
 // consumer-4x cases are frozen 4.x inputs whose banned imports are the
 // codemod's target (REQ-SURF-15); this file and no-chart-deps.test.ts name
-// the banned specifiers themselves.
-const skip = (f: string) => /peer-isolation\.test\.ts$|no-chart-deps\.test\.ts$/.test(f) || rel(f).startsWith('tests/fixtures/consumer-4x/');
+// the banned specifiers themselves, as does tests/perf/qual/dist-perf.test.ts (its
+// scanner cases are source-text string literals, e.g. `from "chart.js"`, not imports).
+const skip = (f: string) =>
+  /peer-isolation\.test\.ts$|no-chart-deps\.test\.ts$/.test(f) ||
+  rel(f) === 'tests/perf/qual/dist-perf.test.ts' ||
+  rel(f).startsWith('tests/fixtures/consumer-4x/');
 
 function imports(f: string): string[] {
   const src = readFileSync(f, 'utf8');

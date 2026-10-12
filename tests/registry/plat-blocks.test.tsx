@@ -80,9 +80,15 @@ describe('PLAT registry blocks/items', () => {
     expect(html).toContain('name="email"');
   });
   it('settings renders GlassPreferencesPanel + SegmentedControl + Switch parts', () => {
-    const html = renderToString(createElement(Settings.SettingsPanel, settingsProps as never));
-    expect(html).toContain('data-ag-part="rows"');
-    expect(html).toMatch(/data-ag-part="(glass-preferences-panel|segmented-control|switch)[^"]*"/);
+    // Real Tabs mount only the active panel (doubles mount all), so each section kind
+    // is rendered as the selected section. Markers cover both the doubles' kebab part
+    // names and the real components' root classes.
+    const prefs = renderToString(createElement(Settings.SettingsPanel, { ...settingsProps, section: 'appearance' } as never));
+    expect(prefs).toMatch(/data-ag-part="glass-preferences-panel[^"]*"|class="ag-preferences-panel"/);
+    const rows = renderToString(createElement(Settings.SettingsPanel, { ...settingsProps, section: 'workspace' } as never));
+    expect(rows).toContain('data-ag-part="rows"');
+    expect(rows).toMatch(/data-ag-part="switch[^"]*"|class="ag-switch"/);
+    expect(rows).toMatch(/data-ag-part="segmented-control[^"]*"|class="ag-segmented-control"/);
   });
 });
 

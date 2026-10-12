@@ -38,11 +38,11 @@ function Root({
   const props = {
     ...rest,
     ...mat,
-    ref,
     'data-ag-part': 'root',
     className: cn('ag-card', interactive ? 'ag-card-interactive' : undefined, className),
-  } as React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> };
-  return renderElement(render, <div />, props);
+  } as React.HTMLAttributes<HTMLElement>;
+  // The ref rides on the fallback element: JSX is the compiler-clean channel for refs.
+  return renderElement(render, <div ref={ref as React.Ref<HTMLDivElement> | undefined} />, props);
 }
 
 function Header({ className, ref, ...rest }: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> | undefined }) {
