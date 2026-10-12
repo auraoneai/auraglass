@@ -229,6 +229,76 @@ describe('Tabs SURF-48: keyboard (manual activation by default)', () => {
     expect(document.activeElement).toBe(tab('C'));
     expect(tab('C')).toHaveAttribute('data-state', 'active');
   });
+
+  const Oriented = ({ orientation, activateOnFocus }: { orientation?: 'vertical'; activateOnFocus?: boolean }) => (
+    <Tabs.Root defaultValue="a" {...(orientation ? { orientation } : {})} {...(activateOnFocus ? { activateOnFocus } : {})}>
+      <Tabs.List>
+        <Tabs.Tab value="a">A</Tabs.Tab>
+        <Tabs.Tab value="b">B</Tabs.Tab>
+        <Tabs.Tab value="c">C</Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel value="a">pa <a href="#x">inside a</a></Tabs.Panel>
+      <Tabs.Panel value="b">pb</Tabs.Panel>
+      <Tabs.Panel value="c">pc</Tabs.Panel>
+    </Tabs.Root>
+  );
+
+  it('vertical: ArrowDown/ArrowUp move focus and wrap; ArrowRight/Left do not', async () => {
+    render(<Oriented orientation="vertical" />);
+    expect(screen.getByRole('tablist')).toHaveAttribute('aria-orientation', 'vertical');
+    act(() => tab('A').focus());
+    await press('ArrowDown');
+    expect(document.activeElement).toBe(tab('B'));
+    await press('ArrowDown');
+    expect(document.activeElement).toBe(tab('C'));
+    await press('ArrowDown');
+    expect(document.activeElement).toBe(tab('A')); // wraps
+    await press('ArrowUp');
+    expect(document.activeElement).toBe(tab('C')); // wraps backwards
+    await press('ArrowRight');
+    expect(document.activeElement).toBe(tab('C'));
+    await press('ArrowLeft');
+    expect(document.activeElement).toBe(tab('C'));
+  });
+
+  it('Tab moves from the tab list into the active panel', async () => {
+    const user = userEvent.setup();
+    render(<Oriented />);
+    await user.click(tab('B'));
+    expect(tab('B')).toHaveAttribute('data-state', 'active');
+    expect(document.activeElement).toBe(tab('B'));
+    await user.tab();
+    const panel = screen.getByRole('tabpanel');
+    expect(panel.textContent).toBe('pb');
+    expect(document.activeElement).toBe(panel);
+    expect(tab('B').getAttribute('aria-controls')).toBe(panel.id);
+  });
+
+  it('RTL reverses: ArrowLeft moves to the next tab, ArrowRight to the previous (with wrap)', async () => {
+    render(
+      <div dir="rtl">
+        <Oriented activateOnFocus />
+      </div>,
+    );
+    act(() => tab('A').focus());
+    await press('ArrowLeft');
+    expect(document.activeElement).toBe(tab('B'));
+    expect(tab('B')).toHaveAttribute('data-state', 'active');
+    await press('ArrowLeft');
+    expect(document.activeElement).toBe(tab('C'));
+    await press('ArrowRight');
+    expect(document.activeElement).toBe(tab('B'));
+    await press('ArrowRight');
+    await press('ArrowRight');
+    expect(document.activeElement).toBe(tab('C')); // wraps from the first tab
+  });
+
+  it('LTR is unchanged next to an RTL instance', async () => {
+    render(<Oriented />);
+    act(() => tab('A').focus());
+    await press('ArrowRight');
+    expect(document.activeElement).toBe(tab('B'));
+  });
 });
 
 describe('Tabs SURF-48: idrefs + axe across two identical instances', () => {

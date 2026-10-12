@@ -7,10 +7,10 @@ import { apg } from '../harness';
 
 const STORY = 'surf-tabs--default';
 
-async function openTabs(page: import('@playwright/test').Page) {
+async function openTabs(page: import('@playwright/test').Page, story = STORY) {
   const subjects = await listSubjects({ owner: 'SURF' });
-  const subject = subjects.find((s) => s.id === STORY) ?? subjects.find((s) => s.subject === 'Tabs');
-  if (!subject) throw new Error('Tabs subject not registered');
+  const subject = subjects.find((s) => s.id === story) ?? (story === STORY ? subjects.find((s) => s.subject === 'Tabs') : undefined);
+  if (!subject) throw new Error(`Tabs subject not registered: ${story}`);
   await gotoStory(page, subject.id);
 }
 
@@ -37,6 +37,36 @@ test.describe('APG tabs (SURF)', () => {
     const panel = page.locator(`[id="${panelId}"]`);
     await expect(panel).toBeVisible();
     await expect(panel).toHaveAttribute('aria-labelledby', (await selected.getAttribute('id'))!);
+  });
+
+  test('Tab moves from the selected tab into the active panel', async ({ page }) => {
+    await openTabs(page);
+    await apg.keyboard(page, [
+      { press: 'Tab', expectFocus: 'role=tab[name=Alpha]' },
+      { press: 'ArrowRight', expectFocus: 'role=tab[name=Beta]' },
+      { press: 'Enter', expectState: { 'aria-selected': 'true' } },
+    ]);
+    const panelId = await page.getByRole('tab', { name: 'Beta' }).getAttribute('aria-controls');
+    expect(panelId).toBeTruthy();
+    await page.keyboard.press('Tab');
+    // focus lands on the active panel or the first focusable element inside it
+    const inPanel = await page.evaluate((id) => {
+      const panel = document.getElementById(id!);
+      return !!panel && (document.activeElement === panel || panel.contains(document.activeElement));
+    }, panelId);
+    expect(inPanel).toBe(true);
+  });
+
+  test('RTL reverses ArrowLeft/ArrowRight (surf-tabs--rtl)', async ({ page }) => {
+    await openTabs(page, 'surf-tabs--rtl');
+    await apg.keyboard(page, [
+      { press: 'Tab', expectFocus: 'role=tab[name=Alpha]' },
+      { press: 'ArrowLeft', expectFocus: 'role=tab[name=Beta]' },
+      { press: 'ArrowLeft', expectFocus: 'role=tab[name=Gamma]' },
+      { press: 'ArrowRight', expectFocus: 'role=tab[name=Beta]' },
+      { press: 'ArrowRight', expectFocus: 'role=tab[name=Alpha]' },
+      { press: 'ArrowRight', expectFocus: 'role=tab[name=Gamma]' }, // wraps
+    ]);
   });
 
   test('axe clean (incl. duplicate-id-aria)', async ({ page }) => {
