@@ -1,7 +1,8 @@
 /* REQ-CMP-06 (FIN-E.1 row 31): compound part surface on the CMP side.
    - every COMPOUND_PARTS part is exported as a component by the module CMP_MODULES names;
-   - the COMPOUND_PARTS_PENDING parts REQ-CMP-06 implements (SegmentedControl.Indicator,
-     Slider.Track/Range/Thumb, Menubar {Root, Menu}) exist, so the contract can promote them;
+   - the parts REQ-CMP-06 implemented (SegmentedControl.Indicator, Slider.Track/Range/Thumb,
+     Menubar {Root, Menu}) are promoted into COMPOUND_PARTS (Menubar out of
+     FLAT_CMP_COMPONENTS) and no longer pending;
    - the anchored overlays' Content part is the whole overlay stack (Portal > Positioner >
      Popup), so callers never compose the internal parts: placement props reach the
      positioner and the rest reach the popup, which renders in the portal root. */
@@ -9,7 +10,7 @@ import * as React from 'react';
 import { afterEach, describe, expect, it } from '@jest/globals';
 import { act, cleanup, render } from '@testing-library/react';
 import { join } from 'node:path';
-import { CMP_MODULES, COMPOUND_PARTS, COMPOUND_PARTS_PENDING } from '../../src/contracts/components';
+import { CMP_MODULES, COMPOUND_PARTS, COMPOUND_PARTS_PENDING, FLAT_CMP_COMPONENTS } from '../../src/contracts/components';
 import { REPO_ROOT } from './metas';
 import { Popover } from '../../src/components/popover';
 import { Tooltip } from '../../src/components/tooltip';
@@ -26,8 +27,12 @@ function load(name: string): Parts {
   return mod[name] as Parts;
 }
 
-/** The pending rows REQ-CMP-06 owns; Toast.History/HistoryItem belong to REQ-CMP-110. */
-const CMP06_PENDING = ['SegmentedControl', 'Slider', 'Menubar'] as const;
+/** The parts REQ-CMP-06 promoted out of COMPOUND_PARTS_PENDING; Toast.History/HistoryItem belong to REQ-CMP-110. */
+const CMP06_PROMOTED = {
+  SegmentedControl: ['Indicator'],
+  Slider: ['Track', 'Range', 'Thumb'],
+  Menubar: ['Root', 'Menu'],
+} as const;
 
 afterEach(() => {
   cleanup();
@@ -49,14 +54,19 @@ describe('COMPOUND_PARTS exports (S-30)', () => {
   }
 });
 
-describe('COMPOUND_PARTS_PENDING parts implemented by REQ-CMP-06', () => {
-  it('covers exactly the pending rows outside REQ-CMP-110', () => {
-    expect(Object.keys(COMPOUND_PARTS_PENDING).filter((k) => k !== 'Toast').sort()).toEqual([...CMP06_PENDING].sort());
+describe('REQ-CMP-06 parts promoted into COMPOUND_PARTS', () => {
+  it('only REQ-CMP-110 rows remain pending', () => {
+    expect(Object.keys(COMPOUND_PARTS_PENDING)).toEqual(['Toast']);
   });
-  for (const name of CMP06_PENDING) {
-    it(`${name} exports ${COMPOUND_PARTS_PENDING[name].join(', ')}`, () => {
+  it('Menubar is a compound, not a flat component', () => {
+    expect((FLAT_CMP_COMPONENTS as readonly string[]).includes('Menubar')).toBe(false);
+  });
+  for (const [name, promoted] of Object.entries(CMP06_PROMOTED)) {
+    it(`${name}: COMPOUND_PARTS declares and the module exports ${promoted.join(', ')}`, () => {
+      const declared = (COMPOUND_PARTS as Record<string, readonly string[]>)[name] ?? [];
+      expect({ name, undeclared: promoted.filter((p) => !declared.includes(p)) }).toEqual({ name, undeclared: [] });
       const C = load(name);
-      const missing = (COMPOUND_PARTS_PENDING[name] as readonly string[]).filter((p) => !isComponent(C[p]));
+      const missing = (promoted as readonly string[]).filter((p) => !isComponent(C[p]));
       expect({ name, missing }).toEqual({ name, missing: [] });
     });
   }
