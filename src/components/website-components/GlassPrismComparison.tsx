@@ -872,19 +872,7 @@ export function GlassPrismComparison({
               className="glass-text-lg"
               style={{ color: "rgba(0, 0, 0, 0.92)", opacity: 1 }}
             >
-              <motion.span
-                animate={prefersReducedMotion ? undefined : undefined}
-                transition={
-                  prefersReducedMotion
-                    ? { duration: 0 }
-                    : {
-                        duration: (ANIMATION.DURATION.slower * 3) / 1000,
-                        repeat: Infinity,
-                      }
-                }
-              >
-                Move your mouse
-              </motion.span>{" "}
+              <span>Move your mouse</span>{" "}
               to control the prism and see the impossible difference
             </p>
           </motion.div>

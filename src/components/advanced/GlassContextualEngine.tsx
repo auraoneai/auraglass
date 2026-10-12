@@ -1286,8 +1286,9 @@ export function GlassContextualDashboard({
         {adaptations.length > 0 && (
           <motion.div
             className="glass-absolute glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-green glass-radius-full"
-            initial={{ scale: 0 }}
-            animate={prefersReducedMotion ? undefined : { scale: 1 }}
+            initial={prefersReducedMotion ? false : { scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={prefersReducedMotion ? { duration: 0 } : undefined}
           />
         )}
       </motion.button>

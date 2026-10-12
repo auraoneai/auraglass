@@ -40,6 +40,14 @@ describe("auraglass/motion-no-empty-animate", () => {
         `<motion.div initial={{ opacity: 0 }} />`,
         // string-variant animate (not a conditional expression)
         `<motion.div initial="hidden" animate="visible" />`,
+        // REQ-PLAT-48 FINAL pattern: the entrance is skipped under reduced motion
+        `<motion.div initial={r ? false : { scale: 0 }} animate={r ? undefined : { scale: 1 }} />`,
+        `<motion.div initial={r ? false : { opacity: 0, y: 8 }} animate={r ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }} transition={r ? { duration: 0 } : { duration: 0.2 }} />`,
+        // an initial already at identity is the settled state
+        `<motion.div initial={{ opacity: 1, scale: 1, x: 0 }} animate={r ? undefined : { scale: 1.1 }} />`,
+        `<motion.div initial={false} animate={r ? undefined : { y: [0, -8, 0] }} />`,
+        // a looping animate with no initial never strands the element
+        `<motion.div animate={r ? undefined : { y: [0, -8, 0] }} />`,
       ],
       invalid: [
         // canonical spelling: cond ? {} : target
@@ -87,6 +95,23 @@ describe("auraglass/motion-no-empty-animate", () => {
         {
           code: `<motion.div animate={{}} />`,
           errors: [{ messageId: "emptyAnimate" }],
+        },
+        // REQ-PLAT-48: an `undefined` branch leaves the element at a non-settled initial
+        {
+          code: `<motion.div initial={{ scale: 0 }} animate={prefersReducedMotion ? undefined : { scale: 1 }} />`,
+          errors: [{ messageId: "undefinedConditional" }],
+        },
+        {
+          code: `<motion.div initial={{ scale: 0, opacity: 1 }} animate={r ? { scale: 2, opacity: 0 } : undefined} />`,
+          errors: [{ messageId: "undefinedConditional" }],
+        },
+        {
+          code: `<motion.div initial="hidden" animate={r ? void 0 : "visible"} />`,
+          errors: [{ messageId: "fadedConditional" }, { messageId: "undefinedConditional" }],
+        },
+        {
+          code: `<motion.div initial={{ x: -20 }} animate={r ? undefined : { x: 0 }} />`,
+          errors: [{ messageId: "undefinedConditional" }],
         },
       ],
     });
