@@ -13,9 +13,6 @@ export default {
     '^@/registry/(.+)$': '<rootDir>/registry/$1',
     '\\.css$': 'identity-obj-proxy',
     '^prettier$': '<rootDir>/node_modules/prettier/index.mjs',
-    // ESM-style relative '.js' specifiers that point at a .ts source (e.g. src/tokens/index.ts →
-    // './generated/tokens.js'): TypeScript and the bundler resolve them; Jest needs the extension dropped.
-    '^(\\.{1,2}/(?:.*/)?generated/[^/]+)\\.js$': '$1',
     // C-4: the package name resolves to the ENTRIES sources (src/contracts/entries.ts), never to dist/ or node_modules.
     // Subpaths not in ENTRIES (e.g. 'aura-glass/components') stay unresolvable, as in the published package.
     '^aura-glass$': '<rootDir>/src/index.ts',
