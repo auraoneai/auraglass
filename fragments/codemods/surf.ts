@@ -65,9 +65,8 @@ const w1: CodemodMappingFragment = {
     { from: 'LiquidGlassTransitionProvider', fromEntry: 'aura-glass', to: 'SourceTransition', toEntry: 'aura-glass' },
     { from: 'LiquidGlassSource', fromEntry: 'aura-glass', to: 'SourceTransition', toEntry: 'aura-glass' },
     { from: 'LiquidGlassDestination', fromEntry: 'aura-glass', to: 'SourceTransition', toEntry: 'aura-glass' },
-    // DEP-S0027..S0037 (REQ-SURF-14: every absorbed name has a rename row).
-    { from: 'EnhancedGlassTabs', fromEntry: 'aura-glass', to: 'Tabs', toEntry: 'aura-glass' },
-    { from: 'GlassTabItem', fromEntry: 'aura-glass', to: 'Tabs', toEntry: 'aura-glass' },
+    // DEP-S0029..S0037 (REQ-SURF-14: every absorbed name has a rename row;
+    // EnhancedGlassTabs/GlassTabItem — DEP-S0027/0028 — are the SURF-47 rows above).
     { from: 'GlassSplitPane', fromEntry: 'aura-glass', to: 'GlassSplitPane', toEntry: 'aura-glass/compat', compatOnly: true },
     { from: 'GlassNavigationMenu', fromEntry: 'aura-glass', to: 'GlassNavigationMenu', toEntry: 'aura-glass/compat', compatOnly: true },
     { from: 'LiquidGlassInsetSidebar', fromEntry: 'aura-glass', to: 'LiquidGlassInsetSidebar', toEntry: 'aura-glass/compat', compatOnly: true },

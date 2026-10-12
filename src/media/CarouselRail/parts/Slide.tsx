@@ -1,3 +1,4 @@
+'use client';
 /* REQ-SURF-146/150 — compositional slide: reads its position from the shared
  * context; opaque content-raised material (never a backdrop filter). */
 import * as React from 'react';

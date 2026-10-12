@@ -1,3 +1,4 @@
+'use client';
 /* REQ-SURF-146/148 — Viewport: the scroll-snap container. Renders its
  * children (CarouselRail.Slide parts) when given, else one Slide per Root
  * `slides` entry. Focusable so keyboard users can scroll it (it holds no

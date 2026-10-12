@@ -113,7 +113,7 @@ describe('preview configuration (REQ-QUAL-10)', () => {
     const env = document.querySelector('[data-ag-backdrop]')!;
     expect(env.getAttribute('data-ag-backdrop')).toBe('dark');
     expect(env.querySelector('[data-ag-part="backdrop-media"]')).toBeNull();
-    expect(document.body.style.backgroundImage).toBe('url("/scenes/flat-black.jpg")');
+    expect(document.body.style.backgroundImage).toBe('url("/scenes/flat-black.png")'); // certification/scenes/flat-black.png (generated, lossless)
     expect(document.body.style.backgroundSize).toBe('cover');
     expect(document.body.style.backgroundPosition).toBe('center');
     cleanup();

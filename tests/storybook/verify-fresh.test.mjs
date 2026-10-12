@@ -7,11 +7,12 @@ import { describe, expect, it, beforeEach, afterEach } from '@jest/globals';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { freshnessProblems, sha256, MANIFEST_KEYS } from '../../scripts/storybook/lib/storybook-build.mjs';
 import { buildManifest } from '../../scripts/storybook/write-build-manifest.mjs';
 
-const ROOT = join(__dirname, '..', '..');
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CLI = join(ROOT, 'scripts', 'storybook', 'verify-fresh.mjs');
 const SHA = 'a'.repeat(40);
 const INDEX = JSON.stringify({ v: 5, entries: {

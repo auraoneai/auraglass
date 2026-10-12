@@ -52,3 +52,15 @@ export const InShell: Story = {
   // The shell's container queries follow its own width; no canvas padding.
   parameters: { layout: 'fullscreen' },
 };
+/* SURF-38: the compact layout renders the inspector as the bottom Sheet. */
+export const CompactSheet: Story = {
+  render: () => (
+    <AppShell.Root layout="mobile" defaultInspector="open">
+      <AppShell.Main>
+        <p>Select a project to inspect it.</p>
+      </AppShell.Main>
+      <Inspector.Sheet aria-label="Details">{fields}</Inspector.Sheet>
+    </AppShell.Root>
+  ),
+  parameters: { layout: 'fullscreen' },
+};

@@ -5,8 +5,9 @@
  * registry. Locally it exits 2 and prints the remote command.
  *
  * Checks (each one fails closed; the JSON report lists every result):
- *   dist-entry        dist/motion/public.js exists and its first statement is 'use client'
- *   dist-adapter      every dist/motion/adapter/*.js starts with 'use client'
+ *   dist-entry        dist/motion/public.js exists and carries no directive (REQ-PLAT-69
+ *                     barrel); the client boundary is dist/motion/adapter/entry.js
+ *   dist-adapter      every dist/motion/adapter/*.js (entry.js included) starts with 'use client'
  *   dist-no-node      no `node:` specifier in any dist/motion/** module
  *   with-peer-exports Node ESM import of aura-glass/motion (peer installed) exposes
  *                     exactly the 7 frozen names
@@ -76,7 +77,7 @@ if (!existsSync(entry)) {
   record('dist-entry', false, 'dist/motion/public.js missing (run after plat:build:dist; ./motion must not be seed-filtered)');
 } else {
   const head = firstStatement(readFileSync(entry, 'utf8'));
-  record('dist-entry', USE_CLIENT.test(head), `first statement: ${JSON.stringify(head)}`);
+  record('dist-entry', !/^['"]use (client|server)['"]/.test(head), `first statement: ${JSON.stringify(head)}`);
 }
 const adapterDir = join(distMotion, 'adapter');
 if (!existsSync(adapterDir)) {

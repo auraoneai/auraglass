@@ -33,3 +33,5 @@ export const Keyboard: Story = { render: () => <Chart {...BASE} type="bar" toolt
 /* Two datums: ArrowRight x3 clamps on Feb, so the debounced announcement is
    exactly "Feb: Alpha 55, Beta 40" (tests/e2e/surf/charts/keyboard.spec.ts). */
 export const Announce: Story = { render: () => <Chart {...BASE} data={DATA.slice(0, 2)} type="line" tooltip /> };
+/* REQ-FIN-87: horizontal grid lines behind the marks. */
+export const Grid: Story = { render: () => <Chart {...BASE} type="line" grid /> };
