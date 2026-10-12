@@ -13,6 +13,7 @@ import { afterAll, describe, expect, it } from '@jest/globals';
 import {
   dtsExportNames, dtsExports, main, nodeSupported, snapshotTarball, stableSnapshot,
 } from '../../scripts/release/export-snapshot.mjs';
+import type { SnapshotModuleRow } from '../../scripts/release/export-snapshot.mjs';
 
 const dirs: string[] = [];
 afterAll(() => { for (const d of dirs) rmSync(d, { recursive: true, force: true }); });
@@ -52,7 +53,7 @@ const tgz = pack({
 
 describe('export-snapshot over a real tarball', () => {
   const { entries, json } = snapshotTarball(tgz);
-  const root = entries['.'] as Record<string, unknown> & { runtime: string[]; types: string[]; typeValues: string[]; require: string[]; mismatch: string[] };
+  const root = entries['.'] as SnapshotModuleRow;
 
   it('captures runtime (jsdom globals installed), require and types names', () => {
     expect(root.kind).toBe('module');
