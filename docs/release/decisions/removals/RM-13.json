@@ -18,7 +18,20 @@
     "INSTALLATION.md",
     "legacy/tests"
   ],
-  "consumerGrep": "pending \u2014 scripts/removal/consumer-grep.mjs lives on lane 1c's unmerged branch; FAMILY_PATHS lacks RM-13 (recorded deviation). Record produced manually per the family schema.",
-  "revertDryRun": "pending \u2014 plat:gate:removal runs it remotely",
-  "sha": null
+  "consumerGrep": "done — node scripts/removal/consumer-grep.mjs --family RM-13 --write (FAMILY_PATHS['RM-13'] = []: docs and the legacy test tree export no names, so 0 names and 0 hits).",
+  "revertDryRun": "pending — plat:gate:removal runs it remotely",
+  "sha": null,
+  "generatedAt": "2026-10-12T14:55:31.136Z",
+  "scanSha": "27e62228d",
+  "names": [],
+  "status": "ok",
+  "missingRoots": [],
+  "roots": [],
+  "hits": [],
+  "gh": {
+    "status": "ok",
+    "files": 0,
+    "hitCount": 0
+  },
+  "acknowledged": []
 }
