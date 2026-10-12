@@ -29,6 +29,7 @@ export function setPendingMotionPeer(load: Promise<MotionPeer>): void {
  *  install-message rejection); throws when no entry has started a load. */
 export function motionPeer(): MotionPeer {
   if (current) return current;
+  // eslint-disable-next-line react-hooks/rules-of-hooks -- render-time-only accessor: every caller reads the peer during a component/hook render (see header), which is the contract React.use requires
   if (pending) return React.use(pending);
   throw new Error('aura-glass/motion: the motion peer is not loaded; import adapter APIs from "aura-glass/motion".');
 }

@@ -3,7 +3,7 @@
    plus the ./ai flagships the block does not render on its own. Imports: public
    entries, the block's index/fixtures, and this folder only (REQ-QUAL-59). */
 import * as React from 'react';
-import { Button, Card, Command, CommandPalette, Heading, IconButton, Text, Toast, useToast } from 'aura-glass';
+import { Button, Card, Command, CommandPalette, Heading, IconButton, Text, Toast, useToast, VisuallyHidden } from 'aura-glass';
 import { AppShell, Inspector, Sidebar, TopBar } from 'aura-glass/app-shell';
 import {
   AgentSteps,
@@ -78,9 +78,9 @@ export function AiCommandCenterToolCalls() {
           </li>
         ))}
       </ol>
-      <p className={styles.visuallyQuiet} aria-live="polite">
+      <VisuallyHidden render={<p />} aria-live="polite">
         {Object.keys(decisions).length > 0 ? COPY.toastTitle : ''}
-      </p>
+      </VisuallyHidden>
     </Card.Root>
   );
 }

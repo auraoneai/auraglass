@@ -3,7 +3,6 @@
 import type { DeprecationEntry } from '../../src/contracts/fragments';
 import type { RegisterItem } from '../docs/lib/migration-guide.mjs';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 type Row = Record<string, any>;
 export type LoadedEntry = DeprecationEntry & { stream: string; file: string };
 export declare function loadEntries(root?: string): Promise<LoadedEntry[]>;

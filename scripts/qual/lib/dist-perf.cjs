@@ -19,8 +19,12 @@ const BANNED_PACKAGES = ['chart.js', 'chart.js/*', 'react-chartjs-2', 'react-cha
   '@react-three/*', 'motion', 'motion/*', 'framer-motion', 'framer-motion/*', 'd3-*'];
 const REACT_EXTERNALS = ['react', 'react/*', 'react-dom', 'react-dom/*'];
 
-/** MutationObserver is allowed only here (REQ-QUAL-46): CMP's DismissableLayer primitive and Base UI internals. */
-const MUTATION_OBSERVER_ALLOW = ['**/primitives/DismissableLayer*', '**/@base-ui/**', '**/node_modules/@base-ui/**'];
+/** MutationObserver is allowed only here (REQ-QUAL-46): CMP's DismissableLayer primitive, Base UI internals,
+    and the REQ-MAT-38 dev diagnostics (src/material/dev/**) — development-only modules that the consumer's
+    production build strips by define + DCE (src/theme/mounts.ts), proven by scripts/mat/verify-dev-strip.mjs
+    (mat:test:dev-strip). They remain in the unbundled dist for development bundles, whose strip control
+    requires them, so scanning them here would flag code no production bundle can contain. */
+const MUTATION_OBSERVER_ALLOW = ['**/primitives/DismissableLayer*', '**/@base-ui/**', '**/node_modules/@base-ui/**', '**/material/dev/**'];
 
 const LAYOUT_CAMEL = ['width', 'height', 'minWidth', 'maxWidth', 'minHeight', 'maxHeight', 'inlineSize', 'blockSize',
   'minInlineSize', 'maxInlineSize', 'minBlockSize', 'maxBlockSize', 'top', 'right', 'bottom', 'left', 'inset', 'insetInline',

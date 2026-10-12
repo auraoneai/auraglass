@@ -8,7 +8,9 @@
 //     (.js/.mjs/.cjs/.css/.html/.json). Type declarations (.d.ts/.d.mts/.d.cts) are not markup: the S-01 attribute
 //     registry type names the story-only attributes so that MAT/QUAL tooling can refer to them; they never render.
 // CLI: node scripts/qual/verify-lab-not-shipped.mjs [--tarball <tgz>] [--dist <dir>] [--imports-only]
-//   With neither --tarball, --dist nor AURAGLASS_TARBALL the scan fails (fail-closed), unless --imports-only.
+//   Artifact order: --tarball/AURAGLASS_TARBALL, --dist, else the repository dist/ when present (the L1 lane
+//   carries plat:build:dist artifacts alongside plat:package:pack's). With none of them the scan fails
+//   (fail-closed), unless --imports-only.
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -104,7 +106,7 @@ export function main(argv = process.argv.slice(2), env = process.env, root = ROO
   console.log(`verify-lab-not-shipped: import guard over ${GUARDED_ROOTS.join(', ')}`);
   if (!argv.includes('--imports-only')) {
     const tarball = arg('--tarball') ?? env.AURAGLASS_TARBALL;
-    const dist = arg('--dist');
+    const dist = arg('--dist') ?? (tarball ? undefined : existsSync(join(root, 'dist')) ? 'dist' : undefined);
     if (!tarball && !dist) findings.push('no shipped artifact to scan: set AURAGLASS_TARBALL (plat:package:pack) or pass --tarball/--dist');
     if (tarball) {
       const abs = resolve(root, tarball);

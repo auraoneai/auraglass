@@ -50,16 +50,6 @@
 .mark {
   inline-size: 1.75rem;
   block-size: 1.75rem;
-  border-radius: var(--ag-radius-sm, 6px);
-}
-
-.visuallyQuiet {
-  position: absolute;
-  inline-size: 1px;
-  block-size: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 
 @media (max-width: 48rem) {

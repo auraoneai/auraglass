@@ -5,7 +5,6 @@
    onEndReached / endThreshold / overscan map 1:1. The legacy
    items + renderItem(item, index) form is also accepted; with no items the
    children render statically. */
-'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { VirtualList } from '../../../data/virtual-list/VirtualList';

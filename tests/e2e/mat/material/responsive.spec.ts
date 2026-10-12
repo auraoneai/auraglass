@@ -12,7 +12,7 @@ import { gotoMaterialStory } from '../../../material/helpers/story';
 const { defaultBrowserType: _engine, isMobile: _isMobile, ...iPhone13 } = devices['iPhone 13'];
 
 test.describe('responsive', () => {
-  test.use({ ...iPhone13, isMobile: async ({ browserName }, use) => use(browserName !== 'firefox') });
+  test.use({ ...iPhone13, isMobile: async ({ browserName }, provide) => provide(browserName !== 'firefox') });
 
   test('coarse pointer: thick blur 20px, grain <= 0.02', async ({ page }) => {
     await gotoMaterialStory(page, 'material-lab-matrix--matrix');

@@ -1,6 +1,9 @@
 /**
  * @jest-environment jsdom
  */
+/* eslint-disable auraglass/raf-requires-cancel, auraglass/raf-requires-visibility-gate, auraglass/no-permanent-will-change --
+   the cases below are the probe's test subjects: self-rescheduling/leaky rAF loops and a held will-change
+   exist in this file precisely so the settled-idle probe can be asserted to catch them. */
 /* REQ-QUAL-23 (FIN-440) self-test of the settled-idle probe that the L9 motion
    lane runs in-page. jsdom (pretendToBeVisual) provides requestAnimationFrame;
    document.getAnimations is not implemented by jsdom, so each case installs a

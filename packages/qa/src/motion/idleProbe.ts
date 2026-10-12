@@ -132,6 +132,7 @@ export function readIdleProbe(target?: Window): IdleSnapshot {
   for (const el of doc.querySelectorAll('*')) {
     for (const pseudo of [null, '::before', '::after'] as const) {
       const v = w.getComputedStyle(el, pseudo).willChange;
+      // eslint-disable-next-line auraglass/no-permanent-will-change -- evidence label naming the measured computed value, not a CSS declaration
       if (v && v !== 'auto') willChange.push(`${describe(el)}${pseudo ?? ''} will-change:${v}`);
     }
   }

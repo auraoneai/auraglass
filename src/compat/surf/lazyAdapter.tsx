@@ -1,4 +1,3 @@
-'use client';
 /* REQ-PLAT-70 / REQ-SURF-04: the date and tree compat adapters bridge onto
    src/date and src/data/tree-view, which need the optional peers
    react-aria-components / @internationalized/date. Importing

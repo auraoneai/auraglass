@@ -7,7 +7,7 @@ import { Card, Text, Toolbar } from 'aura-glass';
 export interface RichTextProps {
   /** Initial HTML or plain-text content. */
   content: string;
-  onChange?: (html: string) => void;
+  onValueChange?: (html: string) => void;
   readOnly?: boolean;
   /** Pre-loaded tiptap modules for tests/doubles. */
   modules?: { core: unknown; starterKit: unknown };
@@ -16,7 +16,7 @@ export interface RichTextProps {
 const TIPTAP_SPECIFIER = '@tiptap/core';
 const STARTER_SPECIFIER = '@tiptap/starter-kit';
 
-export function RichText({ content, onChange, readOnly = false, modules: injected }: RichTextProps) {
+export function RichText({ content, onValueChange, readOnly = false, modules: injected }: RichTextProps) {
   const host = useRef<HTMLDivElement>(null);
   const [editor, setEditor] = useState<{ commands: Record<string, () => unknown>; chain(): Record<string, () => unknown> } | null>(null);
 
@@ -35,13 +35,13 @@ export function RichText({ content, onChange, readOnly = false, modules: injecte
         extensions: [sk.default ?? sk.StarterKit],
         content,
         editable: !readOnly,
-        onUpdate: ({ editor }) => onChange?.(editor.getHTML()),
+        onUpdate: ({ editor }) => onValueChange?.(editor.getHTML()),
       });
       setEditor(ed as never);
       return () => ed.destroy();
     }).catch(() => { /* static fallback stays */ });
     return () => { live = false; };
-  }, [content, readOnly, injected, onChange]);
+  }, [content, readOnly, injected, onValueChange]);
 
   const cmd = (name: string) => () => {
     const chain = (editor as { chain?: () => Record<string, () => { run(): void }> } | null)?.chain?.();

@@ -100,6 +100,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/compat/cmp/controls/_glassButtonMapping.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/compat/cmp/controls/Button.tsx": {
       "blur": 0,
       "color": 0,
@@ -4421,6 +4430,15 @@
       "spring": 0
     },
     "src/foundation/base-ui/collapsible.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/base-ui/combobox.ts": {
       "blur": 0,
       "color": 0,
       "duration": 0,
