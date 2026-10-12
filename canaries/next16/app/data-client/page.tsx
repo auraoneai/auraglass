@@ -69,7 +69,7 @@ export default function DataClientCanaryPage() {
       </Chip>
       <KeyValueEditor value={kv} onValueChange={setKv} />
       <StatCard label="Tickets" value={42} />
-      <Sparkline data={[3, 5, 2, 8, 6]} aria-label="Ticket trend" />
+      <Sparkline data={[3, 5, 2, 8, 6]} label="Ticket trend" />
       <ChartFrame
         title="Volume"
         data={[{ day: "Mon", tickets: 3 }, { day: "Tue", tickets: 5 }]}

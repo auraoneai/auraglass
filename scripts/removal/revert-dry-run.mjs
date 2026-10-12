@@ -55,10 +55,21 @@ for (const fam of families) {
       // is evidence written after the removal, not removed code: keep HEAD's copy.
       const unmerged = execFileSync('git', ['diff', '--name-only', '--diff-filter=U'], { cwd: wt, encoding: 'utf8' })
         .split('\n').filter(Boolean);
-      const recordOnly = unmerged.length > 0 && unmerged.every((f) => f.startsWith('docs/release/decisions/removals/'));
-      if (recordOnly) {
-        execFileSync('git', ['checkout', 'HEAD', '--', ...unmerged], { cwd: wt });
-        execFileSync('git', ['add', '--', ...unmerged], { cwd: wt });
+      // The family's own guard test (tests/removal/*, added by the removal
+      // commit and refined since) is a modify/delete conflict on revert: the
+      // revert's side wins — with the surface restored, its absence guard goes.
+      const addedGuards = new Set(git(['diff-tree', '--no-commit-id', '--name-only', '-r', '--diff-filter=A', sha, '--', 'tests/removal/'])
+        .split('\n').filter(Boolean));
+      const records = unmerged.filter((f) => f.startsWith('docs/release/decisions/removals/'));
+      const guards = unmerged.filter((f) => addedGuards.has(f));
+      const resolvable = unmerged.length > 0 && records.length + guards.length === unmerged.length;
+      if (resolvable) {
+        if (records.length) {
+          execFileSync('git', ['checkout', 'HEAD', '--', ...records], { cwd: wt });
+          execFileSync('git', ['add', '--', ...records], { cwd: wt });
+        }
+        if (guards.length) execFileSync('git', ['rm', '-q', '-f', '--', ...guards], { cwd: wt });
+        console.log(`${fam}: resolved revert conflicts on evidence/guard files only [${unmerged.join(', ')}]`);
       } else {
         console.error(`${fam}: revert --no-commit ${sha} conflicts — ${String(e.stderr ?? e.message).split('\n')[0]}${unmerged.length ? ` [${unmerged.join(', ')}]` : ''}`);
         ok = false;

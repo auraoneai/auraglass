@@ -25,11 +25,15 @@ test.describe('vite canary', () => {
     await page.emulateMedia({ forcedColors: 'active' });
     await page.goto('/plat/button');
     await page.waitForSelector('[data-ag-canary="plat-button"] button'); /* lazy route chunk */
-    /* ag.a11y forced-colors block (floors.css) pins --_ag-mat-blur: 0px on
-       [data-ag-variant] — a specific a11y value, never the failure fallback. */
+    /* The forced-colors block in floors.css pins the engine scalar
+       --_ag-blur: 0px on every [data-ag-surface] cell, over the ladder row
+       (generated/ladders.css writes a non-zero --_ag-blur for the regular
+       variant), so 0px proves the forced-colors override won. The private
+       --_ag-mat-* ladder handle was retired when ladders began writing the
+       engine scalars directly. */
     const blur = await page.evaluate(() => {
-      const el = document.querySelector('[data-ag-variant]');
-      return el ? getComputedStyle(el).getPropertyValue('--_ag-mat-blur').trim() : 'missing';
+      const el = document.querySelector('[data-ag-surface][data-ag-variant]');
+      return el ? getComputedStyle(el).getPropertyValue('--_ag-blur').trim() : 'missing';
     });
     expect(blur).toBe('0px');
     /* and the Button still paints a real edge under forced colors */

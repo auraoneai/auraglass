@@ -54,6 +54,32 @@ describe('registry lint rules', () => {
     expect(run('const k = process.env.STRIPE_API_KEY;').some((v) => v.rule === 'no-api-key')).toBe(true);
     expect(run("const k = process.env.PRISM_API_KEY;", { rel: 'app/api/ai/route.ts', file: 'registry/blocks/x/app/api/ai/route.ts' })).toEqual([]);
     expect(run("const k = process.env.PRISM_API_KEY;", { rel: 'app/api/ai/route.test.ts', file: 'x/route.test.ts' })).toEqual([]);
+    /* a server route may not name another key next to PRISM_API_KEY */
+    expect(run("const k = process.env.PRISM_API_KEY ?? process.env.OPENAI_API_KEY;", { rel: 'app/api/ai/route.ts', file: 'registry/blocks/x/app/api/ai/route.ts' })
+      .some((v) => v.rule === 'no-api-key')).toBe(true);
+  });
+  it('no-api-key: README may document PRISM_API_KEY only for an item whose server route reads it', () => {
+    const readme = '| `PRISM_API_KEY` | yes | server-only key |\n';
+    const md = (opts: Partial<Parameters<typeof lintFile>[0]>) => run(readme, { rel: 'registry/blocks/x/README.md', file: 'registry/blocks/x/README.md', ...opts });
+    expect(md({ prismRoute: true })).toEqual([]);
+    expect(md({ prismRoute: false }).some((v) => v.rule === 'no-api-key')).toBe(true);
+    expect(run('Set `OPENAI_API_KEY`.\n', { rel: 'registry/blocks/x/README.md', file: 'registry/blocks/x/README.md', prismRoute: true })
+      .some((v) => v.rule === 'no-api-key')).toBe(true);
+    /* a non-README client file never may, even when the item has the route */
+    expect(run('const k = process.env.PRISM_API_KEY;', { rel: 'registry/blocks/x/page.tsx', file: 'registry/blocks/x/page.tsx', prismRoute: true })
+      .some((v) => v.rule === 'no-api-key')).toBe(true);
+    /* lint() derives prismRoute from the item's own app/api/<name>/route.ts */
+    const root = mkdtempSync(join(tmpdir(), 'ag-lint-'));
+    for (const [id, route] of [['with-route', true], ['no-route', false]] as const) {
+      const dir = join(root, 'registry', 'blocks', id);
+      mkdirSync(join(dir, 'app', 'api', 'chat'), { recursive: true });
+      writeFileSync(join(dir, 'registry-item.json'), JSON.stringify({ name: id, type: 'registry:block', meta: { auraglass: { components: [] } } }));
+      writeFileSync(join(dir, 'README.md'), readme);
+      writeFileSync(join(dir, 'app', 'api', 'chat', 'route.ts'), route ? 'export const k = () => process.env.PRISM_API_KEY;\n' : 'export const k = () => null;\n');
+    }
+    const v = lint({ root }).filter((x) => x.rule === 'no-api-key').map((x) => x.file);
+    expect(v).toEqual([join('registry', 'blocks', 'no-route', 'README.md')]);
+    rmSync(root, { recursive: true });
   });
   it('no-client-key', () => {
     expect(run("const k = process.env.NEXT_PUBLIC_STRIPE_KEY;", { rel: 'index.tsx' }).some((v) => v.rule === 'no-client-key')).toBe(true);
