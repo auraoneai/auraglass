@@ -177,6 +177,42 @@ describe('5.0 AppShell (SURF-024)', () => {
     warn.mockRestore();
   });
 
+  // REQ-SURF-26: TabBar (navigation) registers its landmark name too.
+  it('two TabBar.Root aria-label="Sections" warn exactly once; a TabBar and Sidebar.Nav sharing a name warn', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const dupes = (name: string) =>
+      warn.mock.calls.flat().filter((c) => typeof c === 'string' && c.includes(`duplicate landmark name '${name}'`)).length;
+    const first = render(
+      <>
+        <TabBar.Root aria-label="Sections">
+          <TabBar.Item href="/a">A</TabBar.Item>
+        </TabBar.Root>
+        <TabBar.Root aria-label="Sections">
+          <TabBar.Item href="/b">B</TabBar.Item>
+        </TabBar.Root>
+      </>,
+    );
+    await Promise.resolve();
+    expect({ sections: dupes('Sections') }).toEqual({ sections: 1 });
+    first.unmount();
+    render(
+      <>
+        <Sidebar.Root>
+          <Sidebar.Nav aria-label="Library" />
+        </Sidebar.Root>
+        <TabBar.Root aria-label="Library">
+          <TabBar.Item href="/c">C</TabBar.Item>
+        </TabBar.Root>
+        <TabBar.Root aria-label="Unique">
+          <TabBar.Item href="/d">D</TabBar.Item>
+        </TabBar.Root>
+      </>,
+    );
+    await Promise.resolve();
+    expect({ library: dupes('Library'), unique: dupes('Unique') }).toEqual({ library: 1, unique: 0 });
+    warn.mockRestore();
+  });
+
   // ---- REQ-SURF-18: per-shell main ids shared with SkipLink ----
   it('two shells get distinct useId main ids; each skip link targets its own main', () => {
     render(
