@@ -11028,28 +11028,6 @@
   "status": "todo"
  },
  {
-  "id": "CMP-426",
-  "prd": "PRD-3",
-  "lane": "3h-M",
-  "system": "consumer-4x cases",
-  "file": "NEW:tests/fixtures/consumer-4x/cases/cmp/",
-  "action": "TEST",
-  "description": "On release/4.x (branch 4x-cmp/*): author the CMP subset of real 4.x usage (GlassButton, GlassInput, GlassSelectCompound, GlassSwitch, GlassCheckbox, GlassModal, GlassDrawer, GlassPopover, GlassTooltip, GlassDropdownMenu, GlassToast, GlassCard, Typography). Must compile on every 4.x minor unchanged and, after migrate 4to5, with 0 TODOs on mechanically mappable props (G-08).",
-  "depends_on": [],
-  "contract_seams": [],
-  "priority": "P0",
-  "test": "PLAT harness tests/fixtures/consumer-4x (lane L11 on both lines)",
-  "storybook": "n/a",
-  "acceptance": "REQ-CMP-135",
-  "reqs": [
-   "REQ-CMP-135"
-  ],
-  "branch": "release/4.x",
-  "source": "new (contract-v1.1)",
-  "status": "todo",
-  "gate": "G-07"
- },
- {
   "id": "CMP-427",
   "prd": "PRD-3",
   "lane": "3a-F",

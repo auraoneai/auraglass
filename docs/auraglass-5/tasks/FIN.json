@@ -3047,10 +3047,12 @@
   "prd": "PRD-F",
   "lane": "FIN-C",
   "system": "REQ-FIN-36 4.2 and 4.3 bridge (release/4.x)",
-  "file": "fragments/codemods/{mat,cmp,surf}.ts; docs/release/decisions/operator-codemods-qual.md",
+  "file": "scripts/release/verify-breaking-register.mjs; docs/release/decisions/operator-codemods-qual.md",
   "action": "MODIFY",
-  "description": "PLAT-62: port `verify-breaking-register.mjs --coverage` (writes `.artifacts/plat/deprecation-coverage.json`) to 4x and add it to the tag pipeline; publish `@auraglass/cli@0.x` via OIDC after `migrate 4to5 --dry-run` on the consumer fixture and `npm test -w packages/cli`; the `v4.3.0` tag requires non-empty `fragments/codemods/{mat,cmp,surf}.ts` on `release/4.x`, which arrive through the `next → release/4.x` codemods sync (REQ-FIN-13) of the rows authored on `next` by REQ-FIN-57 (MAT, PR #28's content), REQ-FIN-76 (CMP-133) and REQ-FIN-80 (SURF-14); `qual.ts` stays `{}` (QUAL declares no codemods, recorded in `docs/release/decisions/operator-codemods-qual.md`); `release-notes.mjs` on 4x.",
-  "depends_on": [],
+  "description": "PLAT-62: port `verify-breaking-register.mjs --coverage` (writes `.artifacts/plat/deprecation-coverage.json`) to 4x and add it to the tag pipeline; publish `@auraglass/cli@0.x` via OIDC after `migrate 4to5 --dry-run` on the consumer fixture and `npm test -w packages/cli`; the `v4.3.0` tag requires non-empty `fragments/codemods/{mat,cmp,surf}.ts` on `release/4.x`, which arrive through the `next → release/4.x` codemods sync (REQ-FIN-13) of the rows authored on `next` by REQ-FIN-57 (MAT, PR #28's content), REQ-FIN-76 (CMP-133) and REQ-FIN-80 (SURF-14); `qual.ts` stays `{}` (QUAL declares no codemods, recorded in `docs/release/decisions/operator-codemods-qual.md`); `release-notes.mjs` on 4x. fragments/codemods/{mat,cmp,surf}.ts are inputs delivered by the REQ-FIN-13 sync, not files this task writes. The tag-pipeline job edit in ci/plat.gitlab-ci.yml belongs to FIN-B (FIN-049), which owns that file on 4x.",
+  "depends_on": [
+   "FIN-049"
+  ],
   "contract_seams": [],
   "priority": "P1",
   "test": "ledger acceptance test(s) of the listed reqs, green in an allow_failure:false GitLab job (URL recorded)",

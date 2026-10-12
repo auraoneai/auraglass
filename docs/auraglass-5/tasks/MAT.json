@@ -1556,7 +1556,7 @@
   "system": "createBrandGlassTheme alias",
   "file": "src/theme/createBrandGlassTheme.ts",
   "action": "DEPRECATE",
-  "description": "Re-export createBrandTheme as createBrandGlassTheme with a one-time dev warning ('createBrandGlassTheme is deprecated; use createBrandTheme'); C-D cherry-picked to release/4.x for 4.3; moved to aura-glass/compat at 5.0 (DS-109).",
+  "description": "Re-export createBrandTheme as createBrandGlassTheme with a one-time dev warning ('createBrandGlassTheme is deprecated; use createBrandTheme'); C-D cherry-picked to release/4.x for 4.3; moved to aura-glass/compat at 5.0 (DS-109). Authored on next; reaches release/4.x for 4.3 through the REQ-FIN-13 sync (§2.3 exemption), not a 4x-mat/* branch.",
   "depends_on": [
    "MAT-065"
   ],
@@ -1569,7 +1569,7 @@
    "REQ-MAT-16",
    "REQ-MAT-67"
   ],
-  "branch": "release/4.x",
+  "branch": "next",
   "source": "DS-087",
   "status": "todo",
   "gate": "G-07"
@@ -1581,7 +1581,7 @@
   "system": "createGlassThemeCssVars",
   "file": "src/theme/createGlassTheme.ts",
   "action": "DEPRECATE",
-  "description": "createGlassThemeCssVars (:206) becomes a C-D wrapper returning the 4.x --glass-theme-* output with a one-time dev warning pointing to createGlassTheme(...).vars; deleted at 5.0 (DS-109).",
+  "description": "createGlassThemeCssVars (:206) becomes a C-D wrapper returning the 4.x --glass-theme-* output with a one-time dev warning pointing to createGlassTheme(...).vars; deleted at 5.0 (DS-109). Authored on next; reaches release/4.x for 4.3 through the REQ-FIN-13 sync (§2.3 exemption), not a 4x-mat/* branch.",
   "depends_on": [
    "MAT-064"
   ],
@@ -1594,7 +1594,7 @@
    "REQ-MAT-16",
    "REQ-MAT-67"
   ],
-  "branch": "release/4.x",
+  "branch": "next",
   "source": "DS-088",
   "status": "todo",
   "gate": "G-07"

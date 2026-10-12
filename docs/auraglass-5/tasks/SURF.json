@@ -13493,7 +13493,7 @@
   "system": "Waveform 5.1 export",
   "file": "src/media/index.ts; fragments/size-budgets/surf.ts; etc/api/media.api.md; etc/api/media.exports.json; fragments/deprecations/surf.ts",
   "action": "MODIFY",
-  "description": "5.1 (C-E, SC-12): export Waveform (8th ./media value) with its types; add the {Waveform} ≤2 KB row to fragments/size-budgets/surf.ts (PKG gate); regenerate etc/api/media.* via REL scripts; update the GlassVoiceWaveform/GlassMusicVisualizer fragments/deprecations/surf.ts replacement to Waveform (OI-MED-10).",
+  "description": "5.1 (C-E, SC-12): export Waveform (8th ./media value) with its types; add the {Waveform} ≤2 KB row to fragments/size-budgets/surf.ts (PKG gate); regenerate etc/api/media.* via REL scripts; update the GlassVoiceWaveform/GlassMusicVisualizer fragments/deprecations/surf.ts replacement to Waveform (OI-MED-10). 5.x-only: src/media/index.ts and etc/api/media.* do not exist on release/4.x.",
   "depends_on": [
    "SURF-468",
    "SURF-469",
@@ -13514,7 +13514,7 @@
    "REQ-SURF-140"
   ],
   "gate": "G-07",
-  "branch": "release/4.x (4x-surf/*)",
+  "branch": "next",
   "source": "MED-167",
   "status": "todo"
  },
