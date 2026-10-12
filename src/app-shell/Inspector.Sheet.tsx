@@ -61,7 +61,7 @@ export function InspectorSheet({ children, ...rest }: InspectorSheetProps) {
 
   // Focus returns to the InspectorToggle that opened the sheet (SURF-38).
   const finalFocus = React.useCallback(
-    () => rootEl?.querySelector<HTMLElement>('[data-ag-toggle="inspector"]') ?? true,
+    () => rootEl?.querySelector<HTMLElement>('[data-toggle="inspector"]') ?? true,
     [rootEl],
   );
 

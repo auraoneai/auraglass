@@ -6,7 +6,7 @@ export default defineMeta({
   entry: './app-shell',
   tier: 'T1',
   rsc: 'server',
-  parts: ['content', 'hit-area', 'icon', 'inspector', 'inspector-content', 'inspector-field', 'inspector-field-label', 'inspector-field-value', 'inspector-header', 'inspector-section', 'inspector-title', 'root', 'trigger'],
+  parts: ['content', 'edge-registrar', 'hit-area', 'icon', 'inspector', 'inspector-content', 'inspector-field', 'inspector-field-label', 'inspector-field-value', 'inspector-header', 'inspector-section', 'inspector-title', 'main', 'root', 'scroll-edge', 'top-bar', 'top-bar-title', 'top-bar-trailing', 'trigger'],
   states: ['open', 'closed'],
 
   material: { layer: 'chrome', refractionEligible: false },

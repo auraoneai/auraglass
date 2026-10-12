@@ -100,7 +100,7 @@ describe('Inspector (SURF-058)', () => {
     expect(screen.queryByRole('dialog')).toBeNull();
     expect(document.querySelector('[data-ag-part="trigger"]')).toBeNull();
     const toggle = screen.getByRole('button', { name: 'Open inspector' });
-    expect(toggle).toHaveAttribute('data-ag-toggle', 'inspector');
+    expect(toggle).toHaveAttribute('data-toggle', 'inspector');
     toggle.focus();
     fireEvent.click(toggle);
     const dialog = await screen.findByRole('dialog');
