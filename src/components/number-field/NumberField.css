@@ -87,6 +87,10 @@
   .ag-number-field [data-ag-part='increment'][data-disabled],
   .ag-number-field [data-ag-part='decrement'][data-disabled] {
     cursor: default;
+  }
+  /* REQ-CMP-13: a disabled stepper dims its glyph, never its own box */
+  .ag-number-field [data-ag-part='increment'][data-disabled] > :where(:not([data-ag-part='hit-area'])),
+  .ag-number-field [data-ag-part='decrement'][data-disabled] > :where(:not([data-ag-part='hit-area'])) {
     opacity: var(--ag-state-disabled-alpha);
   }
   /* Increment/decrement/input focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
@@ -100,7 +104,11 @@
     line-height: var(--ag-type-caption-leading);
     color: var(--ag-color-danger);
   }
-  .ag-number-field[data-disabled] > :where([data-ag-part]) {
+  /* REQ-CMP-13: dim inner content only; a [data-ag-surface] part (shell,
+     group, trigger, thumb) never takes opacity, its own parts dim instead.
+     BU Field wraps label + group in an unmarked div, so the content parts are
+     named explicitly (the steppers dim their glyph via the rule above). */
+  .ag-number-field[data-disabled] :where([data-ag-part='label'], [data-ag-part='scrub-area'], [data-ag-part='input'], [data-ag-part='description'], [data-ag-part='error']):not([data-ag-surface]) {
     opacity: var(--ag-state-disabled-alpha);
   }
 

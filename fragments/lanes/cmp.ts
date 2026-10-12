@@ -55,6 +55,15 @@ export default [
     remote: true,
     failClosed: true,
   },
+  // L6 — REQ-CMP-13: disabled surfaces never take opacity < 1
+  {
+    lane: "L6",
+    kind: "playwright",
+    path: "tests/e2e/cmp/material/disabled-no-opacity.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
   // L9 — motion spec
   {
     lane: "L9",

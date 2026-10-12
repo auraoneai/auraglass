@@ -18,11 +18,12 @@
     z-index: -1;
   }
 
-  /* Track = the root. Sizes 32x18 / 40x22 / 52x30 px expressed via tokens:
-     sm/md/lg map to --_ag-switch-track-{w,h} with space-token fallbacks. */
+  /* Track = the root (REQ-CMP-45). Outer box 32x18 / 40x22 / 52x30 px from
+     the comp tokens --ag-switch-track-{w,h}-{sm,md,lg} (border-box, so the
+     2px --_ag-switch-thumb-inset padding sits inside the track). */
   .ag-switch[data-ag-part='root'] {
-    inline-size: var(--_ag-switch-track-w-md, var(--ag-space-10));
-    block-size: var(--_ag-switch-track-h-md, var(--ag-space-5));
+    inline-size: var(--ag-switch-track-w-md);
+    block-size: var(--ag-switch-track-h-md);
     border-radius: var(--ag-radius-full);
     /* unchecked: the engine's content-sunken fill (the track is a surface);
        a darker on-surface wash on top keeps the off state legible on light
@@ -32,8 +33,8 @@
        length, so the declaration was invalid and the track had no edge) */
     box-shadow: inset 0 0 0 calc(var(--ag-focus-width) / 2) var(--ag-color-border);
     transition: opacity var(--ag-duration-micro) var(--ag-ease-standard), --ag-specular var(--ag-duration-micro) var(--ag-ease-standard), --_ag-press var(--ag-duration-micro) var(--ag-ease-standard);
-    padding: var(--_ag-switch-thumb-inset, 2px);
-    box-sizing: content-box;
+    padding: var(--_ag-switch-thumb-inset);
+    box-sizing: border-box;
     color: var(--ag-color-on-surface);
   }
   /* the root carries data-size-class=control, whose shared min-block-size
@@ -44,12 +45,12 @@
     min-block-size: 0;
   }
   .ag-switch[data-ag-part='root'][data-ag-size='sm'] {
-    inline-size: var(--_ag-switch-track-w-sm, var(--ag-space-8));
-    block-size: var(--_ag-switch-track-h-sm, var(--ag-space-4));
+    inline-size: var(--ag-switch-track-w-sm);
+    block-size: var(--ag-switch-track-h-sm);
   }
   .ag-switch[data-ag-part='root'][data-ag-size='lg'] {
-    inline-size: var(--_ag-switch-track-w-lg, var(--ag-space-12));
-    block-size: var(--_ag-switch-track-h-lg, var(--ag-space-6));
+    inline-size: var(--ag-switch-track-w-lg);
+    block-size: var(--ag-switch-track-h-lg);
   }
 
   .ag-switch[data-ag-part='root'][data-checked] {
@@ -57,39 +58,50 @@
     box-shadow: inset 0 0 0 calc(var(--ag-focus-width) / 2) var(--ag-color-accent);
   }
 
-  /* REQ-CMP-46: thumb slides via the translate property = track - thumb -
-     2*inset (track-h minus the root's inset padding is the thumb's block,
-     so w - h is the slide distance). Drag transform is BU's inline style —
+  /* REQ-CMP-46: thumb slides via the translate property. The thumb is
+     track-h - 2*inset square inside a track-w - 2*inset content box, so the
+     slide distance is track-w - track-h. Drag transform is BU's inline style —
      kept on transform so it never fights `translate`. */
   .ag-switch [data-ag-part='thumb'] {
     display: block;
-    block-size: 100%;
-    aspect-ratio: 1;
+    flex: none;
+    block-size: calc(var(--ag-switch-track-h-md) - 2 * var(--_ag-switch-thumb-inset));
+    inline-size: calc(var(--ag-switch-track-h-md) - 2 * var(--_ag-switch-thumb-inset));
     border-radius: var(--ag-radius-full);
     background: var(--ag-color-canvas);
     box-shadow: var(--ag-shadow-thin);
     translate: 0 0;
     transition: translate var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-standard));
   }
+  .ag-switch[data-ag-part='root'][data-ag-size='sm'] [data-ag-part='thumb'] {
+    block-size: calc(var(--ag-switch-track-h-sm) - 2 * var(--_ag-switch-thumb-inset));
+    inline-size: calc(var(--ag-switch-track-h-sm) - 2 * var(--_ag-switch-thumb-inset));
+  }
+  .ag-switch[data-ag-part='root'][data-ag-size='lg'] [data-ag-part='thumb'] {
+    block-size: calc(var(--ag-switch-track-h-lg) - 2 * var(--_ag-switch-thumb-inset));
+    inline-size: calc(var(--ag-switch-track-h-lg) - 2 * var(--_ag-switch-thumb-inset));
+  }
   .ag-switch[data-ag-part='root'][data-checked] [data-ag-part='thumb'] {
     translate: calc(
-      var(--ag-switch-track-w-md, var(--ag-space-10)) - var(--ag-switch-track-h-md, var(--ag-space-5))
+      var(--ag-switch-track-w-md) - var(--ag-switch-track-h-md)
     ) 0;
   }
   .ag-switch[data-ag-part='root'][data-ag-size='sm'][data-checked] [data-ag-part='thumb'] {
     translate: calc(
-      var(--ag-switch-track-w-sm, var(--ag-space-8)) - var(--ag-switch-track-h-sm, var(--ag-space-4))
+      var(--ag-switch-track-w-sm) - var(--ag-switch-track-h-sm)
     ) 0;
   }
   .ag-switch[data-ag-part='root'][data-ag-size='lg'][data-checked] [data-ag-part='thumb'] {
     translate: calc(
-      var(--ag-switch-track-w-lg, var(--ag-space-12)) - var(--ag-switch-track-h-lg, var(--ag-space-6))
+      var(--ag-switch-track-w-lg) - var(--ag-switch-track-h-lg)
     ) 0;
   }
   .ag-switch[data-ag-part='root'] {
     justify-content: flex-start;
   }
-  /* animating or dragging: glass while moving, will-change scoped to it */
+  /* animating or dragging: glass while moving (Switch.client renders the
+     thumb with allowNested while it moves, so the MAT nesting rule keeps its
+     optics; the inner fill returns at rest); will-change scoped to it */
   .ag-switch [data-ag-part='thumb'][data-ag-animating],
   .ag-switch [data-ag-part='thumb'][data-dragging] {
     will-change: translate;
@@ -99,7 +111,7 @@
     transition: none;
   }
 
-  .ag-switch[data-disabled] > :where([data-ag-part]) {
+  .ag-switch[data-disabled] > :where([data-ag-part]:not([data-ag-surface])) {
     opacity: var(--ag-state-disabled-alpha);
   }
 
