@@ -136,6 +136,7 @@
     "prepublishOnly": "node scripts/ci/require-ci-publish.js && npm run prepublish:verify",
     "artifact:publint": "publint",
     "artifact:attw": "attw --pack .",
+    "prestorybook:build": "npm run tokens:build",
     "storybook:build": "storybook build -o storybook-static",
     "docs:build": "node scripts/docs/gen-llms.mjs && node scripts/docs/install-pack.mjs && node scripts/docs/prepare-docs-app.mjs && node scripts/release/gen-deprecations.mjs --docs && npm run build -w apps/docs && node scripts/docs/verify-docs-out.mjs",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",

@@ -16,7 +16,10 @@
  *   no-peer-absent    the without-peer consumer really has no motion package
  *   no-peer-message   Node ESM import of aura-glass/motion there rejects with the
  *                     contract install message (not ERR_MODULE_NOT_FOUND)
- *   vite-no-peer      the same Vite client build fails without the peer and names it
+ *   vite-no-peer      the same Vite client build without the peer either fails naming
+ *                     it, or (Vite's optional-peer handling) routes motion/react to a
+ *                     stub chunk that throws when loaded, with the install-message
+ *                     guard bundled so the dynamic load rejects with that message
  *
  * Usage: node scripts/mat/verify-motion-entry.mjs [--tarball <path.tgz>] [--out <dir>]
  */
@@ -24,6 +27,7 @@ import { spawnSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, relative, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const ROOT = process.cwd();
 const MESSAGE =
@@ -162,9 +166,36 @@ try {
 
   const b = run('npx', ['--no-install', 'vite', 'build'], dir);
   writeFileSync(join(outDir, 'vite-no-peer.log'), b.out);
-  record('vite-no-peer', b.status !== 0 && /motion/.test(b.out),
-    b.status === 0 ? 'vite build succeeded without the peer (motion must not be bundled from aura-glass)'
-      : `vite build failed as required: ${b.out.trim().split('\n').filter((l) => /motion/.test(l)).slice(0, 2).join(' | ')}`);
+  if (b.status !== 0) {
+    record('vite-no-peer', /motion/.test(b.out),
+      `vite build failed${/motion/.test(b.out) ? ' naming the peer' : ' without naming the peer'}: ${b.out.trim().split('\n').filter((l) => /motion/.test(l)).slice(0, 2).join(' | ') || b.out.trim().split('\n').slice(-3).join(' | ')}`);
+  } else {
+    // Vite resolves a missing *optional* peer (peerDependenciesMeta) to a stub
+    // module that throws `Could not resolve "motion/react" imported by …` when
+    // evaluated, instead of failing the build. That is the bundler's documented
+    // behaviour, so a successful build is acceptable only when the missing
+    // peer still surfaces at runtime: the only route to motion/react is the
+    // throwing stub, that stub really throws, and the guard that maps the
+    // rejection to the contract install message is in the bundle.
+    const assets = walk(join(dir, 'dist')).filter((f) => /\.(m?js)$/.test(f));
+    const src = new Map(assets.map((f) => [f, readFileSync(f, 'utf8')]));
+    const STUB = /Could not resolve \\?["'`]motion\/react\\?["'`]/;
+    const stubs = assets.filter((f) => STUB.test(src.get(f)));
+    const reached = stubs.filter((s) => assets.some((f) => f !== s && src.get(f).includes(s.split('/').at(-1))));
+    const guarded = assets.some((f) => src.get(f).includes(MESSAGE));
+    let throws = false;
+    let thrown = '';
+    for (const s of reached) {
+      const r = run(process.execPath, ['--input-type=module', '-e', `await import(${JSON.stringify(pathToFileURL(s).href)})`], dir);
+      thrown = r.out.trim().split('\n').find((l) => STUB.test(l)) ?? r.out.trim().slice(0, 300);
+      throws = r.status !== 0 && STUB.test(r.out);
+      if (!throws) break;
+    }
+    const ok = stubs.length > 0 && reached.length === stubs.length && throws && guarded;
+    record('vite-no-peer', ok, ok
+      ? `vite build routed motion/react to a throwing missing-peer stub (${stubs.map((f) => relative(dir, f)).join(', ')}: ${thrown}); install message bundled`
+      : `vite build succeeded without the peer: stub chunks ${stubs.length}, imported ${reached.length}, throws ${throws}, install message bundled ${guarded}`);
+  }
 } catch (e) {
   record('no-peer', false, String(e.message ?? e).slice(0, 2000));
 }
