@@ -99,8 +99,16 @@ describe('plat:package:pack', () => {
     const release = (j.script as string[]).find((l) => l.includes('dry-run.mjs --tag'))!;
     expect(release).toContain('if [ "$AG_SCOPE" = "release" ]; then');
     expect(release).toContain('git fetch --no-tags origin "+refs/tags/*:refs/tags/*"');
-    expect(release).toContain(
-      'node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --out "$AURAGLASS_EVIDENCE_DIR/change-class.json"',
+    // REQ-PLAT-23 item 8: the re-run comes after the pack, over this job's
+    // tarball, with the export-snapshot diff required.
+    const lines = j.script as string[];
+    const rerunAt = lines.findIndex((l) => l.includes('classify-change.mjs'));
+    const tarballAt = lines.findIndex((l) => l.includes('AURAGLASS_TARBALL=$TARBALL'));
+    expect(rerunAt).toBeGreaterThan(tarballAt);
+    expect(tarballAt).toBeGreaterThan(lines.indexOf(release));
+    expect(lines[rerunAt]).toContain('if [ "$AG_SCOPE" = "release" ]; then');
+    expect(lines[rerunAt]).toContain(
+      'node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --head-tarball "$TARBALL" --require-snapshots --out "$AURAGLASS_EVIDENCE_DIR/change-class.json"',
     );
     expect(j.variables).toEqual({ GIT_DEPTH: '0' });
   });
@@ -560,11 +568,22 @@ describe('plat:gate:change-class receives the VisualClassReport (B3-6)', () => {
     expect(j.stage).toBe('certify');
     expect(STAGES.indexOf('certify')).toBeGreaterThan(STAGES.indexOf(job('plat:test:visual-4x').stage));
   });
-  it('needs qual:certify:l7 and plat:test:visual-4x with artifacts, both optional', () => {
+  it('needs qual:certify:l7, plat:test:visual-4x and plat:package:pack with artifacts, all optional', () => {
     expect(j.needs).toEqual([
       { job: 'qual:certify:l7', artifacts: true, optional: true },
       { job: 'plat:test:visual-4x', artifacts: true, optional: true },
+      // REQ-PLAT-23 item 8 / REQ-PLAT-28: head tarball for the real snapshot diff
+      { job: 'plat:package:pack', artifacts: true, optional: true },
     ]);
+  });
+  it('requires the export-snapshot diff on tags and reports G-07 coverage (REQ-PLAT-23, -28)', () => {
+    const s = yaml.stringify(j.script, { lineWidth: 0 });
+    expect(s).toContain('node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --require-snapshots');
+    expect(s).toContain('node scripts/release/export-snapshot.mjs --version "$NEWEST4X"');
+    expect(s).toContain('node scripts/release/export-snapshot.mjs --tarball "$HEAD_TGZ"');
+    expect(s).toContain('node scripts/release/verify-breaking-register.mjs $COV_ARGS');
+    expect(s).toContain('if [ "$CI_COMMIT_TAG" = "v5.0.0" ]; then COV_ARGS="$COV_ARGS --require-covered"; fi');
+    expect(s).toContain('if [ "$CI_COMMIT_TAG" = "v5.0.0" ] && [ "$COV_RC" != 0 ]; then echo "REQ-PLAT-28: G-07 coverage failed on the GA tag"; exit 1; fi');
   });
   it('the needed producers write the paths classify-change.mjs reads (lib/policy.mjs)', () => {
     const p = relPaths('/r');

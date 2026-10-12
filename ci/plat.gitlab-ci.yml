@@ -362,6 +362,9 @@ plat:gate:change-class:
   needs:
     - { job: "qual:certify:l7", artifacts: true, optional: true }   # .artifacts/qual/visual-class.json (§4.13.2, S-55)
     - { job: "plat:test:visual-4x", artifacts: true, optional: true } # .artifacts/plat/plat-test-visual-4x/visual-class.json
+    # REQ-PLAT-23 item 8 / REQ-PLAT-28: the head tarball ($AURAGLASS_TARBALL via
+    # the pack dotenv, .artifacts/pack/) for the real export-snapshot diff.
+    - { job: "plat:package:pack", artifacts: true, optional: true }
   rules:
     - if: $CI_COMMIT_TAG
       allow_failure: false
@@ -373,9 +376,36 @@ plat:gate:change-class:
     - |
       if [ "$AG_SCOPE" = "release" ]; then
         PREV=$(git tag --list --sort=-v:refname | grep -v "^$CI_COMMIT_TAG\$" | head -1)
-        node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE"
+        # REQ-PLAT-23 item 8: on a tag the snapshot diff (published $PREV
+        # tarball vs this pipeline's pack) is required, never skipped.
+        node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --require-snapshots
       else
         node scripts/release/classify-change.mjs --base "origin/$BASE" --line "$AG_LINE"
+      fi
+    # REQ-PLAT-28 (G-07): prior-deprecation coverage of every 4.x name removed
+    # on next, against the newest published 4.x tarball's export snapshot.
+    # Reported (non-blocking) on PR/main/pre-release scope; the v5.0.0 GA tag
+    # pipeline runs it with --require-covered and fails on any uncovered removal.
+    - |
+      if [ "$AG_LINE" = "5x" ]; then
+        COV_DIR=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$COV_DIR"
+        NEWEST4X=$(node --input-type=module -e "import { npmRegistry } from './scripts/release/lib/deprecation-coverage.mjs'; console.log(npmRegistry().newest4x() ?? '')")
+        HEAD_TGZ="${AURAGLASS_TARBALL:-}"
+        if [ -z "$HEAD_TGZ" ] && [ -d .artifacts/pack ]; then HEAD_TGZ=$(find .artifacts/pack -maxdepth 1 -name 'aura-glass-*.tgz' | head -1); fi
+        COV_RC=0
+        if [ -n "$NEWEST4X" ] && [ -n "$HEAD_TGZ" ] && [ -f "$HEAD_TGZ" ]; then
+          node scripts/release/export-snapshot.mjs --version "$NEWEST4X" --out "$COV_DIR/snapshot-$NEWEST4X.json" || COV_RC=$?
+          node scripts/release/export-snapshot.mjs --tarball "$HEAD_TGZ" --out "$COV_DIR/snapshot-head.json" || COV_RC=$?
+          if [ "$COV_RC" = 0 ]; then
+            COV_ARGS="--coverage-only --base-snapshot $COV_DIR/snapshot-$NEWEST4X.json --head-snapshot $COV_DIR/snapshot-head.json --out $COV_DIR/deprecation-coverage.json"
+            if [ "$CI_COMMIT_TAG" = "v5.0.0" ]; then COV_ARGS="$COV_ARGS --require-covered"; fi
+            node scripts/release/verify-breaking-register.mjs $COV_ARGS || COV_RC=$?
+          fi
+        else
+          echo "plat:gate:change-class: coverage inputs missing (newest 4.x: '${NEWEST4X:-none}', head tarball: '${HEAD_TGZ:-none}')"; COV_RC=1
+        fi
+        if [ "$CI_COMMIT_TAG" = "v5.0.0" ] && [ "$COV_RC" != 0 ]; then echo "REQ-PLAT-28: G-07 coverage failed on the GA tag"; exit 1; fi
+        if [ "$COV_RC" != 0 ]; then echo "REQ-PLAT-28: deprecation coverage reported uncovered removals or missing inputs (non-blocking before GA)"; fi
       fi
   artifacts:
     # change-class.json stays at the scripts/release/lib/policy.mjs path until
@@ -457,7 +487,6 @@ plat:package:pack:
         node scripts/release/dry-run.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE"
         git fetch --no-tags origin "+refs/tags/*:refs/tags/*"
         PREV=$(git tag --list --sort=-v:refname | grep -v "^$CI_COMMIT_TAG\$" | head -1)
-        node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --out "$AURAGLASS_EVIDENCE_DIR/change-class.json"
       fi
     - |
       if [ "$AG_LINE" = "4x" ]; then
@@ -502,6 +531,15 @@ plat:package:pack:
       TARBALL_MB=$(node -p '(require("node:fs").statSync(process.argv[1]).size / 1e6).toFixed(2)' "$TARBALL")
       echo "TARBALL_MB=$TARBALL_MB" >> .artifacts/plat/pack.env
       echo "PACK_SHA=$CI_COMMIT_SHA" >> .artifacts/plat/pack.env
+    # §4.13.7 "classify-change re-run" on release scope, after the pack so the
+    # export-snapshot diff (REQ-PLAT-23 item 8: published previous tag vs this
+    # tarball) is real and required; a disallowed class blocks plat:publish:npm.
+    - |
+      if [ "$AG_SCOPE" = "release" ]; then
+        TARBALL=$(ls .artifacts/pack/aura-glass-*.tgz | head -1)
+        # $PREV is the previous tag computed in the dry-run step above (same job shell).
+        node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --head-tarball "$TARBALL" --require-snapshots --out "$AURAGLASS_EVIDENCE_DIR/change-class.json"
+      fi
     # REQ-PLAT-16: dist-maps.tgz, the sourcemap release asset plat:release:notes
     # links, is produced here and only here (canonical, fail-closed; #179's
     # fail-open copy is dropped). 5x: scripts/build/post.mjs moved the maps out

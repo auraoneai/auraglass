@@ -117,6 +117,11 @@ export function entrySource(entry, { root = ROOT } = {}) {
     return row ? { source: row.source, subpath: '.' } : null;
   }
   if (kind === 'root') return { source: `src/root/${rest[0]}.ts`, subpath: `.${rest[0] === 'index' ? '' : `/${rest[0]}`}` };
+  if (kind === 'compat' && rest.length === 0) {
+    // the bare `compat` stem is the './compat' ENTRIES row (src/compat/index.ts)
+    const row = (manifest.entries ?? []).find((e) => e.subpath === './compat');
+    return row ? { source: row.source, subpath: './compat' } : null;
+  }
   if (kind === 'compat') return { source: `src/compat/${rest[0]}/index.ts`, subpath: `./compat/${rest[0]}` };
   if (kind === 'css') return { css: `src/${rest.join('/')}.css`, entry };
   if (kind === 'cli') return { source: 'packages/cli/src/index.ts', subpath: null, cli: true };
@@ -161,21 +166,39 @@ export function exportsKeysWithTypes(pkg) {
   return Object.entries(pkg.exports ?? {}).filter(([, v]) => v && typeof v === 'object' && 'types' in v).map(([k]) => k).sort();
 }
 
+// An unresolved path alias in a published d.ts ('@/…' never exists in the
+// tarball) makes the entry unanalysable for API Extractor (REQ-PLAT-22 4x).
+export function unresolvedAliases(text) {
+  return [...new Set([...text.matchAll(/(?:from|import)\s*\(?\s*['"](@\/[^'"]+)['"]/g)].map((m) => m[1]))].sort();
+}
+
 export function run4x({ root = ROOT } = {}) {
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
   const keys = exportsKeysWithTypes(pkg);
-  const manifest = { version: 1, mode: '4x', keys, unanalysable: [] };
-  const files = { 'etc/api/manifest.json': `${JSON.stringify(manifest, null, 2)}\n` };
+  // `unanalysable` keeps the key list; `entries[]` records each key's report
+  // status and, for unanalysable keys, the error (covered by the snapshot).
+  const manifest = { version: 1, mode: '4x', keys, unanalysable: [], entries: [] };
+  const files = {};
   for (const key of keys) {
     const slug = slugify(key);
     const target = pkg.exports[key].types;
-    let names = [];
-    if (target && existsSync(join(root, target))) {
-      try { names = extractDtsNames(readFileSync(join(root, target), 'utf8'), dirname(join(root, target))); }
-      catch { manifest.unanalysable.push(key); }
-    } else manifest.unanalysable.push(key);
-    const { apiMd } = reportFiles(key, names, {});
+    let names = []; let error = null;
+    const abs = typeof target === 'string' ? join(root, target) : null;
+    if (!abs || !existsSync(abs)) error = `types file ${typeof target === 'string' ? target : JSON.stringify(target)} does not exist`;
+    else {
+      try {
+        const text = readFileSync(abs, 'utf8');
+        const aliases = unresolvedAliases(text);
+        if (aliases.length) error = `unresolved path alias(es) ${aliases.join(', ')} in ${target}`;
+        names = extractDtsNames(text, dirname(abs));
+      } catch (e) { error = `${target}: ${e.message}`; }
+    }
+    const unanalysable = error ? [error] : [];
+    if (error) manifest.unanalysable.push(key);
+    manifest.entries.push({ key, slug, apiReport: error ? 'unanalysable' : 'ok', ...(error ? { error } : {}) });
+    const { exportsJson, apiMd } = reportFiles(key, names, { unanalysable });
     files[`etc/api/${slug}.api.md`] = apiMd;
+    files[`etc/api/${slug}.exports.json`] = exportsJson;
   }
   files['etc/api/manifest.json'] = `${JSON.stringify(manifest, null, 2)}\n`;
   return { files, manifest };

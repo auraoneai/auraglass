@@ -554,61 +554,13 @@ const w4 = [
 // --- lane W4 end ---
 
 // --- lane SURF-34 begin ---
-// REQ-SURF-34: 4.x navigation/top-bar names -> 5.0 app-shell family. Same
-// contract as the app-shell block: adapters live in compat until 6.0.0.
-const surf34 = [
-  {
-    id: 'DEP-S0633',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
-    symbol: 'GlassNavigation',
-    since: '4.3.0',
-    removeIn: '6.0.0',
-    replacement: 'Sidebar + Sidebar.Nav from aura-glass/app-shell',
-    codemod: 'app-shell-slots',
-    automation: 'partial',
-    breaking: 'B4',
-    message:
-      'GlassNavigation is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to Sidebar + Sidebar.Nav from aura-glass/app-shell.',
-    doc: '#dep-s0633',
-    compat: 'GlassNavigation',
-  },
-  {
-    id: 'DEP-S0634',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
-    symbol: 'GlassTopBar',
-    since: '4.3.0',
-    removeIn: '6.0.0',
-    replacement: 'TopBar.Root from aura-glass/app-shell',
-    codemod: 'app-shell-slots',
-    automation: 'partial',
-    breaking: 'B4',
-    message:
-      'GlassTopBar is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to TopBar.Root from aura-glass/app-shell.',
-    doc: '#dep-s0634',
-    compat: 'GlassTopBar',
-  },
-  {
-    id: 'DEP-S0635',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
-    symbol: 'GlassHeader',
-    since: '4.3.0',
-    removeIn: '6.0.0',
-    replacement: 'TopBar.Root from aura-glass/app-shell',
-    codemod: 'app-shell-slots',
-    automation: 'partial',
-    breaking: 'B4',
-    message:
-      'GlassHeader is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to TopBar.Root from aura-glass/app-shell.',
-    doc: '#dep-s0635',
-    compat: 'GlassHeader',
-  },
-] as const;
+// REQ-SURF-34: the 4.x navigation/top-bar names TopBar absorbs (GlassTopBar,
+// GlassHeader, GlassNavigation) are covered by DEP-S0002, DEP-S0003 and
+// DEP-S0029 in the app-shell/W1 blocks (removeIn 5.0.0, REQ-SURF-12). The
+// duplicate DEP-S0633..0635 rows (removeIn 6.0.0, and a 'GlassNavigation'
+// compat adapter that does not exist) were dropped; never re-add a second
+// row for a symbol that already has one.
+const surf34: DeprecationFragment = [];
 // --- lane SURF-34 end ---
 
 // --- lane SURF-47 begin ---
