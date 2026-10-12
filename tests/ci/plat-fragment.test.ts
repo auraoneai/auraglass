@@ -60,6 +60,22 @@ describe('plat:test:react19', () => {
   it('has react19-smoke and unit-react19 legs', () => {
     expect(j.parallel.matrix.map((l: any) => l.AG_REACT19_LEG)).toEqual(['react19-smoke', 'unit-react19']);
   });
+  it('react19-smoke runs the REQ-PLAT-46 hydration tests and the native primitives (REQ-PLAT-47)', () => {
+    const s = yaml.stringify(j.script, { lineWidth: 0 });
+    expect(s).toContain('npx jest --ci tests/react19/react19-smoke.test.tsx src/components/ssr/__tests__/clientBoundary.hydration.test.tsx src/primitives/native-primitives.test.tsx');
+    for (const f of ['tests/react19/react19-smoke.test.tsx', 'src/components/ssr/__tests__/clientBoundary.hydration.test.tsx', 'src/primitives/native-primitives.test.tsx'])
+      expect(existsSync(f)).toBe(true);
+  });
+  it('unit-react19 runs the full suite with the element-ref spy appended to the configured setup files', () => {
+    expect(yaml.stringify(j.script, { lineWidth: 0 })).toContain('npx jest --ci --config tests/react19/jest.unit-react19.config.js');
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const base = require('../../jest.config.js');
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const cfg = require('../react19/jest.unit-react19.config.js');
+    expect(cfg.testMatch).toEqual(base.testMatch);
+    expect(cfg.testPathIgnorePatterns).toEqual(base.testPathIgnorePatterns);
+    expect(cfg.setupFilesAfterEnv).toEqual([...base.setupFilesAfterEnv, '<rootDir>/tests/react19/element-ref-spy.ts']);
+  });
 });
 
 describe('plat:test:visual-4x', () => {

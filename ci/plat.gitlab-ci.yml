@@ -103,7 +103,14 @@ plat:test:react19:
     # REQ-PLAT-47: each leg runs on React 19 (tests/react19/runtime.ts asserts the major).
     - npm install --no-save --no-audit --no-fund --ignore-scripts react@19.3.0 react-dom@19.3.0 @types/react@19.3.0 @types/react-dom@19.3.0
     - test -f "tests/react19/$AG_REACT19_LEG.test.tsx"
-    - npx jest --ci --testPathPattern "tests/react19/$AG_REACT19_LEG"
+    # react19-smoke: the REQ-PLAT-46 hydration tests plus the native primitives.
+    # unit-react19: the full suite with the element-ref spy as a setup file.
+    - |
+      if [ "$AG_REACT19_LEG" = "react19-smoke" ]; then
+        npx jest --ci tests/react19/react19-smoke.test.tsx src/components/ssr/__tests__/clientBoundary.hydration.test.tsx src/primitives/native-primitives.test.tsx
+      else
+        npx jest --ci --config tests/react19/jest.unit-react19.config.js
+      fi
 
 plat:test:visual-4x:
   extends: .plat-playwright
