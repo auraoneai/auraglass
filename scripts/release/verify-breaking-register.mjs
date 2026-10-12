@@ -21,7 +21,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { relPaths } from './lib/policy.mjs';
-import { coverage as removalCoverage, dirRegistry, npmRegistry, snapshotRemovals } from './lib/deprecation-coverage.mjs';
+import { coverage as removalCoverage, dirRegistry, entryJudge, npmRegistry, snapshotRemovals } from './lib/deprecation-coverage.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 export const NOTICE_KINDS = new Set(['peer', 'engine', 'behavior']);
@@ -53,7 +53,14 @@ export function checkRegister(items, entries, guideText) {
 // deprecations.json carries the id.
 export function coverage(entries, { registry, published = {}, allowlist = new Set(), removals = [], ga = false } = {}) {
   const source = registry ?? { published: (version) => Object.hasOwn(published, version) ? version : null, packedIds: (version) => published[version] ?? [] };
-  return { ...removalCoverage({ entries, removals, registry: source, allowlist }), ga };
+  const judge = entryJudge({ registry: source, allowlist });
+  // `entries`: one row per deprecation entry (the per-entry view of the report);
+  // `removals`/`uncovered`: the removal rows the gate counts.
+  const rows = entries.map((e) => ({
+    id: e.id, kind: e.kind, symbol: e.symbol, entry: e.entry, removeIn: e.removeIn,
+    since: e.since, breaking: e.breaking, ...judge(e),
+  }));
+  return { ...removalCoverage({ entries, removals, registry: source, allowlist, judge }), entries: rows, ga };
 }
 
 export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {

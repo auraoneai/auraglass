@@ -41,7 +41,7 @@ export function expectAdapter(row: CompatRow): void {
   try {
     ensurePortal();
     const props = { ...row.args.props, ...row.extra };
-    render(
+    const first = render(
       <AuraGlassProvider>
         <row.C {...props} />
       </AuraGlassProvider>,
@@ -55,6 +55,9 @@ export function expectAdapter(row: CompatRow): void {
     expect(warnings[0]).toMatch(DEP_S);
     expect(warnings[0]!.match(DEP_S)![0]).toBe(row.id);
 
+    // Remount (not a second simultaneous instance): two live copies of a named
+    // landmark adapter would rightly trip the duplicate-landmark warning.
+    first.unmount();
     render(
       <AuraGlassProvider>
         <row.C {...props} />
