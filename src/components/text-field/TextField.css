@@ -154,9 +154,7 @@
       color: FieldText;
     }
   }
-}
 
-@layer ag.components {
 /* REQ-CMP-62: avoid iOS input zoom on coarse pointers. */
 @media (pointer: coarse) {
   .ag-text-field [data-ag-part='control'] { font-size: max(16px, 1em); }

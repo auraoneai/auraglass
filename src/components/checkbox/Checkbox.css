@@ -111,9 +111,7 @@
       color: HighlightText;
     }
   }
-}
 
-@layer ag.components {
 /* REQ-CMP-53: check path draws in on [data-checked] — pathLength=1 +
    stroke-dasharray:1, dashoffset 1 -> 0 over duration-micro; instant under
    reduced-motion and calm/none. */

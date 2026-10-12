@@ -72,9 +72,7 @@
     outline: var(--ag-focus-width) solid var(--ag-color-focus-inner);
     outline-offset: calc(var(--ag-focus-width) * -1);
   }
-}
 
-@layer ag.components {
 /* REQ-CMP-40: concentric item shape inside capsule roots — inner radius =
    max(0, root radius - root inset padding). */
 .ag-toolbar[data-ag-shape='capsule'] .ag-button {
@@ -91,7 +89,7 @@
   display: none;
 }
 @container (max-width: 480px) {
-  .ag-toolbar [data-ag-priority='low'] {
+  .ag-toolbar [data-priority='low'] {
     display: none;
   }
   .ag-toolbar [data-ag-part='overflow'] {
