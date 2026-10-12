@@ -21,6 +21,7 @@
     "src/components/description-list/DescriptionList.meta.ts",
     "src/components/grid/Grid.meta.ts",
     "src/components/heading/Heading.meta.ts",
+    "src/components/image-list/ImageList.meta.ts",
     "src/components/kbd/Kbd.meta.ts",
     "src/components/link/Link.meta.ts",
     "src/components/separator/Separator.meta.ts",
@@ -206,6 +207,7 @@
     "src/icons/status/index.ts",
     "src/icons/status/info.tsx",
     "src/icons/types.ts",
+    "src/internal/cn.ts",
     "src/primitives/Label.meta.ts",
     "src/primitives/Slot.meta.ts",
     "src/primitives/VisuallyHidden.meta.ts",
@@ -295,10 +297,6 @@
     },
     {
       "name": "CheckboxGroup",
-      "rsc": "client"
-    },
-    {
-      "name": "Chip",
       "rsc": "client"
     },
     {
@@ -415,7 +413,7 @@
     },
     {
       "name": "ImageList",
-      "rsc": "client"
+      "rsc": "server"
     },
     {
       "name": "ImageViewer",
@@ -438,10 +436,6 @@
       "rsc": "client"
     },
     {
-      "name": "KeyValueEditor",
-      "rsc": "client"
-    },
-    {
       "name": "Label",
       "rsc": "server"
     },
@@ -458,6 +452,10 @@
     },
     {
       "name": "MediaControls",
+      "rsc": "client"
+    },
+    {
+      "name": "MediaScrubber",
       "rsc": "client"
     },
     {
@@ -506,6 +504,10 @@
     },
     {
       "name": "RadioGroup",
+      "rsc": "client"
+    },
+    {
+      "name": "RangeCalendar",
       "rsc": "client"
     },
     {
@@ -696,8 +698,7 @@
     },
     {
       "subpath": "./primitives",
-      "safe": false,
-      "reason": "client signal in src/primitives/Portal.tsx"
+      "safe": true
     },
     {
       "subpath": "./icons",
@@ -709,11 +710,13 @@
     },
     {
       "subpath": "./app-shell",
-      "safe": true
+      "safe": false,
+      "reason": "client signal in src/app-shell/parseAppShellCookie.ts"
     },
     {
       "subpath": "./data",
-      "safe": true
+      "safe": false,
+      "reason": "client signal in src/data/stat-card/StatCard.tsx"
     },
     {
       "subpath": "./date",
@@ -741,7 +744,8 @@
     },
     {
       "subpath": "./compat",
-      "safe": true
+      "safe": false,
+      "reason": "client signal in src/data/stat-card/StatCard.tsx"
     }
   ]
 }

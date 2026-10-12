@@ -2597,7 +2597,7 @@
       "flagship": null,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "material-lab--overview",
+      "storyId": "material-lab-examples--overview",
       "script": "tests/a11y/manual/scripts/mat/surface-material-lab.md",
       "record": "tests/a11y/manual/records/mat/surface-material-lab-voiceover-macos.json",
       "required": true
@@ -2609,7 +2609,7 @@
       "flagship": null,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "material-lab--overview",
+      "storyId": "material-lab-examples--overview",
       "script": "tests/a11y/manual/scripts/mat/surface-material-lab.md",
       "record": "tests/a11y/manual/records/mat/surface-material-lab-voiceover-ios.json",
       "required": true
@@ -2621,7 +2621,7 @@
       "flagship": null,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "material-lab--overview",
+      "storyId": "material-lab-examples--overview",
       "script": "tests/a11y/manual/scripts/mat/surface-material-lab.md",
       "record": "tests/a11y/manual/records/mat/surface-material-lab-nvda-chrome.json",
       "required": true
@@ -2633,7 +2633,7 @@
       "flagship": null,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "material-lab--overview",
+      "storyId": "material-lab-examples--overview",
       "script": "tests/a11y/manual/scripts/mat/surface-material-lab.md",
       "record": "tests/a11y/manual/records/mat/surface-material-lab-talkback-chrome.json",
       "required": true
@@ -2645,7 +2645,7 @@
       "flagship": null,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "material-lab--overview",
+      "storyId": "material-lab-examples--overview",
       "script": "tests/a11y/manual/scripts/mat/surface-material-lab.md",
       "record": "tests/a11y/manual/records/mat/surface-material-lab-touch-ios.json",
       "required": true
@@ -2657,7 +2657,7 @@
       "flagship": null,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "material-lab--overview",
+      "storyId": "material-lab-examples--overview",
       "script": "tests/a11y/manual/scripts/mat/surface-material-lab.md",
       "record": "tests/a11y/manual/records/mat/surface-material-lab-touch-android.json",
       "required": true
