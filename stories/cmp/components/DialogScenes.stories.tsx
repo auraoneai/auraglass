@@ -6,6 +6,7 @@ import { OverlayStage } from '../overlays/OverlayStage';
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Dialog } from '../../../src/components/dialog';
+import { Button } from '../../../src/components/button';
 import { TextField } from '../../../src/components/text-field';
 import { Select } from '../../../src/components/select';
 import { Popover } from '../../../src/components/popover';

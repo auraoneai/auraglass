@@ -251,7 +251,11 @@ describe('Command SURF-60 (item rules in the SURF file)', () => {
     );
     fireEvent.click(screen.getByRole('option', { name: 'Save' }));
     expect(select).toHaveBeenCalledTimes(1);
-    expect(change).toHaveBeenCalledWith('save');
+    expect(change).toHaveBeenCalledTimes(1);
+    expect(change).toHaveBeenCalledWith('save', {
+      event: expect.any(MouseEvent),
+      reason: 'item-press',
+    });
   });
 });
 
