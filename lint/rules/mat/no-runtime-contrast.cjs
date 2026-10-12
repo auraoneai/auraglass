@@ -25,6 +25,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const EXEMPTIONS_FILE = path.join(__dirname, 'no-runtime-contrast.exemptions.json');
+/* AG_NO_RUNTIME_CONTRAST_EXEMPTIONS overrides the rows file (tests point it at
+   fixture rows so the expiry/stale mechanics stay covered once the real file
+   is empty). Read at call time, never cached across different files. */
+const exemptionsFile = () => process.env.AG_NO_RUNTIME_CONTRAST_EXEMPTIONS
+  ? path.resolve(process.env.AG_NO_RUNTIME_CONTRAST_EXEMPTIONS)
+  : EXEMPTIONS_FILE;
 const PACKAGE_JSON = path.join(__dirname, '..', '..', '..', 'package.json');
 
 /* Minimal SemVer 2.0 precedence compare (core, then pre-release identifiers). */
@@ -54,18 +60,23 @@ function compareSemver(a, b) {
 
 /* Temporary exemption rows (REQ-MAT-64). A row is active only while the
    package version is below its `expires` version. */
-function loadExemptions(version = JSON.parse(fs.readFileSync(PACKAGE_JSON, 'utf8')).version) {
-  const rows = JSON.parse(fs.readFileSync(EXEMPTIONS_FILE, 'utf8')).rows ?? [];
+function loadExemptions(version = JSON.parse(fs.readFileSync(PACKAGE_JSON, 'utf8')).version, file = exemptionsFile()) {
+  const rows = JSON.parse(fs.readFileSync(file, 'utf8')).rows ?? [];
   return rows.map((row) => ({ ...row, expired: compareSemver(version, row.expires) >= 0 }));
 }
 
 const toPosix = (f) => String(f).replace(/\\/g, '/');
-const ACTIVE_EXEMPT_PATHS = loadExemptions().filter((r) => !r.expired).map((r) => r.path);
+const activeCache = new Map();
+const activeExemptPaths = () => {
+  const file = exemptionsFile();
+  if (!activeCache.has(file)) activeCache.set(file, loadExemptions(undefined, file).filter((r) => !r.expired).map((r) => r.path));
+  return activeCache.get(file);
+};
 
 const isExempt = (f) => {
   const file = toPosix(f);
   if (/(?:^|\/)src\/backdrops\//.test(file)) return true;
-  return ACTIVE_EXEMPT_PATHS.some((p) => file.startsWith(p) || file.includes(`/${p}`));
+  return activeExemptPaths().some((p) => file.startsWith(p) || file.includes(`/${p}`));
 };
 
 function create(context) {
@@ -161,4 +172,4 @@ const agConfig = [
   },
 ];
 
-module.exports = { meta, create, agConfig, compareSemver, loadExemptions, EXEMPTIONS_FILE };
+module.exports = { meta, create, agConfig, compareSemver, loadExemptions, exemptionsFile, EXEMPTIONS_FILE };

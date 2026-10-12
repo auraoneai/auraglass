@@ -1,0 +1,13 @@
+{
+  "rule": "auraglass/no-runtime-contrast",
+  "note": "Test fixture rows for tests/lint/mat/no-runtime-contrast.test.ts (loaded via AG_NO_RUNTIME_CONTRAST_EXEMPTIONS). Not the real exemption list.",
+  "rows": [
+    {
+      "path": "src/media/sampling/",
+      "owner": "SURF",
+      "req": "REQ-MAT-64",
+      "until": "REQ-FIN-86 (FIN-F) moves the owned-pixel sampler under src/backdrops/** with output limited to data-ag-backdrop",
+      "expires": "5.0.0-rc.1"
+    }
+  ]
+}
