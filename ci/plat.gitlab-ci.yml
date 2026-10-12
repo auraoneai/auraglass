@@ -267,18 +267,31 @@ plat:test:registry:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
   script:
     - 'test -f scripts/registry/build.mjs || { echo "PENDING: scripts/registry/build.mjs (lane 1f)"; exit 1; }'
-    - node scripts/registry/build.mjs
+    # Candidate (discovery) build: the render gate's input, so the GA omission
+    # rule waits for the certified build below.
+    - node scripts/registry/build.mjs --candidate
     - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
     - cp registry/registry-report.json "$AURAGLASS_EVIDENCE_DIR/registry-report.json"
     - node scripts/registry/lint.mjs
     # REQ-PLAT-97: pack aura-glass + aura-glass-{cli,registry} from this
     # commit, scaffold Next 16 + Vite apps, init/add every item, build both.
     - node scripts/registry/render-setup.mjs
+    # REQ-PLAT-97 render gate (Chromium + WebKit; its own config, the root one
+    # does not match tests/dx) -> per-item certification for CI_COMMIT_SHA ->
+    # certified build (REQ-PLAT-94: only items that passed every assertion are
+    # published; the report copy in the job dir is the certified one) -> the
+    # shadcn interop spec over the published items. Every step runs; the job
+    # fails if any failed.
     - |
-      for s in tests/dx/registry-render.spec.ts tests/dx/registry-shadcn-interop.spec.ts; do
-        test -f "$s" || { echo "PENDING: $s (lane 1f)"; exit 1; }
-        npx playwright test "$s"
-      done
+      export AG_REGISTRY_CERT_DIR="$AURAGLASS_EVIDENCE_DIR/registry-render-records"
+      export AG_REGISTRY_CERTIFICATION="$AURAGLASS_EVIDENCE_DIR/registry-certification.json"
+      rc=0
+      npx playwright test -c tests/dx/registry.playwright.config.ts || rc=1
+      node scripts/registry/certification.mjs --records "$AG_REGISTRY_CERT_DIR" --index registry/registry.json --out "$AG_REGISTRY_CERTIFICATION" || rc=1
+      node scripts/registry/build.mjs --certification "$AG_REGISTRY_CERTIFICATION" || rc=1
+      cp registry/registry-report.json "$AURAGLASS_EVIDENCE_DIR/registry-report.json"
+      npx playwright test -c playwright.dx-e2e.config.ts || rc=1
+      exit "$rc"
   artifacts:
     paths: [".artifacts/plat/$CI_JOB_NAME_SLUG/", apps/docs/public/r/]
 
@@ -375,10 +388,14 @@ plat:gate:change-class:
     - 'test -f scripts/release/classify-change.mjs || { echo "PENDING: scripts/release/classify-change.mjs (lane 1c)"; exit 1; }'
     - |
       if [ "$AG_SCOPE" = "release" ]; then
-        PREV=$(git tag --list --sort=-v:refname | grep -v "^$CI_COMMIT_TAG\$" | head -1)
-        # REQ-PLAT-23 item 8: on a tag the snapshot diff (published $PREV
-        # tarball vs this pipeline's pack) is required, never skipped.
-        node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --require-snapshots
+        # REQ-PLAT-13: the previous tag on the same line (same major, semver-lower),
+        # the rule dry-run.mjs uses; a v4.* tag never picks a v5.* base.
+        PREV=$(node scripts/release/dry-run.mjs --print-previous --tag "$CI_COMMIT_TAG" --line "$AG_LINE")
+        if [ -n "$PREV" ]; then
+          node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --require-snapshots
+        else
+          echo "plat:gate:change-class: $CI_COMMIT_TAG is the first release tag of its major, no previous tag to classify against"
+        fi
       else
         node scripts/release/classify-change.mjs --base "origin/$BASE" --line "$AG_LINE"
       fi
@@ -476,6 +493,10 @@ plat:package:pack:
     - { job: "plat:integration:next" }
     - { job: "plat:integration:vite" }
   rules:
+    # REQ-PLAT-13: fail closed in the tag pipeline (dry-run, verify-pack and the
+    # change-class re-run block the tag directly, not only via pack-record.json).
+    - if: $CI_COMMIT_TAG
+      allow_failure: false
     - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release"
   script:
     # REQ-PLAT-05/39: first script line, unconditional — the script itself
@@ -486,7 +507,12 @@ plat:package:pack:
         test -f scripts/release/dry-run.mjs || { echo "PENDING: scripts/release/dry-run.mjs"; exit 1; }
         node scripts/release/dry-run.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE"
         git fetch --no-tags origin "+refs/tags/*:refs/tags/*"
-        PREV=$(git tag --list --sort=-v:refname | grep -v "^$CI_COMMIT_TAG\$" | head -1)
+        # REQ-PLAT-13: same-line previous tag (dry-run.mjs previousTag()), not the
+        # newest tag of any major.
+        PREV=$(node scripts/release/dry-run.mjs --print-previous --tag "$CI_COMMIT_TAG" --line "$AG_LINE")
+        if [ -n "$PREV" ]; then
+          node scripts/release/classify-change.mjs --base "$PREV" --line "$AG_LINE" --out "$AURAGLASS_EVIDENCE_DIR/change-class.json"
+        fi
       fi
     - |
       if [ "$AG_LINE" = "4x" ]; then
@@ -678,7 +704,9 @@ plat:release:notes:
   release:
     tag_name: $CI_COMMIT_TAG
     name: "AuraGlass $CI_COMMIT_TAG"
-    description: "Release notes for this tag are generated by the pipeline into .artifacts/plat/plat-release-notes/release-notes.md (linked asset)."
+    # REQ-PLAT-16: the Release body IS the generated notes (a path starting with
+    # ./ is read from the job's workspace by release-cli).
+    description: "./.artifacts/plat/plat-release-notes/release-notes.md"
     assets:
       links:
         - { name: "release-notes.md", url: "$CI_JOB_URL/artifacts/file/.artifacts/plat/plat-release-notes/release-notes.md", link_type: other }
