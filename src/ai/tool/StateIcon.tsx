@@ -36,7 +36,7 @@ export function StateIcon({ state, size = 16 }: StateIconProps) {
     <svg
       aria-hidden="true"
       data-ag-part="state-icon"
-      data-ag-icon={state}
+      data-icon={state}
       width={size}
       height={size}
       viewBox="0 0 24 24"

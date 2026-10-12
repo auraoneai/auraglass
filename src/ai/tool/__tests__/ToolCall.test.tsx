@@ -146,7 +146,7 @@ describe('ToolCall', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const { container } = render(<ToolCall part={part(state)} />);
     const icon = trigger(container).querySelector('svg[data-ag-part="state-icon"]')!;
-    expect(icon.getAttribute('data-ag-icon')).toBe(display);
+    expect(icon.getAttribute('data-icon')).toBe(display);
     expect(icon.getAttribute('aria-hidden')).toBe('true');
     expect(trigger(container).querySelector('[data-ag-part="tool-state"]')!.textContent).toBe(label);
     warn.mockRestore();
