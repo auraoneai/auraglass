@@ -15,7 +15,9 @@ type Story = StoryObj<typeof sbMeta>;
 
 /* Switch is a content control: it sits on a content-raised panel over the
    scene (never directly on glass). */
-function NotificationSettings() {
+/* An element builder, not a component: stories call it so Switch stays in the
+   story's static element tree (the ref-forwarding check attaches `ref` there). */
+function notificationSettings() {
   return (
     <Stage>
       <Section title="Switch" note="Accent track when on; a sunken track with a hairline rim when off.">
@@ -80,7 +82,7 @@ export const States: Story = {
   ),
 };
 
-export const Default: Story = { render: () => <NotificationSettings /> };
+export const Default: Story = { render: () => notificationSettings() };
 
 /* The story tests/a11y/apg/cmp/switch.apg.spec.ts drives (Space / Enter per SWITCH_KEYS). */
-export const Keyboard: Story = { tags: ['apg'], render: () => <NotificationSettings /> };
+export const Keyboard: Story = { tags: ['apg'], render: () => notificationSettings() };

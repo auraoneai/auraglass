@@ -15,7 +15,9 @@ type Story = StoryObj<typeof sbMeta>;
 
 /* ToggleGroup is a content control: a sunken well on a content-raised panel;
    the pressed item is an opaque raised platter. */
-function TextStyle() {
+/* An element builder, not a component: stories call it so ToggleGroup.Root stays in the
+   story's static element tree (the ref-forwarding check attaches `ref` there). */
+function textStyle() {
   return (
     <Stage>
       <Section title="Toggle group" note="Single selection: the pressed item lifts out of the well.">
@@ -76,10 +78,10 @@ export const States: Story = {
   ),
 };
 
-export const Default: Story = { render: () => <TextStyle /> };
+export const Default: Story = { render: () => textStyle() };
 
 /* The story tests/a11y/apg/cmp/toggle-group.apg.spec.ts drives (roving focus with loop, Home/End, Enter/Space). */
-export const Keyboard: Story = { tags: ['apg'], render: () => <TextStyle /> };
+export const Keyboard: Story = { tags: ['apg'], render: () => textStyle() };
 
 export const Multiple: Story = {
   render: () => (

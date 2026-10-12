@@ -18,7 +18,9 @@ const option: React.CSSProperties = { display: 'flex', alignItems: 'center', gap
 const stack: React.CSSProperties = { display: 'grid', gap: 'var(--ag-space-2)' };
 const caption: React.CSSProperties = { margin: 0, fontWeight: 'var(--ag-type-label-weight)' };
 
-function TwoBoxes() {
+/* An element builder, not a component: stories call it so CheckboxGroup stays in the
+   story's static element tree (the ref-forwarding check attaches `ref` there). */
+function twoBoxes() {
   return (
     <CheckboxGroup defaultValue={['a']}>
       <input type="checkbox" aria-label="a" defaultChecked />
@@ -73,7 +75,7 @@ export const States: Story = {
   ),
 };
 
-export const Default: Story = { render: () => <TwoBoxes /> };
+export const Default: Story = { render: () => twoBoxes() };
 
 /* The story tests/a11y/apg/cmp/checkbox.apg.spec.ts drives for the group pattern (every box stays a tab stop). */
-export const Keyboard: Story = { tags: ['apg'], render: () => <TwoBoxes /> };
+export const Keyboard: Story = { tags: ['apg'], render: () => twoBoxes() };

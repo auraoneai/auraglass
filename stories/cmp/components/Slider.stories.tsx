@@ -19,7 +19,9 @@ const label: React.CSSProperties = {
   fontWeight: 'var(--ag-type-label-weight)',
 };
 
-function Volume() {
+/* An element builder, not a component: stories call it so Slider.Root stays in the
+   story's static element tree (the ref-forwarding check attaches `ref` there). */
+function volume() {
   return (
     <Stage>
       <Section title="Slider" note="Opaque thumb on a sunken track; marks and labels sit inside the slider box.">
@@ -92,10 +94,10 @@ export const States: Story = {
   ),
 };
 
-export const Default: Story = { render: () => <Volume /> };
+export const Default: Story = { render: () => volume() };
 
 /* The story tests/a11y/apg/cmp/slider.apg.spec.ts drives (Arrow ±step, Shift/Page ±largeStep, Home/End, RTL mirror). */
-export const Keyboard: Story = { tags: ['apg'], render: () => <Volume /> };
+export const Keyboard: Story = { tags: ['apg'], render: () => volume() };
 
 export const Range: Story = {
   render: () => (

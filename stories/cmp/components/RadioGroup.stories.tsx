@@ -14,7 +14,9 @@ const sbMeta = {
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
-function BillingCycle() {
+/* An element builder, not a component: stories call it so RadioGroup.Root stays in the
+   story's static element tree (the ref-forwarding check attaches `ref` there). */
+function billingCycle() {
   return (
     <Stage>
       <Section title="Radio group" note="One choice from a short list; the ring is drawn for every option.">
@@ -75,10 +77,10 @@ export const States: Story = {
   ),
 };
 
-export const Default: Story = { render: () => <BillingCycle /> };
+export const Default: Story = { render: () => billingCycle() };
 
 /* The story tests/a11y/apg/cmp/radio-group.apg.spec.ts drives (one tab stop; arrows move and select with wrap). */
-export const Keyboard: Story = { tags: ['apg'], render: () => <BillingCycle /> };
+export const Keyboard: Story = { tags: ['apg'], render: () => billingCycle() };
 
 function Choice({ name, price, detail }: { name: string; price: string; detail: string }) {
   return (
