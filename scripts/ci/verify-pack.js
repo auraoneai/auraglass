@@ -76,6 +76,18 @@ export function run() {
          key (§1.2 R5) — d.ts declarations may name it; what must never ship
          is the attribute emitted by a module (js/css usage). */
       else if (rel.startsWith('package/dist/') && !rel.endsWith('.d.ts') && text.includes('data-ag-seed')) problems.push(`data-ag-seed inside ${rel}`);
+      /* REQ-SURF-160: every relative url() in a shipped css file resolves to a
+         file inside the tarball (e.g. dist/backdrops.css → the packed
+         grain-112.avif/png tiles). */
+      if (rel.endsWith('.css')) {
+        for (const m of text.toString('utf8').matchAll(/url\(\s*(['"]?)([^'")\s]+)\1\s*\)/g)) {
+          const ref = m[2];
+          if (/^(?:[a-z][a-z0-9+.-]*:|\/|#)/i.test(ref) || ref.includes('var(')) continue;
+          const target = path.resolve(path.dirname(f), ref.replace(/[?#].*$/, ''));
+          const inside = target.startsWith(path.join(exdir, 'package') + path.sep);
+          if (!inside || !fs.existsSync(target)) problems.push(`unresolved url(${ref}) in ${rel.replace(/^package\//, '')}`);
+        }
+      }
     }
     /* REQ-PLAT-106: the shipped llms.txt names this exact version (a mismatch
        blocks release), stays ≤12 KB and recommends no Glass* names. */

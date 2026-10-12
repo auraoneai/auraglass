@@ -17,8 +17,8 @@
        rows, reported pending, until MAT's tokens:build emits it.
      - build/css-ownership.json: {selectors: {prefix: bundle}, a11y: {prefix}} —
        a selector emitted into a bundle it does not own fails the build. */
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync, copyFileSync } from 'node:fs';
+import { join, dirname, relative, posix } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { transform as esbuildTransform } from 'esbuild';
 import { ROOT, SRC, DIST, walk } from './graph.mjs';
@@ -279,11 +279,40 @@ function layerSupplements(layer, root) {
   return out;
 }
 
-/** Assemble one css bundle file. Returns the css text. */
-export async function assembleBundle(bundle, fragments, root = ROOT) {
+/** REQ-SURF-160 (L2): a fragment's relative url() is written against its
+    source file (src/backdrops/presets/grain.css → ../assets/grain-112.avif),
+    but it ships concatenated into dist/<bundle>. Rebase every relative url()
+    onto the asset's dist copy (dist/<path under src/>) and report the copy.
+    Absolute, scheme (data:, https:), fragment-only (#id) and var()-built
+    urls are left alone; a relative url() whose file does not exist fails the
+    build. Returns { css, assets: [{ from, to }] } with repo-relative paths. */
+export function rebaseCssUrls(css, srcFile, bundle, root = ROOT) {
+  const assets = [];
+  const out = css.replace(/url\(\s*(['"]?)([^'")\s]+)\1\s*\)/g, (whole, quote, ref) => {
+    if (/^(?:[a-z][a-z0-9+.-]*:|\/|#)/i.test(ref) || ref.includes('var(')) return whole;
+    const clean = ref.replace(/[?#].*$/, '');
+    const from = posix.normalize(posix.join(posix.dirname(srcFile.replace(/\\/g, '/')), clean));
+    if (!from.startsWith('src/')) throw new Error(`css url: ${srcFile}: url(${ref}) resolves outside src/ (${from})`);
+    if (!existsSync(join(root, from))) throw new Error(`css url: ${srcFile}: url(${ref}) → ${from} does not exist`);
+    const to = `dist/${from.slice('src/'.length)}`;
+    assets.push({ from, to });
+    let rel = posix.relative(posix.dirname(`dist/${bundle}`), to);
+    if (!rel.startsWith('.')) rel = `./${rel}`;
+    return `url(${quote}${rel}${ref.slice(clean.length)}${quote})`;
+  });
+  return { css: out, assets };
+}
+
+/** Assemble one css bundle file. Returns the css text. With `assets` (an
+    array), every url() asset the bundle references is pushed onto it. */
+export async function assembleBundle(bundle, fragments, root = ROOT, assets = null) {
   let body = LAYER_ORDER_STATEMENT + '\n\n';
   for (const layer of CSS_LAYERS) {
-    const fragChunks = fragments.filter(f => f.bundle === bundle && f.layer === layer).map(f => `/* ${f.file} (${f.stream}) */\n${f.content.trim()}`);
+    const fragChunks = fragments.filter(f => f.bundle === bundle && f.layer === layer).map(f => {
+      const rebased = rebaseCssUrls(f.content, f.file, bundle, root);
+      if (assets) assets.push(...rebased.assets);
+      return `/* ${f.file} (${f.stream}) */\n${rebased.css.trim()}`;
+    });
     const supChunks = bundle === 'styles.css' ? layerSupplements(layer, root).map(f => readFileSync(f, 'utf8').trim()) : [];
     const chunks = [...fragChunks, ...supChunks].filter(Boolean);
     if (!chunks.length) continue;
@@ -367,14 +396,22 @@ export async function assembleAllCss(root = ROOT, { lower = false } = {}) {
   const matEmitted = new Set([...MAT_BUNDLES].filter((spec) =>
     existsSync(join(DIST, spec)) && !(spec === 'material.css' && existsSync(assembledMarker))));
   rmSync(assembledMarker, { force: true });
+  const assets = [];
   for (const b of [...bundles].sort()) {
-    let css = await assembleBundle(b, fragments, root);
+    let css = await assembleBundle(b, fragments, root, assets);
     checkOwnership(b, css, ownership);
     if (lower) css = await lowerCss(css);
     const dest = join(DIST, b);
     mkdirSync(dirname(dest), { recursive: true });
     writeFileSync(dest, css);
     written.push(`dist/${b}`);
+  }
+  // copy every url() asset next to the bundles that reference it (REQ-SURF-160)
+  for (const { from, to } of new Map(assets.map((a) => [a.to, a])).values()) {
+    const dest = join(DIST, relative('dist', to));
+    mkdirSync(dirname(dest), { recursive: true });
+    copyFileSync(join(root, from), dest);
+    written.push(`${to} (asset)`);
   }
   // MAT-owned standalone artifacts are emitted by MAT's tokens:build and copied
   // through, never reassembled: PLAT only checks ownership and (with lower)

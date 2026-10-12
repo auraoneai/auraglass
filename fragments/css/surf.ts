@@ -46,6 +46,7 @@ const w4 = [
   { file: 'src/backdrops/presets/video.css', layer: 'ag.components', bundle: 'backdrops.css' },
   { file: 'src/backdrops/presets/media.css', layer: 'ag.components', bundle: 'backdrops.css' },
   { file: 'src/backdrops/presets/grain.css', layer: 'ag.components', bundle: 'backdrops.css' },
+  { file: 'src/backdrops/presets/palettes.css', layer: 'ag.components', bundle: 'backdrops.css' },
 ] as const;
 // --- lane W4 end ---
 

@@ -1,14 +1,50 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
-/* mesh — 4 positioned radial blobs over a linear base. One element. */
+/* mesh — 4 positioned radial blobs over a linear base (REQ-SURF-156). One
+ * element. Blob hues --_ag-backdrop-c1..c4 come from presets/palettes.css
+ * (data-ag-palette, REQ-SURF-155); strengths and the base follow the declared
+ * scheme (REQ-SURF-158): light/dark pin the layer's color-scheme, auto keeps
+ * the inherited one and picks each blob with light-dark(). */
 @layer ag.components {
-  .ag-backdrop[data-ag-backdrop-preset='mesh'] .ag-backdrop-layer {
-    background-color: var(--_ag-surface-page, Canvas);
+  .ag-backdrop[data-ag-backdrop-preset='mesh'][data-ag-backdrop='light'] > .ag-backdrop-layer {
+    color-scheme: light;
+    --_ag-backdrop-mesh-1: color-mix(in oklch, var(--_ag-backdrop-c1) 48%, transparent);
+    --_ag-backdrop-mesh-2: color-mix(in oklch, var(--_ag-backdrop-c2) 42%, transparent);
+    --_ag-backdrop-mesh-3: color-mix(in oklch, var(--_ag-backdrop-c3) 38%, transparent);
+    --_ag-backdrop-mesh-4: color-mix(in oklch, var(--_ag-backdrop-c4) 38%, transparent);
+    --_ag-backdrop-mesh-tint: 8%;
+  }
+  .ag-backdrop[data-ag-backdrop-preset='mesh'][data-ag-backdrop='dark'] > .ag-backdrop-layer {
+    color-scheme: dark;
+    --_ag-backdrop-mesh-1: color-mix(in oklch, var(--_ag-backdrop-c1) 60%, transparent);
+    --_ag-backdrop-mesh-2: color-mix(in oklch, var(--_ag-backdrop-c2) 55%, transparent);
+    --_ag-backdrop-mesh-3: color-mix(in oklch, var(--_ag-backdrop-c3) 50%, transparent);
+    --_ag-backdrop-mesh-4: color-mix(in oklch, var(--_ag-backdrop-c4) 50%, transparent);
+    --_ag-backdrop-mesh-tint: 14%;
+  }
+  .ag-backdrop[data-ag-backdrop-preset='mesh'][data-ag-backdrop='auto'] > .ag-backdrop-layer {
+    --_ag-backdrop-mesh-1: light-dark(
+      color-mix(in oklch, var(--_ag-backdrop-c1) 48%, transparent),
+      color-mix(in oklch, var(--_ag-backdrop-c1) 60%, transparent));
+    --_ag-backdrop-mesh-2: light-dark(
+      color-mix(in oklch, var(--_ag-backdrop-c2) 42%, transparent),
+      color-mix(in oklch, var(--_ag-backdrop-c2) 55%, transparent));
+    --_ag-backdrop-mesh-3: light-dark(
+      color-mix(in oklch, var(--_ag-backdrop-c3) 38%, transparent),
+      color-mix(in oklch, var(--_ag-backdrop-c3) 50%, transparent));
+    --_ag-backdrop-mesh-4: light-dark(
+      color-mix(in oklch, var(--_ag-backdrop-c4) 38%, transparent),
+      color-mix(in oklch, var(--_ag-backdrop-c4) 50%, transparent));
+    --_ag-backdrop-mesh-tint: 10%;
+  }
+  .ag-backdrop[data-ag-backdrop-preset='mesh'] > .ag-backdrop-layer {
+    background-color: var(--ag-color-canvas);
     background-image:
-      radial-gradient(45% 45% at 15% 25%, color-mix(in oklch, var(--_ag-color-1, oklch(0.72 0.19 275)) 55%, transparent), transparent 70%),
-      radial-gradient(40% 50% at 85% 20%, color-mix(in oklch, var(--_ag-color-2, oklch(0.72 0.17 250)) 50%, transparent), transparent 70%),
-      radial-gradient(50% 40% at 25% 85%, color-mix(in oklch, var(--_ag-color-4, oklch(0.72 0.15 160)) 45%, transparent), transparent 70%),
-      radial-gradient(45% 55% at 75% 80%, color-mix(in oklch, var(--_ag-color-6, oklch(0.68 0.16 30)) 45%, transparent), transparent 72%),
-      linear-gradient(160deg, var(--_ag-surface-page, Canvas), color-mix(in oklch, var(--_ag-surface-page, Canvas) 92%, var(--_ag-color-1, oklch(0.72 0.19 275))));
+      radial-gradient(45% 45% at 15% 25%, var(--_ag-backdrop-mesh-1), transparent 70%),
+      radial-gradient(40% 50% at 85% 20%, var(--_ag-backdrop-mesh-2), transparent 70%),
+      radial-gradient(50% 40% at 25% 85%, var(--_ag-backdrop-mesh-3), transparent 70%),
+      radial-gradient(45% 55% at 75% 80%, var(--_ag-backdrop-mesh-4), transparent 72%),
+      linear-gradient(160deg, var(--ag-color-canvas),
+        color-mix(in oklch, var(--_ag-backdrop-c1) var(--_ag-backdrop-mesh-tint), var(--ag-color-canvas)));
     background-repeat: no-repeat;
   }
 }

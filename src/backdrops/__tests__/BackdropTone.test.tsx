@@ -1,52 +1,155 @@
 /** @jest-environment jsdom */
-// BackdropTone (SURF-435): plays video only under the continuous gate +
-// intersecting + !document.hidden; pause button toggles with aria-pressed.
+// BackdropTone (SURF-435, REQ-SURF-157): plays video only under the
+// continuous gate + intersecting + !document.hidden; the pause control exists
+// only while playing or user-paused. Drift pause attributes (REQ-SURF-159).
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, render } from '@testing-library/react';
 import * as React from 'react';
-import { BackdropTone } from '../BackdropTone';
 import { Backdrop } from '../Backdrop';
 import { clearToneCache } from '../sampling/toneCache';
 import { subscribeFrame } from '../../motion';
 
-function makeVideo() {
-  const video = document.createElement('video');
-  Object.defineProperty(video, 'paused', { value: true, writable: true, configurable: true });
-  video.play = jest.fn(() => { Object.defineProperty(video, 'paused', { value: false, configurable: true }); return Promise.resolve(); });
-  video.pause = jest.fn(() => { Object.defineProperty(video, 'paused', { value: true, configurable: true }); });
-  return video;
+/* Fake IntersectionObserver: BackdropTone's own observer and MAT's shared
+ * offscreen observer both construct through it; fire() drives one entry. */
+class FakeIO {
+  static instances: FakeIO[] = [];
+  observed = new Set<Element>();
+  constructor(private cb: (entries: Array<{ isIntersecting: boolean; target: Element }>) => void) { FakeIO.instances.push(this); }
+  observe(el: Element) { this.observed.add(el); }
+  unobserve(el: Element) { this.observed.delete(el); }
+  disconnect() { this.observed.clear(); }
+  takeRecords() { return []; }
+  static fire(target: Element, isIntersecting: boolean) {
+    for (const io of FakeIO.instances) if (io.observed.has(target)) io.cb([{ isIntersecting, target }]);
+  }
 }
 
+const mockPrefs = { allowContinuous: true };
 jest.mock('../../theme', () => {
   const actual = jest.requireActual('../../theme') as Record<string, unknown>;
-  return { ...actual, useResolvedPreferences: () => ({ allowContinuous: true, motion: 'full' }) };
+  return { ...actual, useResolvedPreferences: () => ({ allowContinuous: mockPrefs.allowContinuous, motion: 'full' }) };
 });
 
-describe('BackdropTone (SURF-435)', () => {
-  it('renders a backdrop-pause button with toggling label/aria-pressed', () => {
-    const video = makeVideo();
-    const { container } = render(
-      <div>
-        <video ref={(el) => { if (el) Object.assign(el, video); }} />
-        <BackdropTone />
-      </div>,
-    );
-    const btn = container.querySelector('[data-ag-part="backdrop-pause"]')!;
-    expect(btn).toBeTruthy();
-    expect(btn.textContent).toMatch(/Pause background video/i);
-    fireEvent.click(btn);
+const setHidden = (hidden: boolean) => {
+  Object.defineProperty(document, 'hidden', { configurable: true, get: () => hidden });
+  document.dispatchEvent(new Event('visibilitychange'));
+};
+
+describe('BackdropTone playback gate + pause toggle (REQ-SURF-157)', () => {
+  const realIO = globalThis.IntersectionObserver;
+  const play = jest.fn(function (this: HTMLMediaElement) {
+    (this as unknown as { _paused: boolean })._paused = false;
+    return Promise.resolve();
   });
-  it('pause() is called when the gate is off', () => {
-    const video = makeVideo();
-    video.play();
-    render(
-      <div>
-        <video ref={(el) => { if (el) Object.assign(el, video); }} />
-        <BackdropTone />
-      </div>,
-    );
-    // paused by default: gate needs intersecting + visible in a real browser
-    expect(document.querySelector('[data-ag-part="backdrop-pause"]')).toBeTruthy();
+  const pause = jest.fn(function (this: HTMLMediaElement) { (this as unknown as { _paused: boolean })._paused = true; });
+  beforeEach(() => {
+    mockPrefs.allowContinuous = true;
+    play.mockClear();
+    pause.mockClear();
+    globalThis.IntersectionObserver = FakeIO as unknown as typeof IntersectionObserver;
+    Object.defineProperty(HTMLMediaElement.prototype, 'paused', {
+      configurable: true, get(this: { _paused?: boolean }) { return this._paused ?? true; },
+    });
+    Object.defineProperty(HTMLMediaElement.prototype, 'play', { configurable: true, value: play });
+    Object.defineProperty(HTMLMediaElement.prototype, 'pause', { configurable: true, value: pause });
+  });
+  afterEach(() => {
+    globalThis.IntersectionObserver = realIO;
+    setHidden(false);
+  });
+  const mount = () => {
+    const { container } = render(<Backdrop preset="video" src="/v.mp4" poster="/p.jpg" mediaTone="dark" />);
+    const video = container.querySelector('video')!;
+    const button = () => container.querySelector('[data-ag-part="backdrop-pause"]');
+    return { video, button };
+  };
+
+  it('renders no pause control and never plays until the video intersects', () => {
+    const { button } = mount();
+    expect(play).not.toHaveBeenCalled();
+    expect(button()).toBeNull();
+  });
+
+  it('plays once intersecting under the gate; the toggle appears with a stable name and aria-pressed', async () => {
+    const { video, button } = mount();
+    await act(async () => { FakeIO.fire(video, true); });
+    expect(play).toHaveBeenCalledTimes(1);
+    expect(video.paused).toBe(false);
+    expect(button()!.textContent).toBe('Pause background video');
+    expect(button()!.getAttribute('aria-pressed')).toBe('false');
+
+    await act(async () => { fireEvent.click(button()!); });
+    expect(pause).toHaveBeenCalledTimes(1);
+    expect(video.paused).toBe(true);
+    // the user's pause holds the control in place so it can be resumed
+    expect(button()!.textContent).toBe('Pause background video');
+    expect(button()!.getAttribute('aria-pressed')).toBe('true');
+
+    await act(async () => { fireEvent.click(button()!); });
+    expect(play).toHaveBeenCalledTimes(2);
+    expect(video.paused).toBe(false);
+    expect(button()!.getAttribute('aria-pressed')).toBe('false');
+  });
+
+  it('scrolling out or hiding the tab pauses and removes the control', async () => {
+    const { video, button } = mount();
+    await act(async () => { FakeIO.fire(video, true); });
+    expect(button()).not.toBeNull();
+    await act(async () => { FakeIO.fire(video, false); });
+    expect(pause).toHaveBeenCalledTimes(1);
+    expect(button()).toBeNull();
+
+    await act(async () => { FakeIO.fire(video, true); });
+    expect(play).toHaveBeenCalledTimes(2);
+    await act(async () => { setHidden(true); });
+    expect(pause).toHaveBeenCalledTimes(2);
+    expect(video.paused).toBe(true);
+    expect(button()).toBeNull();
+  });
+
+  it('without allowContinuous the video never plays and no control renders', async () => {
+    mockPrefs.allowContinuous = false;
+    const { video, button } = mount();
+    await act(async () => { FakeIO.fire(video, true); });
+    expect(play).not.toHaveBeenCalled();
+    expect(button()).toBeNull();
+  });
+});
+
+describe('drift pause attributes (REQ-SURF-159)', () => {
+  const realIO = globalThis.IntersectionObserver;
+  beforeEach(() => {
+    globalThis.IntersectionObserver = FakeIO as unknown as typeof IntersectionObserver;
+  });
+  afterEach(() => {
+    globalThis.IntersectionObserver = realIO;
+    setHidden(false);
+  });
+
+  it('motion="drift" observes the root through MAT observeOffscreen and marks a hidden tab', async () => {
+    const { container, unmount } = render(<Backdrop preset="aurora" motion="drift" />);
+    const root = container.querySelector('.ag-backdrop') as HTMLElement;
+    expect(FakeIO.instances.some((io) => io.observed.has(root))).toBe(true);
+    await act(async () => { FakeIO.fire(root, false); });
+    expect(root.hasAttribute('data-ag-offscreen')).toBe(true);
+    await act(async () => { FakeIO.fire(root, true); });
+    expect(root.hasAttribute('data-ag-offscreen')).toBe(false);
+
+    await act(async () => { setHidden(true); });
+    expect(root.hasAttribute('data-backdrop-hidden')).toBe(true);
+    await act(async () => { setHidden(false); });
+    expect(root.hasAttribute('data-backdrop-hidden')).toBe(false);
+    unmount();
+    expect(FakeIO.instances.some((io) => io.observed.has(root))).toBe(false);
+  });
+
+  it('a media preset with drift is observed too; static backdrops are not', () => {
+    const { container } = render(<Backdrop preset="photo" src="/x.jpg" mediaTone="light" motion="drift" />);
+    const root = container.querySelector('.ag-backdrop')!;
+    expect(FakeIO.instances.some((io) => io.observed.has(root))).toBe(true);
+    const { container: c2 } = render(<Backdrop preset="mesh" />);
+    const still = c2.querySelector('.ag-backdrop')!;
+    expect(FakeIO.instances.some((io) => io.observed.has(still))).toBe(false);
   });
 });
 

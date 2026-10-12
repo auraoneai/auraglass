@@ -3,7 +3,7 @@
  * z-1; declarations via data-ag-backdrop per preset; zero animations by
  * default; drift gated under [data-ag-continuous="on"]. */
 import * as React from 'react';
-import { BackdropMediaLayer, BackdropTone } from './BackdropTone';
+import { BackdropDriftLayer, BackdropMediaLayer } from './BackdropTone';
 
 export type {
   BackdropPreset, BackdropScheme, BackdropPalette, BackdropMotion,
@@ -20,8 +20,13 @@ export const Backdrop = function Backdrop(props: BackdropProps & { ref?: React.R
   const { ref } = props;
   const {
     preset, palette = 'aurora', scheme = 'auto', mediaTone, grain = false,
-    motion = 'static', fixed = false, className, children, ...rest
-  } = props;
+    motion = 'static', fixed = false, className, children,
+    // per-preset media props are read below through the union; pull them out
+    // of `rest` so none of them ever lands on the root <div> (REQ-SURF-155)
+    src: _src, srcSet: _srcSet, sizes: _sizes, poster: _poster, crossOrigin: _crossOrigin,
+    ...rest
+  } = props as BackdropProps & Partial<Omit<BackdropPhotoProps, 'preset'> & Omit<BackdropVideoProps, 'preset'>>;
+  const drift = motion === 'drift';
   const declaration =
     PRESET_DECLARATION[preset] === 'media' ? 'media'
       : preset === 'aurora' || preset === 'mesh' ? scheme
@@ -49,7 +54,7 @@ export const Backdrop = function Backdrop(props: BackdropProps & { ref?: React.R
         // That attribute is the MAT preference axis (full|calm|none, setter
         // MAT); writing 'static'/'drift' on the backdrop shadowed the resolved
         // motion for nearest-carrier readers inside it.
-        motion === 'drift' ? 'ag-backdrop--drift' : undefined,
+        drift ? 'ag-backdrop--drift' : undefined,
         className,
       ].filter(Boolean).join(' ')}
       data-ag-backdrop-preset={preset}
@@ -57,20 +62,26 @@ export const Backdrop = function Backdrop(props: BackdropProps & { ref?: React.R
       {...(declaration !== undefined ? { 'data-ag-backdrop': declaration } : {})}
       {...(mediaTone !== undefined ? { 'data-ag-media-tone': mediaTone } : {})}
       {...(isMedia ? { 'data-ag-media-root': '' } : {})}
-      data-backdrop-grain={grain ? '' : undefined}
+      // REQ-SURF-160: the grain preset is the overlay alone; any other preset
+      // adds it with grain={true}
+      data-backdrop-grain={grain || preset === 'grain' ? '' : undefined}
       data-backdrop-motion={motion}
       {...rest}
     >
       {isMedia ? (
-        <BackdropMediaLayer sample={mediaTone === undefined} source={(props as BackdropPhotoProps | BackdropVideoProps).src}>
+        <BackdropMediaLayer
+          sample={mediaTone === undefined}
+          source={(props as BackdropPhotoProps | BackdropVideoProps).src}
+          video={preset === 'video'}
+          drift={drift}
+        >
           {layer}
         </BackdropMediaLayer>
+      ) : drift ? (
+        <BackdropDriftLayer />
       ) : (
-        <div className="ag-backdrop-layer" data-ag-part="backdrop-layer" aria-hidden="true">
-          {layer}
-        </div>
+        <div className="ag-backdrop-layer" data-ag-part="backdrop-layer" aria-hidden="true" />
       )}
-      {preset === 'video' ? <BackdropTone /> : null}
       {children !== undefined && children !== null ? (
         <div className="ag-backdrop-content" data-ag-part="backdrop-content">{children}</div>
       ) : null}

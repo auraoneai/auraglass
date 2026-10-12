@@ -26,7 +26,11 @@ describe('Backdrop DOM (REQ-SURF-155/156/159)', () => {
     expect(video.hasAttribute('autoplay')).toBe(false);
     expect(video.getAttribute('poster')).toBe('/p.jpg');
   });
-  it('0 running animations per preset by default; drift ships one named keyframe', () => {
+  it('no preset carries the drift gate by default; drift opts in by class only', () => {
+    // jsdom runs no CSS animations, so the "0 running animations" half lives
+    // in tests/e2e/surf/motion/backdrop-drift.spec.ts (L9) and the keyframe
+    // shape in tests/backdrops/backdrop-css.test.ts; here: the DOM hooks the
+    // gated rule keys on are absent by default and present with drift.
     const cases: import('../Backdrop').BackdropProps[] = [
       { preset: 'aurora' }, { preset: 'mesh' }, { preset: 'grain' },
       { preset: 'photo', src: '/x.jpg' }, { preset: 'video', src: '/v.mp4' },
@@ -34,7 +38,8 @@ describe('Backdrop DOM (REQ-SURF-155/156/159)', () => {
     for (const props of cases) {
       const { container } = render(<Backdrop {...props} />);
       const root = container.firstElementChild as HTMLElement;
-      expect(root.getAnimations?.().length ?? 0).toBe(0);
+      expect(root.classList.contains('ag-backdrop--drift')).toBe(false);
+      expect(root.getAttribute('data-backdrop-motion')).toBe('static');
     }
     const { container } = render(<Backdrop preset="aurora" motion="drift" />);
     const drift = container.firstElementChild as HTMLElement;
@@ -42,12 +47,19 @@ describe('Backdrop DOM (REQ-SURF-155/156/159)', () => {
     // the MAT preference axis is never written by SURF (REQ-SURF-190)
     expect(drift.hasAttribute('data-ag-motion')).toBe(false);
     expect(drift.getAttribute('data-backdrop-motion')).toBe('drift');
+    expect(drift.querySelectorAll('[data-ag-part="backdrop-layer"]').length).toBe(1);
   });
-  it('video renders the BackdropTone pause toggle', () => {
+  it('video renders no pause control while nothing plays (REQ-SURF-157)', () => {
     const { container } = render(<Backdrop preset="video" src="/v.mp4" />);
-    const btn = container.querySelector('[data-ag-part="backdrop-pause"]')!;
-    expect(btn.textContent).toBe('Pause background video');
-    expect(btn.getAttribute('aria-pressed')).toBe('false');
+    expect(container.querySelector('[data-ag-part="backdrop-pause"]')).toBeNull();
+  });
+  it('media props never land on the root element (REQ-SURF-155)', () => {
+    const { container } = render(
+      <Backdrop preset="video" src="/v.mp4" poster="/p.jpg" crossOrigin="anonymous" mediaTone="dark" />,
+    );
+    const root = container.firstElementChild as HTMLElement;
+    for (const a of ['src', 'srcset', 'sizes', 'poster', 'crossorigin']) expect(root.hasAttribute(a)).toBe(false);
+    expect(container.querySelector('video')!.getAttribute('poster')).toBe('/p.jpg');
   });
   it('layer z-order: backdrop-layer z-0, backdrop-content z-1, aria-hidden layer', () => {
     const { container } = render(<Backdrop preset="mesh"><p>c</p></Backdrop>);
