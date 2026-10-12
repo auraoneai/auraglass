@@ -9,6 +9,13 @@ import type { toChangeDetails } from '../../foundation';
 /** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
 type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
+/** Value of the option the combobox's aria-activedescendant resolves to (the
+    element must exist — Base UI owns the option ids). */
+const activeValue = (input: HTMLElement) => {
+  const id = input.getAttribute('aria-activedescendant');
+  return id ? document.getElementById(id)?.getAttribute('data-value') ?? `<missing #${id}>` : undefined;
+};
+
 const Items = ({ count = 5 }: { count?: number }) =>
   Array.from({ length: count }, (_, i) => (
     <Command.Item key={i} value={`item-${i}`}>Item {i}</Command.Item>
@@ -40,10 +47,20 @@ describe('Command (SURF-086)', () => {
     );
     const input = screen.getByRole('combobox');
     fireEvent.keyDown(input, { key: 'ArrowDown' });
-    const first = input.getAttribute('aria-activedescendant')!;
-    expect(first).toContain('item-0');
+    expect(activeValue(input)).toBe('item-0');
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    expect(activeValue(input)).toBe('item-1');
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    // APG combobox focus loop (Base UI loopFocus): past the last option the
+    // input itself is the stop, then the first option again.
+    expect(activeValue(input)).toBeUndefined();
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    expect(activeValue(input)).toBe('item-0');
     fireEvent.keyDown(input, { key: 'ArrowUp' });
-    expect(input.getAttribute('aria-activedescendant')).toContain('item-2'); // wraps
+    expect(activeValue(input)).toBeUndefined();
+    fireEvent.keyDown(input, { key: 'ArrowUp' });
+    expect(activeValue(input)).toBe('item-2'); // wraps to the last option
   });
 
   it('Enter selects the active item', () => {
@@ -237,7 +254,7 @@ describe('Command SURF-60 (item rules in the SURF file)', () => {
     );
     expect(ordered[0]!.textContent).toBe('os');
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
-    expect(screen.getByRole('combobox').getAttribute('aria-activedescendant')).toContain('item-os');
+    expect(activeValue(screen.getByRole('combobox'))).toBe('os');
   });
 
   it('click fires onSelect and onValueChange', () => {
@@ -258,6 +275,113 @@ describe('Command SURF-60 (item rules in the SURF file)', () => {
       event: expect.any(MouseEvent),
       reason: 'item-press',
     });
+  });
+});
+
+describe('Command SURF-60: Base UI Combobox inline-list mode', () => {
+  it('input is the Base UI combobox (inline list, always expanded); options carry Base UI state', () => {
+    render(
+      <Command.Root>
+        <Command.Input />
+        <Command.List>
+          <Items count={3} />
+        </Command.List>
+      </Command.Root>,
+    );
+    const input = screen.getByRole('combobox');
+    expect(input).toHaveAttribute('aria-autocomplete', 'list');
+    expect(input).toHaveAttribute('aria-expanded', 'true');
+    expect(input).toHaveAttribute('data-ag-part', 'input');
+    const listbox = screen.getByRole('listbox');
+    expect(listbox).toHaveAttribute('data-ag-part', 'list');
+    expect(input).toHaveAttribute('aria-controls', listbox.id);
+    expect(input.hasAttribute('aria-activedescendant')).toBe(false);
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    const active = document.getElementById(input.getAttribute('aria-activedescendant')!)!;
+    expect(active).toHaveAttribute('role', 'option');
+    expect(active).toHaveAttribute('data-value', 'item-1');
+    // Base UI highlight state and the Command active-row attributes agree.
+    expect(active.hasAttribute('data-highlighted')).toBe(true);
+    expect(active).toHaveAttribute('data-state', 'active');
+    expect(active).toHaveAttribute('aria-selected', 'true');
+    expect(document.querySelectorAll('[role="option"][data-highlighted]')).toHaveLength(1);
+  });
+
+  it('keyboard order follows the score, not the DOM order', () => {
+    render(
+      <Command.Root>
+        <Command.Input />
+        <Command.List>
+          <Command.Item value="photoshop">photoshop</Command.Item>
+          <Command.Item value="openSettings">openSettings</Command.Item>
+          <Command.Item value="os">os</Command.Item>
+        </Command.List>
+      </Command.Root>,
+    );
+    const input = screen.getByRole('combobox');
+    fireEvent.change(input, { target: { value: 'os' } });
+    const ranked = visibleOptions()
+      .sort((a, b) => Number((a as HTMLElement).style.order) - Number((b as HTMLElement).style.order))
+      .map((o) => o.getAttribute('data-value'));
+    const walked: Array<string | undefined> = [];
+    for (let i = 0; i < ranked.length; i++) {
+      fireEvent.keyDown(input, { key: 'ArrowDown' });
+      walked.push(activeValue(input));
+    }
+    expect(walked).toEqual(ranked);
+    expect(walked[0]).toBe('os');
+  });
+
+  it('pressing an item keeps the query (no label fill) and remembers no selection', () => {
+    const change = jest.fn();
+    render(
+      <Command.Root onValueChange={change}>
+        <Command.Input />
+        <Command.List>
+          <Command.Item value="save">Save</Command.Item>
+          <Command.Item value="share">Share</Command.Item>
+        </Command.List>
+      </Command.Root>,
+    );
+    const input = screen.getByRole('combobox') as HTMLInputElement;
+    fireEvent.change(input, { target: { value: 'sa' } });
+    fireEvent.click(screen.getByRole('option', { name: 'Save' }));
+    expect(change).toHaveBeenCalledWith('save', expect.objectContaining({ reason: 'item-press' }));
+    expect(input.value).toBe('sa');
+    fireEvent.click(screen.getByRole('option', { name: 'Save' }));
+    expect(change).toHaveBeenCalledTimes(2);
+  });
+
+  it('pointer hover highlights the option under the pointer', () => {
+    render(
+      <Command.Root>
+        <Command.Input />
+        <Command.List>
+          <Items count={3} />
+        </Command.List>
+      </Command.Root>,
+    );
+    const option = screen.getByRole('option', { name: 'Item 2' });
+    fireEvent.mouseMove(option);
+    fireEvent.pointerMove(option, { pointerType: 'mouse' });
+    expect(option).toHaveAttribute('data-state', 'active');
+  });
+
+  it('disabled options are announced disabled and never pressed', () => {
+    const select = jest.fn();
+    render(
+      <Command.Root>
+        <Command.Input />
+        <Command.List>
+          <Command.Item value="a" disabled onSelect={select}>A</Command.Item>
+        </Command.List>
+      </Command.Root>,
+    );
+    const option = screen.getByRole('option', { name: 'A' });
+    expect(option).toHaveAttribute('aria-disabled', 'true');
+    fireEvent.click(option);
+    expect(select).not.toHaveBeenCalled();
   });
 });
 

@@ -1,7 +1,7 @@
 'use client';
 /* DateRangePicker (SURF-213, REQ-SURF-98/99/102): two DateInputs + a CMP
    Button trigger opening a DatePopup (CMP Popover anchored at >=640px container,
-   bottom-sheet presentation below) with presets and a RangeCalendar.
+   CMP Sheet side="bottom" below) with presets and a RangeCalendar.
 
    Draft-commit: the calendar inside the popup is standalone (it ignores RAC's
    picker context) and edits a draft range. Presets write the draft too. The

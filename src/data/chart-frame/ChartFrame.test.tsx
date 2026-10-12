@@ -85,6 +85,63 @@ describe('ChartFrame (SURF-181, REQ-SURF-92..94)', () => {
     expect(btns[0]!.hasAttribute('aria-describedby')).toBe(false);
   });
 
+  describe('legend: the last-series guard is a CMP Tooltip (REQ-SURF-94, REQ-FIN-83)', () => {
+    const tip = () => document.querySelector<HTMLElement>('[data-ag-part="chart-legend-tooltip"]');
+    beforeEach(() => {
+      if (window.PointerEvent === undefined) {
+        (window as unknown as Record<string, unknown>).PointerEvent = window.MouseEvent;
+      }
+      jest.useFakeTimers();
+    });
+    afterEach(() => { jest.useRealTimers(); });
+
+    it('hover on the guarded item shows role=tooltip with labels.lastSeries; no native title', () => {
+      const { container } = render(<F hiddenSeries={['a']} labels={{ lastSeries: 'Keep one series' }} />);
+      const btns = container.querySelectorAll<HTMLElement>('[data-ag-part="chart-legend-item"]');
+      const guarded = btns[1]!;
+      expect(guarded.getAttribute('aria-disabled')).toBe('true');
+      expect(guarded.hasAttribute('title')).toBe(false);
+      fireEvent.mouseEnter(guarded);
+      fireEvent.pointerMove(guarded, { pointerType: 'mouse' });
+      fireEvent.mouseMove(guarded);
+      act(() => { jest.advanceTimersByTime(599); });
+      expect(tip()).toBeNull();
+      act(() => { jest.advanceTimersByTime(2); });
+      expect(tip()).not.toBeNull();
+      expect(tip()).toHaveAttribute('role', 'tooltip');
+      expect(tip()!.textContent).toBe('Keep one series');
+      // aria-describedby stays on the always-present hidden text.
+      const descId = guarded.getAttribute('aria-describedby')!;
+      expect(descId).not.toBe(tip()!.id);
+      expect(document.getElementById(descId)!.textContent).toBe('Keep one series');
+    });
+
+    it('keyboard focus on the guarded item shows the tooltip', () => {
+      const { container } = render(<F hiddenSeries={['a']} />);
+      const guarded = container.querySelectorAll<HTMLElement>('[data-ag-part="chart-legend-item"]')[1]!;
+      fireEvent.keyDown(document.body, { key: 'Tab' });
+      act(() => { guarded.focus(); });
+      act(() => { jest.advanceTimersByTime(1000); });
+      expect(tip()).not.toBeNull();
+      expect(tip()!.textContent).toBe('At least one series must be visible');
+    });
+
+    it('an unguarded item shows no tooltip; the guard moves without replacing the buttons', () => {
+      const { container } = render(<F />);
+      const btns = container.querySelectorAll<HTMLElement>('[data-ag-part="chart-legend-item"]');
+      fireEvent.mouseEnter(btns[0]!);
+      fireEvent.pointerMove(btns[0]!, { pointerType: 'mouse' });
+      fireEvent.mouseMove(btns[0]!);
+      act(() => { jest.advanceTimersByTime(1000); });
+      expect(tip()).toBeNull();
+      fireEvent.mouseLeave(btns[0]!);
+      fireEvent.click(btns[1]!);
+      // the same element is now the guarded one: same node, guard attributes on it
+      expect(container.querySelectorAll('[data-ag-part="chart-legend-item"]')[0]).toBe(btns[0]);
+      expect(btns[0]!.getAttribute('aria-disabled')).toBe('true');
+    });
+  });
+
   it('hiddenSeries controlled pair', () => {
     const on = jest.fn();
     const { container } = render(<F hiddenSeries={['b']} onHiddenSeriesChange={on} />);

@@ -12,6 +12,6 @@ export default defineMeta({
   states: ['open', 'invalid', 'disabled'],
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/',
-  budgetKb: 10,
+  budgetKb: 14,
   migration: [{ from: 'GlassTimePicker', props: {}, automation: 'manual', compat: false }],
 });

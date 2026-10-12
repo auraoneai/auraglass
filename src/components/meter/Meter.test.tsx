@@ -16,6 +16,11 @@ describe('Meter', () => {
       [10, { low: 20, high: 80, optimum: 90 }, 'danger'],
       [50, { low: 20, high: 80, optimum: 90 }, 'warning'],
       [90, { low: 20, high: 80, optimum: 90 }, 'success'],
+      // low-is-good (optimum below low, e.g. a context-window gauge)
+      [79, { low: 80, high: 95, optimum: 0 }, 'success'],
+      [80, { low: 80, high: 95, optimum: 0 }, 'warning'],
+      [94, { low: 80, high: 95, optimum: 0 }, 'warning'],
+      [95, { low: 80, high: 95, optimum: 0 }, 'danger'],
     ];
     for (const [v, opts, intent] of cases) {
       const { container, unmount } = render(<Meter value={v} label="m" {...opts} />);

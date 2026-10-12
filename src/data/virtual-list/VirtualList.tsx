@@ -29,7 +29,9 @@ export type VirtualListProps<T> = {
   onEndReached?: (() => void) | undefined;
   /** Distance in px from the list end that triggers onEndReached. */
   endReachedThreshold?: number | undefined;
-  role?: 'list' | 'log' | 'listbox' | undefined;
+  /** 'none': the scroller is presentational inside an owning widget (e.g.
+      Command's Base UI listbox, REQ-SURF-60). */
+  role?: 'list' | 'log' | 'listbox' | 'none' | undefined;
   itemRole?: string | undefined;
   /** Fires with the count of rendered items when it changes (tests/metrics). */
   onRangeChange?: ((range: { startIndex: number; endIndex: number }) => void) | undefined;

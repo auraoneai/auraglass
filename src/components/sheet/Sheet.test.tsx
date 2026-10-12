@@ -155,6 +155,26 @@ describe('Sheet (CMP-229..236)', () => {
     expect(document.activeElement).toBe(trigger);
   });
 
+  it('initialFocus on Content owns the first focus (FocusScope does not override it)', async () => {
+    const pick = () => document.querySelector<HTMLElement>('[data-testid="pick"]');
+    render(
+      <Sheet.Root side="bottom">
+        <Sheet.Trigger>Open sheet</Sheet.Trigger>
+        <Sheet.Content initialFocus={pick}>
+          <button>first</button>
+          <button data-testid="pick">second</button>
+        </Sheet.Content>
+      </Sheet.Root>,
+    );
+    const trigger = screen.getByText('Open sheet');
+    await userEvent.click(trigger);
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(document.activeElement).toBe(pick());
+    await userEvent.keyboard('{Escape}');
+    await act(async () => { await new Promise((r) => setTimeout(r, 30)); });
+    expect(document.activeElement).toBe(trigger);
+  });
+
   it('detents are ignored unless side resolves to bottom (REQ-CMP-94)', async () => {
     const onDetentChange = jest.fn();
     render(<Demo root={{ defaultOpen: true, side: 'end', detents: [0.5, 1], onDetentChange }} />);

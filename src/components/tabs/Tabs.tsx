@@ -9,6 +9,7 @@ import { flushSync } from 'react-dom';
 import { Tabs as BaseTabs } from '../../foundation/base-ui/tabs';
 import { startMorph, useMorphName } from '../../motion';
 import { withMorph } from '../control-shared/morph';
+import { DirectionProvider } from '../../foundation/base-ui/direction-provider';
 import { viewTransitionParticipantAttributes } from '../../material/stateAttributes';
 import { PanelRegistryContext, TabsRootPresenceContext, useOwnOrOuterPanelRegistry, useTabBarPanel } from '../tab-bar/panelRegistry';
 import { toChangeDetails } from '../../foundation';
@@ -78,6 +79,15 @@ function TabsRoot({
   React.useEffect(() => {
     if (value !== undefined) setActive(value);
   }, [value]);
+  // SURF-48: RTL reverses Left/Right. Base UI's composite reads direction
+  // from DirectionProvider only (never the DOM dir attribute), so resolve the
+  // closest [dir] (the root itself included) after mount — the server and
+  // first client render use 'ltr', no hydration mismatch.
+  const [dir, setDir] = React.useState<'ltr' | 'rtl'>('ltr');
+  React.useLayoutEffect(() => {
+    const d = rootRef.current?.closest('[dir]')?.getAttribute('dir');
+    setDir(d?.toLowerCase() === 'rtl' ? 'rtl' : 'ltr');
+  });
   // SURF-051: share a panel registry with a TabBar(semantics='tabs') placed
   // inside or around this root.
   const registry = useOwnOrOuterPanelRegistry();
@@ -85,6 +95,7 @@ function TabsRoot({
     <PanelRegistryContext.Provider value={registry}>
     <TabsRootPresenceContext.Provider value={true}>
     <TabsCtx.Provider value={{ idBase, active, activateOnFocus }}>
+    <DirectionProvider direction={dir}>
       <BaseTabs.Root
         data-ag-part="tabs"
         value={(value ?? active) as never}
@@ -102,6 +113,7 @@ function TabsRoot({
           children,
         })}
       />
+    </DirectionProvider>
     </TabsCtx.Provider>
     </TabsRootPresenceContext.Provider>
     </PanelRegistryContext.Provider>

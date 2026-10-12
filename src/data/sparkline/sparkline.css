@@ -6,10 +6,29 @@
   .ag-sparkline__area { fill: var(--_ag-sparkline-color, var(--_ag-accent, Highlight)); fill-opacity: 0.15; }
   .ag-sparkline__bar { fill: var(--_ag-sparkline-color, var(--_ag-accent, Highlight)); }
   .ag-sparkline__dot { fill: var(--_ag-sparkline-color, var(--_ag-accent, Highlight)); }
-  .ag-sparkline[data-ag-intent="info"] { --_ag-sparkline-color: var(--_ag-info, Highlight); }
-  .ag-sparkline[data-ag-intent="success"] { --_ag-sparkline-color: var(--_ag-success, Green); }
-  .ag-sparkline[data-ag-intent="danger"] { --_ag-sparkline-color: var(--_ag-danger, Red); }
-  .ag-sparkline[data-ag-intent="neutral"] { --_ag-sparkline-color: var(--_ag-fg-muted, CanvasText); }
+  /* REQ-SURF-91: intent strokes derived from the public S-03 --ag-color-*
+     by relative OKLCH with explicit lightness and chroma per scheme, so each
+     holds >=3:1 against content-raised in light and dark (WCAG 1.4.11).
+     Neutral is the S-03 muted foreground. tests/data/sparkline-contrast.test.ts
+     computes those numbers from the built CSS. */
+  .ag-sparkline[data-ag-intent="info"] { --_ag-sparkline-color: light-dark(oklch(from var(--ag-color-info) 0.52 0.09 h), oklch(from var(--ag-color-info) 0.75 0.12 h)); }
+  .ag-sparkline[data-ag-intent="success"] { --_ag-sparkline-color: light-dark(oklch(from var(--ag-color-success) 0.5 0.12 h), oklch(from var(--ag-color-success) 0.78 0.14 h)); }
+  .ag-sparkline[data-ag-intent="danger"] { --_ag-sparkline-color: light-dark(oklch(from var(--ag-color-danger) 0.52 0.17 h), oklch(from var(--ag-color-danger) 0.72 0.15 h)); }
+  .ag-sparkline[data-ag-intent="neutral"] { --_ag-sparkline-color: var(--ag-color-on-surface-muted); }
+  /* Engines without light-dark(): the same two arms (see chart-frame.css). */
+  @supports not (color: light-dark(black, white)) {
+    .ag-sparkline[data-ag-intent="info"] { --_ag-sparkline-color: oklch(from var(--ag-color-info) 0.52 0.09 h); }
+    .ag-sparkline[data-ag-intent="success"] { --_ag-sparkline-color: oklch(from var(--ag-color-success) 0.5 0.12 h); }
+    .ag-sparkline[data-ag-intent="danger"] { --_ag-sparkline-color: oklch(from var(--ag-color-danger) 0.52 0.17 h); }
+    [data-ag-scheme='dark'] .ag-sparkline[data-ag-intent="info"] { --_ag-sparkline-color: oklch(from var(--ag-color-info) 0.75 0.12 h); }
+    [data-ag-scheme='dark'] .ag-sparkline[data-ag-intent="success"] { --_ag-sparkline-color: oklch(from var(--ag-color-success) 0.78 0.14 h); }
+    [data-ag-scheme='dark'] .ag-sparkline[data-ag-intent="danger"] { --_ag-sparkline-color: oklch(from var(--ag-color-danger) 0.72 0.15 h); }
+    @media (prefers-color-scheme: dark) {
+      .ag-sparkline[data-ag-intent="info"]:not([data-ag-scheme] *) { --_ag-sparkline-color: oklch(from var(--ag-color-info) 0.75 0.12 h); }
+      .ag-sparkline[data-ag-intent="success"]:not([data-ag-scheme] *) { --_ag-sparkline-color: oklch(from var(--ag-color-success) 0.78 0.14 h); }
+      .ag-sparkline[data-ag-intent="danger"]:not([data-ag-scheme] *) { --_ag-sparkline-color: oklch(from var(--ag-color-danger) 0.72 0.15 h); }
+    }
+  }
   /* Forced colors (REQ-SURF-91): system colours, never the intent palette. */
   @media (forced-colors: active) {
     .ag-sparkline__line,

@@ -36,6 +36,9 @@ export interface AppShellSidebarToggleProps extends PartProps<'button'> {
   /** Also bind Mod+B (Cmd/Ctrl+B) inside this shell to the same action
       (default false). Scoped to the shell root, never a global listener. */
   shortcut?: boolean;
+  /** Where expanded collapses to in expanded/wide modes (default 'rail'):
+      the toggle flips expanded <-> collapseTo. Drawer modes ignore it. */
+  collapseTo?: 'rail' | 'collapsed' | undefined;
   /** Override the aria-labels for the next action. */
   labels?: { expand?: string; collapse?: string };
   icon?: React.ReactNode;
@@ -43,6 +46,7 @@ export interface AppShellSidebarToggleProps extends PartProps<'button'> {
 
 export function AppShellSidebarToggle({
   shortcut = false,
+  collapseTo = 'rail',
   labels,
   icon,
   ...rest
@@ -63,7 +67,6 @@ export function AppShellSidebarToggle({
     if (ref.current && !rootEl) setRootEl(appShellRoot(ref.current));
   }, [rootEl]);
 
-  const collapseTo: 'rail' | 'collapsed' = rootEl?.dataset['collapseTo'] === 'collapsed' ? 'collapsed' : 'rail';
   const isDrawer = snapshot.mode === 'compact' || snapshot.mode === 'medium';
   const next: SidebarState = snapshot.sidebar === 'expanded' ? collapseTo : 'expanded';
   const drawerOpen = snapshot.drawer === 'open';
