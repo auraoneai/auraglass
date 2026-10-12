@@ -201,11 +201,23 @@ describe('app-shell.css structure (SURF-011)', () => {
       const base = rules.find((r) => r.ancestors.length === 1 && selectorsOf(r).includes(auto));
       expect(base?.declarations.get('position')).toBe('absolute');
       const wide = inCondition(CONDITIONS[2]!).find((r) => selectorsOf(r).includes(auto));
+      /* REQ-SURF-38: the docked column's fill is the MAT content-sunken
+         material (attribute swap), never a stylesheet background override. */
       expect({ position: wide?.declarations.get('position'), bg: wide?.declarations.get('background') }).toEqual({
         position: 'static',
-        bg: 'var(--ag-color-canvas)',
+        bg: undefined,
       });
+      expect(wide?.declarations.get('backdrop-filter')).toBe('none');
     });
+  });
+
+  it("REQ-SURF-38: mode='sheet' hides the inline inspector and reserves no column; no inspector rule overrides the material background", () => {
+    const hide = rules.find((r) => selectorsOf(r).includes(".ag-app-shell [data-ag-slot='inspector'][data-inspector-mode='sheet']"));
+    expect(hide?.declarations.get('display')).toBe('none');
+    const col = rules.find((r) => selectorsOf(r).includes(".ag-app-shell:has([data-ag-slot='inspector'][data-inspector-mode='sheet'])"));
+    expect(col?.declarations.get('--_ag-app-shell-insp')).toBe('0px');
+    const overrides = rules.filter((r) => selectorsOf(r).some((x) => x.includes('data-inspector-mode')) && r.declarations.has('background'));
+    expect(overrides).toEqual([]);
   });
 
   it('declares only known named containers in @container queries', () => {

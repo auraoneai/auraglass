@@ -204,14 +204,11 @@ export function AiCommandCenter({ now = SHOWCASE_EPOCH }: AiCommandCenterProps) 
             </div>
           </div>
         </AppShell.Main>
+        {/* 390 collapsed layout (REQ-QUAL-59): Inspector.Root auto-mounts the compact bottom Sheet. */}
         <Inspector.Root aria-label={COPY.runbook}>
           <Inspector.Header title={COPY.runbook} />
           <RunInspectorContent now={now} />
         </Inspector.Root>
-        {/* 390 collapsed layout (REQ-QUAL-59): compact mode presents the inspector as a Sheet. */}
-        <Inspector.Sheet aria-label={COPY.runbook}>
-          <RunInspectorContent now={now} />
-        </Inspector.Sheet>
       </AppShell.Root>
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen}>
         <Command.Root>

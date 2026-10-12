@@ -127,6 +127,107 @@ describe('Inspector (SURF-058)', () => {
     );
     expect(screen.queryByRole('dialog')).toBeNull();
   });
+
+  it("REQ-SURF-38: mode='sheet' presents the bottom Sheet at layout='desktop'; the inline aside is the sheet-mode slot", async () => {
+    render(
+      <AppShell.Root layout="desktop" defaultInspector="closed">
+        <TopBarStub />
+        <AppShell.Main />
+        <Inspector.Root aria-label="Props" mode="sheet">
+          <Inspector.Field label="Width">40</Inspector.Field>
+        </Inspector.Root>
+      </AppShell.Root>,
+    );
+    const aside = document.querySelector('[data-ag-slot="inspector"]')!;
+    expect(aside).toHaveAttribute('data-inspector-mode', 'sheet');
+    expect(screen.queryByRole('dialog')).toBeNull();
+    const toggle = screen.getByRole('button', { name: 'Open inspector' });
+    toggle.focus();
+    fireEvent.click(toggle);
+    const dialog = await screen.findByRole('dialog');
+    expect(dialog).toHaveAttribute('data-ag-part', 'inspector-sheet');
+    expect(dialog).toHaveAttribute('data-side', 'bottom');
+    expect(dialog.textContent).toContain('40');
+    fireEvent.keyDown(dialog, { key: 'Escape' });
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    await waitFor(() => expect(document.activeElement).toBe(toggle));
+  });
+
+  it("REQ-SURF-38: mode='docked' renders the MAT content-sunken material (content layer, no chrome variant)", () => {
+    render(
+      <AppShell.Root layout="auto" defaultInspector="open">
+        <AppShell.Main />
+        <Inspector.Root aria-label="Props" mode="docked">x</Inspector.Root>
+      </AppShell.Root>,
+    );
+    const aside = screen.getByRole('complementary', { name: 'Props' });
+    expect(aside).toHaveAttribute('data-ag-surface', '');
+    expect(aside).toHaveAttribute('data-ag-layer', 'content');
+    expect(aside).toHaveAttribute('data-ag-content', 'content-sunken');
+    expect(aside.hasAttribute('data-ag-variant')).toBe(false);
+  });
+
+  it("REQ-SURF-38: auto docks as content-sunken under a wide shell and floats as chrome regular otherwise", () => {
+    const { unmount } = render(
+      <AppShell.Root layout="desktop" defaultInspector="open">
+        <AppShell.Main />
+        <Inspector.Root aria-label="Wide">x</Inspector.Root>
+      </AppShell.Root>,
+    );
+    const wide = screen.getByRole('complementary', { name: 'Wide' });
+    expect(document.querySelector('.ag-app-shell')).toHaveAttribute('data-mode', 'wide');
+    expect(wide).toHaveAttribute('data-ag-layer', 'content');
+    expect(wide).toHaveAttribute('data-ag-content', 'content-sunken');
+    expect(wide.hasAttribute('data-ag-variant')).toBe(false);
+    unmount();
+    render(
+      <AppShell.Root layout="auto" defaultInspector="open">
+        <AppShell.Main />
+        <Inspector.Root aria-label="Float">x</Inspector.Root>
+      </AppShell.Root>,
+    );
+    const float = screen.getByRole('complementary', { name: 'Float' });
+    expect(float).toHaveAttribute('data-ag-layer', 'chrome');
+    expect(float).toHaveAttribute('data-ag-variant', 'regular');
+    expect(float.hasAttribute('data-ag-content')).toBe(false);
+  });
+
+  it('REQ-SURF-38: Inspector.Root auto-mounts the compact sheet with its own children', async () => {
+    render(
+      <AppShell.Root layout="mobile" defaultInspector="closed">
+        <TopBarStub />
+        <AppShell.Main />
+        <Inspector.Root aria-label="Props">
+          <Inspector.Field label="Width">40</Inspector.Field>
+        </Inspector.Root>
+      </AppShell.Root>,
+    );
+    expect(screen.queryByRole('dialog')).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Open inspector' }));
+    const dialog = await screen.findByRole('dialog');
+    expect(dialog).toHaveAttribute('data-ag-part', 'inspector-sheet');
+    expect(dialog).toHaveAttribute('data-side', 'bottom');
+    expect(dialog.textContent).toContain('40');
+  });
+
+  it('REQ-SURF-38: a hand-rendered Inspector.Sheet wins over the auto-mounted one (one dialog)', async () => {
+    render(
+      <AppShell.Root layout="mobile" defaultInspector="closed">
+        <TopBarStub />
+        <AppShell.Main />
+        <Inspector.Root aria-label="Props">
+          <Inspector.Field label="Width">40</Inspector.Field>
+        </Inspector.Root>
+        <Inspector.Sheet aria-label="Props">
+          <Inspector.Field label="Height">90</Inspector.Field>
+        </Inspector.Sheet>
+      </AppShell.Root>,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Open inspector' }));
+    await screen.findByRole('dialog');
+    expect(screen.getAllByRole('dialog')).toHaveLength(1);
+    expect(screen.getByRole('dialog').textContent).toContain('90');
+  });
 });
 
 function TopBarStub() {

@@ -151,6 +151,14 @@
   .ag-app-shell[data-ag-inspector='closed'] {
     --_ag-app-shell-insp: 0px;
   }
+  /* REQ-SURF-38: mode='sheet' presents the inspector as the bottom Sheet at
+     every width — the inline aside never renders and reserves no column. */
+  .ag-app-shell:has([data-ag-slot='inspector'][data-inspector-mode='sheet']) {
+    --_ag-app-shell-insp: 0px;
+  }
+  .ag-app-shell [data-ag-slot='inspector'][data-inspector-mode='sheet'] {
+    display: none;
+  }
 
   /* Right-docked sidebar swaps the two fixed columns. */
   .ag-app-shell[data-ag-sidebar-side='end'] > .ag-app-shell__frame {
@@ -404,13 +412,14 @@
     }
   }
   /* SURF-038: inspector material/geometry by mode. Docked (or auto under a
-     wide or desktop-pinned shell) reads sunken with no backdrop-filter;
+     wide or desktop-pinned shell) carries the MAT content-sunken material
+     (Inspector.Root / the auto-mounted sheet set the attributes; no
+     background override here) with no backdrop-filter;
      floating (or auto under expanded/medium) overlays the main area at
      inline-end. Compact hides the inline inspector — Inspector.Sheet takes
      over. The wide case is the >=1440 container rule at the end. */
   [data-inspector-mode='docked'],
   .ag-app-shell:is([data-ag-layout='desktop'], [data-ag-layout='wide']) [data-inspector-mode='auto'] {
-    background: var(--ag-color-canvas);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -664,7 +673,6 @@
       z-index: auto;
       max-inline-size: none;
       border-radius: 0;
-      background: var(--ag-color-canvas);
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }
