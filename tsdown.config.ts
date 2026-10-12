@@ -12,7 +12,7 @@ const pkg = require('./package.json');
 // Entry filter: the one rule in scripts/build/lib/graph.mjs (plain node ESM, no build
 // step) shared with post.mjs and generate-exports.mjs — line-1 @ag-contract-seed closures,
 // missing sources and EntrySpec.ga gates (ga:'5.1' on 5.0.x) never reach dist/.
-import { buildableEntries, distChunkStem, patternEntries, seamReexportTarget } from './scripts/build/lib/graph.mjs';
+import { buildableEntries, distChunkStem, internalCompositionEntries, patternEntries, seamReexportTarget } from './scripts/build/lib/graph.mjs';
 
 /* REQ-CMP-01: an import of a Base UI seam module (src/foundation/base-ui/<part>.ts,
    a single same-name `export { X } from '@base-ui/react/<part>'`) is resolved to its
@@ -41,8 +41,11 @@ const entries: Record<string, string> = {};
 // entry name = dist path without .js (src/index.ts -> index, src/x/y.ts -> x/y)
 // Pattern rows (./icons/* -> dist/icons/<cat>.js) resolve to modules the manifest does
 // not list; rolldown folds pure re-export barrels into their importer, so each pattern
-// target is an entry of its own (REQ-PLAT-67).
-for (const e of [...keep, ...patternEntries(keep)]) entries[e.source.replace(/^src\//, '').replace(/\.tsx?$/, '')] = e.source;
+// target is an entry of its own (REQ-PLAT-67). In-repo composition modules
+// (internalCompositionEntries) are likewise entries so their in-repo-only
+// exports (SourceScope, ComboboxLoading) survive tree-shaking in the dist twin
+// the dist-backed Storybook build resolves to (REQ-QUAL-56).
+for (const e of [...keep, ...patternEntries(keep), ...internalCompositionEntries(keep)]) entries[e.source.replace(/^src\//, '').replace(/\.tsx?$/, '')] = e.source;
 const pending = pendingRows.map((e: { subpath: string; reason: string }) => `${e.subpath} (${e.reason})`);
 if (pending.length) console.log(`tsdown: pending entries (seed graph or missing): ${pending.join(', ')}`);
 
