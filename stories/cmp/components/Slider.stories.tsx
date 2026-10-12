@@ -113,3 +113,79 @@ export const Range: Story = {
     </Stage>
   ),
 };
+
+/* REQ-CMP-50: a vertical slider exposes aria-orientation="vertical"; ArrowUp
+   increments. tests/a11y/apg/cmp/slider.apg.spec.ts drives this story. */
+export const Vertical: Story = {
+  tags: ['apg'],
+  render: () => (
+    <Stage>
+      <Section title="Vertical" note="ArrowUp raises the level; Home and End jump to the bounds.">
+        <Scene>
+          <Panel title="Mixer" width={220}>
+            <div style={{ display: 'grid', gap: 'var(--ag-space-1)', justifyItems: 'center' }}>
+              <span style={label}>Channel gain</span>
+              <Slider.Root aria-label="Channel gain" orientation="vertical" defaultValue={30} min={0} max={100} />
+            </div>
+          </Panel>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};
+
+/* REQ-CMP-50: `format` drives each thumb's aria-valuetext. */
+export const Formatted: Story = {
+  tags: ['apg'],
+  render: () => (
+    <Stage>
+      <Section title="Formatted value" note="The value reads as a percentage to assistive technology.">
+        <Scene>
+          <Panel title="Battery" width={420}>
+            <div style={{ display: 'grid', gap: 'var(--ag-space-1)' }}>
+              <span style={label}>Charge limit</span>
+              <Slider.Root
+                aria-label="Charge limit"
+                defaultValue={0.8}
+                min={0}
+                max={1}
+                step={0.05}
+                largeStep={0.1}
+                format={{ style: 'percent' }}
+                locale="en-US"
+              />
+            </div>
+          </Panel>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};
+
+/* REQ-CMP-51 perf probe: every forwarded onValueChange dispatches an
+   `ag-slider-change` window event, so tests/perf/browser/cmp/controls-perf.spec.ts
+   can count forwarded changes per animation frame during a pointer drag. */
+export const DragProbe: Story = {
+  render: () => (
+    <Stage>
+      <Section title="Drag" note="Drag the thumb: changes are forwarded at most once per frame.">
+        <Scene>
+          <Panel title="Scrubber" width={420}>
+            <div style={{ display: 'grid', gap: 'var(--ag-space-1)' }}>
+              <span style={label}>Position</span>
+              <Slider.Root
+                aria-label="Position"
+                defaultValue={0}
+                min={0}
+                max={1000}
+                onValueChange={(value) => {
+                  window.dispatchEvent(new CustomEvent('ag-slider-change', { detail: value }));
+                }}
+              />
+            </div>
+          </Panel>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};

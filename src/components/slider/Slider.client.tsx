@@ -3,13 +3,49 @@
 import * as React from 'react';
 import { useControllableWarning } from '../../foundation/controllable';
 import { Slider as Base } from '@base-ui/react/slider';
-import { DirectionProvider } from '@base-ui/react/direction-provider';
+import { DirectionProvider, useDirection } from '@base-ui/react/direction-provider';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { materialProps } from '../../material';
 import { subscribeFrame } from '../../motion/ticker';
 import { sizeAttrs } from '../control-shared/size';
 import type { SliderRootProps, SliderValueProps } from './Slider.types';
+
+/* REQ-CMP-49: the track is a content-sunken well; the thumb is a transient
+   surface. The thumb sits inside the track surface, so the MAT nesting rule
+   keeps it opaque (no backdrop) at rest. Only while dragging does it carry
+   data-ag-allow-nested, which re-enables its own transient glass. Component
+   CSS never declares backdrop-filter (REQ-CMP-54). */
+const TRACK_MATERIAL = materialProps({ layer: 'content', content: 'content-sunken' });
+const THUMB_MATERIAL = materialProps({ layer: 'transient', thickness: 'thin' });
+const THUMB_MATERIAL_DRAGGING = materialProps({ layer: 'transient', thickness: 'thin', allowNested: true });
+
+type ThumbRenderProps = React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> };
+const renderThumb = (props: ThumbRenderProps, state: { dragging: boolean }) => (
+  <div {...props} {...(state.dragging ? THUMB_MATERIAL_DRAGGING : THUMB_MATERIAL)} />
+);
+
+/* REQ-CMP-50: Base UI ignores the DOM dir attribute for key mirroring. The
+   direction is the closest [dir] ancestor of the slider (measured after
+   mount, so it follows a dir="rtl" container as well as <html dir>), falling
+   back to an enclosing DirectionProvider; SSR renders the provider value.
+   It is re-measured when focus or a pointer enters the slider, so a dir
+   change made after mount applies before the next key or drag. */
+function useResolvedDirection(): ['ltr' | 'rtl', React.RefCallback<HTMLElement>] {
+  const contextDir = useDirection();
+  const [domDir, setDomDir] = React.useState<'ltr' | 'rtl' | null>(null);
+  const measure = React.useCallback((node: HTMLElement | null) => {
+    if (!node) return;
+    const attr = node.parentElement?.closest('[dir]')?.getAttribute('dir');
+    setDomDir(attr === 'rtl' || attr === 'ltr' ? attr : null);
+  }, []);
+  return [domDir ?? contextDir, measure];
+}
+
+function assignRef<T>(ref: React.Ref<T> | undefined, node: T | null) {
+  if (typeof ref === 'function') ref(node);
+  else if (ref) (ref as React.MutableRefObject<T | null>).current = node;
+}
 
 function SliderRoot<V extends number | number[]>({
   onValueChange,
@@ -24,12 +60,11 @@ function SliderRoot<V extends number | number[]>({
   ...rest
 }: SliderRootProps<V>) {
   useControllableWarning('Slider', 'value', rest.value);
-  /* REQ-CMP-50: Base UI ignores the DOM dir attribute for key mirroring —
-     resolve the document/element dir and wrap in DirectionProvider. */
-  const dir: 'ltr' | 'rtl' =
-    typeof document !== 'undefined' && document.documentElement?.getAttribute('dir') === 'rtl'
-      ? 'rtl'
-      : 'ltr';
+  const [dir, measureDir] = useResolvedDirection();
+  const rootRef = React.useCallback(
+    (node: HTMLDivElement | null) => { measureDir(node); assignRef(ref, node); },
+    [measureDir, ref],
+  );
   const ariaLabel = (rest as Record<string, unknown>)['aria-label'] as string | undefined;
   const ariaLabelledby = (rest as Record<string, unknown>)['aria-labelledby'] as string | undefined;
   const initial = rest.value ?? rest.defaultValue;
@@ -64,7 +99,9 @@ function SliderRoot<V extends number | number[]>({
       className={cn('ag-slider', className)}
       onValueChange={(v, details) => handleChange(v as V, details)}
       onValueCommitted={(v, details) => { flush(); onValueCommitted?.(v as V, toChangeDetails(details)); }}
-      ref={ref}
+      ref={rootRef}
+      onFocusCapture={(e: React.FocusEvent<HTMLDivElement>) => measureDir(e.currentTarget)}
+      onPointerDownCapture={(e: React.PointerEvent<HTMLDivElement>) => measureDir(e.currentTarget)}
       {...(format !== undefined ? { format } : {})}
       {...sizeAttrs(size)}
       {...rest}
@@ -73,13 +110,13 @@ function SliderRoot<V extends number | number[]>({
         <>
           <Base.Value data-ag-part="value" />
           <Base.Control data-ag-part="control">
-            <Base.Track data-ag-part="track">
+            <Base.Track data-ag-part="track" {...TRACK_MATERIAL}>
               <Base.Indicator data-ag-part="range" />
               {Array.from({ length: thumbCount }).map((_, i) => (
                 <Base.Thumb
                   key={i}
                   data-ag-part="thumb"
-                  {...materialProps({ layer: 'transient', thickness: 'thin' })}
+                  render={renderThumb}
                   aria-label={thumbCount === 1 ? ariaLabel : `${ariaLabel ?? 'value'} ${i + 1}`}
                   aria-labelledby={thumbCount === 1 ? ariaLabelledby : undefined}
                   {...(getAriaValueText !== undefined
@@ -125,7 +162,7 @@ function SliderControl({ className, children, ref }: { className?: string; child
 }
 
 function SliderTrack({ className, children, ref }: { className?: string; children?: React.ReactNode; ref?: React.Ref<HTMLDivElement> }) {
-  return <Base.Track data-ag-part="track" className={cn('ag-slider-track', className)} ref={ref}>{children}</Base.Track>;
+  return <Base.Track data-ag-part="track" {...TRACK_MATERIAL} className={cn('ag-slider-track', className)} ref={ref}>{children}</Base.Track>;
 }
 
 function SliderRange({ className, ref }: { className?: string; ref?: React.Ref<HTMLDivElement> }) {
@@ -143,6 +180,7 @@ function SliderThumb({ className, getAriaValueText, ...rest }: SliderThumbPartPr
   return (
     <Base.Thumb
       data-ag-part="thumb"
+      render={renderThumb}
       className={cn('ag-slider-thumb', className)}
       {...(getAriaValueText !== undefined
         ? { getAriaValueText: (_formatted: string, value: number, index: number) => getAriaValueText(value, index) }
