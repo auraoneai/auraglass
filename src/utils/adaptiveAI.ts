@@ -87,7 +87,7 @@ export class AdaptiveAIEngine {
 
   private trackingActive = false;
   private trackingListeners: { type: string; handler: EventListener }[] = [];
-  private trackingTimers: ReturnType<typeof setInterval>[] = [];
+  private trackingInterval: ReturnType<typeof setInterval> | null = null;
 
   static getInstance(): AdaptiveAIEngine {
     if (!AdaptiveAIEngine.instance) {
@@ -145,11 +145,30 @@ export class AdaptiveAIEngine {
     return "desktop";
   }
 
-  /** Behavior arrays are capped — a long session must not grow memory
-      without bound (REQ-PLAT-40). */
-  private static readonly MAX_CLICKS = 500;
-  private static readonly MAX_SCROLLS = 1000;
-  private static readonly MAX_HOVERS = 500;
+  /** Interaction arrays cap at 20 entries — a long session must not grow
+      memory without bound (REQ-PLAT-40); the oldest entry is dropped. */
+  static readonly MAX_INTERACTIONS = 20;
+  private static readonly MAX_CLICKS = AdaptiveAIEngine.MAX_INTERACTIONS;
+  private static readonly MAX_SCROLLS = AdaptiveAIEngine.MAX_INTERACTIONS;
+
+  private trackingSubscribers = new Set<(active: boolean) => void>();
+
+  /** Whether start() is currently recording document activity. */
+  isTracking(): boolean {
+    return this.trackingActive;
+  }
+
+  /** Notified when tracking starts or stops; returns the unsubscribe. */
+  onTrackingChange(fn: (active: boolean) => void): () => void {
+    this.trackingSubscribers.add(fn);
+    return () => {
+      this.trackingSubscribers.delete(fn);
+    };
+  }
+
+  private notifyTracking() {
+    for (const fn of [...this.trackingSubscribers]) fn(this.trackingActive);
+  }
 
   /**
    * Attach the document listeners and the session-duration interval.
@@ -216,16 +235,15 @@ export class AdaptiveAIEngine {
       { type: "scroll", handler: scrollHandler }
     );
 
-    this.trackingTimers.push(
-      setInterval(() => {
-        this.userBehavior.sessionDuration = Date.now() - this.sessionStartTime;
-      }, 1000)
-    );
+    this.trackingInterval = setInterval(() => {
+      this.userBehavior.sessionDuration = Date.now() - this.sessionStartTime;
+    }, 1000);
+    this.notifyTracking();
   }
 
   /**
-   * Detach every listener and clear every timer start() installed.
-   * Idempotent: disable() on an idle engine is a no-op.
+   * Detach both document listeners and clear the stored interval start()
+   * installed. Idempotent: disable() on an idle engine is a no-op.
    */
   disable() {
     if (!this.trackingActive) return;
@@ -236,8 +254,9 @@ export class AdaptiveAIEngine {
       }
     }
     this.trackingListeners = [];
-    for (const t of this.trackingTimers) clearInterval(t);
-    this.trackingTimers = [];
+    if (this.trackingInterval !== null) clearInterval(this.trackingInterval);
+    this.trackingInterval = null;
+    this.notifyTracking();
   }
 
   /**
@@ -603,77 +622,74 @@ export class AdaptiveAIEngine {
   }
 }
 
-const ADAPTIVE_AI_ENABLED =
-  typeof process !== "undefined" &&
-  process.env?.NEXT_PUBLIC_AURAGLASS_ADAPTIVE_AI === "true";
+/** REQ-PLAT-40: the one dev warning, emitted at most once per page load. */
+export const ENABLE_ADAPTIVE_AI_WARNING =
+  "[aura-glass] enableAdaptiveAI() is deprecated and will be removed in 5.0. It records click and scroll activity on this page.";
 
-let adaptiveAIEngine: AdaptiveAIEngine | null = null;
 let adaptiveAIDisposer: (() => void) | null = null;
 let adaptiveAIWarned = false;
 
+// Exported instance keeps the 4.1.0 shape (the engine singleton). Constructing
+// it records nothing: tracking starts only through enableAdaptiveAI().
+/** @deprecated adaptiveAI DEP-P0016 since 4.1.1, removed in 5.0.0. */
+export const adaptiveAI: AdaptiveAIEngine = AdaptiveAIEngine.getInstance();
+
 /**
- * Opt in to the adaptive AI engine. Constructs the engine singleton, starts
- * behavior tracking, and returns a disposer that stops it again. Idempotent:
- * every call returns the same disposer while the engine is live; calling the
- * disposer detaches the listeners/intervals it installed.
- *
- * Behavior tracking is disabled unless this is called or
- * NEXT_PUBLIC_AURAGLASS_ADAPTIVE_AI=true is set in the environment.
+ * Opt in to adaptive AI behavior tracking: attaches the click and scroll
+ * document listeners and the session interval, and returns a disposer that
+ * removes all three. Idempotent: while tracking is live every call returns the
+ * same disposer and installs nothing new.
  */
 /** @deprecated enableAdaptiveAI DEP-P0012 since 4.1.1, removed in 5.0.0 — the adaptive AI engine is removed in 5.0.0; enable it only if you still need the 4.x behaviour. */
 export function enableAdaptiveAI(): () => void {
-  if (!adaptiveAIEngine) {
-    if (
-      !adaptiveAIWarned &&
-      typeof process !== "undefined" &&
-      process.env?.NODE_ENV !== "production"
-    ) {
-      adaptiveAIWarned = true;
-      // eslint-disable-next-line no-console
-      console.warn(
-        "[aura-glass] adaptiveAI is deprecated (DEP-P0012/DEP-P0016) and removed " +
-          "in 5.0.0. Tracking is opt-in: enableAdaptiveAI() attaches document " +
-          "listeners until the returned disposer runs."
-      );
-    }
-    adaptiveAIEngine = AdaptiveAIEngine.getInstance();
-    adaptiveAIEngine.start();
-    adaptiveAIDisposer = () => {
-      adaptiveAIEngine?.disable();
-      adaptiveAIEngine = null;
-      adaptiveAIDisposer = null;
-    };
+  if (adaptiveAIDisposer && adaptiveAI.isTracking()) return adaptiveAIDisposer;
+  if (
+    !adaptiveAIWarned &&
+    typeof process !== "undefined" &&
+    process.env?.NODE_ENV !== "production"
+  ) {
+    adaptiveAIWarned = true;
+    // eslint-disable-next-line no-console
+    console.warn(ENABLE_ADAPTIVE_AI_WARNING);
   }
-  return adaptiveAIDisposer!;
+  adaptiveAI.start();
+  const dispose = () => {
+    adaptiveAI.disable();
+    if (adaptiveAIDisposer === dispose) adaptiveAIDisposer = null;
+  };
+  adaptiveAIDisposer = dispose;
+  return dispose;
 }
 
-// Exported instance stays the 4.1.0 shape (engine or null); it is null until
-// opted in via enableAdaptiveAI() or the env flag.
-/** @deprecated adaptiveAI DEP-P0016 since 4.1.1, removed in 5.0.0. */
-export const adaptiveAI: AdaptiveAIEngine | null = ADAPTIVE_AI_ENABLED
-  ? (() => {
-      enableAdaptiveAI();
-      return adaptiveAIEngine;
-    })()
-  : null;
-
-// React hook for adaptive AI. Returns null state until opted in; calling
-// enableAdaptiveAI() activates the engine and begins reporting on the next
-// interval tick.
+// React hook for adaptive AI: the 4.1.0 { config, insights, ai } shape. It
+// never enables tracking; while enableAdaptiveAI() tracking is live it refreshes
+// every 5 seconds, and it schedules nothing otherwise.
 /** @deprecated useAdaptiveAI DEP-P0017 since 4.1.1, removed in 5.0.0. */
 export function useAdaptiveAI() {
-  const engine = adaptiveAI;
-  const [config, setConfig] = useState(engine?.getConfiguration() ?? null);
-  const [insights, setInsights] = useState(engine?.getInsights() ?? null);
+  const [config, setConfig] = useState(() => adaptiveAI.getConfiguration());
+  const [insights, setInsights] = useState(() => adaptiveAI.getInsights());
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (!adaptiveAIEngine) return;
-      setConfig(adaptiveAIEngine.getConfiguration());
-      setInsights(adaptiveAIEngine.getInsights());
-    }, 5000); // Update every 5 seconds
-
-    return () => clearInterval(interval);
+    let interval: ReturnType<typeof setInterval> | null = null;
+    const refresh = () => {
+      setConfig(adaptiveAI.getConfiguration());
+      setInsights(adaptiveAI.getInsights());
+    };
+    const sync = (active: boolean) => {
+      if (active && interval === null) {
+        interval = setInterval(refresh, 5000); // Update every 5 seconds
+      } else if (!active && interval !== null) {
+        clearInterval(interval);
+        interval = null;
+        refresh();
+      }
+    };
+    const unsubscribe = adaptiveAI.onTrackingChange(sync);
+    sync(adaptiveAI.isTracking());
+    return () => {
+      unsubscribe();
+      if (interval !== null) clearInterval(interval);
+    };
   }, []);
 
   return { config, insights, ai: adaptiveAI };
