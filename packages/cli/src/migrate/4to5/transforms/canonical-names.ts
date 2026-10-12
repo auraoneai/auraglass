@@ -30,6 +30,41 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
   const moves = new Map<string, Array<{ imported: string; local: string }>>();
 
   const declarations = root.find(j.ImportDeclaration);
+
+  /** A row that leaves the specifier exactly where it is (identity rename in
+   * the same entry) is not a change — e.g. the root `Button`, which is both a
+   * 4.x and a 5.0 export. Treating it as a rename would make a second run
+   * rewrite already-migrated code. */
+  const isNoop = (imp: string, src: string): boolean => {
+    const row = map[imp];
+    return !row?.to || (row.to === imp && !row.compatOnly && (row.toEntry ?? src) === src);
+  };
+  /** Post-rename identity of a named specifier: `<entry>|<imported head>|<local>`. */
+  const finalKey = (s: Spec, src: string): string | undefined => {
+    const imp = specName(s);
+    if (s.type !== 'ImportSpecifier' || !imp) return undefined;
+    const local = s.local?.name ?? imp;
+    if (src.endsWith('/compat') || isNoop(imp, src)) return `${src}|${imp}|${local}`;
+    const row = map[imp]!;
+    const entry = row.compatOnly ? 'aura-glass/compat' : (row.toEntry ?? src);
+    const head = row.to!.split('.')[0]!;
+    return `${entry}|${head}|${local === imp ? head : local}`;
+  };
+  // Several 4.x names can collapse onto one 5.0 export (GlassCard and
+  // GlassWorkspacePanel -> Card), possibly from different declarations once
+  // imports-subpaths has normalised their entries. Only the first specifier per
+  // final binding survives; the rest are dropped and their JSX refs resolve
+  // through the survivor (a duplicate binding would not parse).
+  const firstSpecFor = new Map<string, Spec>();
+  declarations.forEach((p: any) => {
+    const src = String((p.node.source as { value?: unknown }).value ?? '');
+    if (!/^(aura-glass|@auraglass\/)/.test(src)) return;
+    for (const s of (p.node.specifiers ?? []) as Spec[]) {
+      const k = finalKey(s, src);
+      if (k && !firstSpecFor.has(k)) firstSpecFor.set(k, s);
+    }
+  });
+
   declarations.forEach((p: any) => {
     const src = String((p.node.source as { value?: unknown }).value ?? '');
     if (!/^(aura-glass|@auraglass\/)/.test(src)) return;
@@ -41,41 +76,70 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
         continue;
       }
       const imp = specName(s);
-      const local = s.local?.name ?? imp;
       if (!imp) { kept.push(s); continue; }
+      const local: string = s.local?.name ?? imp;
       const row = map[imp];
-      if (!row?.to || isCompat) {
+      if (!row?.to || isCompat || isNoop(imp, src)) {
         kept.push(s);
         continue;
       }
       const entry = row.compatOnly ? 'aura-glass/compat' : (row.toEntry ?? src);
       const newImported = row.to;
+      // Dotted targets (Toast.Provider, Field.Error) are member expressions off
+      // a root export: import the head name; JSX/bare refs get head.rest (or
+      // alias.rest when the specifier is aliased).
+      const head: string = newImported.split('.')[0]!;
+      const rest = newImported.slice(head.length);
+      // Provenance for prop-grammar: the JSX name this element carries after
+      // the rename was the 4.x `imp`. Compat routes keep the 4.x prop surface,
+      // so they get none.
+      if (!row.compatOnly && ctx.renamedFrom) {
+        const jsxName = `${local === imp ? head : local}${rest}`;
+        (ctx.renamedFrom.get(jsxName) ?? ctx.renamedFrom.set(jsxName, new Set()).get(jsxName)!).add(imp);
+      }
+      const key = finalKey(s, src);
+      if (key && firstSpecFor.get(key) !== s) {
+        // Same final binding already provided by another specifier — drop
+        // this one; JSX/bare refs resolve to `<head>.<rest>` through it.
+        if (local === imp) jsxRenames.set(imp, `${head}${rest}`);
+        else if (rest) jsxRenames.set(local, `${local}${rest}`);
+        changes.push({ transform: 'canonical-names', description: `${imp} -> ${newImported} (shared import)` });
+        if (row.compatOnly && !isCompat) {
+          todos.push({ transform: 'canonical-names', reason: `'${imp}' is compat-only in 5.0 — imported from 'aura-glass/compat'`, doc: DOC });
+        }
+        continue;
+      }
       if (entry === src) {
-        (s.imported as { name?: string }).name = newImported;
+        (s.imported as { name?: string }).name = head!;
         if (!s.local?.name || s.local.name === imp) {
           (s.local as { name?: string } | undefined) ??= undefined;
         }
         kept.push(s);
-        if ((s.local?.name ?? newImported) === newImported && local === imp) {
-          jsxRenames.set(imp, newImported);
-        } else if (local === imp) {
-          jsxRenames.set(imp, newImported);
+        if (local === imp) {
+          jsxRenames.set(imp, `${head}${rest}`);
+        } else if (rest) {
+          jsxRenames.set(local, `${local}${rest}`);
         }
         changes.push({ transform: 'canonical-names', description: `${imp} -> ${newImported}` });
       } else {
         // Move to a different entry, preserving any `as` local name.
         const m = moves.get(entry) ?? [];
-        m.push({ imported: newImported, local: (local === imp ? newImported : local) ?? newImported });
+        const newLocal = (local === imp ? head : local) ?? head!;
+        m.push({ imported: head, local: newLocal });
         moves.set(entry, m);
-        if (local === imp) jsxRenames.set(imp, newImported);
+        if (local === imp) jsxRenames.set(imp, `${newLocal}${rest}`);
+        else if (rest) jsxRenames.set(local, `${newLocal}${rest}`);
         changes.push({ transform: 'canonical-names', description: `${imp} -> ${entry} ${newImported}` });
       }
       if (row.compatOnly && !isCompat) {
         todos.push({ transform: 'canonical-names', reason: `'${imp}' is compat-only in 5.0 — imported from 'aura-glass/compat'`, doc: DOC });
       }
     }
+    // Side-effect imports (`import 'aura-glass/styles.css'`) have no
+    // specifiers to begin with and must survive.
+    const hadSpecifiers = (p.node.specifiers ?? []).length > 0;
     p.node.specifiers = kept as never;
-    if (kept.length === 0) j(p).remove();
+    if (hadSpecifiers && kept.length === 0) j(p).remove();
   });
 
   // Fix double-renames: when we renamed a specifier in place but kept local
@@ -83,8 +147,15 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
   // unaliased specifiers renamed to a different name need tag rewrites.
   let out = root.toSource({ quote: 'single', reuseWhitespace: true });
 
-  // Add/move import declarations for moved specifiers.
-  for (const [entry, specs] of moves) {
+  // Add/move import declarations for moved specifiers (dedup imported+local).
+  for (const [entry, rawSpecs] of moves) {
+    const seen = new Set<string>();
+    const specs = rawSpecs.filter((s) => {
+      const k = `${s.imported}|${s.local}`;
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
     const declText = `import { ${specs.map((s: any) => (s.local === s.imported ? s.imported : `${s.imported} as ${s.local}`)).join(', ')} } from '${entry}';`;
     if (!out.includes(`from '${entry}'`)) {
       // Insert after the last import.

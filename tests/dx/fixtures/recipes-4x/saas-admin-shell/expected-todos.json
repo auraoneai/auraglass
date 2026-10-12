@@ -1,3 +1,5 @@
 [
-  "__manual__source-parse-failure"
+  "icon category subpath 'aura-glass/icons/navigation' is gone in 5.0; import the glyph by name from 'aura-glass/icons'",
+  "AppShell sidebar: slot children: render Sidebar inside AppShell.Root",
+  "Sidebar items: item arrays become Sidebar.Item children (app-shell-slots)"
 ]

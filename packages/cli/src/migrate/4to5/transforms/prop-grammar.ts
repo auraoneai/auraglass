@@ -40,15 +40,22 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
   const seenTodos = new Set<string>();
 
   const exported = new Map<string, string>(); // local JSX name -> aura export name
+  const compatLocals = new Set<string>(); // locals bound from an aura-glass compat entry
   root.find(j.ImportDeclaration).forEach((p: any) => {
     const src = String((p.node.source as { value?: unknown }).value ?? '');
     if (!/^(aura-glass|@auraglass\/)/.test(src)) return;
     for (const s of p.node.specifiers ?? []) {
       const sAny = s as { type?: string; imported?: { name?: string; value?: unknown }; local?: { name?: string } };
+      let local: string | undefined;
       if (sAny.type === 'ImportSpecifier') {
         const imp = (sAny.imported?.name ?? sAny.imported?.value) as string;
-        exported.set(sAny.local?.name ?? imp, imp);
-      } else if (sAny.local?.name) exported.set(sAny.local.name, sAny.local.name);
+        local = sAny.local?.name ?? imp;
+        exported.set(local, imp);
+      } else if (sAny.local?.name) {
+        local = sAny.local.name;
+        exported.set(local, local);
+      }
+      if (local && src.endsWith('/compat')) compatLocals.add(local);
     }
   });
 
@@ -59,6 +66,81 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
     todos.push({ transform: 'prop-grammar', reason, doc });
   };
 
+  /** Writes a mapped static value: 'true' -> bare attribute, 'false' -> {false}. */
+  const setValue = (attr: Attr, v: string): void => {
+    if (v === 'true') attr.value = null as never;
+    else if (v === 'false') attr.value = j.jsxExpressionContainer(j.booleanLiteral(false)) as never;
+    else attr.value = { type: 'Literal', value: v };
+  };
+
+  /** `prop:value` (value-scoped key, S-39 props grammar via the meta generator) -> [prop, value]. */
+  const splitScoped = (key: string): [string, string | undefined] => {
+    const i = key.indexOf(':');
+    return i < 0 ? [key, undefined] : [key.slice(0, i), key.slice(i + 1)];
+  };
+
+  /** A row `to` that is not a prop name (or `prop:value`) is a migration note
+   * from the meta grammar ('error (node) or invalid via Field.Root'): never
+   * write it as an attribute name — keep the prop and mark it. */
+  const isPropTarget = (to: string): boolean => /^[A-Za-z_$][\w$-]*(?::[^\s]+)?$/.test(to);
+
+  /**
+   * 4.x `onChange(event)` -> 5.0 `on<Value|Checked>Change(value)`: the new
+   * callback receives the value, not the event. An inline handler that only
+   * reads `e.target.value` / `e.target.checked` is rewritten to take the value;
+   * anything else (a handler reference, other event use) is marked.
+   */
+  const VALUE_OF: Record<string, string> = { onValueChange: 'value', onCheckedChange: 'checked' };
+  const EVENT_MEMBERS = new Set(['target', 'currentTarget', 'preventDefault', 'stopPropagation', 'nativeEvent', 'persist']);
+  const adaptHandler = (attr: Attr, localName: string, to: string): void => {
+    const field = VALUE_OF[to];
+    if (!field) return;
+    const expr = (attr.value as { type?: string; expression?: any } | undefined)?.expression;
+    const fn = expr && (expr.type === 'ArrowFunctionExpression' || expr.type === 'FunctionExpression') ? expr : null;
+    const param = fn?.params?.length === 1 && fn.params[0].type === 'Identifier' ? fn.params[0] : null;
+    // Only an inline one-argument handler is provably event-shaped (it reads
+    // `e.target.*`); handler references and other arities may already take
+    // the value on the 4.x component (date pickers, tabs) — left as written.
+    if (!param) return;
+    const name = param.name as string;
+    let other = false;
+    const reads: any[] = [];
+    j.types.visit(fn.body, {
+      visitMemberExpression(p: any) {
+        const n = p.node;
+        const target = n.object;
+        if (
+          target?.type === 'MemberExpression' && target.object?.type === 'Identifier' && target.object.name === name
+          && !target.computed && (target.property?.name === 'target' || target.property?.name === 'currentTarget')
+          && !n.computed && n.property?.name === field
+        ) {
+          reads.push(p);
+          return false;
+        }
+        this.traverse(p);
+        return undefined;
+      },
+      visitIdentifier(p: any) {
+        // Event-style access the rewrite cannot carry over (`e.preventDefault()`,
+        // `e.target.name`). A bare use (`(checked) => set(checked)`) means the
+        // 4.x callback already passed the value — nothing to adapt.
+        const parent = p.parent?.node;
+        if (
+          p.node.name === name && parent?.type === 'MemberExpression' && parent.object === p.node && !parent.computed
+          && EVENT_MEMBERS.has(parent.property?.name)
+        ) other = true;
+        this.traverse(p);
+        return undefined;
+      },
+    });
+    if (other || reads.length === 0) {
+      if (other) pushTodo(`${localName}.${to}: receives the ${field}, not the change event — adapt the handler`);
+      return;
+    }
+    for (const p of reads) p.replace(j.identifier(name));
+    changes.push({ transform: 'prop-grammar', description: `${localName}.${to} handler takes the ${field}` });
+  };
+
   root.find(j.JSXOpeningElement).forEach((p: any) => {
     const nameNode = p.node.name as { type?: string; name?: string; object?: { name?: string }; property?: { name?: string } };
     let localName: string | undefined;
@@ -67,19 +149,87 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
       localName = `${nameNode.object.name}.${nameNode.property.name}`;
     }
     if (!localName) return;
+    const headLocal = localName.split('.')[0]!;
+    // Only aura-glass bindings migrate. Compat-routed names keep the 4.x prop
+    // surface through the aura-glass/compat adapter, so no row fires on them.
+    if (!exported.has(headLocal) || compatLocals.has(headLocal)) return;
     const exportName = exported.get(localName) ?? localName;
+    if (ctx.mappings.components[exportName]?.compatOnly) return;
     const mappedTo = ctx.mappings.components[exportName]?.to;
-    const rows = [
+    // Rows keyed on the element's own export name (4.x name when canonical-names
+    // did not run, or 5.0-keyed surf/mat rows), on its rename target, and on the
+    // 4.x names canonical-names renamed onto this element in this run. Rows of
+    // other 4.x aliases of the same 5.0 name never fire: on already-migrated
+    // code `Button` is the 5.0 export and must stay untouched.
+    const origins = ctx.renamedFrom?.get(localName) ?? new Set<string>();
+    const rows = [...new Set([
       ...(ctx.mappings.components[exportName]?.props ?? []),
-      ...(mappedTo ? (ctx.mappings.components[mappedTo]?.props ?? []) : []),
-    ];
+      ...(mappedTo && mappedTo !== exportName ? (ctx.mappings.components[mappedTo]?.props ?? []) : []),
+      ...[...origins].flatMap((o) => ctx.mappings.components[o]?.props ?? []),
+    ])];
     if (!rows.length) return;
 
     const attrs = (p.node.attributes ?? []) as Attr[];
     const removeIdx = new Set<Attr>();
     const extraAttrs: Attr[] = [];
+    const handled = new Set<Attr>();
+
+    // 1. Value-scoped rows (`variant:secondary`): fire only on that literal and
+    //    take precedence over the prop's unscoped row.
+    const scoped = rows.filter((r) => r.from.includes(':'));
+    for (const attr of attrs) {
+      if (attr.type !== 'JSXAttribute' || !attr.name?.name || !scoped.length) continue;
+      const prop = attr.name.name;
+      const got = literalOf(attr);
+      if (!got || !got.static) continue;
+      const row = scoped.find((r) => {
+        const [rp, rv] = splitScoped(r.from);
+        return rp === prop && rv === got.value;
+      });
+      if (!row) continue;
+      handled.add(attr);
+      const v = got.value;
+      if (row.to === null) {
+        removeIdx.add(attr);
+        changes.push({ transform: 'prop-grammar', description: `remove ${localName}.${prop}="${v}"` });
+        pushTodo(`${localName} ${row.from}: ${row.todo ?? `no 5.0 equivalent for ${prop}="${v}"; pick the 5.0 value by hand`}`);
+        continue;
+      }
+      if (row.to.includes('.') || !isPropTarget(row.to)) {
+        pushTodo(`${localName} ${row.from} -> ${row.to}${row.todo ? `: ${row.todo}` : ''}`);
+        continue;
+      }
+      const [toProp, toVal] = splitScoped(row.to);
+      const next = toVal ?? row.values?.[v] ?? v;
+      if (typeof next !== 'string') {
+        pushTodo(`${localName}.${toProp}="${v}" needs structured migration${row.todo ? ` — ${row.todo}` : ''}`);
+        continue;
+      }
+      (attr.name as { name: string }).name = toProp;
+      setValue(attr, next);
+      changes.push({ transform: 'prop-grammar', description: `${localName}.${prop}="${v}" -> ${toProp}="${next}"` });
+      if (row.todo) pushTodo(`${localName}.${toProp}: ${row.todo}`);
+    }
+
+    // Values the rows themselves produce, per target prop: an attribute that
+    // already carries one is migrated output and must be left alone (keeps a
+    // re-run idempotent, e.g. variant="regular" is not a 4.x GlassButton value).
+    const produced = new Map<string, Set<string>>();
+    const addProduced = (prop: string, v: unknown): void => {
+      if (typeof v !== 'string') return;
+      (produced.get(prop) ?? produced.set(prop, new Set()).get(prop)!).add(v);
+    };
+    for (const r of rows) {
+      if (r.to === null || !isPropTarget(r.to)) continue;
+      const [toProp, toVal] = splitScoped(r.to);
+      if (toVal !== undefined) addProduced(toProp, toVal);
+      for (const v of Object.values(r.values ?? {})) addProduced(toProp, v);
+    }
+
+    // 2. Unscoped rows.
     for (const row of rows) {
-      const attr = attrs.find((a: any) => a.type === 'JSXAttribute' && a.name?.name === row.from);
+      if (row.from.includes(':')) continue;
+      const attr = attrs.find((a: any) => a.type === 'JSXAttribute' && a.name?.name === row.from && !handled.has(a));
       if (!attr) continue;
       if (row.to === null) {
         removeIdx.add(attr);
@@ -87,38 +237,48 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
         if (row.todo) pushTodo(`${localName} ${row.from}: ${row.todo}`);
         continue;
       }
-      if (row.to.includes('.')) {
+      if (row.to.includes('.') || !isPropTarget(row.to)) {
         pushTodo(`${localName} ${row.from} -> ${row.to}${row.todo ? `: ${row.todo}` : ''}`);
         continue;
       }
-      if (row.to !== row.from) {
-        (attr.name as { name: string }).name = row.to;
+      const rename = (): void => {
+        if (row.to === row.from) return;
+        (attr.name as { name: string }).name = row.to!;
         changes.push({ transform: 'prop-grammar', description: `${localName}.${row.from} -> ${row.to}` });
-      }
+      };
       if (row.values) {
         const got = literalOf(attr);
         if (!got || !got.static) {
+          rename();
           pushTodo(`${localName}.${row.to} value is dynamic${row.todo ? ` — ${row.todo}` : ''}`);
-        } else {
-          const gotV = got && got.static ? got.value : undefined;
-          const mapped = gotV === undefined ? undefined : row.values[gotV];
-          const already = gotV !== undefined && Object.values(row.values).some((v) => v === gotV || (typeof v === 'string' && v.split(':').pop() === gotV));
-          if (already) continue;
-          if (typeof mapped === 'string' && mapped.startsWith('intent:')) {
-            removeIdx.add(attr);
-            extraAttrs.push({ type: 'JSXAttribute', name: { name: 'intent' }, value: { type: 'Literal', value: mapped.slice('intent:'.length) } });
-            changes.push({ transform: 'prop-grammar', description: `${localName}.${row.from}="${gotV}" -> intent="${mapped.slice(7)}"` });
-          } else if (typeof mapped === 'string') {
-            attr.value = { type: 'Literal', value: mapped };
-            changes.push({ transform: 'prop-grammar', description: `${localName}.${row.to}="${gotV}" -> "${mapped}"` });
-          } else if (mapped === undefined) {
-            pushTodo(`${localName}.${row.to}="${gotV}" unmapped${row.todo ? ` — ${row.todo}` : ''}`);
-          } else {
-            pushTodo(`${localName}.${row.to}="${gotV}" needs structured migration${row.todo ? ` — ${row.todo}` : ''}`);
-          }
+          continue;
         }
-      } else if (row.todo) {
-        pushTodo(`${localName}.${row.to}: ${row.todo}`);
+        const gotV = got.value;
+        if (row.to !== row.from && produced.get(row.from)?.has(gotV)) continue;
+        const mapped = row.values[gotV];
+        const already = Object.values(row.values).some((v) => v === gotV || (typeof v === 'string' && v.split(':').pop() === gotV));
+        if (already && mapped === undefined) {
+          rename();
+          continue;
+        }
+        if (typeof mapped === 'string' && mapped.startsWith('intent:')) {
+          removeIdx.add(attr);
+          extraAttrs.push({ type: 'JSXAttribute', name: { name: 'intent' }, value: { type: 'Literal', value: mapped.slice('intent:'.length) } });
+          changes.push({ transform: 'prop-grammar', description: `${localName}.${row.from}="${gotV}" -> intent="${mapped.slice(7)}"` });
+        } else if (typeof mapped === 'string') {
+          rename();
+          setValue(attr, mapped);
+          changes.push({ transform: 'prop-grammar', description: `${localName}.${row.to}="${gotV}" -> "${mapped}"` });
+        } else if (mapped === undefined) {
+          // Unmapped literal: leave the attribute exactly as written.
+          pushTodo(`${localName}.${row.from}="${gotV}" unmapped${row.todo ? ` — ${row.todo}` : ''}`);
+        } else {
+          pushTodo(`${localName}.${row.from}="${gotV}" needs structured migration${row.todo ? ` — ${row.todo}` : ''}`);
+        }
+      } else {
+        rename();
+        if (row.from === 'onChange') adaptHandler(attr, localName, row.to);
+        if (row.todo) pushTodo(`${localName}.${row.to}: ${row.todo}`);
       }
     }
     p.node.attributes = attrs.filter((a: any) => !removeIdx.has(a)).concat(extraAttrs) as never;

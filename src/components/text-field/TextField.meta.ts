@@ -29,6 +29,8 @@ const meta: ControlMeta = defineMeta({
         icon: 'startAdornment',
         helperText: 'description',
         errorMessage: 'error',
+        errorText: 'error',
+        state: 'the error prop marks the field invalid; warning/success states have no 5.0 equivalent',
         isInvalid: 'error (node) or invalid via Field.Root',
         fullWidth: null,
         glassVariant: null,

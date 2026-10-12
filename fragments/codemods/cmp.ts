@@ -71,8 +71,43 @@ export default {
     { from: 'GlassStepper', fromEntry: '.', to: 'Steps', toEntry: '.' },
     { from: 'GlassToast', fromEntry: 'aura-glass/feedback', to: 'Toast', toEntry: '.' },
     { from: 'GlassToast', fromEntry: 'aura-glass/root', to: 'useToast', toEntry: '.' },
-    // Root `Button` in 4.x is re-exported as-is in 5.0 (name is stable).
-    { from: 'Button', fromEntry: '.', to: 'Button', toEntry: '.', compatOnly: true },
+    // Root `Button` in 4.x is re-exported as-is in 5.0 (name is stable). It is
+    // NOT compat-only: `Button` from 'aura-glass' is also the 5.0 export, so a
+    // compat route would rewrite already-migrated code on a second run
+    // (plat/canonical-names/already-migrated; recipes-4x idempotence).
+    { from: 'Button', fromEntry: '.', to: 'Button', toEntry: '.' },
+    // REQ-CMP-135: 4.x `useToast` returns { addToast, removeToast, ... }; the
+    // 5.0 hook of the same name returns { add, close, ... }, so 4.x callers
+    // keep the 4.x surface through the compat hook (a rename to the 5.0 hook,
+    // let alone to the Toast component, would break every call site).
+    { from: 'useToast', fromEntry: '.', to: 'useToast', toEntry: '.', compatOnly: true },
+    // REQ-CMP-135: compound-part names. 5.0 has no root export for them; the
+    // compat parts render the 5.0 parts (Select.Trigger, Menu.Popup, ...) with
+    // the 4.x prop surface, so they work under the migrated Select / Menu
+    // root. The part tree (Content -> Portal/Positioner/Popup, Trigger+Value ->
+    // Trigger placeholder) is not a mechanical rename.
+    { from: 'GlassSelectTrigger', fromEntry: '.', to: 'GlassSelectTrigger', toEntry: '.', compatOnly: true },
+    { from: 'GlassSelectValue', fromEntry: '.', to: 'GlassSelectValue', toEntry: '.', compatOnly: true },
+    { from: 'GlassSelectContent', fromEntry: '.', to: 'GlassSelectContent', toEntry: '.', compatOnly: true },
+    { from: 'GlassSelectItem', fromEntry: '.', to: 'GlassSelectItem', toEntry: '.', compatOnly: true },
+    { from: 'GlassSelectLabel', fromEntry: '.', to: 'GlassSelectLabel', toEntry: '.', compatOnly: true },
+    { from: 'GlassSelectGroup', fromEntry: '.', to: 'GlassSelectGroup', toEntry: '.', compatOnly: true },
+    { from: 'GlassSelectSeparator', fromEntry: '.', to: 'GlassSelectSeparator', toEntry: '.', compatOnly: true },
+    { from: 'GlassSelectScrollUp', fromEntry: '.', to: 'GlassSelectScrollUp', toEntry: '.', compatOnly: true },
+    { from: 'GlassSelectScrollDown', fromEntry: '.', to: 'GlassSelectScrollDown', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuTrigger', fromEntry: '.', to: 'GlassDropdownMenuTrigger', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuPortal', fromEntry: '.', to: 'GlassDropdownMenuPortal', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuContent', fromEntry: '.', to: 'GlassDropdownMenuContent', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuItem', fromEntry: '.', to: 'GlassDropdownMenuItem', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuCheckboxItem', fromEntry: '.', to: 'GlassDropdownMenuCheckboxItem', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuRadioGroup', fromEntry: '.', to: 'GlassDropdownMenuRadioGroup', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuRadioItem', fromEntry: '.', to: 'GlassDropdownMenuRadioItem', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuGroup', fromEntry: '.', to: 'GlassDropdownMenuGroup', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuLabel', fromEntry: '.', to: 'GlassDropdownMenuLabel', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuSeparator', fromEntry: '.', to: 'GlassDropdownMenuSeparator', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuSub', fromEntry: '.', to: 'GlassDropdownMenuSub', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuSubTrigger', fromEntry: '.', to: 'GlassDropdownMenuSubTrigger', toEntry: '.', compatOnly: true },
+    { from: 'GlassDropdownMenuArrow', fromEntry: '.', to: 'GlassDropdownMenuArrow', toEntry: '.', compatOnly: true },
     // <generated renames — do not hand-edit>
     { from: 'Box',fromEntry: '.',to: 'Stack',toEntry: '.' },
     { from: 'ChartTooltip',fromEntry: '.',to: 'Tooltip',toEntry: '.' },
@@ -146,7 +181,6 @@ export default {
     { from: 'ScreenReaderText',fromEntry: '.',to: 'VisuallyHidden',toEntry: '.' },
     { from: 'toast',fromEntry: '.',to: 'Toast',toEntry: '.' },
     { from: 'Typography',fromEntry: '.',to: 'Text',toEntry: '.' },
-    { from: 'useToast',fromEntry: '.',to: 'Toast',toEntry: '.' },
     { from: 'WidgetGlass',fromEntry: '.',to: 'Card',toEntry: '.' },
     // </generated>
   ],
@@ -175,9 +209,9 @@ export default {
     { component: 'GlassButton',from: 'variant:aurora',to: null },
     { component: 'GlassButton',from: 'variant:success',to: null },
     { component: 'GlassButton',from: 'variant:warning',to: null },
-    { component: 'GlassButton',from: 'variant:danger',to: 'intent' },
-    { component: 'GlassButton',from: 'variant:destructive',to: 'intent' },
-    { component: 'GlassButton',from: 'variant:error',to: 'intent' },
+    { component: 'GlassButton',from: 'variant:danger',to: 'intent:danger' },
+    { component: 'GlassButton',from: 'variant:destructive',to: 'intent:danger' },
+    { component: 'GlassButton',from: 'variant:error',to: 'intent:danger' },
     { component: 'GlassButton',from: 'size:xs',to: 'size',values: { xs: 'sm' } },
     { component: 'GlassButton',from: 'size:xl',to: 'size',values: { xl: 'lg' } },
     { component: 'GlassButton',from: 'asChild',to: 'render' },
@@ -312,12 +346,21 @@ export default {
     { component: 'GlassInput',from: 'icon',to: 'startAdornment' },
     { component: 'GlassInput',from: 'helperText',to: 'description' },
     { component: 'GlassInput',from: 'errorMessage',to: 'error' },
+    { component: 'GlassInput',from: 'errorText',to: 'error' },
+    { component: 'GlassInput',from: 'state',to: 'the error prop marks the field invalid; warning/success states have no 5.0 equivalent' },
     { component: 'GlassInput',from: 'isInvalid',to: 'error (node) or invalid via Field.Root' },
     { component: 'GlassInput',from: 'fullWidth',to: null },
     { component: 'GlassInput',from: 'glassVariant',to: null },
     { component: 'GlassTextarea',from: 'onChange',to: 'onValueChange' },
     { component: 'GlassTextarea',from: 'helperText',to: 'description' },
     { component: 'GlassTextarea',from: 'errorMessage',to: 'error' },
+    { component: 'Typography',from: 'variant',to: 'type',values: { body: 'body',body1: 'body',body2: 'callout',caption: 'caption',callout: 'callout',label: 'label',overline: 'label',mono: 'mono',code: 'mono' } },
+    { component: 'Typography',from: 'variant:h1',to: null },
+    { component: 'Typography',from: 'variant:h2',to: null },
+    { component: 'Typography',from: 'variant:h3',to: null },
+    { component: 'Typography',from: 'variant:h4',to: null },
+    { component: 'Typography',from: 'variant:h5',to: null },
+    { component: 'Typography',from: 'variant:h6',to: null },
     { component: 'GlassToast',from: 'message',to: 'Toast.Description' },
     { component: 'GlassToast',from: 'type',to: 'intent' },
     { component: 'GlassToast',from: 'duration',to: 'timeout' },

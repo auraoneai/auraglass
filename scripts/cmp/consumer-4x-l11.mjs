@@ -15,6 +15,8 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+// Same TODO policy as the jest leg (tests/dx/consumer-4x-cmp.test.ts).
+import { isExcusedTodo } from './consumer-4x-todo-policy.mjs';
 
 // Remote-only lane (PRD-F §12 rule 6): it creates a release/4.x worktree and
 // type-checks two lines of src/, so it never runs on a workstation. The
@@ -105,31 +107,6 @@ fs.rmSync(STAGE, { recursive: true, force: true });
 fs.mkdirSync(STAGE, { recursive: true });
 for (const f of cases) fs.copyFileSync(path.join(CASES, f), path.join(STAGE, f));
 
-// Reverse map: 5.x (dotted) name -> old-name prop rows, same rule as the jest leg.
-const byNewName = new Map();
-for (const [oldName, row] of Object.entries(mappings.components ?? {})) {
-  if (!row.to) continue;
-  const k = row.to;
-  const s = byNewName.get(k) ?? new Set();
-  s.add(oldName);
-  byNewName.set(k, s);
-}
-function rowsFor(name) {
-  const direct = mappings.components?.[name]?.props ?? [];
-  const viaNew = [...(byNewName.get(name) ?? [])].flatMap(
-    (o) => mappings.components?.[o]?.props ?? [],
-  );
-  return [...direct, ...viaNew];
-}
-function todoIsUnmappableProp(reason) {
-  const compat = /^'(.+?)' is compat-only/.exec(reason);
-  if (compat) return mappings.components?.[compat[1]]?.compatOnly === true;
-  const m = /^(\S+?)(?:\.| )(\S+?)(?::| )/.exec(reason);
-  if (!m) return false;
-  const [, name, prop] = m;
-  return rowsFor(name).some((r) => (r.from === prop || r.to === prop) && (r.to === null || typeof r.todo === 'string'));
-}
-
 const { report, writes } = runMigration({ cwd: STAGE, transforms: undefined, dryRun: false });
 for (const [abs, content] of writes) fs.writeFileSync(abs, content);
 for (const f of cases) {
@@ -139,7 +116,7 @@ const bad = [];
 for (const fr of report.files ?? []) {
   for (const t of fr.todos ?? []) {
     console.log(`  todo ${fr.path}: ${t.reason}`);
-    if (!todoIsUnmappableProp(t.reason)) bad.push(`${fr.path}: ${t.reason}`);
+    if (!isExcusedTodo(t, mappings.components ?? {})) bad.push(`${fr.path}: ${t.reason}`);
   }
 }
 if (bad.length) {

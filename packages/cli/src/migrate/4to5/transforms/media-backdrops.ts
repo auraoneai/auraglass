@@ -157,8 +157,10 @@ function applyCode(source: string, unitSource: string): TransformResult {
       const imp = s.type === 'ImportSpecifier' ? (((s.imported as { name?: string }).name ?? (s.imported as { value?: unknown }).value) as string) : undefined;
       return !(imp && movedNames.has(imp));
     });
+    // Side-effect imports have no specifiers to begin with and must survive.
+    const hadSpecifiers = (p.node.specifiers ?? []).length > 0;
     p.node.specifiers = kept as never;
-    if (kept.length === 0) j(p).remove();
+    if (hadSpecifiers && kept.length === 0) j(p).remove();
   });
   const prog = root.find(j.Program).get('body');
   let insertAt = 0;

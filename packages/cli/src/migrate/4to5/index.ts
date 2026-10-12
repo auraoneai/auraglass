@@ -26,7 +26,7 @@ import { cssVars } from './transforms/css-vars.js';
 import { deps } from './transforms/deps.js';
 import { removed } from './transforms/removed.js';
 import { nearestPackageJson } from './transforms/deps.js';
-import { findTodos, lineOf, type TodoItem } from './todo.js';
+import { findTodos, lineOf, TODO_PREFIX, type TodoItem } from './todo.js';
 import { usageError } from '../../cli/errors.js';
 import { PACKAGE_VERSION } from '../../meta.js';
 
@@ -167,6 +167,21 @@ function kindOf(rel: string): FileUnit['kind'] {
   return 'skip';
 }
 
+/**
+ * TODO markers are append-only within a run: a transform that removes an
+ * import declaration also drops the comments attached to it, which would lose
+ * an earlier transform's marker (and make the next run re-add it). Re-prepend
+ * any `// TODO(aura-glass 5): ...` line of `before` that `after` no longer has.
+ */
+function keepMarkers(before: string, after: string): string {
+  if (before === after || !before.includes(TODO_PREFIX)) return after;
+  const lost = findTodos(before)
+    .map((m) => before.slice(before.lastIndexOf('\n', m.index) + 1, before.indexOf('\n', m.index) === -1 ? undefined : before.indexOf('\n', m.index)))
+    .filter((line) => line.trimStart().startsWith(`// ${TODO_PREFIX}`) && !after.includes(line.trim()));
+  if (!lost.length) return after;
+  return `${[...new Set(lost.map((l) => l.trim()))].join('\n')}\n${after}`;
+}
+
 export function runOnSource(
   unit: FileUnit,
   transforms: Transform[],
@@ -175,9 +190,10 @@ export function runOnSource(
   let src = unit.source;
   const changes: FileReport['changes'] = [];
   const todos: TodoItem[] = [];
+  const renamedFrom = new Map<string, Set<string>>();
   for (const t of transforms) {
-    const r = t.run({ ...unit, source: src }, { file: { ...unit, source: src }, mappings: ctx.mappings, docBase: ctx.docBase });
-    src = r.source;
+    const r = t.run({ ...unit, source: src }, { file: { ...unit, source: src }, mappings: ctx.mappings, docBase: ctx.docBase, renamedFrom });
+    src = keepMarkers(src, r.source);
     for (const c of r.changes) changes.push({ ...c, line: c.line ?? null, before: c.before ?? null, after: c.after ?? null });
     for (const td of r.todos) todos.push(td);
   }
