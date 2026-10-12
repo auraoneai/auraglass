@@ -209,6 +209,7 @@ export default {
     { component: 'GlassModal',from: 'description',to: 'Dialog.Description' },
     { component: 'GlassModal',from: 'footer',to: 'Dialog.Footer' },
     { component: 'GlassModal',from: 'size',to: 'size',values: { small: 'sm',medium: 'md',large: 'lg' } },
+    { component: 'GlassModal',from: 'size:fullscreen',to: 'appearance:fullscreen' },
     { component: 'GlassModal',from: 'variant',to: 'component',values: { drawer: 'Sheet',fullscreen: 'Dialog appearance=fullscreen' } },
     { component: 'GlassModal',from: 'closeOnBackdropClick',to: 'dismissible' },
     { component: 'GlassModal',from: 'closeOnOverlayClick',to: 'dismissible' },

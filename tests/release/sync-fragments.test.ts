@@ -19,6 +19,7 @@ const COPIED = [
   'scripts/release/sync-fragments.mjs',
   'scripts/release/gen-deprecations.mjs',
   'scripts/release/lib/policy.mjs',
+  'scripts/docs/lib/migration-guide.mjs', // gen-deprecations import (6cfa47cad)
   'src/contracts/load-fragments.mjs',
 ];
 const today = () => new Date().toISOString().slice(0, 10).replace(/-/g, '');

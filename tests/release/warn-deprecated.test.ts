@@ -21,9 +21,11 @@ describe('warnDeprecated (REQ-PLAT-26)', () => {
     expect(spy).toHaveBeenCalledTimes(1);
     const msg = spy.mock.calls[0]?.[0];
     if (row) {
+      // 03e500ea7: rows already end in '.', the sentence ends exactly once.
       expect(msg).toBe(
-        `[aura-glass] ${row.id} (since ${row.since}, removed in ${row.removeIn}): ${row.message}.${row.codemod ? ` Codemod: npx @auraglass/cli migrate 4to5 --transform ${row.codemod}.` : ''} ${row.doc}`,
+        `[aura-glass] ${row.id} (since ${row.since}, removed in ${row.removeIn}): ${row.message.replace(/\.+$/, '')}.${row.codemod ? ` Codemod: npx @auraglass/cli migrate 4to5 --transform ${row.codemod}.` : ''} ${row.doc}`,
       );
+      expect(msg).not.toContain('..');
     }
   });
   it('warns once per id', () => {

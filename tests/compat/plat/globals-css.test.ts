@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { describe, expect, it } from '@jest/globals';
 import postcss from 'postcss';
+import { LAYER_ORDER_STATEMENT } from '../../../src/contracts/tokens';
 
 const FILE = 'src/compat/css/globals.css';
 const css = readFileSync(FILE, 'utf8');
@@ -17,7 +18,16 @@ describe('compat globals.css (REQ-PLAT-30)', () => {
   });
 
   it('every rule lives inside a single @layer ag.compat block', () => {
-    const top = root.nodes.filter((n) => n.type !== 'comment');
+    /* REQ-PLAT-74 (406a3e4b5): standalone css files open with the contract's
+       blockless layer-order statement; nothing else may sit outside the block. */
+    const LAYER_ORDER = LAYER_ORDER_STATEMENT.replace(/^@layer\s+|;$/g, '');
+    const nodes = root.nodes.filter((n) => n.type !== 'comment');
+    const order = nodes[0] as postcss.AtRule;
+    expect(order.type).toBe('atrule');
+    expect(order.name).toBe('layer');
+    expect(order.params).toBe(LAYER_ORDER);
+    expect(order.nodes).toBeUndefined();
+    const top = nodes.slice(1);
     expect(top).toHaveLength(1);
     const layer = top[0] as postcss.AtRule;
     expect(layer.type).toBe('atrule');

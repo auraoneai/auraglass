@@ -37,20 +37,16 @@ const EXTERNALS = ['react', 'react-dom', 'react/*', 'clsx', '@base-ui/*', '@tans
 
 /* PROVISIONAL_ROWS/DEFAULT_CEILINGS live in src/contracts (type module); bundle
    it with esbuild exactly like load-fragments does so the gate reads the same
-   values rather than a restated copy. */
-const contractsModule = await (async () => {
+   values rather than a restated copy. Loaded inside run() (no top-level await)
+   so tests can import the pure ratchetProblems() helper. */
+const loadContracts = async () => {
   const res = await esbuildBundle({
     entryPoints: [join(ROOT, 'src/contracts/fragments.ts')],
     bundle: true, write: false, format: 'esm', platform: 'node', logLevel: 'silent',
   });
   const url = 'data:text/javascript;base64,' + Buffer.from(res.outputFiles[0].text).toString('base64');
   return import(url);
-})();
-const { PROVISIONAL_ROWS, DEFAULT_CEILINGS } = contractsModule;
-if (!PROVISIONAL_ROWS || !DEFAULT_CEILINGS) {
-  console.error('verify-size-budgets: PROVISIONAL_ROWS/DEFAULT_CEILINGS missing from src/contracts/fragments.ts');
-  process.exit(1);
-}
+};
 
 const { js: jsEntries } = manifestEntries(ROOT);
 const { pending: pendingEntries } = buildableEntries(ROOT);
@@ -79,6 +75,19 @@ const bundle = async (spec) => {
     external: EXTERNALS, treeShaking: true, metafile: true, logLevel: 'silent',
   });
   return { bytes: gzipSync(res.outputFiles[0].contents, { level: 9 }).length, metafile: res.metafile };
+};
+
+/* "(motion share)" rows (REQ-MOT-120..123: "{ Button } <= 10 KB with <= 0.5 KB
+   motion share"): the min+gz bytes of the bundle attributable to dist/motion/**,
+   i.e. gz(bundle) x minified-motion-bytes / minified-bundle-bytes. */
+const SHARE_RE = /\s*\((\w+) share\)\s*$/;
+const shareOf = ({ bytes, metafile }, area) => {
+  const out = Object.values(metafile.outputs)[0];
+  const total = Object.values(out.inputs).reduce((n, i) => n + i.bytesInOutput, 0);
+  const own = Object.entries(out.inputs)
+    .filter(([k]) => k.split('\\').join('/').includes(`/dist/${area}/`))
+    .reduce((n, [, i]) => n + i.bytesInOutput, 0);
+  return total ? Math.round((bytes * own) / total) : 0;
 };
 
 const git = (args) => {
@@ -116,6 +125,11 @@ export function ratchetProblems(rows, baseRows, commitMessages, changelogText) {
 }
 
 export async function run() {
+  const { PROVISIONAL_ROWS, DEFAULT_CEILINGS } = await loadContracts();
+  if (!PROVISIONAL_ROWS || !DEFAULT_CEILINGS) {
+    console.error('verify-size-budgets: PROVISIONAL_ROWS/DEFAULT_CEILINGS missing from src/contracts/fragments.ts');
+    process.exit(1);
+  }
   const rows = [];
   for (const { value } of await loadFragments('size-budgets', ROOT)) for (const r of value ?? []) rows.push(r);
   const problems = [];
@@ -156,8 +170,11 @@ export async function run() {
       if (subpath && !entry) { results.push({ ...row, status: 'pending', measuredBytes: null }); continue; }
       /* map the aura-glass specifier to the emitted dist file */
       let spec = row.import.trim();
-      /* bare 'aura-glass/x' specifiers become a whole-entry measurement */
-      if (!/from\s*['"]/.test(spec) && !/^['"]/.test(spec) && /^aura-glass/.test(spec)) spec = `export * from '${spec}'`;
+      const share = SHARE_RE.exec(spec)?.[1] ?? null;
+      if (share) spec = spec.replace(SHARE_RE, '');
+      /* bare 'aura-glass/x' (or quoted "'aura-glass/x'") specifiers become a
+         whole-entry measurement */
+      if (!/from\s*['"]/.test(spec) && /^['"]?aura-glass/.test(spec)) spec = `export * from '${spec.replace(/^['"]|['"]$/g, '')}'`;
       if (subpath) {
         const target = entry ? join(ROOT, entry.default) : null;
         const distPath = target ?? join(ROOT, 'dist', subpath === '.' ? 'index.js' : `${subpath.slice(2)}/index.js`);
@@ -166,7 +183,11 @@ export async function run() {
       /* fragments may hold bare '{ X } from ...' specifiers — wrap as a real
          statement so esbuild parses it. */
       if (!/^\s*(import|export)\b/.test(spec)) spec = `export ${spec}`;
-      try { ({ bytes: measured, metafile } = await bundle(spec)); }
+      try {
+        const b = await bundle(spec);
+        ({ metafile } = b);
+        measured = share ? shareOf(b, share) : b.bytes;
+      }
       catch (e) {
         /* seed-pending entries stay pending; everything else fails the row */
         const status = subpath && pendingSubpaths.has(subpath) ? 'pending' : 'fail';
@@ -229,4 +250,6 @@ export async function run() {
   console.log(`verify-size-budgets: ${passing}/${results.length} rows within limits (${pending} pending)`);
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === realpathSync(process.argv[1])) await run();
+if (process.argv[1] && fileURLToPath(import.meta.url) === realpathSync(process.argv[1])) {
+  run().catch((e) => { console.error(e); process.exit(1); });
+}

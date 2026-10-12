@@ -72,7 +72,11 @@ describe('build stack pinning (REQ-PLAT-64)', () => {
   });
 
   it('exact build script chain (tokens -> tsdown -> tsc emit -> post)', () => {
-    expect(pkg.scripts.build).toBe('npm run tokens:build && tsdown');
+    /* FIN-C (0684ffff3): dist/ is wiped up front, then tsdown runs --no-clean so it
+       does not delete the dist/tokens.css + dist/tailwind.css that tokens:build just wrote. */
+    expect(pkg.scripts.build).toBe(
+      "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\" && npm run tokens:build && tsdown --no-clean",
+    );
     expect(pkg.scripts.postbuild).toContain('post.mjs');
   });
 

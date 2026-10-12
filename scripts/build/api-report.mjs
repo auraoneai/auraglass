@@ -136,7 +136,10 @@ export async function run5x(entry, { root = ROOT, check = false, failOnUnanalysa
 
   const files = {};
   const stem = entry;
-  const { exportsJson, apiMd } = reportFiles(`./${entry.replace(/^\.\//, '')}`, names, { unanalysable });
+  // Reports name the entry in subpath spelling ('./tokens'); the bare `root`
+  // stem is the '.' entry it resolves through, never a './root' subpath.
+  const label = entry === 'root' ? '.' : `./${entry.replace(/^\.\//, '')}`;
+  const { exportsJson, apiMd } = reportFiles(label, names, { unanalysable });
   files[`etc/api/${stem}.exports.json`] = exportsJson;
   files[`etc/api/${stem}.api.md`] = apiMd;
   // API Extractor produces the .api.md when the built d.ts rollup exists

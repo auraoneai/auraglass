@@ -102,7 +102,11 @@ export function MediaScrubber(props: MediaScrubberProps) {
 
   const safeMax = Number.isFinite(max) && max > 0 ? max : 0;
   const pct = (s: number) => (safeMax > 0 ? Math.min(100, Math.max(0, (s / safeMax) * 100)) : 0);
-  const shown = dragValue ?? value;
+  // Unknown duration (0/NaN before loadedmetadata): Base UI requires max > min,
+  // so the slider gets a placeholder range and is disabled — nothing to seek yet.
+  const noDuration = safeMax <= 0;
+  const shown = noDuration ? 0 : (dragValue ?? value);
+  const isDisabled = disabled || noDuration;
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     // Base UI owns the standard slider keys; , and . frame-step only while paused.
@@ -145,10 +149,10 @@ export function MediaScrubber(props: MediaScrubberProps) {
       <Slider.Root
         value={shown}
         min={0}
-        max={safeMax}
+        max={noDuration ? 1 : safeMax}
         step={step}
         largeStep={largeStep}
-        {...(disabled !== undefined ? { disabled } : {})}
+        {...(disabled !== undefined || noDuration ? { disabled: isDisabled } : {})}
         aria-label={ariaLabel}
         onValueChange={(v, details) => {
           const n = Array.isArray(v) ? v[0]! : v;

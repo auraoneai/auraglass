@@ -80,6 +80,9 @@ describe('publishing docs', () => {
             ':!scripts/ci/verify-ci-fragments.mjs',
             ':!tests/ci/fixtures/ci-fragments/**',
             ':!tests/release/publishing-docs.test.ts',
+            // enforcers: both assert the token names are absent from their CI/publish config
+            ':!tests/labs/package.test.ts',
+            ':!packages/qa/test/ci-fragment.test.ts',
           ],
           { encoding: 'utf8' },
         );

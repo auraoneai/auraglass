@@ -3,10 +3,12 @@
    After tsc --emitDeclarationOnly, declaration files can still reference tsconfig
    path aliases (aura-glass/x, @/x) which do not resolve in the published package.
    Rewrite every relative-resolvable alias to the relative dist path so the emitted
-   graph is path-identity with the runtime graph (dist/x.js <-> dist/x.d.ts). */
-import { readFileSync, writeFileSync } from 'node:fs';
+   graph is path-identity with the runtime graph (dist/x.js <-> dist/x.d.ts).
+   Plain-JS sources (src/x.mjs, e.g. theme/wcag.mjs shared with the tokens build) get
+   no tsc declaration; their hand-written src/x.d.mts companion is copied to x.d.ts. */
+import { copyFileSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
-import { DIST, walk } from './lib/graph.mjs';
+import { DIST, SRC, walk } from './lib/graph.mjs';
 import { existsSync } from 'node:fs';
 
 const SPEC_RE = /(from\s*|import\s*\(\s*|import\s*)['"]([^'"]+)['"]/g;
@@ -45,7 +47,22 @@ export function rewriteFile(dtsFile) {
   return changed;
 }
 
+/** dist/x.js emitted from src/x.mjs: copy src/x.d.mts to dist/x.d.ts when tsc emitted none. */
+export function copyMjsDeclarations(root = DIST) {
+  let n = 0;
+  for (const js of walk(root, p => p.endsWith('.js'))) {
+    const stem = relative(root, js).replace(/\.js$/, '');
+    const dts = join(root, `${stem}.d.ts`);
+    const companion = join(SRC, `${stem}.d.mts`);
+    if (existsSync(dts) || !existsSync(join(SRC, `${stem}.mjs`)) || !existsSync(companion)) continue;
+    copyFileSync(companion, dts);
+    n++;
+  }
+  return n;
+}
+
 export function rewriteAll(root = DIST) {
+  copyMjsDeclarations(root);
   const files = walk(root, p => p.endsWith('.d.ts'));
   let n = 0;
   for (const f of files) if (rewriteFile(f)) n++;
