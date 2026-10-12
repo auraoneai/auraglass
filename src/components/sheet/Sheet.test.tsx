@@ -7,6 +7,9 @@ import * as React from 'react';
 import { Sheet } from './index';
 import { SheetAction } from './Sheet.client';
 import { resolveDetent } from './useSheetDetents';
+import { layerStackFor } from '../../theme/layers/LayerStack';
+import type { SheetRootProps, SheetSide } from './Sheet.types';
+import type { SheetDetent } from './useSheetDetents';
 
 function Demo({ root = {}, children }: { root?: Record<string, unknown>; children?: React.ReactNode }) {
   return (
@@ -90,7 +93,7 @@ describe('Sheet (CMP-229..236)', () => {
 
   it('handle: keyboard cycles detents upward and announces', async () => {
     const onDetentChange = jest.fn();
-    render(<Demo root={{ defaultOpen: true, side: 'bottom', detents: [0.5, 'full'], onDetentChange }} />);
+    render(<Demo root={{ defaultOpen: true, side: 'bottom', detents: [0.5, 1], onDetentChange }} />);
     await act(async () => {});
     const handle = document.querySelector('[data-ag-part="handle"]')!;
     // REQ-CMP-95: plain button, no separator role or orientation
@@ -107,7 +110,7 @@ describe('Sheet (CMP-229..236)', () => {
   });
 
   it('handle drag translates via rAF and settles on release', async () => {
-    render(<Demo root={{ defaultOpen: true, side: 'bottom', detents: [0.5, 'full'] }} />);
+    render(<Demo root={{ defaultOpen: true, side: 'bottom', detents: [0.5, 1] }} />);
     await act(async () => {});
     const el = popup()!;
     const handle = document.querySelector('[data-ag-part="handle"]') as HTMLElement;
@@ -154,7 +157,7 @@ describe('Sheet (CMP-229..236)', () => {
 
   it('detents are ignored unless side resolves to bottom (REQ-CMP-94)', async () => {
     const onDetentChange = jest.fn();
-    render(<Demo root={{ defaultOpen: true, side: 'right', detents: [0.5, 'full'], onDetentChange }} />);
+    render(<Demo root={{ defaultOpen: true, side: 'end', detents: [0.5, 1], onDetentChange }} />);
     await act(async () => {});
     const handle = document.querySelector('[data-ag-part="handle"]') as HTMLElement;
     handle.focus();
@@ -231,5 +234,57 @@ describe('Sheet (CMP-229..236)', () => {
     const close = document.querySelector('[data-ag-part="close"]')!;
     expect(close.classList.contains('ag-button')).toBe(true);
     expect(close.classList.contains('ag-sheet-close')).toBe(true);
+  });
+
+  /* REQ-CMP-92: the public side is logical only. */
+  it('SheetSide is start|end|top|bottom; physical edges are internal (data-side)', async () => {
+    const sides: SheetSide[] = ['start', 'end', 'top', 'bottom'];
+    // @ts-expect-error physical edges are not part of the public SheetSide
+    const physical: SheetSide = 'left';
+    expect(sides).not.toContain(physical);
+    for (const side of sides) {
+      const { unmount } = render(<Demo root={{ defaultOpen: true, side }} />);
+      await act(async () => {});
+      expect(['left', 'right', 'top', 'bottom']).toContain(popup()!.getAttribute('data-side'));
+      unmount();
+    }
+  });
+
+  /* REQ-CMP-94: detents?: number[] (1 = full, omitted = content height). */
+  it('detents are numbers: 1 is full height, omitted is the content height', async () => {
+    /* jsdom has no ResizeObserver; the root measures once on observe */
+    const hadRO = 'ResizeObserver' in window;
+    if (!hadRO) {
+      (window as unknown as { ResizeObserver: unknown }).ResizeObserver = class {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      };
+    }
+    const full: SheetDetent[] = [1];
+    // @ts-expect-error 'full' / 'content' are not public detents
+    const legacy: SheetRootProps['detents'] = ['full'];
+    expect(legacy).toHaveLength(1);
+    const { unmount } = render(<Demo root={{ defaultOpen: true, side: 'bottom', detents: full }} />);
+    await act(async () => {});
+    expect(popup()!.getAttribute('data-ag-appearance')).toBe('full-height');
+    unmount();
+    render(<Demo root={{ defaultOpen: true, side: 'bottom' }} />);
+    await act(async () => {});
+    // one effective (content) detent; not full height
+    expect(popup()!.getAttribute('data-detent')).toBe('0');
+    expect(popup()!.getAttribute('data-ag-appearance')).not.toBe('full-height');
+    if (!hadRO) delete (window as unknown as { ResizeObserver?: unknown }).ResizeObserver;
+  });
+
+  /* REQ-SURF-31 seam: a navigation drawer registers as LayerStack kind 'drawer'. */
+  it("layerKind='drawer' registers the modal layer as a drawer; default is sheet", async () => {
+    const { unmount } = render(<Demo root={{ defaultOpen: true }} />);
+    await act(async () => {});
+    expect(layerStackFor(document).top()).toEqual(expect.objectContaining({ kind: 'sheet', modal: true }));
+    unmount();
+    render(<Demo root={{ defaultOpen: true, layerKind: 'drawer' }} />);
+    await act(async () => {});
+    expect(layerStackFor(document).top()).toEqual(expect.objectContaining({ kind: 'drawer', modal: true }));
   });
 });

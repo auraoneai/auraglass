@@ -6,9 +6,9 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Sheet } from '../../../components/sheet';
-import type { SheetDetent } from '../../../components/sheet';
 import type { OverlayOpenChangeDetails } from '../../../components/overlays/_shared';
-import { __compatWrap as wrap } from '../overlays/_shared';
+import { __compatWrap as wrap, __compatDetents as toDetents } from '../overlays/_shared';
+import type { CompatSheetDetent } from '../overlays/_shared';
 
 const DEP = 'DEP-C0132';
 
@@ -18,7 +18,7 @@ export interface MobileGlassBottomSheetProps {
   onOpenChange?: (open: boolean) => void;
   /** 4.x snap points (fractions of the viewport); mapped to Sheet `detents` */
   snap?: number | readonly number[];
-  detents?: readonly SheetDetent[];
+  detents?: readonly CompatSheetDetent[];
   children?: React.ReactNode;
   className?: string;
 }
@@ -26,12 +26,13 @@ export interface MobileGlassBottomSheetProps {
 export function MobileGlassBottomSheet({ open, onClose, onOpenChange, snap, detents, children, className }: MobileGlassBottomSheetProps) {
   warnDeprecated(DEP);
   const d = detents ?? (snap !== undefined ? (Array.isArray(snap) ? [...snap] : [snap]) : undefined);
+  const dets = toDetents(d);
   return wrap('MobileGlassBottomSheet', (
     <Sheet.Root
       side="bottom"
       {...(open !== undefined ? { open } : {})}
       onOpenChange={(o: boolean, _d: OverlayOpenChangeDetails) => { onOpenChange?.(o); if (!o) onClose?.(); }}
-      {...(d !== undefined ? { detents: [...d] as SheetDetent[] } : {})}
+      {...(dets !== undefined ? { detents: dets } : {})}
     >
       <Sheet.Content {...(className !== undefined ? { className } : {})}>{children}</Sheet.Content>
     </Sheet.Root>

@@ -15,8 +15,9 @@ export interface DialogRootProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
-  /** 'trap-focus' keeps the focus trap without scroll-lock or outside-press inert. */
-  modal?: boolean | 'trap-focus';
+  /** REQ-CMP-86: modal (default true) traps focus, inerts the page and
+      registers the LayerStack scroll lock; false is a non-modal dialog. */
+  modal?: boolean;
   /** Outside press closes; `false` maps to BU disablePointerDismissal. */
   dismissible?: boolean;
   /** Localisable strings. */

@@ -19,7 +19,7 @@ const meta: ControlMeta = defineMeta({
     'dragging', 'animating', 'full-height',
   ],
   variants: {
-    side: ['start', 'end', 'top', 'bottom', 'left', 'right'],
+    side: ['start', 'end', 'top', 'bottom'],
     preset: ['panel', 'action'],
     size: ['sm', 'md', 'lg'],
     modal: ['true', 'false'],

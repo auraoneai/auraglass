@@ -5,9 +5,10 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Sheet } from '../../../components/sheet';
-import type { SheetSide, SheetDetent } from '../../../components/sheet';
+import type { SheetSide } from '../../../components/sheet';
 import type { OverlayOpenChangeDetails } from '../../../components/overlays/_shared';
-import { __compatWrap as wrap } from './_shared';
+import { __compatWrap as wrap, __compatDetents as toDetents } from './_shared';
+import type { CompatSheetDetent } from './_shared';
 
 const DEP = 'DEP-C0103';
 const drop = (p: string) => warnDeprecated(`${DEP}.prop.${p}`);
@@ -19,7 +20,7 @@ export interface GlassDrawerProps {
   position?: 'left' | 'right' | 'top' | 'bottom' | 'start' | 'end';
   placement?: 'left' | 'right' | 'top' | 'bottom' | 'start' | 'end';
   snap?: number | readonly number[];
-  detents?: readonly SheetDetent[];
+  detents?: readonly CompatSheetDetent[];
   modal?: boolean;
   closeOnOverlayClick?: boolean;
   children?: React.ReactNode;
@@ -44,12 +45,13 @@ export function GlassDrawer({ open, onClose, onOpenChange, position, placement, 
   const d = detents ?? (snap !== undefined
     ? (Array.isArray(snap) ? [...snap] : [0.25, snap])
     : undefined);
+  const dets = toDetents(d);
   return wrap('GlassDrawer', (
     <Sheet.Root
       {...(open !== undefined ? { open } : {})}
       onOpenChange={(o: boolean, _d: OverlayOpenChangeDetails) => { onOpenChange?.(o); if (!o) onClose?.(); }}
       side={side}
-      {...(d !== undefined ? { detents: [...d] as SheetDetent[] } : {})}
+      {...(dets !== undefined ? { detents: dets } : {})}
       {...(modal !== undefined ? { modal } : {})}
       {...(closeOnOverlayClick !== undefined ? { dismissible: closeOnOverlayClick } : {})}
     >

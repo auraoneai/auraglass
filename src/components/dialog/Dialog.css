@@ -69,7 +69,9 @@
       opacity var(--ag-duration-medium) var(--ag-spring-snappy),
       transform var(--ag-duration-medium) var(--ag-spring-snappy);
   }
+  /* REQ-CMP-18: exits use the -exit duration with the accelerate ease */
   .ag-dialog-popup[data-ending-style] {
+    transition-duration: var(--ag-duration-medium-exit), var(--ag-duration-medium-exit);
     transition-timing-function: var(--ag-ease-accelerate), var(--ag-ease-accelerate);
   }
 
@@ -158,10 +160,21 @@
     font: inherit;
     font-size: var(--ag-type-title-3-size);
     line-height: 1;
-    transition: background-color var(--ag-duration-micro) var(--ag-ease-standard);
+  }
+  /* REQ-CMP-18: hover deepens the fill through an overlay that fades by
+     opacity (ANIMATABLE) instead of transitioning background-color. */
+  .ag-dialog-close::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: color-mix(in oklab, currentColor 6%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
   }
   @media (hover: hover) {
-    .ag-dialog-close:hover { background: color-mix(in oklab, currentColor 14%, transparent); }
+    .ag-dialog-close:hover::after { opacity: 1; }
   }
   .ag-dialog-action { min-inline-size: calc(var(--ag-space-16) + var(--ag-space-4)); }
   /* 44px hit area on coarse pointers via pseudo-element */

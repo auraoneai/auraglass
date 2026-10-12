@@ -31,3 +31,14 @@ describe('GlassBottomSheet compat (CMP-338)', () => {
     expect(popup?.getAttribute('data-side')).toBe('bottom');
   });
 });
+
+/* REQ-CMP-94: Sheet takes detents?: number[]; legacy keyword detents map in compat. */
+describe('compat detents mapping (REQ-CMP-94)', () => {
+  it("'full' -> 1, 'content' drops (Sheet default), numbers pass through", async () => {
+    const { __compatDetents } = await import('../_shared');
+    expect(__compatDetents(undefined)).toBeUndefined();
+    expect(__compatDetents([0.5, 'full'])).toEqual([0.5, 1]);
+    expect(__compatDetents(['content', 0.4, 'full'])).toEqual([0.4, 1]);
+    expect(__compatDetents(['content'])).toBeUndefined();
+  });
+});

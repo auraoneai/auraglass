@@ -3,8 +3,7 @@
    a CMP Sheet (side=start, modal) that renders the SAME server children
    while the inline sidebar stays display:none + inert (store-owned). The
    Sheet registers the drawer's modal layer with the S-25 LayerStack through
-   useLayer (kind 'sheet' today: CMP Sheet has no layer-kind input; the
-   'drawer' kind is a seam request to CMP), so Escape closes only the top
+   useLayer as kind 'drawer' (Sheet layerKind), so Escape closes only the top
    layer. Open state comes from the store's ephemeral `drawer` field — it
    never touches `sidebar` or the cookie. Content is mounted only while open;
    closes on Escape/scrim/item activation; returns focus to the element
@@ -13,7 +12,6 @@
    the toggle's aria-controls can point at it before mount. */
 
 import * as React from 'react';
-import { useDirection } from '../foundation/base-ui/direction-provider';
 import { Sheet } from '../components/sheet';
 import type { FC, ReactNode } from 'react';
 
@@ -21,7 +19,8 @@ import type { FC, ReactNode } from 'react';
 const SheetRoot = Sheet.Root as FC<{
   open?: boolean;
   modal?: boolean;
-  side?: 'left' | 'right';
+  side?: 'start' | 'end';
+  layerKind?: 'sheet' | 'drawer';
   onOpenChange?: (open: boolean) => void;
   children?: ReactNode;
 }>;
@@ -63,12 +62,6 @@ export function SidebarDrawer({ children, side = 'start' }: SidebarDrawerProps) 
   React.useLayoutEffect(() => {
     if (marker.current && !rootEl) setRootEl(appShellRoot(marker.current));
   }, [rootEl]);
-
-  // Resolve the logical side to a physical edge with the same direction
-  // source the Sheet reads (CMP Sheet's own start/end mapping is a seam
-  // request; physical sides are unambiguous).
-  const rtl = useDirection() === 'rtl';
-  const physicalSide = (side === 'start') !== rtl ? 'left' : 'right';
 
   const isDrawerMode = snapshot.mode === 'compact' || snapshot.mode === 'medium';
   const open = isDrawerMode && snapshot.drawer === 'open';
@@ -114,7 +107,7 @@ export function SidebarDrawer({ children, side = 'start' }: SidebarDrawerProps) 
   if (!isDrawerMode) return <span hidden ref={marker} />;
   return (
     <span hidden ref={marker} data-drawer-anchor="">
-      <SheetRoot open={open} modal side={physicalSide} onOpenChange={(o: boolean) => !o && close()}>
+      <SheetRoot open={open} modal side={side} layerKind="drawer" onOpenChange={(o: boolean) => !o && close()}>
         {open ? (
           <SheetContent
             id={drawerId}

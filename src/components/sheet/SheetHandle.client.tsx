@@ -12,7 +12,7 @@ import { cn } from '../../internal';
 import { resolveDetent } from './useSheetDetents';
 import { subscribeFrame } from '../../motion/ticker';
 import { MotionCapabilityContext } from '../../motion/capability';
-import type { SheetDetent, SheetDetentsHandle } from './useSheetDetents';
+import type { InternalDetent, SheetDetentsHandle } from './useSheetDetents';
 import type { SheetSide } from './Sheet.types';
 import type { DragBindings } from '../../contracts/motion';
 
@@ -23,7 +23,7 @@ export interface SheetHandleContextValue {
   side: SheetSide;
   detents: SheetDetentsHandle;
   /** Effective (bottom-only) detent defs for value-derived announcements. */
-  detentDefs: SheetDetent[];
+  detentDefs: InternalDetent[];
   viewportPx: number;
   getPopup: () => HTMLElement | null;
   onRequestClose: () => void;
@@ -51,12 +51,12 @@ export function SheetHandle({ className, children, ref }: {
   const frameUnsub = React.useRef<(() => void) | null>(null);
   const pendingPx = React.useRef(0);
 
-  /* REQ-CMP-95: announcement derives from the detent VALUE — 1/'full' →
+  /* REQ-CMP-95: announcement derives from the detent VALUE — 1 →
      'Full height', 0.5 → 'Half height', otherwise labels.detents[i]. */
   const announceDetent = React.useCallback((i: number) => {
     const def = ctx.detentDefs[i];
     const text =
-      def === 1 || def === 'full' ? 'Full height'
+      def === 1 ? 'Full height'
       : def === 0.5 ? 'Half height'
       : ctx.labels?.detents?.[i] ?? `Detent ${i + 1}`;
     ctx.announce(text);

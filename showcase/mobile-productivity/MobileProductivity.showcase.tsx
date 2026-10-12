@@ -60,7 +60,7 @@ export function MobileTabBar({ onQuickAdd }: { onQuickAdd?: () => void }) {
   );
 }
 
-/** Fragment: the quick-add Sheet with three detents (half, content, full). */
+/** Fragment: the quick-add Sheet with three detents (peek, form, full). */
 export function MobileQuickAddSheet({
   open,
   onOpenChange,
@@ -74,7 +74,7 @@ export function MobileQuickAddSheet({
   return (
     <Sheet.Root
       side="bottom"
-      detents={[0.4, 'content', 'full']}
+      detents={[0.4, 0.7, 1]}
       defaultDetent={defaultDetent}
       {...(open !== undefined ? { open } : { defaultOpen: true })}
       {...(onOpenChange ? { onOpenChange: (o: boolean) => onOpenChange(o) } : {})}
