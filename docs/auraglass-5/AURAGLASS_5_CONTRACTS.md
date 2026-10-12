@@ -628,6 +628,8 @@ export const BANNED_ATTRIBUTES = ['data-ag-material', 'data-ag-button-variant', 
     (setter ANY); MAT CSS only reads them. aria-* entries are matched with an explicit value, e.g. [aria-disabled="true"]. */
 export const STATE_ATTRIBUTES = ['data-state', 'data-disabled', 'data-pressed', 'data-selected', 'data-loading', 'data-drop-target',
   'data-open', 'data-expanded', 'data-side', 'data-starting-style', 'data-ending-style',
+  // C-18 (v1.2, additive): Base UI's drag state (REQ-MAT-09) and CMP's top-overlay marker (REQ-CMP-79)
+  'data-dragging', 'data-overlay-top',
   'aria-disabled', 'aria-pressed', 'aria-selected', 'aria-busy'] as const;
 ```
 
