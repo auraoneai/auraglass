@@ -81,17 +81,21 @@
     background: color-mix(in oklab, currentColor var(--_ag-identity-press-tint, 14%), transparent);
   }
 
-  /* intent tints text/rim only; never selects material (REQ-CMP-34) */
+  /* intent tints text, rim and specular; never selects material (REQ-CMP-34,
+     S-30 IntentProps). The specular tint re-points the MAT specular colour
+     input (--ag-color-specular, read by the surface's highlight pseudo
+     layers and inherited by them) at the intent colour on this button only. */
   .ag-button[data-ag-intent='info'],
   .ag-button[data-ag-intent='success'],
   .ag-button[data-ag-intent='warning'],
   .ag-button[data-ag-intent='danger'] {
     --ag-surface-rim: currentColor;
+    --ag-color-specular: currentColor;
   }
-  .ag-button[data-ag-intent='info'] { color: var(--ag-color-info); }
-  .ag-button[data-ag-intent='success'] { color: var(--ag-color-success); }
-  .ag-button[data-ag-intent='warning'] { color: var(--ag-color-warning); }
-  .ag-button[data-ag-intent='danger'] { color: var(--ag-color-danger); }
+  .ag-button[data-ag-intent='info'] { color: var(--ag-color-info); --ag-color-specular: var(--ag-color-info); }
+  .ag-button[data-ag-intent='success'] { color: var(--ag-color-success); --ag-color-specular: var(--ag-color-success); }
+  .ag-button[data-ag-intent='warning'] { color: var(--ag-color-warning); --ag-color-specular: var(--ag-color-warning); }
+  .ag-button[data-ag-intent='danger'] { color: var(--ag-color-danger); --ag-color-specular: var(--ag-color-danger); }
 
   /* Engine selected row carries pressed state; focus uses shared REQ-CMP-19 rule. */
 
