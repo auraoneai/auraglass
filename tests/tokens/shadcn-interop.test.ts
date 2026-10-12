@@ -96,7 +96,10 @@ describe('shadcn interchange (REQ-MAT-20)', () => {
 
   test('dist: the shadcn-source block ships only when AG_ATTRIBUTES registers the attribute', () => {
     expect(shadcnSourceRegistered()).toBe(REGISTERED);
-    const expected = REGISTERED ? [DEFAULT_SEL, SOURCE_SEL] : [DEFAULT_SEL];
+    // MAT-05: the oklch @supports fallback mirrors the source block with its
+    // light-dark() pairs split per scheme (attribute + media mirror selectors)
+    const SOURCE_FALLBACK = [`${SOURCE_SEL}[data-ag-scheme="dark"]`, `${SOURCE_SEL}:not([data-ag-scheme])`];
+    const expected = REGISTERED ? [DEFAULT_SEL, SOURCE_SEL, ...SOURCE_FALLBACK] : [DEFAULT_SEL];
     expect([...new Set(dist.attrSelectors)].sort()).toEqual(expected.sort());
     expect(dist.scopeSource.size).toBe(REGISTERED ? 8 : 0);
     // forced colours must also override the source block exactly when it ships

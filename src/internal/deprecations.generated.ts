@@ -4547,11 +4547,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "--glass-motion-*",
     "since": "4.2.0",
     "removeIn": "5.0.0",
-    "replacement": "--ag-motion-* motion tokens",
+    "replacement": "--ag-duration-* / --ag-ease-* motion tokens",
     "codemod": "css-vars",
     "automation": "mostly",
     "breaking": "B9",
-    "message": "the --glass-motion-* variables are removed in 5.0; use the --ag-motion-* tokens (codemod: css-vars).",
+    "message": "the --glass-motion-* variables are removed in 5.0; use the --ag-duration-* / --ag-ease-* tokens (codemod: css-vars).",
     "doc": "#dep-m0917"
   },
   {
@@ -4562,11 +4562,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "--glass-motion-default",
     "since": "4.2.0",
     "removeIn": "5.0.0",
-    "replacement": "--ag-motion-default",
+    "replacement": "--ag-duration-small",
     "codemod": "css-vars",
     "automation": "full",
     "breaking": "B9",
-    "message": "--glass-motion-default is removed in 5.0; use --ag-motion-default (codemod: css-vars).",
+    "message": "--glass-motion-default is removed in 5.0; use --ag-duration-small (codemod: css-vars).",
     "doc": "#dep-m0918"
   },
   {
@@ -4577,11 +4577,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "--glass-theme-duration-*",
     "since": "4.2.0",
     "removeIn": "5.0.0",
-    "replacement": "--ag-motion-duration-* tokens",
+    "replacement": "--ag-duration-* tokens",
     "codemod": "css-vars",
     "automation": "mostly",
     "breaking": "B9",
-    "message": "the --glass-theme-duration-* variables are removed in 5.0; use the --ag-motion-duration-* tokens (codemod: css-vars).",
+    "message": "the --glass-theme-duration-* variables are removed in 5.0; use the --ag-duration-* tokens (codemod: css-vars).",
     "doc": "#dep-m0919"
   },
   {

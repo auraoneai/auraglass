@@ -19,8 +19,11 @@ const attributeDecls = (variant: string, thickness: string): string[] => {
   const root = postcss.parse(LADDERS);
   let decls: string[] = [];
   root.walkRules((r) => {
+    // the base cell row, not the later @media (pointer: coarse) override of the same selector
+    if ((r.parent as postcss.AtRule | undefined)?.name !== 'layer') return;
     const sel = r.selector.replace(/\s+/g, ' ');
-    if (sel === `[data-ag-variant="${variant}"][data-ag-thickness="${thickness}"]`) {
+    // ladders.css keys surface cells on [data-ag-surface] (glass-material.mjs)
+    if (sel === `[data-ag-surface][data-ag-variant="${variant}"][data-ag-thickness="${thickness}"]`) {
       decls = r.nodes!
         .filter((n) => n.type === 'decl')
         .map((n) => `${(n as postcss.Declaration).prop}: ${(n as postcss.Declaration).value}`.replace(/\s+/g, ' '))
@@ -88,7 +91,7 @@ describe('tailwind bridge (MAT-069)', () => {
     const root = postcss.parse(LADDERS);
     let attr: string[] = [];
     root.walkRules((r) => {
-      if (r.selector === '[data-ag-content="content-sunken"][data-ag-thickness="regular"]') {
+      if (r.selector === '[data-ag-surface][data-ag-content="content-sunken"][data-ag-thickness="regular"]') {
         attr = r.nodes!.filter((n) => n.type === 'decl')
           .map((n) => `${(n as postcss.Declaration).prop}: ${(n as postcss.Declaration).value}`.replace(/\s+/g, ' '));
       }

@@ -37,9 +37,12 @@ export const auraGlassPrepaint = (w: W, d: Document, a: PrepaintArgs = {}): void
     // matchMedia/CSS.supports do not throw for these well-formed queries; a
     // missing API reads as false (no OS signal, no backdrop-filter => solid).
     const mq = (q: string): boolean => !!w.matchMedia?.(`(${q})`)?.matches;
+    // prefers-* queries share the prefix (keeps the REQ-MAT-59 body small).
+    const pq = (q: string): boolean => mq(`prefers-${q}`);
     // Property-support probe (REQ-MAT-18): the two-argument form with the
     // keyword value carries no design literal.
     const sup = (p: string): boolean => !!w.CSS?.supports?.(p, 'none');
+    const bf = 'backdrop-filter';
     const nav = (w.navigator ?? {}) as NonNullable<W['navigator']>;
     const def = a.defaults ?? {};
     let rec: PreferenceInput = {};
@@ -49,13 +52,13 @@ export const auraGlassPrepaint = (w: W, d: Document, a: PrepaintArgs = {}): void
 
     const r = resolvePaint({
       forcedColors: mq('forced-colors: active'),
-      contrastMore: mq('prefers-contrast: more'),
-      reducedTransparency: mq('prefers-reduced-transparency: reduce'),
-      reducedMotion: mq('prefers-reduced-motion: reduce'),
-      schemeDark: mq('prefers-color-scheme: dark'),
+      contrastMore: pq('contrast: more'),
+      reducedTransparency: pq('reduced-transparency: reduce'),
+      reducedMotion: pq('reduced-motion: reduce'),
+      schemeDark: pq('color-scheme: dark'),
       coarsePointer: mq('pointer: coarse'),
     }, {
-      backdropFilter: sup('backdrop-filter') || sup('-webkit-backdrop-filter'),
+      backdropFilter: sup(bf) || sup(`-webkit-${bf}`),
       saveData: !!nav.connection?.saveData,
       deviceMemory: nav.deviceMemory ?? null,
     }, def, rec);
@@ -64,13 +67,13 @@ export const auraGlassPrepaint = (w: W, d: Document, a: PrepaintArgs = {}): void
     const el = d.documentElement;
     const at = (k: string, v: string): void => el.setAttribute(`data-ag-${k}`, v);
     for (const k of AXES) at(k, r[k]);
-    if (r.allowContinuous) at('continuous', 'on');
+    if (r.allowContinuous && r.motion === 'full') at('continuous', 'on');
     at('engine', engine);
     const tier = r.tier;
     if (tier !== 'standard' || [rec.tier, def.tier].includes('standard')) {
       at('tier', engine === 'unknown' && tier === 'enhanced' ? 'standard' : tier);
     }
-    el.style.setProperty('--ag-glass-opacity', String(r.glassOpacity));
+    el.style.setProperty('--ag-glass-opacity', '' + r.glassOpacity);
   } catch {
     /* pre-paint must never throw: without attributes every rung still works */
   }

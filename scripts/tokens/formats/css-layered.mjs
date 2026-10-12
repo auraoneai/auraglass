@@ -324,14 +324,18 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
       }
     }
   }
-  const shSel = ':root[data-ag-shadcn-source]';
+  // the shadcn-source mirror ships only with its main block (REQ-MAT-20 gate):
+  // dist/ must not key on an unregistered data-ag-* attribute.
+  const shSel = `:root[${SHADCN_SOURCE_ATTR}]`;
   const shDark = srgbDecls(shadcnSource.filter(hasLightDark), 'dark');
-  supports.push(
-    ...fb(shSel, srgbDecls(shadcnSource, 'light')),
-    ...fb(`${shSel}${DARK}`, shDark),
-    ...fbMedia(DARK_MEDIA, `${shSel}:not([data-ag-scheme])`, shDark),
-    '}', '',
-  );
+  if (emitShadcnSource) {
+    supports.push(
+      ...fb(shSel, srgbDecls(shadcnSource, 'light')),
+      ...fb(`${shSel}${DARK}`, shDark),
+      ...fbMedia(DARK_MEDIA, `${shSel}:not([data-ag-scheme])`, shDark),
+    );
+  }
+  supports.push('}', '');
   parts.push(...supports);
 
   // linear() fallback (MAT-042, REQ-MAT-08): the critically damped snappy spring
@@ -374,7 +378,12 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
   }
   // the shadcn-source bridge and the light-dark() fallback blocks above also
   // re-declare --ag-color-*
-  if (emitShadcnSource) noteDecls(shadcnSource, `:root[${SHADCN_SOURCE_ATTR}]`);
+  if (emitShadcnSource) {
+    noteDecls(shadcnSource, shSel);
+    // its oklch fallback mirror splits the scheme pairs per scheme selector
+    noteDecls(shDark, `${shSel}${DARK}`);
+    noteDecls(shDark, `${shSel}:not([data-ag-scheme])`);
+  }
   noteDecls(darkFallback, '[data-ag-scheme="dark"]');
   noteDecls(darkFallback, ':root:not([data-ag-scheme])');
   if (forced.size) {

@@ -55,15 +55,21 @@ describe('mode matrix (MAT-035)', () => {
   });
 
   test('contrast=more selects >= tinted floor row', () => {
-    const floorAt = (sel: string) => {
-      const re = new RegExp(sel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[\\s\\S]*?--_ag-tint-floor:\\s*([\\d.]+)');
-      const m = re.exec(floors);
-      return m ? parseFloat(m[1]!) : null;
-    };
+    // floors.css keys each row on the surface's own thickness; transparency,
+    // contrast and backdrop resolve on the surface or any ancestor via
+    // :is([attr="v"], [attr="v"] *) (scripts/tokens/transforms/glass-material.mjs).
+    const norm = (s: string) => s.replace(/\s+/g, ' ').replace(/\(\s+/g, '(').replace(/\s+\)/g, ')').trim();
+    const rows = new Map<string, number>();
+    postcss.parse(floors).walkRules((r) => {
+      r.walkDecls('--_ag-tint-floor', (d) => void rows.set(norm(r.selector), parseFloat(d.value)));
+    });
+    const on = (attr: string, v: string) => `:is([data-ag-${attr}="${v}"], [data-ag-${attr}="${v}"] *)`;
+    const floorAt = (cond: string, th: string, b: string) =>
+      rows.get(`[data-ag-surface][data-ag-thickness="${th}"]${cond}${on('backdrop', b)}`) ?? null;
     for (const th of ['thin', 'regular', 'thick']) {
       for (const b of ['light', 'dark', 'media']) {
-        const tinted = floorAt(`[data-ag-transparency="tinted"][data-ag-thickness="${th}"][data-ag-backdrop="${b}"]`);
-        const more = floorAt(`[data-ag-contrast="more"][data-ag-thickness="${th}"][data-ag-backdrop="${b}"]`);
+        const tinted = floorAt(on('transparency', 'tinted'), th, b);
+        const more = floorAt(on('contrast', 'more'), th, b);
         expect(tinted).not.toBeNull();
         expect(more).not.toBeNull();
         expect(more!).toBeGreaterThanOrEqual(tinted!);

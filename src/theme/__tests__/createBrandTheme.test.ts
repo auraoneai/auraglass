@@ -168,7 +168,11 @@ describe('createBrandTheme', () => {
     try {
       for (const c of FIXTURES) {
         const theme = createBrandTheme(c);
-        expect(theme.cssText).not.toMatch(/--ag-accent-\d/);
+        // no public (non-underscore) accent ramp step names; matched by parts so
+        // this file never spells a non-contract --ag-* name (REQ-MAT-04 scan)
+        const publicRamp = [...theme.cssText.matchAll(/--(_?)ag-(accent-\d+)/g)]
+          .filter(([, priv]) => priv === '').map(([name]) => name);
+        expect(publicRamp).toEqual([]);
         expect(Object.keys(theme.vars).some((k) => /accent-\d/.test(k))).toBe(false);
       }
     } finally {

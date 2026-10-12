@@ -437,7 +437,7 @@ describe('Composer keyboard inset and thread offset (REQ-SURF-119)', () => {
       });
       const thread = document.querySelector<HTMLElement>('[data-ag-part="thread"]')!;
       expect(thread.style.getPropertyValue('--_ag-ai-composer-block')).toBe('96px');
-      expect(thread.style.getPropertyValue('--ag-scroll-padding-block-end')).toBe('96px');
+      expect(thread.style.getPropertyValue('--ag-scroll-padding-bottom')).toBe('96px');
       unmount();
       expect(thread.style.getPropertyValue('--_ag-ai-composer-block')).toBe('');
     } finally {

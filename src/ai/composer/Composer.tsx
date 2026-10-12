@@ -235,13 +235,13 @@ export function ComposerRoot({
       if (!thread) return;
       const px = `${Math.round(block)}px`;
       thread.style.setProperty('--_ag-ai-composer-block', px);
-      thread.style.setProperty('--ag-scroll-padding-block-end', px);
+      thread.style.setProperty('--ag-scroll-padding-bottom', px);
     });
     ro.observe(form);
     return () => {
       ro.disconnect();
       thread?.style.removeProperty('--_ag-ai-composer-block');
-      thread?.style.removeProperty('--ag-scroll-padding-block-end');
+      thread?.style.removeProperty('--ag-scroll-padding-bottom');
     };
   }, []);
 

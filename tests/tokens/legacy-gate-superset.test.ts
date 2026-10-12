@@ -109,6 +109,9 @@ const legacyLiteralFindings = () => {
         const line = content.slice(lineStart + 1, lineEnd === -1 ? undefined : lineEnd);
         if (line.includes('token-lint-ignore')) continue;
         if (kind === 'hexColor' && (line.includes('--') || line.includes('//') || line.includes('/*'))) continue;
+        // ...and on the continuation lines of a block comment ("#313" PR/issue
+        // references in prose), which the single-line check above cannot see
+        if (kind === 'hexColor' && content.lastIndexOf('/*', m.index) > content.lastIndexOf('*/', m.index)) continue;
         findings.push({ file: f.replace(`${ROOT}/`, ''), kind, category: LEGACY_TO_LITERAL[kind]! });
       }
     }
