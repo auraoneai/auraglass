@@ -8,7 +8,7 @@ const meta: ControlMeta = defineMeta({
   tier: 'T1',
   flagship: 10,
   rsc: 'client',
-  parts: ['root', 'label', 'control-shell', 'icon', 'control', 'clear', 'shortcut', 'spinner', 'description', 'error'],
+  parts: ['root', 'label', 'control-shell', 'icon', 'adornment-start', 'control', 'spinner', 'adornment-end', 'shortcut', 'clear', 'description', 'error', 'counter'],
   states: ['focus-visible', 'disabled', 'invalid', 'loading'],
   variants: {
     loading: ['true', 'false'],
