@@ -36,7 +36,7 @@ interface PopoverCtx {
 /* ms defaults for the hover contract (props, not style). */
 const HOVER_DELAY_MS = 300, HOVER_CLOSE_DELAY_MS = 150;
 
-const PopoverCtx = React.createContext<PopoverCtx>({
+const PopoverCtx = /*#__PURE__*/ React.createContext<PopoverCtx>({
   open: false,
   hoverTrigger: { current: null },
   /* REQ-CMP-97: root-level hover + material config consumed by Trigger/Popup. */

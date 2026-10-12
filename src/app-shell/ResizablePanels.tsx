@@ -58,7 +58,7 @@ interface PanelsCtx {
   panelEl(id: string): HTMLElement | null;
 }
 
-const Ctx = React.createContext<PanelsCtx | null>(null);
+const Ctx = /*#__PURE__*/ React.createContext<PanelsCtx | null>(null);
 
 /** A panel at or below collapsedSize + this (percent) counts as collapsed. */
 const COLLAPSE_EPS = 0.01;

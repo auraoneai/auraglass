@@ -28,7 +28,7 @@ export interface GlassDatePickerProps extends LegacyFieldProps {
   [legacy: string]: unknown;
 }
 
-const Impl = lazyAdapter<GlassDatePickerProps>(() => import('./GlassDatePicker.impl').then((m) => m.GlassDatePickerImpl));
+const Impl = /*#__PURE__*/ lazyAdapter<GlassDatePickerProps>(() => import('./GlassDatePicker.impl').then((m) => m.GlassDatePickerImpl));
 
 /**
  * 4.x `GlassDatePicker` compat adapter (DEP-S0222).

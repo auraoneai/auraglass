@@ -4,15 +4,16 @@
  * 'aura-glass/compat' and insert the spec's TODO marker above the import —
  * JSX untouched, text-level for byte-stable output.
  */
-import type { FileUnit, Transform, TransformResult } from './shared.js';
+import { specNames, type FileUnit, type Transform, type TransformCtx, type TransformResult } from './shared.js';
 
-const CHAT = ['GlassChat', 'GlassChatInput', 'GlassMessageList', 'GlassTypingIndicator'];
 const DOC = 'apps/docs/content/surf/migration/ai.md';
 const MARKER = `// TODO(aura-glass 5): migrate to aura-glass/ai Thread/Message/Composer, see ${DOC}`;
 
 export const aiChat: Transform = {
   id: 'ai-chat',
-  run(unit: FileUnit): TransformResult {
+  run(unit: FileUnit, ctx: TransformCtx): TransformResult {
+    // the four chat components are the names the ai-chat spec documents (REQ-PLAT-90)
+    const CHAT = specNames(ctx.mappings, 'ai-chat');
     if (unit.kind !== 'code' || !CHAT.some((c: any) => unit.source.includes(c))) {
       return { source: unit.source, changes: [], todos: [] };
     }

@@ -11,7 +11,7 @@ import type { LayerEntry } from '../../contracts/preferences';
 import type { LayerItem, LayerItemInput, LayerStack } from './LayerStack';
 import { layerStackFor } from './LayerStack';
 
-export const LayerStackContext = React.createContext<LayerStack | null>(null);
+export const LayerStackContext = /*#__PURE__*/ React.createContext<LayerStack | null>(null);
 
 export interface UseLayerInput extends LayerEntry {
   /** Return `false` to let the native Escape event through (see LayerItem). */

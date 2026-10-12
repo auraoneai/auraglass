@@ -32,7 +32,7 @@ export type TabsRootProps = Omit<PartProps<'div'>, 'onChange' | 'defaultValue'> 
   size?: 'sm' | 'md' | undefined;
 };
 
-const TabsCtx = React.createContext<{
+const TabsCtx = /*#__PURE__*/ React.createContext<{
   idBase: string;
   active: TabsValue | null;
   activateOnFocus: boolean;

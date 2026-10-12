@@ -57,7 +57,7 @@ interface ComposerCtx {
   selectAction(id: string, e: React.MouseEvent<HTMLElement>): void;
 }
 
-const Ctx = React.createContext<ComposerCtx | null>(null);
+const Ctx = /*#__PURE__*/ React.createContext<ComposerCtx | null>(null);
 function useComposer(): ComposerCtx {
   const c = React.useContext(Ctx);
   if (!c) throw new Error('Composer.* must render inside <Composer.Root>');
@@ -557,7 +557,7 @@ export interface ComposerComponent {
   Counter: typeof ComposerCounter;
 }
 
-export const Composer = Object.assign(ComposerRoot, {
+export const Composer = /*#__PURE__*/ Object.assign(ComposerRoot, {
   Root: ComposerRoot,
   Textarea: ComposerTextarea,
   Attachments: ComposerAttachments,

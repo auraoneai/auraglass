@@ -41,11 +41,11 @@ import type {
   SelectSeparatorProps,
 } from './Select.types';
 
-const SelectRootCtx = React.createContext<{ rootRef?: React.Ref<HTMLElement> | undefined }>({});
-const SelectSizeContext = React.createContext<ControlSize>(DEFAULT_CONTROL_SIZE);
+const SelectRootCtx = /*#__PURE__*/ React.createContext<{ rootRef?: React.Ref<HTMLElement> | undefined }>({});
+const SelectSizeContext = /*#__PURE__*/ React.createContext<ControlSize>(DEFAULT_CONTROL_SIZE);
 /* REQ-CMP-12: the popup registers with the LayerStack through
    useOverlayLayer — the positioner element is published here for the entry. */
-const SelectLayerContext = React.createContext<{ setPopupElement: (el: HTMLElement | null) => void }>({ setPopupElement: () => {} });
+const SelectLayerContext = /*#__PURE__*/ React.createContext<{ setPopupElement: (el: HTMLElement | null) => void }>({ setPopupElement: () => {} });
 
 const FINE_POINTER_QUERY = '(pointer: fine)';
 function subscribeFinePointer(onChange: () => void) {

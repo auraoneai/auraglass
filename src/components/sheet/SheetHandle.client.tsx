@@ -32,7 +32,7 @@ export interface SheetHandleContextValue {
   announce: (text: string) => void;
 }
 
-export const SheetHandleContext = React.createContext<SheetHandleContextValue | null>(null);
+export const SheetHandleContext = /*#__PURE__*/ React.createContext<SheetHandleContextValue | null>(null);
 
 export function useSheetHandleContext(): SheetHandleContextValue {
   const ctx = React.useContext(SheetHandleContext);

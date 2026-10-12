@@ -102,7 +102,7 @@ const serverSnapshot = (): string | null => null;
  * 1,000 `setText` calls in one frame make one commit. The content carries
  * `aria-busy` only while streaming; speech goes through the MAT announcer.
  */
-export const StreamingText = React.memo(function StreamingText({
+export const StreamingText = /*#__PURE__*/ React.memo(function StreamingText({
   text,
   streaming = false,
   announce = 'complete',

@@ -13,7 +13,7 @@ import type {
 import { createPreferenceStore } from './store';
 import type { PreferenceStore } from './store';
 
-export const PreferenceStoreContext = React.createContext<PreferenceStore | null>(null);
+export const PreferenceStoreContext = /*#__PURE__*/ React.createContext<PreferenceStore | null>(null);
 
 const SERVER_RESOLVED: ResolvedPreferences = {
   transparency: 'glass', contrast: 'standard', motion: 'full', scheme: 'light',

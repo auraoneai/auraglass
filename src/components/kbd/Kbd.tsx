@@ -5,7 +5,7 @@ import * as React from 'react';
 import { cn } from '../../internal/index';
 import { materialProps } from '../../material/index';
 
-const SUNKEN = materialProps({ layer: 'content', content: 'content-sunken' });
+const SUNKEN = /*#__PURE__*/ materialProps({ layer: 'content', content: 'content-sunken' });
 
 export interface KbdProps extends React.HTMLAttributes<HTMLElement> {
   /** Key sequence — each entry becomes its own nested <kbd>. */

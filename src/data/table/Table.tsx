@@ -285,7 +285,7 @@ function TableRowImpl<TData>({
   );
 }
 
-const TableRow = React.memo(TableRowImpl) as typeof TableRowImpl;
+const TableRow = /*#__PURE__*/ React.memo(TableRowImpl) as typeof TableRowImpl;
 
 const MenuRoot = Menu.Root as React.FC<{ children?: React.ReactNode }>;
 const MenuTrigger = Menu.Trigger as React.FC<Record<string, unknown> & { children?: React.ReactNode }>;

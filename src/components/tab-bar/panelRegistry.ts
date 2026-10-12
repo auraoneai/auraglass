@@ -30,7 +30,7 @@ export function createPanelRegistry(): PanelRegistry {
   };
 }
 
-export const PanelRegistryContext = createContext<PanelRegistry | null>(null);
+export const PanelRegistryContext = /*#__PURE__*/ createContext<PanelRegistry | null>(null);
 
 /** REQ-SURF-51: true inside a Tabs.Root. A TabBar(semantics='tabs') outside
     one supplies its own Base UI Tabs root so its tabs still rove/select. */

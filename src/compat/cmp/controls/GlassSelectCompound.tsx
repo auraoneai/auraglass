@@ -83,7 +83,7 @@ function GlassSelectCompoundRoot(props: Parameters<typeof Select.Root>[0]) {
   return <GlassSelectRoot {...props} />;
 }
 
-export const GlassSelectCompound = Object.assign(GlassSelectCompoundRoot, {
+export const GlassSelectCompound = /*#__PURE__*/ Object.assign(GlassSelectCompoundRoot, {
   Root: GlassSelectRoot,
   Trigger: GlassSelectTrigger,
   Content: GlassSelectContent,

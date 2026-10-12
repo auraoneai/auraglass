@@ -15,4 +15,4 @@ function FieldsetRoot({ legend, className, children, ref, ...rest }: FieldsetRoo
 
 /* S-27/CMP-227: Fieldset is a flat callable (renders the root); `.Root` is the
    compound-style alias for the same element. */
-export const Fieldset = Object.assign(FieldsetRoot, { Root: FieldsetRoot });
+export const Fieldset = /*#__PURE__*/ Object.assign(FieldsetRoot, { Root: FieldsetRoot });

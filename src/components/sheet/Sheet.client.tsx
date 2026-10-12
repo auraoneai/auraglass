@@ -46,7 +46,7 @@ interface SheetCtx {
   rootRef?: React.Ref<HTMLElement> | undefined;
   emit: (open: boolean, details: { event?: Event; reason?: unknown }) => void;
 }
-const SheetContext = React.createContext<SheetCtx | null>(null);
+const SheetContext = /*#__PURE__*/ React.createContext<SheetCtx | null>(null);
 
 function useSheetCtx(part: string): SheetCtx {
   const ctx = React.useContext(SheetContext);

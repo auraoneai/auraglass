@@ -1,11 +1,51 @@
 /* @jest-environment node */
 /* REQ-PLAT-65: dist contains only build outputs — no src seeds, fixtures,
-   test files, or scratch artifacts. */
+   test files, or scratch artifacts — and every emitted module's top level is
+   tree-shakeable: only import/export and declarations whose initialiser is a
+   literal, a function, an alias or a /*#__PURE__*\/ call (incl. a pure-annotated
+   Object.assign(C, { displayName })); every top-level memo(/createContext( and
+   new X( is pure-annotated; 0 `X.displayName =` assignments. Statements are read
+   with the TypeScript compiler API (tests/build/ts-graph.ts). The remaining
+   offenders are the shrink-only list in tests/build/dist-purity-debt.json. */
 import { describe, expect, it } from '@jest/globals';
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, relative } from 'node:path';
 import { DIST, ROOT, ensureBuilt, walk } from './helpers';
+import { impureTopLevel, unannotatedTopLevelCalls } from './ts-graph';
+
+const DEBT = (JSON.parse(readFileSync(join(ROOT, 'tests/build/dist-purity-debt.json'), 'utf8')) as {
+  entries: Record<string, string[]>;
+}).entries;
+const debtKeys = new Set(Object.entries(DEBT).flatMap(([f, ks]) => ks.map((k) => `${f}: ${k}`)));
+
+describe('dist top-level purity (REQ-PLAT-65)', () => {
+  const scan = () => {
+    ensureBuilt();
+    return walk(DIST, (p) => p.endsWith('.js')).flatMap((f) => impureTopLevel(f).map((k) => `${relative(ROOT, f)}: ${k}`));
+  };
+
+  it('no emitted module has an impure top-level statement outside the recorded debt', () => {
+    expect(scan().filter((k) => !debtKeys.has(k))).toEqual([]);
+  });
+
+  it('the debt list is shrink-only: every recorded entry still occurs (delete fixed entries)', () => {
+    const now = new Set(scan());
+    expect([...debtKeys].filter((k) => !now.has(k))).toEqual([]);
+  });
+
+  it('the debt holds only expando assignments and the REQ-MAT-50 peer start, never a new kind', () => {
+    const kinds = [...debtKeys].filter((k) => !/: [A-Za-z_$][\w$]*\.[A-Za-z_$][\w$]* =$/.test(k) && !/^dist\/motion\/adapter\/entry\.js: startMotionPeer\($/.test(k));
+    expect(kinds).toEqual([]);
+  });
+
+  it('every top-level memo(, createContext( and new X( is pure-annotated', () => {
+    ensureBuilt();
+    const bad = walk(DIST, (p) => p.endsWith('.js')).flatMap((f) =>
+      unannotatedTopLevelCalls(f, /^(?:(?:React\.)?(?:memo|createContext|forwardRef|lazy)|new [A-Z]\w*)$/).map((s) => `${relative(ROOT, f)}: ${s}`));
+    expect(bad).toEqual([]);
+  });
+});
 
 describe('dist-purity', () => {
   it('no test/fixture/seed artifacts under dist', () => {
