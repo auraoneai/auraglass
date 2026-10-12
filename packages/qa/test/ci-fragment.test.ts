@@ -15,8 +15,9 @@ const doc = yaml.parse(text) as Record<string, Job>;
 const root = yaml.parse(readFileSync(join(REPO, '.gitlab-ci.yml'), 'utf8')) as Record<string, Job>;
 const jobs = Object.keys(doc).filter((k) => !k.startsWith('.'));
 const ROOT_TEMPLATES = ['.ag-node', '.ag-playwright', '.ag-gpu', '.ag-aws-remote'];
-const QUAL_ONLY = ['qual:test:selftest', 'qual:certify:l10-gpu', 'qual:certify:baseline-refresh', 'qual:certify:review-record',
+const QUAL_ONLY = ['qual:test:selftest', 'qual:test:story-contract', 'qual:certify:l10-gpu', 'qual:certify:baseline-refresh', 'qual:certify:review-record',
   'qual:certify:known-failures', 'qual:certify:release-matrix', 'qual:certify:devices'];
+const TESSERACT_INSTALL = 'command -v tesseract >/dev/null || (apt-get update -qq && apt-get install -y -qq --no-install-recommends tesseract-ocr tesseract-ocr-eng)';
 
 const parents = (name: string): string[] => {
   const d = doc[name] ?? root[name];
@@ -71,7 +72,45 @@ describe('ci/qual.gitlab-ci.yml', () => {
     for (const n of [5, 6, 7, 8, 9, 10, 11]) expect(parents(`qual:certify:l${n}`)).toContain('.ag-playwright');
   });
 
-  it('adds the seven QUAL-only jobs on their runners', () => {
+  it('installs tesseract 5 in every L6 capture job so ocr-contrast certifies instead of staying pending (REQ-QUAL-13)', () => {
+    for (const j of ['qual:certify:l6', 'qual:certify:nightly', 'qual:certify:release']) {
+      const script = eff(j, 'script') as string[];
+      expect([j, script]).toEqual([j, expect.arrayContaining([TESSERACT_INSTALL, 'tesseract --version'])]);
+      expect(script.indexOf(TESSERACT_INSTALL)).toBeLessThan(script.findIndex((l) => l.includes('certification/run.mjs')));
+    }
+    // the generated release shards copy the effective qual:certify:l6 script (shard-plan childPipeline),
+    // so the shard template needs no tesseract line of its own — asserted in shard-plan.test.ts.
+  });
+
+  it('fetches both Node lines before the L2 lane run (REQ-QUAL-47)', () => {
+    const script = eff('qual:certify:l2', 'script') as string[];
+    const fetchNode = 'eval "$(node scripts/qual/fetch-node.mjs 20.19.0 22)"';
+    expect(script).toContain(fetchNode);
+    expect(script.indexOf(fetchNode)).toBeLessThan(script.indexOf(LANE_COMMAND.replace('<id>', 'L2')));
+  });
+
+  it('runs the perf profiles at nightly and release so perf-grade has (a)/(b) inputs there (REQ-QUAL-37)', () => {
+    for (const j of ['qual:certify:l10', 'qual:certify:l10-gpu']) {
+      const rules = JSON.stringify(eff(j, 'rules') ?? []);
+      for (const scope of ['nightly', 'release']) expect([j, scope, rules.includes(`$AG_SCOPE == \\"${scope}\\"`)]).toEqual([j, scope, true]);
+    }
+    const gradeRules = JSON.stringify(eff('qual:certify:perf-grade', 'rules') ?? []);
+    for (const scope of ['main', 'nightly', 'release']) expect(gradeRules).toContain(`$AG_SCOPE == \\"${scope}\\"`);
+    expect(doc['qual:certify:perf-grade']!.needs).toEqual(expect.arrayContaining([
+      { job: 'qual:certify:l10', artifacts: true, optional: true },
+      { job: 'qual:certify:l10-gpu', artifacts: true, optional: true },
+    ]));
+  });
+
+  it('runs the story gates as their own job (REQ-QUAL-50)', () => {
+    expect(eff('qual:test:story-contract', 'script')).toEqual(expect.arrayContaining(['node scripts/storybook/story-contract.mjs']));
+    expect(parents('qual:test:story-contract')).toContain('.ag-node');
+    // starts allow_failure: true like every job (activation rule); the flip to blocking is its
+    // ci/plat/activation.json row after the first green run, independent of qual:build:storybook.
+    expect(eff('qual:test:story-contract', 'allow_failure')).toBe(true);
+  });
+
+  it('adds the QUAL-only jobs on their runners', () => {
     for (const j of QUAL_ONLY) expect(jobs).toContain(j);
     expect(parents('qual:certify:l10-gpu')).toContain('.ag-gpu');
     expect(parents('qual:certify:devices')).toContain('.ag-aws-remote');
