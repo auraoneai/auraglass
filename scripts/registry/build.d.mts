@@ -19,13 +19,16 @@ export interface BuildReport {
   manifest: string | null;
   items: ReportRow[];
   base?: { missingCssVars: string[] };
+  /** REQ-PLAT-97: items the render-gate artifact certified for this sha. */
+  certification?: { file: string | null; certified: string[] };
+  candidate?: boolean;
 }
 export function stable<T>(value: T): T;
 export const emit: (value: unknown) => string;
 export function validate(schema: unknown, value: unknown, path?: string): string[];
 export function readItem(dir: string, id: string, relRoot: string): { id: string; dir: string; file: string; item: RegistryItemJson; files: RegistryItemJson[] };
 export function generateBaseTheme(manifestPath?: string | null, options?: { tailwind4?: boolean }): { cssVars: Record<string, Record<string, string>>; css: string; missingCssVars: string[] };
-export function build(options?: { root?: string; sha?: string | null; version?: string | null; gaTag?: string | null; manifest?: string | null; write?: boolean; tailwind4?: boolean }): {
+export function build(options?: { root?: string; sha?: string | null; version?: string | null; gaTag?: string | null; manifest?: string | null; write?: boolean; tailwind4?: boolean; candidate?: boolean; certification?: string | Record<string, unknown> | null }): {
   index: { $schema: string; name: string; homepage: string; items: RegistryItemJson[] };
   report: BuildReport;
   published: string[];

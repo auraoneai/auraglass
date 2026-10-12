@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-/* dry-run.mjs --tag <tag> --line <4x|5x> (REQ-PLAT-13, PLAT-038..040).
+/* dry-run.mjs --tag <tag> --line <4x|5x> [--print-previous] (REQ-PLAT-13, PLAT-038..040).
+   --print-previous only prints the step-3 previous tag (or nothing) and exits 0.
    Runs inside plat:package:pack on release scope, after the build:
    1. the tag's version === package.json version === the FIRST `## [X.Y.Z]`
       heading of CHANGELOG.md;
@@ -61,6 +62,15 @@ export async function main(argv = process.argv.slice(2), { root = process.cwd() 
 
   if (!TAG_RE.test(tag)) fail(`tag '${tag}' is not a release tag`);
   const version = tag.replace(/^v/, '');
+
+  // --print-previous: print previousTag() (same major, semver-lower; empty for
+  // the first tag of a major) and stop. The CI classifier re-runs use this so
+  // they share one base rule with step 3 (a v4.* tag never picks a v5.* base).
+  if (argv.includes('--print-previous')) {
+    const prevTag = previousTag(git(['tag', '--list', 'v*']).split('\n').filter(Boolean), tag);
+    process.stdout.write(prevTag ? `${prevTag}\n` : '');
+    return 0;
+  }
 
   // 1. version + changelog
   const pkg = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'));

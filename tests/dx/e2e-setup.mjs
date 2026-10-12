@@ -11,7 +11,11 @@ const OUT = join(ROOT, '.artifacts/e2e-pack');
 export default async function globalSetup() {
   rmSync(OUT, { recursive: true, force: true });
   mkdirSync(OUT, { recursive: true });
-  execFileSync('node', [join(ROOT, 'scripts/registry/build.mjs')], { cwd: ROOT, stdio: 'inherit' });
+  // REQ-PLAT-97: in plat:test:registry the certified build already ran; rebuild
+  // with the same certification artifact so apps/docs/public/r keeps exactly
+  // the items certified for this sha (never an uncertified rebuild over it).
+  const cert = process.env.AG_REGISTRY_CERTIFICATION;
+  execFileSync('node', [join(ROOT, 'scripts/registry/build.mjs'), ...(cert ? ['--certification', cert] : ['--candidate'])], { cwd: ROOT, stdio: 'inherit' });
   // Exercise discovered items locally without marking them release-certified.
   const fixtureRegistry = join(ROOT, '.artifacts/e2e/registry');
   mkdirSync(fixtureRegistry, { recursive: true });

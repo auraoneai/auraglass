@@ -112,3 +112,18 @@ describe('scripts/qual/perf/resolve-budgets.mjs', () => {
     expect(r.status).toBe(0);
   });
 });
+
+describe('generated certification/budgets.json is never committed (REQ-QUAL-38)', () => {
+  const git = (...a: string[]) => spawnSync('git', a, { cwd: ROOT, encoding: 'utf8' });
+  it('is git-ignored at the default resolve-budgets.mjs output path', () => {
+    const r = git('check-ignore', '--no-index', '-q', 'certification/budgets.json');
+    expect(r.status).toBe(0);
+  });
+  it('is not tracked', () => {
+    expect(git('ls-files', '--', 'certification/budgets.json').stdout.trim()).toBe('');
+  });
+  it('resolve-budgets.mjs writes there by default', () => {
+    const src = readFileSync(SCRIPT, 'utf8');
+    expect(src).toContain("o.out ??= join(o.root, 'certification/budgets.json');");
+  });
+});

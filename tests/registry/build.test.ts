@@ -5,6 +5,7 @@ import { describe, expect, it } from '@jest/globals';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { build, emit } from '../../scripts/registry/build.mjs';
 
 const SHA = 'abc1234def56789012345678901234567890abcd';
@@ -56,6 +57,43 @@ describe('registry build', () => {
     const root = fixture({ blocks: { bad: item('bad') } });
     const { errors } = build({ root, sha: SHA, gaTag: 'v5.0.0' });
     expect(errors.some((e) => e.includes('GA build omits bad'))).toBe(true);
+    rmSync(root, { recursive: true });
+  });
+
+  it('REQ-PLAT-97 write-back: a render-gate pass for this sha certifies and publishes the item', () => {
+    const root = fixture({ blocks: { good: item('good'), flaky: item('flaky'), untested: item('untested') } });
+    const cert = { version: 1, sha: SHA, projects: ['registry-chromium', 'registry-webkit'], items: {
+      good: { pass: true, projects: { 'registry-chromium': 'passed', 'registry-webkit': 'passed' } },
+      flaky: { pass: false, projects: { 'registry-chromium': 'passed', 'registry-webkit': 'failed' }, reasons: ['registry-webkit: failed'] },
+    } };
+    writeFileSync(join(root, 'cert.json'), JSON.stringify(cert));
+    const { published, report, errors, index } = build({ root, sha: SHA, certification: join(root, 'cert.json') });
+    expect(errors).toEqual([]);
+    expect(published).toEqual(['auraglass', 'good']);
+    expect(report.items.find((i: any) => i.name === 'good')).toMatchObject({ status: 'certified', certified: SHA });
+    expect(report.items.find((i: any) => i.name === 'flaky')).toMatchObject({ status: 'omitted', reason: 'uncertified' });
+    expect(report.items.find((i: any) => i.name === 'untested')?.status).toBe('omitted');
+    expect(report.certification).toEqual({ file: 'cert.json', certified: ['good'] });
+    expect(index.items.find((i: any) => i.name === 'good').meta.auraglass.certified).toBe(SHA);
+    expect(JSON.parse(readFileSync(join(root, 'apps/docs/public/r/good.json'), 'utf8')).meta.auraglass.certified).toBe(SHA);
+    rmSync(root, { recursive: true });
+  });
+
+  it('an artifact certified for another sha is an error and certifies nothing', () => {
+    const root = fixture({ blocks: { good: item('good') } });
+    const { published, errors } = build({ root, sha: SHA, certification: { version: 1, sha: 'f'.repeat(40), items: { good: { pass: true } } } });
+    expect(errors).toEqual([`certification: certification artifact is for ${'f'.repeat(40)}, the build is for ${SHA}`]);
+    expect(published).toEqual(['auraglass']);
+    rmSync(root, { recursive: true });
+  });
+
+  it('GA tag: the candidate build (before the gate) passes; the certified build fails an omitted GA block', () => {
+    const root = fixture({ blocks: { good: item('good'), bad: item('bad') } });
+    expect(build({ root, sha: SHA, gaTag: 'v5.0.0', candidate: true }).errors).toEqual([]);
+    const cert = { version: 1, sha: SHA, items: { good: { pass: true }, bad: { pass: false } } };
+    const { errors, published } = build({ root, sha: SHA, gaTag: 'v5.0.0', certification: cert });
+    expect(errors).toEqual(['GA build omits bad (uncertified)']);
+    expect(published).toEqual(['auraglass', 'good']);
     rmSync(root, { recursive: true });
   });
 
@@ -123,5 +161,14 @@ describe('registry build', () => {
     expect(errors.some((e) => e.includes('exceeds'))).toBe(true);
     expect(report.items.find((i) => i.name === 'huge')?.status).toBe('invalid');
     rmSync(root, { recursive: true });
+  });
+});
+
+describe('generated registry outputs are git-ignored, never committed (REQ-PLAT-94)', () => {
+  const ROOT = join(__dirname, '..', '..');
+  const git = (...a: string[]) => spawnSync('git', a, { cwd: ROOT, encoding: 'utf8' });
+  it.each(['registry/registry.json', 'registry/registry-report.json'])('%s is ignored and untracked', (f) => {
+    expect(git('check-ignore', '--no-index', '-q', f).status).toBe(0);
+    expect(git('ls-files', '--', f).stdout.trim()).toBe('');
   });
 });
