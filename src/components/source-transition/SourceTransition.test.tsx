@@ -218,3 +218,124 @@ describe('SourceTransition SURF-65: surfaces + focus', () => {
     expect(document.activeElement).toBe(elsewhere);
   });
 });
+
+// REQ-SURF-64/65: the destination is resolved AFTER update() has committed,
+// scoped to the Root — a Destination that mounts because of the update
+// (list -> detail) is named for the new snapshot, receives focus, and is
+// cleared once the morph settles.
+describe('SourceTransition SURF-64: destination mounted by the update', () => {
+  function mockVT(probe: () => { source: string | null; dest: string | null }) {
+    const phases: Array<{ phase: 'old' | 'new'; source: string | null; dest: string | null }> = [];
+    let resolveFinished!: () => void;
+    const finished = new Promise<void>((r) => {
+      resolveFinished = r;
+    });
+    const start = jest.fn((init: VTInit) => {
+      phases.push({ phase: 'old', ...probe() });
+      const update = typeof init === 'function' ? init : init.update;
+      const done = Promise.resolve()
+        .then(update)
+        .then(() => {
+          phases.push({ phase: 'new', ...probe() });
+          resolveFinished();
+        });
+      return { finished, updateCallbackDone: done, ready: done, skipTransition: () => {} };
+    });
+    (document as unknown as { startViewTransition?: unknown }).startViewTransition = start;
+    return {
+      phases,
+      start,
+      restore: () => {
+        delete (document as unknown as { startViewTransition?: unknown }).startViewTransition;
+      },
+    };
+  }
+  const vtName = (sel: string) => document.querySelector<HTMLElement>(sel)?.style.viewTransitionName ?? null;
+
+  function ListDetail() {
+    const [open, setOpen] = React.useState(false);
+    return (
+      <SourceTransition.Root>
+        <SourceTransition.Source
+          id="card"
+          onClick={(e: React.MouseEvent) => {
+            e.preventDefault();
+            void SourceTransition.start('card', () => setOpen(true));
+          }}
+        >
+          <button type="button">open</button>
+        </SourceTransition.Source>
+        {open ? (
+          <SourceTransition.Destination id="card">
+            <a href="/detail">detail</a>
+          </SourceTransition.Destination>
+        ) : null}
+      </SourceTransition.Root>
+    );
+  }
+
+  it('names the newly mounted destination for the new snapshot, focuses it, then clears both names', async () => {
+    const vt = mockVT(() => ({ source: vtName('[data-ag-part="source"]'), dest: vtName('[data-ag-part="destination"]') }));
+    try {
+      render(<ListDetail />);
+      const btn = screen.getByRole('button', { name: 'open' });
+      btn.focus();
+      await act(async () => {
+        fireEvent.click(btn);
+      });
+      await act(async () => {
+        await Promise.resolve();
+      });
+      expect(vt.start).toHaveBeenCalledTimes(1);
+      expect(vt.phases).toEqual([
+        { phase: 'old', source: 'ag-src-card', dest: null },
+        { phase: 'new', source: '', dest: 'ag-src-card' },
+      ]);
+      expect(document.activeElement).toBe(screen.getByRole('link', { name: 'detail' }));
+      expect(vtName('[data-ag-part="source"]')).toBe('');
+      expect(vtName('[data-ag-part="destination"]')).toBe('');
+    } finally {
+      vt.restore();
+    }
+  });
+
+  it('lookups are scoped to the Root: the same id under another Root is never named', async () => {
+    const vt = mockVT(() => ({
+      source: vtName('[data-testid="b"] [data-ag-part="source"]'),
+      dest: vtName('[data-testid="b"] [data-ag-part="destination"]'),
+    }));
+    try {
+      render(
+        <>
+          <SourceTransition.Root data-testid="a">
+            <SourceTransition.Source id="same">a-src</SourceTransition.Source>
+            <SourceTransition.Destination id="same">a-dest</SourceTransition.Destination>
+          </SourceTransition.Root>
+          <SourceTransition.Root data-testid="b">
+            <SourceTransition.Source id="same">b-src</SourceTransition.Source>
+            <SourceTransition.Destination id="same">b-dest</SourceTransition.Destination>
+          </SourceTransition.Root>
+        </>,
+      );
+      await act(async () => {
+        fireEvent.click(screen.getByText('b-src'));
+      });
+      await act(async () => {
+        await Promise.resolve();
+      });
+      expect(vt.phases).toEqual([
+        { phase: 'old', source: 'ag-src-same', dest: '' },
+        { phase: 'new', source: '', dest: 'ag-src-same' },
+      ]);
+      // Root A's pair never carried the name
+      const a = document.querySelector('[data-testid="a"]')!;
+      expect((a.querySelector('[data-ag-part="destination"]') as HTMLElement).style.viewTransitionName).toBe('');
+      const startMorphSpy = motion.startMorph as unknown as jest.Mock;
+      const opts = startMorphSpy.mock.calls.at(-1)![1] as { surfaces: Element[] };
+      const b = document.querySelector('[data-testid="b"]')!;
+      expect(opts.surfaces.every((el) => b.contains(el))).toBe(true);
+    } finally {
+      vt.restore();
+    }
+  });
+});
