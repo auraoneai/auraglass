@@ -14,6 +14,7 @@ import { subscribeFrame } from '../../motion/ticker';
 import { MotionCapabilityContext } from '../../motion/capability';
 import type { SheetDetent, SheetDetentsHandle } from './useSheetDetents';
 import type { SheetSide } from './Sheet.types';
+import type { DragBindings } from '../../contracts/motion';
 
 export interface SheetHandleContextValue {
   axis: 'x' | 'y';
@@ -154,11 +155,13 @@ export function SheetHandle({ className, children, ref }: {
 
   React.useEffect(() => () => frameUnsub.current?.(), []);
 
-  const capBindings = React.useMemo(() => cap?.dragDetents?.({
-    detents: ctx.detents.topsPx,
-    axis: ctx.axis,
-    onSettle: settleDetent,
-  }), [cap, ctx.detents.topsPx, ctx.axis, settleDetent]);
+  /* The capability's bindings close over settleDetent (which touches refs), so they are
+     built after commit rather than during render (REQ-CMP-24); until then the local
+     pointer path drives the handle. */
+  const [capBindings, setCapBindings] = React.useState<DragBindings | undefined>(undefined);
+  React.useEffect(() => {
+    setCapBindings(cap?.dragDetents?.({ detents: ctx.detents.topsPx, axis: ctx.axis, onSettle: settleDetent }));
+  }, [cap, ctx.detents.topsPx, ctx.axis, settleDetent]);
 
   return (
     <button

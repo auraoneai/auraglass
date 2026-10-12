@@ -1,6 +1,280 @@
 {
  "entry": "./material.css",
  "surfaceClass": "ag-surface",
+ "public": [
+  "--ag-color-accent",
+  "--ag-color-border",
+  "--ag-color-canvas",
+  "--ag-color-danger",
+  "--ag-color-focus-inner",
+  "--ag-color-focus-outer",
+  "--ag-color-info",
+  "--ag-color-on-accent",
+  "--ag-color-on-surface",
+  "--ag-color-on-surface-muted",
+  "--ag-color-specular",
+  "--ag-color-success",
+  "--ag-color-warning",
+  "--ag-comp-control-height-lg-compact",
+  "--ag-comp-control-height-lg-default",
+  "--ag-comp-control-height-lg-spacious",
+  "--ag-comp-control-height-md-compact",
+  "--ag-comp-control-height-md-default",
+  "--ag-comp-control-height-md-spacious",
+  "--ag-comp-control-height-sm-compact",
+  "--ag-comp-control-height-sm-default",
+  "--ag-comp-control-height-sm-spacious",
+  "--ag-density",
+  "--ag-duration-ambient",
+  "--ag-duration-instant",
+  "--ag-duration-instant-exit",
+  "--ag-duration-large",
+  "--ag-duration-large-exit",
+  "--ag-duration-medium",
+  "--ag-duration-medium-exit",
+  "--ag-duration-micro",
+  "--ag-duration-micro-exit",
+  "--ag-duration-small",
+  "--ag-duration-small-exit",
+  "--ag-ease-accelerate",
+  "--ag-ease-emphasized",
+  "--ag-ease-emphasized-decelerate",
+  "--ag-ease-standard",
+  "--ag-focus-inner",
+  "--ag-focus-outer",
+  "--ag-focus-width",
+  "--ag-font-mono",
+  "--ag-font-sans",
+  "--ag-glass-opacity",
+  "--ag-inset",
+  "--ag-light-angle",
+  "--ag-on-surface",
+  "--ag-on-surface-muted",
+  "--ag-radius-full",
+  "--ag-radius-inner",
+  "--ag-radius-lg",
+  "--ag-radius-md",
+  "--ag-radius-outer",
+  "--ag-radius-sm",
+  "--ag-radius-xl",
+  "--ag-radius-xs",
+  "--ag-scrim-clear",
+  "--ag-scrim-media",
+  "--ag-scroll-padding-bottom",
+  "--ag-scroll-padding-top",
+  "--ag-shadow-regular",
+  "--ag-shadow-thick",
+  "--ag-shadow-thin",
+  "--ag-space-0",
+  "--ag-space-1",
+  "--ag-space-10",
+  "--ag-space-12",
+  "--ag-space-16",
+  "--ag-space-2",
+  "--ag-space-3",
+  "--ag-space-4",
+  "--ag-space-5",
+  "--ag-space-6",
+  "--ag-space-8",
+  "--ag-specular",
+  "--ag-spring-fluid",
+  "--ag-spring-fluid-duration",
+  "--ag-spring-smooth",
+  "--ag-spring-smooth-duration",
+  "--ag-spring-snappy",
+  "--ag-spring-snappy-duration",
+  "--ag-state-disabled-alpha",
+  "--ag-state-hover-specular",
+  "--ag-state-press-glow",
+  "--ag-surface-fill",
+  "--ag-surface-radius",
+  "--ag-surface-rim",
+  "--ag-surface-shadow",
+  "--ag-switch-track-h-lg",
+  "--ag-switch-track-h-md",
+  "--ag-switch-track-h-sm",
+  "--ag-switch-track-w-lg",
+  "--ag-switch-track-w-md",
+  "--ag-switch-track-w-sm",
+  "--ag-target-coarse",
+  "--ag-target-min",
+  "--ag-type-body-leading",
+  "--ag-type-body-size",
+  "--ag-type-body-weight",
+  "--ag-type-callout-leading",
+  "--ag-type-callout-size",
+  "--ag-type-callout-weight",
+  "--ag-type-caption-leading",
+  "--ag-type-caption-size",
+  "--ag-type-caption-weight",
+  "--ag-type-display-leading",
+  "--ag-type-display-size",
+  "--ag-type-display-weight",
+  "--ag-type-label-leading",
+  "--ag-type-label-size",
+  "--ag-type-label-weight",
+  "--ag-type-mono-leading",
+  "--ag-type-mono-size",
+  "--ag-type-mono-weight",
+  "--ag-type-title-1-leading",
+  "--ag-type-title-1-size",
+  "--ag-type-title-1-weight",
+  "--ag-type-title-2-leading",
+  "--ag-type-title-2-size",
+  "--ag-type-title-2-weight",
+  "--ag-type-title-3-leading",
+  "--ag-type-title-3-size",
+  "--ag-type-title-3-weight",
+  "--ag-z-chrome",
+  "--ag-z-content",
+  "--ag-z-overlay",
+  "--ag-z-toast",
+  "--ag-z-transient",
+  "--background",
+  "--border",
+  "--foreground",
+  "--muted",
+  "--primary",
+  "--primary-foreground",
+  "--radius",
+  "--ring"
+ ],
+ "private": [
+  "--_ag-alpha",
+  "--_ag-blur",
+  "--_ag-border-strong",
+  "--_ag-brightness",
+  "--_ag-canvas-fill",
+  "--_ag-dim",
+  "--_ag-env-brightness",
+  "--_ag-fallback-fill",
+  "--_ag-fill",
+  "--_ag-floor-alpha",
+  "--_ag-floor-alpha-expanded",
+  "--_ag-floor-lift",
+  "--_ag-grain-opacity",
+  "--_ag-group-spacing",
+  "--_ag-inner-fill",
+  "--_ag-mat-",
+  "--_ag-mat-blur",
+  "--_ag-mat-grain",
+  "--_ag-mat-rim",
+  "--_ag-mat-saturation",
+  "--_ag-mat-shadow",
+  "--_ag-on-surface",
+  "--_ag-on-surface-max",
+  "--_ag-on-surface-muted",
+  "--_ag-optics",
+  "--_ag-pointer",
+  "--_ag-press",
+  "--_ag-refraction-scale",
+  "--_ag-rim-light",
+  "--_ag-rim-shade",
+  "--_ag-rim-width",
+  "--_ag-saturation",
+  "--_ag-scrim-blur",
+  "--_ag-shadow",
+  "--_ag-specular-lift",
+  "--_ag-state-disabled-surface-alpha",
+  "--_ag-state-dragging-lift",
+  "--_ag-state-dragging-specular",
+  "--_ag-state-drop-target-fill",
+  "--_ag-state-drop-target-rim",
+  "--_ag-state-hover-floor",
+  "--_ag-state-loading-alpha",
+  "--_ag-state-press-floor",
+  "--_ag-state-selected-rim-width",
+  "--_ag-state-selected-tint",
+  "--_ag-surface-alpha",
+  "--_ag-surface-fill",
+  "--_ag-surface-radius",
+  "--_ag-surface-rim",
+  "--_ag-surface-shadow",
+  "--_ag-tint-alpha",
+  "--_ag-tint-floor",
+  "--_ag-tint-floor-more",
+  "--_ag-tint-floor-solid",
+  "--_ag-tint-floor-tinted",
+  "--_ag-tinted-floor"
+ ],
+ "attributes": [
+  "data-ag-allow-nested",
+  "data-ag-animating",
+  "data-ag-announcer",
+  "data-ag-appearance",
+  "data-ag-backdrop",
+  "data-ag-backdrop-preset",
+  "data-ag-cert-ready",
+  "data-ag-content",
+  "data-ag-continuous",
+  "data-ag-contrast",
+  "data-ag-density",
+  "data-ag-engine",
+  "data-ag-focus-inset",
+  "data-ag-focusable",
+  "data-ag-group",
+  "data-ag-highlights",
+  "data-ag-hit-clamp",
+  "data-ag-inspector",
+  "data-ag-intent",
+  "data-ag-interactive",
+  "data-ag-lab-override",
+  "data-ag-layer",
+  "data-ag-layer-root",
+  "data-ag-layout",
+  "data-ag-media-root",
+  "data-ag-media-tone",
+  "data-ag-motion",
+  "data-ag-nested-open",
+  "data-ag-obscured",
+  "data-ag-offscreen",
+  "data-ag-overlay",
+  "data-ag-overlay-depth",
+  "data-ag-palette",
+  "data-ag-part",
+  "data-ag-pinned-edge",
+  "data-ag-placement",
+  "data-ag-pointer-light",
+  "data-ag-portal-root",
+  "data-ag-preview",
+  "data-ag-prominent",
+  "data-ag-provider",
+  "data-ag-refraction",
+  "data-ag-root",
+  "data-ag-scheme",
+  "data-ag-scroll-container",
+  "data-ag-scroll-locked",
+  "data-ag-seed",
+  "data-ag-shadcn-source",
+  "data-ag-shape",
+  "data-ag-sidebar",
+  "data-ag-sidebar-side",
+  "data-ag-size",
+  "data-ag-slot",
+  "data-ag-state-cell",
+  "data-ag-story-content",
+  "data-ag-story-kind",
+  "data-ag-surface",
+  "data-ag-theme",
+  "data-ag-thickness",
+  "data-ag-tier",
+  "data-ag-transparency",
+  "data-ag-variant",
+  "data-ag-vt",
+  "data-ag-vt-participant",
+  "data-ag-vt-settled"
+ ],
+ "privateAttributes": [
+  "data-ag-edge",
+  "data-ag-edge-style",
+  "data-ag-full-height",
+  "data-ag-inset",
+  "data-ag-lens-defs",
+  "data-ag-lens-ready",
+  "data-ag-radius",
+  "data-ag-sizeclass",
+  "data-ag-spacing"
+ ],
  "variables": [
   {
    "name": "--ag-light-angle",
@@ -371,6 +645,66 @@
    "group": "scrim"
   },
   {
+   "name": "--ag-comp-control-height-sm-compact",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-sm-default",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-sm-spacious",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-md-compact",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-md-default",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-md-spacious",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-lg-compact",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-lg-default",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-comp-control-height-lg-spacious",
+   "group": "comp"
+  },
+  {
+   "name": "--ag-switch-track-w-sm",
+   "group": "switchTrack"
+  },
+  {
+   "name": "--ag-switch-track-w-md",
+   "group": "switchTrack"
+  },
+  {
+   "name": "--ag-switch-track-w-lg",
+   "group": "switchTrack"
+  },
+  {
+   "name": "--ag-switch-track-h-sm",
+   "group": "switchTrack"
+  },
+  {
+   "name": "--ag-switch-track-h-md",
+   "group": "switchTrack"
+  },
+  {
+   "name": "--ag-switch-track-h-lg",
+   "group": "switchTrack"
+  },
+  {
    "name": "--background",
    "group": "shadcn"
   },
@@ -487,83 +821,28 @@
    "group": "motion"
   }
  ],
- "attributes": {
-  "data-ag-surface": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-layer": {
-   "setter": "MAT",
-   "values": [
-    "chrome",
-    "overlay",
-    "transient",
-    "content",
-    "scrim"
-   ]
-  },
-  "data-ag-variant": {
-   "setter": "MAT",
-   "values": [
-    "regular",
-    "clear",
-    "identity"
-   ]
-  },
-  "data-ag-thickness": {
-   "setter": "MAT",
-   "values": [
-    "thin",
-    "regular",
-    "thick"
-   ]
-  },
-  "data-ag-content": {
-   "setter": "MAT",
-   "values": [
-    "content-raised",
-    "content-sunken"
-   ]
-  },
-  "data-ag-shape": {
-   "setter": "MAT",
-   "values": [
-    "fixed",
-    "capsule",
-    "concentric"
-   ]
-  },
-  "data-ag-interactive": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-prominent": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-refraction": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
+ "attributeSpecs": {
   "data-ag-allow-nested": {
    "setter": "MAT",
    "values": [
     ""
    ]
   },
-  "data-ag-group": {
+  "data-ag-animating": {
    "setter": "MAT",
    "values": [
     ""
    ]
+  },
+  "data-ag-announcer": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-appearance": {
+   "setter": "CMP|SURF",
+   "values": "component-specific non-material look (e.g. sidebar|inset|floating, underline|pill), declared in meta; Sheet popup value full-height is read by the MAT floor (C-2)"
   },
   "data-ag-backdrop": {
    "setter": "ANY",
@@ -572,6 +851,48 @@
     "dark",
     "media",
     "auto"
+   ]
+  },
+  "data-ag-backdrop-preset": {
+   "setter": "SURF",
+   "values": [
+    "aurora",
+    "mesh",
+    "photo",
+    "video",
+    "grain"
+   ]
+  },
+  "data-ag-cert-ready": {
+   "setter": "QUAL",
+   "values": "story-only"
+  },
+  "data-ag-content": {
+   "setter": "MAT",
+   "values": [
+    "content-raised",
+    "content-sunken"
+   ]
+  },
+  "data-ag-continuous": {
+   "setter": "MAT",
+   "values": [
+    "on"
+   ]
+  },
+  "data-ag-contrast": {
+   "setter": "MAT",
+   "values": [
+    "standard",
+    "more"
+   ]
+  },
+  "data-ag-density": {
+   "setter": "MAT",
+   "values": [
+    "compact",
+    "regular",
+    "spacious"
    ]
   },
   "data-ag-engine": {
@@ -583,102 +904,8 @@
     "unknown"
    ]
   },
-  "data-ag-tier": {
-   "setter": "MAT",
-   "values": [
-    "lightweight",
-    "standard",
-    "enhanced"
-   ]
-  },
-  "data-ag-scheme": {
-   "setter": "MAT",
-   "values": [
-    "light",
-    "dark"
-   ]
-  },
-  "data-ag-contrast": {
-   "setter": "MAT",
-   "values": [
-    "standard",
-    "more"
-   ]
-  },
-  "data-ag-transparency": {
-   "setter": "MAT",
-   "values": [
-    "glass",
-    "tinted",
-    "solid"
-   ]
-  },
-  "data-ag-motion": {
-   "setter": "MAT",
-   "values": [
-    "full",
-    "calm",
-    "none"
-   ]
-  },
-  "data-ag-density": {
-   "setter": "MAT",
-   "values": [
-    "compact",
-    "regular",
-    "spacious"
-   ]
-  },
-  "data-ag-animating": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-part": {
+  "data-ag-focus-inset": {
    "setter": "ANY",
-   "values": "kebab-case part name (S-33)"
-  },
-  "data-ag-preview": {
-   "setter": "MAT",
-   "values": [
-    "v5"
-   ]
-  },
-  "data-ag-root": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-provider": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-portal-root": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-layer-root": {
-   "setter": "MAT",
-   "values": [
-    "overlay",
-    "transient",
-    "toast"
-   ]
-  },
-  "data-ag-announcer": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-obscured": {
-   "setter": "MAT",
    "values": [
     ""
    ]
@@ -689,43 +916,7 @@
     ""
    ]
   },
-  "data-ag-scroll-container": {
-   "setter": "ANY",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-continuous": {
-   "setter": "MAT",
-   "values": [
-    "on"
-   ]
-  },
-  "data-ag-offscreen": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-vt": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-vt-participant": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-vt-settled": {
-   "setter": "MAT",
-   "values": [
-    ""
-   ]
-  },
-  "data-ag-pointer-light": {
+  "data-ag-group": {
    "setter": "MAT",
    "values": [
     ""
@@ -737,12 +928,20 @@
     ""
    ]
   },
-  "data-ag-size": {
-   "setter": "CMP|SURF",
+  "data-ag-hit-clamp": {
+   "setter": "ANY",
    "values": [
-    "sm",
-    "md",
-    "lg"
+    "start",
+    "end",
+    "both",
+    "none"
+   ]
+  },
+  "data-ag-inspector": {
+   "setter": "SURF",
+   "values": [
+    "open",
+    "closed"
    ]
   },
   "data-ag-intent": {
@@ -753,6 +952,81 @@
     "success",
     "warning",
     "danger"
+   ]
+  },
+  "data-ag-interactive": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-lab-override": {
+   "setter": "QUAL",
+   "values": "story-only"
+  },
+  "data-ag-layer": {
+   "setter": "MAT",
+   "values": [
+    "chrome",
+    "overlay",
+    "transient",
+    "content",
+    "scrim"
+   ]
+  },
+  "data-ag-layer-root": {
+   "setter": "MAT",
+   "values": [
+    "overlay",
+    "transient",
+    "toast"
+   ]
+  },
+  "data-ag-layout": {
+   "setter": "SURF",
+   "values": [
+    "auto",
+    "desktop",
+    "mobile"
+   ]
+  },
+  "data-ag-media-root": {
+   "setter": "SURF",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-media-tone": {
+   "setter": "SURF",
+   "values": [
+    "light",
+    "dark"
+   ]
+  },
+  "data-ag-motion": {
+   "setter": "MAT",
+   "values": [
+    "full",
+    "calm",
+    "none"
+   ]
+  },
+  "data-ag-nested-open": {
+   "setter": "CMP",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-obscured": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-offscreen": {
+   "setter": "MAT",
+   "values": [
+    ""
    ]
   },
   "data-ag-overlay": {
@@ -774,42 +1048,107 @@
    "setter": "CMP",
    "values": "integer >= 0"
   },
-  "data-ag-nested-open": {
-   "setter": "CMP",
+  "data-ag-palette": {
+   "setter": "SURF",
+   "values": "preset palette id"
+  },
+  "data-ag-part": {
+   "setter": "ANY",
+   "values": "kebab-case part name (S-33)"
+  },
+  "data-ag-pinned-edge": {
+   "setter": "SURF",
+   "values": [
+    "start",
+    "end",
+    "top"
+   ]
+  },
+  "data-ag-placement": {
+   "setter": "SURF",
+   "values": [
+    "inline",
+    "overlay"
+   ]
+  },
+  "data-ag-pointer-light": {
+   "setter": "MAT",
    "values": [
     ""
    ]
   },
-  "data-ag-media-root": {
-   "setter": "SURF",
+  "data-ag-portal-root": {
+   "setter": "MAT",
    "values": [
     ""
    ]
   },
-  "data-ag-media-tone": {
-   "setter": "SURF",
+  "data-ag-preview": {
+   "setter": "MAT",
+   "values": [
+    "v5"
+   ]
+  },
+  "data-ag-prominent": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-provider": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-refraction": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-root": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-scheme": {
+   "setter": "MAT",
    "values": [
     "light",
     "dark"
    ]
   },
-  "data-ag-backdrop-preset": {
-   "setter": "SURF",
+  "data-ag-scroll-container": {
+   "setter": "ANY",
    "values": [
-    "aurora",
-    "mesh",
-    "photo",
-    "video",
-    "grain"
+    ""
    ]
   },
-  "data-ag-palette": {
-   "setter": "SURF",
-   "values": "preset palette id"
+  "data-ag-scroll-locked": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
   },
-  "data-ag-slot": {
-   "setter": "SURF",
-   "values": "AppShell slot name, declared in AppShell.meta.ts"
+  "data-ag-seed": {
+   "setter": "CONTRACT",
+   "values": "seed-only; banned in dist/ (§1.2 R5)"
+  },
+  "data-ag-shadcn-source": {
+   "setter": "ANY",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-shape": {
+   "setter": "MAT",
+   "values": [
+    "fixed",
+    "capsule",
+    "concentric"
+   ]
   },
   "data-ag-sidebar": {
    "setter": "SURF",
@@ -826,77 +1165,21 @@
     "end"
    ]
   },
-  "data-ag-layout": {
-   "setter": "SURF",
-   "values": [
-    "auto",
-    "desktop",
-    "mobile"
-   ]
-  },
-  "data-ag-placement": {
-   "setter": "SURF",
-   "values": [
-    "inline",
-    "overlay"
-   ]
-  },
-  "data-ag-appearance": {
+  "data-ag-size": {
    "setter": "CMP|SURF",
-   "values": "component-specific non-material look (e.g. sidebar|inset|floating, underline|pill), declared in meta"
+   "values": [
+    "sm",
+    "md",
+    "lg"
+   ]
   },
-  "data-ag-inspector": {
+  "data-ag-slot": {
    "setter": "SURF",
-   "values": [
-    "open",
-    "closed"
-   ]
+   "values": "AppShell slot name, declared in AppShell.meta.ts"
   },
-  "data-ag-pinned-edge": {
-   "setter": "SURF",
-   "values": [
-    "start",
-    "end",
-    "top"
-   ]
-  },
-  "data-ag-sizeclass": {
-   "setter": "MAT",
-   "values": "private"
-  },
-  "data-ag-radius": {
-   "setter": "MAT",
-   "values": "private"
-  },
-  "data-ag-spacing": {
-   "setter": "MAT",
-   "values": "private"
-  },
-  "data-ag-inset": {
-   "setter": "MAT",
-   "values": "private"
-  },
-  "data-ag-edge": {
-   "setter": "MAT",
-   "values": [
-    "top",
-    "bottom"
-   ]
-  },
-  "data-ag-edge-style": {
-   "setter": "MAT",
-   "values": [
-    "soft",
-    "hard"
-   ]
-  },
-  "data-ag-lens-ready": {
-   "setter": "MAT",
-   "values": "private"
-  },
-  "data-ag-full-height": {
-   "setter": "MAT",
-   "values": "private"
+  "data-ag-state-cell": {
+   "setter": "QUAL",
+   "values": "story-only"
   },
   "data-ag-story-content": {
    "setter": "QUAL",
@@ -912,21 +1195,65 @@
     "showcase"
    ]
   },
-  "data-ag-cert-ready": {
-   "setter": "QUAL",
-   "values": "story-only"
+  "data-ag-surface": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
   },
-  "data-ag-lab-override": {
-   "setter": "QUAL",
-   "values": "story-only"
+  "data-ag-theme": {
+   "setter": "ANY",
+   "values": "theme id: a preset id or the id passed to createGlassTheme/createBrandTheme; on the element that scopes that theme cssText"
   },
-  "data-ag-state-cell": {
-   "setter": "QUAL",
-   "values": "story-only"
+  "data-ag-thickness": {
+   "setter": "MAT",
+   "values": [
+    "thin",
+    "regular",
+    "thick"
+   ]
   },
-  "data-ag-seed": {
-   "setter": "CONTRACT",
-   "values": "seed-only; banned in dist/ (§1.2 R5)"
+  "data-ag-tier": {
+   "setter": "MAT",
+   "values": [
+    "lightweight",
+    "standard",
+    "enhanced"
+   ]
+  },
+  "data-ag-transparency": {
+   "setter": "MAT",
+   "values": [
+    "glass",
+    "tinted",
+    "solid"
+   ]
+  },
+  "data-ag-variant": {
+   "setter": "MAT",
+   "values": [
+    "regular",
+    "clear",
+    "identity"
+   ]
+  },
+  "data-ag-vt": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-vt-participant": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
+  },
+  "data-ag-vt-settled": {
+   "setter": "MAT",
+   "values": [
+    ""
+   ]
   }
  },
  "a11yOverridable": [

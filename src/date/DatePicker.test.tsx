@@ -79,7 +79,11 @@ describe('DatePicker (REQ-SURF-98/101)', () => {
     act(() => seg(container, 'year').focus());
     await user.keyboard('{Backspace}');
     expect(seg(container, 'year').getAttribute('aria-valuenow')).toBe('202');
-    expect(on).toHaveBeenLastCalledWith(expect.objectContaining({ year: 202, month: 3, day: 14 }));
+    // REQ-SURF-11: onValueChange(value, details: ChangeDetails).
+    expect(on).toHaveBeenLastCalledWith(
+      expect.objectContaining({ year: 202, month: 3, day: 14 }),
+      expect.objectContaining({ reason: 'change' }),
+    );
   });
 
   it('name submits the ISO value', () => {

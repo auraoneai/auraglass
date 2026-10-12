@@ -36,6 +36,15 @@ const ToastProviderCtx = React.createContext<{ position: ToastPosition; timeout:
 const ToastViewportCtx = React.createContext<ToastPosition>('bottom-right');
 let warnedNestedProvider = false;
 let warnedNoProvider = false;
+/* BU's useToastManager throws without its provider, so useToast() cannot call it
+   conditionally (rules of hooks, REQ-CMP-24). The provider bridges the manager into
+   this context instead; outside a provider it is null and useToast() is a no-op. */
+type BaseToastManager = ReturnType<typeof Base.useToastManager>;
+const ToastManagerCtx = React.createContext<BaseToastManager | null>(null);
+function ToastManagerBridge({ children }: { children?: React.ReactNode }) {
+  const mgr = Base.useToastManager();
+  return <ToastManagerCtx.Provider value={mgr}>{children}</ToastManagerCtx.Provider>;
+}
 const LOGICAL_TO_POSITION: Record<ToastLogicalPosition, ToastPosition> = {
   'top-start': 'top-left', 'top-center': 'top-center', 'top-end': 'top-right',
   'bottom-start': 'bottom-left', 'bottom-center': 'bottom-center', 'bottom-end': 'bottom-right',
@@ -47,10 +56,14 @@ const POSITION_SWIPE: Record<ToastPosition, ('up' | 'down' | 'left' | 'right')[]
 
 function ToastProvider({ limit = 3, timeout = 5000, history = true, position = 'bottom-end', children }: ToastProviderProps) {
   const parent = React.useContext(ToastProviderCtx);
-  if (process.env.NODE_ENV !== 'production' && parent && !warnedNestedProvider) {
-    warnedNestedProvider = true;
-    console.error('[aura-glass] Toast.Provider must not be nested — use a single top-level provider.');
-  }
+  // Module-level once-flag is written in an effect, not during render (REQ-CMP-24).
+  const nested = parent !== null;
+  React.useEffect(() => {
+    if (process.env.NODE_ENV !== 'production' && nested && !warnedNestedProvider) {
+      warnedNestedProvider = true;
+      console.error('[aura-glass] Toast.Provider must not be nested — use a single top-level provider.');
+    }
+  }, [nested]);
   const config = React.useMemo(() => ({ position: LOGICAL_TO_POSITION[position], timeout }), [position, timeout]);
   const [toastManager] = React.useState(() => Base.createToastManager());
   const historyEnabled = history !== false;
@@ -78,7 +91,7 @@ function ToastProvider({ limit = 3, timeout = 5000, history = true, position = '
   return (
     <ToastProviderCtx.Provider value={config}><ToastHistoryCtx.Provider value={store}>
       <Base.Provider toastManager={toastManager} limit={limit} timeout={timeout}>
-        {children}
+        <ToastManagerBridge>{children}</ToastManagerBridge>
       </Base.Provider>
     </ToastHistoryCtx.Provider></ToastProviderCtx.Provider>
   );
@@ -246,21 +259,20 @@ const NOOP_TOAST: UseToastReturn = {
 
 export function useToast(): UseToastReturn {
   const cfg = React.useContext(ToastProviderCtx);
-  if (process.env.NODE_ENV !== 'production' && !cfg && !warnedNoProvider) {
-    warnedNoProvider = true;
-    console.error('[aura-glass] useToast() called outside Toast.Provider — returning a no-op object.');
-  }
-  /* BU's useToastManager throws without a provider, so the real path can only
-     run when present. A component cannot gain a provider mid-render, so the
-     early return is stable in practice. */
-  if (!cfg) return NOOP_TOAST;
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useToastInner();
+  const mgr = React.useContext(ToastManagerCtx);
+  const hist = React.useContext(ToastHistoryCtx);
+  const missing = !cfg || !mgr;
+  React.useEffect(() => {
+    if (process.env.NODE_ENV !== 'production' && missing && !warnedNoProvider) {
+      warnedNoProvider = true;
+      console.error('[aura-glass] useToast() called outside Toast.Provider — returning a no-op object.');
+    }
+  }, [missing]);
+  if (!cfg || !mgr) return NOOP_TOAST;
+  return toastApi(mgr, hist);
 }
 
-function useToastInner(): UseToastReturn {
-  const mgr = Base.useToastManager();
-  const hist = React.useContext(ToastHistoryCtx);
+function toastApi(mgr: BaseToastManager, hist: React.ContextType<typeof ToastHistoryCtx>): UseToastReturn {
   const add = (t: ToastData) => {
     const intent = t.intent ?? 'info';
     /* REQ-CMP-108: a toast carrying an action never auto-dismisses — the user

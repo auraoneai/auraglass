@@ -105,7 +105,8 @@ export function Button(props: ButtonProps) {
 
   const toggleRef = React.useRef<{ initial: boolean; warned: boolean } | null>(null);
   React.useEffect(() => {
-    toggleRef.current ??= { initial: isToggle, warned: false };
+    // no `??=`: React Compiler cannot lower logical assignment (REQ-CMP-24).
+    if (toggleRef.current === null) toggleRef.current = { initial: isToggle, warned: false };
     if (process.env.NODE_ENV !== 'production' && toggleRef.current.initial !== isToggle && !toggleRef.current.warned) {
       toggleRef.current.warned = true;
       console.warn('aura-glass Button: toggle props changed between renders; switching between Button and Toggle remounts the element. Keep toggle mode stable.');

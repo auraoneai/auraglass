@@ -161,7 +161,8 @@ describe('css-contract: material.css structure', () => {
     const canonical = vals.filter((v) => v.includes('var(--_ag-blur)'));
     expect(canonical.length).toBeGreaterThan(0);
     for (const v of canonical) {
-      expect(v).toMatch(/blur\(var\(--_ag-blur\)\)\s+saturate\(var\(--_ag-saturation\)\)\s+brightness\(var\(--_ag-brightness\)\)/);
+      // MAT-053: brightness may be scaled by the backdrop env multiplier; order stays fixed.
+      expect(v).toMatch(/blur\(var\(--_ag-blur\)\)\s+saturate\(var\(--_ag-saturation\)\)\s+brightness\((var\(--_ag-brightness\)|calc\(var\(--_ag-brightness\) \* var\(--_ag-env-brightness, 1\)\))\)/);
     }
     // blur is never a transition target
     let bad = 0;
@@ -191,7 +192,8 @@ describe('css-contract: material.css structure', () => {
   it('tint formula matches REQ-MAT-29 exactly', () => {
     let alpha = '';
     ast.walkDecls('--_ag-alpha', (d) => {
-      if (!alpha && (d.parent as Rule)?.selector === '.ag-surface') {
+      // REQ-FIN-02: the host baseline keys on the zero-specificity [data-ag-surface] hook.
+      if (!alpha && (d.parent as Rule)?.selector === ':where([data-ag-surface])') {
         alpha = d.value.replace(/\s+/g, ' ');
       }
     });
@@ -211,9 +213,10 @@ describe('css-contract: material.css structure', () => {
 
   it('clears backdrop-filter for nested surfaces and group children', () => {
     const sels: string[] = [];
-    ast.walkRules((r) => { sels.push(r.selector.replace(/\s+/g, ' ').trim()); });
-    expect(sels).toContain('.ag-surface .ag-surface:not([data-ag-allow-nested])::before');
-    expect(sels).toContain('[data-ag-group] > .ag-surface::before');
+    ast.walkRules((r) => { for (const s of r.selectors) sels.push(s.replace(/\s+/g, ' ').trim()); });
+    // REQ-FIN-02: [data-ag-surface] hooks, context branches wrapped in :where().
+    expect(sels).toContain(':where([data-ag-surface]) [data-ag-surface]:not(:where([data-ag-allow-nested]))::before');
+    expect(sels).toContain(':where([data-ag-group]) > [data-ag-surface]::before');
   });
 });
 
@@ -225,7 +228,8 @@ describe('css-contract: lens.css structure', () => {
   it('uses the single eligibility selector shape', () => {
     let count = 0;
     ast.walkRules((r) => {
-      if (/:root\[data-ag-engine="chromium"\]:has\(svg\[data-ag-lens-ready\]\) \.ag-surface\[data-ag-refraction\]\[data-ag-layer="chrome"\]/.test(r.selector)) count += 1;
+      // MAT-36: every lens rule is prefixed :root[data-ag-tier="enhanced"]; REQ-FIN-02 [data-ag-surface] hook.
+      if (/:root\[data-ag-tier="enhanced"\]\[data-ag-engine="chromium"\]:has\(svg\[data-ag-lens-ready\]\) \[data-ag-surface\]\[data-ag-refraction\]\[data-ag-layer="chrome"\]/.test(r.selector)) count += 1;
     });
     expect(count).toBe(9);
   });
@@ -240,7 +244,7 @@ describe('css-contract: lens.css structure', () => {
     // a bare descendant selector would lose on specificity to the eligibility
     // rules; each rung rule must repeat the :root ... :has(svg[lens-ready]) prefix
     const src = readFileSync(join(CSS_DIR, 'lens.css'), 'utf8');
-    const CTX = ':root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready])';
+    const CTX = ':root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready])';
     const rungs = [
       /data-ag-tier="standard"/, /data-ag-tier="lightweight"/,
       /data-ag-transparency="tinted"/, /data-ag-transparency="solid"/,

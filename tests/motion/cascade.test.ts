@@ -98,6 +98,9 @@ const mediaMatches = (params: string): boolean => {
   const p = params.replace(/\s+/g, ' ').trim();
   if (/^\(hover: ?hover\)$/.test(p)) return true;
   if (/^\(hover: ?none\)$/.test(p)) return false;
+  // Same desktop model as (hover: hover): a fine primary pointer (ladders.css caps grain under (pointer: coarse)).
+  if (/^\((any-)?pointer: ?fine\)$/.test(p)) return true;
+  if (/^\((any-)?pointer: ?(coarse|none)\)$/.test(p)) return false;
   if (/prefers-reduced-motion|forced-colors|prefers-contrast|prefers-reduced-transparency|inverted-colors/.test(p)) {
     return /no-preference|: ?none\)/.test(p) && !/\bnot\b/.test(p);
   }

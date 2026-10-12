@@ -27,7 +27,8 @@ const manifest = (extra: string[] = []) =>
 const BASE_FILES: Record<string, string> = {
   'package.json': manifest(),
   'deprecations.json': '{}',
-  'llms.txt': 'x',
+  // REQ-PLAT-106: the shipped llms.txt H1 names the package version.
+  'llms.txt': '# AuraGlass 0.0.0\n',
   'README.md': 'x',
   'LICENSE': 'x',
   'CHANGELOG.md': 'x',

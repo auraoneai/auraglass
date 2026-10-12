@@ -57,9 +57,10 @@
     cursor: default;
   }
   /* items hold bare text nodes, which a `> :where(*)` child rule never
-     reached — dim the item itself */
+     reached — dim the item's ink instead. No opacity on the item root
+     (REQ-CMP-13 disabled seam: computed root opacity stays 1). */
   .ag-toggle-item[data-disabled] {
-    opacity: var(--ag-state-disabled-alpha);
+    color: color-mix(in oklab, var(--ag-color-on-surface) calc(var(--ag-state-disabled-alpha) * 100%), transparent);
   }
 
   @media (forced-colors: active) {
