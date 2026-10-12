@@ -6,8 +6,11 @@ import { isBrowser, safeMatchMedia } from "../utils/env";
  * Enhanced hook for detecting user's reduced motion preference.
  *
  * This hook monitors the user's system-level preference for reduced motion
- * and updates reactively when the preference changes. It's SSR-safe and
- * provides more granular control compared to the basic `useReducedMotion` hook.
+ * and updates reactively when the preference changes. During server rendering
+ * and the first client render it returns the constant `true` (reduced), so the
+ * hydrated markup matches the server markup; the OS preference is read after
+ * mount. It does not read the preference on the server, so a server render
+ * always takes the reduced-motion branch.
  *
  * @returns {boolean} True if the user prefers reduced motion, false otherwise
  *

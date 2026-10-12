@@ -12,8 +12,9 @@ import { isBrowser, runClientEffect } from "../utils/env";
  * Hook for accessing device capabilities and information.
  *
  * This hook wraps the device detection utility and provides React state management
- * for device information. It's SSR-safe and provides a reload function for
- * refreshing device detection when needed.
+ * for device information. The server render and the first client render both
+ * return `DEFAULT_DEVICE_INFO`, so hydration matches; detection runs after
+ * mount. A reload function refreshes detection when needed.
  *
  * @returns Object containing device information and reload function
  *
