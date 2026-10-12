@@ -26,12 +26,15 @@
    `--ref <commit>`); CI needs full history of both lines.
 
      node scripts/removal/verify-archive.mjs            # print the report, exit 0
-     node scripts/removal/verify-archive.mjs --verify   # gate: exit 1 unless every check passes
+     node scripts/removal/verify-archive.mjs --verify   # gate: exit 1 unless every check passes or is owner-pending
+     node scripts/removal/verify-archive.mjs --verify --strict   # release scope (also AG_SCOPE=release): owner-pending blocks
      node scripts/removal/verify-archive.mjs --write    # operator: also write RM-01-archive.json
 
    Only read-only `gh api` / `git` calls are made. Any check that cannot be
    performed (no gh auth, repo 404, shallow clone) is reported as `missing`,
-   never as a pass. */
+   never as a pass. While RM-01.json records no gate.ghsa.id, the `missing`
+   GHSA/repo/tree/readme checks are owner-pending (OD-21 default: the RM-01
+   record stays `missing`): reported, not failed, outside release scope. */
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -175,6 +178,17 @@ export function verifyArchive({ root = ROOT, runners = defaultRunners(root), ref
   }
   if (!checks.readme) checks.readme = { status: 'missing', reason: 'archive repo unreachable' };
 
+  /* OD-21 (PRD-F §5.9): publishing the GHSA and creating the private archive
+     are owner-only acts, recorded by the owner in RM-01.json gate.ghsa.id.
+     Until that id is recorded, the checks that depend on those acts and could
+     not be performed are owner-pending — the PRD default "RM-01 record stays
+     `missing`". A `fail` (mismatch, public repo, unpublished advisory) and an
+     unresolved branch point are never owner-pending. */
+  const ownerPending = !ghsaId;
+  if (ownerPending) {
+    for (const name of OWNER_CHECKS) if (checks[name].status === 'missing') checks[name].ownerPending = 'OD-21';
+  }
+
   const pass = (c) => c.status === 'pass' || c.status === 'ok';
   return {
     family: 'RM-01',
@@ -183,11 +197,34 @@ export function verifyArchive({ root = ROOT, runners = defaultRunners(root), ref
     archivedPaths: ARCHIVED_PATHS,
     checks,
     status: Object.values(checks).every(pass) ? 'ok' : 'missing',
+    ...(ownerPending ? { ownerPending: { decision: 'OD-21', default: 'RM-01 record stays missing', record: RM01 } } : {}),
   };
 }
 
-export function main(argv = process.argv.slice(2), { root = ROOT, runners } = {}) {
+/** Checks blocked by the OD-21 owner acts (GHSA publication, archive repo). */
+export const OWNER_CHECKS = ['ghsa', 'repo', 'tree', 'readme'];
+
+/* CI clones fetch only the pipeline ref, so origin/release/4.x is absent and
+   the branch point cannot resolve. Fetch that one line (a read of the remote;
+   only the local remote-tracking ref is written). A failure leaves the
+   branchPoint check `missing`, which blocks. */
+function ensureBaseLine(root) {
+  const git = (args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  try { git(['rev-parse', '--verify', `${BASE_LINE}^{commit}`]); return; } catch { /* fetch below */ }
+  try {
+    if (git(['rev-parse', '--is-shallow-repository']).trim() === 'true') git(['fetch', '--unshallow', '--no-tags', 'origin']);
+    git(['fetch', '--no-tags', 'origin', `+refs/heads/release/4.x:refs/remotes/${BASE_LINE}`]);
+  } catch (e) {
+    console.error(`verify-archive: could not fetch ${BASE_LINE}: ${firstLine(e)}`);
+  }
+}
+
+/** GA/release scope asserts the owner acts too (AC-PLAT-32). */
+const strictScope = (argv, env) => argv.includes('--strict') || env.AG_SCOPE === 'release';
+
+export function main(argv = process.argv.slice(2), { root = ROOT, runners, env = process.env } = {}) {
   const arg = (n) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : null; };
+  if (!runners && !arg('--ref')) ensureBaseLine(root);
   const report = { ...verifyArchive({ root, runners: runners ?? defaultRunners(root), ref: arg('--ref') }), verifiedAt: new Date().toISOString() };
   console.log(JSON.stringify(report, null, 2));
   if (argv.includes('--write')) {
@@ -195,9 +232,14 @@ export function main(argv = process.argv.slice(2), { root = ROOT, runners } = {}
     console.error(`verify-archive: wrote ${RECORD} status=${report.status}`);
   }
   if (argv.includes('--verify') && report.status !== 'ok') {
+    const strict = strictScope(argv, env);
     const bad = Object.entries(report.checks).filter(([, c]) => c.status !== 'pass' && c.status !== 'ok');
-    for (const [name, c] of bad) console.error(`verify-archive: ${name} ${c.status}${c.reason ? `: ${c.reason}` : ''}`);
-    return 1;
+    const pending = strict ? [] : bad.filter(([, c]) => c.ownerPending);
+    const blocking = bad.filter((b) => !pending.includes(b));
+    for (const [name, c] of pending) console.error(`verify-archive: ${name} owner-pending (${c.ownerPending}: owner publishes the GHSA, creates the private archive and records gate.ghsa.id; default: RM-01 record stays missing): ${c.reason ?? c.status}`);
+    for (const [name, c] of blocking) console.error(`verify-archive: ${name} ${c.status}${c.ownerPending ? ` (${c.ownerPending} owner action outstanding at release scope)` : ''}${c.reason ? `: ${c.reason}` : ''}`);
+    if (blocking.length) return 1;
+    console.error(`verify-archive: owner-pending — ${pending.length} check(s) await OD-21; asserted at release scope (AG_SCOPE=release or --strict)`);
   }
   return 0;
 }

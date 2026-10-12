@@ -118,16 +118,51 @@ describe('verify-archive (REQ-PLAT-82)', () => {
     expect(r.checks.tree).toMatchObject({ status: 'fail', missing: ['Dockerfile'], extra: ['notes.txt'] });
   });
 
-  it('reports missing, never pass, when no GHSA id is recorded and the repo does not exist', () => {
+  it('reports missing, never pass, when no GHSA id is recorded and the repo does not exist (OD-21 owner-pending)', () => {
     const { dir } = sourceRepo();
-    const r = verifyArchive({ root: dir, runners: runners(dir, ghFor({ archiveDir: dir, exists: false }).gh) });
+    const gh = () => ghFor({ archiveDir: dir, exists: false }).gh;
+    const r = verifyArchive({ root: dir, runners: runners(dir, gh()) });
     expect(r.checks.ghsa.status).toBe('missing');
     expect(r.checks.repo.status).toBe('missing');
     expect(r.checks.tree.status).toBe('missing');
     expect(r.checks.readme.status).toBe('missing');
+    for (const name of ['ghsa', 'repo', 'tree', 'readme']) expect(r.checks[name].ownerPending).toBe('OD-21');
+    expect(r.checks.branchPoint.ownerPending).toBeUndefined();
     expect(r.status).toBe('missing');
-    expect(main([], { root: dir, runners: runners(dir, ghFor({ archiveDir: dir, exists: false }).gh) })).toBe(0);
-    expect(main(['--verify'], { root: dir, runners: runners(dir, ghFor({ archiveDir: dir, exists: false }).gh) })).toBe(1);
+    expect(r.ownerPending).toMatchObject({ decision: 'OD-21', default: 'RM-01 record stays missing' });
+    expect(main([], { root: dir, runners: runners(dir, gh()), env: {} })).toBe(0);
+    /* pr/main scope: owner-pending checks are reported, not failed */
+    expect(main(['--verify'], { root: dir, runners: runners(dir, gh()), env: { AG_SCOPE: 'pr' } })).toBe(0);
+    /* release scope (or --strict): the owner acts are asserted */
+    expect(main(['--verify'], { root: dir, runners: runners(dir, gh()), env: { AG_SCOPE: 'release' } })).toBe(1);
+    expect(main(['--verify', '--strict'], { root: dir, runners: runners(dir, gh()), env: {} })).toBe(1);
+  });
+
+  it('owner-pending never masks an agent-fixable failure', () => {
+    /* no GHSA id recorded, but the branch point cannot resolve: blocks */
+    const bare = repo({ 'src/index.ts': 'export {};\n' });
+    const r = verifyArchive({ root: bare, runners: runners(bare, ghFor({ archiveDir: bare, exists: false }).gh) });
+    expect(r.checks.branchPoint.status).toBe('missing');
+    expect(r.checks.branchPoint.ownerPending).toBeUndefined();
+    expect(main(['--verify'], { root: bare, runners: runners(bare, ghFor({ archiveDir: bare, exists: false }).gh), env: {} })).toBe(1);
+    /* no GHSA id recorded, archive exists but differs: a fail, never pending */
+    const { dir } = sourceRepo();
+    const archive = repo({ ...SERVER, 'server/index.ts': 'export const port = 3001;\n', 'README.md': README });
+    const r2 = verifyArchive({ root: dir, runners: runners(dir, ghFor({ archiveDir: archive }).gh) });
+    expect(r2.checks.tree).toMatchObject({ status: 'fail', mismatched: ['server/index.ts'] });
+    expect(r2.checks.tree.ownerPending).toBeUndefined();
+    expect(main(['--verify'], { root: dir, runners: runners(dir, ghFor({ archiveDir: archive }).gh), env: {} })).toBe(1);
+  });
+
+  it('a recorded GHSA id ends owner-pending: a missing archive then blocks', () => {
+    const { dir } = sourceRepo();
+    recordGhsa(dir, GHSA);
+    const gh = () => ghFor({ archiveDir: dir, exists: false }).gh;
+    const r = verifyArchive({ root: dir, runners: runners(dir, gh()) });
+    expect(r.checks.repo.status).toBe('missing');
+    expect(r.checks.repo.ownerPending).toBeUndefined();
+    expect(r.ownerPending).toBeUndefined();
+    expect(main(['--verify'], { root: dir, runners: runners(dir, gh()), env: {} })).toBe(1);
   });
 
   it('fails a public archive repo and an unpublished advisory', () => {

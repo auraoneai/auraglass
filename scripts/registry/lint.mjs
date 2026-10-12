@@ -12,6 +12,7 @@
      declared-dep-imported   every declared dependency must be imported
      no-const-controlled     controlled input with constant value + no-op onChange
      no-api-key              /[A-Z_]*API_KEY/ except PRISM_API_KEY in server-only app/api/<name>/route.ts
+                             (and in the README.md of an item whose such route reads it)
      no-client-key           NEXT_PUBLIC_*KEY or key references in client files
      no-copy-filler          lorem/ipsum/demo/placeholder copy (auth example.com allowed)
      no-viewport-class       (sm|md|lg|xl|2xl): classes unless Tailwind v4 project
@@ -29,6 +30,8 @@ const VIEWPORT = /(?<![@\w-])(?:sm|md|lg|xl|2xl):[a-zA-Z0-9-[\]]/;
 const LEGACY = /\bglass-(?:app-shell__body|sidebar-rail|topbar|dock|drawer|modal|card)\b/;
 const FILLER = /\b(?:lorem|ipsum|dolor|consectetur)\b|placeholder\s*=\s*["'][^"']*(?:lorem|placeholder text)/i;
 const API_KEY = /[A-Z_]*API_KEY/;
+const API_KEY_G = /[A-Z_]*API_KEY/g;
+const SERVER_ROUTE_FILE = /app[\\/]api[\\/].*[\\/]route\.ts$/;
 const IMPORT_RE = /(?:import|export)[^'"]*?from\s*['"]([^'"]+)['"]|import\s*['"]([^'"]+)['"]|import\s*\(\s*['"]([^'"]+)['"]|require\s*\(\s*['"]([^'"]+)['"]/g;
 // Lazy-dep convention: `const X_SPECIFIER = '<pkg>'` + a vite-ignore dynamic
 // import keeps consumer-installed deps lazy without TS2307; the specifier
@@ -74,7 +77,7 @@ function* walk(dir) {
   }
 }
 
-export function lintFile({ file, rel, src, id, deps, tailwind }) {
+export function lintFile({ file, rel, src, id, deps, tailwind, prismRoute = false }) {
   const out = [];
   const push = (rule, line, excerpt) => out.push({ file: rel, line, rule, excerpt: excerpt.trim().slice(0, 140) });
   const lines = stripAll(src).split('\n');
@@ -83,6 +86,12 @@ export function lintFile({ file, rel, src, id, deps, tailwind }) {
   const isClient = !isServerRoute && /use client|\.client\.|fixtures?\.|\.stories\.|index\.tsx?$/.test(rel);
   const isAuth = /auth/i.test(id);
   const isDev = DEV_FILE.test(rel);
+  /* PRISM_API_KEY is allowed where the server-only route reads it, and in the
+     README.md of an item whose server-only route reads it (REQ-SURF-172: the
+     README documents the route's server-side configuration). Any other key
+     name, or PRISM_API_KEY anywhere else, fails. */
+  const prismAllowed = isServerRoute || (prismRoute && /(?:^|[\\/])README\.md$/.test(rel));
+  const onlyPrism = (text) => [...text.matchAll(API_KEY_G)].every((m) => m[0] === 'PRISM_API_KEY');
   lines.forEach((text, i) => {
     const n = i + 1;
     const raw = rawLines[i] ?? text;
@@ -91,7 +100,7 @@ export function lintFile({ file, rel, src, id, deps, tailwind }) {
     if (OPTICS.test(text)) push('no-inline-optics', n, raw);
     if (/style=\{\{/.test(text) && STYLE_OPTICS.test(text)) push('no-inline-optics-style', n, raw);
     if (LEGACY.test(text)) push('no-legacy-selector', n, raw);
-    if (API_KEY.test(text) && !isDev && !(isServerRoute && /PRISM_API_KEY/.test(text))) push('no-api-key', n, raw);
+    if (API_KEY.test(text) && !isDev && !(prismAllowed && onlyPrism(text))) push('no-api-key', n, raw);
     if (isClient && /NEXT_PUBLIC_\w*(?:KEY|SECRET|TOKEN)/.test(text)) push('no-client-key', n, raw);
     if (FILLER.test(text) && !(isAuth && /example\.com/.test(text))) push('no-copy-filler', n, raw);
     if (!tailwind && !isDev && VIEWPORT.test(text)) push('no-viewport-class', n, raw);
@@ -137,11 +146,13 @@ export function lint({ root = ROOT_DEFAULT, only = null } = {}) {
       const deps = item.dependencies ?? [];
       const files = [...walk(itemDir)].filter((f) => !f.endsWith('registry-item.json'));
       const imported = new Set();
+      /* the item ships a server-only route that reads PRISM_API_KEY */
+      const prismRoute = files.some((f) => SERVER_ROUTE_FILE.test(relative(itemDir, f)) && /process\.env\.PRISM_API_KEY\b/.test(stripAll(readFileSync(f, 'utf8'))));
       for (const file of files) {
         const src = readFileSync(file, 'utf8');
         for (const m of src.matchAll(IMPORT_RE)) { const s = m[1] ?? m[2] ?? m[3] ?? m[4]; if (s) imported.add(s.startsWith('@') ? s.split('/').slice(0, 2).join('/') : s.split('/')[0]); }
         for (const m of src.matchAll(SPECIFIER_RE)) { const s = m[1]; if (s) imported.add(s.startsWith('@') ? s.split('/').slice(0, 2).join('/') : s.split('/')[0]); }
-        violations.push(...lintFile({ file, rel: relative(root, file), src, id, deps, tailwind }));
+        violations.push(...lintFile({ file, rel: relative(root, file), src, id, deps, tailwind, prismRoute }));
       }
       for (const dep of deps) {
         const bare = dep.replace(/@[~^]?\d[\w.-]*$/, '').trim();
