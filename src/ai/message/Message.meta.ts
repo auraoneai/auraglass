@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 39,
   rsc: 'server',
-  parts: ['action', 'actions', 'attachment', 'attachment-link', 'attachment-name', 'attachment-type', 'avatar', 'caret', 'content', 'error-detail', 'error-title', 'footer', 'heading', 'icon', 'message', 'provider-error', 'step-separator', 'stopped', 'streaming-text', 'text', 'text-part', 'tool-call', 'tool-name', 'tool-state', 'trigger'],
+  parts: ['action', 'actions', 'attachment', 'attachment-link', 'attachment-name', 'attachment-type', 'avatar', 'caret', 'content', 'error-detail', 'error-title', 'footer', 'heading', 'icon', 'io', 'io-pre', 'message', 'message-list', 'provider-error', 'state-icon', 'step-separator', 'stopped', 'streaming-text', 'text', 'text-part', 'tool-call', 'tool-name', 'tool-state', 'trigger'],
   states: ['complete', 'streaming', 'pending', 'error', 'aborted'],
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: {},

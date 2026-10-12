@@ -40,3 +40,14 @@ function Previewed({ source, index }: { source: AgSourcePart; index: number }) {
 }
 export const PreviewUrl: Story = { render: () => <p>See <Previewed source={url} index={1} />.</p> };
 export const PreviewDocument: Story = { render: () => <p>See <Previewed source={doc} index={2} />.</p> };
+
+/* Preview cards already open (defaultOpen): url card with snippet and host, document card with kind. */
+const quoted = { ...url, snippet: 'Rotate keys every 90 days.' } as AgSourcePart;
+export const PreviewOpen: Story = {
+  render: () => (
+    <p>
+      See <Citation messageId="m" source={quoted} index={1} defaultOpen /> and{' '}
+      <Citation messageId="m" source={doc} index={2} defaultOpen />.
+    </p>
+  ),
+};
