@@ -6,12 +6,17 @@ import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes'
 type RenderProp = React.ReactElement | ((props: any) => React.ReactElement);
 
 export interface MenuRootProps {
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean;
+  /** Called with the next open state when it changes. */
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
   /** wrap arrow-key navigation — default true */
   loop?: boolean | undefined;
+  /** Arrow-key axis of the menu. */
   orientation?: 'horizontal' | 'vertical' | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
 }
 

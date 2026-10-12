@@ -12,15 +12,15 @@ Tier T1 · RSC client · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultOpen?` | `boolean` | — | — |
-| `defaultStep?` | `number` | — | — |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
+| `defaultStep?` | `number` | — | Initial step index when uncontrolled. |
 | `labels?` | `{ next?: string \| undefined; prev?: string \| undefined; done?: string \| undefined; skip?: string \| undefined; dismiss?: string \| undefined; }` | — | Labels for the nav buttons. |
-| `onOpenChange?` | `(open: boolean, details: unknown) => void` | — | — |
-| `onStepChange?` | `(index: number) => void` | — | — |
-| `open?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `step?` | `number` | — | — |
-| `steps?` | `readonly TourStepDef[]` | — | — |
+| `onOpenChange?` | `(open: boolean, details: unknown) => void` | — | Called with the next open state when it changes. |
+| `onStepChange?` | `(index: number) => void` | — | Called with the next step index. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `step?` | `number` | — | Controlled current step index. Pair with `onStepChange`. |
+| `steps?` | `readonly TourStepDef[]` | — | Tour steps in order. |
 
 ## Parts
 
@@ -40,4 +40,17 @@ Tier T1 · RSC client · APG none
 
 ## Example
 
-_Example pending: no `apps/docs/examples/tour/*.tsx` yet._
+```tsx
+import { Tour } from 'aura-glass';
+
+export default function TourMinimal() {
+  return (
+    <Tour.Root
+      steps={[
+        { target: '#new-project', title: 'Create a project', description: 'Start here.' },
+        { target: '#invite', title: 'Invite your team', description: 'Share the workspace.' },
+      ]}
+    />
+  );
+}
+```

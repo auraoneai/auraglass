@@ -12,8 +12,8 @@ Tier T1 · RSC client · APG region
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className?` | `string` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -30,4 +30,17 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/scroll-area/*.tsx` yet._
+```tsx
+import { ScrollArea } from 'aura-glass';
+
+export default function ScrollAreaMinimal() {
+  return (
+    <ScrollArea.Root style={{ height: 120, width: 240 }}>
+      <ScrollArea.Viewport aria-label="Release notes">
+        {Array.from({ length: 20 }, (_, i) => <p key={i}>Change {i + 1}</p>)}
+      </ScrollArea.Viewport>
+      <ScrollArea.Scrollbar><ScrollArea.Thumb /></ScrollArea.Scrollbar>
+    </ScrollArea.Root>
+  );
+}
+```

@@ -30,8 +30,11 @@ export interface FormProps<FormValues extends Record<string, unknown> = Record<s
   validationMode?: 'onSubmit' | 'onBlur' | 'onChange';
   /** Imperative `validate(fieldName?)` actions. */
   actionsRef?: React.RefObject<FormActions | null>;
+  /** Class name merged onto the root element. */
   className?: string;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLFormElement>;
 }
 

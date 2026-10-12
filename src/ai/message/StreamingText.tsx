@@ -11,10 +11,13 @@ export interface StreamingTextHandle {
 }
 
 export interface StreamingTextProps {
+  /** Text received so far. */
   text: string;
+  /** More text is still arriving; shows the streaming cursor. */
   streaming?: boolean | undefined;
   /** Live-annunciation policy; complete announcements go through the MAT announcer. */
   announce?: 'complete' | 'sentences' | 'off' | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
   /** Imperative token sink: `setText`/`append` from a transport without re-rendering the parent. */
   ref?: React.Ref<StreamingTextHandle> | undefined;

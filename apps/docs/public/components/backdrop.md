@@ -12,21 +12,21 @@ Tier T2 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `crossOrigin?` | `'' \| 'anonymous' \| 'use-credentials'` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `crossOrigin?` | `'' \| 'anonymous' \| 'use-credentials'` | — | Native `crossorigin` attribute of the media element. |
 | `fixed?` | `boolean` | — | position: fixed; never background-attachment: fixed. |
 | `grain?` | `boolean` | — | Grain overlay on any preset. |
 | `mediaTone?` | `BackdropToneProp` | — | Explicit media tone when sampling cannot run (SSR, CORS-less, no idle); emitted as data-ag-media-tone. Named `mediaTone`, not `tone`: `tone` is in contract S-30 BANNED_PROPS (REQ-SURF-11; OD-17 / C-13 fallback rename). |
 | `motion?` | `BackdropMotion` | — | 'drift' runs one keyframe under the continuous gate. Default 'static'. |
 | `palette?` | `BackdropPalette` | — | 5-id palette; mono forces mono regardless of preset colours. |
-| `poster?` | `string` | — | — |
-| `preset` | `'photo'` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `poster?` | `string` | — | Image shown before the video plays and when motion is reduced. |
+| `preset` | `'photo'` | — | Backdrop preset. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
 | `scheme?` | `BackdropScheme` | — | aurora/mesh only — declares data-ag-backdrop='light'\|'dark'\|'auto'. |
-| `sizes?` | `string` | — | — |
-| `src?` | `string` | — | — |
-| `srcSet?` | `string` | — | — |
+| `sizes?` | `string` | — | Native `sizes` attribute for `srcSet`. |
+| `src?` | `string` | — | Image URL. |
+| `srcSet?` | `string` | — | Responsive image candidates, in the native `srcset` format. |
 
 ## Parts
 
@@ -48,4 +48,15 @@ Tier T2 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/backdrop/*.tsx` yet._
+```tsx
+import { Backdrop } from 'aura-glass/backdrops';
+import { Surface } from 'aura-glass';
+
+export default function BackdropMinimal() {
+  return (
+    <Backdrop preset="aurora" scheme="dark">
+      <Surface layer="chrome">Content over the backdrop</Surface>
+    </Backdrop>
+  );
+}
+```

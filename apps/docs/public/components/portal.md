@@ -12,7 +12,7 @@ Tier T0 · RSC client · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
 | `container?` | `HTMLElement \| null` | — | Explicit container; when omitted the provider's `layer` root is used. |
 | `layer?` | `PortalLayerRoot` | — | Which provider layer-root to use when `container` is omitted. |
 
@@ -26,4 +26,15 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/portal/*.tsx` yet._
+```tsx
+import { Portal } from 'aura-glass/primitives';
+import { AuraGlassProvider } from 'aura-glass/theme';
+
+export default function PortalMinimal() {
+  return (
+    <AuraGlassProvider>
+      <Portal><div>Rendered at the end of the provider's portal root.</div></Portal>
+    </AuraGlassProvider>
+  );
+}
+```

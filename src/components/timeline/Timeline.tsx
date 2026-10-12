@@ -23,17 +23,24 @@ export interface TimelineLabels {
 }
 
 export interface TimelineProps {
+  /** Timeline items in order. */
   items: readonly TimelineItem[];
+  /** Direction of the timeline. */
   orientation?: 'vertical' | 'horizontal' | undefined;
+  /** Timestamp format: relative ('3 h ago'), absolute, or Intl.DateTimeFormat options. */
   timeFormat?: 'relative' | 'absolute' | Intl.DateTimeFormatOptions | undefined;
   /** Required when timeFormat='relative' on the server (else dev error). */
   now?: Date | number | undefined;
+  /** BCP 47 locale used for formatting and parsing. */
   locale?: string | undefined;
   /** IANA zone for absolute and option formats. Default 'UTC', so server
       and client render the same text whatever their host zone is. */
   timeZone?: string | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: TimelineLabels | undefined;
+  /** Accessible name, required when there is no visible label. */
   'aria-label'?: string | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
   /** REQ-CMP-03: resolves to the root part ([data-ag-part=timeline-container]). */
   ref?: React.Ref<HTMLElement> | undefined;

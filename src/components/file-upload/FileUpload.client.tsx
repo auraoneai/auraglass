@@ -40,22 +40,30 @@ export interface FileUploadChangeDetails {
 }
 
 export interface FileUploadProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onError'> {
+  /** Accepted file types, in the native `accept` attribute format. */
   accept?: string;
+  /** Allows selecting more than one file. */
   multiple?: boolean;
+  /** Maximum size of one file, in bytes. */
   maxSize?: number;
   /** Maximum admitted files. */
   maxFiles?: number;
   /** @deprecated use maxFiles */
+  /** Maximum number of files. */
   maxCount?: number;
+  /** Disables interaction. */
   disabled?: boolean;
   /** Pre-populated file list (stories, controlled seeding). */
   defaultItems?: readonly FileUploadItem[];
   /** Called on every list mutation with the reason + rejections. */
   onValueChange?: (items: FileUploadItem[], details: FileUploadChangeDetails) => void;
+  /** Called with the files that passed the type, size and count checks. */
   onFilesAccepted?: (items: FileUploadItem[]) => void;
+  /** Called with the files that failed a check, each with its reason. */
   onFilesRejected?: (rejections: FileUploadRejection[]) => void;
   /** Optional async upload; aborts via signal, drives item.progress via onProgress. */
   onUpload?: (file: File, ctx: { signal: AbortSignal; onProgress: (progress: number) => void }) => Promise<unknown>;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
 }
 
@@ -90,7 +98,9 @@ export function FileUpload({
   className,
   ref,
   ...rest
-}: FileUploadProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: FileUploadProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [items, setItems] = React.useState<FileUploadItem[]>(() => [...(defaultItems ?? [])]);
   const [dragging, setDragging] = React.useState(false);

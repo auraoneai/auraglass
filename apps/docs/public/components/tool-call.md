@@ -12,16 +12,16 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/disclosure
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className?` | `string` | — | — |
-| `defaultOpen?` | `boolean` | — | — |
-| `labels?` | `ToolCallLabels` | — | — |
-| `maxPreviewChars?` | `number` | — | — |
-| `onApprovalResponse?` | `(detail: ApprovalResponseDetail) => void` | — | — |
-| `part` | `AnyToolPart` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `renderInput?` | `(input: unknown) => ReactNode` | — | — |
-| `renderOutput?` | `(output: unknown) => ReactNode` | — | — |
-| `title?` | `string` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
+| `labels?` | `ToolCallLabels` | — | Overrides for the built-in, localizable UI strings. |
+| `maxPreviewChars?` | `number` | — | Characters of JSON input/output shown before "Show all". |
+| `onApprovalResponse?` | `(detail: ApprovalResponseDetail) => void` | — | Called when the user approves or denies a tool call that awaits approval. |
+| `part` | `AnyToolPart` | — | The tool-call part to render (name, state, input and output). |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `renderInput?` | `(input: unknown) => ReactNode` | — | Custom renderer for the tool input; defaults to a JSON block. |
+| `renderOutput?` | `(output: unknown) => ReactNode` | — | Custom renderer for the tool output; defaults to a JSON block. |
+| `title?` | `string` | — | Overrides the displayed tool name. |
 
 ## Parts
 
@@ -63,4 +63,14 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/disclosure
 
 ## Example
 
-_Example pending: no `apps/docs/examples/tool-call/*.tsx` yet._
+```tsx
+import { ToolCall } from 'aura-glass/ai';
+
+export default function ToolCallMinimal() {
+  return (
+    <ToolCall
+      part={{ type: 'tool-search', toolCallId: 't1', state: 'output-available', input: { q: 'deploy' }, output: '3 results' }}
+    />
+  );
+}
+```

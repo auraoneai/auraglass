@@ -57,7 +57,7 @@ describe('preset emitter (MAT-14)', () => {
         if (!r.selector.includes('data-ag-theme')) return;
         let layer = '';
         const chain: string[] = [];
-        for (let n = r.parent; n && n.type !== 'root'; n = n.parent as postcss.Container) {
+        for (let n = r.parent; n && n.type !== 'root'; n = n.parent) {
           const at = n as postcss.AtRule;
           if (at.name === 'layer') layer = at.params;
           else chain.push(`${at.name} ${at.params}`);

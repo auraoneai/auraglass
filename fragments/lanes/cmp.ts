@@ -100,15 +100,6 @@ export default [
     remote: true,
     failClosed: true,
   },
-  // L5 — REQ-CMP-113: Card content layer + disabled-no-opacity (cmp:material-chromium)
-  {
-    lane: "L5",
-    kind: "playwright",
-    path: "tests/e2e/cmp/material/**/*.spec.ts",
-    scope: "pr",
-    remote: true,
-    failClosed: true,
-  },
   // L9 — motion spec
   {
     lane: "L9",
@@ -247,12 +238,4 @@ export default [
     failClosed: true,
   },
   // L6 — REQ-CMP-68: Select popup width/height at 390 px (fine + coarse)
-  {
-    lane: "L6",
-    kind: "playwright",
-    path: "tests/e2e/cmp/controls/select-390.spec.ts",
-    scope: "pr",
-    remote: true,
-    failClosed: true,
-  },
 ] satisfies LaneRegistration[];

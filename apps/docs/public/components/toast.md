@@ -12,10 +12,10 @@ Tier T1 · RSC client · APG alert
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
 | `limit?` | `number` | — | S-30 root prop: when set, this toast is marked data-limited (hidden) once its stack index in the viewport reaches `limit`. The Provider limit (default 3) still applies first. |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `toast` | `any` | — | — |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `toast` | `any` | — | The toast record to render (from `useToast`). |
 
 ## Parts
 
@@ -45,4 +45,31 @@ Tier T1 · RSC client · APG alert
 
 ## Example
 
-_Example pending: no `apps/docs/examples/toast/*.tsx` yet._
+```tsx
+import { Button, Toast, useToast } from 'aura-glass';
+
+function SaveButton() {
+  const toast = useToast();
+  return (
+    <>
+      <Button onClick={() => toast.success({ title: 'Changes saved' })}>Save</Button>
+      <Toast.Viewport>
+        {toast.toasts.map((t) => (
+          <Toast.Root key={t.id} toast={t}>
+            <Toast.Title>{t.title}</Toast.Title>
+            <Toast.Close>Dismiss</Toast.Close>
+          </Toast.Root>
+        ))}
+      </Toast.Viewport>
+    </>
+  );
+}
+
+export default function ToastMinimal() {
+  return (
+    <Toast.Provider>
+      <SaveButton />
+    </Toast.Provider>
+  );
+}
+```

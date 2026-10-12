@@ -13,8 +13,8 @@ Tier T2 · RSC server · APG none
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `lines?` | `number` | — | Number of text lines (shape='text' only); default 1. |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `shape?` | `'circle' \| 'rect' \| 'text'` | — | — |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `shape?` | `'circle' \| 'rect' \| 'text'` | — | Placeholder shape. |
 
 ## Parts
 
@@ -29,4 +29,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/skeleton/*.tsx` yet._
+```tsx
+import { Skeleton } from 'aura-glass';
+
+export default function SkeletonMinimal() {
+  return <Skeleton shape="text" lines={3} style={{ width: 240 }} />;
+}
+```

@@ -12,12 +12,12 @@ Tier T1 · RSC client · APG slider
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultOpen?` | `boolean` | — | — |
-| `defaultValue?` | `PickerValueLike` | — | — |
-| `onOpenChange?` | `(open: boolean, details: unknown) => void` | — | — |
-| `onValueChange?` | `(value: ColorPickerValue, details: { committed: boolean; }) => void` | — | — |
-| `open?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLSpanElement>` | — | — |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
+| `defaultValue?` | `PickerValueLike` | — | Initial value when uncontrolled. |
+| `onOpenChange?` | `(open: boolean, details: unknown) => void` | — | Called with the next open state when it changes. |
+| `onValueChange?` | `(value: ColorPickerValue, details: { committed: boolean; }) => void` | — | Called with the new value whenever it changes. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
+| `ref?` | `Ref<HTMLSpanElement>` | — | Ref to the rendered root element. |
 | `value?` | `PickerValueLike` | — | Controlled color: { space:'srgb'\|'oklch', value:'#rrggbb[aa]'\|'oklch(l c h[ / a])' }. A bare string is treated as space:'srgb'. |
 
 ## Parts
@@ -43,4 +43,18 @@ Tier T1 · RSC client · APG slider
 
 ## Example
 
-_Example pending: no `apps/docs/examples/color-picker/*.tsx` yet._
+```tsx
+import { ColorPicker } from 'aura-glass';
+
+export default function ColorPickerMinimal() {
+  return (
+    <ColorPicker.Root defaultValue="#3b82f6">
+      <ColorPicker.Trigger />
+      <ColorPicker.Content>
+        <ColorPicker.Area />
+        <ColorPicker.Hue />
+      </ColorPicker.Content>
+    </ColorPicker.Root>
+  );
+}
+```

@@ -48,8 +48,11 @@ export interface CalendarLabels {
 }
 
 export interface CalendarProps extends DateFieldLikeProps<DateValue> {
+  /** Shows ISO week numbers. */
   showWeekNumbers?: boolean | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: CalendarLabels | undefined;
 }
 
@@ -255,7 +258,9 @@ function CalendarInner({
   );
 }
 
-export function Calendar(props: CalendarProps & { 'aria-label'?: string | undefined }) {
+export function Calendar(props: CalendarProps & {
+  /** Accessible name, required when there is no visible label. */
+  'aria-label'?: string | undefined }) {
   return (
     <DateProvider locale={props.locale} dir={props.dir}>
       <CalendarInner {...props} />
@@ -264,9 +269,13 @@ export function Calendar(props: CalendarProps & { 'aria-label'?: string | undefi
 }
 
 export interface RangeCalendarProps extends Omit<CalendarProps, 'value' | 'defaultValue' | 'onValueChange'> {
+  /** Controlled value. Pair with `onValueChange`. */
   value?: { start: DateValue; end: DateValue } | null | undefined;
+  /** Initial value when uncontrolled. */
   defaultValue?: { start: DateValue; end: DateValue } | undefined;
+  /** Called with the new value whenever it changes. */
   onValueChange?: ((v: { start: DateValue; end: DateValue } | null, details: ChangeDetails) => void) | undefined;
+  /** Number of months shown side by side. */
   visibleMonths?: 1 | 2 | undefined;
 }
 
@@ -365,6 +374,8 @@ function RangeCalendarBody({
   );
 }
 
-export function RangeCalendar(props: RangeCalendarProps & { 'aria-label'?: string | undefined }) {
+export function RangeCalendar(props: RangeCalendarProps & {
+  /** Accessible name, required when there is no visible label. */
+  'aria-label'?: string | undefined }) {
   return <RangeCalendarImpl {...props} />;
 }

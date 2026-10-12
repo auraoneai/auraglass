@@ -12,31 +12,31 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label?` | `string` | — | — |
-| `className?` | `string` | — | — |
-| `defaultValue?` | `{ start: DateValue; end: DateValue; }` | — | — |
-| `description?` | `ReactNode` | — | — |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultValue?` | `{ start: DateValue; end: DateValue; }` | — | Initial value when uncontrolled. |
+| `description?` | `ReactNode` | — | Helper text rendered under the label. |
 | `dir?` | `'ltr' \| 'rtl'` | — | Text direction; defaults to the closest `[dir]` in the DOM (REQ-SURF-98). |
-| `errorMessage?` | `ReactNode` | — | — |
-| `firstDayOfWeek?` | `'sun' \| 'mon' \| 'tue' \| 'wed' \| 'thu' \| 'fri' \| 'sat'` | — | — |
-| `granularity?` | `'day' \| 'hour' \| 'minute' \| 'second'` | — | — |
-| `hourCycle?` | `12 \| 24` | — | — |
-| `isDateUnavailable?` | `(date: DateValue) => boolean` | — | — |
-| `isDisabled?` | `boolean` | — | — |
-| `isInvalid?` | `boolean` | — | — |
-| `isReadOnly?` | `boolean` | — | — |
-| `isRequired?` | `boolean` | — | — |
-| `label?` | `ReactNode` | — | — |
-| `labels?` | `CalendarLabels` | — | — |
-| `locale?` | `string` | — | — |
-| `maxValue?` | `DateValue` | — | — |
-| `minValue?` | `DateValue` | — | — |
-| `name?` | `string` | — | — |
-| `onValueChange?` | `(v: { start: DateValue; end: DateValue; } \| null, details: ChangeDetails) => void` | — | — |
-| `showWeekNumbers?` | `boolean` | — | — |
-| `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
-| `value?` | `{ start: DateValue; end: DateValue; } \| null` | — | — |
-| `visibleMonths?` | `2 \| 1` | — | — |
+| `errorMessage?` | `ReactNode` | — | Error message shown when the field is invalid. |
+| `firstDayOfWeek?` | `'sun' \| 'mon' \| 'tue' \| 'wed' \| 'thu' \| 'fri' \| 'sat'` | — | First day of the week; the locale default when omitted. |
+| `granularity?` | `'day' \| 'hour' \| 'minute' \| 'second'` | — | Smallest unit the value is edited in. |
+| `hourCycle?` | `12 \| 24` | — | 12- or 24-hour clock; the locale default when omitted. |
+| `isDateUnavailable?` | `(date: DateValue) => boolean` | — | Marks a date unavailable (shown, not selectable). |
+| `isDisabled?` | `boolean` | — | Disables interaction. |
+| `isInvalid?` | `boolean` | — | Marks the field invalid. |
+| `isReadOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
+| `isRequired?` | `boolean` | — | Marks the field as required for form validation. |
+| `label?` | `ReactNode` | — | Visible label. |
+| `labels?` | `CalendarLabels` | — | Overrides for the built-in, localizable UI strings. |
+| `locale?` | `string` | — | BCP 47 locale used for formatting and parsing. |
+| `maxValue?` | `DateValue` | — | Latest selectable date. |
+| `minValue?` | `DateValue` | — | Earliest selectable date. |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `onValueChange?` | `(v: { start: DateValue; end: DateValue; } \| null, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `showWeekNumbers?` | `boolean` | — | Shows ISO week numbers. |
+| `size?` | `'sm' \| 'md' \| 'lg'` | — | Control size. |
+| `value?` | `{ start: DateValue; end: DateValue; } \| null` | — | Controlled value. Pair with `onValueChange`. |
+| `visibleMonths?` | `2 \| 1` | — | Number of months shown side by side. |
 
 ## Parts
 
@@ -60,4 +60,16 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 
 ## Example
 
-_Example pending: no `apps/docs/examples/range-calendar/*.tsx` yet._
+```tsx
+import { CalendarDate } from '@internationalized/date';
+import { RangeCalendar } from 'aura-glass/date';
+
+export default function RangeCalendarMinimal() {
+  return (
+    <RangeCalendar
+      aria-label="Trip dates"
+      defaultValue={{ start: new CalendarDate(2026, 10, 5), end: new CalendarDate(2026, 10, 9) }}
+    />
+  );
+}
+```

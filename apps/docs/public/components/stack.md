@@ -12,14 +12,14 @@ Tier T0 · RSC server · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `align?` | `'center' \| 'start' \| 'end' \| 'stretch' \| 'baseline'` | — | — |
-| `direction?` | `'row' \| 'column'` | — | — |
+| `align?` | `'center' \| 'start' \| 'end' \| 'stretch' \| 'baseline'` | — | Cross-axis alignment of the children. |
+| `direction?` | `'row' \| 'column'` | — | Main axis. |
 | `gap?` | `SpaceTokenLike` | — | SpaceToken index, a number (→ var(--ag-space-N)), or a raw CSS length. |
-| `justify?` | `'center' \| 'start' \| 'end' \| 'between' \| 'around' \| 'evenly'` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `justify?` | `'center' \| 'start' \| 'end' \| 'between' \| 'around' \| 'evenly'` | — | Main-axis distribution of the children. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
 | `separator?` | `ReactNode` | — | Node rendered between each pair of children. |
 | `separatorDecorative?` | `boolean` | — | Decorative separators are aria-hidden (default true). |
-| `wrap?` | `boolean` | — | — |
+| `wrap?` | `boolean` | — | Lets children wrap onto new lines. |
 
 ## Parts
 
@@ -34,4 +34,15 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/stack/*.tsx` yet._
+```tsx
+import { Stack } from 'aura-glass';
+
+export default function StackMinimal() {
+  return (
+    <Stack direction="row" gap={2} align="center" justify="between">
+      <span>Invoices</span>
+      <span>24</span>
+    </Stack>
+  );
+}
+```

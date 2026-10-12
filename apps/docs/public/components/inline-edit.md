@@ -13,13 +13,13 @@ Tier T1 · RSC client · APG textbox
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `aria-label?` | `string` | — | Defines a string value that labels the current element. |
-| `defaultValue?` | `string` | — | — |
-| `disabled?` | `boolean` | — | — |
+| `defaultValue?` | `string` | — | Initial value when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
 | `editing?` | `boolean` | — | Force the editing state (stories, controlled editing). |
-| `onValueChange?` | `(value: string, details: { committed: boolean; }) => void` | — | — |
-| `placeholder?` | `string` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `value?` | `string` | — | — |
+| `onValueChange?` | `(value: string, details: { committed: boolean; }) => void` | — | Called with the new value whenever it changes. |
+| `placeholder?` | `string` | — | Placeholder text shown while the input is empty. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `value?` | `string` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -38,4 +38,10 @@ Tier T1 · RSC client · APG textbox
 
 ## Example
 
-_Example pending: no `apps/docs/examples/inline-edit/*.tsx` yet._
+```tsx
+import { InlineEdit } from 'aura-glass';
+
+export default function InlineEditMinimal() {
+  return <InlineEdit defaultValue="Untitled project" aria-label="Project name" />;
+}
+```

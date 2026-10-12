@@ -13,14 +13,14 @@ Tier T1 · RSC client · APG group
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `allValues?` | `string[]` | — | Values the parent checkbox controls (drives its mixed state). |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `defaultValue?` | `string[]` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `name?` | `string` | — | — |
-| `onValueChange?` | `(value: string[], details: ChangeDetails) => void` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `value?` | `string[]` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultValue?` | `string[]` | — | Initial value when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `onValueChange?` | `(value: string[], details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `value?` | `string[]` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -36,4 +36,16 @@ Tier T1 · RSC client · APG group
 
 ## Example
 
-_Example pending: no `apps/docs/examples/checkbox-group/*.tsx` yet._
+```tsx
+import { Checkbox, CheckboxGroup } from 'aura-glass';
+
+export default function CheckboxGroupMinimal() {
+  return (
+    <CheckboxGroup defaultValue={['email']} name="channel" aria-label="Notification channels">
+      <Checkbox value="email">Email</Checkbox>
+      <Checkbox value="sms">SMS</Checkbox>
+      <Checkbox value="push">Push</Checkbox>
+    </CheckboxGroup>
+  );
+}
+```

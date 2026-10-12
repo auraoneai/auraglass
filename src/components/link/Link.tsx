@@ -9,8 +9,11 @@ import type { RenderProp } from '../../contracts/components';
 import { VisuallyHidden } from '../../primitives/VisuallyHidden';
 
 export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  /** 'danger' marks a destructive link. */
   intent?: 'neutral' | 'danger';
+  /** When the underline is shown. */
   underline?: 'always' | 'hover' | 'none';
+  /** Replaces the rendered element; the component props and state are merged onto it. */
   render?: RenderProp<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
 }
 
@@ -24,7 +27,9 @@ export function Link({
   className,
   ref,
   ...rest
-}: LinkProps & { ref?: React.Ref<HTMLAnchorElement> | undefined }) {
+}: LinkProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLAnchorElement> | undefined }) {
   const external = target === '_blank';
   const props: React.AnchorHTMLAttributes<HTMLAnchorElement> = {
     ...rest,

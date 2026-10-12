@@ -70,11 +70,13 @@ export interface ToastRecord {
 }
 
 export interface ToastRootProps extends ToastPartAttributes<React.HTMLAttributes<HTMLDivElement>> {
+  /** The toast record to render (from `useToast`). */
   toast: any;
   /** S-30 root prop: when set, this toast is marked data-limited (hidden) once
       its stack index in the viewport reaches `limit`. The Provider limit
       (default 3) still applies first. */
   limit?: number | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
 }
 

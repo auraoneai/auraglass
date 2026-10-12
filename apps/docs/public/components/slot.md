@@ -12,8 +12,8 @@ Tier T0 · RSC server · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -27,4 +27,14 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/slot/*.tsx` yet._
+```tsx
+import { Slot } from 'aura-glass/primitives';
+
+export default function SlotMinimal() {
+  return (
+    <Slot className="toolbar-action">
+      <button type="button">Slotted button</button>
+    </Slot>
+  );
+}
+```

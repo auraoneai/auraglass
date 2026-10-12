@@ -12,9 +12,9 @@ Tier T2 · RSC client
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className?` | `string` | — | — |
-| `keys?` | `readonly UserSettableKey[]` | — | — |
-| `onChange?` | `(key: UserSettableKey, value: unknown) => void` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `keys?` | `readonly UserSettableKey[]` | — | Preferences the panel offers; all user-settable keys when omitted. |
+| `onChange?` | `(key: UserSettableKey, value: unknown) => void` | — | Called with the key and value when the user changes a preference. |
 
 ## Parts
 
@@ -41,4 +41,14 @@ Tier T2 · RSC client
 
 ## Example
 
-_Example pending: no `apps/docs/examples/glass-preferences-panel/*.tsx` yet._
+```tsx
+import { AuraGlassProvider, GlassPreferencesPanel } from 'aura-glass/theme';
+
+export default function GlassPreferencesPanelMinimal() {
+  return (
+    <AuraGlassProvider>
+      <GlassPreferencesPanel />
+    </AuraGlassProvider>
+  );
+}
+```

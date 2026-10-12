@@ -13,8 +13,8 @@ Tier T0 · RSC server · APG none
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `padding?` | `string \| number` | — | Space-token padding on the inline axis (block padding follows size). |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `size?` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | — | — |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `size?` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | — | Maximum inline size step; 'full' removes the limit. |
 
 ## Parts
 
@@ -28,4 +28,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/container/*.tsx` yet._
+```tsx
+import { Container } from 'aura-glass';
+
+export default function ContainerMinimal() {
+  return <Container size="md">Page content stays within a readable measure.</Container>;
+}
+```

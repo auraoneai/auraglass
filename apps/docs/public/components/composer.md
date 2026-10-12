@@ -12,26 +12,26 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `accept?` | `string` | — | — |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
+| `accept?` | `string` | — | Accepted attachment types, in the native `accept` attribute format. |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
 | `defaultFiles?` | `readonly File[]` | — | Attachments present on mount (uncontrolled), e.g. a restored draft. |
-| `defaultValue?` | `string` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `labels?` | `ComposerLabels` | — | — |
-| `maxFiles?` | `number` | — | — |
-| `maxFileSize?` | `number` | — | — |
-| `maxLength?` | `number` | — | — |
-| `maxRows?` | `number` | — | — |
-| `onAttachmentReject?` | `(rej: AttachmentReject) => void` | — | — |
-| `onStop?` | `() => void` | — | — |
-| `onSubmit?` | `(detail: { text: string; files: File[]; }) => void` | — | — |
-| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | — |
-| `ref?` | `Ref<HTMLFormElement>` | — | — |
-| `status?` | `AgChatStatus` | — | — |
-| `stopOnEscape?` | `boolean` | — | — |
-| `submitOnEnter?` | `boolean` | — | — |
-| `value?` | `string` | — | — |
+| `defaultValue?` | `string` | — | Initial draft text when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables the input, attachments and Send. |
+| `labels?` | `ComposerLabels` | — | Overrides for the built-in, localizable UI strings. |
+| `maxFiles?` | `number` | — | Maximum number of attachments. |
+| `maxFileSize?` | `number` | — | Maximum size of one attachment, in bytes. |
+| `maxLength?` | `number` | — | Maximum draft length in characters. |
+| `maxRows?` | `number` | — | Rows the textarea grows to before it scrolls. |
+| `onAttachmentReject?` | `(rej: AttachmentReject) => void` | — | Called when an attachment is rejected (type, size or count), with the reason. |
+| `onStop?` | `() => void` | — | Called when the user stops an in-flight response. |
+| `onSubmit?` | `(detail: { text: string; files: File[]; }) => void` | — | Called with the draft text and attached files when the user sends. |
+| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `ref?` | `Ref<HTMLFormElement>` | — | Ref to the rendered root element. |
+| `status?` | `AgChatStatus` | — | Chat status: 'submitted' and 'streaming' switch Send to Stop; 'error' is announced assertively. |
+| `stopOnEscape?` | `boolean` | — | Escape stops an in-flight response. |
+| `submitOnEnter?` | `boolean` | — | Enter sends and Shift+Enter inserts a newline. |
+| `value?` | `string` | — | Controlled draft text. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -85,4 +85,10 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/composer/*.tsx` yet._
+```tsx
+import { Composer } from 'aura-glass/ai';
+
+export default function ComposerMinimal() {
+  return <Composer onSubmit={({ text }) => console.log(text)} />;
+}
+```

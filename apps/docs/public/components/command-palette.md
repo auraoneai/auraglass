@@ -13,11 +13,11 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `aria-label?` | `string` | — | Accessible name of the dialog (default 'Command palette'). |
-| `children?` | `ReactNode` | — | — |
-| `defaultOpen?` | `boolean` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
 | `hotkey?` | `string \| false` | — | Global hotkey — 'mod+k' by default; pass false to disable. |
-| `onOpenChange?` | `(open: boolean, details: ChangeDetails) => void` | — | — |
-| `open?` | `boolean` | — | — |
+| `onOpenChange?` | `(open: boolean, details: ChangeDetails) => void` | — | Called with the next open state when it changes. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
 
 ## Parts
 
@@ -46,4 +46,18 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 
 ## Example
 
-_Example pending: no `apps/docs/examples/command-palette/*.tsx` yet._
+```tsx
+import { Command, CommandPalette } from 'aura-glass';
+
+export default function CommandPaletteMinimal() {
+  return (
+    <CommandPalette>
+      <Command.Input placeholder="Type a command…" />
+      <Command.List>
+        <Command.Item value="new">New document</Command.Item>
+        <Command.Item value="settings">Open settings</Command.Item>
+      </Command.List>
+    </CommandPalette>
+  );
+}
+```

@@ -12,15 +12,15 @@ Tier T1 · RSC client · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `disabled?` | `boolean` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `disabled?` | `boolean` | — | Disables interaction. |
 | `invalid?` | `boolean` | — | Whether the field is invalid (shows error, sets aria-invalid on control). |
-| `name?` | `string` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `validate?` | `FieldValidate` | — | — |
-| `validationDebounceTime?` | `number` | — | — |
-| `validationMode?` | `FieldValidationMode` | — | — |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `validate?` | `FieldValidate` | — | Custom validator; return an error message (or messages), or null when valid. |
+| `validationDebounceTime?` | `number` | — | Delay, in milliseconds, before validating in 'onChange' mode. |
+| `validationMode?` | `FieldValidationMode` | — | When validation runs. |
 
 ## Parts
 
@@ -42,4 +42,17 @@ Tier T1 · RSC client · APG none
 
 ## Example
 
-_Example pending: no `apps/docs/examples/field/*.tsx` yet._
+```tsx
+import { Field } from 'aura-glass';
+
+export default function FieldMinimal() {
+  return (
+    <Field.Root name="workspace">
+      <Field.Label>Workspace name</Field.Label>
+      <Field.Control defaultValue="Northwind Ops" />
+      <Field.Description>Visible to everyone you invite.</Field.Description>
+      <Field.Error />
+    </Field.Root>
+  );
+}
+```

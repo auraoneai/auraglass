@@ -12,30 +12,30 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className?` | `string` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
 | `defaultOpen?` | `boolean` | — | Initial popover state (uncontrolled). |
-| `defaultValue?` | `DateRangeValue \| null` | — | — |
-| `description?` | `ReactNode` | — | — |
+| `defaultValue?` | `DateRangeValue \| null` | — | Initial value when uncontrolled. |
+| `description?` | `ReactNode` | — | Helper text rendered under the label. |
 | `dir?` | `'ltr' \| 'rtl'` | — | Text direction; defaults to the closest `[dir]` in the DOM (REQ-SURF-98). |
-| `errorMessage?` | `ReactNode` | — | — |
-| `firstDayOfWeek?` | `'sun' \| 'mon' \| 'tue' \| 'wed' \| 'thu' \| 'fri' \| 'sat'` | — | — |
-| `granularity?` | `'day' \| 'hour' \| 'minute' \| 'second'` | — | — |
-| `hourCycle?` | `12 \| 24` | — | — |
-| `isDateUnavailable?` | `(date: DateValue) => boolean` | — | — |
-| `isDisabled?` | `boolean` | — | — |
-| `isInvalid?` | `boolean` | — | — |
-| `isReadOnly?` | `boolean` | — | — |
-| `isRequired?` | `boolean` | — | — |
-| `label?` | `ReactNode` | — | — |
-| `labels?` | `{ choose?: string \| undefined; start?: string \| undefined; end?: string \| undefined; presets?: string \| undefined; apply?: string \| undefined; cancel?: string \| undefined; dialog?: string \| undefined; }` | — | — |
-| `locale?` | `string` | — | — |
-| `maxValue?` | `DateValue` | — | — |
-| `minValue?` | `DateValue` | — | — |
-| `name?` | `string` | — | — |
-| `onValueChange?` | `(v: DateRangeValue \| null, details: ChangeDetails) => void` | — | — |
-| `presets?` | `readonly DateRangePreset[]` | — | — |
-| `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
-| `value?` | `DateRangeValue \| null` | — | — |
+| `errorMessage?` | `ReactNode` | — | Error message shown when the field is invalid. |
+| `firstDayOfWeek?` | `'sun' \| 'mon' \| 'tue' \| 'wed' \| 'thu' \| 'fri' \| 'sat'` | — | First day of the week; the locale default when omitted. |
+| `granularity?` | `'day' \| 'hour' \| 'minute' \| 'second'` | — | Smallest unit the value is edited in. |
+| `hourCycle?` | `12 \| 24` | — | 12- or 24-hour clock; the locale default when omitted. |
+| `isDateUnavailable?` | `(date: DateValue) => boolean` | — | Marks a date unavailable (shown, not selectable). |
+| `isDisabled?` | `boolean` | — | Disables interaction. |
+| `isInvalid?` | `boolean` | — | Marks the field invalid. |
+| `isReadOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
+| `isRequired?` | `boolean` | — | Marks the field as required for form validation. |
+| `label?` | `ReactNode` | — | Visible label. |
+| `labels?` | `{ choose?: string \| undefined; start?: string \| undefined; end?: string \| undefined; presets?: string \| undefined; apply?: string \| undefined; cancel?: string \| undefined; dialog?: string \| undefined; }` | — | Overrides for the built-in, localizable UI strings. |
+| `locale?` | `string` | — | BCP 47 locale used for formatting and parsing. |
+| `maxValue?` | `DateValue` | — | Latest selectable date. |
+| `minValue?` | `DateValue` | — | Earliest selectable date. |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `onValueChange?` | `(v: DateRangeValue \| null, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `presets?` | `readonly DateRangePreset[]` | — | Preset ranges offered next to the calendar. |
+| `size?` | `'sm' \| 'md' \| 'lg'` | — | Control size. |
+| `value?` | `DateRangeValue \| null` | — | Controlled value. Pair with `onValueChange`. |
 | `visibleMonths?` | `2 \| 1` | — | Default: 2 at a >=768px container, 1 below. |
 
 ## Parts
@@ -65,4 +65,16 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 
 ## Example
 
-_Example pending: no `apps/docs/examples/date-range-picker/*.tsx` yet._
+```tsx
+import { CalendarDate } from '@internationalized/date';
+import { DateRangePicker } from 'aura-glass/date';
+
+export default function DateRangePickerMinimal() {
+  return (
+    <DateRangePicker
+      label="Report window"
+      defaultValue={{ start: new CalendarDate(2026, 10, 1), end: new CalendarDate(2026, 10, 7) }}
+    />
+  );
+}
+```

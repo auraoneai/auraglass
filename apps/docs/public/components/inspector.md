@@ -12,10 +12,10 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label` | `string` | — | — |
+| `aria-label` | `string` | — | Accessible name, required when there is no visible label. |
 | `mode?` | `'auto' \| 'sheet' \| 'docked' \| 'floating'` | — | auto = CSS decides by container; docked/floating/sheet pin a mode. |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
 
 ## Parts
 
@@ -53,4 +53,17 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 
 ## Example
 
-_Example pending: no `apps/docs/examples/inspector/*.tsx` yet._
+```tsx
+import { AppShell, Inspector } from 'aura-glass/app-shell';
+
+export default function InspectorMinimal() {
+  return (
+    <AppShell.Root defaultInspector="open">
+      <AppShell.Main>Selected file: report.pdf</AppShell.Main>
+      <Inspector.Root aria-label="Details">
+        <Inspector.Content>Size 2.4 MB · Modified today</Inspector.Content>
+      </Inspector.Root>
+    </AppShell.Root>
+  );
+}
+```

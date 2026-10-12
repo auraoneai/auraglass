@@ -31,12 +31,19 @@ const getFocusableElements = (container: HTMLElement | null): HTMLElement[] => {
 };
 
 export interface FocusScopeProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Keeps Tab focus inside the scope. */
   trapped?: boolean;
+  /** Tab from the last stop moves to the first (and back). */
   loop?: boolean;
+  /** Focuses the first focusable element on mount. */
   autoFocus?: boolean;
+  /** Returns focus to the previously focused element on unmount. */
   restoreFocus?: boolean;
+  /** Called before auto-focus on mount; call `preventDefault()` to skip it. */
   onMountAutoFocus?: (event: Event) => void;
+  /** Called before focus is restored on unmount; call `preventDefault()` to skip it. */
   onUnmountAutoFocus?: (event: Event) => void;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLDivElement>;
 }
 

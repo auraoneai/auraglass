@@ -13,20 +13,20 @@ Tier T1 · RSC client · APG radio
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `aria-label` | `string` | — | Required accessible name. |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `defaultValue?` | `string` | — | — |
-| `disabled?` | `boolean` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultValue?` | `string` | — | Initial value when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
 | `name` | `string` | — | Required form name (REQ-CMP-41). |
-| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | — |
+| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
 | `orientation?` | `'vertical' \| 'horizontal'` | — | Layout orientation (default 'horizontal'); roving focus follows it. |
-| `prominent?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `refraction?` | `boolean` | — | — |
-| `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
-| `thickness?` | `Thickness` | — | — |
-| `value?` | `string` | — | — |
-| `variant?` | `MaterialVariant` | — | — |
+| `prominent?` | `boolean` | — | Prominent (filled, higher-emphasis) appearance. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `refraction?` | `boolean` | — | Opt-in refraction on refraction-eligible materials; ignored where unsupported. |
+| `size?` | `'sm' \| 'md' \| 'lg'` | — | Control size. |
+| `thickness?` | `Thickness` | — | Material thickness (blur and opacity step). |
+| `value?` | `string` | — | Controlled value. Pair with `onValueChange`. |
+| `variant?` | `MaterialVariant` | — | Material variant. |
 
 ## Parts
 
@@ -50,4 +50,15 @@ Tier T1 · RSC client · APG radio
 
 ## Example
 
-_Example pending: no `apps/docs/examples/segmented-control/*.tsx` yet._
+```tsx
+import { SegmentedControl } from 'aura-glass';
+
+export default function SegmentedControlMinimal() {
+  return (
+    <SegmentedControl.Root aria-label="View" name="view" defaultValue="grid">
+      <SegmentedControl.Item value="list">List</SegmentedControl.Item>
+      <SegmentedControl.Item value="grid">Grid</SegmentedControl.Item>
+    </SegmentedControl.Root>
+  );
+}
+```

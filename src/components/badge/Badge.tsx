@@ -7,9 +7,11 @@ import { cn } from '../../internal/index';
 import { VisuallyHidden } from '../../primitives/VisuallyHidden';
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  /** Status tint. */
   intent?: 'neutral' | 'info' | 'success' | 'warning' | 'danger';
   /** Render the standalone status dot instead of a pill. */
   dot?: boolean;
+  /** Number shown in the badge. */
   count?: number;
   /** Maximum shown before clamping to "<max>+" (default 99). */
   max?: number;
@@ -27,7 +29,9 @@ export function Badge({
   className,
   ref,
   ...rest
-}: BadgeProps & { ref?: React.Ref<HTMLSpanElement> | undefined }) {
+}: BadgeProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLSpanElement> | undefined }) {
   const clamped = count !== undefined && max !== undefined && count > max ? `${max}+` : count;
   return (
     <span

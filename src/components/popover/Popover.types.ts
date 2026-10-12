@@ -8,8 +8,11 @@ import type { MaterialBearingProps } from '../../contracts/components';
 type RenderProp = React.ReactElement | ((props: any) => React.ReactElement);
 
 export interface PopoverRootProps extends MaterialBearingProps {
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean | undefined;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean;
+  /** Called with the next open state when it changes. */
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
   /** Modal behaviour; non-modal is the default for anchored overlays and
      'trap-focus' is the only modal value. */
@@ -20,6 +23,7 @@ export interface PopoverRootProps extends MaterialBearingProps {
   delay?: number | undefined;
   /** Hover close delay ms — default 150. */
   closeDelay?: number | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
 }
 

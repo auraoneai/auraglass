@@ -12,22 +12,22 @@ Tier T1 · RSC client · APG button
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultPressed?` | `boolean` | — | — |
+| `defaultPressed?` | `boolean` | — | Initial pressed state of an uncontrolled toggle button. |
 | `focusableWhenDisabled?` | `boolean` | — | Keep focusable when disabled (Base UI focusableWhenDisabled). |
 | `icon` | `ReactNode` | — | The icon node. |
-| `intent?` | `Intent` | — | Status tint. Only 'neutral' (default) and 'danger' are valid on controls. |
+| `intent?` | `'danger' \| 'neutral'` | — | Status tint: 'neutral' (default) or 'danger'. info, success and warning are status intents for Badge and Alert, not controls. |
 | `label` | `string` | — | Required accessible name (emitted as aria-label; dev console.error when empty). |
-| `onPressedChange?` | `(pressed: boolean, details: ChangeDetails) => void` | — | — |
+| `onPressedChange?` | `(pressed: boolean, details: ChangeDetails) => void` | — | Called with the next pressed state when a toggle button is pressed. |
 | `pointerLight?` | `boolean` | — | Pointer-light highlight opt-in (emitted data-ag-pointer-light; MAT engine installs). |
 | `pressed?` | `boolean` | — | Controlled pressed state — presence switches the base to a toggle. |
-| `prominent?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLButtonElement>` | — | — |
-| `refraction?` | `boolean` | — | — |
-| `render?` | `RenderProp` | — | — |
+| `prominent?` | `boolean` | — | Prominent (filled, higher-emphasis) appearance. |
+| `ref?` | `Ref<HTMLButtonElement>` | — | Ref to the rendered root element. |
+| `refraction?` | `boolean` | — | Opt-in refraction on refraction-eligible materials; ignored where unsupported. |
+| `render?` | `RenderProp` | — | Replaces the rendered element; the component props and state are merged onto it. |
 | `shape?` | `'capsule' \| 'fixed'` | — | 'capsule' (default) = fully rounded, 'fixed' = component radius. |
 | `size?` | `'sm' \| 'md' \| 'lg'` | — | Emitted as data-ag-size. |
 | `suppressInnerParts?` | `boolean` | — | Internal: omit inner part attrs (icon/hit-area/spinner/label) so the button can sit inside another component's DOM without leaking undeclared data-parts. |
-| `thickness?` | `Thickness` | — | — |
+| `thickness?` | `Thickness` | — | Material thickness (blur and opacity step). |
 | `variant?` | `'regular' \| 'clear' \| 'identity'` | — | Material axis: 'regular' (default) \| 'clear' \| 'identity'. Never a `material` prop. |
 
 ## Parts
@@ -50,4 +50,11 @@ Tier T1 · RSC client · APG button
 
 ## Example
 
-_Example pending: no `apps/docs/examples/icon-button/*.tsx` yet._
+```tsx
+import { IconButton } from 'aura-glass';
+import { CloseIcon } from 'aura-glass/icons';
+
+export default function IconButtonMinimal() {
+  return <IconButton label="Close" icon={<CloseIcon />} />;
+}
+```

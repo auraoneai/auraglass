@@ -13,9 +13,9 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appearance?` | `'floating' \| 'sidebar' \| 'inset'` | — | 'sidebar' = flush column; 'inset' = framed inside main padding; 'floating' = detached chrome panel. Never maps to data-ag-variant. |
-| `labels?` | `{ navigation?: string \| undefined; }` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
+| `labels?` | `{ navigation?: string \| undefined; }` | — | Overrides for the built-in, localizable UI strings. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
 | `variant?` | `MaterialVariant` | — | Material variant override — the ONLY source of data-ag-variant. |
 
 ## Parts
@@ -50,4 +50,20 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 
 ## Example
 
-_Example pending: no `apps/docs/examples/sidebar/*.tsx` yet._
+```tsx
+import { AppShell, Sidebar } from 'aura-glass/app-shell';
+
+export default function SidebarMinimal() {
+  return (
+    <AppShell.Root>
+      <Sidebar.Root>
+        <Sidebar.Nav aria-label="Main">
+          <Sidebar.Item href="/inbox">Inbox</Sidebar.Item>
+          <Sidebar.Item href="/archive">Archive</Sidebar.Item>
+        </Sidebar.Nav>
+      </Sidebar.Root>
+      <AppShell.Main>Inbox</AppShell.Main>
+    </AppShell.Root>
+  );
+}
+```

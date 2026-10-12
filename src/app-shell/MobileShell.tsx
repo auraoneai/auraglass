@@ -12,6 +12,7 @@ export interface MobileShellProps extends Omit<PartProps<'div'>, 'title'> {
   topBar?: React.ReactNode;
   /** Content for the bottom tab bar. */
   tabBar?: React.ReactNode;
+  /** Storage key under which the shell persists its layout state. */
   persistKey?: string | undefined;
 }
 

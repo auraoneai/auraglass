@@ -12,11 +12,11 @@ Tier T0 · RSC server · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `columns?` | `GridColumns` | — | — |
+| `columns?` | `GridColumns` | — | Column count, or a responsive map of column counts. |
 | `gap?` | `SpaceTokenLike` | — | SpaceToken index (→ var(--ag-space-N)) or a raw CSS length. |
 | `masonry?` | `boolean` | — | Shortcut for `variant="masonry"`. |
 | `minItemWidth?` | `string \| number` | — | When set, columns auto-fill at this minimum item width. |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
 | `variant?` | `'standard' \| 'masonry'` | — | 'standard' grid or 'masonry'. |
 
 ## Parts
@@ -32,4 +32,16 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/grid/*.tsx` yet._
+```tsx
+import { Grid } from 'aura-glass';
+
+export default function GridMinimal() {
+  return (
+    <Grid columns={{ base: 1, md: 3 }} gap={2}>
+      <div>One</div>
+      <div>Two</div>
+      <div>Three</div>
+    </Grid>
+  );
+}
+```

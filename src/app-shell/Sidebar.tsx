@@ -16,6 +16,7 @@ import { SidebarCollapsible } from './Sidebar.Collapsible';
 import { SidebarDrawer } from './Sidebar.Drawer';
 
 export type SidebarRootProps = PartProps<'aside'> & {
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: { navigation?: string } | undefined;
   /** 'sidebar' = flush column; 'inset' = framed inside main padding;
       'floating' = detached chrome panel. Never maps to data-ag-variant. */

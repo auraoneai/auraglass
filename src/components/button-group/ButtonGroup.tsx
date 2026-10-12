@@ -6,15 +6,23 @@ import { cn } from '../../internal';
    convention, matches radio-group/slider/separator); joined styling via the
    ag-button-group--attached class instead of data-attached. */
 type Labeled =
-  | { 'aria-label': string; 'aria-labelledby'?: never }
+  | {
+    /** Accessible name, required when there is no visible label. */
+    'aria-label': string;
+    /** Id of the element that provides the accessible name. */
+    'aria-labelledby'?: never }
   | { 'aria-label'?: never; 'aria-labelledby': string };
 
 export type ButtonGroupProps = Labeled & {
+  /** Direction in which the buttons are laid out. */
   orientation?: 'horizontal' | 'vertical' | undefined;
   /** Visually join children (default true). Concentric shape via CSS only — no roving focus. */
   attached?: boolean | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLDivElement> | undefined;
 };
 

@@ -13,12 +13,12 @@ Tier T0 · RSC server · APG none
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `interactive?` | `boolean` | — | Marks the card interactive (data-ag-interactive); pair with `render`. |
-| `prominent?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `refraction?` | `boolean` | — | — |
-| `render?` | `RenderProp<HTMLAttributes<HTMLElement>>` | — | — |
-| `thickness?` | `Thickness` | — | — |
-| `variant?` | `MaterialVariant` | — | — |
+| `prominent?` | `boolean` | — | Prominent (filled, higher-emphasis) appearance. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `refraction?` | `boolean` | — | Opt-in refraction on refraction-eligible materials; ignored where unsupported. |
+| `render?` | `RenderProp<HTMLAttributes<HTMLElement>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
+| `thickness?` | `Thickness` | — | Material thickness (blur and opacity step). |
+| `variant?` | `MaterialVariant` | — | Material variant. |
 
 ## Parts
 
@@ -37,4 +37,19 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/card/*.tsx` yet._
+```tsx
+import { Card } from 'aura-glass';
+
+export default function CardMinimal() {
+  return (
+    <Card>
+      <Card.Header>
+        <Card.Title>Monthly report</Card.Title>
+        <Card.Description>October 2026</Card.Description>
+      </Card.Header>
+      <Card.Body>Revenue grew 12% over September.</Card.Body>
+      <Card.Footer>Updated 2 hours ago</Card.Footer>
+    </Card>
+  );
+}
+```

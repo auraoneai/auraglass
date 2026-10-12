@@ -16,5 +16,5 @@
       "react-dom": ["../../../node_modules/@types/react-dom"]
     }
   },
-  "files": ["props.test-d.ts"]
+  "files": ["props.test-d.ts", "autocomplete.test-d.ts"]
 }

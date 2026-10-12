@@ -6,9 +6,11 @@ import { renderElement } from '../foundation/index';
 import type { RenderProp } from '../contracts/components';
 
 export interface VisuallyHiddenProps extends React.HTMLAttributes<HTMLSpanElement> {
+  /** Replaces the rendered element; the component props and state are merged onto it. */
   render?: RenderProp<React.HTMLAttributes<HTMLSpanElement>>;
   /** When true the element becomes visible on :focus-visible (skip links). */
   focusable?: boolean;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLSpanElement>;
 }
 

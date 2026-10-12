@@ -13,8 +13,8 @@ Tier T0 · RSC server · APG none
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `decorative?` | `boolean` | — | Purely visual separators are hidden from assistive tech. |
-| `orientation?` | `'vertical' \| 'horizontal'` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `orientation?` | `'vertical' \| 'horizontal'` | — | Direction of the rule. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -28,4 +28,16 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/separator/*.tsx` yet._
+```tsx
+import { Separator } from 'aura-glass';
+
+export default function SeparatorMinimal() {
+  return (
+    <>
+      <p>Account</p>
+      <Separator />
+      <p>Billing</p>
+    </>
+  );
+}
+```

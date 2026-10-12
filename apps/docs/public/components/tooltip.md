@@ -12,13 +12,13 @@ Tier T1 · RSC client · APG tooltip
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
 | `closeDelay?` | `number` | — | Hover close delay override; otherwise inherits Provider (standalone default 0ms). |
-| `defaultOpen?` | `boolean` | — | — |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
 | `delay?` | `number` | — | Hover delay override; otherwise inherits Provider (standalone default 600ms). |
-| `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |
-| `open?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
+| `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | Called with the next open state when it changes. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -42,4 +42,17 @@ Tier T1 · RSC client · APG tooltip
 
 ## Example
 
-_Example pending: no `apps/docs/examples/tooltip/*.tsx` yet._
+```tsx
+import { Tooltip } from 'aura-glass';
+
+export default function TooltipMinimal() {
+  return (
+    <Tooltip.Provider>
+      <Tooltip.Root>
+        <Tooltip.Trigger>Copy</Tooltip.Trigger>
+        <Tooltip.Content><Tooltip.Arrow />Copy to clipboard</Tooltip.Content>
+      </Tooltip.Root>
+    </Tooltip.Provider>
+  );
+}
+```

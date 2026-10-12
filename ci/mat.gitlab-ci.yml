@@ -138,6 +138,8 @@ mat:test:optics:
     # REQ-MAT-39 CSS scanner (no baseline). Runs after the two ratchets so their
     # evidence is always produced; it fails the job on any optics/unparseable CSS.
     - node scripts/mat/verify-optics-css.mjs
+    # deprecations.json is git-ignored (REQ-PLAT-24): generate it so css-var retirements are visible.
+    - node scripts/release/gen-deprecations.mjs
     - node scripts/mat/material-css-api.mjs --check
     - npx jest tests/lint tests/ci --passWithNoTests
   artifacts:

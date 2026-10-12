@@ -12,14 +12,14 @@ Tier T0 · RSC server · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `intent?` | `'success' \| 'warning' \| 'danger' \| 'neutral'` | — | — |
-| `muted?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
+| `intent?` | `'success' \| 'warning' \| 'danger' \| 'neutral'` | — | Status colour of the text. |
+| `muted?` | `boolean` | — | Uses the secondary (muted) text colour. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
 | `render?` | `RenderProp<HTMLAttributes<HTMLElement>>` | — | Element or render function used instead of the default <p>. |
 | `size?` | `'sm' \| 'md' \| 'lg' \| 'xs'` | — | Optional override; unset = the type role's own size. |
-| `truncate?` | `boolean` | — | — |
+| `truncate?` | `boolean` | — | Clips to one line with an ellipsis. |
 | `type?` | `'body' \| 'caption' \| 'label' \| 'mono' \| 'callout'` | — | S-03 type role; defaults to 'body'. |
-| `weight?` | `'light' \| 'regular' \| 'medium' \| 'semibold' \| 'bold'` | — | — |
+| `weight?` | `'light' \| 'regular' \| 'medium' \| 'semibold' \| 'bold'` | — | Font weight. |
 
 ## Parts
 
@@ -33,4 +33,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/text/*.tsx` yet._
+```tsx
+import { Text } from 'aura-glass';
+
+export default function TextMinimal() {
+  return <Text muted>Last synced 5 minutes ago.</Text>;
+}
+```

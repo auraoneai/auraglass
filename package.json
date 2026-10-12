@@ -158,7 +158,7 @@
     "docs:claims": "node scripts/docs/gen-claims.mjs && node scripts/docs/gen-readme.mjs && node scripts/docs/render-claims.mjs && node scripts/docs/lint-claims.mjs",
     "docs:claims:release": "node scripts/docs/gen-claims.mjs && node scripts/docs/render-claims.mjs --file .artifacts/plat/release-notes.md && node scripts/docs/lint-claims.mjs --file .artifacts/plat/release-notes.md",
     "plat:test:dx:e2e": "playwright test -c playwright.dx-e2e.config.ts",
-    "plat:test:types:dx": "node tests/types/plat/setup-extract.mjs && tsc -p tests/types/plat/tsconfig.json && jest --runInBand tests/types/plat/completions.test.ts",
+    "plat:test:types:dx": "node tests/types/plat/setup-extract.mjs && node_modules/.bin/tsc -p tests/types/plat/tsconfig.json && node --experimental-vm-modules node_modules/jest/bin/jest.js --ci --runInBand tests/types/plat/completions.test.ts",
     "plat:test:types": "node tests/types/plat/setup-extract.mjs && node_modules/.bin/tsc -p tests/types/plat/tsconfig.json"
   },
   "dependencies": {

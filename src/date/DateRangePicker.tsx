@@ -49,15 +49,21 @@ export interface DateRangePreset {
 }
 
 export interface DateRangePickerProps extends Omit<DateFieldLikeProps<DateValue>, 'value' | 'defaultValue' | 'onValueChange'> {
+  /** Controlled value. Pair with `onValueChange`. */
   value?: DateRangeValue | null | undefined;
+  /** Initial value when uncontrolled. */
   defaultValue?: DateRangeValue | null | undefined;
+  /** Called with the new value whenever it changes. */
   onValueChange?: ((v: DateRangeValue | null, details: ChangeDetails) => void) | undefined;
+  /** Preset ranges offered next to the calendar. */
   presets?: readonly DateRangePreset[] | undefined;
   /** Default: 2 at a >=768px container, 1 below. */
   visibleMonths?: 1 | 2 | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
   /** Initial popover state (uncontrolled). */
   defaultOpen?: boolean | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?:
     | {
         choose?: string | undefined;

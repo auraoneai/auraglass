@@ -13,10 +13,10 @@ Tier T2 · RSC server · APG none
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `description?` | `string` | — | Visible description next to the indicator. |
-| `icon?` | `ReactNode` | — | — |
+| `icon?` | `ReactNode` | — | Illustration or icon above the heading (decorative). |
 | `label?` | `string` | — | Live-region text; defaults to 'Loading'. |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `variant?` | `'progress' \| 'skeleton'` | — | — |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `variant?` | `'progress' \| 'skeleton'` | — | Placeholder style: skeleton rows or a progress indicator. |
 
 ## Parts
 
@@ -33,4 +33,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/loading-state/*.tsx` yet._
+```tsx
+import { LoadingState } from 'aura-glass';
+
+export default function LoadingStateMinimal() {
+  return <LoadingState />;
+}
+```
