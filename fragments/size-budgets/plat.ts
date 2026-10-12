@@ -23,20 +23,34 @@ const COMPAT_HEADROOM_BYTES = 2048;
 
 const TARGET_ROWS = new Map<string, SizeBudgetRow>();
 for (const row of [...cmpRows, ...matRows, ...surfRows] as readonly SizeBudgetRow[]) {
-  const name = row.kind === 'js' ? /^\{\s*(\w+)\s*\}\s+from\s+'aura-glass(?:\/[\w-]+)?'$/.exec(row.import)?.[1] : undefined;
+  /* A target row is a `{ <Target> } from 'aura-glass…'` re-export, or a
+     statement measuring a namespace member (`export const <Target> = Ns.Part`)
+     for targets that are not named entry exports. */
+  const name = row.kind === 'js'
+    ? (/^\{\s*(\w+)\s*\}\s+from\s+'aura-glass(?:\/[\w-]+)?'$/.exec(row.import)?.[1]
+      ?? /export const (\w+) =/.exec(row.import)?.[1])
+    : undefined;
   if (name && !TARGET_ROWS.has(name)) TARGET_ROWS.set(name, row);
 }
 const ENTRIES = [...cmpDeps, ...matDeps, ...surfDeps] as readonly DeprecationEntry[];
-/** First identifier of an entry's replacement: 'Menu.Item' -> 'Menu', 'Sidebar + Sidebar.Nav …' -> 'Sidebar'. */
-const targetOf = (replacement: string | null): string | undefined => /^[A-Z]\w*/.exec(replacement ?? '')?.[0];
+/** The entry's replacement targets: 'Menu.Item' -> ['Menu']; a composite
+ *  'Thread + Message + Composer from aura-glass/ai' names all three — the
+ *  adapter composes them, so its ceiling is the sum of their rows (an upper
+ *  bound on their union; shared code is counted in each row already). */
+const targetsOf = (replacement: string | null): string[] => {
+  const head = (replacement ?? '').split(/\s+from\s+/)[0];
+  return head.split('+').map((part) => /^[A-Z]\w*/.exec(part.trim())?.[0]).filter((n): n is string => !!n);
+};
 
 const compatRows: SizeBudgetRow[] = [...new Set([...compatCmp.exports, ...compatMat.exports, ...compatSurf.exports])]
   .sort()
   .flatMap((name) => {
     const entry = ENTRIES.find((e) => e.symbol === name && e.compat != null);
-    const target = entry ? TARGET_ROWS.get(targetOf(entry.replacement) ?? '') : undefined;
-    if (!target) return [];
-    return [{ id: `plat:compat:${name}`, import: `{ ${name} } from 'aura-glass/compat'`, limitBytes: target.limitBytes + COMPAT_HEADROOM_BYTES, kind: 'js' as const }];
+    /* dedupe: 'Sidebar + Sidebar.Nav' names one row twice */
+    const targets = entry ? [...new Set(targetsOf(entry.replacement))].map((t) => TARGET_ROWS.get(t)) : [];
+    if (!targets.length || targets.some((t) => !t)) return [];
+    const limitBytes = targets.reduce((sum, t) => sum + (t as SizeBudgetRow).limitBytes, 0) + COMPAT_HEADROOM_BYTES;
+    return [{ id: `plat:compat:${name}`, import: `{ ${name} } from 'aura-glass/compat'`, limitBytes, kind: 'js' as const }];
   });
 
 export default [

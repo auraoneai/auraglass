@@ -20,8 +20,10 @@ describe('transitive dep count (PLAT-270)', () => {
       execFileSync('npm', ['init', '-y'], { cwd: dir, stdio: 'pipe' });
       const pack = execFileSync('npm', ['pack', '--json', '--pack-destination', dir], { cwd: ROOT, encoding: 'utf8' });
       /* npm <= 11 prints an array of pack reports; npm >= 12 an object keyed
-         by package name. */
-      const report = JSON.parse(pack);
+         by package name. npm >= 12 also forwards the prepack script's stdout
+         ahead of the JSON report, so parse from the first JSON opener. */
+      const jsonStart = pack.search(/[[{]/);
+      const report = JSON.parse(pack.slice(jsonStart));
       const tgz = join(dir, (Array.isArray(report) ? report[0] : Object.values(report)[0]).filename);
       execFileSync('npm', ['install', '--omit=dev', '--omit=optional', '--omit=peer', '--no-audit', '--no-fund', tgz],
         { cwd: dir, encoding: 'utf8', timeout: 240_000 });

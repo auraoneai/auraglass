@@ -199,9 +199,9 @@ export const DEPRECATIONS: Readonly<Record<string, DeprecationRow>> = {
   "DEP-P0020": { id: "DEP-P0020", message: "cookie consent banners no longer auto-display before consent state resolves; wire visibility to your consent provider before 5.0.0.", codemod: null, since: "4.1.1", removeIn: "5.0.0", doc: "#dep-cookie-banner-auto" },
   "DEP-P0049": { id: "DEP-P0049", message: "dead optical props removed in 5.0.0; run the prop-grammar/dead-optical-props codemods.", codemod: "dead-optical-props", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-dead-optical-props" },
   "DEP-P0050": { id: "DEP-P0050", message: "the five old theme/motion providers wrap AuraGlassProvider and warn once; migrate to AuraGlassProvider directly.", codemod: "providers", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-old-providers" },
-  "DEP-P0066": { id: "DEP-P0066", message: "deep ./primitives/<name> imports move to the root export in 5.0.0.", codemod: "imports-subpaths", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-deep-primitives" },
-  "DEP-P0067": { id: "DEP-P0067", message: "deep ./icons/<category> imports move to ./icons in 5.0.0.", codemod: "imports-subpaths", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-deep-icons" },
-  "DEP-P0068": { id: "DEP-P0068", message: "the ./utils/env subpath is removed in 5.0.0.", codemod: "imports-subpaths", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-utils-env" },
+  "DEP-P0066": { id: "DEP-P0066", message: "deep ./primitives/<name> imports collapse into ./primitives in 5.0.0.", codemod: "imports-subpaths", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-deep-primitives" },
+  "DEP-P0067": { id: "DEP-P0067", message: "./icons/<category> imports become per-glyph ./icons/<name> imports in 5.0.0.", codemod: "imports-subpaths", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-deep-icons" },
+  "DEP-P0068": { id: "DEP-P0068", message: "the ./utils/env subpath is removed in 5.0.0; use your own typeof window check.", codemod: "imports-subpaths", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-utils-env" },
   "DEP-P0107": { id: "DEP-P0107", message: "'useGalileoStateSpring' (alias 'useAuraStateSpring') never animated and is removed in 5.0.0; use aura-glass/motion springs (codemod: motion-imports).", codemod: "motion-imports", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-use-galileo-state-spring" },
 };
 
@@ -845,7 +845,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "breaking": "B5",
     "message": "'GlassMagneticButton' is renamed to 'Button' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
     "doc": "#dep-dep-c0041",
-    "compat": "MagneticButton"
+    "compat": "GlassMagneticButton"
   },
   {
     "id": "DEP-C0101",
@@ -1588,7 +1588,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassCard' is renamed to 'Card' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0231"
+    "doc": "#dep-dep-c0231",
+    "compat": "GlassCard"
   },
   {
     "id": "DEP-C0232",
@@ -1603,7 +1604,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlowingCard' is renamed to 'Card' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0232"
+    "doc": "#dep-dep-c0232",
+    "compat": "GlowingCard"
   },
   {
     "id": "DEP-C0233",
@@ -1618,7 +1620,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'WidgetGlass' is renamed to 'Card' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0233"
+    "doc": "#dep-dep-c0233",
+    "compat": "WidgetGlass"
   },
   {
     "id": "DEP-C0234",
@@ -1633,7 +1636,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassWorkspacePanel' is renamed to 'Card' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0234"
+    "doc": "#dep-dep-c0234",
+    "compat": "GlassWorkspacePanel"
   },
   {
     "id": "DEP-C0235",
@@ -1648,7 +1652,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassBadge' is renamed to 'Badge' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0235"
+    "doc": "#dep-dep-c0235",
+    "compat": "GlassBadge"
   },
   {
     "id": "DEP-C0236",
@@ -1663,7 +1668,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'LiquidGlassBadgeCluster' is renamed to 'Badge' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0236"
+    "doc": "#dep-dep-c0236",
+    "compat": "LiquidGlassBadgeCluster"
   },
   {
     "id": "DEP-C0237",
@@ -1678,7 +1684,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassStatusDot' is renamed to 'Badge' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0237"
+    "doc": "#dep-dep-c0237",
+    "compat": "GlassStatusDot"
   },
   {
     "id": "DEP-C0238",
@@ -1693,7 +1700,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassConnectionStatus' is renamed to 'Badge' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0238"
+    "doc": "#dep-dep-c0238",
+    "compat": "GlassConnectionStatus"
   },
   {
     "id": "DEP-C0239",
@@ -1708,7 +1716,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassAvatar' is renamed to 'Avatar' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0239"
+    "doc": "#dep-dep-c0239",
+    "compat": "GlassAvatar"
   },
   {
     "id": "DEP-C0240",
@@ -1723,7 +1732,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassAvatarGroup' is renamed to 'AvatarGroup' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0240"
+    "doc": "#dep-dep-c0240",
+    "compat": "GlassAvatarGroup"
   },
   {
     "id": "DEP-C0241",
@@ -1738,7 +1748,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassAlert' is renamed to 'Alert' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0241"
+    "doc": "#dep-dep-c0241",
+    "compat": "GlassAlert"
   },
   {
     "id": "DEP-C0242",
@@ -1753,7 +1764,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassProgress' is renamed to 'Progress' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0242"
+    "doc": "#dep-dep-c0242",
+    "compat": "GlassProgress"
   },
   {
     "id": "DEP-C0243",
@@ -1768,7 +1780,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'CircularProgress' is renamed to 'Progress' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0243"
+    "doc": "#dep-dep-c0243",
+    "compat": "CircularProgress"
   },
   {
     "id": "DEP-C0244",
@@ -1783,7 +1796,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassSkeleton' is renamed to 'Skeleton' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0244"
+    "doc": "#dep-dep-c0244",
+    "compat": "GlassSkeleton"
   },
   {
     "id": "DEP-C0245",
@@ -1798,7 +1812,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassLoadingSkeleton' is renamed to 'Skeleton' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0245"
+    "doc": "#dep-dep-c0245",
+    "compat": "GlassLoadingSkeleton"
   },
   {
     "id": "DEP-C0246",
@@ -1813,7 +1828,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassSeparator' is renamed to 'Separator' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0246"
+    "doc": "#dep-dep-c0246",
+    "compat": "GlassSeparator"
   },
   {
     "id": "DEP-C0247",
@@ -1828,7 +1844,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDivider' is renamed to 'Separator' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0247"
+    "doc": "#dep-dep-c0247",
+    "compat": "GlassDivider"
   },
   {
     "id": "DEP-C0248",
@@ -1843,7 +1860,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassEmptyState' is renamed to 'EmptyState' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0248"
+    "doc": "#dep-dep-c0248",
+    "compat": "GlassEmptyState"
   },
   {
     "id": "DEP-C0249",
@@ -1858,7 +1876,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassErrorState' is renamed to 'ErrorState' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0249"
+    "doc": "#dep-dep-c0249",
+    "compat": "GlassErrorState"
   },
   {
     "id": "DEP-C0250",
@@ -1873,7 +1892,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassLoadingState' is renamed to 'LoadingState' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0250"
+    "doc": "#dep-dep-c0250",
+    "compat": "GlassLoadingState"
   },
   {
     "id": "DEP-C0251",
@@ -1888,7 +1908,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassAccordion' is renamed to 'Accordion' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0251"
+    "doc": "#dep-dep-c0251",
+    "compat": "GlassAccordion"
   },
   {
     "id": "DEP-C0252",
@@ -1903,7 +1924,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassScrollArea' is renamed to 'ScrollArea' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0252"
+    "doc": "#dep-dep-c0252",
+    "compat": "GlassScrollArea"
   },
   {
     "id": "DEP-C0253",
@@ -1918,7 +1940,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassRating' is renamed to 'Rating' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0253"
+    "doc": "#dep-dep-c0253",
+    "compat": "GlassRating"
   },
   {
     "id": "DEP-C0254",
@@ -1933,7 +1956,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassInlineEdit' is renamed to 'InlineEdit' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0254"
+    "doc": "#dep-dep-c0254",
+    "compat": "GlassInlineEdit"
   },
   {
     "id": "DEP-C0255",
@@ -1948,7 +1972,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassFileUpload' is renamed to 'FileUpload' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0255"
+    "doc": "#dep-dep-c0255",
+    "compat": "GlassFileUpload"
   },
   {
     "id": "DEP-C0256",
@@ -1963,7 +1988,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassColorPicker' is renamed to 'ColorPicker' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0256"
+    "doc": "#dep-dep-c0256",
+    "compat": "GlassColorPicker"
   },
   {
     "id": "DEP-C0257",
@@ -1978,7 +2004,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassColorWheel' is renamed to 'ColorPicker' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0257"
+    "doc": "#dep-dep-c0257",
+    "compat": "GlassColorWheel"
   },
   {
     "id": "DEP-C0258",
@@ -1993,7 +2020,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassGradientPicker' is renamed to 'ColorPicker' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0258"
+    "doc": "#dep-dep-c0258",
+    "compat": "GlassGradientPicker"
   },
   {
     "id": "DEP-C0259",
@@ -2008,7 +2036,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'ImageList' is renamed to 'ImageList' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0259"
+    "doc": "#dep-dep-c0259",
+    "compat": "ImageList"
   },
   {
     "id": "DEP-C0260",
@@ -2023,7 +2052,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'ImageListItem' is renamed to 'ImageList.Item' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0260"
+    "doc": "#dep-dep-c0260",
+    "compat": "ImageListItem"
   },
   {
     "id": "DEP-C0261",
@@ -2038,7 +2068,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'ImageListItemBar' is renamed to 'ImageList.ItemBar' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0261"
+    "doc": "#dep-dep-c0261",
+    "compat": "ImageListItemBar"
   },
   {
     "id": "DEP-C0263",
@@ -2053,7 +2084,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassCoachmarks' is renamed to 'Tour' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0263"
+    "doc": "#dep-dep-c0263",
+    "compat": "GlassCoachmarks"
   },
   {
     "id": "DEP-C0264",
@@ -2068,7 +2100,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassSpotlight' is renamed to 'Tour' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0264"
+    "doc": "#dep-dep-c0264",
+    "compat": "GlassSpotlight"
   },
   {
     "id": "DEP-C0265",
@@ -2083,7 +2116,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'Typography' is renamed to 'Text' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0265"
+    "doc": "#dep-dep-c0265",
+    "compat": "Typography"
   },
   {
     "id": "DEP-C0266",
@@ -2098,7 +2132,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'DisplayText' is renamed to 'Heading' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0266"
+    "doc": "#dep-dep-c0266",
+    "compat": "DisplayText"
   },
   {
     "id": "DEP-C0267",
@@ -2113,7 +2148,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassStack' is renamed to 'Stack' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0267"
+    "doc": "#dep-dep-c0267",
+    "compat": "GlassStack"
   },
   {
     "id": "DEP-C0268",
@@ -2128,7 +2164,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassFlex' is renamed to 'Stack' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0268"
+    "doc": "#dep-dep-c0268",
+    "compat": "GlassFlex"
   },
   {
     "id": "DEP-C0269",
@@ -2143,7 +2180,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'Box' is renamed to 'Stack' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0269"
+    "doc": "#dep-dep-c0269",
+    "compat": "Box"
   },
   {
     "id": "DEP-C0270",
@@ -2158,7 +2196,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassGrid' is renamed to 'Grid' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0270"
+    "doc": "#dep-dep-c0270",
+    "compat": "GlassGrid"
   },
   {
     "id": "DEP-C0271",
@@ -2173,7 +2212,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassMasonry' is renamed to 'Grid' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0271"
+    "doc": "#dep-dep-c0271",
+    "compat": "GlassMasonry"
   },
   {
     "id": "DEP-C0272",
@@ -2188,7 +2228,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassMasonryGrid' is renamed to 'Grid' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0272"
+    "doc": "#dep-dep-c0272",
+    "compat": "GlassMasonryGrid"
   },
   {
     "id": "DEP-C0273",
@@ -2203,7 +2244,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassContainer' is renamed to 'Container' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0273"
+    "doc": "#dep-dep-c0273",
+    "compat": "GlassContainer"
   },
   {
     "id": "DEP-C0274",
@@ -2233,7 +2275,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassSlot' is renamed to 'Slot' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0275"
+    "doc": "#dep-dep-c0275",
+    "compat": "GlassSlot"
   },
   {
     "id": "DEP-C0276",
@@ -2248,7 +2291,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassPortal' is renamed to 'Portal' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0276"
+    "doc": "#dep-dep-c0276",
+    "compat": "GlassPortal"
   },
   {
     "id": "DEP-C0277",
@@ -2263,7 +2307,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassFocusScope' is renamed to 'FocusScope' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0277"
+    "doc": "#dep-dep-c0277",
+    "compat": "GlassFocusScope"
   },
   {
     "id": "DEP-C0278",
@@ -2278,7 +2323,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDismissableLayer' is renamed to 'DismissableLayer' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0278"
+    "doc": "#dep-dep-c0278",
+    "compat": "GlassDismissableLayer"
   },
   {
     "id": "DEP-C0279",
@@ -2293,7 +2339,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassLabelPrimitive' is renamed to 'Label' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0279"
+    "doc": "#dep-dep-c0279",
+    "compat": "GlassLabelPrimitive"
   },
   {
     "id": "DEP-C0280",
@@ -2308,7 +2355,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassLabel' is renamed to 'Label' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0280"
+    "doc": "#dep-dep-c0280",
+    "compat": "GlassLabel"
   },
   {
     "id": "DEP-C0281",
@@ -2323,7 +2371,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'LabelRoot' is renamed to 'Label' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0281"
+    "doc": "#dep-dep-c0281",
+    "compat": "LabelRoot"
   },
   {
     "id": "DEP-C0282",
@@ -2338,7 +2387,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassStepper' is renamed to 'GlassStepper' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0282"
+    "doc": "#dep-dep-c0282",
+    "compat": "GlassStepper"
   },
   {
     "id": "DEP-C0283",
@@ -2353,7 +2403,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassForm' is renamed to 'Form' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0283"
+    "doc": "#dep-dep-c0283",
+    "compat": "GlassForm"
   },
   {
     "id": "DEP-C0284",
@@ -2368,7 +2419,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassNotificationItem' is renamed to 'Toast' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0284"
+    "doc": "#dep-dep-c0284",
+    "compat": "GlassNotificationItem"
   },
   {
     "id": "DEP-C0285",
@@ -2383,7 +2435,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuTrigger' is renamed to 'Menu.Trigger' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0285"
+    "doc": "#dep-dep-c0285",
+    "compat": "GlassDropdownMenuTrigger"
   },
   {
     "id": "DEP-C0286",
@@ -2398,7 +2451,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuContent' is renamed to 'Menu.Popup' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0286"
+    "doc": "#dep-dep-c0286",
+    "compat": "GlassDropdownMenuContent"
   },
   {
     "id": "DEP-C0287",
@@ -2413,7 +2467,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuItem' is renamed to 'Menu.Item' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0287"
+    "doc": "#dep-dep-c0287",
+    "compat": "GlassDropdownMenuItem"
   },
   {
     "id": "DEP-C0288",
@@ -2428,7 +2483,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuCheckboxItem' is renamed to 'Menu.CheckboxItem' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0288"
+    "doc": "#dep-dep-c0288",
+    "compat": "GlassDropdownMenuCheckboxItem"
   },
   {
     "id": "DEP-C0289",
@@ -2443,7 +2499,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuRadioGroup' is renamed to 'Menu.RadioGroup' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0289"
+    "doc": "#dep-dep-c0289",
+    "compat": "GlassDropdownMenuRadioGroup"
   },
   {
     "id": "DEP-C0290",
@@ -2458,7 +2515,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuRadioItem' is renamed to 'Menu.RadioItem' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0290"
+    "doc": "#dep-dep-c0290",
+    "compat": "GlassDropdownMenuRadioItem"
   },
   {
     "id": "DEP-C0291",
@@ -2473,7 +2531,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuLabel' is renamed to 'Menu.GroupLabel' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0291"
+    "doc": "#dep-dep-c0291",
+    "compat": "GlassDropdownMenuLabel"
   },
   {
     "id": "DEP-C0292",
@@ -2488,7 +2547,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuSeparator' is renamed to 'Menu.Separator' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0292"
+    "doc": "#dep-dep-c0292",
+    "compat": "GlassDropdownMenuSeparator"
   },
   {
     "id": "DEP-C0293",
@@ -2503,7 +2563,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuGroup' is renamed to 'Menu.Group' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0293"
+    "doc": "#dep-dep-c0293",
+    "compat": "GlassDropdownMenuGroup"
   },
   {
     "id": "DEP-C0294",
@@ -2518,7 +2579,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuPortal' is renamed to 'Menu.Portal' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0294"
+    "doc": "#dep-dep-c0294",
+    "compat": "GlassDropdownMenuPortal"
   },
   {
     "id": "DEP-C0295",
@@ -2533,7 +2595,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuSub' is renamed to 'Menu.SubmenuRoot' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0295"
+    "doc": "#dep-dep-c0295",
+    "compat": "GlassDropdownMenuSub"
   },
   {
     "id": "DEP-C0296",
@@ -2548,7 +2611,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuSubTrigger' is renamed to 'Menu.SubmenuTrigger' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0296"
+    "doc": "#dep-dep-c0296",
+    "compat": "GlassDropdownMenuSubTrigger"
   },
   {
     "id": "DEP-C0297",
@@ -2563,7 +2627,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassDropdownMenuArrow' is renamed to 'Menu.Arrow' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0297"
+    "doc": "#dep-dep-c0297",
+    "compat": "GlassDropdownMenuArrow"
   },
   {
     "id": "DEP-C0298",
@@ -2578,7 +2643,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassSelectTrigger' is renamed to 'Select.Trigger' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0298"
+    "doc": "#dep-dep-c0298",
+    "compat": "GlassSelectTrigger"
   },
   {
     "id": "DEP-C0299",
@@ -2593,7 +2659,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassSelectValue' is renamed to 'Select.Value' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0299"
+    "doc": "#dep-dep-c0299",
+    "compat": "GlassSelectValue"
   },
   {
     "id": "DEP-C0300",
@@ -2608,7 +2675,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassSelectContent' is renamed to 'Select.Popup' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0300"
+    "doc": "#dep-dep-c0300",
+    "compat": "GlassSelectContent"
   },
   {
     "id": "DEP-C0301",
@@ -2623,7 +2691,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassSelectItem' is renamed to 'Select.Item' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0301"
+    "doc": "#dep-dep-c0301",
+    "compat": "GlassSelectItem"
   },
   {
     "id": "DEP-C0302",
@@ -2638,7 +2707,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassSelectLabel' is renamed to 'Select.GroupLabel' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0302"
+    "doc": "#dep-dep-c0302",
+    "compat": "GlassSelectLabel"
   },
   {
     "id": "DEP-C0303",
@@ -2653,7 +2723,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassSelectGroup' is renamed to 'Select.Group' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0303"
+    "doc": "#dep-dep-c0303",
+    "compat": "GlassSelectGroup"
   },
   {
     "id": "DEP-C0304",
@@ -2668,7 +2739,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "'GlassSelectSeparator' is renamed to 'Select.Separator' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-    "doc": "#dep-dep-c0304"
+    "doc": "#dep-dep-c0304",
+    "compat": "GlassSelectSeparator"
   },
   {
     "id": "DEP-C0305",
@@ -2744,6 +2816,38 @@ export const deprecations: readonly DeprecationEntry[] = [
     "breaking": "B3",
     "message": "'SkipLinks' is removed in aura-glass 5.0.",
     "doc": "#dep-dep-c0309"
+  },
+  {
+    "id": "DEP-C0310",
+    "kind": "export",
+    "status": "planned",
+    "entry": ".",
+    "symbol": "Button",
+    "since": "4.3.0",
+    "removeIn": "6.0.0",
+    "replacement": "Button",
+    "codemod": "prop-grammar",
+    "automation": "mostly",
+    "breaking": "B6",
+    "message": "The 4.x 'Button' alias of GlassButton takes 4.x props; 5.0 Button uses the 5.0 prop grammar; run `aura-glass migrate 5` (prop-grammar).",
+    "doc": "#dep-dep-c0310",
+    "compat": "Button"
+  },
+  {
+    "id": "DEP-C0311",
+    "kind": "export",
+    "status": "planned",
+    "entry": ".",
+    "symbol": "GlassSelectRoot",
+    "since": "4.3.0",
+    "removeIn": "6.0.0",
+    "replacement": "Select.Root",
+    "codemod": "canonical-names",
+    "automation": "full",
+    "breaking": "B5",
+    "message": "'GlassSelectRoot' is renamed to 'Select.Root' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
+    "doc": "#dep-dep-c0311",
+    "compat": "GlassSelectRoot"
   },
   {
     "id": "DEP-M0800",
@@ -2849,8 +2953,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "OptimizedGlassCore is deprecated; use Surface (codemod: canonical-names).",
-    "doc": "#dep-m0806",
-    "compat": "OptimizedGlassCore"
+    "doc": "#dep-m0806"
   },
   {
     "id": "DEP-M0807",
@@ -3009,8 +3112,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B5",
     "message": "LiquidGlassSurfaceLayer is deprecated; layer is inferred from nesting in 5.x (codemod: providers).",
-    "doc": "#dep-m0816",
-    "compat": "LiquidGlassSurfaceLayer"
+    "doc": "#dep-m0816"
   },
   {
     "id": "DEP-M0817",
@@ -3025,8 +3127,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B5",
     "message": "useLiquidGlassLayer is deprecated; layer is inferred from nesting in 5.x (codemod: providers).",
-    "doc": "#dep-m0817",
-    "compat": "useLiquidGlassLayer"
+    "doc": "#dep-m0817"
   },
   {
     "id": "DEP-M0818",
@@ -3566,8 +3667,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B3",
     "message": "Motion (root; MotionNative alias) is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).",
-    "doc": "#dep-m0853",
-    "compat": "Motion"
+    "doc": "#dep-m0853"
   },
   {
     "id": "DEP-M0854",
@@ -3582,8 +3682,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B3",
     "message": "Motion (MotionFramer alias) is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).",
-    "doc": "#dep-m0854",
-    "compat": "Motion"
+    "doc": "#dep-m0854"
   },
   {
     "id": "DEP-M0855",
@@ -3598,8 +3697,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B3",
     "message": "GlassMotion is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).",
-    "doc": "#dep-m0855",
-    "compat": "GlassMotion"
+    "doc": "#dep-m0855"
   },
   {
     "id": "DEP-M0856",
@@ -3614,8 +3712,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B3",
     "message": "MotionNative is removed in 5.0; use CSS motion tokens, startMorph or MotionProvider from aura-glass/motion (codemod: motion-imports).",
-    "doc": "#dep-m0856",
-    "compat": "MotionNative"
+    "doc": "#dep-m0856"
   },
   {
     "id": "DEP-M0857",
@@ -3630,8 +3727,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B3",
     "message": "MotionFramer is removed in 5.0; use CSS motion tokens, startMorph or MotionProvider from aura-glass/motion (codemod: motion-imports).",
-    "doc": "#dep-m0857",
-    "compat": "MotionFramer"
+    "doc": "#dep-m0857"
   },
   {
     "id": "DEP-M0858",
@@ -4186,8 +4282,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B13",
     "message": "MotionPreferenceProvider (the 4.x ReducedMotionProvider role) is deprecated; preferences live under AuraGlassProvider and usePreference (codemod: providers).",
-    "doc": "#dep-m0894",
-    "compat": "MotionPreferenceProvider"
+    "doc": "#dep-m0894"
   },
   {
     "id": "DEP-M0895",
@@ -4202,8 +4297,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B13",
     "message": "useMotionPreferenceContext (MotionPreferenceContext access) is deprecated; use usePreference / useResolvedPreferences (codemod: providers).",
-    "doc": "#dep-m0895",
-    "compat": "useMotionPreferenceContext"
+    "doc": "#dep-m0895"
   },
   {
     "id": "DEP-M0896",
@@ -4217,9 +4311,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "codemod": "motion-imports",
     "automation": "mostly",
     "breaking": "B3",
-    "message": "useReducedMotion is deprecated; use usePreference('motion') (codemod: motion-imports). A compat wrapper ships in aura-glass/compat.",
-    "doc": "#dep-m0896",
-    "compat": "useReducedMotion"
+    "message": "useReducedMotion is deprecated; use usePreference('motion') (codemod: motion-imports).",
+    "doc": "#dep-m0896"
   },
   {
     "id": "DEP-M0897",
@@ -4234,8 +4327,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B3",
     "message": "useEnhancedReducedMotion is deprecated; use usePreference('motion') (codemod: motion-imports).",
-    "doc": "#dep-m0897",
-    "compat": "useEnhancedReducedMotion"
+    "doc": "#dep-m0897"
   },
   {
     "id": "DEP-M0898",
@@ -4250,8 +4342,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B3",
     "message": "useMotionPreference is deprecated; use usePreference('motion') (codemod: motion-imports).",
-    "doc": "#dep-m0898",
-    "compat": "useMotionPreference"
+    "doc": "#dep-m0898"
   },
   {
     "id": "DEP-M0899",
@@ -4265,9 +4356,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "codemod": "motion-imports",
     "automation": "mostly",
     "breaking": "B3",
-    "message": "prefersReducedMotion is deprecated; use usePreference('motion') (codemod: motion-imports). A compat wrapper ships in aura-glass/compat.",
-    "doc": "#dep-m0899",
-    "compat": "prefersReducedMotion"
+    "message": "prefersReducedMotion is deprecated; use usePreference('motion') (codemod: motion-imports).",
+    "doc": "#dep-m0899"
   },
   {
     "id": "DEP-M0900",
@@ -4777,8 +4867,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B5",
     "message": "AccessibilityProvider is deprecated; use AuraGlassProvider (highContrast→contrast=\"more\", reducedTransparency→transparency=\"tinted\", colorBlindness dropped) (codemod: providers).",
-    "doc": "#dep-m0933",
-    "compat": "AccessibilityProvider"
+    "doc": "#dep-m0933"
   },
   {
     "id": "DEP-M0934",
@@ -4793,8 +4882,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B5",
     "message": "useAccessibilityFeature is deprecated; use usePreference / useResolvedPreferences (codemod: providers).",
-    "doc": "#dep-m0934",
-    "compat": "useAccessibilityFeature"
+    "doc": "#dep-m0934"
   },
   {
     "id": "DEP-M0935",
@@ -4809,8 +4897,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B5",
     "message": "useAccessibleAnimation is deprecated; use usePreference('motion') (codemod: providers).",
-    "doc": "#dep-m0935",
-    "compat": "useAccessibleAnimation"
+    "doc": "#dep-m0935"
   },
   {
     "id": "DEP-M0936",
@@ -4825,8 +4912,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B5",
     "message": "useAccessibleColors is deprecated; use usePreference / useResolvedPreferences (codemod: providers).",
-    "doc": "#dep-m0936",
-    "compat": "useAccessibleColors"
+    "doc": "#dep-m0936"
   },
   {
     "id": "DEP-M0937",
@@ -4841,8 +4927,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "GlassThemeProvider is deprecated; use AuraGlassProvider (codemod: providers).",
-    "doc": "#dep-m0937",
-    "compat": "GlassThemeProvider"
+    "doc": "#dep-m0937"
   },
   {
     "id": "DEP-M0938",
@@ -4857,8 +4942,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "ThemeProvider is deprecated; use AuraGlassProvider (codemod: providers).",
-    "doc": "#dep-m0938",
-    "compat": "ThemeProvider"
+    "doc": "#dep-m0938"
   },
   {
     "id": "DEP-M0939",
@@ -4873,8 +4957,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B5",
     "message": "useGlassTheme is deprecated; use usePreference / useResolvedPreferences (codemod: providers).",
-    "doc": "#dep-m0939",
-    "compat": "useGlassTheme"
+    "doc": "#dep-m0939"
   },
   {
     "id": "DEP-M0940",
@@ -4889,8 +4972,7 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "full",
     "breaking": "B5",
     "message": "AIGlassThemeProvider is deprecated; use AuraGlassProvider (codemod: providers).",
-    "doc": "#dep-m0940",
-    "compat": "AIGlassThemeProvider"
+    "doc": "#dep-m0940"
   },
   {
     "id": "DEP-M0941",
@@ -5341,7 +5423,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "automation": "mostly",
     "breaking": "B5",
     "message": "createGlassThemeCssVars is deprecated; use createGlassTheme(...).vars (codemod: providers).",
-    "doc": "#dep-m0970"
+    "doc": "#dep-m0970",
+    "compat": "createGlassThemeCssVars"
   },
   {
     "id": "DEP-M0971",
@@ -5512,6 +5595,22 @@ export const deprecations: readonly DeprecationEntry[] = [
     "message": "LiquidGlassLayerProvider (root 'aura-glass' import) is deprecated; counts nested layers in dev and needs no provider (codemod: providers).",
     "doc": "#dep-m0981",
     "compat": "LiquidGlassLayerProvider"
+  },
+  {
+    "id": "DEP-M0982",
+    "kind": "export",
+    "status": "planned",
+    "entry": ".",
+    "symbol": "createGlassTheme",
+    "since": "4.2.0",
+    "removeIn": "6.0.0",
+    "replacement": "createGlassTheme from aura-glass/theme",
+    "codemod": "motion-props",
+    "automation": "mostly",
+    "breaking": "B6",
+    "message": "the 4.x createGlassTheme options (motionPolicy) are deprecated; use createGlassTheme from aura-glass/theme (codemod: motion-props).",
+    "doc": "#dep-m0982",
+    "compat": "createGlassTheme"
   },
   {
     "id": "DEP-P0001",
@@ -6369,8 +6468,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "replacement": "5.0 server-safe entry",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./ssr alias subpath is removed in 5.0.0.",
+    "breaking": "B16",
+    "message": "the ./ssr alias subpath (SSR shims) is removed in 5.0.0; import the 5.0 server-safe entry instead.",
     "doc": "#dep-subpath-ssr"
   },
   {
@@ -6384,8 +6483,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "replacement": "runtime package",
     "codemod": "imports-subpaths",
     "automation": "mostly",
-    "breaking": "B14",
-    "message": "the ./server alias subpath is removed in 5.0.0.",
+    "breaking": "B16",
+    "message": "the ./server alias subpath (server shims) is removed in 5.0.0; server code lives in the runtime package.",
     "doc": "#dep-subpath-server"
   },
   {
@@ -6414,9 +6513,9 @@ export const deprecations: readonly DeprecationEntry[] = [
     "replacement": "npx aura-glass-cli",
     "codemod": null,
     "automation": "none",
-    "breaking": "B21",
+    "breaking": "B15",
     "exception": "honesty",
-    "message": "the bundled aura-glass CLI moved to aura-glass-cli in 5.0.0.",
+    "message": "the bundled aura-glass CLI moved to aura-glass-cli in 5.0.0; run npx aura-glass-cli.",
     "doc": "#dep-bin-aura-glass"
   },
   {
@@ -6427,11 +6526,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "styles subpath",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "./styles/v5.css",
+    "replacement": "./styles.css",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./styles subpath is replaced by ./styles/v5.css in 5.0.0.",
+    "breaking": "B17",
+    "message": "the ./styles subpath is renamed to ./styles.css in 5.0.0.",
     "doc": "#dep-subpath-styles"
   },
   {
@@ -6442,11 +6541,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "tokens css subpath",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "5.0 tokens css",
+    "replacement": "./tokens.css",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./tokens/css subpath moves to the 5.0 token table.",
+    "breaking": "B17",
+    "message": "the ./tokens/css subpath is renamed to ./tokens.css in 5.0.0.",
     "doc": "#dep-subpath-tokens-css"
   },
   {
@@ -6457,11 +6556,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "tailwind theme subpath",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "5.0 tailwind preset",
+    "replacement": "./tailwind.css",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./tokens/tailwind subpath moves to the 5.0 preset.",
+    "breaking": "B17",
+    "message": "the ./tokens/tailwind subpath is renamed to ./tailwind.css (Tailwind v4) in 5.0.0.",
     "doc": "#dep-subpath-tokens-tailwind"
   },
   {
@@ -6472,11 +6571,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "tokens json subpath",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "5.0 tokens manifest",
+    "replacement": "aura-glass/tokens",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./tokens/json subpath moves to the 5.0 manifest.",
+    "breaking": "B19",
+    "message": "the ./tokens/json subpath is removed in 5.0.0; read token values from aura-glass/tokens.",
     "doc": "#dep-subpath-tokens-json"
   },
   {
@@ -6487,11 +6586,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "tokens manifest subpath",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "5.0 tokens manifest",
+    "replacement": "aura-glass/tokens",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./tokens/manifest subpath moves to the 5.0 manifest.",
+    "breaking": "B19",
+    "message": "the ./tokens/manifest subpath is removed in 5.0.0; read token values from aura-glass/tokens.",
     "doc": "#dep-subpath-tokens-manifest"
   },
   {
@@ -6502,11 +6601,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "per-primitive deep imports",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "root export",
+    "replacement": "./primitives",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "deep ./primitives/<name> imports move to the root export in 5.0.0.",
+    "breaking": "B18",
+    "message": "deep ./primitives/<name> imports collapse into ./primitives in 5.0.0.",
     "doc": "#dep-deep-primitives"
   },
   {
@@ -6517,11 +6616,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "per-category icon imports",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "./icons root",
+    "replacement": "./icons/<name>",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "deep ./icons/<category> imports move to ./icons in 5.0.0.",
+    "breaking": "B19",
+    "message": "./icons/<category> imports become per-glyph ./icons/<name> imports in 5.0.0.",
     "doc": "#dep-deep-icons"
   },
   {
@@ -6532,11 +6631,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "utils env subpath",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "5.0 env helper",
+    "replacement": "your own typeof window check",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./utils/env subpath is removed in 5.0.0.",
+    "breaking": "B19",
+    "message": "the ./utils/env subpath is removed in 5.0.0; use your own typeof window check.",
     "doc": "#dep-utils-env"
   },
   {
@@ -6550,8 +6649,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "replacement": "ESM entry only",
     "codemod": null,
     "automation": "none",
-    "breaking": "B21",
-    "message": "the CommonJS require() entry is removed in 5.0.0; consume the ESM build.",
+    "breaking": "B2",
+    "message": "the CommonJS require() entry is removed in 5.0.0; the package ships an ESM entry only (require(esm) works on Node >= 20.19).",
     "doc": "#dep-cjs-entry"
   },
   {
@@ -6565,8 +6664,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "replacement": "react@19",
     "codemod": null,
     "automation": "none",
-    "breaking": "B21",
-    "message": "React 18 support ends with 5.0.0; React 19 is the floor.",
+    "breaking": "B1",
+    "message": "React 18 support ends with 5.0.0; react@19 is the floor.",
     "doc": "#dep-peer-react18"
   },
   {
@@ -6580,8 +6679,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "replacement": "node >= 20.19",
     "codemod": null,
     "automation": "none",
-    "breaking": "B21",
-    "message": "Node < 20.19 support ends with 5.0.0.",
+    "breaking": "B2",
+    "message": "Node < 20.19 support ends with 5.0.0; use node >= 20.19.",
     "doc": "#dep-engine-node-20-19"
   },
   {
@@ -6598,6 +6697,36 @@ export const deprecations: readonly DeprecationEntry[] = [
     "breaking": "B3",
     "message": "'useGalileoStateSpring' (alias 'useAuraStateSpring') never animated and is removed in 5.0.0; use aura-glass/motion springs (codemod: motion-imports).",
     "doc": "#dep-use-galileo-state-spring"
+  },
+  {
+    "id": "DEP-P0108",
+    "kind": "behavior",
+    "status": "active",
+    "entry": ".",
+    "symbol": "content-layer surfaces glass by default",
+    "since": "4.3.0",
+    "removeIn": "5.0.0",
+    "replacement": "variant=\"regular\" over a media backdrop",
+    "codemod": null,
+    "automation": "none",
+    "breaking": "B12",
+    "message": "content-layer surfaces (cards, panels) are no longer glass by default in 5.0.0; opt in with variant=\"regular\" over a media backdrop.",
+    "doc": "#dep-content-layer-default"
+  },
+  {
+    "id": "DEP-P0109",
+    "kind": "behavior",
+    "status": "active",
+    "entry": ".",
+    "symbol": "OS accessibility signals overridable",
+    "since": "4.3.0",
+    "removeIn": "5.0.0",
+    "replacement": null,
+    "codemod": null,
+    "automation": "none",
+    "breaking": "B13",
+    "message": "OS signals (reduced motion, reduced transparency, increased contrast) are floors in 5.0.0; props and providers can no longer force glass or animation past them.",
+    "doc": "#dep-os-signal-floors"
   },
   {
     "id": "DEP-S0001",

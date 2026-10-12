@@ -1,42 +1,39 @@
 {
   "version": 1,
   "safeModules": [
-    "src/ai/agent/AgentSteps.meta.ts",
+    "src/ai/agent/AgentSteps.tsx",
     "src/ai/icons/AiIcon.tsx",
     "src/ai/icons/index.ts",
-    "src/ai/message/Message.meta.ts",
-    "src/ai/usage/UsageMeter.meta.ts",
-    "src/app-shell/Inspector.meta.ts",
-    "src/app-shell/MobileShell.meta.ts",
-    "src/app-shell/Sidebar.meta.ts",
-    "src/app-shell/StatusBar.meta.ts",
-    "src/app-shell/TopBar.meta.ts",
-    "src/backdrops/Backdrop.meta.ts",
-    "src/components/alert/Alert.meta.ts",
-    "src/components/avatar/AvatarGroup.meta.ts",
-    "src/components/badge/Badge.meta.ts",
-    "src/components/button-group/ButtonGroup.meta.ts",
-    "src/components/card/Card.meta.ts",
-    "src/components/container/Container.meta.ts",
-    "src/components/description-list/DescriptionList.meta.ts",
-    "src/components/grid/Grid.meta.ts",
-    "src/components/heading/Heading.meta.ts",
-    "src/components/image-list/ImageList.meta.ts",
-    "src/components/kbd/Kbd.meta.ts",
-    "src/components/link/Link.meta.ts",
-    "src/components/separator/Separator.meta.ts",
-    "src/components/skeleton/Skeleton.meta.ts",
-    "src/components/stack/Stack.meta.ts",
-    "src/components/state-view/EmptyState.meta.ts",
-    "src/components/state-view/ErrorState.meta.ts",
-    "src/components/state-view/LoadingState.meta.ts",
-    "src/components/steps/Steps.meta.ts",
-    "src/components/text/Text.meta.ts",
-    "src/components/timeline/Timeline.meta.ts",
-    "src/data/chart-frame/ChartFrame.meta.ts",
-    "src/data/sparkline/Sparkline.meta.ts",
-    "src/data/stat-card/StatCard.meta.ts",
-    "src/icons/Icon.meta.ts",
+    "src/ai/message/Message.tsx",
+    "src/ai/usage/UsageMeter.tsx",
+    "src/app-shell/Inspector.tsx",
+    "src/app-shell/MobileShell.tsx",
+    "src/app-shell/Sidebar.tsx",
+    "src/app-shell/StatusBar.tsx",
+    "src/app-shell/TopBar.tsx",
+    "src/backdrops/Backdrop.tsx",
+    "src/components/alert/Alert.tsx",
+    "src/components/avatar/AvatarGroup.tsx",
+    "src/components/badge/Badge.tsx",
+    "src/components/button-group/ButtonGroup.tsx",
+    "src/components/card/Card.tsx",
+    "src/components/container/Container.tsx",
+    "src/components/description-list/DescriptionList.tsx",
+    "src/components/grid/Grid.tsx",
+    "src/components/heading/Heading.tsx",
+    "src/components/image-list/ImageList.tsx",
+    "src/components/kbd/Kbd.tsx",
+    "src/components/link/Link.tsx",
+    "src/components/separator/Separator.tsx",
+    "src/components/skeleton/Skeleton.tsx",
+    "src/components/stack/Stack.tsx",
+    "src/components/state-view/index.ts",
+    "src/components/steps/Steps.tsx",
+    "src/components/text/Text.tsx",
+    "src/components/timeline/Timeline.tsx",
+    "src/data/chart-frame/ChartFrame.tsx",
+    "src/data/sparkline/Sparkline.tsx",
+    "src/data/stat-card/StatCard.tsx",
     "src/icons/action.ts",
     "src/icons/action/accessibility.tsx",
     "src/icons/action/archive.tsx",
@@ -208,13 +205,12 @@
     "src/icons/status/info.tsx",
     "src/icons/types.ts",
     "src/internal/cn.ts",
-    "src/primitives/Label.meta.ts",
-    "src/primitives/Slot.meta.ts",
-    "src/primitives/VisuallyHidden.meta.ts",
+    "src/primitives/Label.tsx",
+    "src/primitives/Slot.tsx",
+    "src/primitives/VisuallyHidden.tsx",
     "src/tokens/generated/manifest.ts",
     "src/tokens/generated/material-spec.ts",
     "src/tokens/generated/presets.ts",
-    "src/tokens/generated/tokens.d.ts",
     "src/tokens/generated/tokens.ts",
     "src/tokens/index.ts"
   ],
@@ -679,6 +675,1120 @@
       "rsc": "server"
     }
   ],
+  "modules": [
+    {
+      "module": "src/ai/agent/AgentSteps.tsx",
+      "from": "meta",
+      "meta": "AgentSteps",
+      "safe": true
+    },
+    {
+      "module": "src/ai/icons/AiIcon.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/ai/icons/index.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/ai/message/Message.tsx",
+      "from": "meta",
+      "meta": "Message",
+      "safe": true
+    },
+    {
+      "module": "src/ai/usage/UsageMeter.tsx",
+      "from": "meta",
+      "meta": "UsageMeter",
+      "safe": true
+    },
+    {
+      "module": "src/app-shell/Inspector.tsx",
+      "from": "meta",
+      "meta": "Inspector",
+      "safe": true
+    },
+    {
+      "module": "src/app-shell/MobileShell.tsx",
+      "from": "meta",
+      "meta": "MobileShell",
+      "safe": true
+    },
+    {
+      "module": "src/app-shell/Sidebar.tsx",
+      "from": "meta",
+      "meta": "Sidebar",
+      "safe": true
+    },
+    {
+      "module": "src/app-shell/StatusBar.tsx",
+      "from": "meta",
+      "meta": "StatusBar",
+      "safe": true
+    },
+    {
+      "module": "src/app-shell/TopBar.tsx",
+      "from": "meta",
+      "meta": "TopBar",
+      "safe": true
+    },
+    {
+      "module": "src/backdrops/Backdrop.tsx",
+      "from": "meta",
+      "meta": "Backdrop",
+      "safe": true
+    },
+    {
+      "module": "src/components/alert/Alert.tsx",
+      "from": "meta",
+      "meta": "Alert",
+      "safe": true
+    },
+    {
+      "module": "src/components/avatar/AvatarGroup.tsx",
+      "from": "meta",
+      "meta": "AvatarGroup",
+      "safe": true
+    },
+    {
+      "module": "src/components/badge/Badge.tsx",
+      "from": "meta",
+      "meta": "Badge",
+      "safe": true
+    },
+    {
+      "module": "src/components/button-group/ButtonGroup.tsx",
+      "from": "meta",
+      "meta": "ButtonGroup",
+      "safe": true
+    },
+    {
+      "module": "src/components/card/Card.tsx",
+      "from": "meta",
+      "meta": "Card",
+      "safe": true
+    },
+    {
+      "module": "src/components/container/Container.tsx",
+      "from": "meta",
+      "meta": "Container",
+      "safe": true
+    },
+    {
+      "module": "src/components/description-list/DescriptionList.tsx",
+      "from": "meta",
+      "meta": "DescriptionList",
+      "safe": true
+    },
+    {
+      "module": "src/components/grid/Grid.tsx",
+      "from": "meta",
+      "meta": "Grid",
+      "safe": true
+    },
+    {
+      "module": "src/components/heading/Heading.tsx",
+      "from": "meta",
+      "meta": "Heading",
+      "safe": true
+    },
+    {
+      "module": "src/components/image-list/ImageList.tsx",
+      "from": "meta",
+      "meta": "ImageList",
+      "safe": true
+    },
+    {
+      "module": "src/components/kbd/Kbd.tsx",
+      "from": "meta",
+      "meta": "Kbd",
+      "safe": true
+    },
+    {
+      "module": "src/components/link/Link.tsx",
+      "from": "meta",
+      "meta": "Link",
+      "safe": true
+    },
+    {
+      "module": "src/components/separator/Separator.tsx",
+      "from": "meta",
+      "meta": "Separator",
+      "safe": true
+    },
+    {
+      "module": "src/components/skeleton/Skeleton.tsx",
+      "from": "meta",
+      "meta": "Skeleton",
+      "safe": true
+    },
+    {
+      "module": "src/components/stack/Stack.tsx",
+      "from": "meta",
+      "meta": "Stack",
+      "safe": true
+    },
+    {
+      "module": "src/components/state-view/index.ts",
+      "from": "meta",
+      "meta": "EmptyState",
+      "safe": true
+    },
+    {
+      "module": "src/components/state-view/index.ts",
+      "from": "meta",
+      "meta": "ErrorState",
+      "safe": true
+    },
+    {
+      "module": "src/components/state-view/index.ts",
+      "from": "meta",
+      "meta": "LoadingState",
+      "safe": true
+    },
+    {
+      "module": "src/components/steps/Steps.tsx",
+      "from": "meta",
+      "meta": "Steps",
+      "safe": true
+    },
+    {
+      "module": "src/components/text/Text.tsx",
+      "from": "meta",
+      "meta": "Text",
+      "safe": true
+    },
+    {
+      "module": "src/components/timeline/Timeline.tsx",
+      "from": "meta",
+      "meta": "Timeline",
+      "safe": true
+    },
+    {
+      "module": "src/data/chart-frame/ChartFrame.tsx",
+      "from": "meta",
+      "meta": "ChartFrame",
+      "safe": true
+    },
+    {
+      "module": "src/data/sparkline/Sparkline.tsx",
+      "from": "meta",
+      "meta": "Sparkline",
+      "safe": true
+    },
+    {
+      "module": "src/data/stat-card/StatCard.tsx",
+      "from": "meta",
+      "meta": "StatCard",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/accessibility.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/archive.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/arrow-down.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/arrow-right.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/arrow-up.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/bold.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/book-open.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/brain.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/camera.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/check-check.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/check.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/chevrons-left.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/chevrons-right.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/circle.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/clear.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/clipboard-paste.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/clock.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/cloud-upload.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/cloud.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/code.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/contrast.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/copy.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/cpu.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/credit-card.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/crown.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/diamond.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/dollar-sign.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/download.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/droplets.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/edit.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/eye-off.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/eye.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/file-pen-line.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/file-text.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/filter.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/flame.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/flower.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/folder-open.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/folder-search.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/gauge.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/gift.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/globe.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/grip-vertical.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/hand.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/hard-drive.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/hash.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/heart.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/help-circle.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/hexagon.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/history.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/index.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/italic.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/keyboard.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/layers.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/leaf.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/line-chart.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/link.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/lock.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/mail.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/map-pin.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/maximize.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/message-circle.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/message-square-text.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/message-square.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/mic-off.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/minimize.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/minus.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/monitor.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/moon.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/move.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/music.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/palette.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/panels-top-left.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/paperclip.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/pause.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/phone.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/pie-chart.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/plus.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/redo.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/refresh-cw.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/reply.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/rotate-ccw.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/rotate-cw.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/save.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/search.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/send.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/server.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/share.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/shield-check.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/shield.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/shuffle.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/skip-back.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/skip-forward.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/sliders-horizontal.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/smile.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/snowflake.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/sort-asc.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/sort-desc.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/square.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/star.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/sun.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/tag.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/target.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/test-tube.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/thumbs-up.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/trending-down.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/trending-up.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/triangle.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/trophy.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/underline.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/undo.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/unlock.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/upload.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/volume-x.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/waves.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/wifi.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/wind.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/x-circle.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/x.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/zoom-in.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/action/zoom-out.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/ai.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/ai/index.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/ai/sparkles.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/ai/zap.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/collaboration.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/collaboration/bell.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/collaboration/index.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/collaboration/mic.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/collaboration/user.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/collaboration/users.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/commerce.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/commerce/check-circle.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/commerce/index.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/commerce/layout-dashboard.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/components.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/createIcon.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/data.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/data/activity.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/data/database.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/data/file.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/data/grid.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/data/index.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/data/list.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/index.ts",
+      "from": "meta",
+      "meta": "Icon",
+      "safe": true
+    },
+    {
+      "module": "src/icons/index.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/media.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/media/image.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/media/index.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/media/play.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/media/video.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation/calendar.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation/chevron-down.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation/chevron-left.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation/chevron-right.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation/chevron-up.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation/folder.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation/home.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation/index.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation/menu.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation/more-horizontal.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation/more-vertical.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/navigation/settings.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/status.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/status/alert-circle.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/status/alert-triangle.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/status/index.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/status/info.tsx",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/icons/types.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/internal/cn.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/primitives/Label.tsx",
+      "from": "meta",
+      "meta": "Label",
+      "safe": true
+    },
+    {
+      "module": "src/primitives/Slot.tsx",
+      "from": "meta",
+      "meta": "Slot",
+      "safe": true
+    },
+    {
+      "module": "src/primitives/VisuallyHidden.tsx",
+      "from": "meta",
+      "meta": "VisuallyHidden",
+      "safe": true
+    },
+    {
+      "module": "src/tokens/generated/manifest.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/tokens/generated/material-spec.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/tokens/generated/presets.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/tokens/generated/tokens.ts",
+      "from": "foundation",
+      "safe": true
+    },
+    {
+      "module": "src/tokens/index.ts",
+      "from": "foundation",
+      "safe": true
+    }
+  ],
   "entries": [
     {
       "subpath": ".",
@@ -714,8 +1824,7 @@
     },
     {
       "subpath": "./app-shell",
-      "safe": false,
-      "reason": "client signal in src/app-shell/parseAppShellCookie.ts"
+      "safe": true
     },
     {
       "subpath": "./data",
@@ -748,7 +1857,7 @@
     {
       "subpath": "./compat",
       "safe": false,
-      "reason": "client signal in src/app-shell/parseAppShellCookie.ts"
+      "reason": "client signal (call to useRef()) in src/compat/surf/data/TreeView4x.tsx"
     }
   ]
 }

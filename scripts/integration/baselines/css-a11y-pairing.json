@@ -42,6 +42,12 @@
     "expires": "RC-1"
   },
   {
+    "file": "src/backdrops/presets/palettes.css",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-38",
+    "expires": "RC-1"
+  },
+  {
     "file": "src/backdrops/presets/photo.css",
     "owner": "SURF",
     "reqFin": "REQ-FIN-38",

@@ -49,13 +49,19 @@ export function run() {
   for (const f of walk(DIST).filter(p => p.endsWith('.js') && !p.endsWith('.map'))) {
     const text = readFileSync(f, 'utf8');
     const relSrc = relative(DIST, f);
+    /* tsdown emits shared chunks under the first importer's tree (e.g.
+       src/foundation/state.ts -> dist/internal/cmp/state.js); the `//#region
+       src/...` markers name the real source modules in the chunk, so importer
+       confinement is checked against those sources as well as the emitted
+       path. A specifier still fails when no source in the chunk is allowlisted. */
+    const origins = [relSrc, ...[...text.matchAll(/^\/\/#region (src\/\S+)$/gm)].map(m => m[1].replace(/^src\//, '').replace(/\.tsx?$/, '.js'))];
     for (const m of text.matchAll(SPEC_RE)) {
       const spec = m[1] ?? m[2] ?? m[3];
       if (!spec || spec.startsWith('.') || spec.startsWith('/') || ALWAYS.test(spec)) continue;
       const name = pkgOf(spec);
       if (name in deps) {
         const dirs = toDistDirs(depRows[name].importers);
-        if (dirs.length && !dirs.some(d => relSrc.startsWith(d) || relSrc === d.replace(/\/$/, ''))) {
+        if (dirs.length && !dirs.some(d => origins.some(o => o.startsWith(d) || o === d.replace(/\/$/, '')))) {
           const msg = `${relSrc}: ${spec} imported outside allowlisted importers`;
           if (PLAT_EMITTED.test(relSrc)) problems.push(msg); else console.warn(`verify-deps [report]: ${msg}`);
         }
@@ -64,7 +70,7 @@ export function run() {
       const dirs = PEER_DIRS[name];
       if (dirs) {
         if (dirs.length === 0) { problems.push(`${relSrc}: ${spec} — peer may never be imported from emitted js`); continue; }
-        if (!dirs.some(d => relSrc.startsWith(d))) problems.push(`${relSrc}: ${spec} — optional peer outside ${dirs.join(', ')}`);
+        if (!dirs.some(d => origins.some(o => o.startsWith(d)))) problems.push(`${relSrc}: ${spec} — optional peer outside ${dirs.join(', ')}`);
         continue;
       }
       if (!peers.has(name)) problems.push(`${relSrc}: undeclared specifier ${spec}`);

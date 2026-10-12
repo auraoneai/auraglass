@@ -10,7 +10,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0121';
 
-/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Toast.Provider}. */
+/** @deprecated since 4.2.0, removed in 6.0.0. Use {@link Toast.Provider}. */
 export function GlassNotificationProvider(props: React.ComponentProps<typeof Toast.Provider>) {
   warnDeprecated(DEP);
   return wrap('GlassNotificationProvider', <Toast.Provider history {...props} />);

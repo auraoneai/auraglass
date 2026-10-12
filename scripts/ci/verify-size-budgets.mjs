@@ -221,8 +221,12 @@ export async function run() {
         writeFileSync(join(META_DIR, `${safe}.json`), JSON.stringify(metafile, null, 2) + '\n');
       }
     }
+    /* REQ-PLAT-30 compat rows (plat:compat:<X>) are budgeted at the 5.0
+       target's row + 2 KB by construction in fragments/size-budgets/plat.ts;
+       the provisional ceiling applies to the target row itself, not to the
+       compat row that happens to share its name (plat:compat:Button). */
     const provName = row.id.split(':').pop();
-    const provFloor = PROVISIONAL_ROWS[provName];
+    const provFloor = row.id.startsWith('plat:compat:') ? undefined : PROVISIONAL_ROWS[provName];
     if (provFloor !== undefined && row.limitBytes > provFloor) problems.push(`${row.id}: limit ${row.limitBytes} looser than PROVISIONAL_ROWS ${provFloor}`);
     results.push({ ...row, status: measured <= row.limitBytes ? 'pass' : 'fail', measuredBytes: measured });
     if (measured > row.limitBytes) problems.push(`${row.id}: ${measured} B > ${row.limitBytes} B`);
