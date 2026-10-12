@@ -74,12 +74,12 @@ describe('packed-tarball root exports (REQ-FIN-06)', () => {
     expect(JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')).exports['./charts'] === undefined).toBe(belowGa);
   });
 
-  it('top-level "types" and "main" exist and ship in the tarball', () => {
+  it('top-level "types" ships in the tarball and there is no "main" (REQ-PLAT-67)', () => {
     const pkg = JSON.parse(readFileSync(join(installed, 'package.json'), 'utf8'));
     expect(pkg.types).toBe('./dist/index.d.ts');
-    expect(pkg.main).toBe('./dist/index.js');
+    expect(pkg.main).toBeUndefined();
     expect(existsSync(join(installed, pkg.types))).toBe(true);
-    expect(existsSync(join(installed, pkg.main))).toBe(true);
+    expect(existsSync(join(installed, pkg.exports['.'].default))).toBe(true);
     expect(pkg.exports['.'].types).toBe(pkg.types);
   });
 });

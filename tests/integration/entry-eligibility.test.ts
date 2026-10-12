@@ -7,7 +7,8 @@ import { test, expect, describe, beforeAll } from '@jest/globals';
    (c) --check names the seed file, its owner (contracts/ownership.json) and the
        REQ-FIN that removes it, and exits 1 only on a stale exclusion;
    plus: ga:'5.1' entries are dropped on 5.0.x, contract pattern subpaths
-   (./icons/*) and top-level main/types are regenerated. */
+   (./icons/*) and top-level types are regenerated; no top-level main
+   (REQ-PLAT-67). */
 import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, writeFileSync, cpSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -68,7 +69,7 @@ describe('entry eligibility (REQ-FIN-06)', () => {
     expect(report.every((r: any) => r.stale === false)).toBe(true);
   });
 
-  test('desired exports, pattern subpath and top-level main/types', () => {
+  test('desired exports, pattern subpath and top-level types (no main)', () => {
     expect(gen.desiredExports(FIXTURE)).toEqual({
       '.': { types: './dist/index.d.ts', default: './dist/index.js' },
       './midfile': { types: './dist/notaseed.d.ts', default: './dist/notaseed.js' },
@@ -76,7 +77,7 @@ describe('entry eligibility (REQ-FIN-06)', () => {
       './icons/*': { types: './dist/icons/*.d.ts', default: './dist/icons/*.js' },
       './data.css': './dist/data.css',
     });
-    expect(gen.desiredTopLevel(FIXTURE)).toEqual({ main: './dist/index.js', types: './dist/index.d.ts' });
+    expect(gen.desiredTopLevel(FIXTURE)).toEqual({ types: './dist/index.d.ts' });
   });
 
   test('--check: drifted package.json is stale (exit 1); --write converges; seed exclusions alone exit 0', () => {
@@ -88,7 +89,7 @@ describe('entry eligibility (REQ-FIN-06)', () => {
       expect(stale.stdout).toContain('seed: src/motion/public.ts  owner: MAT  removed by REQ-FIN-58');
       execFileSync('node', [SCRIPT, '--write', '--root', dir], { cwd: ROOT });
       const pkg = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8'));
-      expect(Object.keys(pkg)).toEqual(['name', 'version', 'exports', 'main', 'types']);
+      expect(Object.keys(pkg)).toEqual(['name', 'version', 'exports', 'types']);
       expect(pkg.exports['./future']).toBeUndefined();
       const ok = run(['--check', '--root', dir]);
       expect(ok.status).toBe(0);
@@ -140,7 +141,7 @@ describe('entry eligibility (REQ-FIN-06)', () => {
     expect(run(['--list-entries', '--root', FIXTURE]).stdout).toContain('exports (built):');
   });
 
-  test('the real repo: --check exits 0, ./charts ga-dropped, root/primitives/forms/icons/* exported, main/types set', () => {
+  test('the real repo: --check exits 0, ./charts ga-dropped, root/primitives/forms/icons/* exported, types set, no main', () => {
     const res = run(['--check']);
     expect(res.stderr).toBe('');
     expect(res.status).toBe(0);
@@ -149,7 +150,7 @@ describe('entry eligibility (REQ-FIN-06)', () => {
     expect(pkg.exports['./charts']).toBeUndefined();
     for (const sub of ['.', './primitives', './forms', './icons', './icons/*']) expect(pkg.exports[sub]).toBeDefined();
     expect(pkg.types).toBe('./dist/index.d.ts');
-    expect(pkg.main).toBe('./dist/index.js');
+    expect(pkg.main).toBeUndefined();
     // src/contracts/seed.tsx keeps its header and stays out of every shipped closure
     expect(graph.fileIsSeed(join(ROOT, 'src/contracts/seed.tsx'))).toBe(true);
   });
