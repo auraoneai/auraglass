@@ -28,6 +28,16 @@ export type SidebarRootProps = PartProps<'aside'> & {
 function SidebarRoot({ appearance = 'sidebar', variant, labels, children, render, ...rest }: SidebarRootProps) {
   // SURF-26: plain div — the only complementary landmark is Inspector.Root.
   // No aria-label on the container; labels belong on the Nav landmark inside.
+  // REQ-SURF-10: labels.navigation reaches a direct Sidebar.Nav child by
+  // element type (server list: no context, the AppShell Main/SkipLink
+  // pattern); an explicit Nav aria-label always wins.
+  const threaded = labels?.navigation === undefined
+    ? children
+    : React.Children.map(children, (c) =>
+        React.isValidElement(c) && c.type === SidebarNav && (c.props as { 'aria-label'?: string })['aria-label'] === undefined
+          ? React.cloneElement(c as React.ReactElement<{ 'aria-label'?: string }>, { 'aria-label': labels.navigation })
+          : c,
+      );
   const aside = partElement('div', {
     render,
     'data-ag-slot': 'sidebar',
@@ -35,7 +45,7 @@ function SidebarRoot({ appearance = 'sidebar', variant, labels, children, render
     className: 'ag-sidebar',
     'data-ag-appearance': appearance,
     ...rest,
-    children,
+    children: threaded,
   });
   const surfaced = (
     <Surface
@@ -47,7 +57,7 @@ function SidebarRoot({ appearance = 'sidebar', variant, labels, children, render
   );
   // The drawer is auto-mounted with the same children so consumers do not
   // duplicate the tree (SURF-31). It renders content only in drawer modes.
-  const drawer = <SidebarDrawer>{children}</SidebarDrawer>;
+  const drawer = <SidebarDrawer>{threaded}</SidebarDrawer>;
   if (appearance === 'inset') {
     return (
       <>
