@@ -189,9 +189,62 @@ describe('dry-run.mjs in a temp repo (REQ-PLAT-13)', () => {
   });
 });
 
+describe('dry-run.mjs --print-previous (REQ-PLAT-13 CI base)', () => {
+  const printPrevious = (tags: string[], tag: string) => {
+    const work = mkdtempSync(join(tmpdir(), 'ag-prevtag-'));
+    const git = (...a: string[]) => execFileSync('git', a, { cwd: work, encoding: 'utf8', env: { ...process.env, ...GIT_ENV } });
+    git('init', '-q', '-b', 'main');
+    writeFileSync(join(work, 'README.md'), 'x\n');
+    git('add', '-A');
+    git('commit', '-q', '-m', 'x');
+    for (const t of tags) git('tag', t);
+    const r = spawnSync('node', [DRY_RUN, '--print-previous', '--tag', tag, '--line', tag.startsWith('v4.') ? '4x' : '5x'], {
+      cwd: work,
+      encoding: 'utf8',
+      env: { ...process.env, ...GIT_ENV },
+    });
+    return { code: r.status, out: r.stdout, err: r.stderr };
+  };
+
+  it('a v4.* tag picks the newest semver-lower v4.* tag, never a v5.* one', () => {
+    const r = printPrevious(['v4.1.0', 'v4.1.1', 'v4.3.0', 'v5.0.0-alpha.3', 'v5.0.0'], 'v4.1.2');
+    expect(r.code).toBe(0);
+    expect(r.out).toBe('v4.1.1\n');
+  });
+
+  it('a v5 pre-release picks the previous v5 pre-release; tag order on disk does not matter', () => {
+    const r = printPrevious(['v5.0.0-alpha.10', 'v5.0.0-alpha.9', 'v4.9.0', 'v5.0.0-alpha.2'], 'v5.0.0-alpha.11');
+    expect(r.out).toBe('v5.0.0-alpha.10\n');
+  });
+
+  it('the first release tag of a major prints nothing (no base) and exits 0', () => {
+    const r = printPrevious(['v4.3.0', 'v4.1.1'], 'v5.0.0-alpha.0');
+    expect(r.code).toBe(0);
+    expect(r.out).toBe('');
+  });
+
+  it('runs no other check (no npm, no ledger) and still rejects a non-release tag', () => {
+    expect(printPrevious(['v5.0.0-alpha.0'], 'v5.0.0-alpha.1').err).toBe('');
+    expect(printPrevious([], 'v5.0.0-preview').code).toBe(1);
+  });
+});
+
 describe('tag pipeline wiring', () => {
+  const doc = yaml.parse(readFileSync('ci/plat.gitlab-ci.yml', 'utf8'));
+  it('both classifier re-runs take PREV from dry-run.mjs --print-previous, not the newest tag of any major', () => {
+    const raw = readFileSync('ci/plat.gitlab-ci.yml', 'utf8');
+    expect(raw).not.toMatch(/git tag --list --sort=-v:refname/);
+    for (const name of ['plat:gate:change-class', 'plat:package:pack']) {
+      const s = yaml.stringify(doc[name].script, { lineWidth: 0 });
+      expect(s).toContain('PREV=$(node scripts/release/dry-run.mjs --print-previous --tag "$CI_COMMIT_TAG" --line "$AG_LINE")');
+      expect(s).toContain('if [ -n "$PREV" ]; then');
+    }
+  });
+  it('plat:package:pack is allow_failure:false in the tag pipeline (first rule)', () => {
+    expect(doc['plat:package:pack'].rules[0]).toEqual({ if: '$CI_COMMIT_TAG', allow_failure: false });
+  });
+
   it('plat:package:pack runs dry-run.mjs --tag on release scope', () => {
-    const doc = yaml.parse(readFileSync('ci/plat.gitlab-ci.yml', 'utf8'));
     const s = yaml.stringify(doc['plat:package:pack'].script);
     expect(s).toContain('$AG_SCOPE" = "release"');
     expect(s).toContain('dry-run.mjs --tag "$CI_COMMIT_TAG"');

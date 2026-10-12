@@ -149,9 +149,12 @@ one exists.
 2. Do not rewrite a released Git tag unless the release owner explicitly approves. Prefer a new
    patch tag.
 3. Create the GitHub Release for every published tag (operator step, REQ-PLAT-16). The GitLab
-   tag pipeline creates the GitLab Release itself (`plat:release:notes`, `release:` keyword) and
-   leaves `release-notes.md` and `dist-maps.tgz` as artifacts of that job. After the pipeline is
-   green, the release owner downloads those two artifacts and runs, with the existing `gh` login:
+   tag pipeline creates the GitLab Release itself (`plat:release:notes`, `release:` keyword) with
+   the generated notes as its body. `release-notes.md` is an artifact of `plat:release:notes`
+   (`.artifacts/plat/plat-release-notes/`); `dist-maps.tgz` is an artifact of
+   `plat:package:pack` (`.artifacts/plat/plat-package-pack/`), which the GitLab Release links.
+   After the pipeline is green, the release owner downloads those two files from their jobs and
+   runs, with the existing `gh` login:
 
    ```bash
    gh release create <tag> --notes-file release-notes.md dist-maps.tgz
