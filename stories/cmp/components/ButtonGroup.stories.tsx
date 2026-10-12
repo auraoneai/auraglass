@@ -52,7 +52,7 @@ export const Layouts: Story = {
       </Section>
       <Section title="Vertical">
         <Scene>
-          <ButtonGroup {...args} aria-label="Reorder" orientation="vertical">
+          <ButtonGroup aria-label="Reorder" orientation="vertical">
             <B>Move to top</B>
             <B>Move to bottom</B>
           </ButtonGroup>
