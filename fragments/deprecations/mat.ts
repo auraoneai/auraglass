@@ -2475,12 +2475,12 @@ const b = [
     symbol: '.large-text',
     since: '4.3.0',
     removeIn: '5.0.0',
-    replacement: 'data-ag-text="large" (5.x preference attribute)',
+    replacement: 'browser text zoom / root font-size (5.x type tokens scale with rem)',
     codemod: null,
     automation: 'manual',
     breaking: 'B8',
     message:
-      'the .large-text hook is removed in 5.0; use data-ag-text="large" (5.x preference attribute).',
+      'the .large-text hook is removed in 5.0; 5.x type tokens are rem-based, so browser text zoom or a root font-size scales them.',
     doc: '#dep-m0949',
   },
   {
@@ -2668,12 +2668,12 @@ const b = [
     symbol: 'data-persona',
     since: '4.3.0',
     removeIn: '5.0.0',
-    replacement: 'data-ag-preset',
+    replacement: '<AuraGlassProvider preset=…>',
     codemod: null,
     automation: 'manual',
     breaking: 'B10',
     message:
-      'the data-persona hook is removed in 5.0; use data-ag-preset.',
+      'the data-persona hook is removed in 5.0; use <AuraGlassProvider preset=…>.',
     doc: '#dep-m0961',
   },
   {
@@ -2716,12 +2716,12 @@ const b = [
     symbol: '.glass-on-light / .glass-on-dark',
     since: '4.3.0',
     removeIn: '5.0.0',
-    replacement: 'data-ag-scheme-scoped selectors',
+    replacement: '[data-ag-scheme] selectors',
     codemod: null,
     automation: 'manual',
     breaking: 'B10',
     message:
-      'the .glass-on-light / .glass-on-dark hook is removed in 5.0; use data-ag-scheme-scoped selectors.',
+      'the .glass-on-light / .glass-on-dark hook is removed in 5.0; use [data-ag-scheme="light"|"dark"] selectors.',
     doc: '#dep-m0964',
   },
   {
