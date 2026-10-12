@@ -36,10 +36,13 @@ export type LensId = `ag-lens-${Shape}-${'control' | 'bar' | 'panel'}`;
 
 /** CSS length literal used inside a MaterialSpec (compiled to token references). */
 export type CssLength = `${number}px`;
-/** OKLCH colour string, e.g. `oklch(96% 0.01 260)`. */
-export type OklchColor = `oklch(${string})`;
-/** OKLCH colour with alpha, e.g. `oklch(96% 0.01 260 / 0.6)`. */
-export type OklchAlpha = `oklch(${string} / ${number})`;
+/** OKLCH colour derived from a token by relative colour syntax, e.g.
+ *  `oklch(from var(--ag-color-canvas) calc(l - 0.02) c h)` (REQ-MAT-18: no literal
+ *  colour in src; the token pipeline owns every colour value). */
+export type OklchColor = `oklch(from var(--${string}) ${string})`;
+/** Token-relative OKLCH colour with alpha, e.g.
+ *  `oklch(from var(--ag-color-canvas) l c h / 0.6)`. */
+export type OklchAlpha = `oklch(from var(--${string}) ${string} / ${number})`;
 export type CssAngle = `${number}deg`;
 /** Shadow token reference emitted into `--ag-shadow-{thin,regular,thick}`. */
 export type ShadowSpec = { ambient: string; key: string };

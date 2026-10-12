@@ -12,13 +12,14 @@
      the morph owner sets it from useMorphName). The type selectors below cover
      startMorph's types: ['ag-morph'] / ['ag-morph-calm'] on engines that ship
      :active-view-transition-type() — each in its own rule so an engine without
-     it drops only that rule. That pseudo-class only ever matches the document
-     element, so it carries no `:root` (REQ-PLAT-74: no :root subject outside
-     ag.tokens / ag.compat). */
+     it drops only that rule. :active-view-transition(-type) and the
+     ::view-transition-* pseudo-elements only ever match the document element,
+     so no selector here carries `:root` (REQ-MAT-19 / REQ-PLAT-74: :root only
+     in ag.tokens / ag.compat). */
   [data-ag-vt], [data-ag-vt-participant] { view-transition-class: ag-morph; }
 
-  :root:active-view-transition [data-ag-surface][data-ag-vt],
-  :root:active-view-transition [data-ag-surface][data-ag-vt-participant] { --_ag-optics: 0; transition: none; }
+  :active-view-transition [data-ag-surface][data-ag-vt],
+  :active-view-transition [data-ag-surface][data-ag-vt-participant] { --_ag-optics: 0; transition: none; }
   ::view-transition-group(*.ag-morph) {
     animation-duration: var(--ag-duration-medium);
     animation-timing-function: var(--ag-spring-fluid);
@@ -44,12 +45,12 @@
     animation: ag-vt-fade-in var(--ag-duration-micro) var(--ag-ease-standard) both;
     mix-blend-mode: plus-lighter;
   }
-  :root[data-ag-motion=calm]::view-transition-group(*) { animation: none; }
-  :root[data-ag-motion=calm]::view-transition-old(*) {
+  [data-ag-motion=calm]::view-transition-group(*) { animation: none; }
+  [data-ag-motion=calm]::view-transition-old(*) {
     animation: ag-vt-fade-out var(--ag-duration-micro) var(--ag-ease-standard) both;
     mix-blend-mode: plus-lighter;
   }
-  :root[data-ag-motion=calm]::view-transition-new(*) {
+  [data-ag-motion=calm]::view-transition-new(*) {
     animation: ag-vt-fade-in var(--ag-duration-micro) var(--ag-ease-standard) both;
     mix-blend-mode: plus-lighter;
   }

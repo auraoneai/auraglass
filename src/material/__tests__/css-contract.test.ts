@@ -156,8 +156,8 @@ describe('css-contract: material.css structure', () => {
     const canonical = vals.filter((v) => v.includes('var(--_ag-blur)'));
     expect(canonical.length).toBeGreaterThan(0);
     for (const v of canonical) {
-      // MAT-053: brightness may be scaled by the backdrop env multiplier (declared 1 on
-      // the root, so it carries no literal fallback); order stays fixed.
+      // MAT-053: brightness may be scaled by the backdrop env multiplier (the token
+      // default 1 lives in dist/tokens.css, so it carries no literal fallback); order stays fixed.
       expect(v).toMatch(/blur\(var\(--_ag-blur\)\)\s+saturate\(var\(--_ag-saturation\)\)\s+brightness\((var\(--_ag-brightness\)|calc\(var\(--_ag-brightness\) \* var\(--_ag-env-brightness\)\))\)/);
     }
     // blur is never a transition target
@@ -224,8 +224,10 @@ describe('css-contract: lens.css structure', () => {
   it('uses the single eligibility selector shape', () => {
     let count = 0;
     ast.walkRules((r) => {
-      // MAT-36: every lens rule is prefixed :root[data-ag-tier="enhanced"]; REQ-FIN-02 [data-ag-surface] hook.
-      if (/:root\[data-ag-tier="enhanced"\]\[data-ag-engine="chromium"\]:has\(svg\[data-ag-lens-ready\]\) \[data-ag-surface\]\[data-ag-refraction\]\[data-ag-layer="chrome"\]/.test(r.selector)) count += 1;
+      // MAT-36: every lens rule is prefixed with the enhanced preference root
+      // [data-ag-tier="enhanced"][data-ag-engine="chromium"] (no :root in ag.material,
+      // REQ-MAT-19); REQ-FIN-02 [data-ag-surface] hook.
+      if (/^\[data-ag-tier="enhanced"\]\[data-ag-engine="chromium"\]:has\(svg\[data-ag-lens-ready\]\) \[data-ag-surface\]\[data-ag-refraction\]\[data-ag-layer="chrome"\]/.test(r.selector)) count += 1;
     });
     expect(count).toBe(9);
   });
@@ -238,9 +240,9 @@ describe('css-contract: lens.css structure', () => {
 
   it('every exclusion rung carries the lens context and resets the filter', () => {
     // a bare descendant selector would lose on specificity to the eligibility
-    // rules; each rung rule must repeat the :root ... :has(svg[lens-ready]) prefix
+    // rules; each rung rule must repeat the [data-ag-tier] ... :has(svg[lens-ready]) prefix
     const src = readFileSync(join(CSS_DIR, 'lens.css'), 'utf8');
-    const CTX = ':root[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready])';
+    const CTX = '[data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready])';
     const rungs = [
       /data-ag-tier="standard"/, /data-ag-tier="lightweight"/,
       /data-ag-transparency="tinted"/, /data-ag-transparency="solid"/,

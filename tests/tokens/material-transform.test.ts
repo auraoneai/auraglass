@@ -41,13 +41,18 @@ describe('material transform (MAT-041)', () => {
     // 8 cell rows (2 variants x [3 explicit + 1 default thickness]),
     // 4 clear fail-safe rows and 3 coarse overrides (regular, clear, fail-safe).
     const css = postcss.parse(LADDERS);
-    const rows: { selector: string; value: string; coarse: boolean }[] = [];
+    const all: { selector: string; value: string; coarse: boolean; media: string | null }[] = [];
     css.walkDecls('-webkit-backdrop-filter', (decl) => {
       const rule = decl.parent as Rule;
       const parent = rule.parent as AtRule;
-      rows.push({ selector: rule.selector, value: decl.value,
-        coarse: parent.type === 'atrule' && parent.name === 'media' && parent.params === '(pointer: coarse)' });
+      const media = parent.type === 'atrule' && parent.name === 'media' ? parent.params : null;
+      all.push({ selector: rule.selector, value: decl.value, coarse: media === '(pointer: coarse)', media });
     });
+    // contrast=more rows (REQ-MAT-32: saturation 1) are checked below; the
+    // standard ladder is everything else
+    const isMore = (r: { selector: string; media: string | null }) =>
+      r.selector.includes('data-ag-contrast') || (r.media ?? '').includes('prefers-contrast');
+    const rows = all.filter((r) => !isMore(r));
     expect(rows).toHaveLength(15);
     const base = rows.filter((r) => !r.coarse && !r.selector.includes(':where('));
     const failSafe = rows.filter((r) => !r.coarse && r.selector.includes(':where('));
@@ -76,6 +81,29 @@ describe('material transform (MAT-041)', () => {
       expect(row.selector).toContain('[data-ag-thickness="thick"]');
       expect(row.value).toMatch(/^blur\(20px\)/);
     }
+    // contrast=more (REQ-MAT-32): every base cell row has an attribute row and an
+    // OS-mirror row with saturate(1) and the same blur; the coarse thick rows keep 20px.
+    const more = all.filter(isMore);
+    expect(more).toHaveLength(2 * 8 + 2 * 2);
+    for (const r of more) {
+      expect(r.value).toMatch(/^blur\([\d.]+px\) saturate\(1\) brightness\([\d.]+\)$/);
+      expect(r.selector).toMatch(/::before$/);
+      expect(r.selector).not.toContain('[data-ag-variant="identity"]');
+      expect(r.selector).toMatch(/:not\(\s*\[data-ag-tier="lightweight"\]\s*,\s*\[data-ag-tier="lightweight"\]\s+\*\s*\)/);
+    }
+    const norm = (sel: string) => sel.replace(/\s+/g, ' ');
+    for (const b of base) {
+      const cellKey = norm(b.selector).split(':not(')[0];
+      const attr = more.filter((r) => !r.media && norm(r.selector).startsWith(`${cellKey}:not(`) && r.selector.includes('[data-ag-contrast="more"]'));
+      const os = more.filter((r) => r.media === '(prefers-contrast: more)' && norm(r.selector).startsWith(`${cellKey}:not(`));
+      expect({ cell: cellKey, attr: attr.length, os: os.length }).toEqual({ cell: cellKey, attr: 1, os: 1 });
+      const blur = (v: string) => /^blur\(([\d.]+)px\)/.exec(v)?.[1];
+      expect(blur(attr[0]!.value)).toBe(blur(b.value));
+      expect(blur(os[0]!.value)).toBe(blur(b.value));
+    }
+    const coarseMore = more.filter((r) => r.coarse || r.media === '(pointer: coarse) and (prefers-contrast: more)');
+    expect(coarseMore).toHaveLength(4);
+    for (const r of coarseMore) expect(r.value).toMatch(/^blur\(20px\) saturate\(1\)/);
     // The generic unprefixed filter belongs to the material engine, not the
     // generated WebKit literal override layer (REQ-MAT-34/-35).
     const unprefixed: string[] = [];

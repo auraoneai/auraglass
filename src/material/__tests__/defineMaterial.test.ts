@@ -30,7 +30,7 @@ describe('defineMaterial', () => {
     ['scrim.blur', { scrim: { blur: '16px' } }, /scrim\.blur.*12px/],
     ['grain.opacity low', { grain: { opacity: 0.01 } }, /grain\.opacity.*0\.02/],
     ['grain.opacity high', { grain: { opacity: 0.5 } }, /grain\.opacity/],
-    ['fallbackFill.light', { fallbackFill: { light: 'oklch(97% 0.004 260 / 0.5)' } }, /fallbackFill\.light/],
+    ['fallbackFill.light', { fallbackFill: { light: 'oklch(from var(--ag-color-canvas) l c h / 0.5)' } }, /fallbackFill\.light/],
   ] as const)('throws naming %s', (_name, patch, pattern) => {
     const spec = base();
     const merged = JSON.parse(JSON.stringify(spec)) as Record<string, unknown>;

@@ -317,8 +317,10 @@ describe('REQ-MOT-30/-31/-32: loading sweep', () => {
 describe('REQ-MOT-37: view-transition optics block', () => {
   const text = read(FILES.vt);
   it('contains the §4.7 rules', () => {
-    expect(text).toContain(':root:active-view-transition [data-ag-surface][data-ag-vt]');
-    expect(text).toContain(':root:active-view-transition [data-ag-surface][data-ag-vt-participant]');
+    // the pseudo-class only matches the document element: no :root (REQ-MAT-19)
+    expect(text).toContain(':active-view-transition [data-ag-surface][data-ag-vt]');
+    expect(text).toContain(':active-view-transition [data-ag-surface][data-ag-vt-participant]');
+    expect(text.replace(/\/\*[\s\S]*?\*\//g, '')).not.toContain(':root');
     expect(text).toContain('--_ag-optics: 0');
     expect(text).toContain('[data-ag-surface][data-ag-vt-settled]');
     expect(text).toContain('var(--ag-duration-micro)');
@@ -361,7 +363,7 @@ describe('REQ-MAT-48: view-transition selection and calm cross-fade', () => {
   });
 
   it('calm (type and calm root) drops group geometry and cross-fades old/new over micro, opacity only', () => {
-    for (const scope of [':active-view-transition-type(ag-morph-calm)', ':root[data-ag-motion=calm]']) {
+    for (const scope of [':active-view-transition-type(ag-morph-calm)', '[data-ag-motion=calm]']) {
       const group = all.find((r) => r.selector === `${scope}::view-transition-group(*)`);
       expect(group && declsOf(group).animation).toBe('none');
       for (const [pseudo, from, to] of [['old', '1', '0'], ['new', '0', '1']] as const) {

@@ -270,7 +270,9 @@ describe('REQ-FIN-03 ladders.css shape', () => {
         const rule = cellRule(v, t);
         expect(rule).toBeDefined();
         for (const s of SCALARS) expect(rule!.decls).toHaveProperty(s);
-        expect(rule!.decls['--_ag-brightness']).toMatch(/^light-dark\(/);
+        // a registered <number>: a plain number on the cell row, never light-dark()
+        // (colours only — it would leave the property invalid at computed time, REQ-MAT-32)
+        expect(rule!.decls['--_ag-brightness']).toMatch(/^\d+(\.\d+)?$/);
         expect(rule!.decls['--_ag-rim-width']).toBe(RIM[t]);
         expect(rule!.decls['--_ag-shadow']).toContain(`var(--ag-shadow-${t})`);
         if ((BLURRED as readonly string[]).includes(v)) expect(rule!.decls['--_ag-blur']).toBe(BLUR[t]);

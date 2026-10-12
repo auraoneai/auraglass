@@ -37,23 +37,24 @@
     transition-duration: 0s;
   }
 
-  /* OS reduced motion mirrors calm exactly when the attribute is absent */
+  /* OS reduced motion mirrors calm exactly when the attribute is absent — on
+     the element and on every ancestor (the preference root included), so no
+     :root selector leaves ag.tokens/ag.compat (REQ-MAT-19) */
   @media (prefers-reduced-motion: reduce) {
-    :root:not([data-ag-motion]) :where([data-ag-part], [data-ag-surface]),
-    :root:not([data-ag-motion]):where([data-ag-part], [data-ag-surface]) {
+    :where([data-ag-part], [data-ag-surface]):not(:where([data-ag-motion], [data-ag-motion] *)) {
       --ag-spring-snappy: var(--ag-ease-standard);
       --ag-spring-smooth: var(--ag-ease-standard);
       --ag-spring-fluid: var(--ag-ease-standard);
       --_ag-pointer: 50% 50%;
       animation: none;
     }
-    :root:not([data-ag-motion]) :where([data-starting-style], [data-ending-style]) {
+    :where([data-starting-style], [data-ending-style]):not(:where([data-ag-motion], [data-ag-motion] *)) {
       scale: none;
       translate: none;
       rotate: none;
       transform: none;
     }
-    :root:not([data-ag-motion]) :where([data-ag-interactive]) {
+    :where([data-ag-interactive]):not(:where([data-ag-motion], [data-ag-motion] *)) {
       transition-duration: 0s;
     }
   }
@@ -68,8 +69,7 @@
   /* ---- forced colors (REQ-MOT-113): pointer light, sweeps and optics fades off;
      focus rings (and everything else) never transition — paint properties only. ---- */
   @media (forced-colors: active) {
-    :root :where([data-ag-part], [data-ag-surface]),
-    :root:where([data-ag-part], [data-ag-surface]) {
+    :where([data-ag-part], [data-ag-surface]) {
       --_ag-pointer: 50% 50%;
       --_ag-optics: 1;
       animation: none;
