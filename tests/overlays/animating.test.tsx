@@ -35,3 +35,42 @@ describe('data-ag-animating lifecycle (REQ-CMP-83)', () => {
     }
   });
 });
+
+/* REQ-CMP-83: keyframe-driven overlays (Toast) carry data-ag-animating from
+   animationstart to animationend on the popup itself only. */
+describe('data-ag-animating for keyframe overlays (REQ-CMP-83)', () => {
+  it('animationstart marks, animationend clears; descendant animations are ignored', async () => {
+    const { useOverlayAnimating } = await import('../../src/components/overlays/_shared/useOverlayAnimating');
+    function Probe() {
+      const ref = useOverlayAnimating();
+      return <div data-testid="toast" ref={ref}><span data-testid="child" /></div>;
+    }
+    const { getByTestId } = render(<Probe />);
+    const el = getByTestId('toast');
+    const child = getByTestId('child');
+    const fire = (target: Element, type: string) => {
+      const e = new Event(type, { bubbles: true });
+      target.dispatchEvent(e);
+    };
+    fire(child, 'animationstart');
+    expect(el.hasAttribute('data-ag-animating')).toBe(false);
+    fire(el, 'animationstart');
+    expect(el.hasAttribute('data-ag-animating')).toBe(true);
+    fire(child, 'animationend');
+    expect(el.hasAttribute('data-ag-animating')).toBe(true);
+    fire(el, 'animationend');
+    expect(el.hasAttribute('data-ag-animating')).toBe(false);
+    fire(el, 'animationstart');
+    fire(el, 'animationcancel');
+    expect(el.hasAttribute('data-ag-animating')).toBe(false);
+  });
+
+  it('Toast, Select and Combobox popups attach the hook', async () => {
+    const { readFileSync } = await import('node:fs');
+    const { join } = await import('node:path');
+    for (const f of ['toast/Toast.client.tsx', 'select/Select.client.tsx', 'combobox/Combobox.client.tsx']) {
+      const src = readFileSync(join(__dirname, '../../src/components', f), 'utf8');
+      expect(src).toMatch(/useOverlayAnimating\(\)/);
+    }
+  });
+});

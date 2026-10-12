@@ -9,6 +9,7 @@ import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { materialProps } from '../../material';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
+import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
 import { sizeAttrs, DEFAULT_CONTROL_SIZE } from '../control-shared/size';
@@ -164,6 +165,17 @@ function SelectContent({ children, className }: SelectContentProps) {
   const size = React.useContext(SelectSizeContext);
   const { setPopupElement } = React.useContext(SelectLayerContext);
   const alignToTrigger = React.useSyncExternalStore(subscribeFinePointer, getFinePointer, () => false);
+  /* REQ-CMP-83: data-ag-animating only across the starting/ending-style transition */
+  const animatingRef = useOverlayAnimating();
+  const animatingCleanup = React.useRef<(() => void) | undefined>(undefined);
+  const popupRef = React.useCallback((node: HTMLDivElement | null) => {
+    animatingCleanup.current?.();
+    const cleanup = animatingRef(node);
+    animatingCleanup.current = typeof cleanup === 'function' ? cleanup : undefined;
+    const target = rootRef as React.Ref<HTMLDivElement> | undefined;
+    if (typeof target === 'function') target(node);
+    else if (target) (target as React.MutableRefObject<HTMLDivElement | null>).current = node;
+  }, [rootRef, animatingRef]);
   return (
     <Base.Portal container={container}>
       <Base.Positioner
@@ -177,7 +189,7 @@ function SelectContent({ children, className }: SelectContentProps) {
         {...sizeAttrs(size)}
       >
         <Base.Popup
-          ref={rootRef as React.Ref<HTMLDivElement> | undefined}
+          ref={popupRef}
           data-ag-part="popup"
           {...overlayMaterial('select')}
           className={cn('ag-select-popup', className)}

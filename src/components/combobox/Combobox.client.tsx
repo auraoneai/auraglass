@@ -9,6 +9,7 @@ import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { materialProps } from '../../material';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
+import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { useAnnouncer } from '../../theme';
 import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
@@ -461,6 +462,7 @@ function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputPr
 
 function ComboboxContent({ children, className }: ComboboxContentProps) {
   const container = usePortalContainer('overlay');
+  const animatingRef = useOverlayAnimating();
   const { setPopupElement } = React.useContext(ComboboxLayerContext);
   const { size, loading, query, creatable, onCreate, hasExactMatch, messages, items, virtual } = useInternal();
   const trimmed = query.trim();
@@ -482,6 +484,8 @@ function ComboboxContent({ children, className }: ComboboxContentProps) {
         {...sizeAttrs(size)}
       >
         <Base.Popup
+          /* REQ-CMP-83: data-ag-animating only across the starting/ending-style transition */
+          ref={animatingRef}
           data-ag-part="popup"
           {...overlayMaterial('combobox')}
           className={cn('ag-combobox-popup', className)}
