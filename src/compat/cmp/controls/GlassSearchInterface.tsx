@@ -8,7 +8,7 @@ import { SearchField } from '../../../components/search-field';
 import type { ChangeDetails } from '../../../contracts/components';
 
 const DEP = 'DEP-C0033';
-const drop = (p: string) => warnDeprecated(`$DEP-C0033.prop.${p}`);
+const drop = (p: string) => warnDeprecated(`${DEP}.prop.${p}`);
 
 export interface GlassSearchInterfaceProps {
   value?: string;
