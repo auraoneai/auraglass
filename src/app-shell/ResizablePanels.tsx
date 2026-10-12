@@ -1,6 +1,7 @@
 'use client';
 /* Owned ResizablePanels (SURF-046..050): Pointer Events + setPointerCapture,
-   rAF-coalesced flex-basis writes (≤1/frame), NO React state during drag —
+   frame-coalesced flex-basis writes (≤1/frame, on the shared motion ticker —
+   REQ-MAT-51), NO React state during drag —
    onLayout fires once on pointerup, aria-valuenow is written to the DOM
    directly. Keyboard: arrows ±keyboardStep, Shift+arrows ±keyboardStepLarge,
    Home/End min/max, Enter collapse/restore. autoSaveId persists to
@@ -10,6 +11,7 @@
 import * as React from 'react';
 import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
+import { scheduleFrame } from '../motion/ticker';
 import {
   collapsePanel,
   expandPanel,
@@ -49,11 +51,17 @@ interface PanelsCtx {
   seedFor(id: string): number | undefined;
   labels?: { resize?: string | undefined } | undefined;
   handleIndexFor(el: HTMLElement): number;
+  /** Render-order index of a handle (by its useId) — valid before its ref is
+      attached (SSR and the first client render). */
+  handleOrder(hid: string): number;
   rootEl(): HTMLElement | null;
   panelEl(id: string): HTMLElement | null;
 }
 
 const Ctx = React.createContext<PanelsCtx | null>(null);
+
+/** A panel at or below collapsedSize + this (percent) counts as collapsed. */
+const COLLAPSE_EPS = 0.01;
 
 export type ResizablePanelsRootProps = Omit<PartProps<'div'>, 'onLayout'> & {
   orientation?: Orientation | undefined;
@@ -84,6 +92,13 @@ function ResizablePanelsRoot({
   const rootRef = React.useRef<HTMLElement | null>(null);
   const specsRef = React.useRef<PanelSpec[]>([]);
   const layoutRef = React.useRef<number[]>([]);
+  /** Last committed layout: commit() diffs against it to fire onCollapse/onExpand. */
+  const committedRef = React.useRef<number[]>([]);
+  /** Size each panel had before it last collapsed (by id): Enter restores it. */
+  const lastExpandedRef = React.useRef(new Map<string, number>());
+  // Handles register in render order on every Root render (useId-keyed, so a
+  // double render or a handle-only re-render keeps its index).
+  const handleIds: string[] = [];
 
   // Convert a number|px-string spec into a percent against the root rect.
   // No measurable rect (SSR/jsdom) → px strings behave like percents.
@@ -134,8 +149,11 @@ function ResizablePanelsRoot({
     const cons = constraints();
     layoutRef.current = seed.map((v, i) => {
       const c = cons[i];
+      // a saved/seeded collapsed panel stays at its collapsedSize (below min)
+      if (c?.collapsible && v <= (c.collapsedSize ?? 0) + COLLAPSE_EPS) return c.collapsedSize ?? 0;
       return Math.min(Math.max(v, c?.min ?? 0), c?.max ?? 100);
     });
+    committedRef.current = [...layoutRef.current];
     for (const [i, s] of specsRef.current.entries()) {
       const el = ownPanel(s.id);
       const basis = layoutRef.current[i];
@@ -169,8 +187,33 @@ function ResizablePanelsRoot({
     }
   };
 
+  /* SURF-42: every commit (pointer drag end, keyboard, Enter) diffs each
+     collapsible panel against the previous committed layout: crossing to its
+     collapsedSize calls onCollapse once, leaving it calls onExpand once. */
+  const fireCollapseEvents = (prev: readonly number[], next: readonly number[]) => {
+    const cons = constraints();
+    for (const [i, spec] of specsRef.current.entries()) {
+      const c = cons[i];
+      const a = prev[i];
+      const b = next[i];
+      if (!c?.collapsible || a === undefined || b === undefined) continue;
+      const floor = (c.collapsedSize ?? 0) + COLLAPSE_EPS;
+      const was = a <= floor;
+      const now = b <= floor;
+      if (!was && now) {
+        lastExpandedRef.current.set(spec.id, a);
+        spec.onCollapse?.();
+      } else if (was && !now) {
+        spec.onExpand?.();
+      }
+    }
+  };
+
   const commit = (next: number[]) => {
+    const prev = committedRef.current;
     layoutRef.current = next;
+    committedRef.current = [...next];
+    fireCollapseEvents(prev, next);
     if (autoSaveId !== undefined) {
       try {
         localStorage.setItem(`ag-panels:${autoSaveId}`, JSON.stringify(next));
@@ -189,13 +232,21 @@ function ResizablePanelsRoot({
     if (!c?.collapsible || cur === undefined) return;
     const collapsedSize = c.collapsedSize ?? 0;
     // collapsePanel/expandPanel honor collapsedSize below the panel's min.
-    const collapsing = cur > collapsedSize + Number.EPSILON;
-    layoutRef.current = collapsing
-      ? collapsePanel(layoutRef.current, cons, left)
-      : expandPanel(layoutRef.current, cons, left);
+    const collapsing = cur > collapsedSize + COLLAPSE_EPS;
     const spec = specsRef.current[left];
-    if (collapsing) spec?.onCollapse?.();
-    else spec?.onExpand?.();
+    if (collapsing) {
+      layoutRef.current = collapsePanel(layoutRef.current, cons, left);
+    } else {
+      // SURF-44: restore the size the panel had before it collapsed; the
+      // panel's expandedSize (default min) is only the fallback.
+      const last = spec ? lastExpandedRef.current.get(spec.id) : undefined;
+      const restoreCons = last !== undefined
+        ? cons.map((k, i) => (i === left ? { ...k, expandedSize: last } : k))
+        : cons;
+      layoutRef.current = expandPanel(layoutRef.current, restoreCons, left);
+    }
+    // onCollapse/onExpand (and the remembered pre-collapse size) come from
+    // commit()'s diff, so Enter and a drag snap fire them the same way.
     for (const [i, spec] of specsRef.current.entries()) {
       const v = layoutRef.current[i];
       if (v !== undefined) writeBasis(spec.id, v);
@@ -233,6 +284,11 @@ function ResizablePanelsRoot({
       Array.from(
         rootRef.current?.querySelectorAll<HTMLElement>(':scope > [data-ag-part="resize-handle"]') ?? [],
       ).indexOf(el),
+    handleOrder: (hid) => {
+      let i = handleIds.indexOf(hid);
+      if (i < 0) { handleIds.push(hid); i = handleIds.length - 1; }
+      return i;
+    },
     rootEl: () => rootRef.current,
     panelEl: ownPanel,
   };
@@ -243,7 +299,11 @@ function ResizablePanelsRoot({
     const el = rootRef.current;
     if (!el || stackBelow === undefined || orientation !== 'horizontal') return;
     const apply = () => {
-      el.dataset['stacked'] = el.getBoundingClientRect().width < stackBelow ? 'true' : 'false';
+      const stacked = el.getBoundingClientRect().width < stackBelow;
+      el.dataset['stacked'] = stacked ? 'true' : 'false';
+      // The root's inline flex-direction would beat the stylesheet's
+      // [data-stacked='true'] rule, so the direction is written here too.
+      el.style.flexDirection = stacked ? 'column' : 'row';
     };
     apply();
     if (typeof ResizeObserver === 'undefined') return;
@@ -342,15 +402,26 @@ export type ResizableHandleProps = PartProps<'div'> & {
 function ResizableHandle({ label, disabled = false, withGrip = false, render, ...rest }: ResizableHandleProps) {
   const ctx = React.useContext(Ctx);
   const ref = React.useRef<HTMLElement | null>(null);
-  const raf = React.useRef<number | null>(null);
+  const hid = React.useId();
+  /** Cancel for the scheduled flush frame; null when none is pending. */
+  const raf = React.useRef<(() => void) | null>(null);
   const pending = React.useRef(0);
   const drag = React.useRef<{ pointerId: number; last: number; extent: number } | null>(null);
   const [ariaNow, setAriaNow] = React.useState<number | undefined>(undefined);
 
-  const handleIndex = React.useCallback(
-    () => (ref.current && ctx ? ctx.handleIndexFor(ref.current) : 0),
-    [ctx],
-  );
+  // SURF-44: DOM order once mounted; before the ref is attached (SSR, first
+  // client render) the Root's render-order registration gives the index, so
+  // every handle names and controls its own panel from the first paint.
+  const handleIndex = React.useCallback(() => {
+    if (!ctx) return 0;
+    if (ref.current) {
+      const i = ctx.handleIndexFor(ref.current);
+      if (i >= 0) return i;
+    }
+    return ctx.handleOrder(hid);
+  }, [ctx, hid]);
+  const renderIdx = ctx ? (ref.current ? handleIndex() : ctx.handleOrder(hid)) : 0;
+  const [, rerender] = React.useReducer((x: number) => x + 1, 0);
 
   const flush = React.useCallback(() => {
     raf.current = null;
@@ -386,14 +457,14 @@ function ResizableHandle({ label, disabled = false, withGrip = false, render, ..
     const pos = ctx.orientation === 'horizontal' ? e.clientX : e.clientY;
     pending.current += ((pos - d.last) / d.extent) * 100;
     d.last = pos;
-    if (raf.current === null) raf.current = requestAnimationFrame(flush);
+    if (raf.current === null) raf.current = scheduleFrame(flush);
   };
 
   const endDrag = (e: React.PointerEvent<HTMLElement> | React.BaseSyntheticEvent) => {
     if (!ctx || !drag.current) return;
     drag.current = null;
     if (raf.current !== null) {
-      cancelAnimationFrame(raf.current);
+      raf.current();
       raf.current = null;
     }
     flush();
@@ -445,12 +516,17 @@ function ResizableHandle({ label, disabled = false, withGrip = false, render, ..
 
   React.useLayoutEffect(() => {
     if (!ctx || !ref.current) return;
-    const v = ctx.layout[handleIndex()];
+    const domIdx = handleIndex();
+    // a handle inserted out of render order re-renders once with its DOM index
+    if (domIdx !== renderIdx) rerender();
+    const v = ctx.layout[domIdx];
     if (v !== undefined) setAriaNow((prev) => (prev === v ? prev : v));
-    // handleIndex is stable across renders (DOM-lookup order, not state).
-  }, [ctx, handleIndex]);
+  }, [ctx, handleIndex, renderIdx]);
 
-  const idx = handleIndex();
+  // Drop a pending flush frame on unmount.
+  React.useEffect(() => () => { raf.current?.(); raf.current = null; }, []);
+
+  const idx = renderIdx;
   const panelId = ctx?.idOf(idx);
   const constraint = ctx?.constraintsOf(idx);
   const panelLabel = ctx?.labelOf(idx) ?? panelId ?? 'panel';

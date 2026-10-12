@@ -16,3 +16,16 @@ export const Default: Story = { render: () => <ResizablePanels.Root><ResizablePa
 export const RTL: Story = { render: () => <ResizablePanels.Root><ResizablePanels.Panel id="left"><div>Left</div></ResizablePanels.Panel><ResizablePanels.Handle /><ResizablePanels.Panel id="right"><div>Right</div></ResizablePanels.Panel></ResizablePanels.Root>, parameters: { globals: { dir: 'rtl' } } };
 export const ReducedTransparency: Story = { render: () => <ResizablePanels.Root><ResizablePanels.Panel id="left"><div>Left</div></ResizablePanels.Panel><ResizablePanels.Handle /><ResizablePanels.Panel id="right"><div>Right</div></ResizablePanels.Panel></ResizablePanels.Root>, parameters: { ag: { material: 'regular' } } };
 export const ForcedColors: Story = { render: () => <ResizablePanels.Root><ResizablePanels.Panel id="left"><div>Left</div></ResizablePanels.Panel><ResizablePanels.Handle /><ResizablePanels.Panel id="right"><div>Right</div></ResizablePanels.Panel></ResizablePanels.Root>, parameters: { globals: { forcedColors: 'active' } } };
+/* REQ-SURF-46: stackBelow — the group stacks vertically with handles hidden
+   when its container is narrower than 600 px (the inner box is resizable). */
+export const StackBelow: Story = {
+  render: () => (
+    <div data-testid="stack-host" style={{ inlineSize: 'min(100%, 900px)' }}>
+      <ResizablePanels.Root orientation="horizontal" stackBelow={600} defaultLayout={[40, 60]}>
+        <ResizablePanels.Panel id="stack-left"><div>Left</div></ResizablePanels.Panel>
+        <ResizablePanels.Handle />
+        <ResizablePanels.Panel id="stack-right"><div>Right</div></ResizablePanels.Panel>
+      </ResizablePanels.Root>
+    </div>
+  ),
+};

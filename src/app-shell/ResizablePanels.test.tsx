@@ -44,7 +44,7 @@ describe('ResizablePanels (SURF-051)', () => {
     expect(h0).toHaveAttribute('aria-valuenow', '10');
   });
 
-  it('Enter collapses a collapsible panel and restores it', () => {
+  it('Enter collapses a collapsible panel and restores the size it had (SURF-44)', () => {
     render(
       <ResizablePanels.Root defaultLayout={[50, 50]}>
         <ResizablePanels.Panel id="a" collapsible collapsedSize={0} expandedSize={60} minSize={10}>
@@ -56,6 +56,22 @@ describe('ResizablePanels (SURF-051)', () => {
     );
     const h = screen.getAllByRole('separator')[0]!;
     fireEvent.keyDown(h, { key: 'Enter' });
+    expect(h).toHaveAttribute('aria-valuenow', '0');
+    fireEvent.keyDown(h, { key: 'Enter' });
+    expect(h).toHaveAttribute('aria-valuenow', '50');
+  });
+
+  it('Enter on a panel that starts collapsed (no pre-collapse size) restores expandedSize', () => {
+    render(
+      <ResizablePanels.Root defaultLayout={[0, 100]}>
+        <ResizablePanels.Panel id="a" collapsible collapsedSize={0} expandedSize={60} minSize={10}>
+          a
+        </ResizablePanels.Panel>
+        <ResizablePanels.Handle label="Split" />
+        <ResizablePanels.Panel id="b">b</ResizablePanels.Panel>
+      </ResizablePanels.Root>,
+    );
+    const h = screen.getAllByRole('separator')[0]!;
     expect(h).toHaveAttribute('aria-valuenow', '0');
     fireEvent.keyDown(h, { key: 'Enter' });
     expect(h).toHaveAttribute('aria-valuenow', '60');
@@ -360,5 +376,149 @@ describe('ResizablePanels acceptance (SURF-42..46)', () => {
       host.remove();
       localStorage.removeItem('ag-panels:ssr-restore');
     }
+  });
+
+  it('SURF-44: without labels, every handle names and controls its own preceding panel right after mount', () => {
+    render(
+      <ResizablePanels.Root orientation="horizontal" defaultLayout={[30, 30, 40]}>
+        <ResizablePanels.Panel id="a" minSize={5}>a</ResizablePanels.Panel>
+        <ResizablePanels.Handle />
+        <ResizablePanels.Panel id="b" minSize={15} maxSize={70}>b</ResizablePanels.Panel>
+        <ResizablePanels.Handle />
+        <ResizablePanels.Panel id="c">c</ResizablePanels.Panel>
+      </ResizablePanels.Root>,
+    );
+    const handles = screen.getAllByRole('separator');
+    expect(handles.map((h) => h.getAttribute('aria-controls'))).toEqual(['a', 'b']);
+    expect(handles.map((h) => h.getAttribute('aria-label'))).toEqual(['Resize a', 'Resize b']);
+    expect(handles[1]).toHaveAttribute('aria-valuemin', '15');
+    expect(handles[1]).toHaveAttribute('aria-valuemax', '70');
+    expect(handles.map((h) => h.getAttribute('aria-valuenow'))).toEqual(['30', '30']);
+  });
+
+  it('SURF-44: SSR markup already carries each handle\'s own aria-controls/name', async () => {
+    const { renderToString } = await import('react-dom/server');
+    const html = renderToString(
+      <ResizablePanels.Root orientation="horizontal" defaultLayout={[30, 30, 40]}>
+        <ResizablePanels.Panel id="a">a</ResizablePanels.Panel>
+        <ResizablePanels.Handle />
+        <ResizablePanels.Panel id="b">b</ResizablePanels.Panel>
+        <ResizablePanels.Handle />
+        <ResizablePanels.Panel id="c">c</ResizablePanels.Panel>
+      </ResizablePanels.Root>,
+    );
+    expect(html).toContain('aria-controls="a"');
+    expect(html).toContain('aria-controls="b"');
+    expect(html).toContain('aria-label="Resize b"');
+  });
+
+  it('SURF-44: collapse a 45% panel with no expandedSize; Enter twice restores 45', () => {
+    render(
+      <ResizablePanels.Root defaultLayout={[45, 55]}>
+        <ResizablePanels.Panel id="a" collapsible minSize={20}>a</ResizablePanels.Panel>
+        <ResizablePanels.Handle label="Split" />
+        <ResizablePanels.Panel id="b">b</ResizablePanels.Panel>
+      </ResizablePanels.Root>,
+    );
+    const h = screen.getByRole('separator');
+    fireEvent.keyDown(h, { key: 'Enter' });
+    expect(h).toHaveAttribute('aria-valuenow', '0');
+    expect(basisOf('b')).toBe('100%');
+    fireEvent.keyDown(h, { key: 'Enter' });
+    expect(h).toHaveAttribute('aria-valuenow', '45');
+    expect([basisOf('a'), basisOf('b')]).toEqual(['45%', '55%']);
+  });
+
+  it('SURF-42: a pointer drag past min/2 snap-collapses and fires onCollapse exactly once; dragging back fires onExpand once', () => {
+    const restore = mockRootRect({ left: 0, width: 1000 });
+    const onCollapse = jest.fn();
+    const onExpand = jest.fn();
+    const onLayout = jest.fn();
+    try {
+      render(
+        <ResizablePanels.Root defaultLayout={[30, 70]} onLayout={onLayout}>
+          <ResizablePanels.Panel id="a" collapsible minSize={20} onCollapse={onCollapse} onExpand={onExpand}>a</ResizablePanels.Panel>
+          <ResizablePanels.Handle label="Split" />
+          <ResizablePanels.Panel id="b">b</ResizablePanels.Panel>
+        </ResizablePanels.Root>,
+      );
+      const h = screen.getByRole('separator');
+      Object.assign(h, { setPointerCapture: jest.fn(), releasePointerCapture: jest.fn() });
+      // 30% → 5% (below min/2 = 10%) snaps to collapsedSize 0
+      fireEvent.pointerDown(h, { pointerId: 1, clientX: 300 });
+      fireEvent.pointerMove(h, { pointerId: 1, clientX: 200 });
+      fireEvent.pointerMove(h, { pointerId: 1, clientX: 50 });
+      fireEvent.pointerUp(h, { pointerId: 1, clientX: 50 });
+      expect(onLayout).toHaveBeenLastCalledWith([0, 100]);
+      expect(onCollapse).toHaveBeenCalledTimes(1);
+      expect(onExpand).toHaveBeenCalledTimes(0);
+      // a second drag that stays collapsed fires nothing
+      fireEvent.pointerDown(h, { pointerId: 2, clientX: 0 });
+      fireEvent.pointerMove(h, { pointerId: 2, clientX: 30 });
+      fireEvent.pointerUp(h, { pointerId: 2, clientX: 30 });
+      expect(onCollapse).toHaveBeenCalledTimes(1);
+      expect(onExpand).toHaveBeenCalledTimes(0);
+      // Enter restores the pre-drag size (30) and fires onExpand once
+      fireEvent.keyDown(h, { key: 'Enter' });
+      expect(h).toHaveAttribute('aria-valuenow', '30');
+      expect(onExpand).toHaveBeenCalledTimes(1);
+      expect(onCollapse).toHaveBeenCalledTimes(1);
+    } finally {
+      restore();
+    }
+  });
+
+  it('SURF-46: stacks below threshold — data-stacked follows the root width against stackBelow', () => {
+    let width = 500;
+    const original = Element.prototype.getBoundingClientRect;
+    const spy = jest.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (this: Element) {
+      if (this.classList.contains('ag-panels')) {
+        return { x: 0, y: 0, left: 0, top: 0, width, height: 600, right: width, bottom: 600, toJSON: () => ({}) } as DOMRect;
+      }
+      return original.call(this);
+    });
+    const observers: Array<() => void> = [];
+    const OrigRO = globalThis.ResizeObserver;
+    globalThis.ResizeObserver = class {
+      private cb: () => void;
+      constructor(cb: () => void) { this.cb = cb; observers.push(() => this.cb()); }
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    } as unknown as typeof ResizeObserver;
+    try {
+      const { container } = render(
+        <ResizablePanels.Root orientation="horizontal" stackBelow={600} defaultLayout={[50, 50]}>
+          <ResizablePanels.Panel id="a">a</ResizablePanels.Panel>
+          <ResizablePanels.Handle label="Split" />
+          <ResizablePanels.Panel id="b">b</ResizablePanels.Panel>
+        </ResizablePanels.Root>,
+      );
+      const root = container.querySelector<HTMLElement>('.ag-panels')!;
+      expect(root.dataset['stacked']).toBe('true');
+      expect(root.style.flexDirection).toBe('column');
+      expect(root).toHaveAttribute('data-stack-below', '600');
+      width = 800;
+      observers.forEach((fire) => fire());
+      expect(root.dataset['stacked']).toBe('false');
+      expect(root.style.flexDirection).toBe('row');
+      width = 599;
+      observers.forEach((fire) => fire());
+      expect(root.dataset['stacked']).toBe('true');
+    } finally {
+      spy.mockRestore();
+      globalThis.ResizeObserver = OrigRO;
+    }
+  });
+
+  it('SURF-46: a vertical group never stacks (stackBelow applies to horizontal groups)', () => {
+    const { container } = render(
+      <ResizablePanels.Root orientation="vertical" stackBelow={10_000}>
+        <ResizablePanels.Panel id="a">a</ResizablePanels.Panel>
+        <ResizablePanels.Handle label="Split" />
+        <ResizablePanels.Panel id="b">b</ResizablePanels.Panel>
+      </ResizablePanels.Root>,
+    );
+    expect(container.querySelector<HTMLElement>('.ag-panels')!.dataset['stacked']).toBeUndefined();
   });
 });
