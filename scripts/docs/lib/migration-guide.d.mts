@@ -6,7 +6,7 @@ export interface RegisterItem { id: string; title?: string; affected?: string; c
 export interface CatalogueTransform { id: string; kind: 'core' | 'area'; automation: string; doc: string }
 export interface Catalogue { version: number; transforms: CatalogueTransform[] }
 export interface FixtureFile { path: string; lang: string; text: string }
-export interface MigrationMeta { name: string; entry: string; file: string; migration: readonly MigrationRow[]; selectors?: Array<{ from: string; to: string }> }
+export interface MigrationMeta { name: string; entry: string; file: string; exportName?: string; migration: readonly MigrationRow[]; selectors?: Array<{ from: string; to: string }> }
 export interface RemovedRow { stream: string; symbol: string; entry: string; reason: string; registryItem?: string; doc: string }
 export type GuideEntry = Pick<DeprecationEntry, 'id' | 'doc'> & Partial<DeprecationEntry>;
 export interface GuideInputs {

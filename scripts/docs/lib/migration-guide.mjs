@@ -323,8 +323,11 @@ export async function loadMigrationMetas(root) {
   const out = [];
   for (const c of components) {
     const mod = evalTsModule(join(root, c.file), (spec) => (/(^|\/)foundation(\/index)?$/.test(spec) ? foundation : undefined));
-    const meta = [...new Set(Object.values(mod))].find((v) => v && v.name === c.name);
-    out.push({ name: c.name, entry: c.entry, file: c.file, migration: meta?.migration ?? [], selectors: meta?.selectors });
+    /* Metas are a default export or a named `export const XMeta = defineMeta(...)`;
+       record which binding holds the meta so generated imports name it. */
+    const hits = Object.entries(mod).filter(([, v]) => v && v.name === c.name);
+    const [exportName, meta] = hits.find(([k]) => k === 'default') ?? hits[0] ?? [];
+    out.push({ name: c.name, entry: c.entry, file: c.file, exportName, migration: meta?.migration ?? [], selectors: meta?.selectors });
   }
   return out;
 }
