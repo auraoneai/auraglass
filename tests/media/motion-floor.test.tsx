@@ -80,7 +80,7 @@ describe('SURF motion props never exceed the OS / app floor (REQ-SURF-190)', () 
       </AuraGlassProvider>,
     );
     const root = container.querySelector('[data-ag-part="carousel"]')!;
-    expect(root.getAttribute('data-state')).toBe(mayMove(cell) ? 'autoplaying' : 'stopped');
+    expect(root.getAttribute('data-state')).toBe(mayMove(cell) ? 'playing' : 'stopped');
     act(() => { jest.advanceTimersByTime(5000 * 3); });
     if (mayMove(cell)) expect(onIndexChange).toHaveBeenCalled();
     else expect(onIndexChange).not.toHaveBeenCalled();

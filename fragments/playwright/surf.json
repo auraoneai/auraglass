@@ -1,39 +1,48 @@
 [
   {
     "name": "surf:app-shell",
-    "testDir": "tests/e2e/surf/app-shell"
+    "testDir": "tests/e2e/surf/app-shell",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:motion",
-    "testDir": "tests/e2e/surf/motion"
+    "testDir": "tests/e2e/surf/motion",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:perf",
-    "testDir": "tests/perf/browser/surf"
+    "testDir": "tests/perf/browser/surf",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:apg",
-    "testDir": "tests/a11y/apg/surf"
+    "testDir": "tests/a11y/apg/surf",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:rsc",
-    "testDir": "tests/rsc/surf"
+    "testDir": "tests/rsc/surf",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:data",
-    "testDir": "tests/e2e/surf/data"
+    "testDir": "tests/e2e/surf/data",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:date",
-    "testDir": "tests/e2e/surf/date"
+    "testDir": "tests/e2e/surf/date",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:charts",
-    "testDir": "tests/e2e/surf/charts"
+    "testDir": "tests/e2e/surf/charts",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:visual",
-    "testDir": "tests/visual/surf"
+    "testDir": "tests/visual/surf",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:cert-rtl",
@@ -42,11 +51,13 @@
   },
   {
     "name": "surf:ai",
-    "testDir": "tests/e2e/surf/ai"
+    "testDir": "tests/e2e/surf/ai",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:ai-visual",
-    "testDir": "tests/visual/surf/ai"
+    "testDir": "tests/visual/surf/ai",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:ai-perf",
@@ -55,11 +66,13 @@
   },
   {
     "name": "surf:media",
-    "testDir": "tests/e2e/surf/media"
+    "testDir": "tests/e2e/surf/media",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:backdrops",
-    "testDir": "tests/e2e/surf/backdrops"
+    "testDir": "tests/e2e/surf/backdrops",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:media-apg",
@@ -67,13 +80,9 @@
     "testMatch": "{media-controls,now-playing,image-viewer,carousel-rail}.apg.spec.ts"
   },
   {
-    "name": "surf:cert-media-sampling",
-    "testDir": "tests/e2e/surf/media",
-    "testMatch": "sampling-engines.spec.ts"
-  },
-  {
     "name": "surf:clear-over-media",
-    "testDir": "tests/e2e/surf/clear-over-media"
+    "testDir": "tests/e2e/surf/clear-over-media",
+    "testMatch": "**/*.spec.ts"
   },
   {
     "name": "surf:media-perf",

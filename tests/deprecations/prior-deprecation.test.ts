@@ -13,12 +13,15 @@ import { describe, expect, it, afterAll } from '@jest/globals';
 import { execFileSync } from 'node:child_process';
 import { chmodSync, cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, join } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 
 const ROOT = join(__dirname, '..', '..');
 const LIB = join(ROOT, 'scripts/release/lib/deprecation-coverage.mjs');
 const REGISTER = join(ROOT, 'scripts/release/verify-breaking-register.mjs');
 const GEN = join(ROOT, 'scripts/release/gen-deprecations.mjs');
+const POLICY_PATHS = (root: string): { docsMigrationOut: string } => JSON.parse(execFileSync('node', ['--input-type=module', '-e',
+  `const p = await import(${JSON.stringify(join(ROOT, 'scripts/release/lib/policy.mjs'))}); console.log(JSON.stringify(p.relPaths(${JSON.stringify(root)})));`],
+{ encoding: 'utf8' }).trim().split('\n').at(-1) as string);
 const lib = (body: string): any => JSON.parse(execFileSync('node', ['--input-type=module', '-e',
   `const m = await import(${JSON.stringify(LIB)}); ${body}`], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
   .trim().split('\n').at(-1) as string);
@@ -151,7 +154,7 @@ describe('verify-breaking-register --coverage (CLI, fake npm on PATH)', () => {
     put('docs/release/breaking-changes.json', JSON.stringify({ version: 1, items: [{ id: 'B4', title: 'Renames' }] }));
     put('docs/release/exception-allowlist.json', JSON.stringify({ version: 1, allowlist: ['DEP-P0001'] }));
     put('fragments/deprecations/plat.ts', `export default ${JSON.stringify([
-      ENTRY(), ENTRY({ id: 'DEP-P0001', symbol: 'REPORT_PATH', since: '4.1.1', exception: 'honesty', evidence: 'x', replacement: null, codemod: null, automation: 'none', message: 'drop it' }),
+      ENTRY(), ENTRY({ id: 'DEP-P0001', symbol: 'REPORT_PATH', since: '4.1.1', exception: 'honesty', evidence: 'x', replacement: null, codemod: null, automation: 'none', message: 'drop it', doc: '#dep-report-path' }),
     ])};\n`);
     put('snap/base.json', JSON.stringify({ entries: { '.': { runtime: ['GlassOld', 'GlassNoEntry', 'REPORT_PATH', 'Kept'], types: [] } } }));
     put('snap/head.json', JSON.stringify({ entries: { '.': { runtime: ['Kept'], types: [] } } }));
@@ -179,7 +182,14 @@ if (cmd === 'pack') {
 process.exit(2);
 `);
     chmodSync(join(t, 'bin/npm'), 0o755);
-    execFileSync('node', ['--input-type=module', '-e', `const g = await import(${JSON.stringify(GEN)}); process.exitCode = await g.main(['--docs'], { root: ${JSON.stringify(t)} });`], { stdio: 'ignore' });
+    // The deprecations page verify-breaking-register reads (#b-<n> anchors).
+    // `gen-deprecations --docs` also assembles the full 4.x → 5.0 guide from
+    // the docs-app template and component metas (REQ-PLAT-105), which this
+    // hermetic repo does not carry, so only the page is generated here.
+    put(relative(ROOT, POLICY_PATHS(ROOT).docsMigrationOut), execFileSync('node', ['--input-type=module', '-e',
+      `const g = await import(${JSON.stringify(GEN)}); const root = ${JSON.stringify(t)};
+       process.stdout.write(g.docsMd(await g.loadEntries(root), g.loadBreakingRegister(root + '/docs/release/breaking-changes.json')));`],
+    { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }));
     return t;
   }
   const run = (t: string, args: string[], published: Record<string, string[]>) => {

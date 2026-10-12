@@ -112,12 +112,14 @@ export function matchEntry(removal, entries) {
   return entries.find((e) => e.kind === removal.kind && e.entry === removal.entry && e.symbol === removal.symbol) ?? null;
 }
 
-export function coverage({ entries, removals = [], registry, allowlist = new Set(), removeIn = '5.0.0' }) {
+/** Per-entry judge (memoised registry lookups): covered by a published,
+    packed `since`, or by an allow-listed `exception`; otherwise uncovered. */
+export function entryJudge({ registry, allowlist = new Set() }) {
   const publishedCache = new Map(); const idsCache = new Map();
   const isPublished = (v) => { if (!publishedCache.has(v)) publishedCache.set(v, registry.published(v)); return publishedCache.get(v) != null; };
   const ids = (v) => { if (!idsCache.has(v)) idsCache.set(v, new Set(registry.packedIds(v))); return idsCache.get(v); };
 
-  const judge = (e) => {
+  return (e) => {
     if (!e) return { coverage: 'uncovered', verifiedIn: null, reason: 'no deprecation entry' };
     if (e.exception && allowlist.has(e.id)) return { coverage: 'covered', verifiedIn: 'exception', reason: `exception '${e.exception}' listed in exception-allowlist.json` };
     const v = semver(e.since);
@@ -126,7 +128,9 @@ export function coverage({ entries, removals = [], registry, allowlist = new Set
     if (!ids(e.since).has(e.id)) return { coverage: 'uncovered', verifiedIn: null, reason: `${e.id} is not in aura-glass@${e.since}'s packed deprecations.json` };
     return { coverage: 'covered', verifiedIn: e.since, reason: null };
   };
+}
 
+export function coverage({ entries, removals = [], registry, allowlist = new Set(), removeIn = '5.0.0', judge = entryJudge({ registry, allowlist }) }) {
   const rows = []; const seen = new Set();
   const removedSubpaths = new Set(removals.filter((r) => r.kind === 'subpath').map((r) => r.entry));
   for (const r of removals) {

@@ -5,6 +5,7 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Dialog } from '../../../components/dialog';
+import { Button } from '../../../components/button';
 import { useGlassModalMapping } from './GlassModal';
 import type { GlassModalProps } from './GlassModal';
 import { __compatWrap as wrap } from './_shared';
@@ -34,7 +35,8 @@ export function GlassDialog(props: GlassDialogProps) {
             {cancelText !== undefined ? <Dialog.Close>{cancelText}</Dialog.Close> : null}
             {m.footer}
             {confirmText !== undefined ? (
-              <Dialog.Close data-ag-intent={destructive ? 'danger' : undefined}>{confirmText}</Dialog.Close>
+              /* destructive -> Button intent="danger" (Button owns data-ag-intent). */
+              <Dialog.Close {...(destructive ? { render: <Button intent="danger" suppressInnerParts /> } : {})}>{confirmText}</Dialog.Close>
             ) : null}
           </Dialog.Footer>
         ) : null}

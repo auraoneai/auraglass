@@ -29,9 +29,9 @@ export interface GlassDrawerProps {
 }
 
 /* 4.x position is the physical edge; Sheet side is logical (start resolves to
-   the right edge in LTR per resolveSide). */
+   the left edge and end to the right edge in LTR per resolveSide). */
 const SIDE_MAP: Record<string, SheetSide> = {
-  left: 'end', right: 'start', start: 'start', end: 'end', top: 'top', bottom: 'bottom',
+  left: 'start', right: 'end', start: 'start', end: 'end', top: 'top', bottom: 'bottom',
 };
 
 export function toSide(p?: string): SheetSide | undefined {

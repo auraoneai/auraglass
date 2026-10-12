@@ -256,7 +256,12 @@ export const createGlassTheme = (
   ];
 
   const id = options.id ?? "ag-theme";
-  warnAdjusted(id, adjusted);
+  // The warning names brand input: adjustments of an authored preset (no
+  // brandColor/accentColor/neutralHue) are still reported in
+  // contrast.adjusted but are not the caller's to fix, so they do not warn.
+  const brandInput =
+    options.brandColor !== undefined || options.accentColor !== undefined || options.neutralHue !== undefined;
+  if (brandInput) warnAdjusted(id, adjusted);
 
   const declarations = [
     ...(colorScheme ? [`color-scheme: ${colorScheme};`] : []),

@@ -131,6 +131,8 @@
     "docs:imports": "node scripts/docs/check-docs-imports.mjs",
     "docs:links": "node scripts/docs/verify-markdown-links.js",
     "docs:budgets": "node scripts/docs/check-docs-budgets.mjs",
+    "prepack": "node scripts/release/gen-deprecations.mjs",
+    "gen:deprecations": "node scripts/release/gen-deprecations.mjs",
     "prepublishOnly": "node scripts/ci/require-ci-publish.js && npm run prepublish:verify",
     "artifact:publint": "publint",
     "artifact:attw": "attw --pack .",

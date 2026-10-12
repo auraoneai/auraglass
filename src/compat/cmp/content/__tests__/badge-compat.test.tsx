@@ -37,7 +37,7 @@ describe('Badge compat (REQ-CMP-114)', () => {
       const { view, messages } = await renderCollectingWarnings(<GlassStatusDot />);
       expect(messages.some((m) => m.includes('DEP-C0237'))).toBe(true);
       const root = view.container.querySelector('[data-ag-part="root"]')!;
-      expect(root).toHaveAttribute('data-ag-dot');
+      expect(root).toHaveAttribute('data-dot');
       expect(root).toHaveClass('ag-badge-dot');
       expect(root).toHaveAttribute('data-ag-intent', 'success');
     });
@@ -98,7 +98,7 @@ describe('Badge compat (REQ-CMP-114)', () => {
     it('showText=false renders a dot named by the status label', () => {
       render(<GlassConnectionStatus status="offline" showText={false} />);
       const root = screen.getByRole('status');
-      expect(root).toHaveAttribute('data-ag-dot');
+      expect(root).toHaveAttribute('data-dot');
       expect(root).toHaveTextContent('Offline');
     });
 

@@ -19,14 +19,19 @@ type ManifestEntry = { source: string; subpath: string; default?: string; types?
 const JS_SOURCES = (e: ManifestEntry) => !['build:css', 'build:deprecations', 'package.json'].includes(e.source);
 
 describe('api-report inputs (REQ-PLAT-73)', () => {
+  // generate-exports.mjs --list-entries --json is manifest-shaped
+  // ({ version, entries, excluded, exports }, see the script header): the
+  // shipped (built) JS rows are `entries` minus css/json artifacts, and the
+  // pending rows are the `excluded` report.
   let listed: { built: ManifestEntry[]; pending: (ManifestEntry & { reason: string })[]; exports: Record<string, unknown> };
   let manifest: { entries: ManifestEntry[] };
 
   beforeAll(() => {
     ensureBuilt();
-    listed = JSON.parse(
+    const json = JSON.parse(
       execFileSync('node', ['scripts/build/generate-exports.mjs', '--list-entries', '--json'], { cwd: ROOT, encoding: 'utf8' }),
-    );
+    ) as { entries: ManifestEntry[]; excluded: (ManifestEntry & { reason: string })[]; exports: Record<string, unknown> };
+    listed = { built: json.entries.filter(JS_SOURCES), pending: json.excluded, exports: json.exports };
     manifest = JSON.parse(read('build/exports.manifest.json'));
   });
 

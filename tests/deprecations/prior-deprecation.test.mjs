@@ -35,7 +35,7 @@ describe('prior-deprecation coverage (G-07)', () => {
     expect(r.removals[0].verifiedIn).toBe('4.2.0');
   });
   it('entry coverage rows classify allow-listed exceptions as covered', () => {
-    const c = coverage([E({ since: '4.1.0' })], { published: {}, allowlist: new Set(['DEP-P0001']), ga: true });
+    const c = coverage([E({ since: '4.1.0', exception: 'honesty' })], { published: {}, allowlist: new Set(['DEP-P0001']), ga: true });
     expect(c.entries[0].coverage).toBe('covered');
     expect(c.entries[0].verifiedIn).toBe('exception');
     expect(c.uncoveredCount).toBe(0);
