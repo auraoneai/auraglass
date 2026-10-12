@@ -72,7 +72,11 @@ describe('overlay idle (CMP-203)', () => {
         </Toast.Provider>
       </AuraGlassProvider>,
     );
-    act(() => { jest.advanceTimersByTime(50); });
+    // The real provider's development surface counter debounces DOM changes
+    // for 500ms and then schedules an idle callback. Drain this mount work
+    // before measuring overlay-owned timers, without disabling diagnostics.
+    await act(async () => { jest.advanceTimersByTime(50); });
+    await act(async () => { jest.advanceTimersByTime(600); });
     const before = jest.getTimerCount();
 
     const ids: string[] = [];
@@ -80,11 +84,11 @@ describe('overlay idle (CMP-203)', () => {
       ids.push(api!.add({ title: 'Idle toast A', timeout: 4000 }));
       ids.push(api!.add({ title: 'Idle toast B', timeout: 4000 }));
     });
-    // Mounting a toast schedules the shared overlay enter-frame observer.
-    // This idle contract starts after that frame work, as the other subjects
-    // above do; retain the exact one-dismiss-timer-per-toast assertion.
+    // Mounting toasts schedules enter-frame work and the provider's debounced
+    // development surface inspection. Neither is persistent overlay work:
+    // let both settle, retaining the exact dismissal-timer count below.
     await act(async () => { jest.advanceTimersByTime(50); });
-    await act(async () => { jest.advanceTimersByTime(50); });
+    await act(async () => { jest.advanceTimersByTime(600); });
     const live = api!.toasts.filter((t) => ids.includes(t.id)).length;
     expect(live).toBe(ids.length);
     expect(jest.getTimerCount() - before).toBe(live);
