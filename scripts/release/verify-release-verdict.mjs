@@ -17,7 +17,7 @@ const FILE = '.artifacts/qual/release-verdict.json';
 
 const isGA = /^v5\.\d+\.\d+$/.test(tag);
 if (!existsSync(FILE)) {
-  if (isGA && line === '5x') {
+  if (isGA) {
     console.error(`verify-release-verdict FAIL: ${FILE} missing for GA tag ${tag}`);
     process.exit(1);
   }
@@ -25,8 +25,18 @@ if (!existsSync(FILE)) {
   process.exit(0);
 }
 const verdict = JSON.parse(readFileSync(FILE, 'utf8'));
-if (isGA && line === '5x') {
-  if (verdict.sha && sha && verdict.sha !== sha) {
+if (isGA) {
+  // REQ-PLAT-11: the verdict must be bound to this exact commit — a verdict
+  // without `sha`, or a pipeline without CI_COMMIT_SHA, is a failure.
+  if (!sha) {
+    console.error('verify-release-verdict FAIL: CI_COMMIT_SHA (or --sha) is required for a GA tag');
+    process.exit(1);
+  }
+  if (!verdict.sha) {
+    console.error(`verify-release-verdict FAIL: ${FILE} has no sha for GA tag ${tag}`);
+    process.exit(1);
+  }
+  if (verdict.sha !== sha) {
     console.error(`verify-release-verdict FAIL: verdict sha ${verdict.sha} != CI_COMMIT_SHA ${sha}`);
     process.exit(1);
   }
@@ -40,4 +50,4 @@ if (isGA && line === '5x') {
     process.exit(1);
   }
 }
-console.log(`verify-release-verdict OK (${tag || 'untagged'}, ga=${verdict.ga})`);
+console.log(`verify-release-verdict OK (${tag || 'untagged'}, line ${line}, ga=${verdict.ga})`);

@@ -6,6 +6,7 @@
 'use strict';
 
 const ok =
+  process.env.GITHUB_ACTIONS !== 'true' &&
   process.env.GITLAB_CI === 'true' &&
   process.env.CI_PROJECT_ID === '87152036' &&
   process.env.CI_JOB_NAME === 'plat:publish:npm' &&
@@ -14,7 +15,7 @@ const ok =
 
 if (!ok) {
   console.error(
-    'require-ci-publish: publishing is restricted to the plat:publish:npm job ' +
+    'require-ci-publish: publishing is CI-only. It is restricted to the plat:publish:npm job ' +
       'of GitLab project 87152036 on a release tag (vX.Y.Z[-(alpha|beta|rc).N]) ' +
       'with OIDC id_tokens. This context is not that job.',
   );

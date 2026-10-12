@@ -146,7 +146,9 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
     const helperTextIdHook = useA11yId("glass-input-helper");
     const errorIdHook = useA11yId("glass-input-error");
     const labelIdHook = useA11yId("glass-input-label");
-    const helperTextId = helperText || errorText ? helperTextIdHook : undefined;
+    // Only one message element renders (the error replaces the helper text),
+    // so aria-describedby may only reference the id of the one on screen.
+    const helperTextId = helperText && !errorText ? helperTextIdHook : undefined;
     const errorId = errorText ? errorIdHook : undefined;
     const labelId = label ? labelIdHook : undefined;
 

@@ -38,7 +38,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "The real ContrastGuard export over a detailed, neutral canvas — contrast adjustments are heuristics; the status reads unverified by design.",
+          "Does not measure rendered contrast. Do not use as a WCAG signal. The real ContrastGuard export over a detailed, neutral canvas — contrast adjustments are heuristics; the status reads unverified by design.",
       },
     },
   },
@@ -48,6 +48,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: "Does not measure rendered contrast. Do not use as a WCAG signal.",
+      },
+    },
+  },
   render: () => (
     <main style={frameStyle}>
       <ContrastGuard
