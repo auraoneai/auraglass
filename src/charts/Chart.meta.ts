@@ -6,7 +6,7 @@ export default defineMeta({
   entry: './charts',
   tier: 'preview',
   rsc: 'mixed',
-  parts: ['chart-frame', 'chart-grid', 'chart-legend', 'chart-legend-item', 'chart-mark-area', 'chart-mark-bar', 'chart-mark-donut', 'chart-mark-line', 'chart-plot', 'chart-plot-svg', 'chart-table', 'chart-table-toggle', 'chart-title'],
+  parts: ['chart-frame', 'chart-grid', 'chart-legend', 'chart-legend-item', 'chart-mark-area', 'chart-mark-bar', 'chart-mark-donut', 'chart-mark-line', 'chart-plot', 'chart-plot-svg', 'chart-table', 'chart-table-toggle', 'chart-title', 'hit-area'],
   states: ['empty', 'loading'],
   variants: { type: ['line', 'area', 'bar', 'donut'] },
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/grid-and-table-properties/',

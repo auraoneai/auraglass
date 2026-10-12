@@ -32,6 +32,7 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 
 | Part | Selector |
 | --- | --- |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 | `media-glyph` | `[data-ag-part="media-glyph"]` |
 | `now-playing` | `[data-ag-part="now-playing"]` |
 | `now-playing-actions` | `[data-ag-part="now-playing-actions"]` |

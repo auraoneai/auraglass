@@ -26,6 +26,7 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 | --- | --- |
 | `error-detail` | `[data-ag-part="error-detail"]` |
 | `error-title` | `[data-ag-part="error-title"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 | `icon` | `[data-ag-part="icon"]` |
 | `provider-error` | `[data-ag-part="provider-error"]` |
 | `retry` | `[data-ag-part="retry"]` |

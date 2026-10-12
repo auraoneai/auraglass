@@ -18,6 +18,7 @@ export function MessageAction(props: Omit<React.ButtonHTMLAttributes<HTMLButtonE
     <button type="button" data-ag-part="action" {...rest}>
       {icon ? <AiIcon name={icon} /> : null}
       {children}
+      <span data-ag-part="hit-area" aria-hidden="true" />
     </button>
   );
 }

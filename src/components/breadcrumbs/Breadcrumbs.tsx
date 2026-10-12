@@ -146,7 +146,8 @@ function BreadcrumbsLink({ href, children, render, ...rest }: BreadcrumbsLinkPro
     className: 'ag-breadcrumbs__link',
     ...(fullText !== undefined ? { title: fullText } : {}),
     ...rest,
-    children,
+    // REQ-SURF-192: MAT hit area (>= 24px fine / 44px coarse, no layout change)
+    children: <>{children}<span data-ag-part="hit-area" aria-hidden="true" /></>,
   });
 }
 BreadcrumbsLink.displayName = 'Breadcrumbs.Link';

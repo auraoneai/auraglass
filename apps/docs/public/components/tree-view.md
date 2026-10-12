@@ -39,6 +39,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 
 | Part | Selector |
 | --- | --- |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 | `root` | `[data-ag-part="root"]` |
 | `tree-item` | `[data-ag-part="tree-item"]` |
 | `tree-view` | `[data-ag-part="tree-view"]` |

@@ -10,6 +10,11 @@
 /* --- lane W4 begin --- */
 
 @layer ag.components {
+  /* REQ-SURF-192: containing block for the MAT hit area ([data-ag-part=hit-area],
+     src/a11y/css/targets.css) these targets render. :where() keeps it at zero
+     specificity, so a part's own position (absolute, sticky) still wins. */
+  :where([data-ag-part='now-playing-expand'], .ag-media-btn, [data-ag-part='image-viewer-trigger'], [data-ag-part='image-viewer-prev'], [data-ag-part='image-viewer-next'], [data-ag-part='image-viewer-zoom-in'], [data-ag-part='image-viewer-zoom-out'], [data-ag-part='image-viewer-zoom-reset'], [data-ag-part='image-viewer-close'], [data-ag-part='carousel-indicator']) { position: relative; }
+
   /* [data-ag-media-root] progress var is written by useMediaElement frames
      (or by NowPlayingBar from a controlled `progress`). */
 /* --- lane W4 end --- */
@@ -356,6 +361,11 @@
   }
   [data-ag-part='carousel-indicator'][aria-selected='true'],
   [data-ag-part='carousel-indicator'][aria-current='true'] { background-color: currentColor; }
+  /* REQ-SURF-192: under a coarse pointer each 8px dot's 44px hit area needs a
+     44px pitch so neighbouring areas never overlap; the dots keep their size. */
+  @media (pointer: coarse) {
+    .ag-carousel-indicators { gap: calc(var(--ag-target-coarse) - var(--ag-space-2, 0.5rem)); }
+  }
   [data-ag-part='carousel-autoplay-toggle'] { position: absolute; inset-inline-start: var(--ag-space-2, 0.5rem); inset-block-start: var(--ag-space-2, 0.5rem); z-index: 1; }
 /* --- end lane W4 iv/carousel --- */
 }

@@ -87,6 +87,7 @@ function FilePart({ part, size }: { part: Extract<AgPart, { type: 'file' }>; siz
           {...(local ? { download: part.filename ?? true } : { rel: 'noopener' })}
         >
           {name}
+          <span data-ag-part="hit-area" aria-hidden="true" />
         </a>
       ) : (
         <span data-ag-part="attachment-name">{name}</span>

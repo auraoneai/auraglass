@@ -40,7 +40,9 @@ export function Indicators({ semantics, className }: CarouselRailIndicatorsProps
             aria-controls={c.viewportId}
             data-ag-part="carousel-indicator"
             onClick={() => c.goTo(i)}
-          />
+          >
+            <span data-ag-part="hit-area" aria-hidden="true" />
+          </button>
         ))}
       </div>
     );
@@ -79,7 +81,10 @@ export function Indicators({ semantics, className }: CarouselRailIndicatorsProps
           data-ag-part="carousel-indicator"
           aria-label={s.label ?? `Slide ${i + 1}`}
           onClick={() => c.goTo(i)}
-        />
+        >
+          {/* REQ-SURF-192: MAT hit area; the dots space out under coarse pointers (media.css) */}
+          <span data-ag-part="hit-area" aria-hidden="true" />
+        </button>
       ))}
     </div>
   );

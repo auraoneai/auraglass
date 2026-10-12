@@ -2,6 +2,11 @@
 /* Breadcrumbs (SURF-127): layout only — tokens for space/color, no hex,
    no important-flagged declarations. Ellipsis + overflow menu are islands; this sheet is server. */
 @layer ag.components {
+  /* REQ-SURF-192: containing block for the MAT hit area ([data-ag-part=hit-area],
+     src/a11y/css/targets.css) these targets render. :where() keeps it at zero
+     specificity, so a part's own position (absolute, sticky) still wins. */
+  :where(.ag-breadcrumbs__link) { position: relative; }
+
   .ag-breadcrumbs__list {
     display: flex;
     align-items: center;

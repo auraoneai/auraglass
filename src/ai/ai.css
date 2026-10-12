@@ -2,6 +2,11 @@
 
 /* src/ai/ai.css — ./ai components, @layer ag.components (SURF-339). */
 @layer ag.components {
+  /* REQ-SURF-192: containing block for the MAT hit area ([data-ag-part=hit-area],
+     src/a11y/css/targets.css) these targets render. :where() keeps it at zero
+     specificity, so a part's own position (absolute, sticky) still wins. */
+  :where([data-ag-part='approve'], [data-ag-part='deny'], [data-ag-part='io-expand'], [data-ag-part='retry'], [data-ag-part='attachment-remove'], [data-ag-part='composer'] [data-ag-part='action'], [data-ag-part='actions'] > [data-ag-part='action'], [data-ag-part='stop'], [data-ag-part='submit'], [data-ag-part='source-link'], [data-ag-part='attachment-link']) { position: relative; }
+
   /* sr-only fallback for ./ai consumers that do not load styles.css */
   .ag-visually-hidden {
     position: absolute;

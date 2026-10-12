@@ -124,5 +124,10 @@
         "height": 800
       }
     }
+  },
+  {
+    "name": "surf:targets",
+    "testDir": "tests/e2e/surf",
+    "testMatch": "target-size.spec.ts"
   }
 ]

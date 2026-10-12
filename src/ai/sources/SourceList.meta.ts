@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T2',
   flagship: 42,
   rsc: 'client',
-  parts: ['icon', 'source', 'source-file', 'source-host', 'source-link', 'source-list', 'source-text', 'sources', 'trigger'],
+  parts: ['hit-area', 'icon', 'source', 'source-file', 'source-host', 'source-link', 'source-list', 'source-text', 'sources', 'trigger'],
   states: [],
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/',
   variants: {},

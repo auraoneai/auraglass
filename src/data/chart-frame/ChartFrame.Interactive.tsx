@@ -216,6 +216,7 @@ export function ChartLegend({ slot }: { slot: 'top' | 'bottom' }) {
           >
             <span aria-hidden="true" className="ag-chart-frame__swatch" style={{ background: f.ctx.color(s.key) }} />
             {s.label}
+            <span data-ag-part="hit-area" aria-hidden="true" />
           </button>
         );
       })}
@@ -265,6 +266,7 @@ export function ChartTableToggle() {
       onClick={() => f.setTableOpen(!f.tableOpen)}
     >
       {f.tableOpen ? (f.labels?.hideTable ?? 'Hide data table') : (f.labels?.showTable ?? 'Show data table')}
+      <span data-ag-part="hit-area" aria-hidden="true" />
     </button>
   );
 }

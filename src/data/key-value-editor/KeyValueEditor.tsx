@@ -149,6 +149,7 @@ export function KeyValueEditor({
               onClick={(e) => remove(i, e)}
             >
               ×
+              <span data-ag-part="hit-area" aria-hidden="true" />
             </button>
           </div>
         );
@@ -162,6 +163,7 @@ export function KeyValueEditor({
         onClick={add}
       >
         {msgs.add}
+        <span data-ag-part="hit-area" aria-hidden="true" />
       </button>
     </div>
   );

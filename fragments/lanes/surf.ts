@@ -22,6 +22,10 @@ const w1 = [
   // not obscured by sticky chrome, overlay focus restore).
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/focus.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/focus.spec.ts', scope: 'main', remote: true, failClosed: true },
+  // REQ-SURF-192: rendered 24px fine / 44px coarse target ownership over every
+  // SURF story (project surf:targets).
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/target-size.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/target-size.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/tabs-indicator.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/tabbar-minimize.spec.ts', scope: 'pr', remote: true, failClosed: true },
   { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/source-transition.spec.ts', scope: 'pr', remote: true, failClosed: true },

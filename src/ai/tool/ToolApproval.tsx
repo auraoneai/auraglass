@@ -58,6 +58,7 @@ export function ToolCallApproval({ part, labels = {}, onApprovalResponse, trigge
             onClick={() => respond(true)}
           >
             {labels.approve ?? 'Approve'}
+            <span data-ag-part="hit-area" aria-hidden="true" />
           </button>
           <button
             type="button"
@@ -66,6 +67,7 @@ export function ToolCallApproval({ part, labels = {}, onApprovalResponse, trigge
             onClick={() => { setReason(''); setAskingFor(requestKey); }}
           >
             {labels.deny ?? 'Deny'}
+            <span data-ag-part="hit-area" aria-hidden="true" />
           </button>
         </>
       ) : (

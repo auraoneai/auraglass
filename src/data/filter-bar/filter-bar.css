@@ -1,6 +1,11 @@
 @layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
 
 @layer ag.components {
+  /* REQ-SURF-192: containing block for the MAT hit area ([data-ag-part=hit-area],
+     src/a11y/css/targets.css) these targets render. :where() keeps it at zero
+     specificity, so a part's own position (absolute, sticky) still wins. */
+  :where([data-ag-part='filter-more'], [data-ag-part='filter-clear']) { position: relative; }
+
   /* REQ-SURF-87: the bar is its own inline-size container; < 480 px the chips
      collapse into "Filters (n)" (CMP Sheet, side=bottom), 480–767 px the chip
      list clamps to two lines and "+n more" expands it. */

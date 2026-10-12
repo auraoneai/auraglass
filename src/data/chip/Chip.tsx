@@ -85,6 +85,7 @@ export function Chip({
         onClick={onRemove}
       >
         <span aria-hidden="true">×</span>
+        <span data-ag-part="hit-area" aria-hidden="true" />
       </button>
     </span>
   );

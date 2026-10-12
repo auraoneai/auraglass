@@ -23,6 +23,7 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 | Part | Selector |
 | --- | --- |
 | `content` | `[data-ag-part="content"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 | `sidebar` | `[data-ag-part="sidebar"]` |
 | `sidebar-collapsible` | `[data-ag-part="sidebar-collapsible"]` |
 | `sidebar-content` | `[data-ag-part="sidebar-content"]` |
