@@ -15,7 +15,7 @@ Tier T1 · RSC client · APG button
 | `defaultPressed?` | `boolean` | — | — |
 | `endIcon?` | `ReactNode` | — | Decorative trailing icon node. |
 | `focusableWhenDisabled?` | `boolean` | — | Keep focusable when disabled (Base UI focusableWhenDisabled). |
-| `intent?` | `Intent` | — | Status tint. Only 'neutral' (default) and 'danger' are valid on controls. |
+| `intent?` | `'danger' \| 'neutral'` | — | Status tint: 'neutral' (default) or 'danger'. info, success and warning are status intents for Badge and Alert, not controls. |
 | `loading?` | `boolean` | — | Show spinner, set aria-busy, suppress activation. Label stays mounted (visibility:hidden). |
 | `onPressedChange?` | `(pressed: boolean, details: ChangeDetails) => void` | — | — |
 | `pointerLight?` | `boolean` | — | Pointer-light highlight opt-in (emitted data-ag-pointer-light; MAT engine installs). |

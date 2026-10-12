@@ -248,7 +248,8 @@ plat:test:cli:
         done
         npm test -w packages/cli -w packages/registry -w packages/mcp -w packages/labs
         test -f tests/types/plat/tsconfig.json || { echo "PENDING: tests/types/plat/tsconfig.json over the packed d.ts (REQ-FIN-41)"; exit 1; }
-        npx tsc -p tests/types/plat
+        # REQ-PLAT-93: extract the packed d.ts, tsc the .test-d.ts files, run the language-service completions.
+        npm run -s plat:test:types:dx
         test -f tests/dx/codemod-canary.spec.ts || { echo "PENDING: tests/dx/codemod-canary.spec.ts (lane 1e)"; exit 1; }
         npx playwright test tests/dx/codemod-canary.spec.ts
       fi
