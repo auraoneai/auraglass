@@ -138,7 +138,7 @@ function SheetRoot({
     return () => ro.disconnect();
   }, [popupElement, axis, resolved, detentState.isFull, detentState.index, detentState.heightsPx, detentDefs]);
 
-  const { emit, depth } = useOverlayLayer({
+  const { emit, depth, actionsRef } = useOverlayLayer({
     kind: layerKind,
     modal,
     open: effectiveOpen,
@@ -184,6 +184,8 @@ function SheetRoot({
           open={open}
           defaultOpen={defaultOpen}
           modal={modal === true ? 'trap-focus' : modal}
+          /* REQ-CMP-12: the LayerStack closes the sheet on Escape */
+          actionsRef={actionsRef as React.RefObject<{ close: () => void; unmount: () => void } | null>}
           disablePointerDismissal={!dismissible}
           onOpenChange={(o, d) => handleOpenChange(o, { event: d?.event, reason: d?.reason })}
         >

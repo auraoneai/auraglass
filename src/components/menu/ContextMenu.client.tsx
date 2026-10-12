@@ -7,6 +7,8 @@ import { ContextMenu as Base } from '@base-ui/react/context-menu';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
+import { useRoutedRootActions } from '../overlays/_shared/useOverlayLayer';
+import type { OverlayRootActions } from '../overlays/_shared/useOverlayLayer';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
 import { useControllableWarning } from '../../foundation/controllable';
@@ -17,7 +19,8 @@ import type {
   MenuRadioGroupProps, MenuRadioItemProps,
 } from './Menu.types';
 
-interface Ctx { open: boolean }
+/* REQ-CMP-12: `actions` is the root's close path for the LayerStack Escape. */
+interface Ctx { open: boolean; actions?: React.RefObject<OverlayRootActions | null> }
 const Ctx = React.createContext<Ctx>({ open: false });
 
 function ContextMenuRoot({ open, defaultOpen, onOpenChange, loop = true, children }: ContextMenuRootProps) {
@@ -25,14 +28,19 @@ function ContextMenuRoot({ open, defaultOpen, onOpenChange, loop = true, childre
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;
   const current = controlled ? open : internal;
+  const buActions = React.useRef<{ close: () => void; unmount: () => void } | null>(null);
+  const routed = useRoutedRootActions(() => buActions.current?.close());
+  const ctx = React.useMemo(() => ({ open: current, actions: routed.actions }), [current, routed.actions]);
   return (
-    <Ctx.Provider value={{ open: current }}>
+    <Ctx.Provider value={ctx}>
       <Base.Root
         open={controlled ? open : undefined}
         defaultOpen={defaultOpen}
+        actionsRef={buActions as React.RefObject<{ close: () => void; unmount: () => void } | null>}
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
-          onOpenChange?.(o, { ...details, reason: toOverlayReason(details?.reason) } as OverlayOpenChangeDetails);
+          const reason = !o && routed.takeEscape() ? 'escape-key' : toOverlayReason(details?.reason);
+          onOpenChange?.(o, { ...details, reason } as OverlayOpenChangeDetails);
         }}
       >
         {children}
@@ -110,7 +118,7 @@ function ContextMenuPopup({ className, children, ref, ...rest }: MenuPopupProps 
     const ctx = React.useContext(Ctx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
-    useOverlayLayer({ kind: 'menu', modal: false, open: ctx.open, element: el });
+    useOverlayLayer({ kind: 'menu', modal: false, open: ctx.open, element: el, actions: ctx.actions });
     const setRefs: React.RefCallback<HTMLDivElement> = (node) => {
       setEl(node);
       animatingRef(node);

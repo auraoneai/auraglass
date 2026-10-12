@@ -55,6 +55,15 @@ export default [
     remote: true,
     failClosed: true,
   },
+  // L5 — REQ-CMP-12: mixed Dialog > Popover > DismissableLayer stack, one Escape per layer
+  {
+    lane: "L5",
+    kind: "playwright",
+    path: "tests/e2e/cmp/overlays/overlay-stack.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
   // L6 — REQ-CMP-13: disabled surfaces never take opacity < 1
   {
     lane: "L6",

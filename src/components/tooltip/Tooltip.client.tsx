@@ -10,6 +10,8 @@ import { childAsRender } from '../overlays/_shared/renderChild';
 import { Tooltip as Base } from '@base-ui/react/tooltip';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
+import { useRoutedRootActions } from '../overlays/_shared/useOverlayLayer';
+import type { OverlayRootActions } from '../overlays/_shared/useOverlayLayer';
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
@@ -31,6 +33,8 @@ interface TooltipCtx {
   /** trigger long-press (coarse) requests open through root state */
   requestOpen: () => void;
   setPopupMounted: (m: boolean) => void;
+  /** REQ-CMP-12: the root's close path for the popup's LayerStack Escape. */
+  actions?: React.RefObject<OverlayRootActions | null>;
 }
 const TooltipCtx = React.createContext<TooltipCtx>({ open: false, popupMounted: false, popupId: '', requestOpen: () => {}, setPopupMounted: () => {} });
 
@@ -56,15 +60,19 @@ function TooltipRoot({ open, defaultOpen, onOpenChange, delay, closeDelay, child
     onOpenChange?.(true, { reason: 'imperative' } as OverlayOpenChangeDetails);
   }, [setOpen, onOpenChange]);
   const [popupMounted, setPopupMounted] = React.useState(false);
-  const ctx = React.useMemo(() => ({ open: current, popupMounted, popupId, requestOpen, setPopupMounted, rootRef: ref, delay, closeDelay }), [current, popupMounted, popupId, requestOpen, ref, delay, closeDelay]);
+  const buActions = React.useRef<{ close: () => void; unmount: () => void } | null>(null);
+  const routed = useRoutedRootActions(() => buActions.current?.close());
+  const ctx = React.useMemo(() => ({ open: current, popupMounted, popupId, requestOpen, setPopupMounted, rootRef: ref, delay, closeDelay, actions: routed.actions }), [current, popupMounted, popupId, requestOpen, ref, delay, closeDelay, routed.actions]);
   return (
     <TooltipCtx.Provider value={ctx}>
       <Base.Root
         open={current}
         defaultOpen={defaultOpen}
+        actionsRef={buActions as React.RefObject<{ close: () => void; unmount: () => void } | null>}
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
-          onOpenChange?.(o, { ...details, reason: toOverlayReason(details?.reason) } as OverlayOpenChangeDetails);
+          const reason = !o && routed.takeEscape() ? 'escape-key' : toOverlayReason(details?.reason);
+          onOpenChange?.(o, { ...details, reason } as OverlayOpenChangeDetails);
         }}
       >
         {children}
@@ -136,7 +144,7 @@ function TooltipPopup({ className, children, ref, ...rest }: TooltipPopupProps &
     const ctx = React.useContext(TooltipCtx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
-    useOverlayLayer({ kind: 'tooltip', modal: false, open: ctx.open, element: el });
+    useOverlayLayer({ kind: 'tooltip', modal: false, open: ctx.open, element: el, actions: ctx.actions });
     React.useLayoutEffect(() => {
       if (process.env.NODE_ENV !== 'production' && el && el.querySelector(INTERACTIVE)) {
         console.error(

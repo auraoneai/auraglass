@@ -41,7 +41,7 @@ function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', 
   const effectiveOpen = open ?? internalOpen;
   const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
   const popupElRef = React.useRef<HTMLElement | null>(null);
-  const { emit, depth } = useOverlayLayer({
+  const { emit, depth, actionsRef } = useOverlayLayer({
     kind: 'alert-dialog',
     modal: true,
     open: effectiveOpen,
@@ -58,6 +58,8 @@ function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', 
         open={open}
         defaultOpen={defaultOpen}
         modal="trap-focus"
+        /* REQ-CMP-12: the LayerStack closes the alert dialog on Escape */
+        actionsRef={actionsRef as React.RefObject<{ close: () => void; unmount: () => void } | null>}
         disablePointerDismissal
         onOpenChange={(o, d) => { setInternalOpen(o); emit(o, { event: d?.event, reason: d?.reason }); }}
       >

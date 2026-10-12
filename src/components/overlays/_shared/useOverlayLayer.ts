@@ -14,11 +14,17 @@
    DismissableLayer stacks.
 
    Roots wire this by passing the returned `actionsRef` to their `Base.Root`
-   and routing Base UI's onOpenChange through `emit`. A root that has not
-   wired `actionsRef` yet keeps the previous behaviour: its entry returns
-   `false` from onEscape, the stack leaves the native event alone and Base
-   UI's dismiss closes the popup (it still claims the key against lower
-   layers, because the stack stops at the topmost open entry).
+   and routing Base UI's onOpenChange through `emit`. Overlays that register
+   from the popup (Popover, Menu, ContextMenu, Tooltip) or whose Base UI root
+   has no imperative close (Select, Combobox) create the close path at the
+   root with `useRoutedRootActions` and hand it to the popup's registration
+   as `actions`; the root then reports the stack-dispatched close as
+   'escape-key' through `takeEscape()`. An entry without any actions returns
+   `false` from onEscape and Base UI's own dismiss closes the popup.
+
+   Outside press stays Base UI-owned: it is pointer-targeted (the press lands
+   outside exactly one popup's tree), so it cannot double-dismiss a stack the
+   way a document-level Escape can; Base UI reports it as 'outside-press'.
 
    Scroll lock: modal overlays pass `lockScroll: modal`, so the stack's
    `<html data-ag-scroll-locked>` is the scroll-lock owner.
@@ -38,6 +44,9 @@ export interface OverlayLayerOptions {
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
   /** Popup element once mounted (fed back by the root for LayerEntry.element). */
   element?: HTMLElement | null | undefined;
+  /** Close path supplied by the root (useRoutedRootActions) when the
+      registration lives in the popup or Base UI has no imperative close. */
+  actions?: React.RefObject<OverlayRootActions | null> | undefined;
 }
 
 /** The subset of Base UI's Root `actionsRef` the stack needs. */
@@ -54,7 +63,7 @@ export interface OverlayLayerHandle {
   actionsRef: React.RefObject<OverlayRootActions | null>;
 }
 
-export function useOverlayLayer({ kind, modal, open, onOpenChange, element }: OverlayLayerOptions): OverlayLayerHandle {
+export function useOverlayLayer({ kind, modal, open, onOpenChange, element, actions: externalActions }: OverlayLayerOptions): OverlayLayerHandle {
   const handlerRef = React.useRef(onOpenChange);
   handlerRef.current = onOpenChange;
   const lastEmit = React.useRef<{ open: boolean; reason: string } | null>(null);
@@ -81,14 +90,14 @@ export function useOverlayLayer({ kind, modal, open, onOpenChange, element }: Ov
   }, []);
 
   const onEscape = React.useCallback((): boolean => {
-    const actions = actionsRef.current;
+    const actions = externalActions?.current ?? actionsRef.current;
     if (!actions) return false; // root not wired yet: Base UI's dismiss closes it
     escapePending.current = true;
     actions.close();
     // close() reports synchronously in Base UI; clear the flag if it did not.
     queueMicrotask(() => { escapePending.current = false; });
     return true;
-  }, []);
+  }, [externalActions]);
 
   const { id, depth, isTop } = useLayer({
     kind,
@@ -112,4 +121,38 @@ export function useOverlayLayer({ kind, modal, open, onOpenChange, element }: Ov
   }, [element, open, depth]);
 
   return { id, depth, isTop, emit, actionsRef };
+}
+
+export interface RoutedRootActions {
+  /** Pass to the popup's useOverlayLayer({ actions }). */
+  actions: React.RefObject<OverlayRootActions | null>;
+  /** True (once) when the close now being reported came from the stack's Escape. */
+  takeEscape: () => boolean;
+}
+
+/** Root-side close path for overlays whose LayerStack entry is registered by
+    the popup, or whose Base UI root exposes no imperative close. `close`
+    performs the actual close (Base UI actionsRef.close(), or the root's
+    controlled open state); the close it triggers is then reported by the
+    root's onOpenChange as reason 'escape-key' via takeEscape(). */
+export function useRoutedRootActions(close: () => void): RoutedRootActions {
+  const closeRef = React.useRef(close);
+  closeRef.current = close;
+  const escape = React.useRef(false);
+  const actions = React.useRef<OverlayRootActions | null>(null);
+  if (actions.current === null) {
+    actions.current = {
+      close: () => {
+        escape.current = true;
+        closeRef.current();
+        queueMicrotask(() => { escape.current = false; });
+      },
+    };
+  }
+  const takeEscape = React.useCallback(() => {
+    const was = escape.current;
+    escape.current = false;
+    return was;
+  }, []);
+  return { actions, takeEscape };
 }

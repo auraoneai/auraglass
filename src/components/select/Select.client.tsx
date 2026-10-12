@@ -8,7 +8,7 @@ import { defaultPositionerProps } from '../overlays/_shared/positioning';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { materialProps } from '../../material';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
-import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
+import { useOverlayLayer, useRoutedRootActions } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
@@ -74,16 +74,24 @@ function SelectRoot<Value = string>({
   const scopeRef = React.useRef<HTMLSpanElement | null>(null);
   const [resetNonce, setResetNonce] = React.useState(0);
   const restRec = rest as Record<string, unknown>;
-  const [internalOpen, setInternalOpen] = React.useState(false);
+  const [internalOpen, setInternalOpen] = React.useState(restRec.defaultOpen === true);
   const effectiveOpen = restRec.open !== undefined ? restRec.open === true : internalOpen;
   const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
+  /* REQ-CMP-12: Base UI Select has no imperative close, so the root drives
+     BU's open state and the LayerStack's Escape closes through it. */
+  const routed = useRoutedRootActions(() => {
+    setInternalOpen(false);
+    emit(false, { reason: 'escape-key' });
+  });
   const { emit } = useOverlayLayer({
     kind: 'select',
     modal: false,
     open: effectiveOpen,
     onOpenChange,
     element: popupElement,
+    actions: routed.actions,
   });
+  const { open: _open, defaultOpen: _defaultOpen, ...baseRest } = restRec;
   const layerCtx = React.useMemo(() => ({ setPopupElement }), []);
   /* Form reset: BU keeps selection internally, so restore defaultValue by
    * remounting the root (uncontrolled) or notifying the owner (controlled). */
@@ -105,7 +113,8 @@ function SelectRoot<Value = string>({
       <SelectLayerContext.Provider value={layerCtx}>
       <Base.Root
         key={resetNonce}
-        {...(rest as Record<string, unknown>)}
+        {...baseRest}
+        open={effectiveOpen}
         {...(form ? { form } : {})}
         {...(name ? { name } : {})}
         onValueChange={(v, d) => onValueChange?.(v as Value | Value[] | null, toChangeDetails(d))}

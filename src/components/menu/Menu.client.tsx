@@ -12,6 +12,8 @@ import { Menubar as BaseMenubar } from '@base-ui/react/menubar';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
+import { useRoutedRootActions } from '../overlays/_shared/useOverlayLayer';
+import type { OverlayRootActions } from '../overlays/_shared/useOverlayLayer';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
 import { materialProps } from '../../material';
@@ -25,7 +27,9 @@ import type {
   MenubarProps,
 } from './Menu.types';
 
-interface MenuCtx { open: boolean }
+/* REQ-CMP-12: `actions` is the root's close path the popup's LayerStack
+   entry uses on Escape (useRoutedRootActions). */
+interface MenuCtx { open: boolean; actions?: React.RefObject<OverlayRootActions | null> }
 const MenuCtx = React.createContext<MenuCtx>({ open: false });
 /* Own menubar marker — BU's useMenubarContext is internal-only (not exported
    from the package index, and a deep import would hit the dual .mjs/.js
@@ -37,16 +41,21 @@ function MenuRoot({ open, defaultOpen, onOpenChange, loop = true, orientation, c
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;
   const current = controlled ? open : internal;
+  const buActions = React.useRef<{ close: () => void; unmount: () => void } | null>(null);
+  const routed = useRoutedRootActions(() => buActions.current?.close());
+  const ctx = React.useMemo(() => ({ open: current, actions: routed.actions }), [current, routed.actions]);
   return (
-    <MenuCtx.Provider value={{ open: current }}>
+    <MenuCtx.Provider value={ctx}>
       <Base.Root
         open={controlled ? open : undefined}
         defaultOpen={defaultOpen}
         loopFocus={loop}
         orientation={orientation}
+        actionsRef={buActions as React.RefObject<{ close: () => void; unmount: () => void } | null>}
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
-          onOpenChange?.(o, { ...details, reason: toOverlayReason(details?.reason) } as OverlayOpenChangeDetails);
+          const reason = !o && routed.takeEscape() ? 'escape-key' : toOverlayReason(details?.reason);
+          onOpenChange?.(o, { ...details, reason } as OverlayOpenChangeDetails);
         }}
       >
         {children}
@@ -101,7 +110,7 @@ function MenuPopup({ className, children, ref, ...rest }: MenuPopupProps & { ref
     const ctx = React.useContext(MenuCtx);
     const [el, setEl] = React.useState<HTMLDivElement | null>(null);
     const animatingRef = useOverlayAnimating();
-    const { depth } = useOverlayLayer({ kind: 'menu', modal: false, open: ctx.open, element: el });
+    const { depth } = useOverlayLayer({ kind: 'menu', modal: false, open: ctx.open, element: el, actions: ctx.actions });
     const setRefs: React.RefCallback<HTMLDivElement> = (node) => {
       setEl(node);
       animatingRef(node);
@@ -242,16 +251,21 @@ function MenuSubmenu(props: MenuSubmenuProps) {
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;
   const current = controlled ? open : internal;
+  const buActions = React.useRef<{ close: () => void; unmount: () => void } | null>(null);
+  const routed = useRoutedRootActions(() => buActions.current?.close());
+  const ctx = React.useMemo(() => ({ open: current, actions: routed.actions }), [current, routed.actions]);
   return (
-    <MenuCtx.Provider value={{ open: current }}>
+    <MenuCtx.Provider value={ctx}>
       <Base.SubmenuRoot
         open={controlled ? open : undefined}
         defaultOpen={defaultOpen}
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
-          onOpenChange?.(o, { ...details, reason: toOverlayReason(details?.reason) } as OverlayOpenChangeDetails);
+          const reason = !o && routed.takeEscape() ? 'escape-key' : toOverlayReason(details?.reason);
+          onOpenChange?.(o, { ...details, reason } as OverlayOpenChangeDetails);
         }}
         {...rest}
+        actionsRef={buActions as React.RefObject<{ close: () => void; unmount: () => void } | null>}
       >
         {children}
       </Base.SubmenuRoot>
