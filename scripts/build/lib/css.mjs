@@ -435,13 +435,6 @@ export async function assembleAllCss(root = ROOT, { lower = false } = {}) {
     writeFileSync(dest, css);
     written.push(`dist/${b}`);
   }
-  // copy every url() asset next to the bundles that reference it (REQ-SURF-160)
-  for (const { from, to } of new Map(assets.map((a) => [a.to, a])).values()) {
-    const dest = join(DIST, relative('dist', to));
-    mkdirSync(dirname(dest), { recursive: true });
-    copyFileSync(join(root, from), dest);
-    written.push(`${to} (asset)`);
-  }
   // MAT-owned standalone artifacts are emitted by MAT's tokens:build and copied
   // through, never reassembled: PLAT only checks ownership and (with lower)
   // applies the same color-mix guard + minify every shipped bundle gets.
@@ -460,7 +453,7 @@ export async function assembleAllCss(root = ROOT, { lower = false } = {}) {
       // #175 to FIN-A), it is assembled from MAT's own fragments/css/mat.ts
       // rows in their contract order, and reported as pending so the
       // transition stays visible.
-      let css = await assembleBundle(spec, fragments, root);
+      let css = await assembleBundle(spec, fragments, root, assets);
       checkOwnership(spec, css, ownership);
       if (lower) css = await lowerCss(css);
       writeFileSync(dest, css);
@@ -471,6 +464,14 @@ export async function assembleAllCss(root = ROOT, { lower = false } = {}) {
     } else {
       pending.push(`dist/${spec} (MAT tokens:build output pending)`);
     }
+  }
+  // copy every url() asset next to the bundles that reference it (REQ-SURF-160);
+  // after the MAT loop so the material.css fragment fallback's assets land too
+  for (const { from, to } of new Map(assets.map((a) => [a.to, a])).values()) {
+    const dest = join(DIST, relative('dist', to));
+    mkdirSync(dirname(dest), { recursive: true });
+    copyFileSync(join(root, from), dest);
+    written.push(`${to} (asset)`);
   }
   return { written, pending, baselined, ownership };
 }

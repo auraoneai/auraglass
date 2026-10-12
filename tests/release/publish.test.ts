@@ -265,7 +265,7 @@ describe('plat:package:pack -> plat:publish:npm handoff (REQ-PLAT-11)', () => {
   it('publish.mjs accepts the record the pack job writes', () => {
     const f = fixture();
     const root = f.addTarball('aura-glass', '5.0.0-alpha.1', { record: false });
-    const cli = f.addTarball('@auraglass/cli', '0.1.0', { record: false });
+    const cli = f.addTarball('aura-glass-cli', '0.1.0', { record: false });
     f.state.distTags['aura-glass'] = { latest: '4.1.0', next: '5.0.0-alpha.0' };
     const packJob = () => {
       // fixture's own record is removed: only the pack job's output may satisfy publish.mjs
