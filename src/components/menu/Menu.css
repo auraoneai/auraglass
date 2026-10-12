@@ -19,7 +19,6 @@
     border-radius: var(--ag-radius-md);
     color: var(--ag-on-surface);
     font-family: var(--ag-font-sans);
-    outline: none;
   }
 
   .ag-menu-popup[data-state='open'],
@@ -55,7 +54,6 @@
     color: var(--ag-on-surface);
     cursor: default;
     user-select: none;
-    outline: none;
   }
   @media (pointer: coarse) {
     .ag-menu-item, .ag-menu-submenu-trigger { min-block-size: 44px; }
@@ -180,10 +178,6 @@
   .ag-menubar .ag-menu-trigger[data-popup-open],
   .ag-menubar .ag-menu-trigger[data-highlighted] {
     background: color-mix(in oklab, currentColor 12%, transparent);
-  }
-  .ag-menubar .ag-menu-trigger:focus-visible {
-    outline: var(--ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
-    outline-offset: -2px;
   }
 
   .ag-contextmenu-trigger {

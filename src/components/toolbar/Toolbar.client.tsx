@@ -154,6 +154,7 @@ function ToolbarLink({ className, children, ref, ...rest }: ToolbarLinkProps) {
     <Base.Link
       {...rest}
       data-ag-part="link"
+      data-ag-focus-inset=""
       className={cn('ag-toolbar-link', className)}
       ref={ref}
     >

@@ -68,10 +68,7 @@
       background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-toolbar-hover-tint, 8%), transparent);
     }
   }
-  .ag-toolbar-link:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-color-focus-inner);
-    outline-offset: calc(var(--ag-focus-width) * -1);
-  }
+  /* focus ring: src/a11y/css/focus.css, drawn inside ([data-ag-focus-inset]) */
 
 /* REQ-CMP-40: concentric item shape inside capsule roots — inner radius =
    root radius - root inset padding (--ag-radius-full is a pill radius far

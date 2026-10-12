@@ -28,7 +28,6 @@
     font-family: var(--ag-font-sans);
     font-size: var(--ag-type-body-size);
     line-height: var(--ag-type-body-leading);
-    outline: none;
     z-index: var(--ag-z-overlay, 300);
   }
   .ag-dialog-popup[data-placement='top'] {

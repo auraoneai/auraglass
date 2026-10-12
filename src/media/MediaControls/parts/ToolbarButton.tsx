@@ -4,7 +4,9 @@
  * CMP Toolbar.Button pins data-ag-part="button" on its render element, which
  * would erase the media-<part> markers (selectors, meta, specs), so the same
  * composition is done here with the part name passed through. The CMP seam
- * request to let Toolbar.Button forward a part name is recorded in the PR. */
+ * request to let Toolbar.Button forward a part name is recorded in the PR.
+ * REQ-MAT-62: the IconButton's inner parts (icon, hit-area) are kept, so the
+ * MAT hit area gives every media control >= 24px fine / 44px coarse. */
 import * as React from 'react';
 import { Toolbar as BaseToolbar } from '../../../foundation/base-ui/toolbar';
 import { IconButton } from '../../../components/icon-button';
@@ -28,7 +30,6 @@ export function MediaToolbarButton(props: MediaToolbarButtonProps): React.ReactE
           label={label}
           icon={icon}
           data-ag-part={part}
-          suppressInnerParts
           className={['ag-media-btn', className].filter(Boolean).join(' ')}
         />
       }

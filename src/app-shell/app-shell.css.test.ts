@@ -244,9 +244,9 @@ describe('app-shell.css structure (SURF-011)', () => {
     );
     // 1px line + 2 x 24px outset = 49px >= 44px coarse target
     expect(coarse?.declarations.get('inset')).toBe('calc(var(--ag-space-6, 24px) * -1)');
-    const focus = rules.find((r) => r.selector === '.ag-panels__handle:focus-visible');
-    // SURF-25 (#641/#647): the handle ring keys on the public accent var.
-    expect(focus?.declarations.get('outline')).toContain('var(--ag-color-accent)');
+    // REQ-MAT-61: the handle (a [data-ag-part]) takes MAT's single ring
+    // (src/a11y/css/focus.css); app-shell.css draws no ring of its own.
+    expect(rules.filter((r) => /:focus-visible/.test(r.selector) && r.declarations.has('outline'))).toEqual([]);
   });
 
   it('uses the four-row named-area grid with a scroll-owning main and dvh sizing', () => {
@@ -355,21 +355,22 @@ describe('app-shell.css structure (SURF-011)', () => {
     expect(bad).toEqual([]);
   });
 
-  it('keys the nav indicator, focus ring and tab indicators on --ag-color-accent (SURF-25)', () => {
+  it('keys the nav indicator and tab indicators on --ag-color-accent; no local focus ring (SURF-25, REQ-MAT-61)', () => {
     const decl = (sel: string, prop: string) =>
       rules.find((r) => r.selector === sel || r.selector.split(/,\s*(?![^(]*\))/).map((x) => x.trim()).includes(sel))
         ?.declarations.get(prop);
     expect({
       nav: decl(".ag-app-shell [data-ag-part='sidebar-item'][aria-current='page']", 'box-shadow'),
-      focus: decl('.ag-app-shell :is(a, button, [tabindex]):not([data-ag-focusable], .ag-focusable):focus-visible', 'outline'),
       tabs: decl('.ag-app-shell .ag-tabs__indicator', 'background'),
       tabbar: decl(".ag-app-shell .ag-tab-bar__item[aria-current='page']", 'box-shadow'),
     }).toEqual({
-      nav: 'inset 3px 0 0 var(--ag-color-accent)',
-      focus: 'var(--ag-focus-width, 2px) solid var(--ag-color-accent)',
+      nav: 'inset calc(var(--ag-focus-width) * 1.5) 0 0 var(--ag-color-accent)',
       tabs: 'var(--ag-color-accent)',
-      tabbar: 'inset 0 -2px 0 var(--ag-color-accent)',
+      tabbar: 'inset 0 calc(var(--ag-focus-width) * -1) 0 var(--ag-color-accent)',
     });
+    const ringRules = rules.filter((r) => /:focus(-visible|-within)?\b/.test(r.selector)
+      && (r.declarations.has('outline') || r.declarations.has('box-shadow') || r.declarations.has('outline-offset')));
+    expect(ringRules.map((r) => r.selector)).toEqual([]);
   });
 
   it('sidebar content owns its scroll and appearances have geometry (SURF-27)', () => {

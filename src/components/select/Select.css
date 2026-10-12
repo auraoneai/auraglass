@@ -84,7 +84,6 @@
     color: var(--ag-color-on-surface);
     font-size: var(--ag-type-body-size);
     line-height: var(--ag-type-body-leading);
-    outline: none;
     transform-origin: var(--transform-origin);
     z-index: var(--ag-z-overlay, auto);
   }
@@ -131,7 +130,6 @@
     border-radius: var(--ag-radius-sm);
     cursor: default;
     user-select: none;
-    outline: none;
   }
   .ag-select-item[data-highlighted] {
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-raised-alpha, 9%), transparent);

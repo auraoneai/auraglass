@@ -38,7 +38,6 @@
     background: transparent;
     color: inherit;
     font: inherit;
-    outline: none;
     padding-block: var(--ag-space-1);
   }
   .ag-combobox [data-ag-part='input']::placeholder {
@@ -127,9 +126,6 @@
   .ag-combobox-chip [data-ag-part='chip-remove']:hover {
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-raised-alpha, 10%), transparent);
   }
-  .ag-combobox-chip [data-ag-part='chip-remove']:focus-visible {
-    outline: var(--ag-focus-width) solid var(--ag-color-focus-inner);
-  }
 
   /* Popup */
   .ag-combobox-popup {
@@ -143,7 +139,6 @@
     color: var(--ag-color-on-surface);
     font-size: var(--ag-type-body-size);
     line-height: var(--ag-type-body-leading);
-    outline: none;
     transform-origin: var(--transform-origin);
     z-index: var(--ag-z-overlay, auto);
   }
@@ -174,7 +169,6 @@
     border-radius: var(--ag-radius-sm);
     cursor: default;
     user-select: none;
-    outline: none;
   }
   .ag-combobox-item[data-highlighted] {
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--_ag-content-raised-alpha, 9%), transparent);

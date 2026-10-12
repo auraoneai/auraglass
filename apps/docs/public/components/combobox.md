@@ -28,7 +28,7 @@ Tier T1 · RSC client · APG combobox
 | `loadDebounceMs?` | `number` | — | — |
 | `loading?` | `boolean` | — | Sets aria-busy on the list and one polite announcement (<=1/500ms). |
 | `loadOptions?` | `(query: string, ctx: ComboboxLoadContext) => Promise<Value[]>` | — | Async options source; debounced loadDebounceMs after the last keystroke. |
-| `messages?` | `Partial<Record<'clearSearch' \| 'increase' \| 'decrease' \| 'removeItem' \| 'noResults' \| 'openCalendar' \| 'loadFailed' \| 'createItem' \| 'loadingResults' \| 'required' \| 'optional' \| 'showPassword' \| 'hidePassword', string>>` | — | — |
+| `messages?` | `Partial<Record<'clearSearch' \| 'increase' \| 'decrease' \| 'removeItem' \| 'noResults' \| 'openCalendar' \| 'loadError' \| 'loadFailed' \| 'createItem' \| 'loadingResults' \| 'required' \| 'optional' \| 'showPassword' \| 'hidePassword', string>>` | — | — |
 | `mode?` | `ComboboxMode` | — | 'select' (default) \| 'autocomplete' — free text is the value. |
 | `multiple?` | `boolean` | — | — |
 | `name?` | `string` | — | — |

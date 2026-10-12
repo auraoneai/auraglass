@@ -11,6 +11,7 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { verifyFocusSingleOwner } from './verify-focus-single-owner.mjs';
 
 const root = process.cwd();
 const failures = [];
@@ -72,9 +73,10 @@ if (traps.length) failures.push(`focus traps outside FocusScope: ${traps.join(',
 const live = rg(['-l', 'aria-live', 'src']).trim().split('\n').filter(Boolean)
   .filter((f) => !f.startsWith('src/theme/announcer') && isShipped(f));
 if (live.length) failures.push(`live regions outside theme/announcer: ${live.join(', ')}`);
-const focusCss = rg(['-l', ':focus-visible|:focus\\s*\\{', 'src', '--glob', '*.css']).trim().split('\n').filter(Boolean)
-  .filter((f) => f !== 'src/a11y/css/focus.css');
-if (focusCss.length) failures.push(`focus CSS outside a11y/css/focus.css: ${focusCss.join(', ')}`);
+// REQ-MAT-61: the shared single-owner scan (also its own L1 pr/main row) —
+// focus-indicator rules and outline removals outside src/a11y/css/focus.css.
+const focusCss = verifyFocusSingleOwner(root);
+if (focusCss.length) failures.push(`focus CSS outside a11y/css/focus.css: ${focusCss.map((f) => `${f.file}:${f.line} ${f.rule}`).join(', ')}`);
 
 // ---- delegate to the css gate + apg coverage ----
 for (const [script, args] of [

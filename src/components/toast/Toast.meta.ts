@@ -12,7 +12,7 @@ const meta: ControlMeta = defineMeta({
   rsc: 'client',
   parts: [
     'viewport', 'toast', 'content', 'title', 'description',
-    'action', 'close', 'progress',
+    'action', 'close', 'progress', 'hit-area',
   ],
   states: [
     'open', 'closed', 'starting-style', 'ending-style', 'animating',

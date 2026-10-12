@@ -215,14 +215,21 @@ function ToastDescription({ className, ref, ...rest }: ToastDescriptionProps & {
     return <Base.Description ref={ref as React.Ref<HTMLDivElement>} data-ag-part="description" className={cn('ag-toast-description', className)} {...rest} />;
   }
 
-function ToastAction({ className, ref, ...rest }: ToastActionProps & { ref?: React.Ref<HTMLButtonElement> | undefined }) {
-    return <Base.Action ref={ref} data-ag-part="action" className={cn('ag-toast-action', className)} {...rest} />;
+function ToastAction({ className, children, ref, ...rest }: ToastActionProps & { ref?: React.Ref<HTMLButtonElement> | undefined }) {
+    return (
+      <Base.Action ref={ref} data-ag-part="action" className={cn('ag-toast-action', className)} {...rest}>
+        {children}
+        {/* REQ-MAT-62: MAT hit area — >= 24px fine / 44px coarse, no layout change */}
+        <span data-ag-part="hit-area" aria-hidden="true" />
+      </Base.Action>
+    );
   }
 
 function ToastClose({ className, children, ref, ...rest }: ToastCloseProps & { ref?: React.Ref<HTMLButtonElement> | undefined }) {
     return (
       <Base.Close ref={ref} data-ag-part="close" aria-label={rest['aria-label'] ?? 'Dismiss'} className={cn('ag-toast-close', className)} {...rest}>
         {children}
+        <span data-ag-part="hit-area" aria-hidden="true" />
       </Base.Close>
     );
   }

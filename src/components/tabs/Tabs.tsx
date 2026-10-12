@@ -170,7 +170,8 @@ function TabsTab({ value, disabled, children, render, ...rest }: TabsTabProps) {
     render: render as React.ReactElement | undefined,
     'data-ag-part': 'tab',
     ...rest,
-    children,
+    // REQ-MAT-62: MAT hit area — >= 24px fine / 44px coarse, no layout change
+    children: <>{children}<span data-ag-part="hit-area" aria-hidden="true" /></>,
   });
   return (
     <BaseTabs.Tab
@@ -185,6 +186,8 @@ function TabsTab({ value, disabled, children, render, ...rest }: TabsTabProps) {
             ? 'active'
             : 'inactive',
           'data-ag-part': 'tab',
+          // REQ-MAT-61: the MAT ring is drawn inside the scrolling tab list
+          'data-ag-focus-inset': '',
           className: 'ag-tabs__tab',
         })) as never}
     />

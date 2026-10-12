@@ -3,12 +3,14 @@
    mat:a11y-suites-firefox project ignores this file: Playwright has no
    isMobile emulation for Firefox, so no coarse pointer can be produced there).
    On every subject from listSubjects() (S-40): every REQ-A11Y-30 part
-   >=44x44, no hit-area rects intersect, and the host layout box is unchanged
-   with/without HitArea. Failures are attributed to the subject's owner. */
+   >=44x44, no hit-area rects intersect, the host layout box is unchanged
+   with/without HitArea, and every interactive element owns a 44x44 box
+   centred on itself by elementFromPoint (helpers/targets.ts, REQ-MAT-62). Failures are attributed to the subject's owner. */
 import { test, expect } from '@playwright/test';
 import { assertMedia } from './helpers/emulate';
 import { listSubjects } from '../../helpers';
 import { sweepSubjects, tag, byOwner, type Owner } from './helpers/subjects';
+import { probeTargets } from './helpers/targets';
 import fs from 'node:fs';
 
 const COARSE_PARTS = [
@@ -68,6 +70,13 @@ test.describe('target size (coarse)', () => {
       });
       for (const d of drift) {
         if (d.d !== 0) fails.push({ owner: s.owner, msg: `${tag(s)} ${d.part} host box changes by ${d.d}px with HitArea` });
+      }
+      // every interactive element owns a 44x44 box centred on itself: the
+      // hit area (or the element) answers elementFromPoint at the centre and
+      // ±21.5 px on both axes — beyond a 24px host's edge by >= 10px
+      for (const p of await probeTargets(page, 21.5)) {
+        measured += 1;
+        if (!p.owned) fails.push({ owner: s.owner, msg: `${tag(s)} ${p.part || p.tag} ${p.w}x${p.h} does not own a centred 44x44 box at coarse pointer (missed ${p.missed.join(',')})` });
       }
     }
     await context.close();

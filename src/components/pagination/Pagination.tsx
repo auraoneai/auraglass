@@ -165,6 +165,8 @@ function PaginationPageLink({
       className="ag-pagination__link"
     >
       {page}
+      {/* REQ-MAT-62: MAT hit area */}
+      <span data-ag-part="hit-area" aria-hidden="true" />
     </a>
   );
 }
@@ -191,6 +193,7 @@ function PaginationArrowLink({
       className="ag-pagination__link"
     >
       {part === 'previous' ? '‹' : '›'}
+      <span data-ag-part="hit-area" aria-hidden="true" />
     </a>
   );
 }
@@ -213,7 +216,7 @@ export function PaginationItem({ page, current, href, children, render, ...rest 
         'aria-current': current ? ('page' as const) : undefined,
         className: 'ag-pagination__link',
         ...rest,
-        children: children ?? page,
+        children: <>{children ?? page}<span data-ag-part="hit-area" aria-hidden="true" /></>,
       })}
     </li>
   );
@@ -238,7 +241,7 @@ export function PaginationPrevious({ href, disabled, render, ...rest }: Paginati
         tabIndex: 0,
         className: 'ag-pagination__link',
         ...rest,
-        children: '‹',
+        children: <>{'‹'}<span data-ag-part="hit-area" aria-hidden="true" /></>,
       })}
     </li>
   );
@@ -258,7 +261,7 @@ export function PaginationNext({ href, disabled, render, ...rest }: PaginationAr
         tabIndex: 0,
         className: 'ag-pagination__link',
         ...rest,
-        children: '›',
+        children: <>{'›'}<span data-ag-part="hit-area" aria-hidden="true" /></>,
       })}
     </li>
   );

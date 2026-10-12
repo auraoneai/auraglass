@@ -53,11 +53,7 @@
     background-color: color-mix(in oklch, currentColor 12%, transparent);
   }
   .ag-media-btn:not([data-ag-surface]):active { background-color: color-mix(in oklch, currentColor 18%, transparent); }
-  .ag-media-btn:focus-visible,
-  [data-ag-part='now-playing-expand']:focus-visible {
-    outline: var(--_ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
-    outline-offset: var(--_ag-focus-width, 2px);
-  }
+  /* focus ring: src/a11y/css/focus.css (REQ-MAT-61) */
   .ag-media-btn[aria-disabled='true'] { cursor: default; }
   @media (pointer: coarse) {
     .ag-media-btn { min-inline-size: var(--ag-target-coarse, 2.75rem); min-block-size: var(--ag-target-coarse, 2.75rem); }
@@ -319,10 +315,6 @@
     cursor: zoom-in;
   }
   [data-ag-part='image-viewer-trigger'] > img { display: block; }
-  [data-ag-part='image-viewer-trigger']:focus-visible {
-    outline: var(--_ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
-    outline-offset: var(--_ag-focus-width, 2px);
-  }
 
   /* CarouselRail */
   .ag-carousel { position: relative; --_ag-carousel-gap: var(--ag-space-3, 0.75rem); }
@@ -350,10 +342,6 @@
   }
   .ag-carousel-nav[aria-disabled='true'] { cursor: default; }
   .ag-carousel-nav > svg { display: block; }
-  .ag-carousel-nav:focus-visible {
-    outline: var(--_ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
-    outline-offset: var(--_ag-focus-width, 2px);
-  }
   [data-ag-part='carousel-prev'] { inset-inline-start: var(--ag-space-2, 0.5rem); }
   [data-ag-part='carousel-next'] { inset-inline-end: var(--ag-space-2, 0.5rem); }
   @media (pointer: coarse) { .ag-carousel-nav { display: none; } }
@@ -368,10 +356,6 @@
   }
   [data-ag-part='carousel-indicator'][aria-selected='true'],
   [data-ag-part='carousel-indicator'][aria-current='true'] { background-color: currentColor; }
-  [data-ag-part='carousel-indicator']:focus-visible {
-    outline: var(--_ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
-    outline-offset: var(--_ag-focus-width, 2px);
-  }
   [data-ag-part='carousel-autoplay-toggle'] { position: absolute; inset-inline-start: var(--ag-space-2, 0.5rem); inset-block-start: var(--ag-space-2, 0.5rem); z-index: 1; }
 /* --- end lane W4 iv/carousel --- */
 }

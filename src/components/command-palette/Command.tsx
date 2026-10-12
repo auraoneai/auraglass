@@ -262,6 +262,8 @@ function CommandInput({ placeholder, render, ...rest }: CommandInputProps) {
     'aria-autocomplete': 'list',
     'aria-activedescendant': ctx.activeId,
     'data-ag-part': 'input',
+    // REQ-MAT-61: the MAT ring is drawn inside the palette's clipped popup
+    'data-ag-focus-inset': '',
     className: 'ag-command__input',
     placeholder,
     value: ctx.query,

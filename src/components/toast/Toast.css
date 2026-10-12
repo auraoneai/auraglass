@@ -16,7 +16,6 @@
     padding: var(--ag-space-4);
     z-index: var(--ag-z-toast, 60);
     pointer-events: none; /* children re-enable */
-    outline: none;
   }
   .ag-toast-viewport[data-position^='top'] { top: 0; flex-direction: column; }
   .ag-toast-viewport[data-position^='bottom'] { bottom: 0; flex-direction: column-reverse; }
@@ -42,7 +41,6 @@
     font-family: var(--ag-font-sans);
     font-size: var(--ag-type-callout-size);
     line-height: var(--ag-type-callout-leading);
-    outline: none;
     /* intent is a dot before the title, not a 3px border stripe bent around
        the glass corner radius */
     --_ag-toast-accent: var(--ag-color-info);
@@ -110,6 +108,7 @@
     color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
   }
   .ag-toast-action {
+    position: relative; /* REQ-MAT-62: containing block of the hit area */
     align-self: flex-start;
     margin-inline-start: calc(var(--ag-space-2) * 2);
     padding: var(--ag-space-1) var(--ag-space-3);
@@ -143,11 +142,6 @@
   }
   @media (hover: hover) {
     .ag-toast-close:hover { background: color-mix(in oklab, currentColor 12%, transparent); }
-  }
-  .ag-toast-action:focus-visible,
-  .ag-toast-close:focus-visible {
-    outline: var(--ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
-    outline-offset: 1px;
   }
 
   .ag-toast-progress {

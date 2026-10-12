@@ -83,6 +83,8 @@ export function PaginationButtons({
         onClick={disabled || n === undefined ? undefined : () => goto(n)}
       >
         {part === 'page' ? n : part === 'previous' ? '\u2039' : '\u203a'}
+        {/* REQ-MAT-62: MAT hit area */}
+        <span data-ag-part="hit-area" aria-hidden="true" />
       </button>
     </li>
   );
