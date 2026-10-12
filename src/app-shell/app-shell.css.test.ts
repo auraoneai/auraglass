@@ -495,3 +495,56 @@ describe('app-shell.css workspace auto-grid (REQ-SURF-41)', () => {
     );
   });
 });
+
+/* REQ-SURF-54: the bottom bar exists only in compact; a floating tab bar is
+   visible at every width as a bottom-anchored overlay on Main. The TabBar's
+   frame child is its SurfaceGroup (.ag-tab-bar), so the group carries the
+   slot geometry. */
+describe('tab bar visibility by appearance (REQ-SURF-54)', () => {
+  const COMPACT = '@container ag-app-shell (width < 600px)';
+  const BAR_GROUP = ".ag-app-shell__frame > .ag-tab-bar:has(> [data-ag-slot='tabbar']:not([data-ag-appearance='floating']))";
+  const FLOAT_GROUP = ".ag-app-shell__frame > .ag-tab-bar:has(> [data-ag-slot='tabbar'][data-ag-appearance='floating'])";
+  const exact = (s: string) => rules.filter((r) => selectorsOf(r).includes(s));
+  const top = (rs: CssRule[]) => rs.filter((r) => r.ancestors.length === 1);
+
+  it('no rule hides a floating tab bar (nav or group) at any width', () => {
+    for (const r of rules) {
+      if (r.declarations.get('display') !== 'none') continue;
+      for (const s of selectorsOf(r)) {
+        if (!/tabbar|tab-bar/.test(s)) continue;
+        expect(s).toMatch(/:not\(\[data-ag-appearance='floating'\]\)/);
+      }
+    }
+  });
+
+  it('outside compact the bar (nav and its group) is display:none', () => {
+    expect(top(exact(".ag-app-shell [data-ag-slot='tabbar']:not([data-ag-appearance='floating'])"))[0]?.declarations.get('display')).toBe('none');
+    expect(top(exact(BAR_GROUP))[0]?.declarations.get('display')).toBe('none');
+  });
+
+  it('compact re-shows the bar: its own row under auto, overlaying Main under layout=mobile|compact', () => {
+    const auto = exact(`.ag-app-shell[data-ag-layout='auto'] > ${BAR_GROUP}`).find((r) => r.ancestors.includes(COMPACT));
+    expect({ display: auto?.declarations.get('display'), area: auto?.declarations.get('grid-area') }).toEqual({ display: 'flex', area: 'tabbar' });
+    const pinned = top(exact(`.ag-app-shell:is([data-ag-layout='mobile'], [data-ag-layout='compact']) > ${BAR_GROUP}`))[0];
+    expect({ display: pinned?.declarations.get('display'), area: pinned?.declarations.get('grid-area'), align: pinned?.declarations.get('align-self') })
+      .toEqual({ display: 'flex', area: 'main', align: 'end' });
+    const nav = exact(".ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar']").find((r) => r.ancestors.includes(COMPACT));
+    expect(nav?.declarations.get('display')).toBe('grid');
+  });
+
+  it('a floating group is a centred, bottom-anchored overlay on Main and pads Main', () => {
+    const g = top(exact(FLOAT_GROUP))[0];
+    expect({
+      area: g?.declarations.get('grid-area'),
+      align: g?.declarations.get('align-self'),
+      justify: g?.declarations.get('justify-self'),
+      display: g?.declarations.get('display'),
+    }).toEqual({ area: 'main', align: 'end', justify: 'center', display: undefined });
+    const pad = top(exact(".ag-app-shell__frame:has(> .ag-tab-bar > [data-ag-slot='tabbar'][data-ag-appearance='floating'])"))[0];
+    expect(pad?.declarations.get('--ag-scroll-padding-bottom')).toBeDefined();
+    /* no conditioned rule re-places or hides the floating group */
+    for (const r of rules.filter((x) => x.ancestors.length > 1)) {
+      for (const s of selectorsOf(r)) expect(s.includes(".ag-tab-bar:has(> [data-ag-slot='tabbar'][data-ag-appearance='floating'])")).toBe(false);
+    }
+  });
+});

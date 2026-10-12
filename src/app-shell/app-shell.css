@@ -134,9 +134,37 @@
     min-inline-size: 0;
   }
   .ag-app-shell [data-ag-slot='tabbar'] {
-    display: none;
     grid-area: tabbar;
     min-block-size: var(--_ag-app-shell-tabbar);
+  }
+  /* REQ-SURF-54: the bottom *bar* exists only in compact (the compact rules
+     below re-show it); a floating tab bar is visible at every width. */
+  .ag-app-shell [data-ag-slot='tabbar']:not([data-ag-appearance='floating']) {
+    display: none;
+  }
+  /* A TabBar's frame child is its SurfaceGroup (.ag-tab-bar) wrapping the
+     [data-ag-slot='tabbar'] nav, so the group carries the slot geometry: a
+     bar group leaves the grid outside compact; a floating group is a
+     bottom-anchored, centred overlay on Main at every width, and Main gets
+     matching bottom scroll padding so its last item scrolls clear. */
+  .ag-app-shell__frame > .ag-tab-bar:has(> [data-ag-slot='tabbar']:not([data-ag-appearance='floating'])) {
+    display: none;
+    grid-area: tabbar;
+  }
+  .ag-app-shell__frame > .ag-tab-bar:has(> [data-ag-slot='tabbar'][data-ag-appearance='floating']) {
+    grid-area: main;
+    align-self: end;
+    justify-self: center;
+    min-inline-size: 0;
+    max-inline-size: min(100% - 2 * var(--ag-space-4, 1rem), calc(var(--ag-space-4, 1rem) * 36));
+    margin-block-end: calc(var(--ag-space-4, 1rem) + env(safe-area-inset-bottom));
+    position: relative;
+    z-index: var(--ag-z-overlay, 30);
+  }
+  .ag-app-shell__frame:has(> .ag-tab-bar > [data-ag-slot='tabbar'][data-ag-appearance='floating']) {
+    --ag-scroll-padding-bottom: calc(
+      var(--_ag-app-shell-tabbar) + 2 * var(--ag-space-4, 1rem) + env(safe-area-inset-bottom)
+    );
   }
 
   /* Column state driven by data attributes so RSC/SSR emits identical markup.
@@ -207,15 +235,17 @@
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto minmax(0, 1fr);
   }
-  /* SURF-054: the bottom *bar* only exists in compact — hide it at >=600
-     under auto layout (the <600 container query below re-enables it); a
-     floating tab bar stays visible at every width. */
-  .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'][data-ag-appearance='bar'] {
-    display: none;
-  }
   .ag-app-shell:is([data-ag-layout='mobile'], [data-ag-layout='compact']) [data-ag-slot='tabbar'] {
     display: grid;
     padding-block-end: env(safe-area-inset-bottom);
+    grid-area: main;
+    align-self: end;
+    position: sticky;
+    inset-block-end: 0;
+    z-index: var(--ag-z-overlay, 30);
+  }
+  .ag-app-shell:is([data-ag-layout='mobile'], [data-ag-layout='compact']) > .ag-app-shell__frame > .ag-tab-bar:has(> [data-ag-slot='tabbar']:not([data-ag-appearance='floating'])) {
+    display: flex;
     grid-area: main;
     align-self: end;
     position: sticky;
@@ -404,15 +434,17 @@
     }
   }
   /* SURF-038: inspector material/geometry by mode. Docked (or auto under a
-     wide or desktop-pinned shell) reads sunken with no backdrop-filter;
+     wide or desktop-pinned shell) reads as an opaque canvas column: the
+     public --ag-glass-opacity read-in drives MAT's fill alpha to 1, so the
+     material's own optics show nothing through it (REQ-SURF-03: SURF css
+     never declares backdrop-filter — optics belong to MAT);
      floating (or auto under expanded/medium) overlays the main area at
      inline-end. Compact hides the inline inspector — Inspector.Sheet takes
      over. The wide case is the >=1440 container rule at the end. */
   [data-inspector-mode='docked'],
   .ag-app-shell:is([data-ag-layout='desktop'], [data-ag-layout='wide']) [data-inspector-mode='auto'] {
+    --ag-glass-opacity: 1;
     background: var(--ag-color-canvas);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
   }
   [data-inspector-mode='floating'],
   .ag-app-shell[data-ag-layout='auto'] [data-inspector-mode='auto'] {
@@ -608,6 +640,10 @@
       display: grid;
       padding-block-end: env(safe-area-inset-bottom);
     }
+    .ag-app-shell[data-ag-layout='auto'] > .ag-app-shell__frame > .ag-tab-bar:has(> [data-ag-slot='tabbar']:not([data-ag-appearance='floating'])) {
+      display: flex;
+      grid-area: tabbar;
+    }
     .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='status'] {
       display: none;
     }
@@ -664,9 +700,8 @@
       z-index: auto;
       max-inline-size: none;
       border-radius: 0;
+      --ag-glass-opacity: 1;
       background: var(--ag-color-canvas);
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
     }
   }
 }

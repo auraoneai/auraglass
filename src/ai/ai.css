@@ -128,13 +128,13 @@
     inset-block-start: -2px;
     inset-inline-end: -2px;
     inline-size: 6px; block-size: 6px;
-    border-radius: 50%;
+    border-radius: var(--ag-radius-full);
     background: currentColor;
   }
   [data-ag-part="typing-indicator"] [data-ag-part="typing-dot"] {
     display: inline-block;
     inline-size: 4px; block-size: 4px;
-    border-radius: 50%;
+    border-radius: var(--ag-radius-full);
     background: currentColor;
     margin-inline-end: 3px;
   }
