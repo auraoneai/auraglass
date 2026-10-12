@@ -104,7 +104,9 @@ describe('plat:package:pack', () => {
     // REQ-PLAT-23 item 8: the re-run comes after the pack, over this job's
     // tarball, with the export-snapshot diff required.
     const lines = j.script as string[];
-    const rerunAt = lines.findIndex((l) => l.includes('classify-change.mjs'));
+    // the re-run is the classify-change call over this job's tarball (the
+    // dry-run block also runs classify-change pre-pack, without --head-tarball)
+    const rerunAt = lines.findIndex((l) => l.includes('classify-change.mjs') && l.includes('--head-tarball'));
     const tarballAt = lines.findIndex((l) => l.includes('AURAGLASS_TARBALL=$TARBALL'));
     expect(rerunAt).toBeGreaterThan(tarballAt);
     expect(tarballAt).toBeGreaterThan(lines.indexOf(release));
@@ -1402,9 +1404,10 @@ console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename,
       for (const d of ws) mkdirSync(join(dir, d), { recursive: true });
       const r = run(PACK_BLOCKS.join('\n'), dir);
       expect([r.status, r.stderr]).toEqual([0, '']);
-      const names = ws.map((d) => `@auraglass/${d.split('/').pop()}`);
+      const names = Object.entries(contract.packages as Record<string, any>)
+        .filter(([, p]) => p.published === true && p.dir !== '.').map(([name]) => name);
       expect(Object.keys(record(dir)).sort()).toEqual([...names, 'aura-glass'].sort());
-      expect(names).not.toContain('@auraglass/qa');
+      expect(names).not.toContain('aura-glass-qa');
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
