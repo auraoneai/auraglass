@@ -1,5 +1,5 @@
 /* GlassHeader — 4.x compat adapter (REQ-SURF-13, DEP-S0002) → TopBar. logo →
-   TopBar.Leading, navigation → TopBar.Center, search/actions/userMenu →
+   TopBar.Leading, navigation → TopBar.Center, search, actions and userMenu →
    TopBar.Trailing. The built-in burger (mobileMenuOpen/onMobileMenuToggle) is
    replaced by AppShell.SidebarToggle and is not rendered. */
 'use client';
