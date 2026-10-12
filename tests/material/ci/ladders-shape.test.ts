@@ -305,8 +305,15 @@ describe('REQ-FIN-03 ladders.css cascade', () => {
   it('a surface with no data-ag-thickness resolves to the regular-thickness cell of its variant', () => {
     for (const v of VARIANTS) {
       const expected = cellRule(v, 'regular')!.decls;
-      const el = surface({ 'data-ag-variant': v });
+      // clear is checked inside a declared backdrop: outside one the MAT-33 fail-safe (which also covers the
+      // default-thickness clear row, scripts/tokens/transforms/glass-material.mjs) resolves to the regular row.
+      const el = surface({ 'data-ag-variant': v }, v === 'clear' ? [{ 'data-ag-backdrop': 'dark' }] : []);
       for (const s of SCALARS) expect([v, s, winning(el, s)?.value]).toEqual([v, s, expected[s]]);
+      if (v === 'clear') {
+        const failSafe = cellRule('regular', 'regular')!.decls;
+        const outside = surface({ 'data-ag-variant': v });
+        for (const s of SCALARS) expect([v, s, winning(outside, s)?.value]).toEqual([v, s, failSafe[s]]);
+      }
     }
   });
 

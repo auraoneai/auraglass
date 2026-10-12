@@ -1,6 +1,6 @@
 /* Material ladder emitters (MAT-038/040/048; REQ-FIN-03): MaterialSpec -> ladders.css +
    floors.css. Surface cells key on [data-ag-surface][data-ag-variant][data-ag-thickness]
-   (data-ag-material is banned — material.ts S-01). Engine scalars: --_ag-blur, --_ag-
+   (the 4.x material attribute is banned — material.ts S-01 BANNED_ATTRIBUTES). Engine scalars: --_ag-blur, --_ag-
    saturation, --_ag-brightness (light-dark), --_ag-shadow (two-layer ambient+key,
    overlay reads thick), --_ag-rim-width, --_ag-grain-opacity, --_ag-tint-alpha.
    WebKit literals are emitted on ::before only for tiers standard/enhanced and the
@@ -33,7 +33,7 @@ function materialSpec(records, resolved) {
  *  and disabled rows) without narrowing what it matches: :is() takes the specificity of
  *  its most specific argument, and the `*` argument matches every element. Floors and
  *  ladders share @layer ag.material, so precedence between them is by specificity. */
-const OVER_CELLS = ':is([data-ag-variant][data-ag-thickness][data-ag-tier][data-ag-state], *)';
+const OVER_CELLS = ':is([data-ag-variant][data-ag-thickness][data-ag-tier][data-disabled], *)';
 
 /** Cell scalars for one variant×thickness cell (no backdrop-filter var refs — the
  *  WebKit literals carry those; the generic engine path composes from these). */
@@ -113,9 +113,12 @@ export function buildLadders(records, resolved) {
     [`[data-ag-surface][data-ag-variant="${v}"]:not([data-ag-thickness])`, 'regular'],
   ];
   out.push('  /* disabled: fill alpha scaled by --ag-state-disabled-alpha via --_ag-tint-alpha; no host opacity: (MAT-033). Before the lightweight rows: same specificity, so lightweight (0px) wins. */');
+  // Disabled keys on the contract state attributes (STATE_ATTRIBUTES: Base UI's data-disabled,
+  // aria-disabled) — no data-ag-* disabled state is registered or set (REQ-MAT-27, REQ-FIN-03).
+  const DISABLED = ':is([data-disabled], [aria-disabled="true"])';
   for (const variant of VARIANTS) {
     for (const [sel, th] of cellKeys(variant)) {
-      out.push(`  ${sel}[data-ag-state~="disabled"] {`);
+      out.push(`  ${sel}${DISABLED} {`);
       out.push('    --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));');
       if (BLURRED.includes(variant)) out.push(`    --_ag-blur: ${Math.round(cell(variant, th).blur.value * 0.6 * 100) / 100}px;`);
       out.push('  }');

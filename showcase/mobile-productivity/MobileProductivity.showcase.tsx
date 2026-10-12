@@ -208,12 +208,12 @@ export function MobileProductivity({ now = SHOWCASE_EPOCH }: MobileProductivityP
               <img className={styles.mark} src={mark} alt="" width={28} height={28} />
               <TopBar.Title>{COPY.product}</TopBar.Title>
             </TopBar.Leading>
-            <AppShell.SkipLink>{COPY.skip}</AppShell.SkipLink>
+            <AppShell.SkipLink href="#mp-content">{COPY.skip}</AppShell.SkipLink>
           </>
         }
         tabBar={<MobileTabBar onQuickAdd={() => setSheetOpen(true)} />}
       >
-        <div className={styles.page}>
+        <div className={styles.page} id="mp-content" tabIndex={-1}>
           <Card.Root className={styles.card}>
             <div className={styles.titleRow}>
               <Heading level={1} size="title-1">

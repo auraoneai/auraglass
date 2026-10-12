@@ -24,12 +24,15 @@ export interface MagneticButtonProps extends GlassButtonProps {
 type MotionModule = typeof import('../../../motion/public');
 // Keep native DOM handlers inside buttonProps. Motion otherwise interprets
 // names such as onDrag/onAnimationStart as its own gesture/lifecycle callbacks.
-const MotionHost = React.forwardRef<HTMLButtonElement, {
+// motion.create passes the composed ref as an element prop; React 19 hands it
+// to the function component as a plain `ref` prop (no forwardRef, REQ-PLAT-72).
+function MotionHost({ buttonProps, style, ref }: {
   buttonProps: GlassButtonProps;
   style?: React.CSSProperties;
-}>(function MotionHost({ buttonProps, style }, ref) {
+  ref?: React.Ref<HTMLButtonElement>;
+}) {
   return <GlassButton {...{ ...buttonProps, ref, style }} />;
-});
+}
 
 function createMotionButton(peer: typeof import('motion/react')) {
   return peer.motion.create(MotionHost);

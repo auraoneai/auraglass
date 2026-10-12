@@ -17,6 +17,9 @@
  *     with an Inspector opens it as a bottom Sheet from its toggle.
  * Layout at a width is driven by the shell's own measurement (offsetWidth), which the viewport helper sets; the
  * pixel captures of the same layouts are the L5 showcase cells (remote). */
+// ai-command-center composes the AI SDK block (registry/blocks/ai-workspace), which needs Node's WHATWG stream
+// globals that jsdom lacks; installed first, before any showcase module loads.
+import '../capability/registry/web-streams-env';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act, cleanup, fireEvent, render, within } from '@testing-library/react';
 import * as React from 'react';
@@ -49,12 +52,53 @@ function matches(query: string, width: number): boolean {
   });
 }
 
+/* REQ-SURF-17: the shell layout (and the mode published back to JS as --_ag-app-shell-mode on the frame) is resolved
+   only by app-shell.css `@container ag-app-shell (...)` rules. jsdom evaluates neither @container nor @layer, so the
+   viewport helper injects the bodies of the real container rules that match the width, read from the stylesheet itself
+   (the technique of src/app-shell/AppShellSidebarToggle.test.tsx, without restating any declaration here). */
+const APP_SHELL_CSS = fs.readFileSync(path.join(ROOT, 'src/app-shell/app-shell.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+
+function containerConditionHolds(cond: string, width: number): boolean {
+  // Range syntax as authored: `width < 600px`, `600px <= width < 1024px`, `width >= 1440px`.
+  const ops: Record<string, (a: number, b: number) => boolean> = {
+    '<': (a, b) => a < b, '<=': (a, b) => a <= b, '>': (a, b) => a > b, '>=': (a, b) => a >= b,
+  };
+  const tokens = cond.trim().split(/\s+/);
+  for (let i = 1; i < tokens.length; i += 2) {
+    const value = (t: string) => (t === 'width' ? width : Number.parseFloat(t));
+    const op = ops[tokens[i]!];
+    if (!op) throw new Error(`unsupported container condition: ${cond}`);
+    if (!op(value(tokens[i - 1]!), value(tokens[i + 1]!))) return false;
+  }
+  return true;
+}
+
+function appShellContainerRules(width: number): string {
+  const out: string[] = [];
+  const re = /@container\s+ag-app-shell\s*\(([^)]*)\)\s*\{/g;
+  for (let m = re.exec(APP_SHELL_CSS); m; m = re.exec(APP_SHELL_CSS)) {
+    let depth = 1;
+    let i = re.lastIndex;
+    for (; i < APP_SHELL_CSS.length && depth > 0; i++) {
+      if (APP_SHELL_CSS[i] === '{') depth++;
+      else if (APP_SHELL_CSS[i] === '}') depth--;
+    }
+    if (containerConditionHolds(m[1]!, width)) out.push(APP_SHELL_CSS.slice(re.lastIndex, i - 1));
+  }
+  return out.join('\n');
+}
+
 function setViewport(width: number | null): void {
+  for (const st of document.head.querySelectorAll('style[data-test-viewport]')) st.remove();
   if (width === null) {
     if (realOffsetWidth) Object.defineProperty(HTMLElement.prototype, 'offsetWidth', realOffsetWidth);
     window.matchMedia = realMatchMedia;
     return;
   }
+  const style = document.createElement('style');
+  style.dataset['testViewport'] = String(width);
+  style.textContent = appShellContainerRules(width);
+  document.head.append(style);
   Object.defineProperty(HTMLElement.prototype, 'offsetWidth', { configurable: true, get: () => width });
   Object.defineProperty(window, 'innerWidth', { configurable: true, writable: true, value: width });
   window.matchMedia = ((query: string) => ({
@@ -275,16 +319,20 @@ describe.each(SHOWCASES.map((s) => [s.id, s] as const))('%s', (_id, entry) => {
       expect(document.querySelectorAll('main')).toHaveLength(1);
       return;
     }
-    expect(root?.dataset['agMode']).toBe('compact');
+    // data-mode mirrors the CSS-resolved mode (src/app-shell/appShellStore.ts applyState)
+    expect(root?.dataset['mode']).toBe('compact');
 
     if (sidebar) {
-      expect(sidebar.hasAttribute('inert')).toBe(true);
-      const anchor = root!.querySelector('[data-ag-drawer-anchor]');
+      // The inline sidebar leaves the focus order and the a11y tree: inert when collapsed, display:none from the compact
+      // container rule otherwise (src/app-shell/appShellStore.ts applyState; app-shell.css SURF-30/31).
+      expect(sidebar.hasAttribute('inert') || getComputedStyle(sidebar).display === 'none').toBe(true);
+      const anchor = root!.querySelector('[data-drawer-anchor]');
       requireProduced(entry, 'Sidebar', !!anchor, 'the Sidebar drawer (Sidebar.Drawer)');
-      const toggle = document.querySelector<HTMLElement>(`[aria-controls="${sidebar.id}"]`);
+      // In drawer modes the toggle controls the deterministic drawer id `${shellId}-drawer` (AppShell.SidebarToggle).
+      const toggle = document.querySelector<HTMLElement>(`[aria-controls="${root!.dataset['shellId']}-drawer"]`);
       requireProduced(entry, 'Sidebar', !!toggle, 'the sidebar toggle (AppShell.SidebarToggle)');
-      if (root!.dataset['agSidebar'] === 'expanded') {
-        // compact + expanded already presents the drawer; close it so the toggle path is exercised
+      if (document.querySelector('[data-ag-part="sidebar-drawer"]')) {
+        // a drawer already presented on load; close it so the toggle path is exercised
         await act(async () => { fireEvent.click(toggle!); });
         await settle();
       }
@@ -300,7 +348,7 @@ describe.each(SHOWCASES.map((s) => [s.id, s] as const))('%s', (_id, entry) => {
     }
 
     if (inspector) {
-      const anchor = root!.querySelector('[data-ag-sheet-anchor]');
+      const anchor = root!.querySelector('[data-sheet-anchor]');
       requireProduced(entry, 'Inspector', !!anchor, 'the Inspector sheet (Inspector.Sheet)');
       const toggle = [...document.querySelectorAll<HTMLElement>('button')].find((b) => b.getAttribute('aria-controls') === inspector.id && inspector.id);
       requireProduced(entry, 'Inspector', !!toggle, 'the inspector toggle (AppShell.InspectorToggle)');
@@ -309,8 +357,9 @@ describe.each(SHOWCASES.map((s) => [s.id, s] as const))('%s', (_id, entry) => {
       const sheet = document.querySelector<HTMLElement>('[data-ag-part="inspector-sheet"]');
       expect(sheet).not.toBeNull();
       expect(nameOf(sheet!) || nameOf(sheet!.closest('[role="dialog"]') ?? sheet!)).not.toBe('');
-      const popupSide = (sheet!.closest('[data-ag-side]:not([data-ag-part="inspector-sheet"])') ?? sheet!.querySelector('[data-ag-side]'))?.getAttribute('data-ag-side')
-        ?? sheet!.getAttribute('data-ag-side');
+      // Sheet publishes its resolved side as data-side (S-01: state attributes carry no ag- prefix).
+      const popupSide = (sheet!.closest('[data-side]:not([data-ag-part="inspector-sheet"])') ?? sheet!.querySelector('[data-side]'))?.getAttribute('data-side')
+        ?? sheet!.getAttribute('data-side');
       if (popupSide !== 'bottom') {
         // Inspector.Sheet (src/app-shell/Inspector.Sheet.tsx, SURF-038) decides the sheet's side; the showcase cannot.
         throw new Error(`pending: ${entry.id} at 390 — Inspector.Sheet presents side="${popupSide}", REQ-QUAL-59 needs a bottom Sheet (producer SURF, src/app-shell/Inspector.Sheet.tsx)`);

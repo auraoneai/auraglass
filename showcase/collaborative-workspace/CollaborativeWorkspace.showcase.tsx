@@ -114,6 +114,8 @@ function PublishDialog() {
 /** The document body. `titled` renders its own heading (the fragment); the full
     page shows the title once, in the PageHeader. */
 function Document({ titled }: { titled: boolean }) {
+  // Section headings sit one level below the nearest title: the document's own h2, or the PageHeader h1.
+  const sectionLevel = titled ? 3 : 2;
   return (
     <article
       className={styles.document}
@@ -140,7 +142,7 @@ function Document({ titled }: { titled: boolean }) {
               <ContextMenu.Root key={s.id}>
                 <ContextMenu.Trigger>
                   <section className={styles.docSection} aria-labelledby={`cw-${s.id}`}>
-                    <Heading level={3} size="title-3" id={`cw-${s.id}`}>
+                    <Heading level={sectionLevel} size="title-3" id={`cw-${s.id}`}>
                       {s.heading}
                     </Heading>
                     {s.body.map((p) => (
@@ -160,7 +162,9 @@ function Document({ titled }: { titled: boolean }) {
             ))}
           </div>
           <section className={styles.docSection} aria-labelledby="cw-cohorts">
-            <h3 id="cw-cohorts">{COPY.cohortsHeading}</h3>
+            <Heading level={sectionLevel} size="title-3" id="cw-cohorts">
+              {COPY.cohortsHeading}
+            </Heading>
             <table>
               <caption>{COPY.cohortsCaption}</caption>
               <thead>

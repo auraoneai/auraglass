@@ -56,6 +56,9 @@ interface ComboboxInternal {
   messages?: ControlMessages | undefined;
   highlightSuppressed: boolean;
   setHighlightSuppressed: (v: boolean) => void;
+  /** This instance's Combobox.Chips element: chip roving stays inside it
+      (Combobox.Root renders no DOM element of its own to scope by). */
+  chipsRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const InternalCtx = React.createContext<ComboboxInternal | null>(null);
@@ -131,6 +134,7 @@ function ComboboxRoot<Value = string>({
 }: ComboboxRootProps<Value>) {
   useControllableWarning('Combobox', 'value', rest.value);
   const [highlightSuppressed, setHighlightSuppressed] = React.useState(false);
+  const chipsRef = React.useRef<HTMLDivElement | null>(null);
   /* The create-item / filter query starts from the input's initial text
      (controlled inputValue or defaultInputValue), not always ''. */
   const [query, setQuery] = React.useState(() => rest.inputValue ?? rest.defaultInputValue ?? '');
@@ -277,6 +281,7 @@ function ComboboxRoot<Value = string>({
       messages,
       highlightSuppressed,
       setHighlightSuppressed,
+      chipsRef,
     }),
     [size, effectiveItems, virtual, mode, loading, loadError, query, creatable, onCreate, hasExactMatch, messages, highlightSuppressed],
   );
@@ -340,9 +345,8 @@ function ComboboxRoot<Value = string>({
 /* REQ-CMP-70: chip roving — Backspace on empty input focuses the last chip;
    ArrowLeft/Right move chip focus; Backspace/Delete removes the focused chip
    via its chip-remove control (fires BU's value change). */
-function allChips(el: HTMLElement): HTMLElement[] {
-  const scope = el.closest('[data-ag-part="root"]') ?? el.ownerDocument;
-  return [...scope.querySelectorAll<HTMLElement>("[data-ag-part='chip']")];
+function allChips(scope: ParentNode | null | undefined): HTMLElement[] {
+  return scope ? [...scope.querySelectorAll<HTMLElement>("[data-ag-part='chip']")] : [];
 }
 const MODIFIER_KEYS = new Set(['Alt', 'Shift', 'Control', 'Meta']);
 
@@ -355,6 +359,7 @@ function handleInputKeyDown(
   e: BaseUIEvent<React.KeyboardEvent<HTMLInputElement>>,
   suppressed: boolean,
   setSuppressed: (v: boolean) => void,
+  chipsEl: HTMLElement | null,
 ) {
   const input = e.currentTarget;
   if (e.key === 'ArrowDown' && e.altKey) {
@@ -385,7 +390,7 @@ function handleInputKeyDown(
     if (!MODIFIER_KEYS.has(e.key)) setSuppressed(false);
   }
   if (e.key !== 'Backspace' || input.value !== '') return;
-  const chips = allChips(input);
+  const chips = allChips(chipsEl);
   const last = chips[chips.length - 1];
   if (last) {
     e.preventDefault();
@@ -395,7 +400,7 @@ function handleInputKeyDown(
 export function comboboxChipsKeyDown(e: React.KeyboardEvent<HTMLElement>) {
   const chip = (e.target as HTMLElement).closest?.("[data-ag-part='chip']") as HTMLElement | null;
   if (!chip) return;
-  const chips = allChips(chip);
+  const chips = allChips(chip.closest("[data-ag-part='chips']"));
   const i = chips.indexOf(chip);
   if (e.key === 'ArrowLeft') {
     e.preventDefault();
@@ -412,10 +417,10 @@ export function comboboxChipsKeyDown(e: React.KeyboardEvent<HTMLElement>) {
 }
 
 function ComboboxInput({ placeholder, className, ref, ...rest }: ComboboxInputProps) {
-  const { size, mode, loading, messages, highlightSuppressed, setHighlightSuppressed } = useInternal();
+  const { size, mode, loading, messages, highlightSuppressed, setHighlightSuppressed, chipsRef } = useInternal();
   const onKeyDown = (e: BaseUIEvent<React.KeyboardEvent<HTMLInputElement>>) => {
     rest.onKeyDown?.(e);
-    if (!e.defaultPrevented) handleInputKeyDown(e, highlightSuppressed, setHighlightSuppressed);
+    if (!e.defaultPrevented) handleInputKeyDown(e, highlightSuppressed, setHighlightSuppressed, chipsRef.current);
   };
   return (
     <Base.InputGroup
@@ -580,8 +585,9 @@ function ComboboxGroupLabel({ children, className }: ComboboxGroupLabelProps) {
 }
 
 function ComboboxChips({ children, className }: ComboboxChipsProps) {
+  const { chipsRef } = useInternal();
   return (
-    <Base.Chips data-ag-part="chips" className={cn('ag-combobox-chips', className)} onKeyDown={comboboxChipsKeyDown}>
+    <Base.Chips ref={chipsRef} data-ag-part="chips" className={cn('ag-combobox-chips', className)} onKeyDown={comboboxChipsKeyDown}>
       {children}
     </Base.Chips>
   );

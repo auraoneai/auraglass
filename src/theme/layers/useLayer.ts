@@ -31,8 +31,13 @@ const UNREGISTERED = -1;
 
 export function useLayer(entry: UseLayerInput): { id: string; depth: number; isTop: boolean } {
   const ctxStack = React.useContext(LayerStackContext);
+  const open = entry.open === true;
+  // Provider-less, the per-document stack (and its shared document listeners)
+  // is created on first OPEN, never by a closed layer that merely rendered: a
+  // mounted-but-closed Select/Popover leaves no global listener (REQ-CMP-16).
+  // A closed layer holds no entry, so it needs no stack (depth -1).
   const stack = ctxStack
-    ?? (typeof document === 'undefined' ? null : layerStackFor(document));
+    ?? (typeof document === 'undefined' || !open ? null : layerStackFor(document));
   const idRef = React.useRef<string | null>(null);
   const entryRef = React.useRef<UseLayerInput>(entry);
   entryRef.current = entry;
@@ -65,7 +70,6 @@ export function useLayer(entry: UseLayerInput): { id: string; depth: number; isT
     return item;
   }, []);
 
-  const open = entry.open === true;
   React.useLayoutEffect(() => {
     if (!stack || !open) return undefined;
     const input = entryRef.current;

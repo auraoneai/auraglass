@@ -38,6 +38,9 @@ export interface AuraToolApprovalOutput {
 }
 
 export interface UseAuraChatOptions {
+  /** Chat id. Defaults to a `React.useId()` value, so the SDK never falls back
+   * to its random `generateId()` on every render (SSR/hydration-stable). */
+  id?: string;
   /** Transport — e.g. `new DefaultChatTransport({ api: '/api/chat' })`. */
   transport?: ChatTransport<AuraUIMessage>;
   messages?: AuraUIMessage[];
@@ -116,7 +119,9 @@ function toolNameOf(part: AnyToolPart): string {
 }
 
 export function useAuraChat(options: UseAuraChatOptions = {}): UseAuraChatResult {
+  const fallbackId = React.useId();
   const chat = useChat<AuraUIMessage>({
+    id: options.id ?? fallbackId,
     ...(options.transport ? { transport: options.transport } : {}),
     ...(options.messages ? { messages: options.messages } : {}),
     sendAutomaticallyWhen: options.sendAutomaticallyWhen ?? lastAssistantMessageIsCompleteWithToolCalls,

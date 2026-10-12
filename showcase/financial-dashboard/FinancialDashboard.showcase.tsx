@@ -156,7 +156,7 @@ export function FinancialDashboard({ now = SHOWCASE_EPOCH }: FinancialDashboardP
   );
   return (
     <>
-      <AppShell.SkipLink>{COPY.skip}</AppShell.SkipLink>
+      <AppShell.SkipLink href="#fd-main">{COPY.skip}</AppShell.SkipLink>
       <AppShell.Root>
         <TopBar.Root>
           <TopBar.Leading>
@@ -180,7 +180,7 @@ export function FinancialDashboard({ now = SHOWCASE_EPOCH }: FinancialDashboardP
             </div>
           </TopBar.Trailing>
         </TopBar.Root>
-        <AppShell.Main>
+        <AppShell.Main id="fd-main">
           <AppShell.PageHeader
             className={styles.pageHeader}
             title={COPY.pageTitle}

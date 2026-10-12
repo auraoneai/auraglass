@@ -864,7 +864,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 5
+     "count": 4
     }
    ],
    "value": "40000ms"

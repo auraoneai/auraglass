@@ -111,7 +111,7 @@
     --_ag-tint-alpha: 0.85;
   }
   [data-ag-surface][data-ag-layer="overlay"]:is(
-      [data-ag-variant][data-ag-thickness][data-ag-tier][data-ag-state],
+      [data-ag-variant][data-ag-thickness][data-ag-tier][data-disabled],
       *
     ) {
     --_ag-shadow: var(--ag-shadow-thick);
@@ -209,54 +209,84 @@
     --_ag-tint-alpha: 0.72;
   }
   /* disabled: fill alpha scaled by --ag-state-disabled-alpha via --_ag-tint-alpha; no host opacity: (MAT-033). Before the lightweight rows: same specificity, so lightweight (0px) wins. */
-  [data-ag-surface][data-ag-variant="regular"][data-ag-thickness="thin"][data-ag-state~="disabled"] {
+  [data-ag-surface][data-ag-variant="regular"][data-ag-thickness="thin"]:is(
+      [data-disabled],
+      [aria-disabled="true"]
+    ) {
     --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));
     --_ag-blur: 7.2px;
   }
-  [data-ag-surface][data-ag-variant="regular"][data-ag-thickness="regular"][data-ag-state~="disabled"] {
+  [data-ag-surface][data-ag-variant="regular"][data-ag-thickness="regular"]:is(
+      [data-disabled],
+      [aria-disabled="true"]
+    ) {
     --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));
     --_ag-blur: 12px;
   }
-  [data-ag-surface][data-ag-variant="regular"][data-ag-thickness="thick"][data-ag-state~="disabled"] {
+  [data-ag-surface][data-ag-variant="regular"][data-ag-thickness="thick"]:is(
+      [data-disabled],
+      [aria-disabled="true"]
+    ) {
     --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));
     --_ag-blur: 19.2px;
   }
-  [data-ag-surface][data-ag-variant="regular"]:not(
-      [data-ag-thickness]
-    )[data-ag-state~="disabled"] {
+  [data-ag-surface][data-ag-variant="regular"]:not([data-ag-thickness]):is(
+      [data-disabled],
+      [aria-disabled="true"]
+    ) {
     --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));
     --_ag-blur: 12px;
   }
-  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thin"][data-ag-state~="disabled"] {
+  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thin"]:is(
+      [data-disabled],
+      [aria-disabled="true"]
+    ) {
     --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));
     --_ag-blur: 7.2px;
   }
-  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="regular"][data-ag-state~="disabled"] {
+  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="regular"]:is(
+      [data-disabled],
+      [aria-disabled="true"]
+    ) {
     --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));
     --_ag-blur: 12px;
   }
-  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thick"][data-ag-state~="disabled"] {
+  [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thick"]:is(
+      [data-disabled],
+      [aria-disabled="true"]
+    ) {
     --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));
     --_ag-blur: 19.2px;
   }
-  [data-ag-surface][data-ag-variant="clear"]:not(
-      [data-ag-thickness]
-    )[data-ag-state~="disabled"] {
+  [data-ag-surface][data-ag-variant="clear"]:not([data-ag-thickness]):is(
+      [data-disabled],
+      [aria-disabled="true"]
+    ) {
     --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));
     --_ag-blur: 12px;
   }
-  [data-ag-surface][data-ag-variant="identity"][data-ag-thickness="thin"][data-ag-state~="disabled"] {
+  [data-ag-surface][data-ag-variant="identity"][data-ag-thickness="thin"]:is(
+      [data-disabled],
+      [aria-disabled="true"]
+    ) {
     --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));
   }
-  [data-ag-surface][data-ag-variant="identity"][data-ag-thickness="regular"][data-ag-state~="disabled"] {
+  [data-ag-surface][data-ag-variant="identity"][data-ag-thickness="regular"]:is(
+      [data-disabled],
+      [aria-disabled="true"]
+    ) {
     --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));
   }
-  [data-ag-surface][data-ag-variant="identity"][data-ag-thickness="thick"][data-ag-state~="disabled"] {
+  [data-ag-surface][data-ag-variant="identity"][data-ag-thickness="thick"]:is(
+      [data-disabled],
+      [aria-disabled="true"]
+    ) {
     --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));
   }
-  [data-ag-surface][data-ag-variant="identity"]:not(
-      [data-ag-thickness]
-    )[data-ag-state~="disabled"] {
+  [data-ag-surface][data-ag-variant="identity"]:not([data-ag-thickness]):is(
+      [data-disabled],
+      [aria-disabled="true"]
+    ) {
     --_ag-alpha: calc(var(--_ag-tint-alpha) * var(--ag-state-disabled-alpha));
   }
   [data-ag-surface][data-ag-variant="regular"][data-ag-thickness="thin"]:is(

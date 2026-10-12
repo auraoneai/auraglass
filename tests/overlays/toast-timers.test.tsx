@@ -1,6 +1,7 @@
 /* REQ-CMP-108: toast timer semantics — action toasts never auto-dismiss,
    progress derives duration from --_ag-toast-timeout, hover/focus/hidden
-   pauses bars, progress is decorative (no progressbar role). */
+   pauses bars, progress is decorative (no progressbar role). The toast
+   surface part is 'toast' (Toast.meta parts, S-30/S-33). */
 import { describe, expect, it, jest, afterEach } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import { render, act, fireEvent } from '@testing-library/react';
@@ -41,7 +42,7 @@ describe('toast timers (REQ-CMP-108)', () => {
     await act(async () => {});
     act(() => { jest.advanceTimersByTime(6000); });
     await act(async () => {});
-    expect(document.querySelector('[data-ag-part="root"]')).not.toBeNull();
+    expect(document.querySelector('[data-ag-part="toast"]')).not.toBeNull();
   });
 
   it('toast without action auto-dismisses on the provider timeout', async () => {
@@ -50,13 +51,13 @@ describe('toast timers (REQ-CMP-108)', () => {
     await act(async () => {});
     act(() => { jest.advanceTimersByTime(6000); });
     await act(async () => {});
-    expect(document.querySelector('[data-ag-part="root"]')).toBeNull();
+    expect(document.querySelector('[data-ag-part="toast"]')).toBeNull();
   });
 
   it('root carries --_ag-toast-timeout for the progress animation', async () => {
     render(<Host options={{ title: 'Timed', timeout: 2500 }} />);
     await act(async () => {});
-    const root = document.querySelector('[data-ag-part="root"]');
+    const root = document.querySelector('[data-ag-part="toast"]');
     expect(root?.getAttribute('style') ?? '').toContain('--_ag-toast-timeout');
   });
 

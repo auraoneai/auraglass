@@ -41,6 +41,15 @@ export function AppFrame({ children }: { children?: React.ReactNode }) {
           </Inspector.Section>
         </Inspector.Content>
       </Inspector.Root>
+      {/* Compact mode presents the same inspector content as a bottom Sheet
+          (SURF-038; Sidebar.Root auto-mounts its drawer, Inspector does not). */}
+      <Inspector.Sheet aria-label="Details">
+        <Inspector.Content>
+          <Inspector.Section title="Summary" defaultOpen>
+            <p>Select a row to inspect it.</p>
+          </Inspector.Section>
+        </Inspector.Content>
+      </Inspector.Sheet>
       <StatusBar.Root>{STATUS_TEXT}</StatusBar.Root>
     </AppShell.Root>
   );

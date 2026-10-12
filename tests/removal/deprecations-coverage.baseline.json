@@ -8,12 +8,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "AIGlassThemeProvider",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "AuraGlassClientBoundary",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -44,12 +38,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "ContrastGuard",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "CookieConsent",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -74,33 +62,9 @@
       "expires": "RC-1"
     },
     {
-      "name": "FocusIndicator",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "Glass360Viewer",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "Glass3DEngine",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassA11y",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassA11yAuditor",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -119,12 +83,6 @@
       "name": "GlassAchievementSystem",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassAdvancedDataViz",
-      "owner": "SURF",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -170,12 +128,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "GlassChartsDemo",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "GlassCheckboxUI",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -206,18 +158,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "GlassCollaborativeComments",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassCollaborativeCursor",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "GlassColorSchemeGenerator",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -227,12 +167,6 @@
       "name": "GlassColorTinting",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassCommentThread",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -272,30 +206,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "GlassDataGridPro",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassDataTable",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassDeepDreamGlass",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassDepthLayer",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "GlassDetailView",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -317,12 +227,6 @@
       "name": "GlassDraggable",
       "owner": "MAT",
       "reqFin": "REQ-FIN-57",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassEcommerceProvider",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -350,18 +254,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "GlassFocusIndicators",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassFocusRing",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "GlassFoldableSupport",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -371,12 +263,6 @@
       "name": "GlassFormBuilder",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassFormTable",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -392,18 +278,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "GlassGANGenerator",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassGanttChart",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "GlassGazeResponsive",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -416,27 +290,9 @@
       "expires": "RC-1"
     },
     {
-      "name": "GlassGenerativeArt",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "GlassGoldenRatioGrid",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassHeatmap",
-      "owner": "SURF",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassHighContrast",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -449,12 +305,6 @@
       "name": "GlassImageProcessingProvider",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassInfiniteScroll",
-      "owner": "SURF",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -494,30 +344,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "GlassListView",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassLiveCursorPresence",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassLiveFilter",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassMagneticCursor",
-      "owner": "SURF",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "GlassMetaDashboard",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -539,12 +365,6 @@
       "name": "GlassMorphingEngine",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassMotionController",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -608,18 +428,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "GlassPredictiveEngine",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassPresenceIndicator",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "GlassPrismComparison",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -629,12 +437,6 @@
       "name": "GlassProbabilityCloud",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassProductRecommendations",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -722,12 +524,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "GlassSmartShoppingCart",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "GlassSocialFeed",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -758,27 +554,9 @@
       "expires": "RC-1"
     },
     {
-      "name": "GlassStyleTransfer",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "GlassSuperpositionalMenu",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassTeamCursors",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassTeamCursorsWithEffects",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -806,12 +584,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "GlassUserPresence",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "GlassVortexPortal",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -827,12 +599,6 @@
       "name": "GlassWeatherGlass",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "GlassWebGLShader",
-      "owner": "SURF",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -866,24 +632,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "HeatGlass",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "HoudiniGlassCard",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "HoudiniGlassProvider",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "InstallCommand",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -893,12 +641,6 @@
       "name": "IntelligentColorSystem",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "LiquidGlassGPU",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -938,24 +680,6 @@
       "expires": "RC-1"
     },
     {
-      "name": "MotionAwareGlass",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "MotionFramer",
-      "owner": "MAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "MotionNative",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
       "name": "MultiDimensionalGestureRecognizer",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
@@ -965,18 +689,6 @@
       "name": "MultiUserGlassEditor",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "NeuralWeightVisualization",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
-      "expires": "RC-1"
-    },
-    {
-      "name": "NeuromorphicLearningNetwork",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {
@@ -1007,12 +719,6 @@
       "name": "TouchOptimizedGlass",
       "owner": "PLAT",
       "reqFin": "REQ-FIN-36",
-      "expires": "RC-1"
-    },
-    {
-      "name": "TouchRippleEffects",
-      "owner": "PLAT",
-      "reqFin": "REQ-FIN-13",
       "expires": "RC-1"
     },
     {

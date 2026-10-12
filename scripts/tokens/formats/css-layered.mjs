@@ -3,6 +3,7 @@
 import { colorToCss, gamutMapOklch, oklchToSrgb, clampSrgb, srgbToHex } from '../color.mjs';
 import { compileSpring } from '../transforms/motion-spring.mjs';
 import { createRequire } from 'node:module';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { die, dim, renderValue, prettierFormat, HEADER_CSS, LAYER_ORDER, SHADCN_MAP, AXIS_ORDER } from './_shared.mjs';
 export { HEADER_CSS, LAYER_ORDER };
@@ -53,16 +54,20 @@ const MATERIAL_CONTRACT = fileURLToPath(new URL('../../../src/contracts/material
  *  data-ag-shadcn-source. Until contract C-2 (OD-16) adds it, the
  *  `:root[data-ag-shadcn-source]` block is not emitted (REQ-MAT-20 fallback):
  *  dist/ must not key on an unregistered data-ag-* attribute. Reads the real
- *  registry object (esbuild-bundled to CJS, evaluated in-process; works under
- *  jest's CJS runtime where dynamic import() does not). */
+ *  registry object (transpiled to CJS with the TypeScript compiler, evaluated
+ *  in-process; works under jest's CJS runtime where dynamic import() does not,
+ *  and in jsdom test environments, where esbuild's Buffer/Uint8Array realm
+ *  invariant fails). The contract's imports are type-only, so a single-file
+ *  transpile is the whole module. */
 export function shadcnSourceRegistered(contractPath = MATERIAL_CONTRACT) {
   const req = createRequire(import.meta.url);
-  const { buildSync } = req('esbuild');
-  const out = buildSync({
-    entryPoints: [contractPath], bundle: true, write: false, format: 'cjs', platform: 'node', logLevel: 'silent',
+  const ts = req('typescript');
+  const { outputText } = ts.transpileModule(readFileSync(contractPath, 'utf8'), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+    fileName: contractPath,
   });
   const mod = { exports: {} };
-  new Function('module', 'exports', 'require', out.outputFiles[0].text)(mod, mod.exports, req);
+  new Function('module', 'exports', 'require', outputText)(mod, mod.exports, req);
   const registry = mod.exports.AG_ATTRIBUTES;
   if (!registry || typeof registry !== 'object') die(`shadcn bridge: AG_ATTRIBUTES not found in ${contractPath}`);
   return Object.hasOwn(registry, SHADCN_SOURCE_ATTR);

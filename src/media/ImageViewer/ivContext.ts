@@ -18,7 +18,7 @@ export interface ImageViewerContextValue {
   loop: boolean;
   popupId: string;
   /** REQ-SURF-142: the Trigger that opened the popup; focus returns here on close. */
-  triggerRef: React.MutableRefObject<HTMLElement | null>;
+  triggerRef: React.RefObject<HTMLElement | null>;
   /** REQ-SURF-142: id of the mounted Caption (the popup's aria-labelledby target), else null. */
   captionId: string | null;
   setCaptionId(id: string | null): void;

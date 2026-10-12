@@ -296,7 +296,9 @@ export function makeContext(root) {
 export function checkShowcases(root = REPO) {
   const ctx = makeContext(root);
   const base = join(root, 'showcase');
-  const files = walk(base);
+  /* Jest specs colocated with showcases (any __tests__ folder or *.test.* file, matched by jest.config.js testMatch) are test code,
+     not showcase source: they legitimately import @jest/globals, library source and sibling showcases. */
+  const files = walk(base).filter((f) => !/(^|[\\/])__tests__[\\/]/.test(relative(base, f)) && !/\.test\.[cm]?[jt]sx?$/.test(f));
   const violations = [];
   for (const f of files) {
     const ext = extname(f);

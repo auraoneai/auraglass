@@ -40,6 +40,9 @@ const builtEntries = () => {
   const manifest = JSON.parse(readFileSync(join(ROOT, 'build/exports.manifest.json'), 'utf8'));
   return (manifest.entries ?? manifest)
     .filter((e) => typeof e.default === 'string' && e.default.endsWith('.js') && existsSync(join(ROOT, e.default)))
+    // Only entries the package exports are importable by subpath: a later-GA entry (ga '5.1', e.g. ./charts) is
+    // built but withheld from package.json exports on 5.0.x (scripts/build/generate-exports.mjs, REQ-FIN-06).
+    .filter((e) => Object.prototype.hasOwnProperty.call(pkg.exports ?? {}, e.subpath))
     .map((e) => (e.subpath === '.' ? 'aura-glass' : `aura-glass/${e.subpath.replace(/^\.\//, '')}`));
 };
 
