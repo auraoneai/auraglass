@@ -96,8 +96,8 @@ const fallbackPoster =
       <path d="M604 360 468 280v160z" fill="#ffffff"/>
       <rect x="96" y="528" width="1088" height="16" rx="8" fill="rgba(255,255,255,0.24)"/>
       <rect x="96" y="528" width="462" height="16" rx="8" fill="#ffffff"/>
-      <text x="132" y="178" font-family="Arial, Arial, sans-serif" font-size="52" font-weight="700" fill="#ffffff">AuraGlass Video</text>
-      <text x="132" y="604" font-family="Arial, Arial, sans-serif" font-size="30" fill="#dbeafe">Stable visual media preview</text>
+      <text x="132" y="178" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="52" font-weight="700" fill="#ffffff">AuraGlass Video</text>
+      <text x="132" y="604" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="30" fill="#dbeafe">Stable visual media preview</text>
     </svg>
   `);
 

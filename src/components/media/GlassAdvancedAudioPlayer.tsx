@@ -185,7 +185,7 @@ const fallbackCover =
       <circle cx="360" cy="360" r="170" fill="rgba(255,255,255,0.16)"/>
       <circle cx="360" cy="360" r="58" fill="rgba(255,255,255,0.88)"/>
       <rect x="112" y="108" width="408" height="74" rx="22" fill="rgba(255,255,255,0.18)"/>
-      <text x="142" y="158" font-family="Arial, Arial, sans-serif" font-size="34" font-weight="700" fill="#ffffff">AuraGlass Audio</text>
+      <text x="142" y="158" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="34" font-weight="700" fill="#ffffff">AuraGlass Audio</text>
       <rect x="116" y="572" width="488" height="12" rx="6" fill="rgba(255,255,255,0.24)"/>
       <rect x="116" y="572" width="228" height="12" rx="6" fill="#ffffff"/>
     </svg>
