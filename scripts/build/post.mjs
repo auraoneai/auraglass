@@ -11,7 +11,7 @@ import { existsSync, writeFileSync, mkdirSync, readdirSync, readFileSync, rename
 import { dirname, join, sep } from 'node:path';
 import { ROOT, DIST, buildableEntries, walk } from './lib/graph.mjs';
 import { assembleAllCss, LAYER_CONTENT_OWNER } from './lib/css.mjs';
-import { rewriteAll } from './rewrite-dts-aliases.mjs';
+import { relocateRuntimeDeclarations, rewriteAll } from './rewrite-dts-aliases.mjs';
 import { generateServerSafeExports } from './server-safe.mjs';
 
 const step = (n, s) => console.log(`\n== post.mjs ${n}: ${s}`);
@@ -29,23 +29,29 @@ execFileSync(process.execPath, [join(ROOT, 'node_modules/typescript/bin/tsc'), '
 execFileSync(process.execPath, [join(ROOT, 'node_modules/typescript/bin/tsc'), '-p', emitConfig, '--outDir', 'dist'], { cwd: ROOT, stdio: 'inherit' });
 const rw = rewriteAll();
 console.log(`   d.ts rewritten: ${rw.rewritten}/${rw.files}`);
-/* REQ-CMP-01 / CMP-014: src/foundation/base-ui/** is the internal runtime seam
-   for non-CMP consumers of Base UI (one `export { X } from '@base-ui/react/x'`
-   per module). Consumers use those parts as values only, so no shipped d.ts
-   references the seam — but tsc still emits a declaration per program file, and
-   each seam declaration is a bare Base UI re-export (a foundation type leak,
-   tests/foundation/exports/no-foundation-types.test.ts). Drop them; the seam
-   .js files stay (runtime). A public d.ts that does reference the seam fails
-   the build: its types must be re-declared in the component module instead. */
-const SEAM_DTS = join(DIST, 'foundation', 'base-ui');
-const seamDts = existsSync(SEAM_DTS) ? walk(SEAM_DTS, (p) => /\.d\.ts(\.map)?$/.test(p)) : [];
-const seamRefs = walk(DIST, (p) => p.endsWith('.d.ts') && !p.startsWith(SEAM_DTS + sep))
-  .filter((f) => /['"][^'"]*\/foundation\/base-ui\/[^'"]*['"]/.test(readFileSync(f, 'utf8')));
-if (seamRefs.length) {
-  throw new Error(`post.mjs: public declarations reference the internal Base UI seam (src/foundation/base-ui):\n  ${seamRefs.join('\n  ')}`);
+/* REQ-CMP-01 / CMP-014 / REQ-PLAT-66: src/foundation/** is the private CMP
+   namespace (the Base UI seam src/foundation/base-ui/** plus the defineMeta /
+   toChangeDetails / controllable helpers). It has no package entry; every
+   public module declares or re-exports its own public types (ChangeDetails
+   from contracts, etc.), so no public d.ts may reference it — that fails the
+   build here (its types must be re-declared in the component module). tsdown
+   resolves seam imports to their Base UI target (no seam js) and emits the
+   remaining foundation runtime under dist/internal/cmp; runtime contract
+   constants land in dist/internal/contracts (graph.mjs distChunkStem).
+   relocateRuntimeDeclarations moves/creates the matching declarations so every
+   emitted js keeps a d.ts twin (types-runtime-graph), no declaration ships
+   under dist/foundation (tests/exports/no-foundation-types.test.ts) and no
+   d.ts carries a bare Base UI re-export
+   (tests/foundation/exports/no-foundation-types.test.ts). */
+const FOUNDATION_DTS = join(DIST, 'foundation');
+const FOUNDATION_SPEC_RE = /['"](?:\.{1,2}\/)+(?:[^'"]*\/)?foundation(?:\/[^'"]*)?['"]/;
+const foundationRefs = walk(DIST, (p) => p.endsWith('.d.ts') && !p.startsWith(FOUNDATION_DTS + sep))
+  .filter((f) => FOUNDATION_SPEC_RE.test(readFileSync(f, 'utf8')));
+if (foundationRefs.length) {
+  throw new Error(`post.mjs: public declarations reference the private foundation namespace (src/foundation):\n  ${foundationRefs.join('\n  ')}`);
 }
-for (const f of seamDts) rmSync(f);
-console.log(`   internal Base UI seam declarations dropped: ${seamDts.filter((f) => f.endsWith('.d.ts')).length}`);
+const reloc = relocateRuntimeDeclarations();
+console.log(`   private foundation declarations -> dist/internal/cmp: ${reloc.moved}; Base UI seam declarations dropped: ${reloc.droppedSeam}; dist/internal/contracts twins: ${reloc.contractTwins}`);
 
 step(2, 'css assembly');
 const css = await assembleAllCss(ROOT, { lower: true });

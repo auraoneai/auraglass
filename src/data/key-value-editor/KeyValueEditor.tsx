@@ -7,9 +7,9 @@
    field. Rows carry stable ids generated on add, so removing a middle row
    never shifts other rows' DOM, values or focus. */
 import * as React from 'react';
-import type { toChangeDetails } from '../../foundation';
-/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
-type ChangeDetails = ReturnType<typeof toChangeDetails>;
+/* S-30 ChangeDetails from the public contract module, so the emitted d.ts never
+   names the private foundation seam (REQ-CMP-01). */
+import type { ChangeDetails } from '../../contracts/components';
 import { TextField } from '../../components/text-field';
 
 export interface KeyValuePair {

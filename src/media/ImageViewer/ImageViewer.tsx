@@ -7,7 +7,9 @@
 import * as React from 'react';
 import { ImageViewerContext, type ImageViewerContextValue } from './ivContext';
 import type { ImageViewerItem } from './types';
-import type { toChangeDetails } from '../../foundation';
+/* S-30 ChangeDetails from the public contract module, so the emitted d.ts never
+   names the private foundation seam (REQ-CMP-01). */
+import type { ChangeDetails } from '../../contracts/components';
 import { Trigger } from './parts/Trigger';
 import { Popup, type ImageViewerPopupProps } from './parts/Popup';
 import { Stage } from './parts/Stage';
@@ -21,8 +23,6 @@ import { ZoomIn } from './parts/ZoomIn';
 import { ZoomOut } from './parts/ZoomOut';
 import { ZoomReset } from './parts/ZoomReset';
 import { Close } from './parts/Close';
-/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
-type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 export type { ImageViewerItem } from './types';
 export type { ImageViewerPopupProps } from './parts/Popup';

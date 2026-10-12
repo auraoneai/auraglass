@@ -1,5 +1,5 @@
 {
- "entry": "icons",
+ "entry": "./icons",
  "exports": [
   "AccessibilityIcon",
   "ActivityIcon",

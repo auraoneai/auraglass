@@ -1,4 +1,4 @@
-## API Report — aura-glass root.surf
+## API Report — aura-glass ./root.surf
 
 - `ActivityFeed`
 - `Breadcrumbs`

@@ -3,6 +3,11 @@
   "apiReport": { "enabled": true, "reportFolder": "<projectFolder>/etc/api/" },
   "docModel": { "enabled": false },
   "dtsRollup": { "enabled": false },
+  "compiler": {
+    "overrideTsconfig": {
+      "include": ["dist/**/*.d.ts"]
+    }
+  },
   "messages": {
     "extractorMessageReporting": { "default": { "logLevel": "warning" } },
     "compilerMessageReporting": { "default": { "logLevel": "none" } }

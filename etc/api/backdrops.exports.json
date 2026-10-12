@@ -1,6 +1,7 @@
 {
- "entry": "backdrops",
+ "entry": "./backdrops",
  "exports": [
   "Backdrop"
- ]
+ ],
+ "unanalysable": []
 }

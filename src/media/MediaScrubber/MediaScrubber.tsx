@@ -15,9 +15,9 @@ import { formatMediaTime } from '../formatMediaTime';
 import { BufferedLayer } from './BufferedLayer';
 import { ChapterMarkers } from './ChapterMarkers';
 import { MediaSliderParts, SliderToolbarItem } from './MediaSliderParts';
-import type { toChangeDetails } from '../../foundation';
-/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
-type ChangeDetails = ReturnType<typeof toChangeDetails>;
+/* S-30 ChangeDetails from the public contract module, so the emitted d.ts never
+   names the private foundation seam (REQ-CMP-01). */
+import type { ChangeDetails } from '../../contracts/components';
 
 export interface MediaScrubberProps {
   value: number;

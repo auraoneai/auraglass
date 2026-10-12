@@ -36,9 +36,9 @@ import { DateProvider, useDateLocale } from './DateProvider';
 import { isoWeekNumber, isoWeekday } from './week-number';
 import { raChangeDetails } from './shared';
 import type { DateFieldLikeProps, DateValue } from './shared';
-import type { toChangeDetails } from '../foundation';
-/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
-type ChangeDetails = ReturnType<typeof toChangeDetails>;
+/* S-30 ChangeDetails from the public contract module, so the emitted d.ts never
+   names the private foundation seam (REQ-CMP-01). */
+import type { ChangeDetails } from '../contracts/components';
 
 export interface CalendarLabels {
   previous?: string | undefined;

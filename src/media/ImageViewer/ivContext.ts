@@ -1,9 +1,9 @@
 'use client';
 import * as React from 'react';
 import type { ImageViewerItem } from './types';
-import type { toChangeDetails } from '../../foundation';
-/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
-type ChangeDetails = ReturnType<typeof toChangeDetails>;
+/* S-30 ChangeDetails from the public contract module, so the emitted d.ts never
+   names the private foundation seam (REQ-CMP-01). */
+import type { ChangeDetails } from '../../contracts/components';
 
 export interface ImageViewerContextValue {
   items: ImageViewerItem[];

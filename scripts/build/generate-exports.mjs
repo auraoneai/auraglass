@@ -29,7 +29,9 @@
    - --root <dir>: run against a fixture tree. */
 import { writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
-import { ROOT, buildableEntries, loadJson, contractGaLines } from './lib/graph.mjs';
+// PATTERN_EXPORTS (contract-declared pattern subpaths, keyed by base entry) lives in
+// graph.mjs so tsdown.config.ts builds the same pattern targets this script exports.
+import { ROOT, buildableEntries, loadJson, contractGaLines, PATTERN_EXPORTS } from './lib/graph.mjs';
 
 /** REQ-FIN that removes each known seed file (PRD-F §5.1 REQ-FIN-06 / §5.4). */
 const REMOVING_REQ_FIN_BY_FILE = {
@@ -48,13 +50,6 @@ const REMOVING_REQ_FIN_BY_OWNER = {
   CONTRACT: 'FIN-463 contract/v1.2-final (FIN-A)',
 };
 
-/** Contract-declared pattern subpaths, keyed by their base entry. */
-const PATTERN_EXPORTS = {
-  './icons': {
-    subpath: './icons/*',
-    cond: { types: './dist/icons/*.d.ts', default: './dist/icons/*.js' },
-  },
-};
 
 const globRe = (glob) =>
   new RegExp('^' + glob

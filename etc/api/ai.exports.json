@@ -1,5 +1,5 @@
 {
- "entry": "ai",
+ "entry": "./ai",
  "exports": [
   "AgentSteps",
   "Citation",
@@ -12,5 +12,6 @@
   "Thread",
   "ToolCall",
   "UsageMeter"
- ]
+ ],
+ "unanalysable": []
 }
