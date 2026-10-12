@@ -1,8 +1,8 @@
-/* CMP-398 + REQ-CMP-101. Tooltip touch contract, unconditional legs:
-   a plain tap never opens; a 550ms long-press opens; outside tap closes.
-   Remote e2e lane only (AG_REMOTE_RUNNER=1) — hasTouch device required. */
+/* CMP-398 + REQ-CMP-101 (PRD path tests/e2e/cmp/tooltip-touch.spec.ts; L5 lane row in fragments/lanes/cmp.ts).
+   Tooltip touch contract, unconditional legs: a plain tap never opens; a 550ms long-press opens; outside tap
+   closes. Remote e2e lane only (AG_REMOTE_RUNNER=1) — hasTouch device required. */
 import { test, expect } from '@playwright/test';
-import { gotoStory } from '../../../helpers/index';
+import { gotoStory } from '../../helpers/index';
 
 // Remote-only (machine policy): a local run fails loudly instead of skipping (PRD §18).
 if (process.env.AG_REMOTE_RUNNER !== '1') throw new Error('remote e2e lane only: run on the remote runner (AG_REMOTE_RUNNER=1)');

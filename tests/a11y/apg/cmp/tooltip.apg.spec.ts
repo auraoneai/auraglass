@@ -1,7 +1,7 @@
 
 /* CMP-398 (lane 3i-Q). Tooltip APG, 3 engines: focus opens; Escape closes;
    aria-describedby on the trigger resolves; popup is hoverable (pointer path
-   trigger→popup keeps open). Companion: tests/e2e/cmp/overlays/tooltip.touch.spec.ts. */
+   trigger→popup keeps open). Companion: tests/e2e/cmp/tooltip-touch.spec.ts. */
 import { test, expect } from '@playwright/test';
 import { gotoStory } from '../../../helpers/index';
 import { apg } from '../harness';

@@ -149,6 +149,44 @@ describe('Tooltip', () => {
     up(trigger);
   });
 
+  it('REQ-CMP-101: after a long-press opens it, the next outside tap closes it', async () => {
+    jest.useFakeTimers();
+    const onOpenChange = jest.fn();
+    render(
+      <AuraGlassProvider>
+        <Tooltip.Provider>
+          <Tooltip.Root onOpenChange={onOpenChange}>
+            <Tooltip.Trigger>save</Tooltip.Trigger>
+            <TooltipPortal><TooltipPositioner><TooltipPopup>hint</TooltipPopup></TooltipPositioner></TooltipPortal>
+          </Tooltip.Root>
+        </Tooltip.Provider>
+        <p>elsewhere</p>
+      </AuraGlassProvider>,
+    );
+    const touch = (kind: 'pointerDown' | 'pointerUp', t: Element) => {
+      const e = createEvent[kind](t);
+      Object.defineProperty(e, 'pointerType', { value: 'touch' });
+      fireEvent(t, e);
+    };
+    const trigger = screen.getByText('save');
+    touch('pointerDown', trigger);
+    act(() => { jest.advanceTimersByTime(550); });
+    touch('pointerUp', trigger);
+    expect(document.querySelector('[data-ag-part="popup"]')).not.toBeNull();
+    // the popup stays open after the finger lifts…
+    act(() => { jest.advanceTimersByTime(1000); });
+    expect(document.querySelector('[data-ag-part="popup"]')).not.toBeNull();
+    // …until the next tap outside the trigger and popup
+    const outside = screen.getByText('elsewhere');
+    touch('pointerDown', outside);
+    fireEvent.mouseDown(outside);
+    touch('pointerUp', outside);
+    fireEvent.click(outside);
+    act(() => { jest.advanceTimersByTime(500); });
+    expect(document.querySelector('[data-ag-part="popup"]')).toBeNull();
+    expect(onOpenChange).toHaveBeenLastCalledWith(false, expect.anything());
+  });
+
   it('popup has no contain:paint (REQ-CMP-101)', () => {
     const css = require('fs').readFileSync(require('path').join(__dirname, 'Tooltip.css'), 'utf8');
     const popupBlock = css.match(/\.ag-tooltip-popup\s*\{[^}]*\}/)![0];

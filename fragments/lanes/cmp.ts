@@ -39,6 +39,15 @@ export default [
     remote: true,
     failClosed: true,
   },
+  // L5 — REQ-CMP-101: coarse-pointer Tooltip (tap never opens, long-press opens, outside tap closes)
+  {
+    lane: "L5",
+    kind: "playwright",
+    path: "tests/e2e/cmp/tooltip-touch.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
   // L6–L8 — visual specs
   {
     lane: "L6",
