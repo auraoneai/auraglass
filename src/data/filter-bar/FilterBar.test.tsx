@@ -60,7 +60,7 @@ describe('FilterBar (SURF-196, REQ-SURF-87)', () => {
     const remove = screen.getByRole('button', { name: 'Remove filter Name contains abc' });
     expect(remove.classList.contains('ag-icon-button')).toBe(true);
     fireEvent.click(remove);
-    expect(on).toHaveBeenCalledWith(expect.objectContaining({ children: [] }));
+    expect(on).toHaveBeenCalledWith(expect.objectContaining({ children: [] }), expect.objectContaining({ reason: 'remove-rule' }));
   });
 
   it('removing a chip moves focus to the next chip, then the previous, then add-filter', () => {
@@ -88,7 +88,7 @@ describe('FilterBar (SURF-196, REQ-SURF-87)', () => {
     const { container } = render(<FilterBar schema={SCHEMA} defaultValue={base} onValueChange={on} onClearAll={onClear} />);
     fireEvent.click(container.querySelector('[data-ag-part="filter-clear"]')!);
     expect(onClear).toHaveBeenCalledTimes(1);
-    expect(on).toHaveBeenCalledWith(expect.objectContaining({ children: [] }));
+    expect(on).toHaveBeenCalledWith(expect.objectContaining({ children: [] }), expect.objectContaining({ reason: 'clear' }));
   });
 
   it('quick filters are a CMP ToggleGroup: aria-pressed follows the rule, clicking toggles it', () => {
@@ -241,7 +241,7 @@ describe('FilterBar (SURF-196, REQ-SURF-87)', () => {
     await settle();
     const sheet = document.querySelector<HTMLElement>('.ag-filter-bar__sheet')!;
     expect(sheet).not.toBeNull();
-    expect(sheet.getAttribute('data-ag-side')).toBe('bottom');
+    expect(sheet.getAttribute('data-side')).toBe('bottom');
     expect(sheet.querySelectorAll('[data-ag-part="filter-rule-chip"]')).toHaveLength(2);
     fireEvent.keyDown(sheet, { key: 'Escape' });
     await settle();
@@ -313,7 +313,7 @@ describe('FilterBar (SURF-196, REQ-SURF-87)', () => {
     const on = jest.fn();
     const { result } = renderHook(() => FilterBar.useModel(SCHEMA, { value: base, onValueChange: on }));
     act(() => result.current.clear());
-    expect(on).toHaveBeenCalledWith(expect.objectContaining({ children: [] }));
+    expect(on).toHaveBeenCalledWith(expect.objectContaining({ children: [] }), expect.objectContaining({ reason: 'clear' }));
     expect(result.current.value).toBe(base);
   });
 
