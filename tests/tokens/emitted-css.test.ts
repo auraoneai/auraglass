@@ -8,6 +8,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import postcss from 'postcss';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
+import { COMPAT_DARK_SELECTOR } from '../../scripts/tokens/formats/compat-aliases.mjs';
 
 const FILES = [
   'dist/css/tokens.css',
@@ -91,7 +92,11 @@ describe('emitted css (MAT-036)', () => {
 
       test('no legacy hook selectors', () => {
         const bad: string[] = [];
-        root.walkRules((r) => { if (LEGACY_HOOKS.test(r.selector)) bad.push(r.selector); });
+        // REQ-MAT-13: the single exception is the compat [data-theme=dark]/.dark
+        // mapping, only in dist/compat/tokens.css and only inside @layer ag.compat.
+        const allowed = (r: postcss.Rule) =>
+          f === 'dist/compat/tokens.css' && r.selector === COMPAT_DARK_SELECTOR && layerOf(r) === 'ag.compat';
+        root.walkRules((r) => { if (LEGACY_HOOKS.test(r.selector) && !allowed(r)) bad.push(r.selector); });
         expect(bad).toEqual([]);
       });
     });

@@ -7,8 +7,9 @@
      - schema violation            (validate.mjs)
      - unresolved alias            resolveAliases()
      - alias cycle                 resolveAliases()
-     - material.* alias to non-sys guardMaterialAliases()
-     - preset defining material.*  guardPresets()
+     - compiler guards             guards.mjs assertGuards() (REQ-MAT-02): material-alias
+                                   (sys.* only), preset key-walk, ref-leak, blur-cap,
+                                   bezier-y, spring-zeta, spring-response
      - preset/theme output containing --_ag-*  emitTokensCss()
    Flags: --fixtures <dir> (token root override), --out <dir> (output root override,
    used by tests/tokens/determinism.test.ts to build into temp dirs). */
@@ -21,6 +22,7 @@ import { springToLinear, springDurationMs, compileSpring } from './transforms/mo
 import { buildLadders, buildFloors } from './transforms/glass-material.mjs';
 import { solveContrastMatrix, matrixJson } from './transforms/contrast-solve.mjs';
 import { createHash } from 'node:crypto';
+import { assertGuards } from './guards.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -98,34 +100,6 @@ export function resolveAliases(records) {
 }
 
 const stringifyResolved = (v) => (v && typeof v === 'object' ? JSON.stringify(v) : String(v));
-
-/** material.* tokens may only alias sys.* or other material.* tokens (MAT-007 guard). */
-function guardMaterialAliases(records) {
-  for (const rec of records.values()) {
-    if (rec.ext?.['ag.tier'] !== 'material') continue;
-    const scan = (v) => {
-      if (typeof v === 'string') for (const m of v.matchAll(REF_RE)) {
-        const target = records.get(m[1]);
-        const tt = target?.ext?.['ag.tier'];
-        if (target && tt !== 'sys' && tt !== 'material')
-          die(`${rec.name}: material.* alias {${m[1]}} targets tier '${tt ?? 'none'}' (must alias sys.* or material.* only)`);
-      } else if (v && typeof v === 'object') for (const x of Object.values(v)) scan(x);
-    };
-    scan(rec.value);
-  }
-}
-
-/** presets must not define material.* keys or private vars (MAT-007 guards). */
-function guardPresets(records, resolved) {
-  for (const rec of records.values()) {
-    if (!rec.name.startsWith('preset.')) continue;
-    const v = resolved.get(rec.name);
-    if (JSON.stringify(v).includes('material.') || /"material"\s*:/.test(JSON.stringify(v)))
-      die(`${rec.name}: preset defines material.* keys`);
-    if (JSON.stringify(rec.value).includes('--_ag-'))
-      die(`${rec.name}: preset value contains private --_ag-* var`);
-  }
-}
 
 // ---------- mode expansion ----------
 
@@ -227,9 +201,9 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   if (errors.length) die(`schema violations:\n  ${errors.join('\n  ')}`);
 
   const records = loadTokens(tokenDir);
-  guardMaterialAliases(records);
   const resolved = resolveAliases(records);
-  guardPresets(records, resolved);
+  // REQ-MAT-02: every compiler guard from guards.mjs; exits 1 naming each offending path.
+  assertGuards(records, resolved);
   const axisDefs = readAxisDefs(records, resolved);
   const cells = expandModes(records, resolved, axisDefs);
 
@@ -318,10 +292,12 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   // emitCompat is the sole writer of dist/compat/tokens.css.
   if (existsSync(join(tokenDir, 'legacy', '4x-rendered.tokens.json'))) {
     const { emitCompat } = await import('./formats/compat-aliases.mjs');
-    // [data-theme=dark], .dark compat block: every --ag-color-* dark value.
+    // REQ-MAT-13 [data-theme=dark], .dark compat block: every public dark scheme value
+    // (all --ag-color-* plus the --ag-surface/on-surface/focus pairs), i.e. exactly the
+    // light-dark() fallback dark block of dist/tokens.css.
     const darkOverrides = {};
     for (const c of cells)
-      if (c.axis === 'scheme' && c.axisValue === 'dark' && typeof c.cssVar === 'string' && c.cssVar.startsWith('--ag-color-'))
+      if (c.axis === 'scheme' && c.axisValue === 'dark' && typeof c.cssVar === 'string' && c.cssVar.startsWith('--ag-'))
         darkOverrides[c.cssVar] = renderValue(c);
     const { count } = emitCompat(write, tokenDir, darkOverrides);
     if (!quiet) console.log(`compat: ${count} reader names mapped`);

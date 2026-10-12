@@ -130,6 +130,13 @@ export function legacyTokensJson(legacyDecls) {
   return { legacy };
 }
 
+/** The one legacy-hook selector MAT emits (REQ-MAT-13), only in dist/compat/tokens.css.
+ *  ag.compat is the lowest layer, so on the root element itself the ag.tokens `:root`
+ *  block wins; the `> body` arms carry the mapping for the usual 4.x
+ *  `<html class="dark">` / `<html data-theme="dark">` hook (body declares, every
+ *  descendant inherits). Any 5.x [data-ag-scheme] element still wins locally. */
+export const COMPAT_DARK_SELECTOR = ':where([data-theme=dark], .dark, [data-theme=dark] > body, .dark > body)';
+
 /** dist/compat/tokens.css — @layer ag.compat :where(:root) block plus the
  *  `[data-theme=dark], .dark` block carrying every --ag-color-* dark value so
  *  4.x dark-mode selectors keep resolving 5.x colors (MAT-073). */
@@ -159,9 +166,17 @@ export function compatCss(map, darkOverrides = {}) {
     for (const l of guarded) lines.push(`  ${l}`);
     lines.push('  }', '  }');
   }
+  // REQ-MAT-13: the only legacy hook selectors anywhere in MAT CSS — 4.x dark-mode
+  // hooks map to the 5.x dark scheme values (every --ag-color-* dark cell), inside
+  // the single ag.compat layer block. :where() keeps specificity at zero so any
+  // 5.x data-ag-scheme/axis block still wins on cascade order.
+  const dark = Object.entries(darkOverrides).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+  if (dark.length) {
+    lines.push(`  ${COMPAT_DARK_SELECTOR} {`, '    color-scheme: dark;');
+    for (const [name, value] of dark) lines.push(`    ${name}: ${value};`);
+    lines.push('  }');
+  }
   lines.push('}', '');
-  // MAT-036 contract: dist/compat/tokens.css emits ZERO legacy hook selectors
-  // (no [data-theme=dark]/.dark blocks). darkOverrides are not emitted here.
   return lines.join('\n');
 }
 
