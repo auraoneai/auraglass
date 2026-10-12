@@ -34,18 +34,27 @@ export type { CarouselRailSlide } from './types';
 export type { CarouselRailIndicatorsProps } from './parts/Indicators';
 
 export interface CarouselRailRootProps {
+  /** Accessible name of the carousel. */
   label: string;
+  /** Slides in order. */
   slides: CarouselRailSlide[];
+  /** Controlled index of the first visible slide. Pair with `onIndexChange`. */
   index?: number | undefined;
+  /** Initial slide index when uncontrolled. */
   defaultIndex?: number | undefined;
+  /** Called with the next slide index. */
   onIndexChange?: ((index: number) => void) | undefined;
+  /** Slides visible at once, or 'auto' to use each slide's own width. */
   slidesPerView?: number | 'auto' | undefined;
+  /** Wraps keyboard focus from the last item back to the first. */
   loop?: boolean | undefined;
   /** {interval ms ≥5000} | false — rotates only under the continuous gate. */
   autoplay?: { interval: number } | false | undefined;
+  /** Marks the rail as sitting over media (data-ag-backdrop="media") so controls stay legible. */
   overMedia?: boolean | undefined;
   /** Alias of `<CarouselRail.Indicators semantics>` for the default layout. */
   indicatorsAs?: CarouselRailIndicatorsAs | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
   /** Compose the parts yourself; omitted → Autoplay toggle, Viewport, Prev, Next, Indicators. */
   children?: React.ReactNode;

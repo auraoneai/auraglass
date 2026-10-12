@@ -18,12 +18,19 @@ export interface KeyValuePair {
 }
 
 export interface KeyValueEditorProps {
+  /** Controlled value. Pair with `onValueChange`. */
   value?: readonly KeyValuePair[] | undefined;
+  /** Initial value when uncontrolled. */
   defaultValue?: readonly KeyValuePair[] | undefined;
+  /** Called with the new value whenever it changes. */
   onValueChange?: ((pairs: KeyValuePair[], details: ChangeDetails) => void) | undefined;
+  /** Label of the add-row button. */
   addLabel?: string | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: { key?: string | undefined; value?: string | undefined; remove?: string | undefined; add?: string | undefined; duplicate?: string | undefined } | undefined;
+  /** Disables interaction. */
   disabled?: boolean | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 

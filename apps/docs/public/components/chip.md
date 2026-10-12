@@ -12,18 +12,18 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `defaultSelected?` | `boolean` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `intent?` | `'info' \| 'success' \| 'warning' \| 'danger' \| 'neutral'` | — | — |
+| `children` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultSelected?` | `boolean` | — | Initial selected state when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `intent?` | `'info' \| 'success' \| 'warning' \| 'danger' \| 'neutral'` | — | Status tint. |
 | `label?` | `string` | — | Plain-text name of the chip. Names the remove button ("Remove {label}") when `children` is not a string. |
-| `labels?` | `{ remove?: string \| undefined; }` | — | — |
-| `onRemove?` | `() => void` | — | — |
-| `onSelectedChange?` | `(selected: boolean) => void` | — | — |
-| `selectable?` | `boolean` | — | — |
-| `selected?` | `boolean` | — | — |
-| `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
+| `labels?` | `{ remove?: string \| undefined; }` | — | Overrides for the built-in, localizable UI strings. |
+| `onRemove?` | `() => void` | — | Called when the remove button is pressed; the button is shown only when set. |
+| `onSelectedChange?` | `(selected: boolean) => void` | — | Called with the next selected state. |
+| `selectable?` | `boolean` | — | Makes the chip a toggle. |
+| `selected?` | `boolean` | — | Controlled selected state. Pair with `onSelectedChange`. |
+| `size?` | `'sm' \| 'md' \| 'lg'` | — | Chip size. |
 
 ## Parts
 
@@ -42,4 +42,16 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/chip/*.tsx` yet._
+```tsx
+import { Chip } from 'aura-glass/data';
+
+export default function ChipMinimal() {
+  return (
+    <>
+      <Chip>Static</Chip>
+      <Chip selectable defaultSelected>Selectable</Chip>
+      <Chip intent="success" onRemove={() => {}}>Removable</Chip>
+    </>
+  );
+}
+```

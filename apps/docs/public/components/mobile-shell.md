@@ -12,9 +12,9 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `persistKey?` | `string` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
+| `persistKey?` | `string` | — | Storage key under which the shell persists its layout state. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
 | `tabBar?` | `ReactNode` | — | Content for the bottom tab bar. |
 | `topBar?` | `ReactNode` | — | Content for the overlay top bar. |
 
@@ -34,4 +34,23 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/mobile-shell/*.tsx` yet._
+```tsx
+import { MobileShell, TopBar } from 'aura-glass/app-shell';
+import { TabBar } from 'aura-glass';
+
+export default function MobileShellMinimal() {
+  return (
+    <MobileShell
+      topBar={<TopBar.Root><TopBar.Title>Inbox</TopBar.Title></TopBar.Root>}
+      tabBar={
+        <TabBar.Root aria-label="Sections">
+          <TabBar.Item href="#inbox" current>Inbox</TabBar.Item>
+          <TabBar.Item href="#search">Search</TabBar.Item>
+        </TabBar.Root>
+      }
+    >
+      <p>Messages</p>
+    </MobileShell>
+  );
+}
+```

@@ -743,20 +743,6 @@
       "expires": "RC-1"
     },
     {
-      "id": "DEP-S0622",
-      "name": "GlassVoiceWaveform",
-      "owner": "SURF",
-      "reqFin": "REQ-FIN-80",
-      "expires": "RC-1"
-    },
-    {
-      "id": "DEP-S0623",
-      "name": "GlassMusicVisualizer",
-      "owner": "SURF",
-      "reqFin": "REQ-FIN-80",
-      "expires": "RC-1"
-    },
-    {
       "id": "DEP-S0624",
       "name": "ParticleBackground",
       "owner": "SURF",

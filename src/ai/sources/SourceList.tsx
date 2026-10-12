@@ -8,9 +8,13 @@ import { scheduleFrame } from '../../motion/ticker';
 export type AgSourcePart = Extract<AgPart, { type: 'source-url' | 'source-document' }>;
 
 export interface SourceListProps {
+  /** Id of the message the sources belong to. */
   messageId: string;
+  /** Sources to list, in citation order. */
   sources: readonly AgSourcePart[];
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 

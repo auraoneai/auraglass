@@ -10,13 +10,19 @@ import { toChangeDetails } from '../../foundation/index';
 import { useControllableWarning } from '../../foundation/controllable';
 
 export interface CollapsibleRootProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean;
+  /** Called with the next open state when it changes. */
   onOpenChange?: (open: boolean, details: unknown) => void;
+  /** Disables interaction. */
   disabled?: boolean;
 }
 
-function Root({ open, defaultOpen, onOpenChange, className, ref, ...rest }: CollapsibleRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+function Root({ open, defaultOpen, onOpenChange, className, ref, ...rest }: CollapsibleRootProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   useControllableWarning('Collapsible', 'open', open);
   const [uncontrolled, setUncontrolled] = React.useState(defaultOpen ?? false);
   const current = open ?? uncontrolled;

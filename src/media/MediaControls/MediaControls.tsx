@@ -30,32 +30,50 @@ type FC = React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
 const ToolbarRoot = Toolbar.Root as unknown as FC;
 
 export interface MediaControlsRootProps {
+  /** Media element handle the controls drive; omit to control every value yourself. */
   media?: MediaHandle | undefined;
   /* controlled props (mutually exclusive with media) */
+  /** Controlled playing state. */
   playing?: boolean | undefined;
+  /** Controlled playback position, in seconds. */
   currentTime?: number | undefined;
+  /** Media duration, in seconds. */
   duration?: number | undefined;
+  /** Buffered ranges as [start, end] seconds. */
   buffered?: [number, number][] | undefined;
+  /** Controlled volume from 0 to 1. */
   volume?: number | undefined;
+  /** Controlled muted state. */
   muted?: boolean | undefined;
+  /** Controlled playback rate. */
   playbackRate?: number | undefined;
   /** Controlled text tracks (captions|subtitles drive the Captions part). */
   textTracks?: MediaTextTrack[] | undefined;
+  /** Called with the next playing state. */
   onPlayingChange?: ((playing: boolean) => void) | undefined;
+  /** Called with the position, in seconds, the user seeks to. */
   onSeek?: ((seconds: number) => void) | undefined;
+  /** Called with the next volume (0 to 1). */
   onVolumeChange?: ((volume: number) => void) | undefined;
+  /** Called with the next muted state. */
   onMutedChange?: ((muted: boolean) => void) | undefined;
+  /** Called with the next playback rate. */
   onRateChange?: ((rate: number) => void) | undefined;
   /** Controlled captions: the track id to show, or null for off. */
   onCaptionsChange?: ((trackId: string | null) => void) | undefined;
+  /** Material variant of the control bar. */
   variant?: 'regular' | 'clear' | undefined;
   /** Material refraction on the toolbar chrome (data-ag-refraction). */
   refraction?: boolean | undefined;
+  /** Accessible name of the control group. */
   label?: string | undefined;
   /** keyboard shortcuts bound on Root (and shortcutTarget) only; default true */
   shortcuts?: boolean | undefined;
+  /** Extra element on which the keyboard shortcuts are bound (they are always bound on the root). */
   shortcutTarget?: HTMLElement | null | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 

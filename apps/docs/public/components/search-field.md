@@ -12,31 +12,37 @@ Tier T1 · RSC client · APG searchbox
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-describedby?` | `string` | — | — |
-| `aria-label?` | `string` | — | — |
-| `aria-labelledby?` | `string` | — | — |
-| `autoComplete?` | `string` | — | — |
-| `className?` | `string` | — | — |
+| `aria-describedby?` | `string` | — | Id of the element that provides the accessible description. |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `aria-labelledby?` | `string` | — | Id of the element that provides the accessible name. |
+| `autoComplete?` | `string` | — | Native `autocomplete` hint for the input. |
+| `className?` | `string` | — | Class name merged onto the root element. |
 | `clearLabel?` | `string` | — | Clear button accessible name (default "Clear search"). |
-| `defaultValue?` | `string` | — | — |
-| `description?` | `ReactNode` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `error?` | `ReactNode` | — | — |
-| `id?` | `string` | — | — |
-| `label?` | `ReactNode` | — | — |
+| `defaultValue?` | `string` | — | Initial value when uncontrolled. |
+| `description?` | `ReactNode` | — | Helper text rendered under the label and linked with `aria-describedby`. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `endAdornment?` | `ReactNode` | — | Trailing content inside the shell, before the clear button (adornment-end part). |
+| `error?` | `ReactNode` | — | Error message; marks the field invalid when set. |
+| `id?` | `string` | — | Id of the input element; generated when omitted. |
+| `label?` | `ReactNode` | — | Visible label. |
 | `loading?` | `boolean` | — | Loading state: spinner part + aria-busy on the root. |
-| `name?` | `string` | — | — |
+| `maxLength?` | `number` | — | Maximum number of characters allowed. |
+| `name?` | `string` | — | Form field name submitted with the value. |
 | `onClear?` | `(details: ChangeDetails) => void` | — | Called after the value is cleared via Escape or the clear button. |
-| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | — |
-| `placeholder?` | `string` | — | — |
-| `readOnly?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLInputElement>` | — | — |
-| `refraction?` | `boolean` | — | — |
-| `required?` | `boolean` | — | — |
+| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `placeholder?` | `string` | — | Placeholder text shown while the input is empty. |
+| `readOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
+| `ref?` | `Ref<HTMLInputElement>` | — | Ref to the rendered root element. |
+| `refraction?` | `boolean` | — | Opt-in refraction on refraction-eligible materials; ignored where unsupported. |
+| `required?` | `boolean` | — | Marks the field as required for form validation. |
 | `shortcut?` | `string` | — | Hint text rendered as a Kbd inside the shell; registers NO listener. |
-| `size?` | `ControlSize` | — | — |
-| `value?` | `string` | — | — |
-| `variant?` | `'regular' \| 'clear' \| 'identity'` | — | — |
+| `showCount?` | `boolean` | — | Render the counter part (current/maxLength). |
+| `size?` | `ControlSize` | — | Control size. |
+| `startAdornment?` | `ReactNode` | — | Leading content inside the shell, after the search glyph (adornment-start part). |
+| `validate?` | `FieldValidate` | — | Custom validation function. |
+| `validationMode?` | `FieldValidationMode` | — | When validation runs. |
+| `value?` | `string` | — | Controlled value. Pair with `onValueChange`. |
+| `variant?` | `'regular' \| 'clear' \| 'identity'` | — | Material variant of the field. |
 
 ## Parts
 
@@ -46,12 +52,15 @@ Tier T1 · RSC client · APG searchbox
 | `label` | `[data-ag-part="label"]` |
 | `control-shell` | `[data-ag-part="control-shell"]` |
 | `icon` | `[data-ag-part="icon"]` |
+| `adornment-start` | `[data-ag-part="adornment-start"]` |
 | `control` | `[data-ag-part="control"]` |
-| `clear` | `[data-ag-part="clear"]` |
-| `shortcut` | `[data-ag-part="shortcut"]` |
 | `spinner` | `[data-ag-part="spinner"]` |
+| `adornment-end` | `[data-ag-part="adornment-end"]` |
+| `shortcut` | `[data-ag-part="shortcut"]` |
+| `clear` | `[data-ag-part="clear"]` |
 | `description` | `[data-ag-part="description"]` |
 | `error` | `[data-ag-part="error"]` |
+| `counter` | `[data-ag-part="counter"]` |
 
 ## States
 
@@ -64,4 +73,10 @@ Tier T1 · RSC client · APG searchbox
 
 ## Example
 
-_Example pending: no `apps/docs/examples/search-field/*.tsx` yet._
+```tsx
+import { SearchField } from 'aura-glass';
+
+export default function SearchFieldMinimal() {
+  return <SearchField aria-label="Search invoices" placeholder="Search invoices" />;
+}
+```

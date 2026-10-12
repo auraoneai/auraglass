@@ -12,25 +12,25 @@ Tier T1 · RSC client · APG checkbox
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-describedby?` | `string` | — | — |
-| `aria-label?` | `string` | — | — |
-| `aria-labelledby?` | `string` | — | — |
-| `checked?` | `boolean` | — | — |
+| `aria-describedby?` | `string` | — | Id of the element that provides the accessible description. |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `aria-labelledby?` | `string` | — | Id of the element that provides the accessible name. |
+| `checked?` | `boolean` | — | Controlled checked state. |
 | `children?` | `ReactNode` | — | Accessible label; renders inside the indicator-adjacent label slot. |
-| `className?` | `string` | — | — |
-| `defaultChecked?` | `boolean` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `id?` | `string` | — | — |
-| `indeterminate?` | `boolean` | — | — |
-| `name?` | `string` | — | — |
-| `onCheckedChange?` | `(checked: boolean, details: ChangeDetails) => void` | — | — |
-| `parent?` | `boolean` | — | — |
-| `readOnly?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `required?` | `boolean` | — | — |
-| `size?` | `ControlSize` | — | — |
-| `uncheckedValue?` | `string` | — | — |
-| `value?` | `string` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultChecked?` | `boolean` | — | Initial checked state when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `id?` | `string` | — | Id of the input element; generated when omitted. |
+| `indeterminate?` | `boolean` | — | Shows the mixed state (some, not all, children checked). |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `onCheckedChange?` | `(checked: boolean, details: ChangeDetails) => void` | — | Called with the next checked state when it changes. |
+| `parent?` | `boolean` | — | Makes this the parent checkbox of a group: its state reflects and sets all children. |
+| `readOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `required?` | `boolean` | — | Marks the field as required for form validation. |
+| `size?` | `ControlSize` | — | Control size. |
+| `uncheckedValue?` | `string` | — | Value submitted with the form when unchecked. |
+| `value?` | `string` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -55,4 +55,10 @@ Tier T1 · RSC client · APG checkbox
 
 ## Example
 
-_Example pending: no `apps/docs/examples/checkbox/*.tsx` yet._
+```tsx
+import { Checkbox } from 'aura-glass';
+
+export default function CheckboxMinimal() {
+  return <Checkbox value="terms">I agree to the subscription terms</Checkbox>;
+}
+```

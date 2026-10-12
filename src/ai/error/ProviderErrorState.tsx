@@ -13,13 +13,19 @@ export type AgErrorKind =
   | 'unknown';
 
 export interface ProviderErrorStateProps {
+  /** Provider error class; selects the default title, detail and retry affordance. */
   kind: AgErrorKind;
+  /** Overrides the default title for `kind`. */
   title?: string | undefined;
+  /** Overrides the default explanation for `kind`. */
   detail?: string | undefined;
+  /** Milliseconds until a retry is allowed; Retry stays disabled and a countdown is shown until then. */
   retryAfterMs?: number | undefined;
+  /** Called when the user presses Retry; Retry is hidden when omitted. */
   onRetry?: (() => void) | undefined;
   /** Non-material look (S-30): emitted as data-ag-appearance. Default 'panel'. */
   appearance?: 'compact' | 'panel' | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 

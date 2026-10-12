@@ -24,21 +24,29 @@ export interface BackdropBase {
   motion?: BackdropMotion | undefined;
   /** position: fixed; never background-attachment: fixed. */
   fixed?: boolean | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
 }
 
 export interface BackdropPhotoProps extends BackdropBase {
+  /** Backdrop preset. */
   preset: 'photo';
+  /** Image URL. */
   src: string;
+  /** Responsive image candidates, in the native `srcset` format. */
   srcSet?: string | undefined;
+  /** Native `sizes` attribute for `srcSet`. */
   sizes?: string | undefined;
+  /** Native `crossorigin` attribute of the media element. */
   crossOrigin?: 'anonymous' | 'use-credentials' | '' | undefined;
 }
 
 export interface BackdropVideoProps extends BackdropBase {
   preset: 'video';
   src: string;
+  /** Image shown before the video plays and when motion is reduced. */
   poster?: string | undefined;
   crossOrigin?: 'anonymous' | 'use-credentials' | '' | undefined;
 }

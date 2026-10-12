@@ -16,6 +16,7 @@ import { raChangeDetails } from './shared';
 import type { DateFieldLikeProps, DateValue } from './shared';
 
 export interface DateFieldProps extends DateFieldLikeProps<DateValue> {
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 

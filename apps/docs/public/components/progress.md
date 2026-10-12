@@ -6,18 +6,18 @@
 import { Progress } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG none
+Tier T2 · RSC client · APG none
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appearance?` | `'bar' \| 'linear' \| 'ring'` | — | 'linear' (default) or 'ring' — the circular form (CircularProgress absorbed). |
-| `format?` | `NumberFormatOptions` | — | — |
-| `label?` | `string` | — | — |
-| `max?` | `number` | — | — |
-| `min?` | `number` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `appearance?` | `'linear' \| 'bar' \| 'ring'` | — | 'linear' (default) or 'ring' — the circular form (CircularProgress absorbed). |
+| `format?` | `NumberFormatOptions` | — | Intl.NumberFormat options used to format the displayed value. |
+| `label?` | `string` | — | Visible label; also the accessible name. |
+| `max?` | `number` | — | Upper bound of the range. |
+| `min?` | `number` | — | Lower bound of the range. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
 | `showValue?` | `boolean` | — | Show the formatted value at the end of the track. |
 | `size?` | `number` | — | Ring only: diameter in px. |
 | `thickness?` | `number` | — | Ring only: stroke width in px. |
@@ -42,4 +42,10 @@ Tier T1 · RSC client · APG none
 
 ## Example
 
-_Example pending: no `apps/docs/examples/progress/*.tsx` yet._
+```tsx
+import { Progress } from 'aura-glass';
+
+export default function ProgressMinimal() {
+  return <Progress value={40} label="Uploading" showValue />;
+}
+```

@@ -6,17 +6,17 @@
 import { Collapsible } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG disclosure
+Tier T2 · RSC client · APG disclosure
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultOpen?` | `boolean` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `onOpenChange?` | `(open: boolean, details: unknown) => void` | — | — |
-| `open?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `onOpenChange?` | `(open: boolean, details: unknown) => void` | — | Called with the next open state when it changes. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -35,4 +35,15 @@ Tier T1 · RSC client · APG disclosure
 
 ## Example
 
-_Example pending: no `apps/docs/examples/collapsible/*.tsx` yet._
+```tsx
+import { Collapsible } from 'aura-glass';
+
+export default function CollapsibleMinimal() {
+  return (
+    <Collapsible.Root>
+      <Collapsible.Trigger>Show details</Collapsible.Trigger>
+      <Collapsible.Content>Build 4127 finished in 3 minutes.</Collapsible.Content>
+    </Collapsible.Root>
+  );
+}
+```

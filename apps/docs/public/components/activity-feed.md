@@ -12,20 +12,21 @@ Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label?` | `string` | — | — |
-| `autoLoad?` | `boolean` | — | — |
-| `className?` | `string` | — | — |
-| `groupBy?` | `'day' \| 'none'` | — | — |
-| `hasMore?` | `boolean` | — | — |
-| `headingLevel?` | `2 \| 3 \| 4 \| 5 \| 6` | — | — |
-| `items` | `readonly ActivityItem[]` | — | — |
-| `labels?` | `TimelineLabels & { loadMore?: string \| undefined; newItem?: string \| undefined; newItems?: string \| undefined; loading?: string \| undefined; }` | — | — |
-| `loading?` | `boolean` | — | — |
-| `locale?` | `string` | — | — |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `autoLoad?` | `boolean` | — | Calls `onLoadMore` when the end of the feed scrolls into view. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `groupBy?` | `'day' \| 'none'` | — | 'day' groups items under date headings. |
+| `hasMore?` | `boolean` | — | More items can be loaded. |
+| `headingLevel?` | `2 \| 3 \| 4 \| 5 \| 6` | — | Heading level of the group headings. |
+| `items` | `readonly ActivityItem[]` | — | Activity items, newest first. |
+| `labels?` | `TimelineLabels & { loadMore?: string \| undefined; newItem?: string \| undefined; newItems?: string \| undefined; loading?: string \| undefined; }` | — | Overrides for the built-in, localizable UI strings. |
+| `loading?` | `boolean` | — | Older items are loading. |
+| `locale?` | `string` | — | BCP 47 locale used for formatting and parsing. |
 | `now?` | `number \| Date` | — | Required when timeFormat='relative' on the server (else dev error). |
-| `onLoadMore?` | `() => void` | — | — |
-| `orientation?` | `'vertical' \| 'horizontal'` | — | — |
-| `timeFormat?` | `'relative' \| 'absolute' \| DateTimeFormatOptions` | — | — |
+| `onLoadMore?` | `() => void` | — | Called to load older items. |
+| `orientation?` | `'vertical' \| 'horizontal'` | — | Direction of the timeline. |
+| `ref?` | `Ref<HTMLElement>` | — | REQ-CMP-03: resolves to the root part ([data-ag-part=timeline-container]). |
+| `timeFormat?` | `'relative' \| 'absolute' \| DateTimeFormatOptions` | — | Timestamp format: relative ('3 h ago'), absolute, or Intl.DateTimeFormat options. |
 | `timeZone?` | `string` | — | IANA zone for absolute and option formats. Default 'UTC', so server and client render the same text whatever their host zone is. |
 
 ## Parts
@@ -56,4 +57,19 @@ Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/activity-feed/*.tsx` yet._
+```tsx
+import { ActivityFeed } from 'aura-glass';
+
+export default function ActivityFeedMinimal() {
+  return (
+    <ActivityFeed
+      groupBy="day"
+      timeZone="UTC"
+      items={[
+        { id: '1', title: 'Ines deployed web@4.2.1', timestamp: '2026-10-01T09:30:00Z' },
+        { id: '2', title: 'Sam opened a pull request', timestamp: '2026-10-01T08:10:00Z' },
+      ]}
+    />
+  );
+}
+```

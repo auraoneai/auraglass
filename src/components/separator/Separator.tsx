@@ -9,6 +9,7 @@ import * as React from 'react';
 import { cn } from '../../internal/index';
 
 export interface SeparatorProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Direction of the rule. */
   orientation?: 'horizontal' | 'vertical';
   /** Purely visual separators are hidden from assistive tech. */
   decorative?: boolean;
@@ -20,7 +21,9 @@ export function Separator({
   className,
   ref,
   ...rest
-}: SeparatorProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: SeparatorProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   return (
     <div
       {...rest}

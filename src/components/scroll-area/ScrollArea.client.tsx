@@ -14,7 +14,9 @@ const THUMB_MATERIAL = materialProps({ layer: 'content' });
 
 /* REQ-CMP-01: AuraGlass-owned part props (no Base UI types in the d.ts). */
 interface ScrollAreaPartProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> {
+  /** Class name merged onto the root element. */
   className?: string;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLDivElement> | undefined;
 }
 export type ScrollAreaRootProps = ScrollAreaPartProps;

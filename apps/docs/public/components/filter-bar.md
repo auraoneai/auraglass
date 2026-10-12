@@ -12,16 +12,16 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className?` | `string` | — | — |
-| `defaultValue?` | `FilterGroup` | — | — |
-| `labels?` | `FilterBarLabels` | — | — |
-| `onClearAll?` | `() => void` | — | — |
-| `onValueChange?` | `(g: FilterGroup, details: ChangeDetails) => void` | — | — |
-| `quickFilters?` | `readonly { id: string; label: string; rule: FilterRule<FilterField<FilterFieldType>>; }[]` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultValue?` | `FilterGroup` | — | Initial value when uncontrolled. |
+| `labels?` | `FilterBarLabels` | — | Overrides for the built-in, localizable UI strings. |
+| `onClearAll?` | `() => void` | — | Called when the user clears every filter. |
+| `onValueChange?` | `(g: FilterGroup, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `quickFilters?` | `readonly { id: string; label: string; rule: FilterRule<FilterField<FilterFieldType>>; }[]` | — | One-click filters shown as chips. |
 | `resultCount?` | `number` | — | Shown next to the bar; each change is announced politely ("{n} results"). |
-| `schema` | `readonly FilterField<FilterFieldType>[]` | — | — |
-| `search?` | `{ value: string; onValueChange: (v: string) => void; placeholder?: string \| undefined; }` | — | — |
-| `value?` | `FilterGroup` | — | — |
+| `schema` | `readonly FilterField<FilterFieldType>[]` | — | Filterable fields (key, label, type and operators). |
+| `search?` | `{ value: string; onValueChange: (v: string) => void; placeholder?: string \| undefined; }` | — | Free-text search box: controlled value, change handler and placeholder. |
+| `value?` | `FilterGroup` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -59,4 +59,17 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/filter-bar/*.tsx` yet._
+```tsx
+import { FilterBar } from 'aura-glass/data';
+
+export default function FilterBarMinimal() {
+  return (
+    <FilterBar
+      schema={[
+        { id: 'status', label: 'Status', type: 'enum', options: [{ value: 'open', label: 'Open' }, { value: 'closed', label: 'Closed' }] },
+        { id: 'title', label: 'Title', type: 'text' },
+      ]}
+    />
+  );
+}
+```

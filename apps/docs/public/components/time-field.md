@@ -12,27 +12,27 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className?` | `string` | — | — |
-| `defaultValue?` | `TimeValue \| null` | — | — |
-| `description?` | `ReactNode` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultValue?` | `TimeValue \| null` | — | Initial value when uncontrolled. |
+| `description?` | `ReactNode` | — | Helper text rendered under the label. |
 | `dir?` | `'ltr' \| 'rtl'` | — | Text direction; defaults to the closest `[dir]` in the DOM (REQ-SURF-98). |
-| `errorMessage?` | `ReactNode` | — | — |
-| `firstDayOfWeek?` | `'sun' \| 'mon' \| 'tue' \| 'wed' \| 'thu' \| 'fri' \| 'sat'` | — | — |
-| `granularity?` | `'day' \| 'hour' \| 'minute' \| 'second'` | — | — |
-| `hourCycle?` | `12 \| 24` | — | — |
-| `isDateUnavailable?` | `(date: DateValue) => boolean` | — | — |
-| `isDisabled?` | `boolean` | — | — |
-| `isInvalid?` | `boolean` | — | — |
-| `isReadOnly?` | `boolean` | — | — |
-| `isRequired?` | `boolean` | — | — |
-| `label?` | `ReactNode` | — | — |
-| `locale?` | `string` | — | — |
-| `maxValue?` | `TimeValue` | — | — |
-| `minValue?` | `TimeValue` | — | — |
-| `name?` | `string` | — | — |
-| `onValueChange?` | `(v: TimeValue \| null, details: ChangeDetails) => void` | — | — |
-| `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
-| `value?` | `TimeValue \| null` | — | — |
+| `errorMessage?` | `ReactNode` | — | Error message shown when the field is invalid. |
+| `firstDayOfWeek?` | `'sun' \| 'mon' \| 'tue' \| 'wed' \| 'thu' \| 'fri' \| 'sat'` | — | First day of the week; the locale default when omitted. |
+| `granularity?` | `'day' \| 'hour' \| 'minute' \| 'second'` | — | Smallest unit the value is edited in. |
+| `hourCycle?` | `12 \| 24` | — | 12- or 24-hour clock; the locale default when omitted. |
+| `isDateUnavailable?` | `(date: DateValue) => boolean` | — | Marks a date unavailable (shown, not selectable). |
+| `isDisabled?` | `boolean` | — | Disables interaction. |
+| `isInvalid?` | `boolean` | — | Marks the field invalid. |
+| `isReadOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
+| `isRequired?` | `boolean` | — | Marks the field as required for form validation. |
+| `label?` | `ReactNode` | — | Visible label. |
+| `locale?` | `string` | — | BCP 47 locale used for formatting and parsing. |
+| `maxValue?` | `TimeValue` | — | Latest selectable date. |
+| `minValue?` | `TimeValue` | — | Earliest selectable date. |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `onValueChange?` | `(v: TimeValue \| null, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `size?` | `'sm' \| 'md' \| 'lg'` | — | Control size. |
+| `value?` | `TimeValue \| null` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -52,4 +52,11 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton
 
 ## Example
 
-_Example pending: no `apps/docs/examples/time-field/*.tsx` yet._
+```tsx
+import { Time } from '@internationalized/date';
+import { TimeField } from 'aura-glass/date';
+
+export default function TimeFieldMinimal() {
+  return <TimeField label="Reminder" defaultValue={new Time(9, 30)} />;
+}
+```

@@ -6,7 +6,9 @@ import * as React from 'react';
 import { cn } from '../internal/index';
 
 export interface SlotProps extends React.HTMLAttributes<HTMLElement> {
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLElement>;
 }
 

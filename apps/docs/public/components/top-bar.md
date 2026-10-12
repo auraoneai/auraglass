@@ -12,10 +12,10 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `labels?` | `{ topBar?: string \| undefined; }` | — | — |
-| `placement?` | `'inline' \| 'overlay'` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
+| `labels?` | `{ topBar?: string \| undefined; }` | — | Overrides for the built-in, localizable UI strings. |
+| `placement?` | `'inline' \| 'overlay'` | — | 'inline' takes layout space; 'overlay' floats over scrolling content. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
 | `scrollEdge?` | `'none' \| 'soft' \| 'hard'` | — | MAT seam: maps to ScrollEdge edgeStyle. 'none' renders no edge. |
 
 ## Parts
@@ -36,4 +36,15 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/top-bar/*.tsx` yet._
+```tsx
+import { AppShell, TopBar } from 'aura-glass/app-shell';
+
+export default function TopBarMinimal() {
+  return (
+    <AppShell.Root>
+      <TopBar.Root><TopBar.Title>Northwind</TopBar.Title></TopBar.Root>
+      <AppShell.Main>Dashboard</AppShell.Main>
+    </AppShell.Root>
+  );
+}
+```

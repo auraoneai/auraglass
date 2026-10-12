@@ -4,6 +4,7 @@ import type { ButtonProps } from '../button/Button.types';
 
 /** @tier Certified. */
 export interface ToolbarRootProps extends MaterialBearingProps {
+  /** Layout direction; also the arrow-key axis. */
   orientation?: 'horizontal' | 'vertical' | undefined;
   /** SurfaceGroup spacing token on the root (the root IS the surface — REQ-CMP-37). */
   spacing?: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16' | undefined;
@@ -11,9 +12,13 @@ export interface ToolbarRootProps extends MaterialBearingProps {
   loop?: boolean | undefined;
   /** Required accessible name. */
   'aria-label': string;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
+  /** Replaces the rendered element; the component props and state are merged onto it. */
   render?: RenderProp | undefined;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLDivElement> | undefined;
 }
 

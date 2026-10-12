@@ -12,8 +12,11 @@ export type DialogPlacement = 'center' | 'top';
 export type DialogVariant = 'regular' | 'identity';
 
 export interface DialogRootProps {
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean;
+  /** Called with the next open state when it changes. */
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
   /** Modal (default true) traps focus, inerts the page and
       registers the LayerStack scroll lock; false is a non-modal dialog. */
@@ -22,6 +25,7 @@ export interface DialogRootProps {
   dismissible?: boolean;
   /** Localisable strings. */
   labels?: { close?: string };
+  /** Content rendered inside the component. */
   children?: ReactNode;
 }
 

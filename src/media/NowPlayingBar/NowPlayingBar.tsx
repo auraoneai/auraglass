@@ -16,16 +16,25 @@ import { Progress } from './parts/Progress';
 import { Expand } from './parts/Expand';
 
 export interface NowPlayingBarRootProps {
+  /** Media element handle the bar drives; omit to control playback yourself. */
   media?: MediaHandle | undefined;
+  /** Controlled playing state. */
   playing?: boolean | undefined;
   /** 0..1 controlled progress, written to --_ag-media-progress on the root. */
   progress?: number | undefined;
+  /** Artwork image URL. */
   artwork?: string | undefined;
+  /** Called with the next playing state. */
   onPlayingChange?: ((playing: boolean) => void) | undefined;
+  /** Called when Previous is pressed; the button is shown only when set. */
   onPrevious?: (() => void) | undefined;
+  /** Called when Next is pressed; the button is shown only when set. */
   onNext?: (() => void) | undefined;
+  /** Controlled expanded state. */
   expanded?: boolean | undefined;
+  /** Called with the next expanded state. */
   onExpandedChange?: ((expanded: boolean) => void) | undefined;
+  /** Material variant of the bar. */
   variant?: 'regular' | 'clear' | undefined;
   /** Sample the Artwork <img> once per src; writes data-ag-media-tone and --_ag-media-luma on the root. */
   sampleTone?: boolean | undefined;
@@ -33,7 +42,9 @@ export interface NowPlayingBarRootProps {
   fixed?: boolean | undefined;
   /** Id of the expandable region — required when Expand is rendered. */
   expandedId?: string | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
 }
 

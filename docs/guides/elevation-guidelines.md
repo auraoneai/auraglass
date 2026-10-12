@@ -90,18 +90,25 @@ Our elevation system uses 7 distinct levels (0-6), each serving specific UI purp
 
 ### Using Elevation in Components
 
+In AuraGlass 5 elevation follows the material layer: `Surface` (and every
+component built on it) derives its shadow from `layer`, so there is no
+`elevation` prop. Pick the layer that matches the role:
+
 ```tsx
-import { OptimizedGlass } from '@/primitives';
+import { Surface } from 'aura-glass';
 
-// Correct - use string format
-<OptimizedGlass elevation="level2">
-  Button content
-</OptimizedGlass>
-
-// Incorrect - avoid numeric format
-<OptimizedGlass elevation={2}>
-  Button content  
-</OptimizedGlass>
+export function Elevated() {
+  return (
+    <>
+      {/* level 2: interactive content */}
+      <Surface layer="content" interactive>Card content</Surface>
+      {/* level 3-5: overlays (menus, popovers, dialogs) */}
+      <Surface layer="overlay">Popover content</Surface>
+      {/* chrome: toolbars and navigation */}
+      <Surface layer="chrome">Toolbar</Surface>
+    </>
+  );
+}
 ```
 
 ### CSS Classes

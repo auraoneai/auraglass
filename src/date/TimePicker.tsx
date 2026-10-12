@@ -31,6 +31,7 @@ import { raChangeDetails } from './shared';
 import type { DateFieldLikeProps, TimeValue } from './shared';
 
 export interface TimeFieldProps extends DateFieldLikeProps<TimeValue> {
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 
@@ -95,7 +96,9 @@ export function TimeField(props: TimeFieldProps) {
 }
 
 export interface TimePickerProps extends TimeFieldProps {
+  /** Minute increment of the minute segment and list. */
   minuteStep?: 1 | 5 | 10 | 15 | 30 | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?:
     | {
         choose?: string | undefined;

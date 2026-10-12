@@ -13,6 +13,7 @@ export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
   level: 1 | 2 | 3 | 4 | 5 | 6;
   /** Visual role; defaults by level — 1→'title-1', 2→'title-2', 3+→'title-3'. */
   size?: 'display' | 'title-1' | 'title-2' | 'title-3' | undefined;
+  /** Replaces the rendered element; the component props and state are merged onto it. */
   render?: RenderProp<React.HTMLAttributes<HTMLHeadingElement>>;
 }
 
@@ -23,7 +24,9 @@ export function Heading({
   className,
   ref,
   ...rest
-}: HeadingProps & { ref?: React.Ref<HTMLHeadingElement> | undefined }) {
+}: HeadingProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLHeadingElement> | undefined }) {
   const Tag = `h${level}` as 'h1';
   const resolvedSize = size ?? (level === 1 ? 'title-1' : level === 2 ? 'title-2' : 'title-3');
   const props = {

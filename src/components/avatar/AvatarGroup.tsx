@@ -7,7 +7,9 @@ import { cn } from '../../internal/index';
 export interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Maximum items rendered before the overflow '+N' item. */
   max?: number;
+  /** Size of every avatar in the group. */
   size?: 'sm' | 'md' | 'lg';
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
 }
 
@@ -18,7 +20,9 @@ export function AvatarGroup({
   className,
   ref,
   ...rest
-}: AvatarGroupProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: AvatarGroupProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   const items = React.Children.toArray(children).filter(React.isValidElement);
   const clamped = typeof max === 'number' && max >= 0 && items.length > max;
   const shown = clamped ? items.slice(0, Math.max(0, max)) : items;

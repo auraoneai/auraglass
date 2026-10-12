@@ -240,7 +240,9 @@ function ToastViewport({ position, className, children, ref, ...rest }: ToastVie
     );
   }
 
-function ToastRoot({ toast, limit, className, children, ref, ...rest }: ToastRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+function ToastRoot({ toast, limit, className, children, ref, ...rest }: ToastRootProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
     const intent = (toast?.type as ToastIntent | undefined) ?? 'info';
     const priority = toast?.priority === 'high' && intent === 'danger' ? 'alert' : 'status';
     // dom-contract (CMP-202) requires data-state open|closed on the surface

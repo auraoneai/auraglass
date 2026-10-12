@@ -64,11 +64,17 @@ const Ctx = /*#__PURE__*/ React.createContext<PanelsCtx | null>(null);
 const COLLAPSE_EPS = 0.01;
 
 export type ResizablePanelsRootProps = Omit<PartProps<'div'>, 'onLayout'> & {
+  /** Axis along which panels are laid out and resized. */
   orientation?: Orientation | undefined;
+  /** Initial panel sizes, in percent, one per panel. */
   defaultLayout?: readonly number[] | undefined;
+  /** Called with the panel sizes, in percent, after a resize. */
   onLayout?: ((layout: number[]) => void) | undefined;
+  /** Storage key under which the layout is persisted and restored. */
   autoSaveId?: string | undefined;
+  /** Percent a handle moves per arrow key. */
   keyboardStep?: number | undefined;
+  /** Percent a handle moves per Shift+arrow or Page key. */
   keyboardStepLarge?: number | undefined;
   /** Container width below which horizontal panels stack vertically. */
   stackBelow?: number | undefined;

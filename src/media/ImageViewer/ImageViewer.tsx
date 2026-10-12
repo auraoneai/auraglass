@@ -28,18 +28,27 @@ export type { ImageViewerItem } from './types';
 export type { ImageViewerPopupProps } from './parts/Popup';
 
 export interface ImageViewerRootProps {
+  /** Images to view, in order. */
   items: ImageViewerItem[];
+  /** Controlled value. Pair with `onValueChange`. */
   value?: string | undefined;
+  /** Initial value when uncontrolled. */
   defaultValue?: string | undefined;
+  /** Called with the new value whenever it changes. */
   onValueChange?: ((id: string, details: ChangeDetails) => void) | undefined;
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean | undefined;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean | undefined;
+  /** Called with the next open state when it changes. */
   onOpenChange?: ((open: boolean, details: ChangeDetails) => void) | undefined;
+  /** Wraps keyboard focus from the last item back to the first. */
   loop?: boolean | undefined;
   /** Sample the current image's tone (after decode) into the Stage's
    * data-ag-media-tone. Cross-origin images need `crossOrigin` on the item
    * plus CORS headers; otherwise no tone is written. Default true. */
   sampleTone?: boolean | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
 }
 

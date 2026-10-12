@@ -9,6 +9,7 @@ import { Surface } from '../material';
 import { StatusBarLive } from './StatusBar.Live';
 
 export type StatusBarRootProps = PartProps<'div'> & {
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: { statusBar?: string } | undefined;
 };
 

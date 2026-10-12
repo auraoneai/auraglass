@@ -13,8 +13,8 @@ Tier T0 · RSC server · APG none
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `focusable?` | `boolean` | — | When true the element becomes visible on :focus-visible (skip links). |
-| `ref?` | `Ref<HTMLSpanElement>` | — | — |
-| `render?` | `RenderProp<HTMLAttributes<HTMLSpanElement>>` | — | — |
+| `ref?` | `Ref<HTMLSpanElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<HTMLAttributes<HTMLSpanElement>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
 
 ## Parts
 
@@ -28,4 +28,14 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/visually-hidden/*.tsx` yet._
+```tsx
+import { VisuallyHidden } from 'aura-glass/primitives';
+
+export default function VisuallyHiddenMinimal() {
+  return (
+    <button type="button">
+      Save<VisuallyHidden> document</VisuallyHidden>
+    </button>
+  );
+}
+```

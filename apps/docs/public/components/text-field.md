@@ -12,36 +12,36 @@ Tier T1 · RSC client · APG textbox
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-describedby?` | `string` | — | — |
-| `aria-label?` | `string` | — | — |
-| `aria-labelledby?` | `string` | — | — |
-| `autoComplete?` | `string` | — | — |
+| `aria-describedby?` | `string` | — | Id of the element that provides the accessible description. |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `aria-labelledby?` | `string` | — | Id of the element that provides the accessible name. |
+| `autoComplete?` | `string` | — | Native `autocomplete` hint for the input. |
 | `autoResize?` | `boolean` | — | CSS field-sizing: content growth; grows up to maxRows. |
-| `className?` | `string` | — | — |
-| `defaultValue?` | `string` | — | — |
-| `description?` | `ReactNode` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `endAdornment?` | `ReactNode` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultValue?` | `string` | — | Initial value when uncontrolled. |
+| `description?` | `ReactNode` | — | Helper text rendered under the label and linked with `aria-describedby`. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `endAdornment?` | `ReactNode` | — | Content shown after the input (icon, suffix or action). |
 | `error?` | `ReactNode` | — | Present => invalid: data-invalid on the shell and Field.Error shown. |
-| `id?` | `string` | — | — |
-| `label?` | `ReactNode` | — | — |
-| `maxLength?` | `number` | — | — |
+| `id?` | `string` | — | Id of the input element; generated when omitted. |
+| `label?` | `ReactNode` | — | Visible label. |
+| `maxLength?` | `number` | — | Maximum number of characters. |
 | `maxRows?` | `number` | — | Cap for autoResize growth (default 8). |
-| `multiline?` | `boolean` | — | — |
-| `name?` | `string` | — | — |
-| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | — |
-| `placeholder?` | `string` | — | — |
-| `readOnly?` | `boolean` | — | — |
+| `multiline?` | `boolean` | — | Renders a textarea instead of an input. |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `placeholder?` | `string` | — | Placeholder text shown while the input is empty. |
+| `readOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
 | `ref?` | `Ref<HTMLInputElement \| HTMLTextAreaElement>` | — | Ref targets the native control element. |
-| `required?` | `boolean` | — | — |
+| `required?` | `boolean` | — | Marks the field as required for form validation. |
 | `rows?` | `number` | — | Rows for multiline (default 3). |
 | `showCount?` | `boolean` | — | Render the counter part (current/maxLength). |
-| `size?` | `ControlSize` | — | — |
-| `startAdornment?` | `ReactNode` | — | — |
-| `type?` | `'search' \| 'text' \| 'email' \| 'password' \| 'url' \| 'tel'` | — | — |
-| `validate?` | `FieldValidate` | — | — |
-| `validationMode?` | `FieldValidationMode` | — | — |
-| `value?` | `string` | — | — |
+| `size?` | `ControlSize` | — | Control size. |
+| `startAdornment?` | `ReactNode` | — | Content shown before the input (icon or prefix). |
+| `type?` | `'search' \| 'text' \| 'email' \| 'password' \| 'url' \| 'tel'` | — | Native input type. |
+| `validate?` | `FieldValidate` | — | Custom validator; return an error message, or null when valid. |
+| `validationMode?` | `FieldValidationMode` | — | When validation runs. |
+| `value?` | `string` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -70,4 +70,10 @@ Tier T1 · RSC client · APG textbox
 
 ## Example
 
-_Example pending: no `apps/docs/examples/text-field/*.tsx` yet._
+```tsx
+import { TextField } from 'aura-glass';
+
+export default function TextFieldMinimal() {
+  return <TextField label="Display name" description="Shown on comments and reviews." defaultValue="Ines Duarte" />;
+}
+```

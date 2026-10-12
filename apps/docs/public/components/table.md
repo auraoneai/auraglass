@@ -12,52 +12,53 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/table/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label?` | `string` | — | — |
-| `aria-labelledby?` | `string` | — | — |
-| `caption?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `columnOrder?` | `ColumnOrderState` | — | — |
-| `columnPinning?` | `ColumnPinningState` | — | — |
-| `columns` | `readonly TableColumnDef<TData>[]` | — | — |
-| `columnSizing?` | `ColumnSizingState` | — | — |
-| `columnVisibility?` | `VisibilityState` | — | — |
-| `data` | `readonly TData[]` | — | — |
-| `defaultColumnOrder?` | `ColumnOrderState` | — | — |
-| `defaultColumnPinning?` | `ColumnPinningState` | — | — |
-| `defaultColumnSizing?` | `ColumnSizingState` | — | — |
-| `defaultColumnVisibility?` | `VisibilityState` | — | — |
-| `defaultPagination?` | `PaginationState` | — | — |
-| `defaultRowSelection?` | `RowSelectionState` | — | — |
-| `defaultSorting?` | `SortingState` | — | — |
-| `emptyState?` | `ReactNode` | — | — |
-| `enableColumnReordering?` | `boolean` | — | — |
-| `enableColumnResizing?` | `boolean` | — | — |
-| `enableMultiSort?` | `boolean` | — | — |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `aria-labelledby?` | `string` | — | Id of the element that provides the accessible name. |
+| `caption?` | `ReactNode` | — | Table caption; also the accessible name. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `columnOrder?` | `ColumnOrderState` | — | Controlled column order. Pair with `onColumnOrderChange`. |
+| `columnPinning?` | `ColumnPinningState` | — | Controlled pinned columns. Pair with `onColumnPinningChange`. |
+| `columns` | `readonly TableColumnDef<TData>[]` | — | Column definitions. |
+| `columnSizing?` | `ColumnSizingState` | — | Controlled column widths. Pair with `onColumnSizingChange`. |
+| `columnVisibility?` | `VisibilityState` | — | Controlled column visibility. Pair with `onColumnVisibilityChange`. |
+| `data` | `readonly TData[]` | — | Rows. |
+| `defaultColumnOrder?` | `ColumnOrderState` | — | Initial column order when uncontrolled. |
+| `defaultColumnPinning?` | `ColumnPinningState` | — | Initial pinned columns when uncontrolled. |
+| `defaultColumnSizing?` | `ColumnSizingState` | — | Initial column widths when uncontrolled. |
+| `defaultColumnVisibility?` | `VisibilityState` | — | Initial column visibility when uncontrolled. |
+| `defaultPagination?` | `PaginationState` | — | Initial pagination when uncontrolled. |
+| `defaultRowSelection?` | `RowSelectionState` | — | Initial row selection when uncontrolled. |
+| `defaultSorting?` | `SortingState` | — | Initial sorting when uncontrolled. |
+| `emptyState?` | `ReactNode` | — | Content shown when there are no rows. |
+| `enableColumnReordering?` | `boolean` | — | Adds a column menu to each header with move left/right actions. |
+| `enableColumnResizing?` | `boolean` | — | Shows column resize handles. |
+| `enableMultiSort?` | `boolean` | — | Shift+click sorts by more than one column. |
 | `getRowId?` | `(row: TData, index: number) => string` | — | Required when selectionMode !== 'none' (dev warning otherwise). |
-| `loading?` | `boolean` | — | — |
+| `loading?` | `boolean` | — | Shows the loading state. |
 | `manualPagination?` | `boolean` | — | Server-side pagination: skip client row model, take pageCount/rowCount. |
-| `manualSorting?` | `boolean` | — | — |
-| `maxHeight?` | `string \| number` | — | — |
-| `messages?` | `TableMessages` | — | — |
-| `mode?` | `TableMode` | — | — |
-| `onColumnOrderChange?` | `(s: ColumnOrderState) => void` | — | — |
-| `onColumnPinningChange?` | `(s: ColumnPinningState) => void` | — | — |
-| `onColumnSizingChange?` | `(s: ColumnSizingState) => void` | — | — |
-| `onColumnVisibilityChange?` | `(s: VisibilityState) => void` | — | — |
-| `onPaginationChange?` | `(s: PaginationState) => void` | — | — |
-| `onRowAction?` | `(row: TData) => void` | — | — |
-| `onRowSelectionChange?` | `(s: RowSelectionState) => void` | — | — |
-| `onSortingChange?` | `(s: SortingState) => void` | — | — |
-| `pageCount?` | `number` | — | — |
-| `pagination?` | `PaginationState` | — | — |
-| `ref?` | `Ref<TableHandle<TData>>` | — | — |
-| `rowCount?` | `number` | — | — |
-| `rowSelection?` | `RowSelectionState` | — | — |
-| `selectionMode?` | `SelectionMode` | — | — |
-| `size?` | `TableDensity` | — | — |
-| `sorting?` | `SortingState` | — | — |
-| `stickyHeader?` | `boolean` | — | — |
-| `virtualize?` | `boolean \| { estimateRowHeight?: number \| undefined; overscan?: number \| undefined; }` | — | — |
+| `manualSorting?` | `boolean` | — | Server-side sorting: rows are shown in the given order. |
+| `maxHeight?` | `string \| number` | — | Maximum height of the scroll area (number in CSS pixels, or a CSS length). |
+| `messages?` | `TableMessages` | — | Overrides for the built-in, localizable strings and announcements. |
+| `mode?` | `TableMode` | — | 'grid' turns on the interactive data-grid keyboard model (one focusable cell). |
+| `onCellEditCommit?` | `(rowId: string, columnId: string, value: TableEditValue) => void` | — | REQ-SURF-79 (5.1): grid-mode inline edit. Enter or F2 on a cell whose column declares `meta.editor` opens the editor; Enter/Tab (or choosing an option) commits once with the new value — `data` is never mutated, the owner applies the change. Escape cancels. |
+| `onColumnOrderChange?` | `(s: ColumnOrderState) => void` | — | Called with the next column order. |
+| `onColumnPinningChange?` | `(s: ColumnPinningState) => void` | — | Called with the next pinned columns. |
+| `onColumnSizingChange?` | `(s: ColumnSizingState) => void` | — | Called with the next column widths. |
+| `onColumnVisibilityChange?` | `(s: VisibilityState) => void` | — | Called with the next column visibility. |
+| `onPaginationChange?` | `(s: PaginationState) => void` | — | Called with the next pagination. |
+| `onRowAction?` | `(row: TData) => void` | — | Called with the row when it is activated (click or Enter). |
+| `onRowSelectionChange?` | `(s: RowSelectionState) => void` | — | Called with the next row selection. |
+| `onSortingChange?` | `(s: SortingState) => void` | — | Called with the next sorting. |
+| `pageCount?` | `number` | — | Total pages for server-side pagination. |
+| `pagination?` | `PaginationState` | — | Controlled pagination (page index and size). Pair with `onPaginationChange`. |
+| `ref?` | `Ref<TableHandle<TData>>` | — | Ref to the rendered root element. |
+| `rowCount?` | `number` | — | Total rows for server-side pagination. |
+| `rowSelection?` | `RowSelectionState` | — | Controlled row selection. Pair with `onRowSelectionChange`. |
+| `selectionMode?` | `SelectionMode` | — | Row selection: none, single or multiple. |
+| `size?` | `TableDensity` | — | Row density. |
+| `sorting?` | `SortingState` | — | Controlled sorting. Pair with `onSortingChange`. |
+| `stickyHeader?` | `boolean` | — | Keeps the header visible while the body scrolls. |
+| `virtualize?` | `boolean \| { estimateRowHeight?: number \| undefined; overscan?: number \| undefined; }` | — | Virtualizes rows; optionally set the estimated row height and overscan. |
 
 ## Parts
 
@@ -95,4 +96,27 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/table/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/table/*.tsx` yet._
+```tsx
+import { Table } from 'aura-glass/data';
+
+type Order = { id: string; customer: string; total: number };
+
+const DATA: Order[] = [
+  { id: 'o1', customer: 'Northwind', total: 1200 },
+  { id: 'o2', customer: 'Contoso', total: 860 },
+];
+
+export default function TableMinimal() {
+  return (
+    <Table<Order>
+      caption="Orders"
+      data={DATA}
+      getRowId={(r) => r.id}
+      columns={[
+        { accessorKey: 'customer', header: 'Customer' },
+        { accessorKey: 'total', header: 'Total' },
+      ]}
+    />
+  );
+}
+```

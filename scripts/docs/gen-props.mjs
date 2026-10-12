@@ -99,8 +99,13 @@ export function resolveTypesSource({ root = ROOT, tarball = null, requirePacked 
   const manifestPath = join(root, 'build/exports.manifest.json');
   if (!existsSync(manifestPath)) throw new Error(`${toPosix(relative(root, manifestPath))} missing (run node scripts/build/generate-exports.mjs)`);
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+  /* Same entry set as the packed path: a manifest entry the package.json
+     `exports` map does not publish (e.g. a later-GA subpath) has no types.
+     Without an exports map every manifest entry is importable. */
+  const exportsMap = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).exports;
+  const published = exportsMap && typeof exportsMap === 'object' ? new Set(Object.keys(exportsMap)) : null;
   const entries = manifest.entries
-    .filter((e) => typeof e.source === 'string' && /\.tsx?$/.test(e.source))
+    .filter((e) => typeof e.source === 'string' && /\.tsx?$/.test(e.source) && (!published || published.has(e.subpath)))
     .map((e) => ({ subpath: e.subpath, file: join(root, e.source) }))
     .sort((a, b) => a.subpath.localeCompare(b.subpath));
   const missing = entries.filter((e) => !existsSync(e.file));

@@ -12,21 +12,21 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `artwork?` | `string` | — | — |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `expanded?` | `boolean` | — | — |
+| `artwork?` | `string` | — | Artwork image URL. |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `expanded?` | `boolean` | — | Controlled expanded state. |
 | `expandedId?` | `string` | — | Id of the expandable region — required when Expand is rendered. |
 | `fixed?` | `boolean` | — | Pinned to the viewport edge: pads by env(safe-area-inset-bottom). |
-| `media?` | `MediaHandle` | — | — |
-| `onExpandedChange?` | `(expanded: boolean) => void` | — | — |
-| `onNext?` | `() => void` | — | — |
-| `onPlayingChange?` | `(playing: boolean) => void` | — | — |
-| `onPrevious?` | `() => void` | — | — |
-| `playing?` | `boolean` | — | — |
+| `media?` | `MediaHandle` | — | Media element handle the bar drives; omit to control playback yourself. |
+| `onExpandedChange?` | `(expanded: boolean) => void` | — | Called with the next expanded state. |
+| `onNext?` | `() => void` | — | Called when Next is pressed; the button is shown only when set. |
+| `onPlayingChange?` | `(playing: boolean) => void` | — | Called with the next playing state. |
+| `onPrevious?` | `() => void` | — | Called when Previous is pressed; the button is shown only when set. |
+| `playing?` | `boolean` | — | Controlled playing state. |
 | `progress?` | `number` | — | 0..1 controlled progress, written to --_ag-media-progress on the root. |
 | `sampleTone?` | `boolean` | — | Sample the Artwork <img> once per src; writes data-ag-media-tone and --_ag-media-luma on the root. |
-| `variant?` | `'regular' \| 'clear'` | — | — |
+| `variant?` | `'regular' \| 'clear'` | — | Material variant of the bar. |
 
 ## Parts
 
@@ -58,4 +58,17 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 
 ## Example
 
-_Example pending: no `apps/docs/examples/now-playing-bar/*.tsx` yet._
+```tsx
+import { NowPlayingBar } from 'aura-glass/media';
+
+export default function NowPlayingBarMinimal() {
+  return (
+    <NowPlayingBar.Root playing={false} artwork="https://picsum.photos/seed/np/96/96" onPrevious={() => {}} onNext={() => {}}>
+      <NowPlayingBar.Artwork />
+      <NowPlayingBar.Title>Optics</NowPlayingBar.Title>
+      <NowPlayingBar.Subtitle>The Refractions</NowPlayingBar.Subtitle>
+      <NowPlayingBar.Progress />
+    </NowPlayingBar.Root>
+  );
+}
+```

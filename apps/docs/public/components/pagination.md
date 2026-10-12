@@ -12,17 +12,17 @@ Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-r
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label?` | `string` | — | — |
-| `boundaryCount?` | `number` | — | — |
-| `defaultPage?` | `number` | — | — |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `boundaryCount?` | `number` | — | Pages always shown at the start and the end. |
+| `defaultPage?` | `number` | — | Initial page (1-based) when uncontrolled. |
 | `getHref?` | `(page: number) => string` | — | Link mode: href builder for each page (server-safe, no client state). |
-| `labels?` | `PaginationLabels` | — | — |
-| `onPageChange?` | `(page: number) => void` | — | — |
-| `page?` | `number` | — | — |
-| `pageCount` | `number` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
-| `siblingCount?` | `number` | — | — |
+| `labels?` | `PaginationLabels` | — | Overrides for the built-in, localizable UI strings. |
+| `onPageChange?` | `(page: number) => void` | — | Called with the next page (1-based). |
+| `page?` | `number` | — | Controlled current page (1-based). Pair with `onPageChange`. |
+| `pageCount` | `number` | — | Total number of pages. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
+| `siblingCount?` | `number` | — | Pages shown on each side of the current page. |
 
 ## Parts
 
@@ -46,4 +46,10 @@ Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-r
 
 ## Example
 
-_Example pending: no `apps/docs/examples/pagination/*.tsx` yet._
+```tsx
+import { Pagination } from 'aura-glass';
+
+export default function PaginationMinimal() {
+  return <Pagination.Root defaultPage={5} pageCount={12} aria-label="Results pages" />;
+}
+```

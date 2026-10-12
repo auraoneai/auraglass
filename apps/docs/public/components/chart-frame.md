@@ -13,21 +13,21 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/grid-and-
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `ReactNode \| ((ctx: ChartContext<TRow>) => ReactNode)` | — | An adapter element (RSC-safe) or, from client components, `(ctx) => ReactNode`. |
-| `className?` | `string` | — | — |
-| `data` | `readonly TRow[]` | — | — |
-| `defaultHiddenSeries?` | `readonly string[]` | — | — |
-| `description?` | `ReactNode` | — | — |
-| `height?` | `number` | — | — |
-| `hiddenSeries?` | `readonly string[]` | — | — |
-| `labels?` | `ChartFrameLabels` | — | — |
-| `legend?` | `'none' \| 'top' \| 'bottom'` | — | — |
-| `locale?` | `string` | — | — |
-| `onHiddenSeriesChange?` | `(keys: string[]) => void` | — | — |
-| `series` | `readonly ChartSeries[]` | — | — |
-| `table?` | `'toggle' \| 'visually-hidden' \| 'always'` | — | — |
-| `title` | `string` | — | — |
-| `x` | `{ key: string; label: string; format?: DateTimeFormatOptions \| NumberFormatOptions \| undefined; }` | — | — |
-| `yLabel?` | `string` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `data` | `readonly TRow[]` | — | Rows of data; one point per row and series. |
+| `defaultHiddenSeries?` | `readonly string[]` | — | Initially hidden series keys when uncontrolled. |
+| `description?` | `ReactNode` | — | Description of the chart, linked to it for assistive technology. |
+| `height?` | `number` | — | Plot height in CSS pixels. |
+| `hiddenSeries?` | `readonly string[]` | — | Controlled keys of hidden series. Pair with `onHiddenSeriesChange`. |
+| `labels?` | `ChartFrameLabels` | — | Overrides for the built-in, localizable UI strings. |
+| `legend?` | `'none' \| 'top' \| 'bottom'` | — | Legend position, or none. |
+| `locale?` | `string` | — | BCP 47 locale used for formatting and parsing. |
+| `onHiddenSeriesChange?` | `(keys: string[]) => void` | — | Called with the hidden series keys when the legend toggles one. |
+| `series` | `readonly ChartSeries[]` | — | Series plotted from the rows (key, label, colour). |
+| `table?` | `'toggle' \| 'visually-hidden' \| 'always'` | — | Data table: behind a toggle, visually hidden (screen readers only) or always shown. |
+| `title` | `string` | — | Chart title; also the accessible name. |
+| `x` | `{ key: string; label: string; format?: DateTimeFormatOptions \| NumberFormatOptions \| undefined; }` | — | Row key, label and format of the x axis. |
+| `yLabel?` | `string` | — | Label of the y axis. |
 
 ## Parts
 
@@ -52,4 +52,24 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/grid-and-
 
 ## Example
 
-_Example pending: no `apps/docs/examples/chart-frame/*.tsx` yet._
+```tsx
+import { ChartFrame } from 'aura-glass/data';
+
+const DATA = [
+  { month: 'Jan', alpha: 30, beta: 22 },
+  { month: 'Feb', alpha: 55, beta: 40 },
+  { month: 'Mar', alpha: 48, beta: 52 },
+];
+const SERIES = [
+  { key: 'alpha', label: 'Alpha' },
+  { key: 'beta', label: 'Beta' },
+];
+
+export default function ChartFrameMinimal() {
+  return (
+    <ChartFrame title="Signups" data={DATA} series={SERIES} x={{ key: 'month', label: 'Month' }}>
+      {(ctx) => <svg width={ctx.width} height={ctx.height} aria-hidden="true" />}
+    </ChartFrame>
+  );
+}
+```

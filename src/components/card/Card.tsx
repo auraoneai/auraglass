@@ -14,6 +14,7 @@ import type { MaterialBearingProps, RenderProp } from '../../contracts/component
 export interface CardRootProps extends MaterialBearingProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'content'> {
   /** Marks the card interactive (data-ag-interactive); pair with `render`. */
   interactive?: boolean;
+  /** Replaces the rendered element; the component props and state are merged onto it. */
   render?: RenderProp<React.HTMLAttributes<HTMLElement>>;
 }
 
@@ -28,7 +29,9 @@ function Root({
   className,
   ref,
   ...rest
-}: CardRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+}: CardRootProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLElement> | undefined }) {
   const role: Parameters<typeof materialProps>[0] = { layer: 'content' };
   if (variant !== undefined) role.variant = variant;
   if (thickness !== undefined) role.thickness = thickness;

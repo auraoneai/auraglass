@@ -13,10 +13,10 @@ Tier T2 · RSC server · APG none
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `actions?` | `ReactNode` | — | Action node (e.g. <Button onClick/>) — a ReactNode keeps this server-renderable. |
-| `description?` | `string` | — | — |
-| `icon?` | `ReactNode` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `title` | `string` | — | — |
+| `description?` | `string` | — | Supporting text under the heading. |
+| `icon?` | `ReactNode` | — | Illustration or icon above the heading (decorative). |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `title` | `string` | — | Heading of the state. |
 
 ## Parts
 
@@ -34,4 +34,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/empty-state/*.tsx` yet._
+```tsx
+import { Button, EmptyState } from 'aura-glass';
+
+export default function EmptyStateMinimal() {
+  return <EmptyState title="No projects yet" description="Create a project to start tracking work." actions={<Button prominent>New project</Button>} />;
+}
+```

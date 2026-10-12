@@ -13,17 +13,17 @@ Tier T1 · RSC client · APG toolbar
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `aria-label` | `string` | — | Required accessible name. |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
 | `loop?` | `boolean` | — | Roving-focus loop (default true). |
-| `orientation?` | `'vertical' \| 'horizontal'` | — | — |
-| `prominent?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `refraction?` | `boolean` | — | — |
-| `render?` | `RenderProp` | — | — |
+| `orientation?` | `'vertical' \| 'horizontal'` | — | Layout direction; also the arrow-key axis. |
+| `prominent?` | `boolean` | — | Prominent (filled, higher-emphasis) appearance. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `refraction?` | `boolean` | — | Opt-in refraction on refraction-eligible materials; ignored where unsupported. |
+| `render?` | `RenderProp` | — | Replaces the rendered element; the component props and state are merged onto it. |
 | `spacing?` | `'0' \| '1' \| '2' \| '3' \| '4' \| '5' \| '6' \| '8' \| '10' \| '12' \| '16'` | — | SurfaceGroup spacing token on the root (the root IS the surface — REQ-CMP-37). |
-| `thickness?` | `Thickness` | — | — |
-| `variant?` | `MaterialVariant` | — | — |
+| `thickness?` | `Thickness` | — | Material thickness (blur and opacity step). |
+| `variant?` | `MaterialVariant` | — | Material variant. |
 
 ## Parts
 
@@ -50,4 +50,17 @@ Tier T1 · RSC client · APG toolbar
 
 ## Example
 
-_Example pending: no `apps/docs/examples/toolbar/*.tsx` yet._
+```tsx
+import { Toolbar } from 'aura-glass';
+
+export default function ToolbarMinimal() {
+  return (
+    <Toolbar.Root aria-label="Formatting">
+      <Toolbar.Button>Bold</Toolbar.Button>
+      <Toolbar.Button>Italic</Toolbar.Button>
+      <Toolbar.Separator />
+      <Toolbar.Link href="/docs">Help</Toolbar.Link>
+    </Toolbar.Root>
+  );
+}
+```

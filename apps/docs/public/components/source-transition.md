@@ -12,9 +12,9 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/practices/keyboard-
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `onTransition?` | `(id: string) => void` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
+| `onTransition?` | `(id: string) => void` | — | Called with the id of the source whose transition starts. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
 
 ## Parts
 
@@ -30,4 +30,15 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/source-transition/*.tsx` yet._
+```tsx
+import { SourceTransition } from 'aura-glass';
+
+export default function SourceTransitionMinimal() {
+  return (
+    <SourceTransition.Root>
+      <SourceTransition.Source id="card"><button type="button">Open card</button></SourceTransition.Source>
+      <SourceTransition.Destination id="card"><a href="#card">Card detail</a></SourceTransition.Destination>
+    </SourceTransition.Root>
+  );
+}
+```
