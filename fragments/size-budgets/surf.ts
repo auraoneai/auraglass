@@ -29,10 +29,12 @@ const w2 = [
   { id: 'KeyValueEditor', import: "{ KeyValueEditor } from 'aura-glass/data'", limitBytes: 15360, kind: 'js' },
   { id: 'StatCard', import: "{ StatCard } from 'aura-glass/data'", limitBytes: 3072, kind: 'js' },
   { id: 'Sparkline', import: "{ Sparkline } from 'aura-glass/data'", limitBytes: 2560, kind: 'js' },
-  { id: 'ChartFrame', import: "{ ChartFrame } from 'aura-glass/data'", limitBytes: 6144, kind: 'js' },
-  { id: 'DatePicker', import: "{ DatePicker } from 'aura-glass/date'", limitBytes: 11264, kind: 'js' },
+  // REQ-SURF-94 / REQ-FIN-83: the last-series guard is CMP Tooltip (+ ~4.7 KB gz).
+  { id: 'ChartFrame', import: "{ ChartFrame } from 'aura-glass/data'", limitBytes: 11264, kind: 'js' },
+  // REQ-SURF-98: CMP Sheet side="bottom" below 640px (DatePopup) adds ~4.4 KB gz to the three pickers.
+  { id: 'DatePicker', import: "{ DatePicker } from 'aura-glass/date'", limitBytes: 15360, kind: 'js' },
   { id: 'DateField', import: "{ DateField } from 'aura-glass/date'", limitBytes: 4096, kind: 'js' },
-  { id: 'TimePicker', import: "{ TimePicker } from 'aura-glass/date'", limitBytes: 10240, kind: 'js' },
+  { id: 'TimePicker', import: "{ TimePicker } from 'aura-glass/date'", limitBytes: 14336, kind: 'js' },
   { id: 'Timeline', import: "{ Timeline } from 'aura-glass'", limitBytes: 4096, kind: 'js' },
   { id: 'ActivityFeed', import: "{ ActivityFeed } from 'aura-glass'", limitBytes: 5120, kind: 'js' },
   { id: 'Chart', import: "{ Chart } from 'aura-glass/charts'", limitBytes: 15360, kind: 'js' },
@@ -84,7 +86,7 @@ const metaRows = [
   { id: 'SourceList', import: "{ SourceList } from 'aura-glass/ai'", limitBytes: 9216, kind: 'js' },
   { id: 'RangeCalendar', import: "{ RangeCalendar } from 'aura-glass/date'", limitBytes: 4096, kind: 'js' },
   { id: 'Calendar', import: "{ Calendar } from 'aura-glass/date'", limitBytes: 4096, kind: 'js' },
-  { id: 'DateRangePicker', import: "{ DateRangePicker } from 'aura-glass/date'", limitBytes: 12288, kind: 'js' },
+  { id: 'DateRangePicker', import: "{ DateRangePicker } from 'aura-glass/date'", limitBytes: 16384, kind: 'js' },
   { id: 'TimeField', import: "{ TimeField } from 'aura-glass/date'", limitBytes: 6144, kind: 'js' },
   { id: 'MediaControls', import: "{ MediaControls } from 'aura-glass/media'", limitBytes: 18432, kind: 'js' },
 ] as const;

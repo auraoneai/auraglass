@@ -25,6 +25,9 @@ export interface MeterProps extends Omit<React.HTMLAttributes<HTMLDivElement>, '
 
 function intentFor(v: number, { low, high, optimum }: { low?: number | undefined; high?: number | undefined; optimum?: number | undefined }): 'danger' | 'warning' | 'success' {
   if (optimum !== undefined) {
+    // Low-is-good (optimum below `low`, the HTML <meter> case): below `low`
+    // is the optimum region, [low, high) suboptimal, at/above `high` worst.
+    if (low !== undefined && optimum < low) return v < low ? 'success' : v < (high ?? Infinity) ? 'warning' : 'danger';
     return optimum >= (low ?? -Infinity) ? (v >= optimum ? 'success' : v >= (low ?? -Infinity) ? 'warning' : 'danger')
       : (v <= optimum ? 'success' : v <= (high ?? Infinity) ? 'warning' : 'danger');
   }

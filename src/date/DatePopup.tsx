@@ -1,17 +1,13 @@
 'use client';
 /* DatePopup (REQ-SURF-98/101/102/104): the one popup presentation for the date
-   pickers — a CMP Popover (registered in the LayerStack as kind 'popover', so
-   Escape closes only the topmost layer and focus returns to the trigger) with a
-   CMP Button trigger.
+   pickers, with a CMP Button trigger.
 
-   At or above SHEET_BELOW_PX of container width the popup is anchored below
-   the trigger. Below it the same popover is presented as a bottom sheet: it is
-   anchored to a virtual element spanning the viewport's bottom edge (side top,
-   fixed positioning, no collision flipping), full width, flush with the
-   viewport bottom. CMP Sheet is not used for this: importing it puts the
-   DatePicker entry at ~10.3 KB gzip against its 8 KB SB-SURF-W2-DATEPICKER
-   budget (measured with the verify-size-budgets esbuild settings); a budget
-   raise is an owner decision.
+   At or above SHEET_BELOW_PX of container width it is a CMP Popover
+   (LayerStack kind 'popover') anchored below the trigger. Below it it is a CMP
+   Sheet side="bottom" (LayerStack kind 'sheet', modal, scrim, focus trapped,
+   flush with the viewport bottom). In both, Escape closes only the topmost
+   layer and focus returns to the trigger; the popup carries
+   data-presentation="popover" | "sheet".
 
    Open state is owned by the caller (the RAC picker state), so a date
    selection that closes the RAC picker closes the popup too. */
@@ -19,11 +15,12 @@ import * as React from 'react';
 import { Button } from '../components/button';
 import { Popover } from '../components/popover';
 import { PopoverPortal, PopoverPositioner, PopoverPopup } from '../components/popover/Popover.client';
+import { Sheet } from '../components/sheet/Sheet.client';
 
 export interface DatePopupProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  /** true → bottom-sheet presentation; false → anchored below the trigger. */
+  /** true → CMP Sheet side="bottom"; false → CMP Popover below the trigger. */
   compact: boolean;
   triggerLabel: React.ReactNode;
   triggerPart: string;
@@ -45,15 +42,6 @@ export interface DatePopupProps {
 export const CALENDAR_INITIAL_FOCUS = '.ag-calendar__cell[tabindex="0"]';
 
 type AnyProps = Record<string, unknown>;
-
-/** Virtual anchor: the viewport's bottom edge, full width (bottom-sheet mode). */
-const viewportBottom = {
-  getBoundingClientRect(): DOMRect {
-    const w = document.documentElement.clientWidth;
-    const h = window.innerHeight;
-    return { x: 0, y: h, top: h, left: 0, right: w, bottom: h, width: w, height: 0, toJSON: () => ({}) } as DOMRect;
-  },
-};
 
 export function DatePopup({
   open,
@@ -121,29 +109,28 @@ export function DatePopup({
     ...(dir !== undefined ? { dir } : {}),
   };
 
+  if (compact) {
+    return (
+      <Sheet.Root side="bottom" open={open} onOpenChange={(o) => onOpenChange(o)}>
+        <Sheet.Trigger render={renderTrigger} />
+        {open ? (
+          <Sheet.Content {...popupProps} data-presentation="sheet" data-sheet-side="bottom">
+            {children}
+          </Sheet.Content>
+        ) : null}
+      </Sheet.Root>
+    );
+  }
+
   return (
     <Popover.Root open={open} onOpenChange={(o) => onOpenChange(o)}>
       <Popover.Trigger render={renderTrigger} />
       {open ? (
         <PopoverPortal>
-          <PopoverPositioner
-            {...((compact
-              ? {
-                  anchor: viewportBottom,
-                  side: 'top',
-                  align: 'start',
-                  sideOffset: 0,
-                  collisionPadding: 0,
-                  positionMethod: 'fixed',
-                  collisionAvoidance: { side: 'none', align: 'none' },
-                  'data-presentation': 'sheet',
-                }
-              : { side: 'bottom', align: 'start', sideOffset: 4 }) as React.ComponentProps<typeof PopoverPositioner>)}
-          >
+          <PopoverPositioner side="bottom" align="start" sideOffset={4}>
             <PopoverPopup
               {...(popupProps as React.ComponentProps<typeof PopoverPopup>)}
-              data-presentation={compact ? 'sheet' : 'popover'}
-              {...(compact ? { 'data-sheet-side': 'bottom' } : {})}
+              data-presentation="popover"
             >
               {children}
             </PopoverPopup>

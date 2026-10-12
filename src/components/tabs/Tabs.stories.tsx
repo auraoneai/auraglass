@@ -15,7 +15,9 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = { args: { children: defaultChildren } };
-export const RTL: Story = { args: { children: defaultChildren }, parameters: { globals: { dir: 'rtl' } } };
+// The subject sits under dir="rtl" itself: REQ-SURF-48 resolves the closest
+// [dir] (tests/a11y/apg/surf/tabs.apg.spec.ts drives the reversed arrows).
+export const RTL: Story = { args: { children: <div dir="rtl">{defaultChildren}</div> }, parameters: { globals: { dir: 'rtl' } } };
 export const ReducedTransparency: Story = { args: { children: defaultChildren }, parameters: { ag: { material: 'regular' } } };
 export const ForcedColors: Story = { args: { children: defaultChildren }, parameters: { globals: { forcedColors: 'active' } } };
 

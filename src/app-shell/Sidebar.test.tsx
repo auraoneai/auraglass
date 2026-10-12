@@ -1,6 +1,6 @@
 /** @jest-environment jsdom */
-import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { Sidebar } from './Sidebar';
 import { AppShell } from './AppShell';
@@ -125,14 +125,23 @@ describe('Sidebar (SURF-041)', () => {
   });
 
   it('appearance is not variant (SURF-27)', () => {
-    render(<Sidebar.Root appearance="floating" data-testid="sb" />);
-    const el = screen.getByTestId('sb');
-    expect(el).toHaveAttribute('data-ag-appearance', 'floating');
-    // appearance never maps to variant: whatever Surface's default variant
-    // attr is, it must not be 'floating'.
-    expect(el.getAttribute('data-ag-variant')).not.toBe('floating');
+    // Contract S-05 materialProps: a chrome-layer Surface always carries
+    // data-ag-variant = variant ?? 'regular' (the contract wins over the PRD,
+    // §1.4). Appearance never changes it; only the `variant` prop does.
+    for (const appearance of ['sidebar', 'inset', 'floating'] as const) {
+      const { unmount } = render(<Sidebar.Root appearance={appearance} data-testid="sb" />);
+      const el = screen.getByTestId('sb');
+      expect(el).toHaveAttribute('data-ag-appearance', appearance);
+      expect(el).toHaveAttribute('data-ag-layer', 'chrome');
+      expect(el).toHaveAttribute('data-ag-variant', 'regular');
+      unmount();
+    }
+    render(<Sidebar.Root data-testid="sb0" />);
+    expect(screen.getByTestId('sb0')).toHaveAttribute('data-ag-appearance', 'sidebar');
+    expect(screen.getByTestId('sb0')).toHaveAttribute('data-ag-variant', 'regular');
     render(<Sidebar.Root appearance="inset" variant="clear" data-testid="sb2" />);
-    expect(screen.getByTestId('sb2').closest('[data-ag-variant]') ?? screen.getByTestId('sb2')).toHaveAttribute('data-ag-variant', 'clear');
+    expect(screen.getByTestId('sb2')).toHaveAttribute('data-ag-variant', 'clear');
+    expect(screen.getByTestId('sb2')).toHaveAttribute('data-ag-appearance', 'inset');
   });
 
   it('render composes router link (SURF-28)', () => {
@@ -214,6 +223,72 @@ describe('Sidebar (SURF-041)', () => {
     // the label span keeps its text: the rail clip is CSS-side, never removal.
     expect(link.querySelector('.ag-sidebar__item-label')?.textContent).toBe('Beta');
     expect(link.closest('[data-ag-part="sidebar-item-li"]')).not.toBeNull();
+  });
+
+  describe('rail keeps names: CMP Tooltip on hover/focus (SURF-29)', () => {
+    const shell = (defaultSidebar: 'rail' | 'expanded') => (
+      <AppShell.Root defaultSidebar={defaultSidebar}>
+        <Sidebar.Root>
+          <Sidebar.Nav aria-label="Nav">
+            <Sidebar.Item href="/beta">Beta</Sidebar.Item>
+          </Sidebar.Nav>
+        </Sidebar.Root>
+        <AppShell.Main>p</AppShell.Main>
+      </AppShell.Root>
+    );
+    const tip = () => document.querySelector<HTMLElement>('[data-ag-part="sidebar-item-tooltip"]');
+    const hover = (el: HTMLElement) => {
+      fireEvent.mouseEnter(el);
+      fireEvent.pointerMove(el, { pointerType: 'mouse' });
+      fireEvent.mouseMove(el);
+    };
+    beforeEach(() => {
+      if (window.PointerEvent === undefined) {
+        (window as unknown as Record<string, unknown>).PointerEvent = window.MouseEvent;
+      }
+      jest.useFakeTimers();
+    });
+    afterEach(() => { jest.useRealTimers(); });
+
+    it('rail: hover shows the label tooltip after the Tooltip default delay, not before', () => {
+      render(shell('rail'));
+      const link = screen.getByRole('link', { name: 'Beta' });
+      hover(link);
+      // CMP Tooltip's own default delay (600 ms): closed just before, open after.
+      act(() => { jest.advanceTimersByTime(599); });
+      expect(tip()).toBeNull();
+      act(() => { jest.advanceTimersByTime(2); });
+      const popup = tip();
+      expect(popup).not.toBeNull();
+      expect(popup).toHaveAttribute('role', 'tooltip');
+      expect(popup!.textContent).toBe('Beta');
+      // the link keeps its own accessible name; the tooltip describes it.
+      expect(screen.getByRole('link', { name: 'Beta' })).toBe(link);
+    });
+
+    it('rail: keyboard focus shows the label tooltip', () => {
+      render(shell('rail'));
+      const link = screen.getByRole('link', { name: 'Beta' });
+      // Base UI opens on keyboard focus (focus-visible); a keydown first marks
+      // the interaction as keyboard.
+      fireEvent.keyDown(document.body, { key: 'Tab' });
+      act(() => { link.focus(); });
+      act(() => { jest.advanceTimersByTime(1000); });
+      expect(tip()).not.toBeNull();
+      expect(tip()!.textContent).toBe('Beta');
+      expect(link.getAttribute('aria-describedby')).toBe(tip()!.id);
+    });
+
+    it('expanded at the base layout: hover and focus render no tooltip', () => {
+      render(shell('expanded'));
+      const link = screen.getByRole('link', { name: 'Beta' });
+      hover(link);
+      fireEvent.keyDown(document.body, { key: 'Tab' });
+      act(() => { link.focus(); });
+      act(() => { jest.advanceTimersByTime(2000); });
+      expect(tip()).toBeNull();
+      expect(document.querySelector('[role="tooltip"]')).toBeNull();
+    });
   });
 
   it('collapsed is inert on the server markup (SURF-30)', () => {

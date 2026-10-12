@@ -41,6 +41,9 @@ const w1 = [
   // REQ-SURF-57: needs the built next16 canary (AG_CANARY_BASE_URL), served by
   // surf:test:canary-hydration on main — same scope as tests/ssr/surf/hydration.spec.ts.
   { lane: 'L11', kind: 'playwright', path: 'tests/rsc/surf/breadcrumbs-server.spec.ts', scope: 'main', remote: true, failClosed: true },
+  // REQ-SURF-36: L6 topbar__{inline,overlay,solid,forced-colors} cells at 320/1440.
+  { lane: 'L6', kind: 'playwright', path: 'tests/visual/surf/app-shell/topbar.visual.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L6', kind: 'playwright', path: 'tests/visual/surf/app-shell/topbar.visual.spec.ts', scope: 'main', remote: true, failClosed: true },
 ] as const;
 // --- lane W1 end ---
 
@@ -63,6 +66,12 @@ const w2 = [
   // REQ-SURF-08: cross-TZ canary hydration (job surf:test:canary-hydration).
   { lane: 'L11', kind: 'playwright', path: 'tests/ssr/surf/hydration.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L12', kind: 'jest', path: 'tests/data/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
+  // REQ-SURF-95/90/91: L4 token-contrast rows for the chart palette, stat-card
+  // delta and sparkline intent colours, computed from the SHIPPED CSS: the
+  // lane passes AURAGLASS_TARBALL and tests/data/helpers/built-css.ts reads
+  // package/dist/{tokens,material,data}.css from it (fails closed without it).
+  { lane: 'L4', kind: 'jest', path: 'tests/data/{chart-palette,stat-card-contrast,sparkline-contrast}.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L4', kind: 'jest', path: 'tests/data/{chart-palette,stat-card-contrast,sparkline-contrast}.test.ts', scope: 'main', remote: false, failClosed: true },
 ] as const;
 // --- lane W2 end ---
 

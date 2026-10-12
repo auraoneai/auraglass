@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Meter } from '../../components/meter';
 import type { AgUsage } from '../types';
 
 export interface UsageMeterProps {
@@ -8,8 +9,9 @@ export interface UsageMeterProps {
   className?: string | undefined;
 }
 
-function fmtTokens(n: number, locale: string): string {
-  return new Intl.NumberFormat(locale, { notation: 'compact' }).format(n);
+/** 'compact' → "1.2M"; 'full' → standard notation with grouping ("1,234,567"). */
+function fmtTokens(n: number, locale: string, format: 'compact' | 'full'): string {
+  return new Intl.NumberFormat(locale, format === 'full' ? { notation: 'standard' } : { notation: 'compact' }).format(n);
 }
 
 function fmtCost(usd: number, locale: string): string {
@@ -21,9 +23,13 @@ function fmtCost(usd: number, locale: string): string {
 }
 
 /**
- * REQ-SURF-126: server-safe usage meter. With `contextWindow`, renders a
- * `role="meter"` gauge over (input+output)/contextWindow — `warning` ≥80%,
- * `critical` ≥95% (text, not colour only).
+ * REQ-SURF-126: server module (no directive, no hooks). Token counts use
+ * `Intl.NumberFormat` (compact or full notation), cost is USD with ≤4
+ * fraction digits. With `contextWindow`, the gauge is CMP `Meter` (the
+ * client boundary: Meter.client.tsx carries 'use client'; every prop passed
+ * to it is serializable) over (input+output)/contextWindow — `warning` ≥80%,
+ * `critical` ≥95%, stated in text, not colour only. Meter's low/high/optimum
+ * map the same thresholds to its intent (low-is-good: optimum 0).
  */
 export function UsageMeter({ usage, format = 'compact', locale = 'en-US', className }: UsageMeterProps) {
   const tokens: Array<[string, number | undefined]> = [
@@ -33,8 +39,9 @@ export function UsageMeter({ usage, format = 'compact', locale = 'en-US', classN
     ['Cached', usage.cachedInputTokens],
   ];
   const used = (usage.inputTokens ?? 0) + (usage.outputTokens ?? 0);
-  const hasWindow = typeof usage.contextWindow === 'number' && usage.contextWindow > 0;
-  const ratio = hasWindow ? used / (usage.contextWindow ?? 1) : 0;
+  const contextWindow = usage.contextWindow ?? 0;
+  const hasWindow = typeof usage.contextWindow === 'number' && contextWindow > 0;
+  const ratio = hasWindow ? used / contextWindow : 0;
   const level = ratio >= 0.95 ? 'critical' : ratio >= 0.8 ? 'warning' : 'normal';
 
   return (
@@ -44,7 +51,7 @@ export function UsageMeter({ usage, format = 'compact', locale = 'en-US', classN
           v !== undefined && (format === 'full' || v > 0) ? (
             <React.Fragment key={label}>
               <dt>{label}</dt>
-              <dd>{fmtTokens(v, locale)}</dd>
+              <dd>{fmtTokens(v, locale, format)}</dd>
             </React.Fragment>
           ) : null,
         )}
@@ -56,19 +63,22 @@ export function UsageMeter({ usage, format = 'compact', locale = 'en-US', classN
         ) : null}
       </dl>
       {hasWindow ? (
-        <div
-          role="meter"
-          data-ag-part="usage-window"
-          data-level={level}
-          aria-valuemin={0}
-          aria-valuemax={usage.contextWindow}
-          aria-valuenow={used}
-          aria-label="Context window used"
-        >
-          <span data-ag-part="usage-window-text">
-            {`${fmtTokens(used, locale)} / ${fmtTokens(usage.contextWindow ?? 0, locale)}`}
-            {level !== 'normal' ? ` — ${level}` : ''}
-          </span>
+        <div data-ag-part="usage-window" data-level={level}>
+          <Meter
+            label="Context window used"
+            value={used}
+            min={0}
+            max={contextWindow}
+            low={contextWindow * 0.8}
+            high={contextWindow * 0.95}
+            optimum={0}
+            data-level={level}
+          >
+            <span data-ag-part="usage-window-text">
+              {`${fmtTokens(used, locale, format)} / ${fmtTokens(contextWindow, locale, format)}`}
+              {level !== 'normal' ? ` — ${level}` : ''}
+            </span>
+          </Meter>
         </div>
       ) : null}
     </div>

@@ -170,7 +170,8 @@ export const FIXTURES: Record<string, MetaFixture> = {
       'open, output over the preview cap': () => <ToolCall part={tool('output-available', { output: 'row\n'.repeat(400) })} defaultOpen maxPreviewChars={40} />,
     },
   },
-  UsageMeter: {},
+  // REQ-SURF-126: the context-window gauge is CMP Meter.
+  UsageMeter: { composes: ['Meter'] },
   AppShell: {
     composes: ['TopBar', 'Sidebar', 'StatusBar', 'ScrollEdge'],
     states: {

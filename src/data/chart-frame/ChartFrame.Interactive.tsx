@@ -17,6 +17,7 @@
    that are already client components. */
 import * as React from 'react';
 import { useResolvedPreferences } from '../../theme';
+import { Tooltip, TooltipPortal, TooltipPositioner, TooltipPopup } from '../../components/tooltip/Tooltip.client';
 import type { ChartContext, ChartSeries } from './types';
 
 export interface ChartFrameLabels {
@@ -202,22 +203,38 @@ export function ChartLegend({ slot }: { slot: 'top' | 'bottom' }) {
       {f.series.map((s) => {
         const isHidden = f.hidden.includes(s.key);
         const isLastVisible = !isHidden && f.ctx.visibleSeries.length === 1;
+        // Every item is a CMP Tooltip trigger so the button element is stable
+        // while the last-visible guard moves between items; only the guarded
+        // item mounts the popup ("At least one series must be visible",
+        // REQ-SURF-94 / REQ-FIN-83). aria-describedby stays on the hidden
+        // text, so the reason is announced without hovering.
         return (
-          <button
-            key={s.key}
-            type="button"
-            aria-pressed={!isHidden}
-            aria-disabled={isLastVisible || undefined}
-            aria-describedby={isLastVisible ? f.lastSeriesId : undefined}
-            title={isLastVisible ? lastSeries : undefined}
-            data-ag-part="chart-legend-item"
-            className="ag-chart-frame__legend-item"
-            onClick={() => f.toggleSeries(s.key)}
-          >
-            <span aria-hidden="true" className="ag-chart-frame__swatch" style={{ background: f.ctx.color(s.key) }} />
-            {s.label}
-            <span data-ag-part="hit-area" aria-hidden="true" />
-          </button>
+          <Tooltip.Root key={s.key}>
+            <Tooltip.Trigger
+              render={
+                <button
+                  type="button"
+                  aria-pressed={!isHidden}
+                  aria-disabled={isLastVisible || undefined}
+                  aria-describedby={isLastVisible ? f.lastSeriesId : undefined}
+                  data-ag-part="chart-legend-item"
+                  className="ag-chart-frame__legend-item"
+                  onClick={() => f.toggleSeries(s.key)}
+                />
+              }
+            >
+              <span aria-hidden="true" className="ag-chart-frame__swatch" style={{ background: f.ctx.color(s.key) }} />
+              {s.label}
+              <span data-ag-part="hit-area" aria-hidden="true" />
+            </Tooltip.Trigger>
+            {isLastVisible ? (
+              <TooltipPortal>
+                <TooltipPositioner>
+                  <TooltipPopup data-ag-part="chart-legend-tooltip">{lastSeries}</TooltipPopup>
+                </TooltipPositioner>
+              </TooltipPortal>
+            ) : null}
+          </Tooltip.Root>
         );
       })}
       <span id={f.lastSeriesId} className="ag-visually-hidden">

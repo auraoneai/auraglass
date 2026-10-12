@@ -60,10 +60,13 @@ test.describe('command-5000.spec.ts (SURF)', () => {
     // keyboard to the last item keeps the active descendant resolvable
     await input.fill('');
     await input.press('ArrowDown');
-    await input.press('ArrowUp');
+    await input.press('ArrowUp'); // APG loop: back to the input (no active option)
+    await expect(input).not.toHaveAttribute('aria-activedescendant', /.+/);
+    await input.press('ArrowUp'); // wraps to the last option
     const id = await input.getAttribute('aria-activedescendant');
-    expect(id).toMatch(/item-cmd-4999$/);
+    expect(id).toBeTruthy();
     await expect(page.locator(`[id="${id}"]`)).toHaveCount(1);
+    await expect(page.locator(`[id="${id}"]`)).toHaveAttribute('data-value', 'cmd-4999');
     expect(await optionCount()).toBeLessThanOrEqual(30);
   });
 });

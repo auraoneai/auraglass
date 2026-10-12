@@ -1,8 +1,8 @@
 'use client';
 /* DatePicker (SURF-212, REQ-SURF-98/99/101): RAC DatePicker — DateInput
    segments + a CMP Button trigger opening the Calendar in a DatePopup (a CMP
-   Popover anchored below the field at >=640px container width, presented as a
-   bottom sheet below; LayerStack-registered, so Escape and focus return go
+   Popover anchored below the field at >=640px container width, CMP Sheet
+   side="bottom" below; LayerStack-registered, so Escape and focus return go
    through the stack).
 
    One value chain: the inner Calendar receives NO value/defaultValue/

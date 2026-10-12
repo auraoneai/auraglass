@@ -11,7 +11,7 @@ export default defineMeta({
   states: ['empty', 'loading'],
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/grid-and-table-properties/',
-  budgetKb: 6,
+  budgetKb: 11,
   migration: [
     { from: 'GlassChart', props: {}, selectors: { '.glass-chart': '[data-ag-part="chart-frame"]' }, automation: 'manual', compat: false },
     { from: 'GlassDataChart', props: {}, selectors: { '.glass-chart': '[data-ag-part="chart-frame"]' }, automation: 'manual', compat: false },

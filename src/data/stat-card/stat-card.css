@@ -20,11 +20,43 @@
   }
   .ag-stat-card__value[data-state='loading'] { color: var(--_ag-fg-muted, inherit); }
   .ag-stat-card__delta { font-size: var(--_ag-text-sm, 0.875rem); font-variant-numeric: tabular-nums; }
-  .ag-stat-card__delta[data-ag-intent='success'] { color: var(--_ag-success, inherit); }
-  .ag-stat-card__delta[data-ag-intent='danger'] { color: var(--_ag-danger, inherit); }
+  .ag-stat-card__delta[data-ag-intent='success'] { color: var(--_ag-stat-card-success); }
+  .ag-stat-card__delta[data-ag-intent='danger'] { color: var(--_ag-stat-card-danger); }
   .ag-stat-card__sparkline { min-inline-size: 0; }
   @container (max-width: 200px) {
     .ag-stat-card__sparkline { display: none; }
   }
   .ag-stat-card__description { font-size: var(--_ag-text-sm, 0.875rem); color: var(--_ag-fg-muted, inherit); }
+
+  /* REQ-SURF-90: delta intent colours, derived from the public S-03
+     --ag-color-success / --ag-color-danger by relative OKLCH with explicit
+     lightness and chroma per scheme, so the delta text holds >=4.5:1 against
+     content-raised in light and dark. tests/data/stat-card-contrast.test.ts
+     computes those numbers from the built CSS. */
+  .ag-stat-card {
+    --_ag-stat-card-success: light-dark(oklch(from var(--ag-color-success) 0.45 0.11 h), oklch(from var(--ag-color-success) 0.8 0.13 h));
+    --_ag-stat-card-danger: light-dark(oklch(from var(--ag-color-danger) 0.48 0.16 h), oklch(from var(--ag-color-danger) 0.78 0.12 h));
+  }
+  /* Engines without light-dark(): the same two arms, selected the way
+     tokens.css selects its scheme fallback (see chart-frame.css). */
+  @supports not (color: light-dark(black, white)) {
+    .ag-stat-card {
+      --_ag-stat-card-success: oklch(from var(--ag-color-success) 0.45 0.11 h);
+      --_ag-stat-card-danger: oklch(from var(--ag-color-danger) 0.48 0.16 h);
+    }
+    [data-ag-scheme='dark'] .ag-stat-card {
+      --_ag-stat-card-success: oklch(from var(--ag-color-success) 0.8 0.13 h);
+      --_ag-stat-card-danger: oklch(from var(--ag-color-danger) 0.78 0.12 h);
+    }
+    @media (prefers-color-scheme: dark) {
+      .ag-stat-card:not([data-ag-scheme] *) {
+        --_ag-stat-card-success: oklch(from var(--ag-color-success) 0.8 0.13 h);
+        --_ag-stat-card-danger: oklch(from var(--ag-color-danger) 0.78 0.12 h);
+      }
+    }
+  }
+  /* Forced colors: system text colour, never the intent palette. */
+  @media (forced-colors: active) {
+    .ag-stat-card__delta[data-ag-intent] { color: CanvasText; }
+  }
 }

@@ -9,6 +9,7 @@ import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { CalendarDate } from '@internationalized/date';
+import { I18nProvider } from 'react-aria-components';
 import { renderAg, renderAgServer } from '../../tests/helpers';
 import { DatePicker } from './DatePicker';
 
@@ -117,21 +118,31 @@ describe('DatePicker (REQ-SURF-98/101)', () => {
       (globalThis as { ResizeObserver?: unknown }).ResizeObserver = OriginalRO;
     });
 
-    it('presents the CMP Popover as a bottom sheet anchored to the viewport bottom edge', async () => {
+    it('presents the popup in CMP Sheet side="bottom" (modal, scrim) instead of the Popover', async () => {
       const user = userEvent.setup();
       renderAg(<DatePicker label="Due" defaultValue={new CalendarDate(2026, 10, 15)} />);
       await user.click(screen.getByRole('button', { name: 'Choose date' }));
       const dialog = await screen.findByRole('dialog');
       expect(dialog.getAttribute('data-presentation')).toBe('sheet');
       expect(dialog.getAttribute('data-sheet-side')).toBe('bottom');
-      expect(dialog.getAttribute('data-ag-overlay')).toBe('popover');
-      const positioner = dialog.closest('[data-ag-part="positioner"]') as HTMLElement;
-      expect(positioner.getAttribute('data-presentation')).toBe('sheet');
-      expect(positioner.style.position).toBe('fixed');
-      // Popup sits on top of the viewport-bottom anchor.
-      expect(positioner.getAttribute('data-side')).toBe('top');
+      expect(dialog.getAttribute('data-ag-part')).toBe('date-picker-popover');
+      // CMP Sheet, not the Popover: sheet overlay material, bottom side, no positioner.
+      expect(dialog.getAttribute('data-ag-overlay')).toBe('sheet');
+      expect(dialog.classList.contains('ag-sheet-popup')).toBe(true);
+      expect(dialog.getAttribute('data-side')).toBe('bottom');
+      expect(dialog.closest('[data-ag-part="positioner"]')).toBeNull();
+      expect(document.querySelector('.ag-scrim')).not.toBeNull();
+      expect(dialog.getAttribute('aria-labelledby')).toBe(screen.getByText('Due').id);
       await user.click(screen.getByRole('button', { name: /October 18, 2026/ }));
       await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    });
+
+    it('focuses the selected date cell when the sheet opens', async () => {
+      const user = userEvent.setup();
+      renderAg(<DatePicker label="Due" defaultValue={new CalendarDate(2026, 10, 15)} />);
+      await user.click(screen.getByRole('button', { name: 'Choose date' }));
+      await screen.findByRole('dialog');
+      await waitFor(() => expect(document.activeElement?.getAttribute('aria-label')).toMatch(/October 15, 2026/));
     });
 
     it('Escape closes the sheet presentation and returns focus to the trigger', async () => {
@@ -187,5 +198,38 @@ describe('DatePicker (REQ-SURF-98/101)', () => {
       </div>,
     );
     expect(server.html.indexOf('data-type="day"')).toBeLessThan(server.html.indexOf('data-type="month"'));
+  });
+
+  it("with no locale prop and no [lang], falls back to React Aria's resolved locale (app I18nProvider)", async () => {
+    const { container } = renderAg(
+      <I18nProvider locale="de-DE">
+        <DatePicker label="Datum" defaultValue={new CalendarDate(2026, 10, 15)} />
+      </I18nProvider>,
+    );
+    await waitFor(() => {
+      const types = [...container.querySelectorAll('[data-ag-part="date-input"] [role="spinbutton"]')].map((s) => s.getAttribute('data-type'));
+      expect(types).toEqual(['day', 'month', 'year']);
+    });
+    // and on the server, too: RA's provider is readable during SSR.
+    const server = renderAgServer(
+      <I18nProvider locale="de-DE">
+        <DatePicker label="Datum" defaultValue={new CalendarDate(2026, 10, 15)} />
+      </I18nProvider>,
+    );
+    expect(server.html.indexOf('data-type="day"')).toBeLessThan(server.html.indexOf('data-type="month"'));
+  });
+
+  it('a closest [lang] still wins over the React Aria locale', async () => {
+    const { container } = renderAg(
+      <I18nProvider locale="de-DE">
+        <div lang="en-US">
+          <DatePicker label="Due" defaultValue={new CalendarDate(2026, 10, 15)} />
+        </div>
+      </I18nProvider>,
+    );
+    await waitFor(() => {
+      const types = [...container.querySelectorAll('[data-ag-part="date-input"] [role="spinbutton"]')].map((s) => s.getAttribute('data-type'));
+      expect(types).toEqual(['month', 'day', 'year']);
+    });
   });
 });

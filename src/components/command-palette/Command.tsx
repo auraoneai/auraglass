@@ -1,11 +1,27 @@
 'use client';
-/* Command (SURF-083/084): inline combobox + listbox with roving
-   aria-activedescendant. Up/Down wrap, Home/End, Enter selects, Escape clears
-   then propagates. IME composition guarded. Result count announced via the
-   provider announcer (polite, 500 ms debounce). Virtualization lands with the
-   W2 VirtualList (I-1); until then >100 items render non-virtualized. */
+/* Command (SURF-083/084, REQ-SURF-60): Base UI Combobox in inline-list mode
+   (`<Combobox.Root inline open>`): the input is Base UI's role="combobox"
+   with aria-activedescendant, the list Base UI's role="listbox", items Base
+   UI options — keyboard (Up/Down with the input in the loop, Home/End, Enter)
+   and pointer highlight are Base UI's. Command keeps its own model on top:
+   - children-declared items register a spec; Command.score (or `filter`)
+     ranks them and the ranked values are Base UI's `filteredItems` (Base UI
+     filtering off), so keyboard order and the visual flex `order` follow the
+     score while the DOM keeps the declared order;
+   - pressing an item fires the item's onSelect and Root onValueChange
+     (value, { event, reason: 'item-press' }); the query is never replaced by
+     the item label and no selection is remembered (a command list);
+   - Escape clears a non-empty query (preventDefault) and otherwise
+     propagates to the layer stack; Enter/arrows are ignored while an IME
+     composition is active;
+   - the result count is announced (polite, 500 ms debounce);
+   - above VIRTUALIZE_THRESHOLD visible items the list renders through the
+     SURF VirtualList; the highlighted option is pinned in the window and
+     scrolled into view. Items always carry their index (Base UI
+     `virtualized`, index-addressed list) in both renderings. */
 
 import * as React from 'react';
+import { Combobox as BaseCombobox } from '../../foundation/base-ui/combobox';
 import { useAnnouncer } from '../../theme';
 import { commandScore } from './score';
 import { VirtualList } from '../../data/virtual-list/VirtualList';
@@ -29,25 +45,25 @@ type ItemSpec = {
 
 const VIRTUALIZE_THRESHOLD = 100;
 
-const Ctx = React.createContext<{
+type CommandCtx = {
   query: string;
   setQuery: (q: string) => void;
+  /** The visible set in score order (Base UI filteredItems). */
   items: ItemSpec[];
   register: (spec: ItemSpec) => () => void;
-  activeId: string | undefined;
-  setActiveId: (id: string | undefined) => void;
-  idBase: string;
-  listId: string;
+  /** Value of the Base UI highlighted item. */
+  active: string | undefined;
   composing: React.MutableRefObject<boolean>;
   /** SURF-063: true once the visible set exceeded the virtualization
       threshold (sticky — scroll unmounts must not collapse the registry). */
   virtualizing: boolean;
   /** Set by a virtualized List: scrolls a visible-set index into the window. */
   scrollTo: React.MutableRefObject<((index: number) => void) | undefined>;
-  onValueChange: ((v: string, details: ChangeDetails) => void) | undefined;
   /** True while a non-empty query is narrowing the visible set. */
   filtering: boolean;
-} | null>(null);
+};
+
+const Ctx = React.createContext<CommandCtx | null>(null);
 
 export type CommandRootProps = Omit<PartProps<'div'>, 'onChange'> & {
   filter?: CommandFilter | undefined;
@@ -59,11 +75,13 @@ export type CommandRootProps = Omit<PartProps<'div'>, 'onChange'> & {
   loop?: boolean | undefined;
 };
 
+const NAV_KEYS = new Set(['Enter', 'ArrowDown', 'ArrowUp', 'Home', 'End', 'PageDown', 'PageUp', 'Escape']);
+
 function CommandRoot({
   filter,
   shouldFilter = true,
-  value,
-  defaultValue,
+  value: _value,
+  defaultValue: _defaultValue,
   onValueChange,
   onQueryChange,
   loop = true,
@@ -71,10 +89,11 @@ function CommandRoot({
   render,
   ...rest
 }: CommandRootProps) {
-  const idBase = React.useId();
+  void _value;
+  void _defaultValue;
   const [query, setQueryState] = React.useState('');
   const [items, setItems] = React.useState<ItemSpec[]>([]);
-  const [activeId, setActiveId] = React.useState<string | undefined>(undefined);
+  const [active, setActive] = React.useState<string | undefined>(undefined);
   const composing = React.useRef(false);
   const virtualizingRef = React.useRef(false);
   const scrollRef = React.useRef<((index: number) => void) | undefined>(undefined);
@@ -111,8 +130,9 @@ function CommandRoot({
       .sort((a, b) => b.s - a.s)
       .map((x) => x.i);
   }, [items, query, score, shouldFilter]);
-  const enabled = visible.filter((i) => !i.disabled);
   if (visible.length > VIRTUALIZE_THRESHOLD) virtualizingRef.current = true;
+  const allValues = React.useMemo(() => items.map((i) => i.value), [items]);
+  const visibleValues = React.useMemo(() => visible.map((i) => i.value), [visible]);
 
   // Announce the result count (polite, 500 ms debounce).
   const countRef = React.useRef(visible.length);
@@ -124,129 +144,93 @@ function CommandRoot({
     return () => clearTimeout(t);
   }, [visible.length, announce]);
 
-  const ctx = React.useMemo(
+  const itemsRef = React.useRef(items);
+  itemsRef.current = items;
+  const onValueChangeRef = React.useRef(onValueChange);
+  onValueChangeRef.current = onValueChange;
+  const press = React.useCallback((v: unknown, details: { event?: Event | undefined }) => {
+    if (typeof v !== 'string') return;
+    const spec = itemsRef.current.find((i) => i.value === v);
+    if (!spec || spec.disabled) return;
+    spec.onSelect?.();
+    onValueChangeRef.current?.(v, { event: details.event, reason: 'item-press' });
+  }, []);
+
+  const ctx = React.useMemo<CommandCtx>(
     () => ({
       query,
       setQuery,
       items: visible,
       register,
-      activeId,
-      setActiveId,
-      idBase,
-      listId: `${idBase}-list`,
+      active,
       composing,
-      loop,
-      enabledValues: enabled.map((e) => e.value),
       virtualizing: virtualizingRef.current,
       scrollTo: scrollRef,
-      onValueChange,
       filtering: shouldFilter && query !== '',
     }),
-    [query, setQuery, visible, register, activeId, idBase, enabled, loop, onValueChange, shouldFilter],
+    [query, setQuery, visible, register, active, shouldFilter],
   );
 
+  // IME (SURF-62): while composing, navigation/commit keys belong to the IME —
+  // stop them before Base UI's input handler sees them.
+  const onKeyDownCapture = (e: React.KeyboardEvent) => {
+    if (!NAV_KEYS.has(e.key)) return;
+    if (composing.current || (e.nativeEvent as { isComposing?: boolean }).isComposing === true) e.stopPropagation();
+  };
+  // Escape clears a non-empty query first (consumed); an empty query lets it
+  // propagate to the layer stack (CommandPalette closes).
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape' && query !== '') {
+      e.preventDefault();
+      setQuery('');
+    }
+  };
+
   return (
-    <Ctx.Provider value={ctx as never}>
-      {partElement('div', {
-        render: render as React.ReactElement | undefined,
-        'data-ag-part': 'command',
-        className: 'ag-command',
-        ...rest,
-        children: (
-          <CommandInner
-            loop={loop}
-            enabled={enabled}
-            value={value}
-            defaultValue={defaultValue}
-            onValueChange={onValueChange}
-          >
-            {children}
-          </CommandInner>
-        ),
-      })}
+    <Ctx.Provider value={ctx}>
+      <BaseCombobox.Root
+        inline
+        open
+        items={allValues}
+        filteredItems={visibleValues}
+        filter={null}
+        value={null}
+        onValueChange={(v, details) => press(v, details)}
+        inputValue={query}
+        onInputValueChange={(q, details) => {
+          // A pressed item would fill the input with its label: a command list
+          // keeps the query instead.
+          if (details.reason === 'item-press') return;
+          setQuery(q);
+        }}
+        onItemHighlighted={(v, details) => {
+          setActive(typeof v === 'string' ? v : undefined);
+          if (v !== undefined && virtualizingRef.current && details.reason !== 'pointer') {
+            const index = details.index;
+            queueMicrotask(() => scrollRef.current?.(index));
+          }
+        }}
+        loopFocus={loop}
+        // Every item carries its index in the visible set (score order), so
+        // Base UI's index-addressed ("virtualized") list mode is used in both
+        // renderings: keyboard order follows the score, not the DOM, and the
+        // VirtualList flip never re-registers a DOM-order composite list.
+        virtualized
+      >
+        {partElement('div', {
+          render: render as React.ReactElement | undefined,
+          'data-ag-part': 'command',
+          className: 'ag-command',
+          ...rest,
+          onKeyDownCapture,
+          onKeyDown,
+          children,
+        })}
+      </BaseCombobox.Root>
     </Ctx.Provider>
   );
 }
 CommandRoot.displayName = 'Command.Root';
-
-function CommandInner({
-  loop,
-  enabled,
-  onValueChange,
-  children,
-}: {
-  loop: boolean;
-  enabled: ItemSpec[];
-  value?: string | undefined;
-  defaultValue?: string | undefined;
-  onValueChange?: ((v: string, details: ChangeDetails) => void) | undefined;
-  children?: React.ReactNode;
-}) {
-  const ctx = React.useContext(Ctx)!;
-
-  const move = (dir: 1 | -1) => {
-    const list = enabled;
-    if (list.length === 0) return;
-    const cur = list.findIndex((i) => `${ctx.idBase}-item-${i.value}` === ctx.activeId);
-    let next = cur + dir;
-    if (next < 0) next = loop ? list.length - 1 : 0;
-    if (next >= list.length) next = loop ? 0 : list.length - 1;
-    const spec = list[next];
-    if (spec) {
-      ctx.setActiveId(`${ctx.idBase}-item-${spec.value}`);
-      ctx.scrollTo.current?.(ctx.items.indexOf(spec)); // SURF-063: keep the active option in the window (index in the visible set)
-    }
-  };
-
-  const onKeyDown = (e: React.KeyboardEvent) => {
-    if (composingRefGuard(e, ctx.composing)) return;
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      move(1);
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      move(-1);
-    } else if (e.key === 'Home') {
-      e.preventDefault();
-      const first = enabled[0];
-      if (first) {
-        ctx.setActiveId(`${ctx.idBase}-item-${first.value}`);
-        ctx.scrollTo.current?.(ctx.items.indexOf(first));
-      }
-    } else if (e.key === 'End') {
-      e.preventDefault();
-      const last = enabled[enabled.length - 1];
-      if (last) {
-        ctx.setActiveId(`${ctx.idBase}-item-${last.value}`);
-        ctx.scrollTo.current?.(ctx.items.indexOf(last));
-      }
-    } else if (e.key === 'Enter') {
-      const spec = enabled.find(
-        (i) => `${ctx.idBase}-item-${i.value}` === ctx.activeId,
-      );
-      if (spec) {
-        e.preventDefault();
-        spec.onSelect?.();
-        onValueChange?.(spec.value, { event: e.nativeEvent, reason: 'item-press' });
-      }
-    } else if (e.key === 'Escape') {
-      if (ctx.query !== '') {
-        e.preventDefault();
-        ctx.setQuery('');
-      }
-      // empty query → let the event propagate (MAT layer stack owns it)
-    }
-  };
-
-  return <div onKeyDown={onKeyDown} role="presentation">{children}</div>;
-}
-
-function composingRefGuard(
-  e: React.KeyboardEvent,
-  ref: React.MutableRefObject<boolean>,
-): boolean {
-  return ref.current || (e.nativeEvent as { isComposing?: boolean }).isComposing === true;
-}
 
 export type CommandInputProps = PartProps<'input'> & {
   placeholder?: string | undefined;
@@ -254,32 +238,24 @@ export type CommandInputProps = PartProps<'input'> & {
 
 function CommandInput({ placeholder, render, ...rest }: CommandInputProps) {
   const ctx = React.useContext(Ctx)!;
-  return partElement('input', {
-    render: render as React.ReactElement | undefined,
-    role: 'combobox',
-    'aria-expanded': true,
-    'aria-controls': ctx.listId,
-    'aria-autocomplete': 'list',
-    'aria-activedescendant': ctx.activeId,
-    'data-ag-part': 'input',
-    // REQ-MAT-61: the MAT ring is drawn inside the palette's clipped popup
-    'data-ag-focus-inset': '',
-    className: 'ag-command__input',
-    placeholder,
-    value: ctx.query,
-    autoComplete: 'off',
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      ctx.setQuery(e.target.value);
-      ctx.setActiveId(undefined);
-    },
-    onCompositionStart: () => {
-      ctx.composing.current = true;
-    },
-    onCompositionEnd: () => {
-      ctx.composing.current = false;
-    },
-    ...rest,
-  });
+  return (
+    <BaseCombobox.Input
+      data-ag-part="input"
+      // REQ-MAT-61: the MAT ring is drawn inside the palette's clipped popup
+      data-ag-focus-inset=""
+      className="ag-command__input"
+      placeholder={placeholder}
+      autoComplete="off"
+      onCompositionStart={() => {
+        ctx.composing.current = true;
+      }}
+      onCompositionEnd={() => {
+        ctx.composing.current = false;
+      }}
+      {...(rest as Record<string, unknown>)}
+      {...(render ? { render: render as React.ReactElement } : {})}
+    />
+  );
 }
 CommandInput.displayName = 'Command.Input';
 
@@ -294,75 +270,60 @@ export function CommandList({ children, render, ...rest }: PartProps<'div'>) {
   });
   if (ctx.virtualizing) {
     // SURF-063: the aria-activedescendant target is always rendered.
-    const activeIndex = ctx.items.findIndex((i) => `${ctx.idBase}-item-${i.value}` === ctx.activeId);
-    const { ref: _domRef, role: _role, ...restSafe } = rest as PartProps<'div'>;
-    void _domRef;
-    void _role;
+    const activeIndex = ctx.items.findIndex((i) => i.value === ctx.active);
     return (
-      <VirtualList
-        data-ag-part="list"
-        ref={vlRef}
-        items={ctx.items}
-        getItemKey={(i) => i.value}
-        estimateSize={() => 32}
-        role="listbox"
-        id={ctx.listId}
-        pinnedIndexes={activeIndex >= 0 ? [activeIndex] : undefined}
-        className="ag-command__list"
-        renderItem={(spec, index) => (
-          <VirtualCommandRow ctx={ctx} spec={spec} index={index} />
-        )}
-        {...(restSafe as Record<string, unknown>)}
-      />
+      <BaseCombobox.List data-ag-part="list" data-empty={undefined} className="ag-command__list ag-command__list--virtual" {...(rest as Record<string, unknown>)}>
+        <VirtualList
+          ref={vlRef}
+          role="none"
+          items={ctx.items}
+          getItemKey={(i) => i.value}
+          estimateSize={() => 32}
+          pinnedIndexes={activeIndex >= 0 ? [activeIndex] : undefined}
+          className="ag-command__scroller"
+          renderItem={(spec, index) => <VirtualCommandRow ctx={ctx} spec={spec} index={index} />}
+        />
+      </BaseCombobox.List>
     );
   }
-  return partElement('div', {
-    render: render as React.ReactElement | undefined,
-    id: ctx.listId,
-    role: 'listbox',
-    'data-ag-part': 'list',
-    className: 'ag-command__list',
-    ...rest,
-    children,
-  });
+  return (
+    <BaseCombobox.List
+      data-ag-part="list"
+      // Items register after mount, so Base UI's data-empty would differ
+      // between the server markup and the hydrated list; Command.Empty owns
+      // the empty state.
+      data-empty={undefined}
+      className="ag-command__list"
+      {...(rest as Record<string, unknown>)}
+      {...(render ? { render: render as React.ReactElement } : {})}
+    >
+      {children}
+    </BaseCombobox.List>
+  );
 }
 CommandList.displayName = 'Command.List';
 
-/** Virtualized option row — always renderable from the spec so
-    aria-activedescendant always has a live target (SURF-063). */
-function VirtualCommandRow({
-  ctx,
-  spec,
-  index,
-}: {
-  ctx: NonNullable<React.ContextType<typeof Ctx>>;
-  spec: ItemSpec;
-  index: number;
-}) {
-  const id = `${ctx.idBase}-item-${spec.value}`;
-  const active = ctx.activeId === id;
+/** Virtualized option row — a Base UI item carrying its index in the visible
+    set, rendered from the registered spec (SURF-063). */
+function VirtualCommandRow({ ctx, spec, index }: { ctx: CommandCtx; spec: ItemSpec; index: number }) {
+  const active = ctx.active === spec.value;
   return (
-    <div
-      id={id}
-      role="option"
+    <BaseCombobox.Item
+      value={spec.value}
+      index={index}
+      disabled={spec.disabled}
       aria-selected={active}
       aria-posinset={index + 1}
       aria-setsize={ctx.items.length}
       aria-disabled={spec.disabled || undefined}
       data-ag-part="item"
+      data-value={spec.value}
       data-state={active ? 'active' : 'inactive'}
       className="ag-command__item"
-      onMouseMove={() => !spec.disabled && ctx.setActiveId(id)}
-      onClick={(e) => {
-        if (!spec.disabled) {
-          spec.onSelect?.();
-          ctx.onValueChange?.(spec.value, { event: e.nativeEvent, reason: 'item-press' });
-        }
-      }}
     >
       {spec.label ?? spec.value}
       {spec.shortcut !== undefined ? <kbd data-ag-part="shortcut">{spec.shortcut}</kbd> : null}
-    </div>
+    </BaseCombobox.Item>
   );
 }
 
@@ -421,42 +382,34 @@ function CommandItem({ value, keywords, onSelect, disabled, shortcut, children, 
       }),
     [register, value, keywords, disabled, onSelect],
   );
-  const id = `${ctx.idBase}-item-${value}`;
-  const active = ctx.activeId === id;
-  // SURF-060: while filtering, every non-matching item hides — including the
-  // zero-match case (then Command.Empty shows).
-  const hidden = ctx.filtering && !ctx.items.some((i) => i.value === value);
-  // SURF-060: render in score order — rank within the visible set drives the
-  // flex `order` (no DOM reorder; keyboard nav already follows `enabled`).
+  // Virtual mode renders rows from the registry (VirtualCommandRow).
+  if (ctx.virtualizing) return null;
+  // SURF-060: rank in the visible (score-ordered) set is the Base UI item
+  // index (keyboard order) and the flex `order` (visual order). Items outside
+  // the visible set are not options while filtering (Command.Empty shows on
+  // zero matches).
   const rank = ctx.items.findIndex((i) => i.value === value);
-  return partElement('div', {
-    render: render as React.ReactElement | undefined,
-    id,
-    role: 'option',
-    'aria-selected': active,
-    'aria-disabled': disabled || undefined,
-    'data-ag-part': 'item',
-    'data-state': active ? 'active' : 'inactive',
-    hidden,
-    style: { ...(rest as { style?: React.CSSProperties }).style, order: rank < 0 ? 0 : rank },
-    className: 'ag-command__item',
-    onMouseMove: () => !disabled && ctx.setActiveId(id),
-    onClick: (e: React.MouseEvent) => {
-      if (!disabled) {
-        onSelect?.();
-        ctx.onValueChange?.(value, { event: e.nativeEvent, reason: 'item-press' });
-      }
-    },
-    ...rest,
-    children: (
-      <>
-        {children}
-        {shortcut !== undefined ? (
-          <kbd data-ag-part="shortcut">{shortcut}</kbd>
-        ) : null}
-      </>
-    ),
-  });
+  if (rank < 0 && ctx.filtering) return null;
+  const active = ctx.active === value;
+  return (
+    <BaseCombobox.Item
+      value={value}
+      {...(rank >= 0 ? { index: rank } : {})}
+      disabled={disabled}
+      aria-selected={active}
+      aria-disabled={disabled || undefined}
+      data-ag-part="item"
+      data-value={value}
+      data-state={active ? 'active' : 'inactive'}
+      className="ag-command__item"
+      {...(rest as Record<string, unknown>)}
+      style={{ ...(rest as { style?: React.CSSProperties }).style, order: rank < 0 ? 0 : rank }}
+      {...(render ? { render: render as React.ReactElement } : {})}
+    >
+      {children}
+      {shortcut !== undefined ? <kbd data-ag-part="shortcut">{shortcut}</kbd> : null}
+    </BaseCombobox.Item>
+  );
 }
 CommandItem.displayName = 'Command.Item';
 
