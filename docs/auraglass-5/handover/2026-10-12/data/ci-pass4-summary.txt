@@ -1,0 +1,97 @@
+cmp:build:dts | 2.65 min
+cmp:test:consumer-4x | 3.52 min
+cmp:test:foundation-pattern | 3.93 min  WARN 1 
+cmp:test:selectors | 5.15 min  WARN 1 
+contract:ci-fragments | 4.23 min  WARN 1 
+contract:conformance | 4.23 min
+contract:ownership | 4.23 min  WARN 1 
+mat:a11y:sr-matrix | 3.63 min
+mat:build:tokens | 2.65 min
+mat:lint:literals | 3.52 min
+mat:test:a11y-pixel-contrast-report | 1.02 min  WARN 1 
+mat:test:a11y-pixel-contrast: [chromium,1/3] | 5.47 min  WARN 1 
+mat:test:a11y-pixel-contrast: [chromium,2/3] | 5.22 min  WARN 1 
+mat:test:a11y-pixel-contrast: [chromium,3/3] | 3.98 min  WARN 1 
+mat:test:a11y-pixel-contrast: [firefox,1/3] | 3.7 min  WARN 1 
+mat:test:a11y-pixel-contrast: [firefox,2/3] | 3.62 min  WARN 1 
+mat:test:a11y-pixel-contrast: [firefox,3/3] | 3.58 min  WARN 1 
+mat:test:a11y-pixel-contrast: [webkit,1/3] | 3.42 min  WARN 1 
+mat:test:a11y-pixel-contrast: [webkit,2/3] | 3.42 min  WARN 1 
+mat:test:a11y-pixel-contrast: [webkit,3/3] | 3.63 min  WARN 1 
+mat:test:a11y-suites: [chromium] | 5.27 min  WARN 1 
+mat:test:a11y-suites: [firefox] | 2.82 min  WARN 1 
+mat:test:a11y-suites: [webkit] | 4.72 min  WARN 1 
+mat:test:consumer-4x | 4.73 min
+mat:test:drift | 5.15 min
+mat:test:material-api | 4.42 min
+mat:test:material-browsers | 8.52 min  WARN 1 
+mat:test:material-runtime | 5.15 min
+mat:test:motion-ban | 3.68 min
+mat:test:motion-entry | 3.87 min  WARN 1 
+mat:test:motion-l9 | 3.85 min  WARN 1 
+mat:test:motion-settle | 3.45 min  WARN 1 
+mat:test:optics | 6.4 min  WARN 1 
+mat:test:prepaint-browsers | 3.82 min  WARN 1 
+mat:test:seed-free-pack | 3.68 min
+mat:test:size-evidence | 3.52 min
+mat:test:token-gates | 3.52 min
+mat:test:tokens-interim | 5.73 min
+parsing and downloads | 662 ms.
+pipeline | 1.01 h
+plat:build:dist | 2.92 min
+plat:build:docs | 5.12 min  WARN 1 
+plat:gate:change-class | 1.18 min
+plat:gate:glass-quality | 3.28 min  WARN 2 
+plat:gate:removal | 4.05 min  WARN 1 
+plat:integration:next | 4 min  WARN 1 
+plat:integration:vite | 3.32 min  WARN 1 
+plat:package:pack | 1.25 min  WARN 1 
+plat:test:canaries | 6.62 min  WARN 1 
+plat:test:cli | 3.42 min  WARN 1 
+plat:test:docs | 1.15 min  WARN 1 
+plat:test:pack-matrix:5x: [node:20.19.0-bookworm,10.9.4] | 2.75 min  WARN 1 
+plat:test:pack-matrix:5x: [node:22-bookworm,11.21.0] | 6.1 min
+plat:test:registry | 2.28 min  WARN 1 
+qual:build:storybook | 2.65 min  WARN 2 
+qual:certify:a11y-harness-selftest | 1.53 min  WARN 1 
+qual:certify:known-failures | 8.27 min  WARN 1 
+qual:certify:l1 | 7.13 min  WARN 1 
+qual:certify:l10 | 7.68 min  WARN 1 
+qual:certify:l10-gpu: [1/6] | 2.45 min  WARN 1 
+qual:certify:l10-gpu: [2/6] | 50 s  WARN 1 
+qual:certify:l10-gpu: [3/6] | 1 min  WARN 1 
+qual:certify:l10-gpu: [4/6] | 1 min  WARN 1 
+qual:certify:l10-gpu: [5/6] | 39 s  WARN 1 
+qual:certify:l10-gpu: [6/6] | 1.18 min  WARN 1 
+qual:certify:l11 | 12 min  WARN 1 
+qual:certify:l12 | 11 min  WARN 1 
+qual:certify:l2 | 6.87 min  WARN 1 
+qual:certify:l3 | 3.35 min  WARN 1 
+qual:certify:l4 | 5.12 min  WARN 1 
+qual:certify:l5 | 5.12 min  WARN 1 
+qual:certify:l6 | 5.12 min  WARN 1 
+qual:certify:l7 | 3.35 min  WARN 1 
+qual:certify:l8 | 3.35 min  WARN 1 
+qual:certify:l9 | 3.35 min  WARN 1 
+qual:test:scene-bands | 3.35 min
+qual:test:scenes | 3.97 min
+qual:test:selftest | 4.23 min  WARN 1 
+qual:test:storybook-flows | 1.37 min  WARN 1 
+surf:build:ai-fixtures | 2.65 min
+surf:package:packed-entries | 4.23 min
+surf:test:ai-sdk | 2.12 min  WARN 2 
+surf:test:chart-feed-browser | 3.35 min  WARN 1 
+surf:test:doubles: [ai] | 2.63 min
+surf:test:doubles: [app-shell] | 2.48 min  WARN 1 
+surf:test:doubles: [capability] | 2.35 min  WARN 1 
+surf:test:doubles: [data] | 2.92 min  WARN 1 
+surf:test:doubles: [media] | 2.38 min  WARN 1 
+surf:test:ledger | 3.3 min  WARN 1 
+surf:test:lint-data | 2.82 min  WARN 1 
+surf:test:media-tone-calibration | 3.3 min  WARN 1 
+surf:test:od16-ai-sdk-majors | 3.3 min
+surf:test:od17-peer-metafile | 3.3 min
+surf:test:registry-lint | 4.92 min
+surf:test:side-effects | 2.35 min  WARN 1 
+surf:test:tree-view-browser | 2.37 min  WARN 1 
+surf:test:types | 2.82 min

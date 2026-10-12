@@ -1,0 +1,498 @@
+=== cmp:test:consumer-4x | 3.65 min  WARN 1  [cmpOgtestOgconsumer-4x.6de15a57.log]
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+npm error
+npm error Options:
+npm error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+npm error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+npm error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+npm error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts] [--no-audit]
+npm error [--no-bin-links] [--no-fund] [--dry-run]
+npm error [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+npm error [-ws|--workspaces] [--include-workspace-root] [--install-links]
+npm error
+npm error aliases: clean-install, ic, install-clean, isntall-clean
+npm error
+npm error Run "npm help ci" for more info
+npm error A complete log of this run can be found in: /builds/auraoneai/auraglass/.npm/_logs/2026-10-12T12_14_53_190Z-debug-0.log
+=== cmp:test:foundation-pattern | 6.3 min  WARN 1  [cmpOgtestOgfoundation-pattern.18348598.log]
+$ npm test -- tests/lint tests/foundation src/foundation src/components/field src/components/text-field src/components/search-field src/components/number-field src/components/checkbox src/components/radio-group src/components/switch src/components/slider tests/controls --json --outputFile=.artifacts/cmp/test-foundation-pattern/jest.json
+    Received: undefined
+      44 |         const rootEl = container.querySelector(`[data-ag-part="${rootPart}"]`);
+      45 |         if (!rootEl) throw new Error(`${name}: no data-ag-part=${rootPart} element rendered`);
+    > 46 |         expect(seen[seen.length - 1]).toBe(rootEl);
+         |                                       ^
+      47 |         expect(seen[seen.length - 1]).toBeInstanceOf(HTMLElement);
+      48 |         asserted += 1;
+      49 |       }
+Test Suites: 3 failed, 1 skipped, 83 passed, 86 of 87 total
+Tests:       8 failed, 1 skipped, 1937 passed, 1946 total
+Snapshots:   0 total
+Time:        22.597 s
+Ran all test suites matching tests/lint|tests/foundation|src/foundation|src/components/field|src/components/text-field|src/components/search-field|src/components/number-field|src/components/checkbox|src/components/radio-group|src/components/switch|src/components/slider|tests/controls.
+Test results written to: .artifacts/cmp/test-foundation-pattern/jest.json
+=== cmp:test:selectors | 6.3 min  WARN 1  [cmpOgtestOgselectors.71456139.log]
+$ if [ ! -f storybook-static/index.json ]; then # collapsed multi-line command
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+added 1356 packages in 2m
+$ mkdir -p .artifacts/cmp/test-selectors
+$ if [ ! -f storybook-static/index.json ]; then # collapsed multi-line command
+storybook-static/index.json absent: qual:build:storybook did not run or failed in this pipeline
+=== contract:ci-fragments | 9.83 min  WARN 1  [contractOgci-fragments.777e6f7d.log]
+$ node scripts/ci/verify-ci-fragments.mjs --base "origin/$BASE"
+activation.json: 'mat:lint:literals' on 5x has effective allow_failure=true on main scope — flip it to false
+activation.json: 'mat:lint:literals' on 5x has effective allow_failure=true on nightly scope — flip it to false
+activation.json: 'mat:test:consumer-4x' on 5x has effective allow_failure=true on pr scope — flip it to false
+activation.json: 'mat:test:consumer-4x' on 5x has effective allow_failure=true on main scope — flip it to false
+activation.json: 'mat:test:consumer-4x' on 5x has effective allow_failure=true on nightly scope — flip it to false
+activation.json: 'mat:test:drift' on 5x has effective allow_failure=true on pr scope — flip it to false
+activation.json: 'mat:test:drift' on 5x has effective allow_failure=true on main scope — flip it to false
+activation.json: 'mat:test:drift' on 5x has effective allow_failure=true on nightly scope — flip it to false
+activation.json: 'surf:build:ai-fixtures' on 5x has effective allow_failure=true on pr scope — flip it to false
+activation.json: 'surf:build:ai-fixtures' on 5x has effective allow_failure=true on main scope — flip it to false
+activation.json: 'surf:test:ai-sdk' on 5x has effective allow_failure=true on pr scope — flip it to false
+activation.json: 'surf:test:ai-sdk' on 5x has effective allow_failure=true on main scope — flip it to false
+activation.json: 'surf:test:ledger' on 5x has effective allow_failure=true on pr scope — flip it to false
+activation.json: 'surf:test:ledger' on 5x has effective allow_failure=true on main scope — flip it to false
+=== contract:ownership | 9.83 min  WARN 1  [contractOgownership.7ea8182f.log]
+$ node scripts/ci/verify-ownership.mjs --base "origin/$BASE" --branch "$CI_COMMIT_BRANCH"
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+added 1357 packages in 3m
+$ BASE=$([ "$AG_LINE" = "4x" ] && echo release/4.x || echo next)
+$ git fetch --no-tags origin "+refs/heads/$BASE:refs/remotes/origin/$BASE"
+$ node scripts/ci/verify-ownership.mjs --base "origin/$BASE" --branch "$CI_COMMIT_BRANCH"
+contract:ownership FAIL (contract PR; 3305 files):
+tests/a11y/apg/accordion.apg.spec.ts  -> NONE (D02x tests/a11y/apg/*) [invalid location: use tests/<kind>/<stream>/]
+tests/a11y/apg/file-upload.apg.spec.ts  -> NONE (D02x tests/a11y/apg/*) [invalid location: use tests/<kind>/<stream>/]
+=== mat:test:a11y-pixel-contrast: [chromium,1/3] | 3.97 min  WARN 1  [no log]
+
+=== mat:test:a11y-pixel-contrast: [chromium,2/3] | 5.73 min  WARN 1  [no log]
+
+=== mat:test:a11y-pixel-contrast: [chromium,3/3] | 4.73 min  WARN 1  [no log]
+
+=== mat:test:a11y-pixel-contrast: [firefox,1/3] | 3.6 min  WARN 1  [no log]
+
+=== mat:test:a11y-pixel-contrast: [firefox,2/3] | 4.23 min  WARN 1  [no log]
+
+=== mat:test:a11y-pixel-contrast: [firefox,3/3] | 3.67 min  WARN 1  [no log]
+
+=== mat:test:a11y-pixel-contrast: [webkit,1/3] | 3.43 min  WARN 1  [no log]
+
+=== mat:test:a11y-pixel-contrast: [webkit,2/3] | 4.28 min  WARN 1  [no log]
+
+=== mat:test:a11y-pixel-contrast: [webkit,3/3] | 4.62 min  WARN 1  [no log]
+
+=== mat:test:a11y-suites: [chromium] | 3.55 min  WARN 1  [no log]
+
+=== mat:test:a11y-suites: [firefox] | 4.12 min  WARN 1  [no log]
+
+=== mat:test:a11y-suites: [webkit] | 7.15 min  WARN 1  [no log]
+
+=== mat:test:consumer-4x | 5.4 min  WARN 1  [matOgtestOgconsumer-4x.fd15d2c3.log]
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+npm error
+npm error Options:
+npm error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+npm error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+npm error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+npm error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts] [--no-audit]
+npm error [--no-bin-links] [--no-fund] [--dry-run]
+npm error [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+npm error [-ws|--workspaces] [--include-workspace-root] [--install-links]
+npm error
+npm error aliases: clean-install, ic, install-clean, isntall-clean
+npm error
+npm error Run "npm help ci" for more info
+npm error A complete log of this run can be found in: /builds/auraoneai/auraglass/.npm/_logs/2026-10-12T12_22_14_262Z-debug-0.log
+=== mat:test:material-api | 8.28 min  WARN 1  [matOgtestOgmaterial-api.49d33e7a.log]
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+npm error
+npm error Options:
+npm error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+npm error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+npm error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+npm error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts] [--no-audit]
+npm error [--no-bin-links] [--no-fund] [--dry-run]
+npm error [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+npm error [-ws|--workspaces] [--include-workspace-root] [--install-links]
+npm error
+npm error aliases: clean-install, ic, install-clean, isntall-clean
+npm error
+npm error Run "npm help ci" for more info
+npm error A complete log of this run can be found in: /builds/auraoneai/auraglass/.npm/_logs/2026-10-12T12_24_46_219Z-debug-0.log
+=== mat:test:material-browsers | 9.75 min  WARN 1  [matOgtestOgmaterial-browsers.405b32a0.log]
+$ npx playwright test --project=mat:material-chromium --project=mat:material-webkit --project=mat:material-firefox --reporter=line --output=".artifacts/mat/$CI_JOB_NAME_SLUG/test-results"
+    [mat:material-firefox] › tests/e2e/mat/material/optics.spec.ts:22:3 › optics › blur ladder 12/20/32 and never > 32px 
+    [mat:material-firefox] › tests/e2e/mat/material/optics.spec.ts:39:3 › optics › prominent accent <= 0.18 
+    [mat:material-firefox] › tests/e2e/mat/material/optics.spec.ts:45:3 › optics › grain URL on ::before, host mix-blend-mode normal 
+    [mat:material-firefox] › tests/e2e/mat/material/optics.spec.ts:53:3 › optics › Fresnel lit band >= +12 levels over flat black 
+    [mat:material-firefox] › tests/e2e/mat/material/optics.spec.ts:61:3 › optics › specular driven by --ag-specular; 0 under contrast-more 
+    [mat:material-firefox] › tests/e2e/mat/material/optics.spec.ts:72:3 › optics › shadow scales by thickness 
+    [mat:material-firefox] › tests/e2e/mat/material/responsive.spec.ts:25:3 › responsive › 390x844 modal <= 3 visible filters incl. scrim, scrim blur <= 12 
+    [mat:material-firefox] › tests/e2e/mat/material/responsive.spec.ts:45:3 › responsive › concentric inner radius >= 0 at every density 
+    [mat:material-firefox] › tests/e2e/mat/material/tiers.spec.ts:27:3 › tiers › forced-colors: 0 live filters, light-scheme fill L > 0.5 
+    [mat:material-firefox] › tests/e2e/mat/material/webkit-literal.spec.ts:13:3 › webkit literal › variance under regular surface drops >= 40% over hf-pattern 
+  2 flaky
+    [mat:material-webkit] › tests/e2e/mat/material/enhanced-gating.spec.ts:17:3 › enhanced gating › enhanced: lens on chromium + LensDefs; webkit/gecko render like standard (no lens) 
+    [mat:material-webkit] › tests/e2e/mat/material/tiers.spec.ts:12:3 › tiers › no data-ag-tier -> standard optics 
+  74 passed (3.9m)
+=== mat:test:motion-entry | 6.22 min  WARN 1  [matOgtestOgmotion-entry.4e934d8c.log]
+$ node scripts/mat/verify-motion-entry.mjs --out ".artifacts/mat/$CI_JOB_NAME_SLUG"
+Snapshots:   0 total
+Time:        7.119 s
+Ran all test suites matching src/motion/adapter|src/motion/__tests__/peer-guard.test.ts.
+$ node scripts/mat/verify-motion-entry.mjs --out ".artifacts/mat/$CI_JOB_NAME_SLUG"
+[motion-entry] PASS dist-entry: first statement: "import { MotionProvider, Shared, SharedL"
+[motion-entry] PASS dist-adapter: 9 files; without 'use client': none
+[motion-entry] PASS dist-no-node: no node: specifiers
+[motion-entry] tarball /tmp/ag-motion-pack-bBD2sY/aura-glass-5.0.0-alpha.1.tgz
+[motion-entry] PASS with-peer-exports: exports: MotionProvider, Shared, SharedLayout, magnetic, toMotionTransition, useDragDetents, useMomentum; spring-smooth: {"type":"spring","stiffness":322.2728,"damping":32.3135,"mass":1}
+[motion-entry] PASS vite-with-peer: 2 js assets (1101546 B); node: specifiers: none
+[motion-entry] PASS no-peer-absent: motion not installed
+[motion-entry] PASS no-peer-message: exit 1; contract message present
+[motion-entry] FAIL vite-no-peer: vite build succeeded without the peer (motion must not be bundled from aura-glass)
+[motion-entry] report .artifacts/mat/mat-test-motion-entry/motion-entry.json
+=== mat:test:motion-l9 | 4.35 min  WARN 1  [matOgtestOgmotion-l9.d517130e.log]
+$ ./node_modules/.bin/playwright test tests/motion/frame-strip.spec.ts tests/motion/settle.spec.ts tests/motion/no-mount-motion.spec.ts tests/motion/continuous.spec.ts tests/motion/a11y-focus.spec.ts tests/motion/responsive.spec.ts tests/motion/reduced-motion-visible-4x.spec.ts tests/motion/view-transition-optics.spec.ts tests/motion/helpers-selftest.spec.ts --project=mat:cert-motion-chromium --project=mat:cert-motion-webkit --project=mat:cert-motion-firefox --project=mat:cert-motion-mobile --reporter=line,./tests/motion/helpers/motion-reporter.ts --output=".artifacts/mat/$CI_JOB_NAME_SLUG/test-results"
+$ ./node_modules/.bin/playwright test tests/motion/frame-strip.spec.ts tests/motion/settle.spec.ts tests/motion/no-mount-motion.spec.ts tests/motion/continuous.spec.ts tests/motion/a11y-focus.spec.ts tests/motion/responsive.spec.ts tests/motion/reduced-motion-visible-4x.spec.ts tests/motion/view-transition-optics.spec.ts tests/motion/helpers-selftest.spec.ts --project=mat:cert-motion-chromium --project=mat:cert-motion-webkit --project=mat:cert-motion-firefox --project=mat:cert-motion-mobile --reporter=line,./tests/motion/helpers/motion-reporter.ts --output=".artifacts/mat/$CI_JOB_NAME_SLUG/test-results"
+SyntaxError: The requested module '@jest/globals' does not provide an export named 'expect'
+SyntaxError: The requested module '@jest/globals' does not provide an export named 'expect'
+SyntaxError: The requested module '@jest/globals' does not provide an export named 'expect'
+SyntaxError: The requested module '@jest/globals' does not provide an export named 'expect'
+SyntaxError: The requested module '@jest/globals' does not provide an export named 'expect'
+SyntaxError: The requested module '@jest/globals' does not provide an export named 'expect'
+SyntaxError: The requested module '@jest/globals' does not provide an export named 'expect'
+SyntaxError: The requested module '@jest/globals' does not provide an export named 'expect'
+SyntaxError: The requested module '@jest/globals' does not provide an export named 'expect'
+Error: No tests found.
+Make sure that arguments are regular expressions matching test files.
+You may need to escape symbols like "$" or "*" and quote the arguments.
+[motion-report] 0 measurement(s) -> /builds/auraoneai/auraglass/.artifacts/mat/mat-test-motion-l9/motion-report.json
+=== mat:test:motion-settle | 3.15 min  WARN 1  [matOgtestOgmotion-settle.83fea2e2.log]
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+npm error   --workspaces
+npm error     Set to true to run the command in the context of **all** configured
+npm error
+npm error   --include-workspace-root
+npm error     Include the workspace root when workspaces are enabled for a command.
+npm error
+npm error   --install-links
+npm error     When set file: protocol dependencies will be packed and installed as
+npm error
+npm error
+npm error aliases: clean-install, ic, install-clean, isntall-clean
+npm error
+npm error Run "npm help ci" for more info
+npm error A complete log of this run can be found in: /builds/auraoneai/auraglass/.npm/_logs/2026-10-12T12_29_34_299Z-debug-0.log
+=== mat:test:optics | 6.3 min  WARN 1  [matOgtestOgoptics.deb45db7.log]
+$ npx jest tests/lint tests/ci --passWithNoTests
+    Expected: false
+    Received: true
+      719 |       expect(j.extends).toEqual(['.plat-node', '.plat-evidence-release']);
+      720 |       expect(j.rules).toEqual([{ if: '$AG_SCOPE == "release"' }]);
+    > 721 |       expect(j.allow_failure).toBe(false);
+          |                               ^
+      722 |       expect(j.needs).toEqual([]);
+      723 |     });
+      724 |     it('plat:publish:npm needs it, so a ledger mismatch blocks the publish', () => {
+Test Suites: 4 failed, 34 passed, 38 total
+Tests:       6 failed, 1014 passed, 1020 total
+Snapshots:   0 total
+Time:        24.482 s
+Ran all test suites matching tests/lint|tests/ci.
+=== mat:test:prepaint-browsers | 6.32 min  WARN 1  [matOgtestOgprepaint-browsers.9d477dab.log]
+$ ./node_modules/.bin/playwright test --project=mat:prepaint-chromium --project=mat:prepaint-webkit --project=mat:prepaint-firefox --project=mat:prepaint-perf --reporter=line --output=".artifacts/mat/$CI_JOB_NAME_SLUG/test-results"
+    > 109 |     expect(value, 'prepaint p95 execution (ms)').toBeLessThanOrEqual(limit);
+          |                                                  ^
+      110 |   });
+      111 | });
+      112 |
+    Error Context: .artifacts/mat/mat-test-prepaint-browsers/test-results/prepaint-prepaint-perf-mid-049bb--mobile-4x-CPU-on-Chromium--mat-prepaint-perf-retry2/error-context.md
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .artifacts/mat/mat-test-prepaint-browsers/test-results/prepaint-prepaint-perf-mid-049bb--mobile-4x-CPU-on-Chromium--mat-prepaint-perf-retry2/trace.zip
+    Usage:
+        npx playwright show-trace .artifacts/mat/mat-test-prepaint-browsers/test-results/prepaint-prepaint-perf-mid-049bb--mobile-4x-CPU-on-Chromium--mat-prepaint-perf-retry2/trace.zip
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+  1 failed
+    [mat:prepaint-perf] › tests/perf/browser/mat/a11y/prepaint.spec.ts:52:3 › prepaint perf (mid-tier mobile) › AuraGlassScript executes in <= 1 ms p95 (mid-tier mobile: 4x CPU on Chromium) 
+  6 passed (45.1s)
+=== mat:test:seed-free-pack | 3.2 min  WARN 1  [matOgtestOgseed-free-pack.9fa386a7.log]
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+npm error
+npm error Options:
+npm error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+npm error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+npm error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+npm error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts] [--no-audit]
+npm error [--no-bin-links] [--no-fund] [--dry-run]
+npm error [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+npm error [-ws|--workspaces] [--include-workspace-root] [--install-links]
+npm error
+npm error aliases: clean-install, ic, install-clean, isntall-clean
+npm error
+npm error Run "npm help ci" for more info
+npm error A complete log of this run can be found in: /builds/auraoneai/auraglass/.npm/_logs/2026-10-12T12_29_38_334Z-debug-0.log
+=== plat:gate:glass-quality | 6.25 min  WARN 2  [platOggateOgglass-quality.1cf7b424.log]
+$ d=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+added 1357 packages in 33s
+$ npm run typecheck
+> aura-glass@5.0.0-alpha.1 typecheck
+> tsc -p tsconfig.json --noEmit
+stories/cmp/components/ButtonGroup.stories.tsx(55,12): error TS2375: Type '{ children: Element[]; "aria-label": string; orientation: "vertical"; 'aria-labelledby'?: never; attached?: boolean | undefined; className?: string | undefined; ref?: Ref<HTMLDivElement> | undefined; } | { ...; }' is not assignable to type 'IntrinsicAttributes & ButtonGroupProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ children: Element[]; "aria-label": string; orientation: "vertical"; 'aria-labelledby': string; attached?: boolean | undefined; className?: string | undefined; ref?: Ref<HTMLDivElement> | undefined; }' is not assignable to type 'IntrinsicAttributes & ButtonGroupProps'.
+    Type '{ children: Element[]; "aria-label": string; orientation: "vertical"; 'aria-labelledby': string; attached?: boolean | undefined; className?: string | undefined; ref?: Ref<HTMLDivElement> | undefined; }' is not assignable to type '{ 'aria-label': string; 'aria-labelledby'?: never; }'.
+      Types of property ''aria-labelledby'' are incompatible.
+        Type 'string' is not assignable to type 'never'.
+tests/dx/consumer-4x-cmp.test.ts(23,31): error TS7016: Could not find a declaration file for module '../../scripts/cmp/consumer-4x-todo-policy.mjs'. '/builds/auraoneai/auraglass/scripts/cmp/consumer-4x-todo-policy.mjs' implicitly has an 'any' type.
+$ d=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done
+=== plat:gate:removal | 4.28 min  WARN 1  [platOggateOgremoval.bff6019e.log]
+$ d=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done
+    > 199 |     for (const [name, c] of bad) console.error(`verify-archive: ${name} ${c.status}${c.reason ? `: ${c.reason}` : ''}`);
+          |                                          ^
+      200 |     return 1;
+      201 |   }
+      202 |   return 0;
+Test Suites: 1 failed, 5 passed, 6 total
+Tests:       1 failed, 54 passed, 55 total
+Snapshots:   0 total
+Time:        3.782 s
+Ran all test suites matching tests/removal.
+RM-12: tests/removal failed after revert
+RM-12: REVERT DRY-RUN FAILED
+RM-13: no merge sha recorded — skipping (record step pending)
+$ d=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done
+=== plat:integration:next | 4.85 min  WARN 1  [platOgintegrationOgnext.67b41195.log]
+$ d=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done
+[WebServer]     at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+[WebServer]     at async node:internal/modules/esm/loader:647:26
+[WebServer]     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+[WebServer]   status: 1,
+[WebServer]   signal: null,
+[WebServer]   output: [ null, null, null ],
+[WebServer]   pid: 268,
+[WebServer]   stdout: null,
+[WebServer]   stderr: null
+[WebServer] }
+[WebServer] 
+[WebServer] Node.js v24.20.0
+Error: Process from config.webServer was not able to start. Exit code: 1
+$ d=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done
+=== plat:integration:vite | 5.45 min  WARN 1  [platOgintegrationOgvite.d217081b.log]
+$ d=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done
+[WebServer]   ➜  Network: use --host to expose
+Running 10 tests using 1 worker
+  ✓   1 tests/axe.spec.ts:9:3 › colour-contrast 1440x900: 0 serious/critical (927ms)
+  ✓   2 tests/axe.spec.ts:9:3 › colour-contrast 390x844: 0 serious/critical (948ms)
+  ✓   3 tests/bridge.spec.ts:32:3 › vite-tailwind4 bridge (REQ-PLAT-75) › built css contains the bridge utilities mapped onto --ag-* tokens (8ms)
+  ✓   4 tests/bridge.spec.ts:56:3 › vite-tailwind4 bridge (REQ-PLAT-75) › built css has a .bg-red-500 rule with no !important (2ms)
+  ✓   5 tests/bridge.spec.ts:63:3 › vite-tailwind4 bridge (REQ-PLAT-75) › cascade follows TAILWIND_BRIDGE_ORDER and the Button rules live in an ag.* layer (306ms)
+  ✓   6 tests/bridge.spec.ts:102:3 › vite-tailwind4 bridge (REQ-PLAT-75) › bg-red-500 on a Button wins over the ag styles without !important (331ms)
+  ✓   7 tests/cascade.spec.ts:15:3 › vite-tailwind4 canary › tailwind layers are ordered theme < base < components < utilities (127ms)
+  ✓   8 tests/cascade.spec.ts:33:3 › vite-tailwind4 canary › bridge colour utility resolves to the --ag-color-accent token (116ms)
+  ✓   9 tests/cascade.spec.ts:47:3 › vite-tailwind4 canary › bridge glass-regular utility applies a backdrop blur (118ms)
+  ✓  10 tests/cascade.spec.ts:56:3 › vite-tailwind4 canary › Button renders (135ms)
+  10 passed (22.6s)
+$ d=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done
+=== plat:test:canaries | 2.92 min  WARN 1  [platOgtestOgcanaries.996d0664.log]
+$ d=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done
+npm error     Set to true to run the command in the context of **all** configured
+npm error
+npm error   --include-workspace-root
+npm error     Include the workspace root when workspaces are enabled for a command.
+npm error
+npm error   --install-links
+npm error     When set file: protocol dependencies will be packed and installed as
+npm error
+npm error
+npm error aliases: clean-install, ic, install-clean, isntall-clean
+npm error
+npm error Run "npm help ci" for more info
+npm error A complete log of this run can be found in: /builds/auraoneai/auraglass/.npm/_logs/2026-10-12T12_35_23_889Z-debug-0.log
+$ d=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done
+=== plat:test:pack-matrix:5x: [node:20.19.0-bookworm,10.9.4] | 6.5 min  WARN 1  [no log]
+
+=== plat:test:registry | 3.48 min  WARN 1  [platOgtestOgregistry.5d9a6707.log]
+$ d=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+added 1356 packages in 30s
+$ test -f scripts/registry/build.mjs || { echo "PENDING: scripts/registry/build.mjs (lane 1f)"; exit 1; }
+$ node scripts/registry/build.mjs
+registry build: 45 discovered, 1 published (auraglass), 44 omitted pending certification
+$ mkdir -p "$AURAGLASS_EVIDENCE_DIR"
+$ cp registry/registry-report.json "$AURAGLASS_EVIDENCE_DIR/registry-report.json"
+$ node scripts/registry/lint.mjs
+registry/blocks/ai-workspace/README.md:19 [no-api-key] | `PRISM_API_KEY` | yes | — | Kiro Prism key, sent as `Authorization: Bearer`. Without it the route answers `503 { kind: 'auth' }`. |
+registry/blocks/ai-workspace/README.md:52 [no-api-key] | `PRISM_API_KEY` unset | `503 { kind: 'auth' }` |
+registry lint: 2 violation(s)
+$ d=".artifacts/plat/$CI_JOB_NAME_SLUG"; mkdir -p "$d"; for f in .artifacts/plat/*; do if [ -f "$f" ]; then cp "$f" "$d/"; fi; done
+=== qual:build:storybook | 3.3 min  WARN 2  [qualOgbuildOgstorybook.98585a29.log]
+$ node_modules/.bin/tsc --noEmit -p tsconfig.storybook.json
+Test Suites: 19 passed, 19 total
+Tests:       260 passed, 260 total
+Snapshots:   0 total
+Time:        6.415 s
+Ran all test suites matching tests/storybook/(?!scene-bands\.test).
+$ node_modules/.bin/tsc --noEmit -p tsconfig.storybook.json
+showcase/__tests__/visual-roles.test.tsx(108,17): error TS2339: Property 'toHaveAttribute' does not exist on type 'Matchers<void, Element | null> & SnapshotMatchers<void, Element | null> & Inverse<JestMatchers<void, Element | null>> & PromiseMatchers<...>'.
+showcase/__tests__/visual-roles.test.tsx(109,17): error TS2339: Property 'toHaveAttribute' does not exist on type 'Matchers<void, Element | null> & SnapshotMatchers<void, Element | null> & Inverse<JestMatchers<void, Element | null>> & PromiseMatchers<...>'.
+showcase/__tests__/visual-roles.test.tsx(117,19): error TS2339: Property 'toHaveAttribute' does not exist on type 'Matchers<void, Element | null> & SnapshotMatchers<void, Element | null> & Inverse<JestMatchers<void, Element | null>> & PromiseMatchers<...>'.
+stories/cmp/components/ButtonGroup.stories.tsx(55,12): error TS2375: Type '{ children: Element[]; "aria-label": string; orientation: "vertical"; 'aria-labelledby'?: never; attached?: boolean | undefined; className?: string | undefined; ref?: Ref<HTMLDivElement> | undefined; } | { ...; }' is not assignable to type 'IntrinsicAttributes & ButtonGroupProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ children: Element[]; "aria-label": string; orientation: "vertical"; 'aria-labelledby': string; attached?: boolean | undefined; className?: string | undefined; ref?: Ref<HTMLDivElement> | undefined; }' is not assignable to type 'IntrinsicAttributes & ButtonGroupProps'.
+    Type '{ children: Element[]; "aria-label": string; orientation: "vertical"; 'aria-labelledby': string; attached?: boolean | undefined; className?: string | undefined; ref?: Ref<HTMLDivElement> | undefined; }' is not assignable to type '{ 'aria-label': string; 'aria-labelledby'?: never; }'.
+      Types of property ''aria-labelledby'' are incompatible.
+        Type 'string' is not assignable to type 'never'.
+=== qual:certify:known-failures | 12 min  WARN 1  [qualOgcertifyOgknown-failures.110c2033.log]
+$ rc=0 # collapsed multi-line command
+    ✓ saturated-canvas-navy-control keeps its 4.1 verdict (54 ms)
+    ✓ white-pastel-text-on-white keeps its 4.1 verdict (38 ms)
+    ✓ blank-minuscule-output keeps its 4.1 verdict (37 ms)
+    ✓ cropped-displaced-output keeps its 4.1 verdict (38 ms)
+    ✓ closed-compound-dropdown keeps its 4.1 verdict (37 ms)
+    ✓ native-controls-chromatic-canvas keeps its 4.1 verdict (95 ms)
+    ✓ blue-mint-field-wash keeps its 4.1 verdict (289 ms)
+    ✓ blue-purple-field-tinted-shadows keeps its 4.1 verdict (368 ms)
+    ✓ localized-accents-allowed keeps its 4.1 verdict (364 ms)
+Test Suites: 1 passed, 1 total
+Tests:       11 passed, 11 total
+Snapshots:   0 total
+Time:        2.56 s
+Ran all test suites matching packages/qa/test/inspect.fixtures.test.ts.
+=== qual:certify:l1 | 10 min  WARN 1  [qualOgcertifyOgl1.46225014.log]
+$ node certification/run.mjs --lane L1 --scope $AG_SCOPE
+  [L1] qual certification/gates/stylelint-showcase.mjs: exit 2
+  [L1] qual certification/gates/no-important.mjs: exit 1
+  [L1] qual scripts/qual/write-inventory.mjs: exit 1
+  [L1] qual scripts/qual/verify-css-perf.mjs: exit 1
+  [L1] qual scripts/qual/lint-stories.mjs: exit 1
+  [L1] qual scripts/qual/verify-lab-not-shipped.mjs: exit 1
+  [L1] plat lint/rules/plat/*.cjs: jest wrote no report (exit 1)
+  [L1] mat scripts/mat/a11y-eslint-l1.mjs: exit 1
+  [L1] cmp tests/lint/cmp/**: jest: 1 failed test(s), 0 suite error(s)
+  [L1] surf tests/app-shell/**/*.test.{ts,tsx}: jest: 1 failed test(s), 0 suite error(s)
+  [L1] surf tests/{data,date,charts}/**/*.test.{ts,tsx}: jest: 19 failed test(s), 0 suite error(s)
+  [L1] surf src/backdrops/**/*.test.{ts,tsx}: jest: 14 failed test(s), 0 suite error(s)
+  [L1] surf scripts/surf/literals-baseline.mjs: exit 1
+  [L1] qual scripts/qual/verify-dist-perf.mjs: exit 1
+=== qual:certify:l10 | 9.28 min  WARN 1  [qualOgcertifyOgl10-gpuOiBb1Lw6XQ.19bfef76.log]
+
+Error response from daemon: could not select device driver "" with capabilities: [[gpu]]
+=== qual:certify:l10-gpu: [1/6] | 2.23 min  WARN 1  [no log]
+
+=== qual:certify:l10-gpu: [2/6] | 1.98 min  WARN 1  [no log]
+
+=== qual:certify:l10-gpu: [3/6] | 1.42 min  WARN 1  [no log]
+
+=== qual:certify:l10-gpu: [4/6] | 59 s  WARN 1  [no log]
+
+=== qual:certify:l10-gpu: [5/6] | 1.25 min  WARN 1  [no log]
+
+=== qual:certify:l10-gpu: [6/6] | 39 s  WARN 1  [no log]
+
+=== qual:certify:l12 | 9.8 min  WARN 137  [qualOgcertifyOgl12.30743e91.log]
+$ node certification/run.mjs --lane L12 --scope $AG_SCOPE
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+added 1357 packages in 26s
+$ git fetch --no-tags origin "+refs/heads/next:refs/remotes/origin/next"
+$ node certification/run.mjs --lane L12 --scope $AG_SCOPE
+=== [L12] qual jest jest.config.js (certification/lanes.config.ts)
+=== qual:test:scene-bands | 1.87 min  WARN 1  [qualOgtestOgscene-bands.215a565e.log]
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+npm error   --workspaces
+npm error     Set to true to run the command in the context of **all** configured
+npm error
+npm error   --include-workspace-root
+npm error     Include the workspace root when workspaces are enabled for a command.
+npm error
+npm error   --install-links
+npm error     When set file: protocol dependencies will be packed and installed as
+npm error
+npm error
+npm error aliases: clean-install, ic, install-clean, isntall-clean
+npm error
+npm error Run "npm help ci" for more info
+npm error A complete log of this run can be found in: /builds/auraoneai/auraglass/.npm/_logs/2026-10-12T12_43_09_982Z-debug-0.log
+=== qual:test:selftest | 9.83 min  WARN 1  [qualOgtestOgselftest.75b47d74.log]
+$ node node_modules/jest/bin/jest.js -c jest.qual.config.js --ci
+    inventory: 1 failure(s)
+      - inventory: stale baseline row {"file":"src/date/TimePicker.tsx","owner":"SURF","reqFin":"REQ-FIN-84","expires":"RC-1","entry":"./date","name":"TimePicker"} — its offence is gone, delete the row
+      20 |   const check = checkBaseline(baseline, inv.unclassified, (r: BaselineRow) => key(r.entry ?? '', r.name ?? ''), (u) => key(u.entry, u.name), scope);
+      21 |   const failures = baselineFailures('inventory', check, (u) => `unclassified-export ${u.entry} ${u.name} (${u.declaration})`);
+    > 22 |   if (failures.length) throw new Error(`inventory: ${failures.length} failure(s)\n  - ${failures.join('\n  - ')}`);
+         |                              ^
+      23 |   return { items: inv.items, entries: inv.entries, baselined: inv.unclassified };
+      24 | }
+      25 |
+Test Suites: 4 failed, 35 passed, 39 total
+Tests:       7 failed, 663 passed, 670 total
+Snapshots:   0 total
+Time:        67.052 s
+Ran all test suites.
+=== qual:test:storybook-flows | 3.17 min  WARN 1  [qualOgtestOgstorybook-flows.30bc183c.log]
+$ AURAGLASS_EVIDENCE_DIR=".artifacts/qual/$CI_JOB_NAME_SLUG" node scripts/storybook/run-flows.mjs --dir storybook-static -- --output ".artifacts/qual/$CI_JOB_NAME_SLUG/test-results"
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+added 1356 packages in 59s
+$ AURAGLASS_EVIDENCE_DIR=".artifacts/qual/$CI_JOB_NAME_SLUG" node scripts/storybook/run-flows.mjs --dir storybook-static -- --output ".artifacts/qual/$CI_JOB_NAME_SLUG/test-results"
+verify-fresh: ag-build.json is missing; the Storybook build did not run write-build-manifest.mjs
+verify-fresh: /builds/auraoneai/auraglass/storybook-static is not a fresh build of ac5ff85f26e30bddb21d765d0a62f747f275ab4e; rebuild with qual:build:storybook
+=== rp: Command failed with exit code 1: 'docker create --interactive  --user 0:0 --volume gcl-surfOgtestOgdoublesOiBbaiXQ.6a740c2c-874281-build:/builds/auraoneai/auraglass --volume gcl-surfOgtestOgdoublesOiBbaiXQ.6a740c2c-874281-tmp:/tmp/gitlab-ci-local-file-variables-auraoneai-auraglass-874281 --workdir /builds/auraoneai/auraglass   -e '\''CI=true'\'' \\n  -e '\''GITLAB_USER_LOGIN=local'\'' \\n  -e '\''GITLAB_USER_EMAIL=local@gitlab.com'\'' \\n  -e '\''GITLAB_USER_NAME=Bob Local'\'' \\n  -e '\''GITLAB_USER_ID=0'\'' \\n  -e '\''CI_COMMIT_SHORT_SHA=ac5ff85f'\'' \\n  -e '\''CI_COMMIT_SHA=ac5ff85f26e30bddb21d765d0a62f747f275ab4e'\'' \\n  -e '\''CI_PROJECT_NAME=auraglass'\'' \\n  -e '\''CI_PROJECT_TITLE=auraglass'\'' \\n  -e '\''CI_PROJECT_PATH=auraoneai/auraglass'\'' \\n  -e '\''CI_PROJECT_PATH_SLUG=auraoneai-auraglass'\'' \\n  -e '\''CI_PROJECT_ROOT_NAMESPACE=auraoneai'\'' \\n  -e '\''CI_PROJECT_NAMESPACE=auraoneai'\'' \\n  -e '\''CI_PROJECT_VISIBILITY=internal'\'' \\n  -e '\''CI_PROJECT_ID=1217'\'' \\n  -e '\''CI_COMMIT_REF_PROTECTED=false'\'' \\n  -e '\''CI_COMMIT_BRANCH=contract/main-conformance'\'' \\n  -e '\''CI_COMMIT_REF_NAME=contract/main-conformance'\'' \\n  -e '\''CI_COMMIT_REF_SLUG=contract-main-conformance'\'' \\n  -e '\''CI_COMMIT_TIMESTAMP=2026-10-12T11:55:18Z'\'' \\n  -e '\''CI_PIPELINE_CREATED_AT=2026-10-12T11:55:18Z'\'' \\n  -e '\''CI_COMMIT_TITLE=Commit Title'\'' \\n  -e '\''CI_COMMIT_MESSAGE=Commit Title\nMore commit text'\'' \\n  -e '\''CI_COMMIT_DESCRIPTION=More commit text'\'' \\n  -e '\''CI_DEFAULT_BRANCH=main'\'' \\n  -e '\''CI_PIPELINE_SOURCE=push'\'' \\n  -e '\''CI_SERVER_FQDN=github.com'\'' \\n  -e '\''CI_SERVER_HOST=github.com'\'' \\n  -e '\''CI_SERVER_PORT=443'\'' \\n  -e '\''CI_SERVER_SHELL_SSH_PORT=22'\'' \\n  -e '\''CI_SERVER_URL=https://github.com'\'' \\n  -e '\''CI_SERVER_PROTOCOL=https'\'' \\surf:test:od16-ai-sdk-majors | 3.85 min  WARN 1  [no log]
+
+=== surf:test:ai-sdk | 4 min  WARN 2  [surfOgtestOgai-sdk.ec8d9758.log]
+$ npx tsc -p tsconfig.json --noEmit 2>&1 | tee .artifacts/surf/ai-sdk/tsc.log
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+added 1357 packages in 1m
+$ set -o pipefail
+$ mkdir -p .artifacts/surf/ai-sdk
+$ npx tsc -p tsconfig.json --noEmit 2>&1 | tee .artifacts/surf/ai-sdk/tsc.log
+stories/cmp/components/ButtonGroup.stories.tsx(55,12): error TS2375: Type '{ children: Element[]; "aria-label": string; orientation: "vertical"; 'aria-labelledby'?: never; attached?: boolean | undefined; className?: string | undefined; ref?: Ref<HTMLDivElement> | undefined; } | { ...; }' is not assignable to type 'IntrinsicAttributes & ButtonGroupProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ children: Element[]; "aria-label": string; orientation: "vertical"; 'aria-labelledby': string; attached?: boolean | undefined; className?: string | undefined; ref?: Ref<HTMLDivElement> | undefined; }' is not assignable to type 'IntrinsicAttributes & ButtonGroupProps'.
+    Type '{ children: Element[]; "aria-label": string; orientation: "vertical"; 'aria-labelledby': string; attached?: boolean | undefined; className?: string | undefined; ref?: Ref<HTMLDivElement> | undefined; }' is not assignable to type '{ 'aria-label': string; 'aria-labelledby'?: never; }'.
+      Types of property ''aria-labelledby'' are incompatible.
+        Type 'string' is not assignable to type 'never'.
+tests/dx/consumer-4x-cmp.test.ts(23,31): error TS7016: Could not find a declaration file for module '../../scripts/cmp/consumer-4x-todo-policy.mjs'. '/builds/auraoneai/auraglass/scripts/cmp/consumer-4x-todo-policy.mjs' implicitly has an 'any' type.
+=== surf:test:chart-feed-browser | 1.72 min  WARN 1  [surfOgtestOgchart-feed-browser.649af6ec.log]
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+npm error   --workspaces
+npm error     Set to true to run the command in the context of **all** configured
+npm error
+npm error   --include-workspace-root
+npm error     Include the workspace root when workspaces are enabled for a command.
+npm error
+npm error   --install-links
+npm error     When set file: protocol dependencies will be packed and installed as
+npm error
+npm error
+npm error aliases: clean-install, ic, install-clean, isntall-clean
+npm error
+npm error Run "npm help ci" for more info
+npm error A complete log of this run can be found in: /builds/auraoneai/auraglass/.npm/_logs/2026-10-12T12_43_07_592Z-debug-0.log
+=== surf:test:doubles: [app-shell] | 1.82 min  WARN 1  [no log]
+
+=== surf:test:lint-data | 3.55 min  WARN 1  [surfOgtestOglint-data.7113d8ca.log]
+$ npx eslint src/data --max-warnings 0 --format stylish -o .artifacts/surf/lint-data/eslint.txt || { cat .artifacts/surf/lint-data/eslint.txt; exit 1; }
+$ npm ci --cache .npm --prefer-offline --no-audit --no-fund
+added 1357 packages in 1m
+$ mkdir -p .artifacts/surf/lint-data
+$ npx eslint src/data --max-warnings 0 --format stylish -o .artifacts/surf/lint-data/eslint.txt || { cat .artifacts/surf/lint-data/eslint.txt; exit 1; }
+/builds/auraoneai/auraglass/src/data/chart-frame/ChartFrame.tsx
+  17:1  error  Module uses a client-only signal (import of useChartContext from client module './ChartFrame.Interactive') but does not open with 'use client'  auraglass/use-client-required
+/builds/auraoneai/auraglass/src/data/stat-card/StatCard.tsx
+  5:1  error  Module uses a client-only signal (call to useId()) but does not open with 'use client'  auraglass/use-client-required
+/builds/auraoneai/auraglass/src/data/virtual-list/VirtualList.tsx
+  155:6  warning  React Hook React.useCallback has an unnecessary dependency: 'items.length'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+✖ 3 problems (2 errors, 1 warning)
+=== surf:test:tree-view-browser | 3.55 min  WARN 1  [surfOgtestOgtree-view-browser.0a97f8a6.log]
+$ npx playwright test tests/a11y/apg/surf/tree-view.apg.spec.ts tests/e2e/surf/data/tree-virtual.spec.ts tests/perf/browser/surf/data-tree-view.spec.ts --project=chromium --project=webkit --project=firefox --reporter=line --output=.artifacts/surf/tree-view-browser/test-results
+info => Output directory: /builds/auraoneai/auraglass/storybook-static
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+$ (python3 -m http.server 6006 --bind 127.0.0.1 --directory storybook-static >/dev/null 2>&1 &)
+$ node -e "const t=Date.now();(async function p(){try{if((await fetch('http://127.0.0.1:6006/iframe.html')).ok)return}catch{}if(Date.now()-t>60000){console.error('storybook-static not served on :6006');process.exit(1)}setTimeout(p,500)})()"
+$ npx playwright test tests/a11y/apg/surf/tree-view.apg.spec.ts tests/e2e/surf/data/tree-virtual.spec.ts tests/perf/browser/surf/data-tree-view.spec.ts --project=chromium --project=webkit --project=firefox --reporter=line --output=.artifacts/surf/tree-view-browser/test-results
+SyntaxError: The requested module '@jest/globals' does not provide an export named 'expect'
+SyntaxError: The requested module '@jest/globals' does not provide an export named 'expect'
+SyntaxError: The requested module '@jest/globals' does not provide an export named 'expect'
+Error: No tests found.
+Make sure that arguments are regular expressions matching test files.
+You may need to escape symbols like "$" or "*" and quote the arguments.

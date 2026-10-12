@@ -1,0 +1,710 @@
+[
+ {
+  "branch": "impl/5",
+  "req": "REQ-CMP-43",
+  "reason": "Added a Keyboard story tagged 'apg' to stories/cmp/components/SegmentedControl.stories.tsx: three items, with the first one checked. Both specs in tests/a11y/apg/cmp/segmented-control.apg.spec.ts (CMP-43, and CMP-42, which needs at least 3 radios) now drive flagships-controls-segmentedcontrol--keyboard. The spec now reads the start index and focuses that item. It is a Playwright spec, so it needs CI to prove it (qual:certify:l5).",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/5",
+  "req": "REQ-SURF-52",
+  "reason": "Moved the 'tab bar target size' test, unchanged, from tests/e2e/surf/target-size.spec.ts into tests/e2e/surf/app-shell/a11y.spec.ts. That file is already covered by the existing L5 app-shell lane (tests/e2e/surf/app-shell/**/*.spec.ts, pr and main), which is also the file the PRD names. No change to the lane registry was needed. It is a browser test, so it needs CI to prove it.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/5",
+  "req": "REQ-SURF-38",
+  "reason": "Implemented with jest proof (Inspector.test.tsx and app-shell.css.test.ts pass): mode='sheet' opens the bottom Sheet at layout='desktop' and the inline aside is hidden with no column reserved; mode='docked' renders the content-sunken material; mode='auto' swaps to content-sunken when the shell resolves wide; Inspector.Root auto-mounts the sheet; a hand-rendered Inspector.Sheet takes priority, so only one dialog opens. The CSS background override was removed. The browser half (tests/e2e/surf/app-shell/inspector.spec.ts in qual:certify:l5/l12) needs CI.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/0",
+  "req": "REQ-CMP-103",
+  "reason": "Implemented. menu.apg.spec.ts now checks exactly one tabindex=0 item, that End then ArrowDown wraps to Apple and ArrowUp wraps to Share, that ArrowUp-open lands exactly on Share, and that hovering Share opens the submenu. A new jest fake-timer test in Menu.test.tsx (passing) shows the submenu stays shut at 90 ms and opens after 100 ms. The APG spec needs a browser, so only the remote L5 lane can prove it.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/0",
+  "req": "REQ-CMP-104",
+  "reason": "Implemented. A postcss-parse jest test (passing) pins the item heights (32px, and 44px under pointer:coarse), padding-inline var(--ag-space-3), popup min var(--anchor-width) and max min(320px,...), a highlight fill with no backdrop optics, and disabled items that use a colour token with no opacity. The Menu.css:80 child-opacity rule was removed. tests/e2e/cmp/material/** and sizing.spec.ts are now L5 rows in fragments/lanes/cmp.ts. The e2e specs only run on the remote lane.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/0",
+  "req": "REQ-CMP-105",
+  "reason": "Implemented. ContextMenu now also opens on the ContextMenu key (keydown is prevented so the menu cannot open twice). Pointer, long-press and key opens now focus the first item instead of the popup. Focus returns to the element that opened the menu after an outside press, which Base UI had left on body. ContextMenu.Root now passes loop through as loopFocus. Jest tests pass for long-press first-item focus and restore, and for Shift+F10 and ContextMenu-key open plus Escape restore. menubar.apg.spec.ts (loop at both ends, the open menu moving to Edit, Escape focusing exactly Edit) and context-menu.apg.spec.ts (three openers, first-item focus, restore) need the remote browser lane. The scene story's area is now a focusable region marked data-context-area.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/0",
+  "req": "REQ-CMP-109",
+  "reason": "Implemented. Toast.css adds a 3px border-inline-start rim and drops the title dot. Swiping uses only transform, driven by --toast-swipe-movement-x/y. Below 640px the viewport is calc(100% - 16px) wide. Toast.Viewport wraps the stack in one SurfaceGroup (.ag-toast-stack). Jest (passing) checks one [data-ag-group] chrome host with the 3 toasts as its direct children (so MAT drops their backdrop), --toast-index 0..2, and no group when the viewport is empty. toast.touch.spec.ts was rewritten with no `if` and a strict toHaveCount(before-1), plus a mid-drag transform check, and tests/e2e/cmp/overlays/** is now an L5 lane row. The swipe and visual checks need the remote browser lane. Base UI owns the dismiss threshold (a fixed 40px), so the PRD's '40% of width or 0.5px/ms' is not separately implemented.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/0",
+  "req": "REQ-CMP-19",
+  "reason": "Implemented. The box-shadow-only ring on highlighted disabled items is gone, so the shared outline plus inner ring from controls.css covers them. The menubar trigger ring now uses --ag-focus-outer and --ag-focus-inner, inset, with a forced-colors branch. A jest CSS test asserts there is no --ag-color-focus-* and that every :focus-visible rule has an outline. tests/e2e/cmp/focus.spec.ts is now an L5 playwright row. The browser spec only runs on the remote lane.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/0",
+  "req": "REQ-CMP-20",
+  "reason": "Implemented. Toast.Action and Toast.Close render a hit-area (jest test passes). Popover.Close (default render) and the AlertDialog Cancel/Action now carry their own hit-area span, the same pattern Dialog.Close uses. Button's suppressInnerParts is unchanged because changing it would leak hit-area into Tour, DatePicker and other metas. 'hit-area' was added to the Toast, Popover and AlertDialog meta.parts, and test:contract stays green. sizing.spec.ts is now an L5 row. The elementFromPoint proof needs the remote browser lane.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/1",
+  "req": "REQ-CMP-50",
+  "kind": "needs-ci-to-verify",
+  "reason": "Done and green in jest (Slider.test.tsx covers exact Arrow, Shift+Arrow, PageUp/PageDown and Home/End values, RTL from a dir ancestor including one set after mount, vertical aria-orientation, and format-driven aria-valuetext). The new Vertical and Formatted stories and the extended slider.apg.spec.ts (exact PageUp/PageDown, exact RTL mirror, vertical, valuetext) still need the remote L5 browser lane."
+ },
+ {
+  "branch": "impl/1",
+  "req": "REQ-CMP-51",
+  "kind": "needs-ci-to-verify",
+  "reason": "The jest half was already green. I added a DragProbe story and a 'Slider drag' case in controls-perf.spec.ts (at most 1 forwarded onValueChange per rAF during a 120-move drag, 0 long tasks), fixed the PRD citation and the stale Slider.css header. The perf case only runs on the remote L10 lane."
+ },
+ {
+  "branch": "impl/1",
+  "req": "REQ-CMP-70",
+  "kind": "needs-ci-to-verify",
+  "reason": "Removed the vacuous '|| focusedChip === input' escape, added a jest case for Home/End moving the caret, and added src/components/combobox to the cmp:test:foundation-pattern jest dirs. I added a MultiKeyboard story and extended combobox.apg.spec.ts (Escape twice clears, Alt+ArrowDown, Home/End caret, multi-chip Backspace/Arrow/Delete); those need remote L5."
+ },
+ {
+  "branch": "impl/1",
+  "req": "REQ-CMP-72",
+  "kind": "needs-ci-to-verify",
+  "reason": "Jest is green: 10,000 items render at most 60 option nodes; typing 'Row 99' filters the rows and sets aria-setsize to 111; ArrowDown past the window and ArrowUp wrapping to row 10000 keep aria-activedescendant on a mounted node; a scroll re-windows on the next frame. I also added a Virtualized story and a 10,000-item controls-perf case, which need remote L10."
+ },
+ {
+  "branch": "impl/1",
+  "req": "REQ-SURF-54",
+  "kind": "needs-ci-to-verify",
+  "reason": "app-shell.css now hides only non-floating tab bars outside compact. The TabBar SurfaceGroup (the real grid child) carries the slot geometry, and a floating bar is a centred, bottom-anchored overlay on Main at every width that adds bottom scroll padding. I removed a rule that out-ranked the compact re-show of the bar. Jest structure tests are green; tabbar-minimize.spec 'bar only in compact' needs remote L9."
+ },
+ {
+  "branch": "impl/1",
+  "req": "REQ-SURF-189",
+  "kind": "needs-ci-to-verify",
+  "reason": "Added forced-colors rules: system colours on shell chrome; current-item cue (Highlight plus outline and/or underline) for Sidebar, TabBar, Tabs, Breadcrumbs and Pagination; focus is outline 2px solid Highlight; CMP Slider and media scrubber use CanvasText/Highlight; legend and tooltip swatches keep their fill and get a CanvasText border; AI caret and dots use CanvasText. Added [data-ag-contrast=more] and prefers-contrast rules for TopBar and Sidebar edges, ink and the current-item indicator. A static jest test is green. I rewrote forced-colors.spec.ts (0 visible backdrop filters across every SURF story, plus cue, focus, slider and swatch checks) and preferences.spec.ts (TopBar/Sidebar pixel diff >0.5%, axe colour-contrast under contrast more, tinted/solid rungs incl. CDP prefers-reduced-transparency). Both need the remote browser lane."
+ },
+ {
+  "branch": "impl/1",
+  "req": "REQ-SURF-188",
+  "kind": "needs-ci-to-verify",
+  "reason": "Not attempted: this needs a remote qual:certify:l6 run over 8 scenes × light/dark × 3 rungs × 2 widths × 3 engines to find the failing text runs first. Fixing blind from here is not possible because it needs browsers and rendered pixels."
+ },
+ {
+  "branch": "impl/3",
+  "req": "REQ-CMP-40",
+  "reason": "Implemented and covered by jsdom tests. Overflow now measures the bar's content width against its parent with one ResizeObserver: low-priority items unmount into a trailing Menu whose trigger is a Toolbar.Button. The old self-referencing inline-size container (it collapsed an inline-flex bar to padding width) and the fixed 480px query are gone. Also: Base UI's Toolbar never enabled Home/End, so the root handles them; disabled items are now skipped by default (Base UI defaults focusableWhenDisabled to true); and `loop` is actually forwarded as loopFocus (it used to be dropped). The rewritten toolbar.apg.spec.ts (Keyboard + new Overflow story) and the concentric-radius check in controls-nesting.spec.ts need the browser lanes L5/L6.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/3",
+  "req": "REQ-CMP-42",
+  "reason": "Implemented and covered by unit tests. While it moves, the indicator gets data-ag-animating + data-ag-allow-nested through a new MAT helper, setMovingOptics. A new material.css rule at (0,1,1) specificity, placed after the group rule, restores its own backdrop while it moves; every later rung reset still wins. The move uses a View Transition via startMorph when the engine has one, otherwise a CSS transition (skipped while [data-ag-vt] is set). Calm/none and reduced motion jump. The checked-item platter is removed. Default story now has 3 items with the first selected. controls-motion.spec.ts is registered in L9. The APG spec forces the CSS path and asserts glass while moving and none at rest; it needs L5.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/3",
+  "req": "REQ-CMP-21",
+  "reason": "TextField, SearchField and NumberField roots now have inline-size:100% and min-inline-size:0. tests/e2e/cmp/sizing.spec.ts gained a section 4.4 check (sm/md/lg = 28/36/44px, ±0.5px) on the Button Density, IconButton Sizes and Select Density stories, and is registered in L6. This is browser-only.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/3",
+  "req": "REQ-MAT-48",
+  "reason": "Tabs, SegmentedControl and SourceTransition now take names from useMorphName (sanitised to [a-z0-9-]) and render data-ag-vt-participant. Tabs and SegmentedControl are also wrapped in <ViewTransition share='ag-morph'> when React ships it (19.3 does), through withMorph in control-shared/morph.tsx. SourceTransition names are now <useMorphName scope>-<id>, and element lookup is scoped to its Root. It is not wrapped in ViewTransition because its source and destination are mounted at the same time with the same name. Not done: TabBar has no morph indicator to wire, and no Menu-to-Sheet presentation exists in the code (MOT-101 moved to CMP). Building that presentation is too large for this pass. mat:test:motion-l9 needs a browser.",
+  "kind": "too-large-continue"
+ },
+ {
+  "branch": "impl/3",
+  "req": "REQ-SURF-139",
+  "reason": "The bar is now exactly 48px at a fine pointer and 56px at a coarse one (block-size from space-12, and space-12 + space-2), border-box, padding space-1, with artwork 40/44px. The progress hairline is drawn absolutely over the bottom edge, so it adds no grid row. Fixed bars add env(safe-area-inset-bottom). Covered by a CSS unit test. now-playing-container.spec.ts gained height assertions, including a coarse-pointer describe. Its one-row band check now excludes the progress hairline, which gets its own bottom-edge assertion. The 320px expectation now lists progress as visible: the container query never hid it, so the old expectation looked wrong. Needs L1/L5 in a browser.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/3",
+  "req": "REQ-SURF-154",
+  "reason": "Tone rules are keyed on [data-ag-backdrop=media][data-ag-media-tone=light|dark] and declare only `color` on SURF small chrome. MAT floors are untouched. Analysis: every small-chrome glyph sits on a fill at MAT's media tint floor of at least 0.78 canvas, so the higher-contrast polarity for both tones is the scheme on-surface ink. The rule therefore pins that ink and never flips toward the media's own polarity. A CSS unit test checks this. An L6 block in text-contrast.spec.ts runs every scene and scheme with the tone forced light, dark and off, and asserts worst(on) >= worst(off); it needs the remote L6 lane. It is already covered by the surf.ts clear-over-media glob.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/4",
+  "req": "REQ-CMP-68",
+  "reason": "Two new jsdom/CSS tests are green: required + Field.Error on submit, and the --anchor-width / min(60dvh, 400px) assertions. The 390px popup e2e (tests/e2e/cmp/controls/select-390.spec.ts, registered on L6 in fragments/lanes/cmp.ts) needs a browser in CI.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/4",
+  "req": "REQ-MAT-61",
+  "reason": "Implemented: the controls.css ring is folded into src/a11y/css/focus.css (ag.a11y layer, keyed on [data-ag-focusable], .ag-focusable, every focusable [data-ag-part] and text shells' :focus-within). All component :focus-visible rings and rest-state outline:none are removed from src. data-ag-focus-inset is added to clipped parts. A new L1 pr/main failClosed verifier (scripts/mat/verify-focus-single-owner.mjs, with tests) reports 0 findings, and verify-a11y-removals reuses it. focus-appearance.spec.ts now measures rendered pixels (3:1 changed-pixel contrast over at least a 2px perimeter) across all 8 scenes. That browser spec needs CI.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/4",
+  "req": "REQ-MAT-62",
+  "reason": "Hit areas added to Tabs, TabBar, Pagination (link, button and manual parts), Toast action/close and the MediaControls toolbar buttons (no longer suppressed). IconButton already had one through Button. Metas updated and a jsdom test added. The fine spec now checks a centred 24x24 box or the 24px spacing exception (the old check passed any size), and the coarse spec checks ±21.5px elementFromPoint ownership, using the shared helper tests/e2e/mat/helpers/targets.ts. Rendered sizes need a browser in CI.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/4",
+  "req": "REQ-SURF-157",
+  "reason": "BackdropTone keeps a stable gate (the intersection state survives re-renders). The pause control has the fixed name 'Pause background video' and aria-pressed; when nothing plays or the user has not paused it is `hidden` (not focusable). It stays in the DOM because the meta parts conformance test requires every listed part to render in some story. jsdom tests with a fake IntersectionObserver are green. tests/e2e/surf/backdrops/motion.spec.ts was rewritten (paused with poster after 2s, offscreen pause within 250ms, hidden-tab pause, reduced motion, toggle) using new VideoContinuous stories that play /scenes/video-frame.webm. Needs a browser in CI.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/4",
+  "req": "REQ-SURF-159",
+  "reason": "BackdropDriftLayer and the media layer call MAT observeOffscreen on the root and set data-backdrop-hidden while the tab is hidden. The CSS uses animation longhands so the pause rule actually wins (the shorthand reset play-state). The L10 decision (transform: translate3d, never background-position) is recorded in backdrops.css. jsdom and CSS tests are green. tests/e2e/surf/motion/backdrop-drift.spec.ts was created (L9 row already existed). Needs a browser in CI.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/4",
+  "req": "REQ-SURF-160",
+  "reason": "preset='grain' now sets data-backdrop-grain (SSR test). modes.spec.ts was rewritten: forced colours (layer display:none, root background is Canvas), the solid transparency rung keeps media visible, and the grain tile renders. Real build bug fixed: fragment url()s shipped as '../assets/…' relative to dist/backdrops.css, which resolves outside the package. scripts/build/lib/css.mjs now rebases them and copies the assets into dist, and verify-pack.js fails on any unresolved packed css url(). Unit and fixture tests are green; the real tarball and browser checks need CI.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/4",
+  "req": "REQ-SURF-192",
+  "reason": "MAT hit-area spans added to about 35 SURF native interactive parts: media, ai, data, breadcrumbs, sidebar items and tree chevrons, each with a zero-specificity position:relative containing block. Carousel dots space out under coarse pointers. 14 metas, docs and one snapshot regenerated. tests/e2e/surf/target-size.spec.ts now runs fine and coarse probes over every SURF story and is registered as project surf:targets plus L5 pr/main rows. Not yet seen in a browser: dense toolbars such as the ImageViewer zoom buttons may need data-ag-hit-clamp once CI measures overlap.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/2",
+  "req": "REQ-CMP-45",
+  "reason": "Switch.css now sizes the track from the --ag-switch-track-{w,h}-* tokens as a border-box with the 2px --_ag-switch-thumb-inset. The thumb is track-h - 2*inset and slides track-w - track-h. Jest checks the token references for all three sizes. The computed 32x18/40x22/52x30 box and 2px-inset check is a new Playwright spec, tests/visual/cmp/controls/switch-sizes.spec.ts, against the new Switch Sizes story (lane L6). It has not been run in a browser.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/2",
+  "req": "REQ-CMP-46",
+  "reason": "The thumb now carries allowNested (glass optics) together with data-ag-animating only while it moves, and returns to the inner fill at rest (jest-proved). The translate distance is fixed. switch-sizes.spec.ts (L6) asserts that the computed translate changes, that translate is in transition-property, and that the duration is 0 under calm. It has not been run in a browser.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/2",
+  "req": "REQ-CMP-83",
+  "reason": "Popover and Menu/ContextMenu now enter with opacity plus scale(0.96) from var(--transform-origin) through starting/ending-style. Menu moved from keyframes to transitions. Select and Combobox move their transition to the resting rule, so the enter animates as well as the exit. useOverlayAnimating handles keyframe animationstart/animationend and is attached to the Select, Combobox and Toast popups (jest-proved). tests/e2e/cmp/overlays/motion.spec.ts was rewritten to record the data-starting-style frame live and assert: matrix(0.96...) for popover and menu, a pure translate matrix for the Sheet, data-ag-animating present during the enter and gone after transitionend, and scrim transitionProperty === 'opacity'. It needs a browser run. Tooltip deliberately keeps the 2px translate enter because REQ-CMP-101 requires it, which conflicts with the generic REQ-CMP-83 wording.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/2",
+  "req": "REQ-CMP-98",
+  "reason": "The arrow now paints the popup's inherited --ag-surface-fill inside an --ag-surface-rim edge using ::before/::after triangles, with no backdrop-filter. A new ClickToOpen story is closed at load. popover.apg.spec.ts now covers click-open (focus moves into the popup, aria-controls equals the popup id, role=dialog), Escape returning focus to the trigger, outside press, and the arrow's computed fill/rim matching the popup read-outs. Browser-only (L5).",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/2",
+  "req": "REQ-CMP-12",
+  "reason": "Every overlay root now routes Escape through the LayerStack. Dialog, AlertDialog and Sheet pass actionsRef to Base.Root. Popover, Menu, Submenu, ContextMenu and Tooltip use a root-side useRoutedRootActions that their popup registration uses, and report reason 'escape-key'. Select and Combobox have no BU imperative close, so they now drive BU open (controlled) and close through the stack. tests/overlays/cmp/escape-routing.test.tsx proves all 9 roots plus a Dialog>Popover stack (one Escape per layer). Its two routing cases fail against the pre-change Popover. Outside press stays BU-owned and this is documented in useOverlayLayer. tests/e2e/cmp/overlays/overlay-stack.spec.ts is now registered as an L5 row; it needs a browser run.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/2",
+  "req": "REQ-SURF-31",
+  "reason": "Sheet has a new layerKind?: 'sheet'|'drawer' prop. Sidebar.Drawer passes layerKind='drawer' and the logical side, so it no longer resolves a physical side itself. Jest proves the stack entry is {kind:'drawer', modal:true}, and that a scrim click closes the drawer and returns focus to the toggle. A scrim-click case was added to tests/e2e/surf/app-shell/sidebar-drawer.spec.ts and needs a browser run.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/9",
+  "req": "REQ-PLAT-19",
+  "reason": "Done on the next line, and the gap's items 1-3 have tests. classify-change.mjs now parses fragments at base and HEAD with loadFragments: 577 entries, breaking 'Bnn', any key order. A test runs this over the committed fragments. Export snapshots are real by default, and tag pipelines get --require-snapshots. New main()-level temp-repo tests cover root export added -> C-E and fragment entry added -> C-D. Item 4, porting to release/4.x and release/4.1.x (where the 4.1.x classify-change.test.ts is 0 bytes), needs a branch cut from those lines. This worktree is based on next.",
+  "kind": "too-large-continue"
+ },
+ {
+  "branch": "impl/9",
+  "req": "REQ-PLAT-20",
+  "reason": "visualClass now does the following: validates the record schema (id must be D-28-dark-text, D-28-contrast-more or a §13.1 exception id, cells[] is required, compositeArtifact must be a URL or an existing path, measuredContrast?[] is optional); filters to default-mode cells (Chromium, light/dark, 1440x900 and 390x844, preview=v5 excluded); matches each record on its own; counts only records added in base...HEAD; returns C-B on 5x from 5.0.0 stable. Tests cover every PRD case through main() on a temp repo. Still open: rewriting the release/4.x visual-fixes records to this schema, removing 4.1.1-font-fallback.md (needs a 4.x branch), and the OD-14 CODEOWNERS reviewer for docs/release/** (owner decision).",
+  "kind": "too-large-continue"
+ },
+ {
+  "branch": "impl/9",
+  "req": "REQ-PLAT-21",
+  "reason": "Done on the next line. Each ref's fragments are loaded at that ref. Removals resolve their breaking group through the merged base+HEAD set by exact symbol. Temp-repo main() tests cover three cases: two groups -> exit 1; Multi-Family on the head commit -> 0; trailer only on a non-head commit -> 1. The port to release/4.x and 4.1.x (whose test is 0 bytes) needs a 4.x-based branch.",
+  "kind": "too-large-continue"
+ },
+ {
+  "branch": "impl/9",
+  "req": "REQ-PLAT-22",
+  "reason": "Done on next. run4x now writes etc/api/<slug>.exports.json and records apiReport 'unanalysable' with the error per key in manifest.json (unresolved @/ aliases, missing types file). The bare 'compat' stem now resolves to the ./compat ENTRIES row. etc/api/{compat,compat.plat,three}.* were generated with api-report.mjs. Tests cover alias -> 4x exit 0 and 5x exit 1 from alpha.1, and added/removed export -> C-E/C-B. Two items remain. (1) CSS rows (./styles.css, ./tokens.css and the rest) have source 'build:css' and no src/*.css, so the existing css.<x> resolver has nothing to report on. (2) The port of api-report.mjs, etc/api and api-report.test.ts to release/4.x, plus adding `--line 4x --check` to the 4x glass-quality, needs a 4.x branch.",
+  "kind": "too-large-continue"
+ },
+ {
+  "branch": "impl/9",
+  "req": "REQ-PLAT-23",
+  "reason": "export-snapshot.mjs now has: jsdom globals in the runner, TypeScript compiler API types (getExportsOfModule, so export * and export {} from are followed, plus a typeValues subset), --version via npm pack, an --install mode that installs peers, a Node >= 20.19 guard, an asset `file` field, and a boolean typesRuntimeMismatch with names in mismatch[]. It also fixes ROOT, which pointed at scripts/. tests/release/export-snapshot.test.ts adds facade, export * and install-mode cases and a byte-stable check. classify-change uses real snapshots in CI. Still to do: commit etc/snapshots/4.1.0.json with `node scripts/release/export-snapshot.mjs --version 4.1.0 --out etc/snapshots/4.1.0.json`. That needs a remote npm install of the 4.1.0 tarball, whose dependencies include express, socket.io, @google-cloud/vision and three peers, which is too heavy for this Mac. The test also needs syncing to release/4.x.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/9",
+  "req": "REQ-PLAT-28",
+  "reason": "plat:gate:change-class (5x) now does the following. It snapshots the newest published 4.x tarball (export-snapshot --version) and the head tarball (it now needs plat:package:pack optionally). It then runs verify-breaking-register --coverage-only with both snapshots, writing deprecation-coverage.json to the job dir. This is non-blocking on PR, main and pre-release, and blocking with --require-covered on the v5.0.0 tag. classify-change's deprecationCoverage now uses lib/deprecation-coverage's entryJudge, with exact symbols (the substring match is gone) and the allowlist. It has to run in GitLab to show the report.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/9",
+  "req": "REQ-PLAT-57",
+  "reason": "All remaining work is on release/4.x: etc/api/*.exports.json at the 4.2 cut showing typesRuntimeMismatch:false for /forms and /data, and a report-mode loop of scripts/ci/import-side-effects.mjs over dist/*.mjs in the 4.x plat:build:dist. That script exists only on release/4.x and is not on next. It needs a 4.x-based branch. The new export-snapshot boolean typesRuntimeMismatch is what that evidence should use.",
+  "kind": "too-large-continue"
+ },
+ {
+  "branch": "impl/9",
+  "req": "REQ-PLAT-09",
+  "reason": "This is an operator chore. Run `node scripts/release/sync-fragments.mjs --to next` and `--to release/4.x` from a clean PLAT worktree with the existing gh login, merge both sync PRs, then confirm that diff -r of fragments/deprecations is empty. It pushes branches and opens GitHub PRs, which agents must not do here.",
+  "kind": "owner-or-human"
+ },
+ {
+  "branch": "impl/9",
+  "req": "REQ-SURF-12",
+  "reason": "Removed the duplicate rows DEP-S0633..0635 (removeIn 6.0.0, plus a GlassNavigation compat adapter that does not exist). DEP-S0002, S0003 and S0029 already cover those symbols with removeIn 5.0.0. release/4.x never had the duplicate rows, so nothing needs syncing back. src/internal/deprecations.generated.ts was regenerated with gen-deprecations.mjs. Every surf row now has removeIn 5.0.0 and no kind|entry|symbol duplicates. The remaining acceptance is the L3 plat:gate:change-class lane against the 4.x tarballs, which must run in CI.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/8",
+  "req": "REQ-MAT-51",
+  "reason": "Done locally: verify-motion-css is narrowed and registered as an L1 pr/main/release row plus a transitional mat:test:motion-css job, and the 4 SURF motion-raf-via-ticker rows are retired. The motion-lint baseline is now [] and passes --enforce-zero. Still open: the qual:certify:l1 job (allow_failure:true) and the new mat:test:motion-css job (allow_failure:true until its activation.json row lands) both need a green run in CI.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/8",
+  "req": "REQ-MAT-30",
+  "reason": "motion.css now sets will-change only under [data-ag-animating], and the jest proof is in. Still open: layer-stack.spec.ts and tiers.spec.ts must pass on 3 engines, then mat:test:material-browsers can be flipped from allow_failure through its activation row. This needs the remote browser lane.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/8",
+  "req": "REQ-MAT-60",
+  "reason": "The CSS is implemented: one column at coarse pointer, options stacked full width, option rows and slider at 100% with a coarse block size. A jest CSS proof is in. A new APG coarse-pointer spec (hasTouch/isMobile) still needs to run on the remote Playwright lane.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/8",
+  "req": "REQ-MAT-63",
+  "reason": "focus-not-obscured.spec.ts has been rewritten. It covers the MAT fixture plus the SURF sticky-chrome subjects from listSubjects() (AppShell/TopBar/Toolbar/TabBar, matched by subject name) at 1440 and 390. Failures are tagged with the owner, and the spec writes .artifacts/mat/<job>/focus-not-obscured.json. It is browser-only and still has to run in CI.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/8",
+  "req": "REQ-SURF-46",
+  "reason": "Jest 'stacks below threshold' cases are added. The fix is real: the root's inline flex-direction used to override the [data-stacked] CSS, so stacking never took effect. Also added a StackBelow story and a layout.spec.ts 'stacks below threshold' remote test. The e2e test needs the remote Storybook lane.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/8",
+  "req": "REQ-MAT-67",
+  "reason": "The remaining gaps are all on release/4.x: landing fragments/codemods/mat.ts there (next->4.x sync) and making fragments/deprecations/mat.ts identical on both lines. next currently has more DEP-M rows than 4.x, so the rows must be authored on release/4.x first. Both go through scripts/release/sync-fragments.mjs, an operator chore that pushes branches and refuses in CI. After that, 4.2.0/4.3.0 must be published from release/4.x through the deployment runbook. None of this can be done on the impl/8 branch of next.",
+  "kind": "owner-or-human"
+ },
+ {
+  "branch": "impl/10",
+  "req": "REQ-SURF-04",
+  "kind": "owner-or-human",
+  "reason": "Code side is done. @internationalized/date is now value-imported only from src/date (new src/date/legacy-bridge.ts; compat shared.ts re-exports it and only the lazy *.impl.tsx modules use it). data-peer-isolation and verify-deps no longer allow compat/surf/date. peer-isolation.test.ts no longer uses it.skip: it runs on dist when built, otherwise on the src entries, and fails when AG_REQUIRE_DIST=1 and dist is missing. A new surf:test:peer-isolation job was added. Two things remain. (1) Recording OD-17 in docs/release/decisions/od-17.md (decidedBy/decidedAt are owner-only; the 'lazy' option is the one implemented). (2) The new job starts allow_failure:true until its first green on next, per the ci/plat/activation.json rule."
+ },
+ {
+  "branch": "impl/10",
+  "req": "REQ-SURF-57",
+  "kind": "needs-ci-to-verify",
+  "reason": "tests/rsc/surf/breadcrumbs-server.spec.ts was rewritten and fails closed. It reads the RSC payload (self.__next_f I-rows) of the built next16 canary, asserts 0 BreadcrumbsOverflow/LandmarkBeacon client references on /surf/breadcrumbs-server, and uses a new /surf/breadcrumbs-overflow page as a positive control. It also checks that the initial HTML has the markup and that nothing has a backdrop-filter. It runs as a step in surf:test:canary-hydration (main). Its L11 lane row moved from pr to main to match. The landmark beacon no longer renders in production. Needs the remote Next build to confirm."
+ },
+ {
+  "branch": "impl/10",
+  "req": "REQ-SURF-59",
+  "kind": "needs-ci-to-verify",
+  "reason": "nav-layout.spec.ts moved to tests/e2e/surf/app-shell/, which is covered by the existing L5 pr+main lane glob and the surf:app-shell Playwright project. It is a browser test, so it is proved only in CI."
+ },
+ {
+  "branch": "impl/10",
+  "req": "REQ-SURF-65",
+  "kind": "blocked-by-other-cluster",
+  "reason": "The focus part is fixed: the destination is resolved after update() commits, so a newly mounted destination gets focus (jest-tested). The third engine-path fixture (React 19.3 <ViewTransition>) still can't be written, because MAT startMorph never selects reactViewTransition (src/motion/viewTransition.ts only detects it). That needs REQ-FIN-58 first."
+ },
+ {
+  "branch": "impl/7",
+  "req": "REQ-MAT-66",
+  "kind": "owner-or-human",
+  "reason": "The agent work is finished. I wrote the three MAT scripts (surface-material-lab, glass-preferences-panel, reduced-motion-pass), moved the single C-16 SrRecord schema to contracts/schemas/, deleted the tests/ copy and pointed the verifier at the contract path. I also removed the three scripts from the missingScripts baseline and added tests. What is left is human work (issue #16): running the passes on an RC SHA and committing at least 10 SR/touch SrRecords plus 20 motion records under tests/a11y/manual/records/mat/."
+ },
+ {
+  "branch": "impl/7",
+  "req": "REQ-MAT-36",
+  "kind": "needs-ci-to-verify",
+  "reason": "I added the LensDefs size test (markup plus inlined maps <= 30720 B; it passes) and the @preview TSDoc tag on MaterialRole.refraction, SurfaceGroupProps.refraction and SurfaceProps.refraction, with a test. The api-report regeneration (etc/api/*.api.md through api:update, which needs the dist d.ts build) and the browser proof (mat:test:material-browsers, enhanced-gating.spec.ts) still need CI."
+ },
+ {
+  "branch": "impl/11",
+  "req": "REQ-QUAL-01",
+  "reason": "Done: listSubjects no longer falls back to index.json or title leaves (it throws without cert-manifest.json; helpers.test.tsx updated), and package.json storybook:build now chains write-cert-manifest. Not done: the 47 rows in packages/qa/baselines/cert-manifest.json belong to SURF/PLAT/CMP/MAT story files. QUAL's own .storybook/lab/motion/parity.stories.tsx is also open. Pointing its lab stories at ComponentMetas (Avatar/Card/Button/Tabs/Skeleton/Stack) breaks story-titles multi-group/leaf rules. MaterialLab's 'lab:*' subjects do not resolve to a ComponentMeta either. Owners need a rule for what lab-kind subjects may name before these rows can be cleared.",
+  "kind": "blocked-by-other-cluster"
+ },
+ {
+  "branch": "impl/11",
+  "req": "REQ-QUAL-03",
+  "reason": "Implemented: L6 now saves each cell's subject PNG (environment-visual/png). The lane runner adds a 'packages/qa/src/pixel/duplicates.ts' L6 result row: checkDistinctnessByCell runs cell by cell with lazy decode, using the source-inventory classification; it writes distinctness.json and is pending without an inventory. Covered by lane-visual-evidence.test.ts, including a runner-level duplicate fixture. It still needs a real qual:certify:l6 run on GitLab to show it on live captures.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/11",
+  "req": "REQ-QUAL-05",
+  "reason": "Implemented: the shared lane fixture writes each worker's browser name/version to browser-versions/, and the runner folds it into lane-manifest browserVersions (5x and 4x writers). The 4x writer now uses imageDigestOf(CI_JOB_IMAGE) plus image. lane-runner.test asserts browserVersions is non-empty for a browser lane. Stream fragment projects and location projects that import @playwright/test directly add no versions, and real versions only appear in a CI browser run.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/11",
+  "req": "REQ-QUAL-11",
+  "reason": "Done: behaviour, engine, motion, overlay-stacking, ssr-hydration, known-failures (and the new canaries) specs now import test from ./_fixtures/determinism. The fixture installs the init script on the default context/page and on every browser.newContext(). A jest check enforces this for every certification/lanes/*.spec.ts. Not done: the location-discovered projects (tests/a11y/apg/<stream>, tests/e2e/<stream>, about 182 files owned by other streams) still import @playwright/test directly, and Playwright config `use` cannot inject init scripts. Those owning streams must switch their imports.",
+  "kind": "blocked-by-other-cluster"
+ },
+ {
+  "branch": "impl/11",
+  "req": "REQ-QUAL-56",
+  "reason": "Done: build-bundle.mjs refuses a Storybook that fails verifyFreshDir (other SHA, edited index, dirty tree in CI, missing ag-build.json), with tests. certification/gates/tsc-storybook.mjs runs tsc --noEmit -p tsconfig.storybook.json and is registered on L1, with tests. Still needed: one green qual:build:storybook on next with ag-build.json sha == CI_COMMIT_SHA, within 60 MB / 6 min.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/11",
+  "req": "REQ-QUAL-64",
+  "reason": "Done: contract:ci-fragments now has a rule-2 bridge-job exemption (only own-stream artifact include + strategy: depend + a need on that job; new failing fixture bridge-invalid, and the passing fixture now has a bridge). qual:certify:release-matrix is the dynamic child trigger. allow_failure: true was added to qual:test:scenes, qual:test:scene-bands and qual:certify:perf-grade. release-plan, release-matrix and release are documented and tested as release-gating. ci-fragment.test now checks allow_failure on every job. Not done: the allow_failure→false flips in ci/plat/activation.json need first green runs on next.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/11",
+  "req": "REQ-QUAL-65",
+  "reason": "The release-matrix child-pipeline trigger (strategy: depend, PARENT_PIPELINE_ID) is in place, and shard-plan.test was updated. Still needed: real release-scope pipelines to prove the sharded L6 matrix runs, plus p90 duration evidence against the 20/45/90-minute budgets.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/11",
+  "req": "REQ-QUAL-73",
+  "reason": "Agent part done: L6 writes environment-visual/review-inputs.json (8 scenes × light/dark @1440, the 390 photo frame downscaled from DPR 3, and incomplete items listed). L7 keeps head + committed baseline per cell and writes regression/review-inputs.json. review-record.mjs composites merges the parts by item, and the CI job passes every part. Tests: lane-visual-evidence.test.ts, review-record.test.ts. Records-committed vs artifacts-only: the records README now notes that REQ-FIN-111 (records under certification/review/records/**) supersedes REQ-QUAL-73's 'never committed'. Human part outstanding: a named design reviewer has to score the items at RC-1.",
+  "kind": "owner-or-human"
+ },
+ {
+  "branch": "impl/11",
+  "req": "REQ-QUAL-29",
+  "reason": "Implemented certification/lanes/canaries.spec.ts (registered on L11) and _fixtures/canaries.ts. Each canaries/<app> is installed from AURAGLASS_TARBALL, node_modules/aura-glass is asserted not to be a symlink, and its own test/check script runs. The next16 production server is built once (cross-worker lock), and every static route is required to return 200 with 0 console errors in chromium/webkit/firefox, plus a 404 negative control. Streams with no app/<stream>/ page (mat, qual) and dynamic routes are pending before release and fail at release. consumer-4x runs unchanged on the 4x line. On 5x it runs migrate 4to5 from the CLI packed with npm pack -w @auraglass/cli, then counts TODO(aura-glass 5) markers on flagship-subset.json files, records the count in canaries/consumer-4x.json and folds it into the lane manifest as consumer4x. A missing fixture or missing packed migrate is pending before release and fails at release. The pure rules are tested in canaries-plan.test.ts. It still needs a remote L11 browser run. tests/fixtures/consumer-4x has no package.json or flagship-subset.json yet (PLAT, REQ-PLAT-63), so that part stays pending.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/6",
+  "req": "REQ-MAT-32",
+  "kind": "too-large-continue",
+  "reason": "Done: (a) PRD table amended (Fresnel/specular stay ::before layers because ::after is masked to the rim ring), (b) contrast=more forces --_ag-saturation:1 in material.css and both rungs blocks, and the generator emits saturate(1) WebKit literal rows (attribute, OS mirror, coarse), (c) numeric --_ag-brightness with scheme rows when dark differs (no light-dark()), (e) a test proves overlays resolve to the thick key at every thickness, (f) --_ag-refraction-scale inherits on the pseudo-elements. Not done: (d) proportional grain. With one baked 0.03 AVIF tile, per-layer opacity, a second asset/export, or extra DOM, a 0.02 request can't be painted proportionally; threshold gating would remove grain from clear and every coarse-pointer cell. This needs an asset decision (a second baked asset plus subpath/size budget, or a cross-fade() path) verified in browsers (mat:test:material-browsers)."
+ },
+ {
+  "branch": "impl/6",
+  "req": "REQ-MAT-21",
+  "kind": "owner-or-human",
+  "reason": "Done on next: tokens/compat-alias-map.json counts are uncovered 0. The 172 names never declared in 4.x freeze at `initial` and are tagged runtime-set-in-4x (with the writing files) or undeclared-in-4x. The 633 existing entries regenerate unchanged from git 15b6de6f7:src. The '--glass-'-style template prefixes are dropped from the reader set and the codemod cssVars. compat-aliases.test.ts asserts uncovered === 0 and runs --check. Not done: origin/release/4.x fragments/codemods/mat.ts is still an empty `{}`. Carrying the same cssVars needs a commit on the release/4.x line (sync-fragments operator action, REQ-FIN-113), which is outside this next-based branch."
+ },
+ {
+  "branch": "impl/6",
+  "req": "REQ-PLAT-74",
+  "kind": "blocked-by-other-cluster",
+  "reason": "Done: CssFragment.a11y?: 'none' (additive contract field). css.mjs now fails on any ag.components prefix that has neither ag.a11y rules in the same bundle nor an explicit 'none', unless the file is in the new expiring baseline scripts/integration/baselines/css-a11y-pairing.json (85 CMP/SURF rows, REQ-FIN-38, RC-1). Tests require every row to stay load-bearing. no-globals now rejects every :root form (dist test plus a new source-level test). Remaining: CMP/SURF must add a11y:'none' (or a11y rules) to their fragments and burn down the 85 pairing rows plus the 46 class-coverage, 5 css-files and 6 a11y-css baseline rows before RC-1. The dist-based tests/css suites (no-globals dist case, per-subpath-ownership) need plat:gate:glass-quality to verify after a full build."
+ },
+ {
+  "branch": "impl/6",
+  "req": "REQ-QUAL-72",
+  "kind": "owner-or-human",
+  "reason": "Agent part done: contracts/schemas/sr-record.schema.json is the only schema (additive optional fields; the tests copy is deleted). The verifier and aggregator read it plus an L13 binding profile. qual:certify:release writes .artifacts/qual/a11y-manual-$CI_COMMIT_SHA.json before the verdict. Human part outstanding: the 44 flagships x 4 AT + touch passes and the motion passes on the RC SHA, committed under tests/a11y/manual/records/<stream>/ (issue #16). OD-16 (C-16 approval) is still awaiting the owner."
+ },
+ {
+  "branch": "impl/15",
+  "req": "REQ-SURF-95",
+  "reason": "Implemented. L4 rows in fragments/lanes/surf.ts W2 run tests/data/{chart-palette,stat-card-contrast,sparkline-contrast}.test.ts. The shared helper tests/data/helpers/built-css.ts reads package/dist/{tokens,material,data}.css from AURAGLASS_TARBALL, which run.mjs sets for L4 rows, and fails closed under AG_LANE=L4 when no tarball is set. I checked this locally with a tarball built by hand and with the fail-closed path. A real qual:certify:l4 run against the packed tarball is still needed. I also fixed a stale dark-media selector in chart-palette.test.ts that was failing at the base commit.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/15",
+  "req": "REQ-SURF-94",
+  "reason": "Implemented and jest-green: the legend's last-series guard is a CMP Tooltip with aria-describedby kept, and the title attribute is gone. The CMP Tooltip raises the ChartFrame bundle from about 5.4 KB to about 10.1 KB gz. I raised the budget 6144 to 11264 and meta budgetKb 6 to 11 through the documented process (Perf-Budget-Raise trailer plus a docs/size-budgets.changelog.md row). The number is measured locally with esbuild over src, using the verify-size-budgets options. The remote dist measurement must confirm it.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/15",
+  "req": "REQ-SURF-98",
+  "reason": "Implemented and jest-green: CMP Sheet side=bottom below 640px instead of the Popover-as-sheet; fallback to React Aria's resolved locale; PLAT doctor date-peers check with a test. Budget raises measured locally with esbuild over src, which needs remote confirmation: DatePicker 11264 to 15360, DateRangePicker 12288 to 16384, TimePicker 10240 to 14336, plus the meta budgetKb values, with trailers and changelog rows. tests/e2e/surf/date/*.spec.ts needs a browser lane.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/15",
+  "req": "REQ-SURF-36",
+  "reason": "New tests/visual/surf/app-shell/topbar.visual.spec.ts covers topbar__inline, __overlay, __solid and __forced-colors at 320 and 1440. It checks computed style, geometry and edge pixels, and writes the captures to .artifacts as evidence; no committed baseline is needed. It is registered as L6 pr/main in the W1 block of fragments/lanes/surf.ts. It is browser-only, so it was not run locally. The syntax and type checks and verify-playwright-fragment pass.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/16",
+  "req": "REQ-CMP-112",
+  "reason": "grid-masonry.spec.ts now asserts data-ag-appearance='masonry', and tests/e2e/cmp/layout/**/*.spec.ts is registered as a remote L5 row. The browser proof still has to run on a remote pipeline. I did not narrow Stack/Grid gap to a strict SpaceToken: raw lengths are used by registry/items/media-gallery and the compat tests, and changing the type would also need etc/api regenerated from a dist build.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/16",
+  "req": "REQ-CMP-126",
+  "reason": "The Jest legs are done and pass: 'no onUpload → never complete' selects a file through the input and advances fake timers; input and drop give the same onValueChange shape; the rejection text appears in the S-26 live region and in the aria-describedby error. I added a Rejection story, and the APG spec now uploads a wrong-type file and asserts the error text and the live-region text. That APG spec is browser-only and needs the remote qual:certify:l5 run.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/16",
+  "req": "REQ-CMP-77",
+  "reason": "The steppers are now inner identity surfaces, and disabled steppers dim their glyph rather than the host. Jest covers both. number-field.apg.spec.ts now asserts exact PageUp/PageDown (v0±10), Home → -100, End → 100, a 1000 ms hold-repeat against NUMBER_FIELD_KEYS 400/60, and a non-transparent group background. These are browser legs and need qual:certify:l5.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/16",
+  "req": "REQ-CMP-80",
+  "reason": "The PENDING placeholder in overlay-layer.test.tsx is replaced by a real assertion: no seam subjects remain and all 9 kinds mount. The WithPopoverMenu scene now has a Dialog.Trigger. T-OVL-STACK-01 asserts that after each Escape focus is on the closed layer's trigger: Actions, then Jordan Lee, then Manage members. That e2e spec needs a remote L5 run.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/16",
+  "req": "REQ-CMP-84",
+  "reason": "The forced-colors case in overlays-glass-modal-4x.spec.ts now clicks 'Open dialog' first. The successor ids are now flagships-overlays-dialog--playground and flagships-overlays-sheet--right-panel. overlay-a11y-modes.spec.ts has new data-ag-transparency=solid legs for Dialog, Popover, Menu and Select: 0 visible backdrop-filters and a 1px solid border on all four edges. These need remote L5 and L10 runs.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/16",
+  "req": "REQ-CMP-130",
+  "reason": "cmp-server.spec.ts moved to canaries/next16/tests/, the canary's Playwright testDir, so plat:integration:next now collects it. page.tsx now renders Icon, ImageList, VisuallyHidden, Slot and Label. The L11 lane path is updated to the new location. plat:integration:next and qual:certify:l10 (t2-page) still have to go green remotely.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/16",
+  "req": "REQ-CMP-132",
+  "reason": "On next, the §9 '4.2' rows (DEP-C0110/0119/0120/0121/0122/0123/0132/0284) now have since 4.2.0. MobileGlassBottomSheet (DEP-C0132) now has removeIn 6.0.0 and a compat entry. DEP-C0209 was already 4.2.0. deprecations.json and deprecations.generated.ts were regenerated with gen-deprecations. PRD says this file is authored on release/4.x, so the same diff has to land there through a 4x-cmp/* PR; verify-deprecations --compare-branch treats any field change versus release/4.x as an error. AC-CMP-17 also needs a published 4.2.x; npm currently has 4.1.0 as the newest.",
+  "kind": "owner-or-human"
+ },
+ {
+  "branch": "impl/16",
+  "req": "REQ-CMP-137",
+  "reason": "Dialog, AlertDialog and Sheet blurred-surfaces max is now 2 on both profiles (§16: scrim + popup). This was done in the pre-calibration window with Perf-Budget-Raise trailers. Grading the rows needs qual:certify:l10 and qual:certify:perf-grade on a pipeline.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/16",
+  "req": "REQ-CMP-140",
+  "reason": "Added registry/blocks/overlay-flows/OverlayFlows.stories.tsx with Default, RTL, ReducedTransparency and ForcedColors stories. Rendering it in QUAL L11 needs a Storybook build on CI.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/16",
+  "req": "REQ-CMP-141",
+  "reason": "cmp:test:consumer-4x now writes its evidence to .artifacts/cmp/test-consumer-4x/ (jest --json output), and verify-ci-fragments passes. Flipping allow_failure to false needs a green GitLab run on next and an activation row in ci/plat/activation.json citing that job URL.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/13",
+  "req": "REQ-PLAT-13",
+  "kind": "needs-ci-to-verify",
+  "reason": "The 5x line is fixed in be3d5615d. A new `dry-run.mjs --print-previous` prints the same-major, semver-lower previous tag (previousTag()). Both CI classifier re-runs (plat:gate:change-class and plat:package:pack) now use it instead of the newest tag of any major, and skip the re-run when the tag is the first of its major. plat:package:pack gained a `$CI_COMMIT_TAG` / allow_failure:false first rule. tests/release/tag-pipeline.test.ts covers --print-previous in a real temp repo (a v4 tag never picks v5; first-of-major prints nothing) and pins the wiring. Still open: porting dry-run.mjs and tag-pipeline.test.ts to release/4.x and release/4.1.x, which cannot land on impl/13 (forked from the 5x line at ac5ff85f2); and the rehearsal tag pipeline that reaches plat:publish:npm with pack green."
+ },
+ {
+  "branch": "impl/13",
+  "req": "REQ-PLAT-16",
+  "kind": "needs-ci-to-verify",
+  "reason": "Fixed on 5x in be3d5615d. release.description is now './.artifacts/plat/plat-release-notes/release-notes.md', so the GitLab Release body is the generated notes. docs/release-rollback-deprecation.md now says dist-maps.tgz is a plat:package:pack artifact. tests/release/release-job.test.ts asserts the description and the documented `gh release create <tag> --notes-file release-notes.md dist-maps.tgz` step. Still open: the release/4.x port (another line) and a rehearsal Release confirming the dist-maps.tgz link returns 200."
+ },
+ {
+  "branch": "impl/13",
+  "req": "REQ-PLAT-94",
+  "kind": "blocked-by-other-cluster",
+  "reason": "Done on impl/13: registry/registry.json and registry/registry-report.json are untracked (they were already in .gitignore), with a guard test. The docs claims chain now reads the certified report from plat:test:registry's job dir, delivered through needs (scripts/docs/paths.mjs ARTIFACTS.registryReport), not a stale tree copy. A real shadcn interop spec replaces the old one: shadcn@latest init --template next --base base, then shadcn add <url>/r/auraglass.json and app-frame.json, next build, and a check that shadcn and AuraGlass Buttons resolve the same --primary. Certification write-back is in build.mjs (see REQ-PLAT-97). Blocked: setting dependencies to exactly ['aura-glass@^5'] with lib/auraglass.ts as `export { cn } from 'aura-glass'` needs `cn` to be a public root export. Today it lives only in src/internal, and src/index.ts is a CONTRACT-verbatim barrel with generated etc/api root reports. The PRD expects cn to be public (REQ-PLAT-69 server-safe exports include cn; REQ-PLAT-77 server-helpers page uses cn). Until that lands, the base keeps clsx, and the interop spec deliberately asserts the exact deps, so it will fail."
+ },
+ {
+  "branch": "impl/13",
+  "req": "REQ-PLAT-97",
+  "kind": "needs-ci-to-verify",
+  "reason": "Implemented in 9e1e73643. tests/dx/registry-render.spec.ts now runs the full battery for every discovered block and item, in Chromium and WebKit: overflow, landmark set plus one h1, layout.assert geometric predicates, 24/44 px touch targets, Tab reachability, axe, 60 KB gz JS, pixel gates, axe under forced-colors / prefers-contrast:more / reduced-motion, and in Chromium (CDP) at most 2 long tasks >50 ms at 4x CPU. The pixel gates live in tests/dx/lib/pixel-gates.ts at the §15.2 thresholds: not blank ≥40 levels, separation ≥25% of pixels >10 levels, text contrast on rendered pixels 4.5/3, glass density ≤0.3, and material presence. The new layout.assert evaluator is tests/dx/lib/layout-assert.ts, and app-frame now has a layout.assert.json with the PRD predicates. The spec runs under the new tests/dx/registry.playwright.config.ts (retries 0), because the root config does not match tests/dx, so `npx playwright test <spec>` found nothing. Per-(item, project) records for CI_COMMIT_SHA are aggregated by the new scripts/registry/certification.mjs, and build.mjs --certification sets meta.auraglass.certified (the new --candidate build skips the GA rule until the gate has run). The plat:test:registry job is rewired to run all of this in order. The browser specs only run remotely and have not run yet."
+ },
+ {
+  "branch": "impl/13",
+  "req": "REQ-PLAT-45",
+  "kind": "too-large-continue",
+  "reason": "4x-only REQ: every change goes on release/4.x (client-entries generator over the source graph, moving to scripts/ci/client-entries.json, the RSC page importing /theme with a ClientChild, next build in the default plat:integration:next path, tests/ci/use-client-entries.test.ts). It cannot land on impl/13, which this harness forked from the 5x line at ac5ff85f2. It needs a run on a release/4.x-based worktree."
+ },
+ {
+  "branch": "impl/13",
+  "req": "REQ-PLAT-49",
+  "kind": "too-large-continue",
+  "reason": "4x-only: the CHANGELOG.md ## [4.1.1] palette regex-escape line and an 'abc' fixture recorded from v4.1.0, both on release/4.x and release/4.1.x. Not reachable from impl/13 (5x line). Needs a 4x-based worktree."
+ },
+ {
+  "branch": "impl/13",
+  "req": "REQ-PLAT-52",
+  "kind": "too-large-continue",
+  "reason": "4x-only, on release/4.x and release/4.1.x: the README.md claim retractions and the Known limitations (4.1.x) section, llms.txt:5, the mandated retraction blocks, the /certified green/i and ./reports/ patterns, case-sensitive SSR-safe, and tests/docs/claims-lint.test.ts. Not reachable from impl/13 (5x line). Needs a 4x-based worktree."
+ },
+ {
+  "branch": "impl/13",
+  "req": "REQ-PLAT-63",
+  "kind": "too-large-continue",
+  "reason": "4x-only, on release/4.x: AG_CONSUMER_4X in plat:integration:next, rendering both fixture apps in plat:test:visual-4x, a 390 px mobile app-shell page, and cases for mat/surf/qual. Recording the first green run needs CI. Not reachable from impl/13 (5x line)."
+ },
+ {
+  "branch": "impl/17",
+  "req": "REQ-CMP-85",
+  "reason": "Citation's PreviewCard.Positioner now spreads defaultPositionerProps (8/8, flip/shift), and ai.css gives [data-ag-part=citation-preview] transform-origin, max-block-size: var(--available-height) and overflow:auto. A jsdom test asserts the 8px main-axis translate plus data-side/data-align. A Citation case (flagships-ai-citation--preview-open) was added to tests/e2e/cmp/overlays/popover.spec.ts. That 390px browser leg needs a remote L5 run.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/17",
+  "req": "REQ-CMP-90",
+  "reason": "The palette row in overlays-dialog-perf.spec.ts now throws 'pending: ...' when listSubjects() finds no CommandPalette subject (pw-verdict reports PENDING below release scope). For every palette subject it finds, it runs REQ-CMP-79 (exactly one full-viewport scrim when open, at most one blurred, blur <=12px, <=3 blurred surfaces) and REQ-CMP-82 (settledIdle: 0 infinite animations, 0 live intervals). This is a remote-only L10 perf spec and needs a green remote run.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/17",
+  "req": "REQ-CMP-95",
+  "reason": "After the full-height detent, sheet.apg.spec.ts now asserts data-ag-appearance=full-height and that the popup's --_ag-tint-floor and background-color equal a same-attribute reference surface on the [data-ag-transparency=tinted] rung. It also asserts that after Escape focus is on the 'Open sheet' trigger. These are browser-only assertions and need a remote L5 run.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/17",
+  "req": "REQ-CMP-121",
+  "reason": "Base UI 1.8 Accordion has no arrow-key navigation at all: the APG spec's arrow steps were passing on no-op keys. The Accordion Root now owns ArrowDown/Up (Right/Left when horizontal, RTL-aware, wrapping) and Home/End across its own enabled triggers. A jsdom test proves the focus movement. The Keyboard story now has 3 sections, and the APG spec names the trigger expected after each key. The APG browser leg needs remote L5.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/17",
+  "req": "REQ-CMP-123",
+  "reason": "The items are now Base UI Radio.Root under the owned role=radiogroup, keeping the owned keys, half steps, RTL and the '3.5 of 5' label. Outside a RadioGroup, Base UI derives checked as value==='', so the checked item gets the empty value; this is documented in the file. A keyboard (detail 0) activation selects the whole item. Unit tests cover aria-checked/data-checked, the hidden inputs, click commit and readOnly. rating.apg.spec.ts now asserts that the focused radio is aria-checked and named after ArrowRight/End/Home. Needs remote L5. The Rating size budget is still unmeasured: Base UI Radio is a new import and status is pending.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/17",
+  "req": "REQ-CMP-64",
+  "reason": "The unit cases in SearchField.kbd.test.tsx were rewritten: implicit submit via userEvent Enter with a submit button, Tab reaches clear only with a value and the next control otherwise, and a non-empty Escape clears without reaching a parent while an empty Escape propagates. All pass locally. The Keyboard story now wraps the field in a form with a submit button and a status echo, and search-field.apg.spec.ts gained Enter-submit and Tab cases. Those browser cases need remote L5.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/17",
+  "req": "REQ-CMP-65",
+  "reason": "tests/controls/select-positioner.test.tsx wraps the Base UI Positioner (pass-through to the real part) and asserts side bottom, align start, sideOffset 8, collisionPadding 8, flip/shift and the applied 8px translate. It also asserts alignItemWithTrigger is false at a coarse pointer and true at a fine pointer. src/components/select and src/components/combobox were appended to the cmp:test:foundation-pattern jest dirs. Those suites pass locally (28 tests). The job itself needs dist and runs in CI.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/17",
+  "req": "REQ-CMP-66",
+  "reason": "select-keys.test.tsx now has real jsdom cases: End/Home highlight, Space selects and closes, and Tab while open closes and focuses the next control. The cases wait for Base UI to move focus onto an option, which removes an order-dependent flake. select.apg.spec.ts gained Enter/Space/ArrowDown/ArrowUp opening, typeahead and Tab-while-open cases, and the Keyboard story gained a 'Continue' tab stop. The in-browser cases need remote L5.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/17",
+  "req": "REQ-CMP-33",
+  "reason": "The audit's gap is not real. QUAL's certification/lanes.config.ts locationBuiltins already registers tests/e2e/cmp/**/*.spec.ts as an L5, remote, failClosed row that the lane runner merges in (laneRunner.loadRegistrations). A new fragments/lanes row would have run the spec twice. I added tests/controls/cmp-e2e-registration.test.ts, which asserts that button-loading.spec.ts and popover.spec.ts are matched by a remote failClosed L5 row and that the width-stability story exists. The button-loading spec itself still needs a green remote L5 run.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/17",
+  "req": "REQ-CMP-35",
+  "reason": "The toggle test in button.apg.spec.ts now presses Enter/Space/Space/Enter and asserts aria-pressed flips on each press and focus stays on the button. A Button.test.tsx keyboard case (Enter/Space click once each; toggle flips on each) passes locally. The browser leg needs remote L5.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/14",
+  "req": "REQ-PLAT-99",
+  "kind": "needs-ci-to-verify",
+  "reason": "Done on impl/14 (f425054b4): the four MAT Foundations pages are written under apps/docs/content/mat/ (choosing-a-material, theming, accessibility, motion). They render through apps/docs/lib/markdown and lint-claims passes. docs/release/decisions/plat-99-docs-tarball-install.md records the PRD amendment: apps/* is an npm workspace, so a file: tarball dependency would put the tarball into package-lock.json and break npm ci before plat:package:pack can write it. The existing docs-artifact test already asserts there is no aura-glass dependency. Still open: the 'HTML for every nav href' check needs plat:build:docs. tests/docs/links.test.ts already fails on a clean checkout because /plat/migrate/5 is only generated at build time; that failure is not from this change."
+ },
+ {
+  "branch": "impl/14",
+  "req": "REQ-PLAT-47",
+  "kind": "needs-ci-to-verify",
+  "reason": "Implemented on impl/14-4x f32344332 and impl/14-41x ef59717db. react19-smoke now runs react19-smoke + clientBoundary.hydration + native-primitives. unit-react19 runs the full jest --ci through tests/react19/jest.unit-react19.config.js, which appends element-ref-spy to the configured setupFilesAfterEnv. Two steps need the first plat:test:react19 run: setting allow_failure:false and recording the React-19-only failures in 4.1.1-react19-matrix.md."
+ },
+ {
+  "branch": "impl/14",
+  "req": "REQ-PLAT-51",
+  "kind": "needs-ci-to-verify",
+  "reason": "Implemented on impl/14-4x 02dbb18ca by applying the unmerged 4x-fin/b-artifacts commit 181d9853c and resolving 4.x conflicts: mixins, verify-ci-fragments rule 5, the visual-4x report now in its job dir, and the deprecation-coverage job. Not cherry-picked to 4.1.x because its CI layout differs. The operator still has to turn on keep_latest_artifact in the GitLab project settings."
+ },
+ {
+  "branch": "impl/14",
+  "req": "REQ-PLAT-48",
+  "kind": "too-large-continue",
+  "reason": "On impl/14-4x a9580a4aa (also impl/14-41x d4fad3c30): motion-no-empty-animate now flags an undefined animate branch over an unsettled initial, its message points to the FINAL pattern, and all 4 flagged sites are fixed. A scan of every tracked src/**/*.tsx with the rule reports 0 findings. Not done: rebuilding reduced-motion-visible.test.tsx from the actual site files (40 files outside the current table), cookie-consent data-state re-check, and expectSettledVisible over those files. That needs real framer-motion/jsdom mounts of complex components, and no 4.x node_modules exist locally to verify them."
+ },
+ {
+  "branch": "impl/14",
+  "req": "REQ-SURF-93",
+  "kind": "owner-or-human",
+  "reason": "Typed Recharts/visx/chart.js adapters in apps/docs need recharts, @visx/* and chart.js@4 as new apps/docs devDependencies plus a lockfile regeneration. This run forbids adding dependencies, so it needs a dependency-set (contract) PR first."
+ },
+ {
+  "branch": "impl/12",
+  "req": "REQ-CMP-125",
+  "reason": "Implemented and Jest-proven: Hue is now a Base UI Slider, ColorPicker.Channel/Alpha/Input are parts (contract row added), the Area steps exactly 1%/10%, hex round-trips, and the popup is overlay regular. The rewritten tests/a11y/apg/cmp/color-picker.apg.spec.ts (L5, browser) has not been run; it needs the remote lane.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/12",
+  "req": "REQ-CMP-101",
+  "reason": "The Jest leg passes (the popup stays open after a long-press lifts and closes on the next outside tap). The spec moved to the PRD path tests/e2e/cmp/tooltip-touch.spec.ts and is registered as a remote L5 playwright row in fragments/lanes/cmp.ts. The browser run (hasTouch) only happens on the remote runner.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/12",
+  "req": "REQ-PLAT-81",
+  "reason": "Code is done and tested: records are now {hits[{path,count}], acknowledged[{path,via}]}, the scan only counts source files with an aura-glass import specifier, gh hits get a per-file grep, and --verify fails on unacknowledged hits, the old record shape, unsigned unavailable scans, and (for RM-PR families vs $CI_MERGE_REQUEST_DIFF_BASE_SHA) scans older than the base. RM-01..10 were reshaped; RM-11/12/13 were rescanned read-only on this Mac. --verify still fails on RM-11 (28 hits) and RM-12 (5 hits), all in gh:auraoneai/glasswebsite. The owner has to acknowledge each one (codemod run or 4.x LTS pin) in the records.",
+  "kind": "owner-or-human"
+ },
+ {
+  "branch": "impl/12",
+  "req": "REQ-PLAT-62",
+  "reason": "This is release/4.x work: landing the cmp/mat/surf/qual codemod fragments on release/4.x, adding a `migrate 4to5 --dry-run` step against tests/fixtures/consumer-4x before the CLI publish in the 4.x pipeline, and making PLAT since<=4.3.0 rows block the v4.3.0 tag. It cannot be done from this next-based worktree. The owner also has to cut v4.3.0 and confirm the npm scope.",
+  "kind": "owner-or-human"
+ },
+ {
+  "branch": "impl/18",
+  "req": "REQ-CMP-36",
+  "reason": "Two specs now run in browser lanes: tests/visual/cmp/controls/icon-button-contrast.spec.ts (L6, already covered by the tests/visual/cmp/** row) checks the glyph colour against --ag-color-on-surface and checks glyph-vs-surface contrast is >=3:1 across all 8 scenes in light and dark. icon-button-sizes.spec.ts runs through the new L6 row for tests/e2e/cmp/controls/**. The pure measurement function has a jest unit test, which passes. Neither Playwright spec was run here because local browsers are not allowed, so they still need the remote visual lane or Storybook.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/23",
+  "req": "REQ-MAT-35",
+  "reason": "tests/e2e/mat/material/tiers.spec.ts is rewritten. 'No tier' now removes the provider's <html> data-ag-tier, asserts that 0 elements carry [data-ag-tier] and that the regular surface's ::before has blur(20px). The lightweight subtree test has its if(count>0) guard removed and expects exactly 1 match. It asserts ::before backdrop-filter none, --_ag-grain-opacity <= 0.02, a host fill alpha >= 0.85 (the browser normalises the colour by filling a 2D canvas), a light fill (luminance > 0.5) under data-ag-scheme=light, and that the sibling standard surface keeps blur(20px). A new case puts lightweight on <html> under the dark scheme and checks alpha >= 0.85 with a dark fill. The spec type-checks with standalone tsc but is browser-only, so it was not run here (Playwright is barred on this Mac). It needs the mat:material-* Playwright projects / mat:test:material-browsers on GitLab.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/23",
+  "req": "REQ-MAT-41",
+  "reason": "This is release/4.x work, not next. origin/4x-fin/d-bridge (8f1475734) is still 1 commit ahead of origin/release/4.x and not merged. Merging it through a 4.x-line PR, adding the PLAT ./material and ./compat/tokens.css exports and the preview prop on release/4.x, getting mat:build:bridge green on a 4x pipeline, and publishing 4.2/4.3 are all outside this impl/23 branch (based on next). Publishing is owner-only.",
+  "kind": "owner-or-human"
+ },
+ {
+  "branch": "impl/20",
+  "req": "REQ-PLAT-41",
+  "reason": "The gate is rewritten on impl/20-4x (a7fb114e5) and impl/20-41x (acfa3b974). It imports dist/index.mjs in jsdom, names effects by stack and sourcemap symbol, rejects stale rows and adaptiveAI, and has 11 fixture tests. The baselines were measured on a local esbuild 0.25.12 build of src/index.ts: 4.x has 1 row (soundDesign), 4.1.x has 2 rows (bundled chart.js plus soundDesign). They still need a CI run of plat:gate:glass-quality on a real plat:build:dist dist.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/20",
+  "req": "REQ-PLAT-44",
+  "reason": "On both 4.x branches: src/__tests__/hooks-order.test.tsx (provider-less GlassButton/GlassContainer, 0 listeners, timers, Workers or AudioContexts, each flag toggled) and GlassInput.hooks.test.tsx (errorText toggles with stable ids). These exposed a dangling aria-describedby id while an error is shown, which is now fixed. The rg conditional-hook count is 0. Still missing: the CI-measured rules-of-hooks lint count in a decision record.",
+  "kind": "needs-ci-to-verify"
+ },
+ {
+  "branch": "impl/20",
+  "req": "REQ-PLAT-91",
+  "reason": "fixtures-typecheck is now a real strict tsc run with no blanket @ts-nocheck. Unbound identifiers are declared explicitly, the 4.x tarball is installed as node_modules/aura-glass, and outputs use the packed 5.0 tarball (AURAGLASS_TARBALL, required in plat:test:cli). 311 measured failing case/side pairs are in a shrink-only RC-1 baseline (scripts/integration/baselines/fixtures-typecheck.json). Still open: the stream owners must fix their fixtures (mostly CMP/SURF). Checking inputs against the packed 4.3 d.ts needs the v4.3.0 tag. Flipping plat:test:cli allow_failure needs a green CI run.",
+  "kind": "too-large-continue"
+ },
+ {
+  "branch": "impl/20",
+  "req": "REQ-PLAT-05",
+  "reason": "The 4x plat:build:docs on release/4.x needs an npm docs:build producing apps/docs/out (the fragment names FIN-C REQ-FIN-43 as producer). Release/4.x has no apps/ or docs site. Flipping allow_failure for glass-quality and integration:{next,vite} needs first green CI runs and activation rows. Reconciling the 4x fragment between next and release/4.x is a larger separate job.",
+  "kind": "blocked-by-other-cluster"
+ },
+ {
+  "branch": "impl/20",
+  "req": "REQ-PLAT-07",
+  "reason": "Needs the 4.x docs build (apps/docs/out) on release/4.x, the owner setting Pages to public (OD-11), and a recorded successful pages deploy (curl 200 plus /lab/ redirect).",
+  "kind": "owner-or-human"
+ }
+]
