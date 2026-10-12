@@ -360,7 +360,7 @@ function runV5WithEntries(cwd, deprecations) {
   const findings = [];
   const needles = entries.map((e) => {
     const row = e;
-    return { symbol: row.symbol ?? "", entry: row.entry ?? "", codemod: row.codemod ?? null, automation: AUTOMATION_MAP[row.automation ?? "manual"] ?? "manual", message: row.message ?? "" };
+    return { kind: row.kind ?? "", symbol: row.symbol ?? "", entry: row.entry ?? "", codemod: row.codemod ?? null, automation: AUTOMATION_MAP[row.automation ?? "manual"] ?? "manual", message: row.message ?? "" };
   }).filter((n) => n.symbol);
   for (const abs of walkFiles(cwd)) {
     if (!/\.(tsx?|jsx?|mjs|cjs|css)$/.test(abs)) continue;
@@ -375,7 +375,7 @@ function runV5WithEntries(cwd, deprecations) {
     lines.forEach((line, i) => {
       for (const n of needles) {
         if (!line.includes(n.symbol)) continue;
-        if (n.entry && n.entry !== "." && !/css-var|subpath/.test(String(n.kind ?? "")) && !src.includes(n.entry)) continue;
+        if (n.entry && n.entry !== "." && !/css-var|subpath/.test(n.kind) && !src.includes(n.entry)) continue;
         findings.push({ path: rel, line: i + 1, symbol: n.symbol, entry: n.entry, automation: n.automation, codemod: n.codemod, message: n.message });
       }
     });

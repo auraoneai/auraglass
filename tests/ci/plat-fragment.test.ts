@@ -384,7 +384,7 @@ describe('REQ-PLAT-51 evidence under .artifacts/plat/<job-slug>/', () => {
 
   it('plat:package:pack keeps the contract tarball dir and dotenv path', () => {
     const s = yaml.stringify(job('plat:package:pack').script, { lineWidth: 0 });
-    expect(s).toContain('npm pack --pack-destination .artifacts/pack');
+    expect(s).toContain('npm pack --json --pack-destination .artifacts/pack');
     expect(resolve('plat:package:pack', 'artifacts').reports).toEqual({ dotenv: '.artifacts/plat/pack.env' });
   });
 
