@@ -1,5 +1,5 @@
 /* REQ-MAT-50 (FIN D.3-30): the `aura-glass/motion` peer guard is browser-safe
- * (no node: imports, no Node globals) and turns a failed load of the optional
+ * (no node: imports; Node's resolver is feature-detected) and turns a failed load of the optional
  * `motion` peer into the contract install message. */
 import { describe, expect, it, jest } from '@jest/globals';
 import * as MotionReact from 'motion/react';
@@ -46,5 +46,30 @@ describe('peer-guard (REQ-MAT-50)', () => {
     const { importMotionPeer } = await import('../adapter/peer');
     const peer = await importMotionPeer();
     expect(typeof peer.MotionConfig).toBe('function');
+  });
+
+  it('throws the install message synchronously when motion/react does not resolve (no top-level await)', () => {
+    const { assertMotionPeerResolvable } = require('../peer-guard') as typeof import('../peer-guard');
+    const outside = `file://${require('node:os').tmpdir()}/ag-no-peer/entry.js`;
+    expect(() => assertMotionPeerResolvable(outside)).toThrow(CONTRACT_MESSAGE);
+    expect(() => assertMotionPeerResolvable(`file://${__filename}`)).not.toThrow();
+  });
+
+  it('adapter reads wait on the pending load, then return the installed peer', async () => {
+    let motionPeer: (() => MotionPeer) | null = null;
+    let start: ((from: string, load: () => Promise<MotionPeer>) => void) | null = null;
+    jest.isolateModules(() => {
+      ({ motionPeer } = require('../adapter/peer') as typeof import('../adapter/peer'));
+      ({ startMotionPeer: start } = require('../peer-guard') as typeof import('../peer-guard'));
+    });
+    let resolveLoad: (p: MotionPeer) => void = () => {};
+    const loading = new Promise<MotionPeer>((r) => { resolveLoad = r; });
+    start!(`file://${__filename}`, () => loading);
+    // outside a render React.use cannot suspend, but the read must not report "not loaded"
+    expect(() => motionPeer!()).not.toThrow(/peer is not loaded/);
+    resolveLoad(MotionReact as MotionPeer);
+    await loading;
+    await Promise.resolve();
+    expect(motionPeer!().MotionConfig).toBe(MotionReact.MotionConfig);
   });
 });

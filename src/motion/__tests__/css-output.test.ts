@@ -290,7 +290,10 @@ describe('REQ-MOT-30/-31/-32: loading sweep', () => {
     const uses: string[] = [];
     root.walkDecls('animation', (d) => {
       if (!d.value.includes('ag-sweep')) return;
-      uses.push(d.value);
+      // MAT-232 literal rule: the 1400ms period sits in --_ag-sweep-duration on the same rule.
+      const period = (d.parent as postcss.Rule).nodes
+        .find((n): n is postcss.Declaration => n.type === 'decl' && n.prop === '--_ag-sweep-duration');
+      uses.push(d.value.replace('var(--_ag-sweep-duration)', period?.value ?? 'var(--_ag-sweep-duration)'));
       let p = d.parent as postcss.Container | undefined;
       const chain: string[] = [];
       while (p) {

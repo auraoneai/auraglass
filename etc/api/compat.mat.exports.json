@@ -1,14 +1,19 @@
 {
- "entry": "compat.mat",
- "source": "src/compat/mat/index.ts",
+ "entry": "./compat.mat",
  "exports": [
+  "GlassAdvanced",
   "GlassCore",
+  "GlassPrimitive",
   "LiquidGlassConcentricFrame",
   "LiquidGlassEffectGroup",
   "LiquidGlassLayerProvider",
   "LiquidGlassMaterial",
   "LiquidGlassScrollEdge",
   "OptimizedGlass",
-  "OptimizedGlassAdvanced"
- ]
+  "OptimizedGlassAdvanced",
+  "createBrandGlassTheme",
+  "createGlassTheme",
+  "createGlassThemeCssVars"
+ ],
+ "unanalysable": []
 }

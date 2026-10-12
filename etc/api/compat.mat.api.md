@@ -1,6 +1,8 @@
-## API Report — aura-glass compat.mat (src/compat/mat/index.ts)
+## API Report — aura-glass ./compat.mat
 
+- `GlassAdvanced`
 - `GlassCore`
+- `GlassPrimitive`
 - `LiquidGlassConcentricFrame`
 - `LiquidGlassEffectGroup`
 - `LiquidGlassLayerProvider`
@@ -8,3 +10,6 @@
 - `LiquidGlassScrollEdge`
 - `OptimizedGlass`
 - `OptimizedGlassAdvanced`
+- `createBrandGlassTheme`
+- `createGlassTheme`
+- `createGlassThemeCssVars`

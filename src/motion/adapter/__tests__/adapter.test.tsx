@@ -18,9 +18,8 @@ import { DURATIONS_MS, EASES } from '../../../contracts/motion';
 import type { DurationName } from '../../../contracts/motion';
 import type { DragBindings } from '../../../contracts/motion';
 
-/* public.ts loads the peer with a top-level await, which jest's CJS transform
- * cannot evaluate; the frozen 7-name surface of the built entry is asserted by
- * scripts/mat/verify-motion-entry.mjs (check `with-peer-exports`) instead.
+/* The packed entry's frozen 7-name surface is asserted by
+ * scripts/mat/verify-motion-entry.mjs (check `with-peer-exports`).
  * Here the adapter gets the same peer the entry would install. */
 beforeAll(() => { setMotionPeer(MotionReact); });
 
