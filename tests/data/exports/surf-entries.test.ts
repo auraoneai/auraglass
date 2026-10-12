@@ -23,6 +23,14 @@ jest.setTimeout(300_000);
 const ROOT = join(__dirname, '..', '..', '..');
 const REMOTE = 'GitLab job surf:package:packed-entries (npm run build && npm pack, then AURAGLASS_TARBALL=<tgz> npm test -- tests/data/exports)';
 const SURF_ROWS = ENTRIES.filter((e) => e.owner === 'SURF');
+// EntrySpec.ga gate (scripts/build/lib/graph.mjs gaGate, REQ-FIN-06): a row whose
+// ga line is above the package's major.minor is dropped from the exports map,
+// so on 5.0.x './charts' (ga:'5.1', REQ-SURF-164) must NOT resolve in the tarball.
+const PKG_VERSION = (JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')) as { version: string }).version;
+const line = (v: string): number => { const [maj = 'NaN', min = 'NaN'] = v.split('.'); return +maj * 1000 + +min; };
+const gaGated = (e: (typeof ENTRIES)[number]): boolean => line(e.ga) > line(PKG_VERSION);
+const SHIPPED_ROWS = SURF_ROWS.filter((e) => !gaGated(e));
+const GATED_ROWS = SURF_ROWS.filter(gaGated);
 const ROOT_SURF = ['ActivityFeed', 'Breadcrumbs', 'Command', 'CommandPalette', 'Pagination', 'SourceTransition', 'TabBar', 'Tabs', 'Timeline'];
 
 type Probe = {
@@ -69,12 +77,25 @@ process.stdout.write(JSON.stringify(out));
 });
 
 describe('packed SURF entries (SURF-140, REQ-SURF-01)', () => {
-  it.each(SURF_ROWS.map((e) => [e.subpath, [...e.exports].sort()] as const))(
+  it.each(SHIPPED_ROWS.map((e) => [e.subpath, [...e.exports].sort()] as const))(
     'Object.keys(import("aura-glass/%s")) equals the contract list exactly',
     (subpath, expected) => {
       expect({ subpath, ...probe.entries[subpath] }).toEqual({ subpath, keys: expected });
     },
   );
+
+  // Converse of the ga gate: an entry above the package line is absent from the
+  // packed exports map, so importing it fails with ERR_PACKAGE_PATH_NOT_EXPORTED.
+  // Empty on 5.1+ (./charts ships and is covered by the loop above).
+  if (GATED_ROWS.length > 0) {
+    it.each(GATED_ROWS.map((e) => [e.subpath, e.ga] as const))(
+      'import("aura-glass/%s") is not exported by the packed tarball (ga:%s above the package line)',
+      (subpath) => {
+        expect(probe.entries[subpath]?.keys).toBeUndefined();
+        expect(probe.entries[subpath]?.error).toMatch(/ERR_PACKAGE_PATH_NOT_EXPORTED/);
+      },
+    );
+  }
 
   it('./app-shell is exactly the 7 flagship names', () => {
     expect(probe.entries['./app-shell']).toEqual({
