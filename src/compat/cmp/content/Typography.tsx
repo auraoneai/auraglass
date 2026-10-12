@@ -8,7 +8,7 @@ import { Text } from '../../../components/text/Text';
 import type { TextProps } from '../../../components/text/Text';
 
 /* DEP-C0265 is the Typography row in fragments/deprecations/cmp.ts on
-   release/4.x (#524, ex-#313); it reaches next through the REQ-FIN-13 sync. */
+   release/4.x (PR 524, formerly PR 313); it reaches next through the REQ-FIN-13 sync. */
 const DEP = 'DEP-C0265';
 
 const VARIANT_TO_TYPE: Record<string, TextProps['type']> = {

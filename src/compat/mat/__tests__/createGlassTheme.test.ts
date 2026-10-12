@@ -39,7 +39,8 @@ describe('compat createGlassTheme motionPolicy (DEP-M0902)', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const opts = { id: 'c1', preset: 'midnight', density: 'compact', mode: 'dark' } as const;
     expect(createGlassTheme(opts)).toEqual(createGlassTheme5(opts));
-    expect(warn).not.toHaveBeenCalled();
+    // No deprecation warning; the 5.0 theme's own one-time contrast notice is not under test.
+    expect(warn.mock.calls.filter((c) => /DEP-/.test(String(c[0])))).toHaveLength(0);
   });
 
   it('only tokens.motion differs from the 5.0 theme when motionPolicy is set', () => {

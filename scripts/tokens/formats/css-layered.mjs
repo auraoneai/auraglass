@@ -335,14 +335,17 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
     }
   }
   // presets carry their own fallback in src/tokens/generated/presets.ts (see "presets (MAT-14)").
-  const shSel = ':root[data-ag-shadcn-source]';
-  const shDark = srgbDecls(shadcnSource.filter(hasLightDark), 'dark');
-  supports.push(
-    ...fb(shSel, srgbDecls(shadcnSource, 'light')),
-    ...fb(`${shSel}${DARK}`, shDark),
-    ...fbMedia(DARK_MEDIA, `${shSel}:not([data-ag-scheme])`, shDark),
-    '}', '',
-  );
+  // The shadcn-source fallback mirrors the main block, so it is emitted only when that block is.
+  if (emitShadcnSource) {
+    const shSel = ':root[data-ag-shadcn-source]';
+    const shDark = srgbDecls(shadcnSource.filter(hasLightDark), 'dark');
+    supports.push(
+      ...fb(shSel, srgbDecls(shadcnSource, 'light')),
+      ...fb(`${shSel}${DARK}`, shDark),
+      ...fbMedia(DARK_MEDIA, `${shSel}:not([data-ag-scheme])`, shDark),
+    );
+  }
+  supports.push('}', '');
   parts.push(...supports);
 
   // linear() fallback (MAT-042, REQ-MAT-08): the critically damped snappy spring
@@ -385,7 +388,12 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
   }
   // the shadcn-source bridge and the light-dark() fallback blocks above also
   // re-declare --ag-color-*
-  noteDecls(shadcnSource, ':root[data-ag-shadcn-source]');
+  if (emitShadcnSource) {
+    noteDecls(shadcnSource, ':root[data-ag-shadcn-source]');
+    // its sRGB fallback (MAT-05) splits the scheme pair onto these two selectors
+    noteDecls(shadcnSource.filter(hasLightDark), ':root[data-ag-shadcn-source][data-ag-scheme="dark"]');
+    noteDecls(shadcnSource.filter(hasLightDark), ':root[data-ag-shadcn-source]:not([data-ag-scheme])');
+  }
   noteDecls(darkFallback, '[data-ag-scheme="dark"]');
   noteDecls(darkFallback, ':root:not([data-ag-scheme])');
   if (forced.size) {

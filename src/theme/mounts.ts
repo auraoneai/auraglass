@@ -12,8 +12,7 @@ import { LensDefs } from '../material/lens/LensDefs';
 import { installPointerLight, pointerLightActive } from '../motion/pointerLight';
 import type { PointerLightWindow } from '../motion/pointerLight';
 import { startSurfaceCounter } from '../material/dev/surfaceCounter';
-import { presets } from './presets';
-import type { PresetId } from './presets';
+import { presetCssText } from './presets';
 import { createBrandTheme } from './createBrandTheme';
 
 /** Attributes whose change can flip the pointer-light enable conditions. */
@@ -63,10 +62,10 @@ export const gatedPointerLight = (doc: Document): (() => void) => {
   };
 };
 
-const presetCss = (id: string): string | null => {
-  const p = (presets as Record<string, (typeof presets)[PresetId] | undefined>)[id];
-  return p ? createBrandTheme(p.accent, { preset: p.id }).cssText : null;
-};
+// MAT-14: presets ship precomputed cssText (light-dark() pairs + radius scale +
+// no-light-dark() fallback) from the token build; the provider serves it as is.
+const presetCss = (id: string): string | null =>
+  (presetCssText as Record<string, string | undefined>)[id] ?? null;
 
 const brandCss = (brand: string): string => createBrandTheme(brand).cssText;
 

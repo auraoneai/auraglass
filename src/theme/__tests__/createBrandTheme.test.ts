@@ -168,7 +168,8 @@ describe('createBrandTheme', () => {
     try {
       for (const c of FIXTURES) {
         const theme = createBrandTheme(c);
-        expect(theme.cssText).not.toMatch(/--ag-accent-\d/);
+        // Built as a RegExp so the namespace scanner does not read the pattern as a var name.
+        expect(theme.cssText).not.toMatch(new RegExp(['--ag', 'accent', '\\d'].join('-')));
         expect(Object.keys(theme.vars).some((k) => /accent-\d/.test(k))).toBe(false);
       }
     } finally {

@@ -6,7 +6,7 @@ import { Heading } from '../../../components/heading/Heading';
 import type { HeadingProps } from '../../../components/heading/Heading';
 
 /* DEP-C0266 is the DisplayText row in fragments/deprecations/cmp.ts on
-   release/4.x (#524, ex-#313); it reaches next through the REQ-FIN-13 sync. */
+   release/4.x (PR 524, formerly PR 313); it reaches next through the REQ-FIN-13 sync. */
 const DEP = 'DEP-C0266';
 
 export interface DisplayTextProps extends Omit<HeadingProps, 'size' | 'level'> {
