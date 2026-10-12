@@ -6,3 +6,12 @@ qual:build:seed:
   rules: [{ if: "$AG_SCOPE == \"pr\"" }]
   script: [npm run build]
   artifacts: { name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA", when: always, expire_in: 14 days, paths: [.artifacts/qual/] }
+# bridge-job exemption (rule 2): a dynamic child pipeline from an own-stream job's artifact, strategy: depend
+qual:certify:child:
+  stage: certify
+  needs: [{ job: "qual:build:seed", artifacts: true }]
+  rules: [{ if: "$AG_SCOPE == \"release\"" }]
+  variables: { PARENT_PIPELINE_ID: $CI_PIPELINE_ID }
+  trigger:
+    include: [{ artifact: .artifacts/qual/child.gitlab-ci.yml, job: "qual:build:seed" }]
+    strategy: depend
