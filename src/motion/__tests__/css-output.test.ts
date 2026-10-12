@@ -215,23 +215,31 @@ describe('REQ-MOT-14/-16/-17: popup materialize', () => {
       expect(text).toContain(`data-ag-overlay=${f}`);
     }
   });
-  it('starting/ending styles set --_ag-optics:0 and carry will-change', () => {
+  it('starting/ending styles set --_ag-optics:0 and the anchor origin, without will-change (REQ-MAT-30)', () => {
     const start = motionRules.find((r) => r.selector === '[data-starting-style]');
     const end = motionRules.find((r) => r.selector === '[data-ending-style]');
     expect(start).toBeTruthy();
     expect(end).toBeTruthy();
     expect(start!.toString()).toContain('--_ag-optics: 0');
-    expect(start!.toString()).toContain('will-change: transform, opacity');
-    expect(start!.toString()).toContain('transform-origin: var(--transform-origin)');
+    expect(start!.toString()).toContain('transform-origin: var(--transform-origin, 50% 50%)');
     expect(end!.toString()).toContain('--_ag-optics: 0');
-    expect(end!.toString()).toContain('will-change: transform, opacity');
+    expect(end!.toString()).toContain('transform-origin: var(--transform-origin, 50% 50%)');
+    expect(start!.toString()).not.toContain('will-change');
+    expect(end!.toString()).not.toContain('will-change');
   });
-  it('will-change appears only under starting/ending/animating selectors', () => {
+  it('REQ-MAT-43: the resting overlay rule carries transform-origin so exits scale from the anchor', () => {
+    const resting = motionRules.find((r) => (r.selectors ?? []).includes('[data-ag-overlay]'));
+    expect(resting).toBeTruthy();
+    const decl = resting!.nodes.find((n) => n.type === 'decl' && (n as postcss.Declaration).prop === 'transform-origin') as postcss.Declaration | undefined;
+    expect(decl?.value).toBe('var(--transform-origin, 50% 50%)');
+    expect(resting!.selectors).toEqual(expect.arrayContaining(['[data-ag-surface][data-ending-style]']));
+  });
+  it('REQ-MAT-30: will-change appears only under [data-ag-animating]', () => {
     const offenders: string[] = [];
     parse(FILES.motion).walkDecls('will-change', (d) => {
       const rule = d.parent as postcss.Rule;
       for (const s of rule.selectors ?? [rule.selector]) {
-        if (!/\[(data-starting-style|data-ending-style|data-ag-animating)\]/.test(s)) offenders.push(s);
+        if (!/\[data-ag-animating\]/.test(s)) offenders.push(s);
       }
     });
     expect(offenders).toEqual([]);
