@@ -13,10 +13,16 @@ const require2 = createRequire(join(ROOT, 'package.json'));
 const clsx = require2('clsx');
 
 describe('cn (PLAT-270)', () => {
-  it('src/internal/index.ts delegates to clsx (not tailwind-merge)', () => {
-    const src = readFileSync(join(ROOT, 'src', 'internal', 'index.ts'), 'utf8');
-    expect(src).toContain("from 'clsx'");
-    expect(src).not.toMatch(/tailwind-merge|twMerge/);
+  /* REQ-PLAT-26 (S-37): `cn` lives in src/internal/cn.ts; the internals barrel
+     re-exports it from there. */
+  it('src/internal/cn.ts delegates to clsx (not tailwind-merge); the barrel re-exports it', () => {
+    const src = readFileSync(join(ROOT, 'src', 'internal', 'cn.ts'), 'utf8');
+    const code = src.replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, ''); /* the header comment names the banned modules */
+    expect(code).toContain("from 'clsx'");
+    expect(code).not.toMatch(/tailwind-merge|twMerge/);
+    const barrel = readFileSync(join(ROOT, 'src', 'internal', 'index.ts'), 'utf8');
+    expect(barrel).toContain("export { cn } from './cn'");
+    expect(barrel).not.toMatch(/tailwind-merge|twMerge/);
   });
 
   it('clsx composition joins truthy class strings (cn = clsx(...))', () => {

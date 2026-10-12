@@ -18,7 +18,7 @@
    "version": "2.1.1",
    "kind": "dependency",
    "importers": [
-    "src/internal/index.ts"
+    "src/internal/cn.ts"
    ]
   },
   "@tanstack/react-table": {
