@@ -163,8 +163,10 @@
     width: 100%;
     background: var(--_ag-toast-accent, var(--_ag-accent, var(--ag-color-accent)));
     transform-origin: left;
-    /* --_ag-toast-timeout is always written by Toast.Root (Base UI default 5s) */
-    animation: ag-toast-progress var(--_ag-toast-timeout, var(--ag-duration-ambient)) linear forwards;
+    /* --_ag-toast-timeout is always written by Toast.Root (Base UI default 5s);
+       a persistent toast (timeout 0) hides the track instead. No fallback: the
+       ambient token is reserved for gated continuous loops (REQ-FIN-12). */
+    animation: ag-toast-progress var(--_ag-toast-timeout) linear forwards;
   }
   [dir='rtl'] .ag-toast-progress-bar { transform-origin: right; }
   /* REQ-CMP-108: pause mirrors the timer pause — viewport-level hover/focus

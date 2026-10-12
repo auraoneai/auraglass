@@ -8,6 +8,7 @@ import {
   AuraGlassProvider, createBrandTheme, presets, usePreference, usePreferenceActions,
 } from '../../src/theme/index';
 import { getProviderMounts } from '../../src/theme/providerMounts';
+import { presetCssText } from '../../src/theme/presets';
 import { warnDeprecated } from '../../src/internal/warnDeprecated';
 import { DEPRECATIONS } from '../../src/internal/deprecations.generated';
 import { PreferenceStoreContext } from '../../src/theme/preferences/usePreference';
@@ -59,8 +60,11 @@ describe('REQ-FIN-04 provider mounts', () => {
     render(<theme.AuraGlassProvider storage={null} preset="midnight"><div /></theme.AuraGlassProvider>);
     const styles = document.querySelectorAll('style[data-theme-style]');
     expect(styles).toHaveLength(1);
+    // MAT-14 (1a1ac2e38): a preset renders its generated [data-ag-root]
+    // cssText (light-dark() overrides), whose light arm is the preset accent.
     const p = theme.presets.midnight;
-    expect(styles[0]!.textContent).toBe(theme.createBrandTheme(p.accent, { preset: p.id }).cssText);
+    expect(styles[0]!.textContent).toBe(presetCssText.midnight);
+    expect(styles[0]!.textContent).toContain(`--ag-color-accent: light-dark(${p.accent},`);
   });
 
   it('LensDefs mounts once for tier enhanced, auto and an undefined tier prop; never for standard/lightweight', () => {

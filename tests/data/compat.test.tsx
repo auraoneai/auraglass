@@ -64,7 +64,8 @@ describe('W2 prop mapping', () => {
     quiet();
     const onChange = jest.fn();
     const { container } = render(<compat.GlassKeyValueEditor {...A.GlassKeyValueEditor!.props} onChange={onChange} />);
-    const keys = container.querySelectorAll<HTMLInputElement>('[data-ag-part="key-input"]');
+    // key-input is the field wrapper around the CMP TextField (6cfa47cad); the <input> lives inside it.
+    const keys = container.querySelectorAll<HTMLInputElement>('[data-ag-part="key-input"] input');
     expect([...keys].map((k) => k.value)).toEqual(['name', 'email', 'role']);
     fireEvent.change(keys[0]!, { target: { value: 'fullName' } });
     expect(onChange).toHaveBeenCalledWith(expect.arrayContaining([{ key: 'fullName', value: 'John Doe' }]));

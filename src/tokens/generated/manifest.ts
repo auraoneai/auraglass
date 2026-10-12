@@ -1008,7 +1008,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 50
+     "count": 51
     }
    ],
    "value": "200ms"
@@ -1612,7 +1612,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 35
+     "count": 40
     }
    ],
    "value": "24px"

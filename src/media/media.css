@@ -240,7 +240,8 @@
     display: flex; flex-direction: column;
     padding: var(--ag-space-16, 4rem) var(--ag-space-6, 1.5rem);
     color: var(--_ag-on-surface, Canvas);
-    outline: none;
+    /* REQ-SURF-193: no outline reset — the popup is data-ag-focusable, so the
+       MAT ring (src/a11y/css/focus.css) paints on :focus-visible. */
     container: ag-image-viewer / inline-size;
   }
   .ag-image-viewer-stage {
@@ -289,9 +290,9 @@
     font-variant-numeric: tabular-nums;
   }
   .ag-image-viewer-inspector {
-    position: absolute; inset-inline-end: 0; inset-block: 0; inline-size: var(--ag-media-panel-width, 20rem);
+    position: absolute; inset-inline-end: 0; inset-block: 0; inline-size: var(--_ag-media-panel-width, 20rem);
   }
-  .ag-image-viewer[data-ag-inspector='open'] .ag-image-viewer-stage { margin-inline-end: var(--ag-media-panel-width, 20rem); }
+  .ag-image-viewer[data-ag-inspector='open'] .ag-image-viewer-stage { margin-inline-end: var(--_ag-media-panel-width, 20rem); }
   @container ag-image-viewer (max-width: 767.98px) {
     .ag-image-viewer-inspector {
       position: relative; inset: auto; inline-size: auto; flex: none; order: 1;

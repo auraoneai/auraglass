@@ -99,6 +99,7 @@ export function DatePopup({
       onPointerDown={stopPress(props.onPointerDown)}
       onMouseDown={stopPress(props.onMouseDown)}
       data-ag-part={triggerPart}
+      data-ag-focusable=""
       className="ag-date-picker__trigger"
       variant="clear"
       size={size}

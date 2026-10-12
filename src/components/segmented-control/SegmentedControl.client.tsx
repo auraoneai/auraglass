@@ -53,10 +53,10 @@ function measureIntoRoot(root: HTMLElement | null) {
   const rr = root.getBoundingClientRect();
   const r = checked.getBoundingClientRect();
   const s = root.style;
-  s.setProperty('--ag-seg-x', `${r.left - rr.left}px`);
-  s.setProperty('--ag-seg-y', `${r.top - rr.top}px`);
-  s.setProperty('--ag-seg-w', `${r.width}px`);
-  s.setProperty('--ag-seg-h', `${r.height}px`);
+  s.setProperty('--_ag-seg-x', `${r.left - rr.left}px`);
+  s.setProperty('--_ag-seg-y', `${r.top - rr.top}px`);
+  s.setProperty('--_ag-seg-w', `${r.width}px`);
+  s.setProperty('--_ag-seg-h', `${r.height}px`);
 }
 
 function SegmentedControlRoot({

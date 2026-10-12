@@ -203,7 +203,10 @@ export function getServerSnapshot(root: HTMLElement): ShellSnapshot {
   };
 }
 
-/** Read the persisted cookie once and apply it (effect-time, never render). */
+/** Read the persisted cookie once and apply it (effect-time, never render).
+    Restoring is a read: it applies the persisted state without writing the
+    cookie back (REQ-SURF-21 — only the toggles write). Controlled shells get
+    the restored values through their change handlers, as before. */
 function hydrateFromCookie(root: HTMLElement): void {
   const key = root.dataset['persistKey'];
   if (!key || typeof document === 'undefined') return;
@@ -213,8 +216,19 @@ function hydrateFromCookie(root: HTMLElement): void {
     .find((c) => c.startsWith(`ag-shell-${key}=`));
   if (!raw) return;
   const persisted = parseAppShellCookie(raw.slice(`ag-shell-${key}=`.length));
-  if (persisted.sidebar) setSidebar(root, persisted.sidebar);
-  if (persisted.inspector) setInspector(root, persisted.inspector);
+  const rec = recordFor(root);
+  if (persisted.sidebar) {
+    rec.controlled.onSidebarChange?.(persisted.sidebar);
+    if (!rec.controlled.onSidebarChange) {
+      transition(root, { ...rec.snapshot, sidebar: persisted.sidebar }, rec, { persist: false });
+    }
+  }
+  if (persisted.inspector) {
+    rec.controlled.onInspectorChange?.(persisted.inspector);
+    if (!rec.controlled.onInspectorChange) {
+      transition(root, { ...rec.snapshot, inspector: persisted.inspector }, rec, { persist: false });
+    }
+  }
 }
 
 export function subscribe(root: HTMLElement, cb: () => void): () => void {

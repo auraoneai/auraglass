@@ -90,7 +90,7 @@ describe('SegmentedControl', () => {
 });
 
 describe('REQ-CMP-42 indicator positioning', () => {
-  it('checked item measurement sets --ag-seg-* vars; animating flag settles', async () => {
+  it('checked item measurement sets --_ag-seg-* vars; animating flag settles', async () => {
     const { container } = render(
       <SegmentedControl.Root aria-label="View" name="v" defaultValue="a">
         <SegmentedControl.Item value="a">A</SegmentedControl.Item>
@@ -102,7 +102,7 @@ describe('REQ-CMP-42 indicator positioning', () => {
     const checked = root.querySelector('[aria-checked="true"]');
     expect(checked).not.toBeNull();
     /* jsdom rect is 0-sized but the vars must be written */
-    expect(root.style.getPropertyValue('--ag-seg-w')).toMatch(/px/);
+    expect(root.style.getPropertyValue('--_ag-seg-w')).toMatch(/px/);
     /* select B -> animating flag appears then settles */
     const b = screen.getByRole('radio', { name: 'B' });
     fireEvent.click(b);

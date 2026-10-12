@@ -294,7 +294,7 @@ describe('chart palette from built CSS (REQ-SURF-95)', () => {
     const SUP = /^@supports not \(color: ?light-dark\(/;
     const light = declsOf(css.data, '.ag-chart-frame', { withHeader: SUP });
     const dark = declsOf(css.data, '[data-ag-scheme=dark] .ag-chart-frame', { withHeader: SUP });
-    const darkMedia = declsOf(css.data, ':root:not([data-ag-scheme]) .ag-chart-frame', { withHeader: /^@media ?\(prefers-color-scheme: ?dark\)/ });
+    const darkMedia = declsOf(css.data, 'html:not([data-ag-scheme]) .ag-chart-frame', { withHeader: /^@media ?\(prefers-color-scheme: ?dark\)/ });
     const norm = (s: string | undefined) => (s ?? '').replace(/\s+/g, ' ').trim();
     for (let i = 1; i <= 8; i++) {
       const k = `--_ag-chart-${i}`;

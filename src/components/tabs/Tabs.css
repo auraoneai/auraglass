@@ -26,8 +26,8 @@
     mask-image: linear-gradient(
       to right,
       transparent,
-      #000 var(--ag-space-4),
-      #000 calc(100% - var(--ag-space-4)),
+      black var(--ag-space-4),
+      black calc(100% - var(--ag-space-4)),
       transparent
     );
   }
@@ -67,7 +67,7 @@
     border-radius: var(--ag-radius-full, 999px);
     pointer-events: none;
     transition-property: translate, scale;
-    transition-duration: var(--ag-duration-normal, 160ms);
+    transition-duration: var(--ag-duration-small, 200ms);
     transition-timing-function: var(--ag-ease-standard, ease);
   }
   .ag-tabs__indicator:dir(rtl) {
