@@ -9,7 +9,7 @@ test.describe('grid masonry (CMP-349)', () => {
   test('focus order equals DOM order in both layout paths', async ({ page }) => {
     await gotoStory(page, 'core-grid--masonry');
     const root = page.locator('[data-ag-part="root"]').first();
-    await expect(root).toHaveAttribute('data-ag-variant', 'masonry');
+    await expect(root).toHaveAttribute('data-ag-appearance', 'masonry');
 
     const { native, display } = await root.evaluate((el) => ({
       native: CSS.supports('grid-template-rows', 'masonry'),

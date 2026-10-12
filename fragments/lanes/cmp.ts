@@ -55,6 +55,24 @@ export default [
     remote: true,
     failClosed: true,
   },
+  // L5 — REQ-CMP-112: Grid responsive columns + masonry (cmp:layout-chromium)
+  {
+    lane: "L5",
+    kind: "playwright",
+    path: "tests/e2e/cmp/layout/**/*.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
+  // L5 — REQ-CMP-113: Card content layer + disabled-no-opacity (cmp:material-chromium)
+  {
+    lane: "L5",
+    kind: "playwright",
+    path: "tests/e2e/cmp/material/**/*.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
   // L9 — motion spec
   {
     lane: "L9",
@@ -82,29 +100,23 @@ export default [
     remote: true,
     failClosed: true,
   },
-  // L11 — canaries
+  // L11 — REQ-CMP-130/138: next16 /cmp/server canary (0 hydration warnings, no
+  // provider). The spec lives in canaries/next16/tests/ (the canary's playwright
+  // testDir) so plat:integration:next collects it; the page stays under app/cmp/.
   {
     lane: "L11",
     kind: "playwright",
-    path: "canaries/*/cmp/**",
+    path: "canaries/next16/tests/cmp-server.spec.ts",
     scope: "pr",
     remote: true,
     failClosed: true,
   },
-  // L11 — REQ-CMP-130: next16 /cmp/server canary (0 hydration warnings, no provider)
-  {
-    lane: "L11",
-    kind: "playwright",
-    path: "canaries/next16/app/cmp/server/cmp-server.spec.ts",
-    scope: "pr",
-    remote: true,
-    failClosed: true,
-  },
-  // L12 — Jest CMP dirs
+  // L12 — Jest: where CMP's unit tests actually live (REQ-CMP-138). The
+  // src/components glob excludes the SURF-owned dirs (contracts/ownership.json).
   {
     lane: "L12",
     kind: "jest",
-    path: "tests/{foundation,controls,forms,overlays,content,layout,primitives}/cmp/**",
+    path: "src/components/!(breadcrumbs|command-palette|pagination|source-transition|tab-bar|tabs|timeline)/**/*.test.{ts,tsx}",
     scope: "pr",
     remote: false,
     failClosed: true,
@@ -112,7 +124,15 @@ export default [
   {
     lane: "L12",
     kind: "jest",
-    path: "tests/contract/cmp/**",
+    path: "src/primitives/**/*.test.{ts,tsx}",
+    scope: "pr",
+    remote: false,
+    failClosed: true,
+  },
+  {
+    lane: "L12",
+    kind: "jest",
+    path: "tests/{controls,foundation,overlays}/**/*.test.{ts,tsx,mjs}",
     scope: "pr",
     remote: false,
     failClosed: true,
