@@ -2,7 +2,8 @@
 // The video backdrop never autoplays: by default it stays paused on its poster;
 // with the continuous gate open it plays only while it intersects and the tab
 // is visible (pause within 250 ms otherwise); reduced motion keeps the poster;
-// the WCAG 2.2.2 control exists only while playing or user-paused and toggles
+// the WCAG 2.2.2 control is available (not `hidden`) only while playing or
+// user-paused and toggles
 // playback through aria-pressed. A missing story is a failure, never a skip.
 import { test, expect, type Page } from '@playwright/test';
 import { openBackdrop, setHidden } from '../_support/backdrop';
@@ -31,7 +32,7 @@ test.describe('backdrop video motion (REQ-SURF-157)', () => {
     expect(await isPaused(page)).toBe(true);
     // never started: the poster is what is painted
     expect(await video(page).evaluate((v: HTMLVideoElement) => v.currentTime)).toBe(0);
-    await expect(pause(page)).toHaveCount(0);
+    await expect(pause(page)).toBeHidden();
   });
 
   test('gate open: plays while visible; scrolling out pauses within 250 ms; scrolling back resumes', async ({ page }) => {
@@ -39,13 +40,14 @@ test.describe('backdrop video motion (REQ-SURF-157)', () => {
     expect(await page.evaluate(() => !!document.querySelector('[data-ag-continuous="on"]'))).toBe(true);
     await expect.poll(() => isPaused(page), { timeout: 10_000 }).toBe(false);
     await expect(pause(page)).toHaveCount(1);
+    await expect(pause(page)).not.toHaveAttribute('hidden', /.*/);
     await expect(pause(page)).toHaveAccessibleName('Pause background video');
     await expect(pause(page)).toHaveAttribute('aria-pressed', 'false');
 
     const elapsed = msUntilPaused(page);
     await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
     expect(await elapsed).toBeLessThanOrEqual(250);
-    await expect(pause(page)).toHaveCount(0);
+    await expect(pause(page)).toBeHidden();
 
     await page.evaluate(() => window.scrollTo(0, 0));
     await expect.poll(() => isPaused(page), { timeout: 10_000 }).toBe(false);
@@ -68,7 +70,7 @@ test.describe('backdrop video motion (REQ-SURF-157)', () => {
     expect(await isPaused(page)).toBe(true);
     expect(await video(page).evaluate((v: HTMLVideoElement) => v.currentTime)).toBe(0);
     await expect(video(page)).toHaveAttribute('poster', /video-frame\.jpg$/);
-    await expect(pause(page)).toHaveCount(0);
+    await expect(pause(page)).toBeHidden();
   });
 
   test('the pause control toggles aria-pressed and playback, keeping its name', async ({ page }) => {

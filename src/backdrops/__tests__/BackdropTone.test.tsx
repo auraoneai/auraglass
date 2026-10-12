@@ -60,14 +60,17 @@ describe('BackdropTone playback gate + pause toggle (REQ-SURF-157)', () => {
   const mount = () => {
     const { container } = render(<Backdrop preset="video" src="/v.mp4" poster="/p.jpg" mediaTone="dark" />);
     const video = container.querySelector('video')!;
-    const button = () => container.querySelector('[data-ag-part="backdrop-pause"]');
-    return { video, button };
+    // the control is always in the DOM; unavailable = `hidden` (not focusable, not exposed)
+    const button = () => container.querySelector('[data-ag-part="backdrop-pause"]:not([hidden])');
+    const hiddenButton = () => container.querySelector('[data-ag-part="backdrop-pause"][hidden]');
+    return { video, button, hiddenButton };
   };
 
-  it('renders no pause control and never plays until the video intersects', () => {
-    const { button } = mount();
+  it('renders no available pause control and never plays until the video intersects', () => {
+    const { button, hiddenButton } = mount();
     expect(play).not.toHaveBeenCalled();
     expect(button()).toBeNull();
+    expect(hiddenButton()).not.toBeNull();
   });
 
   it('plays once intersecting under the gate; the toggle appears with a stable name and aria-pressed', async () => {

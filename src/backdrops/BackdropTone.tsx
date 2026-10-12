@@ -121,14 +121,17 @@ export function BackdropTone(
   // re-evaluate when the preference gate or the user's pause changes
   React.useEffect(() => { syncRef.current(); }, [allowContinuous, pausedByUser]);
 
-  // WCAG 2.2.2: the control exists only while there is motion to stop, or
-  // while the user's own pause holds (so it can be resumed). Its accessible
-  // name stays "Pause background video"; aria-pressed carries the state.
-  if (!playing && !pausedByUser) return null;
+  // WCAG 2.2.2: the control is available only while there is motion to stop,
+  // or while the user's own pause holds (so it can be resumed); otherwise it
+  // is `hidden` — not rendered, not focusable, not in the accessibility tree.
+  // Its accessible name stays "Pause background video"; aria-pressed carries
+  // the state.
+  const available = playing || pausedByUser;
   return (
     <button
       type="button"
       data-ag-part="backdrop-pause"
+      hidden={!available}
       aria-pressed={pausedByUser}
       onClick={() => setPausedByUser((v) => !v)}
     >

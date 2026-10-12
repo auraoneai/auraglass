@@ -51,6 +51,7 @@
     border: 1px solid color-mix(in oklch, CanvasText 30%, transparent);
     border-radius: var(--ag-radius-sm); opacity: 0; transition: opacity var(--ag-duration-micro);
   }
+  [data-ag-part='backdrop-pause'][hidden] { display: none; }
   [data-ag-part='backdrop-pause']:focus-visible,
   [data-ag-part='backdrop-pause']:hover,
   .ag-backdrop:hover > [data-ag-part='backdrop-pause'] { opacity: 1; }

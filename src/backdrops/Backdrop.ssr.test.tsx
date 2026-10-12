@@ -45,7 +45,7 @@ describe('Backdrop SSR (REQ-SURF-158/08)', () => {
     expect(renderToString(<Backdrop preset="aurora" />)).not.toContain('data-backdrop-grain');
     expect(renderToString(<Backdrop preset="aurora" grain />)).toContain('data-backdrop-grain=""');
   });
-  it('video renders no pause control server-side (nothing plays before hydration, REQ-SURF-157)', () => {
-    expect(renderToString(<Backdrop preset="video" src="/v.mp4" />)).not.toContain('backdrop-pause');
+  it('video renders the pause control hidden server-side (nothing plays before hydration, REQ-SURF-157)', () => {
+    expect(renderToString(<Backdrop preset="video" src="/v.mp4" />)).toMatch(/<button[^>]*data-ag-part="backdrop-pause"[^>]* hidden=""/);
   });
 });

@@ -49,9 +49,11 @@ describe('Backdrop DOM (REQ-SURF-155/156/159)', () => {
     expect(drift.getAttribute('data-backdrop-motion')).toBe('drift');
     expect(drift.querySelectorAll('[data-ag-part="backdrop-layer"]').length).toBe(1);
   });
-  it('video renders no pause control while nothing plays (REQ-SURF-157)', () => {
+  it('video keeps the pause control hidden while nothing plays (REQ-SURF-157)', () => {
     const { container } = render(<Backdrop preset="video" src="/v.mp4" />);
-    expect(container.querySelector('[data-ag-part="backdrop-pause"]')).toBeNull();
+    const btn = container.querySelector('[data-ag-part="backdrop-pause"]') as HTMLButtonElement;
+    expect(btn.hidden).toBe(true);
+    expect(btn.textContent).toBe('Pause background video');
   });
   it('media props never land on the root element (REQ-SURF-155)', () => {
     const { container } = render(
