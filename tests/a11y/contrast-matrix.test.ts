@@ -22,6 +22,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import postcss from 'postcss';
 import { presetCssText } from '../../src/tokens/generated/presets';
+import { SCENES, SCENE_BACKDROP } from '../../src/contracts/testing';
 import {
   compositeOver, hexToRgb, oklchToSrgb, parseColor, wcagContrast,
 } from '../../src/theme/color';
@@ -461,6 +462,52 @@ describe('a11y/contrast-matrix (MAT-091..094)', () => {
         if (failures.some((f) => f.includes(`(row ${key}=`))) lowered.push(key);
       }
       console.log(`mutated rows: ${EXPECTED_ROWS.length}; rows whose -0.05 edit also breaks a PRD-model pair threshold: ${lowered.length} (${lowered.join(', ')})`);
+    });
+  });
+
+  // REQ-CMP-61: TextField's invalid rim and error text use --ag-color-danger on the
+  // content-sunken shell. Every one of the 8 S-42 scenes maps to its declared backdrop
+  // (SCENE_BACKDROP); at each cell's solved floor (dist/contrast-matrix.json floorAlpha)
+  // the shell is composited over every solver composite (white, black, 9 busy samples,
+  // plus the clear scrim rule) and the floors.css rendered alpha over the scene's own
+  // backdrop composites; danger must reach 4.5:1 on all of them.
+  describe('TextField danger on the solved content-sunken floor (REQ-CMP-61)', () => {
+    const SHELL_VARIANT = 'sunken';
+    const SHELL_THICKNESS = 'regular'; // materialProps({ layer: 'content', content: 'content-sunken' }) default
+
+    test('the 8 scenes cover every declared backdrop', () => {
+      expect(SCENES).toHaveLength(8);
+      expect(new Set(SCENES.map((s) => SCENE_BACKDROP[s]))).toEqual(new Set(['light', 'dark', 'media']));
+    });
+
+    test('--ag-color-danger >= 4.5:1 for every scene x preset x scheme x contrast x transparency', () => {
+      const rows = parseFloorRows(FLOORS_CSS);
+      const failures: string[] = [];
+      let checked = 0; let worst = Infinity; let worstAt = '';
+      for (const scene of SCENES) {
+        const bd = SCENE_BACKDROP[scene];
+        for (const [preset, schemes] of Object.entries<any>(MATRIX.cells))
+          for (const [scheme, contrasts] of Object.entries<any>(schemes))
+            for (const [contrast, trs] of Object.entries<any>(contrasts))
+              for (const [tr, variants] of Object.entries<any>(trs)) {
+                const cell = variants[SHELL_VARIANT]?.[SHELL_THICKNESS]?.[bd];
+                if (!cell) { failures.push(`${scene}: matrix has no ${preset}/${scheme}/${contrast}/${tr}/${SHELL_VARIANT}/${SHELL_THICKNESS}/${bd} cell`); continue; }
+                const danger = sysColor('--ag-color-danger', scheme as Scheme);
+                const row = rows.get(contrast === 'more' ? rowKey('more', SHELL_THICKNESS, bd) : rowKey(tr, SHELL_THICKNESS, bd));
+                if (row === undefined) { failures.push(`${scene}: floors.css has no row for ${contrast}/${tr}/${bd}`); continue; }
+                const surfaces = [
+                  ...solverSurfaces(canvasOf(preset, scheme as Scheme), tr, SHELL_VARIANT, SHELL_THICKNESS, bd, cell.floorAlpha),
+                  ...prdSurfaces(preset, scheme as Scheme, tr, SHELL_VARIANT, bd, row),
+                ];
+                const ratio = Math.min(...surfaces.map((sf) => wcagContrast(danger, sf)));
+                checked++;
+                if (ratio < worst) { worst = ratio; worstAt = `${scene}/${preset}/${scheme}/${contrast}/${tr}`; }
+                if (ratio < 4.5) failures.push(`${scene} (${bd}) ${preset}/${scheme}/${contrast}/${tr}: danger ${ratio.toFixed(3)} < 4.5`);
+              }
+      }
+      console.log(`TextField danger: ${checked} scene cells; worst ${worst.toFixed(3)} @ ${worstAt}`);
+      expect(checked).toBe(SCENES.length * Object.keys(MATRIX.cells).length * 2 * 2 * 3);
+      expect(failures).toEqual([]);
     });
   });
 });

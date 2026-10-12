@@ -472,8 +472,8 @@ export const manifest = {
    "tier": "sys",
    "group": "sys",
    "modes": {
-    "light": "light-dark(oklch(0.6 0.21 27), oklch(0.68 0.2 27))",
-    "dark": "oklch(0.68 0.2 27)"
+    "light": "light-dark(oklch(0.43 0.17 27), oklch(0.88 0.09 27))",
+    "dark": "oklch(0.88 0.09 27)"
    },
    "since": "5.0.0",
    "public": true,
@@ -482,7 +482,7 @@ export const manifest = {
      "count": 25
     }
    ],
-   "value": "oklch(0.6 0.21 27)"
+   "value": "oklch(0.43 0.17 27)"
   },
   {
    "name": "sys.color.focus-inner",
