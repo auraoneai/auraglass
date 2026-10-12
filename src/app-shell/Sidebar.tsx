@@ -31,11 +31,12 @@ function SidebarRoot({ appearance = 'sidebar', variant, labels, children, render
   // REQ-SURF-10: labels.navigation reaches a direct Sidebar.Nav child by
   // element type (server list: no context, the AppShell Main/SkipLink
   // pattern); an explicit Nav aria-label always wins.
-  const threaded = labels?.navigation === undefined
+  const navLabel = labels?.navigation;
+  const threaded = navLabel === undefined
     ? children
     : React.Children.map(children, (c) =>
         React.isValidElement(c) && c.type === SidebarNav && (c.props as { 'aria-label'?: string })['aria-label'] === undefined
-          ? React.cloneElement(c as React.ReactElement<{ 'aria-label'?: string }>, { 'aria-label': labels.navigation })
+          ? React.cloneElement(c as React.ReactElement<{ 'aria-label'?: string }>, { 'aria-label': navLabel })
           : c,
       );
   const aside = partElement('div', {
