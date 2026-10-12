@@ -530,17 +530,22 @@ plat:package:pack:
     # pack-record.json is built from those reports below.
     - mkdir -p .artifacts/pack .artifacts/plat "$AURAGLASS_EVIDENCE_DIR/npm-pack"
     - npm pack --json --pack-destination .artifacts/pack > "$AURAGLASS_EVIDENCE_DIR/npm-pack/aura-glass.json"
+    # REQ-PLAT-11: the 5x workspace set is every published non-root package in
+    # contracts/packages.json (not a hard-coded list).
     - |
       if [ "$AG_LINE" = "5x" ]; then
-        for w in cli registry mcp labs; do
-          if [ -d "packages/$w" ]; then
-            npm pack --json -w "packages/$w" --pack-destination .artifacts/pack > "$AURAGLASS_EVIDENCE_DIR/npm-pack/$w.json"
+        WS=$(node -p "Object.values(require('./contracts/packages.json').packages).filter((p) => p.published === true && p.dir !== '.').map((p) => p.dir).join(' ')")
+        for d in $WS; do
+          w=$(basename "$d")
+          if [ -d "$d" ]; then
+            npm pack --json -w "$d" --pack-destination .artifacts/pack > "$AURAGLASS_EVIDENCE_DIR/npm-pack/$w.json"
           fi
         done
       fi
-    # REQ-PLAT-11: { name: { file, integrity } } for every tarball in
-    # .artifacts/pack, from npm's sha512 (re-hashed; fails closed). plat:publish:npm
-    # receives it with this job's artifacts and publish.mjs checks each sha512.
+    # REQ-PLAT-11: { packages: { name: { file, version, integrity } } } for every
+    # tarball in .artifacts/pack, from npm's sha512 (re-hashed; fails closed),
+    # into this job's evidence dir (.artifacts/plat/plat-package-pack/), which is
+    # the path plat:publish:npm's publish.mjs reads by default.
     - node ci/plat/pack-record.mjs --pack-dir .artifacts/pack --out "$AURAGLASS_EVIDENCE_DIR/pack-record.json" "$AURAGLASS_EVIDENCE_DIR"/npm-pack/*.json
     # Fail closed: an empty AURAGLASS_TARBALL would let every consumer job run
     # against nothing (REQ-PLAT-05 item 6).

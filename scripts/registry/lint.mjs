@@ -12,7 +12,9 @@
      declared-dep-imported   every declared dependency must be imported
      no-const-controlled     controlled input with constant value + no-op onChange
      no-api-key              /[A-Z_]*API_KEY/ except PRISM_API_KEY in server-only app/api/<name>/route.ts
-                             (and in the README.md of an item whose such route reads it)
+                             (and in the README.md/.mdx prose of an item whose such route reads it,
+                             which may name PRISM_API_KEY to document that server-only variable;
+                             every other *API_KEY name still fails there)
      no-client-key           NEXT_PUBLIC_*KEY or key references in client files
      no-copy-filler          lorem/ipsum/demo/placeholder copy (auth example.com allowed)
      no-viewport-class       (sm|md|lg|xl|2xl): classes unless Tailwind v4 project
@@ -87,10 +89,11 @@ export function lintFile({ file, rel, src, id, deps, tailwind, prismRoute = fals
   const isAuth = /auth/i.test(id);
   const isDev = DEV_FILE.test(rel);
   /* PRISM_API_KEY is allowed where the server-only route reads it, and in the
-     README.md of an item whose server-only route reads it (REQ-SURF-172: the
-     README documents the route's server-side configuration). Any other key
-     name, or PRISM_API_KEY anywhere else, fails. */
-  const prismAllowed = isServerRoute || (prismRoute && /(?:^|[\\/])README\.md$/.test(rel));
+     README.md/.mdx prose of an item whose server-only route reads it
+     (REQ-SURF-172 / REQ-PLAT-95: the README documents the route's server-side
+     configuration). Any other key name, or PRISM_API_KEY anywhere else, fails. */
+  const prismAllowed = isServerRoute || (prismRoute && /(?:^|[\\/])README\.mdx?$/.test(rel));
+  /* True when every *API_KEY name on the line is exactly PRISM_API_KEY. */
   const onlyPrism = (text) => [...text.matchAll(API_KEY_G)].every((m) => m[0] === 'PRISM_API_KEY');
   lines.forEach((text, i) => {
     const n = i + 1;

@@ -81,6 +81,12 @@ describe('registry lint rules', () => {
     expect(v).toEqual([join('registry', 'blocks', 'no-route', 'README.md')]);
     rmSync(root, { recursive: true });
   });
+  it('no-api-key: README prose may document PRISM_API_KEY only; client files may not', () => {
+    expect(run('| `PRISM_API_KEY` | yes | server-only key |', { rel: 'README.md', file: 'registry/blocks/x/README.md' })).toEqual([]);
+    expect(run('Set `OPENAI_API_KEY` in the browser.', { rel: 'README.md', file: 'registry/blocks/x/README.md' }).some((v) => v.rule === 'no-api-key')).toBe(true);
+    expect(run('`PRISM_API_KEY` or `STRIPE_API_KEY`', { rel: 'README.md', file: 'registry/blocks/x/README.md' }).some((v) => v.rule === 'no-api-key')).toBe(true);
+    expect(run("const k = process.env.PRISM_API_KEY;", { rel: 'index.tsx', file: 'registry/blocks/x/index.tsx' }).some((v) => v.rule === 'no-api-key')).toBe(true);
+  });
   it('no-client-key', () => {
     expect(run("const k = process.env.NEXT_PUBLIC_STRIPE_KEY;", { rel: 'index.tsx' }).some((v) => v.rule === 'no-client-key')).toBe(true);
   });
