@@ -7,11 +7,11 @@ import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileS
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
-  EXIT, PENDING_EXIT, branchStream, loadRegistrations, parseArgs, playwrightConfigFor, resolveHeadV4Tarball, resolvePublishedV4Tarball,
+  EXIT, PENDING_EXIT, branchStream, loadRegistrations, parseArgs, playwrightConfigFor, readBrowserVersions, resolveHeadV4Tarball, resolvePublishedV4Tarball,
   resolveTarball, selectRows, validateManifest,
   type Registration,
 } from '../src/evidence/laneRunner.ts';
-import { REPO, cleanupRepos, fakeJest, makeRepo, results, row, runFixture } from './helpers/laneFixture.ts';
+import { REPO, cleanupRepos, fakeJest, fakeTool, makeRepo, results, row, runFixture } from './helpers/laneFixture.ts';
 
 afterAll(cleanupRepos);
 
@@ -103,6 +103,59 @@ describe('lane manifest', () => {
     expect(validateManifest({ ...m, scope: 'weekly' }, schema)).toEqual(['$.scope: "weekly" not in enum']);
     const { results: _r, ...noResults } = m;
     expect(validateManifest(noResults, schema)).toEqual(['$.results: required']);
+  });
+
+  it('browser lanes: browserVersions comes from the lane fixture\'s per-worker browser-versions/ files (REQ-QUAL-05)', async () => {
+    const spec = 'certification/lanes/probe.spec.ts';
+    const root = makeRepo({ builtins: `[${row({ lane: 'L5', kind: 'playwright', path: spec, remote: true })}]`, files: { [spec]: '' } });
+    // stands in for Playwright running the shared fixture: two chromium workers and one webkit worker
+    const pw = fakeTool(root, 'playwright', `const fs = require('node:fs'); const path = require('node:path');
+const dir = path.join(process.env.AG_LANE_EVIDENCE_DIR, 'browser-versions'); fs.mkdirSync(dir, { recursive: true });
+for (const [f, name, version] of [['chromium-1-0', 'chromium', '140.0.7339.16'], ['chromium-1-1', 'chromium', '140.0.7339.16'], ['webkit-2-0', 'webkit', '26.0']])
+  fs.writeFileSync(path.join(dir, f + '.json'), JSON.stringify({ name, version }));
+fs.writeFileSync(process.env.PLAYWRIGHT_JSON_OUTPUT_NAME, JSON.stringify({ stats: { expected: 3, unexpected: 0, flaky: 0 }, suites: [] }));\n`);
+    const r = await runFixture(root, { lane: 'L5', tools: { playwrightCli: pw } });
+    expect(results(r)[0]).toMatchObject({ path: spec, state: 'pass', tests: 3 });
+    expect(r.manifest!.browserVersions).toEqual({ chromium: '140.0.7339.16', webkit: '26.0' });
+    expect(Object.keys(r.manifest!.browserVersions as object).length).toBeGreaterThan(0);
+    const schema = JSON.parse(readFileSync(join(REPO, 'certification/schemas/lane-manifest.schema.json'), 'utf8'));
+    expect(validateManifest(r.manifest!, schema)).toEqual([]);
+  });
+
+  it('readBrowserVersions: one engine at two versions keeps both; malformed files are ignored; no directory → {}', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ag-bv-'));
+    expect(readBrowserVersions(dir)).toEqual({});
+    mkdirSync(join(dir, 'browser-versions'));
+    writeFileSync(join(dir, 'browser-versions/a.json'), JSON.stringify({ name: 'firefox', version: '142.0' }));
+    writeFileSync(join(dir, 'browser-versions/b.json'), JSON.stringify({ name: 'firefox', version: '141.0' }));
+    writeFileSync(join(dir, 'browser-versions/c.json'), '{not json');
+    writeFileSync(join(dir, 'browser-versions/d.json'), JSON.stringify({ name: 'webkit' }));
+    expect(readBrowserVersions(dir)).toEqual({ firefox: '141.0,142.0' });
+  });
+
+  it('L2: the dist-perf gate\'s bytes map (keyed by export name) is on its lane-manifest result row (REQ-QUAL-46)', async () => {
+    const gate = 'scripts/qual/verify-dist-perf.mjs';
+    // stands in for the real gate: writes $AURAGLASS_EVIDENCE_DIR/qual/$CI_JOB_NAME_SLUG/dist-perf.json, exits 0
+    const fake = `import { mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+const dir = join(process.env.AURAGLASS_EVIDENCE_DIR ?? '.artifacts', 'qual', process.env.CI_JOB_NAME_SLUG || 'local');
+mkdirSync(dir, { recursive: true });
+writeFileSync(join(dir, 'dist-perf.json'), JSON.stringify({ bytes: { Button: 4210, AuraGlassProvider: 9120, broken: 'x' }, violations: [] }));\n`;
+    const root = makeRepo({ fragments: { qual: `[${row({ lane: 'L2', kind: 'node-script', path: gate })}]` },
+      files: { [gate]: fake, 'package.json': '{"name":"f","files":[]}' } });
+    const env = { AURAGLASS_TARBALL: 'package.json' };
+    const r = await runFixture(root, { lane: 'L2', env });
+    expect(r.code).toBe(EXIT.ok);
+    const res = results(r).find((x) => x.path === gate);
+    expect(res).toMatchObject({ lane: 'L2', state: 'pass', bytes: { AuraGlassProvider: 9120, Button: 4210 } });
+    expect(Object.keys(res!.bytes as object)).toEqual(['AuraGlassProvider', 'Button']);
+    const schema = JSON.parse(readFileSync(join(REPO, 'certification/schemas/lane-manifest.schema.json'), 'utf8'));
+    expect(validateManifest(r.manifest!, schema)).toEqual([]);
+
+    // a stale dist-perf.json from an earlier run never reaches the manifest
+    writeFileSync(join(root, gate), 'process.exit(0)\n');
+    const again = await runFixture(root, { lane: 'L2', env });
+    expect(results(again).find((x) => x.path === gate)).not.toHaveProperty('bytes');
   });
 
   it('node-script rows report pending with exit 75; that pending is a failure at release scope', async () => {
@@ -291,7 +344,7 @@ process.exit(ok ? 0 : 1);\n`;
       },
       files: { 'check-4x.mjs': check, 'l4.mjs': 'process.exit(1)\n', 'deprecations-4x.mjs': 'process.exit(1)\n' },
     }, origin);
-    const env = { AG_V4_DIST_TAG: 'latest', CI_COMMIT_SHA: 'abc123' };
+    const env = { AG_V4_DIST_TAG: 'latest', CI_COMMIT_SHA: 'abc123', CI_JOB_IMAGE: `mcr.microsoft.com/playwright:v1.55.0-noble@sha256:${'b'.repeat(64)}` };
     // registry `npm pack aura-glass@latest` is faked (no network in unit tests); the head build uses the real npm
     const tools = { npm: fakeHybridNpm(root) };
     const r2 = await runFixture(root, { lane: 'all', scope: 'nightly', env, tools, extraArgs: ['--line', '4x'] });
@@ -299,6 +352,9 @@ process.exit(ok ? 0 : 1);\n`;
     expect(r2.manifestPath).toBe(join(root, '.artifacts/qual/fixture/line-4x/lane-manifest.json'));
     const m = JSON.parse(readFileSync(r2.manifestPath!, 'utf8'));
     expect(m).toMatchObject({ line: '4x', lane: 'all', scope: 'nightly', tarball: null });
+    // REQ-QUAL-05: the 4.x writer records the digest (not the image reference) as imageDigest
+    expect(m.imageDigest).toBe(`sha256:${'b'.repeat(64)}`);
+    expect(m.image).toBe(env.CI_JOB_IMAGE);
     expect(m.tarballs.map((t: { source: string; state: string; version: string }) => [t.source, t.state, t.version])).toEqual([['published', 'ready', '4.3.0'], ['head', 'ready', '4.1.1']]);
     for (const t of m.tarballs) expect(t.sha256).toMatch(/^[0-9a-f]{64}$/);
     expect(results(r2).map((x) => [x.tarballSource, x.lane, x.path, x.state])).toEqual([
