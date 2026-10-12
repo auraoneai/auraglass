@@ -5,7 +5,7 @@
  * href fabricated; `children` arrays -> Sidebar.Collapsible). Layout props
  * drop to css defaults. Emits the SURF golden shape verbatim.
  */
-import { j, type FileUnit, type Transform, type TransformResult } from './shared.js';
+import { j, specNames, type FileUnit, type Transform, type TransformCtx, type TransformResult } from './shared.js';
 
 interface ItemNode {
   id?: string;
@@ -71,8 +71,12 @@ function itemJsx(item: ItemNode, pad: string, parent: string): string {
 
 export const appShellSlots: Transform = {
   id: 'app-shell-slots',
-  run(unit: FileUnit): TransformResult {
-    if (unit.kind !== 'code' || !/GlassAppShell/.test(unit.source)) {
+  run(unit: FileUnit, ctx: TransformCtx): TransformResult {
+    // 4.x names come from the app-shell-slots spec (REQ-PLAT-90): the shell whose
+    // props become slot children, and the rail variant of the item-array sidebars.
+    const [APP_SHELL] = specNames(ctx.mappings, 'app-shell-slots', /props -> slot children/);
+    const SIDEBAR_RAIL = specNames(ctx.mappings, 'app-shell-slots', /item arrays/).find((n) => /Rail$/.test(n));
+    if (unit.kind !== 'code' || !unit.source.includes(APP_SHELL!)) {
       return { source: unit.source, changes: [], todos: [] };
     }
     const root = j(unit.source);
@@ -90,7 +94,7 @@ export const appShellSlots: Transform = {
     root.find(j.JSXElement).forEach((p: any) => {
       const open = p.node.openingElement;
       const name = (open?.name as { name?: string })?.name;
-      if (name !== 'GlassAppShell') return;
+      if (name !== APP_SHELL) return;
       const attrs = (open?.attributes ?? []) as Array<{
         type?: string; name?: { name?: string }; value?: { expression?: unknown };
       }>;
@@ -105,7 +109,7 @@ export const appShellSlots: Transform = {
           newImports.add('TopBar');
           changes.push({ transform: 'app-shell-slots', description: 'header prop -> TopBar slot' });
         } else if (n === 'sidebar') {
-          const parent = elName === 'GlassSidebarRail' ? 'Rail' : 'Sidebar';
+          const parent = elName !== undefined && elName === SIDEBAR_RAIL ? 'Rail' : 'Sidebar';
           newImports.add(parent);
           const itemAttr = ((ex.openingElement?.attributes ?? []) as Array<{ name?: { name?: string }; value?: { expression?: unknown } }>)
             .find((x: any) => x.name?.name === 'items');
@@ -132,7 +136,7 @@ export const appShellSlots: Transform = {
         splices.push({ start: node.start, end: node.end, text });
       }
       newImports.add('AppShell');
-      changes.push({ transform: 'app-shell-slots', description: 'GlassAppShell -> AppShell.Root composition' });
+      changes.push({ transform: 'app-shell-slots', description: `${APP_SHELL} -> AppShell.Root composition` });
     });
 
     let out = unit.source;

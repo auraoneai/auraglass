@@ -65,6 +65,28 @@ export function hasTodoHeader(source: string): boolean {
   return source.includes('TODO(aura-glass 5):');
 }
 
+/**
+ * REQ-PLAT-90: the 4.x Glass* source names an area transform handles, read from
+ * its stream-authored spec in the compiled mappings (never hard-coded in the
+ * transform). `clause` selects the spec sentence(s) that describe one rewrite
+ * (e.g. /images -> items/); without it every documented name is returned. Names
+ * come back in spec order; a spec that documents none is a mapping error.
+ */
+const SPEC_GLASS_NAME = /\bGlass[A-Z][A-Za-z]+/g;
+export function specNames(mappings: CompiledMappings, id: string, clause?: RegExp): string[] {
+  const spec = mappings.areaSpecs[id];
+  if (!spec) throw new Error(`migrate 4to5: no compiled spec for area transform '${id}'`);
+  const sentences = clause ? spec.split(/(?<=[.;])\s+(?=[A-Z])/).filter((s) => clause.test(s)) : [spec];
+  const names = [...new Set(sentences.flatMap((s) => s.match(SPEC_GLASS_NAME) ?? []))];
+  if (!names.length) throw new Error(`migrate 4to5: spec '${id}' documents no Glass* name${clause ? ` for ${clause}` : ''}`);
+  return names;
+}
+
+/** Escape a name for use inside a RegExp source. */
+export function reEscape(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 /** Replace JSX opening-element tag name text, preserving attributes byte-for-byte. */
 export function renameJsxTag(source: string, from: string, to: string): { source: string; count: number } {
   let count = 0;
