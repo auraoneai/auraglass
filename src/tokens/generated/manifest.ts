@@ -1440,7 +1440,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 72
+     "count": 73
     }
    ],
    "value": "calc(12px * var(--_ag-density))"
@@ -1456,7 +1456,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 78
+     "count": 85
     }
    ],
    "value": "calc(16px * var(--_ag-density))"
@@ -1488,7 +1488,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 24
+     "count": 26
     }
    ],
    "value": "calc(24px * var(--_ag-density))"
@@ -1504,7 +1504,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 18
+     "count": 19
     }
    ],
    "value": "calc(32px * var(--_ag-density))"
