@@ -70,7 +70,6 @@
   { "file": "fragments/codemods/mat/fixtures/motion-props/magnetic-prop", "owner": "MAT", "reqFin": "REQ-FIN-57", "expires": "RC-1" },
   { "file": "fragments/codemods/mat/fixtures/reduced-motion-initial/multiline-attribute", "owner": "MAT", "reqFin": "REQ-FIN-57", "expires": "RC-1" },
   { "file": "fragments/codemods/mat/fixtures/reduced-motion-initial/negated-should-animate", "owner": "MAT", "reqFin": "REQ-FIN-57", "expires": "RC-1" },
-  { "file": "fragments/codemods/surf/fixtures/app-shell-slots/handler-only-items", "owner": "SURF", "reqFin": "REQ-FIN-80", "expires": "RC-1" },
   { "file": "fragments/codemods/surf/fixtures/media-backdrops/carousel-autoplay", "owner": "SURF", "reqFin": "REQ-FIN-80", "expires": "RC-1" },
   { "file": "fragments/codemods/surf/fixtures/media-backdrops/media-controls", "owner": "SURF", "reqFin": "REQ-FIN-80", "expires": "RC-1" }
 ]

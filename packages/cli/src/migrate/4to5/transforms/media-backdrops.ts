@@ -18,12 +18,27 @@ const TODO_ROWS_UNPREFIXED = ['AtmosphericBackground', 'DynamicAtmosphere'];
 const AURORA_MOTION: Record<string, string> = { none: 'static', subtle: 'static', full: 'drift' };
 
 /** 4.x Glass* names this transform handles, read from its spec (REQ-PLAT-90). */
-interface MediaNames { imageViewer: string; carousel: string; todoRows: Set<string> }
+interface MediaNames {
+  imageViewer: string;
+  carousel: string;
+  todoRows: Set<string>;
+  /** Mesh-gradient name + its `Backdrop preset="…"` successor (DEP-S0613). */
+  mesh?: { from: string; to: string; entry: string; preset: string } | undefined;
+}
 function mediaNames(m: CompiledMappings): MediaNames {
   const [imageViewer] = specNames(m, 'media-backdrops', /images -> items/);
   const [carousel] = specNames(m, 'media-backdrops', /infinite -> loop/);
   const mesh = specNames(m, 'media-backdrops', /-> TODO rows/);
-  return { imageViewer: imageViewer!, carousel: carousel!, todoRows: new Set([...mesh, ...TODO_ROWS_UNPREFIXED]) };
+  const meshFrom = mesh[0];
+  const meshRow = meshFrom ? m.components[meshFrom] : undefined;
+  const meshDep = meshFrom
+    ? m.deprecations.find((e) => String((e as { symbol?: string }).symbol ?? '') === meshFrom)
+    : undefined;
+  const preset = /preset="([^"]+)"/.exec(String((meshDep as { replacement?: string } | undefined)?.replacement ?? ''))?.[1];
+  const meshInfo = meshFrom && meshRow?.to && meshRow.toEntry && preset
+    ? { from: meshFrom, to: meshRow.to, entry: meshRow.toEntry, preset }
+    : undefined;
+  return { imageViewer: imageViewer!, carousel: carousel!, todoRows: new Set([...mesh, ...TODO_ROWS_UNPREFIXED]), mesh: meshInfo };
 }
 
 function applyOtherComponents(source: string): string {
@@ -39,6 +54,8 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
   const todos: TransformResult['todos'] = [];
   const newImports = new Map<string, Set<string>>(); // entry -> names
   let imageViewerReplace: { start: number; end: number; text: string } | null = null;
+  let meshTodoReason: string | undefined;
+  let meshRenamed = false;
 
   const tag = (n: unknown): string | undefined => {
     const t = n as { type?: string; name?: string };
@@ -154,6 +171,25 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
       newImports.get('aura-glass/media')?.add('MediaControls') ?? newImports.set('aura-glass/media', new Set(['MediaControls']));
       return;
     }
+    if (name === N.mesh?.from && N.mesh) {
+      // Mesh gradient -> Backdrop preset (DEP-S0613): the colors[] palette has
+      // no 5.0 prop, so it drops with a TODO; other attrs carry over.
+      const hadColors = !!get('colors');
+      (open!.name as { name: string }).name = N.mesh.to;
+      open!.attributes = [
+        { type: 'JSXAttribute', name: { type: 'JSXIdentifier', name: 'preset' }, value: { type: 'Literal', value: N.mesh.preset, extra: { raw: `"${N.mesh.preset}"` } } },
+        ...attrs.filter((a: any) => a.name?.name !== 'colors'),
+      ] as never;
+      const close = p.node.closingElement?.name as { name?: string } | undefined;
+      if (close) close.name = N.mesh.to;
+      meshRenamed = true;
+      changes.push({ transform: 'media-backdrops', description: `${name} -> Backdrop preset="${N.mesh.preset}"` });
+      if (hadColors) {
+        meshTodoReason = `${name} colors[] has no 5.0 prop; mesh palettes come from S-03 colours`;
+        todos.push({ transform: 'media-backdrops', reason: meshTodoReason, doc: DOC });
+      }
+      return;
+    }
     if (N.todoRows.has(name)) {
       todos.push({ transform: 'media-backdrops', reason: `${name} has no automatic 5.0 rewrite — migrate per the media guide`, doc: DOC });
     }
@@ -162,6 +198,28 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
   // Rewrite/insert imports: old component names get replaced in specifiers;
   // new entries are added as fresh import declarations.
   const movedNames = new Set(['AuroraBackground', N.imageViewer, N.carousel, 'LiquidGlassCarouselRail', 'LiquidGlassMediaControls']);
+  // Mesh: rewrite a sole-specifier import in place so the declaration (and
+  // any leading comments) stays put; fall back to move + insert otherwise.
+  if (meshRenamed && N.mesh) {
+    let inPlace = false;
+    root.find(j.ImportDeclaration).forEach((p: any) => {
+      if (inPlace) return;
+      const specs = (p.node.specifiers ?? []) as Array<any>;
+      if (specs.length !== 1) return;
+      const s = specs[0];
+      const imp = s?.type === 'ImportSpecifier' ? ((s.imported?.name ?? s.imported?.value) as string) : undefined;
+      if (imp === N.mesh!.from && ((s.local?.name as string | undefined) ?? imp) === imp) {
+        if (s.imported) s.imported.name = N.mesh!.to;
+        if (s.local) s.local.name = N.mesh!.to;
+        p.node.source = j.literal(N.mesh!.entry) as never;
+        inPlace = true;
+      }
+    });
+    if (!inPlace) {
+      movedNames.add(N.mesh.from);
+      newImports.get(N.mesh.entry)?.add(N.mesh.to) ?? newImports.set(N.mesh.entry, new Set([N.mesh.to]));
+    }
+  }
   root.find(j.ImportDeclaration).forEach((p: any) => {
     const src = String((p.node.source as { value?: unknown }).value ?? '');
     if (!/^(aura-glass|@auraglass\/)/.test(src)) return;
@@ -195,7 +253,17 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
       out = out.slice(0, i) + (imageViewerReplace as { text: string }).text + out.slice(end);
     }
   }
-  // SURF goldens embed TODOs inline (items array, JSX comment) — no file-top markers.
+  // The mesh colors TODO sits directly above the rewritten import (SURF
+  // golden shape); other SURF TODOs embed inline, never as file-top markers.
+  if (meshTodoReason) {
+    const marker = todoLine(meshTodoReason, DOC);
+    if (!out.includes(marker)) {
+      const lines = out.split('\n');
+      const idx = lines.findIndex((l: string) => /^import[\s{]/.test(l));
+      lines.splice(idx >= 0 ? idx : 0, 0, marker);
+      out = lines.join('\n');
+    }
+  }
   return { source: out, changes, todos };
 }
 
