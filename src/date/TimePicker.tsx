@@ -6,7 +6,7 @@
    uncontrolled pick updates the segments and a typed value updates the
    columns' selectedKeys. hourCycle 12 renders hours 1–12 plus an AM/PM column.
    The popup is a DatePopup: CMP Popover anchored at >=640px container,
-   bottom-sheet presentation below, CMP Button trigger, LayerStack Escape/focus return. */
+   CMP Sheet side="bottom" below, CMP Button trigger, LayerStack Escape/focus return. */
 import * as React from 'react';
 import {
   FieldError as RACFieldError,

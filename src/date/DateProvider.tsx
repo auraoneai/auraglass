@@ -5,15 +5,19 @@
    Resolution order: explicit `locale` prop → an enclosing DateProvider (pickers
    nest a Calendar inside a portal, which must inherit the picker's locale) →
    the rendered element's closest `[lang]` / `[dir]`, read through the anchor
-   ref the date components attach to their root element.
+   ref the date components attach to their root element → React Aria's
+   resolved locale (useLocale(): an app-level RA I18nProvider, else RA's
+   default locale — the browser language after hydration).
 
    SSR: the DOM is not readable on the server, so without a `locale` prop the
-   server and the first client (hydration) render both use FALLBACK_LOCALE; the
-   DOM-derived locale is applied in a layout effect after hydration. Server and
-   client markup therefore always match. Pass `locale` to render the right
-   locale on the server. */
+   server and the first client (hydration) render both use RA's SSR-safe
+   default (FALLBACK_LOCALE unless an app I18nProvider says otherwise); the
+   DOM-derived locale is applied in a layout effect after hydration and RA
+   switches to the browser locale after hydration. Server and client markup
+   therefore always match. Pass `locale` to render the right locale on the
+   server. */
 import * as React from 'react';
-import { I18nProvider } from 'react-aria-components';
+import { I18nProvider, useLocale } from 'react-aria-components';
 
 export const FALLBACK_LOCALE = 'en-US';
 
@@ -44,6 +48,8 @@ const useIsoLayoutEffect = typeof document !== 'undefined' ? React.useLayoutEffe
 
 export function DateProvider({ locale, dir, children }: DateProviderProps) {
   const parent = React.useContext(DateLocaleContext);
+  // RA's resolved locale outside our I18nProvider (app provider or default).
+  const ra = useLocale();
   const [anchor, setAnchor] = React.useState<Element | null>(null);
   const [dom, setDom] = React.useState<{ lang: string | undefined; dir: 'ltr' | 'rtl' | undefined }>({
     lang: undefined,
@@ -61,7 +67,7 @@ export function DateProvider({ locale, dir, children }: DateProviderProps) {
     setDom((cur) => (cur.lang === lang && cur.dir === nextDir ? cur : { lang, dir: nextDir }));
   }, [anchor, locale, dir, parent]);
 
-  const resolvedLocale = locale ?? parent?.locale ?? dom.lang ?? FALLBACK_LOCALE;
+  const resolvedLocale = locale ?? parent?.locale ?? dom.lang ?? ra.locale ?? FALLBACK_LOCALE;
   const resolvedDir = dir ?? parent?.dir ?? dom.dir;
 
   const anchorRef = React.useCallback((el: Element | null) => {

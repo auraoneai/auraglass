@@ -36,7 +36,9 @@
     cursor: pointer;
     font: inherit;
   }
-  .ag-date-picker__popover {
+  /* Popover presentation only: in the bottom sheet the CMP Sheet popup owns
+     the box (material, radius, edge, safe area). */
+  .ag-date-picker__popover:not([data-presentation="sheet"]) {
     background: var(--_ag-surface-raised, Canvas);
     border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor);
     border-radius: var(--_ag-radius-3, 0.75rem);
@@ -85,16 +87,12 @@
     gap: var(--ag-space-2, 0.5rem);
     margin-block-start: var(--ag-space-3, 0.75rem);
   }
-  /* REQ-SURF-98/101: below a 640px picker container the popover is presented
-     as a bottom sheet — DatePopup anchors it to the viewport's bottom edge
-     (fixed) and Base UI publishes that edge's width as --anchor-width. */
+  /* REQ-SURF-98/101: below a 640px picker container the popup is CMP Sheet
+     side="bottom" (DatePopup); the date content scrolls inside it. */
   .ag-date-picker__popover[data-presentation="sheet"] {
-    inline-size: var(--anchor-width, 100vw);
     max-block-size: 85dvh;
     overflow: auto;
-    border-end-start-radius: 0;
-    border-end-end-radius: 0;
-    border-block-end-width: 0;
+    padding: var(--ag-space-3, 0.75rem);
     padding-block-end: calc(var(--ag-space-3, 0.75rem) + env(safe-area-inset-bottom, 0px));
   }
   .ag-date-range-picker__presets {

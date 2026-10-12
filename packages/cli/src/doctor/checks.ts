@@ -3,9 +3,11 @@
  * fail <20.19 node; react <19 for aura-glass@5; duplicates; undeclared
  * transitive warns; global-css + layer-order; script-missing; tailwind info;
  * MUI/Radix info; Lucide warn only beside aura-glass/icons. Never fails a
- * shadcn/Radix app.
+ * shadcn/Radix app. date-peers (REQ-SURF-98): an app importing
+ * aura-glass/date must resolve both optional peers.
  */
 import fs from 'node:fs';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { detectProject } from '../core/project-detect.js';
 
@@ -154,6 +156,20 @@ export function runChecks(cwd: string): CheckResult[] {
     results.push({ id: 'shadcn-app', status: 'info', message: 'shadcn app detected — registry add handles @/ aliases' });
   }
 
+  // date-peers (REQ-SURF-98): ./date is built on React Aria Components; both
+  // optional peers must resolve or the entry fails at module resolution.
+  if (grepImports(cwd, /['"]aura-glass\/date['"]/)) {
+    const missing = DATE_PEERS.filter((p) => !resolvesFrom(cwd, p.name));
+    results.push(missing.length
+      ? {
+          id: 'date-peers',
+          status: 'fail',
+          message: `aura-glass/date needs the optional peers react-aria-components and @internationalized/date; missing: ${missing.map((p) => p.name).join(', ')}`,
+          detail: `npm install ${DATE_PEERS.map((p) => `${p.name}@${p.range}`).join(' ')}`,
+        }
+      : { id: 'date-peers', status: 'pass', message: 'aura-glass/date peers react-aria-components and @internationalized/date resolve' });
+  }
+
   // lucide: warn only beside aura-glass/icons
   const lucideImports = grepImports(cwd, 'lucide-react');
   const usesAuraIcons = grepImports(cwd, 'aura-glass/icons');
@@ -164,7 +180,26 @@ export function runChecks(cwd: string): CheckResult[] {
   return results;
 }
 
-function grepImports(cwd: string, spec: string): boolean {
+/** aura-glass/date optional peers (package.json peerDependencies ranges). */
+const DATE_PEERS = [
+  { name: 'react-aria-components', range: '^1.21.1' },
+  { name: '@internationalized/date', range: '^3.12.4' },
+] as const;
+
+/** Whether `name` resolves from the project the way its bundler would
+    (node resolution from <cwd>/package.json, walking up node_modules). */
+function resolvesFrom(cwd: string, name: string): boolean {
+  const req = createRequire(path.join(cwd, 'package.json'));
+  try { req.resolve(`${name}/package.json`); return true; } catch { /* exports may hide package.json */ }
+  try { req.resolve(name); return true; } catch { /* not installed */ }
+  for (let dir = cwd; ; dir = path.dirname(dir)) {
+    if (fs.existsSync(path.join(dir, 'node_modules', ...name.split('/'), 'package.json'))) return true;
+    if (path.dirname(dir) === dir) return false;
+  }
+}
+
+function grepImports(cwd: string, spec: string | RegExp): boolean {
+  const matches = (src: string) => (typeof spec === 'string' ? src.includes(spec) : spec.test(src));
   const hit = (dir: string, depth: number): boolean => {
     if (depth > 6) return false;
     let ents: fs.Dirent[];
@@ -176,7 +211,7 @@ function grepImports(cwd: string, spec: string): boolean {
         if (hit(p, depth + 1)) return true;
       } else if (/\.(tsx?|jsx?|mjs|cjs)$/.test(ent.name)) {
         try {
-          if (fs.readFileSync(p, 'utf8').includes(spec)) return true;
+          if (matches(fs.readFileSync(p, 'utf8'))) return true;
         } catch { /* unreadable */ }
       }
     }

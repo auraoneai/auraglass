@@ -247,8 +247,11 @@ function SheetPopup({
       ref={setRefs}
       {...rest}
     >
-      {/* The focus trap wrapper is not a Sheet part: clear FocusScope's default data-ag-part="root" (S-33). */}
-      <FocusScope data-ag-part={undefined} trapped={ctx.modal} loop={ctx.modal} autoFocus restoreFocus style={{ display: 'contents' }}>
+      {/* The focus trap wrapper is not a Sheet part: clear FocusScope's default data-ag-part="root" (S-33).
+          A caller-supplied `initialFocus` (Base UI Dialog.Popup) owns the
+          first focus, so FocusScope does not also move it to the first
+          focusable element. */}
+      <FocusScope data-ag-part={undefined} trapped={ctx.modal} loop={ctx.modal} autoFocus={rest['initialFocus'] === undefined} restoreFocus style={{ display: 'contents' }}>
         {children}
       </FocusScope>
     </Base.Popup>
