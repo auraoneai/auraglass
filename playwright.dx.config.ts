@@ -20,9 +20,13 @@ export default defineConfig({
   retries: 2,
   reporter: [['list'], ['json', { outputFile: `${process.env.AURAGLASS_EVIDENCE_DIR ?? '.artifacts'}/playwright-dx/results.json` }]],
   use: { trace: 'retain-on-failure' },
+  /* `@node` tests (codemod canary: packed CLI, app build, registry blocks,
+     perf) run once in `node`; the browser projects depend on it so the
+     migrated app is built before its `@browser` smoke runs in each engine. */
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'node', grep: /@node/ },
+    { name: 'chromium', grepInvert: /@node/, dependencies: ['node'], use: { ...devices['Desktop Chrome'] } },
+    { name: 'webkit', grepInvert: /@node/, dependencies: ['node'], use: { ...devices['Desktop Safari'] } },
+    { name: 'firefox', grepInvert: /@node/, dependencies: ['node'], use: { ...devices['Desktop Firefox'] } },
   ],
 });

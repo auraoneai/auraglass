@@ -252,7 +252,8 @@ plat:test:cli:
         # REQ-PLAT-93: extract the packed d.ts, tsc the .test-d.ts files, run the language-service completions.
         npm run -s plat:test:types:dx
         test -f tests/dx/codemod-canary.spec.ts || { echo "PENDING: tests/dx/codemod-canary.spec.ts (lane 1e)"; exit 1; }
-        npx playwright test tests/dx/codemod-canary.spec.ts
+        # REQ-PLAT-92: dx config = node project (packed CLI, app build, blocks, perf) + 3 browser smoke projects.
+        npx playwright test -c playwright.dx.config.ts tests/dx/codemod-canary.spec.ts
       fi
 
 # REQ-PLAT-94 / REQ-FIN-42 (B3-8). Also runs on 5x release scope: the
