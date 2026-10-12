@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import { ZoomIn } from './ZoomIn';
 import { ZoomOut } from './ZoomOut';

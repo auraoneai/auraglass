@@ -6,12 +6,13 @@
 // Flight dev-errors on a function prop — "Functions cannot be passed to
 // Client Components" — which is why the contract pins: the server root must
 // never invoke children itself, and invocation happens only inside the
-// island (proven dynamically here under renderToString, where the island's
-// SSR pass runs the same code path).
+// island (proven dynamically here: the SSR pass renders the island's height
+// placeholder without invoking children, the client mount invokes them).
 import { describe, expect, it } from '@jest/globals';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { renderToString } from 'react-dom/server';
+import { render } from '@testing-library/react';
 import { ChartFrame } from '../../../src/data/chart-frame/ChartFrame';
 
 const DATA = [{ m: 'Jan', a: 1 }];
@@ -23,13 +24,22 @@ describe('ChartFrame function child (REQ-SURF-07)', () => {
     // invocation on the server path would be the RSC dev-error footgun.
     expect({ invokes: /children\s*\(/.test(src) }).toEqual({ invokes: false });
   });
-  it('function children are invoked inside the island (SSR path)', () => {
+  it('function children are invoked inside the island, never on the SSR pass', () => {
+    // REQ-SURF-93: on the server `width` is undefined, so the island renders
+    // the `height` placeholder without invoking the adapter (CLS 0); once the
+    // island measures its plot on the client it invokes the function child.
     let invoked = 0;
-    renderToString(
+    const tree = (
       <ChartFrame title="Revenue" data={DATA} x={{ key: 'm', label: 'Month' }} series={[{ key: 'a', label: 'Revenue' }]}>
-        {() => { invoked++; return null; }}
-      </ChartFrame>,
+        {(ctx) => { invoked++; return <span data-testid="plot">{String(ctx.width)}</span>; }}
+      </ChartFrame>
     );
-    expect({ invoked }).toEqual({ invoked: 1 });
+    const html = renderToString(tree);
+    expect({ invoked, placeholder: html.includes('ag-chart-frame__placeholder') }).toEqual({ invoked: 0, placeholder: true });
+    // jsdom has no ResizeObserver: the island measures the plot once
+    // (getBoundingClientRect, 0 in jsdom) and invokes the child with it.
+    const { getByTestId, unmount } = render(tree);
+    expect({ invoked, width: getByTestId('plot').textContent }).toEqual({ invoked: 1, width: '0' });
+    unmount();
   });
 });

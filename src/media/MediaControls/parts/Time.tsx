@@ -1,3 +1,4 @@
+'use client';
 /* REQ-SURF-138 — <time datetime="PT1M32S"> with tabular-nums; aria-hidden
  * only when a Scrubber is mounted in the same Root (its valuetext already
  * speaks the position). Below 480 px it shows elapsed time only. */

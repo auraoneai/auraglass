@@ -1,3 +1,4 @@
+'use client';
 /* Media glyphs: the library icon set at the media control size, so every media
  * button draws the same stroke icon instead of a unicode/emoji character.
  * Decorative (aria-hidden) — the owning button carries the accessible name. */

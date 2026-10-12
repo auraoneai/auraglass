@@ -1,3 +1,4 @@
+'use client';
 /* REQ-SURF-135/138 — one toolbar item = Base UI Toolbar.Button (the roving
  * tabindex item CMP Toolbar.Button is built on) rendering the CMP IconButton.
  * CMP Toolbar.Button pins data-ag-part="button" on its render element, which

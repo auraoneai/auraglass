@@ -2,7 +2,7 @@
 /* REQ-MAT-50: the one place the adapter obtains the optional `motion` peer.
  * No adapter module imports `motion/react` statically: under ESM a missing
  * static import fails at link time (ERR_MODULE_NOT_FOUND) before any guard can
- * run. public.ts starts one dynamic import of the peer (see ../peer-guard) and
+ * run. ./entry.ts starts one dynamic import of the peer (see ../peer-guard) and
  * hands the pending load to this holder; adapter components and hooks read it
  * at render, suspending (React 19 `use`) until the load settles. */
 import * as React from 'react';

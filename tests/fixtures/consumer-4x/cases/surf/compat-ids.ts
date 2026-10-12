@@ -51,6 +51,7 @@ export const COMPAT_IDS: Record<string, { id: string; symbol: string; entry: '.'
   GlassStatCard: { id: 'DEP-S0210', symbol: 'GlassStatCard', entry: '.' },
   GlassKPICard: { id: 'DEP-S0211', symbol: 'GlassKPICard', entry: '.' },
   GlassMetricCard: { id: 'DEP-S0212', symbol: 'GlassMetricCard', entry: '.' },
+  GlassMetricChip: { id: 'DEP-S0213', symbol: 'GlassMetricChip', entry: '.' },
   GlassAnimatedNumber: { id: 'DEP-S0214', symbol: 'GlassAnimatedNumber', entry: '.' },
   GlassSparkline: { id: 'DEP-S0215', symbol: 'GlassSparkline', entry: '.' },
   GlassTimeline: { id: 'DEP-S0216', symbol: 'GlassTimeline', entry: '.' },

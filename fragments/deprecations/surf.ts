@@ -1434,6 +1434,7 @@ const integratedReleaseRows = [
     breaking: 'B3',
     message: 'GlassMetricChip is removed in 5.0; use Chip from aura-glass/data.',
     doc: '#dep-s0213',
+    compat: 'GlassMetricChip',
   },
   {
     id: 'DEP-S0214',

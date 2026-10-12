@@ -153,11 +153,12 @@ export const FIXTURES: Record<string, MetaFixture> = {
   Thread: {
     composes: ['Message', 'StreamingText', 'ToolCall', 'Reasoning', 'SourceList', 'AiIcon'],
     states: {
+      // REQ-SURF-107: Viewport reads the Root context (one log per Thread).
       'viewport + jump-to-latest parts': () => (
-        <div>
+        <Thread.Root messages={[]}>
           <Thread.Viewport><p>History</p></Thread.Viewport>
           <Thread.JumpToLatest>2 new messages</Thread.JumpToLatest>
-        </div>
+        </Thread.Root>
       ),
     },
   },
@@ -291,7 +292,8 @@ export const FIXTURES: Record<string, MetaFixture> = {
       ),
     },
   },
-  CommandPalette: { composes: ['Command', 'Dialog'] },
+  // Hosts Command in a Base UI dialog directly (own portal/scrim parts), not CMP Dialog.
+  CommandPalette: { composes: ['Command'] },
   Pagination: {},
   SourceTransition: {},
   TabBar: {
@@ -360,8 +362,8 @@ export const FIXTURES: Record<string, MetaFixture> = {
   RangeCalendar: { states: { range: () => <RangeCalendar aria-label="Window" defaultValue={{ start: new CalendarDate(2026, 10, 1), end: new CalendarDate(2026, 10, 7) }} /> } },
   TimeField: { states: { field: () => <TimeFieldC label="At" /> } },
   CarouselRail: {},
+  // The CMP Dialog parts are all re-named image-viewer-* (no Dialog part renders).
   ImageViewer: {
-    composes: ['Dialog'],
     states: {
       // The popup portals into the provider's overlay root (documented consumer setup).
       'open in provider': () => <AuraGlassProvider>{story(ImageViewerStories.Open)()}</AuraGlassProvider>,

@@ -1,5 +1,6 @@
 /* REQ-MAT-50 / REQ-MOT-15/-59: friendly missing-peer error for `aura-glass/motion`.
- * Browser-safe: no `node:` imports. public.ts calls startMotionPeer() at module
+ * Browser-safe: no `node:` imports. adapter/entry.ts (re-exported by the
+ * public.ts barrel) calls startMotionPeer() at module
  * scope with no top-level await, so the entry stays loadable by synchronous
  * module loaders (require(esm), Jest; S-35):
  *  - Where the runtime can resolve synchronously (Node: process.getBuiltinModule,

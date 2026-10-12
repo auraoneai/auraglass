@@ -30,7 +30,10 @@ function renderPage(meta, opts = {}) {
 
 describe('docs blocks (S-51)', () => {
   it('exports exactly the five blocks', () => {
-    expect(Object.keys(blocks).sort()).toEqual(['Anatomy', 'KeyboardTable', 'MigrationTable', 'PropsTable', 'SelectorTable']);
+    // The .tsx module is transpiled to CommonJS; the ESM namespace of a CJS
+    // module also carries Node's interop keys, which are not exports.
+    const INTEROP = new Set(['__esModule', 'default', 'module.exports']);
+    expect(Object.keys(blocks).filter((k) => !INTEROP.has(k)).sort()).toEqual(['Anatomy', 'KeyboardTable', 'MigrationTable', 'PropsTable', 'SelectorTable']);
   });
 
   it('render tables with a caption and scope="col" headers', () => {

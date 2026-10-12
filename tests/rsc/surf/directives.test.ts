@@ -112,7 +112,16 @@ function firstDirective(text: string): string | null {
 const files: string[] = [];
 for (const d of SURF_DIRS) for (const f of modules(join(ROOT, d))) files.push(relative(ROOT, f).split(sep).join('/'));
 
+// REQ-PLAT-69: modules recorded as server-safe in the generated
+// build/server-safe-exports.json (icon glyphs, e.g. the REQ-CMP-30 AiIcon
+// dispatcher) are on the server list too: no directive, no hooks.
+const SERVER_SAFE_RECORD = join(ROOT, 'build/server-safe-exports.json');
+const SERVER_SAFE: string[] = existsSync(SERVER_SAFE_RECORD)
+  ? (JSON.parse(readFileSync(SERVER_SAFE_RECORD, 'utf8')) as { safeModules?: string[] }).safeModules ?? []
+  : [];
+
 const serverFiles = files.filter((f) => {
+  if (SERVER_SAFE.includes(f)) return true;
   // --- lane W4 begin ---
   // src/media/ImageViewer/parts/Inspector.tsx (SURF-473) shares the app-shell
   // Inspector basename but is a client part of a client-only module.

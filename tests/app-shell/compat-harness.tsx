@@ -55,6 +55,10 @@ export function expectAdapter(row: CompatRow): void {
     expect(warnings[0]).toMatch(DEP_S);
     expect(warnings[0]!.match(DEP_S)![0]).toBe(row.id);
 
+    // Unmount first: two live copies would legitimately trip the REQ-SURF-26
+    // dev duplicate-landmark warning; the once-per-id guard is module-level.
+    cleanup();
+    ensurePortal();
     render(
       <AuraGlassProvider>
         <row.C {...props} />

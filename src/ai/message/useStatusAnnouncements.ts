@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import type { AgChatStatus } from '../types';
 import { useAnnouncer } from '../../theme';

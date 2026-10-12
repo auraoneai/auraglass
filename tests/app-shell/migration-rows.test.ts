@@ -23,7 +23,7 @@ function* metaFiles(dir: string): Generator<string> {
 }
 
 const fragment = require('../../fragments/codemods/surf') as {
-  default: { props?: Array<{ component: string; from: string; to: unknown }> };
+  default: { props?: Array<{ component: string; from: string; to: unknown; values?: Record<string, unknown> }> };
 };
 const rows = fragment.default.props ?? [];
 
@@ -42,7 +42,9 @@ describe('SURF-125 meta migration rows == codemod fragment rows', () => {
       if (!(row.from in props)) {
         throw new Error(`${row.component}: meta migration props missing '${row.from}'`);
       }
-      expect(props[row.from]).toEqual(row.to);
+      // MigrationRow.props carries a value conversion as { to, values }
+      // (src/contracts/components.ts), the fragment row as sibling fields.
+      expect(props[row.from]).toEqual(row.values ? { to: row.to, values: row.values } : row.to);
     }
   });
 

@@ -9,7 +9,7 @@ export default defineMeta({
   parts: ['chip', 'chip-remove'],
   states: ['selected', 'disabled'],
   variants: { intent: ['neutral', 'info', 'success', 'warning', 'danger'], size: ['sm', 'md', 'lg'] },
-  apg: 'button',
+  apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/',
   material: { layer: 'content' },
   budgetKb: 3,
   migration: [

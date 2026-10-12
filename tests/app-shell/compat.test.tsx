@@ -25,7 +25,7 @@ export const W1_ROWS: CompatRow[] = [
   row('GlassPageHeader', '[data-ag-part="page-header"]'),
   row('GlassStatusBar', '[data-ag-part="status-bar"]'),
   row('GlassInspector', 'aside[data-ag-part="inspector"][aria-label="Details"]'),
-  row('GlassMobileShell', '.ag-app-shell[data-ag-layout="compact"]'),
+  row('GlassMobileShell', '.ag-app-shell[data-ag-layout="mobile"]'),
   row('ZSpaceAppLayout', '.ag-app-shell [data-ag-slot="main"]'),
   row('GlassTabs', '[data-ag-part="tabs"]'),
   row('GlassPageTabs', '[data-ag-part="tabs"] [role="tabpanel"]', { onChange: jest.fn() }),

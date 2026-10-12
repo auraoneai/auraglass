@@ -1,3 +1,4 @@
+'use client';
 /* Breadcrumbs overflow island (SURF-077): IconButton-labelled trigger
    (labels.showMore(n) ?? 'Show N more', computed on the server and passed as
    `label`) opening a CMP Menu of the collapsed link items. Serializable props

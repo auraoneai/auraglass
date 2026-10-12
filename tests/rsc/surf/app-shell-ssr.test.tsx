@@ -74,7 +74,8 @@ describe('AppShell server render (REQ-SURF-20)', () => {
     expect(html).not.toContain('data-ag-density');
     expect(html).not.toContain('data-ag-backdrop');
     expect(html).not.toContain('data-ag-collapse-to');
-    expect(html).toContain('data-collapse-to="rail"');
+    // collapseTo is not a REQ-SURF-20 Root prop (removed with density/backdrop).
+    expect(html).not.toContain('data-collapse-to');
   });
 
   it('server module graph reaches no hook/context module without a use client boundary', () => {
