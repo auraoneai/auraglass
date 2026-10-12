@@ -4,11 +4,11 @@
 // neutralHue) and sys.color.{canvas,accent,on-accent,border}, each as a
 // light-dark() pair, plus the radius ladder xs..xl scaled by radiusScale.
 //
-// Scope: `data-ag-theme` is not in AG_ATTRIBUTES (contract-v1.1; OD-16 item
-// C-2 adds it through contract/v1.2-final). Until that lands, no preset block
-// reaches dist/ (css-layered.mjs emits none) and each preset ships as cssText
-// scoped to `[data-ag-root]`, which AuraGlassProvider renders in its single
-// <style> (src/theme/presets.ts `presetCss`).
+// Scope: `data-ag-theme` is in AG_ATTRIBUTES (OD-16 C-2, contract/v1.2-final), so
+// css-layered.mjs compiles one `[data-ag-theme="<id>"]` block set per preset into
+// dist/tokens.css (presetThemeSelector / presetDecls). The provider's `preset` prop
+// keeps the interim path: each preset's cssText scoped to `[data-ag-root]`, rendered
+// in AuraGlassProvider's single <style> (src/theme/presets.ts `presetCss`).
 import { colorToCss, colorToSrgb, contrastRatio, gamutMapOklch } from '../color.mjs';
 import { die, dim } from './_shared.mjs';
 
@@ -150,14 +150,32 @@ export function presetOverrides(id, records, resolved) {
   return { id, colors: { canvas, accent, 'on-accent': onAcc, border }, radius };
 }
 
-/** Serialize a preset's overrides to cssText scoped to `scope`. */
-export function presetCssText(o, scope = PRESET_SCOPE) {
+/** The dist/tokens.css scope of a preset (REQ-MAT-14): `[data-ag-theme="<id>"]`. */
+export const presetThemeSelector = (id) => `[data-ag-theme="${id}"]`;
+
+/**
+ * A preset's declarations: `main` (the four sys colours as light-dark() plus radius
+ * xs..xl) and the per-scheme colour sides for the no-light-dark() fallback.
+ * @returns {{ main: string[], light: string[], dark: string[] }}
+ */
+export function presetDecls(o) {
   const colorVar = (name) => `--ag-color-${name}`;
   const main = [
     ...PRESET_COLOR_TOKENS.map((n) => `${colorVar(n)}: light-dark(${colorToCss(o.colors[n].light)}, ${colorToCss(o.colors[n].dark)});`),
     ...o.radius.map(([v, val]) => `${v}: ${val};`),
   ];
   const side = (scheme) => PRESET_COLOR_TOKENS.map((n) => `${colorVar(n)}: ${colorToCss(o.colors[n][scheme])};`);
+  const decls = { main, light: side('light'), dark: side('dark') };
+  const all = [...decls.main, ...decls.light, ...decls.dark].join(' ');
+  if (/--_ag-/.test(all)) die(`preset.${o.id}: preset/theme output contains --_ag-*`);
+  if (/material/.test(all)) die(`preset.${o.id}: preset output mentions material`);
+  return decls;
+}
+
+/** Serialize a preset's overrides to cssText scoped to `scope`. */
+export function presetCssText(o, scope = PRESET_SCOPE) {
+  const { main, light, dark } = presetDecls(o);
+  const side = (scheme) => (scheme === 'dark' ? dark : light);
   const css = [
     `${scope} { ${main.join(' ')} }`,
     '@supports not (color: light-dark(#000, #fff)) {',
