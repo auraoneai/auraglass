@@ -7,7 +7,8 @@
    - references to window|document|navigator|matchMedia|ResizeObserver|
      IntersectionObserver|localStorage
    - a non-type use[A-Z]\w* import from a client module (a relative
-     specifier whose resolved file opens with 'use client') */
+     specifier whose resolved file opens with 'use client'), signalled where
+     it is called, as for the react hooks */
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -64,6 +65,7 @@ module.exports = {
     if (SKIP.test(filename)) return {};
     let found = null;
     const signalNames = new Set();  // identifiers imported from a signal source
+    const clientHooks = new Map();  // local name -> report text, use* imports from client modules
     const isModuleFunction = (expr, at) => {
       if (!expr) return false;
       if (expr.type === 'ArrowFunctionExpression' || expr.type === 'FunctionExpression') return true;
@@ -88,11 +90,14 @@ module.exports = {
         }
         // non-type use* import from a client module — 'react' hooks are fully
         // covered by the signal-name check; @base-ui/react is itself a client
-        // package, so its use* imports are signals beyond the named list
+        // package, so its use* imports are signals beyond the named list.
+        // Like the react hooks, the signal is the hook being called: a server
+        // module may forward the client reference uncalled (a namespace static
+        // such as ChartFrame.useContext), an inert client reference under react-server.
         if (src !== 'react') {
           for (const s of node.specifiers) {
             if (s.type === 'ImportSpecifier' && /^use[A-Z]/.test(s.imported.name) && s.importKind !== 'type') {
-              if (isClientModule(src, filename)) found = `import of ${s.imported.name} from client module '${src}'`;
+              if (isClientModule(src, filename)) clientHooks.set(s.local.name, `call to ${s.imported.name}() from client module '${src}'`);
             }
           }
         }
@@ -105,6 +110,7 @@ module.exports = {
             && (callee.object.name === 'React' || signalNames.has(callee.object.name)) && callee.property.type === 'Identifier'
             ? callee.property.name : null;
         if (name && (SIGNAL_HOOKS.has(name) || signalNames.has(name))) found = `call to ${name}()`;
+        else if (callee.type === 'Identifier' && clientHooks.has(callee.name)) found = clientHooks.get(callee.name);
       },
       Identifier(node) {
         if (found) return;
