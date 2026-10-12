@@ -1,7 +1,13 @@
 /* Server Inspector (SURF-055): <aside aria-label> (required — dev-warned when
    missing), data-ag-slot=inspector, mode auto|docked|floating|sheet. Field is
    a labelled value grid row; Inspector.Section (client) collapses regions.
-   Container modes are CSS-owned (SURF-057). */
+   Container modes are CSS-owned (SURF-057).
+
+   REQ-SURF-38 material by mode: docked renders the MAT content-sunken
+   material (content layer, no blur); floating/sheet render chrome regular;
+   auto starts as chrome regular and the auto-mounted sheet swaps it to
+   content-sunken while the shell resolves wide. Root auto-mounts
+   Inspector.Sheet with the same children (compact, or mode='sheet'). */
 
 import * as React from 'react';
 import { LandmarkBeacon } from './_internal/LandmarkBeacon';
@@ -9,7 +15,7 @@ import type { PartProps } from '../contracts/components';
 import { partElement } from './_internal/partElement';
 import { Surface } from '../material';
 import { InspectorSection } from './Inspector.Section';
-import { InspectorSheet } from './Inspector.Sheet';
+import { InspectorSheet, InspectorAutoSheet } from './Inspector.Sheet';
 import { InspectorCloseButton } from './Inspector.CloseButton';
 
 export type InspectorRootProps = Omit<PartProps<'aside'>, 'aria-label'> & {
@@ -22,10 +28,12 @@ function InspectorRoot({ mode = 'auto', children, render, ...rest }: InspectorRo
   if (process.env['NODE_ENV'] === 'development' && rest['aria-label'] === undefined) {
     console.warn('[auraglass] Inspector.Root: aria-label is required — complementary landmarks must be labelled.');
   }
-  return (
+  const material = mode === 'docked'
+    ? ({ layer: 'content', content: 'content-sunken' } as const)
+    : ({ layer: 'chrome', variant: 'regular' } as const);
+  const aside = (
     <Surface
-      layer="chrome"
-      variant="regular"
+      {...material}
       render={partElement('aside', {
         render,
         'data-ag-slot': 'inspector',
@@ -41,6 +49,14 @@ function InspectorRoot({ mode = 'auto', children, render, ...rest }: InspectorRo
         ),
       })}
     />
+  );
+  return (
+    <>
+      {aside}
+      <InspectorAutoSheet mode={mode} aria-label={rest['aria-label'] as string | undefined}>
+        {children}
+      </InspectorAutoSheet>
+    </>
   );
 }
 InspectorRoot.displayName = 'Inspector.Root';

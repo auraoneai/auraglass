@@ -17,7 +17,7 @@
    "path": "src/foundation/__tests__/ref-forwarding.test.tsx",
    "status": "green",
    "covers": [
-    "ref-as-prop reaches parts[0] element for every registered meta (REQ-CMP-03)"
+    "ref-as-prop reaches the root part element for every discovered *.meta.ts (REQ-CMP-03); 'registered' no longer gates ref-forwarding or parts-contract"
    ]
   },
   "portal-root": {

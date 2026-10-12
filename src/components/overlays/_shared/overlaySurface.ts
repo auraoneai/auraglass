@@ -6,6 +6,7 @@
    the kind's thickness and choose variant 'regular' | 'identity'; 'prominent'
    is honoured only on dialog and popover. */
 import { materialProps } from '../../../material';
+import { componentMaterialProps } from '../../../material/internal';
 import type { MaterialAttributes } from '../../../contracts/material';
 import type { OverlayKind } from './overlayTypes';
 
@@ -37,6 +38,18 @@ export function overlayMaterial(
   opts: OverlayMaterialOptions = {},
 ): MaterialAttributes & { 'data-ag-overlay': OverlayKind } {
   const prominent = opts.prominent === true && PROMINENT_KINDS.has(kind);
+  /* REQ-MAT-23 (D-07): a sheet resolves through the internal 'sheet' size
+     class (thick; never refracts). An explicit per-instance thickness wins. */
+  if (kind === 'sheet') {
+    return {
+      ...componentMaterialProps({
+        layer: 'overlay',
+        variant: opts.variant ?? 'regular',
+        ...(opts.thickness !== undefined ? { thickness: opts.thickness } : {}),
+      }, 'sheet'),
+      'data-ag-overlay': kind,
+    };
+  }
   return {
     ...materialProps({
       layer: 'overlay',

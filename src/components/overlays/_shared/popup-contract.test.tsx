@@ -66,6 +66,14 @@ describe('popup contract (CMP-205)', () => {
     },
   );
 
+  it('REQ-MAT-23: sheet resolves via the sheet size class (thick); explicit thickness wins', () => {
+    const m = overlayMaterial('sheet') as unknown as Record<string, string>;
+    expect(m['data-ag-thickness']).toBe('thick');
+    expect(m['data-ag-sizeclass']).toBeUndefined();
+    const t = overlayMaterial('sheet', { thickness: 'regular' }) as unknown as Record<string, string>;
+    expect(t['data-ag-thickness']).toBe('regular');
+  });
+
   it('prominent passes through overlayMaterial on dialog/popover only', () => {
     const prom = (k: OverlayKind) =>
       (overlayMaterial(k, { prominent: true }) as unknown as Record<string, string>)['data-ag-prominent'];

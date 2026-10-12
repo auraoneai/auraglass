@@ -14,7 +14,7 @@ async function checkedIndex(page: import('@playwright/test').Page) {
 
 test.describe('segmented-control APG (CMP-368 + REQ-CMP-43)', () => {
   test('aria-checked moves with arrows, wraps, Home/End bound, Space never deselects', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-segmentedcontrol--default');
+    await gotoStory(page, 'flagships-controls-segmentedcontrol--keyboard');
     const items = page.locator('[role="radio"], [data-ag-part="item"]');
     const n = await items.count();
     expect(n).toBeGreaterThanOrEqual(2);
@@ -27,10 +27,10 @@ test.describe('segmented-control APG (CMP-368 + REQ-CMP-43)', () => {
       expect(tabbables).toBe(1);
     }
 
-    const first = items.first();
-    await first.focus();
+    /* The Keyboard story checks the first item; the single tab stop is on it. */
     const start = await checkedIndex(page);
-    expect(start).toBe(0);
+    expect(start, 'Keyboard story must start with the first segment checked').toBe(0);
+    await items.nth(start).focus();
 
     /* arrows move AND select */
     if (SEGMENTED_KEYS.arrowsMoveAndSelect) {
@@ -82,7 +82,8 @@ const indicatorState = () => {
 };
 
 test('REQ-CMP-42: indicator glass while moving, measures item 3 within 1px; calm jumps', async ({ page }) => {
-  await gotoStory(page, 'flagships-controls-segmentedcontrol--default');
+  /* the Keyboard story starts with the first segment checked (REQ-CMP-43) */
+  await gotoStory(page, 'flagships-controls-segmentedcontrol--keyboard');
   /* force the CSS-transition path (no View Transition engine) */
   await page.evaluate(() => {
     document.documentElement.setAttribute('data-ag-motion', 'full');

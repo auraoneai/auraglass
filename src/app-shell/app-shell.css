@@ -184,6 +184,14 @@
   .ag-app-shell[data-ag-inspector='closed'] {
     --_ag-app-shell-insp: 0px;
   }
+  /* REQ-SURF-38: mode='sheet' presents the inspector as the bottom Sheet at
+     every width — the inline aside never renders and reserves no column. */
+  .ag-app-shell:has([data-ag-slot='inspector'][data-inspector-mode='sheet']) {
+    --_ag-app-shell-insp: 0px;
+  }
+  .ag-app-shell [data-ag-slot='inspector'][data-inspector-mode='sheet'] {
+    display: none;
+  }
 
   /* Right-docked sidebar swaps the two fixed columns. */
   .ag-app-shell[data-ag-sidebar-side='end'] > .ag-app-shell__frame {
@@ -435,22 +443,21 @@
     }
   }
   /* SURF-038: inspector material/geometry by mode. Docked (or auto under a
-     wide or desktop-pinned shell) reads as an opaque canvas column: the
-     public --ag-glass-opacity read-in drives MAT's fill alpha to 1, so the
-     material's own optics show nothing through it (REQ-SURF-03: SURF css
-     never declares backdrop-filter — optics belong to MAT);
+     wide or desktop-pinned shell) carries the MAT content-sunken material
+     (Inspector.Root / the auto-mounted sheet set the attributes; no
+     background override here) with no blur. REQ-SURF-03: SURF css never
+     declares backdrop-filter — optics belong to MAT;
      floating (or auto under expanded/medium) overlays the main area at
      inline-end. Compact hides the inline inspector — Inspector.Sheet takes
      over. The wide case is the >=1440 container rule at the end. */
   [data-inspector-mode='docked'],
   .ag-app-shell:is([data-ag-layout='desktop'], [data-ag-layout='wide']) [data-inspector-mode='auto'] {
+    /* MAT's public fill read-in: the content-sunken column is fully opaque */
     --ag-glass-opacity: 1;
-    background: var(--ag-color-canvas);
   }
   /* The surface's blur, grain and sheen live on MAT's ::before layer, so a
-     backdrop-filter: none on the host never removed them. A docked
-     inspector drops that decorative layer instead: the opaque canvas
-     background above is its whole fill (no backdrop-filter anywhere). */
+     docked inspector drops that decorative layer: the content-sunken fill is
+     its whole material (no blur, no backdrop-filter anywhere). */
   [data-inspector-mode='docked']::before,
   .ag-app-shell:is([data-ag-layout='desktop'], [data-ag-layout='wide']) [data-inspector-mode='auto']::before {
     content: none;
@@ -783,7 +790,6 @@
       max-inline-size: none;
       border-radius: 0;
       --ag-glass-opacity: 1;
-      background: var(--ag-color-canvas);
     }
     .ag-app-shell[data-ag-layout='auto'] [data-inspector-mode='auto']::before {
       content: none;

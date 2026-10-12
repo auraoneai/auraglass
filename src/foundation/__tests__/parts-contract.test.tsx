@@ -1,18 +1,11 @@
-/* CMP-017 (REQ-CMP-06): for every registered meta, render every story; collected
+/* CMP-017 (REQ-CMP-06): for every discovered *.meta.ts (no allow-list), render every story; collected
    data-ag-part values must be a subset of meta.parts and their union must equal
    meta.parts; every data-state value must be in AG_STATES. */
 import * as React from 'react';
 import { describe, expect, it, afterEach, jest } from '@jest/globals';
 import { render, cleanup, act, fireEvent } from '@testing-library/react';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { AG_STATES } from '../../foundation/state';
-import { discoverCmpMetas, loadStories, storyElement, REPO_ROOT } from '../../../tests/foundation/metas';
-
-const coverage = JSON.parse(
-  readFileSync(join(REPO_ROOT, 'tests', 'foundation', 'contract-coverage.json'), 'utf8'),
-) as { registered: string[] };
-
+import { discoverCmpMetas, loadStories, storyElement } from '../../../tests/foundation/metas';
 
 // jsdom lacks PointerEvent — BU switch/toggle dispatch with it.
 if (typeof window !== 'undefined' && !('PointerEvent' in window)) {
@@ -32,7 +25,7 @@ afterEach(() => {
 });
 
 describe('parts contract (rendered DOM == meta.parts)', () => {
-  const metas = discoverCmpMetas().filter((m) => coverage.registered.includes(m.name));
+  const metas = discoverCmpMetas();
   it('registered metas exist', () => {
     expect(metas.length).toBeGreaterThan(0);
   });

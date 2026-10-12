@@ -45,8 +45,8 @@ export const InShell: Story = {
       <AppShell.Main>
         <p>Select a project to inspect it.</p>
       </AppShell.Main>
+      {/* Inspector.Root auto-mounts the compact bottom Sheet with the same children. */}
       <Inspector.Root aria-label="Details">{fields}</Inspector.Root>
-      <Inspector.Sheet aria-label="Details">{fields}</Inspector.Sheet>
     </AppShell.Root>
   ),
   // The shell's container queries follow its own width; no canvas padding.

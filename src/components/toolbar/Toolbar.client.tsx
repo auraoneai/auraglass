@@ -2,7 +2,7 @@
 import { MenuPortal, MenuPositioner, MenuPopup } from '../menu/Menu.client';
 import * as React from 'react';
 import { Toolbar as Base } from '@base-ui/react/toolbar';
-import { materialProps } from '../../material';
+import { componentMaterialProps } from '../../material/internal';
 import { surfaceGroupAttributes } from '../../material/stateAttributes';
 import { cn } from '../../internal';
 import { Button } from '../button/Button.client';
@@ -96,7 +96,7 @@ function ToolbarRoot({
   loop = true,
   spacing = '2',
   variant = 'regular',
-  thickness = 'regular',
+  thickness,
   prominent,
   refraction,
   className,
@@ -130,14 +130,14 @@ function ToolbarRoot({
     <Base.Root
       {...rest}
       render={rest.render as React.ComponentProps<typeof Base.Root>['render']}
-      {...materialProps({
+      {...componentMaterialProps({
         layer: 'chrome',
         variant,
-        thickness,
+        ...(thickness !== undefined ? { thickness } : {}),
         ...(orientation === 'horizontal' ? { shape: 'capsule' as const } : {}),
         ...(prominent === true ? { prominent } : {}),
         ...(refraction === true ? { refraction } : {}),
-      })}
+      }, 'bar') /* REQ-MAT-23 (D-07): bar size class -> regular thickness */}
       {...surfaceGroupAttributes(spacing)}
       onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
         (rest as { onKeyDown?: React.KeyboardEventHandler<HTMLDivElement> }).onKeyDown?.(e);

@@ -6,7 +6,8 @@
    div. Server-safe. */
 import * as React from 'react';
 import { cn } from '../../internal/index';
-import { materialProps } from '../../material/index';
+import type { materialProps } from '../../material/index';
+import { componentMaterialProps } from '../../material/internal/index';
 import { renderElement } from '../../foundation/index';
 import type { MaterialBearingProps, RenderProp } from '../../contracts/components';
 
@@ -34,7 +35,8 @@ function Root({
   if (prominent !== undefined) role.prominent = prominent;
   if (refraction !== undefined) role.refraction = refraction;
   if (interactive !== undefined) role.interactive = interactive;
-  const mat = materialProps(role);
+  /* REQ-MAT-23 (D-07): a card is a panel-size-class surface (regular thickness). */
+  const mat = componentMaterialProps(role, 'panel');
   const props = {
     ...rest,
     ...mat,

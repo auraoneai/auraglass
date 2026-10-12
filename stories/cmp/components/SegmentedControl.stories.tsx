@@ -35,6 +35,28 @@ export const Default: Story = {
   ),
 };
 
+/* The story tests/a11y/apg/cmp/segmented-control.apg.spec.ts drives
+   (REQ-CMP-42/43): three segments with the FIRST checked, so the APG script's
+   index assertions (start 0, ArrowRight -> 1, End -> last, wrap -> 0) and the
+   indicator-tracks-item-3 check run against a known starting state. */
+export const Keyboard: Story = {
+  tags: ['apg'],
+  args: { 'aria-label': 'View mode', name: 'view-keyboard' },
+  render: (args) => (
+    <Stage>
+      <Section title="Keyboard" note="APG radio group: arrows move and select with wrap; Home/End bound.">
+        <Scene align="flex-start">
+          <SegmentedControl.Root {...args} defaultValue="list">
+            <SegmentedControl.Item value="list">List</SegmentedControl.Item>
+            <SegmentedControl.Item value="grid">Grid</SegmentedControl.Item>
+            <SegmentedControl.Item value="map">Map</SegmentedControl.Item>
+          </SegmentedControl.Root>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};
+
 export const Overview: Story = {
   render: (args) => (
     <Stage>

@@ -52,20 +52,6 @@ test.describe('SURF target size, coarse pointer (REQ-SURF-192)', () => {
     expect(offenders).toEqual([]);
   });
 
-  // REQ-SURF-52 (REQ-FIN-82): coarse-pointer tab bar items are >= 44x44 boxes.
-  test('tab bar target size: every [data-ag-part=tab-bar-item] is >= 44x44', async ({ page }) => {
-    const subjects = await listSubjects({ owner: 'SURF' });
-    const subject = subjects.find((s) => s.id === 'surf-tab-bar--default');
-    if (!subject) throw new Error('surf-tab-bar--default subject not registered');
-    await gotoStory(page, subject.id);
-    expect(await page.evaluate(() => matchMedia('(pointer: coarse)').matches)).toBe(true);
-    const boxes = await page.$$eval('[data-ag-part="tab-bar-item"]', (els) =>
-      els.map((el) => {
-        const r = el.getBoundingClientRect();
-        return { w: r.width, h: r.height };
-      }),
-    );
-    expect(boxes.length).toBe(3);
-    expect(boxes.filter((b) => b.w < 44 || b.h < 44)).toEqual([]);
-  });
+  // REQ-SURF-52 tab bar target size (>=44x44 coarse) lives in
+  // tests/e2e/surf/app-shell/a11y.spec.ts, which the app-shell L5 lane runs.
 });

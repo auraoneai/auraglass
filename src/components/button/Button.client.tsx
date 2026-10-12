@@ -4,7 +4,8 @@ import { stateRender, toDataState } from '../../foundation/state';
 import { useControllableWarning } from '../../foundation/controllable';
 import { Button as BaseButton } from '@base-ui/react/button';
 import { Toggle } from '@base-ui/react/toggle';
-import { materialProps } from '../../material';
+import type { materialProps } from '../../material';
+import { componentMaterialProps } from '../../material/internal';
 import { pointerLightAttributes } from '../../material/stateAttributes';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
@@ -113,14 +114,16 @@ export function Button(props: ButtonProps) {
     }
   }, [isToggle]);
 
-  /* REQ-CMP-34: thin chrome + interactive by default. */
-  const role: Parameters<typeof materialProps>[0] = { layer: 'chrome', variant, thickness: 'thin', interactive: true };
+  /* REQ-CMP-34: thin chrome + interactive by default. REQ-MAT-23 (D-07): the
+     thin default comes from the internal 'control' size class, so an explicit
+     `thickness` still wins and refraction keys on the control lens. */
+  const role: Parameters<typeof materialProps>[0] = { layer: 'chrome', variant, interactive: true };
   if (thickness !== undefined) role.thickness = thickness;
   if (prominent === true) role.prominent = true;
   if (refraction === true) role.refraction = true;
   /* IconButton's explicit fixed shape goes through the MAT setter (S-01). */
   if (shape !== undefined) role.shape = shape;
-  const attrs = materialProps(role);
+  const attrs = componentMaterialProps(role, 'control');
   const shared = {
     ...attrs,
     'data-ag-part': partOverride ?? 'root',
