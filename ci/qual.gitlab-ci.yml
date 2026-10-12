@@ -104,6 +104,27 @@ qual:test:storybook-flows:
     expire_in: 14 days
     paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
 
+# REQ-QUAL-50: the story gates (contract + copy + titles + docs pages, against the expiring baseline) as their own
+# job, so an introduced violation fails exactly this gate — printed per owner — instead of being one line in the
+# whole Storybook build, and so the job can be flipped to blocking by ci/plat/activation.json on its first green
+# run without coupling that flip to the build. It still starts allow_failure: true (activation rule, §2.3); the
+# baselined violations stay accepted until the baseline expires at RC-1. Pure node (static story parse, no build).
+qual:test:story-contract:
+  extends: .ag-node
+  stage: test
+  allow_failure: true
+  needs: []
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - mkdir -p ".artifacts/qual/$CI_JOB_NAME_SLUG"
+    - node scripts/storybook/story-contract.mjs
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    when: always
+    expire_in: 14 days
+    paths: [.artifacts/qual/$CI_JOB_NAME_SLUG/]
+
 # ---------------------------------------------------------------- the twelve lanes (CERT_JOBS)
 qual:certify:l1:
   extends: .qual-tarball-lane
@@ -116,6 +137,9 @@ qual:certify:l2:
   script:
     # REQ-QUAL-33: on main also L2 against the published and release/4.x-head 4.x tarballs (line-4x/ manifest, never blocking).
     - if [ "$AG_SCOPE" = "main" ]; then node certification/run.mjs --lane L2 --scope main --line 4x; fi
+    # REQ-QUAL-47: fetch Node 20.19.0 + 22 LTS (AG_COLD_IMPORT_NODE_BINS) so the L2 cold-import row measures both
+    # Node lines instead of falling back to the job image's node and failing with missing-node-line.
+    - eval "$(node scripts/qual/fetch-node.mjs 20.19.0 22)"
     - node certification/run.mjs --lane L2 --scope $AG_SCOPE
 qual:certify:l3:
   extends: .qual-tarball-lane
@@ -139,6 +163,11 @@ qual:certify:l6:
   extends: .qual-browser-lane
   allow_failure: true
   script:
+    # REQ-QUAL-13: the OCR contrast gate needs tesseract 5 in the capture job (else ocr-contrast stays `pending`
+    # and never certifies); installed in-job until AG_PLAYWRIGHT_IMAGE carries it (FIN-B). The release shards
+    # inherit this script verbatim (shard-plan childPipeline derives from this job).
+    - command -v tesseract >/dev/null || (apt-get update -qq && apt-get install -y -qq --no-install-recommends tesseract-ocr tesseract-ocr-eng)
+    - tesseract --version
     - node scripts/storybook/verify-fresh.mjs --dir storybook-static
     - node certification/run.mjs --lane L6 --scope $AG_SCOPE
   # REQ-QUAL-65: pipeline wall time to the end of the heaviest PR/main lane vs the 20/45-minute budget; reported
@@ -181,6 +210,10 @@ qual:certify:l9:
 qual:certify:l10:
   extends: .qual-browser-lane
   allow_failure: true
+  # REQ-QUAL-37: also nightly/release (not only the .qual-browser-lane pr/main), so profile (b) perf-results exist
+  # for qual:certify:perf-grade at those scopes; without them grade.mjs fails closed with "no mid-mobile cells".
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "nightly" || $AG_SCOPE == "release")
   variables: { AG_STORYBOOK_STATIC: "$CI_PROJECT_DIR/storybook-static" }
   timeout: 90m
   # Build-stage inputs only (Storybook + dist for bundle bytes), so L10 is not skipped behind package-stage jobs.
@@ -240,6 +273,9 @@ qual:certify:nightly:
   rules:
     - if: $AG_SCOPE == "nightly" && $AG_LINE == "5x"
   script:
+    # REQ-QUAL-13: `--lane all` includes L6, whose OCR contrast gate needs tesseract 5 in the capture job.
+    - command -v tesseract >/dev/null || (apt-get update -qq && apt-get install -y -qq --no-install-recommends tesseract-ocr tesseract-ocr-eng)
+    - tesseract --version
     - git fetch --no-tags origin "+refs/heads/next:refs/remotes/origin/next"
     - node scripts/storybook/verify-fresh.mjs --dir storybook-static
     # REQ-QUAL-33: L2/L3/L11 against the published and release/4.x-head 4.x tarballs (line-4x/ manifest, never blocking).
@@ -265,6 +301,10 @@ qual:certify:release:
     - { job: "qual:certify:release-plan", artifacts: true }
     - { job: "qual:certify:release-matrix", artifacts: false }
   script:
+    # REQ-QUAL-13: `--lane all` includes L6, whose OCR contrast gate needs tesseract 5 in the capture job (the
+    # release shards get it through the qual:certify:l6 script they inherit).
+    - command -v tesseract >/dev/null || (apt-get update -qq && apt-get install -y -qq --no-install-recommends tesseract-ocr tesseract-ocr-eng)
+    - tesseract --version
     - git fetch --no-tags origin "+refs/heads/next:refs/remotes/origin/next"
     - node scripts/storybook/verify-fresh.mjs --dir storybook-static
     - |
@@ -323,6 +363,9 @@ qual:certify:l10-gpu:
   needs: *qual-l10-needs
   rules:
     - if: $AG_LINE == "5x" && $AG_SCOPE == "main"
+    # REQ-QUAL-37: nightly/release too (sel is --all outside pr), so profile (a)@120 results exist for
+    # qual:certify:perf-grade at those scopes; without them grade.mjs fails closed with "no desktop-120hz cells".
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "nightly" || $AG_SCOPE == "release")
     - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
       changes: [src/**/*, tests/perf/harness/**/*, stories/qual/perf/**/*, packages/qa/src/perf/**/*, ci/qual.gitlab-ci.yml]
   script:

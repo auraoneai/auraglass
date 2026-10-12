@@ -1,8 +1,8 @@
 /**
  * @jest-environment node
  */
-/* REQ-QUAL-47 Node cold import (REQ-FIN-105, FIN-446) — remote L2 only (GitLab qual:test:cold-import; the lane
-   runner's L2 row once G-03 lands). Installs the packed tarball into a scratch project and runs 11 fresh `node`
+/* REQ-QUAL-47 Node cold import (REQ-FIN-105, FIN-446) — remote L2 only (the lane runner's L2 row in GitLab
+   qual:certify:l2, which fetches both Node lines first). Installs the packed tarball into a scratch project and runs 11 fresh `node`
    processes per JS entry on Node 20.19.0 and Node 22 LTS, timing `await import(<entry>)` after dropping the OS page
    cache (or recording the fallback). Fails if '.' median > 150 ms (DEFAULT_CEILINGS.nodeColdImportMs) or p90 > 200 ms,
    if './material', './tokens' or './primitives' median > 30 ms, if a Node line is missing, or if the runner tag
@@ -29,7 +29,7 @@ function repoRoot() {
 }
 const ci = createRequire(join(repoRoot(), 'package.json'))('./scripts/qual/lib/cold-import.cjs');
 
-const REMOTE = 'remote L2 only: runs in the GitLab job qual:test:cold-import (needs plat:build:dist; '
+const REMOTE = 'remote L2 only: runs in the GitLab job qual:certify:l2 (needs plat:build:dist; '
   + 'AG_COLD_IMPORT_NODE_BINS from scripts/qual/fetch-node.mjs 20.19.0 22)';
 
 function reportPath() {

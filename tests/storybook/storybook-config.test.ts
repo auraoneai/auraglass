@@ -208,6 +208,14 @@ function scanTestImports(roots: string[]): string[] {
 describe('test tooling (REQ-QUAL-57)', () => {
   it('no 5.0 file imports @storybook/jest, @storybook/testing-library or @storybook/test', () => {
     expect(scanTestImports(SCAN_ROOTS.map((r) => join(ROOT, r))).map((f) => relative(ROOT, f))).toEqual([]);
+    // Root-level 5.0 sources (vite/playwright/jest configs, ...) are files, not a scan root: scan them too.
+    // legacy/** is the 4.x tree and stays excluded — it is not in SCAN_ROOTS and not a root-level file.
+    const rootFiles = readdirSync(ROOT, { withFileTypes: true })
+      .filter((d) => d.isFile() && SCAN_FILE.test(d.name))
+      .map((d) => join(ROOT, d.name))
+      .filter((f) => f !== SELF && BANNED_TEST_IMPORT.test(readFileSync(f, 'utf8')));
+    expect(rootFiles.map((f) => relative(ROOT, f))).toEqual([]);
+    expect(BANNED_TEST_IMPORT.test("import '@storybook/jest';")).toBe(true); // a bare side-effect import is caught too
   });
 
   it('the import scan fails on a planted @storybook/test import (and the other two packages)', () => {
