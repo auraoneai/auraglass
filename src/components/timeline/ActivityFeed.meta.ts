@@ -9,7 +9,7 @@ export default defineMeta({
   rsc: 'mixed',
   // REQ-SURF-97: rendered union — the feed's own parts, the Timeline parts it
   // composes, and the CMP Avatar parts (root/image/fallback) of each actor.
-  parts: ['activity-actor', 'activity-day-heading', 'activity-feed', 'activity-load-more', 'fallback', 'image', 'root', 'timeline', 'timeline-description', 'timeline-item', 'timeline-marker', 'timeline-meta', 'timeline-time', 'timeline-title'],
+  parts: ['activity-actor', 'activity-day-heading', 'activity-feed', 'activity-load-more', 'fallback', 'image', 'root', 'timeline', 'timeline-container', 'timeline-description', 'timeline-item', 'timeline-marker', 'timeline-meta', 'timeline-time', 'timeline-title'],
   states: ['new-items'],
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: {},
