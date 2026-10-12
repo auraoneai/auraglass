@@ -88,12 +88,21 @@ export function sourceTarget(root: string, key: string): string | null {
 
 const SOURCE_MODULE = /\.(?:[cm]?[jt]sx?)$/;
 
-/** The `dist/` twin of a `src/` module (`src/a/B.client.tsx` → `dist/a/B.client.js`), or null when none was built. */
+/** The `dist/` twin of a `src/` module (`src/a/B.client.tsx` → `dist/a/B.client.js`), or null when none was built.
+ *  Mirrors scripts/build/lib/graph.mjs distChunkStem: runtime contract constants (`src/contracts/x.ts`)
+ *  are emitted as `dist/internal/contracts/x.js` (dist/contracts/ is declaration-only) and the private
+ *  CMP foundation (`src/foundation/x.ts`) as `dist/internal/cmp/x.js`. */
 export function distTwin(root: string, absSourceFile: string): string | null {
   const rel = toPosix(relative(join(root, 'src'), absSourceFile));
   if (rel.startsWith('../') || isAbsolute(rel) || !SOURCE_MODULE.test(rel)) return null;
-  const twin = join(root, 'dist', rel.slice(0, -extname(rel).length) + '.js');
-  return existsSync(twin) ? twin : null;
+  const stem = rel.slice(0, -extname(rel).length);
+  const relocated = stem.startsWith('contracts/') ? `internal/${stem}`
+    : stem.startsWith('foundation/') ? `internal/cmp/${stem.slice('foundation/'.length)}` : null;
+  for (const candidate of relocated ? [relocated, stem] : [stem]) {
+    const twin = join(root, 'dist', candidate + '.js');
+    if (existsSync(twin)) return twin;
+  }
+  return null;
 }
 
 /** Every configured alias whose key is `@`-prefixed or whose replacement points into `src/`; must be empty in dist mode. */

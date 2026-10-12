@@ -1,5 +1,5 @@
 {
- "entry": "media",
+ "entry": "./media",
  "exports": [
   "CarouselRail",
   "ImageViewer",
@@ -8,5 +8,6 @@
   "NowPlayingBar",
   "formatMediaTime",
   "useMediaElement"
- ]
+ ],
+ "unanalysable": []
 }

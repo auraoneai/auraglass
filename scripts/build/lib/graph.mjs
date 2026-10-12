@@ -1,7 +1,7 @@
 /* Shared module-graph helpers for the 5.0 build gates (PLAT-242..298).
    Everything here is a static scan over src/: no bundler, no network. */
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
-import { join, dirname, resolve, relative, posix } from 'node:path';
+import { join, dirname, resolve, relative, posix, sep } from 'node:path';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
@@ -157,6 +157,85 @@ export function gaGate(e, version) {
   const [gmaj, gmin] = String(e.ga).split('.');
   if (Number.isNaN(+maj) || Number.isNaN(+min) || Number.isNaN(+gmaj) || Number.isNaN(+gmin)) return null;
   return (+gmaj * 1000 + +gmin) > (+maj * 1000 + +min) ? `ga:'${e.ga}' > ${maj}.${min} (ships on ${e.ga}.x)` : null;
+}
+
+/** REQ-PLAT-66: dist/contracts/ is the declaration-only contract namespace
+ *  (tests/exports/no-foundation-types.test.ts). Runtime contract constants that
+ *  implementation modules import by value (SPRINGS, STORAGE_KEY, …) are emitted
+ *  as internal modules under dist/internal/contracts/ instead, so no runtime js
+ *  sits beside the public contract types. Maps a tsdown chunk name
+ *  ('contracts/motion') to its dist path stem ('internal/contracts/motion'). */
+export const CONTRACTS_RUNTIME_DIR = 'internal/contracts';
+/** REQ-CMP-01 / REQ-PLAT-66: the private CMP foundation namespace (src/foundation/**)
+ *  has no package entry and no public type surface. Its runtime modules are emitted
+ *  under dist/internal/cmp/ with their declarations moved beside them (post.mjs), so
+ *  no dist/foundation/ declaration ships while every emitted js keeps a d.ts twin. */
+export const FOUNDATION_RUNTIME_DIR = 'internal/cmp';
+export function distChunkStem(name) {
+  if (name === 'contracts' || name.startsWith('contracts/')) return `internal/${name}`;
+  if (name === 'foundation') return FOUNDATION_RUNTIME_DIR;
+  if (name.startsWith('foundation/')) return `${FOUNDATION_RUNTIME_DIR}/${name.slice('foundation/'.length)}`;
+  return name;
+}
+
+/** The Base UI seam (src/foundation/base-ui/<part>.ts) is one
+ *  `export { X } from '@base-ui/react/<part>'` per module: a source-level pin and
+ *  confinement point. At build time an import of a seam module is the import of
+ *  its external target, so the bundler resolves it there and no seam module (whose
+ *  declaration would be a bare Base UI re-export) is emitted. Returns the external
+ *  specifier, or null when `file` is not a pure seam re-export. */
+export const BASE_UI_SEAM_DIR = join(SRC, 'foundation', 'base-ui');
+export function seamReexportTarget(file) {
+  if (!file.startsWith(BASE_UI_SEAM_DIR + sep)) return null;
+  let text;
+  try { text = readFileSync(file, 'utf8'); } catch { return null; }
+  const body = text.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '').trim();
+  const m = /^export\s*\{([^}]*)\}\s*from\s*['"](@base-ui\/[^'"]+)['"];?$/.exec(body);
+  if (!m || /\bas\b/.test(m[1])) return null; // only same-name re-exports are equivalent
+  return m[2];
+}
+
+/** Contract-declared pattern subpaths, keyed by their base entry (ENTRIES
+ *  './icons' row: "+ './icons/<name>' pattern"). `sourceDir` holds the modules
+ *  the pattern resolves to: every top-level `<sourceDir>/<name>.ts` with a
+ *  sibling `<name>/` directory is a category barrel reachable as
+ *  `<base>/<name>` through the pattern row. */
+export const PATTERN_EXPORTS = {
+  './icons': {
+    subpath: './icons/*',
+    cond: { types: './dist/icons/*.d.ts', default: './dist/icons/*.js' },
+    sourceDir: 'src/icons',
+  },
+};
+
+/** Build entries behind the pattern rows of shipped base entries. The manifest
+ *  only lists the base entry ('./icons'); a bundler in unbundle mode may fold a
+ *  pure re-export barrel into its importer, so the pattern targets
+ *  (dist/icons/<cat>.js) are emitted only when they are entries themselves.
+ *  Returns manifest-shaped rows { subpath, source, types, default, pattern }. */
+export function patternEntries(keep, root = ROOT) {
+  const out = [];
+  for (const base of keep) {
+    const pat = PATTERN_EXPORTS[base.subpath];
+    if (!pat) continue;
+    const dir = join(root, pat.sourceDir);
+    if (!existsSync(dir)) continue;
+    for (const name of readdirSync(dir).sort()) {
+      const m = /^([^.]+)\.tsx?$/.exec(name);
+      if (!m || m[1] === 'index') continue;
+      if (!existsSync(join(dir, m[1])) || !statSync(join(dir, m[1])).isDirectory()) continue;
+      const source = posix.join(pat.sourceDir, name);
+      if (closureSeedFiles(join(root, source), root).length) continue;
+      out.push({
+        subpath: base.subpath + '/' + m[1],
+        source,
+        types: pat.cond.types.replace('*', m[1]).replace(/^\.\//, ''),
+        default: pat.cond.default.replace('*', m[1]).replace(/^\.\//, ''),
+        pattern: pat.subpath,
+      });
+    }
+  }
+  return out;
 }
 
 /** Entries whose src closure is seed-free (the pre-release filter of §5.2.3 / PLAT-242).

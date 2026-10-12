@@ -1,5 +1,5 @@
 {
- "entry": "compat.surf",
+ "entry": "./compat.surf",
  "exports": [
   "AtmosphericBackground",
   "AuroraBackground",
@@ -37,6 +37,7 @@
   "GlassMeshGradient",
   "GlassMessageList",
   "GlassMetricCard",
+  "GlassMetricChip",
   "GlassMobileNav",
   "GlassMobileShell",
   "GlassNavigationMenu",
@@ -76,5 +77,6 @@
   "SURF_COMPAT_ADAPTERS",
   "TreeView",
   "ZSpaceAppLayout"
- ]
+ ],
+ "unanalysable": []
 }

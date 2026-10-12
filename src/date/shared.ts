@@ -6,9 +6,9 @@
    components hand them to React Aria internally. Values the components emit
    are those same instances, so the methods below are always available. */
 
-import type { toChangeDetails } from '../foundation';
-/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
-type ChangeDetails = ReturnType<typeof toChangeDetails>;
+/* S-30 ChangeDetails from the public contract module, so the emitted d.ts never
+   names the private foundation seam (REQ-CMP-01). */
+import type { ChangeDetails } from '../contracts/components';
 
 export interface DateCalendar {
   /** CLDR calendar identifier, e.g. 'gregory'. */

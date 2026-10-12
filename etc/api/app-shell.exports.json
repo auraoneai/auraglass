@@ -1,5 +1,5 @@
 {
- "entry": "app-shell",
+ "entry": "./app-shell",
  "exports": [
   "AppShell",
   "Inspector",

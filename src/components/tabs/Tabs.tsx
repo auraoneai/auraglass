@@ -13,9 +13,9 @@ import { useTabBarPanel } from '../tab-bar/TabBar';
 import { PanelRegistryContext, useOwnOrOuterPanelRegistry } from '../tab-bar/panelRegistry';
 import { toChangeDetails } from '../../foundation';
 import { partElement } from '../../app-shell/_internal/partElement';
-import type { PartProps } from '../../contracts/components';
-/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
-type ChangeDetails = ReturnType<typeof toChangeDetails>;
+/* S-30 ChangeDetails from the public contract module, so the emitted d.ts never
+   names the private foundation seam (REQ-CMP-01). */
+import type { ChangeDetails, PartProps } from '../../contracts/components';
 
 export type TabsValue = string;
 

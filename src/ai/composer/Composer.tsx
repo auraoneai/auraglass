@@ -2,7 +2,9 @@
 import * as React from 'react';
 import { Field } from '../../foundation/base-ui/field';
 import type { AgChatStatus } from '../types';
-import type { toChangeDetails } from '../../foundation';
+/* S-30 ChangeDetails from the public contract module, so the emitted d.ts never
+   names the private foundation seam (REQ-CMP-01). */
+import type { ChangeDetails } from '../../contracts/components';
 import { useAttachments } from './useAttachments';
 import type { AttachmentReject, ComposerAttachment } from './useAttachments';
 import { useAnnouncer } from '../../theme';
@@ -11,8 +13,6 @@ import { MenuPortal, MenuPositioner, MenuPopup } from '../../components/menu/Men
 import { AiIcon } from '../icons/AiIcon';
 import { useStatusAnnouncements } from '../message/useStatusAnnouncements';
 import type { AiIconName } from '../icons/index';
-/** S-30 ChangeDetails, via the CMP foundation seam (no contracts/ specifier in src). */
-type ChangeDetails = ReturnType<typeof toChangeDetails>;
 
 export interface ComposerLabels {
   input?: string;

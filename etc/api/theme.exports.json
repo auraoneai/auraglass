@@ -1,5 +1,5 @@
 {
- "entry": "theme",
+ "entry": "./theme",
  "exports": [
   "AuraGlassProvider",
   "AuraGlassScript",

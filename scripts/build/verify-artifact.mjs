@@ -5,16 +5,17 @@
    manifest says ships is absent. */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { ROOT, DIST, buildableEntries, walk } from './lib/graph.mjs';
+import { ROOT, DIST, buildableEntries, patternEntries, walk } from './lib/graph.mjs';
 
 const failures = [];
 const fail = (m) => { failures.push(m); console.error(`  FAIL ${m}`); };
 
 const { keep, pending } = buildableEntries();
-for (const e of keep) {
+// pattern rows (./icons/* -> dist/icons/<cat>.js) must resolve to real js + d.ts twins too
+for (const e of [...keep, ...patternEntries(keep)]) {
   const js = join(ROOT, e.default);
   const dts = js.replace(/\.js$/, '.d.ts');
-  if (!existsSync(js)) fail(`missing ${e.default} for entry ${e.subpath}`);
+  if (!existsSync(js)) fail(`missing ${e.default} for entry ${e.subpath}${e.pattern ? ` (pattern ${e.pattern})` : ''}`);
   else if (!existsSync(dts)) fail(`missing d.ts twin for ${e.default}`);
 }
 for (const e of pending) console.log(`  pending entry ${e.subpath}: ${e.reason}`);

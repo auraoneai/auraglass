@@ -1,4 +1,4 @@
-## API Report — aura-glass/compat (SURF adapters)
+## API Report — aura-glass ./compat.surf
 
 - `AtmosphericBackground`
 - `AuroraBackground`
@@ -36,6 +36,7 @@
 - `GlassMeshGradient`
 - `GlassMessageList`
 - `GlassMetricCard`
+- `GlassMetricChip`
 - `GlassMobileNav`
 - `GlassMobileShell`
 - `GlassNavigationMenu`

@@ -1,8 +1,12 @@
 /* Root value exports are frozen by ROOT_EXPORTS.cmp (§4.5). A name is added here
    only once its implementation is real — seed contracts/stubs never reach the
    root surface (no-fake-completion). */
+import type { ChangeDetails } from '../contracts/components';
 export type { ChangeDetails } from '../contracts/components';
-export type { ValueChangeHandler } from '../foundation/types';
+/** (value, details) callback signature used by every 5.0 component — never onChange.
+ *  Declared here (structurally identical to the CMP foundation's internal alias) so
+ *  the public d.ts never references the private foundation namespace (REQ-CMP-01). */
+export type ValueChangeHandler<V> = (value: V, details: ChangeDetails) => void;
 
 export { VisuallyHidden } from '../primitives/VisuallyHidden';
 export type { VisuallyHiddenProps } from '../primitives/VisuallyHidden';

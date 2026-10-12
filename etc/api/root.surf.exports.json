@@ -1,5 +1,5 @@
 {
- "entry": "root.surf",
+ "entry": "./root.surf",
  "exports": [
   "ActivityFeed",
   "Breadcrumbs",
