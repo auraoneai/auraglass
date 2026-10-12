@@ -4,7 +4,7 @@
 import { afterAll, describe, expect, it } from '@jest/globals';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { appendFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync, chmodSync } from 'node:fs';
+import { appendFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync, chmodSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { bareImports, buildBundle, hashTree, moduleClosure, parseArgs } from '../../../scripts/qual/remote/build-bundle.mjs';
@@ -36,6 +36,9 @@ function fixture(): string {
   pkg('pngjs');
   pkg('unused');
   w('storybook-static/index.json', '{"entries":{}}');
+  // REQ-QUAL-56: write-build-manifest.mjs output for this SHA (verify-fresh runs before the bundle is built)
+  w('storybook-static/ag-build.json', JSON.stringify({ sha: SHA, dirty: false, builtAt: '2026-10-12T00:00:00.000Z', storybookVersion: '9.1.20',
+    packageVersion: '5.0.0', storyCount: 0, indexSha256: createHash('sha256').update('{"entries":{}}').digest('hex') }));
   w('pack/aura-glass-5.0.0.tgz', 'tarball-bytes');
   for (const b of ['chromium-1200', 'firefox-1500', 'webkit-2200', 'ffmpeg-1011']) w(`browsers/${b}/bin`, b);
   w('tools/tesseract', '#!/bin/sh\n');
@@ -86,6 +89,31 @@ describe('build-bundle.mjs', () => {
       expect.stringContaining('Playwright browser build ^webkit-'),
       expect.stringContaining('eng.traineddata'),
     ]);
+  });
+
+  it('refuses a Storybook build that fails verify-fresh: other SHA, edited index, dirty tree in CI, no ag-build.json (REQ-QUAL-56)', async () => {
+    const fresh = (root: string) => JSON.parse(readFileSync(join(root, 'storybook-static/ag-build.json'), 'utf8'));
+    const put = (root: string, m: unknown) => writeFileSync(join(root, 'storybook-static/ag-build.json'), JSON.stringify(m));
+
+    const stale = fixture();
+    put(stale, { ...fresh(stale), sha: 'f'.repeat(40) });
+    const r1 = await buildBundle(opts(stale), {});
+    expect(r1.ok).toBe(false);
+    expect(r1.problems).toEqual([expect.stringMatching(/^fresh Storybook build \(verify-fresh\): .*stale Storybook build/)]);
+
+    const edited = fixture();
+    writeFileSync(join(edited, 'storybook-static/index.json'), '{"entries":{"x":{}}}');
+    expect((await buildBundle(opts(edited), {})).problems).toEqual([expect.stringContaining('index changed after the manifest was written')]);
+
+    const dirty = fixture();
+    put(dirty, { ...fresh(dirty), dirty: true });
+    expect((await buildBundle(opts(dirty), { CI: 'true' })).problems).toEqual([expect.stringContaining('records a dirty tree')]);
+    expect((await buildBundle(opts(dirty, ['--no-tar']), {})).ok).toBe(true); // outside CI a dirty local build is allowed
+
+    const missing = fixture();
+    rmSync(join(missing, 'storybook-static/ag-build.json'));
+    expect((await buildBundle(opts(missing), {})).problems).toEqual([expect.stringContaining('ag-build.json is missing')]);
+    expect(existsSync(join(missing, 'out/bundle'))).toBe(false);
   });
 });
 
