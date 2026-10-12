@@ -70,6 +70,11 @@ function drawAndRead(
   const sw = region ? Math.max(1, Math.floor((region.width / 100) * dims.w)) : dims.w;
   const sh = region ? Math.max(1, Math.floor((region.height / 100) * dims.h)) : dims.h;
   try {
+    // No smoothing: the 32×32 draw must point-sample the source, not average
+    // it. Averaging collapses high-frequency content (REQ-SURF-152's busy
+    // scenes, e.g. hf-pattern) into a uniform mid-dark that classifyTone
+    // reads as 'dark'; point samples keep p10/p90 spread so busy stays busy.
+    ctx.imageSmoothingEnabled = false;
     ctx.drawImage(el as CanvasImageSource, sx, sy, sw, sh, 0, 0, SIZE, SIZE);
     const img = ctx.getImageData(0, 0, SIZE, SIZE);
     return computeLumaStats(img.data, SIZE, SIZE);

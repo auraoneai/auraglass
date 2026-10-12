@@ -28,6 +28,23 @@ describe('sampleOwnedPixels error paths (REQ-SURF-153)', () => {
       warn.mockRestore();
     }
   });
+  it('disables smoothing before drawImage so busy scenes point-sample (REQ-SURF-152)', () => {
+    const real = HTMLCanvasElement.prototype.getContext;
+    const ctx: Record<string, unknown> = {
+      imageSmoothingEnabled: true,
+      drawImage() {},
+      getImageData(_x: number, _y: number, w: number, h: number) {
+        return { data: new Uint8ClampedArray(w * h * 4).fill(255), width: w, height: h };
+      },
+    };
+    HTMLCanvasElement.prototype.getContext = function () { return ctx as never; };
+    try {
+      expect(sampleOwnedPixels(makeImg('https://x/busy.png'))?.mean).toBeCloseTo(1, 3);
+      expect(ctx['imageSmoothingEnabled']).toBe(false);
+    } finally {
+      HTMLCanvasElement.prototype.getContext = real;
+    }
+  });
   it('zero natural size → null, no throw', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const el = document.createElement('img'); // naturalWidth 0
