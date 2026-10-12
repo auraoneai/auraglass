@@ -74,18 +74,18 @@ describe('toast timers (REQ-CMP-108)', () => {
   it('viewport-level pause selectors exist in Toast.css', () => {
     const css = require('fs').readFileSync(require('path').join(__dirname, '../../src/components/toast/Toast.css'), 'utf8');
     expect(css).toContain('.ag-toast-viewport:hover .ag-toast-progress-bar');
-    expect(css).toContain('[data-ag-paused] .ag-toast-progress-bar');
+    expect(css).toContain('[data-paused] .ag-toast-progress-bar');
     expect(css).toContain('animation-play-state: paused');
   });
 
-  it('document.hidden sets data-ag-paused on the viewport', async () => {
+  it('document.hidden sets data-paused on the viewport', async () => {
     render(<Host options={{ title: 'x' }} />);
     await act(async () => {});
     const viewport = document.querySelector('.ag-toast-viewport');
-    expect(viewport?.hasAttribute('data-ag-paused')).toBe(false);
+    expect(viewport?.hasAttribute('data-paused')).toBe(false);
     const spy = jest.spyOn(document, 'hidden', 'get').mockReturnValue(true);
     act(() => { document.dispatchEvent(new Event('visibilitychange')); });
     await act(async () => {});
-    expect(viewport?.hasAttribute('data-ag-paused')).toBe(true);
+    expect(viewport?.hasAttribute('data-paused')).toBe(true);
   });
 });

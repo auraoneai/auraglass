@@ -26,7 +26,7 @@ test.describe('tool-call APG (SURF-385)', () => {
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
     await expect(page.locator(`[id="${controls}"]`)).toBeVisible();
     await expect(page.locator('[data-ag-part="tool-state"]')).toHaveText('Done');
-    await expect(trigger.locator('svg[data-ag-part="state-icon"]')).toHaveAttribute('data-ag-icon', 'succeeded');
+    await expect(trigger.locator('svg[data-ag-part="state-icon"]')).toHaveAttribute('data-icon', 'succeeded');
     await apg.keyboard(page, [{ press: 'Space' }]);
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
     await apg.axe(page);

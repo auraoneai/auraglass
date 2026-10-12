@@ -131,7 +131,7 @@ describe('compat core adapters (REQ-CMP-131)', () => {
         expect(typeof C).toBe('function');
         const first = render(<C {...(PROPS[name] ?? {})} />);
         if (!UNWRAPPED.has(name)) {
-          expect(document.querySelector(`[data-ag-compat="${name}"]`)).not.toBeNull();
+          expect(document.querySelector(`[data-compat="${name}"]`)).not.toBeNull();
         }
         first.unmount();
         render(<C {...(PROPS[name] ?? {})} />);
@@ -183,14 +183,14 @@ describe('compat core adapters (REQ-CMP-131)', () => {
     expect(items).toHaveLength(3);
     expect(items[0]).not.toHaveAttribute('aria-current');
     expect(items[1]).toHaveAttribute('aria-current', 'step');
-    expect(items[0]).toHaveAttribute('data-ag-status', 'complete');
-    expect(items[2]).toHaveAttribute('data-ag-status', 'upcoming');
+    expect(items[0]).toHaveAttribute('data-status', 'complete');
+    expect(items[2]).toHaveAttribute('data-status', 'upcoming');
     expect(container.querySelector('input')).toBeNull();
   });
 
   it('GlassNotificationItem maps type="error" to the danger intent', () => {
     const { container } = render(React.createElement(Adapter('GlassNotificationItem'), { title: 'Oops', message: 'Failed', type: 'error' }));
-    const root = container.querySelector('[data-ag-compat="GlassNotificationItem"]');
+    const root = container.querySelector('[data-compat="GlassNotificationItem"]');
     expect(root).toHaveAttribute('data-ag-intent', 'danger');
     expect(root).toHaveAttribute('role', 'status');
     expect(root).toHaveTextContent('Oops');

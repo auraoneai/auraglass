@@ -141,7 +141,7 @@ test.describe('L5 behaviour self-run on contract doubles', () => {
     test(`double ${d.story} @engine-chromium`, { annotation: { type: 'double-pass', description: 'tests/contract-doubles/cmp/* (contract §5.2 rule 4)' } }, async ({ page }) => {
       if ('pending' in loaded) pendingOrFail(loaded.pending, loaded.producer);
       await gotoStory(page, d.story, { scene: 'flat-white', scheme: 'light' });
-      expect(await page.locator('[data-ag-double]').count(), 'story renders the contract double').toBeGreaterThan(0);
+      expect(await page.locator('[data-double]').count(), 'story renders the contract double').toBeGreaterThan(0);
       const v = await scan(page, true);
       expect(v, 'axe (color-contrast on, moderate fails)').toBeNull();
       await page.focus(d.focus);

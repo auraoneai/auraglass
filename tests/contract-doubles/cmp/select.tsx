@@ -13,6 +13,6 @@ export const Select = {
   Group: withPart(Base.Group as React.ComponentType<Record<string, unknown>>, 'group'),
   GroupLabel: withPart(Base.GroupLabel as React.ComponentType<Record<string, unknown>>, 'group-label'),
   Separator: function DoubleSeparator(props: React.ComponentProps<'div'>) {
-    return <div data-ag-part="separator" data-ag-double="" {...props} />;
+    return <div data-ag-part="separator" data-double="" {...props} />;
   },
 };

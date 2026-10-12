@@ -16,7 +16,7 @@ const tagFor = (name: string): keyof React.JSX.IntrinsicElements =>
 export function comp<P extends AnyProps>(name: string) {
   const Tag = tagFor(name);
   return function Double(props: P) {
-    return React.createElement(Tag as string, { 'data-ag-part': kebab(name), 'data-ag-double': '', ...props });
+    return React.createElement(Tag as string, { 'data-ag-part': kebab(name), 'data-double': '', ...props });
   };
 }
 

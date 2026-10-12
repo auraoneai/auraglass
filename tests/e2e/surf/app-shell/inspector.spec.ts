@@ -13,7 +13,7 @@ async function openInShell(page: Page, width: number) {
   await gotoStory(page, subject.id);
   const shell = page.locator('.ag-app-shell').first();
   await expect(shell).toHaveAttribute('data-ag-inspector', 'closed');
-  return { shell, toggle: page.locator('[data-ag-toggle="inspector"]').first() };
+  return { shell, toggle: page.locator('[data-toggle="inspector"]').first() };
 }
 
 const inlineStyle = (page: Page) =>
