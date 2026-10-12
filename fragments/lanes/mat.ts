@@ -163,6 +163,9 @@ export default [
   { lane: 'L12', kind: 'node-script', path: 'scripts/mat/codemod-fixtures-check.mjs', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L12', kind: 'jest', path: 'src/theme/**/__tests__/**', scope: 'pr', remote: false, failClosed: true },
   { lane: 'L12', kind: 'jest', path: 'tests/a11y/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  // REQ-MAT-47: motion runtime units (ticker observed-element ref-count,
+  // capability context, modes, spring/linear, tokens) on every PR.
+  { lane: 'L12', kind: 'jest', path: 'src/motion/__tests__/*.test.ts', scope: 'pr', remote: false, failClosed: true },
 
   // MAT-371 (L11 Consumer canaries): MAT canary fixtures (provider + script in
   // app/layout, 0 hydration warnings) exercised by QUAL's L11 harness on

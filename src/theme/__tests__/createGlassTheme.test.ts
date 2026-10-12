@@ -63,13 +63,29 @@ describe('createGlassTheme', () => {
   it.each([
     ['light', 'light'],
     ['dark', 'dark'],
-    ['high-contrast', 'dark'],
   ] as const)("mode '%s' emits color-scheme: %s and keeps canvas light-dark()", (mode, scheme) => {
     const theme = createGlassTheme({ id: `cs-${mode}`, mode });
     expect(theme.cssText).toContain(`color-scheme: ${scheme};`);
     expect(theme.cssText).toMatch(/^\[data-ag-theme="[^"]+"\]\s*\{[^}]*\}$/);
     expect(theme.vars['--ag-color-canvas']).toMatch(/^light-dark\(/);
     expect(Object.keys(theme.vars)).not.toContain('color-scheme');
+  });
+
+  // REQ-MAT-15: 'high-contrast' maps only to contrast 'more'; it must not pin
+  // a scheme (it follows the OS scheme like 'system').
+  it("mode 'high-contrast' emits no color-scheme but does emit the contrast=more vars", () => {
+    const theme = createGlassTheme({ id: 'cs-hc', mode: 'high-contrast' });
+    expect(theme.cssText).not.toContain('color-scheme');
+    expect(theme.cssText).toMatch(/^\[data-ag-theme="cs-hc"\]\s*\{[^}]*\}$/);
+    expect(theme.vars['--ag-color-canvas']).toMatch(/^light-dark\(/);
+    expect(theme.tokens.contrast).toBe('more');
+    const moreVars = Object.entries(createGlassTheme({ id: 'cs-more', contrast: 'more' }).vars)
+      .filter(([k]) => !Object.prototype.hasOwnProperty.call(createGlassTheme({ id: 'cs-std' }).vars, k));
+    expect(moreVars.length).toBeGreaterThan(0);
+    for (const [k, v] of moreVars) {
+      expect(theme.vars[k]).toBe(v);
+      expect(theme.cssText).toContain(`${k}: ${v};`);
+    }
   });
 
   it("mode 'dark' cssText includes 'color-scheme: dark'", () => {
