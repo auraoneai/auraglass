@@ -37,7 +37,7 @@ const OVER_CELLS = ':is([data-ag-variant][data-ag-thickness][data-ag-tier][data-
 
 /** Cell scalars for one variant×thickness cell (no backdrop-filter var refs — the
  *  WebKit literals carry those; the generic engine path composes from these). */
-const cellScalars = (spec, v, t) => {
+export const cellScalars = (spec, v, t) => {
   const c = spec.variants[v][t];
   const br = c.brightness ?? { light: 1, dark: 1 };
   return [

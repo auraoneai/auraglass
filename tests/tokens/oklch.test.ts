@@ -144,8 +144,11 @@ describe.each(['dist/tokens.css', 'dist/css/tokens.css'])('sRGB fallback block (
     expect(shadows.length).toBeGreaterThan(0);
     const surface = ruleDecls(fallback[0]!, ':root').get('--ag-surface-shadow');
     expect(surface).toBe('rgb(0 0 0 / 0.18)');
+    // Shadows are two-layer (ambient + key, REQ-FIN-03 / REQ-MAT-07): every
+    // top-level comma-separated layer must itself be a full sRGB shadow.
+    const LAYER = /^(?:-?[0-9.]+px\s+){4}(?:#[0-9a-f]{6}|rgb\([0-9 ]+(?:\/ [0-9.]+)?\))$/;
     const bad = shadows.filter(([p, v]) =>
-      p === '--ag-surface-shadow' ? false : !/^(?:-?[0-9.]+px\s+){4}(?:#[0-9a-f]{6}|rgb\([0-9 ]+(?:\/ [0-9.]+)?\))$/.test(v));
+      p === '--ag-surface-shadow' ? false : !v.split(/,(?![^(]*\))/).every((layer) => LAYER.test(layer.trim())));
     expect(bad).toEqual([]);
   });
 

@@ -9,7 +9,7 @@
    dispatch, scroll lock, data-ag-obscured, the shared input dispatcher and
    the single usePortalContainer. */
 import { afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { Dialog as BaseDialog } from '@base-ui/react/dialog';
 import { createLayerStack } from '../LayerStack';
@@ -508,6 +508,10 @@ const portalRoot = (): HTMLElement => {
 
 describe('portal root scheme/transparency mirroring (REQ-MAT-56)', () => {
   afterEach(() => {
+    // This describe-level hook runs before RTL's top-level auto-cleanup, so
+    // unmount first: removing React's own portal root under a mounted tree
+    // makes the later unmount throw NotFoundError.
+    cleanup();
     document.body.querySelectorAll('[data-ag-portal-root]').forEach((e) => e.remove());
     for (const name of ROOT_ATTRS) document.documentElement.removeAttribute(name);
   });

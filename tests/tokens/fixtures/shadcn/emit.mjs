@@ -20,6 +20,9 @@ const BASE = {
   '--ag-color-border': 'oklch(0.85 0 0)',
   '--ag-color-focus-inner': 'oklch(0.55 0.2 250)',
   '--ag-radius-md': '12px',
+  // REQ-MAT-26: the emitter derives structural mapping rules from the space and
+  // radius scales and requires at least one --ag-space-* step.
+  '--ag-space-4': '16px',
 };
 
 const CASES = {
