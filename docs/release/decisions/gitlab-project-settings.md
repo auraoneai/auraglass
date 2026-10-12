@@ -33,5 +33,5 @@ once tag `v4.1.1` exists while any row here is still `missing`.
 | GitLab pull mirror (OD-8) | pull mirror of GitHub, pipelines on mirror updates | missing — **owner decision OD-8** | 2026-10-11 read: `mirror: false` | `gitlab-ci-verification.md` §"OD-8 owner action" |
 | Protected branches `main`, `next`, `release/4.x`, `release/4.1.x` | protected | missing | 2026-10-11 read: only `main` protected | Settings → Repository → Protected branches |
 | Status reporting back to GitHub (OD-9) | enabled | missing — **owner decision OD-9**, gated on OD-8 | — | Settings → Integrations / commit-status token; `gh api` payloads in `docs/release/branch-policy.md` |
-| npm trusted publisher for `aura-glass` + `@auraglass/*` (OD-10) | configured on npmjs.com | missing — **owner decision OD-10** | — | npm → package → trusted publishing → GitLab CI, project `87152036`, `.gitlab-ci.yml`, job `plat:publish:npm` |
+| npm trusted publisher for `aura-glass` + `aura-glass-{cli,registry,mcp,labs}` (OD-10) | configured on npmjs.com | missing — **owner decision OD-10** | — | npm → package → trusted publishing → GitLab CI, project `87152036`, `.gitlab-ci.yml`, job `plat:publish:npm` |
 | `AG_ROLLBACK_LATEST_TO_4X` | protected variable | missing | — | Settings → CI/CD → Variables → protected variable (only for the 4.x rollback) |

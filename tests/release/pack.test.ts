@@ -44,16 +44,16 @@ function fixture({ maps = true, labsPrivate = false } = {}) {
     version: 1,
     packages: {
       'aura-glass': { dir: '.', published: true, fallback: 'aura-glass' },
-      '@auraglass/cli': { dir: 'packages/cli', published: true, fallback: 'aura-glass-cli' },
-      '@auraglass/labs': { dir: 'packages/labs', published: true, fallback: 'aura-glass-labs' },
-      '@auraglass/mcp': { dir: 'packages/mcp', published: true, fallback: 'aura-glass-mcp' },
-      '@auraglass/qa': { dir: 'packages/qa', published: false },
+      'aura-glass-cli': { dir: 'packages/cli', published: true, fallback: 'aura-glass-cli' },
+      'aura-glass-labs': { dir: 'packages/labs', published: true, fallback: 'aura-glass-labs' },
+      'aura-glass-mcp': { dir: 'packages/mcp', published: true, fallback: 'aura-glass-mcp' },
+      'aura-glass-qa': { dir: 'packages/qa', published: false },
     },
   }));
   w('package.json', JSON.stringify({ name: 'aura-glass', version: '5.0.0-alpha.1' }));
-  w('packages/cli/package.json', JSON.stringify({ name: '@auraglass/cli', version: '0.1.0' }));
-  w('packages/labs/package.json', JSON.stringify({ name: '@auraglass/labs', version: '0.1.0', private: labsPrivate }));
-  w('packages/qa/package.json', JSON.stringify({ name: '@auraglass/qa', version: '0.0.0' }));
+  w('packages/cli/package.json', JSON.stringify({ name: 'aura-glass-cli', version: '0.1.0' }));
+  w('packages/labs/package.json', JSON.stringify({ name: 'aura-glass-labs', version: '0.1.0', private: labsPrivate }));
+  w('packages/qa/package.json', JSON.stringify({ name: 'aura-glass-qa', version: '0.0.0' }));
   // packages/mcp is absent on this "line"
   if (maps) {
     w('dist-maps/index.js.map', '{"version":3}');
@@ -78,7 +78,7 @@ describe('pack.mjs (REQ-PLAT-11, -16)', () => {
     expect(r.code).toBe(0);
     const rec = JSON.parse(readFileSync(join(f.dir, '.artifacts/plat/pack-record.json'), 'utf8'));
     expect(rec.sha).toBe('cafe');
-    expect(Object.keys(rec.packages).sort()).toEqual(['@auraglass/cli', '@auraglass/labs', 'aura-glass']);
+    expect(Object.keys(rec.packages).sort()).toEqual(['aura-glass', 'aura-glass-cli', 'aura-glass-labs']);
     for (const p of Object.values(rec.packages) as any[]) {
       const file = join(f.dir, '.artifacts/pack', p.file);
       expect(p.integrity).toBe('sha512-' + createHash('sha512').update(readFileSync(file)).digest('base64'));
@@ -115,7 +115,7 @@ describe('pack.mjs (REQ-PLAT-11, -16)', () => {
     const f = fixture({ labsPrivate: true });
     expect(f.run().code).toBe(0);
     const rec = JSON.parse(readFileSync(join(f.dir, '.artifacts/plat/pack-record.json'), 'utf8'));
-    expect(Object.keys(rec.packages).sort()).toEqual(['@auraglass/cli', 'aura-glass']);
+    expect(Object.keys(rec.packages).sort()).toEqual(['aura-glass', 'aura-glass-cli']);
   });
 
   it('fails when a package dir carries a name the contract does not list', () => {
@@ -123,6 +123,6 @@ describe('pack.mjs (REQ-PLAT-11, -16)', () => {
     writeFileSync(join(f.dir, 'packages/cli/package.json'), JSON.stringify({ name: 'some-cli', version: '0.1.0' }));
     const r = f.run();
     expect(r.code).toBe(1);
-    expect(r.out).toContain('name some-cli is neither @auraglass/cli nor its fallback aura-glass-cli');
+    expect(r.out).toContain('name some-cli is neither aura-glass-cli nor its fallback aura-glass-cli');
   });
 });

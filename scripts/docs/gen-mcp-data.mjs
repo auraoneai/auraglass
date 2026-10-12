@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // gen-mcp-data.mjs — REQ-PLAT-106 (REQ-FIN-44). Writes
 // packages/mcp/data/mcp-data.json { version, sha, components, registry,
-// migrations }: the only data @auraglass/mcp reads at runtime (≤5 MB).
+// migrations }: the only data aura-glass-mcp reads at runtime (≤5 MB).
 // Sources (all tracked): package.json version, git/CI sha, every
 // <Name>.meta.ts + its Props interface, the registry build (computed in
 // memory, nothing written) and the compiled codemod / deprecation fragments.
@@ -55,7 +55,7 @@ export async function generate(root = ROOT) {
       components: meta.components ?? [],
       dependencies: item.dependencies ?? [],
       registryDependencies: item.registryDependencies ?? [],
-      install: `npx @auraglass/cli add ${item.name}`,
+      install: `npx aura-glass-cli add ${item.name}`,
       url: row?.status === 'certified' ? `${base}r/${item.name}.json` : null,
       files: (item.files ?? []).map((f) => ({ path: f.path, type: f.type, ...(f.target ? { target: f.target } : {}), content: f.content ?? null })),
       ...(item.cssVars ? { cssVars: item.cssVars } : {}),

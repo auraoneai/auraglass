@@ -467,7 +467,7 @@ The 22 dependency entries are in the table above.
 - REQ-FIN-10 classify-change — visual-class report reach + missing-report error on 4x>=4.2.0
 - 4.3.0 surface + CLI move + frozen consumer-4x fixture (PLAT-156..167)
 - 4.2.0 optional-peer diet + deprecation warnings (PLAT-141..155,163)
-- cherry-pick @auraglass/cli for the 4.3 @auraglass/cli@0.x publish (PLAT-349)
+- cherry-pick aura-glass-cli for the 4.3 aura-glass-cli@0.x publish (PLAT-349)
 - line-neutral release tooling on 4.x (1c-REL port)
 - 1a-CI — full §4.2 GitLab job set, pages, npm OIDC publishing toolchain
 - bridge-4x tokens + bridge H cells on release/4.x (MAT-327/362)

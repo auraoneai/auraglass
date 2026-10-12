@@ -36,7 +36,7 @@ time; importing `aura-glass` itself does not.
 
 From `CHANGELOG.md` `[4.3.0] - Unreleased`.
 
-Minor release on `release/4.x`: the bridge to 5.0. The 5.0 entry points can be used next to the 4.x API, the remaining 5.0 removals start warning in development, and `@auraglass/cli@0.x` ships with the `migrate 4to5` codemods.
+Minor release on `release/4.x`: the bridge to 5.0. The 5.0 entry points can be used next to the 4.x API, the remaining 5.0 removals start warning in development, and `aura-glass-cli@0.x` ships with the `migrate 4to5` codemods.
 
 ### Deprecated
 
@@ -49,8 +49,8 @@ Minor release on `release/4.x`: the bridge to 5.0. The 5.0 entry points can be u
 ### Added
 
 - 5.0 bridge entry points, emitted at `prepack` by `scripts/ci/prune-bridge-exports.mjs` when their sources exist: `aura-glass/material`, `aura-glass/styles/v5.css`, `aura-glass/compat/tokens.css` and `aura-glass/compat/globals.css` (REQ-PLAT-156/157).
-- `@auraglass/cli@0.x`: `init`, `add`/`diff`/`update`, `doctor --v5` and the `migrate 4to5` codemods. It is published by the v4.3.0 tag pipeline after `scripts/release/verify-codemods-gate.mjs` passes: non-empty `fragments/codemods/{mat,cmp,surf}.ts` and a clean `migrate 4to5 --dry-run` on the `consumer-4x` fixture (REQ-PLAT-62).
-- The bundled `aura-glass` bin prints `aura-glass CLI moved: use npx @auraglass/cli <command>` once per run; `doctor --v5` reports undeclared imports.
+- `aura-glass-cli@0.x`: `init`, `add`/`diff`/`update`, `doctor --v5` and the `migrate 4to5` codemods. It is published by the v4.3.0 tag pipeline after `scripts/release/verify-codemods-gate.mjs` passes: non-empty `fragments/codemods/{mat,cmp,surf}.ts` and a clean `migrate 4to5 --dry-run` on the `consumer-4x` fixture (REQ-PLAT-62).
+- The bundled `aura-glass` bin prints `aura-glass CLI moved: use npx aura-glass-cli <command>` once per run; `doctor --v5` reports undeclared imports.
 
 ### Internal (no change to the published package)
 
@@ -239,7 +239,7 @@ The 22 dependency entries are in the table above.
 - `DEP-M0974` (export ./tokens BORDER_RADIUS, removed in 5.0.0): the BORDER_RADIUS design constant is removed in 5.0; values ship as tokens (codemod: removed).
 - `DEP-M0975` (export ./tokens BOX_SHADOW, removed in 5.0.0): the BOX_SHADOW design constant is removed in 5.0; values ship as tokens (codemod: removed).
 - `DEP-M0976` (css-global . glass-* slash utilities, removed in 5.0.0): the glass-* slash utilities are removed in 5.0; utility output is generated from --ag-* tokens (codemod: css-vars).
-- `DEP-P0060` (subpath bin/aura-glass.cjs aura-glass bin, removed in 5.0.0): the bundled aura-glass CLI moved to @auraglass/cli in 5.0.0.
+- `DEP-P0060` (subpath bin/aura-glass.cjs aura-glass bin, removed in 5.0.0): the bundled aura-glass CLI moved to aura-glass-cli in 5.0.0.
 - `DEP-P0061` (subpath ./styles styles subpath, removed in 5.0.0): the ./styles subpath is replaced by ./styles/v5.css in 5.0.0.
 - `DEP-P0062` (subpath ./tokens/css tokens css subpath, removed in 5.0.0): the ./tokens/css subpath moves to the 5.0 token table.
 - `DEP-P0063` (subpath ./tokens/tailwind tailwind theme subpath, removed in 5.0.0): the ./tokens/tailwind subpath moves to the 5.0 preset.
@@ -259,7 +259,7 @@ The 22 dependency entries are in the table above.
 
 ### Added
 
-- v4.3.x codemods + @auraglass/cli@0.x publish gate (REQ-PLAT-62)
+- v4.3.x codemods + aura-glass-cli@0.x publish gate (REQ-PLAT-62)
 - 4.x minor notes carry the downstream-grep record (REQ-PLAT-35)
 - 4.x release notes open with moved dependencies (REQ-PLAT-56)
 - port sync-fragments to release/4.x (REQ-FIN-13)
@@ -283,7 +283,7 @@ The 22 dependency entries are in the table above.
 - REQ-FIN-10 classify-change — visual-class report reach + missing-report error on 4x>=4.2.0
 - 4.3.0 surface + CLI move + frozen consumer-4x fixture (PLAT-156..167)
 - 4.2.0 optional-peer diet + deprecation warnings (PLAT-141..155,163)
-- cherry-pick @auraglass/cli for the 4.3 @auraglass/cli@0.x publish (PLAT-349)
+- cherry-pick aura-glass-cli for the 4.3 aura-glass-cli@0.x publish (PLAT-349)
 - line-neutral release tooling on 4.x (1c-REL port)
 - 1a-CI — full §4.2 GitLab job set, pages, npm OIDC publishing toolchain
 - bridge-4x tokens + bridge H cells on release/4.x (MAT-327/362)

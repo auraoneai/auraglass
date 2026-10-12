@@ -98,7 +98,7 @@ console.log('== 2) migrate cases on the 5.x line + tsc');
 sh('node', [path.join(REPO, 'packages', 'cli', 'scripts', 'gen-mappings.mjs')]);
 const cliDist = path.join(REPO, 'packages', 'cli', 'dist', 'index.js');
 if (!fs.existsSync(cliDist)) {
-  sh('npm', ['run', 'build', '-w', '@auraglass/cli']);
+  sh('npm', ['run', 'build', '-w', 'aura-glass-cli']);
 }
 const { runMigration, loadCompiledMappings } = await import(pathToFileURL(cliDist).href);
 const mappings = loadCompiledMappings();

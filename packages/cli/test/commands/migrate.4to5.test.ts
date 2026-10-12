@@ -125,12 +125,12 @@ describe('deps lockfile resolution', () => {
 describe('removed npx pointer', () => {
   // Uses the SURF-authored GlassGanttChart -> registry item 'gantt' row already on
   // next; the kanban rows are SURF data (fragments/codemods/surf.ts, FIN-F).
-  it('registryItem todos read "npx @auraglass/cli add <item>" (gantt)', () => {
+  it('registryItem todos read "npx aura-glass-cli add <item>" (gantt)', () => {
     expect(mappings.removed.GlassGanttChart?.registryItem).toBe('gantt');
     const src = "import { GlassGanttChart } from 'aura-glass';\nexport const x = <GlassGanttChart/>;\n";
     const r = runOnSource({ path: 'x.tsx', abs: 'x', kind: 'code', source: src }, selectTransforms(['removed']), { mappings, docBase: 'docs' });
     const todo = r.todos.find((t) => t.transform === 'removed');
-    expect(todo?.reason).toContain('npx @auraglass/cli add gantt');
-    expect(r.final).toContain('npx @auraglass/cli add gantt');
+    expect(todo?.reason).toContain('npx aura-glass-cli add gantt');
+    expect(r.final).toContain('npx aura-glass-cli add gantt');
   });
 });

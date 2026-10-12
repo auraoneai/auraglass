@@ -45,14 +45,14 @@ describe('REQ-FIN-31 guard hardening', () => {
       CI_COMMIT_TAG: undefined as any, NPM_ID_TOKEN: 'x' })).toBe(1);
   });
   it('prepublishOnly runs the guard FIRST, at an existing path, in every PLAT-published package', () => {
-    // Package set from contracts/packages.json; `@auraglass/labs` is SURF-owned
+    // Package set from contracts/packages.json; `aura-glass-labs` is SURF-owned
     // (contract F02) and its guard is asserted by REQ-FIN-87's labs tests.
     const { readFileSync, existsSync } = require('node:fs');
     const { join, resolve } = require('node:path');
     const contract = JSON.parse(readFileSync('contracts/packages.json', 'utf8'));
     const rows = Object.entries(contract.packages as Record<string, any>)
       .filter(([, p]) => p.published === true && p.owner === 'PLAT' && existsSync(join(p.dir, 'package.json')));
-    expect(rows.map(([n]) => n).sort()).toEqual(['@auraglass/cli', '@auraglass/mcp', '@auraglass/registry', 'aura-glass']);
+    expect(rows.map(([n]) => n).sort()).toEqual(['aura-glass', 'aura-glass-cli', 'aura-glass-mcp', 'aura-glass-registry']);
     for (const [name, p] of rows) {
       const d = JSON.parse(readFileSync(join(p.dir, 'package.json'), 'utf8'));
       const first = (d.scripts?.prepublishOnly ?? '').split('&&')[0].trim();

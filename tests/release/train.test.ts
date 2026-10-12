@@ -32,7 +32,7 @@ const PRD_GATES: Array<[string, string[]]> = [
   ['4.1.1', ['REQ-PLAT-37..55', 'advisory is published before the tag']],
   ['4.2.0', ['Change class ≤ C-D', '"C-D since 4.2"', 'REQ-PLAT-56..61', 'Downstream grep attached']],
   ['4.3.0', ['Change class ≤ C-D', '`since` ≤ 4.3.0', 'C-B item', 'Codemod fixture suite green',
-    '`@auraglass/cli@0.x` published', '`plat:test:visual-4x`']],
+    '`aura-glass-cli@0.x` published', '`plat:test:visual-4x`']],
   ['4.4.0', ['Late C-D only', 'B-id already exists']],
   ['5.0.0-alpha.N', ['from `next` to the `next` dist-tag', 'never waits for a stream']],
   ['5.0.0-beta.1', ['REQ-PLAT-28', 'frozen 4.x fixture after `migrate 4to5`']],

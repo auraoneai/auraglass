@@ -45,7 +45,7 @@ describe('rollback runbook (REQ-PLAT-33)', () => {
     [SCENARIOS[4], ['tier="standard"']],
     [SCENARIOS[5], ['transparency="tinted"', 'data-ag-transparency="tinted"', 'data-ag-transparency="solid"']],
     [SCENARIOS[6], ['--allow-dirty', 'git checkout .', 'migrate 4to5 --dry-run']],
-    [SCENARIOS[7], ['npm install aura-glass@v4-lts', 'npx @auraglass/cli add <item>']],
+    [SCENARIOS[7], ['npm install aura-glass@v4-lts', 'npx aura-glass-cli add <item>']],
   ])('%s carries its commands', (heading, literals) => {
     const body = section(heading);
     for (const l of literals) expect(body).toContain(l);

@@ -95,7 +95,7 @@ export function breakingMd(entries, register = [], { depth = 3, codemodHref = (i
       out.push(heading(depth + 1, `${e.id}: ${code(e.symbol)}`, entryAnchor(e)), '');
       out.push(`- Kind: ${code(e.kind)} · entry: ${code(e.entry)} · status: ${code(e.status)} · since ${code(e.since)} · removed in ${code(e.removeIn)}`);
       out.push(`- Replacement: ${e.replacement ? code(e.replacement) : 'none'}`);
-      if (e.codemod) out.push(`- Codemod: [${code(e.codemod)}](${codemodHref(e.codemod)}) (automation: ${e.automation}): ${code(`npx @auraglass/cli migrate 4to5 --transform ${e.codemod}`)}`);
+      if (e.codemod) out.push(`- Codemod: [${code(e.codemod)}](${codemodHref(e.codemod)}) (automation: ${e.automation}): ${code(`npx aura-glass-cli migrate 4to5 --transform ${e.codemod}`)}`);
       if (e.compat) out.push(`- Keeps working in 5.x through ${code('aura-glass/compat')} as ${code(e.compat)}`);
       out.push('', text(e.message), '');
     }
@@ -149,7 +149,7 @@ export function codemodsMd(root, catalogue, register = [], { depth = 3 } = {}) {
     out.push(heading(depth, code(t.id), codemodAnchor(t.id)), '');
     const serves = register.filter((r) => r.codemod === t.id).map((r) => `[${r.id}](#${bAnchor(r.id)})`);
     out.push(`- Kind: ${t.kind === 'core' ? 'core transform' : 'area transform'} · automation: ${code(t.automation)}`);
-    out.push(`- Run alone: ${code(`npx @auraglass/cli migrate 4to5 --transform ${t.id}`)}`);
+    out.push(`- Run alone: ${code(`npx aura-glass-cli migrate 4to5 --transform ${t.id}`)}`);
     if (serves.length) out.push(`- Breaking changes: ${serves.join(', ')}`);
     out.push('');
     const basic = basicFixture(root, t.id);
@@ -223,7 +223,7 @@ export function removedMd(removedRows, entries, registryNames, { depth = 3 } = {
   const pointer = (registryItem) => {
     if (!registryItem) return `stay on the 4.x LTS line (${code('aura-glass@^4')}) for this API`;
     return registryNames.has(registryItem)
-      ? `copy the registry item: ${code(`npx @auraglass/cli add ${registryItem}`)}`
+      ? `copy the registry item: ${code(`npx aura-glass-cli add ${registryItem}`)}`
       : `registry item ${code(registryItem)} (not in this release's registry; stay on 4.x LTS until it ships)`;
   };
   const link = (row) => {

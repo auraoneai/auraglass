@@ -1,4 +1,4 @@
-/** @auraglass/mcp jest config — REQ-FIN-09: every workspace package is runnable
+/** aura-glass-mcp jest config — REQ-FIN-09: every workspace package is runnable
  *  via npm test -w packages/mcp. Node env; matches any *.test.* under the package. */
 export default {
   displayName: 'mcp',

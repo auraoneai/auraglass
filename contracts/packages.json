@@ -7,31 +7,31 @@
    "published": true,
    "fallback": "aura-glass"
   },
-  "@auraglass/cli": {
+  "aura-glass-cli": {
    "dir": "packages/cli",
    "owner": "PLAT",
    "published": true,
    "fallback": "aura-glass-cli"
   },
-  "@auraglass/registry": {
+  "aura-glass-registry": {
    "dir": "packages/registry",
    "owner": "PLAT",
    "published": true,
    "fallback": "aura-glass-registry"
   },
-  "@auraglass/mcp": {
+  "aura-glass-mcp": {
    "dir": "packages/mcp",
    "owner": "PLAT",
    "published": true,
    "fallback": "aura-glass-mcp"
   },
-  "@auraglass/labs": {
+  "aura-glass-labs": {
    "dir": "packages/labs",
    "owner": "SURF",
    "published": true,
    "fallback": "aura-glass-labs"
   },
-  "@auraglass/qa": {
+  "aura-glass-qa": {
    "dir": "packages/qa",
    "owner": "QUAL",
    "published": false,

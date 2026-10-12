@@ -78,8 +78,8 @@ describe('quickstart step parser', () => {
     const md = [
       '{step scaffold}', '```bash', 'npx create-next-app@latest my-app --yes', '```',
       '{step install}', '```bash', 'npm install aura-glass@next three', '```',
-      '{step init}', '```bash', 'npx @auraglass/cli@latest init --yes', '```',
-      '{step add}', '```bash', 'npx @auraglass/cli@latest add app-frame --yes', '```',
+      '{step init}', '```bash', 'npx aura-glass-cli@latest init --yes', '```',
+      '{step add}', '```bash', 'npx aura-glass-cli@latest add app-frame --yes', '```',
       '{step edit file=tsconfig.json}', '```json', '{}', '```',
       '{step edit file=app/globals.css}', '```css', '@source "../node_modules/aura-glass";', '```',
       '{step edit file=app/page.tsx}', '```tsx', 'export default function Page() { return null; }', '```',

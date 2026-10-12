@@ -1,5 +1,5 @@
 /* playwright.dx-e2e.config.ts — REQ-PLAT-97 registry DX e2e runner.
-   globalSetup packs aura-glass + @auraglass/cli + @auraglass/registry;
+   globalSetup packs aura-glass + aura-glass-cli + aura-glass-registry;
    spec scaffolds real consumers, production-builds, serves and runs the
    capture battery. Chromium + WebKit only (axe battery + longtask CDP). */
 import { defineConfig, devices } from '@playwright/test';

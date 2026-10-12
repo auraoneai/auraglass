@@ -11,7 +11,7 @@
    CDP Performance.getMetrics deltas (LayoutCount, LayoutDuration, RecalcStyleCount, RecalcStyleDuration); trace
    CompositeLayers / RasterTask / GPUTask; longtask and long-animation-frame entries; event-timing latency for
    scripted pointerdown/keydown; GPU proxies (layer count, blurred-surface count, max effective nesting, max blur,
-   BCI from @auraglass/qa, active SVG filters, live WebGL contexts); heap delta after 10 mount/unmount cycles;
+   BCI from aura-glass-qa, active SVG filters, live WebGL contexts); heap delta after 10 mount/unmount cycles;
    settled-idle counters; per-subject bundle bytes (esbuild, min+gzip level 9, React and optional peers external)
    against the subject's SizeBudgetRow from loadFragments('size-budgets').
    Profiles: (a) desktop 1440×900 DPR 2, headed hardware-accelerated Chromium on .ag-gpu, 60/120 Hz, vsync on,

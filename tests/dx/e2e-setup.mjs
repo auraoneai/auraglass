@@ -1,5 +1,5 @@
 /* tests/dx/e2e-setup.mjs — PLAT-97 globalSetup: packs aura-glass,
-   @auraglass/cli and @auraglass/registry once for the whole e2e suite.
+   aura-glass-cli and aura-glass-registry once for the whole e2e suite.
    Writes .artifacts/e2e/pack-dir.json consumed by the spec. */
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';

@@ -271,7 +271,7 @@ plat:test:registry:
     - mkdir -p "$AURAGLASS_EVIDENCE_DIR"
     - cp registry/registry-report.json "$AURAGLASS_EVIDENCE_DIR/registry-report.json"
     - node scripts/registry/lint.mjs
-    # REQ-PLAT-97: pack aura-glass + @auraglass/{cli,registry} from this
+    # REQ-PLAT-97: pack aura-glass + aura-glass-{cli,registry} from this
     # commit, scaffold Next 16 + Vite apps, init/add every item, build both.
     - node scripts/registry/render-setup.mjs
     - |
@@ -316,11 +316,11 @@ plat:test:docs:
     - npx playwright test -c tests/dx/docs.playwright.config.ts
     - npx playwright test -c tests/dx/plain-css.playwright.config.ts
     # REQ-PLAT-103: the quickstart replay installs this commit's packed
-    # aura-glass (plat:package:pack) and a built+packed @auraglass/cli from a
+    # aura-glass (plat:package:pack) and a built+packed aura-glass-cli from a
     # seeded verdaccio, and `add` reads the locally built registry output.
-    - 'ls .artifacts/pack/aura-glass-*.tgz >/dev/null || { echo "plat:test:docs: no aura-glass tarball in .artifacts/pack (plat:package:pack)"; exit 1; }'
-    - npm run build --workspace=@auraglass/cli
-    - rm -f .artifacts/pack/auraglass-cli-*.tgz && npm pack --ignore-scripts --workspace=@auraglass/cli --pack-destination .artifacts/pack
+    - 'ls .artifacts/pack/aura-glass-[0-9]*.tgz >/dev/null || { echo "plat:test:docs: no aura-glass tarball in .artifacts/pack (plat:package:pack)"; exit 1; }'
+    - npm run build --workspace=aura-glass-cli
+    - rm -f .artifacts/pack/aura-glass-cli-*.tgz && npm pack --ignore-scripts --workspace=aura-glass-cli --pack-destination .artifacts/pack
     - node scripts/registry/build.mjs
     - npx playwright test --project plat:dx-quickstart
 
@@ -490,7 +490,7 @@ plat:package:pack:
     # Fail closed: an empty AURAGLASS_TARBALL would let every consumer job run
     # against nothing (REQ-PLAT-05 item 6).
     - |
-      TARBALL=$(ls .artifacts/pack/aura-glass-*.tgz | head -1)
+      TARBALL=$(ls .artifacts/pack/aura-glass-[0-9]*.tgz | head -1)
       if [ -z "$TARBALL" ]; then echo "plat:package:pack: npm pack wrote no aura-glass tarball to .artifacts/pack"; exit 1; fi
       echo "AURAGLASS_TARBALL=$TARBALL" > .artifacts/plat/pack.env
       # REQ-PLAT-78: plat:release:notes links dist-maps.tgz by THIS job's

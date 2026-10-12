@@ -4,12 +4,12 @@
 
 ### Dependency floors — handled by the `deps` codemod
 
-- `date-fns` floor updated (run `npx @auraglass/cli migrate 4to5 --transform deps`).
-- `chart.js` floor updated (run `npx @auraglass/cli migrate 4to5 --transform deps`).
-- `react-chartjs-2` floor updated (run `npx @auraglass/cli migrate 4to5 --transform deps`).
-- `zod` floor updated (run `npx @auraglass/cli migrate 4to5 --transform deps`).
-- `framer-motion` floor updated (run `npx @auraglass/cli migrate 4to5 --transform deps`).
-- `tailwind-merge` floor updated (run `npx @auraglass/cli migrate 4to5 --transform deps`).
+- `date-fns` floor updated (run `npx aura-glass-cli migrate 4to5 --transform deps`).
+- `chart.js` floor updated (run `npx aura-glass-cli migrate 4to5 --transform deps`).
+- `react-chartjs-2` floor updated (run `npx aura-glass-cli migrate 4to5 --transform deps`).
+- `zod` floor updated (run `npx aura-glass-cli migrate 4to5 --transform deps`).
+- `framer-motion` floor updated (run `npx aura-glass-cli migrate 4to5 --transform deps`).
+- `tailwind-merge` floor updated (run `npx aura-glass-cli migrate 4to5 --transform deps`).
 
 - **B1: React ^19.0 floor** — React 18 apps
 - **B2: ESM-only, Node >=20.19** — CJS/Jest-CJS consumers
@@ -25,7 +25,7 @@
 - **B12: Content layer is no longer glass by default** — apps expecting glass cards
 - **B13: OS signals are floors; reduced motion cannot be overridden** — apps forcing glass or animation
 - **B14: Server, services and simulated AI removed** — services/* users
-- **B15: CLI moved to @auraglass/cli** — CLI users
+- **B15: CLI moved to aura-glass-cli** — CLI users
 - **B16: ssr/server shims removed** — SSR wrapper users
 - **B17: Asset subpath renames (icons/env/json/manifest namespaces)** — asset subpath importers
 - **B18: Primitives collapse (4.x primitive set folds into the 5.0 primitives entry)** — primitive importers
@@ -75,15 +75,15 @@ build). Runtime warnings name the codemod that performs the change.
 - plat(1d): consumer canaries — next16/next15 (Turbopack+webpack), vite, vite-tailwind4, vite-compiler, types-strict, jest-cjs; real integration runners; release-commit protocol. (.changeset/plat-1d-canaries.md)
 - C0 contract bootstrap: contract files, owner seeds, fragments, CI bootstrap and the legacy quarantine (§2.2, contract-v1.1). (.changeset/plat-c0-bootstrap.md)
 - PLAT 1a-CI: GitLab CI/CD fragment (§4.2 job set), pages job, npm OIDC trusted (.changeset/plat-ci-bootstrap.md)
-- `@auraglass/cli` package + `migrate 4to5` codemod engine (PLAT-299..349): 14-transform frozen-order runner (imports-subpaths, providers, canonical-names, prop-grammar, ai-chat, app-shell-slots, media-backdrops, reduced-motion-initial, motion-imports, motion-props, dead-optical-props, css-vars, deps, removed) driven by compiled `fragments/codemods/*.ts` mappings; fs-safety/git-guard/atomic-write core; `init`, `list`/`info`, `add`, `diff`, `update`, `doctor`/`doctor --v5`, `audit deps|imports|backdrop`, legacy `migrate icons` parity; type-DX + canary/perf specs; 4.x `scripts/{migrate,codemods}` and `verify-{cli,recipes-cli}` removed. (.changeset/plat-cli-codemods.md)
-- CP-PLAT-1: workspace dependency set for `packages/cli` (`jscodeshift`, `postcss`, `postcss-value-parser`, `zod`, `picocolors`, `prompts` — exact pins, equal to `packages/cli/dependency-allowlist.json`), plus the `@auraglass/mcp` (`@modelcontextprotocol/sdk@1.32.1`) and `apps/docs` (`next@16.4.0`, `react@19.3.0`) manifests the contract reserves for the program. Lockfile regenerated. (.changeset/plat-cli-workspace-deps.md)
+- `aura-glass-cli` package + `migrate 4to5` codemod engine (PLAT-299..349): 14-transform frozen-order runner (imports-subpaths, providers, canonical-names, prop-grammar, ai-chat, app-shell-slots, media-backdrops, reduced-motion-initial, motion-imports, motion-props, dead-optical-props, css-vars, deps, removed) driven by compiled `fragments/codemods/*.ts` mappings; fs-safety/git-guard/atomic-write core; `init`, `list`/`info`, `add`, `diff`, `update`, `doctor`/`doctor --v5`, `audit deps|imports|backdrop`, legacy `migrate icons` parity; type-DX + canary/perf specs; 4.x `scripts/{migrate,codemods}` and `verify-{cli,recipes-cli}` removed. (.changeset/plat-cli-codemods.md)
+- CP-PLAT-1: workspace dependency set for `packages/cli` (`jscodeshift`, `postcss`, `postcss-value-parser`, `zod`, `picocolors`, `prompts` — exact pins, equal to `packages/cli/dependency-allowlist.json`), plus the `aura-glass-mcp` (`@modelcontextprotocol/sdk@1.32.1`) and `apps/docs` (`next@16.4.0`, `react@19.3.0`) manifests the contract reserves for the program. Lockfile regenerated. (.changeset/plat-cli-workspace-deps.md)
 - feat: PLAT registry blocks (auth, settings) and items (kanban, gantt, transfer-list, code-surface, rich-text, diff-viewer, react-hook-form adapter) with deterministic fixtures, showcase stories and layout assertions. (.changeset/plat-dx-blocks.md)
 - feat: claims pipeline — gen-claims resolves 14 ids from release artifacts (pending-safe, sha custody, G-14), render-claims fills ag:claim regions, lint-claims bans unsourced numbers in PLAT prose, README.tmpl.md + gen-readme. (.changeset/plat-dx-claims.md)
 - feat: docs site scaffold (Next 16 static export), nav order, Example/Claim/PropsTable/PartsTable, plat content, gen-props/selectors/component-docs, compile-snippets with baseline, case-sensitive link checker, lighthouse budgets. (.changeset/plat-dx-docs.md)
-- feat: llms.txt + @auraglass/mcp — gen-llms emits llms.txt (12KB cap, tarball-shipped) + llms-full.txt index; stdio MCP server with exactly 5 read-only tools on data/mcp-data.json (zod-validated, permission-model ready); gen-mcp-data bundles registry index + props + docs (5MB cap). (.changeset/plat-dx-llms-mcp.md)
+- feat: llms.txt + aura-glass-mcp — gen-llms emits llms.txt (12KB cap, tarball-shipped) + llms-full.txt index; stdio MCP server with exactly 5 read-only tools on data/mcp-data.json (zod-validated, permission-model ready); gen-mcp-data bundles registry index + props + docs (5MB cap). (.changeset/plat-dx-llms-mcp.md)
 - feat: migration docs — migrate/{5,from-mui,from-radix,from-lucide}.mdx (B1–B21 anchors, dep rows pending 1c), migration-guide test, gen-migration-stories emitting .storybook/blocks-only stories. (.changeset/plat-dx-migration.md)
 - feat: quickstart docs + replay spec — next.md and vite.md (6 commands, 0 manual edits, {step} blocks), alpha-smoke fixture, quickstart.spec with timing capture to .artifacts/dx/quickstart-timing.json. (.changeset/plat-dx-quickstart.md)
-- PLAT-350..357: registry pipeline — `scripts/docs/paths.mjs` constants (DOCS_BASE_URL=$CI_PAGES_URL until OD-12), `scripts/registry/build.mjs` (shadcn-schema validation + meta.auraglass, certified-SHA publish gate, deterministic outputs incl. `apps/docs/public/r/v/<version>/`), generated `registry:base` item from the token manifest, `scripts/registry/lint.mjs` REQ-PLAT-95 rules, `@auraglass/registry` data package, schema/build/lint tests and the remote shadcn-interop spec. (.changeset/plat-dx-registry.md)
+- PLAT-350..357: registry pipeline — `scripts/docs/paths.mjs` constants (DOCS_BASE_URL=$CI_PAGES_URL until OD-12), `scripts/registry/build.mjs` (shadcn-schema validation + meta.auraglass, certified-SHA publish gate, deterministic outputs incl. `apps/docs/public/r/v/<version>/`), generated `registry:base` item from the token manifest, `scripts/registry/lint.mjs` REQ-PLAT-95 rules, `aura-glass-registry` data package, schema/build/lint tests and the remote shadcn-interop spec. (.changeset/plat-dx-registry.md)
 - feat: registry render-gate subject — pixel-gates library, L11 render spec, recipe fates table (16 block / 1 kanban item / 11 delete); removes verify-recipes-render.js successor. (.changeset/plat-dx-render-gate.md)
 - SURF day-0 platform glue: capability ledger + gate, labs package shell with (.changeset/surf-day0.md)
 

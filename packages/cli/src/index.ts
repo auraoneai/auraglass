@@ -1,4 +1,4 @@
-/** Programmatic surface of @auraglass/cli (drives etc/api/cli.api.md). */
+/** Programmatic surface of aura-glass-cli (drives etc/api/cli.api.md). */
 export { PACKAGE_NAME, PACKAGE_VERSION, MOVED_NOTICE, BIN_NAME } from './meta.js';
 export { EXIT, CliError, type ExitCode } from './cli/errors.js';
 export { parseArgs } from './cli/args.js';

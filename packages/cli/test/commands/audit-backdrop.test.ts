@@ -182,11 +182,11 @@ describe('schema/audit-backdrop.json', () => {
     expect(validateRequest({ url: PAGE, thresholds: AUDIT_THRESHOLDS, selector: '' })[0]).toMatch(/shorter than 1/);
   });
 
-  it('ships in the @auraglass/cli tarball (npm pack --dry-run)', () => {
+  it('ships in the aura-glass-cli tarball (npm pack --dry-run)', () => {
     const out = execFileSync('npm', ['pack', '--dry-run', '--json', '--ignore-scripts'], { cwd: PKG, encoding: 'utf8' });
     // npm 10 prints an array, npm 11 an object keyed by package name.
     const parsed = JSON.parse(out) as Array<PackJson> | Record<string, PackJson>;
-    const entry = Array.isArray(parsed) ? parsed[0]! : parsed['@auraglass/cli']!;
+    const entry = Array.isArray(parsed) ? parsed[0]! : parsed['aura-glass-cli']!;
     const files = entry.files.map((f) => f.path);
     expect(files).toContain('schema/audit-backdrop.json');
     expect(files).toContain('audit/reference-server.mjs');

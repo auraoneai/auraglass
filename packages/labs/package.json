@@ -1,5 +1,5 @@
 {
-  "name": "@auraglass/labs",
+  "name": "aura-glass-labs",
   "version": "0.1.0",
   "description": "AuraGlass labs — experimental surfaces under the §13.4 admission rubric. 0.x, no stability guarantee.",
   "type": "module",

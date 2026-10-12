@@ -10,7 +10,7 @@ export function warnLabsPromoted(name: string, to = 'aura-glass'): void {
   warned.add(name);
   if (typeof console !== 'undefined' && typeof console.warn === 'function') {
     console.warn(
-      `@auraglass/labs: ${name} was promoted to ${to}. ` +
+      `aura-glass-labs: ${name} was promoted to ${to}. ` +
       `Import it from "${to}" — this re-export is removed in the next labs minor.`
     );
   }

@@ -47,7 +47,7 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
 
   // For kept-but-removed locals, annotate each usage line region once.
   for (const [, row] of removedLocals) {
-    const pointer = row.registryItem ? `npx @auraglass/cli add ${row.registryItem}` : (row.doc ?? DOC);
+    const pointer = row.registryItem ? `npx aura-glass-cli add ${row.registryItem}` : (row.doc ?? DOC);
     todos.push({ transform: 'removed', reason: `removed in 5.0 (${pointer})`, doc: row.doc ?? DOC });
   }
 

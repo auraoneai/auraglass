@@ -1,4 +1,4 @@
-// @auraglass/mcp package manifest invariants (REQ-FIN-09: `npm test -w packages/mcp` runs real
+// aura-glass-mcp package manifest invariants (REQ-FIN-09: `npm test -w packages/mcp` runs real
 // assertions). Server behaviour (tools/list, initialize timing, --permission run) is
 // REQ-FIN-44 / PLAT-106's packages/mcp/test/tools.test.ts and lands with next-fin/c-agent-dx.
 import { readFileSync, existsSync } from 'node:fs';
@@ -15,9 +15,9 @@ const shipped = (rel) => {
   return pkg.files.some((f) => p === f || p.startsWith(`${f}/`));
 };
 
-describe('@auraglass/mcp package.json', () => {
-  test('is the public ESM package @auraglass/mcp', () => {
-    expect(pkg.name).toBe('@auraglass/mcp');
+describe('aura-glass-mcp package.json', () => {
+  test('is the public ESM package aura-glass-mcp', () => {
+    expect(pkg.name).toBe('aura-glass-mcp');
     expect(pkg.type).toBe('module');
     expect(pkg.private).toBe(false);
     expect(pkg.publishConfig).toEqual(expect.objectContaining({ access: 'public' }));

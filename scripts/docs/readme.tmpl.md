@@ -3,7 +3,7 @@
 <!-- AG-RELEASE-BANNER -->
 > **v5.0.0 is on the `next` train.** The 5.0 alpha/beta/RC releases publish from
 > `next` under the `next` dist-tag; `latest` stays on 4.x until GA. Migrating
-> from 4.x: `npx @auraglass/cli migrate 4to5`. 4.x remains in LTS (fixes +
+> from 4.x: `npx aura-glass-cli migrate 4to5`. 4.x remains in LTS (fixes +
 > security only) for 12 months after GA — see `docs/release/lts-policy.md`.
 >
 > npm dist-tags today (checked by `verify-release-comms --dist-tags`):
@@ -61,13 +61,13 @@ with its own types and CSS.
 The CLI installs registry items as source you own and keeps them current:
 
 ```bash
-npx @auraglass/cli init              # components.json + token aliases
-npx @auraglass/cli add app-frame     # install a block or item
-npx @auraglass/cli list              # browse the registry
-npx @auraglass/cli diff app-frame    # compare your copy with the registry
-npx @auraglass/cli update app-frame  # pull registry changes
-npx @auraglass/cli doctor            # check versions, peers and CSS layers
-npx @auraglass/cli migrate 4to5 --dry-run   # preview the 4.x → 5.0 codemods
+npx aura-glass-cli init              # components.json + token aliases
+npx aura-glass-cli add app-frame     # install a block or item
+npx aura-glass-cli list              # browse the registry
+npx aura-glass-cli diff app-frame    # compare your copy with the registry
+npx aura-glass-cli update app-frame  # pull registry changes
+npx aura-glass-cli doctor            # check versions, peers and CSS layers
+npx aura-glass-cli migrate 4to5 --dry-run   # preview the 4.x → 5.0 codemods
 ```
 
 Registry items are shadcn-format JSON, so the shadcn CLI installs them too:
@@ -87,6 +87,6 @@ that imports it.
 ## Links
 
 - Quick starts: [Next.js](./docs/quickstart/next.md) · [Vite](./docs/quickstart/vite.md)
-- Upgrading from 4.x: `npx @auraglass/cli migrate 4to5` and the [LTS policy](./docs/release/lts-policy.md)
+- Upgrading from 4.x: `npx aura-glass-cli migrate 4to5` and the [LTS policy](./docs/release/lts-policy.md)
 - [Changelog](./CHANGELOG.md) · [Contributing](./CONTRIBUTING.md) · [Security](./SECURITY.md)
 - [License](./LICENSE)

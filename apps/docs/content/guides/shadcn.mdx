@@ -17,7 +17,7 @@ The base item:
 - writes `lib/auraglass.ts`, which re-exports the `cn` class joiner the registry blocks use;
 - sets the interchange variables below in your theme (`cssVars`).
 
-Projects without shadcn use `npx @auraglass/cli init` instead (see the Next.js and Vite guides).
+Projects without shadcn use `npx aura-glass-cli init` instead (see the Next.js and Vite guides).
 
 ## Interchange variables
 
@@ -47,10 +47,10 @@ npx shadcn@latest add https://auraglass-48859d.gitlab.io/r/auth.json
 or through the AuraGlass CLI, which resolves names against the same registry:
 
 ```bash
-npx @auraglass/cli add auth
+npx aura-glass-cli add auth
 ```
 
-Items list `auraglass` as a registry dependency where they need it, so adding one also installs the base. The installed files are yours to edit. `npx @auraglass/cli update <name>` replaces a file only when you have not modified it; for a file you changed it stops and reports the conflict (with `--force` it writes the upstream version next to yours as `<file>.auraglass-upstream`).
+Items list `auraglass` as a registry dependency where they need it, so adding one also installs the base. The installed files are yours to edit. `npx aura-glass-cli update <name>` replaces a file only when you have not modified it; for a file you changed it stops and reports the conflict (with `--force` it writes the upstream version next to yours as `<file>.auraglass-upstream`).
 
 ## Mixing components
 

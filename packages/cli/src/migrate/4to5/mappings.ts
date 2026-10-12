@@ -57,7 +57,7 @@ const HERE = typeof __dirname === 'undefined' ? moduleDir() : __dirname;
 function moduleDir(): string {
   try {
     const req = createRequire(process.argv[1] ?? path.join(process.cwd(), 'x.js'));
-    return path.join(path.dirname(req.resolve('@auraglass/cli/package.json')), 'dist');
+    return path.join(path.dirname(req.resolve('aura-glass-cli/package.json')), 'dist');
   } catch {
     return process.argv[1] ? path.dirname(process.argv[1]) : process.cwd();
   }

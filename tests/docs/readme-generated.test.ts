@@ -79,7 +79,7 @@ describe('template content rules (REQ-PLAT-104)', () => {
   it('has the pitch, generated quick start, surfaces, CLI and registry commands, and links', () => {
     for (const h of ['## Quick start', '## Surfaces', '## CLI and registry', '## Peer dependencies', '## Links']) expect(tmpl).toContain(h);
     expect(tmpl).toMatch(/<!-- generated:quickstart -->\s*<!-- \/generated:quickstart -->/);
-    expect(tmpl).toMatch(/npx @auraglass\/cli add /);
+    expect(tmpl).toMatch(/npx aura-glass-cli add /);
     expect(tmpl).toMatch(/shadcn@latest add https:\/\/\S+\/r\/[\w-]+\.json/);
   });
   it('has no certification runbook, no agent-directed instruction, no font claim, no hand-written peer matrix', () => {

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * verify-labs-admission.mjs — @auraglass/labs admission gate
+ * verify-labs-admission.mjs — aura-glass-labs admission gate
  * (REQ-SURF-167, REQ-SURF-168 rejection rule, REQ-SURF-169 promotion rules).
  *
  *   node scripts/surf/verify-labs-admission.mjs [--root <dir>] [--manifest <exports.manifest.json>]

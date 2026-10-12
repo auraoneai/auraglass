@@ -1,17 +1,34 @@
 ---
 id: OD-2
-title: npm scope @auraglass ownership; create the org
+title: npm scope @auraglass ownership; publish unscoped fallback names
 status: decided
 default: "Unscoped `aura-glass-cli`, `aura-glass-labs`"
 blocks: [REQ-FIN-31, REQ-FIN-87]
 decidedBy: Gurbaksh Chahal (owner, live session; recorded by the agent)
 decidedAt: 2026-10-12
-evidence: "owner answer 2026-10-12: \"Create @auraglass org\""
+evidence: "owner answer 2026-10-12: \"u dont need another organization just fucking upload it the way its been uploaded\" (https://www.npmjs.com/package/aura-glass)"
 ---
 
 ## Decision (2026-10-12)
 
-Create the `@auraglass` npm org (owner, npmjs.com, web only: https://www.npmjs.com/org/create). `@auraglass/cli`, `@auraglass/registry`, `@auraglass/mcp` and `@auraglass/labs` ship under the scope; the unscoped fallbacks are not used. Status at decision time: `npm org ls auraglass` → E404 Scope not found (org not yet created).
+No `@auraglass` npm org. Every AuraGlass package publishes unscoped from the
+npm account `veeronecorp`, exactly the way `aura-glass` has always been
+published (https://www.npmjs.com/package/aura-glass). The side packages ship
+under the fallback names already recorded in `contracts/packages.json`:
+
+| Former scoped name | Published name |
+|---|---|
+| `@auraglass/cli` | `aura-glass-cli` |
+| `@auraglass/registry` | `aura-glass-registry` |
+| `@auraglass/mcp` | `aura-glass-mcp` |
+| `@auraglass/labs` | `aura-glass-labs` |
+| `@auraglass/qa` (private, never published) | `aura-glass-qa` |
+
+The `@auraglass` org is not created. `contracts/packages.json` keys are the
+unscoped names (fallback = same name), so the pack/publish scripts publish the
+unscoped names. At decision time `npm view` returned E404 for all four
+published names (free). Supersedes the earlier same-day record "Create
+@auraglass org".
 
 
 # OD-2 — npm scope `@auraglass`
@@ -44,10 +61,8 @@ Unscoped `aura-glass-cli`, `aura-glass-labs`.
 
 ## Owner action
 
-1. On npmjs.com, create or confirm the org **`@auraglass`** (Profile → Add
-   Organization), or confirm it is taken.
-2. If it is created, the trusted-publisher setup for each scoped package
-   follows OD-10 ([od-10.md](./od-10.md)).
+None remaining: the unscoped names publish from `veeronecorp`; the
+trusted-publisher setup for each name follows OD-10 ([od-10.md](./od-10.md)).
 
 ## Related records (FIN-C, not edited here)
 
@@ -58,5 +73,4 @@ Unscoped `aura-glass-cli`, `aura-glass-labs`.
 
 Set `status: decided` (org created, or fallback chosen) or `status: defaulted`
 (fallback names), then fill in `decidedBy`, `decidedAt` (ISO date) and
-`evidence` (the npm org URL, e.g. `https://www.npmjs.com/org/auraglass`).
-Agents never edit these fields.
+`evidence`. Agents never edit these fields.

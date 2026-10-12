@@ -1,6 +1,6 @@
 // tests/perf/browser/surf/labs-spatial-admission.spec.ts — REQ-SURF-168 (lane L10, remote only).
 //
-// A spatial @auraglass/labs resident (a labs export whose capability-ledger row
+// A spatial aura-glass-labs resident (a labs export whose capability-ledger row
 // has area 'spatial') is admitted only when, on the mid-tier mobile profile
 // (PerfProfileId 'mid-mobile': Pixel 5 emulation + 4x CPU throttle, Chromium/CDP):
 //   1. it costs <= 4 ms p95 main-thread time per frame (CDP Tracing timeline);

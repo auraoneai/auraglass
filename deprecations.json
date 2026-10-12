@@ -6220,12 +6220,12 @@
       "symbol": "aura-glass bin",
       "since": "4.3.0",
       "removeIn": "5.0.0",
-      "replacement": "npx @auraglass/cli",
+      "replacement": "npx aura-glass-cli",
       "codemod": null,
       "automation": "none",
       "breaking": "B21",
       "exception": "honesty",
-      "message": "the bundled aura-glass CLI moved to @auraglass/cli in 5.0.0.",
+      "message": "the bundled aura-glass CLI moved to aura-glass-cli in 5.0.0.",
       "doc": "#dep-bin-aura-glass"
     },
     {

@@ -110,14 +110,14 @@ for no backdrop at all).
 
 ### 7. Codemod damage
 
-`npx @auraglass/cli migrate 4to5` refuses to run on a dirty working tree (exit code 3) unless
+`npx aura-glass-cli migrate 4to5` refuses to run on a dirty working tree (exit code 3) unless
 `--allow-dirty` is passed, so its edits are always the only uncommitted changes. To undo a bad
 run:
 
 ```bash
 git status
 git checkout .
-npx @auraglass/cli migrate 4to5 --dry-run
+npx aura-glass-cli migrate 4to5 --dry-run
 ```
 
 Report the damaging transform with the `--dry-run` output so the codemod fixture suite gains
@@ -134,7 +134,7 @@ npm install aura-glass@v4-lts
 or install the registry item that replaces it into the app:
 
 ```bash
-npx @auraglass/cli add <item>
+npx aura-glass-cli add <item>
 ```
 
 The breaking-change register (`docs/release/breaking-changes.json`, B3) lists both paths for

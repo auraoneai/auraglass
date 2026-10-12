@@ -23,7 +23,7 @@ export function warnDeprecated(id: string): void {
     return;
   }
   const codemod = row.codemod
-    ? ` Codemod: npx @auraglass/cli migrate 4to5 --transform ${row.codemod}.`
+    ? ` Codemod: npx aura-glass-cli migrate 4to5 --transform ${row.codemod}.`
     : '';
   // Rows already end in '.'; strip trailing periods so the sentence ends once.
   const message = row.message.replace(/\.+$/, '');

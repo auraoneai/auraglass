@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* packages/mcp/scripts/build.mjs — REQ-PLAT-106 (REQ-FIN-44). Build
-   @auraglass/mcp from the monorepo:
+   aura-glass-mcp from the monorepo:
      1. data/mcp-data.json   ← scripts/docs/gen-mcp-data.mjs (repo sources)
      2. type-check src/       (tsc --noEmit, tsconfig.json)
      3. dist/server.js        ← esbuild bundle of src/server.ts with the SDK
@@ -41,4 +41,4 @@ await build({
   banner: { js: "import { createRequire as __agCreateRequire } from 'node:module'; const require = __agCreateRequire(import.meta.url);" },
 });
 chmodSync(join(PKG, 'dist/server.js'), 0o755);
-console.log(`@auraglass/mcp: dist/server.js ${statSync(join(PKG, 'dist/server.js')).size}B, data ${dataBytes}B`);
+console.log(`aura-glass-mcp: dist/server.js ${statSync(join(PKG, 'dist/server.js')).size}B, data ${dataBytes}B`);

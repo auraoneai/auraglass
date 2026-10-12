@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* packages/mcp/src/server.ts — REQ-PLAT-106 (REQ-FIN-44). @auraglass/mcp:
+/* packages/mcp/src/server.ts — REQ-PLAT-106 (REQ-FIN-44). aura-glass-mcp:
    an MCP stdio server (SDK McpServer + StdioServerTransport) with exactly
    five read-only tools answered from the bundled data/mcp-data.json.
    It performs no network I/O, no file writes and spawns no processes; the

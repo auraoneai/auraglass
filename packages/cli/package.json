@@ -1,5 +1,5 @@
 {
-  "name": "@auraglass/cli",
+  "name": "aura-glass-cli",
   "version": "0.1.0",
   "description": "AuraGlass CLI: init, registry add/diff/update, doctor, audit and the migrate 4to5 codemod engine.",
   "type": "module",

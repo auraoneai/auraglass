@@ -1,4 +1,4 @@
-# @auraglass/labs
+# aura-glass-labs
 
 Experimental AuraGlass surfaces. **0.x — no stability guarantee.** Names, props
 and even whole residents may change or disappear in any minor.

@@ -39,9 +39,9 @@ const pack = (args: string[], cwd: string): PackEntry[] =>
     cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, npm_config_loglevel: 'error' },
   }));
 
-describe('@auraglass/labs package shape', () => {
+describe('aura-glass-labs package shape', () => {
   it('is 0.x ESM, public scope', () => {
-    expect(pkg.name).toBe('@auraglass/labs');
+    expect(pkg.name).toBe('aura-glass-labs');
     expect(pkg.version).toMatch(/^0\./);
     expect(pkg.type).toBe('module');
     expect(pkg.publishConfig?.access).toBe('public');
@@ -72,7 +72,7 @@ describe('@auraglass/labs package shape', () => {
   });
 });
 
-describe('@auraglass/labs build + pack (tsdown)', () => {
+describe('aura-glass-labs build + pack (tsdown)', () => {
   it('build and prepack both run tsdown with the package config', () => {
     expect(pkg.scripts.build).toBe('tsdown');
     expect(pkg.scripts.prepack).toBe('tsdown');
@@ -82,8 +82,8 @@ describe('@auraglass/labs build + pack (tsdown)', () => {
   it('npm pack --dry-run --json -w packages/labs ships package.json and every exports target', () => {
     const [entry] = pack(['-w', 'packages/labs'], ROOT);
     expect(entry).toBeDefined();
-    expect(entry!.name).toBe('@auraglass/labs');
-    expect(entry!.filename).toMatch(/^auraglass-labs-0\.\d+\.\d+\.tgz$/);
+    expect(entry!.name).toBe('aura-glass-labs');
+    expect(entry!.filename).toMatch(/^aura-glass-labs-0\.\d+\.\d+\.tgz$/);
     const files = new Set(entry!.files.map((f) => f.path));
     expect(files.has('package.json')).toBe(true);
     expect(files.has('dist/index.js')).toBe(true);
@@ -136,7 +136,7 @@ describe('@auraglass/labs build + pack (tsdown)', () => {
   });
 });
 
-describe('@auraglass/labs publishing (REQ-PLAT-12 / -15 labs clauses)', () => {
+describe('aura-glass-labs publishing (REQ-PLAT-12 / -15 labs clauses)', () => {
   it('prepublishOnly runs the CI-only publish guard first, at an existing path', () => {
     const first = String(pkg.scripts?.prepublishOnly ?? '').split('&&')[0]!.trim();
     const m = /^node (\S+require-ci-publish\.js)$/.exec(first);

@@ -1,4 +1,4 @@
-/** @auraglass/labs jest config — REQ-FIN-09 / REQ-FIN-87: `npm test -w packages/labs` runs the
+/** aura-glass-labs jest config — REQ-FIN-09 / REQ-FIN-87: `npm test -w packages/labs` runs the
  *  labs suites. The root config ignores <rootDir>/packages/**; the REQ-SURF-166..169 suites live in
  *  the repo-level tests/labs/** (package shape, admission gate, promotion), so this config targets
  *  them plus any package-local src/test suites. Node env, babel TS transform (same shape as cli). */

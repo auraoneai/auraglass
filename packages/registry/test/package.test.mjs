@@ -1,4 +1,4 @@
-// @auraglass/registry package manifest invariants (REQ-FIN-09: `npm test -w packages/registry`
+// aura-glass-registry package manifest invariants (REQ-FIN-09: `npm test -w packages/registry`
 // runs real assertions; REQ-PLAT-94 data-only package shape). Registry item/index behaviour
 // tests are REQ-FIN-42's (plat:test:registry) and land with that PR.
 import { readFileSync, existsSync } from 'node:fs';
@@ -15,9 +15,9 @@ const shipped = (rel) => {
   return pkg.files.some((f) => p === f || p.startsWith(`${f}/`));
 };
 
-describe('@auraglass/registry package.json', () => {
-  test('is the public ESM package @auraglass/registry', () => {
-    expect(pkg.name).toBe('@auraglass/registry');
+describe('aura-glass-registry package.json', () => {
+  test('is the public ESM package aura-glass-registry', () => {
+    expect(pkg.name).toBe('aura-glass-registry');
     expect(pkg.type).toBe('module');
     expect(pkg.private).toBe(false);
     expect(pkg.license).toBe('MIT');

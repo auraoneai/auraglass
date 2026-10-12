@@ -21,7 +21,7 @@ export type {
  * Rendering tier. `lightweight | standard | enhanced` are written to `<html data-ag-tier>`
  * by `AuraGlassScript` (pre-paint) or a subtree override. `cinematic` is never returned by
  * core (`useMaterialTier` resolves it to `standard`); it exists only inside
- * `@auraglass/labs`, whose residents refract library-owned pixels (no DOM rasterisation,
+ * `aura-glass-labs`, whose residents refract library-owned pixels (no DOM rasterisation,
  * ≤ 1 WebGL context per page, paused offscreen and when hidden) and fall back to the
  * standard `Surface` under `calm`/`none` motion, non-`glass` transparency, forced colours
  * or context loss.

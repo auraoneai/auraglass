@@ -319,7 +319,7 @@ describe('REQ-PLAT-05 defects (B3-5)', () => {
 
   it('plat:package:pack fails closed when no aura-glass tarball was packed', () => {
     const s = scriptText('plat:package:pack');
-    expect(s).toContain('TARBALL=$(ls .artifacts/pack/aura-glass-*.tgz | head -1)');
+    expect(s).toContain('TARBALL=$(ls .artifacts/pack/aura-glass-[0-9]*.tgz | head -1)');
     expect(s).toMatch(/if \[ -z "\$TARBALL" \]; then echo "[^"]+"; exit 1; fi/);
     expect(s).toContain('echo "AURAGLASS_TARBALL=$TARBALL" > .artifacts/plat/pack.env');
   });
@@ -1242,9 +1242,9 @@ if (a[0] !== 'pack' || !a.includes('--json')) { console.error('stub npm: unexpec
 const d = a[a.indexOf('--pack-destination') + 1];
 const w = a.includes('-w') ? path.basename(a[a.indexOf('-w') + 1]) : null;
 const mode = process.env.STUB_NPM_MODE || '';
-const name = w && mode !== 'dup-name' ? '@auraglass/' + w : 'aura-glass';
+const name = w && mode !== 'dup-name' ? 'aura-glass-' + w : 'aura-glass';
 const version = w ? '0.1.0' : '5.0.0';
-const filename = (w ? 'auraglass-' + w : 'aura-glass') + '-' + version + '.tgz';
+const filename = (w ? 'aura-glass-' + w : 'aura-glass') + '-' + version + '.tgz';
 const head = 'tarball:' + filename + ':';
 const body = Buffer.from(head + 'x'.repeat(w ? 10 : 1234567 - head.length));
 fs.mkdirSync(d, { recursive: true });
@@ -1310,11 +1310,11 @@ console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename,
       expect([r.status, r.stderr]).toEqual([0, '']);
       expect(r.stdout).toContain(`pack-record: 3 tarball(s) -> ${PACK_DIR}/pack-record.json`);
       const rec = record(dir);
-      expect(Object.keys(rec).sort()).toEqual(['@auraglass/cli', '@auraglass/registry', 'aura-glass']);
+      expect(Object.keys(rec).sort()).toEqual(['aura-glass', 'aura-glass-cli', 'aura-glass-registry']);
       for (const [name, file] of [
         ['aura-glass', '.artifacts/pack/aura-glass-5.0.0.tgz'],
-        ['@auraglass/cli', '.artifacts/pack/auraglass-cli-0.1.0.tgz'],
-        ['@auraglass/registry', '.artifacts/pack/auraglass-registry-0.1.0.tgz'],
+        ['aura-glass-cli', '.artifacts/pack/aura-glass-cli-0.1.0.tgz'],
+        ['aura-glass-registry', '.artifacts/pack/aura-glass-registry-0.1.0.tgz'],
       ] as const) {
         expect(rec[name]).toEqual({ file, integrity: sha512(readFileSync(join(dir, file))) });
       }

@@ -6,7 +6,7 @@
  * `@/components/...` imports, insert 'use client' iff meta.auraglass.client,
  * merge cssVars into the configured CSS file under a single `@layer ag`,
  * collect dependencies and run the install unless --no-install, and stamp
- * '// @auraglass/registry <name>@<version> sha256:<64hex>'.
+ * '// aura-glass-registry <name>@<version> sha256:<64hex>'.
  *
  * `add <component> --source` ejects `aura-glass-src/<component>` into
  * aliases.components/<slug>/ with internal imports rewritten to public
@@ -62,8 +62,8 @@ async function fetchTree(
 
 function stampFor(target: string, name: string, version: string, hash: string): string {
   return /\.css$/.test(target)
-    ? `/* @auraglass/registry ${name}@${version} sha256:${hash} */\n`
-    : `// @auraglass/registry ${name}@${version} sha256:${hash}\n`;
+    ? `/* aura-glass-registry ${name}@${version} sha256:${hash} */\n`
+    : `// aura-glass-registry ${name}@${version} sha256:${hash}\n`;
 }
 
 export function rewriteAliases(content: string, aliasPrefix: string, componentsDir: string): string {

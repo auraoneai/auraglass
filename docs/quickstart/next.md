@@ -48,14 +48,14 @@ present) to `app/globals.css`, and writes `auraglass.json`.
 
 {step init}
 ```bash
-npx @auraglass/cli@latest init --yes
+npx aura-glass-cli@latest init --yes
 ```
 
 ## 4. Add the app-frame block
 
 {step add}
 ```bash
-npx @auraglass/cli@latest add app-frame --yes
+npx aura-glass-cli@latest add app-frame --yes
 ```
 
 The block's source lands in `components/aura/app-frame/`; it is your code to

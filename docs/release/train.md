@@ -27,7 +27,7 @@ checklist. Contract §6.2 gate ids (G-01 … G-16) are named where a train gate 
 - `TR-4.3.0-1` Change class ≤ C-D against 4.2.0.
 - `TR-4.3.0-2` Every C-B item of the breaking-change register has an entry with `since` ≤ 4.3.0 (G-07 feed).
 - `TR-4.3.0-3` Codemod fixture suite green.
-- `TR-4.3.0-4` `@auraglass/cli@0.x` published from the tag pipeline.
+- `TR-4.3.0-4` `aura-glass-cli@0.x` published from the tag pipeline.
 - `TR-4.3.0-5` Preview baselines captured by `plat:test:visual-4x` (preview cells).
 
 ### 4.4.0 — after 4.3.0 (`release/4.x`)

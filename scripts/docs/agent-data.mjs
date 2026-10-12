@@ -1,6 +1,6 @@
 /* scripts/docs/agent-data.mjs — REQ-PLAT-106 (REQ-FIN-44). Shared, read-only
    source loaders for the agent-facing outputs (llms.txt, llms-full.txt and
-   @auraglass/mcp's data/mcp-data.json). Every value comes from a tracked
+   aura-glass-mcp's data/mcp-data.json). Every value comes from a tracked
    source: package.json, build/exports.manifest.json, the <Name>.meta.ts
    files, src/components/*.types.ts props, the registry build and the codemod
    / deprecation fragments. Nothing here is hand-maintained. */

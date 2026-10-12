@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** @auraglass/cli bin router (PLAT-301). Exit codes 0/1/2/3/4 per REQ-PLAT-84. */
+/** aura-glass-cli bin router (PLAT-301). Exit codes 0/1/2/3/4 per REQ-PLAT-84. */
 import { parseArgs } from './cli/args.js';
 import { CliError, EXIT, usageError } from './cli/errors.js';
 import { PACKAGE_VERSION, PACKAGE_NAME } from './meta.js';

@@ -94,7 +94,7 @@ export function renderNotes({ version = '5.0.0', claims = {}, capabilityLedger =
   const lines = [`# aura-glass ${version} release notes`, ''];
   lines.push('## Breaking', '');
   lines.push('### Dependency floors — handled by the `deps` codemod', '');
-  for (const d of DEP_FLOORS) lines.push(`- \`${d}\` floor updated (run \`npx @auraglass/cli migrate 4to5 --transform deps\`).`);
+  for (const d of DEP_FLOORS) lines.push(`- \`${d}\` floor updated (run \`npx aura-glass-cli migrate 4to5 --transform deps\`).`);
   lines.push('');
   const items = breakingRegister?.items ?? breakingRegister?.changes ?? [];
   for (const b of items) lines.push(`- **B${String(b.id).replace(/^B/, '')}: ${b.title}** — ${b.affected ?? ''}`);

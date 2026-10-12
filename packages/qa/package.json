@@ -1,5 +1,5 @@
 {
-  "name": "@auraglass/qa",
+  "name": "aura-glass-qa",
   "version": "0.0.0",
   "private": true,
   "description": "AuraGlass 5 certification internals (QUAL): subject resolver, export inventory, pixel distinctness, evidence guards. Never published.",
