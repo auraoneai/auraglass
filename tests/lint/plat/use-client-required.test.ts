@@ -26,6 +26,9 @@ describe('auraglass/use-client-required (PLAT-259/REQ-PLAT-69)', () => {
         { code: `import { useState as u } from 'not-react';\nexport const A = () => u(0);`, filename: F },       // same name, non-signal source
         { code: `export const A = () => <button onClick={undefined} />;`, filename: F },             // no function passed
         { code: `const o = { window: 1 };\nexport const A = () => o.window;`, filename: F },          // property key, not the global
+        // a client-module hook forwarded uncalled (namespace static) is not a signal
+        { code: `import { useChartContext } from './ChartFrame.Interactive';\nexport function C() { return null; }\nC.useContext = useChartContext;`, filename: 'src/data/chart-frame/ChartFrame.tsx' },
+        { code: `import { useThing } from '@base-ui/react/use-thing';\nexport const forward = { useThing };`, filename: F },
       ],
       invalid: [
         { code: `import { useState } from 'react';\nexport const A = () => { const [x] = useState(0); return <div />; };`, filename: F, errors: [req('call to useState()')] },
@@ -47,6 +50,8 @@ describe('auraglass/use-client-required (PLAT-259/REQ-PLAT-69)', () => {
         { code: `import { useId } from 'react';\nexport const A = () => useId();`, filename: F, errors: [{ messageId: 'required' }] },
         { code: `import { createContext } from 'react';\nexport const C = createContext(0);`, filename: F, errors: [{ messageId: 'required' }] },
         { code: `import { useThing } from '@base-ui/react/use-thing';\nexport const A = () => useThing();`, filename: F, errors: [{ messageId: 'required' }] },
+        { code: `import { useChartContext } from './ChartFrame.Interactive';\nexport const A = () => { useChartContext(); return null; };`, filename: 'src/data/chart-frame/ChartFrame.tsx', errors: [req("call to useChartContext() from client module './ChartFrame.Interactive'")] },
+        { code: `import { useChartContext as useCtx } from './ChartFrame.Interactive';\nexport const A = () => useCtx();`, filename: 'src/data/chart-frame/ChartFrame.tsx', errors: [req("call to useChartContext() from client module './ChartFrame.Interactive'")] },
       ],
   });
 });

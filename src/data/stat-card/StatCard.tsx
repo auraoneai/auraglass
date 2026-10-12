@@ -1,9 +1,11 @@
-/* StatCard (SURF-176, REQ-SURF-90): server component (React.useId is the one
-   hook legal in RSC). Whole card is one link when href is set; nested
-   interactive descendants (deep walk) are a dev error. Trend is an
-   aria-hidden arrow plus hidden text. */
+/* StatCard (SURF-176, REQ-SURF-90): server component. Whole card is one link
+   when href is set; nested interactive descendants (deep walk) are a dev
+   error. Trend is an aria-hidden arrow plus hidden text. The card element and
+   its generated labelledby target live in the StatCard.Frame client leaf
+   (the id hook is a client signal under REQ-PLAT-69). */
 import * as React from 'react';
 import { Sparkline } from '../sparkline/Sparkline';
+import { StatCardFrame } from './StatCard.Frame';
 
 export interface StatCardProps {
   /** Id base for the card's labelledby target; defaults to a React.useId id
@@ -70,9 +72,6 @@ export function StatCard({
   children,
   labels,
 }: StatCardProps) {
-  // useId is deterministic across SSR/CSR and unique per card instance.
-  const autoId = React.useId();
-  const id = idProp ?? `ag-stat-${autoId.replace(/[^A-Za-z0-9_-]/g, '')}`;
   if (
     process.env['NODE_ENV'] === 'development' &&
     href !== undefined &&
@@ -105,9 +104,6 @@ export function StatCard({
 
   const body = (
     <>
-      <span data-ag-part="stat-card-label" className="ag-stat-card__label" id={`${id}-label`}>
-        {label}
-      </span>
       <span data-ag-part="stat-card-value" className="ag-stat-card__value" data-state={loading ? 'loading' : undefined}>
         {loading ? '—' : valueNode}
       </span>
@@ -134,16 +130,9 @@ export function StatCard({
     </>
   );
 
-  if (href !== undefined) {
-    return (
-      <a href={href} data-ag-part="stat-card" data-ag-intent={intent} className="ag-stat-card" aria-labelledby={`${id}-label`}>
-        {body}
-      </a>
-    );
-  }
   return (
-    <article data-ag-part="stat-card" data-ag-intent={intent} className="ag-stat-card" aria-labelledby={`${id}-label`}>
+    <StatCardFrame id={idProp} label={label} href={href} intent={intent}>
       {body}
-    </article>
+    </StatCardFrame>
   );
 }

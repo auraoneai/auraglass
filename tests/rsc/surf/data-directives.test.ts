@@ -24,6 +24,7 @@ const SERVER = [
 ];
 const CLIENT = [
   'src/data/chart-frame/ChartFrame.Interactive.tsx',
+  'src/data/stat-card/StatCard.Frame.tsx',
   'src/data/table/useTableState.ts',
   'src/charts/ChartPlot.tsx',
 ];

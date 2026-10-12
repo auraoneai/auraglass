@@ -635,6 +635,10 @@
       "rsc": "server"
     },
     {
+      "name": "TimePicker",
+      "rsc": "client"
+    },
+    {
       "name": "Toast",
       "rsc": "client"
     },
@@ -715,8 +719,7 @@
     },
     {
       "subpath": "./data",
-      "safe": false,
-      "reason": "client signal in src/data/stat-card/StatCard.tsx"
+      "safe": true
     },
     {
       "subpath": "./date",
@@ -745,7 +748,7 @@
     {
       "subpath": "./compat",
       "safe": false,
-      "reason": "client signal in src/data/stat-card/StatCard.tsx"
+      "reason": "client signal in src/app-shell/parseAppShellCookie.ts"
     }
   ]
 }

@@ -152,7 +152,7 @@ function VirtualListInner<T>(
       endLatched.current = true;
       endRef.current();
     }
-  }, [horizontal, endReachedThreshold, items.length, scrollEl]);
+  }, [horizontal, endReachedThreshold, scrollEl]);
 
   React.useEffect(() => {
     // A grown list has a new tail to reach: re-arm before re-checking.
