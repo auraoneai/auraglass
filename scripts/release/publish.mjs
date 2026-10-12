@@ -8,9 +8,12 @@
    - the package set comes from contracts/packages.json (published: true; the
      scoped name or its recorded unscoped fallback, OD-2); a tarball for any other
      package fails;
-   - .artifacts/plat/pack-record.json (written by scripts/release/pack.mjs in
-     plat:package:pack) is required, every tarball needs an entry, and the entry's
-     file name and sha512 must equal the tarball on disk;
+   - .artifacts/plat/plat-package-pack/pack-record.json (written by
+     ci/plat/pack-record.mjs into plat:package:pack's evidence dir, shape
+     { packages: { <name>: { file, version, integrity } } }; scripts/release/pack.mjs
+     writes the same shape, pass its path with --record) is required, every
+     tarball needs an entry, and the entry's file name, version and sha512 must
+     equal the tarball on disk;
    - aura-glass's tarball version must equal the tag;
    - the dist-tag comes from dist-tag.mjs distTagFor (GA = a stable 5.x holds
      aura-glass 'latest'); the move must be semver-forward for that package's
@@ -21,7 +24,7 @@
    on the version, for skipped packages too.
 
      node scripts/release/publish.mjs --tag vX.Y.Z --line 4x|5x [--v4-dist-tag v4-lts]
-          [--dir .artifacts/pack] [--record .artifacts/plat/pack-record.json] */
+          [--dir .artifacts/pack] [--record .artifacts/plat/plat-package-pack/pack-record.json] */
 import { execFileSync, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
@@ -37,7 +40,9 @@ const tag = arg('tag') ?? process.env.CI_COMMIT_TAG ?? '';
 const line = arg('line') ?? process.env.AG_LINE ?? '5x';
 const v4DistTag = arg('v4-dist-tag') ?? process.env.AG_V4_DIST_TAG ?? 'latest';
 const dir = arg('dir') ?? '.artifacts/pack';
-const recordPath = arg('record') ?? '.artifacts/plat/pack-record.json';
+// plat:package:pack's evidence dir (.artifacts/plat/$CI_JOB_NAME_SLUG/); the
+// contract publish job passes no --record (REQ-PLAT-11 pack→publish handoff).
+const recordPath = arg('record') ?? '.artifacts/plat/plat-package-pack/pack-record.json';
 const contractPath = 'contracts/packages.json';
 const rollbackOk = process.env.AG_ROLLBACK_LATEST_TO_4X === 'true';
 
@@ -86,7 +91,7 @@ for (const [name, p] of Object.entries(contract.packages ?? {})) {
 if (!allowed.size) fail(`${contractPath} lists no published package`);
 
 // 2. pack record
-if (!existsSync(recordPath)) fail(`${recordPath} missing — run plat:package:pack (scripts/release/pack.mjs) first`);
+if (!existsSync(recordPath)) fail(`${recordPath} missing — run plat:package:pack (ci/plat/pack-record.mjs) first`);
 const record = JSON.parse(readFileSync(recordPath, 'utf8'));
 const recPkgs = record?.packages;
 if (!recPkgs || typeof recPkgs !== 'object' || !Object.keys(recPkgs).length) {

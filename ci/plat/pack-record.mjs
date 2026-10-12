@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 /* REQ-PLAT-11 (REQ-FIN-31 producer, wired by FIN-B B3-9 / REQ-FIN-22):
-   builds pack-record.json { <package name>: { file, integrity } } for
-   plat:package:pack from the `npm pack --json` reports of that job.
+   builds pack-record.json
+     { packages: { <package name>: { file, version, integrity } } }
+   for plat:package:pack from the `npm pack --json` reports of that job. The
+   shape and the path (the pack job's evidence dir) are the ones
+   scripts/release/publish.mjs reads by default (`file` is the tarball's base
+   name inside --pack-dir):
 
      node ci/plat/pack-record.mjs --pack-dir .artifacts/pack \
        --out "$AURAGLASS_EVIDENCE_DIR/pack-record.json" <npm-pack-report.json>...
@@ -12,8 +16,8 @@
    when <pack-dir> holds a .tgz no report accounts for (plat:publish:npm
    publishes every .tgz in that dir, so each one must be recorded). */
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { basename, join } from 'node:path';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { basename, dirname, join } from 'node:path';
 
 const argv = process.argv.slice(2);
 const opt = (n) => {
@@ -38,6 +42,7 @@ const fail = (msg) => {
 const sha512 = (f) => 'sha512-' + createHash('sha512').update(readFileSync(f)).digest('base64');
 
 const record = {};
+const semverish = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 for (const report of reports) {
   if (!existsSync(report)) fail(`${report}: npm pack --json report missing`);
   let entries;
@@ -48,8 +53,9 @@ for (const report of reports) {
   }
   if (!Array.isArray(entries) || entries.length === 0) fail(`${report}: npm pack --json reported no package`);
   for (const e of entries) {
-    const { name, filename, integrity } = e ?? {};
+    const { name, version, filename, integrity } = e ?? {};
     if (typeof name !== 'string' || !name) fail(`${report}: entry without a package name`);
+    if (typeof version !== 'string' || !semverish.test(version)) fail(`${report}: ${name} has no semver version`);
     if (typeof filename !== 'string' || !filename) fail(`${report}: ${name} has no filename`);
     if (typeof integrity !== 'string' || !integrity.startsWith('sha512-')) fail(`${report}: ${name} has no sha512 integrity`);
     if (record[name]) fail(`${name} packed twice (${record[name].file}, ${filename})`);
@@ -57,13 +63,14 @@ for (const report of reports) {
     if (!existsSync(file)) fail(`${name}: ${file} not found in ${packDir}`);
     const got = sha512(file);
     if (got !== integrity) fail(`${name}: ${file} sha512 ${got} != npm pack integrity ${integrity}`);
-    record[name] = { file, integrity };
+    record[name] = { file: basename(file), version, integrity };
   }
 }
 
-const recorded = new Set(Object.values(record).map((r) => basename(r.file)));
+const recorded = new Set(Object.values(record).map((r) => r.file));
 const stray = readdirSync(packDir).filter((f) => f.endsWith('.tgz') && !recorded.has(f));
 if (stray.length) fail(`${packDir} holds tarballs no npm pack report records: ${stray.join(', ')}`);
 
-writeFileSync(out, JSON.stringify(record, null, 2) + '\n');
+mkdirSync(dirname(out), { recursive: true });
+writeFileSync(out, JSON.stringify({ packages: record }, null, 2) + '\n');
 console.log(`pack-record: ${Object.keys(record).length} tarball(s) -> ${out}`);

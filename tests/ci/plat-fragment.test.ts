@@ -1217,8 +1217,9 @@ describe('docs / registry / pages wiring (B3-8)', () => {
 });
 
 // B3-9 next-fin/b-wire-pack (§6.1 REQ-FIN-31 / -38 → REQ-FIN-22; REQ-PLAT-11, REQ-PLAT-104):
-// plat:package:pack writes pack-record.json { name: { file, integrity } } from `npm pack --json`
-// into its job dir, and TARBALL_MB + PACK_SHA into pack.env. The pack blocks run under bash
+// plat:package:pack writes pack-record.json { packages: { name: { file, version, integrity } } }
+// from `npm pack --json` into its job dir, the path publish.mjs reads by default,
+// and TARBALL_MB + PACK_SHA into pack.env. The 5x workspace set comes from contracts/packages.json. The pack blocks run under bash
 // against a stub `npm` on PATH that packs real bytes and reports their real sha512.
 describe('pack-record.json and TARBALL_MB (B3-9)', () => {
   const { spawnSync } = require('node:child_process') as typeof import('node:child_process');
@@ -1257,7 +1258,7 @@ console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename,
   const PACK_BLOCKS = [
     lines[at('mkdir -p .artifacts/pack .artifacts/plat')],
     lines[at('npm pack --json --pack-destination .artifacts/pack')],
-    lines[at('for w in cli registry mcp labs')],
+    lines[at("require('./contracts/packages.json')")],
     lines[at('ci/plat/pack-record.mjs')],
   ];
   const tmp = () => {
@@ -1267,6 +1268,8 @@ console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename,
     chmodSync(join(dir, 'bin/npm'), 0o755);
     mkdirSync(join(dir, 'ci/plat'), { recursive: true });
     copyFileSync('ci/plat/pack-record.mjs', join(dir, 'ci/plat/pack-record.mjs'));
+    mkdirSync(join(dir, 'contracts'));
+    copyFileSync('contracts/packages.json', join(dir, 'contracts/packages.json'));
     // packages/mcp and packages/labs are absent: the 5x loop must skip them, not fail.
     for (const w of ['cli', 'registry']) mkdirSync(join(dir, 'packages', w), { recursive: true });
     return dir;
@@ -1277,7 +1280,8 @@ console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename,
       encoding: 'utf8',
       env: { ...process.env, PATH: `${join(cwd, 'bin')}:${process.env.PATH}`, AG_LINE: '5x', AURAGLASS_EVIDENCE_DIR: PACK_DIR, STUB_NPM_MODE: '', ...env },
     });
-  const record = (dir: string) => JSON.parse(readFileSync(join(dir, PACK_DIR, 'pack-record.json'), 'utf8'));
+  const RECORD = `${PACK_DIR}/pack-record.json`;
+  const record = (dir: string) => JSON.parse(readFileSync(join(dir, RECORD), 'utf8')).packages;
 
   it('require-activated.mjs stays the first script line', () => {
     expect(lines[0]).toBe('node scripts/ci/require-activated.mjs --line "$AG_LINE"');
@@ -1294,13 +1298,36 @@ console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename,
     expect(lines[at('ci/plat/pack-record.mjs')]).toBe(
       'node ci/plat/pack-record.mjs --pack-dir .artifacts/pack --out "$AURAGLASS_EVIDENCE_DIR/pack-record.json" "$AURAGLASS_EVIDENCE_DIR"/npm-pack/*.json',
     );
-    expect(at('ci/plat/pack-record.mjs')).toBeGreaterThan(at('for w in cli registry mcp labs'));
+    expect(at('ci/plat/pack-record.mjs')).toBeGreaterThan(at("require('./contracts/packages.json')"));
     expect(at('ci/plat/pack-record.mjs')).toBeLessThan(at('AURAGLASS_TARBALL=$TARBALL'));
   });
 
-  it('pack-record.json lands in the uploaded job dir that plat:publish:npm receives', () => {
+  it('pack-record.json is written to, and uploaded from, the path publish.mjs reads (REQ-PLAT-11)', () => {
     expect(pack.artifacts.paths).toContain('.artifacts/plat/$CI_JOB_NAME_SLUG/');
     expect(job('plat:publish:npm').needs).toContainEqual({ job: 'plat:package:pack', artifacts: true });
+    // The publish job passes no --record, so publish.mjs's default must be the pack job's --out.
+    expect(yaml.stringify(job('plat:publish:npm').script)).not.toContain('--record');
+    const pub = readFileSync('scripts/release/publish.mjs', 'utf8');
+    expect(pub).toContain(`const recordPath = arg('record') ?? '${RECORD}';`);
+  });
+
+  it('the 5x workspace set is every published non-root package of contracts/packages.json', () => {
+    expect(lines.join('\n')).not.toContain('for w in cli registry mcp labs');
+    const dir = tmp();
+    try {
+      // every contract workspace dir exists here, so each must be packed
+      const contract = JSON.parse(readFileSync('contracts/packages.json', 'utf8'));
+      const ws = Object.values(contract.packages as Record<string, any>)
+        .filter((p) => p.published === true && p.dir !== '.').map((p) => p.dir);
+      for (const d of ws) mkdirSync(join(dir, d), { recursive: true });
+      const r = run(PACK_BLOCKS.join('\n'), dir);
+      expect([r.status, r.stderr]).toEqual([0, '']);
+      const names = ws.map((d) => `@auraglass/${d.split('/').pop()}`);
+      expect(Object.keys(record(dir)).sort()).toEqual([...names, 'aura-glass'].sort());
+      expect(names).not.toContain('@auraglass/qa');
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 
   it('5x: records every packed tarball by package name with npm\'s sha512 (stub npm)', () => {
@@ -1308,15 +1335,15 @@ console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename,
     try {
       const r = run(PACK_BLOCKS.join('\n'), dir);
       expect([r.status, r.stderr]).toEqual([0, '']);
-      expect(r.stdout).toContain(`pack-record: 3 tarball(s) -> ${PACK_DIR}/pack-record.json`);
+      expect(r.stdout).toContain(`pack-record: 3 tarball(s) -> ${RECORD}`);
       const rec = record(dir);
       expect(Object.keys(rec).sort()).toEqual(['@auraglass/cli', '@auraglass/registry', 'aura-glass']);
-      for (const [name, file] of [
-        ['aura-glass', '.artifacts/pack/aura-glass-5.0.0.tgz'],
-        ['@auraglass/cli', '.artifacts/pack/auraglass-cli-0.1.0.tgz'],
-        ['@auraglass/registry', '.artifacts/pack/auraglass-registry-0.1.0.tgz'],
+      for (const [name, file, version] of [
+        ['aura-glass', 'aura-glass-5.0.0.tgz', '5.0.0'],
+        ['@auraglass/cli', 'auraglass-cli-0.1.0.tgz', '0.1.0'],
+        ['@auraglass/registry', 'auraglass-registry-0.1.0.tgz', '0.1.0'],
       ] as const) {
-        expect(rec[name]).toEqual({ file, integrity: sha512(readFileSync(join(dir, file))) });
+        expect(rec[name]).toEqual({ file, version, integrity: sha512(readFileSync(join(dir, '.artifacts/pack', file))) });
       }
     } finally {
       rmSync(dir, { recursive: true, force: true });
@@ -1344,7 +1371,7 @@ console.log(JSON.stringify([{ id: name + '@' + version, name, version, filename,
       const r = run(PACK_BLOCKS.join('\n'), dir, env);
       expect(r.status).toBe(1);
       expect(r.stderr).toContain(msg);
-      expect(existsSync(join(dir, PACK_DIR, 'pack-record.json'))).toBe(false);
+      expect(existsSync(join(dir, RECORD))).toBe(false);
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
