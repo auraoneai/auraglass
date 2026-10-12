@@ -29,9 +29,11 @@ describe('no backend on next (PLAT-227)', () => {
     expect(banned).toEqual([]);
   });
   it('no aura-glass/services specifier anywhere in src', () => {
+    // A specifier is a quoted module id: 'aura-glass/services' or 'aura-glass/services/<x>'. Prose that names the
+    // removed subpath (the generated deprecation registry's replacement text) is not a specifier.
     let out = '';
     try {
-      out = execFileSync('rg', ['-l', String.raw`aura-glass/(services|server|api)`, 'src/'],
+      out = execFileSync('rg', ['-l', String.raw`['"\x60]aura-glass/(services|server|api)(['"\x60]|/)`, 'src/'],
         { encoding: 'utf8' });
     } catch { out = ''; }
     expect(out.trim()).toBe('');

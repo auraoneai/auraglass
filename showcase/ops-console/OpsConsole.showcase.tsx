@@ -140,7 +140,7 @@ export function OpsConsole({ now = SHOWCASE_EPOCH }: OpsConsoleProps) {
   const [sidebar, setSidebar] = React.useState<'expanded' | 'rail' | 'collapsed'>('rail');
   return (
     <Toast.Provider>
-      <AppShell.SkipLink>{COPY.skip}</AppShell.SkipLink>
+      <AppShell.SkipLink href="#ops-content">{COPY.skip}</AppShell.SkipLink>
       <AppFrame>
         <AppShell.Controller sidebar={sidebar} onSidebarChange={setSidebar} />
         <AppShell.PageHeader
@@ -149,7 +149,7 @@ export function OpsConsole({ now = SHOWCASE_EPOCH }: OpsConsoleProps) {
           headingLevel={1}
           actions={<IncidentActions />}
         />
-        <div className={styles.page}>
+        <div className={styles.page} id="ops-content" tabIndex={-1}>
           <OpsConsoleIncidents />
           <OpsConsoleSplit now={now} />
         </div>

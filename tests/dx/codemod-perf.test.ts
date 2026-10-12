@@ -23,8 +23,11 @@ describe('codemod perf (spawned)', () => {
     }
     fs.writeFileSync(path.join(dir, 'package.json'), JSON.stringify({ dependencies: { 'aura-glass': '4.9.0' } }));
     const repo = path.resolve(__dirname, '..', '..');
-    const src = path.join(dir, 'runner.src.ts');
-    const runner = path.join(dir, 'runner.mjs');
+    // The runner lives outside the migrated tree: inside it, the engine would also parse its own ~3 MB bundle,
+    // which is not part of the 2000-file consumer tree the budget is about.
+    const runnerDir = fs.mkdtempSync(path.join(os.tmpdir(), 'agperf-runner-'));
+    const src = path.join(runnerDir, 'runner.src.ts');
+    const runner = path.join(runnerDir, 'runner.mjs');
     fs.writeFileSync(src, RUNNER.replace('%REPO%', repo.replace(/\\/g, '\\\\')));
     execFileSync(path.join(repo, 'node_modules', '.bin', 'esbuild'), [src, '--bundle', '--platform=node', '--format=esm', `--outfile=${runner}`, '--log-level=error', `--banner:js=import{createRequire as __agcr}from'node:module';import{fileURLToPath as __agfutp}from'node:url';const require=__agcr(import.meta.url);const __filename=__agfutp(import.meta.url);const __dirname=import.meta.dirname;`], { timeout: 60_000 });
     const t0 = Date.now();
@@ -35,5 +38,6 @@ describe('codemod perf (spawned)', () => {
     expect(wallMs).toBeLessThan(60_000);
     expect(r.rss).toBeLessThan(1.5 * 1024 * 1024 * 1024);
     fs.rmSync(dir, { recursive: true, force: true });
+    fs.rmSync(runnerDir, { recursive: true, force: true });
   }, 140_000);
 });

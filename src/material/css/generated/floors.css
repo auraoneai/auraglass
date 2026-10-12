@@ -628,7 +628,7 @@
      transparency=solid raises fills through --_ag-tint-floor above. */
   @media (forced-colors: active) {
     [data-ag-surface]:is(
-      [data-ag-variant][data-ag-thickness][data-ag-tier][data-ag-state],
+      [data-ag-variant][data-ag-thickness][data-ag-tier][data-disabled],
       *
     ) {
       --ag-glass-opacity: 1;
@@ -641,7 +641,7 @@
     (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
   ) {
     [data-ag-surface]:is(
-      [data-ag-variant][data-ag-thickness][data-ag-tier][data-ag-state],
+      [data-ag-variant][data-ag-thickness][data-ag-tier][data-disabled],
       *
     ) {
       --_ag-alpha: 0.98;

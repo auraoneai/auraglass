@@ -50,7 +50,20 @@ export function packageEntryMap(): Record<string, string> {
     const target = typeof value === 'string' ? value : value.default;
     if (!target || !/^\.\/dist\/.+\.js$/.test(target)) continue;
     const spec = key === '.' ? pkg.name : `${pkg.name}/${key.slice(2)}`;
-    out[spec] = path.join(ROOT, 'src', target.slice('./dist/'.length, -'.js'.length));
+    const source = path.join(ROOT, 'src', target.slice('./dist/'.length, -'.js'.length));
+    if (!key.includes('*')) {
+      out[spec] = source;
+      continue;
+    }
+    // Subpath pattern (`./icons/*` -> `./dist/icons/*.js`): expand to one entry per source module in that folder.
+    const dir = path.dirname(source);
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir)) {
+      const m = /^([^.]+)\.tsx?$/.exec(f);
+      if (!m) continue;
+      const name = m[1]!;
+      out[spec.replace('*', name)] = source.replace('*', name);
+    }
   }
   return out;
 }

@@ -136,7 +136,7 @@ export function AiCommandCenter({ now = SHOWCASE_EPOCH }: AiCommandCenterProps) 
   const [paletteOpen, setPaletteOpen] = React.useState(false);
   return (
     <Toast.Provider>
-      <AppShell.SkipLink>{COPY.skip}</AppShell.SkipLink>
+      <AppShell.SkipLink href="#acc-main">{COPY.skip}</AppShell.SkipLink>
       <AppShell.Root>
         <TopBar.Root>
           <TopBar.Leading>
@@ -160,7 +160,7 @@ export function AiCommandCenter({ now = SHOWCASE_EPOCH }: AiCommandCenterProps) 
         <Sidebar.Drawer>
           <ConversationNav />
         </Sidebar.Drawer>
-        <AppShell.Main>
+        <AppShell.Main id="acc-main">
           <AppShell.PageHeader title={COPY.pageTitle} description={COPY.pageDescription} headingLevel={1} />
           <div className={styles.workspace}>
             {/* Content layer: content-raised cards on the scene; glass stays on the chrome
