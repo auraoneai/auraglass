@@ -102,4 +102,24 @@ describe('NumberField stepper labels', () => {
     expect(dec).toHaveAttribute('aria-label', 'Less');
   });
 
+  it('REQ-CMP-77: steppers are inner identity controls inside the content-sunken group', () => {
+    const { container } = render(<NumberField label="qty" defaultValue={2} />);
+    const group = container.querySelector('[data-ag-part="group"]')!;
+    for (const part of ['increment', 'decrement']) {
+      const s = group.querySelector(`[data-ag-part="${part}"]`);
+      expect(s).not.toBeNull();
+      expect(s).toHaveAttribute('data-ag-surface', '');
+      expect(s).toHaveAttribute('data-ag-variant', 'identity');
+      expect(s).toHaveAttribute('data-ag-layer', 'chrome');
+      expect(s).not.toHaveAttribute('data-ag-content');
+    }
+  });
+
+  it('REQ-CMP-77: disabled steppers dim the glyph, never the surface host', () => {
+    const css = require('fs').readFileSync(require('path').join(__dirname, 'NumberField.css'), 'utf8') as string;
+    const hostRule = /\[data-ag-part='decrement'\]\[data-disabled\]\s*\{([^}]*)\}/.exec(css);
+    expect(hostRule).not.toBeNull();
+    expect(hostRule![1]).not.toMatch(/opacity/);
+    expect(css).toMatch(/\[data-ag-part='decrement'\]\[data-disabled\] > :where\(\*\)\s*\{\s*opacity: var\(--ag-state-disabled-alpha\)/);
+  });
 });
